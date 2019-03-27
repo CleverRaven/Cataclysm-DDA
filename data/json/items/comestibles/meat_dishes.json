@@ -18,7 +18,7 @@
     "volume": 1,
     "flags": [ "SMOKABLE" ],
     "smoking_result": "sausage",
-    "vitamins": [ ["vitA", 2 ], ["calcium", 2 ], [ "iron", 6 ], [ "vitB", 36 ] ],
+    "vitamins": [ [ "vitA", 2 ], [ "calcium", 2 ], [ "iron", 6 ], [ "vitB", 36 ] ],
     "fun": -10
   },
   {
@@ -110,7 +110,7 @@
     "material": "flesh",
     "volume": 2,
     "fun": 7,
-    "vitamins": [ [ "vitC", 16 ], ["calcium", 2 ], [ "iron", 69 ], [ "vitB", 778 ] ]
+    "vitamins": [ [ "vitC", 16 ], [ "calcium", 2 ], [ "iron", 69 ], [ "vitB", 778 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -132,7 +132,7 @@
     "volume": 1,
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
-    "vitamins": [ ["calcium", 1 ], [ "iron", 5 ], [ "vitB", 39 ] ],
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 5 ], [ "vitB", 39 ] ],
     "fun": 5
   },
   {
@@ -222,7 +222,7 @@
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
     "fun": 10,
-    "vitamins": [ ["vitA", 2 ], [ "calcium", 20 ], [ "iron", 10 ] ]
+    "vitamins": [ [ "vitA", 2 ], [ "calcium", 20 ], [ "iron", 10 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -239,7 +239,7 @@
     "price": 2500,
     "material": "flesh",
     "volume": 1,
-    "vitamins": [ [ "vitA", 10 ], [ "vitC", 15 ], ["calcium", 2 ], [ "iron", 8 ] ],
+    "vitamins": [ [ "vitA", 10 ], [ "vitC", 15 ], [ "calcium", 2 ], [ "iron", 8 ] ],
     "flags": [ "EATEN_COLD", "FREEZERBURN" ]
   },
   {
@@ -316,7 +316,7 @@
     "volume": 1,
     "flags": [ "EATEN_HOT" ],
     "fun": 10,
-    "vitamins": [ ["calcium", 3 ], [ "iron", 5 ], [ "vitB", 94 ] ]
+    "vitamins": [ [ "calcium", 3 ], [ "iron", 5 ], [ "vitB", 94 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -335,7 +335,7 @@
     "//": "*Looking for ~$6 per pound here.",
     "material": "flesh",
     "volume": "75 ml",
-    "vitamins": [ ["iron", 2 ] ]
+    "vitamins": [ [ "iron", 2 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -377,7 +377,7 @@
     "volume": 1,
     "flags": [ "EATEN_HOT" ],
     "fun": -15,
-    "vitamins": [ ["iron", 3 ] ]
+    "vitamins": [ [ "iron", 3 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -398,7 +398,7 @@
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
     "fun": -8,
-    "vitamins": [ ["iron", 3 ] ]
+    "vitamins": [ [ "iron", 3 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -456,7 +456,7 @@
     "price": 600,
     "material": [ "flesh", "veggy" ],
     "volume": 1,
-    "vitamins": [ ["vitC", 3 ], [ "calcium", 24 ], [ "iron", 14 ] ],
+    "vitamins": [ [ "vitC", 3 ], [ "calcium", 24 ], [ "iron", 14 ] ],
     "fun": 3
   },
   {
@@ -478,7 +478,7 @@
     "volume": 1,
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 5,
-    "vitamins": [ [ "vitA", 15 ], [ "vitC", 4 ], [ "calcium", 32 ], [ "iron", 20 ], ["vitB", 195 ] ]
+    "vitamins": [ [ "vitA", 15 ], [ "vitC", 4 ], [ "calcium", 32 ], [ "iron", 20 ], [ "vitB", 195 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -517,7 +517,7 @@
     "volume": 1,
     "flags": [ "EATEN_HOT" ],
     "fun": 5,
-    "vitamins": [ [ "vitA", 14 ], ["vitC", 7 ], [ "calcium", 6 ], [ "iron", 27 ] ]
+    "vitamins": [ [ "vitA", 14 ], [ "vitC", 7 ], [ "calcium", 6 ], [ "iron", 27 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -557,7 +557,7 @@
     "material": "flesh",
     "volume": 1,
     "fun": 2,
-    "vitamins": [ [ "vitA", 4 ], ["calcium", 2 ], [ "iron", 12 ], [ "vitB", 141 ] ]
+    "vitamins": [ [ "vitA", 4 ], [ "calcium", 2 ], [ "iron", 12 ], [ "vitB", 141 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -594,7 +594,7 @@
     "volume": 1,
     "charges": 4,
     "fun": 1,
-    "vitamins": [ [ "vitA", 3 ], ["calcium", 1 ], [ "iron", 4 ], [ "vitB", 23 ] ]
+    "vitamins": [ [ "vitA", 3 ], [ "calcium", 1 ], [ "iron", 4 ], [ "vitB", 23 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -653,7 +653,7 @@
     "volume": 1,
     "flags": [ "EATEN_HOT" ],
     "fun": 6,
-    "vitamins": [ [ "vitA", 20 ], [ "vitC", 14 ], [ "calcium", 7 ], [ "iron", 16], [ "vitB", 348 ] ]
+    "vitamins": [ [ "vitA", 20 ], [ "vitC", 14 ], [ "calcium", 7 ], [ "iron", 16 ], [ "vitB", 348 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -695,7 +695,7 @@
     "//": "One rice + one protein/veg = 2 servings",
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 5,
-    "vitamins": [ ["vitA", 1 ], [ "vitC", 8 ], ["calcium", 1 ], [ "iron", 40 ], [ "vitB", 389 ] ]
+    "vitamins": [ [ "vitA", 1 ], [ "vitC", 8 ], [ "calcium", 1 ], [ "iron", 40 ], [ "vitB", 389 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -715,7 +715,7 @@
     "volume": "375 ml",
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 4,
-    "vitamins": [ ["vitA", 2 ], [ "vitC", 5 ], ["calcium", 4 ], [ "iron", 10 ] ]
+    "vitamins": [ [ "vitA", 2 ], [ "vitC", 5 ], [ "calcium", 4 ], [ "iron", 10 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -737,7 +737,7 @@
     "charges": 8,
     "flags": [ "EATEN_HOT" ],
     "fun": 3,
-    "vitamins": [ ["calcium", 2 ],  [ "iron", 14 ] ]
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 14 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -827,7 +827,7 @@
     "charges": 8,
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 4,
-    "vitamins": [ ["vitA", 3 ], ["vitC", 3 ], [ "calcium", 13 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "vitA", 3 ], [ "vitC", 3 ], [ "calcium", 13 ], [ "iron", 4 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -903,7 +903,7 @@
     "volume": 2,
     "flags": [ "EATEN_HOT" ],
     "fun": 4,
-    "vitamins": [ ["vitC", 2 ], [ "calcium", 8 ], [ "iron", 16 ] ]
+    "vitamins": [ [ "vitC", 2 ], [ "calcium", 8 ], [ "iron", 16 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1004,7 +1004,7 @@
     "volume": 1,
     "flags": [ "EATEN_HOT" ],
     "fun": 2,
-    "vitamins": [ [ "vitA", 144 ], [ "vitC", 21 ], ["caicium", 1 ], [ "iron", 29 ] ]
+    "vitamins": [ [ "vitA", 144 ], [ "vitC", 21 ], [ "caicium", 1 ], [ "iron", 29 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1024,7 +1024,7 @@
     "volume": 3,
     "charges": 3,
     "fun": 14,
-    "vitamins": [ ["vitA", 1 ], [ "vitC", 23 ], ["calcium", 3 ], ["iron", 3 ], [ "vitB", 22 ] ]
+    "vitamins": [ [ "vitA", 1 ], [ "vitC", 23 ], [ "calcium", 3 ], [ "iron", 3 ], [ "vitB", 22 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1044,7 +1044,7 @@
     "volume": 4,
     "charges": 2,
     "fun": 13,
-    "vitamins": [ [ "vitC", 36 ], [ "calcium", 4 ], ["iron", 37 ], [ "vitB", 389 ] ]
+    "vitamins": [ [ "vitC", 36 ], [ "calcium", 4 ], [ "iron", 37 ], [ "vitB", 389 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1095,6 +1095,6 @@
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
     "fun": 6,
-    "vitamins": [ ["vitC", 3 ], ["calcium", 2 ], [ "iron", 15 ] ]
+    "vitamins": [ [ "vitC", 3 ], [ "calcium", 2 ], [ "iron", 15 ] ]
   }
 ]

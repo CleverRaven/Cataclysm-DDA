@@ -17,7 +17,7 @@
     "volume": 5,
     "charges": 8,
     "flags": [ "EATEN_HOT" ],
-    "vitamins": [ ["vitA", 3 ], [ "iron", 10 ] ],
+    "vitamins": [ [ "vitA", 3 ], [ "iron", 10 ] ],
     "fun": 25
   },
   {
@@ -125,7 +125,7 @@
     "volume": 1,
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 4,
-    "vitamins": [ ["iron", 2 ] ]
+    "vitamins": [ [ "iron", 2 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -249,7 +249,7 @@
     "material": [ "wheat", "junk" ],
     "volume": 1,
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "calcium", 4 ], ["iron", 6 ] ],
+    "vitamins": [ [ "calcium", 4 ], [ "iron", 6 ] ],
     "fun": 30
   },
   {
@@ -406,7 +406,7 @@
     "charges": 4,
     "flags": [ "EDIBLE_FROZEN" ],
     "stack_size": 20,
-    "vitamins": [ ["calcium", 2 ], [ "iron", 6 ] ],
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 6 ] ],
     "fun": 7
   },
   {
@@ -428,7 +428,7 @@
     "phase": "liquid",
     "charges": 16,
     "fun": 5,
-    "vitamins": [ ["calcium", 2 ] ],
+    "vitamins": [ [ "calcium", 2 ] ],
     "freezing_point": -70
   },
   {
@@ -465,7 +465,7 @@
     "material": [ "wheat", "junk" ],
     "volume": 8,
     "charges": 12,
-    "vitamins": [ ["calcium", 3 ], [ "iron",6 ] ],
+    "vitamins": [ [ "calcium", 3 ], [ "iron", 6 ] ],
     "fun": 20
   },
   {
@@ -529,7 +529,7 @@
     "material": "junk",
     "volume": 1,
     "fun": 4,
-    "vitamins": [ [ "vitC", 4 ], ["calcium", 1 ], ["iron", 3 ] ],
+    "vitamins": [ [ "vitC", 4 ], [ "calcium", 1 ], [ "iron", 3 ] ],
     "flags": [ "EATEN_HOT" ]
   },
   {
@@ -648,7 +648,7 @@
     "volume": 1,
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 3,
-    "vitamins": [ [ "vitC", 7 ], ["calcium", 1 ], [ "iron", 2 ] ],
+    "vitamins": [ [ "vitC", 7 ], [ "calcium", 1 ], [ "iron", 2 ] ],
     "fun": 6
   },
   {
@@ -711,7 +711,7 @@
     "material": "junk",
     "volume": 1,
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "calcium", 5 ], ["iron", 3 ] ],
+    "vitamins": [ [ "calcium", 5 ], [ "iron", 3 ] ],
     "fun": 8
   },
   {
@@ -756,7 +756,7 @@
     "charges": 3,
     "flags": [ "EATEN_HOT" ],
     "fun": 16,
-    "vitamins": [ [ "vitC", 5 ], ["calcium", 2 ], [ "iron", 24 ], [ "vitB", 259 ] ]
+    "vitamins": [ [ "vitC", 5 ], [ "calcium", 2 ], [ "iron", 24 ], [ "vitB", 259 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -817,7 +817,7 @@
     "volume": 1,
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 4,
-    "vitamins": [ ["vitA", 1 ], [ "calcium", 8 ], [ "iron", 4 ] ],
+    "vitamins": [ [ "vitA", 1 ], [ "calcium", 8 ], [ "iron", 4 ] ],
     "fun": 4
   },
   {
@@ -1066,7 +1066,7 @@
     "volume": 1,
     "flags": [ "EATEN_HOT" ],
     "fun": 6,
-    "vitamins": [ [ "vitA", 7 ], [ "vitC", 4 ], [ "calcium", 17 ], ["iron", 3 ] ]
+    "vitamins": [ [ "vitA", 7 ], [ "vitC", 4 ], [ "calcium", 17 ], [ "iron", 3 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1108,7 +1108,7 @@
     "charges": 10,
     "flags": [ "EATEN_HOT" ],
     "fun": -6,
-    "vitamins": [ ["iron", 3 ] ]
+    "vitamins": [ [ "iron", 3 ] ]
   },
   {
     "id": "hotdogs_campfire",

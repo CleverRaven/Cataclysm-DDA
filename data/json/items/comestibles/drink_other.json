@@ -105,7 +105,7 @@
     "calories": 5,
     "charges": 48,
     "phase": "liquid",
-    "vitamins": [ ["iron", 2 ] ]
+    "vitamins": [ [ "iron", 2 ] ]
   },
   {
     "id": "honey_bottled",

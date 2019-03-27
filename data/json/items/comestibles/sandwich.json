@@ -108,7 +108,7 @@
     "primary_material": "wheat",
     "volume": 2,
     "fun": 15,
-    "vitamins": [ ["vitC", 6 ], ["calcium", 7 ], ["iron", 12 ] ]
+    "vitamins": [ [ "vitC", 6 ], [ "calcium", 7 ], [ "iron", 12 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -228,7 +228,7 @@
     "primary_material": "wheat",
     "volume": 2,
     "fun": 6,
-    "vitamins": [ ["vitC", 3 ], [ "calcium", 7 ], [ "iron", 14 ] ]
+    "vitamins": [ [ "vitC", 3 ], [ "calcium", 7 ], [ "iron", 14 ] ]
   },
   {
     "type": "COMESTIBLE",

@@ -18,7 +18,7 @@
     "phase": "liquid",
     "flags": [ "EATEN_HOT" ],
     "fun": 1,
-    "vitamins": [ ["iron", 3 ] ]
+    "vitamins": [ [ "iron", 3 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -40,7 +40,7 @@
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 10,
-    "vitamins": [ ["calcium", 1 ], ["iron", 1 ] ]
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -70,7 +70,7 @@
     "volume": 1,
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
-    "vitamins": [ [ "vitA", 43 ], [ "vitC", 4 ], ["calcium", 1 ], [ "iron", 5 ] ],
+    "vitamins": [ [ "vitA", 43 ], [ "vitC", 4 ], [ "calcium", 1 ], [ "iron", 5 ] ],
     "fun": 1
   },
   {
@@ -92,7 +92,7 @@
     "volume": 1,
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
-    "vitamins": [ [ "vitA", 80 ], [ "vitC", 36 ], ["calcium", 3 ], [ "iron", 13 ], [ "vitB", 20 ] ],
+    "vitamins": [ [ "vitA", 80 ], [ "vitC", 36 ], [ "calcium", 3 ], [ "iron", 13 ], [ "vitB", 20 ] ],
     "fun": 1
   },
   {
@@ -137,7 +137,7 @@
     "volume": 1,
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
-    "vitamins": [ [ "vitA", 178 ], [ "vitC", 35 ],  [ "calcium", 4 ], [ "iron", 12 ] ],
+    "vitamins": [ [ "vitA", 178 ], [ "vitC", 35 ], [ "calcium", 4 ], [ "iron", 12 ] ],
     "fun": 5
   },
   {
@@ -215,7 +215,7 @@
     "volume": 1,
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
-    "vitamins": [ [ "vitA", 10 ], ["calcium", 1 ], [ "iron", 9 ], ["vitB", 8 ] ],
+    "vitamins": [ [ "vitA", 10 ], [ "calcium", 1 ], [ "iron", 9 ], [ "vitB", 8 ] ],
     "fun": 2
   },
   {
@@ -239,7 +239,7 @@
     "charges": 4,
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
     "fun": 1,
-    "vitamins": [ ["calcium", 2 ], ["iron", 2 ] ]
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 2 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -260,7 +260,7 @@
     "volume": 1,
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
-    "vitamins": [ [ "vitA", 7 ], [ "vitC", 10 ], ["calcium", 1 ], [ "iron", 4 ] ],
+    "vitamins": [ [ "vitA", 7 ], [ "vitC", 10 ], [ "calcium", 1 ], [ "iron", 4 ] ],
     "fun": 2
   },
   {

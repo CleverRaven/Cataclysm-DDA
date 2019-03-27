@@ -36,7 +36,7 @@
     "volume": 1,
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 5,
-    "vitamins": [ [ "vitC", 21 ], ["calcium", 2 ], ["iron", 4 ] ],
+    "vitamins": [ [ "vitC", 21 ], [ "calcium", 2 ], [ "iron", 4 ] ],
     "fun": 3
   },
   {
@@ -242,6 +242,6 @@
     "volume": 1,
     "stack_size": 2,
     "fun": 1,
-    "vitamins": [ ["vitC", 3 ], ["calcium", 2 ], [ "iron", 10 ] ]
+    "vitamins": [ [ "vitC", 3 ], [ "calcium", 2 ], [ "iron", 10 ] ]
   }
 ]

@@ -21,7 +21,7 @@
     "material": "milk",
     "phase": "liquid",
     "charges": 2,
-    "vitamins": [ ["vitA", 1 ], [ "calcium", 12 ] ],
+    "vitamins": [ [ "vitA", 1 ], [ "calcium", 12 ] ],
     "flags": [ "MELTS" ]
   },
   {
@@ -115,7 +115,7 @@
     "fun": 17,
     "price": 300,
     "primary_material": "ice_cream",
-    "vitamins": [ [ "vitA", 8 ], [ "vitC", 6 ], [ "calcium", 8 ], ["iron", 1 ], [ "vitB", 9 ] ],
+    "vitamins": [ [ "vitA", 8 ], [ "vitC", 6 ], [ "calcium", 8 ], [ "iron", 1 ], [ "vitB", 9 ] ],
     "material": [ "milk", "fruit" ]
   },
   {
@@ -173,7 +173,7 @@
     "price": 300,
     "weight": 90,
     "primary_material": "ice_cream",
-    "vitamins": [ ["calcium", 2 ], ["iron", 2 ] ],
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 2 ] ],
     "material": [ "milk" ]
   }
 ]

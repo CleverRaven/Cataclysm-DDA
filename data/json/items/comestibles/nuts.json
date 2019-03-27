@@ -42,7 +42,7 @@
     "volume": 1,
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ],
     "charges": 4,
-    "vitamins": [ ["vitA", 1 ], ["vitC", 1 ], [ "calcium", 3 ], ["iron", 7 ] ],
+    "vitamins": [ [ "vitA", 1 ], [ "vitC", 1 ], [ "calcium", 3 ], [ "iron", 7 ] ],
     "fun": 1
   },
   {
@@ -112,7 +112,7 @@
     "volume": 1,
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ],
     "charges": 4,
-    "vitamins": [ ["calcium", 1 ], [ "iron", 12 ] ],
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 12 ] ],
     "fun": 3
   },
   {
@@ -135,7 +135,7 @@
     "volume": 1,
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ],
     "charges": 4,
-    "vitamins": [ ["calcium", 2 ], [ "iron", 4 ] ],
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 4 ] ],
     "fun": 1
   },
   {
@@ -169,7 +169,7 @@
     "volume": 1,
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ],
     "charges": 4,
-    "vitamins": [ ["calcium", 1 ], [ "iron", 3 ] ],
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 3 ] ],
     "fun": 3
   },
   {
@@ -246,7 +246,7 @@
     "material": "nut",
     "charges": 4,
     "volume": 1,
-    "vitamins": [ [ "vitC", 13 ], ["iron", 1 ] ],
+    "vitamins": [ [ "vitC", 13 ], [ "iron", 1 ] ],
     "fun": -10
   },
   {
@@ -292,7 +292,7 @@
     "material": "nut",
     "volume": 1,
     "charges": 4,
-    "vitamins": [ ["vitC", 2 ], [ "calcium", 3 ], [ "iron", 7 ] ],
+    "vitamins": [ [ "vitC", 2 ], [ "calcium", 3 ], [ "iron", 7 ] ],
     "fun": -1
   },
   {
@@ -326,7 +326,7 @@
     "material": "nut",
     "volume": 1,
     "charges": 4,
-    "vitamins": [ ["calcium", 2 ], [ "iron", 8 ] ],
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 8 ] ],
     "fun": -10
   },
   {

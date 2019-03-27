@@ -20,7 +20,7 @@
     "volume": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", 167 ], ["calcium", 1 ], ["iron", 1 ] ],
+    "vitamins": [ [ "vitC", 167 ], [ "calcium", 1 ], [ "iron", 1 ] ],
     "fun": 2
   },
   {
@@ -118,7 +118,7 @@
     "material": "fruit",
     "volume": 1,
     "phase": "liquid",
-    "vitamins": [ [ "vitC", 4 ], ["calcium", 3 ], [ "iron", 43 ] ],
+    "vitamins": [ [ "vitC", 4 ], [ "calcium", 3 ], [ "iron", 43 ] ],
     "fun": 1
   },
   {
@@ -260,7 +260,7 @@
     "volume": 1,
     "phase": "liquid",
     "charges": 10,
-    "vitamins": [ ["vitA", 2 ], ["vitC", 1 ], [ "calcium", 7 ] ],
+    "vitamins": [ [ "vitA", 2 ], [ "vitC", 1 ], [ "calcium", 7 ] ],
     "fun": 3
   },
   {
@@ -308,7 +308,7 @@
     "volume": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ ["vitA", 1 ], [ "vitC", 131 ], ["calcium", 3 ], ["iron", 1 ] ],
+    "vitamins": [ [ "vitA", 1 ], [ "vitC", 131 ], [ "calcium", 3 ], [ "iron", 1 ] ],
     "fun": 3
   },
   {
@@ -376,7 +376,7 @@
     "phase": "liquid",
     "charges": 2,
     "flags": [ "EATEN_COLD", "FREEZERBURN" ],
-    "vitamins": [ [ "vitA", 5 ], [ "vitC", 3 ], [ "calcium", 13 ], ["iron", 2 ] ],
+    "vitamins": [ [ "vitA", 5 ], [ "vitC", 3 ], [ "calcium", 13 ], [ "iron", 2 ] ],
     "fun": 15
   },
   {
@@ -444,7 +444,7 @@
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 4,
-    "vitamins": [ ["iron", 1 ] ]
+    "vitamins": [ [ "iron", 1 ] ]
   },
   {
     "id": "hot_chocolate",
@@ -467,7 +467,7 @@
     "quench": 35,
     "fun": 8,
     "spoils_in": "1 day",
-    "vitamins": [ [ "calcium", 4 ], ["iron", 2 ] ],
+    "vitamins": [ [ "calcium", 4 ], [ "iron", 2 ] ],
     "flags": [ "EATEN_HOT" ]
   },
   {
@@ -491,7 +491,7 @@
     "phase": "liquid",
     "charges": 2,
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", 53 ], ["iron", 2 ] ],
+    "vitamins": [ [ "vitC", 53 ], [ "iron", 2 ] ],
     "fun": 3
   },
   {
@@ -537,7 +537,7 @@
     "volume": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", 16 ], ["iron", 2 ] ],
+    "vitamins": [ [ "vitC", 16 ], [ "iron", 2 ] ],
     "fun": 3
   },
   {
@@ -632,7 +632,7 @@
     "volume": 2,
     "phase": "liquid",
     "charges": 2,
-    "vitamins": [ [ "vitA", 5 ], ["vitC", 2 ], [ "calcium", 12 ] ],
+    "vitamins": [ [ "vitA", 5 ], [ "vitC", 2 ], [ "calcium", 12 ] ],
     "fun": 10
   },
   {
@@ -657,7 +657,7 @@
     "volume": 2,
     "phase": "liquid",
     "charges": 2,
-    "vitamins": [ [ "vitA", 5 ], ["vitC", 2 ], [ "calcium", 12 ] ],
+    "vitamins": [ [ "vitA", 5 ], [ "vitC", 2 ], [ "calcium", 12 ] ],
     "fun": 10
   },
   {
@@ -681,7 +681,7 @@
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
     "//": "most store-bought oj is fortified with calcium.",
-    "vitamins": [ ["vitA", 2 ], [ "vitC", 146 ], [ "calcium", 28 ], ["iron", 2 ] ],
+    "vitamins": [ [ "vitA", 2 ], [ "vitC", 146 ], [ "calcium", 28 ], [ "iron", 2 ] ],
     "fun": 3
   },
   {
@@ -746,7 +746,7 @@
     "volume": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", 50 ], ["calcium", 3 ] ],
+    "vitamins": [ [ "vitC", 50 ], [ "calcium", 3 ] ],
     "fun": 3
   },
   {
@@ -814,7 +814,7 @@
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
     "fun": -1,
-    "vitamins": [ ["vitC", 1 ] ]
+    "vitamins": [ [ "vitC", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -898,7 +898,7 @@
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
     "fun": 1,
-    "vitamins": [ ["vitA", 60 ], ["vitC", 180 ], ["calcium", 4 ], ["iron", 4 ] ]
+    "vitamins": [ [ "vitA", 60 ], [ "vitC", 180 ], [ "calcium", 4 ], [ "iron", 4 ] ]
   },
   {
     "id": "water_clean",

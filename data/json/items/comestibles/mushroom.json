@@ -8,7 +8,7 @@
     "description": "A tasty cooked wild mushroom.",
     "price": 150,
     "fun": 1,
-    "vitamins": [ ["vitC", 4 ], ["iron", 7 ] ],
+    "vitamins": [ [ "vitC", 4 ], [ "iron", 7 ] ],
     "flags": [ "FREEZERBURN" ]
   },
   {
@@ -30,7 +30,7 @@
     "fun": 1,
     "flags": [ "FREEZERBURN", "SMOKABLE" ],
     "smoking_result": "dry_mushroom",
-    "vitamins": [ ["calcium", 2 ], [ "iron", 52 ] ]
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 52 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -43,7 +43,7 @@
     "price": 1500,
     "fun": 4,
     "flags": [ "FREEZERBURN" ],
-    "vitamins": [ ["calcium", 2 ], [ "iron", 52 ] ]
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 52 ] ]
   },
   {
     "type": "COMESTIBLE",

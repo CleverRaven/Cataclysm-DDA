@@ -19,7 +19,7 @@
     "fun": -8,
     "flags": [ "FREEZERBURN" ],
     "rot_spawn": "GROUP_EGG_BIRD_WILD",
-    "vitamins": [ [ "vitA", 9 ], ["calcium", 3 ], [ "iron", 4 ], [ "vitB", 21 ] ],
+    "vitamins": [ [ "vitA", 9 ], [ "calcium", 3 ], [ "iron", 4 ], [ "vitB", 21 ] ],
     "rot_spawn_chance": 50
   },
   {
@@ -126,7 +126,7 @@
     "volume": 1,
     "fun": -10,
     "proportional": { "weight": 4.4, "calories": 4.4 },
-    "vitamins": [ [ "vitA", 40 ], ["calcium", 13 ], [ "iron", 18 ], [ "vitB", 92 ] ],
+    "vitamins": [ [ "vitA", 40 ], [ "calcium", 13 ], [ "iron", 18 ], [ "vitB", 92 ] ],
     "rot_spawn": "GROUP_EGG_ANT",
     "rot_spawn_chance": 60
   },
@@ -143,7 +143,7 @@
     "material": "egg",
     "volume": 1,
     "proportional": { "weight": 4.4, "calories": 4.4 },
-    "vitamins": [ [ "vitA", 40 ], ["calcium", 13 ], [ "iron", 18 ], [ "vitB", 92 ] ],
+    "vitamins": [ [ "vitA", 40 ], [ "calcium", 13 ], [ "iron", 18 ], [ "vitB", 92 ] ],
     "fun": -20
   },
   {
@@ -246,7 +246,7 @@
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 16,
     "fun": -4,
-    "vitamins": [ ["vitB", 2 ] ]
+    "vitamins": [ [ "vitB", 2 ] ]
   },
   {
     "type": "COMESTIBLE",
