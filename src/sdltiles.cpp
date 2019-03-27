@@ -39,7 +39,6 @@
 #include "player.h"
 #include "rng.h"
 #include "sdlsound.h"
-#include "sdltiles.h"
 #include "sdl_wrappers.h"
 #include "string_formatter.h"
 #include "translations.h"
@@ -910,7 +909,6 @@ void invalidate_all_framebuffers()
     invalidate_framebuffer( oversized_framebuffer );
 }
 
-#ifdef TILES
 void reinitialize_framebuffer()
 {
     //Re-initialize the framebuffer with new values.
@@ -925,12 +923,6 @@ void reinitialize_framebuffer()
         terminal_framebuffer[i].chars.assign( new_width, cursecell( "" ) );
     }
 }
-#else
-void reinitialize_framebuffer()
-{
-    return;
-}
-#endif
 
 void invalidate_framebuffer_proportion( cata_cursesport::WINDOW *win )
 {
@@ -3718,7 +3710,6 @@ int overmap_font_height()
     return ( overmap_font ? overmap_font : font )->fontheight;
 }
 
-#if (defined TILES)
 void to_map_font_dimension( int &w, int &h )
 {
     w = ( w * fontwidth ) / map_font_width();
@@ -3736,20 +3727,6 @@ void to_overmap_font_dimension( int &w, int &h )
     w = ( w * fontwidth ) / overmap_font_width();
     h = ( h * fontheight ) / overmap_font_height();
 }
-#else
-void to_map_font_dimension( int &, int & )
-{
-    return;
-}
-void from_map_font_dimension( int &, int & )
-{
-    return;
-}
-void to_overmap_font_dimension( int &, int & )
-{
-    return;
-}
-#endif
 
 bool is_draw_tiles_mode()
 {
