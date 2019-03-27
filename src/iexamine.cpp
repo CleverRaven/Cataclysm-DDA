@@ -3221,8 +3221,30 @@ void iexamine::reload_furniture( player &p, const tripoint &examp )
         add_msg( m_info, _( "This %s can not be reloaded!" ), f.name().c_str() );
         return;
     }
-    const int amount_in_furn = count_charges_in_list( ammo, g->m.i_at( examp ) );
+    map_stack items_here = g->m.i_at( examp );
+    const int amount_in_furn = count_charges_in_list( ammo, items_here );
+    const int amount_in_inv = p.charges_of( ammo->get_id() );
+    bool unload = false;
     if( amount_in_furn > 0 ) {
+        unload = p.query_yn( _( "The %1$s contains %2$d %3$s.  Unload?" ), f.name().c_str(), amount_in_furn,
+                 ammo->nname( amount_in_furn ).c_str() );
+
+        if( unload ) {
+            for( size_t i = 0; i < items_here.size(); i++ ) {
+                auto &it = items_here[i];
+                if( it.type == ammo ) {
+                    // get handling cost before the item reference is invalidated
+                    const int handling_cost = -p.item_handling_cost( it );
+                    add_msg( _( "You remove %1$s from the %2$s." ), it.tname().c_str(), f.name().c_str() );
+                    g->m.add_item_or_charges( p.pos(), it );
+                    g->m.i_rem( examp, i );
+                    p.mod_moves( handling_cost );
+                    i--;
+                }
+            }
+            return;
+        }
+
         //~ %1$s - furniture, %2$d - number, %3$s items.
         add_msg( _( "The %1$s contains %2$d %3$s." ), f.name().c_str(), amount_in_furn,
                  ammo->nname( amount_in_furn ).c_str() );
