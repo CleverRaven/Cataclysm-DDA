@@ -716,6 +716,24 @@
   },
   {
     "type": "city_building",
+    "id": "s_restaurant_fast",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "s_restaurant_fast_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "s_restaurant_fast_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "s_restaurant_fast_1",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "s_restaurant_fast_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "s_restaurant_fast_roof_1_north" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "dispensary",
     "locations": [ "land" ],
     "overmaps": [
