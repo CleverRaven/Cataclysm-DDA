@@ -3718,7 +3718,7 @@ int overmap_font_height()
     return ( overmap_font ? overmap_font : font )->fontheight;
 }
 
-#if (defined TILES || defined _WIN32 || defined WINDOWS)
+#if (defined TILES)
 void to_map_font_dimension( int &w, int &h )
 {
     w = ( w * fontwidth ) / map_font_width();
