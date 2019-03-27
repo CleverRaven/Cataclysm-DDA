@@ -2399,7 +2399,7 @@ bool cata_tiles::draw_graffiti( const tripoint &p, lit_level ll, int &height_3d 
         return false;
     }
 
-    return draw_from_id_string( "graffiti", C_NONE, empty_string, p, 0, 0, LL_LIT, false );
+    return draw_from_id_string( "graffiti", C_NONE, empty_string, p, 0, 0, ll, false, height_3d );
 }
 
 bool cata_tiles::draw_field_or_item( const tripoint &p, lit_level ll, int &height_3d )
