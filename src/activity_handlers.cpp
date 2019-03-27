@@ -89,6 +89,7 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_CHOP_LOGS" ), chop_tree_do_turn },
     { activity_id( "ACT_JACKHAMMER" ), jackhammer_do_turn },
     { activity_id( "ACT_DIG" ), dig_do_turn },
+    { activity_id( "ACT_DIG_DEEPEN" ), dig_deepen_do_turn },
     { activity_id( "ACT_DIG_CHANNEL" ), dig_channel_do_turn },
     { activity_id( "ACT_FILL_PIT" ), fill_pit_do_turn },
     { activity_id( "ACT_TILL_PLOT" ), till_plot_do_turn },
@@ -149,6 +150,7 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_CHOP_LOGS" ), chop_logs_finish },
     { activity_id( "ACT_JACKHAMMER" ), jackhammer_finish },
     { activity_id( "ACT_DIG" ), dig_finish },
+    { activity_id( "ACT_DIG_DEEPEN" ), dig_deepen_finish },
     { activity_id( "ACT_DIG_CHANNEL" ), dig_channel_finish },
     { activity_id( "ACT_FILL_PIT" ), fill_pit_finish },
     { activity_id( "ACT_PLAY_WITH_PET" ), play_with_pet_finish },
@@ -2854,6 +2856,15 @@ void activity_handlers::dig_do_turn( player_activity *act, player *p )
     }
 }
 
+void activity_handlers::dig_deepen_do_turn( player_activity *act, player *p )
+{
+    if( calendar::once_every( 1_minutes ) ) {
+        //~ Sound of a shovel digging a pit at work!
+        sounds::sound( act->placement, 10, sounds::sound_t::combat, _( "hsh!" ) );
+        messages_in_process( *act, *p );
+    }
+}
+
 void activity_handlers::dig_channel_do_turn( player_activity *act, player *p )
 {
     if( calendar::once_every( 1_minutes ) ) {
@@ -2867,18 +2878,30 @@ void activity_handlers::dig_finish( player_activity *act, player *p )
 {
     const tripoint &pos = act->placement;
 
-    if( g->m.ter( pos ) == t_pit_shallow ) {
-        g->m.ter_set( pos, t_pit );
-    } else {
-        g->m.ter_set( pos, t_pit_shallow );
-    }
+    g->m.ter_set( pos, t_pit_shallow );
 
     const std::vector<npc *> helpers = g->u.get_crafting_helpers();
     const int helpersize = g->u.get_num_crafting_helpers( 3 );
     p->mod_hunger( 5 - helpersize );
     p->mod_thirst( 5 - helpersize );
     p->mod_fatigue( 10 - ( helpersize * 2 ) );
-    p->add_msg_if_player( m_good, _( "You finish digging up %s." ), g->m.ter( pos ).obj().name() );
+    p->add_msg_if_player( m_good, _( "You finish digging the %s." ), g->m.ter( pos ).obj().name() );
+
+    act->set_to_null();
+}
+
+void activity_handlers::dig_deepen_finish( player_activity *act, player *p )
+{
+    const tripoint &pos = act->placement;
+
+    g->m.ter_set( pos, t_pit );
+
+    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
+    const int helpersize = g->u.get_num_crafting_helpers( 3 );
+    p->mod_hunger( 5 - helpersize );
+    p->mod_thirst( 5 - helpersize );
+    p->mod_fatigue( 40 - ( helpersize * 4 ) );
+    p->add_msg_if_player( m_good, _( "You finish digging the %s." ), g->m.ter( pos ).obj().name() );
 
     act->set_to_null();
 }
