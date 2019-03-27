@@ -1,6 +1,4 @@
 data/json/itemgroups/vending_machines.json
-data/json/items/chemicals_and_resources.json
-data/json/items/containers.json
 data/json/items/fake.json
 data/json/items/generic/ammolink.json
 data/json/items/generic/string.json
