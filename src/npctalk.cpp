@@ -2426,6 +2426,20 @@ void conditional_t::set_has_weapon( bool is_npc )
     };
 }
 
+void conditional_t::set_is_driving( bool is_npc )
+{
+    condition = [is_npc]( const dialogue & d ) {
+        player *actor = d.alpha;
+        if( is_npc ) {
+            actor = dynamic_cast<player *>( d.beta );
+        }
+        if( const optional_vpart_position vp = g->m.veh_at( actor->pos() ) ) {
+            return vp->vehicle().is_moving() && vp->vehicle().player_in_control( *actor );
+        }
+        return false;
+    };
+}
+
 void conditional_t::set_is_day()
 {
     condition = []( const dialogue & ) {
@@ -2650,6 +2664,10 @@ conditional_t::conditional_t( const std::string &type )
         set_has_weapon();
     } else if( type == "npc_has_weapon" ) {
         set_has_weapon( is_npc );
+    } else if( type == "u_driving" ) {
+        set_is_driving();
+    } else if( type == "npc_driving" ) {
+        set_is_driving( is_npc );
     } else if( type == "is_day" ) {
         set_is_day();
     } else if( type == "is_outside" ) {
@@ -2734,48 +2752,6 @@ dynamic_line_t::dynamic_line_t( JsonObject jo )
             }
             return all_lines;
         };
-    } else if( jo.has_member( "npc_has_mission" ) ) {
-        const dynamic_line_t none = from_member( jo, "none" );
-        const dynamic_line_t one = from_member( jo, "one" );
-        const dynamic_line_t many = from_member( jo, "many" );
-        function = [none, one, many]( const dialogue & d ) {
-            if( d.beta->chatbin.missions.empty() ) {
-                return none( d );
-            } else if( d.beta->chatbin.missions.size() == 1 ) {
-                return one( d );
-            }
-            return many( d );
-        };
-    } else if( jo.has_member( "u_has_mission" ) ) {
-        const dynamic_line_t none = from_member( jo, "none" );
-        const dynamic_line_t one = from_member( jo, "one" );
-        const dynamic_line_t many = from_member( jo, "many" );
-        function = [none, one, many]( const dialogue & d ) {
-            if( d.missions_assigned.empty() ) {
-                return none( d );
-            } else if( d.missions_assigned.size() == 1 ) {
-                return one( d );
-            }
-            return many( d );
-        };
-    } else if( jo.has_member( "u_driving" ) || jo.has_member( "npc_driving" ) ) {
-        const dynamic_line_t u_driving = from_member( jo, "u_driving" );
-        const dynamic_line_t npc_driving = from_member( jo, "npc_driving" );
-        const dynamic_line_t no_vehicle = from_member( jo, "no_vehicle" );
-        function = [u_driving, npc_driving, no_vehicle]( const dialogue & d ) {
-            player &u = *d.alpha;
-            npc &p = *d.beta;
-            if( const optional_vpart_position vp = g->m.veh_at( u.pos() ) ) {
-                if( vp->vehicle().is_moving() && vp->vehicle().player_in_control( u ) ) {
-                    return u_driving( d );
-                }
-            } else if( const optional_vpart_position vp = g->m.veh_at( p.pos() ) ) {
-                if( vp->vehicle().is_moving() && vp->vehicle().player_in_control( p ) ) {
-                    return npc_driving( d );
-                }
-            }
-            return no_vehicle( d );
-        };
     } else if( jo.has_member( "give_hint" ) ) {
         function = [&]( const dialogue & ) {
             return get_hint();
@@ -2789,6 +2765,13 @@ dynamic_line_t::dynamic_line_t( JsonObject jo )
                 dcondition = conditional_t( sub_member );
                 function = [dcondition, yes, no]( const dialogue & d ) {
                     return ( dcondition( d ) ? yes : no )( d );
+                };
+                return;
+            } else if( jo.has_member( sub_member ) ) {
+                dcondition = conditional_t( sub_member );
+                const dynamic_line_t yes_member = from_member( jo, sub_member );
+                function = [dcondition, yes_member, no]( const dialogue & d ) {
+                    return ( dcondition( d ) ? yes_member : no )( d );
                 };
                 return;
             }
