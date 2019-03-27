@@ -302,7 +302,7 @@ void mutation_branch::load( JsonObject &jo, const std::string & )
     auto vam = jo.get_array( "vitamins_absorb_multi" );
     while( vam.has_more() ) {
         auto pair = vam.next_array();
-        std::map<vitamin_id, float> vit;
+        std::map<vitamin_id, double> vit;
         auto vit_array = pair.get_array( 1 );
         // fill the inner map with vitamins
         while( vit_array.has_more() ) {
