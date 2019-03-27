@@ -413,7 +413,7 @@
     "description": "A serving of acorns that have been hulled, chopped, and boiled in water before being thoroughly toasted until dry.  Filling and nutritious.",
     "price": 90,
     "material": "nut",
-    "charges": 2,
+    "charges": 1,
     "vitamins": [ [ "calcium", 1 ], [ "iron", 1 ] ],
     "flags": [ "NUTRIENT_OVERRIDE" ],
     "volume": 1
