@@ -4039,11 +4039,13 @@ std::shared_ptr<npc> overmap::find_npc( const int id ) const
     return nullptr;
 }
 
-cata::optional<basecamp *> overmap::find_camp( const int x, const int y ) const
+cata::optional<basecamp *> overmap::find_camp( const int x, const int y )
 {
-    for( const auto &v : camps ) {
-        if( v->camp_omt_pos().x == x && v->camp_omt_pos().y == y ) {
-            return v;
+    for( auto &v : camps ) {
+        if( v.camp_omt_pos().x == x && v.camp_omt_pos().y == y ) {
+            cata::optional<basecamp *> p;
+            p = &v;
+            return p;
         }
     }
     return cata::nullopt;

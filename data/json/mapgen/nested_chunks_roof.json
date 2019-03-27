@@ -113,6 +113,30 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "roof_4x4_utility_1",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [ "UUUU", "UAaU", "c_oU", "UUUU" ],
+      "terrain": { "_": "t_null", "c": "t_chaingate_l", "U": "t_chainfence" },
+      "furniture": { "o": "f_water_heater", "a": "f_water_purifier", "A": "f_standing_tank" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "roof_6x6_utility",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [ "_xxxxx", "_xA__x", "_xx__x", "_____x", "xooa_x", "xxxxxx" ],
+      "terrain": { "_": "t_null", "x": "t_sewage_pipe" },
+      "furniture": { "o": "f_water_heater", "a": "f_water_purifier", "A": "f_standing_tank" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "roof_2x2_golf",
     "object": {
       "mapgensize": [ 2, 2 ],
@@ -143,6 +167,15 @@
     "object": {
       "mapgensize": [ 2, 2 ],
       "place_furniture": [ { "furn": "f_water_heater", "x": 0, "y": 0 }, { "furn": "f_solar_unit", "x": 0, "y": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "roof_2x2_utilities_d",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "place_furniture": [ { "furn": "f_water_heater", "x": 0, "y": 0 }, { "furn": "f_air_conditioner", "x": 0, "y": 1 } ]
     }
   },
   {

@@ -114,7 +114,8 @@
       [ "unicycle", 50 ],
       [ "scooter", 100 ],
       [ "scooter_electric", 50 ],
-      [ "tandem", 300 ]
+      [ "tandem", 300 ],
+      [ "tricycle", 50 ]
     ]
   },
   {

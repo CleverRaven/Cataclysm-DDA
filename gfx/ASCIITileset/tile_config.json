@@ -15,34 +15,23 @@
       },
       "tiles": [
         {
-          "id": "player_female",
+          "id": "lighting_boomered_light",
           "fg": 1,
           "rotates": false
         },
         {
-          "id": "player_male",
+          "id": "lighting_boomered_dark",
           "fg": 2,
           "rotates": false
         },
         {
-          "id": [
-            "npc_female",
-            "npc_male"
-          ],
-          "fg": 3
-        },
-        {
-          "id": "infrared_creature",
-          "fg": 4
-        },
-        {
-          "id": "footstep",
-          "fg": 5,
+          "id": "lighting_lowlight_light",
+          "fg": 3,
           "rotates": false
         },
         {
-          "id": "unknown",
-          "fg": 6,
+          "id": "lighting_lowlight_dark",
+          "fg": 4,
           "rotates": false
         },
         {
@@ -51,54 +40,174 @@
             "line_target",
             "line_trail"
           ],
-          "fg": 7
+          "fg": 5
         },
         {
           "id": "highlight_item",
-          "fg": 8,
+          "fg": 6,
           "rotates": false
-        },
-        {
-          "id": "animation_hit",
-          "bg": 9
         },
         {
           "id": "animation_line",
-          "bg": 10
+          "bg": 7
         },
         {
-          "id": "lighting_boomered_light",
-          "fg": 11,
-          "rotates": false
+          "id": "ruined_chunks",
+          "fg": 8
         },
         {
-          "id": "lighting_boomered_dark",
-          "fg": 12,
-          "rotates": false
-        },
-        {
-          "id": "lighting_lowlight_light",
-          "fg": 13,
-          "rotates": false
-        },
-        {
-          "id": "lighting_lowlight_dark",
-          "fg": 14,
+          "id": "unknown",
+          "fg": 79,
           "rotates": false
         },
         {
           "id": "lighting_hidden",
-          "fg": 0,
-          "bg": 0,
+          "fg": 80,
+          "bg": 80,
           "rotates": false
         },
         {
-          "id": "weather_rain_drop",
-          "bg": 15
+          "id": "weather_snowflake",
+          "bg": 351
         },
         {
-          "id": "weather_snowflake",
-          "bg": 16
+          "id": [
+            "player_female",
+            "player_male"
+          ],
+          "fg": 400,
+          "rotates": false
+        },
+        {
+          "id": "infrared_creature",
+          "fg": 1167
+        },
+        {
+          "id": "explosion",
+          "fg": 1290,
+          "rotates": false,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "center",
+              "fg": 1290
+            },
+            {
+              "id": "corner",
+              "fg": 1305
+            },
+            {
+              "id": "edge",
+              "fg": 1290
+            },
+            {
+              "id": "end_piece",
+              "fg": 1290
+            },
+            {
+              "id": "t_connection",
+              "fg": 1290
+            },
+            {
+              "id": "unconnected",
+              "fg": 1290
+            }
+          ]
+        },
+        {
+          "id": "animation_hit",
+          "bg": 1323
+        },
+        {
+          "id": "weather_acid_drop",
+          "bg": 2940
+        },
+        {
+          "id": "weather_rain_drop",
+          "bg": 1660
+        },
+        {
+          "id": [
+            "npc_female",
+            "npc_male"
+          ],
+          "fg": 2192
+        },
+        {
+          "id": [
+            "animation_bullet_normal",
+            "animation_bullet_shrapnel"
+          ],
+          "fg": 2655
+        },
+        {
+          "id": "explosion_medium",
+          "fg": 2826,
+          "rotates": false,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "center",
+              "fg": 2826
+            },
+            {
+              "id": "corner",
+              "fg": 2841
+            },
+            {
+              "id": "edge",
+              "fg": 2826
+            },
+            {
+              "id": "end_piece",
+              "fg": 2826
+            },
+            {
+              "id": "t_connection",
+              "fg": 2826
+            },
+            {
+              "id": "unconnected",
+              "fg": 2826
+            }
+          ]
+        },
+        {
+          "id": "footstep",
+          "fg": 3983,
+          "rotates": false
+        },
+        {
+          "id": "explosion_weak",
+          "fg": 4106,
+          "rotates": false,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "center",
+              "fg": 4106
+            },
+            {
+              "id": "corner",
+              "fg": 4121
+            },
+            {
+              "id": "edge",
+              "fg": 4106
+            },
+            {
+              "id": "end_piece",
+              "fg": 4106
+            },
+            {
+              "id": "t_connection",
+              "fg": 4106
+            },
+            {
+              "id": "unconnected",
+              "fg": 4106
+            }
+          ]
         }
       ]
     },

@@ -76,16 +76,15 @@ class basecamp
         // camp utility functions
         int recruit_evaluation() const;
         int recruit_evaluation( int &sbase, int &sexpansions, int &sfaction, int &sbonus ) const;
-        void validate_sort_points();
+        // confirm there is at least 1 loot destination and 1 unsorted loot zone in the camp
+        bool validate_sort_points();
         /**
-         * Sets the location of the sorting piles used above.
-         * @param reset_pts reverts all previous points to defaults.
-         * @param choose_pts let the player review and choose new sort points
+         * Invokes the zone manager and validates that the necessary sort zones exist.
          */
-        bool set_sort_points( bool reset_pts, bool choose_pts );
+        bool set_sort_points();
 
         // food utility
-        /// Takes all the food from the point set in set_sort_pts() and increases the faction
+        /// Takes all the food from the camp_food zone and increases the faction
         /// food_supply
         bool distribute_food();
 
@@ -124,6 +123,7 @@ class basecamp
                                const std::string &skill_tested, int skill_level );
         void start_upgrade( const std::string &bldg, const std::string &key );
         std::string om_upgrade_description( const std::string &bldg, bool trunc );
+        void start_menial_labor();
         /// Called when a companion is sent to cut logs
         void start_cut_logs();
         void start_clearcut();

@@ -155,7 +155,7 @@ void for_each_dir_entry( const std::string &path, Function function )
         return;
     }
 
-    dir_ptr root = opendir( path.c_str() );
+    const dir_ptr root = opendir( path.c_str() );
     if( !root ) {
         const auto e_str = strerror( errno );
         DebugLog( D_WARNING, D_MAIN ) << "opendir [" << path << "] failed with \"" << e_str << "\".";
