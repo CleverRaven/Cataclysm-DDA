@@ -326,6 +326,166 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "apartments_con_tower_110",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_con_tower_010",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_con_tower_100",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_con_tower_000",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_con_tower_111",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_con_tower_011",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_con_tower_101",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_con_tower_001",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_con_tower_113",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_con_tower_013",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_con_tower_112",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_con_tower_012",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_con_tower_102",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_con_tower_002",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_con_tower_114",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_con_tower_014",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_con_tower_104",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_con_tower_004",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_mod_tower_110",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_mod_tower_010",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_mod_tower_100",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_mod_tower_000",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_mod_tower_111",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_mod_tower_011",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_mod_tower_101",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_mod_tower_001",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_mod_tower_112",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_mod_tower_012",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_mod_tower_113",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_mod_tower_013",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_mod_tower_103",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_mod_tower_003",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "office_tower_1_entrance",
     "name": "office tower",
     "sym": 84,
