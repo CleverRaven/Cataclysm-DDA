@@ -3241,7 +3241,6 @@ void iexamine::reload_furniture( player &p, const tripoint &examp )
             }
             return;
         }
-
         //~ %1$s - furniture, %2$d - number, %3$s items.
         add_msg( _( "The %1$s contains %2$d %3$s." ), f.name().c_str(), amount_in_furn,
                  ammo->nname( amount_in_furn ).c_str() );
@@ -3251,7 +3250,6 @@ void iexamine::reload_furniture( player &p, const tripoint &examp )
     if( max_reload_amount <= 0 ) {
         return;
     }
-    const int amount_in_inv = p.charges_of( ammo->get_id() );
     if( amount_in_inv == 0 ) {
         //~ Reloading or restocking a piece of furniture, for example a forge.
         add_msg( m_info, _( "You need some %1$s to reload this %2$s." ), ammo->nname( 2 ).c_str(),
