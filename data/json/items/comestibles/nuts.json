@@ -414,7 +414,6 @@
     "price": 90,
     "material": "nut",
     "vitamins": [ [ "calcium", 1 ], [ "iron", 1 ] ],
-    "flags": [ "NUTRIENT_OVERRIDE" ],
     "volume": 1
   }
 ]
