@@ -3635,7 +3635,7 @@ void item::calc_rot( const tripoint &location )
     const time_point now = calendar::turn;
     if( now - last_rot_check > 10_turns ) {
         // bday and/or last_rot_check might be zero, if both are then we want calendar::start
-        const time_point since = std::max({bday, last_rot_check, (time_point) calendar::start});
+        const time_point since = std::max( {bday, last_rot_check, ( time_point ) calendar::start} );
 
         last_rot_check = now;
 
