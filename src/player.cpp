@@ -10381,9 +10381,6 @@ bool player::can_sleep()
             add_msg_if_player( m_good, _( "Your soporific inducer starts back up." ) );
         }
         bio_soporific_powered_at_last_sleep_check = power_level > 0;
-        if( power_level > 0 ) {
-            charge_power( -1 );
-        }
     }
 
     return result;
