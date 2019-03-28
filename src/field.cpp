@@ -686,7 +686,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
         spread.reserve( 8 );
         for( size_t i = ( end_it + 1 ) % neighs.size() ;
              // Start at end_it + 1, then wrap around until i == end_it
-             i != end_it;
+             i != end_it + 1;
              i = ( i + 1 ) % neighs.size() ) {
             const auto &neigh = neighs[i];
             if( can_spread_to( neigh, curtype ) ) {
@@ -706,7 +706,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                 end_it = static_cast<size_t>( rng( 0, neighs.size() - 1 ) );
                 for( size_t i = ( end_it + 1 ) % neighs.size() ;
                      // Start at end_it + 1, then wrap around until i == end_it
-                     i != end_it;
+                     i != end_it + 1;
                      i = ( i + 1 ) % neighs.size() ) {
                     const auto &neigh = neighs[i];
                     if( ( neigh.x != remove_tile.x && neigh.y != remove_tile.y ) ||
@@ -715,7 +715,9 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         neighbour_vec.push_back( neigh );
                     }
                 }
-                spread_to( neighbour_vec[ rng( 0, neighbour_vec.size() - 1 ) ] );
+                if ( !neighbour_vec.empty() ) {
+                    spread_to(neighbour_vec[rng(0, neighbour_vec.size() - 1)]);
+                }
             }
         } else if( zlevels && p.z < OVERMAP_HEIGHT ) {
             tripoint up{p.x, p.y, p.z + 1};
@@ -1075,7 +1077,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         size_t end_it = static_cast<size_t>( rng( 0, neighs.size() - 1 ) );
                         for( size_t i = ( end_it + 1 ) % neighs.size() ;
                              // Start at end_it + 1, then wrap around until i == end_it
-                             i != end_it;
+                             i != end_it + 1;
                              i = ( i + 1 ) % neighs.size() ) {
                             const auto &neigh = neighs[i];
                             if( ( neigh.x != remove_tile.x && neigh.y != remove_tile.y ) ||
@@ -1100,7 +1102,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 if( sheltered || windpower < 5 ) {
                                     const size_t end_it = static_cast<size_t>( rng( 0, neighs.size() - 1 ) );
                                     for( size_t i = ( end_it + 1 ) % neighs.size();
-                                         i != end_it && cur.getFieldAge() < 0_turns;
+                                         i != end_it + 1 && cur.getFieldAge() < 0_turns;
                                          i = ( i + 1 ) % neighs.size() ) {
                                         maptile &dst = neighs[i];
                                         auto dstfld = dst.find_field( fd_fire );
@@ -1124,7 +1126,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 } else {
                                     const size_t end_it = static_cast<size_t>( rng( 0, neighbour_vec.size() - 1 ) );
                                     for( size_t i = ( end_it + 1 ) % neighbour_vec.size();
-                                         i != end_it && cur.getFieldAge() < 0_turns;
+                                         i != end_it + 1 && cur.getFieldAge() < 0_turns;
                                          i = ( i + 1 ) % neighbour_vec.size() ) {
                                         maptile &dst = neighbour_vec[i];
                                         auto dstfld = dst.find_field( fd_fire );
