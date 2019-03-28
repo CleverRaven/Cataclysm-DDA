@@ -736,7 +736,7 @@ void player::hardcoded_effects( effect &it )
         if( one_in( 4096 ) ) {
             mod_healthy_mod( -10, -100 );
             apply_damage( nullptr, bp_head, rng( 1, 2 ) );
-            if( !has_effect( effect_blind ) ) {
+            if( !is_blind() && !sleeping ) {
                 add_msg_if_player( m_bad, _( "Your vision goes black!" ) );
                 add_effect( effect_blind, rng( 5_turns, 20_turns ) );
             }
