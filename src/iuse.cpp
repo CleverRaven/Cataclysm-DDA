@@ -4860,7 +4860,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
                 break;
 
             case AEA_SCREAM:
-                sounds::sound( p->pos(), 40, sounds::sound_t::speech,
+                sounds::sound( p->pos(), 40, sounds::sound_t::alert,
                                string_format( _( "a disturbing scream from %s %s" ),
                                               p->disp_name( true ), it->tname() ) );
                 if( !p->is_deaf() ) {

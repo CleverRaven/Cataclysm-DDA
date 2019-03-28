@@ -2954,7 +2954,7 @@ void player::shout( std::string msg )
         add_msg_if_player( m_warning, _( "The sound of your voice is significantly muffled!" ) );
     }
 
-    sounds::sound( pos(), noise, sounds::sound_t::speech, msg );
+    sounds::sound( pos(), noise, sounds::sound_t::alert, msg );
 }
 
 void player::toggle_move_mode()

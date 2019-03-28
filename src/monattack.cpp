@@ -331,7 +331,7 @@ bool mattack::shriek( monster *z )
     }
 
     z->moves -= 240;   // It takes a while
-    sounds::sound( z->pos(), 50, sounds::sound_t::speech, _( "a terrible shriek!" ) );
+    sounds::sound( z->pos(), 50, sounds::sound_t::alert, _( "a terrible shriek!" ) );
     return true;
 }
 
@@ -354,7 +354,7 @@ bool mattack::shriek_alert( monster *z )
     }
 
     z->moves -= 150;
-    sounds::sound( z->pos(), 120, sounds::sound_t::speech, _( "a piercing wail!" ) );
+    sounds::sound( z->pos(), 120, sounds::sound_t::alert, _( "a piercing wail!" ) );
     z->add_effect( effect_shrieking, 1_minutes );
 
     return true;
@@ -414,7 +414,7 @@ bool mattack::howl( monster *z )
     }
 
     z->moves -= 200;   // It takes a while
-    sounds::sound( z->pos(), 35, sounds::sound_t::speech, _( "an ear-piercing howl!" ) );
+    sounds::sound( z->pos(), 35, sounds::sound_t::alert, _( "an ear-piercing howl!" ) );
 
     if( z->friendly != 0 ) { // TODO: Make this use mon's faction when those are in
         for( monster &other : g->all_monsters() ) {
@@ -637,7 +637,7 @@ bool mattack::shocking_reveal( monster *z )
 {
     shockstorm( z );
     std::string WHAT_A_SCOOP = SNIPPET.random_from_category( "clickbait" );
-    sounds::sound( z->pos(), 10, sounds::sound_t::speech,
+    sounds::sound( z->pos(), 10, sounds::sound_t::alert,
                    string_format( _( "the %s obnoxiously yelling \"%s!!!\"" ),
                                   z->name().c_str(), WHAT_A_SCOOP ) );
     return true;
@@ -3283,17 +3283,16 @@ bool mattack::copbot( monster *z )
         if( one_in( 3 ) ) {
             if( sees_u ) {
                 if( foe->unarmed_attack() ) {
-                    sounds::sound( z->pos(), 18, sounds::sound_t::speech,
+                    sounds::sound( z->pos(), 18, sounds::sound_t::alert,
                                    _( "a robotic voice boom, \"Citizen, Halt!\"" ) );
                 } else if( !cuffed ) {
-                    sounds::sound( z->pos(), 18, sounds::sound_t::speech,
+                    sounds::sound( z->pos(), 18, sounds::sound_t::alert,
                                    _( "a robotic voice boom, \"\
 Please put down your weapon.\"" ) );
                 }
-            } else {
-                sounds::sound( z->pos(), 18, sounds::sound_t::speech,
+            } else
+                sounds::sound( z->pos(), 18, sounds::sound_t::alert,
                                _( "a robotic voice boom, \"Come out with your hands up!\"" ) );
-            }
         } else {
             sounds::sound( z->pos(), 18, sounds::sound_t::alarm,
                            _( "a police siren, whoop WHOOP" ) );
@@ -3711,7 +3710,7 @@ bool mattack::flesh_golem( monster *z )
         if( one_in( 12 ) ) {
             z->moves -= 200;
             // It doesn't "nearly deafen you" when it roars from the other side of bubble
-            sounds::sound( z->pos(), 80, sounds::sound_t::speech, _( "a terrifying roar!" ) );
+            sounds::sound( z->pos(), 80, sounds::sound_t::alert, _( "a terrifying roar!" ) );
             return true;
         }
         return false;
@@ -3930,7 +3929,7 @@ bool mattack::longswipe( monster *z )
 bool mattack::parrot( monster *z )
 {
     if( z->has_effect( effect_shrieking ) ) {
-        sounds::sound( z->pos(), 120, sounds::sound_t::speech, _( "a piercing wail!" ), true );
+        sounds::sound( z->pos(), 120, sounds::sound_t::alert, _( "a piercing wail!" ), true );
         z->moves -= 40;
         return false;
     } else if( one_in( 20 ) ) {

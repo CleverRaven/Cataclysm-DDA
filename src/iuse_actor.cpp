@@ -3815,7 +3815,7 @@ long mutagen_iv_actor::use( player &p, item &it, bool, const tripoint & ) const
     if( p.is_player() && !( p.has_trait( trait_NOPAIN ) ) && m_category.iv_sound ) {
         p.mod_pain( m_category.iv_pain );
         /** @EFFECT_STR increases volume of painful shouting when using IV mutagen */
-        sounds::sound( p.pos(), m_category.iv_noise + p.str_cur, sounds::sound_t::speech,
+        sounds::sound( p.pos(), m_category.iv_noise + p.str_cur, sounds::sound_t::alert,
                        m_category.iv_sound_message() );
     }
 
