@@ -197,15 +197,7 @@
     "name": "Bionic Prepper",
     "description": "You knew the end was coming.  You augmented yourself with some basic bionics and got additional survival training.  Now the end has come, and it is time to see if your efforts have paid off.",
     "points": 6,
-    "CBMs": [
-      "bio_furnace",
-      "bio_power_storage_mkII",
-      "bio_tools",
-      "bio_flashlight",
-      "bio_lighter",
-      "bio_evap",
-      "bio_climate"
-    ],
+    "CBMs": [ "bio_furnace", "bio_power_storage_mkII", "bio_tools", "bio_flashlight", "bio_lighter", "bio_evap", "bio_climate" ],
     "skills": [
       { "level": 4, "name": "survival" },
       { "level": 3, "name": "fabrication" },
@@ -495,7 +487,13 @@
     "name": "Military Recruit",
     "description": "You were a high school drop-out with one goal in mind: to join the military.  You finally got in, just in time for your training to get interrupted by a national emergency.  As far as you can tell, military command abandoned you in this hellhole when you missed the emergency evac.",
     "points": 4,
-    "skills": [ { "level": 2, "name": "gun" }, { "level": 1, "name": "rifle" }, { "level": 2, "name": "melee" }, { "level": 1, "name": "stabbing" }, { "level": 1, "name": "dodge" } ],
+    "skills": [
+      { "level": 2, "name": "gun" },
+      { "level": 1, "name": "rifle" },
+      { "level": 2, "name": "melee" },
+      { "level": 1, "name": "stabbing" },
+      { "level": 1, "name": "dodge" }
+    ],
     "items": {
       "both": {
         "items": [
