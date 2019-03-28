@@ -772,6 +772,16 @@
     "components": [ [ [ "processor", 2 ] ], [ [ "RAM", 2 ] ], [ [ "scrap", 2 ] ] ]
   },
   {
+    "result": "broken_molebot",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 3,
+    "time": 180000,
+    "using": [ [ "welding_standard", 6 ] ],
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "power_supply", 4 ] ], [ [ "motor", 1 ] ], [ [ "steel_chunk", 20 ] ] ]
+  },
+  {
     "result": "broken_riotbot",
     "type": "uncraft",
     "skill_used": "electronics",
@@ -818,6 +828,45 @@
       [ [ "motor", 1 ] ],
       [ [ "plut_cell", 1 ] ],
       [ [ "steel_chunk", 6 ] ]
+    ]
+  },
+  {
+    "result": "broken_tankbot",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 8,
+    "time": 600000,
+    "using": [ [ "soldering_standard", 30 ], [ "welding_standard", 20 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "flamethrower", 1 ] ],
+      [ [ "tazer", 1 ] ],
+      [ [ "m4a1", 1 ] ],
+      [ [ "motor_large", 1 ] ],
+      [ [ "power_supply", 20 ] ],
+      [ [ "plut_cell", 4 ] ],
+      [ [ "RAM", 2 ] ],
+      [ [ "steel_chunk", 15 ] ],
+      [ [ "mil_plate", 2 ] ],
+      [ [ "robot_controls", 1 ] ]
+    ]
+  },
+  {
+    "result": "broken_tripod",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 8,
+    "time": 300000,
+    "using": [ [ "soldering_standard", 10 ], [ "welding_standard", 10 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "power_supply", 12 ] ],
+      [ [ "processor", 1 ] ],
+      [ [ "RAM", 1 ] ],
+      [ [ "flamethrower", 1 ] ],
+      [ [ "wire", 4 ] ],
+      [ [ "motor", 2 ] ],
+      [ [ "steel_chunk", 60 ] ]
     ]
   },
   {
