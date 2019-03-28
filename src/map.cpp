@@ -6061,23 +6061,30 @@ bool map::sees( const tripoint &F, const tripoint &T, const int range, int &bres
     return visible;
 }
 
-int map::obstacle_coverage( const tripoint &loc1, const tripoint &loc2, int t )
+int map::obstacle_coverage( const tripoint &loc1, const tripoint &loc2 )
 {
+    if( move_cost( loc2 ) > 2 ) { // Can't hide if you are standing on something.
+        return 0;
+    }
     tripoint obstaclepos;
-    bresenham( loc2, loc1, t, 0, [&obstaclepos, &loc2]( const tripoint & new_point ) {
-        if( new_point.x == loc2.x && new_point.y == loc2.y ) {
+    int dx = loc1.x - loc2.x;
+    int dy = loc1.y - loc2.y;
+    int ax = std::abs( dx ) * 2;
+    int ay = std::abs( dy ) * 2;
+    int offset = std::min( ax, ay ) - ( std::max( ax, ay ) / 2 );
+    bresenham( loc2, loc1, offset, 0, [&obstaclepos, &loc2]( const tripoint & new_point ) {
+        if( new_point.x == loc2.x && new_point.y == loc2.y ) { // Only adjacent tile between you and enemy is checked for cover.
             return true;
         }
         obstaclepos = new_point;
         return false;
     } );
-    const point p( obstaclepos.x, obstaclepos.y );
-    submap *sm = g->m.get_submap_at( obstaclepos );
-    auto obstacle = sm->get_furn( p );
-    if( obstacle == f_null ) {
-        auto obstacle = sm->get_ter(p);
+    auto obstacle_f = furn( obstaclepos ).obj();
+    auto obstacle_t = ter( obstaclepos ).obj();
+    if( obstacle_f.id ) { // If we are near a piece of furniture, we hide behind the furniture. Else we hide behind the terrain.
+        return obstacle_f.coverage;
     }
-    return obstacle.obj().coverage;
+    return obstacle_t.coverage;
 }
 
 // This method tries a bunch of initial offsets for the line to try and find a clear one.
