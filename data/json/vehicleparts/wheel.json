@@ -283,6 +283,30 @@
     "extend": { "flags": [ "STEERABLE" ] }
   },
   {
+    "id": "wheel_tricycle",
+    "type": "vehicle_part",
+    "name": "tricycle wheels",
+    "item": "wheel_tricycle",
+    "location": "under",
+    "symbol": "|",
+    "broken_symbol": "x",
+    "color": "dark_gray",
+    "difficulty": 0,
+    "durability": 30,
+    "description": "A set of three plastic wheels, with a larger one in the front, mounted with bolts.",
+    "damage_modifier": 50,
+    "breaks_into": [ { "item": "plastic_chunk", "count": [ 1, 3 ] } ],
+    "requirements": {
+      "install": { "time": 30000, "qualities": [ { "id": "WRENCH", "level": 1 } ] },
+      "removal": { "time": 15000, "qualities": [ { "id": "WRENCH", "level": 1 } ] },
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": 5000, "using": [ [ "adhesive", 1 ] ] }
+    },
+    "rolling_resistance": 10,
+    "wheel_type": "standard",
+    "contact_area": 10,
+    "flags": [ "STABLE", "STEERABLE", "TOOL_WRENCH", "WHEEL" ]
+  },
+  {
     "id": "wheel_unicycle",
     "type": "vehicle_part",
     "name": "unicycle wheel",

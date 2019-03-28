@@ -96,5 +96,19 @@
     "//": "Steady stream of relaxation gas (example: pacification grenade)",
     "field": "fd_relax_gas",
     "qty": 20
+  },
+  {
+    "id": "emit_hot_air2_stream",
+    "type": "emit",
+    "//": "Medium hot air emitter",
+    "field": "fd_hot_air2",
+    "qty": 50
+  },
+  {
+    "id": "emit_hot_air2_blast",
+    "type": "emit",
+    "//": "Large hot air emitter",
+    "field": "fd_hot_air2",
+    "qty": 100
   }
 ]

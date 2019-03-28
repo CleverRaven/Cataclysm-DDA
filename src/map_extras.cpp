@@ -447,6 +447,44 @@ void mx_roadblock( map &m, const tripoint &abs_sub )
     }
 }
 
+void mx_bandits_block( map &m, const tripoint &abs_sub )
+{
+    std::string north = overmap_buffer.ter( abs_sub.x, abs_sub.y - 1, abs_sub.z ).id().c_str();
+    std::string south = overmap_buffer.ter( abs_sub.x, abs_sub.y + 1, abs_sub.z ).id().c_str();
+    std::string west = overmap_buffer.ter( abs_sub.x - 1, abs_sub.y, abs_sub.z ).id().c_str();
+    std::string east = overmap_buffer.ter( abs_sub.x + 1, abs_sub.y, abs_sub.z ).id().c_str();
+
+    const bool forest_at_north = north.find( "forest" ) == 0;
+    const bool forest_at_south = south.find( "forest" ) == 0;
+    const bool forest_at_west = west.find( "forest" ) == 0;
+    const bool forest_at_east = east.find( "forest" ) == 0;
+
+    if( forest_at_north && forest_at_south ) {
+        line( &m, t_trunk, 1, 3, 1, 6 );
+        line( &m, t_trunk, 1, 8, 1, 13 );
+        line( &m, t_trunk, 2, 14, 2, 17 );
+        line( &m, t_trunk, 1, 18, 2, 22 );
+        m.ter_set( 1, 2, t_stump );
+        m.ter_set( 1, 20, t_stump );
+        m.ter_set( 1, 1, t_improvised_shelter );
+        m.place_npc( 2, 19, string_id<npc_template>( "bandit" ) );
+        if( one_in( 2 ) ) {
+            m.place_npc( 1, 1, string_id<npc_template>( "bandit" ) );
+        }
+    } else if( forest_at_west && forest_at_east ) {
+        line( &m, t_trunk, 1, 1, 3, 1 );
+        line( &m, t_trunk, 5, 1, 10, 1 );
+        line( &m, t_trunk, 11, 3, 16, 3 );
+        line( &m, t_trunk, 17, 2, 21, 2 );
+        m.ter_set( 22, 2, t_stump );
+        m.ter_set( 0, 1, t_improvised_shelter );
+        m.place_npc( 20, 3, string_id<npc_template>( "bandit" ) );
+        if( one_in( 2 ) ) {
+            m.place_npc( 0, 1, string_id<npc_template>( "bandit" ) );
+        }
+    }
+}
+
 void mx_drugdeal( map &m, const tripoint &abs_sub )
 {
     // Decide on a drug type
@@ -503,6 +541,14 @@ void mx_drugdeal( map &m, const tripoint &abs_sub )
         } while( tries < 10 && m.impassable( x, y ) );
 
         if( tries < 10 ) { // We found a valid spot!
+            if( a_has_drugs && num_drugs > 0 ) {
+                int drugs_placed = rng( 2, 6 );
+                if( drugs_placed > num_drugs ) {
+                    drugs_placed = num_drugs;
+                    num_drugs = 0;
+                }
+                m.spawn_item( x, y, drugtype, 0, drugs_placed );
+            }
             if( one_in( 10 ) ) {
                 m.add_spawn( mon_zombie_spitter, 1, x, y );
             } else {
@@ -512,14 +558,6 @@ void mx_drugdeal( map &m, const tripoint &abs_sub )
                     m.add_field( {x + ( j * x_offset ), y + ( j * y_offset ), abs_sub.z},
                                  fd_blood, 1, 0_turns );
                 }
-            }
-            if( a_has_drugs && num_drugs > 0 ) {
-                int drugs_placed = rng( 2, 6 );
-                if( drugs_placed > num_drugs ) {
-                    drugs_placed = num_drugs;
-                    num_drugs = 0;
-                }
-                m.spawn_item( x, y, drugtype, 0, drugs_placed );
             }
         }
     }
@@ -690,16 +728,79 @@ void mx_crater( map &m, const tripoint &abs_sub )
     }
 }
 
-void mx_fumarole( map &m, const tripoint & )
+void place_fumarole( map &m, int x1, int y1, int x2, int y2, std::set<point> &ignited )
 {
-    int x1 = rng( 0,    SEEX     - 1 ), y1 = rng( 0,    SEEY     - 1 ),
-        x2 = rng( SEEX, SEEX * 2 - 1 ), y2 = rng( SEEY, SEEY * 2 - 1 );
+    // Tracks points nearby for ignition after the lava is placed
+    //std::set<point> ignited;
+
     std::vector<point> fumarole = line_to( x1, y1, x2, y2, 0 );
     for( auto &i : fumarole ) {
         m.ter_set( i.x, i.y, t_lava );
+
+        // Add all adjacent tiles (even on diagonals) for possible ignition
+        // Since they're being added to a set, duplicates won't occur
+        ignited.insert( point( i.x - 1, i.y - 1 ) );
+        ignited.insert( point( i.x,     i.y - 1 ) );
+        ignited.insert( point( i.x + 1, i.y - 1 ) );
+        ignited.insert( point( i.x - 1, i.y ) );
+        ignited.insert( point( i.x + 1, i.y ) );
+        ignited.insert( point( i.x - 1, i.y + 1 ) );
+        ignited.insert( point( i.x,     i.y + 1 ) );
+        ignited.insert( point( i.x + 1, i.y + 1 ) );
+
         if( one_in( 6 ) ) {
             m.spawn_item( i.x - 1, i.y - 1, "chunk_sulfur" );
         }
+    }
+
+}
+
+void mx_fumarole( map &m, const tripoint &abs_sub )
+{
+    if( abs_sub.z <= 0 ) {
+        int x1 = rng( 0,    SEEX     - 1 ), y1 = rng( 0,    SEEY     - 1 ),
+            x2 = rng( SEEX, SEEX * 2 - 1 ), y2 = rng( SEEY, SEEY * 2 - 1 );
+
+        // Pick a random cardinal direction to also spawn lava in
+        // This will make the lava a single connected line, not just on diagonals
+        std::vector<direction> possibilities;
+        possibilities.push_back( EAST );
+        possibilities.push_back( WEST );
+        possibilities.push_back( NORTH );
+        possibilities.push_back( SOUTH );
+        const direction extra_lava_dir = random_entry( possibilities );
+        int x_extra = 0;
+        int y_extra = 0;
+        switch( extra_lava_dir ) {
+            case NORTH:
+                y_extra = -1;
+                break;
+            case EAST:
+                x_extra = 1;
+                break;
+            case SOUTH:
+                y_extra = 1;
+                break;
+            case WEST:
+                x_extra = -1;
+                break;
+            default:
+                break;
+        }
+
+        std::set<point> ignited;
+        place_fumarole( m, x1, y1, x2, y2, ignited );
+        place_fumarole( m, x1 + x_extra, y1 + y_extra, x2 + x_extra, y2 + y_extra, ignited );
+
+        for( auto &i : ignited ) {
+            // Don't need to do anything to tiles that already have lava on them
+            if( m.ter( i.x, i.y ) != t_lava ) {
+                // Spawn an intense but short-lived fire
+                // Any furniture or buildings will catch fire, otherwise it will burn out quickly
+                m.add_field( tripoint( i.x, i.y, abs_sub.z ), fd_fire, 15, 10_turns );
+            }
+        }
+
     }
 }
 
@@ -980,6 +1081,7 @@ FunctionMap builtin_functions = {
     { "mx_clearcut", mx_clearcut },
     { "mx_pond", mx_pond },
     { "mx_clay_deposit", mx_clay_deposit },
+    { "mx_bandits_block", mx_bandits_block },
 };
 
 map_special_pointer get_function( const std::string &name )

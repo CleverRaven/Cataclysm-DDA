@@ -94,7 +94,7 @@ static void eff_fun_fungus( player &u, effect &it )
 {
     const time_duration dur = it.get_duration();
     const int intense = it.get_intensity();
-    int bonus = u.get_healthy() / 10 + ( u.resists_effect( it ) ? 100 : 0 );
+    const int bonus = u.get_healthy() / 10 + ( u.resists_effect( it ) ? 100 : 0 );
     switch( intense ) {
         case 1: // First hour symptoms
             if( one_in( 160 + bonus ) ) {
@@ -121,7 +121,7 @@ static void eff_fun_fungus( player &u, effect &it )
                 u.add_msg_player_or_npc( m_bad, _( "You vomit a thick, gray goop." ),
                                          _( "<npcname> vomits a thick, gray goop." ) );
 
-                int awfulness = rng( 0, 70 );
+                const int awfulness = rng( 0, 70 );
                 u.moves = -200;
                 u.mod_hunger( awfulness );
                 u.mod_thirst( awfulness );
@@ -211,10 +211,10 @@ static void eff_fun_hallu( player &u, effect &it )
     // TODO: Redo this to allow for variable durations
     // Time intervals are drawn from the old ones based on 3600 (6-hour) duration.
     constexpr int maxDuration = 3600;
-    constexpr int comeupTime = int( maxDuration * 0.9 );
-    constexpr int noticeTime = int( comeupTime + ( maxDuration - comeupTime ) / 2 );
-    constexpr int peakTime = int( maxDuration * 0.8 );
-    constexpr int comedownTime = int( maxDuration * 0.3 );
+    constexpr int comeupTime = static_cast<int>( maxDuration * 0.9 );
+    constexpr int noticeTime = static_cast<int>( comeupTime + ( maxDuration - comeupTime ) / 2 );
+    constexpr int peakTime = static_cast<int>( maxDuration * 0.8 );
+    constexpr int comedownTime = static_cast<int>( maxDuration * 0.3 );
     const int dur = to_turns<int>( it.get_duration() );
     // Baseline
     if( dur == noticeTime ) {
@@ -1256,12 +1256,12 @@ void player::hardcoded_effects( effect &it )
             }
         }
     } else if( id == effect_mending ) {
-        // @todo: Remove this and encapsulate hp_cur instead
+        // TODO: Remove this and encapsulate hp_cur instead
         if( hp_cur[bp_to_hp( bp )] > 0 ) {
             it.set_duration( 0_turns );
         }
     } else if( id == effect_disabled ) {
-        // @todo: Remove this and encapsulate hp_cur instead
+        // TODO: Remove this and encapsulate hp_cur instead
         if( hp_cur[bp_to_hp( bp )] > 0 ) {
             // Just unpause, in case someone added it as a temporary effect (numbing poison etc.)
             it.unpause_effect();

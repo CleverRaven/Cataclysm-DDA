@@ -20,7 +20,7 @@
     "durability": 9,
     "burst": 12,
     "default_mods": [ "red_dot_sight" ],
-    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "magazine", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "brass catcher", 1 ],[ "grip", 1 ],[ "magazine", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "sling", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "magazines": [
         [ "654", [ "svs24_robomag", "svs24_robodrum" ] ],
         [ "545x39", [ "cw24_robomag", "cw24_bigrobomag", "ak74mag" ] ],
@@ -38,7 +38,7 @@
     "weight": 3000,
     "volume": 5,
     "range": -2,
-    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "magazine", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "brass catcher", 1 ],[ "grip", 1 ],[ "magazine", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "sling", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "cw-24",
@@ -58,7 +58,7 @@
     "dispersion": 75,
     "durability": 9,
     "default_mods": [ "red_dot_sight" ],
-    "valid_mod_locations": [[ "accessories", 4],[ "barrel", 1],[ "bore", 1],[ "grip", 1],["magazine", 1],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1],[ "bore", 1],[ "brass catcher", 1 ],[ "grip", 1],["magazine", 1],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "sling", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "magazines": [
         [ "545x39", [ "cw24_robomag", "cw24_bigrobomag" ] ],
         [ "762", [ "akmmag", "akmbigmag" ] ],
@@ -133,7 +133,7 @@
     "to_hit": -1,
     "dispersion": 75,
     "durability": 9,
-    "valid_mod_locations": [[ "accessories", 4],[ "barrel", 1],[ "bore", 1],[ "grip", 1],["magazine", 1],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1],[ "bore", 1],[ "brass catcher", 1 ],[ "grip", 1],["magazine", 1],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "sling", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "magazines": [
       [ "308", [ "cwd-63mag", "cwd-63bigmag" ] ],
       [ "223", [ "stanag10" ] ]
@@ -162,6 +162,6 @@
     "burst": 30,
     "clip_size": 90,
     "reload": 300,
-    "valid_mod_locations": [[ "accessories", 2],[ "magazine", 2],["underbarrel", 1]]
+    "valid_mod_locations": [[ "accessories", 2 ],[ "magazine", 2],[ "sling", 1 ],["underbarrel", 1]]
   }
 ]

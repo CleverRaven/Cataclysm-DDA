@@ -279,8 +279,7 @@ int fold_and_print( const catacurses::window &w, int begin_y, int begin_x, int w
                     nc_color base_color, const std::string &text, const char split )
 {
     nc_color color = base_color;
-    std::vector<std::string> textformatted;
-    textformatted = foldstring( text, width, split );
+    std::vector<std::string> textformatted = foldstring( text, width, split );
     for( int line_num = 0; static_cast<size_t>( line_num ) < textformatted.size(); line_num++ ) {
         print_colored_text( w, line_num + begin_y, begin_x, color, base_color, textformatted[line_num] );
     }
@@ -292,8 +291,7 @@ int fold_and_print_from( const catacurses::window &w, int begin_y, int begin_x, 
 {
     const int iWinHeight = getmaxy( w );
     std::stack<nc_color> color_stack;
-    std::vector<std::string> textformatted;
-    textformatted = foldstring( text, width );
+    std::vector<std::string> textformatted = foldstring( text, width );
     for( int line_num = 0; static_cast<size_t>( line_num ) < textformatted.size(); line_num++ ) {
         if( line_num + begin_y - begin_line == iWinHeight ) {
             break;
@@ -525,8 +523,7 @@ void draw_border( const catacurses::window &w, nc_color border_color, const std:
 
 void draw_tabs( const catacurses::window &w, int active_tab, ... )
 {
-    int win_width;
-    win_width = getmaxx( w );
+    int win_width = getmaxx( w );
     std::vector<std::string> labels;
     va_list ap;
     va_start( ap, active_tab );
@@ -552,7 +549,7 @@ void draw_tabs( const catacurses::window &w, int active_tab, ... )
 
     // Extra "buffer" space per each side of each tab
     double buffer_extra = ( win_width - total_width ) / ( labels.size() * 2 );
-    int buffer = int( buffer_extra );
+    int buffer = static_cast<int>( buffer_extra );
     // Set buffer_extra to (0, 1); the "extra" whitespace that builds up
     buffer_extra = buffer_extra - buffer;
     int xpos = 0;
@@ -694,7 +691,7 @@ void popup_status( const char *const title, const std::string &fmt )
 //@param without_getch don't wait getch, return = (int)' ';
 input_event draw_item_info( const int iLeft, const int iWidth, const int iTop, const int iHeight,
                             const std::string &sItemName, const std::string &sTypeName,
-                            std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
+                            const std::vector<iteminfo> &vItemDisplay, const std::vector<iteminfo> &vItemCompare,
                             int &selected, const bool without_getch, const bool without_border,
                             const bool handle_scrolling, const bool scrollbar_left, const bool use_full_win,
                             const unsigned int padding )
@@ -771,7 +768,7 @@ void draw_item_filter_rules( const catacurses::window &win, int starty, int heig
             _( "Type part of an item's name to move nearby items to the top." )
         }
     };
-    const int tab_idx = int( type ) - int( item_filter_type::FIRST );
+    const int tab_idx = static_cast<int>( type ) - static_cast<int>( item_filter_type::FIRST );
     starty += 1 + fold_and_print( win, starty, 1, len, c_white, intros[tab_idx] );
 
     starty += fold_and_print( win, starty, 1, len, c_white, _( "Separate multiple items with ," ) );
@@ -870,7 +867,8 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
 
 input_event draw_item_info( const catacurses::window &win, const std::string &sItemName,
                             const std::string &sTypeName,
-                            std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
+                            const std::vector<iteminfo> &vItemDisplay,
+                            const std::vector<iteminfo> &vItemCompare,
                             int &selected, const bool without_getch, const bool without_border,
                             const bool handle_scrolling, const bool scrollbar_left, const bool use_full_win,
                             const unsigned int padding )
@@ -1301,7 +1299,7 @@ void scrollbar::apply( const catacurses::window &window )
         int bar_size = std::max( 2, slot_size * viewport_size_v / content_size_v );
         int scrollable_size = scroll_to_last_v ? content_size_v : content_size_v - viewport_size_v + 1;
 
-        int bar_start, bar_end;
+        int bar_start;
         if( viewport_pos_v == 0 ) {
             bar_start = 0;
         } else if( scrollable_size > 2 ) {
@@ -1309,7 +1307,7 @@ void scrollbar::apply( const catacurses::window &window )
         } else {
             bar_start = slot_size - bar_size;
         }
-        bar_end = bar_start + bar_size;
+        int bar_end = bar_start + bar_size;
 
         for( int i = 0; i < slot_size; ++i ) {
             if( i >= bar_start && i < bar_end ) {
@@ -1633,29 +1631,29 @@ std::string shortcut_text( nc_color shortcut_color, const std::string &fmt )
 }
 
 const std::pair<std::string, nc_color>
-get_bar( float cur, float max, int width, bool extra_resolution, std::vector<nc_color> colors )
+get_bar( float cur, float max, int width, bool extra_resolution,
+         const std::vector<nc_color> &colors )
 {
-    std::string result = "";
+    std::string result;
     float status = cur / max;
     status = status > 1 ? 1 : status;
     status = status < 0 ? 0 : status;
     float sw = status * width;
 
-    nc_color col = colors[int( ( 1 - status ) * colors.size() )];
+    nc_color col = colors[static_cast<int>( ( 1 - status ) * colors.size() )];
     if( status == 0 ) {
         col = colors.back();
     } else if( ( sw < 0.5 ) && ( sw > 0 ) ) {
         result = ":";
     } else {
         result += std::string( sw, '|' );
-        if( extra_resolution && ( sw - int( sw ) >= 0.5 ) ) {
+        if( extra_resolution && ( sw - static_cast<int>( sw ) >= 0.5 ) ) {
             result += "\\";
         }
     }
 
     return std::make_pair( result, col );
 }
-
 
 const std::pair<std::string, nc_color> get_hp_bar( const int cur_hp, const int max_hp,
         const bool is_mon )
@@ -1665,7 +1663,6 @@ const std::pair<std::string, nc_color> get_hp_bar( const int cur_hp, const int m
     }
     return get_bar( cur_hp, max_hp, 5, !is_mon );
 }
-
 
 const std::pair<std::string, nc_color> get_stamina_bar( int cur_stam, int max_stam )
 {
@@ -2027,7 +2024,6 @@ bool wildcard_match( const std::string &text_in, const std::string &pattern_in )
         return true;
     }
 
-    int pos;
     std::vector<std::string> pattern = string_split( wildcard_trim_rule( pattern_in ), '*' );
 
     if( pattern.size() == 1 ) { // no * found
@@ -2050,7 +2046,7 @@ bool wildcard_match( const std::string &text_in, const std::string &pattern_in )
             }
         } else {
             if( !( *it ).empty() ) {
-                pos = ci_find_substr( text, *it );
+                int pos = ci_find_substr( text, *it );
                 if( pos == -1 ) {
                     return false;
                 }

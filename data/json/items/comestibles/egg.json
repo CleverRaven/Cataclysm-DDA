@@ -241,6 +241,7 @@
     "description": "Whole fresh eggs, dehydrated into an easy to store powder.",
     "price": 1120,
     "material": [ "powder", "egg" ],
+    "primary_material": "powder",
     "volume": 1,
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 16,

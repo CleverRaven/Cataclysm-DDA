@@ -421,7 +421,22 @@
     "id": "ACT_DIG",
     "type": "activity_type",
     "stop_phrase": "Stop digging?",
-    "based_on": "speed"
+    "based_on": "speed",
+    "byproducts": { "finish": [ { "group": "digging_soil_loam_50L", "count": 5 } ] }
+  },
+  {
+    "id": "ACT_DIG_DEEPEN",
+    "type": "activity_type",
+    "stop_phrase": "Stop digging?",
+    "based_on": "speed",
+    "byproducts": { "finish": [ { "group": "digging_soil_loam_50L", "count": 40 } ] }
+  },
+  {
+    "id": "ACT_DIG_CHANNEL",
+    "type": "activity_type",
+    "stop_phrase": "Stop digging?",
+    "based_on": "speed",
+    "byproducts": { "finish": [ { "group": "digging_soil_loam_50L", "count": 5 } ] }
   },
   {
     "id": "ACT_FILL_PIT",
@@ -467,7 +482,7 @@
     "type": "activity_type",
     "stop_phrase": "Stop programming override?",
     "suspendable": false,
-    "based_on": "speed",
+    "based_on": "time",
     "no_resume": true
   },
   {

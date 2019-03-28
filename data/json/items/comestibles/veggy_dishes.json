@@ -181,6 +181,7 @@
     "description": "Dehydrated long-grain rice.  Tasty and nutritious when cooked, virtually inedible when dry.",
     "price": 500,
     "material": "veggy",
+    "primary_material": "dried_vegetable",
     "volume": 1,
     "cooks_like": "rice_cooked",
     "flags": [ "EDIBLE_FROZEN" ],
@@ -485,6 +486,7 @@
     "description": "Dehydrated vegetable flakes.  With proper storage, this dried food will remain edible for an incredibly long time.",
     "price": 900,
     "material": "veggy",
+    "primary_material": "dried_vegetable",
     "volume": 1,
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 2
@@ -531,6 +533,7 @@
     "container": "box_small",
     "quench": -2,
     "description": "Dried salad packed in a box with mayonnaise and ketchup.  Add water to enjoy.",
+    "primary_material": "dried_vegetable",
     "price": 220,
     "volume": "125 ml",
     "flags": [ "EDIBLE_FROZEN" ],
