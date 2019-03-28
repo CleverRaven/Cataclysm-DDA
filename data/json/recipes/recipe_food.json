@@ -304,6 +304,21 @@
   },
   {
     "type": "recipe",
+    "result": "cooking_oil2",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "charges": 16,
+    "time": 20000,
+    "autolearn": true,
+    "batch_time_factors": [ 80, 4 ],
+    "qualities": [ { "id": "BOIL", "level": 1 }, { "id": "COOK", "level": 2 } ],
+    "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
+    "components": [ [ [ "fat", 1 ], [ "tallow", 2 ], [ "lard", 2 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "rehydrated_meat",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -374,7 +389,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "components": [
-      [ [ "cooking_oil", 2 ] ],
+      [ [ "cooking_oil", 2 ], [ "cooking_oil2", 2 ] ],
       [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [
         [ "lemon", 1 ],
@@ -2285,45 +2300,68 @@
   },
   {
     "type": "recipe",
-    "result": "brownie_weed",
+    "result": "sponge_cake",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
     "skill_used": "cooking",
     "difficulty": 4,
     "time": 20000,
-    "charges": 10,
+    "batch_time_factors": [ 50, 4 ],
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [
-      [ [ "flour", 12 ] ],
+      [ [ "flour", 8 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "cooking_oil", 8 ], [ "tallow", 1 ], [ "lard", 1 ] ],
-      [ [ "sugar", 20 ], [ "honey_bottled", 2 ], [ "honey_glassed", 2 ], [ "syrup", 2 ] ],
-      [ [ "chocolate", 2 ] ],
-      [ [ "powder_eggs", 2 ], [ "eggs_bird", 2, "LIST" ], [ "egg_reptile", 2 ] ],
-      [ [ "weed", 10 ] ]
+      [ [ "cooking_oil", 4 ], [ "cooking_oil2", 4 ] ],
+      [ [ "sugar", 10 ], [ "honey_bottled", 1 ], [ "honey_glassed", 1 ], [ "syrup", 1 ] ],
+      [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "space_cake",
+    "copy-from": "sponge_cake",
+    "qualities": [ { "id": "COOK", "level": 3 } ],
+    "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
+    "components": [
+      [ [ "flour", 8 ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "cooking_oil", 4 ], [ "cooking_oil2", 4 ] ],
+      [ [ "sugar", 10 ], [ "honey_bottled", 1 ], [ "honey_glassed", 1 ], [ "syrup", 1 ] ],
+      [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
+      [ [ "weed", 5 ] ]
     ]
   },
   {
     "type": "recipe",
     "result": "brownie",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_BREAD",
-    "skill_used": "cooking",
-    "difficulty": 4,
-    "time": 20000,
-    "charges": 10,
-    "autolearn": true,
+    "copy-from": "sponge_cake",
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [
-      [ [ "flour", 12 ] ],
+      [ [ "flour", 6 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "cooking_oil", 8 ], [ "tallow", 1 ], [ "lard", 1 ] ],
-      [ [ "sugar", 20 ], [ "honey_bottled", 2 ], [ "honey_glassed", 2 ], [ "syrup", 2 ] ],
-      [ [ "chocolate", 2 ] ],
-      [ [ "powder_eggs", 2 ], [ "eggs_bird", 2, "LIST" ], [ "egg_reptile", 2 ] ]
+      [ [ "cooking_oil", 4 ], [ "cooking_oil2", 4 ] ],
+      [ [ "sugar", 10 ], [ "honey_bottled", 1 ], [ "honey_glassed", 1 ], [ "syrup", 1 ] ],
+      [ [ "chocolate", 1 ] ],
+      [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "brownie_weed",
+    "copy-from": "brownie",
+    "qualities": [ { "id": "COOK", "level": 3 } ],
+    "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
+    "components": [
+      [ [ "flour", 6 ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "cooking_oil", 4 ], [ "cooking_oil2", 4 ] ],
+      [ [ "sugar", 10 ], [ "honey_bottled", 1 ], [ "honey_glassed", 1 ], [ "syrup", 1 ] ],
+      [ [ "chocolate", 1 ] ],
+      [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
+      [ [ "weed", 5 ] ]
     ]
   },
   {
@@ -2406,7 +2444,7 @@
         [ "honey_glassed", 2 ]
       ],
       [ [ "meat", 1 ] ],
-      [ [ "cooking_oil", 1 ], [ "tallow", 1 ], [ "lard", 1 ] ],
+      [ [ "cooking_oil", 8 ], [ "cooking_oil2", 8 ], [ "tallow", 1 ], [ "lard", 1 ] ],
       [ [ "veggy_any", 1, "LIST" ] ],
       [ [ "salt", 1 ], [ "soysauce", 1 ], [ "seasoning_salt", 1 ], [ "pepper", 1 ] ]
     ]
@@ -2465,11 +2503,7 @@
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
-    "components": [
-      [ [ "cooking_oil", 1 ], [ "tallow", 1 ], [ "lard", 1 ] ],
-      [ [ "cornmeal", 9 ] ],
-      [ [ "water", 1 ], [ "water_clean", 1 ] ]
-    ]
+    "components": [ [ [ "cooking_oil", 2 ], [ "cooking_oil2", 2 ] ], [ [ "cornmeal", 9 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -2513,14 +2547,16 @@
     "skill_used": "cooking",
     "difficulty": 2,
     "time": 28000,
-    "charges": 3,
+    "charges": 8,
     "batch_time_factors": [ 50, 4 ],
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [
-      [ [ "flour", 4 ] ],
-      [ [ "milk", 1 ], [ "con_milk", 1 ], [ "can_coconut", 1 ], [ "cooking_oil", 1 ], [ "tallow", 1 ], [ "lard", 1 ] ]
+      [ [ "flour", 20 ] ],
+      [ [ "milk", 1 ] ],
+      [ [ "cooking_oil", 4 ], [ "cooking_oil2", 4 ] ],
+      [ [ "salt", 1 ], [ "seasoning_salt", 1 ] ]
     ]
   },
   {
@@ -2535,7 +2571,12 @@
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
-    "components": [ [ [ "cooking_oil", 1 ], [ "tallow", 1 ], [ "lard", 1 ] ], [ [ "cornmeal", 4 ], [ "flour", 4 ] ] ]
+    "components": [
+      [ [ "cornmeal", 15 ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ] ],
+      [ [ "salt", 1 ], [ "seasoning_salt", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -2684,7 +2725,7 @@
         [ "eggs_bird", 2, "LIST" ],
         [ "egg_reptile", 2 ]
       ],
-      [ [ "cooking_oil", 1 ], [ "tallow", 1 ], [ "lard", 1 ] ]
+      [ [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ] ]
     ]
   },
   {
@@ -2698,7 +2739,7 @@
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
-    "components": [ [ [ "rice_cooked", 1 ] ], [ [ "veggy_any", 1, "LIST" ] ], [ [ "cooking_oil", 1 ], [ "tallow", 1 ], [ "lard", 1 ] ] ]
+    "components": [ [ [ "rice_cooked", 1 ] ], [ [ "veggy_any", 1, "LIST" ] ], [ [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -3320,7 +3361,7 @@
       [ [ "milk", 1 ], [ "milk_powder", 1 ], [ "con_milk", 1 ], [ "can_coconut", 1 ] ],
       [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "syrup", 1 ] ],
-      [ [ "cooking_oil", 1 ], [ "tallow", 1 ], [ "lard", 1 ] ],
+      [ [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]
   },
@@ -3340,7 +3381,7 @@
       [ [ "milk", 1 ], [ "milk_powder", 1 ], [ "con_milk", 1 ], [ "can_coconut", 1 ] ],
       [ [ "powder_eggs", 5 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "syrup", 1 ] ],
-      [ [ "cooking_oil", 1 ], [ "tallow", 1 ], [ "lard", 1 ] ],
+      [ [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "sweet_fruit_like", 1, "LIST" ], [ "jam_fruit", 1 ] ]
     ]
@@ -3361,7 +3402,7 @@
       [ [ "milk", 1 ], [ "milk_powder", 1 ], [ "con_milk", 1 ], [ "can_coconut", 1 ] ],
       [ [ "powder_eggs", 5 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "syrup", 1 ] ],
-      [ [ "cooking_oil", 1 ], [ "tallow", 1 ], [ "lard", 1 ] ],
+      [ [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "chocolate", 1 ], [ "choc_drink", 2 ] ]
     ]
@@ -3408,7 +3449,7 @@
       [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "syrup", 1 ] ],
       [ [ "sugar", 2 ] ],
-      [ [ "cooking_oil", 1 ], [ "tallow", 1 ], [ "lard", 1 ] ],
+      [ [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]
   },
@@ -3428,7 +3469,7 @@
       [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "syrup", 1 ] ],
       [ [ "sugar", 2 ] ],
-      [ [ "cooking_oil", 1 ], [ "tallow", 1 ], [ "lard", 1 ] ],
+      [ [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "sweet_fruit_like", 1, "LIST" ], [ "jam_fruit", 1 ] ]
     ]
@@ -3443,11 +3484,7 @@
     "time": 12000,
     "charges": 5,
     "autolearn": true,
-    "tools": [
-      [ [ "surface_heat", 8, "LIST" ] ],
-      [ [ "waffleiron", -1 ] ],
-      [ [ "cooking_oil", 1 ], [ "tallow", 1 ], [ "lard", 1 ] ]
-    ],
+    "tools": [ [ [ "surface_heat", 8, "LIST" ] ], [ [ "waffleiron", -1 ] ], [ [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ] ] ],
     "components": [
       [ [ "flour", 1 ] ],
       [ [ "milk", 1 ], [ "milk_powder", 1 ], [ "con_milk", 1 ], [ "can_coconut", 1 ] ],
@@ -3868,7 +3905,7 @@
     "book_learn": [ [ "cookbook_italian", 2 ] ],
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "components": [
-      [ [ "cooking_oil", 2 ] ],
+      [ [ "cooking_oil", 2 ], [ "cooking_oil2", 2 ] ],
       [ [ "pine_nuts", 1 ] ],
       [ [ "seasoning_italian", 5 ], [ "wild_herbs", 10 ] ],
       [ [ "salt", 5 ], [ "seasoning_salt", 5 ] ]
@@ -5761,7 +5798,11 @@
     "batch_time_factors": [ 67, 5 ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
-    "components": [ [ [ "sauerkraut", 1 ] ], [ [ "cooking_oil", 1 ] ], [ [ "irradiated_onion", 1 ], [ "onion", 1 ] ] ]
+    "components": [
+      [ [ "sauerkraut", 1 ] ],
+      [ [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ] ],
+      [ [ "irradiated_onion", 1 ], [ "onion", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -5900,7 +5941,7 @@
       [ [ "milk", 1 ], [ "milk_powder", 1 ], [ "con_milk", 1 ], [ "can_coconut", 1 ] ],
       [ [ "powder_eggs", 2 ], [ "eggs_bird", 2, "LIST" ], [ "egg_reptile", 2 ] ],
       [ [ "sugar", 2 ] ],
-      [ [ "cooking_oil", 1 ], [ "tallow", 1 ], [ "lard", 1 ] ],
+      [ [ "cooking_oil", 8 ], [ "cooking_oil2", 8 ], [ "tallow", 1 ], [ "lard", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]
   },

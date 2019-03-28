@@ -3215,7 +3215,8 @@
      [
       [ "tallow", 2 ],
       [ "tallow_tainted", 2 ],
-      [ "cooking_oil", 2 ],
+      [ "cooking_oil", 16 ],
+      [ "cooking_oil2", 16 ],
       [ "lamp_oil", 250 ]
      ],
      [

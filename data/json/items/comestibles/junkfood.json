@@ -995,7 +995,7 @@
     "spoils_in": "10 days",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "calories": 2193,
+    "calories": 219,
     "description": "Fluffy and delicious pancakes with real maple syrup, with delicious chocolate baked right in.",
     "price": 700,
     "material": [ "wheat", "junk", "milk" ],

@@ -285,7 +285,7 @@
     "volume": 1,
     "charges": 4,
     "flags": [ "EATEN_HOT" ],
-    "fun": 3,
+    "fun": 4,
     "vitamins": [ [ "vitA", 2 ], [ "vitC", 30 ], [ "calcium", 4 ], [ "iron", 3 ] ]
   },
   {
@@ -526,24 +526,43 @@
     "vitamins": [ [ "vitA", 8 ], [ "calcium", 2 ], [ "iron", 4 ] ]
   },
   {
-    "id": "brownie",
+    "id": "sponge_cake",
     "type": "COMESTIBLE",
     "comestible_type": "FOOD",
-    "name": "brownie",
-    "description": "A rich chocolate brownie, just like how grandma used to bake them.",
+    "name": "sponge cake",
+    "description": "Plain, fluffy cake for the proletariat.",
     "container": "box_small",
-    "weight": 56,
+    "weight": 68,
     "volume": 3,
     "price": 5000,
-    "charges": 8,
+    "charges": 4,
     "material": "wheat",
     "symbol": "%",
     "color": "brown",
-    "calories": 243,
-    "fun": 7,
+    "calories": 278,
+    "fun": 4,
     "spoils_in": 420,
     "vitamins": [ [ "vitA", 8 ], [ "calcium", 2 ], [ "iron", 5 ] ],
     "flags": [ "EATEN_HOT" ]
+  },
+  {
+    "id": "space_cake",
+    "type": "COMESTIBLE",
+    "name": "space cake",
+    "copy-from": "sponge_cake",
+    "description": "This cake's destiny is to take you on a gnarly trip.",
+    "fun": 12,
+    "use_action": "WEED_CAKE"
+  },
+  {
+    "id": "brownie",
+    "type": "COMESTIBLE",
+    "name": "brownie",
+    "copy-from": "sponge_cake",
+    "description": "A rich chocolate brownie, just like how grandma used to bake them.",
+    "weight": 45,
+    "calories": 292,
+    "fun": 7
   },
   {
     "id": "brownie_weed",
@@ -552,6 +571,6 @@
     "copy-from": "brownie",
     "description": "This is definitely not how grandma used to bake them.",
     "fun": 15,
-    "use_action": "WEED_BROWNIE"
+    "use_action": "WEED_CAKE"
   }
 ]

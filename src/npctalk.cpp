@@ -804,7 +804,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         add_response( _( "Who are you?" ), "TALK_FREE_MERCHANT_STOCKS_NEW", true );
         static const std::vector<itype_id> wanted = {{
                 "jerky", "meat_smoked", "fish_smoked",
-                "cooking_oil", "cornmeal", "flour",
+                "cooking_oil", "cooking_oil2", "cornmeal", "flour",
                 "fruit_wine", "beer", "sugar",
             }
         };

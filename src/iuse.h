@@ -43,7 +43,7 @@ class iuse
         int antifungal( player *, item *, bool, const tripoint & );
         int antiparasitic( player *, item *, bool, const tripoint & );
         int anticonvulsant( player *, item *, bool, const tripoint & );
-        int weed_brownie( player *, item *, bool, const tripoint & );
+        int weed_cake( player *, item *, bool, const tripoint & );
         int coke( player *, item *, bool, const tripoint & );
         int meth( player *, item *, bool, const tripoint & );
         int vaccine( player *, item *, bool, const tripoint & );
