@@ -715,8 +715,8 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         neighbour_vec.push_back( neigh );
                     }
                 }
-                if ( !neighbour_vec.empty() ) {
-                    spread_to(neighbour_vec[rng(0, neighbour_vec.size() - 1)]);
+                if( !neighbour_vec.empty() ) {
+                    spread_to( neighbour_vec[rng( 0, neighbour_vec.size() - 1 )] );
                 }
             }
         } else if( zlevels && p.z < OVERMAP_HEIGHT ) {
