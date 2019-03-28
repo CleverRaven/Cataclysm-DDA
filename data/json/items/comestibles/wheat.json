@@ -550,7 +550,6 @@
     "type": "COMESTIBLE",
     "comestible_type": "FOOD",
     "name": "brownie",
-    "copy-from": "brownie_weed",
     "description": "A rich chocolate brownie, just like how grandma used to bake them.",
     "container": "box_small",
     "weight": 56,
@@ -563,6 +562,7 @@
     "calories": 174,
     "fun": 7,
     "spoils_in": 420,
+    "vitamins": [ [ "vitA", 8 ], [ "calcium", 2 ], [ "iron", 5 ] ],
     "flags": [ "EATEN_HOT" ]
   }
 ]
