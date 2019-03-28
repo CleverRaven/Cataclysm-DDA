@@ -179,11 +179,24 @@ bool Creature::sees( const Creature &critter ) const
                     abs( posz() - critter.posz() ) <= 1 ) ) ) {
         return false;
     }
+    if( critter.is_player() && g->u.move_mode == "crouch" ) {
+        float coverage = g->m.obstacle_coverage( pos(), critter.pos(), 0 );
+        int vision_modifier = 0;
+        if( coverage < 30 ) {
+            return sees( critter.pos(), critter.is_player() );
+        } else {
+            vision_modifier = 30 - 0.5 * coverage;
+            if( vision_modifier <= 1 ) {
+                return false;
+            }
+        }
+        return sees( critter.pos(), critter.is_player(), vision_modifier );
+    }
 
     return sees( critter.pos(), critter.is_player() );
 }
 
-bool Creature::sees( const tripoint &t, bool is_player ) const
+bool Creature::sees( const tripoint &t, bool is_player, int range_mod ) const
 {
     if( !fov_3d && posz() != t.z ) {
         return false;
@@ -206,6 +219,11 @@ bool Creature::sees( const tripoint &t, bool is_player ) const
         }
         if( has_effect( effect_no_sight ) ) {
             range = 1;
+        }
+        if( range_mod > 0 ) {
+            if( range_mod < range ) {
+                range = range_mod;
+            }
         }
         if( is_player ) {
             // Special case monster -> player visibility, forcing it to be symmetric with player vision.
