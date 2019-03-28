@@ -148,6 +148,8 @@ std::string action_ident( action_id act )
             return "shift_nw";
         case ACTION_TOGGLE_MOVE:
             return "toggle_move";
+        case ACTION_TOGGLE_CROUCHING:
+            return "toggle_crouching";
         case ACTION_OPEN:
             return "open";
         case ACTION_CLOSE:
@@ -592,6 +594,7 @@ action_id handle_action_menu()
         // Only prioritize movement options if we're not driving.
         if( !g->u.controlling_vehicle ) {
             action_weightings[ACTION_TOGGLE_MOVE] = 400;
+            action_weightings[ACTION_TOGGLE_CROUCHING] = 400;
         }
         // Only prioritize fire weapon options if we're wielding a ranged weapon.
         if( g->u.weapon.is_gun() || g->u.weapon.has_flag( "REACH_ATTACK" ) ) {
@@ -602,6 +605,7 @@ action_id handle_action_menu()
     // If we're already running, make it simple to toggle running to off.
     if( g->u.move_mode != "walk" ) {
         action_weightings[ACTION_TOGGLE_MOVE] = 300;
+        action_weightings[ACTION_TOGGLE_CROUCHING] = 300;
     }
 
     // Check if we're on a vehicle, if so, vehicle controls should be top.
@@ -744,6 +748,7 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_LOOT );
         } else if( category == _( "Combat" ) ) {
             REGISTER_ACTION( ACTION_TOGGLE_MOVE );
+            REGISTER_ACTION( ACTION_TOGGLE_CROUCHING );
             REGISTER_ACTION( ACTION_FIRE );
             REGISTER_ACTION( ACTION_RELOAD );
             REGISTER_ACTION( ACTION_SELECT_FIRE_MODE );
