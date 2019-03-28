@@ -643,7 +643,7 @@ void npc::execute_action( npc_action action )
     int oldmoves = moves;
     tripoint tar = pos();
     Creature *cur = current_target();
-    if( has_effect( effect_npc_run_away ) ) {
+    if( action == npc_flee ) {
         tar = good_escape_direction( false );
     } else if( cur != nullptr ) {
         tar = cur->pos();
@@ -1619,6 +1619,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         const auto att = attitude_to( *critter );
         if( att == A_HOSTILE ) {
             if( !no_bashing ) {
+                warn_about("cant_flee", 5_turns + rng( 0, 5) * 1_turns );
                 melee_attack( *critter, true );
             } else {
                 move_pause();
@@ -1647,6 +1648,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
             // other npcs should not try to move into this npc anymore,
             // so infinite loop can be avoided.
             realnomove->insert( pos() );
+            say( "<let_me_pass>" );
             np->move_away_from( pos(), true, realnomove );
         }
 
