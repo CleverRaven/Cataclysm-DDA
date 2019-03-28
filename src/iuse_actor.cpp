@@ -200,7 +200,7 @@ long iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) con
     return 0;
 }
 
-ret_val<bool> iuse_transform::can_use( const player &p, const item &it, bool,
+ret_val<bool> iuse_transform::can_use( const player &p, const item &, bool,
                                        const tripoint & ) const
 {
     std::map<quality_id, int> unmet_reqs;
