@@ -1035,7 +1035,7 @@ void draw_stealth( player &u, const catacurses::window &w )
     mvwprintz( w, 0, 0, c_light_gray, "Speed" );
     mvwprintz( w, 0, 7, value_color( u.get_speed() ), "%s", u.get_speed() );
     mvwprintz( w, 0, 15 - to_string( u.movecounter ).length(), c_light_gray,
-               to_string( u.movecounter ) + ( u.move_mode == "walk" ? "W" : "R" ) );
+               to_string( u.movecounter ) + ( u.move_mode == "walk" ? "W" : ( u.move_mode == "crouch" ? "C" : "R" ) ) );
 
     if( u.is_deaf() ) {
         mvwprintz( w, 0, 22, c_red, "DEAF" );
@@ -1199,7 +1199,8 @@ void draw_char( player &u, const catacurses::window &w )
 
     const auto str_walk = pgettext( "movement-type", "W" );
     const auto str_run = pgettext( "movement-type", "R" );
-    const char *move = u.move_mode == "walk" ? str_walk : str_run;
+    const auto str_crouch = pgettext( "movement-type", "C" );
+    const char *move = u.move_mode == "walk" ? str_walk : ( u.move_mode == "crouch" ? str_crouch : str_run );
     std::string movecost = std::to_string( u.movecounter ) + "(" + move + ")";
     bool m_style = get_option<std::string>( "MORALE_STYLE" ) == "horizontal";
     std::string smiley = morale_emotion( morale_pair.second, get_face_type( u ), m_style );
@@ -1426,7 +1427,7 @@ void draw_health_classic( player &u, const catacurses::window &w )
     if( !u.in_vehicle ) {
         mvwprintz( w, 5, 21, u.get_speed() < 100 ? c_red : c_white, "Spd " + to_string( u.get_speed() ) );
         mvwprintz( w, 5, 26 + to_string( u.get_speed() ).length(), c_white,
-                   to_string( u.movecounter ) + " " + ( u.move_mode == "walk" ? "W" : "R" ) );
+                   to_string( u.movecounter ) + " " + ( u.move_mode == "walk" ? "W" : ( u.move_mode == "crouch" ? "C" : "R" ) ) );
     }
 
     // temperature
