@@ -209,7 +209,7 @@ ret_val<bool> iuse_transform::can_use( const player &p, const item &it, bool,
             unmet_reqs.insert( quality );
         }
     }
-    if ( unmet_reqs.empty() ) {
+    if( unmet_reqs.empty() ) {
         return ret_val<bool>::make_success();
     }
     std::string unmet_reqs_string = enumerate_as_string( unmet_reqs.begin(), unmet_reqs.end(),
