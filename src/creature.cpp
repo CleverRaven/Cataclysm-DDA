@@ -180,7 +180,7 @@ bool Creature::sees( const Creature &critter ) const
         return false;
     }
     if( critter.is_player() && g->u.move_mode == "crouch" ) {
-        float coverage = g->m.obstacle_coverage( pos(), critter.pos(), 0 );
+        float coverage = g->m.obstacle_coverage( pos(), critter.pos() );
         int vision_modifier = 0;
         if( coverage < 30 ) {
             return sees( critter.pos(), critter.is_player() );
