@@ -539,7 +539,7 @@
     "material": "wheat",
     "symbol": "%",
     "color": "brown",
-    "calories": 174,
+    "calories": 243,
     "fun": 7,
     "spoils_in": 420,
     "vitamins": [ [ "vitA", 8 ], [ "calcium", 2 ], [ "iron", 5 ] ],
