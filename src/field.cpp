@@ -1265,9 +1265,13 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         } else {
                             const size_t end_i = static_cast<size_t>( rng( 0, neighbour_vec.size() - 1 ) );
                             for( size_t i = ( end_i + 1 ) % neighbour_vec.size();
-                                 i != end_i; i = ( i + 1 ) % neighbour_vec.size() ) {
+                                 i != end_i + 1; i = ( i + 1 ) % neighbour_vec.size() ) {
                                 if( one_in( cur.getFieldDensity() * 2 ) ) {
                                     // Skip some processing to save on CPU
+                                    continue;
+                                }
+
+                                if( neighbour_vec.empty() ) {
                                     continue;
                                 }
 
