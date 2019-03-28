@@ -201,7 +201,7 @@ long iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) con
 }
 
 ret_val<bool> iuse_transform::can_use( const player &p, const item &it, bool,
-    const tripoint & ) const
+                                       const tripoint & ) const
 {
     std::map<quality_id, int> unmet_reqs;
     for( const auto &quality : qualities_needed ) {
@@ -214,10 +214,11 @@ ret_val<bool> iuse_transform::can_use( const player &p, const item &it, bool,
     }
     std::string unmet_reqs_string = enumerate_as_string( unmet_reqs.begin(), unmet_reqs.end(),
     [&]( const std::pair<quality_id, int> &unmet_req ) {
-         return string_format( "%s %d", unmet_req.first.obj().name, unmet_req.second );
+        return string_format( "%s %d", unmet_req.first.obj().name, unmet_req.second );
     } );
-    return ret_val<bool>::make_failure( string_format( ngettext( "You need a tool with %s.", "You need tools with %s.", unmet_reqs.size() ),
-                                                       unmet_reqs_string ) );
+    return ret_val<bool>::make_failure( string_format( ngettext( "You need a tool with %s.",
+                                        "You need tools with %s.", unmet_reqs.size() ),
+                                        unmet_reqs_string ) );
 }
 
 std::string iuse_transform::get_name() const
