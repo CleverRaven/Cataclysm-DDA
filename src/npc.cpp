@@ -2035,6 +2035,14 @@ std::string npc_attitude_name( npc_attitude att )
             return _( "Healing you" );
         case NPCATT_ACTIVITY:
             return _( "Performing a task" );
+        case NPCATT_LEGACY_1:
+        case NPCATT_LEGACY_2:
+        case NPCATT_LEGACY_3:
+        case NPCATT_LEGACY_4:
+        case NPCATT_LEGACY_5:
+        case NPCATT_LEGACY_6:
+            return _( "NPC Legacy Attitude" );
+            break;
         default:
             break;
     }
