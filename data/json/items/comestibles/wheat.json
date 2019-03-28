@@ -526,26 +526,6 @@
     "vitamins": [ [ "vitA", 8 ], [ "calcium", 2 ], [ "iron", 4 ] ]
   },
   {
-    "id": "brownie_weed",
-    "type": "COMESTIBLE",
-    "comestible_type": "FOOD",
-    "name": "'special' brownie",
-    "description": "This is definitely not how grandma used to bake them.",
-    "weight": 50,
-    "volume": 3,
-    "price": 5000,
-    "charges": 8,
-    "material": "wheat",
-    "symbol": "%",
-    "color": "brown",
-    "calories": 233,
-    "fun": 15,
-    "spoils_in": 420,
-    "use_action": "WEED_BROWNIE",
-    "vitamins": [ [ "vitA", 8 ], [ "calcium", 2 ], [ "iron", 5 ] ],
-    "flags": [ "EATEN_HOT" ]
-  },
-  {
     "id": "brownie",
     "type": "COMESTIBLE",
     "comestible_type": "FOOD",
@@ -564,5 +544,14 @@
     "spoils_in": 420,
     "vitamins": [ [ "vitA", 8 ], [ "calcium", 2 ], [ "iron", 5 ] ],
     "flags": [ "EATEN_HOT" ]
+  },
+  {
+    "id": "brownie_weed",
+    "type": "COMESTIBLE",
+    "name": "'special' brownie",
+    "copy-from": "brownie",
+    "description": "This is definitely not how grandma used to bake them.",
+    "fun": 15,
+    "use_action": "WEED_BROWNIE"
   }
 ]

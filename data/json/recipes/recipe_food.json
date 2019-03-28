@@ -2291,7 +2291,7 @@
     "skill_used": "cooking",
     "difficulty": 4,
     "time": 20000,
-    "charges": 3,
+    "charges": 5,
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
