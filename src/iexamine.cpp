@@ -3329,9 +3329,15 @@ void iexamine::sign( player &p, const tripoint &examp )
     }
 
     // Allow chance to modify message.
-    // Chose spray can because it seems appropriate.
-    int required_writing_charges = 1;
-    if( p.has_charges( "spray_can", required_writing_charges ) ) {
+    std::vector<tool_comp> tools;
+    std::vector<const item *> filter = p.crafting_inventory().items_with( []( const item & it ) {
+        return it.has_flag( "WRITE_MESSAGE" ) && it.charges > 0;
+    } );
+    for( const item *writing_item : filter ) {
+        tools.push_back( tool_comp( writing_item->typeId(), 1 ) );
+    }
+
+    if( !tools.empty() ) {
         // Different messages if the sign already has writing associated with it.
         std::string query_message = previous_signage_exists ?
                                     _( "Overwrite the existing message on the sign with spray paint?" ) :
@@ -3351,7 +3357,7 @@ void iexamine::sign( player &p, const tripoint &examp )
                 g->m.set_signage( examp, signage );
                 p.add_msg_if_player( m_info, spray_painted_message.c_str() );
                 p.moves -= 2 * signage.length();
-                p.use_charges( "spray_can", required_writing_charges );
+                p.consume_tools( tools, 1 );
             }
         } else {
             p.add_msg_if_player( m_neutral, ignore_message.c_str() );
