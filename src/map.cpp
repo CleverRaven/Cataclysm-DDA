@@ -6073,7 +6073,8 @@ int map::obstacle_coverage( const tripoint &loc1, const tripoint &loc2 )
     int ay = std::abs( dy ) * 2;
     int offset = std::min( ax, ay ) - ( std::max( ax, ay ) / 2 );
     bresenham( loc2, loc1, offset, 0, [&obstaclepos, &loc2]( const tripoint & new_point ) {
-        if( new_point.x == loc2.x && new_point.y == loc2.y ) { // Only adjacent tile between you and enemy is checked for cover.
+        if( new_point.x == loc2.x &&
+            new_point.y == loc2.y ) { // Only adjacent tile between you and enemy is checked for cover.
             return true;
         }
         obstaclepos = new_point;
@@ -6081,8 +6082,19 @@ int map::obstacle_coverage( const tripoint &loc1, const tripoint &loc2 )
     } );
     auto obstacle_f = furn( obstaclepos ).obj();
     auto obstacle_t = ter( obstaclepos ).obj();
-    if( obstacle_f.id ) { // If we are near a piece of furniture, we hide behind the furniture. Else we hide behind the terrain.
+    const optional_vpart_position vp = veh_at( obstaclepos );
+    vehicle *const veh = ( !vp ) ? nullptr : &vp->vehicle();
+    const int part = veh ? vp->part_index() : -1;
+    if( obstacle_f.id ) {
         return obstacle_f.coverage;
+    }
+    if( veh != nullptr ) {
+        const vpart_position vp( const_cast<vehicle &>( *veh ), part );
+        if( vp.obstacle_at_part() ) {
+            return 60;
+        } else if( !vp.part_with_feature( VPFLAG_AISLE, true ) ) {
+            return 45;
+        }
     }
     return obstacle_t.coverage;
 }
