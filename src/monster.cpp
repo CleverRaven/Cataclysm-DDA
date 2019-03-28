@@ -194,7 +194,7 @@ monster::monster( const mtype_id &id ) : monster()
     faction = type->default_faction;
     ammo = type->starting_ammo;
     upgrades = type->upgrades && ( type->half_life || type->age_grow );
-    reproduces = type->reproduces && type->baby_timer && !has_flag( MF_NO_BREED );
+    reproduces = type->reproduces && type->baby_timer && !monster::has_flag( MF_NO_BREED );
     biosignatures = type->biosignatures;
 }
 
@@ -296,7 +296,7 @@ void monster::try_upgrade( bool pin_time )
         return;
     }
 
-    const int current_day = to_days<int>( calendar::turn - calendar::time_of_cataclysm );
+    const int current_day = to_days<int>( calendar::turn - time_point( calendar::start ) );
     //This should only occur when a monster is created or upgraded to a new form
     if( upgrade_time < 0 ) {
         upgrade_time = next_upgrade_time();
@@ -2042,8 +2042,7 @@ void monster::drop_items_on_death()
     if( type->death_drops.empty() ) {
         return;
     }
-    const auto dropped = g->m.put_items_from_loc( type->death_drops, pos(),
-                         calendar::time_of_cataclysm );
+    const auto dropped = g->m.put_items_from_loc( type->death_drops, pos(), calendar::start );
 
     if( has_flag( MF_FILTHY ) ) {
         for( const auto &it : dropped ) {

@@ -31,6 +31,22 @@
         "volume": 0
     },
     {
+        "type":"GENERIC",
+        "id": "character_sheet",
+        "category": "books",
+        "symbol": ",",
+        "color": "white",
+        "name": "character sheet",
+        "snippet_category": "charsheet",
+        "description": "A Dungeons & Dragons character sheet.",
+        "looks_like": "survnote",
+        "price": 0,
+        "material": "paper",
+        "flags": "TRADER_AVOID",
+        "weight": 3,
+        "volume": 0
+    },
+    {
       "type": "GENERIC",
       "id": "scorecard",
       "category": "books",

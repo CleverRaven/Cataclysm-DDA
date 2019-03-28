@@ -1370,15 +1370,13 @@ bool game::do_turn()
     reset_light_level();
 
     perhaps_add_random_npc();
-
+    process_activity();
     // Process NPC sound events before they move or they hear themselves talking
     for( npc &guy : all_npcs() ) {
         if( rl_dist( guy.pos(), u.pos() ) < MAX_VIEW_DISTANCE ) {
             sounds::process_sound_markers( &guy );
         }
     }
-
-    process_activity();
 
     // Process sound events into sound markers for display to the player.
     sounds::process_sound_markers( &u );
@@ -1392,6 +1390,11 @@ bool game::do_turn()
             while( u.moves > 0 || uquit == QUIT_WATCH ) {
                 cleanup_dead();
                 // Process any new sounds the player caused during their turn.
+                for( npc &guy : all_npcs() ) {
+                    if( rl_dist( guy.pos(), u.pos() ) < MAX_VIEW_DISTANCE ) {
+                        sounds::process_sound_markers( &guy );
+                    }
+                }
                 sounds::process_sound_markers( &u );
                 if( !u.activity && uquit != QUIT_WATCH ) {
                     draw();
@@ -1868,27 +1871,15 @@ void game::validate_npc_followers()
 
 void game::validate_camps()
 {
-    // Make sure camps already present are added to the overmap list
-    basecamp *bcp = m.camp_at( u.pos(), 60 );
-    if( bcp ) {
-        int count = 1;
-        if( u.camps.empty() ) {
-            u.camps.insert( bcp->camp_omt_pos() );
-        }
-        for( auto camp : u.camps ) {
-            // check if already on the overmapbuffer list
-            cata::optional<basecamp *> p = overmap_buffer.find_camp( camp.x, camp.y );
-            if( !p ) {
-                //if not on overmap buffer list
-                if( camp.x == bcp->camp_omt_pos().x && camp.y == bcp->camp_omt_pos().y ) {
-                    // if this local camp is the one that needs adding
-                    std::string camp_name = _( "Faction Camp " ) + std::to_string( count );
-                    bcp->set_name( camp_name );
-                    overmap_buffer.add_camp( bcp );
-                    count += 1;
-                }
-            }
-        }
+    basecamp camp = m.hoist_submap_camp( u.pos() );
+    if( camp.is_valid() ) {
+        overmap_buffer.add_camp( camp );
+        m.remove_submap_camp( u.pos() );
+    } else if( camp.camp_omt_pos() != tripoint_zero ) {
+        std::string camp_name = _( "Faction Camp" );
+        camp.set_name( camp_name );
+        overmap_buffer.add_camp( camp );
+        m.remove_submap_camp( u.pos() );
     }
 }
 
@@ -9812,48 +9803,47 @@ bool game::plmove( int dx, int dy, int dz )
     }
 
     if( !u.has_effect( effect_stunned ) && !u.is_underwater() ) {
-        int turns;
-        if( get_option<bool>( "AUTO_FEATURES" ) && mostseen == 0 && get_option<bool>( "AUTO_MINING" ) &&
-            u.weapon.has_flag( "DIG_TOOL" ) && m.has_flag( "MINEABLE", dest_loc ) && !m.veh_at( dest_loc ) ) {
-            if( u.weapon.has_flag( "POWERED" ) ) {
-                if( u.weapon.ammo_sufficient() ) {
-                    turns = MINUTES( 30 );
-                    u.weapon.ammo_consume( u.weapon.ammo_required(), u.pos() );
-                    u.assign_activity( activity_id( "ACT_JACKHAMMER" ), turns * 100, -1,
+        int mining_turns = 100;
+        if( mostseen == 0 && m.has_flag( "MINEABLE", dest_loc ) && !m.veh_at( dest_loc ) ) {
+            if( m.move_cost( dest_loc ) == 2 ) {
+                // breaking up some flat surface, like pavement
+                mining_turns /= 2;
+            }
+            if( get_option<bool>( "AUTO_FEATURES" ) && get_option<bool>( "AUTO_MINING" ) &&
+                u.weapon.has_flag( "DIG_TOOL" ) ) {
+                if( u.weapon.has_flag( "POWERED" ) ) {
+                    if( u.weapon.ammo_sufficient() ) {
+                        mining_turns *= MINUTES( 30 );
+                        u.weapon.ammo_consume( u.weapon.ammo_required(), u.pos() );
+                        u.assign_activity( activity_id( "ACT_JACKHAMMER" ), mining_turns, -1,
+                                           u.get_item_position( &u.weapon ) );
+                        u.activity.placement = dest_loc;
+                        add_msg( _( "You start breaking the %1$s with your %2$s." ),
+                                 m.tername( dest_loc ).c_str(), u.weapon.tname().c_str() );
+                        u.defer_move( dest_loc ); // don't move into the tile until done mining
+                        return true;
+                    } else {
+                        add_msg( _( "Your %s doesn't turn on." ), u.weapon.tname().c_str() );
+                    }
+                } else {
+                    mining_turns *= ( ( MAX_STAT + 4 ) - std::min( u.str_cur, MAX_STAT ) ) * MINUTES( 5 );
+                    u.assign_activity( activity_id( "ACT_PICKAXE" ), mining_turns, -1,
                                        u.get_item_position( &u.weapon ) );
                     u.activity.placement = dest_loc;
                     add_msg( _( "You start breaking the %1$s with your %2$s." ),
                              m.tername( dest_loc ).c_str(), u.weapon.tname().c_str() );
                     u.defer_move( dest_loc ); // don't move into the tile until done mining
                     return true;
-                } else {
-                    add_msg( _( "Your %s doesn't turn on." ), u.weapon.tname().c_str() );
                 }
-            } else {
-                if( m.move_cost( dest_loc ) == 2 ) {
-                    // breaking up some flat surface, like pavement
-                    turns = MINUTES( 20 );
-                } else {
-                    turns = ( ( MAX_STAT + 4 ) - std::min( u.str_cur, MAX_STAT ) ) * MINUTES( 5 );
-                }
-                u.assign_activity( activity_id( "ACT_PICKAXE" ), turns * 100, -1,
-                                   u.get_item_position( &u.weapon ) );
+            } else if( u.has_active_mutation( trait_BURROW ) ) {
+                mining_turns *= ( ( MAX_STAT + 3 ) - std::min( u.str_cur, MAX_STAT ) ) * MINUTES( 2 );
+                u.assign_activity( activity_id( "ACT_BURROW" ), mining_turns, -1, 0 );
                 u.activity.placement = dest_loc;
-                add_msg( _( "You start breaking the %1$s with your %2$s." ),
-                         m.tername( dest_loc ).c_str(), u.weapon.tname().c_str() );
+                add_msg( _( "You start tearing into the %s with your teeth and claws." ),
+                         m.tername( dest_loc ).c_str() );
                 u.defer_move( dest_loc ); // don't move into the tile until done mining
                 return true;
             }
-        } else if( u.has_active_mutation( trait_BURROW ) ) {
-            if( m.move_cost( dest_loc ) == 2 ) {
-                turns = MINUTES( 10 );
-            } else {
-                turns = MINUTES( 30 );
-            }
-            u.assign_activity( activity_id( "ACT_BURROW" ), turns * 100, -1, 0 );
-            u.activity.placement = dest_loc;
-            add_msg( _( "You start tearing into the %s with your teeth and claws." ),
-                     m.tername( dest_loc ).c_str() );
         }
     }
 
@@ -10481,8 +10471,8 @@ void game::place_player( const tripoint &dest_loc )
     }
 
     //Autopickup
-    if( get_option<bool>( "AUTO_PICKUP" ) && ( !get_option<bool>( "AUTO_PICKUP_SAFEMODE" ) ||
-            mostseen == 0 ) &&
+    if( get_option<bool>( "AUTO_PICKUP" ) && !u.is_hauling() &&
+        ( !get_option<bool>( "AUTO_PICKUP_SAFEMODE" ) || mostseen == 0 ) &&
         ( m.has_items( u.pos() ) || get_option<bool>( "AUTO_PICKUP_ADJACENT" ) ) ) {
         Pickup::pick_up( u.pos(), -1 );
     }
@@ -12567,29 +12557,54 @@ bool check_art_charge_req( item &it )
 
 void game::start_calendar()
 {
-    calendar::start = HOURS( get_option<int>( "INITIAL_TIME" ) );
     const bool scen_season = scen->has_flag( "SPR_START" ) || scen->has_flag( "SUM_START" ) ||
                              scen->has_flag( "AUT_START" ) || scen->has_flag( "WIN_START" ) ||
                              scen->has_flag( "SUM_ADV_START" );
-    const std::string nonscen_season = get_option<std::string>( "INITIAL_SEASON" );
-    if( scen->has_flag( "SPR_START" ) || ( !scen_season && nonscen_season == "spring" ) ) {
-        calendar::initial_season = SPRING;
-    } else if( scen->has_flag( "SUM_START" ) || ( !scen_season && nonscen_season == "summer" ) ) {
-        calendar::initial_season = SUMMER;
-        calendar::start += to_turns<int>( calendar::season_length() );
-    } else if( scen->has_flag( "AUT_START" ) || ( !scen_season && nonscen_season == "autumn" ) ) {
-        calendar::initial_season = AUTUMN;
-        calendar::start += to_turns<int>( calendar::season_length() * 2 );
-    } else if( scen->has_flag( "WIN_START" ) || ( !scen_season && nonscen_season == "winter" ) ) {
-        calendar::initial_season = WINTER;
-        calendar::start += to_turns<int>( calendar::season_length() * 3 );
-    } else if( scen->has_flag( "SUM_ADV_START" ) ) {
-        calendar::initial_season = SUMMER;
-        calendar::start += to_turns<int>( calendar::season_length() * 5 );
+
+    if( scen_season ) {
+        // Configured starting date overridden by scenario, calendar::start is left as Spring 1
+        calendar::start = HOURS( get_option<int>( "INITIAL_TIME" ) );
+        calendar::turn = HOURS( get_option<int>( "INITIAL_TIME" ) );
+        if( scen->has_flag( "SPR_START" ) ) {
+            calendar::initial_season = SPRING;
+        } else if( scen->has_flag( "SUM_START" ) ) {
+            calendar::initial_season = SUMMER;
+            calendar::turn += to_turns<int>( calendar::season_length() );
+        } else if( scen->has_flag( "AUT_START" ) ) {
+            calendar::initial_season = AUTUMN;
+            calendar::turn += to_turns<int>( calendar::season_length() * 2 );
+        } else if( scen->has_flag( "WIN_START" ) ) {
+            calendar::initial_season = WINTER;
+            calendar::turn += to_turns<int>( calendar::season_length() * 3 );
+        } else if( scen->has_flag( "SUM_ADV_START" ) ) {
+            calendar::initial_season = SUMMER;
+            calendar::turn += to_turns<int>( calendar::season_length() * 5 );
+        } else {
+            debugmsg( "The Unicorn" );
+        }
     } else {
-        debugmsg( "The Unicorn" );
+        // No scenario, so use the starting date+time configured in world options
+        const int initial_days = get_option<int>( "INITIAL_DAY" );
+        calendar::start = DAYS( initial_days );
+
+        // Determine the season based off how long the seasons are set to be
+        // First mod by length of season to get number of seasons elapsed, then mod by 4 to force a 0-3 range of values
+        const int season_number = ( initial_days % get_option<int>( "SEASON_LENGTH" ) ) % 4;
+        if( season_number == 0 ) {
+            calendar::initial_season = SPRING;
+        } else if( season_number == 1 ) {
+            calendar::initial_season = SUMMER;
+        } else if( season_number == 2 ) {
+            calendar::initial_season = AUTUMN;
+        } else {
+            calendar::initial_season = WINTER;
+        }
+
+        calendar::turn = calendar::start
+                         + HOURS( get_option<int>( "INITIAL_TIME" ) )
+                         + DAYS( get_option<int>( "SPAWN_DELAY" ) );
     }
-    calendar::turn = calendar::start;
+
 }
 
 void game::add_artifact_messages( const std::vector<art_effect_passive> &effects )

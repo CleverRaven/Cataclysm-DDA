@@ -914,7 +914,7 @@ class player : public Character
         bool can_lift( const T &obj ) const {
             // avoid comparing by weight as different objects use differing scales (grams vs kilograms etc)
             int str = get_str();
-            int npc_str = get_lift_assist();
+            const int npc_str = get_lift_assist();
             if( has_trait( trait_id( "STRONGBACK" ) ) ) {
                 str *= 1.35;
             } else if( has_trait( trait_id( "BADBACK" ) ) ) {

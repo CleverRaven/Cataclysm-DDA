@@ -17,7 +17,7 @@
     "phase": "liquid",
     "flags": [ "FREEZERBURN" ],
     "fun": 15,
-    "vitamins": [ [ "calcium", 8 ] ]
+    "vitamins": [ [ "vitA", 2 ], [ "vitC", 3 ], [ "calcium", 33 ], [ "iron", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -37,7 +37,7 @@
     "phase": "liquid",
     "fun": 20,
     "flags": [ "FREEZERBURN" ],
-    "vitamins": [ [ "calcium", 2 ] ]
+    "vitamins": [ [ "calcium", 8 ], [ "iron", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -77,7 +77,7 @@
     "material": [ "milk" ],
     "primary_material": "cheese",
     "volume": 1,
-    "vitamins": [ [ "vitA", 1 ], [ "calcium", 7 ] ],
+    "vitamins": [ [ "vitA", 5 ], [ "calcium", 32 ], [ "iron", 2 ] ],
     "fun": 5
   },
   {
@@ -100,7 +100,7 @@
     "volume": 1,
     "charges": 8,
     "fun": 7,
-    "vitamins": [ [ "vitA", 1 ], [ "calcium", 3 ] ]
+    "vitamins": [ [ "vitA", 8 ], [ "calcium", 16 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -122,7 +122,7 @@
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
     "fun": 6,
-    "vitamins": [ [ "vitA", 2 ], [ "calcium", 7 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "vitA", 12 ], [ "calcium", 38 ], [ "iron", 10 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -144,7 +144,7 @@
     "cooks_like": "milk",
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 10,
-    "vitamins": [ [ "vitA", 1 ], [ "calcium", 2 ] ],
+    "vitamins": [ [ "vitA", 3 ], [ "vitC", 1 ], [ "calcium", 7 ] ],
     "fun": -5
   }
 ]

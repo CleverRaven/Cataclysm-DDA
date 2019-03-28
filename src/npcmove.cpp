@@ -74,10 +74,12 @@ enum npc_action : int {
     npc_goto_destination,
     npc_avoid_friendly_fire,
     npc_escape_explosion,
-    npc_base_idle,
     npc_noop,
     npc_reach_attack,
     npc_aim,
+    npc_investigate_sound,
+    npc_return_to_guard_pos,
+    npc_player_activity,
     num_npc_actions
 };
 
@@ -92,6 +94,8 @@ std::string npc_action_name( npc_action action );
 
 void print_action( const char *prepend, npc_action action );
 
+bool compare_sound_alert( const dangerous_sound &sound_a, const dangerous_sound &sound_b );
+
 hp_part most_damaged_hp_part( const Character &c );
 
 // Used in npc::drop_items()
@@ -100,6 +104,14 @@ struct ratio_index {
     int index;
     ratio_index( double R, int I ) : ratio( R ), index( I ) {}
 };
+
+bool compare_sound_alert( const dangerous_sound &sound_a, const dangerous_sound &sound_b )
+{
+    if( sound_a.type != sound_b.type ) {
+        return sound_a.type < sound_b.type;
+    }
+    return sound_a.volume < sound_b.volume;
+}
 
 bool clear_shot_reach( const tripoint &from, const tripoint &to )
 {
@@ -312,7 +324,7 @@ void npc::assess_danger()
         float scaled_distance = std::max( 1.0f, dist / critter.speed_rating() );
         float hp_percent = 1.0f - static_cast<float>( critter.get_hp() ) / critter.get_hp_max();
         float min_danger = ( att == MATT_ATTACK ) ? NPC_DANGER_VERY_LOW : 0.0f;
-        float critter_danger = std::max( critter.type->difficulty * ( hp_percent * 0.5f + 0.5f ),
+        float critter_danger = std::max( critter_threat * ( hp_percent * 0.5f + 0.5f ),
                                          min_danger );
         ai_cache.total_danger += critter_danger / scaled_distance;
         if( is_following() && !ok_by_rules( critter, dist, scaled_distance ) ) {
@@ -322,11 +334,10 @@ void npc::assess_danger()
         // don't ignore monsters that are too close or too close to the player
         float min_priority = ( att == MATT_ATTACK ) && ( dist <= def_radius ||
                              ( is_following() && too_close( critter.pos(), g->u.pos() ) ) ) ?
-                             1.0f : 0.0f;
+                             NPC_DANGER_VERY_LOW : 0.0f;
         float priority = std::max( min_priority,
                                    critter_danger - 2.0f * ( scaled_distance - 1.0f ) );
         cur_threat_map[direction_from( pos(), critter.pos() )] += priority;
-
         if( priority > highest_priority ) {
             highest_priority = priority;
             ai_cache.target = g->shared_from( critter );
@@ -347,7 +358,7 @@ void npc::assess_danger()
         if( !is_following() || ok_by_rules( guy, dist, scaled_distance ) ) {
             float min_priority = ( att == A_HOSTILE ) && ( dist <= def_radius ||
                                  ( is_following() && too_close( guy.pos(), g->u.pos() ) ) ) ?
-                                 1.0f : 0.0f;
+                                 NPC_DANGER_VERY_LOW : 0.0f;
             float priority = std::max( guy_threat - 2.0f * ( scaled_distance - 1 ),
                                        min_priority );
             cur_threat_map[direction_from( pos(), guy.pos() )] += priority;
@@ -441,6 +452,17 @@ float npc::character_danger( const Character &uc ) const
 
 void npc::regen_ai_cache()
 {
+    auto i = std::begin( ai_cache.sound_alerts );
+    while( i != std::end( ai_cache.sound_alerts ) ) {
+        if( sees( i->pos ) ) {
+            i = ai_cache.sound_alerts.erase( i );
+            if( ai_cache.sound_alerts.size() == 1 ) {
+                path.clear();
+            }
+        } else {
+            ++i;
+        }
+    }
     float old_assessment = ai_cache.danger_assessment;
     ai_cache.friends.clear();
     ai_cache.target = std::shared_ptr<Creature>();
@@ -513,6 +535,25 @@ void npc::move()
     } else if( target != nullptr && ai_cache.danger > 0 &&
                !rules.has_flag( ally_rule::avoid_combat ) ) {
         action = method_of_attack();
+    } else if( !ai_cache.sound_alerts.empty() && !is_following() ) {
+        if( !ai_cache.guard_pos ) {
+            ai_cache.guard_pos = pos();
+        }
+        if( ai_cache.sound_alerts.size() > 1 ) {
+            std::sort( ai_cache.sound_alerts.begin(), ai_cache.sound_alerts.end(), compare_sound_alert );
+            if( ai_cache.sound_alerts.size() > 10 ) {
+                ai_cache.sound_alerts.resize( 10 );
+            }
+        }
+        ai_cache.spos = ai_cache.sound_alerts.front().pos;
+        add_msg( m_debug, "NPC %s: investigating sound at x(%d) y(%d)", name.c_str(), ai_cache.spos.x,
+                 ai_cache.spos.y );
+        action = npc_investigate_sound;
+    } else if( ai_cache.sound_alerts.empty() && ai_cache.guard_pos ) {
+        tripoint return_guard_pos = *ai_cache.guard_pos;
+        add_msg( m_debug, "NPC %s: returning to guard spot at x(%d) y(%d)", name.c_str(),
+                 return_guard_pos.x, return_guard_pos.y );
+        action = npc_return_to_guard_pos;
     } else {
         // No present danger
         action = address_needs();
@@ -521,6 +562,24 @@ void npc::move()
         if( action == npc_undecided ) {
             action = address_player();
             print_action( "address_player %s", action );
+        }
+    }
+
+    if( action == npc_undecided && attitude == NPCATT_ACTIVITY ) {
+        std::vector<tripoint> activity_route = get_auto_move_route();
+        if( !activity_route.empty() && !has_destination_activity() ) {
+            const tripoint final_destination = activity_route.back();
+            update_path( final_destination );
+            if( !path.empty() ) {
+                move_to_next();
+                return;
+            }
+        }
+        if( has_destination_activity() ) {
+            start_destination_activity();
+            action = npc_player_activity;
+        } else if( has_player_activity() ) {
+            action = npc_player_activity;
         }
     }
 
@@ -602,6 +661,24 @@ void npc::execute_action( npc_action action )
 
         case npc_reload: {
             do_reload( weapon );
+        }
+        break;
+
+        case npc_investigate_sound: {
+            update_path( ai_cache.spos );
+            move_to_next();
+        }
+        break;
+
+        case npc_return_to_guard_pos: {
+            update_path( *ai_cache.guard_pos );
+            if( pos() == *ai_cache.guard_pos || path.empty() ) {
+                move_pause();
+                ai_cache.guard_pos = cata::nullopt;
+                path.clear();
+            } else {
+                move_to_next();
+            }
         }
         break;
 
@@ -887,7 +964,7 @@ void npc::execute_action( npc_action action )
             break;
 
         case npc_goto_destination:
-            go_to_destination();
+            go_to_omt_destination();
             break;
 
         case npc_avoid_friendly_fire:
@@ -898,9 +975,8 @@ void npc::execute_action( npc_action action )
             escape_explosion();
             break;
 
-        case npc_base_idle:
-            // TODO: patrol or sleep or something?
-            move_pause();
+        case npc_player_activity:
+            do_player_activity();
             break;
 
         case npc_undecided:
@@ -1260,7 +1336,7 @@ npc_action npc::address_player()
                 set_attitude( NPCATT_NULL );
                 return npc_pause;
             }
-        } else if( has_destination() ) {
+        } else if( has_omt_destination() ) {
             return npc_goto_destination;
         } else { // At goal. Now, waiting on nearby player
             return npc_pause;
@@ -1277,17 +1353,11 @@ npc_action npc::long_term_goal_action()
         return npc_pause;    // Shopkeepers just stay put.
     }
 
-    // TODO: Follow / look for player
-
-    if( mission == NPC_MISSION_BASE ) {
-        return npc_base_idle;
+    if( !has_omt_destination() ) {
+        set_omt_destination();
     }
 
-    if( !has_destination() ) {
-        set_destination();
-    }
-
-    if( has_destination() ) {
+    if( has_omt_destination() ) {
         return npc_goto_destination;
     }
 
@@ -1459,6 +1529,11 @@ bool npc::update_path( const tripoint &p, const bool no_bashing, bool force )
 
     auto new_path = g->m.route( pos(), p, get_pathfinding_settings( no_bashing ), get_path_avoid() );
     if( new_path.empty() ) {
+        if( !ai_cache.sound_alerts.empty() ) {
+            ai_cache.sound_alerts.erase( ai_cache.sound_alerts.begin() );
+            add_msg( m_debug, "failed to path to sound alert %d,%d,%d->%d,%d,%d",
+                     posx(), posy(), posz(), p.x, p.y, p.z );
+        }
         add_msg( m_debug, "Failed to path %d,%d,%d->%d,%d,%d",
                  posx(), posy(), posz(), p.x, p.y, p.z );
     }
@@ -2361,6 +2436,32 @@ bool npc::do_pulp()
     return moves != old_moves;
 }
 
+bool npc::do_player_activity()
+{
+    int old_moves = moves;
+    while( moves > 0 && activity ) {
+        activity.do_turn( *this );
+        if( !is_active() ) {
+            return true;
+        }
+    }
+    /* if the activity is finished, grab any backlog or change the mission */
+    if( !has_destination() && !activity ) {
+        add_msg( m_info, string_format( "%s completed the assigned task.", disp_name() ) );
+        if( !backlog.empty() ) {
+            activity = backlog.front();
+            backlog.pop_front();
+        } else {
+            mission = NPC_MISSION_NULL;
+            attitude = NPCATT_FOLLOW;
+            // if we loaded after being out of the bubble for a while, we might have more
+            // moves than we need, so clear them
+            set_moves( 0 );
+        }
+    }
+    return moves != old_moves;
+}
+
 bool npc::wield_better_weapon()
 {
     // TODO: Allow wielding weaker weapons against weaker targets
@@ -2954,12 +3055,12 @@ bool npc::saw_player_recently() const
     return last_player_seen_pos && g->m.inbounds( *last_player_seen_pos ) && last_seen_player_turn > 0;
 }
 
-bool npc::has_destination() const
+bool npc::has_omt_destination() const
 {
     return goal != no_goal_point;
 }
 
-void npc::reach_destination()
+void npc::reach_omt_destination()
 {
     // Guarding NPCs want a specific point, not just an overmap tile
     // Rest stops having a goal after reaching it
@@ -2967,7 +3068,6 @@ void npc::reach_destination()
         goal = no_goal_point;
         return;
     }
-
     // If we are guarding, remember our position in case we get forcibly moved
     goal = global_omt_location();
     if( guard_pos == global_square_location() ) {
@@ -2990,7 +3090,7 @@ void npc::reach_destination()
     }
 }
 
-void npc::set_destination()
+void npc::set_omt_destination()
 {
     /* TODO: Make NPCs' movement more intelligent.
      * Right now this function just makes them attempt to address their needs:
@@ -3028,18 +3128,26 @@ void npc::set_destination()
     std::string dest_type = get_location_for( needs.front() )->get_random_terrain().id().str();
     goal = overmap_buffer.find_closest( surface_omt_loc, dest_type, 0, false );
 
-    DebugLog( D_INFO, DC_ALL ) << "npc::set_destination - new goal for NPC [" << get_name() <<
+    DebugLog( D_INFO, DC_ALL ) << "npc::set_omt_destination - new goal for NPC [" << get_name() <<
                                "] with ["
                                << get_need_str_id( needs.front() ) << "] is [" << dest_type << "] in ["
                                << goal.x << "," << goal.y << "," << goal.z << "].";
 }
 
-void npc::go_to_destination()
+void npc::go_to_omt_destination()
 {
+    if( ai_cache.guard_pos ) {
+        if( pos() == *ai_cache.guard_pos ) {
+            path.clear();
+            ai_cache.guard_pos = cata::nullopt;
+            move_pause();
+            return;
+        }
+    }
     if( goal == no_goal_point ) {
         add_msg( m_debug, "npc::go_to_destination with no goal" );
         move_pause();
-        reach_destination();
+        reach_omt_destination();
         return;
     }
 
@@ -3052,7 +3160,7 @@ void npc::go_to_destination()
              omt_pos.x, omt_pos.y, omt_pos.z, goal.x, goal.y, goal.z );
     if( goal == omt_pos ) {
         // We're at our desired map square!
-        reach_destination();
+        reach_omt_destination();
         return;
     }
 
@@ -3109,6 +3217,10 @@ std::string npc_action_name( npc_action action )
             return _( "Pause" );
         case npc_reload:
             return _( "Reload" );
+        case npc_investigate_sound:
+            return _( "Investigate sound" );
+        case npc_return_to_guard_pos:
+            return _( "Returning to guard position" );
         case npc_sleep:
             return _( "Sleep" );
         case npc_pickup:
@@ -3224,14 +3336,18 @@ void npc::warn_about( const std::string &type, const time_duration &d, const std
     } else {
         return;
     }
+    bool alert = false;
+    if( type != "speech_noise" && type != "movement_noise" && type != "relax" ) {
+        alert = true;
+    }
     const std::string warning_name = "warning_" + type + name;
     const std::string speech = name.empty() ? snip :
                                string_format( _( "%s %s<punc>" ), snip, name );
-    complain_about( warning_name, d, speech, is_enemy() );
+    complain_about( warning_name, d, speech, is_enemy(), alert );
 }
 
 bool npc::complain_about( const std::string &issue, const time_duration &dur,
-                          const std::string &speech, const bool force )
+                          const std::string &speech, const bool force, const bool alert )
 {
     // Don't have a default constructor for time_point, so accessing it in the
     // complaints map is a bit difficult, those lambdas should cover it.
@@ -3254,7 +3370,7 @@ bool npc::complain_about( const std::string &issue, const time_duration &dur,
                                         !g->u.in_sleep_state() && !in_sleep_state() );
 
     if( complain_since( issue, dur ) && do_complain ) {
-        say( speech );
+        say( speech, alert );
         set_complain_since( issue );
         return true;
     }

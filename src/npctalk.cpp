@@ -205,7 +205,6 @@ void game::chat()
         .identifier( "sentence" )
         .max_length( 128 )
         .query();
-
         std::string sentence = popup.text();
         add_msg( _( "You yell, \"%s\"" ), sentence );
         u.shout( string_format( _( "%s yelling \"%s\"" ), u.disp_name(), sentence ) );
@@ -255,6 +254,44 @@ void npc::handle_sound( int priority, const std::string &description, int heard_
     if( sees( spos ) ) {
         return;
     }
+    // ignore low priority sounds if the NPC "knows" it came from a friend.
+    // @ todo NPC will need to respond to talking noise eventually
+    // but only for bantering purposes, not for investigating.
+    npc *const sound_source = g->critter_at<npc>( spos );
+    if( sound_source ) {
+        if( ( my_fac == sound_source->my_fac ||
+              get_attitude_group( get_attitude() ) == sound_source->get_attitude_group(
+                  sound_source->get_attitude() ) ) && ( priority < 6 ) ) {
+            add_msg( m_debug, "NPC ignored same faction %s", name.c_str() );
+            return;
+        }
+    }
+    // discount if sound source is player and listener is friendly
+    if( ( priority < 6 ) && spos == g->u.pos() && ( is_friend() ||
+            mission == NPC_MISSION_GUARD_ALLY ||
+            get_attitude_group( get_attitude() ) != attitude_group::hostile ) ) {
+        add_msg( m_debug, "NPC ignored player noise %s", name.c_str() );
+        return;
+    }
+    // patrolling guards will investigate more readily than stationary NPCS
+    int investigate_dist = 10;
+    if( mission == NPC_MISSION_GUARD_ALLY || mission == NPC_MISSION_GUARD_PATROL ) {
+        investigate_dist = 50;
+    }
+    if( priority > 3 && ai_cache.total_danger < 1.0f && rl_dist( pos(), spos ) < investigate_dist ) {
+        add_msg( m_debug, "NPC %s added noise at pos %d, %d", name.c_str(), spos.x, spos.y );
+        dangerous_sound temp_sound;
+        temp_sound.pos = spos;
+        temp_sound.volume = heard_volume;
+        temp_sound.type = priority;
+        if( !ai_cache.sound_alerts.empty() ) {
+            if( ai_cache.sound_alerts.back().pos != spos ) {
+                ai_cache.sound_alerts.push_back( temp_sound );
+            }
+        } else {
+            ai_cache.sound_alerts.push_back( temp_sound );
+        }
+    }
     add_msg( m_debug, "%s heard '%s', priority %d at volume %d from %d:%d, my pos %d:%d",
              disp_name(), description, priority, heard_volume, spos.x, spos.y, pos().x, pos().y );
     switch( priority ) {
@@ -269,7 +306,6 @@ void npc::handle_sound( int priority, const std::string &description, int heard_
             break;
         case 4: // movement is is only worth comment if we're not fighting and out of a vehicle
             if( ai_cache.total_danger < 1.0f && !in_vehicle ) {
-                // replace with warn_about when that merges
                 warn_about( "movement_noise", rng( 1, 10 ) * 1_minutes, description );
             }
             break;
@@ -532,10 +568,9 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
                 return _( "I'm holing up here for safety." );
             case NPC_MISSION_SHOPKEEP:
                 return _( "I run the shop here." );
-            case NPC_MISSION_BASE:
-                return _( "I'm guarding this location." );
             case NPC_MISSION_GUARD:
             case NPC_MISSION_GUARD_ALLY:
+            case NPC_MISSION_GUARD_PATROL:
                 return _( "I'm guarding this location." );
             case NPC_MISSION_NULL:
                 return p->myclass.obj().get_job_description();
@@ -1784,7 +1819,6 @@ void talk_effect_t::parse_string_effect( const std::string &type, JsonObject &jo
             WRAP( clear_mission ),
             WRAP( mission_reward ),
             WRAP( start_trade ),
-            WRAP( assign_base ),
             WRAP( assign_guard ),
             WRAP( stop_guard ),
             WRAP( start_camp ),
@@ -1957,8 +1991,525 @@ void read_dialogue_condition( JsonObject &jo, std::function<bool( const dialogue
     }
 }
 
+void conditional_t::set_has_any_trait( JsonObject &jo, const std::string &member, bool is_npc )
+{
+    std::vector<trait_id> traits_to_check;
+    for( auto &&f : jo.get_string_array( member ) ) { // *NOPAD*
+        traits_to_check.emplace_back( f );
+    }
+    condition = [traits_to_check, is_npc]( const dialogue & d ) {
+        player *actor = d.alpha;
+        if( is_npc ) {
+            actor = dynamic_cast<player *>( d.beta );
+        }
+        for( const auto &trait : traits_to_check ) {
+            if( actor->has_trait( trait ) ) {
+                return true;
+            }
+        }
+        return false;
+    };
+}
+
+void conditional_t::set_has_trait( JsonObject &jo, const std::string &member, bool is_npc )
+{
+    const std::string &trait_to_check = jo.get_string( member );
+    condition = [trait_to_check, is_npc]( const dialogue & d ) {
+        player *actor = d.alpha;
+        if( is_npc ) {
+            actor = dynamic_cast<player *>( d.beta );
+        }
+        return actor->has_trait( trait_id( trait_to_check ) );
+    };
+}
+
+void conditional_t::set_has_trait_flag( JsonObject &jo, const std::string &member, bool is_npc )
+{
+    const std::string &trait_flag_to_check = jo.get_string( member );
+    condition = [trait_flag_to_check, is_npc]( const dialogue & d ) {
+        player *actor = d.alpha;
+        if( is_npc ) {
+            actor = dynamic_cast<player *>( d.beta );
+        }
+        if( trait_flag_to_check == "MUTATION_THRESHOLD" ) {
+            return actor->crossed_threshold();
+        }
+        return actor->has_trait_flag( trait_flag_to_check );
+    };
+}
+
+void conditional_t::set_npc_has_class( JsonObject &jo )
+{
+    const std::string &class_to_check = jo.get_string( "npc_has_class" );
+    condition = [class_to_check]( const dialogue & d ) {
+        return d.beta->myclass == npc_class_id( class_to_check );
+    };
+}
+
+void conditional_t::set_u_has_mission( JsonObject &jo )
+{
+    const std::string &mission = jo.get_string( "u_has_mission" );
+    condition = [mission]( const dialogue & ) {
+        for( auto miss_it : g->u.get_active_missions() ) {
+            if( miss_it->mission_id() == mission_type_id( mission ) ) {
+                return true;
+            }
+        }
+        return false;
+    };
+}
+
+void conditional_t::set_has_strength( JsonObject &jo, const std::string &member, bool is_npc )
+{
+    const int min_strength = jo.get_int( member );
+    condition = [min_strength, is_npc]( const dialogue & d ) {
+        player *actor = d.alpha;
+        if( is_npc ) {
+            actor = dynamic_cast<player *>( d.beta );
+        }
+        return actor->str_cur >= min_strength;
+    };
+}
+
+void conditional_t::set_has_dexterity( JsonObject &jo, const std::string &member, bool is_npc )
+{
+    const int min_dexterity = jo.get_int( member );
+    condition = [min_dexterity, is_npc]( const dialogue & d ) {
+        player *actor = d.alpha;
+        if( is_npc ) {
+            actor = dynamic_cast<player *>( d.beta );
+        }
+        return actor->dex_cur >= min_dexterity;
+    };
+}
+
+void conditional_t::set_has_intelligence( JsonObject &jo, const std::string &member, bool is_npc )
+{
+    const int min_intelligence = jo.get_int( member );
+    condition = [min_intelligence, is_npc]( const dialogue & d ) {
+        player *actor = d.alpha;
+        if( is_npc ) {
+            actor = dynamic_cast<player *>( d.beta );
+        }
+        return actor->int_cur >= min_intelligence;
+    };
+}
+
+void conditional_t::set_has_perception( JsonObject &jo, const std::string &member, bool is_npc )
+{
+    const int min_perception = jo.get_int( member );
+    condition = [min_perception, is_npc]( const dialogue & d ) {
+        player *actor = d.alpha;
+        if( is_npc ) {
+            actor = dynamic_cast<player *>( d.beta );
+        }
+        return actor->per_cur >= min_perception;
+    };
+}
+
+void conditional_t::set_is_wearing( JsonObject &jo, const std::string &member, bool is_npc )
+{
+    const std::string &item_id = jo.get_string( member );
+    condition = [item_id, is_npc]( const dialogue & d ) {
+        player *actor = d.alpha;
+        if( is_npc ) {
+            actor = dynamic_cast<player *>( d.beta );
+        }
+        return actor->is_wearing( item_id );
+    };
+}
+
+void conditional_t::set_has_item( JsonObject &jo, const std::string &member, bool is_npc )
+{
+    const std::string &item_id = jo.get_string( member );
+    condition = [item_id, is_npc]( const dialogue & d ) {
+        player *actor = d.alpha;
+        if( is_npc ) {
+            actor = dynamic_cast<player *>( d.beta );
+        }
+        return actor->charges_of( item_id ) > 0 || actor->has_amount( item_id, 1 );
+    };
+}
+
+void conditional_t::set_has_items( JsonObject &jo, const std::string &member, bool is_npc )
+{
+    JsonObject has_items = jo.get_object( member );
+    if( !has_items.has_string( "item" ) || !has_items.has_int( "count" ) ) {
+        condition = []( const dialogue & ) {
+            return false;
+        };
+    } else {
+        const std::string item_id = has_items.get_string( "item" );
+        int count = has_items.get_int( "count" );
+        condition = [item_id, count, is_npc]( const dialogue & d ) {
+            player *actor = d.alpha;
+            if( is_npc ) {
+                actor = dynamic_cast<player *>( d.beta );
+            }
+            return actor->has_charges( item_id, count ) || actor->has_amount( item_id, count );
+        };
+    }
+}
+
+void conditional_t::set_has_effect( JsonObject &jo, const std::string &member, bool is_npc )
+{
+    const std::string &effect_id = jo.get_string( member );
+    condition = [effect_id, is_npc]( const dialogue & d ) {
+        player *actor = d.alpha;
+        if( is_npc ) {
+            actor = dynamic_cast<player *>( d.beta );
+        }
+        return actor->has_effect( efftype_id( effect_id ) );
+    };
+}
+
+void conditional_t::set_need( JsonObject &jo, const std::string &member, bool is_npc )
+{
+    const std::string &need = jo.get_string( member );
+    int amount = 0;
+    if( jo.has_int( "amount" ) ) {
+        amount = jo.get_int( "amount" );
+    } else if( jo.has_string( "level" ) ) {
+        const std::string &level = jo.get_string( "level" );
+        auto flevel = fatigue_level_strs.find( level );
+        if( flevel != fatigue_level_strs.end() ) {
+            amount = static_cast<int>( flevel->second );
+        }
+    }
+    condition = [need, amount, is_npc]( const dialogue & d ) {
+        player *actor = d.alpha;
+        if( is_npc ) {
+            actor = dynamic_cast<player *>( d.beta );
+        }
+        return ( actor->get_fatigue() > amount && need == "fatigue" ) ||
+               ( actor->get_hunger() > amount && need == "hunger" ) ||
+               ( actor->get_thirst() > amount && need == "thirst" );
+    };
+}
+
+void conditional_t::set_at_om_location( JsonObject &jo, const std::string &member, bool is_npc )
+{
+    const std::string &location = jo.get_string( member );
+    condition = [location, is_npc]( const dialogue & d ) {
+        player *actor = d.alpha;
+        if( is_npc ) {
+            actor = dynamic_cast<player *>( d.beta );
+        }
+        const tripoint omt_pos = actor->global_omt_location();
+        oter_id &omt_ref = overmap_buffer.ter( omt_pos );
+
+        if( location == "FACTION_CAMP_ANY" ) {
+            cata::optional<basecamp *> bcp = overmap_buffer.find_camp( omt_pos.x, omt_pos.y );
+            if( bcp ) {
+                return true;
+            }
+            // legacy check
+            const std::string &omt_str = omt_ref.id().c_str();
+            return omt_str.find( "faction_base_camp" ) != std::string::npos;
+        } else {
+            return omt_ref == oter_id( location );
+        }
+    };
+}
+
+void conditional_t::set_npc_role_nearby( JsonObject &jo )
+{
+    const std::string &role = jo.get_string( "npc_role_nearby" );
+    condition = [role]( const dialogue & d ) {
+        const std::vector<npc *> available = g->get_npcs_if( [&]( const npc & guy ) {
+            return d.alpha->posz() == guy.posz() && guy.companion_mission_role_id == role &&
+                   ( rl_dist( d.alpha->pos(), guy.pos() ) <= 48 );
+        } );
+        return !available.empty();
+    };
+}
+
+void conditional_t::set_npc_allies( JsonObject &jo )
+{
+    const unsigned long min_allies = jo.get_int( "npc_allies" );
+    condition = [min_allies]( const dialogue & ) {
+        return g->allies().size() >= min_allies;
+    };
+}
+
+void conditional_t::set_npc_service( JsonObject &jo )
+{
+    const unsigned long service_price = jo.get_int( "npc_service" );
+    condition = [service_price]( const dialogue & d ) {
+        return !d.beta->has_effect( effect_currently_busy ) && d.alpha->cash >= service_price;
+    };
+}
+
+void conditional_t::set_u_has_cash( JsonObject &jo )
+{
+    const unsigned long min_cash = jo.get_int( "u_has_cash" );
+    condition = [min_cash]( const dialogue & d ) {
+        return d.alpha->cash >= min_cash;
+    };
+}
+
+void conditional_t::set_npc_aim_rule( JsonObject &jo )
+{
+    const std::string &setting = jo.get_string( "npc_aim_rule" );
+    condition = [setting]( const dialogue & d ) {
+        auto rule = aim_rule_strs.find( setting );
+        if( rule != aim_rule_strs.end() ) {
+            return d.beta->rules.aim == rule->second;
+        }
+        return false;
+    };
+}
+
+void conditional_t::set_npc_engagement_rule( JsonObject &jo )
+{
+    const std::string &setting = jo.get_string( "npc_engagement_rule" );
+    condition = [setting]( const dialogue & d ) {
+        auto rule = combat_engagement_strs.find( setting );
+        if( rule != combat_engagement_strs.end() ) {
+            return d.beta->rules.engagement == rule->second;
+        }
+        return false;
+    };
+}
+
+void conditional_t::set_npc_rule( JsonObject &jo )
+{
+    std::string rule = jo.get_string( "npc_rule" );
+    condition = [rule]( const dialogue & d ) {
+        auto flag = ally_rule_strs.find( rule );
+        if( flag != ally_rule_strs.end() ) {
+            return d.beta->rules.has_flag( flag->second );
+        }
+        return false;
+    };
+}
+
+void conditional_t::set_days_since( JsonObject &jo )
+{
+    const unsigned long days = jo.get_int( "days_since_cataclysm" );
+    condition = [days]( const dialogue & ) {
+        return to_turn<int>( calendar::turn ) >= DAYS( days );
+    };
+}
+
+void conditional_t::set_is_season( JsonObject &jo )
+{
+    std::string season_name = jo.get_string( "is_season" );
+    condition = [season_name]( const dialogue & ) {
+        const auto season = season_of_year( calendar::turn );
+        return ( season == SPRING && season_name == "spring" ) ||
+               ( season == SUMMER && season_name == "summer" ) ||
+               ( season == AUTUMN && season_name == "autumn" ) ||
+               ( season == WINTER && season_name == "winter" );
+    };
+}
+
+void conditional_t::set_mission_goal( JsonObject &jo )
+{
+    std::string mission_goal_str = jo.get_string( "mission_goal" );
+    condition = [mission_goal_str]( const dialogue & d ) {
+        mission *miss = d.beta->chatbin.mission_selected;
+        const auto mgoal = mission_goal_strs.find( mission_goal_str );
+        if( !miss || mgoal == mission_goal_strs.end() ) {
+            return false;
+        }
+        return miss->get_type().goal == mgoal->second;
+    };
+}
+
+void conditional_t::set_is_gender( bool is_male, bool is_npc )
+{
+    condition = [is_male, is_npc]( const dialogue & d ) {
+        player *actor = d.alpha;
+        if( is_npc ) {
+            actor = dynamic_cast<player *>( d.beta );
+        }
+        return actor->male == is_male;
+    };
+}
+
+void conditional_t::set_no_assigned_mission()
+{
+    condition = []( const dialogue & d ) {
+        return d.missions_assigned.empty();
+    };
+}
+
+void conditional_t::set_has_assigned_mission()
+{
+    condition = []( const dialogue & d ) {
+        return d.missions_assigned.size() == 1;
+    };
+}
+
+void conditional_t::set_has_many_assigned_missions()
+{
+    condition = []( const dialogue & d ) {
+        return d.missions_assigned.size() >= 2;
+    };
+}
+
+void conditional_t::set_no_available_mission()
+{
+    condition = []( const dialogue & d ) {
+        return d.beta->chatbin.missions.empty();
+    };
+}
+
+void conditional_t::set_has_available_mission()
+{
+    condition = []( const dialogue & d ) {
+        return d.beta->chatbin.missions.size() == 1;
+    };
+}
+
+void conditional_t::set_has_many_available_missions()
+{
+    condition = []( const dialogue & d ) {
+        return d.beta->chatbin.missions.size() >= 2;
+    };
+}
+
+void conditional_t::set_mission_complete()
+{
+    condition = []( const dialogue & d ) {
+        mission *miss = d.beta->chatbin.mission_selected;
+        if( !miss ) {
+            return false;
+        }
+        return miss->is_complete( d.beta->getID() );
+    };
+}
+
+void conditional_t::set_mission_incomplete()
+{
+    condition = []( const dialogue & d ) {
+        mission *miss = d.beta->chatbin.mission_selected;
+        if( !miss ) {
+            return false;
+        }
+        return !miss->is_complete( d.beta->getID() );
+    };
+}
+
+void conditional_t::set_npc_available()
+{
+    condition = []( const dialogue & d ) {
+        return !d.beta->has_effect( effect_currently_busy );
+    };
+}
+
+void conditional_t::set_npc_following()
+{
+    condition = []( const dialogue & d ) {
+        return d.beta->is_following();
+    };
+}
+
+void conditional_t::set_npc_friend()
+{
+    condition = []( const dialogue & d ) {
+        return d.beta->is_friend();
+    };
+}
+
+void conditional_t::set_npc_hostile()
+{
+    condition = []( const dialogue & d ) {
+        return d.beta->is_enemy();
+    };
+}
+
+void conditional_t::set_npc_train_skills()
+{
+    condition = []( const dialogue & d ) {
+        return !d.beta->skills_offered_to( *d.alpha ).empty();
+    };
+}
+
+void conditional_t::set_npc_train_styles()
+{
+    condition = []( const dialogue & d ) {
+        return !d.beta->styles_offered_to( *d.alpha ).empty();
+    };
+}
+
+void conditional_t::set_at_safe_space()
+{
+    condition = []( const dialogue & d ) {
+        return overmap_buffer.is_safe( d.beta->global_omt_location() );
+    };
+}
+
+void conditional_t::set_can_stow_weapon( bool is_npc )
+{
+    condition = [is_npc]( const dialogue & d ) {
+        player *actor = d.alpha;
+        if( is_npc ) {
+            actor = dynamic_cast<player *>( d.beta );
+        }
+        return !actor->unarmed_attack() && actor->can_pickVolume( actor->weapon );
+    };
+}
+
+void conditional_t::set_has_weapon( bool is_npc )
+{
+    condition = [is_npc]( const dialogue & d ) {
+        player *actor = d.alpha;
+        if( is_npc ) {
+            actor = dynamic_cast<player *>( d.beta );
+        }
+        return !actor->unarmed_attack();
+    };
+}
+
+void conditional_t::set_is_driving( bool is_npc )
+{
+    condition = [is_npc]( const dialogue & d ) {
+        player *actor = d.alpha;
+        if( is_npc ) {
+            actor = dynamic_cast<player *>( d.beta );
+        }
+        if( const optional_vpart_position vp = g->m.veh_at( actor->pos() ) ) {
+            return vp->vehicle().is_moving() && vp->vehicle().player_in_control( *actor );
+        }
+        return false;
+    };
+}
+
+void conditional_t::set_is_day()
+{
+    condition = []( const dialogue & ) {
+        return !calendar::turn.is_night();
+    };
+}
+
+void conditional_t::set_is_outside()
+{
+    condition = []( const dialogue & d ) {
+        const tripoint pos = g->m.getabs( d.beta->pos() );
+        return !g->m.has_flag( TFLAG_INDOORS, pos );
+    };
+}
+
+void conditional_t::set_u_has_camp()
+{
+    condition = []( const dialogue & ) {
+        return !g->u.camps.empty();
+    };
+}
+
+void conditional_t::set_has_pickup_list()
+{
+    condition = []( const dialogue & d ) {
+        return !d.beta->rules.pickup_whitelist->empty();
+    };
+}
+
 conditional_t::conditional_t( JsonObject jo )
 {
+    // improve the clarity of NPC setter functions
+    const bool is_npc = true;
     const auto parse_array = []( JsonObject jo, const std::string & type ) {
         std::vector<conditional_t> conditionals;
         JsonArray ja = jo.get_array( type );
@@ -2006,249 +2557,84 @@ conditional_t::conditional_t( JsonObject jo )
             return !sub_condition( d );
         };
     } else if( jo.has_member( "u_has_any_trait" ) ) {
-        std::vector<trait_id> traits_to_check;
-        for( auto &&f : jo.get_string_array( "u_has_any_trait" ) ) { // *NOPAD*
-            traits_to_check.emplace_back( f );
-        }
-        condition = [traits_to_check]( const dialogue & d ) {
-            for( const auto &trait : traits_to_check ) {
-                if( d.alpha->has_trait( trait ) ) {
-                    return true;
-                }
-            }
-            return false;
-        };
+        set_has_any_trait( jo, "u_has_any_trait" );
     } else if( jo.has_member( "npc_has_any_trait" ) ) {
-        std::vector<trait_id> traits_to_check;
-        for( auto &&f : jo.get_string_array( "npc_has_any_trait" ) ) { // *NOPAD*
-            traits_to_check.emplace_back( f );
-        }
-        condition = [traits_to_check]( const dialogue & d ) {
-            for( const auto &trait : traits_to_check ) {
-                if( d.beta->has_trait( trait ) ) {
-                    return true;
-                }
-            }
-            return false;
-        };
+        set_has_any_trait( jo, "npc_has_any_trait", true );
     } else if( jo.has_member( "u_has_trait" ) ) {
-        std::string trait_to_check = jo.get_string( "u_has_trait" );
-        condition = [trait_to_check]( const dialogue & d ) {
-            return d.alpha->has_trait( trait_id( trait_to_check ) );
-        };
+        set_has_trait( jo, "u_has_trait" );
     } else if( jo.has_member( "npc_has_trait" ) ) {
-        std::string trait_to_check = jo.get_string( "npc_has_trait" );
-        condition = [trait_to_check]( const dialogue & d ) {
-            return d.beta->has_trait( trait_id( trait_to_check ) );
-        };
+        set_has_trait( jo, "npc_has_trait", true );
     } else if( jo.has_member( "u_has_trait_flag" ) ) {
-        std::string trait_flag_to_check = jo.get_string( "u_has_trait_flag" );
-        condition = [trait_flag_to_check]( const dialogue & d ) {
-            if( trait_flag_to_check == "MUTATION_THRESHOLD" ) {
-                return d.alpha->crossed_threshold();
-            }
-            return d.alpha->has_trait_flag( trait_flag_to_check );
-        };
+        set_has_trait_flag( jo, "u_has_trait_flag" );
     } else if( jo.has_member( "npc_has_trait_flag" ) ) {
-        std::string trait_flag_to_check = jo.get_string( "npc_has_trait_flag" );
-        condition = [trait_flag_to_check]( const dialogue & d ) {
-            if( trait_flag_to_check == "MUTATION_THRESHOLD" ) {
-                return d.beta->crossed_threshold();
-            }
-            return d.beta->has_trait_flag( trait_flag_to_check );
-        };
+        set_has_trait_flag( jo, "npc_has_trait_flag", true );
     } else if( jo.has_member( "npc_has_class" ) ) {
-        std::string class_to_check = jo.get_string( "npc_has_class" );
-        condition = [class_to_check]( const dialogue & d ) {
-            return d.beta->myclass == npc_class_id( class_to_check );
-        };
+        set_npc_has_class( jo );
     } else if( jo.has_string( "u_has_mission" ) ) {
-        const std::string &mission = jo.get_string( "u_has_mission" );
-        condition = [mission]( const dialogue & ) {
-            for( auto miss_it : g->u.get_active_missions() ) {
-                if( miss_it->mission_id() == mission_type_id( mission ) ) {
-                    return true;
-                }
-            }
-            return false;
-        };
+        set_u_has_mission( jo );
     } else if( jo.has_int( "u_has_strength" ) ) {
-        const int min_strength = jo.get_int( "u_has_strength" );
-        condition = [min_strength]( const dialogue & d ) {
-            return d.alpha->str_cur >= min_strength;
-        };
+        set_has_strength( jo, "u_has_strength" );
+    } else if( jo.has_int( "npc_has_strength" ) ) {
+        set_has_strength( jo, "npc_has_strength", is_npc );
     } else if( jo.has_int( "u_has_dexterity" ) ) {
-        const int min_dexterity = jo.get_int( "u_has_dexterity" );
-        condition = [min_dexterity]( const dialogue & d ) {
-            return d.alpha->dex_cur >= min_dexterity;
-        };
+        set_has_dexterity( jo, "u_has_dexterity" );
+    } else if( jo.has_int( "npc_has_dexterity" ) ) {
+        set_has_dexterity( jo, "npc_has_dexterity", is_npc );
     } else if( jo.has_int( "u_has_intelligence" ) ) {
-        const int min_intelligence = jo.get_int( "u_has_intelligence" );
-        condition = [min_intelligence]( const dialogue & d ) {
-            return d.alpha->int_cur >= min_intelligence;
-        };
+        set_has_intelligence( jo, "u_has_intelligence" );
+    } else if( jo.has_int( "npc_has_intelligence" ) ) {
+        set_has_intelligence( jo, "npc_has_intelligence", is_npc );
     } else if( jo.has_int( "u_has_perception" ) ) {
-        const int min_perception = jo.get_int( "u_has_perception" );
-        condition = [min_perception]( const dialogue & d ) {
-            return d.alpha->per_cur >= min_perception;
-        };
+        set_has_perception( jo, "u_has_perception" );
+    } else if( jo.has_int( "npc_has_perception" ) ) {
+        set_has_perception( jo, "npc_has_perception", is_npc );
     } else if( jo.has_string( "u_is_wearing" ) ) {
-        const std::string item_id = jo.get_string( "u_is_wearing" );
-        condition = [item_id]( const dialogue & d ) {
-            return d.alpha->is_wearing( item_id );
-        };
+        set_is_wearing( jo, "u_is_wearing" );
+    } else if( jo.has_string( "npc_is_wearing" ) ) {
+        set_is_wearing( jo, "npc_is_wearing", is_npc );
     } else if( jo.has_string( "u_has_item" ) ) {
-        const std::string item_id = jo.get_string( "u_has_item" );
-        condition = [item_id]( const dialogue & d ) {
-            return d.alpha->charges_of( item_id ) > 0 || d.alpha->has_amount( item_id, 1 );
-        };
+        set_has_item( jo, "u_has_item" );
+    } else if( jo.has_string( "npc_has_item" ) ) {
+        set_has_item( jo, "npc_has_item", is_npc );
     } else if( jo.has_member( "u_has_items" ) ) {
-        JsonObject has_items = jo.get_object( "u_has_items" );
-        if( !has_items.has_string( "item" ) || !has_items.has_int( "count" ) ) {
-            condition = []( const dialogue & ) {
-                return false;
-            };
-        } else {
-            const std::string item_id = has_items.get_string( "item" );
-            int count = has_items.get_int( "count" );
-            condition = [item_id, count]( const dialogue & d ) {
-                return d.alpha->has_charges( item_id, count ) ||
-                       d.alpha->has_amount( item_id, count );
-            };
-        }
-    } else if( jo.has_string( "npc_has_effect" ) ) {
-        const std::string &effect = jo.get_string( "npc_has_effect" );
-        condition = [effect]( const dialogue & d ) {
-            return d.beta->has_effect( efftype_id( effect ) );
-        };
+        set_has_items( jo, "u_has_items" );
+    } else if( jo.has_member( "npc_has_items" ) ) {
+        set_has_items( jo, "npc_has_items", is_npc );
     } else if( jo.has_string( "u_has_effect" ) ) {
-        const std::string &effect = jo.get_string( "u_has_effect" );
-        condition = [effect]( const dialogue & d ) {
-            return d.alpha->has_effect( efftype_id( effect ) );
-        };
+        set_has_effect( jo, "u_has_effect" );
+    } else if( jo.has_string( "npc_has_effect" ) ) {
+        set_has_effect( jo, "npc_has_effect", is_npc );
+    } else if( jo.has_string( "u_need" ) ) {
+        set_need( jo, "u_need" );
     } else if( jo.has_string( "npc_need" ) ) {
-        const std::string need = jo.get_string( "npc_need" );
-        int amount = 0;
-        if( jo.has_int( "amount" ) ) {
-            amount = jo.get_int( "amount" );
-        } else if( jo.has_string( "level" ) ) {
-            const std::string &level = jo.get_string( "level" );
-            auto flevel = fatigue_level_strs.find( level );
-            if( flevel != fatigue_level_strs.end() ) {
-                amount = static_cast<int>( flevel->second );
-            }
-        }
-        condition = [need, amount]( const dialogue & d ) {
-            npc &p = *d.beta;
-            return ( p.get_fatigue() > amount && need == "fatigue" ) ||
-                   ( p.get_hunger() > amount && need == "hunger" ) ||
-                   ( p.get_thirst() > amount && need == "thirst" );
-        };
+        set_need( jo, "npc_need", is_npc );
     } else if( jo.has_string( "u_at_om_location" ) ) {
-        const std::string &location = jo.get_string( "u_at_om_location" );
-        condition = [location]( const dialogue & d ) {
-            const tripoint omt_pos = d.alpha->global_omt_location();
-            oter_id &omt_ref = overmap_buffer.ter( omt_pos );
-
-            if( location == "FACTION_CAMP_ANY" ) {
-                if( g->m.camp_at( omt_pos ) ) {
-                    return true;
-                }
-                // legacy check
-                const std::string &omt_str = omt_ref.id().c_str();
-                return omt_str.find( "faction_base_camp" ) != std::string::npos;
-            } else {
-                return omt_ref == oter_id( location );
-            }
-        };
+        set_at_om_location( jo, "u_at_om_location" );
+    } else if( jo.has_string( "npc_at_om_location" ) ) {
+        set_at_om_location( jo, "npc_at_om_location", is_npc );
     } else if( jo.has_string( "npc_role_nearby" ) ) {
-        const std::string &role = jo.get_string( "npc_role_nearby" );
-        condition = [role]( const dialogue & d ) {
-            const std::vector<npc *> available = g->get_npcs_if( [&]( const npc & guy ) {
-                return d.alpha->posz() == guy.posz() && guy.companion_mission_role_id == role &&
-                       ( rl_dist( d.alpha->pos(), guy.pos() ) <= 48 );
-            } );
-            return !available.empty();
-        };
+        set_npc_role_nearby( jo );
     } else if( jo.has_int( "npc_allies" ) ) {
-        const unsigned long min_allies = jo.get_int( "npc_allies" );
-        condition = [min_allies]( const dialogue & ) {
-            return g->allies().size() >= min_allies;
-        };
+        set_npc_allies( jo );
     } else if( jo.has_int( "npc_service" ) ) {
-        const unsigned long service_price = jo.get_int( "npc_service" );
-        condition = [service_price]( const dialogue & d ) {
-            return !d.beta->has_effect( effect_currently_busy ) && d.alpha->cash >= service_price;
-        };
+        set_npc_service( jo );
     } else if( jo.has_int( "u_has_cash" ) ) {
-        const unsigned long min_cash = jo.get_int( "u_has_cash" );
-        condition = [min_cash]( const dialogue & d ) {
-            return d.alpha->cash >= min_cash;
-        };
+        set_u_has_cash( jo );
     } else if( jo.has_string( "npc_aim_rule" ) ) {
-        std::string setting = jo.get_string( "npc_aim_rule" );
-        condition = [setting]( const dialogue & d ) {
-            auto rule = aim_rule_strs.find( setting );
-            if( rule != aim_rule_strs.end() ) {
-                return d.beta->rules.aim == rule->second;
-            }
-            return false;
-        };
+        set_npc_aim_rule( jo );
     } else if( jo.has_string( "npc_engagement_rule" ) ) {
-        std::string setting = jo.get_string( "npc_engagement_rule" );
-        condition = [setting]( const dialogue & d ) {
-            auto rule = combat_engagement_strs.find( setting );
-            if( rule != combat_engagement_strs.end() ) {
-                return d.beta->rules.engagement == rule->second;
-            }
-            return false;
-        };
+        set_npc_engagement_rule( jo );
     } else if( jo.has_string( "npc_rule" ) ) {
-        std::string rule = jo.get_string( "npc_rule" );
-        condition = [rule]( const dialogue & d ) {
-            auto flag = ally_rule_strs.find( rule );
-            if( flag != ally_rule_strs.end() ) {
-                return d.beta->rules.has_flag( flag->second );
-            }
-            return false;
-        };
+        set_npc_rule( jo );
     } else if( jo.has_int( "days_since_cataclysm" ) ) {
-        const unsigned long days = jo.get_int( "days_since_cataclysm" );
-        condition = [days]( const dialogue & ) {
-            return to_turn<int>( calendar::turn ) >= DAYS( days );
-        };
+        set_days_since( jo );
     } else if( jo.has_string( "is_season" ) ) {
-        std::string season_name = jo.get_string( "is_season" );
-        condition = [season_name]( const dialogue & ) {
-            const auto season = season_of_year( calendar::turn );
-            return ( season == SPRING && season_name == "spring" ) ||
-                   ( season == SUMMER && season_name == "summer" ) ||
-                   ( season == AUTUMN && season_name == "autumn" ) ||
-                   ( season == WINTER && season_name == "winter" );
-        };
+        set_is_season( jo );
     } else if( jo.has_string( "mission_goal" ) ) {
-        std::string mission_goal_str = jo.get_string( "mission_goal" );
-        condition = [mission_goal_str]( const dialogue & d ) {
-            mission *miss = d.beta->chatbin.mission_selected;
-            const auto mgoal = mission_goal_strs.find( mission_goal_str );
-            if( !miss || mgoal == mission_goal_strs.end() ) {
-                return false;
-            }
-            return miss->get_type().goal == mgoal->second;
-        };
+        set_mission_goal( jo );
     } else {
-        static const std::unordered_set<std::string> simple_string_conds = { {
-                "has_assigned_mission", "has_many_assigned_missions", "has_no_available_mission",
-                "has_available_mission", "has_many_available_missions",
-                "mission_complete", "mission_incomplete",
-                "npc_available", "npc_following", "npc_friend", "npc_hostile",
-                "npc_train_skills", "npc_train_styles",
-                "at_safe_space", "u_can_stow_weapon", "u_has_weapon", "npc_has_weapon",
-                "is_day", "is_outside", "u_has_camp"
-            }
-        };
         bool found_sub_member = false;
-        for( const std::string &sub_member : simple_string_conds ) {
+        for( const std::string &sub_member : dialogue_data::simple_string_conds ) {
             if( jo.has_string( sub_member ) ) {
                 const conditional_t sub_condition( jo.get_string( sub_member ) );
                 condition = [sub_condition]( const dialogue & d ) {
@@ -2268,100 +2654,65 @@ conditional_t::conditional_t( JsonObject jo )
 
 conditional_t::conditional_t( const std::string &type )
 {
-    if( type == "has_no_assigned_mission" ) {
-        condition = []( const dialogue & d ) {
-            return d.missions_assigned.empty();
-        };
+    const bool is_npc = true;
+    if( type == "u_male" ) {
+        set_is_gender( true );
+    } else if( type == "npc_male" ) {
+        set_is_gender( true, is_npc );
+    } else if( type == "u_female" ) {
+        set_is_gender( false );
+    } else if( type == "npc_female" ) {
+        set_is_gender( false, is_npc );
+    } else if( type == "has_no_assigned_mission" ) {
+        set_no_assigned_mission();
     } else if( type == "has_assigned_mission" ) {
-        condition = []( const dialogue & d ) {
-            return d.missions_assigned.size() == 1;
-        };
+        set_has_assigned_mission();
     } else if( type == "has_many_assigned_missions" ) {
-        condition = []( const dialogue & d ) {
-            return d.missions_assigned.size() >= 2;
-        };
+        set_has_many_assigned_missions();
     } else if( type == "has_no_available_mission" ) {
-        condition = []( const dialogue & d ) {
-            return d.beta->chatbin.missions.empty();
-        };
+        set_no_available_mission();
     } else if( type == "has_available_mission" ) {
-        condition = []( const dialogue & d ) {
-            return d.beta->chatbin.missions.size() == 1;
-        };
+        set_has_available_mission();
     } else if( type == "has_many_available_missions" ) {
-        condition = []( const dialogue & d ) {
-            return d.beta->chatbin.missions.size() >= 2;
-        };
+        set_has_many_available_missions();
     } else if( type == "mission_complete" ) {
-        condition = []( const dialogue & d ) {
-            mission *miss = d.beta->chatbin.mission_selected;
-            if( !miss ) {
-                return false;
-            }
-            return miss->is_complete( d.beta->getID() );
-        };
+        set_mission_complete();
     } else if( type == "mission_incomplete" ) {
-        condition = []( const dialogue & d ) {
-            mission *miss = d.beta->chatbin.mission_selected;
-            if( !miss ) {
-                return false;
-            }
-            return !miss->is_complete( d.beta->getID() );
-        };
+        set_mission_incomplete();
     } else if( type == "npc_available" ) {
-        condition = []( const dialogue & d ) {
-            return !d.beta->has_effect( effect_currently_busy );
-        };
+        set_npc_available();
     } else if( type == "npc_following" ) {
-        condition = []( const dialogue & d ) {
-            return d.beta->is_following();
-        };
+        set_npc_following();
     } else if( type == "npc_friend" ) {
-        condition = []( const dialogue & d ) {
-            return d.beta->is_friend();
-        };
+        set_npc_friend();
     } else if( type == "npc_hostile" ) {
-        condition = []( const dialogue & d ) {
-            return d.beta->is_enemy();
-        };
+        set_npc_hostile();
     } else if( type == "npc_train_skills" ) {
-        condition = []( const dialogue & d ) {
-            return !d.beta->skills_offered_to( *d.alpha ).empty();
-        };
+        set_npc_train_skills();
     } else if( type == "npc_train_styles" ) {
-        condition = []( const dialogue & d ) {
-            return !d.beta->styles_offered_to( *d.alpha ).empty();
-        };
+        set_npc_train_styles();
     } else if( type == "at_safe_space" ) {
-        condition = []( const dialogue & d ) {
-            return overmap_buffer.is_safe( d.beta->global_omt_location() );
-        };
+        set_at_safe_space();
     } else if( type == "u_can_stow_weapon" ) {
-        condition = []( const dialogue & d ) {
-            return !d.alpha->unarmed_attack() && ( d.alpha->volume_carried() +
-                                                   d.alpha->weapon.volume() <= d.alpha->volume_capacity() );
-        };
+        set_can_stow_weapon();
+    } else if( type == "npc_can_stow_weapon" ) {
+        set_can_stow_weapon( is_npc );
     } else if( type == "u_has_weapon" ) {
-        condition = []( const dialogue & d ) {
-            return !d.alpha->unarmed_attack();
-        };
+        set_has_weapon();
     } else if( type == "npc_has_weapon" ) {
-        condition = []( const dialogue & d ) {
-            return !d.beta->unarmed_attack();
-        };
+        set_has_weapon( is_npc );
+    } else if( type == "u_driving" ) {
+        set_is_driving();
+    } else if( type == "npc_driving" ) {
+        set_is_driving( is_npc );
     } else if( type == "is_day" ) {
-        condition = []( const dialogue & ) {
-            return !calendar::turn.is_night();
-        };
+        set_is_day();
     } else if( type == "is_outside" ) {
-        condition = []( const dialogue & d ) {
-            const tripoint pos = g->m.getabs( d.beta->pos() );
-            return !g->m.has_flag( TFLAG_INDOORS, pos );
-        };
+        set_is_outside();
     } else if( type == "u_has_camp" ) {
-        condition = []( const dialogue & ) {
-            return !g->u.camps.empty();
-        };
+        set_u_has_camp();
+    } else if( type == "has_pickup_list" ) {
+        set_has_pickup_list();
     } else {
         condition = []( const dialogue & ) {
             return false;
@@ -2438,284 +2789,39 @@ dynamic_line_t::dynamic_line_t( JsonObject jo )
             }
             return all_lines;
         };
-    } else if( jo.has_member( "u_male" ) && jo.has_member( "u_female" ) ) {
-        const dynamic_line_t u_male = from_member( jo, "u_male" );
-        const dynamic_line_t u_female = from_member( jo, "u_female" );
-        function = [u_male, u_female]( const dialogue & d ) {
-            return ( d.alpha->male ? u_male : u_female )( d );
-        };
-    } else if( jo.has_member( "npc_male" ) && jo.has_member( "npc_female" ) ) {
-        const dynamic_line_t npc_male = from_member( jo, "npc_male" );
-        const dynamic_line_t npc_female = from_member( jo, "npc_female" );
-        function = [npc_male, npc_female]( const dialogue & d ) {
-            return ( d.beta->male ? npc_male : npc_female )( d );
-        };
-    } else if( jo.has_member( "u_has_weapon" ) && jo.has_member( "u_unarmed" ) ) {
-        const dynamic_line_t u_has_weapon = from_member( jo, "u_has_weapon" );
-        const dynamic_line_t u_unarmed = from_member( jo, "u_unarmed" );
-        function = [u_has_weapon, u_unarmed]( const dialogue & d ) {
-            return ( d.alpha->unarmed_attack() ? u_unarmed : u_has_weapon )( d );
-        };
-    } else if( jo.has_member( "u_is_wearing" ) ) {
-        const std::string item_id = jo.get_string( "u_is_wearing" );
-        const dynamic_line_t yes = from_member( jo, "yes" );
-        const dynamic_line_t no = from_member( jo, "no" );
-        function = [item_id, yes, no]( const dialogue & d ) {
-            const bool wearing = d.alpha->is_wearing( item_id );
-            return ( wearing ? yes : no )( d );
-        };
-    } else if( jo.has_member( "u_has_item" ) ) {
-        const std::string item_id = jo.get_string( "u_has_item" );
-        const dynamic_line_t yes = from_member( jo, "yes" );
-        const dynamic_line_t no = from_member( jo, "no" );
-        function = [item_id, yes, no]( const dialogue & d ) {
-            const bool has_it = d.alpha->has_charges( item_id, 1 ) ||
-                                d.alpha->has_amount( item_id, 1 );
-            return ( has_it ? yes : no )( d );
-        };
-    } else if( jo.has_member( "npc_has_effect" ) ) {
-        const std::string effect_id = jo.get_string( "npc_has_effect" );
-        const dynamic_line_t yes = from_member( jo, "yes" );
-        const dynamic_line_t no = from_member( jo, "no" );
-        function = [effect_id, yes, no]( const dialogue & d ) {
-            const bool in_effect = d.beta->has_effect( efftype_id( effect_id ) );
-            return ( in_effect ? yes : no )( d );
-        };
-    } else if( jo.has_member( "u_has_effect" ) ) {
-        const std::string effect_id = jo.get_string( "u_has_effect" );
-        const dynamic_line_t yes = from_member( jo, "yes" );
-        const dynamic_line_t no = from_member( jo, "no" );
-        function = [effect_id, yes, no]( const dialogue & d ) {
-            const bool in_effect = d.alpha->has_effect( efftype_id( effect_id ) );
-            return ( in_effect ? yes : no )( d );
-        };
-    } else if( jo.has_member( "u_has_any_trait" ) ) {
-        std::vector<trait_id> traits_to_check;
-        for( auto &&f : jo.get_string_array( "u_has_any_trait" ) ) { // *NOPAD*
-            traits_to_check.emplace_back( f );
-        }
-        const dynamic_line_t yes = from_member( jo, "yes" );
-        const dynamic_line_t no = from_member( jo, "no" );
-        function = [traits_to_check, yes, no]( const dialogue & d ) {
-            for( const auto &trait : traits_to_check ) {
-                if( d.alpha->has_trait( trait ) ) {
-                    return yes( d );
-                }
-            }
-            return no( d );
-        };
-    } else if( jo.has_member( "npc_has_any_trait" ) ) {
-        std::vector<trait_id> traits_to_check;
-        for( auto &&f : jo.get_string_array( "npc_has_any_trait" ) ) { // *NOPAD*
-            traits_to_check.emplace_back( f );
-        }
-        const dynamic_line_t yes = from_member( jo, "yes" );
-        const dynamic_line_t no = from_member( jo, "no" );
-        function = [traits_to_check, yes, no]( const dialogue & d ) {
-            for( const auto &trait : traits_to_check ) {
-                if( d.beta->has_trait( trait ) ) {
-                    return yes( d );
-                }
-            }
-            return no( d );
-        };
-    } else if( jo.has_member( "u_has_trait" ) ) {
-        std::string trait_to_check = jo.get_string( "u_has_trait" );
-        const dynamic_line_t yes = from_member( jo, "yes" );
-        const dynamic_line_t no = from_member( jo, "no" );
-        function = [trait_to_check, yes, no]( const dialogue & d ) {
-            if( d.alpha->has_trait( trait_id( trait_to_check ) ) ) {
-                return yes( d );
-            }
-            return no( d );
-        };
-    } else if( jo.has_member( "npc_has_trait" ) ) {
-        std::string trait_to_check = jo.get_string( "npc_has_trait" );
-        const dynamic_line_t yes = from_member( jo, "yes" );
-        const dynamic_line_t no = from_member( jo, "no" );
-        function = [trait_to_check, yes, no]( const dialogue & d ) {
-            if( d.beta->has_trait( trait_id( trait_to_check ) ) ) {
-                return yes( d );
-            }
-            return no( d );
-        };
-    } else if( jo.has_member( "u_has_trait_flag" ) ) {
-        std::string trait_flag_to_check = jo.get_string( "u_has_trait_flag" );
-        const dynamic_line_t yes = from_member( jo, "yes" );
-        const dynamic_line_t no = from_member( jo, "no" );
-        function = [trait_flag_to_check, yes, no]( const dialogue & d ) {
-            if( trait_flag_to_check == "MUTATION_THRESHOLD" && d.alpha->crossed_threshold() ) {
-                return yes( d );
-            } else if( d.alpha->has_trait_flag( trait_flag_to_check ) ) {
-                return yes( d );
-            }
-            return no( d );
-        };
-    } else if( jo.has_member( "npc_has_trait_flag" ) ) {
-        std::string trait_flag_to_check = jo.get_string( "npc_has_trait_flag" );
-        const dynamic_line_t yes = from_member( jo, "yes" );
-        const dynamic_line_t no = from_member( jo, "no" );
-        function = [trait_flag_to_check, yes, no]( const dialogue & d ) {
-            if( trait_flag_to_check == "MUTATION_THRESHOLD" && d.beta->crossed_threshold() ) {
-                return yes( d );
-            } else if( d.beta->has_trait_flag( trait_flag_to_check ) ) {
-                return yes( d );
-            }
-            return no( d );
-        };
-    } else if( jo.has_member( "npc_has_class" ) ) {
-        std::string class_to_check = jo.get_string( "npc_has_class" );
-        const dynamic_line_t yes = from_member( jo, "yes" );
-        const dynamic_line_t no = from_member( jo, "no" );
-        function = [class_to_check, yes, no]( const dialogue & d ) {
-            if( d.beta->myclass == npc_class_id( class_to_check ) ) {
-                return yes( d );
-            }
-            return no( d );
-        };
-    } else if( jo.has_member( "npc_has_mission" ) ) {
-        const dynamic_line_t none = from_member( jo, "none" );
-        const dynamic_line_t one = from_member( jo, "one" );
-        const dynamic_line_t many = from_member( jo, "many" );
-        function = [none, one, many]( const dialogue & d ) {
-            if( d.beta->chatbin.missions.empty() ) {
-                return none( d );
-            } else if( d.beta->chatbin.missions.size() == 1 ) {
-                return one( d );
-            }
-            return many( d );
-        };
-    } else if( jo.has_member( "u_has_mission" ) ) {
-        const dynamic_line_t none = from_member( jo, "none" );
-        const dynamic_line_t one = from_member( jo, "one" );
-        const dynamic_line_t many = from_member( jo, "many" );
-        function = [none, one, many]( const dialogue & d ) {
-            if( d.missions_assigned.empty() ) {
-                return none( d );
-            } else if( d.missions_assigned.size() == 1 ) {
-                return one( d );
-            }
-            return many( d );
-        };
-    } else if( jo.has_member( "days_since_cataclysm" ) ) {
-        const unsigned long days = jo.get_int( "days_since_cataclysm" );
-        const dynamic_line_t yes = from_member( jo, "yes" );
-        const dynamic_line_t no = from_member( jo, "no" );
-        function = [days, yes, no]( const dialogue & d ) {
-            if( to_turn<int>( calendar::turn ) >= DAYS( days ) ) {
-                return yes( d );
-            }
-            return no( d );
-        };
-    } else if( jo.has_member( "is_season" ) ) {
-        std::string season_name = jo.get_string( "is_season" );
-        const dynamic_line_t yes = from_member( jo, "yes" );
-        const dynamic_line_t no = from_member( jo, "no" );
-        function = [season_name, yes, no]( const dialogue & d ) {
-            const auto season = season_of_year( calendar::turn );
-            if( ( season == SPRING && season_name == "spring" ) ||
-                ( season == SUMMER && season_name == "summer" ) ||
-                ( season == AUTUMN && season_name == "autumn" ) ||
-                ( season == WINTER && season_name == "winter" ) ) {
-                return yes( d );
-            }
-            return no( d );
-        };
-    } else if( jo.has_member( "is_day" ) && jo.has_member( "is_night" ) ) {
-        const dynamic_line_t is_day = from_member( jo, "is_day" );
-        const dynamic_line_t is_night = from_member( jo, "is_night" );
-        function = [is_day, is_night]( const dialogue & d ) {
-            return ( calendar::turn.is_night() ? is_night : is_day )( d );
-        };
-    } else if( jo.has_member( "npc_need" ) ) {
-        const std::string &need = jo.get_string( "npc_need" );
-        int amount = 0;
-        if( jo.has_int( "amount" ) ) {
-            amount = jo.get_int( "amount" );
-        } else {
-            const std::string &level = jo.get_string( "level" );
-            auto flevel = fatigue_level_strs.find( level );
-            if( flevel != fatigue_level_strs.end() ) {
-                amount = static_cast<int>( flevel->second );
-            }
-        }
-        const dynamic_line_t yes = from_member( jo, "yes" );
-        const dynamic_line_t no = from_member( jo, "no" );
-        function = [need, amount, yes, no]( const dialogue & d ) {
-            npc &p = *d.beta;
-            if( ( p.get_fatigue() > amount && need == "fatigue" ) ||
-                ( p.get_hunger() > amount && need == "hunger" ) ||
-                ( p.get_thirst() > amount && need == "thirst" ) ) {
-                return yes( d );
-            }
-            return no( d );
-        };
-    } else if( jo.has_member( "u_driving" ) || jo.has_member( "npc_driving" ) ) {
-        const dynamic_line_t u_driving = from_member( jo, "u_driving" );
-        const dynamic_line_t npc_driving = from_member( jo, "npc_driving" );
-        const dynamic_line_t no_vehicle = from_member( jo, "no_vehicle" );
-        function = [u_driving, npc_driving, no_vehicle]( const dialogue & d ) {
-            player &u = *d.alpha;
-            npc &p = *d.beta;
-            if( const optional_vpart_position vp = g->m.veh_at( u.pos() ) ) {
-                if( vp->vehicle().is_moving() && vp->vehicle().player_in_control( u ) ) {
-                    return u_driving( d );
-                }
-            } else if( const optional_vpart_position vp = g->m.veh_at( p.pos() ) ) {
-                if( vp->vehicle().is_moving() && vp->vehicle().player_in_control( p ) ) {
-                    return npc_driving( d );
-                }
-            }
-            return no_vehicle( d );
-        };
-    } else if( jo.has_string( "npc_aim_rule" ) ) {
-        std::string setting = jo.get_string( "npc_aim_rule" );
-        const dynamic_line_t yes = from_member( jo, "yes" );
-        const dynamic_line_t no = from_member( jo, "no" );
-        function = [setting, yes, no]( const dialogue & d ) {
-            auto rule = aim_rule_strs.find( setting );
-            if( rule != aim_rule_strs.end() && d.beta->rules.aim == rule->second ) {
-                return yes( d );
-            }
-            return no( d );
-        };
-    } else if( jo.has_string( "npc_engagement_rule" ) ) {
-        std::string setting = jo.get_string( "npc_engagement_rule" );
-        const dynamic_line_t yes = from_member( jo, "yes" );
-        const dynamic_line_t no = from_member( jo, "no" );
-        function = [setting, yes, no]( const dialogue & d ) {
-            auto rule = combat_engagement_strs.find( setting );
-            if( rule != combat_engagement_strs.end() &&
-                d.beta->rules.engagement == rule->second ) {
-                return yes( d );
-            }
-            return no( d );
-        };
-    } else if( jo.has_string( "npc_rule" ) ) {
-        std::string rule = jo.get_string( "npc_rule" );
-        const dynamic_line_t yes = from_member( jo, "yes" );
-        const dynamic_line_t no = from_member( jo, "no" );
-        function = [rule, yes, no]( const dialogue & d ) {
-            auto flag = ally_rule_strs.find( rule );
-            if( flag != ally_rule_strs.end() && d.beta->rules.has_flag( flag->second ) ) {
-                return yes( d );
-            }
-            return no( d );
-        };
-    } else if( jo.has_bool( "has_pickup_list" ) ) {
-        const dynamic_line_t yes = from_member( jo, "yes" );
-        const dynamic_line_t no = from_member( jo, "no" );
-        function = [yes, no]( const dialogue & d ) {
-            if( d.beta->rules.pickup_whitelist->empty() ) {
-                return no( d );
-            }
-            return yes( d );
-        };
     } else if( jo.has_member( "give_hint" ) ) {
         function = [&]( const dialogue & ) {
             return get_hint();
         };
     } else {
+        conditional_t dcondition;
+        const dynamic_line_t yes = from_member( jo, "yes" );
+        const dynamic_line_t no = from_member( jo, "no" );
+        for( const std::string &sub_member : dialogue_data::simple_string_conds ) {
+            if( jo.has_bool( sub_member ) ) {
+                dcondition = conditional_t( sub_member );
+                function = [dcondition, yes, no]( const dialogue & d ) {
+                    return ( dcondition( d ) ? yes : no )( d );
+                };
+                return;
+            } else if( jo.has_member( sub_member ) ) {
+                dcondition = conditional_t( sub_member );
+                const dynamic_line_t yes_member = from_member( jo, sub_member );
+                function = [dcondition, yes_member, no]( const dialogue & d ) {
+                    return ( dcondition( d ) ? yes_member : no )( d );
+                };
+                return;
+            }
+        }
+        for( const std::string &sub_member : dialogue_data::complex_conds ) {
+            if( jo.has_member( sub_member ) ) {
+                dcondition = conditional_t( jo );
+                function = [dcondition, yes, no]( const dialogue & d ) {
+                    return ( dcondition( d ) ? yes : no )( d );
+                };
+                return;
+            }
+        }
         jo.throw_error( "dynamic line not supported" );
     }
 }
