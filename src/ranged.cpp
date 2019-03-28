@@ -650,8 +650,8 @@ static int draw_targeting_window( const catacurses::window &w_target, const std:
     };
 
     if( mode == TARGET_MODE_FIRE || mode == TARGET_MODE_TURRET_MANUAL || mode == TARGET_MODE_TURRET ) {
-        mvwprintz( w_target, text_y++, 1, c_white, _( "[%c] %c Cycle targets; [%c] to fire." ),
-                   front_or( "PREV_TARGET", ' ' ), front_or( "NEXT_TARGET", ' ' ), front_or( "FIRE", ' ' ) );
+        mvwprintz( w_target, text_y++, 1, c_white, _( "[%s] Cycle targets; [%c] to fire." ),
+                   ctxt.get_desc( "NEXT_TARGET", 1 ).c_str(), front_or( "FIRE", ' ' ) );
         mvwprintz( w_target, text_y++, 1, c_white, _( "[%c] target self; [%c] toggle snap-to-target" ),
                    front_or( "CENTER", ' ' ), front_or( "TOGGLE_SNAP_TO_TARGET", ' ' ) );
     }
