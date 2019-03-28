@@ -6061,6 +6061,25 @@ bool map::sees( const tripoint &F, const tripoint &T, const int range, int &bres
     return visible;
 }
 
+int map::obstacle_coverage( const tripoint &loc1, const tripoint &loc2, int t )
+{
+    tripoint obstaclepos;
+    bresenham( loc2, loc1, t, 0, [&obstaclepos, &loc2]( const tripoint & new_point ) {
+        if( new_point.x == loc2.x && new_point.y == loc2.y ) {
+            return true;
+        }
+        obstaclepos = new_point;
+        return false;
+    } );
+    const point p( obstaclepos.x, obstaclepos.y );
+    submap *sm = g->m.get_submap_at( obstaclepos );
+    auto obstacle = sm->get_furn( p );
+    if( obstacle == f_null ) {
+        auto obstacle = sm->get_ter(p);
+    }
+    return obstacle.obj().coverage;
+}
+
 // This method tries a bunch of initial offsets for the line to try and find a clear one.
 // Basically it does, "Find a line from any point in the source that ends up in the target square".
 std::vector<tripoint> map::find_clear_path( const tripoint &source,
