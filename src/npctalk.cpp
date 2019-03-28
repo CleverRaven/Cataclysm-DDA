@@ -205,7 +205,6 @@ void game::chat()
         .identifier( "sentence" )
         .max_length( 128 )
         .query();
-
         std::string sentence = popup.text();
         add_msg( _( "You yell, \"%s\"" ), sentence );
         u.shout( string_format( _( "%s yelling \"%s\"" ), u.disp_name(), sentence ) );
@@ -255,6 +254,44 @@ void npc::handle_sound( int priority, const std::string &description, int heard_
     if( sees( spos ) ) {
         return;
     }
+    // ignore low priority sounds if the NPC "knows" it came from a friend.
+    // @ todo NPC will need to respond to talking noise eventually
+    // but only for bantering purposes, not for investigating.
+    npc *const sound_source = g->critter_at<npc>( spos );
+    if( sound_source ) {
+        if( ( my_fac == sound_source->my_fac ||
+              get_attitude_group( get_attitude() ) == sound_source->get_attitude_group(
+                  sound_source->get_attitude() ) ) && ( priority < 6 ) ) {
+            add_msg( m_debug, "NPC ignored same faction %s", name.c_str() );
+            return;
+        }
+    }
+    // discount if sound source is player and listener is friendly
+    if( ( priority < 6 ) && spos == g->u.pos() && ( is_friend() ||
+            mission == NPC_MISSION_GUARD_ALLY ||
+            get_attitude_group( get_attitude() ) != attitude_group::hostile ) ) {
+        add_msg( m_debug, "NPC ignored player noise %s", name.c_str() );
+        return;
+    }
+    // patrolling guards will investigate more readily than stationary NPCS
+    int investigate_dist = 10;
+    if( mission == NPC_MISSION_GUARD_ALLY || mission == NPC_MISSION_GUARD_PATROL ) {
+        investigate_dist = 50;
+    }
+    if( priority > 3 && ai_cache.total_danger < 1.0f && rl_dist( pos(), spos ) < investigate_dist ) {
+        add_msg( m_debug, "NPC %s added noise at pos %d, %d", name.c_str(), spos.x, spos.y );
+        dangerous_sound temp_sound;
+        temp_sound.pos = spos;
+        temp_sound.volume = heard_volume;
+        temp_sound.type = priority;
+        if( !ai_cache.sound_alerts.empty() ) {
+            if( ai_cache.sound_alerts.back().pos != spos ) {
+                ai_cache.sound_alerts.push_back( temp_sound );
+            }
+        } else {
+            ai_cache.sound_alerts.push_back( temp_sound );
+        }
+    }
     add_msg( m_debug, "%s heard '%s', priority %d at volume %d from %d:%d, my pos %d:%d",
              disp_name(), description, priority, heard_volume, spos.x, spos.y, pos().x, pos().y );
     switch( priority ) {
@@ -269,7 +306,6 @@ void npc::handle_sound( int priority, const std::string &description, int heard_
             break;
         case 4: // movement is is only worth comment if we're not fighting and out of a vehicle
             if( ai_cache.total_danger < 1.0f && !in_vehicle ) {
-                // replace with warn_about when that merges
                 warn_about( "movement_noise", rng( 1, 10 ) * 1_minutes, description );
             }
             break;
@@ -534,6 +570,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
                 return _( "I run the shop here." );
             case NPC_MISSION_GUARD:
             case NPC_MISSION_GUARD_ALLY:
+            case NPC_MISSION_GUARD_PATROL:
                 return _( "I'm guarding this location." );
             case NPC_MISSION_NULL:
                 return p->myclass.obj().get_job_description();
@@ -2426,6 +2463,20 @@ void conditional_t::set_has_weapon( bool is_npc )
     };
 }
 
+void conditional_t::set_is_driving( bool is_npc )
+{
+    condition = [is_npc]( const dialogue & d ) {
+        player *actor = d.alpha;
+        if( is_npc ) {
+            actor = dynamic_cast<player *>( d.beta );
+        }
+        if( const optional_vpart_position vp = g->m.veh_at( actor->pos() ) ) {
+            return vp->vehicle().is_moving() && vp->vehicle().player_in_control( *actor );
+        }
+        return false;
+    };
+}
+
 void conditional_t::set_is_day()
 {
     condition = []( const dialogue & ) {
@@ -2650,6 +2701,10 @@ conditional_t::conditional_t( const std::string &type )
         set_has_weapon();
     } else if( type == "npc_has_weapon" ) {
         set_has_weapon( is_npc );
+    } else if( type == "u_driving" ) {
+        set_is_driving();
+    } else if( type == "npc_driving" ) {
+        set_is_driving( is_npc );
     } else if( type == "is_day" ) {
         set_is_day();
     } else if( type == "is_outside" ) {
@@ -2734,48 +2789,6 @@ dynamic_line_t::dynamic_line_t( JsonObject jo )
             }
             return all_lines;
         };
-    } else if( jo.has_member( "npc_has_mission" ) ) {
-        const dynamic_line_t none = from_member( jo, "none" );
-        const dynamic_line_t one = from_member( jo, "one" );
-        const dynamic_line_t many = from_member( jo, "many" );
-        function = [none, one, many]( const dialogue & d ) {
-            if( d.beta->chatbin.missions.empty() ) {
-                return none( d );
-            } else if( d.beta->chatbin.missions.size() == 1 ) {
-                return one( d );
-            }
-            return many( d );
-        };
-    } else if( jo.has_member( "u_has_mission" ) ) {
-        const dynamic_line_t none = from_member( jo, "none" );
-        const dynamic_line_t one = from_member( jo, "one" );
-        const dynamic_line_t many = from_member( jo, "many" );
-        function = [none, one, many]( const dialogue & d ) {
-            if( d.missions_assigned.empty() ) {
-                return none( d );
-            } else if( d.missions_assigned.size() == 1 ) {
-                return one( d );
-            }
-            return many( d );
-        };
-    } else if( jo.has_member( "u_driving" ) || jo.has_member( "npc_driving" ) ) {
-        const dynamic_line_t u_driving = from_member( jo, "u_driving" );
-        const dynamic_line_t npc_driving = from_member( jo, "npc_driving" );
-        const dynamic_line_t no_vehicle = from_member( jo, "no_vehicle" );
-        function = [u_driving, npc_driving, no_vehicle]( const dialogue & d ) {
-            player &u = *d.alpha;
-            npc &p = *d.beta;
-            if( const optional_vpart_position vp = g->m.veh_at( u.pos() ) ) {
-                if( vp->vehicle().is_moving() && vp->vehicle().player_in_control( u ) ) {
-                    return u_driving( d );
-                }
-            } else if( const optional_vpart_position vp = g->m.veh_at( p.pos() ) ) {
-                if( vp->vehicle().is_moving() && vp->vehicle().player_in_control( p ) ) {
-                    return npc_driving( d );
-                }
-            }
-            return no_vehicle( d );
-        };
     } else if( jo.has_member( "give_hint" ) ) {
         function = [&]( const dialogue & ) {
             return get_hint();
@@ -2789,6 +2802,13 @@ dynamic_line_t::dynamic_line_t( JsonObject jo )
                 dcondition = conditional_t( sub_member );
                 function = [dcondition, yes, no]( const dialogue & d ) {
                     return ( dcondition( d ) ? yes : no )( d );
+                };
+                return;
+            } else if( jo.has_member( sub_member ) ) {
+                dcondition = conditional_t( sub_member );
+                const dynamic_line_t yes_member = from_member( jo, sub_member );
+                function = [dcondition, yes_member, no]( const dialogue & d ) {
+                    return ( dcondition( d ) ? yes_member : no )( d );
                 };
                 return;
             }

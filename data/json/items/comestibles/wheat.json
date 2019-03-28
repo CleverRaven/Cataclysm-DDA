@@ -19,7 +19,7 @@
     "volume": 4,
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 12,
-    "vitamins": [ [ "vitC", 1 ], [ "iron", 2 ] ],
+    "vitamins": [ [ "vitC", 7 ], [ "calcium", 2 ], [ "iron", 9 ] ],
     "fun": 8
   },
   {
@@ -39,7 +39,7 @@
     "material": "wheat",
     "volume": 1,
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 10 ] ],
+    "vitamins": [ [ "calcium", 4 ], [ "iron", 40 ] ],
     "fun": -10
   },
   {
@@ -59,7 +59,7 @@
     "material": "wheat",
     "volume": "62 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "iron", 2 ] ],
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 10 ] ],
     "fun": -8
   },
   {
@@ -78,7 +78,7 @@
     "material": "wheat",
     "volume": "62 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "iron", 2 ] ],
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 10 ] ],
     "fun": -8
   },
   {
@@ -99,7 +99,7 @@
     "material": "wheat",
     "volume": 1,
     "flags": [ "EATEN_HOT", "TRADER_AVOID" ],
-    "vitamins": [ [ "iron", 2 ] ]
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 10 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -118,7 +118,7 @@
     "material": "wheat",
     "flags": [ "EDIBLE_FROZEN" ],
     "volume": "62 ml",
-    "vitamins": [ [ "iron", 2 ] ],
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 10 ] ],
     "fun": -6
   },
   {
@@ -140,7 +140,7 @@
     "volume": 1,
     "flags": [ "EATEN_HOT", "TRADER_AVOID", "FREEZERBURN" ],
     "fun": 5,
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "calcium", 10 ], [ "iron", 11 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -161,7 +161,7 @@
     "volume": 1,
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 10,
-    "vitamins": [ [ "iron", 8 ] ],
+    "vitamins": [ [ "iron", 3 ] ],
     "fun": -5
   },
   {
@@ -202,7 +202,7 @@
     "material": "wheat",
     "volume": 1,
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "iron", 5 ] ],
+    "vitamins": [ [ "calcium", 3 ], [ "iron", 20 ] ],
     "fun": -10
   },
   {
@@ -222,7 +222,7 @@
     "volume": 1,
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 2,
-    "vitamins": [ [ "iron", 3 ] ]
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 12 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -242,7 +242,7 @@
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
     "fun": 3,
-    "vitamins": [ [ "vitC", 14 ] ]
+    "vitamins": [ [ "vitA", 1 ], [ "vitC", 30 ], [ "calcium", 1 ], [ "iron", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -264,7 +264,7 @@
     "charges": 4,
     "flags": [ "EATEN_HOT" ],
     "fun": 3,
-    "vitamins": [ [ "calcium", 3 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "vitA", 1 ], [ "calcium", 6 ], [ "iron", 4 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -286,7 +286,7 @@
     "charges": 4,
     "flags": [ "EATEN_HOT" ],
     "fun": 3,
-    "vitamins": [ [ "vitA", 1 ], [ "vitC", 14 ], [ "calcium", 1 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "vitA", 2 ], [ "vitC", 30 ], [ "calcium", 4 ], [ "iron", 3 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -308,7 +308,7 @@
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
     "fun": 8,
-    "vitamins": [ [ "vitA", 1 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "vitA", 4 ], [ "calcium", 3 ], [ "iron", 5 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -327,7 +327,7 @@
     "volume": 1,
     "flags": [ "EATEN_HOT" ],
     "fun": 5,
-    "vitamins": [ [ "calcium", 3 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "vitA", 3 ], [ "calcium", 15 ], [ "iron", 9 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -347,7 +347,7 @@
     "volume": "375 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 6,
-    "vitamins": [ [ "vitA", 1 ], [ "vitC", 14 ] ]
+    "vitamins": [ [ "vitA", 6 ], [ "vitC", 120 ], [ "calcium", 2 ], [ "iron", 2 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -367,7 +367,7 @@
     "volume": 4,
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 8,
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 3 ] ],
+    "vitamins": [ [ "calcium", 5 ], [ "iron", 12 ] ],
     "fun": 2
   },
   {
@@ -392,7 +392,7 @@
     "flags": [ "EATEN_HOT" ],
     "fun": 3,
     "//": "these vitamins are only for pies that may spawn.  generally they will be inherited from the fruit used.",
-    "vitamins": [ [ "vitA", 1 ], [ "vitC", 1 ] ]
+    "vitamins": [ [ "vitA", 3 ], [ "vitC", 6 ], [ "calcium", 1 ], [ "iron", 3 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -414,7 +414,7 @@
     "charges": 4,
     "flags": [ "EATEN_HOT" ],
     "fun": 10,
-    "vitamins": [ [ "vitA", 3 ], [ "vitC", 1 ], [ "calcium", 6 ], [ "iron", 6 ] ]
+    "vitamins": [ [ "vitA", 12 ], [ "vitC", 4 ], [ "calcium", 25 ], [ "iron", 23 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -436,7 +436,7 @@
     "volume": 1,
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 4,
-    "vitamins": [ [ "iron", 1 ] ],
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 7 ] ],
     "fun": 3
   },
   {
@@ -461,7 +461,7 @@
     "charges": 8,
     "flags": [ "EATEN_HOT" ],
     "fun": 6,
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "vitA", 2 ], [ "calcium", 4 ], [ "iron", 8 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -480,7 +480,7 @@
     "price": 200,
     "material": "wheat",
     "volume": 2,
-    "vitamins": [ [ "iron", 4 ] ],
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 18 ] ],
     "flags": [ "EDIBLE_FROZEN" ]
   },
   {
@@ -501,7 +501,7 @@
     "volume": 1,
     "stack_size": 1,
     "fun": 9,
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "vitC", 2 ], [ "calcium", 6 ], [ "iron", 8 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -523,7 +523,7 @@
     "charges": 6,
     "flags": [ "EATEN_HOT" ],
     "fun": 6,
-    "vitamins": [ [ "vitA", 2 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "vitA", 8 ], [ "calcium", 2 ], [ "iron", 4 ] ]
   },
   {
     "id": "brownie_weed",
@@ -542,7 +542,7 @@
     "fun": 15,
     "spoils_in": 420,
     "use_action": "WEED_BROWNIE",
-    "vitamins": [ [ "vitA", 2 ], [ "iron", 1 ] ],
+    "vitamins": [ [ "vitA", 8 ], [ "calcium", 2 ], [ "iron", 5 ] ],
     "flags": [ "EATEN_HOT" ]
   },
   {
@@ -562,6 +562,7 @@
     "calories": 174,
     "fun": 7,
     "spoils_in": 420,
+    "vitamins": [ [ "vitA", 8 ], [ "calcium", 2 ], [ "iron", 5 ] ],
     "flags": [ "EATEN_HOT" ]
   }
 ]

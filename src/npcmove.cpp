@@ -77,6 +77,8 @@ enum npc_action : int {
     npc_noop,
     npc_reach_attack,
     npc_aim,
+    npc_investigate_sound,
+    npc_return_to_guard_pos,
     npc_player_activity,
     num_npc_actions
 };
@@ -92,6 +94,8 @@ std::string npc_action_name( npc_action action );
 
 void print_action( const char *prepend, npc_action action );
 
+bool compare_sound_alert( const dangerous_sound &sound_a, const dangerous_sound &sound_b );
+
 hp_part most_damaged_hp_part( const Character &c );
 
 // Used in npc::drop_items()
@@ -100,6 +104,14 @@ struct ratio_index {
     int index;
     ratio_index( double R, int I ) : ratio( R ), index( I ) {}
 };
+
+bool compare_sound_alert( const dangerous_sound &sound_a, const dangerous_sound &sound_b )
+{
+    if( sound_a.type != sound_b.type ) {
+        return sound_a.type < sound_b.type;
+    }
+    return sound_a.volume < sound_b.volume;
+}
 
 bool clear_shot_reach( const tripoint &from, const tripoint &to )
 {
@@ -440,6 +452,17 @@ float npc::character_danger( const Character &uc ) const
 
 void npc::regen_ai_cache()
 {
+    auto i = std::begin( ai_cache.sound_alerts );
+    while( i != std::end( ai_cache.sound_alerts ) ) {
+        if( sees( i->pos ) ) {
+            i = ai_cache.sound_alerts.erase( i );
+            if( ai_cache.sound_alerts.size() == 1 ) {
+                path.clear();
+            }
+        } else {
+            ++i;
+        }
+    }
     float old_assessment = ai_cache.danger_assessment;
     ai_cache.friends.clear();
     ai_cache.target = std::shared_ptr<Creature>();
@@ -512,6 +535,25 @@ void npc::move()
     } else if( target != nullptr && ai_cache.danger > 0 &&
                !rules.has_flag( ally_rule::avoid_combat ) ) {
         action = method_of_attack();
+    } else if( !ai_cache.sound_alerts.empty() && !is_following() ) {
+        if( !ai_cache.guard_pos ) {
+            ai_cache.guard_pos = pos();
+        }
+        if( ai_cache.sound_alerts.size() > 1 ) {
+            std::sort( ai_cache.sound_alerts.begin(), ai_cache.sound_alerts.end(), compare_sound_alert );
+            if( ai_cache.sound_alerts.size() > 10 ) {
+                ai_cache.sound_alerts.resize( 10 );
+            }
+        }
+        ai_cache.spos = ai_cache.sound_alerts.front().pos;
+        add_msg( m_debug, "NPC %s: investigating sound at x(%d) y(%d)", name.c_str(), ai_cache.spos.x,
+                 ai_cache.spos.y );
+        action = npc_investigate_sound;
+    } else if( ai_cache.sound_alerts.empty() && ai_cache.guard_pos ) {
+        tripoint return_guard_pos = *ai_cache.guard_pos;
+        add_msg( m_debug, "NPC %s: returning to guard spot at x(%d) y(%d)", name.c_str(),
+                 return_guard_pos.x, return_guard_pos.y );
+        action = npc_return_to_guard_pos;
     } else {
         // No present danger
         action = address_needs();
@@ -619,6 +661,24 @@ void npc::execute_action( npc_action action )
 
         case npc_reload: {
             do_reload( weapon );
+        }
+        break;
+
+        case npc_investigate_sound: {
+            update_path( ai_cache.spos );
+            move_to_next();
+        }
+        break;
+
+        case npc_return_to_guard_pos: {
+            update_path( *ai_cache.guard_pos );
+            if( pos() == *ai_cache.guard_pos || path.empty() ) {
+                move_pause();
+                ai_cache.guard_pos = cata::nullopt;
+                path.clear();
+            } else {
+                move_to_next();
+            }
         }
         break;
 
@@ -1469,6 +1529,11 @@ bool npc::update_path( const tripoint &p, const bool no_bashing, bool force )
 
     auto new_path = g->m.route( pos(), p, get_pathfinding_settings( no_bashing ), get_path_avoid() );
     if( new_path.empty() ) {
+        if( !ai_cache.sound_alerts.empty() ) {
+            ai_cache.sound_alerts.erase( ai_cache.sound_alerts.begin() );
+            add_msg( m_debug, "failed to path to sound alert %d,%d,%d->%d,%d,%d",
+                     posx(), posy(), posz(), p.x, p.y, p.z );
+        }
         add_msg( m_debug, "Failed to path %d,%d,%d->%d,%d,%d",
                  posx(), posy(), posz(), p.x, p.y, p.z );
     }
@@ -3003,7 +3068,6 @@ void npc::reach_omt_destination()
         goal = no_goal_point;
         return;
     }
-
     // If we are guarding, remember our position in case we get forcibly moved
     goal = global_omt_location();
     if( guard_pos == global_square_location() ) {
@@ -3072,6 +3136,14 @@ void npc::set_omt_destination()
 
 void npc::go_to_omt_destination()
 {
+    if( ai_cache.guard_pos ) {
+        if( pos() == *ai_cache.guard_pos ) {
+            path.clear();
+            ai_cache.guard_pos = cata::nullopt;
+            move_pause();
+            return;
+        }
+    }
     if( goal == no_goal_point ) {
         add_msg( m_debug, "npc::go_to_destination with no goal" );
         move_pause();
@@ -3145,6 +3217,10 @@ std::string npc_action_name( npc_action action )
             return _( "Pause" );
         case npc_reload:
             return _( "Reload" );
+        case npc_investigate_sound:
+            return _( "Investigate sound" );
+        case npc_return_to_guard_pos:
+            return _( "Returning to guard position" );
         case npc_sleep:
             return _( "Sleep" );
         case npc_pickup:
@@ -3260,14 +3336,18 @@ void npc::warn_about( const std::string &type, const time_duration &d, const std
     } else {
         return;
     }
+    bool alert = false;
+    if( type != "speech_noise" && type != "movement_noise" && type != "relax" ) {
+        alert = true;
+    }
     const std::string warning_name = "warning_" + type + name;
     const std::string speech = name.empty() ? snip :
                                string_format( _( "%s %s<punc>" ), snip, name );
-    complain_about( warning_name, d, speech, is_enemy() );
+    complain_about( warning_name, d, speech, is_enemy(), alert );
 }
 
 bool npc::complain_about( const std::string &issue, const time_duration &dur,
-                          const std::string &speech, const bool force )
+                          const std::string &speech, const bool force, const bool alert )
 {
     // Don't have a default constructor for time_point, so accessing it in the
     // complaints map is a bit difficult, those lambdas should cover it.
@@ -3290,7 +3370,7 @@ bool npc::complain_about( const std::string &issue, const time_duration &dur,
                                         !g->u.in_sleep_state() && !in_sleep_state() );
 
     if( complain_since( issue, dur ) && do_complain ) {
-        say( speech );
+        say( speech, alert );
         set_complain_since( issue );
         return true;
     }
