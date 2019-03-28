@@ -130,6 +130,8 @@ void iuse_transform::load( JsonObject &obj )
     need_fire_msg = obj.has_string( "need_fire_msg" ) ? _( obj.get_string( "need_fire_msg" ).c_str() ) :
                     _( "You need a source of fire!" );
 
+    obj.read( "qualities_needed", qualities_needed );
+
     obj.read( "menu_text", menu_text );
     if( !menu_text.empty() ) {
         menu_text = _( menu_text.c_str() );
@@ -196,6 +198,26 @@ long iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) con
     obj->active = active || obj->item_counter;
 
     return 0;
+}
+
+ret_val<bool> iuse_transform::can_use( const player &p, const item &it, bool,
+    const tripoint & ) const
+{
+    std::map<quality_id, int> unmet_reqs;
+    for( const auto &quality : qualities_needed ) {
+        if( !p.has_quality( quality.first, quality.second ) ) {
+            unmet_reqs.insert( quality );
+        }
+    }
+    if ( unmet_reqs.empty() ) {
+        return ret_val<bool>::make_success();
+    }
+    std::string unmet_reqs_string = enumerate_as_string( unmet_reqs.begin(), unmet_reqs.end(),
+    [&]( const std::pair<quality_id, int> &unmet_req ) {
+         return string_format( "%s %d", unmet_req.first.obj().name, unmet_req.second );
+    } );
+    return ret_val<bool>::make_failure( string_format( ngettext( "You need a tool with %s.", "You need tools with %s.", unmet_reqs.size() ),
+                                                       unmet_reqs_string ) );
 }
 
 std::string iuse_transform::get_name() const
