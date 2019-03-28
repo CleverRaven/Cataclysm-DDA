@@ -128,6 +128,14 @@
     "description": "A primer on Miyamoto Musashi's style of combat and philosophy, Niten Ichi-Ryu."
   },
   {
+    "id": "manual_pankration",
+    "copy-from": "book_martial",
+    "type": "GENERIC",
+    "name": "The Modern Pankratiast",
+    "name_plural": "The Modern Pankratiast",
+    "description": "A complete guide to Pankration."
+  },
+  {
     "id": "manual_scorpion",
     "copy-from": "book_martial",
     "type": "GENERIC",

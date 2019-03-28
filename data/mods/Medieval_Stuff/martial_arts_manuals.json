@@ -8,16 +8,8 @@
     "description": "A complete guide to Medieval Swordsmanship."
   },
   {
-    "id": "manual_pankration",
-    "copy-from": "book_martial",
-    "type": "GENERIC",
-    "name": "The Modern Pankratiast",
-    "name_plural": "The Modern Pankratiast",
-    "description": "A complete guide to Pankration."
-  },
-  {
     "id": "book_martial",
     "type": "item_group",
-    "items": [ [ "manual_swordsmanship", 5 ], [ "manual_pankration", 5 ] ]
+    "items": [ [ "manual_swordsmanship", 5 ] ]
   }
 ]

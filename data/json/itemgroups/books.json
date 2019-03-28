@@ -34,6 +34,7 @@
       [ "manual_eskrima", 100 ],
       [ "manual_krav_maga", 100 ],
       [ "manual_ninjutsu", 100 ],
+      [ "manual_pankration", 5 ],
       [ "manual_silat", 100 ],
       [ "manual_taekwondo", 100 ]
     ]
@@ -49,6 +50,7 @@
       [ "manual_knives", 40 ],
       [ "manual_launcher", 20 ],
       [ "manual_melee", 70 ],
+      [ "manual_pankration", 1 ],
       [ "manual_pistol", 30 ],
       [ "manual_rifle", 50 ],
       [ "manual_shotgun", 10 ],
