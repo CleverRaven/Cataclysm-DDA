@@ -469,31 +469,6 @@
   "components": [
     [ [ "dogbane", 1 ], [ "cattail_stalk", 1 ], [ "weed", 1 ] ]
   ]
-},{
-  "type" : "recipe",
-  "result": "pebble_clay",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_OTHER",
-  "skill_used": "fabrication",
-  "difficulty": 1,
-  "time": 45000,
-  "autolearn": true,
-  "tools": [
-  [
-    [ "brick_kiln", 10 ],
-    [ "kiln", 10 ],
-    [ "surface_heat", 10, "LIST" ]
-  ]
-  ],
-  "components": [
-    [
-      [ "water", 1 ],
-      [ "water_clean", 1 ]
-    ],
-    [
-      [ "clay_lump", 1 ]
-    ]
-  ]
 },
   {
     "type" : "recipe",
@@ -581,34 +556,6 @@
      [ "scrap", 12 ]
      ]
     ]
-},{
-  "type" : "recipe",
-  "result": "iggaak",
-  "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_HEAD",
-  "skill_used": "tailor",
-  "skills_required": [ "survival", 1 ],
-  "difficulty": 2,
-  "time": 8000,
-  "autolearn": true,
-  "qualities" : [
-    {"id":"CUT","level":1}
-  ],
-  "components": [
-    [
-      [ "cordage_short", 2, "LIST" ],
-      [ "thread", 100 ],
-      [ "sinew", 100 ],
-      [ "plant_fibre", 100 ],
-      [ "yarn", 50 ]
-    ],
-    [
-      [ "2x4", 1 ],
-      [ "stick", 1 ],
-      [ "bone", 1 ],
-      [ "bone_human", 1 ]
-    ]
-  ]
 },{
   "type" : "recipe",
   "result": "pot_makeshift",

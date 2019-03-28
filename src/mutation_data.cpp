@@ -302,7 +302,7 @@ void mutation_branch::load( JsonObject &jo, const std::string & )
     auto vam = jo.get_array( "vitamins_absorb_multi" );
     while( vam.has_more() ) {
         auto pair = vam.next_array();
-        std::map<vitamin_id, float> vit;
+        std::map<vitamin_id, double> vit;
         auto vit_array = pair.get_array( 1 );
         // fill the inner map with vitamins
         while( vit_array.has_more() ) {
@@ -633,7 +633,7 @@ void mutation_branch::load_trait_group( JsonObject &jsobj, const trait_group::Tr
 
     Trait_group &tg = make_group_or_throw( gid, ( subtype == "collection" || subtype == "old" ) );
 
-    // TODO(sm): Looks like this makes the new code backwards-compatible with the old format. Great if so!
+    // TODO: (sm) Looks like this makes the new code backwards-compatible with the old format. Great if so!
     if( subtype == "old" ) {
         JsonArray traits = jsobj.get_array( "traits" );
         while( traits.has_more() ) {
@@ -643,7 +643,7 @@ void mutation_branch::load_trait_group( JsonObject &jsobj, const trait_group::Tr
         return;
     }
 
-    // TODO(sm): Taken from item_factory.cpp almost verbatim. Ensure that these work!
+    // TODO: (sm) Taken from item_factory.cpp almost verbatim. Ensure that these work!
     if( jsobj.has_member( "entries" ) ) {
         JsonArray traits = jsobj.get_array( "entries" );
         while( traits.has_more() ) {

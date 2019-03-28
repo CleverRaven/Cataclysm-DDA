@@ -878,5 +878,44 @@
             "Armageddon",
             "the end of days"
         ]
-    }
+    },
+  {
+    "type": "snippet",
+    "category": "<run_away>",
+    "text": [
+      "They'll kill us!  Run away!",
+      "We're going to die!  Fall back!",
+      "Fall back and regroup!",
+      "There's no hope for victory.  I'm running!",
+      "Feet don't fail me now!",
+      "I don't have to be faster than them, just faster than you!",
+      "Oh God, my leg, Oh God!",
+      "We have a serious situation here.  I'm leaving!",
+      "It can't follow all of us.  I'll run this way, you go there!",
+      "Please, I don't want to die.",
+      "Me go, you stay.",
+      "Not that way!  Go left!",
+      "<move>!"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<cant_flee>",
+    "text": [
+      "I can't outrun it!  I'm going to kill it!",
+      "<swear>!  Die, you <name_b>!  I want to live!",
+      "My feet failed me!  Arms don't fail me!"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<fire_bad>",
+    "text": [
+      "Call the fire department!  Wait, they're dead!  Run away!",
+      "This place is on fire.  I'm leaving.",
+      "Put the fire out!  Put it out!",
+      "Fire bad! <move>!"
+    ]
+  }
 ]
+

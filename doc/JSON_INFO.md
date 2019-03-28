@@ -886,6 +886,36 @@ Alternately, every item (book, tool, gun, even food) can be used as armor if it 
 }
 ```
 
+### Pet Armor
+Pet armor can be defined like this:
+
+```C++
+"type" : "PET_ARMOR",     // Defines this as armor
+...                   // same entries as above for the generic item.
+                      // additional some armor specific entries:
+"storage" : 0,        //  (Optional, default = 0) How many volume storage slots it adds
+"environmental_protection" : 0,  //  (Optional, default = 0) How much environmental protection it affords
+"material_thickness" : 1,  // Thickness of material, in millimeter units (approximately).  Generally ranges between 1 - 5, more unusual armor types go up to 10 or more
+"pet_bodytype":        // the body type of the pet that this monster will fit.  See MONSTERS.md
+"max_pet_vol:          // the maximum volume of the pet that will fit into this armor.
+"min_pet_vol:          // the minimum volume of the pet that will fit into this armor.
+"power_armor" : false, // If this is a power armor item (those are special).
+```
+Alternately, every item (book, tool, gun, even food) can be used as armor if it has armor_data:
+```C++
+"type" : "TOOL",      // Or any other item type
+...                   // same entries as for the type (e.g. same entries as for any tool),
+"pet_armor_data" : {      // additionally the same armor data like above
+    "storage" : 0,
+    "environmental_protection" : 0,
+    "pet_bodytype": "dog",
+    "max_pet_vol": "35000 ml",
+    "min_pet_vol": "25000 ml",
+    "material_thickness" : 1,
+    "power_armor" : false
+}
+```
+
 ### Books
 
 Books can be defined like this:

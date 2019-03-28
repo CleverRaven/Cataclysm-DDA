@@ -32,13 +32,13 @@ const vitamin &string_id<vitamin>::obj() const
 
 int vitamin::severity( int qty ) const
 {
-    for( int i = 0; i != int( disease_.size() ); ++i ) {
+    for( int i = 0; i != static_cast<int>( disease_.size() ); ++i ) {
         if( ( qty >= disease_[ i ].first && qty <= disease_[ i ].second ) ||
             ( qty <= disease_[ i ].first && qty >= disease_[ i ].second ) ) {
             return i + 1;
         }
     }
-    // @todo: implement distinct severity levels for vitamin excesses
+    // TODO: implement distinct severity levels for vitamin excesses
     if( qty > 96 ) {
         return -1;
     }

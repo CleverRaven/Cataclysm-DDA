@@ -447,6 +447,44 @@ void mx_roadblock( map &m, const tripoint &abs_sub )
     }
 }
 
+void mx_bandits_block( map &m, const tripoint &abs_sub )
+{
+    std::string north = overmap_buffer.ter( abs_sub.x, abs_sub.y - 1, abs_sub.z ).id().c_str();
+    std::string south = overmap_buffer.ter( abs_sub.x, abs_sub.y + 1, abs_sub.z ).id().c_str();
+    std::string west = overmap_buffer.ter( abs_sub.x - 1, abs_sub.y, abs_sub.z ).id().c_str();
+    std::string east = overmap_buffer.ter( abs_sub.x + 1, abs_sub.y, abs_sub.z ).id().c_str();
+
+    const bool forest_at_north = north.find( "forest" ) == 0;
+    const bool forest_at_south = south.find( "forest" ) == 0;
+    const bool forest_at_west = west.find( "forest" ) == 0;
+    const bool forest_at_east = east.find( "forest" ) == 0;
+
+    if( forest_at_north && forest_at_south ) {
+        line( &m, t_trunk, 1, 3, 1, 6 );
+        line( &m, t_trunk, 1, 8, 1, 13 );
+        line( &m, t_trunk, 2, 14, 2, 17 );
+        line( &m, t_trunk, 1, 18, 2, 22 );
+        m.ter_set( 1, 2, t_stump );
+        m.ter_set( 1, 20, t_stump );
+        m.ter_set( 1, 1, t_improvised_shelter );
+        m.place_npc( 2, 19, string_id<npc_template>( "bandit" ) );
+        if( one_in( 2 ) ) {
+            m.place_npc( 1, 1, string_id<npc_template>( "bandit" ) );
+        }
+    } else if( forest_at_west && forest_at_east ) {
+        line( &m, t_trunk, 1, 1, 3, 1 );
+        line( &m, t_trunk, 5, 1, 10, 1 );
+        line( &m, t_trunk, 11, 3, 16, 3 );
+        line( &m, t_trunk, 17, 2, 21, 2 );
+        m.ter_set( 22, 2, t_stump );
+        m.ter_set( 0, 1, t_improvised_shelter );
+        m.place_npc( 20, 3, string_id<npc_template>( "bandit" ) );
+        if( one_in( 2 ) ) {
+            m.place_npc( 0, 1, string_id<npc_template>( "bandit" ) );
+        }
+    }
+}
+
 void mx_drugdeal( map &m, const tripoint &abs_sub )
 {
     // Decide on a drug type
@@ -503,6 +541,14 @@ void mx_drugdeal( map &m, const tripoint &abs_sub )
         } while( tries < 10 && m.impassable( x, y ) );
 
         if( tries < 10 ) { // We found a valid spot!
+            if( a_has_drugs && num_drugs > 0 ) {
+                int drugs_placed = rng( 2, 6 );
+                if( drugs_placed > num_drugs ) {
+                    drugs_placed = num_drugs;
+                    num_drugs = 0;
+                }
+                m.spawn_item( x, y, drugtype, 0, drugs_placed );
+            }
             if( one_in( 10 ) ) {
                 m.add_spawn( mon_zombie_spitter, 1, x, y );
             } else {
@@ -512,14 +558,6 @@ void mx_drugdeal( map &m, const tripoint &abs_sub )
                     m.add_field( {x + ( j * x_offset ), y + ( j * y_offset ), abs_sub.z},
                                  fd_blood, 1, 0_turns );
                 }
-            }
-            if( a_has_drugs && num_drugs > 0 ) {
-                int drugs_placed = rng( 2, 6 );
-                if( drugs_placed > num_drugs ) {
-                    drugs_placed = num_drugs;
-                    num_drugs = 0;
-                }
-                m.spawn_item( x, y, drugtype, 0, drugs_placed );
             }
         }
     }
@@ -1043,6 +1081,7 @@ FunctionMap builtin_functions = {
     { "mx_clearcut", mx_clearcut },
     { "mx_pond", mx_pond },
     { "mx_clay_deposit", mx_clay_deposit },
+    { "mx_bandits_block", mx_bandits_block },
 };
 
 map_special_pointer get_function( const std::string &name )

@@ -86,8 +86,8 @@ void DynamicDataLoader::load_object( JsonObject &jo, const std::string &src,
                                      const std::string &base_path,
                                      const std::string &full_path )
 {
-    std::string type = jo.get_string( "type" );
-    t_type_function_map::iterator it = type_function_map.find( type );
+    const std::string type = jo.get_string( "type" );
+    const t_type_function_map::iterator it = type_function_map.find( type );
     if( it == type_function_map.end() ) {
         jo.throw_error( "unrecognized JSON object", "type" );
     }
@@ -231,6 +231,9 @@ void DynamicDataLoader::initialize()
     } );
     add( "ARMOR", []( JsonObject & jo, const std::string & src ) {
         item_controller->load_armor( jo, src );
+    } );
+    add( "PET_ARMOR", []( JsonObject & jo, const std::string & src ) {
+        item_controller->load_pet_armor( jo, src );
     } );
     add( "TOOL", []( JsonObject & jo, const std::string & src ) {
         item_controller->load_tool( jo, src );
@@ -493,7 +496,7 @@ void DynamicDataLoader::unload_data()
 void DynamicDataLoader::finalize_loaded_data()
 {
     // Create a dummy that will not display anything
-    // @todo: Make it print to stdout?
+    // TODO: Make it print to stdout?
     loading_ui ui( false );
     finalize_loaded_data( ui );
 }

@@ -600,11 +600,12 @@ void computer::activate_function( computer_action action )
 
             //Put some smoke gas and explosions at the nuke location.
             for( int i = g->u.posx() + 8; i < g->u.posx() + 15; i++ ) {
-                for( int j = g->u.posy() + 3; j < g->u.posy() + 12; j++ )
+                for( int j = g->u.posy() + 3; j < g->u.posy() + 12; j++ ) {
                     if( !one_in( 4 ) ) {
                         tripoint dest( i + rng( -2, 2 ), j + rng( -2, 2 ), g->u.posz() );
                         g->m.add_field( dest, fd_smoke, rng( 1, 9 ) );
                     }
+                }
             }
 
             g->explosion( tripoint( g->u.posx() + 10, g->u.posx() + 21, g->get_levz() ), 200, 0.7,
@@ -841,7 +842,7 @@ INITIATING STANDARD TREMOR TEST..." ) );
                         g->u.change_side( **worn_item, false );
                     }
                 }
-                g->u.add_effect( effect_mending, 0, part, true );
+                g->u.add_effect( effect_mending, 0_turns, part, true );
                 effect &mending_effect = g->u.get_effect( effect_mending, part );
                 mending_effect.set_duration( mending_effect.get_max_duration() - 5_days );
             }

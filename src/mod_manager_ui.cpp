@@ -211,18 +211,15 @@ bool mod_ui::can_shift_up( long selection, const std::vector<mod_id> &active_lis
     std::vector<mod_id> dependencies = mm_tree.get_dependencies_of_X_as_strings(
                                            active_list[selection] );
 
-    int newsel;
-    mod_id modstring;
-
     // figure out if we can move up!
     if( selection == 0 ) {
         // can't move up, don't bother trying
         return false;
     }
     // see if the mod at selection-1 is a) a core, or b) is depended on by this mod
-    newsel = selection - 1;
+    int newsel = selection - 1;
 
-    modstring = active_list[newsel];
+    mod_id modstring = active_list[newsel];
 
     if( modstring->core ||
         std::find( dependencies.begin(), dependencies.end(), modstring ) != dependencies.end() ) {

@@ -106,7 +106,7 @@ faction_template::faction_template( JsonObject &jsobj )
 {
 }
 
-//TODO move them to json
+// TODO: move them to json
 
 static const std::array<std::string, 15> faction_adj_pos = { {
         translate_marker_context( "faction_adj", "Shining" ), translate_marker_context( "faction_adj", "Sacred" ), translate_marker_context( "faction_adj", "Golden" ), translate_marker_context( "faction_adj", "Holy" ), translate_marker_context( "faction_adj", "Righteous" ), translate_marker_context( "faction_adj", "Devoted" ),
@@ -1139,19 +1139,19 @@ void new_faction_manager::display() const
             camps.push_back( temp_camp );
         }
         if( tab < tab_mode::FIRST_TAB || tab >= tab_mode::NUM_TABS ) {
-            debugmsg( "The sanity check failed because tab=%d", ( int )tab );
+            debugmsg( "The sanity check failed because tab=%d", static_cast<int>( tab ) );
             tab = tab_mode::FIRST_TAB;
         }
         int active_vec_size;
         // entries_per_page * page number
         const int top_of_page = entries_per_page * ( selection / entries_per_page );
         if( tab == tab_mode::TAB_FOLLOWERS ) {
-            if( followers.size() > 0 ) {
+            if( !followers.empty() ) {
                 guy = followers[selection];
             }
             active_vec_size = followers.size();
         } else if( tab == tab_mode::TAB_MYFACTION ) {
-            if( camps.size() > 0 ) {
+            if( !camps.empty() ) {
                 camp = camps[selection];
             }
             active_vec_size = camps.size();
@@ -1187,7 +1187,7 @@ void new_faction_manager::display() const
                     draw_scrollbar( w_missions, selection, entries_per_page, active_vec_size, 3, 0 );
                     for( int i = top_of_page; i <= ( active_vec_size - 1 ); i++ ) {
                         const auto camp = camps[i];
-                        std::string camp_name = camp->camp_name();
+                        const std::string &camp_name = camp->camp_name();
                         const int y = i - top_of_page + 3;
                         trim_and_print( w_missions, y, 1, 28, static_cast<int>( selection ) == i ? hilite( col ) : col,
                                         camp_name );
@@ -1197,6 +1197,7 @@ void new_faction_manager::display() const
                         tripoint camp_pos = camp->camp_omt_pos();
                         std::string direction = direction_name( direction_from(
                                 player_abspos, camp_pos ) );
+                        mvwprintz( w_missions, ++y, 31, c_light_gray, _( "Press enter to rename this camp" ) );
                         std::string centerstring = "center";
                         if( ( !direction.compare( centerstring ) ) == 0 ) {
                             mvwprintz( w_missions, ++y, 31, c_light_gray,
@@ -1228,7 +1229,7 @@ void new_faction_manager::display() const
                 }
                 break;
             case tab_mode::TAB_FOLLOWERS:
-                if( followers.size() > 0 ) {
+                if( !followers.empty() ) {
                     draw_scrollbar( w_missions, selection, entries_per_page, active_vec_size, 3, 0 );
                     for( int i = top_of_page; i <= ( active_vec_size - 1 ); i++ ) {
                         const auto guy = followers[i];
@@ -1299,11 +1300,11 @@ void new_faction_manager::display() const
                         const std::pair <std::string, nc_color> thirst_pair = guy->get_thirst_description();
                         const std::pair <std::string, nc_color> fatigue_pair = guy->get_fatigue_description();
                         mvwprintz( w_missions, ++y, 31, hunger_pair.second,
-                                   _( "Hunger : " ) + ( ( hunger_pair.first == "" ) ? "Nominal" : hunger_pair.first ) );
+                                   _( "Hunger : " ) + ( hunger_pair.first.empty() ? "Nominal" : hunger_pair.first ) );
                         mvwprintz( w_missions, ++y, 31, thirst_pair.second,
-                                   _( "Thirst : " ) + ( ( thirst_pair.first == "" ) ? "Nominal" : thirst_pair.first ) );
+                                   _( "Thirst : " ) + ( thirst_pair.first.empty() ? "Nominal" : thirst_pair.first ) );
                         mvwprintz( w_missions, ++y, 31, fatigue_pair.second,
-                                   _( "Fatigue : " ) + ( ( fatigue_pair.first == "" ) ? "Nominal" : fatigue_pair.first ) );
+                                   _( "Fatigue : " ) + ( fatigue_pair.first.empty() ? "Nominal" : fatigue_pair.first ) );
                         const std::string wield_str = _( "Wielding : " ) + guy->weapon.tname();
                         int lines = fold_and_print( w_missions, ++y, 31, getmaxx( w_missions ) - 33, c_white,
                                                     ( wield_str ) );
@@ -1374,6 +1375,8 @@ void new_faction_manager::display() const
         } else if( action == "CONFIRM" ) {
             if( tab == tab_mode::TAB_FOLLOWERS && interactable && guy ) {
                 guy->talk_to_u();
+            } else if( tab == tab_mode::TAB_MYFACTION && camp ) {
+                camp->query_new_name();
             }
         } else if( action == "QUIT" ) {
             break;

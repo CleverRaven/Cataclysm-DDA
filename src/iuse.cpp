@@ -683,7 +683,7 @@ int iuse::meth( player *p, item *it, bool, const tripoint & )
         }
         // breathe out some smoke
         for( int i = 0; i < 3; i++ ) {
-            g->m.add_field( {p->posx() + int( rng( -2, 2 ) ), p->posy() + int( rng( -2, 2 ) ), p->posz()},
+            g->m.add_field( {p->posx() + static_cast<int>( rng( -2, 2 ) ), p->posy() + static_cast<int>( rng( -2, 2 ) ), p->posz()},
                             fd_methsmoke, 2 );
         }
     } else {
@@ -1433,9 +1433,10 @@ int petfood( player &p, const item &it, Petfood animal_food_type )
                             _( "Apparently it's more interested in your flesh than the dog food in your hand!" ) );
                         return 1;
                     }
-                } else
+                } else {
                     return feedpet( p, mon, MF_DOGFOOD,
                                     _( "The %s seems to like you!  It lets you pat its head and seems friendly." ) );
+                }
                 break;
             case CATFOOD:
                 return feedpet( p, mon, MF_CATFOOD,
@@ -1570,7 +1571,7 @@ int iuse::sew_advanced( player *p, item *it, bool, const tripoint & )
     // TODO: The supremely ugly block of code below looks better than 200 line boilerplate
     // that was there before, but it can probably be moved into a helper somehow
 
-    // TODO 2: List how much material we have and how much we need
+    // TODO: 2: List how much material we have and how much we need
     item temp_item = modded_copy( mod, "wooled" );
     // Can we perform this addition or removal
     bool enab = can_add_mod( "wooled", "felt_patch" );
@@ -2489,6 +2490,123 @@ int iuse::makemound( player *p, item *it, bool t, const tripoint & )
     }
 }
 
+static int dig_pit_moves( player *p, item *it, bool deep )
+{
+    // When we dig, we're generally digging out either a deep or shallow pit.
+    //
+    // The dimensions are a little hand-wavey... based on our exactly
+    // as-big-as-they-need-to-be tile sizes, we could assume that the width and height
+    // are 1 meter each. Our pit could be a square as well, or we could assume it's
+    // circular and 1 meter in diameter.
+    //
+    // Depth is even less rigidly defined, both in terms of "what is a z-level", and in
+    // terms of how the deep and shallow pits are used in game.
+    //
+    // A shallow pit gets used to do things like build an improvised shelter or start
+    // the foundation for a wall, and is ostensibly a relatively quick effort: a
+    // survior might get a crude digging implement (e.g. digging stick) and attempt to
+    // dig out the start of an improvised shelter, or they might have a proper shovel
+    // and be digging a foundation footing. Referencing the 2018 IBC
+    // https://codes.iccsafe.org/content/IRC2018/chapter-4-foundations we can see in
+    // R403.1.4 the requirement that "exterior footings shall be placed not less than
+    // 12 inches (305 mm) below the undisturbed ground surface. You'd need even more
+    // space for the actual footing, but that's close enough. I don't think surviviors
+    // care about building to code, but let's call it 12 inches (0.3048 meters) at the
+    // maximum for a shallow pit depth.
+    //
+    // The deep pit is a little more complicated because it gets used for more complex
+    // constructions like traps, reinforced concrete wall footings, palisades, wells,
+    // root cellars, and the like. The depth requirements for those are quite varied,
+    // but let's just throw some number around to get a feel for it: say at least 2
+    // meters deep to be an effective pit trap. The USGS maintains
+    // depth-to-ground-water-level records and provides them at
+    // https://waterdata.usgs.gov/nwis/current/?type=gw. A cursory review (and
+    // remembering it's seasonal) shows values in Massachusetts ranging from 122 feet
+    // and 1 foot, and values between 3 to 9 feet aren't uncommon. Root cellars are
+    // ideally constructed where the ground temperature has stabilized, below the frost
+    // line. This depth varies by location, but is somewhere in the 1 to 3 meter range.
+    //
+    // With all of that in hand, let's make some estimates.
+    //
+    // A shallow pit is a circular pit 1 meter in diameter and 0.3048 meters deep,
+    // which works out to... ~0.239 m^3. That's so close, let's just call it 0.25 m^3
+    // or 250 liters.
+    //
+    // A deep pit is a rectangular pit 1m x 1m x 2m, or 2 m^3, or 2000 liters.
+    //
+    // Now, for how long that takes, things are going to get even more subjective and
+    // couched in assumptions. Let's assume a single individual, digging in optimally
+    // diggable soil(rather than something requiring a pickaxe to break the soil or
+    // requiring saws to remove tree roots), using an appropriate (but manual)
+    // implement designed for the task (e.g. a shovel). The Canadian Centre for
+    // Occupational Health and Safety has some interesting recommendations on the rate
+    // of shovelling, weight of the load, and throw distance at
+    // https://www.ccohs.ca/oshanswers/ergonomics/shovel.html. Of particular interest
+    // is the table of "recommended workload for continuous shovelling", which gives a
+    // weight per minute and a total weight per 15 minutes, as well as a description of
+    // the conditions. It also discusses the need to take breaks, for example
+    // alternating 15 minutes of shoveling and 15 minutes of rest in extreme
+    // conditions. Taking all that into consideration, I'm going to call it 10
+    // scoops/min * 5 kg/scoop for 15 minutes followed by 15 minutes of rest, or
+    // effectively 25 kg/min.
+    //
+    // Now we need to bring the weights and volumes together. Again, more hand waving
+    // as the soil composition is going to have a big influence on this. The
+    // engineering toolbox https://www.engineeringtoolbox.com/dirt-mud-densities-d_1727.html
+    // lists the density of wet and dry versions of many materials. I'm going with the
+    // assumption that this is moist/wet soil that includes clay, silt, load, as well as
+    // some rock, so I'll just call it 1700 kg/m^3 on average.
+    //
+    // Shallow pit is 0.25 m^3 * 1700 kg/m^3, or 425 kg.
+    // Deep pit is 2 m^3 * 1700 kg/m^3, or 3400 kg.
+    //
+    // We'll do some variables below, but for reference:
+    // Shallow pit: 425 kg / 25 kg/min = 17 minutes
+    // Deep pit: 3400 kg / 25 kg/min = 136 minutes
+    //
+    // Now, one addendum: we're digging our deep pit in the location that we've already
+    // dug the shallow pit, so really we should exclude the shallow pit volume from the
+    // deep when counting the amount of work we need to do.
+    //
+    // Adjusted deep pit: ( 3400 kg - 425 kg ) / 25 kg/min = 119 minutes
+
+    constexpr double shallow_pit_volume_m3 = 0.25;
+    constexpr double deep_pit_volume_m3 = 2;
+    constexpr int dig_rate_kg_min = 25;
+    constexpr int material_density_kg_m3 = 1700;
+
+    // At the time of writing this, a shovel is DIG 3, which is what the numbers are
+    // balanced around.
+    constexpr double baseline_dig_quality = 3;
+
+    // Get the dig quality of the tool.
+    const int quality = it->get_quality( DIG );
+
+    // Dig quality affects the dig rate linearly relative to baseline dig quality
+    const double tool_dig_rate = dig_rate_kg_min * quality / baseline_dig_quality;
+
+    ///\EFFECT_STR modifies dig rate
+    // Adjust the dig rate by 2 kg/min per point of strength more/less than 10.
+    const double player_dig_rate = std::max( 1.0, tool_dig_rate + ( p->str_cur - 10 ) * 2 );
+
+    // Figure out the volume of the pit we're digging.
+    // Subtract the shallow volume from the deep, since we already dug that.
+    const double volume_m3 = deep ? ( deep_pit_volume_m3 - shallow_pit_volume_m3 ) :
+                             shallow_pit_volume_m3;
+
+    // And now determine the moves...
+    int dig_minutes = volume_m3 * material_density_kg_m3 / player_dig_rate;
+    int moves = MINUTES( dig_minutes ) * 100;
+
+    // Modify the number of moves based on the help.
+    // TODO: this block of code is all over the place and could probably be consolidated.
+    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
+    const int helpersize = g->u.get_num_crafting_helpers( 3 );
+    moves = moves * ( 1 - ( helpersize / 10 ) );
+
+    return moves;
+}
+
 int iuse::dig( player *p, item *it, bool t, const tripoint & )
 {
     if( !p || t ) {
@@ -2506,31 +2624,34 @@ int iuse::dig( player *p, item *it, bool t, const tripoint & )
         return 0;
     }
 
-    int moves;
+    const bool diggable = g->m.has_flag( "DIGGABLE", pnt );
+    const bool deepen = g->m.has_flag( "DIGGABLE_CAN_DEEPEN", pnt );
 
-    if( g->m.has_flag( "DIGGABLE", pnt ) ) {
-        if( g->m.ter( pnt ) == t_pit_shallow ) {
-            if( p->crafting_inventory().has_quality( DIG, 2 ) ) {
-                moves = MINUTES( 90 ) / it->get_quality( DIG ) * 100;
-            } else {
-                p->add_msg_if_player( _( "You can't deepen this pit without a proper shovel." ) );
-                return 0;
-            }
-        } else {
-            moves = MINUTES( 30 ) / it->get_quality( DIG ) * 100;
-        }
-    } else {
+    if( !diggable ) {
         p->add_msg_if_player( _( "You can't dig a pit on this ground." ) );
         return 0;
     }
+
+    if( deepen && !p->crafting_inventory().has_quality( DIG, 2 ) ) {
+        p->add_msg_if_player( _( "You can't deepen this pit without a proper shovel." ) );
+        return 0;
+    }
+
     const std::vector<npc *> helpers = g->u.get_crafting_helpers();
-    const int helpersize = g->u.get_num_crafting_helpers( 3 );
-    moves = moves * ( 1 - ( helpersize / 10 ) );
     for( const npc *np : helpers ) {
         add_msg( m_info, _( "%s helps with this task..." ), np->name.c_str() );
         break;
     }
-    p->assign_activity( activity_id( "ACT_DIG" ), moves, -1, p->get_item_position( it ) );
+
+    const int moves = dig_pit_moves( p, it, deepen );
+
+    activity_id digging_activity( "ACT_DIG" );
+    if( deepen ) {
+        digging_activity = activity_id( "ACT_DIG_DEEPEN" );
+    }
+
+    player_activity act( digging_activity, moves, -1, p->get_item_position( it ) );
+    p->assign_activity( act );
     p->activity.placement = pnt;
 
     return it->type->charges_to_use();
@@ -2561,13 +2682,21 @@ int iuse::dig_channel( player *p, item *it, bool t, const tripoint & )
     if( ( g->m.has_flag( "DIGGABLE", pnt ) && ( g->m.has_flag( "CURRENT", north ) ||
             g->m.has_flag( "CURRENT", south ) || g->m.has_flag( "CURRENT", east ) ||
             g->m.has_flag( "CURRENT", west ) ) ) ) {
-        moves = MINUTES( 120 ) / it->get_quality( DIG ) * 100;
+
+        const std::vector<npc *> helpers = g->u.get_crafting_helpers();
+        for( const npc *np : helpers ) {
+            add_msg( m_info, _( "%s helps with this task..." ), np->name.c_str() );
+            break;
+        }
+
+        moves = dig_pit_moves( p, it, true );
     } else {
         p->add_msg_if_player( _( "You can't dig a channel on this ground." ) );
         return 0;
     }
 
-    p->assign_activity( activity_id( "ACT_DIG_CHANNEL" ), moves, -1, p->get_item_position( it ) );
+    player_activity act( activity_id( "ACT_DIG_CHANNEL" ), moves, -1, p->get_item_position( it ) );
+    p->assign_activity( act );
     p->activity.placement = pnt;
 
     return it->type->charges_to_use();
@@ -3557,7 +3686,7 @@ int iuse::tazer( player *p, item *it, bool, const tripoint &pos )
                                   _( "<npcname> attempts to shock %s, but misses." ),
                                   target->disp_name().c_str() );
     } else {
-        // Maybe-TODO: Execute an attack and maybe zap something other than torso
+        // TODO: Maybe - Execute an attack and maybe zap something other than torso
         // Maybe, because it's torso (heart) that fails when zapped with electricity
         int dam = target->deal_damage( p, bp_torso, damage_instance( DT_ELECTRIC, rng( 5,
                                        25 ) ) ).total_damage();
@@ -4731,7 +4860,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
                 break;
 
             case AEA_SCREAM:
-                sounds::sound( p->pos(), 40, sounds::sound_t::speech,
+                sounds::sound( p->pos(), 40, sounds::sound_t::alert,
                                string_format( _( "a disturbing scream from %s %s" ),
                                               p->disp_name( true ), it->tname() ) );
                 if( !p->is_deaf() ) {
@@ -4770,7 +4899,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
                         }
                     } while( tries < 5 && !g->is_empty( monp ) &&
                              !g->m.sees( monp, p->pos(), 10 ) );
-                    if( tries < 5 ) { // @todo: tries increment is missing, so this expression is always true
+                    if( tries < 5 ) { // TODO: tries increment is missing, so this expression is always true
                         if( monster *const  spawned = g->summon_mon( mon_shadow, monp ) ) {
                             num_spawned++;
                             spawned->reset_special_rng( "DISAPPEAR" );
@@ -4795,7 +4924,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
                 p->add_morale( MORALE_FEELING_GOOD, rng( 20, 50 ), 0, 5_minutes, 5_turns, false );
                 break;
 
-            case AEA_SPLIT: // TODO
+            case AEA_SPLIT: // TODO: Add something
                 break;
 
             case AEA_NULL: // BUG
@@ -5450,7 +5579,7 @@ int iuse::robotcontrol( player *p, item *it, bool, const tripoint & )
             uilist pick_robot;
             pick_robot.text = _( "Choose an endpoint to hack." );
             // Build a list of all unfriendly robots in range.
-            std::vector< std::shared_ptr< monster> > mons; // @todo: change into vector<Creature*>
+            std::vector< std::shared_ptr< monster> > mons; // TODO: change into vector<Creature*>
             std::vector< tripoint > locations;
             int entry_num = 0;
             for( const monster &candidate : g->all_monsters() ) {
@@ -5842,7 +5971,7 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
         if( ei_photo == choice ) {
 
             const int photos = it->get_var( "EIPC_PHOTOS", 0 );
-            const int viewed = std::min( photos, int( rng( 10, 30 ) ) );
+            const int viewed = std::min( photos, static_cast<int>( rng( 10, 30 ) ) );
             const int count = photos - viewed;
             if( count == 0 ) {
                 it->erase_var( "EIPC_PHOTOS" );
@@ -6360,7 +6489,7 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
         } catch( const JsonError &e ) {
             debugmsg( "Error NPC photos: %s", e.c_str() );
         }
-        for( auto npc_photo : npc_photos ) {
+        for( const auto &npc_photo : npc_photos ) {
             std::string menu_str;
             if( npc_photo.name == p->name ) {
                 menu_str = _( "You" );
@@ -7495,8 +7624,8 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
         }
         const oter_id &cur_om_ter = overmap_buffer.ter( p->global_omt_location() );
         /* windpower defined in internal velocity units (=.01 mph) */
-        double windpower = int( 100.0f * get_local_windpower( g->windspeed + vehwindspeed,
-                                cur_om_ter, p->pos(), g->winddirection, g->is_sheltered( p->pos() ) ) );
+        double windpower = static_cast<int>( 100.0f * get_local_windpower( g->windspeed + vehwindspeed,
+                                             cur_om_ter, p->pos(), g->winddirection, g->is_sheltered( p->pos() ) ) );
 
         p->add_msg_if_player( m_neutral, _( "Wind Speed: %.1f %s." ),
                               convert_velocity( windpower, VU_WIND ),

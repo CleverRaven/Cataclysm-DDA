@@ -210,7 +210,7 @@ std::string material_type::dmg_adj( int damage ) const
     }
 
     // apply bounds checking
-    return _( _dmg_adj[std::min( size_t( damage ), _dmg_adj.size() ) - 1].c_str() );
+    return _( _dmg_adj[std::min( static_cast<size_t>( damage ), _dmg_adj.size() ) - 1].c_str() );
 }
 
 int material_type::acid_resist() const

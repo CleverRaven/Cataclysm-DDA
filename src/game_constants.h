@@ -71,7 +71,7 @@
 #define MAX_HANDLING_COST 400
 /** Move cost of accessing an item in inventory. */
 #define INVENTORY_HANDLING_PENALTY 100
-/** Move cost of accessing an item lying on the map. @todo: Less if player is crouching */
+/** Move cost of accessing an item lying on the map. TODO: Less if player is crouching */
 #define MAP_HANDLING_PENALTY 80
 /** Move cost of accessing an item lying on a vehicle. */
 #define VEHICLE_HANDLING_PENALTY 80

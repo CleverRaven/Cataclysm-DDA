@@ -43,7 +43,7 @@ void loading_ui::proceed()
 {
     if( menu != nullptr && !menu->entries.empty() ) {
         if( menu->selected >= 0 && menu->selected < static_cast<int>( menu->entries.size() ) ) {
-            // @todo: Color it red if it errored hard, yellow on warnings
+            // TODO: Color it red if it errored hard, yellow on warnings
             menu->entries[menu->selected].text_color = c_green;
         }
 
