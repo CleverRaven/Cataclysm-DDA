@@ -3346,21 +3346,21 @@ void iexamine::sign( player &p, const tripoint &examp )
                                             _( "You overwrite the previous message on the sign with your graffiti." ) :
                                             _( "You graffiti a message onto the sign." );
         std::string ignore_message = _( "You leave the sign alone." );
-        if( query_yn( query_message.c_str() ) ) {
+        if( query_yn( query_message ) ) {
             std::string signage = string_input_popup()
                                   .title( _( "Write what?" ) )
                                   .identifier( "signage" )
                                   .query_string();
             if( signage.empty() ) {
-                p.add_msg_if_player( m_neutral, ignore_message.c_str() );
+                p.add_msg_if_player( m_neutral, ignore_message );
             } else {
                 g->m.set_signage( examp, signage );
-                p.add_msg_if_player( m_info, spray_painted_message.c_str() );
-                p.moves -= 2 * signage.length();
+                p.add_msg_if_player( m_info, spray_painted_message );
+                p.mod_moves( - 2 * signage.length() );
                 p.consume_tools( tools, 1 );
             }
         } else {
-            p.add_msg_if_player( m_neutral, ignore_message.c_str() );
+            p.add_msg_if_player( m_neutral, ignore_message );
         }
     }
 }
