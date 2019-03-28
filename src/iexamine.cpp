@@ -3356,7 +3356,7 @@ void iexamine::sign( player &p, const tripoint &examp )
             } else {
                 g->m.set_signage( examp, signage );
                 p.add_msg_if_player( m_info, spray_painted_message );
-                p.mod_moves( - 2 * signage.length() );
+                p.mod_moves( - 20 * signage.length() );
                 p.consume_tools( tools, 1 );
             }
         } else {
