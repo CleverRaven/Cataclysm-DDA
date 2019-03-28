@@ -3340,15 +3340,15 @@ void iexamine::sign( player &p, const tripoint &examp )
     if( !tools.empty() ) {
         // Different messages if the sign already has writing associated with it.
         std::string query_message = previous_signage_exists ?
-                                    _( "Overwrite the existing message on the sign with spray paint?" ) :
-                                    _( "Add a message to the sign with spray paint?" );
+                                    _( "Overwrite the existing message on the sign?" ) :
+                                    _( "Add a message to the sign?" );
         std::string spray_painted_message = previous_signage_exists ?
-                                            _( "You overwrite the previous message on the sign with your graffiti" ) :
+                                            _( "You overwrite the previous message on the sign with your graffiti." ) :
                                             _( "You graffiti a message onto the sign." );
         std::string ignore_message = _( "You leave the sign alone." );
         if( query_yn( query_message.c_str() ) ) {
             std::string signage = string_input_popup()
-                                  .title( _( "Spray what?" ) )
+                                  .title( _( "Write what?" ) )
                                   .identifier( "signage" )
                                   .query_string();
             if( signage.empty() ) {
