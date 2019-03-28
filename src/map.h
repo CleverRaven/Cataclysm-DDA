@@ -460,7 +460,7 @@ class map
         * First tile from the target is an obstacle, which has the coverage value.
         * If there's no obstacle adjacent to the target - no coverage.
         */
-        int obstacle_coverage( const tripoint &loc1, const tripoint &loc2, int t );
+        int obstacle_coverage( const tripoint &loc1, const tripoint &loc2 );
         /**
          * Check whether there's a direct line of sight between `F` and
          * `T` with the additional movecost restraints.
