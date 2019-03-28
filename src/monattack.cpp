@@ -2787,7 +2787,7 @@ bool mattack::photograph( monster *z )
     }
 
     if( z->friendly || g->u.weapon.typeId() == "e_handcuffs" ) {
-        // Friendly (hacked?) bot ignore the player. Arrested suspect ingnored too.
+        // Friendly (hacked?) bot ignore the player. Arrested suspect ignored too.
         // TODO: might need to be revisited when it can target npcs.
         return false;
     }
@@ -2795,11 +2795,14 @@ bool mattack::photograph( monster *z )
     add_msg( m_warning, _( "The %s takes your picture!" ), z->name().c_str() );
     // TODO: Make the player known to the faction
     if( one_in( 6 ) ) {
-        sounds::sound( z->pos(), 15, sounds::sound_t::alert, _( "a robotic voice boom, \"Citizen " ) + Name::generate( g->u.male ) + "!\"" );
+        sounds::sound( z->pos(), 15, sounds::sound_t::alert,
+                       _( "a robotic voice boom, \"Citizen " ) + Name::generate( g->u.male ) + "!\"" );
     } else if( one_in( 3 ) ) {
-        sounds::sound( z->pos(), 15, sounds::sound_t::alert, _( "a robotic voice boom, \"Citizen " ) + g->u.name + "!\"" );
+        sounds::sound( z->pos(), 15, sounds::sound_t::alert,
+                       _( "a robotic voice boom, \"Citizen " ) + g->u.name + "!\"" );
     } else {
-        sounds::sound( z->pos(), 15, sounds::sound_t::alert, _( "a robotic voice boom, \"Citizen...  database connection lost!" ) );
+        sounds::sound( z->pos(), 15, sounds::sound_t::alert,
+                       _( "a robotic voice boom, \"Citizen...  database connection lost!" ) );
     }
 
     if( g->u.weapon.is_gun() ) {
