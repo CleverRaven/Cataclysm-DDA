@@ -1331,6 +1331,10 @@ bool game::handle_action()
             case ACTION_TOGGLE_MOVE:
                 u.toggle_move_mode();
                 break;
+                
+            case ACTION_TOGGLE_CROUCHING:
+                u.toggle_crouching();
+                break;
 
             case ACTION_MOVE_N:
                 if( !( u.get_value( "remote_controlling" ).empty() ) && ( ( u.has_active_item( "radiocontrol" ) ) ||
