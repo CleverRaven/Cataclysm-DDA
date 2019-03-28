@@ -2437,6 +2437,7 @@ void CheckMessages()
                     // Only prioritize movement options if we're not driving.
                     if( !g->u.controlling_vehicle ) {
                         actions.insert( ACTION_TOGGLE_MOVE );
+                        actions.insert( ACTION_TOGGLE_CROUCHING );
                     }
                     // Only prioritize fire weapon options if we're wielding a ranged weapon.
                     if( g->u.weapon.is_gun() || g->u.weapon.has_flag( "REACH_ATTACK" ) ) {
@@ -2447,11 +2448,16 @@ void CheckMessages()
                 // If we're already running, make it simple to toggle running to off.
                 if( g->u.move_mode != "walk" ) {
                     actions.insert( ACTION_TOGGLE_MOVE );
+                    actions.insert( ACTION_TOGGLE_CROUCHING );
                 }
 
                 // We're not already running or in combat, so remove toggle walk/run
                 if( std::find( actions.begin(), actions.end(), ACTION_TOGGLE_MOVE ) == actions.end() ) {
                     actions_remove.insert( ACTION_TOGGLE_MOVE );
+                }
+                if( std::find( actions.begin(), actions.end(), ACTION_TOGGLE_CROUCHING ) == actions.end() )
+                {
+                    actions_remove.insert( ACTION_TOGGLE_CROUCHING );
                 }
 
                 // Check if we can perform one of our actions on nearby terrain. If so,
