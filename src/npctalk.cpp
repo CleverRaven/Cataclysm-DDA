@@ -262,7 +262,7 @@ void npc::handle_sound( int priority, const std::string &description, int heard_
         if( ( my_fac == sound_source->my_fac ||
               get_attitude_group( get_attitude() ) == sound_source->get_attitude_group(
                   sound_source->get_attitude() ) ) && ( priority < 6 ) ) {
-            add_msg( "NPC ignored same faction %s", name.c_str() );
+            add_msg( m_debug, "NPC ignored same faction %s", name.c_str() );
             return;
         }
     }
@@ -270,7 +270,7 @@ void npc::handle_sound( int priority, const std::string &description, int heard_
     if( ( priority < 6 ) && spos == g->u.pos() && ( is_friend() ||
             mission == NPC_MISSION_GUARD_ALLY ||
             get_attitude_group( get_attitude() ) != attitude_group::hostile ) ) {
-        add_msg( "NPC ignored player noise %s", name.c_str() );
+        add_msg( m_debug, "NPC ignored player noise %s", name.c_str() );
         return;
     }
     // patrolling guards will investigate more readily than stationary NPCS
@@ -279,7 +279,7 @@ void npc::handle_sound( int priority, const std::string &description, int heard_
         investigate_dist = 50;
     }
     if( priority > 3 && ai_cache.total_danger < 1.0f && rl_dist( pos(), spos ) < investigate_dist ) {
-        add_msg( "NPC %s added noise at pos %d, %d", name.c_str(), spos.x, spos.y );
+        add_msg( m_debug, "NPC %s added noise at pos %d, %d", name.c_str(), spos.x, spos.y );
         dangerous_sound temp_sound;
         temp_sound.pos = spos;
         temp_sound.volume = heard_volume;
