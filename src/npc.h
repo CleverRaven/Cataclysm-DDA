@@ -89,8 +89,9 @@ enum npc_mission : int {
     NPC_MISSION_LEGACY_2,
     NPC_MISSION_LEGACY_3,
 
-    NPC_MISSION_GUARD, // Assigns an non-allied NPC to guard a position
+    NPC_MISSION_GUARD, // Assigns an non-allied NPC to remain in place
     NPC_MISSION_GUARD_ALLY, // Assigns an allied NPC to guard a position
+    NPC_MISSION_GUARD_PATROL, // Assigns a non-allied NPC to guard and investigate
     NPC_MISSION_ACTIVITY, // Perform a player_activity until it is complete
 };
 
@@ -258,6 +259,12 @@ struct npc_follower_rules {
 
 };
 
+struct dangerous_sound {
+    tripoint pos;
+    int type;
+    int volume;
+};
+
 const direction npc_threat_dir[8] = { NORTHWEST, NORTH, NORTHEAST, EAST,
                                       SOUTHEAST, SOUTH, SOUTHWEST, WEST
                                     };
@@ -269,7 +276,12 @@ struct npc_short_term_cache {
     float danger_assessment;
     // Use weak_ptr to avoid circular references between Creatures
     std::weak_ptr<Creature> target;
-
+    // map of positions / type / volume of suspicious sounds
+    std::vector<dangerous_sound> sound_alerts;
+    // current sound position being investigated
+    tripoint spos;
+    // Position to return to guarding
+    cata::optional<tripoint> guard_pos;
     double my_weapon_value;
 
     // Use weak_ptr to avoid circular references between Creatures
@@ -645,7 +657,7 @@ class npc : public player
         void say( const char *const line, Args &&... args ) const {
             return say( string_format( line, std::forward<Args>( args )... ) );
         }
-        void say( const std::string &line ) const;
+        void say( const std::string &line, const bool shout = false ) const;
         void decide_needs();
         void die( Creature *killer ) override;
         bool is_dead() const;
@@ -657,7 +669,7 @@ class npc : public player
         // @param force true if the complaint should happen even if not enough time has elapsed since last complaint
         // @param speech words of this complaint
         bool complain_about( const std::string &issue, const time_duration &dur,
-                             const std::string &speech, const bool force = false );
+                             const std::string &speech, const bool force = false, const bool alert = false );
         // wrapper for complain_about that warns about a specific type of threat, with
         // different warnings for hostile or friendly NPCs and hostile NPCs always complaining
         void warn_about( const std::string &type, const time_duration &d = 10_minutes,
@@ -936,6 +948,7 @@ class npc : public player
         void reset_companion_mission();
         bool has_companion_mission() const;
         npc_companion_mission get_companion_mission() const;
+        attitude_group get_attitude_group( npc_attitude att );
 
     protected:
         void store( JsonOut &jsout ) const;
