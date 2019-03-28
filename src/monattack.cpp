@@ -2785,14 +2785,22 @@ bool mattack::photograph( monster *z )
         }
     }
 
-    if( z->friendly ) {
-        // Friendly (hacked?) bot ignore the player.
+    if( z->friendly || g->u.weapon.typeId() == "e_handcuffs" ) {
+        // Friendly (hacked?) bot ignore the player. Arrested suspect ingnored too.
         // TODO: might need to be revisited when it can target npcs.
         return false;
     }
     z->moves -= 150;
     add_msg( m_warning, _( "The %s takes your picture!" ), z->name().c_str() );
     // TODO: Make the player known to the faction
+        sounds::sound( z->pos(), 15, sounds::sound_t::alert, _( "a robotic voice boom, \"Citizen " ) + g->u.name + "!\"" );
+    if( g->u.weapon.is_gun() ) {
+        sounds::sound( z->pos(), 15, sounds::sound_t::alert, _( "\"Drop your gun!  Now!\"" ) );
+    } else if( g->u.is_armed() ) {
+        sounds::sound( z->pos(), 15, sounds::sound_t::alert, _( "\"Drop your weapon!  Now!\"" ) );
+    }
+    const SpeechBubble &speech = get_speech( z->type->id.str() );
+    sounds::sound( z->pos(), speech.volume, sounds::sound_t::alert, speech.text );
     g->events.add( EVENT_ROBOT_ATTACK, calendar::turn + rng( 15_turns, 30_turns ), 0,
                    g->u.global_sm_location() );
 
