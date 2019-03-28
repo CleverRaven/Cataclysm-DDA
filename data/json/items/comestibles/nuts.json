@@ -409,13 +409,11 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "healthy": 1,
-    "calories": 456,
+    "calories": 114,
     "description": "A serving of acorns that have been hulled, chopped, and boiled in water before being thoroughly toasted until dry.  Filling and nutritious.",
     "price": 90,
     "material": "nut",
-    "charges": 2,
     "vitamins": [ [ "calcium", 1 ], [ "iron", 1 ] ],
-    "flags": [ "NUTRIENT_OVERRIDE" ],
     "volume": 1
   }
 ]
