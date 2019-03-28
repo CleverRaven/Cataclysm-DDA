@@ -398,7 +398,7 @@ void draw_bullet_curses( map &m, const tripoint &t, const char bullet, const tri
         return;
     }
 
-    const tripoint vp = g->u.pos() + g->u.view_offset;
+    const tripoint vp = g->u.pos() + g->u.view_offset + g->sidebar_offset;
 
     if( p != nullptr && p->z == vp.z ) {
         m.drawsq( g->w_terrain, g->u, *p, false, true, vp );
