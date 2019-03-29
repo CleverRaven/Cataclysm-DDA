@@ -276,7 +276,7 @@
         "id" : "TABLEMANNERS",
         "name" : "Rigid table manners",
         "points" : -1,
-        "description" : "You've been taught proper table manners from your early childhood on. Now you can't even think about eating without a table. Eating without it frustrates you, but eating like a civilized person gives you a bigger mood bonus.",
+        "description" : "You've been taught proper table manners from your early childhood on.  Now you can't even think about eating without a table.  Eating without it frustrates you, but eating like a civilized person gives you a bigger morale bonus.",
         "starting_trait" : true,
         "valid" : false
     },{
