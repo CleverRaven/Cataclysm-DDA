@@ -406,6 +406,13 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "apartments_con_tower_015",
+    "name": "open air",
+    "sym": 46,
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "apartments_con_tower_104",
     "copy-from": "apartments_tower_any"
   },
