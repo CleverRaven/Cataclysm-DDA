@@ -55,6 +55,15 @@ window_panel::window_panel( std::function<void( player &, const catacurses::wind
 // panels prettify and helper functions
 // ====================================
 
+std::string trunc_ellipse( std::string input, unsigned int trunc )
+{
+    if( input.length() < trunc || trunc == 0 ) {
+        return input;
+    } else {
+        return utf8_truncate( input, trunc - 1 ) + "…";
+    }
+}
+
 void draw_rectangle( const catacurses::window &w, nc_color, point top_left,
                      point bottom_right )
 {
@@ -1949,9 +1958,12 @@ void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t
             mvwprintz( w, index, 1 + ( column_width * column ), c_yellow, ">>" );
             mvwvline( w, 1, 13, 0, 13 );
             mvwvline( w, 1, 43, 0, 13 );
-            mvwprintz( w, 1, 15, c_white, "tab: toggle panels on/off" );
-            mvwprintz( w, 2, 15, c_white, "enter: change display order" );
-            mvwprintz( w, 3, 15, c_white, "esc: exit" );
+            mvwprintz( w, 1, 15, c_light_green, trunc_ellipse( ctxt.press_x( "TOGGLE_PANEL" ), 27 ) + ":" );
+            mvwprintz( w, 2, 15, c_white, _( "toggle panels on/off" ) );
+            mvwprintz( w, 3, 15, c_light_green, trunc_ellipse( ctxt.press_x( "MOVE_PANEL" ), 27 ) + ":" );
+            mvwprintz( w, 4, 15, c_white, _( "change display order" ) );
+            mvwprintz( w, 5, 15, c_light_green, trunc_ellipse( ctxt.press_x( "QUIT" ), 27 ) + ":" );
+            mvwprintz( w, 6, 15, c_white, _( "exit" ) );
         }
         wrefresh( w );
 
