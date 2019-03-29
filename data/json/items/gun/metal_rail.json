@@ -56,7 +56,6 @@
     "ups_charges": 40,
     "reload": 200,
     "valid_mod_locations": [ [ "grip", 1 ], [ "sling", 1 ], [ "stock", 1 ], [ "sights", 1 ] ],
-    "ammo_effects": [ "INCENDIARY", "TRAIL" ],
-    "flags": [ "RELOAD_ONE" ]
+    "ammo_effects": [ "INCENDIARY", "TRAIL" ]
   }
 ]
