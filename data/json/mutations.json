@@ -726,6 +726,7 @@
         "starting_trait" : true,
         "category" : ["PLANT"],
         "cancels" : ["GOODHEARING"],
+        "changes_to" : ["DEAF"],
         "hearing_modifier" : 0.5
     },{
         "type" : "mutation",
