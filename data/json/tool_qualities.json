@@ -118,11 +118,6 @@
   },
   {
     "type": "tool_quality",
-    "id": "TWO_WAY_RADIO",
-    "name": "two-way radio"
-  },
-  {
-    "type": "tool_quality",
     "id": "BUTCHER",
     "name": "butchering"
   },

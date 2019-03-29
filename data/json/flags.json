@@ -315,6 +315,13 @@
     "conflicts": [ "RAD_PROOF" ]
   },
   {
+    "id": "TWO_WAY_RADIO",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This item can be used to communicate with radio waves.",
+    "conflicts": [ "RAD_PROOF" ]
+  },
+  {
     "id": "RAINPROOF",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
