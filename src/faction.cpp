@@ -1273,6 +1273,8 @@ void new_faction_manager::display() const
                         if( p ) {
                             is_stationed = true;
                             stationed_at = *p;
+                        } else {
+                            stationed_at = nullptr;
                         }
                         std::string direction = direction_name( direction_from(
                                 player_abspos, guy_abspos ) );
