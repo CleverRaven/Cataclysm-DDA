@@ -40,11 +40,7 @@
     "name": "pacification grenade",
     "price": 3600,
     "description": "This is a canister grenade filled with sweetish, pink gas.  Use this item to pull the pin and light the fuse, turning it into an active pacification grenade.  In five turns it will begin to expel a nonlethal relaxation gas, which prevents those who enter it from taking offensive actions.",
-    "countdown_action": {
-        "menu_text": "Pull pin",
-        "type": "transform",
-        "target": "relaxbomb_act"
-    }
+    "countdown_action": { "menu_text": "Pull pin", "type": "transform", "target": "relaxbomb_act" }
   },
   {
     "id": "relaxbomb_act",
@@ -54,10 +50,7 @@
     "description": "This canister bomb has had its pin removed and is expelling pink gas.",
     "emits": [ "emit_relax_gas_stream" ],
     "countdown_interval": 50,
-    "countdown_action": {
-        "type": "transform",
-        "target": "canister_empty"
-    },
+    "countdown_action": { "type": "transform", "target": "canister_empty" },
     "flags": [ "TRADER_AVOID" ]
   },
   {
