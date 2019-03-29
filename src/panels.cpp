@@ -1310,7 +1310,8 @@ void draw_mod1( const player &u, const catacurses::window &w )
     mvwprintz( w, 3,  1,  c_light_gray, _( "Rest :" ) );
     mvwprintz( w, 4,  1,  c_light_gray, _( "Pain :" ) );
     mvwprintz( w, 5,  1,  c_light_gray, _( "Heat :" ) );
-    mvwprintz( w, 0,  8, c_light_gray, utf8_truncate( u.weapname(), getmaxx( w ) - 8 ) );
+    nc_color color = c_light_gray;
+    print_colored_text( w, 0,  8, color, c_light_gray, u.weapname( getmaxx( w ) - 8 ) );
     mvwprintz( w, 1,  8, hunger_pair.first, hunger_pair.second );
     mvwprintz( w, 2,  8, thirst_pair.first, thirst_pair.second );
     mvwprintz( w, 3,  8, rest_pair.first, rest_pair.second );
@@ -1325,7 +1326,8 @@ void draw_env_compact( player &u, const catacurses::window &w )
 
     draw_minimap( u, w );
     // wielded item
-    mvwprintz( w, 0, 8, c_light_gray, utf8_truncate( u.weapname(), getmaxx( w ) - 8 ) );
+    nc_color color = c_light_gray;
+    print_colored_text( w, 0, 8, color, c_light_gray, u.weapname( getmaxx( w ) - 8 ) );
     // style
     mvwprintz( w, 1, 8, c_light_gray, u.get_combat_style().name );
     // location
@@ -1642,7 +1644,8 @@ void draw_weapon_classic( const player &u, const catacurses::window &w )
     werase( w );
 
     mvwprintz( w, 0, 0, c_light_gray, _( "Weapon  :" ) );
-    mvwprintz( w, 0, 10, c_light_gray, utf8_truncate( u.weapname(), getmaxx( w ) - 24 ) );
+    nc_color color = c_light_gray;
+    print_colored_text( w, 0, 10, c_light_gray, color, u.weapname( getmaxx( w ) - 24 ) );
 
     // Print in sidebar currently used martial style.
     std::string style;

@@ -11300,7 +11300,7 @@ bool player::has_magazine_for_ammo( const ammotype &at ) const
 }
 
 // mytest return weapon name to display in sidebar
-std::string player::weapname() const
+std::string player::weapname( unsigned int truncate ) const
 {
     if( weapon.is_gun() ) {
         std::string str = weapon.type_name();
@@ -11345,7 +11345,7 @@ std::string player::weapname() const
         return _( "fists" );
 
     } else {
-        return weapon.tname( 1, false );
+        return weapon.tname( 1, true, truncate );
     }
 }
 
