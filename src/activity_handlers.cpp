@@ -2913,7 +2913,7 @@ void activity_handlers::dig_finish( player_activity *act, player *p )
                                pgettext( "memorial_female", "Exhumed a grave." ) );
         g->m.ter_set( pos, t_pit );
     } else {
-        g->m.ter_set( pos, t_pit_shallow );   
+        g->m.ter_set( pos, t_pit_shallow );
     }
 
     const std::vector<npc *> helpers = g->u.get_crafting_helpers();
