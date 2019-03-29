@@ -40,7 +40,9 @@
       "g": "t_chaingate_c",
       "<": "t_stairs_up",
       ">": "t_stairs_down",
-      "*": "t_open_air"
+      "*": "t_open_air",
+      "K": "t_generator_broken",
+      "M": "t_machinery_heavy"
     },
     "furniture": {
       "A": [ "f_armchair", "f_armchair", "f_null" ],
