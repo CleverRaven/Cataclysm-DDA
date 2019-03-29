@@ -2570,9 +2570,9 @@ static int dig_pit_moves( player *p, item *it, bool deep )
     //
     // Adjusted deep pit: ( 3400 kg - 425 kg ) / 25 kg/min = 119 minutes
 
-    constexpr double shallow_pit_volume_m3 = 0.25;
-    constexpr double deep_pit_volume_m3 = 2;
-    constexpr int dig_rate_kg_min = 25;
+    constexpr double shallow_pit_volume_m3 = 0.1;
+    constexpr double deep_pit_volume_m3 = 1;
+    constexpr int dig_rate_kg_min = 5;
     constexpr int material_density_kg_m3 = 1700;
 
     // At the time of writing this, a shovel is DIG 3, which is what the numbers are
