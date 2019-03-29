@@ -540,7 +540,11 @@
     "charges": 4,
     "tools": [ [ [ "rag", -1 ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
     "batch_time_factors": [ 50, 2 ],
-    "components": [ [ [ "soy_milk", 5 ] ], [ [ "water_clean", 1 ] ], [ [ "chem_acetic_acid", 1 ] ] ]
+    "components": [
+      [ [ "soy_milk", 5 ] ],
+      [ [ "water_clean", 1 ] ],
+      [ [ "lemon", 1 ], [ "vinegar", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
