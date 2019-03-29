@@ -593,20 +593,56 @@
         "zzzzzzzzzzzzzzzzzzzz6***",
         "zzzzzzzzzzzzzzzzzzzz6***",
         "zzzzzzzzzzzzzzzzzzzz6***",
-        "zzzzzzzzzzzzzzzzzzzz6***",
-        "zzzzzzzzzzzzzzzzzzzz6***",
-        "zzzzzzzzzzzzzzzzzzzz6***",
-        "zzzzzzzzzzzzzzzzzzzz6***",
-        "zzzzzzzzzzzzzzzzzzzz6***"
+        "zzzz|W||zzzzzzzzzzzz6***",
+        "zzz||xM|zzzzzzzzzzzz6***",
+        "zzz+,,M|zzzzzzzzzzzz6***",
+        "zzz|KKK|zzzzzzzzzzzz6***",
+        "zzz|KKK|zzzzzzzzzzzz6***"
       ],
       "palettes": [ "apartment_palette" ],
       "place_nested": [
         {
           "chunks": [ [ "null", 50 ], [ "roof_6x6_utility", 25 ], [ "roof_4x4_utility_1", 25 ], [ "roof_5x5_coop", 100 ] ],
           "x": [ 5, 14 ],
-          "y": [ 10, 17 ]
+          "y": [ 7, 13 ]
         }
       ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "apartments_con_tower_015" ],
+    "weight": 250,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "************************",
+        "************************",
+        "************************",
+        "************************",
+        "************************",
+        "************************",
+        "************************",
+        "************************",
+        "************************",
+        "************************",
+        "************************",
+        "************************",
+        "************************",
+        "************************",
+        "************************",
+        "************************",
+        "************************",
+        "************************",
+        "************************",
+        "****zzzz****************",
+        "***zzzzz****************",
+        "***zzzzz****************",
+        "***zzzzz****************",
+        "***zzzzz****************"
+      ],
+      "palettes": [ "apartment_palette" ]
     }
   },
   {
@@ -668,7 +704,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "zzzzzzzzzzzzzzzzzzzz6***",
+        "zzz|||||zzzzzzzzzzzz6***",
         "zzzzzzzzzzzzzzzzzzzz6***",
         "zzzzzzzzzzzzzzzzzzzz6***",
         "zzzzzzzzzzzzzzzzzzzz6***",
