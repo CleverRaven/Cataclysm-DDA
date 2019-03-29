@@ -1041,7 +1041,7 @@
       [ [ "blade", 2 ] ]
     ]
   },
-  }
+  {
     "result": "cable",
     "type": "uncraft",
     "time": 1000,
