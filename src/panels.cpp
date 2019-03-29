@@ -1,5 +1,6 @@
 #include "panels.h"
 
+#include "action.h"
 #include "cata_utility.h"
 #include "color.h"
 #include "cursesdef.h"
@@ -1694,6 +1695,16 @@ void draw_time_classic( const player &u, const catacurses::window &w )
     wrefresh( w );
 }
 
+void draw_hint( const player &, const catacurses::window &w )
+{
+    werase( w );
+    std::string press = press_x( ACTION_TOGGLE_PANEL_ADM );
+    mvwprintz( w, 0, 1, c_light_green, press );
+    mvwprintz( w, 0, 2 + press.length(), c_white, _( "to open sidebar options" ) );
+
+    wrefresh( w );
+}
+
 // ============
 // INITIALIZERS
 // ============
@@ -1708,6 +1719,7 @@ std::vector<window_panel> initialize_default_classic_panels()
     ret.emplace_back( window_panel( draw_lighting_classic, "Lighting", 1, 44, true ) );
     ret.emplace_back( window_panel( draw_weapon_classic, "Weapon", 1, 44, true ) );
     ret.emplace_back( window_panel( draw_time_classic, "Time", 1, 44, true ) );
+    ret.emplace_back( window_panel( draw_mod2, "Armor", 5, 44, false ) );
     ret.emplace_back( window_panel( draw_compass_padding, "Compass", 6, 44, true ) );
     ret.emplace_back( window_panel( draw_messages_classic, "Log", -2, 44, true ) );
 #ifdef TILES
@@ -1728,6 +1740,7 @@ std::vector<window_panel> initialize_default_compact_panels()
     ret.emplace_back( window_panel( draw_needs, "Needs", 3, 32, true ) );
     ret.emplace_back( window_panel( draw_env_compact, "Env", 6, 32, true ) );
     ret.emplace_back( window_panel( draw_veh_compact, "Vehicle", 1, 32, true ) );
+    ret.emplace_back( window_panel( draw_mod2, "Armor", 5, 32, false ) );
     ret.emplace_back( window_panel( draw_messages_classic, "Log", -2, 32, true ) );
     ret.emplace_back( window_panel( draw_compass, "Compass", 8, 32, true ) );
 #ifdef TILES
@@ -1741,6 +1754,7 @@ std::vector<window_panel> initialize_default_label_panels()
 {
     std::vector<window_panel> ret;
 
+    ret.emplace_back( window_panel( draw_hint, "Hint", 1, 32, true ) );
     ret.emplace_back( window_panel( draw_limb, "Limbs", 3, 32, true ) );
     ret.emplace_back( window_panel( draw_char, "Movement", 3, 32, true ) );
     ret.emplace_back( window_panel( draw_stat, "Stats", 3, 32, true ) );
