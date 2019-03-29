@@ -204,8 +204,11 @@ ret_val<bool> iuse_transform::can_use( const player &p, const item &, bool,
                                        const tripoint & ) const
 {
     std::map<quality_id, int> unmet_reqs;
+    inventory inv;
+    inv.form_from_map( p.pos(), 1 );
     for( const auto &quality : qualities_needed ) {
-        if( !p.has_quality( quality.first, quality.second ) ) {
+        if( !p.has_quality( quality.first, quality.second ) &&
+            !inv.has_quality( quality.first, quality.second ) ) {
             unmet_reqs.insert( quality );
         }
     }
