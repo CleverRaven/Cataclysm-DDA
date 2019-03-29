@@ -1392,7 +1392,7 @@
     },{
         "type" : "speech",
         "speaker" : "mon_eyebot",
-        "sound" : "\"Police inbound. Stay where you are!\"",
+        "sound" : "\"Police inbound.  Stay where you are!\"",
         "volume" : 15
     }
 ]
