@@ -317,9 +317,8 @@
   {
     "id": "TWO_WAY_RADIO",
     "type": "json_flag",
-    "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "info": "This item can be used to communicate with radio waves.",
-    "conflicts": [ "RAD_PROOF" ]
+    "context": [ "GENERIC", "TOOL_ARMOR", "TOOL" ],
+    "info": "This item can be used to communicate with radio waves."
   },
   {
     "id": "RAINPROOF",
