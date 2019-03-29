@@ -3751,7 +3751,7 @@ int iuse::dive_tank( player *p, item *it, bool t, const tripoint & )
         if( p->is_worn( *it ) ) {
             if( p->is_underwater() && p->oxygen < 10 ) {
                 p->oxygen += 20;
-            } 
+            }
             if( one_in( 15 ) ) {
                 p->add_msg_if_player( m_bad, _( "You take a deep breath from your %s." ), it->tname().c_str() );
             }
@@ -3773,14 +3773,14 @@ int iuse::dive_tank( player *p, item *it, bool t, const tripoint & )
             it->set_var( "overwrite_env_resist", 0 );
             it->convert( it->typeId().substr( 0, it->typeId().size() - 3 ) ).active = false; // 3 = "_on"
         } else { //on
-            if( !p->is_worn( *it ) ){
+            if( !p->is_worn( *it ) ) {
                 p->add_msg_if_player( _( "You should wear it first." ) );
             } else {
                 p->add_msg_if_player( _( "You turn on the regulator and open the air valve." ) );
                 it->set_var( "overwrite_env_resist", it->get_base_env_resist_w_filter() );
                 it->convert( it->typeId() + "_on" ).active = true;
             }
-        }  
+        }
     }
     if( it->charges == 0 ) {
         it->set_var( "overwrite_env_resist", 0 );
