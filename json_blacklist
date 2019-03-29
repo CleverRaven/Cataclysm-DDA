@@ -1,9 +1,3 @@
-data/json/items/gunmod/magazine.json
-data/json/items/gunmod/underbarrel.json
-data/json/items/gun/shot.json
-data/json/items/handloaded_bullets.json
-data/json/items/migration.json
-data/json/items/newspaper.json
 data/json/items/resources/metals.json
 data/json/items/software.json
 data/json/items/tool_armor.json
