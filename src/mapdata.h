@@ -172,6 +172,7 @@ enum ter_bitflags : int {
     TFLAG_RAMP,
     TFLAG_HIDE_PLACE,
     TFLAG_BLOCK_WIND,
+    TFLAG_FLAT,
 
     NUM_TERFLAGS
 };
