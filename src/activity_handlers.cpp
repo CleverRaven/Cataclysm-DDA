@@ -2911,7 +2911,7 @@ void activity_handlers::dig_finish( player_activity *act, player *p )
         }
         g->u.add_memorial_log( pgettext( "memorial_male", "Exhumed a grave." ),
                                pgettext( "memorial_female", "Exhumed a grave." ) );
-        g->m.ter_set( pos, t_pit_shallow );
+        g->m.ter_set( pos, t_pit );
     } else {
         g->m.ter_set( pos, t_pit_shallow );   
     }
