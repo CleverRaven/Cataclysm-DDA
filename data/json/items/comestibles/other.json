@@ -242,7 +242,7 @@
   {
     "type": "COMESTIBLE",
     "id": "can_beans",
-    "name": "beans",
+    "name": "canned beans",
     "name_plural": "beans",
     "weight": 256,
     "color": "brown",
