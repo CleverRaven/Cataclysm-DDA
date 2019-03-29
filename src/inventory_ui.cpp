@@ -591,6 +591,9 @@ void inventory_column::on_input( const inventory_input &input )
         select( 0, scroll_direction::FORWARD );
     } else if( input.action == "END" ) {
         select( entries.size() - 1, scroll_direction::BACKWARD );
+    } else if( input.action == "TOGGLE_FAVORITE" ) {
+        const item *selected_item = get_selected().location.get_item();
+        g->u.set_item_or_stack_favorite( selected_item, !selected_item->is_favorite );
     }
 }
 
@@ -1500,6 +1503,7 @@ inventory_selector::inventory_selector( const player &u, const inventory_selecto
     ctxt.register_action( "CONFIRM", _( "Confirm your selection" ) );
     ctxt.register_action( "QUIT", _( "Cancel" ) );
     ctxt.register_action( "CATEGORY_SELECTION", _( "Switch selection mode" ) );
+    ctxt.register_action( "TOGGLE_FAVORITE", _( "Toggle favorite" ) );
     ctxt.register_action( "NEXT_TAB", _( "Page down" ) );
     ctxt.register_action( "PREV_TAB", _( "Page up" ) );
     ctxt.register_action( "HOME", _( "Home" ) );
@@ -1555,6 +1559,9 @@ void inventory_selector::on_input( const inventory_input &input )
             elem->on_input( input );
         }
         refresh_active_column(); // Columns can react to actions by losing their activation capacity
+        if( input.action == "TOGGLE_FAVORITE" ) {
+            keep_open = true;
+        }
     }
 }
 
@@ -1692,6 +1699,10 @@ item_location inventory_pick_selector::execute()
             set_filter();
         } else {
             on_input( input );
+        }
+
+        if( input.action == "TOGGLE_FAVORITE" ) {
+            return item_location();
         }
 
         if( input.action == "HELP_KEYBINDINGS" || input.action == "INVENTORY_FILTER" ) {
