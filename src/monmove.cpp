@@ -447,9 +447,9 @@ void monster::move()
         static const auto volume_per_hp = units::from_milliliter( 250 );
         for( auto &elem : g->m.i_at( pos() ) ) {
             hp += elem.volume() / volume_per_hp; // Yeah this means it can get more HP than normal.
-            if( has_flag( MF_ABSORBS_SPLITS ) && hp * 2 > type->hp ) {
+            if( has_flag( MF_ABSORBS_SPLITS ) && hp / 2 > type->hp ) {
                 for( const tripoint &dest : g->m.points_in_radius( pos(), 1 ) ) {
-                    if( g->is_empty( dest ) && hp * 2 > type->hp ) {
+                    if( g->is_empty( dest ) && hp / 2 > type->hp ) {
                         if( monster *const  spawn = g->summon_mon( type->id, dest ) ) {
                             hp -= type->hp;
                             //this is a new copy of the monster. Ideally we should copy the stats/effects that affect the parent

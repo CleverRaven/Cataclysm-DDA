@@ -60,6 +60,7 @@ const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_onfire( "onfire" );
 const efftype_id effect_npc_run_away( "npc_run_away" );
 const efftype_id effect_npc_fire_bad( "npc_fire_bad" );
+const efftype_id effect_npc_flee_player( "npc_flee_player" );
 
 enum npc_action : int {
     npc_undecided = 0,
@@ -481,6 +482,11 @@ void npc::regen_ai_cache()
 
 void npc::move()
 {
+    if( attitude == NPCATT_FLEE ) {
+        set_attitude( NPCATT_FLEE_TEMP );  // Only run for so many hours
+    } else if( attitude == NPCATT_FLEE_TEMP && !has_effect( effect_npc_flee_player ) ) {
+        set_attitude( NPCATT_NULL );
+    }
     regen_ai_cache();
     npc_action action = npc_undecided;
 
@@ -495,7 +501,7 @@ void npc::move()
     if( !is_enemy() && guaranteed_hostile() && sees( g->u ) ) {
         add_msg( m_debug, "NPC %s turning hostile because is guaranteed_hostile()", name.c_str() );
         if( op_of_u.fear > 10 + personality.aggression + personality.bravery ) {
-            set_attitude( NPCATT_FLEE );    // We don't want to take u on!
+            set_attitude( NPCATT_FLEE_TEMP );    // We don't want to take u on!
         } else {
             set_attitude( NPCATT_KILL );    // Yeah, we think we could take you!
         }
@@ -528,7 +534,7 @@ void npc::move()
 
     if( !ai_cache.dangerous_explosives.empty() ) {
         action = npc_escape_explosion;
-    } else if( target == &g->u && attitude == NPCATT_FLEE ) {
+    } else if( target == &g->u && attitude == NPCATT_FLEE_TEMP ) {
         action = method_of_fleeing();
     } else if( has_effect( effect_npc_run_away ) ) {
         action = method_of_fleeing();
@@ -643,7 +649,7 @@ void npc::execute_action( npc_action action )
     int oldmoves = moves;
     tripoint tar = pos();
     Creature *cur = current_target();
-    if( has_effect( effect_npc_run_away ) ) {
+    if( action == npc_flee ) {
         tar = good_escape_direction( false );
     } else if( cur != nullptr ) {
         tar = cur->pos();
@@ -1320,7 +1326,7 @@ npc_action npc::address_player()
         return npc_undecided;
     }
 
-    if( attitude == NPCATT_FLEE ) {
+    if( attitude == NPCATT_FLEE_TEMP ) {
         return npc_flee;
     }
 
@@ -1619,6 +1625,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         const auto att = attitude_to( *critter );
         if( att == A_HOSTILE ) {
             if( !no_bashing ) {
+                warn_about( "cant_flee", 5_turns + rng( 0, 5 ) * 1_turns );
                 melee_attack( *critter, true );
             } else {
                 move_pause();
@@ -1647,6 +1654,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
             // other npcs should not try to move into this npc anymore,
             // so infinite loop can be avoided.
             realnomove->insert( pos() );
+            say( "<let_me_pass>" );
             np->move_away_from( pos(), true, realnomove );
         }
 
@@ -1701,7 +1709,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         if( attitude == NPCATT_MUG ||
             attitude == NPCATT_KILL ||
             attitude == NPCATT_WAIT_FOR_LEAVE ) {
-            set_attitude( NPCATT_FLEE );
+            set_attitude( NPCATT_FLEE_TEMP );
         }
 
         moves = 0;
@@ -2963,9 +2971,9 @@ void npc::mug_player( player &mark )
     // We already have their money; take some goodies!
     // value_mod affects at what point we "take the money and run"
     // A lower value means we'll take more stuff
-    double value_mod = 1 - ( ( 10 - personality.bravery )    * .05 ) -
+    double value_mod = 1 - ( ( 10 - personality.bravery ) * .05 ) -
                        ( ( 10 - personality.aggression ) * .04 ) -
-                       ( ( 10 - personality.collector )  * .06 );
+                       ( ( 10 - personality.collector ) * .06 );
     if( !mark.is_npc() ) {
         value_mod += ( op_of_u.fear * .08 );
         value_mod -= ( ( 8 - op_of_u.value ) * .07 );
@@ -2982,7 +2990,7 @@ void npc::mug_player( player &mark )
         }
     }
     if( item_index == INT_MIN ) { // Didn't find anything worthwhile!
-        set_attitude( NPCATT_FLEE );
+        set_attitude( NPCATT_FLEE_TEMP );
         if( !one_in( 3 ) ) {
             say( "<done_mugging>" );
         }
@@ -2993,13 +3001,10 @@ void npc::mug_player( player &mark )
     item stolen = mark.i_rem( item_index );
     if( mark.is_npc() ) {
         if( u_see ) {
-            add_msg( _( "%1$s takes %2$s's %3$s." ), name.c_str(),
-                     mark.name.c_str(),
-                     stolen.tname().c_str() );
+            add_msg( _( "%1$s takes %2$s's %3$s." ), name, mark.name, stolen.tname() );
         }
     } else {
-        add_msg( m_bad, _( "%1$s takes your %2$s." ),
-                 name.c_str(), stolen.tname().c_str() );
+        add_msg( m_bad, _( "%1$s takes your %2$s." ), name, stolen.tname() );
     }
     i_add( stolen );
     moves -= 100;
