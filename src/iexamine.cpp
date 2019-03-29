@@ -3226,7 +3226,7 @@ void iexamine::reload_furniture( player &p, const tripoint &examp )
     const int amount_in_inv = p.charges_of( ammo->get_id() );
     if( amount_in_furn > 0 ) {
         if( p.query_yn( _( "The %1$s contains %2$d %3$s.  Unload?" ), f.name().c_str(), amount_in_furn,
-            ammo->nname( amount_in_furn ).c_str() ) ) {
+                        ammo->nname( amount_in_furn ).c_str() ) ) {
             p.assign_activity( activity_id( "ACT_PICKUP" ) );
             p.activity.placement = examp - p.pos();
             p.activity.values.push_back( false );
@@ -3235,10 +3235,10 @@ void iexamine::reload_furniture( player &p, const tripoint &examp )
             return;
         }
     }
-        //~ %1$s - furniture, %2$d - number, %3$s items.
-        add_msg( _( "The %1$s contains %2$d %3$s." ), f.name().c_str(), amount_in_furn,
-                 ammo->nname( amount_in_furn ).c_str() );
-    
+    //~ %1$s - furniture, %2$d - number, %3$s items.
+    add_msg( _( "The %1$s contains %2$d %3$s." ), f.name().c_str(), amount_in_furn,
+             ammo->nname( amount_in_furn ).c_str() );
+
     const int max_amount_in_furn = ammo->charges_per_volume( f.max_volume );
     const int max_reload_amount = max_amount_in_furn - amount_in_furn;
     if( max_reload_amount <= 0 ) {
