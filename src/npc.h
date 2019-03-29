@@ -60,13 +60,14 @@ enum npc_attitude : int {
     NPCATT_MUG,  // Mug the player
     NPCATT_WAIT_FOR_LEAVE, // Attack the player if our patience runs out
     NPCATT_KILL,  // Kill the player
-    NPCATT_FLEE,  // Get away from the player
+    NPCATT_FLEE,  // Get away from the player; deprecated
     NPCATT_LEGACY_3,
     NPCATT_HEAL,  // Get to the player and heal them
 
     NPCATT_LEGACY_4,
     NPCATT_LEGACY_5,
     NPCATT_ACTIVITY, // Perform a mission activity
+    NPCATT_FLEE_TEMP, // Get away from the player for a while
     NPCATT_END
 };
 

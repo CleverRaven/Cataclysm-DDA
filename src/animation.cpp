@@ -398,7 +398,7 @@ void draw_bullet_curses( map &m, const tripoint &t, const char bullet, const tri
         return;
     }
 
-    const tripoint vp = g->u.pos() + g->u.view_offset;
+    const tripoint vp = g->u.pos() + g->u.view_offset + g->sidebar_offset;
 
     if( p != nullptr && p->z == vp.z ) {
         m.drawsq( g->w_terrain, g->u, *p, false, true, vp );
@@ -682,7 +682,7 @@ namespace
 {
 void draw_sct_curses( game &g )
 {
-    const tripoint off = relative_view_pos( g.u, 0, 0, 0 );
+    const tripoint off = relative_view_pos( g.u, 0, 0, 0 ) + g.sidebar_offset;
 
     for( const auto &text : SCT.vSCT ) {
         const int dy = off.y + text.getPosY();
