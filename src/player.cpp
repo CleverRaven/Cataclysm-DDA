@@ -197,6 +197,7 @@ static const bionic_id bio_gills( "bio_gills" );
 static const bionic_id bio_ground_sonar( "bio_ground_sonar" );
 static const bionic_id bio_heatsink( "bio_heatsink" );
 static const bionic_id bio_itchy( "bio_itchy" );
+static const bionic_id bio_jointservo( "bio_jointservo" );
 static const bionic_id bio_laser( "bio_laser" );
 static const bionic_id bio_leaky( "bio_leaky" );
 static const bionic_id bio_lighter( "bio_lighter" );
@@ -709,7 +710,7 @@ void player::reset_stats()
     }
 
     // Effects
-    for( auto maps : *effects ) {
+    for( const auto &maps : *effects ) {
         for( auto i : maps.second ) {
             const auto &it = i.second;
             bool reduced = resists_effect( it );
@@ -1661,7 +1662,7 @@ void player::recalc_speed_bonus()
         mod_speed_bonus( hunger_speed_penalty( get_hunger() + get_starvation() ) );
     }
 
-    for( auto maps : *effects ) {
+    for( const auto &maps : *effects ) {
         for( auto i : maps.second ) {
             bool reduced = resists_effect( i.second );
             mod_speed_bonus( i.second.get_mod( "SPEED", reduced ) );
@@ -1757,6 +1758,17 @@ int player::run_cost( int base_cost, bool diag ) const
     if( has_trait( trait_PADDED_FEET ) && !footwear_factor() ) {
         movecost *= .9f;
     }
+
+    if( has_active_bionic( bio_jointservo ) ) {
+        if( move_mode == "run" ) {
+            movecost *= 0.85f;
+        } else {
+            movecost *= 0.95f;
+        }
+    } else if( has_bionic( bio_jointservo ) ) {
+        movecost *= 1.1f;
+    }
+
     if( worn_with_flag( "SLOWS_MOVEMENT" ) ) {
         movecost *= 1.1f;
     }
@@ -2946,7 +2958,7 @@ void player::shout( std::string msg )
         add_msg_if_player( m_warning, _( "The sound of your voice is significantly muffled!" ) );
     }
 
-    sounds::sound( pos(), noise, sounds::sound_t::speech, msg );
+    sounds::sound( pos(), noise, sounds::sound_t::alert, msg );
 }
 
 void player::toggle_move_mode()
@@ -4821,7 +4833,7 @@ void player::process_one_effect( effect &it, bool is_new )
     // Handle miss messages
     auto msgs = it.get_miss_msgs();
     if( !msgs.empty() ) {
-        for( auto i : msgs ) {
+        for( const auto &i : msgs ) {
             add_miss_reason( _( i.first.c_str() ), static_cast<unsigned>( i.second ) );
         }
     }
@@ -5616,7 +5628,8 @@ void player::suffer()
     if( has_trait( trait_ASTHMA ) &&
         one_in( ( 3600 - stim * 50 ) * ( has_effect( effect_sleep ) ? 10 : 1 ) ) &&
         !has_effect( effect_adrenaline ) & !has_effect( effect_datura ) ) {
-        bool auto_use = has_charges( "inhaler", 1 );
+        bool auto_use = has_charges( "inhaler", 1 ) || has_charges( "oxygen_tank", 1 ) ||
+                        has_charges( "smoxygen_tank", 1 );
         bool oxygenator = has_bionic( bio_gills ) && power_level >= 3;
         if( underwater ) {
             oxygen = oxygen / 2;
@@ -5633,15 +5646,26 @@ void player::suffer()
                 add_msg_if_player( m_info, _( "You use your Oxygenator to clear it up, then go back to sleep." ) );
             } else if( auto_use ) {
                 add_msg_if_player( m_bad, _( "You have an asthma attack!" ) );
-                use_charges( "inhaler", 1 );
-                add_msg_if_player( m_info, _( "You use your inhaler and go back to sleep." ) );
+                if( use_charges_if_avail( "inhaler", 1 ) ) {
+                    add_msg_if_player( m_info, _( "You use your inhaler and go back to sleep." ) );
+                } else if( use_charges_if_avail( "oxygen_tank", 1 ) ||
+                           use_charges_if_avail( "smoxygen_tank", 1 ) ) {
+                    add_msg_if_player( m_info,
+                                       _( "You take a deep breath from your oxygen tank and go back to sleep." ) );
+                }
                 // check if an inhaler is somewhere near
-            } else if( map_inv.has_charges( "inhaler", 1 ) ) {
+            } else if( map_inv.has_charges( "inhaler", 1 ) || map_inv.has_charges( "oxygen_tank", 1 ) ||
+                       map_inv.has_charges( "smoxygen_tank", 1 ) ) {
                 add_msg_if_player( m_bad, _( "You have an asthma attack!" ) );
                 // create new variable to resolve a reference issue
                 long amount = 1;
-                g->m.use_charges( g->u.pos(), 2, "inhaler", amount );
-                add_msg_if_player( m_info, _( "You use your inhaler and go back to sleep." ) );
+                if( !g->m.use_charges( g->u.pos(), 2, "inhaler", amount ).empty() ) {
+                    add_msg_if_player( m_info, _( "You use your inhaler and go back to sleep." ) );
+                } else if( !g->m.use_charges( g->u.pos(), 2, "oxygen_tank", amount ).empty() ||
+                           !g->m.use_charges( g->u.pos(), 2, "smoxygen_tank", amount ).empty() ) {
+                    add_msg_if_player( m_info,
+                                       _( "You take a deep breath from your oxygen tank and go back to sleep." ) );
+                }
             } else {
                 add_effect( effect_asthma, rng( 5_minutes, 20_minutes ) );
                 if( has_effect( effect_sleep ) ) {
@@ -5651,15 +5675,31 @@ void player::suffer()
                 }
             }
         } else if( auto_use ) {
-            use_charges( "inhaler", 1 );
-            moves -= 40;
-            const auto charges = charges_of( "inhaler" );
-            if( charges == 0 ) {
-                add_msg_if_player( m_bad, _( "You use your last inhaler charge." ) );
-            } else {
-                add_msg_if_player( m_info, ngettext( "You use your inhaler, only %d charge left.",
-                                                     "You use your inhaler, only %d charges left.", charges ),
-                                   charges );
+            long charges = 0;
+            if( use_charges_if_avail( "inhaler", 1 ) ) {
+                moves -= 40;
+                charges = charges_of( "inhaler" );
+                add_msg_if_player( m_bad, _( "You have an asthma attack!" ) );
+                if( charges == 0 ) {
+                    add_msg_if_player( m_bad, _( "You use your last inhaler charge." ) );
+                } else {
+                    add_msg_if_player( m_info, ngettext( "You use your inhaler, only %d charge left.",
+                                                         "You use your inhaler, only %d charges left.", charges ),
+                                       charges );
+                }
+            } else if( use_charges_if_avail( "oxygen_tank", 1 ) ||
+                       use_charges_if_avail( "smoxygen_tank", 1 ) ) {
+                moves -= 500; // synched with use action
+                charges = charges_of( "oxygen_tank" ) + charges_of( "smoxygen_tank" );
+                add_msg_if_player( m_bad, _( "You have an asthma attack!" ) );
+                if( charges == 0 ) {
+                    add_msg_if_player( m_bad, _( "You breathe in last bit of oxygen from the tank." ) );
+                } else {
+                    add_msg_if_player( m_info,
+                                       ngettext( "You take a deep breath from your oxygen tank, only %d charge left.",
+                                                 "You take a deep breath from your oxygen tank, only %d charges left.", charges ),
+                                       charges );
+                }
             }
         } else {
             add_effect( effect_asthma, rng( 5_minutes, 20_minutes ) );
@@ -7378,11 +7418,9 @@ void player::rooted()
 item::reload_option player::select_ammo( const item &base,
         std::vector<item::reload_option> opts ) const
 {
-    using reload_option = item::reload_option;
-
     if( opts.empty() ) {
         add_msg_if_player( m_info, _( "Never mind." ) );
-        return reload_option();
+        return item::reload_option();
     }
 
     uilist menu;
@@ -7395,7 +7433,7 @@ item::reload_option player::select_ammo( const item &base,
     // Construct item names
     std::vector<std::string> names;
     std::transform( opts.begin(), opts.end(),
-    std::back_inserter( names ), [&]( const reload_option & e ) {
+    std::back_inserter( names ), [&]( const item::reload_option & e ) {
         if( e.ammo->is_magazine() && e.ammo->ammo_data() ) {
             if( e.ammo->ammo_current() == "battery" ) {
                 // This battery ammo is not a real object that can be recovered but pseudo-object that represents charge
@@ -7420,7 +7458,7 @@ item::reload_option player::select_ammo( const item &base,
     // Get location descriptions
     std::vector<std::string> where;
     std::transform( opts.begin(), opts.end(),
-    std::back_inserter( where ), []( const reload_option & e ) {
+    std::back_inserter( where ), []( const item::reload_option & e ) {
         bool is_ammo_container = e.ammo->is_ammo_container();
         if( is_ammo_container || e.ammo->is_container() ) {
             if( is_ammo_container && g->u.is_worn( *e.ammo ) ) {
@@ -7592,7 +7630,7 @@ item::reload_option player::select_ammo( const item &base,
     menu.query();
     if( menu.ret < 0 || static_cast<size_t>( menu.ret ) >= opts.size() ) {
         add_msg_if_player( m_info, _( "Never mind." ) );
-        return reload_option();
+        return item::reload_option();
     }
 
     const item_location &sel = opts[ menu.ret ].ammo;
@@ -7601,11 +7639,9 @@ item::reload_option player::select_ammo( const item &base,
     return std::move( opts[ menu.ret ] );
 }
 
-item::reload_option player::select_ammo( const item &base, bool prompt ) const
+bool player::list_ammo( const item &base, std::vector<item::reload_option> &ammo_list,
+                        bool empty ) const
 {
-    using reload_option = item::reload_option;
-    std::vector<reload_option> ammo_list;
-
     auto opts = base.gunmods();
     opts.push_back( &base );
 
@@ -7621,7 +7657,7 @@ item::reload_option player::select_ammo( const item &base, bool prompt ) const
 
     bool ammo_match_found = false;
     for( const auto e : opts ) {
-        for( item_location &ammo : find_ammo( *e ) ) {
+        for( item_location &ammo : find_ammo( *e, empty ) ) {
             // don't try to unload frozen liquids
             if( ammo->is_watertight_container() && ammo->contents_made_of( SOLID ) ) {
                 continue;
@@ -7640,6 +7676,13 @@ item::reload_option player::select_ammo( const item &base, bool prompt ) const
             }
         }
     }
+    return ammo_match_found;
+}
+
+item::reload_option player::select_ammo( const item &base, bool prompt, bool empty ) const
+{
+    std::vector<item::reload_option> ammo_list;
+    bool ammo_match_found = list_ammo( base, ammo_list, empty );
 
     if( ammo_list.empty() ) {
         if( !base.is_magazine() && !base.magazine_integral() && !base.magazine_current() ) {
@@ -7660,20 +7703,20 @@ item::reload_option player::select_ammo( const item &base, bool prompt ) const
             add_msg_if_player( m_info, _( "You don't have any %s to reload your %s!" ),
                                name.c_str(), base.tname() );
         }
-        return reload_option();
+        return item::reload_option();
     }
 
     // sort in order of move cost (ascending), then remaining ammo (descending) with empty magazines always last
-    std::stable_sort( ammo_list.begin(), ammo_list.end(), []( const reload_option & lhs,
-    const reload_option & rhs ) {
+    std::stable_sort( ammo_list.begin(), ammo_list.end(), []( const item::reload_option & lhs,
+    const item::reload_option & rhs ) {
         return lhs.ammo->ammo_remaining() > rhs.ammo->ammo_remaining();
     } );
-    std::stable_sort( ammo_list.begin(), ammo_list.end(), []( const reload_option & lhs,
-    const reload_option & rhs ) {
+    std::stable_sort( ammo_list.begin(), ammo_list.end(), []( const item::reload_option & lhs,
+    const item::reload_option & rhs ) {
         return lhs.moves() < rhs.moves();
     } );
-    std::stable_sort( ammo_list.begin(), ammo_list.end(), []( const reload_option & lhs,
-    const reload_option & rhs ) {
+    std::stable_sort( ammo_list.begin(), ammo_list.end(), []( const item::reload_option & lhs,
+    const item::reload_option & rhs ) {
         return ( lhs.ammo->ammo_remaining() != 0 ) > ( rhs.ammo->ammo_remaining() != 0 );
     } );
 
@@ -9183,7 +9226,7 @@ bool player::gunmod_remove( item &gun, item &mod )
     //If the removed gunmod added mod locations, check to see if any mods are in invalid locations
     if( !modtype->gunmod->add_mod.empty() ) {
         std::map<gunmod_location, int> mod_locations = gun.get_mod_locations();
-        for( auto slot : mod_locations ) {
+        for( const auto &slot : mod_locations ) {
             int free_slots = gun.get_free_mod_locations( slot.first );
 
             for( auto the_mod : gun.gunmods() ) {
@@ -12428,7 +12471,7 @@ void player::on_mission_finished( mission &cur_mission )
 
 const targeting_data &player::get_targeting_data()
 {
-    if( tdata.get() == nullptr ) {
+    if( tdata == nullptr ) {
         debugmsg( "Tried to get targeting data before setting it" );
         tdata.reset( new targeting_data() );
         tdata->relevant = nullptr;

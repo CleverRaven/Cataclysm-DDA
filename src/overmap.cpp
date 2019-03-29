@@ -694,7 +694,6 @@ bool oter_t::is_hardcoded() const
         "office_tower_1_entrance",
         "office_tower_b",
         "office_tower_b_entrance",
-        "outpost",
         "sewage_treatment",
         "sewage_treatment_hub",
         "sewage_treatment_under",
@@ -1233,7 +1232,7 @@ std::vector<point> overmap::find_notes( const int z, const std::string &text )
 {
     std::vector<point> note_locations;
     map_layer &this_layer = layer[z + OVERMAP_DEPTH];
-    for( auto note : this_layer.notes ) {
+    for( const auto &note : this_layer.notes ) {
         if( match_include_exclude( note.text, text ) ) {
             note_locations.push_back( global_base_point() + point( note.x, note.y ) );
         }
@@ -4039,11 +4038,13 @@ std::shared_ptr<npc> overmap::find_npc( const int id ) const
     return nullptr;
 }
 
-cata::optional<basecamp *> overmap::find_camp( const int x, const int y ) const
+cata::optional<basecamp *> overmap::find_camp( const int x, const int y )
 {
-    for( const auto &v : camps ) {
-        if( v->camp_omt_pos().x == x && v->camp_omt_pos().y == y ) {
-            return v;
+    for( auto &v : camps ) {
+        if( v.camp_omt_pos().x == x && v.camp_omt_pos().y == y ) {
+            cata::optional<basecamp *> p;
+            p = &v;
+            return p;
         }
     }
     return cata::nullopt;

@@ -192,7 +192,7 @@
             "I'll <swear> kill you",
             "you're dead meat",
             "<ill_kill_you>, <name_b>",
-            "you're a dead <man>",
+            "you're a dead man",
             "you'll taste my <mywp>",
             "you're <swear> dead",
             "<name_b>, <ill_kill_you>"
@@ -905,6 +905,16 @@
       "I can't outrun it!  I'm going to kill it!",
       "<swear>!  Die, you <name_b>!  I want to live!",
       "My feet failed me!  Arms don't fail me!"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<fire_bad>",
+    "text": [
+      "Call the fire department!  Wait, they're dead!  Run away!",
+      "This place is on fire.  I'm leaving.",
+      "Put the fire out!  Put it out!",
+      "Fire bad! <move>!"
     ]
   }
 ]

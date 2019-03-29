@@ -479,7 +479,6 @@ TEST_CASE( "npc_talk_test" )
     CHECK( talker_npc.op_of_u.anger == 13 );
     CHECK( talker_npc.op_of_u.owed == 14 );
 
-
     d.add_topic( "TALK_TEST_HAS_ITEM" );
     gen_response_lines( d, 4 );
     CHECK( d.responses[0].text == "This is a basic test response." );

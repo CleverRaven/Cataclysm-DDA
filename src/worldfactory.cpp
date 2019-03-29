@@ -239,6 +239,8 @@ bool WORLD::save( const bool is_conversion ) const
 
 void worldfactory::init()
 {
+    load_last_world_info();
+
     std::vector<std::string> qualifiers;
     qualifiers.push_back( FILENAMES["worldoptions"] );
     qualifiers.push_back( FILENAMES["legacy_worldoptions"] );
@@ -527,6 +529,30 @@ void worldfactory::remove_world( const std::string &worldname )
         }
         all_worlds.erase( it );
     }
+}
+
+void worldfactory::load_last_world_info()
+{
+    std::ifstream file( FILENAMES["lastworld"], std::ifstream::in | std::ifstream::binary );
+    if( !file.good() ) {
+        return;
+    }
+
+    JsonIn jsin( file );
+    JsonObject data = jsin.get_object();
+    last_world_name = data.get_string( "world_name" );
+    last_character_name = data.get_string( "character_name" );
+}
+
+void worldfactory::save_last_world_info()
+{
+    write_to_file( FILENAMES["lastworld"], [&]( std::ostream & file ) {
+        JsonOut jsout( file, true );
+        jsout.start_object();
+        jsout.member( "world_name", last_world_name );
+        jsout.member( "character_name", last_character_name );
+        jsout.end_object();
+    }, _( "last world info" ) );
 }
 
 std::string worldfactory::pick_random_name()

@@ -562,6 +562,10 @@ class Character : public Creature, public visitable<Character>
         std::vector<item_location> find_ammo( const item &obj, bool empty = true, int radius = 1 ) const;
 
         /**
+         * Searches for weapons and magazines that can be reloaded.
+         */
+        std::vector<item_location> find_reloadables();
+        /**
          * Counts ammo and UPS charges (lower of) for a given gun on the character.
          */
         long ammo_count_for( const item &gun );

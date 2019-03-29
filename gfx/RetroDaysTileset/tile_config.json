@@ -42,6 +42,21 @@
           "rotates": false
         },
         {
+          "id": "mon_zombie_brainless",
+          "fg": 2990,
+          "rotates": false
+        },
+        {
+          "id": "mon_zombie_ears",
+          "fg": 2991,
+          "rotates": false
+        },
+        {
+          "id": "mon_zombie_skull",
+          "fg": 2992,
+          "rotates": false
+        },
+        {
           "id": [
             "mon_zombie_acidic",
             "mon_zombie_acidic_pk"
@@ -135,6 +150,11 @@
           "rotates": false
         },
         {
+          "id": "mon_zombie_kevlar_1",
+          "fg": 52,
+          "rotates": false
+        },
+        {
           "id": "mon_zombie_brute_grappler",
           "fg": 22,
           "rotates": false
@@ -182,6 +202,11 @@
         },
         {
           "id": "mon_zombie_cop",
+          "fg": 2985,
+          "rotates": false
+        },
+        {
+          "id": "mon_zombie_labsecurity",
           "fg": 29,
           "rotates": false
         },
@@ -320,14 +345,6 @@
           "rotates": false
         },
         {
-          "id": [
-            "mon_zombie_hulk",
-            "mon_zombie_hulk_pk"
-          ],
-          "fg": 52,
-          "rotates": false
-        },
-        {
           "id": "mon_zombie_hunter",
           "fg": 53,
           "rotates": false
@@ -437,6 +454,16 @@
           "rotates": false
         },
         {
+          "id": "mon_zombie_soldier_blackops_1",
+          "fg": 2995,
+          "rotates": false
+        },
+        {
+          "id": "mon_zombie_soldier_blackops_2",
+          "fg": 2996,
+          "rotates": false
+        },
+        {
           "id": "mon_darkman",
           "fg": 2960,
           "rotates": false
@@ -476,12 +503,22 @@
         },
         {
           "id": "mon_zombie_military_pilot",
-          "fg": 76,
+          "fg": 2984,
           "rotates": false
         },
         {
           "id": "mon_zombie_flamer",
           "fg": 77,
+          "rotates": false
+        },
+        {
+          "id": "mon_zombie_soldier_acid_1",
+          "fg": 2993,
+          "rotates": false
+        },
+        {
+          "id": "mon_zombie_soldier_acid_2",
+          "fg": 2994,
           "rotates": false
         },
         {
@@ -2041,6 +2078,21 @@
           "rotates": false
         },
         {
+          "id": "mon_science_bot",
+          "fg": 2986,
+          "rotates": false
+        },
+        {
+          "id": "broken_science_bot",
+          "fg": 2987,
+          "rotates": false
+        },
+        {
+          "id": "bot_science_bot",
+          "fg": 2988,
+          "rotates": false
+        },
+        {
           "id": "mon_molebot",
           "fg": 347,
           "rotates": false
@@ -2063,6 +2115,11 @@
         {
           "id": "mon_skitterbot",
           "fg": 351,
+          "rotates": false
+        },
+        {
+          "id": "bot_skitterbot",
+          "fg": 2989,
           "rotates": false
         },
         {
@@ -2540,7 +2597,19 @@
         },
         {
           "id": "vp_minifridge",
-          "fg": 428,
+          "fg": 2981,
+          "rotates": false,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 420
+            }
+          ]
+        },
+        {
+          "id": "vp_minifreezer",
+          "fg": 2982,
           "rotates": false,
           "multitile": true,
           "additional_tiles": [
@@ -3585,11 +3654,6 @@
           "rotates": false
         },
         {
-          "id": "vp_tank_barrel",
-          "fg": 499,
-          "rotates": true
-        },
-        {
           "id": "vp_boat_board",
           "fg": 500,
           "rotates": false,
@@ -3986,10 +4050,7 @@
           ]
         },
         {
-          "id": [
-            "vp_drive_by_wire_controls",
-            "vp_controls_electronic"
-          ],
+          "id": "vp_drive_by_wire_controls",
           "fg": 537,
           "rotates": true,
           "multitile": true,
@@ -4053,8 +4114,8 @@
             "vp_battery_car",
             "vp_battery_truck"
           ],
-          "fg": 539,
-          "rotates": true,
+          "fg": 1617,
+          "rotates": false,
           "multitile": true,
           "additional_tiles": [
             {
@@ -4068,8 +4129,8 @@
             "vp_fuel_tank_plut",
             "vp_minireactor"
           ],
-          "fg": 540,
-          "rotates": true,
+          "fg": 1973,
+          "rotates": false,
           "multitile": true,
           "additional_tiles": [
             {
@@ -4690,8 +4751,8 @@
         },
         {
           "id": "vp_washing_machine",
-          "fg": 588,
-          "rotates": true,
+          "fg": 2983,
+          "rotates": false,
           "multitile": true,
           "additional_tiles": [
             {
@@ -11065,9 +11126,33 @@
           "rotates": false
         },
         {
+          "id": "vp_tank_small",
+          "fg": 1295,
+          "rotates": false,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 427
+            }
+          ]
+        },
+        {
           "id": "jerrycan_big",
           "fg": 1296,
           "rotates": false
+        },
+        {
+          "id": "vp_tank_medium",
+          "fg": 1296,
+          "rotates": false,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 427
+            }
+          ]
         },
         {
           "id": "jug_clay",
@@ -11090,6 +11175,21 @@
         },
         {
           "id": [
+            "vp_tank",
+            "vp_tank_little"
+          ],
+          "fg": 1299,
+          "rotates": false,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 427
+            }
+          ]
+        },
+        {
+          "id": [
             "waterskin",
             "waterskin2",
             "waterskin3",
@@ -11106,6 +11206,11 @@
           ],
           "fg": 1301,
           "rotates": false
+        },
+        {
+          "id": "vp_tank_barrel",
+          "fg": 1301,
+          "rotates": true
         },
         {
           "id": [
@@ -11648,6 +11753,11 @@
           "rotates": false
         },
         {
+          "id": "f_roof_turbine_vent",
+          "fg": 2998,
+          "rotates": false
+        },
+        {
           "id": "fighter_sting",
           "fg": 1388,
           "rotates": false
@@ -12181,6 +12291,11 @@
             "down_pillow"
           ],
           "fg": 1470,
+          "rotates": false
+        },
+        {
+          "id": "bodypillow",
+          "fg": 2997,
           "rotates": false
         },
         {
@@ -14118,7 +14233,11 @@
           "rotates": false
         },
         {
-          "id": "directional_antenna",
+          "id": [
+            "directional_antenna",
+            "f_small_satellite_dish",
+            "f_small_satelitte_dish"
+          ],
           "fg": 1713,
           "rotates": false
         },
@@ -15812,7 +15931,12 @@
         },
         {
           "id": "minifridge",
-          "fg": 428,
+          "fg": 2981,
+          "rotates": false
+        },
+        {
+          "id": "minifreezer",
+          "fg": 2982,
           "rotates": false
         },
         {
@@ -17818,7 +17942,8 @@
         {
           "id": [
             "t_console_broken",
-            "f_aut_gas_console_o"
+            "f_aut_gas_console_o",
+            "electronics_controls"
           ],
           "fg": 2211,
           "rotates": false
@@ -17826,7 +17951,8 @@
         {
           "id": [
             "t_console",
-            "f_aut_gas_console"
+            "f_aut_gas_console",
+            "vp_controls_electronic"
           ],
           "fg": 2212,
           "rotates": false
@@ -19060,7 +19186,9 @@
             "char_kiln",
             "f_kiln_empty",
             "f_kiln_metal_empty",
-            "brick_kiln"
+            "brick_kiln",
+            "fuel_bunker",
+            "vp_fuel_bunker"
           ],
           "fg": 2386,
           "rotates": false
@@ -19086,7 +19214,7 @@
         },
         {
           "id": "washing_machine",
-          "fg": 2388,
+          "fg": 2983,
           "rotates": false
         },
         {
@@ -19374,6 +19502,76 @@
             {
               "id": "unconnected",
               "fg": 2768
+            }
+          ]
+        },
+        {
+          "id": [
+            "t_gutter",
+            "t_gutter_north",
+            "t_gutter_east",
+            "t_gutter_south",
+            "t_gutter_west"
+          ],
+          "fg": 2999,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "center",
+              "fg": 3000
+            },
+            {
+              "id": "corner",
+              "fg": 3001
+            },
+            {
+              "id": "edge",
+              "fg": 3002
+            },
+            {
+              "id": "end_piece",
+              "fg": 3003
+            },
+            {
+              "id": "t_connection",
+              "fg": 3004
+            },
+            {
+              "id": "unconnected",
+              "fg": 2999
+            }
+          ]
+        },
+        {
+          "id": "t_gutter_drop",
+          "fg": 3005,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "center",
+              "fg": 3006
+            },
+            {
+              "id": "corner",
+              "fg": 3007
+            },
+            {
+              "id": "edge",
+              "fg": 3008
+            },
+            {
+              "id": "end_piece",
+              "fg": 3009
+            },
+            {
+              "id": "t_connection",
+              "fg": 3010
+            },
+            {
+              "id": "unconnected",
+              "fg": 3005
             }
           ]
         },
@@ -21778,6 +21976,14 @@
         {
           "id": "overlay_mutation_THRESH_MYCUS",
           "fg": 2974
+        },
+        {
+          "id": "overlay_mutation_THRESH_BEAST",
+          "fg": 3011
+        },
+        {
+          "id": "overlay_male_mutation_THRESH_BEAST",
+          "fg": 3012
         }
       ]
     },
@@ -21790,27 +21996,40 @@
       "tiles": [
         {
           "id": "overlay_mutation_THRESH_CATTLE",
-          "fg": 2993
+          "fg": 3040
         },
         {
           "id": "overlay_male_mutation_THRESH_CATTLE",
-          "fg": 2994
+          "fg": 3041
         },
         {
           "id": "overlay_mutation_THRESH_URSINE",
-          "fg": 2995
+          "fg": 3042
         },
         {
           "id": "mon_fungaloid_queen",
-          "fg": 2996
+          "fg": 3043
         },
         {
           "id": "mon_fungaloid_seeder",
-          "fg": 2997
+          "fg": 3044
         },
         {
           "id": "mon_fungaloid_tower",
-          "fg": 2998
+          "fg": 3045
+        },
+        {
+          "id": [
+            "mon_zombie_hulk",
+            "mon_zombie_hulk_pk"
+          ],
+          "fg": 3046,
+          "rotates": false
+        },
+        {
+          "id": "mon_zombie_kevlar_2",
+          "fg": 3047,
+          "rotates": false
         }
       ]
     },

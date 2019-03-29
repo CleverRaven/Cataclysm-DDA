@@ -120,8 +120,6 @@
     </Link>
     <PreBuildEvent>
       <Command>prebuild.cmd</Command>
-    </PreBuildEvent>
-    <PreBuildEvent>
       <Message>Get version string</Message>
     </PreBuildEvent>
     <ProjectReference>
@@ -153,12 +151,10 @@
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;SDL2_ttf.lib;libiconv.lib;libintl.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
-      <Command>
-      </Command>
+      <Command>prebuild.cmd</Command>
     </PreBuildEvent>
     <PreBuildEvent>
-      <Message>
-      </Message>
+      <Message>Get version string</Message>
     </PreBuildEvent>
     <ProjectReference>
       <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
@@ -227,12 +223,10 @@
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;SDL2_ttf.lib;libiconv.lib;libintl.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
-      <Command>
-      </Command>
+      <Command>prebuild.cmd</Command>
     </PreBuildEvent>
     <PreBuildEvent>
-      <Message>
-      </Message>
+      <Message>Get version string</Message>
     </PreBuildEvent>
     <ProjectReference>
       <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>

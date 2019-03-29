@@ -73,22 +73,5 @@
       [ [ "fur", 6 ], [ "tanned_pelt", 1 ], [ "leather", 6 ], [ "tanned_hide", 1 ] ],
       [ [ "scrap_bronze", 12 ] ]
     ]
-  },
-  {
-    "result": "armor_lamellar",
-    "type": "recipe",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_SUIT",
-    "skill_used": "fabrication",
-    "difficulty": 4,
-    "skills_required": [ "tailor", 3 ],
-    "time": 30000,
-    "book_learn": [ [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ], [ "textbook_armschina", 4 ] ],
-    "using": [ [ "sewing_standard", 68 ]],
-    "components": [
-      [ [ "string_36", 4 ], [ "string_6", 16 ] ],
-      [ [ "rag", 4 ] ],
-      [ [ "leather", 42 ], [ "tanned_hide", 7 ], [ "fur", 42 ], [ "tanned_pelt", 7 ] ]
-    ]
   }
 ]

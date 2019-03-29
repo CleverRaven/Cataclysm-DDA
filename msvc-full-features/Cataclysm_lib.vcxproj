@@ -153,8 +153,6 @@
     </Link>
     <PreBuildEvent>
       <Command>prebuild.cmd</Command>
-    </PreBuildEvent>
-    <PreBuildEvent>
       <Message>Get version string</Message>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -183,8 +181,6 @@
     </Link>
     <PreBuildEvent>
       <Command>prebuild.cmd</Command>
-    </PreBuildEvent>
-    <PreBuildEvent>
       <Message>Get version string</Message>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -213,8 +209,6 @@
     </Link>
     <PreBuildEvent>
       <Command>prebuild.cmd</Command>
-    </PreBuildEvent>
-    <PreBuildEvent>
       <Message>Get version string</Message>
     </PreBuildEvent>
   </ItemDefinitionGroup>

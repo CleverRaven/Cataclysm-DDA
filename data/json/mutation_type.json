@@ -70,5 +70,9 @@
   {
     "type": "mutation_type",
     "id": "hair_style"
+  },
+  {
+    "type": "mutation_type",
+    "id": "facial_hair"
   }
 ]

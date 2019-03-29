@@ -5434,47 +5434,24 @@ computer *map::computer_at( const tripoint &p )
     return get_submap_at( p )->comp.get();
 }
 
-bool map::allow_camp( const tripoint &p, const int radius )
+void map::remove_submap_camp( const tripoint &p )
 {
-    return camp_at( p, radius ) == nullptr;
+    basecamp camp;
+    get_submap_at( p )->camp = camp;
 }
 
-// locate the nearest camp in some radius (default CAMPSIZE)
-basecamp *map::camp_at( const tripoint &p, const int radius )
+basecamp map::hoist_submap_camp( const tripoint &p )
 {
-    if( !inbounds( p ) ) {
-        return nullptr;
-    }
-    const int sx = std::max( 0, p.x - radius );
-    const int sy = std::max( 0, p.y - radius );
-    const int ex = std::min( p.x + radius, MAPSIZE_X - 1 );
-    const int ey = std::min( p.y + radius, MAPSIZE_Y - 1 );
-
-    for( int ly = sy; ly < ey; ly += SEEY ) {
-        for( int lx = sx; lx < ex; lx += SEEX ) {
-            submap *const current_submap = get_submap_at( tripoint( lx, ly, p.z ) );
-            if( current_submap->camp.is_valid() ) {
-                // we only allow on camp per size radius, kinda
-                return &( current_submap->camp );
-            }
-        }
-    }
-    return nullptr;
+    basecamp camp = get_submap_at( p )->camp;
+    return camp;
 }
 
 void map::add_camp( const tripoint &p, const std::string &name )
 {
-    if( !allow_camp( p ) ) {
-        dbg( D_ERROR ) << "map::add_camp: Attempting to add camp when one in local area.";
-        return;
-    }
-    point omt = ms_to_omt_copy( g->m.getabs( p.x, p.y ) );
-    tripoint omt_tri = tripoint( omt.x, omt.y, p.z );
-    basecamp temp_camp = basecamp( name, omt_tri );
-    get_submap_at( p )->camp = temp_camp;
-    basecamp *pointer_camp = &get_submap_at( p )->camp;
-    overmap_buffer.add_camp( pointer_camp );
-    g->u.camps.insert( omt_tri );
+    tripoint omt_pos = ms_to_omt_copy( g->m.getabs( p ) );
+    basecamp temp_camp = basecamp( name, omt_pos );
+    overmap_buffer.add_camp( temp_camp );
+    g->u.camps.insert( omt_pos );
     g->validate_camps();
 }
 
