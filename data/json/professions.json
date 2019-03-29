@@ -197,15 +197,7 @@
     "name": "Bionic Prepper",
     "description": "You knew the end was coming.  You augmented yourself with some basic bionics and got additional survival training.  Now the end has come, and it is time to see if your efforts have paid off.",
     "points": 6,
-    "CBMs": [
-      "bio_torsionratchet",
-      "bio_power_storage_mkII",
-      "bio_tools",
-      "bio_flashlight",
-      "bio_lighter",
-      "bio_evap",
-      "bio_climate"
-    ],
+    "CBMs": [ "bio_furnace", "bio_power_storage_mkII", "bio_tools", "bio_flashlight", "bio_lighter", "bio_evap", "bio_climate" ],
     "skills": [
       { "level": 4, "name": "survival" },
       { "level": 3, "name": "fabrication" },
@@ -494,8 +486,14 @@
     "ident": "soldier",
     "name": "Military Recruit",
     "description": "You were a high school drop-out with one goal in mind: to join the military.  You finally got in, just in time for your training to get interrupted by a national emergency.  As far as you can tell, military command abandoned you in this hellhole when you missed the emergency evac.",
-    "points": 3,
-    "skills": [ { "level": 2, "name": "gun" }, { "level": 2, "name": "rifle" }, { "level": 2, "name": "stabbing" } ],
+    "points": 4,
+    "skills": [
+      { "level": 2, "name": "gun" },
+      { "level": 1, "name": "rifle" },
+      { "level": 2, "name": "melee" },
+      { "level": 1, "name": "stabbing" },
+      { "level": 1, "name": "dodge" }
+    ],
     "items": {
       "both": {
         "items": [
@@ -531,8 +529,8 @@
       { "level": 3, "name": "gun" },
       { "level": 3, "name": "smg" },
       { "level": 2, "name": "cutting" },
-      { "level": 1, "name": "melee" },
-      { "level": 1, "name": "dodge" },
+      { "level": 2, "name": "melee" },
+      { "level": 2, "name": "dodge" },
       { "level": 1, "name": "firstaid" },
       { "level": 1, "name": "swimming" },
       { "level": 1, "name": "survival" }
@@ -1376,7 +1374,7 @@
     "ident": "bio_soldier",
     "name": "Bionic Soldier",
     "description": "You are the result of one of the military's latest and final research programs, a prototype cyborg soldier.  You're still alive thanks to your augmentations, even after all your comrades fell to the undead.",
-    "points": 5,
+    "points": 6,
     "CBMs": [
       "bio_targeting",
       "bio_purifier",
@@ -1388,7 +1386,8 @@
       "bio_power_storage_mkII"
     ],
     "skills": [
-      { "level": 1, "name": "gun" },
+      { "level": 2, "name": "gun" },
+      { "level": 2, "name": "melee" },
       { "level": 1, "name": "rifle" },
       { "level": 1, "name": "stabbing" },
       { "level": 1, "name": "dodge" }
@@ -1453,7 +1452,8 @@
           "rollmat",
           "mil_mess_kit",
           "e_tool",
-          "binoculars"
+          "binoculars",
+          "knife_hunting"
         ],
         "entries": [
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
@@ -1501,7 +1501,7 @@
       "bio_adrenaline",
       "bio_night_vision",
       "bio_face_mask",
-      "bio_torsionratchet",
+      "bio_metabolics",
       "bio_power_storage_mkII"
     ],
     "skills": [ { "level": 3, "name": "dodge" } ],
@@ -1539,12 +1539,12 @@
     "type": "profession",
     "ident": "bionic_customer",
     "name": "Commercial Cyborg",
-    "description": "You always had to have the latest and best gadgets and gizmos, so is it any wonder that you upgraded your flesh along with your smart phone?  Only time will tell if your status as a marvel of bionic technology will be enough to ensure your survival after the apocalypse.",
-    "points": 6,
+    "description": "You always had to have the latest and best gadgets and gizmos, so is it any wonder that you upgraded your flesh along with your smart phone?  Only time will tell if your passion for electronics and your status as a marvel of bionic technology will be enough to ensure your survival after the apocalypse.",
+    "points": 8,
     "CBMs": [ "bio_flashlight", "bio_tools", "bio_ups", "bio_watch", "bio_batteries", "bio_power_storage_mkII" ],
-    "skills": [ { "level": 1, "name": "electronics" } ],
+    "skills": [ { "level": 4, "name": "electronics" }, { "level": 2, "name": "fabrication" } ],
     "items": {
-      "both": [ "sneakers", "tshirt" ],
+      "both": [ "tshirt", "sneakers", "jacket_light", "smart_phone" ],
       "male": [ "briefs", "socks", "pants" ],
       "female": [ "bra", "panties", "stockings", "skirt" ]
     }
@@ -1566,8 +1566,8 @@
     "ident": "trapper",
     "name": "Trapper",
     "description": "You spent most of your life trapping with your father.  Both of you made a decent living off of your catches, and trapping tutorials.  Hopefully, your skills will come in useful against less conventional game.",
-    "points": 1,
-    "skills": [ { "level": 4, "name": "traps" } ],
+    "points": 2,
+    "skills": [ { "level": 4, "name": "traps" }, { "level": 2, "name": "survival" } ],
     "items": {
       "both": {
         "items": [
