@@ -221,7 +221,7 @@ bool Creature::sees( const tripoint &t, bool is_player, int range_mod ) const
             range = 1;
         }
         if( range_mod > 0 ) {
-            range = std::min( range, range_mod )
+            range = std::min( range, range_mod );
         }
         if( is_player ) {
             // Special case monster -> player visibility, forcing it to be symmetric with player vision.
