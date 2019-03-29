@@ -275,7 +275,7 @@ void inventory_selector_preset::append_cell( const
 }
 
 void inventory_selector_preset::append_cell( const
-        std::function<std::string( const inventory_entry & )> &func,
+        std::function<std::string( const inventory_entry & )> &getTextFunc,
         const std::string &title, const std::string &stub )
 {
     const auto iter = std::find_if( cells.begin(), cells.end(), [ &title ]( const cell_t &cell ) {
@@ -285,12 +285,12 @@ void inventory_selector_preset::append_cell( const
         debugmsg( "Tried to append a duplicate cell \"%s\": ignored.", title.c_str() );
         return;
     }
-    cells.emplace_back( func, title, stub );
+    cells.emplace_back( getTextFunc, title, stub );
 }
 
 std::string  inventory_selector_preset::cell_t::get_text( const inventory_entry &entry ) const
 {
-    return replace_colors( func( entry ) );
+    return replace_colors( getTextFunc( entry ) );
 }
 
 void inventory_column::select( size_t new_index, scroll_direction dir )
@@ -542,6 +542,16 @@ bool inventory_column::is_selected( const inventory_entry &entry ) const
     return entry == get_selected() || ( multiselect && is_selected_by_category( entry ) );
 }
 
+bool inventory_column::is_favorite( const inventory_entry &entry ) const
+{
+    return entry.is_item() && entry.location->is_favorite;
+}
+
+bool inventory_column::is_worn( const inventory_entry &entry ) const
+{
+    return entry.is_item() && u.is_worn( *entry.location );
+}
+
 bool inventory_column::is_selected_by_category( const inventory_entry &entry ) const
 {
     return entry.is_item() && mode == navigation_mode::CATEGORY
@@ -565,6 +575,21 @@ std::vector<inventory_entry *> inventory_column::get_all_selected() const
     if( allows_selecting() ) {
         for( const auto &elem : entries ) {
             if( is_selected( elem ) ) {
+                res.push_back( const_cast<inventory_entry *>( &elem ) );
+            }
+        }
+    }
+
+    return res;
+}
+
+std::vector<inventory_entry *> inventory_column::get_all_nonfavorite_and_nonworn() const
+{
+    std::vector<inventory_entry *> res;
+
+    if( allows_selecting() ) {
+        for( const auto &elem : entries ) {
+            if( elem.is_item() && !is_favorite( elem ) && !is_worn( elem ) ) {
                 res.push_back( const_cast<inventory_entry *>( &elem ) );
             }
         }
@@ -868,8 +893,10 @@ size_t inventory_column::visible_cells() const
     } );
 }
 
-selection_column::selection_column( const std::string &id, const std::string &name ) :
-    inventory_column( selection_preset ),
+selection_column::selection_column( const player &u,
+                                    const std::string &id,
+                                    const std::string &name ) :
+    inventory_column( u, selection_preset ),
     selected_cat( id, no_translation( name ), 0 ) {}
 
 selection_column::~selection_column() = default;
@@ -1489,9 +1516,9 @@ inventory_selector::inventory_selector( const player &u, const inventory_selecto
     , ctxt( "INVENTORY" )
     , active_column_index( 0 )
     , mode( navigation_mode::ITEM )
-    , own_inv_column( preset )
-    , own_gear_column( preset )
-    , map_column( preset )
+    , own_inv_column( u, preset )
+    , own_gear_column( u, preset )
+    , map_column( u, preset )
 {
     ctxt.register_action( "DOWN", _( "Next item" ) );
     ctxt.register_action( "UP", _( "Previous item" ) );
@@ -1580,7 +1607,7 @@ std::vector<inventory_column *> inventory_selector::get_visible_columns() const
 inventory_column &inventory_selector::get_column( size_t index ) const
 {
     if( index >= columns.size() ) {
-        static inventory_column dummy( preset );
+        static inventory_column dummy( u, preset );
         return dummy;
     }
     return *columns[index];
@@ -1702,13 +1729,15 @@ item_location inventory_pick_selector::execute()
     }
 }
 
-inventory_multiselector::inventory_multiselector( const player &p,
-        const inventory_selector_preset &preset,
-        const std::string &selection_column_title ) :
+inventory_multiselector::inventory_multiselector(
+    const player &p,
+    const inventory_selector_preset &preset,
+    const std::string &selection_column_title ) :
     inventory_selector( p, preset ),
-    selection_col( new selection_column( "SELECTION_COLUMN", selection_column_title ) )
+    selection_col( new selection_column( p, "SELECTION_COLUMN", selection_column_title ) )
 {
     ctxt.register_action( "RIGHT", _( "Mark/unmark selected item" ) );
+    ctxt.register_action( "TOGGLE_FAVORITE", _( "Mark/unmark non-favorite item" ) );
 
     for( auto &elem : get_all_columns() ) {
         elem->set_multiselect( true );
@@ -1918,6 +1947,24 @@ std::list<std::pair<int, int>> inventory_drop_selector::execute()
                 count = max_chosen_count;
             }
             set_chosen_count( *input.entry, count );
+            count = 0;
+        } else if( input.action == "TOGGLE_FAVORITE" ) {
+            const auto selected( get_active_column().get_all_nonfavorite_and_nonworn() );
+
+            if( count == 0 ) {
+                const bool clear = std::none_of( selected.begin(), selected.end(),
+                []( const inventory_entry * elem ) {
+                    return elem->chosen_count > 0;
+                } );
+
+                if( clear ) {
+                    count = max_chosen_count;
+                }
+            }
+
+            for( const auto &elem : selected ) {
+                set_chosen_count( *elem, count );
+            }
             count = 0;
         } else if( input.action == "RIGHT" ) {
             const auto selected( get_active_column().get_all_selected() );

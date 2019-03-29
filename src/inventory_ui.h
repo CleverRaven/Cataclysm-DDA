@@ -45,7 +45,8 @@ class inventory_entry
         std::string cached_name;
 
         inventory_entry( const item_location &location, size_t stack_size,
-                         const item_category *custom_category = nullptr, bool enabled = true ) :
+                         const item_category *custom_category = nullptr,
+                         bool enabled = true ) :
             location( location.clone() ),
             stack_size( stack_size ),
             custom_category( custom_category ),
@@ -71,7 +72,8 @@ class inventory_entry
             return *this;
         }
 
-        inventory_entry( const item_location &location, const item_category *custom_category = nullptr,
+        inventory_entry( const item_location &location,
+                         const item_category *custom_category = nullptr,
                          bool enabled = true ) :
             inventory_entry( location, location ? 1 : 0, custom_category, enabled ) {}
 
@@ -188,11 +190,11 @@ class inventory_selector_preset
         class cell_t
         {
             public:
-                cell_t( const std::function<std::string( const inventory_entry & )> &func,
+                cell_t( const std::function<std::string( const inventory_entry & )> &getTextFunc,
                         const std::string &title, const std::string &stub ) :
                     title( title ),
                     stub( stub ),
-                    func( func ) {}
+                    getTextFunc( getTextFunc ) {}
 
                 std::string get_text( const inventory_entry &entry ) const;
 
@@ -200,7 +202,7 @@ class inventory_selector_preset
                 std::string stub;
 
             private:
-                std::function<std::string( const inventory_entry & )> func;
+                std::function<std::string( const inventory_entry & )> getTextFunc;
         };
 
         std::vector<cell_t> cells;
@@ -211,7 +213,9 @@ const inventory_selector_preset default_preset;
 class inventory_column
 {
     public:
-        inventory_column( const inventory_selector_preset &preset = default_preset ) : preset( preset ) {
+        inventory_column( const player &u, const inventory_selector_preset &preset = default_preset ) :
+            u( u ),
+            preset( preset ) {
             cells.resize( preset.get_cells_count() );
         }
 
@@ -247,6 +251,8 @@ class inventory_column
 
         bool has_available_choices() const;
         bool is_selected( const inventory_entry &entry ) const;
+        bool is_favorite( const inventory_entry &entry ) const;
+        bool is_worn( const inventory_entry &entry ) const;
 
         /**
          * Does this entry belong to the selected category?
@@ -256,6 +262,7 @@ class inventory_column
 
         const inventory_entry &get_selected() const;
         std::vector<inventory_entry *> get_all_selected() const;
+        std::vector<inventory_entry *> get_all_nonfavorite_and_nonworn() const;
 
         inventory_entry *find_by_invlet( long invlet ) const;
 
@@ -310,6 +317,8 @@ class inventory_column
         void set_filter( const std::string &filter );
 
     protected:
+        const player &u;
+
         struct entry_cell_cache_t {
             bool assigned = false;
             nc_color color = c_unset;
@@ -392,7 +401,7 @@ class inventory_column
 class selection_column : public inventory_column
 {
     public:
-        selection_column( const std::string &id, const std::string &name );
+        selection_column( const player &u, const std::string &id, const std::string &name );
         ~selection_column() override;
 
         bool activatable() const override {
