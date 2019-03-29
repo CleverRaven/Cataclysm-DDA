@@ -124,6 +124,10 @@
     <ProjectReference>
       <LinkLibraryDependencies>true</LinkLibraryDependencies>
     </ProjectReference>
+    <PreBuildEvent>
+      <Command>prebuild.cmd</Command>
+      <Message>Get version string</Message>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -154,6 +158,7 @@
     </Link>
     <PreBuildEvent>
       <Command>prebuild.cmd</Command>
+      <Message>Get version string</Message>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -184,6 +189,10 @@
     <ProjectReference>
       <LinkLibraryDependencies>true</LinkLibraryDependencies>
     </ProjectReference>
+    <PreBuildEvent>
+      <Command>prebuild.cmd</Command>
+      <Message>Get version string</Message>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -214,6 +223,7 @@
     </Link>
     <PreBuildEvent>
       <Command>prebuild.cmd</Command>
+      <Message>Get version string</Message>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

@@ -69,6 +69,7 @@ List of known flags, used in both terrain.json and furniture.json
 - ```DEEP_WATER```
 - ```DESTROY_ITEM``` Items that land here are destroyed. See also `NOITEM`
 - ```DIGGABLE``` Digging monsters, seeding monster, digging with shovel, etc.
+- ```DIGGABLE_CAN_DEEPEN``` Diggable location can be dug again to make deeper (e.g. shallow pit to deep pit).
 - ```DOOR``` Can be opened (used for NPC path-finding).
 - ```EASY_DECONSTRUCT``` Player can deconstruct this without tools.
 - ```EXPLODES``` Explodes when on fire.
@@ -941,6 +942,7 @@ Melee flags are fully compatible with tool flags, and vice versa.
 - ```WATER_EXTINGUISH``` Is extinguishable in water or under precipitation. Converts items (requires "reverts_to" or use_action "transform" to be set).
 - ```WIND_EXTINGUISH``` This item will be extinguished by the wind.
 - ```WET``` Item is wet and will slowly dry off (e.g. towel).
+- ```WRITE_MESSAGE``` This item could be used to write messages on signs.
 
 ### Flags that apply to items, not to item types.
 

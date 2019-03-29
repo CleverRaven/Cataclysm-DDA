@@ -321,13 +321,14 @@ namespace dialogue_data
 {
 const std::unordered_set<std::string> simple_string_conds = { {
         "u_male", "u_female", "npc_male", "npc_female",
-        "has_assigned_mission", "has_many_assigned_missions", "has_no_available_mission",
-        "has_available_mission", "has_many_available_missions",
+        "has_no_assigned_mission", "has_assigned_mission", "has_many_assigned_missions",
+        "has_no_available_mission", "has_available_mission", "has_many_available_missions",
         "mission_complete", "mission_incomplete",
         "npc_available", "npc_following", "npc_friend", "npc_hostile",
         "npc_train_skills", "npc_train_styles",
         "at_safe_space", "is_day", "is_outside", "u_has_camp",
         "u_can_stow_weapon", "npc_can_stow_weapon", "u_has_weapon", "npc_has_weapon",
+        "u_driving", "npc_driving",
         "has_pickup_list"
     }
 };
@@ -406,6 +407,7 @@ struct conditional_t {
         void set_at_safe_space();
         void set_can_stow_weapon( bool is_npc = false );
         void set_has_weapon( bool is_npc = false );
+        void set_is_driving( bool is_npc = false );
         void set_is_day();
         void set_is_outside();
         void set_u_has_camp();

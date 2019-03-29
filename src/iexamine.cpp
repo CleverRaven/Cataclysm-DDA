@@ -3329,32 +3329,38 @@ void iexamine::sign( player &p, const tripoint &examp )
     }
 
     // Allow chance to modify message.
-    // Chose spray can because it seems appropriate.
-    int required_writing_charges = 1;
-    if( p.has_charges( "spray_can", required_writing_charges ) ) {
+    std::vector<tool_comp> tools;
+    std::vector<const item *> filter = p.crafting_inventory().items_with( []( const item & it ) {
+        return it.has_flag( "WRITE_MESSAGE" ) && it.charges > 0;
+    } );
+    for( const item *writing_item : filter ) {
+        tools.push_back( tool_comp( writing_item->typeId(), 1 ) );
+    }
+
+    if( !tools.empty() ) {
         // Different messages if the sign already has writing associated with it.
         std::string query_message = previous_signage_exists ?
-                                    _( "Overwrite the existing message on the sign with spray paint?" ) :
-                                    _( "Add a message to the sign with spray paint?" );
+                                    _( "Overwrite the existing message on the sign?" ) :
+                                    _( "Add a message to the sign?" );
         std::string spray_painted_message = previous_signage_exists ?
-                                            _( "You overwrite the previous message on the sign with your graffiti" ) :
+                                            _( "You overwrite the previous message on the sign with your graffiti." ) :
                                             _( "You graffiti a message onto the sign." );
         std::string ignore_message = _( "You leave the sign alone." );
-        if( query_yn( query_message.c_str() ) ) {
+        if( query_yn( query_message ) ) {
             std::string signage = string_input_popup()
-                                  .title( _( "Spray what?" ) )
+                                  .title( _( "Write what?" ) )
                                   .identifier( "signage" )
                                   .query_string();
             if( signage.empty() ) {
-                p.add_msg_if_player( m_neutral, ignore_message.c_str() );
+                p.add_msg_if_player( m_neutral, ignore_message );
             } else {
                 g->m.set_signage( examp, signage );
-                p.add_msg_if_player( m_info, spray_painted_message.c_str() );
-                p.moves -= 2 * signage.length();
-                p.use_charges( "spray_can", required_writing_charges );
+                p.add_msg_if_player( m_info, spray_painted_message );
+                p.mod_moves( - 20 * signage.length() );
+                p.consume_tools( tools, 1 );
             }
         } else {
-            p.add_msg_if_player( m_neutral, ignore_message.c_str() );
+            p.add_msg_if_player( m_neutral, ignore_message );
         }
     }
 }

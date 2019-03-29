@@ -645,6 +645,27 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "s_restaurant_fast_roof",
+    "name": "fast food restaurant roof",
+    "copy-from": "generic_city_building",
+    "color": "yellow_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_restaurant_fast_1",
+    "name": "fast food restaurant",
+    "copy-from": "generic_city_building",
+    "color": "yellow_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_restaurant_fast_roof_1",
+    "name": "fast food restaurant roof",
+    "copy-from": "generic_city_building",
+    "color": "yellow_magenta"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "s_restaurant_coffee",
     "name": "coffee shop",
     "copy-from": "generic_city_building",
@@ -3296,6 +3317,14 @@
     "type": "overmap_terrain",
     "copy-from": "generic_city_building",
     "name": "art gallery",
+    "sym": 97,
+    "color": "i_yellow"
+  },
+  {
+    "id": "art_gallery_roof",
+    "type": "overmap_terrain",
+    "copy-from": "generic_city_building",
+    "name": "art gallery roof",
     "sym": 97,
     "color": "i_yellow"
   },

@@ -132,7 +132,7 @@ item &null_item_reference()
 
 const long item::INFINITE_CHARGES = std::numeric_limits<long>::max();
 
-item::item() : bday( calendar::time_of_cataclysm )
+item::item() : bday( calendar::start )
 {
     type = nullitem();
 }
@@ -3663,7 +3663,8 @@ void item::calc_rot( const tripoint &location )
 
     const time_point now = calendar::turn;
     if( now - last_rot_check > 10_turns ) {
-        const time_point since = last_rot_check == calendar::time_of_cataclysm ? bday : last_rot_check;
+        // bday and/or last_rot_check might be zero, if both are then we want calendar::start
+        const time_point since = std::max( {bday, last_rot_check, ( time_point ) calendar::start} );
 
         last_rot_check = now;
 
@@ -3679,11 +3680,11 @@ void item::calc_rot( const tripoint &location )
             factor = 0.75;
         }
 
-        // simulation of different age of food at calendar::time_of_cataclysm and good/bad storage
+        // simulation of different age of food at the start of the game and good/bad storage
         // conditions by applying starting variation bonus/penalty of +/- 20% of base shelf-life
-        // positive = food was produced some time before calendar::time_of_cataclysm and/or bad storage
-        // negative = food was stored in good condiitons before calendar::time_of_cataclysm
-        if( since == calendar::time_of_cataclysm && goes_bad() ) {
+        // positive = food was produced some time before calendar::start and/or bad storage
+        // negative = food was stored in good conditions before calendar::start
+        if( since <= calendar::start && goes_bad() ) {
             time_duration spoil_variation = type->comestible->spoils * 0.2f;
             rot += factor * rng( -spoil_variation, spoil_variation );
         }
@@ -4683,11 +4684,13 @@ bool item::is_reloadable_with( const itype_id &ammo ) const
 
 bool item::is_reloadable_helper( const itype_id &ammo, bool now ) const
 {
+    // empty ammo is passed for listing possible ammo apparently, so it needs to return true.
     if( !is_reloadable() ) {
         return false;
     } else if( is_watertight_container() ) {
-        return ( now ? !is_container_full() : true ) &&
-               ( ammo.empty() || is_container_empty() || contents.front().typeId() == ammo );
+        return ( ( now ? !is_container_full() : true ) && ( ammo.empty()
+                 || ( find_type( ammo )->phase == LIQUID && ( is_container_empty()
+                         || contents.front().typeId() == ammo ) ) ) );
     } else if( magazine_integral() ) {
         if( !ammo.empty() ) {
             if( ammo_data() ) {

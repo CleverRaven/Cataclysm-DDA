@@ -108,53 +108,6 @@ The dynamic line is a list of dynamic lines, all of which are displayed.  The dy
 }
 ```
 
-#### Based on whether the NPC has missions available
-The dynamic line is chosen based on whether the NPC has any missions to give out.  All entries are optional.  The line from `many` will be shown in the NPC has two or more missions to assign to the player, the line from `one` will be shown if the NPC has one mission available, and otherwise the line from `none` will be shown.
-
-```C++
-{
-    "npc_has_mission": true,
-    "many": "There are lots of things you could do to help.",
-    "one": "There's one thing you could do to help.",
-    "none": "You've cleaned this place up!"
-}
-```
-
-#### Based on whether the player character is performing missions for the NPC
-The dynamic line is chosen based on whether the player character is performing any missions for the NPC.  All entries are optional.  The line from `many` if the player character is performing two or more missions for the NPC, the line from `one` will be shown if the player is performing one mission, and otherwise the line from `none` will be shown.
-
-```C++
-{
-    "u_has_mission": true,
-    "many": "You're doing so much for this town!",
-    "one": "It looks like you have some spare time.",
-    "none": "Since you're not doing anything important, I have a favor to ask."
-}
-```
-
-#### Based on whether the player character or NPC are driving vehicles or not
-The dynamic line is chosen if the player is driving a vehicle, or the NPC is driving a vehicle, or if neither are driving vehicles.  The line from `u_driving` is chosen if the player is in control of a vehicle, the line from `npc_driving` is chosen if the NPC is in control of a vehicle, and the line from `no_vehicle` is chosen if neither are controlling a vehicle.
-
-**NOTE**: NPCs can't drive vehicles right now.
-
-```C++
-{
-    "u_driving": "I said take a left at Albequerque!",
-    "npc_driving": "Who died and put me behind the wheel?",
-    "no_vehicle": "This is a good time to chat."
-}
-```
-
-#### Based on the day/night cycle
-The dynamic line is chosen based whether it is currently daytime or nighttime.  Both entries must exist.
-
-```C++
-{
-    "is_day": "Sure is bright out.",
-    "is_night": "Look at the moon."
-}
-```
-
 #### A randomly selected hint
 The dynamic line will be randomly chosen from the hints snippets.
 
@@ -165,7 +118,7 @@ The dynamic line will be randomly chosen from the hints snippets.
 ```
 
 #### Based on any Dialogue condition
-The dynamic line will be chosen based on whether a single dialogue condition is true or false.  Dialogue conditions cannot be chained via `"and"`, `"or"`, or `"not"`.  If the condition is true, the `"yes"` response will be chosen and otherwise the `"no"` response will be chosen.  Both the `'"yes"` and `"no"` reponses are optional.  Simple string conditions must be followed by `"true"` to make them fields in the dynamic line dictionary.
+The dynamic line will be chosen based on whether a single dialogue condition is true or false.  Dialogue conditions cannot be chained via `"and"`, `"or"`, or `"not"`.  If the condition is true, the `"yes"` response will be chosen and otherwise the `"no"` response will be chosen.  Both the `'"yes"` and `"no"` reponses are optional.  Simple string conditions may be followed by `"true"` to make them fields in the dynamic line dictionary, or they can be followed by the response that will be chosen if the condition is true and the `"yes"` response can be omitted.
 
 ```C++
 {
@@ -189,6 +142,14 @@ The dynamic line will be chosen based on whether a single dialogue condition is 
     "yes": "Now, we've got a moment, I was just thinking it's been a month or so since... since all this, how are you coping with it all?",
     "no": "<neutralchitchat>"
 } 
+{
+    "is_day": "Sure is bright out.",
+    "no": {
+        "u_male": true,
+        "yes": "Want a beer?",
+        "no": "Want a cocktail?"
+    }
+}
 ```
 ---
 
@@ -475,6 +436,7 @@ Condition | Type | Description
 "u_has_effect"<br\>"npc_has_effect" | string | `true` if the player character or NPC is under the effect with `u_has_effect` or `npc_has_effect`'s `effect_id`.
 "u_can_stow_weapon"<br\>"npc_can_stow_weapon" | simple string | `true` if the player character or NPC is wielding a weapon and has enough space to put it away.
 "u_has_weapon"<br\>"npc_has_weapon" | simple string | `true` if the player character or NPC is wielding a weapon.
+"u_driving"<br\>"npc_driving" | simple string | `true` if the player character or NPC is operating a vehicle.  <b>Note</b> NPCs cannot currrently operate vehicles.
 
 #### Player Only conditions
 

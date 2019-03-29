@@ -1051,8 +1051,6 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 }
                             }
                         }
-                        //amplify fire growth due to wind
-                        cur.setFieldDensity( cur.getFieldDensity() + static_cast<int>( windpower / 5 ) );
                         // Lower age is a longer lasting fire
                         if( time_added != 0_turns ) {
                             cur.setFieldAge( cur.getFieldAge() - time_added );
