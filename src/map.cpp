@@ -6060,7 +6060,7 @@ int map::obstacle_coverage( const tripoint &loc1, const tripoint &loc2 )
     auto obstacle_f = furn( obstaclepos ).obj();
     auto obstacle_t = ter( obstaclepos ).obj();
     const optional_vpart_position vp = veh_at( obstaclepos );
-    vehicle *const veh = ( !vp ) ? nullptr : &vp->vehicle();
+    vehicle *const veh = !vp ? nullptr : &vp->vehicle();
     const int part = veh ? vp->part_index() : -1;
     if( obstacle_f.id ) {
         return obstacle_f.coverage;
