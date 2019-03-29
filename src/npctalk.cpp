@@ -339,7 +339,7 @@ void npc::talk_to_u( bool text_only )
                                       get_attitude() == NPCATT_FLEE_TEMP ) ) {
         add_msg( _( "%s is fleeing from you!" ), name );
         return;
-    } else if( !has_mind_control && get_attitude() ) {
+    } else if( !has_mind_control && get_attitude() == NPCATT_KILL ) {
         add_msg( _( "%s is hostile!" ), name );
         return;
     }
