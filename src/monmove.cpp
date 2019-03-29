@@ -1584,8 +1584,9 @@ void monster::shove_vehicle( const tripoint &remote_destination,
         auto vp = g->m.veh_at( nearby_destination );
         if( vp ) {
             vehicle &veh = vp->vehicle();
-            units::mass veh_mass = veh.total_mass();
-            int shove_moves = 0;
+            const units::mass veh_mass = veh.total_mass();
+            int shove_moves_minimal = 0;
+            int shove_veh_mass_moves_factor = 0;
             int shove_velocity = 0;
             float shove_damage_min = 0.00F;
             float shove_damage_max = 0.00F;
@@ -1595,7 +1596,8 @@ void monster::shove_vehicle( const tripoint &remote_destination,
                     break;
                 case MS_MEDIUM:
                     if( veh_mass < 500_kilogram ) {
-                        shove_moves = -50;
+                        shove_moves_minimal = 150;
+                        shove_veh_mass_moves_factor = 20;
                         shove_velocity = 500;
                         shove_damage_min = 0.00F;
                         shove_damage_max = 0.01F;
@@ -1603,7 +1605,8 @@ void monster::shove_vehicle( const tripoint &remote_destination,
                     break;
                 case MS_LARGE:
                     if( veh_mass < 1000_kilogram ) {
-                        shove_moves = -100;
+                        shove_moves_minimal = 100;
+                        shove_veh_mass_moves_factor = 8;
                         shove_velocity = 1000;
                         shove_damage_min = 0.00F;
                         shove_damage_max = 0.03F;
@@ -1611,7 +1614,8 @@ void monster::shove_vehicle( const tripoint &remote_destination,
                     break;
                 case MS_HUGE:
                     if( veh_mass < 1500_kilogram ) {
-                        shove_moves = -150;
+                        shove_moves_minimal = 50;
+                        shove_veh_mass_moves_factor = 4;
                         shove_velocity = 1500;
                         shove_damage_min = 0.00F;
                         shove_damage_max = 0.05F;
@@ -1624,6 +1628,10 @@ void monster::shove_vehicle( const tripoint &remote_destination,
                 //~ %1$s - monster name, %2$s - vehicle name
                 g->u.add_msg_if_player( m_bad, _( "%1$s shoves %2$s out of their way!" ), this->disp_name(),
                                         veh.disp_name() );
+                int shove_moves = shove_veh_mass_moves_factor * veh_mass / 10_kilogram;
+                if( shove_moves < shove_moves_minimal ) {
+                    shove_moves = shove_moves_minimal;
+                }
                 this->mod_moves( -shove_moves );
                 const int destination_delta_x = remote_destination.x - nearby_destination.x;
                 const int destination_delta_y = remote_destination.y - nearby_destination.y;
