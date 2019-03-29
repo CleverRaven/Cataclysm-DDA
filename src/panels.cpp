@@ -741,7 +741,7 @@ std::pair<nc_color, std::string> pain_stat( const player &u )
     }
     // get pain string
     if( u.has_trait( trait_SELFAWARE ) && u.get_perceived_pain() > 0 ) {
-        pain_string = u.get_perceived_pain();
+        pain_string = _( "Pain " ) + to_string( u.get_perceived_pain() );
     } else if( u.get_perceived_pain() > 0 ) {
         pain_string = u.get_pain_description();
     }
