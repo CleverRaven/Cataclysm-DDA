@@ -4844,6 +4844,8 @@
       ["hat_faux_fur", 15],
       ["hat_newsboy", 20],
       ["hat_sombrero", 5],
+      ["shotgun_bandolier", 8],
+      ["torso_shotgun_bandolier", 3],
       ["holster", 8],
       ["bootstrap", 3],
       ["legpouch", 4],
@@ -5313,6 +5315,7 @@
       ["sheath", 5],
       ["bootsheath", 5],
       ["holster", 4],
+      ["shotgun_bandolier", 3],
       ["survnote", 2],
       ["bodypillow", 1]
     ]
@@ -6220,6 +6223,7 @@
       ["bootsheath", 8],
       ["holster", 15],
       ["sholster", 10],
+      ["shotgun_bandolier", 8],
       ["solarpack", 5]
     ]
   },{
@@ -7474,6 +7478,8 @@
       ["backpack", 38],
       ["holster", 15],
       ["sholster", 10],
+      ["shotgun_bandolier", 12],
+      ["torso_shotgun_bandolier", 8],
       ["bootstrap", 3],
       ["legpouch", 8],
       ["legpouch_large", 4],
