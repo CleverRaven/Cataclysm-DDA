@@ -2802,13 +2802,15 @@ bool mattack::photograph( monster *z )
                        _( "a robotic voice boom, \"Citizen " ) + g->u.name + "!\"" );
     } else {
         sounds::sound( z->pos(), 15, sounds::sound_t::alert,
-                       _( "a robotic voice boom, \"Citizen...  database connection lost!" ) );
+                       string_format( _( "a robotic voice boom, \"Citizen...  database connection lost!" ) ) );
     }
 
     if( g->u.weapon.is_gun() ) {
-        sounds::sound( z->pos(), 15, sounds::sound_t::alert, _( "\"Drop your gun!  Now!\"" ) );
+        sounds::sound( z->pos(), 15, sounds::sound_t::alert,
+                       string_format( _( "\"Drop your gun!  Now!\"" ) ) );
     } else if( g->u.is_armed() ) {
-        sounds::sound( z->pos(), 15, sounds::sound_t::alert, _( "\"Drop your weapon!  Now!\"" ) );
+        sounds::sound( z->pos(), 15, sounds::sound_t::alert,
+                       string_format( _( "\"Drop your weapon!  Now!\"" ) ) );
     }
     const SpeechBubble &speech = get_speech( z->type->id.str() );
     sounds::sound( z->pos(), speech.volume, sounds::sound_t::alert, speech.text );
