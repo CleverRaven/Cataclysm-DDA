@@ -446,6 +446,8 @@ class inventory_selector
         using stat = std::array<std::string, 4>;
         using stats = std::array<stat, 2>;
 
+        bool keep_open = false;
+
     protected:
         const player &u;
         const inventory_selector_preset &preset;
@@ -467,12 +469,6 @@ class inventory_selector
                         const std::function<item_location( item * )> &locator,
                         const std::vector<std::list<item *>> &stacks,
                         const item_category *custom_category = nullptr );
-        /**
-         * Select a location
-         * @param loc Location to select
-         * @return true on success.
-         */
-        bool select( const item_location &loc );
 
         inventory_input get_input();
 
@@ -490,7 +486,6 @@ class inventory_selector
         void resize_window( int width, int height );
         void refresh_window() const;
         void set_filter();
-        void update();
 
         /** Tackles screen overflow */
         virtual void rearrange_columns( size_t client_width );
@@ -524,12 +519,29 @@ class inventory_selector
         }
         std::vector<inventory_column *> get_visible_columns() const;
 
+    public:
+
+        void update();
+
+        /**
+         * Select a location
+         * @param loc Location to select
+         * @return true on success.
+         */
+        bool select( const item_location &loc );
+
+        inventory_entry get_selected() {
+            return get_active_column().get_selected();
+        }
+
         inventory_column &get_column( size_t index ) const;
         inventory_column &get_active_column() const {
             return get_column( active_column_index );
         }
 
         void set_active_column( size_t index );
+
+    protected:
         size_t get_columns_width( const std::vector<inventory_column *> &columns ) const;
         /** @return Percentage of the window occupied by columns */
         double get_columns_occupancy_ratio( size_t client_width ) const;

@@ -90,26 +90,52 @@ void game_menus::inv::common( player &p )
 {
     static const std::set<int> allowed_selections = { { '\0', '=' } };
 
-    p.inv.restack( p );
+    bool keep_open = false;
+    item_location last_loc = item_location();
 
-    inventory_pick_selector inv_s( p );
-
-    inv_s.add_character_items( p );
-    inv_s.set_title( _( "Inventory" ) );
-
-    int res;
+    // Outer loop for when we want to recreate the selector (something other than invlets changed)
     do {
-        inv_s.set_hint( string_format(
-                            _( "Item hotkeys assigned: <color_light_gray>%d</color>/<color_light_gray>%d</color>" ),
-                            p.allocated_invlets().size(), inv_chars.size() ) );
-        const item_location &location = inv_s.execute();
-        if( location == item_location::nowhere ) {
-            break;
-        }
-        g->refresh_all();
-        res = g->inventory_item_menu( p.get_item_position( location.get_item() ) );
-        g->refresh_all();
-    } while( allowed_selections.count( res ) != 0 );
+        p.inv.restack( p );
+
+        inventory_pick_selector inv_s( p );
+
+        inv_s.add_character_items( p );
+        inv_s.set_title( _( "Inventory" ) );
+
+        int res = 0;
+        do {
+            inv_s.set_hint( string_format(
+                                _( "Item hotkeys assigned: <color_light_gray>%d</color>/<color_light_gray>%d</color>" ),
+                                p.allocated_invlets().size(), inv_chars.size() ) );
+
+            if( last_loc != item_location::nowhere ) {
+                inv_s.update();
+                inv_s.select( last_loc ); // For now this will fail when an unfavorited item/stack gets merged
+                g->refresh_all();
+            }
+
+            const item_location &location = inv_s.execute();
+            keep_open = inv_s.keep_open;
+
+            if( keep_open ) {
+                last_loc = inv_s.get_selected().location;
+            }
+
+            if( location == item_location::nowhere ) {
+                break;
+            }
+
+            g->refresh_all();
+            res = g->inventory_item_menu( p.get_item_position( location.get_item() ) );
+            g->refresh_all();
+
+            if( res == 'f' ) {
+                last_loc = inv_s.get_selected().location;
+                keep_open = true;
+            }
+
+        } while( allowed_selections.count( res ) != 0 );
+    } while( keep_open );
 }
 
 int game::inv_for_filter( const std::string &title, item_filter filter,
