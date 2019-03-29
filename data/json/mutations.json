@@ -729,6 +729,16 @@
         "hearing_modifier" : 0.5
     },{
         "type" : "mutation",
+        "id" : "DEAF",
+        "name" : "Deaf",
+        "points" : -4,
+        "description" : "Your world is now in complete slience",
+        "starting_trait" : true,
+        "prereqs" : ["BADHEARING"],
+        "cancels" : ["GOODHEARING"],
+        "hearing_modifier" : 0
+    },{
+        "type" : "mutation",
         "id" : "SLOWLEARNER",
         "name" : "Slow Learner",
         "points" : -3,
