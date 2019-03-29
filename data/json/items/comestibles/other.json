@@ -321,7 +321,7 @@
     "fun": -4,
     "material": "veggy",
     "volume": "85 ml",
-    "flags": [ "SMOKABLE" ],
+    "flags": [ "SMOKABLE", "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "smoking_result": "dry_tofu",
     "vitamins": [ [ "calcium", 20 ], [ "iron", 4 ] ]
   },
@@ -342,6 +342,7 @@
     "price": 90,
     "material": "veggy",
     "volume": "85 ml",
+    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "vitamins": [ [ "calcium", 16 ], [ "iron", 4 ] ]
   },
   {

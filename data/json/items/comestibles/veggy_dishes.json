@@ -264,7 +264,7 @@
     "price": 600,
     "material": "veggy",
     "volume": 1,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 5,
     "vitamins": [ [ "calcium", 17 ], [ "iron", 16 ], [ "vitC", 84 ], [ "vitA", 61 ] ]
   },
@@ -279,15 +279,15 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "healthy": 1,
-    "calories": 321,
+    "calories": 525,
     "charges": 4,
     "description": "A tofu stirfry with rice and a sweet bold flavor sure to be on your mind through these dark days.",
     "price": 1200,
     "material": "veggy",
     "volume": 4,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 19,
-    "vitamins": [ [ "vitA", 20 ], [ "calcium", 8 ], [ "iron", 16 ] ]
+    "vitamins": [ [ "vitA", 2 ], [ "calcium", 7 ], [ "iron", 5 ], [ "vitC", 24 ] ]
   },
   {
     "type": "COMESTIBLE",
