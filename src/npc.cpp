@@ -60,6 +60,7 @@ const efftype_id effect_pkill3( "pkill3" );
 const efftype_id effect_pkill_l( "pkill_l" );
 const efftype_id effect_infection( "infection" );
 const efftype_id effect_bouldering( "bouldering" );
+const efftype_id effect_npc_flee_player( "npc_flee_player" );
 
 static const trait_id trait_CANNIBAL( "CANNIBAL" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
@@ -1176,7 +1177,7 @@ void npc::form_opinion( const player &u )
     } else if( my_fac != nullptr && my_fac->likes_u < -10 ) {
         set_attitude( NPCATT_KILL );
     } else {
-        set_attitude( NPCATT_FLEE );
+        set_attitude( NPCATT_FLEE_TEMP );
     }
 
     add_msg( m_debug, "%s formed an opinion of u: %s",
@@ -1243,7 +1244,7 @@ void npc::make_angry()
         my_fac->respects_u = std::max( -50, my_fac->respects_u - 50 );
     }
     if( op_of_u.fear > 10 + personality.aggression + personality.bravery ) {
-        set_attitude( NPCATT_FLEE ); // We don't want to take u on!
+        set_attitude( NPCATT_FLEE_TEMP ); // We don't want to take u on!
     } else {
         set_attitude( NPCATT_KILL ); // Yeah, we think we could take you!
     }
@@ -1630,7 +1631,7 @@ bool npc::is_leader() const
 
 bool npc::is_enemy() const
 {
-    return attitude == NPCATT_KILL || attitude == NPCATT_FLEE;
+    return attitude == NPCATT_KILL || attitude == NPCATT_FLEE || attitude == NPCATT_FLEE_TEMP;
 }
 
 bool npc::is_guarding() const
@@ -1746,8 +1747,8 @@ nc_color npc::basic_symbol_color() const
 {
     if( attitude == NPCATT_KILL ) {
         return c_red;
-    } else if( attitude == NPCATT_FLEE ) {
-        return c_red;
+    } else if( attitude == NPCATT_FLEE || attitude == NPCATT_FLEE_TEMP ) {
+        return c_light_red;
     } else if( is_friend() ) {
         return c_green;
     } else if( is_following() ) {
@@ -2028,11 +2029,20 @@ std::string npc_attitude_name( npc_attitude att )
         case NPCATT_KILL:          // Kill the player
             return _( "Attacking to kill" );
         case NPCATT_FLEE:          // Get away from the player
+        case NPCATT_FLEE_TEMP:
             return _( "Fleeing" );
         case NPCATT_HEAL:          // Get to the player and heal them
             return _( "Healing you" );
         case NPCATT_ACTIVITY:
             return _( "Performing a task" );
+        case NPCATT_LEGACY_1:
+        case NPCATT_LEGACY_2:
+        case NPCATT_LEGACY_3:
+        case NPCATT_LEGACY_4:
+        case NPCATT_LEGACY_5:
+        case NPCATT_LEGACY_6:
+            return _( "NPC Legacy Attitude" );
+            break;
         default:
             break;
     }
@@ -2393,7 +2403,7 @@ std::string npc::extended_description() const
     ss << std::endl << "--" << std::endl;
     if( attitude == NPCATT_KILL ) {
         ss << _( "Is trying to kill you." );
-    } else if( attitude == NPCATT_FLEE ) {
+    } else if( attitude == NPCATT_FLEE || attitude == NPCATT_FLEE_TEMP ) {
         ss << _( "Is trying to flee from you." );
     } else if( is_friend() ) {
         ss << _( "Is your friend." );
@@ -2485,6 +2495,7 @@ attitude_group npc::get_attitude_group( npc_attitude att )
         case NPCATT_KILL:
             return attitude_group::hostile;
         case NPCATT_FLEE:
+        case NPCATT_FLEE_TEMP:
             return attitude_group::fearful;
         case NPCATT_FOLLOW:
         case NPCATT_ACTIVITY:
@@ -2503,11 +2514,19 @@ npc_attitude npc::get_attitude() const
 
 void npc::set_attitude( npc_attitude new_attitude )
 {
+    if( new_attitude == NPCATT_FLEE ) {
+        new_attitude = NPCATT_FLEE_TEMP;
+    }
+
     if( new_attitude == attitude ) {
         return;
     }
+    if( new_attitude == NPCATT_FLEE_TEMP && !has_effect( effect_npc_flee_player ) ) {
+        add_effect( effect_npc_flee_player, 24_hours, num_bp );
+    }
+
     add_msg( m_debug, "%s changes attitude from %s to %s",
-             name.c_str(), npc_attitude_name( attitude ).c_str(), npc_attitude_name( new_attitude ).c_str() );
+             name, npc_attitude_name( attitude ), npc_attitude_name( new_attitude ) );
     attitude_group new_group = get_attitude_group( new_attitude );
     attitude_group old_group = get_attitude_group( attitude );
     if( new_group != old_group && !is_fake() ) {
