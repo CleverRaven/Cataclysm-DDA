@@ -103,7 +103,7 @@ std::map<std::string, bcp_miss_data> basecamp_missions_info = {{
         {
             "travelling", {
                 "Travelling", _( "Travelling" ), _( "Busy travelling!\n" ),
-                " Recall ally from travelling", _( "Recall ally from travelling" )
+                "Recall ally from travelling", _( "Recall ally from travelling" )
             }
         },
         {

@@ -1259,9 +1259,9 @@ void new_faction_manager::display() const
                                     oss << _( "travelling to : (" ) << dest->x << "," << dest->y << ")";
                                     dest_string = oss.str();
                                 }
-                                mission_string = _( "Current Mision : " ) + dest_string;
+                                mission_string = _( "Current Mission : " ) + dest_string;
                             } else {
-                                mission_string = _( "Current Mision : " ) + get_mission_action_string( c_mission.mission_id );
+                                mission_string = _( "Current Mission : " ) + get_mission_action_string( c_mission.mission_id );
                             }
                         }
                         fold_and_print( w_missions, ++y, 31, getmaxx( w_missions ) - 33, col,
@@ -1309,14 +1309,14 @@ void new_faction_manager::display() const
                                 }
                             } else if( guy->has_item_with_flag( "TWO_WAY_RADIO", true ) &&
                                        !g->u.has_item_with_flag( "TWO_WAY_RADIO", true ) ) {
-                                can_see = "you do not have a radio";
+                                can_see = "You do not have a radio";
                                 see_color = c_light_red;
                             } else if( !guy->has_item_with_flag( "TWO_WAY_RADIO", true ) &&
                                        g->u.has_item_with_flag( "TWO_WAY_RADIO", true ) ) {
-                                can_see = "follower does not have a radio";
+                                can_see = "Follower does not have a radio";
                                 see_color = c_light_red;
                             } else {
-                                can_see = "both you and follower need a radio";
+                                can_see = "Both you and follower need a radio";
                                 see_color = c_light_red;
                             }
                         } else {

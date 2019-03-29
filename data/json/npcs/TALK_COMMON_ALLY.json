@@ -384,20 +384,20 @@
     "dynamic_line": "*pshhhttt* I'm reading you boss, over.",
     "responses": [
       { "text": "Please go to this location...", "topic": "TALK_GOTO_LOCATION_RADIO", "effect": "goto_location" },
-      { "text": "Stay at your current position", "topic": "TALK_DONE", "effect": "assign_guard" },
+      { "text": "Stay at your current position.", "topic": "TALK_DONE", "effect": "assign_guard" },
       { "text": "Never mind.", "topic": "TALK_DONE" }
     ]
   },
   {
     "id": "TALK_GOTO_LOCATION_RADIO",
     "type": "talk_topic",
-    "dynamic_line": "*pssshht* ten-four, I'll make my way there, over",
+    "dynamic_line": "*pssshht* ten-four, I'll make my way there, over.",
     "responses": [ { "text": "Affirmative.", "topic": "TALK_DONE" } ]
   },
   {
     "id": "TALK_GOTO_LOCATION",
     "type": "talk_topic",
-    "dynamic_line": "Sure thing, I'll make my way there",
+    "dynamic_line": "Sure thing, I'll make my way there.",
     "responses": [ { "text": "Affirmative.", "topic": "TALK_DONE" } ]
   },
   {

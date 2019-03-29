@@ -3313,11 +3313,7 @@ void game::debug()
             break;
         }
         case 37:
-            if( debug_pathfinding ) {
-                debug_pathfinding = false;
-            } else {
-                debug_pathfinding = true;
-            }
+            debug_pathfinding = !debug_pathfinding;
             break;
         case 38:
             if( query_yn(

@@ -3073,7 +3073,7 @@ void npc::reach_omt_destination()
         if( rl_dist( g->u.pos(), pos() ) > SEEX * 2 || !g->u.sees( pos() ) ) {
             if( g->u.has_item_with_flag( "TWO_WAY_RADIO", true ) &&
                 has_item_with_flag( "TWO_WAY_RADIO", true ) ) {
-                add_msg( m_info, _( "From your Two-way radio you hear %s reporting in, 'I've arrived, boss!'" ),
+                add_msg( m_info, _( "From your two-way radio you hear %s reporting in, 'I've arrived, boss!'" ),
                          disp_name() );
             }
         }
