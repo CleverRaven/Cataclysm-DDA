@@ -7123,7 +7123,7 @@
     "name": "sword bayonet",
     "description": "A sword bayonet is a large slashing weapon that can be attached to the front of a firearm or crossbow converting it into a pike.",
     "weight": 923,
-    "volume": 7,
+    "volume": "110 ml",
     "price": 25000,
     "to_hit": 1,
     "bashing": 8,
