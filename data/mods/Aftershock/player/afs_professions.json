@@ -32,7 +32,17 @@
     "points": 2,
     "skills": [ { "level": 5, "name": "computer" } ],
     "items": {
-      "both": [ "laptop", "software_useless", "eink_tablet_pc", "linuxtshirt", "pants_cargo", "socks", "slingpack", "sneakers", "smart_phone" ],
+      "both": [
+        "laptop",
+        "software_useless",
+        "eink_tablet_pc",
+        "linuxtshirt",
+        "pants_cargo",
+        "socks",
+        "slingpack",
+        "sneakers",
+        "smart_phone"
+      ],
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     }
