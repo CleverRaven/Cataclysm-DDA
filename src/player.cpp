@@ -2972,22 +2972,13 @@ void player::toggle_move_mode()
             add_msg( _( "You start running." ) );
         } else {
             add_msg( m_bad, _( "You're too tired to run." ) );
+            move_mode = "crouch";
+            add_msg( _( "You start crouching." ) );
         }
     } else if( move_mode == "run" ) {
-        move_mode = "walk";
-        add_msg( _( "You slow to a walk." ) );
-    } else if( move_mode == "crouch" ) {
-        move_mode = "walk";
-        add_msg( _( "You stop crouching." ) );
-    }
-}
-
-void player::toggle_crouching()
-{
-    if( move_mode != "crouch" ) {
         move_mode = "crouch";
-        add_msg( _( "You start crouching." ) );
-    } else {
+        add_msg( _( "You slow down and start crouching." ) );
+    } else if( move_mode == "crouch" ) {
         move_mode = "walk";
         add_msg( _( "You stop crouching." ) );
     }
