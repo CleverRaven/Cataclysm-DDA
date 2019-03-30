@@ -3042,7 +3042,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
 
     if( item_vars.find( "item_note" ) != item_vars.end() ) {
         //~ %s is an item name. This style is used to denote items with notes.
-        return string_format( _( "*%s*" ), r.c_str() );
+        return string_format( _( "*%s*" ), r );
     } else {
         return r;
     }

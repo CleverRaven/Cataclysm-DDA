@@ -751,7 +751,7 @@ std::pair<nc_color, std::string> pain_stat( const player &u )
     }
     // get pain string
     if( u.has_trait( trait_SELFAWARE ) && u.get_perceived_pain() > 0 ) {
-        pain_string = _( "Pain " ) + to_string( u.get_perceived_pain() );
+        pain_string = string_format( "%s %d", _( "Pain " ), u.get_perceived_pain() );
     } else if( u.get_perceived_pain() > 0 ) {
         pain_string = u.get_pain_description();
     }
@@ -1478,38 +1478,38 @@ void draw_health_classic( player &u, const catacurses::window &w )
 void draw_mod2( const player &u, const catacurses::window &w )
 {
     werase( w );
-    mvwprintz( w, 0, 1, c_light_gray, _( "Head :" ) );
-    mvwprintz( w, 1, 1, c_light_gray, _( "Torso:" ) );
-    mvwprintz( w, 2, 1, c_light_gray, _( "Arms :" ) );
-    mvwprintz( w, 3, 1, c_light_gray, _( "Legs :" ) );
-    mvwprintz( w, 4, 1, c_light_gray, _( "Feet :" ) );
-
     nc_color color = c_light_gray;
+    mvwprintz( w, 0, 1, color, _( "Head :" ) );
+    mvwprintz( w, 1, 1, color, _( "Torso:" ) );
+    mvwprintz( w, 2, 1, color, _( "Arms :" ) );
+    mvwprintz( w, 3, 1, color, _( "Legs :" ) );
+    mvwprintz( w, 4, 1, color, _( "Feet :" ) );
+
     unsigned int max_length = getmaxx( w ) - 8;
-    print_colored_text( w, 0, 8, color, c_light_gray, get_armor( u, bp_head, w, max_length ) );
-    print_colored_text( w, 1, 8, color, c_light_gray, get_armor( u, bp_torso, w, max_length ) );
-    print_colored_text( w, 2, 8, color, c_light_gray, get_armor( u, bp_arm_r, w, max_length ) );
-    print_colored_text( w, 3, 8, color, c_light_gray, get_armor( u, bp_leg_r, w, max_length ) );
-    print_colored_text( w, 4, 8, color, c_light_gray, get_armor( u, bp_foot_r, w, max_length ) );
+    print_colored_text( w, 0, 8, color, color, get_armor( u, bp_head, w, max_length ) );
+    print_colored_text( w, 1, 8, color, color, get_armor( u, bp_torso, w, max_length ) );
+    print_colored_text( w, 2, 8, color, color, get_armor( u, bp_arm_r, w, max_length ) );
+    print_colored_text( w, 3, 8, color, color, get_armor( u, bp_leg_r, w, max_length ) );
+    print_colored_text( w, 4, 8, color, color, get_armor( u, bp_foot_r, w, max_length ) );
     wrefresh( w );
 }
 
 void draw_armor( const player &u, const catacurses::window &w )
 {
     werase( w );
-    mvwprintz( w, 0, 0, c_light_gray, _( "Head :" ) );
-    mvwprintz( w, 1, 0, c_light_gray, _( "Torso:" ) );
-    mvwprintz( w, 2, 0, c_light_gray, _( "Arms :" ) );
-    mvwprintz( w, 3, 0, c_light_gray, _( "Legs :" ) );
-    mvwprintz( w, 4, 0, c_light_gray, _( "Feet :" ) );
-
     nc_color color = c_light_gray;
+    mvwprintz( w, 0, 0, color, _( "Head :" ) );
+    mvwprintz( w, 1, 0, color, _( "Torso:" ) );
+    mvwprintz( w, 2, 0, color, _( "Arms :" ) );
+    mvwprintz( w, 3, 0, color, _( "Legs :" ) );
+    mvwprintz( w, 4, 0, color, _( "Feet :" ) );
+
     unsigned int max_length = getmaxx( w ) - 7;
-    print_colored_text( w, 0, 7, color, c_light_gray, get_armor( u, bp_head, w, max_length ) );
-    print_colored_text( w, 1, 7, color, c_light_gray, get_armor( u, bp_torso, w, max_length ) );
-    print_colored_text( w, 2, 7, color, c_light_gray, get_armor( u, bp_arm_r, w, max_length ) );
-    print_colored_text( w, 3, 7, color, c_light_gray, get_armor( u, bp_leg_r, w, max_length ) );
-    print_colored_text( w, 4, 7, color, c_light_gray, get_armor( u, bp_foot_r, w, max_length ) );
+    print_colored_text( w, 0, 7, color, color, get_armor( u, bp_head, w, max_length ) );
+    print_colored_text( w, 1, 7, color, color, get_armor( u, bp_torso, w, max_length ) );
+    print_colored_text( w, 2, 7, color, color, get_armor( u, bp_arm_r, w, max_length ) );
+    print_colored_text( w, 3, 7, color, color, get_armor( u, bp_leg_r, w, max_length ) );
+    print_colored_text( w, 4, 7, color, color, get_armor( u, bp_foot_r, w, max_length ) );
     wrefresh( w );
 }
 
@@ -1670,7 +1670,7 @@ void draw_weapon_classic( const player &u, const catacurses::window &w )
 
     mvwprintz( w, 0, 0, c_light_gray, _( "Weapon  :" ) );
     nc_color color = c_light_gray;
-    print_colored_text( w, 0, 10, c_light_gray, color, u.weapname( getmaxx( w ) - 24 ) );
+    print_colored_text( w, 0, 10, color, color, u.weapname( getmaxx( w ) - 24 ) );
 
     // Print in sidebar currently used martial style.
     std::string style;
