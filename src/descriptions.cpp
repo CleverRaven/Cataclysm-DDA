@@ -205,7 +205,9 @@ std::string map_data_common_t::extended_description() const
             }
 
         }
-
+        if( has_flag( "NO_SIGHT" ) ) {
+            ss << "Hiding in here would reduce sight range dramatically." << std::endl;
+        }
     }
     return replace_colors( ss.str() );
 }
