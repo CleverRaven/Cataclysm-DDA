@@ -1974,11 +1974,11 @@ void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t
             mvwvline( w, 1, 13, 0, 13 );
             mvwvline( w, 1, 43, 0, 13 );
             mvwprintz( w, 1, 15, c_light_green, trunc_ellipse( ctxt.press_x( "TOGGLE_PANEL" ), 27 ) + ":" );
-            mvwprintz( w, 2, 15, c_white, _( "toggle panels on/off" ) );
+            mvwprintz( w, 2, 15, c_white, _( "Toggle panels on/off" ) );
             mvwprintz( w, 3, 15, c_light_green, trunc_ellipse( ctxt.press_x( "MOVE_PANEL" ), 27 ) + ":" );
-            mvwprintz( w, 4, 15, c_white, _( "change display order" ) );
+            mvwprintz( w, 4, 15, c_white, _( "Change display order" ) );
             mvwprintz( w, 5, 15, c_light_green, trunc_ellipse( ctxt.press_x( "QUIT" ), 27 ) + ":" );
-            mvwprintz( w, 6, 15, c_white, _( "exit" ) );
+            mvwprintz( w, 6, 15, c_white, _( "Exit" ) );
         }
         wrefresh( w );
 
