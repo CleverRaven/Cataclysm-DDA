@@ -1107,6 +1107,14 @@ void Creature::process_effects()
         }
     }
 
+    //Effects from standing on something are removed if something lost its effect inducing properties
+    if( has_effect( effect_hidden ) && !g->m.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, pos() ) ) {
+        remove_effect( effect_hidden );
+    }
+    if( has_effect( effect_no_sight ) && !g->m.has_flag_ter_or_furn( TFLAG_NO_SIGHT, pos() ) ) {
+        remove_effect( effect_no_sight );
+    }
+
     // Actually remove effects. This should be the last thing done in process_effects().
     for( size_t i = 0; i < rem_ids.size(); ++i ) {
         remove_effect( rem_ids[i], rem_bps[i] );
