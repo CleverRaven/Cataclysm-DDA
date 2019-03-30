@@ -1864,6 +1864,14 @@ void activity_handlers::start_fire_finish( player_activity *act, player *p )
 
 void activity_handlers::start_fire_do_turn( player_activity *act, player *p )
 {
+    if( !g->m.is_flammable( act->placement ) ) {
+        try_fuel_fire( *act, *p, true );
+        if( !g->m.is_flammable( act->placement ) ) {
+            p->add_msg_if_player( m_info, _( "There's nothing to light there." ) );
+            p->cancel_activity();
+        }
+        return;
+    }
     item &lens_item = p->i_at( act->position );
     const auto usef = lens_item.type->get_use( "firestarter" );
     if( usef == nullptr || usef->get_actor_ptr() == nullptr ) {
