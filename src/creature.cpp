@@ -125,7 +125,7 @@ void Creature::process_turn()
     moves += get_speed();
 }
 
-bool Creature::hide( const tripoint &target, bool move )
+bool Creature::hide( const tripoint &target, bool move ) const
 {
     // Is target a place to hide
     if( !g->m.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, target ) ) {
