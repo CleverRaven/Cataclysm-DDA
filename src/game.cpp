@@ -4508,7 +4508,8 @@ void game::monmove()
         }
 
         // Critters in impassable tiles get pushed away, unless it's not impassable for them. Impassable property ignored when hidding
-        if( !critter.is_dead() && m.impassable( critter.pos() ) && !critter.can_move_to( critter.pos() ) && !critter.has_effect( effect_hidden ) ) {
+        if( !critter.is_dead() && m.impassable( critter.pos() ) && !critter.can_move_to( critter.pos() ) &&
+            !critter.has_effect( effect_hidden ) ) {
             dbg( D_ERROR ) << "game:monmove: " << critter.name().c_str()
                            << " can't move to its location! (" << critter.posx()
                            << ":" << critter.posy() << ":" << critter.posz() << "), "
@@ -10294,8 +10295,12 @@ bool game::walk_move( const tripoint &dest_loc )
     }
 
     if( u.has_effect( effect_hidden ) && !m.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, dest_loc ) ) {
-        on_move_effects();
-        return u.unhide( u.prev_pos );
+        if( m.impassable( u.pos() ) ) {
+            on_move_effects();
+            return u.unhide( u.prev_pos );
+        } else {
+            u.unhide( u.prev_pos );
+        }
     }
 
     place_player( dest_loc );
