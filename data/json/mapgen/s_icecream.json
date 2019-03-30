@@ -166,7 +166,7 @@
       "place_nested": [
         {
           "chunks": [ [ "null", 15 ], [ "roof_4x4_utility", 30 ], [ "roof_4x4_utility_1", 30 ], [ "roof_4x4_holdout", 3 ] ],
-          "x": [ 14, 17 ],
+          "x": [ 16, 17 ],
           "y": [ 16, 18 ]
         }
       ]
