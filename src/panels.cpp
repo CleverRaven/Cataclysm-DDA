@@ -758,19 +758,13 @@ std::pair<nc_color, std::string> pain_stat( const player &u )
     return std::make_pair( pain_color, pain_string );
 }
 
-std::string get_armor( const player &u, body_part bp, const catacurses::window &w )
+std::string get_armor( const player &u, body_part bp, const catacurses::window &w,
+                       unsigned int truncate = 0 )
 {
     for( std::list<item>::const_iterator it = u.worn.end(); it != u.worn.begin(); ) {
         --it;
         if( it->covers( bp ) ) {
-            std::string temp = it->tname( 1, false );
-            if( static_cast<int>( temp.length() ) > getmaxx( w ) - 9 ) {
-                // string minus window size.x and label
-                temp = temp.substr( 0, getmaxx( w ) - 11 );
-                temp += "..";
-                return temp;
-            }
-            return temp;
+            return it->tname( 1, true, truncate );
         }
     }
     return "-";
@@ -1490,11 +1484,32 @@ void draw_mod2( const player &u, const catacurses::window &w )
     mvwprintz( w, 3, 1, c_light_gray, _( "Legs :" ) );
     mvwprintz( w, 4, 1, c_light_gray, _( "Feet :" ) );
 
-    mvwprintz( w, 0, 8, c_light_gray, get_armor( u, bp_head, w ) );
-    mvwprintz( w, 1, 8, c_light_gray, get_armor( u, bp_torso, w ) );
-    mvwprintz( w, 2, 8, c_light_gray, get_armor( u, bp_arm_r, w ) );
-    mvwprintz( w, 3, 8, c_light_gray, get_armor( u, bp_leg_r, w ) );
-    mvwprintz( w, 4, 8, c_light_gray, get_armor( u, bp_foot_r, w ) );
+    nc_color color = c_light_gray;
+    unsigned int max_length = getmaxx( w ) - 8;
+    print_colored_text( w, 0, 8, color, c_light_gray, get_armor( u, bp_head, w, max_length ) );
+    print_colored_text( w, 1, 8, color, c_light_gray, get_armor( u, bp_torso, w, max_length ) );
+    print_colored_text( w, 2, 8, color, c_light_gray, get_armor( u, bp_arm_r, w, max_length ) );
+    print_colored_text( w, 3, 8, color, c_light_gray, get_armor( u, bp_leg_r, w, max_length ) );
+    print_colored_text( w, 4, 8, color, c_light_gray, get_armor( u, bp_foot_r, w, max_length ) );
+    wrefresh( w );
+}
+
+void draw_armor( const player &u, const catacurses::window &w )
+{
+    werase( w );
+    mvwprintz( w, 0, 0, c_light_gray, _( "Head :" ) );
+    mvwprintz( w, 1, 0, c_light_gray, _( "Torso:" ) );
+    mvwprintz( w, 2, 0, c_light_gray, _( "Arms :" ) );
+    mvwprintz( w, 3, 0, c_light_gray, _( "Legs :" ) );
+    mvwprintz( w, 4, 0, c_light_gray, _( "Feet :" ) );
+
+    nc_color color = c_light_gray;
+    unsigned int max_length = getmaxx( w ) - 7;
+    print_colored_text( w, 0, 7, color, c_light_gray, get_armor( u, bp_head, w, max_length ) );
+    print_colored_text( w, 1, 7, color, c_light_gray, get_armor( u, bp_torso, w, max_length ) );
+    print_colored_text( w, 2, 7, color, c_light_gray, get_armor( u, bp_arm_r, w, max_length ) );
+    print_colored_text( w, 3, 7, color, c_light_gray, get_armor( u, bp_leg_r, w, max_length ) );
+    print_colored_text( w, 4, 7, color, c_light_gray, get_armor( u, bp_foot_r, w, max_length ) );
     wrefresh( w );
 }
 
@@ -1728,7 +1743,7 @@ std::vector<window_panel> initialize_default_classic_panels()
     ret.emplace_back( window_panel( draw_lighting_classic, "Lighting", 1, 44, true ) );
     ret.emplace_back( window_panel( draw_weapon_classic, "Weapon", 1, 44, true ) );
     ret.emplace_back( window_panel( draw_time_classic, "Time", 1, 44, true ) );
-    ret.emplace_back( window_panel( draw_mod2, "Armor", 5, 44, false ) );
+    ret.emplace_back( window_panel( draw_armor, "Armor", 5, 44, false ) );
     ret.emplace_back( window_panel( draw_compass_padding, "Compass", 6, 44, true ) );
     ret.emplace_back( window_panel( draw_messages_classic, "Log", -2, 44, true ) );
 #ifdef TILES
@@ -1749,7 +1764,7 @@ std::vector<window_panel> initialize_default_compact_panels()
     ret.emplace_back( window_panel( draw_needs, "Needs", 3, 32, true ) );
     ret.emplace_back( window_panel( draw_env_compact, "Env", 6, 32, true ) );
     ret.emplace_back( window_panel( draw_veh_compact, "Vehicle", 1, 32, true ) );
-    ret.emplace_back( window_panel( draw_mod2, "Armor", 5, 32, false ) );
+    ret.emplace_back( window_panel( draw_armor, "Armor", 5, 32, false ) );
     ret.emplace_back( window_panel( draw_messages_classic, "Log", -2, 32, true ) );
     ret.emplace_back( window_panel( draw_compass, "Compass", 8, 32, true ) );
 #ifdef TILES
