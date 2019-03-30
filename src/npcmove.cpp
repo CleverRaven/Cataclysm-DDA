@@ -1493,7 +1493,7 @@ bool npc::can_move_to( const tripoint &p, bool no_bashing ) const
             (
                 g->m.passable( p ) ||
                 ( !no_bashing && g->m.bash_rating( smash_ability(), p ) > 0 ) ||
-                g->m.open_door( p, !g->m.is_outside( pos() ), true ) || hide( p, false )
+                g->m.open_door( p, !g->m.is_outside( pos() ), true )
             )
           );
 }
@@ -1604,16 +1604,6 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         }
     }
 
-    // If we can hide in it, we might do so
-    // TODO : Make hiding more sensible and less random
-    if( hide( p, false ) ) {
-        if( one_in( 2 ) ) {
-            prev_pos = pos();
-            hide( p );
-            return;
-        }
-    }
-
     if( p.z != posz() ) {
         // Z-level move
         // For now just teleport to the destination
@@ -1651,6 +1641,15 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         }
 
         moves = 0;
+    }
+    // If we can hide in it, we might do so
+    // TODO : Make hiding more sensible and less random
+    if( hide( p, false ) ) {
+        if( one_in( 2 ) ) {
+            prev_pos = pos();
+            hide( p );
+            return;
+        }
     }
 
     if( moved ) {
