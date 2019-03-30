@@ -3221,18 +3221,29 @@ void iexamine::reload_furniture( player &p, const tripoint &examp )
         add_msg( m_info, _( "This %s can not be reloaded!" ), f.name().c_str() );
         return;
     }
-    const int amount_in_furn = count_charges_in_list( ammo, g->m.i_at( examp ) );
+    map_stack items_here = g->m.i_at( examp );
+    const int amount_in_furn = count_charges_in_list( ammo, items_here );
+    const int amount_in_inv = p.charges_of( ammo->get_id() );
     if( amount_in_furn > 0 ) {
-        //~ %1$s - furniture, %2$d - number, %3$s items.
-        add_msg( _( "The %1$s contains %2$d %3$s." ), f.name().c_str(), amount_in_furn,
-                 ammo->nname( amount_in_furn ).c_str() );
+        if( p.query_yn( _( "The %1$s contains %2$d %3$s.  Unload?" ), f.name().c_str(), amount_in_furn,
+                        ammo->nname( amount_in_furn ).c_str() ) ) {
+            p.assign_activity( activity_id( "ACT_PICKUP" ) );
+            p.activity.placement = examp - p.pos();
+            p.activity.values.push_back( false );
+            p.activity.values.push_back( 0 );
+            p.activity.values.push_back( 0 );
+            return;
+        }
     }
+    //~ %1$s - furniture, %2$d - number, %3$s items.
+    add_msg( _( "The %1$s contains %2$d %3$s." ), f.name().c_str(), amount_in_furn,
+             ammo->nname( amount_in_furn ).c_str() );
+
     const int max_amount_in_furn = ammo->charges_per_volume( f.max_volume );
     const int max_reload_amount = max_amount_in_furn - amount_in_furn;
     if( max_reload_amount <= 0 ) {
         return;
     }
-    const int amount_in_inv = p.charges_of( ammo->get_id() );
     if( amount_in_inv == 0 ) {
         //~ Reloading or restocking a piece of furniture, for example a forge.
         add_msg( m_info, _( "You need some %1$s to reload this %2$s." ), ammo->nname( 2 ).c_str(),
