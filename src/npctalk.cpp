@@ -1389,6 +1389,19 @@ talk_effect_fun_t::talk_effect_fun_t( std::function<void( npc &p )> ptr )
     };
 }
 
+// throws an error on failure, so no need to return
+std::string get_talk_varname( JsonObject jo, const std::string &member, bool check_value = true )
+{
+    if( !jo.has_string( "type" ) || !jo.has_string( "context" ) ||
+        ( check_value && !jo.has_string( "value" ) ) ) {
+        jo.throw_error( "invalid " + member + " condition in " + jo.str() );
+    }
+    const std::string &var_basename = jo.get_string( member );
+    const std::string &type_var = jo.get_string( "type" );
+    const std::string &var_context = jo.get_string( "context" );
+    return "npctalk_var_" + type_var + "_" + var_context + "_" + var_basename;
+}
+
 void talk_effect_fun_t::set_companion_mission( const std::string &role_id )
 {
     function = [role_id]( const dialogue & d ) {
@@ -1455,6 +1468,31 @@ void talk_effect_fun_t::set_remove_trait( JsonObject jo, const std::string &memb
             actor = dynamic_cast<player *>( d.beta );
         }
         actor->unset_mutation( trait_id( old_trait ) );
+    };
+}
+
+void talk_effect_fun_t::set_add_var( JsonObject jo, const std::string &member, bool is_npc )
+{
+    const std::string var_name = get_talk_varname( jo, member );
+    const std::string &value = jo.get_string( "value" );
+    function = [is_npc, var_name, value]( const dialogue & d ) {
+        player *actor = d.alpha;
+        if( is_npc ) {
+            actor = dynamic_cast<player *>( d.beta );
+        }
+        actor->set_value( var_name, value );
+    };
+}
+
+void talk_effect_fun_t::set_remove_var( JsonObject jo, const std::string &member, bool is_npc )
+{
+    const std::string var_name = get_talk_varname( jo, member, false );
+    function = [is_npc, var_name]( const dialogue & d ) {
+        player *actor = d.alpha;
+        if( is_npc ) {
+            actor = dynamic_cast<player *>( d.beta );
+        }
+        actor->remove_value( var_name );
     };
 }
 
@@ -1718,6 +1756,14 @@ void talk_effect_t::parse_sub_effect( JsonObject jo )
         subeffect_fun.set_remove_effect( jo, "u_lose_effect" );
     } else if( jo.has_string( "npc_lose_effect" ) ) {
         subeffect_fun.set_remove_effect( jo, "npc_lose_effect", is_npc );
+    } else if( jo.has_string( "u_add_var" ) ) {
+        subeffect_fun.set_add_var( jo, "u_add_var" );
+    } else if( jo.has_string( "npc_add_var" ) ) {
+        subeffect_fun.set_add_var( jo, "npc_add_var", is_npc );
+    } else if( jo.has_string( "u_lose_var" ) ) {
+        subeffect_fun.set_remove_var( jo, "u_lose_var" );
+    } else if( jo.has_string( "npc_lose_var" ) ) {
+        subeffect_fun.set_remove_var( jo, "npc_lose_var", is_npc );
     } else if( jo.has_string( "u_add_trait" ) ) {
         subeffect_fun.set_add_trait( jo, "u_add_trait" );
     } else if( jo.has_string( "npc_add_trait" ) ) {
@@ -2193,6 +2239,19 @@ void conditional_t::set_at_om_location( JsonObject &jo, const std::string &membe
     };
 }
 
+void conditional_t::set_has_var( JsonObject &jo, const std::string &member, bool is_npc )
+{
+    const std::string var_name = get_talk_varname( jo, member, false );
+    const std::string &value = jo.get_string( "value" );
+    condition = [var_name, value, is_npc]( const dialogue & d ) {
+        player *actor = d.alpha;
+        if( is_npc ) {
+            actor = dynamic_cast<player *>( d.beta );
+        }
+        return actor->get_value( var_name ) == value;
+    };
+}
+
 void conditional_t::set_npc_role_nearby( JsonObject &jo )
 {
     const std::string &role = jo.get_string( "npc_role_nearby" );
@@ -2593,6 +2652,10 @@ conditional_t::conditional_t( JsonObject jo )
         set_at_om_location( jo, "u_at_om_location" );
     } else if( jo.has_string( "npc_at_om_location" ) ) {
         set_at_om_location( jo, "npc_at_om_location", is_npc );
+    } else if( jo.has_string( "u_has_var" ) ) {
+        set_has_var( jo, "u_has_var" );
+    } else if( jo.has_string( "npc_has_var" ) ) {
+        set_has_var( jo, "npc_has_var", is_npc );
     } else if( jo.has_string( "npc_role_nearby" ) ) {
         set_npc_role_nearby( jo );
     } else if( jo.has_int( "npc_allies" ) ) {

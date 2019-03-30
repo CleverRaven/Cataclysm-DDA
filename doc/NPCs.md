@@ -324,6 +324,8 @@ u_add_effect: effect_string, (*one of* duration: duration_string, duration: dura
 u_add_trait: trait_string<br/>npc_add_trait: trait_string | Your character or the NPC will gain the trait.
 u_lose_effect: effect_string<br/>npc_lose_effect: effect_string | Your character or the NPC will lose the effect if they have it.
 u_lose_trait: trait_string<br/>npc_lose_trait: trait_string | Your character or the NPC will lose the trait.
+u_add_var, npc_add_var: var_name, type: type_str, context: context_str, value: value_str | Your character or the NPC will store value_str as a variable that can be later retrieved by `u_has_var` or `npc_has_var`.  `npc_add_var` can be used to store arbitary local variables, and `u_add_var` can be used to store arbitary "global" variables, and should be used in preference to setting effects.
+u_lose_var, npc_lose_var: var_name, type: type_str, context: context_str | Your character or the NPC will clear any stored variable that has the same var_name, type_str, and context_str.
 
 #### Trade / Items
 
@@ -430,6 +432,7 @@ Condition | Type | Description
 "u_has_trait"<br/>"npc_has_trait" | string | `true` if the player character or NPC has a specific trait.  Simpler versions of `u_has_any_trait` and `npc_has_any_trait` that only checks for one trait.
 "u_has_trait_flag"<br/>"npc_has_trait_flag" | string | `true` if the player character or NPC has any traits with the specific trait flag.  More robust versions of `u_has_any_trait` and `npc_has_any_trait`.  The special trait flag "MUTATION_THRESHOLD" checks to see if the player or NPC has crossed a mutation threshold.
 "u_has_any_trait"<br/>"npc_has_any_trait" | array | `true` if the player character or NPC has any trait or mutation in the array. Used to check multiple specific traits.
+"u_has_var", "npc_has_var" | string | `"type"`: type_str, `"context"`: context_str, and `"value"`: value_str are required fields in the same dictionary as `"u_has_var"` or `"npc_has_var"`.<br/>`true` is the player character or NPC has a variable set by `"u_set_var"` or `"npc_set_var"` with the string, type_str, context_str, and value_str.
 "u_has_strength"<br/>"npc_has_strength" | int | `true` if the player character's or NPC's strength is at least the value of `u_has_strength` or `npc_has_strength`.
 "u_has_dexterity"<br/>"npc_has_dexterity" | int | `true` if the player character's or NPC's dexterity is at least the value of `u_has_dexterity` or `npc_has_dexterity`.
 "u_has_intelligence"<br/>"npc_has_intelligence" | int | `true` if the player character's or NPC's intelligence is at least the value of `u_has_intelligence` or `npc_has_intelligence`.
@@ -510,6 +513,18 @@ Condition | Type | Description
   "text": "Nice to meet you too.",
   "topic": "TALK_NONE",
   "effect": { "u_add_effect": "has_met_example_NPC", "duration": "PERMANENT" }
+},
+{
+  "text": "Nice to meet you too.",
+  "topic": "TALK_NONE",
+  "condition": {
+    "not": {
+      "npc_has_var": "has_met_PC", "type": "general", "context": "examples", "value": "true"
+    }
+  },
+  "effect": {
+    "npc_set_var": "has_met_PC", "type": "general", "context": "examples", "value": "true" }
+  }
 },
 {
   "text": "[INT 11] I'm sure I can organize salvage operations to increase the bounty scavengers bring in!",
