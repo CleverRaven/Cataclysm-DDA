@@ -1149,6 +1149,15 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
                  g->m.tername( p ).c_str() );
     }
 
+    if( has_effect( effect_hidden ) && !g->m.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, p ) ) {
+        if( g->m.impassable( pos() ) ) {
+            footsteps( prev_pos );
+            return unhide( prev_pos );
+        } else {
+            unhide( prev_pos );
+        }
+    }
+
     setpos( p );
     footsteps( p );
     underwater = will_be_water;
@@ -1226,10 +1235,6 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
         if( one_in( 10 ) ) {
             g->m.add_item_or_charges( pos(), item( "napalm" ) );
         }
-    }
-
-    if( has_effect( effect_hidden ) && !g->m.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, p ) ) {
-        return unhide( prev_pos );
     }
 
     return true;
