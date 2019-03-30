@@ -27,7 +27,7 @@
         "points" : 1,
         "description" : "You are accustomed to being exposed to the elements.  This decreases morale penalties for being wet.",
         "starting_trait" : true,
-        "category" : ["ELFA"],
+        "valid" : false,
         "wet_protection" : [
             { "part" : "HEAD", "ignored" : 6 },
             { "part" : "LEG_L", "ignored" : 8 },
@@ -488,7 +488,7 @@
         "description" : "You're an excellent navigator and your ability to spot distant landmarks is unmatched.  Your sight radius on the overmap extends beyond the normal range.",
         "valid" : false,
         "starting_trait" : true,
-        "category" : ["MOUSE", "ELFA"],
+        "category" : ["MOUSE"],
         "cancels" : ["MYOPIC", "UNOBSERVANT"]
     },{
         "type" : "mutation",
