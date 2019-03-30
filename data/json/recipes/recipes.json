@@ -6,7 +6,7 @@
     "recipe_subcategories": [
       "CSC_*_FAVORITE",
       "CSC_*_RECENT",
-	   "CSC_*_HIDDEN"
+      "CSC_*_HIDDEN"
     ]
   },
   {
@@ -102,6 +102,14 @@
       "CSC_OTHER_TRAPS",
       "CSC_OTHER_VEHICLE",
       "CSC_OTHER_OTHER"
+    ]
+  },
+  {
+    "type": "recipe_category",
+    "id": "CC_ANIMALS",
+    "recipe_subcategories": [
+      "CSC_ALL",
+      "CSC_ANIMALS_CANINE ARMOR"
     ]
   },
   {
