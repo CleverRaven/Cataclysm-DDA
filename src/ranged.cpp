@@ -1382,14 +1382,21 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             const int dz = action == "LEVEL_UP" ? 1 : -1;
 
             // Shift the view up or down accordingly.
-            pc.view_offset.z += dz;
+            // We need to clamp the offset, but it needs to be clamped such that
+            // the player position plus the offset is still in range, since the player
+            // might be at Z+10 and looking down to Z-10, which is an offset greater than
+            // OVERMAP_DEPTH or OVERMAP_HEIGHT
+            const int potential_result = pc.pos().z + pc.view_offset.z + dz;
+            if( potential_result <= OVERMAP_HEIGHT && potential_result >= -OVERMAP_DEPTH ) {
+                pc.view_offset.z += dz;
+            }
 
             // Set our cursor z to our view z. This accounts for cases where
             // our view and our target are on different z-levels (e.g. when
             // we cycle targets on different z-levels but do not have SNAP_TO_TARGET
             // enabled). This will ensure that we don't just chase the cursor up or
             // down, never catching up.
-            dst.z = pc.pos().z + pc.view_offset.z;
+            dst.z = clamp( pc.pos().z + pc.view_offset.z, -OVERMAP_DEPTH, OVERMAP_HEIGHT );
 
             // We need to do a bunch of redrawing and cache updates since we're
             // looking at a different z-level.
