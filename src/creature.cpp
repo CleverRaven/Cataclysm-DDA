@@ -61,7 +61,7 @@ Creature::Creature()
     speed_base = 100;
     underwater = false;
 
-    reset_bonuses();
+    Creature::reset_bonuses();
 
     fake = false;
 }

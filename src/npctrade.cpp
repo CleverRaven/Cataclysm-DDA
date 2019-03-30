@@ -82,7 +82,7 @@ std::vector<item_pricing> init_buying( npc &p, player &u )
         }
 
         auto &it = *it_ptr;
-        int market_price = it.price( true );
+        const int market_price = it.price( true );
         int val = p.value( it, market_price );
         if( p.wants_to_buy( it, val, market_price ) ) {
             result.emplace_back( std::move( loc ), val, false );

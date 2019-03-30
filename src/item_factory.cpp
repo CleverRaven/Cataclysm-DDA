@@ -2648,7 +2648,7 @@ void item_group::debug_spawn()
     uilist menu;
     menu.text = _( "Test which group?" );
     for( size_t i = 0; i < groups.size(); i++ ) {
-        menu.entries.emplace_back( i, true, -2, groups[i] );
+        menu.entries.emplace_back( static_cast<int>( i ), true, -2, groups[i] );
     }
     while( true ) {
         menu.query();
@@ -2674,7 +2674,7 @@ void item_group::debug_spawn()
         for( const auto &e : itemnames2 ) {
             std::ostringstream buffer;
             buffer << e.first << " x " << e.second << "\n";
-            menu2.entries.emplace_back( menu2.entries.size(), true, -2, buffer.str() );
+            menu2.entries.emplace_back( static_cast<int>( menu2.entries.size() ), true, -2, buffer.str() );
         }
         menu2.query();
     }

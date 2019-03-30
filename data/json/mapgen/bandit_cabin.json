@@ -85,7 +85,7 @@
         "H": "f_armchair",
         "c": "f_counter"
       },
-      "toilets": { ";": {} },
+      "toilets": { ";": {  } },
       "place_items": [
         { "item": "bed", "x": [ 11, 12 ], "y": [ 5, 6 ], "chance": 80 },
         { "item": "bed", "x": [ 20, 21 ], "y": [ 3, 4 ], "chance": 80 },

@@ -274,7 +274,7 @@ std::map<vitamin_id, int> player::vitamins_from( const item &it ) const
                 for( const auto &mat : mut.vitamin_absorb_multi ) {
                     // this is where we are able to check if the food actually is changed by the trait
                     if( mat.first == material_id( "all" ) || material_exists( mat.first, it ) ) {
-                        std::map<vitamin_id, float> mat_vit_map = mat.second;
+                        std::map<vitamin_id, double> mat_vit_map = mat.second;
                         // finally iterate over every vitamin in each material
                         for( const auto &vit : res ) {
                             // to avoid errors with undefined keys, and to initialize numbers to 1 if undefined
