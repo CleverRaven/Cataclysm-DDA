@@ -758,8 +758,7 @@ std::pair<nc_color, std::string> pain_stat( const player &u )
     return std::make_pair( pain_color, pain_string );
 }
 
-std::string get_armor( const player &u, body_part bp, const catacurses::window &w,
-                       unsigned int truncate = 0 )
+std::string get_armor( const player &u, body_part bp, unsigned int truncate = 0 )
 {
     for( std::list<item>::const_iterator it = u.worn.end(); it != u.worn.begin(); ) {
         --it;
@@ -1486,11 +1485,11 @@ void draw_mod2( const player &u, const catacurses::window &w )
     mvwprintz( w, 4, 1, color, _( "Feet :" ) );
 
     unsigned int max_length = getmaxx( w ) - 8;
-    print_colored_text( w, 0, 8, color, color, get_armor( u, bp_head, w, max_length ) );
-    print_colored_text( w, 1, 8, color, color, get_armor( u, bp_torso, w, max_length ) );
-    print_colored_text( w, 2, 8, color, color, get_armor( u, bp_arm_r, w, max_length ) );
-    print_colored_text( w, 3, 8, color, color, get_armor( u, bp_leg_r, w, max_length ) );
-    print_colored_text( w, 4, 8, color, color, get_armor( u, bp_foot_r, w, max_length ) );
+    print_colored_text( w, 0, 8, color, color, get_armor( u, bp_head, max_length ) );
+    print_colored_text( w, 1, 8, color, color, get_armor( u, bp_torso, max_length ) );
+    print_colored_text( w, 2, 8, color, color, get_armor( u, bp_arm_r, max_length ) );
+    print_colored_text( w, 3, 8, color, color, get_armor( u, bp_leg_r, max_length ) );
+    print_colored_text( w, 4, 8, color, color, get_armor( u, bp_foot_r, max_length ) );
     wrefresh( w );
 }
 
@@ -1505,11 +1504,11 @@ void draw_armor( const player &u, const catacurses::window &w )
     mvwprintz( w, 4, 0, color, _( "Feet :" ) );
 
     unsigned int max_length = getmaxx( w ) - 7;
-    print_colored_text( w, 0, 7, color, color, get_armor( u, bp_head, w, max_length ) );
-    print_colored_text( w, 1, 7, color, color, get_armor( u, bp_torso, w, max_length ) );
-    print_colored_text( w, 2, 7, color, color, get_armor( u, bp_arm_r, w, max_length ) );
-    print_colored_text( w, 3, 7, color, color, get_armor( u, bp_leg_r, w, max_length ) );
-    print_colored_text( w, 4, 7, color, color, get_armor( u, bp_foot_r, w, max_length ) );
+    print_colored_text( w, 0, 7, color, color, get_armor( u, bp_head, max_length ) );
+    print_colored_text( w, 1, 7, color, color, get_armor( u, bp_torso, max_length ) );
+    print_colored_text( w, 2, 7, color, color, get_armor( u, bp_arm_r, max_length ) );
+    print_colored_text( w, 3, 7, color, color, get_armor( u, bp_leg_r, max_length ) );
+    print_colored_text( w, 4, 7, color, color, get_armor( u, bp_foot_r, max_length ) );
     wrefresh( w );
 }
 
