@@ -111,7 +111,7 @@ const efftype_id effect_heavysnare( "heavysnare" );
 const efftype_id effect_hit_by_player( "hit_by_player" );
 const efftype_id effect_in_pit( "in_pit" );
 const efftype_id effect_lightsnare( "lightsnare" );
-const efftype_id effect_monster_armor( "monster_armour" );
+const efftype_id effect_monster_armor( "monster_armor" );
 const efftype_id effect_no_sight( "no_sight" );
 const efftype_id effect_onfire( "onfire" );
 const efftype_id effect_pacified( "pacified" );
@@ -1186,7 +1186,8 @@ void monster::absorb_hit( body_part, damage_instance &dam )
     for( auto &elem : dam.damage_units ) {
         add_msg( m_debug, "Dam Type: %s :: Ar Pen: %.1f :: Armor Mult: %.1f",
                  name_by_dt( elem.type ).c_str(), elem.res_pen, elem.res_mult );
-        elem.amount -= std::min( resistances( *this ).get_effective_resist( elem ), elem.amount );
+        elem.amount -= std::min( resistances( *this ).get_effective_resist( elem ) +
+                                 get_worn_armor_val( elem.type ), elem.amount );
     }
 }
 
@@ -1590,7 +1591,7 @@ int monster::get_worn_armor_val( damage_type dt ) const
         return 0;
     }
     for( const item &armor : inv ) {
-        if( armor.get_var( "pet_armor", "" ).empty() ) {
+        if( !armor.is_pet_armor( true ) ) {
             continue;
         }
         return armor.damage_resist( dt );

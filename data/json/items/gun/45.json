@@ -133,7 +133,6 @@
     "copy-from": "pistol_revolver",
     "type": "GUN",
     "name": "homemade hand cannon",
-    "name_plural": "homemade hand cannons",
     "//": "On one hand, it's very big for a handgun. On the other, it's still a scrap weapon.",
     "description": "A large and heavy pistol evidently welded from scrap.  It's not pretty, but the .45 it's chambered with packs a serious punch.  Just watch out for the kick.",
     "weight": 1200,

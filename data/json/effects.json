@@ -116,6 +116,12 @@
   },
   {
     "type": "effect_type",
+    "id": "npc_flee_player",
+    "name": [ "Running away!" ],
+    "desc": [ "AI tag to enable NPCs to flee the player.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
     "id": "npc_fire_bad",
     "name": [ "Avoiding a fire!" ],
     "desc": [ "AI tag to enable NPCs to escape uncontrolled fires.  This is a bug if you have it." ]
