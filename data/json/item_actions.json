@@ -261,11 +261,6 @@
   },
   {
     "type": "item_action",
-    "id": "BATTLETORCH_LIT",
-    "name": "Extinguish"
-  },
-  {
-    "type": "item_action",
     "id": "BELL",
     "name": "Ring"
   },
@@ -848,11 +843,6 @@
     "type": "item_action",
     "id": "THROWABLE_EXTINGUISHER_ACT",
     "name": "Extinguish a fire"
-  },
-  {
-    "type": "item_action",
-    "id": "TORCH_LIT",
-    "name": "..."
   },
   {
     "type": "item_action",

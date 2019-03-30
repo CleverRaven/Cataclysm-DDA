@@ -574,7 +574,6 @@ void Item_factory::init()
     add_iuse( "ARROW_FLAMABLE", &iuse::arrow_flammable );
     add_iuse( "ARTIFACT", &iuse::artifact );
     add_iuse( "ATOMIC_CAFF", &iuse::atomic_caff );
-    add_iuse( "BATTLETORCH_LIT", &iuse::battletorch_lit );
     add_iuse( "BELL", &iuse::bell );
     add_iuse( "BLECH", &iuse::blech );
     add_iuse( "BOLTCUTTERS", &iuse::boltcutters );
@@ -725,7 +724,6 @@ void Item_factory::init()
     add_iuse( "TELEPORT", &iuse::teleport );
     add_iuse( "THORAZINE", &iuse::thorazine );
     add_iuse( "THROWABLE_EXTINGUISHER_ACT", &iuse::throwable_extinguisher_act );
-    add_iuse( "TORCH_LIT", &iuse::torch_lit );
     add_iuse( "TOWEL", &iuse::towel );
     add_iuse( "TRIMMER_OFF", &iuse::trimmer_off );
     add_iuse( "TRIMMER_ON", &iuse::trimmer_on );
