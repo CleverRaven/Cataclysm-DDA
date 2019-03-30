@@ -128,6 +128,7 @@ const efftype_id effect_glowy_led( "glowy_led" );
 const efftype_id effect_grabbed( "grabbed" );
 const efftype_id effect_hallu( "hallu" );
 const efftype_id effect_happy( "happy" );
+const efftype_id effect_hidden( "hidden" );
 const efftype_id effect_hot( "hot" );
 const efftype_id effect_infected( "infected" );
 const efftype_id effect_iodine( "iodine" );
@@ -815,6 +816,14 @@ void player::process_turn()
             add_msg_if_player( m_info, _( "You learned a new style." ) );
         }
     }
+
+    if( has_effect( effect_hidden ) && !g->m.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, pos() ) ) {
+        remove_effect( effect_hidden );
+    }
+    if( has_effect( effect_no_sight ) && !g->m.has_flag_ter_or_furn( TFLAG_NO_SIGHT, pos() ) ) {
+        remove_effect( effect_no_sight );
+    }
+
 }
 
 void player::action_taken()
@@ -11726,7 +11735,8 @@ bool player::has_weapon() const
 
 m_size player::get_size() const
 {
-    if( has_trait( trait_id( "SMALL2" ) ) || has_trait( trait_id( "SMALL_OK" ) ) || has_trait( trait_id( "SMALL" ) ) ) {
+    if( has_trait( trait_id( "SMALL2" ) ) || has_trait( trait_id( "SMALL_OK" ) ) ||
+        has_trait( trait_id( "SMALL" ) ) ) {
         return MS_SMALL;
     } else if( has_trait( trait_LARGE ) || has_trait( trait_LARGE_OK ) ) {
         return MS_LARGE;
