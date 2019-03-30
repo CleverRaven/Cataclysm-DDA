@@ -336,6 +336,8 @@ struct overmap_special_terrain {
 
 struct overmap_special_connection {
     tripoint p;
+    cata::optional<tripoint> from;
+    om_direction::type initial_dir = om_direction::type::invalid;
     string_id<oter_type_t> terrain; // TODO: Remove it.
     string_id<overmap_connection> connection;
     bool existing = false;
@@ -347,6 +349,7 @@ struct overmap_special_connection {
         jo.read( "terrain", terrain );
         jo.read( "existing", existing );
         jo.read( "connection", connection );
+        assign( jo, "from", from );
     }
 };
 
@@ -408,7 +411,6 @@ void reset();
 const std::vector<overmap_land_use_code> &get_all();
 
 }
-
 
 namespace overmap_specials
 {

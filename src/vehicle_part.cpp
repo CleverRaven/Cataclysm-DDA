@@ -63,7 +63,7 @@ item vehicle_part::properties_to_item() const
     // Cables get special handling: their target coordinates need to remain
     // stored, and if a cable actually drops, it should be half-connected.
     if( tmp.has_flag( "CABLE_SPOOL" ) ) {
-        tripoint local_pos = g->m.getlocal( target.first );
+        const tripoint local_pos = g->m.getlocal( target.first );
         if( !g->m.veh_at( local_pos ) ) {
             tmp.item_tags.insert( "NO_DROP" ); // That vehicle ain't there no more.
         }
@@ -101,7 +101,7 @@ std::string vehicle_part::name() const
 
 int vehicle_part::hp() const
 {
-    int dur = info().durability;
+    const int dur = info().durability;
     if( base.max_damage() > 0 ) {
         return dur - ( dur * base.damage() / base.max_damage() );
     } else {
@@ -221,8 +221,8 @@ int vehicle_part::ammo_set( const itype_id &ammo, long qty )
     // We often check if ammo is set to see if tank is empty, if qty == 0 don't set ammo
     if( is_tank() && liquid->phase >= LIQUID && qty != 0 ) {
         base.contents.clear();
-        auto stack = units::legacy_volume_factor / std::max( liquid->stack_size, 1 );
-        long limit = units::from_milliliter( ammo_capacity() ) / stack;
+        const auto stack = units::legacy_volume_factor / std::max( liquid->stack_size, 1 );
+        const long limit = units::from_milliliter( ammo_capacity() ) / stack;
         base.emplace_back( ammo, calendar::turn, qty > 0 ? std::min( qty, limit ) : limit );
         return qty;
     }
@@ -251,7 +251,7 @@ void vehicle_part::ammo_unset()
 long vehicle_part::ammo_consume( long qty, const tripoint &pos )
 {
     if( is_tank() && !base.contents.empty() ) {
-        int res = std::min( ammo_remaining(), qty );
+        const int res = std::min( ammo_remaining(), qty );
         item &liquid = base.contents.back();
         liquid.charges -= res;
         if( liquid.charges == 0 ) {
@@ -272,8 +272,8 @@ double vehicle_part::consume_energy( const itype_id &ftype, double energy_j )
     if( fuel.typeId() == ftype ) {
         assert( fuel.is_fuel() );
         // convert energy density in MJ/L to J/ml
-        double energy_p_mL = fuel.fuel_energy() * 1000;
-        long ml_to_use = static_cast<long>( std::floor( energy_j / energy_p_mL ) );
+        const double energy_p_mL = fuel.fuel_energy() * 1000;
+        const long ml_to_use = static_cast<long>( std::floor( energy_j / energy_p_mL ) );
         long charges_to_use = fuel.charges_per_volume( ml_to_use * 1_ml );
 
         if( !charges_to_use ) {

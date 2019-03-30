@@ -1146,12 +1146,12 @@ void new_faction_manager::display() const
         // entries_per_page * page number
         const int top_of_page = entries_per_page * ( selection / entries_per_page );
         if( tab == tab_mode::TAB_FOLLOWERS ) {
-            if( followers.size() > 0 ) {
+            if( !followers.empty() ) {
                 guy = followers[selection];
             }
             active_vec_size = followers.size();
         } else if( tab == tab_mode::TAB_MYFACTION ) {
-            if( camps.size() > 0 ) {
+            if( !camps.empty() ) {
                 camp = camps[selection];
             }
             active_vec_size = camps.size();
@@ -1187,7 +1187,7 @@ void new_faction_manager::display() const
                     draw_scrollbar( w_missions, selection, entries_per_page, active_vec_size, 3, 0 );
                     for( int i = top_of_page; i <= ( active_vec_size - 1 ); i++ ) {
                         const auto camp = camps[i];
-                        std::string camp_name = camp->camp_name();
+                        const std::string &camp_name = camp->camp_name();
                         const int y = i - top_of_page + 3;
                         trim_and_print( w_missions, y, 1, 28, static_cast<int>( selection ) == i ? hilite( col ) : col,
                                         camp_name );
@@ -1197,6 +1197,7 @@ void new_faction_manager::display() const
                         tripoint camp_pos = camp->camp_omt_pos();
                         std::string direction = direction_name( direction_from(
                                 player_abspos, camp_pos ) );
+                        mvwprintz( w_missions, ++y, 31, c_light_gray, _( "Press enter to rename this camp" ) );
                         std::string centerstring = "center";
                         if( ( !direction.compare( centerstring ) ) == 0 ) {
                             mvwprintz( w_missions, ++y, 31, c_light_gray,
@@ -1228,7 +1229,7 @@ void new_faction_manager::display() const
                 }
                 break;
             case tab_mode::TAB_FOLLOWERS:
-                if( followers.size() > 0 ) {
+                if( !followers.empty() ) {
                     draw_scrollbar( w_missions, selection, entries_per_page, active_vec_size, 3, 0 );
                     for( int i = top_of_page; i <= ( active_vec_size - 1 ); i++ ) {
                         const auto guy = followers[i];
@@ -1374,6 +1375,8 @@ void new_faction_manager::display() const
         } else if( action == "CONFIRM" ) {
             if( tab == tab_mode::TAB_FOLLOWERS && interactable && guy ) {
                 guy->talk_to_u();
+            } else if( tab == tab_mode::TAB_MYFACTION && camp ) {
+                camp->query_new_name();
             }
         } else if( action == "QUIT" ) {
             break;

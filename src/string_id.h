@@ -58,7 +58,7 @@ class string_id
          * Note that this id class does not enforce empty id strings (or any specific string at all)
          * to be special. Every string (including the empty one) may be a valid id.
          */
-        string_id() : _id(), _cid( -1 ) {}
+        string_id() : _cid( -1 ) {}
         /**
          * Comparison, only useful when the id is used in std::map or std::set as key. Compares
          * the string id as with the strings comparison.

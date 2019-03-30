@@ -250,10 +250,10 @@ class overmap
         // TODO: make private
         std::vector<radio_tower> radios;
         std::map<int, om_vehicle> vehicles;
-        std::vector<basecamp *> camps;
+        std::vector<basecamp> camps;
         std::vector<city> cities;
         std::vector<city> roads_out;
-        cata::optional<basecamp *> find_camp( const int x, const int y ) const;
+        cata::optional<basecamp *> find_camp( const int x, const int y );
         /// Adds the npc to the contained list of npcs ( @ref npcs ).
         void insert_npc( std::shared_ptr<npc> who );
         /// Removes the npc and returns it ( or returns nullptr if not found ).
@@ -359,9 +359,11 @@ class overmap
         pf::path lay_out_street( const overmap_connection &connection, const point &source,
                                  om_direction::type dir, size_t len ) const;
 
-        void build_connection( const overmap_connection &connection, const pf::path &path, int z );
+        void build_connection( const overmap_connection &connection, const pf::path &path, int z,
+                               const om_direction::type &initial_dir = om_direction::type::invalid );
         void build_connection( const point &source, const point &dest, int z,
-                               const overmap_connection &connection, const bool must_be_unexplored );
+                               const overmap_connection &connection, const bool must_be_unexplored,
+                               const om_direction::type &initial_dir = om_direction::type::invalid );
         void connect_closest_points( const std::vector<point> &points, int z,
                                      const overmap_connection &connection );
         // Polishing

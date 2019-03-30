@@ -101,9 +101,9 @@ int player::kcal_for( const item &comest ) const
     float kcal = 0;
 
     // if item has components, will derive calories from that instead.
-    if( comest.components.size() > 0 && !comest.has_flag( "NUTRIENT_OVERRIDE" ) ) {
+    if( !comest.components.empty() && !comest.has_flag( "NUTRIENT_OVERRIDE" ) ) {
         int byproduct_multiplier;
-        for( item component : comest.components ) {
+        for( const item &component : comest.components ) {
             component.has_flag( "BYPRODUCT" ) ? byproduct_multiplier = -1 : byproduct_multiplier = 1;
             kcal += this->kcal_for( component ) * component.charges * byproduct_multiplier;
         }
@@ -248,7 +248,7 @@ std::map<vitamin_id, int> player::vitamins_from( const item &it ) const
         return res;
     }
 
-    if( it.components.size() > 0 && !it.has_flag( "NUTRIENT_OVERRIDE" ) ) {
+    if( !it.components.empty() && !it.has_flag( "NUTRIENT_OVERRIDE" ) ) {
         // if an item is a byproduct, it should subtract the calories and vitamins instead of add
         int byproduct_multiplier = 1;
         for( const auto &comp : it.components ) {
@@ -265,7 +265,7 @@ std::map<vitamin_id, int> player::vitamins_from( const item &it ) const
         res = it.type->comestible->vitamins;
         std::list<trait_id> traits = mut_vitamin_absorb_modify( *this );
         // traits modify the absorption of vitamins here
-        if( traits.size() > 0 ) {
+        if( !traits.empty() ) {
             // make sure to iterate over every trait that has an effect on vitamin absorption
             for( const trait_id &trait : traits ) {
                 const auto &mut = trait.obj();
@@ -274,7 +274,7 @@ std::map<vitamin_id, int> player::vitamins_from( const item &it ) const
                 for( const auto &mat : mut.vitamin_absorb_multi ) {
                     // this is where we are able to check if the food actually is changed by the trait
                     if( mat.first == material_id( "all" ) || material_exists( mat.first, it ) ) {
-                        std::map<vitamin_id, float> mat_vit_map = mat.second;
+                        std::map<vitamin_id, double> mat_vit_map = mat.second;
                         // finally iterate over every vitamin in each material
                         for( const auto &vit : res ) {
                             // to avoid errors with undefined keys, and to initialize numbers to 1 if undefined

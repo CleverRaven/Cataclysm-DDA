@@ -611,7 +611,7 @@ bool tool_comp::has( const inventory &crafting_inv, int batch,
             } );
         }
         if( has_UPS ) {
-            int UPS_charges_used =
+            const int UPS_charges_used =
                 crafting_inv.charges_of( "UPS", ( count * batch ) - charges_found );
             if( visitor && UPS_charges_used + charges_found >= ( count * batch ) ) {
                 visitor( UPS_charges_used );
@@ -745,7 +745,7 @@ static bool apply_blacklist( std::vector<std::vector<T>> &vec, const std::string
     }
 
     // did we remove the last instance of an option group?
-    bool blacklisted = std::any_of( vec.begin(), vec.end(), []( const std::vector<T> &e ) {
+    const bool blacklisted = std::any_of( vec.begin(), vec.end(), []( const std::vector<T> &e ) {
         return e.empty();
     } );
 
@@ -864,7 +864,7 @@ requirement_data requirement_data::disassembly_requirements() const
     qualities.insert( qualities.end(), new_qualities.begin(), new_qualities.end() );
     // Remove duplicate qualities
     {
-        auto itr = std::unique( qualities.begin(), qualities.end(),
+        const auto itr = std::unique( qualities.begin(), qualities.end(),
         []( const quality_requirement & a, const quality_requirement & b ) {
             return a.type == b.type;
         } );
