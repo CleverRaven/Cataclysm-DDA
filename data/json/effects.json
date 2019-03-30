@@ -1664,7 +1664,7 @@
 	"type": "effect_type",
 	"id": "ritalin",
 	"name": ["Used Methylphenidate", "Used Ritalin"],
-	"desc": ["You feel more focused and weak"],
+	"desc": ["You feel more focused and weak."],
 	"max_intensity": 1000,
 	"int_dur_factor": 1,
 	"base_mods": {"dex_mod": [-3], "int_mod": [4], "per_mod": [3], "str_mod": [-4] },
