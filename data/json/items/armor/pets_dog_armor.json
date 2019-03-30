@@ -73,7 +73,8 @@
     "price": 17500,
     "price_postapoc": 1750,
     "material": [ "cotton", "leather" ],
-    "weight": 2145
+    "weight": 2145,
+    "flags": [ "NO_SALVAGE" ]
   },
   {
     "type": "PET_ARMOR",
@@ -100,7 +101,8 @@
     "weight": 1960,
     "material_thickness": 0,
     "environmental_protection": 10,
-    "min_pet_vol": "15000 ml"
+    "min_pet_vol": "15000 ml",
+    "flags": [ "NO_SALVAGE" ]
   },
   {
     "type": "PET_ARMOR",
