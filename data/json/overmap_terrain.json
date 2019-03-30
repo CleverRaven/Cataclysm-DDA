@@ -3530,6 +3530,20 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "bakery_roof",
+    "name": "bakery roof",
+    "copy-from": "generic_city_building",
+    "color": "c_yellow_white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "bakery_upper_roof",
+    "name": "bakery roof",
+    "copy-from": "generic_city_building",
+    "color": "c_yellow_white"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "icecream_shop",
     "name": "icecream shop",
     "copy-from": "generic_city_building",
