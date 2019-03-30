@@ -1655,8 +1655,13 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
     if( moved ) {
 
         if( has_effect( effect_hidden ) && !g->m.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, pos() ) ) {
-            unhide( prev_pos );
-            return;
+            if( g->m.impassable( pos() ) ) {
+                unhide( prev_pos );
+                return;
+            } else {
+                unhide( prev_pos );
+            }
+
         }
         const tripoint old_pos = pos();
         setpos( p );
@@ -1665,12 +1670,6 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
             add_effect( effect_bouldering, 1_turns, num_bp, true );
         } else if( has_effect( effect_bouldering ) ) {
             remove_effect( effect_bouldering );
-        }
-
-        if( g->m.has_flag_ter_or_furn( TFLAG_NO_SIGHT, pos() ) ) {
-            add_effect( effect_no_sight, 1_turns, num_bp, true );
-        } else if( has_effect( effect_no_sight ) ) {
-            remove_effect( effect_no_sight );
         }
 
         if( in_vehicle ) {
