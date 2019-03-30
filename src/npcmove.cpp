@@ -1667,12 +1667,6 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
             remove_effect( effect_bouldering );
         }
 
-        if( g->m.has_flag_ter_or_furn( TFLAG_NO_SIGHT, pos() ) ) {
-            add_effect( effect_no_sight, 1_turns, num_bp, true );
-        } else if( has_effect( effect_no_sight ) ) {
-            remove_effect( effect_no_sight );
-        }
-
         if( in_vehicle ) {
             g->m.unboard_vehicle( old_pos );
         }
