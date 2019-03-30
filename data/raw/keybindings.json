@@ -1995,17 +1995,10 @@
   },
   {
     "type": "keybinding",
-    "name": "Toggle move mode (run/walk)",
+    "name": "Toggle move mode (run/walk/crouch)",
     "category": "DEFAULTMODE",
     "id": "toggle_move",
     "bindings": [ { "input_method": "keyboard", "key": "\"" } ]
-  },
-  {
-    "type": "keybinding",
-    "name": "Toggle crouching",
-    "category": "DEFAULTMODE",
-    "id": "toggle_crouching",
-    "bindings": [ { "input_method": "keyboard", "key": "]" } ]
   },
   {
     "type": "keybinding",
