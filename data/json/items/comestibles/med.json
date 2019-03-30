@@ -1392,6 +1392,33 @@
       "bite": 0.75,
       "move_cost": 100,
       "effects": [ { "id": "pkill1", "duration": 120 } ]
-    }
-  }
+		}
+	},
+	{
+	  "id": "methylphenidate",
+	  "type": "COMESTIBLE",
+	  "comestible_type": "MED",
+	  "name": "Ritalin",
+	  "name_plural": "Ritalin",
+	  "description": "Ritalin also called Methylphenidate, used to treat attention deficit hyperactivity disorder (ADHD), side effects include trouble sleeping, anxiety, and weight lose.",
+	  "container": "bottle_plastic_small",
+	  "looks_like": "antibiotics",
+	  "weight": 1,
+	  "volume": 1,
+	  "charges": 20,
+	  "stack_size": 20,
+	  "price": 500,
+	  "price_postapoc": 1000,
+	  "symbol": "!",
+	  "color": "white",
+	  "flags": "NPC_SAFE",
+	  "addiction_potential": 20,
+	  "fun": -10,
+	  "use_action": {
+		"type": "consume_drug",
+		"activation_message": "You take some Ritalin.",
+		"effects": [ { "id": "ritalin", "duration": 3000 } ]
+	  }
+	}
+	 
 ]
