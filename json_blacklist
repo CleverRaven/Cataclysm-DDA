@@ -1,8 +1,3 @@
-data/json/items/resources/metals.json
-data/json/items/software.json
-data/json/items/tool/lighting.json
-data/json/mapgen/abandoned01.json
-data/json/mapgen/apartment_con.json
 data/json/mapgen/apartment_mod.json
 data/json/mapgen/bandit_cabin.json
 data/json/mapgen/bandit_camp.json
