@@ -168,12 +168,8 @@ bool Creature::hide( const tripoint &target, bool move )
 
 bool Creature::unhide( const tripoint entered_from )
 {
-    if( has_effect( effect_no_sight ) ) {
-        remove_effect( effect_no_sight );
-    }
-    if( has_effect( effect_hidden ) ) {
-        remove_effect( effect_hidden );
-    }
+    remove_effect( effect_no_sight );
+    remove_effect( effect_hidden );
 
     if( !g->m.impassable( pos() ) ) {
         moves -= 50; // cost less move because we're not moving, just unhiding.
