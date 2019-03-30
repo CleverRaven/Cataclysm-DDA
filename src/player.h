@@ -445,7 +445,6 @@ class player : public Character
 
         void pause(); // '.' command; pauses & reduces recoil
         void toggle_move_mode(); // Toggles to the next move mode.
-        void toggle_crouching(); // Toggles crouching
         void shout( std::string text = "" );
 
         // martialarts.cpp
