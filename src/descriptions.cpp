@@ -172,5 +172,40 @@ std::string map_data_common_t::extended_description() const
         ss << std::endl;
     }
 
+    if( has_flag( "HIDE_PLACE" ) ) {
+        ss << "--" << std::endl;
+        ss << "This could be use for hiding" << std::endl;
+        if( has_flag( "MAX_TINY" ) ) {
+            ss << "This place can accommodate Tiny creatures." << std::endl;
+            if( g->u.get_size() == MS_TINY ) {
+                ss << "Your size allows you to hide here." << std::endl;
+            } else {
+                ss << "You are too big to hide in here." << std::endl;
+            }
+        } else if( has_flag( "MAX_SMALL" ) ) {
+            ss << "This place can accommodate Small creatures." << std::endl;
+            if( g->u.get_size() <= MS_SMALL ) {
+                ss << "Your size allows you to hide here." << std::endl;
+            } else {
+                ss << "You are too big to hide in here." << std::endl;
+            }
+        } else if( has_flag( "MAX_MEDIUM" ) ) {
+            ss << "This place can accommodate Medium creatures." << std::endl;
+            if( g->u.get_size() <= MS_MEDIUM ) {
+                ss << "Your size allows you to hide here." << std::endl;
+            } else {
+                ss << "You are too big to hide in here." << std::endl;
+            }
+        } else if( has_flag( "MAX_LARGE" ) ) {
+            ss << "This place can accommodate Large creatures." << std::endl;
+            if( g->u.get_size() <= MS_LARGE ) {
+                ss << "Your size allows you to hide here." << std::endl;
+            } else {
+                ss << "You are too big to hide in here." << std::endl;
+            }
+
+        }
+
+    }
     return replace_colors( ss.str() );
 }
