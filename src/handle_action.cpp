@@ -1496,7 +1496,7 @@ bool game::handle_action()
                     if( !u.hide( *pnt, false ) ) {
                         add_msg( m_info, _( "You can't hide in the %s." ), g->m.name( *pnt ).c_str() );
                     } else {
-                        if( u.has_effect( effect_hidden ) ) {
+                        if( u.has_effect( effect_hidden ) && ( !g->m.impassable( *pnt ) || ( u.pos() == *pnt ) ) ) {
                             add_msg( m_info, _( "You are already hidden." ) );
                         } else {
                             u.prev_pos = u.pos();
