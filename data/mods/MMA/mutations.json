@@ -8,7 +8,7 @@
     "starting_trait": true,
     "initial_ma_styles": [ "style_centipede", "style_venom_snake", "style_scorpion", "style_lizard", "style_toad" ],
     "valid": false
-  }, 
+  },
   {
     "type" : "mutation",
     "id" : "MMA_MARTIAL_ARTS_PANZER",
