@@ -92,16 +92,16 @@ struct talk_effect_fun_t {
         talk_effect_fun_t( talkfunction_ptr effect );
         talk_effect_fun_t( const std::function<void( npc & )> effect );
         void set_companion_mission( const std::string &role_id );
-        void set_add_effect( bool is_u, const std::string &new_effect,
-                             const time_duration &duration, bool permanent = true );
-        void set_remove_effect( bool is_u, const std::string &new_effect );
-        void set_add_trait( bool is_u, const std::string &new_trait );
-        void set_remove_trait( bool is_u, const std::string &old_trait );
+        void set_add_effect( JsonObject jo, const std::string &member, bool is_npc = false );
+        void set_remove_effect( JsonObject jo, const std::string &member, bool is_npc = false );
+        void set_add_trait( JsonObject jo, const std::string &member, bool is_npc = false );
+        void set_remove_trait( JsonObject jo, const std::string &member, bool is_npc = false );
         void set_u_buy_item( const std::string &new_trait, int cost, int count,
                              const std::string &container_name );
         void set_u_spend_cash( int amount );
         void set_u_sell_item( const std::string &new_trait, int cost, int count );
-        void set_consume_item( bool is_u, const std::string &new_trait, int count );
+        void set_consume_item( JsonObject jo, const std::string &member, int count,
+                               bool is_npc = false );
         void set_npc_change_faction( const std::string &faction_name );
         void set_npc_change_class( const std::string &faction_class );
         void set_change_faction_rep( int amount );
