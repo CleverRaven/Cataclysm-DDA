@@ -152,7 +152,7 @@ bool Creature::hide( const tripoint &target, bool move )
     }
     if( move ) {
         setpos( target );
-        moves -=100; // TODO : make cost specific to hiding
+        moves -= 100; // TODO : make cost specific to hiding
         add_effect( effect_hidden, 1_turns, num_bp, true );
         if( is_player() ) {
             add_msg( m_good, _( "You are hiding in the %s." ), g->m.name( target ).c_str() );
@@ -168,16 +168,22 @@ bool Creature::hide( const tripoint &target, bool move )
 
 bool Creature::unhide( const tripoint entered_from )
 {
-    if( has_effect( effect_no_sight ) && !g->m.has_flag_ter_or_furn( TFLAG_NO_SIGHT, entered_from ) ) {
+    if( has_effect( effect_no_sight ) ) {
         remove_effect( effect_no_sight );
     }
-    if( has_effect( effect_hidden ) && !g->m.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, entered_from ) ) {
+    if( has_effect( effect_hidden ) ) {
         remove_effect( effect_hidden );
     }
-    setpos( entered_from );
-    moves -= ( g->m.move_cost( entered_from ) + 100 ); // mimic combined_movecost but set move_cost to 100 for current pos
-    return true;
 
+    if( !g->m.impassable( pos() ) ) {
+        moves -= 50; // cost less move because we're not moving, just unhiding.
+        return true;
+    }
+
+    setpos( entered_from );
+    moves -= ( g->m.move_cost( entered_from ) +
+               100 ); // mimic combined_movecost but set move_cost to 100 for current pos, because impassable tile are 0 movecost
+    return true;
 }
 
 // MF_DIGS or MF_CAN_DIG and diggable terrain
