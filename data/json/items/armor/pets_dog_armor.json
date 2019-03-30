@@ -15,7 +15,7 @@
     "bashing": 5,
     "to_hit": -1,
     "flags": [ "IS_PET_ARMOR" ],
-    "material_thickness" : 2,
+    "material_thickness": 2,
     "storage": 50,
     "max_pet_vol": "35000 ml",
     "min_pet_vol": "25000 ml",
@@ -33,7 +33,7 @@
     "price_postapoc": 5000,
     "material": [ "acidchitin" ],
     "weight": 5362,
-    "environmental_protection" : 7
+    "environmental_protection": 7
   },
   {
     "type": "PET_ARMOR",
@@ -45,7 +45,7 @@
     "price": 35000,
     "price_postapoc": 3500,
     "material": [ "chitin" ],
-    "environmental_protection" : 4
+    "environmental_protection": 4
   },
   {
     "type": "PET_ARMOR",
@@ -59,7 +59,7 @@
     "price_postapoc": 2500,
     "material": [ "iron", "budget_steel" ],
     "weight": 6434,
-    "material_thickness" : 0,
+    "material_thickness": 0,
     "//": "Only whole numbers seem to work because making material_thickness 2 jumps the resilience too high"
   },
   {
@@ -98,8 +98,8 @@
     "price_postapoc": 1000,
     "material": [ "neoprene", "plastic" ],
     "weight": 1960,
-    "material_thickness" : 0,
-    "environmental_protection" : 10,
+    "material_thickness": 0,
+    "environmental_protection": 10,
     "min_pet_vol": "15000 ml"
   },
   {
