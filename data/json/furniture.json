@@ -1509,7 +1509,7 @@
       "items": [ { "item": "2x4", "count": [ 1, 5 ] }, { "item": "nail", "charges": [ 2, 10 ] } ]
     }
   },
- {
+  {
     "type": "furniture",
     "id": "f_crate_o",
     "name": "open crate",
