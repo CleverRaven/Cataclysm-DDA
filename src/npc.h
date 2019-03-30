@@ -782,7 +782,6 @@ class npc : public player
         bool do_player_activity();
 
         // Combat functions and player interaction functions
-        void wield_best_melee();
         bool alt_attack(); // Returns true if did something
         void heal_player( player &patient );
         void heal_self();

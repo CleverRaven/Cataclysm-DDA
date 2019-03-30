@@ -67,7 +67,6 @@ enum npc_action : int {
     npc_pause,
     npc_reload, npc_sleep,
     npc_pickup,
-    npc_wield_melee, npc_wield_loaded_gun, npc_wield_empty_gun,
     npc_heal, npc_use_painkiller, npc_drop_items,
     npc_flee, npc_melee, npc_shoot,
     npc_look_for_player, npc_heal_player, npc_follow_player, npc_follow_embarked,
@@ -728,43 +727,6 @@ void npc::execute_action( npc_action action )
         case npc_pickup:
             pick_up_item();
             break;
-
-        case npc_wield_melee:
-            wield_best_melee();
-            break;
-
-        case npc_wield_loaded_gun: {
-            item *it = inv.most_loaded_gun();
-            if( it->is_null() ) {
-                debugmsg( "NPC tried to wield a loaded gun, but has none!" );
-                move_pause();
-            } else {
-                wield( *it );
-            }
-        }
-        break;
-
-        case npc_wield_empty_gun: {
-            bool ammo_found = false;
-            int index = -1;
-            invslice slice = inv.slice();
-            for( size_t i = 0; i < slice.size(); i++ ) {
-                item &it = slice[i]->front();
-                bool am = ( it.is_gun() &&
-                            !get_ammo( it.type->gun->ammo ).empty() );
-                if( it.is_gun() && ( !ammo_found || am ) ) {
-                    index = i;
-                    ammo_found = ( ammo_found || am );
-                }
-            }
-            if( index == -1 ) {
-                debugmsg( "NPC tried to wield a gun, but has none!" );
-                move_pause();
-            } else {
-                wield( slice[index]->front() );
-            }
-        }
-        break;
 
         case npc_heal:
             heal_self();
@@ -2554,18 +2516,6 @@ bool npc::scan_new_items()
     // TODO: Armor?
 }
 
-void npc::wield_best_melee()
-{
-    double best_value = 0.0;
-    item *it = inv.best_for_melee( *this, best_value );
-    if( unarmed_value() >= best_value ) {
-        // "I cast fist!"
-        it = &null_item_reference();
-    }
-
-    wield( *it );
-}
-
 void npc_throw( npc &np, item &it, int index, const tripoint &pos )
 {
     if( g->u.sees( np ) ) {
@@ -3230,12 +3180,6 @@ std::string npc_action_name( npc_action action )
             return _( "Sleep" );
         case npc_pickup:
             return _( "Pick up items" );
-        case npc_wield_melee:
-            return _( "Wield melee weapon" );
-        case npc_wield_loaded_gun:
-            return _( "Wield loaded gun" );
-        case npc_wield_empty_gun:
-            return _( "Wield empty gun" );
         case npc_heal:
             return _( "Heal self" );
         case npc_use_painkiller:
