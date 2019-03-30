@@ -10289,10 +10289,6 @@ bool game::walk_move( const tripoint &dest_loc )
         }
     }
 
-    if( u.has_effect( effect_no_sight ) && !m.has_flag_ter_or_furn( TFLAG_NO_SIGHT, dest_loc ) ) {
-        u.remove_effect( effect_no_sight );
-    }
-
     if( dest_loc != u.pos() ) {
         u.lifetime_stats.squares_walked++;
     }
