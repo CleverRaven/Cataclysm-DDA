@@ -121,6 +121,7 @@ extern npc_class_id NC_NONE;
 extern npc_class_id NC_EVAC_SHOPKEEP;
 extern npc_class_id NC_SHOPKEEP;
 extern npc_class_id NC_HACKER;
+extern npc_class_id NC_CYBORG;
 extern npc_class_id NC_DOCTOR;
 extern npc_class_id NC_TRADER;
 extern npc_class_id NC_NINJA;
