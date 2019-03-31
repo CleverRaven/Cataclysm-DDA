@@ -27,7 +27,7 @@
     "comestible_type": "DRINK",
     "symbol": "~",
     "quench": 50,
-    "healthy": 3,
+    "healthy": 4,
     "description": "Goes great with a birthday dinner.",
     "price": 0,
     "volume": 1,
@@ -35,7 +35,7 @@
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 5,
-    "vitamins": [ [ "vitC", 10 ] ]
+    "vitamins": [ [ "vitA", 2 ], [ "vitC", 14 ], [ "iron", 1 ], [ "calcium", 6 ] ]
   },
   {
     "type": "recipe",
