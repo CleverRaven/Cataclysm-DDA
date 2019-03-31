@@ -2350,7 +2350,7 @@
     "covers": [ "HAND_EITHER" ],
     "coverage": 5,
     "use_action": "WEATHER_TOOL",
-    "flags": [ "WATCH", "WATER_FRIENDLY", "THERMOMETER", "BELTED", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ]
+    "flags": [ "WATCH", "ALARMCLOCK", "WATER_FRIENDLY", "THERMOMETER", "BELTED", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ]
   },
   {
     "id": "down_blanket",
