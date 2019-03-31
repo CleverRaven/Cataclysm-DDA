@@ -1149,7 +1149,7 @@ void iexamine::safe( player &p, const tripoint &examp )
             _( "With the jackhammer you may punish the safe until it breaks open." ) );
     }
     
-    if( p.has_charges( "pickaxe", 1 ) ) {
+    if( p.has_amount( "pickaxe", 1 ) ) {
         smenu.addentry_desc( PICKAXE, true, 'd', _( "Smash to pieces." ),
             _( "With the pickaxe you may punish the safe until it breaks open." ) );
     }
@@ -1164,7 +1164,7 @@ void iexamine::safe( player &p, const tripoint &examp )
         }
     }
 
-    if( p.has_charges( "thermite", 50 ) ) {
+    if( p.has_amount( "thermite", 50 ) ) {
         if( skilled_mechanic && p.has_charges( "fire", 1 ) ) {
             smenu.addentry_desc( THERMITE, true, 'o', _( "Cut open with thermite charge." ),
                 _( "With a handful of thermite you may attempt to melt the lock to get inside. It may destroy the contents." ) );
@@ -1207,37 +1207,46 @@ void iexamine::safe( player &p, const tripoint &examp )
     // perception point away from 8; capped at 30 minutes minimum. *100 to convert to moves
     ///\EFFECT_PER speeds up safe cracking
     ///\EFFECT_MECHANICS speeds up safe cracking
-    const time_duration time = std::max( 150_minutes - 20_minutes * ( p.get_skill_level( skill_mechanics ) - 3 ) - 10_minutes * ( p.get_per() - 8 ), 30_minutes );
+    const time_duration time_consumed = std::max( 150_minutes - 20_minutes * ( p.get_skill_level( skill_mechanics ) - 3 ) - 10_minutes * ( p.get_per() - 8 ), 30_minutes );
 
     switch( smenu.ret ) {
         case AUDIOFEEDBACK: 
         {
-            p.assign_activity( activity_id( "ACT_CRACKING" ), to_moves<int>( time ) );
+            p.assign_activity( activity_id( "ACT_CRACKING" ), to_moves<int>( time_consumed ) );
             p.activity.placement = examp;
             break;
         }
         case DRILL:
         {
-            p.assign_activity( activity_id( "ACT_DRILL" ), to_moves<int>( time ) );
+            p.assign_activity( activity_id( "ACT_DRILL" ), to_moves<int>( time_consumed ) );
             p.activity.placement = examp;
+            if( p.has_charges( "cordless_drill", 10 ) ) {
+                p.use_charges( "cordless_drill", 10 );
+            }
             break;
         }
         case JACKHAMMER:
         {
-            p.assign_activity( activity_id( "ACT_JACKHAMMER" ), to_moves<int>( time ) );
+            p.assign_activity( activity_id( "ACT_JACKHAMMER" ), to_moves<int>( time_consumed ) );
             p.activity.placement = examp;
+            if( p.has_charges( "jackhammer", 10 ) ) {
+                p.use_charges( "jackhammer", 10 );
+            } else if ( p.has_charges( "elec_jackhammer", 10 ) ) {
+                p.use_charges( "elec_jackhammer", 10 );
+            }           
             break;
         }
         case PICKAXE:
         {
-            p.assign_activity( activity_id( "ACT_PICKAXE" ), to_moves<int>( time ) );
+            p.assign_activity( activity_id( "ACT_PICKAXE" ), to_moves<int>( time_consumed ) );
             p.activity.placement = examp;
             break;
         }
         case ACETHYLENE_TORCH:
         {
-            p.assign_activity( activity_id( "ACT_OXYTORCH" ), to_moves<int>( time ) );
+            p.assign_activity( activity_id( "ACT_OXYTORCH" ), to_moves<int>( time_consumed ) );
             p.activity.placement = examp;
+            p.activity.values.push_back( 30 );
             break;
         }
         case THERMITE:

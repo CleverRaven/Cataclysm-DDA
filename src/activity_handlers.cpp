@@ -113,6 +113,7 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_QUARTER" ), butcher_finish },
     { activity_id( "ACT_DISMEMBER" ), butcher_finish },
     { activity_id( "ACT_DISSECT" ), butcher_finish },
+    { activity_id( "ACT_DRILL" ), drill_finish },
     { activity_id( "ACT_FIRSTAID" ), firstaid_finish },
     { activity_id( "ACT_FISH" ), fish_finish },
     { activity_id( "ACT_FORAGE" ), forage_finish },
@@ -2122,9 +2123,9 @@ void activity_handlers::oxytorch_finish( player_activity *act, player *p )
     } else if( ter == t_window_bars ) {
         g->m.ter_set( pos, t_window_empty );
         g->m.spawn_item( p->pos(), "pipe", rng( 1, 2 ) );
-    } else if( furn == furn_id( "safe" ) || furn == furn_id( "gunsafe_ml" )
-                || furn == furn_id( "gunsafe_el" ) || furn == furn_id( "gunsafe_mj" ) ) {
-        g->m.furn_set( pos, furn_str_id( "f_safe_o" ) );
+    } else if( furn == f_safe_l || furn == f_gunsafe_ml
+                || furn == f_gunsafe_el || furn == f_gunsafe_mj ) {
+        g->m.furn_set( pos, f_safe_o );
         g->m.spawn_item( p->pos(), "steel_chunk", rng( 1, 3 ) );
         g->m.add_field( tripoint( pos.x + rng( -2, 2 ), pos.y + rng( -2, 2 ), pos.z ), fd_smoke, 1 );
         if ( rng( 1, 10) < p->dex_cur / 2 + p->get_skill_level( skill_mechanics ) ) {
@@ -2587,9 +2588,9 @@ void activity_handlers::drill_do_turn( player_activity *act, player *p )
         act->set_to_null();
         return;
     }
-    if( calendar::once_every( 2_minutes ) ) {
+    if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a drill drilling a hole.
-        sounds::sound( act->placement, 15, sounds::sound_t::activity, _( "whirrr whirrr." ) );
+        sounds::sound( act->placement, 15, sounds::sound_t::combat, _( "whirrr whirrr." ) );
         messages_in_process( *act, *p );
     }
 }
@@ -2599,7 +2600,7 @@ void activity_handlers::drill_finish( player_activity *act, player *p )
     const tripoint &pos = act->placement;
     const ter_id type = g->m.ter( act->placement );
     const furn_id furn = g->m.furn( act->placement );
-    ter_id new_type;
+    ter_id new_type = t_concrete;
     std::string open_message;
     
     p->add_msg_if_player( m_good, _( "You finish drilling." ) );
@@ -2614,7 +2615,7 @@ void activity_handlers::drill_finish( player_activity *act, player *p )
     } else if( type == t_door_locked_peep ) {
         new_type = t_door_c_peep;
         open_message = _( "You drill through the lock and the door opens." );
-    } else if( type == t_door_metal_pickable ) {
+    } else if( type == t_door_metal_pickable || type == t_door_metal_locked ) {
         new_type = t_door_metal_c;
         open_message = _( "You drill through the lock and the door opens." );
     } else if( type == t_door_bar_locked ) {

@@ -3069,7 +3069,7 @@ int iuse::drill( player *p, item *it, bool, const tripoint & )
     const ter_id type = g->m.ter( pnt );
     const furn_id furn = g->m.furn( pnt );
     time_duration duration = 5_minutes;
-    if( type == t_chaingate_l || type == t_door_locked || type == t_door_locked_alarm || type == t_door_locked_interior || type == t_door_locked_peep || type == t_door_metal_pickable || type == t_door_bar_locked ) {
+    if( type == t_chaingate_l || type == t_door_locked || type == t_door_locked_alarm || type == t_door_locked_interior || type == t_door_locked_peep || type == t_door_metal_pickable || type == t_door_bar_locked || type == t_door_metal_locked ) {
         duration = 5_minutes;
     } else if( furn == f_safe_l || furn == f_gunsafe_ml || furn == f_gunsafe_el ||
              furn == f_gunsafe_mj ) {
@@ -3079,7 +3079,7 @@ int iuse::drill( player *p, item *it, bool, const tripoint & )
         return 0;
     }
 
-    p->assign_activity( activity_id( "ACT_DRILL" ), to_turns<int>( duration ) * 100, -1,
+    p->assign_activity( activity_id( "ACT_DRILL" ), to_moves<int>( duration ), -1,
                         p->get_item_position( it ) );
     p->activity.placement = pnt;
 
