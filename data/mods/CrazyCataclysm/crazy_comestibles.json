@@ -18,6 +18,48 @@
     "flags": [ "MYCUS_OK" ]
   },
   {
+    "type": "COMESTIBLE",
+    "id": "bone_apple_tea",
+    "name": "bone apple tea",
+    "name_plural": "bone apple tea",
+    "weight": 268,
+    "color": "light_red",
+    "comestible_type": "DRINK",
+    "symbol": "~",
+    "quench": 50,
+    "healthy": 3,
+    "description": "Goes great with a birthday dinner.",
+    "price": 0,
+    "volume": 1,
+    "material": [ "water", "fruit" ],
+    "phase": "liquid",
+    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
+    "fun": 5,
+    "vitamins": [ [ "vitC", 10 ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "bone_apple_tea",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "skills_required": [ "survival", 2 ],
+    "time": 10000,
+    "batch_time_factors": [ 80, 4 ],
+    "book_learn": [
+      [ "pocket_survival", 1 ],
+      [ "survival_book", 1 ],
+      [ "textbook_survival", 1 ],
+      [ "manual_survival", 1 ],
+      [ "mag_survival", 1 ],
+      [ "family_cookbook", 1 ]
+    ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
+    "components": [ [ [ "bone", 1 ] ], [ [ "apple", 1 ], [ "irradiated_apple", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
     "type": "recipe",
     "result": "sporeos",
     "category": "CC_FOOD",
