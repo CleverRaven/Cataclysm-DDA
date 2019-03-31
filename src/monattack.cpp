@@ -4632,15 +4632,15 @@ bool mattack::grenadier( monster *const z )
     std::map<std::string, grenade_helper_struct> grenades;
     // Grenades
     grenades["bot_pacification_hack"].message =
-        _( "The %s assembles and deploys a pacification hack!" );
+        _( "The %s deploys a pacification hack!" );
     // Flashbangs
     grenades["bot_flashbang_hack"].message =
-        _( "The %s assembles and deploys a flashbang hack!" );
+        _( "The %s deploys a flashbang hack!" );
     // Gasbombs
     grenades["bot_gasbomb_hack"].message =
-        _( "The %s assembles and deploys a tear gas hack!" );
+        _( "The %s deploys a tear gas hack!" );
     // C-4
-    grenades["bot_c4_hack"].message = _( "The %s assembles and deploys a C-4 hack!" );
+    grenades["bot_c4_hack"].message = _( "The %s buzzes and deploys a C-4 hack!" );
     grenades["bot_c4_hack"].chance = 8;
 
     // Only can actively target the player right now. Once we have the ability to grab targets that we aren't
@@ -4662,19 +4662,19 @@ bool mattack::grenadier_elite( monster *const z )
     // Build our grenade map
     std::map<std::string, grenade_helper_struct> grenades;
     // Grenades
-    grenades["bot_grenade_hack"].message = _( "The %s assembles and deploys a grenade hack!" );
+    grenades["bot_grenade_hack"].message = _( "The %s deploys a grenade hack!" );
     // Flashbangs
     grenades["bot_flashbang_hack"].message =
-        _( "The %s assembles and deploys a flashbang hack!" );
+        _( "The %s deploys a flashbang hack!" );
     // Gasbombs
-    grenades["bot_gasbomb_hack"].message = _( "The %s assembles and deploys a tear gas hack!" );
+    grenades["bot_gasbomb_hack"].message = _( "The %s deploys a tear gas hack!" );
     // C-4
-    grenades["bot_c4_hack"].message = _( "The %s assembles and deploys a C-4 hack!" );
+    grenades["bot_c4_hack"].message = _( "The %s buzzes and deploys a C-4 hack!" );
     grenades["bot_c4_hack"].chance = 8;
     grenades["bot_c4_hack"].ammo_percentage = .75;
     // Mininuke
     grenades["bot_mininuke_hack"].message =
-        _( "A klaxon blares from %s as it assembles and deploys a mininuke hack!" );
+        _( "A klaxon blares from %s as it deploys a mininuke hack!" );
     grenades["bot_mininuke_hack"].chance = 50;
     grenades["bot_mininuke_hack"].ammo_percentage = .75;
 

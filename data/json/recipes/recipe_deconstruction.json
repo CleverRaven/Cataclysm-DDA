@@ -732,16 +732,6 @@
     "components": [ [ [ "processor", 1 ] ], [ [ "RAM", 1 ] ], [ [ "scrap", 1 ] ] ]
   },
   {
-    "result": "broken_pacification_hack",
-    "type": "uncraft",
-    "skill_used": "electronics",
-    "difficulty": 4,
-    "time": 2000,
-    "using": [ [ "soldering_standard", 5 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "processor", 1 ] ], [ [ "RAM", 1 ] ], [ [ "scrap", 1 ] ] ]
-  },
-  {
     "result": "broken_grenade_hack",
     "type": "uncraft",
     "skill_used": "electronics",
@@ -795,8 +785,7 @@
       [ [ "motor", 1 ] ],
       [ [ "canister_empty", 1 ] ],
       [ [ "e_scrap", 3 ] ],
-      [ [ "steel_chunk", 12 ] ],
-      [ [ "relaxbomb", 1 ] ]
+      [ [ "steel_chunk", 12 ] ]
     ]
   },
   {
@@ -1004,17 +993,16 @@
     "components": [
       [ [ "power_supply", 3 ] ],
       [ [ "e_scrap", 6 ] ],
-      [ [ "solder_wire", 30 ] ],
-      [ [ "cable", 8 ] ],
+      [ [ "solder_wire", 50 ] ],
+      [ [ "cable", 20 ] ],
       [ [ "scrap", 6 ] ],
       [ [ "motor", 1 ] ],
-      [ [ "wire", 5 ] ],
+      [ [ "wire", 9 ] ],
       [ [ "plut_cell", 1 ] ],
       [ [ "steel_chunk", 6 ] ],
-      [ [ "broken_manhack", 2 ] ],
-      [ [ "relaxbomb", 1 ] ],
-      [ [ "spike", 5 ] ],
-      [ [ "blade", 2 ] ]
+      [ [ "broken_manhack", 4 ] ],
+      [ [ "omnicamera", 1 ] ],
+      [ [ "robot_controls", 1 ] ]
     ]
   },
   {
@@ -1028,17 +1016,16 @@
     "components": [
       [ [ "power_supply", 3 ] ],
       [ [ "e_scrap", 6 ] ],
-      [ [ "solder_wire", 30 ] ],
-      [ [ "cable", 8 ] ],
+      [ [ "solder_wire", 60 ] ],
+      [ [ "cable", 35 ] ],
       [ [ "scrap", 6 ] ],
       [ [ "motor_large", 1 ] ],
-      [ [ "wire", 5 ] ],
+      [ [ "wire", 9 ] ],
       [ [ "plut_cell", 2 ] ],
       [ [ "steel_chunk", 6 ] ],
-      [ [ "broken_manhack", 4 ] ],
-      [ [ "grenade", 1 ] ],
-      [ [ "spike", 5 ] ],
-      [ [ "blade", 2 ] ]
+      [ [ "broken_manhack", 7 ] ],
+      [ [ "omnicamera", 1 ] ],
+      [ [ "robot_controls", 1 ] ]
     ]
   },
   {

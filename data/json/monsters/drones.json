@@ -78,20 +78,6 @@
     "special_attacks": [ [ "KAMIKAZE", 0 ] ]
   },
   {
-    "id": "mon_pacification_hack",
-    "copy-from": "base_drone",
-    "type": "MONSTER",
-    "name": "pacification hack",
-    "description": "An automated kamikaze drone, this fist-sized robot appears to have a pacification gas canister inside.",
-    "diff": 5,
-    "speed": 250,
-    "color": "pink",
-    "armor_cut": 4,
-    "revert_to_itype": "bot_pacification_hack",
-    "starting_ammo": { "relax_gas_payload": 1 },
-    "special_attacks": [ [ "KAMIKAZE", 0 ] ]
-  },
-  {
     "id": "mon_grenade_hack",
     "copy-from": "base_drone",
     "type": "MONSTER",
