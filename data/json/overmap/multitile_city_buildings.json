@@ -933,6 +933,24 @@
   },
   {
     "type": "city_building",
+    "id": "s_pizza_parlor",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "s_pizza_parlor_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "s_pizza_parlor_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "s_pizza_parlor_1",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "s_pizza_parlor_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "s_pizza_parlor_roof_1_north" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "s_grocery",
     "locations": [ "land" ],
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "s_grocery_north" }, { "point": [ 0, 0, 1 ], "overmap": "s_grocery_roof_north" } ]
