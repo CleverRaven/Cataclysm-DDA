@@ -36,6 +36,7 @@
 #include "item.h"
 #include "item_factory.h"
 #include "json.h"
+#include "magic.h"
 #include "mission.h"
 #include "monfaction.h"
 #include "monster.h"
@@ -865,6 +866,17 @@ void player::serialize( JsonOut &json ) const
           json.member("memorial",ptmpvect);
     */
 
+    json.member( "spellbook" );
+    json.start_array();
+    for( auto pair : spellbook ) {
+        json.start_object();
+        json.member( "id", pair.second.id() );
+        json.member( "xp", pair.second.xp() );
+        json.member( "level", pair.second.get_level() );
+        json.end_object();
+    }
+    json.end_array();
+
     json.end_object();
 }
 
@@ -1032,6 +1044,17 @@ void player::deserialize( JsonIn &jsin )
     while( parray.has_more() ) {
         JsonArray pair = parray.next_array();
         inv.assigned_invlet[static_cast<char>( pair.get_int( 0 ) )] = pair.get_string( 1 );
+    }
+
+    parray = data.get_array( "spellbook" );
+    while( parray.has_more() ) {
+        JsonObject jo = parray.next_object();
+        std::string id;
+        jo.read( "id", id );
+        spell_id sp = spell_id( id );
+        int xp;
+        jo.read( "xp", xp );
+        spellbook.emplace( sp, spell( sp, this, xp ) );
     }
 
     if( data.has_member( "invcache" ) ) {
