@@ -114,10 +114,10 @@
   {
     "type": "overmap_terrain",
     "id": "mall_a_10_roof",
-    "name": "road",
+    "name": "open air",
     "copy-from": "generic_mall",
-    "sym": 4194424,
-    "color": "dark_gray"
+    "sym": 46,
+    "color": "blue"
   },
   {
     "type": "overmap_terrain",
@@ -220,10 +220,10 @@
   {
     "type": "overmap_terrain",
     "id": "mall_a_19_roof",
-    "name": "road",
+    "name": "open air",
     "copy-from": "generic_mall",
-    "sym": 4194424,
-    "color": "dark_gray"
+    "sym": 46,
+    "color": "blue"
   },
   {
     "type": "overmap_terrain",
