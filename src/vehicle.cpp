@@ -1692,7 +1692,7 @@ bool vehicle::remove_carried_vehicle( const std::vector<int> &carried_parts )
                      _( "A part of the vehicle ('%s') has no containing vehicle's name. It will be detached from the %s vehicle." ),
                      parts[carried_part].name(),  new_vehicle->name );
 
-            // check if any other parts at the same location have a valid carry name so we can
+            // check if any other parts at the same location have a valid carry name so we can still have a valid mount location.
             for( auto &local_part : parts_at_relative( parts[carried_part].mount, true ) ) {
                 if( !parts[local_part].carry_names.empty() ) {
                     mount_str = parts[local_part].carry_names.top().substr( 1, 3 );
