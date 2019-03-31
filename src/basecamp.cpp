@@ -226,6 +226,7 @@ std::map<std::string, std::string> basecamp::recipe_deck( const std::string &dir
             continue;
         }
         std::map<std::string, std::string> test_s = recipe_group::get_recipes( building_level );
+        cooking_recipes.insert( test_s.begin(), test_s.end() );
     }
     return cooking_recipes;
 }
