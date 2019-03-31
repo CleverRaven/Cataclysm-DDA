@@ -87,6 +87,7 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "WASHING_MACHINE", VPFLAG_WASHING_MACHINE },
     { "FLUIDTANK", VPFLAG_FLUIDTANK },
     { "REACTOR", VPFLAG_REACTOR },
+    { "FLAT_SURF", VPFLAG_FLAT_SURF },
 };
 
 static const std::vector<std::pair<std::string, int>> standard_terrain_mod = {{
