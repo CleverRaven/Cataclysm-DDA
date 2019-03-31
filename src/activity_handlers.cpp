@@ -2661,6 +2661,11 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
         item craft_copy = craft;
         p->i_rem( pos );
         p->complete_craft( craft_copy );
+        if( act->values[1] ) { // If this is a long craft
+            if( p->making_would_work( p->lastrecipe, craft_copy.charges ) ) {
+                p->last_craft->execute();
+            }
+        }
     } else {
         p->assign_activity( activity_id( "ACT_CRAFT" ) );
         p->activity.values.push_back( pos );

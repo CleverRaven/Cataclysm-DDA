@@ -8066,13 +8066,13 @@ int iuse::craft( player *p, item *it, bool, const tripoint & )
 {
     int pos = p->get_item_position( it );
 
-    // Giving player::disassemble INT_MIN is actually a special case to
-    // disassemble all, but get_item_position returns INT_MIN if it's not
-    // actually in our inventory/worn/wielded. Skip this nonsensical case.
     if( pos != INT_MIN ) {
+        p->add_msg_player_or_npc(
+            string_format( pgettext( "in progress craft", "You start working on the %s" ), it->tname() ),
+            string_format( pgettext( "in progress craft", "<npcname> starts working on the %s" ), it->tname()
+                         ) );
         p->assign_activity( activity_id( "ACT_CRAFT" ) );
         p->activity.values.push_back( pos );
-        // TODO: allow crafting from map/vehicle position
     }
     return 0;
 }

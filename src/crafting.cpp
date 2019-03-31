@@ -469,7 +469,7 @@ static void finalize_crafted_item( item &newit )
     }
 }
 
-static item &set_item_inventory( item &newit )
+static item *set_item_inventory( item &newit )
 {
     item *ret_val = &null_item_reference();
     if( newit.made_of( LIQUID ) ) {
@@ -487,13 +487,13 @@ static item &set_item_inventory( item &newit )
                      ret_val->tname().c_str() );
         }
     }
-    return *ret_val;
+    return ret_val;
 }
 
 time_duration get_rot_since( const time_point &start, const time_point &end,
                              const tripoint &location ); // weather.cpp
 
-void player::start_craft( const recipe &making, int batch_size )
+void player::start_craft( const recipe &making, int batch_size, bool is_long )
 {
     if( making.ident().is_null() ) {
         debugmsg( "no recipe with id %s found", activity.name );
@@ -513,19 +513,19 @@ void player::start_craft( const recipe &making, int batch_size )
 
     item craft( &making, batch_size, std::vector<item>( used.begin(), used.end() ) );
 
-    item &craft_in_inv = set_item_inventory( craft );
-    int pos = get_item_position( &craft_in_inv );
+    int pos = get_item_position( set_item_inventory( craft ) );
     if( pos == INT_MIN ) {
-        add_msg_if_player( _( "Activate the %s to start crafting" ), craft_in_inv.tname() );
+        add_msg_if_player( _( "Activate the %s to start crafting" ), craft.tname() );
     } else {
         add_msg_player_or_npc(
             string_format( pgettext( "in progress craft", "You start working on the %s" ),
-                           craft_in_inv.tname() ),
+                           craft.tname() ),
             string_format( pgettext( "in progress craft", "<npcname> starts working on the %s" ),
-                           craft_in_inv.tname()
+                           craft.tname()
                          ) );
         assign_activity( activity_id( "ACT_CRAFT" ) );
         activity.values.push_back( pos );
+        activity.values.push_back( is_long );
     }
 }
 
