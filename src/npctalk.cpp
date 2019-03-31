@@ -1585,6 +1585,7 @@ void talk_effect_fun_t::set_toggle_npc_rule( const std::string &rule )
             return;
         }
         d.beta->rules.toggle_flag( toggle->second );
+        d.beta->wield_better_weapon();
     };
 }
 

@@ -1827,6 +1827,10 @@ void npc::move_away_from( const tripoint &pt, bool no_bash_atk, std::set<tripoin
 void npc::move_pause()
 
 {
+    // make sure we're using the best weapon
+    if( calendar::once_every( 1_hours ) && wield_better_weapon() ) {
+        return;
+    }
     // NPCs currently always aim when using a gun, even with no target
     // This simulates them aiming at stuff just at the edge of their range
     if( !weapon.is_gun() ) {
@@ -2446,7 +2450,7 @@ bool npc::wield_better_weapon()
     const long ups_charges = charges_of( "UPS" );
 
     const auto compare_weapon =
-    [this, &best, &best_value, ups_charges, can_use_gun, use_silent]( item & it ) {
+    [this, &best, &best_value, ups_charges, can_use_gun, use_silent]( const item & it ) {
         bool allowed = can_use_gun && it.is_gun() && ( !use_silent || it.is_silent() );
         double val;
         if( !allowed ) {
@@ -2462,7 +2466,7 @@ bool npc::wield_better_weapon()
         }
 
         if( val > best_value ) {
-            best = &it;
+            best = const_cast<item *>( &it );
             best_value = val;
         }
     };
@@ -2475,13 +2479,15 @@ bool npc::wield_better_weapon()
     compare_weapon( null_item_reference() );
 
     visit_items( [&compare_weapon]( item * node ) {
-        // Skip some bad items
-        if( !node->is_melee() ) {
-            return VisitResponse::SKIP;
+        // Only compare melee weapons, guns, or holstered items
+        if( node->is_melee() || node->is_gun() ) {
+            compare_weapon( *node );
+        } else if( node->get_use( "holster" ) && !node->contents.empty() ) {
+            const item &holstered = node->get_contained();
+            if( holstered.is_melee() || holstered.is_gun() ) {
+                compare_weapon( holstered );
+            }
         }
-
-        compare_weapon( *node );
-
         return VisitResponse::SKIP;
     } );
 
@@ -2490,13 +2496,12 @@ bool npc::wield_better_weapon()
     // Until then, the NPCs should reload the guns as a last resort
 
     if( best == &weapon ) {
-        add_msg( m_debug, "Wielded %s is best at %.1f, not switching",
-                 best->display_name().c_str(), best_value );
+        add_msg( m_debug, "Wielded %s is best at %.1f, not switching", best->display_name(),
+                 best_value );
         return false;
     }
 
-    add_msg( m_debug, "Wielding %s at value %.1f",
-             best->display_name().c_str(), best_value );
+    add_msg( m_debug, "Wielding %s at value %.1f", best->display_name(), best_value );
 
     wield( *best );
     return true;

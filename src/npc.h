@@ -624,6 +624,7 @@ class npc : public player
         int value( const item &it ) const;
         int value( const item &it, int market_price ) const;
         bool wear_if_wanted( const item &it );
+        void stow_item( item &it );
         bool wield( item &it ) override;
         bool adjust_worn();
         bool has_healing_item( bool bleed = false, bool bite = false, bool infect = false );
