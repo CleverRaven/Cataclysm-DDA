@@ -2727,7 +2727,6 @@
       [ "glass_shard", 20 ],
       [ "ceramic_shard", 15 ],
       [ "stick", 95 ],
-      [ "muffler", 30 ],
       [ "seed_wheat", 5 ],
       [ "seed_tomato", 5 ],
       [ "seed_weed", 5 ],
@@ -2760,15 +2759,12 @@
       [ "recipe_elfa", 1 ],
       [ "jug_plastic", 10 ],
       [ "spray_can", 50 ],
-      [ "keg", 10 ],
       [ "jar_glass", 10 ],
       [ "jar_3l_glass", 8 ],
       [ "flyer", 10 ],
       [ "scorecard", 10 ],
       [ "talking_doll", 60 ],
       [ "marble", 65 ],
-      [ "55gal_drum", 1 ],
-      [ "30gal_drum", 2 ],
       [ "creepy_doll", 1 ],
       [ "straw_doll", 1 ],
       [ "striped_shirt", 1 ],
@@ -10454,5 +10450,10 @@
     "type": "item_group",
     "id": "maps",
     "items": [ { "item": "roadmap", "prob": 33 }, { "item": "touristmap", "prob": 33 }, { "item": "survivormap", "prob": 33 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "meth_ingredients",
+    "items": [ [ "dayquil", 2 ], [ "aspirin", 40 ], [ "adderall", 5 ], [ "energy_drink", 2 ], [ "caffeine", 20 ] ]
   }
 ]
