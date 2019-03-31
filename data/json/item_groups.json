@@ -3752,11 +3752,16 @@
     "type": "item_group",
     "//": "These are exceptionally rare martial arts books that should only spawn very rarely.",
     "items": [
+      [ "manual_centipede", 1 ],
       [ "manual_crane", 1 ],
       [ "manual_dragon", 1 ],
       [ "manual_leopard", 1 ],
+      [ "manual_lizard", 1 ],
+      [ "manual_scorpion", 1 ],
       [ "manual_snake", 1 ],
       [ "manual_tiger", 1 ],
+      [ "manual_toad", 1 ],
+      [ "manual_venom_snake", 1 ],
       [ "manual_zui_quan", 1 ]
     ]
   },
