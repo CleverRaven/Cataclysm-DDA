@@ -2796,12 +2796,10 @@ bool mattack::photograph( monster *z )
     // TODO: Make the player known to the faction
     if( one_in( 6 ) ) {
         sounds::sound( z->pos(), 15, sounds::sound_t::alert,
-                       string_format( _( "a robotic voice boom, \"Citizen %s!\"",
-                                         Name::generate( g->u.male ) ) ) );
+                       string_format( _( "a robotic voice boom, \"Citizen %s!\"" ), Name::generate( g->u.male ) ) );
     } else if( one_in( 3 ) ) {
         sounds::sound( z->pos(), 15, sounds::sound_t::alert,
-                       string_format( _( "a robotic voice boom, \"Citizen %s!\"",
-                                         g->u.name ) ) );
+                       string_format( _( "a robotic voice boom, \"Citizen %s!\"" ), g->u.name ) );
     } else {
         sounds::sound( z->pos(), 15, sounds::sound_t::alert,
                        _( "a robotic voice boom, \"Citizen...  database connection lost!" ) ) ;
