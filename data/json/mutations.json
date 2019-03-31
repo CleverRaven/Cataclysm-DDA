@@ -373,7 +373,6 @@
         "name" : "Animal Kinship",
         "points" : 2,
         "description" : "Something about your presence is calming to animals, and they will treat you with innate trust. This only applies to natural animals such as woodland creatures.",
-        "starting_trait" : true,
         "category" : ["ELFA"],
         "prereqs" : ["ANIMALEMPATH"],
         "cancels" : ["ANIMALDISCORD"]
