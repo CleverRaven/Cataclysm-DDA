@@ -66,6 +66,7 @@
 #include "line.h"
 #include "live_view.h"
 #include "loading_ui.h"
+#include "magic.h"
 #include "map.h"
 #include "map_item_stack.h"
 #include "map_iterator.h"
@@ -2280,6 +2281,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "unload" );
     ctxt.register_action( "throw" );
     ctxt.register_action( "fire" );
+    ctxt.register_action( "cast_spell" );
     ctxt.register_action( "fire_burst" );
     ctxt.register_action( "select_fire_mode" );
     ctxt.register_action( "drop" );

@@ -1,0 +1,31 @@
+[
+  {
+	"id": "DEBUG_spellbook",
+	"type": "GENERIC",
+	"name": "A Technomancer's Guide to Debugging C:DDA",
+	"description": "static std::string description( spell sp ) const;",
+	"weight": 1,
+	"volume": "1 ml",
+	"symbol": "?",
+	"color": "magenta",
+	"use_action": {
+	  "type": "learn_spell",
+	  "spells": [ "debug_hp", "debug_stamina", "example_template", "debug_bionic", "pain_split", "fireball" ]
+	}
+  },
+  {
+    "id": "wizard_beginner",
+    "type": "GENERIC",
+    "name": "A Beginner's Guide to Magic",
+    "description": "You would describe this as more like a pamphlet than a spellbook, but it seems to have at least one interesting spell you can use.",
+    "weight": 585,
+    "volume": 1,
+    "price": 5000,
+    "symbol": "?",
+    "color": "red",
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [ "magic_missile" ]
+    }
+  }
+]

@@ -820,6 +820,24 @@ std::pair<nc_color, std::string> power_stat( const player &u )
     return std::make_pair( c_pwr, s_pwr );
 }
 
+std::pair<nc_color, std::string> mana_stat( const player &u )
+{
+    nc_color c_mana = c_red;
+    std::string s_mana;
+    if( u.max_mana() <= 0 ) {
+        s_mana = "--";
+        c_mana = c_light_gray;
+    } else {
+        if( u.available_mana() >= u.max_mana() / 2 ) {
+            c_mana = c_light_blue;
+        } else if( u.available_mana() >= u.max_mana() / 3 ) {
+            c_mana = c_yellow;
+        }
+        s_mana = to_string( u.available_mana() );
+    }
+    return std::make_pair( c_mana, s_mana );
+}
+
 nc_color safe_color()
 {
     nc_color s_color = g->safe_mode ? c_green : c_red;
@@ -1678,6 +1696,17 @@ void draw_hint( const player &, const catacurses::window &w )
     wrefresh( w );
 }
 
+void draw_mana( const player &u, const catacurses::window &w )
+{
+    werase( w );
+
+    auto mana_pair = mana_stat( u );
+    mvwprintz( w, 0, getmaxx( w ) - 10, c_light_gray, "Mana" );
+    mvwprintz( w, 0, getmaxx( w ) - 5, mana_pair.first, mana_pair.second );
+
+    wrefresh( w );
+}
+
 // ============
 // INITIALIZERS
 // ============
@@ -1687,6 +1716,9 @@ std::vector<window_panel> initialize_default_classic_panels()
     std::vector<window_panel> ret;
 
     ret.emplace_back( window_panel( draw_health_classic, "Health", 7, 44, true ) );
+    //if( get_option<bool>( "MANA" ) ) {
+    ret.emplace_back( window_panel( draw_mana, "Mana", 1, 44, true ) );
+    //}
     ret.emplace_back( window_panel( draw_location_classic, "Location", 1, 44, true ) );
     ret.emplace_back( window_panel( draw_weather_classic, "Weather", 1, 44, true ) );
     ret.emplace_back( window_panel( draw_lighting_classic, "Lighting", 1, 44, true ) );
@@ -1707,6 +1739,9 @@ std::vector<window_panel> initialize_default_compact_panels()
     std::vector<window_panel> ret;
 
     ret.emplace_back( window_panel( draw_limb2, "Limbs", 3, 32, true ) );
+    //if( get_option<bool>( "MANA" ) ) {
+    ret.emplace_back( window_panel( draw_mana, "Mana", 1, 32, true ) );
+    //}
     ret.emplace_back( window_panel( draw_stealth, "Sound", 1, 32, true ) );
     ret.emplace_back( window_panel( draw_stats, "Stats", 1, 32, true ) );
     ret.emplace_back( window_panel( draw_time, "Time", 1, 32, true ) );
@@ -1729,6 +1764,9 @@ std::vector<window_panel> initialize_default_label_panels()
 
     ret.emplace_back( window_panel( draw_hint, "Hint", 1, 32, true ) );
     ret.emplace_back( window_panel( draw_limb, "Limbs", 3, 32, true ) );
+    //if( get_option<bool>( "MANA" ) ) {
+    ret.emplace_back( window_panel( draw_mana, "Mana", 1, 32, true ) );
+    //}
     ret.emplace_back( window_panel( draw_char, "Movement", 3, 32, true ) );
     ret.emplace_back( window_panel( draw_stat, "Stats", 3, 32, true ) );
     ret.emplace_back( window_panel( draw_veh_padding, "Vehicle", 1, 32, true ) );

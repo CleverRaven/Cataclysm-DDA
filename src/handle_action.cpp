@@ -28,6 +28,7 @@
 #include "help.h"
 #include "input.h"
 #include "itype.h"
+#include "magic.h"
 #include "map.h"
 #include "mapdata.h"
 #include "mapsharing.h"
@@ -1252,6 +1253,66 @@ static void open_movement_mode_menu()
     }
 }
 
+static void cast_spell()
+{
+    player &u = g->u;
+
+    if( u.is_armed() ) {
+        add_msg( m_bad, _( "You need your hands free to cast spells!" ) );
+        return;
+    }
+
+    std::vector<spell_id> spells = u.spells();
+
+    if( spells.empty() ) {
+        add_msg( m_bad, _( "You don't know any spells to cast." ) );
+        return;
+    }
+
+    bool can_cast_spells = false;
+    std::vector<uilist_entry> spell_names;
+    for( spell_id sp : spells ) {
+        spell temp_spell = u.get_spell( sp );
+        std::string nm = temp_spell.name();
+        uilist_entry entry( nm );
+        if( temp_spell.can_cast() ) {
+            can_cast_spells = true;
+        } else {
+            entry.enabled = false;
+        }
+        entry.ctxt = string_format( "%s %i (%s)", _( "Level" ), temp_spell.get_level(),
+                                    temp_spell.is_max_level() ? _( "MAX" ) : temp_spell.exp_progress() );
+        spell_names.emplace_back( entry );
+    }
+
+    if( !can_cast_spells ) {
+        add_msg( m_bad, _( "You can't cast any of the spells you know!" ) );
+    }
+
+    // if there's only one spell we know, we still want to see its information
+    // the 0th "spell" is a header
+    int action = uilist( _( "Choose your spell:" ), spell_names ) - 1;
+    if( action < 0 ) {
+        return;
+    }
+
+    spell sp = u.get_spell( spells[action] );
+
+    if( !u.has_enough_energy( sp ) ) {
+        add_msg( m_bad, _( "You don't have enough %s to cast the spell." ), sp.energy_string() );
+        return;
+    }
+
+    if( sp.energy_source() == hp_energy && !u.has_quality( quality_id( "CUT" ) ) ) {
+        add_msg( m_bad, _( "You cannot cast Blood Magic without a cutting implement." ) );
+        return;
+    }
+
+    player_activity cast_spell( activity_id( "ACT_SPELLCASTING" ), sp.casting_time() );
+    cast_spell.name = sp.id().c_str();
+    u.assign_activity( cast_spell, false );
+}
+
 bool game::handle_action()
 {
     std::string action;
@@ -1684,6 +1745,10 @@ bool game::handle_action()
 
             case ACTION_FIRE:
                 fire();
+                break;
+
+            case ACTION_CAST_SPELL:
+                cast_spell();
                 break;
 
             case ACTION_FIRE_BURST: {

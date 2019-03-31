@@ -1,0 +1,20 @@
+[
+  {
+    "type": "mutation",
+    "id": "WIZARD",
+    "name": "Wizard",
+    "points": 0,
+    "description": "You put on your robe and wizard hat.",
+    "starting_trait": false,
+    "category": [ "SPELL_CLASS" ]
+  },
+  {
+    "type": "mutation",
+    "id": "PRIEST",
+    "name": "Priest",
+    "points": 0,
+    "description": "Oh! I've heard this joke.",
+    "starting_trait": false,
+    "category": [ "SPELL_CLASS" ]
+  }
+]
