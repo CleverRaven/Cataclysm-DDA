@@ -3847,7 +3847,7 @@ player &player_on_couch( player &p, const tripoint &autodoc_loc, player &null_pa
     return null_patient;
 }
 
-item &cyborg_on_couch( const tripoint &couch_pos )
+item &cyborg_on_couch( const tripoint &couch_pos, item &null_cyborg )
 {
     for( item &it : g->m.i_at( couch_pos ) ) {
         if( it.typeId().c_str() == "bot_broken_cyborg" ) {
@@ -3859,7 +3859,7 @@ item &cyborg_on_couch( const tripoint &couch_pos )
             }
         }
     }
-    return;
+    return null_cyborg;
 }
 
 player &best_installer( player &p, player &null_player, int difficulty )
@@ -3924,7 +3924,9 @@ void iexamine::autodoc( player &p, const tripoint &examp )
     static player null_player;
     tripoint couch_pos;
     player &patient = player_on_couch( p, examp, null_player, adjacent_couch, couch_pos );
-    item &cyborg = cyborg_on_couch( couch_pos );
+
+    static item null_cyborg;
+    item &cyborg = cyborg_on_couch( couch_pos, null_cyborg );
 
     if( !adjacent_couch ) {
         popup( _( "No connected couches found.  Operation impossible.  Exiting." ) );
@@ -3932,7 +3934,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
     }
     if( &patient == &null_player ) {
 
-        if( &cyborg != nullptr ) {
+        if( &cyborg != &null_cyborg ) {
             uilist cmenu;
             cmenu.text = _( "Autodoc Mk. XI.  Status: Online.  Please choose operation." );
             cmenu.addentry( INSTALL_CBM, true, 'i', _( "Choose Compact Bionic Module to install." ) );
