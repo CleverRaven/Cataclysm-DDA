@@ -69,6 +69,7 @@ struct MonsterGroup {
     mtype_id defaultMonster;
     FreqDef  monsters;
     bool IsMonsterInGroup( const mtype_id &id ) const;
+    bool is_animal;
     // replaces this group after a period of
     // time when exploring an unexplored portion of the map
     bool replace_monster_group;
@@ -123,7 +124,7 @@ struct mongroup {
         target.x = x;
         target.y = y;
     }
-    void wander( overmap & );
+    void wander( const overmap & );
     void inc_interest( int inc ) {
         interest += inc;
         if( interest > 100 ) {
@@ -181,6 +182,8 @@ class MonsterGroupManager
         static void ClearMonsterGroups();
 
         static bool monster_is_blacklisted( const mtype_id &m );
+
+        static bool is_animal( const mongroup_id &group );
 
     private:
         static std::map<mongroup_id, MonsterGroup> monsterGroupMap;

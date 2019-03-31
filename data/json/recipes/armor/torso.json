@@ -12,6 +12,23 @@
     "components": [ [ [ "leather", 18 ], [ "tanned_hide", 3 ] ] ]
   },
   {
+    "result": "armor_lamellar",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": 240000,
+    "autolearn": true,
+    "book_learn": [ [ "textbook_armschina", 2 ] ],
+    "using": [ [ "sewing_standard", 68 ] ],
+    "components": [
+      [ [ "string_36", 4 ], [ "string_6", 16 ] ],
+      [ [ "rag", 4 ] ],
+      [ [ "leather", 42 ], [ "tanned_hide", 7 ], [ "fur", 42 ], [ "tanned_pelt", 7 ] ]
+    ]
+  },
+  {
     "result": "bikini_top",
     "type": "recipe",
     "category": "CC_ARMOR",

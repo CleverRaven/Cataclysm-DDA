@@ -126,7 +126,7 @@
       <Command>prebuild.cmd</Command>
     </PreBuildEvent>
     <PreBuildEvent>
-      <Message>Get version string and generate lua bindings</Message>
+      <Message>Get version string</Message>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -153,9 +153,7 @@
     </Link>
     <PreBuildEvent>
       <Command>prebuild.cmd</Command>
-    </PreBuildEvent>
-    <PreBuildEvent>
-      <Message>Get version string and generate lua bindings</Message>
+      <Message>Get version string</Message>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -183,9 +181,7 @@
     </Link>
     <PreBuildEvent>
       <Command>prebuild.cmd</Command>
-    </PreBuildEvent>
-    <PreBuildEvent>
-      <Message>Get version string and generate lua bindings</Message>
+      <Message>Get version string</Message>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -213,9 +209,7 @@
     </Link>
     <PreBuildEvent>
       <Command>prebuild.cmd</Command>
-    </PreBuildEvent>
-    <PreBuildEvent>
-      <Message>Get version string and generate lua bindings</Message>
+      <Message>Get version string</Message>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

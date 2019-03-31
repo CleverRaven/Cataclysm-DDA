@@ -16,10 +16,11 @@
     "description": "A delicious grilled cheese sandwich, because everything is better with melted cheese.",
     "price": 550,
     "material": [ "milk", "wheat" ],
+    "primary_material": "wheat",
     "volume": 1,
     "flags": [ "EATEN_HOT" ],
     "fun": 10,
-    "vitamins": [ [ "vitA", 4 ], [ "calcium", 12 ], [ "iron", 3 ] ]
+    "vitamins": [ [ "vitA", 18 ], [ "calcium", 50 ], [ "iron", 12 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -39,10 +40,11 @@
     "description": "A sandwich of meat, vegetables, and cheese with condiments.  Tasty and nutritious!",
     "price": 1200,
     "material": [ "flesh", "veggy", "wheat", "milk" ],
+    "primary_material": "processed_food",
     "volume": 6,
     "charges": 2,
     "fun": 12,
-    "vitamins": [ [ "vitA", 2 ], [ "vitC", 6 ], [ "calcium", 2 ], [ "iron", 12 ], [ "vitB", 93 ] ]
+    "vitamins": [ [ "vitA", 8 ], [ "vitC", 26 ], [ "calcium", 8 ], [ "iron", 49 ], [ "vitB", 389 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -64,7 +66,7 @@
     "material": [ "wheat", "veggy" ],
     "flags": [ "EATEN_COLD" ],
     "fun": 8,
-    "vitamins": [ [ "vitC", 2 ], [ "calcium", 4 ], [ "iron", 7 ] ]
+    "vitamins": [ [ "vitC", 9 ], [ "calcium", 16 ], [ "iron", 30 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -82,9 +84,10 @@
     "description": "A simple cheese sandwich.",
     "price": 500,
     "material": [ "milk", "wheat" ],
+    "primary_material": "wheat",
     "volume": 2,
     "fun": 8,
-    "vitamins": [ [ "vitA", 4 ], [ "calcium", 12 ], [ "iron", 3 ] ]
+    "vitamins": [ [ "vitA", 18 ], [ "calcium", 50 ], [ "iron", 12 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -102,8 +105,10 @@
     "description": "A delicious jam sandwich.",
     "price": 200,
     "material": [ "fruit", "wheat" ],
+    "primary_material": "wheat",
     "volume": 2,
-    "fun": 15
+    "fun": 15,
+    "vitamins": [ [ "vitC", 6 ], [ "calcium", 7 ], [ "iron", 12 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -122,9 +127,10 @@
     "description": "A delicious honey sandwich.",
     "price": 500,
     "material": [ "honey", "wheat" ],
+    "primary_material": "wheat",
     "volume": 2,
     "fun": 10,
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 6 ] ]
+    "vitamins": [ [ "calcium", 10 ], [ "iron", 24 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -161,7 +167,7 @@
     "volume": 3,
     "flags": [ "EATEN_COLD" ],
     "fun": 1,
-    "vitamins": [ [ "vitA", 4 ], [ "vitC", 9 ], [ "calcium", 3 ], [ "iron", 7 ] ]
+    "vitamins": [ [ "vitA", 16 ], [ "vitC", 36 ], [ "calcium", 14 ], [ "iron", 28 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -181,7 +187,7 @@
     "volume": 4,
     "charges": 2,
     "fun": 2,
-    "vitamins": [ [ "vitC", 2 ], [ "calcium", 1 ], [ "iron", 12 ], [ "vitB", 93 ] ]
+    "vitamins": [ [ "vitC", 8 ], [ "calcium", 6 ], [ "iron", 47 ], [ "vitB", 389 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -201,7 +207,7 @@
     "material": "wheat",
     "volume": 1,
     "fun": 3,
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 7 ] ]
+    "vitamins": [ [ "calcium", 10 ], [ "iron", 28 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -219,9 +225,10 @@
     "description": "A delicious peanut butter and jelly sandwich.  It reminds you of the times your mother would make you lunch.",
     "price": 175,
     "material": [ "fruit", "wheat" ],
+    "primary_material": "wheat",
     "volume": 2,
     "fun": 6,
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 3 ] ]
+    "vitamins": [ [ "vitC", 3 ], [ "calcium", 7 ], [ "iron", 14 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -239,9 +246,10 @@
     "description": "Some damned fool put honey on this peanut butter sandwich, who in their right mind- oh wait this is pretty good.",
     "price": 175,
     "material": [ "wheat", "honey" ],
+    "primary_material": "wheat",
     "volume": 2,
     "fun": 6,
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "calcium", 8 ], [ "iron", 16 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -261,7 +269,7 @@
     "material": "wheat",
     "volume": 2,
     "fun": 6,
-    "vitamins": [ [ "calcium", 3 ], [ "iron", 7 ] ]
+    "vitamins": [ [ "calcium", 12 ], [ "iron", 28 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -280,7 +288,7 @@
     "material": [ "flesh", "wheat" ],
     "volume": 3,
     "fun": 14,
-    "vitamins": [ [ "vitA", 1 ], [ "vitC", 1 ], [ "calcium", 5 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "vitA", 4 ], [ "vitC", 5 ], [ "calcium", 19 ], [ "iron", 17 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -298,10 +306,11 @@
     "description": "A bacon, lettuce, and tomato sandwich on toasted bread.",
     "price": 400,
     "material": [ "flesh", "veggy", "wheat", "tomato" ],
+    "primary_material": "processed_food",
     "volume": 4,
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
     "fun": 5,
-    "vitamins": [ [ "vitA", 2 ], [ "vitC", 2 ], [ "calcium", 2 ], [ "iron", 4 ], [ "vitB", 5 ] ]
+    "vitamins": [ [ "vitA", 8 ], [ "vitC", 10 ], [ "calcium", 7 ], [ "iron", 18 ], [ "vitB", 20 ] ]
   }
 ]

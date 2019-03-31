@@ -268,7 +268,7 @@ bool player::activate_bionic( int b, bool eff_only )
                 // Tetanus infection.
                 { effect_tetanus, _( "Clostridium Tetani Infection" ) },
                 { effect_datura, _( "Anticholinergic Tropane Alkaloids" ) },
-                // @todo: Hallucinations not inducted by chemistry
+                // TODO: Hallucinations not inducted by chemistry
                 { effect_hallu, _( "Hallucinations" ) },
                 { effect_visuals, _( "Hallucinations" ) },
             }
@@ -299,7 +299,7 @@ bool player::activate_bionic( int b, bool eff_only )
             bad.push_back( _( "Irradiated" ) );
         }
 
-        // @todo: Expose the player's effects to check it in a cleaner way
+        // TODO: Expose the player's effects to check it in a cleaner way
         for( const auto &pr : bad_effects ) {
             if( has_effect( pr.first ) ) {
                 bad.push_back( pr.second );
@@ -369,6 +369,8 @@ bool player::activate_bionic( int b, bool eff_only )
         }
     } else if( bio.id == "bio_torsionratchet" ) {
         add_msg_if_player( m_info, _( "Your torsion ratchet locks onto your joints." ) );
+    } else if( bio.id == "bio_jointservo" ) {
+        add_msg_if_player( m_info, _( "You can now run faster, assisted by joint servomotors." ) );
     } else if( bio.id == "bio_lighter" ) {
         g->refresh_all();
         const cata::optional<tripoint> pnt = choose_adjacent( _( "Start a fire where?" ) );
@@ -495,8 +497,8 @@ bool player::activate_bionic( int b, bool eff_only )
         /* cache g->get_temperature( player location ) since it is used twice. No reason to recalc */
         const auto player_local_temp = g->get_temperature( g->u.pos() );
         /* windpower defined in internal velocity units (=.01 mph) */
-        double windpower = 100.0f * get_local_windpower( weatherPoint.windpower + vehwindspeed,
-                           cur_om_ter, pos(), weatherPoint.winddirection, g->is_sheltered( pos() ) );
+        double windpower = 100.0f * get_local_windpower( g->windspeed + vehwindspeed,
+                           cur_om_ter, pos(), g->winddirection, g->is_sheltered( pos() ) );
         add_msg_if_player( m_info, _( "Temperature: %s." ),
                            print_temperature( player_local_temp ).c_str() );
         add_msg_if_player( m_info, _( "Relative Humidity: %s." ),
@@ -506,13 +508,14 @@ bool player::activate_bionic( int b, bool eff_only )
         add_msg_if_player( m_info, _( "Pressure: %s." ),
                            print_pressure( static_cast<int>( weatherPoint.pressure ) ).c_str() );
         add_msg_if_player( m_info, _( "Wind Speed: %.1f %s." ),
-                           convert_velocity( int( windpower ), VU_WIND ),
+                           convert_velocity( static_cast<int>( windpower ), VU_WIND ),
                            velocity_units( VU_WIND ) );
         add_msg_if_player( m_info, _( "Feels Like: %s." ),
                            print_temperature(
                                get_local_windchill( weatherPoint.temperature, weatherPoint.humidity,
                                        windpower / 100 ) + player_local_temp ).c_str() );
-        add_msg_if_player( m_info, _( "Wind Direction: From the %s." ), weatherPoint.dirstring );
+        std::string dirstring = get_dirstring( g->winddirection );
+        add_msg_if_player( m_info, _( "Wind Direction: From the %s." ), dirstring );
     } else if( bio.id == "bio_remote" ) {
         int choice = uilist( _( "Perform which function:" ), {
             _( "Control vehicle" ), _( "RC radio" )
@@ -796,8 +799,24 @@ void player::process_bionic( int b )
     }
 }
 
-void player::bionics_uninstall_failure( player &installer )
+void player::bionics_uninstall_failure( player &installer, int difficulty, int success,
+                                        float adjusted_skill )
 {
+    // "success" should be passed in as a negative integer representing how far off we
+    // were for a successful removal.  We use this to determine consequences for failing.
+    success = abs( success );
+
+    // failure level is decided by how far off the character was from a successful removal, and
+    // this is scaled up or down by the ratio of difficulty/skill.  At high skill levels (or low
+    // difficulties), only minor consequences occur.  At low skill levels, severe consequences
+    // are more likely.
+    const int failure_level = static_cast<int>( sqrt( success * 4.0 * difficulty / adjusted_skill ) );
+    const int fail_type = std::min( 5, failure_level );
+
+    if( fail_type <= 0 ) {
+        add_msg( m_neutral, _( "The removal fails without incident." ) );
+        return;
+    }
     switch( rng( 1, 5 ) ) {
         case 1:
             installer.add_msg_player_or_npc( m_neutral,
@@ -821,8 +840,28 @@ void player::bionics_uninstall_failure( player &installer )
                                              _( "<npcname> screws up the removal." ) );
             break;
     }
-    add_msg( m_bad, _( "%s body is severely damaged!" ), disp_name( true ) );
-    hurtall( rng( 30, 80 ), this ); // stop hurting yourself!
+
+    switch( fail_type ) {
+        case 1:
+            if( !has_trait( trait_id( "NOPAIN" ) ) ) {
+                add_msg_if_player( m_bad, _( "It really hurts!" ) );
+                mod_pain( rng( failure_level * 3, failure_level * 6 ) );
+            }
+            break;
+
+        case 2:
+        case 3:
+            add_msg( m_bad, _( "%s body is damaged!" ), disp_name( true ) );
+            hurtall( rng( failure_level, failure_level * 2 ), this ); // you hurt yourself
+            break;
+
+        case 4:
+        case 5:
+            add_msg( m_bad, _( "%s body is severely damaged!" ), disp_name( true ) );
+            hurtall( rng( 30, 80 ), this ); // stop hurting yourself!
+            break;
+    }
+
 }
 
 // bionic manipulation adjusted skill
@@ -857,8 +896,8 @@ float player::bionics_adjusted_skill( const skill_id &most_important_skill,
     }
 
     // for chance_of_success calculation, shift skill down to a float between ~0.4 - 30
-    float adjusted_skill = float ( pl_skill ) - std::min( float ( 40 ),
-                           float ( pl_skill ) - float ( pl_skill ) / float ( 10.0 ) );
+    float adjusted_skill = static_cast<float>( pl_skill ) - std::min( static_cast<float>( 40 ),
+                           static_cast<float>( pl_skill ) - static_cast<float>( pl_skill ) / static_cast<float>( 10.0 ) );
     return adjusted_skill;
 }
 
@@ -873,13 +912,14 @@ int bionic_manip_cos( float adjusted_skill, bool autodoc, int bionic_difficulty 
     int chance_of_success = 0;
     // we will base chance_of_success on a ratio of skill and difficulty
     // when skill=difficulty, this gives us 1.  skill < difficulty gives a fraction.
-    float skill_difficulty_parameter = float( adjusted_skill / ( 4.0 * bionic_difficulty ) );
+    float skill_difficulty_parameter = static_cast<float>( adjusted_skill /
+                                       ( 4.0 * bionic_difficulty ) );
 
     // when skill == difficulty, chance_of_success is 50%. Chance of success drops quickly below that
     // to reserve bionics for characters with the appropriate skill.  For more difficult bionics, the
     // curve flattens out just above 80%
-    chance_of_success = int( ( 100 * skill_difficulty_parameter ) /
-                             ( skill_difficulty_parameter + sqrt( 1 / skill_difficulty_parameter ) ) );
+    chance_of_success = static_cast<int>( ( 100 * skill_difficulty_parameter ) /
+                                          ( skill_difficulty_parameter + sqrt( 1 / skill_difficulty_parameter ) ) );
 
     return chance_of_success;
 }
@@ -944,7 +984,7 @@ bool player::uninstall_bionic( const bionic_id &b_id, player &installer, bool au
     } else {
         if( !g->u.query_yn(
                 _( "WARNING: %i percent chance of SEVERE damage to all body parts! Continue anyway?" ),
-                ( 100 - int( chance_of_success ) ) ) ) {
+                ( 100 - static_cast<int>( chance_of_success ) ) ) ) {
             return false;
         }
     }
@@ -982,7 +1022,7 @@ bool player::uninstall_bionic( const bionic_id &b_id, player &installer, bool au
                               pgettext( "memorial_female", "Failed to remove bionic: %s." ),
                               bionics[b_id].name.c_str() );
         }
-        bionics_uninstall_failure( installer );
+        bionics_uninstall_failure( installer, difficulty, success, adjusted_skill );
     }
     g->refresh_all();
     return true;
@@ -1034,16 +1074,16 @@ bool player::install_bionics( const itype &type, player &installer, bool autodoc
     } else {
         if( !g->u.query_yn(
                 _( "WARNING: %i percent chance of failure that may result in damage, pain, or a faulty installation! Continue anyway?" ),
-                ( 100 - int( chance_of_success ) ) ) ) {
+                ( 100 - static_cast<int>( chance_of_success ) ) ) ) {
             return false;
         }
     }
 
     // Practice skills only if conducting manual installation
     if( !autodoc ) {
-        installer.practice( skilll_electronics, int( ( 100 - chance_of_success ) * 1.5 ) );
-        installer.practice( skilll_firstaid, int( ( 100 - chance_of_success ) * 1.0 ) );
-        installer.practice( skilll_mechanics, int( ( 100 - chance_of_success ) * 0.5 ) );
+        installer.practice( skilll_electronics, static_cast<int>( ( 100 - chance_of_success ) * 1.5 ) );
+        installer.practice( skilll_firstaid, static_cast<int>( ( 100 - chance_of_success ) * 1.0 ) );
+        installer.practice( skilll_mechanics, static_cast<int>( ( 100 - chance_of_success ) * 0.5 ) );
     }
 
     int success = chance_of_success - rng( 0, 99 );
@@ -1093,7 +1133,7 @@ void player::bionics_install_failure( player &installer, int difficulty, int suc
     // this is scaled up or down by the ratio of difficulty/skill.  At high skill levels (or low
     // difficulties), only minor consequences occur.  At low skill levels, severe consequences
     // are more likely.
-    int failure_level = int( sqrt( success * 4.0 * difficulty / adjusted_skill ) );
+    int failure_level = static_cast<int>( sqrt( success * 4.0 * difficulty / adjusted_skill ) );
     int fail_type = ( failure_level > 5 ? 5 : failure_level );
 
     if( fail_type <= 0 ) {
@@ -1175,7 +1215,7 @@ void player::bionics_install_failure( player &installer, int difficulty, int suc
                                           old_power - max_power_level );
                     }
                 }
-                // @todo: What if we can't lose power capacity?  No penalty?
+                // TODO: What if we can't lose power capacity?  No penalty?
             } else {
                 const bionic_id &id = random_entry( valid );
                 add_bionic( id );
@@ -1335,7 +1375,7 @@ std::pair<int, int> player::amount_of_storage_bionics() const
     int lvl = max_power_level;
 
     // exclude amount of power capacity obtained via non-power-storage CBMs
-    for( auto it : *my_bionics ) {
+    for( const auto &it : *my_bionics ) {
         lvl -= bionics[it.id].capacity;
     }
 

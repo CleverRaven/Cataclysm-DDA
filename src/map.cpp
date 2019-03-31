@@ -36,6 +36,8 @@
 #include "npc.h"
 #include "options.h"
 #include "output.h"
+#include "overmap.h"
+#include "overmapbuffer.h"
 #include "pathfinding.h"
 #include "projectile.h"
 #include "rng.h"
@@ -1092,7 +1094,7 @@ bool map::displace_water( const tripoint &p )
                 }
                 ter_id ter0 = ter( temp );
                 if( ter0 == t_water_sh ||
-                    ter0 == t_water_dp ) {
+                    ter0 == t_water_dp || ter0 == t_water_moving_sh || ter0 == t_water_moving_dp ) {
                     continue;
                 }
                 if( pass != 0 && dis_places == sel_place ) {
@@ -1232,7 +1234,7 @@ void map::furn_set( const tripoint &p, const furn_id &new_furniture )
     }
     set_memory_seen_cache_dirty( p );
 
-    // @todo: Limit to changes that affect move cost, traps and stairs
+    // TODO: Limit to changes that affect move cost, traps and stairs
     set_pathfinding_cache_dirty( p.z );
 
     // Make sure the furniture falls if it needs to
@@ -1482,7 +1484,7 @@ bool map::ter_set( const tripoint &p, const ter_id &new_terrain )
     }
     set_memory_seen_cache_dirty( p );
 
-    // @todo: Limit to changes that affect move cost, traps and stairs
+    // TODO: Limit to changes that affect move cost, traps and stairs
     set_pathfinding_cache_dirty( p.z );
 
     tripoint above( p.x, p.y, p.z + 1 );
@@ -1789,7 +1791,7 @@ double map::ranged_target_size( const tripoint &p ) const
         return 0.0;
     }
 
-    // @todo: Handle cases like shrubs, trees, furniture, sandbags...
+    // TODO: Handle cases like shrubs, trees, furniture, sandbags...
     return 0.1;
 }
 
@@ -3095,7 +3097,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
         sound_volume = smin * 2;
     } else {
         if( sound_vol == -1 ) {
-            sound_volume = std::min( int( smin * 1.5 ), smax );
+            sound_volume = std::min( static_cast<int>( smin * 1.5 ), smax );
         } else {
             sound_volume = sound_vol;
         }
@@ -3781,7 +3783,7 @@ void map::translate_radius( const ter_id &from, const ter_id &to, float radi, co
     for( x = 0; x < SEEX * my_MAPSIZE; x++ ) {
         for( y = 0; y < SEEY * my_MAPSIZE; y++ ) {
             if( ter( t ) == from ) {
-                float radiX = sqrt( float( ( uX - x ) * ( uX - x ) + ( uY - y ) * ( uY - y ) ) );
+                float radiX = sqrt( static_cast<float>( ( uX - x ) * ( uX - x ) + ( uY - y ) * ( uY - y ) ) );
                 // within distance, and either no submap limitation or same overmap coords.
                 if( radiX <= radi && ( !same_submap ||
                                        ms_to_omt_copy( getabs( x, y ) ) == ms_to_omt_copy( getabs( uX, uY ) ) ) ) {
@@ -4300,20 +4302,25 @@ item map::water_from( const tripoint &p )
     }
 
     item ret( "water", 0, item::INFINITE_CHARGES );
-    if( terrain_id == t_water_sh ) {
-        if( one_in( 3 ) ) {
-            ret.poison = rng( 1, 4 );
-        }
-        return ret;
-    }
-    if( terrain_id == t_water_dp ) {
-        if( one_in( 4 ) ) {
-            ret.poison = rng( 1, 4 );
-        }
-        return ret;
-    }
     // iexamine::water_source requires a valid liquid from this function.
     if( terrain_id.obj().examine == &iexamine::water_source ) {
+        int poison_chance = 0;
+        if( terrain_id.obj().has_flag( TFLAG_DEEP_WATER ) ) {
+            if( terrain_id.obj().has_flag( TFLAG_CURRENT ) ) {
+                poison_chance = 20;
+            } else {
+                poison_chance = 4;
+            }
+        } else {
+            if( terrain_id.obj().has_flag( TFLAG_CURRENT ) ) {
+                poison_chance = 10;
+            } else {
+                poison_chance = 3;
+            }
+        }
+        if( one_in( poison_chance ) ) {
+            ret.poison = rng( 1, 4 );
+        }
         return ret;
     }
     if( furn( p ).obj().examine == &iexamine::water_source ) {
@@ -4868,7 +4875,7 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
                 ftype = type;
             }
 
-            item tmp( type, 0 ); //TODO add a sane birthday arg
+            item tmp( type, 0 ); // TODO: add a sane birthday arg
             tmp.charges = kpart->vehicle().drain( ftype, quantity );
             // TODO: Handle water poison when crafting starts respecting it
             quantity -= tmp.charges;
@@ -4888,7 +4895,7 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
                 ftype = "battery";
             }
 
-            item tmp( type, 0 ); //TODO add a sane birthday arg
+            item tmp( type, 0 ); // TODO: add a sane birthday arg
             tmp.charges = weldpart->vehicle().drain( ftype, quantity );
             quantity -= tmp.charges;
             ret.push_back( tmp );
@@ -4911,7 +4918,7 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
                 ftype = "battery";
             }
 
-            item tmp( type, 0 ); //TODO add a sane birthday arg
+            item tmp( type, 0 ); // TODO: add a sane birthday arg
             tmp.charges = craftpart->vehicle().drain( ftype, quantity );
             quantity -= tmp.charges;
             ret.push_back( tmp );
@@ -4928,7 +4935,7 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
                 ftype = "battery";
             }
 
-            item tmp( type, 0 ); //TODO add a sane birthday arg
+            item tmp( type, 0 ); // TODO: add a sane birthday arg
             tmp.charges = forgepart->vehicle().drain( ftype, quantity );
             quantity -= tmp.charges;
             ret.push_back( tmp );
@@ -4945,7 +4952,7 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
                 ftype = "battery";
             }
 
-            item tmp( type, 0 ); //TODO add a sane birthday arg
+            item tmp( type, 0 ); // TODO: add a sane birthday arg
             tmp.charges = kilnpart->vehicle().drain( ftype, quantity );
             quantity -= tmp.charges;
             ret.push_back( tmp );
@@ -4964,7 +4971,7 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
                 ftype = "battery";
             }
 
-            item tmp( type, 0 ); //TODO add a sane birthday arg
+            item tmp( type, 0 ); // TODO: add a sane birthday arg
             tmp.charges = chempart->vehicle().drain( ftype, quantity );
             quantity -= tmp.charges;
             ret.push_back( tmp );
@@ -5427,42 +5434,25 @@ computer *map::computer_at( const tripoint &p )
     return get_submap_at( p )->comp.get();
 }
 
-bool map::allow_camp( const tripoint &p, const int radius )
+void map::remove_submap_camp( const tripoint &p )
 {
-    return camp_at( p, radius ) == nullptr;
+    basecamp camp;
+    get_submap_at( p )->camp = camp;
 }
 
-// locate the nearest camp in some radius (default CAMPSIZE)
-basecamp *map::camp_at( const tripoint &p, const int radius )
+basecamp map::hoist_submap_camp( const tripoint &p )
 {
-    if( !inbounds( p ) ) {
-        return nullptr;
-    }
-    const int sx = std::max( 0, p.x - radius );
-    const int sy = std::max( 0, p.y - radius );
-    const int ex = std::min( p.x + radius, MAPSIZE_X - 1 );
-    const int ey = std::min( p.y + radius, MAPSIZE_Y - 1 );
-
-    for( int ly = sy; ly < ey; ly += SEEY ) {
-        for( int lx = sx; lx < ex; lx += SEEX ) {
-            submap *const current_submap = get_submap_at( tripoint( lx, ly, p.z ) );
-            if( current_submap->camp.is_valid() ) {
-                // we only allow on camp per size radius, kinda
-                return &( current_submap->camp );
-            }
-        }
-    }
-    return nullptr;
+    basecamp camp = get_submap_at( p )->camp;
+    return camp;
 }
 
 void map::add_camp( const tripoint &p, const std::string &name )
 {
-    if( !allow_camp( p ) ) {
-        dbg( D_ERROR ) << "map::add_camp: Attempting to add camp when one in local area.";
-        return;
-    }
-
-    get_submap_at( p )->camp = basecamp( name, p );
+    tripoint omt_pos = ms_to_omt_copy( g->m.getabs( p ) );
+    basecamp temp_camp = basecamp( name, omt_pos );
+    overmap_buffer.add_camp( temp_camp );
+    g->u.camps.insert( omt_pos );
+    g->validate_camps();
 }
 
 void map::update_visibility_cache( const int zlev )
@@ -5708,7 +5698,7 @@ bool map::need_draw_lower_floor( const tripoint &p )
     return !( !zlevels || p.z <= -OVERMAP_DEPTH || !ter( p ).obj().has_flag( TFLAG_NO_FLOOR ) );
 }
 
-bool map::draw_maptile( const catacurses::window &w, player &u, const tripoint &p,
+bool map::draw_maptile( const catacurses::window &w, const player &u, const tripoint &p,
                         const maptile &curr_maptile,
                         bool invert, bool show_items,
                         const tripoint &view_center,
@@ -5901,7 +5891,7 @@ bool map::draw_maptile( const catacurses::window &w, player &u, const tripoint &
            !curr_ter.has_flag( TFLAG_NO_FLOOR );
 }
 
-void map::draw_from_above( const catacurses::window &w, player &u, const tripoint &p,
+void map::draw_from_above( const catacurses::window &w, const player &u, const tripoint &p,
                            const maptile &curr_tile,
                            const bool invert,
                            const tripoint &view_center,
@@ -6507,7 +6497,7 @@ void map::loadn( const int gridx, const int gridy, const int gridz, const bool u
 
         const oter_id terrain_type = overmap_buffer.ter( overx, overy, gridz );
 
-        // @todo: Replace with json mapgen functions.
+        // TODO: Replace with json mapgen functions.
         if( terrain_type == air ) {
             generate_uniform( newmapx, newmapy, gridz, t_open_air );
         } else if( terrain_type == rock ) {

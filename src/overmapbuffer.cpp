@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <sstream>
 
+#include "basecamp.h"
 #include "cata_utility.h"
 #include "coordinate_conversions.h"
 #include "debug.h"
@@ -12,9 +13,11 @@
 #include "game.h"
 #include "line.h"
 #include "map.h"
+#include "messages.h"
 #include "mongroup.h"
 #include "monster.h"
 #include "npc.h"
+#include "optional.h"
 #include "overmap.h"
 #include "overmap_connection.h"
 #include "overmap_types.h"
@@ -35,6 +38,12 @@ int city_reference::get_distance_from_bounds() const
 {
     assert( city != nullptr );
     return distance - omt_to_sm_copy( city->size );
+}
+
+int camp_reference::get_distance_from_bounds() const
+{
+    assert( camp != nullptr );
+    return distance - omt_to_sm_copy( 4 );
 }
 
 std::string overmapbuffer::terrain_filename( const int x, const int y )
@@ -382,6 +391,26 @@ int overmapbuffer::get_horde_size( const int x, const int y, const int z )
     return horde_size;
 }
 
+bool overmapbuffer::has_camp( int x, int y, int z )
+{
+    if( z ) {
+        return false;
+    }
+
+    const overmap *const om = get_existing_om_global( x, y );
+    if( !om ) {
+        return false;
+    }
+
+    for( const auto &v : om->camps ) {
+        if( v.camp_omt_pos().x == x && v.camp_omt_pos().y == y ) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 bool overmapbuffer::has_vehicle( int x, int y, int z )
 {
     if( z ) {
@@ -536,6 +565,21 @@ void overmapbuffer::move_vehicle( vehicle *veh, const point &old_msp )
     }
 }
 
+void overmapbuffer::remove_camp( const basecamp camp )
+{
+    const point omt = point( camp.camp_omt_pos().x, camp.camp_omt_pos().y );
+    overmap &om = get_om_global( omt );
+    int index = 0;
+    for( const auto &v : om.camps ) {
+        if( v.camp_omt_pos().x == camp.camp_omt_pos().x &&
+            v.camp_omt_pos().y == camp.camp_omt_pos().y ) {
+            om.camps.erase( om.camps.begin() + index );
+            return;
+        }
+        index += 1;
+    }
+}
+
 void overmapbuffer::remove_vehicle( const vehicle *veh )
 {
     const point omt = ms_to_omt_copy( g->m.getabs( veh->global_pos3().x, veh->global_pos3().y ) );
@@ -557,6 +601,13 @@ void overmapbuffer::add_vehicle( vehicle *veh )
     tracked_veh.y = omt.y;
     tracked_veh.name = veh->name;
     veh->om_id = id;
+}
+
+void overmapbuffer::add_camp( basecamp camp )
+{
+    point omt = point( camp.camp_omt_pos().x, camp.camp_omt_pos().y );
+    overmap &om = get_om_global( omt.x, omt.y );
+    om.camps.push_back( camp );
 }
 
 bool overmapbuffer::seen( int x, int y, int z )
@@ -751,7 +802,6 @@ bool overmapbuffer::is_findable_location( const tripoint &location, const std::s
         }
     }
 
-
     return true;
 }
 
@@ -862,6 +912,19 @@ std::shared_ptr<npc> overmapbuffer::find_npc( int id )
     return nullptr;
 }
 
+cata::optional<basecamp *> overmapbuffer::find_camp( const int x, const int y )
+{
+    for( auto &it : overmaps ) {
+        if( auto p = it.second->find_camp( x, y ) ) {
+            if( p ) {
+                basecamp *temp_camp = *p;
+                return temp_camp;
+            }
+        }
+    }
+    return cata::nullopt;
+}
+
 void overmapbuffer::insert_npc( const std::shared_ptr<npc> &who )
 {
     assert( who );
@@ -931,7 +994,7 @@ std::vector<overmap *> overmapbuffer::get_overmaps_near( const point &p, const i
 std::vector<std::shared_ptr<npc>> overmapbuffer::get_companion_mission_npcs()
 {
     std::vector<std::shared_ptr<npc>> available;
-    //@todo: this is an arbitrary radius, replace with something sane.
+    // TODO: this is an arbitrary radius, replace with something sane.
     for( const auto &guy : get_npcs_near_player( 100 ) ) {
         if( guy->has_companion_mission() ) {
             available.push_back( guy );
@@ -978,7 +1041,7 @@ std::vector<std::shared_ptr<npc>> overmapbuffer::get_npcs_near_omt( int x, int y
     return result;
 }
 
-radio_tower_reference create_radio_tower_reference( overmap &om, radio_tower &t,
+radio_tower_reference create_radio_tower_reference( const overmap &om, radio_tower &t,
         const tripoint &center )
 {
     // global submap coordinates, same as center is
@@ -1016,6 +1079,29 @@ std::vector<radio_tower_reference> overmapbuffer::find_all_radio_stations()
             }
         }
     }
+    return result;
+}
+
+std::vector<camp_reference> overmapbuffer::get_camps_near( const tripoint &location, int radius )
+{
+    std::vector<camp_reference> result;
+    for( const auto om : get_overmaps_near( location, radius ) ) {
+        const auto abs_pos_om = om_to_sm_copy( om->pos() );
+        result.reserve( result.size() + om->camps.size() );
+        std::transform( om->camps.begin(), om->camps.end(), std::back_inserter( result ),
+        [&]( basecamp & element ) {
+            const point camp_pt = point( element.camp_omt_pos().x, element.camp_omt_pos().y );
+            const auto rel_pos_camp = omt_to_sm_copy( camp_pt );
+            const auto abs_pos_camp = tripoint( rel_pos_camp + abs_pos_om, 0 );
+            const auto distance = rl_dist( abs_pos_camp, location );
+
+            return camp_reference{ &element, abs_pos_camp, distance };
+        } );
+    }
+    std::sort( result.begin(), result.end(), []( const camp_reference & lhs,
+    const camp_reference & rhs ) {
+        return lhs.get_distance_from_bounds() < rhs.get_distance_from_bounds();
+    } );
     return result;
 }
 

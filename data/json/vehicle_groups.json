@@ -144,7 +144,8 @@
       [ "pickup", 300 ],
       [ "portable_generator", 50 ],
       [ "bicycle", 150 ],
-      [ "bicycle_dirt", 125 ]
+      [ "bicycle_dirt", 125 ],
+      [ "tricycle", 5 ]
     ]
   },
   {
@@ -362,6 +363,11 @@
     "type": "vehicle_group",
     "id": "golf_carts",
     "vehicles": [ [ "golf_cart", 100 ], [ "golf_cart_4seat", 65 ] ]
+  },
+  {
+      "type": "vehicle_group",
+      "id": "workshop_vehicles",
+      "vehicles": [ [ "welding_cart", 30 ], [ "portable_generator", 20 ] ]
   },
   {
     "type": "vehicle_group",

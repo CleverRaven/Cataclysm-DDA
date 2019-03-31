@@ -33,6 +33,7 @@
 #include "player.h"
 #include "rect_range.h"
 #include "sdl_wrappers.h"
+#include "scent_map.h"
 #include "sounds.h"
 #include "submap.h"
 #include "trap.h"
@@ -199,7 +200,7 @@ void cata_tiles::load_tileset( const std::string &tileset_id, const bool prechec
     if( tileset_ptr && tileset_ptr->get_tileset_id() == tileset_id && !force ) {
         return;
     }
-    //@todo: move into clear or somewhere else.
+    // TODO: move into clear or somewhere else.
     // reset the overlay ordering from the previous loaded tileset
     tileset_mutation_overlay_ordering.clear();
 
@@ -851,7 +852,7 @@ void tileset_loader::load_ascii_set( JsonObject &entry )
             add_ascii_subtile( curr_tile, id, 201 + base_offset, "corner" );
             add_ascii_subtile( curr_tile, id, 186 + base_offset, "edge" );
             add_ascii_subtile( curr_tile, id, 203 + base_offset, "t_connection" );
-            add_ascii_subtile( curr_tile, id, 208 + base_offset, "end_piece" );
+            add_ascii_subtile( curr_tile, id, 210 + base_offset, "end_piece" );
             add_ascii_subtile( curr_tile, id, 219 + base_offset, "unconnected" );
         }
         ts.create_tile_type( id, std::move( curr_tile ) );
@@ -1095,12 +1096,22 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
                 continue;
             }
 
+            // Add scent value to the overlay_strings list for every visible tile when displaying scent
+            if( g->displaying_scent ) {
+                const int scent_value = g->scent.get( {x, y, center.z} );
+                if( scent_value > 0 ) {
+                    overlay_strings.emplace( player_to_screen( x, y ) + point( tile_width / 2, 0 ),
+                                             formatted_text( std::to_string( scent_value ), 11,
+                                                     NORTH ) );
+                }
+            }
+
             if( apply_vision_effects( temp, g->m.get_visibility( ch.visibility_cache[x][y], cache ) ) ) {
                 int height_3d = 0;
                 draw_terrain_from_memory( tripoint( x, y, center.z ), height_3d );
                 const auto critter = g->critter_at( tripoint( x, y, center.z ), true );
                 if( critter != nullptr && g->u.sees_with_infrared( *critter ) ) {
-                    //TODO defer drawing this until later when we know how tall
+                    // TODO: defer drawing this until later when we know how tall
                     //     the terrain/furniture under the creature is.
                     draw_from_id_string( "infrared_creature", C_NONE, empty_string, temp, 0, 0, LL_LIT, false );
                 }
@@ -1117,11 +1128,12 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
 
             draw_points.push_back( tile_render_info( tripoint( x, y, center.z ), height_3d ) );
         }
-        const std::array<decltype( &cata_tiles::draw_furniture ), 8> drawing_layers = {{
-                &cata_tiles::draw_furniture, &cata_tiles::draw_trap,
+        const std::array<decltype( &cata_tiles::draw_furniture ), 10> drawing_layers = {{
+                &cata_tiles::draw_furniture, &cata_tiles::draw_graffiti, &cata_tiles::draw_trap,
                 &cata_tiles::draw_field_or_item, &cata_tiles::draw_vpart,
-                &cata_tiles::draw_vpart_below, &cata_tiles::draw_terrain_below,
-                &cata_tiles::draw_critter_at, &cata_tiles::draw_zone_mark
+                &cata_tiles::draw_vpart_below, &cata_tiles::draw_critter_at_below,
+                &cata_tiles::draw_terrain_below, &cata_tiles::draw_critter_at,
+                &cata_tiles::draw_zone_mark
             }
         };
         // for each of the drawing layers in order, back to front ...
@@ -1210,11 +1222,11 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
             draw_cursor();
             void_cursor();
         }
-    } else if( g->u.posx() + g->u.view_offset.x != g->ter_view_x ||
-               g->u.posy() + g->u.view_offset.y != g->ter_view_y ) {
+    } else if( g->u.view_offset != tripoint_zero && !g->u.in_vehicle ) {
         // check to see if player is located at ter
         draw_from_id_string( "cursor", C_NONE, empty_string,
-        {g->ter_view_x, g->ter_view_y, center.z}, 0, 0, LL_LIT, false );
+        {g->ter_view_x - g->sidebar_offset.x, g->ter_view_y - g->sidebar_offset.y, center.z}, 0, 0, LL_LIT,
+        false );
     }
     if( g->u.controlling_vehicle ) {
         if( cata::optional<tripoint> indicator_offset = g->get_veh_dir_indicator_location( true ) ) {
@@ -1956,9 +1968,9 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
     const point screen_pos = player_to_screen( pos.x, pos.y );
 
     // seed the PRNG to get a reproducible random int
-    // TODO faster solution here
+    // TODO: faster solution here
     unsigned int seed = 0;
-    // TODO determine ways other than category to differentiate more types of sprites
+    // TODO: determine ways other than category to differentiate more types of sprites
     switch( category ) {
         case C_TERRAIN:
         case C_FIELD:
@@ -1968,7 +1980,7 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
             break;
         case C_VEHICLE_PART:
             // vehicle parts, seed based on coordinates within the vehicle
-            // TODO also use some vehicle id, for less predictability
+            // TODO: also use some vehicle id, for less predictability
         {
             // new scope for variable declarations
             const optional_vpart_position vp = g->m.veh_at( pos );
@@ -1984,10 +1996,10 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
         case C_BULLET:
         case C_HIT_ENTITY:
         case C_WEATHER:
-            // TODO come up with ways to make random sprites consistent for these types
+            // TODO: come up with ways to make random sprites consistent for these types
             break;
         case C_MONSTER:
-            // FIXME add persistent id to Creature type, instead of using monster pointer address
+            // FIXME: add persistent id to Creature type, instead of using monster pointer address
             seed = reinterpret_cast<uintptr_t>( g->critter_at<monster>( pos ) );
             break;
         default:
@@ -2382,6 +2394,15 @@ bool cata_tiles::draw_trap( const tripoint &p, lit_level ll, int &height_3d )
                                 nv_goggles_activated, height_3d );
 }
 
+bool cata_tiles::draw_graffiti( const tripoint &p, lit_level ll, int &height_3d )
+{
+    if( !g->m.has_graffiti_at( p ) ) {
+        return false;
+    }
+
+    return draw_from_id_string( "graffiti", C_NONE, empty_string, p, 0, 0, ll, false, height_3d );
+}
+
 bool cata_tiles::draw_field_or_item( const tripoint &p, lit_level ll, int &height_3d )
 {
     // check for field
@@ -2529,6 +2550,55 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d )
         draw_item_highlight( p );
     }
     return ret;
+}
+
+bool cata_tiles::draw_critter_at_below( const tripoint &p, lit_level, int & )
+{
+    // Check if we even need to draw below. If not, bail.
+    if( !g->m.need_draw_lower_floor( p ) ) {
+        return false;
+    }
+
+    tripoint pbelow( p.x, p.y, p.z - 1 );
+
+    // Get the critter at the location below. If there isn't one,
+    // we can bail.
+    const Creature *critter = g->critter_at( pbelow, true );
+    if( critter == nullptr ) {
+        return false;
+    }
+
+    // Check if the player can actually see the critter. We don't care if
+    // it's via infrared or not, just whether or not they're seen. If not,
+    // we can bail.
+    if( !g->u.sees( *critter ) && !g->u.sees_with_infrared( *critter ) ) {
+        return false;
+    }
+
+    const point screen_point = player_to_screen( pbelow.x, pbelow.y );
+
+    SDL_Color tercol = cursesColorToSDL( c_red );
+    const int sizefactor = 2;
+
+    SDL_Rect belowRect;
+    belowRect.h = tile_width / sizefactor;
+    belowRect.w = tile_height / sizefactor;
+
+    if( tile_iso ) {
+        belowRect.h = ( belowRect.h * 2 ) / 3;
+        belowRect.w = ( belowRect.w * 3 ) / 4;
+    }
+
+    belowRect.x = screen_point.x + ( tile_width - belowRect.w ) / 2;
+    belowRect.y = screen_point.y + ( tile_height - belowRect.h ) / 2;
+
+    if( tile_iso ) {
+        belowRect.y += tile_height / 8;
+    }
+
+    handle_draw_rect( renderer, belowRect, tercol.r, tercol.g, tercol.b );
+
+    return true;
 }
 
 bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3d )

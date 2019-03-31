@@ -302,7 +302,7 @@ void mutation_branch::load( JsonObject &jo, const std::string & )
     auto vam = jo.get_array( "vitamins_absorb_multi" );
     while( vam.has_more() ) {
         auto pair = vam.next_array();
-        std::map<vitamin_id, float> vit;
+        std::map<vitamin_id, double> vit;
         auto vit_array = pair.get_array( 1 );
         // fill the inner map with vitamins
         while( vit_array.has_more() ) {
@@ -319,7 +319,17 @@ void mutation_branch::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "hp_modifier_secondary", hp_modifier_secondary, 0.0f );
     optional( jo, was_loaded, "hp_adjustment", hp_adjustment, 0.0f );
     optional( jo, was_loaded, "stealth_modifier", stealth_modifier, 0.0f );
-
+    optional( jo, was_loaded, "str_modifier", str_modifier, 0.0f );
+    optional( jo, was_loaded, "dodge_modifier", dodge_modifier, 0.0f );
+    optional( jo, was_loaded, "speed_modifier", speed_modifier, 1.0f );
+    optional( jo, was_loaded, "movecost_modifier", movecost_modifier, 1.0f );
+    optional( jo, was_loaded, "movecost_flatground_modifier", movecost_flatground_modifier, 1.0f );
+    optional( jo, was_loaded, "movecost_obstacle_modifier", movecost_obstacle_modifier, 1.0f );
+    optional( jo, was_loaded, "attackcost_modifier", attackcost_modifier, 1.0f );
+    optional( jo, was_loaded, "max_stamina_modifier", max_stamina_modifier, 1.0f );
+    optional( jo, was_loaded, "weight_capacity_modifier", weight_capacity_modifier, 1.0f );
+    optional( jo, was_loaded, "hearing_modifier", hearing_modifier, 1.0f );
+    optional( jo, was_loaded, "noise_modifier", noise_modifier, 1.0f );
     optional( jo, was_loaded, "metabolism_modifier", metabolism_modifier, 0.0f );
     optional( jo, was_loaded, "thirst_modifier", thirst_modifier, 0.0f );
     optional( jo, was_loaded, "fatigue_modifier", fatigue_modifier, 0.0f );
@@ -623,7 +633,7 @@ void mutation_branch::load_trait_group( JsonObject &jsobj, const trait_group::Tr
 
     Trait_group &tg = make_group_or_throw( gid, ( subtype == "collection" || subtype == "old" ) );
 
-    // TODO(sm): Looks like this makes the new code backwards-compatible with the old format. Great if so!
+    // TODO: (sm) Looks like this makes the new code backwards-compatible with the old format. Great if so!
     if( subtype == "old" ) {
         JsonArray traits = jsobj.get_array( "traits" );
         while( traits.has_more() ) {
@@ -633,7 +643,7 @@ void mutation_branch::load_trait_group( JsonObject &jsobj, const trait_group::Tr
         return;
     }
 
-    // TODO(sm): Taken from item_factory.cpp almost verbatim. Ensure that these work!
+    // TODO: (sm) Taken from item_factory.cpp almost verbatim. Ensure that these work!
     if( jsobj.has_member( "entries" ) ) {
         JsonArray traits = jsobj.get_array( "entries" );
         while( traits.has_more() ) {
