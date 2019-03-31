@@ -1,11 +1,3 @@
-data/json/mapgen/field_football.json
-data/json/mapgen/garage_gas.json
-data/json/mapgen/garage.json
-data/json/mapgen/homeimprovement_superstore.json
-data/json/mapgen/hotel_tower.json
-data/json/mapgen/house/house_2story.json
-data/json/mapgen/house/house_garage2.json
-data/json/mapgen/house/house_garage3.json
 data/json/mapgen/house/house_garage4.json
 data/json/mapgen/house/house_garage5.json
 data/json/mapgen/house/house_garage6.json
