@@ -3850,10 +3850,10 @@ player &player_on_couch( player &p, const tripoint &autodoc_loc, player &null_pa
 item &cyborg_on_couch( const tripoint &couch_pos, item &null_cyborg )
 {
     for( item &it : g->m.i_at( couch_pos ) ) {
-        if( it.typeId().c_str() == "bot_broken_cyborg" ) {
+        if( it.typeId() == "bot_broken_cyborg" ) {
             return it;
         }
-        if( it.typeId().c_str() == "corpse" ) {
+        if( it.typeId() == "corpse" ) {
             if( it.get_mtype()->id == "mon_broken_cyborg" ) {
                 return it;
             }
@@ -3943,7 +3943,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
 
             switch( cmenu.ret ) {
                 case INSTALL_CBM: {
-                    popup( _( "/!\ ERROR NO SPACE AVAILABLE /!\.  Operation impossible.  Exiting." ) );
+                    popup( _( "ERROR NO SPACE AVAILABLE.  Operation impossible.  Exiting." ) );
                     break;
                 }
                 case UNINSTALL_CBM: {
