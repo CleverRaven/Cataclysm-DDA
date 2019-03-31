@@ -127,6 +127,7 @@ const efftype_id effect_webbed( "webbed" );
 static const trait_id trait_ANIMALDISCORD( "ANIMALDISCORD" );
 static const trait_id trait_ANIMALDISCORD2( "ANIMALDISCORD2" );
 static const trait_id trait_ANIMALEMPATH( "ANIMALEMPATH" );
+static const trait_id trait_ANIMALEMPATH2( "ANIMALEMPATH2" );
 static const trait_id trait_BEE( "BEE" );
 static const trait_id trait_FLOWERS( "FLOWERS" );
 static const trait_id trait_PACIFIST( "PACIFIST" );
@@ -949,6 +950,11 @@ monster_attitude monster::attitude( const Character *u ) const
                 effective_anger -= 10;
                 if( effective_anger < 10 ) {
                     effective_morale += 55;
+                }
+            } else if( u->has_trait( trait_ANIMALEMPATH2 ) ) {
+                effective_anger -= 20;
+                if( effective_anger < 20 ) {
+                    effective_morale += 80;
                 }
             } else if( u->has_trait( trait_ANIMALDISCORD ) ) {
                 if( effective_anger >= 10 ) {
