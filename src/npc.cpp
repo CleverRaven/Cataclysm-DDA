@@ -60,6 +60,7 @@ const efftype_id effect_pkill3( "pkill3" );
 const efftype_id effect_pkill_l( "pkill_l" );
 const efftype_id effect_infection( "infection" );
 const efftype_id effect_bouldering( "bouldering" );
+const efftype_id effect_npc_flee_player( "npc_flee_player" );
 
 static const trait_id trait_CANNIBAL( "CANNIBAL" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
@@ -105,6 +106,10 @@ npc::npc()
     attitude = NPCATT_NULL;
 
     *path_settings = pathfinding_settings( 0, 1000, 1000, 10, true, true, true, false );
+    for( size_t i = 0; i < 8; i++ ) {
+        direction threat_dir = npc_threat_dir[i];
+        ai_cache.threat_map[ threat_dir ] = 0.0f;
+    }
 }
 
 standard_npc::standard_npc( const std::string &name, const std::vector<itype_id> &clothing,
@@ -551,7 +556,7 @@ void npc::randomize_from_faction( faction *fac )
         personality.altruism += rng( 0, 4 );
         int_max += rng( 2, 4 );
         per_max += rng( 0, 2 );
-        mod_skill_level( skill_firstaid, int( rng( 1, 5 ) ) );
+        mod_skill_level( skill_firstaid, static_cast<int>( rng( 1, 5 ) ) );
     }
     if( fac->has_job( FACJOB_FARMERS ) ) {
         personality.aggression -= rng( 2, 4 );
@@ -766,14 +771,14 @@ void starting_inv( npc &who, const npc_class_id &type )
             ammo = container;
         }
 
-        // @todo: Move to npc_class
+        // TODO: Move to npc_class
         // NC_COWBOY and NC_BOUNTY_HUNTER get 5-15 whilst all others get 3-6
         long qty = 1 + ( type == NC_COWBOY ||
                          type == NC_BOUNTY_HUNTER );
         qty = rng( qty, qty * 2 );
 
         while( qty-- != 0 && who.can_pickVolume( ammo ) ) {
-            // @todo: give NPC a default magazine instead
+            // TODO: give NPC a default magazine instead
             res.push_back( ammo );
         }
     }
@@ -869,6 +874,24 @@ skill_id npc::best_skill() const
     }
 
     return highest_skill;
+}
+
+int npc::best_skill_level() const
+{
+    int highest_level = std::numeric_limits<int>::min();
+    skill_id highest_skill( skill_id::NULL_ID() );
+
+    for( const auto &p : *_skills ) {
+        if( p.first.obj().is_combat_skill() ) {
+            const int level = p.second.level();
+            if( level > highest_level ) {
+                highest_level = level;
+                highest_skill = p.first;
+            }
+        }
+    }
+
+    return highest_level;
 }
 
 void npc::starting_weapon( const npc_class_id &type )
@@ -976,7 +999,7 @@ bool npc::wear_if_wanted( const item &it )
         }
 
         if( encumb_ok && can_wear( it ).success() ) {
-            // @todo: Hazmat/power armor makes this not work due to 1 boots/headgear limit
+            // TODO: Hazmat/power armor makes this not work due to 1 boots/headgear limit
             return !!wear_item( it, false );
         }
         // Otherwise, maybe we should take off one or more items and replace them
@@ -1045,7 +1068,7 @@ void npc::form_opinion( const player &u )
 {
     // FEAR
     if( u.weapon.is_gun() ) {
-        // @todo: Make bows not guns
+        // TODO: Make bows not guns
         if( weapon.is_gun() ) {
             op_of_u.fear += 2;
         } else {
@@ -1113,7 +1136,7 @@ void npc::form_opinion( const player &u )
         op_of_u.trust += 2;
     }
 
-    // @todo: More effects
+    // TODO: More effects
     if( u.has_effect( effect_high ) ) {
         op_of_u.trust -= 1;
     }
@@ -1154,7 +1177,7 @@ void npc::form_opinion( const player &u )
     } else if( my_fac != nullptr && my_fac->likes_u < -10 ) {
         set_attitude( NPCATT_KILL );
     } else {
-        set_attitude( NPCATT_FLEE );
+        set_attitude( NPCATT_FLEE_TEMP );
     }
 
     add_msg( m_debug, "%s formed an opinion of u: %s",
@@ -1173,7 +1196,7 @@ float npc::vehicle_danger( int radius ) const
     for( unsigned int i = 0; i < vehicles.size(); ++i ) {
         const wrapped_vehicle &wrapped_veh = vehicles[i];
         if( wrapped_veh.v->is_moving() ) {
-            // #FIXME this can't be the right way to do this
+            // FIXME: this can't be the right way to do this
             float facing = wrapped_veh.v->face.dir();
 
             int ax = wrapped_veh.v->global_pos3().x;
@@ -1221,7 +1244,7 @@ void npc::make_angry()
         my_fac->respects_u = std::max( -50, my_fac->respects_u - 50 );
     }
     if( op_of_u.fear > 10 + personality.aggression + personality.bravery ) {
-        set_attitude( NPCATT_FLEE ); // We don't want to take u on!
+        set_attitude( NPCATT_FLEE_TEMP ); // We don't want to take u on!
     } else {
         set_attitude( NPCATT_KILL ); // Yeah, we think we could take you!
     }
@@ -1336,7 +1359,7 @@ void npc::decide_needs()
     }
 }
 
-void npc::say( const std::string &line ) const
+void npc::say( const std::string &line, const bool shout ) const
 {
     std::string formatted_line = line;
     parse_tags( formatted_line, g->u, *this );
@@ -1349,7 +1372,13 @@ void npc::say( const std::string &line ) const
         add_msg( m_warning, _( "%1$s says something but you can't hear it!" ), name );
     }
     // Sound happens even if we can't hear it
-    sounds::sound( pos(), 16, sounds::sound_t::speech, sound );
+    // Default volume for shouting for NPCs at 25
+    // TODO use same logic as for player shout volume
+    if( shout ) {
+        sounds::sound( pos(), 25, sounds::sound_t::alert, sound );
+    } else {
+        sounds::sound( pos(), 16, sounds::sound_t::speech, sound );
+    }
 }
 
 bool npc::wants_to_sell( const item &it ) const
@@ -1477,14 +1506,14 @@ int npc::value( const item &it, int market_price ) const
 
     if( it.is_ammo() ) {
         if( weapon.is_gun() && it.type->ammo->type.count( weapon.ammo_type() ) ) {
-            ret += 14; // @todo: magazines - don't count ammo as usable if the weapon isn't.
+            ret += 14; // TODO: magazines - don't count ammo as usable if the weapon isn't.
         }
 
         if( std::any_of( it.type->ammo->type.begin(), it.type->ammo->type.end(),
         [&]( const ammotype & e ) {
         return has_gun_for_ammo( e );
         } ) ) {
-            ret += 14; // @todo: consider making this cumulative (once was)
+            ret += 14; // TODO: consider making this cumulative (once was)
         }
     }
 
@@ -1602,15 +1631,20 @@ bool npc::is_leader() const
 
 bool npc::is_enemy() const
 {
-    return attitude == NPCATT_KILL || attitude == NPCATT_FLEE;
+    return attitude == NPCATT_KILL || attitude == NPCATT_FLEE || attitude == NPCATT_FLEE_TEMP;
 }
 
 bool npc::is_guarding() const
 {
-    return mission == NPC_MISSION_SHELTER || mission == NPC_MISSION_BASE ||
-           mission == NPC_MISSION_SHOPKEEP || mission == NPC_MISSION_GUARD ||
-           mission == NPC_MISSION_GUARD_ALLY ||
-           has_effect( effect_infection );
+    return mission == NPC_MISSION_SHELTER || mission == NPC_MISSION_SHOPKEEP
+           || mission == NPC_MISSION_GUARD || mission == NPC_MISSION_GUARD_ALLY
+           || mission == NPC_MISSION_ACTIVITY || mission == NPC_MISSION_GUARD_PATROL
+           || has_effect( effect_infection );
+}
+
+bool npc::has_player_activity() const
+{
+    return activity && mission == NPC_MISSION_ACTIVITY;
 }
 
 Creature::Attitude npc::attitude_to( const Creature &other ) const
@@ -1632,7 +1666,7 @@ Creature::Attitude npc::attitude_to( const Creature &other ) const
         return other.attitude_to( *this );
     }
 
-    // @todo: Get rid of the ugly cast without duplicating checks
+    // TODO: Get rid of the ugly cast without duplicating checks
     const monster &m = dynamic_cast<const monster &>( other );
     switch( m.attitude( this ) ) {
         case MATT_FOLLOW:
@@ -1671,7 +1705,7 @@ float npc::danger_assessment()
 
 float npc::average_damage_dealt()
 {
-    return float( melee_value( weapon ) );
+    return static_cast<float>( melee_value( weapon ) );
 }
 
 bool npc::bravery_check( int diff )
@@ -1705,7 +1739,7 @@ int npc::follow_distance() const
           g->m.has_flag( TFLAG_GOES_UP, g->u.pos() ) ) ) {
         return 1;
     }
-    // @todo: Allow player to set that
+    // TODO: Allow player to set that
     return 4;
 }
 
@@ -1713,8 +1747,8 @@ nc_color npc::basic_symbol_color() const
 {
     if( attitude == NPCATT_KILL ) {
         return c_red;
-    } else if( attitude == NPCATT_FLEE ) {
-        return c_red;
+    } else if( attitude == NPCATT_FLEE || attitude == NPCATT_FLEE_TEMP ) {
+        return c_light_red;
     } else if( is_friend() ) {
         return c_green;
     } else if( is_following() ) {
@@ -1740,11 +1774,11 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
 
     const auto enumerate_print = [ w, last_line, column, iWidth, &line ]( std::string & str_in,
     nc_color color ) {
-        // @todo: Replace with 'fold_and_print()'. Extend it with a 'height' argument to prevent leaking.
+        // TODO: Replace with 'fold_and_print()'. Extend it with a 'height' argument to prevent leaking.
         size_t split;
         do {
             split = ( str_in.length() <= iWidth ) ? std::string::npos : str_in.find_last_of( ' ',
-                    long( iWidth ) );
+                    static_cast<long>( iWidth ) );
             if( split == std::string::npos ) {
                 mvwprintz( w, line, column, color, str_in.c_str() );
             } else {
@@ -1763,8 +1797,20 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
         enumerate_print( wearing, c_blue );
     }
 
-    // @todo: Balance this formula
-    const int visibility_cap = g->u.get_per() - rl_dist( g->u.pos(), pos() );
+    // as of now, visibility of mutations is between 0 and 10
+    // 10 perception and 10 distance would see all mutations - cap 0
+    // 10 perception and 30 distance - cap 5, some mutations visible
+    // 3 perception and 3 distance would see all mutations - cap 0
+    // 3 perception and 15 distance - cap 5, some mutations visible
+    // 3 perception and 20 distance would be barely able to discern huge antlers on a person - cap 10
+    const int per = g->u.get_per();
+    const int dist = rl_dist( g->u.pos(), pos() );
+    int visibility_cap;
+    if( per <= 1 ) {
+        visibility_cap = INT_MAX;
+    } else {
+        visibility_cap = round( dist * dist / 20.0 / ( per - 1 ) );
+    }
 
     const auto trait_str = visible_mutations( visibility_cap );
     if( !trait_str.empty() ) {
@@ -1983,9 +2029,20 @@ std::string npc_attitude_name( npc_attitude att )
         case NPCATT_KILL:          // Kill the player
             return _( "Attacking to kill" );
         case NPCATT_FLEE:          // Get away from the player
+        case NPCATT_FLEE_TEMP:
             return _( "Fleeing" );
         case NPCATT_HEAL:          // Get to the player and heal them
             return _( "Healing you" );
+        case NPCATT_ACTIVITY:
+            return _( "Performing a task" );
+        case NPCATT_LEGACY_1:
+        case NPCATT_LEGACY_2:
+        case NPCATT_LEGACY_3:
+        case NPCATT_LEGACY_4:
+        case NPCATT_LEGACY_5:
+        case NPCATT_LEGACY_6:
+            return _( "NPC Legacy Attitude" );
+            break;
         default:
             break;
     }
@@ -2073,6 +2130,10 @@ void npc::on_load()
         // This ensures food is properly rotten at load
         // Otherwise NPCs try to eat rotten food and fail
         process_active_items();
+        // give NPCs that are doing activities a pile of moves
+        if( has_destination() || activity ) {
+            mod_moves( to_moves<int>( dt ) );
+        }
     }
 
     // Not necessarily true, but it's not a bad idea to set this
@@ -2131,7 +2192,7 @@ epilogue *epilogue::find_epilogue( const std::string &ident )
 void epilogue::random_by_group( std::string group )
 {
     std::vector<epilogue> v;
-    for( auto epi : _all_epilogue ) {
+    for( const auto &epi : _all_epilogue ) {
         if( epi.second.group == group ) {
             v.push_back( epi.second );
         }
@@ -2291,7 +2352,7 @@ const pathfinding_settings &npc::get_pathfinding_settings() const
 const pathfinding_settings &npc::get_pathfinding_settings( bool no_bashing ) const
 {
     path_settings->bash_strength = no_bashing ? 0 : smash_ability();
-    // @todo: Extract climb skill
+    // TODO: Extract climb skill
     const int climb = std::min( 20, get_dex() );
     if( climb > 1 ) {
         // Success is !one_in(dex), so 0%, 50%, 66%, 75%...
@@ -2309,7 +2370,7 @@ std::set<tripoint> npc::get_path_avoid() const
 {
     std::set<tripoint> ret;
     for( Creature &critter : g->all_creatures() ) {
-        // @todo: Cache this somewhere
+        // TODO: Cache this somewhere
         ret.insert( critter.pos() );
     }
     return ret;
@@ -2342,7 +2403,7 @@ std::string npc::extended_description() const
     ss << std::endl << "--" << std::endl;
     if( attitude == NPCATT_KILL ) {
         ss << _( "Is trying to kill you." );
-    } else if( attitude == NPCATT_FLEE ) {
+    } else if( attitude == NPCATT_FLEE || attitude == NPCATT_FLEE_TEMP ) {
         ss << _( "Is trying to flee from you." );
     } else if( is_friend() ) {
         ss << _( "Is your friend." );
@@ -2357,18 +2418,56 @@ std::string npc::extended_description() const
     if( hit_by_player ) {
         ss << "--" << std::endl;
         ss << _( "Is still innocent and killing them will be considered murder." );
-        // @todo: "But you don't care because you're an edgy psycho"
+        // TODO: "But you don't care because you're an edgy psycho"
     }
 
     return replace_colors( ss.str() );
 }
 
-void npc::set_companion_mission( npc &p, const std::string &id )
+void npc::set_companion_mission( npc &p, const std::string &mission_id )
 {
-    const point omt_pos = ms_to_omt_copy( g->m.getabs( p.posx(), p.posy() ) );
-    comp_mission.position = tripoint( omt_pos.x, omt_pos.y, p.posz() );
-    comp_mission.mission_id =  id;
-    comp_mission.role_id = p.companion_mission_role_id;
+    const tripoint omt_pos = p.global_omt_location();
+    set_companion_mission( omt_pos, p.companion_mission_role_id, mission_id );
+}
+
+std::pair<std::string, nc_color> npc::hp_description() const
+{
+    int cur_hp = hp_percentage();
+    std::string damage_info;
+    std::string pronoun;
+    if( male ) {
+        pronoun = _( "He " );
+    } else {
+        pronoun = _( "She " );
+    }
+    nc_color col;
+    if( cur_hp == 100 ) {
+        damage_info = pronoun + _( "is uninjured." );
+        col = c_green;
+    } else if( cur_hp >= 80 ) {
+        damage_info = pronoun + _( "is lightly injured." );
+        col = c_light_green;
+    } else if( cur_hp >= 60 ) {
+        damage_info = pronoun + _( "is moderately injured." );
+        col = c_yellow;
+    } else if( cur_hp >= 30 ) {
+        damage_info = pronoun + _( "is heavily injured." );
+        col = c_yellow;
+    } else if( cur_hp >= 10 ) {
+        damage_info = pronoun + _( "is severely injured." );
+        col = c_light_red;
+    } else {
+        damage_info = pronoun + _( "is nearly dead!" );
+        col = c_red;
+    }
+    return std::make_pair( damage_info, col );
+}
+void npc::set_companion_mission( const tripoint &omt_pos, const std::string &role_id,
+                                 const std::string &mission_id )
+{
+    comp_mission.position = omt_pos;
+    comp_mission.mission_id =  mission_id;
+    comp_mission.role_id = role_id;
 }
 
 void npc::reset_companion_mission()
@@ -2388,7 +2487,7 @@ npc_companion_mission npc::get_companion_mission() const
     return comp_mission;
 }
 
-attitude_group get_attitude_group( npc_attitude att )
+attitude_group npc::get_attitude_group( npc_attitude att )
 {
     switch( att ) {
         case NPCATT_MUG:
@@ -2396,8 +2495,10 @@ attitude_group get_attitude_group( npc_attitude att )
         case NPCATT_KILL:
             return attitude_group::hostile;
         case NPCATT_FLEE:
+        case NPCATT_FLEE_TEMP:
             return attitude_group::fearful;
         case NPCATT_FOLLOW:
+        case NPCATT_ACTIVITY:
         case NPCATT_LEAD:
             return attitude_group::friendly;
         default:
@@ -2413,11 +2514,19 @@ npc_attitude npc::get_attitude() const
 
 void npc::set_attitude( npc_attitude new_attitude )
 {
+    if( new_attitude == NPCATT_FLEE ) {
+        new_attitude = NPCATT_FLEE_TEMP;
+    }
+
     if( new_attitude == attitude ) {
         return;
     }
+    if( new_attitude == NPCATT_FLEE_TEMP && !has_effect( effect_npc_flee_player ) ) {
+        add_effect( effect_npc_flee_player, 24_hours, num_bp );
+    }
+
     add_msg( m_debug, "%s changes attitude from %s to %s",
-             name.c_str(), npc_attitude_name( attitude ).c_str(), npc_attitude_name( new_attitude ).c_str() );
+             name, npc_attitude_name( attitude ), npc_attitude_name( new_attitude ) );
     attitude_group new_group = get_attitude_group( new_attitude );
     attitude_group old_group = get_attitude_group( attitude );
     if( new_group != old_group && !is_fake() ) {
@@ -2455,6 +2564,7 @@ npc_follower_rules::npc_follower_rules()
     set_flag( ally_rule::allow_complain );
     set_flag( ally_rule::allow_pulp );
     clear_flag( ally_rule::close_doors );
+    clear_flag( ally_rule::avoid_combat );
 }
 
 bool npc_follower_rules::has_flag( ally_rule test ) const

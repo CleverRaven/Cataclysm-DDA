@@ -94,7 +94,7 @@ tripoint rotate_point( const tripoint &p, int turn );
 
 int terrain_type_to_nesw_array( oter_id terrain_type, bool array[4] );
 
-// @todo: pass mapgendata by reference.
+// TODO: pass mapgendata by reference.
 typedef void ( *building_gen_pointer )( map *, oter_id, mapgendata, const time_point &, float );
 building_gen_pointer get_mapgen_cfunction( const std::string &ident );
 ter_id grass_or_dirt();
@@ -133,8 +133,6 @@ void mapgen_river_center( map *m, oter_id terrain_type, mapgendata dat, const ti
                           float density );
 void mapgen_road( map *m, oter_id terrain_type, mapgendata dat, const time_point &time,
                   float density );
-void mapgen_field( map *m, oter_id terrain_type, mapgendata dat, const time_point &time,
-                   float density );
 void mapgen_bridge( map *m, oter_id terrain_type, mapgendata dat, const time_point &time,
                     float density );
 void mapgen_railroad( map *m, oter_id terrain_type, mapgendata dat, const time_point &time,

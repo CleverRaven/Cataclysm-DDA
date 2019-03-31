@@ -88,7 +88,7 @@ namespace std
 template<class T> struct iterator_traits<vehicle_part_iterator<T>> {
     using difference_type = size_t;
     using value_type = vpart_reference;
-    // @todo maybe change into random access iterator? This requires adding
+    // TODO: maybe change into random access iterator? This requires adding
     // more operators to the iterator, which may not be efficient.
     using iterator_category = std::forward_iterator_tag;
 };

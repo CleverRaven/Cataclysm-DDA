@@ -509,4 +509,8 @@ const std::function<bool( const item & )> return_true = []( const item & )
     return true;
 };
 
+/**
+ * Joins a vector of `std::string`s into a single string with a delimiter/joiner
+ */
+std::string join( const std::vector<std::string> &strings, const std::string &joiner );
 #endif // CAT_UTILITY_H

@@ -1652,6 +1652,66 @@
   },
   {
     "type": "snippet",
+    "category": "scores",
+    "text": [ "The card is printed with 2 boxes.  In the first box you see a tally of 5 tick marks.  The second box has a total of 9." ]
+  },
+  {
+    "type": "snippet",
+    "category": "scores",
+    "text": [ "The card is printed with 2 boxes.  In the first box you see a tally of 3 tick marks.  The second box has line trailing off to the edge and a bloody fingerprint." ]
+  },
+  {
+    "type": "snippet",
+    "category": "scores",
+    "text": [ "The card is printed for a game of golf. Someone has filled out their score for the first 9 holes." ]
+  },
+  {
+    "type": "snippet",
+    "category": "charsheet",
+    "text": [ "It's a Dungeons & Dragons 6th Edition character sheet.  This one is for a fighter." ]
+  },
+  {
+    "type": "snippet",
+    "category": "charsheet",
+    "text": [ "It's a Dungeons & Dragons 6th Edition character sheet.  This one is for a bard." ]
+  },
+  {
+    "type": "snippet",
+    "category": "charsheet",
+    "text": [ "It's a Dungeons & Dragons 6th Edition character sheet.  This one is for a cleric." ]
+  },
+  {
+    "type": "snippet",
+    "category": "charsheet",
+    "text": [ "It's a Dungeons & Dragons 6th Edition character sheet.  This one is for a wizard." ]
+  },
+  {
+    "type": "snippet",
+    "category": "charsheet",
+    "text": [ "It's a Dungeons & Dragons 6th Edition character sheet.  This one is for a rogue." ]
+  },
+  {
+    "type": "snippet",
+    "category": "charsheet",
+    "text": [ "It's a Dungeons & Dragons 6th Edition character sheet.  This one is for a barbarian." ]
+  },
+  {
+    "type": "snippet",
+    "category": "charsheet",
+    "text": [ "It's a Dungeons & Dragons 6th Edition character sheet.  This one is for a warlock." ]
+  },
+  {
+    "type": "snippet",
+    "category": "charsheet",
+    "text": [ "It's a Dungeons & Dragons 6th Edition character sheet.  This one is for a paladin." ]
+  },
+  {
+    "type": "snippet",
+    "category": "charsheet",
+    "text": [ "It's a Dungeons & Dragons 6th Edition character sheet.  This one is for a sorcerer." ]
+  },
+  {
+    "type": "snippet",
     "category": "pyromania_withdrawal",
     "text": [ "You feel cold.  You need the warmth of a fire." ]
   },

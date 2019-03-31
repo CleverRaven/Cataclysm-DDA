@@ -257,7 +257,7 @@
     "material": "bean",
     "volume": 1,
     "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 6 ] ]
+    "vitamins": [ [ "calcium", 9 ], [ "iron", 24 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -280,7 +280,7 @@
     "cooks_like": "beans_cooked",
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 6,
-    "vitamins": [ [ "calcium", 10 ], [ "iron", 4 ] ],
+    "vitamins": [ [ "calcium", 56 ], [ "iron", 22 ] ],
     "fun": -6
   },
   {
@@ -302,7 +302,46 @@
     "volume": 1,
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 1,
-    "vitamins": [ [ "calcium", 2 ], [ "vitB", 8 ] ]
+    "vitamins": [ [ "calcium", 8 ], [ "vitB", 32 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "dry_lentils",
+    "name": "dried lentils",
+    "name_plural": "dried lentils",
+    "weight": 132,
+    "color": "light_gray",
+    "comestible_type": "FOOD",
+    "symbol": ",",
+    "quench": -10,
+    "healthy": 1,
+    "calories": 230,
+    "description": "A humble but nutrient-rich legume. Should be cooked prior to consumption.",
+    "price": 20,
+    "material": "veggy",
+    "volume": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
+    "charges": 2,
+    "vitamins": [ [ "calcium", 4 ], [ "iron", 47 ], [ "vitC", 7 ] ],
+    "fun": -10
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "lentils_cooked",
+    "name": "cooked lentils",
+    "name_plural": "cooked lentils",
+    "weight": 198,
+    "copy-from": "dry_lentils",
+    "color": "light_gray",
+    "spoils_in": "5 days",
+    "quench": 1,
+    "description": "Some delicious cooked lentils. Humble but nutrient-rich.",
+    "price": 0,
+    "volume": 1,
+    "fun": 1,
+    "flags": [ "EATEN_HOT" ],
+    "rot_spawn": "GROUP_ROTTING_PLANT",
+    "rot_spawn_chance": 5
   },
   {
     "type": "COMESTIBLE",
@@ -366,7 +405,7 @@
     "material": "tomato",
     "volume": 1,
     "stack_size": 2,
-    "vitamins": [ [ "vitA", 1 ], [ "vitC", 6 ], [ "calcium", 2 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "vitA", 3 ], [ "vitC", 26 ], [ "calcium", 9 ], [ "iron", 18 ] ]
   },
   {
     "type": "COMESTIBLE",

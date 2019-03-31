@@ -38,7 +38,8 @@ void mission_end::thankful( mission *miss )
         return;
     }
     if( p->get_attitude() == NPCATT_MUG || p->get_attitude() == NPCATT_WAIT_FOR_LEAVE ||
-        p->get_attitude() == NPCATT_FLEE || p->get_attitude() == NPCATT_KILL ) {
+        p->get_attitude() == NPCATT_FLEE || p->get_attitude() == NPCATT_KILL ||
+        p->get_attitude() == NPCATT_FLEE_TEMP ) {
         p->set_attitude( NPCATT_NULL );
     }
     if( p->chatbin.first_topic != "TALK_FRIEND" ) {

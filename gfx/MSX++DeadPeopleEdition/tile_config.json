@@ -22886,7 +22886,7 @@
           "rotates": false
         },
         {
-          "id": ["milk", "rice_milk", "milkshake", "milkshake_deluxe", "milkshake_fastfood"],
+          "id": ["milk", "rice_milk", "milkshake", "milkshake_deluxe", "milkshake_fastfood", "almond_milk", "soy_milk"],
           "fg": 1153,
           "rotates": false
         },

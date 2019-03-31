@@ -46,6 +46,11 @@
   },
   {
     "type": "item_action",
+    "id": "DIG_CHANNEL",
+    "name": "Dig Water Channel"
+  },
+  {
+    "type": "item_action",
     "id": "PICKAXE",
     "name": "Dig through rock"
   },

@@ -146,6 +146,7 @@ static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { 
         { "FLAMMABLE_ASH",            TFLAG_FLAMMABLE_ASH },  // oh hey fire. again.
         { "WALL",                     TFLAG_WALL },           // smells
         { "DEEP_WATER",               TFLAG_DEEP_WATER },     // Deep enough to submerge things
+        { "CURRENT",                  TFLAG_CURRENT },        // Water is flowing.
         { "HARVESTED",                TFLAG_HARVESTED },      // harvested.  will not bear fruit.
         { "PERMEABLE",                TFLAG_PERMEABLE },      // gases can flow through.
         { "AUTO_WALL_SYMBOL",         TFLAG_AUTO_WALL_SYMBOL }, // automatically create the appropriate wall
@@ -393,7 +394,7 @@ void load_furniture( JsonObject &jo, const std::string &src )
 
 void load_terrain( JsonObject &jo, const std::string &src )
 {
-    if( terrain_data.empty() ) { // @todo: This shouldn't live here
+    if( terrain_data.empty() ) { // TODO: This shouldn't live here
         terrain_data.insert( null_terrain_t() );
     }
     terrain_data.load( jo, src );
@@ -505,7 +506,8 @@ ter_id t_null,
        t_marloss, t_fungus_floor_in, t_fungus_floor_sup, t_fungus_floor_out, t_fungus_wall,
        t_fungus_mound, t_fungus, t_shrub_fungal, t_tree_fungal, t_tree_fungal_young, t_marloss_tree,
        // Water, lava, etc.
-       t_water_sh, t_water_dp, t_swater_sh, t_swater_dp, t_water_pool, t_sewage,
+       t_water_moving_dp, t_water_moving_sh, t_water_sh, t_water_dp, t_swater_sh, t_swater_dp,
+       t_water_pool, t_sewage,
        t_lava,
        // More embellishments than you can shake a stick at.
        t_sandbox, t_slide, t_monkey_bars, t_backboard,
@@ -549,7 +551,7 @@ ter_id t_null,
        t_railroad_track_on_tie, t_railroad_track_h_on_tie, t_railroad_track_v_on_tie,
        t_railroad_track_d_on_tie;
 
-// @todo: Put this crap into an inclusion, which should be generated automatically using JSON data
+// TODO: Put this crap into an inclusion, which should be generated automatically using JSON data
 
 void set_ter_ids()
 {
@@ -741,6 +743,8 @@ void set_ter_ids()
     t_tree_fungal = ter_id( "t_tree_fungal" );
     t_tree_fungal_young = ter_id( "t_tree_fungal_young" );
     t_marloss_tree = ter_id( "t_marloss_tree" );
+    t_water_moving_dp = ter_id( "t_water_moving_dp" );
+    t_water_moving_sh = ter_id( "t_water_moving_sh" );
     t_water_sh = ter_id( "t_water_sh" );
     t_water_dp = ter_id( "t_water_dp" );
     t_swater_sh = ter_id( "t_swater_sh" );
@@ -1046,8 +1050,8 @@ void map_data_common_t::load( JsonObject &jo, const std::string &src )
 
             harvest_id hl;
             if( harvest_jo.has_array( "entries" ) ) {
-                // @todo: A better inline name - can't use id or name here because it's not set yet
-                size_t num = harvest_list::all().size() + 1;
+                // TODO: A better inline name - can't use id or name here because it's not set yet
+                const size_t num = harvest_list::all().size() + 1;
                 hl = harvest_list::load( harvest_jo, src,
                                          string_format( "harvest_inline_%d", static_cast<int>( num ) ) );
             } else if( harvest_jo.has_string( "id" ) ) {
@@ -1174,6 +1178,7 @@ void furn_t::load( JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "comfort", comfort, 0 );
     optional( jo, was_loaded, "floor_bedding_warmth", floor_bedding_warmth, 0 );
     optional( jo, was_loaded, "bonus_fire_warmth_feet", bonus_fire_warmth_feet, 300 );
+    optional( jo, was_loaded, "keg_capacity", keg_capacity, legacy_volume_reader, 0_ml );
     mandatory( jo, was_loaded, "required_str", move_str_req );
     optional( jo, was_loaded, "max_volume", max_volume, legacy_volume_reader,
               DEFAULT_MAX_VOLUME_IN_SQUARE );

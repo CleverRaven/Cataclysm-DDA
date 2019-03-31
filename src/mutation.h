@@ -132,6 +132,19 @@ struct mutation_branch {
         float hp_modifier_secondary = 0.0f;
         // Flat bonus/penalty to hp.
         float hp_adjustment = 0.0f;
+        // Modify strength stat without changing HP
+        float str_modifier = 0.0f;
+        // Additional bonuses
+        float dodge_modifier = 0.0f;
+        float speed_modifier = 1.0f;
+        float movecost_modifier = 1.0f;
+        float movecost_flatground_modifier = 1.0f;
+        float movecost_obstacle_modifier = 1.0f;
+        float attackcost_modifier = 1.0f;
+        float max_stamina_modifier = 1.0f;
+        float weight_capacity_modifier = 1.0f;
+        float hearing_modifier = 1.0f;
+        float noise_modifier = 1.0f;
 
         // Subtracted from the range at which monsters see player, corresponding to percentage of change. Clamped to +/- 60 for effectiveness
         float stealth_modifier = 0.0f;
@@ -171,7 +184,7 @@ struct mutation_branch {
         std::map<vitamin_id, time_duration> vitamin_rates;
 
         // Mutations may affect absorption rates of vitamins based on material (or "all")
-        std::map<material_id, std::map<vitamin_id, float>> vitamin_absorb_multi;
+        std::map<material_id, std::map<vitamin_id, double>> vitamin_absorb_multi;
 
         std::vector<trait_id> prereqs; // Prerequisites; Only one is required
         std::vector<trait_id> prereqs2; // Prerequisites; need one from here too
@@ -312,7 +325,6 @@ struct mutation_branch {
 
         /**
          * Return the idents of all trait groups that are known.
-         * This is meant to be accessed at startup by lua to do mod-related modifications of groups.
          */
         static std::vector<trait_group::Trait_group_tag> get_all_group_names();
 };

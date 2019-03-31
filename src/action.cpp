@@ -50,18 +50,18 @@ void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
             getline( keymap_txt, id );  // Empty line, chomp it
         } else if( id == "unbind" ) {
             keymap_txt >> id;
-            action_id act = look_up_action( id );
+            const action_id act = look_up_action( id );
             if( act != ACTION_NULL ) {
                 unbound_keymap.insert( act );
             }
             break;
         } else if( id[0] != '#' ) {
-            action_id act = look_up_action( id );
-            if( act == ACTION_NULL )
+            const action_id act = look_up_action( id );
+            if( act == ACTION_NULL ) {
                 debugmsg( "\
 Warning! keymap.txt contains an unknown action, \"%s\"\n\
 Fix \"%s\" at your next chance!", id.c_str(), FILENAMES["keymap"].c_str() );
-            else {
+            } else {
                 while( !keymap_txt.eof() ) {
                     char ch;
                     keymap_txt >> std::noskipws >> ch >> std::skipws;
@@ -94,7 +94,7 @@ std::vector<char> keys_bound_to( action_id act )
 action_id action_from_key( char ch )
 {
     input_context ctxt = get_default_mode_input_context();
-    input_event event( static_cast<long>( ch ), CATA_INPUT_KEYBOARD );
+    const input_event event( static_cast<long>( ch ), CATA_INPUT_KEYBOARD );
     const std::string &action = ctxt.input_to_action( event );
     return look_up_action( action );
 }
@@ -260,6 +260,8 @@ std::string action_ident( action_id act )
             return "player_data";
         case ACTION_MAP:
             return "map";
+        case ACTION_SKY:
+            return "sky";
         case ACTION_MISSIONS:
             return "missions";
         case ACTION_FACTIONS:
@@ -282,12 +284,14 @@ std::string action_ident( action_id act )
             return "zoom_out";
         case ACTION_ZOOM_IN:
             return "zoom_in";
-        case ACTION_TOGGLE_SIDEBAR_STYLE:
-            return "toggle_sidebar_style";
         case ACTION_TOGGLE_FULLSCREEN:
             return "toggle_fullscreen";
         case ACTION_TOGGLE_PIXEL_MINIMAP:
             return "toggle_pixel_minimap";
+        case ACTION_TOGGLE_PANEL_ADM:
+            return "toggle_panel_adm";
+        case ACTION_PANEL_MGMT:
+            return "panel_mgmt";
         case ACTION_RELOAD_TILESET:
             return "reload_tileset";
         case ACTION_TOGGLE_AUTO_FEATURES:
@@ -355,6 +359,7 @@ bool can_action_change_worldstate( const action_id act )
         // Info Screens
         case ACTION_PL_INFO:
         case ACTION_MAP:
+        case ACTION_SKY:
         case ACTION_MISSIONS:
         case ACTION_KILLS:
         case ACTION_FACTIONS:
@@ -369,13 +374,14 @@ bool can_action_change_worldstate( const action_id act )
         case ACTION_COLOR:
         case ACTION_WORLD_MODS:
         // Debug Functions
-        case ACTION_TOGGLE_SIDEBAR_STYLE:
         case ACTION_TOGGLE_FULLSCREEN:
         case ACTION_DEBUG:
         case ACTION_DISPLAY_SCENT:
         case ACTION_ZOOM_OUT:
         case ACTION_ZOOM_IN:
         case ACTION_TOGGLE_PIXEL_MINIMAP:
+        case ACTION_TOGGLE_PANEL_ADM:
+        case ACTION_PANEL_MGMT:
         case ACTION_RELOAD_TILESET:
         case ACTION_TIMEOUT:
         case ACTION_TOGGLE_AUTO_FEATURES:
@@ -688,6 +694,7 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_LIST_ITEMS );
             REGISTER_ACTION( ACTION_ZONES );
             REGISTER_ACTION( ACTION_MAP );
+            REGISTER_ACTION( ACTION_SKY );
         } else if( category == _( "Inventory" ) ) {
             REGISTER_ACTION( ACTION_INVENTORY );
             REGISTER_ACTION( ACTION_ADVANCEDINV );
@@ -712,7 +719,6 @@ action_id handle_action_menu()
             if( ( entry = &entries.back() ) ) {
                 entry->txt += "..."; // debug _is_a menu.
             }
-            REGISTER_ACTION( ACTION_TOGGLE_SIDEBAR_STYLE );
 #ifndef TILES
             REGISTER_ACTION( ACTION_TOGGLE_FULLSCREEN );
 #endif
@@ -720,6 +726,7 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_TOGGLE_PIXEL_MINIMAP );
             REGISTER_ACTION( ACTION_RELOAD_TILESET );
 #endif // TILES
+            REGISTER_ACTION( ACTION_TOGGLE_PANEL_ADM );
             REGISTER_ACTION( ACTION_DISPLAY_SCENT );
             REGISTER_ACTION( ACTION_TOGGLE_DEBUG_MODE );
         } else if( category == _( "Interact" ) ) {
@@ -832,7 +839,7 @@ action_id handle_main_menu()
     const input_context ctxt = get_default_mode_input_context();
     std::vector<uilist_entry> entries;
 
-    auto REGISTER_ACTION = [&]( action_id name ) {
+    const auto REGISTER_ACTION = [&]( action_id name ) {
         entries.emplace_back( name, true, hotkey_for_action( name ),
                               ctxt.get_action_name( action_ident( name ) ) );
     };
@@ -856,9 +863,9 @@ action_id handle_main_menu()
     }
     //border=2, selectors=3, after=3 for balance.
     width += 2 + 3 + 3;
-    int ix = ( TERMX > width ) ? ( TERMX - width ) / 2 - 1 : 0;
-    int iy = ( TERMY > static_cast<int>( entries.size() ) + 2 ) ? ( TERMY - static_cast<int>
-             ( entries.size() ) - 2 ) / 2 - 1 : 0;
+    const int ix = ( TERMX > width ) ? ( TERMX - width ) / 2 - 1 : 0;
+    const int iy = ( TERMY > static_cast<int>( entries.size() ) + 2 ) ? ( TERMY - static_cast<int>
+                   ( entries.size() ) - 2 ) / 2 - 1 : 0;
     int selection = uilist( std::max( ix, 0 ), std::min( width, TERMX - 2 ),
                             std::max( iy, 0 ), _( "MAIN MENU" ), entries );
 
@@ -895,6 +902,12 @@ cata::optional<tripoint> choose_direction( const std::string &message, const boo
 
     const std::string action = ctxt.handle_input();
     if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
+        // Make player's sprite face left/right if interacting with something to the left or right
+        if( vec->x > 0 ) {
+            g->u.facing = FD_RIGHT;
+        } else if( vec->x < 0 ) {
+            g->u.facing = FD_LEFT;
+        }
         return vec;
     } else if( action == "pause" ) {
         return tripoint_zero;
@@ -939,6 +952,8 @@ cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
     }
     if( highlighted ) {
         wrefresh( g->w_terrain );
+        // prevent hiding panels when examining an object
+        g->draw_panels();
     }
 
     return choose_adjacent( message, allow_vertical );

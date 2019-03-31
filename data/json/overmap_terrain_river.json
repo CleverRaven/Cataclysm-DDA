@@ -1,0 +1,112 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": "river_center",
+    "copy-from": "generic_water",
+    "name": "river",
+    "sym": 82,
+    "color": "blue",
+    "see_cost": 1,
+    "mapgen": [ { "method": "builtin", "name": "river_center" } ],
+    "flags": [ "RIVER", "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "river",
+    "copy-from": "generic_water",
+    "name": "river bank",
+    "sym": 82,
+    "color": "light_blue",
+    "see_cost": 1,
+    "mapgen": [ { "method": "builtin", "name": "river_straight" } ],
+    "flags": [ "RIVER" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "river_c_not_ne",
+    "copy-from": "generic_water",
+    "name": "river bank",
+    "sym": 82,
+    "color": "light_blue",
+    "see_cost": 1,
+    "mapgen": [ { "method": "builtin", "name": "river_curved_not" } ],
+    "flags": [ "RIVER", "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "river_c_not_nw",
+    "copy-from": "generic_water",
+    "name": "river bank",
+    "sym": 82,
+    "color": "light_blue",
+    "see_cost": 1,
+    "mapgen": [ { "method": "builtin", "name": "river_curved_not" } ],
+    "flags": [ "RIVER", "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "river_c_not_se",
+    "copy-from": "generic_water",
+    "name": "river bank",
+    "sym": 82,
+    "color": "light_blue",
+    "see_cost": 1,
+    "mapgen": [ { "method": "builtin", "name": "river_curved_not" } ],
+    "flags": [ "RIVER", "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "river_c_not_sw",
+    "copy-from": "generic_water",
+    "name": "river bank",
+    "sym": 82,
+    "color": "light_blue",
+    "see_cost": 1,
+    "mapgen": [ { "method": "builtin", "name": "river_curved_not" } ],
+    "flags": [ "RIVER", "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "river_ne",
+    "copy-from": "generic_water",
+    "name": "river bank",
+    "sym": 82,
+    "color": "light_blue",
+    "see_cost": 1,
+    "mapgen": [ { "method": "builtin", "name": "river_curved" } ],
+    "flags": [ "RIVER", "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "river_se",
+    "copy-from": "generic_water",
+    "name": "river bank",
+    "sym": 82,
+    "color": "light_blue",
+    "see_cost": 1,
+    "mapgen": [ { "method": "builtin", "name": "river_curved" } ],
+    "flags": [ "RIVER", "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "river_sw",
+    "copy-from": "generic_water",
+    "name": "river bank",
+    "sym": 82,
+    "color": "light_blue",
+    "see_cost": 1,
+    "mapgen": [ { "method": "builtin", "name": "river_curved" } ],
+    "flags": [ "RIVER", "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "river_nw",
+    "copy-from": "generic_water",
+    "name": "river bank",
+    "sym": 82,
+    "color": "light_blue",
+    "see_cost": 1,
+    "mapgen": [ { "method": "builtin", "name": "river_curved" } ],
+    "flags": [ "RIVER", "NO_ROTATE" ]
+  }
+]

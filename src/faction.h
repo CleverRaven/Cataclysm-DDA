@@ -4,6 +4,7 @@
 
 #include <vector>
 
+#include "color.h"
 #include "string_id.h"
 
 // TODO: Redefine?
@@ -13,6 +14,7 @@ std::string fac_ranking_text( int val );
 std::string fac_respect_text( int val );
 std::string fac_wealth_text( int val, int size );
 std::string fac_food_supply_text( int val, int size );
+nc_color get_food_supply_color( int val, int size );
 std::string fac_combat_ability_text( int val );
 
 class player;
@@ -158,6 +160,12 @@ class faction_manager
 
         faction *get( const faction_id &id );
 
+        void display() const;
+};
+
+class new_faction_manager
+{
+    public:
         void display() const;
 };
 

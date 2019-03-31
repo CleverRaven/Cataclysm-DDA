@@ -84,7 +84,7 @@ submap *mapbuffer::lookup_submap( const tripoint &p )
 {
     dbg( D_INFO ) << "mapbuffer::lookup_submap( x[" << p.x << "], y[" << p.y << "], z[" << p.z << "])";
 
-    auto iter = submaps.find( p );
+    const auto iter = submaps.find( p );
     if( iter == submaps.end() ) {
         try {
             return unserialize_submaps( p );
@@ -597,7 +597,7 @@ void mapbuffer::deserialize( JsonIn &jsin )
                     } else {
                         sm->trp[p.x][p.y] = trid.id();
                     }
-                    // @todo: remove brazier trap-to-furniture conversion after 0.D
+                    // TODO: remove brazier trap-to-furniture conversion after 0.D
                     jsin.end_array();
                 }
             } else if( submap_member_name == "fields" ) {

@@ -736,7 +736,7 @@ bool inventory::has_charges( const itype_id &it, long quantity,
     return ( charges_of( it, std::numeric_limits<long>::max(), filter ) >= quantity );
 }
 
-int inventory::leak_level( std::string flag ) const
+int inventory::leak_level( const std::string &flag ) const
 {
     int ret = 0;
 
@@ -987,7 +987,7 @@ void inventory::assign_empty_invlet( item &it, const Character &p, const bool fo
 
     std::set<char> cur_inv = p.allocated_invlets();
     itype_id target_type = it.typeId();
-    for( auto iter : assigned_invlet ) {
+    for( const auto &iter : assigned_invlet ) {
         if( iter.second == target_type && !cur_inv.count( iter.first ) ) {
             it.invlet = iter.first;
             return;

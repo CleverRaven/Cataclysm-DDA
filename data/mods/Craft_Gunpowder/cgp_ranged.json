@@ -23,7 +23,7 @@
     "clip_size": 1,
     "reload": 250,
     "loudness" : 25,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "stock", 1 ] ]
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "sling", 1 ], [ "stock", 1 ] ]
   },
   {
     "id": "rifle_38",
@@ -49,7 +49,7 @@
     "clip_size": 1,
     "reload": 250,
     "loudness" : 25,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "stock", 1 ] ]
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "sling", 1 ], [ "stock", 1 ] ]
   },
   {
     "id": "rifle_44",
@@ -75,7 +75,7 @@
     "clip_size": 1,
     "reload": 250,
     "loudness" : 25,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "stock", 1 ] ]
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "sling", 1 ], [ "stock", 1 ] ]
   },
   {
     "id": "rifle_40",
@@ -101,7 +101,7 @@
     "clip_size": 1,
     "reload": 250,
     "loudness" : 25,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "stock", 1 ] ]
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "sling", 1 ], [ "stock", 1 ] ]
   },
   {
     "id": "rifle_223",
@@ -127,7 +127,7 @@
     "clip_size": 1,
     "reload": 200,
     "barrel_length": 4,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "stock", 1 ] ],
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "sling", 1 ], [ "stock", 1 ] ],
     "flags": [ "RELOAD_ONE" ]
   },
   {
@@ -155,7 +155,7 @@
     "magazines": [ [ "22", [ "smg_22_mag" ] ] ],
     "reload": 400,
     "loudness" : 75,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "stock", 1 ] ]
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "brass catcher", 1 ], [ "muzzle", 1 ], [ "sling", 1 ], [ "stock", 1 ] ]
   },
   {
     "id": "smg_38",
@@ -182,7 +182,7 @@
     "magazines": [ [ "38", [ "smg_38_mag" ] ] ],
     "reload": 400,
     "loudness" : 75,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "stock", 1 ] ]
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "brass catcher", 1 ], [ "muzzle", 1 ], [ "sling", 1 ], [ "stock", 1 ] ]
   },
   {
     "id": "smg_9mm",
@@ -209,7 +209,7 @@
     "magazines": [ [ "9mm", [ "smg_9mm_mag" ] ] ],
     "reload": 400,
     "loudness" : 75,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "stock", 1 ] ]
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "brass catcher", 1 ], [ "muzzle", 1 ], [ "sling", 1 ], [ "stock", 1 ] ]
   },
   {
     "id": "smg_40",
@@ -236,7 +236,7 @@
     "magazines": [ [ "40", [ "smg_40_mag" ] ] ],
     "reload": 400,
     "loudness" : 75,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "stock", 1 ] ]
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "brass catcher", 1 ], [ "muzzle", 1 ], [ "sling", 1 ], [ "stock", 1 ] ]
   },
   {
     "id": "smg_45",
@@ -263,6 +263,6 @@
     "magazines": [ [ "45", [ "smg_45_mag" ] ] ],
     "reload": 400,
     "loudness" : 75,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "stock", 1 ] ]
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "brass catcher", 1 ], [ "muzzle", 1 ], [ "sling", 1 ], [ "stock", 1 ] ]
   }
 ]

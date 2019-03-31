@@ -15,6 +15,7 @@
       "items": [ { "item": "rock", "count": [ 5, 15 ] } ]
     },
     "deconstruct": { "items": [ { "item": "rock", "count": 20 } ] },
-    "flags": [ "TRANSPARENT", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM", "EASY_DECONSTRUCT" ]
+    "flags": [ "TRANSPARENT", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM", "EASY_DECONSTRUCT" ],
+    "examine_action": "fireplace"
   }
 ]

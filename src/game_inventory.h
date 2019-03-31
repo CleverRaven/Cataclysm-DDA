@@ -40,7 +40,7 @@ namespace inv
 *
 * The functions here execute customized inventory menus for specific game situations.
 * Each menu displays only related inventory (or nearby) items along with context dependent information.
-* More functions will follow. @todo: update all 'inv_for...()' functions to return @ref item_location instead of
+* More functions will follow. TODO: update all 'inv_for...()' functions to return @ref item_location instead of
 * plain int and move them here.
 * @return Either location of the selected item or null location if none was selected.
 */

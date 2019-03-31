@@ -153,27 +153,13 @@ void bulk_trade_accept( npc &, const itype_id &it )
     g->u.cash += total;
 }
 
-void talk_function::assign_base( npc &p )
-{
-    // TODO: decide what to do upon assign? maybe pathing required
-    basecamp *camp = g->m.camp_at( g->u.pos() );
-    if( !camp ) {
-        dbg( D_ERROR ) << "talk_function::assign_base: Assigned to base but no base here.";
-        return;
-    }
-
-    add_msg( _( "%1$s waits at %2$s" ), p.name, camp->camp_name() );
-    p.mission = NPC_MISSION_BASE;
-    p.set_attitude( NPCATT_NULL );
-}
-
 void talk_function::assign_guard( npc &p )
 {
     add_msg( _( "%s is posted as a guard." ), p.name );
     p.set_attitude( NPCATT_NULL );
     p.mission = NPC_MISSION_GUARD_ALLY;
     p.chatbin.first_topic = "TALK_FRIEND_GUARD";
-    p.set_destination();
+    p.set_omt_destination();
 }
 
 void talk_function::stop_guard( npc &p )
@@ -471,6 +457,7 @@ void talk_function::buy_100_logs( npc &p )
 
 void talk_function::follow( npc &p )
 {
+    g->add_npc_follower( p.getID() );
     p.set_attitude( NPCATT_FOLLOW );
     g->u.cash += p.cash;
     p.cash = 0;
@@ -526,6 +513,7 @@ void talk_function::flee( npc &p )
 void talk_function::leave( npc &p )
 {
     add_msg( _( "%s leaves." ), p.name );
+    g->remove_npc_follower( p.getID() );
     p.set_attitude( NPCATT_NULL );
 }
 

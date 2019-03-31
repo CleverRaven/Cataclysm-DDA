@@ -10,6 +10,7 @@
 
 #include "calendar.h"
 #include "faction.h"
+#include "line.h"
 #include "optional.h"
 #include "pimpl.h"
 #include "player.h"
@@ -59,12 +60,15 @@ enum npc_attitude : int {
     NPCATT_MUG,  // Mug the player
     NPCATT_WAIT_FOR_LEAVE, // Attack the player if our patience runs out
     NPCATT_KILL,  // Kill the player
-    NPCATT_FLEE,  // Get away from the player
+    NPCATT_FLEE,  // Get away from the player; deprecated
     NPCATT_LEGACY_3,
     NPCATT_HEAL,  // Get to the player and heal them
 
     NPCATT_LEGACY_4,
-    NPCATT_LEGACY_5
+    NPCATT_LEGACY_5,
+    NPCATT_ACTIVITY, // Perform a mission activity
+    NPCATT_FLEE_TEMP, // Get away from the player for a while
+    NPCATT_END
 };
 
 std::string npc_attitude_name( npc_attitude );
@@ -86,9 +90,10 @@ enum npc_mission : int {
     NPC_MISSION_LEGACY_2,
     NPC_MISSION_LEGACY_3,
 
-    NPC_MISSION_BASE, // Base Mission: unassigned (Might be used for assigning a npc to stay in a location).
-    NPC_MISSION_GUARD, // Assigns an non-allied NPC to guard a position
     NPC_MISSION_GUARD_ALLY, // Assigns an allied NPC to guard a position
+    NPC_MISSION_GUARD, // Assigns an non-allied NPC to remain in place
+    NPC_MISSION_GUARD_PATROL, // Assigns a non-allied NPC to guard and investigate
+    NPC_MISSION_ACTIVITY, // Perform a player_activity until it is complete
 };
 
 struct npc_companion_mission {
@@ -109,7 +114,7 @@ enum npc_need {
     num_needs
 };
 
-// @todo: Turn the personality struct into a vector/map?
+// TODO: Turn the personality struct into a vector/map?
 enum npc_personality_type : int {
     NPE_AGGRESSION,
     NPE_BRAVERY,
@@ -189,7 +194,6 @@ const std::unordered_map<std::string, combat_engagement> combat_engagement_strs 
     }
 };
 
-
 enum aim_rule {
     // Aim some
     AIM_WHEN_CONVENIENT = 0,
@@ -219,7 +223,8 @@ enum class ally_rule {
     allow_sleep = 64,
     allow_complain = 128,
     allow_pulp = 256,
-    close_doors = 512
+    close_doors = 512,
+    avoid_combat = 1024
 };
 const std::unordered_map<std::string, ally_rule> ally_rule_strs = { {
         { "use_guns", ally_rule::use_guns },
@@ -231,7 +236,8 @@ const std::unordered_map<std::string, ally_rule> ally_rule_strs = { {
         { "allow_sleep", ally_rule::allow_sleep },
         { "allow_complain", ally_rule::allow_complain },
         { "allow_pulp", ally_rule::allow_pulp },
-        { "close_doors", ally_rule::close_doors }
+        { "close_doors", ally_rule::close_doors },
+        { "avoid_combat", ally_rule::avoid_combat }
     }
 };
 
@@ -254,6 +260,16 @@ struct npc_follower_rules {
 
 };
 
+struct dangerous_sound {
+    tripoint pos;
+    int type;
+    int volume;
+};
+
+const direction npc_threat_dir[8] = { NORTHWEST, NORTH, NORTHEAST, EAST,
+                                      SOUTHEAST, SOUTH, SOUTHWEST, WEST
+                                    };
+
 // Data relevant only for this action
 struct npc_short_term_cache {
     float danger;
@@ -261,12 +277,19 @@ struct npc_short_term_cache {
     float danger_assessment;
     // Use weak_ptr to avoid circular references between Creatures
     std::weak_ptr<Creature> target;
-
+    // map of positions / type / volume of suspicious sounds
+    std::vector<dangerous_sound> sound_alerts;
+    // current sound position being investigated
+    tripoint spos;
+    // Position to return to guarding
+    cata::optional<tripoint> guard_pos;
     double my_weapon_value;
 
     // Use weak_ptr to avoid circular references between Creatures
     std::vector<std::weak_ptr<Creature>> friends;
     std::vector<sphere> dangerous_explosives;
+
+    std::map<direction, float> threat_map;
 };
 
 // DO NOT USE! This is old, use strings as talk topic instead, e.g. "TALK_AGREE_FOLLOW" instead of
@@ -528,6 +551,7 @@ class npc : public player
          */
         void add_new_mission( mission *miss );
         skill_id best_skill() const;
+        int best_skill_level() const;
         void starting_weapon( const npc_class_id &type );
 
         // Save & load
@@ -575,6 +599,8 @@ class npc : public player
         bool is_following() const; // Traveling w/ player (whether as a friend or a slave)
         bool is_friend() const; // Allies with the player
         bool is_leader() const; // Leading the player
+        /** is performing a player_activity */
+        bool has_player_activity() const;
         /** Standing in one spot, moving back if removed from it. */
         bool is_guarding() const;
         /** Trusts you a lot. */
@@ -619,6 +645,7 @@ class npc : public player
         void regen_ai_cache();
         const Creature *current_target() const;
         Creature *current_target();
+        tripoint good_escape_direction( bool include_pos = true );
 
         // Interaction and assessment of the world around us
         float danger_assessment();
@@ -631,7 +658,7 @@ class npc : public player
         void say( const char *const line, Args &&... args ) const {
             return say( string_format( line, std::forward<Args>( args )... ) );
         }
-        void say( const std::string &line ) const;
+        void say( const std::string &line, const bool shout = false ) const;
         void decide_needs();
         void die( Creature *killer ) override;
         bool is_dead() const;
@@ -643,7 +670,7 @@ class npc : public player
         // @param force true if the complaint should happen even if not enough time has elapsed since last complaint
         // @param speech words of this complaint
         bool complain_about( const std::string &issue, const time_duration &dur,
-                             const std::string &speech, const bool force = false );
+                             const std::string &speech, const bool force = false, const bool alert = false );
         // wrapper for complain_about that warns about a specific type of threat, with
         // different warnings for hostile or friendly NPCs and hostile NPCs always complaining
         void warn_about( const std::string &type, const time_duration &d = 10_minutes,
@@ -667,7 +694,6 @@ class npc : public player
         /** rates how dangerous a target is from 0 (harmless) to 1 (max danger) */
         float evaluate_enemy( const Creature &target ) const;
 
-        void choose_target();
         void assess_danger();
         // Functions which choose an action for a particular goal
         npc_action method_of_fleeing();
@@ -708,7 +734,7 @@ class npc : public player
         bool dispose_item( item_location &&obj, const std::string &prompt = std::string() ) override;
 
         void aim();
-        void do_reload( item &what );
+        void do_reload( const item &what );
 
         // Physical movement from one tile to the next
         /**
@@ -752,6 +778,8 @@ class npc : public player
         bool find_corpse_to_pulp();
         /** Returns true if it handles the turn. */
         bool do_pulp();
+        /** perform a player activity, returning true if it took up the turn */
+        bool do_player_activity();
 
         // Combat functions and player interaction functions
         void wield_best_melee();
@@ -759,16 +787,16 @@ class npc : public player
         void heal_player( player &patient );
         void heal_self();
         void mug_player( player &mark );
-        void look_for_player( player &sought );
+        void look_for_player( const player &sought );
         bool saw_player_recently() const;// Do we have an idea of where u are?
         /** Returns true if food was consumed, false otherwise. */
         bool consume_food();
 
         // Movement on the overmap scale
-        bool has_destination() const; // Do we have a long-term destination?
-        void set_destination(); // Pick a place to go
-        void go_to_destination(); // Move there; on the micro scale
-        void reach_destination(); // We made it!
+        bool has_omt_destination() const; // Do we have a long-term destination?
+        void set_omt_destination(); // Pick a place to go
+        void go_to_omt_destination(); // Move there; on the micro scale
+        void reach_omt_destination(); // We made it!
 
         void guard_current_pos();
 
@@ -798,6 +826,8 @@ class npc : public player
         bool query_yn( const std::string &mes ) const override;
 
         std::string extended_description() const override;
+
+        std::pair<std::string, nc_color> hp_description() const;
 
         // Note: NPCs use a different speed rating than players
         // Because they can't run yet
@@ -912,11 +942,14 @@ class npc : public player
         void on_load();
 
         /// Set up (start) a companion mission.
-        void set_companion_mission( npc &p, const std::string &id );
+        void set_companion_mission( npc &p, const std::string &mission_id );
+        void set_companion_mission( const tripoint &omt_pos, const std::string &role_id,
+                                    const std::string &mission_id );
         /// Unset a companion mission. Precondition: `!has_companion_mission()`
         void reset_companion_mission();
         bool has_companion_mission() const;
         npc_companion_mission get_companion_mission() const;
+        attitude_group get_attitude_group( npc_attitude att );
 
     protected:
         void store( JsonOut &jsout ) const;
@@ -946,7 +979,7 @@ class standard_npc : public npc
 class npc_template
 {
     public:
-        npc_template() : guy() {}
+        npc_template() {}
 
         npc guy;
 
