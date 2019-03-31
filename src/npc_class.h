@@ -81,7 +81,7 @@ class npc_class
 
         std::map<Mutation_category_tag, distribution> mutation_rounds;
         trait_group::Trait_group_tag traits = trait_group::Trait_group_tag( "EMPTY_GROUP" );
-
+        std::map<bionic_id, int> bionic_list;
         npc_class();
 
         const std::string &get_name() const;

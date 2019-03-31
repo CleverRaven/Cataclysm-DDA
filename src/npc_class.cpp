@@ -282,6 +282,18 @@ void npc_class::load( JsonObject &jo, const std::string & )
             }
         }
     }
+
+    if( jo.has_array( "bionics" ) ) {
+        JsonArray jarr = jo.get_array( "bionics" );
+        while( jarr.has_more() ) {
+            JsonObject bionic_obj = jarr.next_object();
+            auto bionic_ids = bionic_obj.get_tags( "id" );
+            int chance = bionic_obj.get_int( "chance" );
+            for( const auto &bid : bionic_ids ) {
+                bionic_list[ bionic_id( bid )] = chance;
+            }
+        }
+    }
 }
 
 const npc_class_id &npc_class::from_legacy_int( int i )
