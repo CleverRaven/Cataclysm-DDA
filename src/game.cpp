@@ -151,6 +151,9 @@ const skill_id skill_dodge( "dodge" );
 const skill_id skill_driving( "driving" );
 const skill_id skill_firstaid( "firstaid" );
 const skill_id skill_survival( "survival" );
+const skill_id skill_electronics( "electronics" );
+const skill_id skill_mechanics( "mechanics" );
+const skill_id skill_computer( "computer" );
 
 const species_id ZOMBIE( "ZOMBIE" );
 const species_id PLANT( "PLANT" );
@@ -5480,6 +5483,33 @@ bool game::revive_corpse( const tripoint &p, item &it )
     return ret;
 }
 
+void game::save_cyborg( item *cyborg, const tripoint couch_pos, player &installer )
+{
+    float adjusted_skill = installer.bionics_adjusted_skill( skill_firstaid,
+                           skill_computer,
+                           skill_electronics,
+                           -1 );
+    int chance_of_success = bionic_manip_cos( adjusted_skill, true, 12 );
+
+    if( chance_of_success >= rng( 1, 100 ) ) {
+        add_msg( m_good, _( "Successfully removed Personality override." ) );
+        add_msg( m_bad, _( "Autodoc destroys the CBM." ) );
+
+        m.i_rem( couch_pos, cyborg );
+
+        std::shared_ptr<npc> tmp = std::make_shared<npc>();
+        tmp->normalize();
+        tmp->randomize( NC_CYBORG );
+        tmp->spawn_at_precise( { get_levx(), get_levy() }, couch_pos );
+        overmap_buffer.insert_npc( tmp );
+        load_npcs();
+    } else {
+        add_msg( m_neutral, _( "The removal is a failure." ) );
+        add_msg( m_bad, _( "The body is destroyed!" ) );
+        m.i_rem( couch_pos, cyborg );
+    }
+
+}
 static void make_active( item_location loc )
 {
     switch( loc.where() ) {

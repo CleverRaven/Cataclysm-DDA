@@ -474,7 +474,8 @@ class game
          * If reviving failed, the item is unchanged, as is the environment (no new monsters).
          */
         bool revive_corpse( const tripoint &location, item &corpse );
-
+        /**Turns Broken Cyborg monster into Cyborg NPC via surgery*/
+        void save_cyborg( item *cyborg, const tripoint couch_pos, player &installer );
         /**
          * Returns true if the player is allowed to fire a given item, or false if otherwise.
          * reload_time is stored as a side effect of condition testing.
