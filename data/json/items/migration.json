@@ -520,10 +520,5 @@
     "id": "bag_veggy_vac",
     "type": "MIGRATION",
     "replace": "veggy_salted"
-  },
-  {
-    "id": "f_gun_safe_el",
-    "type": "MIGRATION",
-    "replace": "f_gunsafe_el"
   }
 ]
