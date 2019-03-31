@@ -733,7 +733,7 @@
         "id" : "DEAF",
         "name" : "Deaf",
         "points" : -4,
-        "description" : "Your world is in complete slience. You can't talk to NPC's",
+        "description" : "Your not able to hear anything, and as such your not able to talk to NPCs.",
         "starting_trait" : true,
         "prereqs" : ["BADHEARING"],
         "cancels" : ["GOODHEARING"],
