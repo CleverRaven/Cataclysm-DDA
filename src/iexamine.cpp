@@ -3853,7 +3853,7 @@ item &cyborg_on_couch( const tripoint &couch_pos )
         if( it.typeId().c_str() == "bot_broken_cyborg" ) {
             return it;
         }
-        if( &it.typeId == "corpse" ) {
+        if( it.typeId().c_str() == "corpse" ) {
             if( it.get_mtype()->id == "mon_broken_cyborg" ) {
                 return it;
             }
