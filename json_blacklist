@@ -1,7 +1,3 @@
-data/json/mapgen/debug_ramps.json
-data/json/mapgen/diner.json
-data/json/mapgen/evac_center.json
-data/json/mapgen/farm.json
 data/json/mapgen/field_football.json
 data/json/mapgen/garage_gas.json
 data/json/mapgen/garage.json
