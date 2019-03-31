@@ -3850,10 +3850,10 @@ player &player_on_couch( player &p, const tripoint &autodoc_loc, player &null_pa
 item &cyborg_on_couch( const tripoint &couch_pos )
 {
     for( item &it : g->m.i_at( couch_pos ) ) {
-        if( it.typeId == "bot_broken_cyborg" ) {
+        if( it.typeId().c_str() == "bot_broken_cyborg" ) {
             return it;
         }
-        if( it.typeId == "corpse" ) {
+        if( &it.typeId == "corpse" ) {
             if( it.get_mtype()->id == "mon_broken_cyborg" ) {
                 return it;
             }
