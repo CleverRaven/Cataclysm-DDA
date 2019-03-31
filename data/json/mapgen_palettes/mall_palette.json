@@ -142,6 +142,7 @@
       "w": "t_water_sh",
       "x": "t_floor",
       "y": "t_linoleum_gray",
+      "<": "t_stairs_up",
       "z": "t_floor",
       "|": "t_wall"
     },
