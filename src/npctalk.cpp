@@ -1223,6 +1223,7 @@ const talk_topic &special_talk( char ch )
             { 'S', talk_topic( "TALK_SIZE_UP" ) },
             { 'O', talk_topic( "TALK_OPINION" ) },
             { 'Y', talk_topic( "TALK_SHOUT" ) },
+            { 'Q', talk_topic( "TALK_DONE" ) },
         }
     };
 

@@ -122,6 +122,7 @@ bool dialogue_window::print_responses( const int yoffset, const std::vector<talk
     mvwprintz( d_win, curline + 2, xoffset, c_magenta, _( "Shift+S: Size up stats" ) );
     mvwprintz( d_win, curline + 3, xoffset, c_magenta, _( "Shift+Y: Yell" ) );
     mvwprintz( d_win, curline + 4, xoffset, c_magenta, _( "Shift+O: Check opinion" ) );
+    mvwprintz( d_win, curline + 4, xoffset, c_magenta, _( "Shift+Q: Quit dialogue" ) );
     return curline > max_line; // whether there is more to print.
 }
 
@@ -148,6 +149,7 @@ void dialogue_window::display_responses( const int hilight_lines,
     ctxt.register_manual_key( 'S', "Size up stats" );
     ctxt.register_manual_key( 'Y', "Yell" );
     ctxt.register_manual_key( 'O', "Check opinion" );
+    ctxt.register_manual_key( 'Q', "Quit dialogue" );
 #endif
     // adjust scrolling from the last key pressed
     int win_maxy = getmaxy( d_win );

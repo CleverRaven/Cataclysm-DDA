@@ -363,7 +363,7 @@ void npc::assess_danger()
                                        min_priority );
             cur_threat_map[direction_from( pos(), guy.pos() )] += priority;
             if( priority > highest_priority ) {
-                warn_about( warning, 1_minutes, guy.disp_name() );
+                warn_about( warning, 1_minutes );
                 highest_priority = priority;
                 ai_cache.danger = guy_threat;
                 ai_cache.target = g->shared_from( guy );
