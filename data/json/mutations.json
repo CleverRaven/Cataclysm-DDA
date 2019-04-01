@@ -736,7 +736,18 @@
         "starting_trait" : true,
         "category" : ["PLANT"],
         "cancels" : ["GOODHEARING"],
+        "changes_to" : ["DEAF"],
         "hearing_modifier" : 0.5
+    },{
+        "type" : "mutation",
+        "id" : "DEAF",
+        "name" : "Deaf",
+        "points" : -4,
+        "description" : "You're not able to hear anything, and as such you're not able to talk to NPCs.",
+        "starting_trait" : true,
+        "prereqs" : ["BADHEARING"],
+        "cancels" : ["GOODHEARING"],
+        "hearing_modifier" : 0
     },{
         "type" : "mutation",
         "id" : "SLOWLEARNER",
