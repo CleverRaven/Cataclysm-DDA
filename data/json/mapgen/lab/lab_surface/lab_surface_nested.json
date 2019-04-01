@@ -20,6 +20,60 @@
     }
   },
   {
+    "//": "4x4 fancy office upstairs on West side",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_surface_office_W4x4",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "HHBB",
+        "H  d",
+        "  cd",
+        "  ix"
+      ],
+      "items": {
+        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "H": { "item": "bed", "chance": 15 },
+        "i": { "item": "office", "chance": 95 },
+        "B": [
+          { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
+          { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
+        ]
+      },
+      "furniture": { "i": "f_filing_cabinet" },
+      "palettes": [ "lab_surface_palette" ]
+    }
+  },
+  {
+    "//": "4x4 fancy office upstairs on West side",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_surface_office_W4x4",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "HH i",
+        "H  d",
+        "  cd",
+        "  dd"
+      ],
+      "items": {
+        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "H": { "item": "bed", "chance": 15 },
+        "i": { "item": "office", "chance": 95 },
+        "B": [
+          { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
+          { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
+        ]
+      },
+      "furniture": { "i": "f_filing_cabinet" },
+      "palettes": [ "lab_surface_palette" ]
+    }
+  },
+  {
     "//": "4x4 fancy office upstairs on East side",
     "type": "mapgen",
     "method": "json",
@@ -27,7 +81,12 @@
     "object": {
       "mapgensize": [ 4, 4 ],
       "rotation": [ 0, 3 ],
-      "rows": [ "dd H", "dc H", "d   ", "BBB " ],
+      "rows": [
+        "dd H",
+        "dc H",
+        "d   ",
+        "BBB "
+      ],
       "items": {
         "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
         "H": { "item": "bed", "chance": 15 },
@@ -40,6 +99,60 @@
     }
   },
   {
+    "//": "4x4 fancy office upstairs on East side",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_surface_office_E4x4",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "BBHH",
+        "d  H",
+        "dc  ",
+        "xi  "
+      ],
+      "items": {
+        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "H": { "item": "bed", "chance": 15 },
+        "i": { "item": "office", "chance": 95 },
+        "B": [
+          { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
+          { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
+        ]
+      },
+      "furniture": { "i": "f_filing_cabinet" },
+      "palettes": [ "lab_surface_palette" ]
+    }
+  },
+  {
+    "//": "4x4 fancy office upstairs on East side",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_surface_office_E4x4",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "i HH",
+        "d  H",
+        "dc  ",
+        "dd  "
+      ],
+      "items": {
+        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "H": { "item": "bed", "chance": 15 },
+        "i": { "item": "office", "chance": 95 },
+        "B": [
+          { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
+          { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
+        ]
+      },
+      "furniture": { "i": "f_filing_cabinet" },
+      "palettes": [ "lab_surface_palette" ]
+    }
+  },
+  {
     "//": "4x4 upstairs office with south wall door on west side",
     "type": "mapgen",
     "method": "json",
@@ -47,7 +160,120 @@
     "object": {
       "mapgensize": [ 4, 4 ],
       "rotation": [ 0, 3 ],
-      "rows": [ "dddd", "i c ", "    ", " HHH" ],
+      "rows": [
+        "dddd",
+        "i c ",
+        "    ",
+        " HHH"
+      ],
+      "items": {
+        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "H": { "item": "bed", "chance": 15 },
+        "i": { "item": "office", "chance": 95 },
+        "B": [
+          { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
+          { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
+        ]
+      },
+      "furniture": { "i": "f_filing_cabinet" },
+      "palettes": [ "lab_surface_palette" ]
+    }
+  },
+  {
+    "//": "4x4 upstairs office with south wall door on west side",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_surface_office_SWdoor4x4",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "B cd",
+        "B  d",
+        "i  d",
+        "  cd"
+      ],
+      "items": {
+        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "H": { "item": "bed", "chance": 15 },
+        "i": { "item": "office", "chance": 95 },
+        "B": [
+          { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
+          { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
+        ]
+      },
+      "furniture": { "i": "f_filing_cabinet" },
+      "palettes": [ "lab_surface_palette" ]
+    }
+  },
+  {
+    "//": "4x4 upstairs office with south wall door on west side",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_surface_office_SWdoor4x4",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "ddiB",
+        "dc i",
+        "  cd",
+        "  dd"
+      ],
+      "items": {
+        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "H": { "item": "bed", "chance": 15 },
+        "i": { "item": "office", "chance": 95 },
+        "B": [
+          { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
+          { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
+        ]
+      },
+      "furniture": { "i": "f_filing_cabinet" },
+      "palettes": [ "lab_surface_palette" ]
+    }
+  },
+  {
+    "//": "4x4 upstairs office with south wall door on west side",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_surface_office_SWdoor4x4",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "BBHH",
+        "i   ",
+        "  cd",
+        " xdd"
+      ],
+      "items": {
+        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "H": { "item": "bed", "chance": 15 },
+        "i": { "item": "office", "chance": 95 },
+        "B": [
+          { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
+          { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
+        ]
+      },
+      "furniture": { "i": "f_filing_cabinet" },
+      "palettes": [ "lab_surface_palette" ]
+    }
+  },
+  {
+    "//": "4x4 upstairs office with south wall door on west side",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_surface_office_SWdoor4x4",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "dddd",
+        "cddc",
+        "    ",
+        " iBB"
+      ],
       "items": {
         "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
         "H": { "item": "bed", "chance": 15 },
@@ -70,6 +296,114 @@
       "mapgensize": [ 4, 4 ],
       "rotation": [ 0, 3 ],
       "rows": [ "dddd", "ic  ", "B   ", "BBB " ],
+      "items": {
+        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "H": { "item": "bed", "chance": 15 },
+        "i": { "item": "office", "chance": 95 },
+        "B": [
+          { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
+          { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
+        ]
+      },
+      "furniture": { "i": "f_filing_cabinet" },
+      "palettes": [ "lab_surface_palette" ]
+    }
+  },
+  {
+    "//": "4x4 upstairs office with south wall door on East side",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_surface_office_SEdoor4x4",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "dc B",
+        "d  B",
+        "d  i",
+        "dc  "
+      ],
+      "items": {
+        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "H": { "item": "bed", "chance": 15 },
+        "i": { "item": "office", "chance": 95 },
+        "B": [
+          { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
+          { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
+        ]
+      },
+      "furniture": { "i": "f_filing_cabinet" },
+      "palettes": [ "lab_surface_palette" ]
+    }
+  },
+  {
+    "//": "4x4 upstairs office with south wall door on East side",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_surface_office_SEdoor4x4",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "Bidd",
+        "i cd",
+        "dc  ",
+        "dd  "
+      ],
+      "items": {
+        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "H": { "item": "bed", "chance": 15 },
+        "i": { "item": "office", "chance": 95 },
+        "B": [
+          { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
+          { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
+        ]
+      },
+      "furniture": { "i": "f_filing_cabinet" },
+      "palettes": [ "lab_surface_palette" ]
+    }
+  },
+  {
+    "//": "4x4 upstairs office with south wall door on East side",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_surface_office_SEdoor4x4",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "HHBB",
+        "   i",
+        "dc  ",
+        "ddx "
+      ],
+      "items": {
+        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "H": { "item": "bed", "chance": 15 },
+        "i": { "item": "office", "chance": 95 },
+        "B": [
+          { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
+          { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
+        ]
+      },
+      "furniture": { "i": "f_filing_cabinet" },
+      "palettes": [ "lab_surface_palette" ]
+    }
+  },
+  {
+    "//": "4x4 upstairs office with south wall door on East side",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_surface_office_SEdoor4x4",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "dddd",
+        "cddc",
+        "    ",
+        "BBi "
+      ],
       "items": {
         "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
         "H": { "item": "bed", "chance": 15 },
