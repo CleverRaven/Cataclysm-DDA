@@ -5491,6 +5491,12 @@ void game::save_cyborg( item *cyborg, const tripoint couch_pos, player &installe
                            -1 );
     int chance_of_success = bionic_manip_cos( adjusted_skill, true, 12 );
 
+    if( !g->u.query_yn(
+            _( "WARNING: %i percent chance of SEVERE damage to all body parts! Continue anyway?" ),
+            ( 100 - static_cast<int>( chance_of_success ) ) ) ) {
+        return;
+    }
+
     if( chance_of_success >= rng( 1, 100 ) ) {
         add_msg( m_good, _( "Successfully removed Personality override." ) );
         add_msg( m_bad, _( "Autodoc destroys the CBM." ) );

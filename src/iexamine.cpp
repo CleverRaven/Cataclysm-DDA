@@ -3937,23 +3937,23 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         if( &cyborg != &null_cyborg ) {
             uilist cmenu;
             cmenu.text = _( "Autodoc Mk. XI.  Status: Online.  Please choose operation." );
-            cmenu.addentry( INSTALL_CBM, true, 'i', _( "Choose Compact Bionic Module to install." ) );
-            cmenu.addentry( UNINSTALL_CBM, true, 'u', _( "Choose installed bionic to uninstall." ) );
+            cmenu.addentry( 1, true, 'i', _( "Choose Compact Bionic Module to install." ) );
+            cmenu.addentry( 2, true, 'u', _( "Choose installed bionic to uninstall." ) );
             cmenu.query();
 
             switch( cmenu.ret ) {
-                case INSTALL_CBM: {
+                case 1: {
                     popup( _( "ERROR NO SPACE AVAILABLE.  Operation impossible.  Exiting." ) );
                     break;
                 }
-                case UNINSTALL_CBM: {
+                case 2: {
                     std::vector<std::string> choice_names;
                     choice_names.push_back( "Personality_Override" );
                     for( size_t i = 0; i < 6; i++ ) {
                         choice_names.push_back( "C0RR#PTED?D#TA" );
                     }
                     int choice_index = uilist( _( "Choose bionic to uninstall" ), choice_names );
-                    if( choice_index == 1 ) {
+                    if( choice_index == 0 ) {
                         g->save_cyborg( &cyborg, couch_pos, p );
                     } else {
                         popup( _( "UNKNWON COMMAND.  Autodoc Mk. XI. Crashed." ) );
@@ -3964,7 +3964,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 default:
                     return;
             }
-
+            return;
         } else {
             popup( _( "No patient found located on the connected couches.  Operation impossible.  Exiting." ) );
             return;
