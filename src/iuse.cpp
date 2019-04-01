@@ -3070,10 +3070,12 @@ int iuse::drill( player *p, item *it, bool, const tripoint & )
     const ter_id type = g->m.ter( pnt );
     const furn_id furn = g->m.furn( pnt );
     time_duration duration = 5_minutes;
-    if( type == t_chaingate_l || type == t_door_locked || type == t_door_locked_alarm || type == t_door_locked_interior || type == t_door_locked_peep || type == t_door_metal_pickable || type == t_door_bar_locked || type == t_door_metal_locked ) {
+    if( type == t_chaingate_l || type == t_door_locked || type == t_door_locked_alarm ||
+        type == t_door_locked_interior || type == t_door_locked_peep || type == t_door_metal_pickable ||
+        type == t_door_bar_locked || type == t_door_metal_locked ) {
         duration = 5_minutes;
     } else if( furn == f_safe_l || furn == f_gunsafe_ml || furn == f_gunsafe_el ||
-             furn == f_gunsafe_mj ) {
+               furn == f_gunsafe_mj ) {
         duration = 30_minutes;
         charges *= 10;
     } else {
@@ -4435,10 +4437,11 @@ int iuse::oxytorch( player *p, item *it, bool, const tripoint & )
     } else if( ter == t_door_metal_locked || ter == t_door_metal_c || ter == t_door_bar_c ||
                ter == t_door_bar_locked || ter == t_door_metal_pickable ) {
         moves = 1500;
-    } else if ( furn == f_safe_l || furn == f_gunsafe_el || furn == f_gunsafe_mj || furn == f_gunsafe_ml ) {
-        moves = to_moves<int>( std::max( 150_minutes - 20_minutes * ( p->get_skill_level( skill_mechanics ) - 3 ) - 10_minutes * ( p->get_per() - 8 ), 30_minutes ) );
-    }
-    else {
+    } else if( furn == f_safe_l || furn == f_gunsafe_el || furn == f_gunsafe_mj ||
+               furn == f_gunsafe_ml ) {
+        moves = to_moves<int>( std::max( 150_minutes - 20_minutes * ( p->get_skill_level(
+                                             skill_mechanics ) - 3 ) - 10_minutes * ( p->get_per() - 8 ), 30_minutes ) );
+    } else {
         add_msg( m_info, _( "You can't cut that." ) );
         return 0;
     }
