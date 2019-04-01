@@ -1098,7 +1098,7 @@ void iexamine::safe( player &p, const tripoint &examp )
             g->m.furn_set( examp, f_safe_o );
             return;
         } else {
-            p.add_msg_if_player( m_info, _( "You mess with the dial for a little bit." ) );
+            p.add_msg_if_player( m_info, _( "You mess with the dial for a little bit, thinking of other ways to open it." ) );
             return;
         }
     }
@@ -1130,6 +1130,7 @@ void iexamine::gunsafe_ml( player &p, const tripoint &examp )
            p.has_amount( "fc_hairpin", 1 ) ||
            p.has_amount( "picklocks", 1 ) || p.has_bionic( bionic_id( "bio_lockpick" ) ) ) ) {
         add_msg( m_info, _( "You need a lockpick to open this gun safe." ) );
+        add_msg( m_info, _( "But there are ways and there are other ways." ) );
         return;
     } else if( !query_yn( _( "Pick the gun safe?" ) ) ) {
         return;
@@ -1194,8 +1195,8 @@ void iexamine::gunsafe_el( player &p, const tripoint &examp )
                 m_info,
                 p.get_skill_level( skill_computer ) > 0 ?
                 _( "You can't hack this gun safe without a hacking tool." ) :
-                _( "This electronic safe looks too complicated to open." )
-            );
+                _( "This electronic safe looks too complicated to open." ) );
+            add_msg( m_info, _( "But there are ways and there are other ways." ) );
             break;
     }
 }
