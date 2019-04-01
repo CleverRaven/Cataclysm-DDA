@@ -910,6 +910,27 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "s_pizza_parlor_roof",
+    "name": "pizza parlor roof",
+    "copy-from": "generic_city_building",
+    "color": "pink_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_pizza_parlor_1",
+    "name": "pizza parlor",
+    "copy-from": "generic_city_building",
+    "color": "pink_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_pizza_parlor_roof_1",
+    "name": "pizza parlor roof",
+    "copy-from": "generic_city_building",
+    "color": "pink_magenta"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "sub_station",
     "name": "subway station",
     "sym": 83,
