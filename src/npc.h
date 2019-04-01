@@ -624,6 +624,7 @@ class npc : public player
         int value( const item &it ) const;
         int value( const item &it, int market_price ) const;
         bool wear_if_wanted( const item &it );
+        void stow_item( item &it );
         bool wield( item &it ) override;
         bool adjust_worn();
         bool has_healing_item( bool bleed = false, bool bite = false, bool infect = false );
@@ -782,7 +783,6 @@ class npc : public player
         bool do_player_activity();
 
         // Combat functions and player interaction functions
-        void wield_best_melee();
         bool alt_attack(); // Returns true if did something
         void heal_player( player &patient );
         void heal_self();
