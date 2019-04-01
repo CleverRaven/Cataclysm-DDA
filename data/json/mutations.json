@@ -365,15 +365,16 @@
         "description" : "Peaceful animals will not run away from you, and even aggressive animals are less likely to attack.  This only applies to natural animals such as woodland creatures.",
         "starting_trait" : true,
         "category" : ["BEAST", "ELFA"],
+        "changes_to" : ["ANIMALEMPATH2"],
         "cancels" : ["ANIMALDISCORD"]
     },{
         "type" : "mutation",
         "id" : "ANIMALEMPATH2",
         "name" : "Animal Kinship",
         "points" : 2,
-        "description" : "Something about your presence is calming to animals, and they will treat you with innate trust.",
-        "starting_trait" : true,
+        "description" : "Something about your presence is calming to animals, and they will treat you with innate trust. This only applies to natural animals such as woodland creatures.",
         "category" : ["ELFA"],
+        "prereqs" : ["ANIMALEMPATH"],
         "cancels" : ["ANIMALDISCORD"]
     },{
         "type" : "mutation",
