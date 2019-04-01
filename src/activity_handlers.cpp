@@ -2586,7 +2586,7 @@ void activity_handlers::cracking_do_turn( player_activity *act, player *p )
 
 void activity_handlers::drill_do_turn( player_activity *act, player *p )
 {
-    if( !p->has_amount( "cordless_drill", 1 ) ) {
+    if( !p->has_quality( quality_id( "DRILL" ), 3 ) ) {
         // We lost our tool somehow, bail out.
         act->set_to_null();
         return;
@@ -2605,36 +2605,36 @@ void activity_handlers::drill_finish( player_activity *act, player *p )
     const furn_id furn = g->m.furn( act->placement );
     ter_id new_type = t_concrete;
     std::string open_message;
-
+    bool is_safe = false;
+    
     if( type == t_chaingate_l ) {
         new_type = t_chaingate_c;
-        open_message = _( "You drill through the lock and the chain-link gate opens." );
     } else if( type == t_door_locked || type == t_door_locked_alarm ||
                type == t_door_locked_interior ) {
         new_type = t_door_c;
-        open_message = _( "You drill through the lock and the door opens." );
     } else if( type == t_door_locked_peep ) {
         new_type = t_door_c_peep;
-        open_message = _( "You drill through the lock and the door opens." );
     } else if( type == t_door_metal_pickable || type == t_door_metal_locked ) {
         new_type = t_door_metal_c;
-        open_message = _( "You drill through the lock and the door opens." );
     } else if( type == t_door_bar_locked ) {
         new_type = t_door_bar_o;
-        //Bar doors auto-open (and lock if closed again) so show a different message)
-        open_message = _( "The door swings open..." );
-    } else {
-        open_message = _( "You drill through the lock mechanisms and it opens." );
     }
 
     if( furn == f_safe_l ) {
         g->m.furn_set( pos, f_safe_o );
+        is_safe = true;
     } else if( furn == f_gunsafe_ml || furn == f_gunsafe_el || furn == f_gunsafe_mj ) {
         g->m.furn_set( pos, f_gunsafe_o );
+        is_safe = true;
     } else {
         g->m.ter_set( pos, new_type );
     }
 
+    if ( !is_safe ) {
+        open_message = _( "You drill through the lock and it opens." );
+    } else {
+        open_message = _( "You drill through the lock mechanism and it opens." );
+    }
     p->practice( skill_mechanics, 1 );
     p->add_msg_if_player( m_good, open_message );
 
