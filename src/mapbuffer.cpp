@@ -456,7 +456,7 @@ void mapbuffer::deserialize( JsonIn &jsin )
         while( !jsin.end_object() ) {
             std::string submap_member_name = jsin.get_member_name();
             if( submap_member_name == "version" ) {
-                if( jsin.get_int() < 22 ) {
+                if( jsin.get_int() < 26 ) {
                     rubpow_update = true;
                 }
             } else if( submap_member_name == "coordinates" ) {
@@ -552,7 +552,12 @@ void mapbuffer::deserialize( JsonIn &jsin )
                     jsin.start_array();
                     int i = jsin.get_int();
                     int j = jsin.get_int();
-                    sm->frn[i][j] = furn_id( jsin.get_string() );
+                    if( jsin.get_string() == "f_gun_safe_el" ) {
+                        sm->frn[i][j] = furn_id( "f_gunsafe_el" );
+                    } else {
+                        sm->frn[i][j] = furn_id( jsin.get_string() );
+                    }
+
                     jsin.end_array();
                 }
             } else if( submap_member_name == "items" ) {
