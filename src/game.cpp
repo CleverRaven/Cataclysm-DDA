@@ -5496,7 +5496,8 @@ void game::save_cyborg( item *cyborg, const tripoint couch_pos, player &installe
 
     if( damage != 0 ) {
 
-        popup( _( "WARNING: Patient's body is damaged.  Difficulty of the procedure is increased by %s." ),dmg_lvl );
+        popup( _( "WARNING: Patient's body is damaged.  Difficulty of the procedure is increased by %s." ),
+               dmg_lvl );
 
         difficulty += dmg_lvl;// damage of the corpse increases difficulty
     }
