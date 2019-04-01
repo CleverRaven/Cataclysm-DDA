@@ -2817,7 +2817,7 @@ void game::write_memorial_file( std::string sLastWords )
 
     if( get_options().has_option( "ENCODING_CONV" ) && !get_option<bool>( "ENCODING_CONV" ) ) {
         // Use the default locale to replace non-printable characters with _ in the player name.
-        std::locale locale {"C" };
+        std::locale locale {"C"};
         std::replace_copy_if( std::begin( u.name ), std::begin( u.name ) + truncated_name_len,
                               std::ostream_iterator<char>( memorial_file_path ),
         [&]( const char c ) {
@@ -4879,7 +4879,7 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
                                  force_remaining );
                     }
                     u.add_effect( effect_stunned, 1_turns * force_remaining );
-                    std::array<body_part, 8> bps = { {
+                    std::array<body_part, 8> bps = {{
                             bp_head,
                             bp_arm_l, bp_arm_r,
                             bp_hand_l, bp_hand_r,
@@ -5640,7 +5640,7 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
     for( int i = 0; i < 20; i++ ) {
         const int x_ = x + rng( -1, +1 );
         const int y_ = y + rng( -1, +1 );
-        if( is_empty( {x_, y_, get_levz() } ) ) {
+        if( is_empty( {x_, y_, get_levz()} ) ) {
             // invert direction, as game::knockback needs
             // the source of the force that knocks back
             kbx = -x_ + x + x;
@@ -9200,7 +9200,7 @@ void game::butcher()
         if( salvageables.size() > 1 ) {
             int time_to_salvage = 0;
             for( const auto &stack : salvage_stacks ) {
-                const item &it = items[stack.first];
+                const item &it = items[ stack.first ];
                 time_to_salvage += salvage_iuse->time_to_cut_up( it ) * stack.second;
             }
 
