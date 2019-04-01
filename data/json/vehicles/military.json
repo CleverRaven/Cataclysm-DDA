@@ -450,7 +450,7 @@
       { "y": 1, "x": 2, "parts": [ "diesel_engine_v8", "alternator_truck", "battery_car" ] },
       { "y": 0, "x": 2, "parts": [ "hdframe_horizontal", "hdhalfboard_horizontal", "plating_military" ] },
       { "y": 0, "x": 2, "parts": [ "headlight_reinforced" ] },
-      { "y": -1, "x": 2, "parts": [ "hdframe_horizontal", "hdhalfboard_ne", "plating_military" ] },
+      { "y": -1, "x": 2, "parts": [ "hdframe_horizontal", "hdhalfboard_nw", "plating_military" ] },
       { "y": -1, "x": 2, "parts": [ "wheel_armor_steerable" ] },
       { "y": 3, "x": 1, "parts": [ "hdframe_vertical", "reinforced_windshield" ] },
       { "y": 2, "x": 1, "parts": [ "hdframe_horizontal", "reinforced_windshield" ] },
