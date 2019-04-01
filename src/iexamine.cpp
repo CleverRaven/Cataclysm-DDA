@@ -4524,7 +4524,7 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
 void iexamine::open_safe( player &, const tripoint &examp )
 {
     add_msg( m_info, _( "You open the unlocked safe. " ) );
-    g->m.furn_set( examp, f_safe_o );
+    g->m.furn_set( examp, g->m.furn( examp )->open );
 }
 
 /**
