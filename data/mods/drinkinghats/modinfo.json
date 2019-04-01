@@ -1,12 +1,18 @@
 {
-   "type": "MOD_INFO",
-   "mod_type": "SUPPLEMENTAL",
-   "ident": "drinkinghats",
-   "name": "Drinking Hats",
-   "authors": [ "Astraltor" ],
-   "maintainers": [ "Astraltor" ],
-   "dependencies": [],
-   "category": "items",
-   "description": "Fun headgear variants for parties and family friendly events! https://github.com/Tsunder/drinkinghats/",
-   "path": ""
+  "type": "MOD_INFO",
+  "mod_type": "SUPPLEMENTAL",
+  "ident": "drinkinghats",
+  "name": "Drinking Hats",
+  "authors": [
+    "Astraltor"
+  ],
+  "maintainers": [
+    "Astraltor"
+  ],
+  "dependencies": [
+    
+  ],
+  "category": "items",
+  "description": "Fun headgear variants for parties and family friendly events! https://github.com/Tsunder/drinkinghats/",
+  "path": ""
 }

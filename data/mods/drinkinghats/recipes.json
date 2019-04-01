@@ -9,12 +9,12 @@
     "time": 10000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ 
-      [ [ "helmet_lobster", 1] ],
+    "components": [
+      [ [ "helmet_lobster", 1 ] ],
       [ [ "hose", 1 ] ],
-      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ],
-      [ [ "duct_tape", 25], [ "superglue", 1 ] ]
-    ] 
+      [ [ "bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2 ] ],
+      [ [ "duct_tape", 25 ], [ "superglue", 1 ] ]
+    ]
   },
   {
     "result": "helmet_motor_drinking",
@@ -26,12 +26,12 @@
     "time": 10000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ 
-      [ [ "helmet_motor", 1] ],
+    "components": [
+      [ [ "helmet_motor", 1 ] ],
       [ [ "hose", 1 ] ],
-      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ],
-      [ [ "duct_tape", 25], [ "superglue", 1 ] ]
-    ] 
+      [ [ "bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2 ] ],
+      [ [ "duct_tape", 25 ], [ "superglue", 1 ] ]
+    ]
   },
   {
     "result": "firehelmet_drinking",
@@ -43,12 +43,12 @@
     "time": 10000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ 
-      [ [ "firehelmet", 1] ],
+    "components": [
+      [ [ "firehelmet", 1 ] ],
       [ [ "hose", 1 ] ],
-      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ],
-      [ [ "duct_tape", 25], [ "superglue", 1 ] ]
-    ] 
+      [ [ "bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2 ] ],
+      [ [ "duct_tape", 25 ], [ "superglue", 1 ] ]
+    ]
   },
   {
     "result": "hat_hard_drinking",
@@ -60,12 +60,12 @@
     "time": 10000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ 
-      [ [ "hat_hard", 1] ],
+    "components": [
+      [ [ "hat_hard", 1 ] ],
       [ [ "hose", 1 ] ],
-      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ],
-      [ [ "duct_tape", 25], [ "superglue", 1 ] ]
-    ] 
+      [ [ "bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2 ] ],
+      [ [ "duct_tape", 25 ], [ "superglue", 1 ] ]
+    ]
   },
   {
     "result": "hat_hard_hooded_drinking",
@@ -77,12 +77,12 @@
     "time": 10000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ 
-      [ [ "hat_hard_hooded", 1] ],
+    "components": [
+      [ [ "hat_hard_hooded", 1 ] ],
       [ [ "hose", 1 ] ],
-      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ],
-      [ [ "duct_tape", 25], [ "superglue", 1 ] ]
-    ] 
+      [ [ "bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2 ] ],
+      [ [ "duct_tape", 25 ], [ "superglue", 1 ] ]
+    ]
   },
   {
     "result": "headgear_drinking",
@@ -94,12 +94,12 @@
     "time": 10000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ 
-      [ [ "headgear", 1] ],
+    "components": [
+      [ [ "headgear", 1 ] ],
       [ [ "hose", 1 ] ],
-      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ],
-      [ [ "duct_tape", 25], [ "superglue", 1 ] ]
-    ] 
+      [ [ "bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2 ] ],
+      [ [ "duct_tape", 25 ], [ "superglue", 1 ] ]
+    ]
   },
   {
     "result": "helmet_bike_drinking",
@@ -111,12 +111,12 @@
     "time": 10000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ 
-      [ [ "helmet_bike", 1] ],
+    "components": [
+      [ [ "helmet_bike", 1 ] ],
       [ [ "hose", 1 ] ],
-      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ],
-      [ [ "duct_tape", 25], [ "superglue", 1 ] ]
-    ] 
+      [ [ "bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2 ] ],
+      [ [ "duct_tape", 25 ], [ "superglue", 1 ] ]
+    ]
   },
   {
     "result": "helmet_football_drinking",
@@ -128,12 +128,12 @@
     "time": 10000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ 
-      [ [ "helmet_football", 1] ],
+    "components": [
+      [ [ "helmet_football", 1 ] ],
       [ [ "hose", 1 ] ],
-      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ],
-      [ [ "duct_tape", 25], [ "superglue", 1 ] ]
-    ] 
+      [ [ "bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2 ] ],
+      [ [ "duct_tape", 25 ], [ "superglue", 1 ] ]
+    ]
   },
   {
     "result": "helmet_skid_drinking",
@@ -145,12 +145,12 @@
     "time": 10000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ 
-      [ [ "helmet_skid", 1] ],
+    "components": [
+      [ [ "helmet_skid", 1 ] ],
       [ [ "hose", 1 ] ],
-      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ],
-      [ [ "duct_tape", 25], [ "superglue", 1 ] ]
-    ] 
+      [ [ "bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2 ] ],
+      [ [ "duct_tape", 25 ], [ "superglue", 1 ] ]
+    ]
   },
   {
     "result": "tac_helmet_drinking",
@@ -162,12 +162,12 @@
     "time": 10000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ 
-      [ [ "tac_helmet", 1] ],
+    "components": [
+      [ [ "tac_helmet", 1 ] ],
       [ [ "hose", 1 ] ],
-      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ],
-      [ [ "duct_tape", 25], [ "superglue", 1 ] ]
-    ] 
+      [ [ "bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2 ] ],
+      [ [ "duct_tape", 25 ], [ "superglue", 1 ] ]
+    ]
   },
   {
     "result": "helmet_army_drinking",
@@ -179,12 +179,12 @@
     "time": 10000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ 
-      [ [ "helmet_army", 1] ],
+    "components": [
+      [ [ "helmet_army", 1 ] ],
       [ [ "hose", 1 ] ],
-      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ],
-      [ [ "duct_tape", 25], [ "superglue", 1 ] ]
-    ] 
+      [ [ "bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2 ] ],
+      [ [ "duct_tape", 25 ], [ "superglue", 1 ] ]
+    ]
   },
   {
     "result": "kevlar_drinking",
@@ -196,12 +196,12 @@
     "time": 10000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ 
-      [ [ "kevlar", 1] ],
+    "components": [
+      [ [ "kevlar", 1 ] ],
       [ [ "hose", 1 ] ],
-      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ],
-      [ [ "duct_tape", 25], [ "superglue", 1 ] ]
-    ] 
+      [ [ "bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2 ] ],
+      [ [ "duct_tape", 25 ], [ "superglue", 1 ] ]
+    ]
   },
   {
     "result": "modularvest_drinking",
@@ -213,12 +213,12 @@
     "time": 10000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ 
-      [ [ "modularvest", 1] ],
+    "components": [
+      [ [ "modularvest", 1 ] ],
       [ [ "hose", 1 ] ],
-      [ [ "bottle_plastic", 4 ]],
-      [ [ "duct_tape", 25], [ "superglue", 1 ] ]
-    ] 
+      [ [ "bottle_plastic", 4 ] ],
+      [ [ "duct_tape", 25 ], [ "superglue", 1 ] ]
+    ]
   },
   {
     "result": "helmet_survivor_drinking",
@@ -231,21 +231,29 @@
     "time": 60000,
     "autolearn": true,
     "using": [ [ "filament", 10 ] ],
-    "qualities": [
-      { "id": "CUT", "level": 1 },
-      { "id": "SEW", "level": 1 }
-    ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SEW", "level": 1 } ],
     "tools": [ [ [ "welder", 63 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
     "components": [
       [ [ "hose", 1 ] ],
-      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ],
+      [ [ "bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2 ] ],
       [ [ "helmet_liner", 1 ], [ "hat_cotton", 1 ], [ "rag", 4 ] ],
       [ [ "tac_helmet", 1 ], [ "tac_fullhelmet", 1 ], [ "helmet_army", 1 ], [ "kevlar_plate", 6 ] ],
       [ [ "kevlar_plate", 2 ] ],
       [ [ "hood_rain", 2 ], [ "bag_plastic", 4 ] ],
       [ [ "leather", 16 ], [ "tanned_hide", 3 ] ],
       [ [ "duct_tape", 175 ] ],
-      [ [ "helmet_riot", 1 ], [ "helmet_motor", 1 ], [ "helmet_football", 1 ], [ "helmet_ball", 1 ], [ "helmet_skid", 1 ], [ "helmet_bike", 1 ], [ "hat_hard", 1 ], [ "firehelmet", 1 ], [ "pickelhaube", 1 ], [ "plastic_chunk", 8 ] ],
+      [
+        [ "helmet_riot", 1 ],
+        [ "helmet_motor", 1 ],
+        [ "helmet_football", 1 ],
+        [ "helmet_ball", 1 ],
+        [ "helmet_skid", 1 ],
+        [ "helmet_bike", 1 ],
+        [ "hat_hard", 1 ],
+        [ "firehelmet", 1 ],
+        [ "pickelhaube", 1 ],
+        [ "plastic_chunk", 8 ]
+      ],
       [ [ "plastic_chunk", 3 ] ]
     ]
   },
@@ -260,14 +268,17 @@
     "time": 75000,
     "autolearn": true,
     "using": [ [ "filament", 20 ] ],
-    "qualities": [
-      { "id": "CUT", "level": 1 },
-      { "id": "SEW", "level": 1 }
-    ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SEW", "level": 1 } ],
     "tools": [ [ [ "welder", 105 ], [ "welder_crude", 158 ], [ "soldering_iron", 158 ], [ "toolset", 158 ] ] ],
     "components": [
       [ [ "hose", 1 ] ],
-      [ ["bottle_plastic_small", 4 ], [ "can_drink", 4 ], [ "can_drink_unsealed", 4 ], [ "bottle_plastic", 2 ], [ "flask_hip", 4]],
+      [
+        [ "bottle_plastic_small", 4 ],
+        [ "can_drink", 4 ],
+        [ "can_drink_unsealed", 4 ],
+        [ "bottle_plastic", 2 ],
+        [ "flask_hip", 4 ]
+      ],
       [ [ "scrap", 4 ] ],
       [ [ "rag", 6 ] ],
       [ [ "leather", 16 ], [ "tanned_hide", 3 ] ],
@@ -288,14 +299,17 @@
     "time": 90000,
     "autolearn": true,
     "using": [ [ "filament", 30 ] ],
-    "qualities": [
-      { "id": "CUT", "level": 1 },
-      { "id": "SEW", "level": 1 }
-    ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SEW", "level": 1 } ],
     "tools": [ [ [ "welder", 126 ], [ "welder_crude", 189 ], [ "soldering_iron", 189 ], [ "toolset", 189 ] ] ],
     "components": [
       [ [ "hose", 1 ] ],
-      [ ["bottle_plastic_small", 4 ], [ "can_drink", 4 ], [ "can_drink_unsealed", 4 ], [ "bottle_plastic", 2 ], [ "flask_hip", 4]],
+      [
+        [ "bottle_plastic_small", 4 ],
+        [ "can_drink", 4 ],
+        [ "can_drink_unsealed", 4 ],
+        [ "bottle_plastic", 2 ],
+        [ "flask_hip", 4 ]
+      ],
       [ [ "scrap", 8 ] ],
       [ [ "rag", 10 ] ],
       [ [ "leather", 24 ], [ "tanned_hide", 4 ] ],
@@ -316,21 +330,29 @@
     "time": 60000,
     "autolearn": true,
     "using": [ [ "filament", 10 ] ],
-    "qualities": [
-      { "id": "CUT", "level": 1 },
-      { "id": "SEW", "level": 1 }
-    ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SEW", "level": 1 } ],
     "tools": [ [ [ "welder", 63 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
     "components": [
       [ [ "hose", 1 ] ],
-      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2]],
+      [ [ "bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2 ] ],
       [ [ "helmet_liner", 1 ], [ "hat_cotton", 1 ], [ "rag", 3 ] ],
       [ [ "tac_helmet", 1 ], [ "tac_fullhelmet", 1 ], [ "helmet_army", 1 ], [ "kevlar_plate", 6 ] ],
       [ [ "kevlar_plate", 3 ] ],
       [ [ "hood_rain", 2 ], [ "bag_plastic", 4 ] ],
       [ [ "steel_chunk", 3 ], [ "scrap", 9 ] ],
       [ [ "duct_tape", 100 ] ],
-      [ [ "helmet_riot", 1 ], [ "helmet_motor", 1 ], [ "helmet_football", 1 ], [ "helmet_ball", 1 ], [ "helmet_skid", 1 ], [ "helmet_bike", 1 ], [ "hat_hard", 1 ], [ "firehelmet", 1 ], [ "pickelhaube", 1 ], [ "plastic_chunk", 8 ] ],
+      [
+        [ "helmet_riot", 1 ],
+        [ "helmet_motor", 1 ],
+        [ "helmet_football", 1 ],
+        [ "helmet_ball", 1 ],
+        [ "helmet_skid", 1 ],
+        [ "helmet_bike", 1 ],
+        [ "hat_hard", 1 ],
+        [ "firehelmet", 1 ],
+        [ "pickelhaube", 1 ],
+        [ "plastic_chunk", 8 ]
+      ],
       [ [ "plastic_chunk", 4 ] ]
     ]
   },
@@ -344,12 +366,12 @@
     "time": 10000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ 
-      [ [ "helmet_ball", 1] ],
+    "components": [
+      [ [ "helmet_ball", 1 ] ],
       [ [ "hose", 1 ] ],
-      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ],
-      [ [ "duct_tape", 25], [ "superglue", 1 ] ]
-    ] 
+      [ [ "bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2 ] ],
+      [ [ "duct_tape", 25 ], [ "superglue", 1 ] ]
+    ]
   },
   {
     "result": "helmet_larmor_drinking",
@@ -361,12 +383,12 @@
     "time": 10000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ 
-      [ [ "helmet_larmor", 1] ],
+    "components": [
+      [ [ "helmet_larmor", 1 ] ],
       [ [ "hose", 1 ] ],
-      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ],
-      [ [ "duct_tape", 25], [ "superglue", 1 ] ]
-    ] 
+      [ [ "bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2 ] ],
+      [ [ "duct_tape", 25 ], [ "superglue", 1 ] ]
+    ]
   },
   {
     "result": "helmet_riot_drinking",
@@ -378,12 +400,12 @@
     "time": 10000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ 
-      [ [ "helmet_riot", 1] ],
+    "components": [
+      [ [ "helmet_riot", 1 ] ],
       [ [ "hose", 1 ] ],
-      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ],
-      [ [ "duct_tape", 25], [ "superglue", 1 ] ]
-    ] 
+      [ [ "bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2 ] ],
+      [ [ "duct_tape", 25 ], [ "superglue", 1 ] ]
+    ]
   },
   {
     "result": "helmet_barbute_drinking",
@@ -395,12 +417,12 @@
     "time": 10000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ 
-      [ [ "helmet_barbute", 1] ],
+    "components": [
+      [ [ "helmet_barbute", 1 ] ],
       [ [ "hose", 1 ] ],
-      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ],
-      [ [ "duct_tape", 25], [ "superglue", 1 ] ]
-    ] 
+      [ [ "bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2 ] ],
+      [ [ "duct_tape", 25 ], [ "superglue", 1 ] ]
+    ]
   },
   {
     "result": "pickelhaube_drinking",
@@ -412,12 +434,12 @@
     "time": 10000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ 
-      [ [ "pickelhaube", 1] ],
+    "components": [
+      [ [ "pickelhaube", 1 ] ],
       [ [ "hose", 1 ] ],
-      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ],
-      [ [ "duct_tape", 25], [ "superglue", 1 ] ]
-    ] 
+      [ [ "bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2 ] ],
+      [ [ "duct_tape", 25 ], [ "superglue", 1 ] ]
+    ]
   },
   {
     "result": "pot_helmet_drinking",
@@ -429,12 +451,12 @@
     "time": 10000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ 
-      [ [ "pot_helmet", 1] ],
+    "components": [
+      [ [ "pot_helmet", 1 ] ],
       [ [ "hose", 1 ] ],
-      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ],
-      [ [ "duct_tape", 25], [ "superglue", 1 ] ]
-    ] 
+      [ [ "bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2 ] ],
+      [ [ "duct_tape", 25 ], [ "superglue", 1 ] ]
+    ]
   },
   {
     "result": "depowered_helmet_drinking",
@@ -446,12 +468,12 @@
     "time": 10000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ 
-      [ [ "depowered_helmet", 1] ],
+    "components": [
+      [ [ "depowered_helmet", 1 ] ],
       [ [ "hose", 1 ] ],
-      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ],
-      [ [ "duct_tape", 25], [ "superglue", 1 ] ]
-    ] 
+      [ [ "bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2 ] ],
+      [ [ "duct_tape", 25 ], [ "superglue", 1 ] ]
+    ]
   },
   {
     "result": "helmet_bone_drinking",
@@ -463,12 +485,12 @@
     "time": 10000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ 
-      [ [ "helmet_bone", 1] ],
+    "components": [
+      [ [ "helmet_bone", 1 ] ],
       [ [ "hose", 1 ] ],
-      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ],
-      [ [ "duct_tape", 25], [ "superglue", 1 ] ]
-    ] 
+      [ [ "bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2 ] ],
+      [ [ "duct_tape", 25 ], [ "superglue", 1 ] ]
+    ]
   },
   {
     "result": "helmet_chitin_drinking",
@@ -480,12 +502,12 @@
     "time": 10000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ 
-      [ [ "helmet_chitin", 1] ],
+    "components": [
+      [ [ "helmet_chitin", 1 ] ],
       [ [ "hose", 1 ] ],
-      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ],
-      [ [ "duct_tape", 25], [ "superglue", 1 ] ]
-    ] 
+      [ [ "bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2 ] ],
+      [ [ "duct_tape", 25 ], [ "superglue", 1 ] ]
+    ]
   },
   {
     "result": "helmet_kabuto_drinking",
@@ -497,12 +519,12 @@
     "time": 10000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ 
-      [ [ "helmet_kabuto", 1] ],
+    "components": [
+      [ [ "helmet_kabuto", 1 ] ],
       [ [ "hose", 1 ] ],
-      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ],
-      [ [ "duct_tape", 25], [ "superglue", 1 ] ]
-    ] 
+      [ [ "bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2 ] ],
+      [ [ "duct_tape", 25 ], [ "superglue", 1 ] ]
+    ]
   },
   {
     "result": "helmet_plate_drinking",
@@ -514,12 +536,12 @@
     "time": 10000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ 
-      [ [ "helmet_plate", 1] ],
+    "components": [
+      [ [ "helmet_plate", 1 ] ],
       [ [ "hose", 1 ] ],
-      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ],
-      [ [ "duct_tape", 25], [ "superglue", 1 ] ]
-    ] 
+      [ [ "bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2 ] ],
+      [ [ "duct_tape", 25 ], [ "superglue", 1 ] ]
+    ]
   },
   {
     "result": "power_armor_helmet_heavy_drinking",
@@ -531,12 +553,12 @@
     "time": 10000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ 
-      [ [ "power_armor_helmet_heavy", 1] ],
+    "components": [
+      [ [ "power_armor_helmet_heavy", 1 ] ],
       [ [ "hose", 1 ] ],
-      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ],
-      [ [ "duct_tape", 25], [ "superglue", 1 ] ]
-    ] 
+      [ [ "bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2 ] ],
+      [ [ "duct_tape", 25 ], [ "superglue", 1 ] ]
+    ]
   },
   {
     "result": "power_armor_helmet_basic_drinking",
@@ -548,12 +570,12 @@
     "time": 10000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ 
-      [ [ "power_armor_helmet_basic", 1] ],
+    "components": [
+      [ [ "power_armor_helmet_basic", 1 ] ],
       [ [ "hose", 1 ] ],
-      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ],
-      [ [ "duct_tape", 25], [ "superglue", 1 ] ]
-    ] 
+      [ [ "bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2 ] ],
+      [ [ "duct_tape", 25 ], [ "superglue", 1 ] ]
+    ]
   },
   {
     "result": "power_armor_helmet_light_drinking",
@@ -565,12 +587,12 @@
     "time": 10000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ 
-      [ [ "power_armor_helmet_light", 1] ],
+    "components": [
+      [ [ "power_armor_helmet_light", 1 ] ],
       [ [ "hose", 1 ] ],
-      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ],
-      [ [ "duct_tape", 25], [ "superglue", 1 ] ]
-    ] 
+      [ [ "bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2 ] ],
+      [ [ "duct_tape", 25 ], [ "superglue", 1 ] ]
+    ]
   },
   {
     "result": "tac_fullhelmet_drinking",
@@ -582,12 +604,12 @@
     "time": 10000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ 
-      [ [ "tac_fullhelmet", 1] ],
+    "components": [
+      [ [ "tac_fullhelmet", 1 ] ],
       [ [ "hose", 1 ] ],
-      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ],
-      [ [ "duct_tape", 25], [ "superglue", 1 ] ]
-    ] 
+      [ [ "bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2 ] ],
+      [ [ "duct_tape", 25 ], [ "superglue", 1 ] ]
+    ]
   },
   {
     "result": "dinosuit_drinking",
@@ -599,12 +621,12 @@
     "time": 10000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ 
-      [ [ "helmet_bike", 1] ],
+    "components": [
+      [ [ "helmet_bike", 1 ] ],
       [ [ "hose", 1 ] ],
-      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ],
-      [ [ "duct_tape", 25], [ "superglue", 1 ] ]
-    ] 
+      [ [ "bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2 ] ],
+      [ [ "duct_tape", 25 ], [ "superglue", 1 ] ]
+    ]
   },
   {
     "result": "fencing_mask",
@@ -616,12 +638,12 @@
     "time": 10000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ 
-      [ [ "fencing_mask", 1] ],
+    "components": [
+      [ [ "fencing_mask", 1 ] ],
       [ [ "hose", 1 ] ],
-      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ],
-      [ [ "duct_tape", 25], [ "superglue", 1 ] ]
-    ] 
+      [ [ "bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2 ] ],
+      [ [ "duct_tape", 25 ], [ "superglue", 1 ] ]
+    ]
   },
   {
     "result": "wolfsuit_drinking",
@@ -633,14 +655,13 @@
     "time": 10000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ 
-      [ [ "wolfsuit", 1] ],
+    "components": [
+      [ [ "wolfsuit", 1 ] ],
       [ [ "hose", 1 ] ],
-      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ],
-      [ [ "duct_tape", 25], [ "superglue", 1 ] ]
-    ] 
+      [ [ "bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2 ] ],
+      [ [ "duct_tape", 25 ], [ "superglue", 1 ] ]
+    ]
   },
-
   {
     "result": "10gal_hat_drinking",
     "type": "recipe",
@@ -651,12 +672,12 @@
     "time": 10000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ 
-      [ [ "10gal_hat", 1] ],
+    "components": [
+      [ [ "10gal_hat", 1 ] ],
       [ [ "hose", 1 ] ],
-      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ],
-      [ [ "duct_tape", 25], [ "superglue", 1 ] ]
-    ] 
+      [ [ "bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2 ] ],
+      [ [ "duct_tape", 25 ], [ "superglue", 1 ] ]
+    ]
   },
   {
     "result": "bowhat_drinking",
@@ -668,12 +689,12 @@
     "time": 10000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ 
-      [ [ "bowhat", 1] ],
+    "components": [
+      [ [ "bowhat", 1 ] ],
       [ [ "hose", 1 ] ],
-      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ],
-      [ [ "duct_tape", 25], [ "superglue", 1 ] ]
-    ] 
+      [ [ "bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2 ] ],
+      [ [ "duct_tape", 25 ], [ "superglue", 1 ] ]
+    ]
   },
   {
     "result": "hat_ball_drinking",
@@ -685,12 +706,12 @@
     "time": 10000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ 
-      [ [ "hat_ball", 1] ],
+    "components": [
+      [ [ "hat_ball", 1 ] ],
       [ [ "hose", 1 ] ],
-      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ],
-      [ [ "duct_tape", 25], [ "superglue", 1 ] ]
-    ] 
+      [ [ "bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2 ] ],
+      [ [ "duct_tape", 25 ], [ "superglue", 1 ] ]
+    ]
   },
   {
     "result": "hat_sombrero_drinking",
@@ -702,12 +723,12 @@
     "time": 10000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ 
-      [ [ "hat_sombrero", 1] ],
+    "components": [
+      [ [ "hat_sombrero", 1 ] ],
       [ [ "hose", 1 ] ],
-      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ],
-      [ [ "duct_tape", 25], [ "superglue", 1 ] ]
-    ] 
+      [ [ "bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2 ] ],
+      [ [ "duct_tape", 25 ], [ "superglue", 1 ] ]
+    ]
   },
   {
     "result": "tricorne_drinking",
@@ -719,12 +740,12 @@
     "time": 10000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ 
-      [ [ "tricorne", 1] ],
+    "components": [
+      [ [ "tricorne", 1 ] ],
       [ [ "hose", 1 ] ],
-      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ],
-      [ [ "duct_tape", 25], [ "superglue", 1 ] ]
-    ] 
+      [ [ "bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2 ] ],
+      [ [ "duct_tape", 25 ], [ "superglue", 1 ] ]
+    ]
   },
   {
     "result": "porkpie_drinking",
@@ -736,12 +757,12 @@
     "time": 10000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ 
-      [ [ "porkpie", 1] ],
+    "components": [
+      [ [ "porkpie", 1 ] ],
       [ [ "hose", 1 ] ],
-      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ],
-      [ [ "duct_tape", 25], [ "superglue", 1 ] ]
-    ] 
+      [ [ "bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2 ] ],
+      [ [ "duct_tape", 25 ], [ "superglue", 1 ] ]
+    ]
   },
   {
     "result": "tophat_drinking",
@@ -753,11 +774,11 @@
     "time": 10000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ 
-      [ [ "tophat", 1] ],
+    "components": [
+      [ [ "tophat", 1 ] ],
       [ [ "hose", 1 ] ],
-      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ],
-      [ [ "duct_tape", 25], [ "superglue", 1 ] ]
-    ] 
+      [ [ "bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2 ] ],
+      [ [ "duct_tape", 25 ], [ "superglue", 1 ] ]
+    ]
   }
 ]

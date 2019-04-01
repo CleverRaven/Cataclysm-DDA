@@ -16,13 +16,7 @@
     "contains": 2,
     "seals": true,
     "watertight": true,
-    "armor_data": {
-      "covers": [ "HEAD" ],
-      "coverage": 98,
-      "encumbrance": 20,
-      "warmth": 20,
-      "material_thickness": 4
-    },
+    "armor_data": { "covers": [ "HEAD" ], "coverage": 98, "encumbrance": 20, "warmth": 20, "material_thickness": 4 },
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
   },
@@ -96,13 +90,7 @@
     "contains": 2,
     "seals": true,
     "watertight": true,
-    "armor_data": {
-      "covers": [ "HEAD" ],
-      "coverage": 80,
-      "encumbrance": 17,
-      "warmth": 5,
-      "material_thickness": 4
-    },
+    "armor_data": { "covers": [ "HEAD" ], "coverage": 80, "encumbrance": 17, "warmth": 5, "material_thickness": 4 },
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "WATERPROOF" ]
   },
@@ -121,13 +109,7 @@
     "contains": 2,
     "seals": true,
     "watertight": true,
-    "armor_data": {
-      "covers": [ "HEAD" ],
-      "coverage": 80,
-      "encumbrance": 15,
-      "warmth": 6,
-      "material_thickness": 4
-    },
+    "armor_data": { "covers": [ "HEAD" ], "coverage": 80, "encumbrance": 15, "warmth": 6, "material_thickness": 4 },
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "WATERPROOF" ]
   },
@@ -147,12 +129,12 @@
     "seals": true,
     "watertight": true,
     "armor_data": {
-    "covers": [ "HEAD" ],
-    "coverage": 75,
-    "encumbrance": 22,
-    "warmth": 10,
-    "material_thickness": 3,
-    "environmental_protection": 1
+      "covers": [ "HEAD" ],
+      "coverage": 75,
+      "encumbrance": 22,
+      "warmth": 10,
+      "material_thickness": 3,
+      "environmental_protection": 1
     },
     "flags": [ "VARSIZE", "OVERSIZE", "STURDY" ]
   },
@@ -173,13 +155,7 @@
     "contains": 2,
     "seals": true,
     "watertight": true,
-    "armor_data": {
-      "covers": [ "HEAD" ],
-      "coverage": 95,
-      "encumbrance": 22,
-      "warmth": 20,
-      "material_thickness": 5
-    },
+    "armor_data": { "covers": [ "HEAD" ], "coverage": 95, "encumbrance": 22, "warmth": 20, "material_thickness": 5 },
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
   },
@@ -199,13 +175,7 @@
     "contains": 2,
     "seals": true,
     "watertight": true,
-    "armor_data": {
-      "covers": [ "HEAD" ],
-      "coverage": 75,
-      "encumbrance": 17,
-      "warmth": 15,
-      "material_thickness": 4
-    },
+    "armor_data": { "covers": [ "HEAD" ], "coverage": 75, "encumbrance": 17, "warmth": 15, "material_thickness": 4 },
     "techniques": [ "WBLOCK_1" ]
   },
   {
@@ -223,13 +193,7 @@
     "contains": 2,
     "seals": true,
     "watertight": true,
-    "armor_data": {
-      "covers": [ "HEAD" ],
-      "coverage": 85,
-      "encumbrance": 52,
-      "warmth": 10,
-      "material_thickness": 4
-    },
+    "armor_data": { "covers": [ "HEAD" ], "coverage": 85, "encumbrance": 52, "warmth": 10, "material_thickness": 4 },
     "flags": [ "WATER_FRIENDLY" ]
   },
   {
@@ -247,13 +211,7 @@
     "contains": 2,
     "seals": true,
     "watertight": true,
-    "armor_data": {
-      "covers": [ "HEAD" ],
-      "coverage": 65,
-      "encumbrance": 22,
-      "warmth": 10,
-      "material_thickness": 4
-    },
+    "armor_data": { "covers": [ "HEAD" ], "coverage": 65, "encumbrance": 22, "warmth": 10, "material_thickness": 4 },
     "techniques": [ "WBLOCK_1" ]
   },
   {
@@ -273,13 +231,7 @@
     "contains": 2,
     "seals": true,
     "watertight": true,
-    "armor_data": {
-      "covers": [ "HEAD" ],
-      "coverage": 95,
-      "encumbrance": 17,
-      "warmth": 10,
-      "material_thickness": 4
-    },
+    "armor_data": { "covers": [ "HEAD" ], "coverage": 95, "encumbrance": 17, "warmth": 10, "material_thickness": 4 },
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "WATER_FRIENDLY", "STURDY" ]
   },
@@ -357,7 +309,7 @@
     "seals": true,
     "watertight": true,
     "armor_data": {
-    "covers": [ "HEAD" ],
+      "covers": [ "HEAD" ],
       "coverage": 100,
       "encumbrance": 52,
       "warmth": 15,
@@ -412,13 +364,7 @@
     "contains": 2,
     "seals": true,
     "watertight": true,
-    "armor_data" : {
-      "covers": [ "TORSO" ],
-      "coverage": 85,
-      "encumbrance": 8,
-      "warmth": 15,
-      "material_thickness": 3
-    },
+    "armor_data": { "covers": [ "TORSO" ], "coverage": 85, "encumbrance": 8, "warmth": 15, "material_thickness": 3 },
     "flags": [ "STURDY", "SKINTIGHT" ]
   },
   {
@@ -462,13 +408,7 @@
     "contains": 2,
     "seals": true,
     "watertight": true,
-    "armor_data": {
-      "covers": [ "HEAD" ],
-      "coverage": 85,
-      "encumbrance": 20,
-      "warmth": 10,
-      "material_thickness": 3
-    },
+    "armor_data": { "covers": [ "HEAD" ], "coverage": 85, "encumbrance": 20, "warmth": 10, "material_thickness": 3 },
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY" ]
   },
@@ -516,13 +456,7 @@
     "contains": 2,
     "seals": true,
     "watertight": true,
-    "armor_data": {
-      "covers": [ "HEAD" ],
-      "coverage": 90,
-      "encumbrance": 30,
-      "warmth": 10,
-      "material_thickness": 4
-    },
+    "armor_data": { "covers": [ "HEAD" ], "coverage": 90, "encumbrance": 30, "warmth": 10, "material_thickness": 4 },
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "STURDY" ]
   },
@@ -544,13 +478,7 @@
     "contains": 2,
     "seals": true,
     "watertight": true,
-    "armor_data": {
-      "covers": [ "HEAD" ],
-      "coverage": 70,
-      "encumbrance": 20,
-      "warmth": 15,
-      "material_thickness": 3
-    },
+    "armor_data": { "covers": [ "HEAD" ], "coverage": 70, "encumbrance": 20, "warmth": 15, "material_thickness": 3 },
     "flags": [ "FANCY", "STAB" ]
   },
   {
@@ -569,13 +497,7 @@
     "contains": 2,
     "seals": true,
     "watertight": true,
-    "armor_data": {
-      "covers": [ "HEAD" ],
-      "coverage": 55,
-      "encumbrance": 50,
-      "warmth": 5,
-      "material_thickness": 2
-    },
+    "armor_data": { "covers": [ "HEAD" ], "coverage": 55, "encumbrance": 50, "warmth": 5, "material_thickness": 2 },
     "techniques": [ "WBLOCK_1" ]
   },
   {
@@ -896,13 +818,7 @@
     "contains": 2,
     "seals": true,
     "watertight": true,
-    "armor_data": {
-      "covers": [ "HEAD", "MOUTH", "EYES" ],
-      "coverage": 90,
-      "encumbrance": 10,
-      "warmth": 10,
-      "material_thickness": 2
-    }
+    "armor_data": { "covers": [ "HEAD", "MOUTH", "EYES" ], "coverage": 90, "encumbrance": 10, "warmth": 10, "material_thickness": 2 }
   },
   {
     "id": "10gal_hat_drinking",
@@ -1093,34 +1009,7 @@
     "contains": 8,
     "seals": true,
     "watertight": true,
-    "armor_data": {
-      "covers": [ "TORSO" ],
-      "coverage": 85,
-      "encumbrance": 9,
-      "storage": 4,
-      "warmth": 15,
-      "material_thickness": 4
-    },
+    "armor_data": { "covers": [ "TORSO" ], "coverage": 85, "encumbrance": 9, "storage": 4, "warmth": 15, "material_thickness": 4 },
     "flags": [ "STURDY", "OUTER" ]
-  },
-  {
-    "id": "rubber_suit",
-    "type": "ARMOR",
-    "name": "tire suit",
-    "description": "lmao",
-    "weight": 9960,
-    "volume": 7,
-    "price": 7900,
-    "material": [ "plastic" ],
-    "symbol": "[",
-    "color": "yellow",
-    "covers": [ "TORSO", "ARMS" ],
-    "coverage": 90,
-    "encumbrance": 25,
-    "storage": 1,
-    "warmth": 10,
-    "material_thickness": 3,
-    "environmental_protection": 4,
-    "flags": [ "OVERSIZE", "WATERPROOF", "RAINPROOF", "STURDY", "OUTER" ]
   }
 ]
