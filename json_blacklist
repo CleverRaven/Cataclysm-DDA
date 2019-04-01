@@ -1,12 +1,3 @@
-data/json/mapgen/house/house_garage4.json
-data/json/mapgen/house/house_garage5.json
-data/json/mapgen/house/house_garage6.json
-data/json/mapgen/house/house_garage.json
-data/json/mapgen/house/house_garage_prepper.json
-data/json/mapgen/house/house_rv.json
-data/json/mapgen/house/house_suicide.json
-data/json/mapgen/house/house05_ab.json
-data/json/mapgen/house/house11.json
 data/json/mapgen/house/house14.json
 data/json/mapgen/lab/lab_central.json
 data/json/mapgen/lab/lab_common.json
