@@ -5497,8 +5497,7 @@ void game::save_cyborg( item *cyborg, const tripoint couch_pos, player &installe
                ( cyborg->max_damage ) );
     }
     int chance_of_success = bionic_manip_cos( adjusted_skill, true, difficulty );
-
-
+    int success = chance_of_success - rng( 1, 100 ) ;
 
     if( !g->u.query_yn(
             _( "WARNING: %i percent chance of SEVERE damage to all body parts! Continue anyway?" ),
@@ -5506,7 +5505,7 @@ void game::save_cyborg( item *cyborg, const tripoint couch_pos, player &installe
         return;
     }
 
-    if( chance_of_success >= rng( 1, 100 ) ) {
+    if( success > 0 ) {
         add_msg( m_good, _( "Successfully removed Personality override." ) );
         add_msg( m_bad, _( "Autodoc destroys the CBM." ) );
 
@@ -5520,9 +5519,30 @@ void game::save_cyborg( item *cyborg, const tripoint couch_pos, player &installe
         tmp->hurtall( damage * 10, nullptr );
         load_npcs();
     } else {
-        add_msg( m_neutral, _( "The removal is a failure." ) );
-        add_msg( m_bad, _( "The body is destroyed!" ) );
-        m.i_rem( couch_pos, cyborg );
+        const int failure_level = static_cast<int>( sqrt( success * 4.0 * difficulty / adjusted_skill ) );
+        const int fail_type = std::min( 5, failure_level );
+        switch( fail_type ) {
+            case 1:
+            case 2:
+                add_msg( m_info, _( "The removal fails." ) );
+                add_msg( m_bad, _( "The body is damaged." ) );
+                cyborg->set_damage( cyborg->damage + 1 );
+                break;
+            case 3:
+            case 4:
+                add_msg( m_info, _( "The removal fails badly." ) );
+                add_msg( m_bad, _( "The body is badly damaged!" ) );
+                cyborg->set_damage( cyborg->damage + 2 );
+                break;
+            case 5:
+                add_msg( m_info, _( "The removal is a catastrophe." ) );
+                add_msg( m_bad, _( "The body is destroyed!" ) );
+                m.i_rem( couch_pos, cyborg );
+                break;
+            default:
+                break;
+        }
+
     }
 
 }
