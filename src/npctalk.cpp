@@ -267,10 +267,10 @@ void npc::handle_sound( int priority, const std::string &description, int heard_
         }
     }
     // discount if sound source is player and listener is friendly
-    if( ( priority < 6 ) && spos == g->u.pos() && ( is_friend() ||
+    if( ( priority < 6 ) && g->u.sees( spos ) && ( is_friend() ||
             mission == NPC_MISSION_GUARD_ALLY ||
             get_attitude_group( get_attitude() ) != attitude_group::hostile ) ) {
-        add_msg( m_debug, "NPC ignored player noise %s", name.c_str() );
+        add_msg( m_debug, "NPC %s ignored low priority noise that player can see", name.c_str() );
         return;
     }
     // patrolling guards will investigate more readily than stationary NPCS
