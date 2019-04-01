@@ -5489,13 +5489,18 @@ void game::save_cyborg( item *cyborg, const tripoint couch_pos, player &installe
                            skill_computer,
                            skill_electronics,
                            -1 );
+
     int damage = cyborg->damage();
+    int dmg_lvl = cyborg->damage_level( 4 );
     int difficulty = 12;
-    if( cyborg->typeId() == "corpse" ) {
-        difficulty += damage;// damage of the corpse increases difficulty
-        popup( _( "WARNING: Patient's body is damaged at %i percent.  Chance of success of the procedure are reduced." ),
-               ( 100 * ( damage / cyborg->max_damage() ) ) );
+
+    if( damage != 0 ) {
+
+        popup( _( "WARNING: Patient's body is damaged.  Difficulty of the procedure is increased by %s." ),dmg_lvl );
+
+        difficulty += dmg_lvl;// damage of the corpse increases difficulty
     }
+
     int chance_of_success = bionic_manip_cos( adjusted_skill, true, difficulty );
     int success = chance_of_success - rng( 1, 100 ) ;
 
@@ -5516,23 +5521,24 @@ void game::save_cyborg( item *cyborg, const tripoint couch_pos, player &installe
         tmp->randomize( NC_CYBORG );
         tmp->spawn_at_precise( { get_levx(), get_levy() }, couch_pos );
         overmap_buffer.insert_npc( tmp );
-        tmp->hurtall( damage * 10, nullptr );
+        tmp->hurtall( dmg_lvl * 10, nullptr );
         load_npcs();
     } else {
-        const int failure_level = static_cast<int>( sqrt( success * 4.0 * difficulty / adjusted_skill ) );
+        const int failure_level = static_cast<int>( sqrt( abs( success ) * 4.0 * difficulty /
+                                  adjusted_skill ) );
         const int fail_type = std::min( 5, failure_level );
         switch( fail_type ) {
             case 1:
             case 2:
                 add_msg( m_info, _( "The removal fails." ) );
                 add_msg( m_bad, _( "The body is damaged." ) );
-                cyborg->set_damage( damage + 1 );
+                cyborg->set_damage( damage + 1000 );
                 break;
             case 3:
             case 4:
                 add_msg( m_info, _( "The removal fails badly." ) );
                 add_msg( m_bad, _( "The body is badly damaged!" ) );
-                cyborg->set_damage( damage + 2 );
+                cyborg->set_damage( damage + 2000 );
                 break;
             case 5:
                 add_msg( m_info, _( "The removal is a catastrophe." ) );
