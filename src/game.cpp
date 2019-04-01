@@ -2460,6 +2460,7 @@ void game::death_screen()
     Messages::display_messages();
     disp_kills();
     disp_NPC_epilogues();
+    follower_ids.clear();
     disp_faction_ends();
 }
 
@@ -2705,7 +2706,6 @@ void game::reset_npc_dispositions()
                                      npc_to_add->getID() ) );
 
     }
-    follower_ids.clear();
 
 }
 
