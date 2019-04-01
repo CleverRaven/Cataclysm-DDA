@@ -4457,7 +4457,8 @@ int iuse::oxytorch( player *p, item *it, bool, const tripoint & )
         return 0;
     }
 
-    const int charges = moves / 100 * it->ammo_required();
+     int charges = moves / 100 * it->ammo_required();
+     charges = charges > 60 ? 60 : charges; // equals small welding tank capacity
 
     if( charges > it->ammo_remaining() ) {
         add_msg( m_info, _( "Your torch doesn't have enough acetylene to cut that." ) );
