@@ -2794,16 +2794,14 @@ bool mattack::photograph( monster *z )
     z->moves -= 150;
     add_msg( m_warning, _( "The %s takes your picture!" ), z->name().c_str() );
     // TODO: Make the player known to the faction
+    std::string cname = _( "...  database connection lost!" ) ;
     if( one_in( 6 ) ) {
-        sounds::sound( z->pos(), 15, sounds::sound_t::alert,
-                       string_format( _( "a robotic voice boom, \"Citizen %s!\"" ), Name::generate( g->u.male ) ) );
+        cname = Name::generate( g->u.male );
     } else if( one_in( 3 ) ) {
-        sounds::sound( z->pos(), 15, sounds::sound_t::alert,
-                       string_format( _( "a robotic voice boom, \"Citizen %s!\"" ), g->u.name ) );
-    } else {
-        sounds::sound( z->pos(), 15, sounds::sound_t::alert,
-                       _( "a robotic voice boom, \"Citizen...  database connection lost!" ) ) ;
+        cname = g->u.name;
     }
+    sounds::sound( z->pos(), 15, sounds::sound_t::alert,
+                   string_format( _( "a robotic voice boom, \"Citizen %s!\"" ), cname ) );
 
     if( g->u.weapon.is_gun() ) {
         sounds::sound( z->pos(), 15, sounds::sound_t::alert, _( "\"Drop your gun!  Now!\"" ) );
