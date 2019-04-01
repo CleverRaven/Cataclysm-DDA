@@ -5494,7 +5494,7 @@ void game::save_cyborg( item *cyborg, const tripoint couch_pos, player &installe
     if( cyborg->typeId() == "corpse" ) {
         difficulty += damage;// damage of the corpse increases difficulty
         popup( _( "WARNING: Patient's body is damaged at %i percent.  Chance of success of the procedure are reduced." ),
-               ( cyborg->max_damage ) );
+               ( 100 * ( damage / cyborg->max_damage() ) ) );
     }
     int chance_of_success = bionic_manip_cos( adjusted_skill, true, difficulty );
     int success = chance_of_success - rng( 1, 100 ) ;
@@ -5526,13 +5526,13 @@ void game::save_cyborg( item *cyborg, const tripoint couch_pos, player &installe
             case 2:
                 add_msg( m_info, _( "The removal fails." ) );
                 add_msg( m_bad, _( "The body is damaged." ) );
-                cyborg->set_damage( cyborg->damage + 1 );
+                cyborg->set_damage( damage + 1 );
                 break;
             case 3:
             case 4:
                 add_msg( m_info, _( "The removal fails badly." ) );
                 add_msg( m_bad, _( "The body is badly damaged!" ) );
-                cyborg->set_damage( cyborg->damage + 2 );
+                cyborg->set_damage( damage + 2 );
                 break;
             case 5:
                 add_msg( m_info, _( "The removal is a catastrophe." ) );
