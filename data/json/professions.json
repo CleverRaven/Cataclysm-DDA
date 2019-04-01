@@ -198,7 +198,16 @@
     "name": "Bionic Prepper",
     "description": "You knew the end was coming.  You augmented yourself with some basic bionics and got additional survival training.  Now the end has come, and it is time to see if your efforts have paid off.",
     "points": 6,
-    "CBMs": [ "bio_furnace", "bio_power_storage_mkII", "bio_tools", "bio_flashlight", "bio_lighter", "bio_evap", "bio_climate" ],
+    "CBMs": [
+      "bio_furnace",
+      "bio_power_storage_mkII",
+      "bio_tools",
+      "bio_flashlight",
+      "bio_lighter",
+      "bio_evap",
+      "bio_climate",
+      "bio_taste_blocker"
+    ],
     "skills": [
       { "level": 4, "name": "survival" },
       { "level": 3, "name": "fabrication" },
@@ -1612,7 +1621,8 @@
       "bio_adrenaline",
       "bio_night_vision",
       "bio_metabolics",
-      "bio_power_storage_mkII"
+      "bio_power_storage_mkII",
+      "bio_taste_blocker"
     ],
     "skills": [
       { "level": 2, "name": "gun" },
@@ -1663,7 +1673,8 @@
       "bio_evap",
       "bio_lighter",
       "bio_power_storage_mkII",
-      "bio_torsionratchet"
+      "bio_torsionratchet",
+      "bio_taste_blocker"
     ],
     "skills": [
       { "level": 5, "name": "gun" },
@@ -2140,7 +2151,8 @@
       "bio_scent_vision",
       "bio_claws",
       "bio_digestion",
-      "bio_water_extractor"
+      "bio_water_extractor",
+      "bio_taste_blocker"
     ],
     "skills": [
       { "level": 3, "name": "melee" },
