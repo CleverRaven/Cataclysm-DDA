@@ -2161,7 +2161,6 @@
     "initial_charges": 300,
     "max_charges": 300,
     "charges_per_use": 10,
-    "use_action": "DRILL",
     "qualities": [ [ "DRILL", 3 ], [ "SCREW", 1 ] ]
   },
   {

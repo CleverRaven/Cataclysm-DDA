@@ -163,7 +163,7 @@
     "id": "ACT_DRILL",
     "type": "activity_type",
     "stop_phrase": "Stop drilling?",
-    "based_on": "time"
+    "based_on": "speed"
   },
   {
     "id": "ACT_BURROW",

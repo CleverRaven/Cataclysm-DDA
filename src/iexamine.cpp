@@ -87,6 +87,8 @@ static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 static const trait_id trait_BURROW( "BURROW" );
 
+static const quality_id GLARE( "GLARE" );
+
 static void pick_plant( player &p, const tripoint &examp, const std::string &itemType,
                         ter_id new_ter,
                         bool seeds = false );
@@ -1118,13 +1120,13 @@ void iexamine::safe( player &p, const tripoint &examp )
         type = JAMMED;
     }
 
-    bool skilled_mechanic = p.get_skill_level( skill_mechanics ) > 3;
+    const int skill = p.get_skill_level( skill_mechanics );
   
     uilist smenu;
-    smenu.text = string_format( _( "This is a %s. How to open it?"), safe->name() ); 
+    smenu.text = string_format( _( "This is a %s. How to open it?" ), safe->name() ); 
     smenu.desc_enabled = true;
     
-    if( type == DIAL && ( p.has_amount("stethoscope", 1) || p.has_bionic( bionic_id( "bio_ears" ) ) ) ) {
+    if( type == DIAL && ( p.has_amount( "stethoscope", 1 ) || p.has_bionic( bionic_id( "bio_ears" ) ) ) ) {
         if( !p.is_deaf() ) {
             smenu.addentry_desc( AUDIOFEEDBACK, true, 'a', _( "Listen to the moving dial." ), 
                 _( "By using a stethoscope or keen hearing ability you may try to operate the dial to crack the safe." ) ); 
@@ -1135,7 +1137,7 @@ void iexamine::safe( player &p, const tripoint &examp )
     }
 
     if( p.has_charges( "cordless_drill", 200 ) ) {
-        if( skilled_mechanic ) {
+        if( skill > 0 ) {
             smenu.addentry_desc( DRILL, true, 'd', _( "Drill the lock mechanism." ),
                 _( "With the cordless drill you may attempt to drill holes in the locking mechanism disabling it in the process." ) );
         } else {
@@ -1155,20 +1157,24 @@ void iexamine::safe( player &p, const tripoint &examp )
     }
 
     if( p.has_charges( "oxy_torch", 30 ) ) {
-        if( skilled_mechanic ) {
+        
+          if( skill > 1 && p.has_quality( GLARE, 2 ) ) {
             smenu.addentry_desc( ACETHYLENE_TORCH, true, 'o', _( "Cut with acethylene torch." ),
                 _( "With the acethylene torch you may attempt to cut open the door, hinges or walls to get inside. It may destroy the contents." ) );
-        } else {
+          } else if( skill > 1 ) {
+                          smenu.addentry_desc( ABANDON, true, 'o', _( "Acethylene torch... no welding googles." ),
+                _( "You have an acethylene torch, but without welding goggles you're risking blindness." ) );
+          } else {
             smenu.addentry_desc( ABANDON, true, 'o', _( "Acethylene torch... insufficient knowledge." ),
                 _( "You have an acethylene torch, but without some expertise in mechanics you don't know where you should safely cut without risking certain destruction of contents." ) );
         }
     }
 
     if( p.has_amount( "thermite", 50 ) ) {
-        if( skilled_mechanic && p.has_charges( "fire", 1 ) ) {
+        if( skill > 2 && p.has_charges( "fire", 1 ) ) {
             smenu.addentry_desc( THERMITE, true, 'o', _( "Cut open with thermite charge." ),
                 _( "With a handful of thermite you may attempt to melt the lock to get inside. It may destroy the contents." ) );
-        } else if( skilled_mechanic && !p.has_charges( "fire", 1 ) ) {
+        } else if( skill > 2 && !p.has_charges( "fire", 1 ) ) {
             smenu.addentry_desc( ABANDON, true, 'o', _( "Thermite... no fire source." ),
                 _( "You have some thermite, but it's useless if you cannot light it up." ) );
         } else {
@@ -1200,6 +1206,9 @@ void iexamine::safe( player &p, const tripoint &examp )
     smenu.addentry_desc( ABANDON, true, 'q', _( "Abandon." ),
         _( "Abandon attempts to open the safe." ) );
 
+    if ( smenu.entries.size() < 1 ){
+        p.add_msg_if_player( m_info, _( "There must be a way to crack it, but you can't think of any at this time." ) );
+    }
     smenu.query();
 
     // general time for mechanical actions
@@ -1207,7 +1216,7 @@ void iexamine::safe( player &p, const tripoint &examp )
     // perception point away from 8; capped at 30 minutes minimum. *100 to convert to moves
     ///\EFFECT_PER speeds up safe cracking
     ///\EFFECT_MECHANICS speeds up safe cracking
-    const time_duration time_consumed = std::max( 150_minutes - 20_minutes * ( p.get_skill_level( skill_mechanics ) - 3 ) - 10_minutes * ( p.get_per() - 8 ), 30_minutes );
+    const time_duration time_consumed = std::max( 150_minutes - 20_minutes * ( skill - 3 ) - 10_minutes * ( p.get_per() - 8 ), 30_minutes );
 
     switch( smenu.ret ) {
         case AUDIOFEEDBACK: 

@@ -2602,9 +2602,7 @@ void activity_handlers::drill_finish( player_activity *act, player *p )
     const furn_id furn = g->m.furn( act->placement );
     ter_id new_type = t_concrete;
     std::string open_message;
-    
-    p->add_msg_if_player( m_good, _( "You finish drilling." ) );
-    
+ 
     if( type == t_chaingate_l ) {
         new_type = t_chaingate_c;
         open_message = _( "You drill through the lock and the chain-link gate opens." );
@@ -2640,6 +2638,8 @@ void activity_handlers::drill_finish( player_activity *act, player *p )
             g->events.add( EVENT_WANTED, calendar::turn + 30_minutes, 0, p->global_sm_location() );
         }
     }
+    
+    p->add_msg_if_player( m_good, _( "You finish drilling." ) );
     act->set_to_null();
 }
 

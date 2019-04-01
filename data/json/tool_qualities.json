@@ -124,7 +124,8 @@
   {
     "type": "tool_quality",
     "id": "DRILL",
-    "name": "drilling"
+    "name": "drilling",
+    "usages": [ [ 3, [ "DRILL" ] ] ]
   },
   {
     "type": "tool_quality",
