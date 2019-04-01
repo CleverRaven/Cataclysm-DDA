@@ -5517,13 +5517,16 @@ void game::save_cyborg( item *cyborg, const tripoint couch_pos, player &installe
 
         m.i_rem( couch_pos, cyborg );
 
+        const string_id<npc_template> npc_cyborg( "cyborg_rescued" );
         std::shared_ptr<npc> tmp = std::make_shared<npc>();
         tmp->normalize();
-        tmp->randomize( NC_CYBORG );
+        tmp->load_npc_template( npc_cyborg );
         tmp->spawn_at_precise( { get_levx(), get_levy() }, couch_pos );
         overmap_buffer.insert_npc( tmp );
         tmp->hurtall( dmg_lvl * 10, nullptr );
+        tmp->add_effect( effect_downed, rng( 1_turns, 4_turns ), num_bp, false, 0, true );
         load_npcs();
+
     } else {
         const int failure_level = static_cast<int>( sqrt( abs( success ) * 4.0 * difficulty /
                                   adjusted_skill ) );
