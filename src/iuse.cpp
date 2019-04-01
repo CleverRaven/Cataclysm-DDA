@@ -4450,15 +4450,14 @@ int iuse::oxytorch( player *p, item *it, bool, const tripoint & )
                                   _( "Without sufficient expertise in mechanincs you would destroy the contents." ) );
             return 0;
         }
-        moves = to_moves<int>( std::max( 150_minutes - 20_minutes * ( p->get_skill_level(
-                                             skill_mechanics ) - 3 ) - 10_minutes * ( p->get_per() - 8 ), 30_minutes ) );
+        moves = to_moves<int>( std::max( 15_minutes - 2_minutes * ( p->get_skill_level(
+                                             skill_mechanics ) - 3 ) - 1_minutes * ( p->get_per() - 8 ), 3_minutes ) );
     } else {
         add_msg( m_info, _( "You can't cut that." ) );
         return 0;
     }
 
-     int charges = moves / 100 * it->ammo_required();
-     charges = charges > 60 ? 60 : charges; // equals small welding tank capacity
+    const int charges = moves / 100 * it->ammo_required();
 
     if( charges > it->ammo_remaining() ) {
         add_msg( m_info, _( "Your torch doesn't have enough acetylene to cut that." ) );
