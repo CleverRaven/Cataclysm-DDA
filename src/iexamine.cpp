@@ -3221,18 +3221,29 @@ void iexamine::reload_furniture( player &p, const tripoint &examp )
         add_msg( m_info, _( "This %s can not be reloaded!" ), f.name().c_str() );
         return;
     }
-    const int amount_in_furn = count_charges_in_list( ammo, g->m.i_at( examp ) );
+    map_stack items_here = g->m.i_at( examp );
+    const int amount_in_furn = count_charges_in_list( ammo, items_here );
+    const int amount_in_inv = p.charges_of( ammo->get_id() );
     if( amount_in_furn > 0 ) {
-        //~ %1$s - furniture, %2$d - number, %3$s items.
-        add_msg( _( "The %1$s contains %2$d %3$s." ), f.name().c_str(), amount_in_furn,
-                 ammo->nname( amount_in_furn ).c_str() );
+        if( p.query_yn( _( "The %1$s contains %2$d %3$s.  Unload?" ), f.name().c_str(), amount_in_furn,
+                        ammo->nname( amount_in_furn ).c_str() ) ) {
+            p.assign_activity( activity_id( "ACT_PICKUP" ) );
+            p.activity.placement = examp - p.pos();
+            p.activity.values.push_back( false );
+            p.activity.values.push_back( 0 );
+            p.activity.values.push_back( 0 );
+            return;
+        }
     }
+    //~ %1$s - furniture, %2$d - number, %3$s items.
+    add_msg( _( "The %1$s contains %2$d %3$s." ), f.name().c_str(), amount_in_furn,
+             ammo->nname( amount_in_furn ).c_str() );
+
     const int max_amount_in_furn = ammo->charges_per_volume( f.max_volume );
     const int max_reload_amount = max_amount_in_furn - amount_in_furn;
     if( max_reload_amount <= 0 ) {
         return;
     }
-    const int amount_in_inv = p.charges_of( ammo->get_id() );
     if( amount_in_inv == 0 ) {
         //~ Reloading or restocking a piece of furniture, for example a forge.
         add_msg( m_info, _( "You need some %1$s to reload this %2$s." ), ammo->nname( 2 ).c_str(),
@@ -3329,32 +3340,38 @@ void iexamine::sign( player &p, const tripoint &examp )
     }
 
     // Allow chance to modify message.
-    // Chose spray can because it seems appropriate.
-    int required_writing_charges = 1;
-    if( p.has_charges( "spray_can", required_writing_charges ) ) {
+    std::vector<tool_comp> tools;
+    std::vector<const item *> filter = p.crafting_inventory().items_with( []( const item & it ) {
+        return it.has_flag( "WRITE_MESSAGE" ) && it.charges > 0;
+    } );
+    for( const item *writing_item : filter ) {
+        tools.push_back( tool_comp( writing_item->typeId(), 1 ) );
+    }
+
+    if( !tools.empty() ) {
         // Different messages if the sign already has writing associated with it.
         std::string query_message = previous_signage_exists ?
-                                    _( "Overwrite the existing message on the sign with spray paint?" ) :
-                                    _( "Add a message to the sign with spray paint?" );
+                                    _( "Overwrite the existing message on the sign?" ) :
+                                    _( "Add a message to the sign?" );
         std::string spray_painted_message = previous_signage_exists ?
-                                            _( "You overwrite the previous message on the sign with your graffiti" ) :
+                                            _( "You overwrite the previous message on the sign with your graffiti." ) :
                                             _( "You graffiti a message onto the sign." );
         std::string ignore_message = _( "You leave the sign alone." );
-        if( query_yn( query_message.c_str() ) ) {
+        if( query_yn( query_message ) ) {
             std::string signage = string_input_popup()
-                                  .title( _( "Spray what?" ) )
+                                  .title( _( "Write what?" ) )
                                   .identifier( "signage" )
                                   .query_string();
             if( signage.empty() ) {
-                p.add_msg_if_player( m_neutral, ignore_message.c_str() );
+                p.add_msg_if_player( m_neutral, ignore_message );
             } else {
                 g->m.set_signage( examp, signage );
-                p.add_msg_if_player( m_info, spray_painted_message.c_str() );
-                p.moves -= 2 * signage.length();
-                p.use_charges( "spray_can", required_writing_charges );
+                p.add_msg_if_player( m_info, spray_painted_message );
+                p.mod_moves( - 20 * signage.length() );
+                p.consume_tools( tools, 1 );
             }
         } else {
-            p.add_msg_if_player( m_neutral, ignore_message.c_str() );
+            p.add_msg_if_player( m_neutral, ignore_message );
         }
     }
 }

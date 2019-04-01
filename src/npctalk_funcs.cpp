@@ -459,6 +459,7 @@ void talk_function::follow( npc &p )
 {
     g->add_npc_follower( p.getID() );
     p.set_attitude( NPCATT_FOLLOW );
+    p.set_fac( faction_id( "your_followers" ) );
     g->u.cash += p.cash;
     p.cash = 0;
 }

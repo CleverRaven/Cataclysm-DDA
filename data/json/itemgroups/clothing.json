@@ -303,5 +303,21 @@
         ]
       }
     ]
+  },
+  {
+    "id": "hazmat_suits",
+    "type": "item_group",
+    "//": "Various types of hazmat suits, without masks",
+    "items": [
+      { "collection": [ { "item": "cleansuit" }, { "item": "gloves_rubber" }, { "item": "boots_rubber" } ], "prob": 40 },
+      [ "hazmat_suit", 55 ],
+      [ "anbc_suit", 5 ]
+    ]
+  },
+  {
+    "id": "hazmat_masks",
+    "type": "item_group",
+    "//": "Full face protection worn with hazmat suits",
+    "items": [ { "collection": [ { "item": "glasses_safety" }, { "item": "mask_filter" } ], "prob": 40 }, [ "mask_gas", 60 ] ]
   }
 ]

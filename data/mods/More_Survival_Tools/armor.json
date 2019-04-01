@@ -56,26 +56,5 @@
     "material_thickness": 1,
     "environmental_protection": 1,
     "flags": [ "OVERSIZE", "OUTER", "WATERPROOF", "RAINPROOF", "ALLOWS_NATURAL_ATTACKS" ]
-  },
-  {
-    "id": "iggaak",
-    "type": "ARMOR",
-    "name": "makeshift sunglasses",
-    "name_plural": "makeshift sunglasses",
-    "description": "Eyewear carved from from wood or bone, with only a thin slit to see out of.  Helps reduce glare, traditionally used by the Inuit to protect against snow blindness.",
-    "weight": 70,
-    "volume": 1,
-    "price": 4500,
-    "to_hit": -2,
-    "material": [ "bone" ],
-    "symbol": "[",
-    "color": "light_gray",
-    "covers": [ "EYES" ],
-    "coverage": 90,
-    "encumbrance": 9,
-    "warmth": 5,
-    "material_thickness": 1,
-    "qualities": [ [ "GLARE", 1 ] ],
-    "flags": [ "SUN_GLASSES" ]
   }
 ]

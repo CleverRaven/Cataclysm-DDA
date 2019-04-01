@@ -5574,7 +5574,8 @@
     "initial_charges": 500,
     "max_charges": 500,
     "charges_per_use": 1,
-    "use_action": { "type": "inscribe", "verb": "Write", "gerund": "Written", "on_terrain": true, "material_restricted": false }
+    "use_action": { "type": "inscribe", "verb": "Write", "gerund": "Written", "on_terrain": true, "material_restricted": false },
+    "flags": [ "WRITE_MESSAGE" ]
   },
   {
     "id": "pet_carrier",
@@ -6983,7 +6984,8 @@
     "initial_charges": 10,
     "max_charges": 10,
     "charges_per_use": 1,
-    "use_action": "SPRAY_CAN"
+    "use_action": "SPRAY_CAN",
+    "flags": [ "WRITE_MESSAGE" ]
   },
   {
     "id": "stepladder",
@@ -7029,7 +7031,8 @@
     "initial_charges": 100,
     "max_charges": 100,
     "charges_per_use": 1,
-    "use_action": { "type": "inscribe", "verb": "Write", "gerund": "Written", "on_terrain": true, "material_restricted": false }
+    "use_action": { "type": "inscribe", "verb": "Write", "gerund": "Written", "on_terrain": true, "material_restricted": false },
+    "flags": [ "WRITE_MESSAGE" ]
   },
   {
     "id": "survivor_hairtrimmer",

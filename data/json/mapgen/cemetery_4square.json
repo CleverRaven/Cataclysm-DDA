@@ -2,12 +2,7 @@
   {
     "id": "FUNERAL",
     "type": "vehicle_group",
-    "vehicles": [
-      [ "car", 300 ],
-      [ "hearse", 200 ],
-      [ "suv", 100 ],
-      [ "policecar", 50 ]
-    ]
+    "vehicles": [ [ "car", 300 ], [ "hearse", 200 ], [ "suv", 100 ], [ "policecar", 50 ] ]
   },
   {
     "id": "grave_memories",
@@ -117,7 +112,18 @@
         "b": "f_bench",
         "c": "f_counter",
         "f": "f_rack",
-        "g": [ "f_grave_head", "f_grave_head", "f_grave_head", "f_grave_stone", "f_grave_stone", "f_grave_stone", "f_grave_stone", "f_grave_stone", "f_grave_stone_old", "f_statue" ],
+        "g": [
+          "f_grave_head",
+          "f_grave_head",
+          "f_grave_head",
+          "f_grave_stone",
+          "f_grave_stone",
+          "f_grave_stone",
+          "f_grave_stone",
+          "f_grave_stone",
+          "f_grave_stone_old",
+          "f_statue"
+        ],
         "h": "f_grave_head",
         "n": "f_slab",
         "r": "f_rubble_rock",
@@ -196,7 +202,18 @@
         "b": "f_bench",
         "c": "f_counter",
         "f": "f_rack",
-        "g": [ "f_grave_head", "f_grave_head", "f_grave_head", "f_grave_stone", "f_grave_stone", "f_grave_stone", "f_grave_stone", "f_grave_stone", "f_grave_stone_old", "f_statue" ],
+        "g": [
+          "f_grave_head",
+          "f_grave_head",
+          "f_grave_head",
+          "f_grave_stone",
+          "f_grave_stone",
+          "f_grave_stone",
+          "f_grave_stone",
+          "f_grave_stone",
+          "f_grave_stone_old",
+          "f_statue"
+        ],
         "h": "f_grave_head",
         "n": "f_slab",
         "r": "f_rubble_rock",
@@ -275,7 +292,18 @@
         "b": "f_bench",
         "c": "f_counter",
         "f": "f_rack",
-        "g": [ "f_grave_head", "f_grave_head", "f_grave_head", "f_grave_stone", "f_grave_stone", "f_grave_stone", "f_grave_stone", "f_grave_stone", "f_grave_stone_old", "f_statue" ],
+        "g": [
+          "f_grave_head",
+          "f_grave_head",
+          "f_grave_head",
+          "f_grave_stone",
+          "f_grave_stone",
+          "f_grave_stone",
+          "f_grave_stone",
+          "f_grave_stone",
+          "f_grave_stone_old",
+          "f_statue"
+        ],
         "h": "f_grave_head",
         "n": "f_slab",
         "p": "f_sign",
@@ -364,7 +392,18 @@
         "b": "f_bench",
         "c": "f_counter",
         "f": "f_rack",
-        "g": [ "f_grave_head", "f_grave_head", "f_grave_head", "f_grave_stone", "f_grave_stone", "f_grave_stone", "f_grave_stone", "f_grave_stone", "f_grave_stone_old", "f_statue" ],
+        "g": [
+          "f_grave_head",
+          "f_grave_head",
+          "f_grave_head",
+          "f_grave_stone",
+          "f_grave_stone",
+          "f_grave_stone",
+          "f_grave_stone",
+          "f_grave_stone",
+          "f_grave_stone_old",
+          "f_statue"
+        ],
         "h": "f_grave_head",
         "n": "f_slab",
         "r": "f_rubble_rock",

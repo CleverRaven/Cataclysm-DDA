@@ -2727,7 +2727,6 @@
       [ "glass_shard", 20 ],
       [ "ceramic_shard", 15 ],
       [ "stick", 95 ],
-      [ "muffler", 30 ],
       [ "seed_wheat", 5 ],
       [ "seed_tomato", 5 ],
       [ "seed_weed", 5 ],
@@ -2760,15 +2759,12 @@
       [ "recipe_elfa", 1 ],
       [ "jug_plastic", 10 ],
       [ "spray_can", 50 ],
-      [ "keg", 10 ],
       [ "jar_glass", 10 ],
       [ "jar_3l_glass", 8 ],
       [ "flyer", 10 ],
       [ "scorecard", 10 ],
       [ "talking_doll", 60 ],
       [ "marble", 65 ],
-      [ "55gal_drum", 1 ],
-      [ "30gal_drum", 2 ],
       [ "creepy_doll", 1 ],
       [ "straw_doll", 1 ],
       [ "striped_shirt", 1 ],
@@ -3752,16 +3748,11 @@
     "type": "item_group",
     "//": "These are exceptionally rare martial arts books that should only spawn very rarely.",
     "items": [
-      [ "manual_centipede", 1 ],
       [ "manual_crane", 1 ],
       [ "manual_dragon", 1 ],
       [ "manual_leopard", 1 ],
-      [ "manual_lizard", 1 ],
-      [ "manual_scorpion", 1 ],
       [ "manual_snake", 1 ],
       [ "manual_tiger", 1 ],
-      [ "manual_toad", 1 ],
-      [ "manual_venom_snake", 1 ],
       [ "manual_zui_quan", 1 ]
     ]
   },
@@ -4878,6 +4869,8 @@
       [ "hat_faux_fur", 15 ],
       [ "hat_newsboy", 20 ],
       [ "hat_sombrero", 5 ],
+      [ "bandolier_shotgun", 8 ],
+      [ "torso_bandolier_shotgun", 3 ],
       [ "holster", 8 ],
       [ "bootstrap", 3 ],
       [ "legpouch", 4 ],
@@ -5350,6 +5343,7 @@
       [ "sheath", 5 ],
       [ "bootsheath", 5 ],
       [ "holster", 4 ],
+      [ "bandolier_shotgun", 3 ],
       [ "survnote", 2 ],
       [ "bodypillow", 1 ]
     ]
@@ -6140,7 +6134,8 @@
       [ "bio_syringe", 10 ],
       [ "bio_weight", 10 ],
       [ "bio_shock_absorber", 10 ],
-      [ "bio_jointservo", 10 ]
+      [ "bio_jointservo", 10 ],
+      [ "bio_taste_blocker", 10 ]
     ]
   },
   {
@@ -6323,6 +6318,7 @@
       [ "bootsheath", 8 ],
       [ "holster", 15 ],
       [ "sholster", 10 ],
+      [ "bandolier_shotgun", 8 ],
       [ "solarpack", 5 ]
     ]
   },
@@ -7576,6 +7572,8 @@
       [ "backpack", 38 ],
       [ "holster", 15 ],
       [ "sholster", 10 ],
+      [ "bandolier_shotgun", 12 ],
+      [ "torso_bandolier_shotgun", 8 ],
       [ "bootstrap", 3 ],
       [ "legpouch", 8 ],
       [ "legpouch_large", 4 ],
@@ -10454,5 +10452,10 @@
     "type": "item_group",
     "id": "maps",
     "items": [ { "item": "roadmap", "prob": 33 }, { "item": "touristmap", "prob": 33 }, { "item": "survivormap", "prob": 33 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "meth_ingredients",
+    "items": [ [ "dayquil", 2 ], [ "aspirin", 40 ], [ "adderall", 5 ], [ "energy_drink", 2 ], [ "caffeine", 20 ] ]
   }
 ]
