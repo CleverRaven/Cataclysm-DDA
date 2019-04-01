@@ -164,10 +164,10 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
         // (This would be much less hacky in the hypothetical future of
         // activity_handler_actors).
         if( !( values.size() == other.values.size() &&
-               values.size() >= 1 &&
+               !values.empty() &&
                std::equal( values.begin(), values.end() - 1, other.values.begin() ) &&
                coords.size() == other.coords.size() &&
-               coords.size() >= 1 &&
+               !coords.empty() &&
                std::equal( coords.begin(), coords.end() - 1, other.coords.begin() ) ) ) {
             return false;
         }
@@ -201,8 +201,8 @@ void player_activity::resume_with( const player_activity &other )
         // For crafting actions, we need to update the start turn and position
         // to the resumption time values.  These are stored in the last
         // elements of values and coords respectively.
-        if( !( values.size() >= 1 && values.size() == other.values.size() &&
-               coords.size() >= 1 && coords.size() == other.coords.size() ) ) {
+        if( !( !values.empty() && values.size() == other.values.size() &&
+               !coords.empty() && coords.size() == other.coords.size() ) ) {
             debugmsg( "Activities incompatible; should not have resumed" );
             return;
         }

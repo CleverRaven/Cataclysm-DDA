@@ -94,7 +94,7 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
     } else {
         //when wind strength is low, wind direction is more variable
         bool changedir = one_in( W * 360 );
-        if( changedir == true ) {
+        if( changedir ) {
             current_winddir = get_wind_direction( season, seed );
             current_winddir = convert_winddir( current_winddir );
         }
@@ -275,7 +275,6 @@ void weather_generator::test_weather() const
                  ";" << wd.name << ";" << w.windpower << ";" << w.winddirection << std::endl;
     }
 }
-
 
 weather_generator weather_generator::load( JsonObject &jo )
 {

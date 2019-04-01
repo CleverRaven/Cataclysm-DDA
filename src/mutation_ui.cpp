@@ -18,7 +18,7 @@ mutation_chars( "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\"#&()*+./:
 
 void draw_exam_window( const catacurses::window &win, const int border_y )
 {
-    int width = getmaxx( win );
+    const int width = getmaxx( win );
     mvwputch( win, border_y, 0, BORDER_COLOR, LINE_XXXO );
     mvwhline( win, border_y, 1, LINE_OXOX, width - 2 );
     mvwputch( win, border_y, width - 1, BORDER_COLOR, LINE_XOXX );

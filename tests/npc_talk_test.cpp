@@ -479,7 +479,6 @@ TEST_CASE( "npc_talk_test" )
     CHECK( talker_npc.op_of_u.anger == 13 );
     CHECK( talker_npc.op_of_u.owed == 14 );
 
-
     d.add_topic( "TALK_TEST_HAS_ITEM" );
     gen_response_lines( d, 4 );
     CHECK( d.responses[0].text == "This is a basic test response." );
@@ -520,6 +519,30 @@ TEST_CASE( "npc_talk_test" )
     CHECK( d.responses[5].text == "Don't use grenades anymore." );
     CHECK( d.responses[6].text == "Don't worry about shooting an ally." );
     CHECK( d.responses[7].text == "Never mind." );
+
+    d.add_topic( "TALK_TEST_VARS" );
+    gen_response_lines( d, 3 );
+    CHECK( d.responses[0].text == "This is a basic test response." );
+    CHECK( d.responses[1].text == "This is a u_add_var test response." );
+    CHECK( d.responses[2].text == "This is a npc_add_var test response." );
+    effects = d.responses[1].success;
+    effects.apply( d );
+    effects = d.responses[2].success;
+    effects.apply( d );
+    gen_response_lines( d, 5 );
+    CHECK( d.responses[0].text == "This is a basic test response." );
+    CHECK( d.responses[1].text == "This is a u_add_var test response." );
+    CHECK( d.responses[2].text == "This is a npc_add_var test response." );
+    CHECK( d.responses[3].text == "This is a u_has_var, u_remove_var test response." );
+    CHECK( d.responses[4].text == "This is a npc_has_var, npc_remove_var test response." );
+    effects = d.responses[3].success;
+    effects.apply( d );
+    effects = d.responses[4].success;
+    effects.apply( d );
+    gen_response_lines( d, 3 );
+    CHECK( d.responses[0].text == "This is a basic test response." );
+    CHECK( d.responses[1].text == "This is a u_add_var test response." );
+    CHECK( d.responses[2].text == "This is a npc_add_var test response." );
 
     // test change class
     REQUIRE( talker_npc.myclass == npc_class_id( "NC_TEST_CLASS" ) );

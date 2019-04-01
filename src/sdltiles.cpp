@@ -1161,6 +1161,9 @@ bool Font::draw_window( const catacurses::window &w, const int offsetx, const in
     bool use_oversized_framebuffer = g && ( w == g->w_terrain || w == g->w_overmap ||
                                             w == w_hit_animation );
 
+    std::vector<curseline> &framebuffer = use_oversized_framebuffer ? oversized_framebuffer :
+                                          terminal_framebuffer;
+
     /*
     Let's try to keep track of different windows.
     A number of windows are coexisting on the screen, so don't have to interfere.
@@ -1195,9 +1198,22 @@ bool Font::draw_window( const catacurses::window &w, const int offsetx, const in
         if( !win->line[j].touched ) {
             continue;
         }
+
+        const int fby = win->y + j;
+        if( fby >= static_cast<int>( framebuffer.size() ) ) {
+            // prevent indexing outside the frame buffer. This might happen for some parts of the window. FIX #28953.
+            break;
+        }
+
         update = true;
         win->line[j].touched = false;
         for( int i = 0; i < win->width; i++ ) {
+            const int fbx = win->x + i;
+            if( fbx >= static_cast<int>( framebuffer[fby].chars.size() ) ) {
+                // prevent indexing outside the frame buffer. This might happen for some parts of the window.
+                break;
+            }
+
             const cursecell &cell = win->line[j].chars[i];
 
             const int drawx = offsetx + i * fontwidth;
@@ -1209,18 +1225,6 @@ bool Font::draw_window( const catacurses::window &w, const int offsetx, const in
 
             // Avoid redrawing an unchanged tile by checking the framebuffer cache
             // TODO: handle caching when drawing normal windows over graphical tiles
-            const int fbx = win->x + i;
-            const int fby = win->y + j;
-
-            std::vector<curseline> &framebuffer = use_oversized_framebuffer ? oversized_framebuffer :
-                                                  terminal_framebuffer;
-
-#ifdef __ANDROID__
-            // BUGFIX: Prevents an occasional crash when viewing player info. This seems like it might be a cross-platform issue in the experimental build
-            if( fby >= ( int )framebuffer.size() || fbx >= ( int )framebuffer[fby].chars.size() ) {
-                continue;
-            }
-#endif
             cursecell &oldcell = framebuffer[fby].chars[fbx];
 
             if( oldWinCompatible && cell == oldcell && fontScale == fontScaleBuffer ) {
@@ -1442,14 +1446,19 @@ static void end_arrow_combo()
  */
 long sdl_keysym_to_curses( const SDL_Keysym &keysym )
 {
-    std::string arrow_keys_vs_modifiers = get_option<std::string>( "ARROW_KEYS_VS_MODIFIERS" );
-    if( arrow_keys_vs_modifiers == "numpad" ) {
+
+#ifndef __ANDROID__
+    const std::string diag_mode = get_option<std::string>( "DIAG_MOVE_WITH_MODIFIERS_MODE" );
+
+    if( diag_mode == "mode1" ) {
         if( keysym.mod & KMOD_CTRL && sdl_keycode_is_arrow( keysym.sym ) ) {
             return handle_arrow_combo( keysym.sym );
         } else {
             end_arrow_combo();
         }
-    } else if( arrow_keys_vs_modifiers == "rotation" ) {
+    }
+
+    if( diag_mode == "mode2" ) {
         //Shift + Cursor Arrow (diagonal clockwise)
         if( keysym.mod & KMOD_SHIFT ) {
             switch( keysym.sym ) {
@@ -1478,6 +1487,27 @@ long sdl_keysym_to_curses( const SDL_Keysym &keysym )
         }
     }
 
+    if( diag_mode == "mode3" ) {
+        //Shift + Cursor Left/RightArrow
+        if( keysym.mod & KMOD_SHIFT ) {
+            switch( keysym.sym ) {
+                case SDLK_LEFT:
+                    return inp_mngr.get_first_char_for_action( "LEFTUP" );
+                case SDLK_RIGHT:
+                    return inp_mngr.get_first_char_for_action( "RIGHTUP" );
+            }
+        }
+        //Ctrl + Cursor Left/Right Arrow
+        if( keysym.mod & KMOD_CTRL ) {
+            switch( keysym.sym ) {
+                case SDLK_LEFT:
+                    return inp_mngr.get_first_char_for_action( "LEFTDOWN" );
+                case SDLK_RIGHT:
+                    return inp_mngr.get_first_char_for_action( "RIGHTDOWN" );
+            }
+        }
+    }
+#endif
     switch( keysym.sym ) {
         // This is special: allow entering a Unicode character with ALT+number
         case SDLK_RALT:
@@ -3265,7 +3295,6 @@ void init_term_size_and_scaling_factor()
 
         terminal_x = std::max( FULL_SCREEN_WIDTH * scaling_factor, terminal_x );
         terminal_y = std::max( FULL_SCREEN_HEIGHT * scaling_factor, terminal_y );
-
 
         get_options().get_option( "TERMINAL_X" ).setValue(
             std::max( FULL_SCREEN_WIDTH * scaling_factor, terminal_x ) );

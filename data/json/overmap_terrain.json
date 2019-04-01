@@ -326,6 +326,173 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "apartments_con_tower_110",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_con_tower_010",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_con_tower_100",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_con_tower_000",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_con_tower_111",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_con_tower_011",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_con_tower_101",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_con_tower_001",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_con_tower_113",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_con_tower_013",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_con_tower_112",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_con_tower_012",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_con_tower_102",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_con_tower_002",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_con_tower_114",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_con_tower_014",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_con_tower_015",
+    "name": "open air",
+    "sym": 46,
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_con_tower_104",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_con_tower_004",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_mod_tower_110",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_mod_tower_010",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_mod_tower_100",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_mod_tower_000",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_mod_tower_111",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_mod_tower_011",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_mod_tower_101",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_mod_tower_001",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_mod_tower_112",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_mod_tower_012",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_mod_tower_113",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_mod_tower_013",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_mod_tower_103",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_mod_tower_003",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "office_tower_1_entrance",
     "name": "office tower",
     "sym": 84,
@@ -505,6 +672,27 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "s_grocery_roof",
+    "name": "grocery store roof",
+    "copy-from": "generic_city_building",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_grocery_1",
+    "name": "grocery store",
+    "copy-from": "generic_city_building",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_grocery_roof_1",
+    "name": "grocery store roof",
+    "copy-from": "generic_city_building",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "s_hardware",
     "name": "hardware store",
     "copy-from": "generic_city_building",
@@ -568,6 +756,55 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "s_restaurant_roof",
+    "name": "restaurant roof",
+    "copy-from": "generic_city_building",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_restaurant_1",
+    "name": "restaurant",
+    "copy-from": "generic_city_building",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_restaurant_roof_1",
+    "name": "restaurant roof",
+    "copy-from": "generic_city_building",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_restaurant_2",
+    "name": "restaurant",
+    "copy-from": "generic_city_building",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_restaurant_roof_2",
+    "name": "restaurant roof",
+    "copy-from": "generic_city_building",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_restaurant_3",
+    "name": "restaurant",
+    "copy-from": "generic_city_building",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_restaurant_roof_3",
+    "name": "restaurant roof",
+    "copy-from": "generic_city_building",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "s_restaurant_fast",
     "name": "fast food restaurant",
     "copy-from": "generic_city_building",
@@ -575,7 +812,63 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "s_restaurant_fast_roof",
+    "name": "fast food restaurant roof",
+    "copy-from": "generic_city_building",
+    "color": "yellow_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_restaurant_fast_1",
+    "name": "fast food restaurant",
+    "copy-from": "generic_city_building",
+    "color": "yellow_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_restaurant_fast_roof_1",
+    "name": "fast food restaurant roof",
+    "copy-from": "generic_city_building",
+    "color": "yellow_magenta"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "s_restaurant_coffee",
+    "name": "coffee shop",
+    "copy-from": "generic_city_building",
+    "color": "white_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_restaurant_coffee_roof",
+    "name": "coffee shop",
+    "copy-from": "generic_city_building",
+    "color": "white_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_restaurant_coffee_1",
+    "name": "coffee shop",
+    "copy-from": "generic_city_building",
+    "color": "white_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_restaurant_coffee_roof_1",
+    "name": "coffee shop",
+    "copy-from": "generic_city_building",
+    "color": "white_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_restaurant_coffee_2",
+    "name": "coffee shop",
+    "copy-from": "generic_city_building",
+    "color": "white_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_restaurant_coffee_roof_2",
     "name": "coffee shop",
     "copy-from": "generic_city_building",
     "color": "white_magenta"
@@ -1639,6 +1932,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "motel_twd_second_floor",
+    "copy-from": "generic_city_building",
+    "name": "motel",
+    "sym": 104,
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "motel_entrance",
     "copy-from": "generic_city_building",
     "name": "motel",
@@ -2577,6 +2878,120 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "hdwr_large_0_0_0",
+    "name": "home improvement superstore",
+    "sym": 72,
+    "color": "light_green_yellow",
+    "see_cost": 5,
+    "extras": "field",
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "hdwr_large_1_0_0",
+    "name": "home improvement superstore",
+    "sym": 72,
+    "color": "light_green_yellow",
+    "see_cost": 5,
+    "extras": "field",
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "hdwr_large_0_1_0",
+    "name": "home improvement superstore",
+    "sym": 72,
+    "color": "light_green_yellow",
+    "see_cost": 5,
+    "extras": "field",
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "hdwr_large_1_1_0",
+    "name": "home improvement superstore",
+    "sym": 72,
+    "color": "light_green_yellow",
+    "see_cost": 5,
+    "extras": "field",
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "hdwr_large_0_2_0",
+    "name": "home improvement superstore",
+    "sym": 72,
+    "color": "light_green_yellow",
+    "see_cost": 5,
+    "extras": "field",
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "hdwr_large_1_2_0",
+    "name": "home improvement superstore",
+    "sym": 72,
+    "color": "light_green_yellow",
+    "see_cost": 5,
+    "extras": "field",
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "hdwr_large_0_0_1",
+    "name": "home improvement superstore",
+    "sym": 46,
+    "color": "light_blue",
+    "see_cost": 5,
+    "extras": "field"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "hdwr_large_1_0_1",
+    "name": "home improvement superstore",
+    "sym": 46,
+    "color": "light_blue",
+    "see_cost": 5,
+    "extras": "field"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "hdwr_large_0_1_1",
+    "name": "home improvement superstore",
+    "sym": 46,
+    "color": "light_blue",
+    "see_cost": 5,
+    "extras": "field"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "hdwr_large_1_1_1",
+    "name": "home improvement superstore",
+    "sym": 46,
+    "color": "light_blue",
+    "see_cost": 5,
+    "extras": "field"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "hdwr_large_0_2_1",
+    "name": "home improvement superstore",
+    "sym": 46,
+    "color": "light_blue",
+    "see_cost": 5,
+    "extras": "field"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "hdwr_large_1_2_1",
+    "name": "home improvement superstore",
+    "sym": 46,
+    "color": "light_blue",
+    "see_cost": 5,
+    "extras": "field"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "looted_building",
     "name": "looted building",
     "sym": 35,
@@ -3025,10 +3440,58 @@
     "color": "i_green"
   },
   {
+    "id": "dispensary_roof",
+    "type": "overmap_terrain",
+    "copy-from": "generic_city_building",
+    "name": "dispensary roof",
+    "sym": 68,
+    "color": "i_green"
+  },
+  {
+    "id": "dispensary_1",
+    "type": "overmap_terrain",
+    "copy-from": "generic_city_building",
+    "name": "dispensary",
+    "sym": 68,
+    "color": "i_green"
+  },
+  {
+    "id": "dispensary_roof_1",
+    "type": "overmap_terrain",
+    "copy-from": "generic_city_building",
+    "name": "dispensary roof",
+    "sym": 68,
+    "color": "i_green"
+  },
+  {
+    "id": "dispensary_2",
+    "type": "overmap_terrain",
+    "copy-from": "generic_city_building",
+    "name": "dispensary",
+    "sym": 68,
+    "color": "i_green"
+  },
+  {
+    "id": "dispensary_roof_2",
+    "type": "overmap_terrain",
+    "copy-from": "generic_city_building",
+    "name": "dispensary roof",
+    "sym": 68,
+    "color": "i_green"
+  },
+  {
     "id": "art_gallery",
     "type": "overmap_terrain",
     "copy-from": "generic_city_building",
     "name": "art gallery",
+    "sym": 97,
+    "color": "i_yellow"
+  },
+  {
+    "id": "art_gallery_roof",
+    "type": "overmap_terrain",
+    "copy-from": "generic_city_building",
+    "name": "art gallery roof",
     "sym": 97,
     "color": "i_yellow"
   },
@@ -3229,6 +3692,20 @@
     "type": "overmap_terrain",
     "id": "bakery",
     "name": "bakery",
+    "copy-from": "generic_city_building",
+    "color": "c_yellow_white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "bakery_roof",
+    "name": "bakery roof",
+    "copy-from": "generic_city_building",
+    "color": "c_yellow_white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "bakery_upper_roof",
+    "name": "bakery roof",
     "copy-from": "generic_city_building",
     "color": "c_yellow_white"
   },
@@ -4793,8 +5270,24 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "s_antique_roof",
+    "name": "antique store roof",
+    "copy-from": "generic_city_building",
+    "sym": 65,
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "s_arcade",
     "name": "arcade",
+    "copy-from": "generic_city_building",
+    "sym": 65,
+    "color": "cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_arcade_roof",
+    "name": "arcade roof",
     "copy-from": "generic_city_building",
     "sym": 65,
     "color": "cyan"

@@ -704,12 +704,12 @@ void activity_on_turn_pickup()
 
 // I'd love to have this not duplicate so much code from Pickup::pick_one_up(),
 // but I don't see a clean way to do that.
-static void move_items( const tripoint &src, bool from_vehicle,
+static void move_items( player &p, const tripoint &src, bool from_vehicle,
                         const tripoint &dest, bool to_vehicle,
                         std::list<int> &indices, std::list<int> &quantities )
 {
-    tripoint source = src + g->u.pos();
-    tripoint destination = dest + g->u.pos();
+    tripoint source = src + p.pos();
+    tripoint destination = dest + p.pos();
 
     int s_cargo = -1;
     vehicle *s_veh = nullptr;
@@ -724,14 +724,14 @@ static void move_items( const tripoint &src, bool from_vehicle,
         assert( s_cargo >= 0 );
     }
 
-    while( g->u.moves > 0 && !indices.empty() ) {
+    while( p.moves > 0 && !indices.empty() ) {
         int index = indices.back();
         int quantity = quantities.back();
         indices.pop_back();
         quantities.pop_back();
 
-        item *temp_item = from_vehicle ? g->m.item_from( s_veh, s_cargo, index ) : g->m.item_from( source,
-                          index );
+        item *temp_item = from_vehicle ? g->m.item_from( s_veh, s_cargo, index ) :
+                          g->m.item_from( source, index );
 
         if( temp_item == nullptr ) {
             continue; // No such item.
@@ -751,13 +751,15 @@ static void move_items( const tripoint &src, bool from_vehicle,
 
         // Check that we can pick it up.
         if( !temp_item->made_of_from_type( LIQUID ) ) {
-            // This is for hauling across zlevels, remove when going up and down stairs is no longer teleportation
+            // This is for hauling across zlevels, remove when going up and down stairs
+            // is no longer teleportation
             int distance = src.z == dest.z ? std::max( rl_dist( src, dest ), 1 ) : 1;
-            g->u.mod_moves( -Pickup::cost_to_move_item( g->u, *temp_item ) * distance );
+            p.mod_moves( -Pickup::cost_to_move_item( p, *temp_item ) * distance );
             if( to_vehicle ) {
-                put_into_vehicle_or_drop( g->u, item_drop_reason::deliberate, { *temp_item }, destination );
+                put_into_vehicle_or_drop( p, item_drop_reason::deliberate, { *temp_item },
+                                          destination );
             } else {
-                drop_on_map( g->u, item_drop_reason::deliberate, { *temp_item }, destination );
+                drop_on_map( p, item_drop_reason::deliberate, { *temp_item }, destination );
             }
             // Remove from map or vehicle.
             if( from_vehicle ) {
@@ -813,7 +815,7 @@ void activity_on_turn_move_items()
     g->u.activity = player_activity();
 
     // *puts on 3d glasses from 90s cereal box*
-    move_items( source, from_vehicle, destination, to_vehicle, indices, quantities );
+    move_items( g->u, source, from_vehicle, destination, to_vehicle, indices, quantities );
 
     if( !indices.empty() ) {
         g->u.assign_activity( activity_id( "ACT_MOVE_ITEMS" ) );
@@ -922,8 +924,8 @@ static int move_cost( const item &it, const tripoint &src, const tripoint &dest 
     return move_cost_inv( it, src, dest );
 }
 
-static void move_item( item &it, int quantity, const tripoint &src, const tripoint &dest,
-                       vehicle *src_veh, int src_part )
+static void move_item( player &p, item &it, int quantity, const tripoint &src,
+                       const tripoint &dest, vehicle *src_veh, int src_part )
 {
     item leftovers = it;
 
@@ -939,8 +941,8 @@ static void move_item( item &it, int quantity, const tripoint &src, const tripoi
 
     // Check that we can pick it up.
     if( !it.made_of_from_type( LIQUID ) ) {
-        g->u.mod_moves( -move_cost( it, src, dest ) );
-        put_into_vehicle_or_drop( g->u, item_drop_reason::deliberate, { it }, dest );
+        p.mod_moves( -move_cost( it, src, dest ) );
+        put_into_vehicle_or_drop( p, item_drop_reason::deliberate, { it }, dest );
         // Remove from map or vehicle.
         if( src_veh ) {
             src_veh->remove_item( src_part, &it );
@@ -987,6 +989,7 @@ std::vector<tripoint> route_adjacent( const player &p, const tripoint &dest )
 
 void activity_on_turn_move_loot( player_activity &, player &p )
 {
+    const activity_id act_move_loot = activity_id( "ACT_MOVE_LOOT" );
     auto &mgr = zone_manager::get_manager();
     if( g->m.check_vehicle_zones( g->get_levz() ) ) {
         mgr.cache_vzones();
@@ -1008,9 +1011,32 @@ void activity_on_turn_move_loot( player_activity &, player &p )
 
     for( auto &src : src_sorted ) {
         const auto &src_loc = g->m.getlocal( src );
+        if( !g->m.inbounds( src_loc ) ) {
+            if( !g->m.inbounds( p.pos() ) ) {
+                // p is implicitly an NPC that has been moved off the map, so reset the activity
+                // and unload them
+                p.assign_activity( act_move_loot );
+                p.set_moves( 0 );
+                g->reload_npcs();
+                mgr.end_sort();
+                return;
+            }
+            std::vector<tripoint> route;
+            route = g->m.route( p.pos(), src_loc, p.get_pathfinding_settings(),
+                                p.get_path_avoid() );
+            if( route.empty() ) {
+                // can't get there, can't do anything, skip it
+                continue;
+            }
+            p.set_destination( route, player_activity( act_move_loot ) );
+            mgr.end_sort();
+            return;
+        }
+
         bool is_adjacent_or_closer = square_dist( p.pos(), src_loc ) <= 1;
 
-        // skip tiles in IGNORE zone and tiles on fire (to prevent taking out wood off the lit brazier)
+        // skip tiles in IGNORE zone and tiles on fire
+        // (to prevent taking out wood off the lit brazier)
         // and inaccessible furniture, like filled charcoal kiln
         if( mgr.has( zone_type_id( "LOOT_IGNORE" ), src ) ||
             g->m.get_field( src_loc, fd_fire ) != nullptr ||
@@ -1041,7 +1067,6 @@ void activity_on_turn_move_loot( player_activity &, player &p )
                 }
             }
         }
-
         //Skip items that have already been processed
         for( auto it = items.begin() + mgr.get_num_processed( src ); it < items.end(); it++ ) {
 
@@ -1082,23 +1107,29 @@ void activity_on_turn_move_loot( player_activity &, player &p )
                     }
                     // check free space at destination
                     if( free_space >= ( *it )->volume() ) {
-                        // before we move any item, check if player is at or adjacent to the loot source tile
+                        // before we move any item, check if player is at or
+                        // adjacent to the loot source tile
                         if( !is_adjacent_or_closer ) {
                             std::vector<tripoint> route;
                             bool adjacent = false;
 
-                            // get either direct route or route to nearest adjacent tile if source tile is impassable
+                            // get either direct route or route to nearest adjacent tile if
+                            // source tile is impassable
                             if( g->m.passable( src_loc ) ) {
-                                route = g->m.route( p.pos(), src_loc, p.get_pathfinding_settings(), p.get_path_avoid() );
+                                route = g->m.route( p.pos(), src_loc, p.get_pathfinding_settings(),
+                                                    p.get_path_avoid() );
                             } else {
-                                // immpassable source tile (locker etc.), get route to nerest adjacent tile instead
+                                // immpassable source tile (locker etc.),
+                                // get route to nerest adjacent tile instead
                                 route = route_adjacent( p, src_loc );
                                 adjacent = true;
                             }
 
                             // check if we found path to source / adjacent tile
                             if( route.empty() ) {
-                                add_msg( m_info, _( "You can't reach the source tile. Try to sort out loot without a cart." ) );
+                                add_msg( m_info, _( "%s can't reach the source tile. Try to sort out loot without a cart." ),
+                                         p.disp_name() );
+                                mgr.end_sort();
                                 return;
                             }
 
@@ -1108,15 +1139,15 @@ void activity_on_turn_move_loot( player_activity &, player &p )
                             }
 
                             // set the destination and restart activity after player arrives there
-                            // we don't need to check for safe mode, activity will be restarted only if
+                            // we don't need to check for safe mode,
+                            // activity will be restarted only if
                             // player arrives on destination tile
-                            p.set_destination( route, player_activity( activity_id( "ACT_MOVE_LOOT" ) ) );
-
-                            // didn't actually process so decrement
-                            mgr.decrement_num_processed( src );
+                            p.set_destination( route, player_activity( act_move_loot ) );
+                            mgr.end_sort();
                             return;
                         }
-                        move_item( **it, ( *it )->count(), src_loc, dest_loc, src_veh, src_part );
+                        move_item( p, **it, ( *it )->count(), src_loc, dest_loc, src_veh,
+                                   src_part );
 
                         // moved item away from source so decrement
                         mgr.decrement_num_processed( src );
@@ -1126,7 +1157,8 @@ void activity_on_turn_move_loot( player_activity &, player &p )
                 }
                 if( p.moves <= 0 ) {
                     // Restart activity and break from cycle.
-                    p.assign_activity( activity_id( "ACT_MOVE_LOOT" ) );
+                    p.assign_activity( act_move_loot );
+                    mgr.end_sort();
                     return;
                 }
             }
@@ -1134,7 +1166,7 @@ void activity_on_turn_move_loot( player_activity &, player &p )
     }
 
     // If we got here without restarting the activity, it means we're done
-    add_msg( m_info, _( "You sorted out every item you could." ) );
+    add_msg( m_info, string_format( _( "%s sorted out every item possible." ), p.disp_name() ) );
     mgr.end_sort();
 }
 
@@ -1202,7 +1234,7 @@ void try_refuel_fire( player &p )
             // Put first item back to refuelling pile
             std::list<int> indices_to_remove{ static_cast<int>( i ) };
             std::list<int> quantities_to_remove{ 0 };
-            move_items( *best_fire - pos, false, *refuel_spot - pos, false, indices_to_remove,
+            move_items( p, *best_fire - pos, false, *refuel_spot - pos, false, indices_to_remove,
                         quantities_to_remove );
             return;
         }
@@ -1227,7 +1259,8 @@ void try_refuel_fire( player &p )
             std::list<int> indices{ static_cast<int>( i ) };
             std::list<int> quantities{ 0 };
             // Note: move_items handles messages (they're the generic "you drop x")
-            move_items( *refuel_spot - p.pos(), false, *best_fire - p.pos(), false, indices, quantities );
+            move_items( p, *refuel_spot - p.pos(), false, *best_fire - p.pos(), false, indices,
+                        quantities );
             return;
         }
     }

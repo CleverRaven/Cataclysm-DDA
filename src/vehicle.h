@@ -591,7 +591,6 @@ class vehicle
         void smash_security_system();
         // get vpart powerinfo for part number, accounting for variable-sized parts and hps.
         int part_vpower_w( int index, bool at_full_hp = false ) const;
-        int part_vpower_vhp( int index, bool at_full_hp = false ) const;
 
         // get vpart epowerinfo for part number.
         int part_epower_w( int index ) const;

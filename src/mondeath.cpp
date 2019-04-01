@@ -714,7 +714,7 @@ void mdeath::kill_breathers( monster &z )
 void mdeath::detonate( monster &z )
 {
     weighted_int_list<std::string> amm_list;
-    for( auto amm : z.ammo ) {
+    for( const auto &amm : z.ammo ) {
         amm_list.add( amm.first, amm.second );
     }
 
@@ -775,7 +775,7 @@ void mdeath::detonate( monster &z )
     // First die normally
     mdeath::normal( z );
     // Then detonate our suicide bombs
-    for( auto bombs : dets ) {
+    for( const auto &bombs : dets ) {
         item bomb_item( bombs.first, 0 );
         bomb_item.charges = bombs.second;
         bomb_item.active = true;

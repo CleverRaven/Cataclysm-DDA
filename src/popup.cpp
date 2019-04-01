@@ -345,7 +345,7 @@ std::string query_popup::wait_text( const std::string &text )
 }
 
 query_popup::result::result()
-    : wait_input( false ), action( "ERROR" ), evt()
+    : wait_input( false ), action( "ERROR" )
 {
 }
 

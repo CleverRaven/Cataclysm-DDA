@@ -369,6 +369,8 @@ bool player::activate_bionic( int b, bool eff_only )
         }
     } else if( bio.id == "bio_torsionratchet" ) {
         add_msg_if_player( m_info, _( "Your torsion ratchet locks onto your joints." ) );
+    } else if( bio.id == "bio_jointservo" ) {
+        add_msg_if_player( m_info, _( "You can now run faster, assisted by joint servomotors." ) );
     } else if( bio.id == "bio_lighter" ) {
         g->refresh_all();
         const cata::optional<tripoint> pnt = choose_adjacent( _( "Start a fire where?" ) );
@@ -797,8 +799,24 @@ void player::process_bionic( int b )
     }
 }
 
-void player::bionics_uninstall_failure( player &installer )
+void player::bionics_uninstall_failure( player &installer, int difficulty, int success,
+                                        float adjusted_skill )
 {
+    // "success" should be passed in as a negative integer representing how far off we
+    // were for a successful removal.  We use this to determine consequences for failing.
+    success = abs( success );
+
+    // failure level is decided by how far off the character was from a successful removal, and
+    // this is scaled up or down by the ratio of difficulty/skill.  At high skill levels (or low
+    // difficulties), only minor consequences occur.  At low skill levels, severe consequences
+    // are more likely.
+    const int failure_level = static_cast<int>( sqrt( success * 4.0 * difficulty / adjusted_skill ) );
+    const int fail_type = std::min( 5, failure_level );
+
+    if( fail_type <= 0 ) {
+        add_msg( m_neutral, _( "The removal fails without incident." ) );
+        return;
+    }
     switch( rng( 1, 5 ) ) {
         case 1:
             installer.add_msg_player_or_npc( m_neutral,
@@ -822,8 +840,28 @@ void player::bionics_uninstall_failure( player &installer )
                                              _( "<npcname> screws up the removal." ) );
             break;
     }
-    add_msg( m_bad, _( "%s body is severely damaged!" ), disp_name( true ) );
-    hurtall( rng( 30, 80 ), this ); // stop hurting yourself!
+
+    switch( fail_type ) {
+        case 1:
+            if( !has_trait( trait_id( "NOPAIN" ) ) ) {
+                add_msg_if_player( m_bad, _( "It really hurts!" ) );
+                mod_pain( rng( failure_level * 3, failure_level * 6 ) );
+            }
+            break;
+
+        case 2:
+        case 3:
+            add_msg( m_bad, _( "%s body is damaged!" ), disp_name( true ) );
+            hurtall( rng( failure_level, failure_level * 2 ), this ); // you hurt yourself
+            break;
+
+        case 4:
+        case 5:
+            add_msg( m_bad, _( "%s body is severely damaged!" ), disp_name( true ) );
+            hurtall( rng( 30, 80 ), this ); // stop hurting yourself!
+            break;
+    }
+
 }
 
 // bionic manipulation adjusted skill
@@ -984,7 +1022,7 @@ bool player::uninstall_bionic( const bionic_id &b_id, player &installer, bool au
                               pgettext( "memorial_female", "Failed to remove bionic: %s." ),
                               bionics[b_id].name.c_str() );
         }
-        bionics_uninstall_failure( installer );
+        bionics_uninstall_failure( installer, difficulty, success, adjusted_skill );
     }
     g->refresh_all();
     return true;
@@ -1337,7 +1375,7 @@ std::pair<int, int> player::amount_of_storage_bionics() const
     int lvl = max_power_level;
 
     // exclude amount of power capacity obtained via non-power-storage CBMs
-    for( auto it : *my_bionics ) {
+    for( const auto &it : *my_bionics ) {
         lvl -= bionics[it.id].capacity;
     }
 

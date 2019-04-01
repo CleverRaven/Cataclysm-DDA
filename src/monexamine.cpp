@@ -413,7 +413,6 @@ void monexamine::milk_source( monster &source_mon )
         remaining_milk -= source_mon.get_effect_dur( effect_milked ) / milking_freq;
     }
 
-
     if( remaining_milk > 0 ) {
         // pin the cow in place if it isn't already
         bool temp_tie = !source_mon.has_effect( effect_tied );

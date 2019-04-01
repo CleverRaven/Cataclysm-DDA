@@ -576,7 +576,7 @@ long consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
         }
     }
     // Apply the various effects.
-    for( auto eff : effects ) {
+    for( const auto &eff : effects ) {
         time_duration dur = eff.duration;
         if( p.has_trait( trait_TOLERANCE ) ) {
             dur *= .8;
@@ -1361,7 +1361,7 @@ int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
     // Original item has been consumed.
     cut.remove_item();
 
-    for( auto salvaged : materials_salvaged ) {
+    for( const auto &salvaged : materials_salvaged ) {
         std::string mat_name = salvaged.first;
         int amount = salvaged.second;
         item result( mat_name, calendar::turn );
@@ -2029,7 +2029,6 @@ long musical_instrument_actor::use( player &p, item &it, bool t, const tripoint 
         }
     }
 
-
     sounds::ambient_sound( p.pos(), volume, sounds::sound_t::music, desc );
 
     if( !p.has_effect( effect_music ) && p.can_hear( p.pos(), volume ) ) {
@@ -2690,7 +2689,9 @@ bool repair_item_actor::can_repair_target( player &pl, const item &fix,
         return false;
     }
 
-    if( fix.has_flag( "PRIMITIVE_RANGED_WEAPON" ) ) {
+    if( fix.has_flag( "PRIMITIVE_RANGED_WEAPON" ) ||
+        ( !fix.made_of( material_id( "cotton" ) ) && !fix.made_of( material_id( "wool" ) ) &&
+          !fix.made_of( material_id( "leather" ) ) ) ) {
         if( print_msg ) {
             pl.add_msg_if_player( m_info, _( "You cannot improve your %s any more this way." ),
                                   fix.tname().c_str() );
@@ -2882,7 +2883,9 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
     }
 
     if( action == RT_REINFORCE ) {
-        if( fix.has_flag( "PRIMITIVE_RANGED_WEAPON" ) ) {
+        if( fix.has_flag( "PRIMITIVE_RANGED_WEAPON" ) ||
+            ( !fix.made_of( material_id( "cotton" ) ) && !fix.made_of( material_id( "wool" ) ) &&
+              !fix.made_of( material_id( "leather" ) ) ) ) {
             pl.add_msg_if_player( m_info, _( "You cannot improve your %s any more this way." ),
                                   fix.tname().c_str() );
             return AS_CANT;
@@ -3143,7 +3146,7 @@ long heal_actor::finish_using( player &healer, player &patient, item &it, hp_par
         healer.add_msg_if_player( _( "You finish using the %s." ), it.tname().c_str() );
     }
 
-    for( auto eff : effects ) {
+    for( const auto &eff : effects ) {
         patient.add_effect( eff.id, eff.duration, eff.bp, eff.permanent );
     }
 
@@ -3816,7 +3819,7 @@ long mutagen_iv_actor::use( player &p, item &it, bool, const tripoint & ) const
     if( p.is_player() && !( p.has_trait( trait_NOPAIN ) ) && m_category.iv_sound ) {
         p.mod_pain( m_category.iv_pain );
         /** @EFFECT_STR increases volume of painful shouting when using IV mutagen */
-        sounds::sound( p.pos(), m_category.iv_noise + p.str_cur, sounds::sound_t::speech,
+        sounds::sound( p.pos(), m_category.iv_noise + p.str_cur, sounds::sound_t::alert,
                        m_category.iv_sound_message() );
     }
 

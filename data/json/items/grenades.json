@@ -9,11 +9,7 @@
     "material": [ "steel" ],
     "symbol": "*",
     "color": "dark_gray",
-    "use_action": {
-        "type": "countdown",
-        "name": "Arm grenade",
-        "message": "You pull the pin on the %s."
-    },
+    "use_action": { "type": "countdown", "name": "Arm grenade", "message": "You pull the pin on the %s." },
     "countdown_interval": 5,
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ]
   },
@@ -24,11 +20,7 @@
     "name": "tear gas grenade",
     "price": 3600,
     "description": "This is a canister grenade filled with noxious irritant.  Use this item to pull the pin and light the fuse, turning it into an active tear gas grenade.  In five turns it will begin to expel a highly toxic gas for some time.  This gas damages and slows those who enter it, as well as obscuring vision and scent.",
-    "countdown_action": {
-        "menu_text": "Pull pin",
-        "type": "transform",
-        "target": "gasbomb_act"
-    }
+    "countdown_action": { "menu_text": "Pull pin", "type": "transform", "target": "gasbomb_act" }
   },
   {
     "id": "gasbomb_act",
@@ -38,10 +30,7 @@
     "description": "This smoke bomb has had its pin removed and is expelling highly toxic gas.",
     "emits": [ "emit_tear_gas_stream" ],
     "countdown_interval": 50,
-    "countdown_action": {
-        "type": "transform",
-        "target": "canister_empty"
-    },
+    "countdown_action": { "type": "transform", "target": "canister_empty" },
     "flags": [ "TRADER_AVOID" ]
   },
   {
@@ -55,38 +44,18 @@
     "bashing": 4,
     "to_hit": 1,
     "price": 900,
-    "material": ["glass", "iron"],
+    "material": [ "glass", "iron" ],
     "symbol": "*",
     "color": "green",
-    "explode_in_fire" : true,
-    "explosion" : {
-        "power": 12,
-        "shrapnel": {
-            "count": 40,
-            "mass": 4,
-            "recovery": 10,
-            "drop": "nail"
-        }
-    },
-    "use_action": {
-        "type": "countdown",
-        "name": "Arm grenade",
-        "message": "You light the fuse on the %s."
-    },
+    "explode_in_fire": true,
+    "explosion": { "power": 12, "shrapnel": { "count": 40, "mass": 4, "recovery": 10, "drop": "nail" } },
+    "use_action": { "type": "countdown", "name": "Arm grenade", "message": "You light the fuse on the %s." },
     "countdown_interval": 5,
     "countdown_destroy": true,
     "countdown_action": {
-        "type": "explosion",
-        "explosion_power": 5,
-        "explosion": {
-            "power": 12,
-            "shrapnel": {
-                "count": 40,
-                "mass": 4,
-                "recovery": 10,
-                "drop": "nail"
-            }
-        }
+      "type": "explosion",
+      "explosion_power": 5,
+      "explosion": { "power": 12, "shrapnel": { "count": 40, "mass": 4, "recovery": 10, "drop": "nail" } }
     },
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "NONCONDUCTIVE" ]
   },
@@ -97,10 +66,7 @@
     "name": "smoke bomb",
     "description": "This is a canister grenade filled with a variety of pyrotechnic chemicals.  Use this item to pull the pin and light the fuse, turning it into an active smoke bomb.  Five turns after you do that, it will begin to expel a thick black smoke.  This smoke will slow those who enter it, as well as obscuring vision and scent.",
     "price": 1800,
-    "countdown_action": {
-        "type": "transform",
-        "target": "smokebomb_act"
-    }
+    "countdown_action": { "type": "transform", "target": "smokebomb_act" }
   },
   {
     "id": "smokebomb_act",
@@ -110,10 +76,7 @@
     "description": "This smoke bomb has had its pin removed and is expelling thick smoke.",
     "emits": [ "emit_smoke_stream" ],
     "countdown_interval": 100,
-    "countdown_action": {
-        "type": "transform",
-        "target": "canister_empty"
-    },
+    "countdown_action": { "type": "transform", "target": "canister_empty" },
     "flags": [ "TRADER_AVOID" ]
   }
 ]

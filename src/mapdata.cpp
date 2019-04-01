@@ -1048,7 +1048,7 @@ void map_data_common_t::load( JsonObject &jo, const std::string &src )
             harvest_id hl;
             if( harvest_jo.has_array( "entries" ) ) {
                 // TODO: A better inline name - can't use id or name here because it's not set yet
-                size_t num = harvest_list::all().size() + 1;
+                const size_t num = harvest_list::all().size() + 1;
                 hl = harvest_list::load( harvest_jo, src,
                                          string_format( "harvest_inline_%d", static_cast<int>( num ) ) );
             } else if( harvest_jo.has_string( "id" ) ) {
@@ -1175,6 +1175,7 @@ void furn_t::load( JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "comfort", comfort, 0 );
     optional( jo, was_loaded, "floor_bedding_warmth", floor_bedding_warmth, 0 );
     optional( jo, was_loaded, "bonus_fire_warmth_feet", bonus_fire_warmth_feet, 300 );
+    optional( jo, was_loaded, "keg_capacity", keg_capacity, legacy_volume_reader, 0_ml );
     mandatory( jo, was_loaded, "required_str", move_str_req );
     optional( jo, was_loaded, "max_volume", max_volume, legacy_volume_reader,
               DEFAULT_MAX_VOLUME_IN_SQUARE );
