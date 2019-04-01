@@ -266,11 +266,14 @@ void npc::handle_sound( int priority, const std::string &description, int heard_
             return;
         }
     }
-    // discount if sound source is player and listener is friendly
-    if( ( priority < 6 ) && g->u.sees( spos ) && ( is_friend() ||
-            mission == NPC_MISSION_GUARD_ALLY ||
-            get_attitude_group( get_attitude() ) != attitude_group::hostile ) ) {
+    // discount if sound source is player, or seen by player, and listener is friendly and sound source is combat or alert only.
+    if( ( priority < 7 ) && g->u.sees( spos ) && ( is_friend() ||
+            mission == NPC_MISSION_GUARD_ALLY ) ) {
         add_msg( m_debug, "NPC %s ignored low priority noise that player can see", name.c_str() );
+        return;
+        // discount if sound source is player, or seen by player, listener is neutral and sound type is worth investigating.
+    } else if( priority < 6 && get_attitude_group( get_attitude() ) != attitude_group::hostile &&
+               g->u.sees( spos ) ) {
         return;
     }
     // patrolling guards will investigate more readily than stationary NPCS
@@ -295,16 +298,20 @@ void npc::handle_sound( int priority, const std::string &description, int heard_
     add_msg( m_debug, "%s heard '%s', priority %d at volume %d from %d:%d, my pos %d:%d",
              disp_name(), description, priority, heard_volume, spos.x, spos.y, pos().x, pos().y );
     switch( priority ) {
-        case 7: //
+        case 4: //
             warn_about( "speech_noise", rng( 1, 10 ) * 1_minutes );
             break;
-        case 6: // combat noise is only worth comment if we're not fighting
+        case 5:
+        case 6:
+        case 7:
+        case 8: // combat noise is only worth comment if we're not fighting
+        case 9:
             // TODO: Brave NPCs should be less jumpy
             if( ai_cache.total_danger < 1.0f ) {
                 warn_about( "combat_noise", rng( 1, 10 ) * 1_minutes );
             }
             break;
-        case 4: // movement is is only worth comment if we're not fighting and out of a vehicle
+        case 3: // movement is is only worth comment if we're not fighting and out of a vehicle
             if( ai_cache.total_danger < 1.0f && !in_vehicle ) {
                 warn_about( "movement_noise", rng( 1, 10 ) * 1_minutes, description );
             }
