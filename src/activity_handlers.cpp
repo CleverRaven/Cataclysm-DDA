@@ -2638,7 +2638,7 @@ void activity_handlers::drill_finish( player_activity *act, player *p )
             g->events.add( EVENT_WANTED, calendar::turn + 30_minutes, 0, p->global_sm_location() );
         }
     }
-    
+
     p->add_msg_if_player( m_good, _( "You finish drilling." ) );
     act->set_to_null();
 }

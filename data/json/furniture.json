@@ -1863,7 +1863,7 @@
     "required_str": 14,
     "max_volume": 1000,
     "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE", "MINEABLE" ],
-    "examine_action": "safe",
+    "examine_action": "gunsafe_ml",
     "bash": {
       "str_min": 40,
       "str_max": 200,
@@ -1883,7 +1883,6 @@
     "required_str": 14,
     "max_volume": 1000,
     "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE", "MINEABLE" ],
-    "examine_action": "safe",
     "bash": {
       "str_min": 40,
       "str_max": 200,
@@ -1903,7 +1902,48 @@
     "required_str": 14,
     "max_volume": 1000,
     "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE", "MINEABLE" ],
-    "examine_action": "safe",
+    "examine_action": "gunsafe_el",
+    "bash": {
+      "str_min": 40,
+      "str_max": 200,
+      "sound": "screeching metal!",
+      "sound_fail": "whump!",
+      "items": [ { "item": "steel_chunk", "count": [ 1, 5 ] }, { "item": "scrap", "count": [ 1, 5 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_gunsafe_c",
+    "name": "safe",
+    "description": "Holds guns.  Securely.",
+    "symbol": "X",
+    "color": "light_gray",
+    "move_cost_mod": -1,
+    "required_str": 14,
+    "max_volume": 1000,
+    "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE", "MINEABLE" ],
+    "open": "f_gunsafe_o",
+    "examine_action": "open_safe",
+    "bash": {
+      "str_min": 40,
+      "str_max": 200,
+      "sound": "screeching metal!",
+      "sound_fail": "whump!",
+      "items": [ { "item": "steel_chunk", "count": [ 1, 5 ] }, { "item": "scrap", "count": [ 1, 5 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_gunsafe_o",
+    "name": "open safe",
+    "description": "Grab the firearms!",
+    "symbol": "O",
+    "color": "light_gray",
+    "move_cost_mod": -1,
+    "required_str": 14,
+    "max_volume": 1000,
+    "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "MOUNTABLE", "MINEABLE" ],
+    "close": "f_safe_c",
     "bash": {
       "str_min": 40,
       "str_max": 200,
@@ -1916,7 +1956,7 @@
     "type": "furniture",
     "id": "f_safe_o",
     "name": "open safe",
-    "description": "Grab the firearms!",
+    "description": "Grab the loot!",
     "symbol": "O",
     "color": "light_gray",
     "move_cost_mod": -1,
