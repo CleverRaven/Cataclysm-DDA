@@ -1379,7 +1379,6 @@ class player : public Character
         void make_all_craft( const recipe_id &id, int batch_size );
         std::list<item> consume_components_for_craft( const recipe &making, int batch_size,
                 bool ignore_last = false );
-        std::list<item> consume_some_components_for_craft( const recipe &making, int batch_size );
         /** consume components and create an active, in progress craft containing them */
         void start_craft( const recipe &making, int batch_size, bool is_long );
         void complete_craft( item &craft );

@@ -11284,7 +11284,6 @@ void player::assign_activity( const player_activity &act, bool allow_resume )
         add_msg_if_player( _( "You resume your task." ) );
         activity = backlog.front();
         backlog.pop_front();
-        activity.resume_with( act );
     } else {
         if( activity ) {
             backlog.push_front( activity );

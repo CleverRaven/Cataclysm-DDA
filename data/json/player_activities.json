@@ -34,14 +34,6 @@
     "type": "activity_type",
     "stop_phrase": "Stop crafting?",
     "based_on": "neither",
-    "refuel_fires": true,
-    "no_resume": true
-  },
-  {
-    "id": "ACT_LONGCRAFT",
-    "type": "activity_type",
-    "stop_phrase": "Stop crafting?",
-    "based_on": "neither",
     "refuel_fires": true
   },
   {

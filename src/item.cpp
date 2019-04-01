@@ -209,13 +209,28 @@ item::item( const itype *type, time_point turn, solitary_tag )
 item::item( const itype_id &id, time_point turn, solitary_tag tag )
     : item( find_type( id ), turn, tag ) {}
 
-item::item( const recipe *rec, long qty, t_item_vector items )
+item::item( const recipe *rec, long qty, std::list<item> items )
     : item( "craft", calendar::turn, qty )
 {
     making = rec;
     components = items;
-}
 
+    // Process this item to apply rot to components
+    active = true;
+
+    for( const item &it : components ) {
+        if( it.has_flag( "HIDDEN_POISON" ) ) {
+            set_flag( "HIDDEN_POISON" );
+        }
+        if( it.has_flag( "HIDDEN_HALLU" ) ) {
+            set_flag( "HIDDEN_HALLU" );
+        }
+        if( it.is_filthy() ) {
+            set_flag( "FILTHY" );
+        }
+    }
+
+}
 
 item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &name )
 {
@@ -2079,9 +2094,10 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             } else if( idescription != item_vars.end() ) {
                 info.push_back( iteminfo( "DESCRIPTION", idescription->second ) );
             } else {
-                if( is_craft() && making ) {
-                    const int percent_progress = item_counter / making->time;
-                    info.push_back( iteminfo( "DESCRIPTION", string_format( _( type->description.c_str() ),
+                if( is_craft() ) {
+                    const std::string desc = _( "This is an in progress %s.  It is %d percent complete." );
+                    const int percent_progress = 100 * item_counter / making->time;
+                    info.push_back( iteminfo( "DESCRIPTION", string_format( desc,
                                               making->result_name(),
                                               percent_progress ) ) );
                 } else {
@@ -2596,6 +2612,22 @@ const std::string &item::symbol() const
     return type->sym;
 }
 
+// Used for craft entity
+static const item *get_most_rotten_component( const item &craft )
+{
+    const item *most_rotten = nullptr;
+    for( const item &it : craft.components ) {
+        if( it.goes_bad() ) {
+            if( most_rotten == nullptr ) {
+                most_rotten = &it;
+            } else if( it.get_relative_rot() > most_rotten->get_relative_rot() ) {
+                most_rotten = &it;
+            }
+        }
+    }
+    return most_rotten;
+}
+
 nc_color item::color_in_inventory() const
 {
     player &u = g->u; // TODO: make a const reference
@@ -2611,7 +2643,9 @@ nc_color item::color_in_inventory() const
         ret = c_brown;
     } else if( has_flag( "LEAK_DAM" ) && has_flag( "RADIOACTIVE" ) && damage() > 0 ) {
         ret = c_light_green;
-    } else if( active && !is_food() && !is_food_container() ) { // Active items show up as yellow
+
+    } else if( active && !is_food() && !is_food_container() && !is_craft() ) {
+        // Active items show up as yellow
         ret = c_yellow;
     } else if( is_food() || is_food_container() ) {
         const bool preserves = type->container && type->container->preserves;
@@ -2652,6 +2686,11 @@ nc_color item::color_in_inventory() const
                 break;
             case NO_TOOL:
                 break;
+        }
+    } else if( is_craft() ) {
+        const item *most_rotten = get_most_rotten_component( *this );
+        if( most_rotten ) {
+            ret = most_rotten->color_in_inventory();
         }
     } else if( is_gun() ) {
         // Guns are green if you are carrying ammo for them
@@ -2847,6 +2886,26 @@ void item::on_damage( int, damage_type )
 
 }
 
+static std::string get_dirt_rot_suffixes( const item &it )
+{
+    std::stringstream ret;
+    ret.str( "" );
+
+    if( it.item_tags.count( "DIRTY" ) ) {
+        ret << _( " (dirty)" );
+    } else if( it.rotten() ) {
+        ret << _( " (rotten)" );
+    } else if( it.has_flag( "MUSHY" ) ) {
+        ret << _( " (mushy)" );
+    } else if( it.is_going_bad() ) {
+        ret << _( " (old)" );
+    } else if( it.is_fresh() ) {
+        ret << _( " (fresh)" );
+    }
+
+    return ret.str();
+}
+
 std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int truncate ) const
 {
     std::stringstream ret;
@@ -2938,18 +2997,13 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         maintext = ret.str();
     } else if( is_craft() ) {
         ret.str( "" );
-        if( making ) {
-            ret << string_format( label( quantity ), making->result_name() );
-        } else {
-            ret << string_format( label( quantity ), item().tname() );
-        }
+        const std::string name = _( "in progress %s" );
+        ret << string_format( name, making->result_name() );
         if( charges > 1 ) {
             ret << " (" << charges << ")";
         }
-        if( making ) {
-            const int percent_progress = 100 * item_counter / making->time;
-            ret << " (" << percent_progress << "%)";
-        }
+        const int percent_progress = 100 * item_counter / making->time;
+       	ret << " (" << percent_progress << "%)";
         maintext = ret.str();
     } else if( contents.size() == 1 ) {
         const item &contents_item = contents.front();
@@ -2978,17 +3032,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
             ret << _( " (hallucinogenic)" );
         }
 
-        if( item_tags.count( "DIRTY" ) ) {
-            ret << _( " (dirty)" );
-        } else if( rotten() ) {
-            ret << _( " (rotten)" );
-        } else if( has_flag( "MUSHY" ) ) {
-            ret << _( " (mushy)" );
-        } else if( is_going_bad() ) {
-            ret << _( " (old)" );
-        } else if( is_fresh() ) {
-            ret << _( " (fresh)" );
-        }
+        ret << get_dirt_rot_suffixes( *this );
 
         if( has_flag( "HOT" ) ) {
             ret << _( " (hot)" );
@@ -3000,6 +3044,18 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
             ret << _( " (frozen)" );
         } else if( has_flag( "MELTS" ) ) {
             ret << _( " (melted)" ); // he melted
+        }
+    }
+
+    if( is_craft() ) {
+        if( has_flag( "HIDDEN_POISON" ) && g->u.get_skill_level( skill_survival ) >= 3 ) {
+            ret << _( " (poisonous)" );
+        } else if( has_flag( "HIDDEN_HALLU" ) && g->u.get_skill_level( skill_survival ) >= 5 ) {
+            ret << _( " (hallucinogenic)" );
+        }
+        const item *most_rotten = get_most_rotten_component( *this );
+        if( most_rotten ) {
+            ret << get_dirt_rot_suffixes( *most_rotten );
         }
     }
 
@@ -3051,7 +3107,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     }
     if( active && ( has_flag( "WATER_EXTINGUISH" ) || has_flag( "LITCIG" ) ) ) {
         ret << _( " (lit)" );
-    } else if( active && !is_food() && !is_corpse() && ( typeId().length() < 3 ||
+    } else if( active && !is_food() && !is_corpse() && !is_craft() && ( typeId().length() < 3 ||
                typeId().compare( typeId().length() - 3, 3, "_on" ) != 0 ) ) {
         // Usually the items whose ids end in "_on" have the "active" or "on" string already contained
         // in their name, also food is active while it rots.
@@ -4805,7 +4861,7 @@ bool item::is_salvageable() const
 
 bool item::is_craft() const
 {
-    return typeId() == "craft";
+    return making != nullptr;
 }
 
 bool item::is_funnel_container( units::volume &bigger_than ) const
@@ -6769,12 +6825,12 @@ bool item::needs_processing() const
 {
     return active || has_flag( "RADIO_ACTIVATION" ) ||
            ( is_container() && !contents.empty() && contents.front().needs_processing() ) ||
-           is_artifact() || ( is_food() );
+           is_artifact() || is_food() || is_craft();
 }
 
 int item::processing_speed() const
 {
-    if( is_corpse() || is_food() || is_food_container() ) {
+    if( is_corpse() || is_food() || is_food_container() || is_craft() ) {
         return 100;
     }
     // Unless otherwise indicated, update every turn.
@@ -7038,6 +7094,21 @@ bool item::process_food( const player *carrier, const tripoint &p, int temp, flo
     // temperature can affect rot, so do it first
     update_temp( temp, insulation );
     calc_rot( p );
+    return false;
+}
+
+bool item::process_craft( const player *carrier, const tripoint &p, int temp, float insulation )
+{
+    if( carrier != nullptr && carrier->has_item( *this ) ) {
+        temp += 5; // body heat increases inventory temperature
+        insulation *= 1.5; // clothing provides inventory some level of insulation
+    }
+
+    // Process all stored components
+    // Already applied body heat, so pass nullptr instead of carrier
+    for( item &it : components ) {
+        it.process( nullptr, p, false, temp, insulation );
+    }
     return false;
 }
 
@@ -7389,7 +7460,7 @@ bool item::process_tool( player *carrier, const tripoint &pos )
 
 bool item::process( player *carrier, const tripoint &pos, bool activate )
 {
-    if( is_food() || is_food_container() ) {
+    if( is_food() || is_food_container() || is_craft() ) {
         return process( carrier, pos, activate, g->get_temperature( pos ), 1 );
     } else {
         return process( carrier, pos, activate, 0, 1 );
@@ -7429,13 +7500,7 @@ bool item::process( player *carrier, const tripoint &pos, bool activate, int tem
         return false;
     }
 
-    // item_counter is used differently for in progress crafts and should not be
-    // decremented here.
-    if( is_craft() ) {
-        return false;
-    }
-
-    if( !is_food() && item_counter > 0 ) {
+    if( !is_food() && !is_craft() && item_counter > 0 ) {
         item_counter--;
     }
 
@@ -7453,7 +7518,10 @@ bool item::process( player *carrier, const tripoint &pos, bool activate, int tem
     if( has_flag( "FAKE_SMOKE" ) && process_fake_smoke( carrier, pos ) ) {
         return true;
     }
-    if( is_food() &&  process_food( carrier, pos, temp, insulation ) ) {
+    if( is_food() && process_food( carrier, pos, temp, insulation ) ) {
+        return true;
+    }
+    if( is_craft() && process_craft( carrier, pos, temp, insulation ) ) {
         return true;
     }
     if( is_corpse() && process_corpse( carrier, pos ) ) {
@@ -7830,7 +7898,7 @@ std::vector<item_comp> item::get_uncraft_components() const
 const recipe &item::get_making() const
 {
     if( !making ) {
-        debugmsg( "Craft '%s' has a null recipe", tname() );
+        debugmsg( "'%s' is not a craft or has a null recipe", tname() );
         return recipe().ident().obj();
     }
     return *making;

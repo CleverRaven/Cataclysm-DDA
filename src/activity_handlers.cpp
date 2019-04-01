@@ -58,7 +58,6 @@ const std::map< activity_id, std::function<void( player_activity *, player * )> 
 activity_handlers::do_turn_functions = {
     { activity_id( "ACT_BURROW" ), burrow_do_turn },
     { activity_id( "ACT_CRAFT" ), craft_do_turn },
-    { activity_id( "ACT_LONGCRAFT" ), craft_do_turn },
     { activity_id( "ACT_FILL_LIQUID" ), fill_liquid_do_turn },
     { activity_id( "ACT_PICKAXE" ), pickaxe_do_turn },
     { activity_id( "ACT_DROP" ), drop_do_turn },
@@ -137,8 +136,6 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_WAIT_NPC" ), wait_npc_finish },
     { activity_id( "ACT_SOCIALIZE" ), socialize_finish },
     { activity_id( "ACT_TRY_SLEEP" ), try_sleep_finish },
-    // { activity_id( "ACT_CRAFT" ), craft_finish },
-    // { activity_id( "ACT_LONGCRAFT" ), longcraft_finish },
     { activity_id( "ACT_DISASSEMBLE" ), disassemble_finish },
     { activity_id( "ACT_BUILD" ), build_finish },
     { activity_id( "ACT_VIBE" ), vibe_finish },
@@ -2633,11 +2630,24 @@ void activity_handlers::try_sleep_finish( player_activity *act, player *p )
 
 void activity_handlers::craft_do_turn( player_activity *act, player *p )
 {
-    int pos = act->values.front();
-    item &craft = p->i_at( pos );
+    item *craft = act->targets.front().get_item();
 
-    const recipe &rec = craft.get_making();
+    if( !craft->is_craft() ) {
+        debugmsg( "ACT_CRAFT target '%s' is not a craft.  Aborting ACT_CRAFT.", craft->tname() );
+        act->set_to_null();
+        return;
+    }
+    if( !p->has_item( *craft ) ) {
+        p->add_msg_if_player( "%s no longer has the target '%s.'  Aborting ACT_CRAFT.",
+                              p->disp_name(), craft->tname() );
+        act->set_to_null();
+        return;
+    }
+
+    const recipe &rec = craft->get_making();
     const float crafting_speed = p->crafting_speed_multiplier( rec, true );
+    const bool is_long = act->values[0];
+    act->set_to_null();
 
     if( crafting_speed <= 0.0f ) {
         if( p->lighting_craft_speed_multiplier( rec ) <= 0.0f ) {
@@ -2645,7 +2655,6 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
         } else {
             p->add_msg_if_player( m_bad, _( "You are too frustrated to continue and just give up." ) );
         }
-        p->cancel_activity();
         return;
     }
     if( calendar::once_every( 1_hours ) && crafting_speed < 0.75f ) {
@@ -2653,22 +2662,21 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
         p->add_msg_if_player( m_bad, _( "You can't focus and are working slowly." ) );
     }
 
-    craft.item_counter += crafting_speed * p->get_moves();
+    craft->item_counter += crafting_speed * p->get_moves();
     p->set_moves( 0 );
-    act->set_to_null();
-    
-    if( craft.item_counter >= rec.time ) {
-        item craft_copy = craft;
-        p->i_rem( pos );
+
+    if( craft->item_counter >= rec.time ) {
+        item craft_copy = p->i_rem( craft );
         p->complete_craft( craft_copy );
-        if( act->values[1] ) { // If this is a long craft
+        if( is_long ) {
             if( p->making_would_work( p->lastrecipe, craft_copy.charges ) ) {
                 p->last_craft->execute();
             }
         }
     } else {
         p->assign_activity( activity_id( "ACT_CRAFT" ) );
-        p->activity.values.push_back( pos );
+        p->activity.targets.push_back( item_location( *p, craft ) );
+        p->activity.values.push_back( is_long );
     }
 }
 

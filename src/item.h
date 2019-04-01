@@ -188,7 +188,7 @@ class item : public visitable<item>
         item( const itype *type, time_point turn, solitary_tag );
 
         /** For constructing in-progress crafts */
-        item( const recipe *rec, long qty, std::vector<item> items );
+        item( const recipe *rec, long qty, std::list<item> items );
 
         /**
          * Filter converting this instance to another type preserving all other aspects
@@ -1841,6 +1841,7 @@ class item : public visitable<item>
         // processing types, just to make the process function cleaner.
         // The interface is the same as for @ref process.
         bool process_food( const player *carrier, const tripoint &p, int temp, float insulation );
+        bool process_craft( const player *carrier, const tripoint &p, int temp, float insulation );
         bool process_corpse( player *carrier, const tripoint &pos );
         bool process_wet( player *carrier, const tripoint &pos );
         bool process_litcig( player *carrier, const tripoint &pos );
@@ -1852,11 +1853,10 @@ class item : public visitable<item>
 
     public:
         static const long INFINITE_CHARGES;
-        typedef std::vector<item> t_item_vector;
 
         const itype *type;
         std::list<item> contents;
-        t_item_vector components;
+        std::list<item> components;
         /** What faults (if any) currently apply to this item */
         std::set<fault_id> faults;
         std::set<std::string> item_tags; // generic item specific flags

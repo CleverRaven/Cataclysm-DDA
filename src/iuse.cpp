@@ -8072,7 +8072,8 @@ int iuse::craft( player *p, item *it, bool, const tripoint & )
             string_format( pgettext( "in progress craft", "<npcname> starts working on the %s" ), it->tname()
                          ) );
         p->assign_activity( activity_id( "ACT_CRAFT" ) );
-        p->activity.values.push_back( pos );
+        p->activity.targets.push_back( item_location( *p, it ) );
+        p->activity.values.push_back( 0 ); // Not a long craft
     }
     return 0;
 }

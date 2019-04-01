@@ -383,7 +383,7 @@ void player::make_craft_with_command( const recipe_id &id_to_make, int batch_siz
 
 // @param offset is the index of the created item in the range [0, batch_size-1],
 // it makes sure that the used items are distributed equally among the new items.
-void set_components( std::vector<item> &components, const std::list<item> &used,
+void set_components( std::list<item> &components, const std::list<item> &used,
                      const int batch_size, const size_t offset )
 {
     if( batch_size <= 1 ) {
@@ -432,29 +432,6 @@ std::list<item> player::consume_components_for_craft( const recipe &making, int 
     return used;
 }
 
-std::list<item> player::consume_some_components_for_craft( const recipe &making, int batch_size )
-{
-    std::list<item> used;
-    if( has_trait( trait_id( "DEBUG_HS" ) ) ) {
-        return used;
-    }
-    const auto &req = making.requirements();
-    int cou = 0;
-    for( const auto &it : req.get_components() ) {
-        // Each component currently has 50% chance of not being consumed
-        // Skip first item so failed craft with one item recipe always loses component
-        if( cou == 0 || one_in( 2 ) ) {
-            std::list<item> tmp = consume_items( it, batch_size );
-            used.splice( used.end(), tmp );
-        }
-        ++cou;
-    }
-    for( const auto &it : req.get_tools() ) {
-        consume_tools( it, batch_size );
-    }
-    return used;
-}
-
 static void set_item_food( item &newit )
 {
     // TODO: encapsulate this into some function
@@ -469,20 +446,20 @@ static void finalize_crafted_item( item &newit )
     }
 }
 
-static item *set_item_inventory( item &newit )
+static item *set_item_inventory( player &p, item &newit )
 {
     item *ret_val = &null_item_reference();
     if( newit.made_of( LIQUID ) ) {
         g->handle_all_liquid( newit, PICKUP_RANGE );
     } else {
-        g->u.inv.assign_empty_invlet( newit, g->u );
+        p.inv.assign_empty_invlet( newit, p );
         // We might not have space for the item
-        if( !g->u.can_pickVolume( newit ) ) { //Accounts for result_mult
-            put_into_vehicle_or_drop( g->u, item_drop_reason::too_large, { newit } );
-        } else if( !g->u.can_pickWeight( newit, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
-            put_into_vehicle_or_drop( g->u, item_drop_reason::too_heavy, { newit } );
+        if( !p.can_pickVolume( newit ) ) { //Accounts for result_mult
+            put_into_vehicle_or_drop( p, item_drop_reason::too_large, { newit } );
+        } else if( !p.can_pickWeight( newit, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
+            put_into_vehicle_or_drop( p, item_drop_reason::too_heavy, { newit } );
         } else {
-            ret_val = &g->u.i_add( newit );
+            ret_val = &p.i_add( newit );
             add_msg( m_info, "%c - %s", ret_val->invlet == 0 ? ' ' : ret_val->invlet,
                      ret_val->tname().c_str() );
         }
@@ -490,19 +467,35 @@ static item *set_item_inventory( item &newit )
     return ret_val;
 }
 
-time_duration get_rot_since( const time_point &start, const time_point &end,
-                             const tripoint &location ); // weather.cpp
+static void return_all_components_for_craft( player &p, std::list<item> &used )
+{
+    // Force add here since the craft item is removed immediately after
+    for( item &it : used ) {
+        set_item_inventory( p, it );
+    }
+}
+
+static void return_some_components_for_craft( player &p, std::list<item> &used )
+{
+    for( std::list<item>::iterator it = used.begin(); it != used.end(); ++it ) {
+        // Force add here since the craft item is removed in the same turn
+        // Each component has a 50% chance of being returned
+        // Never return the first component
+        if( it != used.begin() && one_in( 2 ) ) {
+            set_item_inventory( p, *it );
+        }
+    }
+}
 
 void player::start_craft( const recipe &making, int batch_size, bool is_long )
 {
     if( making.ident().is_null() ) {
         debugmsg( "no recipe with id %s found", activity.name );
-        // activity.set_to_null();
         return;
     }
 
     // Use up the components and tools
-    std::list<item> used = consume_components_for_craft( making, batch_size );
+    const std::list<item> used = consume_components_for_craft( making, batch_size );
     if( last_craft->has_cached_selections() && used.empty() ) {
         // This signals failure, even though there seem to be several paths where it shouldn't...
         return;
@@ -511,20 +504,19 @@ void player::start_craft( const recipe &making, int batch_size, bool is_long )
         reset_encumbrance();  // in case we were wearing something just consumed
     }
 
-    item craft( &making, batch_size, std::vector<item>( used.begin(), used.end() ) );
+    item craft( &making, batch_size, used );
 
-    int pos = get_item_position( set_item_inventory( craft ) );
-    if( pos == INT_MIN ) {
+    item *craft_in_inventory = set_item_inventory( *this, craft );
+    if( !has_item( *craft_in_inventory ) ) {
         add_msg_if_player( _( "Activate the %s to start crafting" ), craft.tname() );
     } else {
         add_msg_player_or_npc(
             string_format( pgettext( "in progress craft", "You start working on the %s" ),
                            craft.tname() ),
             string_format( pgettext( "in progress craft", "<npcname> starts working on the %s" ),
-                           craft.tname()
-                         ) );
+                           craft.tname() ) );
         assign_activity( activity_id( "ACT_CRAFT" ) );
-        activity.values.push_back( pos );
+        activity.targets.push_back( item_location( *this, craft_in_inventory ) );
         activity.values.push_back( is_long );
     }
 }
@@ -532,10 +524,9 @@ void player::start_craft( const recipe &making, int batch_size, bool is_long )
 void player::complete_craft( item &craft )
 {
     const recipe &making = craft.get_making(); // Which recipe is it?
-    int batch_size = craft.charges;
+    const int batch_size = craft.charges;
 
-    /* to be modified and moved to ACT_CRAFT
-    ---------------------------
+    /* to be modified and moved to ACT_CRAFT */
     int secondary_dice = 0;
     int secondary_difficulty = 0;
     for( const auto &pr : making.required_skills ) {
@@ -550,9 +541,9 @@ void player::complete_craft( item &craft )
     } else {
         skill_dice = get_skill_level( making.skill_used ) * 4;
     }
-    */
-    auto helpers = g->u.get_crafting_helpers();
-    /*
+
+    auto helpers = get_crafting_helpers();
+
     for( const npc *np : helpers ) {
         if( np->get_skill_level( making.skill_used ) >=
             get_skill_level( making.skill_used ) ) {
@@ -638,62 +629,28 @@ void player::complete_craft( item &craft )
         }
     }
 
+    std::list<item> &used = craft.components;
+
     // Messed up badly; waste some components.
     if( making.difficulty != 0 && diff_roll > skill_roll * ( 1 + 0.1 * rng( 1, 5 ) ) ) {
         add_msg( m_bad, _( "You fail to make the %s, and waste some materials." ), making.result_name() );
-        consume_some_components_for_craft( making, batch_size );
-        activity.set_to_null();
+        return_some_components_for_craft( *this, used );
         return;
         // Messed up slightly; no components wasted.
     } else if( diff_roll > skill_roll ) {
         add_msg( m_neutral, _( "You fail to make the %s, but don't waste any materials." ),
                  making.result_name() );
-        //this method would only have been called from a place that nulls activity.type,
-        //so it appears that it's safe to NOT null that variable here.
-        //rationale: this allows certain contexts (e.g. ACT_LONGCRAFT) to distinguish major and minor failures
+        return_all_components_for_craft( *this, used );
         return;
     }
-    */
 
-    /* to be deleted
-    // If we're here, the craft was a success!
-    // Use up the components and tools
-    std::list<item> used = consume_components_for_craft( making, batch_size );
-    if( last_craft->has_cached_selections() && used.empty() ) {
-        // This signals failure, even though there seem to be several paths where it shouldn't...
-        return;
-    }
-    if( !used.empty() ) {
-        reset_encumbrance();  // in case we were wearing something just consumed
-    }
-    */
-    std::list<item> used( craft.components.begin(), craft.components.end() );
-
-    const time_point now = calendar::turn;
-    time_point start_turn = now;
-    tripoint craft_pos = pos();
-    // TODO: figure out how to do rot
-    // if( activity.values.size() > 1 && !activity.coords.empty() ) {
-    //     start_turn = activity.values.at( 1 );
-    //     craft_pos = activity.coords.at( 0 );
-    // } else {
-    //     // either something went wrong or player had an old binary and saved
-    //     // the game right in the middle of crafting, and then updated their
-    //     // binary, so we didn't grab these values before starting the craft
-    //     debugmsg( "Missing activity start time and temperature, using current val" );
-    // }
-    const time_duration rot_points = get_rot_since( start_turn, now, craft_pos );
-    double max_relative_rot = 0;
-    // We need to cycle all the used ingredients and find the most rotten item,
-    // this will then set our relative rot for the crafted items.
+    // Take the relative rot of the most rotten component
+    double max_relative_rot = 0.0;
     for( const item &it : used ) {
         if( !it.goes_bad() ) {
             continue;
         }
-        // make a copy of the item so we can play with its rot values
-        item it_copy = it;
-        it_copy.mod_rot( -rot_points );
-        max_relative_rot = std::max( max_relative_rot, it_copy.get_relative_rot() );
+        max_relative_rot = std::max( max_relative_rot, it.get_relative_rot() );
     }
 
     // Set up the new item, and assign an inventory letter if available
@@ -826,7 +783,7 @@ void player::complete_craft( item &craft )
         }
 
         finalize_crafted_item( newit );
-        set_item_inventory( newit );
+        set_item_inventory( *this, newit );
     }
 
     if( making.has_byproducts() ) {
@@ -844,7 +801,7 @@ void player::complete_craft( item &craft )
                 }
             }
             finalize_crafted_item( bp );
-            set_item_inventory( bp );
+            set_item_inventory( *this, bp );
         }
     }
 
@@ -1517,7 +1474,7 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
 
     // If the components aren't empty, we want items exactly identical to them
     // Even if the best-fit recipe does not involve those items
-    std::vector<item> components = dis_item.components;
+    std::list<item> components = dis_item.components;
     // If the components are empty, item is the default kind and made of default components
     if( components.empty() ) {
         const bool uncraft_liquids_contained = dis.has_flag( "UNCRAFT_LIQUIDS_CONTAINED" );
@@ -1586,7 +1543,7 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
             act_item.item_tags.insert( "FILTHY" );
         }
 
-        for( item::t_item_vector::iterator a = dis_item.components.begin(); a != dis_item.components.end();
+        for( std::list<item>::iterator a = dis_item.components.begin(); a != dis_item.components.end();
              ++a ) {
             if( a->type == newit.type ) {
                 act_item = *a;
