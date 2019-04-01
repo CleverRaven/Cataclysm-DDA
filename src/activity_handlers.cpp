@@ -2606,7 +2606,7 @@ void activity_handlers::drill_finish( player_activity *act, player *p )
     ter_id new_type = t_concrete;
     std::string open_message;
     bool is_safe = false;
-    
+
     if( type == t_chaingate_l ) {
         new_type = t_chaingate_c;
     } else if( type == t_door_locked || type == t_door_locked_alarm ||
@@ -2630,7 +2630,7 @@ void activity_handlers::drill_finish( player_activity *act, player *p )
         g->m.ter_set( pos, new_type );
     }
 
-    if ( !is_safe ) {
+    if( !is_safe ) {
         open_message = _( "You drill through the lock and it opens." );
     } else {
         open_message = _( "You drill through the lock mechanism and it opens." );
