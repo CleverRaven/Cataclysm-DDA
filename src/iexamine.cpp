@@ -244,11 +244,11 @@ class atm_menu
             cancel, purchase_card, deposit_money, withdraw_money, transfer_all_money
         };
 
-        atm_menu() = delete;
-        atm_menu( atm_menu const & ) = delete;
-        atm_menu( atm_menu && ) = delete;
+        atm_menu()                           = delete;
+        atm_menu( atm_menu const & )            = delete;
+        atm_menu( atm_menu && )                 = delete;
         atm_menu &operator=( atm_menu const & ) = delete;
-        atm_menu &operator=( atm_menu && ) = delete;
+        atm_menu &operator=( atm_menu && )      = delete;
 
         explicit atm_menu( player &p ) : u( p ) {
             reset( false );
@@ -297,7 +297,7 @@ class atm_menu
 
         //! Reset and repopulate the menu; with a fair bit of work this could be more efficient.
         void reset( const bool clear = true ) {
-            const int card_count = u.amount_of( "cash_card" );
+            const int card_count   = u.amount_of( "cash_card" );
             const int charge_count = card_count ? u.charges_of( "cash_card" ) : 0;
 
             if( clear ) {
@@ -467,8 +467,8 @@ class atm_menu
                 }
 
                 dst->charges += i->charges;
-                i->charges = 0;
-                u.moves -= 10;
+                i->charges =  0;
+                u.moves    -= 10;
             }
 
             return true;
@@ -484,7 +484,7 @@ class atm_menu
  */
 void iexamine::atm( player &p, const tripoint & )
 {
-    atm_menu{ p } .start();
+    atm_menu {p} .start();
 }
 
 /**
@@ -504,18 +504,18 @@ void iexamine::vending( player &p, const tripoint &examp )
         return;
     }
 
-    const int padding_x = std::max( 0, TERMX - FULL_SCREEN_WIDTH ) / 4;
-    const int padding_y = std::max( 0, TERMY - FULL_SCREEN_HEIGHT ) / 6;
-    const int window_h = FULL_SCREEN_HEIGHT + std::max( 0, TERMY - FULL_SCREEN_HEIGHT ) * 2 / 3;
-    const int window_w = FULL_SCREEN_WIDTH + std::max( 0, TERMX - FULL_SCREEN_WIDTH ) / 2;
-    const int w_items_w = window_w / 2;
-    const int w_info_w = window_w - w_items_w;
+    const int padding_x  = std::max( 0, TERMX - FULL_SCREEN_WIDTH ) / 4;
+    const int padding_y  = std::max( 0, TERMY - FULL_SCREEN_HEIGHT ) / 6;
+    const int window_h   = FULL_SCREEN_HEIGHT + std::max( 0, TERMY - FULL_SCREEN_HEIGHT ) * 2 / 3;
+    const int window_w   = FULL_SCREEN_WIDTH + std::max( 0, TERMX - FULL_SCREEN_WIDTH ) / 2;
+    const int w_items_w  = window_w / 2;
+    const int w_info_w   = window_w - w_items_w;
     const int list_lines = window_h - 4; // minus for header and footer
 
     constexpr int first_item_offset = 3; // header size
 
     catacurses::window const w = catacurses::newwin( window_h, w_items_w, padding_y, padding_x );
-    catacurses::window const w_item_info = catacurses::newwin( window_h, w_info_w, padding_y,
+    catacurses::window const w_item_info = catacurses::newwin( window_h, w_info_w,  padding_y,
                                            padding_x + w_items_w );
 
     bool used_machine = false;
@@ -587,7 +587,7 @@ void iexamine::vending( player &p, const tripoint &examp )
 
         // Item info
         auto &cur_items = item_list[static_cast<size_t>( cur_pos )]->second;
-        auto &cur_item = cur_items.back();
+        auto &cur_item  = cur_items.back();
 
         werase( w_item_info );
         // | {line}|
@@ -665,7 +665,7 @@ void iexamine::toilet( player &p, const tripoint &examp )
         // Use a different poison value each time water is drawn from the toilet.
         water->poison = one_in( 3 ) ? 0 : rng( 1, 3 );
 
-        ( void )p; // TODO: use me
+        ( void ) p; // TODO: use me
         g->handle_liquid_from_ground( water, examp );
     }
 }
@@ -1463,7 +1463,7 @@ bool dead_plant( bool flower, player &p, const tripoint &examp )
  */
 bool can_drink_nectar( const player &p )
 {
-    return ( p.has_active_mutation( trait_id( "PROBOSCIS" ) ) ||
+    return ( p.has_active_mutation( trait_id( "PROBOSCIS" ) )  ||
              p.has_active_mutation( trait_id( "BEAK_HUM" ) ) ) &&
            ( ( p.get_hunger() ) > 0 ) && ( !( p.wearing_something_on( bp_mouth ) ) );
 }
@@ -2658,10 +2658,10 @@ void iexamine::keg( player &p, const tripoint &examp )
             return;
         }
         //Store liquid chosen in the keg
-        itype_id drink_type = drink_types[drink_index];
+        itype_id drink_type = drink_types[ drink_index ];
         int charges_held = p.charges_of( drink_type );
         item drink( drink_type, 0 );
-        drink.set_relative_rot( drink_rot[drink_index] );
+        drink.set_relative_rot( drink_rot[ drink_index ] );
         drink.charges = 0;
         bool keg_full = false;
         for( int i = 0; i < charges_held && !keg_full; i++ ) {
@@ -3181,7 +3181,7 @@ void iexamine::trap( player &p, const tripoint &examp )
 void iexamine::water_source( player &p, const tripoint &examp )
 {
     item water = g->m.water_from( examp );
-    ( void )p; // TODO: use me
+    ( void ) p; // TODO: use me
     g->handle_liquid( water, nullptr, 0, &examp );
 }
 
@@ -3282,7 +3282,7 @@ void iexamine::reload_furniture( player &p, const tripoint &examp )
 
 void iexamine::curtains( player &p, const tripoint &examp )
 {
-    const bool closed_window_with_curtains = g->m.has_flag( "BARRICADABLE_WINDOW_CURTAINS", examp );
+    const bool closed_window_with_curtains = g->m.has_flag( "BARRICADABLE_WINDOW_CURTAINS", examp ) ;
     if( g->m.is_outside( p.pos() ) && ( g->m.has_flag( "WALL", examp ) ||
                                         closed_window_with_curtains ) ) {
         locked_object( p, examp );
@@ -3367,7 +3367,7 @@ void iexamine::sign( player &p, const tripoint &examp )
             } else {
                 g->m.set_signage( examp, signage );
                 p.add_msg_if_player( m_info, spray_painted_message );
-                p.mod_moves( -20 * signage.length() );
+                p.mod_moves( - 20 * signage.length() );
                 p.consume_tools( tools, 1 );
             }
         } else {
@@ -3870,9 +3870,9 @@ player &best_installer( player &p, player &null_player, int difficulty )
 
     std::vector< std::pair<float, long>> ally_skills;
     ally_skills.reserve( g->allies().size() );
-    for( size_t i = 0; i < g->allies().size(); i++ ) {
+    for( size_t i = 0; i < g->allies().size() ; i ++ ) {
         std::pair<float, long> ally_skill;
-        const npc *e = g->allies()[i];
+        const npc *e = g->allies()[ i ];
 
         player &ally = *g->critter_by_id<player>( e->getID() );
         ally_skill.second = i;
@@ -3886,11 +3886,11 @@ player &best_installer( player &p, player &null_player, int difficulty )
         return rhs.first < lhs.first;
     } );
     int player_cos = bionic_manip_cos( player_skill, true, difficulty );
-    for( size_t i = 0; i < g->allies().size(); i++ ) {
-        if( ally_skills[i].first > player_skill ) {
-            const npc *e = g->allies()[ally_skills[i].second];
+    for( size_t i = 0; i < g->allies().size() ; i ++ ) {
+        if( ally_skills[ i ].first > player_skill ) {
+            const npc *e = g->allies()[ ally_skills[ i ].second ];
             player &ally = *g->critter_by_id<player>( e->getID() );
-            int ally_cos = bionic_manip_cos( ally_skills[i].first, true, difficulty );
+            int ally_cos = bionic_manip_cos( ally_skills[ i ].first, true, difficulty );
             if( e->has_effect( effect_sleep ) ) {
                 //~ %1$s is the name of the ally
                 if( !g->u.query_yn( string_format(
@@ -4330,7 +4330,7 @@ void smoker_load_food( player &p, const tripoint &examp, const units::volume &re
         }
     }
 
-    const int max_count_for_capacity = remaining_capacity / what->base_volume();
+    const int max_count_for_capacity =  remaining_capacity / what->base_volume();
     const int max_count = std::min( count, max_count_for_capacity );
 
     // ... then ask how many to put it
@@ -4456,7 +4456,7 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
 
     if( !active ) {
         smenu.addentry_desc( 1, !empty && has_enough_coal, 'l',
-                             empty ? _( "Light up and smoke food... insert some food for smoking first" ) :
+                             empty ?  _( "Light up and smoke food... insert some food for smoking first" ) :
                              !has_enough_coal ? string_format(
                                  _( "Light up and smoke food... need extra %d charges of charcoal" ),
                                  need_charges - coal_charges ) :
@@ -4593,7 +4593,7 @@ void iexamine::open_safe( player &, const tripoint &examp )
  */
 iexamine_function iexamine_function_from_string( const std::string &function_name )
 {
-    static const std::map<std::string, iexamine_function> function_map = { {
+    static const std::map<std::string, iexamine_function> function_map = {{
             { "none", &iexamine::none },
             { "deployed_furniture", &iexamine::deployed_furniture },
             { "cvdmachine", &iexamine::cvdmachine },
@@ -4684,7 +4684,7 @@ hack_result iexamine::hack_attempt( player &p )
     bool using_electrohack = ( p.has_charges( "electrohack", 25 ) &&
                                query_yn( _( "Use electrohack?" ) ) );
     bool using_fingerhack = ( !using_electrohack && p.has_bionic( bionic_id( "bio_fingerhack" ) ) &&
-                              p.power_level > 24 && query_yn( _( "Use fingerhack?" ) ) );
+                              p.power_level  > 24  && query_yn( _( "Use fingerhack?" ) ) );
 
     if( !( using_electrohack || using_fingerhack ) ) {
         return HACK_UNABLE;
