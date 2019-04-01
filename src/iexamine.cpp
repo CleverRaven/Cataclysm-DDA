@@ -1098,7 +1098,8 @@ void iexamine::safe( player &p, const tripoint &examp )
             g->m.furn_set( examp, f_safe_o );
             return;
         } else {
-            p.add_msg_if_player( m_info, _( "You mess with the dial for a little bit, thinking of other ways to open it." ) );
+            p.add_msg_if_player( m_info,
+                                 _( "You mess with the dial for a little bit, thinking of other ways to open it." ) );
             return;
         }
     }
