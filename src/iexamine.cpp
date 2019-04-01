@@ -3933,7 +3933,10 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         return;
     }
     if( &patient == &null_player ) {
-
+        if( cyborg.typeId() == "corpse" && !cyborg.active ) {
+            popup( _( "Patient is dead.  Please remove corpse to proceed.  Exiting." ) );
+            return;
+        }
         if( &cyborg != &null_cyborg ) {
             uilist cmenu;
             cmenu.text = _( "Autodoc Mk. XI.  Status: Online.  Please choose operation." );
