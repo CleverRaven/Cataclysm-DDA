@@ -5513,7 +5513,7 @@ void game::save_cyborg( item *cyborg, const tripoint couch_pos, player &installe
 
     if( success > 0 ) {
         add_msg( m_good, _( "Successfully removed Personality override." ) );
-        add_msg( m_bad, _( "Autodoc destroys the CBM." ) );
+        add_msg( m_bad, _( "Autodoc immediatly destroys the CBM uppon removal." ) );
 
         m.i_rem( couch_pos, cyborg );
 
