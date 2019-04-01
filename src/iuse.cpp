@@ -3066,6 +3066,7 @@ int iuse::drill( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( _( "You don't need to tear yourself a new one." ) );
         return 0;
     }
+    int charges = it->type->charges_to_use();
     const ter_id type = g->m.ter( pnt );
     const furn_id furn = g->m.furn( pnt );
     time_duration duration = 5_minutes;
@@ -3074,8 +3075,14 @@ int iuse::drill( player *p, item *it, bool, const tripoint & )
     } else if( furn == f_safe_l || furn == f_gunsafe_ml || furn == f_gunsafe_el ||
              furn == f_gunsafe_mj ) {
         duration = 30_minutes;
+        charges *= 10;
     } else {
         p->add_msg_if_player( m_info, _( "You can't drill this." ) );
+        return 0;
+    }
+
+    if( charges > it->ammo_remaining() ) {
+        add_msg( m_info, _( "Your drilling tool doesn't have enough charges to drill that." ) );
         return 0;
     }
 
@@ -3083,7 +3090,7 @@ int iuse::drill( player *p, item *it, bool, const tripoint & )
                         p->get_item_position( it ) );
     p->activity.placement = pnt;
 
-    return it->type->charges_to_use();
+    return charges;
 }
 
 int iuse::pickaxe( player *p, item *it, bool, const tripoint & )
