@@ -1921,7 +1921,7 @@
     "move_cost_mod": -1,
     "required_str": 14,
     "max_volume": 1000,
-    "looks_like": "f_gun_safe_mj",
+    "looks_like": "f_gunsafe_mj",
     "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE", "MINEABLE" ],
     "open": "f_gunsafe_o",
     "examine_action": "open_safe",
@@ -1943,7 +1943,7 @@
     "move_cost_mod": -1,
     "required_str": 14,
     "max_volume": 1000,
-    "looks_like": "f_gun_safe_mj",
+    "looks_like": "f_gunsafe_mj",
     "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "MOUNTABLE", "MINEABLE" ],
     "close": "f_gunsafe_c",
     "bash": {
@@ -1957,7 +1957,7 @@
   {
     "type": "furniture",
     "id": "f_safe_o",
-    "name": "gun safe",
+    "name": "open safe",
     "description": "Grab the loot!",
     "symbol": "O",
     "color": "light_gray",
