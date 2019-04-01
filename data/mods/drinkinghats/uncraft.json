@@ -1,0 +1,420 @@
+[
+  {
+    "result": "helmet_lobster_drinking",
+    "type": "uncraft",
+    "time" : 500,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ 
+      [ [ "helmet_lobster", 1] ],
+      [ [ "hose", 1 ] ],
+      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ]
+    ] 
+  },
+  {
+    "result": "helmet_motor_drinking",
+    "type": "uncraft",
+    "time" : 500,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ 
+      [ [ "helmet_motor", 1] ],
+      [ [ "hose", 1 ] ],
+      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ]
+    ] 
+  },
+  {
+    "result": "firehelmet_drinking",
+    "type": "uncraft",
+    "time" : 500,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ 
+      [ [ "firehelmet", 1] ],
+      [ [ "hose", 1 ] ],
+      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ]
+    ] 
+  },  
+  {
+    "result": "hat_hard_drinking",
+    "type": "uncraft",
+    "time" : 500,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ 
+      [ [ "hat_hard", 1] ],
+      [ [ "hose", 1 ] ],
+      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ]
+    ] 
+  },
+  {
+    "result": "hat_hard_hooded_drinking",
+    "type": "uncraft",
+    "time" : 500,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ 
+      [ [ "hat_hard_hooded", 1] ],
+      [ [ "hose", 1 ] ],
+      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ]
+    ] 
+  },
+  {
+    "result": "headgear_drinking",
+    "type": "uncraft",
+    "time" : 500,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ 
+      [ [ "headgear", 1] ],
+      [ [ "hose", 1 ] ],
+      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ]
+    ] 
+  },
+  {
+    "result": "helmet_bike_drinking",
+    "type": "uncraft",
+    "time" : 500,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ 
+      [ [ "helmet_bike", 1] ],
+      [ [ "hose", 1 ] ],
+      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ]
+    ] 
+  },
+  {
+    "result": "helmet_army_drinking",
+    "type": "uncraft",
+    "time" : 500,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ 
+      [ [ "helmet_army", 1] ],
+      [ [ "hose", 1 ] ],
+      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ]
+    ] 
+  },
+  {
+    "result": "helmet_football_drinking",
+    "type": "uncraft",
+    "time" : 500,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ 
+      [ [ "helmet_football", 1] ],
+      [ [ "hose", 1 ] ],
+      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ]
+    ] 
+  },
+  {
+    "result": "helmet_skid_drinking",
+    "type": "uncraft",
+    "time" : 500,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ 
+      [ [ "helmet_skid", 1] ],
+      [ [ "hose", 1 ] ],
+      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ]
+    ] 
+  },
+  {
+    "result": "tac_helmet_drinking",
+    "type": "uncraft",
+    "time" : 500,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ 
+      [ [ "tac_helmet", 1] ],
+      [ [ "hose", 1 ] ],
+      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ]
+    ] 
+  },
+  {
+    "result": "helmet_army_drinking",
+    "type": "uncraft",
+    "time" : 500,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ 
+      [ [ "helmet_army", 1] ],
+      [ [ "hose", 1 ] ],
+      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ]
+    ] 
+  },
+  {
+    "result": "kevlar_drinking",
+    "type": "uncraft",
+    "time" : 500,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ 
+      [ [ "kevlar", 1] ],
+      [ [ "hose", 1 ] ],
+      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ]
+    ] 
+  },
+  {
+    "result": "helmet_ball_drinking",
+    "type": "uncraft",
+    "time" : 500,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ 
+      [ [ "helmet_ball", 1] ],
+      [ [ "hose", 1 ] ],
+      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ]
+    ] 
+  },
+  {
+    "result": "helmet_larmor_drinking",
+    "type": "uncraft",
+    "time" : 500,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ 
+      [ [ "helmet_larmor", 1] ],
+      [ [ "hose", 1 ] ],
+      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ]
+    ] 
+  },
+  {
+    "result": "helmet_riot_drinking",
+    "type": "uncraft",
+    "time" : 500,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ 
+      [ [ "helmet_riot", 1] ],
+      [ [ "hose", 1 ] ],
+      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ]
+    ] 
+  },
+  {
+    "result": "helmet_barbute_drinking",
+    "type": "uncraft",
+    "time" : 500,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ 
+      [ [ "helmet_barbute", 1] ],
+      [ [ "hose", 1 ] ],
+      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ]
+    ] 
+  },
+  {
+    "result": "pickelhaube_drinking",
+    "type": "uncraft",
+    "time" : 500,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ 
+      [ [ "pickelhaube", 1] ],
+      [ [ "hose", 1 ] ],
+      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ]
+    ] 
+  },
+  {
+    "result": "pot_helmet_drinking",
+    "type": "uncraft",
+    "time" : 500,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ 
+      [ [ "pot_helmet", 1] ],
+      [ [ "hose", 1 ] ],
+      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ]
+    ] 
+  },
+  {
+    "result": "depowered_helmet_drinking",
+    "type": "uncraft",
+    "time" : 500,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ 
+      [ [ "depowered_helmet", 1] ],
+      [ [ "hose", 1 ] ],
+      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ]
+    ] 
+  },
+  {
+    "result": "helmet_bone_drinking",
+    "type": "uncraft",
+    "time" : 500,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ 
+      [ [ "helmet_bone", 1] ],
+      [ [ "hose", 1 ] ],
+      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ]
+    ] 
+  },
+  {
+    "result": "helmet_chitin_drinking",
+    "type": "uncraft",
+    "time" : 500,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ 
+      [ [ "helmet_chitin", 1] ],
+      [ [ "hose", 1 ] ],
+      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ]
+    ] 
+  },
+  {
+    "result": "helmet_kabuto_drinking",
+    "type": "uncraft",
+    "time" : 500,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ 
+      [ [ "helmet_kabuto", 1] ],
+      [ [ "hose", 1 ] ],
+      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ]
+    ] 
+  },
+  {
+    "result": "helmet_plate_drinking",
+    "type": "uncraft",
+    "time" : 500,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ 
+      [ [ "helmet_plate", 1] ],
+      [ [ "hose", 1 ] ],
+      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ]
+    ] 
+  },
+  {
+    "result": "power_armor_helmet_heavy_drinking",
+    "type": "uncraft",
+    "time" : 500,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ 
+      [ [ "power_armor_helmet_heavy", 1] ],
+      [ [ "hose", 1 ] ],
+      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ]
+    ] 
+  },
+  {
+    "result": "power_armor_helmet_basic_drinking",
+    "type": "uncraft",
+    "time" : 500,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ 
+      [ [ "power_armor_helmet_basic", 1] ],
+      [ [ "hose", 1 ] ],
+      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ]
+    ] 
+  },
+  {
+    "result": "power_armor_helmet_light_drinking",
+    "type": "uncraft",
+    "time" : 500,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ 
+      [ [ "power_armor_helmet_light", 1] ],
+      [ [ "hose", 1 ] ],
+      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ]
+    ] 
+  },
+  {
+    "result": "tac_fullhelmet_drinking",
+    "type": "uncraft",
+    "time" : 500,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ 
+      [ [ "tac_fullhelmet", 1] ],
+      [ [ "hose", 1 ] ],
+      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ]
+    ] 
+  },
+  {
+    "result": "dinosuit_drinking",
+    "type": "uncraft",
+    "time" : 500,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ 
+      [ [ "dinosuit", 1] ],
+      [ [ "hose", 1 ] ],
+      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ]
+    ] 
+  },
+  {
+    "result": "wolfsuit_drinking",
+    "type": "uncraft",
+    "time" : 500,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ 
+      [ [ "wolfsuit", 1] ],
+      [ [ "hose", 1 ] ],
+      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ]
+    ] 
+  },
+  {
+    "result": "10gal_hat_drinking",
+    "type": "uncraft",
+    "time" : 500,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ 
+      [ [ "10gal_hat", 1] ],
+      [ [ "hose", 1 ] ],
+      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ]
+    ] 
+  },
+  {
+    "result": "bowhat_drinking",
+    "type": "uncraft",
+    "time" : 500,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ 
+      [ [ "bowhat", 1] ],
+      [ [ "hose", 1 ] ],
+      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ]
+    ] 
+  },
+  {
+    "result": "hat_ball_drinking",
+    "type": "uncraft",
+    "time" : 500,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ 
+      [ [ "hat_ball", 1] ],
+      [ [ "hose", 1 ] ],
+      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ]
+    ] 
+  },
+  {
+    "result": "hat_sombrero_drinking",
+    "type": "uncraft",
+    "time" : 500,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ 
+      [ [ "hat_sombrero", 1] ],
+      [ [ "hose", 1 ] ],
+      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ]
+    ] 
+  },
+  {
+    "result": "tricorne_drinking",
+    "type": "uncraft",
+    "time" : 500,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ 
+      [ [ "tricorne", 1] ],
+      [ [ "hose", 1 ] ],
+      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ]
+    ] 
+  },
+  {
+    "result": "porkpie_drinking",
+    "type": "uncraft",
+    "time" : 500,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ 
+      [ [ "porkpie", 1] ],
+      [ [ "hose", 1 ] ],
+      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ]
+    ] 
+  },
+  {
+    "result": "tophat_drinking",
+    "type": "uncraft",
+    "time" : 500,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ 
+      [ [ "tophat", 1] ],
+      [ [ "hose", 1 ] ],
+      [ ["bottle_plastic_small", 2 ], [ "can_drink", 2 ], [ "can_drink_unsealed", 2 ], [ "flask_hip", 2] ]
+    ] 
+  },
+  {
+    "result": "modularvest_drinking",
+    "type": "uncraft",
+    "time" : 500,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ 
+      [ [ "modularvest", 1] ],
+      [ [ "hose", 1 ] ],
+      [ ["bottle_plastic", 4 ] ]
+    ] 
+  }
+]
