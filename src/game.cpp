@@ -9781,7 +9781,7 @@ bool game::prompt_dangerous_tile( const tripoint &dest_loc ) const
             if( !boardable ) {
                 harmful_stuff.emplace_back( tr.name().c_str() );
             }
-        } else if( tr.can_see( dest_loc, u ) && !tr.is_benign() ) {
+        } else if( tr.can_see( dest_loc, u ) && !tr.is_benign() && !boardable ) {
             harmful_stuff.emplace_back( tr.name().c_str() );
         }
 
