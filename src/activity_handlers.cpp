@@ -2125,7 +2125,11 @@ void activity_handlers::oxytorch_finish( player_activity *act, player *p )
         g->m.spawn_item( p->pos(), "pipe", rng( 1, 2 ) );
     } else if( furn == f_safe_l || furn == f_gunsafe_ml
                || furn == f_gunsafe_el || furn == f_gunsafe_mj ) {
-        g->m.furn_set( pos, f_safe_o );
+        if( furn == f_safe_l ) {
+            g->m.furn_set( pos, f_safe_o );
+        } else {
+            g->m.furn_set( pos, f_gunsafe_o );
+        }
         g->m.spawn_item( p->pos(), "steel_chunk", rng( 1, 3 ) );
         g->m.add_field( tripoint( pos.x + rng( -2, 2 ), pos.y + rng( -2, 2 ), pos.z ), fd_smoke, 1 );
         if( rng( 1, 10 ) < p->dex_cur / 2 + p->get_skill_level( skill_mechanics ) ) {
@@ -2619,11 +2623,14 @@ void activity_handlers::drill_finish( player_activity *act, player *p )
         new_type = t_door_bar_o;
         //Bar doors auto-open (and lock if closed again) so show a different message)
         open_message = _( "The door swings open..." );
+    } else {
+        open_message = _( "You drill through the lock mechanisms and it opens." );
     }
 
-    if( furn == f_safe_l || furn == f_gunsafe_ml || furn == f_gunsafe_el || furn == f_gunsafe_mj ) {
-        open_message = _( "You drill through the safe's lock mechanisms and it opens." );
+    if( furn == f_safe_l ) {
         g->m.furn_set( pos, f_safe_o );
+    } else if( furn == f_gunsafe_ml || furn == f_gunsafe_el || furn == f_gunsafe_mj ) {
+        g->m.furn_set( pos, f_gunsafe_o );
     } else {
         g->m.ter_set( pos, new_type );
     }

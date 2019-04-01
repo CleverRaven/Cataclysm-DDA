@@ -3069,14 +3069,20 @@ int iuse::drill( player *p, item *it, bool, const tripoint & )
     int charges = it->type->charges_to_use();
     const ter_id type = g->m.ter( pnt );
     const furn_id furn = g->m.furn( pnt );
-    time_duration duration = 5_minutes;
+    time_duration duration = 10_minutes;
     if( type == t_chaingate_l || type == t_door_locked || type == t_door_locked_alarm ||
         type == t_door_locked_interior || type == t_door_locked_peep || type == t_door_metal_pickable ||
         type == t_door_bar_locked || type == t_door_metal_locked ) {
-        duration = 5_minutes;
+        duration = 10_minutes;
     } else if( furn == f_safe_l || furn == f_gunsafe_ml || furn == f_gunsafe_el ||
                furn == f_gunsafe_mj ) {
-        duration = 30_minutes;
+        if( p->get_skill_level( skill_mechanics ) < 2 ) {
+            p->add_msg_if_player( m_bad,
+                                  _( "Your expertise in mechanics is insufficient to properly drill the locking mechanism." ) );
+            return 0;
+        }
+        duration = std::max( 150_minutes - 20_minutes * ( p->get_skill_level( skill_mechanics ) - 3 ) -
+                             10_minutes * ( p->get_per() - 8 ), 30_minutes );
         charges *= 10;
     } else {
         p->add_msg_if_player( m_info, _( "You can't drill this." ) );
@@ -4439,6 +4445,11 @@ int iuse::oxytorch( player *p, item *it, bool, const tripoint & )
         moves = 1500;
     } else if( furn == f_safe_l || furn == f_gunsafe_el || furn == f_gunsafe_mj ||
                furn == f_gunsafe_ml ) {
+        if( p->get_skill_level( skill_mechanics ) < 2 ) {
+            p->add_msg_if_player( m_bad,
+                                  _( "Without sufficient expertise in mechanincs you would destroy the contents." ) );
+            return 0;
+        }
         moves = to_moves<int>( std::max( 150_minutes - 20_minutes * ( p->get_skill_level(
                                              skill_mechanics ) - 3 ) - 10_minutes * ( p->get_per() - 8 ), 30_minutes ) );
     } else {
