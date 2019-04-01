@@ -3394,14 +3394,14 @@ void game::disp_NPC_epilogues()
                            std::max( 0, ( TERMX - FULL_SCREEN_WIDTH ) / 2 ) );
     epilogue epi;
     // TODO: This search needs to be expanded to all NPCs
-    for( const npc &guy : all_npcs() ) {
-        if( guy.is_friend() ) {
-            epi.random_by_group( guy.male ? "male" : "female" );
-            std::vector<std::string> txt;
-            txt.emplace_back( epi.text );
-            draw_border( w, BORDER_COLOR, guy.name, c_black_white );
-            multipage( w, txt, "", 2 );
-        }
+    for( auto elem : follower_ids ) {
+        std::shared_ptr<npc> npc_to_get = overmap_buffer.find_npc( elem );
+        npc *guy = npc_to_get.get();
+        epi.random_by_group( guy->male ? "male" : "female" );
+        std::vector<std::string> txt;
+        txt.emplace_back( epi.text );
+        draw_border( w, BORDER_COLOR, guy->name, c_black_white );
+        multipage( w, txt, "", 2 );
     }
 
     refresh_all();
