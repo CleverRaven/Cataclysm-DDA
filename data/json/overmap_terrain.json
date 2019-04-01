@@ -3718,6 +3718,13 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "icecream_shop_roof",
+    "name": "icecream shop roof",
+    "copy-from": "generic_city_building",
+    "color": "c_blue_white"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "dumpsite",
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "dumpsite",
