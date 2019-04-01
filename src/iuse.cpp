@@ -3066,14 +3066,14 @@ int iuse::drill( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( _( "You don't need to tear yourself a new one." ) );
         return 0;
     }
-    int charges = it->type->charges_to_use();
+    int charges = it->type->charges_to_use() * 5;
     const ter_id type = g->m.ter( pnt );
     const furn_id furn = g->m.furn( pnt );
-    time_duration duration = 10_minutes;
+    time_duration duration = 15_minutes;
     if( type == t_chaingate_l || type == t_door_locked || type == t_door_locked_alarm ||
         type == t_door_locked_interior || type == t_door_locked_peep || type == t_door_metal_pickable ||
         type == t_door_bar_locked || type == t_door_metal_locked ) {
-        duration = 10_minutes;
+        duration = 15_minutes;
     } else if( furn == f_safe_l || furn == f_gunsafe_ml || furn == f_gunsafe_el ||
                furn == f_gunsafe_mj ) {
         if( p->get_skill_level( skill_mechanics ) < 2 ) {
@@ -3083,7 +3083,7 @@ int iuse::drill( player *p, item *it, bool, const tripoint & )
         }
         duration = std::max( 150_minutes - 20_minutes * ( p->get_skill_level( skill_mechanics ) - 3 ) -
                              10_minutes * ( p->get_per() - 8 ), 30_minutes );
-        charges *= 10;
+        charges *= 4;
     } else {
         p->add_msg_if_player( m_info, _( "You can't drill this." ) );
         return 0;
