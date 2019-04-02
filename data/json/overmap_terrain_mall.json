@@ -33,6 +33,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "mall_a_3_roof",
+    "name": "mall - loading bay roof",
+    "copy-from": "generic_mall",
+    "sym": 77,
+    "color": "i_light_red"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "mall_a_4",
     "name": "mall - utilities",
     "copy-from": "generic_mall",
@@ -41,8 +49,24 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "mall_a_4_roof",
+    "name": "mall - utilities roof",
+    "copy-from": "generic_mall",
+    "sym": 77,
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "mall_a_5",
     "name": "mall - utilities",
+    "copy-from": "generic_mall",
+    "sym": 77,
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_5_roof",
+    "name": "mall - utilities roof",
     "copy-from": "generic_mall",
     "sym": 77,
     "color": "i_red"
@@ -89,7 +113,22 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "mall_a_10_roof",
+    "name": "open air",
+    "copy-from": "generic_mall",
+    "sym": 46,
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "mall_a_11",
+    "copy-from": "generic_mall",
+    "sym": 77,
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_11_roof",
     "copy-from": "generic_mall",
     "sym": 77,
     "color": "i_red"
@@ -103,6 +142,13 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "mall_a_12_roof",
+    "copy-from": "generic_mall",
+    "sym": 77,
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "mall_a_13",
     "copy-from": "generic_mall",
     "sym": 77,
@@ -110,7 +156,22 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "mall_a_13_roof",
+    "copy-from": "generic_mall",
+    "sym": 77,
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "mall_a_14",
+    "name": "mall - entrance",
+    "copy-from": "generic_mall",
+    "sym": 77,
+    "color": "i_light_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_14_roof",
     "name": "mall - entrance",
     "copy-from": "generic_mall",
     "sym": 77,
@@ -158,8 +219,24 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "mall_a_19_roof",
+    "name": "open air",
+    "copy-from": "generic_mall",
+    "sym": 46,
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "mall_a_20",
-    "name": "mall - food court",
+    "name": "mall - food court roof",
+    "copy-from": "generic_mall",
+    "sym": 77,
+    "color": "i_light_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_20_roof",
+    "name": "mall - food court roof",
     "copy-from": "generic_mall",
     "sym": 77,
     "color": "i_light_red"
@@ -173,7 +250,21 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "mall_a_21_roof",
+    "copy-from": "generic_mall",
+    "sym": 77,
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "mall_a_22",
+    "copy-from": "generic_mall",
+    "sym": 77,
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_22_roof",
     "copy-from": "generic_mall",
     "sym": 77,
     "color": "i_red"
@@ -187,7 +278,21 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "mall_a_23_roof",
+    "copy-from": "generic_mall",
+    "sym": 77,
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "mall_a_24",
+    "copy-from": "generic_mall",
+    "sym": 77,
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_24_roof",
     "copy-from": "generic_mall",
     "sym": 77,
     "color": "i_red"
@@ -201,7 +306,21 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "mall_a_25_roof",
+    "copy-from": "generic_mall",
+    "sym": 77,
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "mall_a_26",
+    "copy-from": "generic_mall",
+    "sym": 77,
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_26_roof",
     "copy-from": "generic_mall",
     "sym": 77,
     "color": "i_red"
@@ -232,7 +351,22 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "mall_a_29_roof",
+    "name": "mall - food court roof",
+    "copy-from": "generic_mall",
+    "sym": 77,
+    "color": "i_light_red"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "mall_a_30",
+    "copy-from": "generic_mall",
+    "sym": 77,
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_30_roof",
     "copy-from": "generic_mall",
     "sym": 77,
     "color": "i_red"
@@ -246,7 +380,21 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "mall_a_31_roof",
+    "copy-from": "generic_mall",
+    "sym": 77,
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "mall_a_32",
+    "copy-from": "generic_mall",
+    "sym": 77,
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_32_roof",
     "copy-from": "generic_mall",
     "sym": 77,
     "color": "i_red"
@@ -260,6 +408,13 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "mall_a_33_roof",
+    "copy-from": "generic_mall",
+    "sym": 77,
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "mall_a_34",
     "copy-from": "generic_mall",
     "sym": 77,
@@ -267,7 +422,21 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "mall_a_34_roof",
+    "copy-from": "generic_mall",
+    "sym": 77,
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "mall_a_35",
+    "copy-from": "generic_mall",
+    "sym": 77,
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_35_roof",
     "copy-from": "generic_mall",
     "sym": 77,
     "color": "i_red"
@@ -297,7 +466,21 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "mall_a_38_roof",
+    "copy-from": "generic_mall",
+    "sym": 77,
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "mall_a_39",
+    "copy-from": "generic_mall",
+    "sym": 77,
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_39_roof",
     "copy-from": "generic_mall",
     "sym": 77,
     "color": "i_red"
@@ -311,7 +494,21 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "mall_a_40_roof",
+    "copy-from": "generic_mall",
+    "sym": 77,
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "mall_a_41",
+    "copy-from": "generic_mall",
+    "sym": 77,
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_41_roof",
     "copy-from": "generic_mall",
     "sym": 77,
     "color": "i_red"
@@ -325,6 +522,13 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "mall_a_42_roof",
+    "copy-from": "generic_mall",
+    "sym": 77,
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "mall_a_43",
     "copy-from": "generic_mall",
     "sym": 77,
@@ -332,7 +536,21 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "mall_a_43_roof",
+    "copy-from": "generic_mall",
+    "sym": 77,
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "mall_a_44",
+    "copy-from": "generic_mall",
+    "sym": 77,
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_44_roof",
     "copy-from": "generic_mall",
     "sym": 77,
     "color": "i_red"
@@ -363,7 +581,22 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "mall_a_47_roof",
+    "name": "mall - entrance",
+    "copy-from": "generic_mall",
+    "sym": 77,
+    "color": "i_light_red"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "mall_a_48",
+    "copy-from": "generic_mall",
+    "sym": 77,
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_48_roof",
     "copy-from": "generic_mall",
     "sym": 77,
     "color": "i_red"
@@ -377,7 +610,21 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "mall_a_49_roof",
+    "copy-from": "generic_mall",
+    "sym": 77,
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "mall_a_50",
+    "copy-from": "generic_mall",
+    "sym": 77,
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_50_roof",
     "copy-from": "generic_mall",
     "sym": 77,
     "color": "i_red"
@@ -391,6 +638,13 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "mall_a_51_roof",
+    "copy-from": "generic_mall",
+    "sym": 77,
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "mall_a_52",
     "copy-from": "generic_mall",
     "sym": 77,
@@ -398,7 +652,22 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "mall_a_52_roof",
+    "copy-from": "generic_mall",
+    "sym": 77,
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "mall_a_53",
+    "name": "mall - entrance",
+    "copy-from": "generic_mall",
+    "sym": 77,
+    "color": "i_light_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_53_roof",
     "name": "mall - entrance",
     "copy-from": "generic_mall",
     "sym": 77,
@@ -429,7 +698,21 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "mall_a_56_roof",
+    "copy-from": "generic_mall",
+    "sym": 77,
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "mall_a_57",
+    "copy-from": "generic_mall",
+    "sym": 77,
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_57_roof",
     "copy-from": "generic_mall",
     "sym": 77,
     "color": "i_red"
@@ -443,7 +726,21 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "mall_a_58_roof",
+    "copy-from": "generic_mall",
+    "sym": 77,
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "mall_a_59",
+    "copy-from": "generic_mall",
+    "sym": 77,
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_59_roof",
     "copy-from": "generic_mall",
     "sym": 77,
     "color": "i_red"
@@ -457,6 +754,13 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "mall_a_60_roof",
+    "copy-from": "generic_mall",
+    "sym": 77,
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "mall_a_61",
     "copy-from": "generic_mall",
     "sym": 77,
@@ -464,7 +768,21 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "mall_a_61_roof",
+    "copy-from": "generic_mall",
+    "sym": 77,
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "mall_a_62",
+    "copy-from": "generic_mall",
+    "sym": 77,
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_62_roof",
     "copy-from": "generic_mall",
     "sym": 77,
     "color": "i_red"
@@ -494,6 +812,13 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "mall_a_65_roof",
+    "copy-from": "generic_mall",
+    "sym": 77,
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "mall_a_66",
     "copy-from": "generic_mall",
     "sym": 77,
@@ -501,7 +826,21 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "mall_a_66_roof",
+    "copy-from": "generic_mall",
+    "sym": 77,
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "mall_a_67",
+    "copy-from": "generic_mall",
+    "sym": 77,
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_67_roof",
     "copy-from": "generic_mall",
     "sym": 77,
     "color": "i_red"
@@ -516,7 +855,22 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "mall_a_68_roof",
+    "name": "mall - entrance",
+    "copy-from": "generic_mall",
+    "sym": 77,
+    "color": "i_light_red"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "mall_a_69",
+    "copy-from": "generic_mall",
+    "sym": 77,
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_69_roof",
     "copy-from": "generic_mall",
     "sym": 77,
     "color": "i_red"
@@ -530,7 +884,21 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "mall_a_70_roof",
+    "copy-from": "generic_mall",
+    "sym": 77,
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "mall_a_71",
+    "copy-from": "generic_mall",
+    "sym": 77,
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mall_a_71_roof",
     "copy-from": "generic_mall",
     "sym": 77,
     "color": "i_red"

@@ -22,7 +22,7 @@
     "time": 30000,
     "autolearn": true,
     "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 50, "LIST" ] ] ],
-    "components": [ [ [ "plastic_chunk", 25 ] ] ]
+    "components": [ [ [ "plastic_chunk", 50 ] ] ]
   },
   {
     "type": "recipe",

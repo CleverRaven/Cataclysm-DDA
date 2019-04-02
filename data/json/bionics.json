@@ -1118,5 +1118,13 @@
     "description": "Most of the flesh in your arms, legs, and upper torso has been replaced with industrial-strength springs and protective padding.  Clenching your fist allows you to fold and unfold this padding; while active, the hydraulic absorbers will prevent damage to your body from severe impacts, at the cost of impaired movement.",
     "occupied_bodyparts": [ [ "TORSO", 1 ], [ "ARM_L", 1 ], [ "ARM_R", 1 ], [ "LEG_L", 1 ], [ "LEG_R", 1 ] ],
     "flags": [ "BIONIC_TOGGLED" ]
+  },
+  {
+    "id": "bio_taste_blocker",
+    "type": "bionic",
+    "name": "Taste Modifier",
+    "description": "A set of highly sensitive sensors is installed in your mouth, and a small yet sophisticated analyzer is installed in the cavity of your skull.  When you put something that you plan to eat in your mouth, sensors intercept all data related to the comestible (such as taste or texture) from various receptors in your mouth and send it forth to the analyzer.  Based on the gathered data, analyzer can modify it prior to sending it forth to the brain.  Active bionic will nullify the taste of all comestibles with negative enjoyment value at the cost of draining bionic power.",
+    "occupied_bodyparts": [ [ "HEAD", 1 ], [ "MOUTH", 1 ] ],
+    "flags": [ "BIONIC_TOGGLED" ]
   }
 ]

@@ -918,10 +918,11 @@ bool game::cleanup_at_end()
         for( monster &critter : all_monsters() ) {
             despawn_monster( critter );
         }
+        // Reset NPC factions and disposition
+        reset_npc_dispositions();
         // Save the factions', missions and set the NPC's overmap coordinates
         // Npcs are saved in the overmap.
         save_factions_missions_npcs(); //missions need to be saved as they are global for all saves.
-
         // save artifacts.
         save_artifacts();
 
@@ -2459,6 +2460,7 @@ void game::death_screen()
     Messages::display_messages();
     disp_kills();
     disp_NPC_epilogues();
+    follower_ids.clear();
     disp_faction_ends();
 }
 
@@ -2681,6 +2683,30 @@ bool game::load_packs( const std::string &msg, const std::vector<mod_id> &packs,
     }
 
     return missing.empty();
+}
+
+void game::reset_npc_dispositions()
+{
+    for( auto elem : follower_ids ) {
+        std::shared_ptr<npc> npc_to_get = overmap_buffer.find_npc( elem );
+        npc *npc_to_add = npc_to_get.get();
+        npc_to_add->chatbin.missions.clear();
+        npc_to_add->chatbin.missions_assigned.clear();
+        npc_to_add->mission = NPC_MISSION_NULL;
+        npc_to_add->chatbin.mission_selected = nullptr;
+        npc_to_add->set_attitude( NPCATT_NULL );
+        npc_to_add->op_of_u.anger = 0;
+        npc_to_add->op_of_u.fear = 0;
+        npc_to_add->op_of_u.trust = 0;
+        npc_to_add->op_of_u.value = 0;
+        npc_to_add->op_of_u.owed = 0;
+        npc_to_add->set_fac( faction_id( "wasteland_scavengers" ) );
+        npc_to_add->add_new_mission( mission::reserve_random( ORIGIN_ANY_NPC,
+                                     npc_to_add->global_omt_location(),
+                                     npc_to_add->getID() ) );
+
+    }
+
 }
 
 //Saves all factions and missions and npcs.
@@ -3368,14 +3394,14 @@ void game::disp_NPC_epilogues()
                            std::max( 0, ( TERMX - FULL_SCREEN_WIDTH ) / 2 ) );
     epilogue epi;
     // TODO: This search needs to be expanded to all NPCs
-    for( const npc &guy : all_npcs() ) {
-        if( guy.is_friend() ) {
-            epi.random_by_group( guy.male ? "male" : "female" );
-            std::vector<std::string> txt;
-            txt.emplace_back( epi.text );
-            draw_border( w, BORDER_COLOR, guy.name, c_black_white );
-            multipage( w, txt, "", 2 );
-        }
+    for( auto elem : follower_ids ) {
+        std::shared_ptr<npc> npc_to_get = overmap_buffer.find_npc( elem );
+        npc *guy = npc_to_get.get();
+        epi.random_by_group( guy->male ? "male" : "female" );
+        std::vector<std::string> txt;
+        txt.emplace_back( epi.text );
+        draw_border( w, BORDER_COLOR, guy->name, c_black_white );
+        multipage( w, txt, "", 2 );
     }
 
     refresh_all();
@@ -9755,7 +9781,7 @@ bool game::prompt_dangerous_tile( const tripoint &dest_loc ) const
             if( !boardable ) {
                 harmful_stuff.emplace_back( tr.name().c_str() );
             }
-        } else if( tr.can_see( dest_loc, u ) && !tr.is_benign() ) {
+        } else if( tr.can_see( dest_loc, u ) && !tr.is_benign() && !boardable ) {
             harmful_stuff.emplace_back( tr.name().c_str() );
         }
 

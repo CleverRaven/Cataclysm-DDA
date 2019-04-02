@@ -3912,6 +3912,9 @@ bool item::ready_to_revive( const tripoint &pos ) const
     if( !can_revive() ) {
         return false;
     }
+    if( g->m.veh_at( pos ) ) {
+        return false;
+    }
     int age_in_hours = to_hours<int>( age() );
     age_in_hours -= int( static_cast<float>( burnt ) / ( volume() / 250_ml ) );
     if( damage_level( 4 ) > 0 ) {
@@ -6973,7 +6976,6 @@ bool item::process_corpse( player *carrier, const tripoint &pos )
     if( !ready_to_revive( pos ) ) {
         return false;
     }
-
     active = false;
     if( rng( 0, volume() / units::legacy_volume_factor ) > burnt && g->revive_corpse( pos, *this ) ) {
         if( carrier == nullptr ) {
