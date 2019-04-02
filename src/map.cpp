@@ -6040,7 +6040,8 @@ bool map::sees( const tripoint &F, const tripoint &T, const int range, int &bres
 
 int map::obstacle_coverage( const tripoint &loc1, const tripoint &loc2 )
 {
-    if( move_cost( loc2 ) > 2 && !has_flag_ter( TFLAG_FLAT, loc2 ) ) { // Can't hide if you are standing on something.
+    // Can't hide if you are standing on furniture, or non-flat terrain tile.
+    if( furn( loc2 ).obj().id || ( move_cost( loc2 ) > 2 && !has_flag_ter( TFLAG_FLAT, loc2 ) ) ) {
         return 0;
     }
     tripoint obstaclepos;
