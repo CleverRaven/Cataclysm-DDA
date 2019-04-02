@@ -1072,26 +1072,19 @@ bool firestarter_actor::prep_firestarter_use( const player &p, tripoint &pos )
         p.add_msg_if_player( m_info, _( "There is already a fire." ) );
         return false;
     }
-    if( g->m.flammable_items_at( pos ) ||
-        g->m.has_flag( "FLAMMABLE", pos ) || g->m.has_flag( "FLAMMABLE_ASH", pos ) ||
-        g->m.get_field_strength( pos, fd_web ) > 0 ) {
-        // Check for a brazier.
-        bool has_unactivated_brazier = false;
-        for( const auto &i : g->m.i_at( pos ) ) {
-            if( i.typeId() == "brazier" ) {
-                has_unactivated_brazier = true;
-            }
+    // Check for a brazier.
+    bool has_unactivated_brazier = false;
+    for( const auto &i : g->m.i_at( pos ) ) {
+        if( i.typeId() == "brazier" ) {
+            has_unactivated_brazier = true;
         }
-        if( has_unactivated_brazier &&
-            !query_yn(
-                _( "There's a brazier there but you haven't set it up to contain the fire. Continue?" ) ) ) {
-            return false;
-        }
-        return true;
-    } else {
-        p.add_msg_if_player( m_info, _( "There's nothing to light there." ) );
+    }
+    if( has_unactivated_brazier &&
+        !query_yn(
+            _( "There's a brazier there but you haven't set it up to contain the fire. Continue?" ) ) ) {
         return false;
     }
+    return true;
 }
 
 void firestarter_actor::resolve_firestarter_use( player &p, const tripoint &pos )
@@ -1185,7 +1178,7 @@ long firestarter_actor::use( player &p, item &it, bool t, const tripoint &spos )
             _( "At your skill level, it will take around %d minutes to light a fire." );
         p.add_msg_if_player( m_info, ( need_sunlight ? sun_msg : normal_msg ).c_str(),
                              moves / to_moves<int>( 1_minutes ) );
-    } else if( moves < to_moves<int>( 2_turns ) ) {
+    } else if( moves < to_moves<int>( 2_turns ) && g->m.is_flammable( pos ) ) {
         // If less than 2 turns, don't start a long action
         resolve_firestarter_use( p, pos );
         p.mod_moves( -moves );

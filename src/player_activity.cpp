@@ -94,7 +94,7 @@ void player_activity::do_turn( player &p )
 {
     // Should happen before activity or it may fail du to 0 moves
     if( *this && type->will_refuel_fires() ) {
-        try_refuel_fire( p );
+        try_fuel_fire( *this, p );
     }
 
     if( type->based_on() == based_on_type::TIME ) {

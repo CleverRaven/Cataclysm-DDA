@@ -986,7 +986,6 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```ACIDBOMB_ACT``` Get rid of it or you'll end up like that guy in Robocop.
 - ```ARROW_FLAMABLE``` Light your arrow and let fly.
 - ```BATTLETORCH``` Light the battle torch.
-- ```BATTLETORCH_LIT``` Extinguish the battle torch.
 - ```BELL``` Ring the bell.
 - ```BOLTCUTTERS``` Use your town key to gain access anywhere.
 - ```C4``` Arm the C4.
@@ -1065,7 +1064,6 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```TAZER``` Shock someone or something.
 - ```TELEPORT``` Teleport.
 - ```TORCH``` Light a torch.
-- ```TORCH_LIT``` Extinguish the torch.
 - ```TOURISTMAP``` Learn of local points-of-interest that a tourist would like to visit, and show roads.
 - ```TOWEL``` Dry your character using the item as towel.
 - ```TURRET``` Activate a turret.

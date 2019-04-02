@@ -430,7 +430,16 @@
     "turns_per_charge": 20,
     "revert_to": "battletorch_done",
     "techniques": [ "WBLOCK_1" ],
-    "use_action": "BATTLETORCH_LIT",
+    "use_action": [
+      { "type": "firestarter", "moves": 30 },
+      {
+        "target": "battletorch",
+        "msg": "The Louisville Slaughterer is extinguished.",
+        "active": false,
+        "menu_text": "Extinguish",
+        "type": "transform"
+      }
+    ],
     "flags": [ "FIRE", "LIGHT_310", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID", "WATER_EXTINGUISH" ]
   },
   {
@@ -8053,7 +8062,16 @@
     "max_charges": 75,
     "turns_per_charge": 20,
     "revert_to": "torch_done",
-    "use_action": "TORCH_LIT",
+    "use_action": [
+      { "type": "firestarter", "moves": 30 },
+      {
+        "target": "torch",
+        "msg": "The torch is extinguished.",
+        "active": false,
+        "menu_text": "Extinguish",
+        "type": "transform"
+      }
+    ],
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "FIRE", "LIGHT_310", "CHARGEDIM", "FLAMING", "TRADER_AVOID", "WATER_EXTINGUISH" ]
   },
