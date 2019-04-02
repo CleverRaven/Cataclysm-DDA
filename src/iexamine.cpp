@@ -3959,7 +3959,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                     if( choice_index == 0 ) {
                         g->save_cyborg( &cyborg, couch_pos, p );
                     } else {
-                        popup( _( "UNKNWON COMMAND.  Autodoc Mk. XI. Crashed." ) );
+                        popup( _( "UNKNOWN COMMAND.  Autodoc Mk. XI. Crashed." ) );
                         return;
                     }
                     break;

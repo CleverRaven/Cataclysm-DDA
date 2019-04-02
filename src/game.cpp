@@ -5506,14 +5506,14 @@ void game::save_cyborg( item *cyborg, const tripoint couch_pos, player &installe
     int success = chance_of_success - rng( 1, 100 ) ;
 
     if( !g->u.query_yn(
-            _( "WARNING: %i percent chance of SEVERE damage to all body parts! Continue anyway?" ),
-            ( 100 - static_cast<int>( chance_of_success ) ) ) ) {
+            _( "WARNING: %i percent chance of SEVERE damage to all body parts!  Continue anyway?" ),
+            100 - static_cast<int>( chance_of_success ) ) ) {
         return;
     }
 
     if( success > 0 ) {
         add_msg( m_good, _( "Successfully removed Personality override." ) );
-        add_msg( m_bad, _( "Autodoc immediatly destroys the CBM uppon removal." ) );
+        add_msg( m_bad, _( "Autodoc immediately destroys the CBM upon removal." ) );
 
         m.i_rem( couch_pos, cyborg );
 
