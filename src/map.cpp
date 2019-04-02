@@ -2479,15 +2479,12 @@ void map::make_rubble( const tripoint &p, const furn_id &rubble_type, const bool
         }
     } else if( rubble_type == f_rubble ) {
         item splinter( "splinter", calendar::turn );
-        item nail( "nail", calendar::turn );
         int splinter_count = rng( 2, 8 );
-        int nail_count = rng( 5, 10 );
+        int nail_count = rng( 1, 10 );
         for( int i = 0; i < splinter_count; i++ ) {
             add_item_or_charges( p, splinter );
         }
-        for( int i = 0; i < nail_count; i++ ) {
-            add_item_or_charges( p, nail );
-        }
+        spawn_item( p, "nail", 1, nail_count );
     }
 }
 
