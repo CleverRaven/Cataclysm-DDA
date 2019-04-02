@@ -6,4 +6,3 @@
     "responses": [ { "text": "You're okay it's over now.", "topic": "TALK_FRIEND" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
   }
 ]
-
