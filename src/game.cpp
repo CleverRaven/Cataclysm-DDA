@@ -10465,7 +10465,7 @@ void game::place_player( const tripoint &dest_loc )
                 } else if( ( forage_everything && xfurn_t == &iexamine::harvest_furn ) ||
                            ( forage_everything && xfurn_t == &iexamine::harvest_furn_nectar )
                          ) {
-                   xfurn_t( u, pos );
+                    xfurn_t( u, pos );
                 }
             };
 
