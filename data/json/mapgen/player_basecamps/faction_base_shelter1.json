@@ -151,7 +151,7 @@
         "                        ",
         "                        ",
         "    |||||;|%+|;|||||    ",
-        "    |lll7......c.G6|    ",
+        "    |lll7......c9G6|    ",
         "    |.b.b.b....c...|    ",
         "    |.b.b.b....c...|    ",
         "    |.b.b.b....c...|    ",
@@ -183,4 +183,142 @@
       }
     }
   },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "weight": 100,
+    "om_terrain": [ "faction_base_shelter1_2a" ],
+	"//": "Build four makeshift beds",
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "    |||||;|%+|;|||||    ",
+        "    |lll7......c9G6|    ",
+        "    |.b.b.b....c...|    ",
+        "    |.b.b.b....c...|    ",
+        "    |.b.b.b....c...|    ",
+        "    ;.b.b.b........;    ",
+        "    |..............|    ",
+        "    +......>>......%    ",
+        "    %......>>......+    ",
+        "    |..............|    ",
+        "    ;.b.b.b........;    ",
+        "    |.b.b.b....c..B|    ",
+        "    |.b.b.b....cB..|    ",
+        "    |||.b.b....c..B|    ",
+        "    |*=........cB.x|    ",
+        "    |||||;|+%|;|||||    ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "shelter_camp" ],
+      "computers": {
+        "6": {
+          "name": "Evac shelter computer", "options": [
+            { "name": "Emergency Message", "action": "emerg_mess" },
+            { "name": "Disable External Power", "action": "complete_disable_external_power" },
+            { "name": "Contact Us", "action": "emerg_ref_center" }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "weight": 100,
+    "om_terrain": [ "faction_base_shelter1_2b" ],
+	"//": "Construct some simple pit traps.",
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "        UU UUU UU       ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "    |||||;|%+|;|||||    ",
+        "    |lll7......c9G6|    ",
+        "    |.b.b.b....c...|    ",
+        "U   |.b.b.b....c...|    ",
+        "U   |.b.b.b....c...|   U",
+        "    ;.b.b.b........;   U",
+        "U   |..............|    ",
+        "U   +......>>......%   U",
+        "U   %......>>......+   U",
+        "    |..............|   U",
+        "U   ;.b.b.b........;    ",
+        "U   |.b.b.b....c...|   U",
+        "    |.b.b.b....c...|   U",
+        "    |||.b.b....c...|    ",
+        "    |*=........c..x|    ",
+        "    |||||;|+%|;|||||    ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "       UU UUU UU        "
+      ],
+      "palettes": [ "shelter_camp" ],
+      "computers": {
+        "6": {
+          "name": "Evac shelter computer", "options": [
+            { "name": "Emergency Message", "action": "emerg_mess" },
+            { "name": "Disable External Power", "action": "complete_disable_external_power" },
+            { "name": "Contact Us", "action": "emerg_ref_center" }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "weight": 100,
+    "om_terrain": [ "faction_base_shelter1_2" ],
+	"//": "Pit traps and beds.",
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "        UU UUU UU       ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "    |||||;|%+|;|||||    ",
+        "    |lll7......c9G6|    ",
+        "    |.b.b.b....c...|    ",
+        "U   |.b.b.b....c...|    ",
+        "U   |.b.b.b....c...|   U",
+        "    ;.b.b.b........;   U",
+        "U   |..............|    ",
+        "U   +......>>......%   U",
+        "U   %......>>......+   U",
+        "    |..............|   U",
+        "U   ;.b.b.b........;    ",
+        "U   |.b.b.b....c..B|   U",
+        "    |.b.b.b....cB..|   U",
+        "    |||.b.b....c..B|    ",
+        "    |*=........cB.x|    ",
+        "    |||||;|+%|;|||||    ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "       UU UUU UU        "
+      ],
+      "palettes": [ "shelter_camp" ],
+      "computers": {
+        "6": {
+          "name": "Evac shelter computer", "options": [
+            { "name": "Emergency Message", "action": "emerg_mess" },
+            { "name": "Disable External Power", "action": "complete_disable_external_power" },
+            { "name": "Contact Us", "action": "emerg_ref_center" }
+          ]
+        }
+      }
+    }
+  }
 ]
