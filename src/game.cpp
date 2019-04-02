@@ -5507,7 +5507,7 @@ void game::save_cyborg( item *cyborg, const tripoint couch_pos, player &installe
 
     if( !g->u.query_yn(
             _( "WARNING: %i percent chance of SEVERE damage to all body parts! Continue anyway?" ),
-            ( 100 - static_cast<int>( chance_of_success ) ) ) ) {
+            100 - static_cast<int>( chance_of_success ) ) ) {
         return;
     }
 
