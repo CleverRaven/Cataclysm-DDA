@@ -593,7 +593,13 @@ void inventory_column::on_input( const inventory_input &input )
         select( entries.size() - 1, scroll_direction::BACKWARD );
     } else if( input.action == "TOGGLE_FAVORITE" ) {
         const item *selected_item = get_selected().location.get_item();
-        g->u.set_item_or_stack_favorite( selected_item, !selected_item->is_favorite );
+        int position = g->u.get_item_position( selected_item );
+
+        if( position < 0 ) {
+            g->u.i_at( position ).set_favorite( !selected_item->is_favorite ); // worn/wielded
+        } else {
+            g->u.inv.set_stack_favorite( position, !selected_item->is_favorite ); // in inventory
+        }
     }
 }
 

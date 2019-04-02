@@ -64,26 +64,41 @@ static item_location inv_internal( player &u, const inventory_selector_preset &p
                                    const std::string &none_message,
                                    const std::string &hint = std::string() )
 {
-    u.inv.restack( u );
+    item_location location = item_location();
 
-    inventory_pick_selector inv_s( u, preset );
+    do {
+        u.inv.restack( u );
 
-    inv_s.set_title( title );
-    inv_s.set_hint( hint );
-    inv_s.set_display_stats( false );
+        inventory_pick_selector inv_s( u, preset );
 
-    inv_s.add_character_items( u );
-    inv_s.add_nearby_items( radius );
+        inv_s.set_title( title );
+        inv_s.set_hint( hint );
+        inv_s.set_display_stats( false );
 
-    if( inv_s.empty() ) {
-        const std::string msg = none_message.empty()
-                                ? _( "You don't have the necessary item at hand." )
-                                : none_message;
-        popup( msg, PF_GET_KEY );
-        return item_location();
-    }
+        inv_s.add_character_items( u );
+        inv_s.add_nearby_items( radius );
 
-    return inv_s.execute();
+        if( inv_s.empty() ) {
+            const std::string msg = none_message.empty()
+                                    ? _( "You don't have the necessary item at hand." )
+                                    : none_message;
+            popup( msg, PF_GET_KEY );
+            return item_location();
+        }
+
+        if( location != item_location::nowhere ) {
+            inv_s.update();
+            inv_s.select( location );
+            g->refresh_all();
+        }
+
+        location = inv_s.execute();
+        if( !inv_s.keep_open ) {
+            return location;
+        } else {
+            location = inv_s.get_selected().location;
+        }
+    } while( true );
 }
 
 void game_menus::inv::common( player &p )
@@ -110,7 +125,7 @@ void game_menus::inv::common( player &p )
 
             if( last_loc != item_location::nowhere ) {
                 inv_s.update();
-                inv_s.select( last_loc ); // For now this will fail when an unfavorited item/stack gets merged
+                inv_s.select( last_loc ); // Tries to select previous item if it still exists
                 g->refresh_all();
             }
 
