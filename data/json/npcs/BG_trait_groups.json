@@ -146,7 +146,7 @@
     ]
   },
   {
-    "//": "This group is for Cyborgs rescued down the in the Lab.",
+    "//": "This group is for Cyborgs rescued down in the Lab.",
     "type": "trait_group",
     "id": "BG_survival_story_CYBORG",
     "subtype": "distribution",
