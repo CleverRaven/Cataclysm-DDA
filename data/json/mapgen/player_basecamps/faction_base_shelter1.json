@@ -12,7 +12,7 @@
         "                        ",
         "                        ",
         "                        ",
-        "    |----:-++-:----|    ",
+        "    |||||:|++|:|||||    ",
         "    |llll......c.G6|    ",
         "    |.b.b.b....c...|    ",
         "    |.b.b.b....c...|    ",
@@ -27,7 +27,7 @@
         "    |.b.b.b....c...|    ",
         "    |||.b.b....c...|    ",
         "    |*=........c..x|    ",
-        "    |----:-++-:----|    ",
+        "    |||||:|++|:|||||    ",
         "                        ",
         "                        ",
         "                        ",
@@ -44,5 +44,143 @@
         }
       }
     }
-  }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "weight": 100,
+    "om_terrain": [ "faction_base_shelter1_1a" ],
+	"//": "Dismantle a locker to build a brazier.",
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "    |||||;|%+|;|||||    ",
+        "    |lll7......c.G6|    ",
+        "    |.b.b.b....c...|    ",
+        "    |.b.b.b....c...|    ",
+        "    |.b.b.b....c...|    ",
+        "    ;.b.b.b........;    ",
+        "    |..............|    ",
+        "    +......>>......%    ",
+        "    %......>>......+    ",
+        "    |..............|    ",
+        "    ;.b.b.b........;    ",
+        "    |.b.b.b....c...|    ",
+        "    |.b.b.b....c...|    ",
+        "    |||.b.b....c...|    ",
+        "    |*=........c..x|    ",
+        "    |||||;|+%|;|||||    ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "shelter_camp" ],
+      "computers": {
+        "6": {
+          "name": "Evac shelter computer", "options": [
+            { "name": "Emergency Message", "action": "emerg_mess" },
+            { "name": "Disable External Power", "action": "complete_disable_external_power" },
+            { "name": "Contact Us", "action": "emerg_ref_center" }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "weight": 100,
+    "om_terrain": [ "faction_base_shelter1_1b" ],
+	"//": "Board up windows and doors.",
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "    |||||;|%+|;|||||    ",
+        "    |llll......c.G6|    ",
+        "    |.b.b.b....c...|    ",
+        "    |.b.b.b....c...|    ",
+        "    |.b.b.b....c...|    ",
+        "    ;.b.b.b........;    ",
+        "    |..............|    ",
+        "    +......>>......%    ",
+        "    %......>>......+    ",
+        "    |..............|    ",
+        "    ;.b.b.b........;    ",
+        "    |.b.b.b....c...|    ",
+        "    |.b.b.b....c...|    ",
+        "    |||.b.b....c...|    ",
+        "    |*=........c..x|    ",
+        "    |||||;|+%|;|||||    ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "shelter_camp" ],
+      "computers": {
+        "6": {
+          "name": "Evac shelter computer", "options": [
+            { "name": "Emergency Message", "action": "emerg_mess" },
+            { "name": "Disable External Power", "action": "complete_disable_external_power" },
+            { "name": "Contact Us", "action": "emerg_ref_center" }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "weight": 100,
+    "om_terrain": [ "faction_base_shelter1_1" ],
+	"//": "Both brazier and boarded entries.",
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "    |||||;|%+|;|||||    ",
+        "    |lll7......c.G6|    ",
+        "    |.b.b.b....c...|    ",
+        "    |.b.b.b....c...|    ",
+        "    |.b.b.b....c...|    ",
+        "    ;.b.b.b........;    ",
+        "    |..............|    ",
+        "    +......>>......%    ",
+        "    %......>>......+    ",
+        "    |..............|    ",
+        "    ;.b.b.b........;    ",
+        "    |.b.b.b....c...|    ",
+        "    |.b.b.b....c...|    ",
+        "    |||.b.b....c...|    ",
+        "    |*=........c..x|    ",
+        "    |||||;|+%|;|||||    ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "shelter_camp" ],
+      "computers": {
+        "6": {
+          "name": "Evac shelter computer", "options": [
+            { "name": "Emergency Message", "action": "emerg_mess" },
+            { "name": "Disable External Power", "action": "complete_disable_external_power" },
+            { "name": "Contact Us", "action": "emerg_ref_center" }
+          ]
+        }
+      }
+    }
+  },
 ]
