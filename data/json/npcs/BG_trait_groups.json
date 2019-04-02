@@ -146,13 +146,10 @@
     ]
   },
   {
-    "//": "This group is for NPCs that worked in science, maybe in a lab, or maybe in a Lab. They don't necessarily know any more about the cataclysm than the rest of us.",
+    "//": "This group is for Cyborgs rescued down the in the Lab.",
     "type": "trait_group",
     "id": "BG_survival_story_CYBORG",
     "subtype": "distribution",
-    "traits": [
-      { "group": "BG_survival_story_UNIVERSAL" },
-      { "trait": "BGSS_Cyborg_1" }
-    ]
+    "traits": [ { "group": "BG_survival_story_UNIVERSAL" }, { "trait": "BGSS_Cyborg_1" } ]
   }
 ]
