@@ -106,8 +106,8 @@ void basecamp::define_camp( npc &p )
     omt_pos = p.global_omt_location();
     sort_points = p.companion_mission_points;
     // purging the regions guarantees all entries will start with faction_base_
-    for( std::pair<std::string, tripoint> expansion : talk_function::om_building_region( omt_pos, 1,
-            true ) ) {
+    for( const std::pair<std::string, tripoint> &expansion :
+         talk_function::om_building_region( omt_pos, 1, true ) ) {
         add_expansion( expansion.first, expansion.second );
     }
     const std::string om_cur = overmap_buffer.ter( omt_pos ).id().c_str();
@@ -220,9 +220,8 @@ std::map<std::string, std::string> basecamp::recipe_deck( const std::string &dir
         return cooking_recipes;
     }
     const std::string building = faction_encode( e->second.type );
-    int building_max = max_upgrade_by_type( e->second.type );
-    for( int building_cur = e->second.cur_level; building_cur <= building_max; building_cur++ ) {
-        const std::string building_level = building + to_string( building_cur );
+    for( int building_min = 0 ; building_min <= e->second.cur_level; building_min++ ) {
+        const std::string building_level = building + to_string( building_min );
         if( !oter_str_id( building_level ) ) {
             continue;
         }

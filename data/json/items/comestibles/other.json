@@ -257,7 +257,7 @@
     "material": "bean",
     "volume": 1,
     "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 6 ] ]
+    "vitamins": [ [ "calcium", 9 ], [ "iron", 24 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -280,7 +280,7 @@
     "cooks_like": "beans_cooked",
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 6,
-    "vitamins": [ [ "calcium", 10 ], [ "iron", 4 ] ],
+    "vitamins": [ [ "calcium", 56 ], [ "iron", 22 ] ],
     "fun": -6
   },
   {
@@ -302,7 +302,7 @@
     "volume": 1,
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 1,
-    "vitamins": [ [ "calcium", 2 ], [ "vitB", 8 ] ]
+    "vitamins": [ [ "calcium", 8 ], [ "vitB", 32 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -322,7 +322,7 @@
     "volume": 1,
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 2,
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 3 ], [ "vitC", 1 ], [ "vitB", 1 ] ],
+    "vitamins": [ [ "calcium", 4 ], [ "iron", 47 ], [ "vitC", 7 ] ],
     "fun": -10
   },
   {
@@ -405,7 +405,7 @@
     "material": "tomato",
     "volume": 1,
     "stack_size": 2,
-    "vitamins": [ [ "vitA", 1 ], [ "vitC", 6 ], [ "calcium", 2 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "vitA", 3 ], [ "vitC", 26 ], [ "calcium", 9 ], [ "iron", 18 ] ]
   },
   {
     "type": "COMESTIBLE",

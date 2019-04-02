@@ -3,7 +3,6 @@
     "id": "medieval",
     "type": "item_group",
     "items": [
-      [ "armor_lamellar", 2 ],
       [ "shield_kite", 5 ],
       [ "shield_heater", 10 ],
       [ "shield_buckler", 1 ]
@@ -13,7 +12,6 @@
     "id": "pawn",
     "type": "item_group",
     "items": [
-      [ "armor_lamellar", 2 ],
       [ "shield_hoplon", 1 ],
       [ "shield_scutum", 1 ],
       [ "shield_round", 3 ],
@@ -87,7 +85,6 @@
     "type": "item_group",
     "items": [
       [ "helmet_corinthian", 45 ],
-      [ "armor_lamellar", 20 ],
       [ "armor_cuirass", 25 ],
       [ "legguard_bronze", 20 ],
       [ "shield_wooden", 10 ],

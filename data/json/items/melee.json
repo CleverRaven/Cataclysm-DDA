@@ -425,7 +425,7 @@
     "to_hit": 1,
     "color": "yellow",
     "symbol": "/",
-    "material": [ "plastic" ],
+    "material": [ "wood" ],
     "techniques": [ "WBLOCK_1" ],
     "volume": 5,
     "bashing": 4,

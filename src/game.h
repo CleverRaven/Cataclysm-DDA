@@ -860,6 +860,10 @@ class game
         bool reinitmap;
         bool fullscreen;
         bool was_fullscreen;
+        // the calculated number of columns to shift the terrain window in order
+        // to center the screen with a sidebar
+        // negative number is left hand side of screen, positive is right side
+        tripoint sidebar_offset;
 
         /** open vehicle interaction screen */
         void exam_vehicle( vehicle &veh, int cx = 0, int cy = 0 );
@@ -902,6 +906,7 @@ class game
         //private save functions.
         // returns false if saving failed for whatever reason
         bool save_factions_missions_npcs();
+        void reset_npc_dispositions();
         void serialize_master( std::ostream &fout );
         // returns false if saving failed for whatever reason
         bool save_artifacts();
@@ -965,12 +970,12 @@ class game
         void use_item( int pos = INT_MIN ); // Use item; also tries E,R,W  'a'
 
         void change_side( int pos = INT_MIN ); // Change the side on which an item is worn 'c'
-        void reload(); // Reload a wielded gun/tool  'r'
         void reload( int pos, bool prompt = false );
-        void reload( item_location &loc, bool prompt = false );
+        void reload( item_location &loc, bool prompt = false, bool empty = true );
         void mend( int pos = INT_MIN );
         void autoattack();
     public:
+        void reload( bool try_everything = true ); // Reload a wielded gun/tool  'r'
         // Places the player at the specified point; hurts feet, lists items etc.
         void place_player( const tripoint &dest );
         void place_player_overmap( const tripoint &om_dest );

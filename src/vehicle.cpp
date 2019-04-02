@@ -1265,7 +1265,7 @@ int vehicle::install_part( const point &dp, const vehicle_part &new_part )
 
 bool vehicle::try_to_rack_nearby_vehicle( const std::vector<std::vector<int>> &list_of_racks )
 {
-    for( auto this_bike_rack : list_of_racks ) {
+    for( const auto &this_bike_rack : list_of_racks ) {
         std::vector<vehicle *> carry_vehs;
         carry_vehs.assign( 4, nullptr );
         vehicle *test_veh = nullptr;
@@ -1625,9 +1625,15 @@ void vehicle::part_removal_cleanup()
 void vehicle::remove_carried_flag()
 {
     for( vehicle_part &part : parts ) {
-        part.carry_names.pop();
         if( part.carry_names.empty() ) {
+            // note: we get here if the part was added while the vehicle was carried / mounted. This is not expected.
+            // still try to remove the carried flag, if any.
             part.remove_flag( vehicle_part::carried_flag );
+        } else {
+            part.carry_names.pop();
+            if( part.carry_names.empty() ) {
+                part.remove_flag( vehicle_part::carried_flag );
+            }
         }
     }
 }
@@ -1672,8 +1678,34 @@ bool vehicle::remove_carried_vehicle( const std::vector<int> &carried_parts )
     std::vector<point> new_mounts;
     new_vehicle->name = veh_record.substr( vehicle_part::name_offset );
     for( auto carried_part : carried_parts ) {
-        std::string mount_str = parts[ carried_part ].carry_names.top().substr( 1, 3 );
         point new_mount;
+        std::string mount_str;
+        if( !parts[carried_part].carry_names.empty() ) {
+            // the mount string should be something like "X 0 0" for ex. We get the first number out of it.
+            mount_str = parts[carried_part].carry_names.top().substr( 1, 3 );
+        } else {
+            // FIX #28712; if we get here it means that a part was added to the bike while the latter was a carried vehicle.
+            // This part didn't get a carry_names because those are assigned when the carried vehicle is loaded.
+            // We can't be sure to which vehicle it really belongs to, so it will be detached from the vehicle.
+            // We can at least inform the player that there's something wrong.
+            add_msg( m_warning,
+                     _( "A part of the vehicle ('%s') has no containing vehicle's name. It will be detached from the %s vehicle." ),
+                     parts[carried_part].name(),  new_vehicle->name );
+
+            // check if any other parts at the same location have a valid carry name so we can still have a valid mount location.
+            for( auto &local_part : parts_at_relative( parts[carried_part].mount, true ) ) {
+                if( !parts[local_part].carry_names.empty() ) {
+                    mount_str = parts[local_part].carry_names.top().substr( 1, 3 );
+                    break;
+                }
+            }
+        }
+        if( mount_str.empty() ) {
+            add_msg( m_bad,
+                     _( "There's not viable mount location on this vehicle: %s. It can't be unloaded from the rack." ),
+                     new_vehicle->name );
+            return false;
+        }
         if( x_aligned ) {
             new_mount.x = std::stoi( mount_str );
         } else {
@@ -1688,16 +1720,16 @@ bool vehicle::remove_carried_vehicle( const std::vector<int> &carried_parts )
     carried_vehicles.push_back( carried_parts );
     std::vector<std::vector<point>> carried_mounts;
     carried_mounts.push_back( new_mounts );
-    bool success = split_vehicles( carried_vehicles, new_vehicles, carried_mounts );
+    const bool success = split_vehicles( carried_vehicles, new_vehicles, carried_mounts );
     if( success ) {
         //~ %s is the vehicle being loaded onto the bicycle rack
-        add_msg( _( "You unload the %s from the bike rack. " ), new_vehicle->name );
+        add_msg( _( "You unload the %s from the bike rack." ), new_vehicle->name );
         new_vehicle->remove_carried_flag();
         g->m.dirty_vehicle_list.insert( this );
         part_removal_cleanup();
     } else {
         //~ %s is the vehicle being loaded onto the bicycle rack
-        add_msg( m_bad, _( "You can't unload the %s from the bike rack. " ), new_vehicle->name );
+        add_msg( m_bad, _( "You can't unload the %s from the bike rack." ), new_vehicle->name );
     }
     return success;
 }
@@ -3664,6 +3696,9 @@ void vehicle::consume_fuel( int load, const int t_seconds, bool skip_electric )
                 g->u.charge_power( 1 );
             }
         }
+        if( g->u.has_active_bionic( bionic_id( "bio_jointservo" ) ) ) {
+            g->u.charge_power( -10 );
+        }
         if( one_in( 10 ) ) {
             g->u.mod_hunger( mod );
             g->u.mod_thirst( mod );
@@ -3671,6 +3706,8 @@ void vehicle::consume_fuel( int load, const int t_seconds, bool skip_electric )
         }
         if( g->u.has_active_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
             g->u.mod_stat( "stamina", -mod * 30 );
+        } else if( g->u.has_active_bionic( bionic_id( "bio_jointservo" ) ) ) {
+            g->u.mod_stat( "stamina", -mod * 10 );
         } else {
             g->u.mod_stat( "stamina", -mod * 20 );
         }

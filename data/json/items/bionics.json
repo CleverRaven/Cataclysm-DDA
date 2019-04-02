@@ -825,6 +825,15 @@
     "difficulty": 4
   },
   {
+    "id": "bio_jointservo",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": "Joint Servo CBM",
+    "description": "Your leg joints have been equipped with servomotors that provide power-assisted movement.  They are optimized for running, but walking also requires less effort when this bionic is online.  However, when it's offline it will hamper your movement, as you struggle against its moving parts.",
+    "price": 450000,
+    "difficulty": 4
+  },
+  {
     "id": "bio_uncanny_dodge",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
@@ -886,6 +895,15 @@
     "description": "A set of hydraulic springs and foldable padding that replaces most of the flesh in your limbs and upper torso.  While active, these absorbers will negate damage from severe impacts such as falling, at the cost of reducing your ability to move effectively.",
     "price": 10000,
     "difficulty": 4
+  },
+  {
+    "id": "bio_taste_blocker",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": "Taste Modifier CBM",
+    "description": "A set of highly sensitive sensors is installed in your mouth, and a small yet sophisticated analyzer is installed in the cavity of your skull.  When you put something that you plan to eat in your mouth, sensors intercept all data related to the comestible (such as taste or texture) from various receptors in your mouth and send it forth to the analyzer.  Based on the gathered data, analyzer can modify it prior to sending it forth to the brain.  Active bionic will nullify the taste of all comestibles with negative enjoyment value at the cost of draining bionic power.",
+    "price": 40000,
+    "difficulty": 5
   },
   {
     "id": "bio_ankles",

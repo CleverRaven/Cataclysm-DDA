@@ -22,26 +22,6 @@
     "effects": [ "NEVER_MISFIRES" ]
   },
   {
-    "id": "pebble_clay",
-    "type": "AMMO",
-    "name": "clay pellet",
-    "description": "A handful of round projectiles made of clay, useful for slings or slingshots.",
-    "weight": 3,
-    "volume": 1,
-    "price": 150,
-    "bashing": 1,
-    "material": "clay",
-    "symbol": "=",
-    "color": "brown",
-    "count": 40,
-    "ammo_type": "pebble",
-    "range": 20,
-    "damage": 2,
-    "dispersion": 195,
-    "loudness": 0,
-    "effects": [ "NEVER_MISFIRES" ]
-  },
-  {
     "id": "bearing_lead",
     "type": "AMMO",
     "name": "lead pellet",

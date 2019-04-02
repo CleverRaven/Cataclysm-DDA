@@ -35,6 +35,7 @@
 #include "npc.h"
 #include "options.h"
 #include "output.h"
+#include "overmapbuffer.h"
 #include "pickup.h"
 #include "player.h"
 #include "requirements.h"
@@ -1254,14 +1255,18 @@ void iexamine::locked_object( player &p, const tripoint &examp )
 
 void iexamine::bulletin_board( player &p, const tripoint &examp )
 {
-    basecamp *bcp = g->m.camp_at( examp, 60 );
+    g->validate_camps();
+    point omt = ms_to_omt_copy( g->m.getabs( examp.x, examp.y ) );
+    tripoint omt_tri = tripoint( omt.x, omt.y, p.pos().z );
+    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( omt_tri.x, omt_tri.y );
     if( bcp ) {
+        basecamp *temp_camp = *bcp;
         const std::string title = ( "Base Missions" );
         mission_data mission_key;
-        bcp->get_available_missions( mission_key );
-        if( talk_function::display_and_choose_opts( mission_key, bcp->camp_omt_pos(), "FACTION_CAMP",
+        temp_camp->get_available_missions( mission_key );
+        if( talk_function::display_and_choose_opts( mission_key, temp_camp->camp_omt_pos(), "FACTION_CAMP",
                 title ) ) {
-            bcp->handle_mission( mission_key.cur_key.id, mission_key.cur_key.dir );
+            temp_camp->handle_mission( mission_key.cur_key.id, mission_key.cur_key.dir );
         }
     } else {
         p.add_msg_if_player( _( "This bulletin board is not inside a camp" ) );
@@ -2310,7 +2315,7 @@ void iexamine::fireplace( player &p, const tripoint &examp )
         }
     }
 
-    const bool has_firestarter = firestarters.size() > 0;
+    const bool has_firestarter = !firestarters.empty();
     const bool has_bionic_firestarter = p.has_bionic( bionic_id( "bio_lighter" ) ) &&
                                         p.power_level >= bionic_id( "bio_lighter" )->power_activate;
 
@@ -2581,19 +2586,10 @@ void iexamine::fvat_full( player &p, const tripoint &examp )
     }
 }
 
-//probably should move this functionality into the furniture JSON entries if we want to have more than a few "kegs"
 static units::volume get_keg_capacity( const tripoint &pos )
 {
     const furn_t &furn = g->m.furn( pos ).obj();
-    if( furn.id == "f_standing_tank" )  {
-        return units::from_liter( 300 );
-    } else if( furn.id == "f_wood_keg" )  {
-        return units::from_liter( 125 );
-    }
-    //add additional cases above
-    else                                {
-        return 0_ml;
-    }
+    return furn.keg_capacity;
 }
 
 /**
@@ -3225,18 +3221,29 @@ void iexamine::reload_furniture( player &p, const tripoint &examp )
         add_msg( m_info, _( "This %s can not be reloaded!" ), f.name().c_str() );
         return;
     }
-    const int amount_in_furn = count_charges_in_list( ammo, g->m.i_at( examp ) );
+    map_stack items_here = g->m.i_at( examp );
+    const int amount_in_furn = count_charges_in_list( ammo, items_here );
+    const int amount_in_inv = p.charges_of( ammo->get_id() );
     if( amount_in_furn > 0 ) {
-        //~ %1$s - furniture, %2$d - number, %3$s items.
-        add_msg( _( "The %1$s contains %2$d %3$s." ), f.name().c_str(), amount_in_furn,
-                 ammo->nname( amount_in_furn ).c_str() );
+        if( p.query_yn( _( "The %1$s contains %2$d %3$s.  Unload?" ), f.name().c_str(), amount_in_furn,
+                        ammo->nname( amount_in_furn ).c_str() ) ) {
+            p.assign_activity( activity_id( "ACT_PICKUP" ) );
+            p.activity.placement = examp - p.pos();
+            p.activity.values.push_back( false );
+            p.activity.values.push_back( 0 );
+            p.activity.values.push_back( 0 );
+            return;
+        }
     }
+    //~ %1$s - furniture, %2$d - number, %3$s items.
+    add_msg( _( "The %1$s contains %2$d %3$s." ), f.name().c_str(), amount_in_furn,
+             ammo->nname( amount_in_furn ).c_str() );
+
     const int max_amount_in_furn = ammo->charges_per_volume( f.max_volume );
     const int max_reload_amount = max_amount_in_furn - amount_in_furn;
     if( max_reload_amount <= 0 ) {
         return;
     }
-    const int amount_in_inv = p.charges_of( ammo->get_id() );
     if( amount_in_inv == 0 ) {
         //~ Reloading or restocking a piece of furniture, for example a forge.
         add_msg( m_info, _( "You need some %1$s to reload this %2$s." ), ammo->nname( 2 ).c_str(),
@@ -3333,32 +3340,38 @@ void iexamine::sign( player &p, const tripoint &examp )
     }
 
     // Allow chance to modify message.
-    // Chose spray can because it seems appropriate.
-    int required_writing_charges = 1;
-    if( p.has_charges( "spray_can", required_writing_charges ) ) {
+    std::vector<tool_comp> tools;
+    std::vector<const item *> filter = p.crafting_inventory().items_with( []( const item & it ) {
+        return it.has_flag( "WRITE_MESSAGE" ) && it.charges > 0;
+    } );
+    for( const item *writing_item : filter ) {
+        tools.push_back( tool_comp( writing_item->typeId(), 1 ) );
+    }
+
+    if( !tools.empty() ) {
         // Different messages if the sign already has writing associated with it.
         std::string query_message = previous_signage_exists ?
-                                    _( "Overwrite the existing message on the sign with spray paint?" ) :
-                                    _( "Add a message to the sign with spray paint?" );
+                                    _( "Overwrite the existing message on the sign?" ) :
+                                    _( "Add a message to the sign?" );
         std::string spray_painted_message = previous_signage_exists ?
-                                            _( "You overwrite the previous message on the sign with your graffiti" ) :
+                                            _( "You overwrite the previous message on the sign with your graffiti." ) :
                                             _( "You graffiti a message onto the sign." );
         std::string ignore_message = _( "You leave the sign alone." );
-        if( query_yn( query_message.c_str() ) ) {
+        if( query_yn( query_message ) ) {
             std::string signage = string_input_popup()
-                                  .title( _( "Spray what?" ) )
+                                  .title( _( "Write what?" ) )
                                   .identifier( "signage" )
                                   .query_string();
             if( signage.empty() ) {
-                p.add_msg_if_player( m_neutral, ignore_message.c_str() );
+                p.add_msg_if_player( m_neutral, ignore_message );
             } else {
                 g->m.set_signage( examp, signage );
-                p.add_msg_if_player( m_info, spray_painted_message.c_str() );
-                p.moves -= 2 * signage.length();
-                p.use_charges( "spray_can", required_writing_charges );
+                p.add_msg_if_player( m_info, spray_painted_message );
+                p.mod_moves( - 20 * signage.length() );
+                p.consume_tools( tools, 1 );
             }
         } else {
-            p.add_msg_if_player( m_neutral, ignore_message.c_str() );
+            p.add_msg_if_player( m_neutral, ignore_message );
         }
     }
 }
@@ -4098,7 +4111,6 @@ void smoker_activate( player &p, const tripoint &examp )
             add_msg( _( "You remove %s from the rack." ), it.tname().c_str() );
             g->m.add_item_or_charges( p.pos(), it );
             g->m.i_rem( examp, i );
-            i--;
             return;
         }
         if( it.has_flag( "SMOKED" ) && it.has_flag( "SMOKABLE" ) ) {
@@ -4255,7 +4267,7 @@ void smoker_load_food( player &p, const tripoint &examp, const units::volume &re
     }
     count = 0;
     auto what = entries[smenu.ret];
-    for( auto c : comps ) {
+    for( const auto &c : comps ) {
         if( c.type == what->typeId() ) {
             count = c.count;
         }
@@ -4315,7 +4327,7 @@ void smoker_load_food( player &p, const tripoint &examp, const units::volume &re
         return;
     }
 
-    for( item m : moved ) {
+    for( const item &m : moved ) {
         g->m.add_item( examp, m );
         p.mod_moves( -p.item_handling_cost( m ) );
         add_msg( m_info, _( "You carefully place %s %s in the rack." ), amount, m.nname( m.typeId(),
