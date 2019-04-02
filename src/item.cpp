@@ -1979,14 +1979,18 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             }
         } else if( ammo_capacity() != 0 && parts->test( iteminfo_parts::TOOL_CAPACITY ) ) {
             std::string tmp;
+            bool bionic_tool = has_flag( "USES_BIONIC_POWER" );
             if( ammo_type() ) {
                 //~ "%s" is ammunition type. This types can't be plural.
                 tmp = ngettext( "Maximum <num> charge of %s.", "Maximum <num> charges of %s.", ammo_capacity() );
                 tmp = string_format( tmp, ammo_type()->name().c_str() );
-            } else {
+                // No need to display max charges, since charges are always equal to bionic power
+            } else if( !bionic_tool ) {
                 tmp = ngettext( "Maximum <num> charge.", "Maximum <num> charges.", ammo_capacity() );
             }
-            info.emplace_back( "TOOL", "", tmp, iteminfo::no_flags, ammo_capacity() );
+            if( !bionic_tool ) {
+                info.emplace_back( "TOOL", "", tmp, iteminfo::no_flags, ammo_capacity() );
+            }
         }
     }
 
@@ -2269,6 +2273,9 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                        parts->test( iteminfo_parts::DESCRIPTION_RECHARGE_UPSCAPABLE ) ) {
                 info.push_back( iteminfo( "DESCRIPTION",
                                           _( "* This tool has a <info>rechargeable power cell</info> and can be recharged in any <neutral>UPS-compatible recharging station</neutral>. You could charge it with <info>standard batteries</info>, but unloading it is impossible." ) ) );
+            } else if( has_flag( "USES_BIONIC_POWER" ) ) {
+                info.emplace_back( "DESCRIPTION",
+                                   _( "* This tool <info>runs on bionic power</info>." ) );
             }
         }
 
@@ -3912,6 +3919,9 @@ bool item::ready_to_revive( const tripoint &pos ) const
     if( !can_revive() ) {
         return false;
     }
+    if( g->m.veh_at( pos ) ) {
+        return false;
+    }
     int age_in_hours = to_hours<int>( age() );
     age_in_hours -= int( static_cast<float>( burnt ) / ( volume() / 250_ml ) );
     if( damage_level( 4 ) > 0 ) {
@@ -4684,11 +4694,13 @@ bool item::is_reloadable_with( const itype_id &ammo ) const
 
 bool item::is_reloadable_helper( const itype_id &ammo, bool now ) const
 {
+    // empty ammo is passed for listing possible ammo apparently, so it needs to return true.
     if( !is_reloadable() ) {
         return false;
     } else if( is_watertight_container() ) {
-        return ( now ? !is_container_full() : true ) &&
-               ( ammo.empty() || is_container_empty() || contents.front().typeId() == ammo );
+        return ( ( now ? !is_container_full() : true ) && ( ammo.empty()
+                 || ( find_type( ammo )->phase == LIQUID && ( is_container_empty()
+                         || contents.front().typeId() == ammo ) ) ) );
     } else if( magazine_integral() ) {
         if( !ammo.empty() ) {
             if( ammo_data() ) {
@@ -5147,6 +5159,10 @@ long item::ammo_remaining() const
 
     if( is_tool() || is_gun() ) {
         // includes auxiliary gunmods
+        if( has_flag( "USES_BIONIC_POWER" ) ) {
+            long power = g->u.power_level;
+            return power;
+        }
         return charges;
     }
 
@@ -5266,6 +5282,10 @@ long item::ammo_consume( long qty, const tripoint &pos )
 
     } else if( is_tool() || is_gun() ) {
         qty = std::min( qty, charges );
+        if( has_flag( "USES_BIONIC_POWER" ) ) {
+            charges = g->u.power_level;
+            g->u.charge_power( -qty );
+        }
         charges -= qty;
         if( charges == 0 ) {
             curammo = nullptr;
@@ -6971,7 +6991,6 @@ bool item::process_corpse( player *carrier, const tripoint &pos )
     if( !ready_to_revive( pos ) ) {
         return false;
     }
-
     active = false;
     if( rng( 0, volume() / units::legacy_volume_factor ) > burnt && g->revive_corpse( pos, *this ) ) {
         if( carrier == nullptr ) {

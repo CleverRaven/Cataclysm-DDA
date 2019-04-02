@@ -257,6 +257,7 @@ static const trait_id trait_COLDBLOOD2( "COLDBLOOD2" );
 static const trait_id trait_COLDBLOOD3( "COLDBLOOD3" );
 static const trait_id trait_COLDBLOOD4( "COLDBLOOD4" );
 static const trait_id trait_COMPOUND_EYES( "COMPOUND_EYES" );
+static const trait_id trait_DEAF( "DEAF" );
 static const trait_id trait_DEBUG_BIONIC_POWER( "DEBUG_BIONIC_POWER" );
 static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
@@ -2710,6 +2711,7 @@ int player::overmap_sight_range( int light_level ) const
 
     /** @EFFECT_PER determines overmap sight range */
     sight += ( -4 + static_cast<int>( get_per() / 2 ) );
+    sight += std::max( 0, posz() ) * 2; // the higher up you are, the farther you can see
     bool has_optic = ( has_item_with_flag( "ZOOM" ) || has_bionic( bio_eye_optic ) );
 
     if( has_trait( trait_EAGLEEYED ) && has_optic ) { //optic AND scout = +15
@@ -12049,7 +12051,7 @@ void player::add_known_trap( const tripoint &pos, const trap &t )
 
 bool player::is_deaf() const
 {
-    return get_effect_int( effect_deaf ) > 2 || worn_with_flag( "DEAF" ) ||
+    return get_effect_int( effect_deaf ) > 2 || worn_with_flag( "DEAF" ) || has_trait( trait_DEAF ) ||
            ( has_active_bionic( bio_earplugs ) && !has_active_bionic( bio_ears ) ) ||
            ( has_trait( trait_M_SKIN3 ) && g->m.has_flag_ter_or_furn( "FUNGUS", pos() ) && in_sleep_state() );
 }

@@ -19,11 +19,12 @@ enum class sound_t : int {
     background = 0,
     weather,
     music,
-    activity,
     movement,
     speech,
+    activity,
+    destructive_activity,
     alarm,
-    combat, // any violent sounding activity, including construction
+    combat, // any violent sounding activity
     alert // louder than speech to get attention
 };
 

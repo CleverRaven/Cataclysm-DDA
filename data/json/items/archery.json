@@ -397,6 +397,7 @@
       "menu_text": "Tighten Limbs",
       "type": "transform",
       "target": "compbow_high",
+      "qualities_needed": { "SCREW_FINE": 1 },
       "msg": "You tighten the limbs, increasing the strength of the bow."
     }
   },
@@ -417,6 +418,7 @@
       "menu_text": "Loosen Limbs",
       "type": "transform",
       "target": "compbow_low",
+      "qualities_needed": { "SCREW_FINE": 1 },
       "msg": "You loosen the limbs, decreasing the strength of the bow."
     }
   },
@@ -437,6 +439,7 @@
       "menu_text": "Tighten Limbs",
       "type": "transform",
       "target": "compbow",
+      "qualities_needed": { "SCREW_FINE": 1 },
       "msg": "You tighten the limbs, increasing the strength of the bow."
     }
   },
@@ -581,7 +584,6 @@
     "override": true,
     "type": "GUN",
     "name": "wooden greatbow",
-    "name_plural": "wooden greatbows",
     "description": "An extremely large and stiff longbow, made with enormous limbs and a thick string to take an immense amount of energy.  Takes incredible strength to draw.",
     "price": 150000,
     "min_strength": 18,
@@ -601,7 +603,6 @@
     "symbol": "(",
     "color": "yellow",
     "name": "compound greatbow",
-    "name_plural": "compound greatbows",
     "description": "An extremely large and powerful compound bow, made with enormous limbs and a thick string to take an immense amount of energy.  Takes incredible strength to draw.",
     "price": 160000,
     "material": [ "steel", "plastic" ],

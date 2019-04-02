@@ -43,24 +43,6 @@
     "flags": [ "VARSIZE", "OUTER", "STURDY" ]
   },
   {
-    "id": "chainmail_hauberk",
-    "type": "ARMOR",
-    "name": "chainmail hauberk",
-    "description": "A fully customized chainmail outfit, leaving the head uncovered.  The shirt, arms, and leggings have been modified with leather straps to deal with uneven weight distribution and to allow them to be used separately.",
-    "weight": 13977,
-    "volume": 10,
-    "price": 30000,
-    "to_hit": -1,
-    "material": [ "iron", "leather" ],
-    "symbol": "[",
-    "color": "light_red",
-    "covers": [ "TORSO", "ARMS", "LEGS" ],
-    "coverage": 95,
-    "encumbrance": 20,
-    "material_thickness": 4,
-    "flags": [ "VARSIZE", "STURDY" ]
-  },
-  {
     "id": "legguard_bronze",
     "type": "ARMOR",
     "category": "armor",

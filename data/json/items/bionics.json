@@ -897,6 +897,15 @@
     "difficulty": 4
   },
   {
+    "id": "bio_taste_blocker",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": "Taste Modifier CBM",
+    "description": "A set of highly sensitive sensors is installed in your mouth, and a small yet sophisticated analyzer is installed in the cavity of your skull.  When you put something that you plan to eat in your mouth, sensors intercept all data related to the comestible (such as taste or texture) from various receptors in your mouth and send it forth to the analyzer.  Based on the gathered data, analyzer can modify it prior to sending it forth to the brain.  Active bionic will nullify the taste of all comestibles with negative enjoyment value at the cost of draining bionic power.",
+    "price": 40000,
+    "difficulty": 5
+  },
+  {
     "id": "bio_soporific",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",

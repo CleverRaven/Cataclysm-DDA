@@ -60,13 +60,13 @@ const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_onfire( "onfire" );
 const efftype_id effect_npc_run_away( "npc_run_away" );
 const efftype_id effect_npc_fire_bad( "npc_fire_bad" );
+const efftype_id effect_npc_flee_player( "npc_flee_player" );
 
 enum npc_action : int {
     npc_undecided = 0,
     npc_pause,
     npc_reload, npc_sleep,
     npc_pickup,
-    npc_wield_melee, npc_wield_loaded_gun, npc_wield_empty_gun,
     npc_heal, npc_use_painkiller, npc_drop_items,
     npc_flee, npc_melee, npc_shoot,
     npc_look_for_player, npc_heal_player, npc_follow_player, npc_follow_embarked,
@@ -481,6 +481,11 @@ void npc::regen_ai_cache()
 
 void npc::move()
 {
+    if( attitude == NPCATT_FLEE ) {
+        set_attitude( NPCATT_FLEE_TEMP );  // Only run for so many hours
+    } else if( attitude == NPCATT_FLEE_TEMP && !has_effect( effect_npc_flee_player ) ) {
+        set_attitude( NPCATT_NULL );
+    }
     regen_ai_cache();
     npc_action action = npc_undecided;
 
@@ -495,7 +500,7 @@ void npc::move()
     if( !is_enemy() && guaranteed_hostile() && sees( g->u ) ) {
         add_msg( m_debug, "NPC %s turning hostile because is guaranteed_hostile()", name.c_str() );
         if( op_of_u.fear > 10 + personality.aggression + personality.bravery ) {
-            set_attitude( NPCATT_FLEE );    // We don't want to take u on!
+            set_attitude( NPCATT_FLEE_TEMP );    // We don't want to take u on!
         } else {
             set_attitude( NPCATT_KILL );    // Yeah, we think we could take you!
         }
@@ -528,7 +533,7 @@ void npc::move()
 
     if( !ai_cache.dangerous_explosives.empty() ) {
         action = npc_escape_explosion;
-    } else if( target == &g->u && attitude == NPCATT_FLEE ) {
+    } else if( target == &g->u && attitude == NPCATT_FLEE_TEMP ) {
         action = method_of_fleeing();
     } else if( has_effect( effect_npc_run_away ) ) {
         action = method_of_fleeing();
@@ -643,7 +648,7 @@ void npc::execute_action( npc_action action )
     int oldmoves = moves;
     tripoint tar = pos();
     Creature *cur = current_target();
-    if( has_effect( effect_npc_run_away ) ) {
+    if( action == npc_flee ) {
         tar = good_escape_direction( false );
     } else if( cur != nullptr ) {
         tar = cur->pos();
@@ -722,43 +727,6 @@ void npc::execute_action( npc_action action )
         case npc_pickup:
             pick_up_item();
             break;
-
-        case npc_wield_melee:
-            wield_best_melee();
-            break;
-
-        case npc_wield_loaded_gun: {
-            item *it = inv.most_loaded_gun();
-            if( it->is_null() ) {
-                debugmsg( "NPC tried to wield a loaded gun, but has none!" );
-                move_pause();
-            } else {
-                wield( *it );
-            }
-        }
-        break;
-
-        case npc_wield_empty_gun: {
-            bool ammo_found = false;
-            int index = -1;
-            invslice slice = inv.slice();
-            for( size_t i = 0; i < slice.size(); i++ ) {
-                item &it = slice[i]->front();
-                bool am = ( it.is_gun() &&
-                            !get_ammo( it.type->gun->ammo ).empty() );
-                if( it.is_gun() && ( !ammo_found || am ) ) {
-                    index = i;
-                    ammo_found = ( ammo_found || am );
-                }
-            }
-            if( index == -1 ) {
-                debugmsg( "NPC tried to wield a gun, but has none!" );
-                move_pause();
-            } else {
-                wield( slice[index]->front() );
-            }
-        }
-        break;
 
         case npc_heal:
             heal_self();
@@ -1320,7 +1288,7 @@ npc_action npc::address_player()
         return npc_undecided;
     }
 
-    if( attitude == NPCATT_FLEE ) {
+    if( attitude == NPCATT_FLEE_TEMP ) {
         return npc_flee;
     }
 
@@ -1619,6 +1587,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         const auto att = attitude_to( *critter );
         if( att == A_HOSTILE ) {
             if( !no_bashing ) {
+                warn_about( "cant_flee", 5_turns + rng( 0, 5 ) * 1_turns );
                 melee_attack( *critter, true );
             } else {
                 move_pause();
@@ -1647,6 +1616,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
             // other npcs should not try to move into this npc anymore,
             // so infinite loop can be avoided.
             realnomove->insert( pos() );
+            say( "<let_me_pass>" );
             np->move_away_from( pos(), true, realnomove );
         }
 
@@ -1701,7 +1671,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         if( attitude == NPCATT_MUG ||
             attitude == NPCATT_KILL ||
             attitude == NPCATT_WAIT_FOR_LEAVE ) {
-            set_attitude( NPCATT_FLEE );
+            set_attitude( NPCATT_FLEE_TEMP );
         }
 
         moves = 0;
@@ -1857,6 +1827,10 @@ void npc::move_away_from( const tripoint &pt, bool no_bash_atk, std::set<tripoin
 void npc::move_pause()
 
 {
+    // make sure we're using the best weapon
+    if( calendar::once_every( 1_hours ) && wield_better_weapon() ) {
+        return;
+    }
     // NPCs currently always aim when using a gun, even with no target
     // This simulates them aiming at stuff just at the edge of their range
     if( !weapon.is_gun() ) {
@@ -2476,7 +2450,7 @@ bool npc::wield_better_weapon()
     const long ups_charges = charges_of( "UPS" );
 
     const auto compare_weapon =
-    [this, &best, &best_value, ups_charges, can_use_gun, use_silent]( item & it ) {
+    [this, &best, &best_value, ups_charges, can_use_gun, use_silent]( const item & it ) {
         bool allowed = can_use_gun && it.is_gun() && ( !use_silent || it.is_silent() );
         double val;
         if( !allowed ) {
@@ -2492,7 +2466,7 @@ bool npc::wield_better_weapon()
         }
 
         if( val > best_value ) {
-            best = &it;
+            best = const_cast<item *>( &it );
             best_value = val;
         }
     };
@@ -2505,13 +2479,15 @@ bool npc::wield_better_weapon()
     compare_weapon( null_item_reference() );
 
     visit_items( [&compare_weapon]( item * node ) {
-        // Skip some bad items
-        if( !node->is_melee() ) {
-            return VisitResponse::SKIP;
+        // Only compare melee weapons, guns, or holstered items
+        if( node->is_melee() || node->is_gun() ) {
+            compare_weapon( *node );
+        } else if( node->get_use( "holster" ) && !node->contents.empty() ) {
+            const item &holstered = node->get_contained();
+            if( holstered.is_melee() || holstered.is_gun() ) {
+                compare_weapon( holstered );
+            }
         }
-
-        compare_weapon( *node );
-
         return VisitResponse::SKIP;
     } );
 
@@ -2520,13 +2496,12 @@ bool npc::wield_better_weapon()
     // Until then, the NPCs should reload the guns as a last resort
 
     if( best == &weapon ) {
-        add_msg( m_debug, "Wielded %s is best at %.1f, not switching",
-                 best->display_name().c_str(), best_value );
+        add_msg( m_debug, "Wielded %s is best at %.1f, not switching", best->display_name(),
+                 best_value );
         return false;
     }
 
-    add_msg( m_debug, "Wielding %s at value %.1f",
-             best->display_name().c_str(), best_value );
+    add_msg( m_debug, "Wielding %s at value %.1f", best->display_name(), best_value );
 
     wield( *best );
     return true;
@@ -2544,18 +2519,6 @@ bool npc::scan_new_items()
 
     return false;
     // TODO: Armor?
-}
-
-void npc::wield_best_melee()
-{
-    double best_value = 0.0;
-    item *it = inv.best_for_melee( *this, best_value );
-    if( unarmed_value() >= best_value ) {
-        // "I cast fist!"
-        it = &null_item_reference();
-    }
-
-    wield( *it );
 }
 
 void npc_throw( npc &np, item &it, int index, const tripoint &pos )
@@ -2963,9 +2926,9 @@ void npc::mug_player( player &mark )
     // We already have their money; take some goodies!
     // value_mod affects at what point we "take the money and run"
     // A lower value means we'll take more stuff
-    double value_mod = 1 - ( ( 10 - personality.bravery )    * .05 ) -
+    double value_mod = 1 - ( ( 10 - personality.bravery ) * .05 ) -
                        ( ( 10 - personality.aggression ) * .04 ) -
-                       ( ( 10 - personality.collector )  * .06 );
+                       ( ( 10 - personality.collector ) * .06 );
     if( !mark.is_npc() ) {
         value_mod += ( op_of_u.fear * .08 );
         value_mod -= ( ( 8 - op_of_u.value ) * .07 );
@@ -2982,7 +2945,7 @@ void npc::mug_player( player &mark )
         }
     }
     if( item_index == INT_MIN ) { // Didn't find anything worthwhile!
-        set_attitude( NPCATT_FLEE );
+        set_attitude( NPCATT_FLEE_TEMP );
         if( !one_in( 3 ) ) {
             say( "<done_mugging>" );
         }
@@ -2993,13 +2956,10 @@ void npc::mug_player( player &mark )
     item stolen = mark.i_rem( item_index );
     if( mark.is_npc() ) {
         if( u_see ) {
-            add_msg( _( "%1$s takes %2$s's %3$s." ), name.c_str(),
-                     mark.name.c_str(),
-                     stolen.tname().c_str() );
+            add_msg( _( "%1$s takes %2$s's %3$s." ), name, mark.name, stolen.tname() );
         }
     } else {
-        add_msg( m_bad, _( "%1$s takes your %2$s." ),
-                 name.c_str(), stolen.tname().c_str() );
+        add_msg( m_bad, _( "%1$s takes your %2$s." ), name, stolen.tname() );
     }
     i_add( stolen );
     moves -= 100;
@@ -3225,12 +3185,6 @@ std::string npc_action_name( npc_action action )
             return _( "Sleep" );
         case npc_pickup:
             return _( "Pick up items" );
-        case npc_wield_melee:
-            return _( "Wield melee weapon" );
-        case npc_wield_loaded_gun:
-            return _( "Wield loaded gun" );
-        case npc_wield_empty_gun:
-            return _( "Wield empty gun" );
         case npc_heal:
             return _( "Heal self" );
         case npc_use_painkiller:

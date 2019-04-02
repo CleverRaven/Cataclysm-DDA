@@ -41,6 +41,7 @@
 #include "filesystem.h"
 #include "game_constants.h"
 #include "game_inventory.h"
+#include "game_ui.h"
 #include "gamemode.h"
 #include "gates.h"
 #include "gun_mode.h"
@@ -372,21 +373,6 @@ game::~game()
 #define MINIMAP_HEIGHT 7
 #define MINIMAP_WIDTH 7
 
-#if (defined TILES)
-// defined in sdltiles.cpp
-void to_map_font_dimension( int &w, int &h );
-void from_map_font_dimension( int &w, int &h );
-void to_overmap_font_dimension( int &w, int &h );
-void reinitialize_framebuffer();
-#else
-// unchanged, nothing to be translated without tiles
-void to_map_font_dimension( int &, int & ) { }
-void from_map_font_dimension( int &, int & ) { }
-void to_overmap_font_dimension( int &, int & ) { }
-//in pure curses, the framebuffer won't need reinitializing
-void reinitialize_framebuffer() { }
-#endif
-
 void game::init_ui( const bool resized )
 {
     // clear the screen
@@ -530,6 +516,16 @@ void game::init_ui( const bool resized )
     // need to init in order to avoid crash. gets updated by the panel code.
     w_pixel_minimap = catacurses::newwin( 1, 1, 0, 0 );
     liveview.init();
+
+    // initializes centering based on sidebar layout
+    int width = panel_manager::get_manager().get_current_layout().begin()->get_width();
+    int h; // to_map_font_dimension needs a second input
+    to_map_font_dimension( width, h );
+    if( get_option<std::string>( "SIDEBAR_POSITION" ) == "left" ) {
+        width *= -1;
+    }
+    // divided by two because we want the offset to center the screen
+    g->sidebar_offset.x = width / 2;
 
     // Only refresh if we are in-game, otherwise all resources are not initialized
     // and this refresh will crash the game.
@@ -922,10 +918,11 @@ bool game::cleanup_at_end()
         for( monster &critter : all_monsters() ) {
             despawn_monster( critter );
         }
+        // Reset NPC factions and disposition
+        reset_npc_dispositions();
         // Save the factions', missions and set the NPC's overmap coordinates
         // Npcs are saved in the overmap.
         save_factions_missions_npcs(); //missions need to be saved as they are global for all saves.
-
         // save artifacts.
         save_artifacts();
 
@@ -2463,6 +2460,7 @@ void game::death_screen()
     Messages::display_messages();
     disp_kills();
     disp_NPC_epilogues();
+    follower_ids.clear();
     disp_faction_ends();
 }
 
@@ -2685,6 +2683,30 @@ bool game::load_packs( const std::string &msg, const std::vector<mod_id> &packs,
     }
 
     return missing.empty();
+}
+
+void game::reset_npc_dispositions()
+{
+    for( auto elem : follower_ids ) {
+        std::shared_ptr<npc> npc_to_get = overmap_buffer.find_npc( elem );
+        npc *npc_to_add = npc_to_get.get();
+        npc_to_add->chatbin.missions.clear();
+        npc_to_add->chatbin.missions_assigned.clear();
+        npc_to_add->mission = NPC_MISSION_NULL;
+        npc_to_add->chatbin.mission_selected = nullptr;
+        npc_to_add->set_attitude( NPCATT_NULL );
+        npc_to_add->op_of_u.anger = 0;
+        npc_to_add->op_of_u.fear = 0;
+        npc_to_add->op_of_u.trust = 0;
+        npc_to_add->op_of_u.value = 0;
+        npc_to_add->op_of_u.owed = 0;
+        npc_to_add->set_fac( faction_id( "wasteland_scavengers" ) );
+        npc_to_add->add_new_mission( mission::reserve_random( ORIGIN_ANY_NPC,
+                                     npc_to_add->global_omt_location(),
+                                     npc_to_add->getID() ) );
+
+    }
+
 }
 
 //Saves all factions and missions and npcs.
@@ -3372,14 +3394,14 @@ void game::disp_NPC_epilogues()
                            std::max( 0, ( TERMX - FULL_SCREEN_WIDTH ) / 2 ) );
     epilogue epi;
     // TODO: This search needs to be expanded to all NPCs
-    for( const npc &guy : all_npcs() ) {
-        if( guy.is_friend() ) {
-            epi.random_by_group( guy.male ? "male" : "female" );
-            std::vector<std::string> txt;
-            txt.emplace_back( epi.text );
-            draw_border( w, BORDER_COLOR, guy.name, c_black_white );
-            multipage( w, txt, "", 2 );
-        }
+    for( auto elem : follower_ids ) {
+        std::shared_ptr<npc> npc_to_get = overmap_buffer.find_npc( elem );
+        npc *guy = npc_to_get.get();
+        epi.random_by_group( guy->male ? "male" : "female" );
+        std::vector<std::string> txt;
+        txt.emplace_back( epi.text );
+        draw_border( w, BORDER_COLOR, guy->name, c_black_white );
+        multipage( w, txt, "", 2 );
     }
 
     refresh_all();
@@ -3564,9 +3586,21 @@ void game::draw_panels( size_t column, size_t index )
     auto &mgr = panel_manager::get_manager();
     int y = 0;
     const bool sidebar_right = get_option<std::string>( "SIDEBAR_POSITION" ) == "right";
+    int spacer = get_option<bool>( "SIDEBAR_SPACERS" ) ? 1 : 0;
+    int log_height = 0;
+    for( const auto &panel : mgr.get_current_layout() ) {
+        if( panel.get_height() != -2 && panel.toggle ) {
+            log_height += panel.get_height() + spacer;
+        }
+    }
+    log_height = std::max( TERMY - log_height, 3 );
     for( const auto &panel : mgr.get_current_layout() ) {
         // height clamped to window height.
         int h = std::min( panel.get_height(), TERMY - y );
+        if( h == -2 ) {
+            h = log_height;
+        }
+        h += spacer;
         if( panel.toggle && h > 0 ) {
             panel.draw( u, catacurses::newwin( h, panel.get_width(), y,
                                                sidebar_right ? TERMX - panel.get_width() : 0 ) );
@@ -3576,21 +3610,21 @@ void game::draw_panels( size_t column, size_t index )
                 werase( label );
                 mvwprintz( label, 0, 0, c_light_red, panel.get_name() );
                 wrefresh( label );
-                label = catacurses::newwin( panel.get_height(), 1, y,
+                label = catacurses::newwin( h, 1, y,
                                             sidebar_right ? TERMX - panel.get_width() - 1 : panel.get_width() );
                 werase( label );
-                if( panel.get_height() == 1 ) {
+                if( h == 1 ) {
                     mvwputch( label, 0, 0, c_light_red, LINE_OXOX );
                 } else {
                     mvwputch( label, 0, 0, c_light_red, LINE_OXXX );
-                    for( int i = 1; i < panel.get_height() - 1; i++ ) {
+                    for( int i = 1; i < h - 1; i++ ) {
                         mvwputch( label, i, 0, c_light_red, LINE_XOXO );
                     }
-                    mvwputch( label, panel.get_height() - 1, 0, c_light_red, sidebar_right ? LINE_XXOO : LINE_XOOX );
+                    mvwputch( label, h - 1, 0, c_light_red, sidebar_right ? LINE_XXOO : LINE_XOOX );
                 }
                 wrefresh( label );
             }
-            y += panel.get_height();
+            y += h;
         }
     }
     if( show_panel_adm ) {
@@ -3648,13 +3682,14 @@ bool game::is_in_viewport( const tripoint &p, int margin ) const
 {
     const tripoint diff( u.pos() + u.view_offset - p );
 
-    return ( std::abs( diff.x ) <= getmaxx( w_terrain ) / 2 - margin ) &&
-           ( std::abs( diff.y ) <= getmaxy( w_terrain ) / 2 - margin );
+    return ( std::abs( diff.x ) <= getmaxx( w_terrain ) / 2 - margin - sidebar_offset.x ) &&
+           ( std::abs( diff.y ) <= getmaxy( w_terrain ) / 2 - margin - sidebar_offset.y );
 }
 
 void game::draw_ter( const bool draw_sounds )
 {
-    draw_ter( u.pos() + u.view_offset, false, draw_sounds );
+    draw_ter( u.pos() + u.view_offset + sidebar_offset, false,
+              draw_sounds );
 }
 
 void game::draw_ter( const tripoint &center, const bool looking, const bool draw_sounds )
@@ -3708,7 +3743,7 @@ void game::draw_ter( const tripoint &center, const bool looking, const bool draw
     if( !destination_preview.empty() && u.view_offset.z == 0 ) {
         // Draw auto-move preview trail
         const tripoint &final_destination = destination_preview.back();
-        tripoint line_center = u.pos() + u.view_offset;
+        tripoint line_center = u.pos() + u.view_offset + sidebar_offset;
         draw_line( final_destination, line_center, destination_preview );
         mvwputch( w_terrain, POSY + ( final_destination.y - ( u.posy() + u.view_offset.y ) ),
                   POSX + ( final_destination.x - ( u.posx() + u.view_offset.x ) ), c_white, 'X' );
@@ -4162,7 +4197,7 @@ void game::mon_info( const catacurses::window &w, int hor_padding )
         dangerou = false;
     }
 
-    tripoint view = u.pos() + u.view_offset;
+    tripoint view = u.pos() + u.view_offset + sidebar_offset;
     new_seen_mon.clear();
 
     const int current_turn = calendar::turn;
@@ -6560,7 +6595,7 @@ void game::zones_manager()
         mvwprintz( w_zones_info, 3, 2, c_white, _( "Select first point." ) );
         wrefresh( w_zones_info );
 
-        tripoint center = u.pos() + u.view_offset;
+        tripoint center = u.pos() + u.view_offset + sidebar_offset;
 
         const look_around_result first = look_around( w_zones_info, center, center, false, true, false );
         if( first.position )
@@ -6866,7 +6901,7 @@ void game::zones_manager()
                                           tripoint( iX, iY, u.posz() + u.view_offset.z ),
                                           false,
                                           false,
-                                          u.pos() + u.view_offset );
+                                          u.pos() + u.view_offset + sidebar_offset );
                             } else {
                                 if( u.has_effect( effect_boomered ) ) {
                                     mvwputch( w_terrain, iY - offset_y, iX - offset_x, c_magenta, '#' );
@@ -7236,7 +7271,7 @@ void game::draw_trail_to_square( const tripoint &t, bool bDrawX )
     draw_ter();
 
     std::vector<tripoint> pts;
-    tripoint center = u.pos() + u.view_offset;
+    tripoint center = u.pos() + u.view_offset + sidebar_offset;
     if( t != tripoint_zero ) {
         //Draw trail
         pts = line_to( u.pos(), u.pos() + t, 0, 0 );
@@ -7254,10 +7289,11 @@ void game::draw_trail_to_square( const tripoint &t, bool bDrawX )
             sym = 'v';
         }
         if( pts.empty() ) {
-            mvwputch( w_terrain, POSY, POSX, c_white, sym );
+            mvwputch( w_terrain, POSY - sidebar_offset.y, POSX - sidebar_offset.x, c_white, sym );
         } else {
-            mvwputch( w_terrain, POSY + ( pts[pts.size() - 1].y - ( u.posy() + u.view_offset.y ) ),
-                      POSX + ( pts[pts.size() - 1].x - ( u.posx() + u.view_offset.x ) ),
+            mvwputch( w_terrain, POSY + ( pts[pts.size() - 1].y - ( u.posy() + u.view_offset.y ) -
+                                          sidebar_offset.y ),
+                      POSX + ( pts[pts.size() - 1].x - ( u.posx() + u.view_offset.x ) - sidebar_offset.x ),
                       c_white, sym );
         }
     }
@@ -7854,7 +7890,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                                            width, VIEW_OFFSET_Y, offsetX );
     catacurses::window w_monster_info = catacurses::newwin( iInfoHeight - 1, width - 2,
                                         TERMY - iInfoHeight - VIEW_OFFSET_Y, offsetX + 1 );
-    catacurses::window w_monster_info_border = catacurses::newwin( iInfoHeight, width,
+    catacurses::window w_monster_info_border = catacurses::newwin( iInfoHeight, width + 1,
             TERMY - iInfoHeight - VIEW_OFFSET_Y, offsetX );
 
     const int max_gun_range = u.weapon.gun_range( &u );
@@ -7885,10 +7921,10 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
     mvwputch( w_monsters_border, TERMY - iInfoHeight - 1 - VIEW_OFFSET_Y * 2, width - 1, BORDER_COLOR,
               LINE_XOXX ); // -|
 
-    mvwputch( w_monsters_border, getmaxy( w_monsters ) - 2, 0, BORDER_COLOR, LINE_XOXO ); // |
-    mvwputch( w_monsters_border, getmaxy( w_monsters ) - 2, width - 1, BORDER_COLOR, LINE_XOXO ); // |
-    mvwputch( w_monsters_border, getmaxy( w_monsters ) - 1, 0, BORDER_COLOR, LINE_XOXO ); // |
-    mvwputch( w_monsters_border, getmaxy( w_monsters ) - 1, width - 1, BORDER_COLOR, LINE_XOXO ); // |
+    for( int i = 1; i < getmaxy( w_monsters ) - 1; i++ ) {
+        mvwputch( w_monsters_border, i, 0, BORDER_COLOR, LINE_XOXO ); // |
+        mvwputch( w_monsters_border, i, width - 1, BORDER_COLOR, LINE_XOXO ); // |
+    }
 
     mvwprintz( w_monsters_border, 0, 2, c_light_green, "<Tab> " );
     wprintz( w_monsters_border, c_white, _( "Monsters" ) );
@@ -8112,10 +8148,11 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
         }
 
         mvwhline( w_monsters, getmaxy( w_monsters ) - 2, 0, 0, 45 );
-        mvwputch( w_monsters_border, getmaxy( w_monsters ) - 2, 0, BORDER_COLOR, LINE_XOXO ); // |
-        mvwputch( w_monsters_border, getmaxy( w_monsters ) - 2, width - 1, BORDER_COLOR, LINE_XOXO ); // |
-        mvwputch( w_monsters_border, getmaxy( w_monsters ) - 1, 0, BORDER_COLOR, LINE_XOXO ); // |
-        mvwputch( w_monsters_border, getmaxy( w_monsters ) - 1, width - 1, BORDER_COLOR, LINE_XOXO ); // |
+
+        for( int i = 1; i < getmaxy( w_monsters ) - 1; i++ ) {
+            mvwputch( w_monsters_border, i, 0, BORDER_COLOR, LINE_XOXO ); // |
+            mvwputch( w_monsters_border, i, width - 1, BORDER_COLOR, LINE_XOXO ); // |
+        }
 
         mvwputch( w_monster_info_border, getmaxy( w_monster_info_border ) - 1,
                   0, BORDER_COLOR, LINE_XXOO );  // |_
@@ -9744,7 +9781,7 @@ bool game::prompt_dangerous_tile( const tripoint &dest_loc ) const
             if( !boardable ) {
                 harmful_stuff.emplace_back( tr.name().c_str() );
             }
-        } else if( tr.can_see( dest_loc, u ) && !tr.is_benign() ) {
+        } else if( tr.can_see( dest_loc, u ) && !tr.is_benign() && !boardable ) {
             harmful_stuff.emplace_back( tr.name().c_str() );
         }
 
@@ -10411,16 +10448,24 @@ void game::place_player( const tripoint &dest_loc )
         if( forage_type != "off" ) {
             static const auto forage = [&]( const tripoint & pos ) {
                 const auto &xter_t = m.ter( pos ).obj().examine;
-                const bool forage_bushes = forage_type == "both" || forage_type == "bushes";
-                const bool forage_trees = forage_type == "both" || forage_type == "trees";
+                const auto &xfurn_t = m.furn( pos ).obj().examine;
+                const bool forage_everything = forage_type == "both";
+                const bool forage_bushes = forage_everything || forage_type == "bushes";
+                const bool forage_trees = forage_everything || forage_type == "trees";
                 if( xter_t == &iexamine::none ) {
                     return;
                 } else if( ( forage_bushes && xter_t == &iexamine::shrub_marloss ) ||
                            ( forage_bushes && xter_t == &iexamine::shrub_wildveggies ) ||
+                           ( forage_bushes && xter_t == &iexamine::harvest_ter_nectar ) ||
                            ( forage_trees && xter_t == &iexamine::tree_marloss ) ||
-                           ( forage_trees && xter_t == &iexamine::harvest_ter )
+                           ( forage_trees && xter_t == &iexamine::harvest_ter ) ||
+                           ( forage_trees && xter_t == &iexamine::harvest_ter_nectar )
                          ) {
                     xter_t( u, pos );
+                } else if( ( forage_everything && xfurn_t == &iexamine::harvest_furn ) ||
+                           ( forage_everything && xfurn_t == &iexamine::harvest_furn_nectar )
+                         ) {
+                    xfurn_t( u, pos );
                 }
             };
 
@@ -11730,6 +11775,9 @@ void game::update_overmap_seen()
             }
             if( sight_points >= 0 ) {
                 overmap_buffer.set_seen( x, y, ompos.z, true );
+                for( int z = ompos.z - 1; z >= 0; z-- ) {
+                    overmap_buffer.set_seen( x, y, z, true );
+                }
             }
         }
     }
@@ -12177,7 +12225,7 @@ void game::display_scent()
             return;
         }
         draw_ter();
-        scent.draw( w_terrain, div * 2, u.pos() + u.view_offset );
+        scent.draw( w_terrain, div * 2, u.pos() + u.view_offset + sidebar_offset );
         wrefresh( w_terrain );
         draw_panels();
         inp_mngr.wait_for_any_key();

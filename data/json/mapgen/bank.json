@@ -66,7 +66,7 @@
         "s": "f_sink",
         "t": "f_toilet"
       },
-      "toilets": { "t": {} },
+      "toilets": { "t": {  } },
       "place_items": [
         { "item": "office", "x": [ 4, 9 ], "y": 8, "chance": 30 },
         { "item": "office", "x": [ 3, 5 ], "y": 12, "chance": 30 },
@@ -76,14 +76,14 @@
       ],
       "computers": {
         "6": {
-          "name": "Consolidated Computerized Bank of the Treasury", "security": 3, "options": [ { "name": "Open Vault", "action": "unlock" } ], "failures": [
-            { "action": "shutdown" },
-            { "action": "alarm" }
-          ]
+          "name": "Consolidated Computerized Bank of the Treasury",
+          "security": 3,
+          "options": [ { "name": "Open Vault", "action": "unlock" } ],
+          "failures": [ { "action": "shutdown" }, { "action": "alarm" } ]
         }
       },
-       "place_monster": [ { "monster": "mon_secubot", "x": [ 7, 18 ], "y": [ 7, 18 ], "chance": 30, "repeat": 4 } ]
-      }
+      "place_monster": [ { "monster": "mon_secubot", "x": [ 7, 18 ], "y": [ 7, 18 ], "chance": 30, "repeat": 4 } ]
+    }
   },
   {
     "type": "mapgen",
@@ -120,7 +120,7 @@
       "terrain": {
         " ": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
         "_": "t_metal_floor",
-        "|": ["t_door_c", "t_wall", "t_wall", "t_wall", "t_wall", "t_wall", "t_wall", "t_wall", "t_wall" ],
+        "|": [ "t_door_c", "t_wall", "t_wall", "t_wall", "t_wall", "t_wall", "t_wall", "t_wall", "t_wall" ],
         "o": "t_floor",
         "I": "t_wall",
         "#": "t_brick_wall",
@@ -170,8 +170,8 @@
         "d": "f_desk",
         "t": "f_toilet"
       },
-       "toilets": { "t": {} },
-       "items": {
+      "toilets": { "t": {  } },
+      "items": {
         "o": { "item": "novels", "chance": 70 },
         "$": { "item": "vault", "chance": 95, "repeat": 5 },
         "T": { "item": "vault", "chance": 20, "repeat": 5 },
@@ -179,19 +179,15 @@
         "d": { "item": "office", "chance": 50 },
         "L": { "item": "cop_weapons", "chance": 40 }
       },
-       "computers": {
-          "6": {
-           "name": "High Security Consolidated Computerized Bank of the Treasury",
-           "security": 4,
-           "options": [ { "name": "Open Vault", "action": "unlock" } ],
-           "failures": [
-             { "action": "alarm" },
-             { "action": "damage" },
-             { "action": "secubots" }
-          ]
-       }
-    },
-       "place_monster": [ { "monster": "mon_secubot", "x": [ 7, 18 ], "y": [ 7, 18 ], "chance": 30, "repeat": 4 } ]
-      }
+      "computers": {
+        "6": {
+          "name": "High Security Consolidated Computerized Bank of the Treasury",
+          "security": 4,
+          "options": [ { "name": "Open Vault", "action": "unlock" } ],
+          "failures": [ { "action": "alarm" }, { "action": "damage" }, { "action": "secubots" } ]
+        }
+      },
+      "place_monster": [ { "monster": "mon_secubot", "x": [ 7, 18 ], "y": [ 7, 18 ], "chance": 30, "repeat": 4 } ]
+    }
   }
 ]
