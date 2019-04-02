@@ -893,8 +893,7 @@ size_t inventory_column::visible_cells() const
     } );
 }
 
-selection_column::selection_column( const std::string &id,
-                                    const std::string &name ) :
+selection_column::selection_column( const std::string &id, const std::string &name ) :
     inventory_column( selection_preset ),
     selected_cat( id, no_translation( name ), 0 ) {}
 
@@ -1728,10 +1727,9 @@ item_location inventory_pick_selector::execute()
     }
 }
 
-inventory_multiselector::inventory_multiselector(
-    const player &p,
-    const inventory_selector_preset &preset,
-    const std::string &selection_column_title ) :
+inventory_multiselector::inventory_multiselector( const player &p,
+        const inventory_selector_preset &preset,
+        const std::string &selection_column_title ) :
     inventory_selector( p, preset ),
     selection_col( new selection_column( "SELECTION_COLUMN", selection_column_title ) )
 {

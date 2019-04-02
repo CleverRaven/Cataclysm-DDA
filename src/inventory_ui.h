@@ -45,8 +45,7 @@ class inventory_entry
         std::string cached_name;
 
         inventory_entry( const item_location &location, size_t stack_size,
-                         const item_category *custom_category = nullptr,
-                         bool enabled = true ) :
+                         const item_category *custom_category = nullptr, bool enabled = true ) :
             location( location.clone() ),
             stack_size( stack_size ),
             custom_category( custom_category ),
@@ -72,8 +71,7 @@ class inventory_entry
             return *this;
         }
 
-        inventory_entry( const item_location &location,
-                         const item_category *custom_category = nullptr,
+        inventory_entry( const item_location &location, const item_category *custom_category = nullptr,
                          bool enabled = true ) :
             inventory_entry( location, location ? 1 : 0, custom_category, enabled ) {}
 
@@ -213,8 +211,7 @@ const inventory_selector_preset default_preset;
 class inventory_column
 {
     public:
-        inventory_column( const inventory_selector_preset &preset = default_preset ) :
-            preset( preset ) {
+        inventory_column( const inventory_selector_preset &preset = default_preset ) : preset( preset ) {
             cells.resize( preset.get_cells_count() );
         }
 
