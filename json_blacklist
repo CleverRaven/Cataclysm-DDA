@@ -1,6 +1,3 @@
-data/json/mapgen/lab/lab_rooms.json
-data/json/mapgen/lab/lab_rooms_wall.json
-data/json/mapgen/lab/lab_trains.json
 data/json/mapgen/mall.json
 data/json/mapgen/mapgen-test.json
 data/json/mapgen/motel.json
