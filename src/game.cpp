@@ -11767,6 +11767,9 @@ void game::update_overmap_seen()
             }
             if( sight_points >= 0 ) {
                 overmap_buffer.set_seen( x, y, ompos.z, true );
+                for( int z = ompos.z - 1; z >= 0; z-- ) {
+                    overmap_buffer.set_seen( x, y, z, true );
+                }
             }
         }
     }
