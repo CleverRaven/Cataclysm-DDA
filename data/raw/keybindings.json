@@ -544,7 +544,7 @@
     "id": "TOGGLE_FAVORITE",
     "category": "CRAFTING",
     "name": "Toggle recipes to be shown in favorite tab",
-    "bindings": [ { "input_method": "keyboard", "key": "," } ]
+    "bindings": [ { "input_method": "keyboard", "key": "*" } ]
   },
   {
     "type": "keybinding",
@@ -2361,10 +2361,10 @@
   },
   {
     "type": "keybinding",
-    "id": "TOGGLE_FAVORITE",
+    "id": "DROP_NON_FAVORITE",
     "category": "INVENTORY",
-    "name": "Toggle recipes to be shown in favorite tab",
-    "bindings": [ { "input_method": "keyboard", "key": "*" } ]
+    "name": "Mark/unmark non-favorite items in multidrop menu",
+    "bindings": [ { "input_method": "keyboard", "key": "," } ]
   },
   {
     "type": "keybinding",

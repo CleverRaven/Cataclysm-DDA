@@ -213,8 +213,7 @@ const inventory_selector_preset default_preset;
 class inventory_column
 {
     public:
-        inventory_column( const player &u, const inventory_selector_preset &preset = default_preset ) :
-            u( u ),
+        inventory_column( const inventory_selector_preset &preset = default_preset ) :
             preset( preset ) {
             cells.resize( preset.get_cells_count() );
         }
@@ -317,8 +316,6 @@ class inventory_column
         void set_filter( const std::string &filter );
 
     protected:
-        const player &u;
-
         struct entry_cell_cache_t {
             bool assigned = false;
             nc_color color = c_unset;
@@ -401,7 +398,7 @@ class inventory_column
 class selection_column : public inventory_column
 {
     public:
-        selection_column( const player &u, const std::string &id, const std::string &name );
+        selection_column( const std::string &id, const std::string &name );
         ~selection_column() override;
 
         bool activatable() const override {
