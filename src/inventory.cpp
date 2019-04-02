@@ -1072,15 +1072,8 @@ void inventory::update_invlet( item &newit, bool assign_invlet )
 
 void inventory::set_stack_favorite( const int position, const bool favorite )
 {
-    int p = 0;
-    for( auto &stack : items ) {
-        if( p == position ) {
-            for( auto &e : stack ) {
-                e.set_favorite( favorite );
-            }
-            break;
-        }
-        p++;
+    for( auto &e : *std::next( items.begin(), position ) ) {
+        e.set_favorite( favorite );
     }
 }
 

@@ -1319,17 +1319,6 @@ bool Character::meets_requirements( const item &it, const item &context ) const
     return meets_stat_requirements( it ) && meets_skill_requirements( it.type->min_skills, ctx );
 }
 
-void Character::set_item_or_stack_favorite( const item *it, const bool favorite )
-{
-    int position = get_item_position( it );
-
-    if( position < 0 ) {
-        i_at( position ).set_favorite( favorite );
-    } else {
-        inv.set_stack_favorite( position, favorite );
-    }
-}
-
 void Character::normalize()
 {
     Creature::normalize();

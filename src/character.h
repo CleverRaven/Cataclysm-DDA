@@ -651,8 +651,6 @@ class Character : public Creature, public visitable<Character>
         /** Returns a string of missed requirements (both stats and skills) */
         std::string enumerate_unmet_requirements( const item &it, const item &context = item() ) const;
 
-        void set_item_or_stack_favorite( const item *it, const bool favorite );
-
         // --------------- Other Stuff ---------------
 
         /** return the calendar::turn the character expired */
