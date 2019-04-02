@@ -739,7 +739,7 @@ void Item_factory::init()
     add_iuse( "WATER_PURIFIER", &iuse::water_purifier );
     add_iuse( "WEAK_ANTIBIOTIC", &iuse::weak_antibiotic );
     add_iuse( "WEATHER_TOOL", &iuse::weather_tool );
-    add_iuse( "WEED_BROWNIE", &iuse::weed_brownie );
+    add_iuse( "WEED_CAKE", &iuse::weed_cake );
     add_iuse( "XANAX", &iuse::xanax );
     add_iuse( "BREAK_STICK", &iuse::break_stick );
     add_iuse( "MAGNESIUM_TABLET", &iuse::magnesium_tablet );

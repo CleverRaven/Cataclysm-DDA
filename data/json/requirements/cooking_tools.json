@@ -9,7 +9,7 @@
     "id": "frying_oil",
     "type": "requirement",
     "//": "Oil usable for frying. Note: the oil is reusable.",
-    "tools": [ [ [ "cooking_oil", -1 ], [ "tallow", -1 ], [ "lard", -1 ] ] ]
+    "tools": [ [ [ "cooking_oil", -1 ], [ "cooking_oil2", -1 ] ] ]
   },
   {
     "id": "water_boiling_heat",

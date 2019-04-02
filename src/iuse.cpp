@@ -628,10 +628,10 @@ int iuse::anticonvulsant( player *p, item *it, bool, const tripoint & )
     return it->type->charges_to_use();
 }
 
-int iuse::weed_brownie( player *p, item *it, bool, const tripoint & )
+int iuse::weed_cake( player *p, item *it, bool, const tripoint & )
 {
     p->add_msg_if_player(
-        _( "You start scarfing down the delicious brownie.  It tastes a little funny though..." ) );
+        _( "You start scarfing down the delicious cake.  It tastes a little funny though..." ) );
     time_duration duration = 12_minutes;
     if( p->has_trait( trait_TOLERANCE ) ) {
         duration = 9_minutes;
