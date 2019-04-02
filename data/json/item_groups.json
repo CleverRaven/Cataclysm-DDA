@@ -1754,8 +1754,8 @@
     ]
   },
   {
-    "type" : "item_group",
-    "id" : "foodintincan",
+    "type": "item_group",
+    "id": "foodintincan",
     "items": [
       [ "offal_canned", 1 ],
       [ "can_coconut", 1 ],
@@ -1796,7 +1796,7 @@
       [ "soup_cullenskink", 1 ],
       [ "can_corn", 1 ],
       [ "cooked_pumpkin", 1 ],
-      [ "veggy_canned", 1 ] 
+      [ "veggy_canned", 1 ]
     ]
   },
   {
