@@ -6044,10 +6044,8 @@ int map::obstacle_coverage( const tripoint &loc1, const tripoint &loc2 )
         return 0;
     }
     tripoint obstaclepos;
-    int dx = loc1.x - loc2.x;
-    int dy = loc1.y - loc2.y;
-    int ax = std::abs( dx ) * 2;
-    int ay = std::abs( dy ) * 2;
+    const int ax = std::abs( loc1.x - loc2.x ) * 2;
+    const int ay = std::abs( loc1.y - loc2.y ) * 2;
     int offset = std::min( ax, ay ) - ( std::max( ax, ay ) / 2 );
     bresenham( loc2, loc1, offset, 0, [&obstaclepos, &loc2]( const tripoint & new_point ) {
         if( new_point.x == loc2.x &&
@@ -6059,12 +6057,12 @@ int map::obstacle_coverage( const tripoint &loc1, const tripoint &loc2 )
     } );
     auto obstacle_f = furn( obstaclepos ).obj();
     auto obstacle_t = ter( obstaclepos ).obj();
-    const optional_vpart_position vp = veh_at( obstaclepos );
-    vehicle *const veh = !vp ? nullptr : &vp->vehicle();
-    const int part = veh ? vp->part_index() : -1;
     if( obstacle_f.id ) {
         return obstacle_f.coverage;
     }
+    const optional_vpart_position vp = veh_at( obstaclepos );
+    vehicle *const veh = !vp ? nullptr : &vp->vehicle();
+    const int part = veh ? vp->part_index() : -1;
     if( veh != nullptr ) {
         const vpart_position vp( const_cast<vehicle &>( *veh ), part );
         if( vp.obstacle_at_part() ) {
