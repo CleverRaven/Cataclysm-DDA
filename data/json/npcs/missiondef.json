@@ -310,7 +310,7 @@
     "difficulty": 2,
     "value": 60000,
     "item": "record_patient",
-    "start": { "reveal_om_ter": [ "office_doctor", "hospital_5" ] },
+    "start": { "reveal_om_ter": [ "office_doctor", "hospital_2" ] },
     "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
     "followup": "MISSION_REACH_FEMA_CAMP",
     "dialogue": {
@@ -426,7 +426,7 @@
     "item": "software_blood_data",
     "start": {
       "effect": [ { "u_buy_item": "vacutainer" }, { "u_buy_item": "usb_drive" } ],
-      "assign_mission_target": { "om_terrain": "hospital_5", "om_special": "hospital", "reveal_radius": 3 }
+      "assign_mission_target": { "om_terrain": "hospital_2", "om_special": "hospital", "reveal_radius": 3 }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
@@ -1887,7 +1887,7 @@
     "item": "software_blood_data",
     "start": {
       "effect": [ { "u_buy_item": "vacutainer" }, { "u_buy_item": "usb_drive" } ],
-      "assign_mission_target": { "om_terrain": "hospital_5", "om_special": "hospital", "reveal_radius": 3 }
+      "assign_mission_target": { "om_terrain": "hospital_2", "om_special": "hospital", "reveal_radius": 3 }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_SCIENCE_REP_2",
