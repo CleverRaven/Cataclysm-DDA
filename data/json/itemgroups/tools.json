@@ -14,7 +14,9 @@
       [ "circsaw_off", 100 ],
       [ "cordless_drill", 100 ],
       [ "hand_drill", 20 ],
-      [ "nailgun", 100 ]
+      [ "nailgun", 100 ],
+      [ "chisel", 10 ],
+      [ "toolbox", 15 ]
     ]
   },
   {
@@ -27,7 +29,8 @@
       [ "con_mix", 120 ],
       [ "elec_jackhammer", 40 ],
       [ "metal_smoother", 90 ],
-      [ "jackhammer", 40 ]
+      [ "jackhammer", 40 ],
+      [ "toolbox", 25 ]
     ]
   },
   {
@@ -43,7 +46,35 @@
       [ "screwdriver", 100 ],
       [ "screwdriver_set", 50 ],
       [ "wrench", 40 ],
-      [ "xacto", 40 ]
+      [ "xacto", 40 ],
+      [ "bucket", 5 ],
+      [ "jumper_cable", 10 ],
+      [ "funnel", 50 ],
+      [ "crowbar", 10 ],
+      [ "multitool", 10 ]
+    ]
+  },
+  {
+    "id": "tools_general",
+    "type": "item_group",
+    "//": "Common tools you might find in a hardware store or in a shop.",
+    "//2": "More professional/rare than tools_common; less likely to be in a home basement.",
+    "items": [
+      { "group": "tools_common", "prob": 100 },
+      { "group": "tools_construction", "prob": 50 },
+      { "group": "tools_carpentry", "prob": 100 },
+      { "group": "tools_earthworking", "prob": 100 },
+      { "group": "tools_electronics", "prob": 20 },
+      { "group": "tools_lighting_industrial", "prob": 100 },
+      { "group": "tools_mechanics", "prob": 20 },
+      [ "jumper_cable_heavy", 2 ],
+      [ "jerrycan", 10 ],
+      [ "jerrycan_big", 10 ],
+      [ "lawnmower", 10 ],
+      [ "char_smoker", 5 ],
+      [ "dehydrator", 5 ],
+      [ "tongs", 1 ],
+      [ "tourist_table", 1 ]
     ]
   },
   {
@@ -64,6 +95,35 @@
       [ "scythe", 40 ],
       [ "shovel", 120 ],
       [ "sickle", 40 ]
+    ]
+  },
+  {
+    "id": "tools_plumbing",
+    "type": "item_group",
+    "//": "Portable tools for plumbing and pipefitting",
+    "items": [
+      { "group": "tools_common", "prob": 100 },
+      [ "battery", 50 ],
+      [ "duct_tape", 200 ],
+      [ "superglue", 100 ],
+      [ "string_6", 100 ],
+      [ "string_36", 100 ],
+      [ "rope_6", 100 ],
+      [ "rope_30", 50 ],
+      [ "hose", 300 ],
+      [ "bubblewrap", 50 ],
+      [ "spray_can", 100 ],
+      [ "permanent_marker", 50 ],
+      [ "water_faucet", 300 ],
+      [ "wire", 200 ],
+      [ "funnel", 200 ],
+      [ "hand_drill", 40 ],
+      [ "boltcutters", 30 ],
+      [ "flashlight", 100 ],
+      [ "heavy_flashlight", 60 ],
+      [ "soldering_iron", 100 ],
+      [ "solder_wire", 100 ],
+      [ "cordless_drill", 100 ]
     ]
   },
   {
@@ -102,11 +162,19 @@
     "items": [
       [ "jack", 80 ],
       [ "jack_small", 80 ],
-      [ "oxy_torch", 80 ],
-      [ "weldtank", 100 ],
-      [ "tinyweldtank", 100 ],
+      { "collection": [
+        [ "oxy_torch", 100 ],
+        { "distribution": [
+          { "item": "weldtank", "prob": 100, "count": [ 1, 2 ] },
+          { "item": "tinyweldtank", "prob": 100, "count": [ 1, 3 ] }
+        ], "prob": 100
+        }
+      ], "prob": 80
+      },
+      [ "oxy_torch", 60 ],
+      { "item": "weldtank", "prob": 60, "count": [ 1, 2 ] },
+      { "item": "tinyweldtank", "prob": 60, "count": [ 1, 3 ] }
       [ "polisher", 70 ],
-      [ "forge", 10 ],
       [ "welder", 10 ]
     ]
   },
@@ -255,3 +323,4 @@
     ]
   }
 ]
+

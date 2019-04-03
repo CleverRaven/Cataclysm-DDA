@@ -24,6 +24,84 @@
   },
   {
     "type": "item_group",
+    "id": "hardware_bulk",
+    "//": "large quantities of common building supplies.",
+    "items": [
+      { "item": "2x4", "prob": 100, "count": [ 5, 20 ] },
+      { "item": "rock", "prob": 70, "count": [ 10, 20 ] },
+      { "item": "coal_lump", "prob": 20, "count": [ 1, 10 ] },
+      [ "material_shrd_limestone", 70 ],
+      [ "fertilizer_commercial", 100 ],
+      [ "material_quicklime", 70 ],
+      [ "material_sand", 100 ],
+      [ "concrete", 70 ],
+      { "item": "rebar", "prob": 40, "count": [ 5, 10 ] },
+      { "item": "brick", "prob": 40, "count": [ 5, 10 ] },
+      { "item": "pipe", "prob": 40, "count": [ 5, 10 ] },
+      { "item": "nail", "prob": 60, "count": [ 500, 1000 ] },
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "lumberyard",
+    "type": "collection",
+    "items": [
+      { "distribution": [
+        { "item": "2x4", "prob": 500, "count": [ 20, 50 ] },
+        { "item": "log", "prob": 200, "count": [ 5, 10 ] },
+        { "item": "stick_long", "prob": 100, "count": [ 10, 20 ] },
+        { "item": "stick", "prob": 50, "count": [ 5, 10 ] },
+        { "item": "nail", "prob": 100, "count": [ 500, 1000 ] }
+        ], "prob": 100
+      },
+      [ "pine_bough", 10 ]
+    ]
+  },
+  {
+    "id": "supplies_hardware",
+    "type": "item_group",
+    "//": "General purpose supplies for building / blue collar work.",
+    "//2": "Stuff you might find in a jobsite, a hardware store, or a home workshop.",
+    "items": [
+      [ "concrete", 20 ],
+      { "item": "rebar", "prob": 20, "count": [ 5, 10 ] },
+      { "item": "brick", "prob": 20, "count": [ 5, 10 ] },
+      [ "superglue", 30 ],
+      [ "chain", 20 ],
+      [ "rope_6", 4 ],
+      [ "rope_30", 35 ],
+      [ "circsaw_blade", 8 ],
+      [ "glass_sheet", 5 ],
+      { "item": "pipe", "prob": 20, "count": [ 5, 10 ] },
+      { "item": "nail", "prob": 60, "count": [ 200, 400 ] },
+      [ "hose", 15 ],
+      [ "string_36", 40 ],
+      [ "frame", 20 ],
+      [ "hdframe", 10 ],
+      [ "metal_tank", 10 ],
+      [ "metal_tank_little", 10 ],
+      [ "water_faucet", 10 ],
+      { "item": "wire", "prob": 50, "count": [ 10, 50 ] },
+      { "item": "wire_barbed", "prob": 20, "count": [ 10, 50 ] },
+      [ "duct_tape", 60 ],
+      [ "foot_crank", 10 ],
+      [ "spray_can", 50 ],
+      [ "bearing", 1 ],
+      [ "permanent_marker", 20 ],
+      [ "cu_pipe", 50 ],
+      [ "fungicide", 5 ],
+      [ "charcoal", 5 ],
+      [ "survnote", 1 ],
+      [ "fertilizer_commercial", 30 ],
+      [ "chem_sulphuric_acid", 30 ],
+      [ "peephole", 25 ],
+      [ "chem_chromium_oxide", 5 ],
+      [ "chem_zinc_powder", 10 ],
+      [ "denat_alcohol", 25 ]
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "supplies_reagents_lab",
     "//": "General laboratory reagents and expendibles.  This list contains most conceivable chemicals in the game.  More specific lists for each type of lab would be reasonable eventually.",
     "items": [
