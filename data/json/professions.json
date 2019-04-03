@@ -1125,13 +1125,13 @@
           "boots_steel",
           "pants_cargo",
           "jacket_flannel",
-          "compbow",
+          "recurbow",
           "hat_hunting",
           "wristwatch",
           "cell_phone"
         ],
         "entries": [
-          { "item": "quiver", "charges": 8, "contents-item": "arrow_cf" },
+          { "item": "quiver", "charges": 8, "contents-item": "arrow_metal" },
           { "item": "sheath", "contents-item": "knife_hunting" }
         ]
       },
