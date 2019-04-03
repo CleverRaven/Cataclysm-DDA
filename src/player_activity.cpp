@@ -189,6 +189,24 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
         if( targets.empty() || other.targets.empty() || targets[0] != other.targets[0] ) {
             return false;
         }
+    } else if( id() == activity_id( "ACT_DIG" ) || id() == activity_id( "ACT_DIG_CHANNEL" ) ) {
+        // We must be digging in the same location.
+        if( placement != other.placement ) {
+            return false;
+        }
+
+        // And all our parameters must be the same.
+        if( !std::equal( values.begin(), values.end(), other.values.begin() ) ) {
+            return false;
+        }
+
+        if( !std::equal( str_values.begin(), str_values.end(), other.str_values.begin() ) ) {
+            return false;
+        }
+
+        if( !std::equal( coords.begin(), coords.end(), other.coords.begin() ) ) {
+            return false;
+        }
     }
 
     return !auto_resume && id() == other.id() && index == other.index &&

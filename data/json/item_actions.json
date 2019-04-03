@@ -47,7 +47,7 @@
   {
     "type": "item_action",
     "id": "DIG_CHANNEL",
-    "name": "Dig Water Channel"
+    "name": "Dig water channel here"
   },
   {
     "type": "item_action",
@@ -392,7 +392,7 @@
   {
     "type": "item_action",
     "id": "DIG",
-    "name": "Dig pit"
+    "name": "Dig pit here"
   },
   {
     "type": "item_action",
