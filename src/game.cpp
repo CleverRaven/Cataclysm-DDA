@@ -9490,10 +9490,10 @@ void game::reload( bool try_everything )
         const item *ap = a.get_item();
         const item *bp = b.get_item();
         // Current wielded weapon comes first.
-        if( this->u.is_wielding( *ap ) ) {
+        if( this->u.is_wielding( *bp ) {
             return true;
         }
-        if( this->u.is_wielding( *bp ) ) {
+        if( this->u.is_wielding( *ap ) ) {
             return false;
         }
         // Second sort by afiliation with wielded gun
