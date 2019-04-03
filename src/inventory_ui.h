@@ -425,6 +425,8 @@ class inventory_selector
         void add_map_items( const tripoint &target );
         void add_vehicle_items( const tripoint &target );
         void add_nearby_items( int radius = 1 );
+        /** Remove all items */
+        void clear_items();
         /** Assigns a title that will be shown on top of the menu. */
         void set_title( const std::string &title ) {
             this->title = title;

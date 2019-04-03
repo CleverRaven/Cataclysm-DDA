@@ -703,7 +703,7 @@ void inventory_column::prepare_paging( const std::string &filter )
         entries_unfiltered = entries;
     }
     // Select the uppermost possible entry
-    select( 0, scroll_direction::FORWARD );
+    select( selected_index, selected_index ? scroll_direction::BACKWARD : scroll_direction::FORWARD );
 }
 
 void inventory_column::clear()
@@ -711,7 +711,6 @@ void inventory_column::clear()
     entries.clear();
     entries_cell_cache.clear();
     paging_is_valid = false;
-    prepare_paging();
 }
 
 bool inventory_column::select( const item_location &loc )
@@ -1098,6 +1097,17 @@ void inventory_selector::add_nearby_items( int radius )
     }
 }
 
+void inventory_selector::clear_items()
+{
+    items.clear();
+    for( auto &column : columns ) {
+        column->clear();
+    }
+    own_inv_column.clear();
+    own_gear_column.clear();
+    map_column.clear();
+}
+
 bool inventory_selector::select( const item_location &loc )
 {
     bool res = false;
@@ -1144,7 +1154,7 @@ void inventory_selector::prepare_layout( size_t client_width, size_t client_heig
     // This block adds categories and should go before any width evaluations
     for( auto &elem : columns ) {
         elem->set_height( client_height );
-        elem->prepare_paging();
+        elem->prepare_paging( filter );
     }
     // Handle screen overflow
     rearrange_columns( client_width );

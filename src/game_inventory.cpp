@@ -64,17 +64,17 @@ static item_location inv_internal( player &u, const inventory_selector_preset &p
                                    const std::string &none_message,
                                    const std::string &hint = std::string() )
 {
-    item_location location = item_location();
+    inventory_pick_selector inv_s( u, preset );
+
+    inv_s.set_title( title );
+    inv_s.set_hint( hint );
+    inv_s.set_display_stats( false );
+
 
     do {
         u.inv.restack( u );
 
-        inventory_pick_selector inv_s( u, preset );
-
-        inv_s.set_title( title );
-        inv_s.set_hint( hint );
-        inv_s.set_display_stats( false );
-
+        inv_s.clear_items();
         inv_s.add_character_items( u );
         inv_s.add_nearby_items( radius );
 
@@ -86,71 +86,54 @@ static item_location inv_internal( player &u, const inventory_selector_preset &p
             return item_location();
         }
 
-        if( location != item_location::nowhere ) {
-            inv_s.update();
-            inv_s.select( location );
-            g->refresh_all();
+        item_location location = inv_s.execute();
+
+        if( inv_s.keep_open ) {
+            inv_s.keep_open = false;
+            continue;
         }
 
-        location = inv_s.execute();
-        if( !inv_s.keep_open ) {
-            return location;
-        } else {
-            location = inv_s.get_selected().location;
-        }
+        return location;
+
     } while( true );
 }
 
 void game_menus::inv::common( player &p )
 {
-    static const std::set<int> allowed_selections = { { '\0', '=' } };
+    // Return to inventory menu on those inputs
+    static const std::set<int> loop_options = { { '\0', '=', 'f' } };
 
-    bool keep_open = false;
-    item_location last_loc = item_location();
+    inventory_pick_selector inv_s( p );
 
-    // Outer loop for when we want to recreate the selector (something other than invlets changed)
+    inv_s.set_title( _( "Inventory" ) );
+    inv_s.set_hint( string_format(
+                        _( "Item hotkeys assigned: <color_light_gray>%d</color>/<color_light_gray>%d</color>" ),
+                        p.allocated_invlets().size(), inv_chars.size() ) );
+
+    int res = 0;
+
     do {
         p.inv.restack( p );
-
-        inventory_pick_selector inv_s( p );
-
+        inv_s.clear_items();
         inv_s.add_character_items( p );
-        inv_s.set_title( _( "Inventory" ) );
+        inv_s.update();
 
-        int res = 0;
-        do {
-            inv_s.set_hint( string_format(
-                                _( "Item hotkeys assigned: <color_light_gray>%d</color>/<color_light_gray>%d</color>" ),
-                                p.allocated_invlets().size(), inv_chars.size() ) );
+        const item_location &location = inv_s.execute();
 
-            if( last_loc != item_location::nowhere ) {
-                inv_s.update();
-                inv_s.select( last_loc ); // Tries to select previous item if it still exists
-                g->refresh_all();
-            }
-
-            const item_location &location = inv_s.execute();
-            keep_open = inv_s.keep_open;
-
-            if( keep_open ) {
-                last_loc = inv_s.get_selected().location;
-            }
-
-            if( location == item_location::nowhere ) {
+        if( location == item_location::nowhere ) {
+            if( inv_s.keep_open ) {
+                inv_s.keep_open = false;
+                continue;
+            } else {
                 break;
             }
+        }
 
-            g->refresh_all();
-            res = g->inventory_item_menu( p.get_item_position( location.get_item() ) );
-            g->refresh_all();
+        g->refresh_all();
+        res = g->inventory_item_menu( p.get_item_position( location.get_item() ) );
+        g->refresh_all();
 
-            if( res == 'f' ) {
-                last_loc = inv_s.get_selected().location;
-                keep_open = true;
-            }
-
-        } while( allowed_selections.count( res ) != 0 );
-    } while( keep_open );
+    } while( loop_options.count( res ) != 0 );
 }
 
 int game::inv_for_filter( const std::string &title, item_filter filter,
