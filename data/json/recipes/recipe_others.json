@@ -2899,7 +2899,7 @@
   {
     "type": "recipe",
     "result": "55gal_drum",
-	"id_suffix": "from_scratch",
+    "id_suffix": "from_scratch",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
     "skill_used": "fabrication",
@@ -2913,7 +2913,7 @@
   {
     "type": "recipe",
     "result": "30gal_drum",
-	"id_suffix": "from_scratch",
+    "id_suffix": "from_scratch",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
     "skill_used": "fabrication",
@@ -2927,7 +2927,7 @@
   {
     "type": "recipe",
     "result": "55gal_drum",
-	"id_suffix": "welded",
+    "id_suffix": "welded",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
     "skill_used": "fabrication",
@@ -2940,7 +2940,7 @@
   {
     "type": "recipe",
     "result": "30gal_drum",
-	"id_suffix": "welded",
+    "id_suffix": "welded",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
     "skill_used": "fabrication",
