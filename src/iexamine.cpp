@@ -3850,7 +3850,7 @@ player &player_on_couch( player &p, const tripoint &autodoc_loc, player &null_pa
 item &cyborg_on_couch( const tripoint &couch_pos, item &null_cyborg )
 {
     for( item &it : g->m.i_at( couch_pos ) ) {
-        if( it.typeId() == "bot_broken_cyborg" ) {
+        if( it.typeId() == "bot_broken_cyborg" || it.typeId() == "bot_prototype_cyborg" ) {
             return it;
         }
         if( it.typeId() == "corpse" ) {
@@ -3937,7 +3937,12 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             if( cyborg.typeId() == "corpse" && !cyborg.active ) {
                 popup( _( "Patient is dead.  Please remove corpse to proceed.  Exiting." ) );
                 return;
+            } else if( cyborg.typeId() == "bot_broken_cyborg" || cyborg.typeId() == "corpse" ) {
+                popup( _( "ERROR Bionic Level Assessement : FULL CYBORG.  Autodoc Mk. XI can't opperate.  Please move patient to appropriate facility.  Exiting." ) );
+                return;
             }
+
+
             uilist cmenu;
             cmenu.text = _( "Autodoc Mk. XI.  Status: Online.  Please choose operation." );
             cmenu.addentry( 1, true, 'i', _( "Choose Compact Bionic Module to install." ) );
