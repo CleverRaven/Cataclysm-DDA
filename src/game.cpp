@@ -11774,8 +11774,7 @@ void game::update_overmap_seen()
             int y = ompos.y + dy;
             float multiplier;
             if( trigdist ) {
-                float angle = atan2( y - ompos.y, x - ompos.x ) + M_PI;
-                angle = fmod( angle, M_PI / 2 );
+                float angle = fmod( atan2( dy, dx ) + M_PI, M_PI / 2 );
                 if( angle > M_PI / 4 ) {
                     angle = M_PI / 2 - angle;
                 }
