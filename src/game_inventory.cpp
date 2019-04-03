@@ -500,7 +500,8 @@ class comestible_inventory_preset : public inventory_selector_preset
 
         const islot_comestible &get_edible_comestible( const item &it ) const {
             if( it.is_comestible() && p.can_eat( it ).success() ) {
-                return *it.get_comestible();
+                // Ok since can_eat() returns false if is_craft() is true
+                return *it.type->comestible;
             }
             static const islot_comestible dummy {};
             return dummy;

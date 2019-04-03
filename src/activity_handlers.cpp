@@ -2634,20 +2634,19 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
 
     if( !craft->is_craft() ) {
         debugmsg( "ACT_CRAFT target '%s' is not a craft.  Aborting ACT_CRAFT.", craft->tname() );
-        act->set_to_null();
+        p->cancel_activity();
         return;
     }
     if( !p->has_item( *craft ) ) {
         p->add_msg_if_player( "%s no longer has the target '%s.'  Aborting ACT_CRAFT.",
                               p->disp_name(), craft->tname() );
-        act->set_to_null();
+        p->cancel_activity();
         return;
     }
 
     const recipe &rec = craft->get_making();
     const float crafting_speed = p->crafting_speed_multiplier( rec, true );
     const bool is_long = act->values[0];
-    act->set_to_null();
 
     if( crafting_speed <= 0.0f ) {
         if( p->lighting_craft_speed_multiplier( rec ) <= 0.0f ) {
@@ -2655,6 +2654,7 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
         } else {
             p->add_msg_if_player( m_bad, _( "You are too frustrated to continue and just give up." ) );
         }
+        p->cancel_activity();
         return;
     }
     if( calendar::once_every( 1_hours ) && crafting_speed < 0.75f ) {
@@ -2666,6 +2666,7 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
     p->set_moves( 0 );
 
     if( craft->item_counter >= rec.time ) {
+        p->cancel_activity();
         item craft_copy = p->i_rem( craft );
         p->complete_craft( craft_copy );
         if( is_long ) {
@@ -2673,10 +2674,6 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
                 p->last_craft->execute();
             }
         }
-    } else {
-        p->assign_activity( activity_id( "ACT_CRAFT" ) );
-        p->activity.targets.push_back( item_location( *p, craft ) );
-        p->activity.values.push_back( is_long );
     }
 }
 

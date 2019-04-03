@@ -7854,7 +7854,7 @@ const recipe &item::get_making() const
     return *making;
 }
 
-cata::optional<islot_comestible> item::get_comestible() const
+const cata::optional<islot_comestible> &item::get_comestible() const
 {
     return is_craft() ? find_type( making->result() )->comestible :
            type->comestible;

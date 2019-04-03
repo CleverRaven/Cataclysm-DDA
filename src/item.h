@@ -1814,7 +1814,7 @@ class item : public visitable<item>
 
         const recipe &get_making() const;
 
-        cata::optional<islot_comestible> get_comestible() const;
+        const cata::optional<islot_comestible> &get_comestible() const;
 
     private:
         /**
