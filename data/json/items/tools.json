@@ -906,7 +906,7 @@
     "id": "bot_prototype_cyborg",
     "type": "TOOL",
     "name": "inactive prototype cyborg",
-    "description": "This is a deactivated prototype cyborg, glimpses of humanity can still be seen in its empty eyes. Using this item involves placing it on the ground and reactivating its mechanical body.  If reprogrammed and rewired successfully the cyborg will then follow you and attack enemies. You monster.",
+    "description": "This is a deactivated prototype cyborg, glimpses of humanity can still be seen in its empty eyes.  Using this item involves placing it on the ground and reactivating its mechanical body.  If reprogrammed and rewired successfully the cyborg will then follow you and attack enemies.  You monster.",
     "weight": 81500,
     "volume": 250,
     "//": "It is an affront to humanity, no one will buy it.",
