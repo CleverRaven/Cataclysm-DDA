@@ -627,7 +627,7 @@ void activity_handlers::washing_finish( player_activity *act, player *p )
     std::vector<item_comp> comps;
     comps.push_back( item_comp( "water", required.water ) );
     comps.push_back( item_comp( "water_clean", required.water ) );
-    p->consume_items( comps, 1, is_crafting_component, is_liquid );
+    p->consume_items( comps, 1, g->u.pos(), PICKUP_RANGE, is_crafting_component, is_liquid );
 
     std::vector<item_comp> comps1;
     comps1.push_back( item_comp( "soap", required.cleanser ) );

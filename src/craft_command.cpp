@@ -152,7 +152,7 @@ std::list<item> craft_command::consume_components()
     }
 
     for( const auto &it : item_selections ) {
-        std::list<item> tmp = crafter->consume_items( it, batch_size );
+        std::list<item> tmp = crafter->consume_items( it, batch_size, crafter->pos(), PICKUP_RANGE );
         used.splice( used.end(), tmp );
     }
 

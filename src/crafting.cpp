@@ -324,33 +324,36 @@ bool player::can_make( const recipe *r, int batch_size )
     return r->requirements().can_make_with_inventory( crafting_inv, batch_size );
 }
 
-const inventory &player::crafting_inventory()
+const inventory &player::crafting_inventory( tripoint search_pos, int radius )
 {
-    if( cached_moves == moves
-        && cached_time == calendar::turn
-        && cached_position == pos() ) {
-        return cached_crafting_inventory;
-    }
-    cached_crafting_inventory.form_from_map( pos(), PICKUP_RANGE, false );
-    cached_crafting_inventory += inv;
-    cached_crafting_inventory += weapon;
-    cached_crafting_inventory += worn;
-    for( const auto &bio : *my_bionics ) {
-        const auto &bio_data = bio.info();
-        if( ( !bio_data.activated || bio.powered ) &&
-            !bio_data.fake_item.empty() ) {
-            cached_crafting_inventory += item( bio.info().fake_item,
-                                               calendar::turn, power_level );
+    if( search_pos == tripoint_zero ) {
+        if( cached_moves == moves
+            && cached_time == calendar::turn
+            && cached_position == pos() ) {
+            return cached_crafting_inventory;
         }
+        cached_crafting_inventory.form_from_map( pos(), radius, false );
+        cached_crafting_inventory += inv;
+        cached_crafting_inventory += weapon;
+        cached_crafting_inventory += worn;
+        for( const auto &bio : *my_bionics ) {
+            const auto &bio_data = bio.info();
+            if( ( !bio_data.activated || bio.powered ) &&
+                !bio_data.fake_item.empty() ) {
+                cached_crafting_inventory += item( bio.info().fake_item,
+                                                   calendar::turn, power_level );
+            }
+        }
+        if( has_trait( trait_BURROW ) ) {
+            cached_crafting_inventory += item( "pickaxe", calendar::turn );
+            cached_crafting_inventory += item( "shovel", calendar::turn );
+        }
+        cached_moves = moves;
+        cached_time = calendar::turn;
+        cached_position = pos();
+    } else {
+        cached_crafting_inventory.form_from_map( search_pos, radius, false );
     }
-    if( has_trait( trait_BURROW ) ) {
-        cached_crafting_inventory += item( "pickaxe", calendar::turn );
-        cached_crafting_inventory += item( "shovel", calendar::turn );
-    }
-
-    cached_moves = moves;
-    cached_time = calendar::turn;
-    cached_position = pos();
     return cached_crafting_inventory;
 }
 
@@ -408,7 +411,7 @@ void set_components( std::vector<item> &components, const std::list<item> &used,
 }
 
 std::list<item> player::consume_components_for_craft( const recipe &making, int batch_size,
-        bool ignore_last )
+        bool ignore_last, tripoint src_pos, int radius )
 {
     std::list<item> used;
     if( has_trait( trait_id( "DEBUG_HS" ) ) ) {
@@ -421,12 +424,22 @@ std::list<item> player::consume_components_for_craft( const recipe &making, int 
         // Meaning there are still cases where has_cached_selections will be false
         // TODO: Allow saving last_craft and debugmsg+fail craft if selection isn't cached
         const auto &req = making.requirements();
-        for( const auto &it : req.get_components() ) {
-            std::list<item> tmp = consume_items( it, batch_size );
-            used.splice( used.end(), tmp );
-        }
-        for( const auto &it : req.get_tools() ) {
-            consume_tools( it, batch_size );
+        if( src_pos == tripoint_zero ) {
+            for( const auto &it : req.get_components() ) {
+                std::list<item> tmp = consume_items( it, batch_size );
+                used.splice( used.end(), tmp );
+            }
+            for( const auto &it : req.get_tools() ) {
+                consume_tools( it, batch_size );
+            }
+        } else {
+            for( const auto &it : req.get_components() ) {
+                std::list<item> tmp = consume_items( it, batch_size, src_pos, radius );
+                used.splice( used.end(), tmp );
+            }
+            for( const auto &it : req.get_tools() ) {
+                consume_tools( it, batch_size );
+            }
         }
     }
     return used;
@@ -976,7 +989,7 @@ void empty_buckets( player &p )
 }
 
 std::list<item> player::consume_items( const comp_selection<item_comp> &is, int batch,
-                                       const std::function<bool( const item & )> &amount_filter,
+                                       tripoint src_pos, int radius, const std::function<bool( const item & )> &amount_filter,
                                        const std::function<bool( const item & )> &charges_filter )
 {
     std::list<item> ret;
@@ -987,7 +1000,7 @@ std::list<item> player::consume_items( const comp_selection<item_comp> &is, int 
 
     item_comp selected_comp = is.comp;
 
-    const tripoint &loc = pos();
+    const tripoint &loc = src_pos;
     const bool by_charges = ( item::count_by_charges( selected_comp.type ) && selected_comp.count > 0 );
     // Count given to use_amount/use_charges, changed by those functions!
     long real_count = ( selected_comp.count > 0 ) ? selected_comp.count * batch : abs(
@@ -995,17 +1008,17 @@ std::list<item> player::consume_items( const comp_selection<item_comp> &is, int 
     // First try to get everything from the map, than (remaining amount) from player
     if( is.use_from & use_from_map ) {
         if( by_charges ) {
-            std::list<item> tmp = g->m.use_charges( loc, PICKUP_RANGE, selected_comp.type, real_count,
+            std::list<item> tmp = g->m.use_charges( loc, radius, selected_comp.type, real_count,
                                                     charges_filter );
             ret.splice( ret.end(), tmp );
         } else {
-            std::list<item> tmp = g->m.use_amount( loc, PICKUP_RANGE, selected_comp.type,
+            std::list<item> tmp = g->m.use_amount( loc, radius, selected_comp.type,
                                                    real_count, amount_filter );
             remove_ammo( tmp, *this );
             ret.splice( ret.end(), tmp );
         }
     }
-    if( is.use_from & use_from_player ) {
+    if( is.use_from & use_from_player && loc == pos() ) {
         if( by_charges ) {
             std::list<item> tmp = use_charges( selected_comp.type, real_count, charges_filter );
             ret.splice( ret.end(), tmp );
@@ -1033,14 +1046,23 @@ std::list<item> player::consume_items( const comp_selection<item_comp> &is, int 
 In that case, consider using select_item_component with 1 pre-created map inventory, and then passing the results
 to consume_items */
 std::list<item> player::consume_items( const std::vector<item_comp> &components, int batch,
+                                       tripoint src_pos, int radius,
                                        const std::function<bool( const item & )> &amount_filter,
                                        const std::function<bool( const item & )> &charges_filter )
 {
     inventory map_inv;
-    map_inv.form_from_map( pos(), PICKUP_RANGE );
-    return consume_items( select_item_component( components, batch, map_inv, false, amount_filter,
-                          charges_filter ),
-                          batch, amount_filter, charges_filter );
+    if( src_pos == tripoint_zero ) {
+        map_inv.form_from_map( pos(), PICKUP_RANGE );
+        return consume_items( select_item_component( components, batch, map_inv, false, amount_filter,
+                              charges_filter ),
+                              batch, pos(), PICKUP_RANGE, amount_filter, charges_filter );
+    } else {
+        map_inv.form_from_map( src_pos, radius );
+        return consume_items( select_item_component( components, batch, map_inv, false, amount_filter,
+                              charges_filter ),
+                              batch, src_pos, radius, amount_filter, charges_filter );
+    }
+
 }
 
 comp_selection<tool_comp>

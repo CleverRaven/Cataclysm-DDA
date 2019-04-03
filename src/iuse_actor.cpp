@@ -2613,7 +2613,7 @@ bool repair_item_actor::handle_components( player &pl, const item &fix,
             debugmsg( "Attempted repair with no components" );
         }
 
-        pl.consume_items( comps, 1, filter );
+        pl.consume_items( comps, 1, g->u.pos(), PICKUP_RANGE, filter );
     }
 
     return true;

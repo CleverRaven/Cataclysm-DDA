@@ -1823,7 +1823,7 @@ bool editmap::mapgen_set( std::string om_name, tripoint &omt_tgt, int r, bool ch
 {
     if( r > 0 ) {
         popup( _( "Select a tile up to %d tiles away." ), r );
-        const tripoint where( ui::omap::choose_point() );
+        const tripoint where( ui::omap::choose_point( omt_tgt ) );
         if( where == overmap::invalid_tripoint ) {
             return false;
         }

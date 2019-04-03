@@ -257,6 +257,32 @@ void basecamp::reset_camp_workers()
     }
 }
 
+void basecamp::validate_assignees()
+{
+    for( auto it2 = assigned_npcs.begin(); it2 != assigned_npcs.end(); ) {
+        auto ptr = *it2;
+        if( ptr->mission != NPC_MISSION_GUARD_ALLY || ptr->global_omt_location() != omt_pos ||
+            ptr->has_companion_mission() ) {
+            it2 = assigned_npcs.erase( it2 );
+        } else {
+            ++it2;
+        }
+    }
+    for( auto elem : g->get_follower_list() ) {
+        npc_ptr npc_to_add = overmap_buffer.find_npc( elem );
+        if( npc_to_add->global_omt_location() == omt_pos && npc_to_add->mission == NPC_MISSION_GUARD_ALLY &&
+            !npc_to_add->has_companion_mission() ) {
+            assigned_npcs.push_back( npc_to_add );
+        }
+    }
+}
+
+std::vector<npc_ptr> basecamp::get_npcs_assigned()
+{
+    validate_assignees();
+    return assigned_npcs;
+}
+
 // get the subset of companions working on a specific task
 comp_list basecamp::get_mission_workers( const std::string &mission_id, bool contains )
 {
