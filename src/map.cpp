@@ -2590,6 +2590,27 @@ bool map::flammable_items_at( const tripoint &p, int threshold )
     return false;
 }
 
+bool map::is_flammable( const tripoint &p )
+{
+    if( flammable_items_at( p ) ) {
+        return true;
+    }
+
+    if( has_flag( "FLAMMABLE", p ) ) {
+        return true;
+    }
+
+    if( has_flag( "FLAMMABLE_ASH", p ) ) {
+        return true;
+    }
+
+    if( get_field_strength( p, fd_web ) > 0 ) {
+        return true;
+    }
+
+    return false;
+}
+
 void map::decay_fields_and_scent( const time_duration &amount )
 {
     // Decay scent separately, so that later we can use field count to skip empty submaps

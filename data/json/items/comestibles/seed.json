@@ -408,6 +408,18 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "soybean_seed",
+    "copy-from": "seed",
+    "name": "soybean seed",
+    "weight": 160,
+    "symbol": ".",
+    "color": "yellow",
+    "description": "Some soybean seeds.  You could probably plant these.",
+    "price": 90,
+    "seed_data": { "plant_name": "soybean", "fruit": "soybean", "byproducts": [ "withered", "raw_edamame" ], "grow": "91 days" }
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "raw_lentils",
     "copy-from": "seed",
     "name": "raw lentils",

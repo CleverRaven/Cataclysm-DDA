@@ -628,10 +628,10 @@ int iuse::anticonvulsant( player *p, item *it, bool, const tripoint & )
     return it->type->charges_to_use();
 }
 
-int iuse::weed_brownie( player *p, item *it, bool, const tripoint & )
+int iuse::weed_cake( player *p, item *it, bool, const tripoint & )
 {
     p->add_msg_if_player(
-        _( "You start scarfing down the delicious brownie.  It tastes a little funny though..." ) );
+        _( "You start scarfing down the delicious cake.  It tastes a little funny though..." ) );
     time_duration duration = 12_minutes;
     if( p->has_trait( trait_TOLERANCE ) ) {
         duration = 9_minutes;
@@ -4445,92 +4445,6 @@ int iuse::hacksaw( player *p, item *it, bool t, const tripoint & )
                         p->get_item_position( it ) );
     p->activity.placement = pnt;
 
-    return it->type->charges_to_use();
-}
-
-int iuse::torch_lit( player *p, item *it, bool t, const tripoint &pos )
-{
-    if( p->is_underwater() ) {
-        p->add_msg_if_player( _( "The torch is extinguished." ) );
-        it->convert( "torch" ).active = false;
-        return 0;
-    }
-    if( t ) {
-        if( !it->ammo_sufficient() ) {
-            p->add_msg_if_player( _( "The torch burns out." ) );
-            it->convert( "torch_done" ).active = false;
-        }
-    } else if( !it->ammo_sufficient() ) {
-        p->add_msg_if_player( _( "The %s winks out." ), it->tname().c_str() );
-    } else { // Turning it off
-        int choice = uilist( _( "torch (lit)" ), {
-            _( "extinguish" ), _( "light something" )
-        } );
-        switch( choice ) {
-            case 0: {
-                p->add_msg_if_player( _( "The torch is extinguished." ) );
-                if( it->charges <= 1 ) {
-                    it->charges = 0;
-                    it->convert( "torch_done" ).active = false;
-                } else {
-                    it->charges -= 1;
-                    it->convert( "torch" ).active = false;
-                }
-                return 0;
-            }
-            case 1: {
-                tripoint temp = pos;
-                if( firestarter_actor::prep_firestarter_use( *p, temp ) ) {
-                    p->moves -= 5;
-                    firestarter_actor::resolve_firestarter_use( *p, temp );
-                    return it->type->charges_to_use();
-                }
-            }
-        }
-    }
-    return it->type->charges_to_use();
-}
-
-int iuse::battletorch_lit( player *p, item *it, bool t, const tripoint &pos )
-{
-    if( p->is_underwater() ) {
-        p->add_msg_if_player( _( "The Louisville Slaughterer is extinguished." ) );
-        it->convert( "bat" ).active = false;
-        return 0;
-    }
-    if( t ) {
-        if( !it->ammo_sufficient() ) {
-            p->add_msg_if_player( _( "The Louisville Slaughterer burns out." ) );
-            it->convert( "battletorch_done" ).active = false;
-        }
-    } else if( !it->ammo_sufficient() ) {
-        p->add_msg_if_player( _( "The %s winks out" ), it->tname().c_str() );
-    } else { // Turning it off
-        int choice = uilist( _( "Louisville Slaughterer (lit)" ), {
-            _( "extinguish" ), _( "light something" )
-        } );
-        switch( choice ) {
-            case 0: {
-                p->add_msg_if_player( _( "The Louisville Slaughterer is extinguished." ) );
-                if( it->charges <= 1 ) {
-                    it->charges = 0;
-                    it->convert( "battletorch_done" ).active = false;
-                } else {
-                    it->charges -= 1;
-                    it->convert( "battletorch" ).active = false;
-                }
-                return 0;
-            }
-            case 1: {
-                tripoint temp = pos;
-                if( firestarter_actor::prep_firestarter_use( *p, temp ) ) {
-                    p->moves -= 5;
-                    firestarter_actor::resolve_firestarter_use( *p, temp );
-                    return it->type->charges_to_use();
-                }
-            }
-        }
-    }
     return it->type->charges_to_use();
 }
 

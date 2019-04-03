@@ -752,6 +752,8 @@ class map
          * @param threshold Fuel threshold (lower means worse fuels are accepted).
          */
         bool flammable_items_at( const tripoint &p, int threshold = 0 );
+        /** Returns true if there is a flammable item or field or the furn/terrain is flammable at p */
+        bool is_flammable( const tripoint &p );
         point random_outdoor_tile();
         // mapgen
 

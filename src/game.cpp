@@ -2460,6 +2460,7 @@ void game::death_screen()
     Messages::display_messages();
     disp_kills();
     disp_NPC_epilogues();
+    follower_ids.clear();
     disp_faction_ends();
 }
 
@@ -2705,7 +2706,6 @@ void game::reset_npc_dispositions()
                                      npc_to_add->getID() ) );
 
     }
-    follower_ids.clear();
 
 }
 
@@ -3394,14 +3394,14 @@ void game::disp_NPC_epilogues()
                            std::max( 0, ( TERMX - FULL_SCREEN_WIDTH ) / 2 ) );
     epilogue epi;
     // TODO: This search needs to be expanded to all NPCs
-    for( const npc &guy : all_npcs() ) {
-        if( guy.is_friend() ) {
-            epi.random_by_group( guy.male ? "male" : "female" );
-            std::vector<std::string> txt;
-            txt.emplace_back( epi.text );
-            draw_border( w, BORDER_COLOR, guy.name, c_black_white );
-            multipage( w, txt, "", 2 );
-        }
+    for( auto elem : follower_ids ) {
+        std::shared_ptr<npc> npc_to_get = overmap_buffer.find_npc( elem );
+        npc *guy = npc_to_get.get();
+        epi.random_by_group( guy->male ? "male" : "female" );
+        std::vector<std::string> txt;
+        txt.emplace_back( epi.text );
+        draw_border( w, BORDER_COLOR, guy->name, c_black_white );
+        multipage( w, txt, "", 2 );
     }
 
     refresh_all();
@@ -9781,7 +9781,7 @@ bool game::prompt_dangerous_tile( const tripoint &dest_loc ) const
             if( !boardable ) {
                 harmful_stuff.emplace_back( tr.name().c_str() );
             }
-        } else if( tr.can_see( dest_loc, u ) && !tr.is_benign() ) {
+        } else if( tr.can_see( dest_loc, u ) && !tr.is_benign() && !boardable ) {
             harmful_stuff.emplace_back( tr.name().c_str() );
         }
 
@@ -10448,16 +10448,24 @@ void game::place_player( const tripoint &dest_loc )
         if( forage_type != "off" ) {
             static const auto forage = [&]( const tripoint & pos ) {
                 const auto &xter_t = m.ter( pos ).obj().examine;
-                const bool forage_bushes = forage_type == "both" || forage_type == "bushes";
-                const bool forage_trees = forage_type == "both" || forage_type == "trees";
+                const auto &xfurn_t = m.furn( pos ).obj().examine;
+                const bool forage_everything = forage_type == "both";
+                const bool forage_bushes = forage_everything || forage_type == "bushes";
+                const bool forage_trees = forage_everything || forage_type == "trees";
                 if( xter_t == &iexamine::none ) {
                     return;
                 } else if( ( forage_bushes && xter_t == &iexamine::shrub_marloss ) ||
                            ( forage_bushes && xter_t == &iexamine::shrub_wildveggies ) ||
+                           ( forage_bushes && xter_t == &iexamine::harvest_ter_nectar ) ||
                            ( forage_trees && xter_t == &iexamine::tree_marloss ) ||
-                           ( forage_trees && xter_t == &iexamine::harvest_ter )
+                           ( forage_trees && xter_t == &iexamine::harvest_ter ) ||
+                           ( forage_trees && xter_t == &iexamine::harvest_ter_nectar )
                          ) {
                     xter_t( u, pos );
+                } else if( ( forage_everything && xfurn_t == &iexamine::harvest_furn ) ||
+                           ( forage_everything && xfurn_t == &iexamine::harvest_furn_nectar )
+                         ) {
+                    xfurn_t( u, pos );
                 }
             };
 
@@ -11767,6 +11775,9 @@ void game::update_overmap_seen()
             }
             if( sight_points >= 0 ) {
                 overmap_buffer.set_seen( x, y, ompos.z, true );
+                for( int z = ompos.z - 1; z >= 0; z-- ) {
+                    overmap_buffer.set_seen( x, y, z, true );
+                }
             }
         }
     }

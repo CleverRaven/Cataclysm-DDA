@@ -2079,7 +2079,8 @@
     [
      [ "tallow", 2 ],
      [ "lard", 2 ],
-     [ "cooking_oil", 2 ]
+     [ "cooking_oil", 16 ],
+     [ "cooking_oil2", 16 ]
     ],
     [
      [ "lye", 2 ],

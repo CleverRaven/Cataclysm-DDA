@@ -130,6 +130,8 @@ void iuse_transform::load( JsonObject &obj )
     need_fire_msg = obj.has_string( "need_fire_msg" ) ? _( obj.get_string( "need_fire_msg" ).c_str() ) :
                     _( "You need a source of fire!" );
 
+    obj.read( "qualities_needed", qualities_needed );
+
     obj.read( "menu_text", menu_text );
     if( !menu_text.empty() ) {
         menu_text = _( menu_text.c_str() );
@@ -196,6 +198,30 @@ long iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) con
     obj->active = active || obj->item_counter;
 
     return 0;
+}
+
+ret_val<bool> iuse_transform::can_use( const player &p, const item &, bool,
+                                       const tripoint & ) const
+{
+    std::map<quality_id, int> unmet_reqs;
+    inventory inv;
+    inv.form_from_map( p.pos(), 1 );
+    for( const auto &quality : qualities_needed ) {
+        if( !p.has_quality( quality.first, quality.second ) &&
+            !inv.has_quality( quality.first, quality.second ) ) {
+            unmet_reqs.insert( quality );
+        }
+    }
+    if( unmet_reqs.empty() ) {
+        return ret_val<bool>::make_success();
+    }
+    std::string unmet_reqs_string = enumerate_as_string( unmet_reqs.begin(), unmet_reqs.end(),
+    [&]( const std::pair<quality_id, int> &unmet_req ) {
+        return string_format( "%s %d", unmet_req.first.obj().name, unmet_req.second );
+    } );
+    return ret_val<bool>::make_failure( string_format( ngettext( "You need a tool with %s.",
+                                        "You need tools with %s.", unmet_reqs.size() ),
+                                        unmet_reqs_string ) );
 }
 
 std::string iuse_transform::get_name() const
@@ -1046,26 +1072,19 @@ bool firestarter_actor::prep_firestarter_use( const player &p, tripoint &pos )
         p.add_msg_if_player( m_info, _( "There is already a fire." ) );
         return false;
     }
-    if( g->m.flammable_items_at( pos ) ||
-        g->m.has_flag( "FLAMMABLE", pos ) || g->m.has_flag( "FLAMMABLE_ASH", pos ) ||
-        g->m.get_field_strength( pos, fd_web ) > 0 ) {
-        // Check for a brazier.
-        bool has_unactivated_brazier = false;
-        for( const auto &i : g->m.i_at( pos ) ) {
-            if( i.typeId() == "brazier" ) {
-                has_unactivated_brazier = true;
-            }
+    // Check for a brazier.
+    bool has_unactivated_brazier = false;
+    for( const auto &i : g->m.i_at( pos ) ) {
+        if( i.typeId() == "brazier" ) {
+            has_unactivated_brazier = true;
         }
-        if( has_unactivated_brazier &&
-            !query_yn(
-                _( "There's a brazier there but you haven't set it up to contain the fire. Continue?" ) ) ) {
-            return false;
-        }
-        return true;
-    } else {
-        p.add_msg_if_player( m_info, _( "There's nothing to light there." ) );
+    }
+    if( has_unactivated_brazier &&
+        !query_yn(
+            _( "There's a brazier there but you haven't set it up to contain the fire. Continue?" ) ) ) {
         return false;
     }
+    return true;
 }
 
 void firestarter_actor::resolve_firestarter_use( player &p, const tripoint &pos )
@@ -1159,7 +1178,7 @@ long firestarter_actor::use( player &p, item &it, bool t, const tripoint &spos )
             _( "At your skill level, it will take around %d minutes to light a fire." );
         p.add_msg_if_player( m_info, ( need_sunlight ? sun_msg : normal_msg ).c_str(),
                              moves / to_moves<int>( 1_minutes ) );
-    } else if( moves < to_moves<int>( 2_turns ) ) {
+    } else if( moves < to_moves<int>( 2_turns ) && g->m.is_flammable( pos ) ) {
         // If less than 2 turns, don't start a long action
         resolve_firestarter_use( p, pos );
         p.mod_moves( -moves );
