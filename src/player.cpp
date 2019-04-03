@@ -26,6 +26,7 @@
 #include "fungal_effects.h"
 #include "game.h"
 #include "get_version.h"
+#include "gun_mode.h"
 #include "help.h" // get_hint
 #include "input.h"
 #include "inventory.h"
@@ -11311,10 +11312,10 @@ bool player::has_magazine_for_ammo( const ammotype &at ) const
 }
 
 // mytest return weapon name to display in sidebar
-std::string player::weapname() const
+std::string player::weapname( unsigned int truncate ) const
 {
     if( weapon.is_gun() ) {
-        std::string str = weapon.type_name();
+        std::string str = string_format( "(%s) %s", weapon.gun_current_mode().name(), weapon.type_name() );
 
         // Is either the base item or at least one auxiliary gunmod loaded (includes empty magazines)
         bool base = weapon.ammo_capacity() > 0 && !weapon.has_flag( "RELOAD_AND_SHOOT" );
@@ -11356,7 +11357,7 @@ std::string player::weapname() const
         return _( "fists" );
 
     } else {
-        return weapon.tname( 1, false );
+        return weapon.tname( 1, true, truncate );
     }
 }
 

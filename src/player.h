@@ -1242,8 +1242,10 @@ class player : public Character
         void check_and_recover_morale();
         void on_worn_item_transform( const item &it );
 
-        /** Get the formatted name of the currently wielded item (if any) */
-        std::string weapname() const;
+        /** Get the formatted name of the currently wielded item (if any)
+         *  truncated to a number of characters. 0 means it is not truncated
+         */
+        std::string weapname( unsigned int truncate = 0 ) const;
 
         float power_rating() const override;
         float speed_rating() const override;
