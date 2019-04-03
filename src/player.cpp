@@ -214,6 +214,7 @@ static const bionic_id bio_recycler( "bio_recycler" );
 static const bionic_id bio_shakes( "bio_shakes" );
 static const bionic_id bio_sleepy( "bio_sleepy" );
 static const bionic_id bn_bio_solar( "bn_bio_solar" );
+static const bionic_id bio_soporific( "bio_soporific" );
 static const bionic_id bio_spasm( "bio_spasm" );
 static const bionic_id bio_speed( "bio_speed" );
 static const bionic_id bio_syringe( "bio_syringe" );
@@ -10186,6 +10187,15 @@ void player::try_to_sleep( const time_duration &dur )
                            ter_at_pos.obj().name().c_str() );
     }
     add_msg_if_player( _( "You start trying to fall asleep." ) );
+    if( has_active_bionic( bio_soporific ) ) {
+        bio_soporific_powered_at_last_sleep_check = power_level > 0;
+        if( power_level > 0 ) {
+            // The actual bonus is applied in sleep_spot( p ).
+            add_msg_if_player( m_good, _( "Your soporific inducer starts working its magic." ) );
+        } else {
+            add_msg_if_player( m_bad, _( "Your soporific inducer doesn't have enough power to operate." ) );
+        }
+    }
     assign_activity( activity_id( "ACT_TRY_SLEEP" ), to_moves<int>( dur ) );
 }
 
@@ -10323,6 +10333,9 @@ int player::sleep_spot( const tripoint &p ) const
         // so it's OK for the value to be that much higher
         sleepy += 24;
     }
+    if( has_active_bionic( bio_soporific ) ) {
+        sleepy += 30;
+    }
     if( has_trait( trait_EASYSLEEPER2 ) ) {
         // Mousefolk can sleep just about anywhere.
         sleepy += 40;
@@ -10364,15 +10377,25 @@ bool player::can_sleep()
     // check anyway, this will reset the timer if 'dur' is negative.
     const time_point now = calendar::turn;
     const time_duration dur = now - last_sleep_check;
-    if( dur >= 30_minutes || dur < 0_turns ) {
-        last_sleep_check = now;
-        int sleepy = sleep_spot( pos() );
-        sleepy += rng( -8, 8 );
-        if( sleepy > 0 ) {
-            return true;
-        }
+    if( dur >= 0_turns && dur < 30_minutes ) {
+        return false;
     }
-    return false;
+    last_sleep_check = now;
+
+    int sleepy = sleep_spot( pos() );
+    sleepy += rng( -8, 8 );
+    bool result = sleepy > 0;
+
+    if( has_active_bionic( bio_soporific ) ) {
+        if( bio_soporific_powered_at_last_sleep_check && power_level == 0 ) {
+            add_msg_if_player( m_bad, _( "Your soporific inducer runs out of power!" ) );
+        } else if( !bio_soporific_powered_at_last_sleep_check && power_level > 0 ) {
+            add_msg_if_player( m_good, _( "Your soporific inducer starts back up." ) );
+        }
+        bio_soporific_powered_at_last_sleep_check = power_level > 0;
+    }
+
+    return result;
 }
 
 void player::fall_asleep()

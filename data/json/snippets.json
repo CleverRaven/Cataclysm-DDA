@@ -286,6 +286,11 @@
   },
   {
     "type": "snippet",
+    "category": "flier",
+    "text": [ "This is an advertisement for the Wink & Nod brand Soporific Induction CBM.  It shows a picture of a woman sleeping on a bed of nails with a satisfied smile on her face.  The caption reads: \"Catch Zs with ease, wherever you please!\"" ]
+  },
+  {
+    "type": "snippet",
     "category": "note",
     "text": [ "\"WE WERE RIGHT THE GOVERNMENT DID IT\"" ]
   },

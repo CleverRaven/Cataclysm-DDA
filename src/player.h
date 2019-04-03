@@ -1148,6 +1148,7 @@ class player : public Character
     private:
         /** last time we checked for sleep */
         time_point last_sleep_check = calendar::time_of_cataclysm;
+        bool bio_soporific_powered_at_last_sleep_check;
         /** Used in max_memorized_tiles to cache memory capacity. **/
         mutable time_point current_map_memory_turn = calendar::before_time_starts;
         mutable size_t current_map_memory_capacity = 0;

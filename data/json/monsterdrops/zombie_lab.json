@@ -68,7 +68,8 @@
       [ "bio_watch", 40 ],
       [ "bio_leukocyte", 15 ],
       [ "bio_syringe", 2 ],
-      [ "bio_jointservo", 10 ]
+      [ "bio_jointservo", 10 ],
+      [ "bio_soporific", 2 ]
     ]
   },
   {
