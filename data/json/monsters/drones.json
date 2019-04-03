@@ -70,7 +70,7 @@
     "color": "dark_gray",
     "armor_cut": 4,
     "revert_to_itype": "bot_gasbomb_hack",
-    "starting_ammo": { "gasbomb": 1 },
+    "starting_ammo": { "tear_gas_payload": 1 },
     "special_attacks": [ [ "KAMIKAZE", 0 ] ]
   },
   {

@@ -94,8 +94,6 @@ const mtype_id mon_zombie_dog( "mon_zombie_dog" );
 const mtype_id mon_zombie_electric( "mon_zombie_electric" );
 const mtype_id mon_zombie_flamer( "mon_zombie_flamer" );
 const mtype_id mon_zombie_grabber( "mon_zombie_grabber" );
-const mtype_id mon_zombie_grenadier( "mon_zombie_grenadier" );
-const mtype_id mon_zombie_grenadier_elite( "mon_zombie_grenadier_elite" );
 const mtype_id mon_zombie_scientist( "mon_zombie_scientist" );
 const mtype_id mon_zombie_shrieker( "mon_zombie_shrieker" );
 const mtype_id mon_zombie_smoker( "mon_zombie_smoker" );

@@ -2827,18 +2827,22 @@ void item::on_damage( int, damage_type )
 
 }
 
-std::string item::tname( unsigned int quantity, bool with_prefix ) const
+std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int truncate ) const
 {
     std::stringstream ret;
 
     // TODO: MATERIALS put this in json
     std::string damtext;
 
+    // for portions of string that have <color_ etc in them, this aims to truncate the whole string correctly
+    unsigned int truncate_override = 0;
+
     if( ( damage() != 0 || ( get_option<bool>( "ITEM_HEALTH_BAR" ) && is_armor() ) ) && !is_null() &&
         with_prefix ) {
         if( damage() < 0 )  {
             if( get_option<bool>( "ITEM_HEALTH_BAR" ) ) {
                 damtext = "<color_" + string_from_color( damage_color() ) + ">" + damage_symbol() + " </color>";
+                truncate_override = damtext.length() - 3;
             } else if( is_gun() ) {
                 damtext = pgettext( "damage adjective", "accurized " );
             } else {
@@ -2863,6 +2867,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
             }
         } else if( get_option<bool>( "ITEM_HEALTH_BAR" ) ) {
             damtext = "<color_" + string_from_color( damage_color() ) + ">" + damage_symbol() + " </color>";
+            truncate_override = damtext.length() - 3;
         } else {
             damtext = string_format( "%s ", get_base_material().dmg_adj( damage_level( 4 ) ).c_str() );
         }
@@ -3037,11 +3042,16 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     ret << string_format( _( "%1$s%2$s%3$s%4$s%5$s%6$s" ), damtext.c_str(), burntext.c_str(),
                           modtext.c_str(), vehtext.c_str(), maintext.c_str(), tagtext.c_str() );
 
+    std::string r = ret.str();
+    if( truncate != 0 ) {
+        r = utf8_truncate( r, truncate + truncate_override );
+    }
+
     if( item_vars.find( "item_note" ) != item_vars.end() ) {
         //~ %s is an item name. This style is used to denote items with notes.
-        return string_format( _( "*%s*" ), ret.str().c_str() );
+        return string_format( _( "*%s*" ), r );
     } else {
-        return ret.str();
+        return r;
     }
 }
 
