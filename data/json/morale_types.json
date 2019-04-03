@@ -15,6 +15,16 @@
     "text": "Enjoyed a conversation"
   },
   {
+    "id": "morale_ate_with_table",
+    "type": "morale_type",
+    "text": "Ate with table"
+  },
+  {
+    "id": "morale_ate_without_table",
+    "type": "morale_type",
+    "text": "Ate like an animal"
+  },
+  {
     "id": "morale_music",
     "type": "morale_type",
     "text": "Music"

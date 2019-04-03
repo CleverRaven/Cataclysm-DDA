@@ -21,6 +21,9 @@
 #include "translations.h"
 #include "units.h"
 #include "vitamin.h"
+#include "vehicle.h"
+#include "vpart_position.h"
+#include "vpart_reference.h"
 
 namespace
 {
@@ -717,6 +720,28 @@ bool player::eat( item &food, bool force )
         } else {
             add_msg_player_or_npc( _( "You eat your %s." ), _( "<npcname> eats a %s." ),
                                    food.tname().c_str() );
+            if( !spoiled && !food.has_flag( "ALLERGEN_JUNK" ) ) {
+                bool has_table_nearby = false;
+                for( const tripoint &pt : g->m.points_in_radius( pos(), 1 ) ) {
+                    if( g->m.has_flag_furn( "FLAT_SURF", pt ) || g->m.has_flag( "FLAT_SURF", pt ) ||
+                        ( g->m.veh_at( pt ) && g->m.veh_at( pt )->vehicle().has_part( "KITCHEN" ) ) ) {
+                        has_table_nearby = true;
+                    }
+                }
+                if( g->m.has_flag_furn( "CAN_SIT", pos() ) && has_table_nearby ) {
+                    if( has_trait( trait_id( "TABLEMANNERS" ) ) ) {
+                        rem_morale( MORALE_ATE_WITHOUT_TABLE );
+                        add_morale( MORALE_ATE_WITH_TABLE, 3, 3, 3_hours, 2_hours, true );
+                    } else {
+                        add_morale( MORALE_ATE_WITH_TABLE, 1, 1, 3_hours, 2_hours, true );
+                    }
+                } else {
+                    if( has_trait( trait_id( "TABLEMANNERS" ) ) ) {
+                        rem_morale( MORALE_ATE_WITH_TABLE );
+                        add_morale( MORALE_ATE_WITHOUT_TABLE, -2, -4, 3_hours, 2_hours, true );
+                    }
+                }
+            }
         }
     }
 
