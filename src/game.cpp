@@ -11765,13 +11765,18 @@ void game::update_overmap_seen()
     const int dist_squared = dist * dist;
     // We can always see where we're standing
     overmap_buffer.set_seen( ompos.x, ompos.y, ompos.z, true );
+    for( int dx = -dist; dx <= dist; dx++ ) {
+        for( int dy = -dist; dy <= dist; dy++ ) {
+            if( trigdist && dx * dx + dy * dy > dist_squared ) {
                 continue;
             }
             int x = ompos.x + dx;
             int y = ompos.y + dy;
             float multiplier;
+            if( trigdist ) {
                 float angle = atan2( y - ompos.y, x - ompos.x ) + M_PI;
                 angle = fmod( angle, M_PI / 2 );
+                if( angle > M_PI / 4 ) {
                     angle = M_PI / 2 - angle;
                 }
                 multiplier = 1 / cos( angle );
