@@ -437,10 +437,7 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
                     continue;
                 }
 
-                const char *utf8str = cell.ch.c_str();
-                int len = cell.ch.length();
-
-                tmp = UTF8_getch( &utf8str, &len );
+                tmp = UTF8_getch( cell.ch );
                 if( tmp != UNKNOWN_UNICODE ) {
 
                     int color = RGB( windowsPalette[FG].rgbRed, windowsPalette[FG].rgbGreen,

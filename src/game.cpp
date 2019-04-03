@@ -823,10 +823,11 @@ void game::load_npcs()
     // uses submap coordinates
     std::vector<std::shared_ptr<npc>> just_added;
     for( const auto &temp : overmap_buffer.get_npcs_near_player( radius ) ) {
+
         if( temp->is_active() ) {
             continue;
         }
-        if( temp->has_companion_mission() ) {
+        if( ( temp->has_companion_mission() ) && ( temp->mission != NPC_MISSION_TRAVELLING ) ) {
             continue;
         }
 
@@ -918,10 +919,11 @@ bool game::cleanup_at_end()
         for( monster &critter : all_monsters() ) {
             despawn_monster( critter );
         }
+        // Reset NPC factions and disposition
+        reset_npc_dispositions();
         // Save the factions', missions and set the NPC's overmap coordinates
         // Npcs are saved in the overmap.
         save_factions_missions_npcs(); //missions need to be saved as they are global for all saves.
-
         // save artifacts.
         save_artifacts();
 
@@ -1467,6 +1469,9 @@ bool game::do_turn()
     // consider a stripped down cache just for monsters.
     m.build_map_cache( get_levz(), true );
     monmove();
+    if( calendar::once_every( 3_minutes ) ) {
+        overmap_npc_move();
+    }
     update_stair_monsters();
     u.process_turn();
     if( u.moves < 0 && get_option<bool>( "FORCE_REDRAW" ) ) {
@@ -1839,12 +1844,19 @@ void game::add_npc_follower( const int &id )
 } ) ) {
         follower_ids.push_back( id );
     }
+    if( !std::any_of( u.follower_ids.begin(), u.follower_ids.end(), [id]( int i ) {
+    return i == id;
+} ) ) {
+        u.follower_ids.push_back( id );
+    }
 }
 
 void game::remove_npc_follower( const int &id )
 {
     follower_ids.erase( std::remove( follower_ids.begin(), follower_ids.end(), id ),
                         follower_ids.end() );
+    follower_ids.erase( std::remove( u.follower_ids.begin(), u.follower_ids.end(), id ),
+                        u.follower_ids.end() );
 }
 
 void game::validate_npc_followers()
@@ -1857,11 +1869,15 @@ void game::validate_npc_followers()
         add_npc_follower( elem->getID() );
     }
     // Make sure overmapbuffered NPC followers are in the list.
-    for( const auto &temp_guy : overmap_buffer.get_npcs_near_player( 200 ) ) {
+    for( const auto &temp_guy : overmap_buffer.get_npcs_near_player( 300 ) ) {
         npc *guy = temp_guy.get();
         if( ( guy->is_friend() && guy->is_following() ) || guy->has_companion_mission() ) {
             add_npc_follower( guy->getID() );
         }
+    }
+    // Make sure that serialized player followers sync up with game list
+    for( const auto &temp_guy : u.follower_ids ) {
+        add_npc_follower( temp_guy );
     }
 }
 
@@ -2459,6 +2475,7 @@ void game::death_screen()
     Messages::display_messages();
     disp_kills();
     disp_NPC_epilogues();
+    follower_ids.clear();
     disp_faction_ends();
 }
 
@@ -2683,6 +2700,30 @@ bool game::load_packs( const std::string &msg, const std::vector<mod_id> &packs,
     return missing.empty();
 }
 
+void game::reset_npc_dispositions()
+{
+    for( auto elem : follower_ids ) {
+        std::shared_ptr<npc> npc_to_get = overmap_buffer.find_npc( elem );
+        npc *npc_to_add = npc_to_get.get();
+        npc_to_add->chatbin.missions.clear();
+        npc_to_add->chatbin.missions_assigned.clear();
+        npc_to_add->mission = NPC_MISSION_NULL;
+        npc_to_add->chatbin.mission_selected = nullptr;
+        npc_to_add->set_attitude( NPCATT_NULL );
+        npc_to_add->op_of_u.anger = 0;
+        npc_to_add->op_of_u.fear = 0;
+        npc_to_add->op_of_u.trust = 0;
+        npc_to_add->op_of_u.value = 0;
+        npc_to_add->op_of_u.owed = 0;
+        npc_to_add->set_fac( faction_id( "wasteland_scavengers" ) );
+        npc_to_add->add_new_mission( mission::reserve_random( ORIGIN_ANY_NPC,
+                                     npc_to_add->global_omt_location(),
+                                     npc_to_add->getID() ) );
+
+    }
+
+}
+
 //Saves all factions and missions and npcs.
 bool game::save_factions_missions_npcs()
 {
@@ -2881,7 +2922,8 @@ void game::debug()
         _( "Show debug message" ),              // 34
         _( "Crash game (test crash handling)" ),// 35
         _( "Spawn Map Extra" ),                 // 36
-        _( "Quit to Main Menu" ),               // 37
+        _( "Toggle NPC pathfinding on map" ),   // 37
+        _( "Quit to Main Menu" ),               // 38
     } );
     refresh_all();
     switch( action ) {
@@ -3293,6 +3335,9 @@ void game::debug()
             break;
         }
         case 37:
+            debug_pathfinding = !debug_pathfinding;
+            break;
+        case 38:
             if( query_yn(
                     _( "Quit without saving? This may cause issues such as duplicated or missing items and vehicles!" ) ) ) {
                 u.moves = 0;
@@ -3368,14 +3413,14 @@ void game::disp_NPC_epilogues()
                            std::max( 0, ( TERMX - FULL_SCREEN_WIDTH ) / 2 ) );
     epilogue epi;
     // TODO: This search needs to be expanded to all NPCs
-    for( const npc &guy : all_npcs() ) {
-        if( guy.is_friend() ) {
-            epi.random_by_group( guy.male ? "male" : "female" );
-            std::vector<std::string> txt;
-            txt.emplace_back( epi.text );
-            draw_border( w, BORDER_COLOR, guy.name, c_black_white );
-            multipage( w, txt, "", 2 );
-        }
+    for( auto elem : follower_ids ) {
+        std::shared_ptr<npc> npc_to_get = overmap_buffer.find_npc( elem );
+        npc *guy = npc_to_get.get();
+        epi.random_by_group( guy->male ? "male" : "female" );
+        std::vector<std::string> txt;
+        txt.emplace_back( epi.text );
+        draw_border( w, BORDER_COLOR, guy->name, c_black_white );
+        multipage( w, txt, "", 2 );
     }
 
     refresh_all();
@@ -4622,6 +4667,42 @@ void game::monmove()
         }
     }
     cleanup_dead();
+}
+
+void game::overmap_npc_move()
+{
+    std::vector<npc *> travelling_npcs;
+    // for now just processing NPC followers on travelling missions
+    for( auto &elem : get_follower_list() ) {
+        std::shared_ptr<npc> npc_to_get = overmap_buffer.find_npc( elem );
+        npc *npc_to_add = npc_to_get.get();
+        if( ( !npc_to_add->is_active() || rl_dist( u.pos(), npc_to_add->pos() ) > SEEX * 2 ) &&
+            npc_to_add->mission == NPC_MISSION_TRAVELLING ) {
+            travelling_npcs.push_back( npc_to_add );
+        }
+    }
+    for( auto &elem : travelling_npcs ) {
+        if( elem->has_omt_destination() ) {
+            tripoint sm_tri;
+            tripoint next_point;
+            std::vector<tripoint> path = overmap_buffer.get_npc_path( elem->global_omt_location(), elem->goal );
+            elem->omt_path = path;
+            if( path.size() > 1 ) {
+                next_point = path[std::max<size_t>( 0, path.size() - 2 )];
+                sm_tri = omt_to_sm_copy( next_point );
+            } else if( path.size() == 1 ) {
+                next_point = path[0];
+                sm_tri = omt_to_sm_copy( next_point );
+                elem->omt_path.clear();
+            } else if( path.empty() ) {
+                add_msg( m_info, _( "From your two-way radio you hear %s say: 'Sorry Boss can't make it there!'" ),
+                         elem->disp_name() );
+            }
+            elem->travel_overmap( sm_tri );
+            reload_npcs();
+        }
+    }
+    return;
 }
 
 void game::flashbang( const tripoint &p, bool player_immune )
@@ -9755,7 +9836,7 @@ bool game::prompt_dangerous_tile( const tripoint &dest_loc ) const
             if( !boardable ) {
                 harmful_stuff.emplace_back( tr.name().c_str() );
             }
-        } else if( tr.can_see( dest_loc, u ) && !tr.is_benign() ) {
+        } else if( tr.can_see( dest_loc, u ) && !tr.is_benign() && !boardable ) {
             harmful_stuff.emplace_back( tr.name().c_str() );
         }
 
@@ -10408,7 +10489,6 @@ void game::place_player( const tripoint &dest_loc )
                             vp1 ) ) {
         u.stop_hauling();
     }
-
     u.setpos( dest_loc );
     update_map( u );
     // Important: don't use dest_loc after this line. `update_map` may have shifted the map
@@ -10422,16 +10502,24 @@ void game::place_player( const tripoint &dest_loc )
         if( forage_type != "off" ) {
             static const auto forage = [&]( const tripoint & pos ) {
                 const auto &xter_t = m.ter( pos ).obj().examine;
-                const bool forage_bushes = forage_type == "both" || forage_type == "bushes";
-                const bool forage_trees = forage_type == "both" || forage_type == "trees";
+                const auto &xfurn_t = m.furn( pos ).obj().examine;
+                const bool forage_everything = forage_type == "both";
+                const bool forage_bushes = forage_everything || forage_type == "bushes";
+                const bool forage_trees = forage_everything || forage_type == "trees";
                 if( xter_t == &iexamine::none ) {
                     return;
                 } else if( ( forage_bushes && xter_t == &iexamine::shrub_marloss ) ||
                            ( forage_bushes && xter_t == &iexamine::shrub_wildveggies ) ||
+                           ( forage_bushes && xter_t == &iexamine::harvest_ter_nectar ) ||
                            ( forage_trees && xter_t == &iexamine::tree_marloss ) ||
-                           ( forage_trees && xter_t == &iexamine::harvest_ter )
+                           ( forage_trees && xter_t == &iexamine::harvest_ter ) ||
+                           ( forage_trees && xter_t == &iexamine::harvest_ter_nectar )
                          ) {
                     xter_t( u, pos );
+                } else if( ( forage_everything && xfurn_t == &iexamine::harvest_furn ) ||
+                           ( forage_everything && xfurn_t == &iexamine::harvest_furn_nectar )
+                         ) {
+                    xfurn_t( u, pos );
                 }
             };
 
@@ -10608,7 +10696,6 @@ void game::place_player_overmap( const tripoint &om_dest )
     // player will be centered in the middle of the map.
     const tripoint map_om_pos( om_dest.x * 2 - HALF_MAPSIZE, om_dest.y * 2 - HALF_MAPSIZE, om_dest.z );
     const tripoint player_pos( u.pos().x, u.pos().y, map_om_pos.z );
-
     load_map( map_om_pos );
     load_npcs();
     m.spawn_monsters( true ); // Static monsters
@@ -11741,6 +11828,9 @@ void game::update_overmap_seen()
             }
             if( sight_points >= 0 ) {
                 overmap_buffer.set_seen( x, y, ompos.z, true );
+                for( int z = ompos.z - 1; z >= 0; z-- ) {
+                    overmap_buffer.set_seen( x, y, z, true );
+                }
             }
         }
     }

@@ -1222,12 +1222,12 @@
     ]
   },{
     "type":"monstergroup",
-    "name" : "GROUP_MAYBE_MIL", "//" : "50% chance military zombie",
+    "name" : "GROUP_MAYBE_MIL", "//" : "50% chance military zombie or robot",
     "default" : "mon_null",
     "monsters" : [
       { "monster" : "mon_zombie_soldier", "freq" : 35, "cost_multiplier" : 1 },
-      { "monster" : "mon_zombie_grenadier", "freq" : 10, "cost_multiplier" : 50 },
-      { "monster" : "mon_zombie_grenadier_elite", "freq" : 5, "cost_multiplier" : 80 },
+      { "monster" : "mon_dispatch", "freq" : 10, "cost_multiplier" : 50 },
+      { "monster" : "mon_dispatch_military", "freq" : 5, "cost_multiplier" : 80 },
       { "monster" : "mon_zombie_flamer", "freq" : 10, "cost_multiplier" : 50 },
       { "monster" : "mon_zombie_military_pilot", "freq" : 0, "cost_multiplier" : 1 }
     ]
@@ -1707,6 +1707,21 @@
       { "monster" : "mon_zombie_runner", "freq" : 20, "cost_multiplier" : 5, "pack_size": [1,4] },
       { "monster" : "mon_zombie_brainless", "freq" : 55, "cost_multiplier" : 1 },
       { "monster" : "mon_zombie_ears", "freq" : 20, "cost_multiplier" : 5 }
+    ]
+  },
+  {
+    "name": "GROUP_MALL",
+    "type": "monstergroup",
+    "default": "mon_zombie",
+    "replace_monster_group": true,
+    "new_monster_group_id": "GROUP_ZOMBIE_MID",
+    "replacement_time": 14,
+    "monsters": [
+      { "monster": "mon_zombie", "freq": 100, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_fat", "freq": 30, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_cop", "freq": 10, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_child", "freq": 20, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_crawler", "freq": 10, "cost_multiplier": 1 }
     ]
   }
 ]

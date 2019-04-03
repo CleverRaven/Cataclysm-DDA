@@ -26,6 +26,7 @@
 #include "fungal_effects.h"
 #include "game.h"
 #include "get_version.h"
+#include "gun_mode.h"
 #include "help.h" // get_hint
 #include "input.h"
 #include "inventory.h"
@@ -223,6 +224,9 @@ static const bionic_id bio_ups( "bio_ups" );
 static const bionic_id bio_watch( "bio_watch" );
 static const bionic_id bio_synaptic_regen( "bio_synaptic_regen" );
 
+// Aftershock stuff!
+static const bionic_id afs_bio_linguistic_coprocessor( "afs_bio_linguistic_coprocessor" );
+
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_ACIDPROOF( "ACIDPROOF" );
 static const trait_id trait_ADDICTIVE( "ADDICTIVE" );
@@ -256,6 +260,7 @@ static const trait_id trait_COLDBLOOD2( "COLDBLOOD2" );
 static const trait_id trait_COLDBLOOD3( "COLDBLOOD3" );
 static const trait_id trait_COLDBLOOD4( "COLDBLOOD4" );
 static const trait_id trait_COMPOUND_EYES( "COMPOUND_EYES" );
+static const trait_id trait_DEAF( "DEAF" );
 static const trait_id trait_DEBUG_BIONIC_POWER( "DEBUG_BIONIC_POWER" );
 static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
@@ -2709,6 +2714,7 @@ int player::overmap_sight_range( int light_level ) const
 
     /** @EFFECT_PER determines overmap sight range */
     sight += ( -4 + static_cast<int>( get_per() / 2 ) );
+    sight += std::max( 0, posz() ) * 2; // the higher up you are, the farther you can see
     bool has_optic = ( has_item_with_flag( "ZOOM" ) || has_bionic( bio_eye_optic ) );
 
     if( has_trait( trait_EAGLEEYED ) && has_optic ) { //optic AND scout = +15
@@ -3015,9 +3021,15 @@ int player::read_speed( bool return_stat_effect ) const
     const int intel = get_int();
     /** @EFFECT_INT increases reading speed */
     int ret = 1000 - 50 * ( intel - 8 );
+
+    if( has_bionic( afs_bio_linguistic_coprocessor ) ) { // Aftershock
+        ret *= .85;
+    }
+
     if( has_trait( trait_FASTREADER ) ) {
         ret *= .8;
     }
+
     if( has_trait( trait_PROF_DICEMASTER ) ) {
         ret *= .9;
     }
@@ -6064,8 +6076,8 @@ void player::suffer()
         add_effect( effect_shakes, 5_minutes );
         sfx::play_variant_sound( "bionics", "elec_crackle_med", 100 );
     }
-    if( has_bionic( bio_leaky ) && one_in( 500 ) ) {
-        mod_healthy_mod( -50, -200 );
+    if( has_bionic( bio_leaky ) && one_in( 60 ) ) {
+        mod_healthy_mod( -1, -200 );
     }
     if( has_bionic( bio_sleepy ) && one_in( 500 ) && !in_sleep_state() ) {
         mod_fatigue( 1 );
@@ -11300,10 +11312,10 @@ bool player::has_magazine_for_ammo( const ammotype &at ) const
 }
 
 // mytest return weapon name to display in sidebar
-std::string player::weapname() const
+std::string player::weapname( unsigned int truncate ) const
 {
     if( weapon.is_gun() ) {
-        std::string str = weapon.type_name();
+        std::string str = string_format( "(%s) %s", weapon.gun_current_mode().name(), weapon.type_name() );
 
         // Is either the base item or at least one auxiliary gunmod loaded (includes empty magazines)
         bool base = weapon.ammo_capacity() > 0 && !weapon.has_flag( "RELOAD_AND_SHOOT" );
@@ -11345,7 +11357,7 @@ std::string player::weapname() const
         return _( "fists" );
 
     } else {
-        return weapon.tname( 1, false );
+        return weapon.tname( 1, true, truncate );
     }
 }
 
@@ -12026,7 +12038,7 @@ void player::add_known_trap( const tripoint &pos, const trap &t )
 
 bool player::is_deaf() const
 {
-    return get_effect_int( effect_deaf ) > 2 || worn_with_flag( "DEAF" ) ||
+    return get_effect_int( effect_deaf ) > 2 || worn_with_flag( "DEAF" ) || has_trait( trait_DEAF ) ||
            ( has_active_bionic( bio_earplugs ) && !has_active_bionic( bio_ears ) ) ||
            ( has_trait( trait_M_SKIN3 ) && g->m.has_flag_ter_or_furn( "FUNGUS", pos() ) && in_sleep_state() );
 }

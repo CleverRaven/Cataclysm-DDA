@@ -665,9 +665,7 @@ void CachedTTFFont::OutputChar( const std::string &ch, const int x, const int y,
 
 void BitmapFont::OutputChar( const std::string &ch, int x, int y, unsigned char color )
 {
-    int len = ch.length();
-    const char *s = ch.c_str();
-    const long t = UTF8_getch( &s, &len );
+    const long t = UTF8_getch( ch );
     BitmapFont::OutputChar( t, x, y, color );
 }
 
@@ -1241,9 +1239,7 @@ bool Font::draw_window( const catacurses::window &w, const int offsetx, const in
                 FillRectDIB( drawx, drawy, fontwidth, fontheight, cell.BG );
                 continue;
             }
-            const char *utf8str = cell.ch.c_str();
-            int len = cell.ch.length();
-            const int codepoint = UTF8_getch( &utf8str, &len );
+            const int codepoint = UTF8_getch( cell.ch );
             const catacurses::base_color FG = cell.FG;
             const catacurses::base_color BG = cell.BG;
             if( codepoint != UNKNOWN_UNICODE ) {
@@ -2767,10 +2763,8 @@ void CheckMessages()
             break;
             case SDL_TEXTINPUT:
                 if( !add_alt_code( *ev.text.text ) ) {
-                    const char *c = ev.text.text;
-                    int len = strlen( ev.text.text );
-                    if( len > 0 ) {
-                        const unsigned lc = UTF8_getch( &c, &len );
+                    if( strlen( ev.text.text ) > 0 ) {
+                        const unsigned lc = UTF8_getch( ev.text.text );
                         last_input = input_event( lc, CATA_INPUT_KEYBOARD );
 #ifdef __ANDROID__
                         if( !android_is_hardware_keyboard_available() ) {
@@ -2801,10 +2795,8 @@ void CheckMessages()
                 }
                 break;
             case SDL_TEXTEDITING: {
-                const char *c = ev.edit.text;
-                int len = strlen( ev.edit.text );
-                if( len > 0 ) {
-                    const unsigned lc = UTF8_getch( &c, &len );
+                if( strlen( ev.edit.text ) > 0 ) {
+                    const unsigned lc = UTF8_getch( ev.edit.text );
                     last_input = input_event( lc, CATA_INPUT_KEYBOARD );
                 } else {
                     // no key pressed in this event

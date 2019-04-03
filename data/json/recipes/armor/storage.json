@@ -156,6 +156,19 @@
     "components": [ [ [ "leather", 8 ] ] ]
   },
   {
+    "result": "torso_bandolier_shotgun",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "skills_required": [ [ "gun", 1 ], [ "shotgun", 1 ] ],
+    "time": 100000,
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 60 ], [ "cordage", 2 ] ],
+    "components": [ [ [ "leather", 14 ] ] ]
+  },
+  {
     "result": "bandolier_wrist",
     "type": "recipe",
     "category": "CC_ARMOR",

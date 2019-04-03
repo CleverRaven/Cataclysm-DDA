@@ -1659,6 +1659,24 @@
     "flags": [ "VARSIZE", "STURDY" ]
   },
   {
+    "id": "chainmail_hauberk",
+    "type": "ARMOR",
+    "name": "chainmail hauberk",
+    "description": "A fully customized chainmail outfit, leaving the head uncovered.  The shirt, arms, and leggings have been modified with leather straps to deal with uneven weight distribution and to allow them to be used separately.",
+    "weight": 13977,
+    "volume": 10,
+    "price": 24988,
+    "to_hit": -1,
+    "material": [ "iron", "leather" ],
+    "symbol": "[",
+    "color": "light_red",
+    "covers": [ "TORSO", "ARMS", "LEGS" ],
+    "coverage": 95,
+    "encumbrance": 20,
+    "material_thickness": 4,
+    "flags": [ "VARSIZE", "STURDY" ]
+  },
+  {
     "id": "chainmail_suit",
     "type": "ARMOR",
     "category": "armor",
@@ -2350,7 +2368,7 @@
     "covers": [ "HAND_EITHER" ],
     "coverage": 5,
     "use_action": "WEATHER_TOOL",
-    "flags": [ "WATCH", "WATER_FRIENDLY", "THERMOMETER", "BELTED", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ]
+    "flags": [ "WATCH", "ALARMCLOCK", "WATER_FRIENDLY", "THERMOMETER", "BELTED", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ]
   },
   {
     "id": "down_blanket",

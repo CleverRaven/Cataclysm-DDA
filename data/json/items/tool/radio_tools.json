@@ -125,7 +125,8 @@
     "color": "green",
     "ammo": "battery",
     "initial_charges": 100,
-    "max_charges": 100
+    "max_charges": 100,
+    "flags": [ "TWO_WAY_RADIO" ]
   },
   {
     "id": "remotevehcontrol",

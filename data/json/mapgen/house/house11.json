@@ -83,7 +83,7 @@
         "o": "f_bookcase",
         "r": "f_rack"
       },
-      "toilets": { "t": {} },
+      "toilets": { "t": {  } },
       "items": { "p": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] } },
       "place_loot": [
         { "group": "homebooks", "x": [ 13, 13 ], "y": [ 11, 12 ], "chance": 70, "repeat": [ 1, 3 ] },

@@ -1103,6 +1103,7 @@ void new_faction_manager::display() const
         LAST_TAB = NUM_TABS - 1
     };
     g->validate_camps();
+    g->validate_npc_followers();
     tab_mode tab = tab_mode::FIRST_TAB;
     const int entries_per_page = FULL_SCREEN_HEIGHT - 4;
     size_t selection = 0;
@@ -1118,7 +1119,6 @@ void new_faction_manager::display() const
     while( true ) {
         werase( w_missions );
         // create a list of NPCs, visible and the ones on overmapbuffer
-        g->validate_npc_followers();
         std::vector<npc *> followers;
         for( auto &elem : g->get_follower_list() ) {
             std::shared_ptr<npc> npc_to_get = overmap_buffer.find_npc( elem );
@@ -1127,6 +1127,7 @@ void new_faction_manager::display() const
         }
         npc *guy = nullptr;
         bool interactable = false;
+        bool radio_interactable = false;
         basecamp *camp = nullptr;
         // create a list of faction camps
         std::vector<basecamp *> camps;
@@ -1243,12 +1244,38 @@ void new_faction_manager::display() const
                         mvwprintz( w_missions, ++y, 31, c_light_gray, _( "Press enter to talk to this follower " ) );
                         std::string mission_string;
                         if( guy->has_companion_mission() ) {
+                            std::string dest_string;
                             npc_companion_mission c_mission = guy->get_companion_mission();
-                            mission_string = _( "Current Mision : " ) + get_mission_action_string( c_mission.mission_id );
+                            cata::optional<tripoint> dest = guy->get_mission_destination();
+                            if( dest ) {
+                                basecamp *dest_camp;
+                                cata::optional<basecamp *> temp_camp = overmap_buffer.find_camp( dest->x, dest->y );
+                                if( temp_camp ) {
+                                    dest_camp = *temp_camp;
+                                    std::string camp_string = dest_camp->camp_name();
+                                    dest_string = _( "travelling to : " ) + camp_string;
+                                } else {
+                                    std::ostringstream oss;
+                                    oss << _( "travelling to : (" ) << dest->x << "," << dest->y << ")";
+                                    dest_string = oss.str();
+                                }
+                                mission_string = _( "Current Mission : " ) + dest_string;
+                            } else {
+                                mission_string = _( "Current Mission : " ) + get_mission_action_string( c_mission.mission_id );
+                            }
                         }
                         fold_and_print( w_missions, ++y, 31, getmaxx( w_missions ) - 33, col,
                                         mission_string );
                         tripoint guy_abspos = guy->global_omt_location();
+                        basecamp *stationed_at;
+                        bool is_stationed = false;
+                        cata::optional<basecamp *> p = overmap_buffer.find_camp( guy_abspos.x, guy_abspos.y );
+                        if( p ) {
+                            is_stationed = true;
+                            stationed_at = *p;
+                        } else {
+                            stationed_at = nullptr;
+                        }
                         std::string direction = direction_name( direction_from(
                                 player_abspos, guy_abspos ) );
                         std::string centerstring = "center";
@@ -1259,23 +1286,45 @@ void new_faction_manager::display() const
                             mvwprintz( w_missions, ++y, 31, col,
                                        _( "Direction : Nearby" ) );
                         }
-                        mvwprintz( w_missions, ++y, 31, col, _( "Location : (%d, %d)" ), guy_abspos.x, guy_abspos.y );
+                        if( is_stationed ) {
+                            mvwprintz( w_missions, ++y, 31, col, _( "Location : (%d, %d), at camp: %s" ), guy_abspos.x,
+                                       guy_abspos.y, stationed_at->camp_name() );
+                        } else {
+                            mvwprintz( w_missions, ++y, 31, col, _( "Location : (%d, %d)" ), guy_abspos.x, guy_abspos.y );
+                        }
                         std::string can_see;
                         nc_color see_color;
-                        const std::vector<npc *> interactable_followers = g->get_npcs_if( [&]( const npc & guy ) {
-                            return ( ( guy.is_friend() && guy.is_following() ) || guy.mission == NPC_MISSION_GUARD_ALLY ) &&
-                                   g->u.posz() == guy.posz() &&
-                                   g->u.sees( guy.pos() ) && rl_dist( g->u.pos(), guy.pos() ) <= SEEX * 2;
-                        } );
-                        if( std::find( interactable_followers.begin(), interactable_followers.end(),
-                                       guy ) != interactable_followers.end() ) {
+                        // TODO NPCS on mission contactable same as travelling
+                        if( guy->has_companion_mission() && guy->mission != NPC_MISSION_TRAVELLING ) {
+                            can_see = "Not interactable while on a mission";
+                            see_color = c_light_red;
+                        } else if( rl_dist( g->u.pos(), guy->pos() ) > SEEX * 2 || !g->u.sees( guy->pos() ) ) {
+                            if( g->u.has_item_with_flag( "TWO_WAY_RADIO", true ) &&
+                                guy->has_item_with_flag( "TWO_WAY_RADIO", true ) ) {
+                                if( ( g->u.pos().z >= 0 && guy->pos().z >= 0 ) || ( g->u.pos().z == guy->pos().z ) ) {
+                                    radio_interactable = true;
+                                    can_see = "Within radio range";
+                                    see_color = c_light_green;
+                                } else {
+                                    can_see = "Not within radio range";
+                                    see_color = c_light_red;
+                                }
+                            } else if( guy->has_item_with_flag( "TWO_WAY_RADIO", true ) &&
+                                       !g->u.has_item_with_flag( "TWO_WAY_RADIO", true ) ) {
+                                can_see = "You do not have a radio";
+                                see_color = c_light_red;
+                            } else if( !guy->has_item_with_flag( "TWO_WAY_RADIO", true ) &&
+                                       g->u.has_item_with_flag( "TWO_WAY_RADIO", true ) ) {
+                                can_see = "Follower does not have a radio";
+                                see_color = c_light_red;
+                            } else {
+                                can_see = "Both you and follower need a radio";
+                                see_color = c_light_red;
+                            }
+                        } else {
                             interactable = true;
                             can_see = "Within interaction range";
                             see_color = c_light_green;
-                        } else {
-                            interactable = false;
-                            can_see = "Not within interaction range";
-                            see_color = c_light_red;
                         }
                         mvwprintz( w_missions, ++y, 31, see_color, can_see );
                         nc_color status_col = col;
@@ -1373,8 +1422,12 @@ void new_faction_manager::display() const
                 selection--;
             }
         } else if( action == "CONFIRM" ) {
-            if( tab == tab_mode::TAB_FOLLOWERS && interactable && guy ) {
-                guy->talk_to_u();
+            if( tab == tab_mode::TAB_FOLLOWERS && guy && ( interactable || radio_interactable ) ) {
+                if( radio_interactable ) {
+                    guy->talk_to_u( false, true );
+                } else {
+                    guy->talk_to_u();
+                }
             } else if( tab == tab_mode::TAB_MYFACTION && camp ) {
                 camp->query_new_name();
             }
