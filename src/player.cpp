@@ -223,6 +223,9 @@ static const bionic_id bio_ups( "bio_ups" );
 static const bionic_id bio_watch( "bio_watch" );
 static const bionic_id bio_synaptic_regen( "bio_synaptic_regen" );
 
+// Aftershock stuff!
+static const bionic_id afs_bio_linguistic_coprocessor( "afs_bio_linguistic_coprocessor" );
+
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_ACIDPROOF( "ACIDPROOF" );
 static const trait_id trait_ADDICTIVE( "ADDICTIVE" );
@@ -3017,9 +3020,15 @@ int player::read_speed( bool return_stat_effect ) const
     const int intel = get_int();
     /** @EFFECT_INT increases reading speed */
     int ret = 1000 - 50 * ( intel - 8 );
+
+    if( has_bionic( afs_bio_linguistic_coprocessor ) ) { // Aftershock
+        ret *= .85;
+    }
+
     if( has_trait( trait_FASTREADER ) ) {
         ret *= .8;
     }
+
     if( has_trait( trait_PROF_DICEMASTER ) ) {
         ret *= .9;
     }
