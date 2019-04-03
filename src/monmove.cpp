@@ -1629,9 +1629,7 @@ void monster::shove_vehicle( const tripoint &remote_destination,
                 g->u.add_msg_if_player( m_bad, _( "%1$s shoves %2$s out of their way!" ), this->disp_name(),
                                         veh.disp_name() );
                 int shove_moves = shove_veh_mass_moves_factor * veh_mass / 10_kilogram;
-                if( shove_moves < shove_moves_minimal ) {
-                    shove_moves = shove_moves_minimal;
-                }
+                shove_moves = std::max( shove_moves, shove_moves_minimal );
                 this->mod_moves( -shove_moves );
                 const int destination_delta_x = remote_destination.x - nearby_destination.x;
                 const int destination_delta_y = remote_destination.y - nearby_destination.y;
