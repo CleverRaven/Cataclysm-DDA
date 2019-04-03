@@ -576,7 +576,7 @@
     "id": "mon_prototype_cyborg",
     "type": "MONSTER",
     "name": "prototype cyborg",
-    "description": "A human fused with a mess of metal parts and wires.  While its eyes are empty, its face seems constantly contorted by pain.",
+    "description": "A human fused with a mess of metal parts and wires.  While its eyes are empty, flashes of pain pass accross its face reminiscent of the person trapped in this grotesque body.",
     "default_faction": "science",
     "bodytype": "human",
     "species": [ "ROBOT" ],
