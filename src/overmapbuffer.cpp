@@ -635,9 +635,13 @@ bool overmapbuffer::reveal( const point &center, int radius, int z )
 
 bool overmapbuffer::reveal( const tripoint &center, int radius )
 {
+    int radius_squared = radius * radius;
     bool result = false;
     for( int i = -radius; i <= radius; i++ ) {
         for( int j = -radius; j <= radius; j++ ) {
+            if( trigdist && i * i + j * j > radius_squared ) {
+                continue;
+            }
             if( !seen( center.x + i, center.y + j, center.z ) ) {
                 result = true;
                 set_seen( center.x + i, center.y + j, center.z, true );
