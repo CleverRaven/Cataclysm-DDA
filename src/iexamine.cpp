@@ -4148,11 +4148,11 @@ void smoker_finalize( player &, const tripoint &examp, const time_point &start_t
 
     for( size_t i = 0; i < items.size(); i++ ) {
         auto &item_it = items[i];
-        if( item_it.type->comestible ) {
-            if( item_it.type->comestible->smoking_result.empty() ) {
+        if( item_it.get_comestible() ) {
+            if( item_it.get_comestible()->smoking_result.empty() ) {
                 item_it.unset_flag( "SMOKING" );
             } else {
-                item result( item_it.type->comestible->smoking_result, start_time + 6_hours, item_it.charges );
+                item result( item_it.get_comestible()->smoking_result, start_time + 6_hours, item_it.charges );
 
                 // Set flag to tell set_relative_rot() to calc from bday not now
                 result.set_flag( "SMOKING_RESULT" );

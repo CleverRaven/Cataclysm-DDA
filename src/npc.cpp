@@ -1386,10 +1386,10 @@ void npc::decide_needs()
         item inventory_item = i->front();
         if( inventory_item.is_food( ) ) {
             needrank[ need_food ] += nutrition_for( inventory_item ) / 4;
-            needrank[ need_drink ] += inventory_item.type->comestible->quench / 4;
+            needrank[ need_drink ] += inventory_item.get_comestible()->quench / 4;
         } else if( inventory_item.is_food_container() ) {
             needrank[ need_food ] += nutrition_for( inventory_item.contents.front() ) / 4;
-            needrank[ need_drink ] += inventory_item.contents.front().type->comestible->quench / 4;
+            needrank[ need_drink ] += inventory_item.contents.front().get_comestible()->quench / 4;
         }
     }
     needs.clear();
@@ -1550,14 +1550,14 @@ int npc::value( const item &it, int market_price ) const
 
     if( it.is_food() ) {
         int comestval = 0;
-        if( nutrition_for( it ) > 0 || it.type->comestible->quench > 0 ) {
+        if( nutrition_for( it ) > 0 || it.get_comestible()->quench > 0 ) {
             comestval++;
         }
         if( get_hunger() > 40 ) {
             comestval += ( nutrition_for( it ) + get_hunger() - 40 ) / 6;
         }
         if( get_thirst() > 40 ) {
-            comestval += ( it.type->comestible->quench + get_thirst() - 40 ) / 4;
+            comestval += ( it.get_comestible()->quench + get_thirst() - 40 ) / 4;
         }
         if( comestval > 0 && will_eat( it ).success() ) {
             ret += comestval;
@@ -1593,11 +1593,11 @@ int npc::value( const item &it, int market_price ) const
 
     // TODO: Artifact hunting from relevant factions
     // ALSO TODO: Bionics hunting from relevant factions
-    if( fac_has_job( FACJOB_DRUGS ) && it.is_food() && it.type->comestible->addict >= 5 ) {
+    if( fac_has_job( FACJOB_DRUGS ) && it.is_food() && it.get_comestible()->addict >= 5 ) {
         ret += 10;
     }
 
-    if( fac_has_job( FACJOB_DOCTORS ) && it.is_food() && it.type->comestible->comesttype == "MED" ) {
+    if( fac_has_job( FACJOB_DOCTORS ) && it.is_food() && it.get_comestible()->comesttype == "MED" ) {
         ret += 10;
     }
 
@@ -2389,8 +2389,8 @@ bool npc::will_accept_from_player( const item &it ) const
         return false;
     }
 
-    if( const auto &comest = it.is_container() ? it.get_contained().type->comestible :
-                             it.type->comestible ) {
+    if( const auto &comest = it.is_container() ? it.get_contained().get_comestible() :
+                             it.get_comestible() ) {
         if( comest->fun < 0 || it.poison > 0 ) {
             return false;
         }

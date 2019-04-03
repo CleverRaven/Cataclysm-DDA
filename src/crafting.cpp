@@ -467,21 +467,29 @@ static item *set_item_inventory( player &p, item &newit )
     return ret_val;
 }
 
-static void return_all_components_for_craft( player &p, std::list<item> &used )
+static void return_all_components_for_craft( player &p, std::list<item> &used,
+        const double &relative_rot )
 {
-    // Force add here since the craft item is removed immediately after
     for( item &it : used ) {
+        // If the product doesn't rot, don't touch component rot.
+        if( relative_rot != 0.0 ) {
+            it.set_relative_rot( relative_rot );
+        }
         set_item_inventory( p, it );
     }
 }
 
-static void return_some_components_for_craft( player &p, std::list<item> &used )
+static void return_some_components_for_craft( player &p, std::list<item> &used,
+        const double &relative_rot )
 {
     for( std::list<item>::iterator it = used.begin(); it != used.end(); ++it ) {
-        // Force add here since the craft item is removed in the same turn
         // Each component has a 50% chance of being returned
         // Never return the first component
         if( it != used.begin() && one_in( 2 ) ) {
+            // If the product doesn't rot, don't touch component rot.
+            if( relative_rot != 0.0 ) {
+                it->set_relative_rot( relative_rot );
+            }
             set_item_inventory( p, *it );
         }
     }
@@ -630,27 +638,19 @@ void player::complete_craft( item &craft )
     }
 
     std::list<item> &used = craft.components;
+    const double relative_rot = craft.get_relative_rot();
 
     // Messed up badly; waste some components.
     if( making.difficulty != 0 && diff_roll > skill_roll * ( 1 + 0.1 * rng( 1, 5 ) ) ) {
         add_msg( m_bad, _( "You fail to make the %s, and waste some materials." ), making.result_name() );
-        return_some_components_for_craft( *this, used );
+        return_some_components_for_craft( *this, used, relative_rot );
         return;
         // Messed up slightly; no components wasted.
     } else if( diff_roll > skill_roll ) {
         add_msg( m_neutral, _( "You fail to make the %s, but don't waste any materials." ),
                  making.result_name() );
-        return_all_components_for_craft( *this, used );
+        return_all_components_for_craft( *this, used, relative_rot );
         return;
-    }
-
-    // Take the relative rot of the most rotten component
-    double max_relative_rot = 0.0;
-    for( const item &it : used ) {
-        if( !it.goes_bad() ) {
-            continue;
-        }
-        max_relative_rot = std::max( max_relative_rot, it.get_relative_rot() );
     }
 
     // Set up the new item, and assign an inventory letter if available
@@ -736,8 +736,8 @@ void player::complete_craft( item &craft )
             // if a component item has "cooks_like" it will be replaced by that item as a component
             for( item &comp : used ) {
                 // only comestibles have cooks_like.  any other type of item will throw an exception, so filter those out
-                if( comp.is_comestible() && !comp.type->comestible->cooks_like.empty() ) {
-                    comp = item( comp.type->comestible->cooks_like, comp.birthday(), comp.charges );
+                if( comp.is_comestible() && !comp.get_comestible()->cooks_like.empty() ) {
+                    comp = item( comp.get_comestible()->cooks_like, comp.birthday(), comp.charges );
                 }
             }
             // byproducts get stored as a "component" but with a byproduct flag for consumption purposes
@@ -755,12 +755,12 @@ void player::complete_craft( item &craft )
         }
 
         if( newit.goes_bad() ) {
-            newit.set_relative_rot( max_relative_rot );
+            newit.set_relative_rot( relative_rot );
         } else {
             if( newit.is_container() ) {
                 for( item &in : newit.contents ) {
                     if( in.goes_bad() ) {
-                        in.set_relative_rot( max_relative_rot );
+                        in.set_relative_rot( relative_rot );
                     }
                 }
             }
@@ -790,7 +790,7 @@ void player::complete_craft( item &craft )
         std::vector<item> bps = making.create_byproducts( batch_size );
         for( auto &bp : bps ) {
             if( bp.goes_bad() ) {
-                bp.set_relative_rot( max_relative_rot );
+                bp.set_relative_rot( relative_rot );
             }
             if( bp.is_food() ) {
                 if( should_heat ) {

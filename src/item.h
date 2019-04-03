@@ -42,6 +42,7 @@ class player;
 class npc;
 class recipe;
 struct itype;
+struct islot_comestible;
 struct mtype;
 using mtype_id = string_id<mtype>;
 using bodytype_id = std::string;
@@ -1813,6 +1814,8 @@ class item : public visitable<item>
 
         const recipe &get_making() const;
 
+        cata::optional<islot_comestible> get_comestible() const;
+
     private:
         /**
          * Calculate the thermal energy and temperature change of the item
@@ -1841,7 +1844,6 @@ class item : public visitable<item>
         // processing types, just to make the process function cleaner.
         // The interface is the same as for @ref process.
         bool process_food( const player *carrier, const tripoint &p, int temp, float insulation );
-        bool process_craft( const player *carrier, const tripoint &p, int temp, float insulation );
         bool process_corpse( player *carrier, const tripoint &pos );
         bool process_wet( player *carrier, const tripoint &pos );
         bool process_litcig( player *carrier, const tripoint &pos );
