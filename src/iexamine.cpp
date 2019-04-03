@@ -3854,7 +3854,7 @@ item &cyborg_on_couch( const tripoint &couch_pos, item &null_cyborg )
             return it;
         }
         if( it.typeId() == "corpse" ) {
-            if( it.get_mtype()->id == "mon_broken_cyborg" ) {
+            if( it.get_mtype()->id == "mon_broken_cyborg" || it.get_mtype()->id == "mon_prototype_cyborg" ) {
                 return it;
             }
         }
