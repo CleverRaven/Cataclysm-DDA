@@ -4097,7 +4097,8 @@
       { "monster": "mon_zombie_dog", "freq": 10, "cost_multiplier": 2 },
       { "monster": "mon_dog_zombie_rot", "freq": 5, "cost_multiplier": 2 },
       { "monster": "mon_zombie_swimmer", "freq": 20, "cost_multiplier": 2 },
-      { "monster": "mon_zombie_electric", "freq": 30, "cost_multiplier": 5 }
+      { "monster": "mon_zombie_electric", "freq": 30, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_survivor", "freq": 1, "cost_multiplier": 25 }
     ]
   },
   {
