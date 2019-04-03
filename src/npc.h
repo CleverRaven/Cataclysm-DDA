@@ -14,6 +14,7 @@
 #include "optional.h"
 #include "pimpl.h"
 #include "player.h"
+#include "simple_pathfinding.h"
 
 class JsonObject;
 class JsonIn;
@@ -60,13 +61,14 @@ enum npc_attitude : int {
     NPCATT_MUG,  // Mug the player
     NPCATT_WAIT_FOR_LEAVE, // Attack the player if our patience runs out
     NPCATT_KILL,  // Kill the player
-    NPCATT_FLEE,  // Get away from the player
+    NPCATT_FLEE,  // Get away from the player; deprecated
     NPCATT_LEGACY_3,
     NPCATT_HEAL,  // Get to the player and heal them
 
     NPCATT_LEGACY_4,
     NPCATT_LEGACY_5,
     NPCATT_ACTIVITY, // Perform a mission activity
+    NPCATT_FLEE_TEMP, // Get away from the player for a while
     NPCATT_END
 };
 
@@ -89,15 +91,18 @@ enum npc_mission : int {
     NPC_MISSION_LEGACY_2,
     NPC_MISSION_LEGACY_3,
 
-    NPC_MISSION_GUARD, // Assigns an non-allied NPC to guard a position
     NPC_MISSION_GUARD_ALLY, // Assigns an allied NPC to guard a position
+    NPC_MISSION_GUARD, // Assigns an non-allied NPC to remain in place
+    NPC_MISSION_GUARD_PATROL, // Assigns a non-allied NPC to guard and investigate
     NPC_MISSION_ACTIVITY, // Perform a player_activity until it is complete
+    NPC_MISSION_TRAVELLING,
 };
 
 struct npc_companion_mission {
     std::string mission_id;
     tripoint position;
     std::string role_id;
+    cata::optional<tripoint> destination;
 };
 
 std::string npc_class_name( const npc_class_id & );
@@ -258,6 +263,12 @@ struct npc_follower_rules {
 
 };
 
+struct dangerous_sound {
+    tripoint pos;
+    int type;
+    int volume;
+};
+
 const direction npc_threat_dir[8] = { NORTHWEST, NORTH, NORTHEAST, EAST,
                                       SOUTHEAST, SOUTH, SOUTHWEST, WEST
                                     };
@@ -269,7 +280,12 @@ struct npc_short_term_cache {
     float danger_assessment;
     // Use weak_ptr to avoid circular references between Creatures
     std::weak_ptr<Creature> target;
-
+    // map of positions / type / volume of suspicious sounds
+    std::vector<dangerous_sound> sound_alerts;
+    // current sound position being investigated
+    tripoint spos;
+    // Position to return to guarding
+    cata::optional<tripoint> guard_pos;
     double my_weapon_value;
 
     // Use weak_ptr to avoid circular references between Creatures
@@ -590,6 +606,7 @@ class npc : public player
         bool has_player_activity() const;
         /** Standing in one spot, moving back if removed from it. */
         bool is_guarding() const;
+        bool is_travelling() const;
         /** Trusts you a lot. */
         bool is_minion() const;
         /** Is enemy or will turn into one (can't be convinced not to attack). */
@@ -602,7 +619,7 @@ class npc : public player
         int  follow_distance() const; // How closely do we follow the player?
 
         // Dialogue and bartering--see npctalk.cpp
-        void talk_to_u( bool text_only = false );
+        void talk_to_u( bool text_only = false, bool radio_contact = false );
         // Re-roll the inventory of a shopkeeper
         void shop_restock();
         // Use and assessment of items
@@ -611,6 +628,7 @@ class npc : public player
         int value( const item &it ) const;
         int value( const item &it, int market_price ) const;
         bool wear_if_wanted( const item &it );
+        void stow_item( item &it );
         bool wield( item &it ) override;
         bool adjust_worn();
         bool has_healing_item( bool bleed = false, bool bite = false, bool infect = false );
@@ -645,7 +663,7 @@ class npc : public player
         void say( const char *const line, Args &&... args ) const {
             return say( string_format( line, std::forward<Args>( args )... ) );
         }
-        void say( const std::string &line ) const;
+        void say( const std::string &line, const bool shout = false ) const;
         void decide_needs();
         void die( Creature *killer ) override;
         bool is_dead() const;
@@ -657,7 +675,7 @@ class npc : public player
         // @param force true if the complaint should happen even if not enough time has elapsed since last complaint
         // @param speech words of this complaint
         bool complain_about( const std::string &issue, const time_duration &dur,
-                             const std::string &speech, const bool force = false );
+                             const std::string &speech, const bool force = false, const bool alert = false );
         // wrapper for complain_about that warns about a specific type of threat, with
         // different warnings for hostile or friendly NPCs and hostile NPCs always complaining
         void warn_about( const std::string &type, const time_duration &d = 10_minutes,
@@ -769,7 +787,6 @@ class npc : public player
         bool do_player_activity();
 
         // Combat functions and player interaction functions
-        void wield_best_melee();
         bool alt_attack(); // Returns true if did something
         void heal_player( player &patient );
         void heal_self();
@@ -825,7 +842,7 @@ class npc : public player
          * Do not use when placing a NPC in mapgen.
          */
         void setpos( const tripoint &pos ) override;
-
+        void travel_overmap( const tripoint &pos );
         npc_attitude get_attitude() const;
         void set_attitude( npc_attitude new_attitude );
 
@@ -879,7 +896,7 @@ class npc : public player
          * if no goal exist, this is no_goal_point.
          */
         tripoint goal;
-
+        std::vector<tripoint> omt_path;
         tripoint wander_pos; // Not actually used (should be: wander there when you hear a sound)
         int wander_time;
 
@@ -932,10 +949,14 @@ class npc : public player
         void set_companion_mission( npc &p, const std::string &mission_id );
         void set_companion_mission( const tripoint &omt_pos, const std::string &role_id,
                                     const std::string &mission_id );
+        void set_companion_mission( const tripoint &omt_pos, const std::string &role_id,
+                                    const std::string &mission_id, const tripoint &destination );
         /// Unset a companion mission. Precondition: `!has_companion_mission()`
         void reset_companion_mission();
+        cata::optional<tripoint> get_mission_destination();
         bool has_companion_mission() const;
         npc_companion_mission get_companion_mission() const;
+        attitude_group get_attitude_group( npc_attitude att );
 
     protected:
         void store( JsonOut &jsout ) const;

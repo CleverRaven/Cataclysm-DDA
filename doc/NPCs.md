@@ -108,53 +108,6 @@ The dynamic line is a list of dynamic lines, all of which are displayed.  The dy
 }
 ```
 
-#### Based on whether the NPC has missions available
-The dynamic line is chosen based on whether the NPC has any missions to give out.  All entries are optional.  The line from `many` will be shown in the NPC has two or more missions to assign to the player, the line from `one` will be shown if the NPC has one mission available, and otherwise the line from `none` will be shown.
-
-```C++
-{
-    "npc_has_mission": true,
-    "many": "There are lots of things you could do to help.",
-    "one": "There's one thing you could do to help.",
-    "none": "You've cleaned this place up!"
-}
-```
-
-#### Based on whether the player character is performing missions for the NPC
-The dynamic line is chosen based on whether the player character is performing any missions for the NPC.  All entries are optional.  The line from `many` if the player character is performing two or more missions for the NPC, the line from `one` will be shown if the player is performing one mission, and otherwise the line from `none` will be shown.
-
-```C++
-{
-    "u_has_mission": true,
-    "many": "You're doing so much for this town!",
-    "one": "It looks like you have some spare time.",
-    "none": "Since you're not doing anything important, I have a favor to ask."
-}
-```
-
-#### Based on whether the player character or NPC are driving vehicles or not
-The dynamic line is chosen if the player is driving a vehicle, or the NPC is driving a vehicle, or if neither are driving vehicles.  The line from `u_driving` is chosen if the player is in control of a vehicle, the line from `npc_driving` is chosen if the NPC is in control of a vehicle, and the line from `no_vehicle` is chosen if neither are controlling a vehicle.
-
-**NOTE**: NPCs can't drive vehicles right now.
-
-```C++
-{
-    "u_driving": "I said take a left at Albequerque!",
-    "npc_driving": "Who died and put me behind the wheel?",
-    "no_vehicle": "This is a good time to chat."
-}
-```
-
-#### Based on the day/night cycle
-The dynamic line is chosen based whether it is currently daytime or nighttime.  Both entries must exist.
-
-```C++
-{
-    "is_day": "Sure is bright out.",
-    "is_night": "Look at the moon."
-}
-```
-
 #### A randomly selected hint
 The dynamic line will be randomly chosen from the hints snippets.
 
@@ -165,7 +118,7 @@ The dynamic line will be randomly chosen from the hints snippets.
 ```
 
 #### Based on any Dialogue condition
-The dynamic line will be chosen based on whether a single dialogue condition is true or false.  Dialogue conditions cannot be chained via `"and"`, `"or"`, or `"not"`.  If the condition is true, the `"yes"` response will be chosen and otherwise the `"no"` response will be chosen.  Both the `'"yes"` and `"no"` reponses are optional.  Simple string conditions must be followed by `"true"` to make them fields in the dynamic line dictionary.
+The dynamic line will be chosen based on whether a single dialogue condition is true or false.  Dialogue conditions cannot be chained via `"and"`, `"or"`, or `"not"`.  If the condition is true, the `"yes"` response will be chosen and otherwise the `"no"` response will be chosen.  Both the `'"yes"` and `"no"` reponses are optional.  Simple string conditions may be followed by `"true"` to make them fields in the dynamic line dictionary, or they can be followed by the response that will be chosen if the condition is true and the `"yes"` response can be omitted.
 
 ```C++
 {
@@ -189,6 +142,14 @@ The dynamic line will be chosen based on whether a single dialogue condition is 
     "yes": "Now, we've got a moment, I was just thinking it's been a month or so since... since all this, how are you coping with it all?",
     "no": "<neutralchitchat>"
 } 
+{
+    "is_day": "Sure is bright out.",
+    "no": {
+        "u_male": true,
+        "yes": "Want a beer?",
+        "no": "Want a cocktail?"
+    }
+}
 ```
 ---
 
@@ -306,11 +267,14 @@ For the actual usage of that data, search the source code for "op_of_u".
 The `failure` object is used if the trial fails, the `success` object is used otherwise.
 
 ### Sample trials
+```C++
 "trial": { "type": "PERSUADE", "difficulty": 0, "mod": [ [ "TRUST", 3 ], [ "VALUE", 3 ], [ "ANGER", -3 ] ] }
 "trial": { "type": "INTIMIDATE", "difficulty": 20, "mod": [ [ "FEAR", 8 ], [ "VALUE", 2 ], [ "TRUST", 2 ], [ "BRAVERY", -2 ] ] }
 "trial": { "type": "CONDITION", "condition": { "npc_has_trait": "FARMER" } }
+```
 
 `topic` can also be a single topic object (the `type` member is not required here):
+
 ```C++
 "success": {
     "topic": {
@@ -360,6 +324,8 @@ u_add_effect: effect_string, (*one of* duration: duration_string, duration: dura
 u_add_trait: trait_string<br/>npc_add_trait: trait_string | Your character or the NPC will gain the trait.
 u_lose_effect: effect_string<br/>npc_lose_effect: effect_string | Your character or the NPC will lose the effect if they have it.
 u_lose_trait: trait_string<br/>npc_lose_trait: trait_string | Your character or the NPC will lose the trait.
+u_add_var, npc_add_var: var_name, type: type_str, context: context_str, value: value_str | Your character or the NPC will store value_str as a variable that can be later retrieved by `u_has_var` or `npc_has_var`.  `npc_add_var` can be used to store arbitary local variables, and `u_add_var` can be used to store arbitary "global" variables, and should be used in preference to setting effects.
+u_lose_var, npc_lose_var: var_name, type: type_str, context: context_str | Your character or the NPC will clear any stored variable that has the same var_name, type_str, and context_str.
 
 #### Trade / Items
 
@@ -437,7 +403,7 @@ trust, value, fear, and anger are optional keywords inside the opinion object. E
 { "topic": "TALK_DENY_FOLLOW", "effect": "deny_follow", "opinion": { "fear": -1, "value": -1, "anger": 1 } }
 ```
 
-#### `mission_opinion`: { }
+#### mission_opinion: { }
 trust, value, fear, and anger are optional keywords inside the `mission_opinion` object. Each keyword must be followed by a numeric value. The NPC's opinion is modified by the value.
 
 ---
@@ -460,21 +426,23 @@ These conditions can be tested for the player using the `"u_"` form, and for the
 
 Condition | Type | Description
 --- | --- | ---
-"u_male"<br\>"npc_male" | simple string | `true` if the player character or NPC is male.
-"u_female"<br\>"npc_female" | simple string | `true` if the player character or NPC is female.
-"u_at_om_location"<br\>"npc_at_om_location" | string | `true` if the player character or NPC is standing on an overmap tile with u_at_om_location's id.  The special string "FACTION_CAMP_ANY" changes it to return true of the player or NPC is standing on a faction camp overmap tile.
-"u_has_trait"<br\>"npc_has_trait" | string | `true` if the player character or NPC has a specific trait.  Simpler versions of `u_has_any_trait` and `npc_has_any_trait` that only checks for one trait.
-"u_has_trait_flag"<br\>"npc_has_trait_flag" | string | `true` if the player character or NPC has any traits with the specific trait flag.  More robust versions of `u_has_any_trait` and `npc_has_any_trait`.  The special trait flag "MUTATION_THRESHOLD" checks to see if the player or NPC has crossed a mutation threshold.
-"u_has_any_trait"<br\>"npc_has_any_trait" | array | `true` if the player character or NPC has any trait or mutation in the array. Used to check multiple specific traits.
-"u_has_strength"<br\>"npc_has_strength" | int | `true` if the player character's or NPC's strength is at least the value of `u_has_strength` or `npc_has_strength`.
-"u_has_dexterity"<br\>"npc_has_dexterity" | int | `true` if the player character's or NPC's dexterity is at least the value of `u_has_dexterity` or `npc_has_dexterity`.
-"u_has_intelligence"<br\>"npc_has_intelligence" | int | `true` if the player character's or NPC's intelligence is at least the value of `u_has_intelligence` or `npc_has_intelligence`.
-"u_has_perception"<br\>"npc_has_perception" | int | `true` if the player character's or NPC's perception is at least the value of `u_has_perception` or `npc_has_perception`.
-"u_has_item"<br\>"npc_has_item" | string | `true` if the player character or NPC has something with `u_has_item`'s or `npc_has_item`'s `item_id` in their inventory.
-"u_has_items"<br\>"npc_has_item" | dictionary | `u_has_items` or `npc_has_items` must be a dictionary with an `item` string and a `count` int.<br/>`true` if the player character or NPC has at least `count` charges or counts of `item` in their inventory.
-"u_has_effect"<br\>"npc_has_effect" | string | `true` if the player character or NPC is under the effect with `u_has_effect` or `npc_has_effect`'s `effect_id`.
-"u_can_stow_weapon"<br\>"npc_can_stow_weapon" | simple string | `true` if the player character or NPC is wielding a weapon and has enough space to put it away.
-"u_has_weapon"<br\>"npc_has_weapon" | simple string | `true` if the player character or NPC is wielding a weapon.
+"u_male"<br/>"npc_male" | simple string | `true` if the player character or NPC is male.
+"u_female"<br/>"npc_female" | simple string | `true` if the player character or NPC is female.
+"u_at_om_location"<br/>"npc_at_om_location" | string | `true` if the player character or NPC is standing on an overmap tile with u_at_om_location's id.  The special string "FACTION_CAMP_ANY" changes it to return true of the player or NPC is standing on a faction camp overmap tile.
+"u_has_trait"<br/>"npc_has_trait" | string | `true` if the player character or NPC has a specific trait.  Simpler versions of `u_has_any_trait` and `npc_has_any_trait` that only checks for one trait.
+"u_has_trait_flag"<br/>"npc_has_trait_flag" | string | `true` if the player character or NPC has any traits with the specific trait flag.  More robust versions of `u_has_any_trait` and `npc_has_any_trait`.  The special trait flag "MUTATION_THRESHOLD" checks to see if the player or NPC has crossed a mutation threshold.
+"u_has_any_trait"<br/>"npc_has_any_trait" | array | `true` if the player character or NPC has any trait or mutation in the array. Used to check multiple specific traits.
+"u_has_var", "npc_has_var" | string | `"type"`: type_str, `"context"`: context_str, and `"value"`: value_str are required fields in the same dictionary as `"u_has_var"` or `"npc_has_var"`.<br/>`true` is the player character or NPC has a variable set by `"u_set_var"` or `"npc_set_var"` with the string, type_str, context_str, and value_str.
+"u_has_strength"<br/>"npc_has_strength" | int | `true` if the player character's or NPC's strength is at least the value of `u_has_strength` or `npc_has_strength`.
+"u_has_dexterity"<br/>"npc_has_dexterity" | int | `true` if the player character's or NPC's dexterity is at least the value of `u_has_dexterity` or `npc_has_dexterity`.
+"u_has_intelligence"<br/>"npc_has_intelligence" | int | `true` if the player character's or NPC's intelligence is at least the value of `u_has_intelligence` or `npc_has_intelligence`.
+"u_has_perception"<br/>"npc_has_perception" | int | `true` if the player character's or NPC's perception is at least the value of `u_has_perception` or `npc_has_perception`.
+"u_has_item"<br/>"npc_has_item" | string | `true` if the player character or NPC has something with `u_has_item`'s or `npc_has_item`'s `item_id` in their inventory.
+"u_has_items"<br/>"npc_has_item" | dictionary | `u_has_items` or `npc_has_items` must be a dictionary with an `item` string and a `count` int.<br/>`true` if the player character or NPC has at least `count` charges or counts of `item` in their inventory.
+"u_has_effect"<br/>"npc_has_effect" | string | `true` if the player character or NPC is under the effect with `u_has_effect` or `npc_has_effect`'s `effect_id`.
+"u_can_stow_weapon"<br/>"npc_can_stow_weapon" | simple string | `true` if the player character or NPC is wielding a weapon and has enough space to put it away.
+"u_has_weapon"<br/>"npc_has_weapon" | simple string | `true` if the player character or NPC is wielding a weapon.
+"u_driving"<br/>"npc_driving" | simple string | `true` if the player character or NPC is operating a vehicle.  <b>Note</b> NPCs cannot currrently operate vehicles.
 
 #### Player Only conditions
 
@@ -529,7 +497,7 @@ Condition | Type | Description
 "is_outside" | simple string | `true` if the NPC is on a tile without a roof.
 
 
-#### Sample responses with conditions
+#### Sample responses with conditions and effects
 ```C++
 {
   "text": "Understood.  I'll get those antibiotics.",
@@ -545,6 +513,18 @@ Condition | Type | Description
   "text": "Nice to meet you too.",
   "topic": "TALK_NONE",
   "effect": { "u_add_effect": "has_met_example_NPC", "duration": "PERMANENT" }
+},
+{
+  "text": "Nice to meet you too.",
+  "topic": "TALK_NONE",
+  "condition": {
+    "not": {
+      "npc_has_var": "has_met_PC", "type": "general", "context": "examples", "value": "true"
+    }
+  },
+  "effect": {
+    "npc_set_var": "has_met_PC", "type": "general", "context": "examples", "value": "true" }
+  }
 },
 {
   "text": "[INT 11] I'm sure I can organize salvage operations to increase the bounty scavengers bring in!",
