@@ -4301,16 +4301,18 @@
       { "monster": "mon_skeleton_hulk", "freq": 1, "cost_multiplier": 50 },
       { "monster": "mon_zombie_master", "freq": 1, "cost_multiplier": 25 }
     ]
-  },{
-    "type":"monstergroup",
-    "name" : "GROUP_MAYBE_MIL", "//" : "50% chance military zombie or robot",
-    "default" : "mon_null",
-    "monsters" : [
-      { "monster" : "mon_zombie_soldier", "freq" : 35, "cost_multiplier" : 1 },
-      { "monster" : "mon_dispatch", "freq" : 10, "cost_multiplier" : 50 },
-      { "monster" : "mon_dispatch_military", "freq" : 5, "cost_multiplier" : 80 },
-      { "monster" : "mon_zombie_flamer", "freq" : 10, "cost_multiplier" : 50 },
-      { "monster" : "mon_zombie_military_pilot", "freq" : 0, "cost_multiplier" : 1 }
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_MAYBE_MIL",
+    "//": "50% chance military zombie or robot",
+    "default": "mon_null",
+    "monsters": [
+      { "monster": "mon_zombie_soldier", "freq": 35, "cost_multiplier": 1 },
+      { "monster": "mon_dispatch", "freq": 10, "cost_multiplier": 50 },
+      { "monster": "mon_dispatch_military", "freq": 5, "cost_multiplier": 80 },
+      { "monster": "mon_zombie_flamer", "freq": 10, "cost_multiplier": 50 },
+      { "monster": "mon_zombie_military_pilot", "freq": 0, "cost_multiplier": 1 }
     ]
   },
   {
