@@ -2924,7 +2924,7 @@
     "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 250 ], [ "oxy_torch", 40 ] ] ],
     "components": [ [ [ "steel_lump", 10 ], [ "steel_chunk", 40 ] ] ]
   },
-    {
+  {
     "type": "recipe",
     "result": "55gal_drum",
 	"id_suffix": "welded",
