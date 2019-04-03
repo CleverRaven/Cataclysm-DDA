@@ -1947,7 +1947,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             temp1 << _( "is <info>watertight</info>, " );
         }
         if( c.preserves ) {
-            temp1 << _( "<good>preserves spoiling</good>, " );
+            temp1 << _( "<good>prevents spoiling</good>, " );
         }
 
         temp1 << string_format( _( "can store <info>%s %s</info>." ),
