@@ -1691,21 +1691,29 @@ static bool harvest_common( player &p, const tripoint &examp, bool furn, bool ne
 
 void iexamine::harvest_furn_nectar( player &p, const tripoint &examp )
 {
-    if( harvest_common( p, examp, true, true ) ) {
+    bool auto_forage = get_option<bool>( "AUTO_FEATURES" ) &&
+                       get_option<std::string>( "AUTO_FORAGING" ) == "both";
+    if( harvest_common( p, examp, true, true, auto_forage ) ) {
         g->m.furn_set( examp, f_null );
     }
 }
 
 void iexamine::harvest_furn( player &p, const tripoint &examp )
 {
-    if( harvest_common( p, examp, true, false ) ) {
+    bool auto_forage = get_option<bool>( "AUTO_FEATURES" ) &&
+                       get_option<std::string>( "AUTO_FORAGING" ) == "both";
+    if( harvest_common( p, examp, true, false, auto_forage ) ) {
         g->m.furn_set( examp, f_null );
     }
 }
 
 void iexamine::harvest_ter_nectar( player &p, const tripoint &examp )
 {
-    if( harvest_common( p, examp, false, true ) ) {
+    bool auto_forage = get_option<bool>( "AUTO_FEATURES" ) &&
+                       ( get_option<std::string>( "AUTO_FORAGING" ) == "both" ||
+                         get_option<std::string>( "AUTO_FORAGING" ) == "bushes" ||
+                         get_option<std::string>( "AUTO_FORAGING" ) == "trees" );
+    if( harvest_common( p, examp, false, true, auto_forage ) ) {
         g->m.ter_set( examp, g->m.get_ter_transforms_into( examp ) );
     }
 }

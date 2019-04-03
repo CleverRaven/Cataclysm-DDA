@@ -509,6 +509,7 @@ void oter_type_t::load( JsonObject &jo, const std::string &src )
     assign( jo, "sym", sym, strict );
     assign( jo, "name", name, strict );
     assign( jo, "see_cost", see_cost, strict );
+    assign( jo, "travel_cost", travel_cost, strict );
     assign( jo, "extras", extras, strict );
     assign( jo, "mondensity", mondensity, strict );
     assign( jo, "spawns", static_spawns, strict );

@@ -212,10 +212,7 @@
   "qualities":[{"id":"CUT","level":1}],
   "components": [[
     [ "stick", 1 ],
-    [ "broom", 1 ],
-    [ "mop", 1 ],
-    [ "2x4", 1 ],
-    [ "pool_cue", 1 ]
+    [ "2x4", 1 ]
   ]]
 },{
   "type" : "recipe",
@@ -268,10 +265,7 @@
   "components": [
     [
       [ "stick_long", 1 ],
-      [ "broom", 1 ],
-      [ "mop", 1 ],
-      [ "pool_cue", 1 ],
-      [ "pointy_stick", 1 ]
+      [ "pool_cue", 1 ]
     ],
     [
       [ "rag", 1 ],

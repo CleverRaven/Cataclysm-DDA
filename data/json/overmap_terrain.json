@@ -889,6 +889,27 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "bar_roof",
+    "name": "bar roof",
+    "copy-from": "generic_city_building",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "bar_1",
+    "name": "bar",
+    "copy-from": "generic_city_building",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "bar_roof_1",
+    "name": "bar roof",
+    "copy-from": "generic_city_building",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "s_butcher",
     "name": "butcher shop",
     "copy-from": "generic_city_building",
@@ -905,6 +926,27 @@
     "type": "overmap_terrain",
     "id": "s_pizza_parlor",
     "name": "pizza parlor",
+    "copy-from": "generic_city_building",
+    "color": "pink_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_pizza_parlor_roof",
+    "name": "pizza parlor roof",
+    "copy-from": "generic_city_building",
+    "color": "pink_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_pizza_parlor_1",
+    "name": "pizza parlor",
+    "copy-from": "generic_city_building",
+    "color": "pink_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_pizza_parlor_roof_1",
+    "name": "pizza parlor roof",
     "copy-from": "generic_city_building",
     "color": "pink_magenta"
   },
@@ -3713,6 +3755,13 @@
     "type": "overmap_terrain",
     "id": "icecream_shop",
     "name": "icecream shop",
+    "copy-from": "generic_city_building",
+    "color": "c_blue_white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "icecream_shop_roof",
+    "name": "icecream shop roof",
     "copy-from": "generic_city_building",
     "color": "c_blue_white"
   },

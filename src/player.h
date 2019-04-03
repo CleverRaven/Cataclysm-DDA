@@ -1148,6 +1148,7 @@ class player : public Character
     private:
         /** last time we checked for sleep */
         time_point last_sleep_check = calendar::time_of_cataclysm;
+        bool bio_soporific_powered_at_last_sleep_check;
         /** Used in max_memorized_tiles to cache memory capacity. **/
         mutable time_point current_map_memory_turn = calendar::before_time_starts;
         mutable size_t current_map_memory_capacity = 0;
@@ -1242,8 +1243,10 @@ class player : public Character
         void check_and_recover_morale();
         void on_worn_item_transform( const item &it );
 
-        /** Get the formatted name of the currently wielded item (if any) */
-        std::string weapname() const;
+        /** Get the formatted name of the currently wielded item (if any)
+         *  truncated to a number of characters. 0 means it is not truncated
+         */
+        std::string weapname( unsigned int truncate = 0 ) const;
 
         float power_rating() const override;
         float speed_rating() const override;
@@ -1559,7 +1562,7 @@ class player : public Character
         void load_memorial_file( std::istream &fin );
         //Notable events, to be printed in memorial
         std::vector <std::string> memorial_log;
-
+        std::vector<int> follower_ids;
         //Record of player stats, for posterity only
         stats lifetime_stats;
 

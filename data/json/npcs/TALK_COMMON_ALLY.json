@@ -51,6 +51,7 @@
       },
       { "text": "Let's trade items", "topic": "TALK_FRIEND", "effect": "start_trade" },
       { "text": "Guard this position", "topic": "TALK_FRIEND_GUARD", "effect": "assign_guard" },
+      { "text": "Please go to this location...", "topic": "TALK_GOTO_LOCATION", "effect": "goto_location" },
       { "text": "I'd like to know a bit more about you...", "topic": "TALK_FRIEND", "effect": "reveal_stats" },
       { "text": "I want you to use this item", "topic": "TALK_USE_ITEM" },
       { "text": "Hold on to this item", "topic": "TALK_GIVE_ITEM" },
@@ -58,7 +59,7 @@
       { "text": "I'm going to go my own way for a while.", "topic": "TALK_LEAVE" },
       { "text": "Let's go.", "topic": "TALK_DONE" },
       {
-        "text": "Relax and chat with me for a while...",
+        "text": "Let's just chitchat for a while...",
         "topic": "TALK_FRIEND_CHAT",
         "condition": { "not": { "npc_has_effect": "asked_to_socialize" } }
       },
@@ -376,6 +377,28 @@
       { "text": "Yeah, I'm sure.  Bye.", "topic": "TALK_DONE", "effect": "leave" },
       { "text": "Nah, I'm just kidding.", "topic": "TALK_NONE" }
     ]
+  },
+  {
+    "id": "TALK_RADIO",
+    "type": "talk_topic",
+    "dynamic_line": "*pshhhttt* I'm reading you boss, over.",
+    "responses": [
+      { "text": "Please go to this location...", "topic": "TALK_GOTO_LOCATION_RADIO", "effect": "goto_location" },
+      { "text": "Stay at your current position.", "topic": "TALK_DONE", "effect": "assign_guard" },
+      { "text": "Never mind.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_GOTO_LOCATION_RADIO",
+    "type": "talk_topic",
+    "dynamic_line": "*pssshht* ten-four, I'll make my way there, over.",
+    "responses": [ { "text": "Affirmative.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "TALK_GOTO_LOCATION",
+    "type": "talk_topic",
+    "dynamic_line": "Sure thing, I'll make my way there.",
+    "responses": [ { "text": "Affirmative.", "topic": "TALK_DONE" } ]
   },
   {
     "id": "TALK_FRIEND_CHAT",
