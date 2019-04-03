@@ -397,6 +397,7 @@
       "menu_text": "Tighten Limbs",
       "type": "transform",
       "target": "compbow_high",
+      "qualities_needed": { "SCREW_FINE": 1 },
       "msg": "You tighten the limbs, increasing the strength of the bow."
     }
   },
@@ -417,6 +418,7 @@
       "menu_text": "Loosen Limbs",
       "type": "transform",
       "target": "compbow_low",
+      "qualities_needed": { "SCREW_FINE": 1 },
       "msg": "You loosen the limbs, decreasing the strength of the bow."
     }
   },
@@ -437,6 +439,7 @@
       "menu_text": "Tighten Limbs",
       "type": "transform",
       "target": "compbow",
+      "qualities_needed": { "SCREW_FINE": 1 },
       "msg": "You tighten the limbs, increasing the strength of the bow."
     }
   },

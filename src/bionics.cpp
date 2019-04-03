@@ -18,6 +18,7 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "messages.h"
+#include "morale_types.h"
 #include "mutation.h"
 #include "options.h"
 #include "output.h"
@@ -81,6 +82,8 @@ static const trait_id trait_THRESH_MEDICAL( "THRESH_MEDICAL" );
 static const trait_id trait_MASOCHIST( "MASOCHIST" );
 static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
+
+static const bionic_id bionic_TOOLS_EXTEND( "bio_tools_extend" );
 
 namespace
 {
@@ -588,6 +591,10 @@ bool player::deactivate_bionic( int b, bool eff_only )
             // It's already off!
             return false;
         }
+        // Compatibility with old saves without the toolset hammerspace
+        if( bio.id == "bio_tools" && !has_bionic( bionic_TOOLS_EXTEND ) ) {
+            add_bionic( bionic_TOOLS_EXTEND ); // E X T E N D    T O O L S
+        }
         if( !bionics[bio.id].toggled ) {
             // It's a fire-and-forget bionic, we can't turn it off but have to wait for it to run out of charge
             add_msg( m_info, _( "You can't deactivate your %s manually!" ), bionics[bio.id].name.c_str() );
@@ -610,6 +617,7 @@ bool player::deactivate_bionic( int b, bool eff_only )
         if( weapon.typeId() == bionics[ bio.id ].fake_item ) {
             add_msg( _( "You withdraw your %s." ), weapon.tname().c_str() );
             weapon = item();
+            invalidate_crafting_inventory();
         }
     } else if( bio.id == "bio_cqb" ) {
         // check if player knows current style naturally, otherwise drop them back to style_none
@@ -796,6 +804,8 @@ void player::process_bionic( int b )
             add_msg( m_good, _( "You feel your throat open up and air filling your lungs!" ) );
             remove_effect( effect_asthma );
         }
+    } else if( bio.id == "afs_bio_dopamine_stimulators" ) { // Aftershock
+        add_morale( MORALE_FEELING_GOOD, 20, 20, 30_minutes, 20_minutes, true );
     }
 }
 

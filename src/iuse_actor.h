@@ -41,6 +41,8 @@ using bionic_id = string_id<bionic_data>;
 struct furn_t;
 struct itype;
 class item_location;
+struct quality;
+using quality_id = string_id<quality>;
 
 /**
  * Transform an item into a specific type.
@@ -91,6 +93,9 @@ class iuse_transform : public iuse_actor
         /** displayed if item is in player possession with %s replaced by item name */
         std::string need_charges_msg;
 
+        /** Tool qualities needed, e.g. "fine bolt turning 1". **/
+        std::map<quality_id, int> qualities_needed;
+
         std::string menu_text;
 
         iuse_transform( const std::string &type = "transform" ) : iuse_actor( type ) {}
@@ -98,6 +103,7 @@ class iuse_transform : public iuse_actor
         ~iuse_transform() override = default;
         void load( JsonObject &jo ) override;
         long use( player &, item &, bool, const tripoint & ) const override;
+        ret_val<bool> can_use( const player &, const item &, bool, const tripoint & ) const override;
         iuse_actor *clone() const override;
         std::string get_name() const override;
         void finalize( const itype_id &my_item_type ) override;

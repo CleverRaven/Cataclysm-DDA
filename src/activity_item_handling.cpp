@@ -1195,12 +1195,14 @@ cata::optional<tripoint> find_best_fire( const std::vector<tripoint> &from, cons
     return best_fire;
 }
 
-void try_refuel_fire( player &p )
+void try_fuel_fire( player_activity &act, player &p, const bool starting_fire )
 {
     const tripoint pos = p.pos();
     auto adjacent = closest_tripoints_first( PICKUP_RANGE, pos );
     adjacent.erase( adjacent.begin() );
-    cata::optional<tripoint> best_fire = find_best_fire( adjacent, pos );
+
+    cata::optional<tripoint> best_fire = starting_fire ? act.placement : find_best_fire( adjacent,
+                                         pos );
 
     if( !best_fire || !g->m.accessible_items( *best_fire ) ) {
         return;
@@ -1242,7 +1244,7 @@ void try_refuel_fire( player &p )
 
     // Enough to sustain the fire
     // TODO: It's not enough in the rain
-    if( fd.fuel_produced >= 1.0f || fire_age < 10_minutes ) {
+    if( !starting_fire && ( fd.fuel_produced >= 1.0f || fire_age < 10_minutes ) ) {
         return;
     }
 
