@@ -83,7 +83,7 @@
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
     "components": [
       [ [ "liver", 3 ] ],
-      [ [ "cooking_oil", 1 ] ],
+      [ [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ] ],
       [ [ "milk", 1 ], [ "con_milk", 1 ], [ "can_coconut", 1 ] ],
       [ [ "batter", 4, "LIST" ] ],
       [ [ "salt", 1 ] ],
@@ -114,7 +114,7 @@
     "difficulty": 3,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 125, "LIST" ] ] ],
-    "components": [ [ [ "stomach", 1 ] ], [ [ "batter", 3, "LIST" ] ], [ [ "cooking_oil", 4 ] ] ]
+    "components": [ [ [ "stomach", 1 ] ], [ [ "batter", 3, "LIST" ] ], [ [ "cooking_oil", 4 ], [ "cooking_oil2", 4 ] ] ]
   },
   {
     "type": "recipe",

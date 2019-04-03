@@ -479,6 +479,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
         nc_color color;
         size_t count;
     };
+    std::vector<tripoint> path_route;
     std::unordered_map<tripoint, npc_coloring> npc_color;
     if( blink ) {
         const auto &npcs = overmap_buffer.get_npcs_near_player( sight_points );
@@ -499,6 +500,35 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
                     if( iter->second.color != np_color && one_in( iter->second.count ) ) {
                         iter->second.color = np_color;
                     }
+                }
+            }
+        }
+        std::vector<npc *> followers;
+        for( auto &elem : g->get_follower_list() ) {
+            std::shared_ptr<npc> npc_to_get = overmap_buffer.find_npc( elem );
+            npc *npc_to_add = npc_to_get.get();
+            followers.push_back( npc_to_add );
+        }
+        for( const auto &np : followers ) {
+            if( np->posz() != z ) {
+                continue;
+            }
+            if( !np->omt_path.empty() ) {
+                for( auto &elem : np->omt_path ) {
+                    tripoint tri_to_add = tripoint( elem.x, elem.y, np->posz() );
+                    path_route.push_back( tri_to_add );
+                }
+            }
+            const tripoint pos = np->global_omt_location();
+            auto iter = npc_color.find( pos );
+            nc_color np_color = np->basic_symbol_color();
+            if( iter == npc_color.end() ) {
+                npc_color[ pos ] = { np_color, 1 };
+            } else {
+                iter->second.count++;
+                // Randomly change to new NPC's color
+                if( iter->second.color != np_color && one_in( iter->second.count ) ) {
+                    iter->second.color = np_color;
                 }
             }
         }
@@ -523,7 +553,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
             // Check if location is within player line-of-sight
             const bool los = see && g->u.overmap_los( cur_pos, sight_points );
             const bool los_sky = g->u.overmap_los( cur_pos, sight_points * 2 );
-
+            int mycount = std::count( path_route.begin(), path_route.end(), cur_pos );
             if( blink && cur_pos == orig ) {
                 // Display player pos, should always be visible
                 ter_color = g->u.symbol_color();
@@ -555,6 +585,9 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
                 // Visible NPCs are cached already
                 ter_color = npc_color[ cur_pos ].color;
                 ter_sym   = '@';
+            } else if( blink && mycount != 0 && g->debug_pathfinding ) {
+                ter_color = c_red;
+                ter_sym   = '!';
             } else if( blink && showhordes && los &&
                        overmap_buffer.get_horde_size( omx, omy, z ) >= HORDE_VISIBILITY_SIZE ) {
                 // Display Hordes only when within player line-of-sight

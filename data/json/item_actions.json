@@ -261,11 +261,6 @@
   },
   {
     "type": "item_action",
-    "id": "BATTLETORCH_LIT",
-    "name": "Extinguish"
-  },
-  {
-    "type": "item_action",
     "id": "BELL",
     "name": "Ring"
   },
@@ -851,11 +846,6 @@
   },
   {
     "type": "item_action",
-    "id": "TORCH_LIT",
-    "name": "..."
-  },
-  {
-    "type": "item_action",
     "id": "TOWEL",
     "name": "Dry/clean yourself"
   },
@@ -911,7 +901,7 @@
   },
   {
     "type": "item_action",
-    "id": "WEED_BROWNIE",
+    "id": "WEED_CAKE",
     "name": "Consume"
   },
   {
