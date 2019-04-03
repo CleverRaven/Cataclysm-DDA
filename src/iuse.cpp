@@ -5340,8 +5340,9 @@ int iuse::toolmod_attach( player *p, item *it, bool, const tripoint & )
     }
 
     auto filter = [&it]( const item & e ) {
-        // don't allow ups battery mods on a UPS
-        if( it->has_flag( "USE_UPS" ) && ( e.typeId() == "UPS_off" || e.typeId() == "adv_UPS_off" ) ) {
+        // don't allow ups battery mods on a UPS or UPS-powered tools
+        if( it->has_flag( "USE_UPS" ) && ( e.typeId() == "UPS_off" || e.typeId() == "adv_UPS_off" ||
+                                           e.has_flag( "USE_UPS" ) ) ) {
             return false;
         }
 
