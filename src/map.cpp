@@ -6048,7 +6048,7 @@ int map::obstacle_coverage( const tripoint &loc1, const tripoint &loc2 )
     const int ax = std::abs( loc1.x - loc2.x ) * 2;
     const int ay = std::abs( loc1.y - loc2.y ) * 2;
     int offset = std::min( ax, ay ) - ( std::max( ax, ay ) / 2 );
-    bresenham( loc2, loc1, offset, 0, [&obstaclepos, &loc2]( const tripoint & new_point ) {
+    bresenham( loc2, loc1, offset, 0, [&obstaclepos]( const tripoint & new_point ) {
         // Only adjacent tile between you and enemy is checked for cover.
         obstaclepos = new_point;
         return false;
