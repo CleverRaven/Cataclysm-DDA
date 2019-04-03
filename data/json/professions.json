@@ -1131,7 +1131,7 @@
           "cell_phone"
         ],
         "entries": [
-          { "item": "quiver", "charges": 8, "contents-item": "arrow_metal" },
+          { "item": "quiver", "charges": 8, "contents-item": "arrow_cf" },
           { "item": "sheath", "contents-item": "knife_hunting" }
         ]
       },
