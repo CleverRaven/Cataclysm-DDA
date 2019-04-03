@@ -38,21 +38,23 @@
       { "item": "rebar", "prob": 40, "count": [ 5, 10 ] },
       { "item": "brick", "prob": 40, "count": [ 5, 10 ] },
       { "item": "pipe", "prob": 40, "count": [ 5, 10 ] },
-      { "item": "nail", "prob": 60, "count": [ 500, 1000 ] },
+      { "item": "nail", "prob": 60, "count": [ 500, 1000 ] }
     ]
   },
   {
     "type": "item_group",
     "id": "lumberyard",
-    "type": "collection",
+    "subtype": "collection",
     "items": [
-      { "distribution": [
-        { "item": "2x4", "prob": 500, "count": [ 20, 50 ] },
-        { "item": "log", "prob": 200, "count": [ 5, 10 ] },
-        { "item": "stick_long", "prob": 100, "count": [ 10, 20 ] },
-        { "item": "stick", "prob": 50, "count": [ 5, 10 ] },
-        { "item": "nail", "prob": 100, "count": [ 500, 1000 ] }
-        ], "prob": 100
+      {
+        "distribution": [
+          { "item": "2x4", "prob": 500, "count": [ 20, 50 ] },
+          { "item": "log", "prob": 200, "count": [ 5, 10 ] },
+          { "item": "stick_long", "prob": 100, "count": [ 10, 20 ] },
+          { "item": "stick", "prob": 50, "count": [ 5, 10 ] },
+          { "item": "nail", "prob": 100, "count": [ 500, 1000 ] }
+        ],
+        "prob": 100
       },
       [ "pine_bough", 10 ]
     ]

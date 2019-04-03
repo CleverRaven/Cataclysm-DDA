@@ -2,7 +2,6 @@
   {
     "id": "hardware_clothing",
     "type": "item_group",
-    "subtype": "collection",
     "//": "wearable utility or protective gear you can buy in a common hardware store or find on a jobsite",
     "items": [
       [ "boots_steel", 40 ],
@@ -17,7 +16,7 @@
       [ "sheath", 10 ],
       [ "bootsheath", 3 ],
       [ "gloves_leather", 40 ],
-      [ "miner_hat", 1 ],
+      [ "miner_hat", 1 ]
     ]
   }
 ]
