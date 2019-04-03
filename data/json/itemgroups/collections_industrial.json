@@ -15,9 +15,9 @@
     "id": "mischw",
     "//": "A general hardware group for retail, workshops, etc., with an odd assortment of extra items.",
     "items": [
-      { "group": "tools_general", "prob": 50 },
-      { "group": "supplies_hardware", "prob": 30 },
-      { "group": "hardware_clothing", "prob": 10 },
+      { "group": "tools_general", "prob": 90 },
+      { "group": "supplies_hardware", "prob": 50 },
+      { "group": "hardware_clothing", "prob": 20 },
       { "group": "hardware_bulk", "prob": 10 },
       { "group": "hardware_books", "prob": 10 },
       [ "survnote", 1 ],

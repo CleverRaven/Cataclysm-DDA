@@ -16,6 +16,7 @@
       [ "sheath", 10 ],
       [ "bootsheath", 3 ],
       [ "gloves_leather", 40 ],
+      [ "gloves_work", 45 ],
       [ "miner_hat", 1 ]
     ]
   }

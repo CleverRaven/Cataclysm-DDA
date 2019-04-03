@@ -3,7 +3,7 @@
     "id": "tools_blacksmith",
     "type": "item_group",
     "//": "Tools commonly used by blacksmiths",
-    "items": [ [ "anvil", 30 ], [ "chisel", 90 ], [ "crucible", 30 ], [ "swage", 60 ], [ "tongs", 90 ] ]
+    "items": [ [ "anvil", 30 ], [ "chisel", 90 ], [ "crucible", 30 ], [ "swage", 60 ], [ "tongs", 90 ], [ "hammer", 90 ] ]
   },
   {
     "id": "tools_carpentry",
