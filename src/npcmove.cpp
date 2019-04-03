@@ -3022,6 +3022,23 @@ bool npc::has_omt_destination() const
 
 void npc::reach_omt_destination()
 {
+    if( is_travelling() ) {
+        mission = NPC_MISSION_GUARD_ALLY;
+        guard_pos = global_square_location();
+        if( has_companion_mission() ) {
+            reset_companion_mission();
+        }
+        omt_path.clear();
+        goal = no_goal_point;
+        if( rl_dist( g->u.pos(), pos() ) > SEEX * 2 || !g->u.sees( pos() ) ) {
+            if( g->u.has_item_with_flag( "TWO_WAY_RADIO", true ) &&
+                has_item_with_flag( "TWO_WAY_RADIO", true ) ) {
+                add_msg( m_info, _( "From your two-way radio you hear %s reporting in, 'I've arrived, boss!'" ),
+                         disp_name() );
+            }
+        }
+        return;
+    }
     // Guarding NPCs want a specific point, not just an overmap tile
     // Rest stops having a goal after reaching it
     if( !is_guarding() ) {
