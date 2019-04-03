@@ -6076,8 +6076,8 @@ void player::suffer()
         add_effect( effect_shakes, 5_minutes );
         sfx::play_variant_sound( "bionics", "elec_crackle_med", 100 );
     }
-    if( has_bionic( bio_leaky ) && one_in( 500 ) ) {
-        mod_healthy_mod( -50, -200 );
+    if( has_bionic( bio_leaky ) && one_in( 60 ) ) {
+        mod_healthy_mod( -1, -200 );
     }
     if( has_bionic( bio_sleepy ) && one_in( 500 ) && !in_sleep_state() ) {
         mod_fatigue( 1 );
