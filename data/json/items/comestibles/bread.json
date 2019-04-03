@@ -96,7 +96,8 @@
     "price": 23,
     "material": "wheat",
     "volume": 1,
-    "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ]
+    "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
+    "vitamins": [ [ "calcium", 5 ], [ "iron", 12 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -117,7 +118,7 @@
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
     "fun": 1,
-    "vitamins": [ [ "calcium", 4 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "vitC", 1 ], [ "calcium", 10 ], [ "iron", 4 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -139,7 +140,7 @@
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
     "fun": 2,
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "vitA", 2 ], [ "calcium", 8 ], [ "iron", 6 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -150,17 +151,16 @@
     "spoils_in": "20 days",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "healthy": 1,
-    "calories": 143,
-    "description": "A tasty and nutritious fried bread treat.",
+    "calories": 159,
+    "description": "A dense and tasty fried bread treat.",
     "price": 275,
     "material": [ "wheat", "junk" ],
     "primary_material": "wheat",
     "volume": 1,
-    "charges": 2,
+    "charges": 6,
     "flags": [ "EATEN_HOT" ],
     "fun": 2,
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "vitA", 1 ], [ "calcium", 4 ], [ "iron", 7 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -181,7 +181,8 @@
     "volume": 1,
     "charges": 2,
     "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
-    "fun": 1
+    "fun": 1,
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -200,7 +201,7 @@
     "volume": 1,
     "charges": 2,
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "iron", 3 ] ],
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 15 ] ],
     "stack_size": 20,
     "fun": -1
   },
@@ -208,22 +209,21 @@
     "type": "COMESTIBLE",
     "id": "biscuit",
     "name": "biscuit",
-    "weight": 60,
+    "weight": 30,
     "color": "brown",
     "spoils_in": "7 days 12 hours",
     "container": "box_small",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "healthy": 1,
-    "calories": 212,
-    "description": "Delicious and filling, this home made biscuit is good, and good for you!",
+    "calories": 148,
+    "description": "Wholesome and filling, this home made biscuit is pretty good!",
     "price": 57,
     "material": "wheat",
     "volume": 1,
-    "charges": 2,
+    "charges": 10,
     "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
-    "fun": 1,
-    "vitamins": [ [ "calcium", 3 ], [ "iron", 3 ] ]
+    "fun": 3,
+    "vitamins": [ [ "vitA", 1 ], [ "calcium", 11 ], [ "iron", 9 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -246,7 +246,7 @@
     "stack_size": 20,
     "flags": [ "EATEN_HOT" ],
     "fun": -1,
-    "vitamins": [ [ "calcium", 3 ] ],
+    "vitamins": [ [ "calcium", 12.5 ] ],
     "//": "this item will generally inherit its values, so it is essentially a copy of bread"
   }
 ]

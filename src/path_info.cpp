@@ -17,7 +17,7 @@ std::map<std::string, std::string> FILENAMES;
 void PATH_INFO::init_base_path( std::string path )
 {
     if( !path.empty() ) {
-        char ch = path.at( path.length() - 1 );
+        const char ch = path.at( path.length() - 1 );
         if( ch != '/' && ch != '\\' ) {
             path.push_back( '/' );
         }
@@ -58,7 +58,7 @@ void PATH_INFO::init_user_dir( const char *ud )
 
 void PATH_INFO::update_pathname( const std::string &name, const std::string &path )
 {
-    std::map<std::string, std::string>::iterator iter = FILENAMES.find( name );
+    const std::map<std::string, std::string>::iterator iter = FILENAMES.find( name );
     if( iter != FILENAMES.end() ) {
         FILENAMES[name] = path;
     } else {
