@@ -11815,16 +11815,32 @@ void game::update_overmap_seen()
 {
     const tripoint ompos = u.global_omt_location();
     const int dist = u.overmap_sight_range( light_level( u.posz() ) );
+    const int dist_squared = dist * dist;
     // We can always see where we're standing
     overmap_buffer.set_seen( ompos.x, ompos.y, ompos.z, true );
-    for( int x = ompos.x - dist; x <= ompos.x + dist; x++ ) {
-        for( int y = ompos.y - dist; y <= ompos.y + dist; y++ ) {
+    for( int dx = -dist; dx <= dist; dx++ ) {
+        for( int dy = -dist; dy <= dist; dy++ ) {
+            if( trigdist && dx * dx + dy * dy > dist_squared ) {
+                continue;
+            }
+            int x = ompos.x + dx;
+            int y = ompos.y + dy;
+            float multiplier;
+            if( trigdist ) {
+                float angle = fmod( atan2( dy, dx ) + M_PI, M_PI / 2 );
+                if( angle > M_PI / 4 ) {
+                    angle = M_PI / 2 - angle;
+                }
+                multiplier = 1 / cos( angle );
+            } else {
+                multiplier = 1;
+            }
             const std::vector<point> line = line_to( ompos.x, ompos.y, x, y, 0 );
-            int sight_points = dist;
+            float sight_points = dist;
             for( auto it = line.begin();
                  it != line.end() && sight_points >= 0; ++it ) {
                 const oter_id &ter = overmap_buffer.ter( it->x, it->y, ompos.z );
-                sight_points -= static_cast<int>( ter->get_see_cost() );
+                sight_points -= static_cast<int>( ter->get_see_cost() ) * multiplier;
             }
             if( sight_points >= 0 ) {
                 overmap_buffer.set_seen( x, y, ompos.z, true );
