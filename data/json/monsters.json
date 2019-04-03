@@ -601,7 +601,18 @@
     "special_attacks": [ [ "PARROT", 80 ] ],
     "death_function": [ "NORMAL" ],
     "harvest": "mon_broken_cyborg",
-    "flags": [ "SEES", "HEARS", "BASHES", "ATTACKMON", "ELECTRONIC", "WARM", "STUMBLES", "HUMAN" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "BASHES",
+      "ATTACKMON",
+      "ELECTRONIC",
+      "WARM",
+      "STUMBLES",
+      "HUMAN",
+      "PATH_AVOID_DANGER_2",
+      "PRIORITIZE_TARGETS"
+    ]
   },
   {
     "id": "mon_charred_nightmare",
