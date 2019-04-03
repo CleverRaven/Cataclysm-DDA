@@ -9489,6 +9489,11 @@ void game::reload( bool try_everything )
     [this]( const item_location & a, const item_location & b ) {
         const item *ap = a.get_item();
         const item *bp = b.get_item();
+
+        // Needs to be reflexive I guess
+        if( ap == bp ) {
+            return false;
+        }
         // Current wielded weapon comes first.
         if( this->u.is_wielding( *ap ) ) {
             return true;
