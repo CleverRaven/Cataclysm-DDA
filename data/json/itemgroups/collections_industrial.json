@@ -42,5 +42,26 @@
     "type": "item_group",
     "id": "hardware_plumbing",
     "items": [ { "group": "hardware_clothing", "prob": 20 }, { "group": "tools_plumbing", "prob": 100 }, [ "survnote", 1 ] ]
-  }
+  },
+  {
+    "type": "item_group",
+    "id": "mechanics",
+    "ammo": 100,
+    "items": [
+      { "group": "supplies_spares_vehicle", "prob": 100 },
+      { "group": "tools_common", "prob": 100 },
+      { "group": "tools_mechanic", "prob": 150 },
+      { "group": "supplies_metal", "prob": 20 },
+      { "group": "supplies_mechanics", "prob": 80 },
+      [ "goggles_welding", 50 ],
+      [ "welding_book", 10 ],
+      [ "jerrycan", 10 ],
+      [ "jerrycan_big", 10 ],
+      [ "metal_tank", 8 ],
+      [ "metal_tank_little", 8 ],
+      [ "cu_pipe", 5 ],
+      [ "eyedrops", 4 ],
+      [ "survnote", 1 ]
+    ]
+  },
 ]
