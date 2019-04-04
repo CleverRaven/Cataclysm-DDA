@@ -3067,10 +3067,9 @@
     "points": 0,
     "visibility": 6,
     "ugliness": 3,
-    "description": "You have a long tail that ends in a vicious stinger, like that of a scorpion.  It does not improve your balance at all, but allows for a powerful piercing attack.  Prevents wearing non-fabric pants.",
+    "description": "You have a long tail that ends in a vicious stinger.  It does not improve your balance at all, but allows for a powerful piercing attack.  Prevents wearing non-fabric pants.",
     "types": [ "TAIL" ],
     "prereqs": [ "TAIL_LONG" ],
-    "category": [ "INSECT" ],
     "restricts_gear": [ "LEG_L", "LEG_R" ],
     "allow_soft_gear": true,
     "attacks": {
