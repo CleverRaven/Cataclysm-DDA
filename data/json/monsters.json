@@ -2922,6 +2922,7 @@
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
+      "PUSH_VEH",
       "FILTHY"
     ]
   },
@@ -2969,6 +2970,7 @@
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
+      "PUSH_VEH",
       "FILTHY"
     ]
   },
@@ -3016,6 +3018,7 @@
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
+      "PUSH_VEH",
       "NIGHT_INVISIBILITY",
       "FILTHY"
     ]
@@ -3814,6 +3817,7 @@
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
+      "PUSH_VEH",
       "FILTHY"
     ]
   },
@@ -4810,6 +4814,7 @@
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
+      "PUSH_VEH",
       "HARDTOSHOOT",
       "FILTHY"
     ]
