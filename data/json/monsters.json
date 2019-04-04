@@ -610,6 +610,7 @@
       "WARM",
       "STUMBLES",
       "HUMAN",
+      "CAN_OPEN_DOORS",
       "PATH_AVOID_DANGER_2",
       "PRIORITIZE_TARGETS"
     ]
