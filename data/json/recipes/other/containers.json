@@ -25,11 +25,7 @@
     "autolearn": true,
     "using": [ [ "cordage_short", 1 ], [ "glazing", 1 ] ],
     "tools": [ [ [ "brick_kiln", 60 ], [ "kiln", 60 ] ] ],
-    "components": [
-      [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "clay_lump", 2 ] ],
-      [ [ "leather", 2 ], [ "fur", 2 ] ]
-    ]
+    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 2 ] ], [ [ "leather", 2 ], [ "fur", 2 ] ] ]
   },
   {
     "type": "recipe",
