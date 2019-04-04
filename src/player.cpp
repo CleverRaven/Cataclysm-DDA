@@ -2721,16 +2721,16 @@ int player::overmap_sight_range( int light_level ) const
     if( has_trait( trait_EAGLEEYED ) ) {
         sight += 5;
     }
+    // The Topographagnosia trait explicitly "cripples" overmap sight range.
+    if( has_trait( trait_UNOBSERVANT ) ) {
+        sight -= 10;
+    }
 
     float multiplier = 1;
     // Binoculars "double" your sight range.
     const bool has_optic = ( has_item_with_flag( "ZOOM" ) || has_bionic( bio_eye_optic ) );
     if( has_optic ) {
         multiplier += 1;
-    }
-    // The Topographagnosia trait explicitly "cripples" overmap sight range.
-    if( has_trait( trait_UNOBSERVANT ) ) {
-        multiplier -= .75;
     }
 
     sight = round( sight * multiplier );
