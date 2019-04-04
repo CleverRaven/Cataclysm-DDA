@@ -1731,6 +1731,9 @@ class player : public Character
 
         std::set<tripoint> camps;
 
+        // Amount of time the player has spent in each overmap tile
+        std::unordered_map<tripoint, time_duration> overmap_time;
+
     protected:
         // The player's position on the local map.
         tripoint position;

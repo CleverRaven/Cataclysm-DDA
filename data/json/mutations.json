@@ -6189,5 +6189,14 @@
     "description": "NPC trait that makes it impossible to say anything.  It is a bug if you have it.",
     "player_display": false,
     "threshold": true
+  },
+  {
+    "type": "mutation",
+    "id": "NOMAD",
+    "name": "Nomad",
+    "points": -1,
+    "starting_trait": true,
+    "description": "You're too adventurous for your own good. The more time you've spent somewhere, the unhappier it makes you to be there.",
+    "purifiable": false
   }
 ]

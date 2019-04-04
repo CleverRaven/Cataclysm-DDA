@@ -821,6 +821,15 @@ void player::process_turn()
             add_msg_if_player( m_info, _( "You learned a new style." ) );
         }
     }
+
+    // Update time spent in this overmap tile.
+    tripoint ompos = global_omt_location();
+    ompos.z = 0;
+    if( overmap_time.find( ompos ) == overmap_time.end() ) {
+        overmap_time[ompos] = 1_turns;
+    } else {
+        overmap_time[ompos] += 1_turns;
+    }
 }
 
 void player::action_taken()
