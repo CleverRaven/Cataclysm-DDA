@@ -43,7 +43,7 @@
         "+": "t_door_c",
         ",": "t_floor",
         "-": "t_wall",
-        ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt"],
+        ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
         "1": "t_grass",
         "2": "t_grass",
         "3": "t_grass",
@@ -104,8 +104,8 @@
         { "item": "teashop_fridge", "x": 4, "y": 14, "chance": 80, "repeat": [ 1, 4 ] }
       ]
     }
-    },
-    {
+  },
+  {
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_teashop" ],
@@ -145,8 +145,8 @@
         "+": "t_door_c",
         ";": "t_linoleum_gray",
         ",": "t_floor",
-        ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt"],
-        "T": ["t_tree", "t_tree_young", "t_shrub", "t_grass", "t_grass", "t_dirt" ],
+        ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        "T": [ "t_tree", "t_tree_young", "t_shrub", "t_grass", "t_grass", "t_dirt" ],
         "z": "t_shrub",
         "@": "t_grass",
         "1": "t_grass",
@@ -190,14 +190,14 @@
         "t": "f_table",
         "{": "f_bookcase"
       },
-     "items": {
-       "{": { "item": "corner_reader", "chance": 45, "repeat": [ 1, 2 ]  },
-       "Y": { "item": "jackets", "chance": 30, "repeat": [ 2, 4 ]  },
-       "#": { "item": "teashop_kitchen_counter", "chance": 80, "repeat": [ 1, 3 ]  },
-       "F": { "item": "teashop_fridge", "chance": 80, "repeat": [ 1, 4 ]  },
-       "}": { "item": "displays", "chance": 30, "repeat": [ 1, 3 ]  },
-       "C": { "item": "chair_extra", "chance": 20, "repeat": [ 1, 2 ]  },
-       "c": { "item": "chair_torso", "chance": 10, "repeat": [ 1, 3 ]  }
+      "items": {
+        "{": { "item": "corner_reader", "chance": 45, "repeat": [ 1, 2 ] },
+        "Y": { "item": "jackets", "chance": 30, "repeat": [ 2, 4 ] },
+        "#": { "item": "teashop_kitchen_counter", "chance": 80, "repeat": [ 1, 3 ] },
+        "F": { "item": "teashop_fridge", "chance": 80, "repeat": [ 1, 4 ] },
+        "}": { "item": "displays", "chance": 30, "repeat": [ 1, 3 ] },
+        "C": { "item": "chair_extra", "chance": 20, "repeat": [ 1, 2 ] },
+        "c": { "item": "chair_torso", "chance": 10, "repeat": [ 1, 3 ] }
       },
       "place_signs": [ { "signage": "The Green Leaf Tea Shop", "x": 4, "y": 0 } ]
     }
