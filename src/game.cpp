@@ -9490,11 +9490,11 @@ void game::reload( bool try_everything )
         const item *ap = a.get_item();
         const item *bp = b.get_item();
         // Current wielded weapon comes first.
-        if( this->u.is_wielding( *ap ) ) {
-            return true;
-        }
         if( this->u.is_wielding( *bp ) ) {
             return false;
+        }
+        if( this->u.is_wielding( *ap ) ) {
+            return true;
         }
         // Second sort by afiliation with wielded gun
         const std::set<itype_id> compatible_magazines = this->u.weapon.magazine_compatible();
