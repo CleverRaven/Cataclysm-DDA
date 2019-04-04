@@ -812,7 +812,7 @@ bool player::eat( item &food, bool force )
                            _( "You try to ignore its mushy texture, but it leaves you with an awful aftertaste." ) );
     }
     if( has_effect( effect_flu ) && food.type->comestible->fun > 0 ) {
-        add_msg_if_player( m_bad, _( "You can't taste much of anything with the flu." ) );
+        add_msg_if_player( m_bad, _( "You can't taste much of anything with this flu." ) );
     }
 
     // Allergy check
