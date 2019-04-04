@@ -1,9 +1,3 @@
-data/json/recipes/armor/suit.json
-data/json/recipes/armor/torso.json
-data/json/recipes/electronics/parts.json
-data/json/recipes/electronics/toolmod.json
-data/json/recipes/food/dry.json
-data/json/recipes/food/pasta.json
 data/json/recipes/other/containers.json
 data/json/recipes/other/tool.json
 data/json/recipes/other/vehicle.json
