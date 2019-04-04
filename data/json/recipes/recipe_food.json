@@ -6024,7 +6024,7 @@
     "skill_used": "cooking",
     "difficulty": 2,
     "time": 30000,
-    "charges": 3,
+    "charges": 8,
     "autolearn": true,
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 2 } ],
