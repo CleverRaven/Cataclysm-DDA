@@ -6038,38 +6038,32 @@ bool map::sees( const tripoint &F, const tripoint &T, const int range, int &bres
     return visible;
 }
 
-int map::obstacle_coverage( const tripoint &loc1, const tripoint &loc2 )
+int map::obstacle_coverage( const tripoint &loc1, const tripoint &loc2 ) const
 {
-    // Can't hide if you are standing on furniture, or non-flat slowing down terrain tile.
+    // Can't hide if you are standing on furniture, or non-flat slowing-down terrain tile.
     if( furn( loc2 ).obj().id || ( move_cost( loc2 ) > 2 && !has_flag_ter( TFLAG_FLAT, loc2 ) ) ) {
         return 0;
     }
-    tripoint obstaclepos;
     const int ax = std::abs( loc1.x - loc2.x ) * 2;
     const int ay = std::abs( loc1.y - loc2.y ) * 2;
     int offset = std::min( ax, ay ) - ( std::max( ax, ay ) / 2 );
+    tripoint obstaclepos;
     bresenham( loc2, loc1, offset, 0, [&obstaclepos]( const tripoint & new_point ) {
         // Only adjacent tile between you and enemy is checked for cover.
         obstaclepos = new_point;
         return false;
     } );
-    auto obstacle_f = furn( obstaclepos ).obj();
-    auto obstacle_t = ter( obstaclepos ).obj();
-    if( obstacle_f.id ) {
-        return obstacle_f.coverage;
+    if( const auto obstacle_f = furn( obstaclepos ) ) {
+        return obstacle_f->coverage;
     }
-    const optional_vpart_position vp = veh_at( obstaclepos );
-    vehicle *const veh = !vp ? nullptr : &vp->vehicle();
-    const int part = veh ? vp->part_index() : -1;
-    if( veh != nullptr ) {
-        const vpart_position vp( const_cast<vehicle &>( *veh ), part );
-        if( vp.obstacle_at_part() ) {
+    if( const auto vp = veh_at( obstaclepos ) ) {
+        if( vp->obstacle_at_part() ) {
             return 60;
-        } else if( !vp.part_with_feature( VPFLAG_AISLE, true ) ) {
+        } else if( !vp->part_with_feature( VPFLAG_AISLE, true ) ) {
             return 45;
         }
     }
-    return obstacle_t.coverage;
+    return ter( obstaclepos )->coverage;
 }
 
 // This method tries a bunch of initial offsets for the line to try and find a clear one.
