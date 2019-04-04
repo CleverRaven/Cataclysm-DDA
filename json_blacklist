@@ -1,12 +1,3 @@
-data/json/npcs/NC_ARSONIST.json
-data/json/npcs/NC_BOUNTY_HUNTER.json
-data/json/npcs/NC_COWBOY.json
-data/json/npcs/NC_DEBUG.json
-data/json/npcs/NC_DOCTOR.json
-data/json/npcs/NC_EVAC_SHOPKEEP.json
-data/json/npcs/NC_HACKER.json
-data/json/npcs/NC_HUNTER.json
-data/json/npcs/NC_JUNK_SHOPKEEP.json
 data/json/npcs/NC_NINJA.json
 data/json/npcs/NC_SCAVENGER.json
 data/json/npcs/NC_SCIENTIST.json
