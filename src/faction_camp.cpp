@@ -101,6 +101,12 @@ std::map<std::string, bcp_miss_data> basecamp_missions_info = {{
             }
         },
         {
+            "travelling", {
+                "Travelling", _( "Travelling" ), _( "Busy travelling!\n" ),
+                "Recall ally from travelling", _( "Recall ally from travelling" )
+            }
+        },
+        {
             "_faction_camp_gathering", {
                 "Gather Materials", _( "Gather Materials" ),
                 _( "Searching for materials to upgrade the camp.\n" ),

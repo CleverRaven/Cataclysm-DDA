@@ -917,6 +917,27 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "bar_roof",
+    "name": "bar roof",
+    "copy-from": "generic_city_building",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "bar_1",
+    "name": "bar",
+    "copy-from": "generic_city_building",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "bar_roof_1",
+    "name": "bar roof",
+    "copy-from": "generic_city_building",
+    "color": "i_magenta"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "s_butcher",
     "name": "butcher shop",
     "copy-from": "generic_city_building",

@@ -26,6 +26,7 @@
 #include "fungal_effects.h"
 #include "game.h"
 #include "get_version.h"
+#include "gun_mode.h"
 #include "help.h" // get_hint
 #include "input.h"
 #include "inventory.h"
@@ -213,6 +214,7 @@ static const bionic_id bio_recycler( "bio_recycler" );
 static const bionic_id bio_shakes( "bio_shakes" );
 static const bionic_id bio_sleepy( "bio_sleepy" );
 static const bionic_id bn_bio_solar( "bn_bio_solar" );
+static const bionic_id bio_soporific( "bio_soporific" );
 static const bionic_id bio_spasm( "bio_spasm" );
 static const bionic_id bio_speed( "bio_speed" );
 static const bionic_id bio_syringe( "bio_syringe" );
@@ -222,6 +224,9 @@ static const bionic_id bio_uncanny_dodge( "bio_uncanny_dodge" );
 static const bionic_id bio_ups( "bio_ups" );
 static const bionic_id bio_watch( "bio_watch" );
 static const bionic_id bio_synaptic_regen( "bio_synaptic_regen" );
+
+// Aftershock stuff!
+static const bionic_id afs_bio_linguistic_coprocessor( "afs_bio_linguistic_coprocessor" );
 
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_ACIDPROOF( "ACIDPROOF" );
@@ -3017,9 +3022,15 @@ int player::read_speed( bool return_stat_effect ) const
     const int intel = get_int();
     /** @EFFECT_INT increases reading speed */
     int ret = 1000 - 50 * ( intel - 8 );
+
+    if( has_bionic( afs_bio_linguistic_coprocessor ) ) { // Aftershock
+        ret *= .85;
+    }
+
     if( has_trait( trait_FASTREADER ) ) {
         ret *= .8;
     }
+
     if( has_trait( trait_PROF_DICEMASTER ) ) {
         ret *= .9;
     }
@@ -6066,8 +6077,8 @@ void player::suffer()
         add_effect( effect_shakes, 5_minutes );
         sfx::play_variant_sound( "bionics", "elec_crackle_med", 100 );
     }
-    if( has_bionic( bio_leaky ) && one_in( 500 ) ) {
-        mod_healthy_mod( -50, -200 );
+    if( has_bionic( bio_leaky ) && one_in( 60 ) ) {
+        mod_healthy_mod( -1, -200 );
     }
     if( has_bionic( bio_sleepy ) && one_in( 500 ) && !in_sleep_state() ) {
         mod_fatigue( 1 );
@@ -10176,6 +10187,15 @@ void player::try_to_sleep( const time_duration &dur )
                            ter_at_pos.obj().name().c_str() );
     }
     add_msg_if_player( _( "You start trying to fall asleep." ) );
+    if( has_active_bionic( bio_soporific ) ) {
+        bio_soporific_powered_at_last_sleep_check = power_level > 0;
+        if( power_level > 0 ) {
+            // The actual bonus is applied in sleep_spot( p ).
+            add_msg_if_player( m_good, _( "Your soporific inducer starts working its magic." ) );
+        } else {
+            add_msg_if_player( m_bad, _( "Your soporific inducer doesn't have enough power to operate." ) );
+        }
+    }
     assign_activity( activity_id( "ACT_TRY_SLEEP" ), to_moves<int>( dur ) );
 }
 
@@ -10313,6 +10333,9 @@ int player::sleep_spot( const tripoint &p ) const
         // so it's OK for the value to be that much higher
         sleepy += 24;
     }
+    if( has_active_bionic( bio_soporific ) ) {
+        sleepy += 30;
+    }
     if( has_trait( trait_EASYSLEEPER2 ) ) {
         // Mousefolk can sleep just about anywhere.
         sleepy += 40;
@@ -10354,15 +10377,25 @@ bool player::can_sleep()
     // check anyway, this will reset the timer if 'dur' is negative.
     const time_point now = calendar::turn;
     const time_duration dur = now - last_sleep_check;
-    if( dur >= 30_minutes || dur < 0_turns ) {
-        last_sleep_check = now;
-        int sleepy = sleep_spot( pos() );
-        sleepy += rng( -8, 8 );
-        if( sleepy > 0 ) {
-            return true;
-        }
+    if( dur >= 0_turns && dur < 30_minutes ) {
+        return false;
     }
-    return false;
+    last_sleep_check = now;
+
+    int sleepy = sleep_spot( pos() );
+    sleepy += rng( -8, 8 );
+    bool result = sleepy > 0;
+
+    if( has_active_bionic( bio_soporific ) ) {
+        if( bio_soporific_powered_at_last_sleep_check && power_level == 0 ) {
+            add_msg_if_player( m_bad, _( "Your soporific inducer runs out of power!" ) );
+        } else if( !bio_soporific_powered_at_last_sleep_check && power_level > 0 ) {
+            add_msg_if_player( m_good, _( "Your soporific inducer starts back up." ) );
+        }
+        bio_soporific_powered_at_last_sleep_check = power_level > 0;
+    }
+
+    return result;
 }
 
 void player::fall_asleep()
@@ -11302,10 +11335,10 @@ bool player::has_magazine_for_ammo( const ammotype &at ) const
 }
 
 // mytest return weapon name to display in sidebar
-std::string player::weapname() const
+std::string player::weapname( unsigned int truncate ) const
 {
     if( weapon.is_gun() ) {
-        std::string str = weapon.type_name();
+        std::string str = string_format( "(%s) %s", weapon.gun_current_mode().name(), weapon.type_name() );
 
         // Is either the base item or at least one auxiliary gunmod loaded (includes empty magazines)
         bool base = weapon.ammo_capacity() > 0 && !weapon.has_flag( "RELOAD_AND_SHOOT" );
@@ -11347,7 +11380,7 @@ std::string player::weapname() const
         return _( "fists" );
 
     } else {
-        return weapon.tname( 1, false );
+        return weapon.tname( 1, true, truncate );
     }
 }
 

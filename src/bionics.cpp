@@ -18,6 +18,7 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "messages.h"
+#include "morale_types.h"
 #include "mutation.h"
 #include "options.h"
 #include "output.h"
@@ -803,6 +804,8 @@ void player::process_bionic( int b )
             add_msg( m_good, _( "You feel your throat open up and air filling your lungs!" ) );
             remove_effect( effect_asthma );
         }
+    } else if( bio.id == "afs_bio_dopamine_stimulators" ) { // Aftershock
+        add_morale( MORALE_FEELING_GOOD, 20, 20, 30_minutes, 20_minutes, true );
     }
 }
 

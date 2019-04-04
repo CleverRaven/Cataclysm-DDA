@@ -558,7 +558,7 @@ void player::load( JsonObject &data )
         ma_styles.insert( ma_styles.begin(), matype_id::NULL_ID() );
     }
     data.read( "addictions", addictions );
-
+    data.read( "followers", follower_ids );
     JsonArray traps = data.get_array( "known_traps" );
     known_traps.clear();
     while( traps.has_more() ) {
@@ -679,7 +679,7 @@ void player::store( JsonOut &json ) const
     json.member( "ma_styles", ma_styles );
     // "Looks like I picked the wrong week to quit smoking." - Steve McCroskey
     json.member( "addictions", addictions );
-
+    json.member( "followers", follower_ids );
     json.member( "known_traps" );
     json.start_array();
     for( const auto &elem : known_traps ) {

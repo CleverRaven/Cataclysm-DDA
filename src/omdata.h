@@ -163,6 +163,7 @@ struct oter_type_t {
         nc_color color = c_black;
         overmap_land_use_code_id land_use_code = overmap_land_use_code_id::NULL_ID();
         unsigned char see_cost = 0;     // Affects how far the player can see in the overmap
+        unsigned char travel_cost = 5;  // Affects the pathfinding and travel times
         std::string extras = "none";
         int mondensity = 0;
         // Spawns are added to the submaps *once* upon mapgen of the submaps
@@ -243,6 +244,9 @@ struct oter_t {
 
         unsigned char get_see_cost() const {
             return type->see_cost;
+        }
+        unsigned char get_travel_cost() const {
+            return type->travel_cost;
         }
 
         const std::string &get_extras() const {
