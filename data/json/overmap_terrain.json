@@ -882,6 +882,34 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "s_teashop_roof",
+    "name": "teashop roof",
+    "copy-from": "generic_city_building",
+    "color": "c_light_cyan_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_teashop_1",
+    "name": "teashop",
+    "copy-from": "generic_city_building",
+    "color": "c_light_cyan_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_teashop_roof_1",
+    "name": "teashop roof",
+    "copy-from": "generic_city_building",
+    "color": "c_light_cyan_magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_teashop_upper_roof_1",
+    "name": "teashop roof",
+    "copy-from": "generic_city_building",
+    "color": "c_light_cyan_magenta"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "bar",
     "name": "bar",
     "copy-from": "generic_city_building",

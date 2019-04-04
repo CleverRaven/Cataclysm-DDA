@@ -5,6 +5,73 @@
     "items": [ [ "cookies", 17 ], [ "cake2", 15 ], [ "cake3", 10 ], [ "biscuit", 10 ], [ "jihelucake", 10 ], [ "brownie", 20 ] ]
   },
   {
+    "id": "tea_dishes",
+    "type": "item_group",
+    "items": [ [ "ceramic_cup", 70 ], [ "ceramic_plate", 50 ], [ "spoon", 20 ] ]
+  },
+  {
+    "id": "chair_hat",
+    "type": "item_group",
+    "items": [ [ "hat_newsboy", 10 ], [ "bowhat", 40 ], [ "porkpie", 20 ] ]
+  },
+  {
+    "id": "chair_torso",
+    "type": "item_group",
+    "items": [ [ "suit", 70 ], [ "waistcoat", 70 ], [ "dress_shirt", 70 ] ]
+  },
+  {
+    "id": "chair_pants",
+    "type": "item_group",
+    "items": [ [ "pants", 70 ] ]
+  },
+  {
+    "id": "chair_feet",
+    "type": "item_group",
+    "items": [ [ "dress_shoes", 70 ] ]
+  },
+  {
+    "id": "chair_extra",
+    "type": "item_group",
+    "items": [ [ "cane", 70 ], [ "pocketwatch", 70 ], [ "umbrella", 70 ], [ "manual_fencing", 10 ] ]
+  },
+  {
+    "id": "corner_reader",
+    "type": "item_group",
+    "items": [
+      [ "mag_cutting", 70 ],
+      [ "mag_stabbing", 70 ],
+      [ "mag_unarmed", 70 ],
+      [ "manual_dodge", 70 ],
+      [ "novel_spy", 70 ],
+      [ "novel_thriller", 70 ],
+      [ "novel_crime", 70 ],
+      [ "novel_adventure", 70 ],
+      [ "novel_war", 70 ],
+      [ "poetry_book", 30 ],
+      [ "cookbook_human", 10 ]
+    ]
+  },
+  {
+    "id": "corner_weapon",
+    "type": "item_group",
+    "items": [ [ "tazer", 70 ], [ "knuckle_brass", 70 ] ]
+  },
+  {
+    "id": "displays",
+    "type": "item_group",
+    "items": [ [ "tea", 70 ], [ "tea_raw", 70 ], [ "ceramic_cup", 70 ], [ "teapot", 70 ], [ "clay_teapot", 70 ] ]
+  },
+  {
+    "id": "teashop_fridge",
+    "type": "item_group",
+    "items": [ [ "milk", 70 ] ]
+  },
+  {
+    "id": "teashop_kitchen_counter",
+    "type": "item_group",
+    "items": [ [ "sugar", 30 ], [ "tea_raw", 40 ], [ "teapot", 20 ], [ "spoon", 20 ] ]
+  },
+  {
     "id": "bar_alcohol",
     "type": "item_group",
     "items": [
