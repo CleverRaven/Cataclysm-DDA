@@ -11820,21 +11820,15 @@ void game::update_overmap_seen()
     overmap_buffer.set_seen( ompos.x, ompos.y, ompos.z, true );
     for( int dx = -dist; dx <= dist; dx++ ) {
         for( int dy = -dist; dy <= dist; dy++ ) {
-            if( trigdist && dx * dx + dy * dy > dist_squared ) {
+            const int h_squared = dx * dx + dy * dy;
+            if( trigdist && h_squared > dist_squared ) {
                 continue;
             }
             int x = ompos.x + dx;
             int y = ompos.y + dy;
-            float multiplier;
-            if( trigdist ) {
-                float angle = fmod( atan2( dy, dx ) + M_PI, M_PI / 2 );
-                if( angle > M_PI / 4 ) {
-                    angle = M_PI / 2 - angle;
-                }
-                multiplier = 1 / cos( angle );
-            } else {
-                multiplier = 1;
-            }
+            // If circular distances are enabled, scale overmap distances by the diagonality of the sight line.
+            const float multiplier = trigdist ? std::sqrt( h_squared ) / std::max<float>( std::abs( dx ),
+                                     std::abs( dy ) ) : 1;
             const std::vector<point> line = line_to( ompos.x, ompos.y, x, y, 0 );
             float sight_points = dist;
             for( auto it = line.begin();

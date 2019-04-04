@@ -2711,24 +2711,30 @@ int player::overmap_sight_range( int light_level ) const
     if( sight <= SEEX * 4 ) {
         return ( sight / ( SEEX / 2 ) );
     }
-    sight = has_trait( trait_BIRD_EYE ) ? 15 : 10;
 
-    /** @EFFECT_PER determines overmap sight range */
-    sight += ( -4 + static_cast<int>( get_per() / 2 ) );
-    sight += std::max( 0, posz() ) * 2; // the higher up you are, the farther you can see
+    sight = 6;
+    // The higher your perception, the farther you can see.
+    sight += static_cast<int>( get_per() / 2 );
+    // The higher up you are, the farther you can see.
+    sight += std::max( 0, posz() ) * 2;
+    // The Scout trait explicitly increases overmap sight range.
+    if( has_trait( trait_EAGLEEYED ) ) {
+        sight += 5;
+    }
+
+    float multiplier = 1;
+    // Binoculars "double" your sight range.
     bool has_optic = ( has_item_with_flag( "ZOOM" ) || has_bionic( bio_eye_optic ) );
-
-    if( has_trait( trait_EAGLEEYED ) && has_optic ) { //optic AND scout = +15
-        sight += 15;
-    } else if( has_trait( trait_EAGLEEYED ) != has_optic ) { //optic OR scout = +10
-        sight += 10;
+    if( has_optic ) {
+        multiplier += 1;
+    }
+    // The Topographagnosia trait explicitly "cripples" overmap sight range.
+    if( has_trait( trait_UNOBSERVANT ) ) {
+        multiplier -= .75;
     }
 
-    if( has_trait( trait_UNOBSERVANT ) && sight > 3 ) {
-        sight = 3; //surprise! you can't see!
-    }
-
-    return sight;
+    sight = round( sight * multiplier );
+    return std::max( sight, 3 );
 }
 
 #define MAX_CLAIRVOYANCE 40
