@@ -38,7 +38,7 @@
       { "item": "rebar", "prob": 40, "count": [ 5, 10 ] },
       { "item": "brick", "prob": 40, "count": [ 5, 10 ] },
       { "item": "pipe", "prob": 40, "count": [ 5, 10 ] },
-      { "item": "nail", "prob": 60, "count": [ 500, 1000 ] }
+      { "item": "nail", "prob": 60, "count": [ 5, 20 ] }
     ]
   },
   {
@@ -52,7 +52,7 @@
           { "item": "log", "prob": 200, "count": [ 5, 10 ] },
           { "item": "stick_long", "prob": 100, "count": [ 10, 20 ] },
           { "item": "stick", "prob": 50, "count": [ 5, 10 ] },
-          { "item": "nail", "prob": 100, "count": [ 500, 1000 ] }
+          { "item": "nail", "prob": 100, "count": [ 5, 20 ] }
         ],
         "prob": 100
       },
@@ -76,7 +76,7 @@
       [ "circsaw_blade", 8 ],
       [ "glass_sheet", 5 ],
       { "item": "pipe", "prob": 20, "count": [ 5, 10 ] },
-      { "item": "nail", "prob": 60, "count": [ 200, 400 ] },
+      { "item": "nail", "prob": 60, "count": [ 2, 4 ] },
       [ "hose", 15 ],
       [ "string_36", 40 ],
       [ "frame", 20 ],
@@ -84,8 +84,8 @@
       [ "metal_tank", 10 ],
       [ "metal_tank_little", 10 ],
       [ "water_faucet", 10 ],
-      { "item": "wire", "prob": 50, "count": [ 10, 50 ] },
-      { "item": "wire_barbed", "prob": 20, "count": [ 10, 50 ] },
+      { "item": "wire", "prob": 50, "count": [ 1, 10 ] },
+      { "item": "wire_barbed", "prob": 20, "count": [ 1, 10 ] },
       [ "duct_tape", 60 ],
       [ "foot_crank", 10 ],
       [ "spray_can", 50 ],
@@ -151,6 +151,20 @@
       [ "salt", 10 ],
       [ "sugar", 10 ],
       [ "chem_ethanol", 10 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "supplies_samples_lab",
+    "//": "non-secret laboratory biological samples.",
+    "items": [
+      [ "meat", 10 ],
+      [ "offal", 10 ],
+      { "item": "lung", "prob": 10, "charges": 2 },
+      { "item": "kidney", "prob": 10, "charges": 2 },
+      { "item": "liver", "prob": 10, "charges": 1 },
+      { "item": "brain", "prob": 10, "charges": 1 },
+      { "item": "sweetbread", "prob": 10, "charges": 1 }
     ]
   },
   {
