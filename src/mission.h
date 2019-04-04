@@ -5,12 +5,15 @@
 #include <functional>
 #include <iosfwd>
 #include <map>
+#include <unordered_map>
 #include <string>
 #include <vector>
 
 #include "calendar.h"
 #include "enums.h"
 #include "npc_favor.h"
+#include "overmap.h"
+#include "item_group.h"
 
 class player;
 class mission;
@@ -55,6 +58,7 @@ enum mission_goal {
     MGOAL_GO_TO_TYPE,        // Instead of a point, go to an oter_type_id map tile like "hospital_entrance"
     MGOAL_FIND_ITEM,         // Find an item of a given type
     MGOAL_FIND_ANY_ITEM,     // Find an item tagged with this mission
+    MGOAL_FIND_ITEM_GROUP,   // Find items that belong to a specific item group
     MGOAL_FIND_MONSTER,      // Find and retrieve a friendly monster
     MGOAL_FIND_NPC,          // Find a given NPC
     MGOAL_ASSASSINATE,       // Kill a given NPC
@@ -65,6 +69,24 @@ enum mission_goal {
     MGOAL_COMPUTER_TOGGLE,   // Activating the correct terminal will complete the mission
     MGOAL_KILL_MONSTER_SPEC,  // Kill a number of monsters from a given species
     NUM_MGOAL
+};
+const std::unordered_map<std::string, mission_goal> mission_goal_strs = { {
+        { "MGOAL_NULL", MGOAL_NULL },
+        { "MGOAL_GO_TO", MGOAL_GO_TO },
+        { "MGOAL_GO_TO_TYPE", MGOAL_GO_TO_TYPE },
+        { "MGOAL_FIND_ITEM", MGOAL_FIND_ITEM },
+        { "MGOAL_FIND_ITEM_GROUP", MGOAL_FIND_ITEM_GROUP },
+        { "MGOAL_FIND_ANY_ITEM", MGOAL_FIND_ANY_ITEM },
+        { "MGOAL_FIND_MONSTER", MGOAL_FIND_MONSTER },
+        { "MGOAL_FIND_NPC", MGOAL_FIND_NPC },
+        { "MGOAL_ASSASSINATE", MGOAL_ASSASSINATE },
+        { "MGOAL_KILL_MONSTER", MGOAL_KILL_MONSTER },
+        { "MGOAL_KILL_MONSTER_TYPE", MGOAL_KILL_MONSTER_TYPE },
+        { "MGOAL_RECRUIT_NPC", MGOAL_RECRUIT_NPC },
+        { "MGOAL_RECRUIT_NPC_CLASS", MGOAL_RECRUIT_NPC_CLASS },
+        { "MGOAL_COMPUTER_TOGGLE", MGOAL_COMPUTER_TOGGLE },
+        { "MGOAL_KILL_MONSTER_SPEC", MGOAL_KILL_MONSTER_SPEC }
+    }
 };
 
 struct mission_place {
@@ -162,12 +184,22 @@ struct mission_end { // These functions are run when a mission ends
     static void thankful( mission * );       // NPC defaults to being a friendly stranger
     static void deposit_box( mission * );    // random valuable reward
     static void heal_infection( mission * );
+    static void evac_construct_5( mission * ); // place can food in evac storage room
 };
 
 struct mission_fail {
     static void standard( mission * ) {} // Nothing special happens
     static void kill_npc( mission * );   // Kill the NPC who assigned it!
 };
+
+struct mission_util {
+    static tripoint target_om_ter( const std::string &omter, int reveal_rad, mission *miss,
+                                   bool must_see, int target_z = 0 );
+    static tripoint target_om_ter_random( const std::string &omter, int reveal_rad, mission *miss,
+                                          bool must_see, int range, tripoint loc = overmap::invalid_tripoint );
+
+};
+
 
 struct mission_type {
     mission_type_id id = mission_type_id( "MISSION_NULL" ); // Matches it to a mission_type_id above
@@ -182,6 +214,10 @@ struct mission_type {
 
     std::vector<mission_origin> origins; // Points of origin
     itype_id item_id = "null";
+    Group_tag group_id = "null";
+    itype_id container_id = "null";
+    bool remove_container = false;
+    itype_id empty_container = "null";
     int item_count = 1;
     npc_class_id recruit_class = npc_class_id( "NC_NONE" );  // The type of NPC you are to recruit
     int target_npc_id = -1;
@@ -332,7 +368,7 @@ class mission
         /** Processes this mission. */
         void process();
 
-        // @todo: Give topics a string_id
+        // TODO: Give topics a string_id
         std::string dialogue_for_topic( const std::string &topic ) const;
 
         /**
@@ -385,6 +421,15 @@ class mission
         void load_info( std::istream &info );
 
         void set_target_to_mission_giver();
+
+        static void get_all_item_group_matches(
+            std::vector<item *> &items,
+            Group_tag &grp_type,
+            std::map<itype_id, int> &matches,
+            const itype_id &required_container,
+            const itype_id &actual_container,
+            bool &specific_container_required );
+
 };
 
 #endif

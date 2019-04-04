@@ -18,6 +18,7 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "messages.h"
+#include "morale_types.h"
 #include "mutation.h"
 #include "options.h"
 #include "output.h"
@@ -33,6 +34,7 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "weather.h"
+#include "weather_gen.h"
 
 const skill_id skilll_electronics( "electronics" );
 const skill_id skilll_firstaid( "firstaid" );
@@ -75,6 +77,13 @@ const efftype_id effect_weed_high( "weed_high" );
 
 static const trait_id trait_PROF_MED( "PROF_MED" );
 static const trait_id trait_PROF_AUTODOC( "PROF_AUTODOC" );
+
+static const trait_id trait_THRESH_MEDICAL( "THRESH_MEDICAL" );
+static const trait_id trait_MASOCHIST( "MASOCHIST" );
+static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
+static const trait_id trait_CENOBITE( "CENOBITE" );
+
+static const bionic_id bionic_TOOLS_EXTEND( "bio_tools_extend" );
 
 namespace
 {
@@ -262,7 +271,7 @@ bool player::activate_bionic( int b, bool eff_only )
                 // Tetanus infection.
                 { effect_tetanus, _( "Clostridium Tetani Infection" ) },
                 { effect_datura, _( "Anticholinergic Tropane Alkaloids" ) },
-                // @todo: Hallucinations not inducted by chemistry
+                // TODO: Hallucinations not inducted by chemistry
                 { effect_hallu, _( "Hallucinations" ) },
                 { effect_visuals, _( "Hallucinations" ) },
             }
@@ -293,7 +302,7 @@ bool player::activate_bionic( int b, bool eff_only )
             bad.push_back( _( "Irradiated" ) );
         }
 
-        // @todo: Expose the player's effects to check it in a cleaner way
+        // TODO: Expose the player's effects to check it in a cleaner way
         for( const auto &pr : bad_effects ) {
             if( has_effect( pr.first ) ) {
                 bad.push_back( pr.second );
@@ -361,6 +370,10 @@ bool player::activate_bionic( int b, bool eff_only )
         } else if( !g->consume_liquid( water ) ) {
             charge_power( bionics[bionic_id( "bio_evap" )].power_activate );
         }
+    } else if( bio.id == "bio_torsionratchet" ) {
+        add_msg_if_player( m_info, _( "Your torsion ratchet locks onto your joints." ) );
+    } else if( bio.id == "bio_jointservo" ) {
+        add_msg_if_player( m_info, _( "You can now run faster, assisted by joint servomotors." ) );
     } else if( bio.id == "bio_lighter" ) {
         g->refresh_all();
         const cata::optional<tripoint> pnt = choose_adjacent( _( "Start a fire where?" ) );
@@ -406,7 +419,9 @@ bool player::activate_bionic( int b, bool eff_only )
             static const auto volume_per_water_charge = units::from_milliliter( 500 );
             if( it->is_corpse() ) {
                 const int avail = it->get_var( "remaining_water", it->volume() / volume_per_water_charge );
-                if( avail > 0 && query_yn( _( "Extract water from the %s" ), it->tname().c_str() ) ) {
+                if( avail > 0 &&
+                    query_yn( _( "Extract water from the %s" ),
+                              colorize( it->tname(), it->color_in_inventory() ) ) ) {
                     item water( "water_clean", calendar::turn, avail );
                     if( g->consume_liquid( water ) ) {
                         extracted = true;
@@ -485,8 +500,8 @@ bool player::activate_bionic( int b, bool eff_only )
         /* cache g->get_temperature( player location ) since it is used twice. No reason to recalc */
         const auto player_local_temp = g->get_temperature( g->u.pos() );
         /* windpower defined in internal velocity units (=.01 mph) */
-        double windpower = 100.0f * get_local_windpower( weatherPoint.windpower + vehwindspeed,
-                           cur_om_ter, g->is_sheltered( g->u.pos() ) );
+        double windpower = 100.0f * get_local_windpower( g->windspeed + vehwindspeed,
+                           cur_om_ter, pos(), g->winddirection, g->is_sheltered( pos() ) );
         add_msg_if_player( m_info, _( "Temperature: %s." ),
                            print_temperature( player_local_temp ).c_str() );
         add_msg_if_player( m_info, _( "Relative Humidity: %s." ),
@@ -496,12 +511,14 @@ bool player::activate_bionic( int b, bool eff_only )
         add_msg_if_player( m_info, _( "Pressure: %s." ),
                            print_pressure( static_cast<int>( weatherPoint.pressure ) ).c_str() );
         add_msg_if_player( m_info, _( "Wind Speed: %.1f %s." ),
-                           convert_velocity( int( windpower ), VU_WIND ),
+                           convert_velocity( static_cast<int>( windpower ), VU_WIND ),
                            velocity_units( VU_WIND ) );
         add_msg_if_player( m_info, _( "Feels Like: %s." ),
                            print_temperature(
                                get_local_windchill( weatherPoint.temperature, weatherPoint.humidity,
-                                       windpower ) + player_local_temp ).c_str() );
+                                       windpower / 100 ) + player_local_temp ).c_str() );
+        std::string dirstring = get_dirstring( g->winddirection );
+        add_msg_if_player( m_info, _( "Wind Direction: From the %s." ), dirstring );
     } else if( bio.id == "bio_remote" ) {
         int choice = uilist( _( "Perform which function:" ), {
             _( "Control vehicle" ), _( "RC radio" )
@@ -574,6 +591,10 @@ bool player::deactivate_bionic( int b, bool eff_only )
             // It's already off!
             return false;
         }
+        // Compatibility with old saves without the toolset hammerspace
+        if( bio.id == "bio_tools" && !has_bionic( bionic_TOOLS_EXTEND ) ) {
+            add_bionic( bionic_TOOLS_EXTEND ); // E X T E N D    T O O L S
+        }
         if( !bionics[bio.id].toggled ) {
             // It's a fire-and-forget bionic, we can't turn it off but have to wait for it to run out of charge
             add_msg( m_info, _( "You can't deactivate your %s manually!" ), bionics[bio.id].name.c_str() );
@@ -596,6 +617,7 @@ bool player::deactivate_bionic( int b, bool eff_only )
         if( weapon.typeId() == bionics[ bio.id ].fake_item ) {
             add_msg( _( "You withdraw your %s." ), weapon.tname().c_str() );
             weapon = item();
+            invalidate_crafting_inventory();
         }
     } else if( bio.id == "bio_cqb" ) {
         // check if player knows current style naturally, otherwise drop them back to style_none
@@ -782,11 +804,29 @@ void player::process_bionic( int b )
             add_msg( m_good, _( "You feel your throat open up and air filling your lungs!" ) );
             remove_effect( effect_asthma );
         }
+    } else if( bio.id == "afs_bio_dopamine_stimulators" ) { // Aftershock
+        add_morale( MORALE_FEELING_GOOD, 20, 20, 30_minutes, 20_minutes, true );
     }
 }
 
-void player::bionics_uninstall_failure( player &installer )
+void player::bionics_uninstall_failure( player &installer, int difficulty, int success,
+                                        float adjusted_skill )
 {
+    // "success" should be passed in as a negative integer representing how far off we
+    // were for a successful removal.  We use this to determine consequences for failing.
+    success = abs( success );
+
+    // failure level is decided by how far off the character was from a successful removal, and
+    // this is scaled up or down by the ratio of difficulty/skill.  At high skill levels (or low
+    // difficulties), only minor consequences occur.  At low skill levels, severe consequences
+    // are more likely.
+    const int failure_level = static_cast<int>( sqrt( success * 4.0 * difficulty / adjusted_skill ) );
+    const int fail_type = std::min( 5, failure_level );
+
+    if( fail_type <= 0 ) {
+        add_msg( m_neutral, _( "The removal fails without incident." ) );
+        return;
+    }
     switch( rng( 1, 5 ) ) {
         case 1:
             installer.add_msg_player_or_npc( m_neutral,
@@ -810,8 +850,28 @@ void player::bionics_uninstall_failure( player &installer )
                                              _( "<npcname> screws up the removal." ) );
             break;
     }
-    add_msg( m_bad, _( "%s body is severely damaged!" ), disp_name( true ) );
-    hurtall( rng( 30, 80 ), this ); // stop hurting yourself!
+
+    switch( fail_type ) {
+        case 1:
+            if( !has_trait( trait_id( "NOPAIN" ) ) ) {
+                add_msg_if_player( m_bad, _( "It really hurts!" ) );
+                mod_pain( rng( failure_level * 3, failure_level * 6 ) );
+            }
+            break;
+
+        case 2:
+        case 3:
+            add_msg( m_bad, _( "%s body is damaged!" ), disp_name( true ) );
+            hurtall( rng( failure_level, failure_level * 2 ), this ); // you hurt yourself
+            break;
+
+        case 4:
+        case 5:
+            add_msg( m_bad, _( "%s body is severely damaged!" ), disp_name( true ) );
+            hurtall( rng( 30, 80 ), this ); // stop hurting yourself!
+            break;
+    }
+
 }
 
 // bionic manipulation adjusted skill
@@ -846,8 +906,8 @@ float player::bionics_adjusted_skill( const skill_id &most_important_skill,
     }
 
     // for chance_of_success calculation, shift skill down to a float between ~0.4 - 30
-    float adjusted_skill = float ( pl_skill ) - std::min( float ( 40 ),
-                           float ( pl_skill ) - float ( pl_skill ) / float ( 10.0 ) );
+    float adjusted_skill = static_cast<float>( pl_skill ) - std::min( static_cast<float>( 40 ),
+                           static_cast<float>( pl_skill ) - static_cast<float>( pl_skill ) / static_cast<float>( 10.0 ) );
     return adjusted_skill;
 }
 
@@ -862,13 +922,14 @@ int bionic_manip_cos( float adjusted_skill, bool autodoc, int bionic_difficulty 
     int chance_of_success = 0;
     // we will base chance_of_success on a ratio of skill and difficulty
     // when skill=difficulty, this gives us 1.  skill < difficulty gives a fraction.
-    float skill_difficulty_parameter = float( adjusted_skill / ( 4.0 * bionic_difficulty ) );
+    float skill_difficulty_parameter = static_cast<float>( adjusted_skill /
+                                       ( 4.0 * bionic_difficulty ) );
 
     // when skill == difficulty, chance_of_success is 50%. Chance of success drops quickly below that
     // to reserve bionics for characters with the appropriate skill.  For more difficult bionics, the
     // curve flattens out just above 80%
-    chance_of_success = int( ( 100 * skill_difficulty_parameter ) /
-                             ( skill_difficulty_parameter + sqrt( 1 / skill_difficulty_parameter ) ) );
+    chance_of_success = static_cast<int>( ( 100 * skill_difficulty_parameter ) /
+                                          ( skill_difficulty_parameter + sqrt( 1 / skill_difficulty_parameter ) ) );
 
     return chance_of_success;
 }
@@ -933,7 +994,7 @@ bool player::uninstall_bionic( const bionic_id &b_id, player &installer, bool au
     } else {
         if( !g->u.query_yn(
                 _( "WARNING: %i percent chance of SEVERE damage to all body parts! Continue anyway?" ),
-                ( 100 - int( chance_of_success ) ) ) ) {
+                ( 100 - static_cast<int>( chance_of_success ) ) ) ) {
             return false;
         }
     }
@@ -971,7 +1032,7 @@ bool player::uninstall_bionic( const bionic_id &b_id, player &installer, bool au
                               pgettext( "memorial_female", "Failed to remove bionic: %s." ),
                               bionics[b_id].name.c_str() );
         }
-        bionics_uninstall_failure( installer );
+        bionics_uninstall_failure( installer, difficulty, success, adjusted_skill );
     }
     g->refresh_all();
     return true;
@@ -1023,16 +1084,16 @@ bool player::install_bionics( const itype &type, player &installer, bool autodoc
     } else {
         if( !g->u.query_yn(
                 _( "WARNING: %i percent chance of failure that may result in damage, pain, or a faulty installation! Continue anyway?" ),
-                ( 100 - int( chance_of_success ) ) ) ) {
+                ( 100 - static_cast<int>( chance_of_success ) ) ) ) {
             return false;
         }
     }
 
     // Practice skills only if conducting manual installation
     if( !autodoc ) {
-        installer.practice( skilll_electronics, int( ( 100 - chance_of_success ) * 1.5 ) );
-        installer.practice( skilll_firstaid, int( ( 100 - chance_of_success ) * 1.0 ) );
-        installer.practice( skilll_mechanics, int( ( 100 - chance_of_success ) * 0.5 ) );
+        installer.practice( skilll_electronics, static_cast<int>( ( 100 - chance_of_success ) * 1.5 ) );
+        installer.practice( skilll_firstaid, static_cast<int>( ( 100 - chance_of_success ) * 1.0 ) );
+        installer.practice( skilll_mechanics, static_cast<int>( ( 100 - chance_of_success ) * 0.5 ) );
     }
 
     int success = chance_of_success - rng( 0, 99 );
@@ -1082,7 +1143,7 @@ void player::bionics_install_failure( player &installer, int difficulty, int suc
     // this is scaled up or down by the ratio of difficulty/skill.  At high skill levels (or low
     // difficulties), only minor consequences occur.  At low skill levels, severe consequences
     // are more likely.
-    int failure_level = int( sqrt( success * 4.0 * difficulty / adjusted_skill ) );
+    int failure_level = static_cast<int>( sqrt( success * 4.0 * difficulty / adjusted_skill ) );
     int fail_type = ( failure_level > 5 ? 5 : failure_level );
 
     if( fail_type <= 0 ) {
@@ -1164,7 +1225,7 @@ void player::bionics_install_failure( player &installer, int difficulty, int suc
                                           old_power - max_power_level );
                     }
                 }
-                // @todo: What if we can't lose power capacity?  No penalty?
+                // TODO: What if we can't lose power capacity?  No penalty?
             } else {
                 const bionic_id &id = random_entry( valid );
                 add_bionic( id );
@@ -1213,7 +1274,7 @@ int player::get_used_bionics_slots( const body_part bp ) const
 std::map<body_part, int> player::bionic_installation_issues( const bionic_id &bioid )
 {
     std::map<body_part, int> issues;
-    if( !has_trait( trait_id( "DEBUG_CBM_SLOTS" ) ) ) {
+    if( !get_option < bool >( "CBM_SLOTS_ENABLED" ) ) {
         return issues;
     }
     for( auto &elem : bioid->occupied_bodyparts ) {
@@ -1324,7 +1385,7 @@ std::pair<int, int> player::amount_of_storage_bionics() const
     int lvl = max_power_level;
 
     // exclude amount of power capacity obtained via non-power-storage CBMs
-    for( auto it : *my_bionics ) {
+    for( const auto &it : *my_bionics ) {
         lvl -= bionics[it.id].capacity;
     }
 
@@ -1543,15 +1604,34 @@ void player::introduce_into_anesthesia( const time_duration &duration, player &i
                            _( "You settle into position, sliding your right wrist into the couch's strap." ),
                            _( "<npcname> settles into position, sliding their wrist into the couch's strap." ) );
     if( anesthetic ) {
+        //post-threshold medical mutants do not fear operations.
+        if( has_trait( trait_THRESH_MEDICAL ) ) {
+            add_msg_if_player( m_mixed,
+                               _( "You feel excited as the operation starts." ) );
+        }
+
         add_msg_if_player( m_mixed,
                            _( "You feel a tiny pricking sensation in your right arm, and lose all sensation before abruptly blacking out." ) );
 
         //post-threshold medical mutants with Deadened don't need anesthesia due to their inability to feel pain
     } else {
-        add_msg_if_player( m_mixed,
-                           _( "You stay very, very still, focusing intently on an interesting rock on the ceiling, as the Autodoc slices painlessly into you.  Mercifully, you pass out when the blades reach your line of sight." ) )
-        ;
+        //post-threshold medical mutants do not fear operations.
+        if( has_trait( trait_THRESH_MEDICAL ) ) {
+            add_msg_if_player( m_mixed,
+                               _( "You feel excited as the Autodoc slices painlessly into you.  You enjoy the sight of scalpels slicing you apart, but as operation proceeds you suddenly feel tired and pass out." ) );
+        } else {
+            add_msg_if_player( m_mixed,
+                               _( "You stay very, very still, focusing intently on an interesting rock on the ceiling, as the Autodoc slices painlessly into you.  Mercifully, you pass out when the blades reach your line of sight." ) );
+        }
     }
+
+    //Pain junkies feel sorry about missed pain from operation.
+    if( has_trait( trait_MASOCHIST ) || has_trait( trait_MASOCHIST_MED ) ||
+        has_trait( trait_CENOBITE ) ) {
+        add_msg_if_player( m_mixed,
+                           _( "As your conciousness slips away, you feel regret that you won't be able to enjoy the operation." ) );
+    }
+
     add_effect( effect_narcosis, duration );
     fall_asleep( duration );
 }

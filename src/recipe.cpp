@@ -28,7 +28,7 @@ int recipe::batch_time( int batch, float multiplier, size_t assistants ) const
         multiplier = 1.0f;
     }
 
-    const float local_time = float( time ) / multiplier;
+    const float local_time = static_cast<float>( time ) / multiplier;
 
     // if recipe does not benefit from batching and we have no assistants, don't do unnecessary additional calculations
     if( batch_rscale == 0.0 && assistants == 0 ) {
@@ -42,10 +42,10 @@ int recipe::batch_time( int batch, float multiplier, size_t assistants ) const
     } else {
         // recipe benefits from batching, so batching scale factor needs to be calculated
         // At batch_rsize, incremental time increase is 99.5% of batch_rscale
-        double scale = batch_rsize / 6.0;
+        const double scale = batch_rsize / 6.0;
         for( double x = 0; x < batch; x++ ) {
             // scaled logistic function output
-            double logf = ( 2.0 / ( 1.0 + exp( -( x / scale ) ) ) ) - 1.0;
+            const double logf = ( 2.0 / ( 1.0 + exp( -( x / scale ) ) ) ) - 1.0;
             total_time += local_time * ( 1.0 - ( batch_rscale * logf ) );
         }
     }
@@ -60,7 +60,7 @@ int recipe::batch_time( int batch, float multiplier, size_t assistants ) const
         total_time = local_time;
     }
 
-    return int( total_time );
+    return static_cast<int>( total_time );
 }
 
 bool recipe::has_flag( const std::string &flag_name ) const
@@ -200,6 +200,9 @@ void recipe::load( JsonObject &jo, const std::string &src )
         assign( jo, "reversible", reversible, strict );
 
         if( jo.has_member( "byproducts" ) ) {
+            if( this->reversible ) {
+                jo.throw_error( "Recipe cannot be reversible and have byproducts" );
+            }
             auto bp = jo.get_array( "byproducts" );
             byproducts.clear();
             while( bp.has_more() ) {
@@ -308,7 +311,7 @@ item recipe::create_result() const
     if( !newit.craft_has_charges() ) {
         newit.charges = 0;
     } else if( result_mult != 1 ) {
-        // @todo: Make it work for charge-less items
+        // TODO: Make it work for charge-less items
         newit.charges *= result_mult;
     }
 
@@ -374,18 +377,32 @@ bool recipe::has_byproducts() const
     return !byproducts.empty();
 }
 
-std::string recipe::required_skills_string( const Character *c ) const
+std::string recipe::required_skills_string( const Character *c, bool print_skill_level ) const
 {
     if( required_skills.empty() ) {
         return _( "<color_cyan>none</color>" );
     }
     return enumerate_as_string( required_skills.begin(), required_skills.end(),
     [&]( const std::pair<skill_id, int> &skill ) {
-        auto player_skill = c ? c->get_skill_level( skill.first ) : 0;
+        const auto player_skill = c ? c->get_skill_level( skill.first ) : 0;
         std::string difficulty_color = skill.second > player_skill ? "yellow" : "green";
-        return string_format( "<color_cyan>%s</color> <color_%s>(%d)</color>",
-                              skill.first.obj().name(), difficulty_color, skill.second );
+        std::string skill_level_string = print_skill_level ? "" : ( std::to_string( player_skill ) + "/" );
+        skill_level_string += std::to_string( skill.second );
+        return string_format( "<color_cyan>%s</color> <color_%s>(%s)</color>",
+                              skill.first.obj().name(), difficulty_color, skill_level_string );
     } );
+}
+
+std::string recipe::required_skills_string( const Character *c ) const
+{
+    return required_skills_string( c, false );
+}
+
+std::string recipe::batch_savings_string() const
+{
+    return ( batch_rsize != 0 ) ?
+           string_format( _( "%s%% at >%s units" ), static_cast<int>( batch_rscale * 100 ), batch_rsize )
+           : _( "none" );
 }
 
 std::string recipe::result_name() const

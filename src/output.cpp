@@ -6,6 +6,7 @@
 #include <cstring>
 #include <map>
 #include <sstream>
+#include <stack>
 #include <stdexcept>
 #include <string>
 #include <vector>
@@ -155,6 +156,24 @@ std::string remove_color_tags( const std::string &s )
     return ret;
 }
 
+static void update_color_stack( std::stack<nc_color> &color_stack, const std::string &seg )
+{
+    color_tag_parse_result tag = get_color_from_tag( seg );
+    switch( tag.type ) {
+        case color_tag_parse_result::open_color_tag:
+            color_stack.push( tag.color );
+            break;
+        case color_tag_parse_result::close_color_tag:
+            if( !color_stack.empty() ) {
+                color_stack.pop();
+            }
+            break;
+        case color_tag_parse_result::non_color_tag:
+            // Do nothing
+            break;
+    }
+}
+
 void print_colored_text( const catacurses::window &w, int y, int x, nc_color &color,
                          nc_color base_color, const std::string &text )
 {
@@ -162,16 +181,20 @@ void print_colored_text( const catacurses::window &w, int y, int x, nc_color &co
         wmove( w, y, x );
     }
     const auto color_segments = split_by_color( text );
+    std::stack<nc_color> color_stack;
+    color_stack.push( color );
+
     for( auto seg : color_segments ) {
         if( seg.empty() ) {
             continue;
         }
 
         if( seg[0] == '<' ) {
-            color = get_color_from_tag( seg, base_color );
+            update_color_stack( color_stack, seg );
             seg = rm_prefix( seg );
         }
 
+        color = color_stack.empty() ? base_color : color_stack.top();
         wprintz( w, color, seg );
     }
 }
@@ -256,8 +279,7 @@ int fold_and_print( const catacurses::window &w, int begin_y, int begin_x, int w
                     nc_color base_color, const std::string &text, const char split )
 {
     nc_color color = base_color;
-    std::vector<std::string> textformatted;
-    textformatted = foldstring( text, width, split );
+    std::vector<std::string> textformatted = foldstring( text, width, split );
     for( int line_num = 0; static_cast<size_t>( line_num ) < textformatted.size(); line_num++ ) {
         print_colored_text( w, line_num + begin_y, begin_x, color, base_color, textformatted[line_num] );
     }
@@ -268,9 +290,8 @@ int fold_and_print_from( const catacurses::window &w, int begin_y, int begin_x, 
                          int begin_line, nc_color base_color, const std::string &text )
 {
     const int iWinHeight = getmaxy( w );
-    nc_color color = base_color;
-    std::vector<std::string> textformatted;
-    textformatted = foldstring( text, width );
+    std::stack<nc_color> color_stack;
+    std::vector<std::string> textformatted = foldstring( text, width );
     for( int line_num = 0; static_cast<size_t>( line_num ) < textformatted.size(); line_num++ ) {
         if( line_num + begin_y - begin_line == iWinHeight ) {
             break;
@@ -284,11 +305,12 @@ int fold_and_print_from( const catacurses::window &w, int begin_y, int begin_x, 
         std::vector<std::string>::iterator it;
         for( it = color_segments.begin(); it != color_segments.end(); ++it ) {
             if( !it->empty() && it->at( 0 ) == '<' ) {
-                color = get_color_from_tag( *it, base_color );
+                update_color_stack( color_stack, *it );
             }
             if( line_num >= begin_line ) {
                 std::string l = rm_prefix( *it );
                 if( l != "--" ) { // -- is a separation line!
+                    nc_color color = color_stack.empty() ? base_color : color_stack.top();
                     wprintz( w, color, rm_prefix( *it ) );
                 } else {
                     for( int i = 0; i < width; i++ ) {
@@ -501,8 +523,7 @@ void draw_border( const catacurses::window &w, nc_color border_color, const std:
 
 void draw_tabs( const catacurses::window &w, int active_tab, ... )
 {
-    int win_width;
-    win_width = getmaxx( w );
+    int win_width = getmaxx( w );
     std::vector<std::string> labels;
     va_list ap;
     va_start( ap, active_tab );
@@ -528,7 +549,7 @@ void draw_tabs( const catacurses::window &w, int active_tab, ... )
 
     // Extra "buffer" space per each side of each tab
     double buffer_extra = ( win_width - total_width ) / ( labels.size() * 2 );
-    int buffer = int( buffer_extra );
+    int buffer = static_cast<int>( buffer_extra );
     // Set buffer_extra to (0, 1); the "extra" whitespace that builds up
     buffer_extra = buffer_extra - buffer;
     int xpos = 0;
@@ -581,11 +602,12 @@ bool query_yn( const std::string &text )
     return query_popup()
            .context( "YESNO" )
            .message( force_uc ?
-                     pgettext( "query_yn", "<color_light_red>%s (Case Sensitive)</color>" ) :
-                     pgettext( "query_yn", "<color_light_red>%s</color>" ), text )
+                     pgettext( "query_yn", "%s (Case Sensitive)" ) :
+                     pgettext( "query_yn", "%s" ), text )
            .option( "YES", allow_key )
            .option( "NO", allow_key )
            .cursor( 1 )
+           .default_color( c_light_red )
            .query()
            .action == "YES";
 }
@@ -669,7 +691,7 @@ void popup_status( const char *const title, const std::string &fmt )
 //@param without_getch don't wait getch, return = (int)' ';
 input_event draw_item_info( const int iLeft, const int iWidth, const int iTop, const int iHeight,
                             const std::string &sItemName, const std::string &sTypeName,
-                            std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
+                            const std::vector<iteminfo> &vItemDisplay, const std::vector<iteminfo> &vItemCompare,
                             int &selected, const bool without_getch, const bool without_border,
                             const bool handle_scrolling, const bool scrollbar_left, const bool use_full_win,
                             const unsigned int padding )
@@ -746,7 +768,7 @@ void draw_item_filter_rules( const catacurses::window &win, int starty, int heig
             _( "Type part of an item's name to move nearby items to the top." )
         }
     };
-    const int tab_idx = int( type ) - int( item_filter_type::FIRST );
+    const int tab_idx = static_cast<int>( type ) - static_cast<int>( item_filter_type::FIRST );
     starty += 1 + fold_and_print( win, starty, 1, len, c_white, intros[tab_idx] );
 
     starty += fold_and_print( win, starty, 1, len, c_white, _( "Separate multiple items with ," ) );
@@ -845,7 +867,8 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
 
 input_event draw_item_info( const catacurses::window &win, const std::string &sItemName,
                             const std::string &sTypeName,
-                            std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
+                            const std::vector<iteminfo> &vItemDisplay,
+                            const std::vector<iteminfo> &vItemCompare,
                             int &selected, const bool without_getch, const bool without_border,
                             const bool handle_scrolling, const bool scrollbar_left, const bool use_full_win,
                             const unsigned int padding )
@@ -987,14 +1010,14 @@ std::string trim( const std::string &s, Prep prep )
 std::string trim( const std::string &s )
 {
     return trim( s, []( int c ) {
-        return std::isspace( c );
+        return isspace( c );
     } );
 }
 
 std::string trim_punctuation_marks( const std::string &s )
 {
     return trim( s, []( int c ) {
-        return std::ispunct( c );
+        return ispunct( c );
     } );
 }
 
@@ -1276,7 +1299,7 @@ void scrollbar::apply( const catacurses::window &window )
         int bar_size = std::max( 2, slot_size * viewport_size_v / content_size_v );
         int scrollable_size = scroll_to_last_v ? content_size_v : content_size_v - viewport_size_v + 1;
 
-        int bar_start, bar_end;
+        int bar_start;
         if( viewport_pos_v == 0 ) {
             bar_start = 0;
         } else if( scrollable_size > 2 ) {
@@ -1284,7 +1307,7 @@ void scrollbar::apply( const catacurses::window &window )
         } else {
             bar_start = slot_size - bar_size;
         }
-        bar_end = bar_start + bar_size;
+        int bar_end = bar_start + bar_size;
 
         for( int i = 0; i < slot_size; ++i ) {
             if( i >= bar_start && i < bar_end ) {
@@ -1607,40 +1630,46 @@ std::string shortcut_text( nc_color shortcut_color, const std::string &fmt )
     return fmt;
 }
 
-const std::pair<std::string, nc_color> &
-get_hp_bar( const int cur_hp, const int max_hp, const bool is_mon )
+const std::pair<std::string, nc_color>
+get_bar( float cur, float max, int width, bool extra_resolution,
+         const std::vector<nc_color> &colors )
 {
-    using pair_t = std::pair<std::string, nc_color>;
-    static const std::array<pair_t, 12> strings {
-        {
-            //~ creature health bars
-            pair_t { R"(|||||)", c_green },
-            pair_t { R"(||||\)", c_green },
-            pair_t { R"(||||)",  c_light_green },
-            pair_t { R"(|||\)",  c_light_green },
-            pair_t { R"(|||)",   c_yellow },
-            pair_t { R"(||\)",   c_yellow },
-            pair_t { R"(||)",    c_light_red },
-            pair_t { R"(|\)",    c_light_red },
-            pair_t { R"(|)",     c_red },
-            pair_t { R"(\)",     c_red },
-            pair_t { R"(:)",     c_red },
-            pair_t { R"(-----)", c_light_gray },
-        }
-    };
+    std::string result;
+    float status = cur / max;
+    status = status > 1 ? 1 : status;
+    status = status < 0 ? 0 : status;
+    float sw = status * width;
 
-    const double ratio = static_cast<double>( cur_hp ) / ( max_hp ? max_hp : 1 );
-    return ( ratio >= 1.0 )            ? strings[0]  :
-           ( ratio >= 0.9 && !is_mon ) ? strings[1]  :
-           ( ratio >= 0.8 )            ? strings[2]  :
-           ( ratio >= 0.7 && !is_mon ) ? strings[3]  :
-           ( ratio >= 0.6 )            ? strings[4]  :
-           ( ratio >= 0.5 && !is_mon ) ? strings[5]  :
-           ( ratio >= 0.4 )            ? strings[6]  :
-           ( ratio >= 0.3 && !is_mon ) ? strings[7]  :
-           ( ratio >= 0.2 )            ? strings[8]  :
-           ( ratio >= 0.1 && !is_mon ) ? strings[9]  :
-           ( ratio >  0.0 )            ? strings[10] : strings[11];
+    nc_color col = colors[static_cast<int>( ( 1 - status ) * colors.size() )];
+    if( status == 0 ) {
+        col = colors.back();
+    } else if( ( sw < 0.5 ) && ( sw > 0 ) ) {
+        result = ":";
+    } else {
+        result += std::string( sw, '|' );
+        if( extra_resolution && ( sw - static_cast<int>( sw ) >= 0.5 ) ) {
+            result += "\\";
+        }
+    }
+
+    return std::make_pair( result, col );
+}
+
+const std::pair<std::string, nc_color> get_hp_bar( const int cur_hp, const int max_hp,
+        const bool is_mon )
+{
+    if( cur_hp == 0 ) {
+        return std::make_pair( "-----", c_light_gray );
+    }
+    return get_bar( cur_hp, max_hp, 5, !is_mon );
+}
+
+const std::pair<std::string, nc_color> get_stamina_bar( int cur_stam, int max_stam )
+{
+    if( cur_stam == 0 ) {
+        return std::make_pair( "-----", c_light_gray );
+    }
+    return get_bar( cur_stam, max_stam, 5, true, { c_cyan, c_light_cyan, c_yellow, c_light_red, c_red } );
 }
 
 std::pair<std::string, nc_color> get_light_level( const float light )
@@ -1995,7 +2024,6 @@ bool wildcard_match( const std::string &text_in, const std::string &pattern_in )
         return true;
     }
 
-    int pos;
     std::vector<std::string> pattern = string_split( wildcard_trim_rule( pattern_in ), '*' );
 
     if( pattern.size() == 1 ) { // no * found
@@ -2018,7 +2046,7 @@ bool wildcard_match( const std::string &text_in, const std::string &pattern_in )
             }
         } else {
             if( !( *it ).empty() ) {
-                pos = ci_find_substr( text, *it );
+                int pos = ci_find_substr( text, *it );
                 if( pos == -1 ) {
                     return false;
                 }

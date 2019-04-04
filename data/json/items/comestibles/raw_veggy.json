@@ -16,7 +16,7 @@
     "volume": 4,
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 4,
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 7 ] ],
+    "vitamins": [ [ "calcium", 6 ], [ "iron", 29 ] ],
     "fun": -15
   },
   {
@@ -52,8 +52,8 @@
     "material": "veggy",
     "volume": 1,
     "flags": [ "EATEN_HOT", "SMOKABLE" ],
-    "vitamins": [ [ "vitA", 1 ], [ "vitC", 23 ], [ "calcium", 1 ], [ "iron", 1 ] ],
-    "rot_spawn": "GROUP_ROTTING_PLANT"
+    "smoking_result": "dry_veggy",
+    "vitamins": [ [ "vitA", 3 ], [ "vitC", 95 ], [ "calcium", 5 ], [ "iron", 4 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -73,7 +73,7 @@
     "volume": 2,
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 2,
-    "vitamins": [ [ "iron", 6 ] ],
+    "vitamins": [ [ "calcium", 3 ], [ "iron", 22 ] ],
     "fun": -10
   },
   {
@@ -95,8 +95,8 @@
     "charges": 9,
     "fun": -2,
     "flags": [ "SMOKABLE" ],
-    "vitamins": [ [ "vitC", 13 ], [ "calcium", 1 ], [ "iron", 1 ] ],
-    "rot_spawn": "GROUP_ROTTING_PLANT"
+    "smoking_result": "dry_veggy",
+    "vitamins": [ [ "vitC", 56 ], [ "calcium", 5 ], [ "iron", 5 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -117,8 +117,8 @@
     "charges": 6,
     "fun": -1,
     "flags": [ "SMOKABLE" ],
-    "vitamins": [ [ "vitA", 15 ], [ "vitC", 1 ] ],
-    "rot_spawn": "GROUP_ROTTING_PLANT"
+    "smoking_result": "dry_veggy",
+    "vitamins": [ [ "vitA", 63 ], [ "vitC", 5 ], [ "calcium", 3 ], [ "iron", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -136,9 +136,7 @@
     "material": "veggy",
     "volume": 1,
     "fun": -12,
-    "rot_spawn": "GROUP_ROTTING_PLANT",
-    "vitamins": [ [ "iron", 3 ] ],
-    "rot_spawn_chance": 3
+    "vitamins": [ [ "iron", 8 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -156,9 +154,7 @@
     "material": "veggy",
     "volume": 1,
     "fun": -8,
-    "rot_spawn": "GROUP_ROTTING_PLANT",
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 1 ] ],
-    "rot_spawn_chance": 3
+    "vitamins": [ [ "calcium", 5 ], [ "iron", 5 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -176,8 +172,8 @@
     "material": "veggy",
     "volume": 1,
     "flags": [ "FREEZERBURN", "SMOKABLE" ],
-    "vitamins": [ [ "vitC", 1 ], [ "calcium", 1 ] ],
-    "rot_spawn": "GROUP_ROTTING_PLANT"
+    "smoking_result": "dry_veggy",
+    "vitamins": [ [ "vitA", 3 ], [ "vitC", 4 ], [ "calcium", 4 ], [ "iron", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -197,8 +193,7 @@
     "material": "veggy",
     "volume": 3,
     "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "vitC", 3 ], [ "iron", 1 ] ],
-    "rot_spawn": "GROUP_ROTTING_PLANT"
+    "vitamins": [ [ "vitA", 2 ], [ "vitC", 12 ], [ "iron", 4 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -237,7 +232,7 @@
     "volume": 1,
     "charges": 3,
     "flags": [ "FREEZERBURN" ],
-    "vitamins": [ [ "vitC", 20 ] ],
+    "vitamins": [ [ "vitA", 3 ], [ "vitC", 88 ], [ "calcium", 1 ], [ "iron", 3 ] ],
     "fun": -2
   },
   {
@@ -257,8 +252,7 @@
     "material": "veggy",
     "volume": 3,
     "flags": [ "FREEZERBURN" ],
-    "vitamins": [ [ "vitC", 2 ], [ "calcium", 1 ], [ "iron", 1 ] ],
-    "rot_spawn": "GROUP_ROTTING_PLANT"
+    "vitamins": [ [ "vitC", 9 ], [ "calcium", 6 ], [ "iron", 6 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -311,7 +305,7 @@
     "material": "garlic",
     "volume": "25 ml",
     "fun": -18,
-    "vitamins": [ [ "vitC", 1 ] ],
+    "vitamins": [ [ "vitC", 5 ], [ "calcium", 3 ], [ "iron", 1 ] ],
     "//": "Who in their right mind would eat an entire garlic bulb raw?"
   },
   {
@@ -351,7 +345,8 @@
     "volume": 10,
     "charges": 10,
     "flags": [ "FREEZERBURN", "SMOKABLE" ],
-    "rot_spawn": "GROUP_ROTTING_PLANT"
+    "smoking_result": "dry_veggy",
+    "vitamins": [ [ "vitA", 16 ], [ "vitC", 4 ], [ "calcium", 1 ], [ "iron", 2 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -387,9 +382,9 @@
     "volume": 1,
     "fun": -1,
     "flags": [ "FREEZERBURN", "SMOKABLE" ],
+    "smoking_result": "dry_veggy",
     "//": "Raw onions probably aren't all that tasty to most people.",
-    "vitamins": [ [ "vitC", 3 ] ],
-    "rot_spawn": "GROUP_ROTTING_PLANT"
+    "vitamins": [ [ "vitC", 12 ], [ "calcium", 4 ], [ "iron", 2 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -427,8 +422,8 @@
     "volume": "375 ml",
     "fun": -3,
     "flags": [ "FREEZERBURN", "SMOKABLE" ],
-    "vitamins": [ [ "vitC", 11 ], [ "iron", 2 ] ],
-    "rot_spawn": "GROUP_ROTTING_PLANT"
+    "smoking_result": "dry_veggy",
+    "vitamins": [ [ "vitC", 47 ], [ "calcium", 3 ], [ "iron", 9 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -449,8 +444,9 @@
     "charges": 12,
     "bashing": 2,
     "fun": -1,
-    "vitamins": [ [ "vitA", 14 ], [ "vitC", 3 ], [ "iron", 1 ] ],
-    "rot_spawn": "GROUP_ROTTING_PLANT"
+    "flags": [ "SMOKABLE" ],
+    "smoking_result": "dry_veggy",
+    "vitamins": [ [ "vitA", 58 ], [ "vitC", 12 ], [ "calcium", 3 ], [ "iron", 5 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -471,9 +467,7 @@
     "stack_size": 4,
     "fun": -12,
     "flags": [ "FREEZERBURN" ],
-    "rot_spawn": "GROUP_ROTTING_PLANT",
-    "vitamins": [ [ "vitA", 8 ], [ "vitC", 6 ], [ "calcium", 2 ], [ "iron", 2 ] ],
-    "rot_spawn_chance": 2
+    "vitamins": [ [ "vitA", 33 ], [ "vitC", 23 ], [ "calcium", 11 ], [ "iron", 10 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -491,8 +485,7 @@
     "price": 410,
     "material": "veggy",
     "volume": 1,
-    "vitamins": [ [ "vitC", 2 ], [ "calcium", 2 ] ],
-    "rot_spawn": "GROUP_ROTTING_PLANT"
+    "vitamins": [ [ "vitA", 1 ], [ "vitC", 11 ], [ "calcium", 11 ], [ "iron", 2 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -511,9 +504,7 @@
     "volume": 4,
     "charges": 4,
     "fun": -10,
-    "rot_spawn": "GROUP_ROTTING_PLANT",
-    "vitamins": [ [ "vitC", 2 ], [ "iron", 1 ] ],
-    "rot_spawn_chance": 8
+    "vitamins": [ [ "vitC", 8 ], [ "calcium", 2 ], [ "iron", 6 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -531,6 +522,7 @@
     "description": "Dried leaves of a tropical plant.  You can boil them into tea, or you can just eat them raw.  They aren't too filling though.",
     "price": 1030,
     "material": "veggy",
+    "primary_material": "dried_vegetable",
     "volume": 1,
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 20,
@@ -554,8 +546,8 @@
     "material": "tomato",
     "volume": "375 ml",
     "flags": [ "SMOKABLE" ],
-    "vitamins": [ [ "vitC", 5 ], [ "iron", 1 ] ],
-    "rot_spawn": "GROUP_ROTTING_PLANT"
+    "smoking_result": "dry_veggy",
+    "vitamins": [ [ "vitC", 22 ], [ "calcium", 3 ], [ "iron", 6 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -572,11 +564,10 @@
     "price": 600,
     "material": "veggy",
     "flags": [ "TRADER_AVOID", "SMOKABLE" ],
+    "smoking_result": "dry_veggy",
     "volume": 1,
-    "rot_spawn": "GROUP_ROTTING_PLANT",
     "//": "average of broccoli, cabbage, carrot, cattail_stalk, celery, chili_pepper, cucumber, lettuce, onion, pumpkin, raw_dandelion, rhubarb, sugar_beet, tomato, zucchini",
-    "vitamins": [ [ "vitA", 4 ], [ "vitC", 9 ], [ "calcium", 1 ], [ "iron", 1 ] ],
-    "rot_spawn_chance": 5
+    "vitamins": [ [ "vitA", 16 ], [ "vitC", 36 ], [ "calcium", 4 ], [ "iron", 4 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -587,7 +578,8 @@
     "spoils_in": "10 hours",
     "use_action": "POISON",
     "description": "Vegetable that looks poisonous.  You could eat it, but it will poison you.",
-    "price": 0
+    "price": 0,
+    "smoking_result": "dry_veggy_tainted"
   },
   {
     "type": "COMESTIBLE",
@@ -616,8 +608,8 @@
     "material": "veggy",
     "volume": 1,
     "flags": [ "EATEN_HOT", "SMOKABLE" ],
-    "vitamins": [ [ "vitC", 9 ], [ "iron", 1 ] ],
-    "rot_spawn": "GROUP_ROTTING_PLANT"
+    "smoking_result": "dry_veggy",
+    "vitamins": [ [ "vitC", 39 ], [ "calcium", 3 ], [ "iron", 4 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -634,5 +626,47 @@
     "material": [ "veggy" ],
     "volume": 1,
     "price": 0
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "raw_beans",
+    "name": "raw beans",
+    "name_plural": "raw beans",
+    "color": "brown",
+    "spoils_in": "2 days",
+    "comestible_type": "FOOD",
+    "weight": 194,
+    "symbol": "%",
+    "healthy": -2,
+    "calories": 56,
+    "description": "Raw, uncooked beans.  They are mildly toxic in this form, but you could cook them to make them tasty.",
+    "price": 90,
+    "material": "veggy",
+    "fun": -1,
+    "cooks_like": "beans_cooked",
+    "flags": [ "SMOKABLE", "NUTRIENT_OVERRIDE" ],
+    "smoking_result": "dry_beans",
+    "vitamins": [ [ "iron", 2 ], [ "vitC", 20 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "raw_lentils",
+    "name": "raw lentils",
+    "name_plural": "raw lentils",
+    "color": "light_green",
+    "spoils_in": "2 days",
+    "comestible_type": "FOOD",
+    "weight": 194,
+    "symbol": "%",
+    "healthy": -2,
+    "calories": 42,
+    "description": "Raw, uncooked lentils.  They could be cooked.",
+    "price": 90,
+    "material": "veggy",
+    "fun": -1,
+    "cooks_like": "lentils_cooked",
+    "flags": [ "SMOKABLE" ],
+    "smoking_result": "dry_lentils",
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 3 ], [ "vitC", 1 ], [ "vitB", 1 ] ]
   }
 ]

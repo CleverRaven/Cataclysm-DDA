@@ -36,7 +36,7 @@ std::vector<std::string> get_files_from_path(std::string extension, std::string 
 
     std::stack<std::string> directories, tempstack;
     directories.push(root_path);
-    std::string path = "";
+    std::string path;
 
     while (!directories.empty())
     {

@@ -46,6 +46,11 @@
   },
   {
     "type": "item_action",
+    "id": "DIG_CHANNEL",
+    "name": "Dig Water Channel"
+  },
+  {
+    "type": "item_action",
     "id": "PICKAXE",
     "name": "Dig through rock"
   },
@@ -253,11 +258,6 @@
     "type": "item_action",
     "id": "ATOMIC_CAFF",
     "name": "Drink"
-  },
-  {
-    "type": "item_action",
-    "id": "BATTLETORCH_LIT",
-    "name": "Extinguish"
   },
   {
     "type": "item_action",
@@ -846,11 +846,6 @@
   },
   {
     "type": "item_action",
-    "id": "TORCH_LIT",
-    "name": "..."
-  },
-  {
-    "type": "item_action",
     "id": "TOWEL",
     "name": "Dry/clean yourself"
   },
@@ -906,7 +901,7 @@
   },
   {
     "type": "item_action",
-    "id": "WEED_BROWNIE",
+    "id": "WEED_CAKE",
     "name": "Consume"
   },
   {

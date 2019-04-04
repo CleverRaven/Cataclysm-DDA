@@ -187,6 +187,8 @@ class monster : public Creature
         void plan( const mfactions &factions );
         void move(); // Actual movement
         void footsteps( const tripoint &p ); // noise made by movement
+        void shove_vehicle( const tripoint &remote_destination,
+                            const tripoint &nearby_destination ); // shove vehicles out of the way
 
         tripoint scent_move();
         int calc_movecost( const tripoint &f, const tripoint &t ) const;
@@ -308,6 +310,7 @@ class monster : public Creature
         float power_rating() const override;
         float speed_rating() const override;
 
+        int get_worn_armor_val( damage_type dt ) const;
         int  get_armor_cut( body_part bp ) const override; // Natural armor, plus any worn armor
         int  get_armor_bash( body_part bp ) const override; // Natural armor, plus any worn armor
         int  get_armor_type( damage_type dt, body_part bp ) const override;

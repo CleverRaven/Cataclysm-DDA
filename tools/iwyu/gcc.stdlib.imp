@@ -11,6 +11,7 @@
     { include: ["<ext/new_allocator.h>", "private", "<unordered_set>", "public"] },
     { include: ["<debug/array>", "private", "<array>", "public"] },
     { include: ["<debug/bitset>", "private", "<bitset>", "public"] },
+    { include: ["<debug/deque>", "private", "<deque>", "public"] },
     { include: ["<debug/vector>", "private", "<vector>", "public"] },
     { include: ["<debug/list>", "private", "<list>", "public"] },
     { include: ["<debug/map.h>", "private", "<map>", "public"] },

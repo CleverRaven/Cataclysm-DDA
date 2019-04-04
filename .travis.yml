@@ -30,6 +30,7 @@ os: linux
 branches:
   only:
   - master
+  - development
 
 jobs:
   include:
@@ -72,7 +73,7 @@ jobs:
           sources: [*apt_sources, llvm-toolchain-trusty-6.0]
 
     # macOS Tiles
-    - env: CLANG=clang++ NATIVE=osx OSX_MIN=10.13 TILES=1 SOUND=1 LUA=1
+    - env: CLANG=clang++ NATIVE=osx OSX_MIN=10.13 TILES=1 SOUND=1
       os: osx
       osx_image: xcode10.1
       compiler: clang
@@ -159,7 +160,7 @@ jobs:
           sources: [*apt_sources, llvm-toolchain-trusty-5.0]
 
     # Clang 6.0
-    - env: CLANG=clang++-6.0 CXXFLAGS=-Wno-error=unused-command-line-argument SANITIZE=address EXTRA_TEST_OPTS="~[.] ~vehicle_efficiency ~vehicle_drag"
+    - env: CLANG=clang++-6.0 CXXFLAGS=-Wno-error=unused-command-line-argument SANITIZE=address EXTRA_TEST_OPTS="~[.] ~vehicle_efficiency ~vehicle_drag ~starting_items"
       dist: trusty
       compiler: clang
       addons: &clang60

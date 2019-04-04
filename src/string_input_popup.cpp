@@ -45,11 +45,11 @@ void string_input_popup::create_window()
 
         for( int wraplen = w_width - 2; wraplen >= titlesize; wraplen-- ) {
             title_split = foldstring( _title, wraplen );
-            if( int( title_split.back().size() ) <= titlesize ) {
+            if( static_cast<int>( title_split.back().size() ) <= titlesize ) {
                 break;
             }
         }
-        w_height += int( title_split.size() ) - 1;
+        w_height += static_cast<int>( title_split.size() ) - 1;
     }
 
     std::vector<std::string> descformatted;
@@ -78,7 +78,7 @@ void string_input_popup::create_window()
     for( size_t i = 0; i < descformatted.size(); ++i ) {
         trim_and_print( w, 1 + i, 1, w_width - 2, _desc_color, descformatted[i] );
     }
-    for( int i = 0; i < int( title_split.size() ) - 1; i++ ) {
+    for( int i = 0; i < static_cast<int>( title_split.size() ) - 1; i++ ) {
         mvwprintz( w, _starty++, i + 1, _title_color, title_split[i] );
     }
     right_print( w, _starty, w_width - titlesize - 1, _title_color, title_split.back() );
@@ -154,6 +154,61 @@ void string_input_popup::add_to_history( const std::string &value ) const
     }
 }
 
+void string_input_popup::update_input_history( utf8_wrapper &ret, bool up )
+{
+    if( _identifier.empty() ) {
+        return;
+    }
+
+    std::vector<std::string> &hist = uistate.gethistory( _identifier );
+
+    if( hist.empty() ) {
+        return;
+    }
+
+    if( hist.size() >= _hist_max_size ) {
+        hist.erase( hist.begin(), hist.begin() + ( hist.size() - _hist_max_size ) );
+    }
+
+    if( up ) {
+        if( _hist_str_ind >= static_cast<int>( hist.size() ) ) {
+            return;
+        } else {
+            if( _hist_str_ind == 0 ) {
+                if( ret.empty() ) {
+                    _session_str_entered.erase( 0 );
+                } else {
+                    _session_str_entered = ret.str();
+                }
+
+                //avoid showing the same result twice (after reopen filter window without reset)
+                if( hist.size() > 1 && ret.str() == hist[hist.size() - 1] ) {
+                    _hist_str_ind += 1;
+                }
+            }
+        }
+    } else {
+        if( _hist_str_ind == 1 ) {
+            if( _session_str_entered.empty() ) {
+                ret.erase( 0 );
+            } else {
+                ret = _session_str_entered;
+                _position = _session_str_entered.length();
+            }
+            //show initial string entered and 'return'
+            _hist_str_ind = 0;
+        }
+        if( _hist_str_ind == 0 ) {
+            return;
+        }
+    }
+
+    _hist_str_ind += up ? 1 : -1;
+    ret = hist[hist.size() - _hist_str_ind];
+    _position = ret.length();
+
+}
+
 void string_input_popup::draw( const utf8_wrapper &ret, const utf8_wrapper &edit,
                                const int shift ) const
 {
@@ -176,7 +231,7 @@ void string_input_popup::draw( const utf8_wrapper &ret, const utf8_wrapper &edit
             a--;
             cursor = ret.substr( a, _position - a + 1 );
         }
-        size_t left_over = ret.substr( 0, a ).display_width() - shift;
+        const size_t left_over = ret.substr( 0, a ).display_width() - shift;
         mvwprintz( w, _starty, _startx + left_over, _cursor_color, "%s", cursor.c_str() );
         start_x_edit = _startx + left_over;
     } else if( _position == _max_length && _max_length > 0 ) {
@@ -325,9 +380,20 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
             add_to_history( ret.str() );
             _confirmed = true;
             _text = ret.str();
+            if( !_hist_use_uilist ) {
+                _hist_str_ind = 0;
+                _session_str_entered.erase( 0 );
+            }
             return _text;
         } else if( ch == KEY_UP ) {
-            show_history( ret );
+            if( _hist_use_uilist ) {
+                show_history( ret );
+            } else {
+                update_input_history( ret, true );
+            }
+            redraw = true;
+        } else if( ch == KEY_DOWN && !_hist_use_uilist ) {
+            update_input_history( ret, false );
             redraw = true;
         } else if( ch == KEY_DOWN || ch == KEY_NPAGE || ch == KEY_PPAGE || ch == KEY_BTAB || ch == 9 ) {
             /* absolutely nothing */
@@ -349,7 +415,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
         } else if( ch == KEY_BACKSPACE ) {
             // but silently drop input if we're at 0, instead of adding '^'
             if( _position > 0 && _position <= static_cast<int>( ret.size() ) ) {
-                //TODO: it is safe now since you only input ASCII chars
+                // TODO: it is safe now since you only input ASCII chars
                 _position--;
                 ret.erase( _position, 1 );
                 redraw = true;
@@ -448,7 +514,7 @@ void string_input_popup::edit( int &value )
 string_input_popup &string_input_popup::text( const std::string &value )
 {
     _text = value;
-    auto u8size = utf8_wrapper( _text ).size();
+    const auto u8size = utf8_wrapper( _text ).size();
     if( _position < 0 || static_cast<size_t>( _position ) > u8size ) {
         _position = u8size;
     }

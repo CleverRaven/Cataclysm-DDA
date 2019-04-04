@@ -6,7 +6,8 @@
 extern bool test_mode;
 
 query_popup::query_popup()
-    : cur( 0 ), anykey( false ), cancel( false ), ontop( false ), fullscr( false )
+    : cur( 0 ), default_text_color( c_white ), anykey( false ), cancel( false ), ontop( false ),
+      fullscr( false )
 {
 }
 
@@ -66,6 +67,12 @@ query_popup &query_popup::cursor( size_t pos )
 {
     // Change does not affect cache, do not invalidate window
     cur = pos;
+    return *this;
+}
+
+query_popup &query_popup::default_color( const nc_color &d_color )
+{
+    default_text_color = d_color;
     return *this;
 }
 
@@ -173,7 +180,8 @@ void query_popup::init() const
                 for( const auto &opt : line ) {
                     button_width += utf8_width( opt, true );
                 }
-                // Right align. todo: multi-line buttons
+                // Right align.
+                // TODO: multi-line buttons
                 int button_x = std::max( 0, msg_width - button_width -
                                          horz_padding * static_cast<int>( line.size() - 1 ) );
                 for( const auto &opt : line ) {
@@ -206,7 +214,7 @@ void query_popup::show() const
     draw_border( win );
 
     for( size_t line = 0; line < folded_msg.size(); ++line ) {
-        nc_color col = c_white;
+        nc_color col = default_text_color;
         print_colored_text( win, border_width + line, border_width, col, col,
                             folded_msg[line] );
     }
@@ -337,7 +345,7 @@ std::string query_popup::wait_text( const std::string &text )
 }
 
 query_popup::result::result()
-    : wait_input( false ), action( "ERROR" ), evt()
+    : wait_input( false ), action( "ERROR" )
 {
 }
 

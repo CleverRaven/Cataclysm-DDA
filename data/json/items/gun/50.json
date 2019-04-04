@@ -44,9 +44,17 @@
     "durability": 8,
     "reload": 400,
     "barrel_length": 5,
-    "modes": [ [ "DEFAULT", "auto", 8 ],
-               [ "SEMI", "semi-auto", 1 ] ],
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "sights", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ] ],
+    "modes": [ [ "DEFAULT", "auto", 8 ], [ "SEMI", "semi-auto", 1 ] ],
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "brass catcher", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "mechanism", 4 ],
+      [ "muzzle", 1 ]
+    ],
     "magazines": [ [ "50", [ "belt50" ] ] ],
     "flags": [ "MOUNTED_GUN" ]
   },
@@ -59,16 +67,19 @@
     "material": [ "steel", "wood" ],
     "clip_size": 1,
     "modes": [ [ "DEFAULT", "manual", 1 ] ],
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "sights", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "stock", 1 ], [ "grip", 1 ] ],
-    "magazines": [],
-    "relative": {
-      "weight": -21500,
-      "volume": -6,
-      "price": -1210000,
-      "ranged_damage": -4,
-      "dispersion": 60,
-      "barrel_length": -1
-    },
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "sights", 1 ],
+      [ "mechanism", 4 ],
+      [ "muzzle", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "grip", 1 ]
+    ],
+    "magazines": [  ],
+    "relative": { "weight": -21500, "volume": -6, "price": -1210000, "ranged_damage": -4, "dispersion": 60, "barrel_length": -1 },
     "flags": [ "RELOAD_EJECT" ]
   }
 ]

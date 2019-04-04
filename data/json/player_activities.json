@@ -70,9 +70,21 @@
     "based_on": "speed"
   },
   {
+    "id": "ACT_SKIN",
+    "type": "activity_type",
+    "stop_phrase": "Stop skinning?",
+    "based_on": "speed"
+  },
+  {
     "id": "ACT_QUARTER",
     "type": "activity_type",
     "stop_phrase": "Stop quartering?",
+    "based_on": "speed"
+  },
+  {
+    "id": "ACT_DISMEMBER",
+    "type": "activity_type",
+    "stop_phrase": "Stop dismembering?",
     "based_on": "speed"
   },
   {
@@ -330,13 +342,15 @@
     "id": "ACT_REPAIR_ITEM",
     "type": "activity_type",
     "stop_phrase": "Stop repairing?",
-    "based_on": "neither"
+    "based_on": "neither",
+    "refuel_fires": true
   },
   {
     "id": "ACT_MEND_ITEM",
     "type": "activity_type",
     "stop_phrase": "Stop mending?",
-    "based_on": "speed"
+    "based_on": "speed",
+    "refuel_fires": true
   },
   {
     "id": "ACT_GUNMOD_ADD",
@@ -407,7 +421,22 @@
     "id": "ACT_DIG",
     "type": "activity_type",
     "stop_phrase": "Stop digging?",
-    "based_on": "speed"
+    "based_on": "speed",
+    "byproducts": { "finish": [ { "group": "digging_soil_loam_50L", "count": 5 } ] }
+  },
+  {
+    "id": "ACT_DIG_DEEPEN",
+    "type": "activity_type",
+    "stop_phrase": "Stop digging?",
+    "based_on": "speed",
+    "byproducts": { "finish": [ { "group": "digging_soil_loam_50L", "count": 40 } ] }
+  },
+  {
+    "id": "ACT_DIG_CHANNEL",
+    "type": "activity_type",
+    "stop_phrase": "Stop digging?",
+    "based_on": "speed",
+    "byproducts": { "finish": [ { "group": "digging_soil_loam_50L", "count": 5 } ] }
   },
   {
     "id": "ACT_FILL_PIT",
@@ -447,5 +476,21 @@
     "stop_phrase": "Stop unloading?",
     "suspendable": false,
     "based_on": "speed"
+  },
+  {
+    "id": "ACT_ROBOT_CONTROL",
+    "type": "activity_type",
+    "stop_phrase": "Stop programming override?",
+    "suspendable": false,
+    "based_on": "time",
+    "no_resume": true
+  },
+  {
+    "id": "ACT_WEAR",
+    "type": "activity_type",
+    "stop_phrase": "Stop putting on items?",
+    "suspendable": false,
+    "based_on": "neither",
+    "no_resume": true
   }
 ]

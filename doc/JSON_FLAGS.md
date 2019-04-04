@@ -59,15 +59,18 @@ List of known flags, used in both terrain.json and furniture.json
 - ```BARRICADABLE_WINDOW_CURTAINS```
 - ```BASHABLE``` Players + Monsters can bash this.
 - ```BUTCHER_EQ``` Butcher's equipment - required for full butchery of corpses.
+- ```CAN_SIT``` Furniture the player can sit on. Player sitting near furniture with the "FLAT_SURF" tag will get mood bonus for eating.
 - ```CHIP``` Used in construction menu to determine if wall can have paint chipped off.
 - ```COLLAPSES``` Has a roof that can collapse.
 - ```CONNECT_TO_WALL``` (only for terrain) This flag has been superseded by the JSON entry `connects_to`, but is retained for backward compatibility.
 - ```CONSOLE``` Used as a computer.
 - ```CONTAINER``` Items on this square are hidden until looted by the player.
+- ```BLOCK_WIND``` This terrain will block the effects of wind.
 - ```DECONSTRUCT``` Can be deconstructed.
 - ```DEEP_WATER```
 - ```DESTROY_ITEM``` Items that land here are destroyed. See also `NOITEM`
 - ```DIGGABLE``` Digging monsters, seeding monster, digging with shovel, etc.
+- ```DIGGABLE_CAN_DEEPEN``` Diggable location can be dug again to make deeper (e.g. shallow pit to deep pit).
 - ```DOOR``` Can be opened (used for NPC path-finding).
 - ```EASY_DECONSTRUCT``` Player can deconstruct this without tools.
 - ```EXPLODES``` Explodes when on fire.
@@ -76,10 +79,11 @@ List of known flags, used in both terrain.json and furniture.json
 - ```FLAMMABLE_ASH``` Burns to ash rather than rubble.
 - ```FLAMMABLE_HARD``` Harder to light on fire, but still possible.
 - ```FLAT``` Player can build and move furniture on.
-- ```FLAT_SURF``` Furniture or terrain with flat hard surface (ex. table, but not chair; tree stump, etc.).
+- ```FLAT_SURF``` Furniture or terrain or vehicle part with flat hard surface (ex. table, but not chair; tree stump, etc.).
 - ```GOES_DOWN``` Can use <kbd>></kbd> to go down a level.
 - ```GOES_UP``` Can use <kbd><</kbd> to go up a level.
 - ```HARVESTED``` Marks the harvested version of a terrain type (e.g. harvesting an apple tree turns it into a harvested tree, which later becomes an apple tree again).
+- ```HIDE_PLACE``` Creatures on this tile can't be seen by creatures not standing on adjacent tiles
 - ```INDOORS``` Has a roof over it; blocks rain, sunlight, etc.
 - ```LADDER``` This piece of furniture that makes climbing easy (works only with z-level mode).
 - ```LIQUID``` Blocks movement, but isn't a wall (lava, water, etc.)
@@ -89,6 +93,7 @@ List of known flags, used in both terrain.json and furniture.json
 - ```NOCOLLIDE``` Feature that simply doesn't collide with vehicles at all.
 - ```NOITEM``` Items cannot be added here but may overflow to adjacent tiles. See also `DESTROY_ITEM`
 - ```NO_FLOOR``` Things should fall when placed on this tile
+- ```NO_SIGHT``` Creature on this tile have their sight reduced to one tile
 - ```OPENCLOSE_INSIDE``` If it's a door (with an 'open' or 'close' field), it can only be opened or closed if you're inside.
 - ```PAINFUL``` May cause a small amount of pain.
 - ```PERMEABLE``` Permeable for gases.
@@ -112,6 +117,7 @@ List of known flags, used in both terrain.json and furniture.json
 - ```THIN_OBSTACLE``` Passable by players and monsters; vehicles destroy it.
 - ```TINY``` Feature too short to collide with vehicle undercarriage. Vehicles drive over them with no damage, unless a wheel hits them.
 - ```TRANSPARENT``` Players and monsters can see through/past it. Also sets ter_t.transparent.
+- ```USABLE_FIRE``` This terrain or furniture counts as a nearby fire for crafting.
 - ```UNSTABLE``` Walking here cause the bouldering effect on the character.
 - ```WALL``` This terrain is an upright obstacle. Used for fungal conversion, and also implies `CONNECT_TO_WALL`.
 
@@ -120,7 +126,7 @@ List of known flags, used in both terrain.json and furniture.json
 - ```none``` None
 - ```aggie_plant``` Harvest plants.
 - ```bars``` Take advantage of AMORPHOUS and slip through the bars.
-- ```bulletin_board``` Create a home camp; currently not implemented.
+- ```bulletin_board``` Use this to arrange tasks for your faction camp.
 - ```cardreader``` Use the cardreader with a valid card, or attempt to hack.
 - ```chainfence``` Hop over the chain fence.
 - ```controls_gate``` Controls the attached gate.
@@ -246,6 +252,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```FIREPROOF``` Immune to fire.
 - ```FIREY``` Burns stuff and is immune to fire.
 - ```FISHABLE``` It is fishable.
+- ```CURRENT``` this water is flowing.
 - ```FLAMMABLE``` Monster catches fire, burns, and spreads fire to nearby objects.
 - ```FUR``` May produce fur when butchered.
 - ```GOODHEARING``` Pursues sounds more than most monsters.
@@ -545,6 +552,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```SECURITY```
 - ```SHARP``` Striking a monster with this part does cutting damage instead of bashing damage, and prevents stunning the monster.
 - ```SOLAR_PANEL``` Recharges vehicle batteries when exposed to sunlight. Has a 1 in 4 chance of being broken on car generation.
+- ```SPACE_HEATER``` Is a part that emits hot air.
 - ```STABLE``` Similar to `WHEEL`, but if the vehicle is only a 1x1 section, this single wheel counts as enough wheels.
 - ```STEERABLE``` This wheel is steerable.
 - ```STEREO```
@@ -558,10 +566,13 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```UNMOUNT_ON_MOVE``` Dismount this part when the vehicle moves. Doesn't drop the part, unless you give it special handling.
 - ```VARIABLE_SIZE``` Has 'bigness' for power, wheel radius, etc.
 - ```VISION```
+- ```WATER_WHEEL``` Recharges vehicle batteries when submerged in moving water.
 - ```WELDRIG``` Acts as a welder for crafting.
 - ```WIDE_CONE_LIGHT``` Projects a wide cone of light when turned on.
+- ```WIND_TURBINE``` Recharges vehicle batteries when exposed to wind.
 - ```WHEEL``` Counts as a wheel in wheel calculations.
 - ```WASHING_MACHINE``` Can be used to wash filthy clothes en masse.
+- ```WATER_WHEEL``` Recharges vehicle batteries when in flowing water.
 - ```WINDOW``` Can see through this part and can install curtains over it.
 
 ## Ammo
@@ -862,6 +873,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```BIPOD``` Handling bonus only applies on MOUNTABLE map/vehicle tiles. Does not include wield time penalty (see SLOW_WIELD).
 - ```CHARGE``` Has to be charged to fire. Higher charges do more damage.
 - ```COLLAPSIBLE_STOCK``` Reduces weapon volume proportional to the base size of the gun (excluding any mods). Does not include wield time penalty (see NEEDS_UNFOLD).
+- ```CONSUMABLE``` Makes a gunpart have a chance to get damaged depending on ammo fired, and definable fields 'consume_chance' and 'consume_divisor'.
 - ```DISABLE_SIGHTS``` Prevents use of the base weapon sights
 - ```FIRE_50``` Uses 50 shots per firing.
 - ```FIRE_100``` Uses 100 shots per firing.
@@ -928,8 +940,11 @@ Melee flags are fully compatible with tool flags, and vice versa.
 - ```RADIO_MODABLE``` Indicates the item can be made into a radio-activated item.
 - ```RECHARGE``` Gain charges when placed in a cargo area with a recharge station.
 - ```USE_UPS``` Item is charges from an UPS / it uses the charges of an UPS instead of its own.
+- ```USES_BIONIC_POWER``` The item has no charges of its own, and runs off of the player's bionic power.
 - ```WATER_EXTINGUISH``` Is extinguishable in water or under precipitation. Converts items (requires "reverts_to" or use_action "transform" to be set).
+- ```WIND_EXTINGUISH``` This item will be extinguished by the wind.
 - ```WET``` Item is wet and will slowly dry off (e.g. towel).
+- ```WRITE_MESSAGE``` This item could be used to write messages on signs.
 
 ### Flags that apply to items, not to item types.
 
@@ -972,7 +987,6 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```ACIDBOMB_ACT``` Get rid of it or you'll end up like that guy in Robocop.
 - ```ARROW_FLAMABLE``` Light your arrow and let fly.
 - ```BATTLETORCH``` Light the battle torch.
-- ```BATTLETORCH_LIT``` Extinguish the battle torch.
 - ```BELL``` Ring the bell.
 - ```BOLTCUTTERS``` Use your town key to gain access anywhere.
 - ```C4``` Arm the C4.
@@ -1051,7 +1065,6 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```TAZER``` Shock someone or something.
 - ```TELEPORT``` Teleport.
 - ```TORCH``` Light a torch.
-- ```TORCH_LIT``` Extinguish the torch.
 - ```TOURISTMAP``` Learn of local points-of-interest that a tourist would like to visit, and show roads.
 - ```TOWEL``` Dry your character using the item as towel.
 - ```TURRET``` Activate a turret.
@@ -1070,6 +1083,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```FIREWOOD``` ... This item can serve as a firewood. Items with this flag are sorted out to "Loot: Wood" zone
 - ```FRAGILE_MELEE``` ... Fragile items that fall apart easily when used as a weapon due to poor construction quality and will break into components when broken.
 - ```GAS_DISCOUNT``` ... Discount cards for the automated gas stations.
+- ```IS_PET_ARMOR``` ... Is armor for a pet monster, not armor for a person
 - ```LEAK_ALWAYS``` ... Leaks (may be combined with "RADIOACTIVE").
 - ```LEAK_DAM``` ... Leaks when damaged (may be combined with "RADIOACTIVE").
 - ```NEEDS_UNFOLD``` ... Has an additional time penalty upon wielding. For melee weapons and guns this is offset by the relevant skill. Stacks with "SLOW_WIELD".
@@ -1138,6 +1152,17 @@ Those flags are added by the game code to specific items (that specific welder, 
 ### Flags
 
 - ```ORTHOGONAL``` The connection generally prefers straight lines, avoids turning wherever possible.
+
+## Overmap specials
+
+### Flags
+
+- ```BLOB``` Location should "blob" outward from the defined location with a chance to be placed in adjacent locations.
+- ```CLASSIC``` Location is allowed when classic zombies are enabled.
+- ```UNIQUE``` Location is unique and will only occur once per overmap. `occurrences` is overridden to define a percent chance (e.g. `"occurrences" : [75, 100]` is 75%)
+- ```BEE``` Location is related to bees. Used to classify location.
+- ```FUNGAL``` Location is related to fungi. Used to classify location.
+- ```TRIFFID``` Location is related to triffids. Used to classify location.
 
 ## TODO
 

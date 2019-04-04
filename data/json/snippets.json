@@ -152,6 +152,11 @@
   {
     "type": "snippet",
     "category": "flier",
+    "text": [ "This is a propaganda poster showing the Northrop Dispatch's military variant.  It depicts the iconic dark green, arachnoid dispatch, standing before a fence and facing away from the camera as blurring machines rush forward from its back towards black silhouettes menacing on the horizon.  It reads: \"WE ARE HERE TO PROTECT YOU.\"" ]
+  },
+  {
+    "type": "snippet",
+    "category": "flier",
     "text": [ "This is an advertisement for Leadworks LLC handguns.  It shows a picture of a bionic police officer assisting a young couple, who were being attacked by a gang of ruffians.  The caption reads: \"You don't have to void your warranty or wear out your thumb to achieve felon-stopping firepower.  The L39B, tried and true by our fine cyborgs in blue, is available in .45 ACP for that extra punch, and we offer semiautomatic (but equally robust!) versions for the civilian market.  Leadworks, LLC.\"" ]
   },
   {
@@ -278,6 +283,11 @@
     "type": "snippet",
     "category": "flier",
     "text": [ "\"Joe's Diner; 1/2 pound of meat, 3 toppings, 'your choice', all with a side of freedom fries and a BIG Gulp size pop.\"" ]
+  },
+  {
+    "type": "snippet",
+    "category": "flier",
+    "text": [ "This is an advertisement for the Wink & Nod brand Soporific Induction CBM.  It shows a picture of a woman sleeping on a bed of nails with a satisfied smile on her face.  The caption reads: \"Catch Zs with ease, wherever you please!\"" ]
   },
   {
     "type": "snippet",
@@ -863,11 +873,6 @@
     "type": "snippet",
     "category": "note",
     "text": [ "\"Something wrong, with cars..., ram, and,. my speedometer    read six hundred.,.thousand can't feel lungs,\"" ]
-  },
-  {
-    "type": "snippet",
-    "category": "note",
-    "text": [ "\"Somehow I managed to fit an entire goddamn lemon into this makeshift battery.\"" ]
   },
   {
     "type": "snippet",
@@ -1654,6 +1659,66 @@
     "type": "snippet",
     "category": "flier",
     "text": [ "This is an advertisement for a local hospital.  You see a clean hospital room with a smiling man lying on the bed.  The bed is connected to some medical apparatus with a \"Autodoc Mk. X\" printed on it.  A doctor is seen working with its console, while his assistant is unpacking some high-tech hardware.  The caption reads: \"Autodoc - augmentation has never been so easy, reliable, and safe.\"" ]
+  },
+  {
+    "type": "snippet",
+    "category": "scores",
+    "text": [ "The card is printed with 2 boxes.  In the first box you see a tally of 5 tick marks.  The second box has a total of 9." ]
+  },
+  {
+    "type": "snippet",
+    "category": "scores",
+    "text": [ "The card is printed with 2 boxes.  In the first box you see a tally of 3 tick marks.  The second box has line trailing off to the edge and a bloody fingerprint." ]
+  },
+  {
+    "type": "snippet",
+    "category": "scores",
+    "text": [ "The card is printed for a game of golf. Someone has filled out their score for the first 9 holes." ]
+  },
+  {
+    "type": "snippet",
+    "category": "charsheet",
+    "text": [ "It's a Dungeons & Dragons 6th Edition character sheet.  This one is for a fighter." ]
+  },
+  {
+    "type": "snippet",
+    "category": "charsheet",
+    "text": [ "It's a Dungeons & Dragons 6th Edition character sheet.  This one is for a bard." ]
+  },
+  {
+    "type": "snippet",
+    "category": "charsheet",
+    "text": [ "It's a Dungeons & Dragons 6th Edition character sheet.  This one is for a cleric." ]
+  },
+  {
+    "type": "snippet",
+    "category": "charsheet",
+    "text": [ "It's a Dungeons & Dragons 6th Edition character sheet.  This one is for a wizard." ]
+  },
+  {
+    "type": "snippet",
+    "category": "charsheet",
+    "text": [ "It's a Dungeons & Dragons 6th Edition character sheet.  This one is for a rogue." ]
+  },
+  {
+    "type": "snippet",
+    "category": "charsheet",
+    "text": [ "It's a Dungeons & Dragons 6th Edition character sheet.  This one is for a barbarian." ]
+  },
+  {
+    "type": "snippet",
+    "category": "charsheet",
+    "text": [ "It's a Dungeons & Dragons 6th Edition character sheet.  This one is for a warlock." ]
+  },
+  {
+    "type": "snippet",
+    "category": "charsheet",
+    "text": [ "It's a Dungeons & Dragons 6th Edition character sheet.  This one is for a paladin." ]
+  },
+  {
+    "type": "snippet",
+    "category": "charsheet",
+    "text": [ "It's a Dungeons & Dragons 6th Edition character sheet.  This one is for a sorcerer." ]
   },
   {
     "type": "snippet",

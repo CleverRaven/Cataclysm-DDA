@@ -530,14 +530,14 @@
       { "x": -1, "y": 2, "part": "halfboard_vertical" },
       { "x": -2, "y": -1, "part": "frame_horizontal" },
       { "x": -2, "y": -1, "part": "halfboard_sw" },
-      { "x": -2, "y": -1, "part": "wheel_steerable" },
+      { "x": -2, "y": -1, "part": "wheel_slick_steerable" },
       { "x": -2, "y": 0, "part": "frame_horizontal" },
       { "x": -2, "y": 0, "part": "door_trunk" },
       { "x": -2, "y": 1, "part": "frame_horizontal" },
       { "x": -2, "y": 1, "part": "door_trunk" },
       { "x": -2, "y": 2, "part": "frame_horizontal" },
       { "x": -2, "y": 2, "part": "halfboard_se" },
-      { "x": -2, "y": 2, "part": "wheel_steerable" }
+      { "x": -2, "y": 2, "part": "wheel_slick_steerable" }
     ],
     "items": [
       { "x": 0, "y": 0, "chance": 10, "item_groups": [ "snacks_fancy" ] },
@@ -617,7 +617,7 @@
       { "x": -2, "y": 2, "part": "halfboard_vertical" },
       { "x": -3, "y": -1, "part": "frame_horizontal" },
       { "x": -3, "y": -1, "part": "halfboard_sw" },
-      { "x": -3, "y": -1, "part": "wheel_steerable" },
+      { "x": -3, "y": -1, "part": "wheel_slick_steerable" },
       { "x": -3, "y": 0, "part": "hdframe_horizontal" },
       { "x": -3, "y": 0, "part": "halfboard_vertical_2" },
       { "x": -3, "y": 0, "part": "engine_electric_enhanced" },
@@ -628,7 +628,7 @@
       { "x": -3, "y": 1, "part": "plating_steel" },
       { "x": -3, "y": 2, "part": "frame_horizontal" },
       { "x": -3, "y": 2, "part": "halfboard_se" },
-      { "x": -3, "y": 2, "part": "wheel_steerable" }
+      { "x": -3, "y": 2, "part": "wheel_slick_steerable" }
     ],
     "items": [
       { "x": 0, "y": 0, "chance": 16, "items": [ "coke" ] },
@@ -702,16 +702,53 @@
       { "x": -1, "y": 2, "part": "xlhalfboard_vertical" },
       { "x": -2, "y": -1, "part": "xlframe_horizontal" },
       { "x": -2, "y": -1, "part": "xlhalfboard_sw" },
-      { "x": -2, "y": -1, "part": "wheel_steerable" },
+      { "x": -2, "y": -1, "part": "wheel_slick_steerable" },
       { "x": -2, "y": 0, "part": "xlframe_horizontal" },
       { "x": -2, "y": 0, "part": "door_trunk" },
       { "x": -2, "y": 1, "part": "xlframe_horizontal" },
       { "x": -2, "y": 1, "part": "door_trunk" },
       { "x": -2, "y": 2, "part": "xlframe_horizontal" },
       { "x": -2, "y": 2, "part": "xlhalfboard_se" },
-      { "x": -2, "y": 2, "part": "wheel_steerable" }
+      { "x": -2, "y": 2, "part": "wheel_slick_steerable" }
     ],
     "items": [ { "x": -1, "y": 0, "chance": 8, "items": [ "sm_extinguisher" ] } ]
+  },
+  {
+    "id": "car_racing_electric",
+    "type": "vehicle",
+    "name": "Electric Racing Car",
+    "blueprint": [
+      [ "o-+-o" ],
+      [ "+=#'|" ],
+      [ "+=#'|" ],
+      [ "o-+-o" ]
+    ],
+    "parts": [
+      { "x": 0, "y": 0, "parts": [ "xlframe_vertical_2", "seat", "seatbelt", "controls", "dashboard", "vehicle_alarm", "horn_car", "roof" ] },
+      { "x": 0, "y": 1, "parts": [ "xlframe_vertical_2", "seat", "seatbelt", "roof" ] },
+      { "x": 0, "y": -1, "parts": [ "xlframe_vertical", "door" ] },
+      { "x": 0, "y": 2, "parts": [ "xlframe_vertical", "door" ] },
+      { "x": 1, "y": 0, "parts": [ "xlframe_horizontal", "windshield" ] },
+      { "x": 1, "y": 1, "parts": [ "xlframe_horizontal", "windshield" ] },
+      { "x": 1, "y": -1, "parts": [ "xlframe_vertical", "windshield" ] },
+      { "x": 1, "y": 2, "parts": [ "xlframe_vertical", "windshield" ] },
+      { "x": 2, "y": 0, "parts": [ "xlframe_horizontal", "xlhalfboard_horizontal", "engine_electric_super", "storage_battery" ] },
+      { "x": 2, "y": 1, "parts": [ "xlframe_horizontal", "storage_battery", "xlhalfboard_horizontal" ] },
+      { "x": 2, "y": -1, "parts": [ "xlframe_nw", "xlhalfboard_nw", "wheel_steerable", "headlight" ] },
+      { "x": 2, "y": 2, "parts": [ "xlframe_ne", "xlhalfboard_ne", "wheel_steerable", "headlight" ] },
+      { "x": -1, "y": 0, "parts": [ "xlframe_vertical", "storage_battery", "trunk", "roof" ] },
+      { "x": -1, "y": 1, "parts": [ "xlframe_vertical", "storage_battery", "trunk", "roof" ] },
+      { "x": -1, "y": -1, "parts": [ "xlframe_vertical" ,"xlhalfboard_vertical" ] },
+      { "x": -1, "y": 2, "parts": [ "xlframe_vertical", "xlhalfboard_vertical" ] },
+      { "x": -2, "y": -1, "parts": [ "xlframe_horizontal", "xlhalfboard_sw", "wheel_slick_steerable" ] },
+      { "x": -2, "y": 0, "parts": [ "xlframe_horizontal", "door_trunk" ] },
+      { "x": -2, "y": 1, "parts": [ "xlframe_horizontal", "door_trunk" ] },
+      { "x": -2, "y": 2, "parts": [ "xlframe_horizontal", "xlhalfboard_se", "wheel_slick_steerable" ] }
+    ],
+    "items": [
+      { "x": -1, "y": 0, "chance": 8, "items": [ "sm_extinguisher" ] },
+      { "x": 0, "y": 0, "chance": 6, "items": [ "helmet_motor" ] }
+    ]
   },
   {
     "id": "electric_car",

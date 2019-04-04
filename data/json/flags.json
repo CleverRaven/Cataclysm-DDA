@@ -241,6 +241,12 @@
     "inherit": false
   },
   {
+    "id": "NUTRIENT_OVERRIDE",
+    "type": "json_flag",
+    "context": [ "COMESTIBLE" ],
+    "description": "forces calories and vitamins to be the ones defined in the json, instead of inheriting from ingredients"
+  },
+  {
     "id": "MELTS",
     "type": "json_flag",
     "context": [ "COMESTIBLE" ],
@@ -307,6 +313,12 @@
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "info": "This clothing <good>partially protects</good> you from <info>radiation</info>.",
     "conflicts": [ "RAD_PROOF" ]
+  },
+  {
+    "id": "TWO_WAY_RADIO",
+    "type": "json_flag",
+    "context": [ "GENERIC", "TOOL_ARMOR", "TOOL" ],
+    "info": "This item can be used to communicate with radio waves."
   },
   {
     "id": "RAINPROOF",

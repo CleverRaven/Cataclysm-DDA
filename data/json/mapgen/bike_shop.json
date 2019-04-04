@@ -110,10 +110,12 @@
     "vehicles": [
       [ "bicycle", 1000 ],
       [ "bicycle_electric", 600 ],
+      [ "bicycle_dirt", 750 ],
       [ "unicycle", 50 ],
       [ "scooter", 100 ],
       [ "scooter_electric", 50 ],
-      [ "tandem", 300 ]
+      [ "tandem", 300 ],
+      [ "tricycle", 50 ]
     ]
   },
   {
@@ -121,6 +123,7 @@
     "id": "bikeshop_tools",
     "items": [
       [ "wheel_bicycle", 100 ],
+      [ "wheel_bicycle", 80 ],
       [ "horn_bicycle", 80 ],
       [ "foot_crank", 80 ],
       [ "saddle", 80 ],
@@ -148,6 +151,7 @@
       {
         "distribution": [
           { "item": "wheel_bicycle", "prob": 100 },
+          { "item": "wheel_bicycle", "prob": 90 },
           { "item": "horn_bicycle", "prob": 80 },
           { "item": "foot_crank", "prob": 80 },
           { "item": "saddle", "prob": 80 },

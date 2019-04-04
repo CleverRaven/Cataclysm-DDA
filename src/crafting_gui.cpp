@@ -338,6 +338,9 @@ const recipe *select_crafting_recipe( int &batch_size )
                     picking = available_recipes.favorite();
                 } else if( subtab.cur() == "CSC_*_RECENT" ) {
                     picking = available_recipes.recent();
+                } else if( subtab.cur() == "CSC_*_HIDDEN" ) {
+                    picking.insert( picking.end(), available_recipes.begin(), available_recipes.end() );
+                    show_hidden = true;
                 } else {
                     picking = available_recipes.in_category( tab.cur(), subtab.cur() != "CSC_ALL" ? subtab.cur() : "" );
                 }
@@ -555,26 +558,23 @@ const recipe *select_crafting_recipe( int &batch_size )
 
             if( display_mode == 0 ) {
                 const int width = getmaxx( w_data ) - xpos - item_info_x;
-                print_colored_text(
-                    w_data, ypos++, xpos, col, col,
-                    string_format( _( "Primary skill used: <color_cyan>%s</color>" ),
-                                   ( !current[line]->skill_used ? _( "N/A" ) :
-                                     current[line]->skill_used.obj().name() ) ) );
+
                 auto player_skill = g->u.get_skill_level( current[line]->skill_used );
                 std::string difficulty_color =
                     current[ line ]->difficulty > player_skill ? "yellow" : "green";
+                std::string primary_skill_level = string_format( "(%s/%s)", player_skill,
+                                                  current[ line ]->difficulty );
                 print_colored_text(
                     w_data, ypos++, xpos, col, col,
-                    string_format( _( "Difficulty: <color_%s>%d</color>" ),
-                                   difficulty_color, current[ line ]->difficulty ) );
-                std::string skill_level_string =
-                    current[line]->skill_used ?
-                    string_format( _( "Your skill level: <color_%s>%d</color>" ),
-                                   difficulty_color, player_skill ) :
-                    _( "Your skill level: <color_yellow>N/A</color>" );
-                print_colored_text( w_data, ypos++, xpos, col, col, skill_level_string );
+                    string_format( _( "Primary skill: <color_cyan>%s</color> <color_%s>%s</color>" ),
+                                   ( !current[line]->skill_used ? _( "N/A" ) :
+                                     current[line]->skill_used.obj().name() ),
+                                   difficulty_color,
+                                   ( !current[line]->skill_used ? "" : primary_skill_level )
+                                 ) );
+
                 ypos += fold_and_print( w_data, ypos, xpos, width, col,
-                                        _( "Other skills used: %s" ),
+                                        _( "Other skills: %s" ),
                                         current[line]->required_skills_string( &g->u ) );
 
                 const int expected_turns = g->u.expected_time_to_craft( *current[line],
@@ -582,6 +582,10 @@ const recipe *select_crafting_recipe( int &batch_size )
                 ypos += fold_and_print( w_data, ypos, xpos, pane, col,
                                         _( "Time to complete: <color_cyan>%s</color>" ),
                                         to_string( time_duration::from_turns( expected_turns ) ) );
+
+                ypos += fold_and_print( w_data, ypos, xpos, pane, col,
+                                        _( "Batch time savings: <color_cyan>%s</color>" ),
+                                        current[line]->batch_savings_string() );
 
                 print_colored_text(
                     w_data, ypos++, xpos, col, col,
@@ -741,11 +745,16 @@ const recipe *select_crafting_recipe( int &batch_size )
                                    prefix.key, prefix.example, padding, spaces, prefix.description );
             }
 
+            description +=
+                _( "\nYou can use <color_white>arrow keys</color> to go through search history\n\n" );
+
             string_input_popup()
             .title( _( "Search:" ) )
             .width( 85 )
             .description( description )
             .desc_color( c_light_gray )
+            .identifier( "craft_recipe_filter" )
+            .hist_use_uilist( false )
             .edit( filterstring );
             redraw = true;
         } else if( action == "QUIT" ) {
@@ -948,7 +957,7 @@ static void draw_can_craft_indicator( const catacurses::window &w, const int mar
                                       const recipe &rec )
 {
     // Erase previous text
-    // @todo: fixme replace this hack by proper solution (based on max width of possible content)
+    // FIXME: replace this hack by proper solution (based on max width of possible content)
     right_print( w, margin_y + 1, 1, c_black, "        " );
     // Draw text
     right_print( w, margin_y, 1, c_light_gray, _( "can craft:" ) );
@@ -959,7 +968,7 @@ static void draw_can_craft_indicator( const catacurses::window &w, const int mar
         right_print( w, margin_y + 1, 1, i_red, _( "too sad" ) );
     } else if( g->u.crafting_speed_multiplier( rec ) < 1.0f ) {
         right_print( w, margin_y + 1, 1, i_yellow, string_format( _( "slow %d%%" ),
-                     int( g->u.crafting_speed_multiplier( rec ) * 100 ) ) );
+                     static_cast<int>( g->u.crafting_speed_multiplier( rec ) * 100 ) ) );
     } else {
         right_print( w, margin_y + 1, 1, i_green, _( "yes" ) );
     }
@@ -1006,7 +1015,7 @@ static void draw_recipe_subtabs( const catacurses::window &w, const std::string 
     for( int i = 0; i < width; i++ ) {
         if( i == 0 ) {
             mvwputch( w, 2, i, BORDER_COLOR, LINE_XXXO );
-        } else if( i == width ) { // @todo: that is always false!
+        } else if( i == width ) { // TODO: that is always false!
             mvwputch( w, 2, i, BORDER_COLOR, LINE_XOXX );
         } else {
             mvwputch( w, 2, i, BORDER_COLOR, LINE_OXOX );

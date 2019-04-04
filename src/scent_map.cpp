@@ -191,9 +191,9 @@ void scent_map::update( const tripoint &center, map &m )
             if( !blocks_scent[x][y] ) {
                 // to how many neighboring squares do we diffuse out? (include our own square
                 // since we also include our own square when diffusing in)
-                int squares_used = squares_used_y[y][x - 1]
-                                   + squares_used_y[y][x]
-                                   + squares_used_y[y][x + 1];
+                const int squares_used = squares_used_y[y][x - 1]
+                                         + squares_used_y[y][x]
+                                         + squares_used_y[y][x + 1];
 
                 int this_diffusivity;
                 if( !reduces_scent[x][y] ) {

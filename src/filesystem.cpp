@@ -63,12 +63,17 @@ bool do_mkdir( const std::string &path, const int mode )
 
 bool assure_dir_exist( const std::string &path )
 {
+    return dir_exist( path ) || do_mkdir( path, 0777 );
+}
+
+bool dir_exist( const std::string &path )
+{
     DIR *dir = opendir( path.c_str() );
     if( dir != nullptr ) {
         closedir( dir );
         return true;
     }
-    return do_mkdir( path, 0777 );
+    return false;
 }
 
 bool file_exist( const std::string &path )
@@ -131,7 +136,7 @@ const char *cata_files::eol()
 namespace
 {
 
-//TODO move elsewhere.
+// TODO: move elsewhere.
 template <typename T, size_t N>
 inline size_t sizeof_array( T const( & )[N] ) noexcept
 {
@@ -150,7 +155,7 @@ void for_each_dir_entry( const std::string &path, Function function )
         return;
     }
 
-    dir_ptr root = opendir( path.c_str() );
+    const dir_ptr root = opendir( path.c_str() );
     if( !root ) {
         const auto e_str = strerror( errno );
         DebugLog( D_WARNING, D_MAIN ) << "opendir [" << path << "] failed with \"" << e_str << "\".";

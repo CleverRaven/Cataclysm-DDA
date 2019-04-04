@@ -11,6 +11,7 @@
 #include "input.h"
 #include "item.h"
 #include "itype.h"
+#include "iuse_actor.h"
 #include "morale_types.h"
 #include "options.h"
 #include "output.h"
@@ -565,6 +566,16 @@ void player_morale::on_item_takeoff( const item &it )
     set_worn( it, false );
 }
 
+void player_morale::on_worn_item_transform( const item &it )
+{
+    item dummy = it;
+    dummy.convert( dynamic_cast<iuse_transform *>( item::find_type(
+                       it.typeId() )->get_use( "transform" )->get_actor_ptr() )->target );
+
+    set_worn( dummy, false );
+    set_worn( it, true );
+}
+
 void player_morale::on_worn_item_washed( const item &it )
 {
     const auto update_body_part = [&]( body_part_data & bp_data ) {
@@ -687,8 +698,8 @@ void player_morale::update_stylish_bonus()
                 body_parts[bp].fancy > 0 ||
                 body_parts[opposite_body_part( bp )].fancy > 0 ) ? bonus : 0;
         };
-        bonus = std::min( int( 2 * super_fancy_items.size() ) +
-                          2 * std::min( int( no_body_part.fancy ), 3 ) +
+        bonus = std::min( static_cast<int>( 2 * super_fancy_items.size() ) +
+                          2 * std::min( static_cast<int>( no_body_part.fancy ), 3 ) +
                           bp_bonus( bp_torso,  6 ) +
                           bp_bonus( bp_head,   3 ) +
                           bp_bonus( bp_eyes,   2 ) +
@@ -721,7 +732,7 @@ void player_morale::update_masochist_bonus()
     set_permanent( MORALE_PERM_MASOCHIST, bonus );
 }
 
-void player_morale::update_bodytemp_penalty( const time_duration ticks )
+void player_morale::update_bodytemp_penalty( const time_duration &ticks )
 {
     using bp_int_func = std::function<int( body_part )>;
     const auto apply_pen = [ this, ticks ]( morale_type type, bp_int_func bp_int ) -> void {
@@ -783,7 +794,7 @@ void player_morale::update_squeamish_penalty()
             body_parts[bp].filthy > 0 ||
             body_parts[opposite_body_part( bp )].filthy > 0 ) ? penalty : 0;
     };
-    penalty = 2 * std::min( int( no_body_part.filthy ), 3 ) +
+    penalty = 2 * std::min( static_cast<int>( no_body_part.filthy ), 3 ) +
               bp_pen( bp_torso,  6 ) +
               bp_pen( bp_head,   7 ) +
               bp_pen( bp_eyes,   8 ) +

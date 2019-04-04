@@ -26,7 +26,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
     }
 
     tripoint dp_veh = -u.grab_point;
-    tripoint prev_grab = u.grab_point;
+    const tripoint prev_grab = u.grab_point;
     tripoint next_grab = u.grab_point;
 
     bool zigzag = false;
@@ -100,7 +100,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
         //calculate exertion factor and movement penalty
         ///\EFFECT_STR increases speed of dragging vehicles
         u.moves -= 100 * str_req / std::max( 1, u.get_str() );
-        int ex = dice( 1, 3 ) - 1 + str_req;
+        const int ex = dice( 1, 3 ) - 1 + str_req;
         if( ex > u.get_str() ) {
             add_msg( m_bad, _( "You strain yourself to move the %s!" ), grabbed_vehicle->name.c_str() );
             u.moves -= 200;
@@ -135,7 +135,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
         const tripoint player_prev = u.pos();
         u.setpos( tripoint_zero );
         std::vector<veh_collision> colls;
-        bool failed = grabbed_vehicle->collision( colls, actual_dir, true );
+        const bool failed = grabbed_vehicle->collision( colls, actual_dir, true );
         u.setpos( player_prev );
         if( !colls.empty() ) {
             blocker_name = colls.front().target_name;

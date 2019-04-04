@@ -213,6 +213,8 @@ bool recipe_subset::empty_category( const std::string &cat, const std::string &s
         return uistate.favorite_recipes.empty();
     } else if( subcat == "CSC_*_RECENT" ) {
         return uistate.recent_recipes.empty();
+    } else if( subcat == "CSC_*_HIDDEN" ) {
+        return uistate.hidden_recipes.empty();
     }
 
     auto iter = category.find( cat );
@@ -363,7 +365,7 @@ void recipe_dictionary::finalize()
             bk.result_ = id;
             bk.reversible = true;
             bk.requirements_ = *requirement_id( "uncraft_book" ) * pages;
-            bk.time = pages * 10; // @todo: allow specifying time in requirement_data
+            bk.time = pages * 10; // TODO: allow specifying time in requirement_data
         }
     }
 

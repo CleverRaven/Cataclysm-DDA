@@ -29,7 +29,7 @@
       [ [ "paper", 5 ], [ "rolling_paper", 32 ] ],
       [ [ "acid", 2 ], [ "chem_sulphuric_acid", 2 ], [ "chem_nitric_acid", 2 ] ],
       [ [ "ammonia", 1 ], [ "chem_ethanol", 250 ], [ "denat_alcohol", 250 ] ],
-      [ [ "soap", 3 ], [ "tallow", 2 ], [ "tallow_tainted", 2 ], [ "lard", 2 ], [ "cooking_oil", 2 ] ]
+      [ [ "soap", 3 ], [ "tallow", 2 ], [ "tallow_tainted", 2 ], [ "lard", 2 ], [ "cooking_oil", 16 ], [ "cooking_oil2", 16 ] ]
     ]
   },
   {
@@ -190,7 +190,7 @@
     "components": [
       [ [ "rag", 1 ] ],
       [ [ "bottle_glass", 1 ], [ "flask_glass", 1 ], [ "clay_canister", 1 ] ],
-      [ [ "gasoline", 500 ], [ "diesel", 500 ], [ "chem_ethanol", 500 ], [ "denat_alcohol", 500 ], [ "lamp_oil", 500 ] ]
+      [ [ "gasoline", 500 ], [ "diesel", 500 ], [ "chem_ethanol", 500 ], [ "chem_methanol", 500 ], [ "ether", 500 ], [ "denat_alcohol", 500 ], [ "lamp_oil", 500 ] ]
     ]
   },
   {

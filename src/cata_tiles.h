@@ -5,14 +5,15 @@
 #include <memory>
 #include <map>
 #include <set>
-#include <vector>
 #include <string>
+#include <vector>
 #include <unordered_map>
 
 #include "sdl_wrappers.h"
 #include "animation.h"
 #include "lightmap.h"
 #include "line.h"
+#include "options.h"
 #include "game_constants.h"
 #include "weather.h"
 #include "enums.h"
@@ -91,6 +92,11 @@ class texture
                                      flip );
         }
 };
+
+extern SDL_Texture_Ptr alt_rect_tex;
+extern bool alt_rect_tex_enabled;
+extern void draw_alt_rect( const SDL_Renderer_Ptr &renderer, const SDL_Rect &rect,
+                           Uint32 r, Uint32 g, Uint32 b );
 
 struct pixel {
     int r;
@@ -173,7 +179,7 @@ struct minimap_shared_texture_pool {
             //shouldn't be happening, but minimap will just be default color instead of crashing
             return nullptr;
         }
-        int index = inactive_index.back();
+        const int index = inactive_index.back();
         inactive_index.pop_back();
         active_index.insert( index );
         i = index;
@@ -183,7 +189,7 @@ struct minimap_shared_texture_pool {
     //releases the provided texture back into the inactive pool to be used again
     //called automatically in the submap cache destructor
     void release_tex( int i, SDL_Texture_Ptr ptr ) {
-        auto it = active_index.find( i );
+        const auto it = active_index.find( i );
         if( it == active_index.end() ) {
             return;
         }
@@ -440,11 +446,13 @@ class cata_tiles
         bool draw_terrain_from_memory( const tripoint &p, int &height_3d );
         bool draw_terrain_below( const tripoint &p, lit_level ll, int &height_3d );
         bool draw_furniture( const tripoint &p, lit_level ll, int &height_3d );
+        bool draw_graffiti( const tripoint &p, lit_level ll, int &height_3d );
         bool draw_trap( const tripoint &p, lit_level ll, int &height_3d );
         bool draw_field_or_item( const tripoint &p, lit_level ll, int &height_3d );
         bool draw_vpart( const tripoint &p, lit_level ll, int &height_3d );
         bool draw_vpart_below( const tripoint &p, lit_level ll, int &height_3d );
         bool draw_critter_at( const tripoint &p, lit_level ll, int &height_3d );
+        bool draw_critter_at_below( const tripoint &p, lit_level ll, int &height_3d );
         bool draw_zone_mark( const tripoint &p, lit_level ll, int &height_3d );
         bool draw_entity( const Creature &critter, const tripoint &p, lit_level ll, int &height_3d );
         void draw_entity_with_overlays( const player &pl, const tripoint &p, lit_level ll, int &height_3d );
@@ -525,6 +533,7 @@ class cata_tiles
         }
         void do_tile_loading_report();
         point player_to_screen( int x, int y ) const;
+        static std::vector<options_manager::id_and_option> build_renderer_list();
     protected:
         template <typename maptype>
         void tile_loading_report( const maptype &tiletypemap, const std::string &label,
@@ -640,6 +649,9 @@ class cata_tiles
         //place all submaps on this texture before rendering to screen
         //replaces clipping rectangle usage while SDL still has a flipped y-coordinate bug
         SDL_Texture_Ptr main_minimap_tex;
+        // SDL_RenderFillRect replacement handler
+        void handle_draw_rect( const SDL_Renderer_Ptr &renderer, const SDL_Rect &rect,
+                               Uint32 r, Uint32 g, Uint32 b );
 };
 
 #endif

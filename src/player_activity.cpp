@@ -23,7 +23,7 @@ player_activity::player_activity( const player_activity &rhs )
       moves_total( rhs.moves_total ), moves_left( rhs.moves_left ),
       index( rhs.index ), position( rhs.position ), name( rhs.name ),
       values( rhs.values ), str_values( rhs.str_values ),
-      coords( rhs.coords ), placement( rhs.placement ),
+      coords( rhs.coords ), monsters( rhs.monsters ), placement( rhs.placement ),
       auto_resume( rhs.auto_resume )
 {
     targets.clear();
@@ -45,6 +45,7 @@ player_activity &player_activity::operator=( const player_activity &rhs )
     ignored_distractions = rhs.ignored_distractions;
     values = rhs.values;
     str_values = rhs.str_values;
+    monsters = rhs.monsters;
     coords = rhs.coords;
     placement = rhs.placement;
     auto_resume = rhs.auto_resume;
@@ -93,7 +94,7 @@ void player_activity::do_turn( player &p )
 {
     // Should happen before activity or it may fail du to 0 moves
     if( *this && type->will_refuel_fires() ) {
-        try_refuel_fire( p );
+        try_fuel_fire( *this, p );
     }
 
     if( type->based_on() == based_on_type::TIME ) {
@@ -127,10 +128,7 @@ void player_activity::do_turn( player &p )
     if( !*this ) {
         // Make sure data of previous activity is cleared
         p.activity = player_activity();
-        if( !p.backlog.empty() && p.backlog.front().auto_resume ) {
-            p.activity = p.backlog.front();
-            p.backlog.pop_front();
-        }
+        p.resume_backlog_activity();
 
         // If whatever activity we were doing forced us to pick something up to
         // handle it, drop any overflow that may have caused
@@ -153,7 +151,7 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
     // Should be used for relative positions
     // And to forbid resuming now-invalid crafting
 
-    // @todo: Once activity_handler_actors exist, the less ugly method of using a
+    // TODO: Once activity_handler_actors exist, the less ugly method of using a
     // pure virtual can_resume_with should be used
 
     if( !*this || !other || type->no_resume() ) {
@@ -161,8 +159,16 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
     }
 
     if( id() == activity_id( "ACT_CRAFT" ) || id() == activity_id( "ACT_LONGCRAFT" ) ) {
-        if( !containers_equal( values, other.values ) ||
-            !containers_equal( coords, other.coords ) ) {
+        // The last value is a time stamp, and the last coord is the player
+        // position.  We want to allow either to have changed.
+        // (This would be much less hacky in the hypothetical future of
+        // activity_handler_actors).
+        if( !( values.size() == other.values.size() &&
+               !values.empty() &&
+               std::equal( values.begin(), values.end() - 1, other.values.begin() ) &&
+               coords.size() == other.coords.size() &&
+               !coords.empty() &&
+               std::equal( coords.begin(), coords.end() - 1, other.coords.begin() ) ) ) {
             return false;
         }
     } else if( id() == activity_id( "ACT_CLEAR_RUBBLE" ) ) {
@@ -187,6 +193,22 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
 
     return !auto_resume && id() == other.id() && index == other.index &&
            position == other.position && name == other.name && targets == other.targets;
+}
+
+void player_activity::resume_with( const player_activity &other )
+{
+    if( id() == activity_id( "ACT_CRAFT" ) || id() == activity_id( "ACT_LONGCRAFT" ) ) {
+        // For crafting actions, we need to update the start turn and position
+        // to the resumption time values.  These are stored in the last
+        // elements of values and coords respectively.
+        if( !( !values.empty() && values.size() == other.values.size() &&
+               !coords.empty() && coords.size() == other.coords.size() ) ) {
+            debugmsg( "Activities incompatible; should not have resumed" );
+            return;
+        }
+        values.back() = other.values.back();
+        coords.back() = other.coords.back();
+    }
 }
 
 bool player_activity::is_distraction_ignored( distraction_type type ) const

@@ -111,6 +111,10 @@ zone_manager::zone_manager()
     types.emplace( zone_type_id( "FARM_PLOT" ),
                    zone_type( translate_marker( "Farm: Plot" ),
                               translate_marker( "Designate a farm plot for tilling and planting." ) ) );
+    types.emplace( zone_type_id( "CAMP_FOOD" ),
+                   zone_type( translate_marker( "Basecamp: Food" ),
+                              translate_marker( "Items in this zone will be added to a basecamp's food supply in the Distribute Food mission." ) ) );
+
 }
 
 std::string zone_type::name() const
@@ -151,7 +155,7 @@ plot_options::query_seed_result plot_options::query_seed()
     } );
 
     auto seed_entries = iexamine::get_seed_entries( seed_inv );
-    seed_entries.emplace( seed_entries.begin(), seed_tuple( itype_id( "null" ), "No seed", 0 ) );
+    seed_entries.emplace( seed_entries.begin(), seed_tuple( itype_id( "null" ), _( "No seed" ), 0 ) );
 
     int seed_index = iexamine::query_seed( seed_entries );
 
@@ -436,18 +440,38 @@ bool zone_manager::has_near( const zone_type_id &type, const tripoint &where ) c
 {
     const auto &point_set = get_point_set( type );
     for( auto &point : point_set ) {
-        if( square_dist( point, where ) <= MAX_DISTANCE ) {
-            return true;
+        if( point.z == where.z ) {
+            if( square_dist( point, where ) <= MAX_DISTANCE ) {
+                return true;
+            }
         }
     }
 
     const auto &vzone_set = get_vzone_set( type );
     for( auto &point : vzone_set ) {
-        if( square_dist( point, where ) <= MAX_DISTANCE ) {
-            return true;
+        if( point.z == where.z ) {
+            if( square_dist( point, where ) <= MAX_DISTANCE ) {
+                return true;
+            }
         }
     }
 
+    return false;
+}
+
+bool zone_manager::has_loot_dest_near( const tripoint &where ) const
+{
+    for( const auto &ztype : get_manager().get_types() ) {
+        const zone_type_id &type = ztype.first;
+        if( type == zone_type_id( "CAMP_FOOD" ) || type == zone_type_id( "FARM_PLOT" ) ||
+            type == zone_type_id( "LOOT_UNSORTED" ) || type == zone_type_id( "LOOT_IGNORE" ) ||
+            type == zone_type_id( "NO_AUTO_PICKUP" ) || type == zone_type_id( "NO_NPC_PICKUP" ) ) {
+            continue;
+        }
+        if( has_near( type, where ) ) {
+            return true;
+        }
+    }
     return false;
 }
 
@@ -458,15 +482,19 @@ std::unordered_set<tripoint> zone_manager::get_near( const zone_type_id &type,
     auto near_point_set = std::unordered_set<tripoint>();
 
     for( auto &point : point_set ) {
-        if( square_dist( point, where ) <= MAX_DISTANCE ) {
-            near_point_set.insert( point );
+        if( point.z == where.z ) {
+            if( square_dist( point, where ) <= MAX_DISTANCE ) {
+                near_point_set.insert( point );
+            }
         }
     }
 
     const auto &vzone_set = get_vzone_set( type );
     for( auto &point : vzone_set ) {
-        if( square_dist( point, where ) <= MAX_DISTANCE ) {
-            near_point_set.insert( point );
+        if( point.z == where.z ) {
+            if( square_dist( point, where ) <= MAX_DISTANCE ) {
+                near_point_set.insert( point );
+            }
         }
     }
 
@@ -608,6 +636,22 @@ const zone_data *zone_manager::get_bottom_zone( const tripoint &where ) const
     return nullptr;
 }
 
+// CAREFUL: This function has the ability to move the passed in zone reference depending on
+// which constructor of the key-value pair we use which depends on new_zone being an rvalue or lvalue and constness.
+// If you are passing new_zone from a non-const iterator, be prepared for a move! This
+// may break some iterators like map iterators if you are less specific!
+void zone_manager::create_vehicle_loot_zone( vehicle &vehicle, const point &mount_point,
+        zone_data &new_zone )
+{
+    //create a vehicle loot zone
+    new_zone.set_is_vehicle( true );
+    auto nz = vehicle.loot_zones.emplace( mount_point, new_zone );
+    g->m.register_vehicle_zone( &vehicle, g->get_levz() );
+    vehicle.zones_dirty = false;
+    added_vzones.push_back( &nz->second );
+    cache_vzones();
+}
+
 void zone_manager::add( const std::string &name, const zone_type_id &type,
                         const bool invert, const bool enabled, const tripoint &start, const tripoint &end,
                         std::shared_ptr<zone_options> options )
@@ -617,23 +661,19 @@ void zone_manager::add( const std::string &name, const zone_type_id &type,
     //the start is a vehicle tile with cargo space
     if( const cata::optional<vpart_reference> vp = g->m.veh_at( g->m.getlocal(
                 start ) ).part_with_feature( "CARGO", false ) ) {
-        //TODO:Allow for loot zones on vehicles to be larger than 1x1
+        // TODO:Allow for loot zones on vehicles to be larger than 1x1
         if( start == end && query_yn( _( "Bind this zone to the cargo part here?" ) ) ) {
-            //TODO: refactor zone options for proper validation code
+            // TODO: refactor zone options for proper validation code
             if( type == zone_type_id( "FARM_PLOT" ) ) {
                 popup( _( "You cannot add that type of zone to a vehicle." ), PF_NONE );
                 return;
             }
-            //create a vehicle loot zone
-            new_zone.set_is_vehicle( true );
-            auto nz = vp->vehicle().loot_zones.emplace( vp->mount(), new_zone );
-            g->m.register_vehicle_zone( &vp->vehicle(), g->get_levz() );
-            vp->vehicle().zones_dirty = false;
-            added_vzones.push_back( &nz->second );
-            cache_vzones();
+
+            create_vehicle_loot_zone( vp->vehicle(), vp->mount(), new_zone );
             return;
         }
     }
+
     //Create a regular zone
     zones.push_back( new_zone );
     cache_data();
@@ -683,11 +723,50 @@ void zone_manager::swap( zone_data &a, zone_data &b )
 {
     if( a.get_is_vehicle() || b.get_is_vehicle() ) {
         //Current swap mechanic will change which vehicle the zone is on
-        //TODO: track and update vehicle zone priorities?
+        // TODO: track and update vehicle zone priorities?
         popup( _( "You cannot change the order of vehicle loot zones." ), PF_NONE );
         return;
     }
     std::swap( a, b );
+}
+
+void zone_manager::start_sort( const std::vector<tripoint> &src_sorted )
+{
+    for( auto &src : src_sorted ) {
+        num_processed[src] = 0;
+    }
+}
+
+void zone_manager::end_sort()
+{
+    num_processed.clear();
+}
+
+bool zone_manager::is_sorting() const
+{
+    return !num_processed.empty();
+}
+
+int zone_manager::get_num_processed( const tripoint &src ) const
+{
+    auto it = num_processed.find( src );
+    if( it != num_processed.end() ) {
+        return it->second;
+    }
+    return 0;
+}
+
+void zone_manager::increment_num_processed( const tripoint &src )
+{
+    num_processed[src]++;
+}
+
+void zone_manager::decrement_num_processed( const tripoint &src )
+{
+    num_processed[src]--;
+    if( num_processed[src] < 0 ) {
+        num_processed[src] = 0;
+    }
 }
 
 std::vector<zone_manager::ref_zone_data> zone_manager::get_zones()
@@ -733,13 +812,13 @@ void zone_manager::deserialize( JsonIn &jsin )
 {
     jsin.read( zones );
     for( auto it = zones.begin(); it != zones.end(); ++it ) {
-        if( !has_type( it->get_type() ) ) {
+        const zone_type_id zone_type = it->get_type();
+        if( !has_type( zone_type ) ) {
             zones.erase( it );
-            debugmsg( "Invalid zone type: %s", it->get_type().c_str() );
+            debugmsg( "Invalid zone type: %s", zone_type.c_str() );
         }
     }
 }
-
 
 void zone_data::serialize( JsonOut &json ) const
 {
@@ -845,7 +924,7 @@ void zone_manager::revert_vzones()
             cache_vzones();
         }
     }
-    for( auto zpair : changed_vzones ) {
+    for( const auto &zpair : changed_vzones ) {
         *( zpair.second ) = zpair.first;
     }
     for( auto zone : added_vzones ) {

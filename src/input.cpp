@@ -447,9 +447,9 @@ const action_attributes &input_manager::get_action_attributes(
 
     if( context != default_context_id ) {
         // Check if the action exists in the provided context
-        t_action_contexts::const_iterator action_context = action_contexts.find( context );
+        const t_action_contexts::const_iterator action_context = action_contexts.find( context );
         if( action_context != action_contexts.end() ) {
-            t_actions::const_iterator action = action_context->second.find( action_id );
+            const t_actions::const_iterator action = action_context->second.find( action_id );
             if( action != action_context->second.end() ) {
                 if( overwrites_default ) {
                     *overwrites_default = true;

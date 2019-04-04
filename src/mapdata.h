@@ -85,6 +85,7 @@ struct map_deconstruct_info {
  * ROUGH - May hurt the player's feet
  * SEALED - Can't use 'e' to retrieve items, must smash open first
  * NOITEM - Items 'fall off' this space
+ * NO_SIGHT - When on this tile sight is reduced to 1
  * MOUNTABLE - Player can fire mounted weapons from here (e.g. M2 Browning)
  * DESTROY_ITEM - Items that land here are destroyed
  * GOES_DOWN - Can use '>' to go down a level
@@ -105,6 +106,8 @@ struct map_deconstruct_info {
  * PERMEABLE - Allows gases to flow through unimpeded.
  * RAMP - Higher z-levels can be accessed from this tile
  * EASY_DECONSTRUCT - Player can deconstruct this without tools
+ * HIDE_PLACE - Creature on this tile can't be seen by other creature not standing on adjacent tiles
+ * BLOCK_WIND - This tile will partially block wind
  *
  * Currently only used for Fungal conversions
  * WALL - This terrain is an upright obstacle
@@ -127,7 +130,7 @@ struct map_deconstruct_info {
  * so much that strings produce a significant performance penalty. The following are equivalent:
  *  m->has_flag("FLAMMABLE");     //
  *  m->has_flag(TFLAG_FLAMMABLE); // ~ 20 x faster than the above, ( 2.5 x faster if the above uses static const std::string str_flammable("FLAMMABLE");
- * To add a new ter_bitflag, add below and add to init_ter_bitflags_map() in mapdata.cpp
+ * To add a new ter_bitflag, add below and add to ter_bitflags_map in mapdata.cpp
  * Order does not matter.
  */
 enum ter_bitflags : int {
@@ -138,6 +141,7 @@ enum ter_bitflags : int {
     TFLAG_SUPPORTS_ROOF,
     TFLAG_MINEABLE,
     TFLAG_NOITEM,
+    TFLAG_NO_SIGHT,
     TFLAG_SEALED,
     TFLAG_ALLOW_FIELD_EFFECT,
     TFLAG_LIQUID,
@@ -155,6 +159,7 @@ enum ter_bitflags : int {
     TFLAG_UNSTABLE,
     TFLAG_WALL,
     TFLAG_DEEP_WATER,
+    TFLAG_CURRENT,
     TFLAG_HARVESTED,
     TFLAG_PERMEABLE,
     TFLAG_AUTO_WALL_SYMBOL,
@@ -165,6 +170,8 @@ enum ter_bitflags : int {
     TFLAG_NO_FLOOR,
     TFLAG_SEEN_FROM_ABOVE,
     TFLAG_RAMP,
+    TFLAG_HIDE_PLACE,
+    TFLAG_BLOCK_WIND,
 
     NUM_TERFLAGS
 };
@@ -309,6 +316,7 @@ struct furn_t : map_data_common_t {
     furn_str_id open;  // Open action: transform into furniture with matching id
     furn_str_id close; // Close action: transform into furniture with matching id
     std::string crafting_pseudo_item;
+    units::volume keg_capacity = 0_ml;
     int comfort = 0;
     int floor_bedding_warmth = 0;
     int bonus_fire_warmth_feet = 300;
@@ -352,7 +360,7 @@ extern ter_id t_null,
        t_dirt, t_sand, t_clay, t_dirtmound, t_pit_shallow, t_pit,
        t_pit_corpsed, t_pit_covered, t_pit_spiked, t_pit_spiked_covered, t_pit_glass, t_pit_glass_covered,
        t_rock_floor,
-       t_grass,
+       t_grass, t_grass_long, t_grass_tall, t_grass_golf, t_grass_dead, t_grass_white,
        t_metal_floor,
        t_pavement, t_pavement_y, t_sidewalk, t_concrete,
        t_thconc_floor, t_thconc_floor_olight, t_strconc_floor,
@@ -414,7 +422,8 @@ extern ter_id t_null,
        t_marloss, t_fungus_floor_in, t_fungus_floor_sup, t_fungus_floor_out, t_fungus_wall,
        t_fungus_mound, t_fungus, t_shrub_fungal, t_tree_fungal, t_tree_fungal_young, t_marloss_tree,
        // Water, lava, etc.
-       t_water_sh, t_swater_sh, t_water_dp, t_swater_dp, t_water_pool, t_sewage,
+       t_water_moving_dp, t_water_moving_sh, t_water_sh, t_swater_sh, t_water_dp, t_swater_dp,
+       t_water_pool, t_sewage,
        t_lava,
        // More embellishments than you can shake a stick at.
        t_sandbox, t_slide, t_monkey_bars, t_backboard,

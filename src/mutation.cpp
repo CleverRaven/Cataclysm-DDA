@@ -288,6 +288,8 @@ void player::activate_mutation( const trait_id &mut )
     const mutation_branch &mdata = mut.obj();
     auto &tdata = my_mutations[mut];
     int cost = mdata.cost;
+    // Preserve the fake weapon used to initiate ranged mutation firing
+    static item mut_ranged( weapon );
     // You can take yourself halfway to Near Death levels of hunger/thirst.
     // Fatigue can go to Exhausted.
     if( ( mdata.hunger && get_hunger() + get_starvation() >= 700 ) || ( mdata.thirst &&
@@ -488,6 +490,13 @@ void player::activate_mutation( const trait_id &mut )
         add_msg_if_player( mdata.spawn_item_message() );
         tdata.powered = false;
         return;
+    } else if( !mdata.ranged_mutation.empty() ) {
+        mut_ranged = item( mdata.ranged_mutation );
+        add_msg_if_player( mdata.ranged_mutation_message() );
+        g->refresh_all();
+        g->plfire( mut_ranged );
+        tdata.powered = false;
+        return;
     }
 }
 
@@ -559,8 +568,8 @@ void player::mutate()
 
     // For each mutation...
     for( auto &traits_iter : mutation_branch::get_all() ) {
-        const auto &base_mutation = traits_iter.first;
-        const auto &base_mdata = traits_iter.second;
+        const auto &base_mutation = traits_iter.id;
+        const auto &base_mdata = traits_iter;
         bool thresh_save = base_mdata.threshold;
         bool prof_save = base_mdata.profession;
         bool purify_save = base_mdata.purifiable;
@@ -649,8 +658,8 @@ void player::mutate()
         if( cat.empty() ) {
             // Pull the full list
             for( auto &traits_iter : mutation_branch::get_all() ) {
-                if( traits_iter.second.valid ) {
-                    valid.push_back( traits_iter.first );
+                if( traits_iter.valid ) {
+                    valid.push_back( traits_iter.id );
                 }
             }
         } else {
@@ -690,7 +699,7 @@ void player::mutate()
 void player::mutate_category( const std::string &cat )
 {
     // Hacky ID comparison is better than separate hardcoded branch used before
-    // @todo: Turn it into the null id
+    // TODO: Turn it into the null id
     if( cat == "ANY" ) {
         mutate();
         return;
@@ -853,7 +862,7 @@ bool player::mutate_towards( const trait_id &mut )
     prereq = mdata.prereqs; // Reset it
     for( auto &elem : prereq ) {
         if( has_trait( elem ) ) {
-            trait_id pre = elem;
+            const trait_id &pre = elem;
             const auto &p = pre.obj();
             for( size_t j = 0; !replacing && j < p.replacements.size(); j++ ) {
                 if( p.replacements[j] == mut ) {
@@ -868,7 +877,7 @@ bool player::mutate_towards( const trait_id &mut )
     prereq = mdata.prereqs2; // Reset it
     for( auto &elem : prereq ) {
         if( has_trait( elem ) ) {
-            trait_id pre2 = elem;
+            const trait_id &pre2 = elem;
             const auto &p = pre2.obj();
             for( size_t j = 0; !replacing2 && j < p.replacements.size(); j++ ) {
                 if( p.replacements[j] == mut ) {
@@ -895,7 +904,7 @@ bool player::mutate_towards( const trait_id &mut )
         } else {
             rating = m_neutral;
         }
-        // TODO: Limit this to visible mutations
+        //  TODO: Limit this to visible mutations
         // TODO: In case invisible mutation turns into visible or vice versa
         //  print only the visible mutation appearing/disappearing
         add_msg_player_or_npc( rating,
@@ -1019,13 +1028,13 @@ void player::remove_mutation( const trait_id &mut )
         //Check each mutation until we reach the end or find a trait to revert to
         for( auto &iter : mutation_branch::get_all() ) {
             //See if it's in our list of base traits but not active
-            if( has_base_trait( iter.first ) && !has_trait( iter.first ) ) {
+            if( has_base_trait( iter.id ) && !has_trait( iter.id ) ) {
                 //See if that base trait cancels the mutation we are using
-                std::vector<trait_id> traitcheck = iter.second.cancels;
+                std::vector<trait_id> traitcheck = iter.cancels;
                 if( !traitcheck.empty() ) {
                     for( size_t j = 0; !replacing && j < traitcheck.size(); j++ ) {
                         if( traitcheck[j] == mut ) {
-                            replacing = ( iter.first );
+                            replacing = ( iter.id );
                         }
                     }
                 }
@@ -1041,13 +1050,13 @@ void player::remove_mutation( const trait_id &mut )
         //Check each mutation until we reach the end or find a trait to revert to
         for( auto &iter : mutation_branch::get_all() ) {
             //See if it's in our list of base traits but not active
-            if( has_base_trait( iter.first ) && !has_trait( iter.first ) ) {
+            if( has_base_trait( iter.id ) && !has_trait( iter.id ) ) {
                 //See if that base trait cancels the mutation we are using
-                std::vector<trait_id> traitcheck = iter.second.cancels;
+                std::vector<trait_id> traitcheck = iter.cancels;
                 if( !traitcheck.empty() ) {
                     for( size_t j = 0; !replacing2 && j < traitcheck.size(); j++ ) {
-                        if( traitcheck[j] == mut && ( iter.first ) != replacing ) {
-                            replacing2 = ( iter.first );
+                        if( traitcheck[j] == mut && ( iter.id ) != replacing ) {
+                            replacing2 = ( iter.id );
                         }
                     }
                 }
@@ -1134,7 +1143,7 @@ void player::remove_mutation( const trait_id &mut )
 bool player::has_child_flag( const trait_id &flag ) const
 {
     for( auto &elem : flag->replacements ) {
-        trait_id tmp = elem;
+        const trait_id &tmp = elem;
         if( has_trait( tmp ) || has_child_flag( tmp ) ) {
             return true;
         }
@@ -1145,7 +1154,7 @@ bool player::has_child_flag( const trait_id &flag ) const
 void player::remove_child_flag( const trait_id &flag )
 {
     for( auto &elem : flag->replacements ) {
-        trait_id tmp = elem;
+        const trait_id &tmp = elem;
         if( has_trait( tmp ) ) {
             remove_mutation( tmp );
             return;

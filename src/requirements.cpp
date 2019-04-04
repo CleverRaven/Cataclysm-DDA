@@ -6,6 +6,7 @@
 #include <sstream>
 
 #include "calendar.h"
+#include "cata_utility.h"
 #include "debug.h"
 #include "game.h"
 #include "generic_factory.h"
@@ -100,7 +101,7 @@ bool tool_comp::by_charges() const
 std::string tool_comp::to_string( int batch ) const
 {
     if( by_charges() ) {
-        //~ <tool-name> (<numer-of-charges> charges)
+        //~ <tool-name> (<number-of-charges> charges)
         return string_format( ngettext( "%s (%d charge)", "%s (%d charges)", count * batch ),
                               item::nname( type ).c_str(), count * batch );
     } else {
@@ -196,12 +197,12 @@ requirement_data requirement_data::operator*( unsigned scalar ) const
     requirement_data res = *this;
     for( auto &group : res.components ) {
         for( auto &e : group ) {
-            e.count = std::max( e.count * int( scalar ), -1 );
+            e.count = std::max( e.count * static_cast<int>( scalar ), -1 );
         }
     }
     for( auto &group : res.tools ) {
         for( auto &e : group ) {
-            e.count = std::max( e.count * int( scalar ), -1 );
+            e.count = std::max( e.count * static_cast<int>( scalar ), -1 );
         }
     }
 
@@ -219,7 +220,7 @@ requirement_data requirement_data::operator+( const requirement_data &rhs ) cons
     // combined result is temporary which caller could store via @ref save_requirement
     res.id_ = requirement_id::NULL_ID();
 
-    // @todo: deduplicate qualities and combine other requirements
+    // TODO: deduplicate qualities and combine other requirements
 
     // if either operand was blacklisted then their summation should also be
     res.blacklisted |= rhs.blacklisted;
@@ -441,19 +442,6 @@ std::vector<std::string> requirement_data::get_folded_components_list( int width
     return out_buffer;
 }
 
-static std::string join( const std::vector<std::string> &strings, const std::string &joiner )
-{
-    std::ostringstream buffer;
-
-    for( auto a = strings.begin(); a != strings.end(); ++a ) {
-        if( a != strings.begin() ) {
-            buffer << joiner;
-        }
-        buffer << *a;
-    }
-    return buffer.str();
-}
-
 template<typename T>
 std::vector<std::string> requirement_data::get_folded_list( int width,
         const inventory &crafting_inv, const std::vector< std::vector<T> > &objs,
@@ -623,7 +611,7 @@ bool tool_comp::has( const inventory &crafting_inv, int batch,
             } );
         }
         if( has_UPS ) {
-            int UPS_charges_used =
+            const int UPS_charges_used =
                 crafting_inv.charges_of( "UPS", ( count * batch ) - charges_found );
             if( visitor && UPS_charges_used + charges_found >= ( count * batch ) ) {
                 visitor( UPS_charges_used );
@@ -757,7 +745,7 @@ static bool apply_blacklist( std::vector<std::vector<T>> &vec, const std::string
     }
 
     // did we remove the last instance of an option group?
-    bool blacklisted = std::any_of( vec.begin(), vec.end(), []( const std::vector<T> &e ) {
+    const bool blacklisted = std::any_of( vec.begin(), vec.end(), []( const std::vector<T> &e ) {
         return e.empty();
     } );
 
@@ -876,7 +864,7 @@ requirement_data requirement_data::disassembly_requirements() const
     qualities.insert( qualities.end(), new_qualities.begin(), new_qualities.end() );
     // Remove duplicate qualities
     {
-        auto itr = std::unique( qualities.begin(), qualities.end(),
+        const auto itr = std::unique( qualities.begin(), qualities.end(),
         []( const quality_requirement & a, const quality_requirement & b ) {
             return a.type == b.type;
         } );

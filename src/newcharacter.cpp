@@ -568,6 +568,10 @@ bool player::create( character_type type, const std::string &tempname )
     std::list<item> prof_items = prof->items( male, get_mutations() );
 
     for( item &it : prof_items ) {
+        if( it.has_flag( "WET" ) ) {
+            it.active = true;
+            it.item_counter = 450; // Give it some time to dry off
+        }
         // TODO: debugmsg if food that isn't a seed is inedible
         if( it.has_flag( "no_auto_equip" ) ) {
             it.unset_flag( "no_auto_equip" );
@@ -575,10 +579,6 @@ bool player::create( character_type type, const std::string &tempname )
         } else if( it.is_armor() ) {
             // TODO: debugmsg if wearing fails
             wear_item( it, false );
-        } else if( it.has_flag( "WET" ) ) {
-            it.active = true;
-            it.item_counter = 450; // Give it some time to dry off
-            inv.push_back( it );
         } else {
             inv.push_back( it );
         }
@@ -1028,30 +1028,30 @@ tab_direction set_traits( const catacurses::window &w, player &u, points_left &p
 
     for( auto &traits_iter : mutation_branch::get_all() ) {
         // Don't list blacklisted traits
-        if( mutation_branch::trait_is_blacklisted( traits_iter.first ) ) {
+        if( mutation_branch::trait_is_blacklisted( traits_iter.id ) ) {
             continue;
         }
 
         // Always show profession locked traits, regardless of if they are forbidden
         const std::vector<trait_id> proftraits = u.prof->get_locked_traits();
         const bool is_proftrait = std::find( proftraits.begin(), proftraits.end(),
-                                             traits_iter.first ) != proftraits.end();
+                                             traits_iter.id ) != proftraits.end();
         // We show all starting traits, even if we can't pick them, to keep the interface consistent.
-        if( traits_iter.second.startingtrait || g->scen->traitquery( traits_iter.first ) || is_proftrait ) {
-            if( traits_iter.second.points > 0 ) {
-                vStartingTraits[0].push_back( traits_iter.first );
+        if( traits_iter.startingtrait || g->scen->traitquery( traits_iter.id ) || is_proftrait ) {
+            if( traits_iter.points > 0 ) {
+                vStartingTraits[0].push_back( traits_iter.id );
 
-                if( u.has_trait( traits_iter.first ) ) {
-                    num_good += traits_iter.second.points;
+                if( u.has_trait( traits_iter.id ) ) {
+                    num_good += traits_iter.points;
                 }
-            } else if( traits_iter.second.points < 0 ) {
-                vStartingTraits[1].push_back( traits_iter.first );
+            } else if( traits_iter.points < 0 ) {
+                vStartingTraits[1].push_back( traits_iter.id );
 
-                if( u.has_trait( traits_iter.first ) ) {
-                    num_bad += traits_iter.second.points;
+                if( u.has_trait( traits_iter.id ) ) {
+                    num_bad += traits_iter.points;
                 }
             } else {
-                vStartingTraits[2].push_back( traits_iter.first );
+                vStartingTraits[2].push_back( traits_iter.id );
             }
         }
     }
@@ -1674,7 +1674,7 @@ tab_direction set_skills( const catacurses::window &w, player &u, points_left &p
                 recipe_dict.all_autolearn().count( &r ) &&
                 with_prof_skills.meets_skill_requirements( r.autolearn_requirements );
 
-            if( !would_autolearn_recipe &&
+            if( !would_autolearn_recipe && !r.never_learn &&
                 ( r.skill_used == currentSkill->ident() || skill > 0 ) &&
                 with_prof_skills.has_recipe_requirements( r ) )  {
 
@@ -1745,7 +1745,7 @@ tab_direction set_skills( const catacurses::window &w, player &u, points_left &p
             for( auto &prof_skill : u.prof->skills() ) {
                 if( prof_skill.first == thisSkill->ident() ) {
                     wprintz( w, ( i == cur_pos ? h_white : c_white ), " (+%d)",
-                             int( prof_skill.second ) );
+                             static_cast<int>( prof_skill.second ) );
                     break;
                 }
             }
@@ -2462,7 +2462,7 @@ void Character::empty_skills()
 
 void Character::add_traits()
 {
-    //@todo get rid of using g->u here, use `this` instead
+    // TODO: get rid of using g->u here, use `this` instead
     for( const trait_id &tr : g->u.prof->get_locked_traits() ) {
         if( !has_trait( tr ) ) {
             toggle_trait( tr );
@@ -2480,8 +2480,8 @@ trait_id Character::random_good_trait()
     std::vector<trait_id> vTraitsGood;
 
     for( auto &traits_iter : mutation_branch::get_all() ) {
-        if( traits_iter.second.points >= 0 && g->scen->traitquery( traits_iter.first ) ) {
-            vTraitsGood.push_back( traits_iter.first );
+        if( traits_iter.points >= 0 && g->scen->traitquery( traits_iter.id ) ) {
+            vTraitsGood.push_back( traits_iter.id );
         }
     }
 
@@ -2493,8 +2493,8 @@ trait_id Character::random_bad_trait()
     std::vector<trait_id> vTraitsBad;
 
     for( auto &traits_iter : mutation_branch::get_all() ) {
-        if( traits_iter.second.points < 0 && g->scen->traitquery( traits_iter.first ) ) {
-            vTraitsBad.push_back( traits_iter.first );
+        if( traits_iter.points < 0 && g->scen->traitquery( traits_iter.id ) ) {
+            vTraitsBad.push_back( traits_iter.id );
         }
     }
 

@@ -24,12 +24,14 @@
 #include <sys/time.h>
 #endif
 
-#ifdef BACKTRACE
-#if defined _WIN32 || defined _WIN64
+#if (defined _WIN32 || defined _WIN64)
 #if 1 // Hack to prevent reordering of #include "platform_win.h" by IWYU
 #include "platform_win.h"
 #endif
+#endif
 
+#ifdef BACKTRACE
+#if (defined _WIN32 || defined _WIN64)
 #include <dbghelp.h>
 #else
 #include <execinfo.h>
@@ -454,7 +456,7 @@ bool debug_is_safe_string( const char *start, const char *finish )
 {
     static constexpr char safe_chars[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                                          "abcdefghijklmnopqrstuvwxyz"
-                                         "01234567890_./-";
+                                         "01234567890_./-+";
     using std::begin;
     using std::end;
     const auto is_safe_char =
@@ -465,6 +467,7 @@ bool debug_is_safe_string( const char *start, const char *finish )
     return std::all_of( start, finish, is_safe_char );
 }
 
+#if (!defined _WIN32 || !defined _WIN64)
 std::string debug_resolve_binary( const std::string &binary, std::ostream &out )
 {
     if( binary.find( '/' ) != std::string::npos ) {
@@ -531,7 +534,7 @@ cata::optional<uintptr_t> debug_compute_load_offset(
         char buf[1024];
         while( fgets( buf, sizeof( buf ), nm ) ) {
             std::string line( buf );
-            while( !line.empty() && std::isspace( line.end()[-1] ) ) {
+            while( !line.empty() && isspace( line.end()[-1] ) ) {
                 line.erase( line.end() - 1 );
             }
             if( string_ends_with( line, string_sought ) ) {
@@ -551,6 +554,7 @@ cata::optional<uintptr_t> debug_compute_load_offset(
 
     return cata::nullopt;
 }
+#endif
 
 void debug_write_backtrace( std::ostream &out )
 {
