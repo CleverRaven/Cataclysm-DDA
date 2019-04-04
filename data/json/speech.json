@@ -1285,6 +1285,7 @@
         "sound" : "\"You lied to me!  Look at what you've done!\", followed by an electronic voice saying \"YOU'LL PAY FOR THIS!\"",
         "volume" : 20
     },{
+        "type" : "speech",
         "speaker" : "mon_eyebot",
         "sound" : "\"Stop where you are!\"",
         "volume" : 15
