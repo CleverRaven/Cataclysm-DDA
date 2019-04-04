@@ -1,8 +1,3 @@
-data/json/monsters.json
-data/json/monsters/military.json
-data/json/monsters/zed_children.json
-data/json/monsters/zed_explosive.json
-data/json/mutation_category.json
 data/json/mutations.json
 data/json/npcs/NC_ARSONIST.json
 data/json/npcs/NC_BOUNTY_HUNTER.json
