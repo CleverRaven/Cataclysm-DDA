@@ -2724,7 +2724,7 @@ int player::overmap_sight_range( int light_level ) const
 
     float multiplier = 1;
     // Binoculars "double" your sight range.
-    bool has_optic = ( has_item_with_flag( "ZOOM" ) || has_bionic( bio_eye_optic ) );
+    const bool has_optic = ( has_item_with_flag( "ZOOM" ) || has_bionic( bio_eye_optic ) );
     if( has_optic ) {
         multiplier += 1;
     }
