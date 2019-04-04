@@ -1,7 +1,3 @@
-data/json/npcs/classes.json
-data/json/npcs/epilogues.json
-data/json/npcs/hints.json
-data/json/npcs/items_generic.json
 data/json/npcs/missiondef.json
 data/json/npcs/npc.json
 data/json/npcs/talk_tags.json
