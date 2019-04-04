@@ -323,5 +323,32 @@
       [ "cotton_ball", 4 ],
       [ "battery", 50 ]
     ]
-  }
+  },
+  {
+    "id": "hand_tools",
+    "type": "item_group",
+    "items": [
+      [ "flashlight", 35 ],
+      [ "wrench", 50 ],
+      [ "hammer", 40 ],
+      [ "saw", 50 ],
+      [ "ax", 20 ],
+      [ "hacksaw", 50 ],
+      [ "chipper", 60 ],
+      [ "boltcutters", 50 ],
+      [ "screwdriver", 35 ]
+    ]
+  },
+  {
+    "id": "power_tools",
+    "type": "item_group",
+    "items": [
+      [ "chainsaw_off", 10 ],
+      [ "elec_chainsaw_off", 10 ],
+      [ "trimmer_off", 40 ],
+      [ "jackhammer", 50 ],
+      [ "elec_jackhammer", 50 ],
+      [ "circsaw_off", 10 ]
+    ]
+  },
 ]

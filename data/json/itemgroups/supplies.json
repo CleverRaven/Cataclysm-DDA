@@ -23,6 +23,30 @@
     ]
   },
   {
+    "id": "paint",
+    "type": "item_group",
+    "items": [
+      [ "r_paint", 45 ],
+      [ "b_paint", 45 ],
+      [ "w_paint", 45 ],
+      [ "g_paint", 45 ],
+      [ "p_paint", 45 ],
+      [ "y_paint", 45 ],
+      [ "chipper", 55 ],
+      [ "paint_brush", 55 ]
+    ]
+  },
+  {
+    "id": "rug",
+    "type": "item_group",
+    "items": [ [ "r_carpet", 45 ], [ "g_carpet", 45 ], [ "y_carpet", 45 ], [ "p_carpet", 45 ] ]
+  },
+  {
+    "id": "elec_parts",
+    "type": "item_group",
+    "items": [ [ "cable", 65 ], [ "power_supply", 50 ], [ "amplifier", 50 ], [ "lightstrip", 40 ], [ "solder_wire", 20 ] ]
+  },
+  {
     "type": "item_group",
     "id": "hardware_bulk",
     "//": "large quantities of common building supplies.",
@@ -30,15 +54,35 @@
       { "item": "2x4", "prob": 100, "count": [ 5, 20 ] },
       { "item": "rock", "prob": 70, "count": [ 10, 20 ] },
       { "item": "coal_lump", "prob": 20, "count": [ 1, 10 ] },
+      { "item": "material_cement", "prob": 100, "charges": 500, "container-item": "bag_canvas" },
+      { "item": "material_sand", "prob": 100, "charges": 500, "container-item": "bag_canvas" },
       [ "material_shrd_limestone", 70 ],
       [ "fertilizer_commercial", 100 ],
       [ "material_quicklime", 70 ],
-      [ "material_sand", 100 ],
       [ "concrete", 70 ],
+      { "item": "rope_6", "prob": 10 },
+      { "item": "sheet_metal", "prob": 10 },
+      { "item": "sheet_metal_small", "prob": 10 },
       { "item": "rebar", "prob": 40, "count": [ 5, 10 ] },
       { "item": "brick", "prob": 40, "count": [ 5, 10 ] },
       { "item": "pipe", "prob": 40, "count": [ 5, 10 ] },
+      { "item": "wire", "prob": 40, "count": [ 5, 10 ] },
+      { "item": "spike", "prob": 40, "count": [ 5, 10 ] },
       { "item": "nail", "prob": 60, "count": [ 5, 20 ] }
+    ]
+  },
+  {
+    "id": "plumbing_bulk",
+    "type": "item_group",
+    "items": [
+      [ "pipe", 100 ],
+      [ "cu_pipe", 100 ],
+      [ "hose", 100 ],
+      [ "mop", 20 ],
+      [ "shovel", 40 ],
+      [ "hammer_sledge", 5 ],
+      [ "metal_tank_little", 50 ],
+      [ "jerrycan", 10 ]
     ]
   },
   {
