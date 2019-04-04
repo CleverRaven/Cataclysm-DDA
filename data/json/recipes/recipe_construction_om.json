@@ -329,7 +329,6 @@
         [ "xl_wind_turbine", 1 ],
         [ "solar_panel", 4 ],
         [ "reinforced_solar_panel", 4 ],
-        [ "reinforced_solar_panel", 4 ],
         [ "solar_panel_v2", 2 ],
         [ "reinforced_solar_panel_v2", 2 ],
         [ "solar_panel_v3", 1 ]
