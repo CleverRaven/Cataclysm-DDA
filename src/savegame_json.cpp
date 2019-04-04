@@ -558,7 +558,7 @@ void player::load( JsonObject &data )
         ma_styles.insert( ma_styles.begin(), matype_id::NULL_ID() );
     }
     data.read( "addictions", addictions );
-
+    data.read( "followers", follower_ids );
     JsonArray traps = data.get_array( "known_traps" );
     known_traps.clear();
     while( traps.has_more() ) {
@@ -679,7 +679,7 @@ void player::store( JsonOut &json ) const
     json.member( "ma_styles", ma_styles );
     // "Looks like I picked the wrong week to quit smoking." - Steve McCroskey
     json.member( "addictions", addictions );
-
+    json.member( "followers", follower_ids );
     json.member( "known_traps" );
     json.start_array();
     for( const auto &elem : known_traps ) {
@@ -2917,22 +2917,34 @@ void deserialize( recipe_subset &value, JsonIn &jsin )
 // basecamp
 void basecamp::serialize( JsonOut &json ) const
 {
-    json.start_object();
-    json.member( "name", name );
-    json.member( "pos", omt_pos );
-    json.member( "bb_pos", bb_pos );
-    json.member( "expansions" );
-    json.start_array();
-    for( const auto &expansion : expansions ) {
+    if( omt_pos != tripoint_zero ) {
         json.start_object();
-        json.member( "dir", expansion.first );
-        json.member( "type", expansion.second.type );
-        json.member( "cur_level", expansion.second.cur_level );
-        json.member( "pos", expansion.second.pos );
+        json.member( "name", name );
+        json.member( "pos", omt_pos );
+        json.member( "bb_pos", bb_pos );
+        json.member( "sort_points" );
+        json.start_array();
+        for( const tripoint &it : sort_points ) {
+            json.start_object();
+            json.member( "pos", it );
+            json.end_object();
+        }
+        json.end_array();
+        json.member( "expansions" );
+        json.start_array();
+        for( const auto &expansion : expansions ) {
+            json.start_object();
+            json.member( "dir", expansion.first );
+            json.member( "type", expansion.second.type );
+            json.member( "cur_level", expansion.second.cur_level );
+            json.member( "pos", expansion.second.pos );
+            json.end_object();
+        }
+        json.end_array();
         json.end_object();
+    } else {
+        return;
     }
-    json.end_array();
-    json.end_object();
 }
 
 void basecamp::deserialize( JsonIn &jsin )

@@ -665,9 +665,7 @@ void CachedTTFFont::OutputChar( const std::string &ch, const int x, const int y,
 
 void BitmapFont::OutputChar( const std::string &ch, int x, int y, unsigned char color )
 {
-    int len = ch.length();
-    const char *s = ch.c_str();
-    const long t = UTF8_getch( &s, &len );
+    const long t = UTF8_getch( ch );
     BitmapFont::OutputChar( t, x, y, color );
 }
 
@@ -1161,6 +1159,9 @@ bool Font::draw_window( const catacurses::window &w, const int offsetx, const in
     bool use_oversized_framebuffer = g && ( w == g->w_terrain || w == g->w_overmap ||
                                             w == w_hit_animation );
 
+    std::vector<curseline> &framebuffer = use_oversized_framebuffer ? oversized_framebuffer :
+                                          terminal_framebuffer;
+
     /*
     Let's try to keep track of different windows.
     A number of windows are coexisting on the screen, so don't have to interfere.
@@ -1195,9 +1196,22 @@ bool Font::draw_window( const catacurses::window &w, const int offsetx, const in
         if( !win->line[j].touched ) {
             continue;
         }
+
+        const int fby = win->y + j;
+        if( fby >= static_cast<int>( framebuffer.size() ) ) {
+            // prevent indexing outside the frame buffer. This might happen for some parts of the window. FIX #28953.
+            break;
+        }
+
         update = true;
         win->line[j].touched = false;
         for( int i = 0; i < win->width; i++ ) {
+            const int fbx = win->x + i;
+            if( fbx >= static_cast<int>( framebuffer[fby].chars.size() ) ) {
+                // prevent indexing outside the frame buffer. This might happen for some parts of the window.
+                break;
+            }
+
             const cursecell &cell = win->line[j].chars[i];
 
             const int drawx = offsetx + i * fontwidth;
@@ -1209,18 +1223,6 @@ bool Font::draw_window( const catacurses::window &w, const int offsetx, const in
 
             // Avoid redrawing an unchanged tile by checking the framebuffer cache
             // TODO: handle caching when drawing normal windows over graphical tiles
-            const int fbx = win->x + i;
-            const int fby = win->y + j;
-
-            std::vector<curseline> &framebuffer = use_oversized_framebuffer ? oversized_framebuffer :
-                                                  terminal_framebuffer;
-
-#ifdef __ANDROID__
-            // BUGFIX: Prevents an occasional crash when viewing player info. This seems like it might be a cross-platform issue in the experimental build
-            if( fby >= ( int )framebuffer.size() || fbx >= ( int )framebuffer[fby].chars.size() ) {
-                continue;
-            }
-#endif
             cursecell &oldcell = framebuffer[fby].chars[fbx];
 
             if( oldWinCompatible && cell == oldcell && fontScale == fontScaleBuffer ) {
@@ -1237,9 +1239,7 @@ bool Font::draw_window( const catacurses::window &w, const int offsetx, const in
                 FillRectDIB( drawx, drawy, fontwidth, fontheight, cell.BG );
                 continue;
             }
-            const char *utf8str = cell.ch.c_str();
-            int len = cell.ch.length();
-            const int codepoint = UTF8_getch( &utf8str, &len );
+            const int codepoint = UTF8_getch( cell.ch );
             const catacurses::base_color FG = cell.FG;
             const catacurses::base_color BG = cell.BG;
             if( codepoint != UNKNOWN_UNICODE ) {
@@ -1443,6 +1443,7 @@ static void end_arrow_combo()
 long sdl_keysym_to_curses( const SDL_Keysym &keysym )
 {
 
+#ifndef __ANDROID__
     const std::string diag_mode = get_option<std::string>( "DIAG_MOVE_WITH_MODIFIERS_MODE" );
 
     if( diag_mode == "mode1" ) {
@@ -1502,6 +1503,7 @@ long sdl_keysym_to_curses( const SDL_Keysym &keysym )
             }
         }
     }
+#endif
     switch( keysym.sym ) {
         // This is special: allow entering a Unicode character with ALT+number
         case SDLK_RALT:
@@ -2761,10 +2763,8 @@ void CheckMessages()
             break;
             case SDL_TEXTINPUT:
                 if( !add_alt_code( *ev.text.text ) ) {
-                    const char *c = ev.text.text;
-                    int len = strlen( ev.text.text );
-                    if( len > 0 ) {
-                        const unsigned lc = UTF8_getch( &c, &len );
+                    if( strlen( ev.text.text ) > 0 ) {
+                        const unsigned lc = UTF8_getch( ev.text.text );
                         last_input = input_event( lc, CATA_INPUT_KEYBOARD );
 #ifdef __ANDROID__
                         if( !android_is_hardware_keyboard_available() ) {
@@ -2795,10 +2795,8 @@ void CheckMessages()
                 }
                 break;
             case SDL_TEXTEDITING: {
-                const char *c = ev.edit.text;
-                int len = strlen( ev.edit.text );
-                if( len > 0 ) {
-                    const unsigned lc = UTF8_getch( &c, &len );
+                if( strlen( ev.edit.text ) > 0 ) {
+                    const unsigned lc = UTF8_getch( ev.edit.text );
                     last_input = input_event( lc, CATA_INPUT_KEYBOARD );
                 } else {
                     // no key pressed in this event

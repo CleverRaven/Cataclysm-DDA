@@ -36,6 +36,27 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "roof_4x4_survivor",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "place_furniture": [
+        { "furn": "f_camp_chair", "x": 0, "y": 0, "chance": 50 },
+        { "furn": "f_makeshift_bed", "x": 2, "y": 0, "chance": 50 }
+      ],
+      "place_loot": [
+        { "group": "cannedfood", "x": 1, "y": 0, "repeat": [ 2, 3 ] },
+        { "group": "camping", "x": [ 0, 3 ], "y": [ 0, 3 ], "chance": 50, "repeat": [ 2, 3 ] },
+        { "item": "blanket", "x": 2, "y": 0, "chance": 50, "repeat": [ 1, 2 ] },
+        { "item": "can_drink_unsealed", "x": 1, "y": 1, "chance": 30, "repeat": [ 2, 3 ] },
+        { "item": "can_food_unsealed", "x": 1, "y": 1, "chance": 40, "repeat": [ 2, 3 ] },
+        { "item": "can_food_unsealed", "x": 1, "y": 1, "chance": 40, "repeat": [ 2, 3 ] },
+        { "item": "sleeping_bag", "x": 3, "y": 1, "chance": 40 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "roof_16x16_help",
     "rotation": [ 0, 0 ],
     "object": {
@@ -108,6 +129,30 @@
       "rows": [ "_xxx", "__ax", "_xxx", "__ox" ],
       "terrain": { "_": "t_concrete", "x": "t_sewage_pipe" },
       "furniture": { "o": "f_water_heater", "a": "f_air_conditioner" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "roof_4x4_utility_1",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [ "UUUU", "UAaU", "c_oU", "UUUU" ],
+      "terrain": { "_": "t_null", "c": "t_chaingate_l", "U": "t_chainfence" },
+      "furniture": { "o": "f_water_heater", "a": "f_water_purifier", "A": "f_standing_tank" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "roof_6x6_utility",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [ "_xxxxx", "_xA__x", "_xx__x", "_____x", "xooa_x", "xxxxxx" ],
+      "terrain": { "_": "t_null", "x": "t_sewage_pipe" },
+      "furniture": { "o": "f_water_heater", "a": "f_water_purifier", "A": "f_standing_tank" }
     }
   },
   {

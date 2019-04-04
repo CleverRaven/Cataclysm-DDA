@@ -22,10 +22,6 @@
 #include "string_id.h"
 #include "units.h"
 
-// TODO: include comments about how these variables work. Where are they used. Are they constant etc.
-#define CAMPSIZE 1
-#define CAMPCHECK 3
-
 namespace catacurses
 {
 class window;
@@ -756,6 +752,8 @@ class map
          * @param threshold Fuel threshold (lower means worse fuels are accepted).
          */
         bool flammable_items_at( const tripoint &p, int threshold = 0 );
+        /** Returns true if there is a flammable item or field or the furn/terrain is flammable at p */
+        bool is_flammable( const tripoint &p );
         point random_outdoor_tile();
         // mapgen
 
@@ -1131,10 +1129,9 @@ class map
         computer *add_computer( const tripoint &p, const std::string &name, const int security );
 
         // Camps
-        bool allow_camp( const tripoint &p, const int radius = CAMPCHECK );
-        basecamp *camp_at( const tripoint &p, const int radius = CAMPSIZE );
         void add_camp( const tripoint &p, const std::string &name );
-
+        void remove_submap_camp( const tripoint & );
+        basecamp hoist_submap_camp( const tripoint &p );
         // Graffiti
         bool has_graffiti_at( const tripoint &p ) const;
         const std::string &graffiti_at( const tripoint &p ) const;

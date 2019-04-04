@@ -132,7 +132,7 @@ item &null_item_reference()
 
 const long item::INFINITE_CHARGES = std::numeric_limits<long>::max();
 
-item::item() : bday( calendar::time_of_cataclysm )
+item::item() : bday( calendar::start )
 {
     type = nullitem();
 }
@@ -1947,7 +1947,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             temp1 << _( "is <info>watertight</info>, " );
         }
         if( c.preserves ) {
-            temp1 << _( "<good>preserves spoiling</good>, " );
+            temp1 << _( "<good>prevents spoiling</good>, " );
         }
 
         temp1 << string_format( _( "can store <info>%s %s</info>." ),
@@ -1979,14 +1979,18 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             }
         } else if( ammo_capacity() != 0 && parts->test( iteminfo_parts::TOOL_CAPACITY ) ) {
             std::string tmp;
+            bool bionic_tool = has_flag( "USES_BIONIC_POWER" );
             if( ammo_type() ) {
                 //~ "%s" is ammunition type. This types can't be plural.
                 tmp = ngettext( "Maximum <num> charge of %s.", "Maximum <num> charges of %s.", ammo_capacity() );
                 tmp = string_format( tmp, ammo_type()->name().c_str() );
-            } else {
+                // No need to display max charges, since charges are always equal to bionic power
+            } else if( !bionic_tool ) {
                 tmp = ngettext( "Maximum <num> charge.", "Maximum <num> charges.", ammo_capacity() );
             }
-            info.emplace_back( "TOOL", "", tmp, iteminfo::no_flags, ammo_capacity() );
+            if( !bionic_tool ) {
+                info.emplace_back( "TOOL", "", tmp, iteminfo::no_flags, ammo_capacity() );
+            }
         }
     }
 
@@ -2269,6 +2273,9 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                        parts->test( iteminfo_parts::DESCRIPTION_RECHARGE_UPSCAPABLE ) ) {
                 info.push_back( iteminfo( "DESCRIPTION",
                                           _( "* This tool has a <info>rechargeable power cell</info> and can be recharged in any <neutral>UPS-compatible recharging station</neutral>. You could charge it with <info>standard batteries</info>, but unloading it is impossible." ) ) );
+            } else if( has_flag( "USES_BIONIC_POWER" ) ) {
+                info.emplace_back( "DESCRIPTION",
+                                   _( "* This tool <info>runs on bionic power</info>." ) );
             }
         }
 
@@ -2820,18 +2827,22 @@ void item::on_damage( int, damage_type )
 
 }
 
-std::string item::tname( unsigned int quantity, bool with_prefix ) const
+std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int truncate ) const
 {
     std::stringstream ret;
 
     // TODO: MATERIALS put this in json
     std::string damtext;
 
+    // for portions of string that have <color_ etc in them, this aims to truncate the whole string correctly
+    unsigned int truncate_override = 0;
+
     if( ( damage() != 0 || ( get_option<bool>( "ITEM_HEALTH_BAR" ) && is_armor() ) ) && !is_null() &&
         with_prefix ) {
         if( damage() < 0 )  {
             if( get_option<bool>( "ITEM_HEALTH_BAR" ) ) {
                 damtext = "<color_" + string_from_color( damage_color() ) + ">" + damage_symbol() + " </color>";
+                truncate_override = damtext.length() - 3;
             } else if( is_gun() ) {
                 damtext = pgettext( "damage adjective", "accurized " );
             } else {
@@ -2856,6 +2867,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
             }
         } else if( get_option<bool>( "ITEM_HEALTH_BAR" ) ) {
             damtext = "<color_" + string_from_color( damage_color() ) + ">" + damage_symbol() + " </color>";
+            truncate_override = damtext.length() - 3;
         } else {
             damtext = string_format( "%s ", get_base_material().dmg_adj( damage_level( 4 ) ).c_str() );
         }
@@ -3030,11 +3042,16 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     ret << string_format( _( "%1$s%2$s%3$s%4$s%5$s%6$s" ), damtext.c_str(), burntext.c_str(),
                           modtext.c_str(), vehtext.c_str(), maintext.c_str(), tagtext.c_str() );
 
+    std::string r = ret.str();
+    if( truncate != 0 ) {
+        r = utf8_truncate( r, truncate + truncate_override );
+    }
+
     if( item_vars.find( "item_note" ) != item_vars.end() ) {
         //~ %s is an item name. This style is used to denote items with notes.
-        return string_format( _( "*%s*" ), ret.str().c_str() );
+        return string_format( _( "*%s*" ), r );
     } else {
-        return ret.str();
+        return r;
     }
 }
 
@@ -3663,7 +3680,8 @@ void item::calc_rot( const tripoint &location )
 
     const time_point now = calendar::turn;
     if( now - last_rot_check > 10_turns ) {
-        const time_point since = last_rot_check == calendar::time_of_cataclysm ? bday : last_rot_check;
+        // bday and/or last_rot_check might be zero, if both are then we want calendar::start
+        const time_point since = std::max( {bday, last_rot_check, ( time_point ) calendar::start} );
 
         last_rot_check = now;
 
@@ -3679,11 +3697,11 @@ void item::calc_rot( const tripoint &location )
             factor = 0.75;
         }
 
-        // simulation of different age of food at calendar::time_of_cataclysm and good/bad storage
+        // simulation of different age of food at the start of the game and good/bad storage
         // conditions by applying starting variation bonus/penalty of +/- 20% of base shelf-life
-        // positive = food was produced some time before calendar::time_of_cataclysm and/or bad storage
-        // negative = food was stored in good condiitons before calendar::time_of_cataclysm
-        if( since == calendar::time_of_cataclysm && goes_bad() ) {
+        // positive = food was produced some time before calendar::start and/or bad storage
+        // negative = food was stored in good conditions before calendar::start
+        if( since <= calendar::start && goes_bad() ) {
             time_duration spoil_variation = type->comestible->spoils * 0.2f;
             rot += factor * rng( -spoil_variation, spoil_variation );
         }
@@ -3909,6 +3927,9 @@ bool item::can_revive() const
 bool item::ready_to_revive( const tripoint &pos ) const
 {
     if( !can_revive() ) {
+        return false;
+    }
+    if( g->m.veh_at( pos ) ) {
         return false;
     }
     int age_in_hours = to_hours<int>( age() );
@@ -4683,11 +4704,13 @@ bool item::is_reloadable_with( const itype_id &ammo ) const
 
 bool item::is_reloadable_helper( const itype_id &ammo, bool now ) const
 {
+    // empty ammo is passed for listing possible ammo apparently, so it needs to return true.
     if( !is_reloadable() ) {
         return false;
     } else if( is_watertight_container() ) {
-        return ( now ? !is_container_full() : true ) &&
-               ( ammo.empty() || is_container_empty() || contents.front().typeId() == ammo );
+        return ( ( now ? !is_container_full() : true ) && ( ammo.empty()
+                 || ( find_type( ammo )->phase == LIQUID && ( is_container_empty()
+                         || contents.front().typeId() == ammo ) ) ) );
     } else if( magazine_integral() ) {
         if( !ammo.empty() ) {
             if( ammo_data() ) {
@@ -5146,6 +5169,10 @@ long item::ammo_remaining() const
 
     if( is_tool() || is_gun() ) {
         // includes auxiliary gunmods
+        if( has_flag( "USES_BIONIC_POWER" ) ) {
+            long power = g->u.power_level;
+            return power;
+        }
         return charges;
     }
 
@@ -5265,6 +5292,10 @@ long item::ammo_consume( long qty, const tripoint &pos )
 
     } else if( is_tool() || is_gun() ) {
         qty = std::min( qty, charges );
+        if( has_flag( "USES_BIONIC_POWER" ) ) {
+            charges = g->u.power_level;
+            g->u.charge_power( -qty );
+        }
         charges -= qty;
         if( charges == 0 ) {
             curammo = nullptr;
@@ -6252,8 +6283,9 @@ void item::set_item_specific_energy( const float new_specific_energy )
     // Frozen = Over 50% frozen
     if( item_tags.count( "FROZEN" ) ) {
         item_tags.erase( "FROZEN" );
-        if( freeze_percentage > 0.5 ) {
+        if( freeze_percentage < 0.5 ) {
             // Item melts and becomes mushy
+            current_phase = type->phase;
             apply_freezerburn();
         }
     } else if( item_tags.count( "COLD" ) ) {
@@ -6265,6 +6297,7 @@ void item::set_item_specific_energy( const float new_specific_energy )
         item_tags.insert( "HOT" );
     } else if( freeze_percentage > 0.5 ) {
         item_tags.insert( "FROZEN" );
+        current_phase = SOLID;
         // If below freezing temp AND the food may have parasites AND food does not have "NO_PARASITES" tag then add the "NO_PARASITES" tag.
         if( new_item_temperature < freezing_temperature && type->comestible->parasites > 0 ) {
             if( !( item_tags.count( "NO_PARASITES" ) ) ) {
@@ -6327,8 +6360,9 @@ void item::set_item_temperature( float new_temperature )
     }
     if( item_tags.count( "FROZEN" ) ) {
         item_tags.erase( "FROZEN" );
-        if( freeze_percentage > 0.5 ) {
+        if( freeze_percentage < 0.5 ) {
             // Item melts and becomes mushy
+            current_phase = type->phase;
             apply_freezerburn();
         }
     } else if( item_tags.count( "COLD" ) ) {
@@ -6340,6 +6374,7 @@ void item::set_item_temperature( float new_temperature )
         item_tags.insert( "HOT" );
     } else if( freeze_percentage > 0.5 ) {
         item_tags.insert( "FROZEN" );
+        current_phase = SOLID;
         // If below freezing temp AND the food may have parasites AND food does not have "NO_PARASITES" tag then add the "NO_PARASITES" tag.
         if( new_temperature < freezing_temperature && type->comestible->parasites > 0 ) {
             if( !( item_tags.count( "NO_PARASITES" ) ) ) {
@@ -6685,12 +6720,6 @@ int item::processing_speed() const
 
 void item::apply_freezerburn()
 {
-    if( !item_tags.count( "FROZEN" ) ) {
-        return;
-    }
-    item_tags.erase( "FROZEN" );
-    current_phase = type->phase;
-
     if( !has_flag( "FREEZERBURN" ) ) {
         return;
     }
@@ -6868,8 +6897,9 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
     // Frozen = Over 50% frozen
     if( item_tags.count( "FROZEN" ) ) {
         item_tags.erase( "FROZEN" );
-        if( freeze_percentage > 0.5 ) {
+        if( freeze_percentage < 0.5 ) {
             // Item melts and becomes mushy
+            current_phase = type->phase;
             apply_freezerburn();
         }
     } else if( item_tags.count( "COLD" ) ) {
@@ -6881,6 +6911,7 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
         item_tags.insert( "HOT" );
     } else if( freeze_percentage > 0.5 ) {
         item_tags.insert( "FROZEN" );
+        current_phase = SOLID;
         // If below freezing temp AND the food may have parasites AND food does not have "NO_PARASITES" tag then add the "NO_PARASITES" tag.
         if( new_item_temperature < freezing_temperature && type->comestible->parasites > 0 ) {
             if( !( item_tags.count( "NO_PARASITES" ) ) ) {
@@ -6906,6 +6937,7 @@ void item::heat_up()
     item_tags.erase( "COLD" );
     item_tags.erase( "FROZEN" );
     item_tags.insert( "HOT" );
+    current_phase = type->phase;
     // Set item temperature to 60 C (333.15 K, 122 F)
     // Also set the energy to match
     temperature = 333.15 * 100000;
@@ -6919,6 +6951,7 @@ void item::cold_up()
     item_tags.erase( "HOT" );
     item_tags.erase( "FROZEN" );
     item_tags.insert( "COLD" );
+    current_phase = type->phase;
     // Set item temperature to 3 C (276.15 K, 37.4 F)
     // Also set the energy to match
     temperature = 276.15 * 100000;
@@ -6968,7 +7001,6 @@ bool item::process_corpse( player *carrier, const tripoint &pos )
     if( !ready_to_revive( pos ) ) {
         return false;
     }
-
     active = false;
     if( rng( 0, volume() / units::legacy_volume_factor ) > burnt && g->revive_corpse( pos, *this ) ) {
         if( carrier == nullptr ) {

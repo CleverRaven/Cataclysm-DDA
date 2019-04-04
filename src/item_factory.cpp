@@ -574,7 +574,6 @@ void Item_factory::init()
     add_iuse( "ARROW_FLAMABLE", &iuse::arrow_flammable );
     add_iuse( "ARTIFACT", &iuse::artifact );
     add_iuse( "ATOMIC_CAFF", &iuse::atomic_caff );
-    add_iuse( "BATTLETORCH_LIT", &iuse::battletorch_lit );
     add_iuse( "BELL", &iuse::bell );
     add_iuse( "BLECH", &iuse::blech );
     add_iuse( "BOLTCUTTERS", &iuse::boltcutters );
@@ -725,7 +724,6 @@ void Item_factory::init()
     add_iuse( "TELEPORT", &iuse::teleport );
     add_iuse( "THORAZINE", &iuse::thorazine );
     add_iuse( "THROWABLE_EXTINGUISHER_ACT", &iuse::throwable_extinguisher_act );
-    add_iuse( "TORCH_LIT", &iuse::torch_lit );
     add_iuse( "TOWEL", &iuse::towel );
     add_iuse( "TRIMMER_OFF", &iuse::trimmer_off );
     add_iuse( "TRIMMER_ON", &iuse::trimmer_on );
@@ -739,7 +737,7 @@ void Item_factory::init()
     add_iuse( "WATER_PURIFIER", &iuse::water_purifier );
     add_iuse( "WEAK_ANTIBIOTIC", &iuse::weak_antibiotic );
     add_iuse( "WEATHER_TOOL", &iuse::weather_tool );
-    add_iuse( "WEED_BROWNIE", &iuse::weed_brownie );
+    add_iuse( "WEED_CAKE", &iuse::weed_cake );
     add_iuse( "XANAX", &iuse::xanax );
     add_iuse( "BREAK_STICK", &iuse::break_stick );
     add_iuse( "MAGNESIUM_TABLET", &iuse::magnesium_tablet );
@@ -2648,7 +2646,7 @@ void item_group::debug_spawn()
     uilist menu;
     menu.text = _( "Test which group?" );
     for( size_t i = 0; i < groups.size(); i++ ) {
-        menu.entries.emplace_back( i, true, -2, groups[i] );
+        menu.entries.emplace_back( static_cast<int>( i ), true, -2, groups[i] );
     }
     while( true ) {
         menu.query();
@@ -2674,7 +2672,7 @@ void item_group::debug_spawn()
         for( const auto &e : itemnames2 ) {
             std::ostringstream buffer;
             buffer << e.first << " x " << e.second << "\n";
-            menu2.entries.emplace_back( menu2.entries.size(), true, -2, buffer.str() );
+            menu2.entries.emplace_back( static_cast<int>( menu2.entries.size() ), true, -2, buffer.str() );
         }
         menu2.query();
     }

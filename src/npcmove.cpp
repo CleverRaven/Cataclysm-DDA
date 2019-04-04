@@ -60,13 +60,13 @@ const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_onfire( "onfire" );
 const efftype_id effect_npc_run_away( "npc_run_away" );
 const efftype_id effect_npc_fire_bad( "npc_fire_bad" );
+const efftype_id effect_npc_flee_player( "npc_flee_player" );
 
 enum npc_action : int {
     npc_undecided = 0,
     npc_pause,
     npc_reload, npc_sleep,
     npc_pickup,
-    npc_wield_melee, npc_wield_loaded_gun, npc_wield_empty_gun,
     npc_heal, npc_use_painkiller, npc_drop_items,
     npc_flee, npc_melee, npc_shoot,
     npc_look_for_player, npc_heal_player, npc_follow_player, npc_follow_embarked,
@@ -74,10 +74,11 @@ enum npc_action : int {
     npc_goto_destination,
     npc_avoid_friendly_fire,
     npc_escape_explosion,
-    npc_base_idle,
     npc_noop,
     npc_reach_attack,
     npc_aim,
+    npc_investigate_sound,
+    npc_return_to_guard_pos,
     npc_player_activity,
     num_npc_actions
 };
@@ -93,6 +94,8 @@ std::string npc_action_name( npc_action action );
 
 void print_action( const char *prepend, npc_action action );
 
+bool compare_sound_alert( const dangerous_sound &sound_a, const dangerous_sound &sound_b );
+
 hp_part most_damaged_hp_part( const Character &c );
 
 // Used in npc::drop_items()
@@ -101,6 +104,14 @@ struct ratio_index {
     int index;
     ratio_index( double R, int I ) : ratio( R ), index( I ) {}
 };
+
+bool compare_sound_alert( const dangerous_sound &sound_a, const dangerous_sound &sound_b )
+{
+    if( sound_a.type != sound_b.type ) {
+        return sound_a.type < sound_b.type;
+    }
+    return sound_a.volume < sound_b.volume;
+}
 
 bool clear_shot_reach( const tripoint &from, const tripoint &to )
 {
@@ -441,6 +452,17 @@ float npc::character_danger( const Character &uc ) const
 
 void npc::regen_ai_cache()
 {
+    auto i = std::begin( ai_cache.sound_alerts );
+    while( i != std::end( ai_cache.sound_alerts ) ) {
+        if( sees( i->pos ) ) {
+            i = ai_cache.sound_alerts.erase( i );
+            if( ai_cache.sound_alerts.size() == 1 ) {
+                path.clear();
+            }
+        } else {
+            ++i;
+        }
+    }
     float old_assessment = ai_cache.danger_assessment;
     ai_cache.friends.clear();
     ai_cache.target = std::shared_ptr<Creature>();
@@ -459,6 +481,11 @@ void npc::regen_ai_cache()
 
 void npc::move()
 {
+    if( attitude == NPCATT_FLEE ) {
+        set_attitude( NPCATT_FLEE_TEMP );  // Only run for so many hours
+    } else if( attitude == NPCATT_FLEE_TEMP && !has_effect( effect_npc_flee_player ) ) {
+        set_attitude( NPCATT_NULL );
+    }
     regen_ai_cache();
     npc_action action = npc_undecided;
 
@@ -473,7 +500,7 @@ void npc::move()
     if( !is_enemy() && guaranteed_hostile() && sees( g->u ) ) {
         add_msg( m_debug, "NPC %s turning hostile because is guaranteed_hostile()", name.c_str() );
         if( op_of_u.fear > 10 + personality.aggression + personality.bravery ) {
-            set_attitude( NPCATT_FLEE );    // We don't want to take u on!
+            set_attitude( NPCATT_FLEE_TEMP );    // We don't want to take u on!
         } else {
             set_attitude( NPCATT_KILL );    // Yeah, we think we could take you!
         }
@@ -506,13 +533,32 @@ void npc::move()
 
     if( !ai_cache.dangerous_explosives.empty() ) {
         action = npc_escape_explosion;
-    } else if( target == &g->u && attitude == NPCATT_FLEE ) {
+    } else if( target == &g->u && attitude == NPCATT_FLEE_TEMP ) {
         action = method_of_fleeing();
     } else if( has_effect( effect_npc_run_away ) ) {
         action = method_of_fleeing();
     } else if( target != nullptr && ai_cache.danger > 0 &&
                !rules.has_flag( ally_rule::avoid_combat ) ) {
         action = method_of_attack();
+    } else if( !ai_cache.sound_alerts.empty() && !is_following() ) {
+        if( !ai_cache.guard_pos ) {
+            ai_cache.guard_pos = pos();
+        }
+        if( ai_cache.sound_alerts.size() > 1 ) {
+            std::sort( ai_cache.sound_alerts.begin(), ai_cache.sound_alerts.end(), compare_sound_alert );
+            if( ai_cache.sound_alerts.size() > 10 ) {
+                ai_cache.sound_alerts.resize( 10 );
+            }
+        }
+        ai_cache.spos = ai_cache.sound_alerts.front().pos;
+        add_msg( m_debug, "NPC %s: investigating sound at x(%d) y(%d)", name.c_str(), ai_cache.spos.x,
+                 ai_cache.spos.y );
+        action = npc_investigate_sound;
+    } else if( ai_cache.sound_alerts.empty() && ai_cache.guard_pos ) {
+        tripoint return_guard_pos = *ai_cache.guard_pos;
+        add_msg( m_debug, "NPC %s: returning to guard spot at x(%d) y(%d)", name.c_str(),
+                 return_guard_pos.x, return_guard_pos.y );
+        action = npc_return_to_guard_pos;
     } else {
         // No present danger
         action = address_needs();
@@ -602,7 +648,7 @@ void npc::execute_action( npc_action action )
     int oldmoves = moves;
     tripoint tar = pos();
     Creature *cur = current_target();
-    if( has_effect( effect_npc_run_away ) ) {
+    if( action == npc_flee ) {
         tar = good_escape_direction( false );
     } else if( cur != nullptr ) {
         tar = cur->pos();
@@ -620,6 +666,24 @@ void npc::execute_action( npc_action action )
 
         case npc_reload: {
             do_reload( weapon );
+        }
+        break;
+
+        case npc_investigate_sound: {
+            update_path( ai_cache.spos );
+            move_to_next();
+        }
+        break;
+
+        case npc_return_to_guard_pos: {
+            update_path( *ai_cache.guard_pos );
+            if( pos() == *ai_cache.guard_pos || path.empty() ) {
+                move_pause();
+                ai_cache.guard_pos = cata::nullopt;
+                path.clear();
+            } else {
+                move_to_next();
+            }
         }
         break;
 
@@ -663,43 +727,6 @@ void npc::execute_action( npc_action action )
         case npc_pickup:
             pick_up_item();
             break;
-
-        case npc_wield_melee:
-            wield_best_melee();
-            break;
-
-        case npc_wield_loaded_gun: {
-            item *it = inv.most_loaded_gun();
-            if( it->is_null() ) {
-                debugmsg( "NPC tried to wield a loaded gun, but has none!" );
-                move_pause();
-            } else {
-                wield( *it );
-            }
-        }
-        break;
-
-        case npc_wield_empty_gun: {
-            bool ammo_found = false;
-            int index = -1;
-            invslice slice = inv.slice();
-            for( size_t i = 0; i < slice.size(); i++ ) {
-                item &it = slice[i]->front();
-                bool am = ( it.is_gun() &&
-                            !get_ammo( it.type->gun->ammo ).empty() );
-                if( it.is_gun() && ( !ammo_found || am ) ) {
-                    index = i;
-                    ammo_found = ( ammo_found || am );
-                }
-            }
-            if( index == -1 ) {
-                debugmsg( "NPC tried to wield a gun, but has none!" );
-                move_pause();
-            } else {
-                wield( slice[index]->front() );
-            }
-        }
-        break;
 
         case npc_heal:
             heal_self();
@@ -914,11 +941,6 @@ void npc::execute_action( npc_action action )
 
         case npc_escape_explosion:
             escape_explosion();
-            break;
-
-        case npc_base_idle:
-            // TODO: patrol or sleep or something?
-            move_pause();
             break;
 
         case npc_player_activity:
@@ -1266,7 +1288,7 @@ npc_action npc::address_player()
         return npc_undecided;
     }
 
-    if( attitude == NPCATT_FLEE ) {
+    if( attitude == NPCATT_FLEE_TEMP ) {
         return npc_flee;
     }
 
@@ -1297,12 +1319,6 @@ npc_action npc::long_term_goal_action()
 
     if( mission == NPC_MISSION_SHOPKEEP || mission == NPC_MISSION_SHELTER ) {
         return npc_pause;    // Shopkeepers just stay put.
-    }
-
-    // TODO: Follow / look for player
-
-    if( mission == NPC_MISSION_BASE ) {
-        return npc_base_idle;
     }
 
     if( !has_omt_destination() ) {
@@ -1481,6 +1497,11 @@ bool npc::update_path( const tripoint &p, const bool no_bashing, bool force )
 
     auto new_path = g->m.route( pos(), p, get_pathfinding_settings( no_bashing ), get_path_avoid() );
     if( new_path.empty() ) {
+        if( !ai_cache.sound_alerts.empty() ) {
+            ai_cache.sound_alerts.erase( ai_cache.sound_alerts.begin() );
+            add_msg( m_debug, "failed to path to sound alert %d,%d,%d->%d,%d,%d",
+                     posx(), posy(), posz(), p.x, p.y, p.z );
+        }
         add_msg( m_debug, "Failed to path %d,%d,%d->%d,%d,%d",
                  posx(), posy(), posz(), p.x, p.y, p.z );
     }
@@ -1566,6 +1587,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         const auto att = attitude_to( *critter );
         if( att == A_HOSTILE ) {
             if( !no_bashing ) {
+                warn_about( "cant_flee", 5_turns + rng( 0, 5 ) * 1_turns );
                 melee_attack( *critter, true );
             } else {
                 move_pause();
@@ -1594,6 +1616,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
             // other npcs should not try to move into this npc anymore,
             // so infinite loop can be avoided.
             realnomove->insert( pos() );
+            say( "<let_me_pass>" );
             np->move_away_from( pos(), true, realnomove );
         }
 
@@ -1648,7 +1671,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         if( attitude == NPCATT_MUG ||
             attitude == NPCATT_KILL ||
             attitude == NPCATT_WAIT_FOR_LEAVE ) {
-            set_attitude( NPCATT_FLEE );
+            set_attitude( NPCATT_FLEE_TEMP );
         }
 
         moves = 0;
@@ -1804,6 +1827,10 @@ void npc::move_away_from( const tripoint &pt, bool no_bash_atk, std::set<tripoin
 void npc::move_pause()
 
 {
+    // make sure we're using the best weapon
+    if( calendar::once_every( 1_hours ) && wield_better_weapon() ) {
+        return;
+    }
     // NPCs currently always aim when using a gun, even with no target
     // This simulates them aiming at stuff just at the edge of their range
     if( !weapon.is_gun() ) {
@@ -2423,7 +2450,7 @@ bool npc::wield_better_weapon()
     const long ups_charges = charges_of( "UPS" );
 
     const auto compare_weapon =
-    [this, &best, &best_value, ups_charges, can_use_gun, use_silent]( item & it ) {
+    [this, &best, &best_value, ups_charges, can_use_gun, use_silent]( const item & it ) {
         bool allowed = can_use_gun && it.is_gun() && ( !use_silent || it.is_silent() );
         double val;
         if( !allowed ) {
@@ -2439,7 +2466,7 @@ bool npc::wield_better_weapon()
         }
 
         if( val > best_value ) {
-            best = &it;
+            best = const_cast<item *>( &it );
             best_value = val;
         }
     };
@@ -2452,13 +2479,15 @@ bool npc::wield_better_weapon()
     compare_weapon( null_item_reference() );
 
     visit_items( [&compare_weapon]( item * node ) {
-        // Skip some bad items
-        if( !node->is_melee() ) {
-            return VisitResponse::SKIP;
+        // Only compare melee weapons, guns, or holstered items
+        if( node->is_melee() || node->is_gun() ) {
+            compare_weapon( *node );
+        } else if( node->get_use( "holster" ) && !node->contents.empty() ) {
+            const item &holstered = node->get_contained();
+            if( holstered.is_melee() || holstered.is_gun() ) {
+                compare_weapon( holstered );
+            }
         }
-
-        compare_weapon( *node );
-
         return VisitResponse::SKIP;
     } );
 
@@ -2467,13 +2496,12 @@ bool npc::wield_better_weapon()
     // Until then, the NPCs should reload the guns as a last resort
 
     if( best == &weapon ) {
-        add_msg( m_debug, "Wielded %s is best at %.1f, not switching",
-                 best->display_name().c_str(), best_value );
+        add_msg( m_debug, "Wielded %s is best at %.1f, not switching", best->display_name(),
+                 best_value );
         return false;
     }
 
-    add_msg( m_debug, "Wielding %s at value %.1f",
-             best->display_name().c_str(), best_value );
+    add_msg( m_debug, "Wielding %s at value %.1f", best->display_name(), best_value );
 
     wield( *best );
     return true;
@@ -2491,18 +2519,6 @@ bool npc::scan_new_items()
 
     return false;
     // TODO: Armor?
-}
-
-void npc::wield_best_melee()
-{
-    double best_value = 0.0;
-    item *it = inv.best_for_melee( *this, best_value );
-    if( unarmed_value() >= best_value ) {
-        // "I cast fist!"
-        it = &null_item_reference();
-    }
-
-    wield( *it );
 }
 
 void npc_throw( npc &np, item &it, int index, const tripoint &pos )
@@ -2910,9 +2926,9 @@ void npc::mug_player( player &mark )
     // We already have their money; take some goodies!
     // value_mod affects at what point we "take the money and run"
     // A lower value means we'll take more stuff
-    double value_mod = 1 - ( ( 10 - personality.bravery )    * .05 ) -
+    double value_mod = 1 - ( ( 10 - personality.bravery ) * .05 ) -
                        ( ( 10 - personality.aggression ) * .04 ) -
-                       ( ( 10 - personality.collector )  * .06 );
+                       ( ( 10 - personality.collector ) * .06 );
     if( !mark.is_npc() ) {
         value_mod += ( op_of_u.fear * .08 );
         value_mod -= ( ( 8 - op_of_u.value ) * .07 );
@@ -2929,7 +2945,7 @@ void npc::mug_player( player &mark )
         }
     }
     if( item_index == INT_MIN ) { // Didn't find anything worthwhile!
-        set_attitude( NPCATT_FLEE );
+        set_attitude( NPCATT_FLEE_TEMP );
         if( !one_in( 3 ) ) {
             say( "<done_mugging>" );
         }
@@ -2940,13 +2956,10 @@ void npc::mug_player( player &mark )
     item stolen = mark.i_rem( item_index );
     if( mark.is_npc() ) {
         if( u_see ) {
-            add_msg( _( "%1$s takes %2$s's %3$s." ), name.c_str(),
-                     mark.name.c_str(),
-                     stolen.tname().c_str() );
+            add_msg( _( "%1$s takes %2$s's %3$s." ), name, mark.name, stolen.tname() );
         }
     } else {
-        add_msg( m_bad, _( "%1$s takes your %2$s." ),
-                 name.c_str(), stolen.tname().c_str() );
+        add_msg( m_bad, _( "%1$s takes your %2$s." ), name, stolen.tname() );
     }
     i_add( stolen );
     moves -= 100;
@@ -3009,13 +3022,29 @@ bool npc::has_omt_destination() const
 
 void npc::reach_omt_destination()
 {
+    if( is_travelling() ) {
+        mission = NPC_MISSION_GUARD_ALLY;
+        guard_pos = global_square_location();
+        if( has_companion_mission() ) {
+            reset_companion_mission();
+        }
+        omt_path.clear();
+        goal = no_goal_point;
+        if( rl_dist( g->u.pos(), pos() ) > SEEX * 2 || !g->u.sees( pos() ) ) {
+            if( g->u.has_item_with_flag( "TWO_WAY_RADIO", true ) &&
+                has_item_with_flag( "TWO_WAY_RADIO", true ) ) {
+                add_msg( m_info, _( "From your two-way radio you hear %s reporting in, 'I've arrived, boss!'" ),
+                         disp_name() );
+            }
+        }
+        return;
+    }
     // Guarding NPCs want a specific point, not just an overmap tile
     // Rest stops having a goal after reaching it
     if( !is_guarding() ) {
         goal = no_goal_point;
         return;
     }
-
     // If we are guarding, remember our position in case we get forcibly moved
     goal = global_omt_location();
     if( guard_pos == global_square_location() ) {
@@ -3084,6 +3113,14 @@ void npc::set_omt_destination()
 
 void npc::go_to_omt_destination()
 {
+    if( ai_cache.guard_pos ) {
+        if( pos() == *ai_cache.guard_pos ) {
+            path.clear();
+            ai_cache.guard_pos = cata::nullopt;
+            move_pause();
+            return;
+        }
+    }
     if( goal == no_goal_point ) {
         add_msg( m_debug, "npc::go_to_destination with no goal" );
         move_pause();
@@ -3157,16 +3194,14 @@ std::string npc_action_name( npc_action action )
             return _( "Pause" );
         case npc_reload:
             return _( "Reload" );
+        case npc_investigate_sound:
+            return _( "Investigate sound" );
+        case npc_return_to_guard_pos:
+            return _( "Returning to guard position" );
         case npc_sleep:
             return _( "Sleep" );
         case npc_pickup:
             return _( "Pick up items" );
-        case npc_wield_melee:
-            return _( "Wield melee weapon" );
-        case npc_wield_loaded_gun:
-            return _( "Wield loaded gun" );
-        case npc_wield_empty_gun:
-            return _( "Wield empty gun" );
         case npc_heal:
             return _( "Heal self" );
         case npc_use_painkiller:
@@ -3272,14 +3307,18 @@ void npc::warn_about( const std::string &type, const time_duration &d, const std
     } else {
         return;
     }
+    bool alert = false;
+    if( type != "speech_noise" && type != "movement_noise" && type != "relax" ) {
+        alert = true;
+    }
     const std::string warning_name = "warning_" + type + name;
     const std::string speech = name.empty() ? snip :
                                string_format( _( "%s %s<punc>" ), snip, name );
-    complain_about( warning_name, d, speech, is_enemy() );
+    complain_about( warning_name, d, speech, is_enemy(), alert );
 }
 
 bool npc::complain_about( const std::string &issue, const time_duration &dur,
-                          const std::string &speech, const bool force )
+                          const std::string &speech, const bool force, const bool alert )
 {
     // Don't have a default constructor for time_point, so accessing it in the
     // complaints map is a bit difficult, those lambdas should cover it.
@@ -3302,7 +3341,7 @@ bool npc::complain_about( const std::string &issue, const time_duration &dur,
                                         !g->u.in_sleep_state() && !in_sleep_state() );
 
     if( complain_since( issue, dur ) && do_complain ) {
-        say( speech );
+        say( speech, alert );
         set_complain_since( issue );
         return true;
     }
