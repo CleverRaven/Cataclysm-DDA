@@ -1,9 +1,3 @@
-data/json/npcs/talk_tags.json
-data/json/overmap/multitile_buildings_terrain.json
-data/json/overmap/specials.json
-data/json/overmap_connections.json
-data/json/recipes/ammo/pistol.json
-data/json/recipes/ammo/rifle.json
 data/json/recipes/armor/arms.json
 data/json/recipes/armor/feet.json
 data/json/recipes/armor/hands.json
@@ -1090,3 +1084,6 @@ data/json/mapgen_palettes/houses_multistory.json
 data/json/mapgen_palettes/lumberyard.json
 data/json/mapgen_palettes/shelter.json
 data/json/mapgen_palettes/subway.json
+data/json/overmap/multitile_buildings_terrain.json
+data/json/overmap/specials.json
+data/json/overmap_connections.json
