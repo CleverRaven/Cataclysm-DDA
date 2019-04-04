@@ -179,18 +179,19 @@ bool Creature::sees( const Creature &critter ) const
                     abs( posz() - critter.posz() ) <= 1 ) ) ) {
         return false;
     }
-    if( critter.is_player() && g->u.move_mode == "crouch" ) {
-        const int coverage = g->m.obstacle_coverage( pos(), critter.pos() );
-        if( coverage < 30 ) {
-            return sees( critter.pos(), critter.is_player() );
+    if( const player *p = dynamic_cast<const player *>( &critter ) ) {
+        if( p->move_mode == "crouch" ) {
+            const int coverage = g->m.obstacle_coverage( pos(), critter.pos() );
+            if( coverage < 30 ) {
+                return sees( critter.pos(), critter.is_player() );
+            }
+            const int vision_modifier = 30 - 0.5 * coverage;
+            if( vision_modifier > 1 ) {
+                return sees( critter.pos(), critter.is_player(), vision_modifier );
+            }
+            return false;
         }
-        const int vision_modifier = 30 - 0.5 * coverage;
-        if( vision_modifier > 1 ) {
-            return sees( critter.pos(), critter.is_player(), vision_modifier );
-        }
-        return false;
     }
-
     return sees( critter.pos(), critter.is_player() );
 }
 
