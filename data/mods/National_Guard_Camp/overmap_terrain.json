@@ -6,7 +6,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194412,
+        "sym": "┌",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -17,7 +17,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194417,
+        "sym": "─",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -28,7 +28,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194417,
+        "sym": "─",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -39,7 +39,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194417,
+        "sym": "─",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -50,7 +50,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194417,
+        "sym": "─",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -61,7 +61,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194417,
+        "sym": "─",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -72,7 +72,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194417,
+        "sym": "─",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -83,7 +83,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194417,
+        "sym": "─",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -94,7 +94,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194417,
+        "sym": "─",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -105,7 +105,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194417,
+        "sym": "─",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -116,7 +116,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194417,
+        "sym": "─",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -127,7 +127,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194417,
+        "sym": "─",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -138,7 +138,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194417,
+        "sym": "─",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -149,7 +149,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194410,
+        "sym": "┘",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -160,7 +160,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 71,
+        "sym": "G",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -171,7 +171,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 71,
+        "sym": "G",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -182,7 +182,7 @@
         "name": "Heliport",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 72,
+        "sym": "H",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -193,7 +193,7 @@
         "name": "Heliport",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 72,
+        "sym": "H",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -204,7 +204,7 @@
         "name": "road",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194424,
+        "sym": "│",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -215,7 +215,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194413,
+        "sym": "└",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -226,7 +226,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194417,
+        "sym": "─",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -237,7 +237,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194411,
+        "sym": "┐",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -248,7 +248,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194424,
+        "sym": "│",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -259,7 +259,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 71,
+        "sym": "G",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -270,7 +270,7 @@
         "name": "motor pool",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 79,
+        "sym": "O",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -281,7 +281,7 @@
         "name": "motor pool",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 79,
+        "sym": "O",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -292,7 +292,7 @@
         "name": "motor pool",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 79,
+        "sym": "O",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -303,7 +303,7 @@
         "name": "motor pool",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 79,
+        "sym": "O",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -314,7 +314,7 @@
         "name": "repair bay",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 79,
+        "sym": "O",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -325,7 +325,7 @@
         "name": "repair bay",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 79,
+        "sym": "O",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -336,7 +336,7 @@
         "name": "motor pool",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 79,
+        "sym": "O",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -347,7 +347,7 @@
         "name": "motor pool",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 79,
+        "sym": "O",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -358,7 +358,7 @@
         "name": "motor pool",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 79,
+        "sym": "O",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -369,7 +369,7 @@
         "name": "motor pool",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 79,
+        "sym": "O",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -380,7 +380,7 @@
         "name": "barracks",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 94,
+        "sym": "^",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -391,7 +391,7 @@
         "name": "road",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194424,
+        "sym": "│",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -402,7 +402,7 @@
         "name": "barracks",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym":94,
+        "sym": "^",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -413,7 +413,7 @@
         "name": "parking lot",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 79,
+        "sym": "O",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -424,7 +424,7 @@
         "name": "parking lot",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 79,
+        "sym": "O",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -435,7 +435,7 @@
         "name": "parking lot",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 79,
+        "sym": "O",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -446,7 +446,7 @@
         "name": "road",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194424,
+        "sym": "│",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -457,7 +457,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 71,
+        "sym": "G",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -468,7 +468,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 71,
+        "sym": "G",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -479,7 +479,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194424,
+        "sym": "│",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -490,7 +490,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194424,
+        "sym": "│",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -501,7 +501,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 71,
+        "sym": "G",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -512,7 +512,7 @@
         "name": "motor pool",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 79,
+        "sym": "O",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -523,7 +523,7 @@
         "name": "motor pool",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 79,
+        "sym": "O",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -534,7 +534,7 @@
         "name": "motor pool",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 79,
+        "sym": "O",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -545,7 +545,7 @@
         "name": "motor pool",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 79,
+        "sym": "O",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -556,7 +556,7 @@
         "name": "repair bay",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 79,
+        "sym": "O",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -567,7 +567,7 @@
         "name": "repair bay",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 79,
+        "sym": "O",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -578,7 +578,7 @@
         "name": "motor pool",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 79,
+        "sym": "O",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -589,7 +589,7 @@
         "name": "motor pool",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 79,
+        "sym": "O",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -600,7 +600,7 @@
         "name": "motor pool",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 79,
+        "sym": "O",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -611,7 +611,7 @@
         "name": "motor pool",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 79,
+        "sym": "O",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -622,7 +622,7 @@
         "name": "barracks",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 118,
+        "sym": "v",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -633,7 +633,7 @@
         "name": "road",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194424,
+        "sym": "│",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -644,7 +644,7 @@
         "name": "barracks",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 118,
+        "sym": "v",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -655,7 +655,7 @@
         "name": "parking lot",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 79,
+        "sym": "O",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -666,7 +666,7 @@
         "name": "parking lot",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 79,
+        "sym": "O",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -677,7 +677,7 @@
         "name": "parking lot",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 79,
+        "sym": "O",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -688,7 +688,7 @@
         "name": "road",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194424,
+        "sym": "│",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -699,7 +699,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 71,
+        "sym": "G",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -710,7 +710,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 71,
+        "sym": "G",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -721,7 +721,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194424,
+        "sym": "│",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -732,7 +732,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194424,
+        "sym": "│",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -743,7 +743,7 @@
         "name": "parking lot",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 79,
+        "sym": "O",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -754,7 +754,7 @@
         "name": "parking lot",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 79,
+        "sym": "O",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -765,7 +765,7 @@
         "name": "road",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194414,
+        "sym": "┼",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -776,7 +776,7 @@
         "name": "road",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194417,
+        "sym": "─",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -787,7 +787,7 @@
         "name": "road",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194414,
+        "sym": "┼",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -798,7 +798,7 @@
         "name": "road",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194417,
+        "sym": "─",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -809,7 +809,7 @@
         "name": "road",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194417,
+        "sym": "─",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -820,7 +820,7 @@
         "name": "road",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194414,
+        "sym": "┼",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -831,7 +831,7 @@
         "name": "road",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194417,
+        "sym": "─",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -842,7 +842,7 @@
         "name": "road",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194422,
+        "sym": "┴",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -853,7 +853,7 @@
         "name": "road",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194423,
+        "sym": "┬",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -864,7 +864,7 @@
         "name": "road",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194417,
+        "sym": "─",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -875,7 +875,7 @@
         "name": "road",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194414,
+        "sym": "┼",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -886,7 +886,7 @@
         "name": "road",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194417,
+        "sym": "─",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -897,7 +897,7 @@
         "name": "road",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194417,
+        "sym": "─",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -908,7 +908,7 @@
         "name": "road",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194417,
+        "sym": "─",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -919,7 +919,7 @@
         "name": "road",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194417,
+        "sym": "─",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -930,7 +930,7 @@
         "name": "road",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194414,
+        "sym": "┼",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -941,7 +941,7 @@
         "name": "fuel point",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 60,
+        "sym": "<",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -952,7 +952,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 71,
+        "sym": "G",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -963,7 +963,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194424,
+        "sym": "│",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -974,7 +974,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194424,
+        "sym": "│",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -985,7 +985,7 @@
         "name": "company ops facility",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 67,
+        "sym": "C",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -996,7 +996,7 @@
         "name": "company ops facility",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 67,
+        "sym": "C",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1007,7 +1007,7 @@
         "name": "road",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194424,
+        "sym": "│",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1018,7 +1018,7 @@
         "name": "arms room",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 65,
+        "sym": "A",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1029,7 +1029,7 @@
         "name": "road",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194424,
+        "sym": "│",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1040,7 +1040,7 @@
         "name": "company ops facility",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 67,
+        "sym": "C",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1051,7 +1051,7 @@
         "name": "company ops facility",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 67,
+        "sym": "C",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1062,7 +1062,7 @@
         "name": "road",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194424,
+        "sym": "│",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1073,7 +1073,7 @@
         "name": "dining facility",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 68,
+        "sym": "D",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1084,7 +1084,7 @@
         "name": "dining facility",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 68,
+        "sym": "D",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1095,7 +1095,7 @@
         "name": "road",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194424,
+        "sym": "│",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1106,7 +1106,7 @@
         "name": "barracks",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 94,
+        "sym": "^",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1117,7 +1117,7 @@
         "name": "road",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194424,
+        "sym": "│",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1128,7 +1128,7 @@
         "name": "adv. warfare center",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 65,
+        "sym": "A",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1139,7 +1139,7 @@
         "name": "adv. warfare center",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 65,
+        "sym": "A",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1150,7 +1150,7 @@
         "name": "adv. warfare center",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 65,
+        "sym": "A",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1161,7 +1161,7 @@
         "name": "adv. warfare center",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 65,
+        "sym": "A",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1172,7 +1172,7 @@
         "name": "road",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194424,
+        "sym": "│",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1183,7 +1183,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 71,
+        "sym": "G",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1194,7 +1194,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 71,
+        "sym": "G",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1205,7 +1205,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194424,
+        "sym": "│",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1216,7 +1216,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194424,
+        "sym": "│",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1227,7 +1227,7 @@
         "name": "company ops facility",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 67,
+        "sym": "C",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1238,7 +1238,7 @@
         "name": "company ops facility",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 67,
+        "sym": "C",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1249,7 +1249,7 @@
         "name": "road",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194424,
+        "sym": "│",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1260,7 +1260,7 @@
         "name": "arms room",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 65,
+        "sym": "A",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1271,7 +1271,7 @@
         "name": "road",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194424,
+        "sym": "│",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1282,7 +1282,7 @@
         "name": "company ops facility",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 67,
+        "sym": "C",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1293,7 +1293,7 @@
         "name": "company ops facility",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 67,
+        "sym": "C",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1304,7 +1304,7 @@
         "name": "road",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194424,
+        "sym": "│",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1315,7 +1315,7 @@
         "name": "dining facility",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 68,
+        "sym": "D",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1326,7 +1326,7 @@
         "name": "dining facility",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 68,
+        "sym": "D",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1337,7 +1337,7 @@
         "name": "road",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194424,
+        "sym": "│",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1348,7 +1348,7 @@
         "name": "barracks",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 118,
+        "sym": "v",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1359,7 +1359,7 @@
         "name": "road",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194424,
+        "sym": "│",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1370,7 +1370,7 @@
         "name": "adv. warfare center",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 65,
+        "sym": "A",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1381,7 +1381,7 @@
         "name": "adv. warfare center",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 65,
+        "sym": "A",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1392,7 +1392,7 @@
         "name": "adv. warfare center",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 65,
+        "sym": "A",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1403,7 +1403,7 @@
         "name": "adv. warfare center",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 65,
+        "sym": "A",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1414,7 +1414,7 @@
         "name": "road",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194424,
+        "sym": "│",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1425,7 +1425,7 @@
         "name": "range",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 82,
+        "sym": "R",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1436,7 +1436,7 @@
         "name": "range",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 82,
+        "sym": "R",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1447,7 +1447,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194424,
+        "sym": "│",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1458,7 +1458,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194424,
+        "sym": "│",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1469,7 +1469,7 @@
         "name": "parking lot",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 79,
+        "sym": "O",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1480,7 +1480,7 @@
         "name": "parking lot",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 79,
+        "sym": "O",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1491,7 +1491,7 @@
         "name": "road",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194421,
+        "sym": "┤",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1502,7 +1502,7 @@
         "name": "road",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194417,
+        "sym": "─",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1513,7 +1513,7 @@
         "name": "road",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194414,
+        "sym": "┼",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1524,7 +1524,7 @@
         "name": "road",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194417,
+        "sym": "─",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1535,7 +1535,7 @@
         "name": "road",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194417,
+        "sym": "─",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1546,7 +1546,7 @@
         "name": "road",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194414,
+        "sym": "┼",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1557,7 +1557,7 @@
         "name": "road",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194417,
+        "sym": "─",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1568,7 +1568,7 @@
         "name": "road",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194417,
+        "sym": "─",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1579,7 +1579,7 @@
         "name": "road",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194414,
+        "sym": "┼",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1590,7 +1590,7 @@
         "name": "road",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194417,
+        "sym": "─",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1601,7 +1601,7 @@
         "name": "road",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194414,
+        "sym": "┼",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1612,7 +1612,7 @@
         "name": "road",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194417,
+        "sym": "─",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1623,7 +1623,7 @@
         "name": "road",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194411,
+        "sym": "┐",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1634,7 +1634,7 @@
         "name": "adv. warfare center",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 65,
+        "sym": "A",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1645,7 +1645,7 @@
         "name": "adv. warfare center",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 65,
+        "sym": "A",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1656,7 +1656,7 @@
         "name": "road",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194424,
+        "sym": "│",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1667,7 +1667,7 @@
         "name": "range",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 82,
+        "sym": "R",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1678,7 +1678,7 @@
         "name": "range",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 82,
+        "sym": "R",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1689,7 +1689,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194424,
+        "sym": "│",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1700,7 +1700,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194424,
+        "sym": "│",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1711,7 +1711,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 71,
+        "sym": "G",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1722,7 +1722,7 @@
         "name": "aid station",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 72,
+        "sym": "H",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1733,7 +1733,7 @@
         "name": "road",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194424,
+        "sym": "│",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1744,7 +1744,7 @@
         "name": "commo building",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 88,
+        "sym": "X",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1755,7 +1755,7 @@
         "name": "road",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194424,
+        "sym": "│",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1766,7 +1766,7 @@
         "name": "battalion HQ",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 66,
+        "sym": "B",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1777,7 +1777,7 @@
         "name": "battalion HQ",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 66,
+        "sym": "B",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1788,7 +1788,7 @@
         "name": "road",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194424,
+        "sym": "│",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1799,7 +1799,7 @@
         "name": "flag pole",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 70,
+        "sym": "F",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1810,7 +1810,7 @@
         "name": "shoppette",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 94,
+        "sym": "^",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1821,7 +1821,7 @@
         "name": "road",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194424,
+        "sym": "│",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1832,7 +1832,7 @@
         "name": "gym",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym":  94,
+        "sym": "^",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1843,7 +1843,7 @@
         "name": "road",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194424,
+        "sym": "│",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1854,7 +1854,7 @@
         "name": "barracks",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 94,
+        "sym": "^",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1865,7 +1865,7 @@
         "name": "road",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194413,
+        "sym": "└",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1876,7 +1876,7 @@
         "name": "road",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194417,
+        "sym": "─",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1887,7 +1887,7 @@
         "name": "road",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194417,
+        "sym": "─",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1899,7 +1899,7 @@
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
         "comment" : "t-intersection",
-        "sym": 4194421,
+        "sym": "┤",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1910,7 +1910,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 71,
+        "sym": "G",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1921,7 +1921,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 71,
+        "sym": "G",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1932,7 +1932,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194424,
+        "sym": "│",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1943,7 +1943,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194424,
+        "sym": "│",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1954,7 +1954,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 71,
+        "sym": "G",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1965,7 +1965,7 @@
         "name": "aid station",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 72,
+        "sym": "H",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1976,7 +1976,7 @@
         "name": "road",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194413,
+        "sym": "└",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1987,7 +1987,7 @@
         "name": "road",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194417,
+        "sym": "─",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -1998,7 +1998,7 @@
         "name": "road",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194410,
+        "sym": "┘",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2009,7 +2009,7 @@
         "name": "parking lot",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 79,
+        "sym": "O",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2020,7 +2020,7 @@
         "name": "parking lot",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 79,
+        "sym": "O",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2031,7 +2031,7 @@
         "name": "gate",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 71,
+        "sym": "G",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2042,7 +2042,7 @@
         "name": "house",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 62,
+        "sym": ">",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2053,7 +2053,7 @@
         "name": "house",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 62,
+        "sym": ">",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2064,7 +2064,7 @@
         "name": "road",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194413,
+        "sym": "└",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2075,7 +2075,7 @@
         "name": "road",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194417,
+        "sym": "─",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2086,7 +2086,7 @@
         "name": "road",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194410,
+        "sym": "┘",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2097,7 +2097,7 @@
         "name": "barracks",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 118,
+        "sym": "v",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2108,7 +2108,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 71,
+        "sym": "G",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2119,7 +2119,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 71,
+        "sym": "G",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2130,7 +2130,7 @@
         "name": "ammunition supply point",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 65,
+        "sym": "A",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2141,7 +2141,7 @@
         "name": "road",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194424,
+        "sym": "│",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2152,7 +2152,7 @@
         "name": "ammunition supply point",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 65,
+        "sym": "A",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2163,7 +2163,7 @@
         "name": "ammunition supply point",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 65,
+        "sym": "A",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2174,7 +2174,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194424,
+        "sym": "│",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2185,7 +2185,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194424,
+        "sym": "│",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2196,7 +2196,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 71,
+        "sym": "G",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2207,7 +2207,7 @@
         "name": "Launch Station",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 76,
+        "sym": "L",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2218,7 +2218,7 @@
         "name": "Launch Station",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 76,
+        "sym": "L",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2229,7 +2229,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 71,
+        "sym": "G",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2240,7 +2240,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 71,
+        "sym": "G",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2251,7 +2251,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 71,
+        "sym": "G",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2262,7 +2262,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194424,
+        "sym": "│",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2273,7 +2273,7 @@
         "name": "road",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym" : 4194424,
+        "sym" : "│",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2284,7 +2284,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194424,
+        "sym": "│",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2295,7 +2295,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 71,
+        "sym": "G",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2306,7 +2306,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 71,
+        "sym": "G",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2317,7 +2317,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 71,
+        "sym": "G",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2328,7 +2328,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 71,
+        "sym": "G",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2339,7 +2339,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 71,
+        "sym": "G",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2350,7 +2350,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 71,
+        "sym": "G",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2361,7 +2361,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 71,
+        "sym": "G",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2372,7 +2372,7 @@
         "name": "ammunition supply point",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 65,
+        "sym": "A",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2383,7 +2383,7 @@
         "name": "ammunition supply point",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 65,
+        "sym": "A",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2394,7 +2394,7 @@
         "name": "ammunition supply point",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 65,
+        "sym": "A",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2405,7 +2405,7 @@
         "name": "ammunition supply point",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 65,
+        "sym": "A",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2416,7 +2416,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194424,
+        "sym": "│",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2427,7 +2427,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194424,
+        "sym": "│",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2438,7 +2438,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 71,
+        "sym": "G",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2449,7 +2449,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 71,
+        "sym": "G",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2460,7 +2460,7 @@
         "name": "Launch Station",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 76,
+        "sym": "L",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2471,7 +2471,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 71,
+        "sym": "G",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2482,7 +2482,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 71,
+        "sym": "G",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2493,7 +2493,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym" : 71,
+        "sym" : "G",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2504,7 +2504,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194424,
+        "sym": "│",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2515,7 +2515,7 @@
         "name": "road",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym" : 4194424,
+        "sym" : "│",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2526,7 +2526,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194413,
+        "sym": "└",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2537,7 +2537,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194417,
+        "sym": "─",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2548,7 +2548,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194417,
+        "sym": "─",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2559,7 +2559,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194417,
+        "sym": "─",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2570,7 +2570,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194417,
+        "sym": "─",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2581,7 +2581,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194417,
+        "sym": "─",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2592,7 +2592,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194417,
+        "sym": "─",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2603,7 +2603,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194417,
+        "sym": "─",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2614,7 +2614,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194417,
+        "sym": "─",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2625,7 +2625,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194417,
+        "sym": "─",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2636,7 +2636,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194417,
+        "sym": "─",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2647,7 +2647,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194417,
+        "sym": "─",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2658,7 +2658,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194410,
+        "sym": "┘",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2669,7 +2669,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194412,
+        "sym": "┌",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2680,7 +2680,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194417,
+        "sym": "─",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2691,7 +2691,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194417,
+        "sym": "─",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2702,7 +2702,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194417,
+        "sym": "─",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2713,7 +2713,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194417,
+        "sym": "─",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2724,7 +2724,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194417,
+        "sym": "─",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2735,7 +2735,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194411,
+        "sym": "┐",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2746,7 +2746,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194424,
+        "sym": "│",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2757,7 +2757,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 71,
+        "sym": "G",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2768,7 +2768,7 @@
         "name": "helipad",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 72,
+        "sym": "H",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2779,7 +2779,7 @@
         "name": "helipad",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 72,
+        "sym": "H",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2790,7 +2790,7 @@
         "name": "helipad",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 72,
+        "sym": "H",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2801,7 +2801,7 @@
         "name": "road",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194424,
+        "sym": "│",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2812,7 +2812,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194424,
+        "sym": "│",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2823,7 +2823,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194413,
+        "sym": "└",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2834,7 +2834,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194417,
+        "sym": "─",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2845,7 +2845,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194417,
+        "sym": "─",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2856,7 +2856,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194417,
+        "sym": "─",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2867,7 +2867,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194417,
+        "sym": "─",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2878,7 +2878,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194417,
+        "sym": "─",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2889,7 +2889,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194417,
+        "sym": "─",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2900,7 +2900,7 @@
         "name": "National Guard Camp",
         "see_cost": 5,
         "flags" : [ "SIDEWALK" ],
-        "sym": 4194410,
+        "sym": "┘",
         "extras" : "none",
         "type": "overmap_terrain"
     },
@@ -2911,7 +2911,7 @@
         "mondensity": 2,
         "name": "solid rock",
         "see_cost": 99,
-        "sym": 37,
+        "sym": "%",
         "type": "overmap_terrain"
     },
     {
@@ -2921,7 +2921,7 @@
         "mondensity": 2,
         "name": "solid rock",
         "see_cost": 99,
-        "sym": 37,
+        "sym": "%",
         "type": "overmap_terrain"
     },
     {
@@ -2931,7 +2931,7 @@
         "mondensity": 2,
         "name": "solid rock",
         "see_cost": 99,
-        "sym": 37,
+        "sym": "%",
         "type": "overmap_terrain"
     },
     {
@@ -2941,7 +2941,7 @@
         "mondensity": 2,
         "name": "solid rock",
         "see_cost": 99,
-        "sym": 37,
+        "sym": "%",
         "type": "overmap_terrain"
     },
     {
@@ -2951,7 +2951,7 @@
         "mondensity": 2,
         "name": "solid rock",
         "see_cost": 99,
-        "sym": 37,
+        "sym": "%",
         "type": "overmap_terrain"
     },
     {
@@ -2961,7 +2961,7 @@
         "mondensity": 2,
         "name": "solid rock",
         "see_cost": 99,
-        "sym": 37,
+        "sym": "%",
         "type": "overmap_terrain"
     },
     {
@@ -2971,7 +2971,7 @@
         "mondensity": 2,
         "name": "solid rock",
         "see_cost": 99,
-        "sym": 37,
+        "sym": "%",
         "type": "overmap_terrain"
     },
     {
@@ -2981,7 +2981,7 @@
         "mondensity": 2,
         "name": "solid rock",
         "see_cost": 99,
-        "sym": 37,
+        "sym": "%",
         "type": "overmap_terrain"
     },
     {
@@ -2991,7 +2991,7 @@
         "mondensity": 2,
         "name": "solid rock",
         "see_cost": 99,
-        "sym": 37,
+        "sym": "%",
         "type": "overmap_terrain"
     },
     {
@@ -3001,7 +3001,7 @@
         "mondensity": 2,
         "name": "solid rock",
         "see_cost": 99,
-        "sym": 37,
+        "sym": "%",
         "type": "overmap_terrain"
     },
     {
@@ -3011,7 +3011,7 @@
         "mondensity": 2,
         "name": "solid rock",
         "see_cost": 99,
-        "sym": 37,
+        "sym": "%",
         "type": "overmap_terrain"
     },
     {
@@ -3021,7 +3021,7 @@
         "mondensity": 2,
         "name": "solid rock",
         "see_cost": 99,
-        "sym": 37,
+        "sym": "%",
         "type": "overmap_terrain"
     },
     {
@@ -3031,7 +3031,7 @@
         "mondensity": 2,
         "name": "solid rock",
         "see_cost": 99,
-        "sym": 37,
+        "sym": "%",
         "type": "overmap_terrain"
     },
     {
@@ -3041,7 +3041,7 @@
         "mondensity": 2,
         "name": "solid rock",
         "see_cost": 99,
-        "sym": 37,
+        "sym": "%",
         "type": "overmap_terrain"
     },
     {
@@ -3051,7 +3051,7 @@
         "mondensity": 2,
         "name": "solid rock",
         "see_cost": 99,
-        "sym": 37,
+        "sym": "%",
         "type": "overmap_terrain"
     },
     {
@@ -3061,7 +3061,7 @@
         "mondensity": 2,
         "name": "solid rock",
         "see_cost": 99,
-        "sym": 37,
+        "sym": "%",
         "type": "overmap_terrain"
     },
     {
@@ -3071,7 +3071,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -3081,7 +3081,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -3091,7 +3091,7 @@
         "mondensity": 2,
         "name": "solid rock",
         "see_cost": 99,
-        "sym": 37,
+        "sym": "%",
         "type": "overmap_terrain"
     },
     {
@@ -3101,7 +3101,7 @@
         "mondensity": 2,
         "name": "solid rock",
         "see_cost": 99,
-        "sym": 37,
+        "sym": "%",
         "type": "overmap_terrain"
     },
     {
@@ -3111,7 +3111,7 @@
         "mondensity": 2,
         "name": "solid rock",
         "see_cost": 99,
-        "sym": 37,
+        "sym": "%",
         "type": "overmap_terrain"
     },
     {
@@ -3121,7 +3121,7 @@
         "mondensity": 2,
         "name": "solid rock",
         "see_cost": 99,
-        "sym": 37,
+        "sym": "%",
         "type": "overmap_terrain"
     },
     {
@@ -3131,7 +3131,7 @@
         "mondensity": 2,
         "name": "solid rock",
         "see_cost": 99,
-        "sym": 37,
+        "sym": "%",
         "type": "overmap_terrain"
     },
     {
@@ -3141,7 +3141,7 @@
         "mondensity": 2,
         "name": "solid rock",
         "see_cost": 99,
-        "sym": 37,
+        "sym": "%",
         "type": "overmap_terrain"
     },
     {
@@ -3151,7 +3151,7 @@
         "mondensity": 2,
         "name": "solid rock",
         "see_cost": 99,
-        "sym": 37,
+        "sym": "%",
         "type": "overmap_terrain"
     },
     {
@@ -3161,7 +3161,7 @@
         "mondensity": 2,
         "name": "solid rock",
         "see_cost": 99,
-        "sym": 37,
+        "sym": "%",
         "type": "overmap_terrain"
     },
     {
@@ -3171,7 +3171,7 @@
         "mondensity": 2,
         "name": "solid rock",
         "see_cost": 99,
-        "sym": 37,
+        "sym": "%",
         "type": "overmap_terrain"
     },
     {
@@ -3181,7 +3181,7 @@
         "mondensity": 2,
         "name": "cavern",
         "see_cost": 99,
-        "sym": 48,
+        "sym": "0",
         "type": "overmap_terrain"
     },
     {
@@ -3191,7 +3191,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -3201,7 +3201,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -3211,7 +3211,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -3221,7 +3221,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -3231,7 +3231,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -3241,7 +3241,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -3251,7 +3251,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -3261,7 +3261,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -3271,7 +3271,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -3281,7 +3281,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -3291,7 +3291,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -3301,7 +3301,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -3311,7 +3311,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -3321,7 +3321,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -3331,7 +3331,7 @@
         "mondensity": 2,
         "name": "solid rock",
         "see_cost": 99,
-        "sym": 37,
+        "sym": "%",
         "type": "overmap_terrain"
     },
     {
@@ -3341,7 +3341,7 @@
         "mondensity": 2,
         "name": "solid rock",
         "see_cost": 99,
-        "sym": 37,
+        "sym": "%",
         "type": "overmap_terrain"
     },
     {
@@ -3351,7 +3351,7 @@
         "mondensity": 2,
         "name": "solid rock",
         "see_cost": 99,
-        "sym": 37,
+        "sym": "%",
         "type": "overmap_terrain"
     },
     {
@@ -3361,7 +3361,7 @@
         "mondensity": 2,
         "name": "solid rock",
         "see_cost": 99,
-        "sym": 37,
+        "sym": "%",
         "type": "overmap_terrain"
     },
     {
@@ -3371,7 +3371,7 @@
         "mondensity": 2,
         "name": "cavern",
         "see_cost": 99,
-        "sym": 48,
+        "sym": "0",
         "type": "overmap_terrain"
     },
     {
@@ -3381,7 +3381,7 @@
         "mondensity": 2,
         "name": "cavern",
         "see_cost": 99,
-        "sym": 48,
+        "sym": "0",
         "type": "overmap_terrain"
     },
     {
@@ -3391,7 +3391,7 @@
         "mondensity": 2,
         "name": "cavern",
         "see_cost": 99,
-        "sym": 48,
+        "sym": "0",
         "type": "overmap_terrain"
     },
     {
@@ -3401,7 +3401,7 @@
         "mondensity": 2,
         "name": "cavern",
         "see_cost": 99,
-        "sym": 48,
+        "sym": "0",
         "type": "overmap_terrain"
     },
     {
@@ -3411,7 +3411,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -3421,7 +3421,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -3431,7 +3431,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -3441,7 +3441,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -3451,7 +3451,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -3461,7 +3461,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -3471,7 +3471,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -3481,7 +3481,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -3491,7 +3491,7 @@
         "mondensity": 2,
         "name": "reactor",
         "see_cost": 99,
-        "sym": 82,
+        "sym": "R",
         "type": "overmap_terrain"
     },
     {
@@ -3501,7 +3501,7 @@
         "mondensity": 2,
         "name": "reactor",
         "see_cost": 99,
-        "sym": 82,
+        "sym": "R",
         "type": "overmap_terrain"
     },
     {
@@ -3511,7 +3511,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -3521,7 +3521,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -3531,7 +3531,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -3541,7 +3541,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -3551,7 +3551,7 @@
         "mondensity": 2,
         "name": "cavern",
         "see_cost": 99,
-        "sym": 48,
+        "sym": "0",
         "type": "overmap_terrain"
     },
     {
@@ -3561,7 +3561,7 @@
         "mondensity": 2,
         "name": "cavern",
         "see_cost": 99,
-        "sym": 48,
+        "sym": "0",
         "type": "overmap_terrain"
     },
     {
@@ -3571,7 +3571,7 @@
         "mondensity": 2,
         "name": "solid rock",
         "see_cost": 99,
-        "sym": 37,
+        "sym": "%",
         "type": "overmap_terrain"
     },
     {
@@ -3581,7 +3581,7 @@
         "mondensity": 2,
         "name": "solid rock",
         "see_cost": 99,
-        "sym": 37,
+        "sym": "%",
         "type": "overmap_terrain"
     },
     {
@@ -3591,7 +3591,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -3601,7 +3601,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -3611,7 +3611,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -3621,7 +3621,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -3631,7 +3631,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -3641,7 +3641,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -3651,7 +3651,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -3661,7 +3661,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -3671,7 +3671,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -3681,7 +3681,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -3691,7 +3691,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -3701,7 +3701,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -3711,7 +3711,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -3721,7 +3721,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -3731,7 +3731,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -3741,7 +3741,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -3751,7 +3751,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -3761,7 +3761,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -3771,7 +3771,7 @@
         "mondensity": 2,
         "name": "cavern",
         "see_cost": 99,
-        "sym": 48,
+        "sym": "0",
         "type": "overmap_terrain"
     },
     {
@@ -3781,7 +3781,7 @@
         "mondensity": 2,
         "name": "cavern",
         "see_cost": 99,
-        "sym": 48,
+        "sym": "0",
         "type": "overmap_terrain"
     },
     {
@@ -3791,7 +3791,7 @@
         "mondensity": 2,
         "name": "solid rock",
         "see_cost": 99,
-        "sym": 37,
+        "sym": "%",
         "type": "overmap_terrain"
     },
     {
@@ -3801,7 +3801,7 @@
         "mondensity": 2,
         "name": "solid rock",
         "see_cost": 99,
-        "sym": 37,
+        "sym": "%",
         "type": "overmap_terrain"
     },
     {
@@ -3811,7 +3811,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -3821,7 +3821,7 @@
         "mondensity": 2,
         "name": "weapons lab",
         "see_cost": 99,
-        "sym": 76,
+        "sym": "L",
         "type": "overmap_terrain"
     },
     {
@@ -3831,7 +3831,7 @@
         "mondensity": 2,
         "name": "weapons lab",
         "see_cost": 99,
-        "sym": 76,
+        "sym": "L",
         "type": "overmap_terrain"
     },
     {
@@ -3841,7 +3841,7 @@
         "mondensity": 2,
         "name": "weapons lab",
         "see_cost": 99,
-        "sym": 76,
+        "sym": "L",
         "type": "overmap_terrain"
     },
     {
@@ -3851,7 +3851,7 @@
         "mondensity": 2,
         "name": "weapons lab",
         "see_cost": 99,
-        "sym": 76,
+        "sym": "L",
         "type": "overmap_terrain"
     },
     {
@@ -3861,7 +3861,7 @@
         "mondensity": 2,
         "name": "weapons lab",
         "see_cost": 99,
-        "sym": 76,
+        "sym": "L",
         "type": "overmap_terrain"
     },
     {
@@ -3871,7 +3871,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -3881,7 +3881,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -3891,7 +3891,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -3901,7 +3901,7 @@
         "mondensity": 2,
         "name": "genetics lab",
         "see_cost": 99,
-        "sym": 76,
+        "sym": "L",
         "type": "overmap_terrain"
     },
     {
@@ -3911,7 +3911,7 @@
         "mondensity": 2,
         "name": "weapons lab",
         "see_cost": 99,
-        "sym": 76,
+        "sym": "L",
         "type": "overmap_terrain"
     },
     {
@@ -3921,7 +3921,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -3931,7 +3931,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -3941,7 +3941,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -3951,7 +3951,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -3961,7 +3961,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -3971,7 +3971,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -3981,7 +3981,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -3991,7 +3991,7 @@
         "mondensity": 2,
         "name": "cavern",
         "see_cost": 99,
-        "sym": 48,
+        "sym": "0",
         "type": "overmap_terrain"
     },
     {
@@ -4001,7 +4001,7 @@
         "mondensity": 2,
         "name": "cavern",
         "see_cost": 99,
-        "sym": 48,
+        "sym": "0",
         "type": "overmap_terrain"
     },
     {
@@ -4011,7 +4011,7 @@
         "mondensity": 2,
         "name": "solid rock",
         "see_cost": 99,
-        "sym": 37,
+        "sym": "%",
         "type": "overmap_terrain"
     },
     {
@@ -4021,7 +4021,7 @@
         "mondensity": 2,
         "name": "solid rock",
         "see_cost": 99,
-        "sym": 37,
+        "sym": "%",
         "type": "overmap_terrain"
     },
     {
@@ -4031,7 +4031,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -4041,7 +4041,7 @@
         "mondensity": 2,
         "name": "weapons lab",
         "see_cost": 99,
-        "sym": 76,
+        "sym": "L",
         "type": "overmap_terrain"
     },
     {
@@ -4051,7 +4051,7 @@
         "mondensity": 2,
         "name": "weapons lab",
         "see_cost": 99,
-        "sym": 76,
+        "sym": "L",
         "type": "overmap_terrain"
     },
     {
@@ -4061,7 +4061,7 @@
         "mondensity": 2,
         "name": "weapons lab",
         "see_cost": 99,
-        "sym": 76,
+        "sym": "L",
         "type": "overmap_terrain"
     },
     {
@@ -4071,7 +4071,7 @@
         "mondensity": 2,
         "name": "weapons lab",
         "see_cost": 99,
-        "sym": 76,
+        "sym": "L",
         "type": "overmap_terrain"
     },
     {
@@ -4081,7 +4081,7 @@
         "mondensity": 2,
         "name": "weapons lab",
         "see_cost": 99,
-        "sym": 76,
+        "sym": "L",
         "type": "overmap_terrain"
     },
     {
@@ -4091,7 +4091,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -4101,7 +4101,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -4111,7 +4111,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -4121,7 +4121,7 @@
         "mondensity": 2,
         "name": "genetics lab",
         "see_cost": 99,
-        "sym": 76,
+        "sym": "L",
         "type": "overmap_terrain"
     },
     {
@@ -4131,7 +4131,7 @@
         "mondensity": 2,
         "name": "genetics lab",
         "see_cost": 99,
-        "sym": 76,
+        "sym": "L",
         "type": "overmap_terrain"
     },
     {
@@ -4141,7 +4141,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -4151,7 +4151,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -4161,7 +4161,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -4171,7 +4171,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -4181,7 +4181,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -4191,7 +4191,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -4201,7 +4201,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -4211,7 +4211,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -4221,7 +4221,7 @@
         "mondensity": 2,
         "name": "solid rock",
         "see_cost": 99,
-        "sym": 37,
+        "sym": "%",
         "type": "overmap_terrain"
     },
     {
@@ -4231,7 +4231,7 @@
         "mondensity": 2,
         "name": "solid rock",
         "see_cost": 99,
-        "sym": 37,
+        "sym": "%",
         "type": "overmap_terrain"
     },
     {
@@ -4241,7 +4241,7 @@
         "mondensity": 2,
         "name": "solid rock",
         "see_cost": 99,
-        "sym": 37,
+        "sym": "%",
         "type": "overmap_terrain"
     },
     {
@@ -4251,7 +4251,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -4261,7 +4261,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -4271,7 +4271,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -4281,7 +4281,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -4291,7 +4291,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -4301,7 +4301,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -4311,7 +4311,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -4321,7 +4321,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -4331,7 +4331,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -4341,7 +4341,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -4351,7 +4351,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -4361,7 +4361,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -4371,7 +4371,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -4381,7 +4381,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -4391,7 +4391,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -4401,7 +4401,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -4411,7 +4411,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -4421,7 +4421,7 @@
         "mondensity": 2,
         "name": "microbiology lab",
         "see_cost": 99,
-        "sym": 76,
+        "sym": "L",
         "type": "overmap_terrain"
     },
     {
@@ -4431,7 +4431,7 @@
         "mondensity": 2,
         "name": "microbiology lab",
         "see_cost": 99,
-        "sym": 76,
+        "sym": "L",
         "type": "overmap_terrain"
     },
     {
@@ -4441,7 +4441,7 @@
         "mondensity": 2,
         "name": "solid rock",
         "see_cost": 99,
-        "sym": 37,
+        "sym": "%",
         "type": "overmap_terrain"
     },
     {
@@ -4451,7 +4451,7 @@
         "mondensity": 2,
         "name": "solid rock",
         "see_cost": 99,
-        "sym": 37,
+        "sym": "%",
         "type": "overmap_terrain"
     },
     {
@@ -4461,7 +4461,7 @@
         "mondensity": 2,
         "name": "solid rock",
         "see_cost": 99,
-        "sym": 37,
+        "sym": "%",
         "type": "overmap_terrain"
     },
     {
@@ -4471,7 +4471,7 @@
         "mondensity": 2,
         "name": "rocketry lab",
         "see_cost": 99,
-        "sym": 76,
+        "sym": "L",
         "type": "overmap_terrain"
     },
     {
@@ -4481,7 +4481,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -4491,7 +4491,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -4501,7 +4501,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -4511,7 +4511,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -4520,7 +4520,7 @@
         "mondensity": 2,
         "name": "battalion HQ",
         "see_cost": 99,
-        "sym": 66,
+        "sym": "B",
         "type": "overmap_terrain"
     },
     {
@@ -4530,7 +4530,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -4540,7 +4540,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -4550,7 +4550,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -4560,7 +4560,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -4570,7 +4570,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -4580,7 +4580,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -4590,7 +4590,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -4600,7 +4600,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -4610,7 +4610,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -4620,7 +4620,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -4630,7 +4630,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -4640,7 +4640,7 @@
         "mondensity": 2,
         "name": "microbiology lab",
         "see_cost": 99,
-        "sym": 76,
+        "sym": "L",
         "type": "overmap_terrain"
     },
     {
@@ -4650,7 +4650,7 @@
         "mondensity": 2,
         "name": "microbiology lab",
         "see_cost": 99,
-        "sym": 76,
+        "sym": "L",
         "type": "overmap_terrain"
     },
     {
@@ -4660,7 +4660,7 @@
         "mondensity": 2,
         "name": "solid rock",
         "see_cost": 99,
-        "sym": 37,
+        "sym": "%",
         "type": "overmap_terrain"
     },
     {
@@ -4670,7 +4670,7 @@
         "mondensity": 2,
         "name": "solid rock",
         "see_cost": 99,
-        "sym": 37,
+        "sym": "%",
         "type": "overmap_terrain"
     },
     {
@@ -4680,7 +4680,7 @@
         "mondensity": 2,
         "name": "rocketry lab",
         "see_cost": 99,
-        "sym": 76,
+        "sym": "L",
         "type": "overmap_terrain"
     },
     {
@@ -4690,7 +4690,7 @@
         "mondensity": 2,
         "name": "rocketry lab",
         "see_cost": 99,
-        "sym": 76,
+        "sym": "L",
         "type": "overmap_terrain"
     },
     {
@@ -4700,7 +4700,7 @@
         "mondensity": 2,
         "name": "rocketry lab",
         "see_cost": 99,
-        "sym": 76,
+        "sym": "L",
         "type": "overmap_terrain"
     },
     {
@@ -4710,7 +4710,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -4720,7 +4720,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -4730,7 +4730,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -4740,7 +4740,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -4750,7 +4750,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -4760,7 +4760,7 @@
         "mondensity": 2,
         "name": "Military Complex",
         "see_cost": 99,
-        "sym": 77,
+        "sym": "M",
         "type": "overmap_terrain"
     },
     {
@@ -4770,7 +4770,7 @@
         "mondensity": 2,
         "name": "basement",
         "see_cost": 99,
-        "sym": 79,
+        "sym": "O",
         "type": "overmap_terrain"
     },
     {
@@ -4780,7 +4780,7 @@
         "mondensity": 2,
         "name": "sewer",
         "see_cost": 99,
-        "sym": 4194417,
+        "sym": "─",
         "type": "overmap_terrain"
     },
     {
@@ -4790,7 +4790,7 @@
         "mondensity": 2,
         "name": "sewer",
         "see_cost": 99,
-        "sym": 4194417,
+        "sym": "─",
         "type": "overmap_terrain"
     },
     {
@@ -4800,7 +4800,7 @@
         "mondensity": 2,
         "name": "sewer",
         "see_cost": 99,
-        "sym": 4194417,
+        "sym": "─",
         "type": "overmap_terrain"
     },
     {
@@ -4810,7 +4810,7 @@
         "mondensity": 2,
         "name": "solid rock",
         "see_cost": 99,
-        "sym": 37,
+        "sym": "%",
         "type": "overmap_terrain"
     },
     {
@@ -4820,7 +4820,7 @@
         "mondensity": 2,
         "name": "solid rock",
         "see_cost": 99,
-        "sym": 37,
+        "sym": "%",
         "type": "overmap_terrain"
     },
     {
@@ -4830,7 +4830,7 @@
         "mondensity": 2,
         "name": "solid rock",
         "see_cost": 99,
-        "sym": 37,
+        "sym": "%",
         "type": "overmap_terrain"
     },
     {
@@ -4840,7 +4840,7 @@
         "mondensity": 2,
         "name": "solid rock",
         "see_cost": 99,
-        "sym": 37,
+        "sym": "%",
         "type": "overmap_terrain"
     },
     {
@@ -4850,7 +4850,7 @@
         "mondensity": 2,
         "name": "solid rock",
         "see_cost": 99,
-        "sym": 37,
+        "sym": "%",
         "type": "overmap_terrain"
     },
     {
@@ -4860,7 +4860,7 @@
         "mondensity": 2,
         "name": "solid rock",
         "see_cost": 99,
-        "sym": 37,
+        "sym": "%",
         "type": "overmap_terrain"
     },
     {
@@ -4870,7 +4870,7 @@
         "mondensity": 2,
         "name": "solid rock",
         "see_cost": 99,
-        "sym": 37,
+        "sym": "%",
         "type": "overmap_terrain"
     },
     {
@@ -4880,7 +4880,7 @@
         "mondensity": 2,
         "name": "solid rock",
         "see_cost": 99,
-        "sym": 37,
+        "sym": "%",
         "type": "overmap_terrain"
     },
     {
@@ -4890,7 +4890,7 @@
         "mondensity": 2,
         "name": "solid rock",
         "see_cost": 99,
-        "sym": 37,
+        "sym": "%",
         "type": "overmap_terrain"
     },
     {
@@ -4900,7 +4900,7 @@
         "mondensity": 2,
         "name": "rocketry lab",
         "see_cost": 99,
-        "sym": 76,
+        "sym": "L",
         "type": "overmap_terrain"
     },
     {
@@ -4910,7 +4910,7 @@
         "mondensity": 2,
         "name": "rocketry lab",
         "see_cost": 99,
-        "sym": 76,
+        "sym": "L",
         "type": "overmap_terrain"
     },
     {
@@ -4920,7 +4920,7 @@
         "mondensity": 2,
         "name": "rocketry lab",
         "see_cost": 99,
-        "sym": 76,
+        "sym": "L",
         "type": "overmap_terrain"
     },
     {
@@ -4930,7 +4930,7 @@
         "mondensity": 2,
         "name": "rocketry lab",
         "see_cost": 99,
-        "sym": 76,
+        "sym": "L",
         "type": "overmap_terrain"
     },
     {
@@ -4940,7 +4940,7 @@
         "mondensity": 2,
         "name": "solid rock",
         "see_cost": 99,
-        "sym": 37,
+        "sym": "%",
         "type": "overmap_terrain"
     },
     {
@@ -4950,7 +4950,7 @@
         "mondensity": 2,
         "name": "solid rock",
         "see_cost": 99,
-        "sym": 37,
+        "sym": "%",
         "type": "overmap_terrain"
     },
     {
@@ -4960,7 +4960,7 @@
         "mondensity": 2,
         "name": "solid rock",
         "see_cost": 99,
-        "sym": 37,
+        "sym": "%",
         "type": "overmap_terrain"
     },
     {
@@ -4970,7 +4970,7 @@
         "mondensity": 2,
         "name": "solid rock",
         "see_cost": 99,
-        "sym": 37,
+        "sym": "%",
         "type": "overmap_terrain"
     },
     {
@@ -4980,7 +4980,7 @@
         "mondensity": 2,
         "name": "solid rock",
         "see_cost": 99,
-        "sym": 37,
+        "sym": "%",
         "type": "overmap_terrain"
     },
     {
@@ -4990,7 +4990,7 @@
         "mondensity": 2,
         "name": "solid rock",
         "see_cost": 99,
-        "sym": 37,
+        "sym": "%",
         "type": "overmap_terrain"
     },
     {
@@ -5000,7 +5000,7 @@
         "mondensity": 2,
         "name": "solid rock",
         "see_cost": 99,
-        "sym": 37,
+        "sym": "%",
         "type": "overmap_terrain"
     },
     {
@@ -5010,7 +5010,7 @@
         "mondensity": 2,
         "name": "solid rock",
         "see_cost": 99,
-        "sym": 37,
+        "sym": "%",
         "type": "overmap_terrain"
     },
     {
@@ -5020,7 +5020,7 @@
         "mondensity": 2,
         "name": "solid rock",
         "see_cost": 99,
-        "sym": 37,
+        "sym": "%",
         "type": "overmap_terrain"
     },
     {
@@ -5030,7 +5030,7 @@
         "mondensity": 2,
         "name": "solid rock",
         "see_cost": 99,
-        "sym": 37,
+        "sym": "%",
         "type": "overmap_terrain"
     },
     {
@@ -5040,7 +5040,7 @@
         "mondensity": 2,
         "name": "solid rock",
         "see_cost": 99,
-        "sym": 37,
+        "sym": "%",
         "type": "overmap_terrain"
     },
     {
@@ -5050,7 +5050,7 @@
         "mondensity": 2,
         "name": "solid rock",
         "see_cost": 99,
-        "sym": 37,
+        "sym": "%",
         "type": "overmap_terrain"
     },
     {
@@ -5060,7 +5060,7 @@
         "mondensity": 2,
         "name": "solid rock",
         "see_cost": 99,
-        "sym": 37,
+        "sym": "%",
         "type": "overmap_terrain"
     },
     {
@@ -5070,7 +5070,7 @@
         "mondensity": 2,
         "name": "solid rock",
         "see_cost": 99,
-        "sym": 37,
+        "sym": "%",
         "type": "overmap_terrain"
     },
     {
@@ -5080,7 +5080,7 @@
         "mondensity": 2,
         "name": "solid rock",
         "see_cost": 99,
-        "sym": 37,
+        "sym": "%",
         "type": "overmap_terrain"
     },
     {
@@ -5090,7 +5090,7 @@
         "mondensity": 2,
         "name": "solid rock",
         "see_cost": 99,
-        "sym": 37,
+        "sym": "%",
         "type": "overmap_terrain"
     },
     {
@@ -5100,7 +5100,7 @@
         "mondensity": 2,
         "name": "solid rock",
         "see_cost": 99,
-        "sym": 37,
+        "sym": "%",
         "type": "overmap_terrain"
     }
 ]
