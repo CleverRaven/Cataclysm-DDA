@@ -100,15 +100,6 @@ struct mission_place {
     static bool near_town( const tripoint & );
 };
 
-struct mission_start_t {
-    void set_reveal( const std::string &terrain );
-    void set_reveal_any( JsonArray &ja );
-    void set_assign_mission_target( JsonObject &jo );
-    void load( JsonObject &jo );
-    void apply( mission *miss ) const;
-    std::vector<std::function<void( mission *miss )>> start_funcs;
-};
-
 /* mission_start functions are first run when a mission is accepted; this
  * initializes the mission's key values, like the target and description.
  */
@@ -176,6 +167,13 @@ struct mission_start {
     static void create_hidden_lab_console( mission * );  // Reveal hidden lab with workstation
     static void create_ice_lab_console( mission * );  // Reveal lab with an unlocked workstation
     static void reveal_lab_train_depot( mission * );  // Find lab train depot
+    static void set_reveal( const std::string &terrain,
+                            std::vector<std::function<void( mission *miss )>> &starts );
+    static void set_reveal_any( JsonArray &ja,
+                                std::vector<std::function<void( mission *miss )>> &starts );
+    static void set_assign_om_target( JsonObject &jo,
+                                      std::vector<std::function<void( mission *miss )>> &starts );
+    static bool load( JsonObject jo, std::vector<std::function<void( mission *miss )>> &starts );
 };
 
 struct mission_end { // These functions are run when a mission ends
@@ -270,7 +268,7 @@ struct mission_type {
 
     static void check_consistency();
 
-    void parse_start( JsonObject &jo );
+    bool parse_start( JsonObject &jo );
     void load( JsonObject &jo, const std::string &src );
 };
 

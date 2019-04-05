@@ -1901,15 +1901,17 @@ void mission_start::reveal_lab_train_depot( mission *miss )
     reveal_road( g->u.global_omt_location(), target, overmap_buffer );
 }
 
-void mission_start_t::set_reveal( const std::string &terrain )
+void mission_start::set_reveal( const std::string &terrain,
+                                std::vector<std::function<void( mission *miss )>> &starts )
 {
     const auto start_func = [ terrain ]( mission * miss ) {
         reveal_target( miss, terrain );
     };
-    start_funcs.push_back( start_func );
+    starts.emplace_back( start_func );
 }
 
-void mission_start_t::set_reveal_any( JsonArray &ja )
+void mission_start::set_reveal_any( JsonArray &ja,
+                                    std::vector<std::function<void( mission *miss )>> &starts )
 {
     std::vector<std::string> terrains;
     while( ja.has_more() ) {
@@ -1919,10 +1921,11 @@ void mission_start_t::set_reveal_any( JsonArray &ja )
     const auto start_func = [ terrains ]( mission * miss ) {
         reveal_any_target( miss, terrains );
     };
-    start_funcs.push_back( start_func );
+    starts.emplace_back( start_func );
 }
 
-void mission_start_t::set_assign_mission_target( JsonObject &jo )
+void mission_start::set_assign_om_target( JsonObject &jo,
+        std::vector<std::function<void( mission *miss )>> &starts )
 {
     if( !jo.has_string( "om_terrain" ) ) {
         jo.throw_error( "'om_terrain' is required for assign_mission_target" );
@@ -1960,42 +1963,39 @@ void mission_start_t::set_assign_mission_target( JsonObject &jo )
         }
         assign_mission_target( mtp );
     };
-    start_funcs.push_back( start_func );
+    starts.emplace_back( start_func );
 }
 
-void mission_start_t::load( JsonObject &jo )
+bool mission_start::load( JsonObject jo,
+                          std::vector<std::function<void( mission *miss )>> &starts )
 {
     if( jo.has_string( "reveal_om_ter" ) ) {
         const std::string target_terrain = jo.get_string( "reveal_om_ter" );
-        set_reveal( target_terrain );
+        set_reveal( target_terrain, starts );
     } else if( jo.has_array( "reveal_om_ter" ) ) {
         JsonArray target_terrain = jo.get_array( "reveal_om_ter" );
-        set_reveal_any( target_terrain );
+        set_reveal_any( target_terrain, starts );
     } else if( jo.has_object( "assign_mission_target" ) ) {
         JsonObject mission_target = jo.get_object( "assign_mission_target" );
-        set_assign_mission_target( mission_target );
+        set_assign_om_target( mission_target, starts );
     }
+    return true;
 }
 
-void mission_start_t::apply( mission *miss ) const
+bool mission_type::parse_start( JsonObject &jo )
 {
-    for( auto &start_func : start_funcs ) {
-        start_func( miss );
+    std::vector<std::function<void( mission *miss )>> start_funcs;
+    if( !mission_start::load( jo, start_funcs ) ) {
+        return false;
     }
-}
 
-void mission_type::parse_start( JsonObject &jo )
-{
     /* this is a kind of gross hijack of the dialogue responses effect system, but I don't want to
      * write that code in two places so here it goes.
      */
     talk_effect_t talk_effects;
     talk_effects.load_effect( jo );
-    mission_start_t mission_start_fun;
-    mission_start_fun.load( jo );
-    // BevapDin will probably tell me how to do this is a less baroque way, but in the meantime,
-    // I have no better idea on how satisfy the compiler.
-    start = [ mission_start_fun, talk_effects ]( mission * miss ) {
+
+    start = [ start_funcs, talk_effects ]( mission * miss ) {
         ::dialogue d;
         d.beta = g->find_npc( miss->get_npc_id() );
         if( d.beta == nullptr ) {
@@ -2006,6 +2006,9 @@ void mission_type::parse_start( JsonObject &jo )
         for( const talk_effect_fun_t &effect : talk_effects.effects ) {
             effect( d );
         }
-        mission_start_fun.apply( miss );
+        for( auto &start_function : start_funcs ) {
+            start_function( miss );
+        }
     };
+    return true;
 }
