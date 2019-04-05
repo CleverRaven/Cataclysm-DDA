@@ -244,7 +244,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```DIGS``` Digs through the ground.
 - ```DOGFOOD``` Becomes friendly / tamed with dog food.
 - ```DRIPS_NAPALM``` Occasionally drips napalm on move.
-- ```DROPS_GASLOLINE``` Occasionally drips gasoline on move.
+- ```DRIPS_GASLOLINE``` Occasionally drips gasoline on move.
 - ```ELECTRIC``` Shocks unarmed attackers.
 - ```ELECTRONIC``` e.g. A Robot; affected by emp blasts and other stuff.
 - ```FAT``` May produce fat when butchered.

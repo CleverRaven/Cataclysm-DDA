@@ -848,15 +848,10 @@ void mdeath::fireball( monster &z )
 
 void mdeath::conflagration( monster &z )
 {
-    for( int x = z.pos().x - 1; x <= z.pos().x + 1; ++x ) {
-        for( int y = z.pos().y - 1; y <= z.pos().y + 1; ++y ) {
-            tripoint fire_tri = tripoint( x, y, z.pos().z );
-            g->m.propagate_field( fire_tri, fd_fire, 18, 3 );
-        }
+    for( auto &&dest : g->m.points_in_radius( z.pos(), 1 ) ) {
+        g->m.propagate_field( dest, fd_fire, 18, 3 );
     }
-    std::string explode = string_format(
-                              _( "the %s belches sparks and flame erupts from it's stomach!" ),
-                              z.name().c_str() );
+    std::string explode = string_format( _( "a %s explode!" ), z.name().c_str() );
     sounds::sound( z.pos(), 24, sounds::sound_t::combat, explode );
 
 }
