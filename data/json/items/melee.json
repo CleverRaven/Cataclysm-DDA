@@ -2220,6 +2220,35 @@
     "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
+    "id": "kirpan",
+    "type": "TOOL",
+    "name": "kirpan",
+    "description": "A ceremonial dagger carried by Sikh men.  This one is sharp and could be an effective weapon.",
+    "looks-like": "kukri",
+    "weight": 374,
+    "volume": 2,
+    "price": 1800,
+    "to_hit": 1,
+    "bashing": 1,
+    "cutting": 20,
+    "material": "steel",
+    "symbol": "/",
+    "color": "dark_gray",
+    "techniques": "RAPID",
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
+    "flags": [ "STAB", "SHEATH_KNIFE" ]
+  },
+  {
+    "id": "kirpan_cheap",
+    "type": "TOOL",
+    "name": "kirpan",
+    "copy-from": "kirpan",
+    "description": "A ceremonial dagger carried by Sikh men.  This one is not particularly well made.",
+    "price": 900,
+    "cutting": 10,
+    "material": "budget_steel"
+  },
+  {
     "id": "tanto_fake",
     "type": "GENERIC",
     "category": "weapons",
