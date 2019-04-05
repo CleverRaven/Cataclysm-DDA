@@ -80,19 +80,51 @@
     ]
   },
   {
+    "id": "supplies_plumbing",
+    "type": "item_group",
+    "//": "Common plumbing supplies. These are more likely to be found on jobsites and work spaces, rather than store shelves. Use bulk for store shelves.",
+    "items": [
+      [ "pipe", 200 ],
+      { "item": "cu_pipe", "prob": 200, "count": [ 1, 2 ] },
+      { "item": "hose", "prob": 200, "count": [ 1, 2 ] },
+      { "item": "solder_wire", "prob": 100, "count": [ 1, 2 ] },
+      [ "metal_tank_little", 5 ],
+      [ "metal_tank", 1 ],
+      [ "jerrycan", 5 ],
+      { "item": "scrap_copper", "prob": 15, "count": [ 1, 2 ] },
+      [ "wire", 10 ],
+      [ "battery", 50 ],
+      [ "pilot_light", 50 ],
+      [ "duct_tape", 200 ],
+      [ "superglue", 100 ],
+      [ "string_6", 100 ],
+      [ "string_36", 100 ],
+      [ "rope_6", 100 ],
+      [ "rope_30", 50 ],
+      [ "water_faucet", 100 ],
+      [ "bubblewrap", 20 ],
+      [ "pump_complex", 5 ],
+      [ "well_pump", 5 ]
+    ]
+  },
+  {
     "id": "plumbing_bulk",
     "type": "item_group",
-    "//": "Common plumbing supplies you might find in large amounts in a store or a plumber's work truck."
+    "//": "Common plumbing supplies you might find in large amounts in a store or a plumber's work truck.",
     "items": [
-      [ "pipe", 100 ],
+      { "group": "supplies_plumbing", "prob": 100, "count": [ 1, 2 ] },
       { "item": "cu_pipe", "prob": 100, "count": [ 1, 10 ] },
+      { "item": "pipe", "prob": 100, "count": [ 1, 10 ] },
       { "item": "hose", "prob": 100, "count": [ 1, 10 ] },
-      { "item": "solder_wire", "prob": 20, "count": [ 2, 6 ] },
-      [ "metal_tank_little", 50 ],
+      { "item": "water_faucet", "prob": 30, "count": [ 1, 5 ] },
+      { "item": "solder_wire", "prob": 50, "count": [ 2, 6 ] },
+      { "item": "pilot_light", "prob": 50, "count": [ 1, 2 ] },
+      { "item": "metal_tank_little", "prob": 50, "count": [ 1, 2 ] },
       [ "metal_tank", 10 ],
       [ "jerrycan", 10 ],
-      { "item": "scrap_copper", "prob": 5, "count": [ 1, 10 ] },
-      [ "wire", 5 ]
+      [ "pump_complex", 10 ],
+      [ "well_pump", 10 ],
+      { "item": "scrap_copper", "prob": 15, "count": [ 1, 10 ] }
     ]
   },
   {
