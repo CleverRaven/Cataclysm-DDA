@@ -325,7 +325,7 @@
       [ "gloves_work", 45 ],
       [ "miner_hat", 1 ]
     ]
-  }
+  },
   {
     "id": "hazmat_suits",
     "type": "item_group",
