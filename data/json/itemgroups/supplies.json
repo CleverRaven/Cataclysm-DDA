@@ -14,7 +14,7 @@
       [ "processor", 20 ],
       [ "solar_cell", 10 ],
       [ "solder_wire", 40 ],
-      { "item": "solder_wire", "prob": 20, "count": [2, 4 ] },
+      { "item": "solder_wire", "prob": 20, "count": [ 2, 4 ] },
       [ "RAM", 20 ],
       [ "radiocontrol", 10 ],
       [ "receiver", 30 ],
@@ -82,15 +82,17 @@
   {
     "id": "plumbing_bulk",
     "type": "item_group",
+    "//": "Common plumbing supplies you might find in large amounts in a store or a plumber's work truck."
     "items": [
       [ "pipe", 100 ],
-      [ "cu_pipe", 100 ],
-      [ "hose", 100 ],
-      [ "mop", 20 ],
-      [ "shovel", 40 ],
-      [ "hammer_sledge", 5 ],
+      { "item": "cu_pipe", "prob": 100, "count": [ 1, 10 ] },
+      { "item": "hose", "prob": 100, "count": [ 1, 10 ] },
+      { "item": "solder_wire", "prob": 20, "count": [ 2, 6 ] },
       [ "metal_tank_little", 50 ],
-      [ "jerrycan", 10 ]
+      [ "metal_tank", 10 ],
+      [ "jerrycan", 10 ],
+      { "item": "scrap_copper", "prob": 5, "count": [ 1, 10 ] },
+      [ "wire", 5 ]
     ]
   },
   {
