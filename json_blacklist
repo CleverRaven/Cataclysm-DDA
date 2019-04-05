@@ -14,15 +14,6 @@ data/json/species.json
 data/json/speech.json
 data/json/techniques.json
 data/json/tutorial.json
-data/json/uncraft/ammo/38.json
-data/json/uncraft/ammo/40.json
-data/json/uncraft/ammo/45.json
-data/json/uncraft/ammo/762x25.json
-data/json/uncraft/ammo/9mm.json
-data/json/uncraft/ammo/shot.json
-data/json/uncraft/vehicle/alternator.json
-data/json/uncraft/weapon/explosive.json
-data/json/vehicle_groups.json
 data/json/vehicle_parts.json
 data/json/vehicleparts/alternator.json
 data/json/vehicleparts/battery.json
