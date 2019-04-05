@@ -900,15 +900,7 @@ data/mods/More_Locations/tri_tower/tri_tower_ublc_01.json
 data/mods/More_Locations/tri_tower/tri_tower_ubrc_01.json
 data/mods/More_Locations/tri_tower/tri_tower_utlc_01.json
 data/mods/More_Locations/tri_tower/tri_tower_utrc_01.json
-data/mods/More_Survival_Tools/construction.json
-data/mods/More_Survival_Tools/effects.json
-data/mods/More_Survival_Tools/item_groups.json
-data/mods/More_Survival_Tools/items.json
-data/mods/More_Survival_Tools/professions.json
 data/mods/More_Survival_Tools/recipes.json
-data/mods/More_Survival_Tools/start_locations.json
-data/mods/More_Survival_Tools/terrain.json
-data/mods/More_Survival_Tools/traps.json
 data/mods/Mundane_Zombies/modinfo.json
 data/mods/NPC_Traits/modinfo.json
 data/mods/NPC_Traits/npc_classes.json
