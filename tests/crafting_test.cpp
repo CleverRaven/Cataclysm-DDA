@@ -257,7 +257,8 @@ static void prep_craft( const recipe_id &rid, const std::vector<item> tools,
 
     const requirement_data &reqs = r.requirements();
     inventory crafting_inv = g->u.crafting_inventory();
-    bool can_craft = reqs.can_make_with_inventory( g->u.crafting_inventory() );
+    bool can_craft = reqs.can_make_with_inventory( g->u.crafting_inventory(),
+                     r.get_component_filter() );
     CHECK( can_craft == expect_craftable );
 }
 

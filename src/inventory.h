@@ -154,11 +154,11 @@ class inventory : public visitable<inventory>
                                     const std::function<bool( const item & )> &filter = is_crafting_component );
 
         bool has_tools( const itype_id &it, int quantity,
-                        const std::function<bool( const item & )> &filter = return_true ) const;
+                        const std::function<bool( const item & )> &filter = is_crafting_component ) const;
         bool has_components( const itype_id &it, int quantity,
                              const std::function<bool( const item & )> &filter = is_crafting_component ) const;
         bool has_charges( const itype_id &it, long quantity,
-                          const std::function<bool( const item & )> &filter = return_true ) const;
+                          const std::function<bool( const item & )> &filter = is_crafting_component ) const;
 
         int leak_level( const std::string &flag ) const; // level of leaked bad stuff from items
 

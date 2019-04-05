@@ -141,7 +141,8 @@ std::string basecamp::om_upgrade_description( const std::string &bldg, bool trun
     std::vector<std::string> component_print_buffer;
     const int pane = FULL_SCREEN_WIDTH;
     const auto tools = making.requirements().get_folded_tools_list( pane, c_white, total_inv, 1 );
-    const auto comps = making.requirements().get_folded_components_list( pane, c_white, total_inv, 1 );
+    const auto comps = making.requirements().get_folded_components_list( pane, c_white, total_inv,
+                       making.get_component_filter(), 1 );
     component_print_buffer.insert( component_print_buffer.end(), tools.begin(), tools.end() );
     component_print_buffer.insert( component_print_buffer.end(), comps.begin(), comps.end() );
 
