@@ -1,3 +1,8 @@
+---
+layout: page
+title: "CDDA Design Document"
+---
+
 ### Table of Contents
 [User Experience](#user-experience)  
 [Gameplay](#gameplay)  
