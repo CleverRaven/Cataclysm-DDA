@@ -348,6 +348,7 @@ class mission
          * Simple setters, no checking if the values is performed. */
         /*@{*/
         void set_target( const tripoint &p );
+        void set_target_npc_id( const int npc_id );
         /*@}*/
 
         /** Assigns the mission to the player. */

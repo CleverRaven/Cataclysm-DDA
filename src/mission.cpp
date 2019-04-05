@@ -545,6 +545,11 @@ void mission::set_target( const tripoint &p )
     target = p;
 }
 
+void mission::set_target_npc_id( const int npc_id )
+{
+    target_npc_id = npc_id;
+}
+
 bool mission::is_assigned() const
 {
     return player_id != -1 || legacy_no_player_id;
