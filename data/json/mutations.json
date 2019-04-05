@@ -6196,16 +6196,16 @@
     "name": "Nomad",
     "points": -1,
     "starting_trait": true,
-    "description": "You're too adventurous for your own good. The more time you spend somewhere, the unhappier it makes you to be there.",
+    "description": "You're too adventurous for your own good.  The more time you spend somewhere, the unhappier it makes you to be there.",
     "changes_to": [ "NOMAD2" ],
     "category": [ "BIRD", "FISH" ]
   },
   {
     "type": "mutation",
     "id": "NOMAD2",
-    "name": "Wanderlust",
+    "name": "Antsy",
     "points": -2,
-    "description": "You can't bear to stay still for long. Your morale will suffer unless you constantly explore new territory.",
+    "description": "You can't bear to stay still for long.  Your morale will suffer unless you constantly explore new territory.",
     "prereqs": [ "NOMAD" ],
     "changes_to": [ "NOMAD3" ],
     "category": [ "BIRD", "FISH" ]
@@ -6215,7 +6215,7 @@
     "id": "NOMAD3",
     "name": "Restless",
     "points": -3,
-    "description": "Spending any amount of time in familiar places makes you miserable. Must. Keep. Moving.",
+    "description": "Spending any amount of time in familiar places makes you miserable.  Must.  Keep.  Moving.",
     "prereqs": [ "NOMAD2" ],
     "category": [ "BIRD", "FISH" ]
   }
