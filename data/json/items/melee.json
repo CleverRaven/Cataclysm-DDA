@@ -2230,7 +2230,7 @@
     "price": 1800,
     "to_hit": 1,
     "bashing": 1,
-    "cutting": 20,
+    "cutting": 18,
     "material": "steel",
     "symbol": "/",
     "color": "dark_gray",
@@ -2242,11 +2242,19 @@
     "id": "kirpan_cheap",
     "type": "TOOL",
     "name": "kirpan",
-    "copy-from": "kirpan",
     "description": "A ceremonial dagger carried by Sikh men.  This one is not particularly well made.",
+    "looks-like": "kirpan",
+    "weight": 374,
+    "volume": 2,
     "price": 900,
-    "cutting": 10,
-    "material": "budget_steel"
+    "bashing": 1,
+    "cutting": 9,
+    "material": "budget_steel",
+    "symbol": "/",
+    "color": "dark_gray",
+    "techniques": "RAPID",
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 4 ] ],
+    "flags": [ "STAB", "SHEATH_KNIFE" ]
   },
   {
     "id": "tanto_fake",
@@ -2265,7 +2273,7 @@
     "color": "dark_gray",
     "looks_like": "tanto",
     "techniques": "RAPID",
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 4 ] ],
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 5 ] ],
     "flags": [ "STAB", "SHEATH_KNIFE" ]
   },
   {
