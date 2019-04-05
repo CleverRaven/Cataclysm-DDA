@@ -57,8 +57,11 @@ void craft_command::execute()
     if( need_selections ) {
         item_selections.clear();
         const auto needs = rec->requirements();
+        const auto filter = rec->get_component_filter();
+
         for( const auto &it : needs.get_components() ) {
-            comp_selection<item_comp> is = crafter->select_item_component( it, batch_size, map_inv, true );
+            comp_selection<item_comp> is = crafter->select_item_component( it, batch_size, map_inv, true,
+                                           filter );
             if( is.use_from == cancel ) {
                 return;
             }
@@ -143,8 +146,10 @@ std::list<item> craft_command::consume_components()
         return used;
     }
 
+    auto filter = rec->get_component_filter();
+
     for( const auto &it : item_selections ) {
-        std::list<item> tmp = crafter->consume_items( it, batch_size );
+        std::list<item> tmp = crafter->consume_items( it, batch_size, filter );
         used.splice( used.end(), tmp );
     }
 
@@ -160,6 +165,8 @@ std::vector<comp_selection<item_comp>> craft_command::check_item_components_miss
 {
     std::vector<comp_selection<item_comp>> missing;
 
+    auto filter = rec->get_component_filter();
+
     for( const auto &item_sel : item_selections ) {
         itype_id type = item_sel.comp.type;
         const item_comp component = item_sel.comp;
@@ -168,17 +175,18 @@ std::vector<comp_selection<item_comp>> craft_command::check_item_components_miss
         if( item::count_by_charges( type ) && count > 0 ) {
             switch( item_sel.use_from ) {
                 case use_from_player:
-                    if( !crafter->has_charges( type, count ) ) {
+                    if( !crafter->has_charges( type, count, filter ) ) {
                         missing.push_back( item_sel );
                     }
                     break;
                 case use_from_map:
-                    if( !map_inv.has_charges( type, count ) ) {
+                    if( !map_inv.has_charges( type, count, filter ) ) {
                         missing.push_back( item_sel );
                     }
                     break;
                 case use_from_both:
-                    if( !( crafter->charges_of( type ) + map_inv.charges_of( type ) >= count ) ) {
+                    if( !( crafter->charges_of( type, std::numeric_limits<long>::max(), filter ) +
+                           map_inv.charges_of( type, std::numeric_limits<long>::max(), filter ) >= count ) ) {
                         missing.push_back( item_sel );
                     }
                     break;
@@ -190,20 +198,18 @@ std::vector<comp_selection<item_comp>> craft_command::check_item_components_miss
             // Counting by units, not charges.
             switch( item_sel.use_from ) {
                 case use_from_player:
-                    if( !crafter->has_amount( type, count, false, is_crafting_component ) ) {
+                    if( !crafter->has_amount( type, count, false, filter ) ) {
                         missing.push_back( item_sel );
                     }
                     break;
                 case use_from_map:
-                    if( !map_inv.has_components( type, count ) ) {
+                    if( !map_inv.has_components( type, count, filter ) ) {
                         missing.push_back( item_sel );
                     }
                     break;
                 case use_from_both:
-                    if( !( crafter->amount_of( type, false, std::numeric_limits<int>::max(),
-                                               is_crafting_component ) +
-                           map_inv.amount_of( type, false, std::numeric_limits<int>::max(),
-                                              is_crafting_component ) >= count ) ) {
+                    if( !( crafter->amount_of( type, false, std::numeric_limits<int>::max(), filter ) +
+                           map_inv.amount_of( type, false, std::numeric_limits<int>::max(), filter ) >= count ) ) {
                         missing.push_back( item_sel );
                     }
                     break;

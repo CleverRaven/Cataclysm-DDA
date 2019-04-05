@@ -121,7 +121,7 @@ void iexamine::cvdmachine( player &p, const tripoint & )
     qty = std::max( 1, qty );
     auto reqs = *requirement_id( "cvd_diamond" ) * qty;
 
-    if( !reqs.can_make_with_inventory( p.crafting_inventory() ) ) {
+    if( !reqs.can_make_with_inventory( p.crafting_inventory(), is_crafting_component ) ) {
         popup( "%s", reqs.list_missing().c_str() );
         return;
     }
@@ -173,7 +173,7 @@ void iexamine::nanofab( player &p, const tripoint &examp )
     auto qty = std::max( 1, new_item.volume() / 250_ml );
     auto reqs = *requirement_id( "nanofabricator" ) * qty;
 
-    if( !reqs.can_make_with_inventory( p.crafting_inventory() ) ) {
+    if( !reqs.can_make_with_inventory( p.crafting_inventory(), is_crafting_component ) ) {
         popup( "%s", reqs.list_missing().c_str() );
         return;
     }

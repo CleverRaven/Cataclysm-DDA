@@ -618,7 +618,8 @@ void basecamp::get_available_missions( mission_data &mission_key, tripoint omt_t
                 std::string title_e = base_dir + it->first;
                 entry = om_craft_description( it->second, omt_tri, by_radio );
                 const recipe &recp = recipe_id( it->second ).obj();
-                bool craftable = recp.requirements().can_make_with_inventory( found_inv, 1 );
+                bool craftable = recp.requirements().can_make_with_inventory( found_inv,
+                                 recp.get_component_filter() );
                 mission_key.add_start( title_e, "", base_dir, entry, craftable );
             }
         } else {
@@ -1046,7 +1047,8 @@ void basecamp::get_available_missions( mission_data &mission_key, tripoint omt_t
                     std::string title_e = dir + it->first;
                     entry = om_craft_description( it->second, omt_tri, by_radio );
                     const recipe &recp = recipe_id( it->second ).obj();
-                    bool craftable = recp.requirements().can_make_with_inventory( found_inv, 1 );
+                    bool craftable = recp.requirements().can_make_with_inventory( found_inv,
+                                     recp.get_component_filter() );
                     mission_key.add_start( title_e, "", dir, entry, craftable );
                 }
             } else {
@@ -1067,7 +1069,8 @@ void basecamp::get_available_missions( mission_data &mission_key, tripoint omt_t
                     std::string title_e = dir + it->first;
                     entry = om_craft_description( it->second, omt_tri, by_radio );
                     const recipe &recp = recipe_id( it->second ).obj();
-                    bool craftable = recp.requirements().can_make_with_inventory( found_inv, 1 );
+                    bool craftable = recp.requirements().can_make_with_inventory( found_inv,
+                                     recp.get_component_filter() );
                     mission_key.add_start( title_e, "", dir, entry, craftable );
                 }
             } else {
@@ -1170,7 +1173,8 @@ void basecamp::get_available_missions( mission_data &mission_key, tripoint omt_t
                     std::string title_e = dir + it->first;
                     entry = om_craft_description( it->second, omt_tri, by_radio );
                     const recipe &recp = recipe_id( it->second ).obj();
-                    bool craftable = recp.requirements().can_make_with_inventory( found_inv, 1 );
+                    bool craftable = recp.requirements().can_make_with_inventory( found_inv,
+                                     recp.get_component_filter() );
                     mission_key.add_start( title_e, "", dir, entry, craftable );
                 }
             } else {
@@ -1406,7 +1410,7 @@ void basecamp::start_upgrade( const std::string &bldg, const std::string &key, t
     const recipe &making = recipe_id( bldg ).obj();
     //Stop upgrade if you don't have materials
     inventory total_inv = camp_crafting_inventory( omt_tri, by_radio );
-    if( making.requirements().can_make_with_inventory( total_inv, 1 ) ) {
+    if( making.requirements().can_make_with_inventory( total_inv, 1, making.get_component_filter() ) ) {
         time_duration making_time = time_duration::from_turns( making.time / 100 );
         bool must_feed = bldg != "faction_base_camp_1";
 
@@ -1704,7 +1708,7 @@ void basecamp::start_fortifications( std::string &bldg_exp, tripoint omt_tri, bo
         if( !query_yn( _( "Trip Estimate:\n%s" ), camp_trip_description( total_time, build_time,
                        travel_time, dist, trips, need_food ) ) ) {
             return;
-        } else if( !making.requirements().can_make_with_inventory( total_inv,
+        } else if( !making.requirements().can_make_with_inventory( total_inv, making.get_component_filter(),
                    ( fortify_om.size() * 2 ) - 2 ) ) {
             popup( _( "You don't have the material to build the fortification." ) );
             return;
@@ -1757,7 +1761,7 @@ void basecamp::craft_construction( const std::string &cur_id, const std::string 
         }
         const recipe &making = recipe_id( r.second ).obj();
         inventory total_inv = camp_crafting_inventory( omt_tri, by_radio );
-        if( !making.requirements().can_make_with_inventory( total_inv, 1 ) ) {
+        if( !making.requirements().can_make_with_inventory( total_inv, 1, making.get_component_filter() ) ) {
             popup( _( "You don't have the materials to craft that" ) );
             continue;
         }
@@ -2533,7 +2537,7 @@ int basecamp::recipe_batch_max( const recipe &making, const inventory &total_inv
             int batch_turns = making.batch_time( max_batch + batch_size, 1.0, 0 ) / 100;
             int food_req = time_to_food( time_duration::from_turns( batch_turns ) );
             bool can_make = making.requirements().can_make_with_inventory( total_inv,
-                            max_batch + batch_size );
+                            making.get_component_filter(), max_batch + batch_size );
             if( can_make && camp_food_supply() > food_req ) {
                 max_batch += batch_size;
             } else {
@@ -3196,7 +3200,8 @@ std::string basecamp::upgrade_description( const std::string &bldg, tripoint omt
     std::vector<std::string> component_print_buffer;
     int pane = FULL_SCREEN_WIDTH;
     auto tools = making.requirements().get_folded_tools_list( pane, c_white, total_inv, 1 );
-    auto comps = making.requirements().get_folded_components_list( pane, c_white, total_inv, 1 );
+    auto comps = making.requirements().get_folded_components_list( pane, c_white, total_inv,
+                 making.get_component_filter(), 1 );
     component_print_buffer.insert( component_print_buffer.end(), tools.begin(), tools.end() );
     component_print_buffer.insert( component_print_buffer.end(), comps.begin(), comps.end() );
 
@@ -3220,7 +3225,8 @@ std::string om_craft_description( const std::string &itm, tripoint omt_tri, bool
     std::vector<std::string> component_print_buffer;
     int pane = FULL_SCREEN_WIDTH;
     auto tools = making.requirements().get_folded_tools_list( pane, c_white, total_inv, 1 );
-    auto comps = making.requirements().get_folded_components_list( pane, c_white, total_inv, 1 );
+    auto comps = making.requirements().get_folded_components_list( pane, c_white, total_inv,
+                 making.get_component_filter(), 1 );
 
     component_print_buffer.insert( component_print_buffer.end(), tools.begin(), tools.end() );
     component_print_buffer.insert( component_print_buffer.end(), comps.begin(), comps.end() );

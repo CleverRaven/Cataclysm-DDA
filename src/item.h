@@ -75,6 +75,7 @@ struct fire_data;
 struct damage_instance;
 struct damage_unit;
 class map;
+struct item_comp;
 
 enum damage_type : int;
 
@@ -1949,7 +1950,8 @@ item &null_item_reference();
 
 inline bool is_crafting_component( const item &component )
 {
-    return component.allow_crafting_component() && !component.is_filthy();
+    return ( component.allow_crafting_component() || component.count_by_charges() ) &&
+           !component.is_filthy();
 }
 
 #endif

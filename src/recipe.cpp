@@ -414,3 +414,16 @@ std::string recipe::result_name() const
 
     return name;
 }
+
+const std::function<bool( const item & )> recipe::get_component_filter() const
+{
+    std::function<bool( const item & )> filter = is_crafting_component;
+    const item result = create_result();
+    if( result.is_food() && !result.goes_bad() ) {
+        filter = []( const item & component ) {
+            return is_crafting_component( component ) && !component.rotten();
+        };
+    }
+    return filter;
+}
+
