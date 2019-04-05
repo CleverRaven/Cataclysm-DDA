@@ -6197,7 +6197,7 @@
     "points": -1,
     "starting_trait": true,
     "description": "You're too adventurous for your own good. The more time you spend somewhere, the unhappier it makes you to be there.",
-	"changes_to": [ "NOMAD2" ],
+    "changes_to": [ "NOMAD2" ],
     "category": [ "BIRD", "FISH" ]
   },
   {
@@ -6207,7 +6207,7 @@
     "points": -2,
     "description": "You can't bear to stay still for long. Your morale will suffer unless you constantly explore new territory.",
     "prereqs": [ "NOMAD" ],
-	"changes_to": [ "NOMAD3" ],
+    "changes_to": [ "NOMAD3" ],
     "category": [ "BIRD", "FISH" ]
   },
   {
