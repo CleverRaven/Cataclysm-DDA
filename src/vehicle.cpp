@@ -4512,130 +4512,130 @@ void vehicle::enable_refresh()
  */
 void vehicle::refresh()
 {
-     if( no_refresh ) {
-         return;
-     }
+    if( no_refresh ) {
+        return;
+    }
 
-     alternators.clear();
-     engines.clear();
-     reactors.clear();
-     solar_panels.clear();
-     wind_turbines.clear();
-     sails.clear();
-     water_wheels.clear();
-     funnels.clear();
-     heaters.clear();
-     relative_parts.clear();
-     loose_parts.clear();
-     wheelcache.clear();
-     steering.clear();
-     speciality.clear();
-     floating.clear();
-     alternator_load = 0;
-     extra_drag = 0;
-     // Used to sort part list so it displays properly when examining
-     struct sort_veh_part_vector {
-         vehicle *veh;
-         inline bool operator()( const int p1, const int p2 ) {
-             return veh->part_info( p1 ).list_order < veh->part_info( p2 ).list_order;
-         }
-     } svpv = { this };
-     std::vector<int>::iterator vii;
+    alternators.clear();
+    engines.clear();
+    reactors.clear();
+    solar_panels.clear();
+    wind_turbines.clear();
+    sails.clear();
+    water_wheels.clear();
+    funnels.clear();
+    heaters.clear();
+    relative_parts.clear();
+    loose_parts.clear();
+    wheelcache.clear();
+    steering.clear();
+    speciality.clear();
+    floating.clear();
+    alternator_load = 0;
+    extra_drag = 0;
+    // Used to sort part list so it displays properly when examining
+    struct sort_veh_part_vector {
+        vehicle *veh;
+        inline bool operator()( const int p1, const int p2 ) {
+            return veh->part_info( p1 ).list_order < veh->part_info( p2 ).list_order;
+        }
+    } svpv = { this };
+    std::vector<int>::iterator vii;
 
-     mount_min.x = 123;
-     mount_min.y = 123;
-     mount_max.x = -123;
-     mount_max.y = -123;
+    mount_min.x = 123;
+    mount_min.y = 123;
+    mount_max.x = -123;
+    mount_max.y = -123;
 
-     // Main loop over all vehicle parts.
-     for( const vpart_reference &vp : get_all_parts() ) {
-         const size_t p = vp.part_index();
-         const vpart_info &vpi = vp.info();
-         if( vp.part().removed ) {
-             continue;
-         }
+    // Main loop over all vehicle parts.
+    for( const vpart_reference &vp : get_all_parts() ) {
+        const size_t p = vp.part_index();
+        const vpart_info &vpi = vp.info();
+        if( vp.part().removed ) {
+            continue;
+        }
 
-         // Build map of point -> all parts in that point
-         const point pt = vp.mount();
-         mount_min.x = std::min( mount_min.x, pt.x );
-         mount_min.y = std::min( mount_min.y, pt.y );
-         mount_max.x = std::max( mount_max.x, pt.x );
-         mount_max.y = std::max( mount_max.y, pt.y );
+        // Build map of point -> all parts in that point
+        const point pt = vp.mount();
+        mount_min.x = std::min( mount_min.x, pt.x );
+        mount_min.y = std::min( mount_min.y, pt.y );
+        mount_max.x = std::max( mount_max.x, pt.x );
+        mount_max.y = std::max( mount_max.y, pt.y );
 
-         // This will keep the parts at point pt sorted
-         vii = std::lower_bound( relative_parts[pt].begin(), relative_parts[pt].end(),
-                                 static_cast<int>( p ), svpv );
-         relative_parts[pt].insert( vii, p );
+        // This will keep the parts at point pt sorted
+        vii = std::lower_bound( relative_parts[pt].begin(), relative_parts[pt].end(),
+                                static_cast<int>( p ), svpv );
+        relative_parts[pt].insert( vii, p );
 
-         if( vpi.has_flag( VPFLAG_FLOATS ) ) {
-             floating.push_back( p );
-         }
+        if( vpi.has_flag( VPFLAG_FLOATS ) ) {
+            floating.push_back( p );
+        }
 
-         if( vp.part().is_unavailable() ) {
-             continue;
-         }
-         if( vpi.has_flag( VPFLAG_ALTERNATOR ) ) {
-             alternators.push_back( p );
-         }
-         if( vpi.has_flag( VPFLAG_ENGINE ) ) {
-             engines.push_back( p );
-         }
-         if( vpi.has_flag( VPFLAG_REACTOR ) ) {
-             reactors.push_back( p );
-         }
-         if( vpi.has_flag( VPFLAG_SOLAR_PANEL ) ) {
-             solar_panels.push_back( p );
-         }
-         if( vpi.has_flag( "WIND_TURBINE" ) ) {
-             wind_turbines.push_back( p );
-         }
-         if( vpi.has_flag( "WIND_POWERED" ) ) {
-             sails.push_back( p );
-         }
-         if( vpi.has_flag( "WATER_WHEEL" ) ) {
-             water_wheels.push_back( p );
-         }
-         if( vpi.has_flag( "FUNNEL" ) ) {
-             funnels.push_back( p );
-         }
-         if( vpi.has_flag( "UNMOUNT_ON_MOVE" ) ) {
-             loose_parts.push_back( p );
-         }
-         if( vpi.has_flag( "SPACE_HEATER" ) ) {
-             heaters.push_back( p );
-         }
-         if( vpi.has_flag( VPFLAG_WHEEL ) ) {
-             wheelcache.push_back( p );
-         }
-         if( vpi.has_flag( "STEERABLE" ) || vpi.has_flag( "TRACKED" ) ) {
-             // TRACKED contributes to steering effectiveness but
-             //  (a) doesn't count as a steering axle for install difficulty
-             //  (b) still contributes to drag for the center of steering calculation
-             steering.push_back( p );
-         }
-         if( vpi.has_flag( "SECURITY" ) ) {
-             speciality.push_back( p );
-         }
-         if( vp.part().enabled && vpi.has_flag( "EXTRA_DRAG" ) ) {
-             extra_drag += vpi.power;
-         }
-         if( vpi.has_flag( "EXTRA_DRAG" ) && ( vpi.has_flag( "WIND_TURBINE" ) ||
-                                               vpi.has_flag( "WATER_WHEEL" ) ) ) {
-             extra_drag += vpi.power;
-         }
-         if( camera_on && vpi.has_flag( "CAMERA" ) ) {
-             vp.part().enabled = true;
-         } else if( !camera_on && vpi.has_flag( "CAMERA" ) ) {
-             vp.part().enabled = false;
-         }
-     }
+        if( vp.part().is_unavailable() ) {
+            continue;
+        }
+        if( vpi.has_flag( VPFLAG_ALTERNATOR ) ) {
+            alternators.push_back( p );
+        }
+        if( vpi.has_flag( VPFLAG_ENGINE ) ) {
+            engines.push_back( p );
+        }
+        if( vpi.has_flag( VPFLAG_REACTOR ) ) {
+            reactors.push_back( p );
+        }
+        if( vpi.has_flag( VPFLAG_SOLAR_PANEL ) ) {
+            solar_panels.push_back( p );
+        }
+        if( vpi.has_flag( "WIND_TURBINE" ) ) {
+            wind_turbines.push_back( p );
+        }
+        if( vpi.has_flag( "WIND_POWERED" ) ) {
+            sails.push_back( p );
+        }
+        if( vpi.has_flag( "WATER_WHEEL" ) ) {
+            water_wheels.push_back( p );
+        }
+        if( vpi.has_flag( "FUNNEL" ) ) {
+            funnels.push_back( p );
+        }
+        if( vpi.has_flag( "UNMOUNT_ON_MOVE" ) ) {
+            loose_parts.push_back( p );
+        }
+        if( vpi.has_flag( "SPACE_HEATER" ) ) {
+            heaters.push_back( p );
+        }
+        if( vpi.has_flag( VPFLAG_WHEEL ) ) {
+            wheelcache.push_back( p );
+        }
+        if( vpi.has_flag( "STEERABLE" ) || vpi.has_flag( "TRACKED" ) ) {
+            // TRACKED contributes to steering effectiveness but
+            //  (a) doesn't count as a steering axle for install difficulty
+            //  (b) still contributes to drag for the center of steering calculation
+            steering.push_back( p );
+        }
+        if( vpi.has_flag( "SECURITY" ) ) {
+            speciality.push_back( p );
+        }
+        if( vp.part().enabled && vpi.has_flag( "EXTRA_DRAG" ) ) {
+            extra_drag += vpi.power;
+        }
+        if( vpi.has_flag( "EXTRA_DRAG" ) && ( vpi.has_flag( "WIND_TURBINE" ) ||
+                                              vpi.has_flag( "WATER_WHEEL" ) ) ) {
+            extra_drag += vpi.power;
+        }
+        if( camera_on && vpi.has_flag( "CAMERA" ) ) {
+            vp.part().enabled = true;
+        } else if( !camera_on && vpi.has_flag( "CAMERA" ) ) {
+            vp.part().enabled = false;
+        }
+    }
 
-     // NB: using the _old_ pivot point, don't recalc here, we only do that when moving!
-     precalc_mounts( 0, pivot_rotation[0], pivot_anchor[0] );
-     check_environmental_effects = true;
-     insides_dirty = true;
-     zones_dirty = true;
-     invalidate_mass();
+    // NB: using the _old_ pivot point, don't recalc here, we only do that when moving!
+    precalc_mounts( 0, pivot_rotation[0], pivot_anchor[0] );
+    check_environmental_effects = true;
+    insides_dirty = true;
+    zones_dirty = true;
+    invalidate_mass();
 }
 
 const point &vehicle::pivot_point() const
