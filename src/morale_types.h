@@ -43,6 +43,8 @@ class morale_type_data
 extern const morale_type MORALE_NULL;
 extern const morale_type MORALE_FOOD_GOOD;
 extern const morale_type MORALE_FOOD_HOT;
+extern const morale_type MORALE_ATE_WITH_TABLE;
+extern const morale_type MORALE_ATE_WITHOUT_TABLE;
 extern const morale_type MORALE_MUSIC;
 extern const morale_type MORALE_HONEY;
 extern const morale_type MORALE_GAME;

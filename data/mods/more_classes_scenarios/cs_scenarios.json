@@ -107,7 +107,7 @@
     "type": "scenario",
     "ident": "cyberpunk",
     "copy-from": "cyberpunk",
-    "extend": { "professions": [ "bionic_thief", "bionic_hitman", "bio_gangster" ] }
+    "extend": { "professions": [ "bionic_thief", "bionic_hitman", "bio_gangster", "wasteland_cyborg" ] }
   },
   {
     "type": "scenario",

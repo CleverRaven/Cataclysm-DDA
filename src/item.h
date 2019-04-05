@@ -300,7 +300,8 @@ class item : public visitable<item>
          * the extent of damage and burning (was created to sort by name without prefix
          * in additional inventory)
          */
-        std::string tname( unsigned int quantity = 1, bool with_prefix = true ) const;
+        std::string tname( unsigned int quantity = 1, bool with_prefix = true,
+                           unsigned int truncate = 0 ) const;
         std::string display_money( unsigned int quantity, unsigned long charge ) const;
         /**
          * Returns the item name and the charges or contained charges (if the item can have

@@ -29231,7 +29231,7 @@
           "rotates": false
         },
         {
-          "id": "cooking_oil",
+          "id": [ "cooking_oil", "cooking_oil2" ],
           "fg": 810,
           "bg": 632,
           "rotates": false

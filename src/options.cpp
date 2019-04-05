@@ -1074,8 +1074,8 @@ void options_manager::add_options_general()
     get_option( "AUTO_MINING" ).setPrerequisite( "AUTO_FEATURES" );
 
     add( "AUTO_FORAGING", "general", translate_marker( "Auto foraging" ),
-         translate_marker( "Action to perform when 'Auto foraging' is enabled.  Bushes: Only forage bushes.  - Trees: Only forage trees.  - Both: Forage bushes and trees." ),
-    { { "off", translation( "options", "Disabled" ) }, { "bushes", translate_marker( "Bushes" ) }, { "trees", translate_marker( "Trees" ) }, { "both", translate_marker( "Both" ) } },
+         translate_marker( "Action to perform when 'Auto foraging' is enabled.  Bushes: Only forage bushes.  - Trees: Only forage trees.  - Everything: Forage bushes, trees, and everything else including flowers, cattails etc." ),
+    { { "off", translation( "options", "Disabled" ) }, { "bushes", translate_marker( "Bushes" ) }, { "trees", translate_marker( "Trees" ) }, { "both", translate_marker( "Everything" ) } },
     "off"
        );
 
@@ -1366,6 +1366,11 @@ void options_manager::add_options_interface()
          translate_marker( "Switch between sidebar on the left or on the right side.  Requires restart." ),
          //~ sidebar position
     { { "left", translate_marker( "Left" ) }, { "right", translate_marker( "Right" ) } }, "right"
+       );
+
+    add( "SIDEBAR_SPACERS", "interface", translate_marker( "Draw sidebar spacers" ),
+         translate_marker( "If true, adds an extra space between sidebar panels." ),
+         false
        );
 
     add( "LOG_FLOW", "interface", translate_marker( "Message log flow" ),

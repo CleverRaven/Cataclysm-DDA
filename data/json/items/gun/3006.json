@@ -186,14 +186,13 @@
     "reload": 200,
     "barrel_length": 4,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "sling", 1 ], [ "stock", 1 ] ],
-    "flags": [ "RELOAD_ONE" ]
+    "flags": [ "RELOAD_EJECT" ]
   },
   {
     "id": "survivor_special_700",
     "copy-from": "remington_700",
     "type": "GUN",
     "name": "Special 700",
-    "name_plural": "Special 700s",
     "description": "A rusty receiver, a R700 pattern barrel and half a broken crutch; all held together in the shape of a rifle with nothing more than glue, duct tape, and generous amounts of faith.",
     "price": 100000,
     "clip_size": 1,

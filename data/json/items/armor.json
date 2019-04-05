@@ -1659,6 +1659,24 @@
     "flags": [ "VARSIZE", "STURDY" ]
   },
   {
+    "id": "chainmail_hauberk",
+    "type": "ARMOR",
+    "name": "chainmail hauberk",
+    "description": "A fully customized chainmail outfit, leaving the head uncovered.  The shirt, arms, and leggings have been modified with leather straps to deal with uneven weight distribution and to allow them to be used separately.",
+    "weight": 13977,
+    "volume": 10,
+    "price": 24988,
+    "to_hit": -1,
+    "material": [ "iron", "leather" ],
+    "symbol": "[",
+    "color": "light_red",
+    "covers": [ "TORSO", "ARMS", "LEGS" ],
+    "coverage": 95,
+    "encumbrance": 20,
+    "material_thickness": 4,
+    "flags": [ "VARSIZE", "STURDY" ]
+  },
+  {
     "id": "chainmail_suit",
     "type": "ARMOR",
     "category": "armor",
@@ -2350,7 +2368,7 @@
     "covers": [ "HAND_EITHER" ],
     "coverage": 5,
     "use_action": "WEATHER_TOOL",
-    "flags": [ "WATCH", "WATER_FRIENDLY", "THERMOMETER", "BELTED", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ]
+    "flags": [ "WATCH", "ALARMCLOCK", "WATER_FRIENDLY", "THERMOMETER", "BELTED", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ]
   },
   {
     "id": "down_blanket",
@@ -7308,7 +7326,7 @@
     "warmth": 90,
     "power_armor": true,
     "material_thickness": 11,
-    "environmental_protection": 10,
+    "environmental_protection": 16,
     "use_action": { "type": "ups_based_armor", "activate_msg": "Your power armor engages." },
     "flags": [ "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE" ]
   },
@@ -7378,7 +7396,7 @@
     "warmth": 90,
     "power_armor": true,
     "material_thickness": 11,
-    "environmental_protection": 10,
+    "environmental_protection": 16,
     "qualities": [ [ "GLARE", 2 ] ],
     "flags": [ "WATCH", "WATERPROOF", "STURDY", "PARTIAL_DEAF", "THERMOMETER", "SUN_GLASSES" ]
   },
@@ -7426,7 +7444,7 @@
     "warmth": 60,
     "power_armor": true,
     "material_thickness": 9,
-    "environmental_protection": 8,
+    "environmental_protection": 16,
     "qualities": [ [ "GLARE", 2 ] ],
     "flags": [ "WATCH", "WATERPROOF", "STURDY", "PARTIAL_DEAF", "THERMOMETER", "SUN_GLASSES" ]
   },
@@ -7451,7 +7469,7 @@
     "warmth": 60,
     "power_armor": true,
     "material_thickness": 9,
-    "environmental_protection": 8,
+    "environmental_protection": 16,
     "use_action": { "type": "ups_based_armor", "activate_msg": "Your power armor engages." },
     "flags": [ "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE" ]
   },
