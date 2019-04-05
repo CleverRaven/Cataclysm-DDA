@@ -2973,7 +2973,7 @@
     "looks_like": "lens",
     "description": "A gentleman's balloon.  A single use life preventer.  A thumbless latex mitten.   This could be used as a makeshift water container, but otherwise it's anyone's guess what it's for.",
     "weight": 5,
-    "volume": 5,
+    "volume": "5ml",
     "price": 200,
     "material": "plastic",
     "symbol": "*",
