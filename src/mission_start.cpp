@@ -32,7 +32,6 @@ class DynamicDataLoader;
 
 const mtype_id mon_charred_nightmare( "mon_charred_nightmare" );
 const mtype_id mon_dog( "mon_dog" );
-const mtype_id mon_graboid( "mon_graboid" );
 const mtype_id mon_jabberwock( "mon_jabberwock" );
 const mtype_id mon_zombie( "mon_zombie" );
 const mtype_id mon_zombie_brute( "mon_zombie_brute" );
@@ -341,98 +340,6 @@ void mission_start::place_caravan_ambush( mission *miss )
     bay.place_npc( SEEX, SEEY - 7, string_id<npc_template>( "thug" ) );
     miss->target_npc_id = bay.place_npc( SEEX - 3, SEEY - 4, string_id<npc_template>( "bandit" ) );
     bay.save();
-}
-
-void mission_start::place_bandit_cabin( mission *miss )
-{
-    mission_target_params t;
-    t.overmap_terrain_subtype = "bandit_cabin";
-    t.overmap_special = overmap_special_id( "bandit_cabin" );
-    t.mission_pointer = miss;
-    t.search_range = OMAPX * 5;
-    t.reveal_radius = 1;
-
-    const cata::optional<tripoint> target_pos = assign_mission_target( t );
-
-    if( !target_pos ) {
-        debugmsg( "Unable to find and assign mission target %s. Mission will fail.",
-                  t.overmap_terrain_subtype );
-        return;
-    }
-
-    const tripoint site = *target_pos;
-    tinymap cabin;
-    cabin.load( site.x * 2, site.y * 2, site.z, false );
-    cabin.trap_set( {SEEX - 5, SEEY - 6, site.z}, tr_landmine_buried );
-    cabin.trap_set( {SEEX - 7, SEEY - 7, site.z}, tr_landmine_buried );
-    cabin.trap_set( {SEEX - 4, SEEY - 7, site.z}, tr_landmine_buried );
-    cabin.trap_set( {SEEX - 12, SEEY - 1, site.z}, tr_landmine_buried );
-    miss->target_npc_id = cabin.place_npc( SEEX, SEEY, string_id<npc_template>( "bandit" ) );
-    cabin.save();
-}
-
-void mission_start::place_informant( mission *miss )
-{
-    tripoint site = mission_util::target_om_ter_random( "evac_center_19", 1, miss, false,
-                    EVAC_CENTER_SIZE );
-    tinymap bay;
-    bay.load( site.x * 2, site.y * 2, site.z, false );
-    miss->target_npc_id = bay.place_npc( SEEX, SEEY, string_id<npc_template>( "evac_guard3" ) );
-    bay.save();
-
-    site = mission_util::target_om_ter_random( "evac_center_7", 1, miss, false, EVAC_CENTER_SIZE );
-    tinymap bay2;
-    bay2.load( site.x * 2, site.y * 2, site.z, false );
-    bay2.place_npc( SEEX + rng( -3, 3 ), SEEY + rng( -3, 3 ),
-                    string_id<npc_template>( "scavenger_hunter" ) );
-    bay2.save();
-    mission_util::target_om_ter_random( "evac_center_17", 1, miss, false, EVAC_CENTER_SIZE );
-}
-
-void mission_start::place_grabber( mission *miss )
-{
-    tripoint site = mission_util::target_om_ter_random( "field", 5, miss, false, 50 );
-    tinymap there;
-    there.load( site.x * 2, site.y * 2, site.z, false );
-    there.add_spawn( mon_graboid, 1, SEEX + rng( -3, 3 ), SEEY + rng( -3, 3 ) );
-    there.add_spawn( mon_graboid, 1, SEEX, SEEY, false, -1, miss->uid, _( "Little Guy" ) );
-    there.save();
-}
-
-void mission_start::place_bandit_camp( mission *miss )
-{
-    mission_target_params t;
-    t.overmap_terrain_subtype = "bandit_camp_1";
-    t.overmap_special = overmap_special_id( "bandit_camp" );
-    t.mission_pointer = miss;
-    t.search_range = OMAPX * 5;
-    t.reveal_radius = 1;
-
-    const cata::optional<tripoint> target_pos = assign_mission_target( t );
-
-    if( !target_pos ) {
-        debugmsg( "Unable to find and assign mission target %s. Mission will fail.",
-                  t.overmap_terrain_subtype );
-        return;
-    }
-
-    const tripoint site = *target_pos;
-
-    tinymap bay1;
-    bay1.load( site.x * 2, site.y * 2, site.z, false );
-    miss->target_npc_id = bay1.place_npc( SEEX + 5, SEEY - 3, string_id<npc_template>( "bandit" ) );
-    bay1.save();
-
-    npc *p = g->find_npc( miss->npc_id );
-    g->u.i_add( item( "ruger_redhawk", calendar::turn ) );
-    g->u.i_add( item( "44magnum", calendar::turn ) );
-    g->u.i_add( item( "holster", calendar::turn ) );
-    g->u.i_add( item( "badge_marshal", calendar::turn ) );
-    add_msg( m_good, _( "%s has instated you as a marshal!" ), p->name );
-    // Ideally this would happen at the end of the mission
-    // (you're told that they entered your image into the databases, etc)
-    // but better to get it working.
-    g->u.set_mutation( trait_id( "PROF_FED" ) );
 }
 
 void mission_start::place_jabberwock( mission *miss )

@@ -113,10 +113,6 @@ struct mission_start {
     // Put a boss zombie in the refugee/evac center back bay
     static void place_zombie_bay( mission * );
     static void place_caravan_ambush( mission * ); // For Free Merchants mission
-    static void place_bandit_cabin( mission * ); // For Old Guard mission
-    static void place_informant( mission * );    // For Old Guard mission
-    static void place_grabber( mission * );      // For Old Guard mission
-    static void place_bandit_camp( mission * );  // For Old Guard mission
     static void place_jabberwock( mission * );   // Put a jabberwok in the woods nearby
     static void kill_20_nightmares( mission * ); // Kill 20 more regular nightmares
     static void kill_horde_master( mission * );  // Kill the master zombie at the center of the horde
