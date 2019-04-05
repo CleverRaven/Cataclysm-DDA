@@ -41,7 +41,7 @@
   {
     "type": "item_group",
     "id": "hardware_plumbing",
-    "items": [ { "group": "hardware_clothing", "prob": 20 }, { "group": "tools_plumbing", "prob": 100 }, [ "survnote", 1 ] ]
+    "items": [ { "group": "hardware_clothing", "prob": 20 }, { "group": "tools_plumbing", "prob": 100 }, { "group": "plumbing_bulk", "prob": 50 }, [ "survnote", 1 ] ]
   },
   {
     "type": "item_group",
