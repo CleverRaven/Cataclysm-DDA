@@ -413,3 +413,7 @@ units::volume stomach_contents::get_water() const
 {
     return water;
 }
+time_duration stomach_contents::time_since_ate() const
+{
+    return calendar::turn - last_ate;
+}

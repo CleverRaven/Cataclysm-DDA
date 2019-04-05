@@ -96,6 +96,10 @@ class stomach_contents
         // does not empty absorbed calories
         bool store_absorbed( player &p );
 
+        // how long has it been since i ate?
+        // only really relevant for player::stomach
+        time_duration time_since_ate() const;
+
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &json );
 

@@ -4079,33 +4079,52 @@ void player::update_stomach( const time_point &from, const time_point &to )
         guts.bowel_movement( guts.get_pass_rates( false ) );
         stomach.bowel_movement( stomach.get_pass_rates( true ), guts );
     }
-
-    if( stomach.contains() >= stomach.capacity() && get_hunger() > -61 ) {
-        // you're engorged! your stomach is full to bursting!
-        set_hunger( -61 );
-    } else if( stomach.contains() >= stomach.capacity() / 2 && get_hunger() > -21 ) {
-        // sated
-        set_hunger( -21 );
-    } else if( stomach.contains() >= stomach.capacity() / 8 && get_hunger() > -1 ) {
-        // that's really all the food you need to feel full
-        set_hunger( -1 );
-    } else if( stomach.contains() == 0_ml ) {
-        if( guts.get_calories() == 0 && guts.get_calories_absorbed() == 0 &&
-            get_stored_kcal() < get_healthy_kcal() && get_hunger() < 300 ) {
-            // there's no food except what you have stored in fat
-            set_hunger( 300 );
-        } else if( get_hunger() < 100 && ( ( guts.get_calories() == 0 &&
-                                             guts.get_calories_absorbed() == 0 &&
-                                             get_stored_kcal() >= get_healthy_kcal() ) || get_stored_kcal() < get_healthy_kcal() ) ) {
-            set_hunger( 100 );
-        } else if( get_hunger() < 0 ) {
+    if( stomach.time_since_ate() > 30_minutes ) {
+        if( stomach.contains() >= stomach.capacity() && get_hunger() > -61 ) {
+            // you're engorged! your stomach is full to bursting!
+            set_hunger( -61 );
+        } else if( stomach.contains() >= stomach.capacity() / 2 && get_hunger() > -21 ) {
+            // sated
+            set_hunger( -21 );
+        } else if( stomach.contains() >= stomach.capacity() / 8 && get_hunger() > -1 ) {
+            // that's really all the food you need to feel full
+            set_hunger( -1 );
+        } else if( stomach.contains() == 0_ml ) {
+            if( guts.get_calories() == 0 && guts.get_calories_absorbed() == 0 &&
+                get_stored_kcal() < get_healthy_kcal() && get_hunger() < 300 ) {
+                // there's no food except what you have stored in fat
+                set_hunger( 300 );
+            } else if( get_hunger() < 100 && ( ( guts.get_calories() == 0 &&
+                                                 guts.get_calories_absorbed() == 0 &&
+                                                 get_stored_kcal() >= get_healthy_kcal() ) || get_stored_kcal() < get_healthy_kcal() ) ) {
+                set_hunger( 100 );
+            } else if( get_hunger() < 0 ) {
+                set_hunger( 0 );
+            }
+        }
+        if( !foodless && rates.hunger > 0.0f ) {
+            mod_hunger( roll_remainder( rates.hunger * five_mins ) );
+            // instead of hunger keeping track of how you're living, burn calories instead
+            mod_stored_kcal( roll_remainder( rates.hunger * five_mins * -kcal_per_nutr ) );
+        }
+    } else
+        // you fill up when you eat fast, but less so than if you eat slow
+        // if you just ate but your stomach is still empty it will still
+        // delay your filling up (drugs?)
+    {
+        if( stomach.contains() >= stomach.capacity() && get_hunger() > -61 ) {
+            // you're engorged! your stomach is full to bursting!
+            set_hunger( -61 );
+        } else if( stomach.contains() >= stomach.capacity() * 3 / 4 && get_hunger() > -21 ) {
+            // sated
+            set_hunger( -21 );
+        } else if( stomach.contains() >= stomach.capacity() / 2 && get_hunger() > -1 ) {
+            // that's really all the food you need to feel full
+            set_hunger( -1 );
+        } else if( stomach.time_since_ate() == 15_minutes && get_kcal_percent() > 0.95 ) {
+            // usually eating something cools your hunger
             set_hunger( 0 );
         }
-    }
-    if( !foodless && rates.hunger > 0.0f ) {
-        mod_hunger( roll_remainder( rates.hunger * five_mins ) );
-        // instead of hunger keeping track of how you're living, burn calories instead
-        mod_stored_kcal( roll_remainder( rates.hunger * five_mins * -kcal_per_nutr ) );
     }
 
     if( !foodless && rates.thirst > 0.0f ) {

@@ -246,8 +246,8 @@ TEST_CASE( "hunger" )
     if( print_tests ) {
         printf( "%d minutes til hunger sets in\n", hunger_time );
     }
-    CHECK( hunger_time <= 210 );
-    CHECK( hunger_time >= 180 );
+    CHECK( hunger_time <= 240 );
+    CHECK( hunger_time >= 210 );
     if( print_tests ) {
         print_stomach_contents( dummy, print_tests );
         printf( "eat 16 veggy\n" );
@@ -263,8 +263,8 @@ TEST_CASE( "hunger" )
         printf( "%d minutes til hunger sets in\n", hunger_time );
         print_stomach_contents( dummy, print_tests );
     }
-    CHECK( hunger_time <= 330 );
-    CHECK( hunger_time >= 300 );
+    CHECK( hunger_time <= 300 );
+    CHECK( hunger_time >= 240 );
     if( print_tests ) {
         printf( "eat 16 veggy with extreme metabolism\n" );
     }
@@ -283,5 +283,5 @@ TEST_CASE( "hunger" )
         print_stomach_contents( dummy, print_tests );
     }
     CHECK( hunger_time <= 210 );
-    CHECK( hunger_time >= 180 );
+    CHECK( hunger_time >= 120 );
 }
