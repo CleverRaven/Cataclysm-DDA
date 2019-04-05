@@ -104,16 +104,21 @@
     "//": "Portable tools for plumbing and pipefitting",
     "items": [
       { "group": "tools_common", "prob": 100 },
+      [ "wrench", 200 ],
+      [ "crowbar", 10 ],
+      [ "pliers", 200 ],
+      [ "bucket", 50 ],
       [ "mop", 100 ],
       [ "shovel", 40 ],
       [ "hammer_sledge", 50 ],
       [ "spray_can", 100 ],
       [ "permanent_marker", 50 ],
       [ "funnel", 200 ],
-      [ "hand_drill", 40 ],
+      [ "hand_drill", 10 ],
       [ "boltcutters", 150 ],
       [ "flashlight", 100 ],
       [ "heavy_flashlight", 60 ],
+      [ "magnifying_glass", 20 ],
       [ "soldering_iron", 150 ],
       [ "cordless_drill", 100 ]
     ]
