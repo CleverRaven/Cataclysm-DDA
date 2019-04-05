@@ -415,7 +415,7 @@
     "id": "mon_gas_zombie",
     "type": "MONSTER",
     "name": "gasoline zombie",
-    "description": "A huge bloated zombie that appears to have fed upon gasoline, fumes and flames escape from it's mouth and fuel leaks from it's waddling form.",
+    "description": "A huge bloated zombie that appears to have fed upon gasoline; fumes and flames escape from its mouth and fuel leaks from its waddling form.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
