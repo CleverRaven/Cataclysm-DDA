@@ -573,6 +573,50 @@ std::vector<inventory_entry *> inventory_column::get_all_selected() const
     return res;
 }
 
+void inventory_column::set_stack_favorite( const item_location &location, bool favorite )
+{
+    const item *selected_item = location.get_item();
+    std::list<item *> to_favorite;
+
+    if( location.where() == item_location::type::character ) {
+        int position = g->u.get_item_position( selected_item );
+
+        if( position < 0 ) {
+            g->u.i_at( position ).set_favorite( !selected_item->is_favorite ); // worn/wielded
+        } else {
+            g->u.inv.set_stack_favorite( position, !selected_item->is_favorite ); // in inventory
+        }
+    } else if( location.where() == item_location::type::map ) {
+        auto items = g->m.i_at( location.position() );
+
+        for( auto &item : items ) {
+            if( item.stacks_with( *selected_item ) ) {
+                printf( "%s %s\n", favorite ? "Favoriting" : "Unfavoriting", item.display_name().c_str() );
+                to_favorite.push_back( &item );
+            }
+        }
+        for( auto &item : to_favorite ) {
+            item->set_favorite( favorite );
+        }
+    } else if( location.where() == item_location::type::vehicle ) {
+        const cata::optional<vpart_reference> vp = g->m.veh_at(
+                    location.position() ).part_with_feature( "CARGO", true );
+        assert( vp );
+
+        auto items = vp->vehicle().get_items( vp->part_index() );
+
+        for( auto &item : items ) {
+            if( item.stacks_with( *selected_item ) ) {
+                printf( "%s %s\n", favorite ? "Favoriting" : "Unfavoriting", item.display_name().c_str() );
+                to_favorite.push_back( &item );
+            }
+        }
+        for( auto *item : to_favorite ) {
+            item->set_favorite( favorite );
+        }
+    }
+}
+
 void inventory_column::on_input( const inventory_input &input )
 {
     if( empty() || !active ) {
@@ -592,14 +636,7 @@ void inventory_column::on_input( const inventory_input &input )
     } else if( input.action == "END" ) {
         select( entries.size() - 1, scroll_direction::BACKWARD );
     } else if( input.action == "TOGGLE_FAVORITE" ) {
-        const item *selected_item = get_selected().location.get_item();
-        int position = g->u.get_item_position( selected_item );
-
-        if( position < 0 ) {
-            g->u.i_at( position ).set_favorite( !selected_item->is_favorite ); // worn/wielded
-        } else {
-            g->u.inv.set_stack_favorite( position, !selected_item->is_favorite ); // in inventory
-        }
+        set_stack_favorite( get_selected().location, !get_selected().location.get_item()->is_favorite );
     }
 }
 
@@ -1788,6 +1825,8 @@ std::pair<const item *, const item *> inventory_compare_selector::execute()
             return std::make_pair( nullptr, nullptr );
         } else if( input.action == "INVENTORY_FILTER" ) {
             set_filter();
+        } else if( input.action == "TOGGLE_FAVORITE" ) {
+            // TODO : implement favoriting in multi selection menus while maintaining selection
         } else {
             on_input( input );
         }
@@ -1949,20 +1988,38 @@ std::list<std::pair<int, int>> inventory_drop_selector::execute()
         } else if( input.action == "RIGHT" ) {
             const auto selected( get_active_column().get_all_selected() );
 
+            // No amount entered, select all
             if( count == 0 ) {
-                const bool clear = std::none_of( selected.begin(), selected.end(),
+                count = max_chosen_count;
+
+                // Any non favorite item to select?
+                const bool select_nonfav = std::any_of( selected.begin(), selected.end(),
                 []( const inventory_entry * elem ) {
-                    return elem->chosen_count > 0;
+                    return ( !elem->location.get_item()->is_favorite ) && elem->chosen_count == 0;
                 } );
 
-                if( clear ) {
-                    count = max_chosen_count;
+                // Otherwise, any favorite item to select?
+                const bool select_fav =  !select_nonfav && std::any_of( selected.begin(), selected.end(),
+                []( const inventory_entry * elem ) {
+                    return elem->location.get_item()->is_favorite && elem->chosen_count == 0;
+                } );
+
+                for( const auto &elem : selected ) {
+                    const bool is_favorite = elem->location.get_item()->is_favorite;
+                    if( ( select_nonfav && !is_favorite ) || ( select_fav && is_favorite ) ) {
+                        set_chosen_count( *elem, count );
+                    } else if( !select_nonfav && !select_fav ) {
+                        // Every element is selected, unselect all
+                        set_chosen_count( *elem, 0 );
+                    }
+                }
+                // Select the entered amount
+            } else {
+                for( const auto &elem : selected ) {
+                    set_chosen_count( *elem, count );
                 }
             }
 
-            for( const auto &elem : selected ) {
-                set_chosen_count( *elem, count );
-            }
             count = 0;
         } else if( input.action == "CONFIRM" ) {
             if( dropping.empty() ) {
@@ -1975,6 +2032,8 @@ std::list<std::pair<int, int>> inventory_drop_selector::execute()
             return std::list<std::pair<int, int> >();
         } else if( input.action == "INVENTORY_FILTER" ) {
             set_filter();
+        } else if( input.action == "TOGGLE_FAVORITE" ) {
+            // TODO : implement favoriting in multi selection menus while maintaining selection
         } else {
             on_input( input );
             count = 0;

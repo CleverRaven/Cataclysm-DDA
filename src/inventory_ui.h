@@ -264,6 +264,7 @@ class inventory_column
         void add_entry( const inventory_entry &entry );
         void move_entries_to( inventory_column &dest );
         void clear();
+        void set_stack_favorite( const item_location &location, bool favorite );
 
         /** Selects the specified location. */
         bool select( const item_location &loc );
