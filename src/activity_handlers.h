@@ -34,7 +34,7 @@ void activity_on_turn_move_loot( player_activity &act, player &p );
 void activity_on_turn_pickup();
 void activity_on_turn_wear();
 void activity_on_turn_stash();
-void try_refuel_fire( player &p );
+void try_fuel_fire( player_activity &act, player &p, const bool starting_fire = false );
 
 enum class item_drop_reason {
     deliberate,
@@ -77,7 +77,6 @@ void hacksaw_do_turn( player_activity *act, player *p );
 void chop_tree_do_turn( player_activity *act, player *p );
 void jackhammer_do_turn( player_activity *act, player *p );
 void dig_do_turn( player_activity *act, player *p );
-void dig_deepen_do_turn( player_activity *act, player *p );
 void dig_channel_do_turn( player_activity *act, player *p );
 void fill_pit_do_turn( player_activity *act, player *p );
 void till_plot_do_turn( player_activity *act, player *p );
@@ -134,7 +133,6 @@ void chop_tree_finish( player_activity *act, player *p );
 void chop_logs_finish( player_activity *act, player *p );
 void jackhammer_finish( player_activity *act, player *p );
 void dig_finish( player_activity *act, player *p );
-void dig_deepen_finish( player_activity *act, player *p );
 void dig_channel_finish( player_activity *act, player *p );
 void fill_pit_finish( player_activity *act, player *p );
 void play_with_pet_finish( player_activity *act, player *p );

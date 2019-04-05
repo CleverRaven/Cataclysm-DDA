@@ -948,7 +948,7 @@
     "id": "mon_eyebot",
     "type": "MONSTER",
     "name": "eyebot",
-    "description": "A fusion-driven UAV largely comprised of a high-resolution camera lens, this spheroid robot hovers above the ground, silent witness to the carnage and mayhem around it.",
+    "description": "A fusion-driven UAV largely comprised of a high-resolution camera lens and a speaker, this spheroid robot hovers above the ground, documenting the carnage and mayhem around it.",
     "default_faction": "cop_bot",
     "species": [ "ROBOT" ],
     "diff": 2,
@@ -2922,6 +2922,7 @@
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
+      "PUSH_VEH",
       "FILTHY"
     ]
   },
@@ -2969,6 +2970,7 @@
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
+      "PUSH_VEH",
       "FILTHY"
     ]
   },
@@ -3016,6 +3018,7 @@
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
+      "PUSH_VEH",
       "NIGHT_INVISIBILITY",
       "FILTHY"
     ]
@@ -3814,6 +3817,7 @@
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
+      "PUSH_VEH",
       "FILTHY"
     ]
   },
@@ -4810,6 +4814,7 @@
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
+      "PUSH_VEH",
       "HARDTOSHOOT",
       "FILTHY"
     ]

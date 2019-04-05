@@ -1,0 +1,17 @@
+[
+  {
+    "type": "AMMO",
+    "id": "battery",
+    "copy-from": "battery",
+    "category": "tools",
+    "name": "battery",
+    "name_plural": "batteries"
+  },
+  {
+    "type": "AMMO",
+    "id": "plut_cell",
+    "copy-from": "plut_cell",
+    "category": "tools",
+    "name": "plutonium cell"
+  }
+]
