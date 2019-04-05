@@ -2651,6 +2651,23 @@ int iuse::dig( player *p, item *it, bool t, const tripoint & )
         }
     }
 
+    const std::function<bool( tripoint )> f = []( tripoint p ) {
+        return g->m.passable( p );
+    };
+
+    const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
+            _( "Deposit excavated materials where?" ), f, false );
+    if( !pnt_ ) {
+        return 0;
+    }
+    const tripoint deposit_point = *pnt_;
+
+    if( !g->m.passable( deposit_point ) ) {
+        p->add_msg_if_player(
+            _( "You can't deposit the excavated materials onto an impassable location." ) );
+        return 0;
+    }
+
     if( grave ) {
         if( g->u.has_trait_flag( "SPIRITUAL" ) && !g->u.has_trait_flag( "PSYCHOPATH" ) &&
             g->u.query_yn( _( "Would you really touch the sacred resting place of the dead?" ) ) ) {
@@ -2670,23 +2687,6 @@ int iuse::dig( player *p, item *it, bool t, const tripoint & )
                 p->vomit();
             }
         }
-    }
-
-    const std::function<bool( tripoint )> f = []( tripoint p ) {
-        return g->m.passable( p );
-    };
-
-    const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
-            _( "Deposit excavated materials where?" ), f, false );
-    if( !pnt_ ) {
-        return 0;
-    }
-    const tripoint deposit_point = *pnt_;
-
-    if( !g->m.passable( deposit_point ) ) {
-        p->add_msg_if_player(
-            _( "You can't deposit the excavated materials onto an impassable location." ) );
-        return 0;
     }
 
     const std::vector<npc *> helpers = g->u.get_crafting_helpers();
