@@ -1855,7 +1855,7 @@ void game::remove_npc_follower( const int &id )
 {
     follower_ids.erase( std::remove( follower_ids.begin(), follower_ids.end(), id ),
                         follower_ids.end() );
-    follower_ids.erase( std::remove( u.follower_ids.begin(), u.follower_ids.end(), id ),
+    u.follower_ids.erase( std::remove( u.follower_ids.begin(), u.follower_ids.end(), id ),
                         u.follower_ids.end() );
 }
 
