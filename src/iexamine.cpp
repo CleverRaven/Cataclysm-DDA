@@ -4260,26 +4260,14 @@ void smoker_load_food( player &p, const tripoint &examp, const units::volume &re
     inv.remove_items_with( []( const item & it ) {
         return it.rotten();
     } );
-    comp_selection<item_comp> selected = p.select_item_component( comps, 1, inv, true );
-    std::list<item> moved = p.consume_items( selected, 1 );
 
-    // hack, because consume_items doesn't seem to care of what item is consumed despite filters
-    // TODO: find a way to filter out rotten items from those actualy consumed
-    bool rotted = false;
-    for( const item &m : moved ) {
-        if( m.rotten() ) {
-            rotted = true;
-        }
-    }
-    if( rotted ) {
-        add_msg( m_info, _( "You have rotten food mixed with fresh.  Get rid of it first." ) );
-        for( const item &m : moved ) {
-            g->m.add_item( p.pos(), m );
-            p.mod_moves( -p.item_handling_cost( m ) );
-        }
-        p.invalidate_crafting_inventory();
-        return;
-    }
+    const auto is_non_rotten_crafting_component = []( const item & it ) {
+        return is_crafting_component( it ) && !it.rotten();
+    };
+
+    comp_selection<item_comp> selected = p.select_item_component( comps, 1, inv, true,
+                                         is_non_rotten_crafting_component );
+    std::list<item> moved = p.consume_items( selected, 1, is_non_rotten_crafting_component );
 
     for( const item &m : moved ) {
         g->m.add_item( examp, m );
