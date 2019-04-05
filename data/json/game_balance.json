@@ -106,6 +106,13 @@
   },
   {
     "type": "EXTERNAL_OPTION",
+    "name": "FILTHY_WOUNDS",
+    "info": "Infected wounds from filthy clothing.  If true, getting hit in a body part covered in filthy clothing may cause infections.  Doesn't make sense if FILTHY_CLOTHES option is false.",
+    "stype": "bool",
+    "value": true
+  },
+  {
+    "type": "EXTERNAL_OPTION",
     "name": "MANUAL_BIONIC_INSTALLATION",
     "info": "Permits manual self-installation of bionics.",
     "stype": "bool",
@@ -117,13 +124,6 @@
     "info": "Makes autodoc operations completely safe, independent of the players skill.",
     "stype": "bool",
     "value": false
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "FILTHY_WOUNDS",
-    "info": "Infected wounds from filthy clothing.  If true, getting hit in a body part covered in filthy clothing may cause infections.  Doesn't make sense if FILTHY_CLOTHES option is false.",
-    "stype": "bool",
-    "value": true
   },
   {
     "type": "EXTERNAL_OPTION",
