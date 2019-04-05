@@ -95,6 +95,7 @@ extern const morale_type MORALE_PERM_FANCY;
 extern const morale_type MORALE_PERM_OPTIMIST;
 extern const morale_type MORALE_PERM_BADTEMPER;
 extern const morale_type MORALE_PERM_CONSTRAINED;
+extern const morale_type MORALE_PERM_NOMAD;
 extern const morale_type MORALE_GAME_FOUND_KITTEN;
 extern const morale_type MORALE_HAIRCUT;
 extern const morale_type MORALE_SHAVE;

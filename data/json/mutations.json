@@ -6196,7 +6196,17 @@
     "name": "Nomad",
     "points": -1,
     "starting_trait": true,
-    "description": "You're too adventurous for your own good. The more time you've spent somewhere, the unhappier it makes you to be there.",
-    "purifiable": false
+    "description": "You're too adventurous for your own good. The more time you spend somewhere, the unhappier it makes you to be there.",
+	"changes_to": [ "NOMAD2" ],
+    "category": [ "BIRD", "FISH" ]
+  },
+  {
+    "type": "mutation",
+    "id": "NOMAD2",
+    "name": "Restless",
+    "points": -3,
+    "description": "Spending any amount of time in familiar places makes you miserable. Must. Keep. Moving.",
+    "prereqs": [ "NOMAD" ],
+    "category": [ "BIRD", "FISH" ]
   }
 ]

@@ -622,6 +622,16 @@ void player::load( JsonObject &data )
         bcdata.read( "pos", bcpt );
         camps.insert( bcpt );
     }
+
+    JsonArray overmap_time_array = data.get_array( "overmap_time" );
+    overmap_time.clear();
+    while ( overmap_time_array.has_more() ) {
+        tripoint tpt;
+        overmap_time_array.read_next( tpt );
+        time_duration tdr;
+        overmap_time_array.read_next( tdr );
+        overmap_time[tpt] = tdr;
+    }
 }
 
 /*
@@ -722,6 +732,14 @@ void player::store( JsonOut &json ) const
         json.start_object();
         json.member( "pos", bcpt );
         json.end_object();
+    }
+    json.end_array();
+
+    json.member( "overmap_time" );
+    json.start_array();
+    for ( const std::pair<tripoint, time_duration> &pr : overmap_time ) {
+        json.write(pr.first);
+        json.write(pr.second);
     }
     json.end_array();
 }

@@ -1731,9 +1731,6 @@ class player : public Character
 
         std::set<tripoint> camps;
 
-        // Amount of time the player has spent in each overmap tile
-        std::unordered_map<tripoint, time_duration> overmap_time;
-
     protected:
         // The player's position on the local map.
         tripoint position;
@@ -1864,6 +1861,9 @@ class player : public Character
 
         /** Stamp of skills. @ref learned_recipes are valid only with this set of skills. */
         mutable decltype( _skills ) valid_autolearn_skills;
+
+        /** Amount of time the player has spent in each overmap tile. */
+        std::unordered_map<tripoint, time_duration> overmap_time;
 
         map_memory player_map_memory;
         bool show_map_memory;

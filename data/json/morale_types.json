@@ -275,6 +275,11 @@
     "text": "Uncomfy Gear"
   },
   {
+    "id": "morale_perm_nomad",
+    "type": "morale_type",
+    "text": "Nomadic Restlessness"
+  },
+  {
     "id": "morale_game_found_kitten",
     "type": "morale_type",
     "text": "Found kitten <3"
