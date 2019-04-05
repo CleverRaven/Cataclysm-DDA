@@ -61,13 +61,13 @@ units::volume stomach_contents::capacity() const
         max_mod *= 0.9;
     }
     if( g->u.has_active_mutation( trait_id( "HIBERNATE" ) ) ) {
-        max_mod *= 10;
+        max_mod *= 3;
     }
     if( g->u.has_active_mutation( trait_id( "GOURMAND" ) ) ) {
         max_mod *= 2;
     }
     if( g->u.has_trait( trait_id( "SLIMESPAWNER" ) ) ) {
-        max_mod *= 10;
+        max_mod *= 3;
     }
     return max_volume * max_mod;
 }

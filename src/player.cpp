@@ -751,7 +751,7 @@ void player::process_turn()
     last_item = itype_id( "null" );
 
     if( has_active_bionic( bio_metabolics ) && power_level + 25 <= max_power_level &&
-        get_stored_kcal() > get_healthy_kcal() + 25 && calendar::once_every( 5_turns ) ) {
+        0.8f < get_kcal_percent() && calendar::once_every( 5_turns ) ) {
         mod_stored_kcal( -25 );
         charge_power( 25 );
     }
@@ -4105,7 +4105,7 @@ void player::update_stomach( const time_point &from, const time_point &to )
     if( !foodless && rates.hunger > 0.0f ) {
         mod_hunger( roll_remainder( rates.hunger * five_mins ) );
         // instead of hunger keeping track of how you're living, burn calories instead
-        mod_stored_kcal( roll_remainder( rates.hunger * ( float )five_mins * -kcal_per_nutr ) );
+        mod_stored_kcal( roll_remainder( rates.hunger * five_mins * -kcal_per_nutr ) );
     }
 
     if( !foodless && rates.thirst > 0.0f ) {
@@ -4221,11 +4221,25 @@ void player::check_needs_extremes()
     }
 
     // check if we've starved
-    if( is_player() && get_stored_kcal() <= 0 ) {
-        add_msg_if_player( m_bad, _( "You have starved to death." ) );
-        add_memorial_log( pgettext( "memorial_male", "Died of starvation." ),
-                          pgettext( "memorial_female", "Died of starvation." ) );
-        hp_cur[hp_torso] = 0;
+    if( is_player() ) {
+        if( get_stored_kcal() <= 0 ) {
+            add_msg_if_player( m_bad, _( "You have starved to death." ) );
+            add_memorial_log( pgettext( "memorial_male", "Died of starvation." ),
+                              pgettext( "memorial_female", "Died of starvation." ) );
+            hp_cur[hp_torso] = 0;
+        } else {
+            if( calendar::once_every( 1_hours ) ) {
+                if( get_kcal_percent() < 0.1f ) {
+                    add_msg_if_player( m_warning, _( "Food..." ) );
+                } else if( get_kcal_percent() < 0.25f ) {
+                    add_msg_if_player( m_warning, _( "You are STARVING!" ) );
+                } else if( get_kcal_percent() < 0.5f ) {
+                    add_msg_if_player( m_warning, _( "You feel like you haven't eaten in days..." ) );
+                } else if( get_kcal_percent() < 0.8f ) {
+                    add_msg_if_player( m_warning, _( "Your stomach feels so empty..." ) );
+                }
+            }
+        }
     }
 
     // Check if we're dying of thirst
@@ -4662,7 +4676,7 @@ bool player::is_hibernating() const
     // a little, and came out of it well into Parched.  Hibernating shouldn't endanger your
     // life like that--but since there's much less fluid reserve than food reserve,
     // simply using the same numbers won't work.
-    return has_effect( effect_sleep ) && get_kcal_percent() < 0.8f &&
+    return has_effect( effect_sleep ) && get_kcal_percent() > 0.8f &&
            get_thirst() <= 80 && has_active_mutation( trait_id( "HIBERNATE" ) );
 }
 
@@ -10475,7 +10489,7 @@ void player::fall_asleep()
         }
     }
     if( has_active_mutation( trait_id( "HIBERNATE" ) ) &&
-        get_kcal_percent() < 0.8f ) {
+        get_kcal_percent() > 0.8f ) {
         add_memorial_log( pgettext( "memorial_male", "Entered hibernation." ),
                           pgettext( "memorial_female", "Entered hibernation." ) );
         // some days worth of round-the-clock Snooze.  Cata seasons default to 91 days.

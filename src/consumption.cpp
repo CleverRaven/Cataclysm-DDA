@@ -553,9 +553,7 @@ ret_val<edible_rating> player::will_eat( const item &food, bool interactive ) co
         add_consequence( _( "Your stomach won't be happy (not rotten enough)." ), ALLERGY_WEAK );
     }
 
-    const units::volume stomach_remaining = stomach.stomach_remaining();
-
-    if( stomach_remaining < food.volume() / food.charges && !food.has_infinite_charges() ) {
+    if( stomach.stomach_remaining() < food.volume() / food.charges && !food.has_infinite_charges() ) {
         if( food.has_flag( "USE_EAT_VERB" ) ) {
             add_consequence( _( "You're full already and will be forcing yourself to eat." ), TOO_FULL );
         } else {
