@@ -14,7 +14,7 @@ Cataclysm: Dark Days Ahead is a turn-based survival game set in a post-apocalypt
 
 Explore, fight and survive in an expansive post-apocalyptic game world.
 
-The core tenet of dark days ahead is if it works in reality, it works in the game. Scavenge and craft makeshift weapons, improvise shelter, outmanoeuver enemies, find, repair and drive vehicles. Deal with monsters using your brains, melee weapons, firearms, traps, explosives, other monsters, fire, and if all else fails, a truck or two.
+The core tenet of dark days ahead is if it works in reality, it works in the game. Scavenge and craft makeshift weapons, improvise shelter, outmaneuver enemies, find, repair and drive vehicles. Deal with monsters using your brains, melee weapons, firearms, traps, explosives, other monsters, fire, and if all else fails, a truck or two.
 
 ### User Experience Table of Contents
 [Overview](#overview)  
@@ -87,7 +87,7 @@ Craft a huge variety of useful and questionable items to aid in your survival.
 
 Cataclysms reward system is built around roleplay, survival and exploration.
 
-The key conceit of the game is, "what would you do in the Cataclysm?", and the game allows you to answer that question in a bewildering number of ways.
+The key concept of the game is, "what would you do in the Cataclysm?", and the game allows you to answer that question in a bewildering number of ways.
 
 The goal of game difficulty is to start out with survival being difficult, and get steadily more difficult over time, requiring mastery of a succession of game systems in order to continue to survive and thrive.
 
@@ -105,11 +105,11 @@ The primary setting of the game is present-day (2019 as of the time of writing) 
 
 Super-technology exists, but it is mostly restricted to secret lab facilities and military special forces.
 
-That all changed during the cataclysm, a several day long event where horrors from other dimensions flooded into the world, destroying, killing and in some cases creating, rendering the world almost unrecognisable.
+That all changed during the cataclysm, a several day long event where horrors from other dimensions flooded into the world, destroying, killing and in some cases creating, rendering the world almost unrecognizable.
 
 After the Cataclysm, the invasion ebbed, leaving humanity crippled but not completely destroyed.  Some of the invaders remain, carving out niches for themselves, but most retreated elsewhere.
 
-The Cataclysm:DDA game world is very much modelled on the real world, with similar geography and demographics. Balance is adjusted by placement of otherworldly or other fictional elements such as zombies and robots in addition to natural hazards.
+The Cataclysm:DDA game world is very much modeled on the real world, with similar geography and demographics. Balance is adjusted by placement of otherworldly or other fictional elements such as zombies and robots in addition to natural hazards.
 
 ### Events of the Cataclysm
 
@@ -119,7 +119,7 @@ This section is to describe exactly 'what went down' in the Cataclysm, in the of
 
 This section should be used to discuss both existing and deceased major factions, but it is primarily for factions forming post-cataclysm.
 
-##### General Philosophy
+#### General Philosophy
 When creating a faction in Cataclysm, consider the following:
 
 *    All factions were part of the same overall culture only a few months ago. We're not at a Mad Max: Fury Road stage yet, and if anyone's acting that way they're probably basing it on a major motion picture.
@@ -323,7 +323,7 @@ With the Blob itself, there really aren't any. You can't convince Azathoth to go
 Ubiquitous, reanimatory, mutagenic
 The groundwater is infected with XE-037. Every creature on Earth is contaminated. In larger mammals, this contamination allows XE-037 to reanimate us after we die, becoming zombies. In insects, it causes mutation to larger forms.
 
-The XE-037 contaminating all living things is not the Blob, any more than a transistor is a computer processor. This basic Blob biomatter can be coerced into causing mutations in infected targets (ie. anyone), using mutagen.
+The XE-037 contaminating all living things is not the Blob, any more than a transistor is a computer processor. This basic Blob biomatter can be coerced into causing mutations in infected targets (i.e. anyone), using mutagen.
 
 TK: there should be full articles on these topics.
 
@@ -429,6 +429,7 @@ This would allow the pace of the game to be slowed just a little, while the cale
 ##### Terrified and Wet Phase
 
 first couple days to at most first week.
+
 **Key events**:
 
 * Find a basic safe shelter. 
@@ -462,7 +463,7 @@ From mid-spring to end of spring, year 1
 
 **Key Events**:
 
-*    Get some armour and weaponry that deals better with zombies
+*    Get some armor and weaponry that deals better with zombies
 *    Scavenge small settlements and their outskirts, mainly at night
 *    Obtain a stockpile of food and a more serious water source, allowing you to spend a little while crafting or reading between exploration runs
 *    Begin to stockpile food, books, and tools, but shouldn't have enough food supplies to be able to spend much time reading or learning 
@@ -480,7 +481,7 @@ From mid-spring to end of spring, year 1
 *    May have one NPC follower, but they are not yet very loyal.
 *    At this stage of the game, they should be very common, and pose a huge threat if hostile.
 *    During this phase, factions begin to form as it becomes clear that the world has basically ended.
-*    Find rumours of nearby factions (eg. graffiti, radio signals, other survivors, computer in evac shelter)
+*    Find rumors of nearby factions (e.g. graffiti, radio signals, other survivors, computer in evac shelter)
 
 **Travel/Range**:
 
@@ -519,14 +520,14 @@ End of spring to mid-to-late summer, year 1
 *    Likely have a vehicle, especially an easy to maintain one like a bicycle. Welders and repair tools are at a premium if available at all, so the vehicle is fairly precious. Range begins to extend to fill probably the entire starting overmap as the player is able to set up safe camps and things.
 
 ##### Preparation/Skilled Scavenger Phase
-mid-to-late summer to winter, year 1
+Mid-to-late summer to winter, year 1
 
 **Key Events**:
 
 *    Return of focus to food security as winter comes closer and survivor needs to work hard on stockpiling
-*    Most other key resources now well stocked - ammo, clothing, armour. Survivor has likely managed to make some deep forays into a few towns, loot a mansion or the upper levels of a Lab.
+*    Most other key resources now well stocked - ammo, clothing, armor. Survivor has likely managed to make some deep forays into a few towns, loot a mansion or the upper levels of a Lab.
 *    Although the player isn't equipped to install CBMs or develop higher level mutagens they probably have access to the components now, and can start projects to get them on the go over the winter. Likewise for fancier gear and equipment that isn't available readily from raids.
-*    Decreasing focus on wide ranging travel in favour of developing base defenses
+*    Decreasing focus on wide ranging travel in favor of developing base defenses
 *    May at this point have achieved welding tools 
 *    Probably has electricity and a secure water supply at home base.
 
@@ -549,7 +550,7 @@ mid-to-late summer to winter, year 1
 ##### First Winter
 **Key Events**:
 
-* Travelling outside becomes onerous (slow travel through snow), cold, and dangerous (zombies and other threats not visible under snow)
+* Traveling outside becomes onerous (slow travel through snow), cold, and dangerous (zombies and other threats not visible under snow)
 * Encourage player to stay inside, building up the base, studying, and crafting
 
 **Dangers/Threats**:
@@ -561,8 +562,8 @@ mid-to-late summer to winter, year 1
 **Other Survivors/Factions**:
 
 *    Survivors without factions at this point die in large numbers as hordes move into the towns they've holed up in. This is probably the biggest die-off of survivors since the cataclysm
-*    Factions hunker down, trade routes close off. Brave players able to travel in the snow might find this a very effective time to get a huge amount of faction favour by doing important jobs, at very high risk.
-*    Players who haven't set up a safe enough base might choose to use their faction favour to hunker down with one of them.
+*    Factions hunker down, trade routes close off. Brave players able to travel in the snow might find this a very effective time to get a huge amount of faction favor by doing important jobs, at very high risk.
+*    Players who haven't set up a safe enough base might choose to use their faction favor to hunker down with one of them.
 
 **Side note**:
 
@@ -573,18 +574,21 @@ mid-to-late summer to winter, year 1
 *Characterized by*: Player beginning to adopt transhuman elements if desired. First serious raids to Facilities - labs, bunkers, military bases, and other 'dungeons' - become possible. Zombies "level up", so that you're facing not so much individual monsters as nemesis-level masters and their hordes. Other enemy factions (triffids, mycus, mi-go, others?) begin to expand as threats.
 
 **Side note**: As this is a switch to a very different play style, it should be possible to start out in this phase with some scenarios.
-Late-Game
+
+#### Late-Game
 
 *Characterized by*: Player has numerous transhuman elements and top-tier gear. A single player can probably take on even top-shelf zombies in large numbers, if they're smart about it. If the player has a faction or a community of their own, protecting that group is more the challenge than trying to survive themselves as they're basically a superhero. Earth becomes a battleground, with warring factions claiming most of the overmap.
 
 **Balance note**: at no point should a player ever be able to simply wade into a horde of zombies without fear. Drive a tank, sure. Man a turret, perhaps. Walking into the crowd however should always be at least a last ditch fool's errand. Superhero, not demigod.
 
 **Side note**: This shouldn't be something players can start in straight-away as the challenges of late game derive from things developed in the mid-game.
+
 ### "Faction" Play Element
-Starts in late Early phase or later
-Develop and protect a community either from scratch or by joining an existing faction and rising through its ranks.
-Focuses on building, protecting, recruiting, trading, research, and diplomacy.
-End-game: Carve out a "safe" portion of the world, or abandon this world hoping to find another that you can survive in.
+
+*	 Starts in late Early phase or later
+*    Develop and protect a community either from scratch or by joining an existing faction and rising through its ranks.
+*    Focuses on building, protecting, recruiting, trading, research, and diplomacy.
+*    End-game: Carve out a "safe" portion of the world, or abandon this world hoping to find another that you can survive in.
 
 ## Mechanics
 
@@ -653,7 +657,8 @@ Also, everyone has PTSD.
 
 ## Background Story
 
-Summary
+Summary:
+
 There was an arms race to develop transhumans. In the process, the US government discovered alternate dimensions and obtained a sample called "XE-037", a mysterious black goo that was able to reanimate the dead and cause miraculous targeted phenotype mutations. XE-037 turned out to be intelligent - vastly so - and escaped, contaminating the groundwater and causing an enormous zombie outbreak. As this spiraled out of control, Earth became the target of a multidimensional portal attack through which the Blob, the entity of which XE-037 is just a small part, took over our world. Simultaneously, forces from other dimensions entered opportunistically as our dimensional fabric was destabilized. This was the Cataclysm.
 
 Things are a bit more stable now, but nobody is left alive to appreciate that.
