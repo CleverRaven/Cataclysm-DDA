@@ -332,6 +332,7 @@ static const trait_id trait_NARCOLEPTIC( "NARCOLEPTIC" );
 static const trait_id trait_NAUSEA( "NAUSEA" );
 static const trait_id trait_NOMAD( "NOMAD" );
 static const trait_id trait_NOMAD2( "NOMAD2" );
+static const trait_id trait_NOMAD3( "NOMAD3" );
 static const trait_id trait_NONADDICTIVE( "NONADDICTIVE" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_NO_THIRST( "NO_THIRST" );
@@ -868,7 +869,7 @@ void player::apply_persistent_morale()
         }
     }
     // Nomads get a morale penalty if they stay near the same overmap tiles too long.
-    if( has_trait( trait_NOMAD ) || has_trait( trait_NOMAD2 ) ) {
+    if( has_trait( trait_NOMAD ) || has_trait( trait_NOMAD2 ) || has_trait( trait_NOMAD3 ) ) {
         tripoint ompos = global_omt_location();
         float total_time = 0;
         // Check how long we've stayed in any overmap tile within 5 of us.
@@ -887,10 +888,22 @@ void player::apply_persistent_morale()
                 total_time += to_moves<float>( overmap_time[tpt] ) * ( max_dist - dist ) / max_dist;
             }
         }
-        // Characters with NOMAD2 suffer worse morale penalties, faster.
-        const int max_unhappiness = has_trait( trait_NOMAD2 ) ? 60 : 20;
-        const float min_time = to_moves<float>( has_trait( trait_NOMAD2 ) ? 1_hours : 12_hours );
-        const float max_time = to_moves<float>( has_trait( trait_NOMAD2 ) ? 2_hours : 1_days );
+        // Characters with higher tiers of Nomad suffer worse morale penalties, faster.
+        int max_unhappiness;
+        float min_time, max_time;
+        if( has_trait( trait_NOMAD ) ) {
+            max_unhappiness = 20;
+            min_time = to_moves<float>( 12_hours );
+            max_time = to_moves<float>( 1_days );
+        } else if( has_trait( trait_NOMAD2 ) ) {
+            max_unhappiness = 40;
+            min_time = to_moves<float>( 4_hours );
+            max_time = to_moves<float>( 8_hours );
+        } else if( has_trait( trait_NOMAD3 ) ) {
+            max_unhappiness = 60;
+            min_time = to_moves<float>( 1_hours );
+            max_time = to_moves<float>( 2_hours );
+        }
         // The penalty starts at 1 at min_time and scales up to max_unhappiness at max_time.
         const float t = ( total_time - min_time ) / ( max_time - min_time );
         const int pen = ceil( lerp_clamped( 0, max_unhappiness, t ) );
