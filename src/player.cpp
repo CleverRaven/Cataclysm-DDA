@@ -899,7 +899,7 @@ void player::apply_persistent_morale()
             max_unhappiness = 40;
             min_time = to_moves<float>( 4_hours );
             max_time = to_moves<float>( 8_hours );
-        } else if( has_trait( trait_NOMAD3 ) ) {
+        } else { // traid_NOMAD3
             max_unhappiness = 60;
             min_time = to_moves<float>( 1_hours );
             max_time = to_moves<float>( 2_hours );
