@@ -9,10 +9,12 @@
 #include <vector>
 
 #include "assign.h"
+#include "catacharset.h"
 #include "debug.h"
 #include "init.h"
 #include "int_id.h"
 #include "json.h"
+#include "output.h"
 #include "string_id.h"
 #include "translations.h"
 #include "units.h"
@@ -569,6 +571,31 @@ inline bool one_char_symbol_reader( JsonObject &jo, const std::string &member_na
         jo.throw_error( member_name + " must be exactly one ASCII character", member_name );
     }
     sym = sym_as_string.front();
+    return true;
+}
+
+/**
+ * Reads a UTF-8 string (or long as legacy fallback) and stores Unicode codepoint of it in `symbol`.
+ * Throws if the inputs width is more than one console cell wide.
+ */
+inline bool unicode_codepoint_from_symbol_reader( JsonObject &jo, const std::string &member_name,
+        uint32_t &member, bool )
+{
+    long sym_as_long;
+    std::string sym_as_string;
+    if( !jo.read( member_name, sym_as_string ) ) {
+        // Legacy fallback to long `sym`.
+        if( !jo.read( member_name, sym_as_long ) ) {
+            return false;
+        } else {
+            sym_as_string = string_from_long( sym_as_long );
+        }
+    }
+    uint32_t sym_as_codepoint = UTF8_getch( sym_as_string );
+    if( mk_wcwidth( sym_as_codepoint ) != 1 ) {
+        jo.throw_error( member_name + " must be exactly one console cell wide", member_name );
+    }
+    member = sym_as_codepoint;
     return true;
 }
 
