@@ -4,23 +4,36 @@
     "type": "item_group",
     "//": "Parts for electronics crafting or repair",
     "items": [
+      { "item": "cable", "prob": 40, "count": [ 1, 2 ] },
+      { "item": "cable", "prob": 25, "count": [ 2, 4 ] },
+      [ "light_detector", 5 ],
       [ "amplifier", 40 ],
       [ "antenna", 40 ],
       [ "battery", 100 ],
-      [ "cable", 60 ],
       [ "power_supply", 20 ],
       [ "processor", 20 ],
       [ "solar_cell", 10 ],
-      [ "solder_wire", 60 ],
+      [ "solder_wire", 40 ],
+      { "item": "solder_wire", "prob": 20, "count": [2, 4 ] },
       [ "RAM", 20 ],
       [ "radiocontrol", 10 ],
       [ "receiver", 30 ],
       [ "transponder", 30 ],
       [ "light_bulb", 60 ],
+      [ "lightstrip", 40 ],
       [ "lightstrip_dead", 60 ],
+      [ "motor_small", 10 ],
       [ "motor_tiny", 30 ],
-      [ "motor_micro", 40 ]
+      [ "motor_micro", 40 ],
+      [ "jumper_cable", 15 ],
+      [ "jumper_cable_heavy", 5 ]
     ]
+  },
+  {
+    "id": "elec_parts",
+    "type": "item_group",
+    "//": "Deprecated, find where this is used and replace with supplies_electronics",
+    "items": [ { "group": "supplies_electronics", "prob": 100 } ]
   },
   {
     "id": "paint",
@@ -40,11 +53,6 @@
     "id": "rug",
     "type": "item_group",
     "items": [ [ "r_carpet", 45 ], [ "g_carpet", 45 ], [ "y_carpet", 45 ], [ "p_carpet", 45 ] ]
-  },
-  {
-    "id": "elec_parts",
-    "type": "item_group",
-    "items": [ [ "cable", 65 ], [ "power_supply", 50 ], [ "amplifier", 50 ], [ "lightstrip", 40 ], [ "solder_wire", 20 ] ]
   },
   {
     "type": "item_group",
