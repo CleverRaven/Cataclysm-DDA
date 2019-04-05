@@ -67,7 +67,7 @@
       { "group": "tools_electronics", "prob": 20 },
       { "group": "tools_lighting_industrial", "prob": 100 },
       { "group": "tools_mechanic", "prob": 20 },
-      { "group": "tools_entry", "prob": 10 },
+      { "group": "tools_plumbing", "prob": 20 },
       [ "jumper_cable_heavy", 2 ],
       [ "jerrycan", 10 ],
       [ "jerrycan_big", 10 ],
