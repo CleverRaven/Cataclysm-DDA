@@ -2874,8 +2874,6 @@ void activity_handlers::dig_channel_do_turn( player_activity *act, player *p )
 
 void activity_handlers::dig_finish( player_activity *act, player *p )
 {
-
-
     const ter_id result_terrain( act->str_values[1] );
     const std::string byproducts_item_group = act->str_values[0];
     const int byproducts_count = act->values[0];
@@ -2892,7 +2890,7 @@ void activity_handlers::dig_finish( player_activity *act, player *p )
                 }
             };
 
-            g->summon_mon( random_entry( monids ), pos );
+            g->summon_mon( random_entry( monids ), dump_loc );
             g->m.furn_set( pos, f_coffin_o );
             p->add_msg_if_player( m_warning, _( "Something crawls out of the coffin!" ) );
         } else {
