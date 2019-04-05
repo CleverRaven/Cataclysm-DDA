@@ -547,7 +547,7 @@ void oter_type_t::load( JsonObject &jo, const std::string &src )
             load_overmap_terrain_mapgens( jo, id.str(), elem );
         }
     } else {
-        if( symbol == NULL_UNICODE ) {
+        if( symbol == NULL_UNICODE && !jo.has_string( "abstract" ) ) {
             DebugLog( D_ERROR, D_MAP_GEN ) << "sym is not defined for overmap_terrain: "
                                            << id.c_str() << " (" << name.c_str() << ")";
         }
