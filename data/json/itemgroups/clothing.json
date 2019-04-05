@@ -323,7 +323,29 @@
       [ "bootsheath", 3 ],
       [ "gloves_leather", 40 ],
       [ "gloves_work", 45 ],
+      [ "wearable_light", 10 ],
       [ "miner_hat", 1 ]
+    ]
+  },
+  {
+    "id": "plumbing_clothing",
+    "type": "item_group",
+    "//": "wearable utility or protective gear you can buy in a common hardware store or find on a jobsite",
+    "//2": "Not intended to be a set of clothing for NPCs or monsters",
+    "items": [
+      [ "tool_belt", 200 ],
+      [ "knee_pads", 70 ],
+      [ "gloves_leather", 70 ],
+      [ "gloves_rubber", 50 ],
+      [ "boots_rubber", 20 ],
+      [ "boots", 70 ],
+      [ "boots_steel", 50 ],
+      [ "fishing_waders", 20 ],
+      [ "jumpsuit", 20 ],
+      [ "apron_leather", 20 ],
+      [ "mask_filter", 20 ],
+      [ "hat_hard", 50 ],
+      [ "wearable_light", 100 ]
     ]
   },
   {
