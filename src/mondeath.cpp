@@ -844,3 +844,19 @@ void mdeath::fireball( monster &z )
         normal( z );
     }
 }
+
+
+void mdeath::conflagration( monster &z )
+{
+    for( int x = z.pos().x - 1; x <= z.pos().x + 1; ++x ) {
+        for( int y = z.pos().y - 1; y <= z.pos().y + 1; ++y ) {
+            tripoint fire_tri = tripoint( x, y, z.pos().z );
+            g->m.propagate_field( fire_tri, fd_fire, 18, 3 );
+        }
+    }
+    std::string explode = string_format(
+                              _( "the %s belches sparks and flame erupts from it's stomach!" ),
+                              z.name().c_str() );
+    sounds::sound( z.pos(), 24, sounds::sound_t::combat, explode );
+
+}

@@ -329,6 +329,7 @@ void MonsterGenerator::init_death()
     death_map["GAMEOVER"] = &mdeath::gameover;// Game over!  Defense mode
     death_map["PREG_ROACH"] = &mdeath::preg_roach;// Spawn some cockroach nymphs
     death_map["FIREBALL"] = &mdeath::fireball;// Explode in a fireball
+    death_map["CONFLAGRATION"] = &mdeath::conflagration; // Explode in a huge fireball
 
     /* Currently Unimplemented */
     //death_map["SHRIEK"] = &mdeath::shriek;// Screams loudly
@@ -543,6 +544,7 @@ void MonsterGenerator::init_flags()
     flag_map["NO_BREED"] = MF_NO_BREED;
     flag_map["PET_WONT_FOLLOW"] = MF_PET_WONT_FOLLOW;
     flag_map["DRIPS_NAPALM"] = MF_DRIPS_NAPALM;
+    flag_map["DRIPS_GASOLINE"] = MF_DRIPS_GASOLINE;
     flag_map["ELECTRIC_FIELD"] = MF_ELECTRIC_FIELD;
     flag_map["LOUDMOVES"] = MF_LOUDMOVES;
 }
