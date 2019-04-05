@@ -825,7 +825,7 @@ void player::process_turn()
     }
 
     // Update time spent conscious in this overmap tile for the Nomad traits.
-    if ( !has_effect( effect_sleep ) && !has_effect( effect_narcosis ) ) {
+    if( !has_effect( effect_sleep ) && !has_effect( effect_narcosis ) ) {
         tripoint ompos = global_omt_location();
         ompos.z = 0;
         if( overmap_time.find( ompos ) == overmap_time.end() ) {
@@ -873,28 +873,28 @@ void player::apply_persistent_morale()
         float total_time = 0;
         // Check how long we've stayed in any overmap tile within 5 of us.
         const int max_dist = 5;
-        for (int dx = -max_dist; dx <= max_dist; dx++) {
-            for (int dy = -max_dist; dy <= max_dist; dy++) {
-                const float dist = rl_dist(0, 0, dx, dy);
-                if (dist > max_dist) {
+        for( int dx = -max_dist; dx <= max_dist; dx++ ) {
+            for( int dy = -max_dist; dy <= max_dist; dy++ ) {
+                const float dist = rl_dist( 0, 0, dx, dy );
+                if( dist > max_dist ) {
                     continue;
                 }
-                const tripoint tpt = tripoint(ompos.x + dx, ompos.y + dy, 0);
-                if (overmap_time.find( ompos ) == overmap_time.end()) {
+                const tripoint tpt = tripoint( ompos.x + dx, ompos.y + dy, 0 );
+                if( overmap_time.find( ompos ) == overmap_time.end() ) {
                     continue;
                 }
                 // Count time in own tile fully, tiles one away as 4/5, tiles two away as 3/5, etc.
-                total_time += to_moves<float>(overmap_time[tpt]) * (max_dist - dist) / max_dist;
+                total_time += to_moves<float>( overmap_time[tpt] ) * ( max_dist - dist ) / max_dist;
             }
         }
         // Characters with NOMAD2 suffer worse morale penalties, faster.
         const int max_unhappiness = has_trait( trait_NOMAD2 ) ? 60 : 20;
-        const float min_time = to_moves<float>(has_trait( trait_NOMAD2 ) ? 1_hours : 12_hours);
-        const float max_time = to_moves<float>(has_trait( trait_NOMAD2 ) ? 2_hours : 1_days);
+        const float min_time = to_moves<float>( has_trait( trait_NOMAD2 ) ? 1_hours : 12_hours );
+        const float max_time = to_moves<float>( has_trait( trait_NOMAD2 ) ? 2_hours : 1_days );
         // The penalty starts at 1 at min_time and scales up to max_unhappiness at max_time.
-        const float t = (total_time - min_time) / (max_time - min_time);
-        const int pen = ceil(lerp_clamped(0, max_unhappiness, t));
-        if ( pen > 0 ) {
+        const float t = ( total_time - min_time ) / ( max_time - min_time );
+        const int pen = ceil( lerp_clamped( 0, max_unhappiness, t ) );
+        if( pen > 0 ) {
             add_morale( MORALE_PERM_NOMAD, -pen, -pen, 1_minutes, 1_minutes, true );
         }
     }
