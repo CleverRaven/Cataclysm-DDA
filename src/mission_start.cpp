@@ -1,6 +1,7 @@
 #include "mission.h" // IWYU pragma: associated
 
 #include <cstdio>
+#include <vector>
 
 #include "computer.h"
 #include "coordinate_conversions.h"
@@ -26,6 +27,8 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "trap.h"
+
+class DynamicDataLoader;
 
 const mtype_id mon_charred_nightmare( "mon_charred_nightmare" );
 const mtype_id mon_dog( "mon_dog" );
@@ -1966,6 +1969,42 @@ void mission_start::set_assign_om_target( JsonObject &jo,
     starts.emplace_back( start_func );
 }
 
+bool mission_start::set_update_mapgen( JsonObject &jo,
+                                       std::vector<std::function<void( mission *miss )>> &starts )
+{
+    // this is gross, but jmpagen_npc throws errors instead of deferring, so catch the
+    // potential error and defer it.
+    if( jo.has_array( "place_npcs" ) ) {
+        JsonArray place_npcs = jo.get_array( "place_npcs" );
+        while( place_npcs.has_more() ) {
+            JsonObject placed_npc = place_npcs.next_object();
+            string_id<npc_template> npc_class;
+            npc_class = string_id<npc_template>( placed_npc.get_string( "class" ) );
+            if( !npc_class.is_valid() ) {
+                return false;
+            }
+        }
+    }
+
+    mapgen_update_func update_map = add_mapgen_update_func( jo );
+
+    if( jo.has_string( "om_special" ) && jo.has_string( "om_terrain" ) ) {
+        const std::string om_terrain = jo.get_string( "om_terrain" );
+        const auto start_func = [update_map, om_terrain]( mission * miss ) {
+            tripoint update_pos3 = mission_util::reveal_om_ter( om_terrain, 1, false );
+            update_map( update_pos3, miss );
+        };
+        starts.emplace_back( start_func );
+    } else {
+        const auto start_func = [update_map]( mission * miss ) {
+            tripoint update_pos3 = miss->get_target();
+            update_map( update_pos3, miss );
+        };
+        starts.emplace_back( start_func );
+    }
+    return true;
+}
+
 bool mission_start::load( JsonObject jo,
                           std::vector<std::function<void( mission *miss )>> &starts )
 {
@@ -1979,6 +2018,22 @@ bool mission_start::load( JsonObject jo,
         JsonObject mission_target = jo.get_object( "assign_mission_target" );
         set_assign_om_target( mission_target, starts );
     }
+
+    if( jo.has_object( "update_mapgen" ) ) {
+        JsonObject update_mapgen = jo.get_object( "update_mapgen" );
+        if( !set_update_mapgen( update_mapgen, starts ) ) {
+            return false;
+        }
+    } else if( jo.has_array( "update_mapgen" ) ) {
+        JsonArray mapgen_array = jo.get_array( "update_mapgen" );
+        while( mapgen_array.has_more() ) {
+            JsonObject update_mapgen = mapgen_array.next_object();
+            if( !set_update_mapgen( update_mapgen, starts ) ) {
+                return false;
+            }
+        }
+    }
+
     return true;
 }
 

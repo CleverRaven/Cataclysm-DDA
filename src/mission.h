@@ -167,12 +167,15 @@ struct mission_start {
     static void create_hidden_lab_console( mission * );  // Reveal hidden lab with workstation
     static void create_ice_lab_console( mission * );  // Reveal lab with an unlocked workstation
     static void reveal_lab_train_depot( mission * );  // Find lab train depot
+
     static void set_reveal( const std::string &terrain,
                             std::vector<std::function<void( mission *miss )>> &starts );
     static void set_reveal_any( JsonArray &ja,
                                 std::vector<std::function<void( mission *miss )>> &starts );
     static void set_assign_om_target( JsonObject &jo,
                                       std::vector<std::function<void( mission *miss )>> &starts );
+    static bool set_update_mapgen( JsonObject &jo,
+                                   std::vector<std::function<void( mission *miss )>> &starts );
     static bool load( JsonObject jo, std::vector<std::function<void( mission *miss )>> &starts );
 };
 
@@ -265,7 +268,7 @@ struct mission_type {
 
     static void reset();
     static void load_mission_type( JsonObject &jo, const std::string &src );
-
+    static void finalize();
     static void check_consistency();
 
     bool parse_start( JsonObject &jo );
