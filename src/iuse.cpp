@@ -2696,8 +2696,7 @@ int iuse::dig( player *p, item *it, bool t, const tripoint & )
     }
 
     digging_moves_and_byproducts moves_and_byproducts = dig_pit_moves_and_byproducts( p, it,
-            can_deepen || grave,
-            false );
+            can_deepen, false );
 
     player_activity act( activity_id( "ACT_DIG" ), moves_and_byproducts.moves, -1,
                          p->get_item_position( it ) );
