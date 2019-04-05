@@ -1052,6 +1052,12 @@
   },
   {
     "type": "city_building",
+    "id": "s_liquor",
+    "locations": [ "land" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "s_liquor_north" }, { "point": [ 0, 0, 1 ], "overmap": "s_liquor_roof_north" } ]
+  },
+  {
+    "type": "city_building",
     "id": "bar",
     "locations": [ "land" ],
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "bar_north" }, { "point": [ 0, 0, 1 ], "overmap": "bar_roof_north" } ]

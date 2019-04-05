@@ -721,6 +721,13 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "s_liquor_roof",
+    "name": "liquor store roof",
+    "copy-from": "generic_city_building",
+    "color": "magenta"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "s_gun",
     "name": "gun store",
     "copy-from": "generic_city_building",
