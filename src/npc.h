@@ -669,6 +669,7 @@ class npc : public player
         // Interaction and assessment of the world around us
         float danger_assessment();
         float average_damage_dealt(); // Our guess at how much damage we can deal
+        bool need_heal( const player &n );
         bool bravery_check( int diff );
         bool emergency() const;
         bool emergency( float danger ) const;

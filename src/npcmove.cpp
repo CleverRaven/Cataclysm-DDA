@@ -46,14 +46,15 @@ const skill_id skill_firstaid( "firstaid" );
 const skill_id skill_gun( "gun" );
 const skill_id skill_throw( "throw" );
 
-const efftype_id effect_lying_down( "lying_down" );
-const efftype_id effect_infected( "infected" );
+const efftype_id effect_bandaged( "bandaged" );
 const efftype_id effect_bite( "bite" );
 const efftype_id effect_bleed( "bleed" );
 const efftype_id effect_bouldering( "bouldering" );
 const efftype_id effect_catch_up( "catch_up" );
 const efftype_id effect_hit_by_player( "hit_by_player" );
+const efftype_id effect_infected( "infected" );
 const efftype_id effect_infection( "infection" );
+const efftype_id effect_lying_down( "lying_down" );
 const efftype_id effect_no_sight( "no_sight" );
 const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_onfire( "onfire" );
@@ -1081,13 +1082,32 @@ npc_action npc::method_of_attack()
     return dont_move ? npc_undecided : npc_melee;
 }
 
-bool need_heal( const Character &n )
+bool npc::need_heal( const player &n )
 {
+    // NPCs heal at 50% remaining HP, minus their bravery and skill in first aid
+    // brave NPCs are less worried, skilled NPCs conserve bandages
+    int threshold = 50 + personality.bravery - get_skill_level( skill_firstaid );
+    // altruist NPCs hold off on healing themselves and heal allies earlier
+    if( n.getID() == getID() ) {
+        threshold -= personality.altruism;
+    } else {
+        threshold += personality.altruism;
+    }
+
     for( int i = 0; i < num_hp_parts; i++ ) {
         hp_part part = hp_part( i );
-        if( ( part == hp_head  && n.hp_cur[i] <= 35 ) ||
-            ( part == hp_torso && n.hp_cur[i] <= 25 ) ||
-            n.hp_cur[i] <= 15 ) {
+        int part_threshold = threshold;
+        if( part == hp_head ) {
+            part_threshold += 20;
+        } else if( part == hp_torso ) {
+            part_threshold += 10;
+        }
+        part_threshold = std::min( 80, part_threshold );
+        part_threshold = part_threshold * n.hp_max[i] / 100;
+        const body_part bp_wounded = hp_to_bp( part );
+
+        // NPCs don't reapply bandages
+        if( ( n.hp_cur[i] <= part_threshold ) && !n.has_effect( effect_bandaged, bp_wounded ) ) {
             return true;
         }
     }
@@ -2742,8 +2762,9 @@ void npc::heal_self()
     }
 
     if( g->u.sees( *this ) ) {
-        add_msg( _( "%s applies a %s" ), name.c_str(), used.tname().c_str() );
+        add_msg( _( "%s applies a %s" ), name.c_str(), used.tname() );
     }
+    warn_about( "heal_self", 1_turns );
 
     long charges_used = used.type->invoke( *this, used, pos(), "heal" );
     if( used.is_medication() ) {
@@ -3301,6 +3322,8 @@ void npc::warn_about( const std::string &type, const time_duration &d, const std
         snip = "<combat_noise_warning>";
     } else if( type == "movement_noise" ) {
         snip = "<movement_noise_warning>";
+    } else if( type == "heal_self" ) {
+        snip = "<heal_self>";
     } else {
         return;
     }

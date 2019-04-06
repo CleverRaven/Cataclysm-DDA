@@ -745,6 +745,19 @@
   },
   {
     "type": "snippet",
+    "category": "<heal_self>",
+    "text": [
+      "I think I need to see a doctor.  I'm patching myself up.",
+      "Please, I don't want to die.  Let these bandages work!",
+      "Hold up, I need to apply these.",
+      "That cut looks bad, I'm going to fix it.",
+      "I hope these bandages work.",
+      "I think I need to see a doctor.  They're all dead, I hope these work.",
+      "Please, I don't want to die.  C'mon, bandages!"
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "<speech_warning>",
     "text": [ "Quiet down over there!", "Did you hear someone talking?", "Who said that?", "Who's there?" ]
   },
