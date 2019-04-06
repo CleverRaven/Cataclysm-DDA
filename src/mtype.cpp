@@ -48,9 +48,10 @@ mtype::mtype()
     harvest = harvest_id::NULL_ID();
     luminance = 0;
     bash_skill = 0;
-    flags.insert( MF_HUMAN );
-    flags.insert( MF_BONES );
-    flags.insert( MF_LEATHER );
+
+    set_flag( MF_HUMAN, true );
+    set_flag( MF_BONES, true );
+    set_flag( MF_LEATHER, true );
 }
 
 std::string mtype::nname( unsigned int quantity ) const
@@ -71,6 +72,15 @@ bool mtype::has_flag( m_flag flag ) const
 bool mtype::has_flag( const std::string &flag ) const
 {
     return has_flag( MonsterGenerator::generator().m_flag_from_string( flag ) );
+}
+
+void mtype::set_flag( m_flag flag, bool state )
+{
+    if( state ) {
+        flags.insert( flag );
+    } else {
+        flags.erase( flag );
+    }
 }
 
 void mtype::set_flag( const std::string &flag, bool state )
