@@ -47,6 +47,7 @@
  */
 static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_muscle( "muscle" );
+static const itype_id fuel_type_wind( "wind" );
 static const itype_id fuel_type_plutonium_cell( "plut_cell" );
 static const std::string part_location_structure( "structure" );
 static const std::string part_location_center( "center" );
@@ -702,7 +703,6 @@ const vpart_info &vehicle::part_info( int index, bool include_removed ) const
 int vehicle::part_vpower_w( const int index, const bool at_full_hp ) const
 {
     const vehicle_part &vp = parts[ index ];
-
     int pwr = vp.info().power;
     if( part_flag( index, VPFLAG_ENGINE ) ) {
         if( pwr == 0 ) {
@@ -710,6 +710,24 @@ int vehicle::part_vpower_w( const int index, const bool at_full_hp ) const
         }
         ///\EFFECT_STR increases power produced for MUSCLE_* vehicles
         pwr += ( g->u.str_cur - 8 ) * part_info( index ).engine_muscle_power_factor();
+        /// wind-powered vehicles have differing power depending on wind direction
+        if( vp.info().fuel_type == fuel_type_wind ) {
+            int windpower = g->windspeed;
+            rl_vec2d windvec;
+            double raddir = ( ( g->winddirection + 180 ) % 360 ) * ( M_PI / 180 );
+            windvec = windvec.normalized();
+            windvec.y = -cos( raddir );
+            windvec.x = sin( raddir );
+            rl_vec2d fv = face_vec();
+            double dot = windvec.dot_product( fv );
+            if( dot <= 0 ) {
+                dot = std::min( -0.1, dot );
+            } else {
+                dot = std::max( 0.1, dot );
+            }
+            int windeffectint = static_cast<int>( ( windpower * dot ) * 200 );
+            pwr = std::max( 1, pwr + windeffectint );
+        }
     }
 
     if( pwr < 0 ) {
@@ -3256,6 +3274,7 @@ struct drag_column {
     int turret = minrow;
     int panel = minrow;
     int windmill = minrow;
+    int sail = minrow;
     int last = maxrow;
 };
 
@@ -3271,6 +3290,7 @@ double vehicle::coeff_air_drag() const
     constexpr double fullboard_height = 0.5;
     constexpr double roof_height = 0.1;
     constexpr double windmill_height = 0.7;
+    constexpr double sail_height = 0.8;
 
     std::vector<int> structure_indices = all_parts_at_location( part_location_structure );
     int width = mount_max.y - mount_min.y + 1;
@@ -3325,6 +3345,7 @@ double vehicle::coeff_air_drag() const
             d_check_max( drag[ col ].roof, pa, pa.info().has_flag( "ROOF" ) );
             d_check_max( drag[ col ].panel, pa, pa.info().has_flag( "SOLAR_PANEL" ) );
             d_check_max( drag[ col ].windmill, pa, pa.info().has_flag( "WIND_TURBINE" ) );
+            d_check_max( drag[ col ].sail, pa, pa.info().has_flag( "WIND_POWERED" ) );
             d_check_max( drag[ col ].exposed, pa, d_exposed( pa ) );
             d_check_min( drag[ col ].last, pa, pa.info().has_flag( "LOW_FINAL_AIR_DRAG" ) ||
                          pa.info().has_flag( "HALF_BOARD" ) );
@@ -3356,6 +3377,8 @@ double vehicle::coeff_air_drag() const
         c_air_drag_c += ( dc.turret > minrow ) ? 3 * c_air_mod : 0;
         // having a windmill is terrible for your drag
         c_air_drag_c += ( dc.windmill > minrow ) ? 5 * c_air_mod : 0;
+        // having a sail is terrible for your drag
+        c_air_drag_c += ( dc.sail > minrow ) ? 7 * c_air_mod : 0;
         c_air_drag += c_air_drag_c;
         // vehicles are 1.4m tall
         double c_height = base_height;
@@ -3371,6 +3394,8 @@ double vehicle::coeff_air_drag() const
         c_height += ( dc.panel > minrow ) ? roof_height : 0;
         // windmills are tall, too
         c_height += ( dc.windmill > minrow ) ? windmill_height : 0;
+        // sails are tall, too
+        c_height += ( dc.sail > minrow ) ? sail_height : 0;
         height += c_height;
     }
     constexpr double air_density = 1.29; // kg/m^3
@@ -4496,6 +4521,7 @@ void vehicle::refresh()
     reactors.clear();
     solar_panels.clear();
     wind_turbines.clear();
+    sails.clear();
     water_wheels.clear();
     funnels.clear();
     heaters.clear();
@@ -4562,6 +4588,9 @@ void vehicle::refresh()
         }
         if( vpi.has_flag( "WIND_TURBINE" ) ) {
             wind_turbines.push_back( p );
+        }
+        if( vpi.has_flag( "WIND_POWERED" ) ) {
+            sails.push_back( p );
         }
         if( vpi.has_flag( "WATER_WHEEL" ) ) {
             water_wheels.push_back( p );
