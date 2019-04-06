@@ -211,7 +211,7 @@ void stomach_contents::ingest( player &p, item &food, int charges = 1 )
     if( comest_t->quench < 0 ) {
         p.mod_thirst( -comest_t->quench );
     } else {
-        mod_quench( -comest_t->quench );
+        mod_quench( comest_t->quench );
     }
     // @TODO: Move quench values to mL and remove the magic number here
     mod_contents( ( comest.volume() * charges / comest.charges ) - add_water );
