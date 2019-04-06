@@ -276,5 +276,29 @@
     "type": "overmap_terrain",
     "id": "ws_regional_dump_3_3",
     "copy-from": "generic_regional_dump"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "smallscrapyard",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "small scrap yard",
+    "sym": "s",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cs_open_sewer",
+    "copy-from": "generic_city_building",
+    "name": "open sewer",
+    "sym": "s",
+    "color": "i_light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cs_city_dump_small",
+    "copy-from": "generic_city_building",
+    "name": "small dump",
+    "sym": "d",
+    "color": "i_brown"
   }
 ]

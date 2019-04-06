@@ -1430,5 +1430,109 @@
     "name": "tire shop",
     "sym": "O",
     "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "headshop",
+    "copy-from": "generic_city_building",
+    "name": "Head Shop",
+    "sym": "0",
+    "color": "i_white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "abstorefront",
+    "name": "abandoned storefront",
+    "copy-from": "generic_city_building",
+    "color": "h_dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "abstorefront_roof",
+    "name": "abandoned storefront roof",
+    "copy-from": "generic_city_building",
+    "color": "h_dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "abstorefront_1",
+    "name": "abandoned storefront",
+    "copy-from": "generic_city_building",
+    "color": "h_dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "abstorefront_roof_1",
+    "name": "abandoned storefront roof",
+    "copy-from": "generic_city_building",
+    "color": "h_dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "abstorefront_2",
+    "name": "abandoned storefront",
+    "copy-from": "generic_city_building",
+    "color": "h_dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "abstorefront_roof_2",
+    "name": "abandoned storefront roof",
+    "copy-from": "generic_city_building",
+    "color": "h_dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "station_radio",
+    "copy-from": "generic_city_building",
+    "name": "radio station",
+    "sym": "X",
+    "color": "i_light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cs_gardening_allotment",
+    "copy-from": "generic_city_building",
+    "name": "gardening allotment",
+    "sym": "a",
+    "color": "brown_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "animalpound",
+    "name": "animal pound",
+    "copy-from": "generic_city_building",
+    "sym": "T",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "animalpound_roof",
+    "name": "animal pound roof",
+    "copy-from": "generic_city_building",
+    "sym": "T",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "animalshelter",
+    "name": "animal shelter",
+    "copy-from": "generic_city_building",
+    "color": "i_pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "animalshelter_roof",
+    "name": "animal shelter roof",
+    "copy-from": "generic_city_building",
+    "color": "i_pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "emptycommerciallot",
+    "copy-from": "generic_city_building",
+    "name": "empty commercial lot",
+    "sym": "O",
+    "color": "i_light_gray"
   }
 ]

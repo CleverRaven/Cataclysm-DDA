@@ -870,5 +870,20 @@
     "name": "private park",
     "sym": "p",
     "color": "light_green_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cs_public_art_piece",
+    "copy-from": "generic_city_building",
+    "name": "public art piece",
+    "sym": "a",
+    "color": "i_white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cs_public_space",
+    "copy-from": "generic_city_building",
+    "name": "public space",
+    "color": "i_white"
   }
 ]

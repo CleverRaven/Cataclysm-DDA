@@ -293,5 +293,55 @@
     "type": "overmap_terrain",
     "id": "apartments_mod_tower_003",
     "copy-from": "apartments_tower_any"
+  },
+
+  {
+    "type": "overmap_terrain",
+    "id": "homelesscamp",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "homeless camp",
+    "sym": "H",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "trailerparksmall0",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "trailer park",
+    "sym": "#",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "trailerparksmall1",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "trailer park",
+    "sym": "#",
+    "color": "i_white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "trailerparksmall2",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "trailer park",
+    "sym": "#",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "emptyresidentiallot",
+    "copy-from": "generic_city_building",
+    "name": "empty residential lot",
+    "sym": "O",
+    "color": "i_green"
+  },
+  {
+    "id": "derelict_property",
+    "type": "overmap_terrain",
+    "copy-from": "generic_city_building",
+    "name": "derelict property",
+    "sym": "X",
+    "color": "i_brown",
+    "extras": "field"
   }
 ]

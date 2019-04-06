@@ -41,17 +41,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "sub_station",
-    "name": "subway station",
-    "sym": "S",
-    "color": "yellow",
-    "see_cost": 5,
-    "extras": "build",
-    "mondensity": 2,
-    "flags": [ "KNOWN_DOWN", "SIDEWALK" ]
-  },
-  {
-    "type": "overmap_terrain",
     "id": "s_garage",
     "copy-from": "generic_city_building",
     "name": "garage",
@@ -98,48 +87,6 @@
     "see_cost": 5,
     "extras": "field",
     "flags": [ "NO_ROTATE" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "abstorefront",
-    "name": "abandoned storefront",
-    "copy-from": "generic_city_building",
-    "color": "h_dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "abstorefront_roof",
-    "name": "abandoned storefront roof",
-    "copy-from": "generic_city_building",
-    "color": "h_dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "abstorefront_1",
-    "name": "abandoned storefront",
-    "copy-from": "generic_city_building",
-    "color": "h_dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "abstorefront_roof_1",
-    "name": "abandoned storefront roof",
-    "copy-from": "generic_city_building",
-    "color": "h_dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "abstorefront_2",
-    "name": "abandoned storefront",
-    "copy-from": "generic_city_building",
-    "color": "h_dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "abstorefront_roof_2",
-    "name": "abandoned storefront roof",
-    "copy-from": "generic_city_building",
-    "color": "h_dark_gray"
   },
   {
     "type": "overmap_terrain",
@@ -252,14 +199,6 @@
     "see_cost": 5,
     "extras": "build",
     "flags": [ "NO_ROTATE" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "station_radio",
-    "copy-from": "generic_city_building",
-    "name": "radio station",
-    "sym": "X",
-    "color": "i_light_gray"
   },
   {
     "type": "overmap_terrain",
@@ -396,40 +335,6 @@
     "color": "light_gray",
     "see_cost": 2,
     "flags": [ "NO_ROTATE" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "sewer_sub_station",
-    "name": "subway station (sewer level)",
-    "sym": "S",
-    "color": "yellow",
-    "see_cost": 5,
-    "extras": "subway",
-    "flags": [ "KNOWN_UP", "KNOWN_DOWN", "NO_ROTATE" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "underground_sub_station",
-    "name": "subway station (underground level)",
-    "sym": "S",
-    "color": "yellow",
-    "see_cost": 5,
-    "extras": "subway",
-    "flags": [ "KNOWN_UP", "NO_ROTATE" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "subway",
-    "name": "subway",
-    "color": "dark_gray",
-    "see_cost": 5,
-    "extras": "subway",
-    "mapgen_straight": [ { "method": "builtin", "name": "subway_straight" } ],
-    "mapgen_curved": [ { "method": "builtin", "name": "subway_curved" } ],
-    "mapgen_end": [ { "method": "builtin", "name": "subway_end" } ],
-    "mapgen_tee": [ { "method": "builtin", "name": "subway_tee" } ],
-    "mapgen_four_way": [ { "method": "builtin", "name": "subway_four_way" } ],
-    "flags": [ "LINEAR" ]
   },
   {
     "type": "overmap_terrain",
@@ -593,15 +498,6 @@
     "flags": [ "NO_ROTATE" ]
   },
   {
-    "id": "derelict_property",
-    "type": "overmap_terrain",
-    "copy-from": "generic_city_building",
-    "name": "derelict property",
-    "sym": "X",
-    "color": "i_brown",
-    "extras": "field"
-  },
-  {
     "type": "overmap_terrain",
     "id": "campground_1a",
     "name": "campground",
@@ -651,22 +547,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "emptycommerciallot",
-    "copy-from": "generic_city_building",
-    "name": "empty commercial lot",
-    "sym": "O",
-    "color": "i_light_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "emptyresidentiallot",
-    "copy-from": "generic_city_building",
-    "name": "empty residential lot",
-    "sym": "O",
-    "color": "i_green"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "bandit_garage_1",
     "name": "forest",
     "sym": "F",
@@ -687,144 +567,10 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "s_reststop_1",
-    "copy-from": "generic_city_building",
-    "name": "rest area",
-    "sym": "#",
-    "color": "blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_reststop_2",
-    "copy-from": "generic_city_building",
-    "name": "rest area",
-    "sym": "#",
-    "color": "blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_restparking_1",
-    "copy-from": "generic_city_building",
-    "name": "rest area parking",
-    "sym": "+",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_restparking_2",
-    "copy-from": "generic_city_building",
-    "name": "rest area parking",
-    "sym": "+",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "headshop",
-    "copy-from": "generic_city_building",
-    "name": "Head Shop",
-    "sym": "0",
-    "color": "i_white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "homelesscamp",
-    "copy-from": "generic_city_building_no_sidewalk",
-    "name": "homeless camp",
-    "sym": "H",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "smallscrapyard",
-    "copy-from": "generic_city_building_no_sidewalk",
-    "name": "small scrap yard",
-    "sym": "s",
-    "color": "red"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "trailerparksmall0",
-    "copy-from": "generic_city_building_no_sidewalk",
-    "name": "trailer park",
-    "sym": "#",
-    "color": "white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "trailerparksmall1",
-    "copy-from": "generic_city_building_no_sidewalk",
-    "name": "trailer park",
-    "sym": "#",
-    "color": "i_white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "trailerparksmall2",
-    "copy-from": "generic_city_building_no_sidewalk",
-    "name": "trailer park",
-    "sym": "#",
-    "color": "white"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "mass_grave",
     "name": "mass grave",
     "sym": "X",
     "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "animalpound",
-    "name": "animal pound",
-    "copy-from": "generic_city_building",
-    "sym": "T",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "animalpound_roof",
-    "name": "animal pound roof",
-    "copy-from": "generic_city_building",
-    "sym": "T",
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "animalshelter",
-    "name": "animal shelter",
-    "copy-from": "generic_city_building",
-    "color": "i_pink"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "animalshelter_roof",
-    "name": "animal shelter roof",
-    "copy-from": "generic_city_building",
-    "color": "i_pink"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "cs_gardening_allotment",
-    "copy-from": "generic_city_building",
-    "name": "gardening allotment",
-    "sym": "a",
-    "color": "brown_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "cs_open_sewer",
-    "copy-from": "generic_city_building",
-    "name": "open sewer",
-    "sym": "s",
-    "color": "i_light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "cs_city_dump_small",
-    "copy-from": "generic_city_building",
-    "name": "small dump",
-    "sym": "d",
-    "color": "i_brown"
   },
   {
     "type": "overmap_terrain",
@@ -898,19 +644,4 @@
     "sym": "c",
     "color": "brown"
   },
-  {
-    "type": "overmap_terrain",
-    "id": "cs_public_art_piece",
-    "copy-from": "generic_city_building",
-    "name": "public art piece",
-    "sym": "a",
-    "color": "i_white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "cs_public_space",
-    "copy-from": "generic_city_building",
-    "name": "public space",
-    "color": "i_white"
-  }
 ]
