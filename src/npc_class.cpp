@@ -367,6 +367,11 @@ distribution::distribution()
     };
 }
 
+distribution::distribution( const distribution &d )
+{
+    generator_function = d.generator_function;
+}
+
 distribution::distribution( std::function<float()> gen )
 {
     generator_function = gen;
