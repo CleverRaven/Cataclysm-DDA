@@ -15,7 +15,6 @@ data/json/vehicles/military.json
 data/json/vehicles/trucks.json
 data/json/vehicles/utility.json
 data/json/vehicles/vans_busses.json
-data/mods/Animatronics/animatronics.json
 data/mods/BrightNights/effects.json
 data/mods/BrightNights/item groups/locations.json
 data/mods/BrightNights/item_groups.json
