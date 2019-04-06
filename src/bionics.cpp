@@ -1600,8 +1600,12 @@ void bionic::deserialize( JsonIn &jsin )
     invlet = jo.get_int( "invlet" );
     powered = jo.get_bool( "powered" );
     charge = jo.get_int( "charge" );
-    ammo_loaded = jo.get_string( "ammo_loaded" );
-    ammo_count = jo.get_int( "ammo_count" );
+    if( jo.has_string( "ammo_loaded" ) ) {
+        ammo_loaded = jo.get_string( "ammo_loaded" );
+    }
+    if( jo.has_int( "ammo_count" ) ) {
+        ammo_count = jo.get_int( "ammo_count" );
+    }
 }
 
 void player::introduce_into_anesthesia( const time_duration &duration, player &installer,
