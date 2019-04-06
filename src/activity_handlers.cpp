@@ -2638,8 +2638,14 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
         return;
     }
     if( !p->has_item( *craft ) ) {
-        p->add_msg_if_player( "%s no longer has the target '%s.'  Aborting ACT_CRAFT.",
-                              p->disp_name(), craft->tname() );
+        p->add_msg_player_or_npc(
+            string_format(
+                _( "You no longer have the %1$s in your possession.  You stop crafting.  Reactivate the %1$s to continue crafting." ),
+                craft->tname() ),
+            string_format(
+                _( "<npcname> no longer has the %s in their possession.  <npcname> stops crafting." ),
+                craft->tname() )
+        );
         p->cancel_activity();
         return;
     }
