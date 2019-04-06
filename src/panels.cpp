@@ -1911,7 +1911,7 @@ void panel_manager::deserialize( JsonIn &jsin )
                     if( it->get_name() != name ) {
                         window_panel panel = *it2;
                         layout.erase( it2 );
-                        layout.insert( it, panel );
+                        it = layout.insert( it, panel );
                     }
                     it->toggle = joPanel.get_bool( "toggle" );
                     ++it;
