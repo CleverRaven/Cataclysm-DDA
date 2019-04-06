@@ -851,7 +851,7 @@ void mdeath::conflagration( monster &z )
     for( const auto &dest : g->m.points_in_radius( z.pos(), 1 ) ) {
         g->m.propagate_field( dest, fd_fire, 18, 3 );
     }
-    const std::string explode = string_format( _( "a %s explode!" ), z.name().c_str() );
+    const std::string explode = string_format( _( "a %s explode!" ), z.name() );
     sounds::sound( z.pos(), 24, sounds::sound_t::combat, explode );
 
 }
