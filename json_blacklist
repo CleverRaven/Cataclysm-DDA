@@ -914,10 +914,6 @@ data/mods/Tanks/recipes.json
 data/mods/Tanks/vehicle_groups.json
 data/mods/Tanks/vehicles.json
 data/mods/bio_mod/modinfo.json
-data/mods/blazemod/blaze_ammo_recipes.json
-data/mods/blazemod/blaze_autoweapons_parts.json
-data/mods/blazemod/blaze_blob.json
-data/mods/blazemod/blaze_blob_parts.json
 data/mods/blazemod/blaze_blob_recipes.json
 data/mods/blazemod/blaze_other_parts.json
 data/mods/blazemod/blaze_other_recipes.json
