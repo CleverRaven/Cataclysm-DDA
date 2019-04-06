@@ -2892,7 +2892,7 @@ int vehicle::basic_consumption( const itype_id &ftype ) const
 int vehicle::consumption_per_hour( const itype_id &ftype, int fuel_rate_w ) const
 {
     item fuel = item( ftype );
-    if( fuel_rate_w == 0 || fuel.has_flag( "PERPETUAL" ) || !( engine_on ) ) {
+    if( fuel_rate_w == 0 || fuel.has_flag( "PERPETUAL" ) || !engine_on ) {
         return 0;
     }
     // consume this fuel type's share of alternator load for 3600 seconds
