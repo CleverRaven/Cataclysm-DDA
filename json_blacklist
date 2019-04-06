@@ -27,15 +27,6 @@ data/mods/BrightNights/vehicles/cars.json
 data/mods/Craft_Gunpowder/cgp_ranged.json
 data/mods/Craft_Gunpowder/cgp_recipes.json
 data/mods/DeoxyMod/Deoxy_vehicle_parts.json
-data/mods/Medieval_Stuff/item_groups.json
-data/mods/Medieval_Stuff/martialarts.json
-data/mods/Medieval_Stuff/mutations.json
-data/mods/Medieval_Stuff/professions.json
-data/mods/Medieval_Stuff/recipe_ammo.json
-data/mods/Medieval_Stuff/recipe_armor.json
-data/mods/Medieval_Stuff/recipe_shields.json
-data/mods/Medieval_Stuff/recipe_weapons.json
-data/mods/Medieval_Stuff/techniques.json
 data/mods/More_Buildings/json/baseballfield_a1.json
 data/mods/More_Buildings/json/baseballfield_a2.json
 data/mods/More_Buildings/json/baseballfield_b1.json
