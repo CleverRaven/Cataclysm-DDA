@@ -1,0 +1,297 @@
+[
+  {
+    "type": "overmap_terrain",
+    "abstract": "generic_city_house_basement",
+    "name": "basement",
+    "sym": "O",
+    "color": "dark_gray",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "flags": [ "KNOWN_UP", "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "basement",
+    "copy-from": "generic_city_house_basement",
+    "mapgen": [ { "method": "builtin", "name": "basement_junk" }, { "method": "builtin", "name": "basement_spiders" } ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "basement_bionic",
+    "copy-from": "generic_city_house_basement"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "basement_hidden_lab_stairs",
+    "copy-from": "generic_city_house_basement"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "house",
+    "copy-from": "generic_residential_medium",
+    "name": "house",
+    "sym": "^",
+    "color": "light_green",
+    "see_cost": 2,
+    "extras": "build",
+    "mondensity": 2,
+    "mapgen": [
+      { "method": "builtin", "name": "house_generic_boxy" },
+      { "method": "builtin", "name": "house_generic_big_livingroom" },
+      { "method": "builtin", "name": "house_generic_center_hallway" }
+    ],
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "house_prepper",
+    "copy-from": "generic_city_building",
+    "name": "house",
+    "color": "light_green",
+    "see_cost": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "house_base",
+    "copy-from": "house",
+    "mapgen": [
+      { "method": "builtin", "name": "house_generic_boxy" },
+      { "method": "builtin", "name": "house_generic_big_livingroom" },
+      { "method": "builtin", "name": "house_generic_center_hallway" }
+    ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "duplex",
+    "name": "duplex",
+    "copy-from": "generic_city_building",
+    "color": "light_green",
+    "see_cost": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "rural_house",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "rural house",
+    "sym": "#",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "abstract": "apartments_tower_any",
+    "name": "apartment tower",
+    "sym": "A",
+    "color": "light_green",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_con_tower_NW",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_con_tower_NE",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_con_tower_SW",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_con_tower_SE",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_mod_tower_NW",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_mod_tower_NE",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_mod_tower_SW",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_mod_tower_SE",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_con_tower_110",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_con_tower_010",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_con_tower_100",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_con_tower_000",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_con_tower_111",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_con_tower_011",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_con_tower_101",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_con_tower_001",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_con_tower_113",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_con_tower_013",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_con_tower_112",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_con_tower_012",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_con_tower_102",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_con_tower_002",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_con_tower_114",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_con_tower_014",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_con_tower_015",
+    "name": "open air",
+    "sym": ".",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_con_tower_104",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_con_tower_004",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_mod_tower_110",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_mod_tower_010",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_mod_tower_100",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_mod_tower_000",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_mod_tower_111",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_mod_tower_011",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_mod_tower_101",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_mod_tower_001",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_mod_tower_112",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_mod_tower_012",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_mod_tower_113",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_mod_tower_013",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_mod_tower_103",
+    "copy-from": "apartments_tower_any"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartments_mod_tower_003",
+    "copy-from": "apartments_tower_any"
+  }
+]
