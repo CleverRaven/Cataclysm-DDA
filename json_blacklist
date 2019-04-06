@@ -47,10 +47,6 @@ data/mods/More_Buildings/json/storageunits_2.json
 data/mods/More_Buildings/json/storageunits_3.json
 data/mods/More_Buildings/json/storageunits_small_1.json
 data/mods/More_Buildings/json/storageunits_small_2.json
-data/mods/More_Buildings/json/vfw.json
-data/mods/More_Buildings/modinfo.json
-data/mods/More_Buildings/overmap_specials.json
-data/mods/More_Buildings/overmap_terrain.json
 data/mods/More_Locations/bandit_tower/bandit_tower_1blc_01.json
 data/mods/More_Locations/bandit_tower/bandit_tower_1blc_02.json
 data/mods/More_Locations/bandit_tower/bandit_tower_1blc_03.json
@@ -139,14 +135,6 @@ data/mods/More_Locations/bandit_tower/bandit_tower_ublc_01.json
 data/mods/More_Locations/bandit_tower/bandit_tower_ubrc_01.json
 data/mods/More_Locations/bandit_tower/bandit_tower_utlc_01.json
 data/mods/More_Locations/bandit_tower/bandit_tower_utrc_01.json
-data/mods/More_Locations/bandit_tower/overmap_specials.json
-data/mods/More_Locations/bandit_tower/overmap_terrain.json
-data/mods/More_Locations/captive_faction/NC_CAPTIVE.json
-data/mods/More_Locations/captive_faction/NC_MUTANT_CAPTIVE.json
-data/mods/More_Locations/captive_faction/TALK_CAPTIVE.json
-data/mods/More_Locations/captive_faction/captive_classes.json
-data/mods/More_Locations/captive_faction/captive_item_groups.json
-data/mods/More_Locations/captive_faction/captive_npc.json
 data/mods/More_Locations/estate/estate_1be_00.json
 data/mods/More_Locations/estate/estate_1be_01.json
 data/mods/More_Locations/estate/estate_1be_02.json
