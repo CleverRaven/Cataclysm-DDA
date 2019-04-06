@@ -1965,7 +1965,9 @@ int Character::get_thirst() const
 
 std::pair<std::string, nc_color> Character::get_thirst_description() const
 {
-    int thirst = get_thirst();
+    // some delay from water in stomach is desired, but there needs to be some visceral response
+    int thirst = get_thirst() - ( std::max( units::to_milliliter<int>( g->u.stomach.get_water() ) / 5 -
+                                            100, 0 ) );
     std::string hydration_string;
     nc_color hydration_color = c_white;
     if( thirst > 520 ) {
