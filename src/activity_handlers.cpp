@@ -2878,8 +2878,40 @@ void activity_handlers::dig_finish( player_activity *act, player *p )
     const std::string byproducts_item_group = act->str_values[0];
     const int byproducts_count = act->values[0];
     const tripoint dump_loc = act->coords[0];
+    const tripoint &pos = act->placement;
+    const bool grave = g->m.ter( pos ) == t_grave;
 
-    g->m.ter_set( act->placement, result_terrain );
+    if( grave ) {
+        if( one_in( 10 ) ) {
+            static const std::array<mtype_id, 5> monids = { {
+                    mtype_id( "mon_zombie" ), mtype_id( "mon_zombie_fat" ),
+                    mtype_id( "mon_zombie_rot" ), mtype_id( "mon_skeleton" ),
+                    mtype_id( "mon_zombie_crawler" )
+                }
+            };
+
+            g->summon_mon( random_entry( monids ), dump_loc );
+            g->m.furn_set( pos, f_coffin_o );
+            p->add_msg_if_player( m_warning, _( "Something crawls out of the coffin!" ) );
+        } else {
+            g->m.spawn_item( pos, "bone_human", rng( 5, 15 ) );
+            g->m.furn_set( pos, f_coffin_c );
+        }
+        std::vector<item *> dropped;
+        g->m.place_items( "grave", 25, pos, pos, false, calendar::turn );
+        g->m.place_items( "jewelry_front", 20, pos, pos, false, calendar::turn );
+        dropped = g->m.place_items( "allclothes", 50, pos, pos, false, calendar::turn );
+        for( const auto &it : dropped ) {
+            if( it->is_armor() ) {
+                it->item_tags.insert( "FILTHY" );
+                it->set_damage( rng( 1, it->max_damage() - 1 ) );
+            }
+        }
+        g->u.add_memorial_log( pgettext( "memorial_male", "Exhumed a grave." ),
+                               pgettext( "memorial_female", "Exhumed a grave." ) );
+    }
+
+    g->m.ter_set( pos, result_terrain );
 
     for( int i = 0; i < byproducts_count; i++ ) {
         g->m.spawn_items( dump_loc, item_group::items_from( byproducts_item_group, calendar::turn ) );
@@ -2890,8 +2922,12 @@ void activity_handlers::dig_finish( player_activity *act, player *p )
     p->mod_hunger( 5 - helpersize );
     p->mod_thirst( 5 - helpersize );
     p->mod_fatigue( 10 - ( helpersize * 2 ) );
-    p->add_msg_if_player( m_good, _( "You finish digging the %s." ),
-                          g->m.ter( act->placement ).obj().name() );
+    if( grave ) {
+        p->add_msg_if_player( m_good, _( "You finish exhuming a grave." ) );
+    } else {
+        p->add_msg_if_player( m_good, _( "You finish digging the %s." ),
+                              g->m.ter( act->placement ).obj().name() );
+    }
 
     act->set_to_null();
 }

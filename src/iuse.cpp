@@ -2638,12 +2638,17 @@ int iuse::dig( player *p, item *it, bool t, const tripoint & )
             _( "You can't dig a pit in this location.  Ensure it is clear diggable ground with no items or obstacles." ) );
         return 0;
     }
-
     const bool can_deepen = g->m.has_flag( "DIGGABLE_CAN_DEEPEN", dig_point );
+    const bool grave = g->m.ter( dig_point ) == t_grave;
 
-    if( can_deepen && !p->crafting_inventory().has_quality( DIG, 2 ) ) {
-        p->add_msg_if_player( _( "You can't deepen this pit without a proper shovel." ) );
-        return 0;
+    if( !p->crafting_inventory().has_quality( DIG, 2 ) ) {
+        if( can_deepen ) {
+            p->add_msg_if_player( _( "You can't deepen this pit without a proper shovel." ) );
+            return 0;
+        } else if( grave ) {
+            p->add_msg_if_player( _( "You can't exhume a grave without a proper shovel." ) );
+            return 0;
+        }
     }
 
     const std::function<bool( tripoint )> f = []( tripoint p ) {
@@ -2663,14 +2668,35 @@ int iuse::dig( player *p, item *it, bool t, const tripoint & )
         return 0;
     }
 
+    if( grave ) {
+        if( g->u.has_trait_flag( "SPIRITUAL" ) && !g->u.has_trait_flag( "PSYCHOPATH" ) &&
+            g->u.query_yn( _( "Would you really touch the sacred resting place of the dead?" ) ) ) {
+            add_msg( m_info, _( "Exhuming a grave is really against your beliefs." ) );
+            g->u.add_morale( MORALE_GRAVEDIGGER, -50, -100, 48_hours, 12_hours );
+            if( one_in( 3 ) ) {
+                g->u.vomit();
+            }
+        } else if( g->u.has_trait_flag( "PSYCHOPATH" ) ) {
+            p->add_msg_if_player( m_good,
+                                  _( "Exhuming a grave is fun now, where there is no one to object." ) );
+            p->add_morale( MORALE_GRAVEDIGGER, 25, 50, 2_hours, 1_hours );
+        } else if( !g->u.has_trait_flag( "EATDEAD" ) && !g->u.has_trait_flag( "SAPROVORE" ) ) {
+            p->add_msg_if_player( m_bad, _( "Exhuming this grave is utterly disgusting!" ) );
+            p->add_morale( MORALE_GRAVEDIGGER, -25, -50, 2_hours, 1_hours );
+            if( one_in( 5 ) ) {
+                p->vomit();
+            }
+        }
+    }
+
     const std::vector<npc *> helpers = g->u.get_crafting_helpers();
     for( const npc *np : helpers ) {
         add_msg( m_info, _( "%s helps with this task..." ), np->name.c_str() );
         break;
     }
 
-    digging_moves_and_byproducts moves_and_byproducts = dig_pit_moves_and_byproducts( p, it, can_deepen,
-            false );
+    digging_moves_and_byproducts moves_and_byproducts = dig_pit_moves_and_byproducts( p, it,
+            can_deepen, false );
 
     player_activity act( activity_id( "ACT_DIG" ), moves_and_byproducts.moves, -1,
                          p->get_item_position( it ) );
