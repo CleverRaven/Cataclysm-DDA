@@ -31,15 +31,6 @@ data/mods/BrightNights/vehicles/cars.json
 data/mods/Craft_Gunpowder/cgp_ranged.json
 data/mods/Craft_Gunpowder/cgp_recipes.json
 data/mods/DeoxyMod/Deoxy_vehicle_parts.json
-data/mods/EW_Pack/ew_ammo.json
-data/mods/EW_Pack/ew_ammo_handloaded.json
-data/mods/EW_Pack/ew_ammo_t.json
-data/mods/EW_Pack/ew_books.json
-data/mods/EW_Pack/ew_bullet_pulling.json
-data/mods/EW_Pack/ew_item_groups.json
-data/mods/EW_Pack/ew_recipes.json
-data/mods/EW_Pack/ew_retool.json
-data/mods/EW_Pack/ew_weapons.json
 data/mods/FictonalWeapons/fic_item_groups.json
 data/mods/FictonalWeapons/fic_mods.json
 data/mods/FictonalWeapons/fic_recipes.json
