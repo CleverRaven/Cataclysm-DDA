@@ -46,7 +46,7 @@
   {
     "type": "item_group",
     "id": "plumber_gear",
-    "//": "deprecated, use 'hardware_plubming' instead. Find and remove all examples of this group and then kill this one.",
+    "//": "deprecated, use 'hardware_plumbing' instead. Find and remove all examples of this group and then kill this one.",
     "items": [ { "group": "hardware_plumbing", "prob": 100 } ]
   },
   {
