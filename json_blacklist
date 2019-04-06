@@ -903,14 +903,6 @@ data/mods/Tanks/recipes.json
 data/mods/Tanks/vehicle_groups.json
 data/mods/Tanks/vehicles.json
 data/mods/bio_mod/modinfo.json
-data/mods/blazemod/blaze_blob_recipes.json
-data/mods/blazemod/blaze_other_parts.json
-data/mods/blazemod/blaze_other_recipes.json
-data/mods/blazemod/blaze_override.json
-data/mods/blazemod/blaze_test.json
-data/mods/blazemod/blaze_weapons.json
-data/mods/blazemod/blaze_weapons_parts.json
-data/mods/blazemod/blaze_weapons_recipes.json
 data/mods/default.json
 data/mods/makeshift/item.json
 data/mods/makeshift/item_groups.json
