@@ -621,6 +621,11 @@
   },
   {
     "type": "item_action",
+    "id": "DIVE_TANK",
+    "name": "Use regulator"
+  },
+  {
+    "type": "item_action",
     "id": "SOLARPACK",
     "name": "Unfold"
   },

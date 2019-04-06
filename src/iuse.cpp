@@ -3944,6 +3944,50 @@ int iuse::mp3_on( player *p, item *it, bool t, const tripoint &pos )
     return it->type->charges_to_use();
 }
 
+int iuse::dive_tank( player *p, item *it, bool t, const tripoint & )
+{
+    if( t ) { // Normal use
+        if( p->is_worn( *it ) ) {
+            if( p->is_underwater() && p->oxygen < 10 ) {
+                p->oxygen += 20;
+            }
+            if( one_in( 15 ) ) {
+                p->add_msg_if_player( m_bad, _( "You take a deep breath from your %s." ), it->tname().c_str() );
+            }
+            if( it->charges == 0 ) {
+                p->add_msg_if_player( m_bad, _( "Air in your %s runs out." ), it->tname().c_str() );
+                it->set_var( "overwrite_env_resist", 0 );
+                it->convert( it->typeId().substr( 0, it->typeId().size() - 3 ) ).active = false; // 3 = "_on"
+            }
+        } else { // not worn = off thanks to on-demand regulator
+            it->set_var( "overwrite_env_resist", 0 );
+            it->convert( it->typeId().substr( 0, it->typeId().size() - 3 ) ).active = false; // 3 = "_on"
+        }
+
+    } else { // Turning it on/off
+        if( it->charges == 0 ) {
+            p->add_msg_if_player( _( "Your %s is empty." ), it->tname().c_str() );
+        } else if( it->active ) { //off
+            p->add_msg_if_player( _( "You turn off the regulator and close the air valve." ) );
+            it->set_var( "overwrite_env_resist", 0 );
+            it->convert( it->typeId().substr( 0, it->typeId().size() - 3 ) ).active = false; // 3 = "_on"
+        } else { //on
+            if( !p->is_worn( *it ) ) {
+                p->add_msg_if_player( _( "You should wear it first." ) );
+            } else {
+                p->add_msg_if_player( _( "You turn on the regulator and open the air valve." ) );
+                it->set_var( "overwrite_env_resist", it->get_base_env_resist_w_filter() );
+                it->convert( it->typeId() + "_on" ).active = true;
+            }
+        }
+    }
+    if( it->charges == 0 ) {
+        it->set_var( "overwrite_env_resist", 0 );
+        it->convert( it->typeId().substr( 0, it->typeId().size() - 3 ) ).active = false; // 3 = "_on"
+    }
+    return it->type->charges_to_use();
+}
+
 int iuse::solarpack( player *p, item *it, bool, const tripoint & )
 {
     if( !p->has_bionic( bionic_id( "bio_cable" ) ) ) {  // Cable CBM required
