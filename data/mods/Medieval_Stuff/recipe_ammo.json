@@ -9,10 +9,7 @@
     "skills_required": [ "gun", 1 ],
     "time": 1000,
     "book_learn": [ [ "textbook_armschina", 2 ] ],
-    "components": [
-      [ [ "gunpowder", 600 ], [ "chem_black_powder", 600 ] ],
-      [ [ "paper", 1 ] ]
-    ]
+    "components": [ [ [ "gunpowder", 600 ], [ "chem_black_powder", 600 ] ], [ [ "paper", 1 ] ] ]
   },
   {
     "result": "lance_charge_shot",
@@ -26,7 +23,15 @@
     "book_learn": [ [ "textbook_armschina", 3 ] ],
     "components": [
       [ [ "gunpowder", 600 ], [ "chem_black_powder", 600 ] ],
-      [ [ "lead", 400 ], [ "gold_small", 400 ], [ "silver_small", 400 ], [ "tin", 400 ], [ "bismuth", 400 ], [ "solder_wire", 400 ], [ "bearing", 8 ] ],
+      [
+        [ "lead", 400 ],
+        [ "gold_small", 400 ],
+        [ "silver_small", 400 ],
+        [ "tin", 400 ],
+        [ "bismuth", 400 ],
+        [ "solder_wire", 400 ],
+        [ "bearing", 8 ]
+      ],
       [ [ "paper", 1 ] ]
     ]
   }
