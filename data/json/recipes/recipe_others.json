@@ -1324,7 +1324,7 @@
     "tools": [
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ], [ "forge", 50 ], [ "oxy_torch", 10 ] ]
-    ],
+    ]
   },
   {
     "type": "recipe",
