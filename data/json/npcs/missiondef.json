@@ -122,6 +122,7 @@
     "item": "plut_cell",
     "count": 25,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_FREE_MERCHANTS_EVAC_5",
     "dialogue": {
       "describe": "We need help...",
       "offer": "We are starting to build new infrastructure here and would like to get a few new electrical systems online... unfortunately our existing system relies on an array of something called RTGs.  From what I understand they work like giant batteries of sorts.  We can expand our power system but to do so we would need enough plutonium.  With 25 plutonium cells we would be able to get an electrical expansion working for a year or two.  I know they are rare but running generators isn't a viable option in the basement.",
@@ -130,6 +131,32 @@
       "advice": "Can't help you much, I've never even seen a plutonium battery.",
       "inquire": "How is the search going?",
       "success": "Great, I know it isn't much but we hope to continue to expand thanks to your help.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways..."
+    }
+  },
+  {
+    "id": "MISSION_FREE_MERCHANTS_EVAC_5",
+    "type": "mission_definition",
+    "name": "Find 40 Canned Food",
+    "goal": "MGOAL_FIND_ITEM_GROUP",
+    "difficulty": 3,
+    "value": 400000,
+    "item_group": "foodintincan",
+    "count": 40,
+    "required_container": "can_food",
+    "remove_container": true,
+    "empty_container": "can_food_unsealed",
+    "end": "evac_construct_5",
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "We need help...",
+      "offer": "While we've managed to secure day to day food supplies, it's very much hand to mouth. Our reserves would barely last a few days if something kept our people locked in. We need a stockpile to avoid that. It would have to be made of something that would be long lasting though, so canned food's the way to go. Get us about 40 cans and we should be able to ride out anything that comes our way.",
+      "accepted": "It'll take a load off my shoulders if I can finally stop worrying about this.",
+      "rejected": "We'll hold for the moment, but I'll get an ulcer if I have to keep worrying. If you reconsider let me know.",
+      "advice": "Grocery stores, house kitchens, there's plenty of places to look.",
+      "inquire": "How is the search going?",
+      "success": "That's one less thing to worry about. Glad to have someone like you on our side.",
       "success_lie": "What good does this do us?",
       "failure": "It was a lost cause anyways..."
     }
@@ -218,10 +245,7 @@
     "difficulty": 2,
     "value": 150000,
     "item": "black_box_transcript",
-    "start": {
-      "effect": { "u_buy_item": "black_box" },
-      "assign_mission_target": { "om_terrain": "lab", "reveal_radius": 3 }
-    },
+    "start": { "effect": { "u_buy_item": "black_box" }, "assign_mission_target": { "om_terrain": "lab", "reveal_radius": 3 } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_EXPLORE_SARCOPHAGUS",
     "dialogue": {
@@ -426,7 +450,7 @@
     "item": "software_blood_data",
     "start": {
       "effect": [ { "u_buy_item": "vacutainer" }, { "u_buy_item": "usb_drive" } ],
-      "assign_mission_target": { "om_terrain": "hospital_2", "om_special": "Hospital", "reveal_radius": 3 }
+      "assign_mission_target": { "om_terrain": "hospital_2", "om_special": "hospital", "reveal_radius": 3 }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
@@ -449,9 +473,7 @@
     "difficulty": 2,
     "value": 150000,
     "item": "etched_skull",
-    "start": {
-      "assign_mission_target": { "om_terrain": "cabin_strange", "om_special": "Strange Cabin", "reveal_radius": 3 }
-    },
+    "start": { "assign_mission_target": { "om_terrain": "cabin_strange", "om_special": "Strange Cabin", "reveal_radius": 3 } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_INVESTIGATE_PRISON_VISIONARY",
     "dialogue": {
@@ -474,9 +496,7 @@
     "difficulty": 2,
     "value": 150000,
     "item": "visions_solitude",
-    "start": {
-      "assign_mission_target": { "om_terrain": "prison_1_5", "om_special": "Prison", "reveal_radius": 3 }
-    },
+    "start": { "assign_mission_target": { "om_terrain": "prison_1_5", "om_special": "Prison", "reveal_radius": 3 } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "St. Michael the archangel defend me in battle...",
@@ -660,9 +680,7 @@
     "difficulty": 5,
     "value": 250000,
     "monster_type": "mon_charred_nightmare",
-    "start": {
-      "assign_mission_target": { "om_terrain": "necropolis_c_44", "om_special": "Necropolis", "z": -2 }
-    },
+    "start": { "assign_mission_target": { "om_terrain": "necropolis_c_44", "om_special": "Necropolis", "z": -2 } },
     "monster_kill_goal": 20,
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
@@ -686,8 +704,8 @@
     "value": 250000,
     "item": "radio_repeater_mod",
     "start": {
-       "effect": { "u_buy_item": "repeater_mod_guide" },
-       "assign_mission_target": { "om_terrain": "necropolis_c_23", "om_special": "Necropolis", "reveal_radius": 3, "z": -2 }
+      "effect": { "u_buy_item": "repeater_mod_guide" },
+      "assign_mission_target": { "om_terrain": "necropolis_c_23", "om_special": "Necropolis", "reveal_radius": 3, "z": -2 }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_OLD_GUARD_NEC_COMMO_2",
@@ -1887,7 +1905,7 @@
     "item": "software_blood_data",
     "start": {
       "effect": [ { "u_buy_item": "vacutainer" }, { "u_buy_item": "usb_drive" } ],
-      "assign_mission_target": { "om_terrain": "hospital_2", "om_special": "Hospital", "reveal_radius": 3 }
+      "assign_mission_target": { "om_terrain": "hospital_2", "om_special": "hospital", "reveal_radius": 3 }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_SCIENCE_REP_2",

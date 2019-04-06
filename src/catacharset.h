@@ -12,6 +12,12 @@ class utf8_wrapper;
 
 // get a Unicode character from a utf8 string
 uint32_t UTF8_getch( const char **src, int *srclen );
+inline uint32_t UTF8_getch( const std::string &str )
+{
+    const char *utf8str = str.c_str();
+    int len = str.length();
+    return UTF8_getch( &utf8str, &len );
+}
 // from wcwidth.c, return "cell" width of a Unicode char
 int mk_wcwidth( uint32_t ucs );
 // convert cursorx value to byte position

@@ -211,7 +211,7 @@ void mod_manager::load_modfile( JsonObject &jo, const std::string &path )
         return;
     }
 
-    std::string m_name = jo.get_string( "name", "" );
+    const std::string m_name = jo.get_string( "name", "" );
 
     std::string m_cat = jo.get_string( "category", "" );
     std::pair<int, std::string> p_cat = {-1, ""};

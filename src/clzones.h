@@ -271,6 +271,7 @@ class zone_manager
         void cache_vzones();
         bool has( const zone_type_id &type, const tripoint &where ) const;
         bool has_near( const zone_type_id &type, const tripoint &where ) const;
+        bool has_loot_dest_near( const tripoint &where ) const;
         std::unordered_set<tripoint> get_near( const zone_type_id &type, const tripoint &where ) const;
         zone_type_id get_near_zone_type_for_item( const item &it, const tripoint &where ) const;
         std::vector<zone_data> get_zones( const zone_type_id &type, const tripoint &where ) const;

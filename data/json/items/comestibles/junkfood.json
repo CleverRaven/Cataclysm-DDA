@@ -17,7 +17,7 @@
     "volume": 5,
     "charges": 8,
     "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "iron", 2 ] ],
+    "vitamins": [ [ "vitA", 3 ], [ "iron", 10 ] ],
     "fun": 25
   },
   {
@@ -56,7 +56,7 @@
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
     "fun": -10,
-    "vitamins": [ [ "vitA", 4 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "vitA", 16 ], [ "iron", 10 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -124,7 +124,8 @@
     "material": "veggy",
     "volume": 1,
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
-    "fun": 4
+    "fun": 4,
+    "vitamins": [ [ "iron", 2 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -168,7 +169,7 @@
     "volume": 1,
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 3,
-    "vitamins": [ [ "iron", 4 ] ],
+    "vitamins": [ [ "iron", 16 ] ],
     "fun": 4
   },
   {
@@ -248,7 +249,7 @@
     "material": [ "wheat", "junk" ],
     "volume": 1,
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "iron", 1 ], [ "calcium", 1 ] ],
+    "vitamins": [ [ "calcium", 4 ], [ "iron", 6 ] ],
     "fun": 30
   },
   {
@@ -294,7 +295,7 @@
     "volume": 1,
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 3,
-    "vitamins": [ [ "iron", 2 ] ],
+    "vitamins": [ [ "iron", 9 ] ],
     "fun": 3
   },
   {
@@ -383,7 +384,7 @@
     "volume": 3,
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 8,
-    "vitamins": [ [ "iron", 1 ], [ "calcium", 1 ] ],
+    "vitamins": [ [ "calcium", 4 ], [ "iron", 6 ] ],
     "fun": 2
   },
   {
@@ -405,7 +406,7 @@
     "charges": 4,
     "flags": [ "EDIBLE_FROZEN" ],
     "stack_size": 20,
-    "vitamins": [ [ "iron", 1 ] ],
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 6 ] ],
     "fun": 7
   },
   {
@@ -427,6 +428,7 @@
     "phase": "liquid",
     "charges": 16,
     "fun": 5,
+    "vitamins": [ [ "calcium", 2 ] ],
     "freezing_point": -70
   },
   {
@@ -446,7 +448,7 @@
     "material": "junk",
     "volume": 1,
     "phase": "liquid",
-    "vitamins": [ [ "iron", 8 ] ],
+    "vitamins": [ [ "iron", 34 ] ],
     "charges": 16
   },
   {
@@ -463,7 +465,7 @@
     "material": [ "wheat", "junk" ],
     "volume": 8,
     "charges": 12,
-    "vitamins": [ [ "iron", 1 ] ],
+    "vitamins": [ [ "calcium", 3 ], [ "iron", 6 ] ],
     "fun": 20
   },
   {
@@ -527,7 +529,7 @@
     "material": "junk",
     "volume": 1,
     "fun": 4,
-    "vitamins": [ [ "vitC", 1 ] ],
+    "vitamins": [ [ "vitC", 4 ], [ "calcium", 1 ], [ "iron", 3 ] ],
     "flags": [ "EATEN_HOT" ]
   },
   {
@@ -624,7 +626,7 @@
     "material": "junk",
     "volume": 1,
     "charges": 5,
-    "vitamins": [ [ "calcium", 2 ], [ "vitB", 1 ] ],
+    "vitamins": [ [ "calcium", 9 ], [ "vitB", 8 ] ],
     "fun": 2
   },
   {
@@ -646,7 +648,7 @@
     "volume": 1,
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 3,
-    "vitamins": [ [ "vitC", 5 ], [ "iron", 1 ] ],
+    "vitamins": [ [ "vitC", 7 ], [ "calcium", 1 ], [ "iron", 2 ] ],
     "fun": 6
   },
   {
@@ -667,7 +669,7 @@
     "material": "junk",
     "volume": 1,
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "vitA", 5 ], [ "vitC", 4 ], [ "calcium", 3 ], [ "iron", 12 ] ],
+    "vitamins": [ [ "vitA", 21 ], [ "vitC", 17 ], [ "calcium", 13 ], [ "iron", 48 ] ],
     "fun": 10
   },
   {
@@ -688,7 +690,7 @@
     "material": "junk",
     "volume": 1,
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "iron", 10 ] ],
+    "vitamins": [ [ "iron", 42 ] ],
     "fun": 6
   },
   {
@@ -709,7 +711,7 @@
     "material": "junk",
     "volume": 1,
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "calcium", 1 ] ],
+    "vitamins": [ [ "calcium", 5 ], [ "iron", 3 ] ],
     "fun": 8
   },
   {
@@ -732,7 +734,7 @@
     "volume": 1,
     "flags": [ "EATEN_HOT" ],
     "fun": 16,
-    "vitamins": [ [ "calcium", 3 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "calcium", 12 ], [ "iron", 6 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -754,7 +756,7 @@
     "charges": 3,
     "flags": [ "EATEN_HOT" ],
     "fun": 16,
-    "vitamins": [ [ "vitC", 1 ], [ "iron", 6 ], [ "vitB", 62 ] ]
+    "vitamins": [ [ "vitC", 5 ], [ "calcium", 2 ], [ "iron", 24 ], [ "vitB", 259 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -795,7 +797,7 @@
     "volume": 2,
     "flags": [ "EATEN_HOT" ],
     "fun": 20,
-    "vitamins": [ [ "iron", 3 ], [ "calcium", 2 ], [ "vitA", 2 ], [ "vitB", 7 ] ]
+    "vitamins": [ [ "vitA", 10 ], [ "calcium", 10 ], [ "iron", 12 ], [ "vitB", 29 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -815,7 +817,7 @@
     "volume": 1,
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 4,
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 1 ] ],
+    "vitamins": [ [ "vitA", 1 ], [ "calcium", 8 ], [ "iron", 4 ] ],
     "fun": 4
   },
   {
@@ -917,7 +919,7 @@
     "volume": 4,
     "charges": 4,
     "fun": 12,
-    "vitamins": [ [ "iron", 1 ] ]
+    "vitamins": [ [ "iron", 4 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -939,7 +941,7 @@
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
     "fun": 15,
-    "vitamins": [ [ "vitA", 1 ], [ "vitC", 11 ], [ "calcium", 3 ], [ "iron", 5 ] ]
+    "vitamins": [ [ "vitA", 7 ], [ "vitC", 46 ], [ "calcium", 14 ], [ "iron", 21 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -970,7 +972,7 @@
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
     "fun": -18,
-    "vitamins": [ [ "vitA", 1 ], [ "calcium", 1 ], [ "iron", 2 ], [ "vitB", 3 ] ]
+    "vitamins": [ [ "vitA", 4 ], [ "calcium", 6 ], [ "iron", 8 ], [ "vitB", 15 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -986,22 +988,18 @@
   {
     "type": "COMESTIBLE",
     "id": "choc_pancakes",
+    "copy-from": "pancakes",
     "name": "chocolate pancake",
     "name_plural": "chocolate pancakes",
     "weight": 78,
-    "color": "brown",
-    "spoils_in": "10 days",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "calories": 2193,
+    "healthy": 0,
+    "calories": 219,
     "description": "Fluffy and delicious pancakes with real maple syrup, with delicious chocolate baked right in.",
     "price": 700,
     "material": [ "wheat", "junk", "milk" ],
     "primary_material": "processed_food",
-    "volume": 1,
-    "flags": [ "EATEN_HOT" ],
     "fun": 6,
-    "vitamins": [ [ "vitA", 1 ], [ "calcium", 1 ], [ "iron", 4 ], [ "vitB", 8 ] ]
+    "vitamins": [ [ "vitA", 5 ], [ "calcium", 5 ], [ "iron", 17 ], [ "vitB", 33 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1020,7 +1018,7 @@
     "volume": 1,
     "flags": [ "EATEN_HOT" ],
     "fun": 12,
-    "vitamins": [ [ "vitA", 1 ], [ "calcium", 6 ], [ "iron", 6 ], [ "vitB", 15 ] ]
+    "vitamins": [ [ "vitA", 7 ], [ "calcium", 25 ], [ "iron", 25 ], [ "vitB", 63 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1042,7 +1040,7 @@
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
     "fun": 6,
-    "vitamins": [ [ "vitA", 1 ], [ "calcium", 14 ] ]
+    "vitamins": [ [ "vitA", 4 ], [ "calcium", 59 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1064,7 +1062,7 @@
     "volume": 1,
     "flags": [ "EATEN_HOT" ],
     "fun": 6,
-    "vitamins": [ [ "vitA", 1 ], [ "vitC", 1 ], [ "calcium", 4 ] ]
+    "vitamins": [ [ "vitA", 7 ], [ "vitC", 4 ], [ "calcium", 17 ], [ "iron", 3 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1084,7 +1082,7 @@
     "volume": 1,
     "flags": [ "EATEN_HOT", "EDIBLE_FROZEN", "FREEZERBURN" ],
     "fun": 6,
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "calcium", 4 ], [ "iron", 7 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1105,7 +1103,8 @@
     "volume": 3,
     "charges": 10,
     "flags": [ "EATEN_HOT" ],
-    "fun": -6
+    "fun": -6,
+    "vitamins": [ [ "iron", 3 ] ]
   },
   {
     "id": "hotdogs_campfire",
@@ -1137,7 +1136,7 @@
     "volume": 2,
     "flags": [ "EATEN_HOT" ],
     "fun": 12,
-    "vitamins": [ [ "vitC", 20 ], [ "calcium", 5 ], [ "iron", 3 ] ]
+    "vitamins": [ [ "vitC", 85 ], [ "calcium", 22 ], [ "iron", 15 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1160,7 +1159,7 @@
     "volume": 2,
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 4,
-    "vitamins": [ [ "calcium", 1 ] ],
+    "vitamins": [ [ "calcium", 4 ] ],
     "fun": 6
   }
 ]

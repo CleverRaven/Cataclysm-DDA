@@ -47,7 +47,7 @@ class actmenu_cb : public uilist_callback
             const std::string &action = ctxt.input_to_action( event );
             // Don't write a message if unknown command was sent
             // Only when an inexistent tool was selected
-            auto itemless_action = am.find( action );
+            const auto itemless_action = am.find( action );
             if( itemless_action != am.end() ) {
                 popup( _( "You do not have an item that can perform this action." ) );
                 return true;

@@ -39,24 +39,25 @@
     "type": "talk_topic",
     "category": "CATEGORY_MISSION",
     "dynamic_line": {
-      "npc_has_mission": true,
-      "none": {
-        "u_has_mission": true,
-        "none": "I don't have any jobs for you.",
-        "one": "I don't have any more jobs for you.",
-        "many": "I don't have any more jobs for you."
+      "has_no_available_mission": {
+        "has_no_assigned_mission": "I don't have any jobs for you.",
+        "no": { "has_many_assigned_missions": "I don't have any more jobs for you.", "no": "I don't have any more jobs for you." }
       },
-      "one": {
-        "u_has_mission": true,
-        "none": "I have another job for you.  Want to hear about it?",
-        "one": "I just have one job for you.  Want to hear about it?",
-        "many": "I just have one job for you.  Want to hear about it?"
-      },
-      "many": {
-        "u_has_mission": true,
-        "none": "I have other jobs for you.  Want to hear about them?",
-        "one": "I have other jobs for you.  Want to hear about them?",
-        "many": "I have more jobs for you.  Want to hear about them?"
+      "no": {
+        "has_many_available_missions": {
+          "has_no_assigned_mission": "I have other jobs for you.  Want to hear about them?",
+          "no": {
+            "has_many_assigned_missions": "I have more jobs for you.  Want to hear about them?",
+            "no": "I have other jobs for you.  Want to hear about them?"
+          }
+        },
+        "no": {
+          "has_no_assigned_mission": "I have another job for you.  Want to hear about it?",
+          "no": {
+            "has_many_assigned_missions": "I just have one job for you.  Want to hear about it?",
+            "no": "I just have one job for you.  Want to hear about it?"
+          }
+        }
       }
     },
     "responses": [
@@ -73,10 +74,8 @@
     "type": "talk_topic",
     "category": "CATEGORY_MISSION",
     "dynamic_line": {
-      "u_has_mission": true,
-      "none": "You're not working on anything for me now.",
-      "one": "What about it?",
-      "many": "Which job?"
+      "has_no_assigned_mission": "You're not working on anything for me now.",
+      "no": { "has_many_assigned_missions": "Which job?", "no": "What about it?" }
     },
     "responses": [ { "text": "Never mind.", "topic": "TALK_NONE" } ]
   },
@@ -155,7 +154,16 @@
         "text": "Yup! Here it is!",
         "topic": "TALK_MISSION_SUCCESS",
         "condition": {
-          "and": [ { "or": [ { "mission_goal": "MGOAL_FIND_ITEM" }, { "mission_goal": "MGOAL_FIND_ANY_ITEM" } ] }, "mission_complete" ]
+          "and": [
+            "mission_complete",
+            {
+              "or": [
+                { "mission_goal": "MGOAL_FIND_ITEM" },
+                { "mission_goal": "MGOAL_FIND_ANY_ITEM" },
+                { "mission_goal": "MGOAL_FIND_ITEM_GROUP" }
+              ]
+            }
+          ]
         },
         "switch": true,
         "effect": "mission_success"

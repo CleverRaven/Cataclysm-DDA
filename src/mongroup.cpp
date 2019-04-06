@@ -83,7 +83,7 @@ const MonsterGroup &MonsterGroupManager::GetUpgradedMonsterGroup( const mongroup
         const time_duration replace_time = groupptr->monster_group_time *
                                            get_option<float>( "MONSTER_UPGRADE_FACTOR" );
         while( groupptr->replace_monster_group &&
-               calendar::turn - calendar::time_of_cataclysm > replace_time ) {
+               calendar::turn - time_point( calendar::start ) > replace_time ) {
             groupptr = &groupptr->new_monster_group.obj();
         }
     }

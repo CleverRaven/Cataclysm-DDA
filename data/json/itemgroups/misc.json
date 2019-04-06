@@ -5,32 +5,59 @@
     "subtype": "collection",
     "//": "Smokable item and something to light it with",
     "items": [
-      { "distribution": [
-        { "item": "cig", "prob": 70, "charges": [1, 10] },
-        { "collection": [
-            { "item": "tobacco" },
-            { "distribution": [
-              { "item": "rolling_paper", "prob": 70 },
-              { "item": "pipe_tobacco", "prob": 30 }
-            ] }
-        ], "prob": 20 },
-        { "item": "cigar", "prob": 5, "charges": [1, 1] },
-        { "item": "joint", "prob": 5 }
-      ] },
-      { "distribution": [
-        { "item": "lighter" },
-        { "item": "matches" }
-      ] }
+      {
+        "distribution": [
+          { "item": "cig", "prob": 70, "charges": [ 1, 10 ] },
+          {
+            "collection": [
+              { "item": "tobacco" },
+              { "distribution": [ { "item": "rolling_paper", "prob": 70 }, { "item": "pipe_tobacco", "prob": 30 } ] }
+            ],
+            "prob": 20
+          },
+          { "item": "cigar", "prob": 5, "charges": [ 1, 1 ] },
+          { "item": "joint", "prob": 5 }
+        ]
+      },
+      { "distribution": [ { "item": "lighter" }, { "item": "matches" } ] }
     ]
   },
   {
     "id": "stoner",
     "type": "item_group",
-    "//" : "Processed weed and weed accessories",
+    "//": "Processed weed and weed accessories",
+    "items": [ [ "joint", 100 ], [ "joint_roach", 20 ], [ "pipe_glass", 10 ] ]
+  },
+  {
+    "id": "silverware",
+    "type": "item_group",
+    "//": "Forks, spoons, knives, ect.",
+    "items": [ [ "knife_butter", 30 ], [ "knife_steak", 10 ], [ "fork", 30 ], [ "spoon", 30 ] ]
+  },
+  {
+    "id": "dinnerware",
+    "type": "item_group",
+    "//": "Plates, bowls, cups, etc.",
     "items": [
-      [ "joint", 100 ],
-      [ "joint_roach", 20 ],
-      [ "pipe_glass", 10 ]
+      [ "glass", 20 ],
+      [ "glass_plate", 20 ],
+      [ "glass_bowl", 20 ],
+      [ "ceramic_plate", 10 ],
+      [ "ceramic_bowl", 10 ],
+      [ "ceramic_cup", 10 ]
+    ]
+  },
+  {
+    "id": "digging_soil_loam_50L",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "~50L of loamy soil, sand, clay, and rocks from digging in generic dirt",
+    "items": [
+      { "item": "material_soil", "count": [ 8, 12 ] },
+      { "item": "material_sand", "charges": [ 1, 10 ], "prob": 5 },
+      { "item": "clay_lump", "count": [ 1, 4 ], "prob": 5 },
+      { "item": "rock", "count": [ 1, 4 ], "prob": 15 },
+      { "item": "pebble", "count": [ 1, 4 ], "prob": 15 }
     ]
   }
 ]

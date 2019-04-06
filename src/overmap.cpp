@@ -509,6 +509,7 @@ void oter_type_t::load( JsonObject &jo, const std::string &src )
     assign( jo, "sym", sym, strict );
     assign( jo, "name", name, strict );
     assign( jo, "see_cost", see_cost, strict );
+    assign( jo, "travel_cost", travel_cost, strict );
     assign( jo, "extras", extras, strict );
     assign( jo, "mondensity", mondensity, strict );
     assign( jo, "spawns", static_spawns, strict );
@@ -694,7 +695,6 @@ bool oter_t::is_hardcoded() const
         "office_tower_1_entrance",
         "office_tower_b",
         "office_tower_b_entrance",
-        "outpost",
         "sewage_treatment",
         "sewage_treatment_hub",
         "sewage_treatment_under",
@@ -4039,11 +4039,13 @@ std::shared_ptr<npc> overmap::find_npc( const int id ) const
     return nullptr;
 }
 
-cata::optional<basecamp *> overmap::find_camp( const int x, const int y ) const
+cata::optional<basecamp *> overmap::find_camp( const int x, const int y )
 {
-    for( const auto &v : camps ) {
-        if( v->camp_omt_pos().x == x && v->camp_omt_pos().y == y ) {
-            return v;
+    for( auto &v : camps ) {
+        if( v.camp_omt_pos().x == x && v.camp_omt_pos().y == y ) {
+            cata::optional<basecamp *> p;
+            p = &v;
+            return p;
         }
     }
     return cata::nullopt;

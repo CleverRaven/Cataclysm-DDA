@@ -103,4 +103,3 @@ void activity_type::reset()
 {
     activity_type_all.clear();
 }
-
