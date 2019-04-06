@@ -5307,6 +5307,16 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "loffice_tower_9b",
+    "copy-from": "generic_large_office_tower"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "loffice_tower_10b",
+    "copy-from": "generic_large_office_tower"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "loffice_tower_11",
     "copy-from": "generic_large_office_tower"
   },
@@ -5334,6 +5344,34 @@
     "type": "overmap_terrain",
     "id": "loffice_tower_16",
     "copy-from": "generic_large_office_tower"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "loffice_tower_17",
+    "name": "open air",
+    "sym": 46,
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "loffice_tower_18",
+    "name": "open air",
+    "sym": 46,
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "loffice_tower_19",
+    "name": "open air",
+    "sym": 46,
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "loffice_tower_20",
+    "name": "open air",
+    "sym": 46,
+    "color": "blue"
   },
   {
     "type": "overmap_terrain",
