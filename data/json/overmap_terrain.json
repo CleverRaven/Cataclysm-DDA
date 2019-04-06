@@ -3767,6 +3767,27 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "candy_shop_roof",
+    "name": "candy shop roof",
+    "copy-from": "generic_city_building",
+    "color": "c_red_white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "candy_shop_1",
+    "name": "candy shop",
+    "copy-from": "generic_city_building",
+    "color": "c_red_white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "candy_shop_roof_1",
+    "name": "candy shop roof",
+    "copy-from": "generic_city_building",
+    "color": "c_red_white"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "bakery",
     "name": "bakery",
     "copy-from": "generic_city_building",
