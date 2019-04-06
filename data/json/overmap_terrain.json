@@ -433,7 +433,7 @@
     "sym": "O",
     "color": "brown"
   },
-  { 
+  {
     "type": "overmap_terrain",
     "id": "ws_giant_sinkhole_2",
     "copy-from": "generic_city_building_no_sidewalk",

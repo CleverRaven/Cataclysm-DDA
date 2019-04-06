@@ -294,7 +294,6 @@
     "id": "apartments_mod_tower_003",
     "copy-from": "apartments_tower_any"
   },
-
   {
     "type": "overmap_terrain",
     "id": "homelesscamp",
