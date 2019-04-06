@@ -1191,22 +1191,20 @@ void player::hardcoded_effects( effect &it )
         }
 
         // A bit of a hack: check if we are about to wake up for any reason, including regular timing out of sleep
-        if (dur == 1_turns || woke_up) {
-            if (calendar::turn - start > 2_hours) {
+        if( dur == 1_turns || woke_up ) {
+            if( calendar::turn - start > 2_hours ) {
                 print_health();
             }
             // alarm was set and player hasn't slept through the alarm.
-            if (has_effect(effect_alarm_clock) && !has_effect(effect_slept_through_alarm)) {
-                add_msg_if_player(_("It looks like you woke up just before your alarm."));
-            }
-            else if (has_effect(effect_slept_through_alarm)) { // slept though the alarm.
-                if (has_bionic(bionic_id("bio_watch"))) {
-                    add_msg_if_player(m_warning, _("It looks like you've slept through your internal alarm..."));
+            if( has_effect( effect_alarm_clock ) && !has_effect( effect_slept_through_alarm ) ) {
+                add_msg_if_player( _( "It looks like you woke up just before your alarm." ) );
+            } else if( has_effect( effect_slept_through_alarm ) ) { // slept though the alarm.
+                if( has_bionic( bionic_id( "bio_watch" ) ) ) {
+                    add_msg_if_player( m_warning, _( "It looks like you've slept through your internal alarm..." ) );
+                } else {
+                    add_msg_if_player( m_warning, _( "It looks like you've slept through the alarm..." ) );
                 }
-                else {
-                    add_msg_if_player(m_warning, _("It looks like you've slept through the alarm..."));
-                }
-                get_effect(effect_slept_through_alarm).set_duration(0_turns);
+                get_effect( effect_slept_through_alarm ).set_duration( 0_turns );
             }
         }
     } else if( id == effect_alarm_clock ) {
