@@ -16,16 +16,6 @@ data/json/vehicles/trucks.json
 data/json/vehicles/utility.json
 data/json/vehicles/vans_busses.json
 data/mods/Animatronics/animatronics.json
-data/mods/Animatronics/bankrupt_pizzeria.json
-data/mods/Animatronics/dead_animatronics.json
-data/mods/Animatronics/regional_overlay.json
-data/mods/Animatronics/speech.json
-data/mods/Boats/b_inflatable_boat_parts.json
-data/mods/Boats/b_item_groups.json
-data/mods/Boats/b_recipes.json
-data/mods/Boats/b_var_veh_parts.json
-data/mods/Boats/b_vehicles.json
-data/mods/Boats/b_wooden_boat_parts.json
 data/mods/BrightNights/effects.json
 data/mods/BrightNights/item groups/locations.json
 data/mods/BrightNights/item_groups.json
