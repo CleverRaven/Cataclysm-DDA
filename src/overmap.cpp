@@ -84,22 +84,22 @@ const std::array<std::string, 5> mapgen_suffixes = {{
 };
 
 const std::array < type, 1 + om_direction::bits > all = {{
-        { LINE_XXXX_S, 4, "_isolated"  },   // 0  ----
-        { LINE_XOXO_S, 2, "_end_south" },   // 1  ---n
-        { LINE_OXOX_S, 2, "_end_west"  },   // 2  --e-
-        { LINE_XXOO_S, 1, "_ne"        },   // 3  --en
-        { LINE_XOXO_S, 2, "_end_north" },   // 4  -s--
-        { LINE_XOXO_S, 0, "_ns"        },   // 5  -s-n
-        { LINE_OXXO_S, 1, "_es"        },   // 6  -se-
-        { LINE_XXXO_S, 3, "_nes"       },   // 7  -sen
-        { LINE_OXOX_S, 2, "_end_east"  },   // 8  w---
-        { LINE_XOOX_S, 1, "_wn"        },   // 9  w--n
-        { LINE_OXOX_S, 0, "_ew"        },   // 10 w-e-
-        { LINE_XXOX_S, 3, "_new"       },   // 11 w-en
-        { LINE_OOXX_S, 1, "_sw"        },   // 12 ws--
-        { LINE_XOXX_S, 3, "_nsw"       },   // 13 ws-n
-        { LINE_OXXX_S, 3, "_esw"       },   // 14 wse-
-        { LINE_XXXX_S, 4, "_nesw"      }    // 15 wsen
+        { string_from_long( LINE_XXXX ), 4, "_isolated"  },   // 0  ----
+        { string_from_long( LINE_XOXO ), 2, "_end_south" },   // 1  ---n
+        { string_from_long( LINE_OXOX ), 2, "_end_west"  },   // 2  --e-
+        { string_from_long( LINE_XXOO ), 1, "_ne"        },   // 3  --en
+        { string_from_long( LINE_XOXO ), 2, "_end_north" },   // 4  -s--
+        { string_from_long( LINE_XOXO ), 0, "_ns"        },   // 5  -s-n
+        { string_from_long( LINE_OXXO ), 1, "_es"        },   // 6  -se-
+        { string_from_long( LINE_XXXO ), 3, "_nes"       },   // 7  -sen
+        { string_from_long( LINE_OXOX ), 2, "_end_east"  },   // 8  w---
+        { string_from_long( LINE_XOOX ), 1, "_wn"        },   // 9  w--n
+        { string_from_long( LINE_OXOX ), 0, "_ew"        },   // 10 w-e-
+        { string_from_long( LINE_XXOX ), 3, "_new"       },   // 11 w-en
+        { string_from_long( LINE_OOXX ), 1, "_sw"        },   // 12 ws--
+        { string_from_long( LINE_XOXX ), 3, "_nsw"       },   // 13 ws-n
+        { string_from_long( LINE_OXXX ), 3, "_esw"       },   // 14 wse-
+        { string_from_long( LINE_XXXX ), 4, "_nesw"      }    // 15 wsen
     }
 };
 

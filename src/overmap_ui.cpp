@@ -702,25 +702,25 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
                 marker_sym = "^";
                 break;
             case NORTHEAST:
-                marker_sym = LINE_OOXX_S;
+                marker_sym = string_from_long( LINE_OOXX );
                 break;
             case EAST:
                 marker_sym = ">";
                 break;
             case SOUTHEAST:
-                marker_sym = LINE_XOOX_S;
+                marker_sym = string_from_long( LINE_XOOX );
                 break;
             case SOUTH:
                 marker_sym = "v";
                 break;
             case SOUTHWEST:
-                marker_sym = LINE_XXOO_S;
+                marker_sym = string_from_long( LINE_XXOO );
                 break;
             case WEST:
                 marker_sym = "<";
                 break;
             case NORTHWEST:
-                marker_sym = LINE_OXXO_S;
+                marker_sym = string_from_long( LINE_OXXO );
                 break;
             default:
                 break; //Do nothing
