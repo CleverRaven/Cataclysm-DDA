@@ -629,8 +629,8 @@ void mtype::load( JsonObject &jo, const std::string &src )
     assign( jo, "color", color );
     assign( jo, "volume", volume, strict, 0_ml );
     assign( jo, "weight", weight, strict, 0_gram );
-    const typed_flag_reader<decltype( gen.phase_map )> phase_reader{ gen.phase_map, "invalid phase id" };
-    optional( jo, was_loaded, "phase", phase, phase_reader, SOLID );
+
+    optional( jo, was_loaded, "phase", phase, make_flag_reader( gen.phase_map, "phase id" ), SOLID );
 
     assign( jo, "diff", difficulty_base, strict, 0 );
     assign( jo, "hp", hp, strict, 1 );
@@ -679,7 +679,7 @@ void mtype::load( JsonObject &jo, const std::string &src )
 
     assign( jo, "harvest", harvest, strict );
 
-    const typed_flag_reader<decltype( gen.death_map )> death_reader{ gen.death_map, "invalid monster death function" };
+    const auto death_reader = make_flag_reader( gen.death_map, "monster death function" );
     optional( jo, was_loaded, "death_function", dies, death_reader );
     if( dies.empty() ) {
         // TODO: really needed? Is an empty `dies` container not allowed?
@@ -767,12 +767,11 @@ void mtype::load( JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "burn_into", burn_into, auto_flags_reader<mtype_id> {},
               mtype_id::NULL_ID() );
 
-    const typed_flag_reader<decltype( gen.flag_map )> flag_reader{ gen.flag_map, "invalid monster flag" };
-    optional( jo, was_loaded, "flags", flags, flag_reader );
+    optional( jo, was_loaded, "flags", flags, make_flag_reader( gen.flag_map, "monster flag" ) );
     // Can't calculate yet - we want all flags first
     optional( jo, was_loaded, "bash_skill", bash_skill, -1 );
 
-    const typed_flag_reader<decltype( gen.trigger_map )> trigger_reader{ gen.trigger_map, "invalid monster trigger" };
+    const auto trigger_reader = make_flag_reader( gen.trigger_map, "monster trigger" );
     optional( jo, was_loaded, "anger_triggers", anger, trigger_reader );
     optional( jo, was_loaded, "placate_triggers", placate, trigger_reader );
     optional( jo, was_loaded, "fear_triggers", fear, trigger_reader );
@@ -803,10 +802,10 @@ void species_type::load( JsonObject &jo, const std::string & )
 {
     MonsterGenerator &gen = MonsterGenerator::generator();
 
-    const typed_flag_reader<decltype( gen.flag_map )> flag_reader{ gen.flag_map, "invalid monster flag" };
+    const auto flag_reader = make_flag_reader( gen.flag_map, "monster flag" );
     optional( jo, was_loaded, "flags", flags, flag_reader );
 
-    const typed_flag_reader<decltype( gen.trigger_map )> trigger_reader{ gen.trigger_map, "invalid monster trigger" };
+    const auto trigger_reader = make_flag_reader( gen.trigger_map, "monster trigger" );
     optional( jo, was_loaded, "anger_triggers", anger_trig, trigger_reader );
     optional( jo, was_loaded, "placate_triggers", placate_trig, trigger_reader );
     optional( jo, was_loaded, "fear_triggers", fear_trig, trigger_reader );

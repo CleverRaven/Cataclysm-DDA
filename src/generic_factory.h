@@ -824,36 +824,47 @@ class auto_flags_reader : public generic_typed_reader<auto_flags_reader<FlagType
  * One can use this if the member is `std::set<some_enum>` or `some_enum` and a
  * map `std::map<std::string, some_enum>` with all the value enumeration values exists.
  *
- * The class can be instantiated for a given map `mapping` like this:
- * `typed_flag_reader<decltype(mapping)> reader{ mapping, "error" };`
- * The error string (@ref error_msg) is used when the input contains invalid flags
+ * The class can be conveniently instantiated for a given map `mapping` using
+ * the heler function @ref make_flag_reader (see below).
+ * The flag type (@ref flag_type) is used when the input contains invalid flags
  * (a string that is not contained in the map). It should sound something like
- * "invalid my-enum-type".
+ * "my-enum-type".
  */
-template<typename C>
-class typed_flag_reader : public generic_typed_reader<typed_flag_reader<C>>
+template<typename T>
+class typed_flag_reader : public generic_typed_reader<typed_flag_reader<T>>
 {
-    protected:
-        const C &flag_map;
-        const std::string error_msg;
+    private:
+        using map_t = std::map<std::string, T>;
+
+    private:
+        const map_t &flag_map;
+        const std::string flag_type;
 
     public:
-        typed_flag_reader( const C &m, const std::string &e )
-            : flag_map( m )
-            , error_msg( e ) {
+        typed_flag_reader( const map_t &flag_map, const std::string &flag_type )
+            : flag_map( flag_map )
+            , flag_type( flag_type ) {
         }
 
-        typename C::mapped_type get_next( JsonIn &jin ) const {
-            const auto position = jin.tell();
+        T get_next( JsonIn &jin ) const {
             const std::string flag = jin.get_string();
             const auto iter = flag_map.find( flag );
-            if( iter == flag_map.end() ) {
-                jin.seek( position );
-                jin.error( error_msg + ": \"" + flag + "\"" );
+
+            if( iter == flag_map.cend() ) {
+                jin.seek( jin.tell() );
+                jin.error( string_format( "invalid %s: \"%s\"", flag_type, flag ) );
             }
+
             return iter->second;
         }
 };
+
+
+template<typename T>
+typed_flag_reader<T> make_flag_reader( const std::map<std::string, T> &m, const std::string &e )
+{
+    return typed_flag_reader<T> { m, e };
+}
 
 /**
  * Uses @ref io::string_to_enum to convert the string from JSON to a C++ enum.
