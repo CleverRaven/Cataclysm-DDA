@@ -1,5 +1,3 @@
-data/json/tutorial.json
-data/json/vehicle_parts.json
 data/json/vehicles/bikes.json
 data/json/vehicles/cars.json
 data/json/vehicles/carts.json
@@ -10,18 +8,8 @@ data/json/vehicles/military.json
 data/json/vehicles/trucks.json
 data/json/vehicles/utility.json
 data/json/vehicles/vans_busses.json
-data/mods/BrightNights/effects.json
-data/mods/BrightNights/item groups/locations.json
-data/mods/BrightNights/item_groups.json
-data/mods/BrightNights/items/books.json
-data/mods/BrightNights/items/generic.json
 data/mods/BrightNights/mapgen/municipal_microreactor.json
 data/mods/BrightNights/mapgen/s_gas.json
-data/mods/BrightNights/overmap_terrain.json
-data/mods/BrightNights/recipe.json
-data/mods/BrightNights/regional_map_settings.json
-data/mods/BrightNights/terrain.json
-data/mods/BrightNights/vehicle_groups.json
 data/mods/BrightNights/vehicles/cars.json
 data/mods/Craft_Gunpowder/cgp_ranged.json
 data/mods/Craft_Gunpowder/cgp_recipes.json
