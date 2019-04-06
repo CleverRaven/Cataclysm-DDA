@@ -4260,8 +4260,9 @@ void player::check_needs_extremes()
                 /** @EFFECT_PER slightly increases resilience against passing out from sleep deprivation */
                 if( one_in( static_cast<int>( ( 1 - sleep_deprivation_pct ) * 100 ) + per_cur ) ||
                     sleep_deprivation >= SLEEP_DEPRIVATION_MASSIVE ) {
-                    add_msg_if_player( m_bad,
-                                       _( "Your body collapses to sleep deprivation, your neglected fatigue rushing back all at once, and you pass out on the spot." ) );
+                    add_msg_player_or_npc( m_bad,
+                                           _( "Your body collapses to sleep deprivation, your neglected fatigue rushing back all at once, and you pass out on the spot." )
+                                           , _( "<npcname> collapses to the ground from exhaustion." ) ) ;
                     if( get_fatigue() < EXHAUSTED ) {
                         set_fatigue( EXHAUSTED );
                     }
@@ -6187,16 +6188,20 @@ void player::suffer()
             switch( dice( 1, 4 ) ) {
                 default:
                 case 1:
-                    add_msg_if_player( m_warning, _( "You tiredly rub your eyes." ) );
+                    add_msg_player_or_npc( m_warning, _( "You tiredly rub your eyes." ),
+                                           _( "<npcname> tiredly rubs their eyes." ) );
                     break;
                 case 2:
-                    add_msg_if_player( m_warning, _( "You let out a small yawn." ) );
+                    add_msg_player_or_npc( m_warning, _( "You let out a small yawn." ),
+                                           _( "<npcname> lets out a small yawn." ) );
                     break;
                 case 3:
-                    add_msg_if_player( m_warning, _( "You stretch your back." ) );
+                    add_msg_player_or_npc( m_warning, _( "You stretch your back." ),
+                                           _( "<npcname> streches their back." ) );
                     break;
                 case 4:
-                    add_msg_if_player( m_warning, _( "You feel mentally tired." ) );
+                    add_msg_player_or_npc( m_warning, _( "You feel mentally tired." ),
+                                           _( "<npcname> lets out a huge yawn." ) );
                     break;
             }
         }
@@ -6249,9 +6254,10 @@ void player::suffer()
             add_effect( effect_shakes, 15_minutes );
         } else if( has_effect( effect_shakes ) && one_in( 75 ) ) {
             moves -= 10;
-            add_msg_if_player( m_warning, _( "Your shaking legs make you stumble." ) );
+            add_msg_player_or_npc( m_warning, _( "Your shaking legs make you stumble." ),
+                                   _( "<npcname stumbles." ) );
             if( !has_effect( effect_downed ) && one_in( 10 ) ) {
-                add_msg_if_player( m_bad, _( "You fall over!" ) );
+                add_msg_player_or_npc( m_bad, _( "You fall over!" ), _( "<npcname> falls over!" ) );
                 add_effect( effect_downed, rng( 3_turns, 10_turns ) );
             }
         }
