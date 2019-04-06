@@ -23,9 +23,6 @@ data/mods/BrightNights/regional_map_settings.json
 data/mods/BrightNights/terrain.json
 data/mods/BrightNights/vehicle_groups.json
 data/mods/BrightNights/vehicles/cars.json
-data/mods/Craft_Gunpowder/cgp_ranged.json
-data/mods/Craft_Gunpowder/cgp_recipes.json
-data/mods/DeoxyMod/Deoxy_vehicle_parts.json
 data/mods/More_Buildings/json/baseballfield_a1.json
 data/mods/More_Buildings/json/baseballfield_a2.json
 data/mods/More_Buildings/json/baseballfield_b1.json
