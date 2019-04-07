@@ -18,7 +18,6 @@
 #include "mondefense.h"
 #include "monfaction.h"
 #include "mongroup.h"
-#include "mtype.h"
 #include "options.h"
 #include "output.h"
 #include "rng.h"
@@ -358,10 +357,10 @@ void MonsterGenerator::apply_species_attributes( mtype &mon )
         }
         const species_type &mspec = spec.obj();
 
-        apply_set_to_set( mspec.flags, mon.flags );
-        apply_set_to_set( mspec.anger_trig, mon.anger );
-        apply_set_to_set( mspec.fear_trig, mon.fear );
-        apply_set_to_set( mspec.placate_trig, mon.placate );
+        mon.flags |= mspec.flags;
+        mon.anger |= mspec.anger;
+        mon.fear |= mspec.fear;
+        mon.placate |= mspec.placate;
     }
 }
 
@@ -377,22 +376,6 @@ void MonsterGenerator::finalize_pathfinding_settings( mtype &mon )
 
     if( mon.has_flag( MF_CLIMBS ) ) {
         mon.path_settings.climb_cost = 3;
-    }
-}
-
-template <typename T>
-void MonsterGenerator::apply_set_to_set( std::set<T> from, std::set<T> &to )
-{
-    for( const auto &elem : from ) {
-        to.insert( elem );
-    }
-}
-
-template <typename T, size_t N>
-void MonsterGenerator::apply_set_to_set( std::set<T> from, std::bitset<N> &to )
-{
-    for( const auto &elem : from ) {
-        to.set( elem, true );
     }
 }
 
@@ -791,9 +774,9 @@ void MonsterGenerator::load_species( JsonObject &jo, const std::string &src )
 void species_type::load( JsonObject &jo, const std::string & )
 {
     optional( jo, was_loaded, "flags", flags, enum_flags_reader<m_flag> {} );
-    optional( jo, was_loaded, "anger_triggers", anger_trig, enum_flags_reader<monster_trigger> {} );
-    optional( jo, was_loaded, "placate_triggers", placate_trig, enum_flags_reader<monster_trigger> {} );
-    optional( jo, was_loaded, "fear_triggers", fear_trig, enum_flags_reader<monster_trigger> {} );
+    optional( jo, was_loaded, "anger_triggers", anger, enum_flags_reader<monster_trigger> {} );
+    optional( jo, was_loaded, "placate_triggers", placate, enum_flags_reader<monster_trigger> {} );
+    optional( jo, was_loaded, "fear_triggers", fear, enum_flags_reader<monster_trigger> {} );
 }
 
 const std::vector<mtype> &MonsterGenerator::get_all_mtypes() const

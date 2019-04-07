@@ -9,18 +9,17 @@
 
 #include "enums.h"
 #include "mattack_common.h"
+#include "mtype.h"
 #include "pimpl.h"
 #include "string_id.h"
 
 class JsonObject;
 class Creature;
-struct mtype;
-enum m_flag : int;
-enum monster_trigger : int;
-enum m_size : int;
 class monster;
 class Creature;
+
 struct dealt_projectile_attack;
+
 using mon_action_death  = void ( * )( monster & );
 using mon_action_attack = bool ( * )( monster * );
 using mon_action_defend = void ( * )( monster &, Creature *, dealt_projectile_attack const * );
@@ -35,8 +34,10 @@ class generic_factory;
 struct species_type {
     species_id id;
     bool was_loaded = false;
-    std::set<m_flag> flags;
-    std::set<monster_trigger> anger_trig, fear_trig, placate_trig;
+    std::bitset<MF_MAX> flags;
+    std::bitset<N_MONSTER_TRIGGERS> anger;
+    std::bitset<N_MONSTER_TRIGGERS> fear;
+    std::bitset<N_MONSTER_TRIGGERS> placate;
 
     species_type(): id( species_id::NULL_ID() ) {
 
@@ -94,9 +95,6 @@ class MonsterGenerator
         void apply_species_attributes( mtype &mon );
         void set_species_ids( mtype &mon );
         void finalize_pathfinding_settings( mtype &mon );
-
-        template <typename T> void apply_set_to_set( std::set<T> from, std::set<T> &to );
-        template <typename T, size_t N> void apply_set_to_set( std::set<T> from, std::bitset<N> &to );
 
         friend class string_id<mtype>;
         friend class string_id<species_type>;
