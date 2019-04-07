@@ -4079,7 +4079,7 @@ void player::update_stomach( const time_point &from, const time_point &to )
         guts.bowel_movement( guts.get_pass_rates( false ) );
         stomach.bowel_movement( stomach.get_pass_rates( true ), guts );
     }
-    if( stomach.time_since_ate() > 30_minutes ) {
+    if( stomach.time_since_ate() > 10_minutes ) {
         if( stomach.contains() >= stomach.capacity() && get_hunger() > -61 ) {
             // you're engorged! your stomach is full to bursting!
             set_hunger( -61 );
@@ -4121,7 +4121,7 @@ void player::update_stomach( const time_point &from, const time_point &to )
         } else if( stomach.contains() >= stomach.capacity() / 2 && get_hunger() > -1 ) {
             // that's really all the food you need to feel full
             set_hunger( -1 );
-        } else if( stomach.time_since_ate() == 15_minutes && get_kcal_percent() > 0.95 ) {
+        } else if( stomach.contains() > 0_ml && get_kcal_percent() > 0.95 ) {
             // usually eating something cools your hunger
             set_hunger( 0 );
         }
