@@ -43,6 +43,7 @@
     "dispersion": 360,
     "durability": 8,
     "clip_size": 6,
+    "magazines": [ [ "460", [ "460_speedloader6" ] ] ],
     "built_in_mods": [ "lead_holo_sight", "lead_laser_sight" ],
     "valid_mod_locations": [ [ "accessories", 2 ], [ "sights", 1 ], [ "underbarrel", 1 ] ]
   },
