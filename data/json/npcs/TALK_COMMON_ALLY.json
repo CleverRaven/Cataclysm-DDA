@@ -116,6 +116,11 @@
           "yes": "  <mypronoun> will avoid shooting if allies are in the line of fire.",
           "no": "  <mypronoun> will shoot even if allies are in the line of fire."
         },
+        {
+          "npc_rule": "hold_the_line",
+          "yes": "  <mypronoun> will hold the line by not moving into doorways or obstructions adjacent to you.",
+          "no": "  <mypronoun> will move freely to attack enemies."
+        },
         "  What should <mypronoun> do?"
       ]
     },
@@ -158,6 +163,15 @@
         },
         "topic": "TALK_COMBAT_COMMANDS",
         "effect": { "toggle_npc_rule": "avoid_friendly_fire" }
+      },
+      {
+        "truefalsetext": {
+          "condition": { "npc_rule": "hold_the_line" },
+          "true": "Move wherever you need to go to fight an enemy.",
+          "false": "Hold the line: don't move onto obstacles adjacent to me."
+        },
+        "topic": "TALK_COMBAT_COMMANDS",
+        "effect": { "toggle_npc_rule": "hold_the_line" }
       },
       { "text": "Never mind.", "topic": "TALK_NONE" }
     ]

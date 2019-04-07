@@ -228,7 +228,8 @@ enum class ally_rule {
     allow_pulp = 256,
     close_doors = 512,
     avoid_combat = 1024,
-    avoid_doors = 2048
+    avoid_doors = 2048,
+    hold_the_line = 4096
 };
 const std::unordered_map<std::string, ally_rule> ally_rule_strs = { {
         { "use_guns", ally_rule::use_guns },
@@ -242,7 +243,8 @@ const std::unordered_map<std::string, ally_rule> ally_rule_strs = { {
         { "allow_pulp", ally_rule::allow_pulp },
         { "close_doors", ally_rule::close_doors },
         { "avoid_combat", ally_rule::avoid_combat },
-        { "avoid_doors", ally_rule::avoid_doors }
+        { "avoid_doors", ally_rule::avoid_doors },
+        { "hold_the_line", ally_rule::hold_the_line }
     }
 };
 
