@@ -208,11 +208,11 @@ void monster::plan( const mfactions &factions )
     bool fleeing = false;
     bool docile = friendly != 0 && has_effect( effect_docile );
 
-    const bool angers_hostile_weak = type->has_anger_trigger( MTRIG_HOSTILE_WEAK );
-    const int angers_hostile_near = type->has_anger_trigger( MTRIG_HOSTILE_CLOSE ) ? 5 : 0;
-    const int angers_mating_season = type->has_anger_trigger( MTRIG_MATING_SEASON ) ? 3 : 0;
-    const int angers_cub_threatened = type->has_anger_trigger( MTRIG_PLAYER_NEAR_BABY ) ? 8 : 0;
-    const int fears_hostile_near = type->has_fear_trigger( MTRIG_HOSTILE_CLOSE ) ? 5 : 0;
+    const bool angers_hostile_weak = type->has_anger_trigger( mon_trigger::HOSTILE_WEAK );
+    const int angers_hostile_near = type->has_anger_trigger( mon_trigger::HOSTILE_CLOSE ) ? 5 : 0;
+    const int angers_mating_season = type->has_anger_trigger( mon_trigger::MATING_SEASON ) ? 3 : 0;
+    const int angers_cub_threatened = type->has_anger_trigger( mon_trigger::PLAYER_NEAR_BABY ) ? 8 : 0;
+    const int fears_hostile_near = type->has_fear_trigger( mon_trigger::HOSTILE_CLOSE ) ? 5 : 0;
 
     auto all_monsters = g->all_monsters();
     bool group_morale = has_flag( MF_GROUP_MORALE ) && morale < type->morale;

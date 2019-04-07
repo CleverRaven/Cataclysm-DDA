@@ -56,28 +56,31 @@ using harvest_id = string_id<harvest_list>;
 
 // These are triggers which may affect the monster's anger or morale.
 // They are handled in monster::check_triggers(), in monster.cpp
-enum monster_trigger : int {
-    MTRIG_STALK,  // Increases when following the player
-    MTRIG_MEAT,  // Meat or a corpse nearby
-    MTRIG_HOSTILE_WEAK, // Hurt hostile player/npc/monster seen
-    MTRIG_HOSTILE_CLOSE, // Hostile creature within a few tiles
-    MTRIG_HURT,  // We are hurt
-    MTRIG_FIRE,  // Fire nearby
-    MTRIG_FRIEND_DIED, // A monster of the same type died
-    MTRIG_FRIEND_ATTACKED, // A monster of the same type attacked
-    MTRIG_SOUND,  // Heard a sound
-    MTRIG_PLAYER_NEAR_BABY, // Player/npc is near a baby monster of this type
-    MTRIG_MATING_SEASON, // It's the monster's mating season (defined by baby_flags)
-    N_MONSTER_TRIGGERS
+enum class mon_trigger {
+    STALK,              // Increases when following the player
+    MEAT,               // Meat or a corpse nearby
+    HOSTILE_WEAK,       // Hurt hostile player/npc/monster seen
+    HOSTILE_CLOSE,      // Hostile creature within a few tiles
+    HURT,               // We are hurt
+    FIRE,               // Fire nearby
+    FRIEND_DIED,        // A monster of the same type died
+    FRIEND_ATTACKED,    // A monster of the same type attacked
+    SOUND,              // Heard a sound
+    PLAYER_NEAR_BABY,   // Player/npc is near a baby monster of this type
+    MATING_SEASON,      // It's the monster's mating season (defined by baby_flags)
+
+    _LAST               // This item must always remain last.
 };
 
 template<>
-struct enum_traits<monster_trigger> {
-    static constexpr monster_trigger last = monster_trigger::N_MONSTER_TRIGGERS;
+struct enum_traits<mon_trigger> {
+    static constexpr auto last = mon_trigger::_LAST;
 };
 
 // Feel free to add to m_flags.  Order shouldn't matter, just keep it tidy!
 // And comment them well. ;)
+// TODO: And rename them to 'mon_flags'
+// TODO: And turn them into an enum class (like mon_trigger).
 enum m_flag : int {
     MF_SEES,                // It can see you (and will run/follow)
     MF_HEARS,               // It can hear you
@@ -209,9 +212,9 @@ struct mtype {
 
         enum_bitset<m_flag> flags;
 
-        enum_bitset<monster_trigger> anger;
-        enum_bitset<monster_trigger> fear;
-        enum_bitset<monster_trigger> placate;
+        enum_bitset<mon_trigger> anger;
+        enum_bitset<mon_trigger> fear;
+        enum_bitset<mon_trigger> placate;
 
         void add_special_attacks( JsonObject &jo, const std::string &member_name, const std::string &src );
         void remove_special_attacks( JsonObject &jo, const std::string &member_name,
@@ -337,9 +340,9 @@ struct mtype {
         void set_flag( m_flag flag, bool state );
         bool made_of( const material_id &material ) const;
         bool made_of_any( const std::set<material_id> &materials ) const;
-        bool has_anger_trigger( monster_trigger trigger ) const;
-        bool has_fear_trigger( monster_trigger trigger ) const;
-        bool has_placate_trigger( monster_trigger trigger ) const;
+        bool has_anger_trigger( mon_trigger trigger ) const;
+        bool has_fear_trigger( mon_trigger trigger ) const;
+        bool has_placate_trigger( mon_trigger trigger ) const;
         bool in_category( const std::string &category ) const;
         bool in_species( const species_id &spec ) const;
         bool in_species( const species_type &spec ) const;

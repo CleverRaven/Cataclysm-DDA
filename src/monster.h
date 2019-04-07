@@ -25,7 +25,7 @@ class monfaction;
 class player;
 class Character;
 struct mtype;
-enum monster_trigger : int;
+enum class mon_trigger;
 enum field_id : int;
 
 using mfaction_id = int_id<monfaction>;
@@ -469,8 +469,8 @@ class monster : public Creature
         std::set<tripoint> get_path_avoid() const override;
 
     private:
-        void process_trigger( monster_trigger trig, int amount );
-        void process_trigger( monster_trigger trig, const std::function<int()> &amount_func );
+        void process_trigger( mon_trigger trig, int amount );
+        void process_trigger( mon_trigger trig, const std::function<int()> &amount_func );
 
     private:
         int hp;

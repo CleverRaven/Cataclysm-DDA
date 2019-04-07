@@ -30,18 +30,18 @@ namespace
 
 const mtype_id mon_generator( "mon_generator" );
 
-const std::map<std::string, monster_trigger> trigger_map = {
-    { "STALK", MTRIG_STALK },
-    { "MEAT", MTRIG_MEAT },
-    { "PLAYER_WEAK", MTRIG_HOSTILE_WEAK },
-    { "PLAYER_CLOSE", MTRIG_HOSTILE_CLOSE },
-    { "HURT", MTRIG_HURT },
-    { "FIRE", MTRIG_FIRE },
-    { "FRIEND_DIED", MTRIG_FRIEND_DIED },
-    { "FRIEND_ATTACKED", MTRIG_FRIEND_ATTACKED },
-    { "SOUND", MTRIG_SOUND },
-    { "PLAYER_NEAR_BABY", MTRIG_PLAYER_NEAR_BABY },
-    { "MATING_SEASON", MTRIG_MATING_SEASON }
+const std::map<std::string, mon_trigger> trigger_map = {
+    { "STALK",              mon_trigger::STALK },
+    { "MEAT",               mon_trigger::MEAT },
+    { "PLAYER_WEAK",        mon_trigger::HOSTILE_WEAK },
+    { "PLAYER_CLOSE",       mon_trigger::HOSTILE_CLOSE },
+    { "HURT",               mon_trigger::HURT },
+    { "FIRE",               mon_trigger::FIRE },
+    { "FRIEND_DIED",        mon_trigger::FRIEND_DIED },
+    { "FRIEND_ATTACKED",    mon_trigger::FRIEND_ATTACKED },
+    { "SOUND",              mon_trigger::SOUND },
+    { "PLAYER_NEAR_BABY",   mon_trigger::PLAYER_NEAR_BABY },
+    { "MATING_SEASON",      mon_trigger::MATING_SEASON }
 };
 
 const std::map<std::string, m_flag> flag_map = {
@@ -147,7 +147,7 @@ const std::map<std::string, m_flag> flag_map = {
 }
 
 template<>
-monster_trigger io::string_to_enum<monster_trigger>( const std::string &trigger )
+mon_trigger io::string_to_enum<mon_trigger>( const std::string &trigger )
 {
     return string_to_enum_look_up( trigger_map, trigger );
 }
@@ -745,7 +745,7 @@ void mtype::load( JsonObject &jo, const std::string &src )
     // Can't calculate yet - we want all flags first
     optional( jo, was_loaded, "bash_skill", bash_skill, -1 );
 
-    const auto trigger_reader = enum_flags_reader<monster_trigger> { "monster trigger" };
+    const auto trigger_reader = enum_flags_reader<mon_trigger> { "monster trigger" };
     optional( jo, was_loaded, "anger_triggers", anger, trigger_reader );
     optional( jo, was_loaded, "placate_triggers", placate, trigger_reader );
     optional( jo, was_loaded, "fear_triggers", fear, trigger_reader );
@@ -777,7 +777,7 @@ void species_type::load( JsonObject &jo, const std::string & )
     const auto flag_reader = enum_flags_reader<m_flag> { "monster flag" };
     optional( jo, was_loaded, "flags", flags, flag_reader );
 
-    const auto trigger_reader = enum_flags_reader<monster_trigger> { "monster trigger" };
+    const auto trigger_reader = enum_flags_reader<mon_trigger> { "monster trigger" };
     optional( jo, was_loaded, "anger_triggers", anger, trigger_reader );
     optional( jo, was_loaded, "placate_triggers", placate, trigger_reader );
     optional( jo, was_loaded, "fear_triggers", fear, trigger_reader );

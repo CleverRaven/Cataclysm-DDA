@@ -91,17 +91,17 @@ bool mtype::made_of_any( const std::set<material_id> &materials ) const
     } );
 }
 
-bool mtype::has_anger_trigger( monster_trigger trigger ) const
+bool mtype::has_anger_trigger( mon_trigger trigger ) const
 {
     return anger[trigger];
 }
 
-bool mtype::has_fear_trigger( monster_trigger trigger ) const
+bool mtype::has_fear_trigger( mon_trigger trigger ) const
 {
     return fear[trigger];
 }
 
-bool mtype::has_placate_trigger( monster_trigger trigger ) const
+bool mtype::has_placate_trigger( mon_trigger trigger ) const
 {
     return placate[trigger];
 }

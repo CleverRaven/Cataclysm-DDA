@@ -35,9 +35,9 @@ struct species_type {
     species_id id;
     bool was_loaded = false;
     enum_bitset<m_flag> flags;
-    enum_bitset<monster_trigger> anger;
-    enum_bitset<monster_trigger> fear;
-    enum_bitset<monster_trigger> placate;
+    enum_bitset<mon_trigger> anger;
+    enum_bitset<mon_trigger> fear;
+    enum_bitset<mon_trigger> placate;
 
     species_type(): id( species_id::NULL_ID() ) {
 

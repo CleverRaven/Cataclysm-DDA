@@ -1001,11 +1001,11 @@ int monster::hp_percentage() const
 
 void monster::process_triggers()
 {
-    process_trigger( MTRIG_STALK, [this]() {
+    process_trigger( mon_trigger::STALK, [this]() {
         return anger > 0 && one_in( 5 ) ? 1 : 0;
     } );
 
-    process_trigger( MTRIG_FIRE, [this]() {
+    process_trigger( mon_trigger::FIRE, [this]() {
         int ret = 0;
         for( auto &p : g->m.points_in_radius( pos(), 3 ) ) {
             ret += 5 * g->m.get_field_strength( p, fd_fire );
@@ -1039,7 +1039,7 @@ void monster::process_triggers()
 }
 
 // This adjusts anger/morale levels given a single trigger.
-void monster::process_trigger( monster_trigger trig, int amount )
+void monster::process_trigger( mon_trigger trig, int amount )
 {
     if( type->has_anger_trigger( trig ) ) {
         anger += amount;
@@ -1052,7 +1052,7 @@ void monster::process_trigger( monster_trigger trig, int amount )
     }
 }
 
-void monster::process_trigger( monster_trigger trig, const std::function<int()> &amount_func )
+void monster::process_trigger( mon_trigger trig, const std::function<int()> &amount_func )
 {
     if( type->has_anger_trigger( trig ) ) {
         anger += amount_func();
@@ -1426,7 +1426,7 @@ void monster::apply_damage( Creature *source, body_part /*bp*/, int dam,
     if( hp < 1 ) {
         set_killer( source );
     } else if( dam > 0 ) {
-        process_trigger( MTRIG_HURT, 1 + static_cast<int>( dam / 3 ) );
+        process_trigger( mon_trigger::HURT, 1 + static_cast<int>( dam / 3 ) );
     }
 }
 
@@ -1983,13 +1983,13 @@ void monster::die( Creature *nkiller )
     // If our species fears seeing one of our own die, process that
     int anger_adjust = 0;
     int morale_adjust = 0;
-    if( type->has_anger_trigger( MTRIG_FRIEND_DIED ) ) {
+    if( type->has_anger_trigger( mon_trigger::FRIEND_DIED ) ) {
         anger_adjust += 15;
     }
-    if( type->has_fear_trigger( MTRIG_FRIEND_DIED ) ) {
+    if( type->has_fear_trigger( mon_trigger::FRIEND_DIED ) ) {
         morale_adjust -= 15;
     }
-    if( type->has_placate_trigger( MTRIG_FRIEND_DIED ) ) {
+    if( type->has_placate_trigger( mon_trigger::FRIEND_DIED ) ) {
         anger_adjust -= 15;
     }
 
@@ -2374,13 +2374,13 @@ void monster::on_hit( Creature *source, body_part,
     // Adjust anger/morale of same-species monsters, if appropriate
     int anger_adjust = 0;
     int morale_adjust = 0;
-    if( type->has_anger_trigger( MTRIG_FRIEND_ATTACKED ) ) {
+    if( type->has_anger_trigger( mon_trigger::FRIEND_ATTACKED ) ) {
         anger_adjust += 15;
     }
-    if( type->has_fear_trigger( MTRIG_FRIEND_ATTACKED ) ) {
+    if( type->has_fear_trigger( mon_trigger::FRIEND_ATTACKED ) ) {
         morale_adjust -= 15;
     }
-    if( type->has_placate_trigger( MTRIG_FRIEND_ATTACKED ) ) {
+    if( type->has_placate_trigger( mon_trigger::FRIEND_ATTACKED ) ) {
         anger_adjust -= 15;
     }
 
@@ -2461,7 +2461,7 @@ void monster::hear_sound( const tripoint &source, const int vol, const int dist 
     // target_z will require some special check due to soil muffling sounds
 
     int wander_turns = volume * ( goodhearing ? 6 : 1 );
-    process_trigger( MTRIG_SOUND, volume );
+    process_trigger( mon_trigger::SOUND, volume );
     if( morale >= 0 && anger >= 10 ) {
         // TODO: Add a proper check for fleeing attitude
         // but cache it nicely, because this part is called a lot
