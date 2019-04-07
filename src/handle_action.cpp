@@ -110,15 +110,17 @@ input_context game::get_player_input( std::string &action )
     user_turn current_turn;
 
     if( get_option<bool>( "ANIMATIONS" ) ) {
-        const int x = MAX_VIEW_DISTANCE * 2 + 1;
-        int iStartX = ( TERRAIN_WINDOW_WIDTH > x ) ? ( TERRAIN_WINDOW_WIDTH - x ) / 2 : 0;
+        const int TOTAL_VIEW = MAX_VIEW_DISTANCE * 2 + 1;
+        int iStartX = ( TERRAIN_WINDOW_WIDTH > TOTAL_VIEW ) ? ( TERRAIN_WINDOW_WIDTH - TOTAL_VIEW ) / 2 : 0;
         iStartX -= g->sidebar_offset.x;
-        int iStartY = ( TERRAIN_WINDOW_HEIGHT > x ) ? ( TERRAIN_WINDOW_HEIGHT - x ) / 2 : 0;
-        int iEndX = ( TERRAIN_WINDOW_WIDTH > x ) ? TERRAIN_WINDOW_WIDTH - ( TERRAIN_WINDOW_WIDTH - x ) /
+        int iStartY = ( TERRAIN_WINDOW_HEIGHT > TOTAL_VIEW ) ? ( TERRAIN_WINDOW_HEIGHT - TOTAL_VIEW ) / 2 :
+                      0;
+        int iEndX = ( TERRAIN_WINDOW_WIDTH > TOTAL_VIEW ) ? TERRAIN_WINDOW_WIDTH -
+                    ( TERRAIN_WINDOW_WIDTH - TOTAL_VIEW ) /
                     2 :
                     TERRAIN_WINDOW_WIDTH;
-        int iEndY = ( TERRAIN_WINDOW_HEIGHT > x ) ? TERRAIN_WINDOW_HEIGHT -
-                    ( TERRAIN_WINDOW_HEIGHT - x ) /
+        int iEndY = ( TERRAIN_WINDOW_HEIGHT > TOTAL_VIEW ) ? TERRAIN_WINDOW_HEIGHT -
+                    ( TERRAIN_WINDOW_HEIGHT - TOTAL_VIEW ) /
                     2 : TERRAIN_WINDOW_HEIGHT;
 
         if( fullscreen ) {
