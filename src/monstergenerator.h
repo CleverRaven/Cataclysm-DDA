@@ -82,7 +82,6 @@ class MonsterGenerator
         void init_death();
         void init_attack();
         void init_defense();
-        void init_trigger();
 
         void add_hardcoded_attack( const std::string &type, const mon_action_attack f );
         void add_attack( mattack_actor *ptr );
@@ -111,7 +110,6 @@ class MonsterGenerator
         std::map<std::string, phase_id> phase_map;
         std::map<std::string, mon_action_death> death_map;
         std::map<std::string, mon_action_defend> defense_map;
-        std::map<std::string, monster_trigger> trigger_map;
         std::map<std::string, mtype_special_attack> attack_map;
 };
 

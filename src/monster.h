@@ -470,8 +470,8 @@ class monster : public Creature
 
     private:
         void process_trigger( monster_trigger trig, int amount );
-        void process_trigger( monster_trigger trig, const std::function<int()>& amount_func );
-    
+        void process_trigger( monster_trigger trig, const std::function<int()> &amount_func );
+
     private:
         int hp;
         std::map<std::string, mon_special_attack> special_attacks;

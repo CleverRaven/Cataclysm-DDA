@@ -31,6 +31,21 @@ namespace
 
 const mtype_id mon_generator( "mon_generator" );
 
+const std::map<std::string, monster_trigger> trigger_map = {
+    { "NULL", MTRIG_NULL },
+    { "STALK", MTRIG_STALK },
+    { "MEAT", MTRIG_MEAT },
+    { "PLAYER_WEAK", MTRIG_HOSTILE_WEAK },
+    { "PLAYER_CLOSE", MTRIG_HOSTILE_CLOSE },
+    { "HURT", MTRIG_HURT },
+    { "FIRE", MTRIG_FIRE },
+    { "FRIEND_DIED", MTRIG_FRIEND_DIED },
+    { "FRIEND_ATTACKED", MTRIG_FRIEND_ATTACKED },
+    { "SOUND", MTRIG_SOUND },
+    { "PLAYER_NEAR_BABY", MTRIG_PLAYER_NEAR_BABY },
+    { "MATING_SEASON", MTRIG_MATING_SEASON }
+};
+
 const std::map<std::string, m_flag> flag_map = {
     // see mtype.h for commentary
     { "NULL", MF_NULL },
@@ -135,6 +150,12 @@ const std::map<std::string, m_flag> flag_map = {
 }
 
 template<>
+monster_trigger io::string_to_enum<monster_trigger>( const std::string &trigger )
+{
+    return string_to_enum_look_up( trigger_map, trigger );
+}
+
+template<>
 m_flag io::string_to_enum<m_flag>( const std::string &flag )
 {
     return string_to_enum_look_up( flag_map, flag );
@@ -178,7 +199,6 @@ MonsterGenerator::MonsterGenerator()
     init_attack();
     init_defense();
     init_death();
-    init_trigger();
 }
 
 MonsterGenerator::~MonsterGenerator() = default;
@@ -542,24 +562,6 @@ void MonsterGenerator::init_defense()
     defense_map["ACIDSPLASH"] = &mdefense::acidsplash; //Splash acid on the attacker
 }
 
-void MonsterGenerator::init_trigger()
-{
-    trigger_map["NULL"] = MTRIG_NULL;// = 0,
-    trigger_map["STALK"] = MTRIG_STALK;//  // Increases when following the player
-    trigger_map["MEAT"] = MTRIG_MEAT;//  // Meat or a corpse nearby
-    trigger_map["PLAYER_WEAK"] = MTRIG_HOSTILE_WEAK;// // Hurt hostile player/npc/monster seen
-    trigger_map["PLAYER_CLOSE"] = MTRIG_HOSTILE_CLOSE;// // Hostile creature within a few tiles
-    trigger_map["HURT"] = MTRIG_HURT;//  // We are hurt
-    trigger_map["FIRE"] = MTRIG_FIRE;//  // Fire nearby
-    trigger_map["FRIEND_DIED"] = MTRIG_FRIEND_DIED;// // A monster of the same type died
-    trigger_map["FRIEND_ATTACKED"] = MTRIG_FRIEND_ATTACKED;// // A monster of the same type attacked
-    trigger_map["SOUND"] = MTRIG_SOUND;//  // Heard a sound
-    trigger_map["PLAYER_NEAR_BABY"] =
-        MTRIG_PLAYER_NEAR_BABY; // // Player/npc is near a baby monster of this type
-    trigger_map["MATING_SEASON"] =
-        MTRIG_MATING_SEASON; // It's the monster's mating season (defined by baby_flags)
-}
-
 void MonsterGenerator::set_species_ids( mtype &mon )
 {
     for( const auto &s : mon.species ) {
@@ -783,11 +785,9 @@ void mtype::load( JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "flags", flags, enum_flags_reader<m_flag> {} );
     // Can't calculate yet - we want all flags first
     optional( jo, was_loaded, "bash_skill", bash_skill, -1 );
-
-    const auto trigger_reader = make_flag_reader( gen.trigger_map, "monster trigger" );
-    optional( jo, was_loaded, "anger_triggers", anger, trigger_reader );
-    optional( jo, was_loaded, "placate_triggers", placate, trigger_reader );
-    optional( jo, was_loaded, "fear_triggers", fear, trigger_reader );
+    optional( jo, was_loaded, "anger_triggers", anger, enum_flags_reader<monster_trigger> {} );
+    optional( jo, was_loaded, "placate_triggers", placate, enum_flags_reader<monster_trigger> {} );
+    optional( jo, was_loaded, "fear_triggers", fear, enum_flags_reader<monster_trigger> {} );
 
     if( jo.has_member( "path_settings" ) ) {
         auto jop = jo.get_object( "path_settings" );
@@ -813,14 +813,10 @@ void MonsterGenerator::load_species( JsonObject &jo, const std::string &src )
 
 void species_type::load( JsonObject &jo, const std::string & )
 {
-    MonsterGenerator &gen = MonsterGenerator::generator();
-
     optional( jo, was_loaded, "flags", flags, enum_flags_reader<m_flag> {} );
-
-    const auto trigger_reader = make_flag_reader( gen.trigger_map, "monster trigger" );
-    optional( jo, was_loaded, "anger_triggers", anger_trig, trigger_reader );
-    optional( jo, was_loaded, "placate_triggers", placate_trig, trigger_reader );
-    optional( jo, was_loaded, "fear_triggers", fear_trig, trigger_reader );
+    optional( jo, was_loaded, "anger_triggers", anger_trig, enum_flags_reader<monster_trigger> {} );
+    optional( jo, was_loaded, "placate_triggers", placate_trig, enum_flags_reader<monster_trigger> {} );
+    optional( jo, was_loaded, "fear_triggers", fear_trig, enum_flags_reader<monster_trigger> {} );
 }
 
 const std::vector<mtype> &MonsterGenerator::get_all_mtypes() const

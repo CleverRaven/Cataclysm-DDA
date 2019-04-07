@@ -1003,15 +1003,15 @@ void monster::process_triggers()
 {
     process_trigger( MTRIG_STALK, [this]() {
         return anger > 0 && one_in( 5 ) ? 1 : 0;
-    });
-    
+    } );
+
     process_trigger( MTRIG_FIRE, [this]() {
-        int ret = 0;        
+        int ret = 0;
         for( auto &p : g->m.points_in_radius( pos(), 3 ) ) {
             ret += 5 * g->m.get_field_strength( p, fd_fire );
-        }                    
+        }
         return ret;
-    });
+    } );
 
     // Meat checking is disabled as for now.
     // It's hard to ever see it in action
@@ -1052,7 +1052,7 @@ void monster::process_trigger( monster_trigger trig, int amount )
     }
 }
 
-void monster::process_trigger( monster_trigger trig, const std::function<int()>& amount_func )
+void monster::process_trigger( monster_trigger trig, const std::function<int()> &amount_func )
 {
     if( type->has_anger_trigger( trig ) ) {
         anger += amount_func();

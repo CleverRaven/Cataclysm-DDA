@@ -199,6 +199,9 @@ struct mtype {
         std::set< const species_type * > species_ptrs;
         std::bitset<MF_MAX> flags;
 
+        std::set<monster_trigger> anger, placate, fear;
+        std::bitset<N_MONSTER_TRIGGERS> bitanger, bitfear, bitplacate;
+
         void add_special_attacks( JsonObject &jo, const std::string &member_name, const std::string &src );
         void remove_special_attacks( JsonObject &jo, const std::string &member_name,
                                      const std::string &src );
@@ -225,9 +228,6 @@ struct mtype {
         units::mass weight;
         std::vector<material_id> mat;
         phase_id phase;
-        std::set<monster_trigger> anger, placate, fear;
-
-        std::bitset<N_MONSTER_TRIGGERS> bitanger, bitfear, bitplacate;
 
         /** Stores effect data for effects placed on attack */
         std::vector<mon_effect_data> atk_effs;
