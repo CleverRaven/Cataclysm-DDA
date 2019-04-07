@@ -1312,7 +1312,7 @@ class player : public Character
         bool use_charges_if_avail( const itype_id &it, long quantity );// Uses up charges
 
         std::list<item> use_charges( const itype_id &what, long qty,
-                                     const std::function<bool( const item & )> &filter = return_true ); // Uses up charges
+                                     const std::function<bool( const item & )> &filter = is_crafting_component ); // Uses up charges
 
         bool has_charges( const itype_id &it, long quantity,
                           const std::function<bool( const item & )> &filter = return_true ) const;

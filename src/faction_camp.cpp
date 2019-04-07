@@ -1410,7 +1410,7 @@ void basecamp::start_upgrade( const std::string &bldg, const std::string &key, t
     const recipe &making = recipe_id( bldg ).obj();
     //Stop upgrade if you don't have materials
     inventory total_inv = camp_crafting_inventory( omt_tri, by_radio );
-    if( making.requirements().can_make_with_inventory( total_inv, 1, making.get_component_filter() ) ) {
+    if( making.requirements().can_make_with_inventory( total_inv, making.get_component_filter(), 1 ) ) {
         time_duration making_time = time_duration::from_turns( making.time / 100 );
         bool must_feed = bldg != "faction_base_camp_1";
 
@@ -1761,7 +1761,8 @@ void basecamp::craft_construction( const std::string &cur_id, const std::string 
         }
         const recipe &making = recipe_id( r.second ).obj();
         inventory total_inv = camp_crafting_inventory( omt_tri, by_radio );
-        if( !making.requirements().can_make_with_inventory( total_inv, 1, making.get_component_filter() ) ) {
+        if( !making.requirements().can_make_with_inventory( total_inv, making.get_component_filter(),
+                1 ) ) {
             popup( _( "You don't have the materials to craft that" ) );
             continue;
         }

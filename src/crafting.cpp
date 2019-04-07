@@ -814,7 +814,7 @@ void player::complete_craft( item &craft )
 /* selection of component if a recipe requirement has multiple options (e.g. 'duct tap' or 'welder') */
 comp_selection<item_comp> player::select_item_component( const std::vector<item_comp> &components,
         int batch, inventory &map_inv, bool can_cancel,
-        const std::function<bool( const item & )> &filter, bool player_inv  )
+        const std::function<bool( const item & )> &filter, bool player_inv )
 {
     std::vector<item_comp> player_has;
     std::vector<item_comp> map_has;
@@ -992,13 +992,12 @@ void empty_buckets( player &p )
 std::list<item> player::consume_items( const comp_selection<item_comp> &is, int batch,
                                        const std::function<bool( const item & )> &filter )
 {
-    return consume_items( g->m, is, batch, amount_filter, charges_filter, pos(), PICKUP_RANGE );
+    return consume_items( g->m, is, batch, filter, pos(), PICKUP_RANGE );
 }
 
 
 std::list<item> player::consume_items( map &m, const comp_selection<item_comp> &is, int batch,
-                                       const std::function<bool( const item & )> &amount_filter,
-                                       const std::function<bool( const item & )> &charges_filter, tripoint origin, int radius )
+                                       const std::function<bool( const item & )> &filter, tripoint origin, int radius )
 {
     std::list<item> ret;
 
@@ -1016,18 +1015,10 @@ std::list<item> player::consume_items( map &m, const comp_selection<item_comp> &
     // First try to get everything from the map, than (remaining amount) from player
     if( is.use_from & use_from_map ) {
         if( by_charges ) {
-<<<<<<< HEAD
-            std::list<item> tmp = m.use_charges( loc, radius, selected_comp.type, real_count,
-                                                 charges_filter );
+            std::list<item> tmp = m.use_charges( loc, radius, selected_comp.type, real_count, filter );
             ret.splice( ret.end(), tmp );
         } else {
-            std::list<item> tmp = m.use_amount( loc, radius, selected_comp.type, real_count, amount_filter );
-=======
-            std::list<item> tmp = g->m.use_charges( loc, PICKUP_RANGE, selected_comp.type, real_count, filter );
-            ret.splice( ret.end(), tmp );
-        } else {
-            std::list<item> tmp = g->m.use_amount( loc, PICKUP_RANGE, selected_comp.type, real_count, filter );
->>>>>>> Disallow rotten components in non-perishable crafts
+            std::list<item> tmp = g->m.use_amount( loc, radius, selected_comp.type, real_count, filter );
             remove_ammo( tmp, *this );
             ret.splice( ret.end(), tmp );
         }
