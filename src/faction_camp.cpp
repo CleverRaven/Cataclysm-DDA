@@ -2585,14 +2585,12 @@ void camp_search_results( int skill, const Group_tag &group_id, int attempts, in
                         target_bay.save();
                     }
                 } else {
-                    add_msg( "trying to find sorting zone to drop loot" );
                     auto &mgr = zone_manager::get_manager();
                     if( g->m.check_vehicle_zones( g->get_levz() ) ) {
                         mgr.cache_vzones();
                     }
                     const auto abspos = g->m.getabs( g->u.pos() );
                     if( mgr.has_near( z_loot_unsorted, abspos ) ) {
-                        add_msg( "dropping loot at sorting zone" );
                         const auto &src_set = mgr.get_near( z_loot_unsorted, abspos );
                         const auto &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
                         // Find the nearest unsorted zone to dump objects at
