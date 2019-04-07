@@ -344,6 +344,11 @@
           "npc_rule": "avoid_doors",
           "yes": "  <mypronoun> will not go places that require opening a door.",
           "no": "  <mypronoun> will open doors to reach a destination."
+        },
+        {
+          "npc_rule": "ignore_noise",
+          "yes": "<mypronoun> will not investigate noises.",
+          "no": "<mypronoun> will investigate noises coming from unseen places."
         }
       ]
     },
@@ -392,6 +397,15 @@
         },
         "topic": "TALK_MISC_RULES",
         "effect": { "toggle_npc_rule": "avoid_doors" }
+      },
+      {
+        "truefalsetext": {
+          "condition": { "npc_rule": "ignore_noise" },
+          "true": "If you hear a noise but can't see the source, move to investigate it.",
+          "false": "Don't investigate noises that you can't see."
+        },
+        "topic": "TALK_MISC_RULES",
+        "effect": { "toggle_npc_rule": "ignore_noise" }
       },
       { "text": "Set up pickup rules.", "topic": "TALK_MISC_RULES", "effect": "set_npc_pickup" },
       { "text": "Never mind.", "topic": "TALK_NONE" }

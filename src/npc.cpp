@@ -2658,6 +2658,7 @@ npc_follower_rules::npc_follower_rules()
     clear_flag( ally_rule::avoid_combat );
     clear_flag( ally_rule::avoid_doors );
     clear_flag( ally_rule::hold_the_line );
+    clear_flag( ally_rule::ignore_noise );
 }
 
 bool npc_follower_rules::has_flag( ally_rule test ) const
