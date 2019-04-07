@@ -1961,8 +1961,8 @@ bool mission_type::parse_start( JsonObject &jo )
         ::dialogue d;
         d.beta = g->find_npc( miss->get_npc_id() );
         if( d.beta == nullptr ) {
-            debugmsg( "couldn't find an NPC!" );
-            return;
+            standard_npc default_npc( "Default" );
+            d.beta = &default_npc;
         }
         d.alpha = &g->u;
         for( const talk_effect_fun_t &effect : talk_effects.effects ) {
