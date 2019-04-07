@@ -73,8 +73,6 @@ class MonsterGenerator
         friend struct species_type;
         friend class mattack_actor;
 
-    protected:
-        m_flag m_flag_from_string( const std::string &flag ) const;
     private:
         MonsterGenerator();
 
@@ -84,7 +82,6 @@ class MonsterGenerator
         void init_attack();
         void init_defense();
         void init_trigger();
-        void init_flags();
 
         void add_hardcoded_attack( const std::string &type, const mon_action_attack f );
         void add_attack( mattack_actor *ptr );
@@ -114,7 +111,6 @@ class MonsterGenerator
         std::map<std::string, mon_action_defend> defense_map;
         std::map<std::string, monster_trigger> trigger_map;
         std::map<std::string, mtype_special_attack> attack_map;
-        std::map<std::string, m_flag> flag_map;
 };
 
 void load_monster_adjustment( JsonObject &jsobj );

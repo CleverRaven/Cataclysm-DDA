@@ -26,7 +26,119 @@
 
 extern bool test_mode;
 
+namespace
+{
+
 const mtype_id mon_generator( "mon_generator" );
+
+const std::map<std::string, m_flag> flag_map = {
+    // see mtype.h for commentary
+    { "NULL", MF_NULL },
+    { "SEES", MF_SEES },
+    { "HEARS", MF_HEARS },
+    { "GOODHEARING", MF_GOODHEARING },
+    { "SMELLS", MF_SMELLS },
+    { "KEENNOSE", MF_KEENNOSE },
+    { "STUMBLES", MF_STUMBLES },
+    { "WARM", MF_WARM },
+    { "NOHEAD", MF_NOHEAD },
+    { "HARDTOSHOOT", MF_HARDTOSHOOT },
+    { "GRABS", MF_GRABS },
+    { "BASHES", MF_BASHES },
+    { "GROUP_BASH", MF_GROUP_BASH },
+    { "DESTROYS", MF_DESTROYS },
+    { "BORES", MF_BORES },
+    { "POISON", MF_POISON },
+    { "VENOM", MF_VENOM },
+    { "BADVENOM", MF_BADVENOM },
+    { "PARALYZEVENOM", MF_PARALYZE },
+    { "BLEED", MF_BLEED },
+    { "WEBWALK", MF_WEBWALK },
+    { "DIGS", MF_DIGS },
+    { "CAN_DIG", MF_CAN_DIG },
+    { "FLIES", MF_FLIES },
+    { "AQUATIC", MF_AQUATIC },
+    { "SWIMS", MF_SWIMS },
+    { "FISHABLE", MF_FISHABLE },
+    { "ATTACKMON", MF_ATTACKMON },
+    { "ANIMAL", MF_ANIMAL },
+    { "PLASTIC", MF_PLASTIC },
+    { "SUNDEATH", MF_SUNDEATH },
+    { "ELECTRIC", MF_ELECTRIC },
+    { "ACIDPROOF", MF_ACIDPROOF },
+    { "ACIDTRAIL", MF_ACIDTRAIL },
+    { "SHORTACIDTRAIL", MF_SHORTACIDTRAIL },
+    { "FIREPROOF", MF_FIREPROOF },
+    { "SLUDGEPROOF", MF_SLUDGEPROOF },
+    { "SLUDGETRAIL", MF_SLUDGETRAIL },
+    { "FIREY", MF_FIREY },
+    { "QUEEN", MF_QUEEN },
+    { "ELECTRONIC", MF_ELECTRONIC },
+    { "FUR", MF_FUR },
+    { "LEATHER", MF_LEATHER },
+    { "WOOL", MF_WOOL },
+    { "FEATHER", MF_FEATHER },
+    { "CBM_CIV", MF_CBM_CIV },
+    { "BONES", MF_BONES },
+    { "FAT", MF_FAT },
+    { "IMMOBILE", MF_IMMOBILE },
+    { "HIT_AND_RUN", MF_HIT_AND_RUN },
+    { "GUILT", MF_GUILT },
+    { "HUMAN", MF_HUMAN },
+    { "NO_BREATHE", MF_NO_BREATHE },
+    { "REGENERATES_50", MF_REGENERATES_50 },
+    { "REGENERATES_10", MF_REGENERATES_10 },
+    { "REGENERATES_IN_DARK", MF_REGENERATES_IN_DARK },
+    { "FLAMMABLE", MF_FLAMMABLE },
+    { "REVIVES", MF_REVIVES },
+    { "CHITIN", MF_CHITIN },
+    { "VERMIN", MF_VERMIN },
+    { "NOGIB", MF_NOGIB },
+    { "ABSORBS", MF_ABSORBS },
+    { "ABSORBS_SPLITS", MF_ABSORBS_SPLITS },
+    { "LARVA", MF_LARVA },
+    { "ARTHROPOD_BLOOD", MF_ARTHROPOD_BLOOD },
+    { "ACID_BLOOD", MF_ACID_BLOOD },
+    { "BILE_BLOOD", MF_BILE_BLOOD },
+    { "REGEN_MORALE", MF_REGENMORALE },
+    { "CBM_POWER", MF_CBM_POWER },
+    { "CBM_SCI", MF_CBM_SCI },
+    { "CBM_OP", MF_CBM_OP },
+    { "CBM_TECH", MF_CBM_TECH },
+    { "CBM_SUBS", MF_CBM_SUBS },
+    { "FILTHY", MF_FILTHY },
+    { "SWARMS", MF_SWARMS },
+    { "CLIMBS", MF_CLIMBS },
+    { "GROUP_MORALE", MF_GROUP_MORALE },
+    { "INTERIOR_AMMO", MF_INTERIOR_AMMO },
+    { "NIGHT_INVISIBILITY", MF_NIGHT_INVISIBILITY },
+    { "REVIVES_HEALTHY", MF_REVIVES_HEALTHY },
+    { "NO_NECRO", MF_NO_NECRO },
+    { "PUSH_MON", MF_PUSH_MON },
+    { "PUSH_VEH", MF_PUSH_VEH },
+    { "PATH_AVOID_DANGER_1", MF_AVOID_DANGER_1 },
+    { "PATH_AVOID_DANGER_2", MF_AVOID_DANGER_2 },
+    { "PRIORITIZE_TARGETS", MF_PRIORITIZE_TARGETS },
+    { "NOT_HALLUCINATION", MF_NOT_HALLU },
+    { "CATFOOD", MF_CATFOOD },
+    { "CATTLEFODDER", MF_CATTLEFODDER },
+    { "BIRDFOOD", MF_BIRDFOOD },
+    { "DOGFOOD", MF_DOGFOOD },
+    { "MILKABLE", MF_MILKABLE },
+    { "NO_BREED", MF_NO_BREED },
+    { "PET_WONT_FOLLOW", MF_PET_WONT_FOLLOW },
+    { "DRIPS_NAPALM", MF_DRIPS_NAPALM },
+    { "ELECTRIC_FIELD", MF_ELECTRIC_FIELD },
+    { "LOUDMOVES", MF_LOUDMOVES }
+};
+
+}
+
+template<>
+m_flag io::string_to_enum<m_flag>( const std::string &flag )
+{
+    return string_to_enum_look_up( flag_map, flag );
+}
 
 /** @relates string_id */
 template<>
@@ -66,7 +178,6 @@ MonsterGenerator::MonsterGenerator()
     init_attack();
     init_defense();
     init_death();
-    init_flags();
     init_trigger();
 }
 
@@ -445,108 +556,6 @@ void MonsterGenerator::init_trigger()
         MTRIG_MATING_SEASON; // It's the monster's mating season (defined by baby_flags)
 }
 
-void MonsterGenerator::init_flags()
-{
-    // see mtype.h for commentary
-    flag_map["NULL"] = MF_NULL;
-    flag_map["SEES"] = MF_SEES;
-    flag_map["HEARS"] = MF_HEARS;
-    flag_map["GOODHEARING"] = MF_GOODHEARING;
-    flag_map["SMELLS"] = MF_SMELLS;
-    flag_map["KEENNOSE"] = MF_KEENNOSE;
-    flag_map["STUMBLES"] = MF_STUMBLES;
-    flag_map["WARM"] = MF_WARM;
-    flag_map["NOHEAD"] = MF_NOHEAD;
-    flag_map["HARDTOSHOOT"] = MF_HARDTOSHOOT;
-    flag_map["GRABS"] = MF_GRABS;
-    flag_map["BASHES"] = MF_BASHES;
-    flag_map["GROUP_BASH"] = MF_GROUP_BASH;
-    flag_map["DESTROYS"] = MF_DESTROYS;
-    flag_map["BORES"] = MF_BORES;
-    flag_map["POISON"] = MF_POISON;
-    flag_map["VENOM"] = MF_VENOM;
-    flag_map["BADVENOM"] = MF_BADVENOM;
-    flag_map["PARALYZEVENOM"] = MF_PARALYZE;
-    flag_map["BLEED"] = MF_BLEED;
-    flag_map["WEBWALK"] = MF_WEBWALK;
-    flag_map["DIGS"] = MF_DIGS;
-    flag_map["CAN_DIG"] = MF_CAN_DIG;
-    flag_map["FLIES"] = MF_FLIES;
-    flag_map["AQUATIC"] = MF_AQUATIC;
-    flag_map["SWIMS"] = MF_SWIMS;
-    flag_map["FISHABLE"] = MF_FISHABLE;
-    flag_map["ATTACKMON"] = MF_ATTACKMON;
-    flag_map["ANIMAL"] = MF_ANIMAL;
-    flag_map["PLASTIC"] = MF_PLASTIC;
-    flag_map["SUNDEATH"] = MF_SUNDEATH;
-    flag_map["ELECTRIC"] = MF_ELECTRIC;
-    flag_map["ACIDPROOF"] = MF_ACIDPROOF;
-    flag_map["ACIDTRAIL"] = MF_ACIDTRAIL;
-    flag_map["SHORTACIDTRAIL"] = MF_SHORTACIDTRAIL;
-    flag_map["FIREPROOF"] = MF_FIREPROOF;
-    flag_map["SLUDGEPROOF"] = MF_SLUDGEPROOF;
-    flag_map["SLUDGETRAIL"] = MF_SLUDGETRAIL;
-    flag_map["FIREY"] = MF_FIREY;
-    flag_map["QUEEN"] = MF_QUEEN;
-    flag_map["ELECTRONIC"] = MF_ELECTRONIC;
-    flag_map["FUR"] = MF_FUR;
-    flag_map["LEATHER"] = MF_LEATHER;
-    flag_map["WOOL"] = MF_WOOL;
-    flag_map["FEATHER"] = MF_FEATHER;
-    flag_map["CBM_CIV"] = MF_CBM_CIV;
-    flag_map["BONES"] = MF_BONES;
-    flag_map["FAT"] = MF_FAT;
-    flag_map["IMMOBILE"] = MF_IMMOBILE;
-    flag_map["HIT_AND_RUN"] = MF_HIT_AND_RUN;
-    flag_map["GUILT"] = MF_GUILT;
-    flag_map["HUMAN"] = MF_HUMAN;
-    flag_map["NO_BREATHE"] = MF_NO_BREATHE;
-    flag_map["REGENERATES_50"] = MF_REGENERATES_50;
-    flag_map["REGENERATES_10"] = MF_REGENERATES_10;
-    flag_map["REGENERATES_IN_DARK"] = MF_REGENERATES_IN_DARK;
-    flag_map["FLAMMABLE"] = MF_FLAMMABLE;
-    flag_map["REVIVES"] = MF_REVIVES;
-    flag_map["CHITIN"] = MF_CHITIN;
-    flag_map["VERMIN"] = MF_VERMIN;
-    flag_map["NOGIB"] = MF_NOGIB;
-    flag_map["ABSORBS"] = MF_ABSORBS;
-    flag_map["ABSORBS_SPLITS"] = MF_ABSORBS_SPLITS;
-    flag_map["LARVA"] = MF_LARVA;
-    flag_map["ARTHROPOD_BLOOD"] = MF_ARTHROPOD_BLOOD;
-    flag_map["ACID_BLOOD"] = MF_ACID_BLOOD;
-    flag_map["BILE_BLOOD"] = MF_BILE_BLOOD;
-    flag_map["REGEN_MORALE"] = MF_REGENMORALE;
-    flag_map["CBM_POWER"] = MF_CBM_POWER;
-    flag_map["CBM_SCI"] = MF_CBM_SCI;
-    flag_map["CBM_OP"] = MF_CBM_OP;
-    flag_map["CBM_TECH"] = MF_CBM_TECH;
-    flag_map["CBM_SUBS"] = MF_CBM_SUBS;
-    flag_map["FILTHY"] = MF_FILTHY;
-    flag_map["SWARMS"] = MF_SWARMS;
-    flag_map["CLIMBS"] = MF_CLIMBS;
-    flag_map["GROUP_MORALE"] = MF_GROUP_MORALE;
-    flag_map["INTERIOR_AMMO"] = MF_INTERIOR_AMMO;
-    flag_map["NIGHT_INVISIBILITY"] = MF_NIGHT_INVISIBILITY;
-    flag_map["REVIVES_HEALTHY"] = MF_REVIVES_HEALTHY;
-    flag_map["NO_NECRO"] = MF_NO_NECRO;
-    flag_map["PUSH_MON"] = MF_PUSH_MON;
-    flag_map["PUSH_VEH"] = MF_PUSH_VEH;
-    flag_map["PATH_AVOID_DANGER_1"] = MF_AVOID_DANGER_1;
-    flag_map["PATH_AVOID_DANGER_2"] = MF_AVOID_DANGER_2;
-    flag_map["PRIORITIZE_TARGETS"] = MF_PRIORITIZE_TARGETS;
-    flag_map["NOT_HALLUCINATION"] = MF_NOT_HALLU;
-    flag_map["CATFOOD"] = MF_CATFOOD;
-    flag_map["CATTLEFODDER"] = MF_CATTLEFODDER;
-    flag_map["BIRDFOOD"] = MF_BIRDFOOD;
-    flag_map["DOGFOOD"] = MF_DOGFOOD;
-    flag_map["MILKABLE"] = MF_MILKABLE;
-    flag_map["NO_BREED"] = MF_NO_BREED;
-    flag_map["PET_WONT_FOLLOW"] = MF_PET_WONT_FOLLOW;
-    flag_map["DRIPS_NAPALM"] = MF_DRIPS_NAPALM;
-    flag_map["ELECTRIC_FIELD"] = MF_ELECTRIC_FIELD;
-    flag_map["LOUDMOVES"] = MF_LOUDMOVES;
-}
-
 void MonsterGenerator::set_species_ids( mtype &mon )
 {
     for( const auto &s : mon.species ) {
@@ -767,7 +776,7 @@ void mtype::load( JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "burn_into", burn_into, auto_flags_reader<mtype_id> {},
               mtype_id::NULL_ID() );
 
-    optional( jo, was_loaded, "flags", flags, make_flag_reader( gen.flag_map, "monster flag" ) );
+    optional( jo, was_loaded, "flags", flags, enum_flags_reader<m_flag> {} );
     // Can't calculate yet - we want all flags first
     optional( jo, was_loaded, "bash_skill", bash_skill, -1 );
 
@@ -802,8 +811,7 @@ void species_type::load( JsonObject &jo, const std::string & )
 {
     MonsterGenerator &gen = MonsterGenerator::generator();
 
-    const auto flag_reader = make_flag_reader( gen.flag_map, "monster flag" );
-    optional( jo, was_loaded, "flags", flags, flag_reader );
+    optional( jo, was_loaded, "flags", flags, enum_flags_reader<m_flag> {} );
 
     const auto trigger_reader = make_flag_reader( gen.trigger_map, "monster trigger" );
     optional( jo, was_loaded, "anger_triggers", anger_trig, trigger_reader );
@@ -819,11 +827,6 @@ const std::vector<mtype> &MonsterGenerator::get_all_mtypes() const
 mtype_id MonsterGenerator::get_valid_hallucination() const
 {
     return random_entry( hallucination_monsters );
-}
-
-m_flag MonsterGenerator::m_flag_from_string( const std::string &flag ) const
-{
-    return flag_map.find( flag )->second;
 }
 
 class mattack_hardcoded_wrapper : public mattack_actor
