@@ -8,15 +8,8 @@
     "difficulty": 2,
     "time": 30000,
     "autolearn": true,
-    "qualities": [
-      { "id": "CUT", "level": 1 },
-      { "id": "HAMMER", "level": 2 }
-    ],
-    "components": [
-      [ [ "nail", 8 ] ],
-      [ [ "2x4", 4 ] ],
-      [ [ "leather", 1 ] ]
-    ]
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
+    "components": [ [ [ "nail", 8 ] ], [ [ "2x4", 4 ] ], [ [ "leather", 1 ] ] ]
   },
   {
     "result": "shield_wooden_large",
@@ -27,15 +20,8 @@
     "difficulty": 3,
     "time": 50000,
     "autolearn": true,
-    "qualities": [
-      { "id": "CUT", "level": 1 },
-      { "id": "HAMMER", "level": 2 }
-    ],
-    "components": [
-      [ [ "nail", 16 ] ],
-      [ [ "2x4", 8 ] ],
-      [ [ "fur", 2 ], [ "leather", 2 ] ]
-    ]
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
+    "components": [ [ [ "nail", 16 ] ], [ [ "2x4", 8 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
   },
   {
     "result": "shield_hoplon",
@@ -48,11 +34,7 @@
     "book_learn": [ [ "textbook_armwest", 4 ] ],
     "using": [ [ "forging_standard", 2 ], [ "bronzesmithing_tools", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [
-      [ [ "scrap_bronze", 4 ] ],
-      [ [ "2x4", 4 ] ],
-      [ [ "fur", 3 ], [ "leather", 3 ] ]
-    ]
+    "components": [ [ [ "scrap_bronze", 4 ] ], [ [ "2x4", 4 ] ], [ [ "fur", 3 ], [ "leather", 3 ] ] ]
   },
   {
     "result": "shield_scutum",
@@ -70,14 +52,8 @@
       { "id": "HAMMER", "level": 3 },
       { "id": "CHISEL", "level": 3 }
     ],
-    "tools": [
-      [ [ "tongs", -1 ] ],
-      [ [ "swage", -1 ] ]
-    ],
-    "components": [
-      [ [ "2x4", 8 ] ],
-      [ [ "fur", 3 ], [ "leather", 3 ] ]
-    ]
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
+    "components": [ [ [ "2x4", 8 ] ], [ [ "fur", 3 ], [ "leather", 3 ] ] ]
   },
   {
     "result": "shield_round",
@@ -95,14 +71,8 @@
       { "id": "HAMMER", "level": 3 },
       { "id": "CHISEL", "level": 3 }
     ],
-    "tools": [
-      [ [ "tongs", -1 ] ],
-      [ [ "swage", -1 ] ]
-    ],
-    "components": [
-      [ [ "2x4", 4 ] ],
-      [ [ "fur", 3 ], [ "leather", 3 ] ]
-    ]
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
+    "components": [ [ [ "2x4", 4 ] ], [ [ "fur", 3 ], [ "leather", 3 ] ] ]
   },
   {
     "result": "shield_heater",
@@ -114,10 +84,7 @@
     "time": 45000,
     "book_learn": [ [ "textbook_armwest", 4 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [
-      [ [ "2x4", 4 ] ],
-      [ [ "leather", 12 ], [ "tanned_hide", 2 ] ]
-    ]
+    "components": [ [ [ "2x4", 4 ] ], [ [ "leather", 12 ], [ "tanned_hide", 2 ] ] ]
   },
   {
     "result": "shield_kite",
@@ -129,10 +96,7 @@
     "time": 50000,
     "book_learn": [ [ "textbook_armwest", 5 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [
-      [ [ "2x4", 7 ] ],
-      [ [ "leather", 18 ], [ "tanned_hide", 3 ] ]
-    ]
+    "components": [ [ [ "2x4", 7 ] ], [ [ "leather", 18 ], [ "tanned_hide", 3 ] ] ]
   },
   {
     "result": "shield_buckler",
@@ -144,14 +108,7 @@
     "time": 240000,
     "book_learn": [ [ "textbook_armwest", 5 ] ],
     "using": [ [ "forging_standard", 1 ], [ "steel_standard", 1 ] ],
-    "qualities": [
-      { "id": "ANVIL", "level": 3 },
-      { "id": "HAMMER", "level": 3 },
-      { "id": "CHISEL", "level": 3 }
-    ],
-    "tools": [
-      [ [ "tongs", -1 ] ],
-      [ [ "swage", -1 ] ]
-    ]
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ]
   }
 ]

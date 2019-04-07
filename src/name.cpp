@@ -17,6 +17,7 @@ static const std::map< std::string, nameFlags > usage_flags = {
     { "given",     nameIsGivenName },
     { "family",    nameIsFamilyName },
     { "universal", nameIsGivenName | nameIsFamilyName },
+    { "nick",      nameIsNickName },
     { "backer",    nameIsFullName },
     { "city",      nameIsTownName },
     { "world",     nameIsWorldName }
@@ -52,6 +53,7 @@ static nameFlags gender_flag( const std::string &gender )
 // Backer | (Female|Male|Unisex)
 // Given  | (Female|Male)        // unisex names are duplicated in each group
 // Family | Unisex
+// Nick
 // City
 // World
 static void load( JsonIn &jsin )
@@ -126,10 +128,17 @@ std::string generate( bool is_male )
     if( one_in( 4 ) ) {
         return get( baseSearchFlags | nameIsFullName );
     } else {
-        //~ used for constructing names. swapping these will put family name first.
-        return string_format( pgettext( "Full Name", "%1$s %2$s" ),
+        //~ Used for constructing full name: %1$s is `family name`, %2$s is `given name`
+        std::string full_name_format = "%1$s %2$s";
+        //One in three chance to add a nickname to full name
+        if( one_in( 3 ) ) {
+            //~ Used for constructing full name with nickname: %1$s is `family name`, %2$s is `given name`, %3$s is `nickname`
+            full_name_format = "%1$s '%3$s' %2$s";
+        }
+        return string_format( pgettext( "Full Name", full_name_format.c_str() ),
                               get( baseSearchFlags | nameIsGivenName ).c_str(),
-                              get( baseSearchFlags | nameIsFamilyName ).c_str()
+                              get( baseSearchFlags | nameIsFamilyName ).c_str(),
+                              get( nameIsNickName ).c_str()
                             );
     }
 }

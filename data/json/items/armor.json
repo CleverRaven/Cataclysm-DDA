@@ -7326,7 +7326,7 @@
     "warmth": 90,
     "power_armor": true,
     "material_thickness": 11,
-    "environmental_protection": 10,
+    "environmental_protection": 16,
     "use_action": { "type": "ups_based_armor", "activate_msg": "Your power armor engages." },
     "flags": [ "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE" ]
   },
@@ -7396,7 +7396,7 @@
     "warmth": 90,
     "power_armor": true,
     "material_thickness": 11,
-    "environmental_protection": 10,
+    "environmental_protection": 16,
     "qualities": [ [ "GLARE", 2 ] ],
     "flags": [ "WATCH", "WATERPROOF", "STURDY", "PARTIAL_DEAF", "THERMOMETER", "SUN_GLASSES" ]
   },
@@ -7444,7 +7444,7 @@
     "warmth": 60,
     "power_armor": true,
     "material_thickness": 9,
-    "environmental_protection": 8,
+    "environmental_protection": 16,
     "qualities": [ [ "GLARE", 2 ] ],
     "flags": [ "WATCH", "WATERPROOF", "STURDY", "PARTIAL_DEAF", "THERMOMETER", "SUN_GLASSES" ]
   },
@@ -7469,7 +7469,7 @@
     "warmth": 60,
     "power_armor": true,
     "material_thickness": 9,
-    "environmental_protection": 8,
+    "environmental_protection": 16,
     "use_action": { "type": "ups_based_armor", "activate_msg": "Your power armor engages." },
     "flags": [ "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE" ]
   },
