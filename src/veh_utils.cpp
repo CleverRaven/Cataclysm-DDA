@@ -120,7 +120,7 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who_c )
     item base( vp.item );
     for( const auto &e : reqs.get_components() ) {
         for( auto &obj : who.consume_items( who.select_item_component( e, 1, map_inv ), 1, who.pos(),
-                                            PICKUP_RANGE ) ) {
+                                            PICKUP_RANGE, cata::nullopt ) ) {
             if( obj.typeId() == vp.item ) {
                 base = obj;
             }

@@ -263,6 +263,8 @@ std::map<std::string, bcp_miss_data> basecamp_missions_info = {{
  * @param estimate if true, non-destructive count of the furniture
  * @param bring_back force the destruction of the furniture and bring back the drop items
  */
+tripoint get_sorting_zone_point( tripoint omt_tri, bool by_radio );
+inventory camp_crafting_inventory( tripoint omt_tri, bool by_radio = false );
 int om_harvest_furn( npc &comp, const tripoint &omt_tgt, const furn_id &f, int chance = 100,
                      bool estimate = false, bool bring_back = true );
 // om_harvest_furn helper function that counts the furniture instances
@@ -358,7 +360,7 @@ std::string camp_farm_act( const tripoint &omt_pos, size_t &plots_count, farm_op
  * if skill is higher, an item or corpse is spawned
  */
 void camp_search_results( int skill, const Group_tag &group_id, int attempts, int difficulty,
-                          bool by_radio = false );
+                          tripoint omt_tri, bool by_radio = false );
 /**
  * spawn items or corpses based on search attempts
  * @param skill skill level of the search
@@ -369,9 +371,7 @@ void camp_search_results( int skill, const Group_tag &group_id, int attempts, in
  * if skill is higher, an item or corpse is spawned
  */
 void camp_hunting_results( int skill, const std::string &task, int attempts, int difficulty,
-                           bool by_radio = false );
-tripoint get_sorting_zone_point();
-inventory camp_crafting_inventory( tripoint omt_tri, bool by_radio = false );
+                           tripoint omt_tri, bool by_radio = false );
 /// Changes the faction food supply by @ref change, 0 returns total food supply, a negative
 /// total food supply hurts morale
 int camp_food_supply( int change = 0, bool return_days = false );
@@ -553,11 +553,13 @@ void talk_function::basecamp_mission( npc &p )
     if( !temp_camp ) {
         return;
     }
+    basecamp *bcp = *temp_camp;
     bool by_radio = false;
     if( rl_dist( g->u.pos(), p.pos() ) > SEEX * 2 ) {
         by_radio = true;
+    } else {
+        bcp->validate_sort_points();
     }
-    basecamp *bcp = *temp_camp;
     tripoint omt_tri = bcp->camp_omt_pos();
     bcp->get_available_missions( mission_key, omt_tri, by_radio );
     if( display_and_choose_opts( mission_key, omt_pos, basecamp_id, title ) ) {
@@ -1187,14 +1189,14 @@ bool basecamp::handle_mission( const std::string &miss_id, const std::string &mi
         start_mission( "_faction_camp_gathering", 3_hours, true,
                        _( "departs to search for materials..." ), false, {}, "survival", 0 );
     } else if( miss_id == "Recover Ally from Gathering" ) {
-        gathering_return( "_faction_camp_gathering", 3_hours, by_radio );
+        gathering_return( "_faction_camp_gathering", 3_hours, omt_tri, by_radio );
     }
 
     if( miss_id == "Collect Firewood" ) {
         start_mission( "_faction_camp_firewood", 3_hours, true,
                        _( "departs to search for firewood..." ), false, {}, "survival", 0 );
     } else if( miss_id == "Recover Firewood Gatherers" ) {
-        gathering_return( "_faction_camp_firewood", 3_hours, by_radio );
+        gathering_return( "_faction_camp_firewood", 3_hours, omt_tri, by_radio );
     }
 
     if( miss_id == "Menial Labor" ) {
@@ -1235,20 +1237,20 @@ bool basecamp::handle_mission( const std::string &miss_id, const std::string &mi
         start_mission( "_faction_camp_foraging", 4_hours, true,
                        _( "departs to search for edible plants..." ), false, {}, "survival", 0 );
     } else if( miss_id == "Recover Foragers" ) {
-        gathering_return( "_faction_camp_foraging", 4_hours, by_radio );
+        gathering_return( "_faction_camp_foraging", 4_hours, omt_tri, by_radio );
     }
     if( miss_id == "Trap Small Game" ) {
         start_mission( "_faction_camp_trapping", 6_hours, true,
                        _( "departs to set traps for small animals..." ), false, {}, "traps", 0 );
     } else if( miss_id == "Recover Trappers" ) {
-        gathering_return( "_faction_camp_trapping", 6_hours, by_radio );
+        gathering_return( "_faction_camp_trapping", 6_hours, omt_tri, by_radio );
     }
 
     if( miss_id == "Hunt Large Animals" ) {
         start_mission( "_faction_camp_hunting", 6_hours, true,
                        _( "departs to hunt for meat..." ), false, {}, "gun", 0 );
     } else if( miss_id == "Recover Hunter" ) {
-        gathering_return( "_faction_camp_hunting", 6_hours, by_radio );
+        gathering_return( "_faction_camp_hunting", 6_hours, omt_tri, by_radio );
     }
 
     if( miss_id == "Construct Map Fort" || miss_id == "Construct Trench" ) {
@@ -1380,7 +1382,8 @@ npc_ptr basecamp::start_mission( const std::string &miss_id, time_duration durat
     return comp;
 }
 
-void basecamp::start_upgrade( const std::string &bldg, const std::string &key, tripoint omt_tri, bool by_radio )
+void basecamp::start_upgrade( const std::string &bldg, const std::string &key, tripoint omt_tri,
+                              bool by_radio )
 {
     const recipe &making = recipe_id( bldg ).obj();
     //Stop upgrade if you don't have materials
@@ -1393,8 +1396,18 @@ void basecamp::start_upgrade( const std::string &bldg, const std::string &key, t
                                       _( "begins to upgrade the camp..." ), false, {},
                                       making.skill_used.str(), making.difficulty );
         if( comp != nullptr ) {
-            g->u.consume_components_for_craft( making, 1, true, get_sorting_zone_point(), 20 );
-            g->u.invalidate_crafting_inventory();
+            if( !by_radio ) {
+                g->u.consume_components_for_craft( making, 1, true, get_sorting_zone_point( omt_tri, by_radio ),
+                                                   20 );
+                g->u.invalidate_crafting_inventory();
+            } else {
+                tinymap target_bay;
+                cata::optional<tinymap *> q;
+                q = &target_bay;
+                g->u.consume_components_for_craft( making, 1, true, get_sorting_zone_point( omt_tri, by_radio ),
+                                                   20, q );
+                g->u.invalidate_crafting_inventory();
+            }
         }
     } else {
         popup( _( "You don't have the materials for the upgrade." ) );
@@ -1694,13 +1707,24 @@ void basecamp::start_fortifications( std::string &bldg_exp, tripoint omt_tri, bo
                                       _( "begins constructing fortifications..." ), false, {},
                                       making.skill_used.str(), making.difficulty );
         if( comp != nullptr ) {
-            g->u.consume_components_for_craft( making, fortify_om.size() * 2 - 2, true,
-                                               get_sorting_zone_point(), 20 );
-            g->u.invalidate_crafting_inventory();
-            comp->companion_mission_role_id = bldg_exp;
-            for( auto pt : fortify_om ) {
-                comp->companion_mission_points.push_back( pt );
+            if( !by_radio ) {
+                g->u.consume_components_for_craft( making, fortify_om.size() * 2 - 2, true,
+                                                   get_sorting_zone_point( omt_tri, by_radio ),
+                                                   20 );
+                g->u.invalidate_crafting_inventory();
+            } else {
+                tinymap target_bay;
+                cata::optional<tinymap *> q;
+                q = &target_bay;
+                g->u.consume_components_for_craft( making, fortify_om.size() * 2 - 2, true,
+                                                   get_sorting_zone_point( omt_tri, by_radio ),
+                                                   20, q );
+                g->u.invalidate_crafting_inventory();
             }
+        }
+        comp->companion_mission_role_id = bldg_exp;
+        for( auto pt : fortify_om ) {
+            comp->companion_mission_points.push_back( pt );
         }
     }
 }
@@ -1737,13 +1761,8 @@ void basecamp::craft_construction( const std::string &cur_id, const std::string 
         if( cur_id != cur_dir + r.first ) {
             continue;
         }
-        inventory total_inv;
         const recipe &making = recipe_id( r.second ).obj();
-        if( by_radio ) {
-            return;
-        } else {
-            total_inv = camp_crafting_inventory( omt_tri, by_radio );
-        }
+        inventory total_inv = camp_crafting_inventory( omt_tri, by_radio );
         if( !making.requirements().can_make_with_inventory( total_inv, 1 ) ) {
             popup( _( "You don't have the materials to craft that" ) );
             continue;
@@ -1769,8 +1788,20 @@ void basecamp::craft_construction( const std::string &cur_id, const std::string 
                                       _( "begins to work..." ), false, {},
                                       making.skill_used.str(), making.difficulty );
         if( comp != nullptr ) {
-            g->u.consume_components_for_craft( making, batch_size, true, get_sorting_zone_point(), 20 );
-            g->u.invalidate_crafting_inventory();
+            if( !by_radio ) {
+                g->u.consume_components_for_craft( making, batch_size, true, get_sorting_zone_point( omt_tri,
+                                                   by_radio ),
+                                                   20 );
+                g->u.invalidate_crafting_inventory();
+            } else {
+                tinymap target_bay;
+                cata::optional<tinymap *> q;
+                q = &target_bay;
+                g->u.consume_components_for_craft( making, batch_size, true, get_sorting_zone_point( omt_tri,
+                                                   by_radio ),
+                                                   20, q );
+                g->u.invalidate_crafting_inventory();
+            }
             for( const item &results : making.create_results( batch_size ) ) {
                 comp->companion_mission_inv.add_item( results );
             }
@@ -1803,7 +1834,7 @@ static std::pair<size_t, std::string> farm_action( const tripoint &omt_tgt, farm
         seed_inv = comp->companion_mission_inv.items_with( farm_valid_seed );
     }
 
-    //farm_json is what the are should look like according to jsons
+    //farm_json is what the area should look like according to jsons
     tinymap farm_json;
     farm_json.generate( omt_tgt.x * 2, omt_tgt.y * 2, omt_tgt.z, calendar::turn );
     //farm_map is what the area actually looks like
@@ -1897,7 +1928,8 @@ static std::pair<size_t, std::string> farm_action( const tripoint &omt_tgt, farm
     return std::make_pair( plots_cnt, crops );
 }
 
-void basecamp::start_farm_op( const std::string &dir, const tripoint &omt_tgt, farm_ops op, tripoint omt_tri, bool by_radio )
+void basecamp::start_farm_op( const std::string &dir, const tripoint &omt_tgt, farm_ops op,
+                              tripoint omt_tri, bool by_radio )
 {
     std::pair<size_t, std::string> farm_data = farm_action( omt_tgt, op );
     size_t plots_cnt = farm_data.first;
@@ -2101,7 +2133,8 @@ bool basecamp::menial_return()
     return true;
 }
 
-bool basecamp::gathering_return( const std::string &task, time_duration min_time, bool by_radio )
+bool basecamp::gathering_return( const std::string &task, time_duration min_time, tripoint omt_tri,
+                                 bool by_radio )
 {
     npc_ptr comp = companion_choose_return( task, min_time );
     if( comp == nullptr ) {
@@ -2152,23 +2185,25 @@ bool basecamp::gathering_return( const std::string &task, time_duration min_time
     } else if( task == "_faction_camp_foraging" ) {
         switch( season_of_year( calendar::turn ) ) {
             case SPRING:
-                itemlist = "forage_faction_base_camp_spring";
+                itemlist = "foraging_faction_camp_spring";
                 break;
             case SUMMER:
-                itemlist = "forage_faction_base_camp_summer";
+                itemlist = "foraging_faction_camp_summer";
                 break;
             case AUTUMN:
-                itemlist = "forage_faction_base_camp_autumn";
+                itemlist = "foraging_faction_camp_autumn";
                 break;
             case WINTER:
-                itemlist = "forage_faction_base_camp_winter";
+                itemlist = "foraging_faction_camp_winter";
                 break;
         }
     }
     if( task == "_faction_camp_trapping" || task == "_faction_camp_hunting" ) {
-        camp_hunting_results( skill, task, checks_per_cycle * mission_time / min_time, 30, by_radio );
+        camp_hunting_results( skill, task, checks_per_cycle * mission_time / min_time, 30, omt_tri,
+                              by_radio );
     } else {
-        camp_search_results( skill, itemlist, checks_per_cycle * mission_time / min_time, 15, by_radio );
+        camp_search_results( skill, itemlist, checks_per_cycle * mission_time / min_time, 15, omt_tri,
+                             by_radio );
     }
 
     return true;
@@ -2532,21 +2567,32 @@ int basecamp::recipe_batch_max( const recipe &making, const inventory &total_inv
 }
 
 void camp_search_results( int skill, const Group_tag &group_id, int attempts, int difficulty,
-                          bool by_radio )
+                          tripoint omt_tri, bool by_radio )
 {
     for( int i = 0; i < attempts; i++ ) {
         if( skill > rng( 0, difficulty ) ) {
             auto result = item_group::item_from( group_id, calendar::turn );
             if( ! result.is_null() ) {
                 if( by_radio ) {
-                    return;
+                    basecamp *temp_camp;
+                    cata::optional<basecamp *> p = overmap_buffer.find_camp( omt_tri.x, omt_tri.y );
+                    if( p ) {
+                        temp_camp = *p;
+                        tinymap target_bay;
+                        target_bay.load( omt_tri.x * 2, omt_tri.y * 2, omt_tri.z, false );
+                        tripoint new_spot = target_bay.getlocal( temp_camp->get_dumping_spot() );
+                        target_bay.add_item_or_charges( new_spot, result, true );
+                        target_bay.save();
+                    }
                 } else {
+                    add_msg( "trying to find sorting zone to drop loot" );
                     auto &mgr = zone_manager::get_manager();
                     if( g->m.check_vehicle_zones( g->get_levz() ) ) {
                         mgr.cache_vzones();
                     }
                     const auto abspos = g->m.getabs( g->u.pos() );
                     if( mgr.has_near( z_loot_unsorted, abspos ) ) {
+                        add_msg( "dropping loot at sorting zone" );
                         const auto &src_set = mgr.get_near( z_loot_unsorted, abspos );
                         const auto &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
                         // Find the nearest unsorted zone to dump objects at
@@ -2566,7 +2612,7 @@ void camp_search_results( int skill, const Group_tag &group_id, int attempts, in
 }
 
 void camp_hunting_results( int skill, const std::string &task, int attempts, int difficulty,
-                           bool by_radio )
+                           tripoint omt_tri, bool by_radio )
 {
     // no item groups for corpses, so we'll have to improvise
     weighted_int_list<mtype_id> hunting_targets;
@@ -2613,7 +2659,16 @@ void camp_hunting_results( int skill, const std::string &task, int attempts, int
             auto result = item::make_corpse( *target, calendar::turn, "" );
             if( ! result.is_null() ) {
                 if( by_radio ) {
-                    return;
+                    basecamp *temp_camp;
+                    cata::optional<basecamp *> p = overmap_buffer.find_camp( omt_tri.x, omt_tri.y );
+                    if( p ) {
+                        temp_camp = *p;
+                        tinymap target_bay;
+                        target_bay.load( omt_tri.x * 2, omt_tri.y * 2, omt_tri.z, false );
+                        tripoint new_spot = target_bay.getlocal( temp_camp->get_dumping_spot() );
+                        target_bay.add_item_or_charges( new_spot, result, true );
+                        target_bay.save();
+                    }
                 } else {
                     auto &mgr = zone_manager::get_manager();
                     if( g->m.check_vehicle_zones( g->get_levz() ) ) {
@@ -3106,6 +3161,7 @@ bool basecamp::validate_sort_points()
     if( g->m.check_vehicle_zones( g->get_levz() ) ) {
         mgr.cache_vzones();
     }
+    tripoint src_loc;
     const auto abspos = g->m.getabs( g->u.pos() );
     if( !mgr.has_near( z_loot_unsorted, abspos ) ||
         !mgr.has_near( z_camp_food, abspos ) || !mgr.has_loot_dest_near( abspos ) ) {
@@ -3114,7 +3170,16 @@ bool basecamp::validate_sort_points()
         } else {
             return false;
         }
+    } else {
+        const auto &src_set = mgr.get_near( z_loot_unsorted, abspos );
+        const auto &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
+        // Find the nearest unsorted zone to dump objects at
+        for( auto &src : src_sorted ) {
+            src_loc = g->m.getlocal( src );
+            break;
+        }
     }
+    set_dumping_spot( g->m.getabs( src_loc ) );
     return true;
 }
 
@@ -3206,7 +3271,8 @@ std::string camp_trip_description( time_duration total_time, time_duration worki
     return entry;
 }
 
-std::string basecamp::upgrade_description( const std::string &bldg, tripoint omt_tri, bool by_radio )
+std::string basecamp::upgrade_description( const std::string &bldg, tripoint omt_tri,
+        bool by_radio )
 {
     const recipe &making = recipe_id( bldg ).obj();
     const inventory &total_inv = camp_crafting_inventory( omt_tri, by_radio );
@@ -3538,36 +3604,69 @@ int camp_morale( int change )
     return yours->likes_u;
 }
 
-tripoint get_sorting_zone_point()
+tripoint get_sorting_zone_point( tripoint omt_tri, bool by_radio )
 {
     tripoint src_loc;
-    auto &mgr = zone_manager::get_manager();
-    if( g->m.check_vehicle_zones( g->get_levz() ) ) {
-        mgr.cache_vzones();
-    }
-    const auto abspos = g->m.getabs( g->u.pos() );
-    if( mgr.has_near( z_loot_unsorted, abspos ) ) {
-        const auto &src_set = mgr.get_near( z_loot_unsorted, abspos );
-        const auto &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
-        // Find the nearest unsorted zone to dump objects at
-        for( auto &src : src_sorted ) {
-            src_loc = g->m.getlocal( src );
-            break;
+    if( !by_radio ) {
+        auto &mgr = zone_manager::get_manager();
+        if( g->m.check_vehicle_zones( g->get_levz() ) ) {
+            mgr.cache_vzones();
+        }
+        const auto abspos = g->m.getabs( g->u.pos() );
+        if( mgr.has_near( z_loot_unsorted, abspos ) ) {
+            const auto &src_set = mgr.get_near( z_loot_unsorted, abspos );
+            const auto &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
+            for( auto &src : src_sorted ) {
+                src_loc = src;
+                break;
+            }
+        }
+    } else {
+        basecamp *temp_camp;
+        cata::optional<basecamp *> p = overmap_buffer.find_camp( omt_tri.x, omt_tri.y );
+        if( p ) {
+            temp_camp = *p;
+            tinymap target_bay;
+            target_bay.load( omt_tri.x * 2, omt_tri.y * 2, omt_tri.z, false );
+            if( temp_camp->get_dumping_spot() != tripoint_zero ) {
+                src_loc = temp_camp->get_dumping_spot();
+            } else {
+                add_msg( m_info,
+                         _( "Missions cannot be started remotely without setting up sorting points at this camp first" ) );
+            }
         }
     }
     return src_loc;
 }
 
-inventory camp_crafting_inventory( bool by_radio, tripoint omt_tri )
+inventory camp_crafting_inventory( tripoint omt_tri, bool by_radio )
 {
-    //tinymap target_bay;
-    //target_bay.load( omt_pos.x * 2, forest.y * 2, forest.z, false );
-    //std::vector<item *> hide_inv;
-    //for( item &i : target_bay.i_at( 11, 10 ) ) {
-        //hide_inv.push_back( &i );
-    //}
-    tripoint src_loc = get_sorting_zone_point();
-    inventory camp_inv = g->u.crafting_inventory( src_loc, 20 );
+    inventory camp_inv;
+    basecamp *temp_camp;
+    cata::optional<basecamp *> p = overmap_buffer.find_camp( omt_tri.x, omt_tri.y );
+    if( p ) {
+        temp_camp = *p;
+    } else {
+        return camp_inv;
+    }
+    if( !by_radio ) {
+        if( temp_camp->get_dumping_spot() != tripoint_zero ) {
+            camp_inv = g->u.crafting_inventory( temp_camp->get_dumping_spot(), 20 );
+        } else {
+            add_msg( m_info,
+                     _( "Missions cannot be started without setting up sorting points at this camp first" ) );
+        }
+    } else {
+        tinymap target_bay;
+        cata::optional<tinymap *> q;
+        q = &target_bay;
+        if( temp_camp->get_dumping_spot() != tripoint_zero ) {
+            camp_inv = g->u.crafting_inventory( temp_camp->get_dumping_spot(), 20, q );
+        } else {
+            add_msg( m_info,
+                     _( "Missions cannot be started remotely without setting up sorting points at this camp first" ) );
+        }
+    }
     return camp_inv;
 }
 

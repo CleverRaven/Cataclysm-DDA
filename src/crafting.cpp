@@ -9,6 +9,7 @@
 #include "ammo.h"
 #include "bionics.h"
 #include "calendar.h"
+#include "coordinate_conversions.h"
 #include "craft_command.h"
 #include "debug.h"
 #include "game.h"
@@ -324,15 +325,18 @@ bool player::can_make( const recipe *r, int batch_size )
     return r->requirements().can_make_with_inventory( crafting_inv, batch_size );
 }
 
-const inventory &player::crafting_inventory( tripoint search_pos, int radius )
+const inventory &player::crafting_inventory( tripoint search_pos, int radius,
+        cata::optional<tinymap *> target_bay )
 {
-    if( search_pos == tripoint_zero ) {
-        if( cached_moves == moves
-            && cached_time == calendar::turn
-            && cached_position == pos() ) {
-            return cached_crafting_inventory;
+    if( !target_bay ) {
+        if( search_pos == tripoint_zero ) {
+            if( cached_moves == moves && cached_time == calendar::turn && cached_position == pos() ) {
+                return cached_crafting_inventory;
+            }
+            cached_crafting_inventory.form_from_map( pos(), radius, false );
+        } else {
+            cached_crafting_inventory.form_from_map( search_pos, radius, false );
         }
-        cached_crafting_inventory.form_from_map( pos(), radius, false );
         cached_crafting_inventory += inv;
         cached_crafting_inventory += weapon;
         cached_crafting_inventory += worn;
@@ -352,7 +356,7 @@ const inventory &player::crafting_inventory( tripoint search_pos, int radius )
         cached_time = calendar::turn;
         cached_position = pos();
     } else {
-        cached_crafting_inventory.form_from_map( search_pos, radius, false );
+        cached_crafting_inventory.form_from_map( search_pos, radius, false, target_bay );
     }
     return cached_crafting_inventory;
 }
@@ -411,7 +415,7 @@ void set_components( std::vector<item> &components, const std::list<item> &used,
 }
 
 std::list<item> player::consume_components_for_craft( const recipe &making, int batch_size,
-        bool ignore_last, tripoint src_pos, int radius )
+        bool ignore_last, tripoint src_pos, int radius, cata::optional<tinymap *> target_bay )
 {
     std::list<item> used;
     if( has_trait( trait_id( "DEBUG_HS" ) ) ) {
@@ -433,12 +437,22 @@ std::list<item> player::consume_components_for_craft( const recipe &making, int 
                 consume_tools( it, batch_size );
             }
         } else {
-            for( const auto &it : req.get_components() ) {
-                std::list<item> tmp = consume_items( it, batch_size, src_pos, radius );
-                used.splice( used.end(), tmp );
-            }
-            for( const auto &it : req.get_tools() ) {
-                consume_tools( it, batch_size );
+            if( target_bay ) {
+                for( const auto &it : req.get_components() ) {
+                    std::list<item> tmp = consume_items( it, batch_size, src_pos, radius, target_bay );
+                    used.splice( used.end(), tmp );
+                }
+                for( const auto &it : req.get_tools() ) {
+                    consume_tools( it, batch_size, DEFAULT_HOTKEYS, target_bay, src_pos, radius );
+                }
+            } else {
+                for( const auto &it : req.get_components() ) {
+                    std::list<item> tmp = consume_items( it, batch_size, src_pos, radius );
+                    used.splice( used.end(), tmp );
+                }
+                for( const auto &it : req.get_tools() ) {
+                    consume_tools( it, batch_size, DEFAULT_HOTKEYS, cata::nullopt, src_pos, radius );
+                }
             }
         }
     }
@@ -989,43 +1003,66 @@ void empty_buckets( player &p )
 }
 
 std::list<item> player::consume_items( const comp_selection<item_comp> &is, int batch,
-                                       tripoint src_pos, int radius, const std::function<bool( const item & )> &amount_filter,
+                                       tripoint src_pos, int radius, cata::optional<tinymap *> target_bay,
+                                       const std::function<bool( const item & )> &amount_filter,
                                        const std::function<bool( const item & )> &charges_filter )
 {
     std::list<item> ret;
-
     if( has_trait( trait_DEBUG_HS ) ) {
         return ret;
     }
-
     item_comp selected_comp = is.comp;
-
     const tripoint &loc = src_pos;
     const bool by_charges = ( item::count_by_charges( selected_comp.type ) && selected_comp.count > 0 );
     // Count given to use_amount/use_charges, changed by those functions!
     long real_count = ( selected_comp.count > 0 ) ? selected_comp.count * batch : abs(
                           selected_comp.count );
-    // First try to get everything from the map, than (remaining amount) from player
-    if( is.use_from & use_from_map ) {
-        if( by_charges ) {
-            std::list<item> tmp = g->m.use_charges( loc, radius, selected_comp.type, real_count,
-                                                    charges_filter );
-            ret.splice( ret.end(), tmp );
-        } else {
-            std::list<item> tmp = g->m.use_amount( loc, radius, selected_comp.type,
-                                                   real_count, amount_filter );
-            remove_ammo( tmp, *this );
-            ret.splice( ret.end(), tmp );
+    if( src_pos == tripoint_zero || !target_bay ) {
+        // First try to get everything from the map, than (remaining amount) from player
+        if( ( is.use_from & use_from_map ) || !target_bay ) {
+            if( by_charges ) {
+                std::list<item> tmp = g->m.use_charges( loc, radius, selected_comp.type, real_count,
+                                                        charges_filter );
+                ret.splice( ret.end(), tmp );
+            } else {
+                std::list<item> tmp;
+                if( src_pos != tripoint_zero ) {
+                    tmp = g->m.use_amount( g->m.getlocal( loc ), radius, selected_comp.type,
+                                           real_count, amount_filter );
+                } else {
+                    tmp = g->m.use_amount( loc, radius, selected_comp.type,
+                                           real_count, amount_filter );
+                }
+                remove_ammo( tmp, *this );
+                ret.splice( ret.end(), tmp );
+            }
         }
-    }
-    if( is.use_from & use_from_player && loc == pos() ) {
-        if( by_charges ) {
-            std::list<item> tmp = use_charges( selected_comp.type, real_count, charges_filter );
-            ret.splice( ret.end(), tmp );
-        } else {
-            std::list<item> tmp = use_amount( selected_comp.type, real_count, amount_filter );
-            remove_ammo( tmp, *this );
-            ret.splice( ret.end(), tmp );
+        if( is.use_from & use_from_player && loc == pos() ) {
+            if( by_charges ) {
+                std::list<item> tmp = use_charges( selected_comp.type, real_count, charges_filter );
+                ret.splice( ret.end(), tmp );
+            } else {
+                std::list<item> tmp = use_amount( selected_comp.type, real_count, amount_filter );
+                remove_ammo( tmp, *this );
+                ret.splice( ret.end(), tmp );
+            }
+        }
+    } else {
+        if( target_bay ) {
+            tinymap *temp_map = *target_bay;
+            tripoint omt_tri = ms_to_omt_copy( loc );
+            temp_map->load( omt_tri.x * 2, omt_tri.y * 2, omt_tri.z, false );
+            tripoint new_loc = temp_map->getlocal( loc );
+            if( by_charges ) {
+                std::list<item> tmp = temp_map->use_charges( new_loc, radius, selected_comp.type, real_count,
+                                      charges_filter );
+                ret.splice( ret.end(), tmp );
+            } else {
+                std::list<item> tmp = temp_map->use_amount( new_loc, radius, selected_comp.type,
+                                      real_count, amount_filter );
+                remove_ammo( tmp, *this );
+                ret.splice( ret.end(), tmp );
+            }
         }
     }
     // condense those items into one
@@ -1046,23 +1083,29 @@ std::list<item> player::consume_items( const comp_selection<item_comp> &is, int 
 In that case, consider using select_item_component with 1 pre-created map inventory, and then passing the results
 to consume_items */
 std::list<item> player::consume_items( const std::vector<item_comp> &components, int batch,
-                                       tripoint src_pos, int radius,
+                                       tripoint src_pos, int radius, cata::optional<tinymap *> target_bay,
                                        const std::function<bool( const item & )> &amount_filter,
                                        const std::function<bool( const item & )> &charges_filter )
 {
     inventory map_inv;
-    if( src_pos == tripoint_zero ) {
-        map_inv.form_from_map( pos(), PICKUP_RANGE );
+    tripoint loc;
+    if( src_pos == tripoint_zero || !target_bay ) {
+        if( src_pos != tripoint_zero ) {
+            loc = src_pos;
+            map_inv.form_from_map( src_pos, PICKUP_RANGE );
+        } else {
+            loc = pos();
+            map_inv.form_from_map( loc, PICKUP_RANGE );
+        }
         return consume_items( select_item_component( components, batch, map_inv, false, amount_filter,
                               charges_filter ),
-                              batch, pos(), PICKUP_RANGE, amount_filter, charges_filter );
+                              batch, loc, PICKUP_RANGE, cata::nullopt, amount_filter, charges_filter );
     } else {
-        map_inv.form_from_map( src_pos, radius );
+        map_inv.form_from_map( src_pos, radius, false, target_bay );
         return consume_items( select_item_component( components, batch, map_inv, false, amount_filter,
                               charges_filter ),
-                              batch, src_pos, radius, amount_filter, charges_filter );
+                              batch, src_pos, radius, target_bay, amount_filter, charges_filter );
     }
-
 }
 
 comp_selection<tool_comp>
@@ -1162,19 +1205,33 @@ player::select_tool_component( const std::vector<tool_comp> &tools, int batch, i
 }
 
 /* we use this if we selected the tool earlier */
-void player::consume_tools( const comp_selection<tool_comp> &tool, int batch )
+void player::consume_tools( const comp_selection<tool_comp> &tool, int batch,
+                            cata::optional<tinymap *> target_bay, tripoint src_pos, int radius )
 {
     if( has_trait( trait_DEBUG_HS ) ) {
         return;
     }
+    if( src_pos == tripoint_zero ) {
+        if( tool.use_from & use_from_player ) {
+            use_charges( tool.comp.type, tool.comp.count * batch );
+        }
+        if( tool.use_from & use_from_map ) {
+            long quantity = tool.comp.count * batch;
+            g->m.use_charges( pos(), PICKUP_RANGE, tool.comp.type, quantity );
+        }
+    } else {
+        if( target_bay ) {
+            tinymap *temp_map = *target_bay;
+            tripoint omt_tri = ms_to_omt_copy( src_pos );
+            temp_map->load( omt_tri.x * 2, omt_tri.y * 2, omt_tri.z, false );
+            tripoint new_loc = temp_map->getlocal( src_pos );
+            if( tool.use_from & use_from_map ) {
+                long quantity = tool.comp.count * batch;
+                temp_map->use_charges( new_loc, radius, tool.comp.type, quantity );
+            }
+        }
+    }
 
-    if( tool.use_from & use_from_player ) {
-        use_charges( tool.comp.type, tool.comp.count * batch );
-    }
-    if( tool.use_from & use_from_map ) {
-        long quantity = tool.comp.count * batch;
-        g->m.use_charges( pos(), PICKUP_RANGE, tool.comp.type, quantity );
-    }
 
     // else, use_from_none (or cancel), so we don't use up any tools;
 }
@@ -1183,11 +1240,12 @@ void player::consume_tools( const comp_selection<tool_comp> &tool, int batch )
 In that case, consider using select_tool_component with 1 pre-created map inventory, and then passing the results
 to consume_tools */
 void player::consume_tools( const std::vector<tool_comp> &tools, int batch,
-                            const std::string &hotkeys )
+                            const std::string &hotkeys, cata::optional<tinymap *> target_bay, tripoint src_pos, int radius )
 {
     inventory map_inv;
     map_inv.form_from_map( pos(), PICKUP_RANGE );
-    consume_tools( select_tool_component( tools, batch, map_inv, hotkeys ), batch );
+    consume_tools( select_tool_component( tools, batch, map_inv, hotkeys ), batch, target_bay, src_pos,
+                   radius );
 }
 
 ret_val<bool> player::can_disassemble( const item &obj, const inventory &inv ) const

@@ -113,7 +113,8 @@ class basecamp
         void reset_camp_workers();
         comp_list get_mission_workers( const std::string &mission_id, bool contains = false );
         // main mission start/return dispatch function
-        bool handle_mission( const std::string &miss_id, const std::string &miss_dir, tripoint omt_tri, bool by_radio = false );
+        bool handle_mission( const std::string &miss_id, const std::string &miss_dir, tripoint omt_tri,
+                             bool by_radio = false );
 
         // mission start functions
         /// generic mission start function that wraps individual mission
@@ -121,7 +122,8 @@ class basecamp
                                bool must_feed, const std::string &desc, bool group,
                                const std::vector<item *> &equipment,
                                const std::string &skill_tested, int skill_level );
-        void start_upgrade( const std::string &bldg, const std::string &key, tripoint omt_tri, bool by_radio );
+        void start_upgrade( const std::string &bldg, const std::string &key, tripoint omt_tri,
+                            bool by_radio );
         std::string om_upgrade_description( const std::string &bldg, bool trunc );
         void start_menial_labor();
         /// Called when a companion is sent to cut logs
@@ -134,7 +136,8 @@ class basecamp
         void start_combat_mission( const std::string &miss );
         /// Called when a companion starts a chop shop @ref task mission
         bool start_garage_chop( const std::string &dir, const tripoint &omt_tgt );
-        void start_farm_op( const std::string &dir, const tripoint &omt_tgt, farm_ops op, tripoint omt_tri, bool by_radio );
+        void start_farm_op( const std::string &dir, const tripoint &omt_tgt, farm_ops op, tripoint omt_tri,
+                            bool by_radio );
         ///Display items listed in @ref equipment to let the player pick what to give the departing
         ///NPC, loops until quit or empty.
         std::vector<item *> give_equipment( std::vector<item *> equipment, const std::string &msg );
@@ -157,7 +160,8 @@ class basecamp
         bool survey_return();
         bool menial_return();
         /// Called when a companion completes a gathering @ref task mission
-        bool gathering_return( const std::string &task, time_duration min_time, bool by_radio = false );
+        bool gathering_return( const std::string &task, time_duration min_time, tripoint omt_tri,
+                               bool by_radio = false );
         void recruit_return( const std::string &task, int score );
         /**
         * Perform any mix of the three farm tasks.
@@ -174,6 +178,12 @@ class basecamp
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
         void load_data( const std::string &data );
+        inline const tripoint &get_dumping_spot() const {
+            return dumping_spot;
+        }
+        inline void set_dumping_spot( tripoint spot ) {
+            dumping_spot = spot;
+        }
     private:
         // omt pos
         tripoint omt_pos;
@@ -182,6 +192,7 @@ class basecamp
         tripoint bb_pos;
         std::map<std::string, expansion_data> expansions;
         comp_list camp_workers;
+        tripoint dumping_spot;
 };
 
 #endif

@@ -1262,12 +1262,13 @@ void iexamine::bulletin_board( player &p, const tripoint &examp )
     if( bcp ) {
         basecamp *temp_camp = *bcp;
         temp_camp->validate_assignees();
+        temp_camp->validate_sort_points();
         const std::string title = ( "Base Missions" );
         mission_data mission_key;
-        temp_camp->get_available_missions( mission_key );
+        temp_camp->get_available_missions( mission_key, omt_tri, false );
         if( talk_function::display_and_choose_opts( mission_key, temp_camp->camp_omt_pos(), "FACTION_CAMP",
                 title ) ) {
-            temp_camp->handle_mission( mission_key.cur_key.id, mission_key.cur_key.dir );
+            temp_camp->handle_mission( mission_key.cur_key.id, mission_key.cur_key.dir, omt_tri, false );
         }
     } else {
         p.add_msg_if_player( _( "This bulletin board is not inside a camp" ) );
@@ -4316,7 +4317,7 @@ void smoker_load_food( player &p, const tripoint &examp, const units::volume &re
         return it.rotten();
     } );
     comp_selection<item_comp> selected = p.select_item_component( comps, 1, inv, true );
-    std::list<item> moved = p.consume_items( selected, 1, g->u.pos(), PICKUP_RANGE );
+    std::list<item> moved = p.consume_items( selected, 1, g->u.pos(), PICKUP_RANGE, cata::nullopt );
 
     // hack, because consume_items doesn't seem to care of what item is consumed despite filters
     // TODO: find a way to filter out rotten items from those actualy consumed

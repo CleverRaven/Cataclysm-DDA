@@ -2,6 +2,7 @@
 
 #include <algorithm>
 
+#include "coordinate_conversions.h"
 #include "debug.h"
 #include "game.h"
 #include "iexamine.h"
@@ -364,174 +365,352 @@ static long count_charges_in_list( const itype *type, const map_stack &items )
     return 0;
 }
 
-void inventory::form_from_map( const tripoint &origin, int range, bool assign_invlet )
+void inventory::form_from_map( const tripoint &origin, int range, bool assign_invlet,
+                               cata::optional<tinymap *> target_bay )
 {
     items.clear();
-    for( const tripoint &p : g->m.points_in_radius( origin, range ) ) {
-        // can not reach this -> can not access its contents
-        if( origin != p && !g->m.clear_path( origin, p, range, 1, 100 ) ) {
-            continue;
-        }
-
-        if( g->m.has_furn( p ) ) {
-            const furn_t &f = g->m.furn( p ).obj();
-            const itype *type = f.crafting_pseudo_item_type();
-            if( type != nullptr ) {
-                const itype *ammo = f.crafting_ammo_item_type();
-                item furn_item( type, calendar::turn, 0 );
-                furn_item.item_tags.insert( "PSEUDO" );
-                furn_item.charges = ammo ? count_charges_in_list( ammo, g->m.i_at( p ) ) : 0;
-                add_item( furn_item );
-            }
-        }
-        if( g->m.accessible_items( p ) ) {
-            for( auto &i : g->m.i_at( p ) ) {
-                if( !i.made_of( LIQUID ) ) {
-                    add_item( i, false, assign_invlet );
+    if( target_bay ) {
+        tinymap *temp_map = *target_bay;
+        tripoint omt_tri = ms_to_omt_copy( origin );
+        temp_map->load( omt_tri.x * 2, omt_tri.y * 2, omt_tri.z, false );
+        tripoint new_origin = temp_map->getlocal( origin );
+        for( const tripoint &p : temp_map->points_in_radius( new_origin, range ) ) {
+            // can not reach this -> can not access its contents
+            if( temp_map->has_furn( p ) ) {
+                const furn_t &f = temp_map->furn( p ).obj();
+                const itype *type = f.crafting_pseudo_item_type();
+                if( type != nullptr ) {
+                    const itype *ammo = f.crafting_ammo_item_type();
+                    item furn_item( type, calendar::turn, 0 );
+                    furn_item.item_tags.insert( "PSEUDO" );
+                    furn_item.charges = ammo ? count_charges_in_list( ammo, temp_map->i_at( p ) ) : 0;
+                    add_item( furn_item );
                 }
             }
-        }
-        // Kludges for now!
-        if( g->m.has_nearby_fire( p, 0 ) ) {
-            item fire( "fire", 0 );
-            fire.charges = 1;
-            add_item( fire );
-        }
-        // Handle any water from infinite map sources.
-        item water = g->m.water_from( p );
-        if( !water.is_null() ) {
-            add_item( water );
-        }
-        // kludge that can probably be done better to check specifically for toilet water to use in
-        // crafting
-        if( g->m.furn( p ).obj().examine == &iexamine::toilet ) {
-            // get water charges at location
-            auto toilet = g->m.i_at( p );
-            auto water = toilet.end();
-            for( auto candidate = toilet.begin(); candidate != toilet.end(); ++candidate ) {
-                if( candidate->typeId() == "water" ) {
-                    water = candidate;
-                    break;
+            if( temp_map->accessible_items( p ) ) {
+                for( auto &i : temp_map->i_at( p ) ) {
+                    if( !i.made_of( LIQUID ) ) {
+                        add_item( i, false, assign_invlet );
+                    }
                 }
             }
-            if( water != toilet.end() && water->charges > 0 ) {
-                add_item( *water );
+            // Kludges for now!
+            if( temp_map->has_nearby_fire( p, 0 ) ) {
+                item fire( "fire", 0 );
+                fire.charges = 1;
+                add_item( fire );
             }
-        }
-
-        // keg-kludge
-        if( g->m.furn( p ).obj().examine == &iexamine::keg ) {
-            auto liq_contained = g->m.i_at( p );
-            for( auto &i : liq_contained ) {
-                if( i.made_of( LIQUID ) ) {
-                    add_item( i );
+            // Handle any water from infinite map sources.
+            item water = temp_map->water_from( p );
+            if( !water.is_null() ) {
+                add_item( water );
+            }
+            // kludge that can probably be done better to check specifically for toilet water to use in
+            // crafting
+            if( temp_map->furn( p ).obj().examine == &iexamine::toilet ) {
+                // get water charges at location
+                auto toilet = temp_map->i_at( p );
+                auto water = toilet.end();
+                for( auto candidate = toilet.begin(); candidate != toilet.end(); ++candidate ) {
+                    if( candidate->typeId() == "water" ) {
+                        water = candidate;
+                        break;
+                    }
+                }
+                if( water != toilet.end() && water->charges > 0 ) {
+                    add_item( *water );
                 }
             }
-        }
 
-        // WARNING: The part below has a bug that's currently quite minor
-        // When a vehicle has multiple faucets in range, available water is
-        //  multiplied by the number of faucets.
-        // Same thing happens for all other tools and resources, but not cargo
-        const optional_vpart_position vp = g->m.veh_at( p );
-        if( !vp ) {
-            continue;
-        }
-        vehicle *const veh = &vp->vehicle();
-
-        //Adds faucet to kitchen stuff; may be horribly wrong to do such....
-        //ShouldBreak into own variable
-        const cata::optional<vpart_reference> kpart = vp.part_with_feature( "KITCHEN", true );
-        const cata::optional<vpart_reference> faupart = vp.part_with_feature( "FAUCET", true );
-        const cata::optional<vpart_reference> weldpart = vp.part_with_feature( "WELDRIG", true );
-        const cata::optional<vpart_reference> craftpart = vp.part_with_feature( "CRAFTRIG", true );
-        const cata::optional<vpart_reference> forgepart = vp.part_with_feature( "FORGE", true );
-        const cata::optional<vpart_reference> kilnpart = vp.part_with_feature( "KILN", true );
-        const cata::optional<vpart_reference> chempart = vp.part_with_feature( "CHEMLAB", true );
-        const cata::optional<vpart_reference> cargo = vp.part_with_feature( "CARGO", true );
-
-        if( cargo ) {
-            const auto items = veh->get_items( cargo->part_index() );
-            *this += std::list<item>( items.begin(), items.end() );
-        }
-
-        if( faupart ) {
-            for( const auto &it : veh->fuels_left() ) {
-                item fuel( it.first, 0 );
-                if( fuel.made_of( LIQUID ) ) {
-                    fuel.charges = it.second;
-                    add_item( fuel );
+            // keg-kludge
+            if( temp_map->furn( p ).obj().examine == &iexamine::keg ) {
+                auto liq_contained = temp_map->i_at( p );
+                for( auto &i : liq_contained ) {
+                    if( i.made_of( LIQUID ) ) {
+                        add_item( i );
+                    }
                 }
             }
+
+            // WARNING: The part below has a bug that's currently quite minor
+            // When a vehicle has multiple faucets in range, available water is
+            //  multiplied by the number of faucets.
+            // Same thing happens for all other tools and resources, but not cargo
+            const optional_vpart_position vp = temp_map->veh_at( p );
+            if( !vp ) {
+                continue;
+            }
+            vehicle *const veh = &vp->vehicle();
+
+            //Adds faucet to kitchen stuff; may be horribly wrong to do such....
+            //ShouldBreak into own variable
+            const cata::optional<vpart_reference> kpart = vp.part_with_feature( "KITCHEN", true );
+            const cata::optional<vpart_reference> faupart = vp.part_with_feature( "FAUCET", true );
+            const cata::optional<vpart_reference> weldpart = vp.part_with_feature( "WELDRIG", true );
+            const cata::optional<vpart_reference> craftpart = vp.part_with_feature( "CRAFTRIG", true );
+            const cata::optional<vpart_reference> forgepart = vp.part_with_feature( "FORGE", true );
+            const cata::optional<vpart_reference> kilnpart = vp.part_with_feature( "KILN", true );
+            const cata::optional<vpart_reference> chempart = vp.part_with_feature( "CHEMLAB", true );
+            const cata::optional<vpart_reference> cargo = vp.part_with_feature( "CARGO", true );
+
+            if( cargo ) {
+                const auto items = veh->get_items( cargo->part_index() );
+                *this += std::list<item>( items.begin(), items.end() );
+            }
+
+            if( faupart ) {
+                for( const auto &it : veh->fuels_left() ) {
+                    item fuel( it.first, 0 );
+                    if( fuel.made_of( LIQUID ) ) {
+                        fuel.charges = it.second;
+                        add_item( fuel );
+                    }
+                }
+            }
+
+            if( kpart ) {
+                item hotplate( "hotplate", 0 );
+                hotplate.charges = veh->fuel_left( "battery", true );
+                hotplate.item_tags.insert( "PSEUDO" );
+                add_item( hotplate );
+
+                item pot( "pot", 0 );
+                pot.item_tags.insert( "PSEUDO" );
+                add_item( pot );
+                item pan( "pan", 0 );
+                pan.item_tags.insert( "PSEUDO" );
+                add_item( pan );
+            }
+            if( weldpart ) {
+                item welder( "welder", 0 );
+                welder.charges = veh->fuel_left( "battery", true );
+                welder.item_tags.insert( "PSEUDO" );
+                add_item( welder );
+
+                item soldering_iron( "soldering_iron", 0 );
+                soldering_iron.charges = veh->fuel_left( "battery", true );
+                soldering_iron.item_tags.insert( "PSEUDO" );
+                add_item( soldering_iron );
+            }
+            if( craftpart ) {
+                item vac_sealer( "vac_sealer", 0 );
+                vac_sealer.charges = veh->fuel_left( "battery", true );
+                vac_sealer.item_tags.insert( "PSEUDO" );
+                add_item( vac_sealer );
+
+                item dehydrator( "dehydrator", 0 );
+                dehydrator.charges = veh->fuel_left( "battery", true );
+                dehydrator.item_tags.insert( "PSEUDO" );
+                add_item( dehydrator );
+
+                item food_processor( "food_processor", 0 );
+                food_processor.charges = veh->fuel_left( "battery", true );
+                food_processor.item_tags.insert( "PSEUDO" );
+                add_item( food_processor );
+
+                item press( "press", 0 );
+                press.charges = veh->fuel_left( "battery", true );
+                press.item_tags.insert( "PSEUDO" );
+                add_item( press );
+            }
+            if( forgepart ) {
+                item forge( "forge", 0 );
+                forge.charges = veh->fuel_left( "battery", true );
+                forge.item_tags.insert( "PSEUDO" );
+                add_item( forge );
+            }
+            if( kilnpart ) {
+                item kiln( "kiln", 0 );
+                kiln.charges = veh->fuel_left( "battery", true );
+                kiln.item_tags.insert( "PSEUDO" );
+                add_item( kiln );
+            }
+            if( chempart ) {
+                item hotplate( "hotplate", 0 );
+                hotplate.charges = veh->fuel_left( "battery", true );
+                hotplate.item_tags.insert( "PSEUDO" );
+                add_item( hotplate );
+
+                item chemistry_set( "chemistry_set", 0 );
+                chemistry_set.charges = veh->fuel_left( "battery", true );
+                chemistry_set.item_tags.insert( "PSEUDO" );
+                add_item( chemistry_set );
+            }
         }
-
-        if( kpart ) {
-            item hotplate( "hotplate", 0 );
-            hotplate.charges = veh->fuel_left( "battery", true );
-            hotplate.item_tags.insert( "PSEUDO" );
-            add_item( hotplate );
-
-            item pot( "pot", 0 );
-            pot.item_tags.insert( "PSEUDO" );
-            add_item( pot );
-            item pan( "pan", 0 );
-            pan.item_tags.insert( "PSEUDO" );
-            add_item( pan );
+    } else {
+        tripoint new_origin;
+        if( origin != g->u.pos() ) {
+            new_origin = g->m.getlocal( origin );
+        } else {
+            new_origin = origin;
         }
-        if( weldpart ) {
-            item welder( "welder", 0 );
-            welder.charges = veh->fuel_left( "battery", true );
-            welder.item_tags.insert( "PSEUDO" );
-            add_item( welder );
+        for( const tripoint &p : g->m.points_in_radius( new_origin, range ) ) {
+            // can not reach this -> can not access its contents
+            if( new_origin == g->u.pos() ) {
+                if( new_origin != p && !g->m.clear_path( new_origin, p, range, 1, 100 ) ) {
+                    continue;
+                }
+            }
+            if( g->m.has_furn( p ) ) {
+                const furn_t &f = g->m.furn( p ).obj();
+                const itype *type = f.crafting_pseudo_item_type();
+                if( type != nullptr ) {
+                    const itype *ammo = f.crafting_ammo_item_type();
+                    item furn_item( type, calendar::turn, 0 );
+                    furn_item.item_tags.insert( "PSEUDO" );
+                    furn_item.charges = ammo ? count_charges_in_list( ammo, g->m.i_at( p ) ) : 0;
+                    add_item( furn_item );
+                }
+            }
+            if( g->m.accessible_items( p ) ) {
+                for( auto &i : g->m.i_at( p ) ) {
+                    if( !i.made_of( LIQUID ) ) {
+                        add_item( i, false, assign_invlet );
+                    }
+                }
+            }
+            // Kludges for now!
+            if( g->m.has_nearby_fire( p, 0 ) ) {
+                item fire( "fire", 0 );
+                fire.charges = 1;
+                add_item( fire );
+            }
+            // Handle any water from infinite map sources.
+            item water = g->m.water_from( p );
+            if( !water.is_null() ) {
+                add_item( water );
+            }
+            // kludge that can probably be done better to check specifically for toilet water to use in
+            // crafting
+            if( g->m.furn( p ).obj().examine == &iexamine::toilet ) {
+                // get water charges at location
+                auto toilet = g->m.i_at( p );
+                auto water = toilet.end();
+                for( auto candidate = toilet.begin(); candidate != toilet.end(); ++candidate ) {
+                    if( candidate->typeId() == "water" ) {
+                        water = candidate;
+                        break;
+                    }
+                }
+                if( water != toilet.end() && water->charges > 0 ) {
+                    add_item( *water );
+                }
+            }
 
-            item soldering_iron( "soldering_iron", 0 );
-            soldering_iron.charges = veh->fuel_left( "battery", true );
-            soldering_iron.item_tags.insert( "PSEUDO" );
-            add_item( soldering_iron );
-        }
-        if( craftpart ) {
-            item vac_sealer( "vac_sealer", 0 );
-            vac_sealer.charges = veh->fuel_left( "battery", true );
-            vac_sealer.item_tags.insert( "PSEUDO" );
-            add_item( vac_sealer );
+            // keg-kludge
+            if( g->m.furn( p ).obj().examine == &iexamine::keg ) {
+                auto liq_contained = g->m.i_at( p );
+                for( auto &i : liq_contained ) {
+                    if( i.made_of( LIQUID ) ) {
+                        add_item( i );
+                    }
+                }
+            }
 
-            item dehydrator( "dehydrator", 0 );
-            dehydrator.charges = veh->fuel_left( "battery", true );
-            dehydrator.item_tags.insert( "PSEUDO" );
-            add_item( dehydrator );
+            // WARNING: The part below has a bug that's currently quite minor
+            // When a vehicle has multiple faucets in range, available water is
+            //  multiplied by the number of faucets.
+            // Same thing happens for all other tools and resources, but not cargo
+            const optional_vpart_position vp = g->m.veh_at( p );
+            if( !vp ) {
+                continue;
+            }
+            vehicle *const veh = &vp->vehicle();
 
-            item food_processor( "food_processor", 0 );
-            food_processor.charges = veh->fuel_left( "battery", true );
-            food_processor.item_tags.insert( "PSEUDO" );
-            add_item( food_processor );
+            //Adds faucet to kitchen stuff; may be horribly wrong to do such....
+            //ShouldBreak into own variable
+            const cata::optional<vpart_reference> kpart = vp.part_with_feature( "KITCHEN", true );
+            const cata::optional<vpart_reference> faupart = vp.part_with_feature( "FAUCET", true );
+            const cata::optional<vpart_reference> weldpart = vp.part_with_feature( "WELDRIG", true );
+            const cata::optional<vpart_reference> craftpart = vp.part_with_feature( "CRAFTRIG", true );
+            const cata::optional<vpart_reference> forgepart = vp.part_with_feature( "FORGE", true );
+            const cata::optional<vpart_reference> kilnpart = vp.part_with_feature( "KILN", true );
+            const cata::optional<vpart_reference> chempart = vp.part_with_feature( "CHEMLAB", true );
+            const cata::optional<vpart_reference> cargo = vp.part_with_feature( "CARGO", true );
 
-            item press( "press", 0 );
-            press.charges = veh->fuel_left( "battery", true );
-            press.item_tags.insert( "PSEUDO" );
-            add_item( press );
-        }
-        if( forgepart ) {
-            item forge( "forge", 0 );
-            forge.charges = veh->fuel_left( "battery", true );
-            forge.item_tags.insert( "PSEUDO" );
-            add_item( forge );
-        }
-        if( kilnpart ) {
-            item kiln( "kiln", 0 );
-            kiln.charges = veh->fuel_left( "battery", true );
-            kiln.item_tags.insert( "PSEUDO" );
-            add_item( kiln );
-        }
-        if( chempart ) {
-            item hotplate( "hotplate", 0 );
-            hotplate.charges = veh->fuel_left( "battery", true );
-            hotplate.item_tags.insert( "PSEUDO" );
-            add_item( hotplate );
+            if( cargo ) {
+                const auto items = veh->get_items( cargo->part_index() );
+                *this += std::list<item>( items.begin(), items.end() );
+            }
 
-            item chemistry_set( "chemistry_set", 0 );
-            chemistry_set.charges = veh->fuel_left( "battery", true );
-            chemistry_set.item_tags.insert( "PSEUDO" );
-            add_item( chemistry_set );
+            if( faupart ) {
+                for( const auto &it : veh->fuels_left() ) {
+                    item fuel( it.first, 0 );
+                    if( fuel.made_of( LIQUID ) ) {
+                        fuel.charges = it.second;
+                        add_item( fuel );
+                    }
+                }
+            }
+
+            if( kpart ) {
+                item hotplate( "hotplate", 0 );
+                hotplate.charges = veh->fuel_left( "battery", true );
+                hotplate.item_tags.insert( "PSEUDO" );
+                add_item( hotplate );
+
+                item pot( "pot", 0 );
+                pot.item_tags.insert( "PSEUDO" );
+                add_item( pot );
+                item pan( "pan", 0 );
+                pan.item_tags.insert( "PSEUDO" );
+                add_item( pan );
+            }
+            if( weldpart ) {
+                item welder( "welder", 0 );
+                welder.charges = veh->fuel_left( "battery", true );
+                welder.item_tags.insert( "PSEUDO" );
+                add_item( welder );
+
+                item soldering_iron( "soldering_iron", 0 );
+                soldering_iron.charges = veh->fuel_left( "battery", true );
+                soldering_iron.item_tags.insert( "PSEUDO" );
+                add_item( soldering_iron );
+            }
+            if( craftpart ) {
+                item vac_sealer( "vac_sealer", 0 );
+                vac_sealer.charges = veh->fuel_left( "battery", true );
+                vac_sealer.item_tags.insert( "PSEUDO" );
+                add_item( vac_sealer );
+
+                item dehydrator( "dehydrator", 0 );
+                dehydrator.charges = veh->fuel_left( "battery", true );
+                dehydrator.item_tags.insert( "PSEUDO" );
+                add_item( dehydrator );
+
+                item food_processor( "food_processor", 0 );
+                food_processor.charges = veh->fuel_left( "battery", true );
+                food_processor.item_tags.insert( "PSEUDO" );
+                add_item( food_processor );
+
+                item press( "press", 0 );
+                press.charges = veh->fuel_left( "battery", true );
+                press.item_tags.insert( "PSEUDO" );
+                add_item( press );
+            }
+            if( forgepart ) {
+                item forge( "forge", 0 );
+                forge.charges = veh->fuel_left( "battery", true );
+                forge.item_tags.insert( "PSEUDO" );
+                add_item( forge );
+            }
+            if( kilnpart ) {
+                item kiln( "kiln", 0 );
+                kiln.charges = veh->fuel_left( "battery", true );
+                kiln.item_tags.insert( "PSEUDO" );
+                add_item( kiln );
+            }
+            if( chempart ) {
+                item hotplate( "hotplate", 0 );
+                hotplate.charges = veh->fuel_left( "battery", true );
+                hotplate.item_tags.insert( "PSEUDO" );
+                add_item( hotplate );
+
+                item chemistry_set( "chemistry_set", 0 );
+                chemistry_set.charges = veh->fuel_left( "battery", true );
+                chemistry_set.item_tags.insert( "PSEUDO" );
+                add_item( chemistry_set );
+            }
         }
     }
 }
