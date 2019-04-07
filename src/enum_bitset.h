@@ -94,7 +94,7 @@ class enum_bitset
         }
 
     private:
-        std::bitset<size()> bits;
+        std::bitset<enum_bitset<E>::size()> bits;
 };
 
 #endif // ENUM_BITSET_H

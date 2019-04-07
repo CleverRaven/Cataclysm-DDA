@@ -146,16 +146,21 @@ const std::map<std::string, m_flag> flag_map = {
 
 }
 
+namespace io
+{
+
 template<>
-mon_trigger io::string_to_enum<mon_trigger>( const std::string &trigger )
+mon_trigger string_to_enum<mon_trigger>( const std::string &trigger )
 {
     return string_to_enum_look_up( trigger_map, trigger );
 }
 
 template<>
-m_flag io::string_to_enum<m_flag>( const std::string &flag )
+m_flag string_to_enum<m_flag>( const std::string &flag )
 {
     return string_to_enum_look_up( flag_map, flag );
+}
+
 }
 
 /** @relates string_id */

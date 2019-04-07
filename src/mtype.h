@@ -337,7 +337,7 @@ struct mtype {
         std::string nname( unsigned int quantity = 1 ) const;
         bool has_special_attack( const std::string &attack_name ) const;
         bool has_flag( m_flag flag ) const;
-        void set_flag( m_flag flag, bool state );
+        void set_flag( m_flag flag, bool state = true );
         bool made_of( const material_id &material ) const;
         bool made_of_any( const std::set<material_id> &materials ) const;
         bool has_anger_trigger( mon_trigger trigger ) const;

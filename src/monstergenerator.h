@@ -2,7 +2,6 @@
 #ifndef MONSTERGENERATOR_H
 #define MONSTERGENERATOR_H
 
-#include <bitset>
 #include <map>
 #include <set>
 #include <vector>
