@@ -250,7 +250,7 @@ void monster_adjustment::apply( mtype &mon )
         }
     }
     if( !flag.empty() ) {
-        mon.set_flag( flag, flag_val );
+        mon.set_flag( io::string_to_enum<m_flag>( flag ), flag_val );
     }
     if( !special.empty() ) {
         if( special == "nightvision" ) {
@@ -350,10 +350,6 @@ void MonsterGenerator::set_mtype_flags( mtype &mon )
 {
     // The flag vectors are slow, given how often has_flags() is called,
     // so instead we'll use bitsets and initialize them here.
-    for( std::set<m_flag>::iterator flag = mon.flags.begin(); flag != mon.flags.end(); ++flag ) {
-        m_flag nflag = m_flag( *flag );
-        mon.bitflags[nflag] = true;
-    }
     monster_trigger ntrig;
     for( std::set<monster_trigger>::iterator trig = mon.anger.begin(); trig != mon.anger.end();
          ++trig ) {
@@ -392,6 +388,14 @@ void MonsterGenerator::apply_set_to_set( std::set<T> from, std::set<T> &to )
 {
     for( const auto &elem : from ) {
         to.insert( elem );
+    }
+}
+
+template <typename T, size_t N>
+void MonsterGenerator::apply_set_to_set( std::set<T> from, std::bitset<N> &to )
+{
+    for( const auto &elem : from ) {
+        to.set( elem, true );
     }
 }
 

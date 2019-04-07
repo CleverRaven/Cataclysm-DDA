@@ -2,6 +2,7 @@
 #ifndef MONSTERGENERATOR_H
 #define MONSTERGENERATOR_H
 
+#include <bitset>
 #include <map>
 #include <set>
 #include <vector>
@@ -97,6 +98,7 @@ class MonsterGenerator
         void finalize_pathfinding_settings( mtype &mon );
 
         template <typename T> void apply_set_to_set( std::set<T> from, std::set<T> &to );
+        template <typename T, size_t N> void apply_set_to_set( std::set<T> from, std::bitset<N> &to );
 
         friend class string_id<mtype>;
         friend class string_id<species_type>;

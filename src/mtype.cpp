@@ -10,7 +10,6 @@
 #include "mondeath.h"
 #include "monstergenerator.h"
 #include "translations.h"
-#include "json.h"
 
 const species_id MOLLUSK( "MOLLUSK" );
 
@@ -67,30 +66,12 @@ bool mtype::has_special_attack( const std::string &attack_name ) const
 
 bool mtype::has_flag( m_flag flag ) const
 {
-    return bitflags[flag];
-}
-
-bool mtype::has_flag( const std::string &flag ) const
-{
-    return has_flag( io::string_to_enum<m_flag>( flag ) );
+    return flags[flag];
 }
 
 void mtype::set_flag( m_flag flag, bool state )
 {
-    if( state ) {
-        flags.insert( flag );
-    } else {
-        flags.erase( flag );
-    }
-}
-
-void mtype::set_flag( const std::string &flag, bool state )
-{
-    if( state ) {
-        flags.insert( io::string_to_enum<m_flag>( flag ) );
-    } else {
-        flags.erase( io::string_to_enum<m_flag>( flag ) );
-    }
+    flags.set( flag, state );
 }
 
 bool mtype::made_of( const material_id &material ) const

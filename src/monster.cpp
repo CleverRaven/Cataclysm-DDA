@@ -2341,7 +2341,7 @@ void monster::init_from_item( const item &itm )
         hp -= burnt_penalty;
 
         // HP can be 0 or less, in this case revive_corpse will just deactivate the corpse
-        if( hp > 0 && type->has_flag( "REVIVES_HEALTHY" ) ) {
+        if( hp > 0 && type->has_flag( MF_REVIVES_HEALTHY ) ) {
             hp = type->hp;
             set_speed_base( type->speed );
         }
