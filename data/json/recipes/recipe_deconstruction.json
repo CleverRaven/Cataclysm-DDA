@@ -2447,9 +2447,7 @@
     "components": [
       [ [ "rag", 25 ] ],
       [ [ "element", 5 ] ],
-      [ [ "cable", 5 ] ],
-      [ [ "plastic_chunk", 10 ] ],
-      [ [ "solder_wire", 5 ] ]
+      [ [ "cable", 5 ] ]
     ]
   }
 ]
