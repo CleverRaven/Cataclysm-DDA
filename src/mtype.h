@@ -199,8 +199,9 @@ struct mtype {
         std::set< const species_type * > species_ptrs;
         std::bitset<MF_MAX> flags;
 
-        std::set<monster_trigger> anger, placate, fear;
-        std::bitset<N_MONSTER_TRIGGERS> bitanger, bitfear, bitplacate;
+        std::bitset<N_MONSTER_TRIGGERS> anger;
+        std::bitset<N_MONSTER_TRIGGERS> fear;
+        std::bitset<N_MONSTER_TRIGGERS> placate;
 
         void add_special_attacks( JsonObject &jo, const std::string &member_name, const std::string &src );
         void remove_special_attacks( JsonObject &jo, const std::string &member_name,

@@ -317,7 +317,6 @@ void MonsterGenerator::finalize_mtypes()
         for( monster_adjustment adj : adjustments ) {
             adj.apply( mon );
         }
-        set_mtype_flags( mon );
 
         if( mon.bash_skill < 0 ) {
             mon.bash_skill = calc_bash_skill( mon );
@@ -363,28 +362,6 @@ void MonsterGenerator::apply_species_attributes( mtype &mon )
         apply_set_to_set( mspec.anger_trig, mon.anger );
         apply_set_to_set( mspec.fear_trig, mon.fear );
         apply_set_to_set( mspec.placate_trig, mon.placate );
-    }
-}
-
-void MonsterGenerator::set_mtype_flags( mtype &mon )
-{
-    // The flag vectors are slow, given how often has_flags() is called,
-    // so instead we'll use bitsets and initialize them here.
-    monster_trigger ntrig;
-    for( std::set<monster_trigger>::iterator trig = mon.anger.begin(); trig != mon.anger.end();
-         ++trig ) {
-        ntrig = monster_trigger( *trig );
-        mon.bitanger[ntrig] = true;
-    }
-    for( std::set<monster_trigger>::iterator trig = mon.fear.begin(); trig != mon.fear.end();
-         ++trig ) {
-        ntrig = monster_trigger( *trig );
-        mon.bitfear[ntrig] = true;
-    }
-    for( std::set<monster_trigger>::iterator trig = mon.placate.begin(); trig != mon.placate.end();
-         ++trig ) {
-        ntrig = monster_trigger( *trig );
-        mon.bitplacate[ntrig] = true;
     }
 }
 
