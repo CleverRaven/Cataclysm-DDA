@@ -7261,8 +7261,12 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
         } else if( action == "throw_blind" ) {
             result.peek_action = PA_BLIND_THROW;
         } else if( action == "zoom_in" ) {
+            center.x = lp.x;
+            center.y = lp.y;
             zoom_in();
         } else if( action == "zoom_out" ) {
+            center.x = lp.x;
+            center.y = lp.y;
             zoom_out();
         }
     } while( action != "QUIT" && action != "CONFIRM" && action != "SELECT" && action != "TRAVEL_TO" &&
