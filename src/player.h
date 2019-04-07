@@ -1225,8 +1225,6 @@ class player : public Character
         int get_wind_resistance( body_part bp ) const;
         /** Returns the effect of pain on stats */
         stat_mod get_pain_penalty() const;
-        /** Returns the penalty to speed from hunger */
-        static int hunger_speed_penalty( int hunger );
         int kcal_speed_penalty();
         /** Returns the penalty to speed from thirst */
         static int thirst_speed_penalty( int thirst );

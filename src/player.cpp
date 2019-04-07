@@ -1623,22 +1623,11 @@ void player::temp_equalizer( body_part bp1, body_part bp2 )
     temp_cur[bp1] += diff;
 }
 
-int player::hunger_speed_penalty( int hunger )
-{
-    // We die at 6000 hunger
-    // Hunger hits speed less hard than thirst does
-    static const std::vector<std::pair<float, float>> hunger_thresholds = {{
-            std::make_pair( 100.0f, 0.0f ),
-            std::make_pair( 300.0f, -15.0f ),
-        }
-    };
-    return static_cast<int>( multi_lerp( hunger_thresholds, hunger ) );
-}
-
 int player::kcal_speed_penalty()
 {
     static const std::vector<std::pair<float, float>> starv_thresholds = { {
-            std::make_pair( 0.0f, -60.0f ),
+            std::make_pair( 0.0f, -90.0f ),
+            std::make_pair( 0.5f, -50.f ),
             std::make_pair( 0.8f, -25.0f ),
             std::make_pair( 0.95f, 0.0f )
         }
@@ -1678,9 +1667,6 @@ void player::recalc_speed_bonus()
 
     if( get_thirst() > 40 ) {
         mod_speed_bonus( thirst_speed_penalty( get_thirst() ) );
-    }
-    if( get_hunger() > 100 ) {
-        mod_speed_bonus( hunger_speed_penalty( get_hunger() ) );
     }
     // fat or underweight, you get slower. cumulative with hunger
     mod_speed_bonus( kcal_speed_penalty() );
