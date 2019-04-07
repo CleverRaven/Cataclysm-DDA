@@ -941,10 +941,19 @@ cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
 cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
         const action_id action_to_highlight, const bool allow_vertical )
 {
+    const std::function<bool( tripoint )> f = [&action_to_highlight]( tripoint p ) {
+        return can_interact_at( action_to_highlight, p );
+    };
+    return choose_adjacent_highlight( message, f, allow_vertical );
+}
+
+cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
+        const std::function<bool ( tripoint )> &should_highlight, const bool allow_vertical )
+{
     // Highlight nearby terrain according to the highlight function
     bool highlighted = false;
     for( const tripoint &pos : g->m.points_in_radius( g->u.pos(), 1 ) ) {
-        if( can_interact_at( action_to_highlight, pos ) ) {
+        if( should_highlight( pos ) ) {
             highlighted = true;
             g->m.drawsq( g->w_terrain, g->u, pos,
                          true, true, g->u.pos() + g->u.view_offset );

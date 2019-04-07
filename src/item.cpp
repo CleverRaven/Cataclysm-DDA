@@ -1803,7 +1803,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                       iteminfo::no_newline, fire_resist() ) );
             info.push_back( iteminfo( "ARMOR", space + _( "Environmental: " ),
                                       get_base_env_resist( *this ) ) );
-            if( type->can_use( "GASMASK" ) ) {
+            if( type->can_use( "GASMASK" ) || type->can_use( "DIVE_TANK" ) ) {
                 info.push_back( iteminfo( "ARMOR",
                                           _( "<bold>Protection when active</bold>: " ) ) );
                 info.push_back( iteminfo( "ARMOR", space + _( "Acid: " ), "",

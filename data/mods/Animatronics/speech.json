@@ -1,163 +1,194 @@
 [
-    {
-        "type" : "speech",
-        "speaker" : "mon_animatronic_fox_old",
-        "sound" : "\"Don't make me have ye walk the plank.\"",
-        "volume" : 40
-    },{
-        "type" : "speech",
-        "speaker" : "mon_animatronic_fox_old",
-        "sound" : "\"Welcome to the pirate's cove matey!\"",
-        "volume" : 40
-    },{
-        "type" : "speech",
-        "speaker" : "mon_animatronic_fox_old",
-        "sound" : "\"Arr, ahoy there maties!  And welcom- welcom- welcome to tha pirate's cove.\"",
-        "volume" : 40
-    },{
-        "type" : "speech",
-        "speaker" : "mon_animatronic_fox_old",
-        "sound" : "\"It's me.\"",
-        "volume" : 40
-    },{
-        "type" : "speech",
-        "speaker" : "mon_animatronic_fox_old",
-        "sound" : "\"SKREEEEEEEEEEEEEE!\"",
-        "volume" : 75
-    },{
-        "type" : "speech",
-        "speaker" : "mon_animatronic_fox_old",
-        "sound" : "\"Dum de dum dum dum.\"",
-        "volume" : 30
-    },{
-        "type" : "speech",
-        "speaker" : "mon_animatronic_fox_old",
-        "sound" : "\"Ahoy there!\"",
-        "volume" : 40
-    },{
-        "type" : "speech",
-        "speaker" : "mon_animatronic_bunny_old",
-        "sound" : "\"SKREEEEEEEEEEEEEE!\"",
-        "volume" : 75
-    },{
-        "type" : "speech",
-        "speaker" : "mon_animatronic_bear",
-        "sound" : "\"They will know the joy of creation.\"",
-        "volume" : 40
-    },{
-        "type" : "speech",
-        "speaker" : "mon_animatronic_bear",
-        "sound" : "\"It's me.\"",
-        "volume" : 40
-    },{
-        "type" : "speech",
-        "speaker" : "mon_animatronic_bear",
-        "sound" : "\"Ha huhuhu huh huh.\"",
-        "volume" : 30
-    },{
-        "type" : "speech",
-        "speaker" : "mon_animatronic_bear",
-        "sound" : "\"SKREEEEEEEEEEEEEE!\"",
-        "volume" : 75
-    },{
-        "type" : "speech",
-        "speaker" : "mon_animatronic_chicken",
-        "sound" : "\"SKREEEEEEEEEEEEEE!\"",
-        "volume" : 75
-    },{
-        "type" : "speech",
-        "speaker" : "mon_animatronic_chicken",
-        "sound" : "\"Let's eat!\"",
-        "volume" : 40
-    },{
-        "type" : "speech",
-        "speaker" : "mon_animatronic_child",
-        "sound" : "\"Hello!\"",
-        "volume" : 40
-    },{
-        "type" : "speech",
-        "speaker" : "mon_animatronic_child",
-        "sound" : "\"Hai!\"",
-        "volume" : 40
-    },{
-        "type" : "speech",
-        "speaker" : "mon_animatronic_child",
-        "sound" : "\"Hi!\"",
-        "volume" : 40
-    },{
-        "type" : "speech",
-        "speaker" : "mon_animatronic_fox_new",
-        "sound" : "\"Let's play!\"",
-        "volume" : 40
-    },{
-        "type" : "speech",
-        "speaker" : "mon_animatronic_fox_new",
-        "sound" : "\"What's your name little child?\"",
-        "volume" : 40
-    },{
-        "type" : "speech",
-        "speaker" : "mon_animatronic_fox_new",
-        "sound" : "\"Come closer.\"",
-        "volume" : 40
-    },{
-        "type" : "speech",
-        "speaker" : "mon_animatronic_fox_new",
-        "sound" : "\"Come play with me!\"",
-        "volume" : 40
-    },{
-        "type" : "speech",
-        "speaker" : "mon_animatronic_fox_new",
-        "sound" : "\"No running.\"",
-        "volume" : 40
-    },{
-        "type" : "speech",
-        "speaker" : "mon_animatronic_fox_new",
-        "sound" : "\"Running is against the rules.\"",
-        "volume" : 40
-    },{
-        "type" : "speech",
-        "speaker" : "mon_animatronic_fox_new",
-        "sound" : "\"RAAAAGGGGRRRHHH!\"",
-        "volume" : 70
-    },{
-        "type" : "speech",
-        "speaker" : "mon_animatronic_fox_wreck",
-        "sound" : "\"BZZZZZTKKKKKSSSSVVVVVSSTT\"",
-        "volume" : 40
-    },{
-        "type" : "speech",
-        "speaker" : "mon_animatronic_fox_wreck",
-        "sound" : "\"WHIIIRRRCRRIIIIZZZZZZVVVT\"",
-        "volume" : 40
-    },{
-        "type" : "speech",
-        "speaker" : "mon_animatronic_bunny_new",
-        "sound" : "\"Let's rock!\"",
-        "volume" : 40
-    },{
-        "type" : "speech",
-        "speaker" : "mon_animatronic_bunny_new",
-        "sound" : "\"RAAAAGGGGRRRHHH!\"",
-        "volume" : 70
-    },{
-        "type" : "speech",
-        "speaker" : "mon_animatronic_chicken_new",
-        "sound" : "\"RAAAAGGGGRRRHHH!\"",
-        "volume" : 70
-    },{
-        "type" : "speech",
-        "speaker" : "mon_animatronic_chicken_new",
-        "sound" : "\"Let's Party!\"",
-        "volume" : 40
-    },{
-        "type" : "speech",
-        "speaker" : "mon_animatronic_bear_new",
-        "sound" : "\"RAAAAGGGGRRRHHH!\"",
-        "volume" : 70
-    },{
-        "type" : "speech",
-        "speaker" : "mon_animatronic_bear_new",
-        "sound" : "\"Are you ready?\"",
-        "volume" : 40
-    }
+  {
+    "type": "speech",
+    "speaker": "mon_animatronic_fox_old",
+    "sound": "\"Don't make me have ye walk the plank.\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_animatronic_fox_old",
+    "sound": "\"Welcome to the pirate's cove matey!\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_animatronic_fox_old",
+    "sound": "\"Arr, ahoy there maties!  And welcom- welcom- welcome to tha pirate's cove.\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_animatronic_fox_old",
+    "sound": "\"It's me.\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_animatronic_fox_old",
+    "sound": "\"SKREEEEEEEEEEEEEE!\"",
+    "volume": 75
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_animatronic_fox_old",
+    "sound": "\"Dum de dum dum dum.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_animatronic_fox_old",
+    "sound": "\"Ahoy there!\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_animatronic_bunny_old",
+    "sound": "\"SKREEEEEEEEEEEEEE!\"",
+    "volume": 75
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_animatronic_bear",
+    "sound": "\"They will know the joy of creation.\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_animatronic_bear",
+    "sound": "\"It's me.\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_animatronic_bear",
+    "sound": "\"Ha huhuhu huh huh.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_animatronic_bear",
+    "sound": "\"SKREEEEEEEEEEEEEE!\"",
+    "volume": 75
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_animatronic_chicken",
+    "sound": "\"SKREEEEEEEEEEEEEE!\"",
+    "volume": 75
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_animatronic_chicken",
+    "sound": "\"Let's eat!\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_animatronic_child",
+    "sound": "\"Hello!\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_animatronic_child",
+    "sound": "\"Hai!\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_animatronic_child",
+    "sound": "\"Hi!\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_animatronic_fox_new",
+    "sound": "\"Let's play!\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_animatronic_fox_new",
+    "sound": "\"What's your name little child?\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_animatronic_fox_new",
+    "sound": "\"Come closer.\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_animatronic_fox_new",
+    "sound": "\"Come play with me!\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_animatronic_fox_new",
+    "sound": "\"No running.\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_animatronic_fox_new",
+    "sound": "\"Running is against the rules.\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_animatronic_fox_new",
+    "sound": "\"RAAAAGGGGRRRHHH!\"",
+    "volume": 70
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_animatronic_fox_wreck",
+    "sound": "\"BZZZZZTKKKKKSSSSVVVVVSSTT\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_animatronic_fox_wreck",
+    "sound": "\"WHIIIRRRCRRIIIIZZZZZZVVVT\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_animatronic_bunny_new",
+    "sound": "\"Let's rock!\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_animatronic_bunny_new",
+    "sound": "\"RAAAAGGGGRRRHHH!\"",
+    "volume": 70
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_animatronic_chicken_new",
+    "sound": "\"RAAAAGGGGRRRHHH!\"",
+    "volume": 70
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_animatronic_chicken_new",
+    "sound": "\"Let's Party!\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_animatronic_bear_new",
+    "sound": "\"RAAAAGGGGRRRHHH!\"",
+    "volume": 70
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_animatronic_bear_new",
+    "sound": "\"Are you ready?\"",
+    "volume": 40
+  }
 ]

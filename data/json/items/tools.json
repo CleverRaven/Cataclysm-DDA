@@ -1227,7 +1227,7 @@
     "color": "green",
     "use_action": {
       "type": "place_monster",
-      "monster_id": "mon_dispatch",
+      "monster_id": "mon_dispatch_military",
       "friendly_msg": "The dispatch whirrs onto its legs and searches for a target.",
       "hostile_msg": "The dispatch turns on you, slashing at you with its arms!",
       "difficulty": 1,

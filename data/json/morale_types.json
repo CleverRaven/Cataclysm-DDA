@@ -325,6 +325,11 @@
     "text": "Anguished by memories of butchering human corpse"
   },
   {
+    "id": "morale_gravedigger",
+    "type": "morale_type",
+    "text": "Dug out a grave"
+  },
+  {
     "id": "morale_perm_debug",
     "type": "morale_type",
     "text": "Debug Morale"

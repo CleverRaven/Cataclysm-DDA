@@ -16,7 +16,7 @@ void reset();
 // @param sym Symbol to rotate.
 // @param n Number of rotations.
 
-long get( long sym, int n );
+std::string get( const std::string &sym, int n );
 
 }
 
