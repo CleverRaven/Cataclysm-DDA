@@ -19,6 +19,8 @@
       "type": "transform",
       "target": "afs_energy_saber_on",
       "msg": "You activate the energy saber, and its blade blazes into existence!",
+      "need_charges": 1,
+      "need_charges_msg": "The energy saber is out of charge.",
       "active": true
     },
     "flags": [ "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
@@ -42,6 +44,7 @@
     "to_hit": 2,
     "flags": [ "LIGHT_8", "NO_REPAIR", "SLOW_WIELD", "UNBREAKABLE_MELEE", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ],
     "techniques": [ "WBLOCK_2", "PRECISE" ],
+    "revert_to": "afs_murdersaw",
     "use_action": {
       "menu_text": "Activate",
       "type": "transform",
