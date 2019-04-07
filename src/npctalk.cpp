@@ -2340,6 +2340,18 @@ void conditional_t::set_npc_rule( JsonObject &jo )
     };
 }
 
+void conditional_t::set_npc_override( JsonObject &jo )
+{
+    std::string rule = jo.get_string( "npc_override" );
+    condition = [rule]( const dialogue & d ) {
+        auto flag = ally_rule_strs.find( rule );
+        if( flag != ally_rule_strs.end() ) {
+            return d.beta->rules.has_override_enable( flag->second );
+        }
+        return false;
+    };
+}
+
 void conditional_t::set_days_since( JsonObject &jo )
 {
     const unsigned long days = jo.get_int( "days_since_cataclysm" );
@@ -2686,6 +2698,8 @@ conditional_t::conditional_t( JsonObject jo )
         set_npc_engagement_rule( jo );
     } else if( jo.has_string( "npc_rule" ) ) {
         set_npc_rule( jo );
+    } else if( jo.has_string( "npc_override" ) ) {
+        set_npc_override( jo );
     } else if( jo.has_int( "days_since_cataclysm" ) ) {
         set_days_since( jo );
     } else if( jo.has_string( "is_season" ) ) {
