@@ -2730,3 +2730,23 @@ void npc_follower_rules::clear_override( ally_rule clearit )
                                         ~static_cast<int>( clearit ) );
 }
 
+void npc_follower_rules::set_danger_overrides()
+{
+    overrides = ally_rule::DEFAULT;
+    override_enable = ally_rule::DEFAULT;
+    set_override( ally_rule::avoid_combat );
+    set_override( ally_rule::avoid_doors );
+    set_override( ally_rule::hold_the_line );
+    enable_override( ally_rule::avoid_combat );
+    enable_override( ally_rule::allow_sleep );
+    enable_override( ally_rule::close_doors );
+    enable_override( ally_rule::avoid_doors );
+    enable_override( ally_rule::hold_the_line );
+}
+
+void npc_follower_rules::clear_danger_overrides()
+{
+    overrides = ally_rule::DEFAULT;
+    override_enable = ally_rule::DEFAULT;
+}
+
