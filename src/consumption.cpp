@@ -39,6 +39,8 @@ const efftype_id effect_paincysts( "paincysts" );
 const efftype_id effect_nausea( "nausea" );
 const efftype_id effect_hallu( "hallu" );
 const efftype_id effect_visuals( "visuals" );
+const efftype_id effect_common_cold( "common_cold" );
+const efftype_id effect_flu( "flu" );
 
 const mtype_id mon_player_blob( "mon_player_blob" );
 
@@ -166,6 +168,9 @@ std::pair<int, int> player::fun_for( const item &comest ) const
     float fun = comest.type->comestible->fun;
     if( comest.has_flag( flag_MUSHY ) && fun > -5.0f ) {
         fun = -5.0f; // defrosted MUSHY food is practicaly tastless or tastes off
+    }
+    if( ( has_effect( effect_common_cold ) || has_effect( effect_flu ) ) && fun > 0 ) {
+        fun /= 3; // food doesn't taste as good when you're sick
     }
     // Rotten food should be pretty disgusting
     const float relative_rot = comest.get_relative_rot();
@@ -801,10 +806,19 @@ bool player::eat( item &food, bool force )
             add_morale( MORALE_CANNIBAL, -60, -400, 60_minutes, 30_minutes );
         }
     }
-    // Mushy has no extra effects here as they are applied in fun_for() calculation
+
+    // The fun changes for these effects are applied in fun_for().
     if( food.has_flag( "MUSHY" ) ) {
         add_msg_if_player( m_bad,
                            _( "You try to ignore its mushy texture, but it leaves you with an awful aftertaste." ) );
+    }
+    if( food.type->comestible->fun > 0 ) {
+        if( has_effect( effect_common_cold ) ) {
+            add_msg_if_player( m_bad, _( "You can't taste much of anything with this cold." ) );
+        }
+        if( has_effect( effect_flu ) ) {
+            add_msg_if_player( m_bad, _( "You can't taste much of anything with this flu." ) );
+        }
     }
 
     // Allergy check
