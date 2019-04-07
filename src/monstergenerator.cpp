@@ -740,12 +740,15 @@ void mtype::load( JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "burn_into", burn_into, auto_flags_reader<mtype_id> {},
               mtype_id::NULL_ID() );
 
-    optional( jo, was_loaded, "flags", flags, enum_flags_reader<m_flag> {} );
+    const auto flag_reader = enum_flags_reader<m_flag> { "monster flag" };
+    optional( jo, was_loaded, "flags", flags, flag_reader );
     // Can't calculate yet - we want all flags first
     optional( jo, was_loaded, "bash_skill", bash_skill, -1 );
-    optional( jo, was_loaded, "anger_triggers", anger, enum_flags_reader<monster_trigger> {} );
-    optional( jo, was_loaded, "placate_triggers", placate, enum_flags_reader<monster_trigger> {} );
-    optional( jo, was_loaded, "fear_triggers", fear, enum_flags_reader<monster_trigger> {} );
+
+    const auto trigger_reader = enum_flags_reader<monster_trigger> { "monster trigger" };
+    optional( jo, was_loaded, "anger_triggers", anger, trigger_reader );
+    optional( jo, was_loaded, "placate_triggers", placate, trigger_reader );
+    optional( jo, was_loaded, "fear_triggers", fear, trigger_reader );
 
     if( jo.has_member( "path_settings" ) ) {
         auto jop = jo.get_object( "path_settings" );
@@ -771,10 +774,13 @@ void MonsterGenerator::load_species( JsonObject &jo, const std::string &src )
 
 void species_type::load( JsonObject &jo, const std::string & )
 {
-    optional( jo, was_loaded, "flags", flags, enum_flags_reader<m_flag> {} );
-    optional( jo, was_loaded, "anger_triggers", anger, enum_flags_reader<monster_trigger> {} );
-    optional( jo, was_loaded, "placate_triggers", placate, enum_flags_reader<monster_trigger> {} );
-    optional( jo, was_loaded, "fear_triggers", fear, enum_flags_reader<monster_trigger> {} );
+    const auto flag_reader = enum_flags_reader<m_flag> { "monster flag" };
+    optional( jo, was_loaded, "flags", flags, flag_reader );
+
+    const auto trigger_reader = enum_flags_reader<monster_trigger> { "monster trigger" };
+    optional( jo, was_loaded, "anger_triggers", anger, trigger_reader );
+    optional( jo, was_loaded, "placate_triggers", placate, trigger_reader );
+    optional( jo, was_loaded, "fear_triggers", fear, trigger_reader );
 }
 
 const std::vector<mtype> &MonsterGenerator::get_all_mtypes() const

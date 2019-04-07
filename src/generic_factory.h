@@ -872,7 +872,13 @@ typed_flag_reader<T> make_flag_reader( const std::map<std::string, T> &m, const 
 template<typename E>
 class enum_flags_reader : public generic_typed_reader<enum_flags_reader<E>>
 {
+    private:
+        const std::string flag_type;
+
     public:
+        enum_flags_reader( const std::string &flag_type ) : flag_type( flag_type ) {
+        }
+
         E get_next( JsonIn &jin ) const {
             const auto position = jin.tell();
             const std::string flag = jin.get_string();
@@ -880,7 +886,7 @@ class enum_flags_reader : public generic_typed_reader<enum_flags_reader<E>>
                 return io::string_to_enum<E>( flag );
             } catch( const io::InvalidEnumString & ) {
                 jin.seek( position );
-                jin.error( "invalid enumeration value: \"" + flag + "\"" );
+                jin.error( string_format( "invalid %s: \"%s\"", flag_type, flag ) );
                 throw; // ^^ throws already
             }
         }
