@@ -50,7 +50,7 @@
     "type": "npc_class",
     "id": "NC_SHOPKEEP",
     "name": "Shopkeep",
-    "job_description" : "I'm a local shopkeeper.",
+    "job_description": "I'm a local shopkeeper.",
     "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "//": "This is a unique NPC who doesn't get randomly selected background traits",
     "common": false
@@ -60,7 +60,11 @@
     "id": "NC_HACKER",
     "name": "Hacker",
     "job_description": "I'm looking for some choice systems to hack.",
-    "traits": [ { "group": "BG_survival_story_TEENAGER" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "traits": [
+      { "group": "BG_survival_story_TEENAGER" },
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" }
+    ],
     "bonus_str": { "rng": [ -4, 0 ] },
     "bonus_dex": { "rng": [ -2, 0 ] },
     "bonus_int": { "rng": [ 1, 5 ] },
@@ -161,7 +165,11 @@
     "id": "NC_THUG",
     "name": "Thug",
     "job_description": "I'm just here for the paycheck.",
-    "traits": [ { "group": "BG_survival_story_CRIMINAL" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "traits": [
+      { "group": "BG_survival_story_CRIMINAL" },
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" }
+    ],
     "bonus_str": { "rng": [ 2, 4 ] },
     "bonus_dex": { "rng": [ 0, 2 ] },
     "skills": [
@@ -193,7 +201,11 @@
     "id": "NC_ARSONIST",
     "name": "Arsonist",
     "job_description": "I'm just watching the world burn.",
-    "traits": [ { "group": "BG_survival_story_CRIMINAL" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "traits": [
+      { "group": "BG_survival_story_CRIMINAL" },
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" }
+    ],
     "bonus_dex": { "rng": [ -2, 0 ] },
     "bonus_int": { "rng": [ -2, 0 ] },
     "bonus_per": { "rng": [ 0, 2 ] },

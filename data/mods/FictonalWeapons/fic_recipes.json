@@ -1,7 +1,7 @@
 [
   {
     "result": "m1911ds",
-    "type" : "recipe",
+    "type": "recipe",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
     "skill_used": "fabrication",
@@ -10,26 +10,10 @@
     "time": 12000,
     "autolearn": true,
     "tools": [
-      [ ["mold_plastic", -1] ],
-      [
-        [ "welder", 70 ],
-        [ "welder_crude", 100 ],
-        [ "soldering_iron", 100 ],
-        [ "toolset", 100 ]
-      ]
+      [ [ "mold_plastic", -1 ] ],
+      [ [ "welder", 70 ], [ "welder_crude", 100 ], [ "soldering_iron", 100 ], [ "toolset", 100 ] ]
     ],
-    "qualities": [
-      { "id": "SAW_M_FINE", "level": 1 },
-      { "id": "SCREW_FINE", "level": 1 }
-    ],
-    "components": [
-      [ ["m1911", 1] ],
-      [ ["gun_crossbow", 1] ],
-      [ ["plastic_chunk", 4] ],
-      [
-        [ "steel_chunk", 2 ],
-        [ "scrap", 6 ]
-      ]
-    ]
+    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
+    "components": [ [ [ "m1911", 1 ] ], [ [ "gun_crossbow", 1 ] ], [ [ "plastic_chunk", 4 ] ], [ [ "steel_chunk", 2 ], [ "scrap", 6 ] ] ]
   }
 ]

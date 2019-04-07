@@ -1684,6 +1684,9 @@ void Character::mut_cbm_encumb( std::array<encumbrance_data, num_bp> &vals ) con
     if( has_bionic( bionic_id( "bio_nostril" ) ) ) {
         vals[bp_mouth].encumbrance += 10;
     }
+    if( has_bionic( bionic_id( "bio_shotgun" ) ) ) {
+        vals[bp_arm_l].encumbrance += 5;
+    }
     if( has_bionic( bionic_id( "bio_thumbs" ) ) ) {
         vals[bp_hand_l].encumbrance += 10;
         vals[bp_hand_r].encumbrance += 10;

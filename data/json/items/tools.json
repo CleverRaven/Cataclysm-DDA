@@ -430,7 +430,16 @@
     "turns_per_charge": 20,
     "revert_to": "battletorch_done",
     "techniques": [ "WBLOCK_1" ],
-    "use_action": "BATTLETORCH_LIT",
+    "use_action": [
+      { "type": "firestarter", "moves": 30 },
+      {
+        "target": "battletorch",
+        "msg": "The Louisville Slaughterer is extinguished.",
+        "active": false,
+        "menu_text": "Extinguish",
+        "type": "transform"
+      }
+    ],
     "flags": [ "FIRE", "LIGHT_310", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID", "WATER_EXTINGUISH" ]
   },
   {
@@ -1173,6 +1182,56 @@
       "//": "Milspec but immobile and no lethal weaponry",
       "difficulty": 4,
       "moves": 150,
+      "skill1": "electronics",
+      "skill2": "computer"
+    }
+  },
+  {
+    "id": "bot_dispatch",
+    "type": "TOOL",
+    "name": "inactive dispatch",
+    "description": "An inactive Northrop Dispatch, guard model, serving as a mobile assembler and deployer of kamikaze manhacks for defense.  Activate it to place it onto the ground; due to a one-way switch triggered during deactivation, however, it will be nonaggressive, and serves only as a distraction.",
+    "volume": "95000 ml",
+    "weight": 100000,
+    "price": 10000000,
+    "price_postapoc": 100000,
+    "to_hit": -3,
+    "bashing": 6,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "yellow",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_dispatch",
+      "friendly_msg": "The dispatch whirrs onto its legs and searches for a target.",
+      "hostile_msg": "The dispatch turns on you, whacking at you with its arms!",
+      "difficulty": 1,
+      "moves": 300,
+      "skill1": "electronics",
+      "skill2": "computer"
+    }
+  },
+  {
+    "id": "bot_dispatch_military",
+    "type": "TOOL",
+    "name": "inactive military dispatch",
+    "description": "An inactive Northrop Dispatch, military model, serving as a mobile assembler and deployer of lethal manhacks for combat situations.  Activate it to place it onto the ground; due to a one-way switch triggered during deactivation, however, it will be nonaggressive, and serves only as a distraction.",
+    "volume": "95000 ml",
+    "weight": 100000,
+    "price": 100000000,
+    "price_postapoc": 500000,
+    "to_hit": -3,
+    "bashing": 6,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "green",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_dispatch_military",
+      "friendly_msg": "The dispatch whirrs onto its legs and searches for a target.",
+      "hostile_msg": "The dispatch turns on you, slashing at you with its arms!",
+      "difficulty": 1,
+      "moves": 300,
       "skill1": "electronics",
       "skill2": "computer"
     }
@@ -3281,6 +3340,47 @@
     "use_action": {
       "type": "explosion",
       "do_flashbang": true,
+      "sound_volume": 0,
+      "sound_msg": "Tick.",
+      "no_deactivate_msg": "You've already pulled the %s's pin, try throwing it instead."
+    },
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "id": "tear_gas_payload",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": "tear gas payload",
+    "description": "This is a dummy item used by tear gas hacks.  You should never see it outside of debug.",
+    "symbol": "*",
+    "color": "dark_gray",
+    "use_action": {
+      "target": "tear_gas_payload_act",
+      "msg": "You pull the pin on the payload.",
+      "target_charges": 5,
+      "active": true,
+      "menu_text": "Pull pin",
+      "type": "transform"
+    },
+    "flags": [ "TRADER_AVOID", "BOMB", "GRENADE" ]
+  },
+  {
+    "id": "tear_gas_payload_act",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": "active tear gas payload",
+    "description": "This is a dummy item used by tear gas hacks that just so happens to be counting down.  You should never see it outside of debug.",
+    "symbol": "*",
+    "color": "dark_gray",
+    "initial_charges": 5,
+    "max_charges": 5,
+    "turns_per_charge": 1,
+    "use_action": {
+      "type": "explosion",
+      "fields_type": "fd_tear_gas",
+      "fields_radius": 3,
+      "fields_min_density": 1,
+      "fields_max_density": 3,
       "sound_volume": 0,
       "sound_msg": "Tick.",
       "no_deactivate_msg": "You've already pulled the %s's pin, try throwing it instead."
@@ -7966,6 +8066,49 @@
     "use_action": [ "HAMMER" ]
   },
   {
+    "id": "toolset_extended",
+    "type": "TOOL",
+    "name": "extended toolset",
+    "description": "Your toolset, protruding from your hands.  It can slice, dice, and make everything nice.",
+    "symbol": "#",
+    "color": "white",
+    "weight": 226,
+    "bashing": 3,
+    "cutting": 5,
+    "flags": [ "NO_UNWIELD", "UNBREAKABLE_MELEE", "TRADER_AVOID", "USES_BIONIC_POWER" ],
+    "max_charges": 1000,
+    "note": "Charges will exceed max charges since they're always equal to the player's bionic power, but this has no adverse effects.",
+    "charges_per_use": 1,
+    "use_action": [
+      "HAMMER",
+      "CROWBAR",
+      {
+        "type": "repair_item",
+        "item_action_type": "repair_metal",
+        "materials": [ "kevlar", "plastic", "iron", "steel", "hardsteel", "aluminum", "copper", "silver", "gold" ],
+        "skill": "mechanics",
+        "cost_scaling": 0.1,
+        "move_cost": 1000
+      },
+      { "flame": false, "type": "cauterize" }
+    ],
+    "qualities": [
+      [ "HAMMER", 3 ],
+      [ "HAMMER_FINE", 1 ],
+      [ "SAW_W", 1 ],
+      [ "SAW_M", 2 ],
+      [ "SAW_M_FINE", 1 ],
+      [ "WRENCH", 2 ],
+      [ "WRENCH_FINE", 1 ],
+      [ "SCREW", 1 ],
+      [ "SCREW_FINE", 1 ],
+      [ "CUT", 2 ],
+      [ "PRY", 1 ],
+      [ "DRILL", 1 ],
+      [ "BUTCHER", -38 ]
+    ]
+  },
+  {
     "id": "torch",
     "type": "TOOL",
     "name": "torch",
@@ -8010,7 +8153,16 @@
     "max_charges": 75,
     "turns_per_charge": 20,
     "revert_to": "torch_done",
-    "use_action": "TORCH_LIT",
+    "use_action": [
+      { "type": "firestarter", "moves": 30 },
+      {
+        "target": "torch",
+        "msg": "The torch is extinguished.",
+        "active": false,
+        "menu_text": "Extinguish",
+        "type": "transform"
+      }
+    ],
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "FIRE", "LIGHT_310", "CHARGEDIM", "FLAMING", "TRADER_AVOID", "WATER_EXTINGUISH" ]
   },

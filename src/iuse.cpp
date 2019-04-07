@@ -628,10 +628,10 @@ int iuse::anticonvulsant( player *p, item *it, bool, const tripoint & )
     return it->type->charges_to_use();
 }
 
-int iuse::weed_brownie( player *p, item *it, bool, const tripoint & )
+int iuse::weed_cake( player *p, item *it, bool, const tripoint & )
 {
     p->add_msg_if_player(
-        _( "You start scarfing down the delicious brownie.  It tastes a little funny though..." ) );
+        _( "You start scarfing down the delicious cake.  It tastes a little funny though..." ) );
     time_duration duration = 12_minutes;
     if( p->has_trait( trait_TOLERANCE ) ) {
         duration = 9_minutes;
@@ -2490,7 +2490,15 @@ int iuse::makemound( player *p, item *it, bool t, const tripoint & )
     }
 }
 
-static int dig_pit_moves( player *p, item *it, bool deep )
+struct digging_moves_and_byproducts {
+    int moves;
+    int spawn_count;
+    std::string byproducts_item_group;
+    ter_id result_terrain;
+};
+
+static digging_moves_and_byproducts dig_pit_moves_and_byproducts( player *p, item *it, bool deep,
+        bool channel )
 {
     // When we dig, we're generally digging out either a deep or shallow pit.
     //
@@ -2604,7 +2612,14 @@ static int dig_pit_moves( player *p, item *it, bool deep )
     const int helpersize = g->u.get_num_crafting_helpers( 3 );
     moves = moves * ( 1 - ( helpersize / 10 ) );
 
-    return moves;
+    ter_id result_terrain;
+    if( channel ) {
+        result_terrain = ter_id( "t_water_moving_sh" );
+    } else {
+        result_terrain = deep ? ter_id( "t_pit" ) : ter_id( "t_pit_shallow" );
+    }
+
+    return { moves, static_cast<int>( volume_m3 / 0.05 ), "digging_soil_loam_50L", result_terrain };
 }
 
 int iuse::dig( player *p, item *it, bool t, const tripoint & )
@@ -2613,28 +2628,65 @@ int iuse::dig( player *p, item *it, bool t, const tripoint & )
         return 0;
     }
 
-    const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Dig pit where?" ) );
+    const tripoint dig_point = p->pos();
+
+    const bool can_dig_here = g->m.has_flag( "DIGGABLE", dig_point ) && !g->m.has_furn( dig_point ) &&
+                              g->m.tr_at( dig_point ).is_null() && g->m.i_at( dig_point ).empty() && !g->m.veh_at( dig_point );
+
+    if( !can_dig_here ) {
+        p->add_msg_if_player(
+            _( "You can't dig a pit in this location.  Ensure it is clear diggable ground with no items or obstacles." ) );
+        return 0;
+    }
+    const bool can_deepen = g->m.has_flag( "DIGGABLE_CAN_DEEPEN", dig_point );
+    const bool grave = g->m.ter( dig_point ) == t_grave;
+
+    if( !p->crafting_inventory().has_quality( DIG, 2 ) ) {
+        if( can_deepen ) {
+            p->add_msg_if_player( _( "You can't deepen this pit without a proper shovel." ) );
+            return 0;
+        } else if( grave ) {
+            p->add_msg_if_player( _( "You can't exhume a grave without a proper shovel." ) );
+            return 0;
+        }
+    }
+
+    const std::function<bool( tripoint )> f = []( tripoint p ) {
+        return g->m.passable( p );
+    };
+
+    const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
+            _( "Deposit excavated materials where?" ), f, false );
     if( !pnt_ ) {
         return 0;
     }
-    const tripoint pnt = *pnt_;
+    const tripoint deposit_point = *pnt_;
 
-    if( pnt == p->pos() ) {
-        add_msg( m_info, _( "You delve into yourself." ) );
+    if( !g->m.passable( deposit_point ) ) {
+        p->add_msg_if_player(
+            _( "You can't deposit the excavated materials onto an impassable location." ) );
         return 0;
     }
 
-    const bool diggable = g->m.has_flag( "DIGGABLE", pnt );
-    const bool deepen = g->m.has_flag( "DIGGABLE_CAN_DEEPEN", pnt );
-
-    if( !diggable ) {
-        p->add_msg_if_player( _( "You can't dig a pit on this ground." ) );
-        return 0;
-    }
-
-    if( deepen && !p->crafting_inventory().has_quality( DIG, 2 ) ) {
-        p->add_msg_if_player( _( "You can't deepen this pit without a proper shovel." ) );
-        return 0;
+    if( grave ) {
+        if( g->u.has_trait_flag( "SPIRITUAL" ) && !g->u.has_trait_flag( "PSYCHOPATH" ) &&
+            g->u.query_yn( _( "Would you really touch the sacred resting place of the dead?" ) ) ) {
+            add_msg( m_info, _( "Exhuming a grave is really against your beliefs." ) );
+            g->u.add_morale( MORALE_GRAVEDIGGER, -50, -100, 48_hours, 12_hours );
+            if( one_in( 3 ) ) {
+                g->u.vomit();
+            }
+        } else if( g->u.has_trait_flag( "PSYCHOPATH" ) ) {
+            p->add_msg_if_player( m_good,
+                                  _( "Exhuming a grave is fun now, where there is no one to object." ) );
+            p->add_morale( MORALE_GRAVEDIGGER, 25, 50, 2_hours, 1_hours );
+        } else if( !g->u.has_trait_flag( "EATDEAD" ) && !g->u.has_trait_flag( "SAPROVORE" ) ) {
+            p->add_msg_if_player( m_bad, _( "Exhuming this grave is utterly disgusting!" ) );
+            p->add_morale( MORALE_GRAVEDIGGER, -25, -50, 2_hours, 1_hours );
+            if( one_in( 5 ) ) {
+                p->vomit();
+            }
+        }
     }
 
     const std::vector<npc *> helpers = g->u.get_crafting_helpers();
@@ -2643,16 +2695,17 @@ int iuse::dig( player *p, item *it, bool t, const tripoint & )
         break;
     }
 
-    const int moves = dig_pit_moves( p, it, deepen );
+    digging_moves_and_byproducts moves_and_byproducts = dig_pit_moves_and_byproducts( p, it,
+            can_deepen, false );
 
-    activity_id digging_activity( "ACT_DIG" );
-    if( deepen ) {
-        digging_activity = activity_id( "ACT_DIG_DEEPEN" );
-    }
-
-    player_activity act( digging_activity, moves, -1, p->get_item_position( it ) );
+    player_activity act( activity_id( "ACT_DIG" ), moves_and_byproducts.moves, -1,
+                         p->get_item_position( it ) );
+    act.placement = dig_point;
+    act.values.emplace_back( moves_and_byproducts.spawn_count );
+    act.str_values.emplace_back( moves_and_byproducts.byproducts_item_group );
+    act.str_values.emplace_back( moves_and_byproducts.result_terrain.id().str() );
+    act.coords.emplace_back( deposit_point );
     p->assign_activity( act );
-    p->activity.placement = pnt;
 
     return it->type->charges_to_use();
 }
@@ -2663,41 +2716,59 @@ int iuse::dig_channel( player *p, item *it, bool t, const tripoint & )
         return 0;
     }
 
-    const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Dig channel where?" ) );
+    const tripoint dig_point = p->pos();
+
+    tripoint north = dig_point + point( 0, -1 );
+    tripoint south = dig_point + point( 0, 1 );
+    tripoint west = dig_point + point( -1, 0 );
+    tripoint east = dig_point + point( 1, 0 );
+
+    const bool can_dig_here = g->m.has_flag( "DIGGABLE", dig_point ) && !g->m.has_furn( dig_point ) &&
+                              g->m.tr_at( dig_point ).is_null() && g->m.i_at( dig_point ).empty() && !g->m.veh_at( dig_point ) &&
+                              ( g->m.has_flag( "CURRENT", north ) ||  g->m.has_flag( "CURRENT", south ) ||
+                                g->m.has_flag( "CURRENT", east ) ||  g->m.has_flag( "CURRENT", west ) );
+
+    if( !can_dig_here ) {
+        p->add_msg_if_player(
+            _( "You can't dig a channel in this location.  Ensure it is clear diggable ground with no items or obstacles, adjacent to flowing water." ) );
+        return 0;
+    }
+
+    const std::function<bool( tripoint )> f = []( tripoint p ) {
+        return g->m.passable( p );
+    };
+
+    const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
+            _( "Deposit excavated materials where?" ), f, false );
     if( !pnt_ ) {
         return 0;
     }
-    tripoint pnt = *pnt_;
+    const tripoint deposit_point = *pnt_;
 
-    if( pnt == p->pos() ) {
-        add_msg( m_info, _( "You channel your inner self." ) );
-        return 0;
-    }
-    int moves;
-
-    tripoint north = pnt + point( 0, -1 );
-    tripoint south = pnt + point( 0, 1 );
-    tripoint west = pnt + point( -1, 0 );
-    tripoint east = pnt + point( 1, 0 );
-    if( ( g->m.has_flag( "DIGGABLE", pnt ) && ( g->m.has_flag( "CURRENT", north ) ||
-            g->m.has_flag( "CURRENT", south ) || g->m.has_flag( "CURRENT", east ) ||
-            g->m.has_flag( "CURRENT", west ) ) ) ) {
-
-        const std::vector<npc *> helpers = g->u.get_crafting_helpers();
-        for( const npc *np : helpers ) {
-            add_msg( m_info, _( "%s helps with this task..." ), np->name.c_str() );
-            break;
-        }
-
-        moves = dig_pit_moves( p, it, true );
-    } else {
-        p->add_msg_if_player( _( "You can't dig a channel on this ground." ) );
+    if( !g->m.passable( deposit_point ) ) {
+        p->add_msg_if_player(
+            _( "You can't deposit the excavated materials onto an impassable location." ) );
         return 0;
     }
 
-    player_activity act( activity_id( "ACT_DIG_CHANNEL" ), moves, -1, p->get_item_position( it ) );
+    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
+    for( const npc *np : helpers ) {
+        add_msg( m_info, _( "%s helps with this task..." ), np->name.c_str() );
+        break;
+    }
+
+    digging_moves_and_byproducts moves_and_byproducts = dig_pit_moves_and_byproducts( p, it, false,
+            true );
+
+    player_activity act( activity_id( "ACT_DIG_CHANNEL" ), moves_and_byproducts.moves, -1,
+                         p->get_item_position( it ) );
+    act.placement = dig_point;
+    act.values.emplace_back( moves_and_byproducts.spawn_count );
+    act.str_values.emplace_back( moves_and_byproducts.byproducts_item_group );
+    act.str_values.emplace_back( moves_and_byproducts.result_terrain.id().str() );
+    act.coords.emplace_back( deposit_point );
     p->assign_activity( act );
-    p->activity.placement = pnt;
+
 
     return it->type->charges_to_use();
 }
@@ -3873,6 +3944,50 @@ int iuse::mp3_on( player *p, item *it, bool t, const tripoint &pos )
     return it->type->charges_to_use();
 }
 
+int iuse::dive_tank( player *p, item *it, bool t, const tripoint & )
+{
+    if( t ) { // Normal use
+        if( p->is_worn( *it ) ) {
+            if( p->is_underwater() && p->oxygen < 10 ) {
+                p->oxygen += 20;
+            }
+            if( one_in( 15 ) ) {
+                p->add_msg_if_player( m_bad, _( "You take a deep breath from your %s." ), it->tname().c_str() );
+            }
+            if( it->charges == 0 ) {
+                p->add_msg_if_player( m_bad, _( "Air in your %s runs out." ), it->tname().c_str() );
+                it->set_var( "overwrite_env_resist", 0 );
+                it->convert( it->typeId().substr( 0, it->typeId().size() - 3 ) ).active = false; // 3 = "_on"
+            }
+        } else { // not worn = off thanks to on-demand regulator
+            it->set_var( "overwrite_env_resist", 0 );
+            it->convert( it->typeId().substr( 0, it->typeId().size() - 3 ) ).active = false; // 3 = "_on"
+        }
+
+    } else { // Turning it on/off
+        if( it->charges == 0 ) {
+            p->add_msg_if_player( _( "Your %s is empty." ), it->tname().c_str() );
+        } else if( it->active ) { //off
+            p->add_msg_if_player( _( "You turn off the regulator and close the air valve." ) );
+            it->set_var( "overwrite_env_resist", 0 );
+            it->convert( it->typeId().substr( 0, it->typeId().size() - 3 ) ).active = false; // 3 = "_on"
+        } else { //on
+            if( !p->is_worn( *it ) ) {
+                p->add_msg_if_player( _( "You should wear it first." ) );
+            } else {
+                p->add_msg_if_player( _( "You turn on the regulator and open the air valve." ) );
+                it->set_var( "overwrite_env_resist", it->get_base_env_resist_w_filter() );
+                it->convert( it->typeId() + "_on" ).active = true;
+            }
+        }
+    }
+    if( it->charges == 0 ) {
+        it->set_var( "overwrite_env_resist", 0 );
+        it->convert( it->typeId().substr( 0, it->typeId().size() - 3 ) ).active = false; // 3 = "_on"
+    }
+    return it->type->charges_to_use();
+}
+
 int iuse::solarpack( player *p, item *it, bool, const tripoint & )
 {
     if( !p->has_bionic( bionic_id( "bio_cable" ) ) ) {  // Cable CBM required
@@ -4445,92 +4560,6 @@ int iuse::hacksaw( player *p, item *it, bool t, const tripoint & )
                         p->get_item_position( it ) );
     p->activity.placement = pnt;
 
-    return it->type->charges_to_use();
-}
-
-int iuse::torch_lit( player *p, item *it, bool t, const tripoint &pos )
-{
-    if( p->is_underwater() ) {
-        p->add_msg_if_player( _( "The torch is extinguished." ) );
-        it->convert( "torch" ).active = false;
-        return 0;
-    }
-    if( t ) {
-        if( !it->ammo_sufficient() ) {
-            p->add_msg_if_player( _( "The torch burns out." ) );
-            it->convert( "torch_done" ).active = false;
-        }
-    } else if( !it->ammo_sufficient() ) {
-        p->add_msg_if_player( _( "The %s winks out." ), it->tname().c_str() );
-    } else { // Turning it off
-        int choice = uilist( _( "torch (lit)" ), {
-            _( "extinguish" ), _( "light something" )
-        } );
-        switch( choice ) {
-            case 0: {
-                p->add_msg_if_player( _( "The torch is extinguished." ) );
-                if( it->charges <= 1 ) {
-                    it->charges = 0;
-                    it->convert( "torch_done" ).active = false;
-                } else {
-                    it->charges -= 1;
-                    it->convert( "torch" ).active = false;
-                }
-                return 0;
-            }
-            case 1: {
-                tripoint temp = pos;
-                if( firestarter_actor::prep_firestarter_use( *p, temp ) ) {
-                    p->moves -= 5;
-                    firestarter_actor::resolve_firestarter_use( *p, temp );
-                    return it->type->charges_to_use();
-                }
-            }
-        }
-    }
-    return it->type->charges_to_use();
-}
-
-int iuse::battletorch_lit( player *p, item *it, bool t, const tripoint &pos )
-{
-    if( p->is_underwater() ) {
-        p->add_msg_if_player( _( "The Louisville Slaughterer is extinguished." ) );
-        it->convert( "bat" ).active = false;
-        return 0;
-    }
-    if( t ) {
-        if( !it->ammo_sufficient() ) {
-            p->add_msg_if_player( _( "The Louisville Slaughterer burns out." ) );
-            it->convert( "battletorch_done" ).active = false;
-        }
-    } else if( !it->ammo_sufficient() ) {
-        p->add_msg_if_player( _( "The %s winks out" ), it->tname().c_str() );
-    } else { // Turning it off
-        int choice = uilist( _( "Louisville Slaughterer (lit)" ), {
-            _( "extinguish" ), _( "light something" )
-        } );
-        switch( choice ) {
-            case 0: {
-                p->add_msg_if_player( _( "The Louisville Slaughterer is extinguished." ) );
-                if( it->charges <= 1 ) {
-                    it->charges = 0;
-                    it->convert( "battletorch_done" ).active = false;
-                } else {
-                    it->charges -= 1;
-                    it->convert( "battletorch" ).active = false;
-                }
-                return 0;
-            }
-            case 1: {
-                tripoint temp = pos;
-                if( firestarter_actor::prep_firestarter_use( *p, temp ) ) {
-                    p->moves -= 5;
-                    firestarter_actor::resolve_firestarter_use( *p, temp );
-                    return it->type->charges_to_use();
-                }
-            }
-        }
-    }
     return it->type->charges_to_use();
 }
 
@@ -5426,8 +5455,9 @@ int iuse::toolmod_attach( player *p, item *it, bool, const tripoint & )
     }
 
     auto filter = [&it]( const item & e ) {
-        // don't allow ups battery mods on a UPS
-        if( it->has_flag( "USE_UPS" ) && ( e.typeId() == "UPS_off" || e.typeId() == "adv_UPS_off" ) ) {
+        // don't allow ups battery mods on a UPS or UPS-powered tools
+        if( it->has_flag( "USE_UPS" ) && ( e.typeId() == "UPS_off" || e.typeId() == "adv_UPS_off" ||
+                                           e.has_flag( "USE_UPS" ) ) ) {
             return false;
         }
 

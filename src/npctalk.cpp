@@ -266,11 +266,14 @@ void npc::handle_sound( int priority, const std::string &description, int heard_
             return;
         }
     }
-    // discount if sound source is player and listener is friendly
-    if( ( priority < 6 ) && spos == g->u.pos() && ( is_friend() ||
-            mission == NPC_MISSION_GUARD_ALLY ||
-            get_attitude_group( get_attitude() ) != attitude_group::hostile ) ) {
-        add_msg( m_debug, "NPC ignored player noise %s", name.c_str() );
+    // discount if sound source is player, or seen by player, and listener is friendly and sound source is combat or alert only.
+    if( ( priority < 7 ) && g->u.sees( spos ) && ( is_friend() ||
+            mission == NPC_MISSION_GUARD_ALLY ) ) {
+        add_msg( m_debug, "NPC %s ignored low priority noise that player can see", name.c_str() );
+        return;
+        // discount if sound source is player, or seen by player, listener is neutral and sound type is worth investigating.
+    } else if( priority < 6 && get_attitude_group( get_attitude() ) != attitude_group::hostile &&
+               g->u.sees( spos ) ) {
         return;
     }
     // patrolling guards will investigate more readily than stationary NPCS
@@ -295,16 +298,20 @@ void npc::handle_sound( int priority, const std::string &description, int heard_
     add_msg( m_debug, "%s heard '%s', priority %d at volume %d from %d:%d, my pos %d:%d",
              disp_name(), description, priority, heard_volume, spos.x, spos.y, pos().x, pos().y );
     switch( priority ) {
-        case 7: //
+        case 4: //
             warn_about( "speech_noise", rng( 1, 10 ) * 1_minutes );
             break;
-        case 6: // combat noise is only worth comment if we're not fighting
+        case 5:
+        case 6:
+        case 7:
+        case 8: // combat noise is only worth comment if we're not fighting
+        case 9:
             // TODO: Brave NPCs should be less jumpy
             if( ai_cache.total_danger < 1.0f ) {
                 warn_about( "combat_noise", rng( 1, 10 ) * 1_minutes );
             }
             break;
-        case 4: // movement is is only worth comment if we're not fighting and out of a vehicle
+        case 3: // movement is is only worth comment if we're not fighting and out of a vehicle
             if( ai_cache.total_danger < 1.0f && !in_vehicle ) {
                 warn_about( "movement_noise", rng( 1, 10 ) * 1_minutes, description );
             }
@@ -325,7 +332,7 @@ void npc_chatbin::check_missions()
     ma.erase( last, ma.end() );
 }
 
-void npc::talk_to_u( bool text_only )
+void npc::talk_to_u( bool text_only, bool radio_contact )
 {
     if( g->u.is_dead_state() ) {
         set_attitude( NPCATT_NULL );
@@ -356,8 +363,9 @@ void npc::talk_to_u( bool text_only )
     }
 
     d.add_topic( chatbin.first_topic );
-
-    if( is_leader() ) {
+    if( radio_contact ) {
+        d.add_topic( "TALK_RADIO" );
+    } else if( is_leader() ) {
         d.add_topic( "TALK_LEADER" );
     } else if( is_friend() ) {
         d.add_topic( "TALK_FRIEND" );
@@ -804,7 +812,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         add_response( _( "Who are you?" ), "TALK_FREE_MERCHANT_STOCKS_NEW", true );
         static const std::vector<itype_id> wanted = {{
                 "jerky", "meat_smoked", "fish_smoked",
-                "cooking_oil", "cornmeal", "flour",
+                "cooking_oil", "cooking_oil2", "cornmeal", "flour",
                 "fruit_wine", "beer", "sugar",
             }
         };
@@ -1877,6 +1885,7 @@ void talk_effect_t::parse_string_effect( const std::string &type, JsonObject &jo
             WRAP( hostile ),
             WRAP( flee ),
             WRAP( leave ),
+            WRAP( goto_location ),
             WRAP( stranger_neutral ),
             WRAP( start_mugging ),
             WRAP( player_leaving ),
@@ -2948,7 +2957,6 @@ void load_talk_topic( JsonObject &jo )
 
 std::string npc::pick_talk_topic( const player &u )
 {
-    form_opinion( u );
     ( void )u;
     if( personality.aggression > 0 ) {
         if( op_of_u.fear * 2 < personality.bravery && personality.altruism < 0 ) {

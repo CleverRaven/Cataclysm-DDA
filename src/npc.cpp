@@ -811,6 +811,44 @@ void starting_inv( npc &who, const npc_class_id &type )
     who.inv += res;
 }
 
+void npc::setpos( const tripoint &pos )
+{
+    position = pos;
+    const point pos_om_old = sm_to_om_copy( submap_coords );
+    submap_coords.x = g->get_levx() + pos.x / SEEX;
+    submap_coords.y = g->get_levy() + pos.y / SEEY;
+    const point pos_om_new = sm_to_om_copy( submap_coords );
+    if( !is_fake() && pos_om_old != pos_om_new ) {
+        overmap &om_old = overmap_buffer.get( pos_om_old.x, pos_om_old.y );
+        overmap &om_new = overmap_buffer.get( pos_om_new.x, pos_om_new.y );
+        if( const auto ptr = om_old.erase_npc( getID() ) ) {
+            om_new.insert_npc( ptr );
+        } else {
+            // Don't move the npc pointer around to avoid having two overmaps
+            // with the same npc pointer
+            debugmsg( "could not find npc %s on its old overmap", name.c_str() );
+        }
+    }
+}
+
+void npc::travel_overmap( const tripoint &pos )
+{
+    const point pos_om_old = sm_to_om_copy( submap_coords );
+    spawn_at_sm( pos.x, pos.y, pos.z );
+    const point pos_om_new = sm_to_om_copy( submap_coords );
+    if( !is_fake() && pos_om_old != pos_om_new ) {
+        overmap &om_old = overmap_buffer.get( pos_om_old.x, pos_om_old.y );
+        overmap &om_new = overmap_buffer.get( pos_om_new.x, pos_om_new.y );
+        if( const auto ptr = om_old.erase_npc( getID() ) ) {
+            om_new.insert_npc( ptr );
+        } else {
+            // Don't move the npc pointer around to avoid having two overmaps
+            // with the same npc pointer
+            debugmsg( "could not find npc %s on its old overmap", name.c_str() );
+        }
+    }
+}
+
 void npc::spawn_at_sm( int x, int y, int z )
 {
     spawn_at_precise( point( x, y ), tripoint( rng( 0, SEEX - 1 ), rng( 0, SEEY - 1 ), z ) );
@@ -1678,6 +1716,11 @@ bool npc::has_player_activity() const
     return activity && mission == NPC_MISSION_ACTIVITY;
 }
 
+bool npc::is_travelling() const
+{
+    return mission == NPC_MISSION_TRAVELLING;
+}
+
 Creature::Attitude npc::attitude_to( const Creature &other ) const
 {
     if( is_friend() ) {
@@ -1930,26 +1973,6 @@ std::string npc::opinion_text() const
     return ret.str();
 }
 
-void npc::setpos( const tripoint &pos )
-{
-    position = pos;
-    const point pos_om_old = sm_to_om_copy( submap_coords );
-    submap_coords.x = g->get_levx() + pos.x / SEEX;
-    submap_coords.y = g->get_levy() + pos.y / SEEY;
-    const point pos_om_new = sm_to_om_copy( submap_coords );
-    if( !is_fake() && pos_om_old != pos_om_new ) {
-        overmap &om_old = overmap_buffer.get( pos_om_old.x, pos_om_old.y );
-        overmap &om_new = overmap_buffer.get( pos_om_new.x, pos_om_new.y );
-        if( const auto ptr = om_old.erase_npc( getID() ) ) {
-            om_new.insert_npc( ptr );
-        } else {
-            // Don't move the npc pointer around to avoid having two overmaps
-            // with the same npc pointer
-            debugmsg( "could not find npc %s on its old overmap", name.c_str() );
-        }
-    }
-}
-
 void maybe_shift( cata::optional<tripoint> &pos, int dx, int dy )
 {
     if( pos ) {
@@ -2050,26 +2073,36 @@ void npc::die( Creature *nkiller )
 std::string npc_attitude_name( npc_attitude att )
 {
     switch( att ) {
-        case NPCATT_NULL:          // Don't care/ignoring player
+        // Don't care/ignoring player
+        case NPCATT_NULL:
             return _( "Ignoring" );
-        case NPCATT_TALK:          // Move to and talk to player
+        // Move to and talk to player
+        case NPCATT_TALK:
             return _( "Wants to talk" );
-        case NPCATT_FOLLOW:        // Follow the player
+        // Follow the player
+        case NPCATT_FOLLOW:
             return _( "Following" );
-        case NPCATT_LEAD:          // Lead the player, wait for them if they're behind
+        // Lead the player, wait for them if they're behind
+        case NPCATT_LEAD:
             return _( "Leading" );
-        case NPCATT_WAIT:          // Waiting for the player
+        // Waiting for the player
+        case NPCATT_WAIT:
             return _( "Waiting for you" );
-        case NPCATT_MUG:           // Mug the player
+        // Mug the player
+        case NPCATT_MUG:
             return _( "Mugging you" );
-        case NPCATT_WAIT_FOR_LEAVE:// Attack the player if our patience runs out
+        // Attack the player if our patience runs out
+        case NPCATT_WAIT_FOR_LEAVE:
             return _( "Waiting for you to leave" );
-        case NPCATT_KILL:          // Kill the player
+        // Kill the player
+        case NPCATT_KILL:
             return _( "Attacking to kill" );
-        case NPCATT_FLEE:          // Get away from the player
+        // Get away from the player
+        case NPCATT_FLEE:
         case NPCATT_FLEE_TEMP:
             return _( "Fleeing" );
-        case NPCATT_HEAL:          // Get to the player and heal them
+        // Get to the player and heal them
+        case NPCATT_HEAL:
             return _( "Healing you" );
         case NPCATT_ACTIVITY:
             return _( "Performing a task" );
@@ -2515,11 +2548,32 @@ void npc::set_companion_mission( const tripoint &omt_pos, const std::string &rol
     comp_mission.role_id = role_id;
 }
 
+void npc::set_companion_mission( const tripoint &omt_pos, const std::string &role_id,
+                                 const std::string &mission_id, const tripoint &destination )
+{
+    comp_mission.position = omt_pos;
+    comp_mission.mission_id =  mission_id;
+    comp_mission.role_id = role_id;
+    comp_mission.destination = destination;
+}
+
 void npc::reset_companion_mission()
 {
     comp_mission.position = tripoint( -999, -999, -999 );
     comp_mission.mission_id.clear();
     comp_mission.role_id.clear();
+    if( comp_mission.destination ) {
+        comp_mission.destination = cata::nullopt;
+    }
+}
+
+cata::optional<tripoint> npc::get_mission_destination()
+{
+    if( comp_mission.destination ) {
+        return comp_mission.destination;
+    } else {
+        return cata::nullopt;
+    }
 }
 
 bool npc::has_companion_mission() const
