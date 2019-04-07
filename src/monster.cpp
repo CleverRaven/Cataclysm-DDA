@@ -1001,9 +1001,22 @@ int monster::hp_percentage() const
 
 void monster::process_triggers()
 {
-    anger += trigger_sum( type->anger );
-    anger -= trigger_sum( type->placate );
-    morale -= trigger_sum( type->fear );
+    process_trigger( MTRIG_STALK, [this]() {
+        return anger > 0 && one_in( 5 ) ? 1 : 0;
+    });
+    
+    process_trigger( MTRIG_FIRE, [this]() {
+        int ret = 0;        
+        for( auto &p : g->m.points_in_radius( pos(), 3 ) ) {
+            ret += 5 * g->m.get_field_strength( p, fd_fire );
+        }                    
+        return ret;
+    });
+
+    // Meat checking is disabled as for now.
+    // It's hard to ever see it in action
+    // and even harder to balance it without making it exploitable
+
     if( morale != type->morale && one_in( 10 ) ) {
         if( morale < type->morale ) {
             morale++;
@@ -1039,61 +1052,17 @@ void monster::process_trigger( monster_trigger trig, int amount )
     }
 }
 
-int monster::trigger_sum( const std::set<monster_trigger> &triggers ) const
+void monster::process_trigger( monster_trigger trig, const std::function<int()>& amount_func )
 {
-    int ret = 0;
-    bool check_terrain = false;
-    bool check_meat = false;
-    bool check_fire = false;
-    for( const auto &trigger : triggers ) {
-        switch( trigger ) {
-            case MTRIG_STALK:
-                if( anger > 0 && one_in( 5 ) ) {
-                    ret++;
-                }
-                break;
-
-            case MTRIG_MEAT:
-                // Disable meat checking for now
-                // It's hard to ever see it in action
-                // and even harder to balance it without making it exploitable
-
-                // check_terrain = true;
-                // check_meat = true;
-                break;
-
-            case MTRIG_FIRE:
-                check_terrain = true;
-                check_fire = true;
-                break;
-
-            default:
-                break; // The rest are handled when the impetus occurs
-        }
+    if( type->has_anger_trigger( trig ) ) {
+        anger += amount_func();
     }
-
-    if( check_terrain ) {
-        for( auto &p : g->m.points_in_radius( pos(), 3 ) ) {
-            // Note: can_see_items doesn't check actual visibility
-            // This will check through walls, but it's too small to matter
-            if( check_meat && g->m.sees_some_items( p, *this ) ) {
-                auto items = g->m.i_at( p );
-                for( auto &item : items ) {
-                    if( item.is_corpse() || item.typeId() == "meat" ||
-                        item.typeId() == "meat_cooked" || item.typeId() == "human_flesh" ) {
-                        ret += 3;
-                        check_meat = false;
-                    }
-                }
-            }
-
-            if( check_fire ) {
-                ret += 5 * g->m.get_field_strength( p, fd_fire );
-            }
-        }
+    if( type->has_fear_trigger( trig ) ) {
+        morale -= amount_func();
     }
-
-    return ret;
+    if( type->has_placate_trigger( trig ) ) {
+        anger -= amount_func();
+    }
 }
 
 bool monster::is_underwater() const
