@@ -811,37 +811,48 @@ void tileset_loader::load_ascii_set( JsonObject &entry )
         curr_tile.offset.y = sprite_offset_y;
         auto &sprites = *( curr_tile.fg.add( std::vector<int>( {index_in_image + offset} ), 1 ) );
         switch( ascii_char ) {
-            case LINE_OXOX_C://box bottom/top side (horizontal line)
+            // box bottom/top side (horizontal line)
+            case LINE_OXOX_C:
                 sprites[0] = 205 + base_offset;
                 break;
-            case LINE_XOXO_C://box left/right side (vertical line)
+            // box left/right side (vertical line)
+            case LINE_XOXO_C:
                 sprites[0] = 186 + base_offset;
                 break;
-            case LINE_OXXO_C://box top left
+            // box top left
+            case LINE_OXXO_C:
                 sprites[0] = 201 + base_offset;
                 break;
-            case LINE_OOXX_C://box top right
+            // box top right
+            case LINE_OOXX_C:
                 sprites[0] = 187 + base_offset;
                 break;
-            case LINE_XOOX_C://box bottom right
+            // box bottom right
+            case LINE_XOOX_C:
                 sprites[0] = 188 + base_offset;
                 break;
-            case LINE_XXOO_C://box bottom left
+            // box bottom left
+            case LINE_XXOO_C:
                 sprites[0] = 200 + base_offset;
                 break;
-            case LINE_XXOX_C://box bottom north T (left, right, up)
+            // box bottom north T (left, right, up)
+            case LINE_XXOX_C:
                 sprites[0] = 202 + base_offset;
                 break;
-            case LINE_XXXO_C://box bottom east T (up, right, down)
+            // box bottom east T (up, right, down)
+            case LINE_XXXO_C:
                 sprites[0] = 208 + base_offset;
                 break;
-            case LINE_OXXX_C://box bottom south T (left, right, down)
+            // box bottom south T (left, right, down)
+            case LINE_OXXX_C:
                 sprites[0] = 203 + base_offset;
                 break;
-            case LINE_XXXX_C://box X (left down up right)
+            // box X (left down up right)
+            case LINE_XXXX_C:
                 sprites[0] = 206 + base_offset;
                 break;
-            case LINE_XOXX_C://box bottom east T (left, down, up)
+            // box bottom east T (left, down, up)
+            case LINE_XOXX_C:
                 sprites[0] = 184 + base_offset;
                 break;
         }
@@ -1128,11 +1139,12 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
 
             draw_points.push_back( tile_render_info( tripoint( x, y, center.z ), height_3d ) );
         }
-        const std::array<decltype( &cata_tiles::draw_furniture ), 8> drawing_layers = {{
-                &cata_tiles::draw_furniture, &cata_tiles::draw_trap,
+        const std::array<decltype( &cata_tiles::draw_furniture ), 10> drawing_layers = {{
+                &cata_tiles::draw_furniture, &cata_tiles::draw_graffiti, &cata_tiles::draw_trap,
                 &cata_tiles::draw_field_or_item, &cata_tiles::draw_vpart,
-                &cata_tiles::draw_vpart_below, &cata_tiles::draw_terrain_below,
-                &cata_tiles::draw_critter_at, &cata_tiles::draw_zone_mark
+                &cata_tiles::draw_vpart_below, &cata_tiles::draw_critter_at_below,
+                &cata_tiles::draw_terrain_below, &cata_tiles::draw_critter_at,
+                &cata_tiles::draw_zone_mark
             }
         };
         // for each of the drawing layers in order, back to front ...
@@ -1221,11 +1233,11 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
             draw_cursor();
             void_cursor();
         }
-    } else if( g->u.posx() + g->u.view_offset.x != g->ter_view_x ||
-               g->u.posy() + g->u.view_offset.y != g->ter_view_y ) {
+    } else if( g->u.view_offset != tripoint_zero && !g->u.in_vehicle ) {
         // check to see if player is located at ter
         draw_from_id_string( "cursor", C_NONE, empty_string,
-        {g->ter_view_x, g->ter_view_y, center.z}, 0, 0, LL_LIT, false );
+        {g->ter_view_x - g->sidebar_offset.x, g->ter_view_y - g->sidebar_offset.y, center.z}, 0, 0, LL_LIT,
+        false );
     }
     if( g->u.controlling_vehicle ) {
         if( cata::optional<tripoint> indicator_offset = g->get_veh_dir_indicator_location( true ) ) {
@@ -1817,9 +1829,7 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
             const mtype_id mid( id );
             if( mid.is_valid() ) {
                 const mtype &mt = mid.obj();
-                int len = mt.sym.length();
-                const char *s = mt.sym.c_str();
-                sym = UTF8_getch( &s, &len );
+                sym = UTF8_getch( mt.sym );
                 col = mt.color;
             }
         } else if( category == C_VEHICLE_PART ) {
@@ -2393,6 +2403,15 @@ bool cata_tiles::draw_trap( const tripoint &p, lit_level ll, int &height_3d )
                                 nv_goggles_activated, height_3d );
 }
 
+bool cata_tiles::draw_graffiti( const tripoint &p, lit_level ll, int &height_3d )
+{
+    if( !g->m.has_graffiti_at( p ) ) {
+        return false;
+    }
+
+    return draw_from_id_string( "graffiti", C_NONE, empty_string, p, 0, 0, ll, false, height_3d );
+}
+
 bool cata_tiles::draw_field_or_item( const tripoint &p, lit_level ll, int &height_3d )
 {
     // check for field
@@ -2540,6 +2559,55 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d )
         draw_item_highlight( p );
     }
     return ret;
+}
+
+bool cata_tiles::draw_critter_at_below( const tripoint &p, lit_level, int & )
+{
+    // Check if we even need to draw below. If not, bail.
+    if( !g->m.need_draw_lower_floor( p ) ) {
+        return false;
+    }
+
+    tripoint pbelow( p.x, p.y, p.z - 1 );
+
+    // Get the critter at the location below. If there isn't one,
+    // we can bail.
+    const Creature *critter = g->critter_at( pbelow, true );
+    if( critter == nullptr ) {
+        return false;
+    }
+
+    // Check if the player can actually see the critter. We don't care if
+    // it's via infrared or not, just whether or not they're seen. If not,
+    // we can bail.
+    if( !g->u.sees( *critter ) && !g->u.sees_with_infrared( *critter ) ) {
+        return false;
+    }
+
+    const point screen_point = player_to_screen( pbelow.x, pbelow.y );
+
+    SDL_Color tercol = cursesColorToSDL( c_red );
+    const int sizefactor = 2;
+
+    SDL_Rect belowRect;
+    belowRect.h = tile_width / sizefactor;
+    belowRect.w = tile_height / sizefactor;
+
+    if( tile_iso ) {
+        belowRect.h = ( belowRect.h * 2 ) / 3;
+        belowRect.w = ( belowRect.w * 3 ) / 4;
+    }
+
+    belowRect.x = screen_point.x + ( tile_width - belowRect.w ) / 2;
+    belowRect.y = screen_point.y + ( tile_height - belowRect.h ) / 2;
+
+    if( tile_iso ) {
+        belowRect.y += tile_height / 8;
+    }
+
+    handle_draw_rect( renderer, belowRect, tercol.r, tercol.g, tercol.b );
+
+    return true;
 }
 
 bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3d )

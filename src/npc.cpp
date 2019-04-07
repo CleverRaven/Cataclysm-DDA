@@ -60,6 +60,7 @@ const efftype_id effect_pkill3( "pkill3" );
 const efftype_id effect_pkill_l( "pkill_l" );
 const efftype_id effect_infection( "infection" );
 const efftype_id effect_bouldering( "bouldering" );
+const efftype_id effect_npc_flee_player( "npc_flee_player" );
 
 static const trait_id trait_CANNIBAL( "CANNIBAL" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
@@ -810,6 +811,44 @@ void starting_inv( npc &who, const npc_class_id &type )
     who.inv += res;
 }
 
+void npc::setpos( const tripoint &pos )
+{
+    position = pos;
+    const point pos_om_old = sm_to_om_copy( submap_coords );
+    submap_coords.x = g->get_levx() + pos.x / SEEX;
+    submap_coords.y = g->get_levy() + pos.y / SEEY;
+    const point pos_om_new = sm_to_om_copy( submap_coords );
+    if( !is_fake() && pos_om_old != pos_om_new ) {
+        overmap &om_old = overmap_buffer.get( pos_om_old.x, pos_om_old.y );
+        overmap &om_new = overmap_buffer.get( pos_om_new.x, pos_om_new.y );
+        if( const auto ptr = om_old.erase_npc( getID() ) ) {
+            om_new.insert_npc( ptr );
+        } else {
+            // Don't move the npc pointer around to avoid having two overmaps
+            // with the same npc pointer
+            debugmsg( "could not find npc %s on its old overmap", name.c_str() );
+        }
+    }
+}
+
+void npc::travel_overmap( const tripoint &pos )
+{
+    const point pos_om_old = sm_to_om_copy( submap_coords );
+    spawn_at_sm( pos.x, pos.y, pos.z );
+    const point pos_om_new = sm_to_om_copy( submap_coords );
+    if( !is_fake() && pos_om_old != pos_om_new ) {
+        overmap &om_old = overmap_buffer.get( pos_om_old.x, pos_om_old.y );
+        overmap &om_new = overmap_buffer.get( pos_om_new.x, pos_om_new.y );
+        if( const auto ptr = om_old.erase_npc( getID() ) ) {
+            om_new.insert_npc( ptr );
+        } else {
+            // Don't move the npc pointer around to avoid having two overmaps
+            // with the same npc pointer
+            debugmsg( "could not find npc %s on its old overmap", name.c_str() );
+        }
+    }
+}
+
 void npc::spawn_at_sm( int x, int y, int z )
 {
     spawn_at_precise( point( x, y ), tripoint( rng( 0, SEEX - 1 ), rng( 0, SEEY - 1 ), z ) );
@@ -1027,30 +1066,52 @@ bool npc::wear_if_wanted( const item &it )
     return worn.empty() && wear_item( it, false );
 }
 
+void npc::stow_item( item &it )
+{
+    if( wear_item( weapon, false ) ) {
+        // Wearing the item was successful, remove weapon and post message.
+        add_msg_if_npc( m_info, _( "<npcname> wears the %s." ), weapon.tname() );
+        remove_weapon();
+        moves -= 15;
+        // Weapon cannot be worn or wearing was not successful. Store it in inventory if possible,
+        // otherwise drop it.
+        return;
+    }
+    for( auto &e : worn ) {
+        if( e.can_holster( it ) ) {
+            add_msg_if_npc( m_info, _( "<npcname> puts away the %s in the %s." ), weapon.tname(),
+                            e.tname() );
+            auto ptr = dynamic_cast<const holster_actor *>( e.type->get_use( "holster" )->get_actor_ptr() );
+            ptr->store( *this, e, it );
+            return;
+        }
+    }
+    if( volume_carried() + weapon.volume() <= volume_capacity() ) {
+        add_msg_if_npc( m_info, _( "<npcname> puts away the %s." ), weapon.tname() );
+        i_add( remove_weapon() );
+        moves -= 15;
+    } else { // No room for weapon, so we drop it
+        add_msg_if_npc( m_info, _( "<npcname> drops the %s." ), weapon.tname() );
+        g->m.add_item_or_charges( pos(), remove_weapon() );
+    }
+}
+
 bool npc::wield( item &it )
 {
     if( is_armed() ) {
-        // If weapon has a shoulder strap, try to wear it.
-        if( wear_item( weapon, false ) ) {
-            // Wearing the item was successful, remove weapon and post message.
-            add_msg_if_npc( m_info, _( "<npcname> wears the %s." ), weapon.tname().c_str() );
-            remove_weapon();
-            moves -= 15;
-        } else { // Weapon cannot be worn or wearing was not successful. Store it in inventory if possible, otherwise drop it.
-            if( volume_carried() + weapon.volume() <= volume_capacity() ) {
-                add_msg_if_npc( m_info, _( "<npcname> puts away the %s." ), weapon.tname().c_str() );
-                i_add( remove_weapon() );
-                moves -= 15;
-            } else { // No room for weapon, so we drop it
-                add_msg_if_npc( m_info, _( "<npcname> drops the %s." ), weapon.tname().c_str() );
-                g->m.add_item_or_charges( pos(), remove_weapon() );
-            }
-        }
+        stow_item( weapon );
     }
 
     if( it.is_null() ) {
         weapon = item();
         return true;
+    }
+
+    // check if the item is in a holster
+    int position = inv.position_by_item( &it );
+    item &holster = inv.find_item( position );
+    if( holster.tname() != it.tname() && holster.is_holster() && !holster.contents.empty() ) {
+        invoke_item( &holster );
     }
 
     moves -= 15;
@@ -1060,7 +1121,7 @@ bool npc::wield( item &it )
         weapon = it;
     }
 
-    add_msg_if_npc( m_info, _( "<npcname> wields a %s." ),  weapon.tname().c_str() );
+    add_msg_if_npc( m_info, _( "<npcname> wields a %s." ),  weapon.tname() );
     return true;
 }
 
@@ -1177,7 +1238,7 @@ void npc::form_opinion( const player &u )
     } else if( my_fac != nullptr && my_fac->likes_u < -10 ) {
         set_attitude( NPCATT_KILL );
     } else {
-        set_attitude( NPCATT_FLEE );
+        set_attitude( NPCATT_FLEE_TEMP );
     }
 
     add_msg( m_debug, "%s formed an opinion of u: %s",
@@ -1244,7 +1305,7 @@ void npc::make_angry()
         my_fac->respects_u = std::max( -50, my_fac->respects_u - 50 );
     }
     if( op_of_u.fear > 10 + personality.aggression + personality.bravery ) {
-        set_attitude( NPCATT_FLEE ); // We don't want to take u on!
+        set_attitude( NPCATT_FLEE_TEMP ); // We don't want to take u on!
     } else {
         set_attitude( NPCATT_KILL ); // Yeah, we think we could take you!
     }
@@ -1359,7 +1420,7 @@ void npc::decide_needs()
     }
 }
 
-void npc::say( const std::string &line ) const
+void npc::say( const std::string &line, const bool shout ) const
 {
     std::string formatted_line = line;
     parse_tags( formatted_line, g->u, *this );
@@ -1372,7 +1433,13 @@ void npc::say( const std::string &line ) const
         add_msg( m_warning, _( "%1$s says something but you can't hear it!" ), name );
     }
     // Sound happens even if we can't hear it
-    sounds::sound( pos(), 16, sounds::sound_t::speech, sound );
+    // Default volume for shouting for NPCs at 25
+    // TODO use same logic as for player shout volume
+    if( shout ) {
+        sounds::sound( pos(), 25, sounds::sound_t::alert, sound );
+    } else {
+        sounds::sound( pos(), 16, sounds::sound_t::speech, sound );
+    }
 }
 
 bool npc::wants_to_sell( const item &it ) const
@@ -1625,19 +1692,25 @@ bool npc::is_leader() const
 
 bool npc::is_enemy() const
 {
-    return attitude == NPCATT_KILL || attitude == NPCATT_FLEE;
+    return attitude == NPCATT_KILL || attitude == NPCATT_FLEE || attitude == NPCATT_FLEE_TEMP;
 }
 
 bool npc::is_guarding() const
 {
-    return mission == NPC_MISSION_SHELTER || mission == NPC_MISSION_GUARD_ALLY ||
-           mission == NPC_MISSION_SHOPKEEP || mission == NPC_MISSION_GUARD ||
-           mission == NPC_MISSION_ACTIVITY || has_effect( effect_infection );
+    return mission == NPC_MISSION_SHELTER || mission == NPC_MISSION_SHOPKEEP
+           || mission == NPC_MISSION_GUARD || mission == NPC_MISSION_GUARD_ALLY
+           || mission == NPC_MISSION_ACTIVITY || mission == NPC_MISSION_GUARD_PATROL
+           || has_effect( effect_infection );
 }
 
 bool npc::has_player_activity() const
 {
     return activity && mission == NPC_MISSION_ACTIVITY;
+}
+
+bool npc::is_travelling() const
+{
+    return mission == NPC_MISSION_TRAVELLING;
 }
 
 Creature::Attitude npc::attitude_to( const Creature &other ) const
@@ -1740,8 +1813,8 @@ nc_color npc::basic_symbol_color() const
 {
     if( attitude == NPCATT_KILL ) {
         return c_red;
-    } else if( attitude == NPCATT_FLEE ) {
-        return c_red;
+    } else if( attitude == NPCATT_FLEE || attitude == NPCATT_FLEE_TEMP ) {
+        return c_light_red;
     } else if( is_friend() ) {
         return c_green;
     } else if( is_following() ) {
@@ -1892,26 +1965,6 @@ std::string npc::opinion_text() const
     return ret.str();
 }
 
-void npc::setpos( const tripoint &pos )
-{
-    position = pos;
-    const point pos_om_old = sm_to_om_copy( submap_coords );
-    submap_coords.x = g->get_levx() + pos.x / SEEX;
-    submap_coords.y = g->get_levy() + pos.y / SEEY;
-    const point pos_om_new = sm_to_om_copy( submap_coords );
-    if( !is_fake() && pos_om_old != pos_om_new ) {
-        overmap &om_old = overmap_buffer.get( pos_om_old.x, pos_om_old.y );
-        overmap &om_new = overmap_buffer.get( pos_om_new.x, pos_om_new.y );
-        if( const auto ptr = om_old.erase_npc( getID() ) ) {
-            om_new.insert_npc( ptr );
-        } else {
-            // Don't move the npc pointer around to avoid having two overmaps
-            // with the same npc pointer
-            debugmsg( "could not find npc %s on its old overmap", name.c_str() );
-        }
-    }
-}
-
 void maybe_shift( cata::optional<tripoint> &pos, int dx, int dy )
 {
     if( pos ) {
@@ -2005,28 +2058,47 @@ void npc::die( Creature *nkiller )
 std::string npc_attitude_name( npc_attitude att )
 {
     switch( att ) {
-        case NPCATT_NULL:          // Don't care/ignoring player
+        // Don't care/ignoring player
+        case NPCATT_NULL:
             return _( "Ignoring" );
-        case NPCATT_TALK:          // Move to and talk to player
+        // Move to and talk to player
+        case NPCATT_TALK:
             return _( "Wants to talk" );
-        case NPCATT_FOLLOW:        // Follow the player
+        // Follow the player
+        case NPCATT_FOLLOW:
             return _( "Following" );
-        case NPCATT_LEAD:          // Lead the player, wait for them if they're behind
+        // Lead the player, wait for them if they're behind
+        case NPCATT_LEAD:
             return _( "Leading" );
-        case NPCATT_WAIT:          // Waiting for the player
+        // Waiting for the player
+        case NPCATT_WAIT:
             return _( "Waiting for you" );
-        case NPCATT_MUG:           // Mug the player
+        // Mug the player
+        case NPCATT_MUG:
             return _( "Mugging you" );
-        case NPCATT_WAIT_FOR_LEAVE:// Attack the player if our patience runs out
+        // Attack the player if our patience runs out
+        case NPCATT_WAIT_FOR_LEAVE:
             return _( "Waiting for you to leave" );
-        case NPCATT_KILL:          // Kill the player
+        // Kill the player
+        case NPCATT_KILL:
             return _( "Attacking to kill" );
-        case NPCATT_FLEE:          // Get away from the player
+        // Get away from the player
+        case NPCATT_FLEE:
+        case NPCATT_FLEE_TEMP:
             return _( "Fleeing" );
-        case NPCATT_HEAL:          // Get to the player and heal them
+        // Get to the player and heal them
+        case NPCATT_HEAL:
             return _( "Healing you" );
         case NPCATT_ACTIVITY:
             return _( "Performing a task" );
+        case NPCATT_LEGACY_1:
+        case NPCATT_LEGACY_2:
+        case NPCATT_LEGACY_3:
+        case NPCATT_LEGACY_4:
+        case NPCATT_LEGACY_5:
+        case NPCATT_LEGACY_6:
+            return _( "NPC Legacy Attitude" );
+            break;
         default:
             break;
     }
@@ -2391,7 +2463,7 @@ std::string npc::extended_description() const
     ss << std::endl << "--" << std::endl;
     if( attitude == NPCATT_KILL ) {
         ss << _( "Is trying to kill you." );
-    } else if( attitude == NPCATT_FLEE ) {
+    } else if( attitude == NPCATT_FLEE || attitude == NPCATT_FLEE_TEMP ) {
         ss << _( "Is trying to flee from you." );
     } else if( is_friend() ) {
         ss << _( "Is your friend." );
@@ -2458,11 +2530,32 @@ void npc::set_companion_mission( const tripoint &omt_pos, const std::string &rol
     comp_mission.role_id = role_id;
 }
 
+void npc::set_companion_mission( const tripoint &omt_pos, const std::string &role_id,
+                                 const std::string &mission_id, const tripoint &destination )
+{
+    comp_mission.position = omt_pos;
+    comp_mission.mission_id =  mission_id;
+    comp_mission.role_id = role_id;
+    comp_mission.destination = destination;
+}
+
 void npc::reset_companion_mission()
 {
     comp_mission.position = tripoint( -999, -999, -999 );
     comp_mission.mission_id.clear();
     comp_mission.role_id.clear();
+    if( comp_mission.destination ) {
+        comp_mission.destination = cata::nullopt;
+    }
+}
+
+cata::optional<tripoint> npc::get_mission_destination()
+{
+    if( comp_mission.destination ) {
+        return comp_mission.destination;
+    } else {
+        return cata::nullopt;
+    }
 }
 
 bool npc::has_companion_mission() const
@@ -2475,7 +2568,7 @@ npc_companion_mission npc::get_companion_mission() const
     return comp_mission;
 }
 
-attitude_group get_attitude_group( npc_attitude att )
+attitude_group npc::get_attitude_group( npc_attitude att )
 {
     switch( att ) {
         case NPCATT_MUG:
@@ -2483,6 +2576,7 @@ attitude_group get_attitude_group( npc_attitude att )
         case NPCATT_KILL:
             return attitude_group::hostile;
         case NPCATT_FLEE:
+        case NPCATT_FLEE_TEMP:
             return attitude_group::fearful;
         case NPCATT_FOLLOW:
         case NPCATT_ACTIVITY:
@@ -2501,11 +2595,19 @@ npc_attitude npc::get_attitude() const
 
 void npc::set_attitude( npc_attitude new_attitude )
 {
+    if( new_attitude == NPCATT_FLEE ) {
+        new_attitude = NPCATT_FLEE_TEMP;
+    }
+
     if( new_attitude == attitude ) {
         return;
     }
+    if( new_attitude == NPCATT_FLEE_TEMP && !has_effect( effect_npc_flee_player ) ) {
+        add_effect( effect_npc_flee_player, 24_hours, num_bp );
+    }
+
     add_msg( m_debug, "%s changes attitude from %s to %s",
-             name.c_str(), npc_attitude_name( attitude ).c_str(), npc_attitude_name( new_attitude ).c_str() );
+             name, npc_attitude_name( attitude ), npc_attitude_name( new_attitude ) );
     attitude_group new_group = get_attitude_group( new_attitude );
     attitude_group old_group = get_attitude_group( attitude );
     if( new_group != old_group && !is_fake() ) {

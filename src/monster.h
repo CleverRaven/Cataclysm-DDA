@@ -187,6 +187,8 @@ class monster : public Creature
         void plan( const mfactions &factions );
         void move(); // Actual movement
         void footsteps( const tripoint &p ); // noise made by movement
+        void shove_vehicle( const tripoint &remote_destination,
+                            const tripoint &nearby_destination ); // shove vehicles out of the way
 
         tripoint scent_move();
         int calc_movecost( const tripoint &f, const tripoint &t ) const;

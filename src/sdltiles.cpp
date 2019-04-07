@@ -665,9 +665,7 @@ void CachedTTFFont::OutputChar( const std::string &ch, const int x, const int y,
 
 void BitmapFont::OutputChar( const std::string &ch, int x, int y, unsigned char color )
 {
-    int len = ch.length();
-    const char *s = ch.c_str();
-    const long t = UTF8_getch( &s, &len );
+    const long t = UTF8_getch( ch );
     BitmapFont::OutputChar( t, x, y, color );
 }
 
@@ -841,45 +839,56 @@ void find_videodisplays()
 void Font::draw_ascii_lines( unsigned char line_id, int drawx, int drawy, int FG ) const
 {
     switch( line_id ) {
-        case LINE_OXOX_C://box bottom/top side (horizontal line)
+        // box bottom/top side (horizontal line)
+        case LINE_OXOX_C:
             HorzLineDIB( drawx, drawy + ( fontheight / 2 ), drawx + fontwidth, 1, FG );
             break;
-        case LINE_XOXO_C://box left/right side (vertical line)
+        // box left/right side (vertical line)
+        case LINE_XOXO_C:
             VertLineDIB( drawx + ( fontwidth / 2 ), drawy, drawy + fontheight, 2, FG );
             break;
-        case LINE_OXXO_C://box top left
+        // box top left
+        case LINE_OXXO_C:
             HorzLineDIB( drawx + ( fontwidth / 2 ), drawy + ( fontheight / 2 ), drawx + fontwidth, 1, FG );
             VertLineDIB( drawx + ( fontwidth / 2 ), drawy + ( fontheight / 2 ), drawy + fontheight, 2, FG );
             break;
-        case LINE_OOXX_C://box top right
+        // box top right
+        case LINE_OOXX_C:
             HorzLineDIB( drawx, drawy + ( fontheight / 2 ), drawx + ( fontwidth / 2 ), 1, FG );
             VertLineDIB( drawx + ( fontwidth / 2 ), drawy + ( fontheight / 2 ), drawy + fontheight, 2, FG );
             break;
-        case LINE_XOOX_C://box bottom right
+        // box bottom right
+        case LINE_XOOX_C:
             HorzLineDIB( drawx, drawy + ( fontheight / 2 ), drawx + ( fontwidth / 2 ), 1, FG );
             VertLineDIB( drawx + ( fontwidth / 2 ), drawy, drawy + ( fontheight / 2 ) + 1, 2, FG );
             break;
-        case LINE_XXOO_C://box bottom left
+        // box bottom left
+        case LINE_XXOO_C:
             HorzLineDIB( drawx + ( fontwidth / 2 ), drawy + ( fontheight / 2 ), drawx + fontwidth, 1, FG );
             VertLineDIB( drawx + ( fontwidth / 2 ), drawy, drawy + ( fontheight / 2 ) + 1, 2, FG );
             break;
-        case LINE_XXOX_C://box bottom north T (left, right, up)
+        // box bottom north T (left, right, up)
+        case LINE_XXOX_C:
             HorzLineDIB( drawx, drawy + ( fontheight / 2 ), drawx + fontwidth, 1, FG );
             VertLineDIB( drawx + ( fontwidth / 2 ), drawy, drawy + ( fontheight / 2 ), 2, FG );
             break;
-        case LINE_XXXO_C://box bottom east T (up, right, down)
+        // box bottom east T (up, right, down)
+        case LINE_XXXO_C:
             VertLineDIB( drawx + ( fontwidth / 2 ), drawy, drawy + fontheight, 2, FG );
             HorzLineDIB( drawx + ( fontwidth / 2 ), drawy + ( fontheight / 2 ), drawx + fontwidth, 1, FG );
             break;
-        case LINE_OXXX_C://box bottom south T (left, right, down)
+        // box bottom south T (left, right, down)
+        case LINE_OXXX_C:
             HorzLineDIB( drawx, drawy + ( fontheight / 2 ), drawx + fontwidth, 1, FG );
             VertLineDIB( drawx + ( fontwidth / 2 ), drawy + ( fontheight / 2 ), drawy + fontheight, 2, FG );
             break;
-        case LINE_XXXX_C://box X (left down up right)
+        // box X (left down up right)
+        case LINE_XXXX_C:
             HorzLineDIB( drawx, drawy + ( fontheight / 2 ), drawx + fontwidth, 1, FG );
             VertLineDIB( drawx + ( fontwidth / 2 ), drawy, drawy + fontheight, 2, FG );
             break;
-        case LINE_XOXX_C://box bottom east T (left, down, up)
+        // box bottom east T (left, down, up)
+        case LINE_XOXX_C:
             VertLineDIB( drawx + ( fontwidth / 2 ), drawy, drawy + fontheight, 2, FG );
             HorzLineDIB( drawx, drawy + ( fontheight / 2 ), drawx + ( fontwidth / 2 ), 1, FG );
             break;
@@ -1241,9 +1250,7 @@ bool Font::draw_window( const catacurses::window &w, const int offsetx, const in
                 FillRectDIB( drawx, drawy, fontwidth, fontheight, cell.BG );
                 continue;
             }
-            const char *utf8str = cell.ch.c_str();
-            int len = cell.ch.length();
-            const int codepoint = UTF8_getch( &utf8str, &len );
+            const int codepoint = UTF8_getch( cell.ch );
             const catacurses::base_color FG = cell.FG;
             const catacurses::base_color BG = cell.BG;
             if( codepoint != UNKNOWN_UNICODE ) {
@@ -2767,10 +2774,8 @@ void CheckMessages()
             break;
             case SDL_TEXTINPUT:
                 if( !add_alt_code( *ev.text.text ) ) {
-                    const char *c = ev.text.text;
-                    int len = strlen( ev.text.text );
-                    if( len > 0 ) {
-                        const unsigned lc = UTF8_getch( &c, &len );
+                    if( strlen( ev.text.text ) > 0 ) {
+                        const unsigned lc = UTF8_getch( ev.text.text );
                         last_input = input_event( lc, CATA_INPUT_KEYBOARD );
 #ifdef __ANDROID__
                         if( !android_is_hardware_keyboard_available() ) {
@@ -2801,10 +2806,8 @@ void CheckMessages()
                 }
                 break;
             case SDL_TEXTEDITING: {
-                const char *c = ev.edit.text;
-                int len = strlen( ev.edit.text );
-                if( len > 0 ) {
-                    const unsigned lc = UTF8_getch( &c, &len );
+                if( strlen( ev.edit.text ) > 0 ) {
+                    const unsigned lc = UTF8_getch( ev.edit.text );
                     last_input = input_event( lc, CATA_INPUT_KEYBOARD );
                 } else {
                     // no key pressed in this event
@@ -3614,37 +3617,48 @@ void BitmapFont::draw_ascii_lines( unsigned char line_id, int drawx, int drawy, 
 {
     BitmapFont *t = const_cast<BitmapFont *>( this );
     switch( line_id ) {
-        case LINE_OXOX_C://box bottom/top side (horizontal line)
+        // box bottom/top side (horizontal line)
+        case LINE_OXOX_C:
             t->OutputChar( 0xcd, drawx, drawy, FG );
             break;
-        case LINE_XOXO_C://box left/right side (vertical line)
+        // box left/right side (vertical line)
+        case LINE_XOXO_C:
             t->OutputChar( 0xba, drawx, drawy, FG );
             break;
-        case LINE_OXXO_C://box top left
+        // box top left
+        case LINE_OXXO_C:
             t->OutputChar( 0xc9, drawx, drawy, FG );
             break;
-        case LINE_OOXX_C://box top right
+        // box top right
+        case LINE_OOXX_C:
             t->OutputChar( 0xbb, drawx, drawy, FG );
             break;
-        case LINE_XOOX_C://box bottom right
+        // box bottom right
+        case LINE_XOOX_C:
             t->OutputChar( 0xbc, drawx, drawy, FG );
             break;
-        case LINE_XXOO_C://box bottom left
+        // box bottom left
+        case LINE_XXOO_C:
             t->OutputChar( 0xc8, drawx, drawy, FG );
             break;
-        case LINE_XXOX_C://box bottom north T (left, right, up)
+        // box bottom north T (left, right, up)
+        case LINE_XXOX_C:
             t->OutputChar( 0xca, drawx, drawy, FG );
             break;
-        case LINE_XXXO_C://box bottom east T (up, right, down)
+        // box bottom east T (up, right, down)
+        case LINE_XXXO_C:
             t->OutputChar( 0xcc, drawx, drawy, FG );
             break;
-        case LINE_OXXX_C://box bottom south T (left, right, down)
+        // box bottom south T (left, right, down)
+        case LINE_OXXX_C:
             t->OutputChar( 0xcb, drawx, drawy, FG );
             break;
-        case LINE_XXXX_C://box X (left down up right)
+        // box X (left down up right)
+        case LINE_XXXX_C:
             t->OutputChar( 0xce, drawx, drawy, FG );
             break;
-        case LINE_XOXX_C://box bottom east T (left, down, up)
+        // box bottom east T (left, down, up)
+        case LINE_XOXX_C:
             t->OutputChar( 0xb9, drawx, drawy, FG );
             break;
         default:

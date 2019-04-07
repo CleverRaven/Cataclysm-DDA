@@ -11,10 +11,10 @@ namespace
 {
 
 struct rotatable_symbol {
-    long sym;
-    std::array<long, 3> rotated_sym;
+    std::string sym;
+    std::array<std::string, 3> rotated_sym;
 
-    bool operator<( const long &rhs ) const {
+    bool operator<( const std::string &rhs ) const {
         return sym < rhs;
     }
 
@@ -35,7 +35,7 @@ void load( JsonObject &jo, const std::string &src )
     const std::string tuple_key = "tuple";
     const bool strict = src == "dda";
 
-    std::vector<long> tuple;
+    std::vector<std::string> tuple;
 
     mandatory( jo, false, tuple_key, tuple );
 
@@ -77,7 +77,7 @@ void reset()
     symbols.clear();
 }
 
-long get( long sym, int n )
+std::string get( const std::string &sym, int n )
 {
     n = std::abs( n ) % 4;
 

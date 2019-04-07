@@ -5,22 +5,14 @@
     "subtype": "collection",
     "items": [
       { "group": "clothing_outdoor_set", "prob": 100, "damage": [ 1, 4 ] },
-      {
-        "distribution": [
-          { "item": "m240", "damage": [ 2, 4 ] },
-          { "item": "m60", "damage": [ 2, 4 ] }
-        ]
-      },
+      { "distribution": [ { "item": "m240", "damage": [ 2, 4 ] }, { "item": "m60", "damage": [ 2, 4 ] } ] },
       { "item": "corpse", "prob": 50, "damage": 4 }
     ]
   },
   {
     "id": "basement_survival_last_stand_casing",
     "type": "item_group",
-    "items": [
-      { "item": "308_casing", "charges": [ 1, 1 ] },
-      { "item": "ammolink308", "charges": [ 1, 1 ] }
-    ]
+    "items": [ { "item": "308_casing", "charges": [ 1, 1 ] }, { "item": "ammolink308", "charges": [ 1, 1 ] } ]
   },
   {
     "type": "mapgen",
@@ -94,12 +86,8 @@
         "y": "f_woodstove",
         "{": "f_rack"
       },
-      "toilets": {
-        "t": {}
-      },
-      "place_liquids": [
-        { "liquid": "water", "x": [ 4, 15 ], "y": [ 14, 15 ], "repeat": 3 }
-      ],
+      "toilets": { "t": {  } },
+      "place_liquids": [ { "liquid": "water", "x": [ 4, 15 ], "y": [ 14, 15 ], "repeat": 3 } ],
       "place_loot": [
         { "group": "basement_survival_last_stand_casing", "x": 2, "y": 6, "chance": 20, "repeat": [ 1, 10 ] },
         { "group": "basement_survival_last_stand_casing", "x": 3, "y": 6, "chance": 20, "repeat": [ 1, 10 ] },
@@ -131,7 +119,15 @@
         { "group": "gear_survival", "x": 13, "y": 10, "chance": 75 },
         { "group": "gear_survival", "x": 13, "y": 12, "chance": 75 },
         { "group": "gear_survival", "x": 13, "y": 13, "chance": 75 },
-        { "group": "guns_survival", "x": 19, "y": [ 1, 2 ], "chance": 100, "repeat": [ 1, 2 ], "ammo": 75, "magazine": 100 },
+        {
+          "group": "guns_survival",
+          "x": 19,
+          "y": [ 1, 2 ],
+          "chance": 100,
+          "repeat": [ 1, 2 ],
+          "ammo": 75,
+          "magazine": 100
+        },
         { "group": "ammo_reloaded", "x": 19, "y": 3, "chance": 100, "repeat": [ 1, 3 ], "magazine": 100 },
         { "group": "guns_pistol_common", "x": 15, "y": 8, "chance": 30, "ammo": 75, "magazine": 100 },
         { "group": "guns_pistol_common", "x": 21, "y": 8, "chance": 30, "ammo": 75, "magazine": 100 },
@@ -142,9 +138,7 @@
         { "item": "pillow", "x": 16, "y": 8, "chance": 30 },
         { "item": "pillow", "x": 20, "y": 8, "chance": 30 }
       ],
-      "place_monsters": [
-        { "monster": "GROUP_PREPPER_HOUSE", "x": [ 2, 10 ], "y": [ 4, 7 ], "chance": 2 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_PREPPER_HOUSE", "x": [ 2, 10 ], "y": [ 4, 7 ], "chance": 2 } ]
     }
   }
 ]

@@ -54,7 +54,8 @@
     "components": [
       [
         [ "tallow", 1 ],
-        [ "cooking_oil", 1 ],
+        [ "cooking_oil", 8 ],
+        [ "cooking_oil2", 8 ],
         [ "wax", 1 ],
         [ "lamp_oil", 200 ],
         [ "salt_water", 5 ],

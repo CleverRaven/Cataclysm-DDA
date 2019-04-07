@@ -85,5 +85,31 @@
       { "group": "textbooks", "prob": 30 },
       [ "dnd_handbook", 3 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "religious_books",
+    "//": "Any religious book",
+    "items": [
+      [ "holybook_bible1", 1 ],
+      [ "holybook_bible2", 1 ],
+      [ "holybook_bible3", 1 ],
+      [ "holybook_quran", 1 ],
+      [ "holybook_hadith", 1 ],
+      [ "holybook_havamal", 1 ],
+      [ "holybook_tanakh", 1 ],
+      [ "holybook_talmud", 1 ],
+      [ "holybook_vedas", 1 ],
+      [ "holybook_upanishads", 1 ],
+      [ "holybook_tripitaka", 1 ],
+      [ "holybook_sutras", 1 ],
+      [ "holybook_granth", 1 ],
+      [ "holybook_mormon", 1 ],
+      [ "holybook_kojiki", 1 ],
+      [ "holybook_pastafarian", 1 ],
+      [ "holybook_slack", 1 ],
+      [ "holybook_kallisti", 1 ],
+      [ "holybook_scientology", 1 ]
+    ]
   }
 ]

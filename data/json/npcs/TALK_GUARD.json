@@ -7,8 +7,7 @@
       "Keep civil or I'll bring the pain.",
       "Just on watch, move along.",
       {
-        "u_male": true,
-        "yes": [ "Sir.", "Rough out there, isn't it?" ],
+        "u_male": [ "Sir.", "Rough out there, isn't it?" ],
         "no": [ "Ma'am", "Ma'am, you really shouldn't be traveling out there." ]
       }
     ],

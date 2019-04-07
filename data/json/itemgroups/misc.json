@@ -29,6 +29,25 @@
     "items": [ [ "joint", 100 ], [ "joint_roach", 20 ], [ "pipe_glass", 10 ] ]
   },
   {
+    "id": "silverware",
+    "type": "item_group",
+    "//": "Forks, spoons, knives, ect.",
+    "items": [ [ "knife_butter", 30 ], [ "knife_steak", 10 ], [ "fork", 30 ], [ "spoon", 30 ] ]
+  },
+  {
+    "id": "dinnerware",
+    "type": "item_group",
+    "//": "Plates, bowls, cups, etc.",
+    "items": [
+      [ "glass", 20 ],
+      [ "glass_plate", 20 ],
+      [ "glass_bowl", 20 ],
+      [ "ceramic_plate", 10 ],
+      [ "ceramic_bowl", 10 ],
+      [ "ceramic_cup", 10 ]
+    ]
+  },
+  {
     "id": "digging_soil_loam_50L",
     "type": "item_group",
     "subtype": "collection",
