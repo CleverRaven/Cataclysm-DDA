@@ -56,7 +56,6 @@ using harvest_id = string_id<harvest_list>;
 // These are triggers which may affect the monster's anger or morale.
 // They are handled in monster::check_triggers(), in monster.cpp
 enum monster_trigger : int {
-    MTRIG_NULL = 0,
     MTRIG_STALK,  // Increases when following the player
     MTRIG_MEAT,  // Meat or a corpse nearby
     MTRIG_HOSTILE_WEAK, // Hurt hostile player/npc/monster seen
@@ -74,7 +73,6 @@ enum monster_trigger : int {
 // Feel free to add to m_flags.  Order shouldn't matter, just keep it tidy!
 // And comment them well. ;)
 enum m_flag : int {
-    MF_NULL = 0,            //
     MF_SEES,                // It can see you (and will run/follow)
     MF_HEARS,               // It can hear you
     MF_GOODHEARING,         // Pursues sounds more than most monsters

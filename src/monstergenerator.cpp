@@ -31,7 +31,6 @@ namespace
 const mtype_id mon_generator( "mon_generator" );
 
 const std::map<std::string, monster_trigger> trigger_map = {
-    { "NULL", MTRIG_NULL },
     { "STALK", MTRIG_STALK },
     { "MEAT", MTRIG_MEAT },
     { "PLAYER_WEAK", MTRIG_HOSTILE_WEAK },
@@ -47,7 +46,6 @@ const std::map<std::string, monster_trigger> trigger_map = {
 
 const std::map<std::string, m_flag> flag_map = {
     // see mtype.h for commentary
-    { "NULL", MF_NULL },
     { "SEES", MF_SEES },
     { "HEARS", MF_HEARS },
     { "GOODHEARING", MF_GOODHEARING },
