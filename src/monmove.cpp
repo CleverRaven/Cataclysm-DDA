@@ -22,6 +22,9 @@
 #include "sounds.h"
 #include "translations.h"
 #include "trap.h"
+#include "vpart_position.h"
+#include "tileray.h"
+#include "vehicle.h"
 
 #define MONSTER_FOLLOW_DIST 8
 
@@ -683,6 +686,9 @@ void monster::move()
                 // Friendly fire and pushing are always bad choices - they take a lot of time
                 bad_choice = true;
             }
+
+            // Try to shove vehicle out of the way
+            shove_vehicle( destination, candidate );
 
             // Bail out if we can't move there and we can't bash.
             if( !pathed && !can_move_to( candidate ) ) {
@@ -1569,4 +1575,76 @@ int monster::turns_to_reach( int x, int y )
     }
 
     return static_cast<int>( turns + .9 ); // Halve (to get turns) and round up
+}
+
+void monster::shove_vehicle( const tripoint &remote_destination,
+                             const tripoint &nearby_destination )
+{
+    if( this->has_flag( MF_PUSH_VEH ) ) {
+        auto vp = g->m.veh_at( nearby_destination );
+        if( vp ) {
+            vehicle &veh = vp->vehicle();
+            const units::mass veh_mass = veh.total_mass();
+            int shove_moves_minimal = 0;
+            int shove_veh_mass_moves_factor = 0;
+            int shove_velocity = 0;
+            float shove_damage_min = 0.00F;
+            float shove_damage_max = 0.00F;
+            switch( this->get_size() ) {
+                case MS_TINY:
+                case MS_SMALL:
+                    break;
+                case MS_MEDIUM:
+                    if( veh_mass < 500_kilogram ) {
+                        shove_moves_minimal = 150;
+                        shove_veh_mass_moves_factor = 20;
+                        shove_velocity = 500;
+                        shove_damage_min = 0.00F;
+                        shove_damage_max = 0.01F;
+                    }
+                    break;
+                case MS_LARGE:
+                    if( veh_mass < 1000_kilogram ) {
+                        shove_moves_minimal = 100;
+                        shove_veh_mass_moves_factor = 8;
+                        shove_velocity = 1000;
+                        shove_damage_min = 0.00F;
+                        shove_damage_max = 0.03F;
+                    }
+                    break;
+                case MS_HUGE:
+                    if( veh_mass < 1500_kilogram ) {
+                        shove_moves_minimal = 50;
+                        shove_veh_mass_moves_factor = 4;
+                        shove_velocity = 1500;
+                        shove_damage_min = 0.00F;
+                        shove_damage_max = 0.05F;
+                    }
+                    break;
+                default:
+                    break;
+            }
+            if( shove_velocity > 0 ) {
+                //~ %1$s - monster name, %2$s - vehicle name
+                g->u.add_msg_if_player( m_bad, _( "%1$s shoves %2$s out of their way!" ), this->disp_name(),
+                                        veh.disp_name() );
+                int shove_moves = shove_veh_mass_moves_factor * veh_mass / 10_kilogram;
+                shove_moves = std::max( shove_moves, shove_moves_minimal );
+                this->mod_moves( -shove_moves );
+                const int destination_delta_x = remote_destination.x - nearby_destination.x;
+                const int destination_delta_y = remote_destination.y - nearby_destination.y;
+                const int destination_delta_z = remote_destination.z - nearby_destination.z;
+                const tripoint shove_destination( clamp( destination_delta_x, -1, 1 ),
+                                                  clamp( destination_delta_y, -1, 1 ),
+                                                  clamp( destination_delta_z, -1, 1 ) );
+                veh.skidding = true;
+                veh.velocity = shove_velocity;
+                if( shove_destination != tripoint_zero ) {
+                    g->m.move_vehicle( veh, shove_destination, veh.face );
+                }
+                veh.move = tileray( destination_delta_x, destination_delta_y );
+                veh.smash( shove_damage_min, shove_damage_max, 0.10F );
+            }
+        }
+    }
 }

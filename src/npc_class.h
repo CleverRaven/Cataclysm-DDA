@@ -42,6 +42,7 @@ class distribution
 
     public:
         distribution();
+        distribution( const distribution & );
 
         float roll() const;
 

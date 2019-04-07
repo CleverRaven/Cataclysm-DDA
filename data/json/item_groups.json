@@ -274,6 +274,7 @@
       [ "wetsuit_gloves", 3 ],
       [ "wetsuit_booties", 3 ],
       [ "wetsuit_hood", 2 ],
+      [ "scuba_tank", 2 ],
       [ "dive_bag", 3 ],
       [ "poncho", 15 ],
       [ "folding_poncho", 5 ],
@@ -878,7 +879,8 @@
       [ "denat_alcohol", 10 ],
       [ "popcan_stove", 5 ],
       [ "pet_carrier", 3 ],
-      [ "l-stick", 1 ]
+      [ "l-stick", 1 ],
+      [ "scuba_tank", 2 ]
     ]
   },
   {
@@ -2286,6 +2288,8 @@
       [ "wetsuit_gloves", 20 ],
       [ "wetsuit_booties", 20 ],
       [ "wetsuit_hood", 10 ],
+      [ "scuba_tank", 20 ],
+      [ "small_scuba_tank", 10 ],
       [ "fishing_rod_professional", 4 ],
       [ "dive_bag", 5 ],
       [ "diving_watch", 10 ],
@@ -2420,6 +2424,8 @@
       [ "wetsuit_gloves", 20 ],
       [ "wetsuit_booties", 20 ],
       [ "wetsuit_hood", 10 ],
+      [ "scuba_tank", 20 ],
+      [ "small_scuba_tank", 10 ],
       [ "dive_bag", 10 ],
       [ "rebreather", 3 ],
       [ "rebreather_filter", 2 ],
@@ -2619,6 +2625,8 @@
       [ "wetsuit_gloves", 20 ],
       [ "wetsuit_booties", 20 ],
       [ "wetsuit_hood", 10 ],
+      [ "scuba_tank", 20 ],
+      [ "small_scuba_tank", 10 ],
       [ "dive_bag", 10 ],
       [ "rebreather", 2 ],
       [ "rebreather_filter", 4 ],
@@ -3977,7 +3985,7 @@
   {
     "type": "item_group",
     "id": "swimmer_torso",
-    "items": [ [ "bikini_top", 50 ], [ "dive_bag", 5 ], [ "flotation_vest", 10 ] ]
+    "items": [ [ "bikini_top", 50 ], [ "dive_bag", 5 ], [ "flotation_vest", 10 ], [ "scuba_tank", 2 ] ]
   },
   {
     "type": "item_group",
@@ -4074,6 +4082,7 @@
     "id": "hospital_bed",
     "items": [
       [ "corpse", 10 ],
+      [ "bag_body_bag", 10 ],
       [ "child_book", 5 ],
       [ "stethoscope", 20 ],
       [ "tall_tales", 10 ],
@@ -5792,6 +5801,7 @@
       [ "chem_nitric_acid", 10 ],
       [ "chem_hydrogen_peroxide_conc", 10 ],
       [ "denat_alcohol", 10 ],
+      [ "bag_body_bag", 10 ],
       [ "microscope", 10 ],
       [ "microscope_dissecting", 15 ],
       [ "beaker", 5 ],
@@ -6188,6 +6198,7 @@
       [ "bio_weight", 10 ],
       [ "bio_shock_absorber", 10 ],
       [ "bio_jointservo", 10 ],
+      [ "bio_shotgun", 10 ],
       [ "bio_taste_blocker", 10 ],
       [ "bio_soporific", 10 ]
     ]
@@ -6575,7 +6586,8 @@
       [ "bio_meteorologist", 10 ],
       [ "bio_cable", 10 ],
       [ "bio_weight", 10 ],
-      [ "bio_jointservo", 10 ]
+      [ "bio_jointservo", 10 ],
+      [ "bio_shotgun", 10 ]
     ]
   },
   {
@@ -6642,7 +6654,8 @@
       [ "bio_power_armor_interface_mkII", 5 ],
       [ "bio_meteorologist", 10 ],
       [ "bio_cable", 10 ],
-      [ "bio_jointservo", 20 ]
+      [ "bio_jointservo", 20 ],
+      [ "bio_shotgun", 10 ]
     ]
   },
   {
@@ -7223,6 +7236,7 @@
       [ "bio_power_storage", 10 ],
       [ "bio_flashlight", 10 ],
       [ "bio_lighter", 10 ],
+      [ "bio_shotgun", 10 ],
       [ "arrow_cf", 5 ],
       [ "spray_can", 50 ],
       [ "bio_blaster", 10 ],
@@ -7285,7 +7299,7 @@
       [ "pomegranate", 1 ],
       [ "rhubarb", 5 ],
       [ "papaya", 1 ],
-      [ "kiwi", 1 ],
+      [ "kiwi", 2 ],
       [ "apricot", 1 ],
       [ "honeycomb", 10 ],
       [ "royal_jelly", 8 ],
@@ -8096,7 +8110,8 @@
       [ "tanto", 4 ],
       [ "katana", 1 ],
       [ "survnote", 3 ],
-      [ "ear_spool", 30 ]
+      [ "ear_spool", 30 ],
+      [ "bio_shotgun", 10 ]
     ]
   },
   {
@@ -8406,7 +8421,8 @@
       [ "smoxygen_tank", 35 ],
       [ "watercannon", 10 ],
       [ "l-stick", 1 ],
-      [ "solarpack", 2 ]
+      [ "solarpack", 2 ],
+      [ "bag_body_bag", 5 ]
     ]
   },
   {
@@ -8774,7 +8790,8 @@
       [ "syringe", 1 ],
       [ "spike", 1 ],
       [ "tanbark", 2 ],
-      [ "thermos", 1 ]
+      [ "thermos", 1 ],
+      [ "bag_body_bag", 3 ]
     ]
   },
   {
@@ -9793,7 +9810,8 @@
       [ "bottle_plastic_small", 45 ],
       [ "cup_plastic", 30 ],
       [ "bowl_plastic", 30 ],
-      [ "plastic_chunk", 50 ]
+      [ "plastic_chunk", 50 ],
+      [ "bag_body_bag", 10 ]
     ]
   },
   {
@@ -10503,6 +10521,37 @@
       [ "stout", 15 ],
       [ "belgian_ale", 10 ],
       [ "imperial_stout", 4 ]
+    ]
+  },
+  {
+    "id": "grave",
+    "type": "item_group",
+    "items": [
+      [ "bone_human", 70 ],
+      [ "holy_symbol", 50 ],
+      [ "sheet", 20 ],
+      [ "bag_body_bag", 20 ],
+      [ "gloves_medical", 1 ],
+      [ "barrette", 5 ],
+      [ "hairpin", 5 ],
+      [ "child_book", 5 ],
+      [ "fancy_sunglasses", 5 ],
+      [ "flask_hip", 5 ],
+      [ "locket", 10 ],
+      [ "necklace", 5 ],
+      [ "ref_lighter", 5 ],
+      [ "ring", 20 ],
+      [ "story_book", 5 ],
+      [ "syringe", 3 ],
+      [ "teddy", 15 ],
+      [ "arm", 5 ],
+      [ "leg", 5 ],
+      [ "fetus", 5 ],
+      [ "human_brain_embalmed", 5 ],
+      [ "many_years_old_newspaper", 2 ],
+      [ "years_old_newspaper", 2 ],
+      [ "one_year_old_newspaper", 2 ],
+      [ "months_old_newspaper", 2 ]
     ]
   },
   {
