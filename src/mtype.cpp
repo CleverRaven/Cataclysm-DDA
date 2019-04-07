@@ -49,9 +49,10 @@ mtype::mtype()
     luminance = 0;
     bash_skill = 0;
 
-    set_flag( MF_HUMAN, true );
-    set_flag( MF_BONES, true );
-    set_flag( MF_LEATHER, true );
+    flags
+    .set( MF_HUMAN )
+    .set( MF_BONES )
+    .set( MF_LEATHER );
 }
 
 std::string mtype::nname( unsigned int quantity ) const

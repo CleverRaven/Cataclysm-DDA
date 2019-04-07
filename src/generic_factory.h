@@ -11,6 +11,7 @@
 #include "assign.h"
 #include "catacharset.h"
 #include "debug.h"
+#include "enum_bitset.h"
 #include "init.h"
 #include "int_id.h"
 #include "json.h"
@@ -631,6 +632,22 @@ struct handler<std::bitset<N>> {
     }
     template<typename T>
     void erase( std::bitset<N> &container, const T &data ) const {
+        container.reset( data );
+    }
+    static constexpr bool is_container = true;
+};
+
+template<typename E>
+struct handler<enum_bitset<E>> {
+    void clear( enum_bitset<E> &container ) const {
+        container.reset();
+    }
+    template<typename T>
+    void insert( enum_bitset<E> &container, const T &data ) const {
+        container.set( data );
+    }
+    template<typename T>
+    void erase( enum_bitset<E> &container, const T &data ) const {
         container.reset( data );
     }
     static constexpr bool is_container = true;

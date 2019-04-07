@@ -9,6 +9,7 @@
 
 #include "color.h"
 #include "damage.h"
+#include "enum_bitset.h"
 #include "enums.h"
 #include "int_id.h"
 #include "mattack_common.h"
@@ -68,6 +69,11 @@ enum monster_trigger : int {
     MTRIG_PLAYER_NEAR_BABY, // Player/npc is near a baby monster of this type
     MTRIG_MATING_SEASON, // It's the monster's mating season (defined by baby_flags)
     N_MONSTER_TRIGGERS
+};
+
+template<>
+struct enum_traits<monster_trigger> {
+    static constexpr monster_trigger last = monster_trigger::N_MONSTER_TRIGGERS;
 };
 
 // Feel free to add to m_flags.  Order shouldn't matter, just keep it tidy!
@@ -172,6 +178,11 @@ enum m_flag : int {
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 
+template<>
+struct enum_traits<m_flag> {
+    static constexpr m_flag last = m_flag::MF_MAX;
+};
+
 /** Used to store monster effects placed on attack */
 struct mon_effect_data {
     efftype_id id;
@@ -195,11 +206,12 @@ struct mtype {
         std::string description;
 
         std::set< const species_type * > species_ptrs;
-        std::bitset<MF_MAX> flags;
 
-        std::bitset<N_MONSTER_TRIGGERS> anger;
-        std::bitset<N_MONSTER_TRIGGERS> fear;
-        std::bitset<N_MONSTER_TRIGGERS> placate;
+        enum_bitset<m_flag> flags;
+
+        enum_bitset<monster_trigger> anger;
+        enum_bitset<monster_trigger> fear;
+        enum_bitset<monster_trigger> placate;
 
         void add_special_attacks( JsonObject &jo, const std::string &member_name, const std::string &src );
         void remove_special_attacks( JsonObject &jo, const std::string &member_name,

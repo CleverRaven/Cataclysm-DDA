@@ -34,10 +34,10 @@ class generic_factory;
 struct species_type {
     species_id id;
     bool was_loaded = false;
-    std::bitset<MF_MAX> flags;
-    std::bitset<N_MONSTER_TRIGGERS> anger;
-    std::bitset<N_MONSTER_TRIGGERS> fear;
-    std::bitset<N_MONSTER_TRIGGERS> placate;
+    enum_bitset<m_flag> flags;
+    enum_bitset<monster_trigger> anger;
+    enum_bitset<monster_trigger> fear;
+    enum_bitset<monster_trigger> placate;
 
     species_type(): id( species_id::NULL_ID() ) {
 
