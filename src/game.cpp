@@ -3796,7 +3796,7 @@ void game::draw_veh_dir_indicator( bool next )
     if( const cata::optional<tripoint> indicator_offset = get_veh_dir_indicator_location( next ) ) {
         auto col = next ? c_white : c_dark_gray;
         mvwputch( w_terrain, POSY + indicator_offset->y - u.view_offset.y,
-                  POSX + indicator_offset->x - u.view_offset.x, col, 'X' );
+                  POSX + indicator_offset->x - u.view_offset.x - g->sidebar_offset.x, col, 'X' );
     }
 }
 
