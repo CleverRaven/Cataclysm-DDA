@@ -7222,6 +7222,7 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
                     lx = mouse_pos->x;
                     ly = mouse_pos->y;
                 }
+#if (defined TILES || defined _WIN32 || defined WINDOWS)
                 // Below we implement mouse panning. In order to make
                 // it less jerky we rate limit it by only allowing a
                 // panning move during the first iteration of this
@@ -7242,7 +7243,7 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
                         center.y += panning_speed;
                     }
                 }
-
+#endif
                 if( --max_consume == 0 ) {
                     break;
                 }
