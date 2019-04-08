@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <set>
+#include <math.h>
 
 #include "bodypart.h"
 #include "cata_utility.h"
@@ -332,9 +333,19 @@ int player_morale::get_level() const
         const morale_mult mult = get_temper_mult();
 
         level = 0;
+        int sum_of_positive_squares = 0;
+        int sum_of_negative_squares = 0;
+
         for( auto &m : points ) {
-            level += m.get_net_bonus( mult );
+            const int bonus = m.get_net_bonus( mult );
+            if( bonus > 0 ) {
+                sum_of_positive_squares += bonus * bonus;
+            } else {
+                sum_of_negative_squares += bonus * bonus;
+            }
         }
+
+        level = sqrt( sum_of_positive_squares ) - sqrt( sum_of_negative_squares );
 
         if( took_prozac ) {
             level *= morale_mults::prozac;
