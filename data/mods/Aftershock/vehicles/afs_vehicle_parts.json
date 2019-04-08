@@ -203,10 +203,12 @@
       "ALARMCLOCK"
     ],
     "breaks_into": [
-      { "item": "steel_lump" },
-      { "item": "steel_chunk", "count": [ 1, 3 ] },
-      { "item": "scrap", "count": [ 1, 3 ] },
-      { "item": "cable", "charges": [ 0, 4 ] }
+      { "item": "steel_lump", "count": [ 2, 4 ] },
+      { "item": "steel_chunk", "count": [ 2, 4 ] },
+      { "item": "scrap", "count": [ 2, 4 ] },
+      { "item": "cable", "charges": [ 5, 20 ] },
+      { "item": "RAM", "charges": [ 1, 4 ] },
+      { "item": "e_scrap", "charges": [ 3, 8 ] }
     ]
   },
   {
