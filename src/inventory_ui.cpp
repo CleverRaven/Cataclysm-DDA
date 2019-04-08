@@ -275,7 +275,7 @@ void inventory_selector_preset::append_cell( const
 }
 
 void inventory_selector_preset::append_cell( const
-        std::function<std::string( const inventory_entry & )> &getTextFunc,
+        std::function<std::string( const inventory_entry & )> &func,
         const std::string &title, const std::string &stub )
 {
     const auto iter = std::find_if( cells.begin(), cells.end(), [ &title ]( const cell_t &cell ) {
@@ -285,12 +285,12 @@ void inventory_selector_preset::append_cell( const
         debugmsg( "Tried to append a duplicate cell \"%s\": ignored.", title.c_str() );
         return;
     }
-    cells.emplace_back( getTextFunc, title, stub );
+    cells.emplace_back( func, title, stub );
 }
 
 std::string  inventory_selector_preset::cell_t::get_text( const inventory_entry &entry ) const
 {
-    return replace_colors( getTextFunc( entry ) );
+    return replace_colors( func( entry ) );
 }
 
 void inventory_column::select( size_t new_index, scroll_direction dir )

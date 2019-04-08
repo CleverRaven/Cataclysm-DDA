@@ -188,11 +188,11 @@ class inventory_selector_preset
         class cell_t
         {
             public:
-                cell_t( const std::function<std::string( const inventory_entry & )> &getTextFunc,
+                cell_t( const std::function<std::string( const inventory_entry & )> &func,
                         const std::string &title, const std::string &stub ) :
                     title( title ),
                     stub( stub ),
-                    getTextFunc( getTextFunc ) {}
+                    func( func ) {}
 
                 std::string get_text( const inventory_entry &entry ) const;
 
@@ -200,7 +200,7 @@ class inventory_selector_preset
                 std::string stub;
 
             private:
-                std::function<std::string( const inventory_entry & )> getTextFunc;
+                std::function<std::string( const inventory_entry & )> func;
         };
 
         std::vector<cell_t> cells;
