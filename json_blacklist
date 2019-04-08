@@ -428,9 +428,6 @@ data/mods/More_Locations/military_outpost/mil_outpost_yre_00.json
 data/mods/More_Locations/military_outpost/mil_outpost_yte_00.json
 data/mods/More_Locations/military_outpost/mil_outpost_ytlc_00.json
 data/mods/More_Locations/military_outpost/mil_outpost_ytrc_00.json
-data/mods/More_Locations/military_outpost/monster_groups.json
-data/mods/More_Locations/military_outpost/overmap_specials.json
-data/mods/More_Locations/military_outpost/overmap_terrain.json
 data/mods/More_Locations/multistory_houses/2story_houses/2storyA_basement_00.json
 data/mods/More_Locations/multistory_houses/2story_houses/2storyA_basement_01.json
 data/mods/More_Locations/multistory_houses/2story_houses/2storyA_basement_02.json
