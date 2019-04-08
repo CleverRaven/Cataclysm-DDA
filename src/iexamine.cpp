@@ -4317,7 +4317,7 @@ void smoker_load_food( player &p, const tripoint &examp, const units::volume &re
         return it.rotten();
     } );
     comp_selection<item_comp> selected = p.select_item_component( comps, 1, inv, true );
-    std::list<item> moved = p.consume_items( selected, 1, g->u.pos(), PICKUP_RANGE, cata::nullopt );
+    std::list<item> moved = p.consume_items( selected, 1 );
 
     // hack, because consume_items doesn't seem to care of what item is consumed despite filters
     // TODO: find a way to filter out rotten items from those actualy consumed

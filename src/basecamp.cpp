@@ -7,12 +7,18 @@
 #include <string>
 #include <vector>
 
+#include "craft_command.h"
+#include "crafting.h"
 #include "output.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "enums.h"
 #include "game.h"
+#include "game_inventory.h"
+#include "inventory.h"
+#include "item.h"
 #include "item_group.h"
+#include "itype.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapbuffer.h"
@@ -21,6 +27,7 @@
 #include "overmap.h"
 #include "overmap_ui.h"
 #include "overmapbuffer.h"
+#include "player.h"
 #include "npc.h"
 #include "recipe.h"
 #include "recipe_groups.h"
@@ -317,6 +324,50 @@ void basecamp::query_new_name()
 void basecamp::set_name( const std::string &new_name )
 {
     name = new_name;
+}
+
+void basecamp::consume_components( const recipe &making, int batch_size, bool by_radio )
+{
+    inventory camp_inv = return_camp_inventory( by_radio );
+    const auto &req = making.requirements();
+    if( !by_radio ) {
+        for( const auto &it : req.get_components() ) {
+            g->u.consume_items( g->m, g->u.select_item_component( it, batch_size, camp_inv, true, false, false,
+                                false ), batch_size, false, false, g->m.getlocal( get_dumping_spot() ), 20 );
+        }
+        for( const auto &it : req.get_tools() ) {
+            g->u.consume_tools( g->m, g->u.select_tool_component( it, batch_size, camp_inv, DEFAULT_HOTKEYS,
+                                true, false ), batch_size, g->m.getlocal( get_dumping_spot() ), 20 );
+        }
+    } else {
+        tinymap target_map;
+        target_map.load( omt_pos.x * 2, omt_pos.y * 2, omt_pos.z, false );
+        for( const auto &it : req.get_components() ) {
+            g->u.consume_items( target_map, g->u.select_item_component( it, batch_size, camp_inv, true, false,
+                                false, false ), batch_size, false, false, g->m.getlocal( get_dumping_spot() ), 20 );
+        }
+        for( const auto &it : req.get_tools() ) {
+            g->u.consume_tools( target_map, g->u.select_tool_component( it, batch_size, camp_inv,
+                                DEFAULT_HOTKEYS, true, false ), batch_size, g->m.getlocal( get_dumping_spot() ), 20 );
+        }
+        target_map.save();
+    }
+}
+
+inventory basecamp::return_camp_inventory( const bool by_radio )
+{
+    if( get_dumping_spot() == tripoint_zero ) {
+        validate_sort_points();
+    }
+    inventory new_inv;
+    if( !by_radio ) {
+        new_inv.form_from_map( g->m.getlocal( get_dumping_spot() ), 20, false, false );
+    } else {
+        tinymap target_map;
+        target_map.load( omt_pos.x * 2, omt_pos.y * 2, omt_pos.z, false );
+        new_inv.form_from_map( target_map, target_map.getlocal( get_dumping_spot() ), 20, false, false );
+    }
+    return new_inv;
 }
 
 // display names

@@ -265,6 +265,8 @@ std::map<std::string, bcp_miss_data> basecamp_missions_info = {{
  */
 tripoint get_sorting_zone_point( tripoint omt_tri, bool by_radio );
 inventory camp_crafting_inventory( tripoint omt_tri, bool by_radio = false );
+void consume_components_for_camp_mission( tripoint omt_tri, const recipe &making, int batch_size,
+        bool by_radio = false );
 int om_harvest_furn( npc &comp, const tripoint &omt_tgt, const furn_id &f, int chance = 100,
                      bool estimate = false, bool bring_back = true );
 // om_harvest_furn helper function that counts the furniture instances
@@ -1396,18 +1398,7 @@ void basecamp::start_upgrade( const std::string &bldg, const std::string &key, t
                                       _( "begins to upgrade the camp..." ), false, {},
                                       making.skill_used.str(), making.difficulty );
         if( comp != nullptr ) {
-            if( !by_radio ) {
-                g->u.consume_components_for_craft( making, 1, true, get_sorting_zone_point( omt_tri, by_radio ),
-                                                   20 );
-                g->u.invalidate_crafting_inventory();
-            } else {
-                tinymap target_bay;
-                cata::optional<tinymap *> q;
-                q = &target_bay;
-                g->u.consume_components_for_craft( making, 1, true, get_sorting_zone_point( omt_tri, by_radio ),
-                                                   20, q );
-                g->u.invalidate_crafting_inventory();
-            }
+            consume_components_for_camp_mission( omt_tri, making, 1, by_radio );
         }
     } else {
         popup( _( "You don't have the materials for the upgrade." ) );
@@ -1707,20 +1698,7 @@ void basecamp::start_fortifications( std::string &bldg_exp, tripoint omt_tri, bo
                                       _( "begins constructing fortifications..." ), false, {},
                                       making.skill_used.str(), making.difficulty );
         if( comp != nullptr ) {
-            if( !by_radio ) {
-                g->u.consume_components_for_craft( making, fortify_om.size() * 2 - 2, true,
-                                                   get_sorting_zone_point( omt_tri, by_radio ),
-                                                   20 );
-                g->u.invalidate_crafting_inventory();
-            } else {
-                tinymap target_bay;
-                cata::optional<tinymap *> q;
-                q = &target_bay;
-                g->u.consume_components_for_craft( making, fortify_om.size() * 2 - 2, true,
-                                                   get_sorting_zone_point( omt_tri, by_radio ),
-                                                   20, q );
-                g->u.invalidate_crafting_inventory();
-            }
+            consume_components_for_camp_mission( omt_tri, making, fortify_om.size() * 2 - 2, by_radio );
         }
         comp->companion_mission_role_id = bldg_exp;
         for( auto pt : fortify_om ) {
@@ -1788,23 +1766,7 @@ void basecamp::craft_construction( const std::string &cur_id, const std::string 
                                       _( "begins to work..." ), false, {},
                                       making.skill_used.str(), making.difficulty );
         if( comp != nullptr ) {
-            if( !by_radio ) {
-                g->u.consume_components_for_craft( making, batch_size, true, get_sorting_zone_point( omt_tri,
-                                                   by_radio ),
-                                                   20 );
-                g->u.invalidate_crafting_inventory();
-            } else {
-                tinymap target_bay;
-                cata::optional<tinymap *> q;
-                q = &target_bay;
-                g->u.consume_components_for_craft( making, batch_size, true, get_sorting_zone_point( omt_tri,
-                                                   by_radio ),
-                                                   20, q );
-                g->u.invalidate_crafting_inventory();
-            }
-            for( const item &results : making.create_results( batch_size ) ) {
-                comp->companion_mission_inv.add_item( results );
-            }
+            consume_components_for_camp_mission( omt_tri, making, batch_size, by_radio );
         }
     }
 }
@@ -3624,8 +3586,6 @@ tripoint get_sorting_zone_point( tripoint omt_tri, bool by_radio )
         cata::optional<basecamp *> p = overmap_buffer.find_camp( omt_tri.x, omt_tri.y );
         if( p ) {
             temp_camp = *p;
-            tinymap target_bay;
-            target_bay.load( omt_tri.x * 2, omt_tri.y * 2, omt_tri.z, false );
             if( temp_camp->get_dumping_spot() != tripoint_zero ) {
                 src_loc = temp_camp->get_dumping_spot();
             } else {
@@ -3645,27 +3605,28 @@ inventory camp_crafting_inventory( tripoint omt_tri, bool by_radio )
     if( p ) {
         temp_camp = *p;
     } else {
+        add_msg( m_debug,
+                 _( "Accessed camp inventory whilst position does not refer to a camp" ) );
         return camp_inv;
     }
-    if( !by_radio ) {
-        if( temp_camp->get_dumping_spot() != tripoint_zero ) {
-            camp_inv = g->u.crafting_inventory( temp_camp->get_dumping_spot(), 20 );
-        } else {
-            add_msg( m_info,
-                     _( "Missions cannot be started without setting up sorting points at this camp first" ) );
-        }
-    } else {
-        tinymap target_bay;
-        cata::optional<tinymap *> q;
-        q = &target_bay;
-        if( temp_camp->get_dumping_spot() != tripoint_zero ) {
-            camp_inv = g->u.crafting_inventory( temp_camp->get_dumping_spot(), 20, q );
-        } else {
-            add_msg( m_info,
-                     _( "Missions cannot be started remotely without setting up sorting points at this camp first" ) );
-        }
-    }
+    camp_inv = temp_camp->return_camp_inventory( by_radio );
     return camp_inv;
+}
+
+void consume_components_for_camp_mission( tripoint omt_tri, const recipe &making, int batch_size,
+        bool by_radio )
+{
+    basecamp *temp_camp;
+    cata::optional<basecamp *> p = overmap_buffer.find_camp( omt_tri.x, omt_tri.y );
+    if( p ) {
+        temp_camp = *p;
+    } else {
+        add_msg( m_debug, _( "consume components for camp mission, but no camp found" ) );
+        return;
+    }
+    temp_camp->consume_components( making, batch_size, by_radio );
+
+
 }
 
 // combat and danger

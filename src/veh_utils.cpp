@@ -119,8 +119,7 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who_c )
     // consume items extracting any base item (which we will need if replacing broken part)
     item base( vp.item );
     for( const auto &e : reqs.get_components() ) {
-        for( auto &obj : who.consume_items( who.select_item_component( e, 1, map_inv ), 1, who.pos(),
-                                            PICKUP_RANGE, cata::nullopt ) ) {
+        for( auto &obj : who.consume_items( who.select_item_component( e, 1, map_inv ), 1 ) ) {
             if( obj.typeId() == vp.item ) {
                 base = obj;
             }

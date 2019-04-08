@@ -12,12 +12,10 @@
 #include "cata_utility.h"
 #include "enums.h"
 #include "item.h"
-#include "optional.h"
 #include "visitable.h"
 
 class map;
 class npc;
-class tinymap;
 
 typedef std::list< std::list<item> > invstack;
 typedef std::vector< std::list<item>* > invslice;
@@ -116,7 +114,10 @@ class inventory : public visitable<inventory>
          */
         void restack( player &p );
         void form_from_map( const tripoint &origin, int distance, bool assign_invlet = true,
-                            cata::optional<tinymap *> target_bay = cata::nullopt );
+                            bool clear_path = true );
+        void form_from_map( map &m, const tripoint &origin, int distance, bool assign_invlet = true,
+                            bool clear_path = true );
+
         /**
          * Remove a specific item from the inventory. The item is compared
          * by pointer. Contents of the item are removed as well.

@@ -1378,8 +1378,7 @@ class player : public Character
         void make_craft( const recipe_id &id, int batch_size );
         void make_all_craft( const recipe_id &id, int batch_size );
         std::list<item> consume_components_for_craft( const recipe &making, int batch_size,
-                bool ignore_last = false, tripoint pos = tripoint_zero, int radius = PICKUP_RANGE,
-                cata::optional<tinymap *> target_bay = cata::nullopt );
+                bool ignore_last = false );
         std::list<item> consume_some_components_for_craft( const recipe &making, int batch_size );
         void complete_craft();
         /** Returns nearby NPCs ready and willing to help with crafting. */
@@ -1401,35 +1400,32 @@ class player : public Character
                                    bool from_ground, const recipe &dis );
 
         // yet more crafting.cpp
-        const inventory &crafting_inventory( tripoint search_pos = tripoint_zero,
-                                             int radius = PICKUP_RANGE, cata::optional<tinymap *> target_bay =
-                                                     cata::nullopt ); // includes nearby items
+        const inventory &crafting_inventory(); // includes nearby items
         void invalidate_crafting_inventory();
         comp_selection<item_comp>
         select_item_component( const std::vector<item_comp> &components,
                                int batch, inventory &map_inv, bool can_cancel = false,
                                const std::function<bool( const item & )> &amount_filter = is_crafting_component,
-                               const std::function<bool( const item & )> &charges_filter = return_true );
-        std::list<item> consume_items( const comp_selection<item_comp> &cs, int batch, tripoint src_pos,
-                                       int radius, cata::optional<tinymap *> target_bay,
+                               const std::function<bool( const item & )> &charges_filter = return_true, bool player_inv = true );
+        std::list<item> consume_items( const comp_selection<item_comp> &cs, int batch,
                                        const std::function<bool( const item & )> &amount_filter = is_crafting_component,
                                        const std::function<bool( const item & )> &charges_filter = return_true );
-
+        std::list<item> consume_items( map &m, const comp_selection<item_comp> &cs, int batch,
+                                       const std::function<bool( const item & )> &amount_filter = is_crafting_component,
+                                       const std::function<bool( const item & )> &charges_filter = return_true,
+                                       tripoint origin = tripoint_zero, int radius = PICKUP_RANGE );
         std::list<item> consume_items( const std::vector<item_comp> &components, int batch = 1,
-                                       tripoint src_pos = tripoint_zero, int radius = PICKUP_RANGE,
-                                       cata::optional<tinymap *> = cata::nullopt,
                                        const std::function<bool( const item & )> &amount_filter = is_crafting_component,
                                        const std::function<bool( const item & )> &charges_filter = return_true );
         comp_selection<tool_comp>
         select_tool_component( const std::vector<tool_comp> &tools, int batch, inventory &map_inv,
                                const std::string &hotkeys = DEFAULT_HOTKEYS,
-                               bool can_cancel = false );
-        void consume_tools( const comp_selection<tool_comp> &tool, int batch,
-                            cata::optional<tinymap *> target_bay = cata::nullopt, tripoint src_pos = tripoint_zero,
-                            int radius = PICKUP_RANGE );
+                               bool can_cancel = false, bool player_inv = true );
+        void consume_tools( const comp_selection<tool_comp> &tool, int batch );
+        void consume_tools( map &m, const comp_selection<tool_comp> &tool, int batch,
+                            tripoint origin = tripoint_zero, int radius = PICKUP_RANGE );
         void consume_tools( const std::vector<tool_comp> &tools, int batch = 1,
-                            const std::string &hotkeys = DEFAULT_HOTKEYS, cata::optional<tinymap *> target_bay = cata::nullopt,
-                            tripoint src_pos = tripoint_zero, int radius = PICKUP_RANGE );
+                            const std::string &hotkeys = DEFAULT_HOTKEYS );
 
         // Auto move methods
         void set_destination( const std::vector<tripoint> &route,

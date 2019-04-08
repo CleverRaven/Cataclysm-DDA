@@ -18,7 +18,6 @@ class item;
 class recipe;
 class inventory;
 class mission_data;
-
 struct expansion_data {
     std::string type;
     int cur_level;
@@ -61,6 +60,7 @@ class basecamp
         void add_expansion( const std::string &terrain, const tripoint &new_pos );
         void define_camp( npc &p );
         bool reset_camp();
+        inventory return_camp_inventory( bool by_radio = false );
 
         std::string expansion_tab( const std::string &dir ) const;
 
@@ -173,6 +173,7 @@ class basecamp
         void fortifications_return();
         void combat_mission_return( const std::string &miss );
         void validate_assignees();
+        void consume_components( const recipe &making, int batch_size, bool by_radio );
         std::vector<npc_ptr> get_npcs_assigned();
         // Save/load
         void serialize( JsonOut &json ) const;
@@ -181,6 +182,7 @@ class basecamp
         inline const tripoint &get_dumping_spot() const {
             return dumping_spot;
         }
+        // dumping spot in absolute co-ords
         inline void set_dumping_spot( tripoint spot ) {
             dumping_spot = spot;
         }

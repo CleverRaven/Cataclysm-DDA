@@ -152,8 +152,7 @@ std::list<item> craft_command::consume_components()
     }
 
     for( const auto &it : item_selections ) {
-        std::list<item> tmp = crafter->consume_items( it, batch_size, crafter->pos(), PICKUP_RANGE,
-                              cata::nullopt );
+        std::list<item> tmp = crafter->consume_items( it, batch_size );
         used.splice( used.end(), tmp );
     }
 
