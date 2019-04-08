@@ -761,8 +761,6 @@ data/mods/More_Locations/secret_doors/demo_map1.json
 data/mods/More_Locations/secret_doors/demo_map2.json
 data/mods/More_Locations/secret_doors/secret_door_gates.json
 data/mods/More_Locations/secret_doors/secret_door_terrain.json
-data/mods/More_Locations/snippets.json
-data/mods/More_Locations/terrain.json
 data/mods/More_Locations/tpalettes.json
 data/mods/More_Locations/tri_tower/overmap_specials.json
 data/mods/More_Locations/tri_tower/overmap_terrain.json
