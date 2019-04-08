@@ -322,7 +322,8 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
     bool has_table_nearby = false;
     for( const tripoint &pt : g->m.points_in_radius( u.pos(), 2 ) ) {
         if( g->m.has_flag_furn( "FLAT_SURF", pt ) || g->m.has_flag( "FLAT_SURF", pt ) ||
-            ( g->m.veh_at( pt ) && g->m.veh_at( pt )->vehicle().has_part( "KITCHEN" ) ) ) {
+            ( ( g->m.veh_at( pt ) && ( g->m.veh_at( pt )->vehicle().has_part( "KITCHEN" ) ||
+                                       g->m.veh_at( pt )->vehicle().has_part( "FLAT_SURF" ) ) ) ) ) {
             has_table_nearby = true;
         }
     }
@@ -1677,7 +1678,7 @@ void activity_handlers::pickaxe_do_turn( player_activity *act, player *p )
     const tripoint &pos = act->placement;
     if( calendar::once_every( 1_minutes ) ) { // each turn is too much
         //~ Sound of a Pickaxe at work!
-        sounds::sound( pos, 30, sounds::sound_t::combat, _( "CHNK! CHNK! CHNK!" ) );
+        sounds::sound( pos, 30, sounds::sound_t::destructive_activity, _( "CHNK! CHNK! CHNK!" ) );
         messages_in_process( *act, *p );
     }
 }
@@ -1862,6 +1863,14 @@ void activity_handlers::start_fire_finish( player_activity *act, player *p )
 
 void activity_handlers::start_fire_do_turn( player_activity *act, player *p )
 {
+    if( !g->m.is_flammable( act->placement ) ) {
+        try_fuel_fire( *act, *p, true );
+        if( !g->m.is_flammable( act->placement ) ) {
+            p->add_msg_if_player( m_info, _( "There's nothing to light there." ) );
+            p->cancel_activity();
+        }
+        return;
+    }
     item &lens_item = p->i_at( act->position );
     const auto usef = lens_item.type->get_use( "firestarter" );
     if( usef == nullptr || usef->get_actor_ptr() == nullptr ) {
@@ -2063,7 +2072,7 @@ void activity_handlers::oxytorch_do_turn( player_activity *act, player *p )
     act->values[0] -= static_cast<int>( charges_used );
 
     if( calendar::once_every( 2_turns ) ) {
-        sounds::sound( act->placement, 10, sounds::sound_t::combat, _( "hissssssssss!" ) );
+        sounds::sound( act->placement, 10, sounds::sound_t::destructive_activity, _( "hissssssssss!" ) );
     }
 }
 
@@ -2695,7 +2704,7 @@ void activity_handlers::hacksaw_do_turn( player_activity *act, player *p )
 {
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a metal sawing tool at work!
-        sounds::sound( act->placement, 15, sounds::sound_t::combat, _( "grnd grnd grnd" ) );
+        sounds::sound( act->placement, 15, sounds::sound_t::destructive_activity, _( "grnd grnd grnd" ) );
         messages_in_process( *act, *p );
     }
 }
@@ -2760,7 +2769,7 @@ void activity_handlers::chop_tree_do_turn( player_activity *act, player *p )
 {
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a wood chopping tool at work!
-        sounds::sound( act->placement, 15, sounds::sound_t::combat, _( "CHK!" ) );
+        sounds::sound( act->placement, 15, sounds::sound_t::activity, _( "CHK!" ) );
         messages_in_process( *act, *p );
     }
 }
@@ -2824,7 +2833,7 @@ void activity_handlers::jackhammer_do_turn( player_activity *act, player *p )
 {
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a jackhammer at work!
-        sounds::sound( act->placement, 15, sounds::sound_t::combat, _( "TATATATATATATAT!" ) );
+        sounds::sound( act->placement, 15, sounds::sound_t::destructive_activity, _( "TATATATATATATAT!" ) );
         messages_in_process( *act, *p );
     }
 }
@@ -2849,7 +2858,7 @@ void activity_handlers::dig_do_turn( player_activity *act, player *p )
 {
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a shovel digging a pit at work!
-        sounds::sound( act->placement, 10, sounds::sound_t::combat, _( "hsh!" ) );
+        sounds::sound( act->placement, 10, sounds::sound_t::activity, _( "hsh!" ) );
         messages_in_process( *act, *p );
     }
 }
@@ -2858,19 +2867,54 @@ void activity_handlers::dig_channel_do_turn( player_activity *act, player *p )
 {
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a shovel digging a pit at work!
-        sounds::sound( act->placement, 10, sounds::sound_t::combat, _( "hsh!" ) );
+        sounds::sound( act->placement, 10, sounds::sound_t::activity, _( "hsh!" ) );
         messages_in_process( *act, *p );
     }
 }
 
 void activity_handlers::dig_finish( player_activity *act, player *p )
 {
+    const ter_id result_terrain( act->str_values[1] );
+    const std::string byproducts_item_group = act->str_values[0];
+    const int byproducts_count = act->values[0];
+    const tripoint dump_loc = act->coords[0];
     const tripoint &pos = act->placement;
+    const bool grave = g->m.ter( pos ) == t_grave;
 
-    if( g->m.ter( pos ) == t_pit_shallow ) {
-        g->m.ter_set( pos, t_pit );
-    } else {
-        g->m.ter_set( pos, t_pit_shallow );
+    if( grave ) {
+        if( one_in( 10 ) ) {
+            static const std::array<mtype_id, 5> monids = { {
+                    mtype_id( "mon_zombie" ), mtype_id( "mon_zombie_fat" ),
+                    mtype_id( "mon_zombie_rot" ), mtype_id( "mon_skeleton" ),
+                    mtype_id( "mon_zombie_crawler" )
+                }
+            };
+
+            g->summon_mon( random_entry( monids ), dump_loc );
+            g->m.furn_set( pos, f_coffin_o );
+            p->add_msg_if_player( m_warning, _( "Something crawls out of the coffin!" ) );
+        } else {
+            g->m.spawn_item( pos, "bone_human", rng( 5, 15 ) );
+            g->m.furn_set( pos, f_coffin_c );
+        }
+        std::vector<item *> dropped;
+        g->m.place_items( "grave", 25, pos, pos, false, calendar::turn );
+        g->m.place_items( "jewelry_front", 20, pos, pos, false, calendar::turn );
+        dropped = g->m.place_items( "allclothes", 50, pos, pos, false, calendar::turn );
+        for( const auto &it : dropped ) {
+            if( it->is_armor() ) {
+                it->item_tags.insert( "FILTHY" );
+                it->set_damage( rng( 1, it->max_damage() - 1 ) );
+            }
+        }
+        g->u.add_memorial_log( pgettext( "memorial_male", "Exhumed a grave." ),
+                               pgettext( "memorial_female", "Exhumed a grave." ) );
+    }
+
+    g->m.ter_set( pos, result_terrain );
+
+    for( int i = 0; i < byproducts_count; i++ ) {
+        g->m.spawn_items( dump_loc, item_group::items_from( byproducts_item_group, calendar::turn ) );
     }
 
     const std::vector<npc *> helpers = g->u.get_crafting_helpers();
@@ -2878,21 +2922,34 @@ void activity_handlers::dig_finish( player_activity *act, player *p )
     p->mod_hunger( 5 - helpersize );
     p->mod_thirst( 5 - helpersize );
     p->mod_fatigue( 10 - ( helpersize * 2 ) );
-    p->add_msg_if_player( m_good, _( "You finish digging up %s." ), g->m.ter( pos ).obj().name() );
+    if( grave ) {
+        p->add_msg_if_player( m_good, _( "You finish exhuming a grave." ) );
+    } else {
+        p->add_msg_if_player( m_good, _( "You finish digging the %s." ),
+                              g->m.ter( act->placement ).obj().name() );
+    }
 
     act->set_to_null();
 }
 
 void activity_handlers::dig_channel_finish( player_activity *act, player *p )
 {
-    const tripoint &pos = act->placement;
+    const ter_id result_terrain( act->str_values[1] );
+    const std::string byproducts_item_group = act->str_values[0];
+    const int byproducts_count = act->values[0];
+    const tripoint dump_loc = act->coords[0];
 
-    g->m.ter_set( pos, t_water_moving_sh );
+    g->m.ter_set( act->placement, result_terrain );
+
+    for( int i = 0; i < byproducts_count; i++ ) {
+        g->m.spawn_items( dump_loc, item_group::items_from( byproducts_item_group, calendar::turn ) );
+    }
 
     p->mod_hunger( 5 );
     p->mod_thirst( 5 );
     p->mod_fatigue( 10 );
-    p->add_msg_if_player( m_good, _( "You finish digging up %s." ), g->m.ter( pos ).obj().name() );
+    p->add_msg_if_player( m_good, _( "You finish digging up %s." ),
+                          g->m.ter( act->placement ).obj().name() );
 
     act->set_to_null();
 }
@@ -2901,7 +2958,7 @@ void activity_handlers::fill_pit_do_turn( player_activity *act, player *p )
 {
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a shovel filling a pit or mound at work!
-        sounds::sound( act->placement, 10, sounds::sound_t::combat, _( "hsh!" ) );
+        sounds::sound( act->placement, 10, sounds::sound_t::activity, _( "hsh!" ) );
         messages_in_process( *act, *p );
     }
 }

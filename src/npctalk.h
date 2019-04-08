@@ -38,6 +38,7 @@ void morale_chat_activity( npc & );
 void buy_10_logs( npc & );
 void buy_100_logs( npc & );
 void start_trade( npc & );
+void goto_location( npc & );
 void assign_base( npc & );
 void assign_guard( npc & );
 void stop_guard( npc & );

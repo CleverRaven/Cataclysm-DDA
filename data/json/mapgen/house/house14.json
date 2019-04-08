@@ -101,12 +101,12 @@
         "o": "f_bookcase",
         "r": "f_rack"
       },
-      "toilets": { "t": {} },
+      "toilets": { "t": {  } },
       "items": {
         "p": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] },
         "W": { "item": "laundry", "chance": 50, "repeat": [ 1, 10 ] },
         "Y": { "item": "laundry", "chance": 50, "repeat": [ 1, 10 ] }
-	  },
+      },
       "place_loot": [
         { "group": "kitchen", "x": [ 18, 19 ], "y": [ 11, 11 ], "chance": 60, "repeat": [ 1, 2 ] },
         { "group": "dresser", "x": [ 18, 18 ], "y": [ 20, 20 ], "chance": 80, "repeat": [ 1, 3 ] },

@@ -92,16 +92,18 @@ struct talk_effect_fun_t {
         talk_effect_fun_t( talkfunction_ptr effect );
         talk_effect_fun_t( const std::function<void( npc & )> effect );
         void set_companion_mission( const std::string &role_id );
-        void set_add_effect( bool is_u, const std::string &new_effect,
-                             const time_duration &duration, bool permanent = true );
-        void set_remove_effect( bool is_u, const std::string &new_effect );
-        void set_add_trait( bool is_u, const std::string &new_trait );
-        void set_remove_trait( bool is_u, const std::string &old_trait );
+        void set_add_effect( JsonObject jo, const std::string &member, bool is_npc = false );
+        void set_remove_effect( JsonObject jo, const std::string &member, bool is_npc = false );
+        void set_add_trait( JsonObject jo, const std::string &member, bool is_npc = false );
+        void set_remove_trait( JsonObject jo, const std::string &member, bool is_npc = false );
+        void set_add_var( JsonObject jo, const std::string &member, bool is_npc = false );
+        void set_remove_var( JsonObject jo, const std::string &member, bool is_npc = false );
         void set_u_buy_item( const std::string &new_trait, int cost, int count,
                              const std::string &container_name );
         void set_u_spend_cash( int amount );
         void set_u_sell_item( const std::string &new_trait, int cost, int count );
-        void set_consume_item( bool is_u, const std::string &new_trait, int count );
+        void set_consume_item( JsonObject jo, const std::string &member, int count,
+                               bool is_npc = false );
         void set_npc_change_faction( const std::string &faction_name );
         void set_npc_change_class( const std::string &faction_class );
         void set_change_faction_rep( int amount );
@@ -321,13 +323,14 @@ namespace dialogue_data
 {
 const std::unordered_set<std::string> simple_string_conds = { {
         "u_male", "u_female", "npc_male", "npc_female",
-        "has_assigned_mission", "has_many_assigned_missions", "has_no_available_mission",
-        "has_available_mission", "has_many_available_missions",
+        "has_no_assigned_mission", "has_assigned_mission", "has_many_assigned_missions",
+        "has_no_available_mission", "has_available_mission", "has_many_available_missions",
         "mission_complete", "mission_incomplete",
         "npc_available", "npc_following", "npc_friend", "npc_hostile",
         "npc_train_skills", "npc_train_styles",
         "at_safe_space", "is_day", "is_outside", "u_has_camp",
         "u_can_stow_weapon", "npc_can_stow_weapon", "u_has_weapon", "npc_has_weapon",
+        "u_driving", "npc_driving",
         "has_pickup_list"
     }
 };
@@ -367,6 +370,7 @@ struct conditional_t {
         void set_has_any_trait( JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_trait( JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_trait_flag( JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_has_var( JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_npc_has_class( JsonObject &jo );
         void set_u_has_mission( JsonObject &jo );
         void set_has_strength( JsonObject &jo, const std::string &member, bool is_npc = false );
@@ -406,6 +410,7 @@ struct conditional_t {
         void set_at_safe_space();
         void set_can_stow_weapon( bool is_npc = false );
         void set_has_weapon( bool is_npc = false );
+        void set_is_driving( bool is_npc = false );
         void set_is_day();
         void set_is_outside();
         void set_u_has_camp();
