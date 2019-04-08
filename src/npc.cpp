@@ -10,6 +10,7 @@
 #include "json.h"
 #include "map.h"
 #include "mapdata.h"
+#include "map_iterator.h"
 #include "messages.h"
 #include "mission.h"
 #include "monfaction.h"
@@ -2428,6 +2429,20 @@ std::set<tripoint> npc::get_path_avoid() const
         // TODO: Cache this somewhere
         ret.insert( critter.pos() );
     }
+    if( rules.has_flag( ally_rule::avoid_doors ) ) {
+        for( const tripoint &p : g->m.points_in_radius( pos(), 30 ) ) {
+            if( g->m.open_door( p, true, true ) ) {
+                ret.insert( p );
+            }
+        }
+    }
+    if( rules.has_flag( ally_rule::hold_the_line ) ) {
+        for( const tripoint &p : g->m.points_in_radius( g->u.pos(), 1 ) ) {
+            if( g->m.close_door( p, true, true ) || g->m.move_cost( p ) > 2 ) {
+                ret.insert( p );
+            }
+        }
+    }
     return ret;
 }
 
@@ -2641,6 +2656,9 @@ npc_follower_rules::npc_follower_rules()
     set_flag( ally_rule::allow_pulp );
     clear_flag( ally_rule::close_doors );
     clear_flag( ally_rule::avoid_combat );
+    clear_flag( ally_rule::avoid_doors );
+    clear_flag( ally_rule::hold_the_line );
+    clear_flag( ally_rule::ignore_noise );
 }
 
 bool npc_follower_rules::has_flag( ally_rule test ) const
