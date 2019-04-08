@@ -1184,11 +1184,7 @@ std::vector<itype_id> caravan_items( caravan_category cat )
         case CARAVAN_MELEE:
             item_list = item_group::items_from( "defense_caravan_melee" );
             break;
-
-        case CARAVAN_ARCHAIC:
-            item_list = item_group::items_from( "defense_caravan_archaic" );
-            break;
-
+  
         case CARAVAN_RANGED:
             item_list = item_group::items_from( "defense_caravan_ranged" );
             break;
