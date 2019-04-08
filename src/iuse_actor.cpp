@@ -3263,19 +3263,15 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
     const int torso_bonus = get_heal_value( healer, hp_torso );
 
     if( healer.is_npc() ) {
-        // NPCs heal whichever has sustained the most damage
+        // NPCs heal whatever has sustained the most damaged that they can heal but never
+        // rebandage parts
         int highest_damage = 0;
         for( int i = 0; i < num_hp_parts; i++ ) {
-            int damage = patient.hp_max[i] - patient.hp_cur[i];
-            if( i == hp_head ) {
-                damage *= 1.5;
-            }
-            if( i == hp_torso ) {
-                damage *= 1.2;
-            }
-            // Consider states too
-            // Weights are arbitrary, may need balancing
+            int damage = 0;
             const body_part i_bp = player::hp_to_bp( hp_part( i ) );
+            if( !patient.has_effect( effect_bandaged, i_bp ) ) {
+                damage += patient.hp_max[i] - patient.hp_cur[i];
+            }
             damage += bleed * patient.get_effect_dur( effect_bleed, i_bp ) / 50_turns;
             damage += bite * patient.get_effect_dur( effect_bite, i_bp ) / 100_turns;
             damage += infect * patient.get_effect_dur( effect_infected, i_bp ) / 100_turns;

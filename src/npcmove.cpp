@@ -467,6 +467,7 @@ void npc::regen_ai_cache()
     ai_cache.friends.clear();
     ai_cache.target = std::shared_ptr<Creature>();
     ai_cache.ally = std::shared_ptr<Creature>();
+    ai_cache.can_heal.clear_all();
     ai_cache.danger = 0.0f;
     ai_cache.total_danger = 0.0f;
     ai_cache.my_weapon_value = weapon_value( weapon );
@@ -1088,6 +1089,12 @@ npc_action npc::method_of_attack()
 
 bool npc::need_heal( const player &n )
 {
+
+    // if there are no healing items, there's nothing to do
+    if( !( ai_cache.can_heal.bandage || ai_cache.can_heal.bleed || ai_cache.can_heal.bite ||
+           ai_cache.can_heal.infect ) ) {
+        return false;
+    }
     // NPCs heal at 50% remaining HP, minus their bravery and skill in first aid
     // brave NPCs are less worried, skilled NPCs conserve bandages
     int threshold = 50 + personality.bravery - get_skill_level( skill_firstaid );
@@ -1099,19 +1106,43 @@ bool npc::need_heal( const player &n )
     }
 
     for( int i = 0; i < num_hp_parts; i++ ) {
-        hp_part part = hp_part( i );
-        int part_threshold = threshold;
-        if( part == hp_head ) {
-            part_threshold += 20;
-        } else if( part == hp_torso ) {
-            part_threshold += 10;
-        }
-        part_threshold = std::min( 80, part_threshold );
-        part_threshold = part_threshold * n.hp_max[i] / 100;
+        const hp_part part = hp_part( i );
         const body_part bp_wounded = hp_to_bp( part );
 
+        if( ai_cache.can_heal.bleed && n.has_effect( effect_bleed, bp_wounded ) ) {
+            ai_cache.can_heal.clear_all();
+            ai_cache.can_heal.bleed = true;
+            return true;
+        }
+
         // NPCs don't reapply bandages
-        if( ( n.hp_cur[i] <= part_threshold ) && !n.has_effect( effect_bandaged, bp_wounded ) ) {
+        if( ai_cache.can_heal.bandage && !n.has_effect( effect_bandaged, bp_wounded ) ) {
+            int part_threshold = threshold;
+            if( part == hp_head ) {
+                part_threshold += 20;
+            } else if( part == hp_torso ) {
+                part_threshold += 10;
+            }
+            part_threshold = std::min( 80, part_threshold );
+            part_threshold = part_threshold * n.hp_max[i] / 100;
+
+            if( n.hp_cur[i] <= part_threshold ) {
+                ai_cache.can_heal.clear_all();
+                ai_cache.can_heal.bandage = true;
+                return true;
+            }
+        }
+
+        if( ai_cache.can_heal.bite && n.has_effect( effect_bite, bp_wounded ) ) {
+            ai_cache.can_heal.clear_all();
+            ai_cache.can_heal.bite = true;
+            return true;
+
+        }
+
+        if( ai_cache.can_heal.infect && n.has_effect( effect_infected, bp_wounded ) ) {
+            ai_cache.can_heal.clear_all();
+            ai_cache.can_heal.infect = true;
             return true;
         }
     }
@@ -1209,8 +1240,9 @@ const item_location npc::find_usable_ammo( const item &weap ) const
 
 npc_action npc::address_needs( float danger )
 {
-    bool can_heal = has_healing_item();
-    if( can_heal && need_heal( *this ) ) {
+    ai_cache.can_heal = has_healing_options();
+
+    if( need_heal( *this ) ) {
         return npc_heal;
     }
 
@@ -1220,7 +1252,7 @@ npc_action npc::address_needs( float danger )
 
     // should check all allies, but factions are stupid right now
     if( is_friend() ) {
-        if( can_heal && need_heal( g->u ) ) {
+        if( need_heal( g->u ) ) {
             ai_cache.ally = g->shared_from( g->u );
             return npc_heal_player;
         }
@@ -1234,7 +1266,7 @@ npc_action npc::address_needs( float danger )
             if( guy == this ) {
                 continue;
             }
-            if( can_heal && need_heal( *guy ) ) {
+            if( need_heal( *guy ) ) {
                 ai_cache.ally = g->shared_from( *guy );
                 return npc_heal_player;
             }
@@ -2760,7 +2792,7 @@ void npc::heal_player( player &patient )
         add_msg( _( "%1$s heals %2$s." ), disp_name(), patient.disp_name() );
     }
 
-    item &used = get_healing_item();
+    item &used = get_healing_item( ai_cache.can_heal );
     if( used.is_null() ) {
         debugmsg( "%s tried to heal you but has no healing item", disp_name().c_str() );
         return;
@@ -2782,7 +2814,7 @@ void npc::heal_player( player &patient )
 
 void npc::heal_self()
 {
-    item &used = get_healing_item();
+    item &used = get_healing_item( ai_cache.can_heal );
     if( used.is_null() ) {
         debugmsg( "%s tried to heal self but has no healing item", disp_name().c_str() );
         return;
