@@ -709,14 +709,6 @@ data/mods/More_Locations/multistory_houses/combo_garages/combohouseC_roof_01.jso
 data/mods/More_Locations/multistory_houses/combo_garages/combohouseC_second_00.json
 data/mods/More_Locations/multistory_houses/combo_garages/combohouseC_second_01.json
 data/mods/More_Locations/multistory_houses/combo_garages/combohouseC_second_02.json
-data/mods/More_Locations/npc.json
-data/mods/More_Locations/refugee_faction/NC_MUTANT_REFUGEE.json
-data/mods/More_Locations/refugee_faction/NC_REFUGEE.json
-data/mods/More_Locations/refugee_faction/NC_TALENTED_REFUGEE.json
-data/mods/More_Locations/refugee_faction/refugee_classes.json
-data/mods/More_Locations/refugee_faction/refugee_item_groups.json
-data/mods/More_Locations/refugee_faction/refugee_npc.json
-data/mods/More_Locations/refugee_faction/talk_flags.json
 data/mods/More_Locations/refugee_tower/overmap_specials.json
 data/mods/More_Locations/refugee_tower/overmap_terrain.json
 data/mods/More_Locations/refugee_tower/refugee_tower_1blc_01.json
