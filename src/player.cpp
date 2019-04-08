@@ -4261,7 +4261,7 @@ void player::check_needs_extremes()
                 if( one_in( static_cast<int>( ( 1 - sleep_deprivation_pct ) * 100 ) + per_cur ) ||
                     sleep_deprivation >= SLEEP_DEPRIVATION_MASSIVE ) {
                     add_msg_player_or_npc( m_bad,
-                                           _( "Your body collapses to sleep deprivation, your neglected fatigue rushing back all at once, and you pass out on the spot." )
+                                           _( "Your body collapses due to sleep deprivation, your neglected fatigue rushing back all at once, and you pass out on the spot." )
                                            , _( "<npcname> collapses to the ground from exhaustion." ) ) ;
                     if( get_fatigue() < EXHAUSTED ) {
                         set_fatigue( EXHAUSTED );
