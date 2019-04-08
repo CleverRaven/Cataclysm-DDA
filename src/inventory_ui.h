@@ -659,6 +659,8 @@ class inventory_drop_selector : public inventory_multiselector
         stats get_raw_stats() const override;
         /** Toggle item dropping */
         void set_chosen_count( inventory_entry &entry, size_t count );
+        void inventory_drop_selector::process_selected( int &count,
+                const std::vector<inventory_entry *> &selected );
 
     private:
         std::map<const item *, int> dropping;

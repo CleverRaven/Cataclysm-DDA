@@ -1926,6 +1926,27 @@ inventory_drop_selector::inventory_drop_selector( const player &p,
 #endif
 }
 
+
+void inventory_drop_selector::process_selected( int &count,
+        const std::vector<inventory_entry *> &selected )
+{
+    if( count == 0 ) {
+        const bool clear = std::none_of( selected.begin(), selected.end(),
+        []( const inventory_entry * elem ) {
+            return elem->chosen_count > 0;
+        } );
+
+        if( clear ) {
+            count = max_chosen_count;
+        }
+    }
+
+    for( const auto &elem : selected ) {
+        set_chosen_count( *elem, count );
+    }
+    count = 0;
+}
+
 std::list<std::pair<int, int>> inventory_drop_selector::execute()
 {
     int count = 0;
@@ -1947,40 +1968,10 @@ std::list<std::pair<int, int>> inventory_drop_selector::execute()
             count = 0;
         } else if( input.action == "DROP_NON_FAVORITE" ) {
             const auto selected( get_active_column().get_all_nonfavorite_and_nonworn() );
-
-            if( count == 0 ) {
-                const bool clear = std::none_of( selected.begin(), selected.end(),
-                []( const inventory_entry * elem ) {
-                    return elem->chosen_count > 0;
-                } );
-
-                if( clear ) {
-                    count = max_chosen_count;
-                }
-            }
-
-            for( const auto &elem : selected ) {
-                set_chosen_count( *elem, count );
-            }
-            count = 0;
+            process_selected( count, selected );
         } else if( input.action == "RIGHT" ) {
             const auto selected( get_active_column().get_all_selected() );
-
-            if( count == 0 ) {
-                const bool clear = std::none_of( selected.begin(), selected.end(),
-                []( const inventory_entry * elem ) {
-                    return elem->chosen_count > 0;
-                } );
-
-                if( clear ) {
-                    count = max_chosen_count;
-                }
-            }
-
-            for( const auto &elem : selected ) {
-                set_chosen_count( *elem, count );
-            }
-            count = 0;
+            process_selected( count, selected );
         } else if( input.action == "CONFIRM" ) {
             if( dropping.empty() ) {
                 popup_getkey( _( "No items were selected.  Use %s to select them." ),
