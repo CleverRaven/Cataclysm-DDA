@@ -219,10 +219,10 @@ std::string fac_wealth_text( int val, int size )
     return _( "Destitute" );
 }
 
-std::string fac_food_supply_text( int val, int size )
+std::string faction::food_supply_text()
 {
     //Convert to how many days you can support the population
-    val = val / ( size * 288 );
+    int val = food_supply / ( size * 288 );
     if( val >= 30 ) {
         return _( "Overflowing" );
     }
@@ -238,22 +238,20 @@ std::string fac_food_supply_text( int val, int size )
     return _( "Starving" );
 }
 
-nc_color get_food_supply_color( int val, int size )
+nc_color faction::food_supply_color()
 {
-    nc_color col;
-    val = val / ( size * 288 );
+    int val = food_supply / ( size * 288 );
     if( val >= 30 ) {
-        col = c_green;
+        return c_green;
     } else if( val >= 14 ) {
-        col = c_light_green;
+        return c_light_green;
     } else if( val >= 6 ) {
-        col = c_yellow;
+        return c_yellow;
     } else if( val >= 3 ) {
-        col = c_light_red;
+        return c_light_red;
     } else {
-        col = c_red;
+        return c_red;
     }
-    return col;
 }
 
 std::string fac_combat_ability_text( int val )

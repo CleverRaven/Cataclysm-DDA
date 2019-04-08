@@ -13,8 +13,6 @@
 std::string fac_ranking_text( int val );
 std::string fac_respect_text( int val );
 std::string fac_wealth_text( int val, int size );
-std::string fac_food_supply_text( int val, int size );
-nc_color get_food_supply_color( int val, int size );
 std::string fac_combat_ability_text( int val );
 
 class player;
@@ -62,6 +60,8 @@ class faction : public faction_template
 
         std::string describe() const;
 
+        std::string food_supply_text();
+        nc_color food_supply_color();
 
         std::vector<int> opinion_of;
 };
