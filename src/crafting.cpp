@@ -1020,15 +1020,12 @@ std::list<item> player::consume_items( map &m, const comp_selection<item_comp> &
                                                  charges_filter );
             ret.splice( ret.end(), tmp );
         } else {
-            add_msg( "m.use_amount loc %d %d", loc.x, loc.y );
-            add_msg( "use_amount radius %d, real count %d, comp.type %s", radius, real_count, is.nname() );
             std::list<item> tmp = m.use_amount( loc, radius, selected_comp.type, real_count, amount_filter );
             remove_ammo( tmp, *this );
             ret.splice( ret.end(), tmp );
         }
     }
     if( is.use_from & use_from_player ) {
-        add_msg( "use_from_player" );
         if( by_charges ) {
             std::list<item> tmp = use_charges( selected_comp.type, real_count, charges_filter );
             ret.splice( ret.end(), tmp );

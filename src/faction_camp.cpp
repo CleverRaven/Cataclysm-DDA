@@ -263,7 +263,6 @@ std::map<std::string, bcp_miss_data> basecamp_missions_info = {{
  * @param estimate if true, non-destructive count of the furniture
  * @param bring_back force the destruction of the furniture and bring back the drop items
  */
-tripoint get_sorting_zone_point( tripoint omt_tri, bool by_radio );
 inventory camp_crafting_inventory( tripoint omt_tri, bool by_radio = false );
 void consume_components_for_camp_mission( tripoint omt_tri, const recipe &making, int batch_size,
         bool by_radio = false );
@@ -386,6 +385,7 @@ int time_to_food( time_duration work );
 int camp_discipline( int change = 0 );
 /// Changes the faction opinion for you by @ref change, returns opinion
 int camp_morale( int change = 0 );
+void place_results( tripoint omt_tri, item result, bool by_radio );
 /*
  * check if a companion survives a random encounter
  * @param comp the companion
@@ -559,8 +559,24 @@ void talk_function::basecamp_mission( npc &p )
     bool by_radio = false;
     if( rl_dist( g->u.pos(), p.pos() ) > SEEX * 2 ) {
         by_radio = true;
-    } else {
-        bcp->validate_sort_points();
+    }
+    if( bcp->get_dumping_spot() == tripoint_zero ) {
+        auto &mgr = zone_manager::get_manager();
+        if( g->m.check_vehicle_zones( g->get_levz() ) ) {
+            mgr.cache_vzones();
+        }
+        tripoint src_loc;
+        const auto abspos = p.global_square_location();
+        if( mgr.has_near( z_loot_unsorted, abspos ) ) {
+            const auto &src_set = mgr.get_near( z_loot_unsorted, abspos );
+            const auto &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
+            // Find the nearest unsorted zone to dump objects at
+            for( auto &src : src_sorted ) {
+                src_loc = g->m.getlocal( src );
+                break;
+            }
+        }
+        bcp->set_dumping_spot( g->m.getabs( src_loc ) );
     }
     tripoint omt_tri = bcp->camp_omt_pos();
     bcp->get_available_missions( mission_key, omt_tri, by_radio );
@@ -2535,37 +2551,7 @@ void camp_search_results( int skill, const Group_tag &group_id, int attempts, in
         if( skill > rng( 0, difficulty ) ) {
             auto result = item_group::item_from( group_id, calendar::turn );
             if( ! result.is_null() ) {
-                if( by_radio ) {
-                    basecamp *temp_camp;
-                    cata::optional<basecamp *> p = overmap_buffer.find_camp( omt_tri.x, omt_tri.y );
-                    if( p ) {
-                        temp_camp = *p;
-                        tinymap target_bay;
-                        target_bay.load( omt_tri.x * 2, omt_tri.y * 2, omt_tri.z, false );
-                        tripoint new_spot = target_bay.getlocal( temp_camp->get_dumping_spot() );
-                        target_bay.add_item_or_charges( new_spot, result, true );
-                        target_bay.save();
-                    }
-                } else {
-                    auto &mgr = zone_manager::get_manager();
-                    if( g->m.check_vehicle_zones( g->get_levz() ) ) {
-                        mgr.cache_vzones();
-                    }
-                    const auto abspos = g->m.getabs( g->u.pos() );
-                    if( mgr.has_near( z_loot_unsorted, abspos ) ) {
-                        const auto &src_set = mgr.get_near( z_loot_unsorted, abspos );
-                        const auto &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
-                        // Find the nearest unsorted zone to dump objects at
-                        for( auto &src : src_sorted ) {
-                            const auto &src_loc = g->m.getlocal( src );
-                            g->m.add_item_or_charges( src_loc, result, true );
-                            break;
-                        }
-                        //or dump them at players feet
-                    } else {
-                        g->m.add_item_or_charges( g->u.pos(), result, true );
-                    }
-                }
+                place_results( omt_tri, result, by_radio );
             }
         }
     }
@@ -2618,37 +2604,7 @@ void camp_hunting_results( int skill, const std::string &task, int attempts, int
             const mtype_id *target = hunting_targets.pick();
             auto result = item::make_corpse( *target, calendar::turn, "" );
             if( ! result.is_null() ) {
-                if( by_radio ) {
-                    basecamp *temp_camp;
-                    cata::optional<basecamp *> p = overmap_buffer.find_camp( omt_tri.x, omt_tri.y );
-                    if( p ) {
-                        temp_camp = *p;
-                        tinymap target_bay;
-                        target_bay.load( omt_tri.x * 2, omt_tri.y * 2, omt_tri.z, false );
-                        tripoint new_spot = target_bay.getlocal( temp_camp->get_dumping_spot() );
-                        target_bay.add_item_or_charges( new_spot, result, true );
-                        target_bay.save();
-                    }
-                } else {
-                    auto &mgr = zone_manager::get_manager();
-                    if( g->m.check_vehicle_zones( g->get_levz() ) ) {
-                        mgr.cache_vzones();
-                    }
-                    const auto abspos = g->m.getabs( g->u.pos() );
-                    if( mgr.has_near( z_loot_unsorted, abspos ) ) {
-                        const auto &src_set = mgr.get_near( z_loot_unsorted, abspos );
-                        const auto &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
-                        // Find the nearest unsorted zone to dump objects at
-                        for( auto &src : src_sorted ) {
-                            const auto &src_loc = g->m.getlocal( src );
-                            g->m.add_item_or_charges( src_loc, result, true );
-                            break;
-                        }
-                        //or dump them at players feet
-                    } else {
-                        g->m.add_item_or_charges( g->u.pos(), result, true );
-                    }
-                }
+                place_results( omt_tri, result, by_radio );
             }
         }
     }
@@ -3564,39 +3520,6 @@ int camp_morale( int change )
     return yours->likes_u;
 }
 
-tripoint get_sorting_zone_point( tripoint omt_tri, bool by_radio )
-{
-    tripoint src_loc;
-    if( !by_radio ) {
-        auto &mgr = zone_manager::get_manager();
-        if( g->m.check_vehicle_zones( g->get_levz() ) ) {
-            mgr.cache_vzones();
-        }
-        const auto abspos = g->m.getabs( g->u.pos() );
-        if( mgr.has_near( z_loot_unsorted, abspos ) ) {
-            const auto &src_set = mgr.get_near( z_loot_unsorted, abspos );
-            const auto &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
-            for( auto &src : src_sorted ) {
-                src_loc = src;
-                break;
-            }
-        }
-    } else {
-        basecamp *temp_camp;
-        cata::optional<basecamp *> p = overmap_buffer.find_camp( omt_tri.x, omt_tri.y );
-        if( p ) {
-            temp_camp = *p;
-            if( temp_camp->get_dumping_spot() != tripoint_zero ) {
-                src_loc = temp_camp->get_dumping_spot();
-            } else {
-                add_msg( m_info,
-                         _( "Missions cannot be started remotely without setting up sorting points at this camp first" ) );
-            }
-        }
-    }
-    return src_loc;
-}
-
 inventory camp_crafting_inventory( tripoint omt_tri, bool by_radio )
 {
     inventory camp_inv;
@@ -3627,6 +3550,41 @@ void consume_components_for_camp_mission( tripoint omt_tri, const recipe &making
     temp_camp->consume_components( making, batch_size, by_radio );
 
 
+}
+
+void place_results( tripoint omt_tri, item result, bool by_radio )
+{
+    if( by_radio ) {
+        basecamp *temp_camp;
+        cata::optional<basecamp *> p = overmap_buffer.find_camp( omt_tri.x, omt_tri.y );
+        if( p ) {
+            temp_camp = *p;
+            tinymap target_bay;
+            target_bay.load( omt_tri.x * 2, omt_tri.y * 2, omt_tri.z, false );
+            tripoint new_spot = target_bay.getlocal( temp_camp->get_dumping_spot() );
+            target_bay.add_item_or_charges( new_spot, result, true );
+            target_bay.save();
+        }
+    } else {
+        auto &mgr = zone_manager::get_manager();
+        if( g->m.check_vehicle_zones( g->get_levz() ) ) {
+            mgr.cache_vzones();
+        }
+        const auto abspos = g->m.getabs( g->u.pos() );
+        if( mgr.has_near( z_loot_unsorted, abspos ) ) {
+            const auto &src_set = mgr.get_near( z_loot_unsorted, abspos );
+            const auto &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
+            // Find the nearest unsorted zone to dump objects at
+            for( auto &src : src_sorted ) {
+                const auto &src_loc = g->m.getlocal( src );
+                g->m.add_item_or_charges( src_loc, result, true );
+                break;
+            }
+            //or dump them at players feet
+        } else {
+            g->m.add_item_or_charges( g->u.pos(), result, true );
+        }
+    }
 }
 
 // combat and danger

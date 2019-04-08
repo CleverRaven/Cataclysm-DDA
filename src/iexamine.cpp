@@ -4,12 +4,14 @@
 #include <cstdlib>
 #include <sstream>
 
+#include "activity_handlers.h"
 #include "ammo.h"
 #include "basecamp.h"
 #include "bionics.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "clzones.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "coordinate_conversions.h"
 #include "craft_command.h"
@@ -85,7 +87,7 @@ static const trait_id trait_PARKOUR( "PARKOUR" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 static const trait_id trait_BURROW( "BURROW" );
-
+const zone_type_id z_loot_unsorted( "LOOT_UNSORTED" );
 static void pick_plant( player &p, const tripoint &examp, const std::string &itemType,
                         ter_id new_ter,
                         bool seeds = false );
@@ -1263,6 +1265,24 @@ void iexamine::bulletin_board( player &p, const tripoint &examp )
         basecamp *temp_camp = *bcp;
         temp_camp->validate_assignees();
         temp_camp->validate_sort_points();
+        if( temp_camp->get_dumping_spot() == tripoint_zero ) {
+            auto &mgr = zone_manager::get_manager();
+            if( g->m.check_vehicle_zones( g->get_levz() ) ) {
+                mgr.cache_vzones();
+            }
+            tripoint src_loc;
+            const auto abspos = g->m.getabs( p.pos() );
+            if( mgr.has_near( z_loot_unsorted, abspos ) ) {
+                const auto &src_set = mgr.get_near( z_loot_unsorted, abspos );
+                const auto &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
+                // Find the nearest unsorted zone to dump objects at
+                for( auto &src : src_sorted ) {
+                    src_loc = g->m.getlocal( src );
+                    break;
+                }
+            }
+            temp_camp->set_dumping_spot( g->m.getabs( src_loc ) );
+        }
         const std::string title = ( "Base Missions" );
         mission_data mission_key;
         temp_camp->get_available_missions( mission_key, omt_tri, false );
