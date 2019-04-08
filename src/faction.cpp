@@ -39,6 +39,8 @@ static std::map<faction_id, faction_template> _all_faction_templates;
 std::string invent_name();
 std::string invent_adj();
 
+const faction_id your_faction = faction_id( "your_followers" );
+
 constexpr inline unsigned long mfb( const int v )
 {
     return 1ul << v;
@@ -482,9 +484,11 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
 
 void new_faction_manager::display() const
 {
+    int term_x = ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
+    int term_y = ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
+
     catacurses::window w_missions = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                    ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
-                                    ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
+                                    term_x, term_y );
 
     enum class tab_mode : int {
         TAB_MYFACTION = 0,
@@ -534,9 +538,9 @@ void new_faction_manager::display() const
             debugmsg( "The sanity check failed because tab=%d", static_cast<int>( tab ) );
             tab = tab_mode::FIRST_TAB;
         }
-        int active_vec_size;
+        size_t active_vec_size = camps.size();
         // entries_per_page * page number
-        const int top_of_page = entries_per_page * ( selection / entries_per_page );
+        const size_t top_of_page = entries_per_page * ( selection / entries_per_page );
         if( tab == tab_mode::TAB_FOLLOWERS ) {
             if( !followers.empty() ) {
                 guy = followers[selection];
@@ -546,9 +550,6 @@ void new_faction_manager::display() const
             if( !camps.empty() ) {
                 camp = camps[selection];
             }
-            active_vec_size = camps.size();
-        } else {
-            active_vec_size = camps.size();
         }
         for( int i = 1; i < FULL_SCREEN_WIDTH - 1; i++ ) {
             mvwputch( w_missions, 2, i, BORDER_COLOR, LINE_OXOX );
@@ -573,37 +574,37 @@ void new_faction_manager::display() const
                   tab == tab_mode::TAB_FOLLOWERS ? LINE_XOXX : LINE_XXXX ); // + || -|
         mvwputch( w_missions, FULL_SCREEN_HEIGHT - 1, 30, BORDER_COLOR, LINE_XXOX ); // _|_
         const nc_color col = c_white;
+        static const std::string no_camp = _( "You have no camps" );
+        static const std::string no_ally = _( "You have no followers" );
+
         switch( tab ) {
             case tab_mode::TAB_MYFACTION:
                 if( active_vec_size > 0 ) {
-                    draw_scrollbar( w_missions, selection, entries_per_page, active_vec_size, 3, 0 );
-                    for( int i = top_of_page; i <= ( active_vec_size - 1 ); i++ ) {
-                        const auto camp = camps[i];
-                        const std::string &camp_name = camp->camp_name();
+                    draw_scrollbar( w_missions, selection, entries_per_page, active_vec_size,
+                                    3, 0 );
+                    for( size_t i = top_of_page; i < active_vec_size; i++ ) {
                         const int y = i - top_of_page + 3;
-                        trim_and_print( w_missions, y, 1, 28, static_cast<int>( selection ) == i ? hilite( col ) : col,
-                                        camp_name );
+                        trim_and_print( w_missions, y, 1, 28, selection == i ? hilite( col ) : col,
+                                        camps[i]->camp_name() );
                     }
                     if( selection < camps.size() ) {
                         camp->faction_display( w_missions, 31 );
                     } else {
-                        static const std::string nope = _( "You have no camps" );
-                        mvwprintz( w_missions, 4, 31, c_light_red, nope );
+                        mvwprintz( w_missions, 4, 31, c_light_red, no_camp );
                     }
                     break;
                 } else {
-                    static const std::string nope = _( "You have no camps" );
-                    mvwprintz( w_missions, 4, 31, c_light_red, nope );
+                    mvwprintz( w_missions, 4, 31, c_light_red, no_camp );
                 }
                 break;
             case tab_mode::TAB_FOLLOWERS:
                 if( !followers.empty() ) {
-                    draw_scrollbar( w_missions, selection, entries_per_page, active_vec_size, 3, 0 );
-                    for( int i = top_of_page; i <= ( active_vec_size - 1 ); i++ ) {
-                        const auto guy = followers[i];
+                    draw_scrollbar( w_missions, selection, entries_per_page, active_vec_size,
+                                    3, 0 );
+                    for( size_t i = top_of_page; i < active_vec_size; i++ ) {
                         const int y = i - top_of_page + 3;
-                        trim_and_print( w_missions, y, 1, 28, static_cast<int>( selection ) == i ? hilite( col ) : col,
-                                        guy->disp_name() );
+                        trim_and_print( w_missions, y, 1, 28, selection == i ? hilite( col ) : col,
+                                        followers[i]->disp_name() );
                     }
                     if( selection < followers.size() ) {
                         int retval = guy->faction_display( w_missions, 31 );
@@ -613,13 +614,11 @@ void new_faction_manager::display() const
                             interactable = true;
                         }
                     } else {
-                        static const std::string nope = _( "You have no followers" );
-                        mvwprintz( w_missions, 4, 31, c_light_red, nope );
+                        mvwprintz( w_missions, 4, 31, c_light_red, no_ally );
                     }
                     break;
                 } else {
-                    static const std::string nope = _( "You have no followers" );
-                    mvwprintz( w_missions, 4, 31, c_light_red, nope );
+                    mvwprintz( w_missions, 4, 31, c_light_red, no_ally );
                 }
                 break;
             case tab_mode::TAB_OTHERFACTIONS:
@@ -644,7 +643,7 @@ void new_faction_manager::display() const
             selection = 0;
         } else if( action == "DOWN" ) {
             selection++;
-            if( selection >= static_cast<size_t>( active_vec_size ) ) {
+            if( selection >= active_vec_size ) {
                 selection = 0;
             }
         } else if( action == "UP" ) {
@@ -655,11 +654,7 @@ void new_faction_manager::display() const
             }
         } else if( action == "CONFIRM" ) {
             if( tab == tab_mode::TAB_FOLLOWERS && guy && ( interactable || radio_interactable ) ) {
-                if( radio_interactable ) {
-                    guy->talk_to_u( false, true );
-                } else {
-                    guy->talk_to_u();
-                }
+                guy->talk_to_u( false, radio_interactable );
             } else if( tab == tab_mode::TAB_MYFACTION && camp ) {
                 camp->query_new_name();
             }
