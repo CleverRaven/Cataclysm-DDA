@@ -350,6 +350,11 @@
     "text": "Communed with the trees"
   },
   {
+    "id": "morale_disarmed_trap",
+    "type": "morale_type",
+    "text": "Disarmed a trap"
+  }
+  {
     "id": "morale_perm_debug",
     "type": "morale_type",
     "text": "Debug Morale"

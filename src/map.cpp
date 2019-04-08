@@ -38,6 +38,7 @@
 #include "messages.h"
 #include "mongroup.h"
 #include "monster.h"
+#include "morale_types.h"
 #include "mtype.h"
 #include "npc.h"
 #include "options.h"
@@ -5251,6 +5252,8 @@ void map::disarm_trap( const tripoint &p )
     }
     if( roll >= diff ) {
         add_msg( _( "You disarm the trap!" ) );
+        const int morale_buff = tr.get_avoidance() + tr.get_difficulty() * 1.5 + rng( 0, 10 );
+        g->u.add_morale( MORALE_DISARMED_TRAP, morale_buff, 40 );
         tr.on_disarmed( *this, p );
         if( diff > 1.25 * tSkillLevel ) { // failure might have set off trap
             g->u.practice( skill_traps, 1.5 * ( diff - tSkillLevel ) );
