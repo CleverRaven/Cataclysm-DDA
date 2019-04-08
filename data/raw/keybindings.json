@@ -1053,11 +1053,11 @@
     "bindings": [ { "input_method": "keyboard", "key": "f" } ]
   },
   {
-     "type" : "keybinding",
-     "id": "UNLOAD",
-     "category": "VEH_INTERACT",
-     "name": "Unload fuel bunker",
-     "bindings":[ { "input_method":"keyboard", "key":"d" } ]
+    "type": "keybinding",
+    "id": "UNLOAD",
+    "category": "VEH_INTERACT",
+    "name": "Unload fuel bunker",
+    "bindings": [ { "input_method": "keyboard", "key": "d" } ]
   },
   {
     "type": "keybinding",
@@ -2566,7 +2566,11 @@
     "id": "NO",
     "category": "YESNO",
     "name": "No",
-    "bindings": [ { "input_method": "keyboard", "key": "N" }, { "input_method": "keyboard", "key": "n" }, { "input_method": "keyboard", "key": "ESC" } ]
+    "bindings": [
+      { "input_method": "keyboard", "key": "N" },
+      { "input_method": "keyboard", "key": "n" },
+      { "input_method": "keyboard", "key": "ESC" }
+    ]
   },
   {
     "type": "keybinding",
@@ -2580,7 +2584,11 @@
     "id": "NO",
     "category": "CANCEL_ACTIVITY_OR_IGNORE_QUERY",
     "name": "No",
-    "bindings": [ { "input_method": "keyboard", "key": "N" }, { "input_method": "keyboard", "key": "n" }, { "input_method": "keyboard", "key": "ESC" } ]
+    "bindings": [
+      { "input_method": "keyboard", "key": "N" },
+      { "input_method": "keyboard", "key": "n" },
+      { "input_method": "keyboard", "key": "ESC" }
+    ]
   },
   {
     "type": "keybinding",
@@ -2594,6 +2602,10 @@
     "id": "QUIT",
     "category": "POPUP_WAIT",
     "name": "Cancel popup",
-    "bindings": [ { "input_method": "keyboard", "key": "ESC" }, { "input_method": "keyboard", "key": "SPACE" }, { "input_method": "keyboard", "key": "RETURN" } ]
+    "bindings": [
+      { "input_method": "keyboard", "key": "ESC" },
+      { "input_method": "keyboard", "key": "SPACE" },
+      { "input_method": "keyboard", "key": "RETURN" }
+    ]
   }
 ]
