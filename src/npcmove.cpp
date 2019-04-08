@@ -2722,9 +2722,8 @@ void npc::heal_player( player &patient )
 
     if( !patient.is_npc() ) {
         // Test if we want to heal the player further
-        if( op_of_u.value * 4 + op_of_u.trust + personality.altruism * 3 +
-            ( fac_has_value( FACVAL_CHARITABLE ) ?  5 : 0 ) +
-            ( fac_has_job( FACJOB_DOCTORS )    ? 15 : 0 ) - op_of_u.fear * 3 <  25 ) {
+        if( op_of_u.value * 4 + op_of_u.trust + personality.altruism * 3 -
+            op_of_u.fear * 3 <  25 ) {
             set_attitude( NPCATT_FOLLOW );
             say( _( "That's all the healing I can do." ) );
         } else {

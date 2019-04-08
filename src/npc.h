@@ -569,10 +569,6 @@ class npc : public player
         int print_info( const catacurses::window &w, int vStart, int vLines, int column ) const override;
         std::string opinion_text() const;
 
-        // Goal / mission functions
-        bool fac_has_value( faction_value value ) const;
-        bool fac_has_job( faction_job job ) const;
-
         // Interaction with the player
         void form_opinion( const player &u );
         std::string pick_talk_topic( const player &u );
