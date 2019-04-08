@@ -826,13 +826,14 @@ void player::process_turn()
     }
 
     // Update time spent conscious in this overmap tile for the Nomad traits.
-    if( !has_effect( effect_sleep ) && !has_effect( effect_narcosis ) ) {
-        tripoint ompos = global_omt_location();
-        ompos.z = 0;
-        if( overmap_time.find( ompos ) == overmap_time.end() ) {
-            overmap_time[ompos] = 1_turns;
+    if( ( has_trait( trait_NOMAD ) || has_trait( trait_NOMAD2 ) || has_trait( trait_NOMAD3 ) ) &&
+        !has_effect( effect_sleep ) && !has_effect( effect_narcosis ) ) {
+        const tripoint ompos = global_omt_location();
+        const point pos = point( ompos.x, ompos.y );
+        if( overmap_time.find( pos ) == overmap_time.end() ) {
+            overmap_time[pos] = 1_turns;
         } else {
-            overmap_time[ompos] += 1_turns;
+            overmap_time[pos] += 1_turns;
         }
     }
 }
@@ -870,7 +871,7 @@ void player::apply_persistent_morale()
     }
     // Nomads get a morale penalty if they stay near the same overmap tiles too long.
     if( has_trait( trait_NOMAD ) || has_trait( trait_NOMAD2 ) || has_trait( trait_NOMAD3 ) ) {
-        tripoint ompos = global_omt_location();
+        const tripoint ompos = global_omt_location();
         float total_time = 0;
         // Check how long we've stayed in any overmap tile within 5 of us.
         const int max_dist = 5;
@@ -880,12 +881,12 @@ void player::apply_persistent_morale()
                 if( dist > max_dist ) {
                     continue;
                 }
-                const tripoint tpt = tripoint( ompos.x + dx, ompos.y + dy, 0 );
-                if( overmap_time.find( ompos ) == overmap_time.end() ) {
+                const point pos = point( ompos.x + dx, ompos.y + dy );
+                if( overmap_time.find( pos ) == overmap_time.end() ) {
                     continue;
                 }
                 // Count time in own tile fully, tiles one away as 4/5, tiles two away as 3/5, etc.
-                total_time += to_moves<float>( overmap_time[tpt] ) * ( max_dist - dist ) / max_dist;
+                total_time += to_moves<float>( overmap_time[pos] ) * ( max_dist - dist ) / max_dist;
             }
         }
         // Characters with higher tiers of Nomad suffer worse morale penalties, faster.
