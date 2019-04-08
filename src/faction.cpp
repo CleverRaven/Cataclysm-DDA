@@ -309,6 +309,32 @@ faction *faction_manager::get( const faction_id &id )
     return nullptr;
 }
 
+void basecamp::faction_display( const catacurses::window &fac_w, const int width ) const
+{
+    int y = 2;
+    const nc_color col = c_white;
+    const tripoint player_abspos =  g->u.global_omt_location();
+    tripoint camp_pos = camp_omt_pos();
+    std::string direction = direction_name( direction_from( player_abspos, camp_pos ) );
+    mvwprintz( fac_w, ++y, width, c_light_gray, _( "Press enter to rename this camp" ) );
+    const std::string centerstring = "center";
+    if( ( !direction.compare( centerstring ) ) == 0 ) {
+        mvwprintz( fac_w, ++y, width, c_light_gray, _( "Direction : to the " ) + direction );
+    }
+    mvwprintz( fac_w, ++y, width, col, _( "Location : (%d, %d)" ), camp_pos.x, camp_pos.y );
+    faction *yours = g->faction_manager_ptr->get( your_faction );
+    std::string food_text = string_format( _( "Food Supply : %s %d calories" ),
+                                           yours->food_supply_text(), yours->food_supply );
+    nc_color food_col = yours->food_supply_color();
+    mvwprintz( fac_w, ++y, width, food_col, food_text );
+    const std::string base_dir = "[B]";
+    std::string bldg = next_upgrade( base_dir, 1 );
+    std::string bldg_full = _( "Next Upgrade : " ) + bldg;
+    mvwprintz( fac_w, ++y, width, col, bldg_full );
+    std::string requirements = om_upgrade_description( bldg, true );
+    fold_and_print( fac_w, ++y, width, getmaxx( fac_w ) - width - 2, col, requirements );
+}
+
 void new_faction_manager::display() const
 {
     catacurses::window w_missions = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
@@ -415,31 +441,7 @@ void new_faction_manager::display() const
                                         camp_name );
                     }
                     if( selection < camps.size() ) {
-                        int y = 2;
-                        tripoint camp_pos = camp->camp_omt_pos();
-                        std::string direction = direction_name( direction_from(
-                                player_abspos, camp_pos ) );
-                        mvwprintz( w_missions, ++y, 31, c_light_gray, _( "Press enter to rename this camp" ) );
-                        std::string centerstring = "center";
-                        if( ( !direction.compare( centerstring ) ) == 0 ) {
-                            mvwprintz( w_missions, ++y, 31, c_light_gray,
-                                       _( "Direction : to the " ) + direction );
-                        }
-                        mvwprintz( w_missions, ++y, 31, col, _( "Location : (%d, %d)" ), camp_pos.x, camp_pos.y );
-                        faction *yours = g->faction_manager_ptr->get( faction_id( "your_followers" ) );
-                        std::string calorie_value = ( std::to_string( yours->food_supply ) ) + _( " calories" );
-                        std::string food_supply = fac_food_supply_text( yours->food_supply, yours->size );
-                        std::string food_supply_text = _( "Food Supply : " ) + food_supply;
-                        std::string food_supply_full = food_supply_text + " " + calorie_value;
-                        nc_color food_col = get_food_supply_color( yours->food_supply, yours->size );
-                        mvwprintz( w_missions, ++y, 31, food_col, food_supply_full );
-                        const std::string base_dir = "[B]";
-                        std::string bldg = camp->next_upgrade( base_dir, 1 );
-                        std::string bldg_full = _( "Next Upgrade : " ) + bldg;
-                        mvwprintz( w_missions, ++y, 31, col, bldg_full );
-                        std::string requirements = camp->om_upgrade_description( bldg, true );
-                        fold_and_print( w_missions, ++y, 31, getmaxx( w_missions ) - 33, col,
-                                        ( requirements ) );
+                        camp->faction_display( w_missions, 31 );
                     } else {
                         static const std::string nope = _( "You have no camps" );
                         mvwprintz( w_missions, 4, 31, c_light_red, nope );

@@ -28,6 +28,11 @@ struct expansion_data {
 using npc_ptr = std::shared_ptr<npc>;
 using comp_list = std::vector<npc_ptr>;
 
+namespace catacurses
+{
+class window;
+};
+
 class basecamp
 {
     public:
@@ -55,6 +60,8 @@ class basecamp
         std::vector<tripoint> sort_points;
         std::vector<std::string> directions;
         std::string name;
+        void faction_display( const catacurses::window &fac_w, const int width ) const;
+
         //change name of camp
         void set_name( const std::string &new_name );
         void query_new_name();
