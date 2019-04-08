@@ -1063,6 +1063,7 @@ std::list<item> player::consume_items( const comp_selection<item_comp> &is, int 
                 remove_ammo( tmp, *this );
                 ret.splice( ret.end(), tmp );
             }
+            temp_map->save();
         }
     }
     // condense those items into one
@@ -1229,6 +1230,7 @@ void player::consume_tools( const comp_selection<tool_comp> &tool, int batch,
                 long quantity = tool.comp.count * batch;
                 temp_map->use_charges( new_loc, radius, tool.comp.type, quantity );
             }
+            temp_map->save();
         }
     }
 
