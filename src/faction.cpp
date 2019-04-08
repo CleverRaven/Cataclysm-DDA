@@ -335,6 +335,151 @@ void basecamp::faction_display( const catacurses::window &fac_w, const int width
     fold_and_print( fac_w, ++y, width, getmaxx( fac_w ) - width - 2, col, requirements );
 }
 
+int npc::faction_display( const catacurses::window &fac_w, const int width ) const
+{
+    int retval = 0;
+    int y = 2;
+    const nc_color col = c_white;
+    const tripoint player_abspos =  g->u.global_omt_location();
+
+    //get NPC followers, status, direction, location, needs, weapon, etc.
+    mvwprintz( fac_w, ++y, width, c_light_gray, _( "Press enter to talk to this follower " ) );
+    std::string mission_string;
+    if( has_companion_mission() ) {
+        std::string dest_string;
+        npc_companion_mission c_mission = get_companion_mission();
+        cata::optional<tripoint> dest = get_mission_destination();
+        if( dest ) {
+            basecamp *dest_camp;
+            cata::optional<basecamp *> temp_camp = overmap_buffer.find_camp( dest->x, dest->y );
+            if( temp_camp ) {
+                dest_camp = *temp_camp;
+                dest_string = _( "travelling to : " ) + dest_camp->camp_name();
+            } else {
+                dest_string = string_format( _( "travelling to : (%d, %d)" ), dest->x, dest->y );
+            }
+            mission_string = _( "Current Mission : " ) + dest_string;
+        } else {
+            mission_string = _( "Current Mission : " ) +
+                             get_mission_action_string( c_mission.mission_id );
+        }
+    }
+    fold_and_print( fac_w, ++y, width, getmaxx( fac_w ) - width - 2, col, mission_string );
+    tripoint guy_abspos = global_omt_location();
+    basecamp *stationed_at;
+    bool is_stationed = false;
+    cata::optional<basecamp *> p = overmap_buffer.find_camp( guy_abspos.x, guy_abspos.y );
+    if( p ) {
+        is_stationed = true;
+        stationed_at = *p;
+    } else {
+        stationed_at = nullptr;
+    }
+    std::string direction = direction_name( direction_from( player_abspos, guy_abspos ) );
+    std::string centerstring = "center";
+    if( ( !direction.compare( centerstring ) ) == 0 ) {
+        mvwprintz( fac_w, ++y, width, col, _( "Direction : to the " ) + direction );
+    } else {
+        mvwprintz( fac_w, ++y, width, col, _( "Direction : Nearby" ) );
+    }
+    if( is_stationed ) {
+        mvwprintz( fac_w, ++y, width, col, _( "Location : (%d, %d), at camp: %s" ), guy_abspos.x,
+                   guy_abspos.y, stationed_at->camp_name() );
+    } else {
+        mvwprintz( fac_w, ++y, width, col, _( "Location : (%d, %d)" ), guy_abspos.x,
+                   guy_abspos.y );
+    }
+    std::string can_see;
+    nc_color see_color;
+    bool u_has_radio = g->u.has_item_with_flag( "TWO_WAY_RADIO", true );
+    bool guy_has_radio = has_item_with_flag( "TWO_WAY_RADIO", true );
+    // TODO NPCS on mission contactable same as travelling
+    if( has_companion_mission() && mission != NPC_MISSION_TRAVELLING ) {
+        can_see = "Not interactable while on a mission";
+        see_color = c_light_red;
+    } else if( rl_dist( g->u.pos(), pos() ) > SEEX * 2 || !g->u.sees( pos() ) ) {
+        if( u_has_radio && guy_has_radio ) {
+            if( ( g->u.pos().z >= 0 && pos().z >= 0 ) || ( g->u.pos().z == pos().z ) ) {
+                retval = 2;
+                can_see = "Within radio range";
+                see_color = c_light_green;
+            } else {
+                can_see = "Not within radio range";
+                see_color = c_light_red;
+            }
+        } else if( guy_has_radio && !u_has_radio ) {
+            can_see = "You do not have a radio";
+            see_color = c_light_red;
+        } else if( !guy_has_radio && u_has_radio ) {
+            can_see = "Follower does not have a radio";
+            see_color = c_light_red;
+        } else {
+            can_see = "Both you and follower need a radio";
+            see_color = c_light_red;
+        }
+    } else {
+        retval = 1;
+        can_see = "Within interaction range";
+        see_color = c_light_green;
+    }
+    mvwprintz( fac_w, ++y, width, see_color, can_see );
+    nc_color status_col = col;
+    std::string current_status = _( "Status : " );
+    if( current_target() != nullptr ) {
+        current_status += _( "In Combat!" );
+        status_col = c_light_red;
+    } else if( in_sleep_state() ) {
+        current_status += _( "Sleeping" );
+    } else if( is_following() ) {
+        current_status += _( "Following" );
+    } else if( is_leader() ) {
+        current_status += _( "Leading" );
+    } else if( is_guarding() ) {
+        current_status += _( "Guarding" );
+    }
+    mvwprintz( fac_w, ++y, width, status_col, current_status );
+
+    const std::pair <std::string, nc_color> condition = hp_description();
+    mvwprintz( fac_w, ++y, width, condition.second, _( "Condition : " ) + condition.first );
+    const std::pair <std::string, nc_color> hunger_pair = get_hunger_description();
+    const std::pair <std::string, nc_color> thirst_pair = get_thirst_description();
+    const std::pair <std::string, nc_color> fatigue_pair = get_fatigue_description();
+    mvwprintz( fac_w, ++y, width, hunger_pair.second,
+               _( "Hunger : " ) + ( hunger_pair.first.empty() ? "Nominal" : hunger_pair.first ) );
+    mvwprintz( fac_w, ++y, width, thirst_pair.second,
+               _( "Thirst : " ) + ( thirst_pair.first.empty() ? "Nominal" : thirst_pair.first ) );
+    mvwprintz( fac_w, ++y, width, fatigue_pair.second,
+               _( "Fatigue : " ) + ( fatigue_pair.first.empty() ?
+                                     "Nominal" : fatigue_pair.first ) );
+    int lines = fold_and_print( fac_w, ++y, width, getmaxx( fac_w ) - width - 2, c_white,
+                                _( "Wielding : " ) + weapon.tname() );
+    y += lines;
+
+    const auto skillslist = Skill::get_skills_sorted_by( [&]( const Skill & a, const Skill & b ) {
+        const int level_a = get_skill_level( a.ident() );
+        const int level_b = get_skill_level( b.ident() );
+        return level_a > level_b || ( level_a == level_b && a.name() < b.name() );
+    } );
+    size_t count = 0;
+    std::vector<std::string> skill_strs;
+    for( size_t i = 0; i < skillslist.size() && count < 3; i++ ) {
+        if( !skillslist[ i ]->is_combat_skill() ) {
+            std::string skill_str = string_format( "%s : %d", skillslist[i]->name(),
+                                                   get_skill_level( skillslist[i]->ident() ) );
+            skill_strs.push_back( skill_str );
+            count += 1;
+        }
+    }
+    std::string best_three_noncombat = _( "Best other skills : " );
+    std::string best_skill_text = string_format( _( "Best combat skill : %s : %d" ),
+                                  best_skill().obj().name(), best_skill_level() );
+    mvwprintz( fac_w, ++y, width, col, best_skill_text );
+    mvwprintz( fac_w, ++y, width, col, best_three_noncombat + skill_strs[0] );
+    mvwprintz( fac_w, ++y, width + 20, col, skill_strs[1] );
+    mvwprintz( fac_w, ++y, width + 20, col, skill_strs[2] );
+    return retval;
+}
+
 void new_faction_manager::display() const
 {
     catacurses::window w_missions = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
@@ -362,7 +507,6 @@ void new_faction_manager::display() const
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
-    const tripoint player_abspos =  g->u.global_omt_location();
     while( true ) {
         werase( w_missions );
         // create a list of NPCs, visible and the ones on overmapbuffer
@@ -462,147 +606,12 @@ void new_faction_manager::display() const
                                         guy->disp_name() );
                     }
                     if( selection < followers.size() ) {
-                        int y = 2;
-                        //get NPC followers, status, direction, location, needs, weapon, etc.
-                        mvwprintz( w_missions, ++y, 31, c_light_gray, _( "Press enter to talk to this follower " ) );
-                        std::string mission_string;
-                        if( guy->has_companion_mission() ) {
-                            std::string dest_string;
-                            npc_companion_mission c_mission = guy->get_companion_mission();
-                            cata::optional<tripoint> dest = guy->get_mission_destination();
-                            if( dest ) {
-                                basecamp *dest_camp;
-                                cata::optional<basecamp *> temp_camp = overmap_buffer.find_camp( dest->x, dest->y );
-                                if( temp_camp ) {
-                                    dest_camp = *temp_camp;
-                                    std::string camp_string = dest_camp->camp_name();
-                                    dest_string = _( "travelling to : " ) + camp_string;
-                                } else {
-                                    std::ostringstream oss;
-                                    oss << _( "travelling to : (" ) << dest->x << "," << dest->y << ")";
-                                    dest_string = oss.str();
-                                }
-                                mission_string = _( "Current Mission : " ) + dest_string;
-                            } else {
-                                mission_string = _( "Current Mission : " ) + get_mission_action_string( c_mission.mission_id );
-                            }
-                        }
-                        fold_and_print( w_missions, ++y, 31, getmaxx( w_missions ) - 33, col,
-                                        mission_string );
-                        tripoint guy_abspos = guy->global_omt_location();
-                        basecamp *stationed_at;
-                        bool is_stationed = false;
-                        cata::optional<basecamp *> p = overmap_buffer.find_camp( guy_abspos.x, guy_abspos.y );
-                        if( p ) {
-                            is_stationed = true;
-                            stationed_at = *p;
-                        } else {
-                            stationed_at = nullptr;
-                        }
-                        std::string direction = direction_name( direction_from(
-                                player_abspos, guy_abspos ) );
-                        std::string centerstring = "center";
-                        if( ( !direction.compare( centerstring ) ) == 0 ) {
-                            mvwprintz( w_missions, ++y, 31, col,
-                                       _( "Direction : to the " ) + direction );
-                        } else {
-                            mvwprintz( w_missions, ++y, 31, col,
-                                       _( "Direction : Nearby" ) );
-                        }
-                        if( is_stationed ) {
-                            mvwprintz( w_missions, ++y, 31, col, _( "Location : (%d, %d), at camp: %s" ), guy_abspos.x,
-                                       guy_abspos.y, stationed_at->camp_name() );
-                        } else {
-                            mvwprintz( w_missions, ++y, 31, col, _( "Location : (%d, %d)" ), guy_abspos.x, guy_abspos.y );
-                        }
-                        std::string can_see;
-                        nc_color see_color;
-                        // TODO NPCS on mission contactable same as travelling
-                        if( guy->has_companion_mission() && guy->mission != NPC_MISSION_TRAVELLING ) {
-                            can_see = "Not interactable while on a mission";
-                            see_color = c_light_red;
-                        } else if( rl_dist( g->u.pos(), guy->pos() ) > SEEX * 2 || !g->u.sees( guy->pos() ) ) {
-                            if( g->u.has_item_with_flag( "TWO_WAY_RADIO", true ) &&
-                                guy->has_item_with_flag( "TWO_WAY_RADIO", true ) ) {
-                                if( ( g->u.pos().z >= 0 && guy->pos().z >= 0 ) || ( g->u.pos().z == guy->pos().z ) ) {
-                                    radio_interactable = true;
-                                    can_see = "Within radio range";
-                                    see_color = c_light_green;
-                                } else {
-                                    can_see = "Not within radio range";
-                                    see_color = c_light_red;
-                                }
-                            } else if( guy->has_item_with_flag( "TWO_WAY_RADIO", true ) &&
-                                       !g->u.has_item_with_flag( "TWO_WAY_RADIO", true ) ) {
-                                can_see = "You do not have a radio";
-                                see_color = c_light_red;
-                            } else if( !guy->has_item_with_flag( "TWO_WAY_RADIO", true ) &&
-                                       g->u.has_item_with_flag( "TWO_WAY_RADIO", true ) ) {
-                                can_see = "Follower does not have a radio";
-                                see_color = c_light_red;
-                            } else {
-                                can_see = "Both you and follower need a radio";
-                                see_color = c_light_red;
-                            }
-                        } else {
+                        int retval = guy->faction_display( w_missions, 31 );
+                        if( retval == 2 ) {
+                            radio_interactable = true;
+                        } else if( retval == 1 ) {
                             interactable = true;
-                            can_see = "Within interaction range";
-                            see_color = c_light_green;
                         }
-                        mvwprintz( w_missions, ++y, 31, see_color, can_see );
-                        nc_color status_col = col;
-                        std::string current_status = _( "Status : " );
-                        if( guy->current_target() != nullptr ) {
-                            current_status += _( "In Combat!" );
-                            status_col = c_light_red;
-                        } else if( guy->in_sleep_state() ) {
-                            current_status += _( "Sleeping" );
-                        } else if( guy->is_following() ) {
-                            current_status += _( "Following" );
-                        } else if( guy->is_leader() ) {
-                            current_status += _( "Leading" );
-                        } else if( guy->is_guarding() ) {
-                            current_status += _( "Guarding" );
-                        }
-                        mvwprintz( w_missions, ++y, 31, status_col, current_status );
-                        const std::pair <std::string, nc_color> condition = guy->hp_description();
-                        const std::string condition_string = _( "Condition : " ) + condition.first;
-                        mvwprintz( w_missions, ++y, 31, condition.second, condition_string );
-                        const std::pair <std::string, nc_color> hunger_pair = guy->get_hunger_description();
-                        const std::pair <std::string, nc_color> thirst_pair = guy->get_thirst_description();
-                        const std::pair <std::string, nc_color> fatigue_pair = guy->get_fatigue_description();
-                        mvwprintz( w_missions, ++y, 31, hunger_pair.second,
-                                   _( "Hunger : " ) + ( hunger_pair.first.empty() ? "Nominal" : hunger_pair.first ) );
-                        mvwprintz( w_missions, ++y, 31, thirst_pair.second,
-                                   _( "Thirst : " ) + ( thirst_pair.first.empty() ? "Nominal" : thirst_pair.first ) );
-                        mvwprintz( w_missions, ++y, 31, fatigue_pair.second,
-                                   _( "Fatigue : " ) + ( fatigue_pair.first.empty() ? "Nominal" : fatigue_pair.first ) );
-                        const std::string wield_str = _( "Wielding : " ) + guy->weapon.tname();
-                        int lines = fold_and_print( w_missions, ++y, 31, getmaxx( w_missions ) - 33, c_white,
-                                                    ( wield_str ) );
-                        y += lines;
-                        const auto skillslist = Skill::get_skills_sorted_by( [&]( const Skill & a, const Skill & b ) {
-                            const int level_a = guy->get_skill_level( a.ident() );
-                            const int level_b = guy->get_skill_level( b.ident() );
-                            return level_a > level_b || ( level_a == level_b && a.name() < b.name() );
-                        } );
-                        size_t count = 0;
-                        std::vector<std::string> skill_strs;
-                        for( int i = 0; i < static_cast<int>( skillslist.size() ) && count < 3; i++ ) {
-                            if( !skillslist[ i ]->is_combat_skill() ) {
-                                std::string skill_str = skillslist[i]->name() + " : " + std::to_string( guy->get_skill_level(
-                                                            skillslist[i]->ident() ) );
-                                skill_strs.push_back( skill_str );
-                                count += 1;
-                            }
-                        }
-                        std::string best_three_noncombat = _( "Best other skills : " );
-                        std::string best_skill = _( "Best combat skill : " ) + guy->best_skill().obj().name() + " : " +
-                                                 std::to_string( guy->best_skill_level() );
-                        mvwprintz( w_missions, ++y, 31, col, best_skill );
-                        mvwprintz( w_missions, ++y, 31, col, best_three_noncombat + skill_strs[0] );
-                        mvwprintz( w_missions, ++y, 51, col, skill_strs[1] );
-                        mvwprintz( w_missions, ++y, 51, col, skill_strs[2] );
                     } else {
                         static const std::string nope = _( "You have no followers" );
                         mvwprintz( w_missions, 4, 31, c_light_red, nope );
