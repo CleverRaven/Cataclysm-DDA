@@ -288,7 +288,7 @@ void inventory::push_back( item newit )
     add_item( newit );
 }
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
 extern void remove_stale_inventory_quick_shortcuts();
 #endif
 
@@ -349,7 +349,7 @@ void inventory::restack( player &p )
     }
     items.sort( stack_compare );
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
     remove_stale_inventory_quick_shortcuts();
 #endif
 }

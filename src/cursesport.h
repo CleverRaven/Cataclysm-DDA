@@ -2,7 +2,7 @@
 #ifndef CATACURSE_H
 #define CATACURSE_H
 
-#if (defined TILES || defined _WIN32 || defined WINDOWS)
+#if defined(TILES) || defined(_WIN32)
 
 #include <array>
 #include <string>
