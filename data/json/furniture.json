@@ -1000,6 +1000,7 @@
         { "item": "hose", "count": 1 },
         { "item": "cu_pipe", "count": [ 2, 5 ] },
         { "item": "refrigerant_tank", "count": 1 },
+        { "item": "thermometer", "count": 1 },
         { "item": "motor_tiny", "count": 1 }
       ]
     },
