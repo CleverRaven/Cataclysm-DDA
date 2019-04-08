@@ -359,6 +359,11 @@ static SDL_Surface_Ptr apply_color_filter( const SDL_Surface_Ptr &original,
 
     for( int y = 0, ey = surf->h; y < ey; ++y ) {
         for( int x = 0, ex = surf->w; x < ex; ++x, ++pix ) {
+            if( pix->a == 0x00 ) {
+                // This check significantly improves the performance since
+                // vast majority of pixels in the tilesets are completely transparent.
+                continue;
+            }
             *pix = pixel_converter( *pix );
         }
     }
