@@ -10,6 +10,7 @@
 #include "json.h"
 #include "map.h"
 #include "mapdata.h"
+#include "map_iterator.h"
 #include "messages.h"
 #include "mission.h"
 #include "monfaction.h"
@@ -2057,26 +2058,36 @@ void npc::die( Creature *nkiller )
 std::string npc_attitude_name( npc_attitude att )
 {
     switch( att ) {
-        case NPCATT_NULL:          // Don't care/ignoring player
+        // Don't care/ignoring player
+        case NPCATT_NULL:
             return _( "Ignoring" );
-        case NPCATT_TALK:          // Move to and talk to player
+        // Move to and talk to player
+        case NPCATT_TALK:
             return _( "Wants to talk" );
-        case NPCATT_FOLLOW:        // Follow the player
+        // Follow the player
+        case NPCATT_FOLLOW:
             return _( "Following" );
-        case NPCATT_LEAD:          // Lead the player, wait for them if they're behind
+        // Lead the player, wait for them if they're behind
+        case NPCATT_LEAD:
             return _( "Leading" );
-        case NPCATT_WAIT:          // Waiting for the player
+        // Waiting for the player
+        case NPCATT_WAIT:
             return _( "Waiting for you" );
-        case NPCATT_MUG:           // Mug the player
+        // Mug the player
+        case NPCATT_MUG:
             return _( "Mugging you" );
-        case NPCATT_WAIT_FOR_LEAVE:// Attack the player if our patience runs out
+        // Attack the player if our patience runs out
+        case NPCATT_WAIT_FOR_LEAVE:
             return _( "Waiting for you to leave" );
-        case NPCATT_KILL:          // Kill the player
+        // Kill the player
+        case NPCATT_KILL:
             return _( "Attacking to kill" );
-        case NPCATT_FLEE:          // Get away from the player
+        // Get away from the player
+        case NPCATT_FLEE:
         case NPCATT_FLEE_TEMP:
             return _( "Fleeing" );
-        case NPCATT_HEAL:          // Get to the player and heal them
+        // Get to the player and heal them
+        case NPCATT_HEAL:
             return _( "Healing you" );
         case NPCATT_ACTIVITY:
             return _( "Performing a task" );
@@ -2418,6 +2429,20 @@ std::set<tripoint> npc::get_path_avoid() const
         // TODO: Cache this somewhere
         ret.insert( critter.pos() );
     }
+    if( rules.has_flag( ally_rule::avoid_doors ) ) {
+        for( const tripoint &p : g->m.points_in_radius( pos(), 30 ) ) {
+            if( g->m.open_door( p, true, true ) ) {
+                ret.insert( p );
+            }
+        }
+    }
+    if( rules.has_flag( ally_rule::hold_the_line ) ) {
+        for( const tripoint &p : g->m.points_in_radius( g->u.pos(), 1 ) ) {
+            if( g->m.close_door( p, true, true ) || g->m.move_cost( p ) > 2 ) {
+                ret.insert( p );
+            }
+        }
+    }
     return ret;
 }
 
@@ -2631,6 +2656,9 @@ npc_follower_rules::npc_follower_rules()
     set_flag( ally_rule::allow_pulp );
     clear_flag( ally_rule::close_doors );
     clear_flag( ally_rule::avoid_combat );
+    clear_flag( ally_rule::avoid_doors );
+    clear_flag( ally_rule::hold_the_line );
+    clear_flag( ally_rule::ignore_noise );
 }
 
 bool npc_follower_rules::has_flag( ally_rule test ) const

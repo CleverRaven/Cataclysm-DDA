@@ -3,7 +3,7 @@
     "id": "afs_energy_saber_off",
     "type": "TOOL",
     "name": "energy saber",
-    "description": "A hefty black tube the size of your hand.  Activate to produce a hard-light blade.",
+    "description": "A hefty black tube the size of your hand.  Activate to produce a hard-light blade, running off of UPS.",
     "weight": 240,
     "volume": 1,
     "price": 10000000,
@@ -11,12 +11,19 @@
     "material": [ "superalloy", "diamond" ],
     "symbol": "[",
     "color": "gray",
+    "ammo": "battery",
+    "max_charges": 50,
+    "charges_per_use": 1,
     "use_action": {
       "menu_text": "Activate",
       "type": "transform",
       "target": "afs_energy_saber_on",
-      "msg": "You activate the energy saber, and its blade blazes into existence!"
-    }
+      "msg": "You activate the energy saber, and its blade blazes into existence!",
+      "need_charges": 1,
+      "need_charges_msg": "The energy saber is out of charge.",
+      "active": true
+    },
+    "flags": [ "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
     "id": "afs_energy_saber_on",
@@ -30,10 +37,14 @@
     "material": [ "superalloy", "diamond" ],
     "symbol": "[",
     "color": "light_blue",
-    "cutting": 50,
-    "to_hit": 4,
-    "flags": [ "LIGHT_8", "NO_REPAIR", "SLOW_WIELD", "UNBREAKABLE_MELEE" ],
+    "ammo": "battery",
+    "max_charges": 50,
+    "turns_per_charge": 10,
+    "cutting": 40,
+    "to_hit": 2,
+    "flags": [ "LIGHT_8", "NO_REPAIR", "SLOW_WIELD", "UNBREAKABLE_MELEE", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ],
     "techniques": [ "WBLOCK_2", "PRECISE" ],
+    "revert_to": "afs_murdersaw",
     "use_action": {
       "menu_text": "Activate",
       "type": "transform",
@@ -73,7 +84,7 @@
     "id": "afs_hydraulic_gauntlet",
     "type": "GENERIC",
     "name": "hydraulic gauntlet",
-    "description": "A huge, heavy metal gauntlet lined with tubing and gauges.  It uses internal pressure to deliver slow, devastating blows.",
+    "description": "A huge, heavy metal gauntlet lined with tubing and gauges.  Slow and unwieldy, it uses internal pressure to deliver devastating blows, but takes tremendous strength to use effectively.  Thanks to an internal microreactor, it doesn't require power of its own.",
     "weight": 3778,
     "volume": 8,
     "price": 10000000,
@@ -81,9 +92,9 @@
     "material": [ "hardsteel" ],
     "symbol": "[",
     "color": "light_gray",
-    "bashing": 70,
-    "to_hit": 5,
-    "flags": [ "NO_REPAIR", "NONCONDUCTIVE", "SLOW_WIELD", "DURABLE_MELEE", "UNARMED_WEAPON" ],
+    "bashing": 50,
+    "to_hit": -2,
+    "flags": [ "NO_REPAIR", "NONCONDUCTIVE", "SLOW_WIELD", "DURABLE_MELEE", "LEAK_DAM", "UNARMED_WEAPON" ],
     "techniques": [ "BRUTAL", "AFS_PRESSURE_CRUNCH" ]
   },
   {

@@ -3,7 +3,7 @@
         "type" : "overmap_terrain",
         "id" : "refugee_tower_1gate",
         "name" : "apartment towers",
-        "sym" : 46,
+        "sym" : ".",
         "color" : "brown",
         "extras" : "build",
         "see_cost" : 1
@@ -11,7 +11,7 @@
         "type" : "overmap_terrain",
         "id" : "refugee_tower_1ybe",
         "name" : "apartment towers",
-        "sym" : 46,
+        "sym" : ".",
         "color" : "brown",
         "extras" : "build",
         "see_cost" : 1
@@ -19,7 +19,7 @@
         "type" : "overmap_terrain",
         "id" : "refugee_tower_1yle",
         "name" : "apartment towers",
-        "sym" : 46,
+        "sym" : ".",
         "color" : "brown",
         "extras" : "build",
         "see_cost" : 1
@@ -27,7 +27,7 @@
         "type" : "overmap_terrain",
         "id" : "refugee_tower_1yre",
         "name" : "apartment towers",
-        "sym" : 46,
+        "sym" : ".",
         "color" : "brown",
         "extras" : "build",
         "see_cost" : 1
@@ -35,7 +35,7 @@
             "type" : "overmap_terrain",
         "id" : "refugee_tower_1yte",
         "name" : "apartment towers",
-        "sym" : 46,
+        "sym" : ".",
         "color" : "brown",
         "extras" : "build",
         "see_cost" : 1
@@ -43,7 +43,7 @@
         "type" : "overmap_terrain",
         "id" : "refugee_tower_1cyblc",
         "name" : "apartment towers",
-        "sym" : 97,
+        "sym" : "a",
         "color" : "i_light_green",
         "extras" : "build",
         "see_cost" : 5
@@ -51,7 +51,7 @@
         "type" : "overmap_terrain",
         "id" : "refugee_tower_1cybrc",
         "name" : "apartment towers",
-        "sym" : 97,
+        "sym" : "a",
         "color" : "i_light_green",
         "extras" : "build",
         "see_cost" : 5
@@ -59,7 +59,7 @@
         "type" : "overmap_terrain",
         "id" : "refugee_tower_1cytlc",
         "name" : "apartment towers",
-        "sym" : 65,
+        "sym" : "A",
         "color" : "i_light_green",
         "extras" : "build",
         "see_cost" : 5
@@ -67,7 +67,7 @@
         "type" : "overmap_terrain",
         "id" : "refugee_tower_1cytrc",
         "name" : "apartment towers",
-        "sym" : 97,
+        "sym" : "a",
         "color" : "i_light_green",
         "extras" : "build",
         "see_cost" : 5
@@ -75,7 +75,7 @@
         "type" : "overmap_terrain",
         "id" : "refugee_tower_1blc",
         "name" : "apartment towers",
-        "sym" : 97,
+        "sym" : "a",
         "color" : "i_light_green",
         "extras" : "build",
         "see_cost" : 5
@@ -83,7 +83,7 @@
         "type" : "overmap_terrain",
         "id" : "refugee_tower_1brc",
         "name" : "apartment towers",
-        "sym" : 97,
+        "sym" : "a",
         "color" : "i_light_green",
         "extras" : "build",
         "see_cost" : 5
@@ -91,7 +91,7 @@
         "type" : "overmap_terrain",
         "id" : "refugee_tower_1tlc",
         "name" : "apartment towers",
-        "sym" : 97,
+        "sym" : "a",
         "color" : "i_light_green",
         "extras" : "build",
         "see_cost" : 5
@@ -99,7 +99,7 @@
         "type" : "overmap_terrain",
         "id" : "refugee_tower_1trc",
         "name" : "apartment towers",
-        "sym" : 97,
+        "sym" : "a",
         "color" : "i_light_green",
         "extras" : "build",
         "see_cost" : 5
@@ -107,7 +107,7 @@
         "type" : "overmap_terrain",
         "id" : "refugee_tower_2blc",
         "name" : "apartment towers",
-        "sym" : 97,
+        "sym" : "a",
         "color" : "i_light_green",
         "extras" : "build",
         "see_cost" : 5
@@ -115,7 +115,7 @@
         "type" : "overmap_terrain",
         "id" : "refugee_tower_2brc",
         "name" : "apartment towers",
-        "sym" : 97,
+        "sym" : "a",
         "color" : "i_light_green",
         "extras" : "build",
         "see_cost" : 5
@@ -123,7 +123,7 @@
         "type" : "overmap_terrain",
         "id" : "refugee_tower_2tlc",
         "name" : "apartment towers",
-        "sym" : 97,
+        "sym" : "a",
         "color" : "i_light_green",
         "extras" : "build",
         "see_cost" : 5
@@ -131,7 +131,7 @@
         "type" : "overmap_terrain",
         "id" : "refugee_tower_2trc",
         "name" : "apartment towers",
-        "sym" : 97,
+        "sym" : "a",
         "color" : "i_light_green",
         "extras" : "build",
         "see_cost" : 5
@@ -139,7 +139,7 @@
         "type" : "overmap_terrain",
         "id" : "refugee_tower_3blc",
         "name" : "apartment towers",
-        "sym" : 97,
+        "sym" : "a",
         "color" : "i_light_green",
         "extras" : "build",
         "see_cost" : 5
@@ -147,7 +147,7 @@
         "type" : "overmap_terrain",
         "id" : "refugee_tower_3brc",
         "name" : "apartment towers",
-        "sym" : 97,
+        "sym" : "a",
         "color" : "i_light_green",
         "extras" : "build",
         "see_cost" : 5
@@ -155,7 +155,7 @@
         "type" : "overmap_terrain",
         "id" : "refugee_tower_3tlc",
         "name" : "apartment towers",
-        "sym" : 97,
+        "sym" : "a",
         "color" : "i_light_green",
         "extras" : "build",
         "see_cost" : 5
@@ -163,7 +163,7 @@
         "type" : "overmap_terrain",
         "id" : "refugee_tower_3trc",
         "name" : "apartment towers",
-        "sym" : 97,
+        "sym" : "a",
         "color" : "i_light_green",
         "extras" : "build",
         "see_cost" : 5
@@ -171,7 +171,7 @@
         "type" : "overmap_terrain",
         "id" : "refugee_tower_4blc",
         "name" : "apartment towers",
-        "sym" : 97,
+        "sym" : "a",
         "color" : "i_light_green",
         "extras" : "build",
         "see_cost" : 5
@@ -179,7 +179,7 @@
         "type" : "overmap_terrain",
         "id" : "refugee_tower_4brc",
         "name" : "apartment towers",
-        "sym" : 97,
+        "sym" : "a",
         "color" : "i_light_green",
         "extras" : "build",
         "see_cost" : 5
@@ -187,7 +187,7 @@
         "type" : "overmap_terrain",
         "id" : "refugee_tower_4tlc",
         "name" : "apartment towers",
-        "sym" : 97,
+        "sym" : "a",
         "color" : "i_light_green",
         "extras" : "build",
         "see_cost" : 5
@@ -195,7 +195,7 @@
         "type" : "overmap_terrain",
         "id" : "refugee_tower_4trc",
         "name" : "apartment towers",
-        "sym" : 97,
+        "sym" : "a",
         "color" : "i_light_green",
         "extras" : "build",
         "see_cost" : 5
@@ -203,7 +203,7 @@
         "type" : "overmap_terrain",
         "id" : "refugee_tower_5blc",
         "name" : "apartment towers",
-        "sym" : 97,
+        "sym" : "a",
         "color" : "i_light_green",
         "extras" : "build",
         "see_cost" : 5
@@ -211,7 +211,7 @@
         "type" : "overmap_terrain",
         "id" : "refugee_tower_5brc",
         "name" : "apartment towers",
-        "sym" : 97,
+        "sym" : "a",
         "color" : "i_light_green",
         "extras" : "build",
         "see_cost" : 5
@@ -219,7 +219,7 @@
         "type" : "overmap_terrain",
         "id" : "refugee_tower_5tlc",
         "name" : "apartment towers",
-        "sym" : 97,
+        "sym" : "a",
         "color" : "i_light_green",
         "extras" : "build",
         "see_cost" : 5
@@ -227,7 +227,7 @@
         "type" : "overmap_terrain",
         "id" : "refugee_tower_5trc",
         "name" : "apartment towers",
-        "sym" : 97,
+        "sym" : "a",
         "color" : "i_light_green",
         "extras" : "build",
         "see_cost" : 5
@@ -235,7 +235,7 @@
         "type" : "overmap_terrain",
         "id" : "refugee_tower_ublc",
         "name" : "apartment towers",
-        "sym" : 97,
+        "sym" : "a",
         "color" : "i_light_green",
         "extras" : "build",
         "see_cost" : 99
@@ -243,7 +243,7 @@
         "type" : "overmap_terrain",
         "id" : "refugee_tower_ubrc",
         "name" : "apartment towers",
-        "sym" : 97,
+        "sym" : "a",
         "color" : "i_light_green",
         "extras" : "build",
         "see_cost" : 99
@@ -251,7 +251,7 @@
         "type" : "overmap_terrain",
         "id" : "refugee_tower_utlc",
         "name" : "apartment towers",
-        "sym" : 97,
+        "sym" : "a",
         "color" : "i_light_green",
         "extras" : "build",
         "see_cost" : 99
@@ -259,7 +259,7 @@
         "type" : "overmap_terrain",
         "id" : "refugee_tower_utrc",
         "name" : "apartment towers",
-        "sym" : 97,
+        "sym" : "a",
         "color" : "i_light_green",
         "extras" : "build",
         "see_cost" : 99

@@ -2711,24 +2711,30 @@ int player::overmap_sight_range( int light_level ) const
     if( sight <= SEEX * 4 ) {
         return ( sight / ( SEEX / 2 ) );
     }
-    sight = has_trait( trait_BIRD_EYE ) ? 15 : 10;
 
-    /** @EFFECT_PER determines overmap sight range */
-    sight += ( -4 + static_cast<int>( get_per() / 2 ) );
-    sight += std::max( 0, posz() ) * 2; // the higher up you are, the farther you can see
-    bool has_optic = ( has_item_with_flag( "ZOOM" ) || has_bionic( bio_eye_optic ) );
-
-    if( has_trait( trait_EAGLEEYED ) && has_optic ) { //optic AND scout = +15
-        sight += 15;
-    } else if( has_trait( trait_EAGLEEYED ) != has_optic ) { //optic OR scout = +10
-        sight += 10;
+    sight = 6;
+    // The higher your perception, the farther you can see.
+    sight += static_cast<int>( get_per() / 2 );
+    // The higher up you are, the farther you can see.
+    sight += std::max( 0, posz() ) * 2;
+    // The Scout trait explicitly increases overmap sight range.
+    if( has_trait( trait_EAGLEEYED ) ) {
+        sight += 5;
+    }
+    // The Topographagnosia trait explicitly "cripples" overmap sight range.
+    if( has_trait( trait_UNOBSERVANT ) ) {
+        sight -= 10;
     }
 
-    if( has_trait( trait_UNOBSERVANT ) && sight > 3 ) {
-        sight = 3; //surprise! you can't see!
+    float multiplier = 1;
+    // Binoculars "double" your sight range.
+    const bool has_optic = ( has_item_with_flag( "ZOOM" ) || has_bionic( bio_eye_optic ) );
+    if( has_optic ) {
+        multiplier += 1;
     }
 
-    return sight;
+    sight = round( sight * multiplier );
+    return std::max( sight, 3 );
 }
 
 #define MAX_CLAIRVOYANCE 40
@@ -4254,8 +4260,9 @@ void player::check_needs_extremes()
                 /** @EFFECT_PER slightly increases resilience against passing out from sleep deprivation */
                 if( one_in( static_cast<int>( ( 1 - sleep_deprivation_pct ) * 100 ) + per_cur ) ||
                     sleep_deprivation >= SLEEP_DEPRIVATION_MASSIVE ) {
-                    add_msg_if_player( m_bad,
-                                       _( "Your body collapses to sleep deprivation, your neglected fatigue rushing back all at once, and you pass out on the spot." ) );
+                    add_msg_player_or_npc( m_bad,
+                                           _( "Your body collapses due to sleep deprivation, your neglected fatigue rushing back all at once, and you pass out on the spot." )
+                                           , _( "<npcname> collapses to the ground from exhaustion." ) ) ;
                     if( get_fatigue() < EXHAUSTED ) {
                         set_fatigue( EXHAUSTED );
                     }
@@ -6016,7 +6023,7 @@ void player::suffer()
     }
 
     // Negative bionics effects
-    if( has_bionic( bio_dis_shock ) && one_in( 1200 ) ) {
+    if( has_bionic( bio_dis_shock ) && one_in( 1200 ) && !has_effect( effect_narcosis ) ) {
         add_msg_if_player( m_bad, _( "You suffer a painful electrical discharge!" ) );
         mod_pain( 1 );
         moves -= 150;
@@ -6043,7 +6050,7 @@ void player::suffer()
         charge_power( -25 );
         sfx::play_variant_sound( "bionics", "elec_crackle_low", 100 );
     }
-    if( has_bionic( bio_noise ) && one_in( 500 ) ) {
+    if( has_bionic( bio_noise ) && one_in( 500 ) && !has_effect( effect_narcosis ) ) {
         // TODO: NPCs with said bionic
         if( !is_deaf() ) {
             add_msg( m_bad, _( "A bionic emits a crackle of noise!" ) );
@@ -6058,12 +6065,14 @@ void player::suffer()
         power_level >= max_power_level * .75 ) {
         mod_str_bonus( -3 );
     }
-    if( has_bionic( bio_trip ) && one_in( 500 ) && !has_effect( effect_visuals ) ) {
+    if( has_bionic( bio_trip ) && one_in( 500 ) && !has_effect( effect_visuals ) &&
+        !has_effect( effect_narcosis ) && !in_sleep_state() ) {
         add_msg_if_player( m_bad, _( "Your vision pixelates!" ) );
         add_effect( effect_visuals, 10_minutes );
         sfx::play_variant_sound( "bionics", "pixelated", 100 );
     }
-    if( has_bionic( bio_spasm ) && one_in( 3000 ) && !has_effect( effect_downed ) ) {
+    if( has_bionic( bio_spasm ) && one_in( 3000 ) && !has_effect( effect_downed ) &&
+        !has_effect( effect_narcosis ) ) {
         add_msg_if_player( m_bad,
                            _( "Your malfunctioning bionic causes you to spasm and fall to the floor!" ) );
         mod_pain( 1 );
@@ -6083,7 +6092,8 @@ void player::suffer()
     if( has_bionic( bio_sleepy ) && one_in( 500 ) && !in_sleep_state() ) {
         mod_fatigue( 1 );
     }
-    if( has_bionic( bio_itchy ) && one_in( 500 ) && !has_effect( effect_formication ) ) {
+    if( has_bionic( bio_itchy ) && one_in( 500 ) && !has_effect( effect_formication ) &&
+        !has_effect( effect_narcosis ) ) {
         add_msg_if_player( m_bad, _( "Your malfunctioning bionic itches!" ) );
         body_part bp = random_body_part( true );
         add_effect( effect_formication, 10_minutes, bp );
@@ -6178,16 +6188,20 @@ void player::suffer()
             switch( dice( 1, 4 ) ) {
                 default:
                 case 1:
-                    add_msg_if_player( m_warning, _( "You tiredly rub your eyes." ) );
+                    add_msg_player_or_npc( m_warning, _( "You tiredly rub your eyes." ),
+                                           _( "<npcname> tiredly rubs their eyes." ) );
                     break;
                 case 2:
-                    add_msg_if_player( m_warning, _( "You let out a small yawn." ) );
+                    add_msg_player_or_npc( m_warning, _( "You let out a small yawn." ),
+                                           _( "<npcname> lets out a small yawn." ) );
                     break;
                 case 3:
-                    add_msg_if_player( m_warning, _( "You stretch your back." ) );
+                    add_msg_player_or_npc( m_warning, _( "You stretch your back." ),
+                                           _( "<npcname> streches their back." ) );
                     break;
                 case 4:
-                    add_msg_if_player( m_warning, _( "You feel mentally tired." ) );
+                    add_msg_player_or_npc( m_warning, _( "You feel mentally tired." ),
+                                           _( "<npcname> lets out a huge yawn." ) );
                     break;
             }
         }
@@ -6240,9 +6254,10 @@ void player::suffer()
             add_effect( effect_shakes, 15_minutes );
         } else if( has_effect( effect_shakes ) && one_in( 75 ) ) {
             moves -= 10;
-            add_msg_if_player( m_warning, _( "Your shaking legs make you stumble." ) );
+            add_msg_player_or_npc( m_warning, _( "Your shaking legs make you stumble." ),
+                                   _( "<npcname stumbles." ) );
             if( !has_effect( effect_downed ) && one_in( 10 ) ) {
-                add_msg_if_player( m_bad, _( "You fall over!" ) );
+                add_msg_player_or_npc( m_bad, _( "You fall over!" ), _( "<npcname> falls over!" ) );
                 add_effect( effect_downed, rng( 3_turns, 10_turns ) );
             }
         }

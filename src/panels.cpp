@@ -198,7 +198,7 @@ void draw_minimap( const player &u, const catacurses::window &w_minimap )
             const int omx = cursx + i;
             const int omy = cursy + j;
             nc_color ter_color;
-            long ter_sym;
+            std::string ter_sym;
             const bool seen = overmap_buffer.seen( omx, omy, g->get_levz() );
             const bool vehicle_here = overmap_buffer.has_vehicle( omx, omy, g->get_levz() );
             if( overmap_buffer.has_note( omx, omy, g->get_levz() ) ) {
@@ -206,7 +206,7 @@ void draw_minimap( const player &u, const catacurses::window &w_minimap )
                 const std::string &note_text = overmap_buffer.note( omx, omy, g->get_levz() );
 
                 ter_color = c_yellow;
-                ter_sym = 'N';
+                ter_sym = "N";
 
                 int symbolIndex = note_text.find( ':' );
                 int colorIndex = note_text.find( ';' );
@@ -241,7 +241,7 @@ void draw_minimap( const player &u, const catacurses::window &w_minimap )
                     if( colorIndex > -1 && !symbolFirst ) {
                         symbolStart = colorIndex + 1;
                     }
-                    ter_sym = note_text.substr( symbolStart, symbolIndex - symbolStart ).c_str()[0];
+                    ter_sym = note_text.substr( symbolStart, symbolIndex - symbolStart );
                 }
 
                 if( colorIndex > -1 ) {
@@ -290,11 +290,11 @@ void draw_minimap( const player &u, const catacurses::window &w_minimap )
                     }
                 }
             } else if( !seen ) {
-                ter_sym = ' ';
+                ter_sym = " ";
                 ter_color = c_black;
             } else if( vehicle_here ) {
                 ter_color = c_cyan;
-                ter_sym = 'c';
+                ter_sym = "c";
             } else {
                 const oter_id &cur_ter = overmap_buffer.ter( omx, omy, g->get_levz() );
                 ter_sym = cur_ter->get_sym();
@@ -1911,7 +1911,7 @@ void panel_manager::deserialize( JsonIn &jsin )
                     if( it->get_name() != name ) {
                         window_panel panel = *it2;
                         layout.erase( it2 );
-                        layout.insert( it, panel );
+                        it = layout.insert( it, panel );
                     }
                     it->toggle = joPanel.get_bool( "toggle" );
                     ++it;
