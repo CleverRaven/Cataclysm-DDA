@@ -2544,7 +2544,7 @@ void npc::reset_companion_mission()
     }
 }
 
-cata::optional<tripoint> npc::get_mission_destination()
+cata::optional<tripoint> npc::get_mission_destination() const
 {
     if( comp_mission.destination ) {
         return comp_mission.destination;

@@ -122,7 +122,7 @@ class basecamp
                                const std::vector<item *> &equipment,
                                const std::string &skill_tested, int skill_level );
         void start_upgrade( const std::string &bldg, const std::string &key );
-        std::string om_upgrade_description( const std::string &bldg, bool trunc );
+        std::string om_upgrade_description( const std::string &bldg, bool trunc ) const;
         void start_menial_labor();
         /// Called when a companion is sent to cut logs
         void start_cut_logs();

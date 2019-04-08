@@ -953,7 +953,7 @@ class npc : public player
                                     const std::string &mission_id, const tripoint &destination );
         /// Unset a companion mission. Precondition: `!has_companion_mission()`
         void reset_companion_mission();
-        cata::optional<tripoint> get_mission_destination();
+        cata::optional<tripoint> get_mission_destination() const;
         bool has_companion_mission() const;
         npc_companion_mission get_companion_mission() const;
         attitude_group get_attitude_group( npc_attitude att );
