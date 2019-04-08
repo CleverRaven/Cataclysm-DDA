@@ -15,6 +15,7 @@
 #include "catacharset.h"
 #include "color.h"
 #include "cursesdef.h"
+#include "cursesport.h"
 #include "input.h"
 #include "item.h"
 #include "line.h"
@@ -26,9 +27,6 @@
 #include "string_input_popup.h"
 #include "units.h"
 
-#if (defined TILES || defined _WIN32 || defined WINDOWS)
-#include "cursesport.h"
-#endif
 #ifdef __ANDROID__
 #include <SDL_keyboard.h>
 #endif

@@ -120,10 +120,6 @@
 #include "cata_tiles.h"
 #endif // TILES
 
-#if (defined TILES || defined _WIN32 || defined WINDOWS)
-#include "cursesport.h"
-#endif
-
 #if !(defined _WIN32 || defined WINDOWS || defined TILES)
 #include <langinfo.h>
 #include <cstring>

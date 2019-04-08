@@ -3,6 +3,7 @@
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "cursesdef.h"
+#include "cursesport.h"
 #include "debug.h"
 #include "filesystem.h"
 #include "game.h"
@@ -22,10 +23,6 @@
 #ifdef TILES
 #include "cata_tiles.h"
 #endif // TILES
-
-#if (defined TILES || defined _WIN32 || defined WINDOWS)
-#include "cursesport.h"
-#endif
 
 #ifdef __ANDROID__
 #include <jni.h>

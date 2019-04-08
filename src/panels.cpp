@@ -4,6 +4,7 @@
 #include "cata_utility.h"
 #include "color.h"
 #include "cursesdef.h"
+#include "cursesport.h"
 #include "effect.h"
 #include "game.h"
 #include "game_ui.h"
@@ -29,10 +30,6 @@
 #include <cmath>
 #include <string>
 #include <typeinfo>
-
-#if (defined TILES || defined _WIN32 || defined WINDOWS)
-#include "cursesport.h"
-#endif
 
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_THRESH_FELINE( "THRESH_FELINE" );
