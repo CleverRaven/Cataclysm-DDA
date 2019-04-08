@@ -542,16 +542,6 @@ bool inventory_column::is_selected( const inventory_entry &entry ) const
     return entry == get_selected() || ( multiselect && is_selected_by_category( entry ) );
 }
 
-bool inventory_column::is_favorite( const inventory_entry &entry ) const
-{
-    return entry.is_item() && entry.location->is_favorite;
-}
-
-bool inventory_column::is_worn( const inventory_entry &entry ) const
-{
-    return entry.is_item() && g->u.is_worn( *entry.location );
-}
-
 bool inventory_column::is_selected_by_category( const inventory_entry &entry ) const
 {
     return entry.is_item() && mode == navigation_mode::CATEGORY
@@ -570,26 +560,20 @@ const inventory_entry &inventory_column::get_selected() const
 
 std::vector<inventory_entry *> inventory_column::get_all_selected() const
 {
-    std::vector<inventory_entry *> res;
-
-    if( allows_selecting() ) {
-        for( const auto &elem : entries ) {
-            if( is_selected( elem ) ) {
-                res.push_back( const_cast<inventory_entry *>( &elem ) );
-            }
-        }
-    }
-
-    return res;
+    const auto filter_to_selected = [&]( const inventory_entry & entry ) {
+        return is_selected( entry );
+    };
+    return get_entries( filter_to_selected );
 }
 
-std::vector<inventory_entry *> inventory_column::get_all_nonfavorite_and_nonworn() const
+std::vector<inventory_entry *> inventory_column::get_entries(
+    const std::function<bool( const inventory_entry &entry )> &filter_func ) const
 {
     std::vector<inventory_entry *> res;
 
     if( allows_selecting() ) {
         for( const auto &elem : entries ) {
-            if( elem.is_item() && !is_favorite( elem ) && !is_worn( elem ) ) {
+            if( filter_func( elem ) ) {
                 res.push_back( const_cast<inventory_entry *>( &elem ) );
             }
         }
@@ -1926,7 +1910,6 @@ inventory_drop_selector::inventory_drop_selector( const player &p,
 #endif
 }
 
-
 void inventory_drop_selector::process_selected( int &count,
         const std::vector<inventory_entry *> &selected )
 {
@@ -1967,7 +1950,13 @@ std::list<std::pair<int, int>> inventory_drop_selector::execute()
             set_chosen_count( *input.entry, count );
             count = 0;
         } else if( input.action == "DROP_NON_FAVORITE" ) {
-            const auto selected( get_active_column().get_all_nonfavorite_and_nonworn() );
+            const auto filter_to_nonfavorite_and_nonworn = []( const inventory_entry & entry ) {
+                return ( entry.is_item() &&
+                         !entry.location->is_favorite &&
+                         !g->u.is_worn( *entry.location ) );
+            };
+
+            const auto selected( get_active_column().get_entries( filter_to_nonfavorite_and_nonworn ) );
             process_selected( count, selected );
         } else if( input.action == "RIGHT" ) {
             const auto selected( get_active_column().get_all_selected() );

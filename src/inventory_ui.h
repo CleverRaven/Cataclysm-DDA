@@ -247,8 +247,6 @@ class inventory_column
 
         bool has_available_choices() const;
         bool is_selected( const inventory_entry &entry ) const;
-        bool is_favorite( const inventory_entry &entry ) const;
-        bool is_worn( const inventory_entry &entry ) const;
 
         /**
          * Does this entry belong to the selected category?
@@ -258,7 +256,8 @@ class inventory_column
 
         const inventory_entry &get_selected() const;
         std::vector<inventory_entry *> get_all_selected() const;
-        std::vector<inventory_entry *> get_all_nonfavorite_and_nonworn() const;
+        std::vector<inventory_entry *> get_entries(
+            const std::function<bool( const inventory_entry &entry )> &filter_func ) const;
 
         inventory_entry *find_by_invlet( long invlet ) const;
 
