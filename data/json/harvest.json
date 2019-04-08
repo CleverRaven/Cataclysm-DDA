@@ -389,6 +389,18 @@
     ]
   },
   {
+    "id": "zombie_thorny",
+    "//": "mix of animal and plant",
+    "type": "harvest",
+    "entries": [
+      { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.2 },
+      { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.05 },
+      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
+      { "drop": "stick_fiber", "type": "bone", "mass_ratio": 0.1 },
+      { "drop": "veggy_tainted", "type": "flesh", "mass_ratio": 0.25 }
+    ]
+  },
+  {
     "id": "zombie_kevlar",
     "//": "zombies with kevlar infused into their skin",
     "type": "harvest",
