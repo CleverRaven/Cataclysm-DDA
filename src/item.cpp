@@ -3251,14 +3251,16 @@ units::mass item::weight( bool include_contents ) const
         return 0_gram;
     }
 
-    units::mass ret = 0_gram;
-
     if( is_craft() ) {
-        ret = units::from_gram( get_var( "weight", to_gram( find_type( making->result() )->weight ) ) );
-    } else {
-        ret = units::from_gram( get_var( "weight", to_gram( type->weight ) ) );
+        units::mass ret = 0_gram;
+        for( auto it : components ) {
+            ret += it.weight();
+        }
+        return ret;
     }
 
+    units::mass ret = 0_gram;
+    ret = units::from_gram( get_var( "weight", to_gram( type->weight ) ) );
 
     if( has_flag( "REDUCED_WEIGHT" ) ) {
         ret *= 0.75;
@@ -3345,8 +3347,13 @@ units::volume item::base_volume() const
     if( is_corpse() ) {
         return corpse_volume( corpse );
     }
+
     if( is_craft() ) {
-        return find_type( making->result() )->volume;
+        units::volume ret = 0_ml;
+        for( auto it : components ) {
+            ret += it.base_volume();
+        }
+        return ret;
     }
 
     if( count_by_charges() ) {
@@ -3371,7 +3378,11 @@ units::volume item::volume( bool integral ) const
     }
 
     if( is_craft() ) {
-        return find_type( making->result() )->volume;
+        units::volume ret = 0_ml;
+        for( auto it : components ) {
+            ret += it.volume();
+        }
+        return ret;
     }
 
     const int local_volume = get_var( "volume", -1 );
