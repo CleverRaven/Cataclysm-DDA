@@ -296,6 +296,8 @@ struct npc_short_term_cache {
     float danger_assessment;
     // Use weak_ptr to avoid circular references between Creatures
     std::weak_ptr<Creature> target;
+    // target is hostile, ally is for aiding actions
+    std::weak_ptr<Creature> ally;
     // map of positions / type / volume of suspicious sounds
     std::vector<dangerous_sound> sound_alerts;
     // current sound position being investigated
@@ -664,6 +666,8 @@ class npc : public player
         void regen_ai_cache();
         const Creature *current_target() const;
         Creature *current_target();
+        const Creature *current_ally() const;
+        Creature *current_ally();
         tripoint good_escape_direction( bool include_pos = true );
 
         // Interaction and assessment of the world around us
