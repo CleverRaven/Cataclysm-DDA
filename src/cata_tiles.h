@@ -99,32 +99,19 @@ extern bool alt_rect_tex_enabled;
 extern void draw_alt_rect( const SDL_Renderer_Ptr &renderer, const SDL_Rect &rect,
                            Uint32 r, Uint32 g, Uint32 b );
 
+#pragma pack(push, 1)
 struct pixel {
-    int r;
-    int g;
-    int b;
-    int a;
+    uint8_t r;
+    uint8_t g;
+    uint8_t b;
+    uint8_t a;
 
-    pixel() : r( 0 ), g( 0 ), b( 0 ), a( 0 ) {
+    static pixel from_SDL_color( const SDL_Color &c ) {
+        return { c.r, c.g, c.b, c.a };
     }
 
-    pixel( int sr, int sg, int sb, int sa = 0xFF ) : r( sr ), g( sg ), b( sb ), a( sa ) {
-    }
-
-    pixel( SDL_Color c ) {
-        r = c.r;
-        g = c.g;
-        b = c.b;
-        a = c.a;
-    }
-
-    SDL_Color getSdlColor() const {
-        SDL_Color c;
-        c.r = static_cast<Uint8>( r );
-        c.g = static_cast<Uint8>( g );
-        c.b = static_cast<Uint8>( b );
-        c.a = static_cast<Uint8>( a );
-        return c;
+    SDL_Color to_SDL_color() const {
+        return { r, g, b, a };
     }
 
     void adjust_brightness( int percent ) {
@@ -140,18 +127,21 @@ struct pixel {
         b = std::min( b * my_percent / 100 + other.b * percent / 100, 0xFF );
     }
 
-    bool isBlack() const {
-        return ( r == 0 && g == 0 && b == 0 );
+    bool isBlack() const noexcept {
+        return r == 0 && g == 0 && b == 0;
     }
 
-    bool operator==( const pixel &other ) const {
-        return ( r == other.r && g == other.g && b == other.b && a == other.a );
+    bool operator==( const pixel &other ) const noexcept {
+        return r == other.r && g == other.g && b == other.b && a == other.a;
     }
 
-    bool operator!=( const pixel &other ) const {
+    bool operator!=( const pixel &other ) const noexcept {
         return !operator==( other );
     }
 };
+#pragma pack(pop)
+
+static_assert( sizeof( pixel ) == 4, "unexpected size of pixel: must be exactly 32 bits." );
 
 // a texture pool to avoid recreating textures every time player changes their view
 // at most 142 out of 144 textures can be in use due to regular player movement
