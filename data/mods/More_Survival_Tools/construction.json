@@ -27,18 +27,6 @@
   {
     "type": "construction",
     "skill": "survival",
-    "description": "Build Fire Ring",
-    "category": "FURN",
-    "difficulty": 1,
-    "time": 15,
-    "components": [ [ [ "rock", 20 ] ] ],
-    "pre_note": "Can be deconstructed without tools.",
-    "pre_terrain": "t_pit_shallow",
-    "post_terrain": "f_firering"
-  },
-  {
-    "type": "construction",
-    "skill": "survival",
     "description": "Build Tarp Rain-Catcher",
     "category": "CONSTRUCT",
     "difficulty": 2,
