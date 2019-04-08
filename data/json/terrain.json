@@ -6300,7 +6300,7 @@
       "MOUNTABLE",
       "SHORT"
     ],
-    "deconstruct": { "ter_set": "t_floor", "items": [ { "item": "2x4", "count": 10 }, { "item": "nail", "count": 20 } ] },
+    "deconstruct": { "ter_set": "t_floor", "items": [ { "item": "2x4", "count": 10 }, { "item": "nail", "charges": 20 } ] },
     "bash": {
       "str_min": 8,
       "str_max": 20,
