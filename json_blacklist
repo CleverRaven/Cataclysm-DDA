@@ -749,8 +749,6 @@ data/mods/More_Locations/refugee_tower/refugee_tower_utlc_01.json
 data/mods/More_Locations/refugee_tower/refugee_tower_utrc_01.json
 data/mods/More_Locations/secret_doors/demo_map1.json
 data/mods/More_Locations/secret_doors/demo_map2.json
-data/mods/More_Locations/secret_doors/secret_door_gates.json
-data/mods/More_Locations/secret_doors/secret_door_terrain.json
 data/mods/More_Locations/tpalettes.json
 data/mods/More_Locations/tri_tower/overmap_specials.json
 data/mods/More_Locations/tri_tower/overmap_terrain.json
