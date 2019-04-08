@@ -288,30 +288,6 @@ static void get_tile_information( std::string config_path, std::string &json_pat
     }
 }
 
-inline static pixel get_pixel_color( SDL_Surface_Ptr &surf, int x, int y, int w )
-{
-    assert( surf );
-    pixel pix;
-    const auto pixelarray = reinterpret_cast<unsigned char *>( surf->pixels );
-    const auto pixel_ptr = pixelarray + ( y * w + x ) * 4;
-    pix.r = pixel_ptr[0];
-    pix.g = pixel_ptr[1];
-    pix.b = pixel_ptr[2];
-    pix.a = pixel_ptr[3];
-    return pix;
-}
-
-inline static void set_pixel_color( SDL_Surface_Ptr &surf, int x, int y, int w, pixel pix )
-{
-    assert( surf );
-    const auto pixelarray = reinterpret_cast<unsigned char *>( surf->pixels );
-    const auto pixel_ptr = pixelarray + ( y * w + x ) * 4;
-    pixel_ptr[0] = static_cast<unsigned char>( pix.r );
-    pixel_ptr[1] = static_cast<unsigned char>( pix.g );
-    pixel_ptr[2] = static_cast<unsigned char>( pix.b );
-    pixel_ptr[3] = static_cast<unsigned char>( pix.a );
-}
-
 static void color_pixel_grayscale( pixel &pix )
 {
     bool isBlack = pix.isBlack();
@@ -373,13 +349,15 @@ static SDL_Surface_Ptr apply_color_filter( const SDL_Surface_Ptr &original,
     assert( surf );
     throwErrorIf( SDL_BlitSurface( original.get(), NULL, surf.get(), NULL ) != 0,
                   "SDL_BlitSurface failed" );
-    for( int y = 0; y < surf->h; y++ ) {
-        for( int x = 0; x < surf->w; x++ ) {
-            pixel pix = get_pixel_color( surf, x, y, surf->w );
-            pixel_converter( pix );
-            set_pixel_color( surf, x, y, surf->w, pix );
+
+    auto pix = reinterpret_cast<pixel *>( surf->pixels );
+
+    for( int y = 0, ey = surf->h; y < ey; ++y ) {
+        for( int x = 0, ex = surf->w; x < ex; ++x, ++pix ) {
+            pixel_converter( *pix );
         }
     }
+
     return surf;
 }
 
@@ -1362,7 +1340,7 @@ void cata_tiles::process_minimap_cache_updates()
 
             for( const point &p : mcp.second.update_list ) {
                 const pixel &current_pix = mcp.second.minimap_colors[p.y * SEEX + p.x];
-                const SDL_Color c = current_pix.getSdlColor();
+                const SDL_Color c = current_pix.to_SDL_color();
 
                 SetRenderDrawColor( renderer, c.r, c.g, c.b, c.a );
 
@@ -1406,7 +1384,7 @@ minimap_submap_cache::minimap_submap_cache( minimap_shared_texture_pool &pool ) 
     pool( pool )
 {
     //set color to force updates on a new submap texture
-    minimap_colors.resize( SEEY * SEEX, pixel( -1, -1, -1, -1 ) );
+    minimap_colors.resize( SEEY * SEEX, pixel{ 0xFF, 0xFF, 0xFF, 0xFF } );
     minimap_tex = pool.request_tex( texture_index );
 }
 
@@ -1523,7 +1501,7 @@ void cata_tiles::draw_minimap( int destx, int desty, const tripoint &center, int
                 auto &terrain = g->m.ter( p ).obj();
                 color = cursesColorToSDL( terrain.color() );
             }
-            pixel pix( color );
+            auto pix = pixel::from_SDL_color( color );
             //color terrain according to lighting conditions
             if( nv_goggle ) {
                 if( lighting == LL_LOW ) {
@@ -1630,14 +1608,13 @@ void cata_tiles::draw_minimap( int destx, int desty, const tripoint &center, int
                                 //faction status (attacking or tracking) determines if red highlights get applied to creature
                                 monster_attitude matt = m->attitude( &( g->u ) );
                                 if( MATT_ATTACK == matt || MATT_FOLLOW == matt ) {
-                                    const pixel red_pixel( 0xFF, 0x0, 0x0 );
-
-                                    pixel p( c );
+                                    const auto red_pixel = pixel{ 0xFF, 0x0, 0x0, 0xFF };
+                                    auto p = pixel::from_SDL_color( c );
 
                                     p.mix_with( red_pixel, mixture );
                                     p.adjust_brightness( flicker );
 
-                                    c = p.getSdlColor();
+                                    c = p.to_SDL_color();
                                 }
                             }
                         }
