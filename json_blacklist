@@ -256,9 +256,6 @@ data/mods/More_Locations/estate/estate_ule_01.json
 data/mods/More_Locations/estate/estate_umid_01.json
 data/mods/More_Locations/estate/estate_ure_01.json
 data/mods/More_Locations/estate/estate_ute_01.json
-data/mods/More_Locations/estate/overmap_specials.json
-data/mods/More_Locations/estate/overmap_terrain.json
-data/mods/More_Locations/factions.json
 data/mods/More_Locations/factory/factory_be_01.json
 data/mods/More_Locations/factory/factory_be_02.json
 data/mods/More_Locations/factory/factory_be_03.json
@@ -316,9 +313,6 @@ data/mods/More_Locations/factory/factory_trc_02.json
 data/mods/More_Locations/factory/factory_trc_03.json
 data/mods/More_Locations/factory/factory_trc_04.json
 data/mods/More_Locations/factory/factory_trc_05.json
-data/mods/More_Locations/factory/overmap_specials.json
-data/mods/More_Locations/factory/overmap_terrain.json
-data/mods/More_Locations/furniture.json
 data/mods/More_Locations/military_outpost/mil_outpost_1be_00.json
 data/mods/More_Locations/military_outpost/mil_outpost_1be_01.json
 data/mods/More_Locations/military_outpost/mil_outpost_1blc_00.json
