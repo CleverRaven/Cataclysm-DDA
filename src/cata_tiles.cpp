@@ -288,61 +288,66 @@ static void get_tile_information( std::string config_path, std::string &json_pat
     }
 }
 
-static void color_pixel_grayscale( pixel &pix )
+static inline uint8_t average_pixel_color( const pixel &pix )
 {
-    bool isBlack = pix.isBlack();
-    int result = ( pix.r + pix.b + pix.g ) / 3;
-    result = result * 6 / 10;
-    if( result > 255 ) {
-        result = 255;
-    }
-    //workaround for color key 0 on some tilesets
-    if( result < 1 && !isBlack ) {
-        result = 1;
-    }
-    pix.r = result;
-    pix.g = result;
-    pix.b = result;
+    return 85 * ( pix.r + pix.g + pix.b ) >> 8; // 85/256 ~ 1/3
 }
 
-static void color_pixel_nightvision( pixel &pix )
-{
-    const int result_gray = ( pix.r + pix.b + pix.g ) / 3;
-    int result = result_gray * 3 / 4 + 64;
-    result = 16 + result_gray * result / 255;
-    if( result > 255 ) {
-        result = 255;
-    }
-    pix.r = result / 4;
-    pix.g = result;
-    pix.b = result / 7;
-}
-
-static void color_pixel_overexposed( pixel &pix )
-{
-    const int result_gray = ( pix.r + pix.b + pix.g ) / 3;
-    int result = result_gray / 4 + 192;
-    result = 64 + result_gray * result / 255;
-    if( result > 255 ) {
-        result = 255;
-    }
-    pix.r = result / 4;
-    pix.g = result;
-    pix.b = result / 7;
-}
-
-static void color_pixel_memorized( pixel &pix )
+static inline pixel color_pixel_grayscale( const pixel &pix )
 {
     if( pix.isBlack() ) {
-        return;
+        return pix;
     }
-    pix.r = clamp( pix.r / 3, 1, 255 );
-    pix.g = clamp( pix.g / 3, 1, 255 );
-    pix.b = clamp( pix.b / 3, 1, 255 );
+
+    const uint8_t av = average_pixel_color( pix );
+    const uint8_t result = std::max( av * 5 >> 3, 0x01 );
+
+    return { result, result, result, pix.a };
 }
 
+static inline pixel color_pixel_nightvision( const pixel &pix )
+{
+    const uint8_t av = average_pixel_color( pix );
+    const uint8_t result = std::min( ( av * ( ( av * 3 >> 2 ) + 64 ) >> 8 ) + 16, 0xFF );
+
+    return {
+        static_cast<uint8_t>( result >> 2 ),
+        static_cast<uint8_t>( result ),
+        static_cast<uint8_t>( result >> 3 ),
+        pix.a
+    };
+}
+
+static inline pixel color_pixel_overexposed( const pixel &pix )
+{
+    const uint8_t av = average_pixel_color( pix );
+    const uint8_t result = std::min( 64 + ( av * ( ( av >> 2 ) + 0xC0 ) >> 8 ), 0xFF );
+
+    return {
+        static_cast<uint8_t>( result >> 2 ),
+        static_cast<uint8_t>( result ),
+        static_cast<uint8_t>( result >> 3 ),
+        pix.a
+    };
+}
+
+static inline pixel color_pixel_memorized( const pixel &pix )
+{
+    if( pix.isBlack() ) {
+        return pix;
+    }
+    // 85/256 ~ 1/3
+    return {
+        std::max<uint8_t>( 85 * pix.r >> 8, 0x01 ),
+        std::max<uint8_t>( 85 * pix.g >> 8, 0x01 ),
+        std::max<uint8_t>( 85 * pix.b >> 8, 0x01 ),
+        pix.a
+    };
+}
+
+template<typename PixelConverter>
 static SDL_Surface_Ptr apply_color_filter( const SDL_Surface_Ptr &original,
-        void ( &pixel_converter )( pixel & ) )
+        PixelConverter pixel_converter )
 {
     assert( original );
     SDL_Surface_Ptr surf = create_tile_surface( original->w, original->h );
@@ -354,7 +359,7 @@ static SDL_Surface_Ptr apply_color_filter( const SDL_Surface_Ptr &original,
 
     for( int y = 0, ey = surf->h; y < ey; ++y ) {
         for( int x = 0, ex = surf->w; x < ex; ++x, ++pix ) {
-            pixel_converter( *pix );
+            *pix = pixel_converter( *pix );
         }
     }
 
@@ -1505,12 +1510,12 @@ void cata_tiles::draw_minimap( int destx, int desty, const tripoint &center, int
             //color terrain according to lighting conditions
             if( nv_goggle ) {
                 if( lighting == LL_LOW ) {
-                    color_pixel_nightvision( pix );
+                    pix = color_pixel_nightvision( pix );
                 } else if( lighting != LL_DARK && lighting != LL_BLANK ) {
-                    color_pixel_overexposed( pix );
+                    pix = color_pixel_overexposed( pix );
                 }
             } else if( lighting == LL_LOW ) {
-                color_pixel_grayscale( pix );
+                pix = color_pixel_grayscale( pix );
             }
 
             pix.adjust_brightness( brightness );
