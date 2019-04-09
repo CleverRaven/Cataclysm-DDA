@@ -712,11 +712,22 @@ class jmapgen_npc : public jmapgen_piece
     public:
         string_id<npc_template> npc_class;
         bool target;
+        std::vector<std::string> traits;
         jmapgen_npc( JsonObject &jsi ) : jmapgen_piece()
             , npc_class( jsi.get_string( "class" ) )
             , target( jsi.get_bool( "target", false ) ) {
             if( !npc_class.is_valid() ) {
                 jsi.throw_error( "unknown npc class", "class" );
+            }
+            if( jsi.has_string( "add_trait" ) ) {
+                std::string new_trait = jsi.get_string( "add_trait" );
+                traits.emplace_back( new_trait );
+            } else if( jsi.has_array( "add_trait" ) ) {
+                JsonArray ja = jsi.get_array( "add_trait" );
+                while( ja.has_more() ) {
+                    std::string new_trait = ja.next_string();
+                    traits.emplace_back( new_trait );
+                }
             }
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
@@ -724,6 +735,10 @@ class jmapgen_npc : public jmapgen_piece
             int npc_id = dat.m.place_npc( x.get(), y.get(), npc_class );
             if( miss && target ) {
                 miss->set_target_npc_id( npc_id );
+            }
+            npc *p = g->find_npc( npc_id );
+            for( const std::string &new_trait : traits ) {
+                p->set_mutation( trait_id( new_trait ) );
             }
         }
 };
@@ -8339,6 +8354,11 @@ void add_corpse( map *m, int x, int y )
 update_mapgen_function_json::update_mapgen_function_json( const std::string &s, const int w ) :
     mapgen_function( w ), mapgen_function_json_base( s )
 {
+}
+
+void update_mapgen_function_json::check( const std::string &oter_name ) const
+{
+    check_common( oter_name );
 }
 
 bool update_mapgen_function_json::setup_update( JsonObject &jo )

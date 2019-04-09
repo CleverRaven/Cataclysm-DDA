@@ -540,6 +540,7 @@ Places a field (see fields.h). Values:
 Places a new NPC. Values:
 - "class": (required, string) the npc class id, see data/json/npcs/npc.json or define your own npc class.
 - "target": (optional, bool) this NPC is a mission target.  Only valid for update_mapgen.
+- "add_trait" (optional, string or string array) this NPC gets these traits, in addition to any from the class definition.
 
 ### 2.5.2 "signs"
 Places a sign (furniture f_sign) with a message written on it. Either "signage" or "snippet" must be defined.  The message may include tags like \<full_name\>, \<given_name\>, and \<family_name\> that will insert a randomly generated name, or \<city\> that will insert the nearest city name.  Values:
