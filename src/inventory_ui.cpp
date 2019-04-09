@@ -2017,9 +2017,9 @@ std::list<std::pair<int, int>> inventory_drop_selector::execute()
             count = 0;
         } else if( input.action == "DROP_NON_FAVORITE" ) {
             const auto filter_to_nonfavorite_and_nonworn = []( const inventory_entry & entry ) {
-                return ( entry.is_item() &&
-                         !entry.location->is_favorite &&
-                         !g->u.is_worn( *entry.location ) );
+                return entry.is_item() &&
+                       !entry.location->is_favorite &&
+                       !g->u.is_worn( *entry.location );
             };
 
             const auto selected( get_active_column().get_entries( filter_to_nonfavorite_and_nonworn ) );
