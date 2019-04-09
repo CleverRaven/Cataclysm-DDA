@@ -510,7 +510,7 @@ TEST_CASE( "npc_talk_test" )
     CHECK( !has_item( g->u, "beer", 1 ) );
 
     d.add_topic( "TALK_COMBAT_COMMANDS" );
-    gen_response_lines( d, 8 );
+    gen_response_lines( d, 9 );
     CHECK( d.responses[0].text == "Change your engagement rules..." );
     CHECK( d.responses[1].text == "Change your aiming rules..." );
     CHECK( d.responses[2].text == "If you see me running away, you follow me." );
@@ -518,7 +518,8 @@ TEST_CASE( "npc_talk_test" )
     CHECK( d.responses[4].text == "Use only silent weapons." );
     CHECK( d.responses[5].text == "Don't use grenades anymore." );
     CHECK( d.responses[6].text == "Don't worry about shooting an ally." );
-    CHECK( d.responses[7].text == "Never mind." );
+    CHECK( d.responses[7].text == "Hold the line: don't move onto obstacles adjacent to me." );
+    CHECK( d.responses[8].text == "Never mind." );
 
     d.add_topic( "TALK_TEST_VARS" );
     gen_response_lines( d, 3 );

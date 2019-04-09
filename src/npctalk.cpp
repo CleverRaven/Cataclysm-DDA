@@ -266,12 +266,14 @@ void npc::handle_sound( int priority, const std::string &description, int heard_
             return;
         }
     }
-    // discount if sound source is player, or seen by player, and listener is friendly and sound source is combat or alert only.
+    // discount if sound source is player, or seen by player,
+    // and listener is friendly and sound source is combat or alert only.
     if( ( priority < 7 ) && g->u.sees( spos ) && ( is_friend() ||
             mission == NPC_MISSION_GUARD_ALLY ) ) {
-        add_msg( m_debug, "NPC %s ignored low priority noise that player can see", name.c_str() );
+        add_msg( m_debug, "NPC %s ignored low priority noise that player can see", name );
         return;
-        // discount if sound source is player, or seen by player, listener is neutral and sound type is worth investigating.
+        // discount if sound source is player, or seen by player,
+        //  listener is neutral and sound type is worth investigating.
     } else if( priority < 6 && get_attitude_group( get_attitude() ) != attitude_group::hostile &&
                g->u.sees( spos ) ) {
         return;
@@ -281,8 +283,12 @@ void npc::handle_sound( int priority, const std::string &description, int heard_
     if( mission == NPC_MISSION_GUARD_ALLY || mission == NPC_MISSION_GUARD_PATROL ) {
         investigate_dist = 50;
     }
-    if( priority > 3 && ai_cache.total_danger < 1.0f && rl_dist( pos(), spos ) < investigate_dist ) {
-        add_msg( m_debug, "NPC %s added noise at pos %d, %d", name.c_str(), spos.x, spos.y );
+    if( rules.has_flag( ally_rule::ignore_noise ) ) {
+        investigate_dist = 0;
+    }
+    if( priority > 3 && ai_cache.total_danger < 1.0f &&
+        rl_dist( pos(), spos ) < investigate_dist ) {
+        add_msg( m_debug, "NPC %s added noise at pos %d:%d", name, spos.x, spos.y );
         dangerous_sound temp_sound;
         temp_sound.pos = spos;
         temp_sound.volume = heard_volume;
@@ -2998,7 +3004,7 @@ consumption_result try_consume( npc &p, item &it, std::string &reason )
     // TODO: Unify this with 'player::consume_item()'
     bool consuming_contents = it.is_container() && !it.contents.empty();
     item &to_eat = consuming_contents ? it.contents.front() : it;
-    const auto &comest = to_eat.type->comestible;
+    const auto &comest = to_eat.get_comestible();
     if( !comest ) {
         // Don't inform the player that we don't want to eat the lighter
         return REFUSED;

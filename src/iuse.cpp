@@ -287,14 +287,14 @@ int iuse::xanax( player *p, item *it, bool, const tripoint & )
 
 int iuse::caff( player *p, item *it, bool, const tripoint & )
 {
-    p->mod_fatigue( -( it->type->comestible ? it->type->comestible->stim : 0 ) * 3 );
+    p->mod_fatigue( -( it->get_comestible() ? it->get_comestible()->stim : 0 ) * 3 );
     return it->type->charges_to_use();
 }
 
 int iuse::atomic_caff( player *p, item *it, bool, const tripoint & )
 {
     p->add_msg_if_player( m_good, _( "Wow!  This %s has a kick." ), it->tname().c_str() );
-    p->mod_fatigue( -( it->type->comestible ? it->type->comestible->stim : 0 ) * 12 );
+    p->mod_fatigue( -( it->get_comestible() ? it->get_comestible()->stim : 0 ) * 12 );
     p->irradiate( 8, true );
     return it->type->charges_to_use();
 }
@@ -316,9 +316,9 @@ int alcohol( player &p, const item &it, const int strength )
                    6_turns, 10_turns, 10_turns ) * p.str_max );
         // Metabolizing the booze improves the nutritional value;
         // might not be healthy, and still causes Thirst problems, though
-        p.mod_hunger( -( abs( it.type->comestible ? it.type->comestible->stim : 0 ) ) );
+        p.mod_hunger( -( abs( it.get_comestible() ? it.get_comestible()->stim : 0 ) ) );
         // Metabolizing it cancels out the depressant
-        p.stim += abs( it.type->comestible ? it.type->comestible->stim : 0 );
+        p.stim += abs( it.get_comestible() ? it.get_comestible()->stim : 0 );
     } else if( p.has_trait( trait_TOLERANCE ) ) {
         duration -= alc_strength( strength, 12_minutes, 30_minutes, 45_minutes );
     } else if( p.has_trait( trait_LIGHTWEIGHT ) ) {
@@ -885,12 +885,12 @@ int iuse::blech( player *p, item *it, bool, const tripoint & )
         //reverse the harmful values of drinking this acid.
         double multiplier = -1;
         p->mod_hunger( -p->nutrition_for( *it ) * multiplier );
-        p->mod_thirst( -it->type->comestible->quench * multiplier );
+        p->mod_thirst( -it->get_comestible()->quench * multiplier );
         p->mod_thirst( -20 ); //acidproof people can drink acids like diluted water.
         p->mod_stomach_water( 20 );
-        p->mod_healthy_mod( it->type->comestible->healthy * multiplier,
-                            it->type->comestible->healthy * multiplier );
-        p->add_morale( MORALE_FOOD_BAD, it->type->comestible->fun * multiplier, 60, 1_hours, 30_minutes,
+        p->mod_healthy_mod( it->get_comestible()->healthy * multiplier,
+                            it->get_comestible()->healthy * multiplier );
+        p->add_morale( MORALE_FOOD_BAD, it->get_comestible()->fun * multiplier, 60, 1_hours, 30_minutes,
                        false, it->type );
     } else {
         p->add_msg_if_player( m_bad, _( "Blech, that burns your throat!" ) );
@@ -915,9 +915,9 @@ int iuse::plantblech( player *p, item *it, bool, const tripoint &pos )
 
         //reverses the harmful values of drinking fertilizer
         p->mod_hunger( p->nutrition_for( *it ) * multiplier );
-        p->mod_thirst( -it->type->comestible->quench * multiplier );
-        p->mod_healthy_mod( it->type->comestible->healthy * multiplier,
-                            it->type->comestible->healthy * multiplier );
+        p->mod_thirst( -it->get_comestible()->quench * multiplier );
+        p->mod_healthy_mod( it->get_comestible()->healthy * multiplier,
+                            it->get_comestible()->healthy * multiplier );
         p->add_morale( MORALE_FOOD_GOOD, -10 * multiplier, 60, 1_hours, 30_minutes, false, it->type );
         return it->type->charges_to_use();
     } else {
@@ -8060,6 +8060,22 @@ int iuse::panacea( player *p, item *it, bool, const tripoint & )
     }
     p->add_effect( effect_panacea, 1_minutes );
     return it->type->charges_to_use();
+}
+
+int iuse::craft( player *p, item *it, bool, const tripoint & )
+{
+    int pos = p->get_item_position( it );
+
+    if( pos != INT_MIN ) {
+        p->add_msg_player_or_npc(
+            string_format( pgettext( "in progress craft", "You start working on the %s" ), it->tname() ),
+            string_format( pgettext( "in progress craft", "<npcname> starts working on the %s" ), it->tname()
+                         ) );
+        p->assign_activity( activity_id( "ACT_CRAFT" ) );
+        p->activity.targets.push_back( item_location( *p, it ) );
+        p->activity.values.push_back( 0 ); // Not a long craft
+    }
+    return 0;
 }
 
 int iuse::disassemble( player *p, item *it, bool, const tripoint & )

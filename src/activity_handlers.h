@@ -120,8 +120,6 @@ void wait_weather_finish( player_activity *act, player *p );
 void wait_npc_finish( player_activity *act, player *p );
 void socialize_finish( player_activity *act, player *p );
 void try_sleep_finish( player_activity *act, player *p );
-void craft_finish( player_activity *act, player *p );
-void longcraft_finish( player_activity *act, player *p );
 void disassemble_finish( player_activity *act, player *p );
 void build_finish( player_activity *act, player *p );
 void vibe_finish( player_activity *act, player *p );
