@@ -107,6 +107,7 @@
 	  "H": "t_door_curtain_c",
       "u": "t_pit_shallow",
       "U": "t_pit",
+	  "V": "t_covered_well",
 	  "W": "t_pit_spiked",
       "x": "t_console_broken",
       "#": "t_junk_palisade",

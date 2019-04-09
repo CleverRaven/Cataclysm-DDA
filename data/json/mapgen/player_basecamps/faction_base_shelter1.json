@@ -786,14 +786,14 @@
     "method": "json",
     "weight": 100,
     "om_terrain": [ "faction_base_shelter1_6b" ],
-	"//": "Layout expanded sleeping arrangements.",
+	"//": "Layout expanded sleeping arrangements and begin well.",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
         "UUUUUUUUWW WWW WWUUUUUUU",
         "U      U         U     U",
         "U                      U",
-        "U                      U",
+        "U       U              U",
         "U   |||||(|$[|(|||||   U",
         "U   |lll......7c9G6|   U",
         "UU  |..........c...|   U",
@@ -804,16 +804,200 @@
         "W   [......>>......$   W",
         "W   $......>>......[   W",
         "    |...........'''|   W",
-        "W   ('H'H''H''..'BB(    ",
-        "W   |B.'.B'.B'..H..|   W",
-        "UU  |B.'.B'.B'..'''|   W",
-        "U   |||'''''''..H..|  UU",
+        "W   ('H'H''.....'BB(    ",
+        "W   |B.'.B'.....H..|   W",
+        "UU  |B.'.B'.....'''|   W",
+        "U   |||''''.....H..|  UU",
         "U   |*=.........'BB|   U",
-        "U   |||||+|[$|(|||||   U",
-        "U       'u'            U",
-        "U       '''            U",
+        "U   |||||H|[$|(|||||   U",
+        "U       -u-            U",
+        "U       ---            U",
         "U     U         U      U",
         "UUUUUUUWW WWW WWUUUUUUUU"
+      ],
+      "palettes": [ "shelter_camp" ],
+      "computers": {
+        "6": {
+          "name": "Evac shelter computer", "options": [
+            { "name": "Emergency Message", "action": "emerg_mess" },
+            { "name": "Disable External Power", "action": "complete_disable_external_power" },
+            { "name": "Contact Us", "action": "emerg_ref_center" }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "weight": 100,
+    "om_terrain": [ "faction_base_shelter1_6" ],
+	"//": "Junk metal wall and sleeping quarters begun.",
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "##UUUU##WW WWW WW##UUU##",
+        "#      #         #     #",
+        "U                      U",
+        "U       U              U",
+        "U   |||||(|$[|(|||||   U",
+        "#   |lll......7c9G6|   U",
+        "##  |..........c...|   #",
+        "W   |.bTTb.........|  ##",
+        "W   |.bTTb.........|   W",
+        "    (.bTTb.........(   W",
+        "W   |...o..........|    ",
+        "W   [......>>......$   W",
+        "W   $......>>......[   W",
+        "    |...........'''|   W",
+        "W   ('H'H''.....'BB(    ",
+        "W   |B.'.B'.....H..|   W",
+        "##  |B.'.B'.....'''|   W",
+        "#   |||''''.....H..|  ##",
+        "U   |*=.........'BB|   #",
+        "U   |||||H|[$|(|||||   U",
+        "U       -u-            U",
+        "U       ---            U",
+        "#     #         #      #",
+        "##UUU##WW WWW WW##UUUU##"
+      ],
+      "palettes": [ "shelter_camp" ],
+      "computers": {
+        "6": {
+          "name": "Evac shelter computer", "options": [
+            { "name": "Emergency Message", "action": "emerg_mess" },
+            { "name": "Disable External Power", "action": "complete_disable_external_power" },
+            { "name": "Contact Us", "action": "emerg_ref_center" }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "weight": 100,
+    "om_terrain": [ "faction_base_shelter1_7a" ],
+	"//": "Junk metal wall complete.",
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "########WW WWW WW#######",
+        "#      #         #     #",
+        "#                      #",
+        "#       U              #",
+        "#   |||||(|$[|(|||||   #",
+        "#   |lll......7c9G6|   #",
+        "##  |..........c...|   #",
+        "W   |.bTTb.........|  ##",
+        "W   |.bTTb.........|   W",
+        "    (.bTTb.........(   W",
+        "W   |...o..........|    ",
+        "W   [......>>......$   W",
+        "W   $......>>......[   W",
+        "    |...........'''|   W",
+        "W   ('H'H''.....'BB(    ",
+        "W   |B.'.B'.....H..|   W",
+        "##  |B.'.B'.....'''|   W",
+        "#   |||''''.....H..|  ##",
+        "#   |*=.........'BB|   #",
+        "#   |||||H|[$|(|||||   #",
+        "#       -u-            #",
+        "#       ---            #",
+        "#     #         #      #",
+        "#######WW WWW WW########"
+      ],
+      "palettes": [ "shelter_camp" ],
+      "computers": {
+        "6": {
+          "name": "Evac shelter computer", "options": [
+            { "name": "Emergency Message", "action": "emerg_mess" },
+            { "name": "Disable External Power", "action": "complete_disable_external_power" },
+            { "name": "Contact Us", "action": "emerg_ref_center" }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "weight": 100,
+    "om_terrain": [ "faction_base_shelter1_7b" ],
+	"//": "Continue sleeping quarters and well.",
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "##UUUU##WW WWW WW##UUU##",
+        "#      #         #     #",
+        "U      ''''            U",
+        "U      'V '            U",
+        "U   |||||(|$[|(|||||   U",
+        "#   |lll......7c9G6|   U",
+        "##  |..........c...|   #",
+        "W   |.bTTb.........|  ##",
+        "W   |.bTTb.........|   W",
+        "    (.bTTb.........(   W",
+        "W   |...o..........|    ",
+        "W   [......>>......$   W",
+        "W   $......>>......[   W",
+        "    |...........---|   W",
+        "W   (-H-H--H--..-BB(    ",
+        "W   |B.-.B-.B-..H..|   W",
+        "##  |B.-.B-.B-..---|   W",
+        "#   |||-------..H..|  ##",
+        "U   |*=.........-BB|   #",
+        "U   |||||+|[$|(|||||   U",
+        "U       -u-            U",
+        "U       ---            U",
+        "#     #         #      #",
+        "##UUU##WW WWW WW##UUUU##"
+      ],
+      "palettes": [ "shelter_camp" ],
+      "computers": {
+        "6": {
+          "name": "Evac shelter computer", "options": [
+            { "name": "Emergency Message", "action": "emerg_mess" },
+            { "name": "Disable External Power", "action": "complete_disable_external_power" },
+            { "name": "Contact Us", "action": "emerg_ref_center" }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "weight": 100,
+    "om_terrain": [ "faction_base_shelter1_7" ],
+	"//": "Junk metal wall complete, living spaces mostly done, well nearly done.",
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "########WW WWW WW#######",
+        "#      #         #     #",
+        "#      ''''            #",
+        "#      'V '            #",
+        "#   |||||(|$[|(|||||   #",
+        "#   |lll......7c9G6|   #",
+        "##  |..........c...|   #",
+        "W   |.bTTb.........|  ##",
+        "W   |.bTTb.........|   W",
+        "    (.bTTb.........(   W",
+        "W   |...o..........|    ",
+        "W   [......>>......$   W",
+        "W   $......>>......[   W",
+        "    |...........---|   W",
+        "W   (-H-H--H--..-BB(    ",
+        "W   |B.-.B-.B-..H..|   W",
+        "##  |B.-.B-.B-..---|   W",
+        "#   |||-------..H..|  ##",
+        "#   |*=.........-BB|   #",
+        "#   |||||+|[$|(|||||   #",
+        "#       -u-            #",
+        "#       ---            #",
+        "#     #         #      #",
+        "#######WW WWW WW########"
       ],
       "palettes": [ "shelter_camp" ],
       "computers": {
