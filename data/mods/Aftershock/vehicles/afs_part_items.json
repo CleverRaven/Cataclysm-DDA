@@ -78,7 +78,7 @@
     "type": "GENERIC",
     "id": "afs_control_station",
     "name": "control station",
-    "description": "A large and complex set of various vehicle controls.  Useful for a vehicle.",
+    "description": "A large and complex piloting station from a military vehicle, including a camera station, steering tools, and electronics controls.",
     "weight": 9000,
     "to_hit": -4,
     "color": "red",
