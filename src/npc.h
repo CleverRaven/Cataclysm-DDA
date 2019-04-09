@@ -14,6 +14,7 @@
 #include "optional.h"
 #include "pimpl.h"
 #include "player.h"
+#include "simple_pathfinding.h"
 
 class JsonObject;
 class JsonIn;
@@ -94,12 +95,14 @@ enum npc_mission : int {
     NPC_MISSION_GUARD, // Assigns an non-allied NPC to remain in place
     NPC_MISSION_GUARD_PATROL, // Assigns a non-allied NPC to guard and investigate
     NPC_MISSION_ACTIVITY, // Perform a player_activity until it is complete
+    NPC_MISSION_TRAVELLING,
 };
 
 struct npc_companion_mission {
     std::string mission_id;
     tripoint position;
     std::string role_id;
+    cata::optional<tripoint> destination;
 };
 
 std::string npc_class_name( const npc_class_id & );
@@ -224,7 +227,10 @@ enum class ally_rule {
     allow_complain = 128,
     allow_pulp = 256,
     close_doors = 512,
-    avoid_combat = 1024
+    avoid_combat = 1024,
+    avoid_doors = 2048,
+    hold_the_line = 4096,
+    ignore_noise = 8192
 };
 const std::unordered_map<std::string, ally_rule> ally_rule_strs = { {
         { "use_guns", ally_rule::use_guns },
@@ -237,7 +243,10 @@ const std::unordered_map<std::string, ally_rule> ally_rule_strs = { {
         { "allow_complain", ally_rule::allow_complain },
         { "allow_pulp", ally_rule::allow_pulp },
         { "close_doors", ally_rule::close_doors },
-        { "avoid_combat", ally_rule::avoid_combat }
+        { "avoid_combat", ally_rule::avoid_combat },
+        { "avoid_doors", ally_rule::avoid_doors },
+        { "hold_the_line", ally_rule::hold_the_line },
+        { "ignore_noise", ally_rule::ignore_noise }
     }
 };
 
@@ -565,10 +574,7 @@ class npc : public player
         nc_color basic_symbol_color() const override;
         int print_info( const catacurses::window &w, int vStart, int vLines, int column ) const override;
         std::string opinion_text() const;
-
-        // Goal / mission functions
-        bool fac_has_value( faction_value value ) const;
-        bool fac_has_job( faction_job job ) const;
+        int faction_display( const catacurses::window &fac_w, const int width ) const;
 
         // Interaction with the player
         void form_opinion( const player &u );
@@ -603,6 +609,7 @@ class npc : public player
         bool has_player_activity() const;
         /** Standing in one spot, moving back if removed from it. */
         bool is_guarding() const;
+        bool is_travelling() const;
         /** Trusts you a lot. */
         bool is_minion() const;
         /** Is enemy or will turn into one (can't be convinced not to attack). */
@@ -615,7 +622,7 @@ class npc : public player
         int  follow_distance() const; // How closely do we follow the player?
 
         // Dialogue and bartering--see npctalk.cpp
-        void talk_to_u( bool text_only = false );
+        void talk_to_u( bool text_only = false, bool radio_contact = false );
         // Re-roll the inventory of a shopkeeper
         void shop_restock();
         // Use and assessment of items
@@ -746,7 +753,9 @@ class npc : public player
          * @returns If it updated the path.
          */
         bool update_path( const tripoint &p, bool no_bashing = false, bool force = true );
+        bool can_open_door( const tripoint &p, const bool inside ) const;
         bool can_move_to( const tripoint &p, bool no_bashing = false ) const;
+
         // nomove is used to resolve recursive invocation
         void move_to( const tripoint &p, bool no_bashing = false, std::set<tripoint> *nomove = nullptr );
         void move_to_next(); // Next in <path>
@@ -838,7 +847,7 @@ class npc : public player
          * Do not use when placing a NPC in mapgen.
          */
         void setpos( const tripoint &pos ) override;
-
+        void travel_overmap( const tripoint &pos );
         npc_attitude get_attitude() const;
         void set_attitude( npc_attitude new_attitude );
 
@@ -892,7 +901,7 @@ class npc : public player
          * if no goal exist, this is no_goal_point.
          */
         tripoint goal;
-
+        std::vector<tripoint> omt_path;
         tripoint wander_pos; // Not actually used (should be: wander there when you hear a sound)
         int wander_time;
 
@@ -945,8 +954,11 @@ class npc : public player
         void set_companion_mission( npc &p, const std::string &mission_id );
         void set_companion_mission( const tripoint &omt_pos, const std::string &role_id,
                                     const std::string &mission_id );
+        void set_companion_mission( const tripoint &omt_pos, const std::string &role_id,
+                                    const std::string &mission_id, const tripoint &destination );
         /// Unset a companion mission. Precondition: `!has_companion_mission()`
         void reset_companion_mission();
+        cata::optional<tripoint> get_mission_destination() const;
         bool has_companion_mission() const;
         npc_companion_mission get_companion_mission() const;
         attitude_group get_attitude_group( npc_attitude att );

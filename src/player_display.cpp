@@ -282,12 +282,6 @@ void player::disp_info()
             }
         }
 
-        int starvation_speed_penalty = abs( hunger_speed_penalty( get_starvation() + get_hunger() ) );
-
-        if( get_hunger() + get_starvation() > 100 ) {
-            starvation_text << _( "Speed" ) << " -" << starvation_speed_penalty << "%   ";
-        }
-
         effect_text.push_back( starvation_text.str() );
     }
 
@@ -684,9 +678,9 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                    ( pen < 10 ? " " : "" ), pen );
         line++;
     }
-    if( get_hunger() + get_starvation() > 100 ) {
-        pen = abs( hunger_speed_penalty( get_hunger() + get_starvation() ) );
-        mvwprintz( w_speed, line, 1, c_red, _( "Under-Fed           -%s%d%%" ),
+    if( kcal_speed_penalty() < 0 ) {
+        pen = abs( kcal_speed_penalty() );
+        mvwprintz( w_speed, line, 1, c_red, _( "Starving            -%s%d%%" ),
                    ( pen < 10 ? " " : "" ), pen );
         line++;
     }

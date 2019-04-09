@@ -44,6 +44,22 @@
   },
   {
     "type": "city_building",
+    "id": "s_teashop",
+    "locations": [ "land" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "s_teashop_north" }, { "point": [ 0, 0, 1 ], "overmap": "s_teashop_roof_north" } ]
+  },
+  {
+    "type": "city_building",
+    "id": "s_teashop_1",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "s_teashop_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "s_teashop_roof_1_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "s_teashop_upper_roof_1_north" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "animalshelter",
     "locations": [ "land" ],
     "overmaps": [
@@ -1032,6 +1048,42 @@
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "icecream_shop_north" },
       { "point": [ 0, 0, 1 ], "overmap": "icecream_shop_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "s_liquor",
+    "locations": [ "land" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "s_liquor_north" }, { "point": [ 0, 0, 1 ], "overmap": "s_liquor_roof_north" } ]
+  },
+  {
+    "type": "city_building",
+    "id": "bar",
+    "locations": [ "land" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "bar_north" }, { "point": [ 0, 0, 1 ], "overmap": "bar_roof_north" } ]
+  },
+  {
+    "type": "city_building",
+    "id": "bar_1",
+    "locations": [ "land" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "bar_1_north" }, { "point": [ 0, 0, 1 ], "overmap": "bar_roof_1_north" } ]
+  },
+  {
+    "type": "city_building",
+    "id": "candy_shop",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "candy_shop_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "candy_shop_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "candy_shop_1",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "candy_shop_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "candy_shop_roof_1_north" }
     ]
   }
 ]

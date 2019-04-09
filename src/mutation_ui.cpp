@@ -290,7 +290,7 @@ void player::power_mutations()
                         deactivate_mutation( mut_id );
                         // Action done, leave screen
                         break;
-                    } else if( ( !mut_data.hunger || get_hunger() <= 400 ) &&
+                    } else if( ( !mut_data.hunger || get_kcal_percent() >= 0.8f ) &&
                                ( !mut_data.thirst || get_thirst() <= 400 ) &&
                                ( !mut_data.fatigue || get_fatigue() <= 400 ) ) {
 

@@ -94,17 +94,17 @@ std::tuple<char, nc_color, size_t> get_note_display_info( const std::string &not
     return result;
 }
 
-std::array<std::pair<nc_color, long>, npm_width *npm_height> get_overmap_neighbors(
+std::array<std::pair<nc_color, std::string>, npm_width *npm_height> get_overmap_neighbors(
     const tripoint &current )
 {
     const bool has_debug_vision = g->u.has_trait( trait_id( "DEBUG_NIGHTVISION" ) );
 
-    std::array<std::pair<nc_color, long>, npm_width *npm_height> map_around;
+    std::array<std::pair<nc_color, std::string>, npm_width *npm_height> map_around;
     int index = 0;
     const point shift( npm_width / 2, npm_height / 2 );
     for( const tripoint &dest : tripoint_range( current - shift, current + shift ) ) {
         nc_color ter_color = c_black;
-        long ter_sym = ' ';
+        std::string ter_sym = " ";
         const bool see = has_debug_vision || overmap_buffer.seen( dest.x, dest.y, dest.z );
         if( see ) {
             // Only load terrain if we can actually see it
@@ -113,7 +113,7 @@ std::array<std::pair<nc_color, long>, npm_width *npm_height> get_overmap_neighbo
             ter_sym = cur_ter->get_sym();
         } else {
             ter_color = c_dark_gray;
-            ter_sym = '#';
+            ter_sym = "#";
         }
         map_around[index++] = std::make_pair( ter_color, ter_sym );
     }
@@ -121,7 +121,7 @@ std::array<std::pair<nc_color, long>, npm_width *npm_height> get_overmap_neighbo
 }
 
 void update_note_preview( const std::string &note,
-                          const std::array<std::pair<nc_color, long>, npm_width *npm_height> &map_around,
+                          const std::array<std::pair<nc_color, std::string>, npm_width *npm_height> &map_around,
                           const std::tuple<catacurses::window *, catacurses::window *, catacurses::window *>
                           &preview_windows )
 {
@@ -180,7 +180,7 @@ weather_type get_weather_at_point( const tripoint &pos )
     return iter->second;
 }
 
-bool get_scent_glyph( const tripoint &pos, nc_color &ter_color, long &ter_sym )
+bool get_scent_glyph( const tripoint &pos, nc_color &ter_color, std::string &ter_sym )
 {
     auto possible_scent = overmap_buffer.scent_at( pos );
     if( possible_scent.creation_time != calendar::before_time_starts ) {
@@ -198,7 +198,7 @@ bool get_scent_glyph( const tripoint &pos, nc_color &ter_color, long &ter_sym )
             c++;
             scent_strength /= 10;
         }
-        ter_sym = c;
+        ter_sym = std::string( 1, c );
         return true;
     }
     // but it makes no scents!
@@ -425,7 +425,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
     size_t cache_next = 0;
 
     const auto set_color_and_symbol = [&]( const oter_id & cur_ter, const int omx, const int omy,
-                                           const int z, long & ter_sym,
+                                           const int z, std::string & ter_sym,
     nc_color & ter_color ) {
         // First see if we have the oter_t cached
         oter_t const *info = nullptr;
@@ -454,7 +454,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
 
     // For use with place_special: cache the color and symbol of each submap
     // and record the bounds to optimize lookups below
-    std::unordered_map<point, std::pair<long, nc_color>> special_cache;
+    std::unordered_map<point, std::pair<std::string, nc_color>> special_cache;
 
     point s_begin, s_end = point_zero;
     if( blink && uistate.place_special ) {
@@ -479,6 +479,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
         nc_color color;
         size_t count;
     };
+    std::vector<tripoint> path_route;
     std::unordered_map<tripoint, npc_coloring> npc_color;
     if( blink ) {
         const auto &npcs = overmap_buffer.get_npcs_near_player( sight_points );
@@ -502,6 +503,35 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
                 }
             }
         }
+        std::vector<npc *> followers;
+        for( auto &elem : g->get_follower_list() ) {
+            std::shared_ptr<npc> npc_to_get = overmap_buffer.find_npc( elem );
+            npc *npc_to_add = npc_to_get.get();
+            followers.push_back( npc_to_add );
+        }
+        for( const auto &np : followers ) {
+            if( np->posz() != z ) {
+                continue;
+            }
+            if( !np->omt_path.empty() ) {
+                for( auto &elem : np->omt_path ) {
+                    tripoint tri_to_add = tripoint( elem.x, elem.y, np->posz() );
+                    path_route.push_back( tri_to_add );
+                }
+            }
+            const tripoint pos = np->global_omt_location();
+            auto iter = npc_color.find( pos );
+            nc_color np_color = np->basic_symbol_color();
+            if( iter == npc_color.end() ) {
+                npc_color[ pos ] = { np_color, 1 };
+            } else {
+                iter->second.count++;
+                // Randomly change to new NPC's color
+                if( iter->second.color != np_color && one_in( iter->second.count ) ) {
+                    iter->second.color = np_color;
+                }
+            }
+        }
     }
 
     for( int i = 0; i < om_map_width; ++i ) {
@@ -511,7 +541,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
 
             oter_id cur_ter = oter_str_id::NULL_ID();
             nc_color ter_color = c_black;
-            long ter_sym = ' ';
+            std::string ter_sym = " ";
 
             const bool see = has_debug_vision || overmap_buffer.seen( omx, omy, z );
             if( see ) {
@@ -523,11 +553,11 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
             // Check if location is within player line-of-sight
             const bool los = see && g->u.overmap_los( cur_pos, sight_points );
             const bool los_sky = g->u.overmap_los( cur_pos, sight_points * 2 );
-
+            int mycount = std::count( path_route.begin(), path_route.end(), cur_pos );
             if( blink && cur_pos == orig ) {
                 // Display player pos, should always be visible
                 ter_color = g->u.symbol_color();
-                ter_sym   = '@';
+                ter_sym = "@";
             } else if( viewing_weather && ( data.debug_weather || los_sky ) ) {
                 weather_datum weather = weather_data( get_weather_at_point( tripoint( omx, omy, z ) ) );
                 ter_color = weather.map_color;
@@ -536,11 +566,11 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
             } else if( blink && has_target && omx == target.x && omy == target.y ) {
                 // Mission target, display always, player should know where it is anyway.
                 ter_color = c_red;
-                ter_sym   = '*';
+                ter_sym = "*";
                 if( target.z > z ) {
-                    ter_sym = '^';
+                    ter_sym = "^";
                 } else if( target.z < z ) {
-                    ter_sym = 'v';
+                    ter_sym = "v";
                 }
             } else if( blink && overmap_buffer.has_note( cur_pos ) ) {
                 // Display notes in all situations, even when not seen
@@ -549,24 +579,27 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
             } else if( !see ) {
                 // All cases above ignore the seen-status,
                 ter_color = c_dark_gray;
-                ter_sym   = '#';
+                ter_sym   = "#";
                 // All cases below assume that see is true.
             } else if( blink && npc_color.count( cur_pos ) != 0 ) {
                 // Visible NPCs are cached already
                 ter_color = npc_color[ cur_pos ].color;
-                ter_sym   = '@';
+                ter_sym   = "@";
+            } else if( blink && mycount != 0 && g->debug_pathfinding ) {
+                ter_color = c_red;
+                ter_sym   = "!";
             } else if( blink && showhordes && los &&
                        overmap_buffer.get_horde_size( omx, omy, z ) >= HORDE_VISIBILITY_SIZE ) {
                 // Display Hordes only when within player line-of-sight
                 ter_color = c_green;
-                ter_sym   = overmap_buffer.get_horde_size( omx, omy, z ) > HORDE_VISIBILITY_SIZE * 2 ? 'Z' : 'z';
+                ter_sym   = overmap_buffer.get_horde_size( omx, omy, z ) > HORDE_VISIBILITY_SIZE * 2 ? "Z" : "z";
             } else if( blink && overmap_buffer.has_vehicle( omx, omy, z ) ) {
                 // Display Vehicles only when player can see the location
                 ter_color = c_cyan;
-                ter_sym   = 'c';
+                ter_sym   = "c";
             } else if( !sZoneName.empty() && tripointZone.x == omx && tripointZone.y == omy ) {
                 ter_color = c_yellow;
-                ter_sym   = 'Z';
+                ter_sym   = "Z";
             } else if( !uistate.overmap_show_forest_trails && cur_ter &&
                        is_ot_type( "forest_trail", cur_ter ) ) {
                 // If forest trails shouldn't be displayed, and this is a forest trail, then
@@ -588,7 +621,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
 
                 if( mgroup && mgroup->target.x / 2 == localx / 2 && mgroup->target.y / 2 == localy / 2 ) {
                     ter_color = c_red;
-                    ter_sym = 'x';
+                    ter_sym = "x";
                 } else {
                     const auto &groups = overmap_buffer.monsters_at( omx, omy, center.z );
                     for( auto &mgp : groups ) {
@@ -598,15 +631,15 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
                         }
                         if( mgp->horde ) {
                             // Hordes show as +
-                            ter_sym = '+';
+                            ter_sym = "+";
                             break;
                         } else {
                             // Regular groups show as -
-                            ter_sym = '-';
+                            ter_sym = "-";
                         }
                     }
                     // Set the color only if we encountered an eligible group.
-                    if( ter_sym == '+' || ter_sym == '-' ) {
+                    if( ter_sym == "+" || ter_sym == "-" ) {
                         if( los ) {
                             ter_color = c_light_blue;
                         } else {
@@ -662,32 +695,32 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
           target.y >= offset_y + om_map_height ) ) {
         int marker_x = clamp( target.x - offset_x, 0, om_map_width  - 1 );
         int marker_y = clamp( target.y - offset_y, 0, om_map_height - 1 );
-        long marker_sym = ' ';
+        std::string marker_sym = " ";
 
         switch( direction_from( cursx, cursy, target.x, target.y ) ) {
             case NORTH:
-                marker_sym = '^';
+                marker_sym = "^";
                 break;
             case NORTHEAST:
-                marker_sym = LINE_OOXX;
+                marker_sym = LINE_OOXX_S;
                 break;
             case EAST:
-                marker_sym = '>';
+                marker_sym = ">";
                 break;
             case SOUTHEAST:
-                marker_sym = LINE_XOOX;
+                marker_sym = LINE_XOOX_S;
                 break;
             case SOUTH:
-                marker_sym = 'v';
+                marker_sym = "v";
                 break;
             case SOUTHWEST:
-                marker_sym = LINE_XXOO;
+                marker_sym = LINE_XXOO_S;
                 break;
             case WEST:
-                marker_sym = '<';
+                marker_sym = "<";
                 break;
             case NORTHWEST:
-                marker_sym = LINE_OXXO;
+                marker_sym = LINE_OXXO_S;
                 break;
             default:
                 break; //Do nothing

@@ -266,12 +266,14 @@ void npc::handle_sound( int priority, const std::string &description, int heard_
             return;
         }
     }
-    // discount if sound source is player, or seen by player, and listener is friendly and sound source is combat or alert only.
+    // discount if sound source is player, or seen by player,
+    // and listener is friendly and sound source is combat or alert only.
     if( ( priority < 7 ) && g->u.sees( spos ) && ( is_friend() ||
             mission == NPC_MISSION_GUARD_ALLY ) ) {
-        add_msg( m_debug, "NPC %s ignored low priority noise that player can see", name.c_str() );
+        add_msg( m_debug, "NPC %s ignored low priority noise that player can see", name );
         return;
-        // discount if sound source is player, or seen by player, listener is neutral and sound type is worth investigating.
+        // discount if sound source is player, or seen by player,
+        //  listener is neutral and sound type is worth investigating.
     } else if( priority < 6 && get_attitude_group( get_attitude() ) != attitude_group::hostile &&
                g->u.sees( spos ) ) {
         return;
@@ -281,8 +283,12 @@ void npc::handle_sound( int priority, const std::string &description, int heard_
     if( mission == NPC_MISSION_GUARD_ALLY || mission == NPC_MISSION_GUARD_PATROL ) {
         investigate_dist = 50;
     }
-    if( priority > 3 && ai_cache.total_danger < 1.0f && rl_dist( pos(), spos ) < investigate_dist ) {
-        add_msg( m_debug, "NPC %s added noise at pos %d, %d", name.c_str(), spos.x, spos.y );
+    if( rules.has_flag( ally_rule::ignore_noise ) ) {
+        investigate_dist = 0;
+    }
+    if( priority > 3 && ai_cache.total_danger < 1.0f &&
+        rl_dist( pos(), spos ) < investigate_dist ) {
+        add_msg( m_debug, "NPC %s added noise at pos %d:%d", name, spos.x, spos.y );
         dangerous_sound temp_sound;
         temp_sound.pos = spos;
         temp_sound.volume = heard_volume;
@@ -332,7 +338,7 @@ void npc_chatbin::check_missions()
     ma.erase( last, ma.end() );
 }
 
-void npc::talk_to_u( bool text_only )
+void npc::talk_to_u( bool text_only, bool radio_contact )
 {
     if( g->u.is_dead_state() ) {
         set_attitude( NPCATT_NULL );
@@ -363,8 +369,9 @@ void npc::talk_to_u( bool text_only )
     }
 
     d.add_topic( chatbin.first_topic );
-
-    if( is_leader() ) {
+    if( radio_contact ) {
+        d.add_topic( "TALK_RADIO" );
+    } else if( is_leader() ) {
         d.add_topic( "TALK_LEADER" );
     } else if( is_friend() ) {
         d.add_topic( "TALK_FRIEND" );
@@ -811,7 +818,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         add_response( _( "Who are you?" ), "TALK_FREE_MERCHANT_STOCKS_NEW", true );
         static const std::vector<itype_id> wanted = {{
                 "jerky", "meat_smoked", "fish_smoked",
-                "cooking_oil", "cornmeal", "flour",
+                "cooking_oil", "cooking_oil2", "cornmeal", "flour",
                 "fruit_wine", "beer", "sugar",
             }
         };
@@ -1884,6 +1891,7 @@ void talk_effect_t::parse_string_effect( const std::string &type, JsonObject &jo
             WRAP( hostile ),
             WRAP( flee ),
             WRAP( leave ),
+            WRAP( goto_location ),
             WRAP( stranger_neutral ),
             WRAP( start_mugging ),
             WRAP( player_leaving ),
@@ -2955,7 +2963,6 @@ void load_talk_topic( JsonObject &jo )
 
 std::string npc::pick_talk_topic( const player &u )
 {
-    form_opinion( u );
     ( void )u;
     if( personality.aggression > 0 ) {
         if( op_of_u.fear * 2 < personality.bravery && personality.altruism < 0 ) {
@@ -2997,7 +3004,7 @@ consumption_result try_consume( npc &p, item &it, std::string &reason )
     // TODO: Unify this with 'player::consume_item()'
     bool consuming_contents = it.is_container() && !it.contents.empty();
     item &to_eat = consuming_contents ? it.contents.front() : it;
-    const auto &comest = to_eat.type->comestible;
+    const auto &comest = to_eat.get_comestible();
     if( !comest ) {
         // Don't inform the player that we don't want to eat the lighter
         return REFUSED;

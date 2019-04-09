@@ -63,8 +63,6 @@ const mtype_id mon_zombie_fireman( "mon_zombie_fireman" );
 const mtype_id mon_zombie_fungus( "mon_zombie_fungus" );
 const mtype_id mon_zombie_gasbag( "mon_zombie_gasbag" );
 const mtype_id mon_zombie_grabber( "mon_zombie_grabber" );
-const mtype_id mon_zombie_grenadier( "mon_zombie_grenadier" );
-const mtype_id mon_zombie_grenadier_elite( "mon_zombie_grenadier_elite" );
 const mtype_id mon_zombie_hazmat( "mon_zombie_hazmat" );
 const mtype_id mon_zombie_hulk( "mon_zombie_hulk" );
 const mtype_id mon_skeleton_hulk( "mon_skeleton_hulk" );
@@ -2051,7 +2049,7 @@ void monster::drop_items_on_death()
     }
     const auto dropped = g->m.put_items_from_loc( type->death_drops, pos(), calendar::start );
 
-    if( has_flag( MF_FILTHY ) ) {
+    if( has_flag( MF_FILTHY ) && get_option<bool>( "FILTHY_CLOTHES" ) ) {
         for( const auto &it : dropped ) {
             if( it->is_armor() ) {
                 it->item_tags.insert( "FILTHY" );
@@ -2196,8 +2194,7 @@ bool monster::make_fungus()
                tid == mon_zombie_bio_op || tid == mon_zombie_survivor || tid == mon_zombie_fireman ||
                tid == mon_zombie_cop || tid == mon_zombie_fat || tid == mon_zombie_rot ||
                tid == mon_zombie_swimmer || tid == mon_zombie_grabber || tid == mon_zombie_technician ||
-               tid == mon_zombie_brute_shocker || tid == mon_zombie_grenadier ||
-               tid == mon_zombie_grenadier_elite ) {
+               tid == mon_zombie_brute_shocker ) {
         polypick = 2;
     } else if( tid == mon_zombie_necro || tid == mon_zombie_master || tid == mon_zombie_fireman ||
                tid == mon_zombie_hazmat || tid == mon_beekeeper ) {

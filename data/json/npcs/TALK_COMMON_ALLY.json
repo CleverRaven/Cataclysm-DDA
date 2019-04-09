@@ -51,6 +51,7 @@
       },
       { "text": "Let's trade items", "topic": "TALK_FRIEND", "effect": "start_trade" },
       { "text": "Guard this position", "topic": "TALK_FRIEND_GUARD", "effect": "assign_guard" },
+      { "text": "Please go to this location...", "topic": "TALK_GOTO_LOCATION", "effect": "goto_location" },
       { "text": "I'd like to know a bit more about you...", "topic": "TALK_FRIEND", "effect": "reveal_stats" },
       { "text": "I want you to use this item", "topic": "TALK_USE_ITEM" },
       { "text": "Hold on to this item", "topic": "TALK_GIVE_ITEM" },
@@ -58,7 +59,7 @@
       { "text": "I'm going to go my own way for a while.", "topic": "TALK_LEAVE" },
       { "text": "Let's go.", "topic": "TALK_DONE" },
       {
-        "text": "Relax and chat with me for a while...",
+        "text": "Let's just chitchat for a while...",
         "topic": "TALK_FRIEND_CHAT",
         "condition": { "not": { "npc_has_effect": "asked_to_socialize" } }
       },
@@ -115,6 +116,11 @@
           "yes": "  <mypronoun> will avoid shooting if allies are in the line of fire.",
           "no": "  <mypronoun> will shoot even if allies are in the line of fire."
         },
+        {
+          "npc_rule": "hold_the_line",
+          "yes": "  <mypronoun> will hold the line by not moving into doorways or obstructions adjacent to you.",
+          "no": "  <mypronoun> will move freely to attack enemies."
+        },
         "  What should <mypronoun> do?"
       ]
     },
@@ -157,6 +163,15 @@
         },
         "topic": "TALK_COMBAT_COMMANDS",
         "effect": { "toggle_npc_rule": "avoid_friendly_fire" }
+      },
+      {
+        "truefalsetext": {
+          "condition": { "npc_rule": "hold_the_line" },
+          "true": "Move wherever you need to go to fight an enemy.",
+          "false": "Hold the line: don't move onto obstacles adjacent to me."
+        },
+        "topic": "TALK_COMBAT_COMMANDS",
+        "effect": { "toggle_npc_rule": "hold_the_line" }
       },
       { "text": "Never mind.", "topic": "TALK_NONE" }
     ]
@@ -324,6 +339,16 @@
           "npc_rule": "close_doors",
           "yes": "  <mypronoun> will close doors behind themselves.",
           "no": "  <mypronoun> will leave doors open."
+        },
+        {
+          "npc_rule": "avoid_doors",
+          "yes": "  <mypronoun> will not go places that require opening a door.",
+          "no": "  <mypronoun> will open doors to reach a destination."
+        },
+        {
+          "npc_rule": "ignore_noise",
+          "yes": "<mypronoun> will not investigate noises.",
+          "no": "<mypronoun> will investigate noises coming from unseen places."
         }
       ]
     },
@@ -364,6 +389,24 @@
         "topic": "TALK_MISC_RULES",
         "effect": { "toggle_npc_rule": "close_doors" }
       },
+      {
+        "truefalsetext": {
+          "condition": { "npc_rule": "avoid_doors" },
+          "true": "Open doors to get where you're going.",
+          "false": "Don't walk through closed doors."
+        },
+        "topic": "TALK_MISC_RULES",
+        "effect": { "toggle_npc_rule": "avoid_doors" }
+      },
+      {
+        "truefalsetext": {
+          "condition": { "npc_rule": "ignore_noise" },
+          "true": "If you hear a noise but can't see the source, move to investigate it.",
+          "false": "Don't investigate noises that you can't see."
+        },
+        "topic": "TALK_MISC_RULES",
+        "effect": { "toggle_npc_rule": "ignore_noise" }
+      },
       { "text": "Set up pickup rules.", "topic": "TALK_MISC_RULES", "effect": "set_npc_pickup" },
       { "text": "Never mind.", "topic": "TALK_NONE" }
     ]
@@ -376,6 +419,28 @@
       { "text": "Yeah, I'm sure.  Bye.", "topic": "TALK_DONE", "effect": "leave" },
       { "text": "Nah, I'm just kidding.", "topic": "TALK_NONE" }
     ]
+  },
+  {
+    "id": "TALK_RADIO",
+    "type": "talk_topic",
+    "dynamic_line": "*pshhhttt* I'm reading you boss, over.",
+    "responses": [
+      { "text": "Please go to this location...", "topic": "TALK_GOTO_LOCATION_RADIO", "effect": "goto_location" },
+      { "text": "Stay at your current position.", "topic": "TALK_DONE", "effect": "assign_guard" },
+      { "text": "Never mind.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_GOTO_LOCATION_RADIO",
+    "type": "talk_topic",
+    "dynamic_line": "*pssshht* ten-four, I'll make my way there, over.",
+    "responses": [ { "text": "Affirmative.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "TALK_GOTO_LOCATION",
+    "type": "talk_topic",
+    "dynamic_line": "Sure thing, I'll make my way there.",
+    "responses": [ { "text": "Affirmative.", "topic": "TALK_DONE" } ]
   },
   {
     "id": "TALK_FRIEND_CHAT",

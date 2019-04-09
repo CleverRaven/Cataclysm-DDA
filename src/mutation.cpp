@@ -11,6 +11,7 @@
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "monster.h"
+#include "morale_types.h"
 #include "output.h"
 #include "player.h"
 #include "translations.h"
@@ -292,7 +293,7 @@ void player::activate_mutation( const trait_id &mut )
     static item mut_ranged( weapon );
     // You can take yourself halfway to Near Death levels of hunger/thirst.
     // Fatigue can go to Exhausted.
-    if( ( mdata.hunger && get_hunger() + get_starvation() >= 700 ) || ( mdata.thirst &&
+    if( ( mdata.hunger && get_kcal_percent() < 0.5f ) || ( mdata.thirst &&
             get_thirst() >= 260 ) ||
         ( mdata.fatigue && get_fatigue() >= EXHAUSTED ) ) {
         // Insufficient Foo to *maintain* operation is handled in player::suffer
@@ -309,7 +310,8 @@ void player::activate_mutation( const trait_id &mut )
             tdata.charge = mdata.cooldown - 1;
         }
         if( mdata.hunger ) {
-            mod_hunger( cost );
+            // burn some energy
+            mod_stored_nutr( cost );
         }
         if( mdata.thirst ) {
             mod_thirst( cost );
@@ -359,6 +361,26 @@ void player::activate_mutation( const trait_id &mut )
                         moves = MINUTES( 30 ) * 100;
                     } else if( g->m.has_flag( "DIGGABLE", pnt ) ) {
                         moves = MINUTES( 10 ) * 100;
+                        if( g->m.ter( pnt ) == t_grave ) {
+                            moves *= 2; // 6 feet under
+                            if( g->u.has_trait_flag( "SPIRITUAL" ) && !g->u.has_trait_flag( "PSYCHOPATH" ) &&
+                                g->u.query_yn( _( "Would you really touch the sacred resting place of the dead?" ) ) ) {
+                                add_msg( m_info, _( "You are really going against your beliefs here." ) );
+                                g->u.add_morale( MORALE_GRAVEDIGGER, -50, -100, 48_hours, 12_hours );
+                                if( one_in( 3 ) ) {
+                                    g->u.vomit();
+                                }
+                            } else if( g->u.has_trait_flag( "PSYCHOPATH" ) ) {
+                                g->u.add_msg_if_player( m_good, _( "This is fun!" ) );
+                                g->u.add_morale( MORALE_GRAVEDIGGER, 25, 50, 2_hours, 1_hours );
+                            } else if( !g->u.has_trait_flag( "EATDEAD" ) && !g->u.has_trait_flag( "SAPROVORE" ) ) {
+                                g->u.add_msg_if_player( m_bad, _( "This is utterly disgusting!" ) );
+                                g->u.add_morale( MORALE_GRAVEDIGGER, -25, -50, 2_hours, 1_hours );
+                                if( one_in( 5 ) ) {
+                                    g->u.vomit();
+                                }
+                            }
+                        }
                     } else {
                         add_msg_if_player( _( "You can't dig a pit on this ground." ) );
                         return;

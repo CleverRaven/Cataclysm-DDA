@@ -13,6 +13,7 @@
 #include "debug.h"
 #include "faction.h"
 #include "field.h"
+#include "game_constants.h"
 #include "game_inventory.h"
 #include "gamemode.h"
 #include "gates.h"
@@ -109,13 +110,17 @@ input_context game::get_player_input( std::string &action )
     user_turn current_turn;
 
     if( get_option<bool>( "ANIMATIONS" ) ) {
-        int iStartX = ( TERRAIN_WINDOW_WIDTH > 121 ) ? ( TERRAIN_WINDOW_WIDTH - 121 ) / 2 : 0;
-        int iStartY = ( TERRAIN_WINDOW_HEIGHT > 121 ) ? ( TERRAIN_WINDOW_HEIGHT - 121 ) / 2 : 0;
-        int iEndX = ( TERRAIN_WINDOW_WIDTH > 121 ) ? TERRAIN_WINDOW_WIDTH - ( TERRAIN_WINDOW_WIDTH - 121 ) /
+        const int TOTAL_VIEW = MAX_VIEW_DISTANCE * 2 + 1;
+        int iStartX = ( TERRAIN_WINDOW_WIDTH > TOTAL_VIEW ) ? ( TERRAIN_WINDOW_WIDTH - TOTAL_VIEW ) / 2 : 0;
+        iStartX -= g->sidebar_offset.x;
+        int iStartY = ( TERRAIN_WINDOW_HEIGHT > TOTAL_VIEW ) ? ( TERRAIN_WINDOW_HEIGHT - TOTAL_VIEW ) / 2 :
+                      0;
+        int iEndX = ( TERRAIN_WINDOW_WIDTH > TOTAL_VIEW ) ? TERRAIN_WINDOW_WIDTH -
+                    ( TERRAIN_WINDOW_WIDTH - TOTAL_VIEW ) /
                     2 :
                     TERRAIN_WINDOW_WIDTH;
-        int iEndY = ( TERRAIN_WINDOW_HEIGHT > 121 ) ? TERRAIN_WINDOW_HEIGHT -
-                    ( TERRAIN_WINDOW_HEIGHT - 121 ) /
+        int iEndY = ( TERRAIN_WINDOW_HEIGHT > TOTAL_VIEW ) ? TERRAIN_WINDOW_HEIGHT -
+                    ( TERRAIN_WINDOW_HEIGHT - TOTAL_VIEW ) /
                     2 : TERRAIN_WINDOW_HEIGHT;
 
         if( fullscreen ) {

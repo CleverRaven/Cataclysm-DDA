@@ -67,6 +67,22 @@
   },
   {
     "type": "GENERIC",
+    "id": "sail",
+    "name": "sail",
+    "name_plural": "sails",
+    "description": "Sails for a boat.",
+    "weight": 945,
+    "to_hit": -1,
+    "color": "light_gray",
+    "symbol": ":",
+    "material": [ "wood", "cotton" ],
+    "volume": 30,
+    "bashing": 4,
+    "category": "veh_parts",
+    "price": 9000
+  },
+  {
+    "type": "GENERIC",
     "id": "inflatable_section",
     "symbol": "o",
     "color": "green",
