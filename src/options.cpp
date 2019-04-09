@@ -3,6 +3,7 @@
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "cursesdef.h"
+#include "cursesport.h"
 #include "debug.h"
 #include "filesystem.h"
 #include "game.h"
@@ -19,15 +20,11 @@
 #include "translations.h"
 #include "worldfactory.h"
 
-#ifdef TILES
+#if defined(TILES)
 #include "cata_tiles.h"
 #endif // TILES
 
-#if (defined TILES || defined _WIN32 || defined WINDOWS)
-#include "cursesport.h"
-#endif
-
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
 #include <jni.h>
 #endif
 
@@ -45,7 +42,7 @@ int message_ttl;
 bool fov_3d;
 bool tile_iso;
 
-#ifdef TILES
+#if defined(TILES)
 extern std::unique_ptr<cata_tiles> tilecontext;
 #endif // TILES
 
@@ -418,14 +415,14 @@ bool options_manager::cOpt::is_hidden() const
             return false;
 
         case COPT_SDL_HIDE:
-#ifdef TILES
+#if defined(TILES)
             return true;
 #else
             return false;
 #endif
 
         case COPT_CURSES_HIDE:
-#ifndef TILES // If not defined.  it's curses interface.
+#if !defined(TILES) // If not defined.  it's curses interface.
             return true;
 #else
             return false;
@@ -433,14 +430,14 @@ bool options_manager::cOpt::is_hidden() const
 
         case COPT_POSIX_CURSES_HIDE:
             // Check if we on windows and using wincurses.
-#if (defined TILES || defined _WIN32 || defined WINDOWS)
+#if defined(TILES) || defined(_WIN32)
             return false;
 #else
             return true;
 #endif
 
         case COPT_NO_SOUND_HIDE:
-#ifndef SDL_SOUND // If not defined, we have no sound support.
+#if !defined(SDL_SOUND) // If not defined, we have no sound support.
             return true;
 #else
             return false;
@@ -914,7 +911,7 @@ std::vector<options_manager::id_and_option> options_manager::build_soundpacks_li
     return result;
 }
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
 bool android_get_default_setting( const char *settings_name, bool default_value )
 {
     JNIEnv *env = ( JNIEnv * )SDL_AndroidGetJNIEnv();
@@ -949,7 +946,7 @@ void options_manager::init()
         vPages.emplace_back( "world_default", translate_marker( "World Defaults" ) );
     }
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
     vPages.emplace_back( "android", translate_marker( "Android" ) );
 #endif
 
@@ -1301,7 +1298,7 @@ void options_manager::add_options_interface()
 
     mOptionsSort["interface"]++;
 
-#ifndef __ANDROID__
+#if !defined(__ANDROID__)
     add( "DIAG_MOVE_WITH_MODIFIERS_MODE", "interface",
          translate_marker( "Diagonal movement with cursor keys and modifiers" ),
          /*
@@ -1632,7 +1629,7 @@ void options_manager::add_options_graphics()
          0, 10000, 0, COPT_CURSES_HIDE
        );
 
-#ifndef __ANDROID__ // Android is always fullscreen
+#if !defined(__ANDROID__) // Android is always fullscreen
     add( "FULLSCREEN", "graphics", translate_marker( "Fullscreen" ),
          translate_marker( "Starts Cataclysm in one of the fullscreen modes.  Requires restart." ),
     { { "no", translate_marker( "No" ) }, { "fullscreen", translate_marker( "Fullscreen" ) }, { "windowedbl", translate_marker( "Windowed borderless" ) } },
@@ -1640,8 +1637,8 @@ void options_manager::add_options_graphics()
        );
 #endif
 
-#ifndef __ANDROID__
-#   ifndef TILES
+#if !defined(__ANDROID__)
+#   if !defined(TILES)
     // No renderer selection in non-TILES mode
     add( "RENDERER", "graphics", translate_marker( "Renderer" ),
     translate_marker( "Set which renderer to use.  Requires restart." ),   {   { "software", translate_marker( "software" ) } },
@@ -1667,7 +1664,7 @@ void options_manager::add_options_graphics()
          false, COPT_CURSES_HIDE
        );
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
     get_option( "FRAMEBUFFER_ACCEL" ).setPrerequisite( "SOFTWARE_RENDERING" );
 #else
     get_option( "FRAMEBUFFER_ACCEL" ).setPrerequisite( "RENDERER", "software" );
@@ -1689,7 +1686,7 @@ void options_manager::add_options_graphics()
     },
     "none", COPT_CURSES_HIDE );
 
-#ifndef __ANDROID__
+#if !defined(__ANDROID__)
     add( "SCALING_FACTOR", "graphics", translate_marker( "Scaling factor" ),
     translate_marker( "Factor by which to scale the display. Requires restart." ), {
         { "1", translate_marker( "1x" ) },
@@ -1942,7 +1939,7 @@ void options_manager::add_options_world_default()
 
 void options_manager::add_options_android()
 {
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
     add( "ANDROID_QUICKSAVE", "android", translate_marker( "Quicksave on app lose focus" ),
          translate_marker( "If true, quicksave whenever the app loses focus (screen locked, app moved into background etc.) WARNING: Experimental. This may result in corrupt save games." ),
          false
@@ -2185,7 +2182,7 @@ void options_manager::add_options_android()
 #endif
 }
 
-#ifdef TILES
+#if defined(TILES)
 // Helper method to isolate #ifdeffed tiles code.
 static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_changed, bool ingame )
 {
@@ -2397,7 +2394,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
 
         wrefresh( w_options_header );
 
-#if (defined TILES || defined _WIN32 || defined WINDOWS)
+#if defined(TILES) || defined(_WIN32)
         if( mPageItems[iCurrentPage][iCurrentLine] == "TERMINAL_X" ) {
             int new_terminal_x = 0;
             int new_window_width = 0;
@@ -2604,7 +2601,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
         set_language();
     }
 
-#if !defined(__ANDROID__) && (defined TILES || defined _WIN32 || defined WINDOWS)
+#if !defined(__ANDROID__) && (defined(TILES) || defined(_WIN32))
     if( terminal_size_changed ) {
         int scaling_factor = get_scaling_factor();
         int TERMX = ::get_option<int>( "TERMINAL_X" );
@@ -2730,7 +2727,7 @@ void options_manager::load()
     log_from_top = ::get_option<std::string>( "LOG_FLOW" ) == "new_top";
     message_ttl = ::get_option<int>( "MESSAGE_TTL" );
     fov_3d = ::get_option<bool>( "FOV_3D" );
-#ifdef SDL_SOUND
+#if defined(SDL_SOUND)
     sounds::sound_enabled = ::get_option<bool>( "SOUND_ENABLED" );
 #endif
 }

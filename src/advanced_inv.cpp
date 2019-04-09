@@ -27,8 +27,8 @@
 #include "vpart_position.h"
 #include "vpart_reference.h"
 
-#ifdef __ANDROID__
-#include <SDL_keyboard.h>
+#if defined(__ANDROID__)
+#   include <SDL_keyboard.h>
 #endif
 
 #include <algorithm>
@@ -1805,7 +1805,7 @@ void advanced_inventory::display()
 
             draw_item_filter_rules( dpane.window, 1, 11, item_filter_type::FILTER );
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
             if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
                 SDL_StartTextInput();
             }

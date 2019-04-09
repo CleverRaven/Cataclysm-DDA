@@ -1,4 +1,4 @@
-#if (defined TILES || defined _WIN32 || defined WINDOWS)
+#if defined(TILES) || defined(_WIN32)
 #include "cursesport.h"
 
 #include <stdexcept>

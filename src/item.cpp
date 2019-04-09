@@ -4072,7 +4072,7 @@ bool item::craft_has_charges()
     return false;
 }
 
-#ifdef _MSC_VER
+#if defined(_MSC_VER)
 // Deal with MSVC compiler bug (#17791, #17958)
 #pragma optimize( "", off )
 #endif
@@ -4153,7 +4153,7 @@ int item::cut_resist( bool to_self ) const
     return lround( ( resist * eff_thickness ) + padding );
 }
 
-#ifdef _MSC_VER
+#if defined(_MSC_VER)
 #pragma optimize( "", on )
 #endif
 
