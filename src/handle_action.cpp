@@ -745,9 +745,10 @@ static void sleep()
             continue;
         }
 
+        // some bionics
         // bio_alarm is useful for waking up during sleeping
         // turning off bio_leukocyte has 'unpleasant side effects'
-        if( bio.id == bionic_id( "bio_alarm" ) || bio.id == bionic_id( "bio_leukocyte" ) ) {
+        if( bio.info().sleep_friendly ) {
             continue;
         }
 

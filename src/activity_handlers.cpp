@@ -27,6 +27,7 @@
 #include "mtype.h"
 #include "output.h"
 #include "player.h"
+#include "recipe.h"
 #include "requirements.h"
 #include "rng.h"
 #include "skill.h"
@@ -57,7 +58,6 @@ const std::map< activity_id, std::function<void( player_activity *, player * )> 
 activity_handlers::do_turn_functions = {
     { activity_id( "ACT_BURROW" ), burrow_do_turn },
     { activity_id( "ACT_CRAFT" ), craft_do_turn },
-    { activity_id( "ACT_LONGCRAFT" ), craft_do_turn },
     { activity_id( "ACT_FILL_LIQUID" ), fill_liquid_do_turn },
     { activity_id( "ACT_PICKAXE" ), pickaxe_do_turn },
     { activity_id( "ACT_DROP" ), drop_do_turn },
@@ -136,8 +136,6 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_WAIT_NPC" ), wait_npc_finish },
     { activity_id( "ACT_SOCIALIZE" ), socialize_finish },
     { activity_id( "ACT_TRY_SLEEP" ), try_sleep_finish },
-    { activity_id( "ACT_CRAFT" ), craft_finish },
-    { activity_id( "ACT_LONGCRAFT" ), longcraft_finish },
     { activity_id( "ACT_DISASSEMBLE" ), disassemble_finish },
     { activity_id( "ACT_BUILD" ), build_finish },
     { activity_id( "ACT_VIBE" ), vibe_finish },
@@ -195,14 +193,14 @@ void activity_handlers::burrow_finish( player_activity *act, player *p )
         g->m.ter( pos ) != t_tree ) {
         // Tunneling through solid rock is hungry, sweaty, tiring, backbreaking work
         // Not quite as bad as the pickaxe, though
-        p->mod_hunger( 10 );
+        p->mod_stored_nutr( 10 );
         p->mod_thirst( 10 );
         p->mod_fatigue( 15 );
         p->mod_pain( 3 * rng( 1, 3 ) );
     } else if( g->m.move_cost( pos ) == 2 && g->get_levz() == 0 &&
                g->m.ter( pos ) != t_dirt && g->m.ter( pos ) != t_grass ) {
         //Breaking up concrete on the surface? not nearly as bad
-        p->mod_hunger( 5 );
+        p->mod_stored_nutr( 5 );
         p->mod_thirst( 5 );
         p->mod_fatigue( 10 );
     }
@@ -1694,8 +1692,8 @@ void activity_handlers::pickaxe_finish( player_activity *act, player *p )
         g->m.ter( pos ) != t_tree ) {
         // Tunneling through solid rock is hungry, sweaty, tiring, backbreaking work
         // Betcha wish you'd opted for the J-Hammer ;P
-        p->mod_hunger( 15 - ( helpersize  * 3 ) );
-        p->mod_thirst( 15 - ( helpersize  * 3 ) );
+        p->mod_stored_nutr( 15 - ( helpersize * 3 ) );
+        p->mod_thirst( 15 - ( helpersize * 3 ) );
         if( p->has_trait( trait_id( "STOCKY_TROGLO" ) ) ) {
             p->mod_fatigue( 20 - ( helpersize  * 3 ) ); // Yep, dwarves can dig longer before tiring
         } else {
@@ -1705,7 +1703,7 @@ void activity_handlers::pickaxe_finish( player_activity *act, player *p )
     } else if( g->m.move_cost( pos ) == 2 && g->get_levz() == 0 &&
                g->m.ter( pos ) != t_dirt && g->m.ter( pos ) != t_grass ) {
         //Breaking up concrete on the surface? not nearly as bad
-        p->mod_hunger( 5 - ( helpersize ) );
+        p->mod_stored_nutr( 5 - ( helpersize ) );
         p->mod_thirst( 5 - ( helpersize ) );
         p->mod_fatigue( 10 - ( helpersize  * 2 ) );
     }
@@ -2632,8 +2630,30 @@ void activity_handlers::try_sleep_finish( player_activity *act, player *p )
 
 void activity_handlers::craft_do_turn( player_activity *act, player *p )
 {
-    const recipe &rec = recipe_id( act->name ).obj();
+    item *craft = act->targets.front().get_item();
+
+    if( !craft->is_craft() ) {
+        debugmsg( "ACT_CRAFT target '%s' is not a craft.  Aborting ACT_CRAFT.", craft->tname() );
+        p->cancel_activity();
+        return;
+    }
+    if( !p->has_item( *craft ) ) {
+        p->add_msg_player_or_npc(
+            string_format(
+                _( "You no longer have the %1$s in your possession.  You stop crafting.  Reactivate the %1$s to continue crafting." ),
+                craft->tname() ),
+            string_format(
+                _( "<npcname> no longer has the %s in their possession.  <npcname> stops crafting." ),
+                craft->tname() )
+        );
+        p->cancel_activity();
+        return;
+    }
+
+    const recipe &rec = craft->get_making();
     const float crafting_speed = p->crafting_speed_multiplier( rec, true );
+    const bool is_long = act->values[0];
+
     if( crafting_speed <= 0.0f ) {
         if( p->lighting_craft_speed_multiplier( rec ) <= 0.0f ) {
             p->add_msg_if_player( m_bad, _( "You can no longer see well enough to keep crafting." ) );
@@ -2643,28 +2663,23 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
         p->cancel_activity();
         return;
     }
-    act->moves_left -= crafting_speed * p->get_moves();
-    p->set_moves( 0 );
     if( calendar::once_every( 1_hours ) && crafting_speed < 0.75f ) {
         // TODO: Describe the causes of slowdown
         p->add_msg_if_player( m_bad, _( "You can't focus and are working slowly." ) );
     }
-}
 
-void activity_handlers::craft_finish( player_activity *act, player *p )
-{
-    p->complete_craft();
-    act->set_to_null();
-}
+    craft->item_counter += crafting_speed * p->get_moves();
+    p->set_moves( 0 );
 
-void activity_handlers::longcraft_finish( player_activity *act, player *p )
-{
-    const int batch_size = act->values.front();
-    p->complete_craft();
-    act->set_to_null();
-    // Workaround for a bug where longcraft can be unset in complete_craft().
-    if( p->making_would_work( p->lastrecipe, batch_size ) ) {
-        p->last_craft->execute();
+    if( craft->item_counter >= rec.time ) {
+        p->cancel_activity();
+        item craft_copy = p->i_rem( craft );
+        p->complete_craft( craft_copy );
+        if( is_long ) {
+            if( p->making_would_work( p->lastrecipe, craft_copy.charges ) ) {
+                p->last_craft->execute();
+            }
+        }
     }
 }
 
@@ -2757,7 +2772,7 @@ void activity_handlers::hacksaw_finish( player_activity *act, player *p )
         g->m.spawn_item( pos, "pipe", 12 );
     }
 
-    p->mod_hunger( 5 );
+    p->mod_stored_nutr( 5 );
     p->mod_thirst( 5 );
     p->mod_fatigue( 10 );
     p->add_msg_if_player( m_good, _( "You finish cutting the metal." ) );
@@ -2798,7 +2813,7 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
     g->m.ter_set( pos, t_stump );
     const std::vector<npc *> helpers = g->u.get_crafting_helpers();
     const int helpersize = g->u.get_num_crafting_helpers( 3 );
-    p->mod_hunger( 5 - helpersize );
+    p->mod_stored_nutr( 5 - helpersize );
     p->mod_thirst( 5 - helpersize );
     p->mod_fatigue( 10 - ( helpersize * 2 ) );
     p->add_msg_if_player( m_good, _( "You finish chopping down a tree." ) );
@@ -2821,7 +2836,7 @@ void activity_handlers::chop_logs_finish( player_activity *act, player *p )
     g->m.ter_set( pos, t_dirt );
     const std::vector<npc *> helpers = g->u.get_crafting_helpers();
     const int helpersize = g->u.get_num_crafting_helpers( 3 );
-    p->mod_hunger( 5 - helpersize );
+    p->mod_stored_nutr( 5 - helpersize );
     p->mod_thirst( 5 - helpersize );
     p->mod_fatigue( 10 - ( helpersize * 2 ) );
     p->add_msg_if_player( m_good, _( "You finish chopping wood." ) );
@@ -2846,7 +2861,7 @@ void activity_handlers::jackhammer_finish( player_activity *act, player *p )
 
     const std::vector<npc *> helpers = g->u.get_crafting_helpers();
     const int helpersize = g->u.get_num_crafting_helpers( 3 );
-    p->mod_hunger( 5 - helpersize );
+    p->mod_stored_nutr( 5 - helpersize );
     p->mod_thirst( 5 - helpersize );
     p->mod_fatigue( 10 - ( helpersize * 2 ) );
     p->add_msg_if_player( m_good, _( "You finish drilling." ) );
@@ -2919,7 +2934,7 @@ void activity_handlers::dig_finish( player_activity *act, player *p )
 
     const std::vector<npc *> helpers = g->u.get_crafting_helpers();
     const int helpersize = g->u.get_num_crafting_helpers( 3 );
-    p->mod_hunger( 5 - helpersize );
+    p->mod_stored_nutr( 5 - helpersize );
     p->mod_thirst( 5 - helpersize );
     p->mod_fatigue( 10 - ( helpersize * 2 ) );
     if( grave ) {
@@ -2977,7 +2992,7 @@ void activity_handlers::fill_pit_finish( player_activity *act, player *p )
     }
     const std::vector<npc *> helpers = g->u.get_crafting_helpers();
     const int helpersize = g->u.get_num_crafting_helpers( 3 );
-    p->mod_hunger( 5 - helpersize );
+    p->mod_stored_nutr( 5 - helpersize );
     p->mod_thirst( 5 - helpersize );
     p->mod_fatigue( 10 - ( helpersize * 2 ) );
     p->add_msg_if_player( m_good, _( "You finish filling up %s." ), old_ter.obj().name() );

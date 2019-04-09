@@ -1421,7 +1421,8 @@ bool drink_nectar( player &p )
     if( can_drink_nectar( p ) ) {
         p.moves -= 50; // Takes 30 seconds
         add_msg( _( "You drink some nectar." ) );
-        p.mod_hunger( -15 );
+        item nectar( "nectar", calendar::turn, 1 );
+        p.eat( nectar );
         return true;
     }
 
@@ -1448,7 +1449,8 @@ void iexamine::flower_poppy( player &p, const tripoint &examp )
         }
         p.moves -= 150; // You take your time...
         add_msg( _( "You slowly suck up the nectar." ) );
-        p.mod_hunger( -25 );
+        item poppy( "poppy_nectar", calendar::turn, 1 );
+        p.eat( poppy );
         p.mod_fatigue( 20 );
         p.add_effect( effect_pkill2, 7_minutes );
         // Please drink poppy nectar responsibly.
@@ -1962,8 +1964,7 @@ void iexamine::harvest_plant( player &p, const tripoint &examp )
     } else if( seedType == "marloss_seed" ) {
         fungus( p, examp );
         g->m.i_clear( examp );
-        if( p.has_trait( trait_M_DEPENDENT ) && ( ( p.get_hunger() + p.get_starvation() > 500 ) ||
-                p.get_thirst() > 300 ) ) {
+        if( p.has_trait( trait_M_DEPENDENT ) && ( p.get_kcal_percent() < 0.8f || p.get_thirst() > 300 ) ) {
             g->m.ter_set( examp, t_marloss );
             add_msg( m_info,
                      _( "We have altered this unit's configuration to extract and provide local nutriment.  The Mycus provides." ) );
@@ -4148,11 +4149,11 @@ void smoker_finalize( player &, const tripoint &examp, const time_point &start_t
 
     for( size_t i = 0; i < items.size(); i++ ) {
         auto &item_it = items[i];
-        if( item_it.type->comestible ) {
-            if( item_it.type->comestible->smoking_result.empty() ) {
+        if( item_it.get_comestible() ) {
+            if( item_it.get_comestible()->smoking_result.empty() ) {
                 item_it.unset_flag( "SMOKING" );
             } else {
-                item result( item_it.type->comestible->smoking_result, start_time + 6_hours, item_it.charges );
+                item result( item_it.get_comestible()->smoking_result, start_time + 6_hours, item_it.charges );
 
                 // Set flag to tell set_relative_rot() to calc from bday not now
                 result.set_flag( "SMOKING_RESULT" );

@@ -20,7 +20,7 @@
 #include "vpart_reference.h"
 
 const invlet_wrapper
-inv_chars( "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#&()*+.:;=@[\\]^_{|}" );
+inv_chars( "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#&()+.:;=@[\\]^_{|}" );
 
 bool invlet_wrapper::valid( const long invlet ) const
 {
@@ -1067,6 +1067,13 @@ void inventory::update_invlet( item &newit, bool assign_invlet )
         if( !newit.invlet ) {
             assign_empty_invlet( newit, g->u );
         }
+    }
+}
+
+void inventory::set_stack_favorite( const int position, const bool favorite )
+{
+    for( auto &e : *std::next( items.begin(), position ) ) {
+        e.set_favorite( favorite );
     }
 }
 

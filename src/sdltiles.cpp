@@ -3321,8 +3321,16 @@ void catacurses::init_interface()
 
     font_loader fl;
     fl.load();
-    ::fontwidth = fl.fontwidth;
-    ::fontheight = fl.fontheight;
+    ::fontwidth = get_option<int>( "FONT_WIDTH" );
+    ::fontheight = get_option<int>( "FONT_HEIGHT" );
+    fl.fontsize = get_option<int>( "FONT_SIZE" );
+    fl.fontblending = get_option<bool>( "FONT_BLENDING" );
+    fl.map_fontsize = get_option<int>( "MAP_FONT_SIZE" );
+    fl.map_fontwidth = get_option<int>( "MAP_FONT_WIDTH" );
+    fl.map_fontheight = get_option<int>( "MAP_FONT_HEIGHT" );
+    fl.overmap_fontsize = get_option<int>( "OVERMAP_FONT_SIZE" );
+    fl.overmap_fontwidth = get_option<int>( "OVERMAP_FONT_WIDTH" );
+    fl.overmap_fontheight = get_option<int>( "OVERMAP_FONT_HEIGHT" );
 
     InitSDL();
 
