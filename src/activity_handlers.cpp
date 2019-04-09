@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <queue>
 
 #include "action.h"
 #include "advanced_inv.h"
@@ -26,6 +27,7 @@
 #include "morale_types.h"
 #include "mtype.h"
 #include "output.h"
+#include "overmapbuffer.h"
 #include "player.h"
 #include "recipe.h"
 #include "requirements.h"
@@ -96,7 +98,8 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_PLANT_PLOT" ), plant_plot_do_turn },
     { activity_id( "ACT_FERTILIZE_PLOT" ), fertilize_plot_do_turn },
     { activity_id( "ACT_TRY_SLEEP" ), try_sleep_do_turn },
-    { activity_id( "ACT_ROBOT_CONTROL" ), robot_control_do_turn }
+    { activity_id( "ACT_ROBOT_CONTROL" ), robot_control_do_turn },
+    { activity_id( "ACT_TREE_COMMUNION" ), tree_communion_do_turn }
 };
 
 const std::map< activity_id, std::function<void( player_activity *, player * )> >
@@ -153,7 +156,8 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_SHAVE" ), shaving_finish },
     { activity_id( "ACT_HAIRCUT" ), haircut_finish },
     { activity_id( "ACT_UNLOAD_MAG" ), unload_mag_finish },
-    { activity_id( "ACT_ROBOT_CONTROL" ), robot_control_finish }
+    { activity_id( "ACT_ROBOT_CONTROL" ), robot_control_finish },
+    { activity_id( "ACT_TREE_COMMUNION" ), tree_communion_finish }
 };
 
 void messages_in_process( const player_activity &act, const player &p )
@@ -3336,4 +3340,47 @@ void activity_handlers::robot_control_finish( player_activity *act, player *p )
         p->add_msg_if_player( _( "...but the robot refuses to acknowledge you as an ally!" ) );
     }
     p->practice( skill_id( "computer" ), 10 );
+}
+
+void activity_handlers::tree_communion_do_turn( player_activity *act, player *p )
+{
+    if( !calendar::once_every( 1_minutes ) ) {
+        return;
+    }
+    // Breadth-first search forest tiles until one reveals new overmap tiles.
+    std::queue<tripoint> q;
+    std::unordered_set<tripoint> seen;
+    tripoint loc = p->global_omt_location();
+    q.push( loc );
+    seen.insert( loc );
+    while( !q.empty() ) {
+        tripoint tpt = q.front();
+        if( overmap_buffer.reveal( tpt, 3 ) ) {
+            return;
+        }
+        for( int radius = 1; radius <= 2; radius++ ) {
+            for( int dx = -radius; dx <= radius; dx++ ) {
+                for( int dy = -radius; dy <= radius; dy++ ) {
+                    tripoint neighbor = tripoint( tpt.x + dx, tpt.y + dy, tpt.z );
+                    if( seen.find( neighbor ) != seen.end() ) {
+                        continue;
+                    }
+                    seen.insert( neighbor );
+                    const oter_t ter = overmap_buffer.ter( neighbor ).obj();
+                    if( ter.get_name() != "forest" ) {
+                        continue;
+                    }
+                    q.push( neighbor );
+                }
+            }
+        }
+        q.pop();
+    }
+    act->moves_left = 0;
+    add_msg( m_info, _( "The trees have shown you what they will." ) );
+}
+
+void activity_handlers::tree_communion_finish( player_activity *act, player *p )
+{
+    act->set_to_null();
 }

@@ -41,6 +41,7 @@ static const trait_id trait_M_BLOSSOMS( "M_BLOSSOMS" );
 static const trait_id trait_M_SPORES( "M_SPORES" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_CARNIVORE( "CARNIVORE" );
+static const trait_id trait_TREE_COMMUNION( "TREE_COMMUNION" );
 static const trait_id trait_DEBUG_BIONIC_POWER( "DEBUG_BIONIC_POWER" );
 
 bool Character::has_trait( const trait_id &b ) const
@@ -500,6 +501,26 @@ void player::activate_mutation( const trait_id &mut )
     } else if( mut == trait_SELFAWARE ) {
         print_health();
         tdata.powered = false;
+        return;
+    } else if( mut == trait_TREE_COMMUNION ) {
+        tdata.powered = false;
+        // Check for adjacent trees.
+        const tripoint p = pos();
+        bool adjacent_tree = false;
+        for( int dx = -1; dx <= 1; dx++ ) {
+            for( int dy = -1; dy <= 1; dy++ ) {
+                const tripoint p2 = tripoint( p.x + dx, p.y + dy, p.z );
+                if( g->m.has_flag( "TREE", p2 ) ) {
+                    adjacent_tree = true;
+                }
+            }
+        }
+        if( !adjacent_tree ) {
+            add_msg_if_player( m_info, _( "You can only do that next to a tree." ) );
+            return;
+        }
+        add_msg_if_player( _( "You start communing with the trees." ) );
+        assign_activity( activity_id( "ACT_TREE_COMMUNION" ) );
         return;
     } else if( mut == trait_DEBUG_BIONIC_POWER ) {
         max_power_level += 100;

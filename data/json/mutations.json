@@ -5099,6 +5099,17 @@
   },
   {
     "type": "mutation",
+    "id": "TREE_COMMUNION",
+    "name": "Mycorrhizal Communion",
+    "points": 1,
+    "description": "You have gained the ability to commune with trees and comprehend their ancient wisdom.",
+	"threshreq": [ "THRESH_PLANT", "THRESH_ELFA" ],
+    "category": [ "PLANT", "ELFA" ],
+    "active": true,
+    "cost": 0
+  },
+  {
+    "type": "mutation",
     "id": "COLDBLOOD",
     "name": "Heat Dependent",
     "points": 0,
