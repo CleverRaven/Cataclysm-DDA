@@ -2358,6 +2358,9 @@ npc_follower_rules::npc_follower_rules()
 {
     engagement = ENGAGE_CLOSE;
     aim = AIM_WHEN_CONVENIENT;
+    overrides = ally_rule::DEFAULT;
+    override_enable = ally_rule::DEFAULT;
+
     set_flag( ally_rule::use_guns );
     set_flag( ally_rule::use_grenades );
     clear_flag( ally_rule::use_silent );
@@ -2375,8 +2378,17 @@ npc_follower_rules::npc_follower_rules()
     clear_flag( ally_rule::ignore_noise );
 }
 
-bool npc_follower_rules::has_flag( ally_rule test ) const
+bool npc_follower_rules::has_flag( ally_rule test, bool check_override ) const
 {
+    if( check_override && ( static_cast<int>( test ) & static_cast<int>( override_enable ) ) ) {
+        // if the override is set and false, return false
+        if( static_cast<int>( test ) & ~static_cast<int>( overrides ) ) {
+            return false;
+            // if the override is set and true, return true
+        } else if( static_cast<int>( test ) & static_cast<int>( overrides ) ) {
+            return true;
+        }
+    }
     return static_cast<int>( test ) & static_cast<int>( flags );
 }
 
@@ -2398,3 +2410,57 @@ void npc_follower_rules::toggle_flag( ally_rule toggle )
         set_flag( toggle );
     }
 }
+
+bool npc_follower_rules::has_override_enable( ally_rule test ) const
+{
+    return static_cast<int>( test ) & static_cast<int>( override_enable );
+}
+
+void npc_follower_rules::enable_override( ally_rule setit )
+{
+    override_enable = static_cast<ally_rule>( static_cast<int>( override_enable ) |
+                      static_cast<int>( setit ) );
+}
+
+void npc_follower_rules::disable_override( ally_rule clearit )
+{
+    override_enable = static_cast<ally_rule>( static_cast<int>( override_enable ) &
+                      ~static_cast<int>( clearit ) );
+}
+
+bool npc_follower_rules::has_override( ally_rule test ) const
+{
+    return static_cast<int>( test ) & static_cast<int>( overrides );
+}
+
+void npc_follower_rules::set_override( ally_rule setit )
+{
+    overrides = static_cast<ally_rule>( static_cast<int>( overrides ) | static_cast<int>( setit ) );
+}
+
+void npc_follower_rules::clear_override( ally_rule clearit )
+{
+    overrides = static_cast<ally_rule>( static_cast<int>( overrides ) &
+                                        ~static_cast<int>( clearit ) );
+}
+
+void npc_follower_rules::set_danger_overrides()
+{
+    overrides = ally_rule::DEFAULT;
+    override_enable = ally_rule::DEFAULT;
+    set_override( ally_rule::avoid_combat );
+    set_override( ally_rule::avoid_doors );
+    set_override( ally_rule::hold_the_line );
+    enable_override( ally_rule::avoid_combat );
+    enable_override( ally_rule::allow_sleep );
+    enable_override( ally_rule::close_doors );
+    enable_override( ally_rule::avoid_doors );
+    enable_override( ally_rule::hold_the_line );
+}
+
+void npc_follower_rules::clear_danger_overrides()
+{
+    overrides = ally_rule::DEFAULT;
+    override_enable = ally_rule::DEFAULT;
+}
+

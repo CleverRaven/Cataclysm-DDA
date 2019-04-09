@@ -176,6 +176,8 @@ void game::chat()
     int yell_sleep = -1;
     int yell_flee = -1;
     int yell_stop = -1;
+    int yell_danger = -1;
+    int yell_relax = -1;
 
     nmenu.addentry( yell = i++, true, 'a', _( "Yell" ) );
     nmenu.addentry( yell_sentence = i++, true, 'b', _( "Yell a sentence" ) );
@@ -186,6 +188,11 @@ void game::chat()
                         _( "Tell all your allies to relax and sleep when tired" ) );
         nmenu.addentry( yell_flee = i++, true, 'R', _( "Tell all your allies to flee" ) );
         nmenu.addentry( yell_stop = i++, true, 'S', _( "Tell all your allies stop running" ) );
+        nmenu.addentry( yell_danger = i++, true, 'D',
+                        _( "Tell all your allies to prepare for danger" ) );
+        nmenu.addentry( yell_relax = i++, true, 'C',
+                        _( "Tell all your allies to relax from danger" ) );
+
     }
     if( !guards.empty() ) {
         nmenu.addentry( yell_follow = i++, true, 'f', _( "Tell all your allies to follow" ) );
@@ -238,6 +245,16 @@ void game::chat()
             p->rules.clear_flag( ally_rule::avoid_combat );
         }
         u.shout( _( "No need to run any more, we can fight here." ) );
+    } else if( nmenu.ret == yell_danger ) {
+        for( npc *p : followers ) {
+            p->rules.set_danger_overrides();
+        }
+        u.shout( _( "We're in danger.  Stay awake, stay close, don't go wandering off, and don't open any doors." ) );
+    } else if( nmenu.ret == yell_relax ) {
+        for( npc *p : followers ) {
+            p->rules.clear_danger_overrides();
+        }
+        u.shout( _( "Relax and stand down." ) );
     } else if( nmenu.ret <= static_cast<int>( available.size() ) ) {
         available[nmenu.ret]->talk_to_u();
     } else {
@@ -2340,6 +2357,18 @@ void conditional_t::set_npc_rule( JsonObject &jo )
     };
 }
 
+void conditional_t::set_npc_override( JsonObject &jo )
+{
+    std::string rule = jo.get_string( "npc_override" );
+    condition = [rule]( const dialogue & d ) {
+        auto flag = ally_rule_strs.find( rule );
+        if( flag != ally_rule_strs.end() ) {
+            return d.beta->rules.has_override_enable( flag->second );
+        }
+        return false;
+    };
+}
+
 void conditional_t::set_days_since( JsonObject &jo )
 {
     const unsigned long days = jo.get_int( "days_since_cataclysm" );
@@ -2686,6 +2715,8 @@ conditional_t::conditional_t( JsonObject jo )
         set_npc_engagement_rule( jo );
     } else if( jo.has_string( "npc_rule" ) ) {
         set_npc_rule( jo );
+    } else if( jo.has_string( "npc_override" ) ) {
+        set_npc_override( jo );
     } else if( jo.has_int( "days_since_cataclysm" ) ) {
         set_days_since( jo );
     } else if( jo.has_string( "is_season" ) ) {

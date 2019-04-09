@@ -254,6 +254,8 @@ struct npc_follower_rules {
     combat_engagement engagement;
     aim_rule aim = AIM_WHEN_CONVENIENT;
     ally_rule flags;
+    ally_rule override_enable;
+    ally_rule overrides;
 
     pimpl<auto_pickup> pickup_whitelist;
 
@@ -262,11 +264,19 @@ struct npc_follower_rules {
     void serialize( JsonOut &jsout ) const;
     void deserialize( JsonIn &jsin );
 
-    bool has_flag( ally_rule test ) const;
+    bool has_flag( ally_rule test, bool check_override = true ) const;
     void set_flag( ally_rule setit );
     void clear_flag( ally_rule clearit );
     void toggle_flag( ally_rule toggle );
+    bool has_override_enable( ally_rule test ) const;
+    void enable_override( ally_rule setit );
+    void disable_override( ally_rule setit );
+    bool has_override( ally_rule test ) const;
+    void set_override( ally_rule setit );
+    void clear_override( ally_rule setit );
 
+    void set_danger_overrides();
+    void clear_danger_overrides();
 };
 
 struct dangerous_sound {
