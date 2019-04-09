@@ -2345,6 +2345,8 @@ void player::mod_stat( const std::string &stat, float modifier )
         mod_thirst( modifier );
     } else if( stat == "fatigue" ) {
         mod_fatigue( modifier );
+    } else if( stat == "stored_nutr" ) {
+        mod_stored_nutr( modifier );
     } else if( stat == "oxygen" ) {
         oxygen += modifier;
     } else if( stat == "stamina" ) {
@@ -4651,7 +4653,7 @@ void player::regen( int rate_multiplier )
             }
             mod_stat( stat, mod_result );
         };
-        modify_stat( "hunger", g->stamina_increase_hunger, "metabolism_modifier" );
+        modify_stat( "stored_nutr", g->stamina_increase_hunger, "metabolism_modifier" );
         modify_stat( "thirst", g->stamina_increase_thirst, "thirst_modifier" );
         modify_stat( "fatigue", g->stamina_increase_fatigue, "fatigue_modifier" );
     }
