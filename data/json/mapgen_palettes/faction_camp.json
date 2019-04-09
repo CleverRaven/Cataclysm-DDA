@@ -91,12 +91,16 @@
     "terrain": {
       " ": [ [ "t_grass", 3 ], "t_dirt" ],
       "+": "t_door_c",
+      "[": "t_rdoor_c",
       "%": "t_door_boarded",
+	  "$": "t_rdoor_boarded",
       ".": "t_floor",
       "_": "t_rock_floor",
       "6": "t_console",
       ":": "t_window_domestic",
       ";": "t_window_boarded",
+      "(": "t_window_reinforced",
+	  ")": "t_window_enhanced",
       ">": "t_stairs_down",
       "<": "t_stairs_up",
       "G": "t_floor_green",
@@ -116,7 +120,8 @@
       "B": "f_makeshift_bed",
       "c": "f_counter",
       "l": "f_locker",
-      "o": "f_woodstove"
+      "o": "f_woodstove",
+	  "T": "f_table"
     }
   }
 ]
