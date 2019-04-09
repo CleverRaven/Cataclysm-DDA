@@ -408,5 +408,22 @@
     "book_learn": [ [ "recipe_alpha", 9 ], [ "recipe_serum", 9 ] ],
     "qualities": [ { "id": "CHEM", "level": 3 } ],
     "components": [ [ [ "iv_purifier", 3 ] ], [ [ "royal_jelly", 1 ] ], [ [ "slime_scrap", 1 ] ], [ [ "syringe", 1 ] ] ]
+  },
+  {
+    "result": "afs_bionic_power_mod",
+    "type": "recipe",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_COMPONENTS",
+    "skill_used": "electronics",
+    "difficulty": 5,
+    "time": 20000,
+    "reversible": true,
+    "decomp_learn": 4,
+    "autolearn": true,
+    "book_learn": [ [ "recipe_augs", 4 ], [ "recipe_lab_elec", 4 ], [ "textbook_anarch", 4 ] ],
+    "using": [ [ "soldering_standard", 20 ] ],
+    "tools": [ [ [ "afs_solderers_item", -1 ], [ "toolset", -1 ] ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "power_supply", 1 ] ], [ [ "small_storage_battery", 1 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "cable", 8 ] ] ]
   }
 ]

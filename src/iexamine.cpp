@@ -789,24 +789,14 @@ void iexamine::rubble( player &p, const tripoint &examp )
 void iexamine::crate( player &p, const tripoint &examp )
 {
     // PRY 1 is sufficient for popping open a nailed-shut crate.
-    const bool has_prying_tool = p.crafting_inventory().has_quality( quality_id( "PRY" ), 1 );
-
-    if( !has_prying_tool ) {
-        add_msg( m_info, _( "If only you had something to pry with..." ) );
-        return;
-    }
-
     auto prying_items = p.crafting_inventory().items_with( []( const item & it ) -> bool {
         item temporary_item( it.type );
         return temporary_item.has_quality( quality_id( "PRY" ), 1 );
     } );
 
-    iuse dummy;
 
-    if( prying_items.size() == 1 ) {
-        item temporary_item( prying_items[0]->type );
-        // They only had one item anyway, so just use it.
-        dummy.crowbar( &p, &temporary_item, false, examp );
+    if( prying_items.size() == 0 ) {
+        add_msg( m_info, _( "If only you had something to pry with..." ) );
         return;
     }
 
@@ -815,31 +805,12 @@ void iexamine::crate( player &p, const tripoint &examp )
         return a->get_quality( quality_id( "PRY" ) ) > b->get_quality( quality_id( "PRY" ) );
     } );
 
-    // Then display the items
-    uilist selection_menu;
-    selection_menu.text = string_format( _( "The %s is closed tightly." ),
-                                         g->m.furnname( examp ) );
-
-    int i = 0;
-    selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Leave it alone" ) );
-    for( auto iter : prying_items ) {
-        selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Use your %s" ), iter->tname() );
-    }
-
-    selection_menu.selected = 1;
-    selection_menu.query();
-    auto index = selection_menu.ret;
-
-    if( index == 0 || index == UILIST_CANCEL ) {
-        none( p, examp );
-        return;
-    }
-
-    auto selected_tool = prying_items[index - 1];
-    item temporary_item( selected_tool->type );
-
     // if crowbar() ever eats charges or otherwise alters the passed item, rewrite this to reflect
     // changes to the original item.
+    iuse dummy;
+    item temporary_item( prying_items[0]->type );
+    p.add_msg_if_player( string_format( _( "You attempt to pry open the %s using your %s..." ),
+                                        g->m.furnname( examp ), prying_items[0]->tname() ) );
     dummy.crowbar( &p, &temporary_item, false, examp );
 }
 
@@ -1205,51 +1176,25 @@ void iexamine::gunsafe_el( player &p, const tripoint &examp )
  */
 void iexamine::locked_object( player &p, const tripoint &examp )
 {
-    const bool has_prying_tool = p.crafting_inventory().has_quality( quality_id( "PRY" ), 2 );
-    if( !has_prying_tool ) {
-        add_msg( m_info, _( "If only you had something to pry with..." ) );
-        return;
-    }
-
     auto prying_items = p.crafting_inventory().items_with( []( const item & it ) -> bool {
         item temporary_item( it.type );
         return temporary_item.has_quality( quality_id( "PRY" ), 2 );
     } );
 
-    iuse dummy;
-    if( prying_items.size() == 1 ) {
-        item temporary_item( prying_items[0]->type );
-        // They only had one item anyway, so just use it.
-        dummy.crowbar( &p, &temporary_item, false, examp );
+    if( prying_items.size() == 0 ) {
+        add_msg( m_info, _( "If only you had something to pry with..." ) );
         return;
     }
 
     // Sort by their quality level.
-    std::sort( prying_items.begin(), prying_items.end(), []( const item * a, const item * b ) -> int {
+    std::sort( prying_items.begin(), prying_items.end(), []( const item * a, const item * b ) -> bool {
         return a->get_quality( quality_id( "PRY" ) ) > b->get_quality( quality_id( "PRY" ) );
     } );
 
-    // Then display the items
-    uilist selection_menu;
-    selection_menu.text = string_format( _( "The %s is locked..." ), g->m.tername( examp ) );
-
-    int i = 0;
-    selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Leave it alone" ) );
-    for( auto iter : prying_items ) {
-        selection_menu.addentry( i++, true, MENU_AUTOASSIGN, string_format( _( "Use the %s" ),
-                                 iter->tname() ) );
-    }
-
-    selection_menu.selected = 1;
-    selection_menu.query();
-    auto index = selection_menu.ret;
-
-    if( index == 0 || index == UILIST_CANCEL ) {
-        none( p, examp );
-        return;
-    }
-
-    item temporary_item( prying_items[index - 1]->type );
+    iuse dummy;
+    item temporary_item( prying_items[0]->type );
+    p.add_msg_if_player( string_format( _( "You attempt to pry open the %s using your %s..." ),
+                                        g->m.tername( examp ), prying_items[0]->tname() ) );
     dummy.crowbar( &p, &temporary_item, false, examp );
 }
 
@@ -4204,11 +4149,11 @@ void smoker_finalize( player &, const tripoint &examp, const time_point &start_t
 
     for( size_t i = 0; i < items.size(); i++ ) {
         auto &item_it = items[i];
-        if( item_it.type->comestible ) {
-            if( item_it.type->comestible->smoking_result.empty() ) {
+        if( item_it.get_comestible() ) {
+            if( item_it.get_comestible()->smoking_result.empty() ) {
                 item_it.unset_flag( "SMOKING" );
             } else {
-                item result( item_it.type->comestible->smoking_result, start_time + 6_hours, item_it.charges );
+                item result( item_it.get_comestible()->smoking_result, start_time + 6_hours, item_it.charges );
 
                 // Set flag to tell set_relative_rot() to calc from bday not now
                 result.set_flag( "SMOKING_RESULT" );

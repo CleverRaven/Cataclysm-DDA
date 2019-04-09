@@ -1810,6 +1810,9 @@ void item::io( Archive &archive )
             corpse = &mtype_id( id ).obj();
         }
     };
+    const auto load_making = [this]( const std::string & id ) {
+        making = &recipe_id( id ).obj();
+    };
 
     archive.template io<const itype>( "typeid", type, load_type, []( const itype & i ) {
         return i.get_id();
@@ -1854,6 +1857,10 @@ void item::io( Archive &archive )
     archive.template io<const mtype>( "corpse", corpse, load_corpse,
     []( const mtype & i ) {
         return i.id.str();
+    } );
+    archive.template io<const recipe>( "making", making, load_making,
+    []( const recipe & i ) {
+        return i.ident().str();
     } );
     archive.io( "light", light.luminance, nolight.luminance );
     archive.io( "light_width", light.width, nolight.width );
