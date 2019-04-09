@@ -226,6 +226,8 @@ bool is_valid_in_w_terrain( int x, int y )
     return x >= 0 && x < TERRAIN_WINDOW_WIDTH && y >= 0 && y < TERRAIN_WINDOW_HEIGHT;
 }
 
+#define DEFAULT_TILESET_ZOOM 16
+
 // This is the main game set-up process.
 game::game() :
     liveview( *liveview_ptr ),
@@ -248,7 +250,7 @@ game::game() :
     next_mission_id( 1 ),
     remoteveh_cache_time( calendar::before_time_starts ),
     user_action_counter( 0 ),
-    tileset_zoom( 16 ),
+    tileset_zoom( DEFAULT_TILESET_ZOOM ),
     weather_override( WEATHER_NULL ),
     displaying_scent( false )
 
@@ -7222,6 +7224,7 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
             lp = u.pos();
         } else if( action == "MOUSE_MOVE" ) {
             const tripoint old_lp = lp;
+            const tripoint old_center = center;
             // Maximum mouse events before a forced graphics update
             int max_consume = 10;
             do {
@@ -7230,6 +7233,28 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
                     lx = mouse_pos->x;
                     ly = mouse_pos->y;
                 }
+#if (defined TILES || defined _WIN32 || defined WINDOWS)
+                // Below we implement mouse panning. In order to make
+                // it less jerky we rate limit it by only allowing a
+                // panning move during the first iteration of this
+                // mouse move event consumption loop.
+                if( max_consume == 10 ) {
+                    const input_event event = ctxt.get_raw_input();
+                    const int threshold_x = projected_window_width() / 20;
+                    const int threshold_y = projected_window_height() / 20;
+                    const int panning_speed = std::max( DEFAULT_TILESET_ZOOM / tileset_zoom, 1 );
+                    if( event.mouse_x <= threshold_x ) {
+                        center.x -= panning_speed;
+                    } else if( event.mouse_x >= projected_window_width() - threshold_x ) {
+                        center.x += panning_speed;
+                    }
+                    if( event.mouse_y <= threshold_y ) {
+                        center.y -= panning_speed;
+                    } else if( event.mouse_y >= projected_window_height() - threshold_y ) {
+                        center.y += panning_speed;
+                    }
+                }
+#endif
                 if( --max_consume == 0 ) {
                     break;
                 }
@@ -7249,7 +7274,7 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
                 } else {
                     blink = true; // Always draw blink symbols when moving cursor
                 }
-            } else if( lp == old_lp ) { // not blinking and cursor not changed
+            } else if( lp == old_lp && center == old_center ) { // not blinking and cursor not changed
                 redraw = false; // no need to redraw, so don't redraw to save CPU
             }
         } else if( cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
@@ -7446,7 +7471,7 @@ void game::zoom_in()
 void game::reset_zoom()
 {
 #ifdef TILES
-    tileset_zoom = 16;
+    tileset_zoom = DEFAULT_TILESET_ZOOM;
     rescale_tileset( tileset_zoom );
 #endif // TILES
 }
