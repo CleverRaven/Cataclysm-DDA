@@ -193,14 +193,14 @@ void activity_handlers::burrow_finish( player_activity *act, player *p )
         g->m.ter( pos ) != t_tree ) {
         // Tunneling through solid rock is hungry, sweaty, tiring, backbreaking work
         // Not quite as bad as the pickaxe, though
-        p->mod_hunger( 10 );
+        p->mod_stored_nutr( 10 );
         p->mod_thirst( 10 );
         p->mod_fatigue( 15 );
         p->mod_pain( 3 * rng( 1, 3 ) );
     } else if( g->m.move_cost( pos ) == 2 && g->get_levz() == 0 &&
                g->m.ter( pos ) != t_dirt && g->m.ter( pos ) != t_grass ) {
         //Breaking up concrete on the surface? not nearly as bad
-        p->mod_hunger( 5 );
+        p->mod_stored_nutr( 5 );
         p->mod_thirst( 5 );
         p->mod_fatigue( 10 );
     }
@@ -1692,8 +1692,8 @@ void activity_handlers::pickaxe_finish( player_activity *act, player *p )
         g->m.ter( pos ) != t_tree ) {
         // Tunneling through solid rock is hungry, sweaty, tiring, backbreaking work
         // Betcha wish you'd opted for the J-Hammer ;P
-        p->mod_hunger( 15 - ( helpersize  * 3 ) );
-        p->mod_thirst( 15 - ( helpersize  * 3 ) );
+        p->mod_stored_nutr( 15 - ( helpersize * 3 ) );
+        p->mod_thirst( 15 - ( helpersize * 3 ) );
         if( p->has_trait( trait_id( "STOCKY_TROGLO" ) ) ) {
             p->mod_fatigue( 20 - ( helpersize  * 3 ) ); // Yep, dwarves can dig longer before tiring
         } else {
@@ -1703,7 +1703,7 @@ void activity_handlers::pickaxe_finish( player_activity *act, player *p )
     } else if( g->m.move_cost( pos ) == 2 && g->get_levz() == 0 &&
                g->m.ter( pos ) != t_dirt && g->m.ter( pos ) != t_grass ) {
         //Breaking up concrete on the surface? not nearly as bad
-        p->mod_hunger( 5 - ( helpersize ) );
+        p->mod_stored_nutr( 5 - ( helpersize ) );
         p->mod_thirst( 5 - ( helpersize ) );
         p->mod_fatigue( 10 - ( helpersize  * 2 ) );
     }
@@ -2772,7 +2772,7 @@ void activity_handlers::hacksaw_finish( player_activity *act, player *p )
         g->m.spawn_item( pos, "pipe", 12 );
     }
 
-    p->mod_hunger( 5 );
+    p->mod_stored_nutr( 5 );
     p->mod_thirst( 5 );
     p->mod_fatigue( 10 );
     p->add_msg_if_player( m_good, _( "You finish cutting the metal." ) );
@@ -2813,7 +2813,7 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
     g->m.ter_set( pos, t_stump );
     const std::vector<npc *> helpers = g->u.get_crafting_helpers();
     const int helpersize = g->u.get_num_crafting_helpers( 3 );
-    p->mod_hunger( 5 - helpersize );
+    p->mod_stored_nutr( 5 - helpersize );
     p->mod_thirst( 5 - helpersize );
     p->mod_fatigue( 10 - ( helpersize * 2 ) );
     p->add_msg_if_player( m_good, _( "You finish chopping down a tree." ) );
@@ -2836,7 +2836,7 @@ void activity_handlers::chop_logs_finish( player_activity *act, player *p )
     g->m.ter_set( pos, t_dirt );
     const std::vector<npc *> helpers = g->u.get_crafting_helpers();
     const int helpersize = g->u.get_num_crafting_helpers( 3 );
-    p->mod_hunger( 5 - helpersize );
+    p->mod_stored_nutr( 5 - helpersize );
     p->mod_thirst( 5 - helpersize );
     p->mod_fatigue( 10 - ( helpersize * 2 ) );
     p->add_msg_if_player( m_good, _( "You finish chopping wood." ) );
@@ -2861,7 +2861,7 @@ void activity_handlers::jackhammer_finish( player_activity *act, player *p )
 
     const std::vector<npc *> helpers = g->u.get_crafting_helpers();
     const int helpersize = g->u.get_num_crafting_helpers( 3 );
-    p->mod_hunger( 5 - helpersize );
+    p->mod_stored_nutr( 5 - helpersize );
     p->mod_thirst( 5 - helpersize );
     p->mod_fatigue( 10 - ( helpersize * 2 ) );
     p->add_msg_if_player( m_good, _( "You finish drilling." ) );
@@ -2934,7 +2934,7 @@ void activity_handlers::dig_finish( player_activity *act, player *p )
 
     const std::vector<npc *> helpers = g->u.get_crafting_helpers();
     const int helpersize = g->u.get_num_crafting_helpers( 3 );
-    p->mod_hunger( 5 - helpersize );
+    p->mod_stored_nutr( 5 - helpersize );
     p->mod_thirst( 5 - helpersize );
     p->mod_fatigue( 10 - ( helpersize * 2 ) );
     if( grave ) {
@@ -2992,7 +2992,7 @@ void activity_handlers::fill_pit_finish( player_activity *act, player *p )
     }
     const std::vector<npc *> helpers = g->u.get_crafting_helpers();
     const int helpersize = g->u.get_num_crafting_helpers( 3 );
-    p->mod_hunger( 5 - helpersize );
+    p->mod_stored_nutr( 5 - helpersize );
     p->mod_thirst( 5 - helpersize );
     p->mod_fatigue( 10 - ( helpersize * 2 ) );
     p->add_msg_if_player( m_good, _( "You finish filling up %s." ), old_ter.obj().name() );

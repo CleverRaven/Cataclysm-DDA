@@ -4,6 +4,7 @@
 #include <string>
 
 #include "addiction.h"
+#include "calendar.h" // ticks_between
 #include "cata_utility.h"
 #include "debug.h"
 #include "game.h"
@@ -17,6 +18,7 @@
 #include "mutation.h"
 #include "options.h"
 #include "output.h"
+#include "stomach.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "units.h"
@@ -342,6 +344,13 @@ int player::vitamin_mod( const vitamin_id &vit, int qty, bool capped )
     return it->second;
 }
 
+void player::vitamins_mod( std::map<vitamin_id, int> vitamins, bool capped )
+{
+    for( auto vit : vitamins ) {
+        vitamin_mod( vit.first, vit.second, capped );
+    }
+}
+
 int player::vitamin_get( const vitamin_id &vit ) const
 {
     if( get_option<bool>( "NO_VITAMINS" ) ) {
@@ -548,21 +557,11 @@ ret_val<edible_rating> player::will_eat( const item &food, bool interactive ) co
         add_consequence( _( "Your stomach won't be happy (not rotten enough)." ), ALLERGY_WEAK );
     }
 
-    const int nutr = nutrition_for( food );
-    const int quench = comest->quench;
-    const int temp_hunger = get_hunger() - nutr;
-    const int temp_thirst = get_thirst() - quench;
-
-    if( !has_active_mutation( trait_id( "EATHEALTH" ) ) &&
-        !has_active_mutation( trait_id( "HIBERNATE" ) ) &&
-        !has_trait( trait_id( "SLIMESPAWNER" ) ) ) {
-
-        if( get_hunger() < 0 && nutr >= 5 && !has_active_mutation( trait_id( "GOURMAND" ) ) ) {
+    if( stomach.stomach_remaining() < food.volume() / food.charges && !food.has_infinite_charges() ) {
+        if( food.has_flag( "USE_EAT_VERB" ) ) {
             add_consequence( _( "You're full already and will be forcing yourself to eat." ), TOO_FULL );
-        } else if( ( ( nutr > 0           && temp_hunger < stomach_capacity() ) ||
-                     ( comest->quench > 0 && temp_thirst < stomach_capacity() ) ) &&
-                   !food.has_infinite_charges() && !has_trait( trait_id( "NO_THIRST" ) ) ) {
-            add_consequence( _( "You will not be able to finish it all." ), TOO_FULL );
+        } else {
+            add_consequence( _( "You're full already and will be forcing yourself to drink." ), TOO_FULL );
         }
     }
 
@@ -634,10 +633,10 @@ bool player::eat( item &food, bool force )
             _( "You've begun stockpiling calories and liquid for hibernation.  You get the feeling that you should prepare for bed, just in case, but...you're hungry again, and you could eat a whole week's worth of food RIGHT NOW." ) );
     }
 
-    const bool will_vomit = get_hunger() < 0 && nutr >= 5 && !has_trait( trait_id( "GOURMAND" ) ) &&
-                            !hibernate &&
-                            !has_trait( trait_id( "SLIMESPAWNER" ) ) && !has_trait( trait_id( "EATHEALTH" ) ) &&
-                            rng( -200, 0 ) > get_hunger() - nutr;
+    const bool will_vomit = stomach.stomach_remaining() < food.volume() &&
+                            rng( units::to_milliliter( stomach.capacity() ) / 2,
+                                 units::to_milliliter( stomach.contains() ) ) > units::to_milliliter(
+                                stomach.capacity() );
     const bool saprophage = has_trait( trait_id( "SAPROPHAGE" ) );
     if( spoiled && !saprophage ) {
         add_msg_if_player( m_bad, _( "Ick, this %s doesn't taste so good..." ), food.tname().c_str() );
@@ -872,12 +871,8 @@ bool player::eat( item &food, bool force )
         add_morale( MORALE_HONEY, honey_fun, 100 );
     }
 
-    if( will_vomit ) {
-        vomit();
-    }
-
     // chance to become parasitised
-    if( !( has_bionic( bio_digestion ) || has_trait( trait_id( "PARAIMMUNE" ) ) ) ) {
+    if( !will_vomit && !( has_bionic( bio_digestion ) || has_trait( trait_id( "PARAIMMUNE" ) ) ) ) {
         if( food.get_comestible()->parasites > 0 && !food.has_flag( "NO_PARASITES" ) &&
             one_in( food.get_comestible()->parasites ) ) {
             switch( rng( 0, 3 ) ) {
@@ -900,45 +895,13 @@ bool player::eat( item &food, bool force )
         }
     }
 
-    for( const auto &v : this->vitamins_from( food ) ) {
-        auto qty = has_effect( effect_tapeworm ) ? v.second / 2 : v.second;
-
-        // can never develop hypervitaminosis from consuming food
-        vitamin_mod( v.first, qty );
+    if( will_vomit ) {
+        vomit();
     }
-
-    food.mod_charges( -1 );
     return true;
 }
 
-// Caps both actual nutrition/thirst and stomach capacity
-void cap_nutrition_thirst( player &p, int capacity, bool food, bool water )
-{
-    if( ( food && p.get_hunger() < capacity ) ||
-        ( water && p.get_thirst() < capacity ) ) {
-        p.add_msg_if_player( _( "You can't finish it all!" ) );
-    }
-
-    if( p.get_hunger() < capacity ) {
-        p.mod_stomach_food( p.get_hunger() - capacity );
-        p.set_hunger( capacity );
-    }
-
-    if( p.get_thirst() < capacity ) {
-        p.mod_stomach_water( p.get_thirst() - capacity );
-        p.set_thirst( capacity );
-    }
-
-    if( p.has_trait( trait_id( "NO_THIRST" ) ) ) {
-        p.set_thirst( p.get_hunger() );
-    }
-
-    add_msg( m_debug, "%s nutrition cap: hunger %d, thirst %d, stomach food %d, stomach water %d",
-             p.disp_name().c_str(), p.get_hunger(), p.get_thirst(), p.get_stomach_food(),
-             p.get_stomach_water() );
-}
-
-void player::consume_effects( const item &food )
+void player::consume_effects( item &food )
 {
     if( !food.is_comestible() ) {
         debugmsg( "called player::consume_effects with non-comestible" );
@@ -946,10 +909,8 @@ void player::consume_effects( const item &food )
     }
     const auto &comest = *food.get_comestible();
 
-    const int capacity = stomach_capacity();
     if( has_trait( trait_id( "THRESH_PLANT" ) ) && food.type->can_use( "PLANTBLECH" ) ) {
-        // Just keep nutrition capped, to prevent vomiting
-        cap_nutrition_thirst( *this, capacity, true, true );
+        // used to cap nutrition and thirst, but no longer
         return;
     }
     if( ( has_trait( trait_id( "HERBIVORE" ) ) || has_trait( trait_id( "RUMINANT" ) ) ) &&
@@ -970,11 +931,7 @@ void player::consume_effects( const item &food )
         add_msg( m_debug, "%d health from %0.2f%% rotten food", h_loss, rottedness );
     }
 
-    const auto nutr = nutrition_for( food );
-    mod_hunger( -nutr );
-    mod_thirst( -comest.quench );
-    mod_stomach_food( nutr );
-    mod_stomach_water( comest.quench );
+    const auto nutr = nutrition_for( food ); // used in hibernation messages.
     int effective_health = comest.healthy;
     if( effective_health != 0 ) {
         // Effectively no cap on health modifiers from food
@@ -1067,11 +1024,12 @@ void player::consume_effects( const item &food )
             mod_fatigue( nutr );
         }
     }
-
+    // @TODO: remove this
+    int capacity = stomach_capacity();
     // Moved here and changed a bit - it was too complex
     // Incredibly minor stuff like this shouldn't require complexity
     if( !is_npc() && has_trait( trait_id( "SLIMESPAWNER" ) ) &&
-        ( get_hunger() < capacity + 40 || get_thirst() < capacity + 40 ) ) {
+        ( get_healthy_kcal() < get_stored_kcal() + 4000 || get_thirst() < capacity + 40 ) ) {
         add_msg_if_player( m_mixed,
                            _( "You feel as though you're going to split open!  In a good way?" ) );
         mod_pain( 5 );
@@ -1112,8 +1070,8 @@ void player::consume_effects( const item &food )
         // Note: We want this here to prevent "you can't finish this" messages
         set_hunger( capacity );
     }
-
-    cap_nutrition_thirst( *this, capacity, nutr > 0, comest.quench > 0 );
+    // GET IN MAH BELLY!
+    stomach.ingest( *this, food, 1 );
 }
 
 hint_rating player::rate_action_eat( const item &it ) const

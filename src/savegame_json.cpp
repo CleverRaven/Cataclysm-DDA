@@ -340,11 +340,9 @@ void Character::load( JsonObject &data )
     // needs
     data.read( "thirst", thirst );
     data.read( "hunger", hunger );
-    data.read( "starvation", starvation );
     data.read( "fatigue", fatigue );
     data.read( "sleep_deprivation", sleep_deprivation );
-    data.read( "stomach_food", stomach_food );
-    data.read( "stomach_water", stomach_water );
+    data.read( "stored_calories", stored_calories );
 
     // health
     data.read( "healthy", healthy );
@@ -442,7 +440,6 @@ void Character::load( JsonObject &data )
 
     on_stat_change( "thirst", thirst );
     on_stat_change( "hunger", hunger );
-    on_stat_change( "starvation", starvation );
     on_stat_change( "fatigue", fatigue );
     on_stat_change( "sleep_deprivation", sleep_deprivation );
 }
@@ -473,11 +470,9 @@ void Character::store( JsonOut &json ) const
     // needs
     json.member( "thirst", thirst );
     json.member( "hunger", hunger );
-    json.member( "starvation", starvation );
     json.member( "fatigue", fatigue );
     json.member( "sleep_deprivation", sleep_deprivation );
-    json.member( "stomach_food", stomach_food );
-    json.member( "stomach_water", stomach_water );
+    json.member( "stored_calories", stored_calories );
 
     // breathing
     json.member( "underwater", underwater );
@@ -782,6 +777,9 @@ void player::serialize( JsonOut &json ) const
 
     json.member( "vitamin_levels", vitamin_levels );
 
+    json.member( "stomach", stomach );
+    json.member( "guts", guts );
+
     morale->store( json );
 
     // mission stuff
@@ -908,6 +906,9 @@ void player::deserialize( JsonIn &jsin )
         lvl = std::max( std::min( lvl, v.first.obj().max() ), v.first.obj().min() );
         vitamin_levels[ v.first ] = lvl;
     }
+
+    data.read( "stomach", stomach );
+    data.read( "guts", guts );
 
     morale->load( data );
 

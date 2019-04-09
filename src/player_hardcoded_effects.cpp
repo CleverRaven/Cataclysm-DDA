@@ -231,7 +231,7 @@ static void eff_fun_hallu( player &u, effect &it )
             u.add_msg_if_player( m_warning, _( "Something feels very, very wrong." ) );
         }
     } else if( dur > peakTime && dur < comeupTime ) {
-        if( u.get_stomach_food() > 0 && ( one_in( 200 ) || x_in_y( u.vomit_mod(), 50 ) ) ) {
+        if( u.stomach.contains() > 0_ml && ( one_in( 200 ) || x_in_y( u.vomit_mod(), 50 ) ) ) {
             u.add_msg_if_player( m_bad, _( "You feel sick to your stomach." ) );
             u.mod_hunger( -2 );
             if( one_in( 6 ) ) {
@@ -1034,6 +1034,8 @@ void player::hardcoded_effects( effect &it )
                 if( g->natural_light_level( posz() ) >= 12 && compatible_weather_types ) {
                     if( get_hunger() >= -30 ) {
                         mod_hunger( -5 );
+                        // photosynthesis warrants absorbing kcal directly
+                        mod_stored_nutr( -5 );
                     }
                     if( get_thirst() >= -30 ) {
                         mod_thirst( -5 );
@@ -1085,7 +1087,7 @@ void player::hardcoded_effects( effect &it )
                 if( has_trait( trait_id( "THRESH_MYCUS" ) ) ) {
                     if( one_in( 8 ) ) {
                         mutate_category( "MYCUS" );
-                        mod_hunger( 10 );
+                        mod_stored_nutr( 10 );
                         mod_thirst( 10 );
                         mod_fatigue( 5 );
                     }
