@@ -8074,9 +8074,7 @@ int iuse::panacea( player *p, item *it, bool, const tripoint & )
 
 int iuse::craft( player *p, item *it, bool, const tripoint & )
 {
-    int pos = p->get_item_position( it );
-
-    if( pos != INT_MIN ) {
+    if( p->has_item( *it ) ) {
         p->add_msg_player_or_npc(
             string_format( pgettext( "in progress craft", "You start working on the %s" ), it->tname() ),
             string_format( pgettext( "in progress craft", "<npcname> starts working on the %s" ), it->tname()

@@ -1384,15 +1384,19 @@ class player : public Character
         bool has_morale_to_craft() const;
         bool can_make( const recipe *r, int batch_size = 1 );  // have components?
         bool making_would_work( const recipe_id &id_to_make, int batch_size );
-        void craft();
-        void recraft();
-        void long_craft();
-        void make_craft( const recipe_id &id, int batch_size );
-        void make_all_craft( const recipe_id &id, int batch_size );
-        std::list<item> consume_components_for_craft( const recipe &making, int batch_size );
+
+        /**
+         * Start various types of crafts
+         * @param loc the location of the workbench. tripoint_zero indicates crafting from inventory.
+         */
+        void craft( const tripoint &loc = tripoint_zero );
+        void recraft( const tripoint &loc = tripoint_zero );
+        void long_craft( const tripoint &loc = tripoint_zero );
+        void make_craft( const recipe_id &id, int batch_size, const tripoint &loc = tripoint_zero );
+        void make_all_craft( const recipe_id &id, int batch_size, const tripoint &loc = tripoint_zero );
         /** consume components and create an active, in progress craft containing them */
-        void start_craft( craft_command &command );
-        void complete_craft( item &craft );
+        void start_craft( craft_command &command, const tripoint &loc );
+        void complete_craft( item &craft, const tripoint &loc = tripoint_zero );
         /** Returns nearby NPCs ready and willing to help with crafting. */
         std::vector<npc *> get_crafting_helpers() const;
         int get_num_crafting_helpers( int max ) const;
@@ -1556,7 +1560,8 @@ class player : public Character
 
         std::vector <addiction> addictions;
 
-        void make_craft_with_command( const recipe_id &id_to_make, int batch_size, bool is_long = false );
+        void make_craft_with_command( const recipe_id &id_to_make, int batch_size, bool is_long = false,
+                                      const tripoint &loc = tripoint_zero );
         pimpl<craft_command> last_craft;
 
         recipe_id lastrecipe;

@@ -128,33 +128,33 @@ bool player::has_morale_to_craft() const
     return get_morale_level() >= -50;
 }
 
-void player::craft()
+void player::craft( const tripoint &loc )
 {
     int batch_size = 0;
     const recipe *rec = select_crafting_recipe( batch_size );
     if( rec ) {
         if( crafting_allowed( *this, *rec ) ) {
-            make_craft( rec->ident(), batch_size );
+            make_craft( rec->ident(), batch_size, loc );
         }
     }
 }
 
-void player::recraft()
+void player::recraft( const tripoint &loc )
 {
     if( lastrecipe.str().empty() ) {
         popup( _( "Craft something first" ) );
     } else if( making_would_work( lastrecipe, last_batch ) ) {
-        last_craft->execute();
+        last_craft->execute( loc );
     }
 }
 
-void player::long_craft()
+void player::long_craft( const tripoint &loc )
 {
     int batch_size = 0;
     const recipe *rec = select_crafting_recipe( batch_size );
     if( rec ) {
         if( crafting_allowed( *this, *rec ) ) {
-            make_all_craft( rec->ident(), batch_size );
+            make_all_craft( rec->ident(), batch_size, loc );
         }
     }
 }
@@ -360,17 +360,18 @@ void player::invalidate_crafting_inventory()
     cached_time = calendar::before_time_starts;
 }
 
-void player::make_craft( const recipe_id &id_to_make, int batch_size )
+void player::make_craft( const recipe_id &id_to_make, int batch_size, const tripoint &loc )
 {
-    make_craft_with_command( id_to_make, batch_size );
+    make_craft_with_command( id_to_make, batch_size, false, loc );
 }
 
-void player::make_all_craft( const recipe_id &id_to_make, int batch_size )
+void player::make_all_craft( const recipe_id &id_to_make, int batch_size, const tripoint &loc )
 {
-    make_craft_with_command( id_to_make, batch_size, true );
+    make_craft_with_command( id_to_make, batch_size, true, loc );
 }
 
-void player::make_craft_with_command( const recipe_id &id_to_make, int batch_size, bool is_long )
+void player::make_craft_with_command( const recipe_id &id_to_make, int batch_size, bool is_long,
+                                      const tripoint &loc )
 {
     const auto &recipe_to_make = *id_to_make;
 
@@ -378,7 +379,7 @@ void player::make_craft_with_command( const recipe_id &id_to_make, int batch_siz
         return;
     }
 
-    *last_craft = craft_command( &recipe_to_make, batch_size, is_long, this );
+    *last_craft = craft_command( &recipe_to_make, batch_size, is_long, this, loc );
     last_craft->execute();
 }
 
@@ -471,7 +472,7 @@ static void return_some_components_for_craft( player &p, std::list<item> &used,
     }
 }
 
-void player::start_craft( craft_command &command )
+void player::start_craft( craft_command &command, const tripoint &loc )
 {
     if( command.empty() ) {
         debugmsg( "Attempted to start craft with empty command" );
@@ -485,22 +486,40 @@ void player::start_craft( craft_command &command )
         reset_encumbrance();
     }
 
-    item *craft_in_inventory = set_item_inventory( *this, craft );
-    if( !has_item( *craft_in_inventory ) ) {
-        add_msg_if_player( _( "Activate the %s to start crafting" ), craft.tname() );
+    if( loc == tripoint_zero ) {
+        item *craft_in_inventory = set_item_inventory( *this, craft );
+        if( !has_item( *craft_in_inventory ) ) {
+            add_msg_if_player( _( "Activate the %s to start crafting" ), craft.tname() );
+        } else {
+            add_msg_player_or_npc(
+                string_format( pgettext( "in progress craft", "You start working on the %s" ),
+                               craft.tname() ),
+                string_format( pgettext( "in progress craft", "<npcname> starts working on the %s" ),
+                               craft.tname() ) );
+            assign_activity( activity_id( "ACT_CRAFT" ) );
+            activity.targets.push_back( item_location( *this, craft_in_inventory ) );
+            activity.values.push_back( is_long );
+        }
     } else {
+        item *craft_on_map = &g->m.add_item_or_charges( loc, craft );
+        const furn_t &workbench = g->m.furn( loc ).obj();
+        add_msg_player_or_npc(
+            string_format( pgettext( "in progress craft", "You put the %s on the %s" ),
+                           craft.tname(), workbench.name() ),
+            string_format( pgettext( "in progress craft", "<npcname> puts the %s on the %s" ),
+                           craft.tname(), workbench.name() ) );
         add_msg_player_or_npc(
             string_format( pgettext( "in progress craft", "You start working on the %s" ),
                            craft.tname() ),
             string_format( pgettext( "in progress craft", "<npcname> starts working on the %s" ),
                            craft.tname() ) );
         assign_activity( activity_id( "ACT_CRAFT" ) );
-        activity.targets.push_back( item_location( *this, craft_in_inventory ) );
+        activity.targets.push_back( item_location( map_cursor( loc ), craft_on_map ) );
         activity.values.push_back( command.is_long() );
     }
 }
 
-void player::complete_craft( item &craft )
+void player::complete_craft( item &craft, const tripoint &loc )
 {
     const recipe &making = craft.get_making(); // Which recipe is it?
     const int batch_size = craft.charges;
@@ -754,7 +773,11 @@ void player::complete_craft( item &craft )
         }
 
         finalize_crafted_item( newit );
-        set_item_inventory( *this, newit );
+        if( loc == tripoint_zero ) {
+            set_item_inventory( *this, newit );
+        } else {
+            g->m.add_item_or_charges( loc, newit );
+        }
     }
 
     if( making.has_byproducts() ) {
@@ -772,7 +795,11 @@ void player::complete_craft( item &craft )
                 }
             }
             finalize_crafted_item( bp );
-            set_item_inventory( *this, bp );
+            if( loc == tripoint_zero ) {
+                set_item_inventory( *this, bp );
+            } else {
+                g->m.add_item_or_charges( loc, bp );
+            }
         }
     }
 

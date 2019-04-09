@@ -76,6 +76,7 @@ const efftype_id effect_sleep( "sleep" );
 static const trait_id trait_AMORPHOUS( "AMORPHOUS" );
 static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
 static const trait_id trait_BADKNEES( "BADKNEES" );
+static const trait_id trait_BURROW( "BURROW" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_INSECT_ARMS_OK( "INSECT_ARMS_OK" );
 static const trait_id trait_M_DEFENDER( "M_DEFENDER" );
@@ -84,10 +85,13 @@ static const trait_id trait_M_FERTILE( "M_FERTILE" );
 static const trait_id trait_M_SPORES( "M_SPORES" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PARKOUR( "PARKOUR" );
+static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 static const trait_id trait_BURROW( "BURROW" );
+
 const zone_type_id z_loot_unsorted( "LOOT_UNSORTED" );
+
 static void pick_plant( player &p, const tripoint &examp, const std::string &itemType,
                         ter_id new_ter,
                         bool seeds = false );
@@ -4595,6 +4599,91 @@ void iexamine::open_safe( player &, const tripoint &examp )
     g->m.furn_set( examp, f_safe_o );
 }
 
+void iexamine::workbench( player &p, const tripoint &examp )
+{
+    const furn_t &f_workbench = g->m.furn( examp ).obj();
+
+    uilist amenu;
+
+    enum option : int {
+        start_craft = 0,
+        repeat_craft,
+        start_long_craft,
+        work_on_craft,
+        get_items
+    };
+
+    auto items_at_furn = g->m.i_at( examp );
+    std::vector<item_location> crafts;
+    for( item &it : items_at_furn ) {
+        if( it.is_craft() ) {
+            crafts.emplace_back( item_location( map_cursor( examp ), &it ) );
+        }
+    }
+
+    amenu.text = string_format( pgettext( "furniture", "What to do with the %s?" ),
+                                f_workbench.name() );
+    amenu.addentry( start_craft,        true,                   '1', _( "Craft Items" ) );
+    amenu.addentry( repeat_craft,       true,                   '2', _( "Recraft last recipe" ) );
+    amenu.addentry( start_long_craft,   true,                   '3', _( "Craft as long as possible" ) );
+    amenu.addentry( work_on_craft,      !crafts.empty(),        '4', _( "Work on craft" ) );
+    amenu.addentry( get_items,          !items_at_furn.empty(), '5', _( "Get items" ) );
+
+    amenu.query();
+
+    option choice = static_cast<option>( amenu.ret );
+    switch( choice ) {
+        case start_craft: {
+            if( p.has_active_mutation( trait_SHELL2 ) ) {
+                p.add_msg_if_player( m_info, _( "You can't craft while you're in your shell." ) );
+            } else {
+                p.craft();
+            }
+            break;
+        }
+        case repeat_craft: {
+            if( p.has_active_mutation( trait_SHELL2 ) ) {
+                p.add_msg_if_player( m_info, _( "You can't craft while you're in your shell." ) );
+            } else {
+                p.recraft();
+            }
+            break;
+        }
+        case start_long_craft: {
+            if( p.has_active_mutation( trait_SHELL2 ) ) {
+                p.add_msg_if_player( m_info, _( "You can't craft while you're in your shell." ) );
+            } else {
+                p.long_craft();
+            }
+            break;
+        }
+        case work_on_craft: {
+            std::vector<std::string> item_names;
+            for( item_location &it : crafts ) {
+                if( it ) {
+                    item_names.emplace_back( it.get_item()->tname() );
+                }
+            }
+            uilist amenu2( _( "Which craft to work on?" ), item_names );
+            item *selected_craft = crafts[amenu2.ret].get_item();
+
+            p.add_msg_player_or_npc(
+                string_format( pgettext( "in progress craft", "You start working on the %s" ),
+                               selected_craft->tname() ),
+                string_format( pgettext( "in progress craft", "<npcname> starts working on the %s" ),
+                               selected_craft->tname() ) );
+            p.assign_activity( activity_id( "ACT_CRAFT" ) );
+            p.activity.targets.push_back( item_location( map_cursor( examp ), selected_craft ) );
+            p.activity.values.push_back( 0 ); // Not a long craft
+            break;
+        }
+        case get_items: {
+            Pickup::pick_up( examp, 0 );
+            break;
+        }
+    }
+}
+
 /**
  * Given then name of one of the above functions, returns the matching function
  * pointer. If no match is found, defaults to iexamine::none but prints out a
@@ -4673,7 +4762,8 @@ iexamine_function iexamine_function_from_string( const std::string &function_nam
             { "ledge", &iexamine::ledge },
             { "autodoc", &iexamine::autodoc },
             { "smoker_options", &iexamine::smoker_options },
-            { "open_safe", &iexamine::open_safe }
+            { "open_safe", &iexamine::open_safe },
+            { "workbench", &iexamine::workbench }
         }
     };
 

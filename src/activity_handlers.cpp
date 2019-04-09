@@ -2641,12 +2641,8 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
 {
     item *craft = act->targets.front().get_item();
 
-    if( !craft->is_craft() ) {
-        debugmsg( "ACT_CRAFT target '%s' is not a craft.  Aborting ACT_CRAFT.", craft->tname() );
-        p->cancel_activity();
-        return;
-    }
-    if( !p->has_item( *craft ) ) {
+    // item_location::get_item() will return nullptr if the item is lost
+    if( !craft ) {
         p->add_msg_player_or_npc(
             string_format(
                 _( "You no longer have the %1$s in your possession.  You stop crafting.  Reactivate the %1$s to continue crafting." ),
@@ -2655,6 +2651,12 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
                 _( "<npcname> no longer has the %s in their possession.  <npcname> stops crafting." ),
                 craft->tname() )
         );
+        p->cancel_activity();
+        return;
+    }
+
+    if( !craft->is_craft() ) {
+        debugmsg( "ACT_CRAFT target '%s' is not a craft.  Aborting ACT_CRAFT.", craft->tname() );
         p->cancel_activity();
         return;
     }
@@ -2696,12 +2698,16 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
 
     // if item_counter has reached 100% or more
     if( craft->item_counter >= 10000000 ) {
+        item craft_copy = *craft;
+        const tripoint loc = act->targets.front().where() == item_location::type::character ?
+                             tripoint_zero :
+                             act->targets.front().position();
+        act->targets.front().remove_item();
         p->cancel_activity();
-        item craft_copy = p->i_rem( craft );
-        p->complete_craft( craft_copy );
+        p->complete_craft( craft_copy, loc );
         if( is_long ) {
             if( p->making_would_work( p->lastrecipe, craft_copy.charges ) ) {
-                p->last_craft->execute();
+                p->last_craft->execute( loc );
             }
         }
     }
