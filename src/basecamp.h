@@ -27,6 +27,11 @@ struct expansion_data {
 using npc_ptr = std::shared_ptr<npc>;
 using comp_list = std::vector<npc_ptr>;
 
+namespace catacurses
+{
+class window;
+};
+
 class basecamp
 {
     public:
@@ -54,6 +59,8 @@ class basecamp
         std::vector<tripoint> sort_points;
         std::vector<std::string> directions;
         std::string name;
+        void faction_display( const catacurses::window &fac_w, const int width ) const;
+
         //change name of camp
         void set_name( const std::string &new_name );
         void query_new_name();
@@ -124,7 +131,7 @@ class basecamp
                                const std::string &skill_tested, int skill_level );
         void start_upgrade( const std::string &bldg, const std::string &key, tripoint omt_tri,
                             bool by_radio );
-        std::string om_upgrade_description( const std::string &bldg, bool trunc );
+        std::string om_upgrade_description( const std::string &bldg, bool trunc ) const;
         void start_menial_labor();
         /// Called when a companion is sent to cut logs
         void start_cut_logs();

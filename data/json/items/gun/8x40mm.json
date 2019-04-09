@@ -260,6 +260,7 @@
     "dispersion": 175,
     "durability": 9,
     "clip_size": 5,
+    "magazines": [ [ "8x40mm", [ "8x40_speedloader5" ] ] ],
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],
