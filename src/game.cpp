@@ -1855,8 +1855,8 @@ void game::remove_npc_follower( const int &id )
 {
     follower_ids.erase( std::remove( follower_ids.begin(), follower_ids.end(), id ),
                         follower_ids.end() );
-    follower_ids.erase( std::remove( u.follower_ids.begin(), u.follower_ids.end(), id ),
-                        u.follower_ids.end() );
+    u.follower_ids.erase( std::remove( u.follower_ids.begin(), u.follower_ids.end(), id ),
+                          u.follower_ids.end() );
 }
 
 void game::validate_npc_followers()
@@ -3796,7 +3796,7 @@ void game::draw_veh_dir_indicator( bool next )
     if( const cata::optional<tripoint> indicator_offset = get_veh_dir_indicator_location( next ) ) {
         auto col = next ? c_white : c_dark_gray;
         mvwputch( w_terrain, POSY + indicator_offset->y - u.view_offset.y,
-                  POSX + indicator_offset->x - u.view_offset.x, col, 'X' );
+                  POSX + indicator_offset->x - u.view_offset.x - g->sidebar_offset.x, col, 'X' );
     }
 }
 
@@ -3830,7 +3830,7 @@ void game::draw_minimap()
             const int omx = cursx + i;
             const int omy = cursy + j;
             nc_color ter_color;
-            long ter_sym;
+            std::string ter_sym;
             const bool seen = overmap_buffer.seen( omx, omy, get_levz() );
             const bool vehicle_here = overmap_buffer.has_vehicle( omx, omy, get_levz() );
             if( overmap_buffer.has_note( omx, omy, get_levz() ) ) {
@@ -3838,7 +3838,7 @@ void game::draw_minimap()
                 const std::string &note_text = overmap_buffer.note( omx, omy, get_levz() );
 
                 ter_color = c_yellow;
-                ter_sym = 'N';
+                ter_sym = "N";
 
                 int symbolIndex = note_text.find( ':' );
                 int colorIndex = note_text.find( ';' );
@@ -3922,11 +3922,11 @@ void game::draw_minimap()
                     }
                 }
             } else if( !seen ) {
-                ter_sym = ' ';
+                ter_sym = " ";
                 ter_color = c_black;
             } else if( vehicle_here ) {
                 ter_color = c_cyan;
-                ter_sym = 'c';
+                ter_sym = "c";
             } else {
                 const oter_id &cur_ter = overmap_buffer.ter( omx, omy, get_levz() );
                 ter_sym = cur_ter->get_sym();
@@ -3960,9 +3960,9 @@ void game::draw_minimap()
 
         if( cursx == targ.x || fabs( slope ) > 3.5 ) { // Vertical slope
             if( targ.y > cursy ) {
-                mvwputch( w_minimap, 6, 3, c_red, '*' );
+                mvwputch( w_minimap, 6, 3, c_red, "*" );
             } else {
-                mvwputch( w_minimap, 0, 3, c_red, '*' );
+                mvwputch( w_minimap, 0, 3, c_red, "*" );
             }
         } else {
             int arrowx = -1;
