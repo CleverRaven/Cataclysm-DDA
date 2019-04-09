@@ -7277,7 +7277,7 @@ bool player::consume_med( item &target )
         return false;
     }
 
-    const itype_id tool_type = target.type->comestible->tool;
+    const itype_id tool_type = target.get_comestible()->tool;
     const auto req_tool = item::find_type( tool_type );
     bool tool_override = false;
     if( tool_type == "syringe" && has_bionic( bio_syringe ) ) {
@@ -7321,7 +7321,7 @@ bool player::consume_item( item &target )
 
     item &comest = get_comestible_from( target );
 
-    if( comest.is_null() ) {
+    if( comest.is_null() || target.is_craft() ) {
         add_msg_if_player( m_info, _( "You can't eat your %s." ), target.tname().c_str() );
         if( is_npc() ) {
             debugmsg( "%s tried to eat a %s", name.c_str(), target.tname().c_str() );
@@ -9091,10 +9091,10 @@ void player::use( item_location loc )
         }
         invoke_item( &used, loc.position() );
 
-    } else if( used.is_food() ||
-               used.is_medication() ||
-               used.get_contained().is_food() ||
-               used.get_contained().is_medication() ) {
+    } else if( !used.is_craft() && ( used.is_food() ||
+                                     used.is_medication() ||
+                                     used.get_contained().is_food() ||
+                                     used.get_contained().is_medication() ) ) {
         consume( inventory_position );
 
     } else if( used.is_book() ) {
@@ -11284,7 +11284,6 @@ void player::assign_activity( const player_activity &act, bool allow_resume )
         add_msg_if_player( _( "You resume your task." ) );
         activity = backlog.front();
         backlog.pop_front();
-        activity.resume_with( act );
     } else {
         if( activity ) {
             backlog.push_front( activity );

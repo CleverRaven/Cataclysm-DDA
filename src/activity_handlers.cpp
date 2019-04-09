@@ -27,6 +27,7 @@
 #include "mtype.h"
 #include "output.h"
 #include "player.h"
+#include "recipe.h"
 #include "requirements.h"
 #include "rng.h"
 #include "skill.h"
@@ -57,7 +58,6 @@ const std::map< activity_id, std::function<void( player_activity *, player * )> 
 activity_handlers::do_turn_functions = {
     { activity_id( "ACT_BURROW" ), burrow_do_turn },
     { activity_id( "ACT_CRAFT" ), craft_do_turn },
-    { activity_id( "ACT_LONGCRAFT" ), craft_do_turn },
     { activity_id( "ACT_FILL_LIQUID" ), fill_liquid_do_turn },
     { activity_id( "ACT_PICKAXE" ), pickaxe_do_turn },
     { activity_id( "ACT_DROP" ), drop_do_turn },
@@ -136,8 +136,6 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_WAIT_NPC" ), wait_npc_finish },
     { activity_id( "ACT_SOCIALIZE" ), socialize_finish },
     { activity_id( "ACT_TRY_SLEEP" ), try_sleep_finish },
-    { activity_id( "ACT_CRAFT" ), craft_finish },
-    { activity_id( "ACT_LONGCRAFT" ), longcraft_finish },
     { activity_id( "ACT_DISASSEMBLE" ), disassemble_finish },
     { activity_id( "ACT_BUILD" ), build_finish },
     { activity_id( "ACT_VIBE" ), vibe_finish },
@@ -2632,8 +2630,30 @@ void activity_handlers::try_sleep_finish( player_activity *act, player *p )
 
 void activity_handlers::craft_do_turn( player_activity *act, player *p )
 {
-    const recipe &rec = recipe_id( act->name ).obj();
+    item *craft = act->targets.front().get_item();
+
+    if( !craft->is_craft() ) {
+        debugmsg( "ACT_CRAFT target '%s' is not a craft.  Aborting ACT_CRAFT.", craft->tname() );
+        p->cancel_activity();
+        return;
+    }
+    if( !p->has_item( *craft ) ) {
+        p->add_msg_player_or_npc(
+            string_format(
+                _( "You no longer have the %1$s in your possession.  You stop crafting.  Reactivate the %1$s to continue crafting." ),
+                craft->tname() ),
+            string_format(
+                _( "<npcname> no longer has the %s in their possession.  <npcname> stops crafting." ),
+                craft->tname() )
+        );
+        p->cancel_activity();
+        return;
+    }
+
+    const recipe &rec = craft->get_making();
     const float crafting_speed = p->crafting_speed_multiplier( rec, true );
+    const bool is_long = act->values[0];
+
     if( crafting_speed <= 0.0f ) {
         if( p->lighting_craft_speed_multiplier( rec ) <= 0.0f ) {
             p->add_msg_if_player( m_bad, _( "You can no longer see well enough to keep crafting." ) );
@@ -2643,28 +2663,23 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
         p->cancel_activity();
         return;
     }
-    act->moves_left -= crafting_speed * p->get_moves();
-    p->set_moves( 0 );
     if( calendar::once_every( 1_hours ) && crafting_speed < 0.75f ) {
         // TODO: Describe the causes of slowdown
         p->add_msg_if_player( m_bad, _( "You can't focus and are working slowly." ) );
     }
-}
 
-void activity_handlers::craft_finish( player_activity *act, player *p )
-{
-    p->complete_craft();
-    act->set_to_null();
-}
+    craft->item_counter += crafting_speed * p->get_moves();
+    p->set_moves( 0 );
 
-void activity_handlers::longcraft_finish( player_activity *act, player *p )
-{
-    const int batch_size = act->values.front();
-    p->complete_craft();
-    act->set_to_null();
-    // Workaround for a bug where longcraft can be unset in complete_craft().
-    if( p->making_would_work( p->lastrecipe, batch_size ) ) {
-        p->last_craft->execute();
+    if( craft->item_counter >= rec.time ) {
+        p->cancel_activity();
+        item craft_copy = p->i_rem( craft );
+        p->complete_craft( craft_copy );
+        if( is_long ) {
+            if( p->making_would_work( p->lastrecipe, craft_copy.charges ) ) {
+                p->last_craft->execute();
+            }
+        }
     }
 }
 
