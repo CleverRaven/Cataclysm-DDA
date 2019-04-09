@@ -28,7 +28,7 @@
     "type": "COMESTIBLE",
     "comestible_type": "MED",
     "name": "abstract iv mutagen flavor",
-    "description": "A super concentrated mutagen.  You need a syringe to inject it...  if you really want to?",
+    "description": "A super-concentrated mutagen.  You need a syringe to inject it...  if you really want to?",
     "price": 200000,
     "weight": 10,
     "volume": "10ml",
@@ -55,7 +55,7 @@
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
     "name": "alpha serum",
-    "description": "A super concentrated mutagen strongly resembling blood.  You need a syringe to inject it...  if you really want to?",
+    "description": "A super-concentrated mutagen strongly resembling blood.  You need a syringe to inject it...  if you really want to?",
     "price": 1000000,
     "color": "red",
     "healthy": -4,
@@ -66,7 +66,7 @@
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
     "name": "beast serum",
-    "description": "A super concentrated mutagen as red as a matador's cape.  You need a syringe to inject it...  if you really want to?",
+    "description": "A super-concentrated mutagen as red as a matador's cape.  You need a syringe to inject it...  if you really want to?",
     "color": "red",
     "use_action": { "type": "mutagen_iv", "mutation_category": "BEAST" }
   },
@@ -75,7 +75,7 @@
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
     "name": "bird serum",
-    "description": "A super concentrated mutagen the color of the pre-cataclysmic skies.  You need a syringe to inject it...  if you really want to?",
+    "description": "A super-concentrated mutagen the color of the pre-cataclysmic skies.  You need a syringe to inject it...  if you really want to?",
     "color": "cyan",
     "use_action": { "type": "mutagen_iv", "mutation_category": "BIRD" }
   },
@@ -84,7 +84,7 @@
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
     "name": "cattle serum",
-    "description": "A super concentrated mutagen the color of grass.  You need a syringe to inject it...  if you really want to?",
+    "description": "A super-concentrated mutagen the color of grass.  You need a syringe to inject it...  if you really want to?",
     "color": "light_green",
     "use_action": { "type": "mutagen_iv", "mutation_category": "CATTLE" }
   },
@@ -93,7 +93,7 @@
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
     "name": "cephalopod serum",
-    "description": "A super concentrated mutagen as black as ink.  You need a syringe to inject it...  if you really want to?",
+    "description": "A super-concentrated mutagen as black as ink.  You need a syringe to inject it...  if you really want to?",
     "color": "dark_gray",
     "use_action": { "type": "mutagen_iv", "mutation_category": "CEPHALOPOD" }
   },
@@ -102,7 +102,7 @@
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
     "name": "chimera serum",
-    "description": "A super concentrated mutagen that churns with iridescence.  You need a syringe to inject it...  if you really want to?",
+    "description": "A super-concentrated mutagen that churns with iridescence.  You need a syringe to inject it...  if you really want to?",
     "price": 400000,
     "color": "red",
     "healthy": -15,
@@ -115,7 +115,7 @@
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
     "name": "elf-a serum",
-    "description": "A super concentrated mutagen that's a striking sylvan green.  You need a syringe to inject it...  if you really want to?",
+    "description": "A super-concentrated mutagen that's a striking sylvan green.  You need a syringe to inject it...  if you really want to?",
     "price": 400000,
     "color": "light_green",
     "use_action": { "type": "mutagen_iv", "mutation_category": "ELFA" }
@@ -125,7 +125,7 @@
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
     "name": "feline serum",
-    "description": "A super concentrated mutagen, yellow and highly reflective.  You need a syringe to inject it...  if you really want to?",
+    "description": "A super-concentrated mutagen, yellow and highly reflective.  You need a syringe to inject it...  if you really want to?",
     "color": "light_yellow",
     "use_action": { "type": "mutagen_iv", "mutation_category": "FELINE" }
   },
@@ -134,7 +134,7 @@
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
     "name": "fish serum",
-    "description": "A super concentrated mutagen the color of the ocean, with white foam at the top.  You need a syringe to inject it...  if you really want to?",
+    "description": "A super-concentrated mutagen the color of the ocean, with white foam at the top.  You need a syringe to inject it...  if you really want to?",
     "color": "light_blue",
     "use_action": { "type": "mutagen_iv", "mutation_category": "FISH" }
   },
@@ -143,7 +143,7 @@
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
     "name": "insect serum",
-    "description": "A super concentrated mutagen that's a beautiful amber color.  You need a syringe to inject it...  if you really want to?",
+    "description": "A super-concentrated mutagen that's a beautiful amber color.  You need a syringe to inject it...  if you really want to?",
     "color": "light_yellow",
     "use_action": { "type": "mutagen_iv", "mutation_category": "INSECT" }
   },
@@ -152,7 +152,7 @@
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
     "name": "lizard serum",
-    "description": "A super concentrated mutagen that shifts between various shades of green.  You need a syringe to inject it...  if you really want to?",
+    "description": "A super-concentrated mutagen that shifts between various shades of green.  You need a syringe to inject it...  if you really want to?",
     "color": "light_green",
     "use_action": { "type": "mutagen_iv", "mutation_category": "LIZARD" }
   },
@@ -161,7 +161,7 @@
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
     "name": "lupine serum",
-    "description": "A super concentrated mutagen as white as a full moon.  You need a syringe to inject it...  if you really want to?",
+    "description": "A super-concentrated mutagen as white as a full moon.  You need a syringe to inject it...  if you really want to?",
     "color": "white",
     "use_action": { "type": "mutagen_iv", "mutation_category": "LUPINE" }
   },
@@ -170,7 +170,7 @@
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
     "name": "medical serum",
-    "description": "A super concentrated mutagenic substance.  Judging by the amount, it should be delivered via injection.  You'd need a syringe.",
+    "description": "A super-concentrated mutagenic substance.  Judging by the amount, it should be delivered via injection.  You'd need a syringe.",
     "price": 300000,
     "color": "light_green",
     "healthy": -4,
@@ -181,7 +181,7 @@
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
     "name": "plant serum",
-    "description": "A super concentrated mutagen resembling tree sap.  You need a syringe to inject it...  if you really want to?",
+    "description": "A super-concentrated mutagen resembling tree sap.  You need a syringe to inject it...  if you really want to?",
     "color": "yellow",
     "use_action": { "type": "mutagen_iv", "mutation_category": "PLANT" }
   },
@@ -190,7 +190,7 @@
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
     "name": "raptor serum",
-    "description": "A super concentrated mutagen that seems to shift slightly whenever you look at it.  You need a syringe to inject it...  if you really want to?",
+    "description": "A super-concentrated mutagen that seems to shift slightly whenever you look at it.  You need a syringe to inject it...  if you really want to?",
     "price": 400000,
     "color": "green",
     "use_action": { "type": "mutagen_iv", "mutation_category": "RAPTOR" }
@@ -200,7 +200,7 @@
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
     "name": "rat serum",
-    "description": "A super concentrated mutagen that's a rather unappealing beige.  You need a syringe to inject it...  if you really want to?",
+    "description": "A super-concentrated mutagen that's a rather unappealing beige.  You need a syringe to inject it...  if you really want to?",
     "color": "brown",
     "use_action": { "type": "mutagen_iv", "mutation_category": "RAT" }
   },
@@ -209,7 +209,7 @@
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
     "name": "slime serum",
-    "description": "A super concentrated mutagen that looks very much like the black ooze in the zombies' eyes.  You need a syringe to inject it...  if you really want to?",
+    "description": "A super-concentrated mutagen that looks very much like the black ooze in the zombies' eyes.  You need a syringe to inject it...  if you really want to?",
     "color": "dark_gray",
     "use_action": { "type": "mutagen_iv", "mutation_category": "SLIME" }
   },
@@ -218,7 +218,7 @@
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
     "name": "spider serum",
-    "description": "A super concentrated mutagen with pale filaments suspended in it.  You need a syringe to inject it...  if you really want to?",
+    "description": "A super-concentrated mutagen with pale filaments suspended in it.  You need a syringe to inject it...  if you really want to?",
     "color": "light_gray",
     "use_action": { "type": "mutagen_iv", "mutation_category": "SPIDER" }
   },
@@ -227,7 +227,7 @@
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
     "name": "troglobite serum",
-    "description": "A super concentrated mutagen that seems to recoil from the light.  You need a syringe to inject it...  if you really want to?",
+    "description": "A super-concentrated mutagen that seems to recoil from the light.  You need a syringe to inject it...  if you really want to?",
     "color": "dark_gray",
     "use_action": { "type": "mutagen_iv", "mutation_category": "TROGLOBITE" }
   },
@@ -236,7 +236,7 @@
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
     "name": "ursine serum",
-    "description": "A super concentrated mutagen that's the color of honey, and is just as thick.  You need a syringe to inject it...  if you really want to?",
+    "description": "A super-concentrated mutagen that's the color of honey, and is just as thick.  You need a syringe to inject it...  if you really want to?",
     "color": "yellow",
     "use_action": { "type": "mutagen_iv", "mutation_category": "URSINE" }
   },
@@ -245,7 +245,7 @@
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
     "name": "mouse serum",
-    "description": "A super concentrated mutagen strongly resembling liquefied metal.  You need a syringe to inject it...  if you really want to?",
+    "description": "A super-concentrated mutagen strongly resembling liquefied metal.  You need a syringe to inject it...  if you really want to?",
     "color": "light_gray",
     "use_action": { "type": "mutagen_iv", "mutation_category": "MOUSE" }
   },
@@ -445,7 +445,7 @@
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
     "name": "purifier serum",
-    "description": "A super concentrated stem cell treatment.  You need a syringe to inject it.",
+    "description": "A super-concentrated stem cell treatment.  You need a syringe to inject it.",
     "price": 900000,
     "//": "*May* have been commercially traded, but not in this preparation.",
     "color": "magenta",
