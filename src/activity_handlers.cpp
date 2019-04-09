@@ -2671,7 +2671,7 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
     craft->item_counter += crafting_speed * p->get_moves();
     p->set_moves( 0 );
 
-    if( craft->item_counter >= rec.time ) {
+    if( craft->item_counter >= rec.time * craft->charges ) {
         p->cancel_activity();
         item craft_copy = p->i_rem( craft );
         p->complete_craft( craft_copy );
