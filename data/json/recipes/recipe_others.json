@@ -1299,15 +1299,15 @@
     "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "fabrication",
     "difficulty": 1,
-    "time": 8000,
+    "time": 45000,
     "reversible": true,
     "autolearn": true,
+    "using": [ [ "steel_standard", 20 ] ],
     "qualities": [ { "id": "GLARE", "level": 2 } ],
     "tools": [
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ], [ "forge", 50 ], [ "oxy_torch", 10 ] ]
-    ],
-    "components": [ [ [ "steel_lump", 10 ] ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -1316,15 +1316,15 @@
     "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "fabrication",
     "difficulty": 1,
-    "time": 8000,
+    "time": 90000,
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "GLARE", "level": 2 } ],
+    "using": [ [ "steel_standard", 100 ] ],
     "tools": [
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ], [ "forge", 50 ], [ "oxy_torch", 10 ] ]
-    ],
-    "components": [ [ [ "steel_lump", 18 ] ] ]
+    ]
   },
   {
     "type": "recipe",

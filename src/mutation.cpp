@@ -11,6 +11,7 @@
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "monster.h"
+#include "morale_types.h"
 #include "output.h"
 #include "player.h"
 #include "translations.h"
@@ -359,6 +360,26 @@ void player::activate_mutation( const trait_id &mut )
                         moves = MINUTES( 30 ) * 100;
                     } else if( g->m.has_flag( "DIGGABLE", pnt ) ) {
                         moves = MINUTES( 10 ) * 100;
+                        if( g->m.ter( pnt ) == t_grave ) {
+                            moves *= 2; // 6 feet under
+                            if( g->u.has_trait_flag( "SPIRITUAL" ) && !g->u.has_trait_flag( "PSYCHOPATH" ) &&
+                                g->u.query_yn( _( "Would you really touch the sacred resting place of the dead?" ) ) ) {
+                                add_msg( m_info, _( "You are really going against your beliefs here." ) );
+                                g->u.add_morale( MORALE_GRAVEDIGGER, -50, -100, 48_hours, 12_hours );
+                                if( one_in( 3 ) ) {
+                                    g->u.vomit();
+                                }
+                            } else if( g->u.has_trait_flag( "PSYCHOPATH" ) ) {
+                                g->u.add_msg_if_player( m_good, _( "This is fun!" ) );
+                                g->u.add_morale( MORALE_GRAVEDIGGER, 25, 50, 2_hours, 1_hours );
+                            } else if( !g->u.has_trait_flag( "EATDEAD" ) && !g->u.has_trait_flag( "SAPROVORE" ) ) {
+                                g->u.add_msg_if_player( m_bad, _( "This is utterly disgusting!" ) );
+                                g->u.add_morale( MORALE_GRAVEDIGGER, -25, -50, 2_hours, 1_hours );
+                                if( one_in( 5 ) ) {
+                                    g->u.vomit();
+                                }
+                            }
+                        }
                     } else {
                         add_msg_if_player( _( "You can't dig a pit on this ground." ) );
                         return;

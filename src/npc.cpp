@@ -10,6 +10,7 @@
 #include "json.h"
 #include "map.h"
 #include "mapdata.h"
+#include "map_iterator.h"
 #include "messages.h"
 #include "mission.h"
 #include "monfaction.h"
@@ -1386,10 +1387,10 @@ void npc::decide_needs()
         item inventory_item = i->front();
         if( inventory_item.is_food( ) ) {
             needrank[ need_food ] += nutrition_for( inventory_item ) / 4;
-            needrank[ need_drink ] += inventory_item.type->comestible->quench / 4;
+            needrank[ need_drink ] += inventory_item.get_comestible()->quench / 4;
         } else if( inventory_item.is_food_container() ) {
             needrank[ need_food ] += nutrition_for( inventory_item.contents.front() ) / 4;
-            needrank[ need_drink ] += inventory_item.contents.front().type->comestible->quench / 4;
+            needrank[ need_drink ] += inventory_item.contents.front().get_comestible()->quench / 4;
         }
     }
     needs.clear();
@@ -1550,14 +1551,14 @@ int npc::value( const item &it, int market_price ) const
 
     if( it.is_food() ) {
         int comestval = 0;
-        if( nutrition_for( it ) > 0 || it.type->comestible->quench > 0 ) {
+        if( nutrition_for( it ) > 0 || it.get_comestible()->quench > 0 ) {
             comestval++;
         }
         if( get_hunger() > 40 ) {
             comestval += ( nutrition_for( it ) + get_hunger() - 40 ) / 6;
         }
         if( get_thirst() > 40 ) {
-            comestval += ( it.type->comestible->quench + get_thirst() - 40 ) / 4;
+            comestval += ( it.get_comestible()->quench + get_thirst() - 40 ) / 4;
         }
         if( comestval > 0 && will_eat( it ).success() ) {
             ret += comestval;
@@ -1593,11 +1594,11 @@ int npc::value( const item &it, int market_price ) const
 
     // TODO: Artifact hunting from relevant factions
     // ALSO TODO: Bionics hunting from relevant factions
-    if( fac_has_job( FACJOB_DRUGS ) && it.is_food() && it.type->comestible->addict >= 5 ) {
+    if( fac_has_job( FACJOB_DRUGS ) && it.is_food() && it.get_comestible()->addict >= 5 ) {
         ret += 10;
     }
 
-    if( fac_has_job( FACJOB_DOCTORS ) && it.is_food() && it.type->comestible->comesttype == "MED" ) {
+    if( fac_has_job( FACJOB_DOCTORS ) && it.is_food() && it.get_comestible()->comesttype == "MED" ) {
         ret += 10;
     }
 
@@ -2057,26 +2058,36 @@ void npc::die( Creature *nkiller )
 std::string npc_attitude_name( npc_attitude att )
 {
     switch( att ) {
-        case NPCATT_NULL:          // Don't care/ignoring player
+        // Don't care/ignoring player
+        case NPCATT_NULL:
             return _( "Ignoring" );
-        case NPCATT_TALK:          // Move to and talk to player
+        // Move to and talk to player
+        case NPCATT_TALK:
             return _( "Wants to talk" );
-        case NPCATT_FOLLOW:        // Follow the player
+        // Follow the player
+        case NPCATT_FOLLOW:
             return _( "Following" );
-        case NPCATT_LEAD:          // Lead the player, wait for them if they're behind
+        // Lead the player, wait for them if they're behind
+        case NPCATT_LEAD:
             return _( "Leading" );
-        case NPCATT_WAIT:          // Waiting for the player
+        // Waiting for the player
+        case NPCATT_WAIT:
             return _( "Waiting for you" );
-        case NPCATT_MUG:           // Mug the player
+        // Mug the player
+        case NPCATT_MUG:
             return _( "Mugging you" );
-        case NPCATT_WAIT_FOR_LEAVE:// Attack the player if our patience runs out
+        // Attack the player if our patience runs out
+        case NPCATT_WAIT_FOR_LEAVE:
             return _( "Waiting for you to leave" );
-        case NPCATT_KILL:          // Kill the player
+        // Kill the player
+        case NPCATT_KILL:
             return _( "Attacking to kill" );
-        case NPCATT_FLEE:          // Get away from the player
+        // Get away from the player
+        case NPCATT_FLEE:
         case NPCATT_FLEE_TEMP:
             return _( "Fleeing" );
-        case NPCATT_HEAL:          // Get to the player and heal them
+        // Get to the player and heal them
+        case NPCATT_HEAL:
             return _( "Healing you" );
         case NPCATT_ACTIVITY:
             return _( "Performing a task" );
@@ -2379,8 +2390,8 @@ bool npc::will_accept_from_player( const item &it ) const
         return false;
     }
 
-    if( const auto &comest = it.is_container() ? it.get_contained().type->comestible :
-                             it.type->comestible ) {
+    if( const auto &comest = it.is_container() ? it.get_contained().get_comestible() :
+                             it.get_comestible() ) {
         if( comest->fun < 0 || it.poison > 0 ) {
             return false;
         }
@@ -2417,6 +2428,20 @@ std::set<tripoint> npc::get_path_avoid() const
     for( Creature &critter : g->all_creatures() ) {
         // TODO: Cache this somewhere
         ret.insert( critter.pos() );
+    }
+    if( rules.has_flag( ally_rule::avoid_doors ) ) {
+        for( const tripoint &p : g->m.points_in_radius( pos(), 30 ) ) {
+            if( g->m.open_door( p, true, true ) ) {
+                ret.insert( p );
+            }
+        }
+    }
+    if( rules.has_flag( ally_rule::hold_the_line ) ) {
+        for( const tripoint &p : g->m.points_in_radius( g->u.pos(), 1 ) ) {
+            if( g->m.close_door( p, true, true ) || g->m.move_cost( p ) > 2 ) {
+                ret.insert( p );
+            }
+        }
     }
     return ret;
 }
@@ -2631,6 +2656,9 @@ npc_follower_rules::npc_follower_rules()
     set_flag( ally_rule::allow_pulp );
     clear_flag( ally_rule::close_doors );
     clear_flag( ally_rule::avoid_combat );
+    clear_flag( ally_rule::avoid_doors );
+    clear_flag( ally_rule::hold_the_line );
+    clear_flag( ally_rule::ignore_noise );
 }
 
 bool npc_follower_rules::has_flag( ally_rule test ) const

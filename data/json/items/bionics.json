@@ -138,6 +138,15 @@
     "difficulty": 3
   },
   {
+    "id": "bio_shotgun",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": "Shotgun Arm CBM",
+    "description": "Concealed in your left arm is a surgically integrated one-shot sawn-off shotgun barrel, that pops-up upon activation. Perfect in a pinch.",
+    "price": 220000,
+    "difficulty": 3
+  },
+  {
     "id": "bio_blood_anal",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
@@ -295,7 +304,7 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": "Telescopic Eyes CBM",
-    "description": "Much of the material in your inner eye has been removed and replaced with an array of high-powered, auto-focusing lenses.  You can now see much farther and more clearly than before, any vision problems you might have had are now gone.",
+    "description": "Much of the material in your inner eye has been removed and replaced with an array of high-powered, auto-focusing lenses.  They function as integrated binoculars, letting you see much farther than before, and any vision problems you might have had are now gone.",
     "price": 500000,
     "difficulty": 5
   },

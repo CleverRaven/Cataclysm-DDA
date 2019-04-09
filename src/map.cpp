@@ -6632,7 +6632,7 @@ void map::rotten_item_spawn( const item &item, const tripoint &pnt )
     if( g->critter_at( pnt ) != nullptr ) {
         return;
     }
-    auto &comest = item.type->comestible;
+    const auto &comest = item.get_comestible();
     mongroup_id mgroup = comest->rot_spawn;
     if( mgroup == "GROUP_NULL" ) {
         return;

@@ -72,7 +72,10 @@ class craft_command
     private:
         const recipe *rec = nullptr;
         int batch_size = 0;
-        /** Indicates the activity_type for this crafting job, Either ACT_CRAFT or ACT_LONGCRAFT. */
+        /**
+        * Indicates whether the player has initiated a one off craft or wishes to craft as
+        * long as possible.
+        */
         bool is_long = false;
         // This is mainly here for maintainability reasons.
         player *crafter;

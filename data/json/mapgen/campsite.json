@@ -54,7 +54,14 @@
         "r": "t_dirt",
         "t": "t_tree"
       },
-      "furniture": { "#": "f_canvas_wall", "'": "f_groundsheet", "+": "f_canvas_door", "-": "f_chair", "b": "f_brazier", "r": "f_table" },
+      "furniture": {
+        "#": "f_canvas_wall",
+        "'": "f_groundsheet",
+        "+": "f_canvas_door",
+        "-": "f_camp_chair",
+        "b": "f_firering",
+        "r": "f_tourist_table"
+      },
       "place_items": [
         { "item": "cannedfood", "x": [ 16, 4 ], "y": [ 21, 7 ], "chance": 75 },
         { "item": "cannedfood", "x": [ 16, 4 ], "y": [ 21, 7 ], "chance": 75 },
@@ -111,7 +118,14 @@
         "w": "t_window",
         "x": "t_wall_log"
       },
-      "furniture": { "#": "f_canvas_wall", "'": "f_groundsheet", "+": "f_canvas_door", "-": "f_chair", "b": "f_brazier", "r": "f_table" },
+      "furniture": {
+        "#": "f_canvas_wall",
+        "'": "f_groundsheet",
+        "+": "f_canvas_door",
+        "-": "f_camp_chair",
+        "b": "f_firering",
+        "r": "f_tourist_table"
+      },
       "place_items": [
         { "item": "cannedfood", "x": 2, "y": 3, "chance": 90 },
         { "item": "cannedfood", "x": 2, "y": 3, "chance": 75 },
@@ -136,7 +150,7 @@
         "........................",
         ".........###............",
         ".........#'#............",
-        ".........#+#............",
+        ".........#+#r...........",
         "....###.................",
         "....#'+.....-...........",
         "....###...-ddd-.........",
@@ -144,7 +158,7 @@
         "....###...-ddd-...###...",
         "....#'+.....-.....+'#...",
         "....###...........###...",
-        ".........#+#..#+#.......",
+        ".........#+#r.#+#.......",
         ".........#'#..#'#.......",
         ".........###..###.......",
         "........................",
@@ -166,7 +180,14 @@
         "r": "t_dirt",
         "t": "t_tree"
       },
-      "furniture": { "#": "f_canvas_wall", "'": "f_groundsheet", "+": "f_canvas_door", "-": "f_chair", "b": "f_brazier", "r": "f_table" },
+      "furniture": {
+        "#": "f_canvas_wall",
+        "'": "f_groundsheet",
+        "+": "f_canvas_door",
+        "-": "f_camp_chair",
+        "b": "f_brazier",
+        "r": "f_tourist_table"
+      },
       "place_items": [
         { "item": "cannedfood", "x": [ 7, 18 ], "y": [ 7, 13 ], "chance": 90 },
         { "item": "cannedfood", "x": [ 7, 18 ], "y": [ 7, 13 ], "chance": 75 },
@@ -202,7 +223,7 @@
         "..........-ddd-...###...",
         "....#'......-......'#...",
         "....###...........###...",
-        "........................",
+        ".................r......",
         ".........#'#............",
         ".........###..##........",
         "........................",
@@ -224,7 +245,14 @@
         "r": "t_dirt",
         "t": "t_tree"
       },
-      "furniture": { "#": "f_canvas_wall", "'": "f_groundsheet", "+": "f_canvas_door", "-": "f_chair", "b": "f_brazier", "r": "f_table" },
+      "furniture": {
+        "#": "f_canvas_wall",
+        "'": "f_groundsheet",
+        "+": "f_canvas_door",
+        "-": "f_camp_chair",
+        "b": "f_brazier",
+        "r": "f_tourist_table"
+      },
       "place_items": [
         { "item": "cannedfood", "x": [ 15, 3 ], "y": [ 20, 8 ], "chance": 90 },
         { "item": "cannedfood", "x": [ 15, 3 ], "y": [ 20, 8 ], "chance": 75 },
@@ -296,10 +324,10 @@
         "#": "f_canvas_wall",
         "'": "f_groundsheet",
         "+": "f_canvas_door",
-        "-": "f_chair",
-        "b": "f_brazier",
+        "-": "f_camp_chair",
+        "b": "f_firering",
         "f": "f_toilet",
-        "r": "f_table",
+        "r": "f_tourist_table",
         "|": "f_crate_o"
       },
       "place_items": [

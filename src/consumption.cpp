@@ -115,7 +115,7 @@ int player::kcal_for( const item &comest ) const
         }
         kcal /= comest.recipe_charges;
     } else {
-        kcal = comest.type->comestible->get_calories();
+        kcal = comest.get_comestible()->get_calories();
     }
 
     if( has_trait( trait_GIZZARD ) ) {
@@ -165,7 +165,7 @@ std::pair<int, int> player::fun_for( const item &comest ) const
     }
 
     // As float to avoid rounding too many times
-    float fun = comest.type->comestible->fun;
+    float fun = comest.get_comestible()->fun;
     if( comest.has_flag( flag_MUSHY ) && fun > -5.0f ) {
         fun = -5.0f; // defrosted MUSHY food is practicaly tastless or tastes off
     }
@@ -218,8 +218,8 @@ std::pair<int, int> player::fun_for( const item &comest ) const
     }
 
     if( has_active_bionic( bio_taste_blocker ) &&
-        power_level > abs( comest.type->comestible->fun ) &&
-        comest.type->comestible->fun < 0 ) {
+        power_level > abs( comest.get_comestible()->fun ) &&
+        comest.get_comestible()->fun < 0 ) {
         fun = 0;
     }
 
@@ -259,7 +259,7 @@ std::map<vitamin_id, int> player::vitamins_from( const item &it ) const
 {
     std::map<vitamin_id, int> res;
 
-    if( !it.type->comestible ) {
+    if( !it.get_comestible() ) {
         return res;
     }
 
@@ -277,7 +277,7 @@ std::map<vitamin_id, int> player::vitamins_from( const item &it ) const
         }
     } else {
         // if we're here, whatever is returned is going to be based on the item's defined stats
-        res = it.type->comestible->vitamins;
+        res = it.get_comestible()->vitamins;
         std::list<trait_id> traits = mut_vitamin_absorb_modify( *this );
         // traits modify the absorption of vitamins here
         if( !traits.empty() ) {
@@ -420,9 +420,13 @@ morale_type player::allergy_type( const item &food ) const
 ret_val<edible_rating> player::can_eat( const item &food ) const
 {
 
-    const auto &comest = food.type->comestible;
+    const auto &comest = food.get_comestible();
     if( !comest ) {
         return ret_val<edible_rating>::make_failure( _( "That doesn't look edible." ) );
+    }
+
+    if( food.is_craft() ) {
+        return ret_val<edible_rating>::make_failure( _( "That doesn't look edible in its current form." ) );
     }
 
     if( food.item_tags.count( "DIRTY" ) ) {
@@ -511,7 +515,7 @@ ret_val<edible_rating> player::will_eat( const item &food, bool interactive ) co
     };
 
     const bool saprophage = has_trait( trait_id( "SAPROPHAGE" ) );
-    const auto &comest = food.type->comestible;
+    const auto &comest = food.get_comestible();
 
     if( food.rotten() ) {
         const bool saprovore = has_trait( trait_id( "SAPROVORE" ) );
@@ -612,13 +616,13 @@ bool player::eat( item &food, bool force )
 
     const bool hibernate = has_active_mutation( trait_id( "HIBERNATE" ) );
     const int nutr = nutrition_for( food );
-    const int quench = food.type->comestible->quench;
+    const int quench = food.get_comestible()->quench;
     const bool spoiled = food.rotten();
 
     // The item is solid food
-    const bool chew = food.type->comestible->comesttype == "FOOD" || food.has_flag( "USE_EAT_VERB" );
+    const bool chew = food.get_comestible()->comesttype == "FOOD" || food.has_flag( "USE_EAT_VERB" );
     // This item is a drink and not a solid food (and not a thick soup)
-    const bool drinkable = !chew && food.type->comestible->comesttype == "DRINK";
+    const bool drinkable = !chew && food.get_comestible()->comesttype == "DRINK";
     // If neither of the above is true then it's a drug and shouldn't get mealtime penalty/bonus
 
     if( hibernate &&
@@ -750,9 +754,9 @@ bool player::eat( item &food, bool force )
         }
     }
 
-    if( item::find_type( food.type->comestible->tool )->tool ) {
+    if( item::find_type( food.get_comestible()->tool )->tool ) {
         // Tools like lighters get used
-        use_charges( food.type->comestible->tool, 1 );
+        use_charges( food.get_comestible()->tool, 1 );
     }
 
     if( has_bionic( bio_ethanol ) && food.type->can_use( "ALCOHOL" ) ) {
@@ -766,7 +770,7 @@ bool player::eat( item &food, bool force )
     }
 
     if( has_active_bionic( bio_taste_blocker ) ) {
-        charge_power( -abs( food.type->comestible->fun ) );
+        charge_power( -abs( food.get_comestible()->fun ) );
     }
 
     if( food.has_flag( "CANNIBALISM" ) ) {
@@ -874,8 +878,8 @@ bool player::eat( item &food, bool force )
 
     // chance to become parasitised
     if( !( has_bionic( bio_digestion ) || has_trait( trait_id( "PARAIMMUNE" ) ) ) ) {
-        if( food.type->comestible->parasites > 0 && !food.has_flag( "NO_PARASITES" ) &&
-            one_in( food.type->comestible->parasites ) ) {
+        if( food.get_comestible()->parasites > 0 && !food.has_flag( "NO_PARASITES" ) &&
+            one_in( food.get_comestible()->parasites ) ) {
             switch( rng( 0, 3 ) ) {
                 case 0:
                     if( !has_trait( trait_id( "EATHEALTH" ) ) ) {
@@ -940,7 +944,7 @@ void player::consume_effects( const item &food )
         debugmsg( "called player::consume_effects with non-comestible" );
         return;
     }
-    const auto &comest = *food.type->comestible;
+    const auto &comest = *food.get_comestible();
 
     const int capacity = stomach_capacity();
     if( has_trait( trait_id( "THRESH_PLANT" ) ) && food.type->can_use( "PLANTBLECH" ) ) {
