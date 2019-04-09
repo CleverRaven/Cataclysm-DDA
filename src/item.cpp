@@ -4493,7 +4493,7 @@ bool item::reinforceable() const
     }
 
     if( has_flag( "NO_REPAIR" ) ) {
-        return true;
+        return false;
     }
 
     // If a material is reinforceable, so are we
