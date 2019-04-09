@@ -1253,19 +1253,60 @@ bool Font::draw_window( const catacurses::window &w, const int offsetx, const in
             const int codepoint = UTF8_getch( cell.ch );
             const catacurses::base_color FG = cell.FG;
             const catacurses::base_color BG = cell.BG;
-            if( codepoint != UNKNOWN_UNICODE ) {
-                const int cw = utf8_width( cell.ch );
-                if( cw < 1 ) {
-                    // utf8_width() may return a negative width
-                    continue;
-                }
-                FillRectDIB( drawx, drawy, fontwidth * cw, fontheight, BG );
-                OutputChar( cell.ch, drawx, drawy, FG );
-            } else {
-                FillRectDIB( drawx, drawy, fontwidth, fontheight, BG );
-                draw_ascii_lines( static_cast<unsigned char>( cell.ch[0] ), drawx, drawy, FG );
+            int cw = ( codepoint == UNKNOWN_UNICODE ) ? 1 : utf8_width( cell.ch );
+            if( cw < 1 ) {
+                // utf8_width() may return a negative width
+                continue;
             }
-
+            bool use_draw_ascii_lines_routine = get_option<bool>( "USE_DRAW_ASCII_LINES_ROUTINE" );
+            unsigned char uc = static_cast<unsigned char>( cell.ch[0] );
+            switch( codepoint ) {
+                case LINE_XOXO_UNICODE:
+                    uc = LINE_XOXO_C;
+                    break;
+                case LINE_OXOX_UNICODE:
+                    uc = LINE_OXOX_C;
+                    break;
+                case LINE_XXOO_UNICODE:
+                    uc = LINE_XXOO_C;
+                    break;
+                case LINE_OXXO_UNICODE:
+                    uc = LINE_OXXO_C;
+                    break;
+                case LINE_OOXX_UNICODE:
+                    uc = LINE_OOXX_C;
+                    break;
+                case LINE_XOOX_UNICODE:
+                    uc = LINE_XOOX_C;
+                    break;
+                case LINE_XXXO_UNICODE:
+                    uc = LINE_XXXO_C;
+                    break;
+                case LINE_XXOX_UNICODE:
+                    uc = LINE_XXOX_C;
+                    break;
+                case LINE_XOXX_UNICODE:
+                    uc = LINE_XOXX_C;
+                    break;
+                case LINE_OXXX_UNICODE:
+                    uc = LINE_OXXX_C;
+                    break;
+                case LINE_XXXX_UNICODE:
+                    uc = LINE_XXXX_C;
+                    break;
+                case UNKNOWN_UNICODE:
+                    use_draw_ascii_lines_routine = true;
+                    break;
+                default:
+                    use_draw_ascii_lines_routine = false;
+                    break;
+            }
+            FillRectDIB( drawx, drawy, fontwidth * cw, fontheight, BG );
+            if( use_draw_ascii_lines_routine ) {
+                draw_ascii_lines( uc, drawx, drawy, FG );
+            } else {
+                OutputChar( cell.ch, drawx, drawy, FG );
+            }
         }
     }
     win->draw = false; //We drew the window, mark it as so

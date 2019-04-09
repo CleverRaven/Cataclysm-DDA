@@ -1568,6 +1568,11 @@ void options_manager::add_options_graphics()
          8, 100, 16, COPT_CURSES_HIDE
        );
 
+    add( "USE_DRAW_ASCII_LINES_ROUTINE", "graphics", translate_marker( "SDL ASCII lines" ),
+         translate_marker( "Use SDL ASCII line drawing routine instead of Unicode Line Drawing characters.  Use this option when your selected font doesn't contain necessary glyphs." ),
+         true, COPT_CURSES_HIDE
+       );
+
     mOptionsSort["graphics"]++;
 
     add( "USE_TILES", "graphics", translate_marker( "Use tiles" ),
