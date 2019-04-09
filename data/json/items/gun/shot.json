@@ -195,7 +195,7 @@
     "to_hit": -1,
     "bashing": 12,
     "material": [ "steel", "wood" ],
-    "dispersion": 435,
+    "dispersion": 855,
     "durability": 6,
     "clip_size": 6,
     "reload": 200,
