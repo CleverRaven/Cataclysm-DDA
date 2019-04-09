@@ -18,6 +18,7 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "messages.h"
+#include "morale_types.h"
 #include "mutation.h"
 #include "options.h"
 #include "output.h"
@@ -81,6 +82,8 @@ static const trait_id trait_THRESH_MEDICAL( "THRESH_MEDICAL" );
 static const trait_id trait_MASOCHIST( "MASOCHIST" );
 static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
+
+static const bionic_id bionic_TOOLS_EXTEND( "bio_tools_extend" );
 
 namespace
 {
@@ -195,6 +198,11 @@ bool player::activate_bionic( int b, bool eff_only )
 
         weapon = item( bionics[bio.id].fake_item );
         weapon.invlet = '#';
+        if( bio.ammo_count > 0 ) {
+            weapon.ammo_set( bio.ammo_loaded, bio.ammo_count );
+            g->plfire( weapon );
+            g->refresh_all();
+        }
     } else if( bio.id == "bio_ears" && has_active_bionic( bionic_id( "bio_earplugs" ) ) ) {
         for( auto &i : *my_bionics ) {
             if( i.id == "bio_earplugs" ) {
@@ -588,6 +596,10 @@ bool player::deactivate_bionic( int b, bool eff_only )
             // It's already off!
             return false;
         }
+        // Compatibility with old saves without the toolset hammerspace
+        if( bio.id == "bio_tools" && !has_bionic( bionic_TOOLS_EXTEND ) ) {
+            add_bionic( bionic_TOOLS_EXTEND ); // E X T E N D    T O O L S
+        }
         if( !bionics[bio.id].toggled ) {
             // It's a fire-and-forget bionic, we can't turn it off but have to wait for it to run out of charge
             add_msg( m_info, _( "You can't deactivate your %s manually!" ), bionics[bio.id].name.c_str() );
@@ -609,7 +621,10 @@ bool player::deactivate_bionic( int b, bool eff_only )
     if( bionics[ bio.id ].weapon_bionic ) {
         if( weapon.typeId() == bionics[ bio.id ].fake_item ) {
             add_msg( _( "You withdraw your %s." ), weapon.tname().c_str() );
+            bio.ammo_loaded = weapon.ammo_data() != nullptr ? weapon.ammo_data()->get_id() : "null";
+            bio.ammo_count = static_cast<unsigned int>( weapon.ammo_remaining() );
             weapon = item();
+            invalidate_crafting_inventory();
         }
     } else if( bio.id == "bio_cqb" ) {
         // check if player knows current style naturally, otherwise drop them back to style_none
@@ -796,6 +811,8 @@ void player::process_bionic( int b )
             add_msg( m_good, _( "You feel your throat open up and air filling your lungs!" ) );
             remove_effect( effect_asthma );
         }
+    } else if( bio.id == "afs_bio_dopamine_stimulators" ) { // Aftershock
+        add_morale( MORALE_FEELING_GOOD, 20, 20, 30_minutes, 20_minutes, true );
     }
 }
 
@@ -1477,6 +1494,8 @@ void load_bionic( JsonObject &jsobj )
     new_bionic.weapon_bionic = get_bool_or_flag( jsobj, "weapon_bionic", "BIONIC_WEAPON", false );
     new_bionic.armor_interface = get_bool_or_flag( jsobj, "armor_interface", "BIONIC_ARMOR_INTERFACE",
                                  false );
+    new_bionic.sleep_friendly = get_bool_or_flag( jsobj, "sleep_friendly", "BIONIC_SLEEP_FRIENDLY",
+                                false );
 
     if( new_bionic.gun_bionic && new_bionic.weapon_bionic ) {
         debugmsg( "Bionic %s specified as both gun and weapon bionic", id.c_str() );
@@ -1571,6 +1590,8 @@ void bionic::serialize( JsonOut &json ) const
     json.member( "invlet", static_cast<int>( invlet ) );
     json.member( "powered", powered );
     json.member( "charge", charge );
+    json.member( "ammo_loaded", ammo_loaded );
+    json.member( "ammo_count", ammo_count );
     json.end_object();
 }
 
@@ -1581,6 +1602,12 @@ void bionic::deserialize( JsonIn &jsin )
     invlet = jo.get_int( "invlet" );
     powered = jo.get_bool( "powered" );
     charge = jo.get_int( "charge" );
+    if( jo.has_string( "ammo_loaded" ) ) {
+        ammo_loaded = jo.get_string( "ammo_loaded" );
+    }
+    if( jo.has_int( "ammo_count" ) ) {
+        ammo_count = jo.get_int( "ammo_count" );
+    }
 }
 
 void player::introduce_into_anesthesia( const time_duration &duration, player &installer,

@@ -860,6 +860,10 @@ class game
         bool reinitmap;
         bool fullscreen;
         bool was_fullscreen;
+        // the calculated number of columns to shift the terrain window in order
+        // to center the screen with a sidebar
+        // negative number is left hand side of screen, positive is right side
+        tripoint sidebar_offset;
 
         /** open vehicle interaction screen */
         void exam_vehicle( vehicle &veh, int cx = 0, int cy = 0 );
@@ -910,6 +914,7 @@ class game
         //private save functions.
         // returns false if saving failed for whatever reason
         bool save_factions_missions_npcs();
+        void reset_npc_dispositions();
         void serialize_master( std::ostream &fout );
         // returns false if saving failed for whatever reason
         bool save_artifacts();
@@ -1050,6 +1055,7 @@ class game
         // Routine loop functions, approximately in order of execution
         void cleanup_dead();     // Delete any dead NPCs/monsters
         void monmove();          // Monster movement
+        void overmap_npc_move(); // NPC overmap movement
         void process_activity(); // Processes and enacts the player's activity
         void update_weather();   // Updates the temperature and weather patten
         void handle_key_blocking_activity(); // Abort reading etc.
@@ -1103,6 +1109,7 @@ class game
     public:
         safe_mode_type safe_mode;
         int turnssincelastmon; // needed for auto run mode
+        bool debug_pathfinding = false; // show NPC pathfinding on overmap ui
     private:
         bool safe_mode_warning_logged;
         std::vector<std::shared_ptr<monster>> new_seen_mon;

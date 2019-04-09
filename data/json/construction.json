@@ -1021,6 +1021,17 @@
   },
   {
     "type": "construction",
+    "description": "Build Thatched Roof",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 3 ], [ "survival", 7 ] ],
+    "time": 360,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "2x4", 5 ], [ "stick", 10 ] ], [ [ "straw_pile", 60 ], [ "withered", 60 ] ], [ [ "cordage", 8, "LIST" ] ] ],
+    "pre_special": "check_support",
+    "post_terrain": "t_dirtfloor_thatchroof"
+  },
+  {
+    "type": "construction",
     "description": "Build Log & Sod Roof",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ] ],
@@ -2213,5 +2224,16 @@
     "components": [ [ [ "pillow", 19 ], [ "down_pillow", 19 ] ], [ [ "down_blanket", 3 ], [ "blanket", 3 ], [ "fur_blanket", 3 ] ] ],
     "pre_terrain": "t_floor",
     "post_terrain": "f_pillow_fort"
+  },
+  {
+    "type": "construction",
+    "description": "Build Fire Ring",
+    "category": "FURN",
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": 15,
+    "components": [ [ [ "rock", 20 ] ] ],
+    "pre_note": "Can be deconstructed without tools.",
+    "pre_terrain": "t_pit_shallow",
+    "post_terrain": "f_firering"
   }
 ]

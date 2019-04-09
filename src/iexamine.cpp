@@ -35,6 +35,7 @@
 #include "npc.h"
 #include "options.h"
 #include "output.h"
+#include "overmapbuffer.h"
 #include "pickup.h"
 #include "player.h"
 #include "requirements.h"
@@ -788,24 +789,14 @@ void iexamine::rubble( player &p, const tripoint &examp )
 void iexamine::crate( player &p, const tripoint &examp )
 {
     // PRY 1 is sufficient for popping open a nailed-shut crate.
-    const bool has_prying_tool = p.crafting_inventory().has_quality( quality_id( "PRY" ), 1 );
-
-    if( !has_prying_tool ) {
-        add_msg( m_info, _( "If only you had something to pry with..." ) );
-        return;
-    }
-
     auto prying_items = p.crafting_inventory().items_with( []( const item & it ) -> bool {
         item temporary_item( it.type );
         return temporary_item.has_quality( quality_id( "PRY" ), 1 );
     } );
 
-    iuse dummy;
 
-    if( prying_items.size() == 1 ) {
-        item temporary_item( prying_items[0]->type );
-        // They only had one item anyway, so just use it.
-        dummy.crowbar( &p, &temporary_item, false, examp );
+    if( prying_items.size() == 0 ) {
+        add_msg( m_info, _( "If only you had something to pry with..." ) );
         return;
     }
 
@@ -814,31 +805,12 @@ void iexamine::crate( player &p, const tripoint &examp )
         return a->get_quality( quality_id( "PRY" ) ) > b->get_quality( quality_id( "PRY" ) );
     } );
 
-    // Then display the items
-    uilist selection_menu;
-    selection_menu.text = string_format( _( "The %s is closed tightly." ),
-                                         g->m.furnname( examp ) );
-
-    int i = 0;
-    selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Leave it alone" ) );
-    for( auto iter : prying_items ) {
-        selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Use your %s" ), iter->tname() );
-    }
-
-    selection_menu.selected = 1;
-    selection_menu.query();
-    auto index = selection_menu.ret;
-
-    if( index == 0 || index == UILIST_CANCEL ) {
-        none( p, examp );
-        return;
-    }
-
-    auto selected_tool = prying_items[index - 1];
-    item temporary_item( selected_tool->type );
-
     // if crowbar() ever eats charges or otherwise alters the passed item, rewrite this to reflect
     // changes to the original item.
+    iuse dummy;
+    item temporary_item( prying_items[0]->type );
+    p.add_msg_if_player( string_format( _( "You attempt to pry open the %s using your %s..." ),
+                                        g->m.furnname( examp ), prying_items[0]->tname() ) );
     dummy.crowbar( &p, &temporary_item, false, examp );
 }
 
@@ -1204,64 +1176,42 @@ void iexamine::gunsafe_el( player &p, const tripoint &examp )
  */
 void iexamine::locked_object( player &p, const tripoint &examp )
 {
-    const bool has_prying_tool = p.crafting_inventory().has_quality( quality_id( "PRY" ), 2 );
-    if( !has_prying_tool ) {
-        add_msg( m_info, _( "If only you had something to pry with..." ) );
-        return;
-    }
-
     auto prying_items = p.crafting_inventory().items_with( []( const item & it ) -> bool {
         item temporary_item( it.type );
         return temporary_item.has_quality( quality_id( "PRY" ), 2 );
     } );
 
-    iuse dummy;
-    if( prying_items.size() == 1 ) {
-        item temporary_item( prying_items[0]->type );
-        // They only had one item anyway, so just use it.
-        dummy.crowbar( &p, &temporary_item, false, examp );
+    if( prying_items.size() == 0 ) {
+        add_msg( m_info, _( "If only you had something to pry with..." ) );
         return;
     }
 
     // Sort by their quality level.
-    std::sort( prying_items.begin(), prying_items.end(), []( const item * a, const item * b ) -> int {
+    std::sort( prying_items.begin(), prying_items.end(), []( const item * a, const item * b ) -> bool {
         return a->get_quality( quality_id( "PRY" ) ) > b->get_quality( quality_id( "PRY" ) );
     } );
 
-    // Then display the items
-    uilist selection_menu;
-    selection_menu.text = string_format( _( "The %s is locked..." ), g->m.tername( examp ) );
-
-    int i = 0;
-    selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Leave it alone" ) );
-    for( auto iter : prying_items ) {
-        selection_menu.addentry( i++, true, MENU_AUTOASSIGN, string_format( _( "Use the %s" ),
-                                 iter->tname() ) );
-    }
-
-    selection_menu.selected = 1;
-    selection_menu.query();
-    auto index = selection_menu.ret;
-
-    if( index == 0 || index == UILIST_CANCEL ) {
-        none( p, examp );
-        return;
-    }
-
-    item temporary_item( prying_items[index - 1]->type );
+    iuse dummy;
+    item temporary_item( prying_items[0]->type );
+    p.add_msg_if_player( string_format( _( "You attempt to pry open the %s using your %s..." ),
+                                        g->m.tername( examp ), prying_items[0]->tname() ) );
     dummy.crowbar( &p, &temporary_item, false, examp );
 }
 
 void iexamine::bulletin_board( player &p, const tripoint &examp )
 {
-    basecamp *bcp = g->m.camp_at( examp, 60 );
+    g->validate_camps();
+    point omt = ms_to_omt_copy( g->m.getabs( examp.x, examp.y ) );
+    tripoint omt_tri = tripoint( omt.x, omt.y, p.pos().z );
+    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( omt_tri.x, omt_tri.y );
     if( bcp ) {
+        basecamp *temp_camp = *bcp;
         const std::string title = ( "Base Missions" );
         mission_data mission_key;
-        bcp->get_available_missions( mission_key );
-        if( talk_function::display_and_choose_opts( mission_key, bcp->camp_omt_pos(), "FACTION_CAMP",
+        temp_camp->get_available_missions( mission_key );
+        if( talk_function::display_and_choose_opts( mission_key, temp_camp->camp_omt_pos(), "FACTION_CAMP",
                 title ) ) {
-            bcp->handle_mission( mission_key.cur_key.id, mission_key.cur_key.dir );
+            temp_camp->handle_mission( mission_key.cur_key.id, mission_key.cur_key.dir );
         }
     } else {
         p.add_msg_if_player( _( "This bulletin board is not inside a camp" ) );
@@ -1471,7 +1421,8 @@ bool drink_nectar( player &p )
     if( can_drink_nectar( p ) ) {
         p.moves -= 50; // Takes 30 seconds
         add_msg( _( "You drink some nectar." ) );
-        p.mod_hunger( -15 );
+        item nectar( "nectar", calendar::turn, 1 );
+        p.eat( nectar );
         return true;
     }
 
@@ -1498,7 +1449,8 @@ void iexamine::flower_poppy( player &p, const tripoint &examp )
         }
         p.moves -= 150; // You take your time...
         add_msg( _( "You slowly suck up the nectar." ) );
-        p.mod_hunger( -25 );
+        item poppy( "poppy_nectar", calendar::turn, 1 );
+        p.eat( poppy );
         p.mod_fatigue( 20 );
         p.add_effect( effect_pkill2, 7_minutes );
         // Please drink poppy nectar responsibly.
@@ -1686,21 +1638,29 @@ static bool harvest_common( player &p, const tripoint &examp, bool furn, bool ne
 
 void iexamine::harvest_furn_nectar( player &p, const tripoint &examp )
 {
-    if( harvest_common( p, examp, true, true ) ) {
+    bool auto_forage = get_option<bool>( "AUTO_FEATURES" ) &&
+                       get_option<std::string>( "AUTO_FORAGING" ) == "both";
+    if( harvest_common( p, examp, true, true, auto_forage ) ) {
         g->m.furn_set( examp, f_null );
     }
 }
 
 void iexamine::harvest_furn( player &p, const tripoint &examp )
 {
-    if( harvest_common( p, examp, true, false ) ) {
+    bool auto_forage = get_option<bool>( "AUTO_FEATURES" ) &&
+                       get_option<std::string>( "AUTO_FORAGING" ) == "both";
+    if( harvest_common( p, examp, true, false, auto_forage ) ) {
         g->m.furn_set( examp, f_null );
     }
 }
 
 void iexamine::harvest_ter_nectar( player &p, const tripoint &examp )
 {
-    if( harvest_common( p, examp, false, true ) ) {
+    bool auto_forage = get_option<bool>( "AUTO_FEATURES" ) &&
+                       ( get_option<std::string>( "AUTO_FORAGING" ) == "both" ||
+                         get_option<std::string>( "AUTO_FORAGING" ) == "bushes" ||
+                         get_option<std::string>( "AUTO_FORAGING" ) == "trees" );
+    if( harvest_common( p, examp, false, true, auto_forage ) ) {
         g->m.ter_set( examp, g->m.get_ter_transforms_into( examp ) );
     }
 }
@@ -2004,8 +1964,7 @@ void iexamine::harvest_plant( player &p, const tripoint &examp )
     } else if( seedType == "marloss_seed" ) {
         fungus( p, examp );
         g->m.i_clear( examp );
-        if( p.has_trait( trait_M_DEPENDENT ) && ( ( p.get_hunger() + p.get_starvation() > 500 ) ||
-                p.get_thirst() > 300 ) ) {
+        if( p.has_trait( trait_M_DEPENDENT ) && ( p.get_kcal_percent() < 0.8f || p.get_thirst() > 300 ) ) {
             g->m.ter_set( examp, t_marloss );
             add_msg( m_info,
                      _( "We have altered this unit's configuration to extract and provide local nutriment.  The Mycus provides." ) );
@@ -3216,18 +3175,29 @@ void iexamine::reload_furniture( player &p, const tripoint &examp )
         add_msg( m_info, _( "This %s can not be reloaded!" ), f.name().c_str() );
         return;
     }
-    const int amount_in_furn = count_charges_in_list( ammo, g->m.i_at( examp ) );
+    map_stack items_here = g->m.i_at( examp );
+    const int amount_in_furn = count_charges_in_list( ammo, items_here );
+    const int amount_in_inv = p.charges_of( ammo->get_id() );
     if( amount_in_furn > 0 ) {
-        //~ %1$s - furniture, %2$d - number, %3$s items.
-        add_msg( _( "The %1$s contains %2$d %3$s." ), f.name().c_str(), amount_in_furn,
-                 ammo->nname( amount_in_furn ).c_str() );
+        if( p.query_yn( _( "The %1$s contains %2$d %3$s.  Unload?" ), f.name().c_str(), amount_in_furn,
+                        ammo->nname( amount_in_furn ).c_str() ) ) {
+            p.assign_activity( activity_id( "ACT_PICKUP" ) );
+            p.activity.placement = examp - p.pos();
+            p.activity.values.push_back( false );
+            p.activity.values.push_back( 0 );
+            p.activity.values.push_back( 0 );
+            return;
+        }
     }
+    //~ %1$s - furniture, %2$d - number, %3$s items.
+    add_msg( _( "The %1$s contains %2$d %3$s." ), f.name().c_str(), amount_in_furn,
+             ammo->nname( amount_in_furn ).c_str() );
+
     const int max_amount_in_furn = ammo->charges_per_volume( f.max_volume );
     const int max_reload_amount = max_amount_in_furn - amount_in_furn;
     if( max_reload_amount <= 0 ) {
         return;
     }
-    const int amount_in_inv = p.charges_of( ammo->get_id() );
     if( amount_in_inv == 0 ) {
         //~ Reloading or restocking a piece of furniture, for example a forge.
         add_msg( m_info, _( "You need some %1$s to reload this %2$s." ), ammo->nname( 2 ).c_str(),
@@ -3324,32 +3294,38 @@ void iexamine::sign( player &p, const tripoint &examp )
     }
 
     // Allow chance to modify message.
-    // Chose spray can because it seems appropriate.
-    int required_writing_charges = 1;
-    if( p.has_charges( "spray_can", required_writing_charges ) ) {
+    std::vector<tool_comp> tools;
+    std::vector<const item *> filter = p.crafting_inventory().items_with( []( const item & it ) {
+        return it.has_flag( "WRITE_MESSAGE" ) && it.charges > 0;
+    } );
+    for( const item *writing_item : filter ) {
+        tools.push_back( tool_comp( writing_item->typeId(), 1 ) );
+    }
+
+    if( !tools.empty() ) {
         // Different messages if the sign already has writing associated with it.
         std::string query_message = previous_signage_exists ?
-                                    _( "Overwrite the existing message on the sign with spray paint?" ) :
-                                    _( "Add a message to the sign with spray paint?" );
+                                    _( "Overwrite the existing message on the sign?" ) :
+                                    _( "Add a message to the sign?" );
         std::string spray_painted_message = previous_signage_exists ?
-                                            _( "You overwrite the previous message on the sign with your graffiti" ) :
+                                            _( "You overwrite the previous message on the sign with your graffiti." ) :
                                             _( "You graffiti a message onto the sign." );
         std::string ignore_message = _( "You leave the sign alone." );
-        if( query_yn( query_message.c_str() ) ) {
+        if( query_yn( query_message ) ) {
             std::string signage = string_input_popup()
-                                  .title( _( "Spray what?" ) )
+                                  .title( _( "Write what?" ) )
                                   .identifier( "signage" )
                                   .query_string();
             if( signage.empty() ) {
-                p.add_msg_if_player( m_neutral, ignore_message.c_str() );
+                p.add_msg_if_player( m_neutral, ignore_message );
             } else {
                 g->m.set_signage( examp, signage );
-                p.add_msg_if_player( m_info, spray_painted_message.c_str() );
-                p.moves -= 2 * signage.length();
-                p.use_charges( "spray_can", required_writing_charges );
+                p.add_msg_if_player( m_info, spray_painted_message );
+                p.mod_moves( - 20 * signage.length() );
+                p.consume_tools( tools, 1 );
             }
         } else {
-            p.add_msg_if_player( m_neutral, ignore_message.c_str() );
+            p.add_msg_if_player( m_neutral, ignore_message );
         }
     }
 }
@@ -4089,7 +4065,6 @@ void smoker_activate( player &p, const tripoint &examp )
             add_msg( _( "You remove %s from the rack." ), it.tname().c_str() );
             g->m.add_item_or_charges( p.pos(), it );
             g->m.i_rem( examp, i );
-            i--;
             return;
         }
         if( it.has_flag( "SMOKED" ) && it.has_flag( "SMOKABLE" ) ) {
@@ -4174,11 +4149,11 @@ void smoker_finalize( player &, const tripoint &examp, const time_point &start_t
 
     for( size_t i = 0; i < items.size(); i++ ) {
         auto &item_it = items[i];
-        if( item_it.type->comestible ) {
-            if( item_it.type->comestible->smoking_result.empty() ) {
+        if( item_it.get_comestible() ) {
+            if( item_it.get_comestible()->smoking_result.empty() ) {
                 item_it.unset_flag( "SMOKING" );
             } else {
-                item result( item_it.type->comestible->smoking_result, start_time + 6_hours, item_it.charges );
+                item result( item_it.get_comestible()->smoking_result, start_time + 6_hours, item_it.charges );
 
                 // Set flag to tell set_relative_rot() to calc from bday not now
                 result.set_flag( "SMOKING_RESULT" );

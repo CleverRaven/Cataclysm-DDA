@@ -38,7 +38,7 @@ void player::print_encumbrance( const catacurses::window &win, int line,
                                 item *selected_clothing ) const
 {
     const int height = getmaxy( win );
-    int orig_line = line;
+    const int orig_line = line;
 
     // fill a set with the indices of the body parts to display
     line = std::max( 0, line );
@@ -73,15 +73,15 @@ void player::print_encumbrance( const catacurses::window &win, int line,
     const auto enc_data = get_encumbrance();
     for( auto bp : parts ) {
         const encumbrance_data &e = enc_data[bp];
-        bool highlighted = ( selected_clothing == nullptr ) ? false :
-                           ( selected_clothing->covers( static_cast<body_part>( bp ) ) );
-        bool combine = should_combine_bps( *this, bp, bp_aiOther[bp] );
+        const bool highlighted = ( selected_clothing == nullptr ) ? false :
+                                 ( selected_clothing->covers( static_cast<body_part>( bp ) ) );
+        const bool combine = should_combine_bps( *this, bp, bp_aiOther[bp] );
         out.clear();
         // limb, and possible color highlighting
         // TODO: utf8 aware printf would be nice... this works well enough for now
         out = body_part_name_as_heading( all_body_parts[bp], combine ? 2 : 1 );
 
-        int len = 7 - utf8_width( out );
+        const int len = 7 - utf8_width( out );
         switch( sgn( len ) ) {
             case -1:
                 out = utf8_truncate( out, 7 );
@@ -158,7 +158,7 @@ int get_encumbrance( const player &p, body_part bp, bool combine )
 {
     // Body parts that can't combine with anything shouldn't print double values on combine
     // This shouldn't happen, but handle this, just in case
-    bool combines_with_other = static_cast<int>( bp_aiOther[bp] ) != bp;
+    const bool combines_with_other = static_cast<int>( bp_aiOther[bp] ) != bp;
     return p.encumb( bp ) * ( ( combine && combines_with_other ) ? 2 : 1 );
 }
 
@@ -280,12 +280,6 @@ void player::disp_info()
                 starvation_text << _( "Intelligence" ) << " -" << static_cast<int>( starvation_base_penalty / 1000 )
                                 << "   ";
             }
-        }
-
-        int starvation_speed_penalty = abs( hunger_speed_penalty( get_starvation() + get_hunger() ) );
-
-        if( get_hunger() + get_starvation() > 100 ) {
-            starvation_text << _( "Speed" ) << " -" << starvation_speed_penalty << "%   ";
         }
 
         effect_text.push_back( starvation_text.str() );
@@ -684,9 +678,9 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                    ( pen < 10 ? " " : "" ), pen );
         line++;
     }
-    if( get_hunger() + get_starvation() > 100 ) {
-        pen = abs( hunger_speed_penalty( get_hunger() + get_starvation() ) );
-        mvwprintz( w_speed, line, 1, c_red, _( "Under-Fed           -%s%d%%" ),
+    if( kcal_speed_penalty() < 0 ) {
+        pen = abs( kcal_speed_penalty() );
+        mvwprintz( w_speed, line, 1, c_red, _( "Starving            -%s%d%%" ),
                    ( pen < 10 ? " " : "" ), pen );
         line++;
     }

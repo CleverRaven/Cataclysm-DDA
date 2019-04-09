@@ -596,6 +596,22 @@ const recipe *select_crafting_recipe( int &batch_size )
                 ypos += print_items( *current[line], w_data, ypos, xpos, col, batch ? line + 1 : 1 );
             }
 
+            // create an imaginary version of the crafting output.
+            // Needed both for the nutrition tests, and eventually to display in the right pane.
+            if( last_recipe != current[line] ) {
+                last_recipe = current[line];
+                tmp = current[line]->create_result();
+            }
+            tmp.info( true, thisItem, count );
+
+            // If it's food that can have variable nutrition, add disclaimer.
+            // Hidden if the user is attempting to page through components.
+            if( ( tmp.is_food_container() || tmp.is_food() ) && !tmp.has_flag( "NUTRIENT_OVERRIDE" ) &&
+                display_mode == 0 ) {
+                ypos += fold_and_print( w_data, ypos, xpos + 2, pane - 2, c_light_gray,
+                                        _( "Shown nutrition is <color_cyan>estimated</color>, varying with <color_cyan>chosen ingredients</color>." ) );
+            }
+
             //color needs to be preserved in case part of the previous page was cut off
             nc_color stored_color = col;
             if( display_mode > 1 ) {
@@ -623,11 +639,6 @@ const recipe *select_crafting_recipe( int &batch_size )
             }
 
             if( isWide ) {
-                if( last_recipe != current[line] ) {
-                    last_recipe = current[line];
-                    tmp = current[line]->create_result();
-                }
-                tmp.info( true, thisItem, count );
                 draw_item_info( w_iteminfo, tmp.tname(), tmp.type_name(), thisItem, dummy,
                                 scroll_pos, true, true, true, false, true );
             }

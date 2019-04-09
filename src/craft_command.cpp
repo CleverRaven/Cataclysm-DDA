@@ -76,15 +76,7 @@ void craft_command::execute()
         }
     }
 
-    auto type = activity_id( is_long ? "ACT_LONGCRAFT" : "ACT_CRAFT" );
-    auto activity = player_activity( type, crafter->base_time_to_craft( *rec, batch_size ), -1, INT_MIN,
-                                     rec->ident().str() );
-    activity.values.push_back( batch_size );
-    activity.values.push_back( calendar::turn );
-    activity.coords.push_back( crafter->pos() );
-
-    crafter->assign_activity( activity );
-
+    crafter->start_craft( *rec, batch_size, is_long );
     crafter->last_batch = batch_size;
     crafter->lastrecipe = rec->ident();
 
@@ -170,8 +162,8 @@ std::vector<comp_selection<item_comp>> craft_command::check_item_components_miss
 
     for( const auto &item_sel : item_selections ) {
         itype_id type = item_sel.comp.type;
-        item_comp component = item_sel.comp;
-        long count = ( component.count > 0 ) ? component.count * batch_size : abs( component.count );
+        const item_comp component = item_sel.comp;
+        const long count = ( component.count > 0 ) ? component.count * batch_size : abs( component.count );
 
         if( item::count_by_charges( type ) && count > 0 ) {
             switch( item_sel.use_from ) {
@@ -233,7 +225,7 @@ std::vector<comp_selection<tool_comp>> craft_command::check_tool_components_miss
     for( const auto &tool_sel : tool_selections ) {
         itype_id type = tool_sel.comp.type;
         if( tool_sel.comp.count > 0 ) {
-            long count = tool_sel.comp.count * batch_size;
+            const long count = tool_sel.comp.count * batch_size;
             switch( tool_sel.use_from ) {
                 case use_from_player:
                     if( !crafter->has_charges( type, count ) ) {

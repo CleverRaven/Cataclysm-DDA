@@ -5,6 +5,7 @@
 #include "assign.h"
 #include "calendar.h"
 #include "generic_factory.h"
+#include "init.h"
 #include "item.h"
 #include "rng.h"
 
@@ -100,10 +101,6 @@ static const std::map<std::string, std::function<void( mission * )>> mission_fun
         { "place_zombie_mom", mission_start::place_zombie_mom },
         { "place_zombie_bay", mission_start::place_zombie_bay },
         { "place_caravan_ambush", mission_start::place_caravan_ambush },
-        { "place_bandit_cabin", mission_start::place_bandit_cabin },
-        { "place_informant", mission_start::place_informant },
-        { "place_grabber", mission_start::place_grabber },
-        { "place_bandit_camp", mission_start::place_bandit_camp },
         { "place_jabberwock", mission_start::place_jabberwock },
         { "kill_20_nightmares", mission_start::kill_20_nightmares },
         { "kill_horde_master", mission_start::kill_horde_master },
@@ -156,6 +153,7 @@ static const std::map<std::string, std::function<void( mission * )>> mission_fun
         { "thankful", mission_end::thankful },
         { "deposit_box", mission_end::deposit_box },
         { "heal_infection", mission_end::heal_infection },
+        { "evac_construct_5", mission_end::evac_construct_5 },
         // Failures
         { "kill_npc", mission_fail::kill_npc },
     }
@@ -192,6 +190,7 @@ static const std::map<std::string, mission_goal> goal_map = {{
         { "MGOAL_GO_TO_TYPE", MGOAL_GO_TO_TYPE },
         { "MGOAL_FIND_ITEM", MGOAL_FIND_ITEM },
         { "MGOAL_FIND_ANY_ITEM", MGOAL_FIND_ANY_ITEM },
+        { "MGOAL_FIND_ITEM_GROUP", MGOAL_FIND_ITEM_GROUP },
         { "MGOAL_FIND_MONSTER", MGOAL_FIND_MONSTER },
         { "MGOAL_FIND_NPC", MGOAL_FIND_NPC },
         { "MGOAL_ASSASSINATE", MGOAL_ASSASSINATE },
@@ -250,6 +249,8 @@ void assign_function( JsonObject &jo, const std::string &id, Fun &target,
     }
 }
 
+static DynamicDataLoader::deferred_json deferred;
+
 void mission_type::load( JsonObject &jo, const std::string &src )
 {
     const bool strict = src == "dda";
@@ -284,7 +285,12 @@ void mission_type::load( JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "urgent", urgent );
     optional( jo, was_loaded, "item", item_id );
+    optional( jo, was_loaded, "item_group", group_id );
     optional( jo, was_loaded, "count", item_count, 1 );
+    optional( jo, was_loaded, "required_container", container_id );
+    optional( jo, was_loaded, "remove_container", remove_container );
+    //intended for situations where closed and open container are different
+    optional( jo, was_loaded, "empty_container", empty_container );
 
     goal = jo.get_enum_value<decltype( goal )>( "goal" );
 
@@ -293,7 +299,10 @@ void mission_type::load( JsonObject &jo, const std::string &src )
         assign_function( jo, "start", start, mission_function_map );
     } else if( jo.has_member( "start" ) ) {
         JsonObject j_start = jo.get_object( "start" );
-        parse_start( j_start );
+        if( !parse_start( j_start ) ) {
+            deferred.emplace_back( jo.str(), src );
+            return;
+        }
     }
     assign_function( jo, "end", end, mission_function_map );
     assign_function( jo, "fail", fail, mission_function_map );
@@ -317,6 +326,11 @@ void mission_type::load( JsonObject &jo, const std::string &src )
     }
 
     assign( jo, "destination", target_id, strict );
+}
+
+void mission_type::finalize()
+{
+    DynamicDataLoader::get_instance().load_deferred( deferred );
 }
 
 void mission_type::check_consistency()

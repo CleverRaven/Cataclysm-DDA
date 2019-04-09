@@ -1074,8 +1074,8 @@ void options_manager::add_options_general()
     get_option( "AUTO_MINING" ).setPrerequisite( "AUTO_FEATURES" );
 
     add( "AUTO_FORAGING", "general", translate_marker( "Auto foraging" ),
-         translate_marker( "Action to perform when 'Auto foraging' is enabled.  Bushes: Only forage bushes.  - Trees: Only forage trees.  - Both: Forage bushes and trees." ),
-    { { "off", translation( "options", "Disabled" ) }, { "bushes", translate_marker( "Bushes" ) }, { "trees", translate_marker( "Trees" ) }, { "both", translate_marker( "Both" ) } },
+         translate_marker( "Action to perform when 'Auto foraging' is enabled.  Bushes: Only forage bushes.  - Trees: Only forage trees.  - Everything: Forage bushes, trees, and everything else including flowers, cattails etc." ),
+    { { "off", translation( "options", "Disabled" ) }, { "bushes", translate_marker( "Bushes" ) }, { "trees", translate_marker( "Trees" ) }, { "both", translate_marker( "Everything" ) } },
     "off"
        );
 
@@ -1368,6 +1368,11 @@ void options_manager::add_options_interface()
     { { "left", translate_marker( "Left" ) }, { "right", translate_marker( "Right" ) } }, "right"
        );
 
+    add( "SIDEBAR_SPACERS", "interface", translate_marker( "Draw sidebar spacers" ),
+         translate_marker( "If true, adds an extra space between sidebar panels." ),
+         false
+       );
+
     add( "LOG_FLOW", "interface", translate_marker( "Message log flow" ),
          translate_marker( "Where new log messages should show." ),
          //~ sidebar/message log flow direction
@@ -1509,6 +1514,58 @@ void options_manager::add_options_graphics()
     add( "TERMINAL_Y", "graphics", translate_marker( "Terminal height" ),
          translate_marker( "Set the size of the terminal along the Y axis.  Requires restart." ),
          24, 270, 24, COPT_POSIX_CURSES_HIDE
+       );
+
+    mOptionsSort["graphics"]++;
+
+    add( "FONT_BLENDING", "graphics", translate_marker( "Font blending" ),
+         translate_marker( "If true, fonts will look better." ),
+         false, COPT_CURSES_HIDE
+       );
+
+    add( "FONT_WIDTH", "graphics", translate_marker( "Font width" ),
+         translate_marker( "Set the font width.  Requires restart." ),
+         8, 100, 8, COPT_CURSES_HIDE
+       );
+
+    add( "FONT_HEIGHT", "graphics", translate_marker( "Font height" ),
+         translate_marker( "Set the font height.  Requires restart." ),
+         8, 100, 16, COPT_CURSES_HIDE
+       );
+
+    add( "FONT_SIZE", "graphics", translate_marker( "Font size" ),
+         translate_marker( "Set the font size.  Requires restart." ),
+         8, 100, 16, COPT_CURSES_HIDE
+       );
+
+    add( "MAP_FONT_WIDTH", "graphics", translate_marker( "Map font width" ),
+         translate_marker( "Set the map font width.  Requires restart." ),
+         8, 100, 8, COPT_CURSES_HIDE
+       );
+
+    add( "MAP_FONT_HEIGHT", "graphics", translate_marker( "Map font height" ),
+         translate_marker( "Set the map font height.  Requires restart." ),
+         8, 100, 16, COPT_CURSES_HIDE
+       );
+
+    add( "MAP_FONT_SIZE", "graphics", translate_marker( "Map font size" ),
+         translate_marker( "Set the map font size.  Requires restart." ),
+         8, 100, 16, COPT_CURSES_HIDE
+       );
+
+    add( "OVERMAP_FONT_WIDTH", "graphics", translate_marker( "Overmap font width" ),
+         translate_marker( "Set the overmap font width.  Requires restart." ),
+         8, 100, 8, COPT_CURSES_HIDE
+       );
+
+    add( "OVERMAP_FONT_HEIGHT", "graphics", translate_marker( "Overmap font height" ),
+         translate_marker( "Set the overmap font height.  Requires restart." ),
+         8, 100, 16, COPT_CURSES_HIDE
+       );
+
+    add( "OVERMAP_FONT_SIZE", "graphics", translate_marker( "Overmap font size" ),
+         translate_marker( "Set the overmap font size.  Requires restart." ),
+         8, 100, 16, COPT_CURSES_HIDE
        );
 
     mOptionsSort["graphics"]++;
@@ -1791,10 +1848,14 @@ void options_manager::add_options_world_default()
          0, 23, 8
        );
 
-    add( "INITIAL_SEASON", "world_default", translate_marker( "Initial season" ),
-         translate_marker( "Season the player starts in.  Options other than the default delay spawn of the character, so food decay and monster spawns will have advanced." ),
-    { { "spring", translate_marker( "Spring" ) }, { "summer", translate_marker( "Summer" ) }, { "autumn", translate_marker( "Autumn" ) }, { "winter", translate_marker( "Winter" ) } },
-    "spring"
+    add( "INITIAL_DAY", "world_default", translate_marker( "Initial day" ),
+         translate_marker( "How many days into the year the cataclysm occurred. Day 0 is Spring 1. Can be overridden by scenarios. This does not advance food rot or monster evolution." ),
+         0, 999, 0
+       );
+
+    add( "SPAWN_DELAY", "world_default", translate_marker( "Spawn delay" ),
+         translate_marker( "How many days after the cataclysm the player spawns. Day 0 is the day of the cataclysm. Can be overridden by scenarios. Increasing this will cause food rot and monster evolution to advance." ),
+         0, 9999, 0
        );
 
     add( "SEASON_LENGTH", "world_default", translate_marker( "Season length" ),

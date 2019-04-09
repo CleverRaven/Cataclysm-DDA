@@ -530,6 +530,7 @@ void MonsterGenerator::init_flags()
     flag_map["REVIVES_HEALTHY"] = MF_REVIVES_HEALTHY;
     flag_map["NO_NECRO"] = MF_NO_NECRO;
     flag_map["PUSH_MON"] = MF_PUSH_MON;
+    flag_map["PUSH_VEH"] = MF_PUSH_VEH;
     flag_map["PATH_AVOID_DANGER_1"] = MF_AVOID_DANGER_1;
     flag_map["PATH_AVOID_DANGER_2"] = MF_AVOID_DANGER_2;
     flag_map["PRIORITIZE_TARGETS"] = MF_PRIORITIZE_TARGETS;

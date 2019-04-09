@@ -20,7 +20,7 @@
     "volume": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", 40 ] ],
+    "vitamins": [ [ "vitC", 167 ], [ "calcium", 1 ], [ "iron", 1 ] ],
     "fun": 2
   },
   {
@@ -119,7 +119,7 @@
     "material": "fruit",
     "volume": 1,
     "phase": "liquid",
-    "vitamins": [ [ "vitC", 1 ], [ "iron", 10 ] ],
+    "vitamins": [ [ "vitC", 4 ], [ "calcium", 3 ], [ "iron", 43 ] ],
     "fun": 1
   },
   {
@@ -165,7 +165,7 @@
     "volume": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitA", 2 ], [ "vitC", 2 ], [ "calcium", 4 ], [ "iron", 1 ] ],
+    "vitamins": [ [ "vitA", 9 ], [ "vitC", 8 ], [ "calcium", 18 ], [ "iron", 4 ] ],
     "fun": 7
   },
   {
@@ -265,7 +265,7 @@
     "volume": 1,
     "phase": "liquid",
     "charges": 10,
-    "vitamins": [ [ "calcium", 2 ] ],
+    "vitamins": [ [ "vitA", 2 ], [ "vitC", 1 ], [ "calcium", 7 ] ],
     "fun": 3
   },
   {
@@ -314,7 +314,7 @@
     "volume": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", 31 ] ],
+    "vitamins": [ [ "vitA", 1 ], [ "vitC", 131 ], [ "calcium", 3 ], [ "iron", 1 ] ],
     "fun": 3
   },
   {
@@ -337,7 +337,7 @@
     "volume": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", 15 ] ],
+    "vitamins": [ [ "vitC", 60 ] ],
     "fun": 6
   },
   {
@@ -383,7 +383,7 @@
     "phase": "liquid",
     "charges": 2,
     "flags": [ "EATEN_COLD", "FREEZERBURN" ],
-    "vitamins": [ [ "vitA", 2 ], [ "vitC", 1 ], [ "calcium", 6 ] ],
+    "vitamins": [ [ "vitA", 5 ], [ "vitC", 3 ], [ "calcium", 13 ], [ "iron", 2 ] ],
     "fun": 15
   },
   {
@@ -410,7 +410,7 @@
     "volume": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", 25 ] ],
+    "vitamins": [ [ "vitC", 105 ] ],
     "fun": 5
   },
   {
@@ -453,7 +453,8 @@
     "material": [ "water" ],
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
-    "fun": 4
+    "fun": 4,
+    "vitamins": [ [ "iron", 1 ] ]
   },
   {
     "id": "hot_chocolate",
@@ -476,7 +477,7 @@
     "quench": 35,
     "fun": 8,
     "spoils_in": "1 day",
-    "vitamins": [ [ "calcium", 1 ] ],
+    "vitamins": [ [ "calcium", 4 ], [ "iron", 2 ] ],
     "flags": [ "EATEN_HOT" ]
   },
   {
@@ -491,7 +492,7 @@
     "symbol": "~",
     "quench": 20,
     "healthy": 2,
-    "calories": 68,
+    "calories": 32,
     "description": "Freshly-squeezed from real fruit!  Tasty and nutritious.",
     "price": 80,
     "material": "fruit",
@@ -500,7 +501,7 @@
     "phase": "liquid",
     "charges": 2,
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", 13 ] ],
+    "vitamins": [ [ "vitC", 53 ], [ "iron", 2 ] ],
     "fun": 3
   },
   {
@@ -546,7 +547,7 @@
     "volume": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", 4 ] ],
+    "vitamins": [ [ "vitC", 16 ], [ "iron", 2 ] ],
     "fun": 3
   },
   {
@@ -615,7 +616,7 @@
     "volume": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitA", 2 ], [ "vitC", 1 ], [ "calcium", 6 ] ],
+    "vitamins": [ [ "vitA", 10 ], [ "vitC", 4 ], [ "calcium", 25 ] ],
     "fun": 1
   },
   {
@@ -642,7 +643,7 @@
     "volume": 2,
     "phase": "liquid",
     "charges": 2,
-    "vitamins": [ [ "vitA", 1 ], [ "calcium", 3 ] ],
+    "vitamins": [ [ "vitA", 5 ], [ "vitC", 2 ], [ "calcium", 12 ] ],
     "fun": 10
   },
   {
@@ -668,7 +669,7 @@
     "volume": 2,
     "phase": "liquid",
     "charges": 2,
-    "vitamins": [ [ "vitA", 1 ], [ "calcium", 3 ] ],
+    "vitamins": [ [ "vitA", 5 ], [ "vitC", 2 ], [ "calcium", 12 ] ],
     "fun": 10
   },
   {
@@ -692,7 +693,7 @@
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
     "//": "most store-bought oj is fortified with calcium.",
-    "vitamins": [ [ "vitC", 35 ], [ "calcium", 7 ] ],
+    "vitamins": [ [ "vitA", 2 ], [ "vitC", 146 ], [ "calcium", 28 ], [ "iron", 2 ] ],
     "fun": 3
   },
   {
@@ -757,7 +758,7 @@
     "volume": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", 8 ] ],
+    "vitamins": [ [ "vitC", 50 ], [ "calcium", 3 ] ],
     "fun": 3
   },
   {
@@ -824,7 +825,8 @@
     "volume": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "fun": -1
+    "fun": -1,
+    "vitamins": [ [ "vitC", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -908,7 +910,8 @@
     "volume": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "fun": 1
+    "fun": 1,
+    "vitamins": [ [ "vitA", 60 ], [ "vitC", 180 ], [ "calcium", 4 ], [ "iron", 4 ] ]
   },
   {
     "id": "water_clean",

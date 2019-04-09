@@ -47,7 +47,9 @@ bool tutorial_game::init()
     //~ default name for the tutorial
     g->u.name = _( "John Smith" );
     g->u.prof = profession::generic();
-    int lx = 50, ly = 50; // overmap terrain coordinates
+    // overmap terrain coordinates
+    const int lx = 50;
+    const int ly = 50;
     auto &starting_om = overmap_buffer.get( 0, 0 );
     for( int i = 0; i < OMAPX; i++ ) {
         for( int j = 0; j < OMAPY; j++ ) {
@@ -144,7 +146,6 @@ void tutorial_game::pre_action( action_id &act )
         case ACTION_QUICKSAVE:
             popup( _( "You're saving a tutorial - the tutorial world lacks certain features of normal worlds. "
                       "Weird things might happen when you load this save. You have been warned." ) );
-            act = ACTION_NULL;
             break;
         default:
             // Other actions are fine.

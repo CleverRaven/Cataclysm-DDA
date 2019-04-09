@@ -42,6 +42,7 @@ class player;
 class npc;
 class recipe;
 struct itype;
+struct islot_comestible;
 struct mtype;
 using mtype_id = string_id<mtype>;
 using bodytype_id = std::string;
@@ -63,6 +64,7 @@ class ma_technique;
 using matec_id = string_id<ma_technique>;
 struct point;
 struct tripoint;
+using recipe_id = string_id<recipe>;
 class Skill;
 using skill_id = string_id<Skill>;
 class fault;
@@ -186,6 +188,9 @@ class item : public visitable<item>
         item( const itype_id &id, time_point turn, solitary_tag );
         item( const itype *type, time_point turn, solitary_tag );
 
+        /** For constructing in-progress crafts */
+        item( const recipe *rec, long qty, std::list<item> items );
+
         /**
          * Filter converting this instance to another type preserving all other aspects
          * @param new_type the type id to convert to
@@ -300,7 +305,8 @@ class item : public visitable<item>
          * the extent of damage and burning (was created to sort by name without prefix
          * in additional inventory)
          */
-        std::string tname( unsigned int quantity = 1, bool with_prefix = true ) const;
+        std::string tname( unsigned int quantity = 1, bool with_prefix = true,
+                           unsigned int truncate = 0 ) const;
         std::string display_money( unsigned int quantity, unsigned long charge ) const;
         /**
          * Returns the item name and the charges or contained charges (if the item can have
@@ -1008,6 +1014,7 @@ class item : public visitable<item>
         bool is_book() const;
         bool is_map() const;
         bool is_salvageable() const;
+        bool is_craft() const;
 
         bool is_tool() const;
         bool is_tool_reversible() const;
@@ -1805,6 +1812,10 @@ class item : public visitable<item>
 
         int get_min_str() const;
 
+        const recipe &get_making() const;
+
+        const cata::optional<islot_comestible> &get_comestible() const;
+
     private:
         /**
          * Calculate the thermal energy and temperature change of the item
@@ -1844,11 +1855,10 @@ class item : public visitable<item>
 
     public:
         static const long INFINITE_CHARGES;
-        typedef std::vector<item> t_item_vector;
 
         const itype *type;
         std::list<item> contents;
-        t_item_vector components;
+        std::list<item> components;
         /** What faults (if any) currently apply to this item */
         std::set<fault_id> faults;
         std::set<std::string> item_tags; // generic item specific flags
@@ -1859,6 +1869,7 @@ class item : public visitable<item>
         const mtype *corpse = nullptr;
         std::string corpse_name;       // Name of the late lamented
         std::set<matec_id> techniques; // item specific techniques
+        const recipe *making = nullptr; // Only for in-progress crafts
 
     public:
         long charges;
@@ -1904,6 +1915,8 @@ class item : public visitable<item>
         char invlet = 0;      // Inventory letter
         bool active = false; // If true, it has active effects to be processed
         bool is_favorite = false;
+
+        void set_favorite( const bool favorite );
 };
 
 bool item_compare_by_charges( const item &left, const item &right );
