@@ -35,6 +35,7 @@
 #include "skill.h"
 #include "sounds.h"
 #include "string_formatter.h"
+#include "text_snippets.h"
 #include "translations.h"
 #include "ui.h"
 #include "veh_interact.h"
@@ -3344,6 +3345,15 @@ void activity_handlers::robot_control_finish( player_activity *act, player *p )
 
 void activity_handlers::tree_communion_do_turn( player_activity *act, player *p )
 {
+    // There's an initial rooting process.
+    if( act->values.front() > 0 ) {
+        act->values.front() -= 1;
+        if( act->values.front() == 0 ) {
+            p->add_msg_if_player( m_good, _( "Your communion with the trees has begun." ) );
+        }
+        return;
+    }
+    // Information is received every minute.
     if( !calendar::once_every( 1_minutes ) ) {
         return;
     }
@@ -3355,7 +3365,10 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, player *p 
     seen.insert( loc );
     while( !q.empty() ) {
         tripoint tpt = q.front();
-        if( overmap_buffer.reveal( tpt, 3 ) ) {
+        if( overmap_buffer.reveal( tpt, 2 ) ) {
+            if( one_in( 50 ) ) {
+                p->add_msg_if_player( SNIPPET.random_from_category( "tree_communion" ) );
+            }
             return;
         }
         for( int radius = 1; radius <= 2; radius++ ) {
@@ -3367,7 +3380,8 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, player *p 
                     }
                     seen.insert( neighbor );
                     const oter_t ter = overmap_buffer.ter( neighbor ).obj();
-                    if( ter.get_name() != "forest" ) {
+                    const std::string ter_name = ter.get_name();
+                    if( ter_name != "forest" && ter_name != "swamp" ) {
                         continue;
                     }
                     q.push( neighbor );
@@ -3377,7 +3391,7 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, player *p 
         q.pop();
     }
     act->moves_left = 0;
-    add_msg( m_info, _( "The trees have shown you what they will." ) );
+    p->add_msg_if_player( m_info, _( "The trees have shown you what they will." ) );
 }
 
 void activity_handlers::tree_communion_finish( player_activity *act, player * )

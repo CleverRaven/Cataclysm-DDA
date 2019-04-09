@@ -13,6 +13,7 @@
 #include "monster.h"
 #include "morale_types.h"
 #include "output.h"
+#include "overmapbuffer.h"
 #include "player.h"
 #include "translations.h"
 #include "ui.h"
@@ -42,6 +43,8 @@ static const trait_id trait_M_SPORES( "M_SPORES" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_CARNIVORE( "CARNIVORE" );
 static const trait_id trait_TREE_COMMUNION( "TREE_COMMUNION" );
+static const trait_id trait_ROOTS2( "ROOTS2" );
+static const trait_id trait_ROOTS3( "ROOTS3" );
 static const trait_id trait_DEBUG_BIONIC_POWER( "DEBUG_BIONIC_POWER" );
 
 bool Character::has_trait( const trait_id &b ) const
@@ -515,12 +518,20 @@ void player::activate_mutation( const trait_id &mut )
                 }
             }
         }
+        const std::string ter_name = overmap_buffer.ter( global_omt_location() ).obj().get_name();
+        if( ter_name != "forest" && ter_name != "swamp" ) {
+            add_msg_if_player( m_info, _( "You can only do that in a forest or swamp." ) );
+            return;
+        }
         if( !adjacent_tree ) {
             add_msg_if_player( m_info, _( "You can only do that next to a tree." ) );
             return;
         }
-        add_msg_if_player( _( "You start communing with the trees." ) );
+        const time_duration startup_time = has_trait( trait_ROOTS2 ) ? rng( 60_minutes,
+                                           90_minutes ) : rng( 15_minutes, 30_minutes );
+        add_msg_if_player( _( "You reach out to the trees with your roots." ) );
         assign_activity( activity_id( "ACT_TREE_COMMUNION" ) );
+        activity.values.push_back( to_turns<int>( startup_time ) );
         return;
     } else if( mut == trait_DEBUG_BIONIC_POWER ) {
         max_power_level += 100;

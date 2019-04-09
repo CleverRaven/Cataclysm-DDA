@@ -1993,5 +1993,45 @@
     "type": "snippet",
     "category": "pyromania_withdrawal",
     "text": [ "You think of randomly lighting a fire, but decide against it." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tree_communion",
+    "text": [ "You catch a glimpse of distant green." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tree_communion",
+    "text": [ "The sense of a faraway place comes up through your roots." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tree_communion",
+    "text": [ "The trees tell you of the world." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tree_communion",
+    "text": [ "The rustle of leaves paints a picture in your head." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tree_communion",
+    "text": [ "Your consciousness drifts into the wild green yonder." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tree_communion",
+    "text": [ "The trees whisper of remote acres." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tree_communion",
+    "text": [ "The trees speak of their far-flung relatives." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tree_communion",
+    "text": [ "Visions of unfamiliar forests flicker through your mind." ]
   }
 ]
