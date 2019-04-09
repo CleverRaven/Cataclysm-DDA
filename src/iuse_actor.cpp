@@ -2708,9 +2708,7 @@ bool repair_item_actor::can_repair_target( player &pl, const item &fix,
         return false;
     }
 
-    if( fix.has_flag( "PRIMITIVE_RANGED_WEAPON" ) ||
-        ( !fix.made_of( material_id( "cotton" ) ) && !fix.made_of( material_id( "wool" ) ) &&
-          !fix.made_of( material_id( "leather" ) ) ) ) {
+    if( fix.has_flag( "PRIMITIVE_RANGED_WEAPON" ) || !fix.reinforceable() ) {
         if( print_msg ) {
             pl.add_msg_if_player( m_info, _( "You cannot improve your %s any more this way." ),
                                   fix.tname().c_str() );
@@ -2902,9 +2900,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
     }
 
     if( action == RT_REINFORCE ) {
-        if( fix.has_flag( "PRIMITIVE_RANGED_WEAPON" ) ||
-            ( !fix.made_of( material_id( "cotton" ) ) && !fix.made_of( material_id( "wool" ) ) &&
-              !fix.made_of( material_id( "leather" ) ) ) ) {
+        if( fix.has_flag( "PRIMITIVE_RANGED_WEAPON" ) || !fix.reinforceable() ) {
             pl.add_msg_if_player( m_info, _( "You cannot improve your %s any more this way." ),
                                   fix.tname().c_str() );
             return AS_CANT;
