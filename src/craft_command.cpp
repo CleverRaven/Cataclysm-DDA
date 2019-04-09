@@ -76,15 +76,7 @@ void craft_command::execute()
         }
     }
 
-    auto type = activity_id( is_long ? "ACT_LONGCRAFT" : "ACT_CRAFT" );
-    auto activity = player_activity( type, crafter->base_time_to_craft( *rec, batch_size ), -1, INT_MIN,
-                                     rec->ident().str() );
-    activity.values.push_back( batch_size );
-    activity.values.push_back( calendar::turn );
-    activity.coords.push_back( crafter->pos() );
-
-    crafter->assign_activity( activity );
-
+    crafter->start_craft( *rec, batch_size, is_long );
     crafter->last_batch = batch_size;
     crafter->lastrecipe = rec->ident();
 

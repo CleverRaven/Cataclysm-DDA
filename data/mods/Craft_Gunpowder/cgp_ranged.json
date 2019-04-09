@@ -9,8 +9,8 @@
     "name_plural": "pipe rifles: .45",
     "description": "A home-made rifle.  It is simply a pipe attached to a stock, with a hammer to strike the single round it holds.",
     "price": 10000,
-    "material": ["steel", "wood"],
-    "flags": ["RELOAD_ONE", "RELOAD_EJECT"],
+    "material": [ "steel", "wood" ],
+    "flags": [ "RELOAD_ONE", "RELOAD_EJECT" ],
     "skill": "rifle",
     "ammo": "45",
     "weight": 2114,
@@ -22,7 +22,7 @@
     "durability": 6,
     "clip_size": 1,
     "reload": 250,
-    "loudness" : 25,
+    "loudness": 25,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "sling", 1 ], [ "stock", 1 ] ]
   },
   {
@@ -35,8 +35,8 @@
     "name_plural": "pipe rifles: .38",
     "description": "A home-made rifle.  It is simply a pipe attached to a stock, with a hammer to strike the single round it holds.",
     "price": 10000,
-    "material": ["steel", "wood"],
-    "flags": ["RELOAD_ONE", "RELOAD_EJECT"],
+    "material": [ "steel", "wood" ],
+    "flags": [ "RELOAD_ONE", "RELOAD_EJECT" ],
     "skill": "rifle",
     "ammo": "38",
     "weight": 2114,
@@ -48,7 +48,7 @@
     "durability": 6,
     "clip_size": 1,
     "reload": 250,
-    "loudness" : 25,
+    "loudness": 25,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "sling", 1 ], [ "stock", 1 ] ]
   },
   {
@@ -61,8 +61,8 @@
     "name_plural": "pipe rifles: .44",
     "description": "A home-made rifle.  It is simply a pipe attached to a stock, with a hammer to strike the single round it holds.",
     "price": 10000,
-    "material": ["steel", "wood"],
-    "flags": ["RELOAD_ONE", "RELOAD_EJECT"],
+    "material": [ "steel", "wood" ],
+    "flags": [ "RELOAD_ONE", "RELOAD_EJECT" ],
     "skill": "rifle",
     "ammo": "44",
     "weight": 2114,
@@ -74,7 +74,7 @@
     "durability": 6,
     "clip_size": 1,
     "reload": 250,
-    "loudness" : 25,
+    "loudness": 25,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "sling", 1 ], [ "stock", 1 ] ]
   },
   {
@@ -87,8 +87,8 @@
     "name_plural": "pipe rifles: .40",
     "description": "A home-made rifle.  It is simply a pipe attached to a stock, with a hammer to strike the single round it holds.",
     "price": 10000,
-    "material": ["steel", "wood"],
-    "flags": ["RELOAD_ONE", "RELOAD_EJECT"],
+    "material": [ "steel", "wood" ],
+    "flags": [ "RELOAD_ONE", "RELOAD_EJECT" ],
     "skill": "rifle",
     "ammo": "40",
     "weight": 2114,
@@ -100,7 +100,7 @@
     "durability": 6,
     "clip_size": 1,
     "reload": 250,
-    "loudness" : 25,
+    "loudness": 25,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "sling", 1 ], [ "stock", 1 ] ]
   },
   {
@@ -154,7 +154,7 @@
     "magazine_well": 1,
     "magazines": [ [ "22", [ "smg_22_mag" ] ] ],
     "reload": 400,
-    "loudness" : 75,
+    "loudness": 75,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "brass catcher", 1 ], [ "muzzle", 1 ], [ "sling", 1 ], [ "stock", 1 ] ]
   },
   {
@@ -181,7 +181,7 @@
     "magazine_well": 1,
     "magazines": [ [ "38", [ "smg_38_mag" ] ] ],
     "reload": 400,
-    "loudness" : 75,
+    "loudness": 75,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "brass catcher", 1 ], [ "muzzle", 1 ], [ "sling", 1 ], [ "stock", 1 ] ]
   },
   {
@@ -208,7 +208,7 @@
     "magazine_well": 1,
     "magazines": [ [ "9mm", [ "smg_9mm_mag" ] ] ],
     "reload": 400,
-    "loudness" : 75,
+    "loudness": 75,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "brass catcher", 1 ], [ "muzzle", 1 ], [ "sling", 1 ], [ "stock", 1 ] ]
   },
   {
@@ -235,7 +235,7 @@
     "magazine_well": 1,
     "magazines": [ [ "40", [ "smg_40_mag" ] ] ],
     "reload": 400,
-    "loudness" : 75,
+    "loudness": 75,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "brass catcher", 1 ], [ "muzzle", 1 ], [ "sling", 1 ], [ "stock", 1 ] ]
   },
   {
@@ -262,7 +262,7 @@
     "magazine_well": 1,
     "magazines": [ [ "45", [ "smg_45_mag" ] ] ],
     "reload": 400,
-    "loudness" : 75,
+    "loudness": 75,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "brass catcher", 1 ], [ "muzzle", 1 ], [ "sling", 1 ], [ "stock", 1 ] ]
   }
 ]

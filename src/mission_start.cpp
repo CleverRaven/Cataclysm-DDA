@@ -1,6 +1,7 @@
 #include "mission.h" // IWYU pragma: associated
 
 #include <cstdio>
+#include <vector>
 
 #include "computer.h"
 #include "coordinate_conversions.h"
@@ -27,9 +28,10 @@
 #include "translations.h"
 #include "trap.h"
 
+class DynamicDataLoader;
+
 const mtype_id mon_charred_nightmare( "mon_charred_nightmare" );
 const mtype_id mon_dog( "mon_dog" );
-const mtype_id mon_graboid( "mon_graboid" );
 const mtype_id mon_jabberwock( "mon_jabberwock" );
 const mtype_id mon_zombie( "mon_zombie" );
 const mtype_id mon_zombie_brute( "mon_zombie_brute" );
@@ -338,98 +340,6 @@ void mission_start::place_caravan_ambush( mission *miss )
     bay.place_npc( SEEX, SEEY - 7, string_id<npc_template>( "thug" ) );
     miss->target_npc_id = bay.place_npc( SEEX - 3, SEEY - 4, string_id<npc_template>( "bandit" ) );
     bay.save();
-}
-
-void mission_start::place_bandit_cabin( mission *miss )
-{
-    mission_target_params t;
-    t.overmap_terrain_subtype = "bandit_cabin";
-    t.overmap_special = overmap_special_id( "bandit_cabin" );
-    t.mission_pointer = miss;
-    t.search_range = OMAPX * 5;
-    t.reveal_radius = 1;
-
-    const cata::optional<tripoint> target_pos = assign_mission_target( t );
-
-    if( !target_pos ) {
-        debugmsg( "Unable to find and assign mission target %s. Mission will fail.",
-                  t.overmap_terrain_subtype );
-        return;
-    }
-
-    const tripoint site = *target_pos;
-    tinymap cabin;
-    cabin.load( site.x * 2, site.y * 2, site.z, false );
-    cabin.trap_set( {SEEX - 5, SEEY - 6, site.z}, tr_landmine_buried );
-    cabin.trap_set( {SEEX - 7, SEEY - 7, site.z}, tr_landmine_buried );
-    cabin.trap_set( {SEEX - 4, SEEY - 7, site.z}, tr_landmine_buried );
-    cabin.trap_set( {SEEX - 12, SEEY - 1, site.z}, tr_landmine_buried );
-    miss->target_npc_id = cabin.place_npc( SEEX, SEEY, string_id<npc_template>( "bandit" ) );
-    cabin.save();
-}
-
-void mission_start::place_informant( mission *miss )
-{
-    tripoint site = mission_util::target_om_ter_random( "evac_center_19", 1, miss, false,
-                    EVAC_CENTER_SIZE );
-    tinymap bay;
-    bay.load( site.x * 2, site.y * 2, site.z, false );
-    miss->target_npc_id = bay.place_npc( SEEX, SEEY, string_id<npc_template>( "evac_guard3" ) );
-    bay.save();
-
-    site = mission_util::target_om_ter_random( "evac_center_7", 1, miss, false, EVAC_CENTER_SIZE );
-    tinymap bay2;
-    bay2.load( site.x * 2, site.y * 2, site.z, false );
-    bay2.place_npc( SEEX + rng( -3, 3 ), SEEY + rng( -3, 3 ),
-                    string_id<npc_template>( "scavenger_hunter" ) );
-    bay2.save();
-    mission_util::target_om_ter_random( "evac_center_17", 1, miss, false, EVAC_CENTER_SIZE );
-}
-
-void mission_start::place_grabber( mission *miss )
-{
-    tripoint site = mission_util::target_om_ter_random( "field", 5, miss, false, 50 );
-    tinymap there;
-    there.load( site.x * 2, site.y * 2, site.z, false );
-    there.add_spawn( mon_graboid, 1, SEEX + rng( -3, 3 ), SEEY + rng( -3, 3 ) );
-    there.add_spawn( mon_graboid, 1, SEEX, SEEY, false, -1, miss->uid, _( "Little Guy" ) );
-    there.save();
-}
-
-void mission_start::place_bandit_camp( mission *miss )
-{
-    mission_target_params t;
-    t.overmap_terrain_subtype = "bandit_camp_1";
-    t.overmap_special = overmap_special_id( "bandit_camp" );
-    t.mission_pointer = miss;
-    t.search_range = OMAPX * 5;
-    t.reveal_radius = 1;
-
-    const cata::optional<tripoint> target_pos = assign_mission_target( t );
-
-    if( !target_pos ) {
-        debugmsg( "Unable to find and assign mission target %s. Mission will fail.",
-                  t.overmap_terrain_subtype );
-        return;
-    }
-
-    const tripoint site = *target_pos;
-
-    tinymap bay1;
-    bay1.load( site.x * 2, site.y * 2, site.z, false );
-    miss->target_npc_id = bay1.place_npc( SEEX + 5, SEEY - 3, string_id<npc_template>( "bandit" ) );
-    bay1.save();
-
-    npc *p = g->find_npc( miss->npc_id );
-    g->u.i_add( item( "ruger_redhawk", calendar::turn ) );
-    g->u.i_add( item( "44magnum", calendar::turn ) );
-    g->u.i_add( item( "holster", calendar::turn ) );
-    g->u.i_add( item( "badge_marshal", calendar::turn ) );
-    add_msg( m_good, _( "%s has instated you as a marshal!" ), p->name );
-    // Ideally this would happen at the end of the mission
-    // (you're told that they entered your image into the databases, etc)
-    // but better to get it working.
-    g->u.set_mutation( trait_id( "PROF_FED" ) );
 }
 
 void mission_start::place_jabberwock( mission *miss )
@@ -1553,9 +1463,6 @@ void mission_start::ranch_nurse_9( mission *miss )
 
 void mission_start::ranch_scavenger_1( mission *miss )
 {
-    npc *p = g->find_npc( miss->npc_id );
-    p->my_fac->combat_ability += rng( 1, 2 );
-
     tripoint site = mission_util::target_om_ter_random( "ranch_camp_48", 1, miss, false, RANCH_SIZE );
     tinymap bay;
     bay.load( site.x * 2, site.y * 2, site.z, false );
@@ -1575,9 +1482,6 @@ void mission_start::ranch_scavenger_1( mission *miss )
 
 void mission_start::ranch_scavenger_2( mission *miss )
 {
-    npc *p = g->find_npc( miss->npc_id );
-    p->my_fac->combat_ability += rng( 1, 2 );
-
     tripoint site = mission_util::target_om_ter_random( "ranch_camp_48", 1, miss, false, RANCH_SIZE );
     tinymap bay;
     bay.load( site.x * 2, site.y * 2, site.z, false );
@@ -1597,9 +1501,6 @@ void mission_start::ranch_scavenger_2( mission *miss )
 
 void mission_start::ranch_scavenger_3( mission *miss )
 {
-    npc *p = g->find_npc( miss->npc_id );
-    p->my_fac->combat_ability += rng( 1, 2 );
-
     tripoint site = mission_util::target_om_ter_random( "ranch_camp_48", 1, miss, false, RANCH_SIZE );
     tinymap bay;
     bay.load( site.x * 2, site.y * 2, site.z, false );
@@ -1901,15 +1802,17 @@ void mission_start::reveal_lab_train_depot( mission *miss )
     reveal_road( g->u.global_omt_location(), target, overmap_buffer );
 }
 
-void mission_start_t::set_reveal( const std::string &terrain )
+void mission_start::set_reveal( const std::string &terrain,
+                                std::vector<std::function<void( mission *miss )>> &starts )
 {
     const auto start_func = [ terrain ]( mission * miss ) {
         reveal_target( miss, terrain );
     };
-    start_funcs.push_back( start_func );
+    starts.emplace_back( start_func );
 }
 
-void mission_start_t::set_reveal_any( JsonArray &ja )
+void mission_start::set_reveal_any( JsonArray &ja,
+                                    std::vector<std::function<void( mission *miss )>> &starts )
 {
     std::vector<std::string> terrains;
     while( ja.has_more() ) {
@@ -1919,10 +1822,11 @@ void mission_start_t::set_reveal_any( JsonArray &ja )
     const auto start_func = [ terrains ]( mission * miss ) {
         reveal_any_target( miss, terrains );
     };
-    start_funcs.push_back( start_func );
+    starts.emplace_back( start_func );
 }
 
-void mission_start_t::set_assign_mission_target( JsonObject &jo )
+void mission_start::set_assign_om_target( JsonObject &jo,
+        std::vector<std::function<void( mission *miss )>> &starts )
 {
     if( !jo.has_string( "om_terrain" ) ) {
         jo.throw_error( "'om_terrain' is required for assign_mission_target" );
@@ -1960,52 +1864,104 @@ void mission_start_t::set_assign_mission_target( JsonObject &jo )
         }
         assign_mission_target( mtp );
     };
-    start_funcs.push_back( start_func );
+    starts.emplace_back( start_func );
 }
 
-void mission_start_t::load( JsonObject &jo )
+bool mission_start::set_update_mapgen( JsonObject &jo,
+                                       std::vector<std::function<void( mission *miss )>> &starts )
+{
+    // this is gross, but jmpagen_npc throws errors instead of deferring, so catch the
+    // potential error and defer it.
+    if( jo.has_array( "place_npcs" ) ) {
+        JsonArray place_npcs = jo.get_array( "place_npcs" );
+        while( place_npcs.has_more() ) {
+            JsonObject placed_npc = place_npcs.next_object();
+            string_id<npc_template> npc_class;
+            npc_class = string_id<npc_template>( placed_npc.get_string( "class" ) );
+            if( !npc_class.is_valid() ) {
+                return false;
+            }
+        }
+    }
+
+    mapgen_update_func update_map = add_mapgen_update_func( jo );
+
+    if( jo.has_string( "om_special" ) && jo.has_string( "om_terrain" ) ) {
+        const std::string om_terrain = jo.get_string( "om_terrain" );
+        const auto start_func = [update_map, om_terrain]( mission * miss ) {
+            tripoint update_pos3 = mission_util::reveal_om_ter( om_terrain, 1, false );
+            update_map( update_pos3, miss );
+        };
+        starts.emplace_back( start_func );
+    } else {
+        const auto start_func = [update_map]( mission * miss ) {
+            tripoint update_pos3 = miss->get_target();
+            update_map( update_pos3, miss );
+        };
+        starts.emplace_back( start_func );
+    }
+    return true;
+}
+
+bool mission_start::load( JsonObject jo,
+                          std::vector<std::function<void( mission *miss )>> &starts )
 {
     if( jo.has_string( "reveal_om_ter" ) ) {
         const std::string target_terrain = jo.get_string( "reveal_om_ter" );
-        set_reveal( target_terrain );
+        set_reveal( target_terrain, starts );
     } else if( jo.has_array( "reveal_om_ter" ) ) {
         JsonArray target_terrain = jo.get_array( "reveal_om_ter" );
-        set_reveal_any( target_terrain );
+        set_reveal_any( target_terrain, starts );
     } else if( jo.has_object( "assign_mission_target" ) ) {
         JsonObject mission_target = jo.get_object( "assign_mission_target" );
-        set_assign_mission_target( mission_target );
+        set_assign_om_target( mission_target, starts );
     }
+
+    if( jo.has_object( "update_mapgen" ) ) {
+        JsonObject update_mapgen = jo.get_object( "update_mapgen" );
+        if( !set_update_mapgen( update_mapgen, starts ) ) {
+            return false;
+        }
+    } else if( jo.has_array( "update_mapgen" ) ) {
+        JsonArray mapgen_array = jo.get_array( "update_mapgen" );
+        while( mapgen_array.has_more() ) {
+            JsonObject update_mapgen = mapgen_array.next_object();
+            if( !set_update_mapgen( update_mapgen, starts ) ) {
+                return false;
+            }
+        }
+    }
+
+    return true;
 }
 
-void mission_start_t::apply( mission *miss ) const
+bool mission_type::parse_start( JsonObject &jo )
 {
-    for( auto &start_func : start_funcs ) {
-        start_func( miss );
+    std::vector<std::function<void( mission *miss )>> start_funcs;
+    if( !mission_start::load( jo, start_funcs ) ) {
+        return false;
     }
-}
 
-void mission_type::parse_start( JsonObject &jo )
-{
     /* this is a kind of gross hijack of the dialogue responses effect system, but I don't want to
      * write that code in two places so here it goes.
      */
     talk_effect_t talk_effects;
     talk_effects.load_effect( jo );
-    mission_start_t mission_start_fun;
-    mission_start_fun.load( jo );
-    // BevapDin will probably tell me how to do this is a less baroque way, but in the meantime,
-    // I have no better idea on how satisfy the compiler.
-    start = [ mission_start_fun, talk_effects ]( mission * miss ) {
+
+    start = [ start_funcs, talk_effects ]( mission * miss ) {
         ::dialogue d;
         d.beta = g->find_npc( miss->get_npc_id() );
         if( d.beta == nullptr ) {
-            debugmsg( "couldn't find an NPC!" );
-            return;
+            standard_npc default_npc( "Default" );
+            d.beta = &default_npc;
         }
         d.alpha = &g->u;
         for( const talk_effect_fun_t &effect : talk_effects.effects ) {
             effect( d );
         }
-        mission_start_fun.apply( miss );
+        for( auto &start_function : start_funcs ) {
+            start_function( miss );
+        }
     };
+    return true;
 }

@@ -1518,6 +1518,58 @@ void options_manager::add_options_graphics()
 
     mOptionsSort["graphics"]++;
 
+    add( "FONT_BLENDING", "graphics", translate_marker( "Font blending" ),
+         translate_marker( "If true, fonts will look better." ),
+         false, COPT_CURSES_HIDE
+       );
+
+    add( "FONT_WIDTH", "graphics", translate_marker( "Font width" ),
+         translate_marker( "Set the font width.  Requires restart." ),
+         8, 100, 8, COPT_CURSES_HIDE
+       );
+
+    add( "FONT_HEIGHT", "graphics", translate_marker( "Font height" ),
+         translate_marker( "Set the font height.  Requires restart." ),
+         8, 100, 16, COPT_CURSES_HIDE
+       );
+
+    add( "FONT_SIZE", "graphics", translate_marker( "Font size" ),
+         translate_marker( "Set the font size.  Requires restart." ),
+         8, 100, 16, COPT_CURSES_HIDE
+       );
+
+    add( "MAP_FONT_WIDTH", "graphics", translate_marker( "Map font width" ),
+         translate_marker( "Set the map font width.  Requires restart." ),
+         8, 100, 8, COPT_CURSES_HIDE
+       );
+
+    add( "MAP_FONT_HEIGHT", "graphics", translate_marker( "Map font height" ),
+         translate_marker( "Set the map font height.  Requires restart." ),
+         8, 100, 16, COPT_CURSES_HIDE
+       );
+
+    add( "MAP_FONT_SIZE", "graphics", translate_marker( "Map font size" ),
+         translate_marker( "Set the map font size.  Requires restart." ),
+         8, 100, 16, COPT_CURSES_HIDE
+       );
+
+    add( "OVERMAP_FONT_WIDTH", "graphics", translate_marker( "Overmap font width" ),
+         translate_marker( "Set the overmap font width.  Requires restart." ),
+         8, 100, 8, COPT_CURSES_HIDE
+       );
+
+    add( "OVERMAP_FONT_HEIGHT", "graphics", translate_marker( "Overmap font height" ),
+         translate_marker( "Set the overmap font height.  Requires restart." ),
+         8, 100, 16, COPT_CURSES_HIDE
+       );
+
+    add( "OVERMAP_FONT_SIZE", "graphics", translate_marker( "Overmap font size" ),
+         translate_marker( "Set the overmap font size.  Requires restart." ),
+         8, 100, 16, COPT_CURSES_HIDE
+       );
+
+    mOptionsSort["graphics"]++;
+
     add( "USE_TILES", "graphics", translate_marker( "Use tiles" ),
          translate_marker( "If true, replaces some TTF rendered text with tiles." ),
          true, COPT_CURSES_HIDE

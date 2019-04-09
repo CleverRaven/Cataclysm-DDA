@@ -791,7 +791,18 @@
     "goal": "MGOAL_ASSASSINATE",
     "difficulty": 5,
     "value": 50000,
-    "start": "place_bandit_cabin",
+    "start": {
+      "assign_mission_target": { "om_terrain": "bandit_cabin", "om_special": "bandit_cabin", "reveal_radius": 1 },
+      "update_mapgen": {
+        "set": [
+          { "point": "trap", "id": "tr_landmine_buried", "x": 7, "y": 6 },
+          { "point": "trap", "id": "tr_landmine_buried", "x": 5, "y": 5 },
+          { "point": "trap", "id": "tr_landmine_buried", "x": 8, "y": 5 },
+          { "point": "trap", "id": "tr_landmine_buried", "x": 0, "y": 11 }
+        ],
+        "place_npcs": [ { "class": "bandit", "x": 12, "y": 12, "target": true } ]
+      }
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_OLD_GUARD_REP_2",
     "dialogue": {
@@ -813,7 +824,20 @@
     "goal": "MGOAL_ASSASSINATE",
     "difficulty": 5,
     "value": 50000,
-    "start": "place_informant",
+    "start": {
+      "update_mapgen": [
+        {
+          "om_terrain": "evac_center_19",
+          "om_special": "evac_center",
+          "place_npcs": [ { "class": "evac_guard3", "x": 12, "y": 12, "target": true } ]
+        },
+        {
+          "om_terrain": "evac_center_7",
+          "om_special": "evac_center",
+          "place_npcs": [ { "class": "scavenger_hunter", "x": [ 9, 15 ], "y": [ 9, 15 ] } ]
+        }
+      ]
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_OLD_GUARD_REP_3",
     "dialogue": {
@@ -835,7 +859,15 @@
     "goal": "MGOAL_KILL_MONSTER",
     "difficulty": 5,
     "value": 100000,
-    "start": "place_grabber",
+    "start": {
+      "assign_mission_target": { "om_terrain": "field", "reveal_radius": 5, "random": true, "search_range": [ 10, 50 ] },
+      "update_mapgen": {
+        "place_monster": [
+          { "monster": "mon_graboid", "name": "Little Guy", "x": 12, "y": 12, "target": true },
+          { "monster": "mon_graboid", "x": [ 9, 15 ], "y": [ 9, 15 ] }
+        ]
+      }
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_OLD_GUARD_REP_4",
     "dialogue": {
@@ -857,7 +889,23 @@
     "goal": "MGOAL_ASSASSINATE",
     "difficulty": 10,
     "value": 300000,
-    "start": "place_bandit_camp",
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "bandit_camp_1",
+        "om_special": "bandit_camp",
+        "om_terrain_replace": "forest",
+        "reveal_radius": 1,
+        "range": [ 10, 50 ]
+      },
+      "update_mapgen": { "place_npcs": [ { "class": "bandit", "x": 17, "y": 9, "target": true } ] },
+      "effect": [
+        { "u_buy_item": "ruger_redhawk" },
+        { "u_buy_item": "44magnum" },
+        { "u_buy_item": "holster" },
+        { "u_buy_item": "badge_marshal" },
+        { "u_add_trait": "PROF_FED" }
+      ]
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "We need help...",

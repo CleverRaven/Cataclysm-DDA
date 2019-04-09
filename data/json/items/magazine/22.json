@@ -1,5 +1,20 @@
 [
   {
+    "id": "22_speedloader8",
+    "type": "MAGAZINE",
+    "name": ".22 8-round speedloader",
+    "description": "This speedloader can hold 8 rounds of .22 and quickly reload a compatible revolver.",
+    "weight": 64,
+    "volume": 1,
+    "price": 600,
+    "material": "steel",
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": "22",
+    "capacity": 8,
+    "flags": [ "SPEEDLOADER" ]
+  },
+  {
     "id": "360_200_mag",
     "type": "MAGAZINE",
     "name": "RMRB200 .22 magazine",
@@ -49,6 +64,21 @@
     "reliability": 7,
     "reload_time": 150,
     "flags": [ "MAG_BULKY" ]
+  },
+  {
+    "id": "marlin_tubeloader",
+    "type": "MAGAZINE",
+    "name": ".22 19-round tube loader",
+    "description": "This is a tube which holds 19 rounds of .22, designed for quick reloading of a compatible rifle with tubular magazine.",
+    "weight": 180,
+    "volume": 1,
+    "price": 1200,
+    "material": "steel",
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": "22",
+    "capacity": 19,
+    "flags": [ "SPEEDLOADER" ]
   },
   {
     "id": "mosquitomag",
