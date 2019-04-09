@@ -279,69 +279,6 @@ void mission_start::place_zombie_mom( mission *miss )
     zomhouse.save();
 }
 
-const int EVAC_CENTER_SIZE = 5;
-
-void mission_start::place_zombie_bay( mission *miss )
-{
-    tripoint site = mission_util::target_om_ter_random( "evac_center_9", 1, miss, false,
-                    EVAC_CENTER_SIZE );
-    tinymap bay;
-    bay.load( site.x * 2, site.y * 2, site.z, false );
-    bay.add_spawn( mon_zombie_electric, 1, SEEX, SEEY, false, -1, miss->uid, _( "Sean McLaughlin" ) );
-    bay.save();
-}
-
-void mission_start::place_caravan_ambush( mission *miss )
-{
-    tripoint site = mission_util::target_om_ter_random( "field", 1, miss, false, 80 );
-    tinymap bay;
-    bay.load( site.x * 2, site.y * 2, site.z, false );
-    bay.add_vehicle( vproto_id( "cube_van" ), SEEX, SEEY, 0 );
-    bay.add_vehicle( vproto_id( "quad_bike" ), SEEX + 6, SEEY - 5, 270, 500, -1, true );
-    bay.add_vehicle( vproto_id( "motorcycle" ), SEEX - 2, SEEY - 9, 315, 500, -1, true );
-    bay.add_vehicle( vproto_id( "motorcycle" ), SEEX - 5, SEEY - 5, 90, 500, -1, true );
-    bay.draw_square_ter( t_grass, SEEX - 6, SEEY - 9, SEEX + 6, SEEY + 3 );
-    bay.draw_square_ter( t_dirt, SEEX - 4, SEEY - 7, SEEX + 3, SEEY + 1 );
-    bay.furn_set( SEEX, SEEY - 4, f_ash );
-    bay.spawn_item( SEEX - 1, SEEY - 3, "rock" );
-    bay.spawn_item( SEEX, SEEY - 3, "rock" );
-    bay.spawn_item( SEEX + 1, SEEY - 3, "rock" );
-    bay.spawn_item( SEEX - 1, SEEY - 4, "rock" );
-    bay.spawn_item( SEEX + 1, SEEY - 4, "rock" );
-    bay.spawn_item( SEEX - 1, SEEY - 5, "rock" );
-    bay.spawn_item( SEEX, SEEY - 5, "rock" );
-    bay.spawn_item( SEEX + 1, SEEY - 5, "rock" );
-    bay.trap_set( {SEEX + 3, SEEY - 5, site.z}, tr_rollmat );
-    bay.trap_set( {SEEX, SEEY - 7, site.z}, tr_rollmat );
-    bay.trap_set( {SEEX - 3, SEEY - 4, site.z}, tr_fur_rollmat );
-    bay.spawn_item( SEEX + rng( -6, 6 ), SEEY + rng( -9, 3 ), "can_beans" );
-    bay.spawn_item( SEEX + rng( -6, 6 ), SEEY + rng( -9, 3 ), "beer" );
-    bay.spawn_item( SEEX + rng( -6, 6 ), SEEY + rng( -9, 3 ), "beer" );
-    bay.spawn_item( SEEX + rng( -6, 6 ), SEEY + rng( -9, 3 ), "bottle_glass" );
-    bay.spawn_item( SEEX + rng( -6, 6 ), SEEY + rng( -9, 3 ), "bottle_glass" );
-    bay.spawn_item( SEEX + rng( -6, 6 ), SEEY + rng( -9, 3 ), "heroin" );
-    bay.place_items( "dresser", 75, SEEX - 3, SEEY, SEEX - 2, SEEY + 2, true, 0 );
-    bay.place_items( "softdrugs", 50, SEEX - 3, SEEY, SEEX - 2, SEEY + 2, true, 0 );
-    bay.place_items( "camping", 75, SEEX - 3, SEEY, SEEX - 2, SEEY + 2, true, 0 );
-    bay.spawn_item( SEEX + 1, SEEY + 4, "9mm_casing", 1, 1, 0, 0 );
-    bay.spawn_item( SEEX + rng( -2, 3 ), SEEY + rng( 3, 6 ), "9mm_casing", 1, 1, 0, 0 );
-    bay.spawn_item( SEEX + rng( -2, 3 ), SEEY + rng( 3, 6 ), "9mm_casing", 1, 1, 0, 0 );
-    bay.spawn_item( SEEX + rng( -2, 3 ), SEEY + rng( 3, 6 ), "9mm_casing", 1, 1, 0, 0 );
-    bay.add_corpse( tripoint( SEEX + 1, SEEY + 7, bay.get_abs_sub().z ) );
-    bay.add_corpse( tripoint( SEEX, SEEY + 8, bay.get_abs_sub().z ) );
-    madd_field( &bay, SEEX, SEEY + 7, fd_blood, 1 );
-    madd_field( &bay, SEEX + 2, SEEY + 7, fd_blood, 1 );
-    madd_field( &bay, SEEX - 1, SEEY + 8, fd_blood, 1 );
-    madd_field( &bay, SEEX + 1, SEEY + 8, fd_blood, 1 );
-    madd_field( &bay, SEEX + 2, SEEY + 8, fd_blood, 1 );
-    madd_field( &bay, SEEX + 1, SEEY + 9, fd_blood, 1 );
-    madd_field( &bay, SEEX, SEEY + 9, fd_blood, 1 );
-    bay.place_npc( SEEX + 3, SEEY - 5, string_id<npc_template>( "bandit" ) );
-    bay.place_npc( SEEX, SEEY - 7, string_id<npc_template>( "thug" ) );
-    miss->target_npc_id = bay.place_npc( SEEX - 3, SEEY - 4, string_id<npc_template>( "bandit" ) );
-    bay.save();
-}
-
 void mission_start::place_jabberwock( mission *miss )
 {
     tripoint site = mission_util::target_om_ter( "forest_thick", 6, miss, false );
@@ -620,19 +557,6 @@ void mission_start::recruit_tracker( mission *miss )
     temp->op_of_u.owed = 10;
     temp->add_new_mission( mission::reserve_new( mission_type_id( "MISSION_JOIN_TRACKER" ),
                            temp->getID() ) );
-}
-
-void mission_start::start_commune( mission *miss )
-{
-    // Check entire overmap for now.
-    tripoint site = mission_util::target_om_ter( "ranch_camp_67", 1, miss, false );
-    tinymap bay;
-    bay.load( site.x * 2, site.y * 2, site.z, false );
-    bay.place_npc( SEEX + 4, SEEY + 3, string_id<npc_template>( "ranch_foreman" ) );
-    bay.place_npc( SEEX - 3, SEEY + 5, string_id<npc_template>( "ranch_construction_1" ) );
-    bay.save();
-    npc *p = g->find_npc( miss->npc_id );
-    p->set_mutation( trait_id( "NPC_MISSION_LEV_1" ) );
 }
 
 const int RANCH_SIZE = 5;

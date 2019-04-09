@@ -17,7 +17,16 @@
     "goal": "MGOAL_KILL_MONSTER",
     "difficulty": 2,
     "value": 50000,
-    "start": "place_zombie_bay",
+    "start": {
+      "assign_mission_target": { "om_terrain": "evac_center_9", "reveal_radius": 1 },
+      "update_mapgen": {
+        "om_terrain": "evac_center_9",
+        "om_special": "evac_center",
+        "place_monster": [
+          { "monster": "mon_zombie_electric", "name": "Sean McLaughlin", "x": 10, "y": 10, "target": true }
+        ]
+      }
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_FREE_MERCHANTS_EVAC_2",
     "dialogue": {
@@ -39,7 +48,71 @@
     "goal": "MGOAL_ASSASSINATE",
     "difficulty": 5,
     "value": 5000,
-    "start": "place_caravan_ambush",
+    "start": {
+      "assign_mission_target": { "om_terrain": "field", "reveal_radius": 1, "random": true, "search_range": 80 },
+      "update_mapgen": {
+        "rows": [
+          "                        ",
+          "                        ",
+          "                        ",
+          "      ggggggggggggg     ",
+          "      ggggggggggggg     ",
+          "      gg....R...ggg     ",
+          "      gg........ggg     ",
+          "      gg.......Rggg     ",
+          "      gg.F..a...ggg     ",
+          "      gg........ggg     ",
+          "      gg........ggg     ",
+          "      gg........ggg     ",
+          "      gg........ggg     ",
+          "      gg........ggg     ",
+          "      ggggggggggggg     ",
+          "      ggggggggggggg     ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "            b b         ",
+          "           b bb         ",
+          "             b          ",
+          "                        ",
+          "                        "
+        ],
+        "terrain": {
+          "g": "t_grass",
+          ".": "t_dirt",
+          "a": "t_dirt",
+          "b": "t_dirt",
+          "R": "t_dirt",
+          "F": "t_dirt"
+        },
+        "furniture": { "a": "f_ash" },
+        "traps": { "F": "tr_fur_rollmat", "R": "tr_rollmat" },
+        "fields": { "b": { "field": "fd_blood", "density": 1 } },
+        "place_loot": [
+          { "group": "cannedfood", "x": [ 6, 18 ], "y": [ 3, 15 ], "chance": 100 },
+          { "group": "alcohol_bottled_canned", "x": [ 6, 18 ], "y": [ 3, 15 ], "repeat": 2, "chance": 75 },
+          { "group": "trash_forest", "x": [ 6, 18 ], "y": [ 3, 15 ], "repeat": 2, "chance": 75 },
+          { "group": "stash_drugs", "x": [ 6, 18 ], "y": [ 3, 15 ], "chance": 75 },
+          { "group": "dresser", "x": [ 9, 10 ], "y": [ 10, 14 ], "chance": 75 },
+          { "group": "softdrugs", "x": [ 9, 10 ], "y": [ 10, 14 ], "chance": 50 },
+          { "group": "camping", "x": [ 9, 10 ], "y": [ 10, 14 ], "chance": 75 },
+          { "group": "casings", "x": [ 10, 15 ], "y": [ 15, 18 ], "repeat": 5, "chance": 100 },
+          { "item": "corpse", "x": 13, "y": 19, "chance": 100 },
+          { "item": "corpse", "x": 12, "y": 20, "chance": 100 }
+        ],
+        "place_npcs": [
+          { "class": "bandit", "x": 15, "y": 7 },
+          { "class": "thug", "x": 12, "y": 5 },
+          { "class": "bandit", "x": 9, "y": 8, "target": true }
+        ],
+        "place_vehicles": [
+          { "vehicle": "cube_van", "x": 12, "y": 12 },
+          { "vehicle": "quad_bike", "x": 18, "y": 7, "rotation": 270, "fuel": 500, "status": -1, "chance": 100 },
+          { "vehicle": "motorcycle", "x": 10, "y": 3, "rotation": 315, "fuel": 500, "status": -1, "chance": 100 },
+          { "vehicle": "motorcycle", "x": 7, "y": 7, "rotation": 90, "fuel": 500, "status": -1, "chance": 100 }
+        ]
+      }
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_FREE_MERCHANTS_EVAC_3",
     "dialogue": {
@@ -62,7 +135,15 @@
     "difficulty": 5,
     "value": 50000,
     "item": "commune_prospectus",
-    "start": "start_commune",
+    "start": {
+      "assign_mission_target": { "om_terrain": "ranch_camp_67", "reveal_radius": 1 },
+      "update_mapgen": {
+        "place_npcs": [
+          { "class": "ranch_foreman", "x": 16, "y": 15, "target": true, "add_trait": "NPC_MISSION_LEV_1" },
+          { "class": "ranch_construction_1", "x": 9, "y": 17 }
+        ]
+      }
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_FREE_MERCHANTS_EVAC_4",
     "dialogue": {

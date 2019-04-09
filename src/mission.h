@@ -110,9 +110,6 @@ struct mission_start {
     static void need_drugs_npc( mission * );     // "need drugs" remove item
     static void place_dog( mission * );          // Put a dog in a house!
     static void place_zombie_mom( mission * );   // Put a zombie mom in a house!
-    // Put a boss zombie in the refugee/evac center back bay
-    static void place_zombie_bay( mission * );
-    static void place_caravan_ambush( mission * ); // For Free Merchants mission
     static void place_jabberwock( mission * );   // Put a jabberwok in the woods nearby
     static void kill_20_nightmares( mission * ); // Kill 20 more regular nightmares
     static void kill_horde_master( mission * );  // Kill the master zombie at the center of the horde
@@ -121,7 +118,6 @@ struct mission_start {
     static void place_deposit_box( mission * );  // Place a safe deposit box in a nearby bank
     static void find_safety( mission * );        // Goal is set to non-spawn area
     static void recruit_tracker( mission * );    // Recruit a tracker to help you
-    static void start_commune( mission * );      // Focus on starting the ranch commune
     static void ranch_construct_1( mission * );  // Encloses barn
     static void ranch_construct_2( mission * );  // Adds makeshift beds to the barn, 1 NPC
     static void ranch_construct_3( mission * );  // Adds a couple of NPCs and fields
