@@ -1044,7 +1044,7 @@ void construct::done_digormine_stair( const tripoint &p, bool dig )
 
     int no_mut_penalty = dig_muts ? 10 : 0;
     int mine_penalty = dig ? 0 : 10;
-    g->u.mod_hunger( 5 + mine_penalty + no_mut_penalty );
+    g->u.mod_stored_nutr( 5 + mine_penalty + no_mut_penalty );
     g->u.mod_thirst( 5 + mine_penalty + no_mut_penalty );
     g->u.mod_fatigue( 10 + mine_penalty + no_mut_penalty );
 
@@ -1117,7 +1117,7 @@ void construct::done_mine_upstair( const tripoint &p )
     bool dig_muts = g->u.has_trait( trait_PAINRESIST_TROGLO ) || g->u.has_trait( trait_STOCKY_TROGLO );
 
     int no_mut_penalty = dig_muts ? 15 : 0;
-    g->u.mod_hunger( 20 + no_mut_penalty );
+    g->u.mod_stored_nutr( 20 + no_mut_penalty );
     g->u.mod_thirst( 20 + no_mut_penalty );
     g->u.mod_fatigue( 25 + no_mut_penalty );
 

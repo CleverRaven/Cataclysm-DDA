@@ -19,7 +19,7 @@
     "type": "overmap_terrain",
     "name": "noname",
     "//": "Its contents make no sense, it is supposed to use all the available mapgen possibilities.",
-    "sym": 37,
+    "sym": "%",
     "color": "white",
     "mondensity": 1
   },

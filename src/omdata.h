@@ -57,7 +57,7 @@ const std::string &name( type dir );
 /** Various rotations. */
 point rotate( const point &p, type dir );
 tripoint rotate( const tripoint &p, type dir );
-long rotate_symbol( long sym, type dir );
+std::string rotate_symbol( const std::string &sym, type dir );
 
 /** Returns point(0, 0) displaced in specified direction by a specified distance
  * @param dir Direction of displacement
@@ -94,8 +94,10 @@ class overmap_land_use_code
         int land_use_code;
         std::string name;
         std::string detailed_definition;
-        long sym = '\0';                // This is a long, so we can support curses line drawing
+        uint32_t symbol;
         nc_color color = c_black;
+
+        std::string get_symbol() const;
 
         // Used by generic_factory
         bool was_loaded = false;
@@ -159,15 +161,18 @@ struct oter_type_t {
     public:
         string_id<oter_type_t> id;
         std::string name;               // Untranslated name
-        long sym = '\0';                // This is a long, so we can support curses line drawing
+        uint32_t symbol;
         nc_color color = c_black;
         overmap_land_use_code_id land_use_code = overmap_land_use_code_id::NULL_ID();
         unsigned char see_cost = 0;     // Affects how far the player can see in the overmap
+        unsigned char travel_cost = 5;  // Affects the pathfinding and travel times
         std::string extras = "none";
         int mondensity = 0;
         // Spawns are added to the submaps *once* upon mapgen of the submaps
         overmap_static_spawns static_spawns;
         bool was_loaded = false;
+
+        std::string get_symbol() const;
 
         oter_type_t() {}
 
@@ -225,7 +230,7 @@ struct oter_t {
             return _( type->name.c_str() );
         }
 
-        long get_sym( const bool from_land_use_code = false ) const {
+        std::string get_sym( const bool from_land_use_code = false ) const {
             return from_land_use_code ? sym_alt : sym;
         }
 
@@ -243,6 +248,9 @@ struct oter_t {
 
         unsigned char get_see_cost() const {
             return type->see_cost;
+        }
+        unsigned char get_travel_cost() const {
+            return type->travel_cost;
         }
 
         const std::string &get_extras() const {
@@ -282,8 +290,10 @@ struct oter_t {
 
     private:
         om_direction::type dir = om_direction::type::none;
-        long sym = '\0';         // This is a long, so we can support curses line drawing.
-        long sym_alt = '\0';     // This is a long, so we can support curses line drawing.
+        /** UTF-8 encoded symbol, should be exactly one cell wide. */
+        std::string sym;
+        /** UTF-8 encoded symbol, should be exactly one cell wide. */
+        std::string sym_alt;
         size_t line = 0;         // Index of line. Only valid in case of line drawing.
 };
 

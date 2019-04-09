@@ -425,6 +425,29 @@ static int actually_test_craft( const recipe_id &rid, const std::vector<item> to
     return turns;
 }
 
+// Resume the first in progress craft found in the player's inventory
+static int resume_craft()
+{
+    item *craft = g->u.items_with( []( const item & itm ) {
+        return itm.is_craft();
+    } ).front();
+    const recipe &rec = craft->get_making();
+    set_time( midday ); // Ensure light for crafting
+    REQUIRE( g->u.morale_crafting_speed_multiplier( rec ) == 1.0 );
+    REQUIRE( g->u.lighting_craft_speed_multiplier( rec ) == 1.0 );
+    REQUIRE( !g->u.activity );
+    g->u.use( g->u.get_item_position( craft ) );
+    CHECK( g->u.activity );
+    CHECK( g->u.activity.id() == activity_id( "ACT_CRAFT" ) );
+    int turns = 0;
+    while( g->u.activity.id() == activity_id( "ACT_CRAFT" ) ) {
+        ++turns;
+        g->u.moves = 100;
+        g->u.activity.do_turn( g->u );
+    }
+    return turns;
+}
+
 static void verify_inventory( const std::vector<std::string> &has,
                               const std::vector<std::string> &hasnt )
 {
@@ -462,11 +485,11 @@ TEST_CASE( "crafting_interruption" )
     SECTION( "interrupted_craft" ) {
         int turns_taken = actually_test_craft( test_recipe, tools, 2 );
         CHECK( turns_taken == 3 );
-        verify_inventory( { "scrap" }, { "crude_picklock" } );
+        verify_inventory( { "craft" }, { "crude_picklock" } );
         SECTION( "resumed_craft" ) {
-            turns_taken = actually_test_craft( test_recipe, tools, INT_MAX );
+            turns_taken = resume_craft();
             CHECK( turns_taken == expected_turns_taken - 2 );
-            verify_inventory( { "crude_picklock" }, { "scrap" } );
+            verify_inventory( { "crude_picklock" }, { "craft" } );
         }
     }
 }

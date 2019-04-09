@@ -948,7 +948,7 @@
     "id": "mon_eyebot",
     "type": "MONSTER",
     "name": "eyebot",
-    "description": "A fusion-driven UAV largely comprised of a high-resolution camera lens, this spheroid robot hovers above the ground, silent witness to the carnage and mayhem around it.",
+    "description": "A fusion-driven UAV largely comprised of a high-resolution camera lens and a speaker, this spheroid robot hovers above the ground, documenting the carnage and mayhem around it.",
     "default_faction": "cop_bot",
     "species": [ "ROBOT" ],
     "diff": 2,
@@ -2857,13 +2857,15 @@
     "melee_dice": 2,
     "melee_dice_sides": 3,
     "melee_cut": 0,
+    "vision_day": 2,
+    "vision_night": 0,
     "harvest": "zombie",
     "special_attacks": [ [ "GRAB", 7 ], [ "scratch", 20 ] ],
     "//": "Removed Bite attack to reflect damage to mouth.",
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
-    "upgrades": { "half_life": 14, "into": "mon_zombie_ears" },
+    "upgrades": { "half_life": 8, "into": "mon_zombie_ears" },
     "flags": [
       "HEARS",
       "STUMBLES",
@@ -2922,6 +2924,7 @@
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
+      "PUSH_VEH",
       "FILTHY"
     ]
   },
@@ -2969,6 +2972,7 @@
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
+      "PUSH_VEH",
       "FILTHY"
     ]
   },
@@ -3016,6 +3020,7 @@
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
+      "PUSH_VEH",
       "NIGHT_INVISIBILITY",
       "FILTHY"
     ]
@@ -3337,8 +3342,8 @@
     "melee_dice": 2,
     "melee_dice_sides": 4,
     "melee_cut": 0,
-    "vision_day": 4,
-    "vision_night": 0,
+    "vision_day": 7,
+    "vision_night": 4,
     "harvest": "zombie",
     "special_attacks": [ [ "GRAB", 6 ], [ "scratch", 20 ] ],
     "//": "Removed Bite as this creature does not have a 'mouth'.",
@@ -3814,6 +3819,7 @@
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
+      "PUSH_VEH",
       "FILTHY"
     ]
   },
@@ -4401,9 +4407,10 @@
     "melee_dice_sides": 4,
     "melee_cut": 2,
     "dodge": 1,
-    "armor_bash": 4,
-    "armor_cut": 2,
+    "armor_bash": 5,
+    "armor_cut": 3,
     "vision_day": 25,
+    "vision_night": 5,
     "harvest": "zombie",
     "special_attacks": [ { "type": "bite", "cooldown": 5, "min_mul": 0.7 }, [ "GRAB", 6 ], [ "scratch", 15 ] ],
     "death_drops": "default_zombie_death_drops",
@@ -4810,6 +4817,7 @@
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
+      "PUSH_VEH",
       "HARDTOSHOOT",
       "FILTHY"
     ]

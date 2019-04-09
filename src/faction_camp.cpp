@@ -101,6 +101,12 @@ std::map<std::string, bcp_miss_data> basecamp_missions_info = {{
             }
         },
         {
+            "travelling", {
+                "Travelling", _( "Travelling" ), _( "Busy travelling!\n" ),
+                "Recall ally from travelling", _( "Recall ally from travelling" )
+            }
+        },
+        {
             "_faction_camp_gathering", {
                 "Gather Materials", _( "Gather Materials" ),
                 _( "Searching for materials to upgrade the camp.\n" ),
@@ -3428,7 +3434,7 @@ bool basecamp::distribute_food()
                 g->m.add_item_or_charges( litter_spread, i, false );
                 i = comest;
             }
-            if( i.is_comestible() && ( i.rotten() || i.type->comestible->fun < -6 ) ) {
+            if( i.is_comestible() && ( i.rotten() || i.get_comestible()->fun < -6 ) ) {
                 keep_me.push_back( i );
             } else if( i.is_food() ) {
                 double rot_multip;
@@ -3440,7 +3446,7 @@ bool basecamp::distribute_food()
                 } else {
                     rot_multip = quick_rot;
                 }
-                total += i.type->comestible->get_calories() * rot_multip * i.count();
+                total += i.get_comestible()->get_calories() * rot_multip * i.count();
             } else {
                 keep_me.push_back( i );
             }
