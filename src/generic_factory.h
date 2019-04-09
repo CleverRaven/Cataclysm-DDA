@@ -842,7 +842,7 @@ class auto_flags_reader : public generic_typed_reader<auto_flags_reader<FlagType
  * map `std::map<std::string, some_enum>` with all the value enumeration values exists.
  *
  * The class can be conveniently instantiated for a given map `mapping` using
- * the heler function @ref make_flag_reader (see below).
+ * the helper function @ref make_flag_reader (see below).
  * The flag type (@ref flag_type) is used when the input contains invalid flags
  * (a string that is not contained in the map). It should sound something like
  * "my-enum-type".
