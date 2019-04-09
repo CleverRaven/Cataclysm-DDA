@@ -1,5 +1,12 @@
 [
   {
+    "id": "40_speedloader6",
+    "copy_from": "40_speedloader6",
+    "type": "MAGAZINE",
+    "description": "This speedloader can hold 6 rounds of .40 or 10mm Auto and quickly reload a compatible revolver.",
+    "ammo_type": "10mm_auto"
+  },
+  {
     "id": "af2011a1mag",
     "type": "MAGAZINE",
     "name": "AF2011A1 magazine",

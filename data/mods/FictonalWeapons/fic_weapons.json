@@ -18,6 +18,7 @@
     "durability": 9,
     "clip_size": 8,
     "reload": 80,
+    "magazines": [ [ "454", [ "454_speedloader8" ] ] ],
     "built_in_mods": [ "m320_mod" ]
   },
   {
@@ -42,6 +43,7 @@
     "durability": 9,
     "clip_size": 6,
     "reload": 80,
+    "magazines": [ [ "454", [ "454_speedloader6" ] ] ],
     "built_in_mods": [ "boom_flamer" ],
     "valid_mod_locations": [
       [ "accessories", 4 ],

@@ -25,6 +25,7 @@
 #include "mapdata.h"
 #include "mapgen_functions.h"
 #include "mapgenformat.h"
+#include "mission.h"
 #include "mongroup.h"
 #include "mtype.h"
 #include "npc.h"
@@ -670,9 +671,9 @@ class jmapgen_alternativly : public jmapgen_piece
         std::vector<PieceType> alternatives;
         jmapgen_alternativly() = default;
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
-                    const float mon_density ) const override {
+                    const float mon_density, mission *miss = nullptr ) const override {
             if( const auto chosen = random_entry_opt( alternatives ) ) {
-                chosen->get().apply( dat, x, y, mon_density );
+                chosen->get().apply( dat, x, y, mon_density, miss );
             }
         }
 };
@@ -698,7 +699,7 @@ class jmapgen_field : public jmapgen_piece
             }
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
-                    const float /*mon_density*/ ) const override {
+                    const float /*mon_density*/, mission * /*miss*/ ) const override {
             dat.m.add_field( tripoint( x.get(), y.get(), dat.m.get_abs_sub().z ), ftype, density, age );
         }
 };
@@ -710,15 +711,20 @@ class jmapgen_npc : public jmapgen_piece
 {
     public:
         string_id<npc_template> npc_class;
+        bool target;
         jmapgen_npc( JsonObject &jsi ) : jmapgen_piece()
-            , npc_class( jsi.get_string( "class" ) ) {
+            , npc_class( jsi.get_string( "class" ) )
+            , target( jsi.get_bool( "target", false ) ) {
             if( !npc_class.is_valid() ) {
                 jsi.throw_error( "unknown npc class", "class" );
             }
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
-                    const float /*mon_density*/ ) const override {
-            dat.m.place_npc( x.get(), y.get(), npc_class );
+                    const float /*mon_density*/, mission *miss = nullptr ) const override {
+            int npc_id = dat.m.place_npc( x.get(), y.get(), npc_class );
+            if( miss && target ) {
+                miss->set_target_npc_id( npc_id );
+            }
         }
 };
 /**
@@ -738,7 +744,7 @@ class jmapgen_sign : public jmapgen_piece
             }
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
-                    const float /*mon_density*/ ) const override {
+                    const float /*mon_density*/, mission * /*miss*/ ) const override {
             const int rx = x.get();
             const int ry = y.get();
             dat.m.furn_set( rx, ry, f_null );
@@ -790,7 +796,7 @@ class jmapgen_graffiti : public jmapgen_piece
             }
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
-                    const float /*mon_density*/ ) const override {
+                    const float /*mon_density*/, mission * /*miss*/ ) const override {
             const int rx = x.get();
             const int ry = y.get();
 
@@ -839,7 +845,7 @@ class jmapgen_vending_machine : public jmapgen_piece
             }
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
-                    const float /*mon_density*/ ) const override {
+                    const float /*mon_density*/, mission * /*miss*/ ) const override {
             const int rx = x.get();
             const int ry = y.get();
             dat.m.furn_set( rx, ry, f_null );
@@ -858,7 +864,7 @@ class jmapgen_toilet : public jmapgen_piece
             , amount( jsi, "amount", 0, 0 ) {
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
-                    const float /*mon_density*/ ) const override {
+                    const float /*mon_density*/, mission * /*miss*/ ) const override {
             const int rx = x.get();
             const int ry = y.get();
             const long charges = amount.get();
@@ -891,7 +897,7 @@ class jmapgen_gaspump : public jmapgen_piece
             }
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
-                    const float /*mon_density*/ ) const override {
+                    const float /*mon_density*/, mission * /*miss*/ ) const override {
             const int rx = x.get();
             const int ry = y.get();
             long charges = amount.get();
@@ -928,7 +934,7 @@ class jmapgen_liquid_item : public jmapgen_piece
             }
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
-                    const float /*mon_density*/ ) const override {
+                    const float /*mon_density*/, mission * /*miss*/ ) const override {
             if( one_in( chance.get() ) ) {
                 item newliquid( liquid, calendar::time_of_cataclysm );
                 if( amount.valmax > 0 ) {
@@ -959,7 +965,7 @@ class jmapgen_item_group : public jmapgen_piece
             repeat = jmapgen_int( jsi, "repeat", 1, 1 );
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
-                    const float /*mon_density*/ ) const override {
+                    const float /*mon_density*/, mission * ) const override {
             dat.m.place_items( group_id, chance.get(), x.val, y.val, x.valmax, y.valmax, true, 0 );
         }
 };
@@ -996,7 +1002,7 @@ class jmapgen_loot : public jmapgen_piece
         }
 
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
-                    const float /*mon_density*/ ) const override {
+                    const float /*mon_density*/, mission * ) const override {
             if( rng( 0, 99 ) < chance ) {
                 const Item_spawn_data *const isd = &result_group;
                 const std::vector<item> spawn = isd->create( calendar::time_of_cataclysm );
@@ -1031,7 +1037,7 @@ class jmapgen_monster_group : public jmapgen_piece
             }
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
-                    const float mdensity ) const override {
+                    const float mdensity, mission * ) const override {
             dat.m.place_spawns( id, chance.get(), x.val, y.val, x.valmax, y.valmax,
                                 density == -1.0f ? mdensity : density );
         }
@@ -1057,13 +1063,15 @@ class jmapgen_monster : public jmapgen_piece
         bool one_or_none;
         bool friendly;
         std::string name;
+        bool target;
         jmapgen_monster( JsonObject &jsi ) : jmapgen_piece()
             , chance( jsi, "chance", 100, 100 )
             , pack_size( jsi, "pack_size", 1, 1 )
             , one_or_none( jsi.get_bool( "one_or_none",
                                          !( jsi.has_member( "repeat" ) || jsi.has_member( "pack_size" ) ) ) )
             , friendly( jsi.get_bool( "friendly", false ) )
-            , name( jsi.get_string( "name", "NONE" ) ) {
+            , name( jsi.get_string( "name", "NONE" ) )
+            , target( jsi.get_bool( "target", false ) ) {
             if( jsi.has_array( "monster" ) ) {
                 JsonArray jarr = jsi.get_array( "monster" );
                 while( jarr.has_more() ) {
@@ -1090,7 +1098,7 @@ class jmapgen_monster : public jmapgen_piece
             }
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
-                    const float /*mdensity*/ ) const override {
+                    const float /*mdensity*/, mission *miss = nullptr ) const override {
             int raw_odds = chance.get();
 
             // Handle spawn density: Increase odds, but don't let the odds of absence go below half the odds at density 1.
@@ -1115,9 +1123,13 @@ class jmapgen_monster : public jmapgen_piece
             if( raw_odds == 100 ) { // don't spawn less than 1 if odds were 100%, even with low spawn density.
                 spawn_count = std::max( spawn_count, 1 );
             }
+            int mission_id = -1;
+            if( miss && target ) {
+                mission_id = miss->get_id();
+            }
 
-            dat.m.add_spawn( *( ids.pick() ), spawn_count * pack_size.get(), x.get(), y.get(), friendly, -1, -1,
-                             name );
+            dat.m.add_spawn( *( ids.pick() ), spawn_count * pack_size.get(), x.get(), y.get(),
+                             friendly, -1, mission_id, name );
         }
 };
 
@@ -1155,7 +1167,7 @@ class jmapgen_vehicle : public jmapgen_piece
             }
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
-                    const float /*mon_density*/ ) const override {
+                    const float /*mon_density*/, mission * ) const override {
             if( !x_in_y( chance.get(), 100 ) ) {
                 return;
             }
@@ -1185,7 +1197,7 @@ class jmapgen_spawn_item : public jmapgen_piece
             repeat = jmapgen_int( jsi, "repeat", 1, 1 );
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
-                    const float /*mon_density*/ ) const override {
+                    const float /*mon_density*/, mission * ) const override {
             const int c = chance.get();
 
             // 100% chance = exactly 1 item, otherwise scale by item spawn rate.
@@ -1222,7 +1234,7 @@ class jmapgen_trap : public jmapgen_piece
             id = sid.id();
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
-                    const float /*mdensity*/ ) const override {
+                    const float /*mdensity*/, mission * ) const override {
             const tripoint actual_loc = tripoint( x.get(), y.get(), dat.m.get_abs_sub().z );
             dat.m.trap_set( actual_loc, id );
         }
@@ -1238,7 +1250,7 @@ class jmapgen_furniture : public jmapgen_piece
         jmapgen_furniture( JsonObject &jsi ) : jmapgen_furniture( jsi.get_string( "furn" ) ) {}
         jmapgen_furniture( const std::string &fid ) : jmapgen_piece(), id( furn_id( fid ) ) {}
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
-                    const float /*mdensity*/ ) const override {
+                    const float /*mdensity*/, mission * ) const override {
             dat.m.furn_set( x.get(), y.get(), id );
         }
 };
@@ -1253,7 +1265,7 @@ class jmapgen_terrain : public jmapgen_piece
         jmapgen_terrain( JsonObject &jsi ) : jmapgen_terrain( jsi.get_string( "ter" ) ) {}
         jmapgen_terrain( const std::string &tid ) : jmapgen_piece(), id( ter_id( tid ) ) {}
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
-                    const float /*mdensity*/ ) const override {
+                    const float /*mdensity*/, mission * ) const override {
             dat.m.ter_set( x.get(), y.get(), id );
             // Delete furniture if a wall was just placed over it. TODO: need to do anything for fluid, monsters?
             if( dat.m.has_flag_ter( "WALL", x.get(), y.get() ) ) {
@@ -1287,7 +1299,7 @@ class jmapgen_make_rubble : public jmapgen_piece
             jsi.read( "overwrite", overwrite );
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
-                    const float /*mon_density*/ ) const override {
+                    const float /*mon_density*/, mission * ) const override {
             dat.m.make_rubble( tripoint( x.get(), y.get(), dat.m.get_abs_sub().z ), rubble_type, items,
                                floor_type, overwrite );
         }
@@ -1305,9 +1317,11 @@ class jmapgen_computer : public jmapgen_piece
         int security;
         std::vector<computer_option> options;
         std::vector<computer_failure> failures;
+        bool target;
         jmapgen_computer( JsonObject &jsi ) : jmapgen_piece() {
             name = jsi.get_string( "name" );
             security = jsi.get_int( "security", 0 );
+            target = jsi.get_bool( "target", false );
             if( jsi.has_array( "options" ) ) {
                 JsonArray opts = jsi.get_array( "options" );
                 while( opts.has_more() ) {
@@ -1324,7 +1338,7 @@ class jmapgen_computer : public jmapgen_piece
             }
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
-                    const float /*mon_density*/ ) const override {
+                    const float /*mon_density*/, mission *miss = nullptr ) const override {
             const int rx = x.get();
             const int ry = y.get();
             dat.m.ter_set( rx, ry, t_console );
@@ -1335,6 +1349,9 @@ class jmapgen_computer : public jmapgen_piece
             }
             for( const auto &opt : failures ) {
                 cpu->add_failure( opt );
+            }
+            if( target && miss ) {
+                cpu->mission_id = miss->get_id();
             }
         }
 };
@@ -1419,13 +1436,13 @@ class jmapgen_sealed_item : public jmapgen_piece
         }
 
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
-                    const float mon_density ) const override {
+                    const float mon_density, mission *miss ) const override {
             dat.m.furn_set( x.get(), y.get(), f_null );
             if( item_spawner ) {
-                item_spawner->apply( dat, x, y, mon_density );
+                item_spawner->apply( dat, x, y, mon_density, miss );
             }
             if( item_group_spawner ) {
-                item_group_spawner->apply( dat, x, y, mon_density );
+                item_group_spawner->apply( dat, x, y, mon_density, miss );
             }
             dat.m.furn_set( x.get(), y.get(), furniture );
         }
@@ -1514,7 +1531,7 @@ class jmapgen_nested : public jmapgen_piece
             load_weighted_entries( jsi, "else_chunks", else_entries );
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
-                    const float d ) const override {
+                    const float d, mission * ) const override {
             const std::string *res = neighbors.test( dat ) ? entries.pick() : else_entries.pick();
             if( res == nullptr || res->empty() || *res == "null" ) {
                 // This will be common when neighbors.test(...) is false, since else_entires is often empty.
@@ -1998,6 +2015,13 @@ void mapgen_function_json_base::setup_common()
     std::istringstream iss( jdata );
     JsonIn jsin( iss );
     JsonObject jo = jsin.get_object();
+    if( !setup_common( jo ) ) {
+        jsin.error( "format: no terrain map" );
+    }
+}
+
+bool mapgen_function_json_base::setup_common( JsonObject jo )
+{
     bool qualifies = setup_internal( jo );
     JsonArray parray;
     JsonArray sparray;
@@ -2012,7 +2036,7 @@ void mapgen_function_json_base::setup_common()
         auto &format_placings = palette.format_placings;
 
         if( format_terrain.empty() ) {
-            jsin.error( "format: no terrain map" );
+            return false;
         }
 
         // mandatory: mapgensize rows of mapgensize character lines, each of which must have a matching key in "terrain",
@@ -2092,6 +2116,7 @@ void mapgen_function_json_base::setup_common()
     objects.load_objects<jmapgen_graffiti>( jo, "place_graffiti" );
 
     is_ready = true; // skip setup attempts from any additional pointers
+    return true;
 }
 
 void mapgen_function_json::check( const std::string &oter_name ) const
@@ -2155,7 +2180,7 @@ void jmapgen_objects::check( const std::string &oter_name ) const
  * (set|line|square)_(ter|furn|trap|radiation); simple (x, y, int) or (x1,y1,x2,y2, int) functions
  * TODO: optimize, though gcc -O2 optimizes enough that splitting the switch has no effect
  */
-bool jmapgen_setmap::apply( const mapgendata &dat, int offset_x, int offset_y ) const
+bool jmapgen_setmap::apply( const mapgendata &dat, int offset_x, int offset_y, mission * ) const
 {
     if( chance != 1 && !one_in( chance ) ) {
         return true;
@@ -2335,7 +2360,7 @@ void mapgen_function_json_nested::nest( const mapgendata &dat, int offset_x, int
 /*
  * Apply mapgen as per a derived-from-json recipe; in theory fast, but not very versatile
  */
-void jmapgen_objects::apply( const mapgendata &dat, float density ) const
+void jmapgen_objects::apply( const mapgendata &dat, float density, mission *miss ) const
 {
     for( auto &obj : objects ) {
         const auto &where = obj.first;
@@ -2344,17 +2369,17 @@ void jmapgen_objects::apply( const mapgendata &dat, float density ) const
         // into the what and where in some cases--we just need the greater value of the two.
         const int repeat = std::max( where.repeat.get(), what.repeat.get() );
         for( int i = 0; i < repeat; i++ ) {
-            what.apply( dat, where.x, where.y, density );
+            what.apply( dat, where.x, where.y, density, miss );
         }
     }
 }
 
 void jmapgen_objects::apply( const mapgendata &dat, int offset_x, int offset_y,
-                             float density ) const
+                             float density, mission *miss ) const
 {
     if( offset_x == 0 && offset_y == 0 ) {
         // It's a bit faster
-        apply( dat, density );
+        apply( dat, density, miss );
         return;
     }
 
@@ -2366,7 +2391,7 @@ void jmapgen_objects::apply( const mapgendata &dat, int offset_x, int offset_y,
         // into the what and where in some cases--we just need the greater value of the two.
         const int repeat = std::max( where.repeat.get(), what.repeat.get() );
         for( int i = 0; i < repeat; i++ ) {
-            what.apply( dat, where.x, where.y, density );
+            what.apply( dat, where.x, where.y, density, miss );
         }
     }
 }
@@ -8307,4 +8332,57 @@ void circle_furn( map *m, furn_id type, int x, int y, int rad )
 void add_corpse( map *m, int x, int y )
 {
     m->add_corpse( tripoint( x, y, m->get_abs_sub().z ) );
+}
+
+
+//////////////////// mapgen update
+update_mapgen_function_json::update_mapgen_function_json( const std::string &s, const int w ) :
+    mapgen_function( w ), mapgen_function_json_base( s )
+{
+}
+
+bool update_mapgen_function_json::setup_update( JsonObject &jo )
+{
+    return setup_common( jo );
+}
+
+void update_mapgen_function_json::update_map( const tripoint &omt_pos, int offset_x, int offset_y,
+        mission *miss ) const
+{
+    tinymap update_map;
+    const regional_settings &rsettings = overmap_buffer.get_settings( omt_pos.x, omt_pos.y, omt_pos.z );
+    update_map.load( omt_pos.x * 2, omt_pos.y * 2, omt_pos.z, false );
+    oter_id north = overmap_buffer.ter( omt_pos + tripoint( 0, -1, 0 ) );
+    oter_id south = overmap_buffer.ter( omt_pos + tripoint( 0, 1, 0 ) );
+    oter_id east = overmap_buffer.ter( omt_pos + tripoint( 1, 0, 0 ) );
+    oter_id west = overmap_buffer.ter( omt_pos + tripoint( -1, 0, 0 ) );
+    oter_id northeast = overmap_buffer.ter( omt_pos + tripoint( 1, -1, 0 ) );
+    oter_id southeast = overmap_buffer.ter( omt_pos + tripoint( 1, 1, 0 ) );
+    oter_id northwest = overmap_buffer.ter( omt_pos + tripoint( -1, -1, 0 ) );
+    oter_id southwest = overmap_buffer.ter( omt_pos + tripoint( -1, 1, 0 ) );
+    oter_id above = overmap_buffer.ter( omt_pos + tripoint( 0, 0, 1 ) );
+    oter_id below = overmap_buffer.ter( omt_pos + tripoint( 0, 0, -1 ) );
+
+
+    mapgendata md( north, south, east, west, northeast, southeast, northwest, southwest,
+                   above, below, omt_pos.z, rsettings, update_map );
+    for( auto &elem : setmap_points ) {
+        elem.apply( md, offset_x, offset_y );
+    }
+    objects.apply( md, offset_x, offset_y, 0, miss );
+    update_map.save();
+}
+
+mapgen_update_func add_mapgen_update_func( JsonObject &jo )
+{
+    update_mapgen_function_json json_data( "", 0 );
+    if( !json_data.setup_update( jo ) ) {
+        const auto null_function = []( const tripoint &, mission * ) {
+        };
+        return null_function;
+    }
+    const auto update_function = [json_data]( const tripoint & omt_pos, mission * miss ) {
+        json_data.update_map( omt_pos, 0, 0, miss );
+    };
+    return update_function;
 }

@@ -5,6 +5,7 @@
 #include "assign.h"
 #include "calendar.h"
 #include "generic_factory.h"
+#include "init.h"
 #include "item.h"
 #include "rng.h"
 
@@ -100,10 +101,6 @@ static const std::map<std::string, std::function<void( mission * )>> mission_fun
         { "place_zombie_mom", mission_start::place_zombie_mom },
         { "place_zombie_bay", mission_start::place_zombie_bay },
         { "place_caravan_ambush", mission_start::place_caravan_ambush },
-        { "place_bandit_cabin", mission_start::place_bandit_cabin },
-        { "place_informant", mission_start::place_informant },
-        { "place_grabber", mission_start::place_grabber },
-        { "place_bandit_camp", mission_start::place_bandit_camp },
         { "place_jabberwock", mission_start::place_jabberwock },
         { "kill_20_nightmares", mission_start::kill_20_nightmares },
         { "kill_horde_master", mission_start::kill_horde_master },
@@ -252,6 +249,8 @@ void assign_function( JsonObject &jo, const std::string &id, Fun &target,
     }
 }
 
+static DynamicDataLoader::deferred_json deferred;
+
 void mission_type::load( JsonObject &jo, const std::string &src )
 {
     const bool strict = src == "dda";
@@ -300,7 +299,10 @@ void mission_type::load( JsonObject &jo, const std::string &src )
         assign_function( jo, "start", start, mission_function_map );
     } else if( jo.has_member( "start" ) ) {
         JsonObject j_start = jo.get_object( "start" );
-        parse_start( j_start );
+        if( !parse_start( j_start ) ) {
+            deferred.emplace_back( jo.str(), src );
+            return;
+        }
     }
     assign_function( jo, "end", end, mission_function_map );
     assign_function( jo, "fail", fail, mission_function_map );
@@ -324,6 +326,11 @@ void mission_type::load( JsonObject &jo, const std::string &src )
     }
 
     assign( jo, "destination", target_id, strict );
+}
+
+void mission_type::finalize()
+{
+    DynamicDataLoader::get_instance().load_deferred( deferred );
 }
 
 void mission_type::check_consistency()
