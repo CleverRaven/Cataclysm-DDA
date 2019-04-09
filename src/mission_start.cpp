@@ -1553,9 +1553,6 @@ void mission_start::ranch_nurse_9( mission *miss )
 
 void mission_start::ranch_scavenger_1( mission *miss )
 {
-    npc *p = g->find_npc( miss->npc_id );
-    p->my_fac->combat_ability += rng( 1, 2 );
-
     tripoint site = mission_util::target_om_ter_random( "ranch_camp_48", 1, miss, false, RANCH_SIZE );
     tinymap bay;
     bay.load( site.x * 2, site.y * 2, site.z, false );
@@ -1575,9 +1572,6 @@ void mission_start::ranch_scavenger_1( mission *miss )
 
 void mission_start::ranch_scavenger_2( mission *miss )
 {
-    npc *p = g->find_npc( miss->npc_id );
-    p->my_fac->combat_ability += rng( 1, 2 );
-
     tripoint site = mission_util::target_om_ter_random( "ranch_camp_48", 1, miss, false, RANCH_SIZE );
     tinymap bay;
     bay.load( site.x * 2, site.y * 2, site.z, false );
@@ -1597,9 +1591,6 @@ void mission_start::ranch_scavenger_2( mission *miss )
 
 void mission_start::ranch_scavenger_3( mission *miss )
 {
-    npc *p = g->find_npc( miss->npc_id );
-    p->my_fac->combat_ability += rng( 1, 2 );
-
     tripoint site = mission_util::target_om_ter_random( "ranch_camp_48", 1, miss, false, RANCH_SIZE );
     tinymap bay;
     bay.load( site.x * 2, site.y * 2, site.z, false );

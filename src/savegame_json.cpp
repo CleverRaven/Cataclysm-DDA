@@ -2517,33 +2517,11 @@ void faction::deserialize( JsonIn &jsin )
     if( !jo.read( "desc", desc ) ) {
         desc.clear();
     }
-    goal = faction_goal( jo.get_int( "goal", goal ) );
-    values = jo.get_int( "values", values );
-    job1 = faction_job( jo.get_int( "job1", job1 ) );
-    job2 = faction_job( jo.get_int( "job2", job2 ) );
     jo.read( "likes_u", likes_u );
     jo.read( "respects_u", respects_u );
     jo.read( "known_by_u", known_by_u );
-    jo.read( "strength", strength );
-    jo.read( "sneak", sneak );
-    jo.read( "crime", crime );
-    jo.read( "cult", cult );
-    jo.read( "good", good );
-    jo.read( "mapx", mapx );
-    jo.read( "mapy", mapy );
-    // omx,omy are obsolete, use them (if present) to make mapx,mapy global coordinates
-    int o = 0;
-    if( jo.read( "omx", o ) ) {
-        mapx += o * OMAPX * 2;
-    }
-    if( jo.read( "omy", o ) ) {
-        mapy += o * OMAPY * 2;
-    }
     jo.read( "size", size );
     jo.read( "power", power );
-    if( !jo.read( "combat_ability", combat_ability ) ) {
-        combat_ability = 100;
-    }
     if( !jo.read( "food_supply", food_supply ) ) {
         food_supply = 100;
     }
@@ -2562,23 +2540,11 @@ void faction::serialize( JsonOut &json ) const
     json.member( "id", id );
     json.member( "name", name );
     json.member( "desc", desc );
-    json.member( "values", values );
-    json.member( "goal", goal );
-    json.member( "job1", job1 );
-    json.member( "job2", job2 );
     json.member( "likes_u", likes_u );
     json.member( "respects_u", respects_u );
     json.member( "known_by_u", known_by_u );
-    json.member( "strength", strength );
-    json.member( "sneak", sneak );
-    json.member( "crime", crime );
-    json.member( "cult", cult );
-    json.member( "good", good );
-    json.member( "mapx", mapx );
-    json.member( "mapy", mapy );
     json.member( "size", size );
     json.member( "power", power );
-    json.member( "combat_ability", combat_ability );
     json.member( "food_supply", food_supply );
     json.member( "wealth", wealth );
     json.member( "opinion_of", opinion_of );
