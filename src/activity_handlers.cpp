@@ -3380,7 +3380,7 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, player *p 
     add_msg( m_info, _( "The trees have shown you what they will." ) );
 }
 
-void activity_handlers::tree_communion_finish( player_activity *act, player *p )
+void activity_handlers::tree_communion_finish( player_activity *act, player * )
 {
     act->set_to_null();
 }
