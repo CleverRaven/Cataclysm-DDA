@@ -1494,6 +1494,8 @@ void load_bionic( JsonObject &jsobj )
     new_bionic.weapon_bionic = get_bool_or_flag( jsobj, "weapon_bionic", "BIONIC_WEAPON", false );
     new_bionic.armor_interface = get_bool_or_flag( jsobj, "armor_interface", "BIONIC_ARMOR_INTERFACE",
                                  false );
+    new_bionic.sleep_friendly = get_bool_or_flag( jsobj, "sleep_friendly", "BIONIC_SLEEP_FRIENDLY",
+                                false );
 
     if( new_bionic.gun_bionic && new_bionic.weapon_bionic ) {
         debugmsg( "Bionic %s specified as both gun and weapon bionic", id.c_str() );

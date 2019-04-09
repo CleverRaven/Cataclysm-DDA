@@ -226,6 +226,8 @@ bool is_valid_in_w_terrain( int x, int y )
     return x >= 0 && x < TERRAIN_WINDOW_WIDTH && y >= 0 && y < TERRAIN_WINDOW_HEIGHT;
 }
 
+#define DEFAULT_TILESET_ZOOM 16
+
 // This is the main game set-up process.
 game::game() :
     liveview( *liveview_ptr ),
@@ -248,7 +250,7 @@ game::game() :
     next_mission_id( 1 ),
     remoteveh_cache_time( calendar::before_time_starts ),
     user_action_counter( 0 ),
-    tileset_zoom( 16 ),
+    tileset_zoom( DEFAULT_TILESET_ZOOM ),
     weather_override( WEATHER_NULL ),
     displaying_scent( false )
 
@@ -2989,7 +2991,16 @@ void game::debug()
             }
 
             add_msg( m_info, _( "(you: %d:%d)" ), u.posx(), u.posy() );
-
+            std::string stom =
+                _( "Stomach Contents: %d ml / %d ml kCal: %d, Water: %d ml" );
+            add_msg( m_info, stom.c_str(), units::to_milliliter( u.stomach.contains() ),
+                     units::to_milliliter( u.stomach.capacity() ), u.stomach.get_calories(),
+                     units::to_milliliter( u.stomach.get_water() ), u.get_hunger() );
+            stom = _( "Guts Contents: %d ml / %d ml kCal: %d, Water: %d ml\nHunger: %d, Thirst: %d, kCal: %d / %d" );
+            add_msg( m_info, stom.c_str(), units::to_milliliter( u.guts.contains() ),
+                     units::to_milliliter( u.guts.capacity() ), u.guts.get_calories(),
+                     units::to_milliliter( u.guts.get_water() ), u.get_hunger(), u.get_thirst(), u.get_stored_kcal(),
+                     u.get_healthy_kcal() );
             disp_NPCs();
             break;
         }
@@ -3796,7 +3807,7 @@ void game::draw_veh_dir_indicator( bool next )
     if( const cata::optional<tripoint> indicator_offset = get_veh_dir_indicator_location( next ) ) {
         auto col = next ? c_white : c_dark_gray;
         mvwputch( w_terrain, POSY + indicator_offset->y - u.view_offset.y,
-                  POSX + indicator_offset->x - u.view_offset.x, col, 'X' );
+                  POSX + indicator_offset->x - u.view_offset.x - g->sidebar_offset.x, col, 'X' );
     }
 }
 
@@ -7103,6 +7114,8 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
+    ctxt.register_action( "zoom_out" );
+    ctxt.register_action( "zoom_in" );
 
     const int old_levz = get_levz();
 
@@ -7225,6 +7238,7 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
             lp = u.pos();
         } else if( action == "MOUSE_MOVE" ) {
             const tripoint old_lp = lp;
+            const tripoint old_center = center;
             // Maximum mouse events before a forced graphics update
             int max_consume = 10;
             do {
@@ -7233,6 +7247,28 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
                     lx = mouse_pos->x;
                     ly = mouse_pos->y;
                 }
+#if (defined TILES || defined _WIN32 || defined WINDOWS)
+                // Below we implement mouse panning. In order to make
+                // it less jerky we rate limit it by only allowing a
+                // panning move during the first iteration of this
+                // mouse move event consumption loop.
+                if( max_consume == 10 ) {
+                    const input_event event = ctxt.get_raw_input();
+                    const int threshold_x = projected_window_width() / 20;
+                    const int threshold_y = projected_window_height() / 20;
+                    const int panning_speed = std::max( DEFAULT_TILESET_ZOOM / tileset_zoom, 1 );
+                    if( event.mouse_x <= threshold_x ) {
+                        center.x -= panning_speed;
+                    } else if( event.mouse_x >= projected_window_width() - threshold_x ) {
+                        center.x += panning_speed;
+                    }
+                    if( event.mouse_y <= threshold_y ) {
+                        center.y -= panning_speed;
+                    } else if( event.mouse_y >= projected_window_height() - threshold_y ) {
+                        center.y += panning_speed;
+                    }
+                }
+#endif
                 if( --max_consume == 0 ) {
                     break;
                 }
@@ -7252,7 +7288,7 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
                 } else {
                     blink = true; // Always draw blink symbols when moving cursor
                 }
-            } else if( lp == old_lp ) { // not blinking and cursor not changed
+            } else if( lp == old_lp && center == old_center ) { // not blinking and cursor not changed
                 redraw = false; // no need to redraw, so don't redraw to save CPU
             }
         } else if( cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
@@ -7272,6 +7308,14 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
             blink = !blink;
         } else if( action == "throw_blind" ) {
             result.peek_action = PA_BLIND_THROW;
+        } else if( action == "zoom_in" ) {
+            center.x = lp.x;
+            center.y = lp.y;
+            zoom_in();
+        } else if( action == "zoom_out" ) {
+            center.x = lp.x;
+            center.y = lp.y;
+            zoom_out();
         }
     } while( action != "QUIT" && action != "CONFIRM" && action != "SELECT" && action != "TRAVEL_TO" &&
              action != "throw_blind" );
@@ -7441,7 +7485,7 @@ void game::zoom_in()
 void game::reset_zoom()
 {
 #ifdef TILES
-    tileset_zoom = 16;
+    tileset_zoom = DEFAULT_TILESET_ZOOM;
     rescale_tileset( tileset_zoom );
 #endif // TILES
 }
@@ -9323,9 +9367,10 @@ void game::eat( int pos )
             return;
         } else {
             u.moves -= 400;
-            u.mod_hunger( -20 );
-            add_msg( _( "You eat the leaves from the %s." ), m.ter( u.pos() )->name() );
             m.ter_set( u.pos(), t_grass );
+            add_msg( _( "You eat the underbrush." ) );
+            item food( "underbrush", calendar::turn, 1 );
+            u.eat( food );
             return;
         }
     }
@@ -9336,8 +9381,10 @@ void game::eat( int pos )
             return;
         } else {
             u.moves -= 400;
-            add_msg( _( "You graze on the %s." ), m.ter( u.pos() )->name() );
-            u.mod_hunger( -8 );
+            add_msg( _( "You eat the grass." ) );
+            item food( item( "grass", calendar::turn, 1 ) );
+            u.eat( food );
+            m.ter_set( u.pos(), t_dirt );
             if( m.ter( u.pos() ) == t_grass_tall ) {
                 m.ter_set( u.pos(), t_grass_long );
             } else if( m.ter( u.pos() ) == t_grass_long ) {
@@ -11633,7 +11680,7 @@ cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, 
                     add_msg( m_bad, _( "You descend on your vines, though leaving a part of you behind stings." ) );
                     u.mod_pain( 5 );
                     u.apply_damage( nullptr, bp_torso, 5 );
-                    u.mod_hunger( 10 );
+                    u.mod_stored_nutr( 10 );
                     u.mod_thirst( 10 );
                 } else {
                     add_msg( _( "You gingerly descend using your vines." ) );
@@ -11641,7 +11688,7 @@ cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, 
             } else {
                 add_msg( _( "You effortlessly lower yourself and leave a vine rooted for future use." ) );
                 rope_ladder = true;
-                u.mod_hunger( 10 );
+                u.mod_stored_nutr( 10 );
                 u.mod_thirst( 10 );
             }
         } else {

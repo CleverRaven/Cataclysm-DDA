@@ -75,6 +75,7 @@
     "dispersion": 480,
     "durability": 10,
     "clip_size": 5,
+    "magazines": [ [ "38", [ "38_speedloader5" ] ] ],
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],

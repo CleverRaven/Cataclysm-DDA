@@ -540,7 +540,7 @@ void player_activity::deserialize_legacy_type( int legacy_type, activity_id &des
         activity_id( "ACT_GAME" ),
         activity_id( "ACT_WAIT" ),
         activity_id( "ACT_CRAFT" ),
-        activity_id( "ACT_LONGCRAFT" ),
+        activity_id::NULL_ID(), // ACT_LONGCRAFT is deprecated
         activity_id( "ACT_DISASSEMBLE" ),
         activity_id( "ACT_BUTCHER" ),
         activity_id( "ACT_LONGSALVAGE" ),
