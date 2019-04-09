@@ -146,7 +146,7 @@
     "ammo": "45",
     "skill": "rifle",
     "ranged_damage": 1,
-    "dispersion": 180,
+    "dispersion": 550,
     "durability": 6,
     "loudness": 25,
     "clip_size": 1,
@@ -172,7 +172,7 @@
     "color": "dark_gray",
     "ammo": "45",
     "ranged_damage": 2,
-    "dispersion": 480,
+    "dispersion": 620,
     "durability": 7,
     "loudness": 25,
     "clip_size": 5
