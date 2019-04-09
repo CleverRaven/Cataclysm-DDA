@@ -320,5 +320,143 @@
         }
       }
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "weight": 100,
+    "om_terrain": [ "faction_base_shelter1_3a" ],
+	"//": "Add spikes to pits outside and expand pit perimeter.",
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "UUUuuu  WW WWW WW  uuUUU",
+        "U                      U",
+        "u                      U",
+        "u                      u",
+        "u   |||||;|%+|;|||||   u",
+        "    |lll7......c9G6|   u",
+        "    |.b.b.b....c...|    ",
+        "W   |.b.b.b....c...|    ",
+        "W   |.b.b.b....c...|   W",
+        "    ;.b.b.b........;   W",
+        "W   |..............|    ",
+        "W   +......>>......%   W",
+        "W   %......>>......+   W",
+        "    |..............|   W",
+        "W   ;.b.b.b........;    ",
+        "W   |.b.b.b....c..B|   W",
+        "    |.b.b.b....cB..|   W",
+        "    |||.b.b....c..B|    ",
+        "u   |*=........cB.x|    ",
+        "u   |||||;|+%|;|||||   u",
+        "u                      u",
+        "U                      U",
+        "U                      U",
+        "UUUuu  WW WWW WW  uuuUUU"
+      ],
+      "palettes": [ "shelter_camp" ],
+      "computers": {
+        "6": {
+          "name": "Evac shelter computer", "options": [
+            { "name": "Emergency Message", "action": "emerg_mess" },
+            { "name": "Disable External Power", "action": "complete_disable_external_power" },
+            { "name": "Contact Us", "action": "emerg_ref_center" }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "weight": 100,
+    "om_terrain": [ "faction_base_shelter1_3b" ],
+	"//": "Dismantle extra furnishings in shelter, to produce nails and wood.",
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "        UU UUU UU       ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "    |||||;|%+|;|||||    ",
+        "    |lll7......c9G6|    ",
+        "    |..........c...|    ",
+        "U   |...b.b........|    ",
+        "U   |...b.b........|   U",
+        "    ;...b.b........;   U",
+        "U   |..............|    ",
+        "U   +......>>......%   U",
+        "U   %......>>......+   U",
+        "    |..............|   U",
+        "U   ;..............;    ",
+        "U   |.............B|   U",
+        "    |...........B..|   U",
+        "    |||...........B|    ",
+        "    |*=.........B.x|    ",
+        "    |||||;|+%|;|||||    ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "       UU UUU UU        "
+      ],
+      "palettes": [ "shelter_camp" ],
+      "computers": {
+        "6": {
+          "name": "Evac shelter computer", "options": [
+            { "name": "Emergency Message", "action": "emerg_mess" },
+            { "name": "Disable External Power", "action": "complete_disable_external_power" },
+            { "name": "Contact Us", "action": "emerg_ref_center" }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "weight": 100,
+    "om_terrain": [ "faction_base_shelter1_3" ],
+	"//": "Continue pit perimeter, dismantle extra furniture.",
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "UUUuuu  WW WWW WW  uuUUU",
+        "U                      U",
+        "u                      U",
+        "u                      u",
+        "u   |||||;|%+|;|||||   u",
+        "    |lll7......c9G6|   u",
+        "    |..........c...|    ",
+        "W   |...b.b........|    ",
+        "W   |...b.b........|   W",
+        "    ;...b.b........;   W",
+        "W   |..............|    ",
+        "W   +......>>......%   W",
+        "W   %......>>......+   W",
+        "    |..............|   W",
+        "W   ;..............;    ",
+        "W   |.............B|   W",
+        "    |...........B..|   W",
+        "    |||...........B|    ",
+        "u   |*=.........B.x|    ",
+        "u   |||||;|+%|;|||||   u",
+        "u                      u",
+        "U                      U",
+        "U                      U",
+        "UUUuu  WW WWW WW  uuuUUU"
+      ],
+      "palettes": [ "shelter_camp" ],
+      "computers": {
+        "6": {
+          "name": "Evac shelter computer", "options": [
+            { "name": "Emergency Message", "action": "emerg_mess" },
+            { "name": "Disable External Power", "action": "complete_disable_external_power" },
+            { "name": "Contact Us", "action": "emerg_ref_center" }
+          ]
+        }
+      }
+    }
   }
 ]

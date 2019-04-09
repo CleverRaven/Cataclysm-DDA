@@ -101,7 +101,9 @@
       "<": "t_stairs_up",
       "G": "t_floor_green",
       "x": "t_console_broken",
+      "u": "t_pit_shallow",
       "U": "t_pit",
+	  "W": "t_pit_spiked",
       "|": "t_wall",
       ";": "t_concrete_wall",
       "*": "t_ladder_up",
@@ -114,8 +116,7 @@
       "B": "f_makeshift_bed",
       "c": "f_counter",
       "l": "f_locker",
-      "o": "f_woodstove",
-      "u": "f_utility_shelf"
+      "o": "f_woodstove"
     }
   }
 ]
