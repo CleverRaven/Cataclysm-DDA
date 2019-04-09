@@ -1891,7 +1891,7 @@ void options_manager::add_options_world_default()
 
     add( "STATIC_NPC", "world_default", translate_marker( "Static NPCs" ),
          translate_marker( "If true, static NPCs will spawn at pre-defined locations. Requires world reset." ),
-         false
+         true
        );
 
     add( "STARTING_NPC", "world_default", translate_marker( "Starting NPCs spawn" ),
@@ -1917,8 +1917,8 @@ void options_manager::add_options_world_default()
     mOptionsSort["world_default"]++;
 
     add( "ZLEVELS", "world_default", translate_marker( "Experimental z-levels" ),
-         translate_marker( "If true, experimental z-level maps will be enabled.  This feature is not finished yet and turning it on will only slow the game down." ),
-         false
+         translate_marker( "If true, experimental z-level maps will be enabled. Turn this off if you experience excessive lag." ),
+         true
        );
 
     mOptionsSort["world_default"]++;
