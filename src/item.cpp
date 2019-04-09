@@ -594,6 +594,9 @@ bool item::stacks_with( const item &rhs, bool check_components ) const
     if( !count_by_charges() && charges != rhs.charges ) {
         return false;
     }
+    if( is_favorite != rhs.is_favorite ) {
+        return false;
+    }
     if( damage_ != rhs.damage_ ) {
         return false;
     }
@@ -7854,6 +7857,11 @@ std::vector<item_comp> item::get_uncraft_components() const
         }
     }
     return ret;
+}
+
+void item::set_favorite( const bool favorite )
+{
+    is_favorite = favorite;
 }
 
 const recipe &item::get_making() const
