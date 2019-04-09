@@ -232,7 +232,10 @@ item::item( const recipe *rec, long qty, std::list<item> items )
         active = true;
         last_temp_check = bday;
         if( goes_bad() ) {
-            set_relative_rot( get_most_rotten_component( *this )->get_relative_rot() );
+            const item *most_rotten = get_most_rotten_component( *this );
+            if( most_rotten ) {
+                set_relative_rot( most_rotten->get_relative_rot() );
+            }
         }
     }
 
