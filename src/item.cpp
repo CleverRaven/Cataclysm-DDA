@@ -4488,11 +4488,7 @@ bool item::conductive() const
 
 bool item::reinforceable() const
 {
-    if( is_null() ) {
-        return false;
-    }
-
-    if( has_flag( "NO_REPAIR" ) ) {
+    if( is_null() || has_flag( "NO_REPAIR" ) ) {
         return false;
     }
 
