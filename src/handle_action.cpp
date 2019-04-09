@@ -59,7 +59,7 @@ static const trait_id trait_SHELL2( "SHELL2" );
 const skill_id skill_driving( "driving" );
 const skill_id skill_melee( "melee" );
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
 extern std::map<std::string, std::list<input_event>> quick_shortcuts_map;
 extern bool add_best_key_for_action_to_quick_shortcuts( action_id action,
         const std::string &category, bool back );
@@ -135,7 +135,7 @@ input_context game::get_player_input( std::string &action )
         int offset_x = ( u.posx() + u.view_offset.x ) - ( getmaxx( w_terrain ) / 2 ) + g->sidebar_offset.x;
         int offset_y = ( u.posy() + u.view_offset.y ) - ( getmaxy( w_terrain ) / 2 ) + g->sidebar_offset.y;
 
-#ifdef TILES
+#if defined(TILES)
         if( tile_iso && use_tiles ) {
             iStartX = 0;
             iStartY = 0;
@@ -177,7 +177,7 @@ input_context game::get_player_input( std::string &action )
                 WEATHER_FLURRIES | WEATHER_SNOW | WEATHER_SNOWSTORM = "weather_snowflake"
                 */
 
-#ifdef TILES
+#if defined(TILES)
                 if( !use_tiles ) {
 #endif //TILES
                     //If not using tiles, erase previous drops from w_terrain
@@ -191,7 +191,7 @@ input_context game::get_player_input( std::string &action )
                                       lighting == LL_LOW, lighting == LL_BRIGHT );
                         }
                     }
-#ifdef TILES
+#if defined(TILES)
                 }
 #endif //TILES
                 wPrint.vdrops.clear();
@@ -215,7 +215,7 @@ input_context game::get_player_input( std::string &action )
             }
             // don't bother calculating SCT if we won't show it
             if( uquit != QUIT_WATCH && get_option<bool>( "ANIMATION_SCT" ) ) {
-#ifdef TILES
+#if defined(TILES)
                 if( !use_tiles ) {
 #endif
                     for( auto &elem : SCT.vSCT ) {
@@ -233,7 +233,7 @@ input_context game::get_player_input( std::string &action )
                             }
                         }
                     }
-#ifdef TILES
+#if defined(TILES)
                 }
 #endif
 
@@ -1175,7 +1175,7 @@ bool game::handle_action()
             if( act == ACTION_NULL ) {
                 return false;
             }
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
             if( get_option<bool>( "ANDROID_ACTIONMENU_AUTOADD" ) && ctxt.get_category() == "DEFAULTMODE" ) {
                 add_best_key_for_action_to_quick_shortcuts( act, ctxt.get_category(), false );
             }

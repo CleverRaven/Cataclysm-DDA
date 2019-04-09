@@ -1626,8 +1626,10 @@ void monster::shove_vehicle( const tripoint &remote_destination,
             }
             if( shove_velocity > 0 ) {
                 //~ %1$s - monster name, %2$s - vehicle name
-                g->u.add_msg_if_player( m_bad, _( "%1$s shoves %2$s out of their way!" ), this->disp_name(),
-                                        veh.disp_name() );
+                if( g->u.sees( this->pos() ) ) {
+                    g->u.add_msg_if_player( m_bad, _( "%1$s shoves %2$s out of their way!" ), this->disp_name(),
+                                            veh.disp_name() );
+                }
                 int shove_moves = shove_veh_mass_moves_factor * veh_mass / 10_kilogram;
                 shove_moves = std::max( shove_moves, shove_moves_minimal );
                 this->mod_moves( -shove_moves );

@@ -719,10 +719,10 @@ action_id handle_action_menu()
             if( ( entry = &entries.back() ) ) {
                 entry->txt += "..."; // debug _is_a menu.
             }
-#ifndef TILES
+#if !defined(TILES)
             REGISTER_ACTION( ACTION_TOGGLE_FULLSCREEN );
 #endif
-#ifdef TILES
+#if defined(TILES)
             REGISTER_ACTION( ACTION_TOGGLE_PIXEL_MINIMAP );
             REGISTER_ACTION( ACTION_RELOAD_TILESET );
 #endif // TILES
@@ -777,7 +777,7 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_MUTATIONS );
             REGISTER_ACTION( ACTION_CONTROL_VEHICLE );
             REGISTER_ACTION( ACTION_ITEMACTION );
-#ifdef TILES
+#if defined(TILES)
             if( use_tiles ) {
                 REGISTER_ACTION( ACTION_ZOOM_OUT );
                 REGISTER_ACTION( ACTION_ZOOM_IN );

@@ -453,7 +453,7 @@ void player::power_bionics()
 
             draw_scrollbar( wBio, cursor, LIST_HEIGHT, current_bionic_list->size(), list_start_y );
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
             ctxt.get_registered_manual_keys().clear();
             for( size_t i = 0; i < current_bionic_list->size(); i++ ) {
                 ctxt.register_manual_key( ( *current_bionic_list )[i]->invlet,
