@@ -999,6 +999,30 @@
   },
   {
     "type": "vehicle_part",
+    "id": "workbench",
+    "name": "workbench",
+    "symbol": "#",
+    "color": "red",
+    "broken_symbol": "#",
+    "broken_color": "light_gray",
+    "looks_like": "veh_table_wood",
+    "damage_modifier": 60,
+    "durability": 300,
+    "size": 20,
+    "item": "workbench",
+    "difficulty": 1,
+    "location": "center",
+    "flags": [ "CARGO", "OBSTACLE", "TOOL_WRENCH", "FLAT_SURF" ],
+    "breaks_into": [
+        { "item": "pipe", "count": [ 4, 6 ] },
+        { "item": "sheet_metal", "count": [ 0, 1 ] },
+        { "item": "sheet_metal_small", "count": [ 12, 24 ] },
+        { "item": "steel_chunk", "count": [ 4, 8 ] },
+        { "item": "scrap", "count": [ 12, 24 ] }
+      ]
+  },
+  {
+    "type": "vehicle_part",
     "id": "controls",
     "name": "controls",
     "symbol": "$",

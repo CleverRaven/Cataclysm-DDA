@@ -4455,7 +4455,7 @@
     "move_cost_mod": 2,
     "required_str": -1,
     "looks_like": "f_counter",
-    "flags": [ "TRANSPARENT", "PLACE_ITEM", "MOUNTABLE" ],
+    "flags": [ "TRANSPARENT", "PLACE_ITEM", "MOUNTABLE", "FLAT_SURF" ],
     "deconstruct": {
       "items": [
         { "item": "pipe", "count": [ 6, 12 ] },
@@ -5512,5 +5512,39 @@
         { "item": "scrap_copper", "count": [ 0, 2 ] }
       ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_workbench",
+    "name": "workbench",
+    "description": "A sturdy workbench built out of durable metal and wood.  It is perfect for crafting large and heavy things.",
+    "symbol": "#",
+    "color": "red",
+    "move_cost_mod": 2,
+    "required_str": -1,
+    "looks_like": "f_lab_bench",
+    "flags": [ "TRANSPARENT", "PLACE_ITEM", "MOUNTABLE", "FLAT_SURF" ],
+    "deconstruct": {
+      "items": [
+        { "item": "pipe", "count": [ 6, 8 ] },
+        { "item": "sheet_metal", "count": 2 },
+        { "item": "sheet_metal_small", "count": [ 2, 4 ] }
+      ]
+    },
+    "max_volume": 4000,
+    "bash": {
+      "str_min": 35,
+      "str_max": 80,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "pipe", "count": [ 4, 6 ] },
+        { "item": "sheet_metal", "count": [ 0, 1 ] },
+        { "item": "sheet_metal_small", "count": [ 12, 24 ] },
+        { "item": "steel_chunk", "count": [ 4, 8 ] },
+        { "item": "scrap", "count": [ 12, 24 ] }
+      ]
+    },
+    "examine_action": "workbench"
   }
 ]

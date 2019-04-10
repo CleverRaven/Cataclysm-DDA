@@ -4623,11 +4623,11 @@ void iexamine::workbench( player &p, const tripoint &examp )
 
     amenu.text = string_format( pgettext( "furniture", "What to do with the %s?" ),
                                 f_workbench.name() );
-    amenu.addentry( start_craft,        true,                   '1', _( "Craft Items" ) );
-    amenu.addentry( repeat_craft,       true,                   '2', _( "Recraft last recipe" ) );
-    amenu.addentry( start_long_craft,   true,                   '3', _( "Craft as long as possible" ) );
-    amenu.addentry( work_on_craft,      !crafts.empty(),        '4', _( "Work on craft" ) );
-    amenu.addentry( get_items,          !items_at_furn.empty(), '5', _( "Get items" ) );
+    amenu.addentry( start_craft,      true,                   '1', _( "Craft items" ) );
+    amenu.addentry( repeat_craft,     true,                   '2', _( "Recraft last recipe" ) );
+    amenu.addentry( start_long_craft, true,                   '3', _( "Craft as long as possible" ) );
+    amenu.addentry( work_on_craft,    !crafts.empty(),        '4', _( "Work on craft" ) );
+    amenu.addentry( get_items,        !items_at_furn.empty(), '5', _( "Get items" ) );
 
     amenu.query();
 
@@ -4637,7 +4637,7 @@ void iexamine::workbench( player &p, const tripoint &examp )
             if( p.has_active_mutation( trait_SHELL2 ) ) {
                 p.add_msg_if_player( m_info, _( "You can't craft while you're in your shell." ) );
             } else {
-                p.craft();
+                p.craft( examp );
             }
             break;
         }
@@ -4645,7 +4645,7 @@ void iexamine::workbench( player &p, const tripoint &examp )
             if( p.has_active_mutation( trait_SHELL2 ) ) {
                 p.add_msg_if_player( m_info, _( "You can't craft while you're in your shell." ) );
             } else {
-                p.recraft();
+                p.recraft( examp );
             }
             break;
         }
@@ -4653,7 +4653,7 @@ void iexamine::workbench( player &p, const tripoint &examp )
             if( p.has_active_mutation( trait_SHELL2 ) ) {
                 p.add_msg_if_player( m_info, _( "You can't craft while you're in your shell." ) );
             } else {
-                p.long_craft();
+                p.long_craft( examp );
             }
             break;
         }

@@ -213,6 +213,21 @@
   },
   {
     "type": "GENERIC",
+    "id": "workbench",
+    "name": "workbench",
+    "description": "A crude wooden table.",
+    "weight": 23000,
+    "to_hit": -8,
+    "color": "red",
+    "symbol": "0",
+    "material": [ "steel" ],
+    "volume": 42,
+    "bashing": 8,
+    "category": "veh_parts",
+    "price": 40000
+  },
+  {
+    "type": "GENERIC",
     "id": "saddle",
     "name": "saddle",
     "description": "A leather-covered seat designed to be straddled.",
