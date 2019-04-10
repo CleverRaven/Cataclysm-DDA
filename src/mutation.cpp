@@ -518,9 +518,9 @@ void player::activate_mutation( const trait_id &mut )
                 }
             }
         }
-        const std::string ter_name = overmap_buffer.ter( global_omt_location() ).obj().get_name();
-        if( ter_name != "forest" && ter_name != "swamp" ) {
-            add_msg_if_player( m_info, _( "You can only do that in a forest or swamp." ) );
+
+        if( !overmap_buffer.ter( global_omt_location() ).obj().is_wooded() ) {
+            add_msg_if_player( m_info, _( "You can only do that in a wooded area." ) );
             return;
         }
         if( !adjacent_tree ) {

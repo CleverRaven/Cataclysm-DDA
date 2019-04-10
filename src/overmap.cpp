@@ -171,7 +171,8 @@ static const std::map<std::string, oter_flags> oter_flags_map = {
     { "SIDEWALK",       has_sidewalk   },
     { "NO_ROTATE",      no_rotate      },
     { "LINEAR",         line_drawing   },
-    { "SUBWAY",         subway_connection }
+    { "SUBWAY",         subway_connection },
+    { "WOODED",          wooded }
 };
 
 template<>

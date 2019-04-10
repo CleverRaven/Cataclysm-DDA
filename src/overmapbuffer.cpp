@@ -634,6 +634,13 @@ bool overmapbuffer::reveal( const point &center, int radius, int z )
 
 bool overmapbuffer::reveal( const tripoint &center, int radius )
 {
+    return reveal( center, radius, [](const oter_id & ter) {
+        return true;
+    });
+}
+
+bool overmapbuffer::reveal( const tripoint &center, int radius, const std::function<bool( const oter_id & )> &filter )
+{
     int radius_squared = radius * radius;
     bool result = false;
     for( int i = -radius; i <= radius; i++ ) {
@@ -641,9 +648,15 @@ bool overmapbuffer::reveal( const tripoint &center, int radius )
             if( trigdist && i * i + j * j > radius_squared ) {
                 continue;
             }
-            if( !seen( center.x + i, center.y + j, center.z ) ) {
+            int x = center.x + i;
+            int y = center.y + j;
+            const oter_id &ter = get_om_global(x, y).get_ter(x, y, 0);
+            if ( !filter(ter) ) {
+                continue;
+            }
+            if( !seen( x, y, center.z ) ) {
                 result = true;
-                set_seen( center.x + i, center.y + j, center.z, true );
+                set_seen( x, y, center.z, true );
             }
         }
     }

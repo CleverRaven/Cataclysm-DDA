@@ -148,6 +148,7 @@ enum oter_flags {
     has_sidewalk,
     line_drawing, // does this tile have 8 versions, including straights, bends, tees, and a fourway?
     subway_connection,
+    wooded, // covered with trees
     num_oter_flags
 };
 
@@ -286,6 +287,10 @@ struct oter_t {
 
         bool is_river() const {
             return type->has_flag( river_tile );
+        }
+
+        bool is_wooded() const {
+            return type->has_flag( wooded );
         }
 
     private:

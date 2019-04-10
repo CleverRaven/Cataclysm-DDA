@@ -3363,10 +3363,13 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, player *p 
     tripoint loc = p->global_omt_location();
     q.push( loc );
     seen.insert( loc );
+    const std::function<bool( const oter_id & )> filter = [](const oter_id & ter) {
+        return ter.obj().is_wooded() || ter.obj().get_name() == "field";
+    };
     while( !q.empty() ) {
         tripoint tpt = q.front();
-        if( overmap_buffer.reveal( tpt, 2 ) ) {
-            if( one_in( 50 ) ) {
+        if( overmap_buffer.reveal( tpt, 3, filter ) ) {
+            if( one_in( 128 ) ) {
                 p->add_msg_if_player( SNIPPET.random_from_category( "tree_communion" ) );
             }
             return;
@@ -3379,9 +3382,7 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, player *p 
                         continue;
                     }
                     seen.insert( neighbor );
-                    const oter_t ter = overmap_buffer.ter( neighbor ).obj();
-                    const std::string ter_name = ter.get_name();
-                    if( ter_name != "forest" && ter_name != "swamp" ) {
+                    if(!overmap_buffer.ter( neighbor ).obj().is_wooded()) {
                         continue;
                     }
                     q.push( neighbor );
