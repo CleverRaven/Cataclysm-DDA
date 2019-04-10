@@ -902,7 +902,7 @@ class player : public Character
         /** Current metabolic rate due to traits, hunger, speed, etc. */
         float metabolic_rate() const;
         /** Handles the effects of consuming an item */
-        void consume_effects( item &eaten );
+        bool consume_effects( item &eaten );
         /** Handles rooting effects */
         void rooted_message() const;
         void rooted();
