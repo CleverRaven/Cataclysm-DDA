@@ -1917,7 +1917,7 @@ void options_manager::add_options_world_default()
     mOptionsSort["world_default"]++;
 
     add( "ZLEVELS", "world_default", translate_marker( "Experimental z-levels" ),
-         translate_marker( "If true, experimental z-level maps will be enabled. Turn this off if you experience excessive lag." ),
+         translate_marker( "If true, experimental z-level maps will be enabled. Turn this off if you experience excessive slowdown." ),
          true
        );
 
