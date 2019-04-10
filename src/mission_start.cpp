@@ -1726,31 +1726,31 @@ void mission_start::reveal_lab_train_depot( mission *miss )
     reveal_road( g->u.global_omt_location(), target, overmap_buffer );
 }
 
-void mission_start::set_reveal( const std::string &terrain,
-                                std::vector<std::function<void( mission *miss )>> &starts )
+void mission_util::set_reveal( const std::string &terrain,
+                               std::vector<std::function<void( mission *miss )>> &funcs )
 {
-    const auto start_func = [ terrain ]( mission * miss ) {
+    const auto mission_func = [ terrain ]( mission * miss ) {
         reveal_target( miss, terrain );
     };
-    starts.emplace_back( start_func );
+    funcs.emplace_back( mission_func );
 }
 
-void mission_start::set_reveal_any( JsonArray &ja,
-                                    std::vector<std::function<void( mission *miss )>> &starts )
+void mission_util::set_reveal_any( JsonArray &ja,
+                                   std::vector<std::function<void( mission *miss )>> &funcs )
 {
     std::vector<std::string> terrains;
     while( ja.has_more() ) {
         std::string terrain = ja.next_string();
         terrains.push_back( terrain );
     }
-    const auto start_func = [ terrains ]( mission * miss ) {
+    const auto mission_func = [ terrains ]( mission * miss ) {
         reveal_any_target( miss, terrains );
     };
-    starts.emplace_back( start_func );
+    funcs.emplace_back( mission_func );
 }
 
-void mission_start::set_assign_om_target( JsonObject &jo,
-        std::vector<std::function<void( mission *miss )>> &starts )
+void mission_util::set_assign_om_target( JsonObject &jo,
+        std::vector<std::function<void( mission *miss )>> &funcs )
 {
     if( !jo.has_string( "om_terrain" ) ) {
         jo.throw_error( "'om_terrain' is required for assign_mission_target" );
@@ -1779,7 +1779,7 @@ void mission_start::set_assign_om_target( JsonObject &jo,
     if( jo.has_int( "z" ) ) {
         z = jo.get_int( "z" );
     }
-    const auto start_func = [p, z]( mission * miss ) {
+    const auto mission_func = [p, z]( mission * miss ) {
         mission_target_params mtp = p;
         mtp.mission_pointer = miss;
         if( z ) {
@@ -1788,11 +1788,11 @@ void mission_start::set_assign_om_target( JsonObject &jo,
         }
         assign_mission_target( mtp );
     };
-    starts.emplace_back( start_func );
+    funcs.emplace_back( mission_func );
 }
 
-bool mission_start::set_update_mapgen( JsonObject &jo,
-                                       std::vector<std::function<void( mission *miss )>> &starts )
+bool mission_util::set_update_mapgen( JsonObject &jo,
+                                      std::vector<std::function<void( mission *miss )>> &funcs )
 {
     // this is gross, but jmpagen_npc throws errors instead of deferring, so catch the
     // potential error and defer it.
@@ -1812,45 +1812,45 @@ bool mission_start::set_update_mapgen( JsonObject &jo,
 
     if( jo.has_string( "om_special" ) && jo.has_string( "om_terrain" ) ) {
         const std::string om_terrain = jo.get_string( "om_terrain" );
-        const auto start_func = [update_map, om_terrain]( mission * miss ) {
+        const auto mission_func = [update_map, om_terrain]( mission * miss ) {
             tripoint update_pos3 = mission_util::reveal_om_ter( om_terrain, 1, false );
             update_map( update_pos3, miss );
         };
-        starts.emplace_back( start_func );
+        funcs.emplace_back( mission_func );
     } else {
-        const auto start_func = [update_map]( mission * miss ) {
+        const auto mission_func = [update_map]( mission * miss ) {
             tripoint update_pos3 = miss->get_target();
             update_map( update_pos3, miss );
         };
-        starts.emplace_back( start_func );
+        funcs.emplace_back( mission_func );
     }
     return true;
 }
 
-bool mission_start::load( JsonObject jo,
-                          std::vector<std::function<void( mission *miss )>> &starts )
+bool mission_util::load_funcs( JsonObject jo,
+                               std::vector<std::function<void( mission *miss )>> &funcs )
 {
     if( jo.has_string( "reveal_om_ter" ) ) {
         const std::string target_terrain = jo.get_string( "reveal_om_ter" );
-        set_reveal( target_terrain, starts );
+        set_reveal( target_terrain, funcs );
     } else if( jo.has_array( "reveal_om_ter" ) ) {
         JsonArray target_terrain = jo.get_array( "reveal_om_ter" );
-        set_reveal_any( target_terrain, starts );
+        set_reveal_any( target_terrain, funcs );
     } else if( jo.has_object( "assign_mission_target" ) ) {
         JsonObject mission_target = jo.get_object( "assign_mission_target" );
-        set_assign_om_target( mission_target, starts );
+        set_assign_om_target( mission_target, funcs );
     }
 
     if( jo.has_object( "update_mapgen" ) ) {
         JsonObject update_mapgen = jo.get_object( "update_mapgen" );
-        if( !set_update_mapgen( update_mapgen, starts ) ) {
+        if( !set_update_mapgen( update_mapgen, funcs ) ) {
             return false;
         }
     } else if( jo.has_array( "update_mapgen" ) ) {
         JsonArray mapgen_array = jo.get_array( "update_mapgen" );
         while( mapgen_array.has_more() ) {
             JsonObject update_mapgen = mapgen_array.next_object();
-            if( !set_update_mapgen( update_mapgen, starts ) ) {
+            if( !set_update_mapgen( update_mapgen, funcs ) ) {
                 return false;
             }
         }
@@ -1859,10 +1859,10 @@ bool mission_start::load( JsonObject jo,
     return true;
 }
 
-bool mission_type::parse_start( JsonObject &jo )
+bool mission_type::parse_funcs( JsonObject &jo, std::function<void( mission * )> &phase_func )
 {
-    std::vector<std::function<void( mission *miss )>> start_funcs;
-    if( !mission_start::load( jo, start_funcs ) ) {
+    std::vector<std::function<void( mission *miss )>> funcs;
+    if( !mission_util::load_funcs( jo, funcs ) ) {
         return false;
     }
 
@@ -1871,8 +1871,7 @@ bool mission_type::parse_start( JsonObject &jo )
      */
     talk_effect_t talk_effects;
     talk_effects.load_effect( jo );
-
-    start = [ start_funcs, talk_effects ]( mission * miss ) {
+    phase_func = [ funcs, talk_effects ]( mission * miss ) {
         ::dialogue d;
         d.beta = g->find_npc( miss->get_npc_id() );
         if( d.beta == nullptr ) {
@@ -1883,8 +1882,8 @@ bool mission_type::parse_start( JsonObject &jo )
         for( const talk_effect_fun_t &effect : talk_effects.effects ) {
             effect( d );
         }
-        for( auto &start_function : start_funcs ) {
-            start_function( miss );
+        for( auto &mission_function : funcs ) {
+            mission_function( miss );
         }
     };
     return true;

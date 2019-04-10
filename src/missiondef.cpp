@@ -292,17 +292,28 @@ void mission_type::load( JsonObject &jo, const std::string &src )
     goal = jo.get_enum_value<decltype( goal )>( "goal" );
 
     assign_function( jo, "place", place, tripoint_function_map );
-    if( jo.has_string( "start" ) ) {
-        assign_function( jo, "start", start, mission_function_map );
-    } else if( jo.has_member( "start" ) ) {
-        JsonObject j_start = jo.get_object( "start" );
-        if( !parse_start( j_start ) ) {
-            deferred.emplace_back( jo.str(), src );
-            return;
+    const auto parse_phase = [&]( const std::string & phase,
+    std::function<void( mission * )> &phase_func ) {
+        if( jo.has_string( phase ) ) {
+            assign_function( jo, phase, phase_func, mission_function_map );
+        } else if( jo.has_member( phase ) ) {
+            JsonObject j_start = jo.get_object( phase );
+            if( !parse_funcs( j_start, phase_func ) ) {
+                deferred.emplace_back( jo.str(), src );
+                return false;
+            }
         }
+        return true;
+    };
+    if( !parse_phase( "start", start ) ) {
+        return;
     }
-    assign_function( jo, "end", end, mission_function_map );
-    assign_function( jo, "fail", fail, mission_function_map );
+    if( !parse_phase( "end", end ) ) {
+        return;
+    }
+    if( !parse_phase( "fail", fail ) ) {
+        return;
+    }
 
     assign( jo, "deadline_low", deadline_low, false, 1_days );
     assign( jo, "deadline_high", deadline_high, false, 1_days );

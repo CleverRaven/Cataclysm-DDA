@@ -159,16 +159,6 @@ struct mission_start {
     static void create_hidden_lab_console( mission * );  // Reveal hidden lab with workstation
     static void create_ice_lab_console( mission * );  // Reveal lab with an unlocked workstation
     static void reveal_lab_train_depot( mission * );  // Find lab train depot
-
-    static void set_reveal( const std::string &terrain,
-                            std::vector<std::function<void( mission *miss )>> &starts );
-    static void set_reveal_any( JsonArray &ja,
-                                std::vector<std::function<void( mission *miss )>> &starts );
-    static void set_assign_om_target( JsonObject &jo,
-                                      std::vector<std::function<void( mission *miss )>> &starts );
-    static bool set_update_mapgen( JsonObject &jo,
-                                   std::vector<std::function<void( mission *miss )>> &starts );
-    static bool load( JsonObject jo, std::vector<std::function<void( mission *miss )>> &starts );
 };
 
 struct mission_end { // These functions are run when a mission ends
@@ -191,8 +181,18 @@ struct mission_util {
     static tripoint target_om_ter( const std::string &omter, int reveal_rad, mission *miss,
                                    bool must_see, int target_z = 0 );
     static tripoint target_om_ter_random( const std::string &omter, int reveal_rad, mission *miss,
-                                          bool must_see, int range, tripoint loc = overmap::invalid_tripoint );
-
+                                          bool must_see, int range,
+                                          tripoint loc = overmap::invalid_tripoint );
+    static void set_reveal( const std::string &terrain,
+                            std::vector<std::function<void( mission *miss )>> &funcs );
+    static void set_reveal_any( JsonArray &ja,
+                                std::vector<std::function<void( mission *miss )>> &funcs );
+    static void set_assign_om_target( JsonObject &jo,
+                                      std::vector<std::function<void( mission *miss )>> &funcs );
+    static bool set_update_mapgen( JsonObject &jo,
+                                   std::vector<std::function<void( mission *miss )>> &funcs );
+    static bool load_funcs( JsonObject jo,
+                            std::vector<std::function<void( mission *miss )>> &funcs );
 };
 
 
@@ -263,7 +263,7 @@ struct mission_type {
     static void finalize();
     static void check_consistency();
 
-    bool parse_start( JsonObject &jo );
+    bool parse_funcs( JsonObject &jo, std::function<void( mission * )> &phase_func );
     void load( JsonObject &jo, const std::string &src );
 };
 
