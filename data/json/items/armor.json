@@ -16,7 +16,7 @@
     "warmth": 8,
     "material_thickness": 2,
     "environmental_protection": 2,
-    "flags": [ "FANCY", "VARSIZE", "SUN_GLASSES" ]
+    "flags": [ "FANCY", "VARSIZE", "SUN_GLASSES", "WATERPROOF" ]
   },
   {
     "id": "2byarm_guard",
@@ -291,7 +291,7 @@
     "encumbrance": 20,
     "warmth": 20,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "OUTER", "STURDY" ]
+    "flags": [ "VARSIZE", "OUTER", "STURDY", "WATERPROOF" ]
   },
   {
     "id": "armguard_metal",
@@ -378,7 +378,7 @@
     "storage": 4,
     "warmth": 20,
     "material_thickness": 5,
-    "flags": [ "VARSIZE", "POCKETS", "STURDY" ]
+    "flags": [ "VARSIZE", "POCKETS", "STURDY", "WATER_FRIENDLY" ]
   },
   {
     "id": "armor_bone",
@@ -399,7 +399,7 @@
     "encumbrance": 24,
     "warmth": 20,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "STURDY" ]
+    "flags": [ "VARSIZE", "STURDY", "WATER_FRIENDLY" ]
   },
   {
     "id": "armor_chitin",
@@ -420,7 +420,7 @@
     "encumbrance": 10,
     "warmth": 10,
     "material_thickness": 4,
-    "flags": [ "STURDY" ]
+    "flags": [ "STURDY", "WATERPROOF" ]
   },
   {
     "id": "armor_acidchitin",
@@ -474,7 +474,7 @@
     "encumbrance": 20,
     "warmth": 20,
     "material_thickness": 8,
-    "flags": [ "VARSIZE", "STURDY" ]
+    "flags": [ "VARSIZE", "STURDY", "WATER_FRIENDLY" ]
   },
   {
     "id": "armor_larmor",
@@ -496,7 +496,7 @@
     "storage": 8,
     "warmth": 25,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "POCKETS", "STURDY" ]
+    "flags": [ "VARSIZE", "POCKETS", "STURDY", "WATER_FRIENDLY" ]
   },
   {
     "id": "armor_lightplate",
@@ -517,7 +517,7 @@
     "encumbrance": 20,
     "warmth": 20,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "OUTER", "STURDY" ]
+    "flags": [ "VARSIZE", "OUTER", "STURDY", "RAINPROOF", "WATERPROOF" ]
   },
   {
     "id": "armor_lorica",
@@ -538,7 +538,7 @@
     "encumbrance": 15,
     "warmth": 15,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "OUTER", "STURDY" ]
+    "flags": [ "VARSIZE", "OUTER", "STURDY", "WATER_FRIENDLY" ]
   },
   {
     "id": "armor_nomad",
@@ -559,7 +559,7 @@
     "warmth": 40,
     "material_thickness": 5,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS" ]
+    "flags": [ "VARSIZE", "POCKETS", "WATER_FRIENDLY" ]
   },
   {
     "id": "armor_nomad_light",
@@ -604,7 +604,7 @@
     "warmth": 25,
     "material_thickness": 4,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS", "STURDY" ]
+    "flags": [ "VARSIZE", "POCKETS", "STURDY", "RAINPROOF", "WATERPROOF" ]
   },
   {
     "id": "armor_plate",
@@ -625,7 +625,7 @@
     "encumbrance": 45,
     "warmth": 20,
     "material_thickness": 5,
-    "flags": [ "VARSIZE", "OUTER", "FANCY" ]
+    "flags": [ "VARSIZE", "OUTER", "FANCY", "RAINPROOF", "WATERPROOF" ]
   },
   {
     "id": "armor_samurai",
@@ -645,7 +645,7 @@
     "encumbrance": 15,
     "warmth": 25,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "STURDY", "OUTER" ]
+    "flags": [ "VARSIZE", "STURDY", "OUTER", "RAINPROOF", "WATERPROOF" ]
   },
   {
     "id": "armor_scavenger",
@@ -952,7 +952,7 @@
     "warmth": 30,
     "material_thickness": 2,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "SKINTIGHT" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ]
   },
   {
     "id": "beekeeping_hood",
@@ -971,7 +971,7 @@
     "warmth": 10,
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "OUTER" ]
+    "flags": [ "VARSIZE", "OUTER", "WATER_FRIENDLY" ]
   },
   {
     "id": "beekeeping_suit",
@@ -992,7 +992,7 @@
     "warmth": 25,
     "material_thickness": 2,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "OUTER" ]
+    "flags": [ "VARSIZE", "OUTER", "RAINPROOF", "WATERPROOF" ]
   },
   {
     "id": "beret",
@@ -1076,7 +1076,7 @@
     "coverage": 10,
     "warmth": 10,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ]
   },
   {
     "id": "bikini_top_leather",
@@ -1093,7 +1093,7 @@
     "coverage": 10,
     "warmth": 5,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ]
   },
   {
     "id": "bindle",
@@ -1233,7 +1233,7 @@
     "warmth": 30,
     "material_thickness": 2,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "WATERPROOF" ]
   },
   {
     "id": "bookplate",
@@ -1381,7 +1381,7 @@
     "warmth": 20,
     "material_thickness": 3,
     "environmental_protection": 3,
-    "flags": [ "VARSIZE", "OVERSIZE", "STURDY" ]
+    "flags": [ "VARSIZE", "OVERSIZE", "STURDY", "WATERPROOF" ]
   },
   {
     "id": "boy_shorts",
@@ -1617,7 +1617,7 @@
     "coverage": 95,
     "encumbrance": 20,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "STURDY" ]
+    "flags": [ "VARSIZE", "STURDY", "WATER_FRIENDLY" ]
   },
   {
     "id": "chainmail_hood",
@@ -1636,7 +1636,7 @@
     "coverage": 95,
     "encumbrance": 10,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT" ]
+    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "WATER_FRIENDLY" ]
   },
   {
     "id": "chainmail_legs",
@@ -1656,7 +1656,7 @@
     "coverage": 95,
     "encumbrance": 20,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "STURDY" ]
+    "flags": [ "VARSIZE", "STURDY", "WATER_FRIENDLY" ]
   },
   {
     "id": "chainmail_hauberk",
@@ -1674,7 +1674,7 @@
     "coverage": 95,
     "encumbrance": 20,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "STURDY" ]
+    "flags": [ "VARSIZE", "STURDY", "WATER_FRIENDLY" ]
   },
   {
     "id": "chainmail_suit",
@@ -1693,7 +1693,7 @@
     "coverage": 95,
     "encumbrance": 20,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT" ]
+    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "RAINPROOF", "WATER_FRIENDLY" ]
   },
   {
     "id": "chainmail_vest",
@@ -1712,7 +1712,7 @@
     "coverage": 95,
     "encumbrance": 20,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "STURDY" ]
+    "flags": [ "VARSIZE", "STURDY", "WATER_FRIENDLY" ]
   },
   {
     "id": "chaps_leather",
@@ -1732,7 +1732,7 @@
     "encumbrance": 3,
     "warmth": 10,
     "material_thickness": 3,
-    "flags": [ "OUTER" ]
+    "flags": [ "OUTER", "WATER_FRIENDLY" ]
   },
   {
     "id": "chestwrap",
@@ -1922,7 +1922,7 @@
     "storage": 13,
     "warmth": 10,
     "material_thickness": 2,
-    "flags": [ "VARSIZE", "FANCY", "POCKETS", "OUTER" ]
+    "flags": [ "VARSIZE", "FANCY", "POCKETS", "OUTER", "WATER_FRIENDLY" ]
   },
   {
     "id": "coat_fur",
@@ -1943,7 +1943,7 @@
     "warmth": 80,
     "material_thickness": 4,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATER_FRIENDLY" ]
   },
   {
     "id": "coat_faux_fur",
@@ -1954,7 +1954,7 @@
     "material": [ "faux_fur", "cotton" ],
     "color": "pink",
     "covers": [ "TORSO", "ARMS" ],
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "SUPER_FANCY" ],
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "SUPER_FANCY", "WATER_FRIENDLY" ],
     "warmth": 70
   },
   {
@@ -1976,7 +1976,7 @@
     "warmth": 90,
     "material_thickness": 4,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "SUPER_FANCY" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "SUPER_FANCY", "WATER_FRIENDLY" ]
   },
   {
     "id": "coat_lab",
@@ -1996,7 +1996,7 @@
     "storage": 14,
     "warmth": 15,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF" ]
   },
   {
     "id": "coat_rain",
@@ -2056,7 +2056,7 @@
     "warmth": 70,
     "material_thickness": 4,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS", "HOOD", "COLLAR", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "HOOD", "COLLAR", "OUTER", "WATERPROOF" ]
   },
   {
     "id": "collarpin",
@@ -2160,7 +2160,7 @@
     "warmth": 7,
     "material_thickness": 2,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "SUN_GLASSES" ]
+    "flags": [ "VARSIZE", "SUN_GLASSES", "WATERPROOF" ]
   },
   {
     "id": "cowl_wool",
@@ -2234,7 +2234,7 @@
     "encumbrance": 20,
     "warmth": 20,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "OUTER", "STURDY" ]
+    "flags": [ "VARSIZE", "OUTER", "STURDY", "WATERPROOF" ]
   },
   {
     "id": "depowered_armor",
@@ -2258,7 +2258,7 @@
     "warmth": 50,
     "material_thickness": 8,
     "environmental_protection": 6,
-    "flags": [ "WATERPROOF", "STURDY" ]
+    "flags": [ "WATERPROOF", "RAINPROOF", "STURDY" ]
   },
   {
     "id": "depowered_helmet",
@@ -2409,7 +2409,7 @@
     "encumbrance": 10,
     "warmth": 12,
     "material_thickness": 3,
-    "flags": [ "VARSIZE", "STURDY", "OUTER", "NO_REPAIR" ]
+    "flags": [ "VARSIZE", "STURDY", "OUTER", "NO_REPAIR", "WATERPROOF" ]
   },
   {
     "id": "dress",
@@ -2559,7 +2559,7 @@
     "description": "A thick faux fur duster, falling below your knees.  Has many pockets for storing things.",
     "material": [ "faux_fur", "cotton" ],
     "covers": [ "TORSO", "ARMS", "LEGS" ],
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "FANCY" ],
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "FANCY", "WATER_FRIENDLY" ],
     "warmth": 40
   },
   {
@@ -2729,7 +2729,7 @@
     "encumbrance": 5,
     "warmth": 25,
     "material_thickness": 2,
-    "flags": [ "OUTER" ]
+    "flags": [ "OUTER", "WATER_FRIENDLY" ]
   },
   {
     "id": "fencing_mask",
@@ -2953,7 +2953,7 @@
     "encumbrance": 35,
     "warmth": 10,
     "material_thickness": 6,
-    "flags": [ "BELTED" ]
+    "flags": [ "BELTED", "WATERPROOF" ]
   },
   {
     "id": "fsurvivor_suit",
@@ -3107,7 +3107,7 @@
     "warmth": 20,
     "material_thickness": 4,
     "environmental_protection": 4,
-    "flags": [ "STURDY" ]
+    "flags": [ "STURDY", "WATERPROOF" ]
   },
   {
     "id": "gauntlets_chitin",
@@ -3130,7 +3130,7 @@
     "warmth": 20,
     "material_thickness": 4,
     "environmental_protection": 4,
-    "flags": [ "STURDY" ]
+    "flags": [ "STURDY", "WATERPROOF" ]
   },
   {
     "id": "gauntlets_acidchitin",
@@ -3164,7 +3164,7 @@
     "warmth": 15,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "STURDY", "ALLOWS_NATURAL_ATTACKS" ]
+    "flags": [ "VARSIZE", "STURDY", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY" ]
   },
   {
     "id": "geta",
@@ -3407,7 +3407,7 @@
     "encumbrance": 3,
     "warmth": 5,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "ALLOWS_NATURAL_ATTACKS" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS" ]
   },
   {
     "id": "gloves_fsurvivor",
@@ -3594,7 +3594,7 @@
     "encumbrance": 1,
     "material_thickness": 1,
     "environmental_protection": 6,
-    "flags": [ "WATER_FRIENDLY", "WATERPROOF", "SKINTIGHT" ]
+    "flags": [ "WATER_FRIENDLY", "SKINTIGHT" ]
   },
   {
     "id": "gloves_plate",
@@ -3617,7 +3617,7 @@
     "warmth": 20,
     "material_thickness": 4,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "STURDY" ]
+    "flags": [ "VARSIZE", "STURDY", "WATERPROOF" ]
   },
   {
     "id": "gloves_rubber",
@@ -3681,7 +3681,7 @@
     "encumbrance": 13,
     "warmth": 20,
     "material_thickness": 2,
-    "flags": [ "VARSIZE", "STURDY" ]
+    "flags": [ "VARSIZE", "STURDY", "WATER_FRIENDLY" ]
   },
   {
     "id": "gloves_winter",
@@ -3700,7 +3700,8 @@
     "coverage": 100,
     "encumbrance": 40,
     "warmth": 70,
-    "material_thickness": 4
+    "material_thickness": 4,
+    "flags": [ "WATER_FRIENDLY" ]
   },
   {
     "id": "gloves_wool",
@@ -3905,7 +3906,7 @@
     "material_thickness": 2,
     "environmental_protection": 6,
     "qualities": [ [ "GLARE", 1 ] ],
-    "flags": [ "SUN_GLASSES" ]
+    "flags": [ "SUN_GLASSES", "WATERPROOF" ]
   },
   {
     "id": "goggles_swim",
@@ -4046,7 +4047,7 @@
     "warmth": 50,
     "material_thickness": 4,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS", "COLLAR", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "COLLAR", "OUTER", "WATER_FRIENDLY" ]
   },
   {
     "id": "h20survivor_suit",
@@ -4105,7 +4106,7 @@
     "coverage": 25,
     "warmth": 2,
     "material_thickness": 1,
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "hat_ball",
@@ -4125,7 +4126,7 @@
     "warmth": 5,
     "material_thickness": 1,
     "environmental_protection": 2,
-    "flags": [ "SUN_GLASSES" ]
+    "flags": [ "SUN_GLASSES", "WATER_FRIENDLY" ]
   },
   {
     "id": "hat_boonie",
@@ -4144,7 +4145,7 @@
     "warmth": 10,
     "material_thickness": 1,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "SUN_GLASSES" ]
+    "flags": [ "VARSIZE", "SUN_GLASSES", "WATERPROOF" ]
   },
   {
     "id": "hat_chef",
@@ -4339,7 +4340,7 @@
     "warmth": 2,
     "material_thickness": 2,
     "environmental_protection": 4,
-    "flags": [ "FANCY", "OUTER", "SUN_GLASSES" ]
+    "flags": [ "FANCY", "OUTER", "SUN_GLASSES", "WATERPROOF" ]
   },
   {
     "id": "headgear",
@@ -4359,7 +4360,7 @@
     "warmth": 10,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "OVERSIZE", "STURDY" ]
+    "flags": [ "VARSIZE", "OVERSIZE", "STURDY", "WATERPROOF" ]
   },
   {
     "id": "helmet_army",
@@ -4403,6 +4404,7 @@
     "warmth": 15,
     "material_thickness": 3,
     "environmental_protection": 1,
+    "flags": [ "WATERPROOF" ],
     "techniques": [ "WBLOCK_1" ]
   },
   {
@@ -4424,7 +4426,7 @@
     "warmth": 10,
     "material_thickness": 4,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "STURDY" ]
+    "flags": [ "VARSIZE", "STURDY", "WATERPROOF" ]
   },
   {
     "id": "helmet_bike",
@@ -4444,6 +4446,7 @@
     "encumbrance": 15,
     "warmth": 15,
     "material_thickness": 4,
+    "flags": [ "WATERPROOF" ],
     "techniques": [ "WBLOCK_1" ]
   },
   {
@@ -4509,7 +4512,7 @@
     "warmth": 35,
     "material_thickness": 3,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "STURDY" ]
+    "flags": [ "VARSIZE", "STURDY", "WATERPROOF" ]
   },
   {
     "id": "helmet_acidchitin",
@@ -4538,7 +4541,7 @@
     "encumbrance": 50,
     "warmth": 10,
     "material_thickness": 4,
-    "flags": [ "WATER_FRIENDLY" ]
+    "flags": [ "WATERPROOF" ]
   },
   {
     "id": "helmet_galea",
@@ -4560,7 +4563,7 @@
     "warmth": 10,
     "material_thickness": 3,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "STURDY" ]
+    "flags": [ "VARSIZE", "STURDY", "WATERPROOF" ]
   },
   {
     "id": "helmet_hsurvivor",
@@ -4606,7 +4609,7 @@
     "material_thickness": 4,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "STURDY" ]
+    "flags": [ "STURDY", "WATERPROOF" ]
   },
   {
     "id": "helmet_larmor",
@@ -4645,7 +4648,7 @@
     "coverage": 100,
     "warmth": 30,
     "material_thickness": 2,
-    "flags": [ "VARSIZE", "SKINTIGHT" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ]
   },
   {
     "id": "helmet_lobster",
@@ -4711,7 +4714,7 @@
     "warmth": 10,
     "material_thickness": 3,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "STURDY" ]
+    "flags": [ "VARSIZE", "STURDY", "WATERPROOF" ]
   },
   {
     "id": "helmet_nomad",
@@ -4753,7 +4756,7 @@
     "material_thickness": 5,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT" ]
+    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "WATERPROOF" ]
   },
   {
     "id": "helmet_scavenger",
@@ -5108,7 +5111,7 @@
     "coverage": 15,
     "warmth": 10,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ]
   },
   {
     "id": "hot_pants_leather",
@@ -5126,7 +5129,7 @@
     "coverage": 15,
     "warmth": 5,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ]
   },
   {
     "id": "house_coat",
@@ -5211,7 +5214,7 @@
     "storage": 14,
     "warmth": 20,
     "material_thickness": 2,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF" ]
   },
   {
     "id": "jacket_chef",
@@ -5268,7 +5271,7 @@
     "storage": 4,
     "warmth": 35,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATER_FRIENDLY" ]
   },
   {
     "id": "jacket_jean",
@@ -5287,7 +5290,7 @@
     "storage": 3,
     "warmth": 30,
     "material_thickness": 3,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATER_FRIENDLY" ]
   },
   {
     "id": "jacket_leather",
@@ -5308,7 +5311,7 @@
     "warmth": 30,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF" ]
   },
   {
     "id": "jacket_leather_mod",
@@ -5329,7 +5332,7 @@
     "warmth": 30,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF" ]
   },
   {
     "id": "jacket_leather_red",
@@ -5350,7 +5353,7 @@
     "warmth": 30,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "FANCY" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "FANCY", "WATERPROOF" ]
   },
   {
     "id": "jacket_light",
@@ -5695,7 +5698,7 @@
     "storage": 8,
     "warmth": 23,
     "material_thickness": 2,
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "keffiyeh",
@@ -5753,7 +5756,7 @@
     "encumbrance": 5,
     "warmth": 15,
     "material_thickness": 4,
-    "flags": [ "STURDY", "SKINTIGHT" ]
+    "flags": [ "STURDY", "SKINTIGHT", "WATERPROOF" ]
   },
   {
     "id": "kilt",
@@ -6122,7 +6125,7 @@
     "encumbrance": 20,
     "warmth": 20,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "OUTER", "STURDY" ]
+    "flags": [ "VARSIZE", "OUTER", "STURDY", "WATERPROOF" ]
   },
   {
     "id": "legguard_metal",
@@ -6407,7 +6410,7 @@
     "warmth": 15,
     "material_thickness": 4,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
   },
   {
     "id": "lsurvivor_pants",
@@ -6429,7 +6432,7 @@
     "warmth": 15,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "RAINPROOF", "STURDY" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "STURDY" ]
   },
   {
     "id": "lsurvivor_suit",
@@ -6671,7 +6674,7 @@
     "encumbrance": 80,
     "warmth": 70,
     "material_thickness": 4,
-    "flags": [ "OVERSIZE", "OUTER" ]
+    "flags": [ "OVERSIZE", "OUTER", "WATER_FRIENDLY" ]
   },
   {
     "id": "molle_pack",
@@ -6711,7 +6714,7 @@
     "warmth": 35,
     "material_thickness": 4,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "RAINPROOF" ]
+    "flags": [ "VARSIZE", "RAINPROOF", "WATERPROOF" ]
   },
   {
     "id": "motorbike_pants",
@@ -6731,7 +6734,7 @@
     "warmth": 35,
     "material_thickness": 3,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "RAINPROOF" ]
+    "flags": [ "VARSIZE", "WATERPROOF" ]
   },
   {
     "id": "mouthpiece",
@@ -6957,7 +6960,7 @@
     "storage": 10,
     "warmth": 20,
     "material_thickness": 2,
-    "flags": [ "VARSIZE", "POCKETS" ]
+    "flags": [ "VARSIZE", "POCKETS", "WATERPROOF" ]
   },
   {
     "id": "pants_cargo",
@@ -6977,7 +6980,7 @@
     "storage": 10,
     "warmth": 15,
     "material_thickness": 2,
-    "flags": [ "VARSIZE", "POCKETS" ]
+    "flags": [ "VARSIZE", "POCKETS", "WATER_FRIENDLY" ]
   },
   {
     "id": "pants_checkered",
@@ -7050,7 +7053,7 @@
     "storage": 2,
     "warmth": 25,
     "material_thickness": 2,
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "pants_ski",
@@ -7071,7 +7074,7 @@
     "warmth": 70,
     "material_thickness": 2,
     "environmental_protection": 3,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF" ]
   },
   {
     "id": "pants_survivor",
@@ -7149,7 +7152,7 @@
     "encumbrance": 20,
     "warmth": 15,
     "material_thickness": 3,
-    "flags": [ "FANCY", "STAB" ]
+    "flags": [ "FANCY", "STAB", "WATERPROOF" ]
   },
   {
     "id": "plastic_shopping_bag",
@@ -7225,7 +7228,7 @@
     "warmth": 5,
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "FANCY", "VARSIZE" ]
+    "flags": [ "FANCY", "VARSIZE", "WATERPROOF" ]
   },
   {
     "id": "postman_hat",
@@ -7302,6 +7305,7 @@
     "encumbrance": 50,
     "warmth": 5,
     "material_thickness": 2,
+    "flags": [ "WATERPROOF" ]
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
     "techniques": [ "WBLOCK_1" ]
   },
@@ -7328,7 +7332,7 @@
     "material_thickness": 11,
     "environmental_protection": 16,
     "use_action": { "type": "ups_based_armor", "activate_msg": "Your power armor engages." },
-    "flags": [ "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE" ]
+    "flags": [ "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE", "RAINPROOF" ]
   },
   {
     "id": "power_armor_frame",
@@ -7374,7 +7378,7 @@
     "material_thickness": 12,
     "environmental_protection": 16,
     "use_action": { "type": "ups_based_armor", "activate_msg": "Your power armor engages." },
-    "flags": [ "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE" ]
+    "flags": [ "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE", "RAINPROOF" ]
   },
   {
     "id": "power_armor_helmet_basic",
@@ -7471,7 +7475,7 @@
     "material_thickness": 9,
     "environmental_protection": 16,
     "use_action": { "type": "ups_based_armor", "activate_msg": "Your power armor engages." },
-    "flags": [ "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE" ]
+    "flags": [ "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE", "RAINPROOF" ]
   },
   {
     "id": "purse",
@@ -7737,7 +7741,7 @@
     "encumbrance": 30,
     "warmth": 5,
     "material_thickness": 3,
-    "flags": [ "VARSIZE", "STURDY", "WATER_FRIENDLY" ]
+    "flags": [ "VARSIZE", "STURDY", "WATER_FRIENDLY", "RAINPROOF" ]
   },
   {
     "id": "shark_suit_faraday",
@@ -7756,7 +7760,7 @@
     "encumbrance": 30,
     "warmth": 5,
     "material_thickness": 3,
-    "flags": [ "VARSIZE", "STURDY", "WATER_FRIENDLY", "ELECTRIC_IMMUNE", "HELMET_COMPAT" ]
+    "flags": [ "VARSIZE", "STURDY", "WATER_FRIENDLY", "ELECTRIC_IMMUNE", "HELMET_COMPAT", "RAINPROOF" ]
   },
   {
     "id": "sheath",
@@ -7882,7 +7886,7 @@
     "storage": 2,
     "warmth": 5,
     "material_thickness": 3,
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "silver_bracelet",
@@ -7977,7 +7981,7 @@
     "warmth": 80,
     "material_thickness": 4,
     "environmental_protection": 1,
-    "flags": [ "OVERSIZE", "OUTER" ],
+    "flags": [ "OVERSIZE", "OUTER", "WATERPROOF" ],
     "use_action": {
       "menu_text": "Roll up",
       "type": "transform",
@@ -8022,7 +8026,7 @@
     "warmth": 100,
     "material_thickness": 5,
     "environmental_protection": 1,
-    "flags": [ "OVERSIZE", "OUTER" ],
+    "flags": [ "OVERSIZE", "OUTER", "WATERPROOF" ],
     "use_action": {
       "menu_text": "Roll up",
       "type": "transform",
@@ -8451,7 +8455,7 @@
     "encumbrance": 18,
     "warmth": 15,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT", "HOOD", "WATERPROOF", "SLOWS_THIRST", "SLOWS_MOVEMENT" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "HOOD", "WATERPROOF", "RAINPROOF", "SLOWS_THIRST", "SLOWS_MOVEMENT" ]
   },
   {
     "id": "stockings",
@@ -8545,7 +8549,7 @@
     "warmth": 2,
     "material_thickness": 1,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "SUN_GLASSES" ]
+    "flags": [ "VARSIZE", "SUN_GLASSES", "WATERPROOF" ]
   },
   {
     "id": "striped_pants",
@@ -8885,7 +8889,7 @@
     "warmth": 35,
     "material_thickness": 7,
     "environmental_protection": 4,
-    "flags": [ "POCKETS", "STURDY" ]
+    "flags": [ "POCKETS", "STURDY", "WATERPROOF", "RAINPROOF" ]
   },
   {
     "id": "sweater",
@@ -8982,7 +8986,7 @@
     "material_thickness": 5,
     "environmental_protection": 2,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES" ]
+    "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "WATERPROOF" ]
   },
   {
     "id": "tac_helmet",
@@ -9004,7 +9008,7 @@
     "warmth": 10,
     "material_thickness": 4,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "WATER_FRIENDLY", "STURDY" ]
+    "flags": [ "WATER_FRIENDLY", "STURDY", "WATERPROOF" ]
   },
   {
     "id": "tank_top",
@@ -9138,7 +9142,7 @@
     "color": "yellow",
     "covers": [ "HEAD" ],
     "coverage": 90,
-    "flags": [ "PSYSHIELD_PARTIAL", "SKINTIGHT", "TRADER_AVOID" ]
+    "flags": [ "PSYSHIELD_PARTIAL", "SKINTIGHT", "TRADER_AVOID", "WATER_FRIENDLY" ]
   },
   {
     "id": "tool_belt",
@@ -9187,7 +9191,7 @@
     "warmth": 5,
     "material_thickness": 2,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "SUPER_FANCY" ]
+    "flags": [ "VARSIZE", "SUPER_FANCY", "WATERPROOF" ]
   },
   {
     "id": "touring_suit",
@@ -9283,7 +9287,7 @@
     "warmth": 30,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF" ]
   },
   {
     "id": "trenchcoat_survivor",
@@ -9589,7 +9593,7 @@
     "storage": 12,
     "warmth": 5,
     "material_thickness": 2,
-    "flags": [ "VARSIZE", "WAIST" ]
+    "flags": [ "VARSIZE", "WAIST", "WATER_FRIENDLY" ]
   },
   {
     "id": "vest_leather",
@@ -9610,7 +9614,7 @@
     "warmth": 20,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF" ]
   },
   {
     "id": "vest_leather_mod",
@@ -9631,7 +9635,7 @@
     "warmth": 30,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF" ]
   },
   {
     "id": "waistcoat",
@@ -9671,7 +9675,7 @@
     "warmth": 50,
     "material_thickness": 1,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "RAINPROOF", "SKINTIGHT" ]
   },
   {
     "id": "wetsuit_gloves",
@@ -9771,7 +9775,7 @@
     "storage": 14,
     "warmth": 50,
     "material_thickness": 3,
-    "flags": [ "VARSIZE", "POCKETS", "HOOD", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "HOOD", "OUTER", "WATERPROOF", "RAINPROOF" ]
   },
   {
     "id": "winter_pants_army",
@@ -9791,7 +9795,7 @@
     "storage": 10,
     "warmth": 50,
     "material_thickness": 3,
-    "flags": [ "VARSIZE", "POCKETS" ]
+    "flags": [ "VARSIZE", "POCKETS", "WATERPROOF" ]
   },
   {
     "id": "wolfsuit",
@@ -10125,6 +10129,6 @@
     "warmth": 5,
     "material_thickness": 2,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "OVERSIZE" ]
+    "flags": [ "OVERSIZE", "WATERPROOF" ]
   }
 ]
