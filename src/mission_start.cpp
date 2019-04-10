@@ -1794,21 +1794,11 @@ void mission_util::set_assign_om_target( JsonObject &jo,
 bool mission_util::set_update_mapgen( JsonObject &jo,
                                       std::vector<std::function<void( mission *miss )>> &funcs )
 {
-    // this is gross, but jmpagen_npc throws errors instead of deferring, so catch the
-    // potential error and defer it.
-    if( jo.has_array( "place_npcs" ) ) {
-        JsonArray place_npcs = jo.get_array( "place_npcs" );
-        while( place_npcs.has_more() ) {
-            JsonObject placed_npc = place_npcs.next_object();
-            string_id<npc_template> npc_class;
-            npc_class = string_id<npc_template>( placed_npc.get_string( "class" ) );
-            if( !npc_class.is_valid() ) {
-                return false;
-            }
-        }
+    bool defer = false;
+    mapgen_update_func update_map = add_mapgen_update_func( jo, defer );
+    if( defer ) {
+        return false;
     }
-
-    mapgen_update_func update_map = add_mapgen_update_func( jo );
 
     if( jo.has_string( "om_special" ) && jo.has_string( "om_terrain" ) ) {
         const std::string om_terrain = jo.get_string( "om_terrain" );
