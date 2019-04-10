@@ -646,19 +646,20 @@ bool overmapbuffer::reveal( const tripoint &center, int radius,
     bool result = false;
     for( int i = -radius; i <= radius; i++ ) {
         for( int j = -radius; j <= radius; j++ ) {
+            int x = center.x + i;
+            int y = center.y + j;
+            if( seen( x, y, center.z ) ) {
+                continue;
+            }
             if( trigdist && i * i + j * j > radius_squared ) {
                 continue;
             }
-            int x = center.x + i;
-            int y = center.y + j;
             const oter_id &ter = get_om_global( x, y ).get_ter( x, y, 0 );
             if( !filter( ter ) ) {
                 continue;
             }
-            if( !seen( x, y, center.z ) ) {
-                result = true;
-                set_seen( x, y, center.z, true );
-            }
+            result = true;
+            set_seen( x, y, center.z, true );
         }
     }
     return result;

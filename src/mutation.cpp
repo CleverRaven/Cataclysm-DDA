@@ -507,6 +507,10 @@ void player::activate_mutation( const trait_id &mut )
         return;
     } else if( mut == trait_TREE_COMMUNION ) {
         tdata.powered = false;
+        if( !overmap_buffer.ter( global_omt_location() ).obj().is_wooded() ) {
+            add_msg_if_player( m_info, _( "You can only do that in a wooded area." ) );
+            return;
+        }
         // Check for adjacent trees.
         const tripoint p = pos();
         bool adjacent_tree = false;
@@ -518,19 +522,15 @@ void player::activate_mutation( const trait_id &mut )
                 }
             }
         }
-
-        if( !overmap_buffer.ter( global_omt_location() ).obj().is_wooded() ) {
-            add_msg_if_player( m_info, _( "You can only do that in a wooded area." ) );
-            return;
-        }
         if( !adjacent_tree ) {
             add_msg_if_player( m_info, _( "You can only do that next to a tree." ) );
             return;
         }
-        const time_duration startup_time = has_trait( trait_ROOTS2 ) ? rng( 60_minutes,
-                                           90_minutes ) : rng( 15_minutes, 30_minutes );
+
         add_msg_if_player( _( "You reach out to the trees with your roots." ) );
         assign_activity( activity_id( "ACT_TREE_COMMUNION" ) );
+        const time_duration startup_time = has_trait( trait_ROOTS3 ) ? rng( 15_minutes,
+                                           30_minutes ) : rng( 60_minutes, 90_minutes );
         activity.values.push_back( to_turns<int>( startup_time ) );
         return;
     } else if( mut == trait_DEBUG_BIONIC_POWER ) {

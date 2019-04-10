@@ -3369,6 +3369,7 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, player *p 
     while( !q.empty() ) {
         tripoint tpt = q.front();
         if( overmap_buffer.reveal( tpt, 3, filter ) ) {
+            p->add_morale( MORALE_TREE_COMMUNION, 1, 15, 2_hours, 1_hours );
             if( one_in( 128 ) ) {
                 p->add_msg_if_player( SNIPPET.random_from_category( "tree_communion" ) );
             }
