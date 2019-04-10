@@ -7234,7 +7234,7 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
                 // it less jerky we rate limit it by only allowing a
                 // panning move during the first iteration of this
                 // mouse move event consumption loop.
-                if( max_consume == 10 ) {
+                if( max_consume == 10 && get_option<bool>( "EDGE_SCROLL" ) ) {
                     const input_event event = ctxt.get_raw_input();
                     const int threshold_x = projected_window_width() / 20;
                     const int threshold_y = projected_window_height() / 20;
