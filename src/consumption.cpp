@@ -638,21 +638,16 @@ bool player::eat( item &food, bool force )
                                  units::to_milliliter( stomach.contains() ) ) > units::to_milliliter(
                                 stomach.capacity() );
     const bool saprophage = has_trait( trait_id( "SAPROPHAGE" ) );
-    bool eaten = true;
     if( spoiled && !saprophage ) {
         add_msg_if_player( m_bad, _( "Ick, this %s doesn't taste so good..." ), food.tname().c_str() );
         if( !has_trait( trait_id( "SAPROVORE" ) ) && !has_trait( trait_id( "EATDEAD" ) ) &&
             ( !has_bionic( bio_digestion ) || one_in( 3 ) ) ) {
             add_effect( effect_foodpoison, rng( 6_minutes, ( nutr + 1 ) * 6_minutes ) );
         }
-        eaten = consume_effects( food );
     } else if( spoiled && saprophage ) {
         add_msg_if_player( m_good, _( "Mmm, this %s tastes delicious..." ), food.tname().c_str() );
-        eaten = consume_effects( food );
-    } else {
-        eaten = consume_effects( food );
     }
-    if( !eaten ) {
+    if( !consume_effects( food ) ) {
         return false;
     }
     food.mod_charges( -1 );
