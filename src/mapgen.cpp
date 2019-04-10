@@ -2461,6 +2461,7 @@ void jmapgen_objects::apply( const mapgendata &dat, int offset_x, int offset_y,
     for( auto &obj : objects ) {
         auto where = obj.first;
         where.offset( -offset_x, -offset_y );
+
         const auto &what = *obj.second;
         // The user will only specify repeat once in JSON, but it may get loaded both
         // into the what and where in some cases--we just need the greater value of the two.
