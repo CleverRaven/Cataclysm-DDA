@@ -30,6 +30,11 @@ struct item_pricing {
     bool selected;
 };
 
+namespace npc_trading
+{
+
+bool pay_npc( npc &np, int cost );
+
 int cash_to_favor( const npc &, int cash );
 
 inventory inventory_exchange( inventory &inv,
@@ -37,5 +42,6 @@ inventory inventory_exchange( inventory &inv,
 std::vector<item_pricing> init_selling( npc &p );
 std::vector<item_pricing> init_buying( npc &p, player &u );
 bool trade( npc &p, int cost, const std::string &deal );
+}
 
 #endif
