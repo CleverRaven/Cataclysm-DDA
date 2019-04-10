@@ -108,6 +108,7 @@
       "u": "t_pit_shallow",
       "U": "t_pit",
 	  "V": "t_covered_well",
+	  "w": "t_water_pump",
 	  "W": "t_pit_spiked",
       "x": "t_console_broken",
       "#": "t_junk_palisade",
@@ -123,8 +124,11 @@
       "b": "f_bench",
       "B": "f_makeshift_bed",
       "c": "f_counter",
+	  "h": "f_sofa",
       "l": "f_locker",
       "o": "f_woodstove",
+      "S": "f_utility_shelf",
+      "s": "f_bookcase",
 	  "T": "f_table"
     }
   }

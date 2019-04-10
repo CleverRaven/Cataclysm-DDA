@@ -1015,7 +1015,7 @@
     "type": "mapgen",
     "method": "json",
     "weight": 100,
-    "om_terrain": [ "faction_base_shelter1_8" ],
+    "om_terrain": [ "faction_base_shelter1_8a" ],
 	"//": "Enclose well space.",
     "object": {
       "fill_ter": "t_floor",
@@ -1038,6 +1038,98 @@
         "W   |B.-.B-.B-..H..|   W",
         "##  |B.-.B-.B-..---|   W",
         "#   |||-------..H..|  ##",
+        "#   |*=.........-BB|   #",
+        "#   |||||+|[$|(|||||   #",
+        "#       -u-            #",
+        "#       ---            #",
+        "#     #         #      #",
+        "#######WW WWW WW########"
+      ],
+      "palettes": [ "shelter_camp" ],
+      "computers": {
+        "6": {
+          "name": "Evac shelter computer", "options": [
+            { "name": "Emergency Message", "action": "emerg_mess" },
+            { "name": "Disable External Power", "action": "complete_disable_external_power" },
+            { "name": "Contact Us", "action": "emerg_ref_center" }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "weight": 100,
+    "om_terrain": [ "faction_base_shelter1_8b" ],
+	"//": "Add more storage and a comfy sitting space.",
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "########WW WWW WW#######",
+        "#      #         #     #",
+        "#      ''''            #",
+        "#      'V '            #",
+        "#   |||||(|$[|(|||||   #",
+        "#   |lllS.....7c9G6|   #",
+        "##  |..........c..h|   #",
+        "W   |.bTTb........h|  ##",
+        "W   |.bTTb.....SS.S|   W",
+        "    (.bTTb.....SS.S(   W",
+        "W   |...o.........S|    ",
+        "W   [......>>..SSSS$   W",
+        "W   $s.....>>......[   W",
+        "    |s..........---|   W",
+        "W   (-H-H--H--..-BB(    ",
+        "W   |B.-.B-.B-..H.s|   W",
+        "##  |Bs-sB-sB-..---|   W",
+        "#   |||-------..H.s|  ##",
+        "#   |*=.........-BB|   #",
+        "#   |||||+|[$|(|||||   #",
+        "#       -u-            #",
+        "#       ---            #",
+        "#     #         #      #",
+        "#######WW WWW WW########"
+      ],
+      "palettes": [ "shelter_camp" ],
+      "computers": {
+        "6": {
+          "name": "Evac shelter computer", "options": [
+            { "name": "Emergency Message", "action": "emerg_mess" },
+            { "name": "Disable External Power", "action": "complete_disable_external_power" },
+            { "name": "Contact Us", "action": "emerg_ref_center" }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "weight": 100,
+    "om_terrain": [ "faction_base_shelter1_8" ],
+	"//": "Enclose well space and build storage shelves.",
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "########WW WWW WW#######",
+        "#      #         #     #",
+        "#      ----            #",
+        "#      -w_-            #",
+        "#   |||||+|$[|(|||||   #",
+        "#   |lllS.....7c9G6|   #",
+        "##  |..........c..h|   #",
+        "W   |.bTTb........h|  ##",
+        "W   |.bTTb.....SS.S|   W",
+        "    (.bTTb.....SS.S(   W",
+        "W   |...o.........S|    ",
+        "W   [......>>..SSSS$   W",
+        "W   $s.....>>......[   W",
+        "    |s..........---|   W",
+        "W   (-H-H--H--..-BB(    ",
+        "W   |B.-.B-.B-..H.s|   W",
+        "##  |Bs-sB-sB-..---|   W",
+        "#   |||-------..H.s|  ##",
         "#   |*=.........-BB|   #",
         "#   |||||+|[$|(|||||   #",
         "#       -u-            #",
