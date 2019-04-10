@@ -97,7 +97,8 @@ const morale_type &morale_type_data::convert_legacy( int lmt )
             morale_type( "morale_butcher" ),
             morale_type( "morale_gravedigger" ),
 
-            morale_type( "morale_disarmed_trap" ),
+            morale_type( "morale_accomplishment" ),
+            morale_type( "morale_failure" ),
 
             morale_type( "morale_null" )
         }
@@ -184,7 +185,8 @@ const morale_type MORALE_PERM_DEBUG( "morale_perm_debug" );
 const morale_type MORALE_BUTCHER( "morale_butcher" );
 const morale_type MORALE_GRAVEDIGGER( "morale_gravedigger" );
 const morale_type MORALE_TREE_COMMUNION( "morale_tree_communion" );
-const morale_type MORALE_DISARMED_TRAP( "morale_disarmed_trap" );
+const morale_type MORALE_ACCOMPLISHMENT( "morale_accomplishment" );
+const morale_type MORALE_FAILURE( "morale_failure" );
 
 namespace
 {

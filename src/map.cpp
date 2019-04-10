@@ -5252,19 +5252,26 @@ void map::disarm_trap( const tripoint &p )
     }
     if( roll >= diff ) {
         add_msg( _( "You disarm the trap!" ) );
-        const int morale_buff = tr.get_avoidance() + tr.get_difficulty() * 1.5 + rng( 0, 10 );
-        g->u.add_morale( MORALE_DISARMED_TRAP, morale_buff, 40 );
+        const int morale_buff = tr.get_avoidance() * 0.8 + tr.get_difficulty() * 1.2 + rng( 0, 10 );
+        g->u.rem_morale( MORALE_FAILURE );
+        g->u.add_morale( MORALE_ACCOMPLISHMENT, morale_buff, 40 );
         tr.on_disarmed( *this, p );
         if( diff > 1.25 * tSkillLevel ) { // failure might have set off trap
             g->u.practice( skill_traps, 1.5 * ( diff - tSkillLevel ) );
         }
     } else if( roll >= diff * .8 ) {
         add_msg( _( "You fail to disarm the trap." ) );
+        const int morale_debuff = -rng( 10, 20 );
+        g->u.rem_morale( MORALE_ACCOMPLISHMENT );
+        g->u.add_morale( MORALE_FAILURE, morale_debuff, -40 );
         if( diff > 1.25 * tSkillLevel ) {
             g->u.practice( skill_traps, 1.5 * ( diff - tSkillLevel ) );
         }
     } else {
         add_msg( m_bad, _( "You fail to disarm the trap, and you set it off!" ) );
+        const int morale_debuff = -rng( 20, 30 );
+        g->u.rem_morale( MORALE_ACCOMPLISHMENT );
+        g->u.add_morale( MORALE_FAILURE, morale_debuff, -40 );
         tr.trigger( p, &g->u );
         if( diff - roll <= 6 ) {
             // Give xp for failing, but not if we failed terribly (in which

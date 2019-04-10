@@ -350,10 +350,15 @@
     "text": "Communed with the trees"
   },
   {
-    "id": "morale_disarmed_trap",
+    "id": "morale_accomplishment",
     "type": "morale_type",
-    "text": "Disarmed a trap"
-  }
+    "text": "Accomplishment"
+  },
+  {
+    "id": "morale_failure",
+    "type": "morale_type",
+    "text": "Failure"
+  },
   {
     "id": "morale_perm_debug",
     "type": "morale_type",
