@@ -1,4 +1,4 @@
-#ifdef SDL_SOUND
+#if defined(SDL_SOUND)
 
 #include "sdlsound.h"
 

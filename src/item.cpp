@@ -232,7 +232,10 @@ item::item( const recipe *rec, long qty, std::list<item> items )
         active = true;
         last_temp_check = bday;
         if( goes_bad() ) {
-            set_relative_rot( get_most_rotten_component( *this )->get_relative_rot() );
+            const item *most_rotten = get_most_rotten_component( *this );
+            if( most_rotten ) {
+                set_relative_rot( most_rotten->get_relative_rot() );
+            }
         }
     }
 
@@ -2227,6 +2230,9 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                     return item::find_type( e )->nname( 1 );
                 }, enumeration_conjunction::or_ ) );
                 insert_separation_line();
+                if( reinforceable() ) {
+                    info.emplace_back( "DESCRIPTION", _( "* This item can be <good>reinforced</good>." ) );
+                }
 
             } else {
                 info.emplace_back( "DESCRIPTION", _( "* This item is <bad>not repairable</bad>." ) );
@@ -4072,7 +4078,7 @@ bool item::craft_has_charges()
     return false;
 }
 
-#ifdef _MSC_VER
+#if defined(_MSC_VER)
 // Deal with MSVC compiler bug (#17791, #17958)
 #pragma optimize( "", off )
 #endif
@@ -4153,7 +4159,7 @@ int item::cut_resist( bool to_self ) const
     return lround( ( resist * eff_thickness ) + padding );
 }
 
-#ifdef _MSC_VER
+#if defined(_MSC_VER)
 #pragma optimize( "", on )
 #endif
 
@@ -4483,6 +4489,19 @@ bool item::conductive() const
     const auto mats = made_of_types();
     return std::any_of( mats.begin(), mats.end(), []( const material_type * mt ) {
         return mt->elec_resist() <= 1;
+    } );
+}
+
+bool item::reinforceable() const
+{
+    if( is_null() || has_flag( "NO_REPAIR" ) ) {
+        return false;
+    }
+
+    // If a material is reinforceable, so are we
+    const auto mats = made_of_types();
+    return std::any_of( mats.begin(), mats.end(), []( const material_type * mt ) {
+        return mt->reinforces() == true;
     } );
 }
 

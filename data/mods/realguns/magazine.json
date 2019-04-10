@@ -1,8 +1,9 @@
 [
   {
     "id": "40_speedloader6",
-    "copy_from": "40_speedloader6",
+    "copy-from": "40_speedloader6",
     "type": "MAGAZINE",
+    "name": "10mm 6-round speedloader",
     "description": "This speedloader can hold 6 rounds of .40 or 10mm Auto and quickly reload a compatible revolver.",
     "ammo_type": "10mm_auto"
   },

@@ -27,7 +27,7 @@
 #include "weather.h"
 #include "weather_gen.h"
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
 #include <SDL_keyboard.h>
 #endif
 
@@ -305,7 +305,7 @@ point draw_notes( int z )
 
     mvwprintz( w_notes, 1, 1, c_white, title.c_str() );
     do {
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
         input_context ctxt( "DRAW_NOTES" );
 #endif
         if( redraw ) {
@@ -331,7 +331,7 @@ point draw_notes( int z )
                                              note_text.substr( std::get<2>( om_symbol ),
                                                      std::string::npos ) );
                 trim_and_print( w_notes, i + 2, 5, FULL_SCREEN_WIDTH - 7, c_light_gray, "%s", tmp_note.c_str() );
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
                 ctxt.register_manual_key( 'a' + i, notes[cur_it].second.c_str() );
 #endif
             }
@@ -1007,7 +1007,7 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
             catacurses::window w_preview_map = catacurses::newwin( npm_height + 2, npm_width + 2, 2, 0 );
             auto preview_windows = std::make_tuple( &w_preview, &w_preview_title, &w_preview_map );
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
             if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
                 SDL_StartTextInput();
             }

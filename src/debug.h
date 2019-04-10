@@ -175,7 +175,7 @@ std::ostream &operator<<( std::ostream &out, const std::vector<C, A> &elm )
  */
 extern bool debug_mode;
 
-#ifdef BACKTRACE
+#if defined(BACKTRACE)
 /**
  * Write a stack backtrace to the given ostream
  */
