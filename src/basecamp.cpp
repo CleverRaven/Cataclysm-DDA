@@ -133,7 +133,7 @@ bool basecamp::reset_camp()
 }
 
 /// Returns the description for the recipe of the next building @ref bldg
-std::string basecamp::om_upgrade_description( const std::string &bldg, bool trunc )
+std::string basecamp::om_upgrade_description( const std::string &bldg, bool trunc ) const
 {
     const recipe &making = recipe_id( bldg ).obj();
     const inventory &total_inv = g->u.crafting_inventory();

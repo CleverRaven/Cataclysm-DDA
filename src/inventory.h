@@ -196,7 +196,10 @@ class inventory : public visitable<inventory>
         // Removes invalid invlets, and assigns new ones if assign_invlet is true. Does not update the invlet cache.
         void update_invlet( item &it, bool assign_invlet = true );
 
+        void set_stack_favorite( const int position, const bool favorite );
+
         std::set<char> allocated_invlets() const;
+
 
         /**
          * Returns visitable items binned by their itype.

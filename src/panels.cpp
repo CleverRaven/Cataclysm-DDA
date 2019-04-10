@@ -4,6 +4,7 @@
 #include "cata_utility.h"
 #include "color.h"
 #include "cursesdef.h"
+#include "cursesport.h"
 #include "effect.h"
 #include "game.h"
 #include "game_ui.h"
@@ -29,10 +30,6 @@
 #include <cmath>
 #include <string>
 #include <typeinfo>
-
-#if (defined TILES || defined _WIN32 || defined WINDOWS)
-#include "cursesport.h"
-#endif
 
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_THRESH_FELINE( "THRESH_FELINE" );
@@ -1745,7 +1742,7 @@ std::vector<window_panel> initialize_default_classic_panels()
     ret.emplace_back( window_panel( draw_armor, "Armor", 5, 44, false ) );
     ret.emplace_back( window_panel( draw_compass_padding, "Compass", 6, 44, true ) );
     ret.emplace_back( window_panel( draw_messages_classic, "Log", -2, 44, true ) );
-#ifdef TILES
+#if defined(TILES)
     ret.emplace_back( window_panel( draw_mminimap, "Map", -1, 44, true ) );
 #endif // TILES
 
@@ -1766,7 +1763,7 @@ std::vector<window_panel> initialize_default_compact_panels()
     ret.emplace_back( window_panel( draw_armor, "Armor", 5, 32, false ) );
     ret.emplace_back( window_panel( draw_messages_classic, "Log", -2, 32, true ) );
     ret.emplace_back( window_panel( draw_compass, "Compass", 8, 32, true ) );
-#ifdef TILES
+#if defined(TILES)
     ret.emplace_back( window_panel( draw_mminimap, "Map", -1, 32, true ) );
 #endif // TILES
 
@@ -1788,7 +1785,7 @@ std::vector<window_panel> initialize_default_label_panels()
     ret.emplace_back( window_panel( draw_env2, "Moon", 2, 32, false ) );
     ret.emplace_back( window_panel( draw_mod2, "Armor", 5, 32, false ) );
     ret.emplace_back( window_panel( draw_compass_padding, "Compass", 8, 32, true ) );
-#ifdef TILES
+#if defined(TILES)
     ret.emplace_back( window_panel( draw_mminimap, "Map", -1, 32, true ) );
 #endif // TILES
 

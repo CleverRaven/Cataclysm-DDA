@@ -1518,15 +1518,17 @@ bool npc::update_path( const tripoint &p, const bool no_bashing, bool force )
     return false;
 }
 
+bool npc::can_open_door( const tripoint &p, const bool inside ) const
+{
+    return !rules.has_flag( ally_rule::avoid_doors ) && g->m.open_door( p, inside, true );
+}
+
 bool npc::can_move_to( const tripoint &p, bool no_bashing ) const
 {
     // Allow moving into any bashable spots, but penalize them during pathing
     return( rl_dist( pos(), p ) <= 1 &&
-            (
-                g->m.passable( p ) ||
-                ( !no_bashing && g->m.bash_rating( smash_ability(), p ) > 0 ) ||
-                g->m.open_door( p, !g->m.is_outside( pos() ), true )
-            )
+            ( g->m.passable( p ) || can_open_door( p, !g->m.is_outside( pos() ) ) ||
+              ( !no_bashing && g->m.bash_rating( smash_ability(), p ) > 0 ) )
           );
 }
 
@@ -2722,9 +2724,8 @@ void npc::heal_player( player &patient )
 
     if( !patient.is_npc() ) {
         // Test if we want to heal the player further
-        if( op_of_u.value * 4 + op_of_u.trust + personality.altruism * 3 +
-            ( fac_has_value( FACVAL_CHARITABLE ) ?  5 : 0 ) +
-            ( fac_has_job( FACJOB_DOCTORS )    ? 15 : 0 ) - op_of_u.fear * 3 <  25 ) {
+        if( op_of_u.value * 4 + op_of_u.trust + personality.altruism * 3 -
+            op_of_u.fear * 3 <  25 ) {
             set_attitude( NPCATT_FOLLOW );
             say( _( "That's all the healing I can do." ) );
         } else {
@@ -2776,7 +2777,7 @@ void npc::use_painkiller()
 // Be eaten before it rots (favor soon-to-rot perishables)
 float rate_food( const item &it, int want_nutr, int want_quench )
 {
-    const auto &food = it.type->comestible;
+    const auto &food = it.get_comestible();
     if( !food ) {
         return 0.0f;
     }
@@ -3133,7 +3134,7 @@ void npc::go_to_omt_destination()
     int sy = sgn( goal.y - omt_pos.y );
     const int minz = std::min( goal.z, posz() );
     const int maxz = std::max( goal.z, posz() );
-    add_msg( m_debug, "%s going (%d,%d,%d)->(%d,%d,%d)", name.c_str(),
+    add_msg( m_debug, "%s going (%d,%d,%d)->(%d,%d,%d)", name,
              omt_pos.x, omt_pos.y, omt_pos.z, goal.x, goal.y, goal.z );
     if( goal == omt_pos ) {
         // We're at our desired map square!
@@ -3159,10 +3160,9 @@ void npc::go_to_omt_destination()
     // sx and sy are now equal to the direction we need to move in
     tripoint dest( posx() + 8 * sx, posy() + 8 * sy, goal.z );
     for( int i = 0; i < 8; i++ ) {
-        if( ( g->m.passable( dest ) ||
+        if( ( g->m.passable( dest ) || can_open_door( dest, true ) ||
               //Needs 20% chance of bashing success to be considered for pathing
-              g->m.bash_rating( smash_ability(), dest ) >= 2 ||
-              g->m.open_door( dest, true, true ) ) &&
+              g->m.bash_rating( smash_ability(), dest ) >= 2 ) &&
             ( one_in( 4 ) || sees( dest ) ) ) {
             update_path( dest );
             if( !path.empty() && can_move_to( path[0] ) ) {
@@ -3174,7 +3174,8 @@ void npc::go_to_omt_destination()
             }
         }
 
-        dest = tripoint( posx() + rng( 0, 16 ) * sx, posy() + rng( 0, 16 ) * sy, rng( minz, maxz ) );
+        dest = tripoint( posx() + rng( 0, 16 ) * sx, posy() + rng( 0, 16 ) * sy,
+                         rng( minz, maxz ) );
     }
     move_pause();
 }

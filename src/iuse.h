@@ -209,6 +209,8 @@ class iuse
 
         int remoteveh( player *, item *, bool, const tripoint & );
 
+        int craft( player *, item *, bool, const tripoint & );
+
         int disassemble( player *, item *, bool, const tripoint & );
 
         // ARTIFACTS

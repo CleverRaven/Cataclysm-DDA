@@ -2708,9 +2708,7 @@ bool repair_item_actor::can_repair_target( player &pl, const item &fix,
         return false;
     }
 
-    if( fix.has_flag( "PRIMITIVE_RANGED_WEAPON" ) ||
-        ( !fix.made_of( material_id( "cotton" ) ) && !fix.made_of( material_id( "wool" ) ) &&
-          !fix.made_of( material_id( "leather" ) ) ) ) {
+    if( fix.has_flag( "PRIMITIVE_RANGED_WEAPON" ) || !fix.reinforceable() ) {
         if( print_msg ) {
             pl.add_msg_if_player( m_info, _( "You cannot improve your %s any more this way." ),
                                   fix.tname().c_str() );
@@ -2902,9 +2900,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
     }
 
     if( action == RT_REINFORCE ) {
-        if( fix.has_flag( "PRIMITIVE_RANGED_WEAPON" ) ||
-            ( !fix.made_of( material_id( "cotton" ) ) && !fix.made_of( material_id( "wool" ) ) &&
-              !fix.made_of( material_id( "leather" ) ) ) ) {
+        if( fix.has_flag( "PRIMITIVE_RANGED_WEAPON" ) || !fix.reinforceable() ) {
             pl.add_msg_if_player( m_info, _( "You cannot improve your %s any more this way." ),
                                   fix.tname().c_str() );
             return AS_CANT;
@@ -3788,14 +3784,8 @@ long mutagen_actor::use( player &p, item &it, bool, const tripoint & ) const
         p.mutate_category( m_category.id );
         p.mod_pain( m_category.mutagen_pain * rng( 1, 5 ) );
     }
-
-    if( m_category.mutagen_hunger * mut_count + p.get_hunger() > 300 ) {
-        // in this case starvation is directly updated
-        p.mod_starvation( m_category.mutagen_hunger * mut_count - ( 300 - p.get_hunger() ) );
-        p.set_hunger( 300 );
-    } else {
-        p.mod_hunger( m_category.mutagen_hunger * mut_count ) ;
-    }
+    // burn calories directly
+    p.mod_stored_nutr( m_category.mutagen_hunger * mut_count );
     p.mod_thirst( m_category.mutagen_thirst * mut_count );
     p.mod_fatigue( m_category.mutagen_fatigue * mut_count );
 
