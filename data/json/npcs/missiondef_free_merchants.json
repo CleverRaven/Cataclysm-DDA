@@ -22,9 +22,7 @@
       "update_mapgen": {
         "om_terrain": "evac_center_9",
         "om_special": "evac_center",
-        "place_monster": [
-          { "monster": "mon_zombie_electric", "name": "Sean McLaughlin", "x": 10, "y": 10, "target": true }
-        ]
+        "place_monster": [ { "monster": "mon_zombie_electric", "name": "Sean McLaughlin", "x": 10, "y": 10, "target": true } ]
       }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -77,14 +75,7 @@
           "                        ",
           "                        "
         ],
-        "terrain": {
-          "g": "t_grass",
-          ".": "t_dirt",
-          "a": "t_dirt",
-          "b": "t_dirt",
-          "R": "t_dirt",
-          "F": "t_dirt"
-        },
+        "terrain": { "g": "t_grass", ".": "t_dirt", "a": "t_dirt", "b": "t_dirt", "R": "t_dirt", "F": "t_dirt" },
         "furniture": { "a": "f_ash" },
         "traps": { "F": "tr_fur_rollmat", "R": "tr_rollmat" },
         "fields": { "b": { "field": "fd_blood", "density": 1 } },
@@ -145,7 +136,7 @@
       }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_FREE_MERCHANTS_EVAC_4",
+    "followup": "MISSION_FREE_MERCHANTS_EVAC_5",
     "dialogue": {
       "describe": "We need help...",
       "offer": "The new outpost that we've started could use your assistance.  I need you to get the foreman's prospectus before we begin to send additional refugees to the farming commune.  Consult with the foreman to get more detailed tasks.",
@@ -168,7 +159,6 @@
     "item": "plut_cell",
     "count": 25,
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_FREE_MERCHANTS_EVAC_5",
     "dialogue": {
       "describe": "We need help...",
       "offer": "We are starting to build new infrastructure here and would like to get a few new electrical systems online... unfortunately our existing system relies on an array of something called RTGs.  From what I understand they work like giant batteries of sorts.  We can expand our power system but to do so we would need enough plutonium.  With 25 plutonium cells we would be able to get an electrical expansion working for a year or two.  I know they are rare but running generators isn't a viable option in the basement.",
@@ -193,8 +183,34 @@
     "required_container": "can_food",
     "remove_container": true,
     "empty_container": "can_food_unsealed",
-    "end": "evac_construct_5",
+    "end": {
+      "update_mapgen": {
+        "om_terrain": "evac_center_19",
+        "om_special": "evac_center",
+        "place_loot": [
+          { "item": "can_beans", "x": 1, "y": 5, "chance": 100, "repeat": 3 },
+          { "item": "can_spam", "x": 1, "y": 6, "chance": 100, "repeat": 2 },
+          { "item": "can_tomato", "x": 1, "y": 7, "chance": 100, "repeat": 3 },
+          { "item": "can_sardine", "x": 2, "y": 5, "chance": 100, "repeat": 2 },
+          { "item": "soup_veggy", "x": 2, "y": 6, "chance": 100, "repeat": 3 },
+          { "item": "soup_dumplings", "x": 2, "y": 7, "chance": 100, "repeat": 2 },
+          { "item": "soup_meat", "x": 1, "y": 10, "chance": 100, "repeat": 3 },
+          { "item": "soup_tomato", "x": 1, "y": 11, "chance": 100, "repeat": 2 },
+          { "item": "soup_fish", "x": 1, "y": 12, "chance": 100, "repeat": 3 },
+          { "item": "fish_canned", "x": 2, "y": 10, "chance": 100, "repeat": 2 },
+          { "item": "curry_veggy", "x": 2, "y": 11, "chance": 100, "repeat": 3 },
+          { "item": "ravioli", "x": 2, "y": 12, "chance": 100, "repeat": 2 },
+          { "item": "curry_meat", "x": 1, "y": 15, "chance": 100, "repeat": 3 },
+          { "item": "chili", "x": 1, "y": 16, "chance": 100, "repeat": 2 },
+          { "item": "soup_chicken", "x": 1, "y": 17, "chance": 100, "repeat": 3 },
+          { "item": "pork_beans", "x": 2, "y": 15, "chance": 100, "repeat": 2 },
+          { "item": "soup_mushroom", "x": 2, "y": 16, "chance": 100, "repeat": 3 },
+          { "item": "can_tuna", "x": 2, "y": 17, "chance": 100, "repeat": 2 }
+        ]
+      }
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_FREE_MERCHANTS_EVAC_4",
     "dialogue": {
       "describe": "We need help...",
       "offer": "While we've managed to secure day to day food supplies, it's very much hand to mouth. Our reserves would barely last a few days if something kept our people locked in. We need a stockpile to avoid that. It would have to be made of something that would be long lasting though, so canned food's the way to go. Get us about 40 cans and we should be able to ride out anything that comes our way.",

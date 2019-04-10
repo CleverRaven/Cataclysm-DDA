@@ -167,7 +167,6 @@ struct mission_end { // These functions are run when a mission ends
     static void thankful( mission * );       // NPC defaults to being a friendly stranger
     static void deposit_box( mission * );    // random valuable reward
     static void heal_infection( mission * );
-    static void evac_construct_5( mission * ); // place can food in evac storage room
 };
 
 struct mission_fail {
