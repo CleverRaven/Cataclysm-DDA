@@ -28,8 +28,9 @@
 
 const skill_id skill_barter( "barter" );
 
-inventory inventory_exchange( inventory &inv,
-                              const std::set<item *> &without, const std::vector<item *> &added )
+inventory npc_trading::inventory_exchange( inventory &inv,
+        const std::set<item *> &without,
+        const std::vector<item *> &added )
 {
     std::vector<item *> item_dump;
     inv.dump( item_dump );
@@ -46,7 +47,7 @@ inventory inventory_exchange( inventory &inv,
     return new_inv;
 }
 
-std::vector<item_pricing> init_selling( npc &p )
+std::vector<item_pricing> npc_trading::init_selling( npc &p )
 {
     std::vector<item_pricing> result;
     invslice slice = p.inv.slice();
@@ -77,7 +78,7 @@ void buy_helper( T &src, Callback cb )
     } );
 }
 
-std::vector<item_pricing> init_buying( npc &p, player &u )
+std::vector<item_pricing> npc_trading::init_buying( npc &p, player &u )
 {
     std::vector<item_pricing> result;
 
@@ -115,7 +116,11 @@ std::vector<item_pricing> init_buying( npc &p, player &u )
     return result;
 }
 
-bool trade( npc &p, int cost, const std::string &deal )
+// Oh my aching head
+// op_of_u.owed is the positive when the NPC owes the player, and negative if the player owes the
+// NPC
+// cost is positive when the player owes the NPC money for a service to be performed
+bool npc_trading::trade( npc &p, int cost, const std::string &deal )
 {
     catacurses::window w_head = catacurses::newwin( 4, TERMX, 0, 0 );
     const int win_they_w = TERMX / 2;
@@ -149,9 +154,9 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
     ///\EFFECT_INT_NPC slightly increases bartering price changes, relative to your INT
 
     ///\EFFECT_BARTER_NPC increases bartering price changes, relative to your BARTER
-    double their_adjust = ( price_adjustment( p.get_skill_level( skill_barter ) - g->u.get_skill_level(
-                                skill_barter ) ) +
-                            ( p.int_cur - g->u.int_cur ) / 20.0 );
+    double their_adjust = price_adjustment( p.get_skill_level( skill_barter ) -
+                                            g->u.get_skill_level( skill_barter ) ) +
+                          ( p.int_cur - g->u.int_cur ) / 20.0;
     if( their_adjust < 1.0 ) {
         their_adjust = 1.0;
     }
@@ -161,9 +166,9 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
     ///\EFFECT_INT slightly increases bartering price changes, relative to NPC INT
 
     ///\EFFECT_BARTER increases bartering price changes, relative to NPC BARTER
-    double your_adjust = ( price_adjustment( g->u.get_skill_level( skill_barter ) - p.get_skill_level(
-                               skill_barter ) ) +
-                           ( g->u.int_cur - p.int_cur ) / 20.0 );
+    double your_adjust = price_adjustment( g->u.get_skill_level( skill_barter ) -
+                                           p.get_skill_level( skill_barter ) ) +
+                         ( g->u.int_cur - p.int_cur ) / 20.0;
     if( your_adjust < 1.0 ) {
         your_adjust = 1.0;
     }

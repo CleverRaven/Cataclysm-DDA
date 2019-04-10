@@ -156,7 +156,7 @@ int calc_ma_style_training_cost( const npc &p, const matype_id & /* id */ )
 }
 
 // Rescale values from "mission scale" to "opinion scale"
-int cash_to_favor( const npc &, int cash )
+int npc_trading::cash_to_favor( const npc &, int cash )
 {
     // TODO: It should affect different NPCs to a different degree
     // Square root of mission value in dollars
@@ -2071,7 +2071,7 @@ talk_topic talk_effect_t::apply( dialogue &d ) const
     d.beta->op_of_u += opinion;
     if( miss && ( mission_opinion.trust || mission_opinion.fear ||
                   mission_opinion.value || mission_opinion.anger ) ) {
-        int m_value = cash_to_favor( *d.beta, miss->get_value() );
+        int m_value = npc_trading::cash_to_favor( *d.beta, miss->get_value() );
         npc_opinion mod = npc_opinion( mission_opinion.trust ?
                                        m_value / mission_opinion.trust : 0,
                                        mission_opinion.fear ?
