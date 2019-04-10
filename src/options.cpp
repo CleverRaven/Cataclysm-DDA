@@ -1451,6 +1451,11 @@ void options_manager::add_options_interface()
         { "hidekb", translate_marker( "HideKB" ) }
     },
     "show", COPT_CURSES_HIDE );
+
+    add( "EDGE_SCROLL", "interface", translate_marker( "Edge scrolling" ),
+         translate_marker( "If true, enables edge scrolling/panning with mouse when looking or peeking." ),
+         true, COPT_CURSES_HIDE
+       );
 }
 
 void options_manager::add_options_graphics()
