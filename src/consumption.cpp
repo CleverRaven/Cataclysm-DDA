@@ -638,19 +638,24 @@ bool player::eat( item &food, bool force )
                                  units::to_milliliter( stomach.contains() ) ) > units::to_milliliter(
                                 stomach.capacity() );
     const bool saprophage = has_trait( trait_id( "SAPROPHAGE" ) );
+    bool eaten = true;
     if( spoiled && !saprophage ) {
         add_msg_if_player( m_bad, _( "Ick, this %s doesn't taste so good..." ), food.tname().c_str() );
         if( !has_trait( trait_id( "SAPROVORE" ) ) && !has_trait( trait_id( "EATDEAD" ) ) &&
             ( !has_bionic( bio_digestion ) || one_in( 3 ) ) ) {
             add_effect( effect_foodpoison, rng( 6_minutes, ( nutr + 1 ) * 6_minutes ) );
         }
-        consume_effects( food );
+        eaten = consume_effects( food );
     } else if( spoiled && saprophage ) {
         add_msg_if_player( m_good, _( "Mmm, this %s tastes delicious..." ), food.tname().c_str() );
-        consume_effects( food );
+        eaten = consume_effects( food );
     } else {
-        consume_effects( food );
+        eaten = consume_effects( food );
     }
+    if( !eaten ) {
+        return false;
+    }
+    food.mod_charges( -1 );
 
     const bool amorphous = has_trait( trait_id( "AMORPHOUS" ) );
     int mealtime = 250;
@@ -907,22 +912,22 @@ bool player::eat( item &food, bool force )
     return true;
 }
 
-void player::consume_effects( item &food )
+bool player::consume_effects( item &food )
 {
     if( !food.is_comestible() ) {
         debugmsg( "called player::consume_effects with non-comestible" );
-        return;
+        return false;
     }
     const auto &comest = *food.get_comestible();
 
     if( has_trait( trait_id( "THRESH_PLANT" ) ) && food.type->can_use( "PLANTBLECH" ) ) {
         // used to cap nutrition and thirst, but no longer
-        return;
+        return false;
     }
     if( ( has_trait( trait_id( "HERBIVORE" ) ) || has_trait( trait_id( "RUMINANT" ) ) ) &&
         food.has_any_flag( herbivore_blacklist ) ) {
         // No good can come of this.
-        return;
+        return false;
     }
 
     // Rotten food causes health loss
@@ -1078,6 +1083,7 @@ void player::consume_effects( item &food )
     }
     // GET IN MAH BELLY!
     stomach.ingest( *this, food, 1 );
+    return true;
 }
 
 hint_rating player::rate_action_eat( const item &it ) const
