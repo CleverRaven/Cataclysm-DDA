@@ -15,6 +15,7 @@
 #include "game_inventory.h"
 #include "inventory.h"
 #include "item.h"
+#include "item_location.h"
 #include "itype.h"
 #include "map.h"
 #include "messages.h"
@@ -27,6 +28,7 @@
 #include "translations.h"
 #include "ui.h"
 #include "vehicle.h"
+#include "vehicle_selector.h"
 #include "vpart_position.h"
 #include "vpart_reference.h"
 
@@ -444,6 +446,55 @@ static item *set_item_inventory( player &p, item &newit )
     return ret_val;
 }
 
+/**
+ * Set an item on the map or in a vehicle and return the new location
+ *
+ */
+static item_location set_item_map_or_vehicle( const player &p, const tripoint &loc, item &newit )
+{
+    if( const cata::optional<vpart_reference> vp = g->m.veh_at( loc ).part_with_feature( "CARGO",
+            false ) ) {
+
+        if( vp->vehicle().add_item( vp->part_index(), newit ) ) {
+
+            // Since add succeded, we know that the craft is the last item in the vehicle_stack
+            auto items_at_part = vp->vehicle().get_items( vp->part_index() );
+            item *newit_in_vehicle = &items_at_part[items_at_part.size() - 1];
+
+            p.add_msg_player_or_npc(
+                string_format( pgettext( "item, furniture", "You put the %s on the %s" ),
+                               newit.tname(), vp->part().name() ),
+                string_format( pgettext( "item, furniture", "<npcname> puts the %s on the %s" ),
+                               newit.tname(), vp->part().name() ) );
+
+            return item_location( vehicle_cursor( vp->vehicle(), vp->part_index() ), newit_in_vehicle );
+        }
+
+        // Couldn't add the in progress craft to the target part, so drop it to the map.
+        p.add_msg_player_or_npc(
+            string_format( pgettext( "furniture, item",
+                                     "Not enough space on the %s. You drop the %s on the ground." ),
+                           vp->part().name(), newit.tname() ),
+            string_format( pgettext( "furniture, item",
+                                     "Not enough space on the %s. <npcname> drops the %s on the ground" ),
+                           vp->part().name(), newit.tname() ) );
+
+        return item_location( map_cursor( loc ), &g->m.add_item_or_charges( loc, newit ) );
+
+    } else {
+        if( g->m.has_furn( loc ) ) {
+            const furn_t &workbench = g->m.furn( loc ).obj();
+            p.add_msg_player_or_npc(
+                string_format( pgettext( "item, furniture", "You put the %s on the %s" ),
+                               newit.tname(), workbench.name() ),
+                string_format( pgettext( "item, furniture", "<npcname> puts the %s on the %s" ),
+                               newit.tname(), workbench.name() ) );
+        }
+
+        return item_location( map_cursor( loc ), &g->m.add_item_or_charges( loc, newit ) );
+    }
+}
+
 static void return_all_components_for_craft( player &p, std::list<item> &used,
         const double &relative_rot )
 {
@@ -486,37 +537,33 @@ void player::start_craft( craft_command &command, const tripoint &loc )
         reset_encumbrance();
     }
 
+    item *craft_in_inventory = nullptr;
+
     if( loc == tripoint_zero ) {
-        item *craft_in_inventory = set_item_inventory( *this, craft );
+
+        craft_in_inventory = set_item_inventory( *this, craft );
+
         if( !has_item( *craft_in_inventory ) ) {
             add_msg_if_player( _( "Activate the %s to start crafting" ), craft.tname() );
-        } else {
-            add_msg_player_or_npc(
-                string_format( pgettext( "in progress craft", "You start working on the %s" ),
-                               craft.tname() ),
-                string_format( pgettext( "in progress craft", "<npcname> starts working on the %s" ),
-                               craft.tname() ) );
-            assign_activity( activity_id( "ACT_CRAFT" ) );
-            activity.targets.push_back( item_location( *this, craft_in_inventory ) );
-            activity.values.push_back( is_long );
+            return;
         }
-    } else {
-        item *craft_on_map = &g->m.add_item_or_charges( loc, craft );
-        const furn_t &workbench = g->m.furn( loc ).obj();
-        add_msg_player_or_npc(
-            string_format( pgettext( "in progress craft", "You put the %s on the %s" ),
-                           craft.tname(), workbench.name() ),
-            string_format( pgettext( "in progress craft", "<npcname> puts the %s on the %s" ),
-                           craft.tname(), workbench.name() ) );
-        add_msg_player_or_npc(
-            string_format( pgettext( "in progress craft", "You start working on the %s" ),
-                           craft.tname() ),
-            string_format( pgettext( "in progress craft", "<npcname> starts working on the %s" ),
-                           craft.tname() ) );
-        assign_activity( activity_id( "ACT_CRAFT" ) );
-        activity.targets.push_back( item_location( map_cursor( loc ), craft_on_map ) );
-        activity.values.push_back( command.is_long() );
     }
+
+    assign_activity( activity_id( "ACT_CRAFT" ) );
+
+    if( craft_in_inventory ) {
+        activity.targets.push_back( item_location( *this, craft_in_inventory ) );
+    } else {
+        activity.targets.push_back( set_item_map_or_vehicle( *this, loc, craft ) );
+    }
+
+    activity.values.push_back( command.is_long() );
+
+    add_msg_player_or_npc(
+        string_format( pgettext( "in progress craft", "You start working on the %s" ),
+                       craft.tname() ),
+        string_format( pgettext( "in progress craft", "<npcname> starts working on the %s" ),
+                       craft.tname() ) );
 }
 
 void player::complete_craft( item &craft, const tripoint &loc )
@@ -776,7 +823,7 @@ void player::complete_craft( item &craft, const tripoint &loc )
         if( loc == tripoint_zero ) {
             set_item_inventory( *this, newit );
         } else {
-            g->m.add_item_or_charges( loc, newit );
+            set_item_map_or_vehicle( *this, loc, newit );
         }
     }
 
@@ -798,7 +845,7 @@ void player::complete_craft( item &craft, const tripoint &loc )
             if( loc == tripoint_zero ) {
                 set_item_inventory( *this, bp );
             } else {
-                g->m.add_item_or_charges( loc, bp );
+                set_item_map_or_vehicle( *this, loc, bp );
             }
         }
     }

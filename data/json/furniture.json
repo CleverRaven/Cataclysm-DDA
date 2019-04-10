@@ -745,7 +745,7 @@
     "color": "light_red",
     "move_cost_mod": 1,
     "required_str": 8,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "FLAT_SURF" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "FLAT_SURF", "WORKBENCH" ],
     "deconstruct": { "items": [ { "item": "2x4", "count": 4 }, { "item": "nail", "charges": [ 6, 10 ] } ] },
     "max_volume": 4000,
     "bash": {
@@ -857,7 +857,7 @@
     "move_cost_mod": 2,
     "required_str": 8,
     "max_volume": 4000,
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "FLAT_SURF" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "FLAT_SURF", "WORKBENCH" ],
     "deconstruct": { "items": [ { "item": "2x4", "count": 6 }, { "item": "nail", "charges": [ 6, 8 ] } ] },
     "bash": {
       "str_min": 12,
@@ -970,7 +970,7 @@
     "color": "blue",
     "move_cost_mod": 2,
     "required_str": 10,
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "FLAT_SURF" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "FLAT_SURF", "WORKBENCH" ],
     "deconstruct": { "items": [ { "item": "2x4", "count": 6 }, { "item": "nail", "charges": [ 6, 8 ] } ] },
     "max_volume": 4000,
     "bash": {
@@ -979,7 +979,8 @@
       "sound": "smash!",
       "sound_fail": "whump.",
       "items": [ { "item": "2x4", "count": [ 2, 6 ] }, { "item": "nail", "charges": [ 4, 8 ] }, { "item": "splinter", "count": 1 } ]
-    }
+    },
+    "examine_action": "workbench"
   },
   {
     "type": "furniture",
@@ -4455,7 +4456,7 @@
     "move_cost_mod": 2,
     "required_str": -1,
     "looks_like": "f_counter",
-    "flags": [ "TRANSPARENT", "PLACE_ITEM", "MOUNTABLE", "FLAT_SURF" ],
+    "flags": [ "TRANSPARENT", "PLACE_ITEM", "MOUNTABLE", "FLAT_SURF", "WORKBENCH2" ],
     "deconstruct": {
       "items": [
         { "item": "pipe", "count": [ 6, 12 ] },
@@ -5517,13 +5518,13 @@
     "type": "furniture",
     "id": "f_workbench",
     "name": "workbench",
-    "description": "A sturdy workbench built out of durable metal and wood.  It is perfect for crafting large and heavy things.",
+    "description": "A sturdy workbench built out of metal.  It is perfect for crafting large and heavy things.",
     "symbol": "#",
     "color": "red",
     "move_cost_mod": 2,
     "required_str": -1,
     "looks_like": "f_lab_bench",
-    "flags": [ "TRANSPARENT", "PLACE_ITEM", "MOUNTABLE", "FLAT_SURF" ],
+    "flags": [ "TRANSPARENT", "PLACE_ITEM", "MOUNTABLE", "FLAT_SURF", "WORKBENCH3" ],
     "deconstruct": {
       "items": [
         { "item": "pipe", "count": [ 6, 8 ] },

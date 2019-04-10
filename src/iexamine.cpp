@@ -4621,7 +4621,7 @@ void iexamine::workbench( player &p, const tripoint &examp )
         }
     }
 
-    amenu.text = string_format( pgettext( "furniture", "What to do with the %s?" ),
+    amenu.text = string_format( pgettext( "furniture", "What to do at the %s?" ),
                                 f_workbench.name() );
     amenu.addentry( start_craft,      true,                   '1', _( "Craft items" ) );
     amenu.addentry( repeat_craft,     true,                   '2', _( "Recraft last recipe" ) );
@@ -4665,7 +4665,7 @@ void iexamine::workbench( player &p, const tripoint &examp )
                 }
             }
             uilist amenu2( _( "Which craft to work on?" ), item_names );
-            item *selected_craft = crafts[amenu2.ret].get_item();
+            const item *selected_craft = crafts[amenu2.ret].get_item();
 
             p.add_msg_player_or_npc(
                 string_format( pgettext( "in progress craft", "You start working on the %s" ),
@@ -4673,7 +4673,7 @@ void iexamine::workbench( player &p, const tripoint &examp )
                 string_format( pgettext( "in progress craft", "<npcname> starts working on the %s" ),
                                selected_craft->tname() ) );
             p.assign_activity( activity_id( "ACT_CRAFT" ) );
-            p.activity.targets.push_back( item_location( map_cursor( examp ), selected_craft ) );
+            p.activity.targets.push_back( crafts[amenu2.ret].clone() );
             p.activity.values.push_back( 0 ); // Not a long craft
             break;
         }

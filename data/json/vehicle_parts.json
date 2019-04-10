@@ -969,7 +969,7 @@
     "item": "v_table",
     "difficulty": 1,
     "location": "center",
-    "flags": [ "CARGO", "OBSTACLE", "TOOL_WRENCH", "FLAT_SURF" ],
+    "flags": [ "CARGO", "OBSTACLE", "TOOL_WRENCH", "FLAT_SURF", "WORKBENCH1" ],
     "breaks_into": [
       { "item": "2x4", "count": [ 1, 6 ] },
       { "item": "splinter", "count": [ 4, 6 ] },
@@ -990,7 +990,7 @@
     "item": "w_table",
     "difficulty": 1,
     "location": "center",
-    "flags": [ "CARGO", "OBSTACLE", "TOOL_WRENCH", "FLAT_SURF" ],
+    "flags": [ "CARGO", "OBSTACLE", "TOOL_WRENCH", "FLAT_SURF", "WORKBENCH1" ],
     "breaks_into": [
       { "item": "2x4", "count": [ 1, 6 ] },
       { "item": "splinter", "count": [ 4, 6 ] },
@@ -1012,7 +1012,7 @@
     "item": "workbench",
     "difficulty": 1,
     "location": "center",
-    "flags": [ "CARGO", "OBSTACLE", "TOOL_WRENCH", "FLAT_SURF" ],
+    "flags": [ "CARGO", "OBSTACLE", "TOOL_WRENCH", "FLAT_SURF", "WORKBENCH2" ],
     "breaks_into": [
         { "item": "pipe", "count": [ 4, 6 ] },
         { "item": "sheet_metal", "count": [ 0, 1 ] },
