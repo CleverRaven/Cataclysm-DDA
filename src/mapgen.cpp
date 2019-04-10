@@ -8370,8 +8370,10 @@ void update_mapgen_function_json::update_map( const tripoint &omt_pos, int offse
         mission *miss ) const
 {
     tinymap update_map;
-    const regional_settings &rsettings = overmap_buffer.get_settings( omt_pos.x, omt_pos.y, omt_pos.z );
+    const regional_settings &rsettings = overmap_buffer.get_settings( omt_pos.x, omt_pos.y,
+                                         omt_pos.z );
     update_map.load( omt_pos.x * 2, omt_pos.y * 2, omt_pos.z, false );
+    const std::string map_id = overmap_buffer.ter( omt_pos ).id().c_str();
     oter_id north = overmap_buffer.ter( omt_pos + tripoint( 0, -1, 0 ) );
     oter_id south = overmap_buffer.ter( omt_pos + tripoint( 0, 1, 0 ) );
     oter_id east = overmap_buffer.ter( omt_pos + tripoint( 1, 0, 0 ) );
@@ -8383,13 +8385,30 @@ void update_mapgen_function_json::update_map( const tripoint &omt_pos, int offse
     oter_id above = overmap_buffer.ter( omt_pos + tripoint( 0, 0, 1 ) );
     oter_id below = overmap_buffer.ter( omt_pos + tripoint( 0, 0, -1 ) );
 
-
     mapgendata md( north, south, east, west, northeast, southeast, northwest, southwest,
                    above, below, omt_pos.z, rsettings, update_map );
+
+    int rotation = 0;
+    if( map_id.substr( map_id.size() - 6, 6 ) == "_south" ) {
+        rotation = 2;
+        md.m.rotate( rotation );
+    } else if( map_id.substr( map_id.size() - 5, 5 ) == "_east" ) {
+        rotation = 1;
+        md.m.rotate( rotation );
+    } else if( map_id.substr( map_id.size() - 5, 5 ) == "_west" ) {
+        rotation = 3;
+        md.m.rotate( rotation );
+    }
+
     for( auto &elem : setmap_points ) {
         elem.apply( md, offset_x, offset_y );
     }
     objects.apply( md, offset_x, offset_y, 0, miss );
+
+    if( rotation ) {
+        md.m.rotate( 4 - rotation );
+    }
+
     update_map.save();
 }
 

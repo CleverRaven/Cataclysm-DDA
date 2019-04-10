@@ -695,7 +695,7 @@ Values are 90° steps.
 update_mapgen is a variant of normal JSON mapgen.  Instead of creating a new overmap tile, it
 updates an existing overmap tile with a specific set of changes.  Currently, it only works within
 the NPC mission interface, but it will be expanded to be a general purpose tool for modifying
-existing maps.  update_mapgen currently only works with maps that cannot rotate.
+existing maps.
 
 update_mapgen generally uses the same fields as JSON mapgen, with a few exceptions.  update_mapgen has a few new fields to support missions, as well as ways to specify which overmap tile will be updated.
 
