@@ -2668,10 +2668,23 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
         p->add_msg_if_player( m_bad, _( "You can't focus and are working slowly." ) );
     }
 
-    craft->item_counter += crafting_speed * p->get_moves();
+    // item_counter represents the percent progress relative to the base batch time
+    // stored precise to 2 decimal places ( e.g. 67.32 percent would be stored as 6732 )
+
+    // Base moves for batch size with no speed modifier or assistants
+    const double base_total_moves = rec.batch_time( craft->charges, 1.0f, 0 );
+    // Current expected total moves, includes crafting speed modifiers and assistants
+    const double cur_total_moves = p->expected_time_to_craft( rec, craft->charges );
+    // Delta progress in moves adjusted for current crafting speed
+    const double delta_progress = p->get_moves() * base_total_moves / cur_total_moves;
+    // Current progress in moves
+    const double current_progress = craft->item_counter * base_total_moves / 10000.0 + delta_progress;
+    // Current progress as a percent of base_total_moves to 2 decimal places
+    craft->item_counter = current_progress / base_total_moves * 10000.0;
     p->set_moves( 0 );
 
-    if( craft->item_counter >= rec.time * craft->charges ) {
+    // if item_counter has reached 100% or more
+    if( craft->item_counter >= 10000 ) {
         p->cancel_activity();
         item craft_copy = p->i_rem( craft );
         p->complete_craft( craft_copy );
