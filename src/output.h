@@ -60,6 +60,18 @@ using chtype = int;
 #define LINE_OXXX_S "┬" // '^|^' Tee pointing down. ncurses: ACS_TTEE; Unicode: U+252C
 #define LINE_XXXX_S "┼" // '-|-' Large Plus or cross over. ncurses: ACS_PLUS; Unicode: U+253C
 
+#define LINE_XOXO_UNICODE 0x2502
+#define LINE_OXOX_UNICODE 0x2500
+#define LINE_XXOO_UNICODE 0x2514
+#define LINE_OXXO_UNICODE 0x250C
+#define LINE_OOXX_UNICODE 0x2510
+#define LINE_XOOX_UNICODE 0x2518
+#define LINE_XXXO_UNICODE 0x251C
+#define LINE_XXOX_UNICODE 0x2534
+#define LINE_XOXX_UNICODE 0x2524
+#define LINE_OXXX_UNICODE 0x252C
+#define LINE_XXXX_UNICODE 0x253C
+
 // Supports line drawing
 inline std::string string_from_long( const catacurses::chtype ch )
 {
