@@ -179,7 +179,7 @@
     "ammo": "3006",
     "skill": "rifle",
     "ranged_damage": -2,
-    "dispersion": 180,
+    "dispersion": 550,
     "durability": 6,
     "loudness": 25,
     "clip_size": 1,

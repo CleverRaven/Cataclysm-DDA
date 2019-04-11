@@ -257,7 +257,7 @@
     "volume": 8,
     "bashing": 12,
     "to_hit": -1,
-    "dispersion": 450,
+    "dispersion": 550,
     "durability": 6,
     "clip_size": 1,
     "loudness": 25,
