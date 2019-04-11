@@ -1125,7 +1125,7 @@
           "boots_steel",
           "pants_cargo",
           "jacket_flannel",
-          "compbow",
+          "recurbow",
           "hat_hunting",
           "wristwatch",
           "cell_phone"
@@ -1804,6 +1804,7 @@
     "CBMs": [
       "bio_cqb",
       "bio_blade",
+      "bio_shotgun",
       "bio_shock",
       "bio_carbon",
       "bio_adrenaline",

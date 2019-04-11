@@ -116,20 +116,16 @@
 #include "worldfactory.h"
 #include "map_selector.h"
 
-#ifdef TILES
+#if defined(TILES)
 #include "cata_tiles.h"
 #endif // TILES
 
-#if (defined TILES || defined _WIN32 || defined WINDOWS)
-#include "cursesport.h"
-#endif
-
-#if !(defined _WIN32 || defined WINDOWS || defined TILES)
+#if !(defined(_WIN32) || defined(TILES))
 #include <langinfo.h>
 #include <cstring>
 #endif
 
-#if (defined _WIN32 || defined __WIN32__)
+#if defined(_WIN32)
 #if 1 // Hack to prevent reordering of #include "platform_win.h" by IWYU
 #   include "platform_win.h"
 #endif
@@ -205,7 +201,7 @@ static const trait_id trait_BURROW( "BURROW" );
 
 void intro();
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
 extern std::map<std::string, std::list<input_event>> quick_shortcuts_map;
 extern bool add_best_key_for_action_to_quick_shortcuts( action_id action,
         const std::string &category, bool back );
@@ -214,7 +210,7 @@ extern bool add_key_to_quick_shortcuts( long key, const std::string &category, b
 
 //The one and only game instance
 std::unique_ptr<game> g;
-#ifdef TILES
+#if defined(TILES)
 extern std::unique_ptr<cata_tiles> tilecontext;
 extern void toggle_fullscreen_window();
 #endif // TILES
@@ -225,6 +221,8 @@ bool is_valid_in_w_terrain( int x, int y )
 {
     return x >= 0 && x < TERRAIN_WINDOW_WIDTH && y >= 0 && y < TERRAIN_WINDOW_HEIGHT;
 }
+
+#define DEFAULT_TILESET_ZOOM 16
 
 // This is the main game set-up process.
 game::game() :
@@ -248,7 +246,7 @@ game::game() :
     next_mission_id( 1 ),
     remoteveh_cache_time( calendar::before_time_starts ),
     user_action_counter( 0 ),
-    tileset_zoom( 16 ),
+    tileset_zoom( DEFAULT_TILESET_ZOOM ),
     weather_override( WEATHER_NULL ),
     displaying_scent( false )
 
@@ -385,7 +383,7 @@ void game::init_ui( const bool resized )
 
         first_init = false;
 
-#ifdef TILES
+#if defined(TILES)
         //class variable to track the option being active
         //only set once, toggle action is used to change during game
         pixel_minimap_option = get_option<bool>( "PIXEL_MINIMAP" );
@@ -393,7 +391,7 @@ void game::init_ui( const bool resized )
     }
 
     // First get TERMX, TERMY
-#if (defined TILES || defined _WIN32 || defined __WIN32__)
+#if defined(TILES) || defined(_WIN32)
     TERMX = get_terminal_width();
     TERMY = get_terminal_height();
 
@@ -491,7 +489,7 @@ void game::init_ui( const bool resized )
     int pixelminimapH = 0;
     bool pixel_minimap_custom_height = false;
 
-#ifdef TILES
+#if defined(TILES)
     pixel_minimap_custom_height = get_option<int>( "PIXEL_MINIMAP_HEIGHT" ) > 0;
 #endif // TILES
 
@@ -536,7 +534,7 @@ void game::init_ui( const bool resized )
 
 void game::toggle_fullscreen()
 {
-#ifndef TILES
+#if !defined(TILES)
     fullscreen = !fullscreen;
     init_ui();
     refresh_all();
@@ -548,7 +546,7 @@ void game::toggle_fullscreen()
 
 void game::toggle_pixel_minimap()
 {
-#ifdef TILES
+#if defined(TILES)
     if( pixel_minimap_option ) {
         clear_window_area( w_pixel_minimap );
     }
@@ -565,7 +563,7 @@ void game::toggle_panel_adm()
 
 void game::reload_tileset()
 {
-#ifdef TILES
+#if defined(TILES)
     try {
         tilecontext->reinit();
         tilecontext->load_tileset( get_option<std::string>( "TILES" ), false, true );
@@ -823,10 +821,11 @@ void game::load_npcs()
     // uses submap coordinates
     std::vector<std::shared_ptr<npc>> just_added;
     for( const auto &temp : overmap_buffer.get_npcs_near_player( radius ) ) {
+
         if( temp->is_active() ) {
             continue;
         }
-        if( temp->has_companion_mission() ) {
+        if( ( temp->has_companion_mission() ) && ( temp->mission != NPC_MISSION_TRAVELLING ) ) {
             continue;
         }
 
@@ -1192,7 +1191,7 @@ bool game::cleanup_at_end()
     MAPBUFFER.reset();
     overmap_buffer.clear();
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
     quick_shortcuts_map.clear();
 #endif
     return true;
@@ -1468,6 +1467,9 @@ bool game::do_turn()
     // consider a stripped down cache just for monsters.
     m.build_map_cache( get_levz(), true );
     monmove();
+    if( calendar::once_every( 3_minutes ) ) {
+        overmap_npc_move();
+    }
     update_stair_monsters();
     u.process_turn();
     if( u.moves < 0 && get_option<bool>( "FORCE_REDRAW" ) ) {
@@ -1840,12 +1842,19 @@ void game::add_npc_follower( const int &id )
 } ) ) {
         follower_ids.push_back( id );
     }
+    if( !std::any_of( u.follower_ids.begin(), u.follower_ids.end(), [id]( int i ) {
+    return i == id;
+} ) ) {
+        u.follower_ids.push_back( id );
+    }
 }
 
 void game::remove_npc_follower( const int &id )
 {
     follower_ids.erase( std::remove( follower_ids.begin(), follower_ids.end(), id ),
                         follower_ids.end() );
+    u.follower_ids.erase( std::remove( u.follower_ids.begin(), u.follower_ids.end(), id ),
+                          u.follower_ids.end() );
 }
 
 void game::validate_npc_followers()
@@ -1858,11 +1867,15 @@ void game::validate_npc_followers()
         add_npc_follower( elem->getID() );
     }
     // Make sure overmapbuffered NPC followers are in the list.
-    for( const auto &temp_guy : overmap_buffer.get_npcs_near_player( 200 ) ) {
+    for( const auto &temp_guy : overmap_buffer.get_npcs_near_player( 300 ) ) {
         npc *guy = temp_guy.get();
         if( ( guy->is_friend() && guy->is_following() ) || guy->has_companion_mission() ) {
             add_npc_follower( guy->getID() );
         }
+    }
+    // Make sure that serialized player followers sync up with game list
+    for( const auto &temp_guy : u.follower_ids ) {
+        add_npc_follower( temp_guy );
     }
 }
 
@@ -1940,7 +1953,7 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
 
     item &oThisItem = u.i_at( pos );
     if( u.has_item( oThisItem ) ) {
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
         if( get_option<bool>( "ANDROID_INVENTORY_AUTOADD" ) ) {
             add_key_to_quick_shortcuts( oThisItem.invlet, "INVENTORY", false );
         }
@@ -1982,7 +1995,7 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
         addentry( 'T', pgettext( "action", "take off" ), u.rate_action_takeoff( oThisItem ) );
         addentry( 'd', pgettext( "action", "drop" ), rate_drop_item );
         addentry( 'U', pgettext( "action", "unload" ), u.rate_action_unload( oThisItem ) );
-        addentry( 'r', pgettext( "action", "reload" ), u.rate_action_reload( oThisItem ) );
+        addentry( 'r', pgettext( "action", "reload_item" ), u.rate_action_reload( oThisItem ) );
         addentry( 'p', pgettext( "action", "part reload" ), u.rate_action_reload( oThisItem ) );
         addentry( 'm', pgettext( "action", "mend" ), u.rate_action_mend( oThisItem ) );
         addentry( 'D', pgettext( "action", "disassemble" ), u.rate_action_disassemble( oThisItem ) );
@@ -2162,7 +2175,7 @@ bool game::handle_mouseview( input_context &ctxt, std::string &action )
     return true;
 }
 
-#ifdef TILES
+#if defined(TILES)
 void rescale_tileset( int size );
 #endif
 
@@ -2219,7 +2232,8 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "read" );
     ctxt.register_action( "wield" );
     ctxt.register_action( "pick_style" );
-    ctxt.register_action( "reload" );
+    ctxt.register_action( "reload_item" );
+    ctxt.register_action( "reload_weapon" );
     ctxt.register_action( "unload" );
     ctxt.register_action( "throw" );
     ctxt.register_action( "fire" );
@@ -2245,7 +2259,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "whitelist_enemy" );
     ctxt.register_action( "save" );
     ctxt.register_action( "quicksave" );
-#ifndef RELEASE
+#if !defined(RELEASE)
     ctxt.register_action( "quickload" );
 #endif
     ctxt.register_action( "quit" );
@@ -2269,7 +2283,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "debug_mode" );
     ctxt.register_action( "zoom_out" );
     ctxt.register_action( "zoom_in" );
-#ifndef __ANDROID__
+#if !defined(__ANDROID__)
     ctxt.register_action( "toggle_fullscreen" );
 #endif
     ctxt.register_action( "toggle_pixel_minimap" );
@@ -2557,7 +2571,7 @@ void game::load( const save_t &name )
     read_from_file_optional( worldpath + name.base_path() + ".log",
                              std::bind( &player::load_memorial_file, &u, _1 ) );
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
     read_from_file_optional( worldpath + name.base_path() + ".shortcuts",
                              std::bind( &game::load_shortcuts, this, _1 ) );
 #endif
@@ -2754,14 +2768,14 @@ bool game::save_player_data()
     const bool saved_log = write_to_file( playerfile + ".log", [&]( std::ostream & fout ) {
         fout << u.dump_memorial();
     }, _( "player memorial" ) );
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
     const bool saved_shortcuts = write_to_file( playerfile + ".shortcuts", [&]( std::ostream & fout ) {
         save_shortcuts( fout );
     }, _( "quick shortcuts" ) );
 #endif
 
     return saved_data && saved_map_memory && saved_weather && saved_log
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
            && saved_shortcuts
 #endif
            ;
@@ -2907,7 +2921,8 @@ void game::debug()
         _( "Show debug message" ),              // 34
         _( "Crash game (test crash handling)" ),// 35
         _( "Spawn Map Extra" ),                 // 36
-        _( "Quit to Main Menu" ),               // 37
+        _( "Toggle NPC pathfinding on map" ),   // 37
+        _( "Quit to Main Menu" ),               // 38
     } );
     refresh_all();
     switch( action ) {
@@ -2973,7 +2988,16 @@ void game::debug()
             }
 
             add_msg( m_info, _( "(you: %d:%d)" ), u.posx(), u.posy() );
-
+            std::string stom =
+                _( "Stomach Contents: %d ml / %d ml kCal: %d, Water: %d ml" );
+            add_msg( m_info, stom.c_str(), units::to_milliliter( u.stomach.contains() ),
+                     units::to_milliliter( u.stomach.capacity() ), u.stomach.get_calories(),
+                     units::to_milliliter( u.stomach.get_water() ), u.get_hunger() );
+            stom = _( "Guts Contents: %d ml / %d ml kCal: %d, Water: %d ml\nHunger: %d, Thirst: %d, kCal: %d / %d" );
+            add_msg( m_info, stom.c_str(), units::to_milliliter( u.guts.contains() ),
+                     units::to_milliliter( u.guts.capacity() ), u.guts.get_calories(),
+                     units::to_milliliter( u.guts.get_water() ), u.get_hunger(), u.get_thirst(), u.get_stored_kcal(),
+                     u.get_healthy_kcal() );
             disp_NPCs();
             break;
         }
@@ -3161,10 +3185,10 @@ void game::debug()
         break;
 
         case 24: {
-#ifdef TILES
+#if defined(TILES)
             const point offset {
                 POSX - u.posx() + u.view_offset.x,
-                POSY - u.posy() + u.view_offset.y
+                     POSY - u.posy() + u.view_offset.y
             };
             draw_ter();
             auto sounds_to_draw = sounds::get_monster_sounds();
@@ -3319,6 +3343,9 @@ void game::debug()
             break;
         }
         case 37:
+            debug_pathfinding = !debug_pathfinding;
+            break;
+        case 38:
             if( query_yn(
                     _( "Quit without saving? This may cause issues such as duplicated or missing items and vehicles!" ) ) ) {
                 u.moves = 0;
@@ -3636,7 +3663,7 @@ void game::draw_pixel_minimap( const catacurses::window &w )
 {
     w_pixel_minimap = w;
     // Make no-op if not TILES build
-#ifdef TILES
+#if defined(TILES)
     // Force a refresh of the pixel minimap.
     // only do so if it is in use
     if( pixel_minimap_option && w_pixel_minimap ) {
@@ -3777,7 +3804,7 @@ void game::draw_veh_dir_indicator( bool next )
     if( const cata::optional<tripoint> indicator_offset = get_veh_dir_indicator_location( next ) ) {
         auto col = next ? c_white : c_dark_gray;
         mvwputch( w_terrain, POSY + indicator_offset->y - u.view_offset.y,
-                  POSX + indicator_offset->x - u.view_offset.x, col, 'X' );
+                  POSX + indicator_offset->x - u.view_offset.x - g->sidebar_offset.x, col, 'X' );
     }
 }
 
@@ -3811,7 +3838,7 @@ void game::draw_minimap()
             const int omx = cursx + i;
             const int omy = cursy + j;
             nc_color ter_color;
-            long ter_sym;
+            std::string ter_sym;
             const bool seen = overmap_buffer.seen( omx, omy, get_levz() );
             const bool vehicle_here = overmap_buffer.has_vehicle( omx, omy, get_levz() );
             if( overmap_buffer.has_note( omx, omy, get_levz() ) ) {
@@ -3819,7 +3846,7 @@ void game::draw_minimap()
                 const std::string &note_text = overmap_buffer.note( omx, omy, get_levz() );
 
                 ter_color = c_yellow;
-                ter_sym = 'N';
+                ter_sym = "N";
 
                 int symbolIndex = note_text.find( ':' );
                 int colorIndex = note_text.find( ';' );
@@ -3903,14 +3930,14 @@ void game::draw_minimap()
                     }
                 }
             } else if( !seen ) {
-                ter_sym = ' ';
+                ter_sym = " ";
                 ter_color = c_black;
             } else if( vehicle_here ) {
                 ter_color = c_cyan;
-                ter_sym = 'c';
+                ter_sym = "c";
             } else {
                 const oter_id &cur_ter = overmap_buffer.ter( omx, omy, get_levz() );
-                ter_sym = cur_ter->get_sym();
+                ter_sym = cur_ter->get_symbol();
                 if( overmap_buffer.is_explored( omx, omy, get_levz() ) ) {
                     ter_color = c_dark_gray;
                 } else {
@@ -3941,9 +3968,9 @@ void game::draw_minimap()
 
         if( cursx == targ.x || fabs( slope ) > 3.5 ) { // Vertical slope
             if( targ.y > cursy ) {
-                mvwputch( w_minimap, 6, 3, c_red, '*' );
+                mvwputch( w_minimap, 6, 3, c_red, "*" );
             } else {
-                mvwputch( w_minimap, 0, 3, c_red, '*' );
+                mvwputch( w_minimap, 0, 3, c_red, "*" );
             }
         } else {
             int arrowx = -1;
@@ -4648,6 +4675,42 @@ void game::monmove()
         }
     }
     cleanup_dead();
+}
+
+void game::overmap_npc_move()
+{
+    std::vector<npc *> travelling_npcs;
+    // for now just processing NPC followers on travelling missions
+    for( auto &elem : get_follower_list() ) {
+        std::shared_ptr<npc> npc_to_get = overmap_buffer.find_npc( elem );
+        npc *npc_to_add = npc_to_get.get();
+        if( ( !npc_to_add->is_active() || rl_dist( u.pos(), npc_to_add->pos() ) > SEEX * 2 ) &&
+            npc_to_add->mission == NPC_MISSION_TRAVELLING ) {
+            travelling_npcs.push_back( npc_to_add );
+        }
+    }
+    for( auto &elem : travelling_npcs ) {
+        if( elem->has_omt_destination() ) {
+            tripoint sm_tri;
+            tripoint next_point;
+            std::vector<tripoint> path = overmap_buffer.get_npc_path( elem->global_omt_location(), elem->goal );
+            elem->omt_path = path;
+            if( path.size() > 1 ) {
+                next_point = path[std::max<size_t>( 0, path.size() - 2 )];
+                sm_tri = omt_to_sm_copy( next_point );
+            } else if( path.size() == 1 ) {
+                next_point = path[0];
+                sm_tri = omt_to_sm_copy( next_point );
+                elem->omt_path.clear();
+            } else if( path.empty() ) {
+                add_msg( m_info, _( "From your two-way radio you hear %s say: 'Sorry Boss can't make it there!'" ),
+                         elem->disp_name() );
+            }
+            elem->travel_overmap( sm_tri );
+            reload_npcs();
+        }
+    }
+    return;
 }
 
 void game::flashbang( const tripoint &p, bool player_immune )
@@ -6880,7 +6943,7 @@ void game::zones_manager()
             if( blink ) {
                 //draw marked area
                 tripoint offset = tripoint( offset_x, offset_y, 0 ); //ASCII
-#ifdef TILES
+#if defined(TILES)
                 if( use_tiles ) {
                     offset = tripoint_zero; //TILES
                 } else {
@@ -6891,7 +6954,7 @@ void game::zones_manager()
                 draw_zones( start, end, offset );
             } else {
                 //clear marked area
-#ifdef TILES
+#if defined(TILES)
                 if( !use_tiles ) {
 #endif
                     for( int iY = start.y; iY <= end.y; ++iY ) {
@@ -6912,7 +6975,7 @@ void game::zones_manager()
                             }
                         }
                     }
-#ifdef TILES
+#if defined(TILES)
                 }
 #endif
             }
@@ -7034,6 +7097,8 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
+    ctxt.register_action( "zoom_out" );
+    ctxt.register_action( "zoom_in" );
 
     const int old_levz = get_levz();
 
@@ -7079,7 +7144,7 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
                     const tripoint end = tripoint( std::max( dx, POSX ), std::max( dy, POSY ), lz );
 
                     tripoint offset = tripoint_zero; //ASCII/SDL
-#ifdef TILES
+#if defined(TILES)
                     if( use_tiles ) {
                         offset = tripoint( offset_x + lx - u.posx(), offset_y + ly - u.posy(), 0 ); //TILES
                     }
@@ -7156,6 +7221,7 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
             lp = u.pos();
         } else if( action == "MOUSE_MOVE" ) {
             const tripoint old_lp = lp;
+            const tripoint old_center = center;
             // Maximum mouse events before a forced graphics update
             int max_consume = 10;
             do {
@@ -7164,6 +7230,28 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
                     lx = mouse_pos->x;
                     ly = mouse_pos->y;
                 }
+#if (defined TILES || defined _WIN32 || defined WINDOWS)
+                // Below we implement mouse panning. In order to make
+                // it less jerky we rate limit it by only allowing a
+                // panning move during the first iteration of this
+                // mouse move event consumption loop.
+                if( max_consume == 10 && get_option<bool>( "EDGE_SCROLL" ) ) {
+                    const input_event event = ctxt.get_raw_input();
+                    const int threshold_x = projected_window_width() / 20;
+                    const int threshold_y = projected_window_height() / 20;
+                    const int panning_speed = std::max( DEFAULT_TILESET_ZOOM / tileset_zoom, 1 );
+                    if( event.mouse_x <= threshold_x ) {
+                        center.x -= panning_speed;
+                    } else if( event.mouse_x >= projected_window_width() - threshold_x ) {
+                        center.x += panning_speed;
+                    }
+                    if( event.mouse_y <= threshold_y ) {
+                        center.y -= panning_speed;
+                    } else if( event.mouse_y >= projected_window_height() - threshold_y ) {
+                        center.y += panning_speed;
+                    }
+                }
+#endif
                 if( --max_consume == 0 ) {
                     break;
                 }
@@ -7183,7 +7271,7 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
                 } else {
                     blink = true; // Always draw blink symbols when moving cursor
                 }
-            } else if( lp == old_lp ) { // not blinking and cursor not changed
+            } else if( lp == old_lp && center == old_center ) { // not blinking and cursor not changed
                 redraw = false; // no need to redraw, so don't redraw to save CPU
             }
         } else if( cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
@@ -7203,6 +7291,14 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
             blink = !blink;
         } else if( action == "throw_blind" ) {
             result.peek_action = PA_BLIND_THROW;
+        } else if( action == "zoom_in" ) {
+            center.x = lp.x;
+            center.y = lp.y;
+            zoom_in();
+        } else if( action == "zoom_out" ) {
+            center.x = lp.x;
+            center.y = lp.y;
+            zoom_out();
         }
     } while( action != "QUIT" && action != "CONFIRM" && action != "SELECT" && action != "TRAVEL_TO" &&
              action != "throw_blind" );
@@ -7347,7 +7443,7 @@ void centerlistview( const tripoint &active_item_position )
 #define MAXIMUM_ZOOM_LEVEL 4
 void game::zoom_out()
 {
-#ifdef TILES
+#if defined(TILES)
     if( tileset_zoom > MAXIMUM_ZOOM_LEVEL ) {
         tileset_zoom = tileset_zoom / 2;
     } else {
@@ -7359,7 +7455,7 @@ void game::zoom_out()
 
 void game::zoom_in()
 {
-#ifdef TILES
+#if defined(TILES)
     if( tileset_zoom == 64 ) {
         tileset_zoom = MAXIMUM_ZOOM_LEVEL;
     } else {
@@ -7371,8 +7467,8 @@ void game::zoom_in()
 
 void game::reset_zoom()
 {
-#ifdef TILES
-    tileset_zoom = 16;
+#if defined(TILES)
+    tileset_zoom = DEFAULT_TILESET_ZOOM;
     rescale_tileset( tileset_zoom );
 #endif // TILES
 }
@@ -9254,9 +9350,10 @@ void game::eat( int pos )
             return;
         } else {
             u.moves -= 400;
-            u.mod_hunger( -20 );
-            add_msg( _( "You eat the leaves from the %s." ), m.ter( u.pos() )->name() );
             m.ter_set( u.pos(), t_grass );
+            add_msg( _( "You eat the underbrush." ) );
+            item food( "underbrush", calendar::turn, 1 );
+            u.eat( food );
             return;
         }
     }
@@ -9267,8 +9364,10 @@ void game::eat( int pos )
             return;
         } else {
             u.moves -= 400;
-            add_msg( _( "You graze on the %s." ), m.ter( u.pos() )->name() );
-            u.mod_hunger( -8 );
+            add_msg( _( "You eat the grass." ) );
+            item food( item( "grass", calendar::turn, 1 ) );
+            u.eat( food );
+            m.ter_set( u.pos(), t_dirt );
             if( m.ter( u.pos() ) == t_grass_tall ) {
                 m.ter_set( u.pos(), t_grass_long );
             } else if( m.ter( u.pos() ) == t_grass_long ) {
@@ -9420,7 +9519,23 @@ void game::reload( item_location &loc, bool prompt, bool empty )
     refresh_all();
 }
 
-void game::reload( bool try_everything )
+
+// Reload something.
+void game::reload_item()
+{
+    item_location item_loc = inv_map_splice( [&]( const item & it ) {
+        return u.rate_action_reload( it ) == HINT_GOOD;
+    }, _( "Reload item" ), 1, _( "You have nothing to reload." ) );
+
+    if( !item_loc ) {
+        add_msg( _( "Never mind." ) );
+        return;
+    }
+
+    reload( item_loc );
+}
+
+void game::reload_weapon( bool try_everything )
 {
     // As a special streamlined activity, hitting reload repeatedly should:
     // Reload wielded gun
@@ -9435,11 +9550,11 @@ void game::reload( bool try_everything )
         const item *ap = a.get_item();
         const item *bp = b.get_item();
         // Current wielded weapon comes first.
-        if( this->u.is_wielding( *ap ) ) {
-            return true;
-        }
         if( this->u.is_wielding( *bp ) ) {
             return false;
+        }
+        if( this->u.is_wielding( *ap ) ) {
+            return true;
         }
         // Second sort by afiliation with wielded gun
         const std::set<itype_id> compatible_magazines = this->u.weapon.magazine_compatible();
@@ -9480,16 +9595,8 @@ void game::reload( bool try_everything )
         }
         return;
     }
-    item_location item_loc = inv_map_splice( [&]( const item & it ) {
-        return u.rate_action_reload( it ) == HINT_GOOD;
-    }, _( "Reload item" ), 1, _( "You have nothing to reload." ) );
 
-    if( !item_loc ) {
-        add_msg( _( "Never mind." ) );
-        return;
-    }
-
-    reload( item_loc );
+    reload_item();
 }
 
 // Unload a container, gun, or tool
@@ -10434,7 +10541,6 @@ void game::place_player( const tripoint &dest_loc )
                             vp1 ) ) {
         u.stop_hauling();
     }
-
     u.setpos( dest_loc );
     update_map( u );
     // Important: don't use dest_loc after this line. `update_map` may have shifted the map
@@ -10642,7 +10748,6 @@ void game::place_player_overmap( const tripoint &om_dest )
     // player will be centered in the middle of the map.
     const tripoint map_om_pos( om_dest.x * 2 - HALF_MAPSIZE, om_dest.y * 2 - HALF_MAPSIZE, om_dest.z );
     const tripoint player_pos( u.pos().x, u.pos().y, map_om_pos.z );
-
     load_map( map_om_pos );
     load_npcs();
     m.spawn_monsters( true ); // Static monsters
@@ -11566,7 +11671,7 @@ cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, 
                     add_msg( m_bad, _( "You descend on your vines, though leaving a part of you behind stings." ) );
                     u.mod_pain( 5 );
                     u.apply_damage( nullptr, bp_torso, 5 );
-                    u.mod_hunger( 10 );
+                    u.mod_stored_nutr( 10 );
                     u.mod_thirst( 10 );
                 } else {
                     add_msg( _( "You gingerly descend using your vines." ) );
@@ -11574,7 +11679,7 @@ cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, 
             } else {
                 add_msg( _( "You effortlessly lower yourself and leave a vine rooted for future use." ) );
                 rope_ladder = true;
-                u.mod_hunger( 10 );
+                u.mod_stored_nutr( 10 );
                 u.mod_thirst( 10 );
             }
         } else {
@@ -11762,16 +11867,26 @@ void game::update_overmap_seen()
 {
     const tripoint ompos = u.global_omt_location();
     const int dist = u.overmap_sight_range( light_level( u.posz() ) );
+    const int dist_squared = dist * dist;
     // We can always see where we're standing
     overmap_buffer.set_seen( ompos.x, ompos.y, ompos.z, true );
-    for( int x = ompos.x - dist; x <= ompos.x + dist; x++ ) {
-        for( int y = ompos.y - dist; y <= ompos.y + dist; y++ ) {
+    for( int dx = -dist; dx <= dist; dx++ ) {
+        for( int dy = -dist; dy <= dist; dy++ ) {
+            const int h_squared = dx * dx + dy * dy;
+            if( trigdist && h_squared > dist_squared ) {
+                continue;
+            }
+            int x = ompos.x + dx;
+            int y = ompos.y + dy;
+            // If circular distances are enabled, scale overmap distances by the diagonality of the sight line.
+            const float multiplier = trigdist ? std::sqrt( h_squared ) / std::max<float>( std::abs( dx ),
+                                     std::abs( dy ) ) : 1;
             const std::vector<point> line = line_to( ompos.x, ompos.y, x, y, 0 );
-            int sight_points = dist;
+            float sight_points = dist;
             for( auto it = line.begin();
                  it != line.end() && sight_points >= 0; ++it ) {
                 const oter_id &ter = overmap_buffer.ter( it->x, it->y, ompos.z );
-                sight_points -= static_cast<int>( ter->get_see_cost() );
+                sight_points -= static_cast<int>( ter->get_see_cost() ) * multiplier;
             }
             if( sight_points >= 0 ) {
                 overmap_buffer.set_seen( x, y, ompos.z, true );
@@ -12323,7 +12438,7 @@ void intro()
     }
     werase( tmp );
 
-#if !(defined _WIN32 || defined WINDOWS || defined TILES)
+#if !(defined(_WIN32) || defined(TILES))
     // Check whether LC_CTYPE supports the UTF-8 encoding
     // and show a warning if it doesn't
     if( std::strcmp( nl_langinfo( CODESET ), "UTF-8" ) != 0 ) {

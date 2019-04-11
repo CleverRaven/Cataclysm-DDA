@@ -25,14 +25,14 @@
 #include "translations.h"
 #include "weather.h"
 
-#ifdef SDL_SOUND
+#if defined(SDL_SOUND)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)
 #      include <SDL2/SDL_mixer.h>
 #   else
 #      include <SDL_mixer.h>
 #   endif
 #   include <thread>
-#   if ((defined _WIN32 || defined WINDOWS) && !defined _MSC_VER)
+#   if defined(_WIN32) && !defined(_MSC_VER)
 #       include "mingw.thread.h"
 #   endif
 #endif
@@ -471,7 +471,7 @@ std::string sounds::sound_at( const tripoint &location )
     return _( "a sound" );
 }
 
-#ifdef SDL_SOUND
+#if defined(SDL_SOUND)
 
 bool is_underground( const tripoint &p )
 {
@@ -1112,7 +1112,7 @@ void sfx::do_obstacle()
     }
 }
 
-#else // ifdef SDL_SOUND
+#else // if defined(SDL_SOUND)
 
 /** Dummy implementations for builds without sound */
 /*@{*/
@@ -1143,7 +1143,7 @@ void sfx::do_fatigue() { }
 void sfx::do_obstacle() { }
 /*@}*/
 
-#endif // ifdef SDL_SOUND
+#endif // if defined(SDL_SOUND)
 
 /** Functions from sfx that do not use the SDL_mixer API at all. They can be used in builds
   * without sound support. */

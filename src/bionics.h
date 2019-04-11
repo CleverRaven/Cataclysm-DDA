@@ -19,6 +19,7 @@ struct mutation_branch;
 using trait_id = string_id<mutation_branch>;
 struct bionic_data;
 using bionic_id = string_id<bionic_data>;
+using itype_id = std::string;
 
 struct bionic_data {
     bionic_data();
@@ -63,6 +64,10 @@ struct bionic_data {
      */
     bool armor_interface = false;
     /**
+    * If true, this bionic won't provide a warning if the player tries to sleep while it's active.
+    */
+    bool sleep_friendly = false;
+    /**
      * Body part slots used to install this bionic, mapped to the amount of space required.
      */
     std::map<body_part, size_t> occupied_bodyparts;
@@ -101,6 +106,11 @@ struct bionic {
     int         charge  = 0;
     char        invlet  = 'a';
     bool        powered = false;
+    /* Ammunition actually loaded in this bionic gun in deactivated state */
+    itype_id    ammo_loaded = "null";
+    /* Ammount of ammo actually held inside by this bionic gun in deactivated state */
+    unsigned int         ammo_count = 0;
+
 
     bionic()
         : id( "bio_batteries" ) { }

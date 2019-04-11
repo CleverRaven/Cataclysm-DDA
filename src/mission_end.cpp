@@ -7,6 +7,8 @@
 #include "output.h"
 #include "rng.h"
 #include "translations.h"
+#include "map.h"
+#include "overmapbuffer.h"
 
 const efftype_id effect_infection( "infection" );
 

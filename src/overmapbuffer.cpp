@@ -21,7 +21,6 @@
 #include "overmap.h"
 #include "overmap_connection.h"
 #include "overmap_types.h"
-#include "simple_pathfinding.h"
 #include "string_formatter.h"
 #include "vehicle.h"
 
@@ -635,9 +634,13 @@ bool overmapbuffer::reveal( const point &center, int radius, int z )
 
 bool overmapbuffer::reveal( const tripoint &center, int radius )
 {
+    int radius_squared = radius * radius;
     bool result = false;
     for( int i = -radius; i <= radius; i++ ) {
         for( int j = -radius; j <= radius; j++ ) {
+            if( trigdist && i * i + j * j > radius_squared ) {
+                continue;
+            }
             if( !seen( center.x + i, center.y + j, center.z ) ) {
                 result = true;
                 set_seen( center.x + i, center.y + j, center.z, true );
@@ -645,6 +648,54 @@ bool overmapbuffer::reveal( const tripoint &center, int radius )
         }
     }
     return result;
+}
+
+std::vector<tripoint> overmapbuffer::get_npc_path( const tripoint &src, const tripoint &dest )
+{
+    std::vector<tripoint> path;
+    static const int RADIUS = 4;            // Maximal radius of search (in overmaps)
+    static const int OX = RADIUS * OMAPX;   // half-width of the area to search in
+    static const int OY = RADIUS * OMAPY;   // half-height of the area to search in
+    if( src == overmap::invalid_tripoint || dest == overmap::invalid_tripoint ) {
+        return path;
+    }
+    const tripoint start( OX, OY, src.z );   // Local source - center of the local area
+    const tripoint base( src - start );      // To convert local coordinates to global ones
+    const tripoint finish( dest - base );       // Local destination - relative to source
+    const auto get_ter_at = [&]( int x, int y ) {
+        x += base.x;
+        y += base.y;
+        const overmap &om = get_om_global( x, y );
+        return om.get_ter( x, y, src.z );
+    };
+    const auto estimate = [&]( const pf::node & cur, const pf::node * ) {
+        int res = 0;
+        const auto oter = get_ter_at( cur.x, cur.y );
+        int travel_cost = static_cast<int>( oter->get_travel_cost() );
+        if( oter->get_name() == "solid rock" || oter->get_name() == "open air" ) {
+            return pf::rejected;
+        } else if( oter->get_name() == "forest" ) {
+            travel_cost = 10;
+        } else if( oter->get_name() == "swamp" ) {
+            travel_cost = 15;
+        } else if( oter->get_name() == "road" ) {
+            travel_cost = 1;
+        } else if( oter->get_name() == "river" ) {
+            travel_cost = 20;
+        }
+        res += travel_cost;
+        res += std::abs( finish.x - cur.x ) +
+               std::abs( finish.y - cur.y );
+
+        return res;
+    };
+    pf::path route = pf::find_path( point( start.x, start.y ), point( finish.x, finish.y ), 2 * OX,
+                                    2 * OY, estimate );
+    for( auto node : route.nodes ) {
+        tripoint convert_result = base + tripoint( node.x, node.y, base.z );
+        path.push_back( convert_result );
+    }
+    return path;
 }
 
 bool overmapbuffer::reveal_route( const tripoint &source, const tripoint &dest, int radius,
@@ -706,7 +757,6 @@ bool overmapbuffer::reveal_route( const tripoint &source, const tripoint &dest, 
     for( const auto &node : path.nodes ) {
         reveal( base + tripoint( node.x, node.y, base.z ), radius );
     }
-
     return !path.nodes.empty();
 }
 
@@ -1102,6 +1152,18 @@ std::vector<camp_reference> overmapbuffer::get_camps_near( const tripoint &locat
     const camp_reference & rhs ) {
         return lhs.get_distance_from_bounds() < rhs.get_distance_from_bounds();
     } );
+    return result;
+}
+
+std::vector<std::shared_ptr<npc>> overmapbuffer::get_overmap_npcs()
+{
+    std::vector<std::shared_ptr<npc>> result;
+    for( auto &om : overmaps ) {
+        const overmap &overmap = *om.second;
+        for( auto &guy : overmap.npcs ) {
+            result.push_back( guy );
+        }
+    }
     return result;
 }
 
