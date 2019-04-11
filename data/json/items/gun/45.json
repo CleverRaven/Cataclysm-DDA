@@ -126,7 +126,7 @@
       [ "underbarrel", 1 ]
     ],
     "magazine_well": 1,
-    "magazines": [ [ "45", [ "mac10mag" ] ], [ "9mm", [ "tec9mag" ] ] ]
+    "magazines": [ [ "45", [ "mac10mag" ] ], [ "380", [ "mac11mag" ] ], [ "9mm", [ "tec9mag" ] ] ]
   },
   {
     "id": "surv_hand_cannon",
