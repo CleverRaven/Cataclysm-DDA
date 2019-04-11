@@ -1134,6 +1134,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "SWITCH_MODE" );
     ctxt.register_action( "SWITCH_AMMO" );
+    ctxt.register_action( "MOUSE_MOVE" );
     ctxt.register_action( "zoom_out" );
     ctxt.register_action( "zoom_in" );
 
@@ -1535,6 +1536,27 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             g->zoom_in();
         } else if( action == "zoom_out" ) {
             g->zoom_out();
+        } else if( action == "MOUSE_MOVE" ) {
+            int max_consume = 10;
+            do {
+                // Below we implement mouse panning. In order to make
+                // it less jerky we rate limit it by only allowing a
+                // panning move during the first iteration of this
+                // mouse move event consumption loop.
+                if( max_consume == 10 ) {
+                    const tripoint edge_scroll = g->mouse_edge_scrolling( ctxt );
+                    pc.view_offset += edge_scroll;
+                    if( snap_to_target ) {
+                        dst += edge_scroll;
+                    }
+                }
+                if( --max_consume == 0 ) {
+                    break;
+                }
+                // Consume all consecutive mouse movements. This lowers CPU consumption
+                // by graphics updates when user moves the mouse continuously.
+                action = ctxt.handle_input( 10 );
+            } while( action == "MOUSE_MOVE" );
         }
 
         // Make player's sprite flip to face the current target
