@@ -6,7 +6,13 @@
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 0 ],
-      "rows": [ "FFF.d", "....d", "....c", "ddx.c", "....." ],
+      "rows": [
+        "FFF.d",
+        "....d",
+        "....c",
+        "ddx.c",
+        "....."
+      ],
       "palettes": [ "office_palette" ],
       "place_vehicles": [ { "vehicle": "swivel_chair", "x": 2, "y": 2, "rotation": 90, "chance": 75 } ]
     }
@@ -18,7 +24,13 @@
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 0 ],
-      "rows": [ "xddhc", "x...c", "xFF.c", "---+-", "....." ],
+      "rows": [
+        "xddhc",
+        "x...c",
+        "xFF.c",
+        "---+-",
+        "....."
+      ],
       "palettes": [ "office_palette" ],
       "place_vehicles": [ { "vehicle": "swivel_chair", "x": 2, "y": 1, "rotation": 90, "chance": 75 } ]
     }
@@ -30,7 +42,13 @@
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 0 ],
-      "rows": [ "?????", "?....", "?.nn.", "^...M", "....." ],
+      "rows": [
+        "?????",
+        "?....",
+        "?.nn.",
+        "^...M",
+        "....."
+      ],
       "palettes": [ "office_palette" ]
     }
   },
@@ -41,7 +59,13 @@
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 0 ],
-      "rows": [ "xcFcx", "dh.hd", "d...d", "-HGH-", "....." ],
+      "rows": [
+        "xcFcx",
+        "dh.hd",
+        "d...d",
+        "-HGH-",
+        "....."
+      ],
       "palettes": [ "office_palette" ]
     }
   },
@@ -52,7 +76,14 @@
     "object": {
       "mapgensize": [ 6, 6 ],
       "rotation": [ 0, 0 ],
-      "rows": [ "Vdd..F", "Vx...F", "Vcc...", "|-HGH-", "......", "......" ],
+      "rows": [
+        "Vdd..F",
+        "Vx...F",
+        "Vcc...",
+        "|-HGH-",
+        "......",
+        "......"
+      ],
       "palettes": [ "office_palette" ],
       "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 3, 4 ], "y": [ 0, 2 ], "rotation": 90, "chance": 75, "repeat": [ 1, 2 ] } ]
     }
@@ -64,7 +95,14 @@
     "object": {
       "mapgensize": [ 6, 6 ],
       "rotation": [ 0, 0 ],
-      "rows": [ "d.FF.c", "d...hc", "ch...d", "cx..xd", "......", "......" ],
+      "rows": [
+        "d.FF.c",
+        "d...hc",
+        "ch...d",
+        "cx..xd",
+        "......",
+        "......"
+      ],
       "palettes": [ "office_palette" ],
       "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 1, 4 ], "y": [ 1, 2 ], "rotation": 90, "chance": 75, "repeat": [ 1, 2 ] } ]
     }
@@ -76,7 +114,14 @@
     "object": {
       "mapgensize": [ 6, 6 ],
       "rotation": [ 0, 0 ],
-      "rows": [ "Vx.x.x", "Vx.x.x", "Vx...x", "HHHGHH", "..^.^.", "......" ],
+      "rows": [
+        "Vx.x.x",
+        "Vx.x.x",
+        "Vx...x",
+        "HHHGHH",
+        "..^.^.",
+        "......"
+      ],
       "palettes": [ "office_palette" ]
     }
   },
@@ -87,7 +132,14 @@
     "object": {
       "mapgensize": [ 6, 6 ],
       "rotation": [ 0, 0 ],
-      "rows": [ "|F.F.F", "|F.F.F", "|F...F", "|--+--", "......", "......" ],
+      "rows": [
+        "|F.F.F",
+        "|F.F.F",
+        "|F...F",
+        "|--+--",
+        "......",
+        "......"
+      ],
       "palettes": [ "office_palette" ]
     }
   },
@@ -98,7 +150,13 @@
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 0 ],
-      "rows": [ "..FFF", "c....", "c....", "cxddd", "....." ],
+      "rows": [
+        "..FFF",
+        "c....",
+        "c....",
+        "cxddd",
+        "....."
+      ],
       "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 1, 4 ], "y": [ 1, 1 ], "rotation": 90, "chance": 75, "repeat": [ 1, 2 ] } ],
       "palettes": [ "office_palette" ]
     }
@@ -110,7 +168,13 @@
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 0 ],
-      "rows": [ ".bttb", ".bttb", ".bttb", ".....", ".cccc" ],
+      "rows": [
+        ".bttb",
+        ".bttb",
+        ".bttb",
+        ".....",
+        ".cccc"
+      ],
       "palettes": [ "office_palette" ]
     }
   },
@@ -121,7 +185,13 @@
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 0 ],
-      "rows": [ "c????", "c...?", "..n.?", "M.n.?", "....." ],
+      "rows": [
+        "c????",
+        "c...?",
+        "..n.?",
+        "M.n.?",
+        "....."
+      ],
       "palettes": [ "office_palette" ]
     }
   },
@@ -132,7 +202,13 @@
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 0 ],
-      "rows": [ "d..xc", "d...c", "c...d", "cx..d", "....." ],
+      "rows": [
+        "d..xc",
+        "d...c",
+        "c...d",
+        "cx..d",
+        "....."
+      ],
       "palettes": [ "office_palette" ],
       "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 1, 3 ], "y": [ 1, 2 ], "rotation": 90, "chance": 75, "repeat": [ 1, 2 ] } ]
     }
@@ -453,7 +529,13 @@
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 0 ],
-      "rows": [ ".....", "ddddx", "....c", "....c", "FFF.." ],
+      "rows": [
+        ".....",
+        "ddddx",
+        "....c",
+        "....c",
+        "FFF.."
+      ],
       "palettes": [ "office_palette" ],
       "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 0, 3 ], "y": [ 2, 3 ], "rotation": 90, "chance": 75, "repeat": [ 1, 2 ] } ]
     }
@@ -465,7 +547,13 @@
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 0 ],
-      "rows": [ ".....", "xcdd.", "..h..", ".h...", "ddcx." ],
+      "rows": [
+        ".....",
+        "xcdd.",
+        "..h..",
+        ".h...",
+        "ddcx."
+      ],
       "palettes": [ "office_palette" ]
     }
   },
@@ -476,7 +564,13 @@
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 0 ],
-      "rows": [ ".....", "ccxd.", ".h.d.", "d.h..", "dccx^" ],
+      "rows": [
+        ".....",
+        "ccxd.",
+        ".h.d.",
+        "d.h..",
+        "dccx^"
+      ],
       "palettes": [ "office_palette" ]
     }
   },
@@ -487,7 +581,13 @@
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 0 ],
-      "rows": [ ".....", "^.M..", "?...?", "?.n.?", "?...?" ],
+      "rows": [
+        ".....",
+        "^.M..",
+        "?...?",
+        "?.n.?",
+        "?...?"
+      ],
       "palettes": [ "office_palette" ]
     }
   },
@@ -778,7 +878,13 @@
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 0 ],
-      "rows": [ ".....", ".....", "ddxcc", "d.h..", "..FFF" ],
+      "rows": [
+        ".....",
+        ".....",
+        "ddxcc",
+        "d.h..",
+        "..FFF"
+      ],
       "palettes": [ "office_palette" ]
     }
   },
@@ -789,7 +895,13 @@
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 0 ],
-      "rows": [ ".....", ".....", ".d.hd", ".dh.d", ".xccx" ],
+      "rows": [
+        ".....",
+        ".....",
+        ".d.hd",
+        ".dh.d",
+        ".xccx"
+      ],
       "palettes": [ "office_palette" ]
     }
   },
@@ -800,7 +912,13 @@
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 0 ],
-      "rows": [ ".....", "..M.^", "?...?", "?.n.?", "?...?" ],
+      "rows": [
+        ".....",
+        "..M.^",
+        "?...?",
+        "?.n.?",
+        "?...?"
+      ],
       "palettes": [ "office_palette" ]
     }
   },
@@ -811,7 +929,13 @@
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 0 ],
-      "rows": [ "iiii+", "TiSi|", "----|", "*****", "*****" ],
+      "rows": [
+        "iiii+",
+        "TiSi|",
+        "----|",
+        "*****",
+        "*****"
+      ],
       "palettes": [ "office_palette" ]
     }
   },
@@ -822,7 +946,13 @@
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 0 ],
-      "rows": [ "???.=", "nnhh|", "----|", "*****", "*****" ],
+      "rows": [
+        "???.=",
+        "nnhh|",
+        "----|",
+        "*****",
+        "*****"
+      ],
       "palettes": [ "office_palette" ]
     }
   },
@@ -833,7 +963,13 @@
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 0 ],
-      "rows": [ "MMnn=", "hMnn|", "----|", "*****", "*****" ],
+      "rows": [
+        "MMnn=",
+        "hMnn|",
+        "----|",
+        "*****",
+        "*****"
+      ],
       "palettes": [ "office_palette" ]
     }
   },
@@ -844,7 +980,13 @@
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 0 ],
-      "rows": [ "xcc.=", "xx.h|", "----|", "*****", "*****" ],
+      "rows": [
+        "xcc.=",
+        "xx.h|",
+        "----|",
+        "*****",
+        "*****"
+      ],
       "palettes": [ "office_palette" ]
     }
   },
@@ -855,7 +997,13 @@
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 0 ],
-      "rows": [ "iiii=", "Syyy|", "----|", "*****", "*****" ],
+      "rows": [
+        "iiii=",
+        "Syyy|",
+        "----|",
+        "*****",
+        "*****"
+      ],
       "palettes": [ "office_palette" ]
     }
   },
@@ -866,7 +1014,13 @@
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 0 ],
-      "rows": [ "iiii=", "SCCy|", "----|", "*****", "*****" ],
+      "rows": [
+        "iiii=",
+        "SCCy|",
+        "----|",
+        "*****",
+        "*****"
+      ],
       "palettes": [ "office_palette" ]
     }
   },
@@ -877,7 +1031,13 @@
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 0 ],
-      "rows": [ "+iiii", "|SiTi", "|----", "*****", "*****" ],
+      "rows": [
+        "+iiii",
+        "|SiTi",
+        "|----",
+        "*****",
+        "*****"
+      ],
       "palettes": [ "office_palette" ]
     }
   },
@@ -888,7 +1048,13 @@
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 0 ],
-      "rows": [ "=.???", "|nnhh", "|----", "*****", "*****" ],
+      "rows": [
+        "=.???",
+        "|nnhh",
+        "|----",
+        "*****",
+        "*****"
+      ],
       "palettes": [ "office_palette" ]
     }
   },
@@ -899,7 +1065,13 @@
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 0 ],
-      "rows": [ "=nnMM", "|nnMh", "|----", "*****", "*****" ],
+      "rows": [
+        "=nnMM",
+        "|nnMh",
+        "|----",
+        "*****",
+        "*****"
+      ],
       "palettes": [ "office_palette" ]
     }
   },
@@ -910,7 +1082,13 @@
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 0 ],
-      "rows": [ "=xc.c", "|.xxh", "|----", "*****", "*****" ],
+      "rows": [
+        "=xc.c",
+        "|.xxh",
+        "|----",
+        "*****",
+        "*****"
+      ],
       "palettes": [ "office_palette" ]
     }
   },
@@ -921,7 +1099,13 @@
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 0 ],
-      "rows": [ "=iiii", "|Syyy", "|----", "*****", "*****" ],
+      "rows": [
+        "=iiii",
+        "|Syyy",
+        "|----",
+        "*****",
+        "*****"
+      ],
       "palettes": [ "office_palette" ]
     }
   },
@@ -932,7 +1116,13 @@
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 0 ],
-      "rows": [ "=iiii", "|yCCS", "|----", "*****", "*****" ],
+      "rows": [
+        "=iiii",
+        "|yCCS",
+        "|----",
+        "*****",
+        "*****"
+      ],
       "palettes": [ "office_palette" ]
     }
   },
@@ -943,7 +1133,16 @@
     "object": {
       "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 0 ],
-      "rows": [ "**|HHH-|", "**V...c|", "**V...c|", "**G.ddx|", "**G..h.+", "**V.h..|", "**VFFFF|", "**|----|" ],
+      "rows": [
+        "**|HHH-|",
+        "**V...c|",
+        "**V...c|",
+        "**G.ddx|",
+        "**G..h.+",
+        "**V.h..|",
+        "**VFFFF|",
+        "**|----|"
+      ],
       "palettes": [ "office_palette" ],
       "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 3, 5 ], "y": [ 1, 2 ], "rotation": 90, "chance": 75, "repeat": [ 1, 2 ] } ]
     }
@@ -955,7 +1154,16 @@
     "object": {
       "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 0 ],
-      "rows": [ "**|HHH-|", "**VCSoe|", "**VCiii|", "**G..tM|", "**G..tM|", "**Vtt.a|", "**VMM89|", "**|----|" ],
+      "rows": [
+        "**|HHH-|",
+        "**VCSoe|",
+        "**VCiii|",
+        "**G..tM|",
+        "**G..tM|",
+        "**Vtt.a|",
+        "**VMM89|",
+        "**|----|"
+      ],
       "palettes": [ "office_palette" ]
     }
   },
@@ -966,7 +1174,16 @@
     "object": {
       "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 0 ],
-      "rows": [ "**|HHH-|", "**Vdccx|", "**Vd.h.|", "**G...F|", "**G....|", "**V.h.d|", "**Vxccd|", "**|----|" ],
+      "rows": [
+        "**|HHH-|",
+        "**Vdccx|",
+        "**Vd.h.|",
+        "**G...F|",
+        "**G....|",
+        "**V.h.d|",
+        "**Vxccd|",
+        "**|----|"
+      ],
       "palettes": [ "office_palette" ]
     }
   },
@@ -977,7 +1194,16 @@
     "object": {
       "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 0 ],
-      "rows": [ "**|HHH-|", "**V^..B|", "**V....+", "**GMnnM|", "**GMnnM|", "**VMnnM|", "**V....|", "**|----|" ],
+      "rows": [
+        "**|HHH-|",
+        "**V^..B|",
+        "**V....+",
+        "**GMnnM|",
+        "**GMnnM|",
+        "**VMnnM|",
+        "**V....|",
+        "**|----|"
+      ],
       "palettes": [ "office_palette" ]
     }
   },
@@ -988,7 +1214,16 @@
     "object": {
       "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 0 ],
-      "rows": [ "--HHH|**", "FdccxV**", ".d.h.V**", ".....G**", ".....G**", "..h.dV**", "FxccdV**", "-----|**" ],
+      "rows": [
+        "--HHH|**",
+        "FdccxV**",
+        ".d.h.V**",
+        ".....G**",
+        ".....G**",
+        "..h.dV**",
+        "FxccdV**",
+        "-----|**"
+      ],
       "palettes": [ "office_palette" ]
     }
   },
@@ -999,7 +1234,16 @@
     "object": {
       "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 0 ],
-      "rows": [ "--HHH|**", "..M.cV**", ".xddcV**", ".h...G**", "...h.G**", ".....V**", "^FFF^V**", "-----|**" ],
+      "rows": [
+        "--HHH|**",
+        "..M.cV**",
+        ".xddcV**",
+        ".h...G**",
+        "...h.G**",
+        ".....V**",
+        "^FFF^V**",
+        "-----|**"
+      ],
       "palettes": [ "office_palette" ]
     }
   },
@@ -1010,7 +1254,16 @@
     "object": {
       "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 0 ],
-      "rows": [ "--HHH|**", "^???.V**", "....MV**", "..n..G**", ".....G**", "....MV**", "^???.V**", "-----|**" ],
+      "rows": [
+        "--HHH|**",
+        "^???.V**",
+        "....MV**",
+        "..n..G**",
+        ".....G**",
+        "....MV**",
+        "^???.V**",
+        "-----|**"
+      ],
       "palettes": [ "office_palette" ]
     }
   },
@@ -1021,7 +1274,16 @@
     "object": {
       "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 0 ],
-      "rows": [ "--HHH|**", "FFFF^|**", ".....|**", "cccc.+**", "cccc.+**", ".....|**", "FFFF^|**", "-----|**" ],
+      "rows": [
+        "--HHH|**",
+        "FFFF^|**",
+        ".....|**",
+        "cccc.+**",
+        "cccc.+**",
+        ".....|**",
+        "FFFF^|**",
+        "-----|**"
+      ],
       "palettes": [ "office_palette" ]
     }
   },
@@ -1032,7 +1294,12 @@
     "object": {
       "mapgensize": [ 4, 4 ],
       "rotation": [ 0, 0 ],
-      "rows": [ "M..^", ".d..", "xd..", "...." ],
+      "rows": [
+        "M..^",
+        ".d..",
+        "xd..",
+        "...."
+      ],
       "palettes": [ "office_palette" ]
     }
   },
@@ -1043,7 +1310,12 @@
     "object": {
       "mapgensize": [ 4, 4 ],
       "rotation": [ 0, 0 ],
-      "rows": [ "F...", "M.x.", "ddd.", "...." ],
+      "rows": [
+        "F...",
+        "M.x.",
+        "ddd.",
+        "...."
+      ],
       "palettes": [ "office_palette" ]
     }
   },
@@ -1054,7 +1326,12 @@
     "object": {
       "mapgensize": [ 4, 4 ],
       "rotation": [ 0, 0 ],
-      "rows": [ "ccx^", "M...", "ddd.", "...." ],
+      "rows": [
+        "ccx^",
+        "M...",
+        "ddd.",
+        "...."
+      ],
       "palettes": [ "office_palette" ]
     }
   },
@@ -1065,7 +1342,12 @@
     "object": {
       "mapgensize": [ 4, 4 ],
       "rotation": [ 0, 0 ],
-      "rows": [ "^d.F", ".d..", ".xcc", "...." ],
+      "rows": [
+        "^d.F",
+        ".d..",
+        ".xcc",
+        "...."
+      ],
       "palettes": [ "office_palette" ]
     }
   },
@@ -1076,7 +1358,12 @@
     "object": {
       "mapgensize": [ 4, 4 ],
       "rotation": [ 0, 0 ],
-      "rows": [ "^..F", ".d..", ".dcc", "...." ],
+      "rows": [
+        "^..F",
+        ".d..",
+        ".dcc",
+        "...."
+      ],
       "palettes": [ "office_palette" ]
     }
   },
@@ -1087,7 +1374,12 @@
     "object": {
       "mapgensize": [ 4, 4 ],
       "rotation": [ 0, 0 ],
-      "rows": [ "^FFF", "....", ".acc", "...." ],
+      "rows": [
+        "^FFF",
+        "....",
+        ".acc",
+        "...."
+      ],
       "palettes": [ "office_palette" ]
     }
   },
@@ -1098,7 +1390,16 @@
     "object": {
       "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 0 ],
-      "rows": [ "**|^....", "**H.....", "**HB.MMM", "**G..nnn", "**G..nnn", "**H..MMM", "**H.....", "**|^...." ],
+      "rows": [
+        "**|^....",
+        "**H.....",
+        "**HB.MMM",
+        "**G..nnn",
+        "**G..nnn",
+        "**H..MMM",
+        "**H.....",
+        "**|^...."
+      ],
       "palettes": [ "office_palette" ]
     }
   },
@@ -1109,7 +1410,16 @@
     "object": {
       "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 0 ],
-      "rows": [ "**|^....", "**|.....", "**|..c..", "**|.hc..", "**+..c..", "**|B.c..", "**|.....", "**|....." ],
+      "rows": [
+        "**|^....",
+        "**|.....",
+        "**|..c..",
+        "**|.hc..",
+        "**+..c..",
+        "**|B.c..",
+        "**|.....",
+        "**|....."
+      ],
       "palettes": [ "office_palette" ]
     }
   },
@@ -1120,7 +1430,16 @@
     "object": {
       "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 0 ],
-      "rows": [ "**|.....", "**H.....", "**G....M", "**HB...M", "**H....M", "**G....M", "**H^....", "**|....." ],
+      "rows": [
+        "**|.....",
+        "**H.....",
+        "**G....M",
+        "**HB...M",
+        "**H....M",
+        "**G....M",
+        "**H^....",
+        "**|....."
+      ],
       "palettes": [ "office_palette" ]
     }
   },
@@ -1131,7 +1450,16 @@
     "object": {
       "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 0 ],
-      "rows": [ "....Y|**", ".....H**", "MMM..H**", "nnn..G**", "nnn..G**", "MMM..H**", ".....H**", "...FF|**" ],
+      "rows": [
+        "....Y|**",
+        ".....H**",
+        "MMM..H**",
+        "nnn..G**",
+        "nnn..G**",
+        "MMM..H**",
+        ".....H**",
+        "...FF|**"
+      ],
       "palettes": [ "office_palette" ]
     }
   },
@@ -1142,7 +1470,16 @@
     "object": {
       "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 0 ],
-      "rows": [ "....^|**", ".....|**", "MMM.c|**", "nnn.c|**", "nnn.c|**", "MMM.c|**", ".....|**", ".Y..a|**" ],
+      "rows": [
+        "....^|**",
+        ".....|**",
+        "MMM.c|**",
+        "nnn.c|**",
+        "nnn.c|**",
+        "MMM.c|**",
+        ".....|**",
+        ".Y..a|**"
+      ],
       "palettes": [ "office_palette" ]
     }
   },
@@ -1153,7 +1490,16 @@
     "object": {
       "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 0 ],
-      "rows": [ "....^|**", "nn...H**", "nnM..H**", "nnM..G**", "nnM..G**", "nnM..H**", "nn...H**", "....Y|**" ],
+      "rows": [
+        "....^|**",
+        "nn...H**",
+        "nnM..H**",
+        "nnM..G**",
+        "nnM..G**",
+        "nnM..H**",
+        "nn...H**",
+        "....Y|**"
+      ],
       "palettes": [ "office_palette" ]
     }
   },
@@ -1164,7 +1510,16 @@
     "object": {
       "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 0 ],
-      "rows": [ "....^|**", ".....H**", ".h.h.H**", ".h.h.G**", ".h.h.G**", ".h.h.H**", ".....H**", "FFF.Y|**" ],
+      "rows": [
+        "....^|**",
+        ".....H**",
+        ".h.h.H**",
+        ".h.h.G**",
+        ".h.h.G**",
+        ".h.h.H**",
+        ".....H**",
+        "FFF.Y|**"
+      ],
       "palettes": [ "office_palette" ]
     }
   }
