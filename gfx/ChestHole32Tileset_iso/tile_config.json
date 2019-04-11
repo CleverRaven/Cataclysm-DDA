@@ -5729,7 +5729,7 @@
         {
           "bg": 632,
           "fg": 933,
-          "id": ["potato_raw", "potato_irradiated"],
+          "id": ["potato_raw", "irradiated_potato"],
           "rotates": false
         },
         {

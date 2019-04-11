@@ -116,7 +116,7 @@
         [ "celery", 1 ],
         [ "irradiated_celery", 1 ],
         [ "potato_raw", 1 ],
-        [ "potato_irradiated", 1 ],
+        [ "irradiated_potato", 1 ],
         [ "onion", 1 ],
         [ "irradiated_onion", 1 ],
         [ "carrot", 1 ],

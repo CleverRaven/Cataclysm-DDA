@@ -300,7 +300,7 @@
         [ "irradiated_onion", 1 ],
         [ "plant_sac", 1 ],
         [ "potato_raw", 1 ],
-        [ "potato_irradiated", 1 ],
+        [ "irradiated_potato", 1 ],
         [ "pumpkin", 1 ],
         [ "irradiated_pumpkin", 1 ],
         [ "raw_dandelion", 1 ],

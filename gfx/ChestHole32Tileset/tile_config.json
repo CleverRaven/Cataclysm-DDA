@@ -16414,7 +16414,7 @@
           "rotates": false
         },
         {
-          "id": "overlay_wielded_potato_irradiated",
+          "id": "overlay_wielded_irradiated_potato",
           "fg": 933
         },
         {
@@ -45448,7 +45448,7 @@
           "rotates": false
         },
         {
-          "id": "potato_irradiated",
+          "id": "irradiated_potato",
           "fg": 933
         },
         {

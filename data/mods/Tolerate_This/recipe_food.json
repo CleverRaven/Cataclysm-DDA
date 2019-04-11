@@ -116,7 +116,7 @@
         [ "cooked_cattail_stalk", 1 ],
         [ "cooked_pumpkin", 1 ],
         [ "potato_baked", 1 ],
-        [ "potato_irradiated", 1 ],
+        [ "irradiated_potato", 1 ],
         [ "can_tomato", 1 ],
         [ "dandelion_cooked", 1 ]
       ]
@@ -173,7 +173,7 @@
         [ "cooked_cattail_stalk", 1 ],
         [ "cooked_pumpkin", 1 ],
         [ "potato_baked", 1 ],
-        [ "potato_irradiated", 1 ],
+        [ "irradiated_potato", 1 ],
         [ "can_tomato", 1 ],
         [ "dandelion_cooked", 1 ]
       ]
@@ -702,7 +702,7 @@
         [ "irradiated_cabbage", 2 ],
         [ "sauerkraut", 4 ],
         [ "potato_raw", 2 ],
-        [ "potato_irradiated", 2 ],
+        [ "irradiated_potato", 2 ],
         [ "onion", 2 ],
         [ "irradiated_onion", 2 ],
         [ "carrot", 12 ],
@@ -1178,7 +1178,7 @@
         [ "cooked_cattail_stalk", 1 ],
         [ "cooked_pumpkin", 1 ],
         [ "potato_baked", 1 ],
-        [ "potato_irradiated", 1 ],
+        [ "irradiated_potato", 1 ],
         [ "can_tomato", 1 ],
         [ "dandelion_cooked", 1 ]
       ],
@@ -1270,7 +1270,7 @@
         [ "cooked_cattail_stalk", 1 ],
         [ "cooked_pumpkin", 1 ],
         [ "potato_baked", 1 ],
-        [ "potato_irradiated", 1 ],
+        [ "irradiated_potato", 1 ],
         [ "can_tomato", 1 ],
         [ "dandelion_cooked", 1 ]
       ],
