@@ -325,7 +325,19 @@
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "description": "Prevents the covered body-part(s) from getting wet in the rain.",
-    "info": "This piece of clothing is designed to keep you <info>dry</info> in the rain."
+    "info": "This piece of clothing <info>keeps covered parts completely dry</info> in the rain."
+  },
+  {
+    "id": "RAINBLOCK",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This piece of clothing <info>keeps covered parts drier</info> in the rain."
+  },
+  {
+    "id": "RAINRESIST",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This piece of clothing <info>keeps covered parts slightly drier</info> in the rain."
   },
   {
     "id": "RESTRICT_HANDS",
@@ -439,14 +451,14 @@
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "description": "Prevents the covered body-part(s) from getting wet in any circumstance.",
-    "info": "This clothing <info>won't let water through</info>.  Unless you jump in the river or something like that."
+    "info": "This clothing <info>won't let water or rain through</info>."
   },
   {
     "id": "WATER_FRIENDLY",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "description": "Prevents the item from making the body part count as unfriendly to water and thus causing negative morale from being wet.",
-    "info": "This clothing <good>performs well</good> even when <info>soaking wet</info>. This can feel good."
+    "info": "This clothing <good>feels fine when soaking wet</good>."
   },
   {
     "id": "furred",

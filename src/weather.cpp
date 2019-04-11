@@ -372,8 +372,7 @@ void wet_player( int amount )
 {
     if( !is_player_outside() ||
         g->u.has_trait( trait_FEATHERS ) ||
-        g->u.weapon.has_flag( "RAIN_PROTECT" ) ||
-        ( !one_in( 50 ) && g->u.worn_with_flag( "RAINPROOF" ) ) ) {
+        g->u.weapon.has_flag( "RAIN_PROTECT" ) ) {
         return;
     }
 
@@ -388,6 +387,13 @@ void wet_player( int amount )
     if( wet[bp_torso] * 100 >= capacity[bp_torso] * 50 ) {
         // Once upper body is 50%+ drenched, start soaking the legs too
         drenched_parts |= { { bp_leg_l, bp_leg_r } };
+    }
+    for( const body_part bp : all_body_parts ) {
+        if( ( g->u.covered_with_flag( "RAINPROOF", { bp } ) && !one_in( 50 ) ) ||
+            ( g->u.covered_with_flag( "RAINBLOCK", { bp } ) && x_in_y( 7, 10 ) ) ||
+            ( g->u.covered_with_flag( "RAINRESIST", { bp } ) && one_in( 3 ) ) ) {
+            drenched_parts.reset( bp );
+        }
     }
 
     g->u.drench( amount, drenched_parts, false );

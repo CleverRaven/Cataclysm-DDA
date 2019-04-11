@@ -749,7 +749,9 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```PSYSHIELD_PARTIAL``` 25% chance to protect against fear_paralyze monster attack when worn.
 - ```RAD_PROOF``` This piece of clothing completely protects you from radiation.
 - ```RAD_RESIST``` This piece of clothing partially protects you from radiation.
-- ```RAINPROOF``` Prevents the covered body-part(s) from getting wet in the rain.
+- ```RAINBLOCK``` Partially prevents covered body part(s) from getting wet in the rain.
+- ```RAINPROOF``` Prevents all covered body parts from getting wet in the rain.
+- ```RAINRESIST``` Slightly prevents covered body part(s) from getting wet in the rain.
 - ```RESTRICT_HANDS``` Prevents the player from wielding a weapon two-handed, forcing one-handed use if the weapon permits it.
 - ```SKINTIGHT``` Undergarment layer.
 - ```SLOWS_MOVEMENT``` This piece of clothing multiplies move cost by 1.1.
