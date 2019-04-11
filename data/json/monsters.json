@@ -4648,7 +4648,7 @@
     "id": "mon_zombie_thorny",
     "type": "MONSTER",
     "name": "thorny shambler",
-    "description": "A shambling undead humanoid, body overgrown with a tangled morass of otherwordly plantlife.  Hunched over and dragging its feet as it moves, the bramble utterly enveloping its upper half twitches and moves with a life of its own, tendrils tipped with a paralytic sting.",
+    "description": "A shambling undead humanoid, body overgrown with a tangled mass of otherworldly vegetation.  Hunched over and dragging its feet as it moves, the bramble utterly enveloping its upper half twitches and moves with a life of its own, tendrils tipped with a paralytic sting.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "ZOMBIE", "PLANT" ],
