@@ -145,17 +145,26 @@ void player_morale::morale_point::add( const int new_bonus, const int new_max_bo
     new_duration = std::max( 0_turns, new_duration );
     new_decay_start = std::max( 0_turns, new_decay_start );
 
+    bool same_sign = ( bonus > 0 ) == ( new_max_bonus > 0 );
+
     if( new_cap || new_duration == 0_turns ) {
         duration = new_duration;
         decay_start = new_decay_start;
     } else {
-        bool same_sign = ( bonus > 0 ) == ( new_max_bonus > 0 );
-
         duration = pick_time( duration, new_duration, same_sign );
         decay_start = pick_time( decay_start, new_decay_start, same_sign );
     }
 
-    bonus = normalize_bonus( get_net_bonus() + new_bonus, new_max_bonus, new_cap );
+    int sqrt_of_sum_of_squares;
+    if( same_sign ) {
+        sqrt_of_sum_of_squares = pow( get_net_bonus(), 2 ) + pow( new_bonus, 2 );
+        sqrt_of_sum_of_squares *= sgn( bonus );
+        sqrt_of_sum_of_squares = sqrt( sqrt_of_sum_of_squares );
+    } else {
+        sqrt_of_sum_of_squares = get_net_bonus() + new_bonus;
+    }
+
+    bonus = normalize_bonus( sqrt_of_sum_of_squares, new_max_bonus, new_cap );
     age = 0_turns; // Brand new. The assignment should stay below get_net_bonus() and pick_time().
 }
 
@@ -339,9 +348,9 @@ int player_morale::get_level() const
         for( auto &m : points ) {
             const int bonus = m.get_net_bonus( mult );
             if( bonus > 0 ) {
-                sum_of_positive_squares += bonus * bonus;
+                sum_of_positive_squares += pow( bonus, 2 );
             } else {
-                sum_of_negative_squares += bonus * bonus;
+                sum_of_negative_squares += pow( bonus, 2 );
             }
         }
 
