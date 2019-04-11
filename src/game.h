@@ -19,6 +19,8 @@
 #include "pimpl.h"
 #include "posix_time.h"
 
+#define DEFAULT_TILESET_ZOOM 16
+
 extern bool test_mode;
 
 // The reference to the one and only game instance.
@@ -592,6 +594,14 @@ class game
         bool check_near_zone( const zone_type_id &type, const tripoint &where ) const;
         bool is_zones_manager_open() const;
         void zones_manager();
+
+        /** Used to implement mouse "edge scrolling". Returns a
+         *  tripoint which is a vector of the resulting "move", i.e.
+         *  (0, 0, 0) if the mouse is not at the edge of the screen,
+         *  otherwise some (x, y, 0) depending on which edges are
+         *  hit. The move length is adjusted to the zoom level.
+         */
+        tripoint mouse_edge_scrolling( input_context ctxt );
 
         // Look at nearby terrain ';', or select zone points
         cata::optional<tripoint> look_around();

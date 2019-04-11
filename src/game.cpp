@@ -225,8 +225,6 @@ bool is_valid_in_w_terrain( int x, int y )
     return x >= 0 && x < TERRAIN_WINDOW_WIDTH && y >= 0 && y < TERRAIN_WINDOW_HEIGHT;
 }
 
-#define DEFAULT_TILESET_ZOOM 16
-
 // This is the main game set-up process.
 game::game() :
     liveview( *liveview_ptr ),
@@ -7114,6 +7112,30 @@ cata::optional<tripoint> game::look_around()
     return result.position;
 }
 
+tripoint game::mouse_edge_scrolling( input_context ctxt )
+{
+    tripoint ret( 0, 0, 0 );
+#if (defined TILES || defined _WIN32 || defined WINDOWS)
+    if( get_option<bool>( "EDGE_SCROLL" ) ) {
+        const input_event event = ctxt.get_raw_input();
+        const int threshold_x = projected_window_width() / 20;
+        const int threshold_y = projected_window_height() / 20;
+        const int panning_speed = std::max( DEFAULT_TILESET_ZOOM / tileset_zoom, 1 );
+        if( event.mouse_x <= threshold_x ) {
+            ret.x -= panning_speed;
+        } else if( event.mouse_x >= projected_window_width() - threshold_x ) {
+            ret.x += panning_speed;
+        }
+        if( event.mouse_y <= threshold_y ) {
+            ret.y -= panning_speed;
+        } else if( event.mouse_y >= projected_window_height() - threshold_y ) {
+            ret.y += panning_speed;
+        }
+    }
+#endif
+    return ret;
+}
+
 look_around_result game::look_around( catacurses::window w_info, tripoint &center,
                                       const tripoint &start_point, bool has_first_point, bool select_zone, bool peeking )
 {
@@ -7326,28 +7348,13 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
                     lx = mouse_pos->x;
                     ly = mouse_pos->y;
                 }
-#if (defined TILES || defined _WIN32 || defined WINDOWS)
                 // Below we implement mouse panning. In order to make
                 // it less jerky we rate limit it by only allowing a
                 // panning move during the first iteration of this
                 // mouse move event consumption loop.
-                if( max_consume == 10 && get_option<bool>( "EDGE_SCROLL" ) ) {
-                    const input_event event = ctxt.get_raw_input();
-                    const int threshold_x = projected_window_width() / 20;
-                    const int threshold_y = projected_window_height() / 20;
-                    const int panning_speed = std::max( DEFAULT_TILESET_ZOOM / tileset_zoom, 1 );
-                    if( event.mouse_x <= threshold_x ) {
-                        center.x -= panning_speed;
-                    } else if( event.mouse_x >= projected_window_width() - threshold_x ) {
-                        center.x += panning_speed;
-                    }
-                    if( event.mouse_y <= threshold_y ) {
-                        center.y -= panning_speed;
-                    } else if( event.mouse_y >= projected_window_height() - threshold_y ) {
-                        center.y += panning_speed;
-                    }
+                if( max_consume == 10 ) {
+                    center += mouse_edge_scrolling( ctxt );
                 }
-#endif
                 if( --max_consume == 0 ) {
                     break;
                 }
