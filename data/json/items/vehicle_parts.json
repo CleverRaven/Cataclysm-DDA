@@ -215,7 +215,7 @@
     "type": "GENERIC",
     "id": "workbench",
     "name": "workbench",
-    "description": "A crude wooden table.",
+    "description": "A sturdy workbench built out of metal.  It is perfect for crafting large and heavy things.",
     "weight": 23000,
     "to_hit": -8,
     "color": "red",

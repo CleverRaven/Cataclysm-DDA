@@ -148,5 +148,23 @@
     "type": "json_flag",
     "context": [ "vehicle_part" ],
     "info": "If the center of balance of your vehicle is between all the wheels, the vehicle will be able to move, provided it has an active engine or motor with enough power to move the vehicle."
+  },
+  {
+    "id": "FLAT_SURF",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ],
+    "info": "This has a flat surface.  It would be a nice place to eat."
+  },
+  {
+    "id": "WORKBENCH1",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ],
+    "info": "You can craft here, though a proper workbench would be better."
+  },
+  {
+    "id": "WORKBENCH2",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ],
+    "info": "A sturdy metal workbench bolted in place.  This is a good place to craft, though crafting in a vehicle is still a little cramped."
   }
 ]

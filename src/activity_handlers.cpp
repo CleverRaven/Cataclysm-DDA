@@ -2662,7 +2662,9 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
     }
 
     const recipe &rec = craft->get_making();
-    const float crafting_speed = p->crafting_speed_multiplier( rec, true );
+    const tripoint loc = act->targets.front().where() == item_location::type::character ?
+                         tripoint_zero : act->targets.front().position();
+    const float crafting_speed = p->crafting_speed_multiplier( rec, true, loc );
     const bool is_long = act->values[0];
 
     if( crafting_speed <= 0.0f ) {
@@ -2686,7 +2688,7 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
     // Must ensure >= 1 so we don't divide by 0;
     const double base_total_moves = std::max( 1, rec.batch_time( craft->charges, 1.0f, 0 ) );
     // Current expected total moves, includes crafting speed modifiers and assistants
-    const double cur_total_moves = std::max( 1, p->expected_time_to_craft( rec, craft->charges ) );
+    const double cur_total_moves = std::max( 1, p->expected_time_to_craft( rec, craft->charges, true, loc ) );
     // Delta progress in moves adjusted for current crafting speed
     const double delta_progress = p->get_moves() * base_total_moves / cur_total_moves;
     // Current progress in moves
@@ -2699,9 +2701,6 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
     // if item_counter has reached 100% or more
     if( craft->item_counter >= 10000000 ) {
         item craft_copy = *craft;
-        const tripoint loc = act->targets.front().where() == item_location::type::character ?
-                             tripoint_zero :
-                             act->targets.front().position();
         act->targets.front().remove_item();
         p->cancel_activity();
         p->complete_craft( craft_copy, loc );

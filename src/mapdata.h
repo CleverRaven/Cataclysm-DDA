@@ -108,6 +108,7 @@ struct map_deconstruct_info {
  * EASY_DECONSTRUCT - Player can deconstruct this without tools
  * HIDE_PLACE - Creature on this tile can't be seen by other creature not standing on adjacent tiles
  * BLOCK_WIND - This tile will partially block wind
+ * FLAT_SURF - Furniture or terrain or vehicle part with flat hard surface (ex. table, but not chair; tree stump, etc.).
  *
  * Currently only used for Fungal conversions
  * WALL - This terrain is an upright obstacle
@@ -122,6 +123,7 @@ struct map_deconstruct_info {
  *
  * Furniture only:
  * BLOCKSDOOR - This will boost map terrain's resistance to bashing if str_*_blocked is set (see map_bash_info)
+ * WORKBENCH1/WORKBENCH2/WORKBENCH3 - This is an adequate/good/great workbench for crafting.  Must be paired with a workbench iexamine.
  */
 
 /*

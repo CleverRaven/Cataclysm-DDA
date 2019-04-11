@@ -110,9 +110,55 @@ float player::morale_crafting_speed_multiplier( const recipe &rec ) const
     return 1.0f / morale_effect;
 }
 
-float player::crafting_speed_multiplier( const recipe &rec, bool in_progress ) const
+static float workbench_crafting_speed_multiplier( const tripoint &loc )
 {
-    float result = morale_crafting_speed_multiplier( rec ) * lighting_craft_speed_multiplier( rec );
+    // tripoint_zero indicates crafting from inventory, so no effect
+    if( loc == tripoint_zero ) {
+        return 1.0f;
+    }
+
+    int workbench_level = 0;
+
+    if( const optional_vpart_position vp = g->m.veh_at( loc ) ) {
+        const point loc_point( loc.x, loc.y );
+        if( vp->vehicle().avail_part_with_feature( loc_point, "WORKBENCH1", true ) ) {
+            workbench_level = 1;
+        } else if( vp->vehicle().avail_part_with_feature( loc_point, "WORKBENCH2", true ) ) {
+            workbench_level = 2;
+        }
+    } else {
+        if( g->m.has_flag_furn( "WORKBENCH1", loc ) ) {
+            workbench_level = 1;
+        } else if( g->m.has_flag_furn( "WORKBENCH2", loc ) ) {
+            workbench_level = 2;
+        } else if( g->m.has_flag_furn( "WORKBENCH3", loc ) ) {
+            workbench_level = 3;
+        }
+    }
+
+    switch( workbench_level ) {
+        case 3: {
+            return 1.2f;
+        }
+        case 2: {
+            return 1.1f;
+        }
+        case 1: {
+            return 1.0f;
+        }
+        default: {
+            // If there is no workbench impose a 10% penalty
+            return 0.9f;
+        }
+    }
+}
+
+float player::crafting_speed_multiplier( const recipe &rec, bool in_progress,
+        const tripoint &loc ) const
+{
+    float result = morale_crafting_speed_multiplier( rec ) *
+                   lighting_craft_speed_multiplier( rec ) *
+                   workbench_crafting_speed_multiplier( loc );
     // Can't start if we'd need 300% time, but we can still finish the job
     if( !in_progress && result < 0.33f ) {
         return 0.0f;
@@ -196,10 +242,11 @@ int player::base_time_to_craft( const recipe &rec, int batch_size ) const
     return rec.batch_time( batch_size, 1.0f, assistants );
 }
 
-int player::expected_time_to_craft( const recipe &rec, int batch_size ) const
+int player::expected_time_to_craft( const recipe &rec, int batch_size, bool in_progress,
+                                    const tripoint &loc ) const
 {
     const size_t assistants = available_assistant_count( *this, rec );
-    float modifier = crafting_speed_multiplier( rec );
+    float modifier = crafting_speed_multiplier( rec, in_progress, loc );
     return rec.batch_time( batch_size, modifier, assistants );
 }
 

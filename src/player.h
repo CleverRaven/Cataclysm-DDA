@@ -1370,7 +1370,8 @@ class player : public Character
         // crafting.cpp
         float morale_crafting_speed_multiplier( const recipe &rec ) const;
         float lighting_craft_speed_multiplier( const recipe &rec ) const;
-        float crafting_speed_multiplier( const recipe &rec, bool in_progress = false ) const;
+        float crafting_speed_multiplier( const recipe &rec, bool in_progress = false,
+                                         const tripoint &loc = tripoint_zero ) const;
         /**
          * Time to craft not including speed multiplier
          */
@@ -1378,7 +1379,8 @@ class player : public Character
         /**
          * Expected time to craft a recipe, with assumption that multipliers stay constant.
          */
-        int expected_time_to_craft( const recipe &rec, int batch_size = 1 ) const;
+        int expected_time_to_craft( const recipe &rec, int batch_size = 1, bool in_progress = false,
+                                    const tripoint &loc = tripoint_zero ) const;
         std::vector<const item *> get_eligible_containers_for_crafting() const;
         bool check_eligible_containers_for_crafting( const recipe &rec, int batch_size = 1 ) const;
         bool has_morale_to_craft() const;
