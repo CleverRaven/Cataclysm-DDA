@@ -145,7 +145,7 @@ void player_morale::morale_point::add( const int new_bonus, const int new_max_bo
     new_duration = std::max( 0_turns, new_duration );
     new_decay_start = std::max( 0_turns, new_decay_start );
 
-    bool same_sign = ( bonus > 0 ) == ( new_max_bonus > 0 );
+    const bool same_sign = bonus > 0 == new_max_bonus > 0;
 
     if( new_cap || new_duration == 0_turns ) {
         duration = new_duration;
@@ -158,8 +158,8 @@ void player_morale::morale_point::add( const int new_bonus, const int new_max_bo
     int sqrt_of_sum_of_squares;
     if( same_sign ) {
         sqrt_of_sum_of_squares = pow( get_net_bonus(), 2 ) + pow( new_bonus, 2 );
-        sqrt_of_sum_of_squares *= sgn( bonus );
         sqrt_of_sum_of_squares = sqrt( sqrt_of_sum_of_squares );
+        sqrt_of_sum_of_squares *= sgn( bonus );
     } else {
         sqrt_of_sum_of_squares = get_net_bonus() + new_bonus;
     }
