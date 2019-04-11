@@ -796,16 +796,7 @@ data/mods/Tanks/overmap_specials.json
 data/mods/Tanks/overmap_terrain.json
 data/mods/Tanks/parts.json
 data/mods/Tanks/recipes.json
-data/mods/Tanks/vehicle_groups.json
 data/mods/Tanks/vehicles.json
-data/mods/bio_mod/modinfo.json
-data/mods/default.json
-data/mods/more_classes_scenarios/cs_classes.json
-data/mods/more_classes_scenarios/cs_scenarios.json
-data/mods/more_classes_scenarios/cs_start_locations.json
-data/mods/necromancy/necronimicron.json
-data/mods/no_scifi/modinfo.json
-data/mods/replacements.json
 data/names/en.json
 data/names/ja.json
 data/names/ko.json
