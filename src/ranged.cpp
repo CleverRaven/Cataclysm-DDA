@@ -1522,6 +1522,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             }
             break;
         } else if( action == "CENTER" ) {
+            pc.view_offset = tripoint_zero;
             dst = src;
             set_last_target( dst );
             ret.clear();
