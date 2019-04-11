@@ -1583,8 +1583,12 @@ bool game::handle_action()
                 u.pick_style();
                 break;
 
-            case ACTION_RELOAD:
-                reload();
+            case ACTION_RELOAD_ITEM:
+                reload_item();
+                break;
+
+            case ACTION_RELOAD_WEAPON:
+                reload_weapon();
                 break;
 
             case ACTION_UNLOAD:
