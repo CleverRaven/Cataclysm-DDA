@@ -1134,6 +1134,8 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "SWITCH_MODE" );
     ctxt.register_action( "SWITCH_AMMO" );
+    ctxt.register_action( "zoom_out" );
+    ctxt.register_action( "zoom_in" );
 
     if( mode == TARGET_MODE_FIRE ) {
         ctxt.register_action( "AIM" );
@@ -1529,6 +1531,10 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             pc.last_target_pos = cata::nullopt;
             target = -1;
             break;
+        } else if( action == "zoom_in" ) {
+            g->zoom_in();
+        } else if( action == "zoom_out" ) {
+            g->zoom_out();
         }
 
         // Make player's sprite flip to face the current target
