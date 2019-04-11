@@ -6442,7 +6442,7 @@
         [ "spaghetti_raw", 1 ],
         [ "macaroni_raw", 1 ],
         [ "noodles_fast", 1 ],
-        [ "potato_irradiated", 1 ],
+        [ "irradiated_potato", 1 ],
         [ "potato_raw", 1 ],
         [ "celery", 1 ],
         [ "irradiated_celery", 1 ],
@@ -7847,8 +7847,7 @@
       [ [ "water", 10 ], [ "water_clean", 10 ] ],
       [ [ "broth", 12 ], [ "broth_bone", 12 ] ],
       [
-<<<<<<< Updated upstream
-        [ "potato_irradiated", 12 ],
+        [ "irradiated_potato", 12 ],
         [ "potato_raw", 12 ],
         [ "celery", 12 ],
         [ "irradiated_celery", 12 ],
@@ -7867,27 +7866,6 @@
         [ "dry_rice", 12 ],
         [ "dandelion_cooked", 12 ],
         [ "acorns_cooked", 12 ]
-=======
-        [ "irradiated_potato", 6 ],
-        [ "potato_raw", 6 ],
-        [ "celery", 6 ],
-        [ "irradiated_celery", 6 ],
-        [ "veggy_green", 6, "LIST" ],
-        [ "sauerkraut", 6 ],
-        [ "powder_eggs", 6 ],
-        [ "eggs_bird", 6, "LIST" ],
-        [ "egg_reptile", 6 ],
-        [ "can_beans", 6 ],
-        [ "beans_cooked", 6 ],
-        [ "spaghetti_raw", 6 ],
-        [ "macaroni_raw", 6 ],
-        [ "noodles_fast", 6 ],
-        [ "dry_beans", 6 ],
-        [ "raw_beans", 6 ],
-        [ "dry_rice", 6 ],
-        [ "dandelion_cooked", 6 ],
-        [ "acorns_cooked", 6 ]
->>>>>>> Stashed changes
       ],
       [ [ "meat_red", 10, "LIST" ], [ "dry_meat", 10 ], [ "can_chicken", 20 ] ]
     ]
@@ -7959,7 +7937,7 @@
       [ [ "water", 10 ], [ "water_clean", 10 ] ],
       [ [ "broth", 12 ], [ "broth_bone", 12 ] ],
       [
-        [ "potato_irradiated", 12 ],
+        [ "irradiated_potato", 12 ],
         [ "potato_raw", 12 ],
         [ "celery", 12 ],
         [ "irradiated_celery", 12 ],
