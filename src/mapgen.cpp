@@ -8449,15 +8449,17 @@ void update_mapgen_function_json::update_map( const tripoint &omt_pos, int offse
                    above, below, omt_pos.z, rsettings, update_map );
 
     int rotation = 0;
-    if( map_id.substr( map_id.size() - 6, 6 ) == "_south" ) {
-        rotation = 2;
-        md.m.rotate( rotation );
-    } else if( map_id.substr( map_id.size() - 5, 5 ) == "_east" ) {
-        rotation = 1;
-        md.m.rotate( rotation );
-    } else if( map_id.substr( map_id.size() - 5, 5 ) == "_west" ) {
-        rotation = 3;
-        md.m.rotate( rotation );
+    if( map_id.size() > 7 ) {
+        if( map_id.substr( map_id.size() - 6, 6 ) == "_south" ) {
+            rotation = 2;
+            md.m.rotate( rotation );
+        } else if( map_id.substr( map_id.size() - 5, 5 ) == "_east" ) {
+            rotation = 1;
+            md.m.rotate( rotation );
+        } else if( map_id.substr( map_id.size() - 5, 5 ) == "_west" ) {
+            rotation = 3;
+            md.m.rotate( rotation );
+        }
     }
 
     for( auto &elem : setmap_points ) {
