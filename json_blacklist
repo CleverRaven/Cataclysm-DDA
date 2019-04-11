@@ -785,9 +785,6 @@ data/mods/More_Locations/tri_tower/tri_tower_utrc_01.json
 data/mods/National_Guard_Camp/national_guard_camp/national_guard_camp.json
 data/mods/National_Guard_Camp/national_guard_camp/national_guard_camp_b1.json
 data/mods/National_Guard_Camp/overmap_terrain.json
-data/mods/RL_Classes/classes.json
-data/mods/Tanks/ammo_types.json
-data/mods/Tanks/item_groups.json
 data/mods/Tanks/items.json
 data/mods/Tanks/mapgen.json
 data/mods/Tanks/monster_drops.json
