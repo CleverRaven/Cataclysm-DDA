@@ -8900,7 +8900,7 @@
     "symbol": "=",
     "color": "brown",
     "move_cost": 6,
-    "flags": [ "TRANSPARENT", "BASHABLE", "PLACE_ITEM" ],
+    "flags": [ "TRANSPARENT", "BASHABLE", "PLACE_ITEM", "INDOORS" ],
     "deconstruct": {
       "ter_set": "t_rock_floor",
       "items": [
