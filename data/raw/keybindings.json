@@ -1574,7 +1574,7 @@
     "type": "keybinding",
     "name": "Reload Wielded Item",
     "category": "DEFAULTMODE",
-    "id": "reload",
+    "id": "reload_weapon",
     "bindings": [ { "input_method": "keyboard", "key": "r" } ]
   },
   {
@@ -1850,6 +1850,12 @@
     "category": "DEFAULTMODE",
     "id": "toggle_panel_adm",
     "bindings": [ { "input_method": "keyboard", "key": "}" } ]
+  },
+  {
+    "type": "keybinding",
+    "name": "Reload Item",
+    "category": "DEFAULTMODE",
+    "id": "reload_item"
   },
   {
     "type": "keybinding",
