@@ -262,6 +262,20 @@ bool map_deconstruct_info::load( JsonObject &jsobj, const std::string &member, b
     return true;
 }
 
+furn_workbench_info::furn_workbench_info() : multiplier( 1.0f ), allowed_mass( units::mass_max ),
+    allowed_volume( units::volume_max ) {}
+
+bool furn_workbench_info::load( JsonObject &jsobj, const std::string &member )
+{
+    JsonObject j = jsobj.get_object( member );
+
+    assign( j, "multiplier", multiplier );
+    assign( j, "mass", allowed_mass );
+    assign( j, "volume", allowed_volume );
+
+    return true;
+}
+
 furn_t null_furniture_t()
 {
     furn_t new_furniture;
@@ -1195,6 +1209,11 @@ void furn_t::load( JsonObject &jo, const std::string &src )
 
     bash.load( jo, "bash", true );
     deconstruct.load( jo, "deconstruct", true );
+
+    if( jo.has_object( "workbench" ) ) {
+        workbench = furn_workbench_info();
+        workbench->load( jo, "workbench" );
+    }
 }
 
 void map_data_common_t::check() const

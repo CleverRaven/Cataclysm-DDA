@@ -1439,7 +1439,6 @@ class vehicle
         void use_washing_machine( int p );
         void use_monster_capture( int part, const tripoint &pos );
         void use_bike_rack( int part );
-        void use_workbench( const int &part, const tripoint &pos );
 
         veh_interact_results interact_with( const tripoint &pos, int interact_part );
 

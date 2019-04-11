@@ -50,7 +50,10 @@
 #include "ui.h"
 #include "uistate.h"
 #include "units.h"
+#include "vehicle.h"
+#include "vehicle_selector.h"
 #include "vpart_position.h"
+#include "vpart_reference.h"
 #include "weather.h"
 
 const mtype_id mon_dark_wyrm( "mon_dark_wyrm" );
@@ -4601,7 +4604,38 @@ void iexamine::open_safe( player &, const tripoint &examp )
 
 void iexamine::workbench( player &p, const tripoint &examp )
 {
-    const furn_t &f_workbench = g->m.furn( examp ).obj();
+    workbench_internal( p, examp, cata::nullopt );
+}
+
+void iexamine::workbench_internal( player &p, const tripoint &examp,
+                                   const cata::optional<vpart_reference> &part )
+{
+    std::vector<item_location> crafts;
+    std::string name;
+
+    bool items_at_loc = false;
+
+    if( part ) {
+        name = part->part().name();
+        auto items_at_part = part->vehicle().get_items( part->part_index() );
+
+        for( item &it : items_at_part ) {
+            if( it.is_craft() ) {
+                crafts.emplace_back( item_location( vehicle_cursor( part->vehicle(), part->part_index() ), &it ) );
+            }
+        }
+    } else {
+        name = g->m.furn( examp ).obj().name();
+
+        auto items_at_furn = g->m.i_at( examp );
+        items_at_loc = !items_at_furn.empty();
+
+        for( item &it : items_at_furn ) {
+            if( it.is_craft() ) {
+                crafts.emplace_back( item_location( map_cursor( examp ), &it ) );
+            }
+        }
+    }
 
     uilist amenu;
 
@@ -4613,21 +4647,14 @@ void iexamine::workbench( player &p, const tripoint &examp )
         get_items
     };
 
-    auto items_at_furn = g->m.i_at( examp );
-    std::vector<item_location> crafts;
-    for( item &it : items_at_furn ) {
-        if( it.is_craft() ) {
-            crafts.emplace_back( item_location( map_cursor( examp ), &it ) );
-        }
+    amenu.text = string_format( pgettext( "furniture", "What to do at the %s?" ), name );
+    amenu.addentry( start_craft,      true,            '1', _( "Craft items" ) );
+    amenu.addentry( repeat_craft,     true,            '2', _( "Recraft last recipe" ) );
+    amenu.addentry( start_long_craft, true,            '3', _( "Craft as long as possible" ) );
+    amenu.addentry( work_on_craft,    !crafts.empty(), '4', _( "Work on craft" ) );
+    if( !part ) {
+        amenu.addentry( get_items,    items_at_loc,    '5', _( "Get items" ) );
     }
-
-    amenu.text = string_format( pgettext( "furniture", "What to do at the %s?" ),
-                                f_workbench.name() );
-    amenu.addentry( start_craft,      true,                   '1', _( "Craft items" ) );
-    amenu.addentry( repeat_craft,     true,                   '2', _( "Recraft last recipe" ) );
-    amenu.addentry( start_long_craft, true,                   '3', _( "Craft as long as possible" ) );
-    amenu.addentry( work_on_craft,    !crafts.empty(),        '4', _( "Work on craft" ) );
-    amenu.addentry( get_items,        !items_at_furn.empty(), '5', _( "Get items" ) );
 
     amenu.query();
 
@@ -4665,6 +4692,11 @@ void iexamine::workbench( player &p, const tripoint &examp )
                 }
             }
             uilist amenu2( _( "Which craft to work on?" ), item_names );
+
+            if( amenu2.ret == UILIST_CANCEL ) {
+                break;
+            }
+
             const item *selected_craft = crafts[amenu2.ret].get_item();
 
             p.add_msg_player_or_npc(

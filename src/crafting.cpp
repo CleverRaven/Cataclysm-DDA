@@ -31,6 +31,7 @@
 #include "vehicle_selector.h"
 #include "vpart_position.h"
 #include "vpart_reference.h"
+#include "veh_type.h"
 
 const efftype_id effect_contacts( "contacts" );
 
@@ -110,59 +111,85 @@ float player::morale_crafting_speed_multiplier( const recipe &rec ) const
     return 1.0f / morale_effect;
 }
 
-static float workbench_crafting_speed_multiplier( const tripoint &loc )
+template<typename T>
+static float lerped_multiplier( const T &value, const T &low, const T &high )
 {
-    // tripoint_zero indicates crafting from inventory, so no effect
-    if( loc == tripoint_zero ) {
+    // No effect if less than allowed value
+    if( value < low ) {
         return 1.0f;
     }
-
-    int workbench_level = 0;
-
-    if( const optional_vpart_position vp = g->m.veh_at( loc ) ) {
-        const point loc_point( loc.x, loc.y );
-        if( vp->vehicle().avail_part_with_feature( loc_point, "WORKBENCH1", true ) ) {
-            workbench_level = 1;
-        } else if( vp->vehicle().avail_part_with_feature( loc_point, "WORKBENCH2", true ) ) {
-            workbench_level = 2;
-        }
-    } else {
-        if( g->m.has_flag_furn( "WORKBENCH1", loc ) ) {
-            workbench_level = 1;
-        } else if( g->m.has_flag_furn( "WORKBENCH2", loc ) ) {
-            workbench_level = 2;
-        } else if( g->m.has_flag_furn( "WORKBENCH3", loc ) ) {
-            workbench_level = 3;
-        }
+    // Never fall off to zero or go negative
+    if( value > high ) {
+        return 0.05f;
     }
-
-    switch( workbench_level ) {
-        case 3: {
-            return 1.2f;
-        }
-        case 2: {
-            return 1.1f;
-        }
-        case 1: {
-            return 1.0f;
-        }
-        default: {
-            // If there is no workbench impose a 10% penalty
-            return 0.9f;
-        }
-    }
+    // Linear interpolation between high and low
+    // y = y0 + ( x - x0 ) * ( y1 - y0 ) / ( x1 - x0 )
+    return 1.0f + ( value - low ) * ( 0.05f - 1.0f ) / ( high - low );
 }
 
-float player::crafting_speed_multiplier( const recipe &rec, bool in_progress,
-        const tripoint &loc ) const
+static float workbench_crafting_speed_multiplier( const item &craft, const tripoint &loc )
+{
+    // Values for crafting from inventory or without workbench
+    float multiplier = 1.0;
+    units::mass allowed_mass = 60_kilogram;
+    units::volume allowed_volume = 100000_ml;
+
+    // tripoint_zero indicates crafting from inventory
+    if( loc == tripoint_zero ) {
+        // Do nothing
+    } else if( const cata::optional<vpart_reference> vp = g->m.veh_at(
+                   loc ).part_with_feature( "WORKBENCH", true ) ) {
+        const vpart_info &vp_info = vp->part().info();
+        if( const cata::optional<vpslot_workbench> &wb_info = vp_info.get_workbench_info() ) {
+            multiplier = wb_info->multiplier;
+            allowed_mass = wb_info->allowed_mass;
+            allowed_volume = wb_info->allowed_volume;
+        }
+    } else if( g->m.has_furn( loc ) ) {
+        const furn_t &f = g->m.furn( loc ).obj();
+        if( f.workbench ) {
+            multiplier = f.workbench->multiplier;
+            allowed_mass = f.workbench->allowed_mass;
+            allowed_volume = f.workbench->allowed_volume;
+        }
+    }
+
+    const units::mass &craft_mass = craft.weight();
+    const units::volume &craft_volume = craft.volume();
+
+    multiplier *= lerped_multiplier( craft_mass, allowed_mass, 1000_kilogram );
+    multiplier *= lerped_multiplier( craft_volume, allowed_volume, 1000000_ml );
+
+    return multiplier;
+}
+
+float player::crafting_speed_multiplier( const recipe &rec, bool in_progress ) const
 {
     float result = morale_crafting_speed_multiplier( rec ) *
-                   lighting_craft_speed_multiplier( rec ) *
-                   workbench_crafting_speed_multiplier( loc );
+                   lighting_craft_speed_multiplier( rec );
     // Can't start if we'd need 300% time, but we can still finish the job
     if( !in_progress && result < 0.33f ) {
         return 0.0f;
     }
+    // If we're working below 20% speed, just give up
+    if( result < 0.2f ) {
+        return 0.0f;
+    }
+
+    return result;
+}
+
+float player::crafting_speed_multiplier( const item &craft, const tripoint &loc ) const
+{
+    if( !craft.is_craft() ) {
+        debugmsg( "Can't calculate crafting speed multiplier of non-craft '%s'", craft.tname() );
+        return 1.0f;
+    }
+
+    float result = morale_crafting_speed_multiplier( craft.get_making() ) *
+                   lighting_craft_speed_multiplier( craft.get_making() ) *
+                   workbench_crafting_speed_multiplier( craft, loc );
+
     // If we're working below 20% speed, just give up
     if( result < 0.2f ) {
         return 0.0f;
@@ -225,11 +252,11 @@ bool player::making_would_work( const recipe_id &id_to_make, int batch_size )
     return check_eligible_containers_for_crafting( making, batch_size );
 }
 
-size_t available_assistant_count( const player &u, const recipe &rec )
+int player::available_assistant_count( const recipe &rec ) const
 {
     // NPCs around you should assist in batch production if they have the skills
     // TODO: Cache them in activity, include them in modifier calculations
-    const auto helpers = u.get_crafting_helpers();
+    const auto helpers = get_crafting_helpers();
     return std::count_if( helpers.begin(), helpers.end(),
     [&]( const npc * np ) {
         return np->get_skill_level( rec.skill_used ) >= rec.difficulty;
@@ -238,15 +265,14 @@ size_t available_assistant_count( const player &u, const recipe &rec )
 
 int player::base_time_to_craft( const recipe &rec, int batch_size ) const
 {
-    const size_t assistants = available_assistant_count( *this, rec );
+    const size_t assistants = available_assistant_count( rec );
     return rec.batch_time( batch_size, 1.0f, assistants );
 }
 
-int player::expected_time_to_craft( const recipe &rec, int batch_size, bool in_progress,
-                                    const tripoint &loc ) const
+int player::expected_time_to_craft( const recipe &rec, int batch_size, bool in_progress ) const
 {
-    const size_t assistants = available_assistant_count( *this, rec );
-    float modifier = crafting_speed_multiplier( rec, in_progress, loc );
+    const size_t assistants = available_assistant_count( rec );
+    float modifier = crafting_speed_multiplier( rec, in_progress );
     return rec.batch_time( batch_size, modifier, assistants );
 }
 
@@ -509,9 +535,9 @@ static item_location set_item_map_or_vehicle( const player &p, const tripoint &l
             item *newit_in_vehicle = &items_at_part[items_at_part.size() - 1];
 
             p.add_msg_player_or_npc(
-                string_format( pgettext( "item, furniture", "You put the %s on the %s" ),
+                string_format( pgettext( "item, furniture", "You put the %s on the %s." ),
                                newit.tname(), vp->part().name() ),
-                string_format( pgettext( "item, furniture", "<npcname> puts the %s on the %s" ),
+                string_format( pgettext( "item, furniture", "<npcname> puts the %s on the %s." ),
                                newit.tname(), vp->part().name() ) );
 
             return item_location( vehicle_cursor( vp->vehicle(), vp->part_index() ), newit_in_vehicle );
@@ -523,7 +549,7 @@ static item_location set_item_map_or_vehicle( const player &p, const tripoint &l
                                      "Not enough space on the %s. You drop the %s on the ground." ),
                            vp->part().name(), newit.tname() ),
             string_format( pgettext( "furniture, item",
-                                     "Not enough space on the %s. <npcname> drops the %s on the ground" ),
+                                     "Not enough space on the %s. <npcname> drops the %s on the ground." ),
                            vp->part().name(), newit.tname() ) );
 
         return item_location( map_cursor( loc ), &g->m.add_item_or_charges( loc, newit ) );
@@ -532,9 +558,9 @@ static item_location set_item_map_or_vehicle( const player &p, const tripoint &l
         if( g->m.has_furn( loc ) ) {
             const furn_t &workbench = g->m.furn( loc ).obj();
             p.add_msg_player_or_npc(
-                string_format( pgettext( "item, furniture", "You put the %s on the %s" ),
+                string_format( pgettext( "item, furniture", "You put the %s on the %s." ),
                                newit.tname(), workbench.name() ),
-                string_format( pgettext( "item, furniture", "<npcname> puts the %s on the %s" ),
+                string_format( pgettext( "item, furniture", "<npcname> puts the %s on the %s." ),
                                newit.tname(), workbench.name() ) );
         }
 
@@ -591,7 +617,7 @@ void player::start_craft( craft_command &command, const tripoint &loc )
         craft_in_inventory = set_item_inventory( *this, craft );
 
         if( !has_item( *craft_in_inventory ) ) {
-            add_msg_if_player( _( "Activate the %s to start crafting" ), craft.tname() );
+            add_msg_if_player( _( "Activate the %s to start crafting." ), craft.tname() );
             return;
         }
     }
@@ -607,9 +633,9 @@ void player::start_craft( craft_command &command, const tripoint &loc )
     activity.values.push_back( command.is_long() );
 
     add_msg_player_or_npc(
-        string_format( pgettext( "in progress craft", "You start working on the %s" ),
+        string_format( pgettext( "in progress craft", "You start working on the %s." ),
                        craft.tname() ),
-        string_format( pgettext( "in progress craft", "<npcname> starts working on the %s" ),
+        string_format( pgettext( "in progress craft", "<npcname> starts working on the %s." ),
                        craft.tname() ) );
 }
 

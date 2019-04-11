@@ -241,6 +241,23 @@ void vpart_info::load_wheel( cata::optional<vpslot_wheel> &whptr, JsonObject &jo
     assert( whptr );
 }
 
+void vpart_info::load_workbench( cata::optional<vpslot_workbench> &wbptr, JsonObject &jo )
+{
+    vpslot_workbench wb_info;
+    if( wbptr ) {
+        wb_info = *wbptr;
+    }
+
+    JsonObject wb_jo = jo.get_object( "workbench" );
+
+    assign( wb_jo, "multiplier", wb_info.multiplier );
+    assign( wb_jo, "mass", wb_info.allowed_mass );
+    assign( wb_jo, "volume", wb_info.allowed_volume );
+
+    wbptr = wb_info;
+    assert( wbptr );
+}
+
 /**
  * Reads in a vehicle part from a JsonObject.
  */
@@ -345,6 +362,10 @@ void vpart_info::load( JsonObject &jo, const std::string &src )
 
     if( def.has_flag( "WHEEL" ) ) {
         load_wheel( def.wheel_info, jo );
+    }
+
+    if( def.has_flag( "WORKBENCH" ) ) {
+        load_workbench( def.workbench_info, jo );
     }
 
     if( jo.has_string( "abstract" ) ) {
@@ -825,6 +846,11 @@ std::vector<std::pair<std::string, int>> vpart_info::wheel_terrain_mod() const
 float vpart_info::wheel_or_rating() const
 {
     return has_flag( VPFLAG_WHEEL ) ? wheel_info->or_rating : 0.0f;
+}
+
+const cata::optional<vpslot_workbench> &vpart_info::get_workbench_info() const
+{
+    return workbench_info;
 }
 
 /** @relates string_id */

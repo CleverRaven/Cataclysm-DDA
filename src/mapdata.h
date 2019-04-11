@@ -9,6 +9,7 @@
 
 #include "color.h"
 #include "int_id.h"
+#include "optional.h"
 #include "string_id.h"
 #include "units.h"
 
@@ -67,6 +68,15 @@ struct map_deconstruct_info {
     furn_str_id furn_set;    // furniture to set (only used by furniture, not terrain)
     map_deconstruct_info();
     bool load( JsonObject &jsobj, const std::string &member, bool is_furniture );
+};
+struct furn_workbench_info {
+    // Base multiplier applied for crafting here
+    float multiplier;
+    // Mass/volume allowed before a crafting speed penalty is applied
+    units::mass allowed_mass;
+    units::volume allowed_volume;
+    furn_workbench_info();
+    bool load( JsonObject &jsobj, const std::string &member );
 };
 
 /*
@@ -325,6 +335,8 @@ struct furn_t : map_data_common_t {
     itype_id deployed_item; // item id string used to create furniture
 
     int move_str_req; //The amount of strength required to move through this furniture easily.
+
+    cata::optional<furn_workbench_info> workbench;
 
     // May return NULL
     const itype *crafting_pseudo_item_type() const;

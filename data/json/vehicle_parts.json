@@ -969,12 +969,13 @@
     "item": "v_table",
     "difficulty": 1,
     "location": "center",
-    "flags": [ "CARGO", "OBSTACLE", "TOOL_WRENCH", "FLAT_SURF", "WORKBENCH1" ],
+    "flags": [ "CARGO", "OBSTACLE", "TOOL_WRENCH", "FLAT_SURF", "WORKBENCH" ],
     "breaks_into": [
       { "item": "2x4", "count": [ 1, 6 ] },
       { "item": "splinter", "count": [ 4, 6 ] },
       { "item": "nail", "charges": [ 4, 7 ] }
-    ]
+    ],
+    "workbench": { "multiplier": 1.0, "mass": 100000, "volume": "100L" }
   },
   {
     "type": "vehicle_part",
@@ -990,12 +991,13 @@
     "item": "w_table",
     "difficulty": 1,
     "location": "center",
-    "flags": [ "CARGO", "OBSTACLE", "TOOL_WRENCH", "FLAT_SURF", "WORKBENCH1" ],
+    "flags": [ "CARGO", "OBSTACLE", "TOOL_WRENCH", "FLAT_SURF", "WORKBENCH" ],
     "breaks_into": [
       { "item": "2x4", "count": [ 1, 6 ] },
       { "item": "splinter", "count": [ 4, 6 ] },
       { "item": "nail", "charges": [ 4, 7 ] }
-    ]
+    ],
+    "workbench": { "multiplier": 1.0, "mass": 100000, "volume": "100L" }
   },
   {
     "type": "vehicle_part",
@@ -1012,14 +1014,15 @@
     "item": "workbench",
     "difficulty": 1,
     "location": "center",
-    "flags": [ "CARGO", "OBSTACLE", "TOOL_WRENCH", "FLAT_SURF", "WORKBENCH2" ],
+    "flags": [ "CARGO", "OBSTACLE", "TOOL_WRENCH", "FLAT_SURF", "WORKBENCH" ],
     "breaks_into": [
-        { "item": "pipe", "count": [ 4, 6 ] },
-        { "item": "sheet_metal", "count": [ 0, 1 ] },
-        { "item": "sheet_metal_small", "count": [ 12, 24 ] },
-        { "item": "steel_chunk", "count": [ 4, 8 ] },
-        { "item": "scrap", "count": [ 12, 24 ] }
-      ]
+      { "item": "pipe", "count": [ 4, 6 ] },
+      { "item": "sheet_metal", "count": [ 0, 1 ] },
+      { "item": "sheet_metal_small", "count": [ 12, 24 ] },
+      { "item": "steel_chunk", "count": [ 4, 8 ] },
+      { "item": "scrap", "count": [ 12, 24 ] }
+    ],
+    "workbench": { "multiplier": 1.2, "mass": 100000, "volume": "100L" }
   },
   {
     "type": "vehicle_part",

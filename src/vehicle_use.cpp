@@ -1359,86 +1359,6 @@ void vehicle::use_bike_rack( int part )
     }
 }
 
-void vehicle::use_workbench( const int &part, const tripoint &pos )
-{
-    const vehicle_part &workbench = parts[part];
-    player &p = g->u;
-
-    uilist amenu;
-
-    enum option : int {
-        start_craft = 0,
-        repeat_craft,
-        start_long_craft,
-        work_on_craft
-    };
-
-    auto items_at_part = get_items( part );
-    std::vector<item_location> crafts;
-    for( item &it : items_at_part ) {
-        if( it.is_craft() ) {
-            crafts.emplace_back( item_location( vehicle_cursor( *this, part ), &it ) );
-        }
-    }
-
-    amenu.text = string_format( pgettext( "furniture", "What to do at the %s?" ), workbench.name() );
-    amenu.addentry( start_craft,      true,                   '1', _( "Craft items" ) );
-    amenu.addentry( repeat_craft,     true,                   '2', _( "Recraft last recipe" ) );
-    amenu.addentry( start_long_craft, true,                   '3', _( "Craft as long as possible" ) );
-    amenu.addentry( work_on_craft,    !crafts.empty(),        '4', _( "Work on craft" ) );
-
-    amenu.query();
-
-    option choice = static_cast<option>( amenu.ret );
-    switch( choice ) {
-        case start_craft: {
-            if( p.has_active_mutation( trait_SHELL2 ) ) {
-                p.add_msg_if_player( m_info, _( "You can't craft while you're in your shell." ) );
-            } else {
-                p.craft( pos );
-            }
-            break;
-        }
-        case repeat_craft: {
-            if( p.has_active_mutation( trait_SHELL2 ) ) {
-                p.add_msg_if_player( m_info, _( "You can't craft while you're in your shell." ) );
-            } else {
-                p.recraft( pos );
-            }
-            break;
-        }
-        case start_long_craft: {
-            if( p.has_active_mutation( trait_SHELL2 ) ) {
-                p.add_msg_if_player( m_info, _( "You can't craft while you're in your shell." ) );
-            } else {
-                p.long_craft( pos );
-            }
-            break;
-        }
-        case work_on_craft: {
-            std::vector<std::string> item_names;
-            for( item_location &it : crafts ) {
-                if( it ) {
-                    item_names.emplace_back( it.get_item()->tname() );
-                }
-            }
-            uilist amenu2( _( "Which craft to work on?" ), item_names );
-            const item *selected_craft = crafts[amenu2.ret].get_item();
-
-            p.add_msg_player_or_npc(
-                string_format( pgettext( "in progress craft", "You start working on the %s" ),
-                               selected_craft->tname() ),
-                string_format( pgettext( "in progress craft", "<npcname> starts working on the %s" ),
-                               selected_craft->tname() ) );
-            p.assign_activity( activity_id( "ACT_CRAFT" ) );
-            p.activity.targets.push_back( crafts[amenu2.ret].clone() );
-            p.activity.values.push_back( 0 ); // Not a long craft
-            break;
-        }
-    }
-}
-
-
 // Handles interactions with a vehicle in the examine menu.
 veh_interact_results vehicle::interact_with( const tripoint &pos, int interact_part )
 {
@@ -1472,10 +1392,7 @@ veh_interact_results vehicle::interact_with( const tripoint &pos, int interact_p
     const bool has_bike_rack = bike_rack_part >= 0;
     const bool has_planter = avail_part_with_feature( interact_part, "PLANTER", true ) >= 0 ||
                              avail_part_with_feature( interact_part, "ADVANCED_PLANTER", true ) >= 0;
-    int workbench_part = avail_part_with_feature( interact_part, "WORKBENCH2", true );
-    if( workbench_part < 0 ) {
-        workbench_part = avail_part_with_feature( interact_part, "WORKBENCH1", true );
-    }
+    const int workbench_part = avail_part_with_feature( interact_part, "WORKBENCH", true );
     const bool has_workbench = workbench_part >= 0;
 
     enum {
@@ -1681,7 +1598,7 @@ veh_interact_results vehicle::interact_with( const tripoint &pos, int interact_p
             return DONE;
         }
         case WORKBENCH: {
-            use_workbench( workbench_part, pos );
+            iexamine::workbench_internal( g->u, pos, vpart_reference( *this, workbench_part ) );
             return DONE;
         }
     }

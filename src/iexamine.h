@@ -12,6 +12,7 @@ class item;
 class player;
 class npc;
 class map;
+class vpart_reference;
 struct tripoint;
 struct itype;
 struct mtype;
@@ -103,6 +104,8 @@ void on_smoke_out( const tripoint &examp,
 void smoker_options( player &p, const tripoint &examp );
 void open_safe( player &p, const tripoint &examp );
 void workbench( player &p, const tripoint &examp );
+void workbench_internal( player &p, const tripoint &examp,
+                         const cata::optional<vpart_reference> &part );
 hack_result hack_attempt( player &p );
 
 bool pour_into_keg( const tripoint &pos, item &liquid );
