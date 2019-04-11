@@ -634,7 +634,7 @@ bool overmapbuffer::reveal( const point &center, int radius, int z )
 
 bool overmapbuffer::reveal( const tripoint &center, int radius )
 {
-    return reveal( center, radius, []( const oter_id & ter ) {
+    return reveal( center, radius, []( const oter_id & ) {
         return true;
     } );
 }
