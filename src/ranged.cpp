@@ -1024,7 +1024,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         sight_dispersion = pc.effective_dispersion( relevant->sight_dispersion() );
     }
 
-    tripoint src = pc.pos();
+    const tripoint src = pc.pos();
     tripoint dst = pc.pos();
 
     std::vector<Creature *> t;
