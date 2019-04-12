@@ -9,12 +9,14 @@ class Path
 {
 public:
 
+    Path( const std::string basePath, const std::string userDirectoryPath );
+
     static void initBasePath(std::string path);
     static void initUserDirectory(std::string path);
     static void setStandardFilenames();
     static void updateDataDirectory();
     static void updateConfigurationDirectory();
-    static void updatePathName(const std::string &name, const std::string &path);
+    static void updatePathname( const std::string &name, const std::string &path);
 };
 
 extern std::map<std::string, std::string> FILENAMES;

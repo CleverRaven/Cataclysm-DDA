@@ -146,27 +146,25 @@ int main( int argc, char *argv[] )
         external_storage_path += '/';
     }
 
-    PATH_INFO::init_base_path( external_storage_path );
+    Path::initBasePath(external_storage_path);
+    Path::initUserDirectory(external_storage_path.c_str());
 #else
     // Set default file paths
 #ifdef PREFIX
 #define Q(STR) #STR
 #define QUOTE(STR) Q(STR)
-    PATH_INFO::init_base_path( std::string( QUOTE( PREFIX ) ) );
+    Path::initBasePath(std::string( QUOTE( PREFIX ) ) );
 #else
     Path::initBasePath("");
 #endif
 #endif
 
-#ifdef __ANDROID__
-    PATH_INFO::init_user_dir( external_storage_path.c_str() );
-#else
 #if (defined USE_HOME_DIR || defined USE_XDG_DIR)
     Path::initUserDirectory("");
 #else
-    PATH_INFO::init_user_dir( "./" );
+    Path::initUserDirectory("./");
 #endif
-#endif
+
     Path::setStandardFilenames();
 
     MAP_SHARING::setDefaults();
@@ -367,7 +365,7 @@ int main( int argc, char *argv[] )
                         {
                             return -1;
                         }
-                        Path::updatePathName("datadir", params[0]);
+                        Path::updatePathname( "datadir", params[ 0 ] );
                         Path::updateDataDirectory();
                         return 1;
                     }
@@ -381,7 +379,7 @@ int main( int argc, char *argv[] )
                         {
                             return -1;
                         }
-                        Path::updatePathName("savedir", params[0]);
+                        Path::updatePathname( "savedir", params[ 0 ] );
                         return 1;
                     }
                 },
@@ -394,7 +392,7 @@ int main( int argc, char *argv[] )
                         {
                             return -1;
                         }
-                        Path::updatePathName("config_dir", params[0]);
+                        Path::updatePathname( "config_dir", params[ 0 ] );
                         Path::updateConfigurationDirectory();
                         return 1;
                     }
@@ -408,7 +406,7 @@ int main( int argc, char *argv[] )
                         {
                             return -1;
                         }
-                        Path::updatePathName("memorialdir", params[0]);
+                        Path::updatePathname( "memorialdir", params[ 0 ] );
                         return 1;
                     }
                 },
@@ -421,7 +419,7 @@ int main( int argc, char *argv[] )
                         {
                             return -1;
                         }
-                        Path::updatePathName("options", params[0]);
+                        Path::updatePathname( "options", params[ 0 ] );
                         return 1;
                     }
                 },
@@ -434,7 +432,7 @@ int main( int argc, char *argv[] )
                         {
                             return -1;
                         }
-                        Path::updatePathName("keymap", params[0]);
+                        Path::updatePathname( "keymap", params[ 0 ] );
                         return 1;
                     }
                 },
@@ -447,7 +445,7 @@ int main( int argc, char *argv[] )
                         {
                             return -1;
                         }
-                        Path::updatePathName("autopickup", params[0]);
+                        Path::updatePathname( "autopickup", params[ 0 ] );
                         return 1;
                     }
                 },
@@ -460,7 +458,7 @@ int main( int argc, char *argv[] )
                         {
                             return -1;
                         }
-                        Path::updatePathName("motd", params[0]);
+                        Path::updatePathname( "motd", params[ 0 ] );
                         return 1;
                     }
                 },
