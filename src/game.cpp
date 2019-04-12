@@ -3185,12 +3185,11 @@ void game::debug()
         break;
 
         case 24: {
-            // *INDENT-OFF*
 #if defined(TILES)
-            const point offset {
+            const point offset { // *INDENT-OFF*
                 POSX - u.posx() + u.view_offset.x,
                 POSY - u.posy() + u.view_offset.y
-            };
+            }; // *INDENT-ON*
             draw_ter();
             auto sounds_to_draw = sounds::get_monster_sounds();
             for( const auto &sound : sounds_to_draw.first ) {
@@ -3205,7 +3204,6 @@ void game::debug()
 #else
             popup( _( "This binary was not compiled with tiles support." ) );
 #endif
-            // *INDENT-ON*
         }
         break;
 
