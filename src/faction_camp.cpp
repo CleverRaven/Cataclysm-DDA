@@ -208,7 +208,7 @@ std::map<std::string, bcp_miss_data> basecamp_missions_info = {{
         },
         {
             "_faction_exp_chop_shop_", {
-                " Chop Shop", _( "Chop Shop" ), _( "Working at the chop shop...\n" ),
+                " Chop Shop", _( " Chop Shop" ), _( "Working at the chop shop...\n" ),
                 " (Finish) Chop Shop", _( " (Finish) Chop Shop" )
             }
         },
