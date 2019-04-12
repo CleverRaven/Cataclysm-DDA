@@ -1673,5 +1673,12 @@
   {
     "type": "effect_type",
     "id": "has_prospectus"
+  },
+  {
+    "type": "effect_type",
+    "id": "rooted",
+    "//": "What keeps rooted plants from moving around.",
+    "name": [ "Rooted" ],
+    "desc": [ "You've sunk your roots into the ground, and are unable to move." ]
   }
 ]

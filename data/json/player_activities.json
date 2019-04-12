@@ -484,5 +484,23 @@
     "suspendable": false,
     "based_on": "neither",
     "no_resume": true
+  },
+  {
+    "id": "ACT_ROOT",
+    "type": "activity_type",
+    "stop_phrase": "Stop rooting?",
+    "rooted": true,
+    "suspendable": false,
+    "based_on": "time",
+    "no_resume": true
+  },
+  {
+    "id": "ACT_UPROOT",
+    "type": "activity_type",
+    "stop_phrase": "Stop uprooting?",
+    "rooted": true,
+    "suspendable": false,
+    "based_on": "time",
+    "no_resume": true
   }
 ]
