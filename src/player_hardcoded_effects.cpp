@@ -15,7 +15,7 @@
 #include "sounds.h"
 #include "weather.h"
 
-#ifdef TILES
+#if defined(TILES)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)
 #       include <SDL2/SDL.h>
 #   else
@@ -94,7 +94,7 @@ static void eff_fun_fungus( player &u, effect &it )
 {
     const time_duration dur = it.get_duration();
     const int intense = it.get_intensity();
-    int bonus = u.get_healthy() / 10 + ( u.resists_effect( it ) ? 100 : 0 );
+    const int bonus = u.get_healthy() / 10 + ( u.resists_effect( it ) ? 100 : 0 );
     switch( intense ) {
         case 1: // First hour symptoms
             if( one_in( 160 + bonus ) ) {
@@ -121,7 +121,7 @@ static void eff_fun_fungus( player &u, effect &it )
                 u.add_msg_player_or_npc( m_bad, _( "You vomit a thick, gray goop." ),
                                          _( "<npcname> vomits a thick, gray goop." ) );
 
-                int awfulness = rng( 0, 70 );
+                const int awfulness = rng( 0, 70 );
                 u.moves = -200;
                 u.mod_hunger( awfulness );
                 u.mod_thirst( awfulness );
@@ -231,7 +231,7 @@ static void eff_fun_hallu( player &u, effect &it )
             u.add_msg_if_player( m_warning, _( "Something feels very, very wrong." ) );
         }
     } else if( dur > peakTime && dur < comeupTime ) {
-        if( u.get_stomach_food() > 0 && ( one_in( 200 ) || x_in_y( u.vomit_mod(), 50 ) ) ) {
+        if( u.stomach.contains() > 0_ml && ( one_in( 200 ) || x_in_y( u.vomit_mod(), 50 ) ) ) {
             u.add_msg_if_player( m_bad, _( "You feel sick to your stomach." ) );
             u.mod_hunger( -2 );
             if( one_in( 6 ) ) {
@@ -736,7 +736,7 @@ void player::hardcoded_effects( effect &it )
         if( one_in( 4096 ) ) {
             mod_healthy_mod( -10, -100 );
             apply_damage( nullptr, bp_head, rng( 1, 2 ) );
-            if( !has_effect( effect_blind ) ) {
+            if( !is_blind() && !sleeping ) {
                 add_msg_if_player( m_bad, _( "Your vision goes black!" ) );
                 add_effect( effect_blind, rng( 5_turns, 20_turns ) );
             }
@@ -990,7 +990,7 @@ void player::hardcoded_effects( effect &it )
         }
     } else if( id == effect_sleep ) {
         set_moves( 0 );
-#ifdef TILES
+#if defined(TILES)
         if( is_player() && calendar::once_every( 10_minutes ) ) {
             SDL_PumpEvents();
         }
@@ -1034,6 +1034,8 @@ void player::hardcoded_effects( effect &it )
                 if( g->natural_light_level( posz() ) >= 12 && compatible_weather_types ) {
                     if( get_hunger() >= -30 ) {
                         mod_hunger( -5 );
+                        // photosynthesis warrants absorbing kcal directly
+                        mod_stored_nutr( -5 );
                     }
                     if( get_thirst() >= -30 ) {
                         mod_thirst( -5 );
@@ -1085,7 +1087,7 @@ void player::hardcoded_effects( effect &it )
                 if( has_trait( trait_id( "THRESH_MYCUS" ) ) ) {
                     if( one_in( 8 ) ) {
                         mutate_category( "MYCUS" );
-                        mod_hunger( 10 );
+                        mod_stored_nutr( 10 );
                         mod_thirst( 10 );
                         mod_fatigue( 5 );
                     }
@@ -1190,15 +1192,15 @@ void player::hardcoded_effects( effect &it )
             }
         }
 
-        // A bit of a hack: check if we are about to wake up for any reason,
-        // including regular timing out of sleep
-        if( it.get_duration() == 1_turns || woke_up ) {
+        // A bit of a hack: check if we are about to wake up for any reason, including regular timing out of sleep
+        if( dur == 1_turns || woke_up ) {
             if( calendar::turn - start > 2_hours ) {
                 print_health();
             }
-            if( has_effect( effect_alarm_clock ) ) {
-                add_msg_if_player( _( "It looks like you woke up before your alarm." ) );
-            } else if( has_effect( effect_slept_through_alarm ) ) {
+            // alarm was set and player hasn't slept through the alarm.
+            if( has_effect( effect_alarm_clock ) && !has_effect( effect_slept_through_alarm ) ) {
+                add_msg_if_player( _( "It looks like you woke up just before your alarm." ) );
+            } else if( has_effect( effect_slept_through_alarm ) ) { // slept though the alarm.
                 if( has_bionic( bionic_id( "bio_watch" ) ) ) {
                     add_msg_if_player( m_warning, _( "It looks like you've slept through your internal alarm..." ) );
                 } else {

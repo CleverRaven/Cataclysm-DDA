@@ -63,8 +63,6 @@ const mtype_id mon_zombie_fireman( "mon_zombie_fireman" );
 const mtype_id mon_zombie_fungus( "mon_zombie_fungus" );
 const mtype_id mon_zombie_gasbag( "mon_zombie_gasbag" );
 const mtype_id mon_zombie_grabber( "mon_zombie_grabber" );
-const mtype_id mon_zombie_grenadier( "mon_zombie_grenadier" );
-const mtype_id mon_zombie_grenadier_elite( "mon_zombie_grenadier_elite" );
 const mtype_id mon_zombie_hazmat( "mon_zombie_hazmat" );
 const mtype_id mon_zombie_hulk( "mon_zombie_hulk" );
 const mtype_id mon_skeleton_hulk( "mon_skeleton_hulk" );
@@ -111,7 +109,7 @@ const efftype_id effect_heavysnare( "heavysnare" );
 const efftype_id effect_hit_by_player( "hit_by_player" );
 const efftype_id effect_in_pit( "in_pit" );
 const efftype_id effect_lightsnare( "lightsnare" );
-const efftype_id effect_monster_armor( "monster_armour" );
+const efftype_id effect_monster_armor( "monster_armor" );
 const efftype_id effect_no_sight( "no_sight" );
 const efftype_id effect_onfire( "onfire" );
 const efftype_id effect_pacified( "pacified" );
@@ -127,6 +125,7 @@ const efftype_id effect_webbed( "webbed" );
 static const trait_id trait_ANIMALDISCORD( "ANIMALDISCORD" );
 static const trait_id trait_ANIMALDISCORD2( "ANIMALDISCORD2" );
 static const trait_id trait_ANIMALEMPATH( "ANIMALEMPATH" );
+static const trait_id trait_ANIMALEMPATH2( "ANIMALEMPATH2" );
 static const trait_id trait_BEE( "BEE" );
 static const trait_id trait_FLOWERS( "FLOWERS" );
 static const trait_id trait_PACIFIST( "PACIFIST" );
@@ -194,7 +193,7 @@ monster::monster( const mtype_id &id ) : monster()
     faction = type->default_faction;
     ammo = type->starting_ammo;
     upgrades = type->upgrades && ( type->half_life || type->age_grow );
-    reproduces = type->reproduces && type->baby_timer && !has_flag( MF_NO_BREED );
+    reproduces = type->reproduces && type->baby_timer && !monster::has_flag( MF_NO_BREED );
     biosignatures = type->biosignatures;
 }
 
@@ -296,7 +295,7 @@ void monster::try_upgrade( bool pin_time )
         return;
     }
 
-    const int current_day = to_days<int>( calendar::turn - calendar::time_of_cataclysm );
+    const int current_day = to_days<int>( calendar::turn - time_point( calendar::start ) );
     //This should only occur when a monster is created or upgraded to a new form
     if( upgrade_time < 0 ) {
         upgrade_time = next_upgrade_time();
@@ -950,6 +949,11 @@ monster_attitude monster::attitude( const Character *u ) const
                 if( effective_anger < 10 ) {
                     effective_morale += 55;
                 }
+            } else if( u->has_trait( trait_ANIMALEMPATH2 ) ) {
+                effective_anger -= 20;
+                if( effective_anger < 20 ) {
+                    effective_morale += 80;
+                }
             } else if( u->has_trait( trait_ANIMALDISCORD ) ) {
                 if( effective_anger >= 10 ) {
                     effective_anger += 10;
@@ -997,9 +1001,22 @@ int monster::hp_percentage() const
 
 void monster::process_triggers()
 {
-    anger += trigger_sum( type->anger );
-    anger -= trigger_sum( type->placate );
-    morale -= trigger_sum( type->fear );
+    process_trigger( mon_trigger::STALK, [this]() {
+        return anger > 0 && one_in( 5 ) ? 1 : 0;
+    } );
+
+    process_trigger( mon_trigger::FIRE, [this]() {
+        int ret = 0;
+        for( const auto &p : g->m.points_in_radius( pos(), 3 ) ) {
+            ret += 5 * g->m.get_field_strength( p, fd_fire );
+        }
+        return ret;
+    } );
+
+    // Meat checking is disabled as for now.
+    // It's hard to ever see it in action
+    // and even harder to balance it without making it exploitable
+
     if( morale != type->morale && one_in( 10 ) ) {
         if( morale < type->morale ) {
             morale++;
@@ -1022,7 +1039,7 @@ void monster::process_triggers()
 }
 
 // This adjusts anger/morale levels given a single trigger.
-void monster::process_trigger( monster_trigger trig, int amount )
+void monster::process_trigger( mon_trigger trig, int amount )
 {
     if( type->has_anger_trigger( trig ) ) {
         anger += amount;
@@ -1035,61 +1052,17 @@ void monster::process_trigger( monster_trigger trig, int amount )
     }
 }
 
-int monster::trigger_sum( const std::set<monster_trigger> &triggers ) const
+void monster::process_trigger( mon_trigger trig, const std::function<int()> &amount_func )
 {
-    int ret = 0;
-    bool check_terrain = false;
-    bool check_meat = false;
-    bool check_fire = false;
-    for( const auto &trigger : triggers ) {
-        switch( trigger ) {
-            case MTRIG_STALK:
-                if( anger > 0 && one_in( 5 ) ) {
-                    ret++;
-                }
-                break;
-
-            case MTRIG_MEAT:
-                // Disable meat checking for now
-                // It's hard to ever see it in action
-                // and even harder to balance it without making it exploitable
-
-                // check_terrain = true;
-                // check_meat = true;
-                break;
-
-            case MTRIG_FIRE:
-                check_terrain = true;
-                check_fire = true;
-                break;
-
-            default:
-                break; // The rest are handled when the impetus occurs
-        }
+    if( type->has_anger_trigger( trig ) ) {
+        anger += amount_func();
     }
-
-    if( check_terrain ) {
-        for( auto &p : g->m.points_in_radius( pos(), 3 ) ) {
-            // Note: can_see_items doesn't check actual visibility
-            // This will check through walls, but it's too small to matter
-            if( check_meat && g->m.sees_some_items( p, *this ) ) {
-                auto items = g->m.i_at( p );
-                for( auto &item : items ) {
-                    if( item.is_corpse() || item.typeId() == "meat" ||
-                        item.typeId() == "meat_cooked" || item.typeId() == "human_flesh" ) {
-                        ret += 3;
-                        check_meat = false;
-                    }
-                }
-            }
-
-            if( check_fire ) {
-                ret += 5 * g->m.get_field_strength( p, fd_fire );
-            }
-        }
+    if( type->has_fear_trigger( trig ) ) {
+        morale -= amount_func();
     }
-
-    return ret;
+    if( type->has_placate_trigger( trig ) ) {
+        anger -= amount_func();
+    }
 }
 
 bool monster::is_underwater() const
@@ -1186,7 +1159,8 @@ void monster::absorb_hit( body_part, damage_instance &dam )
     for( auto &elem : dam.damage_units ) {
         add_msg( m_debug, "Dam Type: %s :: Ar Pen: %.1f :: Armor Mult: %.1f",
                  name_by_dt( elem.type ).c_str(), elem.res_pen, elem.res_mult );
-        elem.amount -= std::min( resistances( *this ).get_effective_resist( elem ), elem.amount );
+        elem.amount -= std::min( resistances( *this ).get_effective_resist( elem ) +
+                                 get_worn_armor_val( elem.type ), elem.amount );
     }
 }
 
@@ -1452,7 +1426,7 @@ void monster::apply_damage( Creature *source, body_part /*bp*/, int dam,
     if( hp < 1 ) {
         set_killer( source );
     } else if( dam > 0 ) {
-        process_trigger( MTRIG_HURT, 1 + static_cast<int>( dam / 3 ) );
+        process_trigger( mon_trigger::HURT, 1 + static_cast<int>( dam / 3 ) );
     }
 }
 
@@ -1590,7 +1564,7 @@ int monster::get_worn_armor_val( damage_type dt ) const
         return 0;
     }
     for( const item &armor : inv ) {
-        if( armor.get_var( "pet_armor", "" ).empty() ) {
+        if( !armor.is_pet_armor( true ) ) {
             continue;
         }
         return armor.damage_resist( dt );
@@ -2009,13 +1983,13 @@ void monster::die( Creature *nkiller )
     // If our species fears seeing one of our own die, process that
     int anger_adjust = 0;
     int morale_adjust = 0;
-    if( type->has_anger_trigger( MTRIG_FRIEND_DIED ) ) {
+    if( type->has_anger_trigger( mon_trigger::FRIEND_DIED ) ) {
         anger_adjust += 15;
     }
-    if( type->has_fear_trigger( MTRIG_FRIEND_DIED ) ) {
+    if( type->has_fear_trigger( mon_trigger::FRIEND_DIED ) ) {
         morale_adjust -= 15;
     }
-    if( type->has_placate_trigger( MTRIG_FRIEND_DIED ) ) {
+    if( type->has_placate_trigger( mon_trigger::FRIEND_DIED ) ) {
         anger_adjust -= 15;
     }
 
@@ -2042,10 +2016,9 @@ void monster::drop_items_on_death()
     if( type->death_drops.empty() ) {
         return;
     }
-    const auto dropped = g->m.put_items_from_loc( type->death_drops, pos(),
-                         calendar::time_of_cataclysm );
+    const auto dropped = g->m.put_items_from_loc( type->death_drops, pos(), calendar::start );
 
-    if( has_flag( MF_FILTHY ) ) {
+    if( has_flag( MF_FILTHY ) && get_option<bool>( "FILTHY_CLOTHES" ) ) {
         for( const auto &it : dropped ) {
             if( it->is_armor() ) {
                 it->item_tags.insert( "FILTHY" );
@@ -2190,8 +2163,7 @@ bool monster::make_fungus()
                tid == mon_zombie_bio_op || tid == mon_zombie_survivor || tid == mon_zombie_fireman ||
                tid == mon_zombie_cop || tid == mon_zombie_fat || tid == mon_zombie_rot ||
                tid == mon_zombie_swimmer || tid == mon_zombie_grabber || tid == mon_zombie_technician ||
-               tid == mon_zombie_brute_shocker || tid == mon_zombie_grenadier ||
-               tid == mon_zombie_grenadier_elite ) {
+               tid == mon_zombie_brute_shocker ) {
         polypick = 2;
     } else if( tid == mon_zombie_necro || tid == mon_zombie_master || tid == mon_zombie_fireman ||
                tid == mon_zombie_hazmat || tid == mon_beekeeper ) {
@@ -2338,7 +2310,7 @@ void monster::init_from_item( const item &itm )
         hp -= burnt_penalty;
 
         // HP can be 0 or less, in this case revive_corpse will just deactivate the corpse
-        if( hp > 0 && type->has_flag( "REVIVES_HEALTHY" ) ) {
+        if( hp > 0 && type->has_flag( MF_REVIVES_HEALTHY ) ) {
             hp = type->hp;
             set_speed_base( type->speed );
         }
@@ -2402,13 +2374,13 @@ void monster::on_hit( Creature *source, body_part,
     // Adjust anger/morale of same-species monsters, if appropriate
     int anger_adjust = 0;
     int morale_adjust = 0;
-    if( type->has_anger_trigger( MTRIG_FRIEND_ATTACKED ) ) {
+    if( type->has_anger_trigger( mon_trigger::FRIEND_ATTACKED ) ) {
         anger_adjust += 15;
     }
-    if( type->has_fear_trigger( MTRIG_FRIEND_ATTACKED ) ) {
+    if( type->has_fear_trigger( mon_trigger::FRIEND_ATTACKED ) ) {
         morale_adjust -= 15;
     }
-    if( type->has_placate_trigger( MTRIG_FRIEND_ATTACKED ) ) {
+    if( type->has_placate_trigger( mon_trigger::FRIEND_ATTACKED ) ) {
         anger_adjust -= 15;
     }
 
@@ -2489,7 +2461,7 @@ void monster::hear_sound( const tripoint &source, const int vol, const int dist 
     // target_z will require some special check due to soil muffling sounds
 
     int wander_turns = volume * ( goodhearing ? 6 : 1 );
-    process_trigger( MTRIG_SOUND, volume );
+    process_trigger( mon_trigger::SOUND, volume );
     if( morale >= 0 && anger >= 10 ) {
         // TODO: Add a proper check for fleeing attitude
         // but cache it nicely, because this part is called a lot

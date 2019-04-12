@@ -46,6 +46,7 @@ class material_type
         float _latent_heat = 334;
         bool _edible = false;
         bool _soft = false;
+        bool _reinforces = false;
 
         std::string _bash_dmg_verb;
         std::string _cut_dmg_verb;
@@ -95,9 +96,10 @@ class material_type
         int density() const;
         bool edible() const;
         bool soft() const;
+        bool reinforces() const;
 
         double vitamin( const vitamin_id &id ) const {
-            auto iter = _vitamins.find( id );
+            const auto iter = _vitamins.find( id );
             return iter != _vitamins.end() ? iter->second : 0;
         }
 

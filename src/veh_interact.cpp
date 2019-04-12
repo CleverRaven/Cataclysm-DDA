@@ -2030,6 +2030,15 @@ void veh_interact::display_veh()
         }
     }
 
+    // Draw guidelines to make current selection point more visible.
+    for( int y = 0; y < getmaxy( w_disp ); ++y ) {
+        mvwputch( w_disp, y, hw, c_dark_gray, LINE_XOXO );
+    }
+
+    for( int x = 0; x < getmaxx( w_disp ); ++x ) {
+        mvwputch( w_disp, hh, x, c_dark_gray, LINE_OXOX );
+    }
+
     //Iterate over structural parts so we only hit each square once
     std::vector<int> structural_parts = veh->all_parts_at_location( "structure" );
     for( auto &structural_part : structural_parts ) {

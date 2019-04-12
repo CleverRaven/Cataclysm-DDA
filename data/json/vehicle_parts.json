@@ -969,7 +969,7 @@
     "item": "v_table",
     "difficulty": 1,
     "location": "center",
-    "flags": [ "CARGO", "OBSTACLE", "TOOL_WRENCH" ],
+    "flags": [ "CARGO", "OBSTACLE", "TOOL_WRENCH", "FLAT_SURF" ],
     "breaks_into": [
       { "item": "2x4", "count": [ 1, 6 ] },
       { "item": "splinter", "count": [ 4, 6 ] },
@@ -990,7 +990,7 @@
     "item": "w_table",
     "difficulty": 1,
     "location": "center",
-    "flags": [ "CARGO", "OBSTACLE", "TOOL_WRENCH" ],
+    "flags": [ "CARGO", "OBSTACLE", "TOOL_WRENCH", "FLAT_SURF" ],
     "breaks_into": [
       { "item": "2x4", "count": [ 1, 6 ] },
       { "item": "splinter", "count": [ 4, 6 ] },

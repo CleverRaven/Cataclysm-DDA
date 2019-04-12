@@ -16,12 +16,7 @@
     "contains": 10,
     "seals": true,
     "watertight": true,
-    "armor_data": {
-      "covers": [ "TORSO" ],
-      "coverage": 10,
-      "encumbrance": 4,
-      "material_thickness": 2
-    },
+    "armor_data": { "covers": [ "TORSO" ], "coverage": 10, "encumbrance": 4, "material_thickness": 2 },
     "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
@@ -132,6 +127,24 @@
     "symbol": ")",
     "color": "light_gray",
     "contains": 24,
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "id": "bag_body_bag",
+    "type": "CONTAINER",
+    "category": "other",
+    "name": "body bag",
+    "looks_like": "bag_canvas",
+    "description": "A large, human size, rectangular bag made of strong plastic, with a zipper in the middle.  Used to hold a dead body.",
+    "weight": 500,
+    "volume": 4,
+    "price": 0,
+    "to_hit": -5,
+    "rigid": false,
+    "material": "plastic",
+    "symbol": ")",
+    "color": "dark_gray",
+    "contains": 100,
     "flags": [ "TRADER_AVOID" ]
   },
   {
@@ -321,12 +334,7 @@
     "contains": 8,
     "seals": true,
     "watertight": true,
-    "armor_data": {
-      "covers": [ "TORSO" ],
-      "coverage": 15,
-      "storage": 4,
-      "material_thickness": 1
-    },
+    "armor_data": { "covers": [ "TORSO" ], "coverage": 15, "storage": 4, "material_thickness": 1 },
     "flags": [ "BELTED" ]
   },
   {
@@ -423,12 +431,7 @@
     "contains": 6,
     "seals": true,
     "watertight": true,
-    "armor_data": {
-      "covers": [ "LEG_EITHER" ],
-      "coverage": 5,
-      "encumbrance": 2,
-      "material_thickness": 2
-    },
+    "armor_data": { "covers": [ "LEG_EITHER" ], "coverage": 5, "encumbrance": 2, "material_thickness": 2 },
     "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
@@ -586,6 +589,79 @@
     "qualities": [ [ "BOIL", 1 ] ]
   },
   {
+    "id": "test_tube",
+    "type": "CONTAINER",
+    "category": "other",
+    "name": "test tube",
+    "description": "A 10ml laboratory cylindrical test tube, with a rubber stopper.",
+    "weight": 36,
+    "volume": "10ml",
+    "price": 300,
+    "to_hit": -1,
+    "bashing": 1,
+    "material": "glass",
+    "symbol": ")",
+    "color": "light_cyan",
+    "contains": "10ml",
+    "seals": true,
+    "watertight": true,
+    "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ]
+  },
+  {
+    "id": "beaker",
+    "type": "CONTAINER",
+    "category": "other",
+    "name": "beaker",
+    "description": "A 250ml laboratory beaker. Basically a cup with delusions of grandeur.",
+    "weight": 150,
+    "volume": "250ml",
+    "price": 500,
+    "to_hit": -1,
+    "material": "glass",
+    "symbol": ")",
+    "color": "light_cyan",
+    "contains": "250ml",
+    "seals": false,
+    "watertight": true,
+    "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ]
+  },
+  {
+    "id": "gradcylinder",
+    "type": "CONTAINER",
+    "category": "other",
+    "name": "graduated cylinder",
+    "description": "A tall, narrow glass cylinder with precise markings for measuring fluid quantities. An important science tool, it is also useful for anal retentive chefs.",
+    "weight": 150,
+    "volume": "100ml",
+    "price": 500,
+    "to_hit": -1,
+    "material": "glass",
+    "symbol": "|",
+    "color": "light_cyan",
+    "contains": "100ml",
+    "seals": false,
+    "watertight": true,
+    "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ]
+  },
+  {
+    "id": "test_tube_micro",
+    "type": "CONTAINER",
+    "category": "other",
+    "name": "microcentrifuge tube",
+    "description": "These plastic tubes, with little built in snap-caps, are a great way to store a tiny amount of liquid. Great for jello shooters if 1mL is enough for a shot for you. Cool people call these \"eppies\".",
+    "weight": 1,
+    "volume": "1ml",
+    "price": 10,
+    "to_hit": -1,
+    "material": "plastic",
+    "symbol": "v",
+    "color": "light_cyan",
+    "contains": "1ml",
+    "seals": true,
+    "watertight": true,
+    "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ]
+  },
+  {
     "id": "flask_hip",
     "type": "CONTAINER",
     "category": "clothing",
@@ -602,11 +678,7 @@
     "contains": 1,
     "seals": true,
     "watertight": true,
-    "armor_data": {
-      "covers": [ "LEG_EITHER" ],
-      "coverage": 2,
-      "material_thickness": 1
-    },
+    "armor_data": { "covers": [ "LEG_EITHER" ], "coverage": 2, "material_thickness": 1 },
     "qualities": [ [ "BOIL", 1 ] ],
     "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
@@ -912,11 +984,7 @@
     "contains": 6,
     "seals": true,
     "watertight": true,
-    "armor_data": {
-      "covers": [ "LEG_EITHER" ],
-      "coverage": 5,
-      "material_thickness": 2
-    },
+    "armor_data": { "covers": [ "LEG_EITHER" ], "coverage": 5, "material_thickness": 2 },
     "flags": [ "WAIST", "WATER_FRIENDLY" ]
   },
   {
@@ -937,11 +1005,7 @@
     "contains": 12,
     "seals": true,
     "watertight": true,
-    "armor_data": {
-      "covers": [ "TORSO" ],
-      "coverage": 10,
-      "material_thickness": 2
-    },
+    "armor_data": { "covers": [ "TORSO" ], "coverage": 10, "material_thickness": 2 },
     "flags": [ "WAIST", "WATER_FRIENDLY" ]
   },
   {
@@ -962,11 +1026,7 @@
     "contains": 20,
     "seals": true,
     "watertight": true,
-    "armor_data": {
-      "covers": [ "TORSO" ],
-      "coverage": 15,
-      "material_thickness": 2
-    },
+    "armor_data": { "covers": [ "TORSO" ], "coverage": 15, "material_thickness": 2 },
     "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
@@ -1037,24 +1097,5 @@
     "contains": 17,
     "seals": true,
     "watertight": true
-  },
-  {
-    "id": "test_tube",
-    "type": "CONTAINER",
-    "category": "other",
-    "name": "test tube",
-    "description": "A 10ml laboratory cylindrical test tube, with a rubber stopper.",
-    "weight": 36,
-    "volume": "10ml",
-    "price": 300,
-    "to_hit": -1,
-    "bashing": 1,
-    "material": "glass",
-    "symbol": ")",
-    "color": "light_cyan",
-    "contains": "10ml",
-    "seals": true,
-    "watertight": true,
-    "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1] ]
   }
 ]

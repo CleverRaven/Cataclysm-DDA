@@ -18,7 +18,7 @@ mutation_chars( "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\"#&()*+./:
 
 void draw_exam_window( const catacurses::window &win, const int border_y )
 {
-    int width = getmaxx( win );
+    const int width = getmaxx( win );
     mvwputch( win, border_y, 0, BORDER_COLOR, LINE_XXXO );
     mvwhline( win, border_y, 1, LINE_OXOX, width - 2 );
     mvwputch( win, border_y, width - 1, BORDER_COLOR, LINE_XOXX );
@@ -128,7 +128,7 @@ void player::power_mutations()
     ctxt.register_action( "TOGGLE_EXAMINE" );
     ctxt.register_action( "REASSIGN" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
     for( const auto &p : passive ) {
         ctxt.register_manual_key( my_mutations[p].key, p.obj().name() );
     }
@@ -290,7 +290,7 @@ void player::power_mutations()
                         deactivate_mutation( mut_id );
                         // Action done, leave screen
                         break;
-                    } else if( ( !mut_data.hunger || get_hunger() <= 400 ) &&
+                    } else if( ( !mut_data.hunger || get_kcal_percent() >= 0.8f ) &&
                                ( !mut_data.thirst || get_thirst() <= 400 ) &&
                                ( !mut_data.fatigue || get_fatigue() <= 400 ) ) {
 

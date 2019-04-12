@@ -176,6 +176,15 @@
     ]
   },
   {
+    "id": "tricycle",
+    "type": "vehicle",
+    "name": "Children's Tricycle",
+    "blueprint": [ "#" ],
+    "parts": [
+      { "x": 0, "y": 0, "parts": [ "xlframe_vertical", "saddle", "foot_pedals", "wheel_tricycle" ] }
+    ]
+  },
+  {
     "id": "unicycle",
     "type": "vehicle",
     "name": "Unicycle",

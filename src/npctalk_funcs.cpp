@@ -132,6 +132,52 @@ void talk_function::start_trade( npc &p )
     trade( p, 0, _( "Trade" ) );
 }
 
+void talk_function::goto_location( npc &p )
+{
+    int i = 0;
+    uilist selection_menu;
+    selection_menu.text = string_format( _( "Select a destination" ) );
+    std::vector<basecamp *> camps;
+    tripoint destination;
+    for( auto elem : g->u.camps ) {
+        if( elem == p.global_omt_location() ) {
+            continue;
+        }
+        cata::optional<basecamp *> camp = overmap_buffer.find_camp( elem.x, elem.y );
+        if( !camp ) {
+            continue;
+        }
+        basecamp *temp_camp = *camp;
+        camps.push_back( temp_camp );
+    }
+    for( auto iter : camps ) {
+        selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "%s at (%d, %d)" ), iter->camp_name(),
+                                 iter->camp_omt_pos().x, iter->camp_omt_pos().y );
+    }
+    selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "My current location" ) );
+    selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Cancel" ) );
+    selection_menu.selected = 0;
+    selection_menu.query();
+    auto index = selection_menu.ret;
+    if( index < 0 || index > static_cast<int>( camps.size() + 1 ) ||
+        index == static_cast<int>( camps.size() + 1 ) || index == UILIST_CANCEL ) {
+        return;
+    }
+    if( index == static_cast<int>( camps.size() ) ) {
+        destination = g->u.global_omt_location();
+    } else {
+        auto selected_camp = camps[index];
+        destination = selected_camp->camp_omt_pos();
+    }
+    p.set_companion_mission( p.global_omt_location(), "TRAVELLER", "travelling", destination );
+    p.mission = NPC_MISSION_TRAVELLING;
+    p.chatbin.first_topic = "TALK_FRIEND_GUARD";
+    p.goal = destination;
+    p.guard_pos = npc::no_goal_point;
+    p.set_attitude( NPCATT_NULL );
+    return;
+}
+
 std::string bulk_trade_inquire( const npc &, const itype_id &it )
 {
     int you_have = g->u.charges_of( it );
@@ -153,27 +199,26 @@ void bulk_trade_accept( npc &, const itype_id &it )
     g->u.cash += total;
 }
 
-void talk_function::assign_base( npc &p )
-{
-    // TODO: decide what to do upon assign? maybe pathing required
-    basecamp *camp = g->m.camp_at( g->u.pos() );
-    if( !camp ) {
-        dbg( D_ERROR ) << "talk_function::assign_base: Assigned to base but no base here.";
-        return;
-    }
-
-    add_msg( _( "%1$s waits at %2$s" ), p.name, camp->camp_name() );
-    p.mission = NPC_MISSION_BASE;
-    p.set_attitude( NPCATT_NULL );
-}
-
 void talk_function::assign_guard( npc &p )
 {
-    add_msg( _( "%s is posted as a guard." ), p.name );
+    if( p.is_travelling() ) {
+        if( p.has_companion_mission() ) {
+            p.reset_companion_mission();
+        }
+    }
     p.set_attitude( NPCATT_NULL );
     p.mission = NPC_MISSION_GUARD_ALLY;
     p.chatbin.first_topic = "TALK_FRIEND_GUARD";
-    p.set_destination();
+    p.set_omt_destination();
+    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( p.global_omt_location().x,
+                                     p.global_omt_location().y );
+    if( bcp ) {
+        basecamp *temp_camp = *bcp;
+        temp_camp->validate_assignees();
+        add_msg( _( "%1$s is assigned to guard %2$s" ), p.name, temp_camp->camp_name() );
+    } else {
+        add_msg( _( "%s is posted as a guard." ), p.name );
+    }
 }
 
 void talk_function::stop_guard( npc &p )
@@ -184,6 +229,12 @@ void talk_function::stop_guard( npc &p )
     p.chatbin.first_topic = "TALK_FRIEND";
     p.goal = npc::no_goal_point;
     p.guard_pos = npc::no_goal_point;
+    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( p.global_omt_location().x,
+                                     p.global_omt_location().y );
+    if( bcp ) {
+        basecamp *temp_camp = *bcp;
+        temp_camp->validate_assignees();
+    }
 }
 
 void talk_function::wake_up( npc &p )
@@ -473,6 +524,7 @@ void talk_function::follow( npc &p )
 {
     g->add_npc_follower( p.getID() );
     p.set_attitude( NPCATT_FOLLOW );
+    p.set_fac( faction_id( "your_followers" ) );
     g->u.cash += p.cash;
     p.cash = 0;
 }

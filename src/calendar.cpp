@@ -178,8 +178,8 @@ calendar calendar::sunrise() const
             end_hour   = SUNRISE_EQUINOX;
             break;
     }
-    double percent = static_cast<double>( static_cast<double>( day ) / to_days<int>
-                                          ( season_length() ) );
+    const double percent = static_cast<double>( static_cast<double>( day ) / to_days<int>
+                           ( season_length() ) );
     double time = static_cast<double>( start_hour ) * ( 1. - percent ) + static_cast<double>
                   ( end_hour ) * percent;
 
@@ -214,8 +214,8 @@ calendar calendar::sunset() const
             end_hour   = SUNSET_EQUINOX;
             break;
     }
-    double percent = static_cast<double>( static_cast<double>( day ) / to_days<int>
-                                          ( season_length() ) );
+    const double percent = static_cast<double>( static_cast<double>( day ) / to_days<int>
+                           ( season_length() ) );
     double time = static_cast<double>( start_hour ) * ( 1. - percent ) + static_cast<double>
                   ( end_hour ) * percent;
 
@@ -237,8 +237,8 @@ bool calendar::is_night() const
 
 double calendar::current_daylight_level() const
 {
-    double percent = static_cast<double>( static_cast<double>( day ) / to_days<int>
-                                          ( season_length() ) );
+    const double percent = static_cast<double>( static_cast<double>( day ) / to_days<int>
+                           ( season_length() ) );
     double modifier = 1.0;
     // For ~Boston: solstices are +/- 25% sunlight intensity from equinoxes
     static double deviation = 0.25;
@@ -267,14 +267,14 @@ float calendar::sunlight() const
     const time_duration sunrise = time_past_midnight( this->sunrise() );
     const time_duration sunset = time_past_midnight( this->sunset() );
 
-    double daylight_level = current_daylight_level();
+    const double daylight_level = current_daylight_level();
 
     int current_phase = static_cast<int>( get_moon_phase( *this ) );
     if( current_phase > static_cast<int>( MOON_PHASE_MAX ) / 2 ) {
         current_phase = static_cast<int>( MOON_PHASE_MAX ) - current_phase;
     }
 
-    int moonlight = 1 + static_cast<int>( current_phase * MOONLIGHT_PER_QUARTER );
+    const int moonlight = 1 + static_cast<int>( current_phase * MOONLIGHT_PER_QUARTER );
 
     if( now > sunset + twilight_duration || now < sunrise ) { // Night
         return moonlight;
@@ -387,7 +387,7 @@ std::pair<int, clipped_unit> clipped_time( const time_duration &d )
 std::string to_string_clipped( const time_duration &d,
                                const clipped_align align )
 {
-    std::pair<int, clipped_unit> time = clipped_time( d );
+    const std::pair<int, clipped_unit> time = clipped_time( d );
     return to_string_clipped( time.first, time.second, align );
 }
 
@@ -639,4 +639,9 @@ std::string to_string( const time_point &p )
         return string_format( _( "Year %1$d, %2$s, day %3$d %4$s" ), year,
                               calendar::name_season( season_of_year( p ) ), day, time );
     }
+}
+
+time_point::time_point()
+{
+    turn_ = 0;
 }

@@ -1,5 +1,20 @@
 [
   {
+    "id": "40_speedloader6",
+    "type": "MAGAZINE",
+    "name": ".40 6-round speedloader",
+    "description": "This speedloader can hold 6 rounds of .40 and quickly reload a compatible revolver.",
+    "weight": 92,
+    "volume": 1,
+    "price": 1500,
+    "material": "steel",
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": "40",
+    "capacity": 6,
+    "flags": [ "SPEEDLOADER" ]
+  },
+  {
     "id": "glock40bigmag",
     "type": "MAGAZINE",
     "name": "Glock .40S&W extended magazine",

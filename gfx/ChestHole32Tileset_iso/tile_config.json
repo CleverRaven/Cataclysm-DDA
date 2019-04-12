@@ -5025,7 +5025,7 @@
         {
           "bg": 632,
           "fg": 810,
-          "id": ["cooking_oil", "lemonade"],
+          "id": [ "cooking_oil", "cooking_oil2", "lemonade" ],
           "rotates": false
         },
         {

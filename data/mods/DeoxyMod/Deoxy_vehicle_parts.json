@@ -1,272 +1,276 @@
 [
-    {
-        "type" : "vehicle_part",
-        "id" : "fxlhalfboard_horizontal",
-        "name" : "folding extra light quarterpanel",
-        "symbol" : "h",
-        "color" : "light_gray",
-        "broken_symbol" : "#",
-        "broken_color" : "light_gray",
-        "durability" : 30,
-        "item" : "pipe",
-        "difficulty" : 1,
-        "location" : "center",
-        "folded_volume": 4,
-        "flags" : ["OBSTACLE", "FOLDABLE"],
-        "breaks_into" : [
-            {"item": "pipe", "prob": 50}
-        ]
-    },{
-        "type" : "vehicle_part",
-        "id" : "fxlhalfboard_vertical",
-        "name" : "folding extra light quarterpanel",
-        "symbol" : "j",
-        "color" : "light_gray",
-        "broken_symbol" : "#",
-        "broken_color" : "light_gray",
-        "durability" : 30,
-        "item" : "pipe",
-        "difficulty" : 1,
-        "location" : "center",
-        "folded_volume": 4,
-        "flags" : ["OBSTACLE", "FOLDABLE"],
-        "breaks_into" : [
-            {"item": "pipe", "prob": 50}
-        ]
-    },{
-        "type" : "vehicle_part",
-        "id" : "fxlhalfboard_nw",
-        "name" : "folding extra light quarterpanel",
-        "symbol" : "y",
-        "color" : "light_gray",
-        "broken_symbol" : "#",
-        "broken_color" : "light_gray",
-        "durability" : 30,
-        "item" : "pipe",
-        "difficulty" : 1,
-        "location" : "center",
-        "folded_volume": 4,
-        "flags" : ["OBSTACLE", "FOLDABLE"],
-        "breaks_into" : [
-            {"item": "pipe", "prob": 50}
-        ]
-    },{
-        "type" : "vehicle_part",
-        "id" : "fxlhalfboard_ne",
-        "name" : "folding extra light quarterpanel",
-        "symbol" : "u",
-        "color" : "light_gray",
-        "broken_symbol" : "#",
-        "broken_color" : "light_gray",
-        "durability" : 30,
-        "item" : "pipe",
-        "difficulty" : 1,
-        "location" : "center",
-        "folded_volume": 4,
-        "flags" : ["OBSTACLE", "FOLDABLE"],
-        "breaks_into" : [
-            {"item": "pipe", "prob": 50}
-        ]
-    },{
-        "type" : "vehicle_part",
-        "id" : "fxlhalfboard_se",
-        "name" : "folding extra light quarterpanel",
-        "symbol" : "n",
-        "color" : "light_gray",
-        "broken_symbol" : "#",
-        "broken_color" : "light_gray",
-        "durability" : 30,
-        "item" : "pipe",
-        "difficulty" : 1,
-        "location" : "center",
-        "folded_volume": 4,
-        "flags" : ["OBSTACLE", "FOLDABLE"],
-        "breaks_into" : [
-            {"item": "pipe", "prob": 50}
-        ]
-    },{
-        "type" : "vehicle_part",
-        "id" : "fxlhalfboard_sw",
-        "name" : "folding extra light quarterpanel",
-        "symbol" : "b",
-        "color" : "light_gray",
-        "broken_symbol" : "#",
-        "broken_color" : "light_gray",
-        "durability" : 30,
-        "item" : "pipe",
-        "difficulty" : 1,
-        "location" : "center",
-        "folded_volume": 4,
-        "flags" : ["OBSTACLE", "FOLDABLE"],
-        "breaks_into" : [
-            {"item": "pipe", "prob": 50}
-        ]
-    },{
-        "type" : "vehicle_part",
-        "id" : "fxlhalfboard_horizontal_2",
-        "name" : "folding extra light quarterpanel",
-        "symbol" : "=",
-        "color" : "light_gray",
-        "broken_symbol" : "#",
-        "broken_color" : "light_gray",
-        "durability" : 30,
-        "item" : "pipe",
-        "difficulty" : 1,
-        "location" : "center",
-        "folded_volume": 4,
-        "flags" : ["OBSTACLE", "FOLDABLE"],
-        "breaks_into" : [
-            {"item": "pipe", "prob": 50}
-        ]
-    },{
-        "type" : "vehicle_part",
-        "id" : "fxlhalfboard_vertical_2",
-        "name" : "folding extra light quarterpanel",
-        "symbol" : "H",
-        "color" : "light_gray",
-        "broken_symbol" : "#",
-        "broken_color" : "light_gray",
-        "durability" : 30,
-        "item" : "pipe",
-        "difficulty" : 1,
-        "location" : "center",
-        "folded_volume": 4,
-        "flags" : ["OBSTACLE", "FOLDABLE"],
-        "breaks_into" : [
-            {"item": "pipe", "prob": 50}
-        ]
-    },{
-        "type" : "vehicle_part",
-        "id" : "fdoor",
-        "name" : "foldable door",
-        "symbol" : "+",
-        "color" : "cyan",
-        "broken_symbol" : "&",
-        "broken_color" : "cyan",
-        "damage_modifier" : 80,
-        "durability" : 50,
-        "size" : 10,
-        "item" : "foldframe",
-        "difficulty" : 2,
-        "location" : "center",
-        "folded_volume": 10,
-        "flags" : ["CARGO", "OBSTACLE", "OPENABLE", "BOARDABLE", "FOLDABLE"],
-        "breaks_into" : [
-            {"item": "steel_chunk", "count": [0, 2]},
-            {"item": "scrap", "count": [1, 2]}
-        ]
-    },{
-        "type" : "vehicle_part",
-        "id" : "sheet_superalloy",
-        "name" : "superalloy coating",
-        "symbol" : ")",
-        "color" : "dark_gray",
-        "broken_symbol" : ")",
-        "broken_color" : "dark_gray",
-        "durability" : 250,
-        "item" : "alloy_sheet",
-        "difficulty" : 5,
-        "location" : "armor",
-        "folded_volume": 2,
-        "flags" : ["ARMOR", "FOLDABLE"],
-        "breaks_into" : [
-            {"item": "steel_lump", "count": [4, 6]},
-            {"item": "steel_chunk", "count": [4, 6]},
-            {"item": "scrap", "count": [4, 6]}
-        ]
-    },{
-        "id": "storage_battery_mount",
-        "copy-from": "storage_battery_mount",
-        "type": "vehicle_part",
-        "name" : "swappable storage battery case",
-        "extend": { "flags": [ "FOLDABLE" ] },
-        "folded_volume": 9
-    },{
-        "id": "solar_panel",
-        "copy-from": "solar_panel",
-        "type": "vehicle_part",
-        "name" : "solar panel",
-        "extend": { "flags": [ "FOLDABLE" ] },
-        "folded_volume": 12
-    },{
-        "id": "reinforced_solar_panel",
-        "copy-from": "reinforced_solar_panel",
-        "type": "vehicle_part",
-        "name" : "reinforced solar panel",
-        "extend": { "flags": [ "FOLDABLE" ] },
-        "folded_volume": 26
-    },{
-        "id": "solar_panel_v2",
-        "copy-from": "solar_panel_v2",
-        "type": "vehicle_part",
-        "name" : "upgraded solar panel",
-        "extend": { "flags": [ "FOLDABLE" ] },
-        "folded_volume": 18
-    },{
-        "id": "reinforced_solar_panel_v2",
-        "copy-from": "reinforced_solar_panel_v2",
-        "type": "vehicle_part",
-        "name" : "upgraded reinforced solar panel",
-        "extend": { "flags": [ "FOLDABLE" ] },
-        "folded_volume": 30
-    },{
-        "id": "solar_panel_v3",
-        "copy-from": "solar_panel_v3",
-        "type": "vehicle_part",
-        "name" : "quantum solar panel",
-        "extend": { "flags": [ "FOLDABLE" ] },
-        "folded_volume": 18
-    },{
-        "id": "stereo",
-        "copy-from": "stereo",
-        "type": "vehicle_part",
-        "name" : "stereo system",
-        "extend": { "flags": [ "FOLDABLE" ] },
-        "folded_volume": 14
-    },{
-        "id": "drive_by_wire_controls",
-        "copy-from": "drive_by_wire_controls",
-        "type": "vehicle_part",
-        "name" : "drive by wire controls",
-        "extend": { "flags": [ "FOLDABLE" ] },
-        "folded_volume": 15
-    },{
-        "id": "cam_control",
-        "copy-from": "cam_control",
-        "type": "vehicle_part",
-        "name" : "camera control system",
-        "extend": { "flags": [ "FOLDABLE" ] },
-        "folded_volume": 16
-    },{
-        "id": "omnicam",
-        "copy-from": "omnicam",
-        "type": "vehicle_part",
-        "name" : "security camera",
-        "extend": { "flags": [ "FOLDABLE" ] },
-        "folded_volume": 8
-    },{
-        "id": "minireactor",
-        "copy-from": "minireactor",
-        "type": "vehicle_part",
-        "extend": { "flags": [ "FOLDABLE" ] },
-        "folded_volume": 6
-    },{
-        "id": "tank_small",
-        "copy-from": "tank_small",
-        "type": "vehicle_part",
-        "extend": { "flags": [ "FOLDABLE" ] },
-        "folded_volume": 40
-    },{
-        "id": "chimes",
-        "copy-from": "chimes",
-        "type": "vehicle_part",
-        "extend": { "flags": [ "FOLDABLE" ] },
-        "folded_volume": 16
-    },{
-        "id": "water_purifier",
-        "copy-from": "water_purifier",
-        "type": "vehicle_part",
-        "extend": { "flags": [ "FOLDABLE" ] },
-        "folded_volume": 12
-    }
+  {
+    "type": "vehicle_part",
+    "id": "fxlhalfboard_horizontal",
+    "name": "folding extra light quarterpanel",
+    "symbol": "h",
+    "color": "light_gray",
+    "broken_symbol": "#",
+    "broken_color": "light_gray",
+    "durability": 30,
+    "item": "pipe",
+    "difficulty": 1,
+    "location": "center",
+    "folded_volume": 4,
+    "flags": [ "OBSTACLE", "FOLDABLE" ],
+    "breaks_into": [ { "item": "pipe", "prob": 50 } ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "fxlhalfboard_vertical",
+    "name": "folding extra light quarterpanel",
+    "symbol": "j",
+    "color": "light_gray",
+    "broken_symbol": "#",
+    "broken_color": "light_gray",
+    "durability": 30,
+    "item": "pipe",
+    "difficulty": 1,
+    "location": "center",
+    "folded_volume": 4,
+    "flags": [ "OBSTACLE", "FOLDABLE" ],
+    "breaks_into": [ { "item": "pipe", "prob": 50 } ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "fxlhalfboard_nw",
+    "name": "folding extra light quarterpanel",
+    "symbol": "y",
+    "color": "light_gray",
+    "broken_symbol": "#",
+    "broken_color": "light_gray",
+    "durability": 30,
+    "item": "pipe",
+    "difficulty": 1,
+    "location": "center",
+    "folded_volume": 4,
+    "flags": [ "OBSTACLE", "FOLDABLE" ],
+    "breaks_into": [ { "item": "pipe", "prob": 50 } ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "fxlhalfboard_ne",
+    "name": "folding extra light quarterpanel",
+    "symbol": "u",
+    "color": "light_gray",
+    "broken_symbol": "#",
+    "broken_color": "light_gray",
+    "durability": 30,
+    "item": "pipe",
+    "difficulty": 1,
+    "location": "center",
+    "folded_volume": 4,
+    "flags": [ "OBSTACLE", "FOLDABLE" ],
+    "breaks_into": [ { "item": "pipe", "prob": 50 } ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "fxlhalfboard_se",
+    "name": "folding extra light quarterpanel",
+    "symbol": "n",
+    "color": "light_gray",
+    "broken_symbol": "#",
+    "broken_color": "light_gray",
+    "durability": 30,
+    "item": "pipe",
+    "difficulty": 1,
+    "location": "center",
+    "folded_volume": 4,
+    "flags": [ "OBSTACLE", "FOLDABLE" ],
+    "breaks_into": [ { "item": "pipe", "prob": 50 } ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "fxlhalfboard_sw",
+    "name": "folding extra light quarterpanel",
+    "symbol": "b",
+    "color": "light_gray",
+    "broken_symbol": "#",
+    "broken_color": "light_gray",
+    "durability": 30,
+    "item": "pipe",
+    "difficulty": 1,
+    "location": "center",
+    "folded_volume": 4,
+    "flags": [ "OBSTACLE", "FOLDABLE" ],
+    "breaks_into": [ { "item": "pipe", "prob": 50 } ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "fxlhalfboard_horizontal_2",
+    "name": "folding extra light quarterpanel",
+    "symbol": "=",
+    "color": "light_gray",
+    "broken_symbol": "#",
+    "broken_color": "light_gray",
+    "durability": 30,
+    "item": "pipe",
+    "difficulty": 1,
+    "location": "center",
+    "folded_volume": 4,
+    "flags": [ "OBSTACLE", "FOLDABLE" ],
+    "breaks_into": [ { "item": "pipe", "prob": 50 } ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "fxlhalfboard_vertical_2",
+    "name": "folding extra light quarterpanel",
+    "symbol": "H",
+    "color": "light_gray",
+    "broken_symbol": "#",
+    "broken_color": "light_gray",
+    "durability": 30,
+    "item": "pipe",
+    "difficulty": 1,
+    "location": "center",
+    "folded_volume": 4,
+    "flags": [ "OBSTACLE", "FOLDABLE" ],
+    "breaks_into": [ { "item": "pipe", "prob": 50 } ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "fdoor",
+    "name": "foldable door",
+    "symbol": "+",
+    "color": "cyan",
+    "broken_symbol": "&",
+    "broken_color": "cyan",
+    "damage_modifier": 80,
+    "durability": 50,
+    "size": 10,
+    "item": "foldframe",
+    "difficulty": 2,
+    "location": "center",
+    "folded_volume": 10,
+    "flags": [ "CARGO", "OBSTACLE", "OPENABLE", "BOARDABLE", "FOLDABLE" ],
+    "breaks_into": [ { "item": "steel_chunk", "count": [ 0, 2 ] }, { "item": "scrap", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "sheet_superalloy",
+    "name": "superalloy coating",
+    "symbol": ")",
+    "color": "dark_gray",
+    "broken_symbol": ")",
+    "broken_color": "dark_gray",
+    "durability": 250,
+    "item": "alloy_sheet",
+    "difficulty": 5,
+    "location": "armor",
+    "folded_volume": 2,
+    "flags": [ "ARMOR", "FOLDABLE" ],
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 4, 6 ] },
+      { "item": "steel_chunk", "count": [ 4, 6 ] },
+      { "item": "scrap", "count": [ 4, 6 ] }
+    ]
+  },
+  {
+    "id": "storage_battery_mount",
+    "copy-from": "storage_battery_mount",
+    "type": "vehicle_part",
+    "name": "swappable storage battery case",
+    "extend": { "flags": [ "FOLDABLE" ] },
+    "folded_volume": 9
+  },
+  {
+    "id": "solar_panel",
+    "copy-from": "solar_panel",
+    "type": "vehicle_part",
+    "name": "solar panel",
+    "extend": { "flags": [ "FOLDABLE" ] },
+    "folded_volume": 12
+  },
+  {
+    "id": "reinforced_solar_panel",
+    "copy-from": "reinforced_solar_panel",
+    "type": "vehicle_part",
+    "name": "reinforced solar panel",
+    "extend": { "flags": [ "FOLDABLE" ] },
+    "folded_volume": 26
+  },
+  {
+    "id": "solar_panel_v2",
+    "copy-from": "solar_panel_v2",
+    "type": "vehicle_part",
+    "name": "upgraded solar panel",
+    "extend": { "flags": [ "FOLDABLE" ] },
+    "folded_volume": 18
+  },
+  {
+    "id": "reinforced_solar_panel_v2",
+    "copy-from": "reinforced_solar_panel_v2",
+    "type": "vehicle_part",
+    "name": "upgraded reinforced solar panel",
+    "extend": { "flags": [ "FOLDABLE" ] },
+    "folded_volume": 30
+  },
+  {
+    "id": "solar_panel_v3",
+    "copy-from": "solar_panel_v3",
+    "type": "vehicle_part",
+    "name": "quantum solar panel",
+    "extend": { "flags": [ "FOLDABLE" ] },
+    "folded_volume": 18
+  },
+  {
+    "id": "stereo",
+    "copy-from": "stereo",
+    "type": "vehicle_part",
+    "name": "stereo system",
+    "extend": { "flags": [ "FOLDABLE" ] },
+    "folded_volume": 14
+  },
+  {
+    "id": "drive_by_wire_controls",
+    "copy-from": "drive_by_wire_controls",
+    "type": "vehicle_part",
+    "name": "drive by wire controls",
+    "extend": { "flags": [ "FOLDABLE" ] },
+    "folded_volume": 15
+  },
+  {
+    "id": "cam_control",
+    "copy-from": "cam_control",
+    "type": "vehicle_part",
+    "name": "camera control system",
+    "extend": { "flags": [ "FOLDABLE" ] },
+    "folded_volume": 16
+  },
+  {
+    "id": "omnicam",
+    "copy-from": "omnicam",
+    "type": "vehicle_part",
+    "name": "security camera",
+    "extend": { "flags": [ "FOLDABLE" ] },
+    "folded_volume": 8
+  },
+  {
+    "id": "minireactor",
+    "copy-from": "minireactor",
+    "type": "vehicle_part",
+    "extend": { "flags": [ "FOLDABLE" ] },
+    "folded_volume": 6
+  },
+  {
+    "id": "tank_small",
+    "copy-from": "tank_small",
+    "type": "vehicle_part",
+    "extend": { "flags": [ "FOLDABLE" ] },
+    "folded_volume": 40
+  },
+  {
+    "id": "chimes",
+    "copy-from": "chimes",
+    "type": "vehicle_part",
+    "extend": { "flags": [ "FOLDABLE" ] },
+    "folded_volume": 16
+  },
+  {
+    "id": "water_purifier",
+    "copy-from": "water_purifier",
+    "type": "vehicle_part",
+    "extend": { "flags": [ "FOLDABLE" ] },
+    "folded_volume": 12
+  }
 ]

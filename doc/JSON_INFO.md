@@ -1127,7 +1127,7 @@ Gun mods can be defined like this:
 "turns_per_charge": 20, // Charges consumed over time
 "ammo": "NULL",       // Ammo type used for reloading
 "revert_to": "torch_done", // Transforms into item when charges are expended
-"use_action": "TORCH_LIT" // Action performed when tool is used, see special definition below
+"use_action": "firestarter" // Action performed when tool is used, see special definition below
 ```
 
 ### Seed Data

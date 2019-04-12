@@ -25,12 +25,13 @@
         "type" : "overmap_special",
         "id" : "motel-twd",
         "overmaps" : [
-            { "point":[0,-1,0], "overmap" : "road_end_north"},
             { "point":[0,0,0], "overmap": "motel_twd_1_north"},
-            { "point":[1,0,0], "overmap": "motel_twd_2_north"}
+            { "point":[1,0,0], "overmap": "motel_twd_2_north"},
+            { "point":[0,0,1], "overmap": "motel_twd_second_floor_north"}
         ],
         "connections" : [
-            { "point" : [0,-1,0] }
+            { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] },
+            { "point": [ 1, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 1, 0, 0 ] }
         ],
         "locations" : [ "land", "swamp" ],
         "city_distance" : [2, 120],
@@ -130,7 +131,11 @@
             { "point":[1,2,-1], "overmap": "sewage_treatment_under"}
         ],
         "connections" : [
-            { "point" : [0,-1,0] }
+            { "point" : [0,-1,0] },
+            { "point": [ 0, -1, -1 ], "terrain": "sewer", "connection": "sewer_tunnel", "from": [ 0, 0, -1 ] },
+            { "point": [ 2, 1, -1 ], "terrain": "sewer", "connection": "sewer_tunnel", "from": [ 1, 1, -1 ] },
+            { "point": [ 0, 3, -1 ], "terrain": "sewer", "connection": "sewer_tunnel", "from": [ 0, 2, -1 ] },
+            { "point": [ -2, 1, -1 ], "terrain": "sewer", "connection": "sewer_tunnel", "from": [ -1, 1, -1 ] }
         ],
         "locations" : [ "land" ],
         "city_distance" : [10, 20],

@@ -25,14 +25,14 @@
 #include "translations.h"
 #include "weather.h"
 
-#ifdef SDL_SOUND
+#if defined(SDL_SOUND)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)
 #      include <SDL2/SDL_mixer.h>
 #   else
 #      include <SDL_mixer.h>
 #   endif
 #   include <thread>
-#   if ((defined _WIN32 || defined WINDOWS) && !defined _MSC_VER)
+#   if defined(_WIN32) && !defined(_MSC_VER)
 #       include "mingw.thread.h"
 #   endif
 #endif
@@ -241,7 +241,8 @@ void sounds::process_sounds()
 // skip most movement sounds
 bool describe_sound( sounds::sound_t category )
 {
-    if( category == sounds::sound_t::combat || category == sounds::sound_t::speech ) {
+    if( category == sounds::sound_t::combat || category == sounds::sound_t::speech ||
+        category == sounds::sound_t::alert ) {
         return true;
     }
     return one_in( 5 );
@@ -252,11 +253,9 @@ void sounds::process_sound_markers( player *p )
     bool is_deaf = p->is_deaf();
     const float volume_multiplier = p->hearing_ability();
     const int weather_vol = weather_data( g->weather ).sound_attn;
-
     for( const auto &sound_event_pair : sounds_since_last_turn ) {
         const tripoint &pos = sound_event_pair.first;
         const sound_event &sound = sound_event_pair.second;
-
         const int distance_to_sound = rl_dist( p->pos().x, p->pos().y, pos.x, pos.y ) +
                                       abs( p->pos().z - pos.z ) * 10;
         const int raw_volume = sound.volume;
@@ -324,7 +323,6 @@ void sounds::process_sound_markers( player *p )
                 continue;
             }
         }
-
         const std::string &description = sound.description.empty() ? "a noise" : sound.description;
         if( p->is_npc() ) {
             if( !sound.ambient ) {
@@ -473,7 +471,7 @@ std::string sounds::sound_at( const tripoint &location )
     return _( "a sound" );
 }
 
-#ifdef SDL_SOUND
+#if defined(SDL_SOUND)
 
 bool is_underground( const tripoint &p )
 {
@@ -646,13 +644,11 @@ void sfx::generate_gun_sound( const player &source_arg, const item &firing )
     }
 
     itype_id weapon_id = firing.typeId();
-    int angle;
-    int distance;
+    int angle = 0;
+    int distance = 0;
     std::string selected_sound;
     // this does not mean p == g->u (it could be a vehicle turret)
     if( g->u.pos() == source ) {
-        angle = 0;
-        distance = 0;
         selected_sound = "fire_gun";
 
         const auto mods = firing.gunmods();
@@ -1116,7 +1112,7 @@ void sfx::do_obstacle()
     }
 }
 
-#else // ifdef SDL_SOUND
+#else // if defined(SDL_SOUND)
 
 /** Dummy implementations for builds without sound */
 /*@{*/
@@ -1147,7 +1143,7 @@ void sfx::do_fatigue() { }
 void sfx::do_obstacle() { }
 /*@}*/
 
-#endif // ifdef SDL_SOUND
+#endif // if defined(SDL_SOUND)
 
 /** Functions from sfx that do not use the SDL_mixer API at all. They can be used in builds
   * without sound support. */

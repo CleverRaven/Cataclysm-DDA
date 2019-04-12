@@ -41,6 +41,21 @@
   },
   {
     "type": "GENERIC",
+    "//": "pseudo item, used as fuel type for engines that are wind-powered",
+    "id": "wind",
+    "symbol": "?",
+    "color": "white",
+    "name": "wind",
+    "name_plural": "none",
+    "description": "seeing this is a bug",
+    "stackable": true,
+    "price": 0,
+    "volume": 0,
+    "flags": [ "PSEUDO", "PERPETUAL" ],
+    "fuel": { "energy": 1 }
+  },
+  {
+    "type": "GENERIC",
     "//": "pseudo item, only used for as a required tool, checked for in player::amount_of",
     "id": "apparatus",
     "symbol": "$",
@@ -734,6 +749,20 @@
   },
   {
     "type": "GENERIC",
+    "id": "thermostat",
+    "symbol": ",",
+    "color": "light_gray",
+    "name": "bimetal thermostat",
+    "category": "spare_parts",
+    "description": "A simple thermostat controlled by thermal expansion of a bimetal strip.",
+    "price": 1000,
+    "price_postapoc": 100,
+    "material": "iron",
+    "weight": 226,
+    "volume": 1
+  },
+  {
+    "type": "GENERIC",
     "id": "television",
     "symbol": ";",
     "color": "dark_gray",
@@ -932,6 +961,40 @@
     "volume": 3500,
     "bashing": 20,
     "cutting": 15,
+    "to_hit": -3,
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_dispatch",
+    "symbol": ",",
+    "color": "yellow",
+    "name": "broken riot dispatch",
+    "category": "other",
+    "description": "A broken riot dispatch, with its mesh midsection filled with fried manhacks and its motor limp and still.  Could be gutted for parts.",
+    "price": 1000,
+    "material": [ "steel", "plastic" ],
+    "weight": 100000,
+    "volume": "85000 ml",
+    "bashing": 4,
+    "cutting": 4,
+    "to_hit": -3,
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_dispatch_military",
+    "symbol": ",",
+    "color": "green",
+    "name": "broken military dispatch",
+    "category": "other",
+    "description": "A broken military dispatch.  Though the scratched, disarmed manhacks visible in its belly are disarmed, their destructive potential still inspires a spark of fear, even now.  Could be gutted for parts.",
+    "price": 1000,
+    "material": [ "steel", "plastic" ],
+    "weight": 100000,
+    "volume": "85000 ml",
+    "bashing": 4,
+    "cutting": 4,
     "to_hit": -3,
     "flags": [ "TRADER_AVOID" ]
   },
@@ -1305,26 +1368,6 @@
     "volume": 8,
     "bashing": 4,
     "to_hit": 1
-  },
-  {
-    "type": "PET_ARMOR",
-    "id": "kevlar_harness",
-    "symbol": "[",
-    "color": "blue",
-    "name": "Kevlar dog harness",
-    "name_plural": "Kevlar dog harnesses",
-    "description": "A blue bulletproof harness, designed to be worn by canines in the service of local law enforcement.  You could put this on a friendly dog.",
-    "price": 30000,
-    "price_postapoc": 3000,
-    "material": [ "kevlar" ],
-    "weight": 4290,
-    "volume": 18,
-    "bashing": 5,
-    "to_hit": -1,
-    "flags": [ "IS_PET_ARMOR" ],
-    "max_pet_vol": "35000 ml",
-    "min_pet_vol": "25000 ml",
-    "pet_bodytype": "dog"
   },
   {
     "type": "GENERIC",
@@ -1842,7 +1885,7 @@
     "color": "light_red",
     "symbol": ",",
     "material": [ "veggy" ],
-    "volume": 1,
+    "volume": 0,
     "price": 200
   },
   {
@@ -2558,7 +2601,17 @@
     "description": "The smoke billowing from this cigar has a sweet, musty odor.",
     "category": "drugs",
     "emits": [ "emit_tobacco_trail" ],
-    "flags": [ "LITCIG", "TOBACCO", "LIGHT_4", "TRADER_AVOID" ]
+    "use_action": [
+      { "type": "firestarter", "moves": 200, "moves_slow": 2000 },
+      {
+        "target": "cigar_butt",
+        "msg": "You extinguish the cigar.",
+        "active": false,
+        "menu_text": "Extinguish",
+        "type": "transform"
+      }
+    ],
+    "flags": [ "LITCIG", "TOBACCO", "LIGHT_4", "TRADER_AVOID", "FIRESTARTER" ]
   },
   {
     "type": "GENERIC",
@@ -2579,7 +2632,17 @@
     "description": "Smoke swirls from the lit end of this cigarette, filling the air with the thrilling smell of burning chemicals.",
     "category": "drugs",
     "emits": [ "emit_tobacco_trail" ],
-    "flags": [ "LITCIG", "TOBACCO", "LIGHT_4", "TRADER_AVOID" ]
+    "use_action": [
+      { "type": "firestarter", "moves": 200, "moves_slow": 2000 },
+      {
+        "target": "cig_butt",
+        "msg": "You extinguish the cigarette.",
+        "active": false,
+        "menu_text": "Extinguish",
+        "type": "transform"
+      }
+    ],
+    "flags": [ "LITCIG", "TOBACCO", "LIGHT_4", "TRADER_AVOID", "FIRESTARTER" ]
   },
   {
     "type": "GENERIC",
@@ -2600,7 +2663,17 @@
     "description": "The smell of skunk permeates the air as a thin trail of smoke floats off of this joint.",
     "category": "drugs",
     "emits": [ "emit_joint_trail" ],
-    "flags": [ "LITCIG", "LIGHT_4", "TRADER_AVOID" ]
+    "use_action": [
+      { "type": "firestarter", "moves": 200, "moves_slow": 2000 },
+      {
+        "target": "joint_roach",
+        "msg": "You extinguish the joint.",
+        "active": false,
+        "menu_text": "Extinguish",
+        "type": "transform"
+      }
+    ],
+    "flags": [ "LITCIG", "LIGHT_4", "TRADER_AVOID", "FIRESTARTER" ]
   },
   {
     "type": "GENERIC",
@@ -2948,5 +3021,19 @@
     "weight": 5,
     "volume": 1,
     "bashing": 1
+  },
+  {
+    "type": "GENERIC",
+    "id": "craft",
+    "symbol": "%",
+    "color": "white",
+    "name": "in progress craft",
+    "description": "This is an in progress craft.",
+    "price": 0,
+    "weight": 1,
+    "volume": 1,
+    "max_charges": 20,
+    "use_action": "CRAFT",
+    "flags": [ "NO_SALVAGE", "TRADER_AVOID" ]
   }
 ]

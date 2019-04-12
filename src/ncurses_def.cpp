@@ -1,4 +1,4 @@
-#if !(defined TILES || defined _WIN32 || defined WINDOWS)
+#if !(defined(TILES) || defined(_WIN32))
 
 // input.h must be include *before* the ncurses header. The later has some macro
 // defines that clash with the constants defined in input.h (e.g. KEY_UP).
@@ -7,7 +7,7 @@
 // ncurses can define some functions as macros, but we need those identifiers
 // to be unchanged by the preprocessor, as we use them as function names.
 #define NCURSES_NOMACROS
-#if (defined __CYGWIN__)
+#if defined(__CYGWIN__)
 #include <ncurses/curses.h>
 #else
 #include <curses.h>
@@ -215,7 +215,7 @@ void catacurses::init_interface()
     if( !stdscr ) {
         throw std::runtime_error( "initscr failed" );
     }
-#if !(defined __CYGWIN__)
+#if !defined(__CYGWIN__)
     // ncurses mouse registration
     mousemask( BUTTON1_CLICKED | BUTTON3_CLICKED | REPORT_MOUSE_POSITION, NULL );
 #endif
@@ -305,9 +305,7 @@ input_event input_manager::get_input_event()
         }
         // Now we have loaded an UTF-8 sequence (possibly several bytes)
         // but we should only return *one* key, so return the code point of it.
-        const char *utf8str = rval.text.c_str();
-        int len = rval.text.length();
-        const uint32_t cp = UTF8_getch( &utf8str, &len );
+        const uint32_t cp = UTF8_getch( rval.text );
         if( cp == UNKNOWN_UNICODE ) {
             // Invalid UTF-8 sequence, this should never happen, what now?
             // Maybe return any error instead?
