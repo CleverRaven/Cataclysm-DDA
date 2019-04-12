@@ -38,8 +38,6 @@ extern void set_displaybuffer_rendertarget();
 namespace
 {
 
-const point tiles_range = { ( MAPSIZE - 2 ) *SEEX, ( MAPSIZE - 2 ) *SEEY };
-
 /// Returns a number in range [0..1]. The range lasts for @param phase_length_ms (milliseconds).
 float get_animation_phase( int phase_length_ms )
 {
@@ -211,26 +209,6 @@ void pixel_minimap::clear_unused_cache()
 //the render target will be set back to display_buffer after all submaps are updated
 void pixel_minimap::flush_cache_updates()
 {
-    SDL_Rect rectangle;
-    bool draw_with_dots = false;
-
-    switch( settings.mode ) {
-        case pixel_minimap_mode::solid:
-            rectangle.w = tile_size.x;
-            rectangle.h = tile_size.y;
-            break;
-
-        case pixel_minimap_mode::squares:
-            rectangle.w = std::max( tile_size.x - 1, 1 );
-            rectangle.h = std::max( tile_size.y - 1, 1 );
-            draw_with_dots = rectangle.w == 1 && rectangle.h == 1;
-            break;
-
-        case pixel_minimap_mode::dots:
-            draw_with_dots = true;
-            break;
-    }
-
     for( auto &mcp : cache ) {
         if( mcp.second.update_list.empty() ) {
             continue;
@@ -241,23 +219,11 @@ void pixel_minimap::flush_cache_updates()
         //draw a default dark-colored rectangle over the texture which may have been used previously
         if( !mcp.second.ready ) {
             mcp.second.ready = true;
-            SetRenderDrawColor( renderer, 0x00, 0x00, 0x00, 0xFF );
-            RenderClear( renderer );
+            drawer->clear_chunk_tex( renderer );
         }
 
         for( const point &p : mcp.second.update_list ) {
-            const SDL_Color &c = mcp.second.minimap_colors[p.y * SEEX + p.x];
-
-            SetRenderDrawColor( renderer, c.r, c.g, c.b, c.a );
-
-            if( draw_with_dots ) {
-                RenderDrawPoint( renderer, p.x * tile_size.x, p.y * tile_size.y );
-            } else {
-                rectangle.x = p.x * tile_size.x;
-                rectangle.y = p.y * tile_size.y;
-
-                render_fill_rect( renderer, rectangle, c.r, c.g, c.b );
-            }
+            drawer->update_chunk_tex( renderer, p, mcp.second.minimap_colors[p.y * SEEX + p.x] );
         }
 
         mcp.second.update_list.clear();
@@ -350,25 +316,23 @@ pixel_minimap::submap_cache::submap_cache( submap_cache && ) = default;
 
 void pixel_minimap::set_screen_rect( const SDL_Rect &screen_rect )
 {
-    if( this->screen_rect == screen_rect && main_tex && tex_pool ) {
+    if( this->screen_rect == screen_rect && main_tex && tex_pool && drawer ) {
         return;
     }
 
     this->screen_rect = screen_rect;
+    const auto screen_size = point{ screen_rect.w, screen_rect.h };
 
-    tile_size.x = std::max( screen_rect.w / tiles_range.x, 1 );
-    tile_size.y = std::max( screen_rect.h / tiles_range.y, 1 );
-    //maintain a square "pixel" shape
-    if( settings.square_pixels ) {
-        const int smallest_size = std::min( tile_size.x, tile_size.y );
-        tile_size.x = smallest_size;
-        tile_size.y = smallest_size;
-    }
-    tiles_limit.x = std::min( screen_rect.w / tile_size.x, tiles_range.x );
-    tiles_limit.y = std::min( screen_rect.h / tile_size.y, tiles_range.y );
+    drawer.reset();
+    drawer.reset( new pixel_minimap_ortho_drawer( screen_size, settings.square_pixels,
+                  settings.mode ) );
+
+    tiles_limit = drawer->get_tiles_count();
+    const auto size_on_screen = drawer->get_size_on_screen();
+
     // Center the drawn area within the total area.
-    const int border_width = std::max( ( screen_rect.w - tiles_limit.x * tile_size.x ) / 2, 0 );
-    const int border_height = std::max( ( screen_rect.h - tiles_limit.y * tile_size.y ) / 2, 0 );
+    const int border_width = std::max( ( screen_rect.w - size_on_screen.x ) / 2, 0 );
+    const int border_height = std::max( ( screen_rect.h - size_on_screen.y ) / 2, 0 );
     //prepare the minimap clipped area
     clip_rect = SDL_Rect{
         screen_rect.x + border_width,
@@ -382,13 +346,16 @@ void pixel_minimap::set_screen_rect( const SDL_Rect &screen_rect )
     main_tex = create_cache_texture( renderer, clip_rect.w, clip_rect.h );
     tex_pool = std::make_unique<shared_texture_pool>();
 
+    const auto chunk_rect = drawer->get_chunk_rect( { 0, 0 } );
+
     for( auto &elem : tex_pool->texture_pool ) {
-        elem = create_cache_texture( renderer, tile_size.x * SEEX, tile_size.y * SEEY );
+        elem = create_cache_texture( renderer, chunk_rect.w, chunk_rect.h );
     }
 }
 
 void pixel_minimap::reset()
 {
+    drawer.reset();
     cache.clear();
     main_tex.reset();
     tex_pool.reset();
@@ -435,7 +402,7 @@ void pixel_minimap::render_cache( const tripoint &center )
         const auto sm_pos = rel_pos + sm_offset;
         const auto ms_pos = sm_to_ms_copy( sm_pos ) + ms_offset;
 
-        const auto rect = get_map_chunk_rect( { ms_pos.xy() } );
+        const auto rect = drawer->get_chunk_rect( { ms_pos.x, ms_pos.y } );
 
         RenderCopy( renderer, elem.second.minimap_tex, nullptr, &rect );
     }
@@ -483,31 +450,11 @@ void pixel_minimap::render_critters( const tripoint &center )
             }
 
             draw_beacon(
-                get_critter_rect( { x, y } ),
+                drawer->get_critter_rect( { x, y } ),
                 get_critter_color( critter, flicker, mixture )
             );
         }
     }
-}
-
-SDL_Rect pixel_minimap::get_map_chunk_rect( const point &p ) const
-{
-    return {
-        p.x * tile_size.x,
-        p.y * tile_size.y,
-        SEEX * tile_size.x,
-        SEEY *tile_size.y
-    };
-}
-
-SDL_Rect pixel_minimap::get_critter_rect( const point &p ) const
-{
-    return {
-        p.x * tile_size.x,
-        p.y * tile_size.y,
-        tile_size.x,
-        tile_size.y
-    };
 }
 
 //the main call for drawing the pixel minimap to the screen

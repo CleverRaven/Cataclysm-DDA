@@ -5,14 +5,10 @@
 #include <map>
 #include <memory>
 
+#include "pixel_minimap_drawers.h"
 #include "point.h"
 #include "sdl_wrappers.h"
 
-enum class pixel_minimap_mode {
-    solid,
-    squares,
-    dots
-};
 
 struct pixel_minimap_settings {
     pixel_minimap_mode mode = pixel_minimap_mode::solid;
@@ -52,13 +48,9 @@ class pixel_minimap
         void render_cache( const tripoint &center );
         void render_critters( const tripoint &center );
 
-        SDL_Rect get_map_chunk_rect( const point &p ) const;
-        SDL_Rect get_critter_rect( const point &p ) const;
-
     private:
         const SDL_Renderer_Ptr &renderer;
 
-        point tile_size;
         point tiles_limit;
 
         //track the previous viewing area to determine if the minimap cache needs to be cleared
@@ -69,6 +61,8 @@ class pixel_minimap
         SDL_Rect screen_rect;
         SDL_Rect clip_rect;
         SDL_Texture_Ptr main_tex;
+
+        std::unique_ptr<pixel_minimap_drawer> drawer;
 
         //the minimap texture pool which is used to reduce new texture allocation spam
         struct shared_texture_pool;
