@@ -121,6 +121,7 @@ const efftype_id effect_evil( "evil" );
 const efftype_id effect_flu( "flu" );
 const efftype_id effect_foodpoison( "foodpoison" );
 const efftype_id effect_formication( "formication" );
+const efftype_id effect_frenzy( "frenzy" );
 const efftype_id effect_frostbite( "frostbite" );
 const efftype_id effect_frostbite_recovery( "frostbite_recovery" );
 const efftype_id effect_fungus( "fungus" );
@@ -170,6 +171,7 @@ const matype_id style_none( "style_none" );
 const matype_id style_kicks( "style_kicks" );
 
 const species_id ROBOT( "ROBOT" );
+const species_id MAMMAL( "MAMMAL" );
 
 static const bionic_id bio_ads( "bio_ads" );
 static const bionic_id bio_advreactor( "bio_advreactor" );
@@ -306,6 +308,8 @@ static const trait_id trait_INSECT_ARMS_OK( "INSECT_ARMS_OK" );
 static const trait_id trait_INSOMNIA( "INSOMNIA" );
 static const trait_id trait_INT_SLIME( "INT_SLIME" );
 static const trait_id trait_JITTERY( "JITTERY" );
+static const trait_id trait_KEENING2( "KEENING2" );
+static const trait_id trait_KEENING3( "KEENING3" );
 static const trait_id trait_LARGE( "LARGE" );
 static const trait_id trait_LARGE_OK( "LARGE_OK" );
 static const trait_id trait_LEAVES( "LEAVES" );
@@ -2913,6 +2917,7 @@ void player::shout( std::string msg )
 {
     int base = 10;
     int shout_multiplier = 2;
+    bool huffer = false;
 
     // Mutations make shouting louder, they also define the default message
     if( has_trait( trait_SHOUT2 ) ) {
@@ -2929,6 +2934,25 @@ void player::shout( std::string msg )
         if( msg.empty() ) {
             msg = is_player() ? _( "yourself let out a piercing howl!" ) : _( "a piercing howl!" );
         }
+    }
+
+    if( has_trait( trait_KEENING2 ) ) {
+        shout_multiplier = 3;
+        if( msg.empty() ) {
+            msg = is_player() ? _( "yourself let out a keening wail!" ) : _( "a keening wail!" );
+        }
+        if( one_in( 4 ) ) {
+            huffer = true;
+        }
+    }
+
+    if( has_active_mutation( trait_KEENING3 ) ) {
+        shout_multiplier = 4;
+        base = 10;
+        if( msg.empty() ) {
+            msg = is_player() ? _( "yourself let out a harrowing cry!" ) : _( "a harrowing cry!" );
+        }
+        huffer = true;
     }
 
     if( msg.empty() ) {
@@ -2959,6 +2983,28 @@ void player::shout( std::string msg )
         }
 
         noise = std::max( minimum_noise, noise / 2 );
+    }
+
+    // Some shouts drive animals into a frenzy
+    if( huffer ) {
+        for( const tripoint &dest : g->m.points_in_radius( pos(), noise ) ) {
+            monster *const mon_ptr = g->critter_at<monster>( dest, true );
+            if( !mon_ptr ) {
+                continue;
+            }
+            monster &critter = *mon_ptr;
+            if( critter.type->in_category( "WILDLIFE" ) ) {
+                add_msg( m_mixed, _( "The %s flies into a frenzy!" ), critter.name().c_str() );
+                if( one_in( 3 ) ) {
+                    critter.make_friendly();
+                } else {
+                    if( one_in( 5 ) ) {
+                        critter.add_effect( effect_stunned, 5_turns );
+                    }
+                }
+                critter.add_effect( effect_frenzy, 5_minutes );
+            }
+        }
     }
 
     // TODO: indistinct noise descriptions should be handled in the sounds code

@@ -2181,7 +2181,19 @@
     "cancels": [ "SMELLY", "SMELLY2" ],
     "threshreq": [ "THRESH_PLANT", "THRESH_ELFA" ],
     "category": [ "PLANT", "ELFA" ],
+    "changes_to": [ "ROSEBUDS" ],
     "social_modifiers": { "lie": 10 }
+  },
+  {
+    "type": "mutation",
+    "id": "ROSEBUDS",
+    "name": "Rosebuds",
+    "points": 3,
+    "prereqs": [ "FLOWERS" ],
+    "description": "Your scalp is blooming with rosebuds.  They're eye-catching, and have a strong fragrance that makes you pleasant to be around.  Notably, they don't seem to match any roses on Earth, and seem to be much darker and angular...",
+    "category": [ "ELFA" ],
+    "threshreq": [ "THRESH_ELFA" ],
+    "social_modifiers": { "lie": 15, "persuade": 10 }
   },
   {
     "type": "mutation",
@@ -5829,6 +5841,38 @@
       "base_damage": { "damage_type": "stab", "amount": 25 }
     },
     "purifiable": false
+  },
+  {
+    "type": "mutation",
+    "id": "KEENING",
+    "name": "Keening Voice",
+    "points": 0,
+    "description": "Your vocal chords have mutated, and your voice is slightly higher-pitched.  This serves no practical effect.",
+    "category": [ "ELFA", "BIRD" ],
+    "changes_to": [ "KEENING2" ]
+  },
+  {
+    "type": "mutation",
+    "id": "KEENING2",
+    "name": "Wailing Voice",
+    "points": -1,
+    "mixed_effect": true,
+    "description": "Your frequency range when speaking has been shifted upwards a few notches, granting you a constant lilt while speaking.  People find it harder to take you seriously, but you find that your high-pitched cries agitate animals around you.",
+    "category": [ "ELFA" ],
+    "prereqs": [ "KEENING" ],
+    "changes_to": [ "KEENING3" ],
+    "social_modifiers": { "persuade": -5, "intimidate": -5 }
+  },
+  {
+    "type": "mutation",
+    "id": "KEENING3",
+    "name": "Beast Rapport",
+    "points": 3,
+    "prereqs": [ "ANIMALEMPATH2", "KEENING2" ],
+    "description": "You've developed control over your mutated vocal chords.  While active, yelling will emit a high-pitched scream that drives even the most docile of animals that can hear you into a killing frenzy.  The animals might infight, and their list of targets often includes you, so using it from a safe distance is wise.",
+    "category": [ "ELFA" ],
+    "active": true,
+    "threshreq": [ "THRESH_ELFA" ]
   },
   {
     "type": "mutation",

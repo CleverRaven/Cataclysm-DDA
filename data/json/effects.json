@@ -1654,6 +1654,23 @@
   },
   {
     "type": "effect_type",
+    "id": "frenzy",
+    "//": "not given to players by default",
+    "name": [ "Frenzy" ],
+    "desc": [ "Your heart is thumping hard, and adrenaline pumps through your veins.  Your vision is a red haze." ],
+    "removes_effects": [ "winded" ],
+    "max_duration": 100,
+    "base_mods": {
+      "speed_mod": [ 20 ],
+      "str_mod": [ 3 ],
+      "dex_mod": [ 2 ],
+      "int_mod": [ -6 ],
+      "per_mod": [ 3 ],
+      "stamina_min": [ 4 ]
+    }
+  },
+  {
+    "type": "effect_type",
     "id": "has_og_comm_freq"
   },
   {

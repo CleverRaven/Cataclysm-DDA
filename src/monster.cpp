@@ -93,6 +93,7 @@ const species_id FUNGUS( "FUNGUS" );
 const species_id INSECT( "INSECT" );
 const species_id MAMMAL( "MAMMAL" );
 const species_id ABERRATION( "ABERRATION" );
+const species_id PLANT( "PLANT" );
 
 const efftype_id effect_badpoison( "badpoison" );
 const efftype_id effect_beartrap( "beartrap" );
@@ -104,6 +105,7 @@ const efftype_id effect_deaf( "deaf" );
 const efftype_id effect_docile( "docile" );
 const efftype_id effect_downed( "downed" );
 const efftype_id effect_emp( "emp" );
+const efftype_id effect_frenzy( "frenzy" );
 const efftype_id effect_grabbed( "grabbed" );
 const efftype_id effect_heavysnare( "heavysnare" );
 const efftype_id effect_hit_by_player( "hit_by_player" );
@@ -128,6 +130,7 @@ static const trait_id trait_ANIMALEMPATH( "ANIMALEMPATH" );
 static const trait_id trait_ANIMALEMPATH2( "ANIMALEMPATH2" );
 static const trait_id trait_BEE( "BEE" );
 static const trait_id trait_FLOWERS( "FLOWERS" );
+static const trait_id trait_ROSEBUDS( "ROSEBUDS" );
 static const trait_id trait_PACIFIST( "PACIFIST" );
 
 static const std::map<m_size, std::string> size_names {
@@ -839,6 +842,9 @@ Creature *monster::attack_target()
 
 bool monster::is_fleeing( player &u ) const
 {
+    if( has_effect( effect_frenzy ) ) {
+        return false;
+    }
     if( effect_cache[FLEEING] ) {
         return true;
     }
@@ -904,6 +910,9 @@ monster_attitude monster::attitude( const Character *u ) const
             return MATT_FRIEND;
         }
     }
+    if( has_effect( effect_frenzy ) ) {
+        return MATT_ATTACK;
+    }
     if( effect_cache[FLEEING] ) {
         return MATT_FLEE;
     }
@@ -931,6 +940,10 @@ monster_attitude monster::attitude( const Character *u ) const
 
         if( type->in_species( FUNGUS ) && u->has_trait( mycus_thresh ) ) {
             return MATT_FRIEND;
+        }
+
+        if( type->in_species( PLANT ) && u->has_trait( trait_ROSEBUDS ) ) {
+            return MATT_IGNORE;
         }
 
         if( effective_anger >= 10 &&
@@ -1031,6 +1044,11 @@ void monster::process_triggers()
         } else {
             anger--;
         }
+    }
+
+    if( has_effect( effect_frenzy ) ) {
+        morale = 100;
+        anger = 100;
     }
 
     // Cap values at [-100, 100] to prevent perma-angry moose etc.
