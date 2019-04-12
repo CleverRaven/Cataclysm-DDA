@@ -4689,7 +4689,7 @@ void game::overmap_npc_move()
     // for now just processing NPC followers on travelling missions
     for( auto &elem : get_follower_list() ) {
         std::shared_ptr<npc> npc_to_get = overmap_buffer.find_npc( elem );
-        if( ! npc_to_get ) {
+        if( !npc_to_get ) {
             continue;
         }
         npc *npc_to_add = npc_to_get.get();
