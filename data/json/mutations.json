@@ -2191,8 +2191,8 @@
     "points": 3,
     "prereqs": [ "FLOWERS" ],
     "description": "Your scalp is blooming with rosebuds.  They're eye-catching, and have a strong fragrance that makes you pleasant to be around.  Notably, they don't seem to match any roses on Earth, and seem to be much darker and angular...",
-    "category": [ "ELFA" ],
-    "threshreq": [ "THRESH_ELFA" ],
+    "category": [ "PLANT", "ELFA" ],
+    "threshreq": [ "THRESH_PLANT", "THRESH_ELFA" ],
     "social_modifiers": { "lie": 15, "persuade": 10 }
   },
   {
