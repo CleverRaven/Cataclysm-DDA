@@ -3951,8 +3951,6 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 p.consume_items( comps, 1 );
                 if( needs_anesthesia ) {
                     p.consume_items( acomps, 1 );
-                    item empty_kit( "anesthesia_used" );
-                    g->m.add_item_or_charges( examp, empty_kit );
                 }
             }
             break;
