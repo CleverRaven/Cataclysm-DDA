@@ -4703,7 +4703,7 @@ void game::overmap_npc_move()
                 sm_tri = omt_to_sm_copy( next_point );
                 elem->omt_path.clear();
             } else if( path.empty() ) {
-                add_msg( m_info, _( "From your two-way radio you hear %s say: 'Sorry Boss can't make it there!'" ),
+                add_msg( m_info, _( "%s can't reach their destination" ),
                          elem->disp_name() );
             }
             elem->travel_overmap( sm_tri );

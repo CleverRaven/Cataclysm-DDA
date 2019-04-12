@@ -22,6 +22,7 @@
 #include "messages.h"
 #include "monster.h"
 #include "mtype.h"
+#include "npctalk.h"
 #include "output.h"
 #include "overmap_location.h"
 #include "overmapbuffer.h"
@@ -41,20 +42,18 @@ static constexpr float NPC_DANGER_VERY_LOW = 5.0f;
 static constexpr float NPC_DANGER_MAX = 150.0f;
 static constexpr float MAX_FLOAT = 5000000000.0f;
 
-#define dbg(x) DebugLog((DebugLevel)(x),D_NPC) << __FILE__ << ":" << __LINE__ << ": "
-
 const skill_id skill_firstaid( "firstaid" );
 const skill_id skill_gun( "gun" );
 const skill_id skill_throw( "throw" );
 
-const efftype_id effect_bleed( "bleed" );
+const efftype_id effect_lying_down( "lying_down" );
+const efftype_id effect_infected( "infected" );
 const efftype_id effect_bite( "bite" );
+const efftype_id effect_bleed( "bleed" );
 const efftype_id effect_bouldering( "bouldering" );
 const efftype_id effect_catch_up( "catch_up" );
 const efftype_id effect_hit_by_player( "hit_by_player" );
 const efftype_id effect_infection( "infection" );
-const efftype_id effect_infected( "infected" );
-const efftype_id effect_lying_down( "lying_down" );
 const efftype_id effect_no_sight( "no_sight" );
 const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_onfire( "onfire" );
@@ -3024,11 +3023,8 @@ bool npc::has_omt_destination() const
 void npc::reach_omt_destination()
 {
     if( is_travelling() ) {
-        mission = NPC_MISSION_GUARD_ALLY;
+        talk_function::assign_guard( *this );
         guard_pos = global_square_location();
-        if( has_companion_mission() ) {
-            reset_companion_mission();
-        }
         omt_path.clear();
         goal = no_goal_point;
         if( rl_dist( g->u.pos(), pos() ) > SEEX * 2 || !g->u.sees( pos() ) ) {
