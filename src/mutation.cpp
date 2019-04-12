@@ -18,6 +18,7 @@
 #include "ui.h"
 
 const efftype_id effect_stunned( "stunned" );
+const efftype_id effect_rooted("rooted");
 
 static const trait_id trait_ROBUST( "ROBUST" );
 static const trait_id trait_CHAOTIC_BAD( "CHAOTIC_BAD" );
@@ -42,6 +43,8 @@ static const trait_id trait_M_SPORES( "M_SPORES" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_CARNIVORE( "CARNIVORE" );
 static const trait_id trait_DEBUG_BIONIC_POWER( "DEBUG_BIONIC_POWER" );
+static const trait_id trait_ROOTS2("ROOTS2");
+static const trait_id trait_ROOTS3("ROOTS3");
 
 bool Character::has_trait( const trait_id &b ) const
 {
@@ -501,6 +504,17 @@ void player::activate_mutation( const trait_id &mut )
         print_health();
         tdata.powered = false;
         return;
+    } else if ( mut == trait_ROOTS2 || mut == trait_ROOTS3) {
+        double shoe_factor = footwear_factor();
+        if ( g->m.has_flag( "PLOWABLE", pos() ) && shoe_factor != 1.0 ) {
+            assign_activity( activity_id( "ACT_ROOT" ), 50, -1, 0 );
+        }
+        else if ( shoe_factor = 1.0 ) {
+            add_msg( m_bad, _( "Your footwear imprisons your roots, keeping them from sinking into the ground." ) );
+        }
+        else {
+            add_msg( m_bad, _( "Your roots scrabble ineffectively at the unyielding surface." ) );
+        }
     } else if( mut == trait_DEBUG_BIONIC_POWER ) {
         max_power_level += 100;
         add_msg_if_player( m_good, _( "Bionic power storage increased by 100." ) );
@@ -524,6 +538,9 @@ void player::activate_mutation( const trait_id &mut )
 
 void player::deactivate_mutation( const trait_id &mut )
 {
+    if ( has_effect ( effect_rooted ) ) {
+        assign_activity( activity_id ( "ACT_UPROOT" ), 50, -1, 0 );
+    }
     my_mutations[mut].powered = false;
 
     // Handle stat changes from deactivation
