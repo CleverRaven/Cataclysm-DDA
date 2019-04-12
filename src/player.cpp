@@ -165,7 +165,6 @@ const efftype_id effect_weed_high( "weed_high" );
 const efftype_id effect_winded( "winded" );
 const efftype_id effect_bleed( "bleed" );
 const efftype_id effect_magnesium_supplements( "magnesium" );
-const efftype_id effect_rooted("rooted");
 
 const matype_id style_none( "style_none" );
 const matype_id style_kicks( "style_kicks" );
@@ -5269,62 +5268,37 @@ void player::suffer()
         sounds::sound( pos(), 10, sounds::sound_t::movement, _( "BZZZZZ" ) );
     }
 
-    //bool wearing_shoes = is_wearing_shoes( side::LEFT ) || is_wearing_shoes( side::RIGHT );
-    //if( has_trait( trait_ROOTS3 ) && g->m.has_flag( "PLOWABLE", pos() ) && !wearing_shoes ) {
-    //    if( one_in( 100 ) ) {
-    //        add_msg_if_player( m_good, _( "This soil is delicious!" ) );
-    //        /*if( get_hunger() > -20 ) {
-    //            mod_hunger( -2 );
-    //            // absorbs kcal directly
-    //            mod_stored_nutr( -2 );
-    //        }*/
-    //        if( get_thirst() > -20 ) {
-    //            mod_thirst( -2 );
-    //        }
-    //        mod_healthy_mod( 10, 50 );
-    //        // No losing oneself in the fertile embrace of rich
-    //        // New England loam.  But it can be a near thing.
-    //        /** @EFFECT_INT decreases chance of losing focus points while eating soil with ROOTS3 */
-    //        if( ( one_in( int_cur ) ) && ( focus_pool >= 25 ) ) {
-    //            focus_pool--;
-    //        }
-    //    } else if( one_in( 50 ) ) {
-    //        /*if( get_hunger() > -20 ) {
-    //            mod_hunger( -1 );
-    //            // absorbs kcal directly
-    //            mod_stored_nutr( -1 );
-    //        }*/
-    //        if( get_thirst() > -20 ) {
-    //            mod_thirst( -1 );
-    //        }
-    //        mod_healthy_mod( 5, 50 );
-    //    }
-    //}
-
-    if ( has_active_mutation( trait_ROOTS2 ) ) {
-        if ( !has_effect( effect_rooted ) && !has_activity( activity_id( "ACT_ROOT" ) ) ) {
-            deactivate_mutation( trait_ROOTS2 );
+    bool wearing_shoes = is_wearing_shoes( side::LEFT ) || is_wearing_shoes( side::RIGHT );
+    if( has_trait( trait_ROOTS3 ) && g->m.has_flag( "PLOWABLE", pos() ) && !wearing_shoes ) {
+        if( one_in( 100 ) ) {
+            add_msg_if_player( m_good, _( "This soil is delicious!" ) );
+            if( get_hunger() > -20 ) {
+                mod_hunger( -2 );
+                // absorbs kcal directly
+                mod_stored_nutr( -2 );
+            }
+            if( get_thirst() > -20 ) {
+                mod_thirst( -2 );
+            }
+            mod_healthy_mod( 10, 50 );
+            // No losing oneself in the fertile embrace of rich
+            // New England loam.  But it can be a near thing.
+            /** @EFFECT_INT decreases chance of losing focus points while eating soil with ROOTS3 */
+            if( ( one_in( int_cur ) ) && ( focus_pool >= 25 ) ) {
+                focus_pool--;
+            }
+        } else if( one_in( 50 ) ) {
+            if( get_hunger() > -20 ) {
+                mod_hunger( -1 );
+                // absorbs kcal directly
+                mod_stored_nutr( -1 );
+            }
+            if( get_thirst() > -20 ) {
+                mod_thirst( -1 );
+            }
+            mod_healthy_mod( 5, 50 );
         }
     }
-
-    if ( has_active_mutation( trait_ROOTS3 ) ) {
-        if ( !has_effect( effect_rooted ) && !has_activity( activity_id( "ACT_ROOT" ) ) ) {
-            deactivate_mutation( trait_ROOTS3 );
-        }
-    }
-
-    if ( !has_active_mutation( trait_ROOTS2 ) ) {
-        if ( has_effect( effect_rooted ) && !has_activity( activity_id( "ACT_UPROOT" ) ) ) {
-            activate_mutation( trait_ROOTS2 );
-        }
-    }
-
-    if ( !has_active_mutation( trait_ROOTS3 ) ) {
-        if ( has_effect( effect_rooted ) && !has_activity( activity_id( "ACT_UPROOT" ) ) ) {
-            activate_mutation( trait_ROOTS3 );
-        }
-    }
-
 
     if( !in_sleep_state() ) {
         if( !has_trait( trait_id( "DEBUG_STORAGE" ) ) && ( weight_carried() > 4 * weight_capacity() ) ) {
@@ -5801,15 +5775,10 @@ void player::suffer()
         }
     }
 
-    if( has_trait( trait_LEAVES ) && g->is_in_sunlight( pos() ) && one_in( 20 ) ) { // Chance changed from one in 600 to one in 20 for plant rebalance. May make more effective leaves a new mutation instead.
+    if( has_trait( trait_LEAVES ) && g->is_in_sunlight( pos() ) && one_in( 600 ) ) {
         mod_hunger( -1 );
         // photosynthesis absorbs kcal directly
-        mod_stored_nutr( -2 );
-        vitamin_mod( vitamin_id( "vitA" ), 1, true );
-        vitamin_mod( vitamin_id( "vitC" ), 1, true );
-        // Plants typically synthesize these on their own when left in sunlight.
-        // Values capped for now, but might be diverted into some kind plant nutrient storage in the future.
-        // These numbers are very much a WIP in terms of balance
+        mod_stored_nutr( -1 );
     }
 
     if( get_pain() > 0 ) {
@@ -7497,63 +7466,33 @@ bool player::consume( int target_position )
     return true;
 }
 
-//void player::rooted_message() const
-//{
-//    bool wearing_shoes = is_wearing_shoes( side::LEFT ) || is_wearing_shoes( side::RIGHT );
-//    if( ( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) ) &&
-//        g->m.has_flag( "PLOWABLE", pos() ) &&
-//        !wearing_shoes ) {
-//        add_msg( m_info, _( "You sink your roots into the soil." ) );
-//    }
-//}
+void player::rooted_message() const
+{
+    bool wearing_shoes = is_wearing_shoes( side::LEFT ) || is_wearing_shoes( side::RIGHT );
+    if( ( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) ) &&
+        g->m.has_flag( "PLOWABLE", pos() ) &&
+        !wearing_shoes ) {
+        add_msg( m_info, _( "You sink your roots into the soil." ) );
+    }
+}
 
 void player::rooted()
 // Should average a point every two minutes or so; ground isn't uniformly fertile
 // Overfilling triggered hibernation checks, so capping.
 {
-    //add_effect(effect_rooted, 1_turns, num_bp, true);
     double shoe_factor = footwear_factor();
-    if ((has_trait(trait_ROOTS2) || has_trait(trait_ROOTS3)) &&
-        g->m.has_flag("PLOWABLE", pos()) && shoe_factor != 1.0) {
-        if (one_in(20.0 / (1.0 - shoe_factor))) {
-            /*if( get_hunger() > -20 ) {
+    if( ( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) ) &&
+        g->m.has_flag( "PLOWABLE", pos() ) && shoe_factor != 1.0 ) {
+        if( one_in( 20.0 / ( 1.0 - shoe_factor ) ) ) {
+            if( get_hunger() > -20 ) {
                 mod_hunger( -1 );
                 // absorbs nutrients from soil directly
                 mod_stored_nutr( -1 );
-            } */
-            // Plants should get their kcal from the sun, commenting this out for now.
-            if (get_thirst() > -20) {
-                mod_thirst(-1);
             }
-            vitamin_mod(vitamin_id("iron"), 1, true);
-            vitamin_mod(vitamin_id("calcium"), 1, true);
-            // Plants typically draw these from the soil.
-            // Will uncap in the future so excess will be diverted to a plant storage system.
-            // as with the leaves change, these numbers are a WIP in terms of balance.
-            mod_healthy_mod(5, 50);
-        }
-        else if (one_in(50 / (1.0 - shoe_factor))) {
-            if (get_thirst() > -20) {
-                mod_thirst(-1);
+            if( get_thirst() > -20 ) {
+                mod_thirst( -1 );
             }
-            vitamin_mod(vitamin_id("iron"), 1, true);
-            vitamin_mod(vitamin_id("calcium"), 1, true);
-            mod_healthy_mod(5, 50);
-        }
-        else if (one_in(100 / (1.0 - shoe_factor))) {
-            add_msg_if_player(m_good, _("This soil is delicious!"));
-            if (get_thirst() > -20) {
-                mod_thirst(-2);
-            }
-            vitamin_mod(vitamin_id("iron"), 1, true);
-            vitamin_mod(vitamin_id("calcium"), 1, true);
-            mod_healthy_mod(10, 50);
-            // No losing oneself in the fertile embrace of rich
-            // New England loam.  But it can be a near thing.
-            /** @EFFECT_INT decreases chance of losing focus points while eating soil with ROOTS3 */
-            if ((one_in(int_cur)) && (focus_pool >= 25)) {
-                focus_pool--;
-            }
+            mod_healthy_mod( 5, 50 );
         }
     }
 }
@@ -10253,7 +10192,9 @@ void player::try_to_sleep( const time_duration &dur )
     bool watersleep = false;
     if( has_trait( trait_CHLOROMORPH ) ) {
         plantsleep = true;
-        if( ( has_effect ( effect_rooted ) ) && !vp &&
+        if( ( ter_at_pos == t_dirt || ter_at_pos == t_pit ||
+              ter_at_pos == t_dirtmound || ter_at_pos == t_pit_shallow ||
+              ter_at_pos == t_grass ) && !vp &&
             furn_at_pos == f_null ) {
             add_msg_if_player( m_good, _( "You relax as your roots embrace the soil." ) );
         } else if( vp ) {
@@ -10262,9 +10203,8 @@ void player::try_to_sleep( const time_duration &dur )
             add_msg_if_player( m_bad,
                                _( "The humans' furniture blocks your roots. You can't get comfortable." ) );
         } else { // Floor problems
-            add_msg_if_player( m_bad, _( "You need to be rooted to sleep!" ) );
+            add_msg_if_player( m_bad, _( "Your roots scrabble ineffectively at the unyielding surface." ) );
         }
-        // TODO: Clean this up a little. Some of these checks might not be needed now.
     } else if( has_trait( trait_M_SKIN3 ) ) {
         fungaloid_cosplay = true;
         if( g->m.has_flag_ter_or_furn( "FUNGUS", pos() ) ) {
@@ -11425,9 +11365,9 @@ void player::assign_activity( const player_activity &act, bool allow_resume )
         activity = act;
     }
 
-    //if( activity.rooted() ) {
-    //    rooted_message();
-    //}
+    if( activity.rooted() ) {
+        rooted_message();
+    }
 }
 
 bool player::has_activity( const activity_id &type ) const

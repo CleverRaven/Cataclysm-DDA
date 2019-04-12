@@ -5064,8 +5064,6 @@
     "threshreq": [ "THRESH_PLANT" ],
     "changes_to": [ "ROOTS3" ],
     "category": [ "PLANT" ],
-    "active": true,
-    "cost": 0,
     "encumbrance_covered": [ [ "FOOT_L", 10 ], [ "FOOT_R", 10 ] ]
   },
   {
@@ -5081,8 +5079,6 @@
     "prereqs2": [ "SAPROPHAGE" ],
     "threshreq": [ "THRESH_PLANT" ],
     "category": [ "PLANT" ],
-    "active": true,
-    "cost": 0,
     "encumbrance_covered": [ [ "FOOT_L", 10 ], [ "FOOT_R", 10 ] ]
   },
   {
