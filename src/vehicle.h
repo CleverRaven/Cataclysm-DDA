@@ -964,6 +964,9 @@ class vehicle
         int engine_fuel_left( const int e, bool recurse = false ) const;
         int fuel_capacity( const itype_id &ftype ) const;
 
+        // Returns the weighted average of temperatures in kelvins. Ignores solids.
+        float fuel_temp( const itype_id &ftype ) const;
+
         // drains a fuel type (e.g. for the kitchen unit)
         // returns amount actually drained, does not engage reactor
         int drain( const itype_id &ftype, int amount );
