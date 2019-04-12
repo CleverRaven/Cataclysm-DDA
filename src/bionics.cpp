@@ -142,6 +142,12 @@ bool player::activate_bionic( int b, bool eff_only )
 {
     bionic &bio = ( *my_bionics )[b];
 
+    if( bio.incapacitated_time > 0_turns ) {
+        add_msg( m_info, _( "Your %s is shorting out and can't be activated." ),
+                 bionics[bio.id].name.c_str() );
+        return false;
+    }
+
     // Preserve the fake weapon used to initiate bionic gun firing
     static item bio_gun( weapon );
 
@@ -589,6 +595,12 @@ bool player::activate_bionic( int b, bool eff_only )
 bool player::deactivate_bionic( int b, bool eff_only )
 {
     bionic &bio = ( *my_bionics )[b];
+
+    if( bio.incapacitated_time > 0_turns ) {
+        add_msg( m_info, _( "Your %s is shorting out and can't be deactivated." ),
+                 bionics[bio.id].name.c_str() );
+        return false;
+    }
 
     // Just do the effect, no stat changing or messages
     if( !eff_only ) {
