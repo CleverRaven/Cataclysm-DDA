@@ -1451,6 +1451,11 @@ void options_manager::add_options_interface()
         { "hidekb", translate_marker( "HideKB" ) }
     },
     "show", COPT_CURSES_HIDE );
+
+    add( "EDGE_SCROLL", "interface", translate_marker( "Edge scrolling" ),
+         translate_marker( "If true, enables edge scrolling/panning with mouse when looking or peeking." ),
+         true, COPT_CURSES_HIDE
+       );
 }
 
 void options_manager::add_options_graphics()
@@ -1563,6 +1568,11 @@ void options_manager::add_options_graphics()
     add( "OVERMAP_FONT_SIZE", "graphics", translate_marker( "Overmap font size" ),
          translate_marker( "Set the overmap font size.  Requires restart." ),
          8, 100, 16, COPT_CURSES_HIDE
+       );
+
+    add( "USE_DRAW_ASCII_LINES_ROUTINE", "graphics", translate_marker( "SDL ASCII lines" ),
+         translate_marker( "Use SDL ASCII line drawing routine instead of Unicode Line Drawing characters.  Use this option when your selected font doesn't contain necessary glyphs." ),
+         true, COPT_CURSES_HIDE
        );
 
     mOptionsSort["graphics"]++;
@@ -1891,7 +1901,7 @@ void options_manager::add_options_world_default()
 
     add( "STATIC_NPC", "world_default", translate_marker( "Static NPCs" ),
          translate_marker( "If true, static NPCs will spawn at pre-defined locations. Requires world reset." ),
-         false
+         true
        );
 
     add( "STARTING_NPC", "world_default", translate_marker( "Starting NPCs spawn" ),
@@ -1917,8 +1927,8 @@ void options_manager::add_options_world_default()
     mOptionsSort["world_default"]++;
 
     add( "ZLEVELS", "world_default", translate_marker( "Experimental z-levels" ),
-         translate_marker( "If true, experimental z-level maps will be enabled.  This feature is not finished yet and turning it on will only slow the game down." ),
-         false
+         translate_marker( "If true, experimental z-level maps will be enabled.  Turn this off if you experience excessive slowdown." ),
+         true
        );
 
     mOptionsSort["world_default"]++;

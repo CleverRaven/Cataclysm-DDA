@@ -1995,7 +1995,7 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
         addentry( 'T', pgettext( "action", "take off" ), u.rate_action_takeoff( oThisItem ) );
         addentry( 'd', pgettext( "action", "drop" ), rate_drop_item );
         addentry( 'U', pgettext( "action", "unload" ), u.rate_action_unload( oThisItem ) );
-        addentry( 'r', pgettext( "action", "reload" ), u.rate_action_reload( oThisItem ) );
+        addentry( 'r', pgettext( "action", "reload_item" ), u.rate_action_reload( oThisItem ) );
         addentry( 'p', pgettext( "action", "part reload" ), u.rate_action_reload( oThisItem ) );
         addentry( 'm', pgettext( "action", "mend" ), u.rate_action_mend( oThisItem ) );
         addentry( 'D', pgettext( "action", "disassemble" ), u.rate_action_disassemble( oThisItem ) );
@@ -2232,7 +2232,8 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "read" );
     ctxt.register_action( "wield" );
     ctxt.register_action( "pick_style" );
-    ctxt.register_action( "reload" );
+    ctxt.register_action( "reload_item" );
+    ctxt.register_action( "reload_weapon" );
     ctxt.register_action( "unload" );
     ctxt.register_action( "throw" );
     ctxt.register_action( "fire" );
@@ -3187,7 +3188,7 @@ void game::debug()
 #if defined(TILES)
             const point offset {
                 POSX - u.posx() + u.view_offset.x,
-                POSY - u.posy() + u.view_offset.y
+                     POSY - u.posy() + u.view_offset.y
             };
             draw_ter();
             auto sounds_to_draw = sounds::get_monster_sounds();
@@ -3936,7 +3937,7 @@ void game::draw_minimap()
                 ter_sym = "c";
             } else {
                 const oter_id &cur_ter = overmap_buffer.ter( omx, omy, get_levz() );
-                ter_sym = cur_ter->get_sym();
+                ter_sym = cur_ter->get_symbol();
                 if( overmap_buffer.is_explored( omx, omy, get_levz() ) ) {
                     ter_color = c_dark_gray;
                 } else {
@@ -7234,7 +7235,7 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
                 // it less jerky we rate limit it by only allowing a
                 // panning move during the first iteration of this
                 // mouse move event consumption loop.
-                if( max_consume == 10 ) {
+                if( max_consume == 10 && get_option<bool>( "EDGE_SCROLL" ) ) {
                     const input_event event = ctxt.get_raw_input();
                     const int threshold_x = projected_window_width() / 20;
                     const int threshold_y = projected_window_height() / 20;
@@ -9518,7 +9519,23 @@ void game::reload( item_location &loc, bool prompt, bool empty )
     refresh_all();
 }
 
-void game::reload( bool try_everything )
+
+// Reload something.
+void game::reload_item()
+{
+    item_location item_loc = inv_map_splice( [&]( const item & it ) {
+        return u.rate_action_reload( it ) == HINT_GOOD;
+    }, _( "Reload item" ), 1, _( "You have nothing to reload." ) );
+
+    if( !item_loc ) {
+        add_msg( _( "Never mind." ) );
+        return;
+    }
+
+    reload( item_loc );
+}
+
+void game::reload_weapon( bool try_everything )
 {
     // As a special streamlined activity, hitting reload repeatedly should:
     // Reload wielded gun
@@ -9578,16 +9595,8 @@ void game::reload( bool try_everything )
         }
         return;
     }
-    item_location item_loc = inv_map_splice( [&]( const item & it ) {
-        return u.rate_action_reload( it ) == HINT_GOOD;
-    }, _( "Reload item" ), 1, _( "You have nothing to reload." ) );
 
-    if( !item_loc ) {
-        add_msg( _( "Never mind." ) );
-        return;
-    }
-
-    reload( item_loc );
+    reload_item();
 }
 
 // Unload a container, gun, or tool

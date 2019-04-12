@@ -279,69 +279,6 @@ void mission_start::place_zombie_mom( mission *miss )
     zomhouse.save();
 }
 
-const int EVAC_CENTER_SIZE = 5;
-
-void mission_start::place_zombie_bay( mission *miss )
-{
-    tripoint site = mission_util::target_om_ter_random( "evac_center_9", 1, miss, false,
-                    EVAC_CENTER_SIZE );
-    tinymap bay;
-    bay.load( site.x * 2, site.y * 2, site.z, false );
-    bay.add_spawn( mon_zombie_electric, 1, SEEX, SEEY, false, -1, miss->uid, _( "Sean McLaughlin" ) );
-    bay.save();
-}
-
-void mission_start::place_caravan_ambush( mission *miss )
-{
-    tripoint site = mission_util::target_om_ter_random( "field", 1, miss, false, 80 );
-    tinymap bay;
-    bay.load( site.x * 2, site.y * 2, site.z, false );
-    bay.add_vehicle( vproto_id( "cube_van" ), SEEX, SEEY, 0 );
-    bay.add_vehicle( vproto_id( "quad_bike" ), SEEX + 6, SEEY - 5, 270, 500, -1, true );
-    bay.add_vehicle( vproto_id( "motorcycle" ), SEEX - 2, SEEY - 9, 315, 500, -1, true );
-    bay.add_vehicle( vproto_id( "motorcycle" ), SEEX - 5, SEEY - 5, 90, 500, -1, true );
-    bay.draw_square_ter( t_grass, SEEX - 6, SEEY - 9, SEEX + 6, SEEY + 3 );
-    bay.draw_square_ter( t_dirt, SEEX - 4, SEEY - 7, SEEX + 3, SEEY + 1 );
-    bay.furn_set( SEEX, SEEY - 4, f_ash );
-    bay.spawn_item( SEEX - 1, SEEY - 3, "rock" );
-    bay.spawn_item( SEEX, SEEY - 3, "rock" );
-    bay.spawn_item( SEEX + 1, SEEY - 3, "rock" );
-    bay.spawn_item( SEEX - 1, SEEY - 4, "rock" );
-    bay.spawn_item( SEEX + 1, SEEY - 4, "rock" );
-    bay.spawn_item( SEEX - 1, SEEY - 5, "rock" );
-    bay.spawn_item( SEEX, SEEY - 5, "rock" );
-    bay.spawn_item( SEEX + 1, SEEY - 5, "rock" );
-    bay.trap_set( {SEEX + 3, SEEY - 5, site.z}, tr_rollmat );
-    bay.trap_set( {SEEX, SEEY - 7, site.z}, tr_rollmat );
-    bay.trap_set( {SEEX - 3, SEEY - 4, site.z}, tr_fur_rollmat );
-    bay.spawn_item( SEEX + rng( -6, 6 ), SEEY + rng( -9, 3 ), "can_beans" );
-    bay.spawn_item( SEEX + rng( -6, 6 ), SEEY + rng( -9, 3 ), "beer" );
-    bay.spawn_item( SEEX + rng( -6, 6 ), SEEY + rng( -9, 3 ), "beer" );
-    bay.spawn_item( SEEX + rng( -6, 6 ), SEEY + rng( -9, 3 ), "bottle_glass" );
-    bay.spawn_item( SEEX + rng( -6, 6 ), SEEY + rng( -9, 3 ), "bottle_glass" );
-    bay.spawn_item( SEEX + rng( -6, 6 ), SEEY + rng( -9, 3 ), "heroin" );
-    bay.place_items( "dresser", 75, SEEX - 3, SEEY, SEEX - 2, SEEY + 2, true, 0 );
-    bay.place_items( "softdrugs", 50, SEEX - 3, SEEY, SEEX - 2, SEEY + 2, true, 0 );
-    bay.place_items( "camping", 75, SEEX - 3, SEEY, SEEX - 2, SEEY + 2, true, 0 );
-    bay.spawn_item( SEEX + 1, SEEY + 4, "9mm_casing", 1, 1, 0, 0 );
-    bay.spawn_item( SEEX + rng( -2, 3 ), SEEY + rng( 3, 6 ), "9mm_casing", 1, 1, 0, 0 );
-    bay.spawn_item( SEEX + rng( -2, 3 ), SEEY + rng( 3, 6 ), "9mm_casing", 1, 1, 0, 0 );
-    bay.spawn_item( SEEX + rng( -2, 3 ), SEEY + rng( 3, 6 ), "9mm_casing", 1, 1, 0, 0 );
-    bay.add_corpse( tripoint( SEEX + 1, SEEY + 7, bay.get_abs_sub().z ) );
-    bay.add_corpse( tripoint( SEEX, SEEY + 8, bay.get_abs_sub().z ) );
-    madd_field( &bay, SEEX, SEEY + 7, fd_blood, 1 );
-    madd_field( &bay, SEEX + 2, SEEY + 7, fd_blood, 1 );
-    madd_field( &bay, SEEX - 1, SEEY + 8, fd_blood, 1 );
-    madd_field( &bay, SEEX + 1, SEEY + 8, fd_blood, 1 );
-    madd_field( &bay, SEEX + 2, SEEY + 8, fd_blood, 1 );
-    madd_field( &bay, SEEX + 1, SEEY + 9, fd_blood, 1 );
-    madd_field( &bay, SEEX, SEEY + 9, fd_blood, 1 );
-    bay.place_npc( SEEX + 3, SEEY - 5, string_id<npc_template>( "bandit" ) );
-    bay.place_npc( SEEX, SEEY - 7, string_id<npc_template>( "thug" ) );
-    miss->target_npc_id = bay.place_npc( SEEX - 3, SEEY - 4, string_id<npc_template>( "bandit" ) );
-    bay.save();
-}
-
 void mission_start::place_jabberwock( mission *miss )
 {
     tripoint site = mission_util::target_om_ter( "forest_thick", 6, miss, false );
@@ -620,19 +557,6 @@ void mission_start::recruit_tracker( mission *miss )
     temp->op_of_u.owed = 10;
     temp->add_new_mission( mission::reserve_new( mission_type_id( "MISSION_JOIN_TRACKER" ),
                            temp->getID() ) );
-}
-
-void mission_start::start_commune( mission *miss )
-{
-    // Check entire overmap for now.
-    tripoint site = mission_util::target_om_ter( "ranch_camp_67", 1, miss, false );
-    tinymap bay;
-    bay.load( site.x * 2, site.y * 2, site.z, false );
-    bay.place_npc( SEEX + 4, SEEY + 3, string_id<npc_template>( "ranch_foreman" ) );
-    bay.place_npc( SEEX - 3, SEEY + 5, string_id<npc_template>( "ranch_construction_1" ) );
-    bay.save();
-    npc *p = g->find_npc( miss->npc_id );
-    p->set_mutation( trait_id( "NPC_MISSION_LEV_1" ) );
 }
 
 const int RANCH_SIZE = 5;
@@ -1802,31 +1726,31 @@ void mission_start::reveal_lab_train_depot( mission *miss )
     reveal_road( g->u.global_omt_location(), target, overmap_buffer );
 }
 
-void mission_start::set_reveal( const std::string &terrain,
-                                std::vector<std::function<void( mission *miss )>> &starts )
+void mission_util::set_reveal( const std::string &terrain,
+                               std::vector<std::function<void( mission *miss )>> &funcs )
 {
-    const auto start_func = [ terrain ]( mission * miss ) {
+    const auto mission_func = [ terrain ]( mission * miss ) {
         reveal_target( miss, terrain );
     };
-    starts.emplace_back( start_func );
+    funcs.emplace_back( mission_func );
 }
 
-void mission_start::set_reveal_any( JsonArray &ja,
-                                    std::vector<std::function<void( mission *miss )>> &starts )
+void mission_util::set_reveal_any( JsonArray &ja,
+                                   std::vector<std::function<void( mission *miss )>> &funcs )
 {
     std::vector<std::string> terrains;
     while( ja.has_more() ) {
         std::string terrain = ja.next_string();
         terrains.push_back( terrain );
     }
-    const auto start_func = [ terrains ]( mission * miss ) {
+    const auto mission_func = [ terrains ]( mission * miss ) {
         reveal_any_target( miss, terrains );
     };
-    starts.emplace_back( start_func );
+    funcs.emplace_back( mission_func );
 }
 
-void mission_start::set_assign_om_target( JsonObject &jo,
-        std::vector<std::function<void( mission *miss )>> &starts )
+void mission_util::set_assign_om_target( JsonObject &jo,
+        std::vector<std::function<void( mission *miss )>> &funcs )
 {
     if( !jo.has_string( "om_terrain" ) ) {
         jo.throw_error( "'om_terrain' is required for assign_mission_target" );
@@ -1855,7 +1779,7 @@ void mission_start::set_assign_om_target( JsonObject &jo,
     if( jo.has_int( "z" ) ) {
         z = jo.get_int( "z" );
     }
-    const auto start_func = [p, z]( mission * miss ) {
+    const auto mission_func = [p, z]( mission * miss ) {
         mission_target_params mtp = p;
         mtp.mission_pointer = miss;
         if( z ) {
@@ -1864,69 +1788,59 @@ void mission_start::set_assign_om_target( JsonObject &jo,
         }
         assign_mission_target( mtp );
     };
-    starts.emplace_back( start_func );
+    funcs.emplace_back( mission_func );
 }
 
-bool mission_start::set_update_mapgen( JsonObject &jo,
-                                       std::vector<std::function<void( mission *miss )>> &starts )
+bool mission_util::set_update_mapgen( JsonObject &jo,
+                                      std::vector<std::function<void( mission *miss )>> &funcs )
 {
-    // this is gross, but jmpagen_npc throws errors instead of deferring, so catch the
-    // potential error and defer it.
-    if( jo.has_array( "place_npcs" ) ) {
-        JsonArray place_npcs = jo.get_array( "place_npcs" );
-        while( place_npcs.has_more() ) {
-            JsonObject placed_npc = place_npcs.next_object();
-            string_id<npc_template> npc_class;
-            npc_class = string_id<npc_template>( placed_npc.get_string( "class" ) );
-            if( !npc_class.is_valid() ) {
-                return false;
-            }
-        }
+    bool defer = false;
+    mapgen_update_func update_map = add_mapgen_update_func( jo, defer );
+    if( defer ) {
+        return false;
     }
-
-    mapgen_update_func update_map = add_mapgen_update_func( jo );
 
     if( jo.has_string( "om_special" ) && jo.has_string( "om_terrain" ) ) {
         const std::string om_terrain = jo.get_string( "om_terrain" );
-        const auto start_func = [update_map, om_terrain]( mission * miss ) {
+        const auto mission_func = [update_map, om_terrain]( mission * miss ) {
             tripoint update_pos3 = mission_util::reveal_om_ter( om_terrain, 1, false );
             update_map( update_pos3, miss );
         };
-        starts.emplace_back( start_func );
+        funcs.emplace_back( mission_func );
     } else {
-        const auto start_func = [update_map]( mission * miss ) {
+        const auto mission_func = [update_map]( mission * miss ) {
             tripoint update_pos3 = miss->get_target();
             update_map( update_pos3, miss );
         };
-        starts.emplace_back( start_func );
+        funcs.emplace_back( mission_func );
     }
     return true;
 }
 
-bool mission_start::load( JsonObject jo,
-                          std::vector<std::function<void( mission *miss )>> &starts )
+bool mission_util::load_funcs( JsonObject jo,
+                               std::vector<std::function<void( mission *miss )>> &funcs )
 {
     if( jo.has_string( "reveal_om_ter" ) ) {
         const std::string target_terrain = jo.get_string( "reveal_om_ter" );
-        set_reveal( target_terrain, starts );
+        set_reveal( target_terrain, funcs );
     } else if( jo.has_array( "reveal_om_ter" ) ) {
         JsonArray target_terrain = jo.get_array( "reveal_om_ter" );
-        set_reveal_any( target_terrain, starts );
+        set_reveal_any( target_terrain, funcs );
     } else if( jo.has_object( "assign_mission_target" ) ) {
         JsonObject mission_target = jo.get_object( "assign_mission_target" );
-        set_assign_om_target( mission_target, starts );
+        set_assign_om_target( mission_target, funcs );
     }
 
     if( jo.has_object( "update_mapgen" ) ) {
         JsonObject update_mapgen = jo.get_object( "update_mapgen" );
-        if( !set_update_mapgen( update_mapgen, starts ) ) {
+        if( !set_update_mapgen( update_mapgen, funcs ) ) {
             return false;
         }
     } else if( jo.has_array( "update_mapgen" ) ) {
         JsonArray mapgen_array = jo.get_array( "update_mapgen" );
         while( mapgen_array.has_more() ) {
             JsonObject update_mapgen = mapgen_array.next_object();
-            if( !set_update_mapgen( update_mapgen, starts ) ) {
+            if( !set_update_mapgen( update_mapgen, funcs ) ) {
                 return false;
             }
         }
@@ -1935,10 +1849,10 @@ bool mission_start::load( JsonObject jo,
     return true;
 }
 
-bool mission_type::parse_start( JsonObject &jo )
+bool mission_type::parse_funcs( JsonObject &jo, std::function<void( mission * )> &phase_func )
 {
-    std::vector<std::function<void( mission *miss )>> start_funcs;
-    if( !mission_start::load( jo, start_funcs ) ) {
+    std::vector<std::function<void( mission *miss )>> funcs;
+    if( !mission_util::load_funcs( jo, funcs ) ) {
         return false;
     }
 
@@ -1947,8 +1861,7 @@ bool mission_type::parse_start( JsonObject &jo )
      */
     talk_effect_t talk_effects;
     talk_effects.load_effect( jo );
-
-    start = [ start_funcs, talk_effects ]( mission * miss ) {
+    phase_func = [ funcs, talk_effects ]( mission * miss ) {
         ::dialogue d;
         d.beta = g->find_npc( miss->get_npc_id() );
         if( d.beta == nullptr ) {
@@ -1959,8 +1872,8 @@ bool mission_type::parse_start( JsonObject &jo )
         for( const talk_effect_fun_t &effect : talk_effects.effects ) {
             effect( d );
         }
-        for( auto &start_function : start_funcs ) {
-            start_function( miss );
+        for( auto &mission_function : funcs ) {
+            mission_function( miss );
         }
     };
     return true;

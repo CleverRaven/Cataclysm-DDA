@@ -99,8 +99,6 @@ static const std::map<std::string, std::function<void( mission * )>> mission_fun
         { "need_drugs_npc", mission_start::need_drugs_npc },
         { "place_dog", mission_start::place_dog },
         { "place_zombie_mom", mission_start::place_zombie_mom },
-        { "place_zombie_bay", mission_start::place_zombie_bay },
-        { "place_caravan_ambush", mission_start::place_caravan_ambush },
         { "place_jabberwock", mission_start::place_jabberwock },
         { "kill_20_nightmares", mission_start::kill_20_nightmares },
         { "kill_horde_master", mission_start::kill_horde_master },
@@ -109,7 +107,6 @@ static const std::map<std::string, std::function<void( mission * )>> mission_fun
         { "place_deposit_box", mission_start::place_deposit_box },
         { "find_safety", mission_start::find_safety },
         { "recruit_tracker", mission_start::recruit_tracker },
-        { "start_commune", mission_start::start_commune },
         { "ranch_construct_1", mission_start::ranch_construct_1 },
         { "ranch_construct_2", mission_start::ranch_construct_2 },
         { "ranch_construct_3", mission_start::ranch_construct_3 },
@@ -153,7 +150,6 @@ static const std::map<std::string, std::function<void( mission * )>> mission_fun
         { "thankful", mission_end::thankful },
         { "deposit_box", mission_end::deposit_box },
         { "heal_infection", mission_end::heal_infection },
-        { "evac_construct_5", mission_end::evac_construct_5 },
         // Failures
         { "kill_npc", mission_fail::kill_npc },
     }
@@ -295,17 +291,28 @@ void mission_type::load( JsonObject &jo, const std::string &src )
     goal = jo.get_enum_value<decltype( goal )>( "goal" );
 
     assign_function( jo, "place", place, tripoint_function_map );
-    if( jo.has_string( "start" ) ) {
-        assign_function( jo, "start", start, mission_function_map );
-    } else if( jo.has_member( "start" ) ) {
-        JsonObject j_start = jo.get_object( "start" );
-        if( !parse_start( j_start ) ) {
-            deferred.emplace_back( jo.str(), src );
-            return;
+    const auto parse_phase = [&]( const std::string & phase,
+    std::function<void( mission * )> &phase_func ) {
+        if( jo.has_string( phase ) ) {
+            assign_function( jo, phase, phase_func, mission_function_map );
+        } else if( jo.has_member( phase ) ) {
+            JsonObject j_start = jo.get_object( phase );
+            if( !parse_funcs( j_start, phase_func ) ) {
+                deferred.emplace_back( jo.str(), src );
+                return false;
+            }
         }
+        return true;
+    };
+    if( !parse_phase( "start", start ) ) {
+        return;
     }
-    assign_function( jo, "end", end, mission_function_map );
-    assign_function( jo, "fail", fail, mission_function_map );
+    if( !parse_phase( "end", end ) ) {
+        return;
+    }
+    if( !parse_phase( "fail", fail ) ) {
+        return;
+    }
 
     assign( jo, "deadline_low", deadline_low, false, 1_days );
     assign( jo, "deadline_high", deadline_high, false, 1_days );

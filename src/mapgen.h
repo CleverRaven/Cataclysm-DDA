@@ -333,6 +333,7 @@ class update_mapgen_function_json : public mapgen_function_json_base, public vir
         };
         void setup_setmap_internal() override { };
         bool setup_update( JsonObject &jo );
+        void check( const std::string &oter_name ) const override;
         void generate( map *, const oter_id &, const mapgendata &, const time_point &, float ) override { };
         void update_map( const tripoint &omt_pos, int offset_x, int offset_y, mission *miss ) const;
 };

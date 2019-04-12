@@ -13,6 +13,7 @@
 #include <random>
 #include <vector>
 
+#include "catacharset.h"
 #include "cata_utility.h"
 #include "coordinate_conversions.h"
 #include "debug.h"
@@ -73,7 +74,7 @@ namespace om_lines
 {
 
 struct type {
-    std::string sym;
+    uint32_t symbol;
     size_t mapgen;
     std::string suffix;
 };
@@ -84,22 +85,22 @@ const std::array<std::string, 5> mapgen_suffixes = {{
 };
 
 const std::array < type, 1 + om_direction::bits > all = {{
-        { LINE_XXXX_S, 4, "_isolated"  },   // 0  ----
-        { LINE_XOXO_S, 2, "_end_south" },   // 1  ---n
-        { LINE_OXOX_S, 2, "_end_west"  },   // 2  --e-
-        { LINE_XXOO_S, 1, "_ne"        },   // 3  --en
-        { LINE_XOXO_S, 2, "_end_north" },   // 4  -s--
-        { LINE_XOXO_S, 0, "_ns"        },   // 5  -s-n
-        { LINE_OXXO_S, 1, "_es"        },   // 6  -se-
-        { LINE_XXXO_S, 3, "_nes"       },   // 7  -sen
-        { LINE_OXOX_S, 2, "_end_east"  },   // 8  w---
-        { LINE_XOOX_S, 1, "_wn"        },   // 9  w--n
-        { LINE_OXOX_S, 0, "_ew"        },   // 10 w-e-
-        { LINE_XXOX_S, 3, "_new"       },   // 11 w-en
-        { LINE_OOXX_S, 1, "_sw"        },   // 12 ws--
-        { LINE_XOXX_S, 3, "_nsw"       },   // 13 ws-n
-        { LINE_OXXX_S, 3, "_esw"       },   // 14 wse-
-        { LINE_XXXX_S, 4, "_nesw"      }    // 15 wsen
+        { UTF8_getch( LINE_XXXX_S ), 4, "_isolated"  }, // 0  ----
+        { UTF8_getch( LINE_XOXO_S ), 2, "_end_south" }, // 1  ---n
+        { UTF8_getch( LINE_OXOX_S ), 2, "_end_west"  }, // 2  --e-
+        { UTF8_getch( LINE_XXOO_S ), 1, "_ne"        }, // 3  --en
+        { UTF8_getch( LINE_XOXO_S ), 2, "_end_north" }, // 4  -s--
+        { UTF8_getch( LINE_XOXO_S ), 0, "_ns"        }, // 5  -s-n
+        { UTF8_getch( LINE_OXXO_S ), 1, "_es"        }, // 6  -se-
+        { UTF8_getch( LINE_XXXO_S ), 3, "_nes"       }, // 7  -sen
+        { UTF8_getch( LINE_OXOX_S ), 2, "_end_east"  }, // 8  w---
+        { UTF8_getch( LINE_XOOX_S ), 1, "_wn"        }, // 9  w--n
+        { UTF8_getch( LINE_OXOX_S ), 0, "_ew"        }, // 10 w-e-
+        { UTF8_getch( LINE_XXOX_S ), 3, "_new"       }, // 11 w-en
+        { UTF8_getch( LINE_OOXX_S ), 1, "_sw"        }, // 12 ws--
+        { UTF8_getch( LINE_XOXX_S ), 3, "_nsw"       }, // 13 ws-n
+        { UTF8_getch( LINE_OXXX_S ), 3, "_esw"       }, // 14 wse-
+        { UTF8_getch( LINE_XXXX_S ), 4, "_nesw"      }  // 15 wsen
     }
 };
 
@@ -535,7 +536,7 @@ void oter_type_t::load( JsonObject &jo, const std::string &src )
     assign( jo, "color", color, strict );
     assign( jo, "land_use_code", land_use_code, strict );
 
-    const typed_flag_reader<decltype( oter_flags_map )> flag_reader{ oter_flags_map, "invalid overmap terrain flag" };
+    const auto flag_reader = make_flag_reader( oter_flags_map, "overmap terrain flag" );
     optional( jo, was_loaded, "flags", flags, flag_reader );
 
     if( has_flag( line_drawing ) ) {
@@ -633,24 +634,23 @@ oter_t::oter_t() : oter_t( oter_type_t::null_type ) {}
 oter_t::oter_t( const oter_type_t &type ) :
     type( &type ),
     id( type.id.str() ),
-    sym( type.get_symbol() ),
-    sym_alt( type.land_use_code ? type.land_use_code->get_symbol() : sym ) {}
+    symbol( type.symbol ),
+    symbol_alt( type.land_use_code ? type.land_use_code->symbol : symbol ) {}
 
 oter_t::oter_t( const oter_type_t &type, om_direction::type dir ) :
     type( &type ),
     id( type.id.str() + "_" + om_direction::id( dir ) ),
     dir( dir ),
-    sym( om_direction::rotate_symbol( type.get_symbol(), dir ) ),
-    sym_alt( om_direction::rotate_symbol( type.land_use_code ? type.land_use_code->get_symbol() :
-                                          type.get_symbol(),
-                                          dir ) ),
+    symbol( om_direction::rotate_symbol( type.symbol, dir ) ),
+    symbol_alt( om_direction::rotate_symbol( type.land_use_code ? type.land_use_code->symbol :
+                type.symbol, dir ) ),
     line( om_lines::from_dir( dir ) ) {}
 
 oter_t::oter_t( const oter_type_t &type, size_t line ) :
     type( &type ),
     id( type.id.str() + om_lines::all[line].suffix ),
-    sym( om_lines::all[line].sym ),
-    sym_alt( om_lines::all[line].sym ),
+    symbol( om_lines::all[line].symbol ),
+    symbol_alt( om_lines::all[line].symbol ),
     line( line ) {}
 
 std::string oter_t::get_mapgen_id() const
@@ -3422,7 +3422,7 @@ tripoint om_direction::rotate( const tripoint &p, type dir )
     return tripoint( rotate( { p.x, p.y }, dir ), p.z );
 }
 
-std::string om_direction::rotate_symbol( const std::string &sym, type dir )
+uint32_t om_direction::rotate_symbol( uint32_t sym, type dir )
 {
     return rotatable_symbols::get( sym, static_cast<int>( dir ) );
 }

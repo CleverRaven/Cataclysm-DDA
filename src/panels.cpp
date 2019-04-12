@@ -294,7 +294,7 @@ void draw_minimap( const player &u, const catacurses::window &w_minimap )
                 ter_sym = "c";
             } else {
                 const oter_id &cur_ter = overmap_buffer.ter( omx, omy, g->get_levz() );
-                ter_sym = cur_ter->get_sym();
+                ter_sym = cur_ter->get_symbol();
                 if( overmap_buffer.is_explored( omx, omy, g->get_levz() ) ) {
                     ter_color = c_dark_gray;
                 } else {
@@ -438,7 +438,7 @@ std::string get_moon()
         case 1:
             return _( "Waxing crescent" );
         case 2:
-            return _( "Half Moon" );
+            return _( "Half moon" );
         case 3:
             return _( "Waxing gibbous" );
         case 4:
@@ -459,25 +459,26 @@ std::string get_moon()
 std::string time_approx()
 {
     const int iHour = hour_of_day<int>( calendar::turn );
-    std::string time_approx;
-    if( iHour >= 22 ) {
-        time_approx = _( "Around midnight" );
-    } else if( iHour >= 20 ) {
-        time_approx = _( "It's getting darker" );
-    } else if( iHour >= 16 ) {
-        time_approx = _( "This is the Evening" );
-    } else if( iHour >= 13 ) {
-        time_approx = _( "In the afternoon" );
-    } else if( iHour >= 11 ) {
-        time_approx = _( "Around noon" );
-    } else if( iHour >= 8 ) {
-        time_approx = _( "Early Morning" );
-    } else if( iHour >= 5 ) {
-        time_approx = _( "Around Dawn" );
-    } else if( iHour >= 0 ) {
-        time_approx = _( "Dead of Night" );
+    if( iHour >= 23 || iHour <= 1 ) {
+        return _( "Around midnight" );
+    } else if( iHour <= 4 ) {
+        return _( "Dead of night" );
+    } else if( iHour <= 6 ) {
+        return _( "Around dawn" );
+    } else if( iHour <= 8 ) {
+        return _( "Early morning" );
+    } else if( iHour <= 10 ) {
+        return _( "Morning" );
+    } else if( iHour <= 13 ) {
+        return _( "Around noon" );
+    } else if( iHour <= 16 ) {
+        return _( "Afternoon" );
+    } else if( iHour <= 18 ) {
+        return _( "Early evening" );
+    } else if( iHour <= 20 ) {
+        return _( "Around dusk" );
     }
-    return time_approx;
+    return _( "Night" );
 }
 
 nc_color value_color( int stat )

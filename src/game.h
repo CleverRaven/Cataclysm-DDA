@@ -975,7 +975,8 @@ class game
         void mend( int pos = INT_MIN );
         void autoattack();
     public:
-        void reload( bool try_everything = true ); // Reload a wielded gun/tool  'r'
+        void reload_item(); // Reload an item
+        void reload_weapon( bool try_everything = true ); // Reload a wielded gun/tool  'r'
         // Places the player at the specified point; hurts feet, lists items etc.
         void place_player( const tripoint &dest );
         void place_player_overmap( const tripoint &om_dest );

@@ -459,7 +459,7 @@
     "time": 800,
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "sheet", 1 ] ] ],
+    "components": [ [ [ "sheet", 1 ], [ "blanket", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
