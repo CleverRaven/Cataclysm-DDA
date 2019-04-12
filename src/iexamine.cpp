@@ -1611,7 +1611,7 @@ static bool harvest_common( player &p, const tripoint &examp, bool furn, bool ne
     const auto hid = g->m.get_harvest( examp );
     if( hid.is_null() || hid->empty() ) {
         if( !auto_forage ) {
-            p.add_msg_if_player( m_info, _( "Nothing can be harvested from this plant in current season" ) );
+            p.add_msg_if_player( m_info, _( "Nothing can be harvested from this plant in current season." ) );
         }
         iexamine::none( p, examp );
         return false;
@@ -1627,7 +1627,7 @@ static bool harvest_common( player &p, const tripoint &examp, bool furn, bool ne
 
     if( p.is_player() && !auto_forage &&
         !query_yn( _( "Pick %s?" ), furn ? g->m.furnname( examp ).c_str() : g->m.tername(
-                       examp ).c_str() ) ) {
+                       examp ) ) ) {
         iexamine::none( p, examp );
         return false;
     }
@@ -1641,10 +1641,10 @@ static bool harvest_common( player &p, const tripoint &examp, bool furn, bool ne
         for( int i = 0; i < roll; i++ ) {
             if( p.can_pickWeight( item( entry.drop ), true ) && p.can_pickVolume( item( entry.drop ), true ) ) {
                 p.i_add( item( entry.drop ) );
-                p.add_msg_if_player( _( "You harvest: %s" ), item( entry.drop ).tname().c_str() );
+                p.add_msg_if_player( _( "You harvest: %s." ), item( entry.drop ).tname() );
             } else {
                 g->m.add_item_or_charges( p.pos(), item( entry.drop ) );
-                p.add_msg_if_player( _( "You harvest and drop: %s" ), item( entry.drop ).tname().c_str() );
+                p.add_msg_if_player( _( "You harvest and drop: %s." ), item( entry.drop ).tname() );
             }
             got_anything = true;
         }
