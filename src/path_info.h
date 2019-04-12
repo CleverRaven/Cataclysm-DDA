@@ -14,9 +14,6 @@ public:
     static void setStandardFilenames();
     static void updateDataDirectory();
     static void updateConfigurationDirectory();
-
-private:
-
     static void updatePathName(const std::string &name, const std::string &path);
 };
 
