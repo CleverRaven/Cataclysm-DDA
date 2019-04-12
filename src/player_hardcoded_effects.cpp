@@ -15,7 +15,7 @@
 #include "sounds.h"
 #include "weather.h"
 
-#ifdef TILES
+#if defined(TILES)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)
 #       include <SDL2/SDL.h>
 #   else
@@ -990,7 +990,7 @@ void player::hardcoded_effects( effect &it )
         }
     } else if( id == effect_sleep ) {
         set_moves( 0 );
-#ifdef TILES
+#if defined(TILES)
         if( is_player() && calendar::once_every( 10_minutes ) ) {
             SDL_PumpEvents();
         }

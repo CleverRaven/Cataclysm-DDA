@@ -437,7 +437,7 @@
     "color": "brown",
     "ammo": "223",
     "ranged_damage": -4,
-    "dispersion": 180,
+    "dispersion": 550,
     "durability": 6,
     "loudness": 25,
     "reload": 200,

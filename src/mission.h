@@ -110,9 +110,6 @@ struct mission_start {
     static void need_drugs_npc( mission * );     // "need drugs" remove item
     static void place_dog( mission * );          // Put a dog in a house!
     static void place_zombie_mom( mission * );   // Put a zombie mom in a house!
-    // Put a boss zombie in the refugee/evac center back bay
-    static void place_zombie_bay( mission * );
-    static void place_caravan_ambush( mission * ); // For Free Merchants mission
     static void place_jabberwock( mission * );   // Put a jabberwok in the woods nearby
     static void kill_20_nightmares( mission * ); // Kill 20 more regular nightmares
     static void kill_horde_master( mission * );  // Kill the master zombie at the center of the horde
@@ -121,7 +118,6 @@ struct mission_start {
     static void place_deposit_box( mission * );  // Place a safe deposit box in a nearby bank
     static void find_safety( mission * );        // Goal is set to non-spawn area
     static void recruit_tracker( mission * );    // Recruit a tracker to help you
-    static void start_commune( mission * );      // Focus on starting the ranch commune
     static void ranch_construct_1( mission * );  // Encloses barn
     static void ranch_construct_2( mission * );  // Adds makeshift beds to the barn, 1 NPC
     static void ranch_construct_3( mission * );  // Adds a couple of NPCs and fields
@@ -163,16 +159,6 @@ struct mission_start {
     static void create_hidden_lab_console( mission * );  // Reveal hidden lab with workstation
     static void create_ice_lab_console( mission * );  // Reveal lab with an unlocked workstation
     static void reveal_lab_train_depot( mission * );  // Find lab train depot
-
-    static void set_reveal( const std::string &terrain,
-                            std::vector<std::function<void( mission *miss )>> &starts );
-    static void set_reveal_any( JsonArray &ja,
-                                std::vector<std::function<void( mission *miss )>> &starts );
-    static void set_assign_om_target( JsonObject &jo,
-                                      std::vector<std::function<void( mission *miss )>> &starts );
-    static bool set_update_mapgen( JsonObject &jo,
-                                   std::vector<std::function<void( mission *miss )>> &starts );
-    static bool load( JsonObject jo, std::vector<std::function<void( mission *miss )>> &starts );
 };
 
 struct mission_end { // These functions are run when a mission ends
@@ -181,7 +167,6 @@ struct mission_end { // These functions are run when a mission ends
     static void thankful( mission * );       // NPC defaults to being a friendly stranger
     static void deposit_box( mission * );    // random valuable reward
     static void heal_infection( mission * );
-    static void evac_construct_5( mission * ); // place can food in evac storage room
 };
 
 struct mission_fail {
@@ -195,8 +180,18 @@ struct mission_util {
     static tripoint target_om_ter( const std::string &omter, int reveal_rad, mission *miss,
                                    bool must_see, int target_z = 0 );
     static tripoint target_om_ter_random( const std::string &omter, int reveal_rad, mission *miss,
-                                          bool must_see, int range, tripoint loc = overmap::invalid_tripoint );
-
+                                          bool must_see, int range,
+                                          tripoint loc = overmap::invalid_tripoint );
+    static void set_reveal( const std::string &terrain,
+                            std::vector<std::function<void( mission *miss )>> &funcs );
+    static void set_reveal_any( JsonArray &ja,
+                                std::vector<std::function<void( mission *miss )>> &funcs );
+    static void set_assign_om_target( JsonObject &jo,
+                                      std::vector<std::function<void( mission *miss )>> &funcs );
+    static bool set_update_mapgen( JsonObject &jo,
+                                   std::vector<std::function<void( mission *miss )>> &funcs );
+    static bool load_funcs( JsonObject jo,
+                            std::vector<std::function<void( mission *miss )>> &funcs );
 };
 
 
@@ -267,7 +262,7 @@ struct mission_type {
     static void finalize();
     static void check_consistency();
 
-    bool parse_start( JsonObject &jo );
+    bool parse_funcs( JsonObject &jo, std::function<void( mission * )> &phase_func );
     void load( JsonObject &jo, const std::string &src );
 };
 

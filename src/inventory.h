@@ -113,8 +113,10 @@ class inventory : public visitable<inventory>
          * the player's worn items / weapon
          */
         void restack( player &p );
-
-        void form_from_map( const tripoint &origin, int distance, bool assign_invlet = true );
+        void form_from_map( const tripoint &origin, int distance, bool assign_invlet = true,
+                            bool clear_path = true );
+        void form_from_map( map &m, const tripoint &origin, int distance, bool assign_invlet = true,
+                            bool clear_path = true );
 
         /**
          * Remove a specific item from the inventory. The item is compared

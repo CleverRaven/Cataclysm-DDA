@@ -644,13 +644,13 @@ bool player::eat( item &food, bool force )
             ( !has_bionic( bio_digestion ) || one_in( 3 ) ) ) {
             add_effect( effect_foodpoison, rng( 6_minutes, ( nutr + 1 ) * 6_minutes ) );
         }
-        consume_effects( food );
     } else if( spoiled && saprophage ) {
         add_msg_if_player( m_good, _( "Mmm, this %s tastes delicious..." ), food.tname().c_str() );
-        consume_effects( food );
-    } else {
-        consume_effects( food );
     }
+    if( !consume_effects( food ) ) {
+        return false;
+    }
+    food.mod_charges( -1 );
 
     const bool amorphous = has_trait( trait_id( "AMORPHOUS" ) );
     int mealtime = 250;
@@ -730,13 +730,19 @@ bool player::eat( item &food, bool force )
                                    food.tname().c_str() );
             if( !spoiled && !food.has_flag( "ALLERGEN_JUNK" ) ) {
                 bool has_table_nearby = false;
+                bool has_chair_nearby = false;
                 for( const tripoint &pt : g->m.points_in_radius( pos(), 1 ) ) {
                     if( g->m.has_flag_furn( "FLAT_SURF", pt ) || g->m.has_flag( "FLAT_SURF", pt ) ||
-                        ( g->m.veh_at( pt ) && g->m.veh_at( pt )->vehicle().has_part( "KITCHEN" ) ) ) {
+                        ( g->m.veh_at( pt ) && ( g->m.veh_at( pt )->vehicle().has_part( "KITCHEN" ) ||
+                                                 g->m.veh_at( pt )->vehicle().has_part( "FLAT_SURF" ) ) ) ) {
                         has_table_nearby = true;
                     }
+                    if( g->m.has_flag_furn( "CAN_SIT", pt ) || g->m.has_flag( "CAN_SIT", pt ) ||
+                        ( g->m.veh_at( pt ) && ( g->m.veh_at( pt )->vehicle().has_part( "SEAT" ) ) ) ) {
+                        has_chair_nearby = true;
+                    }
                 }
-                if( g->m.has_flag_furn( "CAN_SIT", pos() ) && has_table_nearby ) {
+                if( has_chair_nearby && has_table_nearby ) {
                     if( has_trait( trait_id( "TABLEMANNERS" ) ) ) {
                         rem_morale( MORALE_ATE_WITHOUT_TABLE );
                         add_morale( MORALE_ATE_WITH_TABLE, 3, 3, 3_hours, 2_hours, true );
@@ -901,22 +907,22 @@ bool player::eat( item &food, bool force )
     return true;
 }
 
-void player::consume_effects( item &food )
+bool player::consume_effects( item &food )
 {
     if( !food.is_comestible() ) {
         debugmsg( "called player::consume_effects with non-comestible" );
-        return;
+        return false;
     }
     const auto &comest = *food.get_comestible();
 
     if( has_trait( trait_id( "THRESH_PLANT" ) ) && food.type->can_use( "PLANTBLECH" ) ) {
         // used to cap nutrition and thirst, but no longer
-        return;
+        return false;
     }
     if( ( has_trait( trait_id( "HERBIVORE" ) ) || has_trait( trait_id( "RUMINANT" ) ) ) &&
         food.has_any_flag( herbivore_blacklist ) ) {
         // No good can come of this.
-        return;
+        return false;
     }
 
     // Rotten food causes health loss
@@ -1072,6 +1078,7 @@ void player::consume_effects( item &food )
     }
     // GET IN MAH BELLY!
     stomach.ingest( *this, food, 1 );
+    return true;
 }
 
 hint_rating player::rate_action_eat( const item &it ) const

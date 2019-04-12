@@ -1,4 +1,4 @@
-#if (defined TILES)
+#if defined(TILES)
 #include "cata_tiles.h"
 
 #include <algorithm>
@@ -1017,7 +1017,7 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
         return;
     }
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
     // Attempted bugfix for Google Play crash - prevent divide-by-zero if no tile width/height specified
     if( tile_width == 0 || tile_height == 0 ) {
         return;
@@ -2145,7 +2145,7 @@ bool cata_tiles::draw_sprite_at( const tile_type &tile,
                 ret = sprite_tex->render_copy_ex( renderer, &destination, 0, NULL, SDL_FLIP_NONE );
                 break;
             case 1: // 90 degrees (and 270, with just two sprites)
-#if (defined _WIN32 || defined WINDOWS)
+#if defined(_WIN32)
                 destination.y -= 1;
 #endif
                 ret = sprite_tex->render_copy_ex( renderer, &destination, -90, NULL, SDL_FLIP_NONE );
@@ -2155,7 +2155,7 @@ bool cata_tiles::draw_sprite_at( const tile_type &tile,
                                                   static_cast<SDL_RendererFlip>( SDL_FLIP_HORIZONTAL | SDL_FLIP_VERTICAL ) );
                 break;
             case 3: // 270 degrees
-#if (defined _WIN32 || defined WINDOWS)
+#if defined(_WIN32)
                 destination.x -= 1;
 #endif
                 ret = sprite_tex->render_copy_ex( renderer, &destination, 90, NULL, SDL_FLIP_NONE );
@@ -3333,8 +3333,8 @@ std::vector<options_manager::id_and_option> cata_tiles::build_renderer_list()
 {
     std::vector<options_manager::id_and_option> renderer_names;
     std::vector<options_manager::id_and_option> default_renderer_names = {
-#if (defined TILES)
-#   if (defined _WIN32 || defined WINDOWS)
+#if defined(TILES)
+#   if defined(_WIN32)
         { "direct3d", translate_marker( "direct3d" ) },
 #   endif
         { "software", translate_marker( "software" ) },

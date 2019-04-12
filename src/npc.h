@@ -617,6 +617,7 @@ class npc : public player
         bool is_friend() const; // Allies with the player
         bool is_leader() const; // Leading the player
         bool is_hallucination() const override; // true if the NPC isn't actually real
+        bool is_assigned_to_camp() const;
         /** is performing a player_activity */
         bool has_player_activity() const;
         /** Standing in one spot, moving back if removed from it. */
