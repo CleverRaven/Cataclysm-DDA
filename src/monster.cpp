@@ -93,7 +93,6 @@ const species_id FUNGUS( "FUNGUS" );
 const species_id INSECT( "INSECT" );
 const species_id MAMMAL( "MAMMAL" );
 const species_id ABERRATION( "ABERRATION" );
-const species_id PLANT( "PLANT" );
 
 const efftype_id effect_badpoison( "badpoison" );
 const efftype_id effect_beartrap( "beartrap" );
@@ -130,7 +129,6 @@ static const trait_id trait_ANIMALEMPATH( "ANIMALEMPATH" );
 static const trait_id trait_ANIMALEMPATH2( "ANIMALEMPATH2" );
 static const trait_id trait_BEE( "BEE" );
 static const trait_id trait_FLOWERS( "FLOWERS" );
-static const trait_id trait_ROSEBUDS( "ROSEBUDS" );
 static const trait_id trait_PACIFIST( "PACIFIST" );
 
 static const std::map<m_size, std::string> size_names {
@@ -940,10 +938,6 @@ monster_attitude monster::attitude( const Character *u ) const
 
         if( type->in_species( FUNGUS ) && u->has_trait( mycus_thresh ) ) {
             return MATT_FRIEND;
-        }
-
-        if( type->in_species( PLANT ) && u->has_trait( trait_ROSEBUDS ) ) {
-            return MATT_IGNORE;
         }
 
         if( effective_anger >= 10 &&
