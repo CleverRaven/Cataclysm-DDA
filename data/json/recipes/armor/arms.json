@@ -192,7 +192,7 @@
       [ [ "link_sheet", 3 ] ],
       [ [ "chain_link", 75 ] ],
       [ [ "wire", 1 ] ],
-      [ [ "fur", 6 ], [ "tanned_pelt", 1 ], [ "leather", 6 ], [ "tanned_hide", 1 ] ]
+      [ [ "rag", 6 ] ]
     ]
   }
 ]
