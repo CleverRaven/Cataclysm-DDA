@@ -78,9 +78,9 @@ std::vector<mod_id> extract_mod_selection( std::vector<const char *> &arg_vec )
 void init_global_game_state( const std::vector<mod_id> &mods,
                              option_overrides_t &option_overrides )
 {
-    PATH_INFO::init_base_path( "" );
-    PATH_INFO::init_user_dir( "./" );
-    PATH_INFO::set_standard_filenames();
+    Path::initBasePath("");
+    Path::initUserDirectory("./");
+    Path::setStandardFilenames();
 
     if( !assure_dir_exist( FILENAMES["config_dir"] ) ) {
         assert( !"Unable to make config directory. Check permissions." );
