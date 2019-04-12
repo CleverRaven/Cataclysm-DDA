@@ -2776,7 +2776,6 @@ float vehicle::fuel_specific_energy( const itype_id &ftype ) const
             vehicle_part.base.contents_made_of( LIQUID ) ) {
             int energy = vehicle_part.base.contents.front().specific_energy;
             int mass = to_gram( vehicle_part.base.contents.front().weight() );
-            add_msg( _( "E %i, m %i" ), energy, mass );
             total_energy += energy * mass;
             total_mass += mass;
         }
