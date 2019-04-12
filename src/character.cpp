@@ -2121,6 +2121,9 @@ void Character::on_damage_of_type( int adjusted_damage, damage_type type, body_p
                 continue;
             }
             const auto &info = i.info();
+            if( info.shockproof || info.faulty ) {
+                continue;
+            }
             const auto &bodyparts = info.occupied_bodyparts;
             if( bodyparts.find( bp ) != bodyparts.end() ) {
                 const int bp_hp = hp_cur[bp_to_hp( bp )];

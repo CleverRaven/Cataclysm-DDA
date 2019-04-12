@@ -978,6 +978,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```BIONIC_ARMOR_INTERFACE``` This bionic can provide power to powered armor.
 - ```BIONIC_NPC_USABLE``` The NPC AI knows how to use this CBM and it can be installed on an NPC.
 - ```BIONIC_SLEEP_FRIENDLY``` This bionic won't prompt the user to turn it off if they try to sleep while it's active.
+- ```BIONIC_SHOCKPROOF``` This bionic can't be incapacitated by electrical attacks.
 
 ## Books
 

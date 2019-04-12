@@ -69,6 +69,10 @@ struct bionic_data {
     */
     bool sleep_friendly = false;
     /**
+    * If true, this bionic can't be incapacitated by electrical attacks.
+    */
+    bool shockproof = false;
+    /**
      * Body part slots used to install this bionic, mapped to the amount of space required.
      */
     std::map<body_part, size_t> occupied_bodyparts;
