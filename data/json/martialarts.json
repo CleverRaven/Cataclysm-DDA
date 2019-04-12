@@ -406,7 +406,7 @@
       "knife_hunting",
       "knife_trench",
       "kris",
-      "kris_fake"
+      "kris_fake",
       "machete",
       "makeshift_halberd",
       "makeshift_knife",
@@ -474,7 +474,7 @@
     "weapons": [
       "broadsword",
       "broadsword_inferior",
-      "broadsword_fake"
+      "broadsword_fake",
       "broadfire_off",
       "broadfire_on",
       "rapier",
@@ -558,7 +558,7 @@
       "bokken_inferior",
       "bokken_fake",
       "wakizashi",
-      "wakizahi_inferior",
+      "wakizashi_inferior",
       "wakizashi_fake",
       "nodachi",
       "nodachi_inferior",
@@ -851,7 +851,6 @@
       "naginata",
       "naginata_inferior",
       "naginata_fake",
-      "survivor_naginata",
       "makeshift_halberd",
       "pike",
       "pike_inferior",
