@@ -7046,10 +7046,12 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
 
     temp_exit_fullscreen();
 
+    center = center + sidebar_offset;
+
     const int offset_x = ( u.posx() + u.view_offset.x ) - getmaxx( w_terrain ) / 2;
     const int offset_y = ( u.posy() + u.view_offset.y ) - getmaxy( w_terrain ) / 2;
 
-    tripoint lp = start_point; // cursor
+    tripoint lp = start_point - sidebar_offset; // cursor
     int &lx = lp.x;
     int &ly = lp.y;
     int &lz = lp.z;
@@ -7063,10 +7065,22 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
 
     bool bNewWindow = false;
     if( !w_info ) {
+        int panel_width = panel_manager::get_manager().get_current_layout().begin()->get_width();
+
+        // Set the examine window to a bit smaller than the current minimap size, with a bit less to show some above it.
+        // Hopefully the player has the minimap at or close to the bottom.
+        int height = TERMY - ( catacurses::getmaxy( w_pixel_minimap ) + 11 );
+
+        // If particularly small, base height on panel width irrespective of other elements.
+        // Value here is attempting to get a square-ish result assuming 1x2 proportioned font.
+        if( height < panel_width / 2 ) {
+            height = panel_width / 2;
+        }
+
         int la_y = 0;
-        int la_x = TERMX - 32;
-        int la_h = 16;
-        int la_w = 32;
+        int la_x = TERMX - panel_width;
+        int la_h = height;
+        int la_w = panel_width;
         w_info = catacurses::newwin( la_h, la_w, la_y, la_x );
         bNewWindow = true;
     }
@@ -7161,6 +7175,7 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
 
             // redraw order: terrain, panels, look_around panel
             wrefresh( w_terrain );
+            draw_panels();
             wrefresh( w_info );
 
         }
@@ -7410,13 +7425,13 @@ void centerlistview( const tripoint &active_item_position )
             if( xpos < 0 ) {
                 u.view_offset.x = xpos - xOffset;
             } else {
-                u.view_offset.x = xpos - ( TERRAIN_WINDOW_WIDTH - 1 ) + xOffset;
+                u.view_offset.x = xpos - ( TERRAIN_WINDOW_WIDTH ) + xOffset;
             }
 
             if( ypos < 0 ) {
                 u.view_offset.y = ypos - yOffset;
             } else {
-                u.view_offset.y = ypos - ( TERRAIN_WINDOW_HEIGHT - 1 ) + yOffset;
+                u.view_offset.y = ypos - ( TERRAIN_WINDOW_HEIGHT ) + yOffset;
             }
         } else {
             if( xpos < 0 ) {
