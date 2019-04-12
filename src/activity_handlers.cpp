@@ -98,7 +98,9 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_PLANT_PLOT" ), plant_plot_do_turn },
     { activity_id( "ACT_FERTILIZE_PLOT" ), fertilize_plot_do_turn },
     { activity_id( "ACT_TRY_SLEEP" ), try_sleep_do_turn },
-    { activity_id( "ACT_ROBOT_CONTROL" ), robot_control_do_turn }
+    { activity_id( "ACT_ROBOT_CONTROL" ), robot_control_do_turn },
+    { activity_id( "ACT_ROOT" ), root_do_turn },
+    { activity_id( "ACT_UPROOT" ), uproot_do_turn }
 };
 
 const std::map< activity_id, std::function<void( player_activity *, player * )> >
@@ -156,7 +158,9 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_SHAVE" ), shaving_finish },
     { activity_id( "ACT_HAIRCUT" ), haircut_finish },
     { activity_id( "ACT_UNLOAD_MAG" ), unload_mag_finish },
-    { activity_id( "ACT_ROBOT_CONTROL" ), robot_control_finish }
+    { activity_id( "ACT_ROBOT_CONTROL" ), robot_control_finish },
+    { activity_id( "ACT_ROOT" ), root_finish },
+    { activity_id( "ACT_UPROOT" ), uproot_finish }
 };
 
 void messages_in_process( const player_activity &act, const player &p )
@@ -3365,4 +3369,26 @@ void activity_handlers::robot_control_finish( player_activity *act, player *p )
         p->add_msg_if_player( _( "...but the robot refuses to acknowledge you as an ally!" ) );
     }
     p->practice( skill_id( "computer" ), 10 );
+}
+
+// TODO: Corpse rooting and unrooting. Ripping your roots out of a corpse should be a lot faster than the dirt.
+void activity_handlers::root_do_turn( player_activity *act, player *p )
+{
+    add_msg( m_info, _( "You begin to sink your roots into the soil." ) );
+}
+
+void activity_handlers::uproot_do_turn(player_activity *act, player *p)
+{
+    add_msg( m_info, _( "You begin pulling your roots out of the soil." ) );
+}
+
+void activity_handlers::root_finish( player_activity *act, player *p )
+{
+    add_msg( m_info, _( "You've compeletely sunk your roots into the soil and have begun drawing nutrients." ) );
+    p->rooted();
+}
+
+void activity_handlers::uproot_finish( player_activity *act, player *p )
+{
+    add_msg( m_info, _( "You are completely uprooted and may move around again." ) );
 }
