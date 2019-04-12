@@ -9,7 +9,7 @@ class Path
 {
 public:
 
-    Path( const std::string basePath, const std::string userDirectoryPath );
+    Path( std::string basePath, std::string userDirectoryPath );
 
     static void initBasePath(std::string path);
     static void initUserDirectory(std::string path);
