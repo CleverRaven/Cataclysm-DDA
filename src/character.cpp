@@ -50,7 +50,6 @@ const efftype_id effect_in_pit( "in_pit" );
 const efftype_id effect_lightsnare( "lightsnare" );
 const efftype_id effect_narcosis( "narcosis" );
 const efftype_id effect_no_sight( "no_sight" );
-const efftype_id effect_rooted( "rooted" );
 const efftype_id effect_sleep( "sleep" );
 const efftype_id effect_webbed( "webbed" );
 
@@ -460,10 +459,6 @@ bool Character::move_effects( bool attacking )
                                    _( "<npcname> breaks out of the grab!" ) );
             remove_effect( effect_grabbed );
         }
-    }
-    if ( has_effect ( effect_rooted ) ) {
-        add_msg_if_player( m_warning, _( "Your roots are firmly embedded in the soil." ) );
-        return false;
     }
     return true;
 }
