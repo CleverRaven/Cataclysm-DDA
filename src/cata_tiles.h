@@ -99,49 +99,6 @@ extern bool alt_rect_tex_enabled;
 extern void draw_alt_rect( const SDL_Renderer_Ptr &renderer, const SDL_Rect &rect,
                            Uint32 r, Uint32 g, Uint32 b );
 
-#pragma pack(push, 1)
-struct pixel {
-    uint8_t r;
-    uint8_t g;
-    uint8_t b;
-    uint8_t a;
-
-    static pixel from_SDL_color( const SDL_Color &c ) {
-        return { c.r, c.g, c.b, c.a };
-    }
-
-    SDL_Color to_SDL_color() const {
-        return { r, g, b, a };
-    }
-
-    void adjust_brightness( int percent ) {
-        r = std::min( r * percent / 100, 0xFF );
-        g = std::min( g * percent / 100, 0xFF );
-        b = std::min( b * percent / 100, 0xFF );
-    }
-
-    void mix_with( const pixel &other, int percent ) {
-        const int my_percent = 100 - percent;
-        r = std::min( r * my_percent / 100 + other.r * percent / 100, 0xFF );
-        g = std::min( g * my_percent / 100 + other.g * percent / 100, 0xFF );
-        b = std::min( b * my_percent / 100 + other.b * percent / 100, 0xFF );
-    }
-
-    bool isBlack() const noexcept {
-        return r == 0 && g == 0 && b == 0;
-    }
-
-    bool operator==( const pixel &other ) const noexcept {
-        return r == other.r && g == other.g && b == other.b && a == other.a;
-    }
-
-    bool operator!=( const pixel &other ) const noexcept {
-        return !operator==( other );
-    }
-};
-#pragma pack(pop)
-
-static_assert( sizeof( pixel ) == 4, "unexpected size of pixel: must be exactly 32 bits." );
 
 // a texture pool to avoid recreating textures every time player changes their view
 // at most 142 out of 144 textures can be in use due to regular player movement
@@ -192,7 +149,7 @@ struct minimap_shared_texture_pool {
 
 struct minimap_submap_cache {
     //the color stored for each submap tile
-    std::vector< pixel > minimap_colors;
+    std::vector< SDL_Color > minimap_colors;
     //checks if the submap has been looked at by the minimap routine
     bool touched;
     //the texture updates are drawn to
@@ -613,7 +570,7 @@ class cata_tiles
         //pixel minimap cache methods
         SDL_Texture_Ptr create_minimap_cache_texture( int tile_width, int tile_height );
         void process_minimap_cache_updates();
-        void update_minimap_cache( const tripoint &loc, pixel &pix );
+        void update_minimap_cache( const tripoint &loc, const SDL_Color &color );
         void prepare_minimap_cache_for_updates();
         void clear_unused_minimap_cache();
 
