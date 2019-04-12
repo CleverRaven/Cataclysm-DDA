@@ -49,6 +49,7 @@
         "W     ",
         "W     ",
         "W     "
+      ],
       "terrain": { "W": "t_pit_spikes", " ": "t_null" }
     }
   },
