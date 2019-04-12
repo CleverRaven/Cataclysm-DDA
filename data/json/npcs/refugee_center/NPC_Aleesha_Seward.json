@@ -12,7 +12,8 @@
     "bonus_per": { "rng": [ -1, 1 ] },
     "worn_override": "REFUGEE_Aleesha_worn",
     "carry_override": "REFUGEE_Aleesha_carried",
-    "weapon_override": "REFUGEE_Aleesha_wield"
+    "weapon_override": "REFUGEE_Aleesha_wield",
+    "traits": [ { "group": "Appearance_African" } ]
   },
   {
     "type": "item_group",
@@ -195,7 +196,7 @@
   },
   {
     "type": "talk_topic",
-    "id": "TALK_REFUGEE_Aleesha_Story1",
+    "id": "TALK_REFUGEE_Aleesha_2_Story1",
     "//": "TK: not written yet",
     "dynamic_line": "I don't really want to talk about that right now.",
     "responses": [
@@ -205,7 +206,7 @@
   },
   {
     "type": "talk_topic",
-    "id": "TALK_REFUGEE_Aleesha_Refugees1",
+    "id": "TALK_REFUGEE_Aleesha_2_Refugees1",
     "//": "TK: not written yet",
     "dynamic_line": "I don't really want to talk about that right now.",
     "responses": [
