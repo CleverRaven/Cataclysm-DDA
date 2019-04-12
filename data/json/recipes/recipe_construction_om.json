@@ -288,7 +288,7 @@
   {
     "type": "recipe",
     "result": "faction_base_camp_18",
-    "description": "One final tent is all we have room for now.",
+    "description": "One more tent and our living space will be full.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "skill_used": "fabrication",
@@ -304,6 +304,63 @@
       [ [ "nail", 48 ] ],
       [ [ "sheet_metal", 2 ] ],
       [ [ "pipe", 12 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_camp_19",
+    "description": "We could construct a radio tower to improve communication range, first step is the tower structure.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "autolearn": false,
+    "never_learn": true,
+    "time": 2880000,
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "WRENCH", "level": 1 },
+      { "id": "SCREW", "level": 1 }
+    ],
+    "components": [
+      [
+        [ "wind_turbine", 4 ],
+        [ "xl_wind_turbine", 1 ],
+        [ "solar_panel", 4 ],
+        [ "reinforced_solar_panel", 4 ],
+        [ "solar_panel_v2", 2 ],
+        [ "reinforced_solar_panel_v2", 2 ],
+        [ "solar_panel_v3", 1 ]
+      ],
+      [ [ "storage_battery", 1 ], [ "medium_storage_battery", 4 ], [ "small_storage_battery", 32 ] ],
+      [ [ "sheet_metal", 2 ], [ "wire", 8 ] ],
+      [ [ "pipe", 24 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_camp_20",
+    "description": "We need to add a console to control the radio tower.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "skill_used": "electronics",
+    "difficulty": 6,
+    "autolearn": false,
+    "never_learn": true,
+    "time": 2880000,
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "processor", 2 ] ],
+      [ [ "RAM", 2 ] ],
+      [ [ "small_lcd_screen", 1 ] ],
+      [ [ "e_scrap", 8 ] ],
+      [ [ "frame", 1 ] ],
+      [ [ "circuit", 4 ] ],
+      [ [ "power_supply", 2 ] ],
+      [ [ "amplifier", 2 ] ],
+      [ [ "cable", 80 ] ],
+      [ [ "motor_small", 1 ], [ "motor_tiny", 2 ] ]
     ]
   },
   {

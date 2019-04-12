@@ -401,7 +401,12 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
         see_color = c_light_red;
     } else if( rl_dist( g->u.pos(), pos() ) > SEEX * 2 || !g->u.sees( pos() ) ) {
         if( u_has_radio && guy_has_radio ) {
-            if( ( g->u.pos().z >= 0 && pos().z >= 0 ) || ( g->u.pos().z == pos().z ) ) {
+            // @TODO : better range calculation than just elevation.
+            int max_range = 200;
+            max_range *= ( 1 + ( g->u.pos().z * 0.1 ) );
+            max_range *= ( 1 + ( pos().z * 0.1 ) );
+            if( ( ( g->u.pos().z >= 0 && pos().z >= 0 ) || ( g->u.pos().z == pos().z ) ) &&
+                square_dist( g->u.global_sm_location(), global_sm_location() ) <= max_range ) {
                 retval = 2;
                 can_see = "Within radio range";
                 see_color = c_light_green;
