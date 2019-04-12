@@ -767,13 +767,9 @@ static void sleep()
     // check for deactivating any currently played music instrument.
     for( auto &item : u.inv_dump() ) {
         if( item->active && item->get_use( "musical_instrument" ) != nullptr ) {
-            for( const auto &method : item->type->use_methods ) {
-                if( method.first == "musical_instrument" )  {
-                    u.add_msg_if_player( _( "You stop playing your %s before trying to sleep." ), item->tname() );
-                    // deactivate instrument
-                    item->active = false;
-                }
-            }
+            u.add_msg_if_player( _( "You stop playing your %s before trying to sleep." ), item->tname() );
+            // deactivate instrument
+            item->active = false;
         }
     }
 
