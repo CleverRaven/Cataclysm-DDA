@@ -2189,8 +2189,10 @@
     "id": "ROSEBUDS",
     "name": "Rosebuds",
     "points": 3,
+    "visibility": 10,
+    "ugliness": -6,
     "prereqs": [ "FLOWERS" ],
-    "description": "The tpo of your head is blooming with rosebuds.  They're eye-catching, and have a strong fragrance that makes you pleasant to be around.",
+    "description": "The top of your head is blooming with rosebuds.  They're eye-catching, and have a strong fragrance that makes you pleasant to be around.",
     "category": [ "PLANT", "ELFA" ],
     "threshreq": [ "THRESH_PLANT", "THRESH_ELFA" ],
     "social_modifiers": { "lie": 15, "persuade": 10 }
@@ -5847,8 +5849,8 @@
     "id": "KEENING",
     "name": "Keening Voice",
     "points": 0,
-    "description": "Your vocal chords have mutated, and your voice is slightly higher-pitched.  This serves no practical effect.",
-    "category": [ "ELFA", "BIRD" ],
+    "description": "Your vocal chords have mutated, making your voice higher in pitch.  This serves no practical effect.",
+    "category": [ "ELFA", "BIRD", "FELINE" ],
     "changes_to": [ "KEENING2" ]
   },
   {
@@ -5857,7 +5859,7 @@
     "name": "Wailing Voice",
     "points": -1,
     "mixed_effect": true,
-    "description": "Your frequency range when speaking has been shifted upwards a few notches, granting you a constant lilt while speaking.  People find it harder to take you seriously, but you find that your high-pitched cries agitate animals around you.",
+    "description": "Your frequency range when speaking has been shifted upwards a few notches, giving you a constant lilt while speaking.  People find it harder to take you seriously, but you find that your high-pitched cries can agitate animals around you.",
     "category": [ "ELFA" ],
     "prereqs": [ "KEENING" ],
     "changes_to": [ "KEENING3" ],
@@ -5869,7 +5871,7 @@
     "name": "Beast Rapport",
     "points": 3,
     "prereqs": [ "ANIMALEMPATH2", "KEENING2" ],
-    "description": "You've developed control over your mutated vocal chords.  While active, yelling will emit a high-pitched scream that drives even the most docile of animals that can hear you into a killing frenzy.  The animals might infight, and their list of targets often includes you, so using it from a safe distance is wise.",
+    "description": "You've developed control over your mutated voice.  While active, yelling will emit a high-pitched scream that drives even the most docile of animals into a killing frenzy.  The animals might infight, and their list of targets often includes you, so using it from a safe distance is wise.",
     "category": [ "ELFA" ],
     "active": true,
     "threshreq": [ "THRESH_ELFA" ]
