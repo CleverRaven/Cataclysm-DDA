@@ -941,6 +941,7 @@ Melee flags are fully compatible with tool flags, and vice versa.
 - ```RADIO_MOD``` The item has been made into a radio-activated item.
 - ```RADIO_MODABLE``` Indicates the item can be made into a radio-activated item.
 - ```RECHARGE``` Gain charges when placed in a cargo area with a recharge station.
+- ```SAFECRACK``` This item can be used to unlock safes.
 - ```USE_UPS``` Item is charges from an UPS / it uses the charges of an UPS instead of its own.
 - ```USES_BIONIC_POWER``` The item has no charges of its own, and runs off of the player's bionic power.
 - ```WATER_EXTINGUISH``` Is extinguishable in water or under precipitation. Converts items (requires "reverts_to" or use_action "transform" to be set).

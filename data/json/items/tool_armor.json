@@ -2273,7 +2273,7 @@
     "volume": 1,
     "covers": [ "TORSO" ],
     "encumbrance": 1,
-    "flags": [ "BELTED" ],
+    "flags": [ "BELTED", "SAFECRACK" ],
     "coverage": 5
   },
   {
