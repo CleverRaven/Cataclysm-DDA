@@ -4687,7 +4687,6 @@ int player::addiction_level( add_type type ) const
 
 void player::siphon( vehicle &veh, const itype_id &type )
 {
-    add_msg( _( "P SIPH" ) );
     auto qty = veh.fuel_left( type );
     if( qty <= 0 ) {
         add_msg( m_bad, _( "There is not enough %s left to siphon it." ), item::nname( type ).c_str() );
@@ -4698,7 +4697,6 @@ void player::siphon( vehicle &veh, const itype_id &type )
     if( liquid.is_food() ) {
         liquid.set_item_temperature( veh.fuel_temp( type ) );
     }
-
     if( g->handle_liquid( liquid, nullptr, 1, nullptr, &veh ) ) {
         veh.drain( type, qty - liquid.charges );
     }
