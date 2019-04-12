@@ -1063,7 +1063,12 @@ void iexamine::slot_machine( player &p, const tripoint & )
  */
 void iexamine::safe( player &p, const tripoint &examp )
 {
-    if( !( p.has_amount( "stethoscope", 1 ) || p.has_bionic( bionic_id( "bio_ears" ) ) ) ) {
+    auto cracking_tool = p.crafting_inventory().items_with( []( const item & it ) -> bool {
+        item temporary_item( it.type );
+        return temporary_item.has_flag( "SAFECRACK" );
+    } );
+
+    if( !( cracking_tool.size() > 0 || p.has_bionic( bionic_id( "bio_ears" ) ) ) ) {
         p.moves -= 100;
         // one_in(30^3) chance of guessing
         if( one_in( 27000 ) ) {
@@ -1076,11 +1081,12 @@ void iexamine::safe( player &p, const tripoint &examp )
         }
     }
 
+    if( p.is_deaf() ) {
+        add_msg( m_info, _( "You can't crack a safe while deaf!" ) );
+        return;
+    }
     if( query_yn( _( "Attempt to crack the safe?" ) ) ) {
-        if( p.is_deaf() ) {
-            add_msg( m_info, _( "You can't crack a safe while deaf!" ) );
-            return;
-        }
+        add_msg( m_info, _( "You start cracking the safe." ) );
         // 150 minutes +/- 20 minutes per mechanics point away from 3 +/- 10 minutes per
         // perception point away from 8; capped at 30 minutes minimum. *100 to convert to moves
         ///\EFFECT_PER speeds up safe cracking
