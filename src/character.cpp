@@ -461,7 +461,7 @@ bool Character::move_effects( bool attacking )
             remove_effect( effect_grabbed );
         }
     }
-    if ( has_effect ( effect_rooted ) ) {
+    if ( (has_effect ( effect_rooted )) && !attacking) {
         add_msg_if_player( m_warning, _( "Your roots are firmly embedded in the soil." ) );
         return false;
     }
