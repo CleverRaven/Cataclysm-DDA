@@ -406,11 +406,14 @@
       "knife_hunting",
       "knife_trench",
       "kris",
+      "kris_fake"
       "machete",
       "makeshift_halberd",
       "makeshift_knife",
       "makeshift_machete",
       "naginata",
+      "naginata_inferior",
+      "naginata_fake",
       "pipe",
       "pointy_stick",
       "pool_cue",
@@ -419,6 +422,8 @@
       "q_staff",
       "rebar",
       "scimitar",
+      "scimitar_inferior",
+      "scimitar_fake",
       "scythe",
       "scythe_war",
       "shock_staff",
@@ -468,10 +473,14 @@
     "techniques": [ "tec_feint", "tec_fencing_lunge", "tec_fencing_stop_thrust", "tec_fencing_thrust" ],
     "weapons": [
       "broadsword",
+      "broadsword_inferior",
+      "broadsword_fake"
       "broadfire_off",
       "broadfire_on",
       "rapier",
+      "rapier_fake",
       "cavalry_sabre",
+      "cavalry_sabre_fake",
       "fencing_foil",
       "fencing_sabre",
       "fencing_epee",
@@ -532,8 +541,29 @@
         "max_stacks": 1
       }
     ],
-    "techniques": [ "niten_water_cut", "niten_red_leaf", "niten_stone_cut", "niten_timing_attack", "niten_feint" ],
-    "weapons": [ "katana", "firekatana_off", "firekatana_on", "bokken", "wakizashi", "nodachi" ]
+    "techniques": [
+      "niten_water_cut",
+      "niten_red_leaf",
+      "niten_stone_cut",
+      "niten_timing_attack",
+      "niten_feint"
+    ],
+    "weapons": [
+      "katana",
+      "katana_inferior",
+      "katana_fake",
+      "firekatana_off",
+      "firekatana_on",
+      "bokken",
+      "bokken_inferior",
+      "bokken_fake",
+      "wakizashi",
+      "wakizahi_inferior",
+      "wakizashi_fake",
+      "nodachi",
+      "nodachi_inferior",
+      "nodachi_fake"
+    ]
   },
   {
     "type": "martial_art",
@@ -611,6 +641,8 @@
       "stick",
       "switchblade",
       "tanto",
+      "tanto_inferior",
+      "tanto_fake",
       "tonfa",
       "tonfa_wood",
       "umbrella",
@@ -817,6 +849,9 @@
       "halberd",
       "halberd_fake",
       "naginata",
+      "naginata_inferior",
+      "naginata_fake",
+      "survivor_naginata",
       "makeshift_halberd",
       "pike",
       "pike_inferior",
