@@ -64,7 +64,7 @@ jobs:
           packages: ["wine"]
 
     # CMake Clang 6.0 Tiles with CMAKE
-    - env: CLANG=clang++-6.0 TILES=1 SOUND=1 CXXFLAGS=-Wno-error=unused-command-line-argument CMAKE=1 RELEASE=1
+    - env: CLANG=clang++-6.0 TILES=1 SOUND=1 CXXFLAGS=-Wno-error=unused-command-line-argument
       dist: trusty
       compiler: clang
       addons: &clang60
