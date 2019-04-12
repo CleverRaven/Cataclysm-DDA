@@ -15,7 +15,7 @@ then
     if [ "$RELEASE" = "1" ]
     then
         build_type=MinSizeRel
-        bin_path="build/"
+        bin_path="build/tests/"
     else
         build_type=Debug
     fi
