@@ -683,6 +683,9 @@ class item : public visitable<item>
         /** Sets the item temperature and item energy from new temperature (K)*/
         void set_item_temperature( float new_temperature );
 
+        /** Sets the item to new temperature and energy based new specific energy (J/g)*/
+        void set_item_specific_energy( const float specific_energy );
+
         /** reset the last_temp_check used when crafting new items and the like */
         void reset_temp_check();
 
@@ -1818,9 +1821,6 @@ class item : public visitable<item>
          * Get the thermal energy of the item in Joules.
          */
         float get_item_thermal_energy();
-
-        /** Sets the item to new temperature and energy based new specific energy (J/g)*/
-        void set_item_specific_energy( const float specific_energy );
 
         /** Calculates item specific energy (J/g) from temperature (K)*/
         float get_specific_energy_from_temperature( const float new_temperature );

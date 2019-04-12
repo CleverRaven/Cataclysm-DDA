@@ -2767,35 +2767,21 @@ int vehicle::fuel_capacity( const itype_id &ftype ) const
     } );
 }
 
-float vehicle::fuel_temp( const itype_id &ftype ) const
+float vehicle::fuel_specific_energy( const itype_id &ftype ) const
 {
-    float total_mass = std::accumulate( parts.begin(), parts.end(), 0, [&ftype]( const int &lhs,
-    const vehicle_part & rhs ) {
-        if( rhs.is_tank() && rhs.base.contents_made_of( SOLID ) ) {
-            return lhs;
+    float total_energy = 0;
+    float total_mass = 0;
+    for( auto vehicle_part : parts ) {
+        if( vehicle_part.is_tank() && vehicle_part.ammo_current() == ftype  &&
+            vehicle_part.base.contents_made_of( LIQUID ) ) {
+            int energy = vehicle_part.base.contents.front().specific_energy;
+            int mass = to_gram( vehicle_part.base.contents.front().weight() );
+            add_msg( _( "E %i, m %i" ), energy, mass );
+            total_energy += energy * mass;
+            total_mass += mass;
         }
-        if( rhs.ammo_current() == ftype ) {
-            return lhs + to_gram( rhs.base.contents.front().weight() );
-        }
-        return lhs;
-    } );
-
-    float temperature_sum = std::accumulate( parts.begin(), parts.end(), 0, [&ftype]( const int &lhs,
-    const vehicle_part & rhs ) {
-        if( rhs.is_tank() && rhs.base.contents_made_of( SOLID ) ) {
-            return lhs;
-        }
-        if( rhs.ammo_current() == ftype ) {
-            int temp = rhs.base.contents.front().temperature;
-            int mass = to_gram( rhs.base.contents.front().weight() );
-
-            // Multiplying by 0.00001 to avoid integer overflow
-            // Causes insignificant error
-            return lhs + static_cast<int>( 0.00001 * temp * mass );
-        }
-        return lhs;
-    } );
-    return temperature_sum / total_mass;
+    }
+    return total_energy / total_mass;
 }
 
 int vehicle::drain( const itype_id &ftype, int amount )
