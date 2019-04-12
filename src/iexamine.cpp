@@ -1626,7 +1626,7 @@ static bool harvest_common( player &p, const tripoint &examp, bool furn, bool ne
     }
 
     if( p.is_player() && !auto_forage &&
-        !query_yn( _( "Pick %s?" ), furn ? g->m.furnname( examp ).c_str() : g->m.tername(
+        !query_yn( _( "Pick %s?" ), furn ? g->m.furnname( examp ) : g->m.tername(
                        examp ) ) ) {
         iexamine::none( p, examp );
         return false;
