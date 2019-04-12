@@ -6658,7 +6658,7 @@ void game::zones_manager()
         mvwprintz( w_zones_info, 3, 2, c_white, _( "Select first point." ) );
         wrefresh( w_zones_info );
 
-        tripoint center = u.pos() + u.view_offset + sidebar_offset;
+        tripoint center = u.pos() + u.view_offset;
 
         const look_around_result first = look_around( w_zones_info, center, center, false, true, false );
         if( first.position )
@@ -6666,6 +6666,7 @@ void game::zones_manager()
             mvwprintz( w_zones_info, 3, 2, c_white, _( "Select second point." ) );
             wrefresh( w_zones_info );
 
+            center = center - sidebar_offset;
             const look_around_result second = look_around( w_zones_info, center, *first.position, true, true,
                     false );
             if( second.position ) {
@@ -7051,7 +7052,10 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
     const int offset_x = ( u.posx() + u.view_offset.x ) - getmaxx( w_terrain ) / 2;
     const int offset_y = ( u.posy() + u.view_offset.y ) - getmaxy( w_terrain ) / 2;
 
-    tripoint lp = start_point - sidebar_offset; // cursor
+    tripoint lp = start_point; // cursor
+    if( !has_first_point ) {
+        lp = start_point - sidebar_offset;
+    }
     int &lx = lp.x;
     int &ly = lp.y;
     int &lz = lp.z;
