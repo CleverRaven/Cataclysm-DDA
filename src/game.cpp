@@ -2703,7 +2703,7 @@ void game::reset_npc_dispositions()
 {
     for( auto elem : follower_ids ) {
         std::shared_ptr<npc> npc_to_get = overmap_buffer.find_npc( elem );
-        if( !npc_to_get)  {
+        if( !npc_to_get )  {
             continue;
         }
         npc *npc_to_add = npc_to_get.get();
@@ -3191,7 +3191,7 @@ void game::debug()
 #if defined(TILES)
             const point offset {
                 POSX - u.posx() + u.view_offset.x,
-                     POSY - u.posy() + u.view_offset.y
+                POSY - u.posy() + u.view_offset.y
             };
             draw_ter();
             auto sounds_to_draw = sounds::get_monster_sounds();
@@ -3426,7 +3426,7 @@ void game::disp_NPC_epilogues()
     // TODO: This search needs to be expanded to all NPCs
     for( auto elem : follower_ids ) {
         std::shared_ptr<npc> npc_to_get = overmap_buffer.find_npc( elem );
-        if(! npc_to_get) {
+        if( ! npc_to_get ) {
             continue;
         }
         npc *guy = npc_to_get.get();
@@ -4689,7 +4689,7 @@ void game::overmap_npc_move()
     // for now just processing NPC followers on travelling missions
     for( auto &elem : get_follower_list() ) {
         std::shared_ptr<npc> npc_to_get = overmap_buffer.find_npc( elem );
-        if (! npc_to_get) {
+        if( ! npc_to_get ) {
             continue;
         }
         npc *npc_to_add = npc_to_get.get();

@@ -760,9 +760,9 @@ class jmapgen_npc : public jmapgen_piece
                 miss->set_target_npc_id( npc_id );
             }
             npc *p = g->find_npc( npc_id );
-            if (p != nullptr) {
-                for (const std::string &new_trait : traits) {
-                    p->set_mutation(trait_id(new_trait));
+            if( p != nullptr ) {
+                for( const std::string &new_trait : traits ) {
+                    p->set_mutation( trait_id( new_trait ) );
                 }
             }
         }

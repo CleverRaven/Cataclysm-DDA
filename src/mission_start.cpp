@@ -211,8 +211,8 @@ void mission_start::standard( mission * )
 void mission_start::join( mission *miss )
 {
     npc *p = g->find_npc( miss->npc_id );
-    if (p == nullptr) {
-        debugmsg("could not find mission NPC %d", miss->npc_id);
+    if( p == nullptr ) {
+        debugmsg( "could not find mission NPC %d", miss->npc_id );
         return;
     }
     p->set_attitude( NPCATT_FOLLOW );
@@ -300,8 +300,8 @@ void mission_start::kill_20_nightmares( mission *miss )
 void mission_start::kill_horde_master( mission *miss )
 {
     npc *p = g->find_npc( miss->npc_id );
-    if (p == nullptr) {
-        debugmsg("could not find mission NPC %d", miss->npc_id);
+    if( p == nullptr ) {
+        debugmsg( "could not find mission NPC %d", miss->npc_id );
         return;
     }
     p->set_attitude( NPCATT_FOLLOW );//npc joins you
@@ -457,8 +457,8 @@ void mission_start::place_priest_diary( mission *miss )
 void mission_start::place_deposit_box( mission *miss )
 {
     npc *p = g->find_npc( miss->npc_id );
-    if (p == nullptr) {
-        debugmsg("could not find mission NPC %d", miss->npc_id);
+    if( p == nullptr ) {
+        debugmsg( "could not find mission NPC %d", miss->npc_id );
         return;
     }
     p->set_attitude( NPCATT_FOLLOW );//npc joins you
@@ -552,8 +552,8 @@ void mission_start::find_safety( mission *miss )
 void mission_start::recruit_tracker( mission *miss )
 {
     npc *p = g->find_npc( miss->npc_id );
-    if (p == nullptr) {
-        debugmsg("could not find mission NPC %d", miss->npc_id);
+    if( p == nullptr ) {
+        debugmsg( "could not find mission NPC %d", miss->npc_id );
         return;
     }
     p->set_attitude( NPCATT_FOLLOW );// NPC joins you
@@ -1468,8 +1468,8 @@ void mission_start::ranch_scavenger_3( mission *miss )
 void mission_start::ranch_bartender_1( mission *miss )
 {
     npc *p = g->find_npc( miss->npc_id );
-    if (p == nullptr) {
-        debugmsg("could not find mission NPC %d", miss->npc_id);
+    if( p == nullptr ) {
+        debugmsg( "could not find mission NPC %d", miss->npc_id );
         return;
     }
     p->my_fac->wealth += rng( 500, 2500 );
@@ -1494,8 +1494,8 @@ void mission_start::ranch_bartender_1( mission *miss )
 void mission_start::ranch_bartender_2( mission *miss )
 {
     npc *p = g->find_npc( miss->npc_id );
-    if (p == nullptr) {
-        debugmsg("could not find mission NPC %d", miss->npc_id);
+    if( p == nullptr ) {
+        debugmsg( "could not find mission NPC %d", miss->npc_id );
         return;
     }
     p->my_fac->wealth += rng( 500, 2500 );
@@ -1522,8 +1522,8 @@ void mission_start::ranch_bartender_2( mission *miss )
 void mission_start::ranch_bartender_3( mission *miss )
 {
     npc *p = g->find_npc( miss->npc_id );
-    if (p == nullptr) {
-        debugmsg("could not find mission NPC %d", miss->npc_id);
+    if( p == nullptr ) {
+        debugmsg( "could not find mission NPC %d", miss->npc_id );
         return;
     }
     p->my_fac->wealth += rng( 500, 2500 );
@@ -1543,8 +1543,8 @@ void mission_start::ranch_bartender_3( mission *miss )
 void mission_start::ranch_bartender_4( mission *miss )
 {
     npc *p = g->find_npc( miss->npc_id );
-    if (p == nullptr) {
-        debugmsg("could not find mission NPC %d", miss->npc_id);
+    if( p == nullptr ) {
+        debugmsg( "could not find mission NPC %d", miss->npc_id );
         return;
     }
     p->my_fac->wealth += rng( 500, 2500 );

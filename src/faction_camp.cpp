@@ -2364,8 +2364,8 @@ void basecamp::combat_mission_return( const std::string &miss )
         bool patrolling = miss == "_faction_camp_combat_0";
         comp_list patrol;
         npc_ptr guy = overmap_buffer.find_npc( comp->getID() );
-        if (guy) {
-            patrol.push_back(guy);
+        if( guy ) {
+            patrol.push_back( guy );
         }
         for( auto pt : comp->companion_mission_points ) {
             oter_id &omt_ref = overmap_buffer.ter( pt );

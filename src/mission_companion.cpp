@@ -1801,7 +1801,7 @@ npc_ptr talk_function::companion_choose( const std::string &skill_tested, int sk
     std::vector<npc_ptr> available;
     for( auto &elem : g->get_follower_list() ) {
         npc_ptr guy = overmap_buffer.find_npc( elem );
-        if(!guy) {
+        if( !guy ) {
             continue;
         }
         npc_companion_mission c_mission = guy->get_companion_mission();

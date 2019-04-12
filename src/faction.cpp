@@ -517,7 +517,7 @@ void new_faction_manager::display() const
         std::vector<npc *> followers;
         for( auto &elem : g->get_follower_list() ) {
             std::shared_ptr<npc> npc_to_get = overmap_buffer.find_npc( elem );
-            if(!npc_to_get) {
+            if( !npc_to_get ) {
                 continue;
             }
             npc *npc_to_add = npc_to_get.get();
