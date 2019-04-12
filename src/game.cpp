@@ -3186,7 +3186,8 @@ void game::debug()
 
         case 24: {
 #if defined(TILES)
-            const point offset { // *INDENT-OFF*
+            // *INDENT-OFF*
+            const point offset {
                 POSX - u.posx() + u.view_offset.x,
                 POSY - u.posy() + u.view_offset.y
             }; // *INDENT-ON*
@@ -3202,7 +3203,7 @@ void game::debug()
             draw_panels();
             inp_mngr.wait_for_any_key();
 #else
-            popup( _( "This binary was not compiled with tiles support." ) );
+                popup( _( "This binary was not compiled with tiles support." ) );
 #endif
         }
         break;
