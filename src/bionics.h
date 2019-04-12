@@ -7,6 +7,7 @@
 #include <vector>
 
 #include "bodypart.h"
+#include "calendar.h"
 #include "string_id.h"
 
 class player;
@@ -110,12 +111,15 @@ struct bionic {
     itype_id    ammo_loaded = "null";
     /* Ammount of ammo actually held inside by this bionic gun in deactivated state */
     unsigned int         ammo_count = 0;
+    /* An amount of time during which this bionic has been rendered inoperative. */
+    time_duration        incapacitated_time;
 
 
     bionic()
-        : id( "bio_batteries" ) { }
+        : id( "bio_batteries" ), incapacitated_time( 0_turns ) {
+    }
     bionic( bionic_id pid, char pinvlet )
-        : id( std::move( pid ) ), invlet( pinvlet ) { }
+        : id( std::move( pid ) ), incapacitated_time( 0_turns ), invlet( pinvlet ) { }
 
     const bionic_data &info() const {
         return *id;

@@ -471,6 +471,15 @@ void Character::add_effect( const efftype_id &eff_id, const time_duration dur, b
 
 void Character::process_turn()
 {
+    for( auto &i : *my_bionics ) {
+        if( i.incapacitated_time > 0_turns ) {
+            i.incapacitated_time -= 1_turns;
+            if( i.incapacitated_time == 0_turns ) {
+                add_msg_if_player( m_bad, _( "Your %s bionic comes back online." ), i.info().name );
+            }
+        }
+    }
+
     Creature::process_turn();
 }
 
@@ -659,7 +668,7 @@ bool Character::has_active_bionic( const bionic_id &b ) const
 {
     for( auto &i : *my_bionics ) {
         if( i.id == b ) {
-            return ( i.powered );
+            return ( i.powered && i.incapacitated_time == 0_turns );
         }
     }
     return false;
@@ -2099,6 +2108,32 @@ int Character::get_sleep_deprivation() const
     }
 
     return sleep_deprivation;
+}
+
+void Character::on_damage_of_type( int adjusted_damage, damage_type type, body_part bp )
+{
+    // Electrical damage has a chance to temporarily incapacitate bionics in the damaged body_part.
+    if( type == DT_ELECTRIC ) {
+        const time_duration min_disable_time = 10_turns * adjusted_damage;
+        for( auto &i : *my_bionics ) {
+            if( !i.powered ) {
+                // Unpowered bionics are protected from power surges.
+                continue;
+            }
+            const auto &info = i.info();
+            const auto &bodyparts = info.occupied_bodyparts;
+            if( bodyparts.find( bp ) != bodyparts.end() ) {
+                const int bp_hp = hp_cur[bp_to_hp( bp )];
+                // The chance to incapacite is as high as 33% if the attack deals damage equal to half the body part's current health.
+                if( x_in_y( adjusted_damage * 2, bp_hp ) && one_in( 3 ) ) {
+                    if( i.incapacitated_time == 0_turns ) {
+                        add_msg_if_player( m_bad, _( "Your %s bionic shorts out!" ), info.name );
+                    }
+                    i.incapacitated_time += rng( min_disable_time, 5 * min_disable_time );
+                }
+            }
+        }
+    }
 }
 
 void Character::reset_bonuses()

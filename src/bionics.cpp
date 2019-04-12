@@ -1592,6 +1592,9 @@ void bionic::serialize( JsonOut &json ) const
     json.member( "charge", charge );
     json.member( "ammo_loaded", ammo_loaded );
     json.member( "ammo_count", ammo_count );
+    if( incapacitated_time > 0 ) {
+        json.member( "incapacitated_time", incapacitated_time );
+    }
     json.end_object();
 }
 
@@ -1607,6 +1610,9 @@ void bionic::deserialize( JsonIn &jsin )
     }
     if( jo.has_int( "ammo_count" ) ) {
         ammo_count = jo.get_int( "ammo_count" );
+    }
+    if( jo.has_int( "incapacitated_time" ) ) {
+        incapacitated_time = 1_turns * jo.get_int( "incapacitated_time" );
     }
 }
 
