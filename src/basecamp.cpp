@@ -70,8 +70,8 @@ basecamp::basecamp( const std::string &name_, const tripoint &omt_pos_ ): name( 
 }
 
 basecamp::basecamp( const std::string &name_, const tripoint &bb_pos_,
-                    std::vector<tripoint> sort_points_, std::vector<std::string> directions_,
-                    std::map<std::string, expansion_data> expansions_ ): sort_points( sort_points_ ),
+                    std::vector<std::string> directions_,
+                    std::map<std::string, expansion_data> expansions_ ):
     directions( directions_ ), name( name_ ), bb_pos( bb_pos_ ), expansions( expansions_ )
 {
 }
@@ -111,7 +111,6 @@ void basecamp::define_camp( npc &p )
 {
     query_new_name();
     omt_pos = p.global_omt_location();
-    sort_points = p.companion_mission_points;
     // purging the regions guarantees all entries will start with faction_base_
     for( const std::pair<std::string, tripoint> &expansion :
          talk_function::om_building_region( omt_pos, 1, true ) ) {

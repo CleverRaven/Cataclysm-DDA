@@ -263,9 +263,9 @@ std::map<std::string, bcp_miss_data> basecamp_missions_info = {{
  * @param estimate if true, non-destructive count of the furniture
  * @param bring_back force the destruction of the furniture and bring back the drop items
  */
-inventory camp_crafting_inventory( tripoint omt_tri, bool by_radio = false );
-void consume_components_for_camp_mission( tripoint omt_tri, const recipe &making, int batch_size,
-        bool by_radio = false );
+inventory camp_crafting_inventory( const tripoint &omt_tri, bool by_radio = false );
+void consume_components_for_camp_mission( const tripoint &omt_tri, const recipe &making,
+        int batch_size, bool by_radio = false );
 int om_harvest_furn( npc &comp, const tripoint &omt_tgt, const furn_id &f, int chance = 100,
                      bool estimate = false, bool bring_back = true );
 // om_harvest_furn helper function that counts the furniture instances
@@ -347,7 +347,7 @@ std::string camp_trip_description( time_duration total_time, time_duration worki
 
 /// Returns the description of a camp crafting options. converts fire charges to charcoal,
 /// allows dark crafting
-std::string om_craft_description( const std::string &itm, tripoint omt_tri, bool by_radio );
+std::string om_craft_description( const std::string &itm, const tripoint &omt_tri, bool by_radio );
 /// Returns a string for display of the selected car so you don't chop shop the wrong one
 std::string camp_car_description( vehicle *car );
 std::string camp_farm_act( const tripoint &omt_pos, size_t &plots_count, farm_ops operation );
@@ -361,7 +361,7 @@ std::string camp_farm_act( const tripoint &omt_pos, size_t &plots_count, farm_op
  * if skill is higher, an item or corpse is spawned
  */
 void camp_search_results( int skill, const Group_tag &group_id, int attempts, int difficulty,
-                          tripoint omt_tri, bool by_radio = false );
+                          const tripoint &omt_tri, bool by_radio = false );
 /**
  * spawn items or corpses based on search attempts
  * @param skill skill level of the search
@@ -372,7 +372,7 @@ void camp_search_results( int skill, const Group_tag &group_id, int attempts, in
  * if skill is higher, an item or corpse is spawned
  */
 void camp_hunting_results( int skill, const std::string &task, int attempts, int difficulty,
-                           tripoint omt_tri, bool by_radio = false );
+                           const tripoint &omt_tri, bool by_radio = false );
 /// Changes the faction food supply by @ref change, 0 returns total food supply, a negative
 /// total food supply hurts morale
 int camp_food_supply( int change = 0, bool return_days = false );
@@ -385,7 +385,7 @@ int time_to_food( time_duration work );
 int camp_discipline( int change = 0 );
 /// Changes the faction opinion for you by @ref change, returns opinion
 int camp_morale( int change = 0 );
-void place_results( tripoint omt_tri, item result, bool by_radio );
+void place_results( const tripoint &omt_tri, item result, bool by_radio );
 /*
  * check if a companion survives a random encounter
  * @param comp the companion
@@ -585,7 +585,8 @@ void talk_function::basecamp_mission( npc &p )
     }
 }
 
-void basecamp::get_available_missions( mission_data &mission_key, tripoint omt_tri, bool by_radio )
+void basecamp::get_available_missions( mission_data &mission_key, const tripoint &omt_tri,
+                                       bool by_radio )
 {
     std::string entry;
 
@@ -712,12 +713,13 @@ void basecamp::get_available_missions( mission_data &mission_key, tripoint omt_t
             comp_list npc_list = get_mission_workers( "_faction_camp_menial" );
             const bcp_miss_data &miss_info = basecamp_missions_info[ "_faction_camp_menial" ];
             entry = string_format( _( "Notes:\n"
-                                      "Send a companion to do low level chores and sort supplies.\n \n"
+                                      "Send a companion to do low level chores and sort "
+                                      "supplies.\n \n"
                                       "Skill used: fabrication\n"
                                       "Difficulty: N/A \n"
                                       "Effects:\n"
-                                      "> Material left in the unsorted loot zone will be sorted into "
-                                      "a defined loot zone."
+                                      "> Material left in the unsorted loot zone will be sorted "
+                                      "into a defined loot zone."
                                       "\n\nRisk: None\n"
                                       "Time: 3 Hours\n"
                                       "Positions: %d/1\n" ), npc_list.size() );
@@ -725,7 +727,8 @@ void basecamp::get_available_missions( mission_data &mission_key, tripoint omt_t
             if( !npc_list.empty() ) {
                 entry = miss_info.action;
                 bool avail = update_time_left( entry, npc_list );
-                mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc, "", entry, avail );
+                mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc, "", entry,
+                                        avail );
             }
         }
     }
@@ -1188,7 +1191,7 @@ void basecamp::get_available_missions( mission_data &mission_key, tripoint omt_t
 }
 
 bool basecamp::handle_mission( const std::string &miss_id, const std::string &miss_dir,
-                               tripoint omt_tri, bool by_radio )
+                               const tripoint &omt_tri, bool by_radio )
 {
     const std::string base_dir = "[B]";
     npc_ptr comp = nullptr;
@@ -1320,19 +1323,22 @@ bool basecamp::handle_mission( const std::string &miss_id, const std::string &mi
         if( dir == miss_dir ) {
             const tripoint omt_trg = expansions[ dir ].pos;
             if( miss_id == miss_dir + " Expansion Upgrade" ) {
-                start_upgrade( next_upgrade( miss_dir, 1 ), "_faction_upgrade_exp_" + miss_dir, omt_tri, by_radio );
+                start_upgrade( next_upgrade( miss_dir, 1 ), "_faction_upgrade_exp_" + miss_dir,
+                               omt_tri, by_radio );
             } else if( miss_id == "Recover Ally, " + miss_dir + " Expansion" ) {
                 upgrade_return( dir, "_faction_upgrade_exp_" + miss_dir );
             }
 
-            craft_construction( miss_id, miss_dir, "FARM", "_faction_exp_farm_crafting_", omt_tri, by_radio );
+            craft_construction( miss_id, miss_dir, "FARM", "_faction_exp_farm_crafting_",
+                                omt_tri, by_radio );
             if( miss_id == miss_dir + " (Finish) Crafting" && miss_dir != base_dir ) {
                 const std::string msg = _( "returns from your farm with something..." );
                 mission_return( "_faction_exp_farm_crafting_" + miss_dir, 15_minutes, true, msg,
                                 "construction", 2 );
             }
 
-            craft_construction( miss_id, miss_dir, "COOK", "_faction_exp_kitchen_cooking_", omt_tri, by_radio );
+            craft_construction( miss_id, miss_dir, "COOK", "_faction_exp_kitchen_cooking_",
+                                omt_tri, by_radio );
             if( miss_id == miss_dir + " (Finish) Cooking" ) {
                 const std::string msg = _( "returns from your kitchen with something..." );
                 mission_return( "_faction_exp_kitchen_cooking_" + miss_dir, 15_minutes,
@@ -1404,8 +1410,8 @@ npc_ptr basecamp::start_mission( const std::string &miss_id, time_duration durat
     return comp;
 }
 
-void basecamp::start_upgrade( const std::string &bldg, const std::string &key, tripoint omt_tri,
-                              bool by_radio )
+void basecamp::start_upgrade( const std::string &bldg, const std::string &key,
+                              const tripoint &omt_tri, bool by_radio )
 {
     const recipe &making = recipe_id( bldg ).obj();
     //Stop upgrade if you don't have materials
@@ -1635,7 +1641,7 @@ void basecamp::start_relay_hide_site()
     }
 }
 
-void basecamp::start_fortifications( std::string &bldg_exp, tripoint omt_tri, bool by_radio )
+void basecamp::start_fortifications( std::string &bldg_exp, const tripoint &omt_tri, bool by_radio )
 {
     std::vector<std::string> allowed_locations;
     if( bldg_exp == "faction_wall_level_N_1" ) {
@@ -1718,7 +1724,8 @@ void basecamp::start_fortifications( std::string &bldg_exp, tripoint omt_tri, bo
                                       _( "begins constructing fortifications..." ), false, {},
                                       making.skill_used.str(), making.difficulty );
         if( comp != nullptr ) {
-            consume_components_for_camp_mission( omt_tri, making, fortify_om.size() * 2 - 2, by_radio );
+            consume_components_for_camp_mission( omt_tri, making, fortify_om.size() * 2 - 2,
+                                                 by_radio );
         }
         comp->companion_mission_role_id = bldg_exp;
         for( auto pt : fortify_om ) {
@@ -1752,7 +1759,8 @@ void basecamp::start_combat_mission( const std::string &miss )
 
 // FIXME: Refactor to check the companion list first
 void basecamp::craft_construction( const std::string &cur_id, const std::string &cur_dir,
-                                   const std::string &type, const std::string &miss_id, tripoint omt_tri, bool by_radio )
+                                   const std::string &type, const std::string &miss_id,
+                                   const tripoint &omt_tri, bool by_radio )
 {
     std::map<std::string, std::string> recipes = recipe_deck( type );
     for( auto &r : recipes ) {
@@ -1912,7 +1920,7 @@ static std::pair<size_t, std::string> farm_action( const tripoint &omt_tgt, farm
 }
 
 void basecamp::start_farm_op( const std::string &dir, const tripoint &omt_tgt, farm_ops op,
-                              tripoint omt_tri, bool by_radio )
+                              const tripoint &omt_tri, bool by_radio )
 {
     std::pair<size_t, std::string> farm_data = farm_action( omt_tgt, op );
     size_t plots_cnt = farm_data.first;
@@ -2116,8 +2124,8 @@ bool basecamp::menial_return()
     return true;
 }
 
-bool basecamp::gathering_return( const std::string &task, time_duration min_time, tripoint omt_tri,
-                                 bool by_radio )
+bool basecamp::gathering_return( const std::string &task, time_duration min_time,
+                                 const tripoint &omt_tri, bool by_radio )
 {
     npc_ptr comp = companion_choose_return( task, min_time );
     if( comp == nullptr ) {
@@ -2185,8 +2193,8 @@ bool basecamp::gathering_return( const std::string &task, time_duration min_time
         camp_hunting_results( skill, task, checks_per_cycle * mission_time / min_time, 30, omt_tri,
                               by_radio );
     } else {
-        camp_search_results( skill, itemlist, checks_per_cycle * mission_time / min_time, 15, omt_tri,
-                             by_radio );
+        camp_search_results( skill, itemlist, checks_per_cycle * mission_time / min_time, 15,
+                             omt_tri, by_radio );
     }
 
     return true;
@@ -2552,7 +2560,7 @@ int basecamp::recipe_batch_max( const recipe &making, const inventory &total_inv
 }
 
 void camp_search_results( int skill, const Group_tag &group_id, int attempts, int difficulty,
-                          tripoint omt_tri, bool by_radio )
+                          const tripoint &omt_tri, bool by_radio )
 {
     for( int i = 0; i < attempts; i++ ) {
         if( skill > rng( 0, difficulty ) ) {
@@ -2565,7 +2573,7 @@ void camp_search_results( int skill, const Group_tag &group_id, int attempts, in
 }
 
 void camp_hunting_results( int skill, const std::string &task, int attempts, int difficulty,
-                           tripoint omt_tri, bool by_radio )
+                           const tripoint &omt_tri, bool by_radio )
 {
     // no item groups for corpses, so we'll have to improvise
     weighted_int_list<mtype_id> hunting_targets;
@@ -3194,7 +3202,7 @@ std::string camp_trip_description( time_duration total_time, time_duration worki
     return entry;
 }
 
-std::string basecamp::upgrade_description( const std::string &bldg, tripoint omt_tri,
+std::string basecamp::upgrade_description( const std::string &bldg, const tripoint &omt_tri,
         bool by_radio )
 {
     const recipe &making = recipe_id( bldg ).obj();
@@ -3220,7 +3228,7 @@ std::string basecamp::upgrade_description( const std::string &bldg, tripoint omt
     return comp;
 }
 
-std::string om_craft_description( const std::string &itm, tripoint omt_tri, bool by_radio )
+std::string om_craft_description( const std::string &itm, const tripoint &omt_tri, bool by_radio )
 {
     const recipe &making = recipe_id( itm ).obj();
     const inventory &total_inv = camp_crafting_inventory( omt_tri, by_radio );
@@ -3529,7 +3537,7 @@ int camp_morale( int change )
     return yours->likes_u;
 }
 
-inventory camp_crafting_inventory( tripoint omt_tri, bool by_radio )
+inventory camp_crafting_inventory( const tripoint &omt_tri, bool by_radio )
 {
     inventory camp_inv;
     basecamp *temp_camp;
@@ -3545,8 +3553,8 @@ inventory camp_crafting_inventory( tripoint omt_tri, bool by_radio )
     return camp_inv;
 }
 
-void consume_components_for_camp_mission( tripoint omt_tri, const recipe &making, int batch_size,
-        bool by_radio )
+void consume_components_for_camp_mission( const tripoint &omt_tri, const recipe &making,
+        int batch_size, bool by_radio )
 {
     basecamp *temp_camp;
     cata::optional<basecamp *> p = overmap_buffer.find_camp( omt_tri.x, omt_tri.y );
@@ -3557,11 +3565,9 @@ void consume_components_for_camp_mission( tripoint omt_tri, const recipe &making
         return;
     }
     temp_camp->consume_components( making, batch_size, by_radio );
-
-
 }
 
-void place_results( tripoint omt_tri, item result, bool by_radio )
+void place_results( const tripoint &omt_tri, item result, bool by_radio )
 {
     if( by_radio ) {
         basecamp *temp_camp;
