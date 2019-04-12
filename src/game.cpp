@@ -2703,6 +2703,9 @@ void game::reset_npc_dispositions()
 {
     for( auto elem : follower_ids ) {
         std::shared_ptr<npc> npc_to_get = overmap_buffer.find_npc( elem );
+        if( !npc_to_get)  {
+            continue;
+        }
         npc *npc_to_add = npc_to_get.get();
         npc_to_add->chatbin.missions.clear();
         npc_to_add->chatbin.missions_assigned.clear();
@@ -3423,6 +3426,9 @@ void game::disp_NPC_epilogues()
     // TODO: This search needs to be expanded to all NPCs
     for( auto elem : follower_ids ) {
         std::shared_ptr<npc> npc_to_get = overmap_buffer.find_npc( elem );
+        if(! npc_to_get) {
+            continue;
+        }
         npc *guy = npc_to_get.get();
         epi.random_by_group( guy->male ? "male" : "female" );
         std::vector<std::string> txt;
@@ -4683,6 +4689,9 @@ void game::overmap_npc_move()
     // for now just processing NPC followers on travelling missions
     for( auto &elem : get_follower_list() ) {
         std::shared_ptr<npc> npc_to_get = overmap_buffer.find_npc( elem );
+        if (! npc_to_get) {
+            continue;
+        }
         npc *npc_to_add = npc_to_get.get();
         if( ( !npc_to_add->is_active() || rl_dist( u.pos(), npc_to_add->pos() ) > SEEX * 2 ) &&
             npc_to_add->mission == NPC_MISSION_TRAVELLING ) {
