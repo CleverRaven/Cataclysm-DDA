@@ -735,6 +735,7 @@ static void sleep()
     // List all active items, bionics or mutations so player can deactivate them
     std::vector<std::string> active;
     for( auto &it : u.inv_dump() ) {
+        dbg( D_INFO ) << "name: " << it->tname();
         if( it->active && it->charges > 0 && it->is_tool_reversible() ) {
             active.push_back( it->tname() );
         }
@@ -763,6 +764,21 @@ static void sleep()
             active.push_back( mdata.name() );
         }
     }
+
+    // check for deactivating any currently played music instrument.
+    for( auto &item : u.inv_dump() ) {
+        if( item->active && item->type && !item->type->use_methods.empty() ) {
+            for( const auto &method : item->type->use_methods ) {
+                if( method.first == "musical_instrument" )  {
+                    u.add_msg_if_player( _( "You stop playing your %s before trying to sleep." ), item->tname() );
+                    // deactivate instrument
+                    item->active = false;
+                }
+            }
+        }
+    }
+
+    // ask for deactivation
     std::stringstream data;
     if( !active.empty() ) {
         data << as_m.text << std::endl;
