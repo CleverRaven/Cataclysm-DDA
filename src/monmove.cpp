@@ -41,6 +41,7 @@ const efftype_id effect_stunned( "stunned" );
 const species_id ZOMBIE( "ZOMBIE" );
 const species_id BLOB( "BLOB" );
 const species_id ROBOT( "ROBOT" );
+const species_id WORM( "WORM" );
 
 bool monster::wander()
 {
@@ -789,6 +790,8 @@ void monster::footsteps( const tripoint &p )
         footstep = "shuffling.";
     } else if( type->in_species( ROBOT ) ) {
         footstep = "mechanical whirring.";
+    } else if( type->in_species( WORM ) ) {
+        footstep = "rustle.";
     }
     int dist = rl_dist( p, g->u.pos() );
     sounds::add_footstep( p, volume, dist, this, footstep );
