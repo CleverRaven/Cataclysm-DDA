@@ -504,17 +504,28 @@ void player::activate_mutation( const trait_id &mut )
         print_health();
         tdata.powered = false;
         return;
-    } else if ( mut == trait_ROOTS2 || mut == trait_ROOTS3) {
+    } else if ( mut == trait_ROOTS2 ) {
         double shoe_factor = footwear_factor();
-        if ( g->m.has_flag( "PLOWABLE", pos() ) && shoe_factor != 1.0 ) {
-            assign_activity( activity_id( "ACT_ROOT" ), 50, -1, 0 );
+        if ( g->m.has_flag( "PLOWABLE", pos() ) && shoe_factor != 1.0 && !(has_effect(effect_rooted))) {
+            assign_activity(player_activity(activity_id("ACT_ROOT"), 5000, -1, 0, "Rooting"), false);
         }
-        else if ( shoe_factor = 1.0 ) {
+        else if ( shoe_factor = 1.0 && !(has_effect(effect_rooted))) {
             add_msg( m_bad, _( "Your footwear imprisons your roots, keeping them from sinking into the ground." ) );
         }
-        else {
+        else if (!(g->m.has_flag("PLOWABLE", pos()))) {
             add_msg( m_bad, _( "Your roots scrabble ineffectively at the unyielding surface." ) );
+        } // In addtion to making sure they're standing on soil, it will quitely reactivate if the player has not canceled the "Rooted" effect.
+    } else if (  mut == trait_ROOTS3 ) {
+        double shoe_factor = footwear_factor();
+        if ( g->m.has_flag( "PLOWABLE", pos() ) && shoe_factor != 1.0 && !(has_effect(effect_rooted))) {
+            assign_activity(player_activity(activity_id("ACT_ROOT"), 5000, -1, 0, "Rooting"), false);
         }
+        else if ( shoe_factor = 1.0 && !(has_effect(effect_rooted))) {
+            add_msg( m_bad, _( "Your footwear imprisons your roots, keeping them from sinking into the ground." ) );
+        }
+        else if (!(g->m.has_flag("PLOWABLE", pos()))) {
+            add_msg( m_bad, _( "Your roots scrabble ineffectively at the unyielding surface." ) );
+        } // This might seem like duplicate code, but if these aren't seperated, it's just going to toggle both of them on when the deactivation cancel fires off. I think.
     } else if( mut == trait_DEBUG_BIONIC_POWER ) {
         max_power_level += 100;
         add_msg_if_player( m_good, _( "Bionic power storage increased by 100." ) );
@@ -539,8 +550,8 @@ void player::activate_mutation( const trait_id &mut )
 void player::deactivate_mutation( const trait_id &mut )
 {
     if ( has_effect ( effect_rooted ) ) {
-        assign_activity( activity_id ( "ACT_UPROOT" ), 50, -1, 0 );
-    }
+        assign_activity( player_activity( activity_id ( "ACT_UPROOT" ), 5000, -1, 0, "Uprooting" ) );
+    } // Your tangled root-feet no longer magically emerge from the ground. You gotta work for it now!
     my_mutations[mut].powered = false;
 
     // Handle stat changes from deactivation

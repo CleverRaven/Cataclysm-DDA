@@ -5301,30 +5301,26 @@ void player::suffer()
     //    }
     //}
 
-    if ( has_active_mutation( trait_ROOTS2 ) ) {
-        if ( !has_effect( effect_rooted ) && !has_activity( activity_id( "ACT_ROOT" ) ) ) {
-            deactivate_mutation( trait_ROOTS2 );
-        }
+    if (has_effect(effect_rooted)) {
+        rooted();
     }
+    // SANITY IS FOR THE WEAK
 
-    if ( has_active_mutation( trait_ROOTS3 ) ) {
-        if ( !has_effect( effect_rooted ) && !has_activity( activity_id( "ACT_ROOT" ) ) ) {
-            deactivate_mutation( trait_ROOTS3 );
-        }
+    if ( has_trait(trait_ROOTS2) && has_active_mutation( trait_ROOTS2 ) && !(has_effect(effect_rooted)) && !(has_activity(activity_id("ACT_ROOT")))) {
+        deactivate_mutation( trait_ROOTS2 );
     }
-
-    if ( !has_active_mutation( trait_ROOTS2 ) ) {
-        if ( has_effect( effect_rooted ) && !has_activity( activity_id( "ACT_UPROOT" ) ) ) {
-            activate_mutation( trait_ROOTS2 );
-        }
+    if ( has_trait(trait_ROOTS3) && has_active_mutation( trait_ROOTS3 ) && !(has_effect(effect_rooted)) && !(has_activity(activity_id("ACT_ROOT")))) {
+        deactivate_mutation( trait_ROOTS3 );
     }
+    // Rooting is work now, put your back into it if you want that sweet soil!
 
-    if ( !has_active_mutation( trait_ROOTS3 ) ) {
-        if ( has_effect( effect_rooted ) && !has_activity( activity_id( "ACT_UPROOT" ) ) ) {
-            activate_mutation( trait_ROOTS3 );
-        }
+    if ( has_trait(trait_ROOTS2) && !has_active_mutation( trait_ROOTS2 ) && has_effect(effect_rooted) && !(has_activity(activity_id("ACT_UPROOT")))) {
+        activate_mutation( trait_ROOTS2 );
     }
-
+    if ( has_trait(trait_ROOTS3) && !has_active_mutation( trait_ROOTS3 ) && has_effect(effect_rooted) && !(has_activity(activity_id("ACT_UPROOT")))) {
+        activate_mutation( trait_ROOTS3 );       
+    }
+    // So players can't actually cancel roots while they're still partially buried. The mutation will quitely re-activate if they still have the rooted effect.
 
     if( !in_sleep_state() ) {
         if( !has_trait( trait_id( "DEBUG_STORAGE" ) ) && ( weight_carried() > 4 * weight_capacity() ) ) {
@@ -7511,48 +7507,52 @@ void player::rooted()
 // Should average a point every two minutes or so; ground isn't uniformly fertile
 // Overfilling triggered hibernation checks, so capping.
 {
-    //add_effect(effect_rooted, 1_turns, num_bp, true);
     double shoe_factor = footwear_factor();
-    if ((has_trait(trait_ROOTS2) || has_trait(trait_ROOTS3)) &&
-        g->m.has_flag("PLOWABLE", pos()) && shoe_factor != 1.0) {
-        if (one_in(20.0 / (1.0 - shoe_factor))) {
-            /*if( get_hunger() > -20 ) {
-                mod_hunger( -1 );
-                // absorbs nutrients from soil directly
-                mod_stored_nutr( -1 );
-            } */
-            // Plants should get their kcal from the sun, commenting this out for now.
-            if (get_thirst() > -20) {
-                mod_thirst(-1);
+    bool wearing_shoes = is_wearing_shoes( side::LEFT ) || is_wearing_shoes( side::RIGHT );
+    if (g->m.has_flag("PLOWABLE", pos())) {
+        if ((has_trait(trait_ROOTS2)) || (has_trait(trait_ROOTS3))) {
+            //add_effect(effect_rooted, 1_turns, num_bp, true);
+            if (one_in(20.0 / (1.0 - shoe_factor))) {
+                /*if( get_hunger() > -20 ) {
+                    mod_hunger( -1 );
+                    // absorbs nutrients from soil directly
+                    mod_stored_nutr( -1 );
+                } */
+                // Plants should get their kcal from the sun, commenting this out for now.
+                if (get_thirst() > -20) {
+                    mod_thirst(-1);
+                }
+                vitamin_mod(vitamin_id("iron"), 1, true);
+                vitamin_mod(vitamin_id("calcium"), 1, true);
+                // Plants typically draw these from the soil.
+                // Will uncap in the future so excess will be diverted to a plant storage system.
+                // as with the leaves change, these numbers are a WIP in terms of balance.
+                mod_healthy_mod(5, 50);
             }
-            vitamin_mod(vitamin_id("iron"), 1, true);
-            vitamin_mod(vitamin_id("calcium"), 1, true);
-            // Plants typically draw these from the soil.
-            // Will uncap in the future so excess will be diverted to a plant storage system.
-            // as with the leaves change, these numbers are a WIP in terms of balance.
-            mod_healthy_mod(5, 50);
         }
-        else if (one_in(50 / (1.0 - shoe_factor))) {
-            if (get_thirst() > -20) {
-                mod_thirst(-1);
+        if (has_trait(trait_ROOTS3) && !wearing_shoes) {
+            if (one_in(50)) {
+                if (get_thirst() > -20) {
+                    mod_thirst(-1);
+                }
+                vitamin_mod(vitamin_id("iron"), 1, true);
+                vitamin_mod(vitamin_id("calcium"), 1, true);
+                mod_healthy_mod(5, 50);
             }
-            vitamin_mod(vitamin_id("iron"), 1, true);
-            vitamin_mod(vitamin_id("calcium"), 1, true);
-            mod_healthy_mod(5, 50);
-        }
-        else if (one_in(100 / (1.0 - shoe_factor))) {
-            add_msg_if_player(m_good, _("This soil is delicious!"));
-            if (get_thirst() > -20) {
-                mod_thirst(-2);
-            }
-            vitamin_mod(vitamin_id("iron"), 1, true);
-            vitamin_mod(vitamin_id("calcium"), 1, true);
-            mod_healthy_mod(10, 50);
-            // No losing oneself in the fertile embrace of rich
-            // New England loam.  But it can be a near thing.
-            /** @EFFECT_INT decreases chance of losing focus points while eating soil with ROOTS3 */
-            if ((one_in(int_cur)) && (focus_pool >= 25)) {
-                focus_pool--;
+            else if (one_in(100)) {
+                add_msg_if_player(m_good, _("This soil is delicious!"));
+                if (get_thirst() > -20) {
+                    mod_thirst(-2);
+                }
+                vitamin_mod(vitamin_id("iron"), 1, true);
+                vitamin_mod(vitamin_id("calcium"), 1, true);
+                mod_healthy_mod(10, 50);
+                // No losing oneself in the fertile embrace of rich
+                // New England loam.  But it can be a near thing.
+                /** @EFFECT_INT decreases chance of losing focus points while eating soil with ROOTS3 */
+                if ((one_in(int_cur)) && (focus_pool >= 25)) {
+                    focus_pool--;
+                }
             }
         }
     }

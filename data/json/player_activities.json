@@ -490,17 +490,13 @@
     "type": "activity_type",
     "stop_phrase": "Stop rooting?",
     "rooted": true,
-    "suspendable": false,
-    "based_on": "time",
-    "no_resume": true
+    "based_on": "time"
   },
   {
     "id": "ACT_UPROOT",
     "type": "activity_type",
     "stop_phrase": "Stop uprooting?",
     "rooted": true,
-    "suspendable": false,
-    "based_on": "time",
-    "no_resume": true
+    "based_on": "time"
   }
 ]

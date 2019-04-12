@@ -52,6 +52,7 @@ const species_id ZOMBIE( "ZOMBIE" );
 
 const efftype_id effect_milked( "milked" );
 const efftype_id effect_sleep( "sleep" );
+const efftype_id effect_rooted("rooted");
 
 using namespace activity_handlers;
 
@@ -3371,24 +3372,27 @@ void activity_handlers::robot_control_finish( player_activity *act, player *p )
     p->practice( skill_id( "computer" ), 10 );
 }
 
-// TODO: Corpse rooting and unrooting. Ripping your roots out of a corpse should be a lot faster than the dirt.
 void activity_handlers::root_do_turn( player_activity *act, player *p )
 {
-    add_msg( m_info, _( "You begin to sink your roots into the soil." ) );
+    //add_msg( m_info, _( "You begin to sink your roots into the soil." ) );
+    // So it turns out you don't want these firing off every turn unless you have a good reason
 }
 
 void activity_handlers::uproot_do_turn(player_activity *act, player *p)
 {
-    add_msg( m_info, _( "You begin pulling your roots out of the soil." ) );
+    //add_msg( m_info, _( "You begin pulling your roots out of the soil." ) );
 }
 
 void activity_handlers::root_finish( player_activity *act, player *p )
 {
     add_msg( m_info, _( "You've compeletely sunk your roots into the soil and have begun drawing nutrients." ) );
-    p->rooted();
+    p->add_effect( effect_rooted, 1_turns, num_bp, true);
+    act->set_to_null();
 }
 
 void activity_handlers::uproot_finish( player_activity *act, player *p )
 {
     add_msg( m_info, _( "You are completely uprooted and may move around again." ) );
+    p->remove_effect( effect_rooted, num_bp );
+    act->set_to_null();
 }
