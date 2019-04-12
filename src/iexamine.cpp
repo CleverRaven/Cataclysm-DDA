@@ -1209,7 +1209,6 @@ void iexamine::bulletin_board( player &p, const tripoint &examp )
     if( bcp ) {
         basecamp *temp_camp = *bcp;
         temp_camp->validate_assignees();
-        temp_camp->validate_sort_points();
         if( temp_camp->get_dumping_spot() == tripoint_zero ) {
             auto &mgr = zone_manager::get_manager();
             if( g->m.check_vehicle_zones( g->get_levz() ) ) {
