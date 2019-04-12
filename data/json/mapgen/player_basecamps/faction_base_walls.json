@@ -5,11 +5,14 @@
     "nested_mapgen_id": "faction_base_wall_corner_outer_pits1",
 	"//": "Corner wall: Shallow pits",
     "object": {
-      "mapgensize": [ 3, 3 ],
+      "mapgensize": [ 6, 6 ],
       "rows": [
-        "uuu",
-        "u  ",
-        "u  "
+        "uuuuuu",
+        "u     ",
+        "u     ",
+        "u     ",
+        "u     ",
+        "u     "
       ],
       "terrain": { "u": "t_pit_shallow", " ": "t_null" }
     }
@@ -20,11 +23,14 @@
     "nested_mapgen_id": "faction_base_wall_corner_outer_pits2",
 	"//": "Corner wall: Deep pits done",
     "object": {
-      "mapgensize": [ 3, 3 ],
+      "mapgensize": [ 6, 6 ],
       "rows": [
-        "UUU",
-        "U  ",
-        "U  "
+        "UUUUUU",
+        "U     ",
+        "U     ",
+        "U     ",
+        "U     ",
+        "U     "
       ],
       "terrain": { "U": "t_pit", " ": "t_null" }
     }
@@ -35,12 +41,14 @@
     "nested_mapgen_id": "faction_base_wall_corner_outer_pits3",
 	"//": "Corner wall: Spiked pits outside wall",
     "object": {
-      "mapgensize": [ 3, 3 ],
+      "mapgensize": [ 6, 6 ],
       "rows": [
-        "WWW",
-        "W  ",
-        "W  "
-      ],
+        "WWWWWW",
+        "W     ",
+        "W     ",
+        "W     ",
+        "W     ",
+        "W     "
       "terrain": { "W": "t_pit_spikes", " ": "t_null" }
     }
   },
@@ -50,11 +58,14 @@
     "nested_mapgen_id": "faction_base_wall_corner_outer_palisade",
 	"//": "Corner wall: Outer palisade wall for double layering or for bigger interior walkway",
     "object": {
-      "mapgensize": [ 3, 3 ],
+      "mapgensize": [ 6, 6 ],
       "rows": [
-        "|||",
-        "|  ",
-        "|  "
+        "||||||",
+        "|     ",
+        "|     ",
+        "|     ",
+        "|     ",
+        "|     "
       ],
       "terrain": { "|": "t_palisade", " ": "t_null" }
     }
@@ -65,11 +76,14 @@
     "nested_mapgen_id": "faction_base_wall_corner_outer_palisade",
 	"//": "Corner wall: Outer junk wall for double layering or for bigger interior walkway",
     "object": {
-      "mapgensize": [ 3, 3 ],
+      "mapgensize": [ 6, 6 ],
       "rows": [
-        "###",
-        "#  ",
-        "#  "
+        "######",
+        "#     ",
+        "#     ",
+        "#     ",
+        "#     ",
+        "#     "
       ],
       "terrain": { "#": "t_junk_palisade", " ": "t_null" }
     }
@@ -80,11 +94,14 @@
     "nested_mapgen_id": "faction_base_wall_corner_inner_pits1",
 	"//": "Corner wall: Shallow pits",
     "object": {
-      "mapgensize": [ 3, 3 ],
+      "mapgensize": [ 6, 6 ],
       "rows": [
-        "   ",
-        " uu",
-        " u "
+        "      ",
+        " uuuuu",
+        " u    ",
+        " u    ",
+        " u    ",
+        " u    "
       ],
       "terrain": { "u": "t_pit_shallow", " ": "t_null" }
     }
@@ -95,11 +112,14 @@
     "nested_mapgen_id": "faction_base_wall_corner_inner_pits2",
 	"//": "Corner wall: Deep pits, inner portion - wall beginning",
     "object": {
-      "mapgensize": [ 3, 3 ],
+      "mapgensize": [ 6, 6 ],
       "rows": [
-        "   ",
-        " UU",
-        " U "
+        "      ",
+        " UUUUU",
+        " U    ",
+        " U    ",
+        " U    ",
+        " U    "
       ],
       "terrain": { "U": "t_pit", " ": "t_null" }
     }
@@ -110,11 +130,14 @@
     "nested_mapgen_id": "faction_base_wall_corner_inner_palisade",
 	"//": "Corner wall: Wooden palisade",
     "object": {
-      "mapgensize": [ 3, 3 ],
+      "mapgensize": [ 6, 6 ],
       "rows": [
-        "  ",
-        " ||",
-        " | "
+        "      ",
+        " |||||",
+        " |    ",
+        " |    ",
+        " |    ",
+        " |    "
       ],
       "terrain": { "|": "t_palisade", " ": "t_null" }
     }
@@ -125,11 +148,14 @@
     "nested_mapgen_id": "faction_base_wall_corner_inner_junkmetal",
 	"//": "Corner wall: Junk metal palisade",
     "object": {
-      "mapgensize": [ 3, 3 ],
+      "mapgensize": [ 6, 6 ],
       "rows": [
-        "   ",
-        " ##",
-        " # "
+        "      ",
+        " #####",
+        " #    ",
+        " #    ",
+        " #    ",
+        " #    "
       ],
       "terrain": { "#": "t_junk_palisade", " ": "t_null" }
     }
