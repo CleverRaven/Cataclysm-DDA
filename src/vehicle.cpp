@@ -2789,13 +2789,13 @@ float vehicle::fuel_temp( const itype_id &ftype ) const
             int temp = rhs.base.contents.front().temperature;
             int mass = to_gram( rhs.base.contents.front().weight() );
 
-            // Multiplying by 0.0001 to avoid integer overflow
+            // Multiplying by 0.00001 to avoid integer overflow
             // Causes insignificant error
-            return lhs + static_cast<int>( 0.0001 * temp * mass );
+            return lhs + static_cast<int>( 0.00001 * temp * mass );
         }
         return lhs;
     } );
-    return 0.1 * temperature_sum / total_mass;
+    return temperature_sum / total_mass;
 }
 
 int vehicle::drain( const itype_id &ftype, int amount )
