@@ -37,6 +37,7 @@
 #include "path_info.h"
 #include "player.h"
 #include "rect_range.h"
+#include "sdl_utils.h"
 #include "sdl_wrappers.h"
 #include "scent_map.h"
 #include "sounds.h"
@@ -288,60 +289,60 @@ static void get_tile_information( std::string config_path, std::string &json_pat
     }
 }
 
-static inline uint8_t average_pixel_color( const pixel &pix )
+static inline Uint8 average_pixel_color( const SDL_Color &color )
 {
-    return 85 * ( pix.r + pix.g + pix.b ) >> 8; // 85/256 ~ 1/3
+    return 85 * ( color.r + color.g + color.b ) >> 8; // 85/256 ~ 1/3
 }
 
-static inline pixel color_pixel_grayscale( const pixel &pix )
+static inline SDL_Color color_pixel_grayscale( const SDL_Color &color )
 {
-    if( pix.isBlack() ) {
-        return pix;
+    if( is_black( color ) ) {
+        return color;
     }
 
-    const uint8_t av = average_pixel_color( pix );
-    const uint8_t result = std::max( av * 5 >> 3, 0x01 );
+    const Uint8 av = average_pixel_color( color );
+    const Uint8 result = std::max( av * 5 >> 3, 0x01 );
 
-    return { result, result, result, pix.a };
+    return { result, result, result, color.a };
 }
 
-static inline pixel color_pixel_nightvision( const pixel &pix )
+static inline SDL_Color color_pixel_nightvision( const SDL_Color &color )
 {
-    const uint8_t av = average_pixel_color( pix );
-    const uint8_t result = std::min( ( av * ( ( av * 3 >> 2 ) + 64 ) >> 8 ) + 16, 0xFF );
+    const Uint8 av = average_pixel_color( color );
+    const Uint8 result = std::min( ( av * ( ( av * 3 >> 2 ) + 64 ) >> 8 ) + 16, 0xFF );
 
     return {
-        static_cast<uint8_t>( result >> 2 ),
-        static_cast<uint8_t>( result ),
-        static_cast<uint8_t>( result >> 3 ),
-        pix.a
+        static_cast<Uint8>( result >> 2 ),
+        static_cast<Uint8>( result ),
+        static_cast<Uint8>( result >> 3 ),
+        color.a
     };
 }
 
-static inline pixel color_pixel_overexposed( const pixel &pix )
+static inline SDL_Color color_pixel_overexposed( const SDL_Color &color )
 {
-    const uint8_t av = average_pixel_color( pix );
-    const uint8_t result = std::min( 64 + ( av * ( ( av >> 2 ) + 0xC0 ) >> 8 ), 0xFF );
+    const Uint8 av = average_pixel_color( color );
+    const Uint8 result = std::min( 64 + ( av * ( ( av >> 2 ) + 0xC0 ) >> 8 ), 0xFF );
 
     return {
-        static_cast<uint8_t>( result >> 2 ),
-        static_cast<uint8_t>( result ),
-        static_cast<uint8_t>( result >> 3 ),
-        pix.a
+        static_cast<Uint8>( result >> 2 ),
+        static_cast<Uint8>( result ),
+        static_cast<Uint8>( result >> 3 ),
+        color.a
     };
 }
 
-static inline pixel color_pixel_memorized( const pixel &pix )
+static inline SDL_Color color_pixel_memorized( const SDL_Color &color )
 {
-    if( pix.isBlack() ) {
-        return pix;
+    if( is_black( color ) ) {
+        return color;
     }
     // 85/256 ~ 1/3
     return {
-        std::max<uint8_t>( 85 * pix.r >> 8, 0x01 ),
-        std::max<uint8_t>( 85 * pix.g >> 8, 0x01 ),
-        std::max<uint8_t>( 85 * pix.b >> 8, 0x01 ),
-        pix.a
+        std::max<Uint8>( 85 * color.r >> 8, 0x01 ),
+        std::max<Uint8>( 85 * color.g >> 8, 0x01 ),
+        std::max<Uint8>( 85 * color.b >> 8, 0x01 ),
+        color.a
     };
 }
 
@@ -355,7 +356,7 @@ static SDL_Surface_Ptr apply_color_filter( const SDL_Surface_Ptr &original,
     throwErrorIf( SDL_BlitSurface( original.get(), NULL, surf.get(), NULL ) != 0,
                   "SDL_BlitSurface failed" );
 
-    auto pix = reinterpret_cast<pixel *>( surf->pixels );
+    auto pix = reinterpret_cast<SDL_Color *>( surf->pixels );
 
     for( int y = 0, ey = surf->h; y < ey; ++y ) {
         for( int x = 0, ex = surf->w; x < ex; ++x, ++pix ) {
@@ -1349,8 +1350,7 @@ void cata_tiles::process_minimap_cache_updates()
             }
 
             for( const point &p : mcp.second.update_list ) {
-                const pixel &current_pix = mcp.second.minimap_colors[p.y * SEEX + p.x];
-                const SDL_Color c = current_pix.to_SDL_color();
+                const SDL_Color &c = mcp.second.minimap_colors[p.y * SEEX + p.x];
 
                 SetRenderDrawColor( renderer, c.r, c.g, c.b, c.a );
 
@@ -1370,7 +1370,7 @@ void cata_tiles::process_minimap_cache_updates()
 }
 
 //finds the correct submap cache and applies the new minimap color blip if it doesn't match the current one
-void cata_tiles::update_minimap_cache( const tripoint &loc, pixel &pix )
+void cata_tiles::update_minimap_cache( const tripoint &loc, const SDL_Color &color )
 {
     tripoint current_submap_loc = convert_tripoint_to_abs_submap( loc );
     auto it = minimap_cache.find( current_submap_loc );
@@ -1383,9 +1383,9 @@ void cata_tiles::update_minimap_cache( const tripoint &loc, pixel &pix )
     point offset( loc.x, loc.y );
     ms_to_sm_remain( offset );
 
-    pixel &current_pix = it->second.minimap_colors[offset.y * SEEX + offset.x];
-    if( current_pix != pix ) {
-        current_pix = pix;
+    SDL_Color &current_color = it->second.minimap_colors[offset.y * SEEX + offset.x];
+    if( current_color != color ) {
+        current_color = color;
         it->second.update_list.push_back( offset );
     }
 }
@@ -1394,7 +1394,7 @@ minimap_submap_cache::minimap_submap_cache( minimap_shared_texture_pool &pool ) 
     pool( pool )
 {
     //set color to force updates on a new submap texture
-    minimap_colors.resize( SEEY * SEEX, pixel{ 0xFF, 0xFF, 0xFF, 0xFF } );
+    minimap_colors.resize( SEEY * SEEX, SDL_Color{ 0xFF, 0xFF, 0xFF, 0xFF } );
     minimap_tex = pool.request_tex( texture_index );
 }
 
@@ -1511,21 +1511,19 @@ void cata_tiles::draw_minimap( int destx, int desty, const tripoint &center, int
                 auto &terrain = g->m.ter( p ).obj();
                 color = cursesColorToSDL( terrain.color() );
             }
-            auto pix = pixel::from_SDL_color( color );
             //color terrain according to lighting conditions
             if( nv_goggle ) {
                 if( lighting == LL_LOW ) {
-                    pix = color_pixel_nightvision( pix );
+                    color = color_pixel_nightvision( color );
                 } else if( lighting != LL_DARK && lighting != LL_BLANK ) {
-                    pix = color_pixel_overexposed( pix );
+                    color = color_pixel_overexposed( color );
                 }
             } else if( lighting == LL_LOW ) {
-                pix = color_pixel_grayscale( pix );
+                color = color_pixel_grayscale( color );
             }
 
-            pix.adjust_brightness( brightness );
             //add an individual color update to the cache
-            update_minimap_cache( p, pix );
+            update_minimap_cache( p, adjust_color_brightness( color, brightness ) );
         }
     }
 
@@ -1618,13 +1616,10 @@ void cata_tiles::draw_minimap( int destx, int desty, const tripoint &center, int
                                 //faction status (attacking or tracking) determines if red highlights get applied to creature
                                 monster_attitude matt = m->attitude( &( g->u ) );
                                 if( MATT_ATTACK == matt || MATT_FOLLOW == matt ) {
-                                    const auto red_pixel = pixel{ 0xFF, 0x0, 0x0, 0xFF };
-                                    auto p = pixel::from_SDL_color( c );
+                                    const auto red_pixel = SDL_Color{ 0xFF, 0x0, 0x0, 0xFF };
 
-                                    p.mix_with( red_pixel, mixture );
-                                    p.adjust_brightness( flicker );
-
-                                    c = p.to_SDL_color();
+                                    c = mix_colors( c, red_pixel, mixture );
+                                    c = adjust_color_brightness( c, flicker );
                                 }
                             }
                         }
