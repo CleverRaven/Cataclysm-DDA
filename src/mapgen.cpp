@@ -102,6 +102,9 @@ const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
 const mtype_id mon_zombie_spitter( "mon_zombie_spitter" );
 const mtype_id mon_zombie_tough( "mon_zombie_tough" );
 
+static const mongroup_id group_turret( "GROUP_TURRET" );
+static const mongroup_id group_robot_secubot( "GROUP_ROBOT_SECUBOT" );
+
 void science_room( map *m, int x1, int y1, int x2, int y2, int z, int rotate );
 void set_science_room( map *m, int x1, int y1, bool faces_right, const time_point &when );
 void silo_rooms( map *m );
@@ -3235,7 +3238,7 @@ ___DEEE|.R.|...,,...|sss\n",
             science_room( this, 2, 2, SEEX - 3, SEEY * 2 - 3, zlevel, 1 );
             science_room( this, SEEX + 2, 2, SEEX * 2 - 3, SEEY * 2 - 3, zlevel, 3 );
 
-            add_spawn( mon_turret, 1, SEEX, 5 );
+            place_spawns( group_turret, 1, SEEX, 5, SEEY, 5, 1, true );
 
             if( is_ot_type( "road", t_east ) ) {
                 rotate( 1 );
@@ -3952,10 +3955,14 @@ ___DEEE|.R.|...,,...|sss\n",
                 case 1:
                 case 2:
                     loot_variant = rng( 1, 100 ); //The variants have a 67/22/7/4 split.
-                    add_spawn( mon_secubot, 1,            6,            6 );
+                    place_spawns( group_robot_secubot, 1, 6, 6, 6, 6, 1, true );
+                    place_spawns( group_robot_secubot, 1, SEEX * 2 - 7, 6, SEEX * 2 - 7, 6, 1, true );
+                    place_spawns( group_robot_secubot, 1, 6, SEEY * 2 - 7, 6, SEEY * 2 - 7, 1, true );
+                    place_spawns( group_robot_secubot, 1, SEEX * 2 - 7, SEEY * 2 - 7, SEEX * 2 - 7, SEEY * 2 - 7, 1, true );
+                    /* add_spawn( mon_secubot, 1,            6,            6 );
                     add_spawn( mon_secubot, 1, SEEX * 2 - 7,            6 );
                     add_spawn( mon_secubot, 1,            6, SEEY * 2 - 7 );
-                    add_spawn( mon_secubot, 1, SEEX * 2 - 7, SEEY * 2 - 7 );
+                    add_spawn( mon_secubot, 1, SEEX * 2 - 7, SEEY * 2 - 7 ); */
                     spawn_item( SEEX - 4, SEEY - 2, "id_science" );
                     if( loot_variant <= 96 ) {
                         mtrap_set( this, SEEX - 3, SEEY - 3, tr_dissector );
@@ -6730,7 +6737,8 @@ $$$$-|-|=HH-|-HHHH-|####\n",
 }
 
 void map::place_spawns( const mongroup_id &group, const int chance,
-                        const int x1, const int y1, const int x2, const int y2, const float density )
+                        const int x1, const int y1, const int x2, const int y2, const float density,
+                        const bool individual)
 {
     if( !group.is_valid() ) {
         const point omt = sm_to_omt_copy( get_abs_sub().x, get_abs_sub().y );
@@ -6752,7 +6760,8 @@ void map::place_spawns( const mongroup_id &group, const int chance,
     }
 
     float multiplier = density * spawn_density;
-    float thenum = ( multiplier * rng_float( 10.0f, 50.0f ) );
+    // Only spawn 1 creature if individual flag set
+    float thenum = individual ? 1 : (multiplier * rng_float(10.0f, 50.0f));
     int num = roll_remainder( thenum );
 
     // GetResultFromGroup decrements num
