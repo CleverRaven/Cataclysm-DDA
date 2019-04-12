@@ -30,12 +30,6 @@
     ]
   },
   {
-    "id": "elec_parts",
-    "type": "item_group",
-    "//": "Deprecated, find where this is used and replace with supplies_electronics",
-    "items": [ { "group": "supplies_electronics", "prob": 100 } ]
-  },
-  {
     "id": "paint",
     "type": "item_group",
     "items": [

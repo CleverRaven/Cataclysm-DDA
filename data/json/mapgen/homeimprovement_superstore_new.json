@@ -168,7 +168,7 @@
         "1": { "item": "paint", "chance": 65 },
         "2": { "item": "carpet", "chance": 65 },
         "3": [ { "item": "farming_seeds", "chance": 40, "repeat": [ 1, 2 ] }, { "item": "farming_tools", "chance": 15 } ],
-        "4": { "item": "elec_parts", "chance": 25, "repeat": [ 1, 3 ] },
+        "4": { "item": "supplies_electronics", "chance": 25, "repeat": [ 1, 3 ] },
         "5": { "item": "hardware_clothing", "chance": 25, "repeat": [ 1, 3 ] },
         "6": [ { "item": "hand_tools", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "power_tools", "chance": 15 } ],
         "7": [ { "item": "farming_seeds", "chance": 40, "repeat": [ 1, 2 ] }, { "item": "farming_tools", "chance": 15 } ],
