@@ -274,12 +274,19 @@
       ],
       "place_npcs": [
         { "class": "refugee_JennyForcette", "x": 8, "y": 8 },
+        { "class": "refugee_VanessaToby", "x": 8, "y": 17 },
+        { "class": "refugee_DracoDune", "x": 9, "y": 21 },
         { "class": "refugee_AleeshaSeward", "x": 11, "y": 7 },
         { "class": "refugee_PabloNunez", "x": 11, "y": 12 },
         { "class": "refugee_DanaNunez", "x": 11, "y": 13 },
-        { "class": "refugee_VanessaToby", "x": 8, "y": 17 },
+        { "class": "refugee_AlonsoLautrec", "x": 16, "y": 23 },
+        { "class": "refugee_MangalpreetSingh", "x": 16, "y": 5 },
+        { "class": "refugee_MandeepSingh", "x": 17, "y": 5 },
+        { "class": "refugee_GuneetSingh", "x": 19, "y": 4 },
         { "class": "refugee_BorisBorichenko", "x": 20, "y": 12 },
         { "class": "refugee_StanBorichenko", "x": 21, "y": 12 },
+        { "class": "refugee_GarryVilleneuve", "x": 21, "y": 13 },
+        { "class": "refugee_JohnClemens", "x": 22, "y": 3 },
         { "class": "guard", "x": 19, "y": 21 }
       ]
     }
