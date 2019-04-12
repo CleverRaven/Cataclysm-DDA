@@ -268,7 +268,7 @@ static void fake_test_craft( const recipe_id &rid, const std::vector<item> tools
 {
     prep_craft( rid, tools, expect_craftable );
     if( expect_craftable ) {
-        g->u.consume_components_for_craft( rid.obj(), 1 );
+        g->u.make_craft_with_command( rid, 1, false );
         g->u.invalidate_crafting_inventory();
     }
 }

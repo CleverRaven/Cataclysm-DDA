@@ -79,7 +79,7 @@ void craft_command::execute()
         }
     }
 
-    crafter->start_craft( *rec, batch_size, is_long );
+    crafter->start_craft( *this );
     crafter->last_batch = batch_size;
     crafter->lastrecipe = rec->ident();
 
@@ -126,16 +126,17 @@ bool craft_command::query_continue( const std::vector<comp_selection<item_comp>>
     return query_yn( ss.str() );
 }
 
-std::list<item> craft_command::consume_components()
+item craft_command::create_in_progress_craft()
 {
+    // Use up the components and tools
     std::list<item> used;
     if( crafter->has_trait( trait_id( "DEBUG_HS" ) ) ) {
-        return used;
+        return item( rec, batch_size, used );
     }
 
     if( empty() ) {
         debugmsg( "Warning: attempted to consume items from an empty craft_command" );
-        return used;
+        return item();
     }
 
     inventory map_inv;
@@ -143,10 +144,10 @@ std::list<item> craft_command::consume_components()
 
     if( !check_item_components_missing( map_inv ).empty() ) {
         debugmsg( "Aborting crafting: couldn't find cached components" );
-        return used;
+        return item();
     }
 
-    auto filter = rec->get_component_filter();
+    const auto filter = rec->get_component_filter();
 
     for( const auto &it : item_selections ) {
         std::list<item> tmp = crafter->consume_items( it, batch_size, filter );
@@ -157,7 +158,7 @@ std::list<item> craft_command::consume_components()
         crafter->consume_tools( it, batch_size );
     }
 
-    return used;
+    return item( rec, batch_size, used );
 }
 
 std::vector<comp_selection<item_comp>> craft_command::check_item_components_missing(
@@ -165,7 +166,7 @@ std::vector<comp_selection<item_comp>> craft_command::check_item_components_miss
 {
     std::vector<comp_selection<item_comp>> missing;
 
-    auto filter = rec->get_component_filter();
+    const auto filter = rec->get_component_filter();
 
     for( const auto &item_sel : item_selections ) {
         itype_id type = item_sel.comp.type;

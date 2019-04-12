@@ -6564,16 +6564,20 @@ void item::set_countdown( int num_turns )
 }
 
 bool item::use_charges( const itype_id &what, long &qty, std::list<item> &used,
-                        const tripoint &pos )
+                        const tripoint &pos, const std::function<bool( const item & )> &filter )
 {
     std::vector<item *> del;
 
     // Remember qty to unseal self
     long old_qty = qty;
-    visit_items( [&what, &qty, &used, &pos, &del]( item * e ) {
+    visit_items( [&what, &qty, &used, &pos, &del, &filter]( item * e ) {
         if( qty == 0 ) {
             // found sufficient charges
             return VisitResponse::ABORT;
+        }
+
+        if( !filter( *e ) ) {
+            return VisitResponse::SKIP;
         }
 
         if( e->is_tool() ) {

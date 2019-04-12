@@ -499,12 +499,12 @@ std::vector<std::string> requirement_data::get_folded_tools_list( int width, nc_
         return output_buffer;
     }
 
-    std::vector<std::string> folded_qualities = get_folded_list( width, crafting_inv,
-            is_crafting_component, qualities );
+    std::vector<std::string> folded_qualities = get_folded_list( width, crafting_inv, return_true,
+            qualities );
     output_buffer.insert( output_buffer.end(), folded_qualities.begin(), folded_qualities.end() );
 
-    std::vector<std::string> folded_tools = get_folded_list( width, crafting_inv, is_crafting_component,
-                                            tools, batch );
+    std::vector<std::string> folded_tools = get_folded_list( width, crafting_inv, return_true, tools,
+                                            batch );
     output_buffer.insert( output_buffer.end(), folded_tools.begin(), folded_tools.end() );
     return output_buffer;
 }

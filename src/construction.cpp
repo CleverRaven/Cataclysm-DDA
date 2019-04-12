@@ -835,7 +835,7 @@ void complete_construction()
     }
 
     for( const auto &it : built.requirements->get_components() ) {
-        u.consume_items( it );
+        u.consume_items( it, 1, is_crafting_component );
     }
     for( const auto &it : built.requirements->get_tools() ) {
         u.consume_tools( it );

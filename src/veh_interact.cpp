@@ -2779,7 +2779,7 @@ void veh_interact::complete_vehicle()
             // consume items extracting a match for the parts base item
             item base;
             for( const auto &e : reqs.get_components() ) {
-                for( auto &obj : g->u.consume_items( e ) ) {
+                for( auto &obj : g->u.consume_items( e, 1, is_crafting_component ) ) {
                     if( obj.typeId() == vpinfo.item ) {
                         base = obj;
                     }
@@ -2926,7 +2926,7 @@ void veh_interact::complete_vehicle()
             }
 
             for( const auto &e : reqs.get_components() ) {
-                g->u.consume_items( e );
+                g->u.consume_items( e, 1, is_crafting_component );
             }
             for( const auto &e : reqs.get_tools() ) {
                 g->u.consume_tools( e );

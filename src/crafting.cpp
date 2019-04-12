@@ -408,31 +408,6 @@ void set_components( std::list<item> &components, const std::list<item> &used,
     }
 }
 
-std::list<item> player::consume_components_for_craft( const recipe &making, int batch_size,
-        bool ignore_last )
-{
-    std::list<item> used;
-    if( has_trait( trait_id( "DEBUG_HS" ) ) ) {
-        return used;
-    }
-    if( last_craft->has_cached_selections() && !ignore_last ) {
-        used = last_craft->consume_components();
-    } else {
-        // This should fail and return, but currently crafting_command isn't saved
-        // Meaning there are still cases where has_cached_selections will be false
-        // TODO: Allow saving last_craft and debugmsg+fail craft if selection isn't cached
-        const auto &req = making.requirements();
-        for( const auto &it : req.get_components() ) {
-            std::list<item> tmp = consume_items( it, batch_size );
-            used.splice( used.end(), tmp );
-        }
-        for( const auto &it : req.get_tools() ) {
-            consume_tools( it, batch_size );
-        }
-    }
-    return used;
-}
-
 static void set_item_food( item &newit )
 {
     // TODO: encapsulate this into some function
@@ -496,26 +471,19 @@ static void return_some_components_for_craft( player &p, std::list<item> &used,
     }
 }
 
-void player::start_craft( const recipe &making, int batch_size, bool is_long )
+void player::start_craft( craft_command &command )
 {
-    if( making.ident().is_null() ) {
-        debugmsg( "no recipe with id %s found", activity.name );
+    if( command.empty() ) {
+        debugmsg( "Attempted to start craft with empty command" );
         return;
     }
 
+    item craft = command.create_in_progress_craft();
 
-
-    // Use up the components and tools
-    const std::list<item> used = consume_components_for_craft( making, batch_size );
-    if( last_craft->has_cached_selections() && used.empty() ) {
-        // This signals failure, even though there seem to be several paths where it shouldn't...
-        return;
+    // In case we were wearing something just consumed
+    if( !craft.components.empty() ) {
+        reset_encumbrance();
     }
-    if( !used.empty() ) {
-        reset_encumbrance();  // in case we were wearing something just consumed
-    }
-
-    item craft( &making, batch_size, used );
 
     item *craft_in_inventory = set_item_inventory( *this, craft );
     if( !has_item( *craft_in_inventory ) ) {
@@ -528,7 +496,7 @@ void player::start_craft( const recipe &making, int batch_size, bool is_long )
                            craft.tname() ) );
         assign_activity( activity_id( "ACT_CRAFT" ) );
         activity.targets.push_back( item_location( *this, craft_in_inventory ) );
-        activity.values.push_back( is_long );
+        activity.values.push_back( command.is_long() );
     }
 }
 
