@@ -588,6 +588,9 @@ void npc::travel_overmap( const tripoint &pos )
     const point pos_om_old = sm_to_om_copy( submap_coords );
     spawn_at_sm( pos.x, pos.y, pos.z );
     const point pos_om_new = sm_to_om_copy( submap_coords );
+    if( global_omt_location() == goal ) {
+        reach_omt_destination();
+    }
     if( !is_fake() && pos_om_old != pos_om_new ) {
         overmap &om_old = overmap_buffer.get( pos_om_old.x, pos_om_old.y );
         overmap &om_new = overmap_buffer.get( pos_om_new.x, pos_om_new.y );
@@ -1402,6 +1405,19 @@ bool npc::is_following() const
 bool npc::is_leader() const
 {
     return ( attitude == NPCATT_LEAD );
+}
+
+bool npc::is_assigned_to_camp() const
+{
+    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( global_omt_location().x,
+                                     global_omt_location().y );
+    if( !bcp ) {
+        return false;
+    }
+    if( !has_companion_mission() && mission == NPC_MISSION_GUARD_ALLY ) {
+        return true;
+    }
+    return false;
 }
 
 bool npc::is_enemy() const

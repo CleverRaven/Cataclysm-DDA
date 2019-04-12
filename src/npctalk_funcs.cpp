@@ -206,11 +206,19 @@ void talk_function::assign_guard( npc &p )
             p.reset_companion_mission();
         }
     }
-    add_msg( _( "%s is posted as a guard." ), p.name );
     p.set_attitude( NPCATT_NULL );
     p.mission = NPC_MISSION_GUARD_ALLY;
     p.chatbin.first_topic = "TALK_FRIEND_GUARD";
     p.set_omt_destination();
+    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( p.global_omt_location().x,
+                                     p.global_omt_location().y );
+    if( bcp ) {
+        basecamp *temp_camp = *bcp;
+        temp_camp->validate_assignees();
+        add_msg( _( "%1$s is assigned to guard %2$s" ), p.name, temp_camp->camp_name() );
+    } else {
+        add_msg( _( "%s is posted as a guard." ), p.name );
+    }
 }
 
 void talk_function::stop_guard( npc &p )
@@ -221,6 +229,12 @@ void talk_function::stop_guard( npc &p )
     p.chatbin.first_topic = "TALK_FRIEND";
     p.goal = npc::no_goal_point;
     p.guard_pos = npc::no_goal_point;
+    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( p.global_omt_location().x,
+                                     p.global_omt_location().y );
+    if( bcp ) {
+        basecamp *temp_camp = *bcp;
+        temp_camp->validate_assignees();
+    }
 }
 
 void talk_function::wake_up( npc &p )
