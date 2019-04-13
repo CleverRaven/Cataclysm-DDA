@@ -106,9 +106,11 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
     "skill_used": "mechanics",
-    "difficulty": 5,
+    "difficulty": 6,
     "time": 180000,
-    "book_learn": [ [ "textbook_mechanics", 5 ] ],
+    "reversible": true,
+    "autolearn": true,
+    "book_learn": [ [ "textbook_mechanics", 5 ], ["manual_mechanics", 5 ], ["textbook_fabrication"], 5],
     "using": [ [ "welding_standard", 50 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
