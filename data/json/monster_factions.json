@@ -60,6 +60,18 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "defense_bot",
+    "base_faction": "bot",
+    "neutral": [ "cop_bot", "military", "utility_bot", "science", "small_animal" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "science",
+    "base_faction": "zombie",
+    "neutral": [ "bot" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "cop_bot",
     "base_faction": "bot",
     "neutral": [ "military", "defense_bot", "utility_bot", "small_animal" ]

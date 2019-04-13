@@ -1,5 +1,25 @@
 [
   {
+    "id": "bio_shotgun_gun",
+    "type": "GUN",
+    "name": "bionic shotgun",
+    "description": "Bionic one-shot retracting shotgun integrated with your arm.",
+    "volume": 9,
+    "price": 0,
+    "to_hit": -2,
+    "bashing": 9,
+    "material": [ "steel", "plastic" ],
+    "symbol": "(",
+    "color": "magenta",
+    "skill": "shotgun",
+    "ammo": "shot",
+    "dispersion": 855,
+    "durability": 6,
+    "clip_size": 1,
+    "reload": 200,
+    "flags": [ "NEVER_JAMS", "RELOAD_EJECT", "NO_UNWIELD", "TRADER_AVOID" ]
+  },
+  {
     "id": "bio_blaster_gun",
     "type": "GUN",
     "name": "fusion blaster",
@@ -84,6 +104,27 @@
     "loudness": 10,
     "reload": 500,
     "ammo_effects": [ "LIGHTNING", "BOUNCE" ],
+    "flags": [ "NEVER_JAMS", "TRADER_AVOID" ]
+  },
+  {
+    "id": "mut_quills",
+    "type": "GUN",
+    "name": "Assault barbs",
+    "name_plural": "Assault barbs",
+    "description": "this a pseudo item",
+    "volume": 12,
+    "price": 0,
+    "material": [ "steel", "plastic" ],
+    "symbol": "(",
+    "color": "magenta",
+    "skill": "shotgun",
+    "range": 4,
+    "ranged_damage": 6,
+    "dispersion": 600,
+    "durability": 10,
+    "loudness": 5,
+    "reload": 500,
+    "ammo_effects": [ "SHOT" ],
     "flags": [ "NEVER_JAMS", "TRADER_AVOID" ]
   }
 ]

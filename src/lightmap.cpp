@@ -62,7 +62,7 @@ void map::add_light_from_items( const tripoint &p, std::list<item>::iterator beg
     }
 }
 
-// TODO Consider making this just clear the cache and dynamically fill it in as trans() is called
+// TODO: Consider making this just clear the cache and dynamically fill it in as trans() is called
 void map::build_transparency_cache( const int zlev )
 {
     auto &map_cache = get_cache( zlev );
@@ -408,7 +408,8 @@ void map::generate_lightmap( const int zlev )
                 continue;
             }
             if( vp.has_feature( VPFLAG_CARGO ) && !vp.has_feature( "COVERED" ) ) {
-                add_light_from_items( pp, v->get_items( p ).begin(), v->get_items( p ).end() );
+                add_light_from_items( pp, v->get_items( static_cast<int>( p ) ).begin(),
+                                      v->get_items( static_cast<int>( p ) ).end() );
             }
         }
     }
@@ -955,14 +956,21 @@ void castLight( Out( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
         delta.y = -distance;
         bool started_row = false;
         T current_transparency = 0.0;
-        for( delta.x = -distance; delta.x <= 0; delta.x++ ) {
+        float away = start - ( -distance + 0.5f ) / ( -distance -
+                     0.5f ); //The distance between our first leadingEdge and start
+
+        //We initialise delta.x to -distance adjusted so that the commented start < leadingEdge condition below is never false
+        delta.x = -distance + std::max( static_cast<int>( ceil( away * ( -distance - 0.5f ) ) ),
+                                        0 );
+
+        for( ; delta.x <= 0; delta.x++ ) {
             int currentX = offsetX + delta.x * xx + delta.y * xy;
             int currentY = offsetY + delta.x * yx + delta.y * yy;
             float trailingEdge = ( delta.x - 0.5f ) / ( delta.y + 0.5f );
             float leadingEdge = ( delta.x + 0.5f ) / ( delta.y - 0.5f );
 
             if( !( currentX >= 0 && currentY >= 0 && currentX < MAPSIZE_X &&
-                   currentY < MAPSIZE_Y ) || start < leadingEdge ) {
+                   currentY < MAPSIZE_Y ) /* || start < leadingEdge */ ) {
                 continue;
             } else if( end > trailingEdge ) {
                 break;
@@ -1132,10 +1140,10 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
             seen_cache[mirror_pos.x][mirror_pos.y] < LIGHT_TRANSPARENCY_SOLID + 0.1 ) {
             continue;
         } else if( !vp.info().has_flag( "CAMERA_CONTROL" ) ) {
-            mirrors.emplace_back( vp.part_index() );
+            mirrors.emplace_back( static_cast<int>( vp.part_index() ) );
         } else {
             if( square_dist( origin, mirror_pos ) <= 1 && veh->camera_on ) {
-                cam_control = vp.part_index();
+                cam_control = static_cast<int>( vp.part_index() );
             }
         }
     }
@@ -1159,7 +1167,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
             camera_cache[mirror_pos.x][mirror_pos.y] = LIGHT_TRANSPARENCY_OPEN_AIR;
         }
 
-        // @todo: Factor in the mirror facing and only cast in the
+        // TODO: Factor in the mirror facing and only cast in the
         // directions the player's line of sight reflects to.
         //
         // The naive solution of making the mirrors act like a second player
@@ -1169,11 +1177,26 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
     }
 }
 
-static float light_calc( const float &numerator, const float &transparency, const int &distance )
+//Schraudolph's algorithm with John's constants
+static inline
+float fastexp( float x )
+{
+    union {
+        float f;
+        int i;
+    } u, v;
+    u.i = static_cast<long long>( 6051102 * x + 1056478197 );
+    v.i = static_cast<long long>( 1056478197 - 6051102 * x );
+    return u.f / v.f;
+}
+
+static float light_calc( const float &numerator, const float &transparency,
+                         const int &distance )
 {
     // Light needs inverse square falloff in addition to attenuation.
-    return numerator / static_cast<float>( exp( transparency * distance ) * distance );
+    return numerator  / ( fastexp( transparency * distance ) * distance );
 }
+
 static bool light_check( const float &transparency, const float &intensity )
 {
     return transparency > LIGHT_TRANSPARENCY_SOLID && intensity > LIGHT_AMBIENT_LOW;
@@ -1336,12 +1359,16 @@ void map::apply_light_arc( const tripoint &p, int angle, float luminance, int wi
         if( trigdist ) {
             double fdist = ( ao * HALFPI ) / wangle;
             double orad = ( PI * ao / 180.0 );
-            end.x = int( p.x + ( static_cast<double>( range ) - fdist * 2.0 ) * cos( rad + orad ) );
-            end.y = int( p.y + ( static_cast<double>( range ) - fdist * 2.0 ) * sin( rad + orad ) );
+            end.x = static_cast<int>( p.x + ( static_cast<double>( range ) - fdist * 2.0 ) * cos(
+                                          rad + orad ) );
+            end.y = static_cast<int>( p.y + ( static_cast<double>( range ) - fdist * 2.0 ) * sin(
+                                          rad + orad ) );
             apply_light_ray( lit, p, end, luminance );
 
-            end.x = int( p.x + ( static_cast<double>( range ) - fdist * 2.0 ) * cos( rad - orad ) );
-            end.y = int( p.y + ( static_cast<double>( range ) - fdist * 2.0 ) * sin( rad - orad ) );
+            end.x = static_cast<int>( p.x + ( static_cast<double>( range ) - fdist * 2.0 ) * cos(
+                                          rad - orad ) );
+            end.y = static_cast<int>( p.y + ( static_cast<double>( range ) - fdist * 2.0 ) * sin(
+                                          rad - orad ) );
             apply_light_ray( lit, p, end, luminance );
         } else {
             calc_ray_end( nangle + ao, range, p, end );
@@ -1395,7 +1422,7 @@ void map::apply_light_ray( bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
                 if( !lit[x][y] ) {
                     // Multiple rays will pass through the same squares so we need to record that
                     lit[x][y] = true;
-                    float lm_val = luminance / ( expf( transparency * distance ) * distance );
+                    float lm_val = luminance / ( fastexp( transparency * distance ) * distance );
                     quadrant q = is_opaque ? quad : quadrant::default_;
                     lm[x][y][q] = std::max( lm[x][y][q], lm_val );
                 }
@@ -1427,7 +1454,7 @@ void map::apply_light_ray( bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
                 if( !lit[x][y] ) {
                     // Multiple rays will pass through the same squares so we need to record that
                     lit[x][y] = true;
-                    float lm_val = luminance / ( expf( transparency * distance ) * distance );
+                    float lm_val = luminance / ( fastexp( transparency * distance ) * distance );
                     quadrant q = is_opaque ? quad : quadrant::default_;
                     lm[x][y][q] = std::max( lm[x][y][q], lm_val );
                 }

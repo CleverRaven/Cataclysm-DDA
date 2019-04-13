@@ -3,7 +3,6 @@
 #include <chrono>
 #include <cmath>
 #include <cstdlib>
-#include <random>
 
 #include "output.h"
 
@@ -18,7 +17,8 @@ double rng_float( double val1, double val2 )
 {
     double minVal = ( val1 < val2 ) ? val1 : val2;
     double maxVal = ( val1 < val2 ) ? val2 : val1;
-    return minVal + ( maxVal - minVal ) * double( rand() ) / double( RAND_MAX + 1.0 );
+    return minVal + ( maxVal - minVal ) * static_cast<double>( rand() ) / static_cast<double>
+           ( RAND_MAX + 1.0 );
 }
 
 bool one_in( int chance )
@@ -50,7 +50,7 @@ int dice( int number, int sides )
 // 1.3 has a 70% chance of rounding to 1, 30% chance to 2.
 int roll_remainder( double value )
 {
-    const int trunc = int( value );
+    const int trunc = static_cast<int>( value );
     if( value > trunc && x_in_y( value - trunc, 1.0 ) ) {
         return trunc + 1;
     }
@@ -91,7 +91,7 @@ double rng_normal( double lo, double hi )
     return std::max( std::min( val, hi ), lo );
 }
 
-std::default_random_engine &get_engine()
+std::default_random_engine &rng_get_engine()
 {
     static std::default_random_engine eng(
         std::chrono::system_clock::now().time_since_epoch().count() );
@@ -101,11 +101,11 @@ std::default_random_engine &get_engine()
 void rng_set_engine_seed( uintmax_t seed )
 {
     if( seed != 0 ) {
-        get_engine().seed( seed );
+        rng_get_engine().seed( seed );
     }
 }
 
 double normal_roll( double mean, double stddev )
 {
-    return std::normal_distribution<double>( mean, stddev )( get_engine() );
+    return std::normal_distribution<double>( mean, stddev )( rng_get_engine() );
 }

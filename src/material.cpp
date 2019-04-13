@@ -63,10 +63,15 @@ void material_type::load( JsonObject &jsobj, const std::string & )
     mandatory( jsobj, was_loaded, "chip_resist", _chip_resist );
     mandatory( jsobj, was_loaded, "density", _density );
 
+    optional( jsobj, was_loaded, "specific_heat_liquid", _specific_heat_liquid );
+    optional( jsobj, was_loaded, "specific_heat_solid", _specific_heat_solid );
+    optional( jsobj, was_loaded, "latent_heat", _latent_heat );
+
     assign( jsobj, "salvaged_into", _salvaged_into );
     optional( jsobj, was_loaded, "repaired_with", _repaired_with, "null" );
     optional( jsobj, was_loaded, "edible", _edible, false );
     optional( jsobj, was_loaded, "soft", _soft, false );
+    optional( jsobj, was_loaded, "reinforces", _reinforces, false );
 
     auto arr = jsobj.get_array( "vitamins" );
     while( arr.has_more() ) {
@@ -206,7 +211,7 @@ std::string material_type::dmg_adj( int damage ) const
     }
 
     // apply bounds checking
-    return _( _dmg_adj[std::min( size_t( damage ), _dmg_adj.size() ) - 1].c_str() );
+    return _( _dmg_adj[std::min( static_cast<size_t>( damage ), _dmg_adj.size() ) - 1].c_str() );
 }
 
 int material_type::acid_resist() const
@@ -229,6 +234,21 @@ int material_type::chip_resist() const
     return _chip_resist;
 }
 
+float material_type::specific_heat_liquid() const
+{
+    return _specific_heat_liquid;
+}
+
+float material_type::specific_heat_solid() const
+{
+    return _specific_heat_solid;
+}
+
+float material_type::latent_heat() const
+{
+    return _latent_heat;
+}
+
 int material_type::density() const
 {
     return _density;
@@ -242,6 +262,11 @@ bool material_type::edible() const
 bool material_type::soft() const
 {
     return _soft;
+}
+
+bool material_type::reinforces() const
+{
+    return _reinforces;
 }
 
 const mat_burn_data &material_type::burn_data( size_t intensity ) const

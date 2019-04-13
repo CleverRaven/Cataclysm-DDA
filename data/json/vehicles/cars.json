@@ -714,6 +714,45 @@
     "items": [ { "x": -1, "y": 0, "chance": 8, "items": [ "sm_extinguisher" ] } ]
   },
   {
+    "id": "car_racing_electric",
+    "type": "vehicle",
+    "name": "Electric Racing Car",
+    "blueprint": [
+      [ "o-+-o" ],
+      [ "+=#'|" ],
+      [ "+=#'|" ],
+      [ "o-+-o" ]
+    ],
+    "parts": [
+      { "x": 0, "y": 0, "parts": [ "xlframe_vertical_2", "seat", "seatbelt", "controls" ] },
+      { "x": 0, "y": 0, "parts": [ "dashboard", "vehicle_alarm", "horn_car", "roof" ] },
+      { "x": 0, "y": 1, "parts": [ "xlframe_vertical_2", "seat", "seatbelt", "roof" ] },
+      { "x": 0, "y": -1, "parts": [ "xlframe_vertical", "door" ] },
+      { "x": 0, "y": 2, "parts": [ "xlframe_vertical", "door" ] },
+      { "x": 1, "y": 0, "parts": [ "xlframe_horizontal", "windshield" ] },
+      { "x": 1, "y": 1, "parts": [ "xlframe_horizontal", "windshield" ] },
+      { "x": 1, "y": -1, "parts": [ "xlframe_vertical", "windshield" ] },
+      { "x": 1, "y": 2, "parts": [ "xlframe_vertical", "windshield" ] },
+      { "x": 2, "y": 0, "parts": [ "xlframe_horizontal", "xlhalfboard_horizontal" ] },
+      { "x": 2, "y": 0, "parts": [ "engine_electric_super", "storage_battery" ] },
+      { "x": 2, "y": 1, "parts": [ "xlframe_horizontal", "storage_battery", "xlhalfboard_horizontal" ] },
+      { "x": 2, "y": -1, "parts": [ "xlframe_nw", "xlhalfboard_nw", "wheel_steerable", "headlight" ] },
+      { "x": 2, "y": 2, "parts": [ "xlframe_ne", "xlhalfboard_ne", "wheel_steerable", "headlight" ] },
+      { "x": -1, "y": 0, "parts": [ "xlframe_vertical", "storage_battery", "trunk", "roof" ] },
+      { "x": -1, "y": 1, "parts": [ "xlframe_vertical", "storage_battery", "trunk", "roof" ] },
+      { "x": -1, "y": -1, "parts": [ "xlframe_vertical", "xlhalfboard_vertical" ] },
+      { "x": -1, "y": 2, "parts": [ "xlframe_vertical", "xlhalfboard_vertical" ] },
+      { "x": -2, "y": -1, "parts": [ "xlframe_horizontal", "xlhalfboard_sw", "wheel_slick_steerable" ] },
+      { "x": -2, "y": 0, "parts": [ "xlframe_horizontal", "door_trunk" ] },
+      { "x": -2, "y": 1, "parts": [ "xlframe_horizontal", "door_trunk" ] },
+      { "x": -2, "y": 2, "parts": [ "xlframe_horizontal", "xlhalfboard_se", "wheel_slick_steerable" ] }
+    ],
+    "items": [
+      { "x": -1, "y": 0, "chance": 8, "items": [ "sm_extinguisher" ] },
+      { "x": 0, "y": 0, "chance": 6, "items": [ "helmet_motor" ] }
+    ]
+  },
+  {
     "id": "electric_car",
     "type": "vehicle",
     "name": "Electric Car",

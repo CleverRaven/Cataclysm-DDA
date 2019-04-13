@@ -7,7 +7,7 @@
 #include "ui.h"
 #include "uistate.h"
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
 #include <SDL_keyboard.h>
 
 #include "options.h"
@@ -45,11 +45,11 @@ void string_input_popup::create_window()
 
         for( int wraplen = w_width - 2; wraplen >= titlesize; wraplen-- ) {
             title_split = foldstring( _title, wraplen );
-            if( int( title_split.back().size() ) <= titlesize ) {
+            if( static_cast<int>( title_split.back().size() ) <= titlesize ) {
                 break;
             }
         }
-        w_height += int( title_split.size() ) - 1;
+        w_height += static_cast<int>( title_split.size() ) - 1;
     }
 
     std::vector<std::string> descformatted;
@@ -78,7 +78,7 @@ void string_input_popup::create_window()
     for( size_t i = 0; i < descformatted.size(); ++i ) {
         trim_and_print( w, 1 + i, 1, w_width - 2, _desc_color, descformatted[i] );
     }
-    for( int i = 0; i < int( title_split.size() ) - 1; i++ ) {
+    for( int i = 0; i < static_cast<int>( title_split.size() ) - 1; i++ ) {
         mvwprintz( w, _starty++, i + 1, _title_color, title_split[i] );
     }
     right_print( w, _starty, w_width - titlesize - 1, _title_color, title_split.back() );
@@ -231,7 +231,7 @@ void string_input_popup::draw( const utf8_wrapper &ret, const utf8_wrapper &edit
             a--;
             cursor = ret.substr( a, _position - a + 1 );
         }
-        size_t left_over = ret.substr( 0, a ).display_width() - shift;
+        const size_t left_over = ret.substr( 0, a ).display_width() - shift;
         mvwprintz( w, _starty, _startx + left_over, _cursor_color, "%s", cursor.c_str() );
         start_x_edit = _startx + left_over;
     } else if( _position == _max_length && _max_length > 0 ) {
@@ -288,7 +288,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
     if( !ctxt ) {
         create_context();
     }
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
     if( !draw_only && loop && get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
         SDL_StartTextInput();
     }
@@ -367,7 +367,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
         }
 
         if( ch == KEY_ESCAPE ) {
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
             if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
                 SDL_StopTextInput();
             }
@@ -415,7 +415,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
         } else if( ch == KEY_BACKSPACE ) {
             // but silently drop input if we're at 0, instead of adding '^'
             if( _position > 0 && _position <= static_cast<int>( ret.size() ) ) {
-                //TODO: it is safe now since you only input ASCII chars
+                // TODO: it is safe now since you only input ASCII chars
                 _position--;
                 ret.erase( _position, 1 );
                 redraw = true;
@@ -514,7 +514,7 @@ void string_input_popup::edit( int &value )
 string_input_popup &string_input_popup::text( const std::string &value )
 {
     _text = value;
-    auto u8size = utf8_wrapper( _text ).size();
+    const auto u8size = utf8_wrapper( _text ).size();
     if( _position < 0 || static_cast<size_t>( _position ) > u8size ) {
         _position = u8size;
     }

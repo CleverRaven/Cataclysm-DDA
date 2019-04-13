@@ -3,7 +3,13 @@
     "id": "corpse_male",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "group": "male_underwear_top" }, { "group": "male_underwear_bottom" }, { "item": "corpse" }, { "item": "sheet" } ]
+    "entries": [
+      { "group": "male_underwear_top" },
+      { "group": "male_underwear_bottom" },
+      { "item": "corpse" },
+      { "item": "sheet" },
+      { "item": "bag_body_bag" }
+    ]
   },
   {
     "id": "corpse_female",
@@ -13,7 +19,8 @@
       { "group": "female_underwear_top" },
       { "group": "female_underwear_bottom" },
       { "item": "corpse" },
-      { "item": "sheet" }
+      { "item": "sheet" },
+      { "item": "bag_body_bag" }
     ]
   },
   {

@@ -5,7 +5,7 @@
     "name": "Evacuee",
     "points": 0,
     "description": "You have survived the initial wave of panic, and have achieved (relative) safety in one of the many government evac shelters.",
-    "allowed_locs": [ "shelter" ],
+    "allowed_locs": [ "shelter", "shelter_1", "shelter_2" ],
     "start_name": "Evac Shelter",
     "flags": [ "CITY_START" ]
   },
@@ -28,6 +28,7 @@
     "allowed_locs": [
       "house",
       "s_grocery",
+      "s_grocery_1",
       "s_gun",
       "s_garage",
       "pawn",
@@ -49,7 +50,19 @@
     "ident": "infected",
     "points": -4,
     "start_name": "Anywhere",
-    "allowed_locs": [ "house", "s_grocery", "s_gun", "s_garage", "pawn", "bank", "mil_surplus", "furniture", "s_library", "s_bookstore" ],
+    "allowed_locs": [
+      "house",
+      "s_grocery",
+      "s_grocery_1",
+      "s_gun",
+      "s_garage",
+      "pawn",
+      "bank",
+      "mil_surplus",
+      "furniture",
+      "s_library",
+      "s_bookstore"
+    ],
     "blacklist_professions": true,
     "professions": [ "medic", "jr_survivalist", "camper", "cyberjunkie" ]
   },
@@ -61,7 +74,19 @@
     "ident": "fire",
     "points": -2,
     "start_name": "Anywhere",
-    "allowed_locs": [ "house", "s_grocery", "s_gun", "s_garage", "pawn", "bank", "mil_surplus", "furniture", "s_library", "s_bookstore" ]
+    "allowed_locs": [
+      "house",
+      "s_grocery",
+      "s_grocery_1",
+      "s_gun",
+      "s_garage",
+      "pawn",
+      "bank",
+      "mil_surplus",
+      "furniture",
+      "s_library",
+      "s_bookstore"
+    ]
   },
   {
     "type": "scenario",
@@ -70,7 +95,19 @@
     "points": -8,
     "description": "You start drunk to the point of incapacitation, depressed, infected, surrounded by fire, naked, and sick with the flu.  This day went downhill really fast.",
     "start_name": "Anywhere",
-    "allowed_locs": [ "house", "s_grocery", "s_gun", "s_garage", "pawn", "bank", "mil_surplus", "furniture", "s_library", "s_bookstore" ],
+    "allowed_locs": [
+      "house",
+      "s_grocery",
+      "s_grocery_1",
+      "s_gun",
+      "s_garage",
+      "pawn",
+      "bank",
+      "mil_surplus",
+      "furniture",
+      "s_library",
+      "s_bookstore"
+    ],
     "professions": [ "svictim", "tweaker" ],
     "flags": [ "FIRE_START", "INFECTED", "BAD_DAY", "CHALLENGE", "CITY_START" ]
   },
@@ -203,7 +240,7 @@
     "start_name": "Prison",
     "professions": [ "convict" ],
     "forced_traits": [ "PSYCHOPATH" ],
-    "flags": [ "CITY_START" ]
+    "flags": [ "CITY_START", "LONE_START" ]
   },
   {
     "type": "scenario",
@@ -373,6 +410,7 @@
     "allowed_locs": [
       "s_bookstore",
       "s_grocery",
+      "s_grocery_1",
       "police",
       "s_garage",
       "s_library",
@@ -397,7 +435,7 @@
     "type": "scenario",
     "ident": "cyberpunk",
     "name": "High Tech, Low Life",
-    "description": "Before the world ended, bionics were reserved for the rich and the famous.  You might not have been either, but you wanted in.  Hidden offices sequestered away in basements, anesthesic smuggled out of hospitals, and desperate people with little to lose got you what you wanted.  If you went too deep, however, your augmentation may have come at a price...",
+    "description": "Before the world ended, bionics were reserved for the rich and the famous.  You might not have been either, but you wanted in.  Hidden offices sequestered away in basements, anesthetic smuggled out of hospitals, and desperate people with little to lose got you what you wanted.  If you went too deep, however, your augmentation may have come at a price...",
     "flags": [ "CITY_START", "LONE_START" ],
     "points": 2,
     "start_name": "Shady Basement",

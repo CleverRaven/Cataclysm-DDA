@@ -38,6 +38,7 @@ void morale_chat_activity( npc & );
 void buy_10_logs( npc & );
 void buy_100_logs( npc & );
 void start_trade( npc & );
+void goto_location( npc & );
 void assign_base( npc & );
 void assign_guard( npc & );
 void stop_guard( npc & );
@@ -70,7 +71,6 @@ void copy_npc_rules( npc &p );
 void set_npc_pickup( npc &p );
 }
 
-bool trade( npc &p, int cost, const std::string &deal );
 time_duration calc_skill_training_time( const npc &p, const skill_id &skill );
 int calc_skill_training_cost( const npc &p, const skill_id &skill );
 time_duration calc_ma_style_training_time( const npc &, const matype_id & /* id */ );

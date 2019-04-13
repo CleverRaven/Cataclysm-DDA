@@ -1,4 +1,6 @@
 #pragma once
+#ifndef WCWIDTH_H
+#define WCWIDTH_H
 /*
  * This is an implementation of wcwidth() and wcswidth() (defined in
  * IEEE Std 1002.1-2001) for Unicode.
@@ -215,12 +217,13 @@ int mk_wcswidth( const uint32_t *pwcs, size_t n )
     int w = 0;
     int width = 0;
 
-    for( ; *pwcs && n-- > 0; pwcs++ )
+    for( ; *pwcs && n-- > 0; pwcs++ ) {
         if( ( w = mk_wcwidth( *pwcs ) ) < 0 ) {
             return -1;
         } else {
             width += w;
         }
+    }
 
     return width;
 }
@@ -307,12 +310,14 @@ int mk_wcswidth_cjk( const uint32_t *pwcs, size_t n )
     int w = 0;
     int width = 0;
 
-    for( ; *pwcs && n-- > 0; pwcs++ )
+    for( ; *pwcs && n-- > 0; pwcs++ ) {
         if( ( w = mk_wcwidth_cjk( *pwcs ) ) < 0 ) {
             return -1;
         } else {
             width += w;
         }
+    }
 
     return width;
 }
+#endif

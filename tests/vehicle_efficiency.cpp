@@ -409,22 +409,22 @@ TEST_CASE( "vehicle_make_efficiency_case", "[.]" )
 // Fix test for electric vehicles
 TEST_CASE( "vehicle_efficiency", "[vehicle] [engine]" )
 {
-    test_vehicle( "beetle", 767373, 165400, 136200, 70280, 56130 );
-    test_vehicle( "car", 1072322, 283200, 188900, 49150, 30860 );
-    test_vehicle( "car_sports", 1098408, 181000, 139700, 39690, 23970 );
-    test_vehicle( "electric_car", 962791, 61520, 39080, 9000, 4950 );
-    test_vehicle( "suv", 1271990, 550100, 322600, 78690, 38840 );
-    test_vehicle( "motorcycle", 162785, 63890, 53950, 41110, 34490 );
-    test_vehicle( "quad_bike", 264745, 48980, 48980, 31200, 31200 );
-    test_vehicle( "scooter", 62287, 138000, 135700, 107000, 105300 );
-    test_vehicle( "superbike", 241785, 58290, 39870, 30390, 19850 );
-    test_vehicle( "ambulance", 1783889, 195800, 162400, 66510, 49750 );
-    test_vehicle( "fire_engine", 2413241, 1028000, 919500, 249000, 222700 );
-    test_vehicle( "fire_truck", 6259233, 166000, 29430, 22760, 5135 );
-    test_vehicle( "truck_swat", 5939334, 267000, 42380, 36330, 8619 );
-    test_vehicle( "tractor_plow", 703658, 187300, 187300, 95930, 95930 );
-    test_vehicle( "apc", 5740739, 606000, 578700, 157000, 109400 );
-    test_vehicle( "humvee", 5461385, 284700, 120400, 32490, 11490 );
-    test_vehicle( "road_roller", 8755702, 270300, 56320, 22880, 7589 );
-    test_vehicle( "golf_cart", 378101, 21440, 24320, 11510, 7627 );
+    test_vehicle( "beetle", 767373, 235000, 195500, 70760, 54070 );
+    test_vehicle( "car", 1072322, 363000, 245700, 44380, 26120 );
+    test_vehicle( "car_sports", 1098408, 208900, 168600, 35020, 20180 );
+    test_vehicle( "electric_car", 970791, 219500, 139600, 19810, 10900 );
+    test_vehicle( "suv", 1271990, 696200, 405800, 68340, 32700 );
+    test_vehicle( "motorcycle", 162785, 64180, 54160, 41250, 34600 );
+    test_vehicle( "quad_bike", 264745, 63520, 63520, 31390, 31390 );
+    test_vehicle( "scooter", 62287, 140400, 138000, 108800, 107000 );
+    test_vehicle( "superbike", 241785, 58540, 40000, 30480, 19890 );
+    test_vehicle( "ambulance", 1783889, 331200, 281700, 61580, 46220 );
+    test_vehicle( "fire_engine", 2413241, 1030000, 920400, 249100, 222800 );
+    test_vehicle( "fire_truck", 6259233, 253000, 149700, 19010, 4523 );
+    test_vehicle( "truck_swat", 5939334, 409300, 248500, 27990, 7189 );
+    test_vehicle( "tractor_plow", 703658, 354200, 354200, 106700, 106700 );
+    test_vehicle( "apc", 5753619, 957100, 824200, 123600, 85540 );
+    test_vehicle( "humvee", 5475145, 465800, 278700, 24650, 8824 );
+    test_vehicle( "road_roller", 8755702, 310900, 295100, 21910, 6666 );
+    test_vehicle( "golf_cart", 396230, 53980, 107600, 28460, 18040 );
 };

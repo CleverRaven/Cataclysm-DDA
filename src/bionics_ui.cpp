@@ -141,7 +141,7 @@ void draw_description( const catacurses::window &win, const bionic &bio )
     }
     ypos += 1 + fold_and_print( win, ypos, 0, width, c_light_blue, bio.id->description );
 
-    // @todo: Unhide when enforcing limits
+    // TODO: Unhide when enforcing limits
     if( get_option < bool >( "CBM_SLOTS_ENABLED" ) ) {
         const bool each_bp_on_new_line = ypos + static_cast<int>( num_bp ) + 1 < getmaxy( win );
         ypos += fold_and_print( win, ypos, 0, width, c_light_gray,
@@ -453,7 +453,7 @@ void player::power_bionics()
 
             draw_scrollbar( wBio, cursor, LIST_HEIGHT, current_bionic_list->size(), list_start_y );
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
             ctxt.get_registered_manual_keys().clear();
             for( size_t i = 0; i < current_bionic_list->size(); i++ ) {
                 ctxt.register_manual_key( ( *current_bionic_list )[i]->invlet,
@@ -615,7 +615,7 @@ void player::power_bionics()
                     } else {
                         activate_bionic( b );
                         // Clear the menu if we are firing a bionic gun
-                        if( tmp->info().gun_bionic ) {
+                        if( tmp->info().gun_bionic || tmp->ammo_count > 0 ) {
                             break;
                         }
                     }

@@ -252,7 +252,8 @@ const recipe *select_crafting_recipe( int &batch_size )
                 current.clear();
                 for( int i = 1; i <= 20; i++ ) {
                     current.push_back( chosen );
-                    available.push_back( chosen->requirements().can_make_with_inventory( crafting_inv, i ) );
+                    available.push_back( chosen->requirements().can_make_with_inventory( crafting_inv,
+                                         chosen->get_component_filter(), i ) );
                 }
             } else {
                 std::vector<const recipe *> picking;
@@ -359,7 +360,8 @@ const recipe *select_crafting_recipe( int &batch_size )
                 // cache recipe availability on first display
                 for( const auto e : current ) {
                     if( !availability_cache.count( e ) ) {
-                        availability_cache.emplace( e, e->requirements().can_make_with_inventory( crafting_inv ) );
+                        availability_cache.emplace( e, e->requirements().can_make_with_inventory( crafting_inv,
+                                                    e->get_component_filter() ) );
                     }
                 }
 
@@ -517,7 +519,8 @@ const recipe *select_crafting_recipe( int &batch_size )
 
             std::vector<std::string> component_print_buffer;
             auto tools = req.get_folded_tools_list( pane, col, crafting_inv, count );
-            auto comps = req.get_folded_components_list( pane, col, crafting_inv, count, qry_comps );
+            auto comps = req.get_folded_components_list( pane, col, crafting_inv,
+                         current[ line ]->get_component_filter(), count, qry_comps );
             component_print_buffer.insert( component_print_buffer.end(), tools.begin(), tools.end() );
             component_print_buffer.insert( component_print_buffer.end(), comps.begin(), comps.end() );
 
@@ -596,6 +599,22 @@ const recipe *select_crafting_recipe( int &batch_size )
                 ypos += print_items( *current[line], w_data, ypos, xpos, col, batch ? line + 1 : 1 );
             }
 
+            // create an imaginary version of the crafting output.
+            // Needed both for the nutrition tests, and eventually to display in the right pane.
+            if( last_recipe != current[line] ) {
+                last_recipe = current[line];
+                tmp = current[line]->create_result();
+            }
+            tmp.info( true, thisItem, count );
+
+            // If it's food that can have variable nutrition, add disclaimer.
+            // Hidden if the user is attempting to page through components.
+            if( ( tmp.is_food_container() || tmp.is_food() ) && !tmp.has_flag( "NUTRIENT_OVERRIDE" ) &&
+                display_mode == 0 ) {
+                ypos += fold_and_print( w_data, ypos, xpos + 2, pane - 2, c_light_gray,
+                                        _( "Shown nutrition is <color_cyan>estimated</color>, varying with <color_cyan>chosen ingredients</color>." ) );
+            }
+
             //color needs to be preserved in case part of the previous page was cut off
             nc_color stored_color = col;
             if( display_mode > 1 ) {
@@ -623,11 +642,6 @@ const recipe *select_crafting_recipe( int &batch_size )
             }
 
             if( isWide ) {
-                if( last_recipe != current[line] ) {
-                    last_recipe = current[line];
-                    tmp = current[line]->create_result();
-                }
-                tmp.info( true, thisItem, count );
                 draw_item_info( w_iteminfo, tmp.tname(), tmp.type_name(), thisItem, dummy,
                                 scroll_pos, true, true, true, false, true );
             }
@@ -957,7 +971,7 @@ static void draw_can_craft_indicator( const catacurses::window &w, const int mar
                                       const recipe &rec )
 {
     // Erase previous text
-    // @todo: fixme replace this hack by proper solution (based on max width of possible content)
+    // FIXME: replace this hack by proper solution (based on max width of possible content)
     right_print( w, margin_y + 1, 1, c_black, "        " );
     // Draw text
     right_print( w, margin_y, 1, c_light_gray, _( "can craft:" ) );
@@ -968,7 +982,7 @@ static void draw_can_craft_indicator( const catacurses::window &w, const int mar
         right_print( w, margin_y + 1, 1, i_red, _( "too sad" ) );
     } else if( g->u.crafting_speed_multiplier( rec ) < 1.0f ) {
         right_print( w, margin_y + 1, 1, i_yellow, string_format( _( "slow %d%%" ),
-                     int( g->u.crafting_speed_multiplier( rec ) * 100 ) ) );
+                     static_cast<int>( g->u.crafting_speed_multiplier( rec ) * 100 ) ) );
     } else {
         right_print( w, margin_y + 1, 1, i_green, _( "yes" ) );
     }
@@ -1015,7 +1029,7 @@ static void draw_recipe_subtabs( const catacurses::window &w, const std::string 
     for( int i = 0; i < width; i++ ) {
         if( i == 0 ) {
             mvwputch( w, 2, i, BORDER_COLOR, LINE_XXXO );
-        } else if( i == width ) { // @todo: that is always false!
+        } else if( i == width ) { // TODO: that is always false!
             mvwputch( w, 2, i, BORDER_COLOR, LINE_XOXX );
         } else {
             mvwputch( w, 2, i, BORDER_COLOR, LINE_OXOX );

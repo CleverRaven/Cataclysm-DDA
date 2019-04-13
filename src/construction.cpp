@@ -146,7 +146,7 @@ void draw_grid( const catacurses::window &w, const int list_width )
     wrefresh( w );
 }
 
-nc_color construction_color( std::string &con_name, bool highlight )
+nc_color construction_color( const std::string &con_name, bool highlight )
 {
     nc_color col = c_dark_gray;
     if( g->u.has_trait( trait_id( "DEBUG_HS" ) ) ) {
@@ -156,7 +156,7 @@ nc_color construction_color( std::string &con_name, bool highlight )
         std::vector<construction *> cons = constructions_by_desc( con_name );
         const inventory &total_inv = g->u.crafting_inventory();
         for( auto &con : cons ) {
-            if( con->requirements->can_make_with_inventory( total_inv ) ) {
+            if( con->requirements->can_make_with_inventory( total_inv, is_crafting_component ) ) {
                 con_first = con;
                 break;
             }
@@ -202,7 +202,7 @@ void construction_menu()
     const int w_x0 = ( TERMX > w_width ) ? ( TERMX - w_width ) / 2 : 0;
     catacurses::window w_con = catacurses::newwin( w_height, w_width, w_y0, w_x0 );
 
-    const int w_list_width = int( .375 * w_width );
+    const int w_list_width = static_cast<int>( .375 * w_width );
     const int w_list_height = w_height - 4;
     const int w_list_x0 = 1;
     catacurses::window w_list = catacurses::newwin( w_list_height, w_list_width,
@@ -400,7 +400,7 @@ void construction_menu()
                             continue;
                         }
                         // Update the cached availability of components and tools in the requirement object
-                        current_con->requirements->can_make_with_inventory( total_inv );
+                        current_con->requirements->can_make_with_inventory( total_inv, is_crafting_component );
 
                         std::vector<std::string> current_buffer;
                         std::ostringstream current_line;
@@ -529,7 +529,7 @@ void construction_menu()
                         current_buffer.insert( current_buffer.end(), folded_tools.begin(), folded_tools.end() );
 
                         std::vector<std::string> folded_components = current_con->requirements->get_folded_components_list(
-                                    available_window_width, color_stage, total_inv );
+                                    available_window_width, color_stage, total_inv, is_crafting_component );
                         current_buffer.insert( current_buffer.end(), folded_components.begin(), folded_components.end() );
 
                         construct_buffers.push_back( current_buffer );
@@ -712,7 +712,7 @@ bool player_can_build( player &p, const inventory &inv, const construction &con 
     if( !character_has_skill_for( p, con ) ) {
         return false;
     }
-    return con.requirements->can_make_with_inventory( inv );
+    return con.requirements->can_make_with_inventory( inv, is_crafting_component );
 }
 
 bool can_construct( const std::string &desc )
@@ -790,6 +790,7 @@ void place_construction( const std::string &desc )
                      g->u.pos() + g->u.view_offset );
     }
     wrefresh( g->w_terrain );
+    g->draw_panels();
 
     const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Construct where?" ) );
     if( !pnt_ ) {
@@ -834,7 +835,7 @@ void complete_construction()
     }
 
     for( const auto &it : built.requirements->get_components() ) {
-        u.consume_items( it );
+        u.consume_items( it, 1, is_crafting_component );
     }
     for( const auto &it : built.requirements->get_tools() ) {
         u.consume_tools( it );
@@ -1043,7 +1044,7 @@ void construct::done_digormine_stair( const tripoint &p, bool dig )
 
     int no_mut_penalty = dig_muts ? 10 : 0;
     int mine_penalty = dig ? 0 : 10;
-    g->u.mod_hunger( 5 + mine_penalty + no_mut_penalty );
+    g->u.mod_stored_nutr( 5 + mine_penalty + no_mut_penalty );
     g->u.mod_thirst( 5 + mine_penalty + no_mut_penalty );
     g->u.mod_fatigue( 10 + mine_penalty + no_mut_penalty );
 
@@ -1102,7 +1103,7 @@ void construct::done_mine_upstair( const tripoint &p )
     }
 
     static const std::set<ter_id> liquids = {{
-            t_water_sh, t_sewage, t_water_dp, t_water_pool
+            t_water_sh, t_sewage, t_water_dp, t_water_pool, t_water_moving_sh, t_water_moving_dp,
         }
     };
 
@@ -1116,7 +1117,7 @@ void construct::done_mine_upstair( const tripoint &p )
     bool dig_muts = g->u.has_trait( trait_PAINRESIST_TROGLO ) || g->u.has_trait( trait_STOCKY_TROGLO );
 
     int no_mut_penalty = dig_muts ? 15 : 0;
-    g->u.mod_hunger( 20 + no_mut_penalty );
+    g->u.mod_stored_nutr( 20 + no_mut_penalty );
     g->u.mod_thirst( 20 + no_mut_penalty );
     g->u.mod_fatigue( 25 + no_mut_penalty );
 

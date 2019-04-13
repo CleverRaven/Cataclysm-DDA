@@ -1,13 +1,49 @@
 [
-{"usage": "backer", "gender": "male", "name": "Male Backer"},
-{"usage": "backer", "gender": "female", "name": "Female Backer"},
-{"usage": "backer", "gender": "unisex", "name": "Unisex Backer"},
-
-{"usage": "family", "gender": "unisex", "name":"Family"},
-{"usage": "given", "gender": "male", "name": "Male"},
-{"usage": "given", "gender": "female", "name": "Female"},
-{"usage": "given", "gender": "unisex", "name": "Unisex"},
-
-{"usage": "city", "name":"City"},
-{"usage": "world", "name":"World"}
+  {
+    "usage": "backer",
+    "gender": "male",
+    "name": "Male Backer"
+  },
+  {
+    "usage": "backer",
+    "gender": "female",
+    "name": "Female Backer"
+  },
+  {
+    "usage": "backer",
+    "gender": "unisex",
+    "name": "Unisex Backer"
+  },
+  {
+    "usage": "family",
+    "gender": "unisex",
+    "name": "Family"
+  },
+  {
+    "usage": "given",
+    "gender": "male",
+    "name": "Male"
+  },
+  {
+    "usage": "given",
+    "gender": "female",
+    "name": "Female"
+  },
+  {
+    "usage": "given",
+    "gender": "unisex",
+    "name": "Unisex"
+  },
+  {
+    "usage": "nick",
+    "name": "Nick"
+  },
+  {
+    "usage": "city",
+    "name": "City"
+  },
+  {
+    "usage": "world",
+    "name": "World"
+  }
 ]

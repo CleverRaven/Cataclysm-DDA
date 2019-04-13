@@ -20,6 +20,7 @@ struct point;
 class JsonArray;
 class JsonObject;
 struct mapgendata;
+class mission;
 struct tripoint;
 class map;
 typedef void ( *building_gen_pointer )( map *, oter_id, mapgendata, const time_point &, float );
@@ -38,6 +39,7 @@ class mapgen_function
     public:
         virtual ~mapgen_function() = default;
         virtual void setup() { } // throws
+        virtual void check( const std::string & /*oter_name*/ ) const { }
         virtual void generate( map *, const oter_id &, const mapgendata &, const time_point &, float ) = 0;
 };
 
@@ -119,7 +121,7 @@ struct jmapgen_setmap {
         x( ix ), y( iy ), x2( ix2 ), y2( iy2 ), op( iop ), val( ival ), chance( ione_in ),
         repeat( irepeat ), rotation( irotation ),
         fuel( ifuel ), status( istatus ) {}
-    bool apply( const mapgendata &dat, int offset_x, int offset_y ) const;
+    bool apply( const mapgendata &dat, int offset_x, int offset_y, mission *miss = nullptr ) const;
 };
 
 /**
@@ -146,12 +148,15 @@ struct jmapgen_setmap {
 class jmapgen_piece
 {
     protected:
-        jmapgen_piece() = default;
+        jmapgen_piece() : repeat( 1, 1 ) { }
     public:
+        /** Sanity-check this piece */
+        virtual void check( const std::string &/*oter_name*/ ) const { };
         /** Place something on the map from mapgendata dat, at (x,y). mon_density */
         virtual void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
-                            float mon_density ) const = 0;
+                            float mon_density, mission *miss = nullptr ) const = 0;
         virtual ~jmapgen_piece() = default;
+        jmapgen_int repeat;
 };
 
 /**
@@ -222,7 +227,7 @@ class mapgen_palette
 
 struct jmapgen_objects {
 
-        jmapgen_objects( int offset_x, int offset_y, size_t mapsize_x, size_t mapsize_x_y );
+        jmapgen_objects( int offset_x, int offset_y, size_t mapsize_x, size_t mapsize_y );
 
         bool check_bounds( const jmapgen_place place, JsonObject &jso );
 
@@ -243,8 +248,11 @@ struct jmapgen_objects {
         template<typename PieceType>
         void load_objects( JsonObject &jsi, const std::string &member_name );
 
-        void apply( const mapgendata &dat, float density ) const;
-        void apply( const mapgendata &dat, int offset_x, int offset_y, float density ) const;
+        void check( const std::string &oter_name ) const;
+
+        void apply( const mapgendata &dat, float density, mission *miss = nullptr ) const;
+        void apply( const mapgendata &dat, int offset_x, int offset_y, float density,
+                    mission *miss = nullptr ) const;
 
     private:
         /**
@@ -272,10 +280,13 @@ class mapgen_function_json_base
         virtual ~mapgen_function_json_base();
 
         void setup_common();
+        bool setup_common( JsonObject jo );
         void setup_setmap( JsonArray &parray );
         // Returns true if the mapgen qualifies at this point already
         virtual bool setup_internal( JsonObject &jo ) = 0;
         virtual void setup_setmap_internal() { }
+
+        void check_common( const std::string &oter_name ) const;
 
         void formatted_set_incredibly_simple( map &m, int offset_x, int offset_y ) const;
 
@@ -295,14 +306,14 @@ class mapgen_function_json_base
 class mapgen_function_json : public mapgen_function_json_base, public virtual mapgen_function
 {
     public:
-        void generate( map *, const oter_id &, const mapgendata &, const time_point &, float ) override;
         void setup() override;
+        void check( const std::string &oter_name ) const override;
+        void generate( map *, const oter_id &, const mapgendata &, const time_point &, float ) override;
         mapgen_function_json( const std::string &s, int w,
                               const int x_grid_offset = 0, const int y_grid_offset = 0 );
         ~mapgen_function_json() override = default;
 
         ter_id fill_ter;
-        std::string luascript;
 
     protected:
         bool setup_internal( JsonObject &jo ) override;
@@ -311,10 +322,27 @@ class mapgen_function_json : public mapgen_function_json_base, public virtual ma
         jmapgen_int rotation;
 };
 
+class update_mapgen_function_json : public mapgen_function_json_base, public virtual mapgen_function
+{
+    public:
+        update_mapgen_function_json( const std::string &s, int w );
+        ~update_mapgen_function_json() override = default;
+
+        bool setup_internal( JsonObject & ) override {
+            return true;
+        };
+        void setup_setmap_internal() override { };
+        bool setup_update( JsonObject &jo );
+        void check( const std::string &oter_name ) const override;
+        void generate( map *, const oter_id &, const mapgendata &, const time_point &, float ) override { };
+        void update_map( const tripoint &omt_pos, int offset_x, int offset_y, mission *miss ) const;
+};
+
 class mapgen_function_json_nested : public mapgen_function_json_base
 {
     public:
         void setup();
+        void check( const std::string &oter_name ) const;
         mapgen_function_json_nested( const std::string &s );
         ~mapgen_function_json_nested() override = default;
 
@@ -326,17 +354,6 @@ class mapgen_function_json_nested : public mapgen_function_json_base
         jmapgen_int rotation;
 };
 
-/////////////////////////////////////////////////////////////////////////////////
-///// lua mapgen
-class mapgen_function_lua : public virtual mapgen_function
-{
-    public:
-        const std::string scr;
-        mapgen_function_lua( std::string s, int w = 1000 ) : mapgen_function( w ), scr( s ) {
-            // scr = s; // @todo: if ( luaL_loadstring(L, scr.c_str() ) ) { error }
-        }
-        void generate( map *, const oter_id &, const mapgendata &, const time_point &, float ) override;
-};
 /////////////////////////////////////////////////////////
 ///// global per-terrain mapgen function lists
 /*
@@ -362,6 +379,8 @@ extern std::map<std::string, std::map<int, int> > oter_mapgen_weights;
  * Sets the above after init, and initializes mapgen_function_json instances as well
  */
 void calculate_mapgen_weights(); // throws
+
+void check_mapgen_definitions();
 
 /// move to building_generation
 enum room_type {

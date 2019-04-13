@@ -46,6 +46,7 @@ enum advanced_inv_sortby {
     SORTBY_CHARGES,
     SORTBY_CATEGORY,
     SORTBY_DAMAGE,
+    SORTBY_AMMO,
     SORTBY_SPOILAGE
 };
 
@@ -59,7 +60,7 @@ void advanced_inv();
 
 /**
  * Cancels ongoing move all action.
- * @todo: Make this not needed.
+ * TODO: Make this not needed.
  */
 void cancel_aim_processing();
 
@@ -139,7 +140,7 @@ class item_category;
 struct advanced_inv_listitem {
     typedef std::string itype_id;
     /**
-     * Index of the item in the original storage container (or inventory).
+     * Index of the item in the itemstack.
      */
     int idx;
     /**

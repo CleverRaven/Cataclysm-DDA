@@ -24,22 +24,6 @@
     "components": [ [ [ "leather", 10 ], [ "tanned_hide", 2 ] ] ]
   },
   {
-    "result": "boots_bone",
-    "type": "recipe",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_FEET",
-    "skill_used": "tailor",
-    "difficulty": 3,
-    "time": 40000,
-    "autolearn": true,
-    "book_learn": [ [ "manual_tailor", 2 ], [ "textbook_tailor", 2 ] ],
-    "using": [ [ "sewing_standard", 18 ] ],
-    "components": [
-      [ [ "bone", 18 ], [ "bone_human", 18 ], [ "bone_tainted", 36 ] ],
-      [ [ "leather", 6 ], [ "fur", 6 ] ]
-    ]
-  },
-  {
     "result": "boots_chitin",
     "type": "recipe",
     "category": "CC_ARMOR",
@@ -49,10 +33,7 @@
     "time": 40000,
     "autolearn": true,
     "using": [ [ "cordage", 1 ] ],
-    "components": [
-      [ [ "chitin_piece", 8 ] ],
-      [ [ "leather", 4 ], [ "fur", 4 ], [ "rag", 4 ] ]
-    ]
+    "components": [ [ [ "chitin_piece", 8 ] ], [ [ "leather", 4 ], [ "fur", 4 ], [ "rag", 4 ] ] ]
   },
   {
     "result": "boots_acidchitin",
@@ -61,18 +42,12 @@
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
     "difficulty": 5,
-    "skills_required": [[ "survival", 4 ], [ "firstaid", 2 ]],
+    "skills_required": [ [ "survival", 4 ], [ "firstaid", 2 ] ],
     "time": 80000,
     "autolearn": true,
     "using": [ [ "cordage", 1 ] ],
-    "qualities": [
-      { "id": "CUT_FINE", "level": 1 },
-      { "id": "SEW", "level": 1 }
-    ],
-    "components": [
-      [ [ "acidchitin_piece", 12 ] ],
-      [ [ "leather", 4 ], [ "fur", 4 ], [ "rag", 4 ] ]
-    ]
+    "qualities": [ { "id": "CUT_FINE", "level": 1 }, { "id": "SEW", "level": 1 } ],
+    "components": [ [ [ "acidchitin_piece", 12 ] ], [ [ "leather", 4 ], [ "fur", 4 ], [ "rag", 4 ] ] ]
   },
   {
     "result": "boots_fsurvivor",
@@ -106,10 +81,7 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_survival", 1 ] ],
     "using": [ [ "sewing_standard", 13 ] ],
-    "components": [
-      [ [ "leather", 7 ], [ "tanned_hide", 1 ] ],
-      [ [ "fur", 7 ], [ "tanned_pelt", 1 ] ]
-    ]
+    "components": [ [ [ "leather", 7 ], [ "tanned_hide", 1 ] ], [ [ "fur", 7 ], [ "tanned_pelt", 1 ] ] ]
   },
   {
     "result": "boots_h20survivor",
@@ -192,16 +164,8 @@
     "difficulty": 5,
     "time": 480000,
     "book_learn": [ [ "textbook_armwest", 4 ] ],
-    "qualities": [
-      { "id": "ANVIL", "level": 3 },
-      { "id": "HAMMER", "level": 3 },
-      { "id": "CHISEL", "level": 3 }
-    ],
-    "tools": [
-      [ [ "tongs", -1 ] ],
-      [ [ "swage", -1 ] ],
-      [ [ "forge", 250 ], [ "oxy_torch", 50 ] ]
-    ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 250 ], [ "oxy_torch", 50 ] ] ],
     "components": [
       [ [ "steel_lump", 8 ], [ "steel_chunk", 32 ], [ "scrap", 96 ] ],
       [ [ "fur", 16 ], [ "tanned_pelt", 3 ], [ "leather", 16 ], [ "tanned_hide", 3 ] ]
@@ -248,10 +212,7 @@
     "time": 360000,
     "autolearn": true,
     "using": [ [ "sewing_standard", 80 ] ],
-    "components": [
-      [ [ "felt_patch", 20 ] ],
-      [ [ "bag_plastic", 8 ] ]
-    ]
+    "components": [ [ [ "felt_patch", 20 ] ], [ [ "bag_plastic", 8 ] ] ]
   },
   {
     "result": "boots_wsurvivor",
@@ -471,11 +432,7 @@
     "book_learn": [ [ "mag_swimming", 3 ], [ "manual_swimming", 2 ] ],
     "using": [ [ "sewing_standard", 20 ] ],
     "tools": [ [ [ "welder", 42 ], [ "welder_crude", 63 ], [ "soldering_iron", 63 ], [ "toolset", 63 ] ] ],
-    "components": [
-      [ [ "plastic_chunk", 8 ] ],
-      [ [ "duct_tape", 80 ], [ "medical_tape", 80 ] ],
-      [ [ "superglue", 1 ] ]
-    ]
+    "components": [ [ [ "plastic_chunk", 8 ] ], [ [ "duct_tape", 80 ], [ "medical_tape", 80 ] ], [ [ "superglue", 1 ] ] ]
   },
   {
     "result": "thermal_socks",
@@ -489,11 +446,7 @@
     "book_learn": [ [ "textbook_fabrication", 3 ], [ "tailor_portfolio", 4 ], [ "textbook_tailor", 3 ], [ "atomic_survival", 3 ] ],
     "using": [ [ "sewing_standard", 6 ] ],
     "tools": [ [ [ "soldering_iron", 20 ], [ "toolset", 20 ] ] ],
-    "components": [
-      [ [ "rag", 2 ], [ "socks", 1 ], [ "socks_wool", 1 ] ],
-      [ [ "element", 2 ] ],
-      [ [ "cable", 4 ] ]
-    ]
+    "components": [ [ [ "rag", 2 ], [ "socks", 1 ], [ "socks_wool", 1 ] ], [ [ "element", 2 ] ], [ [ "cable", 4 ] ] ]
   },
   {
     "result": "wetsuit_booties",
@@ -506,9 +459,6 @@
     "book_learn": [ [ "textbook_tailor", 4 ], [ "manual_tailor", 5 ], [ "tailor_portfolio", 4 ] ],
     "using": [ [ "sewing_standard", 10 ] ],
     "tools": [ [ [ "soldering_iron", 5 ], [ "welder", 5 ], [ "hotplate", 5 ], [ "toolset", 5 ] ] ],
-    "components": [
-      [ [ "neoprene", 2 ] ],
-      [ [ "rag", 2 ] ]
-    ]
+    "components": [ [ [ "neoprene", 2 ] ], [ [ "rag", 2 ] ] ]
   }
 ]

@@ -62,5 +62,17 @@
   {
     "type": "mutation_type",
     "id": "WINGS"
+  },
+  {
+    "type": "mutation_type",
+    "id": "skin_tone"
+  },
+  {
+    "type": "mutation_type",
+    "id": "hair_style"
+  },
+  {
+    "type": "mutation_type",
+    "id": "facial_hair"
   }
 ]

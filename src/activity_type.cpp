@@ -5,7 +5,6 @@
 
 #include "activity_handlers.h"
 #include "assign.h"
-#include "catalua.h"
 #include "debug.h"
 #include "json.h"
 #include "player.h"
@@ -86,12 +85,7 @@ void activity_type::call_do_turn( player_activity *act, player *p ) const
 {
     const auto &pair = activity_handlers::do_turn_functions.find( id_ );
     if( pair != activity_handlers::do_turn_functions.end() ) {
-        CallbackArgumentContainer lua_callback_args_info;
-        lua_callback_args_info.emplace_back( act->id().str() );
-        lua_callback_args_info.emplace_back( p->getID() );
-        lua_callback( "on_activity_call_do_turn_started", lua_callback_args_info );
         pair->second( act, p );
-        lua_callback( "on_activity_call_do_turn_finished", lua_callback_args_info );
     }
 }
 
@@ -99,12 +93,7 @@ bool activity_type::call_finish( player_activity *act, player *p ) const
 {
     const auto &pair = activity_handlers::finish_functions.find( id_ );
     if( pair != activity_handlers::finish_functions.end() ) {
-        CallbackArgumentContainer lua_callback_args_info;
-        lua_callback_args_info.emplace_back( act->id().str() );
-        lua_callback_args_info.emplace_back( p->getID() );
-        lua_callback( "on_activity_call_finish_started", lua_callback_args_info );
         pair->second( act, p );
-        lua_callback( "on_activity_call_finish_finished", lua_callback_args_info );
         return true;
     }
     return false;
@@ -114,4 +103,3 @@ void activity_type::reset()
 {
     activity_type_all.clear();
 }
-

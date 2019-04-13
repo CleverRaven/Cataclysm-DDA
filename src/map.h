@@ -15,15 +15,12 @@
 #include "enums.h"
 #include "game_constants.h"
 #include "int_id.h"
+#include "item.h"
 #include "item_stack.h"
 #include "lightmap.h"
 #include "shadowcasting.h"
 #include "string_id.h"
 #include "units.h"
-
-//TODO: include comments about how these variables work. Where are they used. Are they constant etc.
-#define CAMPSIZE 1
-#define CAMPCHECK 3
 
 namespace catacurses
 {
@@ -296,6 +293,9 @@ class map
 
         bool apply_vision_effects( const catacurses::window &w, const visibility_type vis ) const;
 
+        std::tuple<maptile, maptile, maptile> get_wind_blockers( const int &winddirection,
+                const tripoint &pos ); //see field.cpp
+
         /** Draw a visible part of the map into `w`.
          *
          * This method uses `g->u.posx()/posy()` for visibility calculations, so it can
@@ -529,9 +529,10 @@ class map
         optional_vpart_position veh_at( const tripoint &p ) const;
         vehicle *veh_at_internal( const tripoint &p, int &part_num );
         const vehicle *veh_at_internal( const tripoint &p, int &part_num ) const;
-        // put player on vehicle at x,y
+        // Put player on vehicle at x,y
         void board_vehicle( const tripoint &p, player *pl );
-        void unboard_vehicle( const tripoint &p );//remove player from vehicle at p
+        // Remove player from vehicle at p
+        void unboard_vehicle( const tripoint &p, bool dead_passenger = false );
         // Change vehicle coordinates and move vehicle's driver along.
         // WARNING: not checking collisions!
         vehicle *displace_vehicle( tripoint &p, const tripoint &dp );
@@ -751,6 +752,8 @@ class map
          * @param threshold Fuel threshold (lower means worse fuels are accepted).
          */
         bool flammable_items_at( const tripoint &p, int threshold = 0 );
+        /** Returns true if there is a flammable item or field or the furn/terrain is flammable at p */
+        bool is_flammable( const tripoint &p );
         point random_outdoor_tile();
         // mapgen
 
@@ -941,11 +944,11 @@ class map
          */
         /*@{*/
         std::list<item> use_amount_square( const tripoint &p, const itype_id type,
-                                           long &quantity );
+                                           long &quantity, const std::function<bool( const item & )> &filter = return_true );
         std::list<item> use_amount( const tripoint &origin, const int range, const itype_id type,
-                                    long &amount );
+                                    long &amount, const std::function<bool( const item & )> &filter = return_true );
         std::list<item> use_charges( const tripoint &origin, const int range, const itype_id type,
-                                     long &amount );
+                                     long &amount, const std::function<bool( const item & )> &filter = return_true );
         /*@}*/
         std::list<std::pair<tripoint, item *> > get_rc_items( int x = -1, int y = -1, int z = -1 );
 
@@ -1126,10 +1129,9 @@ class map
         computer *add_computer( const tripoint &p, const std::string &name, const int security );
 
         // Camps
-        bool allow_camp( const tripoint &p, const int radius = CAMPCHECK );
-        basecamp *camp_at( const tripoint &p, const int radius = CAMPSIZE );
         void add_camp( const tripoint &p, const std::string &name );
-
+        void remove_submap_camp( const tripoint & );
+        basecamp hoist_submap_camp( const tripoint &p );
         // Graffiti
         bool has_graffiti_at( const tripoint &p ) const;
         const std::string &graffiti_at( const tripoint &p ) const;
@@ -1467,7 +1469,7 @@ class map
          * Internal version of the drawsq. Keeps a cached maptile for less re-getting.
          * Returns true if it has drawn all it should, false if `draw_from_above` should be called after.
          */
-        bool draw_maptile( const catacurses::window &w, player &u, const tripoint &p,
+        bool draw_maptile( const catacurses::window &w, const player &u, const tripoint &p,
                            const maptile &tile,
                            bool invert, bool show_items,
                            const tripoint &view_center,
@@ -1478,7 +1480,7 @@ class map
         /**
          * Draws the tile as seen from above.
          */
-        void draw_from_above( const catacurses::window &w, player &u, const tripoint &p,
+        void draw_from_above( const catacurses::window &w, const player &u, const tripoint &p,
                               const maptile &tile, bool invert,
                               const tripoint &view_center,
                               bool low_light, bool bright_light, bool inorder ) const;
@@ -1496,7 +1498,8 @@ class map
                               const tripoint &s, const tripoint &e, float luminance );
         void add_light_from_items( const tripoint &p, std::list<item>::iterator begin,
                                    std::list<item>::iterator end );
-        vehicle *add_vehicle_to_map( std::unique_ptr<vehicle> veh, bool merge_wrecks );
+        std::unique_ptr<vehicle> add_vehicle_to_map( std::unique_ptr<vehicle> veh,
+                bool merge_wrecks );
 
         // Internal methods used to bash just the selected features
         // Information on what to bash/what was bashed is read from/written to the bash_params struct
@@ -1617,7 +1620,7 @@ class tinymap : public map
         friend class editmap;
     public:
         tinymap( int mapsize = 2, bool zlevels = false );
-        bool inbounds( const tripoint &p ) const;
+        bool inbounds( const tripoint &p ) const override;
 };
 
 #endif

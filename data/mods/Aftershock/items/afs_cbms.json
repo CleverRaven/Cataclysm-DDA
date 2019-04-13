@@ -1,0 +1,49 @@
+[
+  {
+    "id": "bn_bio_solar",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": "Solar Panels CBM",
+    "description": "Installed on your back is a set of retractable solar panels.  When in direct sunlight, they will automatically deploy and slowly recharge your power level.",
+    "price": 350000,
+    "difficulty": 4
+  },
+  {
+    "id": "afs_bio_precision_solderers",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": "Precision Solderers CBM",
+    "description": "A set of tiny electronics tools, including soldering irons and wire cutters.  They serve no purpose on their own, but are required for crafting bionics.",
+    "price": 20000,
+    "difficulty": 3
+  },
+  {
+    "id": "afs_bio_missiles",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": "Deployable Grenade Launcher CBM",
+    "description": "A small, folding tube that attaches to your right arm.  Once implanted, it can serve as a portable, integrated tool for firing 40mm grenades and canisters.",
+    "price": 100000,
+    "difficulty": 5
+  },
+  {
+    "id": "afs_bio_linguistic_coprocessor",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": "Linguistic Coprocessor CBM",
+    "description": "A microcomputer installed into the left hemisphere of your brain to increase the speed that it processes language.  When installed, it provides a passive boost to reading speed.",
+    "price": 100000,
+    "price_postapoc": 50000,
+    "difficulty": 5
+  },
+  {
+    "id": "afs_bio_dopamine_stimulators",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": "Dopamine Stimulators CBM",
+    "description": "A set of tiny bionic nerve stimulators that install into the reward center of your brain.  When run with bionic power, it periodically releases a hit of dopamine and other reward chemicals, inducing a state of euphoria and suppressing fear.",
+    "price": 1000000,
+    "price_postapoc": 100000,
+    "difficulty": 8
+  }
+]

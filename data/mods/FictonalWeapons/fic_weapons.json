@@ -18,6 +18,7 @@
     "durability": 9,
     "clip_size": 8,
     "reload": 80,
+    "magazines": [ [ "454", [ "454_speedloader8" ] ] ],
     "built_in_mods": [ "m320_mod" ]
   },
   {
@@ -29,8 +30,8 @@
     "name_plural": "Boomlighter 454s",
     "description": "Handmade by master gunsmiths at D&B Minneapolis, this deadly accurate and powerful pistol packs a punch with precision, power and flair.  Comes with a one of a kind integrated flamethrower.",
     "price": 250000,
-    "material": ["steel", "plastic"],
-    "flags": ["RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT"],
+    "material": [ "steel", "plastic" ],
+    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ],
     "skill": "pistol",
     "ammo": "454",
     "weight": 1500,
@@ -42,11 +43,22 @@
     "durability": 9,
     "clip_size": 6,
     "reload": 80,
-    "built_in_mods": ["boom_flamer"],
-    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
+    "magazines": [ [ "454", [ "454_speedloader6" ] ] ],
+    "built_in_mods": [ "boom_flamer" ],
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "muzzle", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "stock", 1 ]
+    ]
   },
   {
-   "id": "gunsword",
+    "id": "gunsword",
     "type": "GUN",
     "reload_noise_volume": 10,
     "symbol": "I",
@@ -55,8 +67,8 @@
     "name_plural": "gunswords",
     "description": "A long sharp blade, with two powerful .500 S&W Magnum chambers in the hilt.  While chambering big rounds, the barrels are so short it slightly reduces outgoing damage.",
     "price": 150000,
-    "material": ["steel", "plastic"],
-    "flags": ["RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT","SHEATH_SWORD","DURABLE_MELEE"],
+    "material": [ "steel", "plastic" ],
+    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT", "SHEATH_SWORD", "DURABLE_MELEE" ],
     "skill": "pistol",
     "ammo": "500",
     "weight": 1800,
@@ -69,11 +81,11 @@
     "durability": 10,
     "clip_size": 2,
     "reload": 80,
-    "valid_mod_locations": [[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 2 ],[ "muzzle", 1 ]],
-    "techniques": ["WBLOCK_2"]
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 2 ], [ "muzzle", 1 ] ],
+    "techniques": [ "WBLOCK_2" ]
   },
   {
-   "id": "gunknife",
+    "id": "gunknife",
     "type": "GUN",
     "reload_noise_volume": 10,
     "symbol": "i",
@@ -82,8 +94,8 @@
     "name_plural": "gunknives",
     "description": "A short but sharp blade, with two powerful .500 S&W Magnum chambers in the grip.  While chambering big rounds, the barrels are so short it slightly reduces outgoing damage.",
     "price": 70000,
-    "material": ["steel", "plastic"],
-    "flags": ["RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT","SHEATH_KNIFE","STAB","DURABLE_MELEE"],
+    "material": [ "steel", "plastic" ],
+    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT", "SHEATH_KNIFE", "STAB", "DURABLE_MELEE" ],
     "skill": "pistol",
     "ammo": "500",
     "weight": 700,
@@ -96,10 +108,10 @@
     "durability": 10,
     "clip_size": 2,
     "reload": 80,
-    "loudness" : 50,
-    "valid_mod_locations": [[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 2 ],[ "muzzle", 1 ]],
-    "techniques": ["WBLOCK_1"],
-    "qualities": [["CUT", 1], ["BUTCHER", 14]]
+    "loudness": 50,
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 2 ], [ "muzzle", 1 ] ],
+    "techniques": [ "WBLOCK_1" ],
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 14 ] ]
   },
   {
     "id": "50pistol",
@@ -111,8 +123,8 @@
     "name_plural": "FiveO handcannons",
     "description": "Someone crazy thought that the .50 BMG belonged in a pistol.  This massive piece of steel proves otherwise.  The sheer bulk however does make it quite adept at smashing face.",
     "price": 60000,
-    "material": ["steel", "plastic"],
-    "flags": ["NEVER_JAMS", "RELOAD_EJECT"],
+    "material": [ "steel", "plastic" ],
+    "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ],
     "skill": "pistol",
     "ammo": "50",
     "weight": 3800,
@@ -124,8 +136,18 @@
     "durability": 4,
     "clip_size": 1,
     "reload": 200,
-    "loudness" : 200,
-    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
+    "loudness": 200,
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "muzzle", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "stock", 1 ]
+    ]
   },
   {
     "id": "hk_mp5eod",
@@ -144,18 +166,14 @@
     "ranged_damage": 1,
     "dispersion": 130,
     "durability": 8,
-    "modes": [
-        [ "DEFAULT", "semi-auto", 1 ],
-        [ "BURST", "3 rd.", 3 ],
-        [ "AUTO", "auto", 8 ]
-    ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ], [ "AUTO", "auto", 8 ] ],
     "built_in_mods": [ "m320_mod" ],
     "magazines": [
-        [ "9mm", [ "mp5mag", "mp5bigmag" ] ],
-        [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
-        [ "45", [ "ump45mag" ] ],
-        [ "46", [ "hk46mag", "hk46bigmag" ] ],
-        [ "57", [ "fn57mag" ] ]
+      [ "9mm", [ "mp5mag", "mp5bigmag" ] ],
+      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
+      [ "45", [ "ump45mag" ] ],
+      [ "46", [ "hk46mag", "hk46bigmag" ] ],
+      [ "57", [ "fn57mag" ] ]
     ]
   },
   {
@@ -166,7 +184,7 @@
     "name_plural": "Eagle 1776",
     "description": "You see before you a marvel of American engineering: a powerful .44 Magnum submachine gun, made from fine parts assembled in America, including an integral grenade launcher.  Eagle 1776: From the arsenal of freedom!",
     "price": 580000,
-    "material": ["steel", "plastic"],
+    "material": [ "steel", "plastic" ],
     "skill": "smg",
     "ammo": "44",
     "weight": 3400,
@@ -176,19 +194,25 @@
     "ranged_damage": 1,
     "dispersion": 220,
     "durability": 7,
-    "modes": [
-      [ "DEFAULT", "semi-auto", 1 ],
-      [ "BURST", "3 rd.", 3 ],
-      [ "AUTO", "auto", 8 ]
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ], [ "AUTO", "auto", 8 ] ],
+    "built_in_mods": [ "m320_mod" ],
+    "valid_mod_locations": [
+      [ "accessories", 3 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "magazine", 1 ],
+      [ "mechanism", 4 ],
+      [ "muzzle", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
     ],
-    "built_in_mods": ["m320_mod"],
-    "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "magazine", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1]],
     "magazine_well": 1,
-    "magazines" : [
-      [ "44", [ "e1776mag", "deaglemag" ] ],
-      [ "9mm", [ "mp5mag", "mp5bigmag" ] ],
-      [ "45", [ "ump45mag" ] ]
-    ]
+    "magazines": [ [ "44", [ "e1776mag", "deaglemag" ] ], [ "9mm", [ "mp5mag", "mp5bigmag" ] ], [ "45", [ "ump45mag" ] ] ]
   },
   {
     "id": "light_carb",
@@ -200,9 +224,9 @@
     "name_plural": "L.T. carbines",
     "description": "The Lightning Trail carbine was developed for the riot police to quickly blanket an area with lightning clouds.  While damaging, it is less lethal than live ammunition.",
     "price": 250000,
-    "material": ["steel", "plastic"],
-    "flags": ["NEVER_JAMS","NO_UNLOAD"],
-    "ammo_effects": ["LIGHTNING","BEANBAG"],
+    "material": [ "steel", "plastic" ],
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD" ],
+    "ammo_effects": [ "LIGHTNING", "BEANBAG" ],
     "mode_modifier": [ [ "DEFAULT", "auto", 5 ] ],
     "ups_charges": 6,
     "skill": "smg",
@@ -214,8 +238,16 @@
     "dispersion": 100,
     "durability": 6,
     "reload": 0,
-    "loudness" : 75,
-    "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1]]
+    "loudness": 75,
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "grip", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
+    ]
   },
   {
     "id": "arccan",
@@ -227,9 +259,9 @@
     "name_plural": "arc cannons",
     "description": "The arc cannon fires bolts of lightning arcing between targets in close proximity to each other.  Originally manufactured to fry insects, now it’s been turned up to fry zombies.",
     "price": 250000,
-    "material": ["steel", "plastic"],
-    "flags": ["NEVER_JAMS","NO_UNLOAD"],
-    "ammo_effects": ["LIGHTNING","BOUNCE","BEANBAG"],
+    "material": [ "steel", "plastic" ],
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD" ],
+    "ammo_effects": [ "LIGHTNING", "BOUNCE", "BEANBAG" ],
     "ups_charges": 120,
     "skill": "rifle",
     "weight": 2700,
@@ -240,8 +272,8 @@
     "dispersion": 250,
     "durability": 7,
     "reload": 0,
-    "loudness" : 100,
-    "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
+    "loudness": 100,
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ] ]
   },
   {
     "id": "m1911ds",
@@ -254,18 +286,25 @@
     "price": 150000,
     "bashing": 7,
     "to_hit": -2,
-    "material": ["steel", "plastic"],
+    "material": [ "steel", "plastic" ],
     "symbol": "[",
     "color": "light_gray",
     "ammo": "45",
     "dispersion": 255,
     "durability": 6,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "sights", 1 ], [ "underbarrel", 1 ] ],
-    "built_in_mods": ["gun_crossbow"],
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "muzzle", 1 ],
+      [ "sights", 1 ],
+      [ "underbarrel", 1 ]
+    ],
+    "built_in_mods": [ "gun_crossbow" ],
     "magazine_well": 1,
-    "magazines" : [
-      [ "45", [ "m1911mag", "m1911bigmag" ] ],
-      [ "9mm", [ "m9mag", "m9bigmag" ] ]
-    ]
+    "magazines": [ [ "45", [ "m1911mag", "m1911bigmag" ] ], [ "9mm", [ "m9mag", "m9bigmag" ] ] ]
   }
 ]

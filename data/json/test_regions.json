@@ -119,7 +119,7 @@
     "type": "overmap_terrain",
     "id": "s_restaurant_deserted_test",
     "name": "abandoned drive-through",
-    "sym": 94,
+    "sym": "^",
     "color": "dark_gray_magenta",
     "see_cost": 5,
     "extras": "build",
@@ -223,5 +223,10 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH" ],
     "examine_action": "flower_poppy"
+  },
+  {
+    "type": "region_settings",
+    "id": "river",
+    "swamp_river_influence": 50
   }
 ]

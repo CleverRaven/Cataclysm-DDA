@@ -20,6 +20,10 @@ class map;
 struct oter_t;
 using oter_id = int_id<oter_t>;
 enum field_id : int;
+class mission;
+using mapgen_update_func = std::function<void( const tripoint &map_pos3, mission *miss )>;
+class JsonObject;
+
 namespace om_direction
 {
 enum class type : int;
@@ -94,7 +98,7 @@ tripoint rotate_point( const tripoint &p, int turn );
 
 int terrain_type_to_nesw_array( oter_id terrain_type, bool array[4] );
 
-// @todo: pass mapgendata by reference.
+// TODO: pass mapgendata by reference.
 typedef void ( *building_gen_pointer )( map *, oter_id, mapgendata, const time_point &, float );
 building_gen_pointer get_mapgen_cfunction( const std::string &ident );
 ter_id grass_or_dirt();
@@ -133,8 +137,6 @@ void mapgen_river_center( map *m, oter_id terrain_type, mapgendata dat, const ti
                           float density );
 void mapgen_road( map *m, oter_id terrain_type, mapgendata dat, const time_point &time,
                   float density );
-void mapgen_field( map *m, oter_id terrain_type, mapgendata dat, const time_point &time,
-                   float density );
 void mapgen_bridge( map *m, oter_id terrain_type, mapgendata dat, const time_point &time,
                     float density );
 void mapgen_railroad( map *m, oter_id terrain_type, mapgendata dat, const time_point &time,
@@ -241,4 +243,5 @@ void madd_field( map *m, int x, int y, field_id type, int density );
 
 void place_stairs( map *m, oter_id terrain_type, mapgendata dat );
 
+mapgen_update_func add_mapgen_update_func( JsonObject &jo, bool &defer );
 #endif

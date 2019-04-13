@@ -2,6 +2,7 @@
 #ifndef ACTION_H
 #define ACTION_H
 
+#include <functional>
 #include <map>
 #include <set>
 #include <string>
@@ -142,7 +143,9 @@ enum action_id : int {
     /** Open the martial-arts style menu */
     ACTION_PICK_STYLE,
     /** Open the load item (e.g. firearms) select menu */
-    ACTION_RELOAD,
+    ACTION_RELOAD_ITEM,
+    /** Attempt to reload wielded weapon, then fall back to the load item select menu */
+    ACTION_RELOAD_WEAPON,
     /** Open the unload item (e.g. firearms) select menu */
     ACTION_UNLOAD,
     /** Open the mending menu (e.g. when using a sewing kit) */
@@ -211,6 +214,8 @@ enum action_id : int {
     ACTION_PL_INFO,
     /** Display over-map */
     ACTION_MAP,
+    /** Show sky state for trying to predict weather */
+    ACTION_SKY,
     /** Display missions screen */
     ACTION_MISSIONS,
     /** Display kills list screen */
@@ -241,8 +246,6 @@ enum action_id : int {
 
     // Debug Functions
     /**@{*/
-    /** Toggle sidebar layout type */
-    ACTION_TOGGLE_SIDEBAR_STYLE,
     /** Toggle full-screen mode */
     ACTION_TOGGLE_FULLSCREEN,
     /** Open debug menu */
@@ -261,6 +264,10 @@ enum action_id : int {
     ACTION_ITEMACTION,
     /** Turn pixel minimap on/off */
     ACTION_TOGGLE_PIXEL_MINIMAP,
+    /** Turn admin panel on/off */
+    ACTION_TOGGLE_PANEL_ADM,
+    /** panels management */
+    ACTION_PANEL_MGMT,
     /** Reload current tileset */
     ACTION_RELOAD_TILESET,
     /** Turn auto features on/off */
@@ -447,6 +454,24 @@ cata::optional<tripoint> choose_direction( const std::string &message, bool allo
  */
 cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
         action_id action_to_highlight, bool allow_vertical );
+
+/**
+ * Request player input of adjacent tile with highlighting, possibly on different z-level
+ *
+ * Asks the player to input desired direction of an adjacent tile, for example when executing
+ * an examine or directional item drop.  This version of the function allows the player to select
+ * a tile above or below.
+ *
+ * This function is identical to @ref choose_adjacent except that squares are highlighted for
+ * the player to indicate valid squares, based on the result of the provided @ref should_highlight
+ * function.
+ *
+ * @param[in] message Message used in assembling the prompt to the player
+ * @param[in] should_highlight A function that will be called to determine if a given location should be highlighted
+ * @param[in] allow_vertical Allows direction vector to have vertical component if true
+ */
+cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
+        const std::function<bool( tripoint )> &should_highlight, const bool allow_vertical );
 
 // (Press X (or Y)|Try) to Z
 std::string press_x( action_id act );

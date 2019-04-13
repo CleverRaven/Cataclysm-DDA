@@ -178,7 +178,7 @@ std::string convert_talk_topic( talk_topic_enum const old_value )
 }
 
 ///// item.h
-bool itag2ivar( std::string &item_tag, std::map<std::string, std::string> &item_vars );
+bool itag2ivar( const std::string &item_tag, std::map<std::string, std::string> &item_vars );
 
 void item::load_info( const std::string &data )
 {
@@ -243,7 +243,7 @@ void item::load_info( const std::string &data )
     }
     convert( idtmp );
 
-    invlet = char( lettmp );
+    invlet = static_cast<char>( lettmp );
     set_damage( damtmp * itype::damage_scale );
     active = false;
     if( acttmp == 1 ) {
@@ -441,7 +441,7 @@ void overmap::unserialize_legacy( std::istream &fin )
                             t_regional_settings_map_citr rit = region_settings_map.find( tmpstr );
                             if( rit != region_settings_map.end() ) {
                                 // temporary; user changed option, this overmap should remain whatever it was set to.
-                                settings = rit->second; // @todo: optimize
+                                settings = rit->second; // TODO: optimize
                             } else { // ruh-roh! user changed option and deleted the .json with this overmap's region. We'll have to become current default. And whine about it.
                                 std::string tmpopt = get_option<std::string>( "DEFAULT_REGION" );
                                 rit = region_settings_map.find( tmpopt );
@@ -540,7 +540,7 @@ void player_activity::deserialize_legacy_type( int legacy_type, activity_id &des
         activity_id( "ACT_GAME" ),
         activity_id( "ACT_WAIT" ),
         activity_id( "ACT_CRAFT" ),
-        activity_id( "ACT_LONGCRAFT" ),
+        activity_id::NULL_ID(), // ACT_LONGCRAFT is deprecated
         activity_id( "ACT_DISASSEMBLE" ),
         activity_id( "ACT_BUTCHER" ),
         activity_id( "ACT_LONGSALVAGE" ),

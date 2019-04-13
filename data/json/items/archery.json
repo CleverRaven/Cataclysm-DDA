@@ -397,6 +397,7 @@
       "menu_text": "Tighten Limbs",
       "type": "transform",
       "target": "compbow_high",
+      "qualities_needed": { "SCREW_FINE": 1 },
       "msg": "You tighten the limbs, increasing the strength of the bow."
     }
   },
@@ -417,6 +418,7 @@
       "menu_text": "Loosen Limbs",
       "type": "transform",
       "target": "compbow_low",
+      "qualities_needed": { "SCREW_FINE": 1 },
       "msg": "You loosen the limbs, decreasing the strength of the bow."
     }
   },
@@ -437,6 +439,7 @@
       "menu_text": "Tighten Limbs",
       "type": "transform",
       "target": "compbow",
+      "qualities_needed": { "SCREW_FINE": 1 },
       "msg": "You tighten the limbs, increasing the strength of the bow."
     }
   },
@@ -581,7 +584,6 @@
     "override": true,
     "type": "GUN",
     "name": "wooden greatbow",
-    "name_plural": "wooden greatbows",
     "description": "An extremely large and stiff longbow, made with enormous limbs and a thick string to take an immense amount of energy.  Takes incredible strength to draw.",
     "price": 150000,
     "min_strength": 18,
@@ -601,7 +603,6 @@
     "symbol": "(",
     "color": "yellow",
     "name": "compound greatbow",
-    "name_plural": "compound greatbows",
     "description": "An extremely large and powerful compound bow, made with enormous limbs and a thick string to take an immense amount of energy.  Takes incredible strength to draw.",
     "price": 160000,
     "material": [ "steel", "plastic" ],
@@ -701,6 +702,40 @@
     "to_hit": -1,
     "cutting": 8,
     "thrown_damage": [ { "damage_type": "stab", "amount": 16 } ],
+    "ammo_type": "thrown",
+    "count": 2
+  },
+  {
+    "type": "AMMO",
+    "id": "frisbee",
+    "category": "weapons",
+    "price": 1000,
+    "name": "frisbee",
+    "symbol": "o",
+    "color": "yellow",
+    "description": "A plastic frisbee made for outdoor games.",
+    "material": [ "plastic" ],
+    "volume": 2,
+    "weight": 175,
+    "bashing": 1,
+    "thrown_damage": [ { "damage_type": "bash", "amount": 1 } ],
+    "ammo_type": "thrown",
+    "count": 2
+  },
+  {
+    "type": "AMMO",
+    "id": "disc_golf",
+    "category": "weapons",
+    "price": 1000,
+    "name": "disc",
+    "symbol": "o",
+    "color": "red",
+    "description": "A plastic disc made for playing disc golf, it is smaller and denser then a normal frisbee.",
+    "material": [ "plastic" ],
+    "volume": 1,
+    "weight": 170,
+    "bashing": 2,
+    "thrown_damage": [ { "damage_type": "bash", "amount": 1 } ],
     "ammo_type": "thrown",
     "count": 2
   },

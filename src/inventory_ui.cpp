@@ -20,7 +20,7 @@
 #include "vpart_position.h"
 #include "vpart_reference.h"
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
 #include <SDL_keyboard.h>
 #endif
 
@@ -87,7 +87,7 @@ class selection_column_preset: public inventory_selector_preset
             }
             if( entry.location->ammo_type() == "money" ) {
                 if( entry.chosen_count > 0 && entry.chosen_count < available_count ) {
-                    //~ In the following string, the %s is the ammount of money on the selected cards as passed by the display money function, out of the total ammount of money on the cards, which is specified by the format_money function")
+                    //~ In the following string, the %s is the amount of money on the selected cards as passed by the display money function, out of the total amount of money on the cards, which is specified by the format_money function")
                     res << string_format( _( "%s of %s" ), entry.location->display_money( entry.chosen_count,
                                           entry.location.charges_in_stack( entry.chosen_count ) ),
                                           format_money( entry.location.charges_in_stack( available_count ) ) );
@@ -317,7 +317,7 @@ size_t inventory_column::next_selectable_index( size_t index, scroll_direction d
         // Negative step '-k' (backwards) is equivalent to '-k + N' (forward), where:
         //     N = entries.size()  - number of elements,
         //     k = |step|          - absolute step (k <= N).
-        new_index = ( new_index + int( dir ) + entries.size() ) % entries.size();
+        new_index = ( new_index + static_cast<int>( dir ) + entries.size() ) % entries.size();
     } while( new_index != index && !entries[new_index].is_selectable() );
 
     return new_index;
@@ -341,7 +341,7 @@ void inventory_column::move_selection_page( scroll_direction dir )
     do {
         const size_t next_index = next_selectable_index( index, dir );
         const bool flipped = next_index == selected_index ||
-                             ( next_index > selected_index ) != ( int( dir ) > 0 );
+                             ( next_index > selected_index ) != ( static_cast<int>( dir ) > 0 );
 
         if( flipped && page_of( next_index ) == page_index() ) {
             break; // If flipped and still on the same page - no need to flip
@@ -378,7 +378,7 @@ size_t inventory_column::get_entry_cell_width( const inventory_entry &entry,
 
 size_t inventory_column::get_cells_width() const
 {
-    return std::accumulate( cells.begin(), cells.end(), size_t( 0 ), []( size_t lhs,
+    return std::accumulate( cells.begin(), cells.end(), static_cast<size_t>( 0 ), []( size_t lhs,
     const cell_t &cell ) {
         return lhs + cell.current_width;
     } );
@@ -529,10 +529,11 @@ bool inventory_column::has_available_choices() const
     if( !allows_selecting() ) {
         return false;
     }
-    for( size_t i = 0; i < entries.size(); ++i )
+    for( size_t i = 0; i < entries.size(); ++i ) {
         if( entries[i].is_item() && get_entry_cell_cache( i ).denial.empty() ) {
             return true;
         }
+    }
     return false;
 }
 
@@ -572,6 +573,50 @@ std::vector<inventory_entry *> inventory_column::get_all_selected() const
     return res;
 }
 
+void inventory_column::set_stack_favorite( const item_location &location, bool favorite )
+{
+    const item *selected_item = location.get_item();
+    std::list<item *> to_favorite;
+
+    if( location.where() == item_location::type::character ) {
+        int position = g->u.get_item_position( selected_item );
+
+        if( position < 0 ) {
+            g->u.i_at( position ).set_favorite( !selected_item->is_favorite ); // worn/wielded
+        } else {
+            g->u.inv.set_stack_favorite( position, !selected_item->is_favorite ); // in inventory
+        }
+    } else if( location.where() == item_location::type::map ) {
+        auto items = g->m.i_at( location.position() );
+
+        for( auto &item : items ) {
+            if( item.stacks_with( *selected_item ) ) {
+                printf( "%s %s\n", favorite ? "Favoriting" : "Unfavoriting", item.display_name().c_str() );
+                to_favorite.push_back( &item );
+            }
+        }
+        for( auto &item : to_favorite ) {
+            item->set_favorite( favorite );
+        }
+    } else if( location.where() == item_location::type::vehicle ) {
+        const cata::optional<vpart_reference> vp = g->m.veh_at(
+                    location.position() ).part_with_feature( "CARGO", true );
+        assert( vp );
+
+        auto items = vp->vehicle().get_items( vp->part_index() );
+
+        for( auto &item : items ) {
+            if( item.stacks_with( *selected_item ) ) {
+                printf( "%s %s\n", favorite ? "Favoriting" : "Unfavoriting", item.display_name().c_str() );
+                to_favorite.push_back( &item );
+            }
+        }
+        for( auto *item : to_favorite ) {
+            item->set_favorite( favorite );
+        }
+    }
+}
+
 void inventory_column::on_input( const inventory_input &input )
 {
     if( empty() || !active ) {
@@ -590,6 +635,8 @@ void inventory_column::on_input( const inventory_input &input )
         select( 0, scroll_direction::FORWARD );
     } else if( input.action == "END" ) {
         select( entries.size() - 1, scroll_direction::BACKWARD );
+    } else if( input.action == "TOGGLE_FAVORITE" ) {
+        set_stack_favorite( get_selected().location, !get_selected().location.get_item()->is_favorite );
     }
 }
 
@@ -693,7 +740,7 @@ void inventory_column::prepare_paging( const std::string &filter )
         entries_unfiltered = entries;
     }
     // Select the uppermost possible entry
-    select( 0, scroll_direction::FORWARD );
+    select( selected_index, selected_index ? scroll_direction::BACKWARD : scroll_direction::FORWARD );
 }
 
 void inventory_column::clear()
@@ -701,7 +748,6 @@ void inventory_column::clear()
     entries.clear();
     entries_cell_cache.clear();
     paging_is_valid = false;
-    prepare_paging();
 }
 
 bool inventory_column::select( const item_location &loc )
@@ -767,7 +813,7 @@ void inventory_column::draw( const catacurses::window &win, size_t x, size_t y )
         }
 
         int x1 = x + get_entry_indent( entry );
-        int x2 = x + std::max( int( reserved_width - get_cells_width() ), 0 );
+        int x2 = x + std::max( static_cast<int>( reserved_width - get_cells_width() ), 0 );
         int yy = y + line;
 
         const bool selected = active && is_selected( entry );
@@ -781,9 +827,10 @@ void inventory_column::draw( const catacurses::window &win, size_t x, size_t y )
         const std::string &denial = entry_cell_cache.denial;
 
         if( !denial.empty() ) {
-            const size_t max_denial_width = std::max( int( get_width() - ( min_denial_gap +
+            const size_t max_denial_width = std::max( static_cast<int>( get_width() - ( min_denial_gap +
                                             get_entry_cell_width( index, 0 ) ) ), 0 );
-            const size_t denial_width = std::min( max_denial_width, size_t( utf8_width( denial, true ) ) );
+            const size_t denial_width = std::min( max_denial_width, static_cast<size_t>( utf8_width( denial,
+                                                  true ) ) );
 
             trim_and_print( win, yy, x + get_width() - denial_width, denial_width, c_red, denial );
         }
@@ -917,7 +964,7 @@ void selection_column::on_change( const inventory_entry &entry )
     }
 }
 
-// @todo: Move it into some 'item_stack' class.
+// TODO: Move it into some 'item_stack' class.
 std::vector<std::list<item *>> restack_items( const std::list<item>::const_iterator &from,
                             const std::list<item>::const_iterator &to, bool check_components = false )
 {
@@ -1087,6 +1134,17 @@ void inventory_selector::add_nearby_items( int radius )
     }
 }
 
+void inventory_selector::clear_items()
+{
+    items.clear();
+    for( auto &column : columns ) {
+        column->clear();
+    }
+    own_inv_column.clear();
+    own_gear_column.clear();
+    map_column.clear();
+}
+
 bool inventory_selector::select( const item_location &loc )
 {
     bool res = false;
@@ -1133,7 +1191,7 @@ void inventory_selector::prepare_layout( size_t client_width, size_t client_heig
     // This block adds categories and should go before any width evaluations
     for( auto &elem : columns ) {
         elem->set_height( client_height );
-        elem->prepare_paging();
+        elem->prepare_paging( filter );
     }
     // Handle screen overflow
     rearrange_columns( client_width );
@@ -1219,7 +1277,7 @@ size_t inventory_selector::get_header_min_width() const
 
     size_t stats_width = 0;
     for( const std::string &elem : get_stats() ) {
-        stats_width = std::max( size_t( utf8_width( elem, true ) ), stats_width );
+        stats_width = std::max( static_cast<size_t>( utf8_width( elem, true ) ), stats_width );
     }
 
     return titles_width + stats_width + ( stats_width != 0 ? 3 : 0 );
@@ -1231,7 +1289,8 @@ size_t inventory_selector::get_footer_min_width() const
     navigation_mode m = mode;
 
     do {
-        result = std::max( size_t( utf8_width( get_footer( m ).first, true ) ) + 2 + 4, result );
+        result = std::max( static_cast<size_t>( utf8_width( get_footer( m ).first, true ) ) + 2 + 4,
+                           result );
         m = get_navigation_data( m ).next_mode;
     } while( m != mode );
 
@@ -1361,7 +1420,7 @@ void inventory_selector::set_filter()
     .max_length( 256 )
     .text( filter );
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
     if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
         SDL_StartTextInput();
     }
@@ -1402,7 +1461,8 @@ void inventory_selector::draw_columns( const catacurses::window &w ) const
     const bool centered = are_columns_centered( screen_width );
 
     const int free_space = screen_width - get_columns_width( columns );
-    const int max_gap = ( columns.size() > 1 ) ? free_space / ( int( columns.size() ) - 1 ) :
+    const int max_gap = ( columns.size() > 1 ) ? free_space / ( static_cast<int>
+                        ( columns.size() ) - 1 ) :
                         free_space;
     const int gap = centered ? max_gap : std::min<int>( max_gap, normal_column_gap );
     const int gap_rounding_error = centered && columns.size() > 1
@@ -1496,6 +1556,7 @@ inventory_selector::inventory_selector( const player &u, const inventory_selecto
     ctxt.register_action( "CONFIRM", _( "Confirm your selection" ) );
     ctxt.register_action( "QUIT", _( "Cancel" ) );
     ctxt.register_action( "CATEGORY_SELECTION", _( "Switch selection mode" ) );
+    ctxt.register_action( "TOGGLE_FAVORITE", _( "Toggle favorite" ) );
     ctxt.register_action( "NEXT_TAB", _( "Page down" ) );
     ctxt.register_action( "PREV_TAB", _( "Page up" ) );
     ctxt.register_action( "HOME", _( "Home" ) );
@@ -1551,6 +1612,9 @@ void inventory_selector::on_input( const inventory_input &input )
             elem->on_input( input );
         }
         refresh_active_column(); // Columns can react to actions by losing their activation capacity
+        if( input.action == "TOGGLE_FAVORITE" ) {
+            keep_open = true;
+        }
     }
 }
 
@@ -1603,8 +1667,8 @@ double inventory_selector::get_columns_occupancy_ratio( size_t client_width ) co
 {
     const auto visible_columns = get_visible_columns();
     const int free_width = client_width - get_columns_width( visible_columns )
-                           - min_column_gap * std::max( int( visible_columns.size() ) - 1, 0 );
-    return 1.0 - double( free_width ) / client_width;
+                           - min_column_gap * std::max( static_cast<int>( visible_columns.size() ) - 1, 0 );
+    return 1.0 - static_cast<double>( free_width ) / client_width;
 }
 
 bool inventory_selector::are_columns_centered( size_t client_width ) const
@@ -1690,9 +1754,14 @@ item_location inventory_pick_selector::execute()
             on_input( input );
         }
 
+        if( input.action == "TOGGLE_FAVORITE" ) {
+            return item_location();
+        }
+
         if( input.action == "HELP_KEYBINDINGS" || input.action == "INVENTORY_FILTER" ) {
             g->draw_ter();
             wrefresh( g->w_terrain );
+            g->draw_panels();
         }
     }
 }
@@ -1756,6 +1825,8 @@ std::pair<const item *, const item *> inventory_compare_selector::execute()
             return std::make_pair( nullptr, nullptr );
         } else if( input.action == "INVENTORY_FILTER" ) {
             set_filter();
+        } else if( input.action == "TOGGLE_FAVORITE" ) {
+            // TODO : implement favoriting in multi selection menus while maintaining selection
         } else {
             on_input( input );
         }
@@ -1889,7 +1960,7 @@ inventory_drop_selector::inventory_drop_selector( const player &p,
     inventory_multiselector( p, preset, _( "ITEMS TO DROP" ) ),
     max_chosen_count( std::numeric_limits<decltype( max_chosen_count )>::max() )
 {
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
     // allow user to type a drop number without dismissing virtual keyboard after each keypress
     ctxt.allow_text_entry = true;
 #endif
@@ -1917,20 +1988,38 @@ std::list<std::pair<int, int>> inventory_drop_selector::execute()
         } else if( input.action == "RIGHT" ) {
             const auto selected( get_active_column().get_all_selected() );
 
+            // No amount entered, select all
             if( count == 0 ) {
-                const bool clear = std::none_of( selected.begin(), selected.end(),
+                count = max_chosen_count;
+
+                // Any non favorite item to select?
+                const bool select_nonfav = std::any_of( selected.begin(), selected.end(),
                 []( const inventory_entry * elem ) {
-                    return elem->chosen_count > 0;
+                    return ( !elem->location.get_item()->is_favorite ) && elem->chosen_count == 0;
                 } );
 
-                if( clear ) {
-                    count = max_chosen_count;
+                // Otherwise, any favorite item to select?
+                const bool select_fav =  !select_nonfav && std::any_of( selected.begin(), selected.end(),
+                []( const inventory_entry * elem ) {
+                    return elem->location.get_item()->is_favorite && elem->chosen_count == 0;
+                } );
+
+                for( const auto &elem : selected ) {
+                    const bool is_favorite = elem->location.get_item()->is_favorite;
+                    if( ( select_nonfav && !is_favorite ) || ( select_fav && is_favorite ) ) {
+                        set_chosen_count( *elem, count );
+                    } else if( !select_nonfav && !select_fav ) {
+                        // Every element is selected, unselect all
+                        set_chosen_count( *elem, 0 );
+                    }
+                }
+                // Select the entered amount
+            } else {
+                for( const auto &elem : selected ) {
+                    set_chosen_count( *elem, count );
                 }
             }
 
-            for( const auto &elem : selected ) {
-                set_chosen_count( *elem, count );
-            }
             count = 0;
         } else if( input.action == "CONFIRM" ) {
             if( dropping.empty() ) {
@@ -1943,6 +2032,8 @@ std::list<std::pair<int, int>> inventory_drop_selector::execute()
             return std::list<std::pair<int, int> >();
         } else if( input.action == "INVENTORY_FILTER" ) {
             set_filter();
+        } else if( input.action == "TOGGLE_FAVORITE" ) {
+            // TODO : implement favoriting in multi selection menus while maintaining selection
         } else {
             on_input( input );
             count = 0;

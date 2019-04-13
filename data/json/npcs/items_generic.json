@@ -2,54 +2,32 @@
   {
     "type": "item_group",
     "id": "npc_underwear_bottom_male",
-    "groups": [
-      [ "male_underwear_bottom", 95 ],
-      [ "null", 5 ]
-    ]
+    "groups": [ [ "male_underwear_bottom", 95 ], [ "null", 5 ] ]
   },
   {
     "type": "item_group",
     "id": "npc_underwear_bottom_female",
-    "groups": [
-      [ "female_underwear_bottom", 95 ],
-      [ "null", 5 ]
-    ]
+    "groups": [ [ "female_underwear_bottom", 95 ], [ "null", 5 ] ]
   },
   {
     "type": "item_group",
     "id": "npc_underwear_top_male",
-    "groups": [
-      [ "male_underwear_top", 50 ],
-      [ "null", 50 ]
-    ]
+    "groups": [ [ "male_underwear_top", 50 ], [ "null", 50 ] ]
   },
   {
     "type": "item_group",
     "id": "npc_underwear_top_female",
-    "groups": [
-      [ "female_underwear_top", 95 ],
-      [ "null", 5 ]
-    ]
+    "groups": [ [ "female_underwear_top", 95 ], [ "null", 5 ] ]
   },
   {
     "type": "item_group",
     "id": "npc_underwear_feet_male",
-    "items": [
-      [ "socks", 80 ],
-      [ "socks_wool", 20 ],
-      [ "null", 5 ]
-    ]
+    "items": [ [ "socks", 80 ], [ "socks_wool", 20 ], [ "null", 5 ] ]
   },
   {
     "type": "item_group",
     "id": "npc_underwear_feet_female",
-    "items": [
-      [ "socks", 50 ],
-      [ "socks_wool", 10 ],
-      [ "stockings", 20 ],
-      [ "tights", 20 ],
-      [ "null", 5 ]
-    ]
+    "items": [ [ "socks", 50 ], [ "socks_wool", 10 ], [ "stockings", 20 ], [ "tights", 20 ], [ "null", 5 ] ]
   },
   {
     "type": "item_group",
@@ -217,23 +195,12 @@
   {
     "type": "item_group",
     "id": "npc_scarf",
-    "items": [
-      [ "null", 20 ],
-      [ "knit_scarf", 30 ],
-      [ "long_knit_scarf", 15 ],
-      [ "scarf", 30 ],
-      [ "scarf_long", 15 ]
-    ]
+    "items": [ [ "null", 20 ], [ "knit_scarf", 30 ], [ "long_knit_scarf", 15 ], [ "scarf", 30 ], [ "scarf_long", 15 ] ]
   },
   {
     "type": "item_group",
     "id": "npc_eyes",
-    "items": [
-      [ "null", 80 ],
-      [ "glasses_safety", 20 ],
-      [ "sunglasses", 20 ],
-      [ "fancy_sunglasses", 10 ]
-    ]
+    "items": [ [ "null", 80 ], [ "glasses_safety", 20 ], [ "sunglasses", 20 ], [ "fancy_sunglasses", 10 ] ]
   },
   {
     "type": "item_group",
@@ -323,20 +290,12 @@
   {
     "type": "item_group",
     "id": "npc_belt",
-    "items": [
-      [ "null", 20 ],
-      [ "leather_belt", 50 ],
-      [ "tool_belt", 10 ]
-    ]
+    "items": [ [ "null", 20 ], [ "leather_belt", 50 ], [ "tool_belt", 10 ] ]
   },
   {
     "type": "item_group",
     "id": "npc_holster",
-    "items": [
-      [ "null", 50 ],
-      [ "sholster", 10 ],
-      [ "sheath", 10 ]
-    ]
+    "items": [ [ "null", 50 ], [ "sholster", 10 ], [ "sheath", 10 ] ]
   },
   {
     "type": "item_group",
@@ -507,6 +466,7 @@
       [ "cookbook_italian", 1 ],
       [ "cookies", 3 ],
       [ "cooking_oil", 3 ],
+      [ "cooking_oil2", 3 ],
       [ "cordless_drill", 2 ],
       [ "cornmeal", 3 ],
       [ "cotton_ball", 3 ],
@@ -853,8 +813,6 @@
       [ "mre_southwestbeef_box", 6 ],
       [ "mre_hotdog_box", 6 ],
       [ "mushroom", 5 ],
-      [ "mushroom_magic", 3 ],
-      [ "mushroom_poison", 3 ],
       [ "mustard", 3 ],
       [ "muzzle_brake", 1 ],
       [ "nachos", 1 ],

@@ -10,7 +10,7 @@
 #include "popup.h"
 #include "weather.h"
 
-#ifdef TILES
+#if defined(TILES)
 #include <memory>
 
 #include "cata_tiles.h" // all animation functions will be pushed out to a cata_tiles function in some manner
@@ -34,6 +34,7 @@ class basic_animation
 
         void draw() const {
             wrefresh( g->w_terrain );
+            g->draw_panels();
 
             query_popup()
             .wait_message( "%s", _( "Hang on a bit..." ) )
@@ -117,7 +118,7 @@ void draw_explosion_curses( game &g, const tripoint &center, const int r, const 
     // TODO: Make it look different from above/below
     const tripoint p = relative_view_pos( g.u, center );
 
-    if( r == 0 ) { // TODO why not always print '*'?
+    if( r == 0 ) { // TODO: why not always print '*'?
         mvwputch( g.w_terrain, p.x, p.y, col, '*' );
     }
 
@@ -234,9 +235,9 @@ void game::draw_explosion( const tripoint &p, const int r, const nc_color &col )
 
     explosion_animation anim;
 
-    bool visible = is_radius_visible( p, r );
+    const bool visible = is_radius_visible( p, r );
     for( int i = 1; i <= r; i++ ) {
-        tilecontext->init_explosion( p, i ); // TODO not xpos ypos?
+        tilecontext->init_explosion( p, i ); // TODO: not xpos ypos?
         if( visible ) {
             anim.progress();
         }
@@ -397,7 +398,7 @@ void draw_bullet_curses( map &m, const tripoint &t, const char bullet, const tri
         return;
     }
 
-    const tripoint vp = g->u.pos() + g->u.view_offset;
+    const tripoint vp = g->u.pos() + g->u.view_offset + g->sidebar_offset;
 
     if( p != nullptr && p->z == vp.z ) {
         m.drawsq( g->w_terrain, g->u, *p, false, true, vp );
@@ -419,7 +420,7 @@ void draw_bullet_curses( map &m, const tripoint &t, const char bullet, const tri
 void game::draw_bullet( const tripoint &t, const int i, const std::vector<tripoint> &trajectory,
                         const char bullet )
 {
-    //TODO signature and impl could be changed to eliminate these params
+    // TODO: signature and impl could be changed to eliminate these params
 
     ( void )i;        //unused
     ( void )trajectory; //unused
@@ -561,7 +562,7 @@ void game::draw_line( const tripoint &p, const tripoint &center, const std::vect
     }
 
     if( !use_tiles ) {
-        draw_line_curses( *this, p, center, ret ); // TODO needed for tiles ver too??
+        draw_line_curses( *this, p, center, ret ); // TODO: needed for tiles ver too??
         return;
     }
 
@@ -681,7 +682,7 @@ namespace
 {
 void draw_sct_curses( game &g )
 {
-    const tripoint off = relative_view_pos( g.u, 0, 0, 0 );
+    const tripoint off = relative_view_pos( g.u, 0, 0, 0 ) - g.sidebar_offset;
 
     for( const auto &text : SCT.vSCT ) {
         const int dy = off.y + text.getPosY();

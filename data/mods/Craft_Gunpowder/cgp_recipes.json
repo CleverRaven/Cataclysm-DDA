@@ -17,11 +17,7 @@
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "swage", -1 ] ]
     ],
-    "qualities": [
-      { "id": "HAMMER_FINE", "level": 1 },
-      { "id": "SAW_M_FINE", "level": 1 },
-      { "id": "SCREW_FINE", "level": 1 }
-    ],
+    "qualities": [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "components": [
       [ [ "pipe", 1 ] ],
       [ [ "leather", 4 ] ],
@@ -198,20 +194,6 @@
   },
   {
     "type": "recipe",
-    "result": "rifle_45",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_RANGED",
-    "skill_used": "mechanics",
-    "skills_required": [ "gun", 1 ],
-    "difficulty": 3,
-    "time": 12000,
-    "reversible": true,
-    "autolearn": true,
-    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
-    "components": [ [ [ "pipe", 1 ] ], [ [ "2x4", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
     "result": "smg_22",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
@@ -363,17 +345,17 @@
     "book_learn": [ [ "manual_electronics", 4 ], [ "textbook_electronics", 4 ] ],
     "using": [ [ "soldering_standard", 20 ], [ "surface_heat", 20 ] ],
     "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "CHEM", "level": 2 } ],
-    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "toolset", -1 ] ] ],
-    "components": [ 
-        [ [ "plastic_chunk", 2 ] ],
-        [ [ "amplifier", 1 ] ],
-        [ [ "power_supply", 1 ] ],
-        [ [ "battery", 100 ], [ "plut_cell", 1 ] ],
-        [ [ "silver_small", 10 ] ],
-        [ [ "gold_small", 10 ] ],
-        [ [ "chem_aluminium_powder", 10 ] ],
-        [ [ "chem_chromium_oxide", 10 ] ],
-        [ [ "lens", 2 ] ]
+    "tools": [ [ [ "mold_plastic", -1 ], [ "toolset", -1 ] ] ],
+    "components": [
+      [ [ "plastic_chunk", 2 ] ],
+      [ [ "amplifier", 1 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "battery", 100 ], [ "plut_cell", 1 ] ],
+      [ [ "silver_small", 10 ] ],
+      [ [ "gold_small", 10 ] ],
+      [ [ "chem_aluminium_powder", 10 ] ],
+      [ [ "chem_chromium_oxide", 10 ] ],
+      [ [ "lens", 2 ] ]
     ]
   },
   {
@@ -390,12 +372,15 @@
     "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 10 ] ],
     "qualities": [ { "id": "SCREW_FINE", "level": 1 } ],
     "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "toolset", -1 ] ] ],
-    "components": [ 
-        [ 
-            [ "scrap", 1 ], [ "can_drink_unsealed", 1 ], [ "can_food_unsealed", 1 ],
-            [ "canister_empty", 1 ], [ "plastic_chunk", 1 ]
-        ],
-        [ [ "lens", 2 ] ]
+    "components": [
+      [
+        [ "scrap", 1 ],
+        [ "can_drink_unsealed", 1 ],
+        [ "can_food_unsealed", 1 ],
+        [ "canister_empty", 1 ],
+        [ "plastic_chunk", 1 ]
+      ],
+      [ [ "lens", 2 ] ]
     ]
   },
   {
@@ -412,14 +397,10 @@
     "using": [ [ "soldering_standard", 20 ], [ "surface_heat", 15 ] ],
     "qualities": [ { "id": "SCREW_FINE", "level": 1 } ],
     "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "toolset", -1 ] ] ],
-    "components": [ 
-        [ 
-            [ "scrap", 1 ], [ "can_drink_unsealed", 1 ], [ "can_food_unsealed", 1 ],
-            [ "canister_empty", 1 ]
-        ],
-        [ [ "plastic_chunk", 2 ] ],
-        [ [ "lens", 2 ] ]
+    "components": [
+      [ [ "scrap", 1 ], [ "can_drink_unsealed", 1 ], [ "can_food_unsealed", 1 ], [ "canister_empty", 1 ] ],
+      [ [ "plastic_chunk", 2 ] ],
+      [ [ "lens", 2 ] ]
     ]
   }
 ]
-

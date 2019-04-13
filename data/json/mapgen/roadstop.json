@@ -105,7 +105,7 @@
       "furniture": { "6": "f_table", "7": "f_toilet", "8": "f_trashcan", "9": "f_toilet", "A": "f_sink", "i": "f_sign", "o": "f_crate_c" },
       "signs": {
         "i": {
-          "signage": "This was once an information map for the <city> area, but it has long since eroded beyond usefullness.  There are small holders for tourist maps attached."
+          "signage": "This was once an information map for the <city> area, but it has long since eroded beyond usefulness.  There are small holders for tourist maps attached."
         }
       },
       "toilets": { "7": {  }, "9": { "amount": 500 } },
