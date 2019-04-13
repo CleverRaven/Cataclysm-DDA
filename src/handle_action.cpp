@@ -740,7 +740,11 @@ static void wait()
         add_menu_item( 10, 'm',
                        setting_alarm ? _( "Set alarm for midnight" ) : _( "Wait till midnight" ),
                        diurnal_time_before( HOURS( 0 ) ) );
-        if( !setting_alarm ) {
+        if( setting_alarm ) {
+            if( u.has_effect( effect_alarm_clock ) ) {
+                add_menu_item( 11, 'x', _( "Cancel the currently set alarm." ), 0 );
+            }
+        } else {
             add_menu_item( 11, 'w', _( "Wait till weather changes" ) );
         }
     }
@@ -756,11 +760,13 @@ static void wait()
 
     if( setting_alarm ) {
         // Setting alarm
-        if( u.has_effect( effect_alarm_clock ) ) {
-            u.remove_effect( effect_alarm_clock );
+        u.remove_effect( effect_alarm_clock );
+        if( as_m.ret == 11 ) {
+            add_msg( _( "You cancel your alarm." ) );
+        } else {
+            u.add_effect( effect_alarm_clock, time_duration::from_turns( durations[as_m.ret] ) );
+            add_msg( _( "You set your alarm." ) );
         }
-        u.add_effect( effect_alarm_clock, time_duration::from_turns( durations[as_m.ret] ) );
-        add_msg( _( "You set your alarm." ) );
 
     } else {
         // Waiting
