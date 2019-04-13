@@ -4509,5 +4509,49 @@
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
+  },
+  {
+    "id": "urban_41_1",
+    "//": "Northwest corner",
+    "type": "overmap_terrain",
+    "name": "public library",
+    "sym": "L",
+    "color": "white",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "id": "urban_41_2",
+    "//": "Northeast corner",
+    "type": "overmap_terrain",
+    "name": "public library",
+    "sym": "L",
+    "color": "white",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "id": "urban_41_3",
+    "//": "Southwest corner",
+    "type": "overmap_terrain",
+    "name": "public library",
+    "sym": "L",
+    "color": "white",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "id": "urban_41_4",
+    "//": "Southeast corner",
+    "type": "overmap_terrain",
+    "name": "public library",
+    "sym": "L",
+    "color": "white",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
   }
 ]

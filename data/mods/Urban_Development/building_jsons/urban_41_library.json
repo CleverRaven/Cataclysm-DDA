@@ -1,0 +1,197 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "urban_41_1" ],
+    "weight": 250,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,-vvvvv-,,,,,,",
+        ",,,,,,,,,,--A   A--,,,,,",
+        ",,,,,,,,,vv   h   vv,,,,",
+        ",,,,,,,,vvA  hth  Avv,,,",
+        ",,,,|-ww-     h     -ww-",
+        ",,,,wO     OO   OO6  AA ",
+        ",,,,wO OO               ",
+        ",,,,|O        h h       ",
+        ",,,,wO OOOO   ttt       ",
+        ",,,,wO        ttt       ",
+        ",,,,|O OOOO   h h       ",
+        ",,,,wO              OOOO",
+        ",,,,wO OOOO   h h       ",
+        ",,,,|O        ttt       ",
+        ",,,,wO OOOO   ttt   OOOO",
+        ",,,,wO        h h       ",
+        ",,,,|O OO 6             ",
+        ",,,,wA    |   h h   OOOO",
+        ",,,,wA    |   ttt       ",
+        ",,,,| ttt@|   ttt       ",
+        ",,,,|@@@@@|   h h   OOOO",
+        ",,,,---------           "
+      ],
+      "palettes": [ "acidia_residential_commercial_palette" ],
+      "items": { "t": { "item": "office", "chance": 40 } },
+      "place_items": [
+        { "item": "textbooks", "x": 5, "y": [ 7, 18 ], "chance": 20, "repeat": [ 26, 52 ] },
+        { "item": "textbooks", "x": [ 7, 8 ], "y": 8, "chance": 10, "repeat": [ 6, 12 ] },
+        { "item": "textbooks", "x": [ 7, 10 ], "y": 10, "chance": 5, "repeat": [ 12, 24 ] },
+        { "item": "textbooks", "x": [ 7, 10 ], "y": 12, "chance": 5, "repeat": [ 12, 24 ] },
+        { "item": "textbooks", "x": [ 7, 10 ], "y": 14, "chance": 5, "repeat": [ 12, 24 ] },
+        { "item": "textbooks", "x": [ 7, 10 ], "y": 16, "chance": 5, "repeat": [ 12, 24 ] },
+        { "item": "textbooks", "x": [ 7, 8 ], "y": 18, "chance": 5, "repeat": [ 6, 12 ] },
+        { "item": "homebooks", "x": [ 11, 12 ], "y": 7, "chance": 50, "repeat": [ 4, 8 ] },
+        { "item": "homebooks", "x": [ 16, 17 ], "y": 7, "chance": 50, "repeat": [ 4, 8 ] },
+        { "item": "novels", "x": [ 20, 23 ], "y": 13, "chance": 80, "repeat": [ 8, 16 ] },
+        { "item": "novels", "x": [ 20, 23 ], "y": 16, "chance": 80, "repeat": [ 8, 16 ] },
+        { "item": "novels", "x": [ 20, 23 ], "y": 19, "chance": 80, "repeat": [ 8, 16 ] },
+        { "item": "novels", "x": [ 20, 23 ], "y": 22, "chance": 80, "repeat": [ 8, 16 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "urban_41_2" ],
+    "weight": 250,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        "ww-ww-ww-ww-ww-ww-,,,,,,",
+        "ht ht ht ht ht htw,,,,,,",
+        " t  t  t  t  t  hw,,,,,,",
+        "                 |,,,,,,",
+        "              |---www|,,",
+        "              |A A A w,,",
+        "                     w,,",
+        "OOOOOOOOO           hw,,",
+        "                    tw,,",
+        "              |@@t  h|,,",
+        "OOOOOOOOO     |----+--|,",
+        "               t|     w,",
+        "              h6| Ad  |,",
+        "OOOOOOOOO      t|  dA |,",
+        "                1 A6  w,",
+        "              |-------|,",
+        "OOOOOOOOO        ],,,,,,",
+        "                 |,,,,,,"
+      ],
+      "palettes": [ "acidia_residential_commercial_palette" ],
+      "items": { "t": { "item": "office", "chance": 40 }, "d": { "item": "office", "chance": 80 } },
+      "place_items": [
+        { "item": "novels", "x": [ 0, 8 ], "y": 13, "chance": 80, "repeat": [ 18, 36 ] },
+        { "item": "novels", "x": [ 0, 8 ], "y": 16, "chance": 80, "repeat": [ 18, 36 ] },
+        { "item": "novels", "x": [ 0, 8 ], "y": 19, "chance": 80, "repeat": [ 18, 36 ] },
+        { "item": "novels", "x": [ 0, 8 ], "y": 22, "chance": 80, "repeat": [ 18, 36 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "urban_41_3" ],
+    "weight": 250,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        ",,,,,,|OOOOO|           ",
+        ",,,,,,w             OOOO",
+        ",,,,,,|A                ",
+        ",,,,,,w                 ",
+        ",,,,,,|h h h            ",
+        ",,,,,,|6t6t6    AtAtA   ",
+        ",,,,,,|-----|  |-----|  ",
+        ",,,,,,| hhh    |OOOOO|  ",
+        ",,,,,,w ttt             ",
+        ",,,,,,w ttt             ",
+        ",,,,,,| hhh    |OOOOO|  ",
+        ",,,,,,|-----|  ---------",
+        ",,,,,,w44222+    t6t6t6t",
+        ",,,,,,|222CC|     h h h ",
+        ",,,,,,wCC22C|6h         ",
+        ",,,,,,|C222C|6h   h h h ",
+        ",,,,,,wCfCCC|    t6t6t6t",
+        ",,,,,,|-w-w----+--------",
+        ",,,,,,,,,,,,|tA At|,,,,,",
+        ",,,,,,,,,,,,|     |,,,,,",
+        ",,,,,,,,,,,,|tA At|,,,,,",
+        ",,,,,,,,,,,,-w-w-w-,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,"
+      ],
+      "palettes": [ "acidia_residential_commercial_palette" ],
+      "items": {
+        "t": { "item": "office", "chance": 40 },
+        "C": { "item": "coffee_counter", "chance": 20 },
+        "4": { "item": "coffee_table", "chance": 30 },
+        "f": { "item": "coffee_freezer", "chance": 90 }
+      },
+      "place_items": [
+        { "item": "homebooks", "x": [ 7, 11 ], "y": 0, "chance": 50, "repeat": [ 10, 20 ] },
+        { "item": "novels", "x": [ 20, 23 ], "y": 1, "chance": 80, "repeat": [ 8, 16 ] },
+        { "item": "mansion_books", "x": [ 16, 20 ], "y": 7, "chance": 20, "repeat": [ 10, 20 ] },
+        { "item": "mansion_books", "x": [ 16, 20 ], "y": 10, "chance": 20, "repeat": [ 10, 20 ] }
+      ],
+      "place_loot": [
+        { "item": "dnd_handbook", "x": 8, "y": 8, "chance": 70 },
+        { "item": "novel_fantasy", "x": [ 8, 10 ], "y": [ 8, 9 ], "chance": 20, "repeat": [ 0, 4 ] },
+        { "item": "character_sheet", "x": [ 8, 10 ], "y": [ 8, 9 ], "chance": 50, "repeat": [ 1, 5 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "urban_41_4" ],
+    "weight": 250,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "            -----|,,,,,,",
+        "OOOOOOOOO    A  tw,,,,,,",
+        "               h6w,,,,,,",
+        "          t@@t  tw,,,,,,",
+        "       dd -------|,,,,,,",
+        "       d  O-----,,,,,,,,",
+        "       dA O|2ST|,,,,,,,,",
+        "       d  O|222|,,,,,,,,",
+        "       dd |-+|---|,,,,,,",
+        "          |  |2ST|,,,,,,",
+        "             +222|,,,,,,",
+        "-----   ---------|,,,,,,",
+        "|rrt     +       w,,,,,,",
+        "         | hhhhh |,,,,,,",
+        "         | ttttt w,,,,,,",
+        "         | hhhhh |,,,,,,",
+        "|AttA-JJJ-       w,,,,,,",
+        "------   ---w-w-w|,,,,,,",
+        ",,,,|     |,,,,,,,,,,,,,",
+        ",,,,--   --,,,,,,,,,,,,,",
+        ",,,, -JJJ-,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,"
+      ],
+      "palettes": [ "acidia_residential_commercial_palette" ],
+      "items": {
+        "t": { "item": "office", "chance": 40 },
+        "d": { "item": "office", "chance": 80 },
+        "r": { "item": "maps", "chance": 20 },
+        "2": { "item": "coffee_bathroom", "chance": 20 }
+      },
+      "toilets": { "T": {  } },
+      "place_items": [
+        { "item": "novels", "x": [ 0, 8 ], "y": 1, "chance": 80, "repeat": [ 18, 36 ] },
+        { "item": "exotic_books", "x": 10, "y": [ 5, 7 ], "chance": 30, "repeat": [ 6, 12 ] }
+      ]
+    }
+  }
+]
