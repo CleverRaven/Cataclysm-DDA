@@ -8288,7 +8288,7 @@ void player::mend_item( item_location &&obj, bool interactive )
     auto inv = crafting_inventory();
 
     for( auto &f : faults ) {
-        f.second = f.first->requirements().can_make_with_inventory( inv );
+        f.second = f.first->requirements().can_make_with_inventory( inv, is_crafting_component );
     }
 
     int sel = 0;
@@ -8303,7 +8303,7 @@ void player::mend_item( item_location &&obj, bool interactive )
         for( auto &f : faults ) {
             auto reqs = f.first->requirements();
             auto tools = reqs.get_folded_tools_list( w, c_white, inv );
-            auto comps = reqs.get_folded_components_list( w, c_white, inv );
+            auto comps = reqs.get_folded_components_list( w, c_white, inv, is_crafting_component );
 
             std::ostringstream descr;
             descr << _( "<color_white>Time required:</color>\n" );
