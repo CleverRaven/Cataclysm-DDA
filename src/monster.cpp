@@ -1928,7 +1928,7 @@ void monster::die( Creature *nkiller )
         }
         if( ch->is_player() && ch->has_trait( trait_KILLER ) ) {
             std::string snip = SNIPPET.random_from_category( "killer_on_kill" );
-            if( one_in( 3 ) ) {
+            if( one_in( 4 ) ) {
                 ch->add_msg_if_player( m_good, _( snip ) );
             }
             ch->add_morale( MORALE_KILLER_HAS_KILLED, 5, 10, 6_hours, 4_hours );

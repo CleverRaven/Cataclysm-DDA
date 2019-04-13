@@ -576,7 +576,7 @@
     "starting_trait": true,
     "valid": false,
     "social_modifiers": { "intimidate": 10 },
-    "prereqs": [ "PSYCHOPATH"],
+    "prereqs": [ "PSYCHOPATH" ],
     "cancels": [ "PACIFIST" ],
     "flags": [ "CANNIBAL" ]
   },
