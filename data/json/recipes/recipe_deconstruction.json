@@ -2444,10 +2444,6 @@
     "time": 30000,
     "difficulty": 1,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [
-      [ [ "rag", 25 ] ],
-      [ [ "element", 5 ] ],
-      [ [ "cable", 5 ] ]
-    ]
+    "components": [ [ [ "rag", 25 ] ], [ [ "element", 5 ] ], [ [ "cable", 5 ] ] ]
   }
 ]
