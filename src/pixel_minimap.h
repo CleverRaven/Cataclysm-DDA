@@ -10,6 +10,12 @@
 #include "sdl_wrappers.h"
 
 
+enum class pixel_minimap_type {
+    ortho,
+    iso
+};
+
+
 struct pixel_minimap_settings {
     pixel_minimap_mode mode = pixel_minimap_mode::solid;
     int brightness = 100;
@@ -23,6 +29,7 @@ class pixel_minimap
         pixel_minimap( const SDL_Renderer_Ptr &renderer );
         ~pixel_minimap();
 
+        void set_type( pixel_minimap_type type );
         void set_settings( const pixel_minimap_settings &settings );
 
         void draw( const SDL_Rect &screen_rect, const tripoint &center );
@@ -48,9 +55,12 @@ class pixel_minimap
         void render_cache( const tripoint &center );
         void render_critters( const tripoint &center );
 
+        std::unique_ptr<pixel_minimap_drawer> create_drawer( const SDL_Rect &screen_rect ) const;
+
     private:
         const SDL_Renderer_Ptr &renderer;
 
+        pixel_minimap_type type;
         point tiles_limit;
 
         //track the previous viewing area to determine if the minimap cache needs to be cleared

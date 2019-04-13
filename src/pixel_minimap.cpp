@@ -164,6 +164,7 @@ struct pixel_minimap::submap_cache {
 
 pixel_minimap::pixel_minimap( const SDL_Renderer_Ptr &renderer ) :
     renderer( renderer ),
+    type( pixel_minimap_type::ortho ),
     cached_center_sm( tripoint_min ),
     screen_rect{ 0, 0, 0, 0 }
 {
@@ -171,10 +172,16 @@ pixel_minimap::pixel_minimap( const SDL_Renderer_Ptr &renderer ) :
 
 pixel_minimap::~pixel_minimap() = default;
 
+void pixel_minimap::set_type( pixel_minimap_type type )
+{
+    this->type = type;
+    reset();
+}
+
 void pixel_minimap::set_settings( const pixel_minimap_settings &settings )
 {
-    reset();
     this->settings = settings;
+    reset();
 }
 
 void pixel_minimap::prepare_cache_for_updates( const tripoint &center )
@@ -321,11 +328,8 @@ void pixel_minimap::set_screen_rect( const SDL_Rect &screen_rect )
     }
 
     this->screen_rect = screen_rect;
-    const auto screen_size = point{ screen_rect.w, screen_rect.h };
 
-    drawer.reset();
-    drawer.reset( new pixel_minimap_ortho_drawer( screen_size, settings.square_pixels,
-                  settings.mode ) );
+    drawer = create_drawer( screen_rect );
 
     tiles_limit = drawer->get_tiles_count();
     const auto size_on_screen = drawer->get_size_on_screen();
@@ -483,6 +487,26 @@ void pixel_minimap::draw_beacon( const SDL_Rect &rect, const SDL_Color &color )
             RenderDrawPoint( renderer, rect.x + x, rect.y + y );
         }
     }
+}
+
+std::unique_ptr<pixel_minimap_drawer> pixel_minimap::create_drawer( const SDL_Rect &screen_rect )
+const
+{
+    const auto screen_size = point{ screen_rect.w, screen_rect.h };
+
+    switch( type ) {
+        case pixel_minimap_type::ortho:
+            return std::unique_ptr<pixel_minimap_drawer> {
+                new pixel_minimap_ortho_drawer( screen_size, settings.square_pixels, settings.mode )
+            };
+
+        case pixel_minimap_type::iso:
+            return std::unique_ptr<pixel_minimap_drawer> {
+                new pixel_minimap_ortho_drawer( screen_size, settings.square_pixels, settings.mode )
+            };
+    }
+
+    return nullptr;
 }
 
 #endif // SDL_TILES

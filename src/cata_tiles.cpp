@@ -249,6 +249,8 @@ void cata_tiles::load_tileset( const std::string &tileset_id, const bool prechec
     tileset_ptr = std::move( new_tileset_ptr );
 
     set_draw_scale( 16 );
+
+    minimap->set_type( tile_iso ? pixel_minimap_type::iso : pixel_minimap_type::ortho );
 }
 
 void cata_tiles::reinit()
