@@ -535,7 +535,7 @@ ter_id t_null,
        t_slope_up, t_rope_up,
        t_manhole_cover,
        // Special
-       t_card_science, t_card_military, t_card_reader_broken, t_slot_machine,
+       t_card_science, t_card_military, t_card_industrial, t_card_reader_broken, t_slot_machine,
        t_elevator_control, t_elevator_control_off, t_elevator, t_pedestal_wyrm,
        t_pedestal_temple,
        // Temple tiles
@@ -614,6 +614,8 @@ void set_ter_ids()
     t_wall_glass = ter_id( "t_wall_glass" );
     t_wall_glass_alarm = ter_id( "t_wall_glass_alarm" );
     t_reinforced_glass = ter_id( "t_reinforced_glass" );
+    t_reinforced_glass_shutter = ter_id( "t_reinforced_glass_shutter" );
+    t_reinforced_glass_shutter_open = ter_id( "t_reinforced_glass_shutter_open" );
     t_reinforced_door_glass_c = ter_id( "t_reinforced_door_glass_c" );
     t_reinforced_door_glass_o = ter_id( "t_reinforced_door_glass_o" );
     t_bars = ter_id( "t_bars" );
@@ -797,6 +799,7 @@ void set_ter_ids()
     t_manhole_cover = ter_id( "t_manhole_cover" );
     t_card_science = ter_id( "t_card_science" );
     t_card_military = ter_id( "t_card_military" );
+    t_card_industrial = ter_id( "t_card_industrial" );
     t_card_reader_broken = ter_id( "t_card_reader_broken" );
     t_slot_machine = ter_id( "t_slot_machine" );
     t_elevator_control = ter_id( "t_elevator_control" );

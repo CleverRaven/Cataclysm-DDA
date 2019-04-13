@@ -28,6 +28,7 @@
       [ "hk_g80mag", 35 ],
       [ "emp_gun", 20 ],
       [ "id_military", 30 ],
+      [ "id_industrial", 30 ],
       [ "id_science", 20 ],
       [ "knife_rm42", 20 ],
       [ "l-stick", 10 ],

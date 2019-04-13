@@ -7174,6 +7174,7 @@
       [ "mobile_memory_card_science", 1 ],
       [ "standard_template_construct", 8 ],
       [ "id_military", 3 ],
+      [ "id_industrial", 5 ],
       [ "militarymap", 3 ],
       [ "pistol_bayonet", 4 ],
       [ "rope_30", 35 ],

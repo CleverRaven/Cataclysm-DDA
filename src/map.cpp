@@ -3690,7 +3690,7 @@ bool map::hit_with_acid( const tripoint &p )
         ter_set( p, t_floor_wax );
     } else if( t == t_gas_pump || t == t_gas_pump_smashed ) {
         return false;
-    } else if( t == t_card_science || t == t_card_military ) {
+    } else if( t == t_card_science || t == t_card_military || t == t_card_industrial ) {
         ter_set( p, t_card_reader_broken );
     }
     return true;
@@ -3788,7 +3788,7 @@ void map::translate_radius( const ter_id &from, const ter_id &to, float radi, co
     if( from == to ) {
         debugmsg( "map::translate %s => %s",
                   from.obj().name().c_str(),
-                  from.obj().name().c_str() );
+                  to.obj().name().c_str() );
         return;
     }
 

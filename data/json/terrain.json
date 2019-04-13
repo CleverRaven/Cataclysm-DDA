@@ -7530,6 +7530,26 @@
   },
   {
     "type": "terrain",
+    "id": "t_card_industrial",
+    "looks_like": "t_card_science",
+    "name": "card reader",
+    "//": "Industrial",
+    "symbol": "6",
+    "color": "pink",
+    "move_cost": 0,
+    "flags": [ "NOITEM", "CONNECT_TO_WALL" ],
+    "examine_action": "cardreader",
+    "bash": {
+      "str_min": 18,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_card_reader_broken",
+      "items": [ { "item": "plastic_chunk", "count": [ 0, 2 ] }, { "item": "scrap", "prob": 50 } ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_card_reader_broken",
     "name": "broken card reader",
     "symbol": "6",
