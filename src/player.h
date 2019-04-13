@@ -1274,6 +1274,8 @@ class player : public Character
         int get_wind_resistance( body_part bp ) const;
         /** Returns the effect of pain on stats */
         stat_mod get_pain_penalty() const;
+        // returns amount of calories burned in a day given various metabolic factors
+        unsigned int get_bmr() const;
         int kcal_speed_penalty();
         /** Returns the penalty to speed from thirst */
         static int thirst_speed_penalty( int thirst );
@@ -1520,6 +1522,14 @@ class player : public Character
                               const player_activity &destination_activity = player_activity() );
         void clear_destination();
         bool has_destination() const;
+        // increases the activity level to the next level
+        // does not decrease activity level
+        void increase_activity_level( float new_level );
+        // decreases the activity level to the previous level
+        // does not increase activity level
+        void decrease_activity_level( float new_level );
+        // sets activity level to NO_EXERCISE
+        void reset_activity_level();
         // true if player has destination activity AND is standing on destination tile
         bool has_destination_activity() const;
         // starts destination activity and cleans up to ensure it is called only once
@@ -1832,6 +1842,9 @@ class player : public Character
         std::set<tripoint> camps;
 
     protected:
+        // the player's activity level for metabolism calculations
+        float activity_level = NO_EXERCISE;
+
         // The player's position on the local map.
         tripoint position;
 
