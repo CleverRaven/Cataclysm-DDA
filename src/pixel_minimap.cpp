@@ -256,17 +256,20 @@ void pixel_minimap::process_cache_updates()
     }
 }
 
-void pixel_minimap::update_cache( int z )
+void pixel_minimap::update_cache_at( const tripoint &pos )
 {
-    //retrieve night vision goggle status once per draw
-    const auto &vision_cache = g->u.get_vision_modes();
-    const auto &access_cache = g->m.access_cache( z );
-    const bool nv_goggle = vision_cache[NV_GOGGLES];
+    const auto &access_cache = g->m.access_cache( pos.z );
+    const bool nv_goggle = g->u.get_vision_modes()[NV_GOGGLES];
 
-    for( int y = 0; y < MAPSIZE_Y; ++y ) {
-        for( int x = 0; x < MAPSIZE_X; ++x ) {
-            const auto lighting = access_cache.visibility_cache[x][y];
-            const auto p = tripoint{ x, y, z };
+    auto &cache_item = get_cache_at( g->m.get_abs_sub() + pos );
+
+    cache_item.touched = true;
+
+    for( int y = 0; y < SEEY; ++y ) {
+        for( int x = 0; x < SEEX; ++x ) {
+            const auto p = sm_to_ms_copy( pos ) + tripoint{ x, y, 0 };
+            const auto lighting = access_cache.visibility_cache[p.x][p.y];
+
             SDL_Color color;
 
             if( lighting == LL_BLANK ) {
@@ -290,32 +293,27 @@ void pixel_minimap::update_cache( int z )
                 }
             }
 
-            //add an individual color update to the cache
-            update_cache( p, adjust_color_brightness( color, settings.brightness ) );
+            color = adjust_color_brightness( color, settings.brightness );
+
+            SDL_Color &current_color = cache_item.minimap_colors[y * SEEX + x];
+
+            if( current_color != color ) {
+                current_color = color;
+                cache_item.update_list.push_back( { x, y } );
+            }
         }
     }
 }
 
-//finds the correct submap cache and applies the new minimap color blip if it doesn't match the current one
-void pixel_minimap::update_cache( const tripoint &loc, const SDL_Color &color )
+pixel_minimap::submap_cache &pixel_minimap::get_cache_at( const tripoint &pos )
 {
-    tripoint current_submap_loc = convert_tripoint_to_abs_submap( loc );
-    auto it = cache.find( current_submap_loc );
+    auto it = cache.find( pos );
+
     if( it == cache.end() ) {
-        it = cache.emplace( current_submap_loc, *tex_pool ).first;
+        it = cache.emplace( pos, *tex_pool ).first;
     }
 
-    it->second.touched = true;
-
-    point offset( loc.x, loc.y );
-    ms_to_sm_remain( offset );
-
-    SDL_Color &current_color = it->second.minimap_colors[offset.y * SEEX + offset.x];
-
-    if( current_color != color ) {
-        current_color = color;
-        it->second.update_list.push_back( offset );
-    }
+    return it->second;
 }
 
 pixel_minimap::submap_cache::submap_cache( shared_texture_pool &pool ) : ready( false ),
@@ -518,7 +516,12 @@ void pixel_minimap::draw( const SDL_Rect &screen_rect, const tripoint &center )
     //clear leftover flags for the current draw cycle
     prepare_cache_for_updates();
 
-    update_cache( center.z );
+    for( int y = 0; y < MAPSIZE; ++y ) {
+        for( int x = 0; x < MAPSIZE; ++x ) {
+            update_cache_at( { x, y, center.z } );
+        }
+    }
+
     //update minimap textures
     process_cache_updates();
 

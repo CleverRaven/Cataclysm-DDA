@@ -35,6 +35,10 @@ class pixel_minimap
         void draw( const SDL_Rect &screen_rect, const tripoint &center );
 
     private:
+        struct submap_cache;
+
+        submap_cache &get_cache_at( const tripoint &submap_pos );
+
         void set_screen_rect( const SDL_Rect &screen_rect );
         void reset();
 
@@ -42,8 +46,9 @@ class pixel_minimap
                            int heightLimit );
 
         void process_cache_updates();
-        void update_cache( int z );
-        void update_cache( const tripoint &loc, const SDL_Color &color );
+
+        void update_cache_at( const tripoint &pos );
+
         void prepare_cache_for_updates();
         void clear_unused_cache();
 
@@ -69,7 +74,6 @@ class pixel_minimap
         struct shared_texture_pool;
         std::unique_ptr<shared_texture_pool> tex_pool;
 
-        struct submap_cache;
         std::map<tripoint, submap_cache> cache;
 };
 
