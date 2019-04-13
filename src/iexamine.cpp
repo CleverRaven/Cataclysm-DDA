@@ -4,12 +4,14 @@
 #include <cstdlib>
 #include <sstream>
 
+#include "activity_handlers.h"
 #include "ammo.h"
 #include "basecamp.h"
 #include "bionics.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "clzones.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "coordinate_conversions.h"
 #include "craft_command.h"
@@ -85,7 +87,7 @@ static const trait_id trait_PARKOUR( "PARKOUR" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 static const trait_id trait_BURROW( "BURROW" );
-
+const zone_type_id z_loot_unsorted( "LOOT_UNSORTED" );
 static void pick_plant( player &p, const tripoint &examp, const std::string &itemType,
                         ter_id new_ter,
                         bool seeds = false );
@@ -119,14 +121,14 @@ void iexamine::cvdmachine( player &p, const tripoint & )
     qty = std::max( 1, qty );
     auto reqs = *requirement_id( "cvd_diamond" ) * qty;
 
-    if( !reqs.can_make_with_inventory( p.crafting_inventory() ) ) {
+    if( !reqs.can_make_with_inventory( p.crafting_inventory(), is_crafting_component ) ) {
         popup( "%s", reqs.list_missing().c_str() );
         return;
     }
 
     // Consume materials
     for( const auto &e : reqs.get_components() ) {
-        p.consume_items( e );
+        p.consume_items( e, 1, is_crafting_component );
     }
     for( const auto &e : reqs.get_tools() ) {
         p.consume_tools( e );
@@ -171,14 +173,14 @@ void iexamine::nanofab( player &p, const tripoint &examp )
     auto qty = std::max( 1, new_item.volume() / 250_ml );
     auto reqs = *requirement_id( "nanofabricator" ) * qty;
 
-    if( !reqs.can_make_with_inventory( p.crafting_inventory() ) ) {
+    if( !reqs.can_make_with_inventory( p.crafting_inventory(), is_crafting_component ) ) {
         popup( "%s", reqs.list_missing().c_str() );
         return;
     }
 
     // Consume materials
     for( const auto &e : reqs.get_components() ) {
-        p.consume_items( e );
+        p.consume_items( e, 1, is_crafting_component );
     }
     for( const auto &e : reqs.get_tools() ) {
         p.consume_tools( e );
@@ -987,7 +989,7 @@ void iexamine::pit( player &p, const tripoint &examp )
     planks.push_back( item_comp( "2x4", 1 ) );
 
     if( query_yn( _( "Place a plank over the pit?" ) ) ) {
-        p.consume_items( planks );
+        p.consume_items( planks, 1, is_crafting_component );
         if( g->m.ter( examp ) == t_pit ) {
             g->m.ter_set( examp, t_pit_covered );
         } else if( g->m.ter( examp ) == t_pit_spiked ) {
@@ -1061,7 +1063,12 @@ void iexamine::slot_machine( player &p, const tripoint & )
  */
 void iexamine::safe( player &p, const tripoint &examp )
 {
-    if( !( p.has_amount( "stethoscope", 1 ) || p.has_bionic( bionic_id( "bio_ears" ) ) ) ) {
+    auto cracking_tool = p.crafting_inventory().items_with( []( const item & it ) -> bool {
+        item temporary_item( it.type );
+        return temporary_item.has_flag( "SAFECRACK" );
+    } );
+
+    if( !( cracking_tool.size() > 0 || p.has_bionic( bionic_id( "bio_ears" ) ) ) ) {
         p.moves -= 100;
         // one_in(30^3) chance of guessing
         if( one_in( 27000 ) ) {
@@ -1074,11 +1081,12 @@ void iexamine::safe( player &p, const tripoint &examp )
         }
     }
 
+    if( p.is_deaf() ) {
+        add_msg( m_info, _( "You can't crack a safe while deaf!" ) );
+        return;
+    }
     if( query_yn( _( "Attempt to crack the safe?" ) ) ) {
-        if( p.is_deaf() ) {
-            add_msg( m_info, _( "You can't crack a safe while deaf!" ) );
-            return;
-        }
+        add_msg( m_info, _( "You start cracking the safe." ) );
         // 150 minutes +/- 20 minutes per mechanics point away from 3 +/- 10 minutes per
         // perception point away from 8; capped at 30 minutes minimum. *100 to convert to moves
         ///\EFFECT_PER speeds up safe cracking
@@ -1206,12 +1214,32 @@ void iexamine::bulletin_board( player &p, const tripoint &examp )
     cata::optional<basecamp *> bcp = overmap_buffer.find_camp( omt_tri.x, omt_tri.y );
     if( bcp ) {
         basecamp *temp_camp = *bcp;
+        temp_camp->validate_assignees();
+        temp_camp->validate_sort_points();
+        if( temp_camp->get_dumping_spot() == tripoint_zero ) {
+            auto &mgr = zone_manager::get_manager();
+            if( g->m.check_vehicle_zones( g->get_levz() ) ) {
+                mgr.cache_vzones();
+            }
+            tripoint src_loc;
+            const auto abspos = g->m.getabs( p.pos() );
+            if( mgr.has_near( z_loot_unsorted, abspos ) ) {
+                const auto &src_set = mgr.get_near( z_loot_unsorted, abspos );
+                const auto &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
+                // Find the nearest unsorted zone to dump objects at
+                for( auto &src : src_sorted ) {
+                    src_loc = g->m.getlocal( src );
+                    break;
+                }
+            }
+            temp_camp->set_dumping_spot( g->m.getabs( src_loc ) );
+        }
         const std::string title = ( "Base Missions" );
         mission_data mission_key;
-        temp_camp->get_available_missions( mission_key );
+        temp_camp->get_available_missions( mission_key, omt_tri, false );
         if( talk_function::display_and_choose_opts( mission_key, temp_camp->camp_omt_pos(), "FACTION_CAMP",
                 title ) ) {
-            temp_camp->handle_mission( mission_key.cur_key.id, mission_key.cur_key.dir );
+            temp_camp->handle_mission( mission_key.cur_key.id, mission_key.cur_key.dir, omt_tri, false );
         }
     } else {
         p.add_msg_if_player( _( "This bulletin board is not inside a camp" ) );
@@ -1589,9 +1617,9 @@ static bool harvest_common( player &p, const tripoint &examp, bool furn, bool ne
     const auto hid = g->m.get_harvest( examp );
     if( hid.is_null() || hid->empty() ) {
         if( !auto_forage ) {
-            p.add_msg_if_player( m_info, _( "Nothing can be harvested from this plant in current season" ) );
-            iexamine::none( p, examp );
+            p.add_msg_if_player( m_info, _( "Nothing can be harvested from this plant in current season." ) );
         }
+        iexamine::none( p, examp );
         return false;
     }
 
@@ -1604,8 +1632,8 @@ static bool harvest_common( player &p, const tripoint &examp, bool furn, bool ne
     }
 
     if( p.is_player() && !auto_forage &&
-        !query_yn( _( "Pick %s?" ), furn ? g->m.furnname( examp ).c_str() : g->m.tername(
-                       examp ).c_str() ) ) {
+        !query_yn( _( "Pick %s?" ), furn ? g->m.furnname( examp ) : g->m.tername(
+                       examp ) ) ) {
         iexamine::none( p, examp );
         return false;
     }
@@ -1619,10 +1647,10 @@ static bool harvest_common( player &p, const tripoint &examp, bool furn, bool ne
         for( int i = 0; i < roll; i++ ) {
             if( p.can_pickWeight( item( entry.drop ), true ) && p.can_pickVolume( item( entry.drop ), true ) ) {
                 p.i_add( item( entry.drop ) );
-                p.add_msg_if_player( _( "You harvest: %s" ), item( entry.drop ).tname().c_str() );
+                p.add_msg_if_player( _( "You harvest: %s." ), item( entry.drop ).tname() );
             } else {
                 g->m.add_item_or_charges( p.pos(), item( entry.drop ) );
-                p.add_msg_if_player( _( "You harvest and drop: %s" ), item( entry.drop ).tname().c_str() );
+                p.add_msg_if_player( _( "You harvest and drop: %s." ), item( entry.drop ).tname() );
             }
             got_anything = true;
         }
@@ -2826,7 +2854,7 @@ void iexamine::tree_maple( player &p, const tripoint &examp )
 
     std::vector<item_comp> comps;
     comps.push_back( item_comp( "tree_spile", 1 ) );
-    p.consume_items( comps );
+    p.consume_items( comps, 1, is_crafting_component );
 
     p.mod_moves( -200 );
     g->m.ter_set( examp, t_tree_maple_tapped );
@@ -3948,9 +3976,9 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 patient.introduce_into_anesthesia( duration, installer, needs_anesthesia );
                 std::vector<item_comp> comps;
                 comps.push_back( item_comp( it->typeId(), 1 ) );
-                p.consume_items( comps, 1 );
+                p.consume_items( comps, 1, is_crafting_component );
                 if( needs_anesthesia ) {
-                    p.consume_items( acomps, 1 );
+                    p.consume_items( acomps, 1, is_crafting_component );
                 }
             }
             break;
@@ -4001,7 +4029,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             if( patient.uninstall_bionic( bionic_id( bionic_types[bionic_index] ), installer, true ) ) {
                 patient.introduce_into_anesthesia( duration, installer, needs_anesthesia );
                 if( needs_anesthesia ) {
-                    p.consume_items( acomps, 1 );
+                    p.consume_items( acomps, 1, is_crafting_component );
                 }
             }
             break;
@@ -4260,26 +4288,14 @@ void smoker_load_food( player &p, const tripoint &examp, const units::volume &re
     inv.remove_items_with( []( const item & it ) {
         return it.rotten();
     } );
-    comp_selection<item_comp> selected = p.select_item_component( comps, 1, inv, true );
-    std::list<item> moved = p.consume_items( selected, 1 );
 
-    // hack, because consume_items doesn't seem to care of what item is consumed despite filters
-    // TODO: find a way to filter out rotten items from those actualy consumed
-    bool rotted = false;
-    for( const item &m : moved ) {
-        if( m.rotten() ) {
-            rotted = true;
-        }
-    }
-    if( rotted ) {
-        add_msg( m_info, _( "You have rotten food mixed with fresh.  Get rid of it first." ) );
-        for( const item &m : moved ) {
-            g->m.add_item( p.pos(), m );
-            p.mod_moves( -p.item_handling_cost( m ) );
-        }
-        p.invalidate_crafting_inventory();
-        return;
-    }
+    const auto is_non_rotten_crafting_component = []( const item & it ) {
+        return is_crafting_component( it ) && !it.rotten();
+    };
+
+    comp_selection<item_comp> selected = p.select_item_component( comps, 1, inv, true,
+                                         is_non_rotten_crafting_component );
+    std::list<item> moved = p.consume_items( selected, 1, is_non_rotten_crafting_component );
 
     for( const item &m : moved ) {
         g->m.add_item( examp, m );

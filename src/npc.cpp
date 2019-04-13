@@ -588,6 +588,9 @@ void npc::travel_overmap( const tripoint &pos )
     const point pos_om_old = sm_to_om_copy( submap_coords );
     spawn_at_sm( pos.x, pos.y, pos.z );
     const point pos_om_new = sm_to_om_copy( submap_coords );
+    if( global_omt_location() == goal ) {
+        reach_omt_destination();
+    }
     if( !is_fake() && pos_om_old != pos_om_new ) {
         overmap &om_old = overmap_buffer.get( pos_om_old.x, pos_om_old.y );
         overmap &om_new = overmap_buffer.get( pos_om_new.x, pos_om_new.y );
@@ -1332,24 +1335,86 @@ int npc::value( const item &it, int market_price ) const
     return ret;
 }
 
-bool npc::has_healing_item( bool bleed, bool bite, bool infect )
+void healing_options::clear_all()
 {
-    return !get_healing_item( bleed, bite, infect, true ).is_null();
+    bandage = false;
+    bleed = false;
+    bite = false;
+    infect = false;
 }
 
-item &npc::get_healing_item( bool bleed, bool bite, bool infect, bool first_best )
+void healing_options::set_all()
 {
-    item *best = &null_item_reference();
-    visit_items( [&best, bleed, bite, infect, first_best]( item * node ) {
+    bandage = true;
+    bleed = true;
+    bite = true;
+    infect = true;
+}
+
+bool npc::has_healing_item( healing_options try_to_fix )
+{
+    return !get_healing_item( try_to_fix, true ).is_null();
+}
+
+healing_options npc::has_healing_options()
+{
+    healing_options try_to_fix;
+    try_to_fix.set_all();
+    return has_healing_options( try_to_fix );
+}
+
+healing_options npc::has_healing_options( healing_options try_to_fix )
+{
+    healing_options can_fix;
+    can_fix.clear_all();
+    healing_options *fix_p = &can_fix;
+
+    visit_items( [&fix_p, try_to_fix]( item * node ) {
         const auto use = node->type->get_use( "heal" );
         if( use == nullptr ) {
             return VisitResponse::NEXT;
         }
 
         auto &actor = dynamic_cast<const heal_actor &>( *( use->get_actor_ptr() ) );
-        if( ( !bleed || actor.bleed > 0 ) ||
-            ( !bite || actor.bite > 0 ) ||
-            ( !infect || actor.infect > 0 ) ) {
+        if( try_to_fix.bandage && !fix_p->bandage && actor.bandages_power > 0.0f ) {
+            fix_p->bandage = true;
+        }
+        if( try_to_fix.bleed && !fix_p->bleed && actor.bleed > 0 ) {
+            fix_p->bleed = true;
+        }
+        if( try_to_fix.bite && !fix_p->bite && actor.bite > 0 ) {
+            fix_p->bite = true;
+        }
+        if( try_to_fix.infect && !fix_p->infect && actor.infect > 0 ) {
+            fix_p->infect = true;
+        }
+        // if we've found items for everything we're looking for, we're done
+        if( ( !try_to_fix.bandage || fix_p->bandage ) &&
+            ( !try_to_fix.bleed || fix_p->bleed ) &&
+            ( !try_to_fix.bite || fix_p->bite ) &&
+            ( !try_to_fix.infect || fix_p->infect ) ) {
+            return VisitResponse::ABORT;
+        }
+
+        return VisitResponse::NEXT;
+    } );
+    return can_fix;
+}
+
+item &npc::get_healing_item( healing_options try_to_fix, bool first_best )
+{
+    item *best = &null_item_reference();
+    visit_items( [&best, try_to_fix, first_best]( item * node ) {
+        const auto use = node->type->get_use( "heal" );
+        if( use == nullptr ) {
+            return VisitResponse::NEXT;
+        }
+
+        auto &actor = dynamic_cast<const heal_actor &>( *( use->get_actor_ptr() ) );
+        if( ( try_to_fix.bandage && actor.bandages_power > 0.0f ) ||
+            ( try_to_fix.bleed && actor.bleed > 0 ) ||
+            ( try_to_fix.bite && actor.bite > 0 ) ||
+            ( try_to_fix.infect && actor.infect > 0 ) ) {
             best = node;
             if( first_best ) {
                 return VisitResponse::ABORT;
@@ -1402,6 +1467,19 @@ bool npc::is_following() const
 bool npc::is_leader() const
 {
     return ( attitude == NPCATT_LEAD );
+}
+
+bool npc::is_assigned_to_camp() const
+{
+    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( global_omt_location().x,
+                                     global_omt_location().y );
+    if( !bcp ) {
+        return false;
+    }
+    if( !has_companion_mission() && mission == NPC_MISSION_GUARD_ALLY ) {
+        return true;
+    }
+    return false;
 }
 
 bool npc::is_enemy() const

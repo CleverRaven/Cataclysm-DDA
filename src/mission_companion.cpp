@@ -1676,6 +1676,12 @@ void talk_function::companion_return( npc &comp )
     comp.companion_mission_points.clear();
     // npc *may* be active, or not if outside the reality bubble
     g->reload_npcs();
+    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( comp.global_omt_location().x,
+                                     comp.global_omt_location().y );
+    if( bcp ) {
+        basecamp *temp_camp = *bcp;
+        temp_camp->validate_assignees();
+    }
 }
 
 std::vector<npc_ptr> talk_function::companion_list( const npc &p, const std::string &mission_id,
@@ -1795,10 +1801,40 @@ npc_ptr talk_function::companion_choose( const std::string &skill_tested, int sk
     std::vector<npc_ptr> available;
     for( auto &elem : g->get_follower_list() ) {
         npc_ptr guy = overmap_buffer.find_npc( elem );
+        if( !guy ) {
+            continue;
+        }
         npc_companion_mission c_mission = guy->get_companion_mission();
-        if( g->u.sees( guy->pos() ) && !guy->has_companion_mission() && g->u.posz() == guy->posz() &&
-            ( rl_dist( g->u.pos(), guy->pos() ) <= SEEX * 2 ) ) {
-            available.push_back( guy );
+        // get non-assigned visible followers
+        cata::optional<basecamp *> bcp = overmap_buffer.find_camp( g->u.global_omt_location().x,
+                                         g->u.global_omt_location().y );
+        if( bcp ) {
+            if( g->u.sees( guy->pos() ) && !guy->has_companion_mission() && g->u.posz() == guy->posz() &&
+                ( rl_dist( g->u.pos(), guy->pos() ) <= SEEX * 2 ) ) {
+                available.push_back( guy );
+                // get assigned NPCs that arent visible, but are at the local camp
+            } else {
+                basecamp *player_camp = *bcp;
+                std::vector<npc_ptr> camp_npcs = player_camp->get_npcs_assigned();
+                if( std::any_of( camp_npcs.begin(), camp_npcs.end(), [guy]( npc_ptr i ) {
+                return i == guy;
+            } ) ) {
+                    available.push_back( guy );
+                }
+            }
+        } else {
+            cata::optional<basecamp *> guy_camp = overmap_buffer.find_camp( guy->global_omt_location().x,
+                                                  guy->global_omt_location().y );
+            if( guy_camp ) {
+                // get NPCs assigned to guard a remote base
+                basecamp *temp_camp = *guy_camp;
+                std::vector<npc_ptr> assigned_npcs = temp_camp->get_npcs_assigned();
+                if( std::any_of( assigned_npcs.begin(), assigned_npcs.end(), [guy]( npc_ptr i ) {
+                return i == guy;
+            } ) ) {
+                    available.push_back( guy );
+                }
+            }
         }
     }
     if( available.empty() ) {

@@ -32,6 +32,7 @@
 - ```BLIND_HARD``` Possible to craft with little to no light, but difficult
 - ```UNCRAFT_SINGLE_CHARGE``` Lists returned amounts for one charge of an item that is counted by charges.
 - ```UNCRAFT_LIQUIDS_CONTAINED``` Spawn liquid items in its default container.
+- ```ALLOW_ROTTEN``` Explicitly allow rotten components when crafting non-perishables.
 
 ## Furniture & Terrain
 
@@ -941,6 +942,7 @@ Melee flags are fully compatible with tool flags, and vice versa.
 - ```RADIO_MOD``` The item has been made into a radio-activated item.
 - ```RADIO_MODABLE``` Indicates the item can be made into a radio-activated item.
 - ```RECHARGE``` Gain charges when placed in a cargo area with a recharge station.
+- ```SAFECRACK``` This item can be used to unlock safes.
 - ```USE_UPS``` Item is charges from an UPS / it uses the charges of an UPS instead of its own.
 - ```USES_BIONIC_POWER``` The item has no charges of its own, and runs off of the player's bionic power.
 - ```WATER_EXTINGUISH``` Is extinguishable in water or under precipitation. Converts items (requires "reverts_to" or use_action "transform" to be set).

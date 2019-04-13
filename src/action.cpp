@@ -200,8 +200,10 @@ std::string action_ident( action_id act )
             return "wield";
         case ACTION_PICK_STYLE:
             return "pick_style";
-        case ACTION_RELOAD:
-            return "reload";
+        case ACTION_RELOAD_ITEM:
+            return "reload_item";
+        case ACTION_RELOAD_WEAPON:
+            return "reload_weapon";
         case ACTION_UNLOAD:
             return "unload";
         case ACTION_MEND:
@@ -745,7 +747,8 @@ action_id handle_action_menu()
         } else if( category == _( "Combat" ) ) {
             REGISTER_ACTION( ACTION_TOGGLE_MOVE );
             REGISTER_ACTION( ACTION_FIRE );
-            REGISTER_ACTION( ACTION_RELOAD );
+            REGISTER_ACTION( ACTION_RELOAD_ITEM );
+            REGISTER_ACTION( ACTION_RELOAD_WEAPON );
             REGISTER_ACTION( ACTION_SELECT_FIRE_MODE );
             REGISTER_ACTION( ACTION_THROW );
             REGISTER_ACTION( ACTION_FIRE_BURST );
