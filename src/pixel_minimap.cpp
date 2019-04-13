@@ -127,7 +127,7 @@ struct pixel_minimap::shared_texture_pool {
 
 struct pixel_minimap::submap_cache {
     //the color stored for each submap tile
-    std::vector< SDL_Color > minimap_colors;
+    std::array<SDL_Color, SEEX *SEEY> minimap_colors = {};
     //checks if the submap has been looked at by the minimap routine
     bool touched;
     //the texture updates are drawn to
@@ -236,8 +236,7 @@ void pixel_minimap::flush_cache_updates()
             SetRenderDrawColor( renderer, c.r, c.g, c.b, c.a );
 
             if( draw_with_dots ) {
-                printErrorIf( SDL_RenderDrawPoint( renderer.get(), p.x * tile_size.x,
-                                                   p.y * tile_size.y ) != 0, "SDL_RenderDrawPoint failed" );
+                RenderDrawPoint( renderer, p.x * tile_size.x, p.y * tile_size.y );
             } else {
                 rectangle.x = p.x * tile_size.x;
                 rectangle.y = p.y * tile_size.y;
@@ -324,8 +323,6 @@ void pixel_minimap::process_cache( const tripoint &center )
 pixel_minimap::submap_cache::submap_cache( shared_texture_pool &pool ) : ready( false ),
     pool( pool )
 {
-    //set color to force updates on a new submap texture
-    minimap_colors.resize( SEEY * SEEX, SDL_Color{ 0xFF, 0xFF, 0xFF, 0xFF } );
     minimap_tex = pool.request_tex( texture_index );
 }
 
@@ -397,24 +394,22 @@ void pixel_minimap::render( const tripoint &center )
 
 void pixel_minimap::render_cache( const tripoint &center )
 {
-    const auto sm_global_offset = g->m.get_abs_sub() + ms_to_sm_copy( center );
-    const auto sm_local_offset = tripoint{
+    const auto sm_center = g->m.get_abs_sub() + ms_to_sm_copy( center );
+    const auto sm_offset = tripoint{
         ( tiles_limit.x / SEEX ) / 2,
         ( tiles_limit.y / SEEY ) / 2, 0
     };
 
     auto ms_offset = point{ center.x, center.y };
     ms_to_sm_remain( ms_offset );
-
-    SDL_Rect drawrect;
-    drawrect.w = SEEX * tile_size.x;
-    drawrect.h = SEEY * tile_size.y;
+    ms_offset = point{ SEEX / 2, SEEY / 2 } - ms_offset;
 
     for( const auto &elem : cache ) {
-        const auto &abs_pos = elem.first;
-        const auto &cache_item = elem.second;
+        if( !elem.second.touched ) {
+            continue;   // What you gonna do with all that junk?
+        }
 
-        const auto rel_pos = abs_pos - sm_global_offset;
+        const auto rel_pos = elem.first - sm_center;
 
         if( std::abs( rel_pos.x ) > HALF_MAPSIZE ||
             std::abs( rel_pos.y ) > HALF_MAPSIZE ||
@@ -422,13 +417,12 @@ void pixel_minimap::render_cache( const tripoint &center )
             continue;
         }
 
-        const auto p = rel_pos + sm_local_offset;
-        //the position of the submap texture has to account for the actual (current) 12x12 tile size
-        //the clipping rectangle handles the portions that need to hide
-        drawrect.x = ( p.x * SEEX + SEEX / 2 - ms_offset.x ) * tile_size.x;
-        drawrect.y = ( p.y * SEEY + SEEY / 2 - ms_offset.y ) * tile_size.y;
+        const auto sm_pos = rel_pos + sm_offset;
+        const auto ms_pos = sm_to_ms_copy( sm_pos ) + ms_offset;
 
-        RenderCopy( renderer, cache_item.minimap_tex, nullptr, &drawrect );
+        const auto rect = get_map_chunk_rect( { ms_pos.x, ms_pos.y } );
+
+        RenderCopy( renderer, elem.second.minimap_tex, nullptr, &rect );
     }
 }
 
@@ -480,16 +474,32 @@ void pixel_minimap::render_critters( const tripoint &center )
                 continue;
             }
 
-            draw_rhombus(
-                x * tile_size.x,
-                y * tile_size.y,
-                tile_size.x,
-                get_critter_color( critter, flicker, mixture ),
-                screen_rect.w,
-                screen_rect.h
+            draw_beacon(
+                get_critter_rect( { x, y } ),
+                get_critter_color( critter, flicker, mixture )
             );
         }
     }
+}
+
+SDL_Rect pixel_minimap::get_map_chunk_rect( const point &p ) const
+{
+    return {
+        p.x * tile_size.x,
+        p.y * tile_size.y,
+        SEEX * tile_size.x,
+        SEEY *tile_size.y
+    };
+}
+
+SDL_Rect pixel_minimap::get_critter_rect( const point &p ) const
+{
+    return {
+        p.x * tile_size.x,
+        p.y * tile_size.y,
+        tile_size.x,
+        tile_size.y
+    };
 }
 
 //the main call for drawing the pixel minimap to the screen
@@ -508,17 +518,14 @@ void pixel_minimap::draw( const SDL_Rect &screen_rect, const tripoint &center )
     render( center );
 }
 
-void pixel_minimap::draw_rhombus( int destx, int desty, int size, SDL_Color color, int widthLimit,
-                                  int heightLimit )
+void pixel_minimap::draw_beacon( const SDL_Rect &rect, const SDL_Color &color )
 {
-    for( int xOffset = -size; xOffset <= size; xOffset++ ) {
-        for( int yOffset = -size + abs( xOffset ); yOffset <= size - abs( xOffset ); yOffset++ ) {
-            if( xOffset < widthLimit && yOffset < heightLimit ) {
-                int divisor = 2 * ( abs( yOffset ) == size - abs( xOffset ) ) + 1;
-                SetRenderDrawColor( renderer, color.r / divisor, color.g / divisor, color.b / divisor, 255 );
-                printErrorIf( SDL_RenderDrawPoint( renderer.get(), destx + xOffset, desty + yOffset ) != 0,
-                              "SDL_RenderDrawPoint failed" );
-            }
+    for( int x = -rect.w, x_max = rect.w; x <= x_max; ++x ) {
+        for( int y = -rect.h + std::abs( x ), y_max = rect.h - std::abs( x ); y <= y_max; ++y ) {
+            const int divisor = 2 * ( ( std::abs( y ) == rect.h - std::abs( x ) ) ? 1 : 0 ) + 1;
+
+            SetRenderDrawColor( renderer, color.r / divisor, color.g / divisor, color.b / divisor, 0xFF );
+            RenderDrawPoint( renderer, rect.x + x, rect.y + y );
         }
     }
 }

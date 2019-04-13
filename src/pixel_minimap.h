@@ -42,8 +42,7 @@ class pixel_minimap
         void set_screen_rect( const SDL_Rect &screen_rect );
         void reset();
 
-        void draw_rhombus( int destx, int desty, int size, SDL_Color color, int widthLimit,
-                           int heightLimit );
+        void draw_beacon( const SDL_Rect &rect, const SDL_Color &color );
 
         void process_cache( const tripoint &center );
 
@@ -55,6 +54,9 @@ class pixel_minimap
         void render( const tripoint &center );
         void render_cache( const tripoint &center );
         void render_critters( const tripoint &center );
+
+        SDL_Rect get_map_chunk_rect( const point &p ) const;
+        SDL_Rect get_critter_rect( const point &p ) const;
 
     private:
         const SDL_Renderer_Ptr &renderer;
