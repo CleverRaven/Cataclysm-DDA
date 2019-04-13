@@ -91,7 +91,6 @@ static const trait_id trait_PARKOUR( "PARKOUR" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
-static const trait_id trait_BURROW( "BURROW" );
 
 const zone_type_id z_loot_unsorted( "LOOT_UNSORTED" );
 
