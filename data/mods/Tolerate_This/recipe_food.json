@@ -292,18 +292,7 @@
     "time": 4000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "cornbread", 2 ] ], [ [ "peanutbutter", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "sandwich_pb",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_VEGGI",
-    "skill_used": "cooking",
-    "time": 4000,
-    "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "flatbread", 2 ], [ "bread", 2 ], [ "wastebread", 2 ] ], [ [ "peanutbutter", 1 ] ] ]
+    "components": [ [ [ "cornbread", 2 ] ], [ [ "peanutbutter", 1 ], [ "peanutbutter_imitation", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -314,18 +303,7 @@
     "time": 4000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "cornbread", 2 ] ], [ [ "jam_fruit", 1 ] ], [ [ "peanutbutter", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "sandwich_pbj",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_VEGGI",
-    "skill_used": "cooking",
-    "time": 4000,
-    "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "flatbread", 2 ], [ "bread", 2 ], [ "wastebread", 2 ] ], [ [ "jam_fruit", 1 ] ], [ [ "peanutbutter", 1 ] ] ]
+    "components": [ [ [ "cornbread", 2 ] ], [ [ "jam_fruit", 1 ] ], [ [ "peanutbutter", 1 ], [ "peanutbutter_imitation", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -339,22 +317,7 @@
     "components": [
       [ [ "cornbread", 2 ] ],
       [ [ "honeycomb", 2 ], [ "honey_bottled", 2 ], [ "honey_glassed", 2 ] ],
-      [ [ "peanutbutter", 1 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "result": "sandwich_pbh",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_VEGGI",
-    "skill_used": "cooking",
-    "time": 4000,
-    "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [
-      [ [ "flatbread", 2 ], [ "bread", 2 ], [ "wastebread", 2 ] ],
-      [ [ "honeycomb", 2 ], [ "honey_bottled", 2 ], [ "honey_glassed", 2 ] ],
-      [ [ "peanutbutter", 1 ] ]
+      [ [ "peanutbutter", 1 ], [ "peanutbutter_imitation", 1 ] ]
     ]
   },
   {
@@ -366,18 +329,7 @@
     "time": 4000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "cornbread", 2 ] ], [ [ "syrup", 1 ] ], [ [ "peanutbutter", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "sandwich_pbm",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_VEGGI",
-    "skill_used": "cooking",
-    "time": 4000,
-    "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "flatbread", 2 ], [ "bread", 2 ], [ "wastebread", 2 ] ], [ [ "syrup", 1 ] ], [ [ "peanutbutter", 1 ] ] ]
+    "components": [ [ [ "cornbread", 2 ] ], [ [ "syrup", 1 ] ], [ [ "peanutbutter", 1 ], [ "peanutbutter_imitation", 1 ] ] ]
   },
   {
     "type": "recipe",
