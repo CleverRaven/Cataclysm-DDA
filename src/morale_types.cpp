@@ -82,6 +82,9 @@ const morale_type &morale_type_data::convert_legacy( int lmt )
             morale_type( "morale_pyromania_nearfire" ),
             morale_type( "morale_pyromania_nofire" ),
 
+            morale_type( "morale_killer_has_killed" ),
+            morale_type( "morale_killer_need_to_kill" ),
+
             morale_type( "morale_perm_filthy" ),
 
             morale_type( "morale_butcher" ),
@@ -164,6 +167,8 @@ const morale_type MORALE_PLAY_WITH_PET( "morale_play_with_pet" );
 const morale_type MORALE_PYROMANIA_STARTFIRE( "morale_pyromania_startfire" );
 const morale_type MORALE_PYROMANIA_NEARFIRE( "morale_pyromania_nearfire" );
 const morale_type MORALE_PYROMANIA_NOFIRE( "morale_pyromania_nofire" );
+const morale_type MORALE_KILLER_HAS_KILLED( "morale_killer_has_killed" );
+const morale_type MORALE_KILLER_NEED_TO_KILL( "morale_killer_need_to_kill" );
 const morale_type MORALE_PERM_FILTHY( "morale_perm_filthy" );
 const morale_type MORALE_PERM_DEBUG( "morale_perm_debug" );
 const morale_type MORALE_BUTCHER( "morale_butcher" );
