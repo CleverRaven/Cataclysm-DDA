@@ -237,6 +237,8 @@ void mapgen_function_builtin::generate( map *m, const oter_id &terrain_type, con
  */
 std::map<std::string, std::vector<std::shared_ptr<mapgen_function>> > oter_mapgen;
 std::map<std::string, std::vector<std::shared_ptr<mapgen_function_json_nested>> > nested_mapgen;
+std::map<std::string, std::vector<std::shared_ptr<update_mapgen_function_json>> > update_mapgen;
+
 
 /*
  * index to the above, adjusted to allow for rarity
@@ -275,6 +277,12 @@ void calculate_mapgen_weights()   // TODO: rename as it runs jsonfunction setup 
             ptr->setup();
         }
     }
+    for( auto &pr : update_mapgen ) {
+        for( auto &ptr : pr.second ) {
+            ptr->setup();
+        }
+    }
+
 }
 
 void check_mapgen_definitions()
@@ -285,6 +293,11 @@ void check_mapgen_definitions()
         }
     }
     for( auto &oter_definition : nested_mapgen ) {
+        for( auto &mapgen_function_ptr : oter_definition.second ) {
+            mapgen_function_ptr->check( oter_definition.first );
+        }
+    }
+    for( auto &oter_definition : update_mapgen ) {
         for( auto &mapgen_function_ptr : oter_definition.second ) {
             mapgen_function_ptr->check( oter_definition.first );
         }
@@ -389,6 +402,28 @@ std::shared_ptr<mapgen_function_json_nested> load_nested_mapgen( JsonObject &jio
     return ret;
 }
 
+std::shared_ptr<update_mapgen_function_json> load_update_mapgen( JsonObject &jio,
+        const std::string &id_base )
+{
+    std::shared_ptr<update_mapgen_function_json> ret;
+    const std::string mgtype = jio.get_string( "method" );
+    if( mgtype == "json" ) {
+        if( jio.has_object( "object" ) ) {
+            JsonObject jo = jio.get_object( "object" );
+            std::string jstr = jo.str();
+            ret = std::make_shared<update_mapgen_function_json>( jstr );
+            update_mapgen[id_base].push_back( ret );
+        } else {
+            debugmsg( "Update mapgen: Invalid mapgen function (missing \"object\" object)",
+                      id_base.c_str() );
+        }
+    } else {
+        debugmsg( "Update mapgen: type for id %s was %s, but update mapgen only supports \"json\"",
+                  id_base.c_str(), mgtype.c_str() );
+    }
+    return ret;
+}
+
 /*
  * feed bits `o json from standalone file to load_mapgen_function. (standalone json "type": "mapgen")
  */
@@ -431,6 +466,8 @@ void load_mapgen( JsonObject &jo )
         load_mapgen_function( jo, jo.get_string( "om_terrain" ), -1 );
     } else if( jo.has_string( "nested_mapgen_id" ) ) {
         load_nested_mapgen( jo, jo.get_string( "nested_mapgen_id" ) );
+    } else if( jo.has_string( "update_mapgen_id" ) ) {
+        load_update_mapgen( jo, jo.get_string( "update_mapgen_id" ) );
     } else {
         debugmsg( "mapgen entry requires \"om_terrain\" or \"nested_mapgen_id\"(string, array of strings, or array of array of strings)\n%s\n",
                   jo.str().c_str() );
@@ -441,6 +478,7 @@ void reset_mapgens()
 {
     oter_mapgen.clear();
     nested_mapgen.clear();
+    update_mapgen.clear();
 }
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -2068,6 +2106,11 @@ void mapgen_function_json::setup()
 }
 
 void mapgen_function_json_nested::setup()
+{
+    setup_common();
+}
+
+void update_mapgen_function_json::setup()
 {
     setup_common();
 }
@@ -8414,8 +8457,8 @@ void add_corpse( map *m, int x, int y )
 
 
 //////////////////// mapgen update
-update_mapgen_function_json::update_mapgen_function_json( const std::string &s, const int w ) :
-    mapgen_function( w ), mapgen_function_json_base( s )
+update_mapgen_function_json::update_mapgen_function_json( const std::string &s ) :
+    mapgen_function_json_base( s )
 {
 }
 
@@ -8427,6 +8470,13 @@ void update_mapgen_function_json::check( const std::string &oter_name ) const
 bool update_mapgen_function_json::setup_update( JsonObject &jo )
 {
     return setup_common( jo );
+}
+
+bool update_mapgen_function_json::setup_internal( JsonObject &/*jo*/ )
+{
+    fill_ter = t_null;
+    /* update_mapgen doesn't care about fill_ter or rows */
+    return true;
 }
 
 void update_mapgen_function_json::update_map( const tripoint &omt_pos, int offset_x, int offset_y,
@@ -8479,7 +8529,7 @@ void update_mapgen_function_json::update_map( const tripoint &omt_pos, int offse
 
 mapgen_update_func add_mapgen_update_func( JsonObject &jo, bool &defer )
 {
-    update_mapgen_function_json json_data( "", 0 );
+    update_mapgen_function_json json_data( "" );
     mapgen_defer::defer = defer;
     if( !json_data.setup_update( jo ) ) {
         const auto null_function = []( const tripoint &, mission * ) {
@@ -8492,4 +8542,15 @@ mapgen_update_func add_mapgen_update_func( JsonObject &jo, bool &defer )
     defer = mapgen_defer::defer;
     mapgen_defer::jsi = JsonObject();
     return update_function;
+}
+
+bool run_mapgen_update_func( const std::string update_mapgen_id, const tripoint &omt_pos,
+                             mission *miss )
+{
+    const auto update_function = update_mapgen.find( update_mapgen_id );
+
+    if( update_function == update_mapgen.end() || update_function->second.empty() ) {
+        return false;
+    }
+    return update_function->second[0]->update_map( omt_pos, 0, 0, miss, true );
 }

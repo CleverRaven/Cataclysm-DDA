@@ -322,20 +322,20 @@ class mapgen_function_json : public mapgen_function_json_base, public virtual ma
         jmapgen_int rotation;
 };
 
-class update_mapgen_function_json : public mapgen_function_json_base, public virtual mapgen_function
+class update_mapgen_function_json : public mapgen_function_json_base
 {
     public:
-        update_mapgen_function_json( const std::string &s, int w );
+        update_mapgen_function_json( const std::string &s );
         ~update_mapgen_function_json() override = default;
 
-        bool setup_internal( JsonObject & ) override {
-            return true;
-        };
-        void setup_setmap_internal() override { };
+        void setup();
         bool setup_update( JsonObject &jo );
-        void check( const std::string &oter_name ) const override;
-        void generate( map *, const oter_id &, const mapgendata &, const time_point &, float ) override { };
-        void update_map( const tripoint &omt_pos, int offset_x, int offset_y, mission *miss ) const;
+        void check( const std::string &oter_name ) const;
+        bool update_map( const tripoint &omt_pos, int offset_x, int offset_y,
+                         mission *miss, bool verify = false ) const;
+    protected:
+        bool setup_internal( JsonObject &/*jo*/ ) override;
+        ter_id fill_ter;
 };
 
 class mapgen_function_json_nested : public mapgen_function_json_base
