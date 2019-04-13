@@ -116,6 +116,9 @@ class recipe
         /** Returns a non-empty string describing an inconsistency (if any) in the recipe. */
         std::string get_consistency_error() const;
 
+        bool is_blueprint() const;
+        std::string get_blueprint() const;
+
     private:
         void add_requirements( const std::vector<std::pair<requirement_id, int>> &reqs );
 
@@ -156,6 +159,8 @@ class recipe
         double batch_rscale = 0.0;
         int batch_rsize = 0; // minimum batch size to needed to reach batch_rscale
         int result_mult = 1; // used by certain batch recipes that create more than one stack of the result
+        std::string blueprint;
+
 };
 
 #endif // RECIPE_H

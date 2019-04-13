@@ -27,6 +27,7 @@
 #include "map_iterator.h"
 #include "mapbuffer.h"
 #include "mapdata.h"
+#include "mapgen_functions.h"
 #include "messages.h"
 #include "mission.h"
 #include "mission_companion.h"
@@ -505,10 +506,7 @@ void talk_function::start_camp( npc &p )
     if( display && !query_yn( _( "%s \nAre you sure you wish to continue? " ), buffer ) ) {
         return;
     }
-    editmap edit;
-    tripoint new_pos = omt_pos;
-    if( !edit.mapgen_set( "faction_base_camp_0", new_pos ) ) {
-        popup( _( "You weren't able to survey the camp site." ) );
+    if( !run_mapgen_update_func( "faction_base_field_camp_0", omt_pos ) ) {
         return;
     }
     get_basecamp( p );
@@ -2089,12 +2087,7 @@ bool basecamp::upgrade_return( const std::string &dir, const std::string &miss )
         return false;
     }
     const tripoint upos = e->second.pos;
-    //Ensure there are no vehicles before we update
-    editmap edit;
-    if( edit.mapgen_veh_has( upos ) ) {
-        popup( _( "Engine cannot support merging vehicles from two overmaps, please remove them from the OM tile." ) );
-        return false;
-    }
+
 
     const std::string bldg = next_upgrade( dir, 1 );
     if( bldg == "null" ) {
@@ -2107,7 +2100,11 @@ bool basecamp::upgrade_return( const std::string &dir, const std::string &miss )
                                "experience..." );
     npc_ptr comp = mission_return( miss, making_time, true, msg, "construction",
                                    making.difficulty );
-    if( comp == nullptr || !om_upgrade( bldg, upos ) ) {
+    if( comp == nullptr ) {
+        return false;
+    }
+
+    if( !run_mapgen_update_func( making.get_blueprint(), upos ) ) {
         return false;
     }
     e->second.cur_level += 1;
@@ -2412,7 +2409,6 @@ void basecamp::combat_mission_return( const std::string &miss )
 
 bool basecamp::survey_return()
 {
-    tripoint omt_tgt = omt_pos;
     npc_ptr comp = companion_choose_return( "_faction_camp_expansion", 3_hours );
     if( comp == nullptr ) {
         return false;
@@ -2432,11 +2428,33 @@ bool basecamp::survey_return()
         popup( _( "You choose to wait..." ) );
         return false;
     }
-    editmap edit;
-    if( !edit.mapgen_set( pos_expansion_name_id[expan], omt_tgt, 1 ) ) {
+
+    popup( _( "Select a tile up to %d tiles away." ), 1 );
+    const tripoint where( ui::omap::choose_point() );
+    if( where == overmap::invalid_tripoint ) {
         return false;
     }
-    add_expansion( pos_expansion_name_id[expan], omt_tgt );
+    int dist = rl_dist( where.x, where.y, omt_pos.x, omt_pos.y );
+    if( dist != 1 ) {
+        popup( _( "You must select a tile within %d range of the camp" ), 1 );
+        return false;
+    }
+    if( omt_pos.z != where.z ) {
+        popup( _( "Expansions must be on the same level as the camp" ) );
+        return false;
+    }
+
+    oter_id &omt_ref = overmap_buffer.ter( where );
+    if( omt_ref.id() != "field" ) {
+        popup( _( "You must construct expansions in fields." ) );
+        return false;
+    }
+
+    if( !run_mapgen_update_func( pos_expansion_name_id[expan], where ) ) {
+        return false;
+    }
+    omt_ref = oter_id( pos_expansion_name_id[expan] );
+    add_expansion( pos_expansion_name_id[expan], where );
     const std::string msg = _( "returns from surveying for the expansion." );
     finish_return( *comp, true, msg, "construction", 2 );
     return true;
@@ -2626,15 +2644,8 @@ void camp_hunting_results( int skill, const std::string &task, int attempts, int
 }
 
 // map manipulation functions
-bool basecamp::om_upgrade( const std::string &next_upgrade, const tripoint &upos )
+bool basecamp::om_upgrade( const std::string &/*next_upgrade*/, const tripoint &/*upos*/ )
 {
-    editmap edit;
-    tripoint upgrade_pos = upos;
-    if( !edit.mapgen_set( next_upgrade, upgrade_pos ) ) {
-        return false;
-    }
-
-    g->load_npcs();
     return true;
 }
 

@@ -550,6 +550,7 @@ Mods can modify this via `add:traits` and `remove:traits`.
   "BLIND_EASY",
   "ANOTHERFLAG"
 ],
+"construction_blueprint": "camp", // an optional string containing an update_mapgen_id.  Used by faction camps to upgrade their buildings
 "qualities": [               // Generic qualities of tools needed to craft
   {"id":"CUT","level":1,"amount":1}
 ],

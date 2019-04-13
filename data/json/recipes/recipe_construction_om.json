@@ -9,6 +9,7 @@
     "autolearn": false,
     "never_learn": true,
     "time": 180000,
+    "construction_blueprint": "faction_base_field_camp_1",
     "components": [ [ [ "large_tent_kit", 1 ], [ "broketent", 4 ], [ "tent_kit", 3 ], [ "shelter_kit", 4 ] ] ]
   },
   {
@@ -22,6 +23,7 @@
     "autolearn": false,
     "never_learn": true,
     "time": 180000,
+    "construction_blueprint": "faction_base_field_camp_2",
     "qualities": [ [ { "id": "DIG", "level": 1 } ], [ { "id": "HAMMER", "level": 1 } ] ],
     "components": [ [ [ "2x4", 8 ] ], [ [ "straw_pile", 16 ], [ "pine_bough", 20 ] ] ]
   },
@@ -36,6 +38,7 @@
     "autolearn": false,
     "never_learn": true,
     "time": 180000,
+    "construction_blueprint": "faction_base_field_camp_3",
     "qualities": [ [ { "id": "HAMMER", "level": 1 } ] ],
     "components": [ [ [ "2x4", 32 ] ], [ [ "nail", 96 ] ] ]
   },
@@ -50,6 +53,7 @@
     "autolearn": false,
     "never_learn": true,
     "time": 240000,
+    "construction_blueprint": "faction_base_field_camp_4",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [
       [ [ "2x4", 24 ] ],
@@ -70,6 +74,7 @@
     "autolearn": false,
     "never_learn": true,
     "time": 720000,
+    "construction_blueprint": "faction_base_field_camp_5",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [
       [ [ "large_tent_kit", 1 ], [ "broketent", 4 ], [ "tent_kit", 3 ], [ "shelter_kit", 4 ] ],
@@ -92,6 +97,7 @@
     "never_learn": true,
     "comment": "2hrs*14wall + 1 hr crates + 2*28roof + 4hrs pits = 89 hrs (12hrs on/off) 8 days total",
     "time": 11520000,
+    "construction_blueprint": "faction_base_field_camp_6",
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "2x4", 16 ] ], [ [ "log", 112 ] ], [ [ "nail", 48 ] ], [ [ "stick", 196 ] ] ]
   },
@@ -106,6 +112,7 @@
     "autolearn": false,
     "never_learn": true,
     "time": 720000,
+    "construction_blueprint": "faction_base_field_camp_7",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [
       [ [ "large_tent_kit", 1 ], [ "broketent", 4 ], [ "tent_kit", 3 ], [ "shelter_kit", 4 ] ],
@@ -128,6 +135,7 @@
     "never_learn": true,
     "comment": "2hrs*4wall + .5 hr*2tables + .5hr*4benches+ 1hrs pits = 12 hrs (12hrs on/off) 1 days total",
     "time": 1440000,
+    "construction_blueprint": "faction_base_field_camp_8",
     "qualities": [ [ { "id": "DIG", "level": 1 } ], [ { "id": "SAW_M", "level": 1 } ], [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [
       [ [ "2x4", 28 ] ],
@@ -149,6 +157,7 @@
     "autolearn": false,
     "never_learn": true,
     "time": 720000,
+    "construction_blueprint": "faction_base_field_camp_9",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [
       [ [ "large_tent_kit", 1 ], [ "broketent", 4 ], [ "tent_kit", 3 ], [ "shelter_kit", 4 ] ],
@@ -171,6 +180,7 @@
     "never_learn": true,
     "comment": "2hrs*6wall + 1 hr trash + 2*20roof + 4hrs pits = 53 hrs (12hrs on/off) 4.5 days total",
     "time": 6480000,
+    "construction_blueprint": "faction_base_field_camp_10",
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "log", 64 ] ], [ [ "stick", 116 ] ], [ [ "sheet_metal", 2 ] ] ]
   },
@@ -186,6 +196,7 @@
     "never_learn": true,
     "comment": "2hrs*5wall + 1.5 hr*2door + 2hrs pits = 15 hrs (12hrs on/off) 1 days total",
     "time": 1440000,
+    "construction_blueprint": "faction_base_field_camp_11",
     "qualities": [ [ { "id": "DIG", "level": 1 } ], [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "log", 10 ] ], [ [ "stick", 15 ] ], [ [ "2x4", 32 ] ], [ [ "nail", 72 ] ] ]
   },
@@ -201,6 +212,7 @@
     "never_learn": true,
     "comment": "11.5 hrs (12hrs on/off) 1 days total",
     "time": 1440000,
+    "construction_blueprint": "faction_base_field_camp_12",
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "WRENCH", "level": 1 } ], [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "rock", 40 ] ], [ [ "pipe", 12 ] ], [ [ "2x4", 4 ] ], [ [ "well_pump", 1 ] ], [ [ "nail", 8 ] ] ]
   },
@@ -216,6 +228,7 @@
     "never_learn": true,
     "comment": "2hrs*30palisade + .2hrs * 72pits = 75 hrs (12hrs on/off) 6.5 days total",
     "time": 9360000,
+    "construction_blueprint": "faction_base_field_camp_13",
     "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
     "components": [ [ [ "log", 90 ] ], [ [ "rope_makeshift_6", 60 ], [ "rope_6", 60 ], [ "vine_30", 30 ] ] ]
   },
@@ -230,6 +243,7 @@
     "autolearn": false,
     "never_learn": true,
     "comment": "2hrs*56palisade + .2hrs * 14pits = 115 hrs (12hrs on/off) 10 days total",
+    "construction_blueprint": "faction_base_field_camp_14",
     "time": 14400000,
     "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
     "components": [ [ [ "log", 168 ] ], [ [ "rope_makeshift_6", 112 ], [ "rope_6", 112 ], [ "vine_30", 112 ] ] ]
@@ -245,6 +259,7 @@
     "autolearn": false,
     "never_learn": true,
     "time": 720000,
+    "construction_blueprint": "faction_base_field_camp_15",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [
       [ [ "large_tent_kit", 1 ], [ "broketent", 4 ], [ "tent_kit", 3 ], [ "shelter_kit", 4 ] ],
@@ -267,6 +282,7 @@
     "never_learn": true,
     "comment": "1hr stove+ .5 hr*2tables + .5hr*4benches+ .5hrs 2counter = 5 hrs ",
     "time": 370000,
+    "construction_blueprint": "faction_base_field_camp_16",
     "qualities": [ [ { "id": "DIG", "level": 1 } ], [ { "id": "SAW_M", "level": 1 } ], [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "2x4", 40 ] ], [ [ "nail", 72 ] ], [ [ "metal_tank", 1 ] ], [ [ "pipe", 1 ] ] ]
   },
@@ -282,6 +298,7 @@
     "never_learn": true,
     "comment": "3*7doors = 21 hrs so 2 days-ish ",
     "time": 2880000,
+    "construction_blueprint": "faction_base_field_camp_17",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "2x4", 198 ] ], [ [ "nail", 588 ] ] ]
   },
@@ -296,6 +313,7 @@
     "autolearn": false,
     "never_learn": true,
     "time": 720000,
+    "construction_blueprint": "faction_base_field_camp_18",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [
       [ [ "large_tent_kit", 1 ], [ "broketent", 4 ], [ "tent_kit", 3 ], [ "shelter_kit", 4 ] ],
@@ -315,6 +333,7 @@
     "skill_used": "fabrication",
     "autolearn": false,
     "never_learn": true,
+    "construction_blueprint": "faction_base_field_camp_farm_0",
     "time": 180000
   },
   {
@@ -327,6 +346,7 @@
     "autolearn": false,
     "never_learn": true,
     "time": 540000,
+    "construction_blueprint": "faction_base_field_camp_farm_1",
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ]
   },
   {
@@ -340,6 +360,7 @@
     "autolearn": false,
     "never_learn": true,
     "time": 3600000,
+    "construction_blueprint": "faction_base_field_camp_farm_2",
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "log", 54 ] ], [ [ "stick", 90 ] ] ]
   },
@@ -354,6 +375,7 @@
     "autolearn": false,
     "never_learn": true,
     "time": 2160000,
+    "construction_blueprint": "faction_base_field_camp_farm_3",
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "log", 24 ] ], [ [ "stick", 36 ] ], [ [ "2x4", 16 ] ], [ [ "nail", 36 ] ] ]
   },
@@ -367,9 +389,11 @@
     "difficulty": 4,
     "autolearn": false,
     "never_learn": true,
+    "comment": "1hrs*26wall + 1.5 hr*1door + 0.5hrs*14pits + 2hrs*2window + 2hrs*20log roof + 0.5hrs*9counter + 0.5hrs*1table = 83.5 hrs (12hrs on/off) 7 days total; requires 26wall*(2log+3stick+6 2x4 ) + 1door*(16 2x4+36nail) + 2windows*(15 2x4+30nail+2log+glass) + 20roof*(2log+4stick+8 2x4) + 1table*(8nail+6 2x4) + 9counter*(8nail+6 2x4)",
     "time": 10080000,
+    "construction_blueprint": "faction_base_field_camp_farm_4",
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "log", 130 ] ], [ [ "stick", 126 ] ], [ [ "2x4", 287 ] ], [ [ "nail", 144 ] ], [ [ "glass_sheet", 2 ] ] ]
+    "components": [ [ [ "log", 96 ] ], [ [ "stick", 158 ] ], [ [ "2x4", 336 ] ], [ [ "nail", 176 ] ], [ [ "glass_sheet", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -379,6 +403,7 @@
     "subcategory": "CSC_BUILDING_BASES",
     "skill_used": "fabrication",
     "autolearn": false,
+    "construction_blueprint": "faction_base_field_camp_garage_0",
     "never_learn": true,
     "time": 180000
   },
@@ -392,6 +417,7 @@
     "difficulty": 4,
     "autolearn": false,
     "never_learn": true,
+    "construction_blueprint": "faction_base_field_camp_garage_1",
     "time": 5040000,
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "WRENCH", "level": 1 } ] ],
     "components": [
@@ -415,6 +441,7 @@
     "difficulty": 4,
     "autolearn": false,
     "never_learn": true,
+    "construction_blueprint": "faction_base_field_camp_garage_2",
     "time": 4320000,
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "log", 68 ] ], [ [ "stick", 60 ] ], [ [ "2x4", 112 ] ] ]
@@ -430,6 +457,7 @@
     "autolearn": false,
     "never_learn": true,
     "time": 10080000,
+    "construction_blueprint": "faction_base_field_camp_garage_3",
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "log", 112 ] ], [ [ "2x4", 448 ] ] ]
   },
@@ -444,6 +472,7 @@
     "autolearn": false,
     "never_learn": true,
     "time": 4320000,
+    "construction_blueprint": "faction_base_field_camp_garage_4",
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "log", 65 ] ], [ [ "stick", 96 ] ] ]
   },
@@ -458,6 +487,7 @@
     "autolearn": false,
     "never_learn": true,
     "time": 11520000,
+    "construction_blueprint": "faction_base_field_camp_garage_5",
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "WRENCH", "level": 1 } ] ],
     "components": [
       [ [ "log", 124 ] ],
@@ -479,6 +509,7 @@
     "autolearn": false,
     "never_learn": true,
     "time": 2880000,
+    "construction_blueprint": "faction_base_field_camp_garage_6",
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "WRENCH", "level": 1 } ] ],
     "components": [
       [ [ "log", 95 ] ],
@@ -499,6 +530,7 @@
     "skill_used": "fabrication",
     "autolearn": false,
     "never_learn": true,
+    "construction_blueprint": "faction_base_field_camp_kitchen_0",
     "time": 180000
   },
   {
@@ -511,6 +543,7 @@
     "difficulty": 4,
     "autolearn": false,
     "never_learn": true,
+    "construction_blueprint": "faction_base_field_camp_kitchen_1",
     "time": 7200000,
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [
@@ -533,6 +566,7 @@
     "autolearn": false,
     "never_learn": true,
     "time": 3600000,
+    "construction_blueprint": "faction_base_field_camp_kitchen_2",
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [
       [ [ "makeshift_knife", 1 ], [ "knife_steak", 1 ], [ "primitive_knife", 1 ], [ "copper_knife", 1 ] ],
@@ -554,6 +588,7 @@
     "autolearn": false,
     "never_learn": true,
     "time": 3600000,
+    "construction_blueprint": "faction_base_field_camp_kitchen_3",
     "qualities": [
       [ { "id": "DIG", "level": 2 } ],
       [ { "id": "HAMMER", "level": 2 } ],
@@ -580,6 +615,7 @@
     "autolearn": false,
     "never_learn": true,
     "time": 9360000,
+    "construction_blueprint": "faction_base_field_camp_kitchen_4",
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [
       [ [ "pot", 1 ], [ "rock_pot", 1 ], [ "pot_copper", 1 ], [ "clay_pot", 1 ] ],
@@ -601,6 +637,7 @@
     "autolearn": false,
     "never_learn": true,
     "time": 360000,
+    "construction_blueprint": "faction_base_field_camp_kitchen_5",
     "qualities": [
       [ { "id": "DIG", "level": 2 } ],
       [ { "id": "HAMMER", "level": 2 } ],
@@ -621,6 +658,7 @@
     "autolearn": false,
     "never_learn": true,
     "time": 1440000,
+    "construction_blueprint": "faction_base_field_camp_kitchen_6",
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "WRENCH", "level": 1 } ], [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [
       [ [ "pot", 1 ], [ "rock_pot", 1 ], [ "pot_copper", 1 ], [ "clay_pot", 1 ] ],
@@ -643,6 +681,7 @@
     "autolearn": false,
     "never_learn": true,
     "time": 180000,
+    "construction_blueprint": "faction_base_field_camp_kitchen_7",
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "WRENCH", "level": 1 } ], [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "pipe", 2 ] ], [ [ "2x4", 20 ] ], [ [ "metal_tank", 2 ] ], [ [ "nail", 18 ] ] ]
   },
@@ -657,6 +696,7 @@
     "autolearn": false,
     "never_learn": true,
     "time": 3600000,
+    "construction_blueprint": "faction_base_field_camp_kitchen_8",
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "log", 40 ] ], [ [ "stick", 30 ] ], [ [ "2x4", 135 ] ], [ [ "nail", 150 ] ], [ [ "glass_sheet", 1 ] ] ]
   },
@@ -697,6 +737,7 @@
     "skill_used": "fabrication",
     "autolearn": false,
     "never_learn": true,
+    "construction_blueprint": "faction_base_field_camp_blacksmith_0",
     "time": 180000
   },
   {
@@ -710,6 +751,7 @@
     "autolearn": false,
     "never_learn": true,
     "time": 180000,
+    "construction_blueprint": "faction_base_field_camp_blacksmith_1",
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [
       [ [ "crucible", 1 ], [ "crucible_clay", 1 ] ],
@@ -728,6 +770,7 @@
     "autolearn": false,
     "never_learn": true,
     "time": 10080000,
+    "construction_blueprint": "faction_base_field_camp_blacksmith_2",
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "log", 136 ] ], [ [ "stick", 72 ] ], [ [ "2x4", 352 ] ] ]
   },
@@ -742,6 +785,7 @@
     "autolearn": false,
     "never_learn": true,
     "time": 180000,
+    "construction_blueprint": "faction_base_field_camp_blacksmith_3",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [
       [ [ "crucible", 1 ], [ "crucible_clay", 1 ] ],
@@ -762,6 +806,7 @@
     "autolearn": false,
     "never_learn": true,
     "time": 8640000,
+    "construction_blueprint": "faction_base_field_camp_blacksmith_4",
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "log", 108 ] ], [ [ "stick", 36 ] ], [ [ "2x4", 342 ] ], [ [ "nail", 8 ] ] ]
   },
@@ -776,6 +821,7 @@
     "autolearn": false,
     "never_learn": true,
     "time": 180000,
+    "construction_blueprint": "faction_base_field_camp_blacksmith_5",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [
       [ [ "tongs", 2 ] ],
@@ -798,6 +844,7 @@
     "autolearn": false,
     "never_learn": true,
     "time": 480000,
+    "construction_blueprint": "faction_base_field_camp_blacksmith_6",
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
     "components": [ [ [ "hammer", 1 ] ], [ [ "2x4", 16 ] ], [ [ "nail", 48 ] ], [ [ "rock", 120 ] ] ]
   },
@@ -811,6 +858,7 @@
     "difficulty": 4,
     "autolearn": false,
     "never_learn": true,
+    "construction_blueprint": "faction_base_field_camp_blacksmith_7",
     "time": 1440000,
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
     "components": [
@@ -836,6 +884,7 @@
     "autolearn": false,
     "never_learn": true,
     "time": 10080000,
+    "construction_blueprint": "faction_base_field_camp_blacksmith_8",
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [
       [ [ "hammer_sledge", 1 ] ],
@@ -858,6 +907,7 @@
     "autolearn": false,
     "never_learn": true,
     "time": 360000,
+    "construction_blueprint": "faction_base_field_camp_blacksmith_9",
     "qualities": [ [ { "id": "WRENCH", "level": 1 } ], [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [
       [ [ "wrench", 2 ] ],
@@ -881,6 +931,7 @@
     "autolearn": false,
     "never_learn": true,
     "time": 8640000,
+    "construction_blueprint": "faction_base_field_camp_blacksmith_10",
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "hammer_sledge", 1 ] ], [ [ "log", 104 ] ], [ [ "stick", 54 ] ], [ [ "2x4", 272 ] ] ]
   },
@@ -895,6 +946,7 @@
     "autolearn": false,
     "never_learn": true,
     "time": 1440000,
+    "construction_blueprint": "faction_base_field_camp_blacksmith_11",
     "qualities": [ [ { "id": "WRENCH", "level": 1 } ], [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "well_pump", 1 ] ], [ [ "pipe", 6 ] ], [ [ "2x4", 16 ] ], [ [ "nail", 24 ] ], [ [ "rock", 40 ] ] ]
   },
@@ -909,6 +961,7 @@
     "autolearn": false,
     "never_learn": true,
     "time": 4320000,
+    "construction_blueprint": "faction_base_field_camp_blacksmith_12",
     "qualities": [ [ { "id": "WRENCH", "level": 1 } ], [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [
       [ [ "log", 2 ] ],
