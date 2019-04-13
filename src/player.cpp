@@ -5923,7 +5923,7 @@ void player::suffer()
         add_morale( MORALE_KILLER_NEED_TO_KILL, -1, -30, 24_hours, 24_hours );
         if( calendar::once_every( 4_hours ) ) {
             std::string snip = SNIPPET.random_from_category( "killer_withdrawal" );
-            add_msg_if_player( m_bad, _( snip.c_str() ) );
+            add_msg_if_player( m_bad, _( snip ) );
         }
     }
 
