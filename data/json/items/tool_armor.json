@@ -2560,10 +2560,6 @@
     "copy-from": "electric_blanket",
     "warmth": 90,
     "turns_per_charge": 3,
-    "use_action": {
-      "type": "transform",
-      "msg": "You turn the blanket's heating elements off.",
-      "target": "electric_blanket"
-    }
+    "use_action": { "type": "transform", "msg": "You turn the blanket's heating elements off.", "target": "electric_blanket" }
   }
 ]
