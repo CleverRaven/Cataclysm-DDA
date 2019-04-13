@@ -4318,12 +4318,11 @@
   },
   {
     "type": "monstergroup",
-    "override": true,
     "name": "GROUP_ZOMBIE_ELECTRIC_UPGRADE",
     "default": "mon_null",
     "monsters": [
-      { "monster": "mon_zombie_nullfield", "freq": 20, "cost_multiplier": 0 },
-      { "monster": "mon_zombie_brute_shocker", "freq": 40, "cost_multiplier": 2 }
+      { "monster": "mon_zombie_nullfield", "freq": 550, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_brute_shocker", "freq": 300, "cost_multiplier": 2 }
     ]
   },
   {
