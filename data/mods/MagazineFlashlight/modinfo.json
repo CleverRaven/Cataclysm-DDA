@@ -1,0 +1,12 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "MagazineFlashlight",
+    "name": "Inglonias' Magazine flashlights",
+    "authors": [ "Inglonias" ],
+    "maintainers": [ "Inglonias" ],
+    "description": "Creates a flashlight that runs off of magazine-style batteries.",
+    "category": "items",
+    "dependencies": [ "dda" ]
+  }
+]

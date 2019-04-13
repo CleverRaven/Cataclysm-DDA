@@ -1,0 +1,10 @@
+[
+  {
+    "type": "AMMO",
+    "id": "mag_batt_ammo",
+    "ammo_type": "mag_batt_type",
+    "copy-from": "9mm",
+    "name": "Battery cell",
+    "description": "A tiny battery cell. Useless outside of a battery case."
+  }
+]

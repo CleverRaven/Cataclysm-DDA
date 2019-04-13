@@ -1,0 +1,8 @@
+[
+  {
+    "type": "ammunition_type",
+    "id": "mag_batt_type",
+    "name": "Magazine Battery",
+    "default": "mag_batt_ammo"
+  }
+]
