@@ -4778,6 +4778,9 @@ void player::siphon( vehicle &veh, const itype_id &type )
     }
 
     item liquid( type, calendar::turn, qty );
+    if( liquid.is_food() ) {
+        liquid.set_item_specific_energy( veh.fuel_specific_energy( type ) );
+    }
     if( g->handle_liquid( liquid, nullptr, 1, nullptr, &veh ) ) {
         veh.drain( type, qty - liquid.charges );
     }
