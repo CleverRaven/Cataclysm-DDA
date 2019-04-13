@@ -21,39 +21,39 @@ class pixel_minimap
         void reinit();
 
     private:
-        void init_minimap( int destx, int desty, int width, int height );
+        void init( int destx, int desty, int width, int height );
 
         void draw_rhombus( int destx, int desty, int size, SDL_Color color, int widthLimit,
                            int heightLimit );
 
-        SDL_Texture_Ptr create_minimap_cache_texture( int tile_width, int tile_height );
-        void process_minimap_cache_updates();
-        void update_minimap_cache( const tripoint &loc, const SDL_Color &color );
-        void prepare_minimap_cache_for_updates();
-        void clear_unused_minimap_cache();
+        SDL_Texture_Ptr create_cache_texture( int tile_width, int tile_height );
+        void process_cache_updates();
+        void update_cache( const tripoint &loc, const SDL_Color &color );
+        void prepare_cache_for_updates();
+        void clear_unused_cache();
 
     private:
-        bool minimap_prep;
-        bool minimap_reinit_flag; //set to true to force a reallocation of minimap details
+        bool prep;
+        bool reinit_flag; //set to true to force a reallocation of minimap details
         //place all submaps on this texture before rendering to screen
         //replaces clipping rectangle usage while SDL still has a flipped y-coordinate bug
 
-        point minimap_min;
-        point minimap_max;
-        point minimap_tiles_range;
-        point minimap_tile_size;
-        point minimap_tiles_limit;
+        point min_size;
+        point max_size;
+        point tiles_range;
+        point tile_size;
+        point tiles_limit;
 
         //track the previous viewing area to determine if the minimap cache needs to be cleared
         tripoint previous_submap_view;
 
-        int minimap_drawn_width;
-        int minimap_drawn_height;
-        int minimap_border_width;
-        int minimap_border_height;
+        int drawn_width;
+        int drawn_height;
+        int border_width;
+        int border_height;
 
-        SDL_Rect minimap_clip_rect;
-        SDL_Texture_Ptr main_minimap_tex;
+        SDL_Rect clip_rect;
+        SDL_Texture_Ptr main_tex;
         const SDL_Renderer_Ptr &renderer;
 
         //the minimap texture pool which is used to reduce new texture allocation spam
@@ -61,7 +61,7 @@ class pixel_minimap
         std::unique_ptr<shared_texture_pool> tex_pool;
 
         struct submap_cache;
-        std::map<tripoint, submap_cache> minimap_cache;
+        std::map<tripoint, submap_cache> cache;
 };
 
 #endif // MINIMAP_H
