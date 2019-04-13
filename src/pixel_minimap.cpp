@@ -151,7 +151,7 @@ struct pixel_minimap::submap_cache {
 
 pixel_minimap::pixel_minimap( const SDL_Renderer_Ptr &renderer ) :
     renderer( renderer ),
-    previous_submap_view( tripoint_min ),
+    cached_center_sm( tripoint_min ),
     screen_rect{ 0, 0, 0, 0 }
 {
 }
@@ -164,12 +164,23 @@ void pixel_minimap::set_settings( const pixel_minimap_settings &settings )
     this->settings = settings;
 }
 
-//resets the touched and drawn properties of each active submap cache
-void pixel_minimap::prepare_cache_for_updates()
+void pixel_minimap::prepare_cache_for_updates( const tripoint &center )
 {
-    for( auto &mcp : cache ) {
-        mcp.second.touched = false;
+    const auto new_center_sm = g->m.get_abs_sub() + ms_to_sm_copy( center );
+    const auto center_sm_diff = cached_center_sm - new_center_sm;
+
+    //invalidate the cache if the game shifted more than one submap in the last update, or if z-level changed.
+    if( std::abs( center_sm_diff.x ) > 1 ||
+        std::abs( center_sm_diff.y ) > 1 ||
+        std::abs( center_sm_diff.z ) > 0 ) {
+        cache.clear();
+    } else {
+        for( auto &mcp : cache ) {
+            mcp.second.touched = false;
+        }
     }
+
+    cached_center_sm = new_center_sm;
 }
 
 //deletes the mapping of unused submap caches from the main map
@@ -177,17 +188,13 @@ void pixel_minimap::prepare_cache_for_updates()
 void pixel_minimap::clear_unused_cache()
 {
     for( auto it = cache.begin(); it != cache.end(); ) {
-        if( !it->second.touched ) {
-            cache.erase( it++ );
-        } else {
-            it++;
-        }
+        it = it->second.touched ? std::next( it ) : cache.erase( it );
     }
 }
 
 //draws individual updates to the submap cache texture
 //the render target will be set back to display_buffer after all submaps are updated
-void pixel_minimap::process_cache_updates()
+void pixel_minimap::flush_cache_updates()
 {
     SDL_Rect rectangle;
     bool draw_with_dots = false;
@@ -243,30 +250,27 @@ void pixel_minimap::process_cache_updates()
     }
 }
 
-void pixel_minimap::update_cache_at( const tripoint &pos )
+void pixel_minimap::update_cache_at( const tripoint &sm_pos )
 {
-    const auto &access_cache = g->m.access_cache( pos.z );
+    const auto &access_cache = g->m.access_cache( sm_pos.z );
     const bool nv_goggle = g->u.get_vision_modes()[NV_GOGGLES];
 
-    auto &cache_item = get_cache_at( g->m.get_abs_sub() + pos );
+    auto &cache_item = get_cache_at( g->m.get_abs_sub() + sm_pos );
+    const auto ms_pos = sm_to_ms_copy( sm_pos );
 
     cache_item.touched = true;
 
     for( int y = 0; y < SEEY; ++y ) {
         for( int x = 0; x < SEEX; ++x ) {
-            const auto p = sm_to_ms_copy( pos ) + tripoint{ x, y, 0 };
+            const auto p = ms_pos + tripoint{ x, y, 0 };
             const auto lighting = access_cache.visibility_cache[p.x][p.y];
 
             SDL_Color color;
 
-            if( lighting == LL_BLANK ) {
-                color = { 0x00, 0x00, 0x00, 0xFF };    // TODO: Map memory.
+            if( lighting == LL_BLANK || lighting == LL_DARK ) {
+                color = { 0x00, 0x00, 0x00, 0xFF };    // TODO: Map memory?
             } else {
-                if( lighting == LL_DARK ) {
-                    color = { 0x0C, 0x0C, 0x0C, 0xFF };
-                } else {
-                    color = get_map_color_at( p );
-                }
+                color = get_map_color_at( p );
 
                 //color terrain according to lighting conditions
                 if( nv_goggle ) {
@@ -278,9 +282,9 @@ void pixel_minimap::update_cache_at( const tripoint &pos )
                 } else if( lighting == LL_LOW ) {
                     color = color_pixel_grayscale( color );
                 }
-            }
 
-            color = adjust_color_brightness( color, settings.brightness );
+                color = adjust_color_brightness( color, settings.brightness );
+            }
 
             SDL_Color &current_color = cache_item.minimap_colors[y * SEEX + x];
 
@@ -292,15 +296,29 @@ void pixel_minimap::update_cache_at( const tripoint &pos )
     }
 }
 
-pixel_minimap::submap_cache &pixel_minimap::get_cache_at( const tripoint &pos )
+pixel_minimap::submap_cache &pixel_minimap::get_cache_at( const tripoint &abs_sm_pos )
 {
-    auto it = cache.find( pos );
+    auto it = cache.find( abs_sm_pos );
 
     if( it == cache.end() ) {
-        it = cache.emplace( pos, *tex_pool ).first;
+        it = cache.emplace( abs_sm_pos, *tex_pool ).first;
     }
 
     return it->second;
+}
+
+void pixel_minimap::process_cache( const tripoint &center )
+{
+    prepare_cache_for_updates( center );
+
+    for( int y = 0; y < MAPSIZE; ++y ) {
+        for( int x = 0; x < MAPSIZE; ++x ) {
+            update_cache_at( { x, y, center.z } );
+        }
+    }
+
+    flush_cache_updates();
+    clear_unused_cache();
 }
 
 pixel_minimap::submap_cache::submap_cache( shared_texture_pool &pool ) : ready( false ),
@@ -486,34 +504,8 @@ void pixel_minimap::draw( const SDL_Rect &screen_rect, const tripoint &center )
     }
 
     set_screen_rect( screen_rect );
-
-    //invalidate the cache if the game shifted more than one submap in the last update, or if z-level changed
-    tripoint current_submap_view = g->m.get_abs_sub();
-    tripoint submap_view_diff = current_submap_view - previous_submap_view;
-
-    if( abs( submap_view_diff.x ) > 1 || abs( submap_view_diff.y ) > 1 ||
-        abs( submap_view_diff.z ) > 0 ) {
-        cache.clear();
-    }
-
-    previous_submap_view = current_submap_view;
-
-    //clear leftover flags for the current draw cycle
-    prepare_cache_for_updates();
-
-    for( int y = 0; y < MAPSIZE; ++y ) {
-        for( int x = 0; x < MAPSIZE; ++x ) {
-            update_cache_at( { x, y, center.z } );
-        }
-    }
-
-    //update minimap textures
-    process_cache_updates();
-
+    process_cache( center );
     render( center );
-
-    //unused submap caches get deleted
-    clear_unused_cache();
 }
 
 void pixel_minimap::draw_rhombus( int destx, int desty, int size, SDL_Color color, int widthLimit,

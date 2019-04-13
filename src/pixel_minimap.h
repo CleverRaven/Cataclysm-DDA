@@ -37,7 +37,7 @@ class pixel_minimap
     private:
         struct submap_cache;
 
-        submap_cache &get_cache_at( const tripoint &submap_pos );
+        submap_cache &get_cache_at( const tripoint &abs_sm_pos );
 
         void set_screen_rect( const SDL_Rect &screen_rect );
         void reset();
@@ -45,11 +45,11 @@ class pixel_minimap
         void draw_rhombus( int destx, int desty, int size, SDL_Color color, int widthLimit,
                            int heightLimit );
 
-        void process_cache_updates();
+        void process_cache( const tripoint &center );
 
+        void flush_cache_updates();
         void update_cache_at( const tripoint &pos );
-
-        void prepare_cache_for_updates();
+        void prepare_cache_for_updates( const tripoint &center );
         void clear_unused_cache();
 
         void render( const tripoint &center );
@@ -63,7 +63,7 @@ class pixel_minimap
         point tiles_limit;
 
         //track the previous viewing area to determine if the minimap cache needs to be cleared
-        tripoint previous_submap_view;
+        tripoint cached_center_sm;
 
         pixel_minimap_settings settings;
 
