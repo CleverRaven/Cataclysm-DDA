@@ -1741,7 +1741,7 @@ std::vector<window_panel> initialize_default_classic_panels()
     ret.emplace_back( window_panel( draw_weapon_classic, "Weapon", 1, 44, true ) );
     ret.emplace_back( window_panel( draw_time_classic, "Time", 1, 44, true ) );
     ret.emplace_back( window_panel( draw_armor, "Armor", 5, 44, false ) );
-    ret.emplace_back( window_panel( draw_compass_padding, "Compass", 6, 44, true ) );
+    ret.emplace_back( window_panel( draw_compass_padding, "Compass", 8, 44, true ) );
     ret.emplace_back( window_panel( draw_messages_classic, "Log", -2, 44, true ) );
 #if defined(TILES)
     ret.emplace_back( window_panel( draw_mminimap, "Map", -1, 44, true ) );

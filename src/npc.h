@@ -289,6 +289,16 @@ const direction npc_threat_dir[8] = { NORTHWEST, NORTH, NORTHEAST, EAST,
                                       SOUTHEAST, SOUTH, SOUTHWEST, WEST
                                     };
 
+struct healing_options {
+    bool bandage;
+    bool bleed;
+    bool bite;
+    bool infect;
+    void clear_all();
+    void set_all();
+};
+
+
 // Data relevant only for this action
 struct npc_short_term_cache {
     float danger;
@@ -296,6 +306,9 @@ struct npc_short_term_cache {
     float danger_assessment;
     // Use weak_ptr to avoid circular references between Creatures
     std::weak_ptr<Creature> target;
+    // target is hostile, ally is for aiding actions
+    std::weak_ptr<Creature> ally;
+    healing_options can_heal;
     // map of positions / type / volume of suspicious sounds
     std::vector<dangerous_sound> sound_alerts;
     // current sound position being investigated
@@ -645,9 +658,10 @@ class npc : public player
         void stow_item( item &it );
         bool wield( item &it ) override;
         bool adjust_worn();
-        bool has_healing_item( bool bleed = false, bool bite = false, bool infect = false );
-        item &get_healing_item( bool bleed = false, bool bite = false, bool infect = false,
-                                bool first_best = false );
+        bool has_healing_item( healing_options try_to_fix );
+        healing_options has_healing_options();
+        healing_options has_healing_options( healing_options try_to_fix );
+        item &get_healing_item( healing_options try_to_fix, bool first_best = false );
         bool has_painkiller();
         bool took_painkiller() const;
         void use_painkiller();
@@ -664,11 +678,14 @@ class npc : public player
         void regen_ai_cache();
         const Creature *current_target() const;
         Creature *current_target();
+        const Creature *current_ally() const;
+        Creature *current_ally();
         tripoint good_escape_direction( bool include_pos = true );
 
         // Interaction and assessment of the world around us
         float danger_assessment();
         float average_damage_dealt(); // Our guess at how much damage we can deal
+        bool need_heal( const player &n );
         bool bravery_check( int diff );
         bool emergency() const;
         bool emergency( float danger ) const;
