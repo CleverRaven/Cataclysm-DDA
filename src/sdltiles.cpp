@@ -3824,18 +3824,4 @@ bool is_draw_tiles_mode()
     return use_tiles;
 }
 
-SDL_Color cursesColorToSDL( const nc_color &color )
-{
-    const int pair_id = color.to_color_pair_index();
-    const auto pair = cata_cursesport::colorpairs[pair_id];
-
-    int palette_index = pair.FG != 0 ? pair.FG : pair.BG;
-
-    if( color.is_bold() ) {
-        palette_index += color_loader<SDL_Color>::COLOR_NAMES_COUNT / 2;
-    }
-
-    return windowsPalette[palette_index];
-}
-
 #endif // TILES
