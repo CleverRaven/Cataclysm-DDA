@@ -110,7 +110,7 @@
     "time": 180000,
     "reversible": true,
     "autolearn": false,
-    "book_learn": [ [ "textbook_mechanics", 5 ], ["manual_mechanics", 5 ], ["textbook_fabrication", 5] ],
+    "book_learn": [ [ "textbook_mechanics", 5 ], [ "manual_mechanics", 5 ], [ "textbook_fabrication", 5 ] ],
     "using": [ [ "welding_standard", 50 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
