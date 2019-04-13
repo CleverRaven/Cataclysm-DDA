@@ -399,7 +399,9 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     if( has_companion_mission() && mission != NPC_MISSION_TRAVELLING ) {
         can_see = "Not interactable while on a mission";
         see_color = c_light_red;
-    } else if( rl_dist( g->u.pos(), pos() ) > SEEX * 2 || !g->u.sees( pos() ) ) {
+        // is the NPC even in the same area as the player?
+    } else if( rl_dist( player_abspos, global_omt_location() ) > 3 ||
+               ( rl_dist( g->u.pos(), pos() ) > SEEX * 2 || !g->u.sees( pos() ) ) ) {
         if( u_has_radio && guy_has_radio ) {
             if( ( g->u.pos().z >= 0 && pos().z >= 0 ) || ( g->u.pos().z == pos().z ) ) {
                 retval = 2;
