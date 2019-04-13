@@ -38,7 +38,7 @@
     "dynamic_line": "I've been a cook since forever, this wasn't the best joint, but management was cool.",
     "responses": [
       { "text": "Why don't you go somewhere else?", "topic": "TALK_NC_SURVIVOR_CHEF_LEAVE" },
-      { "text": "Wanna get outta here?.", "topic": "TALK_SUGGEST_FOLLOW" },
+      { "text": "Wanna get outta here?", "topic": "TALK_SUGGEST_FOLLOW" },
       { "text": "Let's trade items.", "topic": "TALK_NONE", "effect": "start_trade" },
       { "text": "I'm sorry, I gotta go.", "topic": "TALK_DONE" }
     ]
