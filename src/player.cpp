@@ -4204,6 +4204,9 @@ void player::update_body( const time_point &from, const time_point &to )
 
     const int thirty_mins = ticks_between( from, to, 30_minutes );
     if( thirty_mins > 0 ) {
+        if( activity.is_null() ) {
+            reset_activity_level();
+        }
         // Radiation kills health even at low doses
         update_health( has_trait( trait_RADIOGENIC ) ? 0 : -radiation );
         get_sick();
@@ -4238,7 +4241,7 @@ void player::update_stomach( const time_point &from, const time_point &to )
     const bool mouse = has_trait( trait_NO_THIRST );
     const bool mycus = has_trait( trait_M_DEPENDENT );
     // @TODO: move to kcal altogether
-    const float kcal_per_nutr = 2500.0f / ( 12 * 24 );
+    const float kcal_per_time = get_bmr() / ( 12 * 24 );
     const int five_mins = ticks_between( from, to, 5_minutes );
 
     if( five_mins > 0 ) {
@@ -4280,7 +4283,7 @@ void player::update_stomach( const time_point &from, const time_point &to )
         if( !foodless && rates.hunger > 0.0f ) {
             mod_hunger( roll_remainder( rates.hunger * five_mins ) );
             // instead of hunger keeping track of how you're living, burn calories instead
-            mod_stored_kcal( roll_remainder( rates.hunger * five_mins * -kcal_per_nutr ) );
+            mod_stored_kcal( roll_remainder( five_mins * -kcal_per_time ) );
         }
     } else
         // you fill up when you eat fast, but less so than if you eat slow
@@ -12979,4 +12982,36 @@ std::pair<std::string, nc_color> player::get_hunger_description() const
     }
 
     return std::make_pair( hunger_string, hunger_color );
+}
+
+unsigned int player::get_bmr() const
+{
+    /**
+        Values are for males, and average!
+     */
+    const float bmi = 12 * get_kcal_percent() + 13;
+    const unsigned int height = 175; // cm
+    const units::mass weight = units::from_gram( round( bmi * pow( height / 100, 2 ) ) );
+    const unsigned int age = 25;
+    const unsigned int equation_constant = male ? 5 : -161;
+    return metabolic_rate_base() * activity_level * ( units::to_gram<int>( 10 * weight ) +
+            ( 6.25 * height ) - ( 5 * age ) + equation_constant );
+}
+
+void player::increase_activity_level( float new_level )
+{
+    if( activity_level < new_level ) {
+        activity_level = new_level;
+    }
+}
+
+void player::decrease_activity_level( float new_level )
+{
+    if( activity_level > new_level ) {
+        activity_level = new_level;
+    }
+}
+void player::reset_activity_level()
+{
+    activity_level = NO_EXERCISE;
 }
