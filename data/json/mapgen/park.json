@@ -8,9 +8,7 @@
     "name": "GROUP_PARK_PLAYGROUND",
     "type": "monstergroup",
     "default": "mon_null",
-    "monsters": [
-      { "monster": "mon_zombie_child", "freq": 295, "cost_multiplier": 1, "pack_size": [ 5, 12 ] }
-    ]
+    "monsters": [ { "monster": "mon_zombie_child", "freq": 295, "cost_multiplier": 1, "pack_size": [ 5, 12 ] } ]
   },
   {
     "name": "GROUP_PARK_SCENIC",
