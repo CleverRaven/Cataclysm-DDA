@@ -5135,9 +5135,6 @@ void player::process_effects()
         remove_effect( effect_infected );
         remove_effect( effect_recover );
     }
-    if( !( in_sleep_state() ) && has_effect( effect_alarm_clock ) ) {
-        remove_effect( effect_alarm_clock );
-    }
 
     //Human only effects
     for( auto &elem : *effects ) {

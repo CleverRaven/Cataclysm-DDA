@@ -1256,6 +1256,15 @@ void player::hardcoded_effects( effect &it )
                     sounds::sound( pos(), 16, sounds::sound_t::alarm, _( "beep-beep-beep!" ) );
                 }
             }
+        } else {
+            if( dur == 1_turns ) {
+                if( g->u.has_alarm_clock() ) {
+                    sounds::sound( g->u.pos(), 16, sounds::sound_t::alarm, _( "beep-beep-beep!" ) );
+                    const std::string alarm = _( "Your alarm is going off." );
+                    g->cancel_activity_or_ignore_query( distraction_type::noise, alarm );
+                    add_msg( "Your alarm went off." );
+                }
+            }
         }
     } else if( id == effect_mending ) {
         // TODO: Remove this and encapsulate hp_cur instead
