@@ -20,8 +20,6 @@ extern void set_displaybuffer_rendertarget();
 namespace
 {
 
-const point min_size = { 0, 0 };
-const point max_size = { MAPSIZE_X, MAPSIZE_Y };
 const point tiles_range = { ( MAPSIZE - 2 ) *SEEX, ( MAPSIZE - 2 ) *SEEY };
 
 /// Returns a number in range [0..1]. The range lasts for @param phase_length_ms (milliseconds).
@@ -449,14 +447,7 @@ void pixel_minimap::render_critters( const tripoint &center )
     const int start_y = center.y - tiles_limit.y / 2;
 
     for( int y = 0; y < tiles_limit.y; y++ ) {
-        if( start_y + y < min_size.y || start_y + y >= max_size.y ) {
-            continue;
-        }
         for( int x = 0; x < tiles_limit.x; x++ ) {
-            if( start_x + x < min_size.x || start_x + x >= max_size.x ) {
-                continue;
-            }
-
             const auto p = tripoint{ start_x + x, start_y + y, center.z };
             const auto lighting = access_cache.visibility_cache[p.x][p.y];
 
