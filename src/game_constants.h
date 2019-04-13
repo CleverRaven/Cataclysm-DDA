@@ -153,4 +153,11 @@ constexpr units::mass CHARACTER_WEIGHT = 81500_gram;
     Windows has a rand limit of 32768, other operating systems can have higher limits. */
 constexpr int SIMPLEX_NOISE_RANDOM_SEED_LIMIT = 32768;
 
+// activity levels, used for BMR
+constexpr float NO_EXERCISE = 1.2f;
+constexpr float LIGHT_EXERCISE = 1.375f;
+constexpr float MODERATE_EXERCISE = 1.55f;
+constexpr float ACTIVE_EXERCISE = 1.725f;
+constexpr float EXTRA_EXERCISE = 1.9f;
+
 #endif
