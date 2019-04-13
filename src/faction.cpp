@@ -401,7 +401,7 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
         see_color = c_light_red;
     } else if( rl_dist( g->u.pos(), pos() ) > SEEX * 2 || !g->u.sees( pos() ) ) {
         if( u_has_radio && guy_has_radio ) {
-            // @TODO : better range calculation than just elevation.
+            // TODO: better range calculation than just elevation.
             int max_range = 200;
             max_range *= ( 1 + ( g->u.pos().z * 0.1 ) );
             max_range *= ( 1 + ( pos().z * 0.1 ) );
@@ -537,6 +537,9 @@ void new_faction_manager::display() const
         std::vector<npc *> followers;
         for( auto &elem : g->get_follower_list() ) {
             std::shared_ptr<npc> npc_to_get = overmap_buffer.find_npc( elem );
+            if( !npc_to_get ) {
+                continue;
+            }
             npc *npc_to_add = npc_to_get.get();
             followers.push_back( npc_to_add );
         }
