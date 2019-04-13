@@ -855,6 +855,12 @@ class jmapgen_sign : public jmapgen_piece
             replace_name_tags( signtext );
             return signtext;
         }
+        bool has_vehicle_collision( const mapgendata &dat, int x, int y ) const override {
+            if( dat.m.veh_at( tripoint( x, y, dat.zlevel ) ) ) {
+                return true;
+            }
+            return false;
+        }
 };
 /**
  * Place graffiti with some text or a snippet.
@@ -929,6 +935,12 @@ class jmapgen_vending_machine : public jmapgen_piece
             dat.m.furn_set( rx, ry, f_null );
             dat.m.place_vending( rx, ry, item_group_id, reinforced );
         }
+        bool has_vehicle_collision( const mapgendata &dat, int x, int y ) const override {
+            if( dat.m.veh_at( tripoint( x, y, dat.zlevel ) ) ) {
+                return true;
+            }
+            return false;
+        }
 };
 /**
  * Place a toilet with (dirty) water in it.
@@ -952,6 +964,12 @@ class jmapgen_toilet : public jmapgen_piece
             } else {
                 dat.m.place_toilet( rx, ry, charges );
             }
+        }
+        bool has_vehicle_collision( const mapgendata &dat, int x, int y ) const override {
+            if( dat.m.veh_at( tripoint( x, y, dat.zlevel ) ) ) {
+                return true;
+            }
+            return false;
         }
 };
 /**
@@ -988,6 +1006,12 @@ class jmapgen_gaspump : public jmapgen_piece
             } else {
                 dat.m.place_gas_pump( rx, ry, charges );
             }
+        }
+        bool has_vehicle_collision( const mapgendata &dat, int x, int y ) const override {
+            if( dat.m.veh_at( tripoint( x, y, dat.zlevel ) ) ) {
+                return true;
+            }
+            return false;
         }
 };
 
@@ -1253,6 +1277,12 @@ class jmapgen_vehicle : public jmapgen_piece
             }
             dat.m.add_vehicle( type, point( x.get(), y.get() ), random_entry( rotation ), fuel, status );
         }
+        bool has_vehicle_collision( const mapgendata &dat, int x, int y ) const override {
+            if( dat.m.veh_at( tripoint( x, y, dat.zlevel ) ) ) {
+                return true;
+            }
+            return false;
+        }
 };
 /**
  * Place a specific item.
@@ -1318,6 +1348,12 @@ class jmapgen_trap : public jmapgen_piece
             const tripoint actual_loc = tripoint( x.get(), y.get(), dat.m.get_abs_sub().z );
             dat.m.trap_set( actual_loc, id );
         }
+        bool has_vehicle_collision( const mapgendata &dat, int x, int y ) const override {
+            if( dat.m.veh_at( tripoint( x, y, dat.zlevel ) ) ) {
+                return true;
+            }
+            return false;
+        }
 };
 /**
  * Place a furniture.
@@ -1332,6 +1368,12 @@ class jmapgen_furniture : public jmapgen_piece
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                     const float /*mdensity*/, mission * ) const override {
             dat.m.furn_set( x.get(), y.get(), id );
+        }
+        bool has_vehicle_collision( const mapgendata &dat, int x, int y ) const override {
+            if( dat.m.veh_at( tripoint( x, y, dat.zlevel ) ) ) {
+                return true;
+            }
+            return false;
         }
 };
 /**
@@ -1355,6 +1397,12 @@ class jmapgen_terrain : public jmapgen_piece
                     dat.m.i_clear( tripoint( x.get(), y.get(), dat.m.get_abs_sub().z ) );
                 }
             }
+        }
+        bool has_vehicle_collision( const mapgendata &dat, int x, int y ) const override {
+            if( dat.m.veh_at( tripoint( x, y, dat.zlevel ) ) ) {
+                return true;
+            }
+            return false;
         }
 };
 /**
@@ -1433,6 +1481,12 @@ class jmapgen_computer : public jmapgen_piece
             if( target && miss ) {
                 cpu->mission_id = miss->get_id();
             }
+        }
+        bool has_vehicle_collision( const mapgendata &dat, int x, int y ) const override {
+            if( dat.m.veh_at( tripoint( x, y, dat.zlevel ) ) ) {
+                return true;
+            }
+            return false;
         }
 };
 
@@ -1525,6 +1579,12 @@ class jmapgen_sealed_item : public jmapgen_piece
                 item_group_spawner->apply( dat, x, y, mon_density, miss );
             }
             dat.m.furn_set( x.get(), y.get(), furniture );
+        }
+        bool has_vehicle_collision( const mapgendata &dat, int x, int y ) const override {
+            if( dat.m.veh_at( tripoint( x, y, dat.zlevel ) ) ) {
+                return true;
+            }
+            return false;
         }
 };
 /**
@@ -2411,6 +2471,46 @@ bool jmapgen_setmap::apply( const mapgendata &dat, int offset_x, int offset_y, m
     return true;
 }
 
+bool jmapgen_setmap::has_vehicle_collision( const mapgendata &dat, int offset_x,
+        int offset_y ) const
+{
+    const auto get = []( const jmapgen_int & v, int offset ) {
+        return v.get() + offset;
+    };
+    const auto x_get = std::bind( get, x, offset_x );
+    const auto y_get = std::bind( get, y, offset_y );
+    const auto x2_get = std::bind( get, x2, offset_x );
+    const auto y2_get = std::bind( get, y2, offset_y );
+    const tripoint start = tripoint( x_get(), y_get(), 0 );
+    tripoint end = start;
+    switch( op ) {
+        case JMAPGEN_SETMAP_TER:
+        case JMAPGEN_SETMAP_FURN:
+        case JMAPGEN_SETMAP_TRAP:
+            break;
+        /* lines and squares are the same thing for this purpose */
+        case JMAPGEN_SETMAP_LINE_TER:
+        case JMAPGEN_SETMAP_LINE_FURN:
+        case JMAPGEN_SETMAP_LINE_TRAP:
+        case JMAPGEN_SETMAP_SQUARE_TER:
+        case JMAPGEN_SETMAP_SQUARE_FURN:
+        case JMAPGEN_SETMAP_SQUARE_TRAP:
+            end.x = x2_get();
+            end.y = y2_get();
+            break;
+        /* if it's not a terrain, furniture, or trap, it can't collide */
+        default:
+            return false;
+    }
+    for( const tripoint &p : dat.m.points_in_rectangle( start, end ) ) {
+        if( dat.m.veh_at( p ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+
 void mapgen_function_json_base::formatted_set_incredibly_simple( map &m, int offset_x,
         int offset_y ) const
 {
@@ -2515,6 +2615,20 @@ void jmapgen_objects::apply( const mapgendata &dat, int offset_x, int offset_y,
             what.apply( dat, where.x, where.y, density, miss );
         }
     }
+}
+
+bool jmapgen_objects::has_vehicle_collision( const mapgendata &dat, int offset_x,
+        int offset_y ) const
+{
+    for( auto &obj : objects ) {
+        auto where = obj.first;
+        where.offset( -offset_x, -offset_y );
+        const auto &what = *obj.second;
+        if( what.has_vehicle_collision( dat, where.x.get(), where.y.get() ) ) {
+            return true;
+        }
+    }
+    return false;
 }
 
 /////////////
@@ -8479,8 +8593,8 @@ bool update_mapgen_function_json::setup_internal( JsonObject &/*jo*/ )
     return true;
 }
 
-void update_mapgen_function_json::update_map( const tripoint &omt_pos, int offset_x, int offset_y,
-        mission *miss ) const
+bool update_mapgen_function_json::update_map( const tripoint &omt_pos, int offset_x, int offset_y,
+        mission *miss, bool verify ) const
 {
     tinymap update_map;
     const regional_settings &rsettings = overmap_buffer.get_settings( omt_pos.x, omt_pos.y,
@@ -8516,7 +8630,14 @@ void update_mapgen_function_json::update_map( const tripoint &omt_pos, int offse
     }
 
     for( auto &elem : setmap_points ) {
+        if( verify && elem.has_vehicle_collision( md, offset_x, offset_y ) ) {
+            return false;
+        }
         elem.apply( md, offset_x, offset_y );
+    }
+
+    if( verify && objects.has_vehicle_collision( md, offset_x, offset_y ) ) {
+        return false;
     }
     objects.apply( md, offset_x, offset_y, 0, miss );
 
@@ -8525,6 +8646,9 @@ void update_mapgen_function_json::update_map( const tripoint &omt_pos, int offse
     }
 
     update_map.save();
+    g->load_npcs();
+    g->refresh_all();
+    return true;
 }
 
 mapgen_update_func add_mapgen_update_func( JsonObject &jo, bool &defer )

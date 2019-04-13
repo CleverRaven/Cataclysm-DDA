@@ -122,6 +122,11 @@ struct jmapgen_setmap {
         repeat( irepeat ), rotation( irotation ),
         fuel( ifuel ), status( istatus ) {}
     bool apply( const mapgendata &dat, int offset_x, int offset_y, mission *miss = nullptr ) const;
+    /**
+     * checks if applying these objects to data would cause cause a collision with vehicles
+     * on the same map
+     **/
+    bool has_vehicle_collision( const mapgendata &dat, int offset_x, int offset_y ) const;
 };
 
 /**
@@ -157,6 +162,10 @@ class jmapgen_piece
                             float mon_density, mission *miss = nullptr ) const = 0;
         virtual ~jmapgen_piece() = default;
         jmapgen_int repeat;
+        virtual bool has_vehicle_collision( const mapgendata &/*dat*/, int /*offset_x*/,
+                                            int /*offset_y*/ ) const {
+            return false;
+        }
 };
 
 /**
@@ -253,6 +262,12 @@ struct jmapgen_objects {
         void apply( const mapgendata &dat, float density, mission *miss = nullptr ) const;
         void apply( const mapgendata &dat, int offset_x, int offset_y, float density,
                     mission *miss = nullptr ) const;
+
+        /**
+         * checks if applying these objects to data would cause cause a collision with vehicles
+         * on the same map
+         **/
+        bool has_vehicle_collision( const mapgendata &dat, int offset_x, int offset_y ) const;
 
     private:
         /**
