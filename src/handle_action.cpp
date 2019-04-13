@@ -686,7 +686,7 @@ static void wait()
         setting_alarm = try_set_alarm();
     }
 
-    const bool has_watch = ( u.has_watch() || setting_alarm );
+    const bool has_watch = u.has_watch() || setting_alarm;
 
     const auto add_menu_item = [ &as_m, &durations, has_watch ]
                                ( int retval, int hotkey, const std::string &caption = "",
@@ -704,10 +704,10 @@ static void wait()
 
     if( setting_alarm ) {
 
-        add_menu_item( 0, '0', _( "" ), MINUTES( 30 ) );
+        add_menu_item( 0, '0', "", MINUTES( 30 ) );
 
         for( int i = 1; i <= 9; ++i ) {
-            add_menu_item( i, '0' + i, _( "" ), HOURS( i ) );
+            add_menu_item( i, '0' + i, "", HOURS( i ) );
         }
 
     } else {
