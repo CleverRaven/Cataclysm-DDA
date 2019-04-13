@@ -7241,7 +7241,7 @@ std::list<item> player::use_charges( const itype_id &what, long qty,
 
     bool has_tool_with_UPS = false;
     visit_items( [this, &what, &qty, &res, &del, &has_tool_with_UPS, &filter]( item * e ) {
-        if( filter( *e ) && e->use_charges( what, qty, res, pos() ) ) {
+        if( e->use_charges( what, qty, res, pos(), filter ) ) {
             del.push_back( e );
         }
         if( filter( *e ) && e->typeId() == what && e->has_flag( "USE_UPS" ) ) {

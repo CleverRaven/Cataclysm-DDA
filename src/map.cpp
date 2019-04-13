@@ -4737,7 +4737,7 @@ std::list<item> use_charges_from_stack( Stack stack, const itype_id type, long &
 {
     std::list<item> ret;
     for( auto a = stack.begin(); a != stack.end() && quantity > 0; ) {
-        if( filter( *a ) && !a->made_of( LIQUID ) && a->use_charges( type, quantity, ret, pos ) ) {
+        if( !a->made_of( LIQUID ) && a->use_charges( type, quantity, ret, pos, filter ) ) {
             a = stack.erase( a );
         } else {
             ++a;
