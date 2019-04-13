@@ -94,6 +94,7 @@
         { "item": "trash", "x": [ 7, 8 ], "y": 22, "chance": 50, "repeat": [ 1, 2 ] },
         { "item": "trash", "x": [ 0, 17 ], "y": [ 22, 23 ], "chance": 20, "repeat": [ 1, 2 ] }
       ],
+      "place_nested": [ { "chunks": [ [ "chef_s_restaurant", 5 ], [ "null", 95 ] ], "x": 7, "y": 18 } ],
       "place_monsters": [
         { "monster": "GROUP_GROCERY", "x": [ 7, 19 ], "y": 19, "chance": 5 },
         { "monster": "GROUP_ROACH", "x": [ 7, 19 ], "y": 19, "chance": 20 }
