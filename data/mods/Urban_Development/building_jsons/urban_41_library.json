@@ -109,10 +109,10 @@
         ",,,,,,|h h h            ",
         ",,,,,,|6t6t6    AtAtA   ",
         ",,,,,,|-----|  |-----|  ",
-        ",,,,,,| hhh    |OOOOO|  ",
-        ",,,,,,w ttt             ",
-        ",,,,,,w ttt             ",
-        ",,,,,,| hhh    |OOOOO|  ",
+        ",,,,,,|        |OOOOO|  ",
+        ",,,,,,w >>>             ",
+        ",,,,,,w >>>             ",
+        ",,,,,,|        |OOOOO|  ",
         ",,,,,,|-----|  ---------",
         ",,,,,,w44222+    t6t6t6t",
         ",,,,,,|222CC|     h h h ",
@@ -139,11 +139,6 @@
         { "item": "novels", "x": [ 20, 23 ], "y": 1, "chance": 80, "repeat": [ 8, 16 ] },
         { "item": "mansion_books", "x": [ 16, 20 ], "y": 7, "chance": 20, "repeat": [ 10, 20 ] },
         { "item": "mansion_books", "x": [ 16, 20 ], "y": 10, "chance": 20, "repeat": [ 10, 20 ] }
-      ],
-      "place_loot": [
-        { "item": "dnd_handbook", "x": 8, "y": 8, "chance": 70 },
-        { "item": "novel_fantasy", "x": [ 8, 10 ], "y": [ 8, 9 ], "chance": 20, "repeat": [ 0, 4 ] },
-        { "item": "character_sheet", "x": [ 8, 10 ], "y": [ 8, 9 ], "chance": 50, "repeat": [ 1, 5 ] }
       ]
     }
   },
@@ -192,6 +187,156 @@
         { "item": "novels", "x": [ 0, 8 ], "y": 1, "chance": 80, "repeat": [ 18, 36 ] },
         { "item": "exotic_books", "x": 10, "y": [ 5, 7 ], "chance": 30, "repeat": [ 6, 12 ] }
       ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "urban_41_5" ],
+    "weight": 250,
+    "object": {
+      "fill_ter": "t_open_air",
+      "rows": [
+        "........................",
+        "........................",
+        "...........vvvvvvv......",
+        "..........vvtAtAtvv.....",
+        ".........vvA     Avv....",
+        "........vvA       Avv...",
+        "....|-ww-t         t-ww-",
+        "....wt@@t              |",
+        "....w@     h           |",
+        "....|@    hth      h   |",
+        "....w@     h      hth  |",
+        "....w@        h    h   |",
+        "....|t  h    hth       |",
+        "....|  hth    h        |",
+        "....w   h              1",
+        "....w                  |",
+        "....|OOOOOOO    OOOOOO-|",
+        "....w                 O|",
+        "....w                 O|",
+        "....|OOO OOO    OOO OO-|",
+        "....w                 O|",
+        "....w                 O|",
+        "....|OOOOOOO    OOOOOO-|",
+        "....--------    --------"
+      ],
+      "palettes": [ "acidia_residential_commercial_palette" ],
+      "items": { "t": { "item": "office", "chance": 40 }, "O": { "item": "homebooks", "chance": 30 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "urban_41_6" ],
+    "weight": 250,
+    "object": {
+      "fill_ter": "t_open_air",
+      "rows": [
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "ww-ww-ww-ww-ww-ww-......",
+        "           v     w......",
+        "  r  r  r  v     w......",
+        "  r  r  r  v     |......",
+        "  r  r  r  v    |-www|..",
+        "  r  r  r  v    |t66t|..",
+        "  r  r  r  J    1   6w..",
+        "           J    |t  6w..",
+        "  r  r  r  J    |6  6w..",
+        "  r  r  r  v    |t66t|..",
+        "  r  r  r  v    |-----|.",
+        "  r  r  r  v    |  h  |.",
+        "  r  r  r  v    | hth w.",
+        "           v    1 hth w.",
+        "-vvvvvvvvvv|    |  h  |.",
+        "                |-www-|.",
+        "                 |......",
+        "                 |......"
+      ],
+      "palettes": [ "acidia_residential_commercial_palette" ],
+      "items": { "r": { "item": "homebooks", "chance": 10 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "urban_41_7" ],
+    "weight": 250,
+    "object": {
+      "fill_ter": "t_open_air",
+      "rows": [
+        "......|                |",
+        "......w  hh        hh  |",
+        "......w htth      htth |",
+        "......w htth      htth |",
+        "......w  hh        hh  |",
+        "......|                |",
+        "......|-----|          |",
+        "......|                |",
+        "......w <<<            |",
+        "......w <<<         dd |",
+        "......|            dd  |",
+        "......|-----|      d   |",
+        "......|T2222+      dA  |",
+        "......|S2222|      d   |",
+        "......|-----|      d   |",
+        "......|T2222|      d   1",
+        "......|S2222+      |   |",
+        "......|-------wwww---w--",
+        "............RRRRRRR.....",
+        "............RRRRRRR.....",
+        "............RRRRRRR.....",
+        "............RRRRRRR.....",
+        "........................",
+        "........................"
+      ],
+      "palettes": [ "acidia_residential_commercial_palette" ],
+      "toilets": { "T": {  } },
+      "items": { "t": { "item": "office", "chance": 20 }, "d": { "item": "office", "chance": 10 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "urban_41_8" ],
+    "weight": 250,
+    "object": {
+      "fill_ter": "t_open_air",
+      "rows": [
+        "-------------   --......",
+        "  OOOOOOOOO      |......",
+        "                 w......",
+        "                 w......",
+        "  OOOOOOOOO      |......",
+        "               -w-......",
+        "               w........",
+        "  OOOOOOOOO    w........",
+        "               -w-......",
+        "                 w......",
+        "                 w......",
+        "-----   ---------|......",
+        "t@@@t   CCf|     |......",
+        "        222| hdd w......",
+        "           +  dA w......",
+        "           | hdd w......",
+        "t@@@t t@@@t|     |......",
+        "-www---www---www-|......",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................"
+      ],
+      "palettes": [ "acidia_residential_commercial_palette" ],
+      "items": { "O": { "item": "homebooks", "chance": 5 }, "f": { "item": "fridgesnacks", "chance": 60 } },
+      "place_loot": [ { "item": "microwave", "x": 9, "y": 12, "chance": 100 }, { "item": "laptop", "x": 14, "y": 14, "chance": 70 } ]
     }
   }
 ]
