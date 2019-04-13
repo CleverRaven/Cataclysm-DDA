@@ -42,9 +42,13 @@ class pixel_minimap
                            int heightLimit );
 
         void process_cache_updates();
+        void update_cache( int z );
         void update_cache( const tripoint &loc, const SDL_Color &color );
         void prepare_cache_for_updates();
         void clear_unused_cache();
+
+        void render_cache_to_screen( const tripoint &center );
+        void render_critters_to_screen( const tripoint &center );
 
     private:
         const SDL_Renderer_Ptr &renderer;
