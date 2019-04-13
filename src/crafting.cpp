@@ -118,21 +118,21 @@ static float lerped_multiplier( const T &value, const T &low, const T &high )
     if( value < low ) {
         return 1.0f;
     }
-    // Never fall off to zero or go negative
+    // Bottom out at 25% speed
     if( value > high ) {
-        return 0.05f;
+        return 0.25f;
     }
     // Linear interpolation between high and low
     // y = y0 + ( x - x0 ) * ( y1 - y0 ) / ( x1 - x0 )
-    return 1.0f + ( value - low ) * ( 0.05f - 1.0f ) / ( high - low );
+    return 1.0f + ( value - low ) * ( 0.25f - 1.0f ) / ( high - low );
 }
 
 static float workbench_crafting_speed_multiplier( const item &craft, const tripoint &loc )
 {
     // Values for crafting from inventory or without workbench
     float multiplier = 1.0;
-    units::mass allowed_mass = 60_kilogram;
-    units::volume allowed_volume = 100000_ml;
+    units::mass allowed_mass = 50_kilogram;
+    units::volume allowed_volume = 50000_ml;
 
     // tripoint_zero indicates crafting from inventory
     if( loc == tripoint_zero ) {
@@ -165,14 +165,14 @@ static float workbench_crafting_speed_multiplier( const item &craft, const tripo
 
 float player::crafting_speed_multiplier( const recipe &rec, bool in_progress ) const
 {
-    float result = morale_crafting_speed_multiplier( rec ) *
-                   lighting_craft_speed_multiplier( rec );
+    const float result = morale_crafting_speed_multiplier( rec ) *
+                         lighting_craft_speed_multiplier( rec );
     // Can't start if we'd need 300% time, but we can still finish the job
     if( !in_progress && result < 0.33f ) {
         return 0.0f;
     }
-    // If we're working below 20% speed, just give up
-    if( result < 0.2f ) {
+    // If we're working below 10% speed, just give up
+    if( result < 0.1f ) {
         return 0.0f;
     }
 
@@ -186,16 +186,49 @@ float player::crafting_speed_multiplier( const item &craft, const tripoint &loc 
         return 1.0f;
     }
 
-    float result = morale_crafting_speed_multiplier( craft.get_making() ) *
-                   lighting_craft_speed_multiplier( craft.get_making() ) *
-                   workbench_crafting_speed_multiplier( craft, loc );
+    const recipe &rec = craft.get_making();
 
-    // If we're working below 20% speed, just give up
-    if( result < 0.2f ) {
+    const float light_multi = lighting_craft_speed_multiplier( rec );
+    const float bench_multi = workbench_crafting_speed_multiplier( craft, loc );
+    const float morale_multi = morale_crafting_speed_multiplier( rec );
+
+    const float total_multi = light_multi * bench_multi * morale_multi;
+
+    if( light_multi <= 0.0f ) {
+        add_msg_if_player( m_bad, _( "You can no longer see well enough to keep crafting." ) );
+        return 0.0f;
+    }
+    if( bench_multi <= 0.1f || ( bench_multi <= 0.33f && total_multi <= 0.2f ) ) {
+        add_msg_if_player( m_bad, _( "The %s is too large and/or heavy to work on.  You may want to"
+                                     " use a workbench or a smaller batch size" ), craft.tname() );
+        return 0.0f;
+    }
+    if( morale_multi <= 0.2f || ( morale_multi <= 0.33f && total_multi <= 0.2f ) ) {
+        add_msg_if_player( m_bad, _( "Your morale is too low to continue crafting." ) );
         return 0.0f;
     }
 
-    return result;
+    // If we're working below 20% speed, just give up
+    if( total_multi <= 0.2f ) {
+        add_msg_if_player( m_bad, _( "You are too frustrated to continue and just give up." ) );
+        return 0.0f;
+    }
+
+    if( calendar::once_every( 1_hours ) && total_multi < 0.75f ) {
+        if( light_multi <= 0.5f ) {
+            add_msg_if_player( m_bad, _( "You can't see well and are working slowly." ) );
+        }
+        if( bench_multi <= 0.5f ) {
+            add_msg_if_player( m_bad,
+                               _( "The %s is to large and/or heavy to work on comfortably.  You are"
+                                  " working slowly." ), craft.tname() );
+        }
+        if( morale_multi <= 0.5f ) {
+            add_msg_if_player( m_bad, _( "You can't focus and are working slowly." ) );
+        }
+    }
+
+    return total_multi;
 }
 
 bool player::has_morale_to_craft() const

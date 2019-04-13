@@ -4700,9 +4700,9 @@ void iexamine::workbench_internal( player &p, const tripoint &examp,
             const item *selected_craft = crafts[amenu2.ret].get_item();
 
             p.add_msg_player_or_npc(
-                string_format( pgettext( "in progress craft", "You start working on the %s" ),
+                string_format( pgettext( "in progress craft", "You start working on the %s." ),
                                selected_craft->tname() ),
-                string_format( pgettext( "in progress craft", "<npcname> starts working on the %s" ),
+                string_format( pgettext( "in progress craft", "<npcname> starts working on the %s." ),
                                selected_craft->tname() ) );
             p.assign_activity( activity_id( "ACT_CRAFT" ) );
             p.activity.targets.push_back( crafts[amenu2.ret].clone() );

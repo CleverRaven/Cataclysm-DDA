@@ -2644,12 +2644,10 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
     // item_location::get_item() will return nullptr if the item is lost
     if( !craft ) {
         p->add_msg_player_or_npc(
-            string_format(
-                _( "You no longer have the %1$s in your possession.  You stop crafting.  Reactivate the %1$s to continue crafting." ),
-                craft->tname() ),
-            string_format(
-                _( "<npcname> no longer has the %s in their possession.  <npcname> stops crafting." ),
-                craft->tname() )
+            string_format( _( "You no longer have the %1$s in your possession.  You stop crafting. "
+                              " Reactivate the %1$s to continue crafting." ), craft->tname() ),
+            string_format( _( "<npcname> no longer has the %s in their possession.  <npcname> stops"
+                              " crafting." ), craft->tname() )
         );
         p->cancel_activity();
         return;
@@ -2669,17 +2667,8 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
     const bool is_long = act->values[0];
 
     if( crafting_speed <= 0.0f ) {
-        if( p->lighting_craft_speed_multiplier( rec ) <= 0.0f ) {
-            p->add_msg_if_player( m_bad, _( "You can no longer see well enough to keep crafting." ) );
-        } else {
-            p->add_msg_if_player( m_bad, _( "You are too frustrated to continue and just give up." ) );
-        }
         p->cancel_activity();
         return;
-    }
-    if( calendar::once_every( 1_hours ) && crafting_speed < 0.75f ) {
-        // TODO: Describe the causes of slowdown
-        p->add_msg_if_player( m_bad, _( "You can't focus and are working slowly." ) );
     }
 
     // item_counter represents the percent progress relative to the base batch time

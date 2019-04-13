@@ -4487,7 +4487,7 @@
       ]
     },
     "examine_action": "workbench",
-    "workbench": { "multiplier": 1.1, "mass": 100000, "volume": "100L" }
+    "workbench": { "multiplier": 1.1, "mass": 150000, "volume": "150L" }
   },
   {
     "type": "furniture",
@@ -5551,6 +5551,6 @@
       ]
     },
     "examine_action": "workbench",
-    "workbench": { "multiplier": 1.2, "mass": 100000, "volume": "100L" }
+    "workbench": { "multiplier": 1.2, "mass": 250000, "volume": "250L" }
   }
 ]

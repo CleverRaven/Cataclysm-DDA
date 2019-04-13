@@ -8076,8 +8076,8 @@ int iuse::craft( player *p, item *it, bool, const tripoint & )
 {
     if( p->has_item( *it ) ) {
         p->add_msg_player_or_npc(
-            string_format( pgettext( "in progress craft", "You start working on the %s" ), it->tname() ),
-            string_format( pgettext( "in progress craft", "<npcname> starts working on the %s" ), it->tname()
+            string_format( pgettext( "in progress craft", "You start working on the %s." ), it->tname() ),
+            string_format( pgettext( "in progress craft", "<npcname> starts working on the %s." ), it->tname()
                          ) );
         p->assign_activity( activity_id( "ACT_CRAFT" ) );
         p->activity.targets.push_back( item_location( *p, it ) );
