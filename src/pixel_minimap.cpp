@@ -34,16 +34,6 @@ float get_animation_phase( int phase_length_ms )
     return std::fmod<float>( SDL_GetTicks(), phase_length_ms ) / phase_length_ms;
 }
 
-//converts the local x,y point into the global submap coordinates
-tripoint convert_tripoint_to_abs_submap( const tripoint &p )
-{
-    //get the submap coordinates of the current location
-    tripoint sm_loc = ms_to_sm_copy( p );
-    //add it to the absolute map coordinates
-    tripoint abs_sm_loc = g->m.get_abs_sub();
-    return abs_sm_loc + sm_loc;
-}
-
 //creates the texture that individual minimap updates are drawn to
 //later, the main texture is drawn to the display buffer
 //the surface is needed to determine the color format needed by the texture
@@ -147,8 +137,6 @@ struct pixel_minimap::submap_cache {
     //the list of updates to apply to the texture
     //reduces render target switching to once per submap
     std::vector<point> update_list;
-    //if the submap has been drawn to screen during the current draw cycle
-    bool drawn;
     //flag used to indicate that the texture needs to be cleared before first use
     bool ready;
     shared_texture_pool &pool;
@@ -181,7 +169,6 @@ void pixel_minimap::prepare_cache_for_updates()
 {
     for( auto &mcp : cache ) {
         mcp.second.touched = false;
-        mcp.second.drawn = false;
     }
 }
 
@@ -379,50 +366,43 @@ void pixel_minimap::reset()
 
 void pixel_minimap::render_cache_to_screen( const tripoint &center )
 {
+    const auto sm_global_offset = g->m.get_abs_sub() + ms_to_sm_copy( center );
+    const auto sm_local_offset = tripoint{
+        ( tiles_limit.x / SEEX ) / 2,
+        ( tiles_limit.y / SEEY ) / 2, 0
+    };
+
+    auto ms_offset = point{ center.x, center.y };
+    ms_to_sm_remain( ms_offset );
+
     //prepare to copy to intermediate texture
     SetRenderTarget( renderer, main_tex );
 
-    const int start_x = center.x - tiles_limit.x / 2;
-    const int start_y = center.y - tiles_limit.y / 2;
-
-    //attempt to draw the submap cache if any of its tiles are exposed in the minimap area
-    //the drawn flag prevents it from being drawn more than once
     SDL_Rect drawrect;
     drawrect.w = SEEX * tile_size.x;
     drawrect.h = SEEY * tile_size.y;
 
-    for( int y = 0; y < tiles_limit.y; y++ ) {
-        if( start_y + y < min_size.y || start_y + y >= max_size.y ) {
+    for( const auto &elem : cache ) {
+        const auto &abs_pos = elem.first;
+        const auto &cache_item = elem.second;
+
+        const auto rel_pos = abs_pos - sm_global_offset;
+
+        if( std::abs( rel_pos.x ) > HALF_MAPSIZE ||
+            std::abs( rel_pos.y ) > HALF_MAPSIZE ||
+            rel_pos.z != 0 ) {
             continue;
         }
-        for( int x = 0; x < tiles_limit.x; x++ ) {
-            if( start_x + x < min_size.x || start_x + x >= max_size.x ) {
-                continue;
-            }
 
-            tripoint p( start_x + x, start_y + y, center.z );
-            tripoint current_submap_loc = convert_tripoint_to_abs_submap( p );
+        const auto p = rel_pos + sm_local_offset;
+        //the position of the submap texture has to account for the actual (current) 12x12 tile size
+        //the clipping rectangle handles the portions that need to hide
+        drawrect.x = ( p.x * SEEX + SEEX / 2 - ms_offset.x ) * tile_size.x;
+        drawrect.y = ( p.y * SEEY + SEEY / 2 - ms_offset.y ) * tile_size.y;
 
-            auto it = cache.find( current_submap_loc );
-
-            //a missing submap cache should be pretty improbable
-            if( it == cache.end() ) {
-                continue;
-            }
-            if( it->second.drawn ) {
-                continue;
-            }
-            it->second.drawn = true;
-
-            //the position of the submap texture has to account for the actual (current) 12x12 tile size
-            //the clipping rectangle handles the portions that need to hide
-            tripoint drawpoint( ( p.x / SEEX ) * SEEX - start_x, ( p.y / SEEY ) * SEEY - start_y, p.z );
-            drawrect.x = drawpoint.x * tile_size.x;
-            drawrect.y = drawpoint.y * tile_size.y;
-
-            RenderCopy( renderer, it->second.minimap_tex, nullptr, &drawrect );
-        }
+        RenderCopy( renderer, cache_item.minimap_tex, nullptr, &drawrect );
     }
+
     //set display buffer to main screen
     set_displaybuffer_rendertarget();
     //paint intermediate texture to screen
