@@ -2203,54 +2203,35 @@ void basecamp::fortifications_return()
     npc_ptr comp = mission_return( "_faction_camp_om_fortifications", 3_hours, true, msg,
                                    "construction", 2 );
     if( comp != nullptr ) {
-        editmap edit;
-        bool build_dir_NS = ( comp->companion_mission_points[0].y !=
-                              comp->companion_mission_points[1].y );
-        //Ensure all tiles are generated before putting fences/trenches down...
-        for( auto pt : comp->companion_mission_points ) {
-            if( MAPBUFFER.lookup_submap( om_to_sm_copy( pt ) ) == nullptr ) {
-                oter_id &omt_test = overmap_buffer.ter( pt );
-                std::string om_i = omt_test.id().c_str();
-                //The thick forests will make harsh boundaries since it won't recognize these
-                //tiles when they become fortifications
-                if( om_i == "forest_thick" ) {
-                    om_i = "forest";
-                }
-                edit.mapgen_set( om_i, pt, 0, false );
-            }
+        std::string build_n = "faction_wall_level_N_0";
+        std::string build_e = "faction_wall_level_E_0";
+        std::string build_s = "faction_wall_level_S_0";
+        std::string build_w = "faction_wall_level_W_0";
+        if( comp->companion_mission_role_id == "faction_wall_level_N_1" ) {
+            build_n = "faction_wall_level_N_1";
+            build_e = "faction_wall_level_E_1";
+            build_s = "faction_wall_level_S_1";
+            build_w = "faction_wall_level_W_1";
+        }
+        std::string build_first = build_e;
+        std::string build_second = build_w;
+        bool build_dir_NS = comp->companion_mission_points[0].y !=
+                            comp->companion_mission_points[1].y;
+        if( build_dir_NS ) {
+            build_first = build_s;
+            build_second = build_n;
         }
         //Add fences
         auto build_point = comp->companion_mission_points;
         for( size_t pt = 0; pt < build_point.size(); pt++ ) {
             //First point is always at top or west since they are built in a line and sorted
-            std::string build_n = "faction_wall_level_N_0";
-            std::string build_e = "faction_wall_level_E_0";
-            std::string build_s = "faction_wall_level_S_0";
-            std::string build_w = "faction_wall_level_W_0";
-            if( comp->companion_mission_role_id == "faction_wall_level_N_1" ) {
-                build_n = "faction_wall_level_N_1";
-                build_e = "faction_wall_level_E_1";
-                build_s = "faction_wall_level_S_1";
-                build_w = "faction_wall_level_W_1";
-            }
             if( pt == 0 ) {
-                if( build_dir_NS ) {
-                    edit.mapgen_set( build_s, build_point[pt] );
-                } else {
-                    edit.mapgen_set( build_e, build_point[pt] );
-                }
+                run_mapgen_update_func( build_first, build_point[pt] );
             } else if( pt == build_point.size() - 1 ) {
-                if( build_dir_NS ) {
-                    edit.mapgen_set( build_n, build_point[pt] );
-                } else {
-                    edit.mapgen_set( build_w, build_point[pt] );
-                }
-            } else if( build_dir_NS ) {
-                edit.mapgen_set( build_n, build_point[pt] );
-                edit.mapgen_set( build_s, build_point[pt] );
+                run_mapgen_update_func( build_second, build_point[pt] );
             } else {
-                edit.mapgen_set( build_e, build_point[pt] );
-                edit.mapgen_set( build_w, build_point[pt] );
+                run_mapgen_update_func( build_first, build_point[pt] );
+                run_mapgen_update_func( build_second, build_point[pt] );
             }
         }
     }
