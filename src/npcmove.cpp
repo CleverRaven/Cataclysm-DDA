@@ -46,14 +46,15 @@ const skill_id skill_firstaid( "firstaid" );
 const skill_id skill_gun( "gun" );
 const skill_id skill_throw( "throw" );
 
-const efftype_id effect_lying_down( "lying_down" );
-const efftype_id effect_infected( "infected" );
+const efftype_id effect_bandaged( "bandaged" );
 const efftype_id effect_bite( "bite" );
 const efftype_id effect_bleed( "bleed" );
 const efftype_id effect_bouldering( "bouldering" );
 const efftype_id effect_catch_up( "catch_up" );
 const efftype_id effect_hit_by_player( "hit_by_player" );
+const efftype_id effect_infected( "infected" );
 const efftype_id effect_infection( "infection" );
+const efftype_id effect_lying_down( "lying_down" );
 const efftype_id effect_no_sight( "no_sight" );
 const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_onfire( "onfire" );
@@ -465,6 +466,8 @@ void npc::regen_ai_cache()
     float old_assessment = ai_cache.danger_assessment;
     ai_cache.friends.clear();
     ai_cache.target = std::shared_ptr<Creature>();
+    ai_cache.ally = std::shared_ptr<Creature>();
+    ai_cache.can_heal.clear_all();
     ai_cache.danger = 0.0f;
     ai_cache.total_danger = 0.0f;
     ai_cache.my_weapon_value = weapon_value( weapon );
@@ -647,6 +650,7 @@ void npc::execute_action( npc_action action )
     int oldmoves = moves;
     tripoint tar = pos();
     Creature *cur = current_target();
+    player *patient = dynamic_cast<player *>( current_ally() );
     if( action == npc_flee ) {
         tar = good_escape_direction( false );
     } else if( cur != nullptr ) {
@@ -792,10 +796,12 @@ void npc::execute_action( npc_action action )
             break;
 
         case npc_heal_player:
-            update_path( g->u.pos() );
+            update_path( patient->pos() );
             if( path.size() == 1 ) { // We're adjacent to u, and thus can heal u
-                heal_player( g->u );
+                heal_player( *patient );
             } else if( !path.empty() ) {
+                say( string_format( _( "Hold still %s, I'm coming to help you." ),
+                                    patient->disp_name() ) );
                 move_to_next();
             } else {
                 move_pause();
@@ -1081,13 +1087,62 @@ npc_action npc::method_of_attack()
     return dont_move ? npc_undecided : npc_melee;
 }
 
-bool need_heal( const Character &n )
+bool npc::need_heal( const player &n )
 {
+
+    // if there are no healing items, there's nothing to do
+    if( !( ai_cache.can_heal.bandage || ai_cache.can_heal.bleed || ai_cache.can_heal.bite ||
+           ai_cache.can_heal.infect ) ) {
+        return false;
+    }
+    // NPCs heal at 50% remaining HP, minus their bravery and skill in first aid
+    // brave NPCs are less worried, skilled NPCs conserve bandages
+    int threshold = 50 + personality.bravery - get_skill_level( skill_firstaid );
+    // altruist NPCs hold off on healing themselves and heal allies earlier
+    if( n.getID() == getID() ) {
+        threshold -= personality.altruism;
+    } else {
+        threshold += personality.altruism;
+    }
+
     for( int i = 0; i < num_hp_parts; i++ ) {
-        hp_part part = hp_part( i );
-        if( ( part == hp_head  && n.hp_cur[i] <= 35 ) ||
-            ( part == hp_torso && n.hp_cur[i] <= 25 ) ||
-            n.hp_cur[i] <= 15 ) {
+        const hp_part part = hp_part( i );
+        const body_part bp_wounded = hp_to_bp( part );
+
+        if( ai_cache.can_heal.bleed && n.has_effect( effect_bleed, bp_wounded ) ) {
+            ai_cache.can_heal.clear_all();
+            ai_cache.can_heal.bleed = true;
+            return true;
+        }
+
+        // NPCs don't reapply bandages
+        if( ai_cache.can_heal.bandage && !n.has_effect( effect_bandaged, bp_wounded ) ) {
+            int part_threshold = threshold;
+            if( part == hp_head ) {
+                part_threshold += 20;
+            } else if( part == hp_torso ) {
+                part_threshold += 10;
+            }
+            part_threshold = std::min( 80, part_threshold );
+            part_threshold = part_threshold * n.hp_max[i] / 100;
+
+            if( n.hp_cur[i] <= part_threshold ) {
+                ai_cache.can_heal.clear_all();
+                ai_cache.can_heal.bandage = true;
+                return true;
+            }
+        }
+
+        if( ai_cache.can_heal.bite && n.has_effect( effect_bite, bp_wounded ) ) {
+            ai_cache.can_heal.clear_all();
+            ai_cache.can_heal.bite = true;
+            return true;
+
+        }
+
+        if( ai_cache.can_heal.infect && n.has_effect( effect_infected, bp_wounded ) ) {
+            ai_cache.can_heal.clear_all();
+            ai_cache.can_heal.infect = true;
             return true;
         }
     }
@@ -1185,12 +1240,37 @@ const item_location npc::find_usable_ammo( const item &weap ) const
 
 npc_action npc::address_needs( float danger )
 {
-    if( need_heal( *this ) && has_healing_item() ) {
+    ai_cache.can_heal = has_healing_options();
+
+    if( need_heal( *this ) ) {
         return npc_heal;
     }
 
     if( get_perceived_pain() >= 15 && has_painkiller() && !took_painkiller() ) {
         return npc_use_painkiller;
+    }
+
+    // should check all allies, but factions are stupid right now
+    if( is_friend() ) {
+        if( need_heal( g->u ) ) {
+            ai_cache.ally = g->shared_from( g->u );
+            return npc_heal_player;
+        }
+
+        const std::vector<npc *> followers = g->get_npcs_if( [&]( const npc & guy ) {
+            return guy.is_friend() && guy.is_following() && posz() == guy.posz() &&
+                   sees( guy.pos() ) && rl_dist( pos(), guy.pos() ) <= SEEX * 2;
+        } );
+
+        for( npc *guy : followers ) {
+            if( guy == this ) {
+                continue;
+            }
+            if( need_heal( *guy ) ) {
+                ai_cache.ally = g->shared_from( *guy );
+                return npc_heal_player;
+            }
+        }
     }
 
     if( can_reload_current() ) {
@@ -2709,10 +2789,10 @@ void npc::heal_player( player &patient )
     // Close enough to heal!
     bool u_see = g->u.sees( *this ) || g->u.sees( patient );
     if( u_see ) {
-        add_msg( _( "%1$s heals %2$s." ), name.c_str(), patient.name.c_str() );
+        add_msg( _( "%1$s heals %2$s." ), disp_name(), patient.disp_name() );
     }
 
-    item &used = get_healing_item();
+    item &used = get_healing_item( ai_cache.can_heal );
     if( used.is_null() ) {
         debugmsg( "%s tried to heal you but has no healing item", disp_name().c_str() );
         return;
@@ -2725,7 +2805,6 @@ void npc::heal_player( player &patient )
         // Test if we want to heal the player further
         if( op_of_u.value * 4 + op_of_u.trust + personality.altruism * 3 -
             op_of_u.fear * 3 <  25 ) {
-            set_attitude( NPCATT_FOLLOW );
             say( _( "That's all the healing I can do." ) );
         } else {
             say( _( "Hold still, I can heal you more." ) );
@@ -2735,15 +2814,16 @@ void npc::heal_player( player &patient )
 
 void npc::heal_self()
 {
-    item &used = get_healing_item();
+    item &used = get_healing_item( ai_cache.can_heal );
     if( used.is_null() ) {
         debugmsg( "%s tried to heal self but has no healing item", disp_name().c_str() );
         return;
     }
 
     if( g->u.sees( *this ) ) {
-        add_msg( _( "%s applies a %s" ), name.c_str(), used.tname().c_str() );
+        add_msg( _( "%s applies a %s" ), disp_name(), used.tname() );
     }
+    warn_about( "heal_self", 1_turns );
 
     long charges_used = used.type->invoke( *this, used, pos(), "heal" );
     if( used.is_medication() ) {
@@ -2761,7 +2841,7 @@ void npc::use_painkiller()
         move_pause();
     } else {
         if( g->u.sees( *this ) ) {
-            add_msg( _( "%1$s takes some %2$s." ), name.c_str(), it->tname().c_str() );
+            add_msg( _( "%1$s takes some %2$s." ), disp_name(), it->tname() );
         }
         consume( inv.position_by_item( it ) );
         moves = 0;
@@ -3218,7 +3298,7 @@ std::string npc_action_name( npc_action action )
         case npc_look_for_player:
             return _( "Look for player" );
         case npc_heal_player:
-            return _( "Heal player" );
+            return _( "Heal player or ally" );
         case npc_follow_player:
             return _( "Follow player" );
         case npc_follow_embarked:
@@ -3256,6 +3336,19 @@ Creature *npc::current_target()
 {
     // TODO: As above.
     return ai_cache.target.lock().get();
+}
+
+const Creature *npc::current_ally() const
+{
+    // TODO: Arguably we should return a shared_ptr to ensure that the returned
+    // object stays alive while the caller uses it.  Not doing that for now.
+    return ai_cache.ally.lock().get();
+}
+
+Creature *npc::current_ally()
+{
+    // TODO: As above.
+    return ai_cache.ally.lock().get();
 }
 
 // Maybe TODO: Move to Character method and use map methods
@@ -3301,6 +3394,8 @@ void npc::warn_about( const std::string &type, const time_duration &d, const std
         snip = "<combat_noise_warning>";
     } else if( type == "movement_noise" ) {
         snip = "<movement_noise_warning>";
+    } else if( type == "heal_self" ) {
+        snip = "<heal_self>";
     } else {
         return;
     }
