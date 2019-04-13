@@ -69,7 +69,8 @@ class pixel_minimap
         pixel_minimap_settings settings;
 
         SDL_Rect screen_rect;
-        SDL_Rect clip_rect;
+        SDL_Rect main_tex_clip_rect;
+        SDL_Rect screen_clip_rect;
         SDL_Texture_Ptr main_tex;
 
         std::unique_ptr<pixel_minimap_drawer> drawer;

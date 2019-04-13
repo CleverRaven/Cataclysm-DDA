@@ -54,12 +54,11 @@ float get_animation_phase( int phase_length_ms )
 SDL_Texture_Ptr create_cache_texture( const SDL_Renderer_Ptr &renderer, int tile_width,
                                       int tile_height )
 {
-    const SDL_Surface_Ptr temp = create_surface_32( tile_width, tile_height );
-    assert( temp );
-    SDL_Texture_Ptr tex( SDL_CreateTexture( renderer.get(), temp->format->format,
-                                            SDL_TEXTUREACCESS_TARGET, tile_width, tile_height ) );
-    throwErrorIf( !tex, "SDL_CreateTexture failed to create minimap texture" );
-    return tex;
+    return CreateTexture( renderer,
+                          SDL_PIXELFORMAT_ARGB8888,
+                          SDL_TEXTUREACCESS_TARGET,
+                          tile_width,
+                          tile_height );
 }
 
 SDL_Color get_map_color_at( const tripoint &p )
@@ -334,26 +333,33 @@ void pixel_minimap::set_screen_rect( const SDL_Rect &screen_rect )
     tiles_limit = drawer->get_tiles_count();
     const auto size_on_screen = drawer->get_size_on_screen();
 
-    // Center the drawn area within the total area.
-    const int border_width = std::max( ( screen_rect.w - size_on_screen.x ) / 2, 0 );
-    const int border_height = std::max( ( screen_rect.h - size_on_screen.y ) / 2, 0 );
-    //prepare the minimap clipped area
-    clip_rect = SDL_Rect{
-        screen_rect.x + border_width,
-        screen_rect.y + border_height,
-        screen_rect.w - border_width * 2,
-        screen_rect.h - border_height * 2
+    const int dx = ( size_on_screen.x - screen_rect.w ) / 2;
+    const int dy = ( size_on_screen.y - screen_rect.h ) / 2;
+
+    main_tex_clip_rect = SDL_Rect{
+        std::max( dx, 0 ),
+        std::max( dy, 0 ),
+        size_on_screen.x - 2 * std::max( dx, 0 ),
+        size_on_screen.y - 2 * std::max( dy, 0 )
+    };
+
+    screen_clip_rect = SDL_Rect{
+        screen_rect.x - std::min( dx, 0 ),
+        screen_rect.y - std::min( dy, 0 ),
+        main_tex_clip_rect.w,
+        main_tex_clip_rect.h
     };
 
     cache.clear();
 
-    main_tex = create_cache_texture( renderer, clip_rect.w, clip_rect.h );
+    main_tex = create_cache_texture( renderer, size_on_screen.x, size_on_screen.y );
     tex_pool = std::make_unique<shared_texture_pool>();
 
     const auto chunk_rect = drawer->get_chunk_rect( { 0, 0 } );
 
     for( auto &elem : tex_pool->texture_pool ) {
         elem = create_cache_texture( renderer, chunk_rect.w, chunk_rect.h );
+        SetTextureBlendMode( elem, SDL_BLENDMODE_BLEND );
     }
 }
 
@@ -369,13 +375,16 @@ void pixel_minimap::render( const tripoint &center )
 {
     SetRenderTarget( renderer, main_tex );
 
+    SetRenderDrawColor( renderer, 0x00, 0x00, 0x00, 0x00 );
+    RenderClear( renderer );
+
     render_cache( center );
     render_critters( center );
 
     //set display buffer to main screen
     set_displaybuffer_rendertarget();
     //paint intermediate texture to screen
-    RenderCopy( renderer, main_tex, nullptr, &clip_rect );
+    RenderCopy( renderer, main_tex, &main_tex_clip_rect, &screen_clip_rect );
 }
 
 void pixel_minimap::render_cache( const tripoint &center )
@@ -397,8 +406,8 @@ void pixel_minimap::render_cache( const tripoint &center )
 
         const auto rel_pos = elem.first - sm_center;
 
-        if( std::abs( rel_pos.x ) > HALF_MAPSIZE ||
-            std::abs( rel_pos.y ) > HALF_MAPSIZE ||
+        if( std::abs( rel_pos.x ) > sm_offset.x ||
+            std::abs( rel_pos.y ) > sm_offset.y ||
             rel_pos.z != 0 ) {
             continue;
         }
@@ -502,7 +511,7 @@ const
 
         case pixel_minimap_type::iso:
             return std::unique_ptr<pixel_minimap_drawer> {
-                new pixel_minimap_ortho_drawer( screen_size, settings.square_pixels, settings.mode )
+                new pixel_minimap_iso_drawer( screen_size, settings.square_pixels, settings.mode )
             };
     }
 

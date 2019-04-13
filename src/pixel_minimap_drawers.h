@@ -54,8 +54,34 @@ class pixel_minimap_ortho_drawer : public pixel_minimap_drawer
         point tile_size;
         point tiles_count;
         point pixel_size;
-        bool draw_with_dots;
 };
 
+
+class pixel_minimap_iso_drawer : public pixel_minimap_drawer
+{
+    public:
+        pixel_minimap_iso_drawer( const point &max_size, bool square_pixels, pixel_minimap_mode mode );
+        ~pixel_minimap_iso_drawer() = default;
+
+        point get_size_on_screen() const override;
+        point get_tiles_count() const override;
+
+        SDL_Rect get_chunk_rect( const point &p ) const override;
+        SDL_Rect get_critter_rect( const point &p ) const override;
+
+        void clear_chunk_tex( const SDL_Renderer_Ptr &renderer ) override;
+        void update_chunk_tex( const SDL_Renderer_Ptr &renderer,
+                               const point &p,
+                               const SDL_Color &c ) override;
+
+    private:
+        point get_tile_pos( const point &p, const point &tiles_count ) const;
+        point get_tiles_size( const point &tiles_count ) const;
+
+    private:
+        point tile_size;
+        point tiles_count;
+        point pixel_size;
+};
 
 #endif // PIXEL_MINIMAP_DRAWERS_H
