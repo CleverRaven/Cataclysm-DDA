@@ -2703,6 +2703,9 @@ void game::reset_npc_dispositions()
 {
     for( auto elem : follower_ids ) {
         std::shared_ptr<npc> npc_to_get = overmap_buffer.find_npc( elem );
+        if( !npc_to_get )  {
+            continue;
+        }
         npc *npc_to_add = npc_to_get.get();
         npc_to_add->chatbin.missions.clear();
         npc_to_add->chatbin.missions_assigned.clear();
@@ -3186,10 +3189,11 @@ void game::debug()
 
         case 24: {
 #if defined(TILES)
+            // *INDENT-OFF*
             const point offset {
                 POSX - u.posx() + u.view_offset.x,
-                     POSY - u.posy() + u.view_offset.y
-            };
+                POSY - u.posy() + u.view_offset.y
+            }; // *INDENT-ON*
             draw_ter();
             auto sounds_to_draw = sounds::get_monster_sounds();
             for( const auto &sound : sounds_to_draw.first ) {
@@ -3202,7 +3206,7 @@ void game::debug()
             draw_panels();
             inp_mngr.wait_for_any_key();
 #else
-            popup( _( "This binary was not compiled with tiles support." ) );
+                popup( _( "This binary was not compiled with tiles support." ) );
 #endif
         }
         break;
@@ -3423,6 +3427,9 @@ void game::disp_NPC_epilogues()
     // TODO: This search needs to be expanded to all NPCs
     for( auto elem : follower_ids ) {
         std::shared_ptr<npc> npc_to_get = overmap_buffer.find_npc( elem );
+        if( !npc_to_get ) {
+            continue;
+        }
         npc *guy = npc_to_get.get();
         epi.random_by_group( guy->male ? "male" : "female" );
         std::vector<std::string> txt;
@@ -4206,7 +4213,7 @@ std::vector<monster *> game::get_fishable( int distance, const tripoint &fish_po
 void game::mon_info( const catacurses::window &w, int hor_padding )
 {
     const int width = getmaxx( w ) - 2 * hor_padding;
-    const int maxheight = getmaxy( w ) - hor_padding;
+    const int maxheight = getmaxy( w );
 
     const int startrow = 0;
 
@@ -4683,6 +4690,9 @@ void game::overmap_npc_move()
     // for now just processing NPC followers on travelling missions
     for( auto &elem : get_follower_list() ) {
         std::shared_ptr<npc> npc_to_get = overmap_buffer.find_npc( elem );
+        if( !npc_to_get ) {
+            continue;
+        }
         npc *npc_to_add = npc_to_get.get();
         if( ( !npc_to_add->is_active() || rl_dist( u.pos(), npc_to_add->pos() ) > SEEX * 2 ) &&
             npc_to_add->mission == NPC_MISSION_TRAVELLING ) {
@@ -4703,7 +4713,7 @@ void game::overmap_npc_move()
                 sm_tri = omt_to_sm_copy( next_point );
                 elem->omt_path.clear();
             } else if( path.empty() ) {
-                add_msg( m_info, _( "From your two-way radio you hear %s say: 'Sorry Boss can't make it there!'" ),
+                add_msg( m_info, _( "%s can't reach their destination" ),
                          elem->disp_name() );
             }
             elem->travel_overmap( sm_tri );
@@ -6658,7 +6668,7 @@ void game::zones_manager()
         mvwprintz( w_zones_info, 3, 2, c_white, _( "Select first point." ) );
         wrefresh( w_zones_info );
 
-        tripoint center = u.pos() + u.view_offset + sidebar_offset;
+        tripoint center = u.pos() + u.view_offset;
 
         const look_around_result first = look_around( w_zones_info, center, center, false, true, false );
         if( first.position )
@@ -6666,6 +6676,7 @@ void game::zones_manager()
             mvwprintz( w_zones_info, 3, 2, c_white, _( "Select second point." ) );
             wrefresh( w_zones_info );
 
+            center = center - sidebar_offset;
             const look_around_result second = look_around( w_zones_info, center, *first.position, true, true,
                     false );
             if( second.position ) {
@@ -7046,10 +7057,15 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
 
     temp_exit_fullscreen();
 
+    center = center + sidebar_offset;
+
     const int offset_x = ( u.posx() + u.view_offset.x ) - getmaxx( w_terrain ) / 2;
     const int offset_y = ( u.posy() + u.view_offset.y ) - getmaxy( w_terrain ) / 2;
 
     tripoint lp = start_point; // cursor
+    if( !has_first_point ) {
+        lp = start_point - sidebar_offset;
+    }
     int &lx = lp.x;
     int &ly = lp.y;
     int &lz = lp.z;
@@ -7063,10 +7079,22 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
 
     bool bNewWindow = false;
     if( !w_info ) {
+        int panel_width = panel_manager::get_manager().get_current_layout().begin()->get_width();
+
+        // Set the examine window to a bit smaller than the current minimap size, with a bit less to show some above it.
+        // Hopefully the player has the minimap at or close to the bottom.
+        int height = TERMY - ( catacurses::getmaxy( w_pixel_minimap ) + 11 );
+
+        // If particularly small, base height on panel width irrespective of other elements.
+        // Value here is attempting to get a square-ish result assuming 1x2 proportioned font.
+        if( height < panel_width / 2 ) {
+            height = panel_width / 2;
+        }
+
         int la_y = 0;
-        int la_x = TERMX - 32;
-        int la_h = 16;
-        int la_w = 32;
+        int la_x = TERMX - panel_width;
+        int la_h = height;
+        int la_w = panel_width;
         w_info = catacurses::newwin( la_h, la_w, la_y, la_x );
         bNewWindow = true;
     }
@@ -7161,6 +7189,7 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
 
             // redraw order: terrain, panels, look_around panel
             wrefresh( w_terrain );
+            draw_panels();
             wrefresh( w_info );
 
         }
@@ -7410,13 +7439,13 @@ void centerlistview( const tripoint &active_item_position )
             if( xpos < 0 ) {
                 u.view_offset.x = xpos - xOffset;
             } else {
-                u.view_offset.x = xpos - ( TERRAIN_WINDOW_WIDTH - 1 ) + xOffset;
+                u.view_offset.x = xpos - ( TERRAIN_WINDOW_WIDTH ) + xOffset;
             }
 
             if( ypos < 0 ) {
                 u.view_offset.y = ypos - yOffset;
             } else {
-                u.view_offset.y = ypos - ( TERRAIN_WINDOW_HEIGHT - 1 ) + yOffset;
+                u.view_offset.y = ypos - ( TERRAIN_WINDOW_HEIGHT ) + yOffset;
             }
         } else {
             if( xpos < 0 ) {

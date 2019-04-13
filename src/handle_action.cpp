@@ -763,6 +763,17 @@ static void sleep()
             active.push_back( mdata.name() );
         }
     }
+
+    // check for deactivating any currently played music instrument.
+    for( auto &item : u.inv_dump() ) {
+        if( item->active && item->get_use( "musical_instrument" ) != nullptr ) {
+            u.add_msg_if_player( _( "You stop playing your %s before trying to sleep." ), item->tname() );
+            // deactivate instrument
+            item->active = false;
+        }
+    }
+
+    // ask for deactivation
     std::stringstream data;
     if( !active.empty() ) {
         data << as_m.text << std::endl;
