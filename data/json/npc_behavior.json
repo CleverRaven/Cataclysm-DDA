@@ -15,6 +15,7 @@
   {
     "type": "behavior",
     "id": "npc_wear_warmer_clothes",
+    "predicate": "npc_can_wear_warmer_clothes",
     "goal": "wear_warmer_clothes"
   },
   {
@@ -26,11 +27,13 @@
   {
     "type": "behavior",
     "id": "npc_make_fire",
+    "predicate": "npc_can_make_fire",
     "goal": "start_fire"
   },
   {
     "type": "behavior",
     "id": "npc_take_shelter",
+    "predicate": "npc_can_take_shelter",
     "goal": "take_shelter"
   },
   {
@@ -38,28 +41,25 @@
     "id": "npc_thirst",
     "strategy": "sequential",
     "predicate": "npc_needs_water_badly",
-    "children": [ "npc_get_water", "npc_clean_water" ]
+    "children": [ "npc_drink_water" ]
   },
   {
     "type": "behavior",
-    "id": "npc_get_water",
-    "goal": "get_water"
-  },
-  {
-    "type": "behavior",
-    "id": "npc_clean_water",
-    "goal": "clean_water"
+    "id": "npc_drink_water",
+    "predicate": "npc_has_water",
+    "goal": "drink_water"
   },
   {
     "type": "behavior",
     "id": "npc_hunger",
     "strategy": "sequential",
     "predicate": "npc_needs_food_badly",
-    "children": [ "npc_get_food" ]
+    "children": [ "npc_eat_food" ]
   },
   {
     "type": "behavior",
-    "id": "npc_get_food",
-    "goal": "get_food"
+    "id": "npc_eat_food",
+    "predicate": "npc_has_food",
+    "goal": "eat_food"
   }
 ]

@@ -1,7 +1,11 @@
 #include "catch/catch.hpp"
 
 #include "behavior.h"
+#include "behavior_oracle.h"
 #include "behavior_strategy.h"
+
+#include "game.h"
+#include "npc.h"
 
 namespace behavior
 {
@@ -16,7 +20,7 @@ behavior::node_t make_test_node( std::string goal, behavior::status_t &status )
     if( !goal.empty() ) {
         node.set_goal( goal );
     }
-    node.set_predicate( [&]( const Creature * ) {
+    node.set_predicate( [&]( const behavior::oracle_t * ) {
         return status;
     } );
     return node;
@@ -126,5 +130,39 @@ TEST_CASE( "check_npc_behavior_tree", "[behavior]" )
 {
     behavior::tree npc_needs;
     npc_needs.add( &string_id<behavior::node_t>( "npc_needs" ).obj() );
-    CHECK( npc_needs.tick( nullptr ) == "idle" );
+    npc test_npc;
+    test_npc.normalize();
+    test_npc.setpos( { 50, 50, 0 } );
+    behavior::character_oracle_t oracle( &test_npc );
+    CHECK( npc_needs.tick( &oracle ) == "idle" );
+    SECTION( "Freezing" ) {
+        g->temperature = 0;
+        test_npc.update_bodytemp();
+        CHECK( npc_needs.tick( &oracle ) == "idle" );
+        item &sweater = test_npc.i_add( item( itype_id( "sweater" ) ) );
+        CHECK( npc_needs.tick( &oracle ) == "wear_warmer_clothes" );
+        item sweater_copy = test_npc.i_rem( &sweater );
+        test_npc.wear_item( sweater_copy );
+        CHECK( npc_needs.tick( &oracle ) == "idle" );
+        test_npc.i_add( item( itype_id( "lighter" ) ) );
+        test_npc.i_add( item( itype_id( "2x4" ) ) );
+        CHECK( npc_needs.tick( &oracle ) == "start_fire" );
+    }
+    SECTION( "Hungry" ) {
+        test_npc.set_hunger( 500 );
+        test_npc.set_stored_kcal( 1000 );
+        CHECK( npc_needs.tick( &oracle ) == "idle" );
+        item &food = test_npc.i_add( item( itype_id( "sandwich_cheese_grilled" ) ) );
+        CHECK( npc_needs.tick( &oracle ) == "eat_food" );
+        test_npc.consume( test_npc.get_item_position( &food ) );
+        CHECK( npc_needs.tick( &oracle ) == "idle" );
+    }
+    SECTION( "Thirsty" ) {
+        test_npc.set_thirst( 700 );
+        CHECK( npc_needs.tick( &oracle ) == "idle" );
+        item &water = test_npc.i_add( item( itype_id( "water" ) ) );
+        CHECK( npc_needs.tick( &oracle ) == "drink_water" );
+        test_npc.consume( test_npc.get_item_position( &water ) );
+        CHECK( npc_needs.tick( &oracle ) == "idle" );
+    }
 }

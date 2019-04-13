@@ -2,39 +2,17 @@
 
 #include <list>
 
+#include "behavior_oracle.h"
 #include "behavior_strategy.h"
 #include "generic_factory.h"
 
 using namespace behavior;
 
-namespace behavior
-{
-extern std::unordered_map<std::string, const strategy_t *> strategy_map;
-}
-
-// TODO: Actual predicates.
-status_t return_success( const Creature * )
-{
-    return success;
-}
-
-status_t return_running( const Creature * )
-{
-    return running;
-}
-
-std::unordered_map<std::string, std::function<status_t( const Creature * )>> predicate_map = {{
-        { "npc_needs_warmth_badly", &return_success },
-        { "npc_needs_water_badly", &return_success },
-        { "npc_needs_food_badly", &return_success }
-    }
-};
-
 void node_t::set_strategy( const strategy_t *new_strategy )
 {
     strategy = new_strategy;
 }
-void node_t::set_predicate( std::function<status_t( const Creature *subject )> new_predicate )
+void node_t::set_predicate( std::function<status_t ( const oracle_t * )> new_predicate )
 {
     predicate = new_predicate;
 }
@@ -47,7 +25,7 @@ void node_t::add_child( const node_t *new_child )
     children.push_back( new_child );
 }
 
-behavior_return node_t::tick( const Creature *subject ) const
+behavior_return node_t::tick( const oracle_t *subject ) const
 {
     assert( predicate );
     if( children.empty() ) {
@@ -68,7 +46,7 @@ std::string node_t::goal() const
     return _goal;
 }
 
-std::string tree::tick( const Creature *subject )
+std::string tree::tick( const oracle_t *subject )
 {
     behavior_return result = root->tick( subject );
     active_node = result.result == running ? result.selection : nullptr;
@@ -112,7 +90,7 @@ void behavior::load_behavior( JsonObject &jo, const std::string &src )
 
 node_t::node_t()
 {
-    predicate = &return_running;
+    predicate = &oracle_t::return_running;
 }
 
 void node_t::load( JsonObject &jo, const std::string & )
@@ -137,9 +115,7 @@ void node_t::load( JsonObject &jo, const std::string & )
         }
     }
     if( jo.has_string( "predicate" ) ) {
-        std::unordered_map<std::string, std::function<status_t( const Creature * )>>::iterator new_predicate
-                =
-                    predicate_map.find( jo.get_string( "predicate" ) );
+        auto new_predicate = predicate_map.find( jo.get_string( "predicate" ) );
         if( new_predicate != predicate_map.end() ) {
             predicate = new_predicate->second;
         } else {
