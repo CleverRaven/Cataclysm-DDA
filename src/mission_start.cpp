@@ -211,6 +211,10 @@ void mission_start::standard( mission * )
 void mission_start::join( mission *miss )
 {
     npc *p = g->find_npc( miss->npc_id );
+    if( p == nullptr ) {
+        debugmsg( "could not find mission NPC %d", miss->npc_id );
+        return;
+    }
     p->set_attitude( NPCATT_FOLLOW );
 }
 
@@ -296,6 +300,10 @@ void mission_start::kill_20_nightmares( mission *miss )
 void mission_start::kill_horde_master( mission *miss )
 {
     npc *p = g->find_npc( miss->npc_id );
+    if( p == nullptr ) {
+        debugmsg( "could not find mission NPC %d", miss->npc_id );
+        return;
+    }
     p->set_attitude( NPCATT_FOLLOW );//npc joins you
     //pick one of the below locations for the horde to haunt
     const auto center = p->global_omt_location();
@@ -449,6 +457,10 @@ void mission_start::place_priest_diary( mission *miss )
 void mission_start::place_deposit_box( mission *miss )
 {
     npc *p = g->find_npc( miss->npc_id );
+    if( p == nullptr ) {
+        debugmsg( "could not find mission NPC %d", miss->npc_id );
+        return;
+    }
     p->set_attitude( NPCATT_FOLLOW );//npc joins you
     tripoint site = overmap_buffer.find_closest( p->global_omt_location(), "bank", 0, false );
     if( site == overmap::invalid_tripoint ) {
@@ -540,6 +552,10 @@ void mission_start::find_safety( mission *miss )
 void mission_start::recruit_tracker( mission *miss )
 {
     npc *p = g->find_npc( miss->npc_id );
+    if( p == nullptr ) {
+        debugmsg( "could not find mission NPC %d", miss->npc_id );
+        return;
+    }
     p->set_attitude( NPCATT_FOLLOW );// NPC joins you
 
     tripoint site = mission_util::target_om_ter( "cabin", 2, miss, false );

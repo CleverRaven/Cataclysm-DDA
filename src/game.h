@@ -513,6 +513,7 @@ class game
 
         /** Returns the next available mission id. */
         int assign_mission_id();
+        /** Find the npc with the given ID. Returns NULL if the npc could not be found. Searches all loaded overmaps. */
         npc *find_npc( int id );
         /** Makes any nearby NPCs on the overmap active. */
         void load_npcs();
