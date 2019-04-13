@@ -6577,7 +6577,7 @@ bool item::use_charges( const itype_id &what, long &qty, std::list<item> &used,
         }
 
         if( !filter( *e ) ) {
-            return VisitResponse::SKIP;
+            return VisitResponse::NEXT;
         }
 
         if( e->is_tool() ) {
