@@ -5,7 +5,7 @@
     "dynamic_line": "Hey, I didn't expect to live long enough to see another living human!",
     "responses": [
       { "text": "What are you doing here?", "topic": "TALK_NC_SURVIVOR_CHEF_INTRO" },
-      { "text": "Wanna get outta here?.", "topic": "TALK_SUGGEST_FOLLOW" },
+      { "text": "Wanna get outta here?", "topic": "TALK_SUGGEST_FOLLOW" },
       { "text": "Let's trade items.", "topic": "TALK_NONE", "effect": "start_trade" },
       { "text": "I gotta go.", "topic": "TALK_DONE" }
     ]
