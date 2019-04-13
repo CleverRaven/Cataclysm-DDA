@@ -99,6 +99,7 @@
         "condition": { "or": [ "is_by_radio", "u_has_camp" ] },
         "effect": "goto_location"
       },
+      { "text": "Tell me about giving you orders.", "topic": "TALK_ALLY_TUTORIAL" },
       { "text": "Let's talk about faction camps.", "topic": "TALK_CAMP_GENERAL" }
     ]
   },

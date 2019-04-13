@@ -23,7 +23,8 @@
         "effect": "recover_camp",
         "condition": { "and": [ { "u_at_om_location": "FACTION_CAMP_ANY" }, { "not": { "npc_role_nearbby": "FACTION_CAMP" } } ] }
       },
-      { "text": "Nothing.  Let's talk about something else.", "topic": "TALK_NONE" },
+      { "text": "Nothing.  Let's talk about something else.", "topic": "TALK_FRIEND" },
+      { "text": "Never mind, let's talk about other things you can do", "topic": "TALK_ALLY_TUTORIAL" },
       { "text": "Nothing.  Lets' get back to work.", "topic": "TALK_DONE" }
     ]
   },
@@ -34,6 +35,7 @@
     "responses": [
       { "text": "Go on.", "topic": "TALK_CAMP_TUTORIAL_2" },
       { "text": "Never mind, let's go back to talking about camps.", "topic": "TALK_CAMP_GENERAL" },
+      { "text": "Never mind, let's talk about other things you can do.", "topic": "TALK_ALLY_TUTORIAL" },
       { "text": "Never mind, let's talk about something else.", "topic": "TALK_FRIEND" },
       { "text": "Forget it.  Let's go.", "topic": "TALK_DONE" }
     ]
@@ -46,6 +48,7 @@
       { "text": "Go on.", "topic": "TALK_CAMP_TUTORIAL_3" },
       { "text": "Never mind, let's go back to talking about camps.", "topic": "TALK_CAMP_GENERAL" },
       { "text": "Wait, repeat what you said.", "topic": "TALK_NONE" },
+      { "text": "Never mind, let's talk about other things you can do.", "topic": "TALK_ALLY_TUTORIAL" },
       { "text": "Never mind, let's talk about something else.", "topic": "TALK_FRIEND" },
       { "text": "Forget it.  Let's go.", "topic": "TALK_DONE" }
     ]
@@ -58,6 +61,7 @@
       { "text": "Go on.", "topic": "TALK_CAMP_TUTORIAL_4" },
       { "text": "Never mind, let's go back to talking about camps.", "topic": "TALK_CAMP_GENERAL" },
       { "text": "Wait, repeat what you said.", "topic": "TALK_NONE" },
+      { "text": "Never mind, let's talk about other things you can do.", "topic": "TALK_ALLY_TUTORIAL" },
       { "text": "Never mind, let's talk about something else.", "topic": "TALK_FRIEND" },
       { "text": "Forget it.  Let's go.", "topic": "TALK_DONE" }
     ]
@@ -70,6 +74,7 @@
       { "text": "Go on.", "topic": "TALK_CAMP_TUTORIAL_5" },
       { "text": "Never mind, let's go back to talking about camps.", "topic": "TALK_CAMP_GENERAL" },
       { "text": "Wait, repeat what you said.", "topic": "TALK_NONE" },
+      { "text": "Never mind, let's talk about other things you can do.", "topic": "TALK_ALLY_TUTORIAL" },
       { "text": "Never mind, let's talk about something else.", "topic": "TALK_FRIEND" },
       { "text": "Forget it.  Let's go.", "topic": "TALK_DONE" }
     ]
@@ -81,6 +86,7 @@
     "responses": [
       { "text": "Thanks, let's go back to talking about camps.", "topic": "TALK_CAMP_GENERAL" },
       { "text": "Wait, repeat what you said.", "topic": "TALK_NONE" },
+      { "text": "Never mind, let's talk about other things you can do.", "topic": "TALK_ALLY_TUTORIAL" },
       { "text": "Never mind, let's talk about something else.", "topic": "TALK_FRIEND" },
       { "text": "Forget it.  Let's go.", "topic": "TALK_DONE" }
     ]
