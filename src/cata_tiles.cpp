@@ -106,6 +106,21 @@ std::string get_ascii_tile_id( const uint32_t sym, const int FG, const int BG )
 {
     return std::string( { 'A', 'S', 'C', 'I', 'I', '_', static_cast<char>( sym ), static_cast<char>( FG ), static_cast<char>( BG ) } );
 }
+
+pixel_minimap_mode pixel_minimap_mode_from_string( const std::string &mode )
+{
+    if( mode == "solid" ) {
+        return pixel_minimap_mode::solid;
+    } else if( mode == "squares" ) {
+        return pixel_minimap_mode::squares;
+    } else if( mode == "dots" ) {
+        return pixel_minimap_mode::dots;
+    }
+
+    debugmsg( "Unsupported pixel minimap mode \"" + mode + "\"." );
+    return pixel_minimap_mode::solid;
+}
+
 } // namespace
 
 static int msgtype_to_tilecolor( const game_message_type type, const bool bOldMsg )
@@ -183,9 +198,23 @@ cata_tiles::cata_tiles( const SDL_Renderer_Ptr &renderer ) :
 
     last_pos_x = 0;
     last_pos_y = 0;
+
+    on_options_changed();
 }
 
 cata_tiles::~cata_tiles() = default;
+
+void cata_tiles::on_options_changed()
+{
+    pixel_minimap_settings settings;
+
+    settings.mode = pixel_minimap_mode_from_string( get_option<std::string>( "PIXEL_MINIMAP_MODE" ) );
+    settings.brightness = get_option<int>( "PIXEL_MINIMAP_BRIGHTNESS" );
+    settings.blink_interval = get_option<int>( "PIXEL_MINIMAP_BLINK" );
+    settings.square_pixels = get_option<bool>( "PIXEL_MINIMAP_RATIO" );
+
+    minimap->set_settings( settings );
+}
 
 const tile_type *tileset::find_tile_type( const std::string &id ) const
 {
@@ -224,12 +253,6 @@ void cata_tiles::reinit()
 {
     set_draw_scale( 16 );
     RenderClear( renderer );
-    reinit_minimap();
-}
-
-void cata_tiles::reinit_minimap()
-{
-    minimap->reinit();
 }
 
 static void get_tile_information( std::string config_path, std::string &json_path,
@@ -1194,7 +1217,7 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
 
 void cata_tiles::draw_minimap( int destx, int desty, const tripoint &center, int width, int height )
 {
-    minimap->draw( destx, desty, center, width, height );
+    minimap->draw( SDL_Rect{ destx, desty, width, height }, center );
 }
 
 void cata_tiles::get_window_tile_counts( const int width, const int height, int &columns,

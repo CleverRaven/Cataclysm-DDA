@@ -268,6 +268,8 @@ class cata_tiles
         void set_draw_scale( int scale );
 
     public:
+        void on_options_changed();
+
         /** Draw to screen */
         void draw( int destx, int desty, const tripoint &center, int width, int height,
                    std::multimap<point, formatted_text> &overlay_strings );
@@ -388,8 +390,6 @@ class cata_tiles
          * @throw std::exception On any error.
          */
         void reinit();
-
-        void reinit_minimap();
 
         int get_tile_height() const {
             return tile_height;

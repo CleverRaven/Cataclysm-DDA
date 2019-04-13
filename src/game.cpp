@@ -299,7 +299,6 @@ void game::load_static_data()
     // Init mappings for loading the json stuff
     DynamicDataLoader::get_instance();
     fullscreen = false;
-    reinitmap = false;
     was_fullscreen = false;
     show_panel_adm = false;
     panel_manager::get_manager().init();
@@ -3237,17 +3236,6 @@ void game::draw_panels( size_t column, size_t index )
 void game::draw_pixel_minimap( const catacurses::window &w )
 {
     w_pixel_minimap = w;
-    // Make no-op if not TILES build
-#if defined(TILES)
-    // Force a refresh of the pixel minimap.
-    // only do so if it is in use
-    if( pixel_minimap_option && w_pixel_minimap ) {
-        if( reinitmap ) {
-            tilecontext->reinit_minimap();
-            reinitmap = false;
-        }
-    }
-#endif // TILES
 }
 
 void game::draw_critter( const Creature &critter, const tripoint &center )
@@ -10754,6 +10742,13 @@ void game::on_move_effects()
     u.ma_onmove_effects();
 
     sfx::do_ambient();
+}
+
+void game::on_options_changed()
+{
+#if defined(TILES)
+    tilecontext->on_options_changed();
+#endif
 }
 
 void game::plswim( const tripoint &p )

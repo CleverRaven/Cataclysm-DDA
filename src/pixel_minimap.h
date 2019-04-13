@@ -9,7 +9,20 @@
 #include <map>
 #include <memory>
 
-extern void set_displaybuffer_rendertarget();
+
+enum class pixel_minimap_mode {
+    solid,
+    squares,
+    dots
+};
+
+struct pixel_minimap_settings {
+    pixel_minimap_mode mode = pixel_minimap_mode::solid;
+    int brightness = 100;
+    int blink_interval = 0;
+    bool square_pixels = true;
+};
+
 
 class pixel_minimap
 {
@@ -17,44 +30,36 @@ class pixel_minimap
         pixel_minimap( const SDL_Renderer_Ptr &renderer );
         ~pixel_minimap();
 
-        void draw( int destx, int desty, const tripoint &center, int width, int height );
-        void reinit();
+        void set_settings( const pixel_minimap_settings &settings );
+
+        void draw( const SDL_Rect &screen_rect, const tripoint &center );
 
     private:
-        void init( int destx, int desty, int width, int height );
+        void set_screen_rect( const SDL_Rect &screen_rect );
+        void reset();
 
         void draw_rhombus( int destx, int desty, int size, SDL_Color color, int widthLimit,
                            int heightLimit );
 
-        SDL_Texture_Ptr create_cache_texture( int tile_width, int tile_height );
         void process_cache_updates();
         void update_cache( const tripoint &loc, const SDL_Color &color );
         void prepare_cache_for_updates();
         void clear_unused_cache();
 
     private:
-        bool prep;
-        bool reinit_flag; //set to true to force a reallocation of minimap details
-        //place all submaps on this texture before rendering to screen
-        //replaces clipping rectangle usage while SDL still has a flipped y-coordinate bug
+        const SDL_Renderer_Ptr &renderer;
 
-        point min_size;
-        point max_size;
-        point tiles_range;
         point tile_size;
         point tiles_limit;
 
         //track the previous viewing area to determine if the minimap cache needs to be cleared
         tripoint previous_submap_view;
 
-        int drawn_width;
-        int drawn_height;
-        int border_width;
-        int border_height;
+        pixel_minimap_settings settings;
 
+        SDL_Rect screen_rect;
         SDL_Rect clip_rect;
         SDL_Texture_Ptr main_tex;
-        const SDL_Renderer_Ptr &renderer;
 
         //the minimap texture pool which is used to reduce new texture allocation spam
         struct shared_texture_pool;

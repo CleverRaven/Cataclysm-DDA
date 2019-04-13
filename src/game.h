@@ -204,6 +204,11 @@ class game
          */
         bool load_packs( const std::string &msg, const std::vector<mod_id> &packs, loading_ui &ui );
 
+        /**
+         * @brief Should be invoked whenever options change.
+         */
+        void on_options_changed();
+
     protected:
         /** Loads dynamic data from the given directory. May throw. */
         void load_data_from_dir( const std::string &path, const std::string &src, loading_ui &ui );
@@ -903,6 +908,7 @@ class game
         bool phasing_move( const tripoint &dest );
         // Regular movement. Returns false if it failed for any reason
         bool walk_move( const tripoint &dest );
+
         void on_move_effects();
 
         void control_vehicle(); // Use vehicle controls  '^'
@@ -1111,7 +1117,6 @@ class game
 
         bool show_panel_adm;
         bool right_sidebar;
-        bool reinitmap;
         bool fullscreen;
         bool was_fullscreen;
 

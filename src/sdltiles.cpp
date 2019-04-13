@@ -1653,7 +1653,6 @@ bool handle_resize( int w, int h )
         TERMINAL_HEIGHT = WindowHeight / fontheight / scaling_factor;
         SetupRenderTarget();
         game_ui::init_ui();
-        tilecontext->reinit_minimap();
 
         return true;
     }

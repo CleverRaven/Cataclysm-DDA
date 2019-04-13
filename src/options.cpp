@@ -2222,7 +2222,6 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
             use_tiles = false;
         }
     } else if( ingame && g->pixel_minimap_option && pixel_minimap_height_changed ) {
-        tilecontext->reinit_minimap();
         g->init_ui();
         g->refresh_all();
     }
@@ -2557,7 +2556,6 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
             // keybinding screen erased the internal borders of main menu, restore it:
             draw_borders_internal( w_options_header, mapLines );
         } else if( action == "QUIT" ) {
-            g->reinitmap = true;
             break;
         }
     }
@@ -2608,6 +2606,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
                 world_generator->active_world->WORLD_OPTIONS = ACTIVE_WORLD_OPTIONS;
                 world_generator->active_world->save();
             }
+            g->on_options_changed();
         } else {
             used_tiles_changed = false;
             OPTIONS = OPTIONS_OLD;

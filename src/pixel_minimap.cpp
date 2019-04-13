@@ -6,7 +6,6 @@
 #include "mapdata.h"
 #include "monster.h"
 #include "sdl_utils.h"
-#include "options.h"
 #include "player.h"
 #include "vehicle.h"
 #include "vpart_position.h"
@@ -14,8 +13,16 @@
 #include <set>
 #include <vector>
 
+
+extern void set_displaybuffer_rendertarget();
+
+
 namespace
 {
+
+const point min_size = { 0, 0 };
+const point max_size = { MAPSIZE_X, MAPSIZE_Y };
+const point tiles_range = { ( MAPSIZE - 2 ) *SEEX, ( MAPSIZE - 2 ) *SEEY };
 
 /// Returns a number in range [0..1]. The range lasts for @param phase_length_ms (milliseconds).
 float get_animation_phase( int phase_length_ms )
@@ -28,13 +35,27 @@ float get_animation_phase( int phase_length_ms )
 }
 
 //converts the local x,y point into the global submap coordinates
-static tripoint convert_tripoint_to_abs_submap( const tripoint &p )
+tripoint convert_tripoint_to_abs_submap( const tripoint &p )
 {
     //get the submap coordinates of the current location
     tripoint sm_loc = ms_to_sm_copy( p );
     //add it to the absolute map coordinates
     tripoint abs_sm_loc = g->m.get_abs_sub();
     return abs_sm_loc + sm_loc;
+}
+
+//creates the texture that individual minimap updates are drawn to
+//later, the main texture is drawn to the display buffer
+//the surface is needed to determine the color format needed by the texture
+SDL_Texture_Ptr create_cache_texture( const SDL_Renderer_Ptr &renderer, int tile_width,
+                                      int tile_height )
+{
+    const SDL_Surface_Ptr temp = create_surface_32( tile_width, tile_height );
+    assert( temp );
+    SDL_Texture_Ptr tex( SDL_CreateTexture( renderer.get(), temp->format->format,
+                                            SDL_TEXTUREACCESS_TARGET, tile_width, tile_height ) );
+    throwErrorIf( !tex, "SDL_CreateTexture failed to create minimap texture" );
+    return tex;
 }
 
 }
@@ -50,11 +71,6 @@ struct pixel_minimap::shared_texture_pool {
     std::vector<int> inactive_index;
 
     shared_texture_pool() {
-        reinit();
-    }
-
-    void reinit() {
-        inactive_index.clear();
         texture_pool.resize( ( MAPSIZE + 1 ) * ( MAPSIZE + 1 ) );
         for( int i = 0; i < static_cast<int>( texture_pool.size() ); i++ ) {
             inactive_index.push_back( i );
@@ -114,35 +130,19 @@ struct pixel_minimap::submap_cache {
 
 
 pixel_minimap::pixel_minimap( const SDL_Renderer_Ptr &renderer ) :
-    prep( false ),
-    reinit_flag( false ),
     renderer( renderer ),
-    tex_pool( new shared_texture_pool() )
+    previous_submap_view( tripoint_min ),
+    screen_rect{ 0, 0, 0, 0 }
 {
 }
 
 pixel_minimap::~pixel_minimap() = default;
 
-void pixel_minimap::reinit()
+void pixel_minimap::set_settings( const pixel_minimap_settings &settings )
 {
-    cache.clear();
-    tex_pool->texture_pool.clear();
-    reinit_flag = true;
+    reset();
+    this->settings = settings;
 }
-
-//creates the texture that individual minimap updates are drawn to
-//later, the main texture is drawn to the display buffer
-//the surface is needed to determine the color format needed by the texture
-SDL_Texture_Ptr pixel_minimap::create_cache_texture( int tile_width, int tile_height )
-{
-    const SDL_Surface_Ptr temp = create_surface_32( tile_width, tile_height );
-    assert( temp );
-    SDL_Texture_Ptr tex( SDL_CreateTexture( renderer.get(), temp->format->format,
-                                            SDL_TEXTUREACCESS_TARGET, tile_width, tile_height ) );
-    throwErrorIf( !tex, "SDL_CreateTexture failed to create minimap texture" );
-    return tex;
-}
-
 
 //resets the touched and drawn properties of each active submap cache
 void pixel_minimap::prepare_cache_for_updates()
@@ -173,16 +173,21 @@ void pixel_minimap::process_cache_updates()
     SDL_Rect rectangle;
     bool draw_with_dots = false;
 
-    const std::string mode = get_option<std::string>( "PIXEL_MINIMAP_MODE" );
-    if( mode == "solid" ) {
-        rectangle.w = tile_size.x;
-        rectangle.h = tile_size.y;
-    } else if( mode == "squares" ) {
-        rectangle.w = std::max( tile_size.x - 1, 1 );
-        rectangle.h = std::max( tile_size.y - 1, 1 );
-        draw_with_dots = rectangle.w == 1 && rectangle.h == 1;
-    } else if( mode == "dots" ) {
-        draw_with_dots = true;
+    switch( settings.mode ) {
+        case pixel_minimap_mode::solid:
+            rectangle.w = tile_size.x;
+            rectangle.h = tile_size.y;
+            break;
+
+        case pixel_minimap_mode::squares:
+            rectangle.w = std::max( tile_size.x - 1, 1 );
+            rectangle.h = std::max( tile_size.y - 1, 1 );
+            draw_with_dots = rectangle.w == 1 && rectangle.h == 1;
+            break;
+
+        case pixel_minimap_mode::dots:
+            draw_with_dots = true;
+            break;
     }
 
     for( auto &mcp : cache ) {
@@ -253,65 +258,66 @@ pixel_minimap::submap_cache::~submap_cache()
 
 pixel_minimap::submap_cache::submap_cache( submap_cache && ) = default;
 
-//store the known persistent values used in drawing the minimap
-//since modifying the minimap properties requires a restart
-void pixel_minimap::init( int destx, int desty, int width, int height )
+void pixel_minimap::set_screen_rect( const SDL_Rect &screen_rect )
 {
-    prep = true;
-    min_size.x = 0;
-    min_size.y = 0;
-    max_size.x = MAPSIZE_X;
-    max_size.y = MAPSIZE_Y;
-    tiles_range.x = ( MAPSIZE - 2 ) * SEEX;
-    tiles_range.y = ( MAPSIZE - 2 ) * SEEY;
-    tile_size.x = std::max( width / tiles_range.x, 1 );
-    tile_size.y = std::max( height / tiles_range.y, 1 );
+    if( this->screen_rect == screen_rect && main_tex && tex_pool ) {
+        return;
+    }
+
+    this->screen_rect = screen_rect;
+
+    tile_size.x = std::max( screen_rect.w / tiles_range.x, 1 );
+    tile_size.y = std::max( screen_rect.h / tiles_range.y, 1 );
     //maintain a square "pixel" shape
-    if( get_option<bool>( "PIXEL_MINIMAP_RATIO" ) ) {
-        int smallest_size = std::min( tile_size.x, tile_size.y );
+    if( settings.square_pixels ) {
+        const int smallest_size = std::min( tile_size.x, tile_size.y );
         tile_size.x = smallest_size;
         tile_size.y = smallest_size;
     }
-    tiles_limit.x = std::min( width / tile_size.x, tiles_range.x );
-    tiles_limit.y = std::min( height / tile_size.y, tiles_range.y );
+    tiles_limit.x = std::min( screen_rect.w / tile_size.x, tiles_range.x );
+    tiles_limit.y = std::min( screen_rect.h / tile_size.y, tiles_range.y );
     // Center the drawn area within the total area.
-    drawn_width = tiles_limit.x * tile_size.x;
-    drawn_height = tiles_limit.y * tile_size.y;
-    border_width = std::max( ( width - drawn_width ) / 2, 0 );
-    border_height = std::max( ( height - drawn_height ) / 2, 0 );
+    const int drawn_width = tiles_limit.x * tile_size.x;
+    const int drawn_height = tiles_limit.y * tile_size.y;
+    const int border_width = std::max( ( screen_rect.w - drawn_width ) / 2, 0 );
+    const int border_height = std::max( ( screen_rect.h - drawn_height ) / 2, 0 );
     //prepare the minimap clipped area
-    clip_rect.x = destx + border_width;
-    clip_rect.y = desty + border_height;
-    clip_rect.w = width - border_width * 2;
-    clip_rect.h = height - border_height * 2;
+    clip_rect = SDL_Rect{
+        screen_rect.x + border_width,
+        screen_rect.y + border_height,
+        screen_rect.w - border_width * 2,
+        screen_rect.h - border_height * 2
+    };
 
-    main_tex.reset();
-    main_tex = create_cache_texture( clip_rect.w, clip_rect.h );
+    cache.clear();
 
-    previous_submap_view = tripoint_min;
+    main_tex = create_cache_texture( renderer, clip_rect.w, clip_rect.h );
+    tex_pool.reset( new shared_texture_pool() );
 
-    //allocate the textures for the texture pool
-    for( auto &i : tex_pool->texture_pool ) {
-        i = create_cache_texture( tile_size.x * SEEX,
-                                  tile_size.y * SEEY );
+    for( auto &elem : tex_pool->texture_pool ) {
+        elem = create_cache_texture( renderer, tile_size.x * SEEX, tile_size.y * SEEY );
     }
 }
 
+void pixel_minimap::reset()
+{
+    cache.clear();
+    main_tex.reset();
+    tex_pool.reset();
+}
+
 //the main call for drawing the pixel minimap to the screen
-void pixel_minimap::draw( int destx, int desty, const tripoint &center, int width, int height )
+void pixel_minimap::draw( const SDL_Rect &screen_rect, const tripoint &center )
 {
     if( !g ) {
         return;
     }
 
-    //set up class variables on the first run
-    if( !prep || reinit_flag ) {
-        reinit_flag = false;
-        cache.clear();
-        tex_pool->texture_pool.clear();
-        tex_pool->reinit();
-        init( destx, desty, width, height );
+    if( screen_rect.w <= 0 || screen_rect.h <= 0 ) {
+        return;
     }
+
+    set_screen_rect( screen_rect );
 
     //invalidate the cache if the game shifted more than one submap in the last update, or if z-level changed
     tripoint current_submap_view = g->m.get_abs_sub();
@@ -333,7 +339,6 @@ void pixel_minimap::draw( int destx, int desty, const tripoint &center, int widt
     auto vision_cache = g->u.get_vision_modes();
     bool nv_goggle = vision_cache[NV_GOGGLES];
 
-    const int brightness = get_option<int>( "PIXEL_MINIMAP_BRIGHTNESS" );
     //check all of exposed submaps (MAPSIZE*MAPSIZE submaps) and apply new color changes to the cache
     for( int y = 0; y < MAPSIZE_Y; y++ ) {
         for( int x = 0; x < MAPSIZE_X; x++ ) {
@@ -371,7 +376,7 @@ void pixel_minimap::draw( int destx, int desty, const tripoint &center, int widt
             }
 
             //add an individual color update to the cache
-            update_cache( p, adjust_color_brightness( color, brightness ) );
+            update_cache( p, adjust_color_brightness( color, settings.brightness ) );
         }
     }
 
@@ -424,8 +429,7 @@ void pixel_minimap::draw( int destx, int desty, const tripoint &center, int widt
 
     //handles the enemy faction red highlights
     //this value should be divisible by 200
-    const int indicator_length = get_option<int>( "PIXEL_MINIMAP_BLINK" ) *
-                                 200; //default is 2000 ms, 2 seconds
+    const int indicator_length = settings.blink_interval * 200; //default is 2000 ms, 2 seconds
 
     int flicker = 100;
     int mixture = 0;
@@ -472,12 +476,12 @@ void pixel_minimap::draw( int destx, int desty, const tripoint &center, int widt
                             }
                         }
                         draw_rhombus(
-                            destx + border_width + x * tile_size.x,
-                            desty + border_height + y * tile_size.y,
+                            clip_rect.x + x * tile_size.x,
+                            clip_rect.y + y * tile_size.y,
                             tile_size.x,
                             c,
-                            width,
-                            height
+                            screen_rect.w,
+                            screen_rect.h
                         );
                     }
                 }
