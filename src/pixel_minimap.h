@@ -52,8 +52,9 @@ class pixel_minimap
         void prepare_cache_for_updates();
         void clear_unused_cache();
 
-        void render_cache_to_screen( const tripoint &center );
-        void render_critters_to_screen( const tripoint &center );
+        void render( const tripoint &center );
+        void render_cache( const tripoint &center );
+        void render_critters( const tripoint &center );
 
     private:
         const SDL_Renderer_Ptr &renderer;

@@ -364,7 +364,20 @@ void pixel_minimap::reset()
     tex_pool.reset();
 }
 
-void pixel_minimap::render_cache_to_screen( const tripoint &center )
+void pixel_minimap::render( const tripoint &center )
+{
+    SetRenderTarget( renderer, main_tex );
+
+    render_cache( center );
+    render_critters( center );
+
+    //set display buffer to main screen
+    set_displaybuffer_rendertarget();
+    //paint intermediate texture to screen
+    RenderCopy( renderer, main_tex, nullptr, &clip_rect );
+}
+
+void pixel_minimap::render_cache( const tripoint &center )
 {
     const auto sm_global_offset = g->m.get_abs_sub() + ms_to_sm_copy( center );
     const auto sm_local_offset = tripoint{
@@ -374,9 +387,6 @@ void pixel_minimap::render_cache_to_screen( const tripoint &center )
 
     auto ms_offset = point{ center.x, center.y };
     ms_to_sm_remain( ms_offset );
-
-    //prepare to copy to intermediate texture
-    SetRenderTarget( renderer, main_tex );
 
     SDL_Rect drawrect;
     drawrect.w = SEEX * tile_size.x;
@@ -402,14 +412,9 @@ void pixel_minimap::render_cache_to_screen( const tripoint &center )
 
         RenderCopy( renderer, cache_item.minimap_tex, nullptr, &drawrect );
     }
-
-    //set display buffer to main screen
-    set_displaybuffer_rendertarget();
-    //paint intermediate texture to screen
-    RenderCopy( renderer, main_tex, nullptr, &clip_rect );
 }
 
-void pixel_minimap::render_critters_to_screen( const tripoint &center )
+void pixel_minimap::render_critters( const tripoint &center )
 {
     //handles the enemy faction red highlights
     //this value should be divisible by 200
@@ -458,8 +463,8 @@ void pixel_minimap::render_critters_to_screen( const tripoint &center )
             }
 
             draw_rhombus(
-                clip_rect.x + x * tile_size.x,
-                clip_rect.y + y * tile_size.y,
+                x * tile_size.x,
+                y * tile_size.y,
                 tile_size.x,
                 get_critter_color( critter, flicker, mixture ),
                 screen_rect.w,
@@ -505,12 +510,10 @@ void pixel_minimap::draw( const SDL_Rect &screen_rect, const tripoint &center )
     //update minimap textures
     process_cache_updates();
 
-    render_cache_to_screen( center );
-    render_critters_to_screen( center );
+    render( center );
 
     //unused submap caches get deleted
     clear_unused_cache();
-
 }
 
 void pixel_minimap::draw_rhombus( int destx, int desty, int size, SDL_Color color, int widthLimit,
