@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.D\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-04-06 11:07+0800\n"
+"POT-Creation-Date: 2019-04-12 10:04+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -610,6 +610,17 @@ msgstr ""
 #. ~ Description for chain link
 #: lang/json/AMMO_from_json.py
 msgid "Small metal rings, suitable for constructing chainmail."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "nitrox"
+msgid_plural "nitrox"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for nitrox
+#: lang/json/AMMO_from_json.py
+msgid "Mixture of oxygen and nitrogen in proportions suitable for diving."
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
@@ -12924,6 +12935,19 @@ msgid ""
 msgstr ""
 
 #: lang/json/BIONIC_ITEM_from_json.py
+msgid "Shotgun Arm CBM"
+msgid_plural "Shotgun Arm CBMs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for Shotgun Arm CBM
+#: lang/json/BIONIC_ITEM_from_json.py
+msgid ""
+"Concealed in your left arm is a surgically integrated one-shot sawn-off "
+"shotgun barrel, that pops-up upon activation. Perfect in a pinch."
+msgstr ""
+
+#: lang/json/BIONIC_ITEM_from_json.py
 msgid "Blood Analysis CBM"
 msgid_plural "Blood Analysis CBMs"
 msgstr[0] ""
@@ -25077,6 +25101,41 @@ msgid ""
 "Eating this would be a terrible idea."
 msgstr ""
 
+#: lang/json/COMESTIBLE_from_json.py lang/json/terrain_from_json.py
+msgid "grass"
+msgid_plural "grasses"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for grass
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"Some grass, edible by grazers and ruminants only.  Seeing this item is a bug."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py lang/json/terrain_from_json.py
+#: lang/json/terrain_from_json.py
+msgid "underbrush"
+msgid_plural "underbrushes"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for underbrush
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some underbrush, edible by ruminants only.  Seeing this item is a bug."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "nectar"
+msgid_plural "nectars"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for nectar
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some nectar.  Seeing this item is a bug."
+msgstr ""
+
 #: lang/json/COMESTIBLE_from_json.py
 msgid "soylent green drink"
 msgid_plural "soylent green drinks"
@@ -28629,6 +28688,19 @@ msgid "A small, open plastic bag.  Essentially trash."
 msgstr ""
 
 #: lang/json/CONTAINER_from_json.py
+msgid "body bag"
+msgid_plural "body bags"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for body bag
+#: lang/json/CONTAINER_from_json.py
+msgid ""
+"A large, human size, rectangular bag made of strong plastic, with a zipper "
+"in the middle.  Used to hold a dead body."
+msgstr ""
+
+#: lang/json/CONTAINER_from_json.py
 msgid "glass bottle"
 msgid_plural "glass bottles"
 msgstr[0] ""
@@ -29873,13 +29945,14 @@ msgstr ""
 
 #. ~ Description for nearby fire
 #. ~ Description for muscle
+#. ~ Description for wind
 #. ~ Description for a smoking device and a source of flame
 #. ~ Description for abstract map
 #. ~ Description for seeing this is a bug
 #. ~ Description for weapon
 #: lang/json/GENERIC_from_json.py
-#: lang/json/TOOL_from_json.py
-#: lang/json/skill_from_json.py
+#: lang/json/GENERIC_from_json.py lang/json/TOOL_from_json.py
+#: lang/json/TOOL_from_json.py lang/json/skill_from_json.py
 msgid "seeing this is a bug"
 msgid_plural "seeing this is a bugs"
 msgstr[0] ""
@@ -29887,6 +29960,10 @@ msgstr[1] ""
 
 #: lang/json/GENERIC_from_json.py
 msgid "muscle"
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "wind"
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
@@ -30434,6 +30511,17 @@ msgstr[1] ""
 #. ~ Description for heating element
 #: lang/json/GENERIC_from_json.py
 msgid "A heating element, like the ones used in hotplates or kettles."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "bimetal thermostat"
+msgid_plural "bimetal thermostats"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for bimetal thermostat
+#: lang/json/GENERIC_from_json.py
+msgid "A simple thermostat controlled by thermal expansion of a bimetal strip."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
@@ -32114,6 +32202,17 @@ msgstr[1] ""
 #. ~ Description for small lock and key
 #: lang/json/GENERIC_from_json.py
 msgid "A small lock, with a set of keys still inserted."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "in progress craft"
+msgid_plural "in progress crafts"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for in progress craft
+#: lang/json/GENERIC_from_json.py
+msgid "This is an in progress craft."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
@@ -37618,8 +37717,10 @@ msgstr[1] ""
 #. ~ Description for hydraulic gauntlet
 #: lang/json/GENERIC_from_json.py
 msgid ""
-"A huge, heavy metal gauntlet lined with tubing and gauges.  It uses internal "
-"pressure to deliver slow, devastating blows."
+"A huge, heavy metal gauntlet lined with tubing and gauges.  Slow and "
+"unwieldy, it uses internal pressure to deliver devastating blows, but takes "
+"tremendous strength to use effectively.  Thanks to an internal microreactor, "
+"it doesn't require power of its own."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
@@ -37971,6 +38072,17 @@ msgstr[1] ""
 #. ~ Description for oars
 #: lang/json/GENERIC_from_json.py
 msgid "Oars for a boat."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
+msgid "sail"
+msgid_plural "sails"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for sail
+#: lang/json/GENERIC_from_json.py
+msgid "Sails for a boat."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
@@ -40220,6 +40332,17 @@ msgid "A 40 round box magazine for use with the RM20 caseless shotgun."
 msgstr ""
 
 #: lang/json/MAGAZINE_from_json.py
+msgid ".22 8-round speedloader"
+msgstr ""
+
+#. ~ Description for .22 8-round speedloader
+#: lang/json/MAGAZINE_from_json.py
+msgid ""
+"This speedloader can hold 8 rounds of .22 and quickly reload a compatible "
+"revolver."
+msgstr ""
+
+#: lang/json/MAGAZINE_from_json.py
 msgid "RMRB200 .22 magazine"
 msgstr ""
 
@@ -40244,6 +40367,17 @@ msgstr ""
 #. ~ Description for A-180 magazine
 #: lang/json/MAGAZINE_from_json.py
 msgid "An unusually shaped pan magazine for the American-180."
+msgstr ""
+
+#: lang/json/MAGAZINE_from_json.py
+msgid ".22 19-round tube loader"
+msgstr ""
+
+#. ~ Description for .22 19-round tube loader
+#: lang/json/MAGAZINE_from_json.py
+msgid ""
+"This is a tube which holds 19 rounds of .22, designed for quick reloading of "
+"a compatible rifle with tubular magazine."
 msgstr ""
 
 #: lang/json/MAGAZINE_from_json.py
@@ -40282,6 +40416,17 @@ msgstr ""
 #. ~ Description for S&W 22A magazine
 #: lang/json/MAGAZINE_from_json.py
 msgid "A standard capacity magazine for the popular S&W 22A pistol."
+msgstr ""
+
+#: lang/json/MAGAZINE_from_json.py
+msgid "LW-5 speedloader"
+msgstr ""
+
+#. ~ Description for LW-5 speedloader
+#: lang/json/MAGAZINE_from_json.py
+msgid ""
+"This speedloader, made by Leadworks for use with L2037 Backup revolver, can "
+"hold 5 rounds of .223 and quickly reload a compatible revolver."
 msgstr ""
 
 #: lang/json/MAGAZINE_from_json.py
@@ -40562,13 +40707,35 @@ msgid "A compact steel box magazine for use with the Taurus Pro .38 pistol."
 msgstr ""
 
 #: lang/json/MAGAZINE_from_json.py
-msgid ".38 speedloader"
+msgid ".38 7-round speedloader"
 msgstr ""
 
-#. ~ Description for .38 speedloader
+#. ~ Description for .38 7-round speedloader
 #: lang/json/MAGAZINE_from_json.py
 msgid ""
 "This speedloader can hold 7 rounds of .38 and quickly reload a compatible "
+"revolver."
+msgstr ""
+
+#: lang/json/MAGAZINE_from_json.py
+msgid ".38 5-round speedloader"
+msgstr ""
+
+#. ~ Description for .38 5-round speedloader
+#: lang/json/MAGAZINE_from_json.py
+msgid ""
+"This speedloader can hold 5 rounds of .38 and quickly reload a compatible "
+"revolver."
+msgstr ""
+
+#: lang/json/MAGAZINE_from_json.py
+msgid ".40 6-round speedloader"
+msgstr ""
+
+#. ~ Description for .40 6-round speedloader
+#: lang/json/MAGAZINE_from_json.py
+msgid ""
+"This speedloader can hold 6 rounds of .40 and quickly reload a compatible "
 "revolver."
 msgstr ""
 
@@ -40611,6 +40778,17 @@ msgid ""
 "An ammo belt consisting of metal linkages which disintegrate upon firing.  "
 "This one holds 40mm grenades and is too bulky to be worn like other ammo "
 "belts."
+msgstr ""
+
+#: lang/json/MAGAZINE_from_json.py
+msgid ".44 6-round speedloader"
+msgstr ""
+
+#. ~ Description for .44 6-round speedloader
+#: lang/json/MAGAZINE_from_json.py
+msgid ""
+"This speedloader can hold 6 rounds of .44 and quickly reload a compatible "
+"revolver."
 msgstr ""
 
 #: lang/json/MAGAZINE_from_json.py
@@ -40708,6 +40886,17 @@ msgid "A standard capacity magazine for use with the H&K USP handgun."
 msgstr ""
 
 #: lang/json/MAGAZINE_from_json.py
+msgid ".454 5-round speedloader"
+msgstr ""
+
+#. ~ Description for .454 5-round speedloader
+#: lang/json/MAGAZINE_from_json.py
+msgid ""
+"This speedloader can hold 5 rounds of .454 and quickly reload a compatible "
+"revolver."
+msgstr ""
+
+#: lang/json/MAGAZINE_from_json.py
 msgid "H&K 4.6mm extended magazine"
 msgstr ""
 
@@ -40726,6 +40915,17 @@ msgstr ""
 msgid ""
 "A standard capacity 20-round magazine for use with H&K's proprietary "
 "4.6x30mm round."
+msgstr ""
+
+#: lang/json/MAGAZINE_from_json.py
+msgid ".460 6-round speedloader"
+msgstr ""
+
+#. ~ Description for .460 6-round speedloader
+#: lang/json/MAGAZINE_from_json.py
+msgid ""
+"This speedloader, made by Leadworks for use with L2031 Enforcer revolver, "
+"can hold 6 rounds of .460 or .45 and quickly reload a compatible revolver."
 msgstr ""
 
 #: lang/json/MAGAZINE_from_json.py
@@ -40751,6 +40951,17 @@ msgstr ""
 #: lang/json/MAGAZINE_from_json.py
 msgid ""
 "Standard 10-round box magazine for a Barrett M107A1 anti-materiel rifle."
+msgstr ""
+
+#: lang/json/MAGAZINE_from_json.py
+msgid ".500 5-round speedloader"
+msgstr ""
+
+#. ~ Description for .500 5-round speedloader
+#: lang/json/MAGAZINE_from_json.py
+msgid ""
+"This speedloader can hold 5 rounds of .500 and quickly reload a compatible "
+"revolver."
 msgstr ""
 
 #: lang/json/MAGAZINE_from_json.py
@@ -40926,6 +41137,28 @@ msgstr ""
 #. ~ Description for RMGB50 8x40mm magazine
 #: lang/json/MAGAZINE_from_json.py
 msgid "A 50 round box magazine for use with Rivtech 8x40mm caseless firearms."
+msgstr ""
+
+#: lang/json/MAGAZINE_from_json.py
+msgid "RMGS5 8x40mm speedloader"
+msgstr ""
+
+#. ~ Description for RMGS5 8x40mm speedloader
+#: lang/json/MAGAZINE_from_json.py
+msgid ""
+"This speedloader, made by Rivtech for use with RM99 revolver, can hold 5 "
+"rounds of 8x40mm caseless rounds and quickly reload a compatible revolver."
+msgstr ""
+
+#: lang/json/MAGAZINE_from_json.py
+msgid "LW-7 speedloader"
+msgstr ""
+
+#. ~ Description for LW-7 speedloader
+#: lang/json/MAGAZINE_from_json.py
+msgid ""
+"This speedloader, made by Leadworks for use with L2032 Lookout revolver, can "
+"hold 7 rounds of 9x19mm and quickly reload a compatible revolver."
 msgstr ""
 
 #: lang/json/MAGAZINE_from_json.py
@@ -41425,6 +41658,28 @@ msgid ""
 msgstr ""
 
 #: lang/json/MAGAZINE_from_json.py
+msgid ".454 6-round speedloader"
+msgstr ""
+
+#. ~ Description for .454 6-round speedloader
+#: lang/json/MAGAZINE_from_json.py
+msgid ""
+"This speedloader can hold 6 rounds of .454 and quickly reload a compatible "
+"revolver."
+msgstr ""
+
+#: lang/json/MAGAZINE_from_json.py
+msgid ".454 8-round speedloader"
+msgstr ""
+
+#. ~ Description for .454 8-round speedloader
+#: lang/json/MAGAZINE_from_json.py
+msgid ""
+"This speedloader can hold 8 rounds of .454 and quickly reload a compatible "
+"revolver."
+msgstr ""
+
+#: lang/json/MAGAZINE_from_json.py
 msgid "Eagle 1776 magazine"
 msgstr ""
 
@@ -41433,6 +41688,16 @@ msgstr ""
 msgid ""
 "An american-made box magazine, designed to deliver 24 .44 Magnum cartridges "
 "to the Eagle 1776."
+msgstr ""
+
+#: lang/json/MAGAZINE_from_json.py
+msgid "revolver speedloader"
+msgstr ""
+
+#. ~ Description for revolver speedloader
+#: lang/json/MAGAZINE_from_json.py
+msgid ""
+"Speedloader which holds 6 revolver rounds, for reloading a revolver quicker."
 msgstr ""
 
 #: lang/json/MAGAZINE_from_json.py
@@ -41651,6 +41916,17 @@ msgstr ""
 
 #: lang/json/MAGAZINE_from_json.py
 msgid "pebble hopper"
+msgstr ""
+
+#: lang/json/MAGAZINE_from_json.py
+msgid "10mm 6-round speedloader"
+msgstr ""
+
+#. ~ Description for 10mm 6-round speedloader
+#: lang/json/MAGAZINE_from_json.py
+msgid ""
+"This speedloader can hold 6 rounds of .40 or 10mm Auto and quickly reload a "
+"compatible revolver."
 msgstr ""
 
 #: lang/json/MAGAZINE_from_json.py
@@ -42075,6 +42351,15 @@ msgstr ""
 msgid ""
 "Vehicle parts are perfectly reliable and never spawn with faults or develop "
 "them during use"
+msgstr ""
+
+#: lang/json/MOD_INFO_from_json.py
+msgid "No Filthy Clothing"
+msgstr ""
+
+#. ~ Description for No Filthy Clothing
+#: lang/json/MOD_INFO_from_json.py
+msgid "Clothes dropped by zombies will be completely clean."
 msgstr ""
 
 #: lang/json/MOD_INFO_from_json.py
@@ -47995,6 +48280,21 @@ msgid ""
 "storage batteries in regular tools."
 msgstr ""
 
+#: lang/json/TOOLMOD_from_json.py
+msgid "cybernetic power port mod"
+msgid_plural "cybernetic power port mods"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for cybernetic power port mod
+#: lang/json/TOOLMOD_from_json.py
+msgid ""
+"This device replaces standard power connections and battery ports for "
+"electronic devices with a carefully-shaped port that hooks into bionic "
+"implants.  When applied, it will convert an item to run directly off of "
+"bionic power."
+msgstr ""
+
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid "mining helmet"
 msgid_plural "mining helmets"
@@ -49438,6 +49738,48 @@ msgid ""
 "A riot helmet with a plastic face shield which is raised up.  Activate to "
 "lower the shield."
 msgstr ""
+
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid "scuba tank"
+msgid_plural "scuba tanks"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for scuba tank
+#. ~ Description for scuba tank (on)
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid ""
+"This is a high-pressure 232 bar diving tank that can contain up to 12L of "
+"compressed mixture of oxygen and nitrogen.  It is equipped with a on-demand "
+"regulator and a mouthpiece designed mostly for underwater use."
+msgstr ""
+
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid "scuba tank (on)"
+msgid_plural "scuba tank (on)s"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid "small scuba tank"
+msgid_plural "small scuba tanks"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for small scuba tank
+#. ~ Description for small scuba tank (on)
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid ""
+"This is a small high-pressure 200 bar backup diving tank, that can contain "
+"4L of compressed mixture of oxygen and nitrogen.  It is equipped with a on-"
+"demand regulator and a mouthpiece designed mostly for underwater use."
+msgstr ""
+
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid "small scuba tank (on)"
+msgid_plural "small scuba tank (on)s"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid "hazardous environment helmet"
@@ -56883,11 +57225,16 @@ msgstr[1] ""
 msgid "You activate the energy saber, and its blade blazes into existence!"
 msgstr ""
 
+#. ~ Use action need_charges_msg for energy saber.
+#: lang/json/TOOL_from_json.py
+msgid "The energy saber is out of charge."
+msgstr ""
+
 #. ~ Description for energy saber
 #: lang/json/TOOL_from_json.py
 msgid ""
 "A hefty black tube the size of your hand.  Activate to produce a hard-light "
-"blade."
+"blade, running off of UPS."
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
@@ -59453,6 +59800,10 @@ msgid "sprayable chemical"
 msgstr ""
 
 #: lang/json/ammunition_type_from_json.py
+msgid "compressed air"
+msgstr ""
+
+#: lang/json/ammunition_type_from_json.py
 msgid "6.54x42mm"
 msgstr ""
 
@@ -59602,6 +59953,17 @@ msgid ""
 "You may use your energy banks to fire a damaging heat ray.  However, you are "
 "unable to use or carry two-handed items, and your strength limits what you "
 "can use with your one hand."
+msgstr ""
+
+#: lang/json/bionic_from_json.py
+msgid "Shotgun Arm"
+msgstr ""
+
+#. ~ Description for Shotgun Arm
+#: lang/json/bionic_from_json.py
+msgid ""
+"Concealed in your left arm is a surgically integrated one-shot sawn-off "
+"shotgun barrel , that pops-up upon activation. Perfect in a pinch."
 msgstr ""
 
 #: lang/json/bionic_from_json.py
@@ -61299,6 +61661,10 @@ msgid "Build Pillow Fort"
 msgstr ""
 
 #: lang/json/construction_from_json.py
+msgid "Build Fire Ring"
+msgstr ""
+
+#: lang/json/construction_from_json.py
 msgid "Convert Fridge Power Supply"
 msgstr ""
 
@@ -61324,10 +61690,6 @@ msgstr ""
 
 #: lang/json/construction_from_json.py
 msgid "Build Tarp Lean-To"
-msgstr ""
-
-#: lang/json/construction_from_json.py
-msgid "Build Fire Ring"
 msgstr ""
 
 #: lang/json/construction_from_json.py
@@ -66073,6 +66435,10 @@ msgid "thunk!"
 msgstr ""
 
 #: lang/json/furniture_from_json.py
+msgid "fire ring"
+msgstr ""
+
+#: lang/json/furniture_from_json.py
 msgid "Autodoc Mk. XI"
 msgstr ""
 
@@ -66741,10 +67107,6 @@ msgid "krak."
 msgstr ""
 
 #: lang/json/furniture_from_json.py
-msgid "fire ring"
-msgstr ""
-
-#: lang/json/furniture_from_json.py
 msgid "tank trap"
 msgstr ""
 
@@ -67374,6 +67736,7 @@ msgid ""
 msgstr ""
 
 #: lang/json/gun_from_json.py
+#: lang/json/gun_from_json.py lang/json/gunmod_from_json.py
 #: lang/json/gunmod_from_json.py
 msgctxt "gun_type_type"
 msgid "shotgun"
@@ -68744,6 +69107,12 @@ msgid ""
 msgstr ""
 
 #: lang/json/gun_from_json.py
+msgid "pipe rifle: .45"
+msgid_plural "pipe rifles: .45"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gun_from_json.py
 msgid "homemade hand cannon"
 msgid_plural "homemade hand cannons"
 msgstr[0] ""
@@ -69540,6 +69909,16 @@ msgid ""
 msgstr ""
 
 #: lang/json/gun_from_json.py
+msgid "bionic shotgun"
+msgid_plural "bionic shotguns"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gun_from_json.py
+msgid "Bionic one-shot retracting shotgun integrated with your arm."
+msgstr ""
+
+#: lang/json/gun_from_json.py
 msgid "fusion blaster"
 msgid_plural "fusion blasters"
 msgstr[0] ""
@@ -70098,12 +70477,6 @@ msgid ""
 "This is a cheap laser rifle made from common components.  Weak, but can be "
 "powered with rechargeable batteries."
 msgstr ""
-
-#: lang/json/gun_from_json.py
-msgid "pipe rifle: .45"
-msgid_plural "pipe rifles: .45"
-msgstr[0] ""
-msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid "pipe rifle: .38"
@@ -74844,6 +75217,10 @@ msgid "Prepare to use"
 msgstr ""
 
 #: lang/json/item_action_from_json.py
+msgid "Use regulator"
+msgstr ""
+
+#: lang/json/item_action_from_json.py
 msgid "Unfold"
 msgstr ""
 
@@ -74990,6 +75367,10 @@ msgstr ""
 
 #: lang/json/item_action_from_json.py
 msgid "Get content"
+msgstr ""
+
+#: lang/json/item_action_from_json.py
+msgid "Work on craft"
 msgstr ""
 
 #: lang/json/item_action_from_json.py
@@ -76352,6 +76733,10 @@ msgid "Set item filter"
 msgstr ""
 
 #: lang/json/keybinding_from_json.py
+msgid "Toggle item as favorite"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
 msgid "Toggle activate/examine"
 msgstr ""
 
@@ -76645,6 +77030,10 @@ msgid "Toggle Panel Admin"
 msgstr ""
 
 #: lang/json/keybinding_from_json.py
+msgid "Reload Item"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
 msgid "Reload Tileset"
 msgstr ""
 
@@ -76790,14 +77179,12 @@ msgid "Reassign invlet"
 msgstr ""
 
 #: lang/json/keybinding_from_json.py src/construction.cpp
-#: src/faction.cpp src/game.cpp
-#: src/mission_companion.cpp
+#: src/game.cpp src/mission_companion.cpp
 msgid "Move cursor up"
 msgstr ""
 
 #: lang/json/keybinding_from_json.py src/construction.cpp
-#: src/faction.cpp src/game.cpp
-#: src/mission_companion.cpp
+#: src/game.cpp src/mission_companion.cpp
 msgid "Move cursor down"
 msgstr ""
 
@@ -79417,185 +79804,6 @@ msgid "Damn, we were so close."
 msgstr ""
 
 #: lang/json/mission_def_from_json.py
-msgid "Clear Back Bay"
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid "We need help..."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid ""
-"If you really want to lend a hand we could use your help clearing out the "
-"dead in the back bay.  Fearful of going outside during the first days of the "
-"cataclysm we ended up throwing our dead and the zombies we managed to kill "
-"in the sealed back bay.  Our promising leader at the time even fell... he "
-"turned into something different.  Kill all of them and make sure they won't "
-"bother us again.  We can't pay much but it would help us to reclaim the bay."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid "Please be careful, we don't need any more deaths."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid ""
-"Come back when you get a chance, we really need to start reclaiming the "
-"region."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid "If you can, get a friend or two to help you."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid "Will they be bothering us any longer?"
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid ""
-"Thank you, having that big of a threat close to home was nerve wrecking."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid "What good does this do us?"
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid "It was a lost cause anyways..."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid "Missing Caravan"
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid ""
-"This is a bit more involved than the last request, we recently lost a "
-"scavenger party coming to trade with us and would like you to investigate.  "
-"We strongly suspect a raider band or horde caught them off-guard.  I can "
-"give you the coordinates of their last radio message but little else.  In "
-"either case, deal with the threat so that the scavengers can continue to "
-"pass through in relative safety.  The best reward I can offer is a claim to "
-"the supplies they were carrying."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid "Our community survives on trade, we appreciate it."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid "Have you dealt with them?"
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid ""
-"Thank you, the world is a better place without them.  Two of our more "
-"skilled individuals accepted the assistance of the Old Guard in setting up "
-"an outpost while you were out.  We didn't have many other options, refugees "
-"are still streaming in and we don't know what else to do with our limited "
-"food supply.  If you get a chance, you should see if they need your "
-"assistance in the future..."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid "Retrieve Prospectus"
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid ""
-"The new outpost that we've started could use your assistance.  I need you to "
-"get the foreman's prospectus before we begin to send additional refugees to "
-"the farming commune.  Consult with the foreman to get more detailed tasks."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid "I'm sure the outpost will expand quickly with your assistance."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid "Just follow your map."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid "Do you have the prospectus?"
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid ""
-"With this we'll be able to convince others to invest in the commune.  Thank "
-"you."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid "Find 25 Plutonium Cells"
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid ""
-"We are starting to build new infrastructure here and would like to get a few "
-"new electrical systems online... unfortunately our existing system relies on "
-"an array of something called RTGs.  From what I understand they work like "
-"giant batteries of sorts.  We can expand our power system but to do so we "
-"would need enough plutonium.  With 25 plutonium cells we would be able to "
-"get an electrical expansion working for a year or two.  I know they are rare "
-"but running generators isn't a viable option in the basement."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid "If you can do this for us our survival options would vastly increase."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid "Can't help you much, I've never even seen a plutonium battery."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid "How is the search going?"
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid ""
-"Great, I know it isn't much but we hope to continue to expand thanks to your "
-"help."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid "Find 40 Canned Food"
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid ""
-"While we've managed to secure day to day food supplies, it's very much hand "
-"to mouth. Our reserves would barely last a few days if something kept our "
-"people locked in. We need a stockpile to avoid that. It would have to be "
-"made of something that would be long lasting though, so canned food's the "
-"way to go. Get us about 40 cans and we should be able to ride out anything "
-"that comes our way."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid ""
-"It'll take a load off my shoulders if I can finally stop worrying about this."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid ""
-"We'll hold for the moment, but I'll get an ulcer if I have to keep worrying. "
-"If you reconsider let me know."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid "Grocery stores, house kitchens, there's plenty of places to look."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid ""
-"That's one less thing to worry about. Glad to have someone like you on our "
-"side."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
 msgid "Find Inhaler"
 msgstr ""
 
@@ -79970,6 +80178,14 @@ msgstr ""
 
 #: lang/json/mission_def_from_json.py
 msgid "Thank you, I need some time alone now..."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "What good does this do us?"
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "It was a lost cause anyways..."
 msgstr ""
 
 #: lang/json/mission_def_from_json.py
@@ -80401,6 +80617,648 @@ msgid "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG"
 msgstr ""
 
 #: lang/json/mission_def_from_json.py
+msgid "Reach Farm House"
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "I just need a place to start over..."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid ""
+"I've accepted that everyone I used to know is dead... one way or another.  I "
+"really wish I could have done something to save my brother but he was one of "
+"the first to go.  I'd like to start over, just rebuild at one of the farms "
+"in the countryside.  Can you help me secure one?"
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid ""
+"Thank you, let's find a remote one so we don't have to worry about many "
+"zombies."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "Please, I just don't know what to do otherwise."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "Traveling the backroads would be a good way to search for one."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "Shall we keep looking for a farm house?"
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid ""
+"Well, my adventuring days are over.  I can't thank you enough.  Trying to "
+"make this place self sustaining will take some work but the future is "
+"looking brighter.  At least it ought to be safe for now.  You'll always be "
+"welcome here."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "I guess it was just a pipe dream."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "Reach FEMA Camp"
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "Maybe they escaped to one of the camps..."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid ""
+"I can't thank you enough for bringing me the patient records but I do have "
+"another request.  You seem to know your way around... could you take me to "
+"one of the FEMA camps?  I know some were overrun but I don't want to believe "
+"all of them could have fallen."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "Thank you, just bring me to the camp...  I just want to see."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "Please, I don't know what else to do."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid ""
+"We should go at night, if it is overrun then we can quickly make our escape."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "Any leads on where a camp might be?"
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "I guess this wasn't as bright an idea as I thought."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "Reach Safety"
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "Recover Priest's Diary"
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid ""
+"From what I understand, the creatures you encountered surrounding this relic "
+"were unlike anything I've heard of.  It is laughable that I now consider the "
+"living dead to be part of our ordinary reality.  Never-the-less, the church "
+"must have some explanation for these events.  I have located the residence "
+"of a local clergy man, could you go to this address and recover any items "
+"that may reveal what the church's stance is on these events?"
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid ""
+"If the information is confidential the priest must have it hidden within his "
+"own home."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "Thank you, a diary is exactly what I was looking for."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "Recruit Tracker"
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid ""
+"We've got another problem to deal with but I don't think we can handle it on "
+"our own.  So, I sent word out and found us a volunteer... of sorts.  He's "
+"vain as hell but has a little skill with firearms.  He was supposed to "
+"collect whatever he had of value and is going to meet us at a cabin in the "
+"woods.  Wasn't sure how long we were going to be so I told him to just camp "
+"there until we picked him up."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid ""
+"Rodger, if he's a no-show then any other gunslinger will do... but I doubt "
+"he'll quit before we even begin."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid ""
+"I hope the bastard is packing heat... else we'll need to grab him a gun "
+"before we hit our next target."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "Found a gunslinger?"
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid ""
+"Great, just let me know when you are ready to wade knee-deep in an ocean of "
+"blood."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "Find Lost Dog"
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "Oh, my poor puppy..."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "I left my poor dog in a house, not far from here.  Can you retrieve it?"
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "Thank you!  Please hurry back!"
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "Please, think of my poor little puppy!"
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid ""
+"Take my dog whistle; if the dog starts running off, blow it and he'll return "
+"to your side."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "Have you found my dog yet?"
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "Thank you so much for finding him!"
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "Oh no!  My poor puppy..."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "Reach Refugee Center"
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "Clear Back Bay"
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "We need help..."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid ""
+"If you really want to lend a hand we could use your help clearing out the "
+"dead in the back bay.  Fearful of going outside during the first days of the "
+"cataclysm we ended up throwing our dead and the zombies we managed to kill "
+"in the sealed back bay.  Our promising leader at the time even fell... he "
+"turned into something different.  Kill all of them and make sure they won't "
+"bother us again.  We can't pay much but it would help us to reclaim the bay."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "Please be careful, we don't need any more deaths."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid ""
+"Come back when you get a chance, we really need to start reclaiming the "
+"region."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "If you can, get a friend or two to help you."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "Will they be bothering us any longer?"
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid ""
+"Thank you, having that big of a threat close to home was nerve wrecking."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "Missing Caravan"
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid ""
+"This is a bit more involved than the last request, we recently lost a "
+"scavenger party coming to trade with us and would like you to investigate.  "
+"We strongly suspect a raider band or horde caught them off-guard.  I can "
+"give you the coordinates of their last radio message but little else.  In "
+"either case, deal with the threat so that the scavengers can continue to "
+"pass through in relative safety.  The best reward I can offer is a claim to "
+"the supplies they were carrying."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "Our community survives on trade, we appreciate it."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "Have you dealt with them?"
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid ""
+"Thank you, the world is a better place without them.  Two of our more "
+"skilled individuals accepted the assistance of the Old Guard in setting up "
+"an outpost while you were out.  We didn't have many other options, refugees "
+"are still streaming in and we don't know what else to do with our limited "
+"food supply.  If you get a chance, you should see if they need your "
+"assistance in the future..."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "Retrieve Prospectus"
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid ""
+"The new outpost that we've started could use your assistance.  I need you to "
+"get the foreman's prospectus before we begin to send additional refugees to "
+"the farming commune.  Consult with the foreman to get more detailed tasks."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "I'm sure the outpost will expand quickly with your assistance."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "Just follow your map."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "Do you have the prospectus?"
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid ""
+"With this we'll be able to convince others to invest in the commune.  Thank "
+"you."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "Find 25 Plutonium Cells"
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid ""
+"We are starting to build new infrastructure here and would like to get a few "
+"new electrical systems online... unfortunately our existing system relies on "
+"an array of something called RTGs.  From what I understand they work like "
+"giant batteries of sorts.  We can expand our power system but to do so we "
+"would need enough plutonium.  With 25 plutonium cells we would be able to "
+"get an electrical expansion working for a year or two.  I know they are rare "
+"but running generators isn't a viable option in the basement."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "If you can do this for us our survival options would vastly increase."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "Can't help you much, I've never even seen a plutonium battery."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "How is the search going?"
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid ""
+"Great, I know it isn't much but we hope to continue to expand thanks to your "
+"help."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "Find 40 Canned Food"
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid ""
+"While we've managed to secure day to day food supplies, it's very much hand "
+"to mouth. Our reserves would barely last a few days if something kept our "
+"people locked in. We need a stockpile to avoid that. It would have to be "
+"made of something that would be long lasting though, so canned food's the "
+"way to go. Get us about 40 cans and we should be able to ride out anything "
+"that comes our way."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid ""
+"It'll take a load off my shoulders if I can finally stop worrying about this."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid ""
+"We'll hold for the moment, but I'll get an ulcer if I have to keep worrying. "
+"If you reconsider let me know."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "Grocery stores, house kitchens, there's plenty of places to look."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid ""
+"That's one less thing to worry about. Glad to have someone like you on our "
+"side."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "Kill Bandits"
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid ""
+"I don't like sending untested men into the field but if you have stayed "
+"alive so far you might have some skills.  There are at least a pair of "
+"bandits squatting in a local cabin, anyone who preys upon civilians meets a "
+"quick end... execute both of them for their crimes.  Complete this and the "
+"Old Guard will consider you an asset in the region."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "Contractor, I welcome you aboard."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "The States will remain a wasteland unless good men choose to save it."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "They might suspect you are coming, keep an eye out for traps."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "Have you completed your mission?"
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid ""
+"The Old Guard thanks you for eliminating the criminals.  You won't be "
+"forgotten."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "Deal with Informant"
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid ""
+"This task is going to require a little more persuasive skill.  I believe the "
+"Hell's Raiders have an informant here to monitor who comes and goes.  I need "
+"you to find out who it is and deal with them without letting anyone else "
+"know of my suspicions.  We normally allow the Free Merchants to govern "
+"themselves so I would hate to offend them."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "Thank you, please keep this discreet."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "Come back when you get a chance, we could use a few good men."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "If they draw first blood their friends are less likely to blame you..."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "You deal with the rat?"
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "Thank you, I'll do the explaining if anyone else asks about it."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "Kill ???"
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid ""
+"There is another monster troubling the merchants but this time it isn't "
+"human... at least I don't think.  Guy just disappeared while walking behind "
+"a packed caravan.  They didn't hear any shots but I suppose some raider may "
+"have been real sneaky.  Check out the area and report anything you find."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "Thanks, keeping the people safe is what we try and do."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid ""
+"Search the bushes for any trace?  I'm not an expert tracker but you should "
+"be able to find something."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "Great work, wasn't sure what I was sending you after."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "Kill Raider Leader"
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid ""
+"I've located a Hell's Raiders encampment in the region that appears to be "
+"coordinating operations against the Free Merchants.  We know almost nothing "
+"about the command structure in the 'gang' so I need to send someone in to "
+"decapitate the leadership.  The raid will be held under orders of the U.S. "
+"Marshals Service and by agreeing to the mission you will become a marshal, "
+"swearing to assist the federal government in regaining order."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid ""
+"Now repeat after me...  I do solemnly swear that I will support and defend "
+"the Constitution of the United States against all enemies, foreign and "
+"domestic...... that I will bear true faith and allegiance to the same...... "
+"that I take this obligation freely, without any mental reservation or "
+"purpose of evasion...... and that I will well and faithfully discharge the "
+"duties of the office on which I am about to enter.  To establish justice, "
+"insure domestic tranquility, provide for the common defense, promote the "
+"general welfare and secure the blessings of liberty.  So help me God.  "
+"Congratulations Marshal, don't forget your badge and gun.  As a marshal all "
+"men or women assisting you are considered deputy marshals so keep them in "
+"line."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid ""
+"I'd recommend having two deputies... it would be a death trap if a single "
+"man got surrounded."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "Has the leadership been dealt with?"
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid ""
+"Marshal, you continue to impress us.  If you are interested, I recently "
+"received a message that a unit was deploying into our AO.  I don't have the "
+"exact coordinates but they said they were securing an underground facility "
+"and may require assistance.  The bird dropped them off next to a pump "
+"station.  Can't tell you much more.  If you could locate the captain in "
+"charge, I'm sure he could use your skills.  Don't forget to wear your badge "
+"when meeting with them.  Thank you once again marshal."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid ""
+"We don't have the equipment for real analysis here so it'll need to be done "
+"in the field.  I need you to get a fresh sample of zombie blood, take it to "
+"a hospital, and perform a centrifuge analysis of it."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid ""
+"Excellent.  Take this blood draw kit; once you've found a zombie corpse, use "
+"it to extract blood from the body, then take it to a hospital for analysis."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "Download Workstation Data"
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid ""
+"The medical software didn't just analyze the blood, it triggered a "
+"government alert.  Medical staff was under orders to immediately drive any "
+"matching samples to the nearest laboratory.  That must mean the government "
+"knew!  We have the destination address.  Go there, get in, and bring back "
+"any records you can download off a computer."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "Great!  I've mapped out a route to the address."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "Can't blame you, but come back if you change your mind."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid ""
+"If the laboratory is locked, maybe you can find an id card from employees "
+"who died in the evacuation.  Also brush up on your computer skills, any "
+"computers will have some security on them.  Bring back anything you find on "
+"a USB drive."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid ""
+"Thanks!  This data looks damaged, but maybe I can make something out of it."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "Download Encryption Codes"
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid ""
+"Unfortunately the data you got was incomplete and mostly encrypted.  There "
+"may be a way to get encryption codes, though.  I found a complaint by the "
+"infosec team that they were unable to deliver critical security updates to "
+"one research site.  It was some kind of more restricted secondary site "
+"hidden beneath a town, they weren't allowed in.  That means it should have "
+"unsecured computers we can get the codes from."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid ""
+"Great!  I've mapped out a route, it should look like a normal house.  Bring "
+"back anything you find on a USB drive."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "Expect the lab to be locked as usual."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid ""
+"Wonderful!  Now I just need to get an undamaged, complete archive, and we "
+"can really figure out what happened."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "Download Research Archives"
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid ""
+"So there looks to be months, maybe years of experiments, and that data set "
+"must be huge.  Database servers massive enough to house it would overheat "
+"running on emergency power.  But I did found communications from a lab that "
+"had some kind of freezing portal open during the cataclysm, sending "
+"everything to subzero temperatures.  I bet the archives inside that lab are "
+"still working."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid ""
+"Great!  I've mapped out a route.  Bundle up, it gets colder the deeper you "
+"go and it looks like the archives were on the fourth basement level."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid ""
+"That lab is going to start freezing and just get colder the deeper you go.  "
+"You'll really need special equipment to survive that far down.  Bring back "
+"anything you find on a USB drive."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "Thanks!  This is a lot of data to go through."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "Find Lab Tunnels"
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid ""
+"In the data we found a major contract for tunneling and train equipment, "
+"ordered a long time ago.  It's the best lead we have.  Here's the address of "
+"the government lab where the equipment was delivered.  I want you to go "
+"there, find the tunnels that they dug, and download everything you can about "
+"the train network."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid "So glad for your help."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid ""
+"The equipment was rated for 50 feet underground, so that tunnel entrance is "
+"going to be deeper inside a lab than a normal subway.  Fifty feet would mean "
+"maybe four stories down.  Bring back anything you find on a USB drive."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
+msgid ""
+"Fantastic!  I should be able to reconstruct what cargo moved between which "
+"labs.  I wonder what was really going on down there."
+msgstr ""
+
+#: lang/json/mission_def_from_json.py
 msgid "Locate Commo Team"
 msgstr ""
 
@@ -80569,150 +81427,6 @@ msgstr ""
 #: lang/json/mission_def_from_json.py
 msgid ""
 "I'll try and update the captain with any signals that I need investigated."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid "Kill Bandits"
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid ""
-"I don't like sending untested men into the field but if you have stayed "
-"alive so far you might have some skills.  There are at least a pair of "
-"bandits squatting in a local cabin, anyone who preys upon civilians meets a "
-"quick end... execute both of them for their crimes.  Complete this and the "
-"Old Guard will consider you an asset in the region."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid "Contractor, I welcome you aboard."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid "The States will remain a wasteland unless good men choose to save it."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid "They might suspect you are coming, keep an eye out for traps."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid "Have you completed your mission?"
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid ""
-"The Old Guard thanks you for eliminating the criminals.  You won't be "
-"forgotten."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid "Deal with Informant"
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid ""
-"This task is going to require a little more persuasive skill.  I believe the "
-"Hell's Raiders have an informant here to monitor who comes and goes.  I need "
-"you to find out who it is and deal with them without letting anyone else "
-"know of my suspicions.  We normally allow the Free Merchants to govern "
-"themselves so I would hate to offend them."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid "Thank you, please keep this discreet."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid "Come back when you get a chance, we could use a few good men."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid "If they draw first blood their friends are less likely to blame you..."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid "You deal with the rat?"
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid "Thank you, I'll do the explaining if anyone else asks about it."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid "Kill ???"
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid ""
-"There is another monster troubling the merchants but this time it isn't "
-"human... at least I don't think.  Guy just disappeared while walking behind "
-"a packed caravan.  They didn't hear any shots but I suppose some raider may "
-"have been real sneaky.  Check out the area and report anything you find."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid "Thanks, keeping the people safe is what we try and do."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid ""
-"Search the bushes for any trace?  I'm not an expert tracker but you should "
-"be able to find something."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid "Great work, wasn't sure what I was sending you after."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid "Kill Raider Leader"
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid ""
-"I've located a Hell's Raiders encampment in the region that appears to be "
-"coordinating operations against the Free Merchants.  We know almost nothing "
-"about the command structure in the 'gang' so I need to send someone in to "
-"decapitate the leadership.  The raid will be held under orders of the U.S. "
-"Marshals Service and by agreeing to the mission you will become a marshal, "
-"swearing to assist the federal government in regaining order."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid ""
-"Now repeat after me...  I do solemnly swear that I will support and defend "
-"the Constitution of the United States against all enemies, foreign and "
-"domestic...... that I will bear true faith and allegiance to the same...... "
-"that I take this obligation freely, without any mental reservation or "
-"purpose of evasion...... and that I will well and faithfully discharge the "
-"duties of the office on which I am about to enter.  To establish justice, "
-"insure domestic tranquility, provide for the common defense, promote the "
-"general welfare and secure the blessings of liberty.  So help me God.  "
-"Congratulations Marshal, don't forget your badge and gun.  As a marshal all "
-"men or women assisting you are considered deputy marshals so keep them in "
-"line."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid ""
-"I'd recommend having two deputies... it would be a death trap if a single "
-"man got surrounded."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid "Has the leadership been dealt with?"
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid ""
-"Marshal, you continue to impress us.  If you are interested, I recently "
-"received a message that a unit was deploying into our AO.  I don't have the "
-"exact coordinates but they said they were securing an underground facility "
-"and may require assistance.  The bird dropped them off next to a pump "
-"station.  Can't tell you much more.  If you could locate the captain in "
-"charge, I'm sure he could use your skills.  Don't forget to wear your badge "
-"when meeting with them.  Thank you once again marshal."
 msgstr ""
 
 #: lang/json/mission_def_from_json.py
@@ -81644,333 +82358,6 @@ msgid "Do you have the Molotov cocktails?"
 msgstr ""
 
 #: lang/json/mission_def_from_json.py
-msgid "Reach Farm House"
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid "I just need a place to start over..."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid ""
-"I've accepted that everyone I used to know is dead... one way or another.  I "
-"really wish I could have done something to save my brother but he was one of "
-"the first to go.  I'd like to start over, just rebuild at one of the farms "
-"in the countryside.  Can you help me secure one?"
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid ""
-"Thank you, let's find a remote one so we don't have to worry about many "
-"zombies."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid "Please, I just don't know what to do otherwise."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid "Traveling the backroads would be a good way to search for one."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid "Shall we keep looking for a farm house?"
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid ""
-"Well, my adventuring days are over.  I can't thank you enough.  Trying to "
-"make this place self sustaining will take some work but the future is "
-"looking brighter.  At least it ought to be safe for now.  You'll always be "
-"welcome here."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid "I guess it was just a pipe dream."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid "Reach FEMA Camp"
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid "Maybe they escaped to one of the camps..."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid ""
-"I can't thank you enough for bringing me the patient records but I do have "
-"another request.  You seem to know your way around... could you take me to "
-"one of the FEMA camps?  I know some were overrun but I don't want to believe "
-"all of them could have fallen."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid "Thank you, just bring me to the camp...  I just want to see."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid "Please, I don't know what else to do."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid ""
-"We should go at night, if it is overrun then we can quickly make our escape."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid "Any leads on where a camp might be?"
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid "I guess this wasn't as bright an idea as I thought."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid "Reach Safety"
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid "Recover Priest's Diary"
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid ""
-"From what I understand, the creatures you encountered surrounding this relic "
-"were unlike anything I've heard of.  It is laughable that I now consider the "
-"living dead to be part of our ordinary reality.  Never-the-less, the church "
-"must have some explanation for these events.  I have located the residence "
-"of a local clergy man, could you go to this address and recover any items "
-"that may reveal what the church's stance is on these events?"
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid ""
-"If the information is confidential the priest must have it hidden within his "
-"own home."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid "Thank you, a diary is exactly what I was looking for."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid "Recruit Tracker"
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid ""
-"We've got another problem to deal with but I don't think we can handle it on "
-"our own.  So, I sent word out and found us a volunteer... of sorts.  He's "
-"vain as hell but has a little skill with firearms.  He was supposed to "
-"collect whatever he had of value and is going to meet us at a cabin in the "
-"woods.  Wasn't sure how long we were going to be so I told him to just camp "
-"there until we picked him up."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid ""
-"Rodger, if he's a no-show then any other gunslinger will do... but I doubt "
-"he'll quit before we even begin."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid ""
-"I hope the bastard is packing heat... else we'll need to grab him a gun "
-"before we hit our next target."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid "Found a gunslinger?"
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid ""
-"Great, just let me know when you are ready to wade knee-deep in an ocean of "
-"blood."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid "Find Lost Dog"
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid "Oh, my poor puppy..."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid "I left my poor dog in a house, not far from here.  Can you retrieve it?"
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid "Thank you!  Please hurry back!"
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid "Please, think of my poor little puppy!"
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid ""
-"Take my dog whistle; if the dog starts running off, blow it and he'll return "
-"to your side."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid "Have you found my dog yet?"
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid "Thank you so much for finding him!"
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid "Oh no!  My poor puppy..."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid "Reach Refugee Center"
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid ""
-"We don't have the equipment for real analysis here so it'll need to be done "
-"in the field.  I need you to get a fresh sample of zombie blood, take it to "
-"a hospital, and perform a centrifuge analysis of it."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid ""
-"Excellent.  Take this blood draw kit; once you've found a zombie corpse, use "
-"it to extract blood from the body, then take it to a hospital for analysis."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid "Download Workstation Data"
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid ""
-"The medical software didn't just analyze the blood, it triggered a "
-"government alert.  Medical staff was under orders to immediately drive any "
-"matching samples to the nearest laboratory.  That must mean the government "
-"knew!  We have the destination address.  Go there, get in, and bring back "
-"any records you can download off a computer."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid "Great!  I've mapped out a route to the address."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid "Can't blame you, but come back if you change your mind."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid ""
-"If the laboratory is locked, maybe you can find an id card from employees "
-"who died in the evacuation.  Also brush up on your computer skills, any "
-"computers will have some security on them.  Bring back anything you find on "
-"a USB drive."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid ""
-"Thanks!  This data looks damaged, but maybe I can make something out of it."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid "Download Encryption Codes"
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid ""
-"Unfortunately the data you got was incomplete and mostly encrypted.  There "
-"may be a way to get encryption codes, though.  I found a complaint by the "
-"infosec team that they were unable to deliver critical security updates to "
-"one research site.  It was some kind of more restricted secondary site "
-"hidden beneath a town, they weren't allowed in.  That means it should have "
-"unsecured computers we can get the codes from."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid ""
-"Great!  I've mapped out a route, it should look like a normal house.  Bring "
-"back anything you find on a USB drive."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid "Expect the lab to be locked as usual."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid ""
-"Wonderful!  Now I just need to get an undamaged, complete archive, and we "
-"can really figure out what happened."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid "Download Research Archives"
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid ""
-"So there looks to be months, maybe years of experiments, and that data set "
-"must be huge.  Database servers massive enough to house it would overheat "
-"running on emergency power.  But I did found communications from a lab that "
-"had some kind of freezing portal open during the cataclysm, sending "
-"everything to subzero temperatures.  I bet the archives inside that lab are "
-"still working."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid ""
-"Great!  I've mapped out a route.  Bundle up, it gets colder the deeper you "
-"go and it looks like the archives were on the fourth basement level."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid ""
-"That lab is going to start freezing and just get colder the deeper you go.  "
-"You'll really need special equipment to survive that far down.  Bring back "
-"anything you find on a USB drive."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid "Thanks!  This is a lot of data to go through."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid "Find Lab Tunnels"
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid ""
-"In the data we found a major contract for tunneling and train equipment, "
-"ordered a long time ago.  It's the best lead we have.  Here's the address of "
-"the government lab where the equipment was delivered.  I want you to go "
-"there, find the tunnels that they dug, and download everything you can about "
-"the train network."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid "So glad for your help."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid ""
-"The equipment was rated for 50 feet underground, so that tunnel entrance is "
-"going to be deeper inside a lab than a normal subway.  Fifty feet would mean "
-"maybe four stories down.  Bring back anything you find on a USB drive."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
-msgid ""
-"Fantastic!  I should be able to reconstruct what cargo moved between which "
-"labs.  I wonder what was really going on down there."
-msgstr ""
-
-#: lang/json/mission_def_from_json.py
 msgid "Bring Jenny a motor for her compressor."
 msgstr ""
 
@@ -82416,6 +82803,10 @@ msgstr ""
 
 #: lang/json/morale_type_from_json.py
 msgid "Anguished by memories of butchering human corpse"
+msgstr ""
+
+#: lang/json/morale_type_from_json.py
+msgid "Dug out a grave"
 msgstr ""
 
 #: lang/json/morale_type_from_json.py
@@ -83506,7 +83897,11 @@ msgid ""
 "the name."
 msgstr ""
 
-#. ~ Description for Facial hair: none
+#: lang/json/mutation_from_json.py
+msgid "Facial hair: short boxed beard"
+msgstr ""
+
+#. ~ Description for Facial hair: short boxed beard
 #: lang/json/mutation_from_json.py
 msgid ""
 "You have a moustache and a short beard with trimmed sides. Thin patches "
@@ -83981,10 +84376,10 @@ msgid ""
 msgstr ""
 
 #: lang/json/mutation_from_json.py
-msgid "Rigid table manners"
+msgid "Rigid Table Manners"
 msgstr ""
 
-#. ~ Description for Rigid table manners
+#. ~ Description for Rigid Table Manners
 #: lang/json/mutation_from_json.py
 msgid ""
 "You've been taught proper table manners from your early childhood on.  Now "
@@ -90340,62 +90735,7 @@ msgid "nothing"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
-#: lang/json/overmap_terrain_from_json.py lang/json/terrain_from_json.py
-#: lang/json/terrain_from_json.py
-msgid "open air"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
 msgid "city building"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "basement"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "crater"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "field"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "forest"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "swamp"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "highway"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "road"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "road, manhole"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "bridge"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-#: lang/json/snippet_from_json.py
-msgid "house"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "duplex"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "parking lot"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
@@ -90403,155 +90743,11 @@ msgid "park"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
-msgid "pool"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "gas station"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "pharmacy"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "doctor's office"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "office"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "apartment tower"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "office tower"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "tower parking"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "office courtyard"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "church"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "cathedral"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "cathedral basement"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "grocery store"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "grocery store roof"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "hardware store"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "electronics store"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "sporting goods store"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "liquor store"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "liquor store roof"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "gun store"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "clothing store"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "library"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "bookstore"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "restaurant"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "restaurant roof"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "fast food restaurant"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "fast food restaurant roof"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "coffee shop"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "teashop"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "teashop roof"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "bar"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "bar roof"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "butcher shop"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "bike shop"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "pizza parlor"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "pizza parlor roof"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "subway station"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
 msgid "garage"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "forest"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
@@ -90564,107 +90760,6 @@ msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
 msgid "dirt lot"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "sugar house"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "farm field"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "farm house"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-#: lang/json/start_location_from_json.py
-msgid "farm"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "grape farm"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "stills"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "orchard"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "police station"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "bank"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "pawn shop"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "mil. surplus"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "furniture store"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "abandoned storefront"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "abandoned storefront roof"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "music store"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "megastore"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "hospital"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "public works"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "regional school"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "prison"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "hotel parking"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "hotel entrance"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "hotel tower"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "hotel basement"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "motel"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
@@ -90688,189 +90783,8 @@ msgid "razorclaw nest"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
-msgid "fema camp"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "radio station"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "evac shelter"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "evac shelter roof"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "LMOE shelter"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "military bunker"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "military outpost"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "missile silo"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "strange temple"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "sewage treatment"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "mine entrance"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "mine shaft"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "mine"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "spiral cavern"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
 #: lang/json/terrain_from_json.py
 msgid "radio tower"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "toxic waste dump"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "hazardous waste sarcophagus"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "cave"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "rat cave"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "bee hive"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "fungal bloom"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "fungal flowers"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "cavern"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "anthill"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "sulfurous anthill"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "slime pit"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "triffid grove"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "triffid roots"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-#: lang/json/terrain_from_json.py
-msgid "solid rock"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "rift"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "hellmouth"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "subway station (sewer level)"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "subway station (underground level)"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "subway"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "sewer"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "ant tunnel"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "ant food storage"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "ant larva chamber"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "ant queen chamber"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "tutorial room"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "serving area interface"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "small power substation"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "large power substation"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "small warehouse"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "home improvement superstore entrance"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "home improvement superstore"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
@@ -90879,10 +90793,6 @@ msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
 msgid "ramp testing area"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "football field"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
@@ -90903,30 +90813,6 @@ msgid "field campsite"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
-msgid "roadstop"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "public washroom"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "roadside foodcart"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "pump station"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "garage - gas station"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "religious cemetery"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
 msgid "pond"
 msgstr ""
 
@@ -90939,178 +90825,6 @@ msgid "swamp shack"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
-msgid "apple orchard"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "orchard processing"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "orchard stall"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "dairy farm"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "dispensary"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "dispensary roof"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "art gallery"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "art gallery roof"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "state park"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "state park parking"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "fishing pond"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "small cemetery"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "skate park"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "small office"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "small wooded trail"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "derelict property"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "pavilion"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "hunting blind"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "small storage units"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "lumberyard"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "construction site"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "post office"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "candy shop"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "bakery"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "bakery roof"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "icecream shop"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "icecream shop roof"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "dumpsite"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "dump"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "recycle center"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "landfill"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "junkyard"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "nature trail"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "public pond"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "cemetery"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "community garden"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "public garden"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "botanical garden"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "tree farm"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "dirt road"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "rural house"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "moonshine still"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "shooting range"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
 #: lang/json/start_location_from_json.py
 msgid "campground"
 msgstr ""
@@ -91120,315 +90834,7 @@ msgid "desolate barn"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
-msgid "empty commercial lot"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "empty residential lot"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "abandoned warehouse"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "abandoned warehouse roof"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "dollar store"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "LAN center"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "landscaping supply co"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "golf course"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "golf course parking lot"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "golf course service building"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "veterans of foreign wars"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "thrift store"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "daycare center"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "pet supply store"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "storage units"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "baseball field"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "abandoned shopping plaza"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "rest area"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "rest area parking"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "zoo parking"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "zoo pavilion"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "zoo"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "stadium parking"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "stadium"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "stadium entrance"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "stadium field"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "stadium garage"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "stadium bar"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "Head Shop"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "Natural Spring"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "movie theater"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "movie theater entrance"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "paintball field"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "smoking lounge"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "music venue"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "gambling hall"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "homeless camp"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "small scrap yard"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "strip club"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "trailer park"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
 msgid "mass grave"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "railroad"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "railroad bridge"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "railroad level crossing"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "railroad station"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "railroad station parking lot"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "forest trail"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "trailhead"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "veterinarian clinic"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "museum"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "mortuary"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "laundromat"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "jewelry store"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "2-story motel"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "Large Office Tower"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "home improvement store"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "animal pound"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "animal pound roof"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "animal shelter"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "animal shelter roof"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "antique store"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "antique store roof"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "arcade"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "arcade roof"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "bowling alley"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "boxing gym"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "fitness gym"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "dojo"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "fire station"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "gardening supply"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "craft shop"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "gardening allotment"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "open sewer"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "private park"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "small dump"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "small market"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "sex shop"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "internet cafe"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
@@ -91437,42 +90843,6 @@ msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
 msgid "giant sinkhole base"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "fire lookout tower"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "survivor's bunker"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "survivor's camp"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "public art piece"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "public space"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "car showroom"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "car dealership"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "tire shop"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "regional dump"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
@@ -91608,6 +90978,445 @@ msgid "generic_brushland"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
+msgid "sugar house"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "farm field"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "farm house"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+#: lang/json/start_location_from_json.py
+msgid "farm"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "grape farm"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "stills"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "orchard"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "apple orchard"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "orchard processing"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "orchard stall"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "dairy farm"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "small cemetery"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "moonshine still"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "tree farm"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "religious cemetery"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "cemetery"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "gas station"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "pharmacy"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "doctor's office"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "office"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "office tower"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "tower parking"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "office courtyard"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+#: lang/json/overmap_terrain_from_json.py lang/json/terrain_from_json.py
+#: lang/json/terrain_from_json.py
+msgid "open air"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "grocery store"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "grocery store roof"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "hardware store"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "electronics store"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "sporting goods store"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "liquor store"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "liquor store roof"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "gun store"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "clothing store"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "bookstore"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "restaurant"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "restaurant roof"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "fast food restaurant"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "fast food restaurant roof"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "coffee shop"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "teashop"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "teashop roof"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "bar"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "bar roof"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "butcher shop"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "bike shop"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "bike shop roof"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "pizza parlor"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "pizza parlor roof"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "bank"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "bank roof"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "pawn shop"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "mil. surplus"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "furniture store"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "music store"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "megastore"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "hotel parking"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "hotel entrance"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "hotel tower"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "hotel basement"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "motel"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "home improvement superstore entrance"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "home improvement superstore"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "garage - gas station"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "dispensary"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "dispensary roof"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "small office"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "candy shop"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "candy shop roof"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "bakery"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "bakery roof"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "icecream shop"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "icecream shop roof"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "dollar store"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "LAN center"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "landscaping supply co"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "veterans of foreign wars"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "thrift store"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "daycare center"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "pet supply store"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "abandoned shopping plaza"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "veterinarian clinic"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "laundromat"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "jewelry store"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "2-story motel"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "Large Office Tower"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "home improvement store"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "antique store"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "antique store roof"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "arcade"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "arcade roof"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "gardening supply"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "craft shop"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "small market"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "sex shop"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "internet cafe"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "car showroom"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "car dealership"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "tire shop"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "Head Shop"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "abandoned storefront"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "abandoned storefront roof"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "radio station"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "gardening allotment"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "animal pound"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "animal pound roof"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "animal shelter"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "animal shelter roof"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "empty commercial lot"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "road"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
 msgid "refugee center"
 msgstr ""
 
@@ -91657,6 +91466,163 @@ msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
 msgid "blacksmith shop"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "crater"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "field"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "swamp"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "parking lot"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "strange temple"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "mine entrance"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "mine shaft"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "mine"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "spiral cavern"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "cave"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "rat cave"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "bee hive"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "fungal bloom"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "fungal flowers"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "cavern"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "anthill"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "sulfurous anthill"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "slime pit"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "triffid grove"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "triffid roots"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+#: lang/json/terrain_from_json.py
+msgid "solid rock"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "rift"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "hellmouth"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "ant tunnel"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "ant food storage"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "ant larva chamber"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "ant queen chamber"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "tutorial room"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "public works"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "serving area interface"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "small power substation"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "large power substation"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "small warehouse"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "small storage units"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "lumberyard"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "construction site"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "abandoned warehouse"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "abandoned warehouse roof"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "storage units"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
@@ -91752,7 +91718,56 @@ msgid "mansion"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
+msgid "fema camp"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "evac shelter"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "evac shelter roof"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "LMOE shelter"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "military bunker"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "military outpost"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "missile silo"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "fire lookout tower"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "survivor's bunker"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "survivor's camp"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+#: lang/json/snippet_from_json.py
+msgid "house"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
 msgid "abandoned store"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "pump station"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
@@ -91764,7 +91779,23 @@ msgid "salon"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
+msgid "police station"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "church"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "sewer"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
 msgid "sewer?"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "basement"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
@@ -91888,6 +91919,42 @@ msgid "Vault - Gym"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
+msgid "cathedral"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "cathedral basement"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "library"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "hospital"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "regional school"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "prison"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "post office"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "mortuary"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "fire station"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
 msgid "silo"
 msgstr ""
 
@@ -91896,11 +91963,351 @@ msgid "ranch"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
+msgid "pool"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "football field"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "art gallery"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "art gallery roof"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "state park"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "state park parking"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "fishing pond"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "skate park"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "small wooded trail"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "pavilion"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "hunting blind"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "nature trail"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "public pond"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "community garden"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "public garden"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "botanical garden"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "shooting range"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "golf course"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "golf course parking lot"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "golf course service building"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "baseball field"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "zoo parking"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "zoo pavilion"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "zoo"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "stadium parking"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "stadium"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "stadium entrance"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "stadium field"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "stadium garage"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "stadium bar"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "Natural Spring"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "movie theater"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "movie theater entrance"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "paintball field"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "smoking lounge"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "music venue"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "gambling hall"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "strip club"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "museum"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "bowling alley"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "boxing gym"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "fitness gym"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "dojo"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "private park"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "public art piece"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "public space"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "duplex"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "rural house"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "apartment tower"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "homeless camp"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "trailer park"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "empty residential lot"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "derelict property"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
 msgid "river"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
 msgid "river bank"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "highway"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "road, manhole"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "bridge"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "roadstop"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "public washroom"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "roadside foodcart"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "dirt road"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "railroad"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "railroad bridge"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "railroad level crossing"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "railroad station"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "railroad station parking lot"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "forest trail"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "trailhead"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "subway station"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "subway station (sewer level)"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "subway station (underground level)"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "subway"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "rest area"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "rest area parking"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "sewage treatment"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "toxic waste dump"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "hazardous waste sarcophagus"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "dumpsite"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "dump"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "recycle center"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "landfill"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "junkyard"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "regional dump"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "small scrap yard"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "open sewer"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "small dump"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
@@ -117831,7 +118238,7 @@ msgstr ""
 
 #. ~ Description for Pressure Crunch
 #: lang/json/technique_from_json.py
-msgid "Heavy stun and knockback, double bash damage, crit only"
+msgid "Heavy stun and knockback, 1.5x bash damage, crit only"
 msgstr ""
 
 #: lang/json/technique_from_json.py
@@ -118299,10 +118706,6 @@ msgstr ""
 #. ~ Description for moss
 #: lang/json/terrain_from_json.py
 msgid "Moist spongy moss."
-msgstr ""
-
-#: lang/json/terrain_from_json.py
-msgid "grass"
 msgstr ""
 
 #. ~ Description for grass
@@ -119975,10 +120378,6 @@ msgstr ""
 msgid "dead hickory tree"
 msgstr ""
 
-#: lang/json/terrain_from_json.py
-msgid "underbrush"
-msgstr ""
-
 #. ~ Description for underbrush
 #: lang/json/terrain_from_json.py
 msgid ""
@@ -121112,6 +121511,17 @@ msgid ""
 "A simple roof and floor of rusty scrap metal bolted and wire-tied to a "
 "makeshift frame.  Very fashionable in post-apocalyptic shantytowns.  Hope "
 "you like the sound of rain on corrugated metal."
+msgstr ""
+
+#: lang/json/terrain_from_json.py
+msgid "grave"
+msgstr ""
+
+#. ~ Description for grave
+#: lang/json/terrain_from_json.py
+msgid ""
+"A dirt grave, with some grass growing on it.  At least some of the dead do "
+"actually rest in peace."
 msgstr ""
 
 #: lang/json/terrain_from_json.py
@@ -126220,6 +126630,20 @@ msgid "You try to sleep, but can't..."
 msgstr ""
 
 #: src/activity_handlers.cpp
+#, c-format
+msgid ""
+"You no longer have the %1$s in your possession.  You stop crafting.  "
+"Reactivate the %1$s to continue crafting."
+msgstr ""
+
+#: src/activity_handlers.cpp
+#, c-format
+msgid ""
+"<npcname> no longer has the %s in their possession.  <npcname> stops "
+"crafting."
+msgstr ""
+
+#: src/activity_handlers.cpp
 msgid "You can no longer see well enough to keep crafting."
 msgstr ""
 
@@ -126274,6 +126698,24 @@ msgstr ""
 #. ~ Sound of a shovel filling a pit or mound at work!
 #: src/activity_handlers.cpp
 msgid "hsh!"
+msgstr ""
+
+#: src/activity_handlers.cpp
+msgid "Something crawls out of the coffin!"
+msgstr ""
+
+#: src/activity_handlers.cpp
+msgctxt "memorial_male"
+msgid "Exhumed a grave."
+msgstr ""
+
+#: src/activity_handlers.cpp
+msgctxt "memorial_female"
+msgid "Exhumed a grave."
+msgstr ""
+
+#: src/activity_handlers.cpp
+msgid "You finish exhuming a grave."
 msgstr ""
 
 #: src/activity_handlers.cpp
@@ -127026,11 +127468,11 @@ msgid "You can't put items there!"
 msgstr ""
 
 #: src/advanced_inv.cpp
-msgid "Really move everything from your inventory?"
+msgid "Really remove all your clothes? (woo hoo)"
 msgstr ""
 
 #: src/advanced_inv.cpp
-msgid "Really remove all your clothes? (woo hoo)"
+msgid "Really drop all your favorite items?"
 msgstr ""
 
 #: src/advanced_inv.cpp
@@ -129011,7 +129453,6 @@ msgid "Dodge"
 msgstr ""
 
 #: src/bonuses.cpp src/panels.cpp src/player_display.cpp
-#: src/player_display.cpp
 msgid "Speed"
 msgstr ""
 
@@ -131090,6 +131531,10 @@ msgid "That doesn't look edible."
 msgstr ""
 
 #: src/consumption.cpp
+msgid "That doesn't look edible in its current form."
+msgstr ""
+
+#: src/consumption.cpp
 msgid "This is full of dirt after being on the ground."
 msgstr ""
 
@@ -131099,10 +131544,6 @@ msgstr ""
 #: src/iuse_actor.cpp
 #: src/iuse_actor.cpp src/mutation.cpp src/player.cpp
 msgid "You can't do that while underwater."
-msgstr ""
-
-#: src/consumption.cpp
-msgid "That doesn't look edible in its current form."
 msgstr ""
 
 #: src/consumption.cpp
@@ -131161,7 +131602,7 @@ msgid "You're full already and will be forcing yourself to eat."
 msgstr ""
 
 #: src/consumption.cpp
-msgid "You will not be able to finish it all."
+msgid "You're full already and will be forcing yourself to drink."
 msgstr ""
 
 #: src/consumption.cpp
@@ -131324,10 +131765,6 @@ msgstr ""
 
 #: src/consumption.cpp
 msgid "You feast upon the sweet honey."
-msgstr ""
-
-#: src/consumption.cpp
-msgid "You can't finish it all!"
 msgstr ""
 
 #: src/consumption.cpp
@@ -131552,6 +131989,23 @@ msgstr ""
 #: src/crafting.cpp
 #, c-format
 msgid "You don't have anything to store %s in!"
+msgstr ""
+
+#: src/crafting.cpp
+#, c-format
+msgid "Activate the %s to start crafting"
+msgstr ""
+
+#: src/crafting.cpp src/iuse.cpp
+#, c-format
+msgctxt "in progress craft"
+msgid "You start working on the %s"
+msgstr ""
+
+#: src/crafting.cpp src/iuse.cpp
+#, c-format
+msgctxt "in progress craft"
+msgid "<npcname> starts working on the %s"
 msgstr ""
 
 #: src/crafting.cpp
@@ -131815,6 +132269,12 @@ msgstr ""
 
 #: src/crafting_gui.cpp
 msgid "Impossible"
+msgstr ""
+
+#: src/crafting_gui.cpp
+msgid ""
+"Shown nutrition is <color_cyan>estimated</color>, varying with "
+"<color_cyan>chosen ingredients</color>."
 msgstr ""
 
 #: src/crafting_gui.cpp
@@ -132406,7 +132866,7 @@ msgid "Hunger"
 msgstr ""
 
 #: src/debug_menu.cpp
-msgid "Starvation"
+msgid "Stored kCal"
 msgstr ""
 
 #: src/debug_menu.cpp
@@ -132424,7 +132884,7 @@ msgstr ""
 
 #: src/debug_menu.cpp
 #, c-format
-msgid "Set starvation to? Currently: %d"
+msgid "Set stored kCal to? Currently: %d"
 msgstr ""
 
 #: src/debug_menu.cpp
@@ -133888,1275 +134348,6 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Devoted"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Golden"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Holy"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Righteous"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Sacred"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Shining"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Divine"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Noble"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Radiant"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Splendid"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Venerable"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Virtuous"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Bright"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Heroic"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Immaculate"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Crystal"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Metal"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Mighty"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Original"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Powerful"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Solid"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Colossal"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Famous"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Firey"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Invincible"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Stone"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Supreme"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Electric"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Great"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Unlimited"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Deadly"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Foul"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Nefarious"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Poisonous"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Vile"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Wicked"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Baleful"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Devastating"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Horror"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Ruinous"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Sinister"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Vicious"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Dread"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Pernicious"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Pestilent"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Dervishes"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Destroyers"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Fists"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Furies"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Slayers"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Tigers"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Army"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Berserkers"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Killers"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Paladins"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Samurai"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Valkyries"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Huntsmen"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Knights"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Warriors"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Agents"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Assassins"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Ninja"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Rats"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Shadows"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Snakes"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Arachnids"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Creepers"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Eliminators"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Guerillas"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Smoke"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Snipers"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Eels"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Shade"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Stalkers"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Bandits"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Family"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Gang"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Mafia"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Mob"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Punks"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Vandals"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Cutthroats"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Faction"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Guild"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Muggers"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Sharks"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Thugs"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Crooks"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Racket"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Brotherhood"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Church"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Creed"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Crucible"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Ones"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Sect"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Clerics"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Doctrine"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Monks"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Pastors"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Priests"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Tenet"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Elders"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Gnostics"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Inquisitors"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Clan"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Men"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "People"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Settlers"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Society"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Tribe"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Colony"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Folk"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Kingdom"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Nation"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Party"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Republic"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "State"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_adj"
-msgid "Company"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_goal"
-msgid "basic survival"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_goal"
-msgid "financial wealth"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_goal"
-msgid "dominance of the region"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_goal"
-msgid "the extermination of monsters"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_goal"
-msgid "contact with unseen powers"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_goal"
-msgid "bringing the apocalypse"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_goal"
-msgid "general chaos and anarchy"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_goal"
-msgid "the cultivation of knowledge"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_goal"
-msgid "harmony with nature"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_goal"
-msgid "rebuilding civilization"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_goal"
-msgid "spreading the fungus"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_job"
-msgid "protection rackets"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_job"
-msgid "the sale of information"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_job"
-msgid "their bustling trade centers"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_job"
-msgid "trade caravans"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_job"
-msgid "scavenging supplies"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_job"
-msgid "mercenary work"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_job"
-msgid "assassinations"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_job"
-msgid "raiding settlements"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_job"
-msgid "the theft of property"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_job"
-msgid "gambling parlors"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_job"
-msgid "medical aid"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_job"
-msgid "farming & selling food"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_job"
-msgid "drug dealing"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_job"
-msgid "selling manufactured goods"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_value"
-msgid "their charitable nature"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_value"
-msgid "their isolationism"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_value"
-msgid "exploring extensively"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_value"
-msgid "collecting rare artifacts"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_value"
-msgid "their knowledge of bionics"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_value"
-msgid "their libraries"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_value"
-msgid "their elite training"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_value"
-msgid "their robotics factories"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_value"
-msgid "treachery"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_value"
-msgid "the avoidance of drugs"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_value"
-msgid "their adherence to the law"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction_value"
-msgid "their cruelty"
-msgstr ""
-
-#: src/faction.cpp
-#, c-format
-msgid "The %1$s of %2$s"
-msgstr ""
-
-#: src/faction.cpp
-#, c-format
-msgid "The %1$s %2$s"
-msgstr ""
-
-#: src/faction.cpp
-#, c-format
-msgid "%1$s of %2$s"
-msgstr ""
-
-#: src/faction.cpp
-#, c-format
-msgid "%1$s have the ultimate goal of %2$s."
-msgstr ""
-
-#: src/faction.cpp
-#, c-format
-msgid " Their primary concern is %s."
-msgstr ""
-
-#: src/faction.cpp
-#, c-format
-msgid " Their primary concern is %1$s, but they are also involved in %2$s."
-msgstr ""
-
-#: src/faction.cpp
-msgid " They are known for "
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction name"
-msgid "ab"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction name"
-msgid "bon"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction name"
-msgid "cor"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction name"
-msgid "den"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction name"
-msgid "el"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction name"
-msgid "fes"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction name"
-msgid "gun"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction name"
-msgid "hit"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction name"
-msgid "id"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction name"
-msgid "jan"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction name"
-msgid "kal"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction name"
-msgid "ler"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction name"
-msgid "mal"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction name"
-msgid "nor"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction name"
-msgid "or"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction name"
-msgid "pan"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction name"
-msgid "qua"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction name"
-msgid "ros"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction name"
-msgid "sin"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction name"
-msgid "tor"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction name"
-msgid "urr"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction name"
-msgid "ven"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction name"
-msgid "wel"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction name"
-msgid "oxo"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction name"
-msgid "yen"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction name"
-msgid "zu"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction adjective"
-msgid "Ald"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction adjective"
-msgid "Brogg"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction adjective"
-msgid "Cald"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction adjective"
-msgid "Dredd"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction adjective"
-msgid "Eld"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction adjective"
-msgid "Forr"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction adjective"
-msgid "Gugg"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction adjective"
-msgid "Horr"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction adjective"
-msgid "Ill"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction adjective"
-msgid "Jov"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction adjective"
-msgid "Kok"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction adjective"
-msgid "Lill"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction adjective"
-msgid "Moom"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction adjective"
-msgid "Nov"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction adjective"
-msgid "Orb"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction adjective"
-msgid "Perv"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction adjective"
-msgid "Quot"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction adjective"
-msgid "Rar"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction adjective"
-msgid "Suss"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction adjective"
-msgid "Torr"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction adjective"
-msgid "Umbr"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction adjective"
-msgid "Viv"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction adjective"
-msgid "Warr"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction adjective"
-msgid "Xen"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction adjective"
-msgid "Yend"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction adjective"
-msgid "Zor"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction adjective"
-msgid "al"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction adjective"
-msgid "arn"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction adjective"
-msgid "astr"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction adjective"
-msgid "antr"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction adjective"
-msgid "ent"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction adjective"
-msgid "ell"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction adjective"
-msgid "ev"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction adjective"
-msgid "emm"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction adjective"
-msgid "empr"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction adjective"
-msgid "ill"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction adjective"
-msgid "ial"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction adjective"
-msgid "ior"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction adjective"
-msgid "ordr"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction adjective"
-msgid "oth"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction adjective"
-msgid "omn"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction adjective"
-msgid "uv"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction adjective"
-msgid "ulv"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction adjective"
-msgid "urn"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction adjective"
-msgid "an"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction adjective"
-msgid "ard"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction adjective"
-msgid "ate"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction adjective"
-msgid "e"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction adjective"
-msgid "ed"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction adjective"
-msgid "en"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction adjective"
-msgid "er"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction adjective"
-msgid "ian"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction adjective"
-msgid "iated"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction adjective"
-msgid "ier"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction adjective"
-msgid "ious"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction adjective"
-msgid "ish"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction adjective"
-msgid "ive"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction adjective"
-msgid "oo"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction adjective"
-msgid "or"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction adjective"
-msgid "old"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction adjective"
-msgid "ous"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction adjective"
-msgid "ul"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction adjective"
-msgid "un"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction adjective"
-msgid "ule"
-msgstr ""
-
-#: src/faction.cpp
-msgctxt "faction adjective"
-msgid "y"
-msgstr ""
-
-#: src/faction.cpp
 msgid "Archenemy"
 msgstr ""
 
@@ -135349,51 +134540,6 @@ msgid "Worthless"
 msgstr ""
 
 #: src/faction.cpp
-msgid "You don't know of any factions.  Press Spacebar..."
-msgstr ""
-
-#: src/faction.cpp
-msgid "FACTIONS:"
-msgstr ""
-
-#: src/faction.cpp
-#, c-format
-msgid "Ranking:           %s"
-msgstr ""
-
-#: src/faction.cpp
-#, c-format
-msgid "Respect:           %s"
-msgstr ""
-
-#: src/faction.cpp
-#, c-format
-msgid "Wealth:            %s"
-msgstr ""
-
-#: src/faction.cpp
-#, c-format
-msgid "Food Supply:       %s"
-msgstr ""
-
-#: src/faction.cpp
-#, c-format
-msgid "Combat Ability:    %s"
-msgstr ""
-
-#: src/faction.cpp
-msgid "YOUR FACTION"
-msgstr ""
-
-#: src/faction.cpp
-msgid "YOUR FOLLOWERS"
-msgstr ""
-
-#: src/faction.cpp
-msgid "OTHER FACTIONS"
-msgstr ""
-
-#: src/faction.cpp
 msgid "Press enter to rename this camp"
 msgstr ""
 
@@ -135407,19 +134553,12 @@ msgid "Location : (%d, %d)"
 msgstr ""
 
 #: src/faction.cpp
-msgid " calories"
-msgstr ""
-
-#: src/faction.cpp
-msgid "Food Supply : "
+#, c-format
+msgid "Food Supply : %s %d calories"
 msgstr ""
 
 #: src/faction.cpp
 msgid "Next Upgrade : "
-msgstr ""
-
-#: src/faction.cpp
-msgid "You have no camps"
 msgstr ""
 
 #: src/faction.cpp
@@ -135431,7 +134570,8 @@ msgid "travelling to : "
 msgstr ""
 
 #: src/faction.cpp
-msgid "travelling to : ("
+#, c-format
+msgid "travelling to : (%d, %d)"
 msgstr ""
 
 #: src/faction.cpp
@@ -135492,7 +134632,24 @@ msgid "Best other skills : "
 msgstr ""
 
 #: src/faction.cpp
-msgid "Best combat skill : "
+#, c-format
+msgid "Best combat skill : %s : %d"
+msgstr ""
+
+#: src/faction.cpp
+msgid "YOUR FACTION"
+msgstr ""
+
+#: src/faction.cpp
+msgid "YOUR FOLLOWERS"
+msgstr ""
+
+#: src/faction.cpp
+msgid "OTHER FACTIONS"
+msgstr ""
+
+#: src/faction.cpp
+msgid "You have no camps"
 msgstr ""
 
 #: src/faction.cpp
@@ -137763,7 +136920,7 @@ msgstr ""
 
 #: src/game.cpp
 msgctxt "action"
-msgid "reload"
+msgid "reload_item"
 msgstr ""
 
 #: src/game.cpp
@@ -138107,6 +137264,18 @@ msgstr ""
 #: src/game.cpp
 #, c-format
 msgid "(you: %d:%d)"
+msgstr ""
+
+#: src/game.cpp
+#, c-format
+msgid "Stomach Contents: %d ml / %d ml kCal: %d, Water: %d ml"
+msgstr ""
+
+#: src/game.cpp
+#, c-format
+msgid ""
+"Guts Contents: %d ml / %d ml kCal: %d, Water: %d ml\n"
+"Hunger: %d, Thirst: %d, kCal: %d / %d"
 msgstr ""
 
 #: src/game.cpp
@@ -139333,8 +138502,7 @@ msgid "You're too full to eat the leaves from the %s."
 msgstr ""
 
 #: src/game.cpp
-#, c-format
-msgid "You eat the leaves from the %s."
+msgid "You eat the underbrush."
 msgstr ""
 
 #: src/game.cpp
@@ -139342,8 +138510,7 @@ msgid "You're too full to graze."
 msgstr ""
 
 #: src/game.cpp
-#, c-format
-msgid "You graze on the %s."
+msgid "You eat the grass."
 msgstr ""
 
 #: src/game.cpp
@@ -141372,16 +140539,7 @@ msgstr ""
 
 #: src/iexamine.cpp
 #, c-format
-msgid "The %s is closed tightly."
-msgstr ""
-
-#: src/iexamine.cpp
-msgid "Leave it alone"
-msgstr ""
-
-#: src/iexamine.cpp
-#, c-format
-msgid "Use your %s"
+msgid "You attempt to pry open the %s using your %s..."
 msgstr ""
 
 #: src/iexamine.cpp
@@ -141546,16 +140704,6 @@ msgstr ""
 
 #: src/iexamine.cpp
 msgid "This electronic safe looks too complicated to open."
-msgstr ""
-
-#: src/iexamine.cpp
-#, c-format
-msgid "The %s is locked..."
-msgstr ""
-
-#: src/iexamine.cpp
-#, c-format
-msgid "Use the %s"
 msgstr ""
 
 #: src/iexamine.cpp
@@ -142887,6 +142035,10 @@ msgid "NPC classes"
 msgstr ""
 
 #: src/init.cpp
+msgid "Missions"
+msgstr ""
+
+#: src/init.cpp
 msgid "Harvest lists"
 msgstr ""
 
@@ -143145,6 +142297,10 @@ msgstr ""
 
 #: src/inventory_ui.cpp
 msgid "Switch selection mode"
+msgstr ""
+
+#: src/inventory_ui.cpp
+msgid "Toggle favorite"
 msgstr ""
 
 #: src/inventory_ui.cpp
@@ -143963,6 +143119,11 @@ msgstr[1] ""
 
 #: src/item.cpp
 #, c-format
+msgid "Using: %s"
+msgstr ""
+
+#: src/item.cpp
+#, c-format
 msgid "Made from: %s"
 msgstr ""
 
@@ -143985,6 +143146,11 @@ msgstr ""
 
 #: src/item.cpp
 msgid "Contains items with qualities:"
+msgstr ""
+
+#: src/item.cpp
+#, c-format
+msgid "This is an in progress %s.  It is %d percent complete."
 msgstr ""
 
 #: src/item.cpp
@@ -144034,6 +143200,10 @@ msgstr ""
 
 #: src/item.cpp
 msgid "<bold>Repaired with</bold>: "
+msgstr ""
+
+#: src/item.cpp
+msgid "* This item can be <good>reinforced</good>."
 msgstr ""
 
 #: src/item.cpp
@@ -144331,6 +143501,11 @@ msgstr ""
 #: src/item.cpp
 msgctxt "burnt adjective"
 msgid "burnt "
+msgstr ""
+
+#: src/item.cpp
+#, c-format
+msgid "in progress %s"
 msgstr ""
 
 #: src/item.cpp
@@ -145187,6 +144362,10 @@ msgid "It is delicious, and very filling!"
 msgstr ""
 
 #: src/iuse.cpp
+msgid "It is delicious, but you can't eat any more."
+msgstr ""
+
+#: src/iuse.cpp
 msgid "You take one bite, and immediately vomit!"
 msgstr ""
 
@@ -145879,11 +145058,31 @@ msgid "You can't deepen this pit without a proper shovel."
 msgstr ""
 
 #: src/iuse.cpp
+msgid "You can't exhume a grave without a proper shovel."
+msgstr ""
+
+#: src/iuse.cpp
 msgid "Deposit excavated materials where?"
 msgstr ""
 
 #: src/iuse.cpp
 msgid "You can't deposit the excavated materials onto an impassable location."
+msgstr ""
+
+#: src/iuse.cpp src/mutation.cpp
+msgid "Would you really touch the sacred resting place of the dead?"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Exhuming a grave is really against your beliefs."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Exhuming a grave is fun now, where there is no one to object."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Exhuming this grave is utterly disgusting!"
 msgstr ""
 
 #: src/iuse.cpp
@@ -146406,6 +145605,33 @@ msgstr ""
 
 #: src/iuse.cpp
 msgid "The mp3 player turns off."
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
+msgid "You take a deep breath from your %s."
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
+msgid "Air in your %s runs out."
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
+msgid "Your %s is empty."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "You turn off the regulator and close the air valve."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "You should wear it first."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "You turn on the regulator and open the air valve."
 msgstr ""
 
 #: src/iuse.cpp
@@ -152241,19 +151467,6 @@ msgid "%s gave you a dog whistle."
 msgstr ""
 
 #: src/mission_start.cpp
-msgid "Sean McLaughlin"
-msgstr ""
-
-#: src/mission_start.cpp
-msgid "Little Guy"
-msgstr ""
-
-#: src/mission_start.cpp
-#, c-format
-msgid "%s has instated you as a marshal!"
-msgstr ""
-
-#: src/mission_start.cpp
 msgid "Demonic Soul"
 msgstr ""
 
@@ -154182,7 +153395,6 @@ msgstr ""
 msgid "The %1$s bounces off a %2$s."
 msgstr ""
 
-#. ~ %1$s - monster name, %2$s - vehicle name
 #: src/monmove.cpp
 #, c-format
 msgid "%1$s shoves %2$s out of their way!"
@@ -154722,6 +153934,18 @@ msgstr ""
 
 #: src/mutation.cpp
 msgid "You delve into yourself."
+msgstr ""
+
+#: src/mutation.cpp
+msgid "You are really going against your beliefs here."
+msgstr ""
+
+#: src/mutation.cpp
+msgid "This is fun!"
+msgstr ""
+
+#: src/mutation.cpp
+msgid "This is utterly disgusting!"
 msgstr ""
 
 #: src/mutation.cpp
@@ -156328,6 +155552,14 @@ msgid "Tell all your allies stop running"
 msgstr ""
 
 #: src/npctalk.cpp
+msgid "Tell all your allies to prepare for danger"
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "Tell all your allies to relax from danger"
+msgstr ""
+
+#: src/npctalk.cpp
 msgid "Tell all your allies to follow"
 msgstr ""
 
@@ -156371,6 +155603,16 @@ msgstr ""
 
 #: src/npctalk.cpp
 msgid "No need to run any more, we can fight here."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid ""
+"We're in danger.  Stay awake, stay close, don't go wandering off, and don't "
+"open any doors."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "Relax and stand down."
 msgstr ""
 
 #: src/npctalk.cpp
@@ -157763,6 +157005,15 @@ msgid "HideKB"
 msgstr ""
 
 #: src/options.cpp
+msgid "Edge scrolling"
+msgstr ""
+
+#: src/options.cpp
+msgid ""
+"If true, enables edge scrolling/panning with mouse when looking or peeking."
+msgstr ""
+
+#: src/options.cpp
 msgid "Animations"
 msgstr ""
 
@@ -157834,6 +157085,97 @@ msgstr ""
 
 #: src/options.cpp
 msgid "Set the size of the terminal along the Y axis.  Requires restart."
+msgstr ""
+
+#: src/options.cpp
+msgid "Font blending"
+msgstr ""
+
+#: src/options.cpp
+msgid "If true, fonts will look better."
+msgstr ""
+
+#: src/options.cpp
+msgid "Font width"
+msgstr ""
+
+#: src/options.cpp
+msgid "Set the font width.  Requires restart."
+msgstr ""
+
+#: src/options.cpp
+msgid "Font height"
+msgstr ""
+
+#: src/options.cpp
+msgid "Set the font height.  Requires restart."
+msgstr ""
+
+#: src/options.cpp
+msgid "Font size"
+msgstr ""
+
+#: src/options.cpp
+msgid "Set the font size.  Requires restart."
+msgstr ""
+
+#: src/options.cpp
+msgid "Map font width"
+msgstr ""
+
+#: src/options.cpp
+msgid "Set the map font width.  Requires restart."
+msgstr ""
+
+#: src/options.cpp
+msgid "Map font height"
+msgstr ""
+
+#: src/options.cpp
+msgid "Set the map font height.  Requires restart."
+msgstr ""
+
+#: src/options.cpp
+msgid "Map font size"
+msgstr ""
+
+#: src/options.cpp
+msgid "Set the map font size.  Requires restart."
+msgstr ""
+
+#: src/options.cpp
+msgid "Overmap font width"
+msgstr ""
+
+#: src/options.cpp
+msgid "Set the overmap font width.  Requires restart."
+msgstr ""
+
+#: src/options.cpp
+msgid "Overmap font height"
+msgstr ""
+
+#: src/options.cpp
+msgid "Set the overmap font height.  Requires restart."
+msgstr ""
+
+#: src/options.cpp
+msgid "Overmap font size"
+msgstr ""
+
+#: src/options.cpp
+msgid "Set the overmap font size.  Requires restart."
+msgstr ""
+
+#: src/options.cpp
+msgid "SDL ASCII lines"
+msgstr ""
+
+#: src/options.cpp
+msgid ""
+"Use SDL ASCII line drawing routine instead of Unicode Line Drawing "
+"characters.  Use this option when your selected font doesn't contain "
+"necessary glyphs."
 msgstr ""
 
 #: src/options.cpp
@@ -158392,8 +157734,8 @@ msgstr ""
 
 #: src/options.cpp
 msgid ""
-"If true, experimental z-level maps will be enabled.  This feature is not "
-"finished yet and turning it on will only slow the game down."
+"If true, experimental z-level maps will be enabled.  Turn this off if you "
+"experience excessive slowdown."
 msgstr ""
 
 #: src/options.cpp
@@ -159235,7 +158577,7 @@ msgid "Waxing crescent"
 msgstr ""
 
 #: src/panels.cpp
-msgid "Half Moon"
+msgid "Half moon"
 msgstr ""
 
 #: src/panels.cpp
@@ -159251,10 +158593,6 @@ msgid "Waning gibbous"
 msgstr ""
 
 #: src/panels.cpp
-msgid "Half moon"
-msgstr ""
-
-#: src/panels.cpp
 msgid "Waning crescent"
 msgstr ""
 
@@ -159267,15 +158605,19 @@ msgid "Around midnight"
 msgstr ""
 
 #: src/panels.cpp
-msgid "It's getting darker"
+msgid "Dead of night"
 msgstr ""
 
 #: src/panels.cpp
-msgid "This is the Evening"
+msgid "Around dawn"
 msgstr ""
 
 #: src/panels.cpp
-msgid "In the afternoon"
+msgid "Early morning"
+msgstr ""
+
+#: src/panels.cpp
+msgid "Morning"
 msgstr ""
 
 #: src/panels.cpp
@@ -159283,15 +158625,19 @@ msgid "Around noon"
 msgstr ""
 
 #: src/panels.cpp
-msgid "Early Morning"
+msgid "Afternoon"
 msgstr ""
 
 #: src/panels.cpp
-msgid "Around Dawn"
+msgid "Early evening"
 msgstr ""
 
 #: src/panels.cpp
-msgid "Dead of Night"
+msgid "Around dusk"
+msgstr ""
+
+#: src/panels.cpp
+msgid "Night"
 msgstr ""
 
 #: src/panels.cpp
@@ -160423,6 +159769,10 @@ msgid "You are STARVING!"
 msgstr ""
 
 #: src/player.cpp
+msgid "You feel like you haven't eaten in days..."
+msgstr ""
+
+#: src/player.cpp
 msgid "Your stomach feels so empty..."
 msgstr ""
 
@@ -160511,8 +159861,12 @@ msgstr ""
 
 #: src/player.cpp
 msgid ""
-"Your body collapses to sleep deprivation, your neglected fatigue rushing "
+"Your body collapses due to sleep deprivation, your neglected fatigue rushing "
 "back all at once, and you pass out on the spot."
+msgstr ""
+
+#: src/player.cpp
+msgid "<npcname> collapses to the ground from exhaustion."
 msgstr ""
 
 #: src/player.cpp
@@ -160654,7 +160008,7 @@ msgstr ""
 
 #: src/player.cpp
 #, c-format
-msgid "You're too famished to keep your %s going."
+msgid "You're too malnourished to keep your %s going."
 msgstr ""
 
 #: src/player.cpp
@@ -161214,7 +160568,15 @@ msgid "You tiredly rub your eyes."
 msgstr ""
 
 #: src/player.cpp
+msgid "<npcname> tiredly rubs their eyes."
+msgstr ""
+
+#: src/player.cpp
 msgid "You let out a small yawn."
+msgstr ""
+
+#: src/player.cpp
+msgid "<npcname> lets out a small yawn."
 msgstr ""
 
 #: src/player.cpp
@@ -161222,7 +160584,15 @@ msgid "You stretch your back."
 msgstr ""
 
 #: src/player.cpp
+msgid "<npcname> streches their back."
+msgstr ""
+
+#: src/player.cpp
 msgid "You feel mentally tired."
+msgstr ""
+
+#: src/player.cpp
+msgid "<npcname> lets out a huge yawn."
 msgstr ""
 
 #: src/player.cpp
@@ -161264,6 +160634,14 @@ msgstr ""
 
 #: src/player.cpp
 msgid "Your shaking legs make you stumble."
+msgstr ""
+
+#: src/player.cpp
+msgid "<npcname stumbles."
+msgstr ""
+
+#: src/player.cpp
+msgid "<npcname> falls over!"
 msgstr ""
 
 #: src/player.cpp
@@ -162494,6 +161872,10 @@ msgid "Cycle to next category"
 msgstr ""
 
 #: src/player_display.cpp
+msgid "Cycle to previous category"
+msgstr ""
+
+#: src/player_display.cpp
 msgid "Toggle skill training"
 msgstr ""
 
@@ -162544,7 +161926,7 @@ msgstr ""
 
 #: src/player_display.cpp
 #, c-format
-msgid "Under-Fed           -%s%d%%"
+msgid "Starving            -%s%d%%"
 msgstr ""
 
 #: src/player_display.cpp
@@ -163168,7 +162550,7 @@ msgid "It's too hot to sleep."
 msgstr ""
 
 #: src/player_hardcoded_effects.cpp
-msgid "It looks like you woke up before your alarm."
+msgid "It looks like you woke up just before your alarm."
 msgstr ""
 
 #: src/player_hardcoded_effects.cpp

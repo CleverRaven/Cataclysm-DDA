@@ -5,7 +5,7 @@
   },
   {
     "type": "rotatable_symbol",
-    "tuple": [ "┐", "└", "┌", "┘" ]
+    "tuple": [ "┘", "└", "┌", "┐" ]
   },
   {
     "type": "rotatable_symbol",
@@ -17,7 +17,7 @@
   },
   {
     "type": "rotatable_symbol",
-    "tuple": [ "╗", "╚", "╔", "╝" ]
+    "tuple": [ "╝", "╚", "╔", "╗" ]
   },
   {
     "type": "rotatable_symbol",
@@ -29,7 +29,7 @@
   },
   {
     "type": "rotatable_symbol",
-    "tuple": [ "╕", "╘", "╒", "╛" ]
+    "tuple": [ "╛", "╘", "╒", "╕" ]
   },
   {
     "type": "rotatable_symbol",
@@ -41,7 +41,7 @@
   },
   {
     "type": "rotatable_symbol",
-    "tuple": [ "╖", "╙", "╓", "╜ " ]
+    "tuple": [ "╜", "╙", "╓", "╖" ]
   },
   {
     "type": "rotatable_symbol",
@@ -77,11 +77,11 @@
   },
   {
     "type": "rotatable_symbol",
-    "tuple": [ "╮", "╰", "╭", "╯" ]
+    "tuple": [ "╯", "╰", "╭", "╮" ]
   },
   {
     "type": "rotatable_symbol",
-    "tuple": [ "▜", "▙", "▛", "▟" ]
+    "tuple": [ "▟", "▙", "▛", "▜" ]
   },
   {
     "type": "rotatable_symbol",
@@ -89,7 +89,7 @@
   },
   {
     "type": "rotatable_symbol",
-    "tuple": [ "▖", "▝", "▗", "▘" ]
+    "tuple": [ "▘", "▝", "▗", "▖" ]
   },
   {
     "type": "rotatable_symbol",

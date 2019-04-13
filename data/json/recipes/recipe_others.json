@@ -1187,6 +1187,19 @@
   },
   {
     "type": "recipe",
+    "result": "stepladder",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": 6000,
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_W", "level": 1 } ],
+    "components": [ [ [ "2x4", 12 ] ], [ [ "nail", 30 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "duct_tape",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",

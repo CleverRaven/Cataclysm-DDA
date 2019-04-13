@@ -2,6 +2,8 @@
 #ifndef CATACURSE_H
 #define CATACURSE_H
 
+#if defined(TILES) || defined(_WIN32)
+
 #include <array>
 #include <string>
 #include <vector>
@@ -80,3 +82,5 @@ bool handle_resize( int w, int h );
 int get_scaling_factor();
 
 #endif
+#endif
+

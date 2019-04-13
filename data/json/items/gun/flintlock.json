@@ -38,7 +38,7 @@
     "skill": "pistol",
     "range": 2,
     "ranged_damage": 2,
-    "dispersion": 520,
+    "dispersion": 620,
     "durability": 6,
     "clip_size": 1,
     "reload": 600,

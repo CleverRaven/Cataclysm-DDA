@@ -47,7 +47,8 @@
     "name": "S&W 610",
     "name_plural": "S&W 610",
     "description": "The Smith and Wesson 610 is a classic six-shooter revolver chambered for 10mm rounds, or for S&W's own .40 round.",
-    "ammo": "10mm_auto"
+    "ammo": "10mm_auto",
+    "magazines": [ [ "10mm_auto", [ "40_speedloader6" ] ] ]
   },
   {
     "id": "saiga_12",

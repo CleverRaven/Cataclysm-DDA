@@ -117,7 +117,7 @@
     "id": "ump45mag",
     "type": "MAGAZINE",
     "name": "UMP45 magazine",
-    "description": "A standard 30-round box magazine for use with the H&K UMP45 SMG.",
+    "description": "A standard 25-round box magazine for use with the H&K UMP45 SMG.",
     "weight": 200,
     "volume": 2,
     "price": 4950,

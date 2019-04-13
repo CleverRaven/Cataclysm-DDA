@@ -972,6 +972,14 @@
     "difficulty": 3
   },
   {
+    "id": "bio_glowy",
+    "copy-from": "bionic_general_faulty",
+    "type": "BIONIC_ITEM",
+    "name": "Glowy Thing",
+    "description": "It's a... thing?  And it glows, at least it did when it was plugged in.",
+    "difficulty": 3
+  },
+  {
     "id": "bio_leaky",
     "copy-from": "bionic_general_faulty",
     "type": "BIONIC_ITEM",

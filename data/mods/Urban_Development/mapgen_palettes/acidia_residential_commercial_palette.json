@@ -45,6 +45,7 @@
       "<": "t_stairs_down",
       "}": "t_ladder_up",
       "{": "t_ladder_down",
+      "/": "t_gates_mech_control",
       "A": "t_floor",
       "a": "t_atm",
       "B": "t_linoleum_white",

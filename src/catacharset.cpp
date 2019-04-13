@@ -8,7 +8,7 @@
 #include "options.h"
 #include "wcwidth.h"
 
-#if (defined _WIN32 || defined WINDOWS)
+#if defined(_WIN32)
 #include "platform_win.h"
 #include "mmsystem.h"
 #endif
@@ -362,7 +362,7 @@ static void strip_trailing_nulls( std::string &str )
 
 std::wstring utf8_to_wstr( const std::string &str )
 {
-#if defined(_WIN32) || defined(WINDOWS)
+#if defined(_WIN32)
     int sz = MultiByteToWideChar( CP_UTF8, 0, str.c_str(), -1, nullptr, 0 ) + 1;
     std::wstring wstr( sz, '\0' );
     MultiByteToWideChar( CP_UTF8, 0, str.c_str(), -1, &wstr[0], sz );
@@ -379,7 +379,7 @@ std::wstring utf8_to_wstr( const std::string &str )
 
 std::string wstr_to_utf8( const std::wstring &wstr )
 {
-#if defined(_WIN32) || defined(WINDOWS)
+#if defined(_WIN32)
     int sz = WideCharToMultiByte( CP_UTF8, 0, wstr.c_str(), -1, NULL, 0, NULL, NULL );
     std::string str( sz, '\0' );
     WideCharToMultiByte( CP_UTF8, 0, wstr.c_str(), -1, &str[0], sz, NULL, NULL );
@@ -399,7 +399,7 @@ std::string native_to_utf8( const std::string &str )
     if( get_options().has_option( "ENCODING_CONV" ) && !get_option<bool>( "ENCODING_CONV" ) ) {
         return str;
     }
-#if defined(_WIN32) || defined(WINDOWS)
+#if defined(_WIN32)
     // native encoded string --> Unicode sequence --> UTF-8 string
     int unicode_size = MultiByteToWideChar( CP_ACP, 0, str.c_str(), -1, NULL, 0 ) + 1;
     std::wstring unicode( unicode_size, '\0' );
@@ -419,7 +419,7 @@ std::string utf8_to_native( const std::string &str )
     if( get_options().has_option( "ENCODING_CONV" ) && !get_option<bool>( "ENCODING_CONV" ) ) {
         return str;
     }
-#if defined(_WIN32) || defined(WINDOWS)
+#if defined(_WIN32)
     // UTF-8 string --> Unicode sequence --> native encoded string
     int unicode_size = MultiByteToWideChar( CP_UTF8, 0, str.c_str(), -1, NULL, 0 ) + 1;
     std::wstring unicode( unicode_size, '\0' );

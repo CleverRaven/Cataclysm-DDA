@@ -4737,7 +4737,7 @@ std::list<item> use_charges_from_stack( Stack stack, const itype_id type, long &
 {
     std::list<item> ret;
     for( auto a = stack.begin(); a != stack.end() && quantity > 0; ) {
-        if( filter( *a ) && !a->made_of( LIQUID ) && a->use_charges( type, quantity, ret, pos ) ) {
+        if( !a->made_of( LIQUID ) && a->use_charges( type, quantity, ret, pos, filter ) ) {
             a = stack.erase( a );
         } else {
             ++a;
@@ -6632,7 +6632,7 @@ void map::rotten_item_spawn( const item &item, const tripoint &pnt )
     if( g->critter_at( pnt ) != nullptr ) {
         return;
     }
-    auto &comest = item.type->comestible;
+    const auto &comest = item.get_comestible();
     mongroup_id mgroup = comest->rot_spawn;
     if( mgroup == "GROUP_NULL" ) {
         return;

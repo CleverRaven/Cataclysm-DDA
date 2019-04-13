@@ -18,7 +18,7 @@
   {
     "id": "38_speedloader",
     "type": "MAGAZINE",
-    "name": ".38 speedloader",
+    "name": ".38 7-round speedloader",
     "description": "This speedloader can hold 7 rounds of .38 and quickly reload a compatible revolver.",
     "weight": 80,
     "volume": 1,
@@ -28,6 +28,21 @@
     "color": "light_gray",
     "ammo_type": "38",
     "capacity": 7,
+    "flags": [ "SPEEDLOADER" ]
+  },
+  {
+    "id": "38_speedloader5",
+    "type": "MAGAZINE",
+    "name": ".38 5-round speedloader",
+    "description": "This speedloader can hold 5 rounds of .38 and quickly reload a compatible revolver.",
+    "weight": 60,
+    "volume": 1,
+    "price": 800,
+    "material": "steel",
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": "38",
+    "capacity": 5,
     "flags": [ "SPEEDLOADER" ]
   }
 ]

@@ -27,7 +27,7 @@
 #include "weather.h"
 #include "weather_gen.h"
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
 #include <SDL_keyboard.h>
 #endif
 
@@ -110,7 +110,7 @@ std::array<std::pair<nc_color, std::string>, npm_width *npm_height> get_overmap_
             // Only load terrain if we can actually see it
             oter_id cur_ter = overmap_buffer.ter( dest );
             ter_color = cur_ter->get_color();
-            ter_sym = cur_ter->get_sym();
+            ter_sym = cur_ter->get_symbol();
         } else {
             ter_color = c_dark_gray;
             ter_sym = "#";
@@ -305,7 +305,7 @@ point draw_notes( int z )
 
     mvwprintz( w_notes, 1, 1, c_white, title.c_str() );
     do {
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
         input_context ctxt( "DRAW_NOTES" );
 #endif
         if( redraw ) {
@@ -331,7 +331,7 @@ point draw_notes( int z )
                                              note_text.substr( std::get<2>( om_symbol ),
                                                      std::string::npos ) );
                 trim_and_print( w_notes, i + 2, 5, FULL_SCREEN_WIDTH - 7, c_light_gray, "%s", tmp_note.c_str() );
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
                 ctxt.register_manual_key( 'a' + i, notes[cur_it].second.c_str() );
 #endif
             }
@@ -445,7 +445,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
         if( info ) {
             const bool explored = show_explored && overmap_buffer.is_explored( omx, omy, z );
             ter_color = explored ? c_dark_gray : info->get_color( uistate.overmap_land_use_codes );
-            ter_sym = info->get_sym( uistate.overmap_land_use_codes );
+            ter_sym = info->get_symbol( uistate.overmap_land_use_codes );
         }
     };
 
@@ -464,7 +464,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
                 const oter_id oter =  s_ter.terrain->get_rotated( uistate.omedit_rotation );
 
                 special_cache.insert( std::make_pair(
-                                          rp, std::make_pair( oter->get_sym(), oter->get_color() ) ) );
+                                          rp, std::make_pair( oter->get_symbol(), oter->get_color() ) ) );
 
                 s_begin.x = std::min( s_begin.x, rp.x );
                 s_begin.y = std::min( s_begin.y, rp.y );
@@ -506,6 +506,9 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
         std::vector<npc *> followers;
         for( auto &elem : g->get_follower_list() ) {
             std::shared_ptr<npc> npc_to_get = overmap_buffer.find_npc( elem );
+            if( !npc_to_get ) {
+                continue;
+            }
             npc *npc_to_add = npc_to_get.get();
             followers.push_back( npc_to_add );
         }
@@ -653,7 +656,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
             if( uistate.place_terrain || uistate.place_special ) {
                 if( blink && uistate.place_terrain && omx == cursx && omy == cursy ) {
                     ter_color = uistate.place_terrain->get_color();
-                    ter_sym = uistate.place_terrain->get_sym();
+                    ter_sym = uistate.place_terrain->get_symbol();
                 } else if( blink && uistate.place_special ) {
                     if( omx - cursx >= s_begin.x && omx - cursx <= s_end.x &&
                         omy - cursy >= s_begin.y && omy - cursy <= s_end.y ) {
@@ -820,7 +823,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
             const auto &ter = ccur_ter.obj();
             const auto sm_pos = omt_to_sm_copy( tripoint( cursx, cursy, z ) );
 
-            mvwputch( wbar, 1, 1, ter.get_color(), ter.get_sym() );
+            mvwputch( wbar, 1, 1, ter.get_color(), ter.get_symbol() );
 
             lines = fold_and_print( wbar, 1, 3, 25, ter.get_color(),
                                     overmap_buffer.get_description_at( sm_pos ) );
@@ -1007,7 +1010,7 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
             catacurses::window w_preview_map = catacurses::newwin( npm_height + 2, npm_width + 2, 2, 0 );
             auto preview_windows = std::make_tuple( &w_preview, &w_preview_title, &w_preview_map );
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
             if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
                 SDL_StartTextInput();
             }

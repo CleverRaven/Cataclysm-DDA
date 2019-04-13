@@ -12,6 +12,19 @@
     "components": [ [ [ "rag", 35 ] ] ]
   },
   {
+    "result": "electric_blanket",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_OTHER",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "skills_required": [ "electronics", 2 ],
+    "time": 120000,
+    "book_learn": [ [ "textbook_tailor", 2 ], [ "manual_tailor", 2 ] ],
+    "using": [ [ "sewing_standard", 20 ] ],
+    "components": [ [ [ "rag", 35 ] ], [ [ "plastic_chunk", 4 ] ], [ [ "element", 8 ] ], [ [ "cable", 10 ] ], [ [ "amplifier", 1 ] ] ]
+  },
+  {
     "result": "ring",
     "type": "recipe",
     "category": "CC_ARMOR",
