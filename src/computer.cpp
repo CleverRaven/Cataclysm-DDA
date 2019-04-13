@@ -1340,19 +1340,38 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW. \n\
         // geiger counter for irradiator, primary measurement at t_rad_platform, secondary at player loacation
         case COMPACT_GEIGER: {
             g->u.moves -= 30;
+            tripoint platform;
             bool source_exists = false;
+            int sum_rads = 0;
+            int peak_rad = 0;
+            int tiles_counted = 0;
             print_error( _( "RADIATION MEASUREMENTS:" ) );
             for( const tripoint &dest : g->m.points_in_radius( g->u.pos(), 10 ) ) {
                 if( g->m.ter( dest ) == t_rad_platform ) {
-                    print_error( _( "GEIGER COUNTER @ PLATFORM: ... %s mSv/h." ), g->m.get_radiation( dest ) );
                     source_exists = true;
+                    platform = dest;
                 }
             }
-            if( !source_exists ) {
-                print_error(
-                    _( "GEIGER COUNTER @ PLATFORM: ... IRRESPONSIVE.  COMPLY TO PROCEDURE GC_M_01_rev.03." ) );
+            if( source_exists ) {
+                for( const tripoint &dest : g->m.points_in_radius( platform, 3 ) ) {
+                    sum_rads += g->m.get_radiation( dest );
+                    tiles_counted ++;
+                    if( g->m.get_radiation( dest ) > peak_rad ) {
+                        peak_rad = g->m.get_radiation( dest );
+                    }
+                    sum_rads += g->m.get_radiation( platform );
+                    tiles_counted ++;
+                    if( g->m.get_radiation( platform ) > peak_rad ) {
+                        peak_rad = g->m.get_radiation( dest );
+                    }
+                }
+                print_error( _( "GEIGER COUNTER @ ZONE:... AVG %s mSv/h." ), sum_rads / tiles_counted );
+                print_error( _( "GEIGER COUNTER @ ZONE:... MAX %s mSv/h." ), peak_rad );
+                print_newline();
             }
             print_error( _( "GEIGER COUNTER @ CONSOLE: .... %s mSv/h." ), g->m.get_radiation( g->u.pos() ) );
+            print_error( _( "PERSONAL DOSIMETRY: .... %s mSv." ), g->u.radiation );
+            print_newline();
             query_any( _( "Press any key..." ) );
             break;
         }
@@ -1379,16 +1398,27 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW. \n\
                     u_exists = true;
                 }
             }
-            if( !l_exists || p_exists || !u_exists ) {
-                query_any( _( "Conveyor belt malfunction.  Press any key..." ) );
+            if( !l_exists || !p_exists || !u_exists ) {
+                print_error( _( "Conveyor belt malfunction.  Consult maitainenece team." ) );
+                query_any( _( "Press any key..." ) );
                 break;
             }
             auto items = g->m.i_at( platform );
+            if( items.size() != 0 ){
+                print_line( _( "Moving items: PLATFORM --> UNLOADING BAY." ) );
+            } else {
+                print_line( _( "No items detected at: PLATFORM." ) );
+            }
             for( const auto &it : items ) {
                 g->m.add_item_or_charges( unloading, it );
                 g->m.i_clear( platform );
             }
             items = g->m.i_at( loading );
+            if( items.size() != 0 ){
+                print_line( _( "Moving items: LOADING BAY --> PLATFORM." ) );
+            } else {
+                print_line( _( "No items detected at: LOADING BAY." ) );
+            }
             for( const auto &it : items ) {
                 if( !it.made_of_from_type( LIQUID ) ) {
                     g->m.add_item_or_charges( platform, it );
@@ -1401,7 +1431,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW. \n\
         // toggles reinforced glass shutters open->closed and closed->open depending on their current state
         case COMPACT_SHUTTERS:
             g->u.moves -= 300;
-            g->m.translate_radius( t_reinforced_glass_shutter, t_reinforced_glass_shutter_open, 8.0, g->u.pos(),
+            g->m.translate_radius( t_reinforced_glass_shutter_open, t_reinforced_glass_shutter, 8.0, g->u.pos(),
                                    true, true );
             query_any( _( "Toggling shutters.  Press any key..." ) );
             break;
@@ -1422,7 +1452,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW. \n\
                     g->m.translate_radius( t_rad_platform, t_concrete, 8.0, g->u.pos(), true );
                     remove_option( COMPACT_IRRADIATOR );
                     remove_option( COMPACT_EXTRACT_RAD_SOURCE );
-                    query_any( _( "Operation complete... press any key." ) );
+                    query_any( _( "Extraction sequence complete... press any key." ) );
                 } else {
                     query_any( _( "ERROR!  Radiation platform unresponsive... press any key." ) );
                 }
