@@ -783,15 +783,15 @@ void monster::footsteps( const tripoint &p )
     if( volume == 0 ) {
         return;
     }
-    std::string footstep = "footsteps.";
+    std::string footstep = _( "footsteps." );
     if( type->in_species( BLOB ) ) {
-        footstep = "plop.";
+        footstep = _( "plop." );
     } else if( type->in_species( ZOMBIE ) ) {
-        footstep = "shuffling.";
+        footstep = _( "shuffling." );
     } else if( type->in_species( ROBOT ) ) {
-        footstep = "mechanical whirring.";
+        footstep = _( "mechanical whirring." );
     } else if( type->in_species( WORM ) ) {
-        footstep = "rustle.";
+        footstep = _( "rustle." );
     }
     int dist = rl_dist( p, g->u.pos() );
     sounds::add_footstep( p, volume, dist, this, footstep );
