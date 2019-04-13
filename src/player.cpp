@@ -5918,7 +5918,8 @@ void player::suffer()
             add_msg_if_player( m_bad, _( smokin_hot_fiyah.c_str() ) );
         }
     }
-    if( has_trait( trait_KILLER ) && !has_morale( MORALE_KILLER_HAS_KILLED ) && calendar::once_every( 2_hours ) ) {
+    if( has_trait( trait_KILLER ) && !has_morale( MORALE_KILLER_HAS_KILLED ) &&
+        calendar::once_every( 2_hours ) ) {
         add_morale( MORALE_KILLER_NEED_TO_KILL, -1, -30, 24_hours, 24_hours );
         if( calendar::once_every( 4_hours ) ) {
             std::string snip = SNIPPET.random_from_category( "killer_withdrawal" );
