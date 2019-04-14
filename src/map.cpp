@@ -7886,8 +7886,8 @@ void map::add_corpse( const tripoint &p )
     } else {
         body = item::make_corpse( mon_zombie );
         body.item_tags.insert( "REVIVE_SPECIAL" );
-        body.active = true;
     }
+    body.active = true;
 
     add_item_or_charges( p, body );
     put_items_from_loc( "shoes",  p, 0 );

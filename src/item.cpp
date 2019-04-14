@@ -262,7 +262,7 @@ item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &
     item result( "corpse", turn );
     result.corpse = &mt.obj();
 
-    result.active = result.corpse->has_flag( MF_REVIVES );
+    result.active = true;
     if( result.active && one_in( 20 ) ) {
         result.item_tags.insert( "REVIVE_SPECIAL" );
     }
@@ -6170,10 +6170,6 @@ bool item::burn( fire_data &frd )
             burnt = 0;
             return false;
         }
-
-        if( burnt + burn_added > mt->hp ) {
-            active = false;
-        }
     } else if( has_temperature() ) {
         heat_up();
     } else if( is_food_container() ) {
@@ -7163,7 +7159,6 @@ bool item::process_corpse( player *carrier, const tripoint &pos )
     if( !ready_to_revive( pos ) ) {
         return false;
     }
-    active = false;
     if( rng( 0, volume() / units::legacy_volume_factor ) > burnt && g->revive_corpse( pos, *this ) ) {
         if( carrier == nullptr ) {
             if( g->u.sees( pos ) ) {
