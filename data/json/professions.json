@@ -146,6 +146,14 @@
           [ [ "MEATARIAN" ], [ "ANTIWHEAT" ], "pizza_meat" ]
         ]
       },
+      {
+        "item": "grahmcrackers",
+        "sub": [
+          [ [ "ANTIJUNK" ], [ "ANTIWHEAT" ], "crackers" ],
+          [ [ "ANTIWHEAT" ], [ "ANTIJUNK" ], "neccowafers" ],
+          [ [ "ANTIJUNK", "ANTIWHEAT" ], "boiled_egg" ]
+        ]
+      },
       { "item": "can_beans", "sub": [ [ [ "MEATARIAN" ], "can_spam" ] ] },
       { "item": "glasses_eye", "bonus": [ [ "MYOPIC" ], [ "HYPEROPIC" ] ] },
       { "item": "glasses_bifocal", "bonus": [ [ "HYPEROPIC", "MYOPIC" ] ] },
@@ -198,7 +206,16 @@
     "name": "Bionic Prepper",
     "description": "You knew the end was coming.  You augmented yourself with some basic bionics and got additional survival training.  Now the end has come, and it is time to see if your efforts have paid off.",
     "points": 6,
-    "CBMs": [ "bio_furnace", "bio_power_storage_mkII", "bio_tools", "bio_flashlight", "bio_lighter", "bio_evap", "bio_climate" ],
+    "CBMs": [
+      "bio_furnace",
+      "bio_power_storage_mkII",
+      "bio_tools",
+      "bio_flashlight",
+      "bio_lighter",
+      "bio_evap",
+      "bio_climate",
+      "bio_taste_blocker"
+    ],
     "skills": [
       { "level": 4, "name": "survival" },
       { "level": 3, "name": "fabrication" },
@@ -734,6 +751,50 @@
   },
   {
     "type": "profession",
+    "ident": "groundskeeper",
+    "name": "Landscaper",
+    "//": "A simple class for players who want to try some basic crafting immediately, or who want a machete because it's in-genre.",
+    "description": "You used to mow lawns and trim hedges for the wealthy. Contract work was getting scarce even before the zombies came, but now you've got nothing left but your tools and expertise.",
+    "points": 1,
+    "skills": [ { "level": 2, "name": "fabrication" }, { "level": 2, "name": "survival" } ],
+    "items": {
+      "both": {
+        "items": [ "tank_top", "jacket_windbreaker", "hat_ball", "gloves_work", "glasses_safety", "socks", "sneakers", "pants_cargo" ],
+        "entries": [ { "item": "g_shovel" }, { "item": "scabbard", "contents-item": "machete" } ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "ident": "homemaker",
+    "name": "Nursing Assistant",
+    "//": "They don't have the doctor's passive bonus to surgery. Nursing assistants aren't required to hold a doctorate.",
+    "description": "You were providing in-home care for the elderly, even as the whole world fell apart around you. You can only pray that you don't see your former clients among the walking dead...",
+    "points": 1,
+    "skills": [ { "level": 2, "name": "firstaid" }, { "level": 1, "name": "cooking" } ],
+    "items": {
+      "both": [
+        "pants",
+        "dress_shirt",
+        "mask_dust",
+        "gloves_medical",
+        "socks",
+        "dress_shoes",
+        "coat_lab",
+        "water_clean",
+        "bandages",
+        "aspirin",
+        "grahmcrackers",
+        "stethoscope"
+      ],
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
     "ident": "survivalist",
     "name": "Survivalist",
     "description": "Skilled at surviving off the land far from civilization, your skills are quite likely to come in useful considering civilization is now full of monsters that want you dead.  Your equipment is basic, but versatile - and with your skills, more than you need...  except your canteen's run out!",
@@ -1064,7 +1125,7 @@
           "boots_steel",
           "pants_cargo",
           "jacket_flannel",
-          "compbow",
+          "recurbow",
           "hat_hunting",
           "wristwatch",
           "cell_phone"
@@ -1612,7 +1673,8 @@
       "bio_adrenaline",
       "bio_night_vision",
       "bio_metabolics",
-      "bio_power_storage_mkII"
+      "bio_power_storage_mkII",
+      "bio_taste_blocker"
     ],
     "skills": [
       { "level": 2, "name": "gun" },
@@ -1663,7 +1725,8 @@
       "bio_evap",
       "bio_lighter",
       "bio_power_storage_mkII",
-      "bio_torsionratchet"
+      "bio_torsionratchet",
+      "bio_taste_blocker"
     ],
     "skills": [
       { "level": 5, "name": "gun" },
@@ -1741,6 +1804,7 @@
     "CBMs": [
       "bio_cqb",
       "bio_blade",
+      "bio_shotgun",
       "bio_shock",
       "bio_carbon",
       "bio_adrenaline",
@@ -2140,7 +2204,8 @@
       "bio_scent_vision",
       "bio_claws",
       "bio_digestion",
-      "bio_water_extractor"
+      "bio_water_extractor",
+      "bio_taste_blocker"
     ],
     "skills": [
       { "level": 3, "name": "melee" },

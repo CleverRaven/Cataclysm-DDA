@@ -1,4 +1,6 @@
 #pragma once
+#ifndef WCWIDTH_H
+#define WCWIDTH_H
 /*
  * This is an implementation of wcwidth() and wcswidth() (defined in
  * IEEE Std 1002.1-2001) for Unicode.
@@ -318,3 +320,4 @@ int mk_wcswidth_cjk( const uint32_t *pwcs, size_t n )
 
     return width;
 }
+#endif

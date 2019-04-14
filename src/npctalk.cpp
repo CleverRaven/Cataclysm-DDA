@@ -176,6 +176,8 @@ void game::chat()
     int yell_sleep = -1;
     int yell_flee = -1;
     int yell_stop = -1;
+    int yell_danger = -1;
+    int yell_relax = -1;
 
     nmenu.addentry( yell = i++, true, 'a', _( "Yell" ) );
     nmenu.addentry( yell_sentence = i++, true, 'b', _( "Yell a sentence" ) );
@@ -186,6 +188,11 @@ void game::chat()
                         _( "Tell all your allies to relax and sleep when tired" ) );
         nmenu.addentry( yell_flee = i++, true, 'R', _( "Tell all your allies to flee" ) );
         nmenu.addentry( yell_stop = i++, true, 'S', _( "Tell all your allies stop running" ) );
+        nmenu.addentry( yell_danger = i++, true, 'D',
+                        _( "Tell all your allies to prepare for danger" ) );
+        nmenu.addentry( yell_relax = i++, true, 'C',
+                        _( "Tell all your allies to relax from danger" ) );
+
     }
     if( !guards.empty() ) {
         nmenu.addentry( yell_follow = i++, true, 'f', _( "Tell all your allies to follow" ) );
@@ -238,6 +245,16 @@ void game::chat()
             p->rules.clear_flag( ally_rule::avoid_combat );
         }
         u.shout( _( "No need to run any more, we can fight here." ) );
+    } else if( nmenu.ret == yell_danger ) {
+        for( npc *p : followers ) {
+            p->rules.set_danger_overrides();
+        }
+        u.shout( _( "We're in danger.  Stay awake, stay close, don't go wandering off, and don't open any doors." ) );
+    } else if( nmenu.ret == yell_relax ) {
+        for( npc *p : followers ) {
+            p->rules.clear_danger_overrides();
+        }
+        u.shout( _( "Relax and stand down." ) );
     } else if( nmenu.ret <= static_cast<int>( available.size() ) ) {
         available[nmenu.ret]->talk_to_u();
     } else {
@@ -266,11 +283,16 @@ void npc::handle_sound( int priority, const std::string &description, int heard_
             return;
         }
     }
-    // discount if sound source is player and listener is friendly
-    if( ( priority < 6 ) && spos == g->u.pos() && ( is_friend() ||
-            mission == NPC_MISSION_GUARD_ALLY ||
-            get_attitude_group( get_attitude() ) != attitude_group::hostile ) ) {
-        add_msg( m_debug, "NPC ignored player noise %s", name.c_str() );
+    // discount if sound source is player, or seen by player,
+    // and listener is friendly and sound source is combat or alert only.
+    if( ( priority < 7 ) && g->u.sees( spos ) && ( is_friend() ||
+            mission == NPC_MISSION_GUARD_ALLY ) ) {
+        add_msg( m_debug, "NPC %s ignored low priority noise that player can see", name );
+        return;
+        // discount if sound source is player, or seen by player,
+        //  listener is neutral and sound type is worth investigating.
+    } else if( priority < 6 && get_attitude_group( get_attitude() ) != attitude_group::hostile &&
+               g->u.sees( spos ) ) {
         return;
     }
     // patrolling guards will investigate more readily than stationary NPCS
@@ -278,8 +300,12 @@ void npc::handle_sound( int priority, const std::string &description, int heard_
     if( mission == NPC_MISSION_GUARD_ALLY || mission == NPC_MISSION_GUARD_PATROL ) {
         investigate_dist = 50;
     }
-    if( priority > 3 && ai_cache.total_danger < 1.0f && rl_dist( pos(), spos ) < investigate_dist ) {
-        add_msg( m_debug, "NPC %s added noise at pos %d, %d", name.c_str(), spos.x, spos.y );
+    if( rules.has_flag( ally_rule::ignore_noise ) ) {
+        investigate_dist = 0;
+    }
+    if( priority > 3 && ai_cache.total_danger < 1.0f &&
+        rl_dist( pos(), spos ) < investigate_dist ) {
+        add_msg( m_debug, "NPC %s added noise at pos %d:%d", name, spos.x, spos.y );
         dangerous_sound temp_sound;
         temp_sound.pos = spos;
         temp_sound.volume = heard_volume;
@@ -295,16 +321,20 @@ void npc::handle_sound( int priority, const std::string &description, int heard_
     add_msg( m_debug, "%s heard '%s', priority %d at volume %d from %d:%d, my pos %d:%d",
              disp_name(), description, priority, heard_volume, spos.x, spos.y, pos().x, pos().y );
     switch( priority ) {
-        case 7: //
+        case 4: //
             warn_about( "speech_noise", rng( 1, 10 ) * 1_minutes );
             break;
-        case 6: // combat noise is only worth comment if we're not fighting
+        case 5:
+        case 6:
+        case 7:
+        case 8: // combat noise is only worth comment if we're not fighting
+        case 9:
             // TODO: Brave NPCs should be less jumpy
             if( ai_cache.total_danger < 1.0f ) {
                 warn_about( "combat_noise", rng( 1, 10 ) * 1_minutes );
             }
             break;
-        case 4: // movement is is only worth comment if we're not fighting and out of a vehicle
+        case 3: // movement is is only worth comment if we're not fighting and out of a vehicle
             if( ai_cache.total_danger < 1.0f && !in_vehicle ) {
                 warn_about( "movement_noise", rng( 1, 10 ) * 1_minutes, description );
             }
@@ -325,7 +355,7 @@ void npc_chatbin::check_missions()
     ma.erase( last, ma.end() );
 }
 
-void npc::talk_to_u( bool text_only )
+void npc::talk_to_u( bool text_only, bool radio_contact )
 {
     if( g->u.is_dead_state() ) {
         set_attitude( NPCATT_NULL );
@@ -356,8 +386,9 @@ void npc::talk_to_u( bool text_only )
     }
 
     d.add_topic( chatbin.first_topic );
-
-    if( is_leader() ) {
+    if( radio_contact ) {
+        d.add_topic( "TALK_RADIO" );
+    } else if( is_leader() ) {
         d.add_topic( "TALK_LEADER" );
     } else if( is_friend() ) {
         d.add_topic( "TALK_FRIEND" );
@@ -804,7 +835,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         add_response( _( "Who are you?" ), "TALK_FREE_MERCHANT_STOCKS_NEW", true );
         static const std::vector<itype_id> wanted = {{
                 "jerky", "meat_smoked", "fish_smoked",
-                "cooking_oil", "cornmeal", "flour",
+                "cooking_oil", "cooking_oil2", "cornmeal", "flour",
                 "fruit_wine", "beer", "sugar",
             }
         };
@@ -1632,6 +1663,7 @@ void talk_effect_fun_t::set_toggle_npc_rule( const std::string &rule )
             return;
         }
         d.beta->rules.toggle_flag( toggle->second );
+        d.beta->wield_better_weapon();
     };
 }
 
@@ -1876,6 +1908,7 @@ void talk_effect_t::parse_string_effect( const std::string &type, JsonObject &jo
             WRAP( hostile ),
             WRAP( flee ),
             WRAP( leave ),
+            WRAP( goto_location ),
             WRAP( stranger_neutral ),
             WRAP( start_mugging ),
             WRAP( player_leaving ),
@@ -2324,6 +2357,18 @@ void conditional_t::set_npc_rule( JsonObject &jo )
     };
 }
 
+void conditional_t::set_npc_override( JsonObject &jo )
+{
+    std::string rule = jo.get_string( "npc_override" );
+    condition = [rule]( const dialogue & d ) {
+        auto flag = ally_rule_strs.find( rule );
+        if( flag != ally_rule_strs.end() ) {
+            return d.beta->rules.has_override_enable( flag->second );
+        }
+        return false;
+    };
+}
+
 void conditional_t::set_days_since( JsonObject &jo )
 {
     const unsigned long days = jo.get_int( "days_since_cataclysm" );
@@ -2670,6 +2715,8 @@ conditional_t::conditional_t( JsonObject jo )
         set_npc_engagement_rule( jo );
     } else if( jo.has_string( "npc_rule" ) ) {
         set_npc_rule( jo );
+    } else if( jo.has_string( "npc_override" ) ) {
+        set_npc_override( jo );
     } else if( jo.has_int( "days_since_cataclysm" ) ) {
         set_days_since( jo );
     } else if( jo.has_string( "is_season" ) ) {
@@ -2947,7 +2994,6 @@ void load_talk_topic( JsonObject &jo )
 
 std::string npc::pick_talk_topic( const player &u )
 {
-    //form_opinion(u);
     ( void )u;
     if( personality.aggression > 0 ) {
         if( op_of_u.fear * 2 < personality.bravery && personality.altruism < 0 ) {
@@ -2989,7 +3035,7 @@ consumption_result try_consume( npc &p, item &it, std::string &reason )
     // TODO: Unify this with 'player::consume_item()'
     bool consuming_contents = it.is_container() && !it.contents.empty();
     item &to_eat = consuming_contents ? it.contents.front() : it;
-    const auto &comest = to_eat.type->comestible;
+    const auto &comest = to_eat.get_comestible();
     if( !comest ) {
         // Don't inform the player that we don't want to eat the lighter
         return REFUSED;

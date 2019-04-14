@@ -745,7 +745,6 @@
     "description": "A living blob, shaped to provide attachment points for other blobs.  Other vehicle components and blobs can be mounted on it.  If all the frames and components of a vehicle are foldable or made from blobs, the vehicle can be folding into a small package and picked up as a normal item.",
     "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
     "flags": [ "TOOL_NONE", "FOLDABLE", "MOUNTABLE" ]
-
   },
   {
     "id": "gray_horizontal_2",
@@ -1646,7 +1645,21 @@
     "breaks_into": [ { "item": "queengrow" } ],
     "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
     "description": "An amorphous mass, the living heart and brain of a blob vehicle.",
-    "flags": [ "BOARDABLE", "BELTABLE", "TOOL_NONE", "FOLDABLE", "ENGINE", "CONTROLS", "CTRL_ELECTRONIC", "SEAT", "BED", "E_ALTERNATOR", "E_STARTS_INSTANTLY", "E_HIGHER_SKILL", "TURRET_MOUNT" ]
+    "flags": [
+      "BOARDABLE",
+      "BELTABLE",
+      "TOOL_NONE",
+      "FOLDABLE",
+      "ENGINE",
+      "CONTROLS",
+      "CTRL_ELECTRONIC",
+      "SEAT",
+      "BED",
+      "E_ALTERNATOR",
+      "E_STARTS_INSTANTLY",
+      "E_HIGHER_SKILL",
+      "TURRET_MOUNT"
+    ]
   },
   {
     "id": "blob_turret_mount",

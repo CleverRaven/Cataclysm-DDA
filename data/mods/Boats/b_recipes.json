@@ -26,6 +26,20 @@
   },
   {
     "type": "recipe",
+    "result": "sail",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLES",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": 30000,
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 1 } ],
+    "using": [ [ "sewing_standard", 100 ] ],
+    "components": [ [ [ "rag", 40 ], [ "sheet", 2 ] ], [ [ "2x4", 10 ], [ "stick", 8 ], [ "stick_long", 4 ] ], [ [ "nail", 30 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "hand_paddles",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLES",

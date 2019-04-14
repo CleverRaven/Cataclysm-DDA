@@ -123,6 +123,7 @@
     "durability": 8,
     "loudness": 30,
     "clip_size": 5,
+    "magazines": [ [ "223", [ "223_speedloader5" ] ] ],
     "built_in_mods": [ "lead_holo_sight", "lead_laser_sight" ],
     "valid_mod_locations": [ [ "accessories", 2 ], [ "sights", 1 ], [ "underbarrel", 1 ] ]
   },
@@ -436,7 +437,7 @@
     "color": "brown",
     "ammo": "223",
     "ranged_damage": -4,
-    "dispersion": 180,
+    "dispersion": 550,
     "durability": 6,
     "loudness": 25,
     "reload": 200,

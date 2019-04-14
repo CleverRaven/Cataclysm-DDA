@@ -10,7 +10,7 @@
 #include "popup.h"
 #include "weather.h"
 
-#ifdef TILES
+#if defined(TILES)
 #include <memory>
 
 #include "cata_tiles.h" // all animation functions will be pushed out to a cata_tiles function in some manner
@@ -682,7 +682,7 @@ namespace
 {
 void draw_sct_curses( game &g )
 {
-    const tripoint off = relative_view_pos( g.u, 0, 0, 0 ) + g.sidebar_offset;
+    const tripoint off = relative_view_pos( g.u, 0, 0, 0 ) - g.sidebar_offset;
 
     for( const auto &text : SCT.vSCT ) {
         const int dy = off.y + text.getPosY();

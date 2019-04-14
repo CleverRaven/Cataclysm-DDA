@@ -15,6 +15,16 @@
     "text": "Enjoyed a conversation"
   },
   {
+    "id": "morale_ate_with_table",
+    "type": "morale_type",
+    "text": "Ate with table"
+  },
+  {
+    "id": "morale_ate_without_table",
+    "type": "morale_type",
+    "text": "Ate like an animal"
+  },
+  {
     "id": "morale_music",
     "type": "morale_type",
     "text": "Music"
@@ -42,7 +52,7 @@
   {
     "id": "morale_feeling_good",
     "type": "morale_type",
-    "text": "Good Feeling"
+    "text": "Good feeling"
   },
   {
     "id": "morale_support",
@@ -313,6 +323,11 @@
     "id": "morale_butcher",
     "type": "morale_type",
     "text": "Anguished by memories of butchering human corpse"
+  },
+  {
+    "id": "morale_gravedigger",
+    "type": "morale_type",
+    "text": "Dug out a grave"
   },
   {
     "id": "morale_perm_debug",

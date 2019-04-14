@@ -63,7 +63,7 @@ vehicle_part &most_repairable_part( vehicle &veh, const Character &who_arg, bool
         }
 
         if( part.is_broken() ) {
-            if( info.install_requirements().can_make_with_inventory( inv ) ) {
+            if( info.install_requirements().can_make_with_inventory( inv, is_crafting_component ) ) {
                 repairable_cache[ &part ] = need_replacement;
             }
 
@@ -71,7 +71,8 @@ vehicle_part &most_repairable_part( vehicle &veh, const Character &who_arg, bool
         }
 
         if( info.is_repairable() &&
-            ( info.repair_requirements() * part.damage_level( 4 ) ).can_make_with_inventory( inv ) ) {
+            ( info.repair_requirements() * part.damage_level( 4 ) ).can_make_with_inventory( inv,
+                    is_crafting_component ) ) {
             repairable_cache[ &part ] = repairable;
         }
     }
@@ -110,7 +111,7 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who_c )
 
     inventory map_inv;
     map_inv.form_from_map( who.pos(), PICKUP_RANGE );
-    if( !reqs.can_make_with_inventory( who.crafting_inventory() ) ) {
+    if( !reqs.can_make_with_inventory( who.crafting_inventory(), is_crafting_component ) ) {
         who.add_msg_if_player( m_info, _( "You don't meet the requirements to repair the %s." ),
                                pt.name().c_str() );
         return false;
@@ -119,7 +120,8 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who_c )
     // consume items extracting any base item (which we will need if replacing broken part)
     item base( vp.item );
     for( const auto &e : reqs.get_components() ) {
-        for( auto &obj : who.consume_items( who.select_item_component( e, 1, map_inv ), 1 ) ) {
+        for( auto &obj : who.consume_items( who.select_item_component( e, 1, map_inv ), 1,
+                                            is_crafting_component ) ) {
             if( obj.typeId() == vp.item ) {
                 base = obj;
             }

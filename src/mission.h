@@ -12,6 +12,8 @@
 #include "calendar.h"
 #include "enums.h"
 #include "npc_favor.h"
+#include "overmap.h"
+#include "item_group.h"
 
 class player;
 class mission;
@@ -56,6 +58,7 @@ enum mission_goal {
     MGOAL_GO_TO_TYPE,        // Instead of a point, go to an oter_type_id map tile like "hospital_entrance"
     MGOAL_FIND_ITEM,         // Find an item of a given type
     MGOAL_FIND_ANY_ITEM,     // Find an item tagged with this mission
+    MGOAL_FIND_ITEM_GROUP,   // Find items that belong to a specific item group
     MGOAL_FIND_MONSTER,      // Find and retrieve a friendly monster
     MGOAL_FIND_NPC,          // Find a given NPC
     MGOAL_ASSASSINATE,       // Kill a given NPC
@@ -72,6 +75,7 @@ const std::unordered_map<std::string, mission_goal> mission_goal_strs = { {
         { "MGOAL_GO_TO", MGOAL_GO_TO },
         { "MGOAL_GO_TO_TYPE", MGOAL_GO_TO_TYPE },
         { "MGOAL_FIND_ITEM", MGOAL_FIND_ITEM },
+        { "MGOAL_FIND_ITEM_GROUP", MGOAL_FIND_ITEM_GROUP },
         { "MGOAL_FIND_ANY_ITEM", MGOAL_FIND_ANY_ITEM },
         { "MGOAL_FIND_MONSTER", MGOAL_FIND_MONSTER },
         { "MGOAL_FIND_NPC", MGOAL_FIND_NPC },
@@ -96,15 +100,6 @@ struct mission_place {
     static bool near_town( const tripoint & );
 };
 
-struct mission_start_t {
-    void set_reveal( const std::string &terrain );
-    void set_reveal_any( JsonArray &ja );
-    void set_assign_mission_target( JsonObject &jo );
-    void load( JsonObject &jo );
-    void apply( mission *miss ) const;
-    std::vector<std::function<void( mission *miss )>> start_funcs;
-};
-
 /* mission_start functions are first run when a mission is accepted; this
  * initializes the mission's key values, like the target and description.
  */
@@ -115,13 +110,6 @@ struct mission_start {
     static void need_drugs_npc( mission * );     // "need drugs" remove item
     static void place_dog( mission * );          // Put a dog in a house!
     static void place_zombie_mom( mission * );   // Put a zombie mom in a house!
-    // Put a boss zombie in the refugee/evac center back bay
-    static void place_zombie_bay( mission * );
-    static void place_caravan_ambush( mission * ); // For Free Merchants mission
-    static void place_bandit_cabin( mission * ); // For Old Guard mission
-    static void place_informant( mission * );    // For Old Guard mission
-    static void place_grabber( mission * );      // For Old Guard mission
-    static void place_bandit_camp( mission * );  // For Old Guard mission
     static void place_jabberwock( mission * );   // Put a jabberwok in the woods nearby
     static void kill_20_nightmares( mission * ); // Kill 20 more regular nightmares
     static void kill_horde_master( mission * );  // Kill the master zombie at the center of the horde
@@ -130,26 +118,6 @@ struct mission_start {
     static void place_deposit_box( mission * );  // Place a safe deposit box in a nearby bank
     static void find_safety( mission * );        // Goal is set to non-spawn area
     static void recruit_tracker( mission * );    // Recruit a tracker to help you
-    static void start_commune( mission * );      // Focus on starting the ranch commune
-    static void ranch_construct_1( mission * );  // Encloses barn
-    static void ranch_construct_2( mission * );  // Adds makeshift beds to the barn, 1 NPC
-    static void ranch_construct_3( mission * );  // Adds a couple of NPCs and fields
-    static void ranch_construct_4( mission * );  // Begins work on wood yard, crop overseer added
-    static void ranch_construct_5( mission * );  // Continues work on wood yard, crops, well (pit)
-    // Continues work on wood yard, well (covered), fireplaces
-    static void ranch_construct_6( mission * );
-    // Continues work on wood yard, well (finished), continues walling
-    static void ranch_construct_7( mission * );
-    // Finishes wood yard, starts outhouse, starts tool shed
-    static void ranch_construct_8( mission * );
-    static void ranch_construct_9( mission * );  // Finishes outhouse, finishes tool shed, starts clinic
-    static void ranch_construct_10( mission * ); // Continues clinic, starts chop-shop
-    static void ranch_construct_11( mission * ); // Continues clinic, continues chop-shop
-    static void ranch_construct_12( mission * ); // Finish chop-shop, starts junk shop
-    static void ranch_construct_13( mission * ); // Continues junk shop
-    static void ranch_construct_14( mission * ); // Finish junk shop, starts bar
-    static void ranch_construct_15( mission * ); // Continues bar
-    static void ranch_construct_16( mission * ); // Finish bar, start greenhouse
     static void ranch_nurse_1( mission * );      // Need aspirin
     static void ranch_nurse_2( mission * );      // Need hotplates
     static void ranch_nurse_3( mission * );      // Need vitamins
@@ -162,10 +130,6 @@ struct mission_start {
     static void ranch_scavenger_1( mission * );  // Expand Junk Shop
     static void ranch_scavenger_2( mission * );  // Expand Junk Shop
     static void ranch_scavenger_3( mission * );  // Expand Junk Shop
-    static void ranch_bartender_1( mission * );  // Expand Bar
-    static void ranch_bartender_2( mission * );  // Expand Bar
-    static void ranch_bartender_3( mission * );  // Expand Bar
-    static void ranch_bartender_4( mission * );  // Expand Bar
     static void place_book( mission * );         // Place a book to retrieve
     static void reveal_refugee_center( mission * ); // Find refugee center
     static void create_lab_console( mission * );  // Reveal lab with an unlocked workstation
@@ -187,6 +151,27 @@ struct mission_fail {
     static void kill_npc( mission * );   // Kill the NPC who assigned it!
 };
 
+struct mission_util {
+    static tripoint reveal_om_ter( const std::string &omter, int reveal_rad, bool must_see,
+                                   int target_z = 0 );
+    static tripoint target_om_ter( const std::string &omter, int reveal_rad, mission *miss,
+                                   bool must_see, int target_z = 0 );
+    static tripoint target_om_ter_random( const std::string &omter, int reveal_rad, mission *miss,
+                                          bool must_see, int range,
+                                          tripoint loc = overmap::invalid_tripoint );
+    static void set_reveal( const std::string &terrain,
+                            std::vector<std::function<void( mission *miss )>> &funcs );
+    static void set_reveal_any( JsonArray &ja,
+                                std::vector<std::function<void( mission *miss )>> &funcs );
+    static void set_assign_om_target( JsonObject &jo,
+                                      std::vector<std::function<void( mission *miss )>> &funcs );
+    static bool set_update_mapgen( JsonObject &jo,
+                                   std::vector<std::function<void( mission *miss )>> &funcs );
+    static bool load_funcs( JsonObject jo,
+                            std::vector<std::function<void( mission *miss )>> &funcs );
+};
+
+
 struct mission_type {
     mission_type_id id = mission_type_id( "MISSION_NULL" ); // Matches it to a mission_type_id above
     bool was_loaded = false;
@@ -200,6 +185,10 @@ struct mission_type {
 
     std::vector<mission_origin> origins; // Points of origin
     itype_id item_id = "null";
+    Group_tag group_id = "null";
+    itype_id container_id = "null";
+    bool remove_container = false;
+    itype_id empty_container = "null";
     int item_count = 1;
     npc_class_id recruit_class = npc_class_id( "NC_NONE" );  // The type of NPC you are to recruit
     int target_npc_id = -1;
@@ -247,10 +236,10 @@ struct mission_type {
 
     static void reset();
     static void load_mission_type( JsonObject &jo, const std::string &src );
-
+    static void finalize();
     static void check_consistency();
 
-    void parse_start( JsonObject &jo );
+    bool parse_funcs( JsonObject &jo, std::function<void( mission * )> &phase_func );
     void load( JsonObject &jo, const std::string &src );
 };
 
@@ -330,6 +319,7 @@ class mission
          * Simple setters, no checking if the values is performed. */
         /*@{*/
         void set_target( const tripoint &p );
+        void set_target_npc_id( const int npc_id );
         /*@}*/
 
         /** Assigns the mission to the player. */
@@ -403,6 +393,15 @@ class mission
         void load_info( std::istream &info );
 
         void set_target_to_mission_giver();
+
+        static void get_all_item_group_matches(
+            std::vector<item *> &items,
+            Group_tag &grp_type,
+            std::map<itype_id, int> &matches,
+            const itype_id &required_container,
+            const itype_id &actual_container,
+            bool &specific_container_required );
+
 };
 
 #endif

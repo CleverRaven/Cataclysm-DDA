@@ -513,6 +513,7 @@ class game
 
         /** Returns the next available mission id. */
         int assign_mission_id();
+        /** Find the npc with the given ID. Returns NULL if the npc could not be found. Searches all loaded overmaps. */
         npc *find_npc( int id );
         /** Makes any nearby NPCs on the overmap active. */
         void load_npcs();
@@ -898,7 +899,7 @@ class game
         void load( const save_t &name ); // Load a player-specific save file
         void load_master(); // Load the master data file, with factions &c
         void load_weather( std::istream &fin );
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
         void load_shortcuts( std::istream &fin );
 #endif
         bool start_game(); // Starts a new game in the active world
@@ -906,13 +907,14 @@ class game
         //private save functions.
         // returns false if saving failed for whatever reason
         bool save_factions_missions_npcs();
+        void reset_npc_dispositions();
         void serialize_master( std::ostream &fout );
         // returns false if saving failed for whatever reason
         bool save_artifacts();
         // returns false if saving failed for whatever reason
         bool save_maps();
         void save_weather( std::ostream &fout );
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
         void save_shortcuts( std::ostream &fout );
 #endif
         // Data Initialization
@@ -974,7 +976,8 @@ class game
         void mend( int pos = INT_MIN );
         void autoattack();
     public:
-        void reload( bool try_everything = true ); // Reload a wielded gun/tool  'r'
+        void reload_item(); // Reload an item
+        void reload_weapon( bool try_everything = true ); // Reload a wielded gun/tool  'r'
         // Places the player at the specified point; hurts feet, lists items etc.
         void place_player( const tripoint &dest );
         void place_player_overmap( const tripoint &om_dest );
@@ -1046,6 +1049,7 @@ class game
         // Routine loop functions, approximately in order of execution
         void cleanup_dead();     // Delete any dead NPCs/monsters
         void monmove();          // Monster movement
+        void overmap_npc_move(); // NPC overmap movement
         void process_activity(); // Processes and enacts the player's activity
         void update_weather();   // Updates the temperature and weather patten
         void handle_key_blocking_activity(); // Abort reading etc.
@@ -1099,6 +1103,7 @@ class game
     public:
         safe_mode_type safe_mode;
         int turnssincelastmon; // needed for auto run mode
+        bool debug_pathfinding = false; // show NPC pathfinding on overmap ui
     private:
         bool safe_mode_warning_logged;
         std::vector<std::shared_ptr<monster>> new_seen_mon;

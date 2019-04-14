@@ -752,6 +752,8 @@ class map
          * @param threshold Fuel threshold (lower means worse fuels are accepted).
          */
         bool flammable_items_at( const tripoint &p, int threshold = 0 );
+        /** Returns true if there is a flammable item or field or the furn/terrain is flammable at p */
+        bool is_flammable( const tripoint &p );
         point random_outdoor_tile();
         // mapgen
 
@@ -942,9 +944,9 @@ class map
          */
         /*@{*/
         std::list<item> use_amount_square( const tripoint &p, const itype_id type,
-                                           long &quantity, const std::function<bool( const item & )> &filter = is_crafting_component );
+                                           long &quantity, const std::function<bool( const item & )> &filter = return_true );
         std::list<item> use_amount( const tripoint &origin, const int range, const itype_id type,
-                                    long &amount, const std::function<bool( const item & )> &filter = is_crafting_component );
+                                    long &amount, const std::function<bool( const item & )> &filter = return_true );
         std::list<item> use_charges( const tripoint &origin, const int range, const itype_id type,
                                      long &amount, const std::function<bool( const item & )> &filter = return_true );
         /*@}*/

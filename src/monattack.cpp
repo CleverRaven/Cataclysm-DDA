@@ -26,6 +26,7 @@
 #include "morale_types.h"
 #include "mtype.h"
 #include "npc.h"
+#include "name.h"
 #include "output.h"
 #include "projectile.h"
 #include "rng.h"
@@ -238,7 +239,7 @@ bool mattack::eat_food( monster *z )
         auto items = g->m.i_at( p );
         for( auto &item : items ) {
             //Fun limit prevents scavengers from eating feces
-            if( !item.is_food() || item.type->comestible->fun < -20 ) {
+            if( !item.is_food() || item.get_comestible()->fun < -20 ) {
                 continue;
             }
             //Don't eat own eggs
@@ -822,7 +823,7 @@ bool mattack::resurrect( monster *z )
         for( auto &i : g->m.i_at( p ) ) {
             const mtype *mt = i.get_mtype();
             if( !( i.is_corpse() && i.active && mt->has_flag( MF_REVIVES ) &&
-                   mt->in_species( ZOMBIE ) && !mt->has_flag( "NO_NECRO" ) ) ) {
+                   mt->in_species( ZOMBIE ) && !mt->has_flag( MF_NO_NECRO ) ) ) {
                 continue;
             }
 
@@ -2785,14 +2786,30 @@ bool mattack::photograph( monster *z )
         }
     }
 
-    if( z->friendly ) {
-        // Friendly (hacked?) bot ignore the player.
+    if( z->friendly || g->u.weapon.typeId() == "e_handcuffs" ) {
+        // Friendly (hacked?) bot ignore the player. Arrested suspect ignored too.
         // TODO: might need to be revisited when it can target npcs.
         return false;
     }
     z->moves -= 150;
     add_msg( m_warning, _( "The %s takes your picture!" ), z->name().c_str() );
     // TODO: Make the player known to the faction
+    std::string cname = _( "...  database connection lost!" ) ;
+    if( one_in( 6 ) ) {
+        cname = Name::generate( g->u.male );
+    } else if( one_in( 3 ) ) {
+        cname = g->u.name;
+    }
+    sounds::sound( z->pos(), 15, sounds::sound_t::alert,
+                   string_format( _( "a robotic voice boom, \"Citizen %s!\"" ), cname ) );
+
+    if( g->u.weapon.is_gun() ) {
+        sounds::sound( z->pos(), 15, sounds::sound_t::alert, _( "\"Drop your gun!  Now!\"" ) );
+    } else if( g->u.is_armed() ) {
+        sounds::sound( z->pos(), 15, sounds::sound_t::alert, _( "\"Drop your weapon!  Now!\"" ) );
+    }
+    const SpeechBubble &speech = get_speech( z->type->id.str() );
+    sounds::sound( z->pos(), speech.volume, sounds::sound_t::alert, speech.text );
     g->events.add( EVENT_ROBOT_ATTACK, calendar::turn + rng( 15_turns, 30_turns ), 0,
                    g->u.global_sm_location() );
 
@@ -4630,16 +4647,16 @@ bool mattack::grenadier( monster *const z )
     // Build our grenade map
     std::map<std::string, grenade_helper_struct> grenades;
     // Grenades
-    grenades["bot_grenade_hack"].message =
-        _( "The %s fumbles open a pouch and a grenade hack flies out!" );
+    grenades["bot_pacification_hack"].message =
+        _( "The %s deploys a pacification hack!" );
     // Flashbangs
     grenades["bot_flashbang_hack"].message =
-        _( "The %s fumbles open a pouch and a flashbang hack flies out!" );
+        _( "The %s deploys a flashbang hack!" );
     // Gasbombs
     grenades["bot_gasbomb_hack"].message =
-        _( "The %s fumbles open a pouch and a tear gas hack flies out!" );
+        _( "The %s deploys a tear gas hack!" );
     // C-4
-    grenades["bot_c4_hack"].message = _( "The %s fumbles open a pouch and a C-4 hack flies out!" );
+    grenades["bot_c4_hack"].message = _( "The %s buzzes and deploys a C-4 hack!" );
     grenades["bot_c4_hack"].chance = 8;
 
     // Only can actively target the player right now. Once we have the ability to grab targets that we aren't
@@ -4661,19 +4678,19 @@ bool mattack::grenadier_elite( monster *const z )
     // Build our grenade map
     std::map<std::string, grenade_helper_struct> grenades;
     // Grenades
-    grenades["bot_grenade_hack"].message = _( "The %s opens a pouch and a grenade hack flies out!" );
+    grenades["bot_grenade_hack"].message = _( "The %s deploys a grenade hack!" );
     // Flashbangs
     grenades["bot_flashbang_hack"].message =
-        _( "The %s opens a pouch and a flashbang hack flies out!" );
+        _( "The %s deploys a flashbang hack!" );
     // Gasbombs
-    grenades["bot_gasbomb_hack"].message = _( "The %s opens a pouch and a tear gas hack flies out!" );
+    grenades["bot_gasbomb_hack"].message = _( "The %s deploys a tear gas hack!" );
     // C-4
-    grenades["bot_c4_hack"].message = _( "The %s cackles and opens a pouch; a C-4 hack flies out!" );
+    grenades["bot_c4_hack"].message = _( "The %s buzzes and deploys a C-4 hack!" );
     grenades["bot_c4_hack"].chance = 8;
     grenades["bot_c4_hack"].ammo_percentage = .75;
     // Mininuke
     grenades["bot_mininuke_hack"].message =
-        _( "The %s opens its pack and spreads its hands, a mininuke hack floats out!" );
+        _( "A klaxon blares from %s as it deploys a mininuke hack!" );
     grenades["bot_mininuke_hack"].chance = 50;
     grenades["bot_mininuke_hack"].ammo_percentage = .75;
 

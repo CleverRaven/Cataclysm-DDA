@@ -1,354 +1,392 @@
 [
-   {
-        "type" : "overmap_terrain",
-        "id" : "mil_outpost_ytlc",
-        "name" : "mine field",
-        "sym" : 46,
-        "color" : "brown",
-        "extras" : "build",
-        "see_cost" : 5,
-        "mondensity" : 1
-    },{
-        "type" : "overmap_terrain",
-        "id" : "mil_outpost_yte",
-        "name" : "mine field",
-        "sym" : 46,
-        "color" : "brown",
-        "extras" : "build",
-        "see_cost" : 5,
-        "mondensity" : 1
-    },{
-        "type" : "overmap_terrain",
-        "id" : "mil_outpost_ytrc",
-        "name" : "mine field",
-        "sym" : 46,
-        "color" : "brown",
-        "extras" : "build",
-        "see_cost" : 5,
-        "mondensity" : 1
-    },{
-        "type" : "overmap_terrain",
-        "id" : "mil_outpost_yle",
-        "name" : "mine field",
-        "sym" : 46,
-        "color" : "brown",
-        "extras" : "build",
-        "see_cost" : 5,
-        "mondensity" : 1
-    },{
-        "type" : "overmap_terrain",
-        "id" : "mil_outpost_yre",
-        "name" : "mine field",
-        "sym" : 46,
-        "color" : "brown",
-        "extras" : "build",
-        "see_cost" : 5,
-        "mondensity" : 1
-    },{
-        "type" : "overmap_terrain",
-        "id" : "mil_outpost_yblc",
-        "name" : "mine field",
-        "sym" : 46,
-        "color" : "brown",
-        "extras" : "build",
-        "see_cost" : 5,
-        "mondensity" : 1
-    },{
-        "type" : "overmap_terrain",
-        "id" : "mil_outpost_ybe",
-        "name" : "mine field",
-        "sym" : 46,
-        "color" : "brown",
-        "extras" : "build",
-        "see_cost" : 5,
-        "mondensity" : 1
-    },{
-        "type" : "overmap_terrain",
-        "id" : "mil_outpost_ybe_gate",
-        "name" : "gate",
-        "sym" : 46,
-        "color" : "white",
-        "extras" : "build",
-        "see_cost" : 5,
-        "mondensity" : 1
-    },{
-        "type" : "overmap_terrain",
-        "id" : "mil_outpost_ybrc",
-        "name" : "mine field",
-        "sym" : 46,
-        "color" : "brown",
-        "extras" : "build",
-        "see_cost" : 5,
-        "mondensity" : 1
-    },{
-        "type" : "overmap_terrain",
-        "id" : "mil_outpost_1tlc",
-        "name" : "military outpost",
-        "sym" : 111,
-        "color" : "i_red",
-        "extras" : "build",
-        "see_cost" : 5,
-        "mondensity" : 1
-    },{
-        "type" : "overmap_terrain",
-        "id" : "mil_outpost_1te",
-        "name" : "military outpost",
-        "sym" : 111,
-        "color" : "i_red",
-        "extras" : "build",
-        "see_cost" : 5,
-        "mondensity" : 1
-    },{
-        "type" : "overmap_terrain",
-        "id" : "mil_outpost_1trc",
-        "name" : "military outpost",
-        "sym" : 111,
-        "color" : "i_red",
-        "extras" : "build",
-        "see_cost" : 5,
-        "mondensity" : 1
-    },{
-        "type" : "overmap_terrain",
-        "id" : "mil_outpost_1le",
-        "name" : "military outpost",
-        "sym" : 111,
-        "color" : "i_red",
-        "extras" : "build",
-        "see_cost" : 5,
-        "mondensity" : 1
-    },{
-        "type" : "overmap_terrain",
-        "id" : "mil_outpost_1mid",
-        "name" : "military outpost",
-        "sym" : 111,
-        "color" : "i_red",
-        "extras" : "build",
-        "see_cost" : 5,
-        "mondensity" : 1
-    },{
-        "type" : "overmap_terrain",
-        "id" : "mil_outpost_1re",
-        "name" : "military outpost",
-        "sym" : 111,
-        "color" : "i_red",
-        "extras" : "build",
-        "see_cost" : 5,
-        "mondensity" : 1
-    },{
-        "type" : "overmap_terrain",
-        "id" : "mil_outpost_1blc",
-        "name" : "military outpost",
-        "sym" : 111,
-        "color" : "i_red",
-        "extras" : "build",
-        "see_cost" : 5,
-        "mondensity" : 1
-    },{
-        "type" : "overmap_terrain",
-        "id" : "mil_outpost_1be",
-        "name" : "military outpost",
-        "sym" : 79,
-        "color" : "i_red",
-        "extras" : "build",
-        "see_cost" : 5,
-        "mondensity" : 1
-    },{
-        "type" : "overmap_terrain",
-        "id" : "mil_outpost_1brc",
-        "name" : "military outpost",
-        "sym" : 111,
-        "color" : "i_red",
-        "extras" : "build",
-        "see_cost" : 5,
-        "mondensity" : 1
-    },{
-        "type" : "overmap_terrain",
-        "id" : "mil_outpost_2tlc",
-        "name" : "military outpost",
-        "sym" : 111,
-        "color" : "i_red",
-        "extras" : "build",
-        "see_cost" : 5,
-        "mondensity" : 1
-    },{
-        "type" : "overmap_terrain",
-        "id" : "mil_outpost_2te",
-        "name" : "military outpost",
-        "sym" : 111,
-        "color" : "i_red",
-        "extras" : "build",
-        "see_cost" : 5,
-        "mondensity" : 1
-    },{
-        "type" : "overmap_terrain",
-        "id" : "mil_outpost_2trc",
-        "name" : "military outpost",
-        "sym" : 111,
-        "color" : "i_red",
-        "extras" : "build",
-        "see_cost" : 5,
-        "mondensity" : 1
-    },{
-        "type" : "overmap_terrain",
-        "id" : "mil_outpost_2le",
-        "name" : "military outpost",
-        "sym" : 111,
-        "color" : "i_red",
-        "extras" : "build",
-        "see_cost" : 5,
-        "mondensity" : 1
-    },{
-        "type" : "overmap_terrain",
-        "id" : "mil_outpost_2re",
-        "name" : "military outpost",
-        "sym" : 111,
-        "color" : "i_red",
-        "extras" : "build",
-        "see_cost" : 5,
-        "mondensity" : 1
-    },{
-        "type" : "overmap_terrain",
-        "id" : "mil_outpost_2blc",
-        "name" : "military outpost",
-        "sym" : 111,
-        "color" : "i_red",
-        "extras" : "build",
-        "see_cost" : 5,
-        "mondensity" : 1
-    },{
-        "type" : "overmap_terrain",
-        "id" : "mil_outpost_2be",
-        "name" : "military outpost",
-        "sym" : 111,
-        "color" : "i_red",
-        "extras" : "build",
-        "see_cost" : 5,
-        "mondensity" : 1
-    },{
-        "type" : "overmap_terrain",
-        "id" : "mil_outpost_2brc",
-        "name" : "military outpost",
-        "sym" : 111,
-        "color" : "i_red",
-        "extras" : "build",
-        "see_cost" : 5,
-        "mondensity" : 1
-    },{
-        "type" : "overmap_terrain",
-        "id" : "mil_outpost_3c",
-        "name" : "military outpost",
-        "sym" : 111,
-        "color" : "i_red",
-        "extras" : "build",
-        "see_cost" : 5,
-        "mondensity" : 1
-    },{
-        "type" : "overmap_terrain",
-        "id" : "mil_outpost_utlc",
-        "name" : "military outpost",
-        "sym" : 111,
-        "color" : "i_red",
-        "extras" : "build",
-        "see_cost" : 99,
-        "spawns" : { "group": "GROUP_MIL_OUTPOST_ZOM", "population": [4, 6], "chance": 50 }
-    },{
-        "type" : "overmap_terrain",
-        "id" : "mil_outpost_utea",
-        "name" : "military outpost",
-        "sym" : 111,
-        "color" : "i_red",
-        "extras" : "build",
-        "see_cost" : 99,
-        "spawns" : { "group": "GROUP_MIL_OUTPOST_ZOM", "population": [4, 6], "chance": 30 }
-    },{
-        "type" : "overmap_terrain",
-        "id" : "mil_outpost_uteb",
-        "name" : "military outpost",
-        "sym" : 111,
-        "color" : "i_red",
-        "extras" : "build",
-        "see_cost" : 99,
-        "spawns" : { "group": "GROUP_MIL_OUTPOST_ZOM", "population": [4, 6], "chance": 90 }
-    },{
-       "type" : "overmap_terrain",
-        "id" : "mil_outpost_utrc",
-        "name" : "military outpost",
-        "sym" : 111,
-        "color" : "i_red",
-        "extras" : "build",
-        "see_cost" : 99,
-        "spawns" : { "group": "GROUP_MIL_OUTPOST_BOT", "population": [8, 10], "chance": 30 }
-    },{
-        "type" : "overmap_terrain",
-        "id" : "mil_outpost_ule",
-        "name" : "military outpost",
-        "sym" : 111,
-        "color" : "i_red",
-        "extras" : "build",
-        "see_cost" : 99,
-        "spawns" : { "group": "GROUP_MIL_OUTPOST_ZOM", "population": [8, 10], "chance": 30 }
-    },{
-        "type" : "overmap_terrain",
-        "id" : "mil_outpost_umid",
-        "name" : "military outpost",
-        "sym" : 111,
-        "color" : "i_red",
-        "extras" : "build",
-        "see_cost" : 99,
-        "spawns" : { "group": "GROUP_MIL_OUTPOST_ZOM", "population": [4, 6], "chance": 30 }
-    },{
-        "type" : "overmap_terrain",
-        "id" : "mil_outpost_umid_finale",
-        "name" : "military outpost",
-        "sym" : 111,
-        "color" : "red_white",
-        "extras" : "build",
-        "see_cost" : 99,
-        "spawns" : { "group": "GROUP_MIL_OUTPOST_ZOM", "population": [4, 6], "chance": 30 }
-    },{
-        "type" : "overmap_terrain",
-        "id" : "mil_outpost_ure",
-        "name" : "military outpost",
-        "sym" : 111,
-        "color" : "i_red",
-        "extras" : "build",
-        "see_cost" : 99,
-        "spawns" : { "group": "GROUP_MIL_OUTPOST_BOT", "population": [4, 10], "chance": 50 }
-    },{
-        "type" : "overmap_terrain",
-        "id" : "mil_outpost_ublc",
-        "name" : "military outpost",
-        "sym" : 111,
-        "color" : "i_red",
-        "extras" : "build",
-        "see_cost" : 99,
-        "spawns" : { "group": "GROUP_MIL_OUTPOST_ZOM", "population": [6, 12], "chance": 60 }
-    },{
-        "type" : "overmap_terrain",
-        "id" : "mil_outpost_ubea",
-        "name" : "military outpost",
-        "sym" : 111,
-        "color" : "i_red",
-        "extras" : "build",
-        "see_cost" : 99,
-        "spawns" : { "group": "GROUP_MIL_OUTPOST_ZOM", "population": [4, 6], "chance": 90 }
-    },{
-        "type" : "overmap_terrain",
-        "id" : "mil_outpost_ubeb",
-        "name" : "military outpost",
-        "sym" : 111,
-        "color" : "i_red",
-        "extras" : "build",
-        "see_cost" : 99,
-        "spawns" : { "group": "GROUP_MIL_OUTPOST_ZOM", "population": [4, 6], "chance": 30 }
-    },{
-       "type" : "overmap_terrain",
-        "id" : "mil_outpost_ubrc",
-        "name" : "military outpost",
-        "sym" : 111,
-        "color" : "i_red",
-        "extras" : "build",
-        "see_cost" : 99,
-        "spawns" : { "group": "GROUP_MIL_OUTPOST_BOT", "population": [4, 6], "chance": 30 }
-    }
+  {
+    "type": "overmap_terrain",
+    "id": "mil_outpost_ytlc",
+    "name": "mine field",
+    "sym": ".",
+    "color": "brown",
+    "extras": "build",
+    "see_cost": 5,
+    "mondensity": 1
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_outpost_yte",
+    "name": "mine field",
+    "sym": ".",
+    "color": "brown",
+    "extras": "build",
+    "see_cost": 5,
+    "mondensity": 1
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_outpost_ytrc",
+    "name": "mine field",
+    "sym": ".",
+    "color": "brown",
+    "extras": "build",
+    "see_cost": 5,
+    "mondensity": 1
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_outpost_yle",
+    "name": "mine field",
+    "sym": ".",
+    "color": "brown",
+    "extras": "build",
+    "see_cost": 5,
+    "mondensity": 1
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_outpost_yre",
+    "name": "mine field",
+    "sym": ".",
+    "color": "brown",
+    "extras": "build",
+    "see_cost": 5,
+    "mondensity": 1
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_outpost_yblc",
+    "name": "mine field",
+    "sym": ".",
+    "color": "brown",
+    "extras": "build",
+    "see_cost": 5,
+    "mondensity": 1
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_outpost_ybe",
+    "name": "mine field",
+    "sym": ".",
+    "color": "brown",
+    "extras": "build",
+    "see_cost": 5,
+    "mondensity": 1
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_outpost_ybe_gate",
+    "name": "gate",
+    "sym": ".",
+    "color": "white",
+    "extras": "build",
+    "see_cost": 5,
+    "mondensity": 1
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_outpost_ybrc",
+    "name": "mine field",
+    "sym": ".",
+    "color": "brown",
+    "extras": "build",
+    "see_cost": 5,
+    "mondensity": 1
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_outpost_1tlc",
+    "name": "military outpost",
+    "sym": "o",
+    "color": "i_red",
+    "extras": "build",
+    "see_cost": 5,
+    "mondensity": 1
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_outpost_1te",
+    "name": "military outpost",
+    "sym": "o",
+    "color": "i_red",
+    "extras": "build",
+    "see_cost": 5,
+    "mondensity": 1
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_outpost_1trc",
+    "name": "military outpost",
+    "sym": "o",
+    "color": "i_red",
+    "extras": "build",
+    "see_cost": 5,
+    "mondensity": 1
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_outpost_1le",
+    "name": "military outpost",
+    "sym": "o",
+    "color": "i_red",
+    "extras": "build",
+    "see_cost": 5,
+    "mondensity": 1
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_outpost_1mid",
+    "name": "military outpost",
+    "sym": "o",
+    "color": "i_red",
+    "extras": "build",
+    "see_cost": 5,
+    "mondensity": 1
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_outpost_1re",
+    "name": "military outpost",
+    "sym": "o",
+    "color": "i_red",
+    "extras": "build",
+    "see_cost": 5,
+    "mondensity": 1
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_outpost_1blc",
+    "name": "military outpost",
+    "sym": "o",
+    "color": "i_red",
+    "extras": "build",
+    "see_cost": 5,
+    "mondensity": 1
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_outpost_1be",
+    "name": "military outpost",
+    "sym": "O",
+    "color": "i_red",
+    "extras": "build",
+    "see_cost": 5,
+    "mondensity": 1
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_outpost_1brc",
+    "name": "military outpost",
+    "sym": "o",
+    "color": "i_red",
+    "extras": "build",
+    "see_cost": 5,
+    "mondensity": 1
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_outpost_2tlc",
+    "name": "military outpost",
+    "sym": "o",
+    "color": "i_red",
+    "extras": "build",
+    "see_cost": 5,
+    "mondensity": 1
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_outpost_2te",
+    "name": "military outpost",
+    "sym": "o",
+    "color": "i_red",
+    "extras": "build",
+    "see_cost": 5,
+    "mondensity": 1
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_outpost_2trc",
+    "name": "military outpost",
+    "sym": "o",
+    "color": "i_red",
+    "extras": "build",
+    "see_cost": 5,
+    "mondensity": 1
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_outpost_2le",
+    "name": "military outpost",
+    "sym": "o",
+    "color": "i_red",
+    "extras": "build",
+    "see_cost": 5,
+    "mondensity": 1
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_outpost_2re",
+    "name": "military outpost",
+    "sym": "o",
+    "color": "i_red",
+    "extras": "build",
+    "see_cost": 5,
+    "mondensity": 1
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_outpost_2blc",
+    "name": "military outpost",
+    "sym": "o",
+    "color": "i_red",
+    "extras": "build",
+    "see_cost": 5,
+    "mondensity": 1
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_outpost_2be",
+    "name": "military outpost",
+    "sym": "o",
+    "color": "i_red",
+    "extras": "build",
+    "see_cost": 5,
+    "mondensity": 1
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_outpost_2brc",
+    "name": "military outpost",
+    "sym": "o",
+    "color": "i_red",
+    "extras": "build",
+    "see_cost": 5,
+    "mondensity": 1
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_outpost_3c",
+    "name": "military outpost",
+    "sym": "o",
+    "color": "i_red",
+    "extras": "build",
+    "see_cost": 5,
+    "mondensity": 1
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_outpost_utlc",
+    "name": "military outpost",
+    "sym": "o",
+    "color": "i_red",
+    "extras": "build",
+    "see_cost": 99,
+    "spawns": { "group": "GROUP_MIL_OUTPOST_ZOM", "population": [ 4, 6 ], "chance": 50 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_outpost_utea",
+    "name": "military outpost",
+    "sym": "o",
+    "color": "i_red",
+    "extras": "build",
+    "see_cost": 99,
+    "spawns": { "group": "GROUP_MIL_OUTPOST_ZOM", "population": [ 4, 6 ], "chance": 30 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_outpost_uteb",
+    "name": "military outpost",
+    "sym": "o",
+    "color": "i_red",
+    "extras": "build",
+    "see_cost": 99,
+    "spawns": { "group": "GROUP_MIL_OUTPOST_ZOM", "population": [ 4, 6 ], "chance": 90 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_outpost_utrc",
+    "name": "military outpost",
+    "sym": "o",
+    "color": "i_red",
+    "extras": "build",
+    "see_cost": 99,
+    "spawns": { "group": "GROUP_MIL_OUTPOST_BOT", "population": [ 8, 10 ], "chance": 30 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_outpost_ule",
+    "name": "military outpost",
+    "sym": "o",
+    "color": "i_red",
+    "extras": "build",
+    "see_cost": 99,
+    "spawns": { "group": "GROUP_MIL_OUTPOST_ZOM", "population": [ 8, 10 ], "chance": 30 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_outpost_umid",
+    "name": "military outpost",
+    "sym": "o",
+    "color": "i_red",
+    "extras": "build",
+    "see_cost": 99,
+    "spawns": { "group": "GROUP_MIL_OUTPOST_ZOM", "population": [ 4, 6 ], "chance": 30 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_outpost_umid_finale",
+    "name": "military outpost",
+    "sym": "o",
+    "color": "red_white",
+    "extras": "build",
+    "see_cost": 99,
+    "spawns": { "group": "GROUP_MIL_OUTPOST_ZOM", "population": [ 4, 6 ], "chance": 30 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_outpost_ure",
+    "name": "military outpost",
+    "sym": "o",
+    "color": "i_red",
+    "extras": "build",
+    "see_cost": 99,
+    "spawns": { "group": "GROUP_MIL_OUTPOST_BOT", "population": [ 4, 10 ], "chance": 50 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_outpost_ublc",
+    "name": "military outpost",
+    "sym": "o",
+    "color": "i_red",
+    "extras": "build",
+    "see_cost": 99,
+    "spawns": { "group": "GROUP_MIL_OUTPOST_ZOM", "population": [ 6, 12 ], "chance": 60 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_outpost_ubea",
+    "name": "military outpost",
+    "sym": "o",
+    "color": "i_red",
+    "extras": "build",
+    "see_cost": 99,
+    "spawns": { "group": "GROUP_MIL_OUTPOST_ZOM", "population": [ 4, 6 ], "chance": 90 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_outpost_ubeb",
+    "name": "military outpost",
+    "sym": "o",
+    "color": "i_red",
+    "extras": "build",
+    "see_cost": 99,
+    "spawns": { "group": "GROUP_MIL_OUTPOST_ZOM", "population": [ 4, 6 ], "chance": 30 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mil_outpost_ubrc",
+    "name": "military outpost",
+    "sym": "o",
+    "color": "i_red",
+    "extras": "build",
+    "see_cost": 99,
+    "spawns": { "group": "GROUP_MIL_OUTPOST_BOT", "population": [ 4, 6 ], "chance": 30 }
+  }
 ]

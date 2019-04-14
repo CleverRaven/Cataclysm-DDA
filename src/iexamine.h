@@ -1,11 +1,4 @@
 #pragma once
-//
-//  iexamine.h
-//  Cataclysm
-//
-//  Livingstone
-//
-
 #ifndef IEXAMINE_H
 #define IEXAMINE_H
 

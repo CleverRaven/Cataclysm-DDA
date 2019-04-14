@@ -983,6 +983,52 @@
     ]
   },
   {
+    "result": "broken_dispatch",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 5,
+    "time": 60000,
+    "using": [ [ "soldering_standard", 20 ] ],
+    "qualities": [ { "id": "WRENCH", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "power_supply", 3 ] ],
+      [ [ "e_scrap", 6 ] ],
+      [ [ "solder_wire", 50 ] ],
+      [ [ "cable", 20 ] ],
+      [ [ "scrap", 6 ] ],
+      [ [ "motor", 1 ] ],
+      [ [ "wire", 9 ] ],
+      [ [ "plut_cell", 1 ] ],
+      [ [ "steel_chunk", 6 ] ],
+      [ [ "broken_manhack", 4 ] ],
+      [ [ "omnicamera", 1 ] ],
+      [ [ "robot_controls", 1 ] ]
+    ]
+  },
+  {
+    "result": "broken_dispatch_military",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 5,
+    "time": 60000,
+    "using": [ [ "soldering_standard", 20 ] ],
+    "qualities": [ { "id": "WRENCH", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "power_supply", 3 ] ],
+      [ [ "e_scrap", 6 ] ],
+      [ [ "solder_wire", 60 ] ],
+      [ [ "cable", 35 ] ],
+      [ [ "scrap", 6 ] ],
+      [ [ "motor_large", 1 ] ],
+      [ [ "wire", 9 ] ],
+      [ [ "plut_cell", 2 ] ],
+      [ [ "steel_chunk", 6 ] ],
+      [ [ "broken_manhack", 7 ] ],
+      [ [ "omnicamera", 1 ] ],
+      [ [ "robot_controls", 1 ] ]
+    ]
+  },
+  {
     "result": "cable",
     "type": "uncraft",
     "time": 1000,
@@ -2390,5 +2436,14 @@
       [ [ "plastic_chunk", 10 ] ],
       [ [ "solder_wire", 5 ] ]
     ]
+  },
+  {
+    "result": "electric_blanket",
+    "type": "uncraft",
+    "skill_used": "tailor",
+    "time": 30000,
+    "difficulty": 1,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "rag", 25 ] ], [ [ "element", 5 ] ], [ [ "cable", 5 ] ] ]
   }
 ]

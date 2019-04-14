@@ -2479,15 +2479,11 @@ void map::make_rubble( const tripoint &p, const furn_id &rubble_type, const bool
         }
     } else if( rubble_type == f_rubble ) {
         item splinter( "splinter", calendar::turn );
-        item nail( "nail", calendar::turn );
         int splinter_count = rng( 2, 8 );
-        int nail_count = rng( 5, 10 );
         for( int i = 0; i < splinter_count; i++ ) {
             add_item_or_charges( p, splinter );
         }
-        for( int i = 0; i < nail_count; i++ ) {
-            add_item_or_charges( p, nail );
-        }
+        spawn_item( p, "nail", 1, rng( 20, 50 ) );
     }
 }
 
@@ -2585,6 +2581,27 @@ bool map::flammable_items_at( const tripoint &p, int threshold )
         if( i.flammable( threshold ) ) {
             return true;
         }
+    }
+
+    return false;
+}
+
+bool map::is_flammable( const tripoint &p )
+{
+    if( flammable_items_at( p ) ) {
+        return true;
+    }
+
+    if( has_flag( "FLAMMABLE", p ) ) {
+        return true;
+    }
+
+    if( has_flag( "FLAMMABLE_ASH", p ) ) {
+        return true;
+    }
+
+    if( get_field_strength( p, fd_web ) > 0 ) {
+        return true;
     }
 
     return false;
@@ -4720,7 +4737,7 @@ std::list<item> use_charges_from_stack( Stack stack, const itype_id type, long &
 {
     std::list<item> ret;
     for( auto a = stack.begin(); a != stack.end() && quantity > 0; ) {
-        if( filter( *a ) && !a->made_of( LIQUID ) && a->use_charges( type, quantity, ret, pos ) ) {
+        if( !a->made_of( LIQUID ) && a->use_charges( type, quantity, ret, pos, filter ) ) {
             a = stack.erase( a );
         } else {
             ++a;
@@ -6615,7 +6632,7 @@ void map::rotten_item_spawn( const item &item, const tripoint &pnt )
     if( g->critter_at( pnt ) != nullptr ) {
         return;
     }
-    auto &comest = item.type->comestible;
+    const auto &comest = item.get_comestible();
     mongroup_id mgroup = comest->rot_spawn;
     if( mgroup == "GROUP_NULL" ) {
         return;

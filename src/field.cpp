@@ -713,6 +713,8 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         ( neigh.x != remove_tile2.x && neigh.y != remove_tile2.y ) ||
                         ( neigh.x != remove_tile3.x && neigh.y != remove_tile3.y ) ) {
                         neighbour_vec.push_back( neigh );
+                    } else if( x_in_y( 1, std::max( 2, windpower ) ) ) {
+                        neighbour_vec.push_back( neigh );
                     }
                 }
                 if( !neighbour_vec.empty() ) {
@@ -1081,6 +1083,8 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             if( ( neigh.x != remove_tile.x && neigh.y != remove_tile.y ) ||
                                 ( neigh.x != remove_tile2.x && neigh.y != remove_tile2.y ) ||
                                 ( neigh.x != remove_tile3.x && neigh.y != remove_tile3.y ) ) {
+                                neighbour_vec.push_back( neigh );
+                            } else if( x_in_y( 1, std::max( 2, windpower ) ) ) {
                                 neighbour_vec.push_back( neigh );
                             }
                         }
@@ -2552,7 +2556,7 @@ void map::monster_in_field( monster &z )
 
             case fd_fungal_haze:
                 if( !z.type->in_species( FUNGUS ) &&
-                    !z.type->has_flag( "NO_BREATHE" ) &&
+                    !z.type->has_flag( MF_NO_BREATHE ) &&
                     !z.make_fungus() ) {
                     // Don't insta-kill jabberwocks, that's silly
                     const int density = cur.getFieldDensity();

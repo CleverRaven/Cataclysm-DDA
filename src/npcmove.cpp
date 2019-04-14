@@ -22,6 +22,7 @@
 #include "messages.h"
 #include "monster.h"
 #include "mtype.h"
+#include "npctalk.h"
 #include "output.h"
 #include "overmap_location.h"
 #include "overmapbuffer.h"
@@ -41,19 +42,18 @@ static constexpr float NPC_DANGER_VERY_LOW = 5.0f;
 static constexpr float NPC_DANGER_MAX = 150.0f;
 static constexpr float MAX_FLOAT = 5000000000.0f;
 
-#define dbg(x) DebugLog((DebugLevel)(x),D_NPC) << __FILE__ << ":" << __LINE__ << ": "
-
 const skill_id skill_firstaid( "firstaid" );
 const skill_id skill_gun( "gun" );
 const skill_id skill_throw( "throw" );
 
-const efftype_id effect_bleed( "bleed" );
+const efftype_id effect_bandaged( "bandaged" );
 const efftype_id effect_bite( "bite" );
+const efftype_id effect_bleed( "bleed" );
 const efftype_id effect_bouldering( "bouldering" );
 const efftype_id effect_catch_up( "catch_up" );
 const efftype_id effect_hit_by_player( "hit_by_player" );
-const efftype_id effect_infection( "infection" );
 const efftype_id effect_infected( "infected" );
+const efftype_id effect_infection( "infection" );
 const efftype_id effect_lying_down( "lying_down" );
 const efftype_id effect_no_sight( "no_sight" );
 const efftype_id effect_stunned( "stunned" );
@@ -67,7 +67,6 @@ enum npc_action : int {
     npc_pause,
     npc_reload, npc_sleep,
     npc_pickup,
-    npc_wield_melee, npc_wield_loaded_gun, npc_wield_empty_gun,
     npc_heal, npc_use_painkiller, npc_drop_items,
     npc_flee, npc_melee, npc_shoot,
     npc_look_for_player, npc_heal_player, npc_follow_player, npc_follow_embarked,
@@ -467,6 +466,8 @@ void npc::regen_ai_cache()
     float old_assessment = ai_cache.danger_assessment;
     ai_cache.friends.clear();
     ai_cache.target = std::shared_ptr<Creature>();
+    ai_cache.ally = std::shared_ptr<Creature>();
+    ai_cache.can_heal.clear_all();
     ai_cache.danger = 0.0f;
     ai_cache.total_danger = 0.0f;
     ai_cache.my_weapon_value = weapon_value( weapon );
@@ -649,6 +650,7 @@ void npc::execute_action( npc_action action )
     int oldmoves = moves;
     tripoint tar = pos();
     Creature *cur = current_target();
+    player *patient = dynamic_cast<player *>( current_ally() );
     if( action == npc_flee ) {
         tar = good_escape_direction( false );
     } else if( cur != nullptr ) {
@@ -729,43 +731,6 @@ void npc::execute_action( npc_action action )
             pick_up_item();
             break;
 
-        case npc_wield_melee:
-            wield_best_melee();
-            break;
-
-        case npc_wield_loaded_gun: {
-            item *it = inv.most_loaded_gun();
-            if( it->is_null() ) {
-                debugmsg( "NPC tried to wield a loaded gun, but has none!" );
-                move_pause();
-            } else {
-                wield( *it );
-            }
-        }
-        break;
-
-        case npc_wield_empty_gun: {
-            bool ammo_found = false;
-            int index = -1;
-            invslice slice = inv.slice();
-            for( size_t i = 0; i < slice.size(); i++ ) {
-                item &it = slice[i]->front();
-                bool am = ( it.is_gun() &&
-                            !get_ammo( it.type->gun->ammo ).empty() );
-                if( it.is_gun() && ( !ammo_found || am ) ) {
-                    index = i;
-                    ammo_found = ( ammo_found || am );
-                }
-            }
-            if( index == -1 ) {
-                debugmsg( "NPC tried to wield a gun, but has none!" );
-                move_pause();
-            } else {
-                wield( slice[index]->front() );
-            }
-        }
-        break;
-
         case npc_heal:
             heal_self();
             break;
@@ -831,10 +796,12 @@ void npc::execute_action( npc_action action )
             break;
 
         case npc_heal_player:
-            update_path( g->u.pos() );
+            update_path( patient->pos() );
             if( path.size() == 1 ) { // We're adjacent to u, and thus can heal u
-                heal_player( g->u );
+                heal_player( *patient );
             } else if( !path.empty() ) {
+                say( string_format( _( "Hold still %s, I'm coming to help you." ),
+                                    patient->disp_name() ) );
                 move_to_next();
             } else {
                 move_pause();
@@ -1120,13 +1087,62 @@ npc_action npc::method_of_attack()
     return dont_move ? npc_undecided : npc_melee;
 }
 
-bool need_heal( const Character &n )
+bool npc::need_heal( const player &n )
 {
+
+    // if there are no healing items, there's nothing to do
+    if( !( ai_cache.can_heal.bandage || ai_cache.can_heal.bleed || ai_cache.can_heal.bite ||
+           ai_cache.can_heal.infect ) ) {
+        return false;
+    }
+    // NPCs heal at 50% remaining HP, minus their bravery and skill in first aid
+    // brave NPCs are less worried, skilled NPCs conserve bandages
+    int threshold = 50 + personality.bravery - get_skill_level( skill_firstaid );
+    // altruist NPCs hold off on healing themselves and heal allies earlier
+    if( n.getID() == getID() ) {
+        threshold -= personality.altruism;
+    } else {
+        threshold += personality.altruism;
+    }
+
     for( int i = 0; i < num_hp_parts; i++ ) {
-        hp_part part = hp_part( i );
-        if( ( part == hp_head  && n.hp_cur[i] <= 35 ) ||
-            ( part == hp_torso && n.hp_cur[i] <= 25 ) ||
-            n.hp_cur[i] <= 15 ) {
+        const hp_part part = hp_part( i );
+        const body_part bp_wounded = hp_to_bp( part );
+
+        if( ai_cache.can_heal.bleed && n.has_effect( effect_bleed, bp_wounded ) ) {
+            ai_cache.can_heal.clear_all();
+            ai_cache.can_heal.bleed = true;
+            return true;
+        }
+
+        // NPCs don't reapply bandages
+        if( ai_cache.can_heal.bandage && !n.has_effect( effect_bandaged, bp_wounded ) ) {
+            int part_threshold = threshold;
+            if( part == hp_head ) {
+                part_threshold += 20;
+            } else if( part == hp_torso ) {
+                part_threshold += 10;
+            }
+            part_threshold = std::min( 80, part_threshold );
+            part_threshold = part_threshold * n.hp_max[i] / 100;
+
+            if( n.hp_cur[i] <= part_threshold ) {
+                ai_cache.can_heal.clear_all();
+                ai_cache.can_heal.bandage = true;
+                return true;
+            }
+        }
+
+        if( ai_cache.can_heal.bite && n.has_effect( effect_bite, bp_wounded ) ) {
+            ai_cache.can_heal.clear_all();
+            ai_cache.can_heal.bite = true;
+            return true;
+
+        }
+
+        if( ai_cache.can_heal.infect && n.has_effect( effect_infected, bp_wounded ) ) {
+            ai_cache.can_heal.clear_all();
+            ai_cache.can_heal.infect = true;
             return true;
         }
     }
@@ -1224,12 +1240,37 @@ const item_location npc::find_usable_ammo( const item &weap ) const
 
 npc_action npc::address_needs( float danger )
 {
-    if( need_heal( *this ) && has_healing_item() ) {
+    ai_cache.can_heal = has_healing_options();
+
+    if( need_heal( *this ) ) {
         return npc_heal;
     }
 
     if( get_perceived_pain() >= 15 && has_painkiller() && !took_painkiller() ) {
         return npc_use_painkiller;
+    }
+
+    // should check all allies, but factions are stupid right now
+    if( is_friend() ) {
+        if( need_heal( g->u ) ) {
+            ai_cache.ally = g->shared_from( g->u );
+            return npc_heal_player;
+        }
+
+        const std::vector<npc *> followers = g->get_npcs_if( [&]( const npc & guy ) {
+            return guy.is_friend() && guy.is_following() && posz() == guy.posz() &&
+                   sees( guy.pos() ) && rl_dist( pos(), guy.pos() ) <= SEEX * 2;
+        } );
+
+        for( npc *guy : followers ) {
+            if( guy == this ) {
+                continue;
+            }
+            if( need_heal( *guy ) ) {
+                ai_cache.ally = g->shared_from( *guy );
+                return npc_heal_player;
+            }
+        }
     }
 
     if( can_reload_current() ) {
@@ -1556,15 +1597,17 @@ bool npc::update_path( const tripoint &p, const bool no_bashing, bool force )
     return false;
 }
 
+bool npc::can_open_door( const tripoint &p, const bool inside ) const
+{
+    return !rules.has_flag( ally_rule::avoid_doors ) && g->m.open_door( p, inside, true );
+}
+
 bool npc::can_move_to( const tripoint &p, bool no_bashing ) const
 {
     // Allow moving into any bashable spots, but penalize them during pathing
     return( rl_dist( pos(), p ) <= 1 &&
-            (
-                g->m.passable( p ) ||
-                ( !no_bashing && g->m.bash_rating( smash_ability(), p ) > 0 ) ||
-                g->m.open_door( p, !g->m.is_outside( pos() ), true )
-            )
+            ( g->m.passable( p ) || can_open_door( p, !g->m.is_outside( pos() ) ) ||
+              ( !no_bashing && g->m.bash_rating( smash_ability(), p ) > 0 ) )
           );
 }
 
@@ -1865,6 +1908,10 @@ void npc::move_away_from( const tripoint &pt, bool no_bash_atk, std::set<tripoin
 void npc::move_pause()
 
 {
+    // make sure we're using the best weapon
+    if( calendar::once_every( 1_hours ) && wield_better_weapon() ) {
+        return;
+    }
     // NPCs currently always aim when using a gun, even with no target
     // This simulates them aiming at stuff just at the edge of their range
     if( !weapon.is_gun() ) {
@@ -2484,7 +2531,7 @@ bool npc::wield_better_weapon()
     const long ups_charges = charges_of( "UPS" );
 
     const auto compare_weapon =
-    [this, &best, &best_value, ups_charges, can_use_gun, use_silent]( item & it ) {
+    [this, &best, &best_value, ups_charges, can_use_gun, use_silent]( const item & it ) {
         bool allowed = can_use_gun && it.is_gun() && ( !use_silent || it.is_silent() );
         double val;
         if( !allowed ) {
@@ -2500,7 +2547,7 @@ bool npc::wield_better_weapon()
         }
 
         if( val > best_value ) {
-            best = &it;
+            best = const_cast<item *>( &it );
             best_value = val;
         }
     };
@@ -2513,13 +2560,15 @@ bool npc::wield_better_weapon()
     compare_weapon( null_item_reference() );
 
     visit_items( [&compare_weapon]( item * node ) {
-        // Skip some bad items
-        if( !node->is_melee() ) {
-            return VisitResponse::SKIP;
+        // Only compare melee weapons, guns, or holstered items
+        if( node->is_melee() || node->is_gun() ) {
+            compare_weapon( *node );
+        } else if( node->get_use( "holster" ) && !node->contents.empty() ) {
+            const item &holstered = node->get_contained();
+            if( holstered.is_melee() || holstered.is_gun() ) {
+                compare_weapon( holstered );
+            }
         }
-
-        compare_weapon( *node );
-
         return VisitResponse::SKIP;
     } );
 
@@ -2528,13 +2577,12 @@ bool npc::wield_better_weapon()
     // Until then, the NPCs should reload the guns as a last resort
 
     if( best == &weapon ) {
-        add_msg( m_debug, "Wielded %s is best at %.1f, not switching",
-                 best->display_name().c_str(), best_value );
+        add_msg( m_debug, "Wielded %s is best at %.1f, not switching", best->display_name(),
+                 best_value );
         return false;
     }
 
-    add_msg( m_debug, "Wielding %s at value %.1f",
-             best->display_name().c_str(), best_value );
+    add_msg( m_debug, "Wielding %s at value %.1f", best->display_name(), best_value );
 
     wield( *best );
     return true;
@@ -2552,18 +2600,6 @@ bool npc::scan_new_items()
 
     return false;
     // TODO: Armor?
-}
-
-void npc::wield_best_melee()
-{
-    double best_value = 0.0;
-    item *it = inv.best_for_melee( *this, best_value );
-    if( unarmed_value() >= best_value ) {
-        // "I cast fist!"
-        it = &null_item_reference();
-    }
-
-    wield( *it );
 }
 
 void npc_throw( npc &np, item &it, int index, const tripoint &pos )
@@ -2753,10 +2789,10 @@ void npc::heal_player( player &patient )
     // Close enough to heal!
     bool u_see = g->u.sees( *this ) || g->u.sees( patient );
     if( u_see ) {
-        add_msg( _( "%1$s heals %2$s." ), name.c_str(), patient.name.c_str() );
+        add_msg( _( "%1$s heals %2$s." ), disp_name(), patient.disp_name() );
     }
 
-    item &used = get_healing_item();
+    item &used = get_healing_item( ai_cache.can_heal );
     if( used.is_null() ) {
         debugmsg( "%s tried to heal you but has no healing item", disp_name().c_str() );
         return;
@@ -2767,10 +2803,8 @@ void npc::heal_player( player &patient )
 
     if( !patient.is_npc() ) {
         // Test if we want to heal the player further
-        if( op_of_u.value * 4 + op_of_u.trust + personality.altruism * 3 +
-            ( fac_has_value( FACVAL_CHARITABLE ) ?  5 : 0 ) +
-            ( fac_has_job( FACJOB_DOCTORS )    ? 15 : 0 ) - op_of_u.fear * 3 <  25 ) {
-            set_attitude( NPCATT_FOLLOW );
+        if( op_of_u.value * 4 + op_of_u.trust + personality.altruism * 3 -
+            op_of_u.fear * 3 <  25 ) {
             say( _( "That's all the healing I can do." ) );
         } else {
             say( _( "Hold still, I can heal you more." ) );
@@ -2780,15 +2814,16 @@ void npc::heal_player( player &patient )
 
 void npc::heal_self()
 {
-    item &used = get_healing_item();
+    item &used = get_healing_item( ai_cache.can_heal );
     if( used.is_null() ) {
         debugmsg( "%s tried to heal self but has no healing item", disp_name().c_str() );
         return;
     }
 
     if( g->u.sees( *this ) ) {
-        add_msg( _( "%s applies a %s" ), name.c_str(), used.tname().c_str() );
+        add_msg( _( "%s applies a %s" ), disp_name(), used.tname() );
     }
+    warn_about( "heal_self", 1_turns );
 
     long charges_used = used.type->invoke( *this, used, pos(), "heal" );
     if( used.is_medication() ) {
@@ -2806,7 +2841,7 @@ void npc::use_painkiller()
         move_pause();
     } else {
         if( g->u.sees( *this ) ) {
-            add_msg( _( "%1$s takes some %2$s." ), name.c_str(), it->tname().c_str() );
+            add_msg( _( "%1$s takes some %2$s." ), disp_name(), it->tname() );
         }
         consume( inv.position_by_item( it ) );
         moves = 0;
@@ -2821,7 +2856,7 @@ void npc::use_painkiller()
 // Be eaten before it rots (favor soon-to-rot perishables)
 float rate_food( const item &it, int want_nutr, int want_quench )
 {
-    const auto &food = it.type->comestible;
+    const auto &food = it.get_comestible();
     if( !food ) {
         return 0.0f;
     }
@@ -3067,6 +3102,20 @@ bool npc::has_omt_destination() const
 
 void npc::reach_omt_destination()
 {
+    if( is_travelling() ) {
+        talk_function::assign_guard( *this );
+        guard_pos = global_square_location();
+        omt_path.clear();
+        goal = no_goal_point;
+        if( rl_dist( g->u.pos(), pos() ) > SEEX * 2 || !g->u.sees( pos() ) ) {
+            if( g->u.has_item_with_flag( "TWO_WAY_RADIO", true ) &&
+                has_item_with_flag( "TWO_WAY_RADIO", true ) ) {
+                add_msg( m_info, _( "From your two-way radio you hear %s reporting in, 'I've arrived, boss!'" ),
+                         disp_name() );
+            }
+        }
+        return;
+    }
     // Guarding NPCs want a specific point, not just an overmap tile
     // Rest stops having a goal after reaching it
     if( !is_guarding() ) {
@@ -3161,7 +3210,7 @@ void npc::go_to_omt_destination()
     int sy = sgn( goal.y - omt_pos.y );
     const int minz = std::min( goal.z, posz() );
     const int maxz = std::max( goal.z, posz() );
-    add_msg( m_debug, "%s going (%d,%d,%d)->(%d,%d,%d)", name.c_str(),
+    add_msg( m_debug, "%s going (%d,%d,%d)->(%d,%d,%d)", name,
              omt_pos.x, omt_pos.y, omt_pos.z, goal.x, goal.y, goal.z );
     if( goal == omt_pos ) {
         // We're at our desired map square!
@@ -3187,10 +3236,9 @@ void npc::go_to_omt_destination()
     // sx and sy are now equal to the direction we need to move in
     tripoint dest( posx() + 8 * sx, posy() + 8 * sy, goal.z );
     for( int i = 0; i < 8; i++ ) {
-        if( ( g->m.passable( dest ) ||
+        if( ( g->m.passable( dest ) || can_open_door( dest, true ) ||
               //Needs 20% chance of bashing success to be considered for pathing
-              g->m.bash_rating( smash_ability(), dest ) >= 2 ||
-              g->m.open_door( dest, true, true ) ) &&
+              g->m.bash_rating( smash_ability(), dest ) >= 2 ) &&
             ( one_in( 4 ) || sees( dest ) ) ) {
             update_path( dest );
             if( !path.empty() && can_move_to( path[0] ) ) {
@@ -3202,7 +3250,8 @@ void npc::go_to_omt_destination()
             }
         }
 
-        dest = tripoint( posx() + rng( 0, 16 ) * sx, posy() + rng( 0, 16 ) * sy, rng( minz, maxz ) );
+        dest = tripoint( posx() + rng( 0, 16 ) * sx, posy() + rng( 0, 16 ) * sy,
+                         rng( minz, maxz ) );
     }
     move_pause();
 }
@@ -3230,12 +3279,6 @@ std::string npc_action_name( npc_action action )
             return _( "Sleep" );
         case npc_pickup:
             return _( "Pick up items" );
-        case npc_wield_melee:
-            return _( "Wield melee weapon" );
-        case npc_wield_loaded_gun:
-            return _( "Wield loaded gun" );
-        case npc_wield_empty_gun:
-            return _( "Wield empty gun" );
         case npc_heal:
             return _( "Heal self" );
         case npc_use_painkiller:
@@ -3255,7 +3298,7 @@ std::string npc_action_name( npc_action action )
         case npc_look_for_player:
             return _( "Look for player" );
         case npc_heal_player:
-            return _( "Heal player" );
+            return _( "Heal player or ally" );
         case npc_follow_player:
             return _( "Follow player" );
         case npc_follow_embarked:
@@ -3293,6 +3336,19 @@ Creature *npc::current_target()
 {
     // TODO: As above.
     return ai_cache.target.lock().get();
+}
+
+const Creature *npc::current_ally() const
+{
+    // TODO: Arguably we should return a shared_ptr to ensure that the returned
+    // object stays alive while the caller uses it.  Not doing that for now.
+    return ai_cache.ally.lock().get();
+}
+
+Creature *npc::current_ally()
+{
+    // TODO: As above.
+    return ai_cache.ally.lock().get();
 }
 
 // Maybe TODO: Move to Character method and use map methods
@@ -3338,6 +3394,8 @@ void npc::warn_about( const std::string &type, const time_duration &d, const std
         snip = "<combat_noise_warning>";
     } else if( type == "movement_noise" ) {
         snip = "<movement_noise_warning>";
+    } else if( type == "heal_self" ) {
+        snip = "<heal_self>";
     } else {
         return;
     }
