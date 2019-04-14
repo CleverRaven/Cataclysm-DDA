@@ -831,7 +831,7 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
                     player_has.push_back( component );
                     found = true;
                 }
-                if( map_inv.has_components( type, count ) ) {
+                if( map_inv.has_components( type, count, filter ) ) {
                     map_has.push_back( component );
                     found = true;
                 }
@@ -841,7 +841,7 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
                     mixed.push_back( component );
                 }
             } else {
-                if( map_inv.has_components( type, count ) ) {
+                if( map_inv.has_components( type, count, filter ) ) {
                     map_has.push_back( component );
                     found = true;
                 }
