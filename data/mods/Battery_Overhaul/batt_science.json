@@ -13,10 +13,10 @@
       "color": "light_gray",
       "ammo": "battery",
       "sub": "hotplate",
-      "max_charges": 200,
       "charges_per_use": 1,
       "qualities": [ [ "DISTILL", 1 ], [ "CHEM", 3 ], [ "BOIL", 1 ] ],
-      "use_action": "HOTPLATE"
+      "use_action": "HOTPLATE",
+      "magazines": [ "battery" , [ "medium_battery_cell" , "medium_plus_battery_cell" ] ]
     },
     {
       "id": "analytical_set_basic",
@@ -28,12 +28,12 @@
       "volume": 20,
       "price": 25000,
       "ammo": "battery",
-      "max_charges": 300,
       "to_hit": -5,
       "material": [ "plastic", "steel" ],
       "symbol": ";",
       "color": "light_gray",
-      "qualities": [ [ "ANALYSIS", 1 ] ]
+      "qualities": [ [ "ANALYSIS", 1 ] ],
+      "magazines": [ "battery" , [ "medium_battery_cell" , "medium_plus_battery_cell" ] ]
     },
     {
       "id": "spectrophotometer",
@@ -45,11 +45,11 @@
       "volume": 8,
       "price": 8000,
       "ammo": "battery",
-      "max_charges": 100,
       "to_hit": -5,
       "material": [ "plastic", "steel" ],
       "symbol": ";",
-      "color": "light_gray"
+      "color": "light_gray",
+      "magazines": [ "battery" , [ "medium_battery_cell" , "medium_plus_battery_cell" ] ]
     },
     {
       "id": "ph_meter",
@@ -61,11 +61,11 @@
       "volume": 6,
       "price": 6000,
       "ammo": "battery",
-      "max_charges": 100,
       "to_hit": -5,
       "material": [ "plastic", "glass" ],
       "symbol": ";",
-      "color": "light_gray"
+      "color": "light_gray",
+      "magazines": [ "battery" , [ "light_battery_cell" , "light_plus_battery_cell" , "light_minus_battery_cell" ] ]
     },
     {
       "id": "voltmeter",
@@ -77,11 +77,11 @@
       "volume": 6,
       "price": 6000,
       "ammo": "battery",
-      "max_charges": 100,
       "to_hit": -5,
       "material": [ "plastic" ],
       "symbol": ";",
-      "color": "light_gray"
+      "color": "light_gray",
+      "magazines": [ "battery" , [ "light_battery_cell" , "light_plus_battery_cell" , "light_minus_battery_cell" ] ]
     },
     {
       "id": "melting_point",
@@ -94,11 +94,11 @@
       "volume": 6,
       "price": 6000,
       "ammo": "battery",
-      "max_charges": 100,
       "to_hit": -5,
       "material": [ "plastic", "glass" ],
       "symbol": ";",
-      "color": "light_gray"
+      "color": "light_gray",
+      "magazines": [ "battery" , [ "light_battery_cell" , "light_plus_battery_cell" , "light_minus_battery_cell" ] ]
     },
     {
       "id": "microcentrifuge",
@@ -115,8 +115,8 @@
       "symbol": "n",
       "color": "white",
       "ammo": "battery",
-      "max_charges": 100,
-      "qualities": [ [ "CONCENTRATE", 1 ] ]
+      "qualities": [ [ "CONCENTRATE", 1 ] ],
+      "magazines": [ "battery" , [ "light_battery_cell" , "light_plus_battery_cell" , "light_minus_battery_cell" ] ]
     }
   ]
   

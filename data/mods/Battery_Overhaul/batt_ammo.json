@@ -8,7 +8,7 @@
     "name_plural": "batteries",
     "symbol": "=",
     "color": "yellow",
-    "description": "Each battery represents about 1 kJ of energy.",
+    "description": "Using an onboard screen, you can see about how much power is left in this battery.",
     "material": "iron",
     "volume": 1,
     "weight": 1,
