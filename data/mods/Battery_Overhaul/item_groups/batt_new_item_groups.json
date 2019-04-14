@@ -57,5 +57,14 @@
       { "group": "medium_batteries_full", "prob": 5 },
       { "group": "heavy_batteries_full", "prob": 5 }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "any_battery",
+    "items": [
+      { "group": "light_batteries", "prob": 5 },
+      { "group": "medium_batteries", "prob": 5 },
+      { "group": "heavy_batteries", "prob": 5 }
+    ]
   }
 ]
