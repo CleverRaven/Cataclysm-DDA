@@ -225,10 +225,17 @@ void butcher_cbm_item( const std::string &what, const tripoint &pos,
     if( roll < 0 ) {
         return;
     }
-
-    item cbm( check_butcher_cbm( roll ) ? what : "burnt_out_bionic", age );
-    add_msg( m_good, _( "You discover a %s!" ), cbm.tname().c_str() );
-    g->m.add_item( pos, cbm );
+    if( item::find_type( itype_id( what ) )->bionic.has_value() ) {
+        item cbm( check_butcher_cbm( roll ) ? what : "burnt_out_bionic", age );
+        add_msg( m_good, _( "You discover a %s!" ), cbm.tname().c_str() );
+        g->m.add_item( pos, cbm );
+    } else if( check_butcher_cbm( roll ) ) {
+        item something( what, age );
+        add_msg( m_good, _( "You discover a %s!" ), something.tname().c_str() );
+        g->m.add_item( pos, something );
+    } else {
+        add_msg( m_bad, _( "You discover only damaged organs." ) );
+    }
 }
 
 void butcher_cbm_group( const std::string &group, const tripoint &pos,

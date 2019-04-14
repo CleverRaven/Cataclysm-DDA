@@ -3695,7 +3695,7 @@ int iuse::pheromone( player *p, item *it, bool, const tripoint &pos )
         if( critter.type->in_species( ZOMBIE ) && critter.friendly == 0 &&
             rng( 0, 500 ) > critter.get_hp() ) {
             converts++;
-            critter.make_friendly();
+            critter.anger = 0;
         }
     }
 
@@ -3703,9 +3703,9 @@ int iuse::pheromone( player *p, item *it, bool, const tripoint &pos )
         if( converts == 0 ) {
             add_msg( _( "...but nothing happens." ) );
         } else if( converts == 1 ) {
-            add_msg( m_good, _( "...and a nearby zombie turns friendly!" ) );
+            add_msg( m_good, _( "...and a nearby zombie becomes passive!" ) );
         } else {
-            add_msg( m_good, _( "...and several nearby zombies turn friendly!" ) );
+            add_msg( m_good, _( "...and several nearby zombies become passive!" ) );
         }
     }
     return it->type->charges_to_use();
