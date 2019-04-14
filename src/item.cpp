@@ -6622,7 +6622,7 @@ bool item::use_charges( const itype_id &what, long &qty, std::list<item> &used,
         }
 
         if( !filter( *e ) ) {
-            return VisitResponse::NEXT;
+            return VisitResponse::SKIP;
         }
 
         if( e->is_tool() ) {
@@ -6945,7 +6945,7 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
     // temperature = item temperature (10e-5 K). Stored in the item
     const float conductivity_term = 0.046 * std::pow( to_milliliter( volume() ),
                                     2.0 / 3.0 ) / insulation;
-    const float specific_heat_liquid = get_specific_heat_liquid();
+	const float specific_heat_liquid = get_specific_heat_liquid();
     const float specific_heat_solid = get_specific_heat_solid();
     const float latent_heat = get_latent_heat();
     const float freezing_temperature = temp_to_kelvin( get_freeze_point() );  // K
@@ -7544,7 +7544,7 @@ bool item::process( player *carrier, const tripoint &pos, bool activate, int tem
     }
 	
 	if( has_temperature() ) {
-		
+
 		if( carrier != nullptr && carrier->has_item( *this ) ) {
 			temp += 5; // body heat increases inventory temperature
 			insulation *= 1.5; // clothing provides inventory some level of insulation

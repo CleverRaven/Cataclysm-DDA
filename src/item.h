@@ -1049,7 +1049,7 @@ class item : public visitable<item>
 		float get_specific_heat_solid() const;
 		float get_latent_heat() const;
 		float get_freeze_point() const; // Farenheit
-
+		
         /** What faults can potentially occur with this item? */
         std::set<fault_id> faults_potential() const;
 
