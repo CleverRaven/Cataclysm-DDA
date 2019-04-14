@@ -366,7 +366,12 @@
     "nested_mapgen_id": "lab_finale_4x4",
     "object": {
       "mapgensize": [ 4, 4 ],
-      "rows": [ ".6..", ".|g|", ".|r|", ".---" ],
+      "rows": [
+        ".6..",
+        ".|g|",
+        ".|r|",
+        ".---"
+      ],
       "palettes": [ "lab_palette" ],
       "mapping": { "r": { "item": [ { "item": "purifier_smart_shot", "chance": 100 } ] } },
       "computers": {
@@ -385,7 +390,12 @@
     "nested_mapgen_id": "lab_finale_4x4",
     "object": {
       "mapgensize": [ 4, 4 ],
-      "rows": [ ".6..", ".|g|", ".|r|", ".---" ],
+      "rows": [
+        ".6..",
+        ".|g|",
+        ".|r|",
+        ".---"
+      ],
       "palettes": [ "lab_palette" ],
       "mapping": { "r": { "item": [ { "item": "iv_mutagen_alpha", "chance": 100 } ] } },
       "computers": {
@@ -404,7 +414,12 @@
     "nested_mapgen_id": "lab_finale_4x4",
     "object": {
       "mapgensize": [ 4, 4 ],
-      "rows": [ ".6..", ".|g|", ".|r|", ".---" ],
+      "rows": [
+        ".6..",
+        ".|g|",
+        ".|r|",
+        ".---"
+      ],
       "palettes": [ "lab_palette" ],
       "mapping": { "r": { "item": [ { "item": "iv_mutagen_chimera", "chance": 100 } ] } },
       "computers": {
@@ -423,7 +438,12 @@
     "nested_mapgen_id": "lab_finale_4x4",
     "object": {
       "mapgensize": [ 4, 4 ],
-      "rows": [ ".6..", ".|g|", ".|r|", ".---" ],
+      "rows": [
+        ".6..",
+        ".|g|",
+        ".|r|",
+        ".---"
+      ],
       "palettes": [ "lab_palette" ],
       "mapping": { "r": { "item": [ { "item": "iv_mutagen_raptor", "chance": 100 } ] } },
       "computers": {
@@ -442,7 +462,12 @@
     "nested_mapgen_id": "lab_finale_4x4",
     "object": {
       "mapgensize": [ 4, 4 ],
-      "rows": [ ".6..", ".|g|", ".|r|", ".---" ],
+      "rows": [
+        ".6..",
+        ".|g|",
+        ".|r|",
+        ".---"
+      ],
       "palettes": [ "lab_palette" ],
       "mapping": { "r": { "item": [ { "item": "iv_mutagen_medical", "chance": 100 } ] } },
       "computers": {

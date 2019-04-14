@@ -198,6 +198,11 @@ bool player::activate_bionic( int b, bool eff_only )
 
         weapon = item( bionics[bio.id].fake_item );
         weapon.invlet = '#';
+        if( bio.ammo_count > 0 ) {
+            weapon.ammo_set( bio.ammo_loaded, bio.ammo_count );
+            g->plfire( weapon );
+            g->refresh_all();
+        }
     } else if( bio.id == "bio_ears" && has_active_bionic( bionic_id( "bio_earplugs" ) ) ) {
         for( auto &i : *my_bionics ) {
             if( i.id == "bio_earplugs" ) {
@@ -616,6 +621,8 @@ bool player::deactivate_bionic( int b, bool eff_only )
     if( bionics[ bio.id ].weapon_bionic ) {
         if( weapon.typeId() == bionics[ bio.id ].fake_item ) {
             add_msg( _( "You withdraw your %s." ), weapon.tname().c_str() );
+            bio.ammo_loaded = weapon.ammo_data() != nullptr ? weapon.ammo_data()->get_id() : "null";
+            bio.ammo_count = static_cast<unsigned int>( weapon.ammo_remaining() );
             weapon = item();
             invalidate_crafting_inventory();
         }
@@ -1487,6 +1494,8 @@ void load_bionic( JsonObject &jsobj )
     new_bionic.weapon_bionic = get_bool_or_flag( jsobj, "weapon_bionic", "BIONIC_WEAPON", false );
     new_bionic.armor_interface = get_bool_or_flag( jsobj, "armor_interface", "BIONIC_ARMOR_INTERFACE",
                                  false );
+    new_bionic.sleep_friendly = get_bool_or_flag( jsobj, "sleep_friendly", "BIONIC_SLEEP_FRIENDLY",
+                                false );
 
     if( new_bionic.gun_bionic && new_bionic.weapon_bionic ) {
         debugmsg( "Bionic %s specified as both gun and weapon bionic", id.c_str() );
@@ -1581,6 +1590,8 @@ void bionic::serialize( JsonOut &json ) const
     json.member( "invlet", static_cast<int>( invlet ) );
     json.member( "powered", powered );
     json.member( "charge", charge );
+    json.member( "ammo_loaded", ammo_loaded );
+    json.member( "ammo_count", ammo_count );
     json.end_object();
 }
 
@@ -1591,6 +1602,12 @@ void bionic::deserialize( JsonIn &jsin )
     invlet = jo.get_int( "invlet" );
     powered = jo.get_bool( "powered" );
     charge = jo.get_int( "charge" );
+    if( jo.has_string( "ammo_loaded" ) ) {
+        ammo_loaded = jo.get_string( "ammo_loaded" );
+    }
+    if( jo.has_int( "ammo_count" ) ) {
+        ammo_count = jo.get_int( "ammo_count" );
+    }
 }
 
 void player::introduce_into_anesthesia( const time_duration &duration, player &installer,

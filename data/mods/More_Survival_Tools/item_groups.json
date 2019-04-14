@@ -7,12 +7,7 @@
   {
     "id": "medieval",
     "type": "item_group",
-    "items": [
-      [ "tinderbox", 4 ],
-      [ "flint_steel", 7 ],
-      [ "canteen_wood", 5 ],
-      [ "crossbow_makeshift", 1 ]
-    ]
+    "items": [ [ "tinderbox", 4 ], [ "flint_steel", 7 ], [ "canteen_wood", 5 ], [ "crossbow_makeshift", 1 ] ]
   },
   {
     "id": "camping",
@@ -55,13 +50,7 @@
   {
     "id": "traveler",
     "type": "item_group",
-    "items": [
-      [ "flint_steel", 1 ],
-      [ "hobo_stove", 1 ],
-      [ "tinder", 1 ],
-      [ "tinderbox", 1 ],
-      [ "bottle_metal", 1 ]
-    ]
+    "items": [ [ "flint_steel", 1 ], [ "hobo_stove", 1 ], [ "tinder", 1 ], [ "tinderbox", 1 ], [ "bottle_metal", 1 ] ]
   },
   {
     "id": "shelter",
@@ -98,29 +87,17 @@
   {
     "id": "subway",
     "type": "item_group",
-    "items": [
-      [ "tinder", 1 ],
-      [ "hobo_stove", 1 ]
-    ]
+    "items": [ [ "tinder", 1 ], [ "hobo_stove", 1 ] ]
   },
   {
     "id": "trash_forest",
     "type": "item_group",
-    "items": [
-      [ "tinder", 1 ],
-      { "item": "plant_fibre", "prob":2,  "count-min": 1, "count-max": 10 }
-    ]
+    "items": [ [ "tinder", 1 ], { "item": "plant_fibre", "prob": 2, "count-min": 1, "count-max": 10 } ]
   },
   {
     "id": "museum_primitive",
     "type": "item_group",
-    "items": [
-      [ "spear_stone", 50 ],
-      [ "atlatl", 50 ],
-      [ "javelin", 30 ],
-      [ "hand_axe", 50 ],
-      [ "throwing_stick", 50 ]
-    ]
+    "items": [ [ "spear_stone", 50 ], [ "atlatl", 50 ], [ "javelin", 30 ], [ "hand_axe", 50 ], [ "throwing_stick", 50 ] ]
   },
   {
     "id": "survivorzed_extra",
@@ -130,28 +107,16 @@
   {
     "id": "mil_surplus",
     "type": "item_group",
-    "items": [
-      [ "chem_hexamine", 5 ],
-      [ "esbit_stove", 10 ],
-      [ "mess_tin", 10 ]
-    ]
+    "items": [ [ "chem_hexamine", 5 ], [ "esbit_stove", 10 ], [ "mess_tin", 10 ] ]
   },
   {
     "id": "mil_accessories",
     "type": "item_group",
-    "items": [
-      [ "chem_hexamine", 3 ],
-      [ "esbit_stove", 6 ],
-      [ "mess_tin", 4 ]
-    ]
+    "items": [ [ "chem_hexamine", 3 ], [ "esbit_stove", 6 ], [ "mess_tin", 4 ] ]
   },
   {
     "id": "military",
     "type": "item_group",
-    "items": [
-      [ "chem_hexamine", 5 ],
-      [ "esbit_stove", 8 ],
-      [ "mess_tin", 4 ]
-    ]
+    "items": [ [ "chem_hexamine", 5 ], [ "esbit_stove", 8 ], [ "mess_tin", 4 ] ]
   }
 ]

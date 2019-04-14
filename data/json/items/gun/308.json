@@ -217,7 +217,7 @@
     "color": "brown",
     "ammo": "308",
     "ranged_damage": -5,
-    "dispersion": 180,
+    "dispersion": 550,
     "durability": 6,
     "clip_size": 6,
     "reload": 200,

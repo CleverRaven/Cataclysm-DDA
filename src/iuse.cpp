@@ -287,14 +287,14 @@ int iuse::xanax( player *p, item *it, bool, const tripoint & )
 
 int iuse::caff( player *p, item *it, bool, const tripoint & )
 {
-    p->mod_fatigue( -( it->type->comestible ? it->type->comestible->stim : 0 ) * 3 );
+    p->mod_fatigue( -( it->get_comestible() ? it->get_comestible()->stim : 0 ) * 3 );
     return it->type->charges_to_use();
 }
 
 int iuse::atomic_caff( player *p, item *it, bool, const tripoint & )
 {
     p->add_msg_if_player( m_good, _( "Wow!  This %s has a kick." ), it->tname().c_str() );
-    p->mod_fatigue( -( it->type->comestible ? it->type->comestible->stim : 0 ) * 12 );
+    p->mod_fatigue( -( it->get_comestible() ? it->get_comestible()->stim : 0 ) * 12 );
     p->irradiate( 8, true );
     return it->type->charges_to_use();
 }
@@ -316,9 +316,9 @@ int alcohol( player &p, const item &it, const int strength )
                    6_turns, 10_turns, 10_turns ) * p.str_max );
         // Metabolizing the booze improves the nutritional value;
         // might not be healthy, and still causes Thirst problems, though
-        p.mod_hunger( -( abs( it.type->comestible ? it.type->comestible->stim : 0 ) ) );
+        p.stomach.mod_nutr( -( abs( it.get_comestible() ? it.type->comestible->stim : 0 ) ) );
         // Metabolizing it cancels out the depressant
-        p.stim += abs( it.type->comestible ? it.type->comestible->stim : 0 );
+        p.stim += abs( it.get_comestible() ? it.get_comestible()->stim : 0 );
     } else if( p.has_trait( trait_TOLERANCE ) ) {
         duration -= alc_strength( strength, 12_minutes, 30_minutes, 45_minutes );
     } else if( p.has_trait( trait_LIGHTWEIGHT ) ) {
@@ -574,7 +574,7 @@ int iuse::antiparasitic( player *p, item *it, bool, const tripoint & )
     }
     if( p->has_effect( effect_tapeworm ) ) {
         p->remove_effect( effect_tapeworm );
-        p->mod_hunger( -1 ); // You just digested the tapeworm.
+        p->guts.mod_nutr( -1 ); // You just digested the tapeworm.
         if( p->has_trait( trait_NOPAIN ) ) {
             p->add_msg_if_player( m_good, _( "Your bowels clench as something inside them dies." ) );
         } else {
@@ -884,13 +884,12 @@ int iuse::blech( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_bad, _( "Blech, that tastes gross!" ) );
         //reverse the harmful values of drinking this acid.
         double multiplier = -1;
-        p->mod_hunger( -p->nutrition_for( *it ) * multiplier );
-        p->mod_thirst( -it->type->comestible->quench * multiplier );
-        p->mod_thirst( -20 ); //acidproof people can drink acids like diluted water.
-        p->mod_stomach_water( 20 );
-        p->mod_healthy_mod( it->type->comestible->healthy * multiplier,
-                            it->type->comestible->healthy * multiplier );
-        p->add_morale( MORALE_FOOD_BAD, it->type->comestible->fun * multiplier, 60, 1_hours, 30_minutes,
+        p->stomach.mod_nutr( -p->nutrition_for( *it ) * multiplier );
+        p->mod_thirst( -it->get_comestible()->quench * multiplier );
+        p->stomach.mod_quench( 20 ); //acidproof people can drink acids like diluted water.
+        p->mod_healthy_mod( it->get_comestible()->healthy * multiplier,
+                            it->get_comestible()->healthy * multiplier );
+        p->add_morale( MORALE_FOOD_BAD, it->get_comestible()->fun * multiplier, 60, 1_hours, 30_minutes,
                        false, it->type );
     } else {
         p->add_msg_if_player( m_bad, _( "Blech, that burns your throat!" ) );
@@ -914,10 +913,10 @@ int iuse::plantblech( player *p, item *it, bool, const tripoint &pos )
         }
 
         //reverses the harmful values of drinking fertilizer
-        p->mod_hunger( p->nutrition_for( *it ) * multiplier );
-        p->mod_thirst( -it->type->comestible->quench * multiplier );
-        p->mod_healthy_mod( it->type->comestible->healthy * multiplier,
-                            it->type->comestible->healthy * multiplier );
+        p->stomach.mod_nutr( p->nutrition_for( *it ) * multiplier );
+        p->mod_thirst( -it->get_comestible()->quench * multiplier );
+        p->mod_healthy_mod( it->get_comestible()->healthy * multiplier,
+                            it->get_comestible()->healthy * multiplier );
         p->add_morale( MORALE_FOOD_GOOD, -10 * multiplier, 60, 1_hours, 30_minutes, false, it->type );
         return it->type->charges_to_use();
     } else {
@@ -1007,7 +1006,7 @@ int iuse::purify_iv( player *p, item *it, bool, const tripoint & )
             p->mod_pain( 2 * num_cured ); //Hurts worse as it fixes more
             p->add_msg_if_player( m_warning, _( "Feels like you're on fire, but you're OK." ) );
         }
-        p->mod_hunger( 2 * num_cured );
+        p->mod_stored_nutr( 2 * num_cured );
         p->mod_thirst( 2 * num_cured );
         p->mod_fatigue( 2 * num_cured );
     }
@@ -1134,7 +1133,7 @@ static void marloss_common( player &p, item &it, const trait_id &current_color )
         p.mutate();
         // Gruss dich, mutation drain, missed you!
         p.mod_pain( 2 * rng( 1, 5 ) );
-        p.mod_hunger( 10 );
+        p.mod_stored_nutr( 10 );
         p.mod_thirst( 10 );
         p.mod_fatigue( 5 );
     } else if( effect <= 6 ) { // Radiation cleanse is below
@@ -1146,8 +1145,18 @@ static void marloss_common( player &p, item &it, const trait_id &current_color )
             p.radiation = 0;
         }
     } else if( effect == 7 ) {
-        p.add_msg_if_player( m_good, _( "It is delicious, and very filling!" ) );
-        p.set_hunger( -10 );
+
+        // previously used to set hunger to -10. with the new system, needs to do something
+        // else that actually makes sense, so it is a little bit more involved.
+        units::volume fulfill_vol = std::max( p.stomach.capacity() / 8 - p.stomach.contains(), 0_ml );
+        if( fulfill_vol != 0_ml ) {
+            p.add_msg_if_player( m_good, _( "It is delicious, and very filling!" ) );
+            int fulfill_cal = units::to_milliliter( fulfill_vol * 6 );
+            p.stomach.mod_calories( fulfill_cal );
+            p.stomach.mod_contents( fulfill_vol );
+        } else {
+            p.add_msg_if_player( m_bad, _( "It is delicious, but you can't eat any more." ) );
+        }
     } else if( effect == 8 ) {
         p.add_msg_if_player( m_bad, _( "You take one bite, and immediately vomit!" ) );
         p.vomit();
@@ -1336,7 +1345,7 @@ int iuse::mycus( player *p, item *it, bool t, const tripoint &pos )
                !p->has_trait( trait_M_DEPENDENT ) ) { // OK, now set the hook.
         if( !one_in( 3 ) ) {
             p->mutate_category( "MYCUS" );
-            p->mod_hunger( 10 );
+            p->mod_stored_nutr( 10 );
             p->mod_thirst( 10 );
             p->mod_fatigue( 5 );
             p->add_morale( MORALE_MARLOSS, 25, 200 ); // still covers up mutation pain
@@ -1350,7 +1359,7 @@ int iuse::mycus( player *p, item *it, bool t, const tripoint &pos )
             _( "This apple tastes really weird!  You're not sure it's good for you..." ) );
         p->mutate();
         p->mod_pain( 2 * rng( 1, 5 ) );
-        p->mod_hunger( 10 );
+        p->mod_stored_nutr( 10 );
         p->mod_thirst( 10 );
         p->mod_fatigue( 5 );
         p->vomit(); // no hunger/quench benefit for you
@@ -1646,19 +1655,19 @@ int iuse::sew_advanced( player *p, item *it, bool, const tripoint & )
     } else if( rn <= 10 ) {
         p->add_msg_if_player( m_bad,
                               _( "You fail to modify the clothing, and you waste thread and materials." ) );
-        p->consume_items( comps );
+        p->consume_items( comps, 1, is_crafting_component );
         return thread_needed;
     } else if( rn <= 14 ) {
         p->add_msg_if_player( m_mixed, _( "You modify your %s, but waste a lot of thread." ),
                               mod.tname().c_str() );
-        p->consume_items( comps );
+        p->consume_items( comps, 1, is_crafting_component );
         mod.item_tags.insert( the_mod );
         return thread_needed;
     }
 
     p->add_msg_if_player( m_good, _( "You modify your %s!" ), mod.tname().c_str() );
     mod.item_tags.insert( the_mod );
-    p->consume_items( comps );
+    p->consume_items( comps, 1, is_crafting_component );
     return thread_needed / 2;
 }
 
@@ -2638,12 +2647,17 @@ int iuse::dig( player *p, item *it, bool t, const tripoint & )
             _( "You can't dig a pit in this location.  Ensure it is clear diggable ground with no items or obstacles." ) );
         return 0;
     }
-
     const bool can_deepen = g->m.has_flag( "DIGGABLE_CAN_DEEPEN", dig_point );
+    const bool grave = g->m.ter( dig_point ) == t_grave;
 
-    if( can_deepen && !p->crafting_inventory().has_quality( DIG, 2 ) ) {
-        p->add_msg_if_player( _( "You can't deepen this pit without a proper shovel." ) );
-        return 0;
+    if( !p->crafting_inventory().has_quality( DIG, 2 ) ) {
+        if( can_deepen ) {
+            p->add_msg_if_player( _( "You can't deepen this pit without a proper shovel." ) );
+            return 0;
+        } else if( grave ) {
+            p->add_msg_if_player( _( "You can't exhume a grave without a proper shovel." ) );
+            return 0;
+        }
     }
 
     const std::function<bool( tripoint )> f = []( tripoint p ) {
@@ -2663,14 +2677,35 @@ int iuse::dig( player *p, item *it, bool t, const tripoint & )
         return 0;
     }
 
+    if( grave ) {
+        if( g->u.has_trait_flag( "SPIRITUAL" ) && !g->u.has_trait_flag( "PSYCHOPATH" ) &&
+            g->u.query_yn( _( "Would you really touch the sacred resting place of the dead?" ) ) ) {
+            add_msg( m_info, _( "Exhuming a grave is really against your beliefs." ) );
+            g->u.add_morale( MORALE_GRAVEDIGGER, -50, -100, 48_hours, 12_hours );
+            if( one_in( 3 ) ) {
+                g->u.vomit();
+            }
+        } else if( g->u.has_trait_flag( "PSYCHOPATH" ) ) {
+            p->add_msg_if_player( m_good,
+                                  _( "Exhuming a grave is fun now, where there is no one to object." ) );
+            p->add_morale( MORALE_GRAVEDIGGER, 25, 50, 2_hours, 1_hours );
+        } else if( !g->u.has_trait_flag( "EATDEAD" ) && !g->u.has_trait_flag( "SAPROVORE" ) ) {
+            p->add_msg_if_player( m_bad, _( "Exhuming this grave is utterly disgusting!" ) );
+            p->add_morale( MORALE_GRAVEDIGGER, -25, -50, 2_hours, 1_hours );
+            if( one_in( 5 ) ) {
+                p->vomit();
+            }
+        }
+    }
+
     const std::vector<npc *> helpers = g->u.get_crafting_helpers();
     for( const npc *np : helpers ) {
         add_msg( m_info, _( "%s helps with this task..." ), np->name.c_str() );
         break;
     }
 
-    digging_moves_and_byproducts moves_and_byproducts = dig_pit_moves_and_byproducts( p, it, can_deepen,
-            false );
+    digging_moves_and_byproducts moves_and_byproducts = dig_pit_moves_and_byproducts( p, it,
+            can_deepen, false );
 
     player_activity act( activity_id( "ACT_DIG" ), moves_and_byproducts.moves, -1,
                          p->get_item_position( it ) );
@@ -3918,6 +3953,50 @@ int iuse::mp3_on( player *p, item *it, bool t, const tripoint &pos )
     return it->type->charges_to_use();
 }
 
+int iuse::dive_tank( player *p, item *it, bool t, const tripoint & )
+{
+    if( t ) { // Normal use
+        if( p->is_worn( *it ) ) {
+            if( p->is_underwater() && p->oxygen < 10 ) {
+                p->oxygen += 20;
+            }
+            if( one_in( 15 ) ) {
+                p->add_msg_if_player( m_bad, _( "You take a deep breath from your %s." ), it->tname().c_str() );
+            }
+            if( it->charges == 0 ) {
+                p->add_msg_if_player( m_bad, _( "Air in your %s runs out." ), it->tname().c_str() );
+                it->set_var( "overwrite_env_resist", 0 );
+                it->convert( it->typeId().substr( 0, it->typeId().size() - 3 ) ).active = false; // 3 = "_on"
+            }
+        } else { // not worn = off thanks to on-demand regulator
+            it->set_var( "overwrite_env_resist", 0 );
+            it->convert( it->typeId().substr( 0, it->typeId().size() - 3 ) ).active = false; // 3 = "_on"
+        }
+
+    } else { // Turning it on/off
+        if( it->charges == 0 ) {
+            p->add_msg_if_player( _( "Your %s is empty." ), it->tname().c_str() );
+        } else if( it->active ) { //off
+            p->add_msg_if_player( _( "You turn off the regulator and close the air valve." ) );
+            it->set_var( "overwrite_env_resist", 0 );
+            it->convert( it->typeId().substr( 0, it->typeId().size() - 3 ) ).active = false; // 3 = "_on"
+        } else { //on
+            if( !p->is_worn( *it ) ) {
+                p->add_msg_if_player( _( "You should wear it first." ) );
+            } else {
+                p->add_msg_if_player( _( "You turn on the regulator and open the air valve." ) );
+                it->set_var( "overwrite_env_resist", it->get_base_env_resist_w_filter() );
+                it->convert( it->typeId() + "_on" ).active = true;
+            }
+        }
+    }
+    if( it->charges == 0 ) {
+        it->set_var( "overwrite_env_resist", 0 );
+        it->convert( it->typeId().substr( 0, it->typeId().size() - 3 ) ).active = false; // 3 = "_on"
+    }
+    return it->type->charges_to_use();
+}
+
 int iuse::solarpack( player *p, item *it, bool, const tripoint & )
 {
     if( !p->has_bionic( bionic_id( "bio_cable" ) ) ) {  // Cable CBM required
@@ -4225,7 +4304,7 @@ int iuse::blood_draw( player *p, item *it, bool, const tripoint & )
         if( p->has_trait( trait_ACIDBLOOD ) ) {
             acid_blood = true;
         }
-        p->mod_hunger( 10 );
+        p->mod_stored_nutr( 10 );
         p->mod_thirst( 10 );
         p->mod_pain( 3 );
     }
@@ -7217,7 +7296,8 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
             for( const auto &r : g->u.get_learned_recipes().in_category( "CC_FOOD" ) ) {
                 if( multicooked_subcats.count( r->subcategory ) > 0 ) {
                     dishes.push_back( r );
-                    const bool can_make = r->requirements().can_make_with_inventory( crafting_inv );
+                    const bool can_make = r->requirements().can_make_with_inventory( crafting_inv,
+                                          r->get_component_filter() );
 
                     dmenu.addentry( counter++, can_make, -1, r->result_name() );
                 }
@@ -7251,7 +7331,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
 
                 auto reqs = meal->requirements();
                 for( auto it : reqs.get_components() ) {
-                    p->consume_items( it );
+                    p->consume_items( it, 1, is_crafting_component );
                 }
 
                 it->set_var( "DISH", meal->result() );
@@ -7941,7 +8021,7 @@ int iuse::break_stick( player *p, item *it, bool, const tripoint & )
     }
     std::vector<item_comp> comps;
     comps.push_back( item_comp( it->typeId(), 1 ) );
-    p->consume_items( comps );
+    p->consume_items( comps, 1, is_crafting_component );
     int chance = rng( 0, 100 );
     if( chance <= 20 ) {
         p->add_msg_if_player( _( "You try to break the stick in two, but it shatters into splinters." ) );
@@ -7990,6 +8070,22 @@ int iuse::panacea( player *p, item *it, bool, const tripoint & )
     }
     p->add_effect( effect_panacea, 1_minutes );
     return it->type->charges_to_use();
+}
+
+int iuse::craft( player *p, item *it, bool, const tripoint & )
+{
+    int pos = p->get_item_position( it );
+
+    if( pos != INT_MIN ) {
+        p->add_msg_player_or_npc(
+            string_format( pgettext( "in progress craft", "You start working on the %s" ), it->tname() ),
+            string_format( pgettext( "in progress craft", "<npcname> starts working on the %s" ), it->tname()
+                         ) );
+        p->assign_activity( activity_id( "ACT_CRAFT" ) );
+        p->activity.targets.push_back( item_location( *p, it ) );
+        p->activity.values.push_back( 0 ); // Not a long craft
+    }
+    return 0;
 }
 
 int iuse::disassemble( player *p, item *it, bool, const tripoint & )

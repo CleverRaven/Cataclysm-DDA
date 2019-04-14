@@ -1276,7 +1276,7 @@ void vehicle::use_washing_machine( int p )
 
         std::vector<item_comp> detergent;
         detergent.push_back( item_comp( "detergent", 5 ) );
-        g->u.consume_items( detergent );
+        g->u.consume_items( detergent, 1, is_crafting_component );
 
         add_msg( m_good,
                  _( "You pour some detergent into the washing machine, close its lid, and turn it on.  The washing machine is being filled with water from vehicle tanks." ) );

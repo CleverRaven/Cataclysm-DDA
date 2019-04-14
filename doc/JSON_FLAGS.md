@@ -32,6 +32,7 @@
 - ```BLIND_HARD``` Possible to craft with little to no light, but difficult
 - ```UNCRAFT_SINGLE_CHARGE``` Lists returned amounts for one charge of an item that is counted by charges.
 - ```UNCRAFT_LIQUIDS_CONTAINED``` Spawn liquid items in its default container.
+- ```ALLOW_ROTTEN``` Explicitly allow rotten components when crafting non-perishables.
 
 ## Furniture & Terrain
 
@@ -468,6 +469,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```plasma``` Superheated.
 - ```plutonium``` 1.21 Gigawatts!
 - ```water``` Clean.
+- ```wind``` Wind powered.
 
 ### Flags
 
@@ -542,6 +544,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```PLOW``` Tills the soil underneath the part while active. Takes damage from unsuitable terrain at a level proportional to the speed of the vehicle.
 - ```POWER_TRANSFER``` Transmits power to and from an attached thingy (probably a vehicle).
 - ```PROTRUSION``` Part sticks out so no other parts can be installed over it.
+- ```WIND_POWERED``` This engine is powered by wind ( sails etc ).
 - ```REACTOR``` When enabled, part consumes fuel to generate epower.
 - ```REAPER``` Cuts down mature crops, depositing them on the square.
 - ```RECHARGE``` Recharge items with the same flag. ( Currently only the rechargeable battery mod. )
@@ -941,6 +944,7 @@ Melee flags are fully compatible with tool flags, and vice versa.
 - ```RADIO_MOD``` The item has been made into a radio-activated item.
 - ```RADIO_MODABLE``` Indicates the item can be made into a radio-activated item.
 - ```RECHARGE``` Gain charges when placed in a cargo area with a recharge station.
+- ```SAFECRACK``` This item can be used to unlock safes.
 - ```USE_UPS``` Item is charges from an UPS / it uses the charges of an UPS instead of its own.
 - ```USES_BIONIC_POWER``` The item has no charges of its own, and runs off of the player's bionic power.
 - ```WATER_EXTINGUISH``` Is extinguishable in water or under precipitation. Converts items (requires "reverts_to" or use_action "transform" to be set).
@@ -977,6 +981,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```BIONIC_WEAPON``` This bionic is a weapon bionic and activating it will create (or destroy) bionic's fake_item in user's hands.  Prevents all other activation effects.
 - ```BIONIC_ARMOR_INTERFACE``` This bionic can provide power to powered armor.
 - ```BIONIC_NPC_USABLE``` The NPC AI knows how to use this CBM and it can be installed on an NPC.
+- ```BIONIC_SLEEP_FRIENDLY``` This bionic won't prompt the user to turn it off if they try to sleep while it's active.
 
 ## Books
 
@@ -1003,6 +1008,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```COMBATSAW_ON``` Turn the combat-saw off
 - ```CROWBAR``` Pry open doors, windows, man-hole covers and many other things that need prying.
 - ```DIG``` Clear rubble.
+- ```DIVE_TANK``` Use compressed air tank to breathe.
 - ```DIRECTIONAL_ANTENNA``` Find the source of a signal with your radio.
 - ```DOG_WHISTLE``` Dogs hate this thing; your dog seems pretty cool with it though.
 - ```DOLLCHAT``` That creepy doll just keeps on talking.

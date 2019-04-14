@@ -1,16 +1,11 @@
 [
-    {
-        "type" : "AMMO",
-        "id" : "reloaded_654",
-        "copy-from": "654",
-        "name" : "reloaded 6.54x42mm",
-        "name_plural" : "reloaded 6.54x42mm",
-        "description" : "Inspired by the improved .280, Alexander Sarafanov himself developed the 6.54x42mm rifle cartridge for his new SVS-24 Assault Rifle.  This one has been hand-reloaded.",
-        "relative": {
-            "price": -400,
-            "damage": -4,
-            "pierce": -1,
-            "dispersion": 85
-        }
-    }
+  {
+    "type": "AMMO",
+    "id": "reloaded_654",
+    "copy-from": "654",
+    "name": "reloaded 6.54x42mm",
+    "name_plural": "reloaded 6.54x42mm",
+    "description": "Inspired by the improved .280, Alexander Sarafanov himself developed the 6.54x42mm rifle cartridge for his new SVS-24 Assault Rifle.  This one has been hand-reloaded.",
+    "relative": { "price": -400, "damage": -4, "pierce": -1, "dispersion": 85 }
+  }
 ]

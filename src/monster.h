@@ -3,6 +3,7 @@
 #define MONSTER_H
 
 #include <bitset>
+#include <functional>
 #include <map>
 #include <set>
 #include <string>
@@ -24,7 +25,7 @@ class monfaction;
 class player;
 class Character;
 struct mtype;
-enum monster_trigger : int;
+enum class mon_trigger;
 enum field_id : int;
 
 using mfaction_id = int_id<monfaction>;
@@ -257,8 +258,6 @@ class monster : public Creature
         monster_attitude attitude( const Character *u = nullptr ) const; // See the enum above
         Attitude attitude_to( const Creature &other ) const override;
         void process_triggers(); // Process things that anger/scare us
-        void process_trigger( monster_trigger trig, int amount ); // Single trigger
-        int trigger_sum( const std::set<monster_trigger> &triggers ) const;
 
         bool is_underwater() const override;
         bool is_on_ground() const override;
@@ -468,6 +467,10 @@ class monster : public Creature
 
         const pathfinding_settings &get_pathfinding_settings() const override;
         std::set<tripoint> get_path_avoid() const override;
+
+    private:
+        void process_trigger( mon_trigger trig, int amount );
+        void process_trigger( mon_trigger trig, const std::function<int()> &amount_func );
 
     private:
         int hp;
