@@ -10,7 +10,7 @@
 #include "skill.h"
 #include "trait_group.h"
 
-static const std::array<npc_class_id, 18> legacy_ids = {{
+static const std::array<npc_class_id, 19> legacy_ids = {{
         npc_class_id( "NC_NONE" ),
         npc_class_id( "NC_EVAC_SHOPKEEP" ),  // Found in the Evacuation Center, unique, has more goods than he should be able to carry
         npc_class_id( "NC_SHOPKEEP" ),       // Found in towns.  Stays in his shop mostly.
