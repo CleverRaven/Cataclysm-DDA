@@ -304,6 +304,7 @@ void character_edit_menu()
             smenu.addentry( 2, true, 't', "%s: %d", _( "Thirst" ), p.get_thirst() );
             smenu.addentry( 3, true, 'f', "%s: %d", _( "Fatigue" ), p.get_fatigue() );
             smenu.addentry( 4, true, 'd', "%s: %d", _( "Sleep Deprivation" ), p.get_sleep_deprivation() );
+            smenu.addentry( 5, true, 'a', _( "Reset all basic needs" ) );
 
             const auto &vits = vitamin::all();
             for( const auto &v : vits ) {
@@ -343,7 +344,13 @@ void character_edit_menu()
                         p.set_sleep_deprivation( value );
                     }
                     break;
-
+                case 5:
+                    p.set_hunger(0);
+                    p.set_thirst(0);
+                    p.set_fatigue(0);
+                    p.set_sleep_deprivation(0);
+                    p.set_stored_kcal(77000);
+                    break;
                 default:
                     if( smenu.ret >= 5 && smenu.ret < static_cast<int>( vits.size() + 5 ) ) {
                         auto iter = std::next( vits.begin(), smenu.ret - 5 );
