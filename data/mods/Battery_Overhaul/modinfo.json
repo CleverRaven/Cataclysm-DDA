@@ -11,10 +11,6 @@
   },
   {
     "type": "ITEM_BLACKLIST",
-    "items": [
-      "battery_compartment",
-      "lightstrip_dead",
-      "battery"
-    ]
+    "items": [ "battery_compartment", "lightstrip_dead", "battery" ]
   }
 ]
