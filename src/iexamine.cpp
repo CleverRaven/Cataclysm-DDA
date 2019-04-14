@@ -3970,7 +3970,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             return it.has_quality( quality_id( "ANESTHESIA" ) );
         } );
         for( const item *anesthesia_item : a_filter ) {
-            if( anesthesia_item->ammo_remaining() > 1 ) {
+            if( anesthesia_item->ammo_remaining() >= 1 ) {
                 anesth_kit.push_back( tool_comp( anesthesia_item->typeId(), 1 ) );
             }
         }
