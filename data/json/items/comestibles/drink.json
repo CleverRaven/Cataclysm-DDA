@@ -913,11 +913,24 @@
     "id": "water_mineral",
     "copy-from": "water",
     "type": "COMESTIBLE",
-    "name": "mineral water",
-    "name_plural": "mineral water",
-    "description": "Fancy mineral water, so fancy it makes you feel fancy just holding it.",
+    "name": "spring water",
+    "name_plural": "spring water",
+    "description": "Fancy spring water, so fancy it makes you feel fancy just looking at it.",
     "container": "bottle_plastic",
     "proportional": { "quench": 1.2 },
     "relative": { "fun": 1 }
+  },
+  {
+    "id": "water_mineral_natural",
+    "copy-from": "water",
+    "type": "COMESTIBLE",
+    "name": "mineral water",
+    "name_plural": "mineral water",
+    "parasites": 50,
+    "//": "2% chance to contain parasites - bugs like to lay eggs in still water",
+    "description": "Unpurified spring water filled with mineral salts.  Purported to be healthy.",
+    "container": "bottle_plastic",
+    "proportional": { "quench": 1.2 },
+    "relative": { "fun": 1, "healthy": 1 }
   }
 ]

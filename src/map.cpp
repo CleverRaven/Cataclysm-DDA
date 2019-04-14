@@ -4309,6 +4309,8 @@ item map::water_from( const tripoint &p )
 {
     if( has_flag( "SALT_WATER", p ) ) {
         return item( "salt_water", 0, item::INFINITE_CHARGES );
+    } else if( has_flag( "MINERAL_WATER", p ) ) {
+        return item( "water_mineral_natural", 0, item::INFINITE_CHARGES );
     }
 
     const ter_id terrain_id = g->m.ter( p );

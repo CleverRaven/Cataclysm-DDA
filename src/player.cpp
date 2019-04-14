@@ -5255,6 +5255,9 @@ void player::suffer()
         if( has_trait( trait_FRESHWATEROSMOSIS ) && !g->m.has_flag_ter( "SALT_WATER", pos() ) &&
             get_thirst() > -60 ) {
             mod_thirst( -1 );
+            if( g->m.has_flag_ter( "MINERAL_WATER", pos() ) ) {
+                mod_healthy_mod( 1, 10 );
+            }
         }
     }
 

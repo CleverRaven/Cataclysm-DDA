@@ -477,6 +477,114 @@
   {
     "type": "mapgen",
     "method": "json",
+    "om_terrain": [ "pond_forest" ],
+    "weight": 50,
+    "object": {
+      "fill_ter": "t_dirt",
+      "rows": [
+        "                        ",
+        "         ??             ",
+        "         ???            ",
+        "          ???? ?        ",
+        "          ?????         ",
+        "        ]]]**]]]]       ",
+        "        ]]*****]]]      ",
+        "       ]***[******]     ",
+        "      ]]***[[[[****]    ",
+        "     ]]***[[[[*****]    ",
+        "     ?**[[~~~~[****]]   ",
+        "     ]**[[~~~~[****]]   ",
+        "    ]]***[~~~~[***]]]   ",
+        "    ]]***[~~~~[[]]]     ",
+        "    ]]****[[[[**]???    ",
+        "     ]]***[[***]]???    ",
+        "     ]]]]*****]]  ? ?   ",
+        "       ??]]****]        ",
+        "           **           ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "set": [
+        { "point": "furniture", "id": "f_rubble_rock", "x": [ 1, 22 ], "y": [ 1, 22 ], "chance": 9, "repeat": [ 1, 5 ] },
+        {
+          "point": "furniture",
+          "id": "f_boulder_small",
+          "x": [ 1, 22 ],
+          "y": [ 1, 22 ],
+          "chance": 9,
+          "repeat": [ 1, 5 ]
+        },
+        {
+          "point": "furniture",
+          "id": "f_boulder_medium",
+          "x": [ 1, 22 ],
+          "y": [ 1, 22 ],
+          "chance": 9,
+          "repeat": [ 1, 5 ]
+        },
+        {
+          "point": "furniture",
+          "id": "f_boulder_large",
+          "x": [ 1, 22 ],
+          "y": [ 1, 22 ],
+          "chance": 9,
+          "repeat": [ 1, 5 ]
+        }
+      ],
+      "terrain": {
+        " ": [ "t_dirt", "t_dirt", "t_dirt", "t_grass", "t_grass", "t_grass", "t_shrub", "t_tree_young", "t_tree_young", "t_tree" ],
+        "*": "t_spring_sh",
+        "?": [
+          "t_spring_sh",
+          "t_spring_sh",
+          "t_spring_sh",
+          "t_dirt",
+          "t_dirt",
+          "t_dirt",
+          "t_dirt",
+          "t_dirt",
+          "t_grass",
+          "t_grass",
+          "t_grass",
+          "t_grass",
+          "t_grass",
+          "t_grass",
+          "t_grass",
+          "t_grass",
+          "t_shrub",
+          "t_tree_young",
+          "t_tree",
+          "t_tree",
+          "t_tree_willow"
+        ],
+        "[": [ "t_spring_dp", "t_spring_dp", "t_spring_sh", "t_spring_sh", "t_spring_sh" ],
+        "]": [
+          "t_spring_sh",
+          "t_spring_sh",
+          "t_spring_sh",
+          "t_spring_sh",
+          "t_spring_sh",
+          "t_spring_sh",
+          "t_spring_sh",
+          "t_spring_sh",
+          "t_dirt",
+          "t_grass"
+        ],
+        "~": "t_spring_dp"
+      },
+      "place_monsters": [
+        { "monster": "GROUP_SAFE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 5 },
+        { "monster": "GROUP_FISH", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 5, "repeat": [ 1, 2 ] },
+        { "monster": "GROUP_FOREST", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 5 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "om_terrain": [ "pond_swamp" ],
     "weight": 100,
     "object": {

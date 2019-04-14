@@ -6479,6 +6479,30 @@
   },
   {
     "type": "terrain",
+    "id": "t_spring_sh",
+    "name": "shallow spring",
+    "symbol": "~",
+    "color": "light_cyan",
+    "move_cost": 5,
+    "flags": [ "TRANSPARENT", "LIQUID", "SWIMMABLE", "FISHABLE", "MINERAL_WATER" ],
+    "connects_to": "WATER",
+    "examine_action": "water_source",
+    "looks_like": "t_water_sh"
+  },
+  {
+    "type": "terrain",
+    "id": "t_spring_dp",
+    "name": "deep spring",
+    "symbol": "~",
+    "color": "cyan",
+    "move_cost": 8,
+    "flags": [ "TRANSPARENT", "LIQUID", "SWIMMABLE", "DEEP_WATER", "FISHABLE", "MINERAL_WATER" ],
+    "connects_to": "WATER",
+    "examine_action": "water_source",
+    "looks_like": "t_water_dp"
+  },
+  {
+    "type": "terrain",
     "id": "t_water_moving_sh",
     "name": "flowing shallow water",
     "looks_like": "t_water_sh",
