@@ -13,7 +13,8 @@
     "type": "ITEM_BLACKLIST",
     "items": [
       "battery",
-      "battery_compartment"
+      "battery_compartment",
+      "lightstrip_dead"
     ]
   }
 ]
