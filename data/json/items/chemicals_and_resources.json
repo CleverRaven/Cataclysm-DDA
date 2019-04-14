@@ -9,7 +9,6 @@
     "volume": 1,
     "price": 50000,
     "ammo_type": "anesthesia",
-    "count": 3,
     "material": "plastic",
     "symbol": "!",
     "color": "cyan",
