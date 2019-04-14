@@ -7191,28 +7191,6 @@
     "storage": 20,
     "material_thickness": 1,
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
-  }
-  {
-    "id": "armor_riot",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": "riot armor",
-    "description": "Black armor used by riot police officers.  The padded layers and hard plastic shoulder guards offer good protection without much encumberance.  The word POLICE is emblazoned across the front.",
-	"looks_like": "kevlar",
-    "weight": 3000,
-    "volume": 30,
-    "price": 35000,
-    "to_hit": -3,
-    "bashing": 6,
-    "material": [ "plastic", "cotton" ],
-    "symbol": "[",
-    "color": "light_gray",
-    "covers": [ "TORSO", "ARMS" ],
-    "coverage": 70,
-    "encumbrance": 10,
-    "warmth": 10,
-    "material_thickness": 5,
-    "flags": [ "STURDY", "OUTER" ]
   },
   {
     "id": "police_belt",
