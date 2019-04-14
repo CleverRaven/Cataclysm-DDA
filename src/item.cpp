@@ -6174,7 +6174,7 @@ bool item::burn( fire_data &frd )
         if( burnt + burn_added > mt->hp ) {
             active = false;
         }
-    } else if( is_food() ) {
+    } else if( has_temperature() ) {
         heat_up();
     } else if( is_food_container() ) {
         contents.front().heat_up();
