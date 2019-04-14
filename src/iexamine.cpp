@@ -4042,8 +4042,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 comps.push_back( item_comp( it->typeId(), 1 ) );
                 p.consume_items( comps, 1, is_crafting_component );
                 if( needs_anesthesia ) {
-                    long stuff = anesth_kit[0]->ammo_consume( 1, p.pos() );
-                    add_msg( _( "consumed %s" ), stuff );
+                    anesth_kit[0]->ammo_consume( 1, p.pos() );
                 }
             }
             break;
