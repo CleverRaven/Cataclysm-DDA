@@ -273,7 +273,7 @@
     "difficulty": 3,
     "time": 2500,
     "reversible": true,
-    "book_learn": [ [ "textbook_firstaid", 6 ], [ "emergency_book", 5 ] ],
+    "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [ [ [ "jar_3l_glass", 1 ] ], [ [ "hose", 1 ] ], [ [ "rag", 2 ] ] ]
   },
