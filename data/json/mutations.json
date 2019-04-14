@@ -532,7 +532,8 @@
     "valid": false,
     "starting_trait": true,
     "category": [ "BIRD", "MOUSE" ],
-    "cancels": [ "MYOPIC", "UNOBSERVANT" ]
+    "cancels": [ "MYOPIC", "UNOBSERVANT" ],
+    "overmap_sight": 5
   },
   {
     "type": "mutation",
@@ -542,7 +543,8 @@
     "description": "Focal brain damage has rendered you incapable of recognizing landmarks and orienting yourself in your surroundings, severely crippling your sight radius on the overmap.",
     "valid": false,
     "starting_trait": true,
-    "cancels": [ "EAGLEEYED" ]
+    "cancels": [ "EAGLEEYED" ],
+    "overmap_sight": -10
   },
   {
     "type": "mutation",
