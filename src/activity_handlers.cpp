@@ -840,13 +840,12 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
             if( drop->phase == LIQUID ) {
 				item obj( drop, bday, roll );
 				obj.set_item_temperature( corpse_item->temperature );
-                g->handle_all_liquid( item( drop, bday, roll ), 1 );
+                g->handle_all_liquid( obj, 1 );
 
             } else if( drop->stackable ) {
 				item obj( drop, bday, roll );
 				obj.set_item_temperature( corpse_item->temperature );
-                g->m.add_item_or_charges( p.pos(), item( drop, bday, roll ) );
-
+                g->m.add_item_or_charges( p.pos(), obj );
             } else {
                 item obj( drop, bday );
                 obj.set_mtype( &mt );

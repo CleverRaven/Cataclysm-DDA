@@ -6473,6 +6473,7 @@ void item::set_item_specific_energy( const float new_specific_energy )
     //The extra 0.5 are there to make rounding go better
     temperature = static_cast<int>( 100000 * new_item_temperature + 0.5 );
     specific_energy = static_cast<int>( 100000 * new_specific_energy + 0.5 );
+	reset_temp_check();
 }
 
 float item::get_specific_energy_from_temperature( const float new_temperature )
@@ -6547,6 +6548,7 @@ void item::set_item_temperature( float new_temperature )
     } else if( new_temperature < temp_to_kelvin( temperatures::cold ) ) {
         item_tags.insert( "COLD" );
     }
+	reset_temp_check();
 }
 
 void item::fill_with( item &liquid, long amount )
@@ -6920,7 +6922,6 @@ void item::update_temp( const int temp, const float insulation )
 
 void item::calc_temp( const int temp, const float insulation, const time_duration &time )
 {
-	add_msg( m_info, _( "Dt" ), time );
     // Limit calculations to max 4000 C (4273.15 K) to avoid specific energy from overflowing
     const float env_temperature = std::min( temp_to_kelvin( temp ), 4273.15 );
     const float old_temperature = 0.00001 * temperature;
@@ -7548,16 +7549,7 @@ bool item::process( player *carrier, const tripoint &pos, bool activate, int tem
 			temp += 5; // body heat increases inventory temperature
 			insulation *= 1.5; // clothing provides inventory some level of insulation
 		}
-		add_msg( m_info, _( "Ty: %s" ), typeId() );
-		
-		if( is_food() ){
-			add_msg( m_info, _( "F U" ) );
-		} else if( is_corpse() ){
-			add_msg( m_info, _( "C U" ) );
-		} else {
-			add_msg( m_info, _( "? U" ) );
-		}
-		
+		add_msg( m_info, _( "Ty: %s" ), typeId() );		
 		update_temp( temp, insulation );
 	}
 	
