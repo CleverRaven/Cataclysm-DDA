@@ -773,6 +773,18 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
+    "result": "tactical_sling",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": 5000,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "rope_6", 2 ], [ "rag", 6 ], [ "string_36", 12 ] ] ]
+  },
+  {
     "result": "tool_belt",
     "type": "recipe",
     "category": "CC_ARMOR",

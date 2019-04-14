@@ -205,6 +205,7 @@
       [ "chestrig", 160 ],
       [ "molle_pack", 100 ],
       [ "rucksack", 80 ]
+      [ "tactical_sling", 30 ]
     ]
   },
   {
