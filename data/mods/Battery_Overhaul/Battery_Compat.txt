@@ -1,0 +1,18 @@
+      Light minus: 50 charges
+      Light:      100 charges
+      Light plus: 150 charges
+
+      "magazines": [ "battery" , [ "light_minus_battery_cell" ] ]
+      "magazines": [ "battery" , [ "light_battery_cell" , "light_plus_battery_cell" , "light_minus_battery_cell" ] ]
+      "magazines": [ "battery" , [ "light_plus_battery_cell" , "light_battery_cell" , "light_minus_battery_cell" ] ]      "magazines": [ "battery" , [ "light_minus_battery_cell" , "light_battery_cell" , "light_plus_battery_cell" ] ]
+
+      
+      Medium:      500 charges
+      Medium plus: 600 charges
+      
+      "magazines": [ "battery" , [ "medium_battery_cell" , "medium_plus_battery_cell" ] ]
+      
+      Heavy:      1000 charges
+      Heavy plus: 1250 charges
+      
+      "magazines": [ "battery" , [ "heavy_battery_cell" , "heavy_plus_battery_cell" ] ]
