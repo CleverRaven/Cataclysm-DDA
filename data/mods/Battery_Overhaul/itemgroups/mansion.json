@@ -1,0 +1,1462 @@
+[
+  {
+    "id": "corpse_mansion",
+    "type": "item_group",
+    "subtype": "distribution",
+    "groups": [ [ "cm_maid", 30 ], [ "cm_butler", 30 ], [ "cm_fancy", 23 ], [ "everyday_corpse", 17 ] ]
+  },
+  {
+    "id": "cm_maid",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      { "group": "cleaning", "prob": 40 },
+      { "group": "female_underwear", "prob": 30, "damage": [ 0, 4 ] },
+      { "group": "shoes_maid", "prob": 30, "damage": [ 0, 4 ] },
+      { "item": "maid_hat", "prob": 50, "damage": [ 0, 4 ] },
+      { "item": "maid_dress", "prob": 100, "damage": [ 0, 4 ] },
+      [ "corpse", 100 ]
+    ]
+  },
+  {
+    "id": "cm_butler",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      { "group": "gear_butler", "prob": 40 },
+      { "item": "socks", "prob": 30, "damage": [ 0, 4 ] },
+      { "group": "male_underwear", "prob": 30, "damage": [ 0, 4 ] },
+      { "item": "dress_shoes", "prob": 30, "damage": [ 0, 4 ] },
+      { "item": "dress_shirt", "prob": 50, "damage": [ 0, 4 ] },
+      { "item": "suit", "prob": 100, "damage": [ 0, 4 ] },
+      [ "corpse", 100 ]
+    ]
+  },
+  {
+    "id": "cm_fancy",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      { "group": "jewelry_front", "prob": 40 },
+      { "group": "mansion_guns", "prob": 40 },
+      { "group": "shoestore_shoes", "prob": 30, "damage": [ 0, 4 ] },
+      { "group": "suits", "prob": 90, "damage": [ 0, 4 ] },
+      [ "corpse", 100 ]
+    ]
+  },
+  {
+    "id": "everyday_corpse",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      { "group": "everyday_gear", "prob": 40 },
+      { "group": "underwear", "prob": 30, "damage": [ 0, 4 ] },
+      { "group": "shoes", "prob": 30, "damage": [ 0, 4 ] },
+      { "group": "pants", "prob": 60, "damage": [ 0, 4 ] },
+      { "group": "shirts", "prob": 60, "damage": [ 0, 4 ] },
+      [ "corpse", 100 ]
+    ]
+  },
+  {
+    "id": "tool_common_stack",
+    "type": "item_group",
+    "subtype": "collection",
+    "groups": [ [ "tools_common", 15 ], [ "tools_common", 5 ], [ "tools_lighting", 5 ], [ "tools_entry", 2 ] ]
+  },
+  {
+    "id": "mansion_safe",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      [ "diamond", 20 ],
+      { "group": "stash_drugs", "prob": 5 },
+      [ "file", 70 ],
+      { "group": "jewelry_front", "prob": 40 },
+      [ "money_bundle", 50 ],
+      { "group": "mansion_guns", "prob": 95 },
+      { "group": "mansion_guns", "prob": 80 }
+    ]
+  },
+  {
+    "id": "mansion_gunsafe",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      [ "money_bundle", 20 ],
+      { "group": "mansion_ammo", "prob": 60 },
+      { "group": "mansion_guns", "prob": 40 },
+      { "group": "mansion_guns", "prob": 80 },
+      { "group": "mansion_guns", "prob": 95 }
+    ]
+  },
+  {
+    "id": "crate_stack",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      [ "null", 100 ],
+      { "group": "crate_clothes", "prob": 30 },
+      { "group": "crate_linens", "prob": 25 },
+      { "group": "crate_kitchen", "prob": 20 },
+      { "group": "crate_winter", "prob": 20 },
+      { "group": "crate_toys", "prob": 10 },
+      { "group": "crate_wine", "prob": 5 },
+      { "group": "crate_sports", "prob": 5 },
+      { "group": "crate_parts", "prob": 4 },
+      { "group": "crate_creepy", "prob": 1 }
+    ]
+  },
+  {
+    "id": "crate_clothes",
+    "type": "item_group",
+    "subtype": "collection",
+    "groups": [ [ "underwear", 40 ], [ "pants", 70 ], [ "shirts", 90 ], [ "shoestore_shoes", 10 ] ]
+  },
+  {
+    "id": "crate_winter",
+    "type": "item_group",
+    "subtype": "collection",
+    "groups": [ [ "winter", 90 ], [ "winter", 70 ], [ "winter", 40 ], [ "winter", 10 ] ]
+  },
+  {
+    "id": "crate_linens",
+    "type": "item_group",
+    "subtype": "collection",
+    "groups": [ [ "bed", 90 ], [ "bed", 40 ], [ "bed", 10 ], [ "bath_linens", 70 ] ]
+  },
+  {
+    "id": "crate_kitchen",
+    "type": "item_group",
+    "subtype": "collection",
+    "groups": [ [ "kitchen_nonfood", 10 ], [ "kitchen_nonfood", 70 ], [ "oven", 90 ], [ "oven", 40 ] ]
+  },
+  {
+    "id": "crate_toys",
+    "type": "item_group",
+    "subtype": "collection",
+    "groups": [ [ "toy_box", 90 ], [ "toy_box", 70 ], [ "toy_box", 40 ], [ "toy_box", 10 ] ]
+  },
+  {
+    "id": "crate_sports",
+    "type": "item_group",
+    "subtype": "collection",
+    "groups": [ [ "sports_bulk", 90 ], [ "sports_bulk", 70 ], [ "sports_bulk", 40 ], [ "sports_bulk", 10 ] ]
+  },
+  {
+    "id": "crate_parts",
+    "type": "item_group",
+    "subtype": "collection",
+    "groups": [
+      [ "hardware_bulk", 40 ],
+      [ "supplies_electronics", 90 ],
+      [ "supplies_electronics", 10 ],
+      [ "supplies_spares_vehicle", 70 ]
+    ]
+  },
+  {
+    "id": "crate_cleaning",
+    "type": "item_group",
+    "subtype": "collection",
+    "groups": [ [ "cleaning_bulk", 90 ], [ "cleaning_bulk", 70 ], [ "cleaning_bulk", 10 ], [ "cleaning", 40 ] ]
+  },
+  {
+    "id": "crate_creepy",
+    "type": "item_group",
+    "subtype": "collection",
+    "groups": [ [ "creepy", 90 ], [ "creepy", 70 ], [ "creepy", 40 ], [ "creepy", 10 ] ]
+  },
+  {
+    "id": "crate_wine",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      [ "null", 100 ],
+      { "item": "glass_shard", "prob": 50, "count": [ 1, 12 ] },
+      { "item": "bottle_glass", "prob": 50, "count": [ 1, 6 ] },
+      { "item": "wine_cabernet", "prob": 14, "count": [ 1, 12 ] },
+      { "item": "wine_riesling", "prob": 12, "count": [ 1, 12 ] },
+      { "item": "wine_chardonnay", "prob": 10, "count": [ 1, 12 ] },
+      { "item": "wine_noir", "prob": 8, "count": [ 1, 12 ] },
+      { "item": "fruit_wine", "prob": 6, "count": [ 1, 12 ] }
+    ]
+  },
+  {
+    "id": "keg_wine",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ [ "null", 20 ], { "group": "keg_wine_smashed", "prob": 70 }, { "group": "keg_wine_intact", "prob": 20 } ]
+  },
+  {
+    "id": "keg_wine_smashed",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [ [ "scrap", 30 ], [ "splinter", 100 ], [ "2x4", 40 ] ]
+  },
+  {
+    "id": "keg_wine_intact",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      [ "wooden_barrel", 100 ],
+      { "item": "wine_cabernet", "prob": 40, "container-item": "wooden_barrel" },
+      { "item": "wine_riesling", "prob": 30, "container-item": "wooden_barrel" },
+      { "item": "wine_chardonnay", "prob": 20, "container-item": "wooden_barrel" },
+      { "item": "wine_noir", "prob": 10, "container-item": "wooden_barrel" },
+      { "item": "fruit_wine", "prob": 5, "container-item": "wooden_barrel" }
+    ]
+  },
+  {
+    "id": "wetbar_stack",
+    "type": "item_group",
+    "subtype": "collection",
+    "groups": [ [ "glass_set", 30 ], [ "wines_worthy", 20 ], [ "alcohol", 40 ], [ "alcohol", 10 ] ]
+  },
+  {
+    "id": "glass_set",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [ [ "glass", 100 ], [ "glass", 100 ], [ "glass", 100 ], [ "glass", 50 ] ]
+  },
+  {
+    "id": "dresser_stack",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      [ "null", 80 ],
+      { "group": "dresser_male", "prob": 40 },
+      { "group": "dresser_female", "prob": 40 },
+      { "group": "dresser_winter", "prob": 20 },
+      { "group": "dresser_shoes", "prob": 10 },
+      { "group": "dresser_shabby", "prob": 5 },
+      { "group": "dresser_fancy", "prob": 5 }
+    ]
+  },
+  {
+    "id": "dresser_male",
+    "type": "item_group",
+    "subtype": "collection",
+    "groups": [ [ "male_underwear", 40 ], [ "clothing_male", 70 ], [ "clothing_male", 50 ], [ "clothing_male", 20 ] ]
+  },
+  {
+    "id": "dresser_female",
+    "type": "item_group",
+    "subtype": "collection",
+    "groups": [ [ "female_underwear", 40 ], [ "clothing_female", 70 ], [ "clothing_female", 50 ], [ "clothing_female", 20 ] ]
+  },
+  {
+    "id": "dresser_winter",
+    "type": "item_group",
+    "subtype": "collection",
+    "groups": [ [ "winter", 70 ], [ "winter", 50 ], [ "winter", 40 ], [ "winter", 10 ] ]
+  },
+  {
+    "id": "dresser_shoes",
+    "type": "item_group",
+    "subtype": "collection",
+    "groups": [ [ "shoes", 70 ], [ "shoes", 50 ], [ "shoes", 40 ], [ "shoes", 10 ] ]
+  },
+  {
+    "id": "dresser_shabby",
+    "type": "item_group",
+    "subtype": "collection",
+    "groups": [ [ "harddrugs", 10 ], [ "clothing_shabby", 70 ], [ "clothing_shabby", 50 ], [ "clothing_shabby", 40 ] ]
+  },
+  {
+    "id": "dresser_fancy",
+    "type": "item_group",
+    "subtype": "collection",
+    "groups": [ [ "clothing_fancy", 70 ], [ "clothing_fancy", 50 ], [ "clothing_fancy", 40 ], [ "clothing_fancy", 10 ] ]
+  },
+  {
+    "id": "mansion_bookcase",
+    "type": "item_group",
+    "subtype": "collection",
+    "groups": [
+      [ "novels", 40 ],
+      [ "mansion_books", 50 ],
+      [ "homebooks", 30 ],
+      [ "manuals", 10 ],
+      [ "textbooks", 5 ],
+      [ "exotic_books", 5 ]
+    ]
+  },
+  {
+    "id": "suit_of_armor",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      [ "null", 7 ],
+      { "group": "soa_decor", "prob": 3 },
+      { "group": "soa_plate", "prob": 2 },
+      { "group": "soa_mail", "prob": 1 },
+      { "group": "soa_samurai", "prob": 1 }
+    ]
+  },
+  {
+    "id": "soa_decor",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [ { "group": "soa_weapons_decor" }, [ "armor_plate", 100 ], [ "helmet_plate", 100 ] ]
+  },
+  {
+    "id": "soa_weapons_decor",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "group": "soa_fake_weapon_decor", "prob": 3 },
+      { "group": "soa_poor_weapon_decor", "prob": 3 },
+      { "group": "soa_real_weapon_decor", "prob": 3 }
+    ]
+  },
+  {
+    "id": "soa_plate",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [ { "group": "soa_weapons_plate" }, [ "armor_lightplate", 100 ], [ "helmet_barbute", 100 ] ]
+  },
+  {
+    "id": "soa_weapons_plate",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "group": "soa_fake_weapon_plate", "prob": 3 },
+      { "group": "soa_poor_weapon_plate", "prob": 3 },
+      { "group": "soa_real_weapon_plate", "prob": 3 }
+    ]
+  },
+  {
+    "id": "soa_mail",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [ { "group": "soa_weapons_mail" }, [ "chainmail_suit", 100 ] ]
+  },
+  {
+    "id": "soa_weapons_mail",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "group": "soa_fake_weapon_mail", "prob": 3 },
+      { "group": "soa_poor_weapon_mail", "prob": 3 },
+      { "group": "soa_real_weapon_mail", "prob": 3 }
+    ]
+  },
+  {
+    "id": "soa_samurai",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [ { "group": "soa_weapons_samurai" }, [ "scabbard", 50 ], [ "armor_samurai", 100 ], [ "helmet_kabuto", 100 ] ]
+  },
+  {
+    "id": "soa_weapons_samurai",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "group": "soa_fake_weapon_samurai", "prob": 3 },
+      { "group": "soa_poor_weapon_samurai", "prob": 3 },
+      { "group": "soa_real_weapon_samurai", "prob": 3 }
+    ]
+  },
+  {
+    "id": "broadsword+scabbard",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [ [ "broadsword", 100 ], [ "scabbard", 100 ] ]
+  },
+  {
+    "id": "broadsword_fake+scabbard",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [ [ "broadsword_fake", 100 ], [ "scabbard", 100 ] ]
+  },
+  {
+    "id": "broadsword_inferior+scabbard",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [ [ "broadsword_inferior", 100 ], [ "scabbard", 100 ] ]
+  },
+  {
+    "id": "samurai_sword_set",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [ [ "katana", 100 ], [ "wakizashi", 34 ], [ "tanto", 12 ] ]
+  },
+  {
+    "id": "samurai_sword_set_fake",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [ [ "katana_fake", 100 ], [ "wakizashi_fake", 34 ], [ "tanto_fake", 12 ] ]
+  },
+  {
+    "id": "samurai_sword_set_inferior",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [ [ "katana_inferior", 100 ], [ "wakizashi_inferior", 34 ], [ "tanto_inferior", 12 ] ]
+  },
+  {
+    "id": "soa_fake_weapon_decor",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      [ "pike_fake", 50 ],
+      { "group": "broadsword_fake+scabbard", "prob": 17 },
+      [ "mace_fake", 6 ],
+      [ "morningstar_fake", 5 ]
+    ]
+  },
+  {
+    "id": "soa_poor_weapon_decor",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      [ "pike_inferior", 50 ],
+      { "group": "broadsword_inferior+scabbard", "prob": 17 },
+      [ "mace_inferior", 6 ],
+      [ "morningstar_inferior", 5 ]
+    ]
+  },
+  {
+    "id": "soa_real_weapon_decor",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ [ "pike", 50 ], { "group": "broadsword+scabbard", "prob": 17 }, [ "mace", 6 ], [ "morningstar", 5 ] ]
+  },
+  {
+    "id": "soa_fake_weapon_plate",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      [ "pike_fake", 17 ],
+      { "group": "broadsword_fake+scabbard", "prob": 5 },
+      [ "mace_fake", 50 ],
+      [ "morningstar_fake", 6 ]
+    ]
+  },
+  {
+    "id": "soa_poor_weapon_plate",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      [ "pike_inferior", 17 ],
+      { "group": "broadsword_inferior+scabbard", "prob": 5 },
+      [ "mace_inferior", 50 ],
+      [ "morningstar_inferior", 6 ]
+    ]
+  },
+  {
+    "id": "soa_real_weapon_plate",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ [ "pike", 17 ], { "group": "broadsword+scabbard", "prob": 5 }, [ "mace", 50 ], [ "morningstar", 6 ] ]
+  },
+  {
+    "id": "soa_fake_weapon_mail",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      [ "pike_fake", 17 ],
+      { "group": "broadsword_fake+scabbard", "prob": 5 },
+      [ "mace_fake", 50 ],
+      [ "battleaxe_fake", 6 ]
+    ]
+  },
+  {
+    "id": "soa_poor_weapon_mail",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      [ "pike_inferior", 50 ],
+      { "group": "broadsword_inferior+scabbard", "prob": 5 },
+      [ "mace_inferior", 50 ],
+      [ "battleaxe_inferior", 6 ]
+    ]
+  },
+  {
+    "id": "soa_real_weapon_mail",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ [ "pike", 50 ], { "group": "broadsword+scabbard", "prob": 5 }, [ "mace", 50 ], [ "battleaxe", 6 ] ]
+  },
+  {
+    "id": "soa_fake_weapon_samurai",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ { "group": "samurai_sword_set_fake", "prob": 7 }, [ "bokken_fake", 6 ], [ "nodachi_fake", 5 ] ]
+  },
+  {
+    "id": "soa_poor_weapon_samurai",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ { "group": "samurai_sword_set_inferior", "prob": 7 }, [ "bokken_inferior", 6 ], [ "nodachi_inferior", 5 ] ]
+  },
+  {
+    "id": "soa_real_weapon_samurai",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ { "group": "samurai_sword_set", "prob": 7 }, [ "bokken", 6 ], [ "nodachi", 5 ] ]
+  },
+  {
+    "id": "toy_box",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      [ "marble", 60 ],
+      [ "talking_doll", 50 ],
+      [ "basketball", 50 ],
+      [ "fc_hairpin", 50 ],
+      [ "fairy_tales", 40 ],
+      [ "child_book", 40 ],
+      [ "manual_dodge_kid", 10 ],
+      [ "tall_tales", 40 ],
+      [ "backpack", 40 ],
+      [ "baseball", 40 ],
+      [ "football", 40 ],
+      [ "orangesoda", 30 ],
+      [ "hairpin", 30 ],
+      [ "purple_drink", 20 ],
+      [ "mag_comic", 20 ],
+      [ "candy", 20 ],
+      [ "story_book", 10 ],
+      [ "novel_coa", 10 ],
+      [ "slingshot", 10 ],
+      [ "rock", 10 ],
+      [ "bat", 10 ],
+      [ "creepy_doll", 3 ],
+      [ "whistle", 3 ]
+    ]
+  },
+  {
+    "id": "bath_linens",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ [ "sheet", 40 ], [ "towel", 30 ], [ "rag", 20 ], [ "bandages", 10 ] ]
+  },
+  {
+    "id": "creepy",
+    "type": "item_group",
+    "items": [
+      [ "candle", 50 ],
+      [ "rope_6", 50 ],
+      [ "rag_bloody", 40 ],
+      [ "spike", 30 ],
+      { "item": "blood", "prob": 10, "container-item": "jar_3l_glass" },
+      [ "bone_human", 10 ],
+      [ "bondage_mask", 10 ],
+      [ "bondage_suit", 5 ]
+    ]
+  },
+  {
+    "id": "sex_lair",
+    "type": "item_group",
+    "items": [
+      [ "candle", 50 ],
+      [ "rope_6", 50 ],
+      [ "vibrator", 40 ],
+      [ "camisole", 40 ],
+      [ "panties", 40 ],
+      [ "bra", 40 ],
+      [ "hot_pants_leather", 30 ],
+      [ "boxer_shorts", 30 ],
+      [ "mag_porn", 30 ],
+      [ "briefs", 30 ],
+      { "item": "cooking_oil", "prob": 20, "container-item": "bottle_plastic" },
+      { "group": "stash_drugs", "prob": 20 },
+      [ "bikini_top_leather", 20 ],
+      [ "skirt_leather", 20 ],
+      [ "honey_bottled", 20 ],
+      [ "nanoskirt", 20 ],
+      [ "mag_dude", 20 ],
+      [ "chaps_leather", 10 ],
+      [ "novel_romance", 10 ],
+      [ "novel_erotic", 10 ],
+      [ "bondage_suit", 10 ],
+      [ "bondage_mask", 10 ],
+      [ "bullwhip", 10 ],
+      [ "leather_cat_ears", 5 ],
+      [ "leather_cat_tail", 5 ],
+      [ "leather_collar", 5 ],
+      [ "rope_30", 5 ]
+    ]
+  },
+  {
+    "id": "sports_bulk",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      [ "bat", 60 ],
+      [ "bat_metal", 60 ],
+      [ "boxing_gloves", 40 ],
+      [ "baseball", 60 ],
+      [ "football_armor", 30 ],
+      [ "helmet_football", 10 ],
+      [ "football", 60 ],
+      [ "basketball", 50 ],
+      [ "helmet_bike", 25 ],
+      [ "helmet_ball", 25 ],
+      [ "headgear", 20 ],
+      [ "mask_hockey", 25 ],
+      [ "hockey_stick", 45 ],
+      [ "puck", 30 ],
+      [ "golf_club", 80 ],
+      [ "roller_blades", 20 ],
+      [ "rollerskates", 10 ],
+      [ "longbow", 5 ],
+      [ "compbow", 1 ],
+      [ "compositebow", 3 ],
+      [ "shortbow", 5 ],
+      [ "recurbow", 2 ],
+      [ "reflexbow", 2 ],
+      [ "quiver", 3 ],
+      [ "fencing_jacket", 10 ],
+      [ "fencing_mask", 10 ],
+      [ "fencing_pants", 10 ],
+      [ "iceaxe", 4 ]
+    ]
+  },
+  {
+    "id": "sauna",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ [ "towel", 90 ], [ "water_mineral", 50 ], [ "house_coat", 50 ], [ "water_clean", 30 ], [ "sports_drink", 15 ] ]
+  },
+  {
+    "id": "kitchen_nonfood",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      [ "aluminum_foil", 25 ],
+      [ "toaster", 20 ],
+      [ "microwave", 20 ],
+      [ "hat_chef", 2 ],
+      [ "bowl_pewter", 25 ],
+      [ "pastaextruder", 10 ],
+      [ "knife_butter", 90 ],
+      [ "knife_steak", 85 ],
+      [ "fork", 90 ],
+      [ "spoon", 90 ],
+      [ "glass", 20 ],
+      [ "glass_plate", 20 ],
+      [ "glass_bowl", 20 ],
+      [ "ceramic_plate", 10 ],
+      [ "ceramic_bowl", 10 ],
+      [ "ceramic_cup", 10 ],
+      [ "knife_butcher", 10 ],
+      [ "funnel", 50 ],
+      [ "jar_glass", 50 ],
+      [ "jar_3l_glass", 40 ],
+      [ "tongs", 25 ],
+      [ "coffeemaker", 10 ]
+    ]
+  },
+  {
+    "id": "table_wine",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      [ "glass", 80 ],
+      [ "bowl_pewter", 40 ],
+      [ "towel", 40 ],
+      [ "ceramic_bowl", 30 ],
+      [ "bucket", 30 ],
+      { "group": "wines_worthy", "prob": 20 },
+      { "group": "glass_set", "prob": 20 },
+      [ "knife_swissarmy", 10 ],
+      [ "funnel", 10 ]
+    ]
+  },
+  {
+    "id": "table_sideboard",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      [ "bowl_pewter", 40 ],
+      [ "ceramic_bowl", 30 ],
+      { "group": "wines_worthy", "prob": 20 },
+      { "group": "glass_set", "prob": 20 },
+      [ "candlestick", 30 ],
+      [ "spiral_stone", 2 ]
+    ]
+  },
+  {
+    "id": "pantry",
+    "type": "item_group",
+    "subtype": "distribution",
+    "groups": [ [ "cannedfood", 40 ], [ "pasta", 20 ], [ "kitchen_nonfood", 10 ] ]
+  },
+  {
+    "id": "clutter_basement",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      [ "cig_butt", 50 ],
+      [ "string_6", 50 ],
+      [ "wrapper", 50 ],
+      [ "shot_hull", 40 ],
+      [ "splinter", 40 ],
+      [ "sinew", 40 ],
+      [ "rag", 40 ],
+      [ "cup_plastic_unsealed", 30 ],
+      [ "can_drink_unsealed", 30 ],
+      [ "bottle_plastic", 30 ],
+      [ "bag_plastic", 30 ],
+      [ "paper", 30 ],
+      [ "rolling_paper", 20 ],
+      [ "rag_bloody", 20 ],
+      [ "flashlight", 20 ],
+      [ "9mm_casing", 20 ],
+      [ "38_casing", 20 ],
+      [ "45_casing", 20 ],
+      [ "stick", 20 ],
+      [ "joint_roach", 10 ],
+      { "group": "corpse_mansion", "prob": 5 },
+      [ "survnote", 1 ]
+    ]
+  },
+  {
+    "id": "clutter_mansion",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      [ "string_6", 50 ],
+      [ "wrapper", 50 ],
+      [ "paper", 50 ],
+      [ "ceramic_shard", 40 ],
+      [ "shot_hull", 40 ],
+      [ "splinter", 40 ],
+      [ "sinew", 40 ],
+      [ "rag", 40 ],
+      [ "cup_plastic_unsealed", 30 ],
+      [ "can_drink_unsealed", 30 ],
+      [ "bottle_plastic", 30 ],
+      [ "glass_shard", 30 ],
+      [ "bag_plastic", 30 ],
+      { "group": "vending_food", "prob": 20 },
+      [ "rag_bloody", 20 ],
+      [ "9mm_casing", 20 ],
+      [ "38_casing", 20 ],
+      [ "45_casing", 20 ],
+      { "group": "vending_drink", "prob": 10 },
+      [ "permanent_marker", 10 ],
+      [ "bone_tainted", 5 ],
+      { "group": "corpse_mansion", "prob": 5 }
+    ]
+  },
+  {
+    "id": "clutter_bedroom",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      [ "socks", 90 ],
+      [ "sneakers", 50 ],
+      [ "battery", 50 ],
+      [ "sunglasses", 40 ],
+      [ "socks_wool", 40 ],
+      [ "towel", 40 ],
+      [ "can_drink_unsealed", 30 ],
+      [ "bottle_plastic", 30 ],
+      [ "leathersandals", 30 ],
+      [ "leather_belt", 30 ],
+      [ "bag_plastic", 30 ],
+      [ "shot_hull", 30 ],
+      [ "hat_ball", 30 ],
+      [ "hat_newsboy", 20 ],
+      [ "house_coat", 20 ],
+      [ "rag_bloody", 20 ],
+      [ "9mm_casing", 20 ],
+      [ "38_casing", 20 ],
+      [ "45_casing", 20 ],
+      [ "inhaler", 20 ],
+      [ "hairpin", 20 ],
+      [ "lighter", 20 ],
+      [ "matches", 20 ],
+      [ "jersey", 20 ],
+      [ "fanny", 20 ],
+      { "group": "vending_drink", "prob": 10 },
+      { "group": "vending_food", "prob": 10 },
+      [ "straw_fedora", 10 ],
+      [ "barrette", 10 ],
+      [ "contacts", 10 ],
+      [ "fedora", 10 ],
+      [ "firecracker", 5 ],
+      [ "fc_hairpin", 5 ],
+      [ "collarpin", 5 ],
+      [ "mocassins", 5 ],
+      [ "flask_hip", 5 ],
+      [ "snuggie", 5 ],
+      [ "tieclip", 5 ],
+      [ "bb", 5 ],
+      [ "bone_tainted", 1 ],
+      { "group": "corpse_mansion", "prob": 1 }
+    ]
+  },
+  {
+    "id": "clutter_bathroom",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "group": "softdrugs", "prob": 90 },
+      [ "string_6", 50 ],
+      [ "wrapper", 50 ],
+      [ "paper", 50 ],
+      [ "ceramic_shard", 40 ],
+      [ "shot_hull", 40 ],
+      [ "sinew", 40 ],
+      [ "rag", 40 ],
+      [ "bottle_plastic", 30 ],
+      [ "glass_shard", 30 ],
+      [ "rag_bloody", 20 ],
+      [ "9mm_casing", 20 ],
+      [ "38_casing", 20 ],
+      [ "45_casing", 20 ],
+      [ "bone_tainted", 1 ],
+      { "group": "corpse_mansion", "prob": 1 }
+    ]
+  },
+  {
+    "id": "clutter_yard",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      [ "cig_butt", 50 ],
+      [ "string_6", 50 ],
+      [ "stick", 50 ],
+      [ "rock", 50 ],
+      [ "plastic_shopping_bag", 40 ],
+      [ "sinew", 40 ],
+      [ "rag", 40 ],
+      [ "cup_plastic_unsealed", 30 ],
+      [ "can_drink_unsealed", 30 ],
+      [ "bottle_plastic", 30 ],
+      [ "bag_plastic", 30 ],
+      [ "sharp_rock", 30 ],
+      [ "box_cigarette", 20 ],
+      [ "rag_bloody", 20 ],
+      [ "9mm_casing", 20 ],
+      [ "shot_hull", 20 ],
+      [ "38_casing", 20 ],
+      [ "45_casing", 20 ],
+      [ "wrapper", 20 ],
+      [ "bottle_glass", 10 ],
+      [ "flyer", 10 ],
+      [ "bone_tainted", 5 ],
+      { "group": "corpse_mansion", "prob": 5 }
+    ]
+  },
+  {
+    "id": "clutter_gym",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      [ "water_clean", 20 ],
+      [ "lemonade", 12 ],
+      [ "sports_drink", 20 ],
+      [ "V8", 12 ],
+      [ "tank_top", 5 ],
+      [ "towel", 20 ],
+      [ "protein_shake", 8 ],
+      [ "coke", 3 ],
+      [ "bandages", 10 ],
+      [ "heatpack", 10 ],
+      [ "gum", 12 ],
+      [ "yoghurt", 12 ],
+      [ "vitamins", 10 ],
+      [ "aspirin", 15 ],
+      { "group": "corpse_mansion", "prob": 1 }
+    ]
+  },
+  {
+    "id": "clutter_ballroom",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      [ "ceramic_shard", 40 ],
+      [ "shot_hull", 40 ],
+      [ "sinew", 40 ],
+      [ "glass_shard", 30 ],
+      [ "wrapper", 30 ],
+      [ "dance_shoes", 20 ],
+      [ "dress_shoes", 20 ],
+      [ "rag_bloody", 20 ],
+      [ "9mm_casing", 20 ],
+      [ "38_casing", 20 ],
+      [ "45_casing", 20 ],
+      [ "tieclip", 20 ],
+      [ "splinter", 20 ],
+      [ "purse", 20 ],
+      [ "heels", 20 ],
+      [ "rag", 20 ],
+      [ "mask_guy_fawkes", 10 ],
+      [ "gold_ear", 10 ],
+      [ "bone_tainted", 5 ],
+      [ "silver_ear", 5 ],
+      { "group": "corpse_mansion", "prob": 5 },
+      [ "skinny_tie", 1 ]
+    ]
+  },
+  {
+    "id": "table_ballroom",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "item": "wine_chardonnay", "prob": 50, "container-item": "glass" },
+      [ "bottle_glass", 50 ],
+      [ "glass", 50 ],
+      [ "sandwich_cucumber", 40 ],
+      { "item": "wine_riesling", "prob": 30, "container-item": "glass" },
+      { "item": "coffee", "prob": 30, "container-item": "ceramic_cup" },
+      [ "cake2", 20 ],
+      { "group": "wines_worthy", "prob": 10 },
+      [ "jihelucake", 10 ],
+      [ "purse", 5 ]
+    ]
+  },
+  {
+    "id": "locker_gym",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      [ "water_clean", 12 ],
+      [ "sports_drink", 12 ],
+      [ "tank_top", 30 ],
+      [ "towel", 40 ],
+      [ "under_armor_shorts", 50 ],
+      [ "under_armor", 50 ],
+      [ "tshirt", 60 ],
+      [ "sneakers", 60 ],
+      [ "hot_pants", 44 ],
+      [ "undershirt", 60 ],
+      [ "hoodie", 50 ],
+      [ "shorts", 60 ],
+      [ "longshirt", 60 ],
+      [ "bandages", 10 ],
+      [ "heatpack", 10 ],
+      [ "gum", 12 ],
+      [ "soap", 10 ],
+      [ "sports_bra", 60 ],
+      [ "briefs", 60 ],
+      [ "vitamins", 10 ],
+      [ "aspirin", 10 ],
+      [ "karate_gi", 10 ],
+      [ "judo_gi", 5 ]
+    ]
+  },
+  {
+    "id": "table_foyer",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      [ "gloves_light", 40 ],
+      [ "gloves_leather", 30 ],
+      [ "flyer", 30 ],
+      [ "mag_news", 20 ],
+      [ "mag_tv", 20 ],
+      [ "mag_beauty", 10 ],
+      [ "mag_glam", 10 ],
+      [ "purse", 5 ]
+    ]
+  },
+  {
+    "id": "cleaning_bulk",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      [ "broom", 40 ],
+      [ "mop", 40 ],
+      [ "ammonia", 24 ],
+      [ "chem_hydrogen_peroxide", 20 ],
+      [ "boots_rubber", 20 ],
+      [ "bleach", 20 ],
+      { "item": "material_rocksalt", "prob": 10, "container-item": "bag_canvas" },
+      [ "vinegar", 10 ],
+      { "item": "lye_powder", "prob": 5, "container-item": "bag_canvas_small" },
+      [ "oxy_powder", 5 ],
+      [ "fungicide", 5 ],
+      { "item": "charcoal", "prob": 5, "container-item": "bag_canvas" }
+    ]
+  },
+  {
+    "id": "fireplace_fill",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ [ "stick", 60 ], [ "log", 40 ], [ "splinter", 20 ] ]
+  },
+  {
+    "id": "table_livingroom",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "group": "beer_selection", "prob": 30 },
+      [ "novel_pulp", 30 ],
+      [ "mag_news", 30 ],
+      [ "mag_tv", 30 ],
+      [ "cig", 30 ],
+      [ "gum", 30 ],
+      { "group": "vending_drink", "prob": 20 },
+      [ "mag_beauty", 20 ],
+      [ "mag_dude", 20 ],
+      [ "mag_glam", 20 ],
+      [ "glass", 20 ],
+      [ "bandana", 10 ],
+      [ "mp3", 10 ],
+      [ "weeks_old_newspaper", 5 ],
+      [ "newest_newspaper", 5 ],
+      [ "advanced_ecig", 5 ],
+      [ "portable_game", 5 ],
+      [ "cell_phone", 1 ],
+      [ "smart_phone", 5 ],
+      [ "phonebook", 5 ],
+      [ "hairpin", 5 ],
+      [ "cigar", 5 ],
+      [ "chaw", 5 ],
+      [ "ecig", 5 ],
+      [ "months_old_newspaper", 4 ],
+      [ "one_year_old_newspaper", 3 ],
+      [ "years_old_newspaper", 2 ],
+      [ "news_regional", 2 ],
+      [ "many_years_old_newspaper", 1 ],
+      [ "magnifying_glass", 1 ]
+    ]
+  },
+  {
+    "id": "table_card",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "item": "beer", "prob": 40, "container-item": "glass" },
+      { "group": "beer_selection", "prob": 40 },
+      [ "cig", 30 ],
+      { "group": "vending_drink", "prob": 20 },
+      [ "glass", 20 ],
+      [ "cigar", 20 ],
+      [ "ecig", 20 ],
+      [ "money_bundle", 10 ],
+      [ "advanced_ecig", 5 ],
+      [ "pretzels", 5 ],
+      [ "chips", 5 ],
+      [ "chaw", 5 ],
+      { "item": "cash_card", "prob": 1, "charges-min": 25000, "charges-max": 100000 }
+    ]
+  },
+  {
+    "id": "wetbar_counter",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "item": "beer", "prob": 40, "container-item": "glass" },
+      { "group": "beer_selection", "prob": 40 },
+      [ "glass", 40 ],
+      [ "cig", 30 ],
+      [ "cigar", 20 ],
+      [ "towel", 5 ]
+    ]
+  },
+  {
+    "id": "wetbar_fridge",
+    "type": "item_group",
+    "subtype": "distribution",
+    "groups": [ [ "beer_selection", 70 ], [ "vending_drink", 50 ], [ "chilled_wine", 20 ] ]
+  },
+  {
+    "id": "beer_selection",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      [ "beer", 80 ],
+      [ "european_pilsner", 20 ],
+      [ "imperial_stout", 20 ],
+      [ "india_pale_ale", 20 ],
+      [ "belgian_ale", 20 ],
+      [ "pale_ale", 20 ],
+      [ "stout", 20 ]
+    ]
+  },
+  {
+    "id": "chilled_wine",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ [ "wine_riesling", 40 ], [ "fruit_wine", 30 ], [ "wine_chardonnay", 20 ] ]
+  },
+  {
+    "id": "pool_side",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "group": "swimmer_torso", "prob": 20 },
+      { "group": "swimmer_pants", "prob": 20 },
+      { "group": "swimmer_head", "prob": 20 },
+      { "group": "magazines", "prob": 20 },
+      [ "flip_flops", 30 ]
+    ]
+  },
+  {
+    "id": "sewing_room",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "group": "suits", "prob": 50, "damage": [ 0, 2 ] },
+      [ "scissors", 50 ],
+      [ "thread", 50 ],
+      { "group": "pants", "prob": 40, "damage": [ 0, 2 ] },
+      { "group": "shirts", "prob": 40, "damage": [ 0, 2 ] },
+      [ "knitting_needles", 40 ],
+      [ "string_36", 40 ],
+      [ "yarn", 40 ],
+      { "group": "bed", "prob": 30, "damage": [ 0, 2 ] },
+      [ "sewing_kit", 30 ],
+      [ "rag", 30 ],
+      [ "tailors_kit", 20 ]
+    ]
+  },
+  {
+    "id": "vanity",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      [ "mirror", 50 ],
+      { "group": "softdrugs", "prob": 50 },
+      [ "contacts", 40 ],
+      [ "hairpin", 40 ],
+      [ "fc_hairpin", 30 ],
+      { "group": "jewelry_front", "prob": 30 },
+      [ "fc_hairpin", 30 ],
+      [ "barrette", 30 ],
+      [ "elec_hairtrimmer", 20 ],
+      [ "thread", 20 ],
+      [ "purse", 20 ],
+      [ "shavingkit", 10 ],
+      [ "sewing_kit", 10 ],
+      [ "mag_beauty", 10 ],
+      [ "mag_glam", 10 ],
+      { "group": "harddrugs", "prob": 5 }
+    ]
+  },
+  {
+    "id": "nightstand",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      [ "alarmclock", 60 ],
+      [ "glasses_reading", 50 ],
+      [ "novel_drama", 50 ],
+      [ "novel_romance", 40 ],
+      [ "novel_mystery", 40 ],
+      [ "glasses_bifocal", 20 ],
+      [ "cotton_ball", 20 ],
+      [ "contacts", 20 ],
+      [ "vitamins", 20 ],
+      [ "aspirin", 20 ],
+      [ "nic_gum", 20 ],
+      [ "inhaler", 20 ],
+      [ "cig", 20 ],
+      { "item": "water", "prob": 10, "container-item": "glass" },
+      [ "gummy_vitamins", 10 ],
+      [ "cell_phone", 3 ],
+      [ "smart_phone", 10 ],
+      [ "eyedrops", 10 ],
+      [ "holy_symbol", 5 ],
+      [ "pills_sleep", 5 ],
+      [ "nyquil", 5 ],
+      { "group": "mansion_guns", "prob": 3 },
+      { "group": "harddrugs", "prob": 1 },
+      [ "joint", 1 ]
+    ]
+  },
+  {
+    "id": "a_television",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [ [ "television", 100 ] ]
+  },
+  {
+    "id": "clothing_male",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      [ "jeans", 90 ],
+      [ "pants_checkered", 5 ],
+      [ "shorts", 70 ],
+      [ "shorts_denim", 35 ],
+      [ "pants", 75 ],
+      [ "leather_belt", 30 ],
+      [ "pants_leather", 60 ],
+      [ "pants_cargo", 70 ],
+      [ "shorts_cargo", 50 ],
+      [ "tshirt", 70 ],
+      [ "longshirt", 80 ],
+      [ "polo_shirt", 65 ],
+      [ "dress_shirt", 60 ],
+      [ "tank_top", 50 ],
+      [ "undershirt", 30 ],
+      [ "boxer_shorts", 30 ],
+      [ "briefs", 15 ],
+      [ "boxer_briefs", 20 ],
+      [ "sweatshirt", 75 ],
+      [ "sweater", 75 ],
+      [ "hoodie", 65 ],
+      [ "under_armor", 20 ],
+      [ "under_armor_shorts", 20 ],
+      [ "long_underpants", 40 ],
+      [ "long_undertop", 40 ],
+      [ "union_suit", 20 ],
+      [ "pants_army", 10 ],
+      [ "jersey", 40 ],
+      [ "linuxtshirt", 20 ],
+      [ "kilt", 5 ]
+    ]
+  },
+  {
+    "id": "clothing_female",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "item": "jeans", "prob": 50, "damage": [ 0, 2 ] },
+      [ "jeans", 90 ],
+      [ "shorts", 70 ],
+      [ "shorts_denim", 35 ],
+      [ "pants", 75 ],
+      [ "leather_belt", 30 ],
+      [ "pants_leather", 60 ],
+      [ "pants_cargo", 70 ],
+      [ "shorts_cargo", 50 ],
+      [ "skirt", 75 ],
+      [ "skirt_leather", 5 ],
+      [ "tshirt", 70 ],
+      [ "longshirt", 80 ],
+      [ "polo_shirt", 65 ],
+      [ "dress_shirt", 60 ],
+      [ "tank_top", 50 ],
+      [ "camisole", 30 ],
+      [ "bra", 30 ],
+      [ "panties", 30 ],
+      [ "boy_shorts", 25 ],
+      [ "sweatshirt", 75 ],
+      [ "sweater", 75 ],
+      [ "hoodie", 65 ],
+      [ "under_armor", 20 ],
+      [ "under_armor_shorts", 20 ],
+      [ "tights", 20 ],
+      [ "leggings", 20 ],
+      [ "stockings", 20 ],
+      [ "long_underpants", 40 ],
+      [ "long_undertop", 40 ],
+      [ "union_suit", 20 ],
+      [ "corset", 10 ],
+      [ "halter_top", 50 ],
+      [ "nanoskirt", 10 ]
+    ]
+  },
+  {
+    "id": "clothing_shabby",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "item": "jeans", "prob": 90, "damage": [ 1, 3 ] },
+      [ "pants_checkered", 5 ],
+      [ "shorts", 70 ],
+      { "item": "shorts_denim", "prob": 35, "damage": [ 1, 3 ] },
+      { "item": "pants_leather", "prob": 35, "damage": [ 1, 3 ] },
+      { "item": "pants_cargo", "prob": 70, "damage": [ 1, 3 ] },
+      { "item": "shorts_cargo", "prob": 50, "damage": [ 1, 3 ] },
+      [ "skirt_leather", 10 ],
+      [ "tshirt", 70 ],
+      [ "tank_top", 50 ],
+      [ "hoodie", 90 ],
+      [ "jacket_light", 20 ],
+      { "item": "jacket_jean", "prob": 50, "damage": [ 1, 3 ] },
+      { "item": "jacket_leather", "prob": 50, "damage": [ 1, 3 ] },
+      [ "bandana", 35 ],
+      [ "hat_cotton", 45 ],
+      [ "hat_knit", 25 ],
+      { "item": "tights", "prob": 30, "damage": [ 1, 3 ] },
+      { "item": "leggings", "prob": 30, "damage": [ 1, 3 ] },
+      { "item": "stockings", "prob": 30, "damage": [ 1, 3 ] },
+      [ "balclava", 15 ],
+      [ "union_suit", 20 ],
+      { "item": "sleeveless_trenchcoat", "prob": 30, "damage": [ 1, 3 ] },
+      [ "house_coat", 25 ],
+      [ "jedi_cloak", 1 ],
+      [ "apron_leather", 1 ],
+      [ "corset", 10 ],
+      [ "chestwrap", 5 ],
+      [ "boots_combat", 10 ],
+      [ "pants_army", 10 ],
+      [ "jacket_army", 10 ],
+      [ "army_top", 20 ],
+      [ "porkpie", 5 ],
+      [ "skinny_tie", 5 ],
+      [ "jersey", 60 ],
+      [ "maid_hat", 3 ],
+      [ "halter_top", 50 ],
+      [ "nanoskirt", 40 ],
+      [ "ear_spool", 30 ],
+      { "item": "straw_fedora", "prob": 5, "damage": [ 1, 3 ] }
+    ]
+  },
+  {
+    "id": "clothing_fancy",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      [ "leather_belt", 30 ],
+      [ "suit", 60 ],
+      [ "waistcoat", 30 ],
+      [ "tophat", 10 ],
+      [ "bowhat", 10 ],
+      [ "cowboy_hat", 10 ],
+      [ "glasses_monocle", 2 ],
+      [ "skirt_leather", 5 ],
+      [ "dress_shirt", 80 ],
+      [ "blazer", 35 ],
+      [ "peacoat", 30 ],
+      [ "greatcoat", 15 ],
+      [ "hat_newsboy", 20 ],
+      [ "cloak_wool", 5 ],
+      [ "tux", 5 ],
+      [ "gown", 5 ],
+      [ "long_glove_white", 5 ],
+      [ "veil_wedding", 1 ],
+      [ "dress_wedding", 1 ],
+      [ "skinny_tie", 5 ],
+      [ "tieclip", 2 ],
+      [ "collarpin", 2 ],
+      [ "kilt", 5 ],
+      [ "fedora", 5 ],
+      [ "kufi", 2 ],
+      [ "kippah", 2 ],
+      [ "thawb", 1 ],
+      [ "kittel", 1 ],
+      [ "cassock", 1 ],
+      [ "robe", 5 ],
+      [ "eboshi", 1 ],
+      [ "kariginu", 1 ],
+      [ "kimono", 3 ],
+      [ "hat_fur", 2 ],
+      [ "coat_fur_sf", 2 ],
+      [ "coat_faux_fur", 4 ],
+      [ "coat_fur", 4 ],
+      [ "gloves_fur", 4 ],
+      [ "boots_fur", 4 ]
+    ]
+  },
+  {
+    "id": "dresser_servant",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      [ "maid_dress", 90 ],
+      [ "maid_hat", 90 ],
+      [ "suit", 80 ],
+      [ "pocketwatch", 30 ],
+      [ "jeans", 20 ],
+      [ "pants_checkered", 50 ],
+      [ "hat_chef", 50 ],
+      [ "jacket_chef", 50 ],
+      [ "shorts", 20 ],
+      [ "shorts_denim", 20 ],
+      [ "pants", 20 ],
+      [ "leather_belt", 30 ],
+      [ "pants_cargo", 20 ],
+      [ "shorts_cargo", 20 ],
+      [ "tshirt", 20 ],
+      [ "longshirt", 20 ],
+      [ "polo_shirt", 20 ],
+      [ "dress_shirt", 60 ],
+      [ "tank_top", 20 ],
+      [ "sweatshirt", 20 ],
+      [ "sweater", 20 ],
+      [ "hoodie", 10 ],
+      [ "long_underpants", 5 ],
+      [ "long_undertop", 5 ],
+      [ "union_suit", 30 ]
+    ]
+  },
+  {
+    "id": "panic_room",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "group": "cannedfood", "prob": 70 },
+      [ "water", 60 ],
+      { "group": "mansion_ammo", "prob": 40 },
+      { "group": "tools_lighting", "prob": 30 },
+      { "group": "softdrugs", "prob": 30 },
+      [ "lighter", 20 ],
+      [ "matches", 20 ],
+      { "group": "vending_drink", "prob": 10 },
+      { "group": "vending_food", "prob": 10 },
+      [ "pocket_survival", 5 ]
+    ]
+  },
+  {
+    "id": "mansion_ammo",
+    "type": "item_group",
+    "subtype": "distribution",
+    "magazine": 100,
+    "ammo": 100,
+    "items": [
+      { "group": "ammo_obscure", "prob": 90 },
+      [ "arrow_metal", 60 ],
+      [ "bolt_metal", 60 ],
+      { "group": "ammo_reloaded", "prob": 30 },
+      { "group": "mags_obscure", "prob": 30 }
+    ]
+  },
+  {
+    "id": "voyer",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      [ "camera_pro", 90 ],
+      [ "hot_pants_leather", 50 ],
+      [ "photo_album", 50 ],
+      [ "sports_bra", 50 ],
+      [ "panties", 50 ],
+      [ "mag_porn", 40 ],
+      [ "camera", 30 ],
+      [ "flashlight", 30 ],
+      [ "binoculars", 20 ]
+    ]
+  },
+  {
+    "id": "garden_shed",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      [ "g_shovel", 80 ],
+      [ "gloves_work", 70 ],
+      [ "boots_rubber", 50 ],
+      [ "hoe", 50 ],
+      [ "straw_hat", 50 ],
+      [ "bucket", 40 ],
+      [ "shovel", 40 ],
+      [ "clay_pot_flower", 40 ],
+      [ "plastic_pot_flower", 60 ],
+      [ "fertilizer_commercial", 30 ],
+      [ "material_quicklime", 30 ],
+      [ "seed_sunflower", 30 ],
+      [ "straw_basket", 30 ],
+      [ "trimmer_off", 20 ],
+      [ "knee_pads", 10 ],
+      [ "fertilizer_liquid", 1 ]
+    ]
+  },
+  {
+    "id": "shoes_maid",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      [ "stockings", 70 ],
+      [ "dress_shoes", 60 ],
+      [ "sneakers", 50 ],
+      [ "dance_shoes", 20 ],
+      [ "tights", 20 ],
+      [ "socks", 20 ],
+      [ "heels", 10 ]
+    ]
+  },
+  {
+    "id": "gear_butler",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ [ "knife_butcher", 35 ], [ "cane", 25 ], [ "umbrella", 20 ], [ "heavy_flashlight", 15 ], [ "candlestick", 5 ] ]
+  }
+]
