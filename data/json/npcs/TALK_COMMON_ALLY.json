@@ -42,7 +42,9 @@
               { "npc_need": "thirst", "amount": 80 },
               { "npc_need": "hunger", "amount": 160 },
               { "npc_need": "fatigue", "level": "TIRED" },
-              { "npc_has_effect": "asked_to_train" }
+              { "npc_has_effect": "asked_to_train" },
+              { "u_driving": false },
+              { "npc_driving": false }
             ]
           }
         },
@@ -62,6 +64,24 @@
         "text": "Let's just chitchat for a while...",
         "topic": "TALK_FRIEND_CHAT",
         "condition": { "not": { "npc_has_effect": "asked_to_socialize" } }
+      },
+      {
+        "text": "Any hints about the world we now live in?",
+        "trial": {
+          "type": "CONDITION",
+          "condition": {
+            "or": [
+              { "npc_need": "thirst", "amount": 80 },
+              { "npc_need": "hunger", "amount": 160 },
+              { "npc_need": "fatigue", "level": "TIRED" },
+              { "npc_has_effect": "asked_to_hint" },
+              { "u_driving": false },
+              { "npc_driving": false }
+            ]
+          }
+        },
+        "success": { "topic": "TALK_SHELTER_DENY_ADVICE" },
+        "failure": { "topic": "TALK_SHELTER_ADVICE", "effect": { "npc_add_effect": "asked_to_hint", "duration": 300 } }
       },
       { "text": "Let's talk about faction camps.", "topic": "TALK_CAMP_GENERAL" }
     ]

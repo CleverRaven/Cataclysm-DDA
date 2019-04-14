@@ -407,6 +407,13 @@ void npc::randomize( const npc_class_id &type )
             mutate_category( mr.first );
         }
     }
+    // Add bionics
+    for( const auto &bl : type->bionic_list ) {
+        int chance = bl.second;
+        if( rng( 0, 100 ) <= chance ) {
+            add_bionic( bl.first );
+        }
+    }
 }
 
 void npc::randomize_from_faction( faction *fac )
