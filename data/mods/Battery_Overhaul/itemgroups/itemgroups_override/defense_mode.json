@@ -17,7 +17,7 @@
       { "item": "hose" },
       { "item": "pot" },
       { "item": "2x4" },
-      { "group": "all_batteries_full" },
+      { "group": "any_battery_full" },
       { "item": "nail" },
       { "item": "gasoline" }
     ]

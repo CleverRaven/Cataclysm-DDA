@@ -13,6 +13,6 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "antenna", 1 ] ], [ [ "pilot_light", 1 ] ], [ [ "light_battery_cell_minus", 1 ] ], [ [ "amplifier", 1 ] ], [ [ "cable", 2 ] ] ]
+    "components": [ [ [ "antenna", 1 ] ], [ [ "pilot_light", 1 ] ], [ [ "light_minus_battery_cell", 1 ] ], [ [ "amplifier", 1 ] ], [ [ "cable", 2 ] ] ]
   }
 ]

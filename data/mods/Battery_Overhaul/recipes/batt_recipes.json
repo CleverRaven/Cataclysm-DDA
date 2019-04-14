@@ -64,7 +64,7 @@
     "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ] ],
     "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "small_battery_cell", 5 ] ], [ [ "scrap", 4 ] ], [ [ "cable", 5 ] ] ]
+    "components": [ [ [ "light_battery_cell", 5 ] ], [ [ "scrap", 4 ] ], [ [ "cable", 5 ] ] ]
   },
   {
     "type": "recipe",
