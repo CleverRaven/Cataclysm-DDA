@@ -3,7 +3,7 @@
     "type": "item_group",
     "id": "flt_loot_misc",
     "items": [
-      { "group": "pocket_batteries_full", "prob" : 20 },
+      { "group": "pocket_batteries_full", "prob": 20 },
       [ "flashlight", 20 ],
       [ "heavy_flashlight", 20 ],
       [ "crowbar", 20 ],

@@ -3,7 +3,7 @@
     "type": "item_group",
     "id": "oa_ig_rd_desks",
     "items": [
-      { "group": "pocket_batteries", "prob" : 30 },
+      { "group": "pocket_batteries", "prob": 30 },
       [ "radio", 10 ],
       [ "eyedrops", 10 ],
       [ "rag", 30 ],
@@ -56,7 +56,7 @@
     "type": "item_group",
     "id": "oa_ig_rd_lockers",
     "items": [
-      { "group": "pocket_batteries", "prob" : 10 },
+      { "group": "pocket_batteries", "prob": 10 },
       [ "radio", 10 ],
       [ "rag", 30 ],
       [ "flashlight", 20 ],
@@ -85,7 +85,7 @@
       [ "hat_hard_hooded", 25 ],
       [ "wearable_light", 5 ],
       [ "ear_plugs", 50 ],
-      { "group": "pocket_batteries", "prob" : 50 },
+      { "group": "pocket_batteries", "prob": 50 },
       [ "flashlight", 40 ],
       [ "boots_rubber", 20 ],
       [ "toolbox", 5 ],
@@ -96,7 +96,7 @@
     "type": "item_group",
     "id": "oa_ig_rd_electronic_trash",
     "items": [
-      { "group": "any_batteries", "prob" : 10 },
+      { "group": "any_batteries", "prob": 10 },
       [ "solar_panel", 15 ],
       [ "jumper_cable", 5 ],
       [ "pipe", 20 ],
