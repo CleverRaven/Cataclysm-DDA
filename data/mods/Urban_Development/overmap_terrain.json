@@ -4509,5 +4509,93 @@
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
+  },
+  {
+    "id": "urban_41_1",
+    "//": "Northwest corner",
+    "type": "overmap_terrain",
+    "name": "public library",
+    "sym": "L",
+    "color": "white",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "id": "urban_41_2",
+    "//": "Northeast corner",
+    "type": "overmap_terrain",
+    "name": "public library",
+    "sym": "L",
+    "color": "white",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "id": "urban_41_3",
+    "//": "Southwest corner",
+    "type": "overmap_terrain",
+    "name": "public library",
+    "sym": "L",
+    "color": "white",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "id": "urban_41_4",
+    "//": "Southeast corner",
+    "type": "overmap_terrain",
+    "name": "public library",
+    "sym": "L",
+    "color": "white",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "id": "urban_41_5",
+    "//": "Northwest corner",
+    "type": "overmap_terrain",
+    "name": "public library, 2nd floor",
+    "sym": "L",
+    "color": "white",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "id": "urban_41_6",
+    "//": "Northeast corner",
+    "type": "overmap_terrain",
+    "name": "public library, 2nd floor",
+    "sym": "L",
+    "color": "white",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "id": "urban_41_7",
+    "//": "Southwest corner",
+    "type": "overmap_terrain",
+    "name": "public library, 2nd floor",
+    "sym": "L",
+    "color": "white",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "id": "urban_41_8",
+    "//": "Southeast corner",
+    "type": "overmap_terrain",
+    "name": "public library, 2nd floor",
+    "sym": "L",
+    "color": "white",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
   }
 ]
