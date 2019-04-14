@@ -3962,11 +3962,11 @@ void iexamine::autodoc( player &p, const tripoint &examp )
     }
 
     bool needs_anesthesia = true;
-    std::vector< tool_comp > anesth_kit;
+    std::vector<tool_comp> anesth_kit;
     if( p.has_trait( trait_NOPAIN ) || p.has_bionic( bionic_id( "bio_painkiller" ) ) ) {
         needs_anesthesia = false;
     } else {
-        std::vector< const item *> a_filter = p.crafting_inventory().items_with( []( const item & it ) {
+        std::vector<const item *> a_filter = p.crafting_inventory().items_with( []( const item & it ) {
             return it.has_quality( quality_id( "ANESTHESIA" ) );
         } );
         for( const item *anesthesia_item : a_filter ) {
