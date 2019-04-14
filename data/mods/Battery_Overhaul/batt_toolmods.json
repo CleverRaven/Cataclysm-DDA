@@ -11,7 +11,7 @@
     "magazine_adaptor": [ [ "battery" , [ "light_battery_cell" , "light_plus_battery_cell" , "light_minus_battery_cell" ] ] ]
   },
   {
-    "id": "magazine_battery_mod",
+    "id": "magazine_battery_medium_mod",
     "copy-from": "mod_battery",
     "type": "TOOLMOD",
     "category": "spare_parts",
@@ -22,12 +22,12 @@
     "magazine_adaptor": [ [ "battery" , [ "medium_battery_cell" , "medium_plus_battery_cell" ] ] ]
   },
   {
-    "id": "magazine_battery_mod",
+    "id": "magazine_battery_heavy_mod",
     "copy-from": "mod_battery",
     "type": "TOOLMOD",
     "category": "spare_parts",
     "name": "heavy battery mod",
-    "description": "A battery compartment mod that allows the use of heavy batteries in tools that otherwise could not..",
+    "description": "A battery compartment mod that allows the use of heavy batteries in tools that otherwise could not.",
     "color": "light_green",
     "acceptable_ammo": [ "battery" ],
     "magazine_adaptor": [ [ "battery" , [ "heavy_battery_cell" , "heavy_plus_battery_cell" ] ] ]
