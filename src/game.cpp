@@ -2889,7 +2889,8 @@ void game::write_memorial_file( std::string sLastWords )
 
 void game::debug()
 {
-    int action = uilist( _( "Debug Functions - Using these will cheat not only the game, but yourself.  You won't grow. You won't improve.  Taking this shortcut will gain you nothing. Your victory will be hollow.  Nothing will be risked and nothing will be gained." ), {
+    int action = uilist(
+    _( "Debug Functions - Using these will cheat not only the game, but yourself.  You won't grow. You won't improve.  Taking this shortcut will gain you nothing. Your victory will be hollow.  Nothing will be risked and nothing will be gained." ), {
         _( "Wish for an item" ),                // 0
         _( "Teleport - Short Range" ),          // 1
         _( "Teleport - Long Range" ),           // 2
