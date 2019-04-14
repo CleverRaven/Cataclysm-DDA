@@ -889,6 +889,7 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
         if( item_charges > 0 ) {
             item ruined_parts( "ruined_chunks", bday, item_charges );
             ruined_parts.set_mtype( &mt );
+            ruined_parts.set_item_temperature( 0.00001 * corpse_item->temperature );
             g->m.add_item_or_charges( p.pos(), ruined_parts );
         }
     }
