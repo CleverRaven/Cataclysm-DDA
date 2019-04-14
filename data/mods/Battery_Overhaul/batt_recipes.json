@@ -49,5 +49,5 @@
     "using": [ [ "soldering_standard", 15 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "scrap", 8 ] ], [ [ "cable", 10 ] ] ]
-  },
+  }
 ]
