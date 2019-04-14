@@ -995,7 +995,7 @@ void vehicle::operate_plow()
             g->m.ter_set( start_plow, t_dirtmound );
         } else {
             const int speed = abs( velocity );
-            const int v_damage = rng( 3, speed );
+            int v_damage = rng( 3, speed );
             damage( vp.part_index(), v_damage, DT_BASH, false );
             sounds::sound( start_plow, v_damage, sounds::sound_t::combat, _( "Clanggggg!" ) );
         }
@@ -1010,7 +1010,7 @@ void vehicle::operate_rockwheel()
             g->m.ter_set( start_dig, t_pit_shallow );
         } else {
             const int speed = abs( velocity );
-            const int v_damage = rng( 3, speed );
+            int v_damage = rng( 3, speed );
             damage( vp.part_index(), v_damage, DT_BASH, false );
             sounds::sound( start_dig, v_damage, sounds::sound_t::combat, _( "Clanggggg!" ) );
         }
