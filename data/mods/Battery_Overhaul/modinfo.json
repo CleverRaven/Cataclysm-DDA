@@ -5,8 +5,15 @@
     "name": "Battery Overhaul",
     "authors": [ "Inglonias" ],
     "maintainers": [ "Inglonias" ],
-    "description": "Replaces the abstract battery system with a more realistic version. Currently a prototype.",
+    "description": "Replaces the default battery system with a more realistic version. Currently a prototype.",
     "category": "rebalance",
     "dependencies": [ "dda" ]
+  },
+  {
+    "type": "ITEM_BLACKLIST",
+    "items": [
+      "battery",
+      "battery_compartment"
+    ]
   }
 ]

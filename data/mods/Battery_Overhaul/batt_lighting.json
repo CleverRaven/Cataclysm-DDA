@@ -25,7 +25,7 @@
       "need_charges_msg": "The lantern has no batteries."
     },
     "flags": [ "RADIO_MODABLE", "ALLOWS_REMOTE_USE" ],
-    "magazines": [ "battery" , [ "medium_battery_cell" , "medium_plus_battery_cell" ] ]
+    "magazines": [ [ "battery" , [ "medium_battery_cell" , "medium_plus_battery_cell" ] ] ]
   },
   {
     "id": "electric_lantern_on",
@@ -61,7 +61,7 @@
       "need_charges": 1,
       "need_charges_msg": "The flashlight's batteries are dead."
     },
-    "magazines": [ "battery" , [ "light_battery_cell" , "light_plus_battery_cell" , "light_minus_battery_cell" ] ]
+    "magazines": [ [ "battery" , [ "light_battery_cell" , "light_plus_battery_cell" , "light_minus_battery_cell" ] ] ]
   },
   {
     "id": "flashlight_on",
@@ -99,7 +99,7 @@
       "need_charges": 1,
       "need_charges_msg": "The heavy duty flashlight's batteries are dead."
     },
-    "magazines": [ "battery" , [ "light_plus_battery_cell" , "light_battery_cell" , "light_minus_battery_cell" ] ]
+    "magazines": [ [ "battery" , [ "light_plus_battery_cell" , "light_battery_cell" , "light_minus_battery_cell" ] ] ]
 
   },
   {

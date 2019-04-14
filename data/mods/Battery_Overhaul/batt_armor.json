@@ -30,7 +30,7 @@
     "encumbrance": 15,
     "coverage": 80,
     "material_thickness": 4,
-    "magazines": [ "battery" , [ "light_battery_cell" , "light_plus_battery_cell" , "light_minus_battery_cell" ] ]
+    "magazines": [ [ "battery" , [ "light_battery_cell" , "light_plus_battery_cell" , "light_minus_battery_cell" ] ] ]
   },
   {
     "id": "miner_hat_on",
@@ -108,7 +108,7 @@
     "warmth": 10,
     "coverage": 100,
     "material_thickness": 1,
-    "magazines": [ "battery" , [ "light_battery_cell" , "light_plus_battery_cell" , "light_minus_battery_cell" ] ]
+    "magazines": [ [ "battery" , [ "light_battery_cell" , "light_plus_battery_cell" , "light_minus_battery_cell" ] ] ]
   },
   {
     "id": "thermal_socks_on",
@@ -215,7 +215,7 @@
     "warmth": 10,
     "coverage": 100,
     "material_thickness": 1,
-    "magazines": [ "battery" , [ "light_battery_cell" , "light_plus_battery_cell" , "light_minus_battery_cell" ] ]
+    "magazines": [ [ "battery" , [ "light_battery_cell" , "light_plus_battery_cell" , "light_minus_battery_cell" ] ] ]
   },
   {
     "id": "thermal_gloves_on",
@@ -267,7 +267,7 @@
     "warmth": 10,
     "coverage": 100,
     "material_thickness": 1,
-    "magazines": [ "battery" , [ "light_battery_cell" , "light_plus_battery_cell" , "light_minus_battery_cell" ] ]
+    "magazines": [ [ "battery" , [ "light_battery_cell" , "light_plus_battery_cell" , "light_minus_battery_cell" ] ] ]
   },
   {
     "id": "thermal_mask_on",
@@ -320,7 +320,7 @@
     "covers": [ "HEAD" ],
     "coverage": 15,
     "material_thickness": 1,
-    "magazines": [ "battery" , [ "light_battery_cell" , "light_plus_battery_cell" , "light_minus_battery_cell" ] ]
+    "magazines": [ [ "battery" , [ "light_battery_cell" , "light_plus_battery_cell" , "light_minus_battery_cell" ] ] ]
   },
   {
     "id": "wearable_light_on",
@@ -345,7 +345,7 @@
     "covers": [ "HEAD" ],
     "coverage": 15,
     "material_thickness": 1,
-    "magazines": [ "battery" , [ "light_battery_cell" , "light_plus_battery_cell" , "light_minus_battery_cell" ] ]
+    "magazines": [ [ "battery" , [ "light_battery_cell" , "light_plus_battery_cell" , "light_minus_battery_cell" ] ] ]
   },
   {
     "id": "survivor_light",
