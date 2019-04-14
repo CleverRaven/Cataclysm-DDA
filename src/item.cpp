@@ -1072,17 +1072,19 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                               "", iteminfo::lower_is_better,
                                               to_turn<int>( food->last_temp_check ) ) );
                 }
-                if( is_food() || is_food_container() ) {
+                if( has_temperature() || is_food_container() ) {
                     info.push_back( iteminfo( "BASE", _( "Temp: " ), "", iteminfo::lower_is_better,
                                               food->temperature ) );
                     info.push_back( iteminfo( "BASE", _( "Spec ener: " ), "", iteminfo::lower_is_better,
                                               food->specific_energy ) );
                     info.push_back( iteminfo( "BASE", _( "Spec heat lq: " ), "", iteminfo::lower_is_better,
-                                              1000 * food->get_comestible()->specific_heat_liquid ) );
+                                              1000 * food->get_specific_heat_liquid() ) );
                     info.push_back( iteminfo( "BASE", _( "Spec heat sld: " ), "", iteminfo::lower_is_better,
-                                              1000 * food->get_comestible()->specific_heat_solid ) );
+                                              1000 * food->get_specific_heat_solid() ) );
                     info.push_back( iteminfo( "BASE", _( "latent heat: " ), "", iteminfo::lower_is_better,
-                                              food->get_comestible()->latent_heat ) );
+                                              food->get_latent_heat() ) );
+					info.push_back( iteminfo( "BASE", _( "Freeze point: " ), "", iteminfo::lower_is_better,
+                                              food->get_freeze_point() ) );
                 }
             }
             info.push_back( iteminfo( "BASE", _( "burn: " ), "", iteminfo::lower_is_better,
@@ -4602,6 +4604,11 @@ bool item::is_food_container() const
             making->create_result().is_food_container() );
 }
 
+bool item::has_temperature() const
+{
+	return is_food() || is_corpse();
+}
+
 bool item::is_med_container() const
 {
     return !contents.empty() && contents.front().is_medication();
@@ -4615,6 +4622,42 @@ bool item::is_corpse() const
 const mtype *item::get_mtype() const
 {
     return corpse;
+}
+
+float item::get_specific_heat_liquid() const
+{
+	if ( is_corpse() ) {
+		return made_of_types()[0]->specific_heat_liquid();
+	}
+	// If it is not a corpse it is a food
+	return get_comestible()->specific_heat_liquid;
+}
+
+float item::get_specific_heat_solid() const
+{
+	if ( is_corpse() ) {
+		return made_of_types()[0]->specific_heat_solid();
+	}
+	// If it is not a corpse it is a food
+	return get_comestible()->specific_heat_solid;
+}
+
+float item::get_latent_heat() const
+{
+	if ( is_corpse() ) {
+		return made_of_types()[0]->latent_heat();
+	}
+	// If it is not a corpse it is a food
+	return get_comestible()->latent_heat;
+}
+
+float item::get_freeze_point() const
+{
+	if ( is_corpse() ) {
+		return 32;
+	}
+	// If it is not a corpse it is a food
+	return get_comestible()->freeze_point;
 }
 
 void item::set_mtype( const mtype *const m )
@@ -6369,10 +6412,10 @@ bool item::allow_crafting_component() const
 
 void item::set_item_specific_energy( const float new_specific_energy )
 {
-    const float specific_heat_liquid = get_comestible()->specific_heat_liquid; // J/g K
-    const float specific_heat_solid = get_comestible()->specific_heat_solid; // J/g K
-    const float latent_heat = get_comestible()->latent_heat; // J/kg
-    const float freezing_temperature = temp_to_kelvin( get_comestible()->freeze_point );  // K
+    const float specific_heat_liquid = get_specific_heat_liquid(); // J/g K
+    const float specific_heat_solid = get_specific_heat_solid(); // J/g K
+    const float latent_heat = get_latent_heat(); // J/kg
+    const float freezing_temperature = temp_to_kelvin( get_freeze_point() );  // K
     const float completely_frozen_specific_energy = specific_heat_solid *
             freezing_temperature;  // Energy that the item would have if it was completely solid at freezing temperature
     const float completely_liquid_specific_energy = completely_frozen_specific_energy +
@@ -6434,10 +6477,10 @@ void item::set_item_specific_energy( const float new_specific_energy )
 
 float item::get_specific_energy_from_temperature( const float new_temperature )
 {
-    const float specific_heat_liquid = get_comestible()->specific_heat_liquid; // J/g K
-    const float specific_heat_solid = get_comestible()->specific_heat_solid; // J/g K
-    const float latent_heat = get_comestible()->latent_heat; // J/kg
-    const float freezing_temperature = temp_to_kelvin( get_comestible()->freeze_point );  // K
+    const float specific_heat_liquid = get_specific_heat_liquid(); // J/g K
+    const float specific_heat_solid = get_specific_heat_solid(); // J/g K
+    const float latent_heat = get_latent_heat(); // J/kg
+    const float freezing_temperature = temp_to_kelvin( get_freeze_point() );  // K
     const float completely_frozen_energy = specific_heat_solid *
                                            freezing_temperature;  // Energy that the item would have if it was completely solid at freezing temperature
     const float completely_liquid_energy = completely_frozen_energy +
@@ -6455,9 +6498,9 @@ float item::get_specific_energy_from_temperature( const float new_temperature )
 
 void item::set_item_temperature( float new_temperature )
 {
-    const float freezing_temperature = temp_to_kelvin( get_comestible()->freeze_point );  // K
-    const float specific_heat_solid = get_comestible()->specific_heat_solid; // J/g K
-    const float latent_heat = get_comestible()->latent_heat; // J/kg
+    const float freezing_temperature = temp_to_kelvin( get_freeze_point() );  // K
+    const float specific_heat_solid = get_specific_heat_solid(); // J/g K
+    const float latent_heat = get_latent_heat(); // J/kg
 
     float new_specific_energy = get_specific_energy_from_temperature( new_temperature );
     float freeze_percentage = 0;
@@ -6577,7 +6620,7 @@ bool item::use_charges( const itype_id &what, long &qty, std::list<item> &used,
         }
 
         if( !filter( *e ) ) {
-            return VisitResponse::SKIP;
+            return VisitResponse::NEXT;
         }
 
         if( e->is_tool() ) {
@@ -6877,6 +6920,7 @@ void item::update_temp( const int temp, const float insulation )
 
 void item::calc_temp( const int temp, const float insulation, const time_duration &time )
 {
+	add_msg( m_info, _( "Dt" ), time );
     // Limit calculations to max 4000 C (4273.15 K) to avoid specific energy from overflowing
     const float env_temperature = std::min( temp_to_kelvin( temp ), 4273.15 );
     const float old_temperature = 0.00001 * temperature;
@@ -6900,10 +6944,10 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
     // temperature = item temperature (10e-5 K). Stored in the item
     const float conductivity_term = 0.046 * std::pow( to_milliliter( volume() ),
                                     2.0 / 3.0 ) / insulation;
-    const float specific_heat_liquid = get_comestible()->specific_heat_liquid;
-    const float specific_heat_solid = get_comestible()->specific_heat_solid;
-    const float latent_heat = get_comestible()->latent_heat;
-    const float freezing_temperature = temp_to_kelvin( get_comestible()->freeze_point );  // K
+    const float specific_heat_liquid = get_specific_heat_liquid();
+    const float specific_heat_solid = get_specific_heat_solid();
+    const float latent_heat = get_latent_heat();
+    const float freezing_temperature = temp_to_kelvin( get_freeze_point() );  // K
     const float completely_frozen_specific_energy = specific_heat_solid *
             freezing_temperature;  // Energy that the item would have if it was completely solid at freezing temperature
     const float completely_liquid_specific_energy = completely_frozen_specific_energy +
@@ -7089,15 +7133,8 @@ void item::reset_temp_check()
     last_temp_check = calendar::turn;
 }
 
-bool item::process_food( const player *carrier, const tripoint &p, int temp, float insulation )
+bool item::process_food( const tripoint &p)
 {
-    if( carrier != nullptr && carrier->has_item( *this ) ) {
-        temp += 5; // body heat increases inventory temperature
-        insulation *= 1.5; // clothing provides inventory some level of insulation
-    }
-
-    // temperature can affect rot, so do it first
-    update_temp( temp, insulation );
     calc_rot( p );
     return false;
 }
@@ -7504,11 +7541,30 @@ bool item::process( player *carrier, const tripoint &pos, bool activate, int tem
     for( const auto &e : type->emits ) {
         g->m.emit_field( pos, e );
     }
-
+	
+	if( has_temperature() ) {
+		
+		if( carrier != nullptr && carrier->has_item( *this ) ) {
+			temp += 5; // body heat increases inventory temperature
+			insulation *= 1.5; // clothing provides inventory some level of insulation
+		}
+		add_msg( m_info, _( "Ty: %s" ), typeId() );
+		
+		if( is_food() ){
+			add_msg( m_info, _( "F U" ) );
+		} else if( is_corpse() ){
+			add_msg( m_info, _( "C U" ) );
+		} else {
+			add_msg( m_info, _( "? U" ) );
+		}
+		
+		update_temp( temp, insulation );
+	}
+	
     if( has_flag( "FAKE_SMOKE" ) && process_fake_smoke( carrier, pos ) ) {
         return true;
     }
-    if( is_food() && process_food( carrier, pos, temp, insulation ) ) {
+    if( is_food() && process_food( pos ) ) {
         return true;
     }
     if( is_corpse() && process_corpse( carrier, pos ) ) {
