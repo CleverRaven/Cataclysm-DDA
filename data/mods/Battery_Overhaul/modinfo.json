@@ -1,0 +1,12 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "Battery_Overhaul",
+    "name": "Battery Overhaul",
+    "authors": [ "Inglonias" ],
+    "maintainers": [ "Inglonias" ],
+    "description": "Replaces the abstract battery system with a more realistic version. Currently a prototype.",
+    "category": "rebalance",
+    "dependencies": [ "dda" ]
+  }
+]
