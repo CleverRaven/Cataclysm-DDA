@@ -14,7 +14,7 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": "battery",
-    "flags": [ "NO_UNLOAD", "RECHARGE" ],
+    "flags": [ "RECHARGE" ],
     "magazines": [ [ "battery" , [ "heavy_plus_battery_cell" , "heavy_plus_battery_cell" ] ] ]
   },
   {
