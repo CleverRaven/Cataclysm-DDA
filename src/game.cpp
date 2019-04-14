@@ -2892,7 +2892,7 @@ void game::debug()
     std::string debugText = _( "Debug Functions - Using these is CHEATING!" );
     if( one_in( 100 ) ) {
         debugText =
-            _( "Using these will cheat not only the game, but yourself.  You won't grow. You won't improve.  Taking this shortcut will gain you nothing. Your victory will be hollow.  Nothing will be risked and nothing will be gained." );
+            _( "Using these will cheat not only the game, but yourself.  You won't grow.  You won't improve.\nTaking this shortcut will gain you nothing.  Your victory will be hollow.\nNothing will be risked and nothing will be gained." );
     }
     int action = uilist(
     debugText, {
