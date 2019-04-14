@@ -1083,7 +1083,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                               1000 * food->get_specific_heat_solid() ) );
                     info.push_back( iteminfo( "BASE", _( "latent heat: " ), "", iteminfo::lower_is_better,
                                               food->get_latent_heat() ) );
-					info.push_back( iteminfo( "BASE", _( "Freeze point: " ), "", iteminfo::lower_is_better,
+                    info.push_back( iteminfo( "BASE", _( "Freeze point: " ), "", iteminfo::lower_is_better,
                                               food->get_freeze_point() ) );
                 }
             }
@@ -4606,7 +4606,7 @@ bool item::is_food_container() const
 
 bool item::has_temperature() const
 {
-	return is_food() || is_corpse();
+    return is_food() || is_corpse();
 }
 
 bool item::is_med_container() const
@@ -4626,38 +4626,38 @@ const mtype *item::get_mtype() const
 
 float item::get_specific_heat_liquid() const
 {
-	if ( is_corpse() ) {
-		return made_of_types()[0]->specific_heat_liquid();
-	}
-	// If it is not a corpse it is a food
-	return get_comestible()->specific_heat_liquid;
+    if( is_corpse() ) {
+        return made_of_types()[0]->specific_heat_liquid();
+    }
+    // If it is not a corpse it is a food
+    return get_comestible()->specific_heat_liquid;
 }
 
 float item::get_specific_heat_solid() const
 {
-	if ( is_corpse() ) {
-		return made_of_types()[0]->specific_heat_solid();
-	}
-	// If it is not a corpse it is a food
-	return get_comestible()->specific_heat_solid;
+    if( is_corpse() ) {
+        return made_of_types()[0]->specific_heat_solid();
+    }
+    // If it is not a corpse it is a food
+    return get_comestible()->specific_heat_solid;
 }
 
 float item::get_latent_heat() const
 {
-	if ( is_corpse() ) {
-		return made_of_types()[0]->latent_heat();
-	}
-	// If it is not a corpse it is a food
-	return get_comestible()->latent_heat;
+    if( is_corpse() ) {
+        return made_of_types()[0]->latent_heat();
+    }
+    // If it is not a corpse it is a food
+    return get_comestible()->latent_heat;
 }
 
 float item::get_freeze_point() const
 {
-	if ( is_corpse() ) {
-		return 32;
-	}
-	// If it is not a corpse it is a food
-	return get_comestible()->freeze_point;
+    if( is_corpse() ) {
+        return 32;
+    }
+    // If it is not a corpse it is a food
+    return get_comestible()->freeze_point;
 }
 
 void item::set_mtype( const mtype *const m )
@@ -6473,7 +6473,7 @@ void item::set_item_specific_energy( const float new_specific_energy )
     //The extra 0.5 are there to make rounding go better
     temperature = static_cast<int>( 100000 * new_item_temperature + 0.5 );
     specific_energy = static_cast<int>( 100000 * new_specific_energy + 0.5 );
-	reset_temp_check();
+    reset_temp_check();
 }
 
 float item::get_specific_energy_from_temperature( const float new_temperature )
@@ -6548,7 +6548,7 @@ void item::set_item_temperature( float new_temperature )
     } else if( new_temperature < temp_to_kelvin( temperatures::cold ) ) {
         item_tags.insert( "COLD" );
     }
-	reset_temp_check();
+    reset_temp_check();
 }
 
 void item::fill_with( item &liquid, long amount )
@@ -6945,7 +6945,7 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
     // temperature = item temperature (10e-5 K). Stored in the item
     const float conductivity_term = 0.046 * std::pow( to_milliliter( volume() ),
                                     2.0 / 3.0 ) / insulation;
-	const float specific_heat_liquid = get_specific_heat_liquid();
+    const float specific_heat_liquid = get_specific_heat_liquid();
     const float specific_heat_solid = get_specific_heat_solid();
     const float latent_heat = get_latent_heat();
     const float freezing_temperature = temp_to_kelvin( get_freeze_point() );  // K
@@ -7134,7 +7134,7 @@ void item::reset_temp_check()
     last_temp_check = calendar::turn;
 }
 
-bool item::process_food( const tripoint &p)
+bool item::process_food( const tripoint &p )
 {
     calc_rot( p );
     return false;
@@ -7542,17 +7542,17 @@ bool item::process( player *carrier, const tripoint &pos, bool activate, int tem
     for( const auto &e : type->emits ) {
         g->m.emit_field( pos, e );
     }
-	
-	if( has_temperature() ) {
 
-		if( carrier != nullptr && carrier->has_item( *this ) ) {
-			temp += 5; // body heat increases inventory temperature
-			insulation *= 1.5; // clothing provides inventory some level of insulation
-		}
-		add_msg( m_info, _( "Ty: %s" ), typeId() );		
-		update_temp( temp, insulation );
-	}
-	
+    if( has_temperature() ) {
+
+        if( carrier != nullptr && carrier->has_item( *this ) ) {
+            temp += 5; // body heat increases inventory temperature
+            insulation *= 1.5; // clothing provides inventory some level of insulation
+        }
+        add_msg( m_info, _( "Ty: %s" ), typeId() );
+        update_temp( temp, insulation );
+    }
+
     if( has_flag( "FAKE_SMOKE" ) && process_fake_smoke( carrier, pos ) ) {
         return true;
     }

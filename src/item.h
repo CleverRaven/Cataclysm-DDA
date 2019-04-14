@@ -1043,13 +1043,13 @@ class item : public visitable<item>
         bool is_irremovable() const;
 
         bool is_unarmed_weapon() const; //Returns true if the item should be considered unarmed
-		
-		bool has_temperature() const;
-		float get_specific_heat_liquid() const;
-		float get_specific_heat_solid() const;
-		float get_latent_heat() const;
-		float get_freeze_point() const; // Farenheit
-		
+
+        bool has_temperature() const;
+        float get_specific_heat_liquid() const;
+        float get_specific_heat_solid() const;
+        float get_latent_heat() const;
+        float get_freeze_point() const; // Farenheit
+
         /** What faults can potentially occur with this item? */
         std::set<fault_id> faults_potential() const;
 

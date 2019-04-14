@@ -836,19 +836,18 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
                 p.add_msg_if_player( m_bad, _( "You fail to harvest: %s" ), drop->nname( 1 ) );
                 continue;
             }
-
             if( drop->phase == LIQUID ) {
                 item obj( drop, bday, roll );
-				obj.set_item_temperature( corpse_item->temperature );
+                obj.set_item_temperature( 0.00001 * corpse_item->temperature );
                 g->handle_all_liquid( obj, 1 );
             } else if( drop->stackable ) {
                 item obj( drop, bday, roll );
-				obj.set_item_temperature( corpse_item->temperature );
+                obj.set_item_temperature( 0.00001 * corpse_item->temperature );
                 g->m.add_item_or_charges( p.pos(), obj );
             } else {
                 item obj( drop, bday );
                 obj.set_mtype( &mt );
-				obj.set_item_temperature( corpse_item->temperature );
+                obj.set_item_temperature( 0.00001 * corpse_item->temperature );
                 for( int i = 0; i != roll; ++i ) {
                     g->m.add_item_or_charges( p.pos(), obj );
                 }
@@ -1276,7 +1275,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
         const long charges_per_turn = std::max( 1l, liquid.charges_per_volume( volume_per_turn ) );
         liquid.charges = std::min( charges_per_turn, liquid.charges );
         const long original_charges = liquid.charges;
-        if( liquid.is_food() && liquid.specific_energy < 0 ) {
+        if( liquid.has_temperature() && liquid.specific_energy < 0 ) {
             liquid.set_item_temperature( std::max( temp_to_kelvin( g->get_temperature( p->pos() ) ), 277.15 ) );
         }
 
