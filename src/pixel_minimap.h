@@ -15,6 +15,11 @@ enum class pixel_minimap_type {
     iso
 };
 
+enum class pixel_minimap_mode {
+    solid,
+    squares,
+    dots
+};
 
 struct pixel_minimap_settings {
     pixel_minimap_mode mode = pixel_minimap_mode::solid;
@@ -61,7 +66,7 @@ class pixel_minimap
         const SDL_Renderer_Ptr &renderer;
 
         pixel_minimap_type type;
-        point tiles_limit;
+        point pixel_size;
 
         //track the previous viewing area to determine if the minimap cache needs to be cleared
         tripoint cached_center_sm;

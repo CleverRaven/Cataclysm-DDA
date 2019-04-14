@@ -38,6 +38,24 @@ extern void set_displaybuffer_rendertarget();
 namespace
 {
 
+const point tiles_range = { ( MAPSIZE - 2 ) *SEEX, ( MAPSIZE - 2 ) *SEEY };
+
+point get_pixel_size( const point &tile_size, pixel_minimap_mode mode )
+{
+    switch( mode ) {
+        case pixel_minimap_mode::solid:
+            return tile_size;
+
+        case pixel_minimap_mode::squares:
+            return { std::max( tile_size.x - 1, 1 ), std::max( tile_size.y - 1, 1 ) };
+
+        case pixel_minimap_mode::dots:
+            return { 1, 1 };
+    }
+
+    return {};
+}
+
 /// Returns a number in range [0..1]. The range lasts for @param phase_length_ms (milliseconds).
 float get_animation_phase( int phase_length_ms )
 {
@@ -222,14 +240,35 @@ void pixel_minimap::flush_cache_updates()
 
         SetRenderTarget( renderer, mcp.second.minimap_tex );
 
-        //draw a default dark-colored rectangle over the texture which may have been used previously
         if( !mcp.second.ready ) {
             mcp.second.ready = true;
-            drawer->clear_chunk_tex( renderer );
+
+            SetRenderDrawColor( renderer, 0x00, 0x00, 0x00, 0x00 );
+            RenderClear( renderer );
+
+            for( int y = 0; y < SEEY; ++y ) {
+                for( int x = 0; x < SEEX; ++x ) {
+                    const auto tile_pos = drawer->get_tile_pos( { x, y }, { SEEX, SEEY } );
+                    const auto tile_size = drawer->get_tile_size();
+
+                    const auto rect = SDL_Rect{ tile_pos.x, tile_pos.y, tile_size.x, tile_size.y };
+
+                    render_fill_rect( renderer, rect, 0x00, 0x00, 0x00 );
+                }
+            }
         }
 
         for( const point &p : mcp.second.update_list ) {
-            drawer->update_chunk_tex( renderer, p, mcp.second.minimap_colors[p.y * SEEX + p.x] );
+            const auto tile_pos = drawer->get_tile_pos( p, { SEEX, SEEY } );
+            const auto tile_color = mcp.second.minimap_colors[p.y * SEEX + p.x];
+
+            if( pixel_size.x == 1 && pixel_size.y == 1 ) {
+                SetRenderDrawColor( renderer, tile_color.r, tile_color.g, tile_color.b, tile_color.a );
+                RenderDrawPoint( renderer, tile_pos.x, tile_pos.y );
+            } else {
+                const auto rect = SDL_Rect{ tile_pos.x, tile_pos.y, pixel_size.x, pixel_size.y };
+                render_fill_rect( renderer, rect, tile_color.r, tile_color.g, tile_color.b );
+            }
         }
 
         mcp.second.update_list.clear();
@@ -330,8 +369,9 @@ void pixel_minimap::set_screen_rect( const SDL_Rect &screen_rect )
 
     drawer = create_drawer( screen_rect );
 
-    tiles_limit = drawer->get_tiles_count();
-    const auto size_on_screen = drawer->get_size_on_screen();
+    pixel_size = get_pixel_size( drawer->get_tile_size(), settings.mode );
+
+    const auto size_on_screen = drawer->get_tiles_size( tiles_range );
 
     const int dx = ( size_on_screen.x - screen_rect.w ) / 2;
     const int dy = ( size_on_screen.y - screen_rect.h ) / 2;
@@ -355,10 +395,10 @@ void pixel_minimap::set_screen_rect( const SDL_Rect &screen_rect )
     main_tex = create_cache_texture( renderer, size_on_screen.x, size_on_screen.y );
     tex_pool = std::make_unique<shared_texture_pool>();
 
-    const auto chunk_rect = drawer->get_chunk_rect( { 0, 0 } );
+    const auto chunk_size = drawer->get_tiles_size( { SEEX, SEEY } );
 
     for( auto &elem : tex_pool->texture_pool ) {
-        elem = create_cache_texture( renderer, chunk_rect.w, chunk_rect.h );
+        elem = create_cache_texture( renderer, chunk_size.x, chunk_size.y );
         SetTextureBlendMode( elem, SDL_BLENDMODE_BLEND );
     }
 }
@@ -391,8 +431,8 @@ void pixel_minimap::render_cache( const tripoint &center )
 {
     const auto sm_center = g->m.get_abs_sub() + ms_to_sm_copy( center );
     const auto sm_offset = tripoint{
-        tiles_limit.x / SEEX / 2,
-        tiles_limit.y / SEEY / 2, 0
+        tiles_range.x / SEEX / 2,
+        tiles_range.y / SEEY / 2, 0
     };
 
     auto ms_offset = center.xy();
@@ -406,8 +446,8 @@ void pixel_minimap::render_cache( const tripoint &center )
 
         const auto rel_pos = elem.first - sm_center;
 
-        if( std::abs( rel_pos.x ) > sm_offset.x ||
-            std::abs( rel_pos.y ) > sm_offset.y ||
+        if( std::abs( rel_pos.x ) > sm_offset.x + 1 ||
+            std::abs( rel_pos.y ) > sm_offset.y + 1 ||
             rel_pos.z != 0 ) {
             continue;
         }
@@ -415,7 +455,7 @@ void pixel_minimap::render_cache( const tripoint &center )
         const auto sm_pos = rel_pos + sm_offset;
         const auto ms_pos = sm_to_ms_copy( sm_pos ) + ms_offset;
 
-        const auto rect = drawer->get_chunk_rect( { ms_pos.x, ms_pos.y } );
+        const auto rect = drawer->get_chunk_rect( { ms_pos.x, ms_pos.y }, tiles_range );
 
         RenderCopy( renderer, elem.second.minimap_tex, nullptr, &rect );
     }
@@ -440,11 +480,11 @@ void pixel_minimap::render_critters( const tripoint &center )
 
     const auto &access_cache = g->m.access_cache( center.z );
 
-    const int start_x = center.x - tiles_limit.x / 2;
-    const int start_y = center.y - tiles_limit.y / 2;
+    const int start_x = center.x - tiles_range.x / 2;
+    const int start_y = center.y - tiles_range.y / 2;
 
-    for( int y = 0; y < tiles_limit.y; y++ ) {
-        for( int x = 0; x < tiles_limit.x; x++ ) {
+    for( int y = 0; y < tiles_range.y; y++ ) {
+        for( int x = 0; x < tiles_range.x; x++ ) {
             const auto p = tripoint{ start_x + x, start_y + y, center.z };
             const auto lighting = access_cache.visibility_cache[p.x][p.y];
 
@@ -462,10 +502,15 @@ void pixel_minimap::render_critters( const tripoint &center )
                 continue;
             }
 
-            draw_beacon(
-                drawer->get_critter_rect( { x, y } ),
-                get_critter_color( critter, flicker, mixture )
-            );
+            const auto critter_pos = drawer->get_tile_pos( { x, y }, tiles_range );
+            const auto critter_rect = SDL_Rect{
+                critter_pos.x,
+                critter_pos.y,
+                drawer->get_tile_size().x,
+                drawer->get_tile_size().y };
+            const auto critter_color = get_critter_color( critter, flicker, mixture );
+
+            draw_beacon( critter_rect, critter_color );
         }
     }
 }
@@ -506,12 +551,12 @@ const
     switch( type ) {
         case pixel_minimap_type::ortho:
             return std::unique_ptr<pixel_minimap_drawer> {
-                new pixel_minimap_ortho_drawer( screen_size, settings.square_pixels, settings.mode )
+                new pixel_minimap_ortho_drawer( tiles_range, screen_size, settings.square_pixels )
             };
 
         case pixel_minimap_type::iso:
             return std::unique_ptr<pixel_minimap_drawer> {
-                new pixel_minimap_iso_drawer( screen_size, settings.square_pixels, settings.mode )
+                new pixel_minimap_iso_drawer( tiles_range, screen_size, settings.square_pixels )
             };
     }
 
