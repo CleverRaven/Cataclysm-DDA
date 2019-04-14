@@ -12,7 +12,7 @@
       [ "cell_phone", 10 ],
       [ "smart_phone", 10 ],
       [ "duct_tape", 5 ],
-      { "group" : "light_batteries_full", "prob" : 5 },
+      { "group": "light_batteries_full", "prob" : 5 },
       [ "flashlight", 10 ],
       [ "umbrella", 5 ],
       [ "teleumbrella", 10 ],

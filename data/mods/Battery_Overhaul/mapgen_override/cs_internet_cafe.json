@@ -5,7 +5,7 @@
     "items": [
       [ "cell_phone", 20 ],
       [ "mag_computer", 20 ],
-      { "group" : "pocket_batteries_full", "prob" : 20 },
+      { "group": "pocket_batteries_full", "prob": 20 },
       [ "radio", 20 ],
       [ "television", 20 ],
       [ "two_way_radio", 20 ],
