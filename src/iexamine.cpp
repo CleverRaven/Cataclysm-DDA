@@ -3962,7 +3962,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
     }
 
     bool needs_anesthesia = true;
-    std::vector< item *> anesth_kit;
+    std::vector< tool_comp > anesth_kit;
     if( p.has_trait( trait_NOPAIN ) || p.has_bionic( bionic_id( "bio_painkiller" ) ) ) {
         needs_anesthesia = false;
     } else {
@@ -3971,7 +3971,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         } );
         for( const item *anesthesia_item : a_filter ) {
             if( anesthesia_item->ammo_remaining() > 1 ) {
-                anesth_kit.push_back( ( item * )anesthesia_item );
+                anesth_kit.push_back( tool_comp( anesthesia_item->typeId(), 1 ) );
             }
         }
         if( anesth_kit.empty() ) {
@@ -4042,7 +4042,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 comps.push_back( item_comp( it->typeId(), 1 ) );
                 p.consume_items( comps, 1, is_crafting_component );
                 if( needs_anesthesia ) {
-                    anesth_kit[0]->ammo_consume( 1, p.pos() );
+                    p.consume_tools( anesth_kit, 1 );
                 }
             }
             break;
@@ -4093,7 +4093,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             if( patient.uninstall_bionic( bionic_id( bionic_types[bionic_index] ), installer, true ) ) {
                 patient.introduce_into_anesthesia( duration, installer, needs_anesthesia );
                 if( needs_anesthesia ) {
-                    anesth_kit[0]->ammo_consume( 1, p.pos() );
+                    p.consume_tools( anesth_kit, 1 );
                 }
             }
             break;
