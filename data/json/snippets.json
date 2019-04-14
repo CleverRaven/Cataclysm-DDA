@@ -2058,7 +2058,8 @@
     "type": "snippet",
     "category": "killer_on_kill",
     "text": [ "You whisper to yourself. \"Death takes you away.\"" ]
-  },  {
+  },
+  {
     "type": "snippet",
     "category": "killer_on_kill",
     "text": [ "You exhale in bliss." ]
@@ -2082,7 +2083,8 @@
     "type": "snippet",
     "category": "killer_on_kill",
     "text": [ "You whisper to yourself. \"Keep'em coming.\"" ]
-  },  {
+  },
+  {
     "type": "snippet",
     "category": "killer_on_kill",
     "text": [ "You whisper to yourself. \"Next!\"" ]
