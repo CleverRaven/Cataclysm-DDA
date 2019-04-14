@@ -76,6 +76,6 @@
     "color": "light_cyan",
     "ammo_type": "battery",
     "capacity": 40000,
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "RECHARGE" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "RECHARGE", "NO_REPAIR" ]
   }
 ]
