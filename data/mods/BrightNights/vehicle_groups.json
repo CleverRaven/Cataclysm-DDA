@@ -22,6 +22,6 @@
   {
     "id": "parkinglot",
     "type": "vehicle_group",
-    "vehicles": [ [ "car_atomic", 1000 ], [ "car_sports_atomic", 100 ], [ "suv_atomic", 1000 ], [ "beetle_atomic", 300 ] ]
+    "vehicles": [ [ "car_atomic", 1000 ], [ "car_sports_atomic", 100 ], [ "suv_atomic", 1000 ], [ "compact_atomic", 300 ] ]
   }
 ]
