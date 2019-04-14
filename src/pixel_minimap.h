@@ -25,7 +25,8 @@ enum class pixel_minimap_mode {
 struct pixel_minimap_settings {
     pixel_minimap_mode mode = pixel_minimap_mode::solid;
     int brightness = 100;
-    int blink_interval = 0;
+    int beacon_size = 2;
+    int beacon_blink_interval = 0;
     bool square_pixels = true;
     bool scale_to_fit = false;
 };

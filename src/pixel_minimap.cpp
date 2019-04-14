@@ -479,7 +479,7 @@ void pixel_minimap::render_critters( const tripoint &center )
 {
     //handles the enemy faction red highlights
     //this value should be divisible by 200
-    const int indicator_length = settings.blink_interval * 200; //default is 2000 ms, 2 seconds
+    const int indicator_length = settings.beacon_blink_interval * 200; //default is 2000 ms, 2 seconds
 
     int flicker = 100;
     int mixture = 0;
@@ -496,6 +496,10 @@ void pixel_minimap::render_critters( const tripoint &center )
 
     const int start_x = center.x - tiles_range.x / 2;
     const int start_y = center.y - tiles_range.y / 2;
+    const point beacon_size = {
+        std::max<int>( projector->get_tile_size().x *settings.beacon_size / 2.f, 2 ),
+        std::max<int>( projector->get_tile_size().y *settings.beacon_size / 2.f, 2 )
+    };
 
     for( int y = 0; y < tiles_range.y; y++ ) {
         for( int x = 0; x < tiles_range.x; x++ ) {
@@ -520,8 +524,9 @@ void pixel_minimap::render_critters( const tripoint &center )
             const auto critter_rect = SDL_Rect{
                 critter_pos.x,
                 critter_pos.y,
-                projector->get_tile_size().x,
-                projector->get_tile_size().y };
+                beacon_size.x,
+                beacon_size.y
+            };
             const auto critter_color = get_critter_color( critter, flicker, mixture );
 
             draw_beacon( critter_rect, critter_color );
