@@ -63,7 +63,7 @@
       { "group": "tools_lighting", "prob": 50 },
       { "group": "tools_survival", "prob": 100 },
       { "group": "tools_tailor", "prob": 20 },
-      { "group": "pocket_batteries_full", "prob" : 10 },
+      { "group": "pocket_batteries_full", "prob": 10 },
       [ "duct_tape", 10 ],
       [ "survivormap", 5 ]
     ]
