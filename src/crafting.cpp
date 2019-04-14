@@ -18,6 +18,7 @@
 #include "item_location.h"
 #include "itype.h"
 #include "map.h"
+#include "map_iterator.h"
 #include "messages.h"
 #include "npc.h"
 #include "options.h"
@@ -129,29 +130,41 @@ static float lerped_multiplier( const T &value, const T &low, const T &high )
 
 static float workbench_crafting_speed_multiplier( const item &craft, const tripoint &loc )
 {
-    // Values for crafting from inventory or without workbench
-    float multiplier = 1.0;
-    units::mass allowed_mass = 50_kilogram;
-    units::volume allowed_volume = 50000_ml;
+    float multiplier;
+    units::mass allowed_mass;
+    units::volume allowed_volume;
 
-    // tripoint_zero indicates crafting from inventory
     if( loc == tripoint_zero ) {
-        // Do nothing
+        // tripoint_zero indicates crafting from inventory
+        // Use values from f_fake_bench_hands
+        const furn_t &f = string_id<furn_t>( "f_fake_bench_hands" ).obj();
+        multiplier = f.workbench->multiplier;
+        allowed_mass = f.workbench->allowed_mass;
+        allowed_volume = f.workbench->allowed_volume;
     } else if( const cata::optional<vpart_reference> vp = g->m.veh_at(
                    loc ).part_with_feature( "WORKBENCH", true ) ) {
+        // Vehicle workbench
         const vpart_info &vp_info = vp->part().info();
         if( const cata::optional<vpslot_workbench> &wb_info = vp_info.get_workbench_info() ) {
             multiplier = wb_info->multiplier;
             allowed_mass = wb_info->allowed_mass;
             allowed_volume = wb_info->allowed_volume;
+        } else {
+            debugmsg( "part '%S' with WORKBENCH flag has no workbench info", vp->part().name() );
+            return 0.0f;
         }
-    } else if( g->m.has_furn( loc ) ) {
+    } else if( g->m.furn( loc ).obj().workbench ) {
+        // Furniture workbench
         const furn_t &f = g->m.furn( loc ).obj();
-        if( f.workbench ) {
-            multiplier = f.workbench->multiplier;
-            allowed_mass = f.workbench->allowed_mass;
-            allowed_volume = f.workbench->allowed_volume;
-        }
+        multiplier = f.workbench->multiplier;
+        allowed_mass = f.workbench->allowed_mass;
+        allowed_volume = f.workbench->allowed_volume;
+    } else {
+        // Ground
+        const furn_t &f = string_id<furn_t>( "f_fake_bench_ground" ).obj();
+        multiplier = f.workbench->multiplier;
+        allowed_mass = f.workbench->allowed_mass;
+        allowed_volume = f.workbench->allowed_volume;
     }
 
     const units::mass &craft_mass = craft.weight();
@@ -531,9 +544,23 @@ static void finalize_crafted_item( item &newit )
     }
 }
 
+static cata::optional<item_location> wield_craft( player &p, item &craft )
+{
+    if( p.wield( craft ) ) {
+        if( p.weapon.invlet ) {
+            p.add_msg_if_player( m_info, _( "Wielding %c - %s" ), p.weapon.invlet,
+                                 p.weapon.display_name().c_str() );
+        } else {
+            p.add_msg_if_player( m_info, _( "Wielding - %s" ), p.weapon.display_name().c_str() );
+        }
+        return item_location( p, &p.weapon );
+    }
+    return cata::nullopt;
+}
+
 static item *set_item_inventory( player &p, item &newit )
 {
-    item *ret_val = &null_item_reference();
+    item *ret_val = nullptr;
     if( newit.made_of( LIQUID ) ) {
         g->handle_all_liquid( newit, PICKUP_RANGE );
     } else {
@@ -595,8 +622,13 @@ static item_location set_item_map_or_vehicle( const player &p, const tripoint &l
                                newit.tname(), workbench.name() ),
                 string_format( pgettext( "item, furniture", "<npcname> puts the %s on the %s." ),
                                newit.tname(), workbench.name() ) );
+        } else {
+            p.add_msg_player_or_npc(
+                string_format( pgettext( "item", "You put the %s on the ground." ),
+                               newit.tname() ),
+                string_format( pgettext( "item", "<npcname> puts the %s on the ground." ),
+                               newit.tname() ) );
         }
-
         return item_location( map_cursor( loc ), &g->m.add_item_or_charges( loc, newit ) );
     }
 }
@@ -643,26 +675,104 @@ void player::start_craft( craft_command &command, const tripoint &loc )
         reset_encumbrance();
     }
 
-    item *craft_in_inventory = nullptr;
+    item_location craft_in_world;
 
+    // Crafting without a workbench
     if( loc == tripoint_zero ) {
+        if( !is_armed() ) {
+            if( cata::optional<item_location> it_loc = wield_craft( *this, craft ) ) {
+                craft_in_world = it_loc->clone();
+            }  else {
+                // This almost certianly shouldn't happen
+                put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, {craft} );
+            }
+        } else {
+            enum option : int {
+                WIELD_CRAFT = 0,
+                BENCH_CRAFT,
+                DROP_CRAFT,
+                STASH,
+                DROP
+            };
 
-        craft_in_inventory = set_item_inventory( *this, craft );
+            uilist amenu;
+            amenu.text = string_format( pgettext( "in progress craft", "What to do with the %s?" ),
+                                        craft.display_name() );
+            amenu.addentry( WIELD_CRAFT, !weapon.has_flag( "NO_UNWIELD" ), '1',
+                            string_format( _( "Dispose of your wielded %s and start working." ), weapon.tname() ) );
+            const bool adjacent_workbench = g->m.has_adjacent_furniture_with( pos(), []( const furn_t &f ) {
+                std::cout << f.name() << std::endl;
+                return !!f.workbench;
+            } );
+            amenu.addentry( BENCH_CRAFT, adjacent_workbench, '2',
+                            _( "Put it on a workbench and start working." ) );
+            amenu.addentry( DROP_CRAFT, true, '3', _( "Put it down and start working." ) );
+            const bool can_stash = can_pickVolume( craft ) &&
+                                   can_pickWeight( craft, !get_option<bool>( "DANGEROUS_PICKUPS" ) );
+            amenu.addentry( STASH, can_stash, '4', _( "Store it in your inventory." ) );
+            amenu.addentry( DROP, true, '5', _( "Drop it on the ground." ) );
 
-        if( !has_item( *craft_in_inventory ) ) {
-            add_msg_if_player( _( "Activate the %s to start crafting." ), craft.tname() );
-            return;
+            amenu.query();
+            const option choice = amenu.ret == UILIST_CANCEL ? DROP : static_cast<option>( amenu.ret );
+            switch( choice ) {
+                case WIELD_CRAFT: {
+                    if( cata::optional<item_location> it_loc = wield_craft( *this, craft ) ) {
+                        craft_in_world = it_loc->clone();
+                    } else {
+                        // This almost certianly shouldn't happen
+                        put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, {craft} );
+                    }
+                    break;
+                }
+                case BENCH_CRAFT: {
+                    std::vector<std::string> options;
+                    std::vector<tripoint> benches;
+                    for( const tripoint &adj : g->m.points_in_radius( pos(), 1 ) ) {
+                        if( g->m.furn( adj ).obj().workbench ) {
+                            const std::string option = g->m.furn( adj ).obj().name() + " " +
+                                                       direction_suffix( pos(), adj );
+                            options.emplace_back( option );
+                            benches.emplace_back( adj );
+                        }
+                    }
+                    tripoint bench_choice = benches.front();
+                    if( options.size() > 1 ) {
+                        uilist amenu2( _( "Select a workbench:" ), options );
+                        if( amenu2.ret != UILIST_CANCEL ) {
+                            bench_choice = benches[amenu2.ret];
+                        }
+                    }
+                    craft_in_world = set_item_map_or_vehicle( *this, bench_choice, craft );
+                    break;
+                }
+                case DROP_CRAFT: {
+                    craft_in_world = set_item_map_or_vehicle( *this, pos(), craft );
+                    break;
+                }
+                case STASH: {
+                    set_item_inventory( *this, craft );
+                    break;
+                }
+                case DROP: {
+                    // Do nothing
+                }
+            }
+
         }
+    } else {
+        // We have a workbench, put the item there.
+        craft_in_world = set_item_map_or_vehicle( *this, loc, craft );
     }
+
+    if( !craft_in_world.get_item() ) {
+        put_into_vehicle_or_drop( *this, item_drop_reason::deliberate, {craft} );
+        add_msg_if_player( _( "Wield and activate the %s to start crafting." ), craft.tname() );
+        return;
+    }
+
 
     assign_activity( activity_id( "ACT_CRAFT" ) );
-
-    if( craft_in_inventory ) {
-        activity.targets.push_back( item_location( *this, craft_in_inventory ) );
-    } else {
-        activity.targets.push_back( set_item_map_or_vehicle( *this, loc, craft ) );
-    }
-
+    activity.targets.push_back( craft_in_world.clone() );
     activity.values.push_back( command.is_long() );
 
     add_msg_player_or_npc(
@@ -927,7 +1037,7 @@ void player::complete_craft( item &craft, const tripoint &loc )
 
         finalize_crafted_item( newit );
         if( loc == tripoint_zero ) {
-            set_item_inventory( *this, newit );
+            wield_craft( *this, newit );
         } else {
             set_item_map_or_vehicle( *this, loc, newit );
         }
@@ -1373,7 +1483,7 @@ ret_val<bool> player::can_disassemble( const item &obj, const inventory &inv ) c
 
     for( const auto &opts : dis.get_qualities() ) {
         for( const auto &qual : opts ) {
-            if( !qual.has( inv, return_true ) ) {
+            if( !qual.has( inv, return_true<item> ) ) {
                 // Here should be no dot at the end of the string as 'to_string()' provides it.
                 return ret_val<bool>::make_failure( _( "You need %s" ), qual.to_string().c_str() );
             }

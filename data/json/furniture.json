@@ -5552,5 +5552,27 @@
     },
     "examine_action": "workbench",
     "workbench": { "multiplier": 1.2, "mass": 250000, "volume": "250L" }
+  },
+  {
+    "type": "furniture",
+    "id": "f_fake_bench_hands",
+    "name": "fake workbench hands",
+    "description": "This fake workbench holds the stats for working on a wielded item.",
+    "symbol": "#",
+    "color": "red",
+    "move_cost_mod": 2,
+    "required_str": -1,
+    "workbench": { "multiplier": 1.0, "mass": 30000, "volume": "30L" }
+  },
+  {
+    "type": "furniture",
+    "id": "f_fake_bench_ground",
+    "name": "fake workbench ground",
+    "description": "This fake workbench holds the stats for working on a item on the ground.",
+    "symbol": "#",
+    "color": "red",
+    "move_cost_mod": 2,
+    "required_str": -1,
+    "workbench": { "multiplier": 0.75, "mass": 50000, "volume": "100L" }
   }
 ]

@@ -8074,15 +8074,31 @@ int iuse::panacea( player *p, item *it, bool, const tripoint & )
 
 int iuse::craft( player *p, item *it, bool, const tripoint & )
 {
-    if( p->has_item( *it ) ) {
-        p->add_msg_player_or_npc(
-            string_format( pgettext( "in progress craft", "You start working on the %s." ), it->tname() ),
-            string_format( pgettext( "in progress craft", "<npcname> starts working on the %s." ), it->tname()
-                         ) );
-        p->assign_activity( activity_id( "ACT_CRAFT" ) );
-        p->activity.targets.push_back( item_location( *p, it ) );
-        p->activity.values.push_back( 0 ); // Not a long craft
+    if( !p->is_wielding( *it ) ) {
+        if( !p->is_armed() || query_yn( "Wield the %s and start working?", it->tname() ) ) {
+            if( !p->wield( *it ) ) {
+                // Will likely happen if the in progress craft is too heavy, or the player is
+                // wielding something that can't be unwielded
+                return 0;
+            }
+        }
     }
+
+    const std::string craft_name = p->weapon.tname();
+
+    if( !p->weapon.is_craft() ) {
+        debugmsg( "Attempted to start working on non craft '%s.'  Aborting.", craft_name );
+        return 0;
+    }
+
+    p->add_msg_player_or_npc(
+        string_format( pgettext( "in progress craft", "You start working on the %s." ), craft_name ),
+        string_format( pgettext( "in progress craft", "<npcname> starts working on the %s." ),
+                       craft_name ) );
+    p->assign_activity( activity_id( "ACT_CRAFT" ) );
+    p->activity.targets.push_back( item_location( *p, &p->weapon ) );
+    p->activity.values.push_back( 0 ); // Not a long craft
+
     return 0;
 }
 

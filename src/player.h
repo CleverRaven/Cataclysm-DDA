@@ -1308,14 +1308,14 @@ class player : public Character
         // has_amount works ONLY for quantity.
         // has_charges works ONLY for charges.
         std::list<item> use_amount( itype_id it, int quantity,
-                                    const std::function<bool( const item & )> &filter = return_true );
+                                    const std::function<bool( const item & )> &filter = return_true<item> );
         bool use_charges_if_avail( const itype_id &it, long quantity );// Uses up charges
 
         std::list<item> use_charges( const itype_id &what, long qty,
-                                     const std::function<bool( const item & )> &filter = return_true ); // Uses up charges
+                                     const std::function<bool( const item & )> &filter = return_true<item> ); // Uses up charges
 
         bool has_charges( const itype_id &it, long quantity,
-                          const std::function<bool( const item & )> &filter = return_true ) const;
+                          const std::function<bool( const item & )> &filter = return_true<item> ) const;
 
         /** Returns the amount of item `type' that is currently worn */
         int  amount_worn( const itype_id &id ) const;
@@ -1424,14 +1424,14 @@ class player : public Character
         comp_selection<item_comp>
         select_item_component( const std::vector<item_comp> &components,
                                int batch, inventory &map_inv, bool can_cancel = false,
-                               const std::function<bool( const item & )> &filter = return_true, bool player_inv = true );
+                               const std::function<bool( const item & )> &filter = return_true<item>, bool player_inv = true );
         std::list<item> consume_items( const comp_selection<item_comp> &cs, int batch,
-                                       const std::function<bool( const item & )> &filter = return_true );
+                                       const std::function<bool( const item & )> &filter = return_true<item> );
         std::list<item> consume_items( map &m, const comp_selection<item_comp> &cs, int batch,
-                                       const std::function<bool( const item & )> &filter = return_true,
+                                       const std::function<bool( const item & )> &filter = return_true<item>,
                                        tripoint origin = tripoint_zero, int radius = PICKUP_RANGE );
         std::list<item> consume_items( const std::vector<item_comp> &components, int batch = 1,
-                                       const std::function<bool( const item & )> &filter = return_true );
+                                       const std::function<bool( const item & )> &filter = return_true<item> );
         comp_selection<tool_comp>
         select_tool_component( const std::vector<tool_comp> &tools, int batch, inventory &map_inv,
                                const std::string &hotkeys = DEFAULT_HOTKEYS,

@@ -2720,16 +2720,11 @@ point map::random_outdoor_tile()
     return random_entry( options, point( -1, -1 ) );
 }
 
-bool map::has_adjacent_furniture( const tripoint &p )
+bool map::has_adjacent_furniture_with( const tripoint &p,
+                                       const std::function<bool( const furn_t & )> &filter )
 {
-    const signed char cx[4] = { 0, -1, 0, 1};
-    const signed char cy[4] = { -1,  0, 1, 0};
-
-    for( int i = 0; i < 4; i++ ) {
-        const int adj_x = p.x + cx[i];
-        const int adj_y = p.y + cy[i];
-        if( has_furn( tripoint( adj_x, adj_y, p.z ) ) &&
-            furn( tripoint( adj_x, adj_y, p.z ) ).obj().has_flag( "BLOCKSDOOR" ) ) {
+    for( const tripoint &adj : points_in_radius( p, 1 ) ) {
+        if( has_furn( adj ) && filter( furn( adj ).obj() ) ) {
             return true;
         }
     }
@@ -2970,6 +2965,25 @@ ter_id map::get_roof( const tripoint &p, const bool allow_air )
     return new_ter;
 }
 
+// Check if there is supporting furniture cardinally adjacent to the bashed furniture
+// For example, a washing machine behind the bashed door
+static bool furn_is_supported( const map &m, const tripoint &p )
+{
+    const signed char cx[4] = { 0, -1, 0, 1};
+    const signed char cy[4] = { -1,  0, 1, 0};
+
+    for( int i = 0; i < 4; i++ ) {
+        const int adj_x = p.x + cx[i];
+        const int adj_y = p.y + cy[i];
+        if( m.has_furn( tripoint( adj_x, adj_y, p.z ) ) &&
+            m.furn( tripoint( adj_x, adj_y, p.z ) ).obj().has_flag( "BLOCKSDOOR" ) ) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 void map::bash_ter_furn( const tripoint &p, bash_params &params )
 {
     std::string sound;
@@ -3049,7 +3063,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
     int sound_fail_vol = bash->sound_fail_vol;
     if( !params.destroy ) {
         if( bash->str_min_blocked != -1 || bash->str_max_blocked != -1 ) {
-            if( has_adjacent_furniture( p ) ) {
+            if( furn_is_supported( *this, p ) ) {
                 if( bash->str_min_blocked != -1 ) {
                     smin = bash->str_min_blocked;
                 }

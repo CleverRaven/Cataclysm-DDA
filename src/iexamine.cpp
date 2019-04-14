@@ -4657,7 +4657,7 @@ void iexamine::workbench_internal( player &p, const tripoint &examp,
 
     amenu.query();
 
-    option choice = static_cast<option>( amenu.ret );
+    const option choice = static_cast<option>( amenu.ret );
     switch( choice ) {
         case start_craft: {
             if( p.has_active_mutation( trait_SHELL2 ) ) {
