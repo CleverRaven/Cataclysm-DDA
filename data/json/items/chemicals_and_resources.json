@@ -8,7 +8,7 @@
     "weight": 100,
     "volume": 1,
     "price": 50000,
-    "ammo_type": "anesthetic",
+    "ammo_type": "anesthesia",
     "count": 3,
     "material": "plastic",
     "symbol": "!",

@@ -223,9 +223,9 @@
   },
   {
     "type": "ammunition_type",
-    "id": "anesthetic",
+    "id": "anesthesia",
     "name": "anesthetic",
-    "default": "anesthetic"
+    "default": "anesthesia"
   },
   {
     "type": "ammunition_type",

@@ -6689,7 +6689,7 @@
     "material": [ "glass" ],
     "symbol": "!",
     "color": "cyan",
-    "ammo": "anesthetic",
+    "ammo": "anesthesia",
     "initial_charges": 3,
     "max_charges": 3,
     "qualities": [ [ "ANESTHESIA", 1 ] ]
