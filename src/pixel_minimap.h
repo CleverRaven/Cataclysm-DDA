@@ -85,8 +85,7 @@ class pixel_minimap
         std::unique_ptr<pixel_minimap_projector> projector;
 
         //the minimap texture pool which is used to reduce new texture allocation spam
-        struct shared_texture_pool;
-
+        class shared_texture_pool;
         std::unique_ptr<shared_texture_pool> tex_pool;
 
         std::map<tripoint, submap_cache> cache;
