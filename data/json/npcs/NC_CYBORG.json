@@ -1,0 +1,12 @@
+[
+  {
+    "type": "item_group",
+    "id": "NC_CYBORG_worn",
+    "items": [ [ "subsuit_xl", 100 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_CYBORG_feet",
+    "items": [ [ "footrags", 100 ] ]
+  }
+]

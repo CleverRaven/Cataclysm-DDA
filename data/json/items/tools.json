@@ -903,6 +903,32 @@
     }
   },
   {
+    "id": "bot_prototype_cyborg",
+    "type": "TOOL",
+    "name": "inactive prototype cyborg",
+    "description": "This is a deactivated prototype cyborg, glimpses of humanity can still be seen in its empty eyes.  Using this item involves placing it on the ground and reactivating its mechanical body.  If reprogrammed and rewired successfully the cyborg will then follow you and attack enemies.  You monster.",
+    "weight": 81500,
+    "volume": 250,
+    "//": "It is an affront to humanity, no one will buy it.",
+    "price": 0,
+    "to_hit": -3,
+    "bashing": 8,
+    "material": [ "steel", "flesh" ],
+    "symbol": ";",
+    "color": "light_green",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_prototype_cyborg",
+      "friendly_msg": "The prototype cyborg rises to the sound of screeching metal and peers around for hostiles.",
+      "hostile_msg": "The prototype cyborg lets out a howl of agony and attacks you!",
+      "//": "Very difficult due to organic interference and failed components",
+      "difficulty": 9,
+      "moves": 250,
+      "skill1": "electronics",
+      "skill2": "computer"
+    }
+  },
+  {
     "id": "bot_chickenbot",
     "type": "TOOL",
     "name": "inactive chicken walker",
