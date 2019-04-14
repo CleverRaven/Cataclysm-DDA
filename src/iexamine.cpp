@@ -3962,18 +3962,20 @@ void iexamine::autodoc( player &p, const tripoint &examp )
     }
 
     bool needs_anesthesia = true;
-    std::vector<item_comp> acomps;
+    std::vector< item *> anesth_kit;
     if( p.has_trait( trait_NOPAIN ) || p.has_bionic( bionic_id( "bio_painkiller" ) ) ) {
         needs_anesthesia = false;
     } else {
-        std::vector<const item *> a_filter = p.crafting_inventory().items_with( []( const item & it ) {
-            return it.has_flag( "ANESTHESIA" );
+        std::vector< const item *> a_filter = p.crafting_inventory().items_with( []( const item & it ) {
+            return it.has_quality( quality_id( "ANESTHESIA" ) );
         } );
         for( const item *anesthesia_item : a_filter ) {
-            acomps.push_back( item_comp( anesthesia_item->typeId(), 1 ) );
+            if( anesthesia_item->ammo_remaining() > 1 ) {
+                anesth_kit.push_back( ( item * )anesthesia_item );
+            }
         }
-        if( acomps.empty() ) {
-            popup( _( "You need an anesthesia kit for autodoc to perform any operation." ) );
+        if( anesth_kit.empty() ) {
+            popup( _( "You need an anesthesia kit with at least one charge for autodoc to perform any operation." ) );
             return;
         }
     }
@@ -4040,16 +4042,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 comps.push_back( item_comp( it->typeId(), 1 ) );
                 p.consume_items( comps, 1, is_crafting_component );
                 if( needs_anesthesia ) {
-<<<<<<< HEAD
-                    p.consume_items( acomps, 1 );
-<<<<<<< HEAD
-                    item empty_kit( "anesthesia_used" );
-                    g->m.add_item_or_charges( examp, empty_kit );
-=======
-                    p.consume_items( acomps, 1, is_crafting_component );
->>>>>>> c00528a4ff1009debff84ecf182ec9fdcd5f5d57
-=======
->>>>>>> parent of 1bf69ac9a6... d
+                    anesth_kit[0]->ammo_consume( 1, p.pos() );
                 }
             }
             break;
@@ -4100,7 +4093,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             if( patient.uninstall_bionic( bionic_id( bionic_types[bionic_index] ), installer, true ) ) {
                 patient.introduce_into_anesthesia( duration, installer, needs_anesthesia );
                 if( needs_anesthesia ) {
-                    p.consume_items( acomps, 1, is_crafting_component );
+                    anesth_kit[0]->ammo_consume( 1, p.pos() );
                 }
             }
             break;
