@@ -3809,12 +3809,13 @@ void iexamine::climb_down( player &p, const tripoint &examp )
 }
 
 player &player_on_couch( player &p, const tripoint &autodoc_loc, player &null_patient,
-                         bool &adjacent_couch )
+                         bool &adjacent_couch, tripoint &couch_pos )
 {
     for( const auto &couch_loc : g->m.points_in_radius( autodoc_loc, 1, 0 ) ) {
         const furn_str_id couch( "f_autodoc_couch" );
         if( g->m.furn( couch_loc ) == couch ) {
             adjacent_couch = true;
+            couch_pos = couch_loc;
             if( p.pos() == couch_loc ) {
                 return p;
             }
@@ -3826,6 +3827,21 @@ player &player_on_couch( player &p, const tripoint &autodoc_loc, player &null_pa
         }
     }
     return null_patient;
+}
+
+item &cyborg_on_couch( const tripoint &couch_pos, item &null_cyborg )
+{
+    for( item &it : g->m.i_at( couch_pos ) ) {
+        if( it.typeId() == "bot_broken_cyborg" || it.typeId() == "bot_prototype_cyborg" ) {
+            return it;
+        }
+        if( it.typeId() == "corpse" ) {
+            if( it.get_mtype()->id == "mon_broken_cyborg" || it.get_mtype()->id == "mon_prototype_cyborg" ) {
+                return it;
+            }
+        }
+    }
+    return null_cyborg;
 }
 
 player &best_installer( player &p, player &null_player, int difficulty )
@@ -3888,15 +3904,61 @@ void iexamine::autodoc( player &p, const tripoint &examp )
 
     bool adjacent_couch = false;
     static player null_player;
-    player &patient = player_on_couch( p, examp, null_player, adjacent_couch );
+    tripoint couch_pos;
+    player &patient = player_on_couch( p, examp, null_player, adjacent_couch, couch_pos );
+
+    static item null_cyborg;
+    item &cyborg = cyborg_on_couch( couch_pos, null_cyborg );
 
     if( !adjacent_couch ) {
         popup( _( "No connected couches found.  Operation impossible.  Exiting." ) );
         return;
     }
     if( &patient == &null_player ) {
-        popup( _( "No patient found located on the connected couches.  Operation impossible.  Exiting." ) );
-        return;
+        if( &cyborg != &null_cyborg ) {
+            if( cyborg.typeId() == "corpse" && !cyborg.active ) {
+                popup( _( "Patient is dead.  Please remove corpse to proceed.  Exiting." ) );
+                return;
+            } else if( cyborg.typeId() == "bot_broken_cyborg" || cyborg.typeId() == "corpse" ) {
+                popup( _( "ERROR Bionic Level Assessement : FULL CYBORG.  Autodoc Mk. XI can't opperate.  Please move patient to appropriate facility.  Exiting." ) );
+                return;
+            }
+
+
+            uilist cmenu;
+            cmenu.text = _( "Autodoc Mk. XI.  Status: Online.  Please choose operation." );
+            cmenu.addentry( 1, true, 'i', _( "Choose Compact Bionic Module to install." ) );
+            cmenu.addentry( 2, true, 'u', _( "Choose installed bionic to uninstall." ) );
+            cmenu.query();
+
+            switch( cmenu.ret ) {
+                case 1: {
+                    popup( _( "ERROR NO SPACE AVAILABLE.  Operation impossible.  Exiting." ) );
+                    break;
+                }
+                case 2: {
+                    std::vector<std::string> choice_names;
+                    choice_names.push_back( "Personality_Override" );
+                    for( size_t i = 0; i < 6; i++ ) {
+                        choice_names.push_back( "C0RR#PTED?D#TA" );
+                    }
+                    int choice_index = uilist( _( "Choose bionic to uninstall" ), choice_names );
+                    if( choice_index == 0 ) {
+                        g->save_cyborg( &cyborg, couch_pos, p );
+                    } else {
+                        popup( _( "UNKNOWN COMMAND.  Autodoc Mk. XI. Crashed." ) );
+                        return;
+                    }
+                    break;
+                }
+                default:
+                    return;
+            }
+            return;
+        } else {
+            popup( _( "No patient found located on the connected couches.  Operation impossible.  Exiting." ) );
+            return;
+        }
     }
 
     bool needs_anesthesia = true;

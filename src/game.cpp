@@ -147,6 +147,9 @@ const skill_id skill_dodge( "dodge" );
 const skill_id skill_driving( "driving" );
 const skill_id skill_firstaid( "firstaid" );
 const skill_id skill_survival( "survival" );
+const skill_id skill_electronics( "electronics" );
+const skill_id skill_mechanics( "mechanics" );
+const skill_id skill_computer( "computer" );
 
 const species_id ZOMBIE( "ZOMBIE" );
 const species_id PLANT( "PLANT" );
@@ -2886,7 +2889,8 @@ void game::write_memorial_file( std::string sLastWords )
 
 void game::debug()
 {
-    int action = uilist( _( "Debug Functions - Using these is CHEATING!" ), {
+    int action = uilist(
+    _( "Debug Functions - Using these will cheat not only the game, but yourself.  You won't grow. You won't improve.  Taking this shortcut will gain you nothing. Your victory will be hollow.  Nothing will be risked and nothing will be gained." ), {
         _( "Wish for an item" ),                // 0
         _( "Teleport - Short Range" ),          // 1
         _( "Teleport - Long Range" ),           // 2
@@ -5579,6 +5583,79 @@ bool game::revive_corpse( const tripoint &p, item &it )
     return ret;
 }
 
+void game::save_cyborg( item *cyborg, const tripoint couch_pos, player &installer )
+{
+    float adjusted_skill = installer.bionics_adjusted_skill( skill_firstaid,
+                           skill_computer,
+                           skill_electronics,
+                           -1 );
+
+    int damage = cyborg->damage();
+    int dmg_lvl = cyborg->damage_level( 4 );
+    int difficulty = 12;
+
+    if( damage != 0 ) {
+
+        popup( _( "WARNING: Patient's body is damaged.  Difficulty of the procedure is increased by %s." ),
+               dmg_lvl );
+
+        difficulty += dmg_lvl;// damage of the cyborg increases difficulty
+    }
+
+    int chance_of_success = bionic_manip_cos( adjusted_skill, true, difficulty );
+    int success = chance_of_success - rng( 1, 100 ) ;
+
+    if( !g->u.query_yn(
+            _( "WARNING: %i percent chance of SEVERE damage to all body parts!  Continue anyway?" ),
+            100 - static_cast<int>( chance_of_success ) ) ) {
+        return;
+    }
+
+    if( success > 0 ) {
+        add_msg( m_good, _( "Successfully removed Personality override." ) );
+        add_msg( m_bad, _( "Autodoc immediately destroys the CBM upon removal." ) );
+
+        m.i_rem( couch_pos, cyborg );
+
+        const string_id<npc_template> npc_cyborg( "cyborg_rescued" );
+        std::shared_ptr<npc> tmp = std::make_shared<npc>();
+        tmp->normalize();
+        tmp->load_npc_template( npc_cyborg );
+        tmp->spawn_at_precise( { get_levx(), get_levy() }, couch_pos );
+        overmap_buffer.insert_npc( tmp );
+        tmp->hurtall( dmg_lvl * 10, nullptr );
+        tmp->add_effect( effect_downed, rng( 1_turns, 4_turns ), num_bp, false, 0, true );
+        load_npcs();
+
+    } else {
+        const int failure_level = static_cast<int>( sqrt( abs( success ) * 4.0 * difficulty /
+                                  adjusted_skill ) );
+        const int fail_type = std::min( 5, failure_level );
+        switch( fail_type ) {
+            case 1:
+            case 2:
+                add_msg( m_info, _( "The removal fails." ) );
+                add_msg( m_bad, _( "The body is damaged." ) );
+                cyborg->set_damage( damage + 1000 );
+                break;
+            case 3:
+            case 4:
+                add_msg( m_info, _( "The removal fails badly." ) );
+                add_msg( m_bad, _( "The body is badly damaged!" ) );
+                cyborg->set_damage( damage + 2000 );
+                break;
+            case 5:
+                add_msg( m_info, _( "The removal is a catastrophe." ) );
+                add_msg( m_bad, _( "The body is destroyed!" ) );
+                m.i_rem( couch_pos, cyborg );
+                break;
+            default:
+                break;
+        }
+
+    }
+
+}
 static void make_active( item_location loc )
 {
     switch( loc.where() ) {

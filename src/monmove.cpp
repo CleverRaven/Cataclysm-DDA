@@ -1231,6 +1231,11 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
             g->m.add_item_or_charges( pos(), item( "napalm" ) );
         }
     }
+    if( has_flag( MF_DRIPS_GASOLINE ) ) {
+        if( one_in( 5 ) ) {
+            g->m.add_item_or_charges( pos(), item( "gasoline" ) );
+        }
+    }
     return true;
 }
 

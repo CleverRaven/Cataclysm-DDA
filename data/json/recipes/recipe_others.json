@@ -950,6 +950,7 @@
     "skill_used": "tailor",
     "time": 10000,
     "autolearn": true,
+    "reversible": true,
     "using": [ [ "sewing_standard", 50 ] ],
     "components": [ [ [ "rag", 20 ] ] ]
   },
