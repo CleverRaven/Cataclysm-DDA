@@ -7549,7 +7549,6 @@ bool item::process( player *carrier, const tripoint &pos, bool activate, int tem
             temp += 5; // body heat increases inventory temperature
             insulation *= 1.5; // clothing provides inventory some level of insulation
         }
-        add_msg( m_info, _( "Ty: %s" ), typeId() );
         update_temp( temp, insulation );
     }
 
