@@ -2568,7 +2568,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             } else {
                 const std::string recipes = enumerate_as_string( known_recipes.begin(), known_recipes.end(),
                 [ &inv ]( const recipe * r ) {
-                    if( r->requirements().can_make_with_inventory( inv ) ) {
+                    if( r->requirements().can_make_with_inventory( inv, r->get_component_filter() ) ) {
                         return r->result_name();
                     } else {
                         return string_format( "<dark>%s</dark>", r->result_name() );
@@ -6564,16 +6564,20 @@ void item::set_countdown( int num_turns )
 }
 
 bool item::use_charges( const itype_id &what, long &qty, std::list<item> &used,
-                        const tripoint &pos )
+                        const tripoint &pos, const std::function<bool( const item & )> &filter )
 {
     std::vector<item *> del;
 
     // Remember qty to unseal self
     long old_qty = qty;
-    visit_items( [&what, &qty, &used, &pos, &del]( item * e ) {
+    visit_items( [&what, &qty, &used, &pos, &del, &filter]( item * e ) {
         if( qty == 0 ) {
             // found sufficient charges
             return VisitResponse::ABORT;
+        }
+
+        if( !filter( *e ) ) {
+            return VisitResponse::NEXT;
         }
 
         if( e->is_tool() ) {

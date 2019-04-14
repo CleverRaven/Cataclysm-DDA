@@ -638,5 +638,18 @@
     "purifiable": false,
     "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
+  },
+  {
+    "type": "mutation",
+    "//": "This background is specific to rescued broken cyborg",
+    "id": "BGSS_Cyborg_1",
+    "name": "Survivor Story",
+    "points": 0,
+    "description": "This NPC could tell you about how they survived the cataclysm",
+    "player_display": false,
+    "valid": false,
+    "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
+    "flags": [ "BG_SURVIVAL_STORY" ]
   }
 ]

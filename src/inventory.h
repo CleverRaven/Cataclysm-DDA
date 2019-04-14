@@ -153,12 +153,12 @@ class inventory : public visitable<inventory>
         // Below, "amount" refers to quantity
         //        "charges" refers to charges
         std::list<item> use_amount( itype_id it, int quantity,
-                                    const std::function<bool( const item & )> &filter = is_crafting_component );
+                                    const std::function<bool( const item & )> &filter = return_true );
 
         bool has_tools( const itype_id &it, int quantity,
                         const std::function<bool( const item & )> &filter = return_true ) const;
         bool has_components( const itype_id &it, int quantity,
-                             const std::function<bool( const item & )> &filter = is_crafting_component ) const;
+                             const std::function<bool( const item & )> &filter = return_true ) const;
         bool has_charges( const itype_id &it, long quantity,
                           const std::function<bool( const item & )> &filter = return_true ) const;
 

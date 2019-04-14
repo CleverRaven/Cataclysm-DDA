@@ -15,6 +15,21 @@
   },
   {
     "type": "vehicle_part",
+    "id": "afs_hauling_space",
+    "copy-from": "cargo_space",
+    "name": "hauling space",
+    "looks_like": "cargo_space",
+    "item": "afs_hauling_space",
+    "location": "center",
+    "durability": 400,
+    "difficulty": 2,
+    "description": "A huge, empty space used in truck trailers to transport vast quantities of stuff.",
+    "size": 6000,
+    "breaks_into": [ { "item": "steel_lump", "count": [ 12, 18 ] }, { "item": "scrap", "count": [ 12, 18 ] } ],
+    "flags": [ "AISLE", "BOARDABLE", "CARGO", "ROOF" ]
+  },
+  {
+    "type": "vehicle_part",
     "id": "afs_crude_plating",
     "name": "crude plating",
     "description": "A piece of sheet metal welded onto a vehicle as armor.  Thin, and not as protective as proper armor, but it'll do if there's nothing else available.",
@@ -162,6 +177,41 @@
     ]
   },
   {
+    "type": "vehicle_part",
+    "id": "afs_control_station",
+    "name": "control station",
+    "symbol": "$",
+    "color": "red",
+    "broken_symbol": "$",
+    "broken_color": "gray",
+    "damage_modifier": 10,
+    "durability": 400,
+    "description": "A large and complex dashboard mounted with steering controls and several LCD touch screens for controlling vehicle systems.",
+    "bonus": 10,
+    "item": "afs_control_station",
+    "difficulty": 4,
+    "epower": -125,
+    "flags": [
+      "VISION",
+      "CAMERA",
+      "CONTROLS",
+      "CAMERA_CONTROL",
+      "REMOTE_CONTROLS",
+      "CTRL_ELECTRONIC",
+      "ENABLED_DRAINS_EPOWER",
+      "WATCH",
+      "ALARMCLOCK"
+    ],
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 2, 4 ] },
+      { "item": "steel_chunk", "count": [ 2, 4 ] },
+      { "item": "scrap", "count": [ 2, 4 ] },
+      { "item": "cable", "charges": [ 5, 20 ] },
+      { "item": "RAM", "charges": [ 1, 4 ] },
+      { "item": "e_scrap", "charges": [ 3, 8 ] }
+    ]
+  },
+  {
     "id": "afs_large_storage_battery",
     "type": "vehicle_part",
     "name": "large storage battery",
@@ -181,6 +231,24 @@
       { "item": "scrap", "count": [ 5, 10 ] },
       { "item": "storage_battery", "count": [ 0, 1 ] }
     ]
+  },
+  {
+    "id": "afs_roof_external_tank",
+    "copy-from": "external_tank_small",
+    "type": "vehicle_part",
+    "name": "roof-mounted external tank (200L)",
+    "item": "55gal_drum",
+    "location": "on_roof",
+    "size": 200000
+  },
+  {
+    "id": "afs_mounted_external_tank",
+    "copy-from": "external_tank_small",
+    "type": "vehicle_part",
+    "name": "mounted external tank (200L)",
+    "item": "55gal_drum",
+    "location": "center",
+    "size": 200000
   },
   {
     "abstract": "afs_lightweight_frame",
