@@ -1,0 +1,25 @@
+[
+  {
+    "id": "elecsto_diy",
+    "type": "item_group",
+    "items": [
+      [ "cable", 95 ],
+      { "group" : "any_batteries_full", "prob" : 80 },
+      [ "scrap", 70 ],
+      [ "e_scrap", 95 ],
+      [ "antenna", 50 ],
+      [ "circuit", 35 ],
+      [ "small_lcd_screen", 20 ],
+      [ "RAM", 35 ],
+      [ "processor", 10 ],
+      [ "amplifier", 7 ],
+      [ "transponder", 5 ],
+      [ "receiver", 5 ],
+      [ "soldering_iron", 65 ],
+      [ "solder_wire", 50 ],
+      [ "superglue", 55 ],
+      [ "screwdriver", 60 ],
+      [ "motor_small", 30 ]
+    ]
+  }
+]

@@ -1,0 +1,22 @@
+[
+  {
+    "id": "town_hall",
+    "type": "item_group",
+    "items": [
+      [ "paper", 100 ],
+      [ "permanent_marker", 35 ],
+      [ "file", 15 ],
+      [ "duct_tape", 15 ],
+      [ "file", 15 ],
+      [ "bubblewrap", 15 ],
+      { "group" : "light_batteries_full", "prob" : 10 },
+      [ "flashlight", 7 ],
+      [ "laptop", 7 ],
+      [ "eink_tablet_pc", 7 ],
+      [ "usb_drive", 5 ],
+      [ "cash_card", 5 ],
+      [ "record_accounting", 1 ],
+      [ "money_bundle", 1 ]
+    ]
+  }
+]

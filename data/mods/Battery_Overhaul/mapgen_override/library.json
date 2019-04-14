@@ -1,0 +1,23 @@
+[
+  {
+    "id": "library_elec",
+    "type": "item_group",
+    "items": [
+      [ "superglue", 30 ],
+      [ "processor", 15 ],
+      [ "RAM", 22 ],
+      [ "power_supply", 16 ],
+      [ "amplifier", 8 ],
+      [ "transponder", 5 ],
+      [ "receiver", 10 ],
+      [ "antenna", 18 ],
+      [ "screwdriver", 40 ],
+      { "group" : "light_batteries_full", "prob" : 50 },
+      [ "manual_electronics", 20 ],
+      [ "mobile_memory_card", 20 ],
+      [ "usb_drive", 5 ],
+      [ "software_useless", 10 ],
+      [ "survnote", 1 ]
+    ]
+  }
+]

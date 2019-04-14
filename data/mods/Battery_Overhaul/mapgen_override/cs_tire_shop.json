@@ -1,0 +1,56 @@
+[
+  {
+    "type": "item_group",
+    "id": "oa_ig_ts_lockers",
+    "items": [
+      [ "battery", 10 ],
+      [ "radio", 10 ],
+      [ "rag", 30 ],
+      [ "jack", 20 ],
+      [ "jack_small", 30 ],
+      [ "flashlight", 20 ],
+      [ "heavy_flashlight", 10 ],
+      [ "jumper_cable", 20 ],
+      [ "jumper_cable_heavy", 10 ],
+      [ "pliers", 10 ],
+      [ "battery_motorbike", 10 ],
+      [ "battery_car", 10 ],
+      [ "stereo", 10 ],
+      [ "wrench", 10 ],
+      [ "gloves_work", 10 ],
+      [ "glasses_safety", 10 ],
+      [ "solar_cell", 10 ],
+      [ "screwdriver", 15 ],
+      [ "superglue", 5 ],
+      [ "polisher", 15 ],
+      [ "solar_panel", 15 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "oa_ig_ts_crates",
+    "items": [
+      { "group" : "any_battery_full", "prob" : 10 },
+      [ "radio", 10 ],
+      [ "rag", 30 ],
+      [ "jack", 20 ],
+      [ "jack_small", 30 ],
+      [ "flashlight", 20 ],
+      [ "heavy_flashlight", 10 ],
+      [ "jumper_cable", 20 ],
+      [ "jumper_cable_heavy", 10 ],
+      [ "pliers", 10 ],
+      [ "battery_motorbike", 10 ],
+      [ "battery_car", 10 ],
+      [ "stereo", 10 ],
+      [ "wrench", 10 ],
+      [ "gloves_work", 10 ],
+      [ "glasses_safety", 10 ],
+      [ "solar_cell", 10 ],
+      [ "screwdriver", 15 ],
+      [ "superglue", 5 ],
+      [ "polisher", 15 ],
+      [ "solar_panel", 15 ]
+    ]
+  }
+]

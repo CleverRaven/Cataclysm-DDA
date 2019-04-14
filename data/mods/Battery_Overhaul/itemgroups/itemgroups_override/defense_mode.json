@@ -1,0 +1,25 @@
+[
+  {
+    "type": "item_group",
+    "id": "defense_caravan_components",
+    "subtype": "collection",
+    "items": [
+      { "item": "rag" },
+      { "item": "fur" },
+      { "item": "leather" },
+      { "item": "superglue" },
+      { "item": "string_36" },
+      { "item": "chain" },
+      { "item": "processor" },
+      { "item": "RAM" },
+      { "item": "power_supply" },
+      { "item": "motor" },
+      { "item": "hose" },
+      { "item": "pot" },
+      { "item": "2x4" },
+      { "group": "all_batteries_full" },
+      { "item": "nail" },
+      { "item": "gasoline" }
+    ]
+  }
+]

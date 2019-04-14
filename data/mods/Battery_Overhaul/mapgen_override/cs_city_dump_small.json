@@ -1,0 +1,16 @@
+[
+  {
+    "type": "item_group",
+    "id": "custom_trash",
+    "items": [
+      [ "mag_porn", 10 ],
+      { "group" : "pocket_batteries", "prob" : 30 },
+      [ "television", 20 ],
+      [ "two_way_radio", 10 ],
+      [ "eyedrops", 10 ],
+      [ "rag", 20 ],
+      [ "rag_bloody", 20 ],
+      [ "microwave", 20 ]
+    ]
+  }
+]

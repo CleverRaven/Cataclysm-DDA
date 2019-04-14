@@ -1,0 +1,25 @@
+[
+  {
+    "type": "item_group",
+    "id": "flt_loot_misc",
+    "items": [
+      { "group" : "pocket_batteries_full", "prob" : 20 },
+      [ "flashlight", 20 ],
+      [ "heavy_flashlight", 20 ],
+      [ "crowbar", 20 ],
+      [ "shovel", 20 ],
+      [ "e_tool", 20 ],
+      [ "cell_phone", 20 ],
+      [ "radio", 20 ],
+      [ "two_way_radio", 20 ],
+      [ "handflare", 20 ],
+      [ "signal_flare", 20 ],
+      [ "flaregun", 20 ],
+      [ "holster", 20 ],
+      [ "sholster", 20 ],
+      [ "shot_slug", 20 ],
+      [ "shot_bird", 20 ],
+      [ "44fmj", 20 ]
+    ]
+  }
+]

@@ -1,0 +1,25 @@
+[
+  {
+    "id": "supplies_electronics",
+    "type": "item_group",
+    "//": "Parts for electronics crafting or repair",
+    "items": [
+      [ "amplifier", 40 ],
+      [ "antenna", 40 ],
+      { "group": "any_battery_full", "prob": 100 },
+      [ "cable", 60 ],
+      [ "power_supply", 20 ],
+      [ "processor", 20 ],
+      [ "solar_cell", 10 ],
+      [ "solder_wire", 60 ],
+      [ "RAM", 20 ],
+      [ "radiocontrol", 10 ],
+      [ "receiver", 30 ],
+      [ "transponder", 30 ],
+      [ "light_bulb", 60 ],
+      [ "lightstrip_dead", 60 ],
+      [ "motor_tiny", 30 ],
+      [ "motor_micro", 40 ]
+    ]
+  }
+]

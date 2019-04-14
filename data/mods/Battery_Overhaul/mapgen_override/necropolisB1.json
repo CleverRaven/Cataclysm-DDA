@@ -1,0 +1,21 @@
+[
+  {
+    "id": "vault_survival",
+    "type": "item_group",
+    "magazine": 100,
+    "ammo": 90,
+    "items": [
+      { "group": "guns_rare", "prob": 35 },
+      { "item": "mask_filter", "prob": 20 },
+      { "group": "any_battery_full", "prob": 15 },
+      { "item": "radio", "prob": 10 },
+      { "item": "bandages", "prob": 10 },
+      { "item": "knife_combat", "prob": 20 },
+      { "item": "vest", "prob": 15 },
+      { "item": "cleansuit", "prob": 20 },
+      { "item": "rad_monitor", "prob": 10 },
+      { "item": "geiger_off", "prob": 10 },
+      { "item": "tool_belt", "prob": 15 }
+    ]
+  }
+]

@@ -1,0 +1,24 @@
+[
+  {
+    "id": "music_shop",
+    "type": "item_group",
+    "items": [ { "group": "any_battery_full", "prob": 50 }, [ "radio", 30 ], [ "mp3", 30 ] ]
+  },
+  {
+    "id": "cell_shop",
+    "type": "item_group",
+    "items": [
+      [ "portable_game", 20 ],
+      [ "antenna", 25 ],
+      { "group": "any_battery_full", "prob": 50 },
+      [ "mp3", 40 ],
+      [ "usb_drive", 10 ],
+      [ "manual_electronics", 20 ],
+      [ "cable", 60 ],
+      [ "cell_phone", 60 ],
+      [ "smart_phone", 60 ],
+      [ "wristwatch", 60 ],
+      [ "mobile_memory_card_used", 10 ]
+    ]
+  }
+]

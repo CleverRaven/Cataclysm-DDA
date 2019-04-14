@@ -1,0 +1,19 @@
+[
+  {
+    "type": "item_group",
+    "id": "ic_merch",
+    "items": [
+      [ "cell_phone", 20 ],
+      [ "mag_computer", 20 ],
+      { "group" : "pocket_batteries_full", "prob" : 20 },
+      [ "radio", 20 ],
+      [ "television", 20 ],
+      [ "two_way_radio", 20 ],
+      [ "noise_emitter", 20 ],
+      [ "eyedrops", 20 ],
+      [ "mag_electronics", 20 ],
+      [ "ecig", 20 ],
+      [ "usb_drive", 20 ]
+    ]
+  }
+]
