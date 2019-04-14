@@ -24,7 +24,7 @@
     "type": "item_group",
     "id": "oa_ig_cd_lockers",
     "items": [
-      { "group" : "any_battery_full", "prob" : 10 },
+      { "group" : "any_batteries_full", "prob" : 10 },
       [ "radio", 10 ],
       [ "rag", 30 ],
       [ "jack", 20 ],
@@ -51,7 +51,7 @@
     "type": "item_group",
     "id": "oa_ig_cd_crates",
     "items": [
-      { "group" : "any_battery_full", "prob" : 10 },
+      { "group" : "any_batteries_full", "prob" : 10 },
       [ "radio", 10 ],
       [ "rag", 30 ],
       [ "jack", 20 ],

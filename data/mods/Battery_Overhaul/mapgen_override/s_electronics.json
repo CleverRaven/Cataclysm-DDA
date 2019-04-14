@@ -4,7 +4,7 @@
     "type": "item_group",
     "items": [
       [ "cable", 95 ],
-      { "group" : "any_battery_full", "prob" : 80 },
+      { "group" : "any_batteries_full", "prob" : 80 },
       [ "scrap", 70 ],
       [ "e_scrap", 95 ],
       [ "antenna", 50 ],

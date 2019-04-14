@@ -2,7 +2,7 @@
   {
     "id": "music_shop",
     "type": "item_group",
-    "items": [ { "group": "any_battery_full", "prob": 50 }, [ "radio", 30 ], [ "mp3", 30 ] ]
+    "items": [ { "group": "any_batteries_full", "prob": 50 }, [ "radio", 30 ], [ "mp3", 30 ] ]
   },
   {
     "id": "cell_shop",
@@ -10,7 +10,7 @@
     "items": [
       [ "portable_game", 20 ],
       [ "antenna", 25 ],
-      { "group": "any_battery_full", "prob": 50 },
+      { "group": "any_batteries_full", "prob": 50 },
       [ "mp3", 40 ],
       [ "usb_drive", 10 ],
       [ "manual_electronics", 20 ],

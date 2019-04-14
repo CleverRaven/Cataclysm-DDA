@@ -96,7 +96,7 @@
     "type": "item_group",
     "id": "oa_ig_rd_electronic_trash",
     "items": [
-      { "group" : "any_battery", "prob" : 10 },
+      { "group" : "any_batteries", "prob" : 10 },
       [ "solar_panel", 15 ],
       [ "jumper_cable", 5 ],
       [ "pipe", 20 ],
