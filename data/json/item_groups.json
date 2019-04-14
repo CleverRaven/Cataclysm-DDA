@@ -4234,7 +4234,8 @@
       [ "smoxygen_tank", 25 ],
       [ "bfipowder", 15 ],
       [ "quikclot", 10 ],
-      [ "anesthesia", 20 ]
+      [ "anesthesia", 20 ],
+      [ "anesthetic_kit", 10 ]
     ]
   },
   {
