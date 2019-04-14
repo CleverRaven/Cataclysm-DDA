@@ -9010,7 +9010,7 @@
     "id": "tactical_sling",
     "type": "ARMOR",
     "name": "tactical sling",
-    "description": "A three point tactical sling for a small rifle or other such weapon.  Activate to holster/draw your weapon.",
+    "description": "A tactical sling for a small rifle or other such weapon.  Activate to holster/draw your weapon.",
     "looks_like": "shoulder_strap",
     "weight": 100,
     "volume": 1,
