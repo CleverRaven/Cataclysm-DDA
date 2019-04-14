@@ -4,7 +4,7 @@
 
       "magazines": [ "battery" , [ "light_minus_battery_cell" ] ]
       "magazines": [ "battery" , [ "light_battery_cell" , "light_plus_battery_cell" , "light_minus_battery_cell" ] ]
-      "magazines": [ "battery" , [ "light_plus_battery_cell" , "light_battery_cell" , "light_minus_battery_cell" ] ]      "magazines": [ "battery" , [ "light_minus_battery_cell" , "light_battery_cell" , "light_plus_battery_cell" ] ]
+      "magazines": [ "battery" , [ "light_plus_battery_cell" , "light_battery_cell" , "light_minus_battery_cell" ] ]
 
       
       Medium:      500 charges
