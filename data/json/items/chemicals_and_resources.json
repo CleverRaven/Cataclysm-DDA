@@ -1165,7 +1165,7 @@
     "name": "cobalt-60 pellet",
     "symbol": "=",
     "color": "green",
-    "description": "Radioactive material that used to be a part of some nuclear industry equipment. You are yet to find some use for it.",
+    "description": "Radioactive material that used to be a part of some nuclear industry equipment.  You are yet to find some use for it.",
     "material": [ "steel", "plastic" ],
     "flags": [ "LEAK_ALWAYS", "RADIOACTIVE" ],
     "volume": 1,
