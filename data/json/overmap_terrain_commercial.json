@@ -1398,28 +1398,28 @@
     "type": "overmap_terrain",
     "id": "loffice_tower_17",
     "name": "open air",
-    "sym": 46,
+    "sym": ".",
     "color": "blue"
   },
   {
     "type": "overmap_terrain",
     "id": "loffice_tower_18",
     "name": "open air",
-    "sym": 46,
+    "sym": ".",
     "color": "blue"
   },
   {
     "type": "overmap_terrain",
     "id": "loffice_tower_19",
     "name": "open air",
-    "sym": 46,
+    "sym": ".",
     "color": "blue"
   },
   {
     "type": "overmap_terrain",
     "id": "loffice_tower_20",
     "name": "open air",
-    "sym": 46,
+    "sym": ".",
     "color": "blue"
   },
   {
