@@ -2,10 +2,11 @@
 #ifndef MINIMAP_H
 #define MINIMAP_H
 
+
 #include <map>
 #include <memory>
 
-#include "pixel_minimap_drawers.h"
+#include "pixel_minimap_projectors.h"
 #include "point.h"
 #include "sdl_wrappers.h"
 
@@ -60,25 +61,26 @@ class pixel_minimap
         void render_cache( const tripoint &center );
         void render_critters( const tripoint &center );
 
-        std::unique_ptr<pixel_minimap_drawer> create_drawer( const SDL_Rect &screen_rect ) const;
+        std::unique_ptr<pixel_minimap_projector> create_projector( const SDL_Rect &max_screen_rect ) const;
 
     private:
         const SDL_Renderer_Ptr &renderer;
 
         pixel_minimap_type type;
+        pixel_minimap_settings settings;
+
         point pixel_size;
 
         //track the previous viewing area to determine if the minimap cache needs to be cleared
         tripoint cached_center_sm;
 
-        pixel_minimap_settings settings;
-
         SDL_Rect screen_rect;
         SDL_Rect main_tex_clip_rect;
         SDL_Rect screen_clip_rect;
+
         SDL_Texture_Ptr main_tex;
 
-        std::unique_ptr<pixel_minimap_drawer> drawer;
+        std::unique_ptr<pixel_minimap_projector> projector;
 
         //the minimap texture pool which is used to reduce new texture allocation spam
         struct shared_texture_pool;

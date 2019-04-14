@@ -248,8 +248,8 @@ void pixel_minimap::flush_cache_updates()
 
             for( int y = 0; y < SEEY; ++y ) {
                 for( int x = 0; x < SEEX; ++x ) {
-                    const auto tile_pos = drawer->get_tile_pos( { x, y }, { SEEX, SEEY } );
-                    const auto tile_size = drawer->get_tile_size();
+                    const auto tile_pos = projector->get_tile_pos( { x, y }, { SEEX, SEEY } );
+                    const auto tile_size = projector->get_tile_size();
 
                     const auto rect = SDL_Rect{ tile_pos.x, tile_pos.y, tile_size.x, tile_size.y };
 
@@ -259,7 +259,7 @@ void pixel_minimap::flush_cache_updates()
         }
 
         for( const point &p : mcp.second.update_list ) {
-            const auto tile_pos = drawer->get_tile_pos( p, { SEEX, SEEY } );
+            const auto tile_pos = projector->get_tile_pos( p, { SEEX, SEEY } );
             const auto tile_color = mcp.second.minimap_colors[p.y * SEEX + p.x];
 
             if( pixel_size.x == 1 && pixel_size.y == 1 ) {
@@ -361,17 +361,16 @@ pixel_minimap::submap_cache::submap_cache( submap_cache && ) = default;
 
 void pixel_minimap::set_screen_rect( const SDL_Rect &screen_rect )
 {
-    if( this->screen_rect == screen_rect && main_tex && tex_pool && drawer ) {
+    if( this->screen_rect == screen_rect && main_tex && tex_pool && projector ) {
         return;
     }
 
     this->screen_rect = screen_rect;
 
-    drawer = create_drawer( screen_rect );
+    projector = create_projector( screen_rect );
+    pixel_size = get_pixel_size( projector->get_tile_size(), settings.mode );
 
-    pixel_size = get_pixel_size( drawer->get_tile_size(), settings.mode );
-
-    const auto size_on_screen = drawer->get_tiles_size( tiles_range );
+    const auto size_on_screen = projector->get_tiles_size( tiles_range );
 
     const int dx = ( size_on_screen.x - screen_rect.w ) / 2;
     const int dy = ( size_on_screen.y - screen_rect.h ) / 2;
@@ -395,7 +394,7 @@ void pixel_minimap::set_screen_rect( const SDL_Rect &screen_rect )
     main_tex = create_cache_texture( renderer, size_on_screen.x, size_on_screen.y );
     tex_pool = std::make_unique<shared_texture_pool>();
 
-    const auto chunk_size = drawer->get_tiles_size( { SEEX, SEEY } );
+    const auto chunk_size = projector->get_tiles_size( { SEEX, SEEY } );
 
     for( auto &elem : tex_pool->texture_pool ) {
         elem = create_cache_texture( renderer, chunk_size.x, chunk_size.y );
@@ -405,7 +404,7 @@ void pixel_minimap::set_screen_rect( const SDL_Rect &screen_rect )
 
 void pixel_minimap::reset()
 {
-    drawer.reset();
+    projector.reset();
     cache.clear();
     main_tex.reset();
     tex_pool.reset();
@@ -455,7 +454,7 @@ void pixel_minimap::render_cache( const tripoint &center )
         const auto sm_pos = rel_pos + sm_offset;
         const auto ms_pos = sm_to_ms_copy( sm_pos ) + ms_offset;
 
-        const auto rect = drawer->get_chunk_rect( { ms_pos.x, ms_pos.y }, tiles_range );
+        const auto rect = projector->get_chunk_rect( { ms_pos.x, ms_pos.y }, { SEEX, SEEY } );
 
         RenderCopy( renderer, elem.second.minimap_tex, nullptr, &rect );
     }
@@ -502,12 +501,12 @@ void pixel_minimap::render_critters( const tripoint &center )
                 continue;
             }
 
-            const auto critter_pos = drawer->get_tile_pos( { x, y }, tiles_range );
+            const auto critter_pos = projector->get_tile_pos( { x, y }, tiles_range );
             const auto critter_rect = SDL_Rect{
                 critter_pos.x,
                 critter_pos.y,
-                drawer->get_tile_size().x,
-                drawer->get_tile_size().y };
+                projector->get_tile_size().x,
+                projector->get_tile_size().y };
             const auto critter_color = get_critter_color( critter, flicker, mixture );
 
             draw_beacon( critter_rect, critter_color );
@@ -543,20 +542,19 @@ void pixel_minimap::draw_beacon( const SDL_Rect &rect, const SDL_Color &color )
     }
 }
 
-std::unique_ptr<pixel_minimap_drawer> pixel_minimap::create_drawer( const SDL_Rect &screen_rect )
+std::unique_ptr<pixel_minimap_projector> pixel_minimap::create_projector(
+    const SDL_Rect &max_screen_rect )
 const
 {
-    const auto screen_size = point{ screen_rect.w, screen_rect.h };
-
     switch( type ) {
         case pixel_minimap_type::ortho:
-            return std::unique_ptr<pixel_minimap_drawer> {
-                new pixel_minimap_ortho_drawer( tiles_range, screen_size, settings.square_pixels )
+            return std::unique_ptr<pixel_minimap_projector> {
+                new pixel_minimap_ortho_projector( tiles_range, max_screen_rect, settings.square_pixels )
             };
 
         case pixel_minimap_type::iso:
-            return std::unique_ptr<pixel_minimap_drawer> {
-                new pixel_minimap_iso_drawer( tiles_range, screen_size, settings.square_pixels )
+            return std::unique_ptr<pixel_minimap_projector> {
+                new pixel_minimap_iso_projector( tiles_range, max_screen_rect, settings.square_pixels )
             };
     }
 
