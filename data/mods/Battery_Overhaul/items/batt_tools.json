@@ -15,7 +15,7 @@
     "color": "light_gray",
     "ammo": "battery",
     "flags": [ "NO_UNLOAD", "RECHARGE" ],
-    "magazines": [ [ "battery" , [ "heavy_battery_cell" , "heavy_plus_battery_cell" ] ] ]
+    "magazines": [ [ "battery" , [ "heavy_plus_battery_cell" , "heavy_plus_battery_cell" ] ] ]
   },
   {
     "id": "advanced_ecig",
