@@ -9,7 +9,7 @@
       [ "duct_tape", 15 ],
       [ "file", 15 ],
       [ "bubblewrap", 15 ],
-      [ "battery", 10 ],
+      { "group" : "light_batteries_full", "prob" : 10 },
       [ "flashlight", 7 ],
       [ "laptop", 7 ],
       [ "eink_tablet_pc", 7 ],

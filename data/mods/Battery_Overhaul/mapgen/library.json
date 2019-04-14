@@ -12,7 +12,7 @@
       [ "receiver", 10 ],
       [ "antenna", 18 ],
       [ "screwdriver", 40 ],
-      [ "battery", 50 ],
+      { "group" : "light_batteries_full", "prob" : 50 },
       [ "manual_electronics", 20 ],
       [ "mobile_memory_card", 20 ],
       [ "usb_drive", 5 ],

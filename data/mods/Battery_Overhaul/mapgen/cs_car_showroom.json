@@ -16,7 +16,7 @@
     "type": "item_group",
     "id": "oa_ig_cs_desks",
     "items": [
-      [ "battery", 30 ],
+      { "group" : "pocket_batteries_full", "prob" : 30 },
       [ "radio", 10 ],
       [ "eyedrops", 10 ],
       [ "rag", 30 ],

@@ -43,7 +43,7 @@
       [ "portable_game", 50 ],
       [ "vibrator", 5 ],
       [ "gum", 50 ],
-      [ "battery", 50 ],
+      { "group": "pocket_batteries", "prob": 50 },
       [ "wrapper", 50 ],
       [ "string_6", 50 ],
       [ "pocket_firstaid", 5 ],

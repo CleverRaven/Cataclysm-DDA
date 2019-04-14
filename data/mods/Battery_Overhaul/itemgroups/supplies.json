@@ -6,7 +6,7 @@
     "items": [
       [ "amplifier", 40 ],
       [ "antenna", 40 ],
-      [ "battery", 100 ],
+      { "group": "any_battery_full", "prob": 100 },
       [ "cable", 60 ],
       [ "power_supply", 20 ],
       [ "processor", 20 ],

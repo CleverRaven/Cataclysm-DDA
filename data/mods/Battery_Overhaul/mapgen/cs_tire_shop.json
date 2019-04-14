@@ -65,7 +65,7 @@
     "type": "item_group",
     "id": "oa_ig_ts_crates",
     "items": [
-      [ "battery", 10 ],
+      { "group" : "any_battery_full", "prob" : 10 },
       [ "radio", 10 ],
       [ "rag", 30 ],
       [ "jack", 20 ],

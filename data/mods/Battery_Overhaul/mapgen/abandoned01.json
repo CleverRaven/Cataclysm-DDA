@@ -554,7 +554,7 @@
         { "item": "child_book", "x": 11, "y": 16 },
         { "item": "child_book", "x": 11, "y": 15 },
         { "item": "pot", "x": 11, "y": 23 },
-        { "item": "battery", "x": 11, "y": 16, "chance": 33 }
+        { "group": "any_battery_full", "x": 11, "y": 16, "chance": 33 }
       ],
       "place_loot": [
         { "group": "cabin_suicide", "x": [ 4, 4 ], "y": [ 15, 15 ], "chance": 80 },

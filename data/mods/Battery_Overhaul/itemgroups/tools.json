@@ -252,7 +252,7 @@
       [ "syringe", 4 ],
       [ "xacto", 4 ],
       [ "cotton_ball", 4 ],
-      [ "battery", 50 ]
+      { "group": "any_battery_full", "prob": 50 }
     ]
   }
 ]

@@ -66,5 +66,21 @@
       { "group": "medium_batteries", "prob": 5 },
       { "group": "heavy_batteries", "prob": 5 }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "pocket_batteries",
+    "items": [
+      { "group": "light_batteries", "prob": 10 },
+      { "group": "medium_batteries", "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "pocket_batteries_full",
+    "items": [
+      { "group": "light_batteries_full", "prob": 5 },
+      { "group": "medium_batteries_full", "prob": 5 }
+    ]
   }
 ]
