@@ -3031,7 +3031,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         } else if( is_fresh() ) {
             ret << _( " (fresh)" );
         }
-
+	}
+	if ( has_temperature() ) {
         if( has_flag( "HOT" ) ) {
             ret << _( " (hot)" );
         }
