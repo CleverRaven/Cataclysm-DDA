@@ -809,5 +809,22 @@
     "locations": [ "land" ],
     "rotate": true,
     "flags": [ "CLASSIC" ]
+  },
+  {
+    "id": "urban_41_library",
+    "type": "city_building",
+    "overmaps": [
+      { "point": [ 1, 1, 0 ], "overmap": "urban_41_1_south" },
+      { "point": [ 0, 1, 0 ], "overmap": "urban_41_2_south" },
+      { "point": [ 1, 0, 0 ], "overmap": "urban_41_3_south" },
+      { "point": [ 0, 0, 0 ], "overmap": "urban_41_4_south" },
+      { "point": [ 1, 1, 1 ], "overmap": "urban_41_5_south" },
+      { "point": [ 0, 1, 1 ], "overmap": "urban_41_6_south" },
+      { "point": [ 1, 0, 1 ], "overmap": "urban_41_7_south" },
+      { "point": [ 0, 0, 1 ], "overmap": "urban_41_8_south" }
+    ],
+    "locations": [ "land" ],
+    "rotate": true,
+    "flags": [ "CLASSIC" ]
   }
 ]

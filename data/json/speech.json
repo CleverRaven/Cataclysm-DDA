@@ -1513,6 +1513,36 @@
   },
   {
     "type": "speech",
+    "speaker": "mon_prototype_cyborg",
+    "sound": "\"Have you seen my friend?  He went into surgery yesterday... or maybe the day before...\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_prototype_cyborg",
+    "sound": "\"Is it done?  Am I perfect now?\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_prototype_cyborg",
+    "sound": "\"I have done what you asked.  Please let me go!\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_prototype_cyborg",
+    "sound": "Screems of pain.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_prototype_cyborg",
+    "sound": "\"You lied to me!  Look at what you've done!\", followed by an electronic voice saying \"YOU'LL PAY FOR THIS!\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
     "speaker": "mon_eyebot",
     "sound": "\"Stop where you are!\"",
     "volume": 15

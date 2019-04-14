@@ -144,5 +144,12 @@
       { "trait": "BGSS_Grad_Student_1" },
       { "trait": "BGSS_Lab_1" }
     ]
+  },
+  {
+    "//": "This group is for Cyborgs rescued down in the Lab.",
+    "type": "trait_group",
+    "id": "BG_survival_story_CYBORG",
+    "subtype": "distribution",
+    "traits": [ { "group": "BG_survival_story_UNIVERSAL" }, { "trait": "BGSS_Cyborg_1" } ]
   }
 ]
