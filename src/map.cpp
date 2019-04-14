@@ -4259,6 +4259,9 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
 
 item &map::add_item( const tripoint &p, item new_item )
 {
+    if( new_item.has_temperature() ) {
+        new_item.active = true;
+    }
     if( !inbounds( p ) ) {
         return null_item_reference();
     }
@@ -7887,7 +7890,6 @@ void map::add_corpse( const tripoint &p )
         body = item::make_corpse( mon_zombie );
         body.item_tags.insert( "REVIVE_SPECIAL" );
     }
-    body.active = true;
 
     add_item_or_charges( p, body );
     put_items_from_loc( "shoes",  p, 0 );

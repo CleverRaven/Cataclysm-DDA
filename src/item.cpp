@@ -262,8 +262,7 @@ item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &
     item result( "corpse", turn );
     result.corpse = &mt.obj();
 
-    result.active = true;
-    if( result.active && one_in( 20 ) ) {
+    if( result.corpse->has_flag( MF_REVIVES ) && one_in( 20 ) ) {
         result.item_tags.insert( "REVIVE_SPECIAL" );
     }
 
@@ -3031,8 +3030,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         } else if( is_fresh() ) {
             ret << _( " (fresh)" );
         }
-	}
-	if ( has_temperature() ) {
+    }
+    if( has_temperature() ) {
         if( has_flag( "HOT" ) ) {
             ret << _( " (hot)" );
         }
