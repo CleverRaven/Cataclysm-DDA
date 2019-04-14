@@ -4,7 +4,7 @@
     "type": "MAGAZINE",
     "name": "ultra-light battery cell",
     "name_plural": "ultra-light battery cells",
-    "description": "This is a light battery cell designed for small size over everything else. It retains its universal compatibility, though.",
+    "description": "This is a light battery cell designed for small size over everything else.  It retains its universal compatibility, though.",
     "weight": 25,
     "volume": "30ml",
     "price": 1500,

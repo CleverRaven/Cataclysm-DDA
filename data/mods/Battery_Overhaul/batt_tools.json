@@ -694,7 +694,6 @@
     "magazines": [ "battery" , [ "medium_battery_cell" , "medium_plus_battery_cell" ] ]
   },
   {
-    "//": "I think the idea behind lightstrips will have to be that you solder the wires to the battery directly, so this will remain as is, but require a full battery in the recipe.",
     "id": "lightstrip",
     "type": "TOOL",
     "name": "lightstrip",
@@ -708,12 +707,13 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "green",
-    "initial_charges": 900,
-    "max_charges": 900,
-    "turns_per_charge": 120,
+    "initial_charges": 100,
+    "turns_per_charge": 1080,
     "revert_to": "lightstrip_dead",
     "revert_msg": "The lightstrip dies.",
-    "flags": [ "LIGHT_4" ]
+    "flags": [ "LIGHT_4" , "NO_UNLOAD" ],
+    "magazines": [ "battery" , [ "light_battery_cell" , "light_plus_battery_cell" , "light_minus_battery_cell" ] ],
+    "magazine_well": 0
   },
   {
     "id": "lightstrip_dead",
@@ -729,14 +729,17 @@
     "bashing": 1,
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
-    "color": "white"
+    "color": "white",
+    "magazines": [ "battery" , [ "light_battery_cell" , "light_plus_battery_cell" , "light_minus_battery_cell" ] ],
+    "magazine_well": 0
   },
   {
+    "//": "This doesn't make too much sense, flavor-wise, but it's the best I can come up with.  Put it on the todo list.",
     "id": "lightstrip_inactive",
     "type": "TOOL",
     "name": "lightstrip (inactive)",
     "name_plural": "lightstrips (inactive)",
-    "description": "This is a light-emitting circuit wired directly to some batteries.  It will provide some weak light once activated and can't be turned off.  When the batteries die, you'll need to scrap it to recover the components that are reusable.",
+    "description": "This is a light-emitting circuit wired directly to some batteries.  Once you put a battery into place, you cannot remove that battery until the circuit dies.",
     "weight": 27,
     "volume": 1,
     "price": 500,
@@ -745,9 +748,11 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "white",
-    "initial_charges": 900,
-    "max_charges": 900,
-    "use_action": { "target": "lightstrip", "msg": "You irreversibly activate the lightstrip.", "active": true, "type": "transform" }
+    "initial_charges": 100,
+    "flags": [ "NO_UNLOAD" ],
+    "use_action": { "target": "lightstrip", "msg": "You irreversibly activate the lightstrip.", "active": true, "type": "transform" },
+    "magazines": [ "battery" , [ "light_battery_cell" , "light_plus_battery_cell" , "light_minus_battery_cell" ] ],
+    "magazine_well": 0
   },
   {
     "id": "makeshift_sealer",
