@@ -27,6 +27,7 @@ struct pixel_minimap_settings {
     int brightness = 100;
     int blink_interval = 0;
     bool square_pixels = true;
+    bool scale_to_fit = false;
 };
 
 class pixel_minimap

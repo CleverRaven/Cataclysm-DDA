@@ -152,4 +152,6 @@ SDL_Surface_Ptr create_surface_32( int w, int h );
 void render_fill_rect( const SDL_Renderer_Ptr &renderer, const SDL_Rect &rect, Uint32 r, Uint32 g,
                        Uint32 b );
 
+SDL_Rect fit_rect_inside( const SDL_Rect &inner, const SDL_Rect &outer );
+
 #endif // SDL_UTILS_H

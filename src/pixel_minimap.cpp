@@ -372,26 +372,41 @@ void pixel_minimap::set_screen_rect( const SDL_Rect &screen_rect )
 
     const auto size_on_screen = projector->get_tiles_size( tiles_range );
 
-    const int dx = ( size_on_screen.x - screen_rect.w ) / 2;
-    const int dy = ( size_on_screen.y - screen_rect.h ) / 2;
+    if( settings.scale_to_fit ) {
+        main_tex_clip_rect = SDL_Rect{ 0, 0, size_on_screen.x, size_on_screen.y };
+        screen_clip_rect = fit_rect_inside(
+                               SDL_Rect{ 0, 0, size_on_screen.x, size_on_screen.y },
+                               screen_rect
+                           );
 
-    main_tex_clip_rect = SDL_Rect{
-        std::max( dx, 0 ),
-        std::max( dy, 0 ),
-        size_on_screen.x - 2 * std::max( dx, 0 ),
-        size_on_screen.y - 2 * std::max( dy, 0 )
-    };
+        SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "1" );
+        main_tex = create_cache_texture( renderer, size_on_screen.x, size_on_screen.y );
+        SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "0" );
 
-    screen_clip_rect = SDL_Rect{
-        screen_rect.x - std::min( dx, 0 ),
-        screen_rect.y - std::min( dy, 0 ),
-        main_tex_clip_rect.w,
-        main_tex_clip_rect.h
-    };
+
+    } else {
+        const int dx = ( size_on_screen.x - screen_rect.w ) / 2;
+        const int dy = ( size_on_screen.y - screen_rect.h ) / 2;
+
+        main_tex_clip_rect = SDL_Rect{
+            std::max( dx, 0 ),
+            std::max( dy, 0 ),
+            size_on_screen.x - 2 * std::max( dx, 0 ),
+            size_on_screen.y - 2 * std::max( dy, 0 )
+        };
+
+        screen_clip_rect = SDL_Rect{
+            screen_rect.x - std::min( dx, 0 ),
+            screen_rect.y - std::min( dy, 0 ),
+            main_tex_clip_rect.w,
+            main_tex_clip_rect.h
+        };
+
+        main_tex = create_cache_texture( renderer, size_on_screen.x, size_on_screen.y );
+    }
 
     cache.clear();
 
-    main_tex = create_cache_texture( renderer, size_on_screen.x, size_on_screen.y );
     tex_pool = std::make_unique<shared_texture_pool>();
 
     const auto chunk_size = projector->get_tiles_size( { SEEX, SEEY } );

@@ -214,6 +214,7 @@ void cata_tiles::on_options_changed()
     settings.brightness = get_option<int>( "PIXEL_MINIMAP_BRIGHTNESS" );
     settings.blink_interval = get_option<int>( "PIXEL_MINIMAP_BLINK" );
     settings.square_pixels = get_option<bool>( "PIXEL_MINIMAP_RATIO" );
+    settings.scale_to_fit = get_option<bool>( "PIXEL_MINIMAP_SCALE_TO_FIT" );
 
     minimap->set_settings( settings );
 }
