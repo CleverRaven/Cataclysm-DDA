@@ -70,6 +70,55 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "police_roof",
+    "name": "police station roof",
+    "copy-from": "generic_city_building",
+    "color": "h_yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "police_1",
+    "name": "police station",
+    "copy-from": "generic_city_building",
+    "color": "h_yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "police_2ndfloor_1",
+    "name": "police station 2nd floor",
+    "copy-from": "generic_city_building",
+    "color": "h_yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "police_roof_1",
+    "name": "police station roof",
+    "copy-from": "generic_city_building",
+    "color": "h_yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "police_2",
+    "name": "police station",
+    "copy-from": "generic_city_building",
+    "color": "h_yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "police_roof_2",
+    "name": "police station roof",
+    "copy-from": "generic_city_building",
+    "color": "h_yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "police_upper_roof_2",
+    "name": "police station roof",
+    "copy-from": "generic_city_building",
+    "color": "h_yellow"
+  },
+  {
+    "type": "overmap_terrain",
     "abstract": "generic_hospital",
     "copy-from": "generic_city_building",
     "name": "hospital",
