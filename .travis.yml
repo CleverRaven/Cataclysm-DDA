@@ -77,6 +77,9 @@ jobs:
       os: osx
       osx_image: xcode10.1
       compiler: clang
+      install:
+      - brew install ccache
+      - export PATH="/usr/local/opt/ccache/libexec:$PATH"
 
     # Finally check the compiler variants
     - stage: compilers
