@@ -390,7 +390,7 @@
       [ "FOOT_L", 1 ],
       [ "FOOT_R", 1 ]
     ],
-    "flags": [ "BIONIC_TOGGLED" ],
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_SHOCKPROOF" ],
     "act_cost": 1,
     "react_cost": 1,
     "time": 2
