@@ -44,6 +44,7 @@ const skill_id skilll_computer( "computer" );
 const efftype_id effect_adrenaline( "adrenaline" );
 const efftype_id effect_adrenaline_mycus( "adrenaline_mycus" );
 const efftype_id effect_asthma( "asthma" );
+const efftype_id effect_assisted( "assisted" );
 const efftype_id effect_bleed( "bleed" );
 const efftype_id effect_bloodworms( "bloodworms" );
 const efftype_id effect_brainworms( "brainworms" );
@@ -985,12 +986,17 @@ bool player::uninstall_bionic( const bionic_id &b_id, player &installer, bool au
         return false;
     }
 
+    float assist_bonus = 0;
+    if( installer.has_effect( effect_assisted ) ) {
+        assist_bonus = 12; // adjusted skill of someone with lvl 1 in everything
+    }
+
     // removal of bionics adds +2 difficulty over installation
     float adjusted_skill = installer.bionics_adjusted_skill( skilll_firstaid,
                            skilll_computer,
                            skilll_electronics,
                            skill_level );
-    int chance_of_success = bionic_manip_cos( adjusted_skill, autodoc, difficulty + 2 );
+    int chance_of_success = bionic_manip_cos( adjusted_skill + assist_bonus, autodoc, difficulty + 2 );
 
     if( chance_of_success >= 100 ) {
         if( !g->u.query_yn(
@@ -1052,6 +1058,11 @@ bool player::install_bionics( const itype &type, player &installer, bool autodoc
         return false;
     }
 
+    float assist_bonus = 0;
+    if( installer.has_effect( effect_assisted ) ) {
+        assist_bonus = 12; // adjusted skill of someone with lvl 1 in everything
+    }
+
     const bionic_id &bioid = type.bionic->id;
     const int difficult = type.bionic->difficulty;
     float adjusted_skill;
@@ -1066,7 +1077,7 @@ bool player::install_bionics( const itype &type, player &installer, bool autodoc
                          skilll_mechanics,
                          skill_level );
     }
-    int chance_of_success = bionic_manip_cos( adjusted_skill, autodoc, difficult );
+    int chance_of_success = bionic_manip_cos( adjusted_skill + assist_bonus, autodoc, difficult );
 
     const std::map<body_part, int> &issues = bionic_installation_issues( bioid );
     // show all requirements which are not satisfied
