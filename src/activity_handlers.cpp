@@ -231,7 +231,7 @@ void butcher_cbm_item( const std::string &what, const tripoint &pos,
         g->m.add_item( pos, cbm );
     } else if( check_butcher_cbm( roll ) ) {
         item something( what, age );
-        add_msg( m_good, _( "You discover a %s!" ), something.tname().c_str() );
+        add_msg( m_good, _( "You discover a %s!" ), something.tname() );
         g->m.add_item( pos, something );
     } else {
         add_msg( m_bad, _( "You discover only damaged organs." ) );
