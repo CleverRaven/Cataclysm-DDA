@@ -2127,12 +2127,12 @@ void Character::on_damage_of_type( int adjusted_damage, damage_type type, body_p
             const auto &bodyparts = info.occupied_bodyparts;
             if( bodyparts.find( bp ) != bodyparts.end() ) {
                 const int bp_hp = hp_cur[bp_to_hp( bp )];
-                // The chance to incapacitate is as high as 33% if the attack deals damage equal to half the body part's current health.
-                if( x_in_y( adjusted_damage * 2, bp_hp ) && one_in( 3 ) ) {
+                // The chance to incapacitate is as high as 50% if the attack deals damage equal to one third of the body part's current health.
+                if( x_in_y( adjusted_damage * 3, bp_hp ) && one_in( 2 ) ) {
                     if( i.incapacitated_time == 0_turns ) {
                         add_msg_if_player( m_bad, _( "Your %s bionic shorts out!" ), info.name );
                     }
-                    i.incapacitated_time += rng( min_disable_time, 5 * min_disable_time );
+                    i.incapacitated_time += rng( min_disable_time, 10 * min_disable_time );
                 }
             }
         }
