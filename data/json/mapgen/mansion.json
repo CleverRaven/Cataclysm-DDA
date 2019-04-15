@@ -1060,7 +1060,7 @@
         "R": { "item": "crate_cleaning", "chance": 100 },
         "T": { "item": "dresser_stack", "chance": 100 },
         "W": { "item": "dresser_female", "chance": 10 },
-        "m": { "item": "hardware_plumbing", "chance": 40 },
+        "m": { "item": "plumber_gear", "chance": 40 },
         "o": { "item": "trash_cart", "chance": 30 },
         "r": { "item": "tool_common_stack", "chance": 100 },
         "v": { "item": "a_television", "chance": 100 }
@@ -1502,7 +1502,7 @@
         "T": { "item": "snacks_fancy", "chance": 40 },
         "c": { "item": "home_hw", "chance": 25 },
         "k": { "item": "hardware_bulk", "chance": 30 },
-        "m": { "item": "hardware_plumbing", "chance": 40 },
+        "m": { "item": "plumber_gear", "chance": 40 },
         "n": { "item": "softdrugs", "chance": 5 },
         "q": { "item": "oven", "chance": 10 },
         "r": { "item": "tool_common_stack", "chance": 100 },
@@ -1639,7 +1639,7 @@
         "$": { "item": "mansion_gunsafe", "chance": 100 },
         ".": { "item": "clutter_basement" },
         "K": { "item": "crate_stack", "chance": 100 },
-        "M": { "item": "hardware_plumbing", "chance": 35 },
+        "M": { "item": "plumber_gear", "chance": 35 },
         "R": { "item": "pantry", "chance": 35 },
         "c": { "item": "home_hw", "chance": 25 },
         "k": { "item": "hardware_bulk", "chance": 30 },
@@ -1926,7 +1926,7 @@
       "items": {
         ".": { "item": "clutter_basement" },
         "K": { "item": "crate_stack", "chance": 100 },
-        "m": { "item": "hardware_plumbing", "chance": 40 },
+        "m": { "item": "plumber_gear", "chance": 40 },
         "r": { "item": "pantry", "chance": 25 }
       }
     }
@@ -2354,7 +2354,7 @@
         "R": { "item": "crate_cleaning", "chance": 100 },
         "T": { "item": "dresser_stack", "chance": 100 },
         "W": { "item": "dresser_female", "chance": 10 },
-        "m": { "item": "hardware_plumbing", "chance": 30 },
+        "m": { "item": "plumber_gear", "chance": 30 },
         "r": { "item": "tool_common_stack", "chance": 100 }
       },
       "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 13, 21 ], "y": [ 7, 21 ], "density": 0.1 } ],
