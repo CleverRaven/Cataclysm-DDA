@@ -165,7 +165,7 @@ const efftype_id effect_weed_high( "weed_high" );
 const efftype_id effect_winded( "winded" );
 const efftype_id effect_bleed( "bleed" );
 const efftype_id effect_magnesium_supplements( "magnesium" );
-const efftype_id effect_rooted("rooted");
+const efftype_id effect_rooted( "rooted" );
 
 const matype_id style_none( "style_none" );
 const matype_id style_kicks( "style_kicks" );
@@ -5269,35 +5269,35 @@ void player::suffer()
         sounds::sound( pos(), 10, sounds::sound_t::movement, _( "BZZZZZ" ) );
     }
 
-    bool has_leaves = has_trait(trait_LEAVES);
-    bool has_roots = (has_trait(trait_ROOTS2) || has_trait(trait_ROOTS3));
-    bool is_rooted = has_effect(effect_rooted);
-    bool is_rooting = has_activity(activity_id("ACT_ROOT"));
-    bool is_uprooting = has_activity(activity_id("ACT_UPROOT"));
+    bool has_leaves = has_trait( trait_LEAVES );
+    bool has_roots = ( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) );
+    bool is_rooted = has_effect( effect_rooted );
+    bool is_rooting = has_activity( activity_id( "ACT_ROOT" ) );
+    bool is_uprooting = has_activity( activity_id( "ACT_UPROOT" ) );
 
-    if (is_rooted) {
+    if( is_rooted ) {
         rooted();
     }
     // SANITY IS FOR THE WEAK
 
-    if (has_leaves || has_roots) {
+    if( has_leaves || has_roots ) {
         plant_nutrition();
         // This was getting complicated, so it now gets its own method.
     }
 
-    if ( has_active_mutation( trait_ROOTS2 ) && !is_rooted && !is_rooting) {
+    if( has_active_mutation( trait_ROOTS2 ) && !is_rooted && !is_rooting ) {
         deactivate_mutation( trait_ROOTS2 );
     }
-    if (has_active_mutation( trait_ROOTS3 ) && !is_rooted && !is_rooting) {
+    if( has_active_mutation( trait_ROOTS3 ) && !is_rooted && !is_rooting ) {
         deactivate_mutation( trait_ROOTS3 );
     }
     // Rooting is work now, put your back into it if you want that sweet soil!
 
-    if ( !has_active_mutation( trait_ROOTS2 ) && is_rooted && !is_uprooting ) {
+    if( !has_active_mutation( trait_ROOTS2 ) && is_rooted && !is_uprooting ) {
         activate_mutation( trait_ROOTS2 );
     }
-    if ( !has_active_mutation( trait_ROOTS3 ) && is_rooted && !is_uprooting) {
-        activate_mutation( trait_ROOTS3 );       
+    if( !has_active_mutation( trait_ROOTS3 ) && is_rooted && !is_uprooting ) {
+        activate_mutation( trait_ROOTS3 );
     }
     // So players can't actually cancel roots while they're still partially buried. The mutation will quitely re-activate if they still have the rooted effect.
 
@@ -6489,7 +6489,6 @@ void player::mend( int rate_multiplier )
         if( !broken ) {
             continue;
         }
-
         body_part part = hp_to_bp( static_cast<hp_part>( i ) );
         if( needs_splint && !worn_with_flag( "SPLINT", part ) ) {
             continue;
@@ -7465,17 +7464,16 @@ void player::rooted()
 // Overfilling triggered hibernation checks, so capping.
 // TODO: Uncap when plant nutrient storage happens.
 {
-    if (g->m.has_flag("PLOWABLE", pos())) {
-        if (has_trait(trait_ROOTS2)) {
-            vitamin_mod(vitamin_id("roots"), 10, false);
-            vitamin_mod(vitamin_id("rootsVit"), 3, false);
-        }
-        else if (has_trait(trait_ROOTS3)) {
-            vitamin_mod(vitamin_id("roots"), 20, false);
-            vitamin_mod(vitamin_id("rootsVit"), 5, false);
-            if (one_in(100)) {
-                mod_healthy_mod(10, 50);
-                if ((one_in(int_cur)) && focus_pool >= 25) {
+    if( g->m.has_flag( "PLOWABLE", pos() ) ) {
+        if( has_trait( trait_ROOTS2 ) ) {
+            vitamin_mod( vitamin_id( "roots" ), 10, false );
+            vitamin_mod( vitamin_id( "rootsVit" ), 3, false );
+        } else if( has_trait( trait_ROOTS3 ) ) {
+            vitamin_mod( vitamin_id( "roots" ), 20, false );
+            vitamin_mod( vitamin_id( "rootsVit" ), 5, false );
+            if( one_in( 100 ) ) {
+                mod_healthy_mod( 10, 50 );
+                if( ( one_in( int_cur ) ) && focus_pool >= 25 ) {
                     focus_pool--;
                 }// Keeping this effect from the old rooted code, sometimes a plant will just lose themselves in the rich new england loam when rooted.
             }
@@ -7485,39 +7483,40 @@ void player::rooted()
 
 void player::plant_nutrition()
 {
-    if (has_trait(trait_LEAVES) && g->is_in_sunlight(pos())) {
-        vitamin_mod(vitamin_id("sunlight"), 10, false); // Works out to 30 kcal an hour.
-        vitamin_mod(vitamin_id("sunlightVit"), 10, false); // This will give you 25% of your RDA of vitamins A and C over 12 hours.
+    if( has_trait( trait_LEAVES ) && g->is_in_sunlight( pos() ) ) {
+        vitamin_mod( vitamin_id( "sunlight" ), 10, false ); // Works out to 30 kcal an hour.
+        vitamin_mod( vitamin_id( "sunlightVit" ), 10,
+                     false ); // This will give you 25% of your RDA of vitamins A and C over 12 hours.
     }
 
-    if (vitamin_get(vitamin_id("sunlight")) == 200) {
+    if( vitamin_get( vitamin_id( "sunlight" ) ) == 200 ) {
         //mod_hunger(-1);
         // photosynthesis absorbs kcal directly
-        mod_stored_nutr(-1);
-        vitamin_set(vitamin_id("sunlight"), 0);
+        mod_stored_nutr( -1 );
+        vitamin_set( vitamin_id( "sunlight" ), 0 );
     }
 
-    if (vitamin_get(vitamin_id("sunlightVit")) == 300) {
+    if( vitamin_get( vitamin_id( "sunlightVit" ) ) == 300 ) {
         // Plants typically synthesize these on their own when left in sunlight.
         // Values capped for now, but might be diverted into some kind plant nutrient storage in the future.
-        vitamin_mod(vitamin_id("vitA"), 1, true);
-        vitamin_mod(vitamin_id("vitC"), 1, true);
-        vitamin_set(vitamin_id("sunlightVit"), 0);
+        vitamin_mod( vitamin_id( "vitA" ), 1, true );
+        vitamin_mod( vitamin_id( "vitC" ), 1, true );
+        vitamin_set( vitamin_id( "sunlightVit" ), 0 );
     }
 
-    if (vitamin_get(vitamin_id("roots")) == 20) {
-        if (get_thirst() > -20) {
-            mod_thirst(-1);
+    if( vitamin_get( vitamin_id( "roots" ) ) == 20 ) {
+        if( get_thirst() > -20 ) {
+            mod_thirst( -1 );
         }
-        vitamin_set(vitamin_id("roots"), 0);
+        vitamin_set( vitamin_id( "roots" ), 0 );
     }
 
-    if (vitamin_get(vitamin_id("rootsVit")) == 300) {
+    if( vitamin_get( vitamin_id( "rootsVit" ) ) == 300 ) {
         // Plants typically draw these from the soil.
         // Will uncap in the future so excess will be diverted to a plant storage system.
-        vitamin_mod(vitamin_id("iron"), 1, true);
-        vitamin_mod(vitamin_id("calcium"), 1, true);
-        vitamin_set(vitamin_id("rootsVit"), 0);
+        vitamin_mod( vitamin_id( "iron" ), 1, true );
+        vitamin_mod( vitamin_id( "calcium" ), 1, true );
+        vitamin_set( vitamin_id( "rootsVit" ), 0 );
     }
 }
 
@@ -10216,7 +10215,7 @@ void player::try_to_sleep( const time_duration &dur )
     bool watersleep = false;
     if( has_trait( trait_CHLOROMORPH ) ) {
         plantsleep = true;
-        if( ( has_effect ( effect_rooted ) ) && !vp &&
+        if( ( has_effect( effect_rooted ) ) && !vp &&
             furn_at_pos == f_null ) {
             add_msg_if_player( m_good, _( "You relax as your roots embrace the soil." ) );
         } else if( vp ) {
@@ -12165,7 +12164,6 @@ void player::add_known_trap( const tripoint &pos, const trap &t )
         known_traps[p] = t.id.str();
     }
 }
-
 bool player::is_deaf() const
 {
     return get_effect_int( effect_deaf ) > 2 || worn_with_flag( "DEAF" ) || has_trait( trait_DEAF ) ||
