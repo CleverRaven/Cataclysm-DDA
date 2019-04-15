@@ -4267,7 +4267,7 @@ item &map::add_item( const tripoint &p, item new_item )
 
     // Process foods when they are added to the map, here instead of add_item_at()
     // to avoid double processing food during active item processing.
-    if( /*new_item.needs_processing() &&*/ new_item.is_food() || new_item.has_temperature() ) {
+    if( /*new_item.needs_processing() &&*/ new_item.is_food() ) {
         new_item.process( nullptr, p, false );
     }
     return add_item_at( p, current_submap->itm[l.x][l.y].end(), new_item );
