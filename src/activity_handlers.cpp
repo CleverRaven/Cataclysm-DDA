@@ -212,10 +212,13 @@ void activity_handlers::burrow_finish( player_activity *act, player *p )
 
 bool check_butcher_cbm( const int roll )
 {
-    // 2/3 chance of failure with a roll of 0, 2/6 with a roll of 1, 2/9 etc.
-    // The roll is usually b/t 0 and first_aid-3, so first_aid 4 will succeed
-    // 50%, first_aid 5 will succeed 61%, first_aid 6 will succeed 67%, etc.
-    const bool failed = x_in_y( 2, 3 + roll * 3 );
+    // Failure rates for dissection rolls
+    // 80% at roll 0, 62% at roll 1, 50% at roll 2, 42% @ 3, 36% @ 4, 32% @ 5, ... , 20% @ 10
+    // Roll is roughly a rng(0, -3 + 1st_aid + fine_cut_quality + 1/2 electronics + small_dex_bonus)
+    // Roll is reduced by corpse damage level, but to no less then 0
+    add_msg( m_debug, _( "Roll = %i" ), roll );
+    add_msg( m_debug, _( "Failure chance = %f%%" ), 4.0f / ( 5.0f + roll * 1.5 ) );
+    const bool failed = x_in_y( 4, ( 5 + roll * 1.5 ) );
     return !failed;
 }
 
@@ -738,10 +741,13 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
             }
         }
         if( action == DISSECT ) {
+            int roll = roll_butchery() - corpse_item->damage_level( 4 );
+            roll = roll < 0 ? 0 : roll;
             if( entry.type == "bionic" ) {
-                butcher_cbm_item( entry.drop, p.pos(), bday, roll_butchery() );
+                add_msg( m_debug, _( "Roll penalty for corpse damage = -%s") , corpse_item->damage_level( 4 ) );
+                butcher_cbm_item( entry.drop, p.pos(), bday, roll );
             } else if( entry.type == "bionic_group" ) {
-                butcher_cbm_group( entry.drop, p.pos(), bday, roll_butchery() );
+                butcher_cbm_group( entry.drop, p.pos(), bday, roll );
             }
             continue;
         }
@@ -976,6 +982,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         skill_level = p->get_skill_level( skill_firstaid );
         skill_level += p->max_quality( quality_id( "CUT_FINE" ) );
         skill_level += p->get_skill_level( skill_electronics ) / 2;
+        add_msg( m_debug, _( "Skill: %s"), skill_level );
     }
 
     const auto roll_butchery = [&]() {
