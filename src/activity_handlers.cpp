@@ -227,7 +227,7 @@ void butcher_cbm_item( const std::string &what, const tripoint &pos,
     }
     if( item::find_type( itype_id( what ) )->bionic.has_value() ) {
         item cbm( check_butcher_cbm( roll ) ? what : "burnt_out_bionic", age );
-        add_msg( m_good, _( "You discover a %s!" ), cbm.tname().c_str() );
+        add_msg( m_good, _( "You discover a %s!" ), cbm.tname() );
         g->m.add_item( pos, cbm );
     } else if( check_butcher_cbm( roll ) ) {
         item something( what, age );
