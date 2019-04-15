@@ -386,7 +386,7 @@
     "see_cost": 5,
     "extras": "field",
     "mondensity": 3,
-    "flags": [ "NO_ROTATE", "WOODED" ]
+    "flags": [ "NO_ROTATE" ]
   },
   {
     "type": "overmap_terrain",
@@ -460,8 +460,7 @@
     "copy-from": "generic_city_building",
     "name": "orchard",
     "sym": "#",
-    "color": "i_green",
-    "flags": [ "WOODED" ]
+    "color": "i_green"
   },
   {
     "type": "overmap_terrain",
@@ -479,7 +478,6 @@
     "color": "i_green",
     "see_cost": 5,
     "extras": "field",
-    "mondensity": 2,
-    "flags": [ "WOODED" ]
+    "mondensity": 2
   }
 ]

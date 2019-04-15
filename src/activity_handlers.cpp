@@ -157,8 +157,7 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_SHAVE" ), shaving_finish },
     { activity_id( "ACT_HAIRCUT" ), haircut_finish },
     { activity_id( "ACT_UNLOAD_MAG" ), unload_mag_finish },
-    { activity_id( "ACT_ROBOT_CONTROL" ), robot_control_finish },
-    { activity_id( "ACT_TREE_COMMUNION" ), tree_communion_finish }
+    { activity_id( "ACT_ROBOT_CONTROL" ), robot_control_finish }
 };
 
 void messages_in_process( const player_activity &act, const player &p )
@@ -3349,7 +3348,11 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, player *p 
     if( act->values.front() > 0 ) {
         act->values.front() -= 1;
         if( act->values.front() == 0 ) {
-            p->add_msg_if_player( m_good, _( "Your communion with the trees has begun." ) );
+            if( p->has_trait( trait_id( "SPIRITUAL" ) ) ) {
+                p->add_msg_if_player( m_good, _( "The ancient tree spirits answer your call." ) );
+            } else {
+                p->add_msg_if_player( m_good, _( "Your communion with the trees has begun." ) );
+            }
         }
         return;
     }
@@ -3364,7 +3367,8 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, player *p 
     q.push( loc );
     seen.insert( loc );
     const std::function<bool( const oter_id & )> filter = []( const oter_id & ter ) {
-        return ter.obj().is_wooded() || ter.obj().get_name() == "field";
+        const overmap_land_use_code_id forest_id = overmap_land_use_code_id( "forest" );
+        return ter.obj().get_land_use_code() == forest_id || ter.obj().get_name() == "field";
     };
     while( !q.empty() ) {
         tripoint tpt = q.front();
@@ -3387,7 +3391,8 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, player *p 
                         continue;
                     }
                     seen.insert( neighbor );
-                    if( !overmap_buffer.ter( neighbor ).obj().is_wooded() ) {
+                    const overmap_land_use_code_id forest_id = overmap_land_use_code_id( "forest" );
+                    if( overmap_buffer.ter( neighbor ).obj().get_land_use_code() != forest_id ) {
                         continue;
                     }
                     q.push( neighbor );
@@ -3398,9 +3403,4 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, player *p 
     }
     act->moves_left = 0;
     p->add_msg_if_player( m_info, _( "The trees have shown you what they will." ) );
-}
-
-void activity_handlers::tree_communion_finish( player_activity *act, player * )
-{
-    act->set_to_null();
 }

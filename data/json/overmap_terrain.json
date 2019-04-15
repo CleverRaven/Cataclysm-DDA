@@ -37,7 +37,7 @@
     "see_cost": 2,
     "extras": "build",
     "mondensity": 2,
-    "flags": [ "SIDEWALK", "NO_ROTATE", "WOODED" ]
+    "flags": [ "SIDEWALK", "NO_ROTATE" ]
   },
   {
     "type": "overmap_terrain",
@@ -94,8 +94,7 @@
     "name": "forest",
     "sym": "F",
     "color": "green",
-    "see_cost": 4,
-    "flags": [ "WOODED" ]
+    "see_cost": 4
   },
   {
     "type": "overmap_terrain",
@@ -103,8 +102,7 @@
     "name": "forest",
     "sym": "F",
     "color": "green",
-    "see_cost": 4,
-    "flags": [ "WOODED" ]
+    "see_cost": 4
   },
   {
     "type": "overmap_terrain",
@@ -112,8 +110,7 @@
     "name": "forest",
     "sym": "F",
     "color": "green",
-    "see_cost": 4,
-    "flags": [ "WOODED" ]
+    "see_cost": 4
   },
   {
     "type": "overmap_terrain",
@@ -121,8 +118,7 @@
     "name": "forest",
     "sym": "F",
     "color": "green",
-    "see_cost": 4,
-    "flags": [ "WOODED" ]
+    "see_cost": 4
   },
   {
     "type": "overmap_terrain",
@@ -130,8 +126,7 @@
     "name": "ruined cabin",
     "sym": "F",
     "color": "green",
-    "see_cost": 4,
-    "flags": [ "WOODED" ]
+    "see_cost": 4
   },
   {
     "type": "overmap_terrain",
@@ -139,8 +134,7 @@
     "name": "barn",
     "sym": "F",
     "color": "green",
-    "see_cost": 4,
-    "flags": [ "WOODED" ]
+    "see_cost": 4
   },
   {
     "type": "overmap_terrain",
@@ -148,8 +142,7 @@
     "name": "car corner",
     "sym": "F",
     "color": "green",
-    "see_cost": 4,
-    "flags": [ "WOODED" ]
+    "see_cost": 4
   },
   {
     "type": "overmap_terrain",
@@ -335,7 +328,7 @@
     "color": "blue",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [ "NO_ROTATE", "WOODED" ]
+    "flags": [ "NO_ROTATE" ]
   },
   {
     "type": "overmap_terrain",
@@ -345,7 +338,7 @@
     "color": "blue",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [ "NO_ROTATE", "WOODED" ]
+    "flags": [ "NO_ROTATE" ]
   },
   {
     "type": "overmap_terrain",
