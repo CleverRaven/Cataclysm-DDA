@@ -2798,16 +2798,7 @@ bool damage_item( player &pl, item_location &fix )
     pl.add_msg_if_player( m_bad, _( "You damage your %s!" ), fix->tname() );
     if( fix->inc_damage() ) {
         pl.add_msg_if_player( m_bad, _( "You destroy it!" ) );
-        if( fix.where() == item_location::type::character ) {
-            const int pos = pl.get_item_position( fix.get_item() );
-            pl.i_rem_keep_contents( pos );
-        } else {
-            for( auto &content : fix->contents ) {
-                g->m.add_item_or_charges( fix.position(), content );
-            }
-            g->m.i_rem( fix.position(), fix.get_item() );
-        }
-
+        fix.remove_item_keep_contents();
         return true;
     }
 

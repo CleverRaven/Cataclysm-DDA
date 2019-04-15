@@ -91,6 +91,8 @@ class item_location::impl
 
         virtual void remove_item() {}
 
+        virtual void remove_item_keep_contents() {}
+
         virtual void serialize( JsonOut &js ) const = 0;
 
         virtual item *unpack( int ) const {
@@ -217,6 +219,13 @@ class item_location::impl::item_on_map : public item_location::impl
 
         void remove_item() override {
             cur.remove_item( *what );
+        }
+
+        void remove_item_keep_contents() override {
+            for( auto &content : target()->contents ) {
+                g->m.add_item_or_charges( position(), content );
+            }
+            remove_item();
         }
 };
 
@@ -359,6 +368,12 @@ class item_location::impl::item_on_person : public item_location::impl
         void remove_item() override {
             who.remove_item( *what );
         }
+
+        void remove_item_keep_contents() override {
+            for( auto &content : who.remove_item( *what ).contents ) {
+                who.i_add_or_drop( content );
+            }
+        }
 };
 
 class item_location::impl::item_on_vehicle : public item_location::impl
@@ -463,6 +478,30 @@ class item_location::impl::item_on_vehicle : public item_location::impl
                 cur.veh.remove_part( cur.part ); // vehicle_part::base
             } else {
                 cur.remove_item( *target() ); // item within CARGO
+            }
+        }
+
+        void remove_item_keep_contents() override {
+            item &base = cur.veh.parts[ cur.part ].base;
+            if( &base == target() ) {
+                cur.veh.remove_part( cur.part ); // vehicle_part::base
+                // if the removed item was a part of the vehicle and had
+                // contents, dump those contents on the ground.
+                for( auto &content : target()->contents ) {
+                    g->m.add_item_or_charges( position(), content );
+                }
+            } else {
+                const auto &removed = cur.remove_item( *target() );
+                for( auto content : removed.contents ) {
+                    if( !cur.veh.add_item( cur.part, content ) ) {
+                        if( content.count_by_charges() ) {
+                            // Maybe we can add a few charges in the trunk and the rest on the ground.
+                            auto charges_added = cur.veh.add_charges( cur.part, content );
+                            content.mod_charges( -charges_added );
+                        }
+                        g->m.add_item_or_charges( position(), content );
+                    }
+                }
             }
         }
 };
@@ -602,6 +641,16 @@ void item_location::remove_item()
         return;
     }
     ptr->remove_item();
+    ptr.reset( new impl::nowhere() );
+}
+
+void item_location::remove_item_keep_contents()
+{
+    if( !ptr->valid() ) {
+        debugmsg( "item location does not point to valid item" );
+        return;
+    }
+    ptr->remove_item_keep_contents();
     ptr.reset( new impl::nowhere() );
 }
 
