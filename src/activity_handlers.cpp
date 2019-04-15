@@ -52,7 +52,7 @@ const species_id ZOMBIE( "ZOMBIE" );
 
 const efftype_id effect_milked( "milked" );
 const efftype_id effect_sleep( "sleep" );
-const efftype_id effect_rooted("rooted");
+const efftype_id effect_rooted( "rooted" );
 
 using namespace activity_handlers;
 
@@ -2466,7 +2466,6 @@ void activity_handlers::gunmod_add_finish( player_activity *act, player *p )
             add_msg( m_bad, _( "You failed at installing the %s and damaged your %s!" ), mod.tname().c_str(),
                      gun.tname().c_str() );
         }
-
     } else {
         add_msg( m_info, _( "You failed at installing the %s." ), mod.tname().c_str() );
     }
@@ -3372,8 +3371,9 @@ void activity_handlers::robot_control_finish( player_activity *act, player *p )
 
 void activity_handlers::root_finish( player_activity *act, player *p )
 {
-    add_msg( m_info, _( "You've compeletely sunk your roots into the soil and have begun drawing nutrients." ) );
-    p->add_effect( effect_rooted, 1_turns, num_bp, true);
+    add_msg( m_info,
+             _( "You've compeletely sunk your roots into the soil and have begun drawing nutrients." ) );
+    p->add_effect( effect_rooted, 1_turns, num_bp, true );
     act->set_to_null();
 }
 
