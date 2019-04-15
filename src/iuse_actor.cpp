@@ -2814,7 +2814,8 @@ bool damage_item( player &pl, item_location &fix )
     return false;
 }
 
-repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &tool, item_location &fix ) const
+repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &tool,
+        item_location &fix ) const
 {
     if( !can_use_tool( pl, tool, true ) ) {
         return AS_CANT_USE_TOOL;

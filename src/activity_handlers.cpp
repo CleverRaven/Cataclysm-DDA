@@ -2318,7 +2318,7 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
             return;
         }
         if( actor->can_repair_target( *p, *item_loc, true ) ) {
-            act->targets.emplace_back(item_loc.clone());
+            act->targets.emplace_back( item_loc.clone() );
             repeat = REPEAT_INIT;
         }
     }

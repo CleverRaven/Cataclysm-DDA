@@ -85,7 +85,7 @@ item_location take_off( player &p );
 /** Item cut up menu. */
 item_location salvage( player &p, const salvage_actor *actor );
 /** Repair menu. */
-item_location repair( player &p, const repair_item_actor *actor, const item* main_tool );
+item_location repair( player &p, const repair_item_actor *actor, const item *main_tool );
 /*@}*/
 
 }
