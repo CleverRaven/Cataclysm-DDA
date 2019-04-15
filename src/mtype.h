@@ -170,6 +170,7 @@ enum m_flag : int {
     MF_DRIPS_NAPALM,        // This monster ocassionally drips napalm on move
     MF_ELECTRIC_FIELD,      // This monster is surrounded by an electrical field that ignites flammable liquids near it
     MF_LOUDMOVES,           // This monster makes move noises as if ~2 sizes louder, even if flying.
+    MF_CAN_OPEN_DOORS,      // This monster can open doors.
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 
