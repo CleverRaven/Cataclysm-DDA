@@ -654,7 +654,8 @@
       "STUMBLES",
       "HUMAN",
       "PATH_AVOID_DANGER_2",
-      "PRIORITIZE_TARGETS"
+      "PRIORITIZE_TARGETS",
+      "CAN_OPEN_DOORS"
     ]
   },
   {
