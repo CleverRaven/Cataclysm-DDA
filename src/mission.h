@@ -105,19 +105,13 @@ struct mission_place {
  */
 struct mission_start {
     static void standard( mission * );           // Standard for its goal type
-    static void join( mission * );               // NPC giving mission joins your party
-    static void infect_npc( mission * );         // "infection", remove antibiotics
-    static void need_drugs_npc( mission * );     // "need drugs" remove item
     static void place_dog( mission * );          // Put a dog in a house!
     static void place_zombie_mom( mission * );   // Put a zombie mom in a house!
-    static void place_jabberwock( mission * );   // Put a jabberwok in the woods nearby
-    static void kill_20_nightmares( mission * ); // Kill 20 more regular nightmares
     static void kill_horde_master( mission * );  // Kill the master zombie at the center of the horde
     static void place_npc_software( mission * ); // Put NPC-type-dependent software
     static void place_priest_diary( mission * ); // Hides the priest's diary in a local house
     static void place_deposit_box( mission * );  // Place a safe deposit box in a nearby bank
     static void find_safety( mission * );        // Goal is set to non-spawn area
-    static void recruit_tracker( mission * );    // Recruit a tracker to help you
     static void ranch_nurse_1( mission * );      // Need aspirin
     static void ranch_nurse_2( mission * );      // Need hotplates
     static void ranch_nurse_3( mission * );      // Need vitamins
@@ -140,15 +134,11 @@ struct mission_start {
 
 struct mission_end { // These functions are run when a mission ends
     static void standard( mission * ) {}     // Nothing special happens
-    static void leave( mission * );          // NPC leaves after the mission is complete
-    static void thankful( mission * );       // NPC defaults to being a friendly stranger
     static void deposit_box( mission * );    // random valuable reward
-    static void heal_infection( mission * );
 };
 
 struct mission_fail {
     static void standard( mission * ) {} // Nothing special happens
-    static void kill_npc( mission * );   // Kill the NPC who assigned it!
 };
 
 struct mission_util {
