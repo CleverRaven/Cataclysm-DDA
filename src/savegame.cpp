@@ -32,7 +32,7 @@
 #include "translations.h"
 #include "tuple_hash.h"
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
 #include "input.h"
 
 extern std::map<std::string, std::list<input_event>> quick_shortcuts_map;
@@ -295,7 +295,7 @@ void game::save_weather( std::ostream &fout )
     fout << "seed: " << seed;
 }
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
 ///// quick shortcuts
 void game::load_shortcuts( std::istream &fin )
 {
@@ -356,6 +356,14 @@ bool overmap::obsolete_terrain( const std::string &ter )
         "apartments_mod_tower_1", "apartments_mod_tower_1_entrance",
         "bridge_ew", "bridge_ns",
         "public_works", "public_works_entrance",
+        "hdwr_large_entrance", "hdwr_large_SW", "hdwr_large_NW",
+        "hdwr_large_NE", "hdwr_large_backroom", "hdwr_large_loadingbay",
+        "cemetery_4square_00", "cemetery_4square_10",
+        "cemetery_4square_01", "cemetery_4square_11",
+        "loffice_tower_1", "loffice_tower_2", "loffice_tower_3", "loffice_tower_4",
+        "loffice_tower_5", "loffice_tower_6", "loffice_tower_7", "loffice_tower_8",
+        "loffice_tower_9", "loffice_tower_10", "loffice_tower_11", "loffice_tower_12",
+        "loffice_tower_13", "loffice_tower_14", "loffice_tower_15", "loffice_tower_16",
         "school_1", "school_2", "school_3",
         "school_4", "school_5", "school_6",
         "school_7", "school_8", "school_9",
@@ -451,6 +459,18 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
             nearby.push_back( { 1, entr, 1, old, base + "SE_south" } );
             nearby.push_back( { 1, old, -1, entr, base + "SE_east" } );
             nearby.push_back( { -1, old, 1, entr, base + "SE_west" } );
+
+        } else if( old.compare( 0, 11, "hdwr_large_" ) == 0 ) {
+            //Migrate terrains with NO_ROTATE flag to rotatable
+            new_id = oter_id( old + "_north" );
+
+        } else if( old.compare( 0, 17, "cemetery_4square_" ) == 0 ) {
+            //Migrate terrains with NO_ROTATE flag to rotatable
+            new_id = oter_id( old + "_north" );
+
+        } else if( old.compare( 0, 14, "loffice_tower_" ) == 0 ) {
+            //Migrate terrains with NO_ROTATE flag to rotatable
+            new_id = oter_id( old + "_north" );
 
         } else if( old.compare( 0, 7, "school_" ) == 0 ) {
             const std::string school = "school_";
@@ -972,6 +992,13 @@ void overmap::unserialize( std::istream &fin )
                 }
                 npcs.push_back( new_npc );
             }
+        } else if( name == "camps" ) {
+            jsin.start_array();
+            while( !jsin.end_array() ) {
+                basecamp new_camp;
+                new_camp.deserialize( jsin );
+                camps.push_back( new_camp );
+            }
         } else if( name == "overmap_special_placements" ) {
             jsin.start_array();
             while( !jsin.end_array() ) {
@@ -1095,7 +1122,7 @@ static void serialize_array_to_compacted_sequence( JsonOut &json,
     int lastval = -1;
     for( int j = 0; j < OMAPY; j++ ) {
         for( int i = 0; i < OMAPX; i++ ) {
-            int value = array[i][j];
+            const int value = array[i][j];
             if( value != lastval ) {
                 if( count ) {
                     json.write( count );
@@ -1347,6 +1374,14 @@ void overmap::serialize( std::ostream &fout ) const
     json.start_array();
     for( auto &i : npcs ) {
         json.write( *i );
+    }
+    json.end_array();
+    fout << std::endl;
+
+    json.member( "camps" );
+    json.start_array();
+    for( auto &i : camps ) {
+        json.write( i );
     }
     json.end_array();
     fout << std::endl;

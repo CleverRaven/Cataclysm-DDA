@@ -7,13 +7,97 @@
     "object": {
       "mapgensize": [ 4, 4 ],
       "rotation": [ 0, 3 ],
-      "rows": [ "H dd", "H cd", "   d", " BBB" ],
+      "rows": [
+        "H dd",
+        "H cd",
+        "   d",
+        " BBB"
+      ],
       "items": {
         "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
         "H": { "item": "bed", "chance": 15 },
         "B": [
-          { "item": "magazines", "chance": 75, "repeat": [ 1, 20 ] },
-          { "item": "lab_bookshelves", "chance": 75, "repeat": [ 1, 3 ] }
+          { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
+          { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
+        ]
+      },
+      "palettes": [ "lab_surface_palette" ]
+    }
+  },
+  {
+    "//": "4x4 fancy office upstairs on West side",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_surface_office_W4x4",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "HHBB",
+        "H  d",
+        "  cd",
+        "  ix"
+      ],
+      "items": {
+        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "H": { "item": "bed", "chance": 15 },
+        "i": { "item": "office", "chance": 95 },
+        "B": [
+          { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
+          { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
+        ]
+      },
+      "furniture": { "i": "f_filing_cabinet" },
+      "palettes": [ "lab_surface_palette" ]
+    }
+  },
+  {
+    "//": "4x4 fancy office upstairs on West side",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_surface_office_W4x4",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "HH i",
+        "H  d",
+        "  cd",
+        "  dd"
+      ],
+      "items": {
+        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "H": { "item": "bed", "chance": 15 },
+        "i": { "item": "office", "chance": 95 },
+        "B": [
+          { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
+          { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
+        ]
+      },
+      "furniture": { "i": "f_filing_cabinet" },
+      "palettes": [ "lab_surface_palette" ]
+    }
+  },
+  {
+    "//": "4x4 fancy office upstairs on East side",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_surface_office_E4x4",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "dd H",
+        "dc H",
+        "d   ",
+        "BBB "
+      ],
+      "items": {
+        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "H": { "item": "bed", "chance": 15 },
+        "B": [
+          { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
+          { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
         ]
       },
       "palettes": [ "lab_surface_palette" ]
@@ -27,15 +111,49 @@
     "object": {
       "mapgensize": [ 4, 4 ],
       "rotation": [ 0, 3 ],
-      "rows": [ "dd H", "dc H", "d   ", "BBB " ],
+      "rows": [
+        "BBHH",
+        "d  H",
+        "dc  ",
+        "xi  "
+      ],
       "items": {
         "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
         "H": { "item": "bed", "chance": 15 },
+        "i": { "item": "office", "chance": 95 },
         "B": [
-          { "item": "magazines", "chance": 75, "repeat": [ 1, 20 ] },
-          { "item": "lab_bookshelves", "chance": 75, "repeat": [ 1, 3 ] }
+          { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
+          { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
         ]
       },
+      "furniture": { "i": "f_filing_cabinet" },
+      "palettes": [ "lab_surface_palette" ]
+    }
+  },
+  {
+    "//": "4x4 fancy office upstairs on East side",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_surface_office_E4x4",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "i HH",
+        "d  H",
+        "dc  ",
+        "dd  "
+      ],
+      "items": {
+        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "H": { "item": "bed", "chance": 15 },
+        "i": { "item": "office", "chance": 95 },
+        "B": [
+          { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
+          { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
+        ]
+      },
+      "furniture": { "i": "f_filing_cabinet" },
       "palettes": [ "lab_surface_palette" ]
     }
   },
@@ -47,14 +165,127 @@
     "object": {
       "mapgensize": [ 4, 4 ],
       "rotation": [ 0, 3 ],
-      "rows": [ "dddd", "i c ", "    ", " HHH" ],
+      "rows": [
+        "dddd",
+        "i c ",
+        "    ",
+        " HHH"
+      ],
       "items": {
         "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
         "H": { "item": "bed", "chance": 15 },
         "i": { "item": "office", "chance": 95 },
         "B": [
-          { "item": "magazines", "chance": 75, "repeat": [ 1, 20 ] },
-          { "item": "lab_bookshelves", "chance": 75, "repeat": [ 1, 3 ] }
+          { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
+          { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
+        ]
+      },
+      "furniture": { "i": "f_filing_cabinet" },
+      "palettes": [ "lab_surface_palette" ]
+    }
+  },
+  {
+    "//": "4x4 upstairs office with south wall door on west side",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_surface_office_SWdoor4x4",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "B cd",
+        "B  d",
+        "i  d",
+        "  cd"
+      ],
+      "items": {
+        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "H": { "item": "bed", "chance": 15 },
+        "i": { "item": "office", "chance": 95 },
+        "B": [
+          { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
+          { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
+        ]
+      },
+      "furniture": { "i": "f_filing_cabinet" },
+      "palettes": [ "lab_surface_palette" ]
+    }
+  },
+  {
+    "//": "4x4 upstairs office with south wall door on west side",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_surface_office_SWdoor4x4",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "ddiB",
+        "dc i",
+        "  cd",
+        "  dd"
+      ],
+      "items": {
+        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "H": { "item": "bed", "chance": 15 },
+        "i": { "item": "office", "chance": 95 },
+        "B": [
+          { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
+          { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
+        ]
+      },
+      "furniture": { "i": "f_filing_cabinet" },
+      "palettes": [ "lab_surface_palette" ]
+    }
+  },
+  {
+    "//": "4x4 upstairs office with south wall door on west side",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_surface_office_SWdoor4x4",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "BBHH",
+        "i   ",
+        "  cd",
+        " xdd"
+      ],
+      "items": {
+        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "H": { "item": "bed", "chance": 15 },
+        "i": { "item": "office", "chance": 95 },
+        "B": [
+          { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
+          { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
+        ]
+      },
+      "furniture": { "i": "f_filing_cabinet" },
+      "palettes": [ "lab_surface_palette" ]
+    }
+  },
+  {
+    "//": "4x4 upstairs office with south wall door on west side",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_surface_office_SWdoor4x4",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "dddd",
+        "cddc",
+        "    ",
+        " iBB"
+      ],
+      "items": {
+        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "H": { "item": "bed", "chance": 15 },
+        "i": { "item": "office", "chance": 95 },
+        "B": [
+          { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
+          { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
         ]
       },
       "furniture": { "i": "f_filing_cabinet" },
@@ -69,14 +300,127 @@
     "object": {
       "mapgensize": [ 4, 4 ],
       "rotation": [ 0, 3 ],
-      "rows": [ "dddd", "ic  ", "B   ", "BBB " ],
+      "rows": [
+        "dddd",
+        "ic  ",
+        "B   ",
+        "BBB "
+      ],
       "items": {
         "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
         "H": { "item": "bed", "chance": 15 },
         "i": { "item": "office", "chance": 95 },
         "B": [
-          { "item": "magazines", "chance": 75, "repeat": [ 1, 20 ] },
-          { "item": "lab_bookshelves", "chance": 75, "repeat": [ 1, 3 ] }
+          { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
+          { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
+        ]
+      },
+      "furniture": { "i": "f_filing_cabinet" },
+      "palettes": [ "lab_surface_palette" ]
+    }
+  },
+  {
+    "//": "4x4 upstairs office with south wall door on East side",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_surface_office_SEdoor4x4",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "dc B",
+        "d  B",
+        "d  i",
+        "dc  "
+      ],
+      "items": {
+        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "H": { "item": "bed", "chance": 15 },
+        "i": { "item": "office", "chance": 95 },
+        "B": [
+          { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
+          { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
+        ]
+      },
+      "furniture": { "i": "f_filing_cabinet" },
+      "palettes": [ "lab_surface_palette" ]
+    }
+  },
+  {
+    "//": "4x4 upstairs office with south wall door on East side",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_surface_office_SEdoor4x4",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "Bidd",
+        "i cd",
+        "dc  ",
+        "dd  "
+      ],
+      "items": {
+        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "H": { "item": "bed", "chance": 15 },
+        "i": { "item": "office", "chance": 95 },
+        "B": [
+          { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
+          { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
+        ]
+      },
+      "furniture": { "i": "f_filing_cabinet" },
+      "palettes": [ "lab_surface_palette" ]
+    }
+  },
+  {
+    "//": "4x4 upstairs office with south wall door on East side",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_surface_office_SEdoor4x4",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "HHBB",
+        "   i",
+        "dc  ",
+        "ddx "
+      ],
+      "items": {
+        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "H": { "item": "bed", "chance": 15 },
+        "i": { "item": "office", "chance": 95 },
+        "B": [
+          { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
+          { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
+        ]
+      },
+      "furniture": { "i": "f_filing_cabinet" },
+      "palettes": [ "lab_surface_palette" ]
+    }
+  },
+  {
+    "//": "4x4 upstairs office with south wall door on East side",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_surface_office_SEdoor4x4",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "dddd",
+        "cddc",
+        "    ",
+        "BBi "
+      ],
+      "items": {
+        "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
+        "H": { "item": "bed", "chance": 15 },
+        "i": { "item": "office", "chance": 95 },
+        "B": [
+          { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
+          { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
         ]
       },
       "furniture": { "i": "f_filing_cabinet" },
@@ -91,17 +435,23 @@
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 3 ],
-      "rows": [ "dB rB", "dc  B", "Bf   ", "dc   ", "dx   " ],
+      "rows": [
+        "dB rB",
+        "dc  B",
+        "Bf   ",
+        "dc   ",
+        "dx   "
+      ],
       "terrain": { " ": "t_floor", "f": "t_floor", "r": "t_floor", "H": "t_floor", "d": "t_floor", "c": "t_floor", "B": "t_floor" },
       "items": {
         "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
         "H": { "item": "bed", "chance": 15 },
         "i": { "item": "office", "chance": 95 },
-        "r": { "item": "science", "chance": 80 },
+        "r": { "item": "tools_science", "chance": 80 },
         "f": { "item": "fridgesnacks", "chance": 50, "repeat": 4 },
         "B": [
-          { "item": "magazines", "chance": 75, "repeat": [ 1, 20 ] },
-          { "item": "lab_bookshelves", "chance": 75, "repeat": [ 1, 3 ] }
+          { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
+          { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
         ]
       },
       "palettes": [ "lab_surface_palette" ]
@@ -115,7 +465,13 @@
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 3 ],
-      "rows": [ "xddBl", "dc   ", "     ", "dc   ", "ddd  " ],
+      "rows": [
+        "xddBl",
+        "dc   ",
+        "     ",
+        "dc   ",
+        "ddd  "
+      ],
       "terrain": {
         " ": "t_floor",
         "f": "t_floor",
@@ -131,11 +487,11 @@
         "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
         "H": { "item": "bed", "chance": 15 },
         "i": { "item": "office", "chance": 95 },
-        "r": { "item": "science", "chance": 80 },
+        "r": { "item": "tools_science", "chance": 80 },
         "f": { "item": "fridgesnacks", "chance": 50, "repeat": 4 },
         "B": [
-          { "item": "magazines", "chance": 75, "repeat": [ 1, 20 ] },
-          { "item": "lab_bookshelves", "chance": 75, "repeat": [ 1, 3 ] }
+          { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
+          { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
         ]
       },
       "palettes": [ "lab_surface_palette" ]
@@ -149,17 +505,23 @@
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 3 ],
-      "rows": [ " rHHH", "    H", "x    ", "dc   ", "ddBB " ],
+      "rows": [
+        " rHHH",
+        "    H",
+        "x    ",
+        "dc   ",
+        "ddBB "
+      ],
       "terrain": { " ": "t_floor", "r": "t_floor", "H": "t_floor", "d": "t_floor", "c": "t_floor", "B": "t_floor" },
       "items": {
         "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
         "H": { "item": "bed", "chance": 15 },
         "i": { "item": "office", "chance": 95 },
-        "r": { "item": "science", "chance": 80 },
+        "r": { "item": "tools_science", "chance": 80 },
         "f": { "item": "fridgesnacks", "chance": 50, "repeat": 4 },
         "B": [
-          { "item": "magazines", "chance": 75, "repeat": [ 1, 20 ] },
-          { "item": "lab_bookshelves", "chance": 75, "repeat": [ 1, 3 ] }
+          { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
+          { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
         ]
       },
       "palettes": [ "lab_surface_palette" ]
@@ -173,7 +535,13 @@
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 3 ],
-      "rows": [ "dx  B", "dc  B", "f    ", "    c", "dHH  " ],
+      "rows": [
+        "dx  B",
+        "dc  B",
+        "f    ",
+        "    c",
+        "dHH  "
+      ],
       "terrain": {
         " ": "t_carpet_red",
         "f": "t_carpet_red",
@@ -187,11 +555,11 @@
         "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
         "H": { "item": "bed", "chance": 15 },
         "i": { "item": "office", "chance": 95 },
-        "r": { "item": "science", "chance": 80 },
+        "r": { "item": "tools_science", "chance": 80 },
         "f": { "item": "fridgesnacks", "chance": 50, "repeat": 4 },
         "B": [
-          { "item": "magazines", "chance": 75, "repeat": [ 1, 20 ] },
-          { "item": "lab_bookshelves", "chance": 75, "repeat": [ 1, 3 ] }
+          { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
+          { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
         ]
       },
       "palettes": [ "lab_surface_palette" ]
@@ -205,7 +573,13 @@
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 3 ],
-      "rows": [ "dxBdd", "ds cx", "B    ", "dc   ", "ddB  " ],
+      "rows": [
+        "dxBdd",
+        "ds cx",
+        "B    ",
+        "dc   ",
+        "ddB  "
+      ],
       "terrain": {
         " ": "t_linoleum_gray",
         "r": "t_linoleum_gray",
@@ -218,11 +592,11 @@
         "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
         "H": { "item": "bed", "chance": 15 },
         "i": { "item": "office", "chance": 95 },
-        "r": { "item": "science", "chance": 80 },
+        "r": { "item": "tools_science", "chance": 80 },
         "f": { "item": "fridgesnacks", "chance": 50, "repeat": 4 },
         "B": [
-          { "item": "magazines", "chance": 75, "repeat": [ 1, 20 ] },
-          { "item": "lab_bookshelves", "chance": 75, "repeat": [ 1, 3 ] }
+          { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
+          { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
         ]
       },
       "palettes": [ "lab_surface_palette" ]
@@ -236,7 +610,13 @@
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 3 ],
-      "rows": [ "     ", " ctc ", " txt ", " ctc ", "     " ],
+      "rows": [
+        "     ",
+        " ctc ",
+        " txt ",
+        " ctc ",
+        "     "
+      ],
       "terrain": { " ": "t_floor", "c": "t_floor", "t": "t_floor" },
       "items": { "t": [ { "item": "office", "chance": 15, "repeat": 2 }, { "item": "electronics", "chance": 5 } ] },
       "palettes": [ "lab_surface_palette" ]
@@ -250,7 +630,13 @@
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 3 ],
-      "rows": [ " ccc ", "ctttc", "     ", "ctttc", " ccc " ],
+      "rows": [
+        " ccc ",
+        "ctttc",
+        "     ",
+        "ctttc",
+        " ccc "
+      ],
       "terrain": { " ": "t_floor", "c": "t_floor", "t": "t_floor" },
       "items": { "t": [ { "item": "office", "chance": 15, "repeat": 2 }, { "item": "electronics", "chance": 5 } ] },
       "palettes": [ "lab_surface_palette" ]
@@ -264,7 +650,13 @@
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 3 ],
-      "rows": [ "  c  ", " ctc ", " ctc ", " ctc ", "  c  " ],
+      "rows": [
+        "  c  ",
+        " ctc ",
+        " ctc ",
+        " ctc ",
+        "  c  "
+      ],
       "terrain": { " ": "t_floor", "c": "t_floor", "t": "t_floor" },
       "palettes": [ "lab_surface_palette" ]
     }
@@ -277,7 +669,13 @@
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 3 ],
-      "rows": [ "xx1xx", "cc cc", "     ", "cc cc", "xx1xx" ],
+      "rows": [
+        "xx1xx",
+        "cc cc",
+        "     ",
+        "cc cc",
+        "xx1xx"
+      ],
       "terrain": { " ": "t_floor", "c": "t_floor", "t": "t_floor", "1": "t_floor" },
       "palettes": [ "lab_surface_palette" ]
     }
@@ -290,13 +688,101 @@
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 3 ],
-      "rows": [ "bb  f", "Hs  f", "     ", "os   ", "bbbbS" ],
+      "rows": [
+        "bb  f",
+        "Hs  f",
+        "     ",
+        "os   ",
+        "bbbbS"
+      ],
       "items": {
-        "b": { "item": "science", "chance": 30, "repeat": [ 1, 2 ] },
-        "f": { "item": "chem_lab", "chance": 60, "repeat": [ 2, 10 ] },
+        "b": { "item": "tools_science", "chance": 30, "repeat": [ 1, 2 ] },
+        "f": { "item": "supplies_reagents_lab", "chance": 60, "repeat": [ 1, 5 ] },
         "8": [
-          { "item": "chem_lab", "chance": 30, "repeat": [ 2, 10 ] },
-          { "item": "dissection", "chance": 30, "repeat": [ 2, 10 ] }
+          { "item": "supplies_reagents_lab", "chance": 50, "repeat": [ 2, 5 ] },
+          { "item": "supplies_samples_lab", "chance": 30, "repeat": [ 1, 3 ] }
+        ],
+        "S": { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] }
+      },
+      "palettes": [ "lab_workspace_palette" ]
+    }
+  },
+  {
+    "//": "5x5 lab front room",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_surface_2partworkspace_front_5x5",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "bb bb",
+        "Hs sH",
+        "     ",
+        "     ",
+        "f8SCh"
+      ],
+      "items": {
+        "b": { "item": "tools_science", "chance": 30, "repeat": [ 1, 2 ] },
+        "f": { "item": "supplies_reagents_lab", "chance": 60, "repeat": [ 1, 5 ] },
+        "8": [
+          { "item": "supplies_reagents_lab", "chance": 50, "repeat": [ 2, 5 ] },
+          { "item": "supplies_samples_lab", "chance": 30, "repeat": [ 1, 3 ] }
+        ],
+        "S": { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] }
+      },
+      "palettes": [ "lab_workspace_palette" ]
+    }
+  },
+  {
+    "//": "5x5 lab front room",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_surface_2partworkspace_front_5x5",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "bb dd",
+        "bs cX",
+        "     ",
+        "bs  f",
+        "bbSDC"
+      ],
+      "items": {
+        "b": { "item": "tools_science", "chance": 30, "repeat": [ 1, 2 ] },
+        "f": { "item": "supplies_reagents_lab", "chance": 60, "repeat": [ 1, 5 ] },
+        "8": [
+          { "item": "supplies_reagents_lab", "chance": 50, "repeat": [ 2, 5 ] },
+          { "item": "supplies_samples_lab", "chance": 30, "repeat": [ 1, 3 ] }
+        ],
+        "S": { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] }
+      },
+      "palettes": [ "lab_workspace_palette" ]
+    }
+  },
+  {
+    "//": "5x5 lab front room",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_surface_2partworkspace_front_5x5",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "F   h",
+        "s S  ",
+        "  b  ",
+        " sbs ",
+        "fbbbf"
+      ],
+      "items": {
+        "b": { "item": "tools_science", "chance": 30, "repeat": [ 1, 2 ] },
+        "f": { "item": "supplies_reagents_lab", "chance": 60, "repeat": [ 1, 5 ] },
+        "F": { "item": "dissection", "chance": 60, "repeat": [ 1, 3 ] },
+        "8": [
+          { "item": "supplies_reagents_lab", "chance": 50, "repeat": [ 2, 5 ] },
+          { "item": "supplies_samples_lab", "chance": 30, "repeat": [ 1, 3 ] }
         ],
         "S": { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] }
       },
@@ -311,13 +797,128 @@
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 3 ],
-      "rows": [ "bbSbb", "bs sb", "     ", "     ", "hhhf8" ],
+      "rows": [
+        "bbSbb",
+        "bs sb",
+        "     ",
+        " s   ",
+        "Fbhf8"
+      ],
       "items": {
-        "b": { "item": "science", "chance": 30, "repeat": [ 1, 2 ] },
-        "f": { "item": "chem_lab", "chance": 60, "repeat": [ 2, 10 ] },
+        "b": { "item": "tools_science", "chance": 30, "repeat": [ 1, 2 ] },
+        "f": { "item": "supplies_reagents_lab", "chance": 60, "repeat": [ 1, 5 ] },
+        "F": { "item": "dissection", "chance": 60, "repeat": [ 1, 3 ] },
         "8": [
-          { "item": "chem_lab", "chance": 30, "repeat": [ 2, 10 ] },
-          { "item": "dissection", "chance": 30, "repeat": [ 2, 10 ] }
+          { "item": "supplies_reagents_lab", "chance": 50, "repeat": [ 2, 5 ] },
+          { "item": "supplies_samples_lab", "chance": 30, "repeat": [ 1, 3 ] }
+        ],
+        "S": { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] }
+      },
+      "palettes": [ "lab_workspace_palette" ]
+    }
+  },
+  {
+    "//": "5x5 lab back room",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_surface_2partworkspace_back_5x5",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "bFSFb",
+        "fs sf",
+        "     ",
+        " sHs ",
+        "bbMbb"
+      ],
+      "items": {
+        "b": { "item": "tools_science", "chance": 30, "repeat": [ 1, 2 ] },
+        "f": { "item": "supplies_reagents_lab", "chance": 60, "repeat": [ 1, 5 ] },
+        "F": { "item": "dissection", "chance": 60, "repeat": [ 1, 3 ] },
+        "8": [
+          { "item": "supplies_reagents_lab", "chance": 50, "repeat": [ 2, 5 ] },
+          { "item": "supplies_samples_lab", "chance": 30, "repeat": [ 1, 3 ] }
+        ],
+        "S": { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] }
+      },
+      "palettes": [ "lab_workspace_palette" ]
+    }
+  },
+  {
+    "//": "5x5 lab back room",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_surface_2partworkspace_back_5x5",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "bbSbb",
+        "Fs sF",
+        "     ",
+        "#=#sb",
+        "N #bb"
+      ],
+      "items": {
+        "b": { "item": "tools_science", "chance": 30, "repeat": [ 1, 2 ] },
+        "f": { "item": "supplies_reagents_lab", "chance": 60, "repeat": [ 1, 5 ] },
+        "F": { "item": "dissection", "chance": 60, "repeat": [ 1, 3 ] },
+        "8": [
+          { "item": "supplies_reagents_lab", "chance": 50, "repeat": [ 2, 5 ] },
+          { "item": "supplies_samples_lab", "chance": 30, "repeat": [ 1, 3 ] }
+        ],
+        "S": { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] }
+      },
+      "palettes": [ "lab_workspace_palette" ]
+    }
+  },
+  {
+    "//": "5x5 lab back room",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_surface_2partworkspace_back_5x5",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "dc|cd",
+        "|-|-|",
+        "     ",
+        "|-|-|",
+        "dc|cd"
+      ],
+      "items": {
+        "d": [
+          { "item": "office", "chance": 50, "repeat": [ 2, 5 ] },
+          { "item": "tools_science", "chance": 30, "repeat": [ 1, 3 ] }
+        ]
+      },
+      "palettes": [ "lab_workspace_palette" ]
+    }
+  },
+  {
+    "//": "5x5 lab back room",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_surface_2partworkspace_back_5x5",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "bbMbb",
+        "SsGsF",
+        "     ",
+        "fsHs8",
+        "bbMbb"
+      ],
+      "items": {
+        "b": { "item": "tools_science", "chance": 30, "repeat": [ 1, 2 ] },
+        "f": { "item": "supplies_reagents_lab", "chance": 60, "repeat": [ 1, 5 ] },
+        "F": { "item": "dissection", "chance": 60, "repeat": [ 1, 3 ] },
+        "8": [
+          { "item": "supplies_reagents_lab", "chance": 50, "repeat": [ 2, 5 ] },
+          { "item": "supplies_samples_lab", "chance": 30, "repeat": [ 1, 3 ] }
         ],
         "S": { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] }
       },
@@ -332,13 +933,22 @@
     "object": {
       "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 3 ],
-      "rows": [ "rrf%%%%%", "r%%%%%%%", "CCCCvvv%", " sss    ", "s    s  ", "ts  sts ", "  s  s  ", " sts    " ],
+      "rows": [
+        "rrf%%%%%",
+        "r%%%%%%%",
+        "CCCCvvv%",
+        " sss    ",
+        "s    s  ",
+        "ts  sts ",
+        "  s  s  ",
+        " sts    "
+      ],
       "terrain": { "r": "t_linoleum_white", "f": "t_linoleum_white" },
       "furniture": { "v": "f_glass_fridge" },
       "items": {
-        "v": { "item": "coffee_shop", "chance": 100, "repeat": [ 2, 25 ] },
+        "v": { "item": "coffee_shop", "chance": 90, "repeat": [ 2, 10 ] },
         "C": { "item": "coffee_shop", "chance": 80, "repeat": [ 2, 8 ] },
-        "r": { "item": "magazines", "chance": 80, "repeat": [ 2, 15 ] }
+        "r": { "item": "magazines", "chance": 80, "repeat": [ 2, 10 ] }
       },
       "palettes": [ "lab_surface_palette" ]
     }
@@ -351,7 +961,16 @@
     "object": {
       "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 3 ],
-      "rows": [ "HHH   HH", "Httc ctH", "Httc ctH", " cc  ctH", " cc   c ", "Httc    ", "Httc    ", "HHc     " ],
+      "rows": [
+        "HHH   HH",
+        "Httc ctH",
+        "Httc ctH",
+        " cc  ctH",
+        " cc   c ",
+        "Httc    ",
+        "Httc    ",
+        "HHc     "
+      ],
       "furniture": { "c": [ "f_armchair", "f_armchair", "f_null", "f_null", "f_null", "f_null" ] },
       "items": { "t": { "item": "magazines", "chance": 20 } },
       "palettes": [ "lab_surface_palette" ]
@@ -365,7 +984,16 @@
     "object": {
       "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 3 ],
-      "rows": [ "HHBHHBHH", "        ", "HHH     ", "ttH  Htt", "     HHH", " c      ", "ctc  ctc", " c      " ],
+      "rows": [
+        "HHBHHBHH",
+        "        ",
+        "HHH     ",
+        "ttH  Htt",
+        "     HHH",
+        " c      ",
+        "ctc  ctc",
+        " c      "
+      ],
       "furniture": { "c": "f_armchair" },
       "items": { "t": { "item": "magazines", "chance": 20 } },
       "palettes": [ "lab_surface_palette" ]
@@ -379,12 +1007,21 @@
     "object": {
       "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 3 ],
-      "rows": [ "tt tt tt", "ss ss ss", "        ", "  ssss  ", "  CCCC  ", "  %%%C  ", "  x%%%  ", "  Cffr  " ],
+      "rows": [
+        "tt tt tt",
+        "ss ss ss",
+        "        ",
+        "  ssss  ",
+        "  CCCC  ",
+        "  %%%C  ",
+        "  x%%%  ",
+        "  Cffr  "
+      ],
       "furniture": { "f": "f_glass_fridge" },
       "items": {
-        "f": { "item": "fridgesnacks", "chance": 100, "repeat": [ 2, 25 ] },
+        "f": { "item": "fridgesnacks", "chance": 90, "repeat": [ 2, 15 ] },
         "C": { "item": "produce", "chance": 80, "repeat": [ 2, 8 ] },
-        "r": { "item": "magazines", "chance": 80, "repeat": [ 2, 15 ] }
+        "r": { "item": "magazines", "chance": 80, "repeat": [ 2, 10 ] }
       },
       "palettes": [ "lab_surface_palette" ]
     }
@@ -436,7 +1073,7 @@
         "           "
       ],
       "terrain": { "%": "t_carpet_yellow" },
-      "items": { "d": { "item": "office", "chance": 25 } },
+      "items": { "d": { "item": "office", "chance": 8 } },
       "palettes": [ "lab_surface_palette" ]
     }
   },
@@ -535,11 +1172,10 @@
       "mapping": {
         "U": {
           "items": [
-            { "item": "tools_mechanic", "chance": 70, "repeat": [ 1, 4 ] },
             { "item": "tools_lighting_industrial", "chance": 40, "repeat": [ 1, 2 ] },
-            { "item": "hardware_plumbing", "chance": 70, "repeat": [ 5, 15 ] },
+            { "item": "hardware_plumbing", "chance": 40, "repeat": [ 1, 2 ] },
             { "item": "hardware", "chance": 60, "repeat": [ 1, 2 ] },
-            { "item": "tools_common", "chance": 80, "repeat": [ 1, 2 ] }
+            { "item": "tools_common", "chance": 60, "repeat": [ 1, 3 ] }
           ]
         }
       },
@@ -602,26 +1238,25 @@
       "mapping": {
         "U": {
           "items": [
-            { "item": "tools_mechanic", "chance": 90, "repeat": [ 1, 4 ] },
-            { "item": "tools_lighting_industrial", "chance": 60, "repeat": [ 1, 2 ] },
-            { "item": "tools_electronics", "chance": 90, "repeat": [ 1, 4 ] },
-            { "item": "tools_carpentry", "chance": 50, "repeat": [ 1, 2 ] },
-            { "item": "tools_construction", "chance": 50, "repeat": [ 1, 2 ] }
+            { "item": "tools_lighting_industrial", "chance": 30, "repeat": [ 1, 2 ] },
+            { "item": "tools_electronics", "chance": 20 },
+            { "item": "tools_carpentry", "chance": 30, "repeat": [ 1, 3 ] },
+            { "item": "tools_earthworking", "chance": 30, "repeat": [ 1, 2 ] },
+            { "item": "tools_construction", "chance": 10 }
           ]
         },
         "u": {
           "items": [
-            { "item": "hardware_plumbing", "chance": 60, "repeat": [ 1, 4 ] },
-            { "item": "hardware", "chance": 70, "repeat": [ 1, 5 ] },
-            { "item": "electronics", "chance": 40, "repeat": [ 1, 3 ] },
-            { "item": "hardware_bulk", "chance": 90, "repeat": [ 5, 25 ] }
+            { "item": "hardware", "chance": 40, "repeat": [ 1, 2 ] },
+            { "item": "electronics", "chance": 40 },
+            { "item": "hardware_bulk", "chance": 70 }
           ]
         },
         "C": {
           "items": [
-            { "item": "tools_mechanic", "chance": 30, "repeat": [ 1, 2 ] },
-            { "item": "tools_carpentry", "chance": 30, "repeat": [ 1, 2 ] },
-            { "item": "tools_common", "chance": 30, "repeat": [ 1, 2 ] }
+            { "item": "tools_carpentry", "chance": 5 },
+            { "item": "tools_earthworking", "chance": 4 },
+            { "item": "tools_common", "chance": 4 }
           ]
         }
       }
@@ -650,15 +1285,131 @@
         "   =    &CC"
       ],
       "items": {
-        "b": { "item": "science", "chance": 30, "repeat": [ 1, 2 ] },
-        "f": { "item": "chem_lab", "chance": 60, "repeat": [ 2, 10 ] },
+        "b": { "item": "tools_science", "chance": 30, "repeat": [ 1, 2 ] },
+        "f": { "item": "supplies_reagents_lab", "chance": 70, "repeat": [ 2, 5 ] },
         "8": [
-          { "item": "chem_lab", "chance": 30, "repeat": [ 2, 10 ] },
-          { "item": "dissection", "chance": 30, "repeat": [ 2, 10 ] }
+          { "item": "supplies_reagents_lab", "chance": 70, "repeat": [ 2, 5 ] },
+          { "item": "supplies_samples_lab", "chance": 40, "repeat": [ 1, 3 ] }
         ],
         "C": { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] },
-        "U": { "item": "lab_shoes", "chance": 70, "repeat": [ 1, 8 ] },
-        "l": { "item": "lab_torso", "chance": 70, "repeat": [ 1, 8 ] }
+        "U": { "item": "lab_shoes", "chance": 40, "repeat": [ 1, 8 ] },
+        "l": { "item": "lab_torso", "chance": 40, "repeat": [ 1, 8 ] }
+      },
+      "palettes": [ "lab_workspace_palette" ]
+    }
+  },
+  {
+    "//": "11x11 large lab workspace, doors left side bottom",
+    "//2": "biolab with decon shower",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_surface_workspace_Wdoor_11x11",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "ff8|hhh|8ff",
+        "   |   |   ",
+        "::=|A=A|:=:",
+        "S         S",
+        "bs  Sbs  sb",
+        "F   Fb    o",
+        "F  sbE    F",
+        "bs       sb",
+        "####e#=####",
+        "Ull### llll",
+        "   =H=    &"
+      ],
+      "furniture": { "H": "f_shower" },
+      "items": {
+        "b": { "item": "tools_science", "chance": 30, "repeat": [ 1, 2 ] },
+        "f": { "item": "supplies_reagents_lab", "chance": 70, "repeat": [ 2, 5 ] },
+        "F": { "item": "dissection", "chance": 70, "repeat": [ 2, 5 ] },
+        "8": [
+          { "item": "supplies_reagents_lab", "chance": 70, "repeat": [ 2, 5 ] },
+          { "item": "supplies_samples_lab", "chance": 40, "repeat": [ 1, 3 ] }
+        ],
+        "C": { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] },
+        "U": { "item": "lab_shoes", "chance": 40, "repeat": [ 1, 8 ] },
+        "l": { "item": "lab_torso", "chance": 40, "repeat": [ 1, 8 ] }
+      },
+      "palettes": [ "lab_workspace_palette" ]
+    }
+  },
+  {
+    "//": "11x11 large lab workspace, doors left side bottom",
+    "//2": "biolab with imaging equipment",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_surface_workspace_Wdoor_11x11",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "ff8|c O|c 0",
+        "   |  I|  I",
+        "::-|-::|-::",
+        "           ",
+        "     xx   b",
+        "S    sx  sb",
+        "bs    &   b",
+        "bbF&     SC",
+        "####e#=####",
+        "Ull### llll",
+        "   =H=    &"
+      ],
+      "furniture": { "H": "f_shower" },
+      "items": {
+        "b": [
+          { "item": "tools_science", "chance": 15, "repeat": [ 1, 2 ] },
+          { "item": "hospital_lab", "chance": 15, "repeat": [ 1, 2 ] }
+        ],
+        "f": { "item": "supplies_reagents_lab", "chance": 70, "repeat": [ 2, 5 ] },
+        "F": { "item": "dissection", "chance": 70, "repeat": [ 2, 5 ] },
+        "8": [
+          { "item": "supplies_reagents_lab", "chance": 70, "repeat": [ 2, 5 ] },
+          { "item": "supplies_samples_lab", "chance": 40, "repeat": [ 1, 3 ] }
+        ],
+        "C": { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] },
+        "U": { "item": "lab_shoes", "chance": 40, "repeat": [ 1, 8 ] },
+        "l": { "item": "lab_torso", "chance": 40, "repeat": [ 1, 8 ] }
+      },
+      "palettes": [ "lab_workspace_palette" ]
+    }
+  },
+  {
+    "//": "11x11 large lab workspace, doors left side bottom",
+    "//2": "lab with small sub-rooms",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_surface_workspace_Wdoor_11x11",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "bbFbb8bHMob",
+        "bs sS s  sS",
+        "f        &b",
+        "#####-#####",
+        "bbbS# #f bb",
+        "Fs  - -  sb",
+        "bbb&# #& Sb",
+        "##### #####",
+        "llUSC #8Hbb",
+        "f   & -  sb",
+        "      #f &S"
+      ],
+      "items": {
+        "b": { "item": "tools_science", "chance": 30, "repeat": [ 1, 2 ] },
+        "f": { "item": "supplies_reagents_lab", "chance": 70, "repeat": [ 2, 5 ] },
+        "F": { "item": "dissection", "chance": 70, "repeat": [ 2, 5 ] },
+        "8": [
+          { "item": "supplies_reagents_lab", "chance": 70, "repeat": [ 2, 5 ] },
+          { "item": "supplies_samples_lab", "chance": 40, "repeat": [ 1, 3 ] }
+        ],
+        "C": { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] },
+        "U": { "item": "lab_shoes", "chance": 40, "repeat": [ 1, 8 ] },
+        "l": { "item": "lab_torso", "chance": 40, "repeat": [ 1, 8 ] }
       },
       "palettes": [ "lab_workspace_palette" ]
     }
@@ -686,16 +1437,161 @@
         "CC&    =   "
       ],
       "items": {
-        "b": { "item": "science", "chance": 30, "repeat": [ 1, 2 ] },
-        "f": { "item": "harddrugs", "chance": 60, "repeat": [ 2, 10 ] },
+        "b": { "item": "tools_science", "chance": 30, "repeat": [ 1, 2 ] },
+        "f": { "item": "supplies_reagents_lab", "chance": 70, "repeat": [ 2, 5 ] },
         "8": [
-          { "item": "chem_lab", "chance": 30, "repeat": [ 2, 10 ] },
-          { "item": "dissection", "chance": 30, "repeat": [ 2, 10 ] }
+          { "item": "supplies_reagents_lab", "chance": 70, "repeat": [ 2, 5 ] },
+          { "item": "supplies_samples_lab", "chance": 40, "repeat": [ 1, 3 ] }
         ],
         "C": { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] },
-        "U": { "item": "lab_shoes", "chance": 70, "repeat": [ 1, 8 ] },
-        "i": { "item": "office", "chance": 70, "repeat": [ 1, 5 ] },
-        "l": { "item": "lab_torso", "chance": 70, "repeat": [ 1, 8 ] }
+        "U": { "item": "lab_shoes", "chance": 40, "repeat": [ 1, 8 ] },
+        "l": { "item": "lab_torso", "chance": 40, "repeat": [ 1, 8 ] }
+      },
+      "palettes": [ "lab_workspace_palette" ]
+    }
+  },
+  {
+    "//": "11x11 large lab workspace, doors left side bottom",
+    "//2": "lab with small sub-rooms",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_surface_workspace_Wdoor_11x11",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "bbFbb8bHMbb",
+        "bs sS s  sS",
+        "f        &b",
+        "#####-#####",
+        "bS f# #Sbbb",
+        "bs  - -  sF",
+        "F  &# #&obb",
+        "bHSC# #####",
+        "##### #& Gb",
+        "llU#& -  sb",
+        "   -  #S Fb"
+      ],
+      "items": {
+        "b": { "item": "tools_science", "chance": 30, "repeat": [ 1, 2 ] },
+        "f": { "item": "supplies_reagents_lab", "chance": 70, "repeat": [ 2, 5 ] },
+        "F": { "item": "dissection", "chance": 70, "repeat": [ 2, 5 ] },
+        "8": [
+          { "item": "supplies_reagents_lab", "chance": 70, "repeat": [ 2, 5 ] },
+          { "item": "supplies_samples_lab", "chance": 40, "repeat": [ 1, 3 ] }
+        ],
+        "C": { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] },
+        "U": { "item": "lab_shoes", "chance": 40, "repeat": [ 1, 8 ] },
+        "l": { "item": "lab_torso", "chance": 40, "repeat": [ 1, 8 ] }
+      },
+      "palettes": [ "lab_workspace_palette" ]
+    }
+  },
+  {
+    "//": "11x11 large lab workspace, doors right side bottom",
+    "//2": "lab with small sub-rooms",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_surface_workspace_Edoor_11x11",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "bbFbb8bHMbb",
+        "bs sS s  sS",
+        "f        &b",
+        "#####-#####",
+        "bbbS# #f Sb",
+        "Fs  - -  sb",
+        "bbo&# #&  F",
+        "##### #CSHb",
+        "bG &# #####",
+        "bs  - &#Ull",
+        "bF S#  -   "
+      ],
+      "items": {
+        "b": { "item": "tools_science", "chance": 30, "repeat": [ 1, 2 ] },
+        "f": { "item": "supplies_reagents_lab", "chance": 70, "repeat": [ 2, 5 ] },
+        "F": { "item": "dissection", "chance": 70, "repeat": [ 2, 5 ] },
+        "8": [
+          { "item": "supplies_reagents_lab", "chance": 70, "repeat": [ 2, 5 ] },
+          { "item": "supplies_samples_lab", "chance": 40, "repeat": [ 1, 3 ] }
+        ],
+        "C": { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] },
+        "U": { "item": "lab_shoes", "chance": 40, "repeat": [ 1, 8 ] },
+        "l": { "item": "lab_torso", "chance": 40, "repeat": [ 1, 8 ] }
+      },
+      "palettes": [ "lab_workspace_palette" ]
+    }
+  },
+  {
+    "//": "11x11 large lab workspace, doors right side bottom",
+    "//2": "big analytical lab with most tools",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_surface_workspace_Edoor_11x11",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "bFFb|N |ff8",
+        "bssb|:-|   ",
+        "S      |-:|",
+        "bs bMH   &b",
+        "b   bs   sb",
+        "b  sb     F",
+        "bs bbo   sb",
+        "S  &SC  Sbb",
+        "b      ####",
+        "bs    &#Ull",
+        "bbG    -   "
+      ],
+      "items": {
+        "b": { "item": "tools_science", "chance": 30, "repeat": [ 1, 2 ] },
+        "f": { "item": "supplies_reagents_lab", "chance": 70, "repeat": [ 2, 5 ] },
+        "8": [
+          { "item": "supplies_reagents_lab", "chance": 70, "repeat": [ 2, 5 ] },
+          { "item": "supplies_samples_lab", "chance": 40, "repeat": [ 1, 3 ] }
+        ],
+        "C": { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] },
+        "U": { "item": "lab_shoes", "chance": 40, "repeat": [ 1, 8 ] },
+        "l": { "item": "lab_torso", "chance": 40, "repeat": [ 1, 8 ] }
+      },
+      "palettes": [ "lab_workspace_palette" ]
+    }
+  },
+  {
+    "//": "11x11 large lab workspace, doors right side bottom",
+    "//2": "some sort of engineering lab with lots of computers and stuff",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_surface_workspace_Edoor_11x11",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "555555555dd",
+        "         cx",
+        ":A:A:-:A:A:",
+        "           ",
+        "f    E    &",
+        "bx   bs  xb",
+        "bs  sb   sb",
+        "    xbx   b",
+        "F        Ul",
+        "bs         ",
+        "bbb& CSC&  "
+      ],
+      "items": {
+        "b": [
+          { "item": "tools_science", "chance": 30, "repeat": [ 1, 2 ] },
+          { "item": "electronics", "chance": 30, "repeat": [ 1, 2 ] }
+        ],
+        "f": { "item": "supplies_reagents_lab", "chance": 70, "repeat": [ 2, 5 ] },
+        "F": { "item": "electronics", "chance": 70, "repeat": [ 2, 5 ] },
+        "C": { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] },
+        "U": { "item": "lab_shoes", "chance": 40, "repeat": [ 1, 8 ] },
+        "l": { "item": "lab_torso", "chance": 40, "repeat": [ 1, 8 ] }
       },
       "palettes": [ "lab_workspace_palette" ]
     }
@@ -833,7 +1729,7 @@
       "//": "Places a crate, 25% chance of being pre-opened.",
       "terrain": { "X": "t_strconc_floor" },
       "furniture": { "X": [ [ "f_crate_c", 3 ], "f_crate_o" ] },
-      "place_items": [ { "item": "chem_lab", "x": 0, "y": 0, "chance": 90, "repeat": [ 5, 20 ] } ]
+      "place_items": [ { "item": "supplies_reagents_lab", "x": 0, "y": 0, "chance": 90, "repeat": [ 5, 20 ] } ]
     }
   },
   {
@@ -846,7 +1742,7 @@
       "//": "Places a crate, 25% chance of being pre-opened.",
       "terrain": { "X": "t_strconc_floor" },
       "furniture": { "X": [ [ "f_crate_c", 3 ], "f_crate_o" ] },
-      "place_items": [ { "item": "electronics", "x": 0, "y": 0, "chance": 90, "repeat": [ 10, 20 ] } ]
+      "place_items": [ { "item": "tools_science", "x": 0, "y": 0, "chance": 90, "repeat": [ 5, 10 ] } ]
     }
   },
   {
@@ -859,7 +1755,7 @@
       "//": "Places a crate, 25% chance of being pre-opened.",
       "terrain": { "X": "t_strconc_floor" },
       "furniture": { "X": [ [ "f_crate_c", 3 ], "f_crate_o" ] },
-      "place_items": [ { "item": "hardware_bulk", "x": 0, "y": 0, "chance": 90, "repeat": [ 20, 30 ] } ]
+      "place_items": [ { "item": "electronics", "x": 0, "y": 0, "chance": 90, "repeat": [ 1, 10 ] } ]
     }
   },
   {
@@ -872,7 +1768,7 @@
       "//": "Places a crate, 25% chance of being pre-opened.",
       "terrain": { "X": "t_strconc_floor" },
       "furniture": { "X": [ [ "f_crate_c", 3 ], "f_crate_o" ] },
-      "place_items": [ { "item": "produce", "x": 0, "y": 0, "chance": 90, "repeat": [ 10, 20 ] } ]
+      "place_items": [ { "item": "hardware_bulk", "x": 0, "y": 0, "chance": 90, "repeat": [ 1, 5 ] } ]
     }
   },
   {
@@ -885,7 +1781,33 @@
       "//": "Places a crate, 25% chance of being pre-opened.",
       "terrain": { "X": "t_strconc_floor" },
       "furniture": { "X": [ [ "f_crate_c", 3 ], "f_crate_o" ] },
-      "place_items": [ { "item": "snacks", "x": 0, "y": 0, "chance": 90, "repeat": [ 10, 20 ] } ]
+      "place_items": [ { "item": "produce", "x": 0, "y": 0, "chance": 90, "repeat": [ 5, 10 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "surface_sub_f_crate",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "X" ],
+      "//": "Places a crate, 25% chance of being pre-opened.",
+      "terrain": { "X": "t_strconc_floor" },
+      "furniture": { "X": [ [ "f_crate_c", 3 ], "f_crate_o" ] },
+      "place_items": [ { "item": "supplies_samples_lab", "x": 0, "y": 0, "chance": 90, "repeat": [ 10, 20 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "surface_sub_f_crate",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "X" ],
+      "//": "Places a crate, 25% chance of being pre-opened.",
+      "terrain": { "X": "t_strconc_floor" },
+      "furniture": { "X": [ [ "f_crate_c", 3 ], "f_crate_o" ] },
+      "place_items": [ { "item": "snacks", "x": 0, "y": 0, "chance": 50, "repeat": [ 5, 10 ] } ]
     }
   },
   {
@@ -910,7 +1832,7 @@
       "rows": [ "X" ],
       "terrain": { "X": "t_strconc_floor" },
       "furniture": { "X": "f_sample_freezer" },
-      "place_items": [ { "item": "harddrugs", "x": 0, "y": 0, "chance": 70, "repeat": [ 1, 5 ] } ]
+      "place_items": [ { "item": "supplies_reagents_lab", "x": 0, "y": 0, "chance": 70, "repeat": [ 1, 5 ] } ]
     }
   },
   {

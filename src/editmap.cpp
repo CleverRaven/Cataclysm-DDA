@@ -671,7 +671,6 @@ void editmap::update_view( bool update_info )
         if( g->m.has_graffiti_at( target ) ) {
             mvwprintw( w_info, off, 1, _( "Graffiti: %s" ), g->m.graffiti_at( target ).c_str() );
         }
-        off++;
 
         wrefresh( w_info );
 
@@ -1824,7 +1823,7 @@ bool editmap::mapgen_set( std::string om_name, tripoint &omt_tgt, int r, bool ch
 {
     if( r > 0 ) {
         popup( _( "Select a tile up to %d tiles away." ), r );
-        const tripoint where( ui::omap::choose_point() );
+        const tripoint where( ui::omap::choose_point( omt_tgt ) );
         if( where == overmap::invalid_tripoint ) {
             return false;
         }
@@ -2098,7 +2097,7 @@ int editmap::edit_mapgen()
         gmenu.addentry( -1, !id.id().is_null(), 0, "[%3d] %s", static_cast<int>( id ), id.id().c_str() );
         gmenu.entries[i].extratxt.left = 1;
         gmenu.entries[i].extratxt.color = id->get_color();
-        gmenu.entries[i].extratxt.txt = string_format( "%c", id->get_sym() );
+        gmenu.entries[i].extratxt.txt = string_format( "%c", id->get_symbol() );
     }
     real_coords tc;
     do {

@@ -34,7 +34,7 @@ void activity_on_turn_move_loot( player_activity &act, player &p );
 void activity_on_turn_pickup();
 void activity_on_turn_wear();
 void activity_on_turn_stash();
-void try_refuel_fire( player &p );
+void try_fuel_fire( player_activity &act, player &p, const bool starting_fire = false );
 
 enum class item_drop_reason {
     deliberate,
@@ -120,8 +120,6 @@ void wait_weather_finish( player_activity *act, player *p );
 void wait_npc_finish( player_activity *act, player *p );
 void socialize_finish( player_activity *act, player *p );
 void try_sleep_finish( player_activity *act, player *p );
-void craft_finish( player_activity *act, player *p );
-void longcraft_finish( player_activity *act, player *p );
 void disassemble_finish( player_activity *act, player *p );
 void build_finish( player_activity *act, player *p );
 void vibe_finish( player_activity *act, player *p );

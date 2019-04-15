@@ -650,8 +650,8 @@ static int draw_targeting_window( const catacurses::window &w_target, const std:
     };
 
     if( mode == TARGET_MODE_FIRE || mode == TARGET_MODE_TURRET_MANUAL || mode == TARGET_MODE_TURRET ) {
-        mvwprintz( w_target, text_y++, 1, c_white, _( "[%c] %c Cycle targets; [%c] to fire." ),
-                   front_or( "PREV_TARGET", ' ' ), front_or( "NEXT_TARGET", ' ' ), front_or( "FIRE", ' ' ) );
+        mvwprintz( w_target, text_y++, 1, c_white, _( "[%s] Cycle targets; [%c] to fire." ),
+                   ctxt.get_desc( "NEXT_TARGET", 1 ).c_str(), front_or( "FIRE", ' ' ) );
         mvwprintz( w_target, text_y++, 1, c_white, _( "[%c] target self; [%c] toggle snap-to-target" ),
                    front_or( "CENTER", ' ' ), front_or( "TOGGLE_SNAP_TO_TARGET", ' ' ) );
     }
@@ -1166,14 +1166,6 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
 
     bool snap_to_target = get_option<bool>( "SNAP_TO_TARGET" );
 
-    std::string enemiesmsg;
-    if( t.empty() ) {
-        enemiesmsg = _( "No targets in range." );
-    } else {
-        enemiesmsg = string_format( ngettext( "%d target in range.", "%d targets in range.",
-                                              t.size() ), t.size() );
-    }
-
     const auto set_last_target = [&pc]( const tripoint & dst ) {
         pc.last_target_pos = g->m.getabs( dst );
         if( const Creature *const critter_ptr = g->critter_at( dst, true ) ) {
@@ -1232,7 +1224,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         if( snap_to_target ) {
             center = dst;
         } else {
-            center = pc.pos() + pc.view_offset;
+            center = pc.pos() + pc.view_offset + g->sidebar_offset;
         }
         // Clear the target window.
         for( int i = 1; i <= getmaxy( w_target ) - num_instruction_lines - 2; i++ ) {
@@ -1244,6 +1236,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         g->draw_ter( center, true );
         int line_number = 1;
         Creature *critter = g->critter_at( dst, true );
+        const int relative_elevation = dst.z - pc.pos().z;
         if( dst != src ) {
             // Only draw those tiles which are on current z-level
             auto ret_this_zlevel = ret;
@@ -1257,11 +1250,12 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             g->draw_line( dst, center, ret_this_zlevel );
 
             // Print to target window
-            mvwprintw( w_target, line_number++, 1, _( "Range: %d/%d, %s" ),
-                       rl_dist( src, dst ), range, enemiesmsg.c_str() );
+            mvwprintw( w_target, line_number++, 1, _( "Range: %d/%d Elevation: %d Targets: %d" ),
+                       rl_dist( src, dst ), range, relative_elevation, t.size() );
 
         } else {
-            mvwprintw( w_target, line_number++, 1, _( "Range: %d, %s" ), range, enemiesmsg.c_str() );
+            mvwprintw( w_target, line_number++, 1, _( "Range: %d Elevation: %d Targets: %d" ), range,
+                       relative_elevation, t.size() );
         }
 
         // Skip blank lines if we're short on space.
@@ -1306,7 +1300,8 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             int available_lines = compact ? 1 : ( height - num_instruction_lines - line_number - 12 );
             line_number = critter->print_info( w_target, line_number, available_lines, 1 );
         } else {
-            mvwputch( g->w_terrain, POSY + dst.y - center.y, POSX + dst.x - center.x, c_red, '*' );
+            mvwputch( g->w_terrain, POSY + dst.y - center.y, POSX + dst.x - center.x,
+                      c_red, '*' );
         }
 
         if( mode == TARGET_MODE_FIRE ) {
@@ -1344,6 +1339,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         }
 
         wrefresh( g->w_terrain );
+        g->draw_panels();
         draw_targeting_window( w_target, relevant->tname(),
                                mode, ctxt, aim_types,
                                static_cast<bool>( on_mode_change ),
@@ -1382,12 +1378,31 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         if( action == "FIRE" && mode == TARGET_MODE_FIRE && aim_mode->has_threshold ) {
             action = aim_mode->action;
         }
-        if( g->m.has_zlevels() && action == "LEVEL_UP" ) {
-            dst.z++;
-            pc.view_offset.z++;
-        } else if( g->m.has_zlevels() && action == "LEVEL_DOWN" ) {
-            dst.z--;
-            pc.view_offset.z--;
+
+        if( g->m.has_zlevels() && ( action == "LEVEL_UP" || action == "LEVEL_DOWN" ) ) {
+            // Just determine our delta-z.
+            const int dz = action == "LEVEL_UP" ? 1 : -1;
+
+            // Shift the view up or down accordingly.
+            // We need to clamp the offset, but it needs to be clamped such that
+            // the player position plus the offset is still in range, since the player
+            // might be at Z+10 and looking down to Z-10, which is an offset greater than
+            // OVERMAP_DEPTH or OVERMAP_HEIGHT
+            const int potential_result = pc.pos().z + pc.view_offset.z + dz;
+            if( potential_result <= OVERMAP_HEIGHT && potential_result >= -OVERMAP_DEPTH ) {
+                pc.view_offset.z += dz;
+            }
+
+            // Set our cursor z to our view z. This accounts for cases where
+            // our view and our target are on different z-levels (e.g. when
+            // we cycle targets on different z-levels but do not have SNAP_TO_TARGET
+            // enabled). This will ensure that we don't just chase the cursor up or
+            // down, never catching up.
+            dst.z = clamp( pc.pos().z + pc.view_offset.z, -OVERMAP_DEPTH, OVERMAP_HEIGHT );
+
+            // We need to do a bunch of redrawing and cache updates since we're
+            // looking at a different z-level.
+            g->refresh_all();
         }
 
         /* More drawing to terrain */

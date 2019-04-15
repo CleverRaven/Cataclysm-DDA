@@ -36,7 +36,7 @@
     "volume": 1,
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 5,
-    "vitamins": [ [ "vitC", 5 ] ],
+    "vitamins": [ [ "vitC", 21 ], [ "calcium", 2 ], [ "iron", 4 ] ],
     "fun": 3
   },
   {
@@ -75,7 +75,7 @@
     "material": "fruit",
     "volume": 1,
     "fun": 5,
-    "vitamins": [ [ "vitA", 1 ], [ "vitC", 2 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "vitA", 4 ], [ "vitC", 9 ], [ "iron", 4 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -95,7 +95,7 @@
     "material": "fruit",
     "volume": 1,
     "fun": 7,
-    "vitamins": [ [ "vitC", 5 ], [ "calcium", 1 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "vitC", 26 ], [ "calcium", 4 ], [ "iron", 6 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -116,7 +116,7 @@
     "volume": 1,
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 10,
-    "vitamins": [ [ "vitC", 1 ] ],
+    "vitamins": [ [ "vitC", 7 ] ],
     "fun": 1
   },
   {
@@ -137,7 +137,7 @@
     "phase": "liquid",
     "fun": 2,
     "//": "this item is intended to generally be inherited from the fruit that was cooked.",
-    "vitamins": [ [ "vitC", 5 ] ],
+    "vitamins": [ [ "vitC", 20 ] ],
     "flags": [ "USE_EAT_VERB", "EATEN_COLD" ]
   },
   {
@@ -150,13 +150,13 @@
     "container": "jar_3l_glass_sealed",
     "comestible_type": "DRINK",
     "symbol": "~",
-    "calories": 40,
+    "calories": 35,
     "description": "Fresh fruit, cooked with sugar to make them last longer.",
     "price": 80,
     "material": "fruit",
     "volume": 1,
     "phase": "liquid",
-    "charges": 16,
+    "charges": 8,
     "fun": 10,
     "flags": [ "USE_EAT_VERB" ]
   },
@@ -213,7 +213,7 @@
     "symbol": "%",
     "quench": 3,
     "healthy": 1,
-    "calories": 149,
+    "calories": 82,
     "description": "Fruit slices soaked in a sugar syrup, to preserve freshness and appearance.",
     "price": 450,
     "material": "fruit",
@@ -235,13 +235,13 @@
     "symbol": "%",
     "quench": 3,
     "healthy": 1,
-    "calories": 595,
+    "calories": 367,
     "description": "This sodden mass of preserved fruit was boiled and canned in an earlier life.  Bland, mushy and losing color.",
     "price": 220,
     "material": "fruit",
     "volume": 1,
     "stack_size": 2,
     "fun": 1,
-    "vitamins": [ [ "iron", 2 ] ]
+    "vitamins": [ [ "vitC", 3 ], [ "calcium", 2 ], [ "iron", 10 ] ]
   }
 ]

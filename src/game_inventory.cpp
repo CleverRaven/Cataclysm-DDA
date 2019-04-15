@@ -64,52 +64,76 @@ static item_location inv_internal( player &u, const inventory_selector_preset &p
                                    const std::string &none_message,
                                    const std::string &hint = std::string() )
 {
-    u.inv.restack( u );
-
     inventory_pick_selector inv_s( u, preset );
 
     inv_s.set_title( title );
     inv_s.set_hint( hint );
     inv_s.set_display_stats( false );
 
-    inv_s.add_character_items( u );
-    inv_s.add_nearby_items( radius );
 
-    if( inv_s.empty() ) {
-        const std::string msg = none_message.empty()
-                                ? _( "You don't have the necessary item at hand." )
-                                : none_message;
-        popup( msg, PF_GET_KEY );
-        return item_location();
-    }
+    do {
+        u.inv.restack( u );
 
-    return inv_s.execute();
+        inv_s.clear_items();
+        inv_s.add_character_items( u );
+        inv_s.add_nearby_items( radius );
+
+        if( inv_s.empty() ) {
+            const std::string msg = none_message.empty()
+                                    ? _( "You don't have the necessary item at hand." )
+                                    : none_message;
+            popup( msg, PF_GET_KEY );
+            return item_location();
+        }
+
+        item_location location = inv_s.execute();
+
+        if( inv_s.keep_open ) {
+            inv_s.keep_open = false;
+            continue;
+        }
+
+        return location;
+
+    } while( true );
 }
 
 void game_menus::inv::common( player &p )
 {
-    static const std::set<int> allowed_selections = { { '\0', '=' } };
-
-    p.inv.restack( p );
+    // Return to inventory menu on those inputs
+    static const std::set<int> loop_options = { { '\0', '=', 'f' } };
 
     inventory_pick_selector inv_s( p );
 
-    inv_s.add_character_items( p );
     inv_s.set_title( _( "Inventory" ) );
+    inv_s.set_hint( string_format(
+                        _( "Item hotkeys assigned: <color_light_gray>%d</color>/<color_light_gray>%d</color>" ),
+                        p.allocated_invlets().size(), inv_chars.size() ) );
 
-    int res;
+    int res = 0;
+
     do {
-        inv_s.set_hint( string_format(
-                            _( "Item hotkeys assigned: <color_light_gray>%d</color>/<color_light_gray>%d</color>" ),
-                            p.allocated_invlets().size(), inv_chars.size() ) );
+        p.inv.restack( p );
+        inv_s.clear_items();
+        inv_s.add_character_items( p );
+        inv_s.update();
+
         const item_location &location = inv_s.execute();
+
         if( location == item_location::nowhere ) {
-            break;
+            if( inv_s.keep_open ) {
+                inv_s.keep_open = false;
+                continue;
+            } else {
+                break;
+            }
         }
+
         g->refresh_all();
         res = g->inventory_item_menu( p.get_item_position( location.get_item() ) );
         g->refresh_all();
-    } while( allowed_selections.count( res ) != 0 );
+
+    } while( loop_options.count( res ) != 0 );
 }
 
 int game::inv_for_filter( const std::string &title, item_filter filter,
@@ -500,6 +524,7 @@ class comestible_inventory_preset : public inventory_selector_preset
 
         const islot_comestible &get_edible_comestible( const item &it ) const {
             if( it.is_comestible() && p.can_eat( it ).success() ) {
+                // Ok since can_eat() returns false if is_craft() is true
                 return *it.type->comestible;
             }
             static const islot_comestible dummy {};

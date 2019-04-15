@@ -204,7 +204,7 @@ tripoint start_location::find_player_initial_location() const
     popup_nowait( _( "Please wait as we build your world" ) );
     // Spiral out from the world origin scanning for a compatible starting location,
     // creating overmaps as necessary.
-    const int radius = 32;
+    const int radius = 3;
     for( const point &omp : closest_points_first( radius, point_zero ) ) {
         overmap &omap = overmap_buffer.get( omp.x, omp.y );
         const tripoint omtstart = omap.find_random_omt( target() );
@@ -401,24 +401,27 @@ void start_location::add_map_special( const tripoint &omtstart,
 void start_location::handle_heli_crash( player &u ) const
 {
     for( int i = 2; i < num_hp_parts; i++ ) { // Skip head + torso for balance reasons.
-        auto part = hp_part( i );
-        auto bp_part = u.hp_to_bp( part );
-        int roll = static_cast<int>( rng( 1, 8 ) );
+        const auto part = hp_part( i );
+        const auto bp_part = u.hp_to_bp( part );
+        const int roll = static_cast<int>( rng( 1, 8 ) );
         switch( roll ) {
+            // Damage + Bleed
             case 1:
-            case 2:// Damage + Bleed
+            case 2:
                 u.add_effect( effect_bleed, 6_minutes, bp_part );
             /* fallthrough */
             case 3:
             case 4:
-            case 5: { // Just damage
-                auto maxHp = u.get_hp_max( part );
+            // Just damage
+            case 5: {
+                const auto maxHp = u.get_hp_max( part );
                 // Body part health will range from 33% to 66% with occasional bleed
-                int dmg = static_cast<int>( rng( maxHp / 3, maxHp * 2 / 3 ) );
+                const int dmg = static_cast<int>( rng( maxHp / 3, maxHp * 2 / 3 ) );
                 u.apply_damage( nullptr, bp_part, dmg );
                 break;
             }
-            default: // No damage
+            // No damage
+            default:
                 break;
         }
     }
@@ -430,7 +433,7 @@ static void add_monsters( const tripoint &omtstart, const mongroup_id &type, flo
     tinymap m;
     m.load( spawn_location.x, spawn_location.y, spawn_location.z, false );
     // map::place_spawns internally multiplies density by rng(10, 50)
-    float density = expected_points / ( ( 10 + 50 ) / 2 );
+    const float density = expected_points / ( ( 10 + 50 ) / 2 );
     m.place_spawns( type, 1, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, density );
     m.save();
 }

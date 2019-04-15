@@ -66,6 +66,12 @@
   },
   {
     "type": "effect_type",
+    "id": "asked_to_hint",
+    "name": [ "Asked to hint" ],
+    "desc": [ "AI tag: for having recently asked an NPC to give a hint.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
     "id": "asked_personal_info",
     "name": [ "Asked Info" ],
     "desc": [ "AI tag for asking to NPCs for personal information.  This is a bug if you have it." ]
@@ -113,6 +119,12 @@
     "id": "npc_run_away",
     "name": [ "Running away!" ],
     "desc": [ "AI tag to enable NPCs to flee.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "npc_flee_player",
+    "name": [ "Running away!" ],
+    "desc": [ "AI tag to enable NPCs to flee the player.  This is a bug if you have it." ]
   },
   {
     "type": "effect_type",

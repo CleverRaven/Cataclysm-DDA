@@ -9,6 +9,7 @@
 
 #include "color.h"
 #include "damage.h"
+#include "enum_bitset.h"
 #include "enums.h"
 #include "int_id.h"
 #include "mattack_common.h"
@@ -55,26 +56,32 @@ using harvest_id = string_id<harvest_list>;
 
 // These are triggers which may affect the monster's anger or morale.
 // They are handled in monster::check_triggers(), in monster.cpp
-enum monster_trigger : int {
-    MTRIG_NULL = 0,
-    MTRIG_STALK,  // Increases when following the player
-    MTRIG_MEAT,  // Meat or a corpse nearby
-    MTRIG_HOSTILE_WEAK, // Hurt hostile player/npc/monster seen
-    MTRIG_HOSTILE_CLOSE, // Hostile creature within a few tiles
-    MTRIG_HURT,  // We are hurt
-    MTRIG_FIRE,  // Fire nearby
-    MTRIG_FRIEND_DIED, // A monster of the same type died
-    MTRIG_FRIEND_ATTACKED, // A monster of the same type attacked
-    MTRIG_SOUND,  // Heard a sound
-    MTRIG_PLAYER_NEAR_BABY, // Player/npc is near a baby monster of this type
-    MTRIG_MATING_SEASON, // It's the monster's mating season (defined by baby_flags)
-    N_MONSTER_TRIGGERS
+enum class mon_trigger {
+    STALK,              // Increases when following the player
+    MEAT,               // Meat or a corpse nearby
+    HOSTILE_WEAK,       // Hurt hostile player/npc/monster seen
+    HOSTILE_CLOSE,      // Hostile creature within a few tiles
+    HURT,               // We are hurt
+    FIRE,               // Fire nearby
+    FRIEND_DIED,        // A monster of the same type died
+    FRIEND_ATTACKED,    // A monster of the same type attacked
+    SOUND,              // Heard a sound
+    PLAYER_NEAR_BABY,   // Player/npc is near a baby monster of this type
+    MATING_SEASON,      // It's the monster's mating season (defined by baby_flags)
+
+    _LAST               // This item must always remain last.
+};
+
+template<>
+struct enum_traits<mon_trigger> {
+    static constexpr auto last = mon_trigger::_LAST;
 };
 
 // Feel free to add to m_flags.  Order shouldn't matter, just keep it tidy!
 // And comment them well. ;)
+// TODO: And rename them to 'mon_flags'
+// TODO: And turn them into an enum class (like mon_trigger).
 enum m_flag : int {
-    MF_NULL = 0,            //
     MF_SEES,                // It can see you (and will run/follow)
     MF_HEARS,               // It can hear you
     MF_GOODHEARING,         // Pursues sounds more than most monsters
@@ -153,6 +160,7 @@ enum m_flag : int {
     MF_INTERIOR_AMMO,       // Monster contain's its ammo inside itself, no need to load on launch. Prevents ammo from being dropped on disable.
     MF_CLIMBS,              // Monsters that can climb certain terrain and furniture
     MF_PUSH_MON,            // Monsters that can push creatures out of their way
+    MF_PUSH_VEH,            // Monsters that can push vehicles out of their way
     MF_NIGHT_INVISIBILITY,  // Monsters that are invisible in poor light conditions
     MF_REVIVES_HEALTHY,     // When revived, this monster has full hitpoints and speed
     MF_NO_NECRO,            // This monster can't be revived by necros. It will still rise on its own.
@@ -168,9 +176,15 @@ enum m_flag : int {
     MF_NO_BREED,            // This monster doesn't breed, even though it has breed data
     MF_PET_WONT_FOLLOW,     // This monster won't follow the player automatically when tamed.
     MF_DRIPS_NAPALM,        // This monster ocassionally drips napalm on move
+    MF_DRIPS_GASOLINE,      // This monster occasionally drips gasoline on move
     MF_ELECTRIC_FIELD,      // This monster is surrounded by an electrical field that ignites flammable liquids near it
     MF_LOUDMOVES,           // This monster makes move noises as if ~2 sizes louder, even if flying.
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
+};
+
+template<>
+struct enum_traits<m_flag> {
+    static constexpr m_flag last = m_flag::MF_MAX;
 };
 
 /** Used to store monster effects placed on attack */
@@ -196,6 +210,12 @@ struct mtype {
         std::string description;
 
         std::set< const species_type * > species_ptrs;
+
+        enum_bitset<m_flag> flags;
+
+        enum_bitset<mon_trigger> anger;
+        enum_bitset<mon_trigger> fear;
+        enum_bitset<mon_trigger> placate;
 
         void add_special_attacks( JsonObject &jo, const std::string &member_name, const std::string &src );
         void remove_special_attacks( JsonObject &jo, const std::string &member_name,
@@ -223,11 +243,6 @@ struct mtype {
         units::mass weight;
         std::vector<material_id> mat;
         phase_id phase;
-        std::set<m_flag> flags;
-        std::set<monster_trigger> anger, placate, fear;
-
-        std::bitset<MF_MAX> bitflags;
-        std::bitset<N_MONSTER_TRIGGERS> bitanger, bitfear, bitplacate;
 
         /** Stores effect data for effects placed on attack */
         std::vector<mon_effect_data> atk_effs;
@@ -323,13 +338,12 @@ struct mtype {
         std::string nname( unsigned int quantity = 1 ) const;
         bool has_special_attack( const std::string &attack_name ) const;
         bool has_flag( m_flag flag ) const;
-        bool has_flag( const std::string &flag ) const;
+        void set_flag( m_flag flag, bool state = true );
         bool made_of( const material_id &material ) const;
         bool made_of_any( const std::set<material_id> &materials ) const;
-        void set_flag( const std::string &flag, bool state );
-        bool has_anger_trigger( monster_trigger trigger ) const;
-        bool has_fear_trigger( monster_trigger trigger ) const;
-        bool has_placate_trigger( monster_trigger trigger ) const;
+        bool has_anger_trigger( mon_trigger trigger ) const;
+        bool has_fear_trigger( mon_trigger trigger ) const;
+        bool has_placate_trigger( mon_trigger trigger ) const;
         bool in_category( const std::string &category ) const;
         bool in_species( const species_id &spec ) const;
         bool in_species( const species_type &spec ) const;

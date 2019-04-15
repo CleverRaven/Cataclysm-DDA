@@ -258,7 +258,7 @@
     "move_cost_mod": 2,
     "description": "A variety of plant, used for decoration.",
     "required_str": 5,
-    "max_volume": 2000,
+    "max_volume": 40,
     "flags": [ "CONTAINER", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "TINY", "TRANSPARENT", "EASY_DECONSTRUCT" ],
     "deconstruct": {
       "items": [
@@ -294,7 +294,7 @@
     "color": "yellow",
     "move_cost_mod": 2,
     "required_str": 5,
-    "max_volume": 2000,
+    "max_volume": 40,
     "flags": [ "CONTAINER", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "TINY", "TRANSPARENT", "EASY_DECONSTRUCT" ],
     "deconstruct": {
       "items": [
@@ -469,7 +469,7 @@
         { "item": "pilot_light", "count": 1 }
       ]
     },
-    "max_volume": 1000,
+    "max_volume": 160,
     "bash": {
       "str_min": 8,
       "str_max": 30,
@@ -561,6 +561,7 @@
     "move_cost_mod": 2,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MOUNTABLE" ],
+    "max_volume": 800,
     "bash": {
       "str_min": 12,
       "str_max": 50,
@@ -584,7 +585,7 @@
     "move_cost_mod": 1,
     "bonus_fire_warmth_feet": 1000,
     "required_str": 3,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "CAN_SIT" ],
     "deconstruct": { "items": [ { "item": "2x4", "count": 3 }, { "item": "nail", "charges": [ 2, 6 ] } ] },
     "max_volume": 3500,
     "bash": {
@@ -607,7 +608,7 @@
     "floor_bedding_warmth": -1500,
     "bonus_fire_warmth_feet": 1000,
     "required_str": 4,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "CAN_SIT" ],
     "deconstruct": { "items": [ { "item": "2x4", "count": 4 }, { "item": "nail", "charges": [ 6, 8 ] } ] },
     "max_volume": 4000,
     "bash": {
@@ -634,7 +635,7 @@
       "items": [ { "item": "2x4", "count": 10 }, { "item": "rag", "count": [ 30, 33 ] }, { "item": "nail", "charges": [ 6, 8 ] } ]
     },
     "max_volume": 4000,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "CAN_SIT" ],
     "bash": {
       "str_min": 12,
       "str_max": 40,
@@ -663,7 +664,7 @@
       "items": [ { "item": "2x4", "count": 12 }, { "item": "rag", "count": [ 30, 33 ] }, { "item": "nail", "charges": [ 8, 10 ] } ]
     },
     "max_volume": 4000,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "BLOCKSDOOR", "MOUNTABLE" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "BLOCKSDOOR", "MOUNTABLE", "CAN_SIT" ],
     "bash": {
       "str_min": 12,
       "str_max": 40,
@@ -706,7 +707,7 @@
     "color": "light_cyan",
     "move_cost_mod": 1,
     "required_str": 5,
-    "max_volume": 4000,
+    "max_volume": 80,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "MOUNTABLE", "SHORT" ],
     "bash": {
       "str_min": 8,
@@ -725,7 +726,7 @@
     "color": "light_green",
     "move_cost_mod": -1,
     "required_str": 5,
-    "max_volume": 4000,
+    "max_volume": 80,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "MOUNTABLE", "SHORT" ],
     "bash": {
       "str_min": 8,
@@ -816,7 +817,7 @@
     "floor_bedding_warmth": -1500,
     "bonus_fire_warmth_feet": 1000,
     "required_str": 8,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT", "CAN_SIT" ],
     "max_volume": 4000,
     "deconstruct": { "items": [ { "item": "2x4", "count": 4 }, { "item": "nail", "charges": [ 6, 10 ] } ] },
     "bash": {
@@ -876,7 +877,7 @@
     "required_str": 4,
     "flags": [ "TRANSPARENT", "FLAMMABLE", "PLACE_ITEM", "BLOCKSDOOR", "MOUNTABLE" ],
     "deconstruct": { "items": [ { "item": "nail", "charges": [ 2, 6 ] }, { "item": "2x4", "count": 2 } ] },
-    "max_volume": 1000,
+    "max_volume": 120,
     "bash": {
       "str_min": 6,
       "str_max": 30,
@@ -918,7 +919,7 @@
     "deconstruct": {
       "items": [ { "item": "2x4", "count": 2 }, { "item": "nail", "charges": [ 2, 5 ] }, { "item": "sheet_metal", "count": 1 } ]
     },
-    "max_volume": 300,
+    "max_volume": 40,
     "bash": {
       "str_min": 12,
       "str_max": 50,
@@ -997,12 +998,14 @@
         { "item": "scrap", "count": [ 2, 8 ] },
         { "item": "cable", "charges": [ 1, 3 ] },
         { "item": "hose", "count": 1 },
-        { "item": "cu_pipe", "count": [ 2, 5 ] },
+        { "item": "condensor_coil", "count": 1 },
+        { "item": "evaporator_coil", "count": 1 },
         { "item": "refrigerant_tank", "count": 1 },
+        { "item": "thermostat", "count": 1 },
         { "item": "motor_tiny", "count": 1 }
       ]
     },
-    "max_volume": 4000,
+    "max_volume": 800,
     "bash": {
       "str_min": 18,
       "str_max": 50,
@@ -1046,7 +1049,7 @@
         { "item": "motor_tiny", "count": 1 }
       ]
     },
-    "max_volume": 5000,
+    "max_volume": 1000,
     "bash": {
       "str_min": 12,
       "str_max": 50,
@@ -1104,7 +1107,7 @@
         { "item": "pipe", "count": [ 4, 8 ] }
       ]
     },
-    "max_volume": 8000,
+    "max_volume": 2000,
     "bash": {
       "str_min": 12,
       "str_max": 40,
@@ -1178,7 +1181,7 @@
     "bgcolor": "white",
     "move_cost_mod": -1,
     "required_str": 12,
-    "max_volume": 1200,
+    "max_volume": 120,
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "MINEABLE" ],
     "deconstruct": {
       "items": [
@@ -1219,7 +1222,7 @@
     "bgcolor": "white",
     "move_cost_mod": -1,
     "required_str": 12,
-    "max_volume": 1500,
+    "max_volume": 150,
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "MINEABLE" ],
     "deconstruct": {
       "items": [
@@ -1396,7 +1399,7 @@
     "deconstruct": {
       "items": [ { "item": "2x4", "count": 12 }, { "item": "nail", "charges": [ 12, 24 ] }, { "item": "rag", "count": [ 15, 20 ] } ]
     },
-    "max_volume": 4000,
+    "max_volume": 3500,
     "bash": {
       "str_min": 12,
       "str_max": 40,
@@ -1423,7 +1426,7 @@
     "deconstruct": {
       "items": [ { "item": "2x4", "count": 12 }, { "item": "nail", "charges": [ 12, 24 ] }, { "item": "rag", "count": [ 15, 20 ] } ]
     },
-    "max_volume": 4000,
+    "max_volume": 3500,
     "bash": {
       "str_min": 12,
       "str_max": 40,
@@ -2220,7 +2223,7 @@
     "symbol": "#",
     "color": "red",
     "move_cost_mod": 2,
-    "required_str": 30,
+    "required_str": -1,
     "flags": [ "BASHABLE", "MINEABLE" ],
     "deconstruct": { "items": [ { "item": "sheet_metal", "count": 2 }, { "item": "brick", "count": 30 } ] },
     "bash": {
@@ -2262,7 +2265,7 @@
     "symbol": "|",
     "color": "dark_gray",
     "move_cost_mod": 2,
-    "required_str": 20,
+    "required_str": -1,
     "flags": [ "TRANSPARENT", "BASHABLE" ],
     "deconstruct": { "items": [ { "item": "pipe", "count": 2 }, { "item": "steel_chunk", "count": 2 } ] },
     "bash": {
@@ -2281,7 +2284,7 @@
     "symbol": "&",
     "color": "light_gray",
     "move_cost_mod": 2,
-    "required_str": 20,
+    "required_str": -1,
     "flags": [ "TRANSPARENT", "BASHABLE" ],
     "deconstruct": { "items": [ { "item": "sheet_metal_small", "count": 6 }, { "item": "steel_chunk", "count": 2 } ] },
     "bash": {
@@ -2300,7 +2303,7 @@
     "symbol": "#",
     "color": "yellow",
     "move_cost_mod": 2,
-    "required_str": 20,
+    "required_str": -1,
     "flags": [ "TRANSPARENT", "BASHABLE" ],
     "deconstruct": {
       "items": [
@@ -3376,6 +3379,25 @@
     }
   },
   {
+    "id": "f_firering",
+    "type": "furniture",
+    "name": "fire ring",
+    "symbol": "#",
+    "bgcolor": [ "white" ],
+    "move_cost_mod": 2,
+    "required_str": -1,
+    "bash": {
+      "str_min": 15,
+      "str_max": 105,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "items": [ { "item": "rock", "count": [ 5, 15 ] } ]
+    },
+    "deconstruct": { "items": [ { "item": "rock", "count": 20 } ] },
+    "flags": [ "TRANSPARENT", "CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM", "EASY_DECONSTRUCT" ],
+    "examine_action": "fireplace"
+  },
+  {
     "type": "furniture",
     "id": "f_autodoc",
     "name": "Autodoc Mk. XI",
@@ -3469,7 +3491,7 @@
     "required_str": 3,
     "deployed_item": "camp_chair",
     "examine_action": "deployed_furniture",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "CAN_SIT" ],
     "max_volume": 3500,
     "deconstruct": { "items": [ { "item": "camp_chair", "count": 1 } ] }
   },
@@ -3558,7 +3580,7 @@
     "required_str": 3,
     "deployed_item": "leather_tarp",
     "examine_action": "deployed_furniture",
-    "flags": [ "TRANSPARENT", "SHORT", "FLAT_SURF" ],
+    "flags": [ "TRANSPARENT", "SHORT", "FLAT_SURF", "CAN_SIT" ],
     "deconstruct": { "items": [ { "item": "leather_tarp", "count": 1 } ] },
     "bash": {
       "str_min": 5,
@@ -3579,7 +3601,7 @@
     "required_str": 3,
     "deployed_item": "fiber_mat",
     "examine_action": "deployed_furniture",
-    "flags": [ "TRANSPARENT", "SHORT", "FLAT_SURF" ],
+    "flags": [ "TRANSPARENT", "SHORT", "FLAT_SURF", "CAN_SIT" ],
     "deconstruct": { "items": [ { "item": "fiber_mat", "count": 1 } ] },
     "bash": {
       "str_min": 5,
@@ -3694,7 +3716,7 @@
         { "item": "lock", "count": [ 0, 1 ] }
       ]
     },
-    "max_volume": 4000,
+    "max_volume": 800,
     "bash": {
       "str_min": 8,
       "str_max": 30,
@@ -3715,7 +3737,7 @@
     "required_str": 9,
     "flags": [ "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "BLOCKSDOOR", "MOUNTABLE" ],
     "deconstruct": { "items": [ { "item": "2x4", "count": 12 }, { "item": "nail", "charges": [ 8, 12 ] } ] },
-    "max_volume": 8000,
+    "max_volume": 2000,
     "bash": {
       "str_min": 12,
       "str_max": 40,
@@ -3780,7 +3802,7 @@
         { "item": "sheet_metal", "count": [ 2, 6 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
         { "item": "cu_pipe", "count": [ 2, 5 ] },
-        { "item": "thermometer", "count": 1 },
+        { "item": "thermostat", "count": 1 },
         { "item": "motor_small", "count": 1 }
       ]
     },
@@ -3820,7 +3842,7 @@
         { "item": "cable", "charges": [ 1, 15 ] },
         { "item": "cu_pipe", "count": [ 2, 5 ] },
         { "item": "hose", "count": [ 0, 2 ] },
-        { "item": "thermometer", "count": 1 },
+        { "item": "thermostat", "count": 1 },
         { "item": "refrigerant_tank", "count": 1 },
         { "item": "motor_small", "count": 1 }
       ]
@@ -3852,7 +3874,7 @@
     "move_cost_mod": -1,
     "required_str": -1,
     "max_volume": 4000,
-    "flags": [ "CONTAINER", "PLACE_ITEM", "LIQUIDCONT" ],
+    "flags": [ "CONTAINER", "PLACE_ITEM", "LIQUIDCONT", "NOITEM", "SEALED" ],
     "examine_action": "keg",
     "keg_capacity": 240,
     "deconstruct": {
@@ -3865,7 +3887,7 @@
         { "item": "cu_pipe", "count": [ 2, 5 ] },
         { "item": "hose", "count": [ 0, 2 ] },
         { "item": "pilot_light", "count": 1 },
-        { "item": "thermometer", "count": 1 },
+        { "item": "thermostat", "count": 1 },
         { "item": "water_faucet", "count": 1 },
         { "item": "metal_tank", "count": 1 }
       ]
@@ -4338,7 +4360,7 @@
         { "item": "pipe", "count": [ 4, 8 ] }
       ]
     },
-    "max_volume": 8000,
+    "max_volume": 2000,
     "bash": {
       "str_min": 16,
       "str_max": 40,
@@ -4366,13 +4388,13 @@
     "deconstruct": {
       "items": [
         { "item": "2x4", "count": [ 2, 6 ] },
-        { "item": "nail", "count": [ 4, 16 ] },
+        { "item": "nail", "charges": [ 4, 16 ] },
         { "item": "glass_sheet", "count": [ 1, 2 ] },
         { "item": "sheet_metal_small", "count": [ 0, 4 ] },
         { "item": "pipe", "count": [ 0, 4 ] }
       ]
     },
-    "max_volume": 8000,
+    "max_volume": 1600,
     "bash": {
       "str_min": 12,
       "str_max": 40,
@@ -4381,7 +4403,7 @@
       "items": [
         { "item": "2x4", "count": [ 1, 4 ] },
         { "item": "splinter", "count": [ 1, 4 ] },
-        { "item": "nail", "count": [ 4, 8 ] },
+        { "item": "nail", "charges": [ 4, 8 ] },
         { "item": "glass_shard", "count": [ 2, 12 ] },
         { "item": "scrap", "count": [ 0, 2 ] }
       ]
@@ -4400,7 +4422,7 @@
     "flags": [ "BLOCKSDOOR", "PLACE_ITEM", "EASY_DECONSTRUCT" ],
     "deconstruct": {
       "items": [
-        { "item": "cable", "count": [ 1, 2 ] },
+        { "item": "cable", "charges": [ 1, 2 ] },
         { "item": "amplifier", "count": [ 1, 4 ] },
         { "item": "light_bulb", "count": [ 1, 4 ] },
         { "item": "steel_lump", "count": 1 },
@@ -4414,7 +4436,7 @@
       "sound_fail": "bonk!",
       "items": [
         { "item": "scrap", "count": [ 1, 2 ] },
-        { "item": "cable", "count": [ 0, 1 ] },
+        { "item": "cable", "charges": [ 0, 1 ] },
         { "item": "e_scrap", "count": [ 0, 1 ] },
         { "item": "glass_shard", "count": [ 0, 1 ] },
         { "item": "pipe", "count": [ 0, 1 ] }
@@ -4436,7 +4458,7 @@
       "items": [
         { "item": "pipe", "count": [ 6, 12 ] },
         { "item": "cu_pipe", "count": [ 1, 4 ] },
-        { "item": "cable", "count": [ 1, 4 ] },
+        { "item": "cable", "charges": [ 1, 4 ] },
         { "item": "plastic_chunk", "count": [ 50, 75 ] },
         { "item": "sheet_metal", "count": [ 1, 2 ] },
         { "item": "sheet_metal_small", "count": [ 0, 4 ] }
@@ -4454,7 +4476,7 @@
         { "item": "sheet_metal_small", "count": [ 6, 10 ] },
         { "item": "plastic_chunk", "count": [ 30, 50 ] },
         { "item": "pipe", "count": 1 },
-        { "item": "cable", "count": [ 1, 3 ] },
+        { "item": "cable", "charges": [ 1, 3 ] },
         { "item": "cu_pipe", "count": 1 }
       ]
     }
@@ -4608,7 +4630,8 @@
         { "item": "scrap", "count": [ 2, 8 ] },
         { "item": "cable", "charges": [ 1, 3 ] },
         { "item": "hose", "count": 1 },
-        { "item": "cu_pipe", "count": [ 2, 5 ] },
+        { "item": "condensor_coil", "count": 1 },
+        { "item": "evaporator_coil", "count": 1 },
         { "item": "refrigerant_tank", "count": 1 },
         { "item": "motor_tiny", "count": 1 }
       ]
@@ -4756,7 +4779,7 @@
         { "item": "hose", "count": [ 3, 6 ] },
         { "item": "bottle_glass", "count": [ 2, 3 ] },
         { "item": "motor_tiny", "count": 2 },
-        { "item": "solder_wire", "count": [ 1, 15 ] }
+        { "item": "solder_wire", "charges": [ 1, 15 ] }
       ]
     },
     "bash": {
@@ -4798,7 +4821,7 @@
         { "item": "sheet_metal", "count": [ 2, 4 ] },
         { "item": "pipe", "count": [ 1, 4 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
-        { "item": "solder_wire", "count": [ 1, 15 ] }
+        { "item": "solder_wire", "charges": [ 1, 15 ] }
       ]
     },
     "bash": {
@@ -4838,7 +4861,7 @@
         { "item": "sheet_metal", "count": [ 2, 4 ] },
         { "item": "pipe", "count": [ 1, 4 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
-        { "item": "solder_wire", "count": [ 1, 15 ] }
+        { "item": "solder_wire", "charges": [ 1, 15 ] }
       ]
     },
     "bash": {
@@ -4877,7 +4900,7 @@
         { "item": "sheet_metal", "count": [ 2, 4 ] },
         { "item": "pipe", "count": [ 1, 4 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
-        { "item": "solder_wire", "count": [ 1, 15 ] }
+        { "item": "solder_wire", "charges": [ 1, 15 ] }
       ]
     },
     "bash": {
@@ -4917,7 +4940,7 @@
         { "item": "sheet_metal", "count": [ 2, 4 ] },
         { "item": "pipe", "count": [ 1, 4 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
-        { "item": "solder_wire", "count": [ 1, 15 ] }
+        { "item": "solder_wire", "charges": [ 1, 15 ] }
       ]
     },
     "bash": {
@@ -4957,7 +4980,7 @@
         { "item": "sheet_metal", "count": [ 2, 4 ] },
         { "item": "pipe", "count": [ 1, 4 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
-        { "item": "solder_wire", "count": [ 1, 15 ] }
+        { "item": "solder_wire", "charges": [ 1, 15 ] }
       ]
     },
     "bash": {
@@ -5034,7 +5057,7 @@
         { "item": "oxygen_tank", "count": [ 1, 2 ] },
         { "item": "bottle_glass", "count": [ 2, 3 ] },
         { "item": "motor_tiny", "count": 2 },
-        { "item": "solder_wire", "count": [ 1, 15 ] }
+        { "item": "solder_wire", "charges": [ 1, 15 ] }
       ]
     },
     "bash": {
@@ -5078,7 +5101,7 @@
         { "item": "metal_tank_little", "count": [ 0, 1 ] },
         { "item": "bottle_glass", "count": [ 2, 3 ] },
         { "item": "motor_tiny", "count": 2 },
-        { "item": "solder_wire", "count": [ 1, 15 ] }
+        { "item": "solder_wire", "charges": [ 1, 15 ] }
       ]
     },
     "bash": {
@@ -5120,7 +5143,7 @@
         { "item": "hose", "count": [ 3, 6 ] },
         { "item": "oxygen_tank", "count": [ 1, 2 ] },
         { "item": "motor_tiny", "count": 2 },
-        { "item": "solder_wire", "count": [ 1, 15 ] }
+        { "item": "solder_wire", "charges": [ 1, 15 ] }
       ]
     },
     "bash": {
@@ -5226,7 +5249,7 @@
         { "item": "pipe", "count": [ 1, 4 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
         { "item": "motor", "count": 1 },
-        { "item": "solder_wire", "count": [ 1, 15 ] }
+        { "item": "solder_wire", "charges": [ 1, 15 ] }
       ]
     },
     "bash": {
@@ -5265,7 +5288,7 @@
         { "item": "cable", "charges": [ 1, 15 ] },
         { "item": "hose", "count": [ 3, 6 ] },
         { "item": "motor_small", "count": 1 },
-        { "item": "solder_wire", "count": [ 1, 15 ] }
+        { "item": "solder_wire", "charges": [ 1, 15 ] }
       ]
     },
     "bash": {
@@ -5304,7 +5327,7 @@
         { "item": "cable", "charges": [ 1, 15 ] },
         { "item": "hose", "count": [ 3, 6 ] },
         { "item": "motor_small", "count": 1 },
-        { "item": "solder_wire", "count": [ 1, 15 ] },
+        { "item": "solder_wire", "charges": [ 1, 15 ] },
         { "item": "cu_pipe", "count": [ 2, 5 ] }
       ]
     },
@@ -5343,7 +5366,7 @@
         { "item": "plastic_chunk", "count": [ 2, 12 ] },
         { "item": "pipe", "count": [ 4, 8 ] },
         { "item": "laptop", "count": [ 2, 4 ] },
-        { "item": "cable", "count": [ 5, 10 ] }
+        { "item": "cable", "charges": [ 5, 10 ] }
       ]
     },
     "bash": {
@@ -5357,7 +5380,7 @@
         { "item": "sheet_metal_small", "count": [ 1, 4 ] },
         { "item": "pipe", "count": 1 },
         { "item": "e_scrap", "count": [ 20, 50 ] },
-        { "item": "cable", "count": [ 2, 8 ] }
+        { "item": "cable", "charges": [ 2, 8 ] }
       ]
     }
   },
@@ -5382,7 +5405,7 @@
         { "item": "motor", "count": 1 },
         { "item": "metal_tank", "count": 1 },
         { "item": "plastic_chunk", "count": [ 4, 6 ] },
-        { "item": "solder_wire", "count": [ 1, 15 ] }
+        { "item": "solder_wire", "charges": [ 1, 15 ] }
       ]
     },
     "bash": {

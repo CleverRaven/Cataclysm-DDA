@@ -98,6 +98,17 @@ JsonObject::JsonObject( const JsonObject &jo )
     final_separator = jo.final_separator;
 }
 
+JsonObject &JsonObject::operator=( const JsonObject &jo )
+{
+    jsin = jo.jsin;
+    start = jo.start;
+    positions = jo.positions;
+    end = jo.end;
+    final_separator = jo.final_separator;
+
+    return *this;
+}
+
 void JsonObject::finish()
 {
     if( jsin && jsin->good() ) {
@@ -428,6 +439,18 @@ JsonArray::JsonArray( const JsonArray &ja )
     positions = ja.positions;
     end = ja.end;
     final_separator = ja.final_separator;
+}
+
+JsonArray &JsonArray::operator=( const JsonArray &ja )
+{
+    jsin = ja.jsin;
+    start = ja.start;
+    index = 0;
+    positions = ja.positions;
+    end = ja.end;
+    final_separator = ja.final_separator;
+
+    return *this;
 }
 
 void JsonArray::finish()

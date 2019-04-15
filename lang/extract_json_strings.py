@@ -508,7 +508,7 @@ def extract_dynamic_line(line, outfile):
         extract_dynamic_line_optional(line, "npc_female", outfile)
         extract_dynamic_line_optional(line, "yes", outfile)
         extract_dynamic_line_optional(line, "no", outfile)
-    else:
+    elif type(line) == str:
         writestr(outfile, line)
 
 def extract_talk_response(response, outfile):

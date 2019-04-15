@@ -130,6 +130,8 @@ void iuse_transform::load( JsonObject &obj )
     need_fire_msg = obj.has_string( "need_fire_msg" ) ? _( obj.get_string( "need_fire_msg" ).c_str() ) :
                     _( "You need a source of fire!" );
 
+    obj.read( "qualities_needed", qualities_needed );
+
     obj.read( "menu_text", menu_text );
     if( !menu_text.empty() ) {
         menu_text = _( menu_text.c_str() );
@@ -196,6 +198,30 @@ long iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) con
     obj->active = active || obj->item_counter;
 
     return 0;
+}
+
+ret_val<bool> iuse_transform::can_use( const player &p, const item &, bool,
+                                       const tripoint & ) const
+{
+    std::map<quality_id, int> unmet_reqs;
+    inventory inv;
+    inv.form_from_map( p.pos(), 1 );
+    for( const auto &quality : qualities_needed ) {
+        if( !p.has_quality( quality.first, quality.second ) &&
+            !inv.has_quality( quality.first, quality.second ) ) {
+            unmet_reqs.insert( quality );
+        }
+    }
+    if( unmet_reqs.empty() ) {
+        return ret_val<bool>::make_success();
+    }
+    std::string unmet_reqs_string = enumerate_as_string( unmet_reqs.begin(), unmet_reqs.end(),
+    [&]( const std::pair<quality_id, int> &unmet_req ) {
+        return string_format( "%s %d", unmet_req.first.obj().name, unmet_req.second );
+    } );
+    return ret_val<bool>::make_failure( string_format( ngettext( "You need a tool with %s.",
+                                        "You need tools with %s.", unmet_reqs.size() ),
+                                        unmet_reqs_string ) );
 }
 
 std::string iuse_transform::get_name() const
@@ -1046,26 +1072,19 @@ bool firestarter_actor::prep_firestarter_use( const player &p, tripoint &pos )
         p.add_msg_if_player( m_info, _( "There is already a fire." ) );
         return false;
     }
-    if( g->m.flammable_items_at( pos ) ||
-        g->m.has_flag( "FLAMMABLE", pos ) || g->m.has_flag( "FLAMMABLE_ASH", pos ) ||
-        g->m.get_field_strength( pos, fd_web ) > 0 ) {
-        // Check for a brazier.
-        bool has_unactivated_brazier = false;
-        for( const auto &i : g->m.i_at( pos ) ) {
-            if( i.typeId() == "brazier" ) {
-                has_unactivated_brazier = true;
-            }
+    // Check for a brazier.
+    bool has_unactivated_brazier = false;
+    for( const auto &i : g->m.i_at( pos ) ) {
+        if( i.typeId() == "brazier" ) {
+            has_unactivated_brazier = true;
         }
-        if( has_unactivated_brazier &&
-            !query_yn(
-                _( "There's a brazier there but you haven't set it up to contain the fire. Continue?" ) ) ) {
-            return false;
-        }
-        return true;
-    } else {
-        p.add_msg_if_player( m_info, _( "There's nothing to light there." ) );
+    }
+    if( has_unactivated_brazier &&
+        !query_yn(
+            _( "There's a brazier there but you haven't set it up to contain the fire. Continue?" ) ) ) {
         return false;
     }
+    return true;
 }
 
 void firestarter_actor::resolve_firestarter_use( player &p, const tripoint &pos )
@@ -1159,7 +1178,7 @@ long firestarter_actor::use( player &p, item &it, bool t, const tripoint &spos )
             _( "At your skill level, it will take around %d minutes to light a fire." );
         p.add_msg_if_player( m_info, ( need_sunlight ? sun_msg : normal_msg ).c_str(),
                              moves / to_moves<int>( 1_minutes ) );
-    } else if( moves < to_moves<int>( 2_turns ) ) {
+    } else if( moves < to_moves<int>( 2_turns ) && g->m.is_flammable( pos ) ) {
         // If less than 2 turns, don't start a long action
         resolve_firestarter_use( p, pos );
         p.mod_moves( -moves );
@@ -2689,7 +2708,7 @@ bool repair_item_actor::can_repair_target( player &pl, const item &fix,
         return false;
     }
 
-    if( fix.has_flag( "PRIMITIVE_RANGED_WEAPON" ) ) {
+    if( fix.has_flag( "PRIMITIVE_RANGED_WEAPON" ) || !fix.reinforceable() ) {
         if( print_msg ) {
             pl.add_msg_if_player( m_info, _( "You cannot improve your %s any more this way." ),
                                   fix.tname().c_str() );
@@ -2881,7 +2900,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
     }
 
     if( action == RT_REINFORCE ) {
-        if( fix.has_flag( "PRIMITIVE_RANGED_WEAPON" ) ) {
+        if( fix.has_flag( "PRIMITIVE_RANGED_WEAPON" ) || !fix.reinforceable() ) {
             pl.add_msg_if_player( m_info, _( "You cannot improve your %s any more this way." ),
                                   fix.tname().c_str() );
             return AS_CANT;
@@ -3244,19 +3263,15 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
     const int torso_bonus = get_heal_value( healer, hp_torso );
 
     if( healer.is_npc() ) {
-        // NPCs heal whichever has sustained the most damage
+        // NPCs heal whatever has sustained the most damaged that they can heal but never
+        // rebandage parts
         int highest_damage = 0;
         for( int i = 0; i < num_hp_parts; i++ ) {
-            int damage = patient.hp_max[i] - patient.hp_cur[i];
-            if( i == hp_head ) {
-                damage *= 1.5;
-            }
-            if( i == hp_torso ) {
-                damage *= 1.2;
-            }
-            // Consider states too
-            // Weights are arbitrary, may need balancing
+            int damage = 0;
             const body_part i_bp = player::hp_to_bp( hp_part( i ) );
+            if( !patient.has_effect( effect_bandaged, i_bp ) ) {
+                damage += patient.hp_max[i] - patient.hp_cur[i];
+            }
             damage += bleed * patient.get_effect_dur( effect_bleed, i_bp ) / 50_turns;
             damage += bite * patient.get_effect_dur( effect_bite, i_bp ) / 100_turns;
             damage += infect * patient.get_effect_dur( effect_infected, i_bp ) / 100_turns;
@@ -3765,14 +3780,8 @@ long mutagen_actor::use( player &p, item &it, bool, const tripoint & ) const
         p.mutate_category( m_category.id );
         p.mod_pain( m_category.mutagen_pain * rng( 1, 5 ) );
     }
-
-    if( m_category.mutagen_hunger * mut_count + p.get_hunger() > 300 ) {
-        // in this case starvation is directly updated
-        p.mod_starvation( m_category.mutagen_hunger * mut_count - ( 300 - p.get_hunger() ) );
-        p.set_hunger( 300 );
-    } else {
-        p.mod_hunger( m_category.mutagen_hunger * mut_count ) ;
-    }
+    // burn calories directly
+    p.mod_stored_nutr( m_category.mutagen_hunger * mut_count );
     p.mod_thirst( m_category.mutagen_thirst * mut_count );
     p.mod_fatigue( m_category.mutagen_fatigue * mut_count );
 
@@ -3815,7 +3824,7 @@ long mutagen_iv_actor::use( player &p, item &it, bool, const tripoint & ) const
     if( p.is_player() && !( p.has_trait( trait_NOPAIN ) ) && m_category.iv_sound ) {
         p.mod_pain( m_category.iv_pain );
         /** @EFFECT_STR increases volume of painful shouting when using IV mutagen */
-        sounds::sound( p.pos(), m_category.iv_noise + p.str_cur, sounds::sound_t::speech,
+        sounds::sound( p.pos(), m_category.iv_noise + p.str_cur, sounds::sound_t::alert,
                        m_category.iv_sound_message() );
     }
 

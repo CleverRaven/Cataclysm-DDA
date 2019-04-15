@@ -38,7 +38,7 @@ void player::print_encumbrance( const catacurses::window &win, int line,
                                 item *selected_clothing ) const
 {
     const int height = getmaxy( win );
-    int orig_line = line;
+    const int orig_line = line;
 
     // fill a set with the indices of the body parts to display
     line = std::max( 0, line );
@@ -73,15 +73,15 @@ void player::print_encumbrance( const catacurses::window &win, int line,
     const auto enc_data = get_encumbrance();
     for( auto bp : parts ) {
         const encumbrance_data &e = enc_data[bp];
-        bool highlighted = ( selected_clothing == nullptr ) ? false :
-                           ( selected_clothing->covers( static_cast<body_part>( bp ) ) );
-        bool combine = should_combine_bps( *this, bp, bp_aiOther[bp] );
+        const bool highlighted = ( selected_clothing == nullptr ) ? false :
+                                 ( selected_clothing->covers( static_cast<body_part>( bp ) ) );
+        const bool combine = should_combine_bps( *this, bp, bp_aiOther[bp] );
         out.clear();
         // limb, and possible color highlighting
         // TODO: utf8 aware printf would be nice... this works well enough for now
         out = body_part_name_as_heading( all_body_parts[bp], combine ? 2 : 1 );
 
-        int len = 7 - utf8_width( out );
+        const int len = 7 - utf8_width( out );
         switch( sgn( len ) ) {
             case -1:
                 out = utf8_truncate( out, 7 );
@@ -158,7 +158,7 @@ int get_encumbrance( const player &p, body_part bp, bool combine )
 {
     // Body parts that can't combine with anything shouldn't print double values on combine
     // This shouldn't happen, but handle this, just in case
-    bool combines_with_other = static_cast<int>( bp_aiOther[bp] ) != bp;
+    const bool combines_with_other = static_cast<int>( bp_aiOther[bp] ) != bp;
     return p.encumb( bp ) * ( ( combine && combines_with_other ) ? 2 : 1 );
 }
 
@@ -280,12 +280,6 @@ void player::disp_info()
                 starvation_text << _( "Intelligence" ) << " -" << static_cast<int>( starvation_base_penalty / 1000 )
                                 << "   ";
             }
-        }
-
-        int starvation_speed_penalty = abs( hunger_speed_penalty( get_starvation() + get_hunger() ) );
-
-        if( get_hunger() + get_starvation() > 100 ) {
-            starvation_text << _( "Speed" ) << " -" << starvation_speed_penalty << "%   ";
         }
 
         effect_text.push_back( starvation_text.str() );
@@ -517,6 +511,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
     input_context ctxt( "PLAYER_INFO" );
     ctxt.register_updown();
     ctxt.register_action( "NEXT_TAB", _( "Cycle to next category" ) );
+    ctxt.register_action( "PREV_TAB", _( "Cycle to previous category" ) );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "CONFIRM", _( "Toggle skill training" ) );
     ctxt.register_action( "HELP_KEYBINDINGS" );
@@ -684,9 +679,9 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                    ( pen < 10 ? " " : "" ), pen );
         line++;
     }
-    if( get_hunger() + get_starvation() > 100 ) {
-        pen = abs( hunger_speed_penalty( get_hunger() + get_starvation() ) );
-        mvwprintz( w_speed, line, 1, c_red, _( "Under-Fed           -%s%d%%" ),
+    if( kcal_speed_penalty() < 0 ) {
+        pen = abs( kcal_speed_penalty() );
+        mvwprintz( w_speed, line, 1, c_red, _( "Starving            -%s%d%%" ),
                    ( pen < 10 ? " " : "" ), pen );
         line++;
     }
@@ -858,12 +853,12 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     } else {
                         line--;
                     }
-                } else if( action == "NEXT_TAB" ) {
+                } else if( action == "NEXT_TAB" || action == "PREV_TAB" ) {
                     mvwprintz( w_stats, 0, 0, c_light_gray, header_spaces.c_str() );
                     center_print( w_stats, 0, c_light_gray, title_STATS );
                     wrefresh( w_stats );
                     line = 0;
-                    curtab++;
+                    curtab = action == "NEXT_TAB" ? curtab + 1 : 6;
                 } else if( action == "QUIT" ) {
                     done = true;
                 }
@@ -908,12 +903,12 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                             line--; // unpaired or unequal
                         }
                     }
-                } else if( action == "NEXT_TAB" ) {
+                } else if( action == "NEXT_TAB" || action == "PREV_TAB" ) {
                     mvwprintz( w_encumb, 0, 0, c_light_gray, header_spaces.c_str() );
                     center_print( w_encumb, 0, c_light_gray, title_ENCUMB );
                     wrefresh( w_encumb );
                     line = 0;
-                    curtab++;
+                    curtab = action == "NEXT_TAB" ? curtab + 1 : curtab - 1;
                 } else if( action == "QUIT" ) {
                     done = true;
                 }
@@ -965,7 +960,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     if( line > 0 ) {
                         line--;
                     }
-                } else if( action == "NEXT_TAB" ) {
+                } else if( action == "NEXT_TAB" || action == "PREV_TAB" ) {
                     mvwprintz( w_traits, 0, 0, c_light_gray, header_spaces.c_str() );
                     center_print( w_traits, 0, c_light_gray, title_TRAITS );
                     for( size_t i = 0; i < traitslist.size() && i < trait_win_size_y; i++ ) {
@@ -977,7 +972,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     }
                     wrefresh( w_traits );
                     line = 0;
-                    curtab++;
+                    curtab = action == "NEXT_TAB" ? curtab + 1 : curtab - 1;
                 } else if( action == "QUIT" ) {
                     done = true;
                 }
@@ -1023,7 +1018,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     if( line > 0 ) {
                         line--;
                     }
-                } else if( action == "NEXT_TAB" ) {
+                } else if( action == "NEXT_TAB" || action == "PREV_TAB" ) {
                     mvwprintz( w_bionics, 0, 0, c_light_gray, header_spaces.c_str() );
                     center_print( w_bionics, 0, c_light_gray, title_BIONICS );
                     trim_and_print( w_bionics, 1, 1, getmaxx( w_bionics ) - 1, c_white,
@@ -1035,7 +1030,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     }
                     wrefresh( w_bionics );
                     line = 0;
-                    curtab++;
+                    curtab = action == "NEXT_TAB" ? curtab + 1 : curtab - 1;
                 } else if( action == "QUIT" ) {
                     done = true;
                 }
@@ -1082,7 +1077,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     if( line > 0 ) {
                         line--;
                     }
-                } else if( action == "NEXT_TAB" ) {
+                } else if( action == "NEXT_TAB" || action == "PREV_TAB" ) {
                     mvwprintz( w_effects, 0, 0, c_light_gray, header_spaces.c_str() );
                     center_print( w_effects, 0, c_light_gray, title_EFFECTS );
                     for( size_t i = 0; i < effect_name.size() && i < 7; i++ ) {
@@ -1090,7 +1085,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     }
                     wrefresh( w_effects );
                     line = 0;
-                    curtab = 1;
+                    curtab = action == "NEXT_TAB" ? 1 : curtab - 1;
                 } else if( action == "QUIT" ) {
                     done = true;
                 }
@@ -1182,7 +1177,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     if( line > 0 ) {
                         line--;
                     }
-                } else if( action == "NEXT_TAB" ) {
+                } else if( action == "NEXT_TAB" || action == "PREV_TAB" ) {
                     werase( w_skills );
                     mvwprintz( w_skills, 0, 0, c_light_gray, header_spaces.c_str() );
                     center_print( w_skills, 0, c_light_gray, title_SKILLS );
@@ -1214,7 +1209,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     }
                     wrefresh( w_skills );
                     line = 0;
-                    curtab++;
+                    curtab = action == "NEXT_TAB" ? curtab + 1 : curtab - 1;
                 } else if( action == "CONFIRM" ) {
                     get_skill_level_object( selectedSkill->ident() ).toggleTraining();
                 } else if( action == "QUIT" ) {

@@ -20,6 +20,10 @@ class map;
 struct oter_t;
 using oter_id = int_id<oter_t>;
 enum field_id : int;
+class mission;
+using mapgen_update_func = std::function<void( const tripoint &map_pos3, mission *miss )>;
+class JsonObject;
+
 namespace om_direction
 {
 enum class type : int;
@@ -239,4 +243,5 @@ void madd_field( map *m, int x, int y, field_id type, int density );
 
 void place_stairs( map *m, oter_id terrain_type, mapgendata dat );
 
+mapgen_update_func add_mapgen_update_func( JsonObject &jo, bool &defer );
 #endif

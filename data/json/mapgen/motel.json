@@ -1387,7 +1387,7 @@
         "|....+_))))))),,,,,,,)))",
         "|tbbtw_,,,,,,,,,,,,,,,,,",
         "|----|_,,,,,,,,,,,,,,,,,",
-        "?,,,,,__________________",
+        "?<<,,,__________________",
         "?,,,,,,|w+w---|w+w---|w+",
         "?,,,,,,|t.Y|.$|t.Y|.$|t.",
         "???????|b..=..|b..=..|b.",
@@ -1402,6 +1402,7 @@
         "&": "t_floor",
         "$": "t_floor",
         ">": "t_floor",
+        "<": "t_stairs_up",
         ":": "t_floor",
         "`": "t_pavement",
         "b": "t_floor",
@@ -1542,7 +1543,69 @@
       },
       "place_item": [ { "item": "30gal_drum", "x": [ 6, 7 ], "y": 4, "chance": 80 } ],
       "toilets": { "&": {  } },
-      "place_vehicles": [ { "chance": 30, "fuel": 15, "vehicle": "rv", "x": 6, "y": 8 } ]
+      "place_vehicles": [ { "chance": 30, "fuel": 15, "vehicle": "rv", "x": 6, "y": 8 } ],
+      "place_graffiti": [ { "text": "Big half-erased pink X", "x": 21, "y": 2 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "motel_twd_second_floor" ],
+    "weight": 300,
+    "object": {
+    "fill_ter": "t_open_air",
+      "rows": [
+        "                        ",
+        "                        ",
+        "|----|//                ",
+        "|tbbt|./                ",
+        "|....+.                 ",
+        "|:..Yw.                 ",
+        "|--=-|.                 ",
+        "|%...|./                ",
+        "|&..$|./                ",
+        "|----|./                ",
+        "|&..$|./                ",
+        "|%...|./                ",
+        "|--=-|./                ",
+        "|:..Yw./                ",
+        "|....+./                ",
+        "|tbbtw./                ",
+        "|----|./                ",
+        "/<<..../                ",
+        "////////                ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": {
+        ".": "t_floor",
+        "%": "t_floor",
+        "&": "t_floor",
+        "$": "t_floor",
+        "<": "t_stairs_down",
+        ":": "t_floor",
+        "b": "t_floor",
+        "t": "t_floor",
+        "Y": "t_floor",
+        "-": "t_wall",
+        "|": "t_wall",
+        "/": "t_railing",
+        "+": "t_door_locked",
+        "=": "t_door_c",
+        "w": "t_curtains"
+      },
+      "furniture": {
+        "b": "f_bed",
+        "t": "f_table",
+        "%": "f_sink",
+        "$": "f_shower",
+        ":": "f_dresser",
+        "Y": "f_rack_coat"
+      },
+      "toilets": { "&": {  } }
     }
   }
 ]

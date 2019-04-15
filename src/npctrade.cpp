@@ -82,7 +82,7 @@ std::vector<item_pricing> init_buying( npc &p, player &u )
         }
 
         auto &it = *it_ptr;
-        int market_price = it.price( true );
+        const int market_price = it.price( true );
         int val = p.value( it, market_price );
         if( p.wants_to_buy( it, val, market_price ) ) {
             result.emplace_back( std::move( loc ), val, false );
@@ -187,7 +187,7 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
     units::mass weight_left = p.weight_capacity() - p.weight_carried();
 
     do {
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
         input_context ctxt( "NPC_TRADE" );
         ctxt.register_manual_key( '\t', "Switch lists" );
         ctxt.register_manual_key( '<', "Back" );
@@ -281,7 +281,7 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                     }
                     trim_and_print( w_whose, i - offset + 1, 1, win_w, color, "%c %c %s",
                                     static_cast<char>( keychar ), ip.selected ? '+' : '-', itname.c_str() );
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
                     ctxt.register_manual_key( keychar, itname.c_str() );
 #endif
 

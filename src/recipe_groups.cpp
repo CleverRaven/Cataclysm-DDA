@@ -38,8 +38,8 @@ void recipe_group_data::load( JsonObject &jo, const std::string & )
     JsonArray jsarr = jo.get_array( "recipes" );
     while( jsarr.has_more() ) {
         JsonObject ordering = jsarr.next_object();
-        std::string name_id = ordering.get_string( "id" );
-        std::string desc = ordering.get_string( "description" );
+        const std::string name_id = ordering.get_string( "id" );
+        const std::string desc = ordering.get_string( "description" );
         cooking_recipes[desc] = name_id;
     }
 

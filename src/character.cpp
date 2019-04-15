@@ -108,12 +108,12 @@ Character::Character() :
     healthy = 0;
     healthy_mod = 0;
     hunger = 0;
-    starvation = 0;
     thirst = 0;
     fatigue = 0;
     sleep_deprivation = 0;
-    stomach_food = 0;
-    stomach_water = 0;
+    // 45 days to starve to death
+    healthy_calories = 77000;
+    stored_calories = healthy_calories;
 
     name.clear();
 
@@ -171,8 +171,6 @@ void Character::mod_stat( const std::string &stat, float modifier )
         mod_healthy( modifier );
     } else if( stat == "hunger" ) {
         mod_hunger( modifier );
-    } else if( stat == "starvation" ) {
-        mod_starvation( modifier );
     } else {
         Creature::mod_stat( stat, modifier );
     }
@@ -1684,6 +1682,9 @@ void Character::mut_cbm_encumb( std::array<encumbrance_data, num_bp> &vals ) con
     if( has_bionic( bionic_id( "bio_nostril" ) ) ) {
         vals[bp_mouth].encumbrance += 10;
     }
+    if( has_bionic( bionic_id( "bio_shotgun" ) ) ) {
+        vals[bp_arm_l].encumbrance += 5;
+    }
     if( has_bionic( bionic_id( "bio_thumbs" ) ) ) {
         vals[bp_hand_l].encumbrance += 10;
         vals[bp_hand_r].encumbrance += 10;
@@ -1890,6 +1891,42 @@ void Character::mod_healthy_mod( int nhealthy_mod, int cap )
     healthy_mod = std::max( healthy_mod, low_cap );
 }
 
+int Character::get_stored_kcal() const
+{
+    return stored_calories;
+}
+
+void Character::mod_stored_kcal( int nkcal )
+{
+    // this needs to be capped until there are negative effects on being overweight
+    const int capped = std::min( stored_calories + nkcal,
+                                 static_cast<int>( get_healthy_kcal() * 1.1 ) );
+    set_stored_kcal( capped );
+}
+
+void Character::mod_stored_nutr( int nnutr )
+{
+    // nutr is legacy type code, this function simply converts old nutrition to new kcal
+    mod_stored_kcal( -1 * round( nnutr * 2500.0f / ( 12 * 24 ) ) );
+}
+
+void Character::set_stored_kcal( int kcal )
+{
+    if( stored_calories != kcal ) {
+        stored_calories = kcal;
+    }
+}
+
+int Character::get_healthy_kcal() const
+{
+    return healthy_calories;
+}
+
+float Character::get_kcal_percent() const
+{
+    return static_cast<float>( get_stored_kcal() ) / static_cast<float>( get_healthy_kcal() );
+}
+
 int Character::get_hunger() const
 {
     return hunger;
@@ -1909,22 +1946,19 @@ void Character::set_hunger( int nhunger )
     }
 }
 
+// this is a translation from a legacy value
 int Character::get_starvation() const
 {
-    return starvation;
-}
-
-void Character::mod_starvation( int nstarvation )
-{
-    set_starvation( starvation + nstarvation );
-}
-
-void Character::set_starvation( int nstarvation )
-{
-    if( starvation != nstarvation ) {
-        starvation = std::max( 0, nstarvation );
-        on_stat_change( "starvation", starvation );
+    static const std::vector<std::pair<float, float>> starv_thresholds = { {
+            std::make_pair( 0.0f, 6000.0f ),
+            std::make_pair( 0.8f, 300.0f ),
+            std::make_pair( 0.95f, 100.0f )
+        }
+    };
+    if( get_kcal_percent() < 0.95f ) {
+        return round( multi_lerp( starv_thresholds, get_kcal_percent() ) );
     }
+    return 0;
 }
 
 int Character::get_thirst() const
@@ -1934,7 +1968,9 @@ int Character::get_thirst() const
 
 std::pair<std::string, nc_color> Character::get_thirst_description() const
 {
-    int thirst = get_thirst();
+    // some delay from water in stomach is desired, but there needs to be some visceral response
+    int thirst = get_thirst() - ( std::max( units::to_milliliter<int>( g->u.stomach.get_water() ) / 5 -
+                                            100, 0 ) );
     std::string hydration_string;
     nc_color hydration_color = c_white;
     if( thirst > 520 ) {
@@ -2024,31 +2060,6 @@ void Character::set_thirst( int nthirst )
         thirst = nthirst;
         on_stat_change( "thirst", thirst );
     }
-}
-
-int Character::get_stomach_food() const
-{
-    return stomach_food;
-}
-void Character::mod_stomach_food( int n_stomach_food )
-{
-    stomach_food = std::max( 0, stomach_food + n_stomach_food );
-}
-void Character::set_stomach_food( int n_stomach_food )
-{
-    stomach_food = std::max( 0, n_stomach_food );
-}
-int Character::get_stomach_water() const
-{
-    return stomach_water;
-}
-void Character::mod_stomach_water( int n_stomach_water )
-{
-    stomach_water = std::max( 0, stomach_water + n_stomach_water );
-}
-void Character::set_stomach_water( int n_stomach_water )
-{
-    stomach_water = std::max( 0, n_stomach_water );
 }
 
 void Character::mod_fatigue( int nfatigue )
@@ -2933,6 +2944,10 @@ float Character::mutation_value( const std::string &val ) const
         return calc_mutation_value_multiplicative<&mutation_branch::hearing_modifier>( cached_mutations );
     } else if( val == "noise_modifier" ) {
         return calc_mutation_value_multiplicative<&mutation_branch::noise_modifier>( cached_mutations );
+    } else if( val == "overmap_sight" ) {
+        return calc_mutation_value_multiplicative<&mutation_branch::overmap_sight>( cached_mutations );
+    } else if( val == "overmap_multiplier" ) {
+        return calc_mutation_value_multiplicative<&mutation_branch::overmap_multiplier>( cached_mutations );
     }
 
     debugmsg( "Invalid mutation value name %s", val.c_str() );

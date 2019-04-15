@@ -48,6 +48,7 @@ cata::optional<int> cata::string_formatter::read_argument_index()
         const int result = parse_integer() - 1; // arguments are 1-based
         // We already know this is true because of the `find_first_not_of` check above.
         const bool had_next = consume_next_input_if( '$' );
+        ( void ) had_next;
         assert( had_next );
         return result;
     } else {

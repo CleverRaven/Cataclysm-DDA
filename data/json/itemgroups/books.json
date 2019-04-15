@@ -1,8 +1,8 @@
 [
   {
-    "type" : "item_group",
-    "id" : "book_gunmags",
-    "//" : "Magazines about guns",
+    "type": "item_group",
+    "id": "book_gunmags",
+    "//": "Magazines about guns",
     "items": [
       [ "mag_guns", 100 ],
       [ "mag_launcher", 5 ],
@@ -13,9 +13,9 @@
     ]
   },
   {
-    "type" : "item_group",
-    "id" : "book_gunref",
-    "//" : "Reference books about guns",
+    "type": "item_group",
+    "id": "book_gunref",
+    "//": "Reference books about guns",
     "items": [
       [ "manual_launcher", 5 ],
       [ "manual_pistol", 50 ],
@@ -27,9 +27,9 @@
     ]
   },
   {
-    "type" : "item_group",
-    "id" : "book_martial",
-    "//" : "Books about martial arts",
+    "type": "item_group",
+    "id": "book_martial",
+    "//": "Books about martial arts",
     "items": [
       [ "manual_eskrima", 100 ],
       [ "manual_krav_maga", 100 ],
@@ -39,10 +39,10 @@
     ]
   },
   {
-    "type" : "item_group",
-    "id" : "book_military",
-    "//" : "Military combat manuals and related books",
-    "items":[
+    "type": "item_group",
+    "id": "book_military",
+    "//": "Military combat manuals and related books",
+    "items": [
       { "group": "book_gunmags", "prob": 100 },
       { "group": "book_martial", "prob": 100 },
       [ "manual_bashing", 40 ],
@@ -60,9 +60,9 @@
     ]
   },
   {
-    "type" : "item_group",
-    "id" : "book_survival",
-    "//" : "Survival skill books weighted according to level",
+    "type": "item_group",
+    "id": "book_survival",
+    "//": "Survival skill books weighted according to level",
     "items": [
       [ "atomic_survival", 12 ],
       [ "fun_survival", 33 ],
@@ -75,15 +75,41 @@
     ]
   },
   {
-    "type" : "item_group",
-    "id" : "book_school",
+    "type": "item_group",
+    "id": "book_school",
     "subtype": "collection",
-    "//" : "Books found in school library",
-    "items":[
+    "//": "Books found in school library",
+    "items": [
       { "group": "novels", "prob": 50 },
       { "group": "manuals", "prob": 40 },
       { "group": "textbooks", "prob": 30 },
       [ "dnd_handbook", 3 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "religious_books",
+    "//": "Any religious book",
+    "items": [
+      [ "holybook_bible1", 1 ],
+      [ "holybook_bible2", 1 ],
+      [ "holybook_bible3", 1 ],
+      [ "holybook_quran", 1 ],
+      [ "holybook_hadith", 1 ],
+      [ "holybook_havamal", 1 ],
+      [ "holybook_tanakh", 1 ],
+      [ "holybook_talmud", 1 ],
+      [ "holybook_vedas", 1 ],
+      [ "holybook_upanishads", 1 ],
+      [ "holybook_tripitaka", 1 ],
+      [ "holybook_sutras", 1 ],
+      [ "holybook_granth", 1 ],
+      [ "holybook_mormon", 1 ],
+      [ "holybook_kojiki", 1 ],
+      [ "holybook_pastafarian", 1 ],
+      [ "holybook_slack", 1 ],
+      [ "holybook_kallisti", 1 ],
+      [ "holybook_scientology", 1 ]
     ]
   }
 ]

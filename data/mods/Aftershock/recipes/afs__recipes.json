@@ -286,7 +286,38 @@
       [ [ "soldering_iron", 1 ] ],
       [ [ "welder", 1 ], [ "welder_crude", 2 ] ],
       [ [ "forge", 1 ] ],
+      [ [ "kiln", 1 ] ],
       [ [ "cable", 10 ] ]
+    ]
+  },
+  {
+    "result": "afs_kitchen_rig",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "fabrication",
+    "skills_required": [ "electronics", 3 ],
+    "difficulty": 4,
+    "time": 90000,
+    "decomp_learn": 3,
+    "reversible": true,
+    "book_learn": [ [ "textbook_fabrication", 3 ], [ "manual_fabrication", 3 ], [ "manual_electronics", 3 ], [ "manual_mechanics", 3 ] ],
+    "using": [ [ "welding_standard", 10 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [
+      [ [ "hdframe", 1 ] ],
+      [ [ "vac_sealer", 1 ], [ "makeshift_sealer", 1 ] ],
+      [ [ "dehydrator", 1 ] ],
+      [ [ "water_purifier", 1 ] ],
+      [ [ "food_processor", 1 ] ],
+      [ [ "press", 1 ] ],
+      [ [ "cable", 5 ] ],
+      [ [ "hotplate", 1 ] ],
+      [ [ "pot", 1 ], [ "pot_copper", 1 ] ],
+      [ [ "pan", 1 ] ],
+      [ [ "water_faucet", 2 ] ],
+      [ [ "cable", 10 ] ],
+      [ [ "chemistry_set", 1 ] ]
     ]
   },
   {
@@ -299,7 +330,7 @@
     "time": 60000,
     "decomp_learn": 3,
     "reversible": true,
-    "book_learn": [ [ "textbook_fabrication", 3 ], [ "manual_fabrication", 3 ], [ "manual_electronics", 3 ], [ "manual_mechanics", 3 ] ],
+    "autolearn": true,
     "using": [ [ "welding_standard", 10 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "WRENCH", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
@@ -320,10 +351,33 @@
     "skill_used": "electronics",
     "difficulty": 5,
     "time": 30000,
-    "book_learn": [ [ "recipe_caseless", 9 ], [ "recipe_lab_cvd", 3 ] ],
+    "book_learn": [ [ "recipe_caseless", 5 ], [ "recipe_lab_cvd", 4 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "//": "Conversion of a normal smartphone into an atomic one by replacing the power supply.",
     "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "processor", 1 ] ], [ [ "smart_phone", 1 ] ], [ [ "plut_cell", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "afs_atomic_reading_light",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "electronics",
+    "time": 45000,
+    "difficulty": 4,
+    "reversible": true,
+    "decomp_learn": 3,
+    "book_learn": [ [ "recipe_caseless", 4 ], [ "recipe_lab_cvd", 3 ] ],
+    "using": [ [ "soldering_standard", 15 ] ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "mold_plastic", -1 ] ] ],
+    "qualities": [ { "id": "SCREW_FINE", "level": 1 } ],
+    "components": [
+      [ [ "plastic_chunk", 1 ] ],
+      [ [ "scrap", 4 ] ],
+      [ [ "cable", 4 ] ],
+      [ [ "circuit", 1 ] ],
+      [ [ "lens", 1 ], [ "lens_small", 1 ] ],
+      [ [ "plut_cell", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -354,5 +408,18 @@
     "book_learn": [ [ "recipe_alpha", 9 ], [ "recipe_serum", 9 ] ],
     "qualities": [ { "id": "CHEM", "level": 3 } ],
     "components": [ [ [ "iv_purifier", 3 ] ], [ [ "royal_jelly", 1 ] ], [ [ "slime_scrap", 1 ] ], [ [ "syringe", 1 ] ] ]
+  },
+  {
+    "result": "afs_hauling_space",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": 60000,
+    "autolearn": true,
+    "using": [ [ "welding_standard", 10 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "WRENCH", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "hdframe", 3 ] ], [ [ "sheet_metal", 4 ] ] ]
   }
 ]

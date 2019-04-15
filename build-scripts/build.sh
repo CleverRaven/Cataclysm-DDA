@@ -11,9 +11,11 @@ function run_tests
 
 if [ -n "$CMAKE" ]
 then
+    bin_path="./"
     if [ "$RELEASE" = "1" ]
     then
         build_type=MinSizeRel
+        bin_path="build/tests/"
     else
         build_type=Debug
     fi
@@ -29,8 +31,8 @@ then
         ..
     make -j3
     cd ..
-    [ -f cata_test ] && run_tests ./cata_test
-    [ -f cata_test-tiles ] && run_tests ./cata_test-tiles
+    [ -f "${bin_path}cata_test" ] && run_tests "${bin_path}cata_test"
+    [ -f "${bin_path}cata_test-tiles" ] && run_tests "${bin_path}cata_test-tiles"
 else
     make -j3 RELEASE=1 BACKTRACE=1 DEBUG_SYMBOLS=1 CROSS="$CROSS_COMPILATION"
     run_tests ./tests/cata_test
