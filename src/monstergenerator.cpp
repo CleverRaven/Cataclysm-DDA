@@ -544,6 +544,7 @@ void MonsterGenerator::init_flags()
     flag_map["DRIPS_NAPALM"] = MF_DRIPS_NAPALM;
     flag_map["ELECTRIC_FIELD"] = MF_ELECTRIC_FIELD;
     flag_map["LOUDMOVES"] = MF_LOUDMOVES;
+    flag_map["CAN_OPEN_DOORS"] = MF_CAN_OPEN_DOORS;
 }
 
 void MonsterGenerator::set_species_ids( mtype &mon )
