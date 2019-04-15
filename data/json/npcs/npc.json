@@ -476,6 +476,17 @@
   },
   {
     "type": "npc",
+    "id": "survivor_chef",
+    "//": "A chef hiding at their job since the cataclysm. They spawn in a slightly fortified back room of a restaurant with a stockpile of food.",
+    "name_suffix": "chef",
+    "class": "NC_SURVIVOR_CHEF",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_SURVIVOR_CHEF",
+    "faction": "wasteland_scavengers"
+  },
+  {
+    "type": "npc",
     "id": "cyborg_rescued",
     "//": "A broken cyborg you saved.",
     "name_suffix": "Cyborg",
