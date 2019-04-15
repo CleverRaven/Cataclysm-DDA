@@ -185,7 +185,23 @@ bool Creature::sees( const Creature &critter ) const
             if( coverage < 30 ) {
                 return sees( critter.pos(), critter.is_player() );
             }
-            const int vision_modifier = 30 - 0.5 * coverage;
+            float size_modifier = 1.0;
+            switch( p->get_size() )
+            {
+                case MS_TINY:
+                    size_modifier = 2.0;
+                    break;
+                case MS_SMALL:
+                    size_modifier = 1.4;
+                    break;
+                case MS_LARGE:
+                    size_modifier = 0.6;
+                    break;
+                case MS_HUGE:
+                    size_modifier = 0.15;
+                    break;
+            }
+            const int vision_modifier = 30 - 0.5 * coverage * size_modifier;
             if( vision_modifier > 1 ) {
                 return sees( critter.pos(), critter.is_player(), vision_modifier );
             }
