@@ -443,6 +443,7 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "EAT_FOOD", mattack::eat_food );
     add_hardcoded_attack( "ANTQUEEN", mattack::antqueen );
     add_hardcoded_attack( "ASSIST", mattack::nurse_assist );
+    add_hardcoded_attack( "OPERATE", mattack::nurse_operate );
     add_hardcoded_attack( "SHRIEK", mattack::shriek );
     add_hardcoded_attack( "SHRIEK_ALERT", mattack::shriek_alert );
     add_hardcoded_attack( "SHRIEK_STUN", mattack::shriek_stun );

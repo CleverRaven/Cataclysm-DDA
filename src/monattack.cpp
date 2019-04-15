@@ -2709,6 +2709,24 @@ bool mattack::nurse_assist( monster *z )
         g->u.remove_effect( effect_assisted );
     }
 }
+bool mattack::nurse_operate( monster *z )
+{
+    if( !within_visual_range( z, 6 ) ) {
+        return false;
+    }
+
+    if( g->u.is_wearing( "badge_doctor" ) ||
+        z->attitude_to( g->u ) == monster_attitude::MATT_FRIEND ) {
+
+        add_msg( m_info, _( "The %s doesn't seem to register you" ), z->name().c_str() );
+    }
+
+    if( g->u.has_any_bionic() ) {
+        add_msg( m_info, _( "The %s scans you and seems to detect your bionics" ), z->name().c_str() );
+
+    }
+
+}
 bool mattack::photograph( monster *z )
 {
     if( !within_visual_range( z, 6 ) ) {
