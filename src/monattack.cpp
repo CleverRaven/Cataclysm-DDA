@@ -79,6 +79,7 @@ const skill_id skill_launcher( "launcher" );
 const species_id ZOMBIE( "ZOMBIE" );
 const species_id BLOB( "BLOB" );
 
+const efftype_id effect_assist( "assist" );
 const efftype_id effect_bite( "bite" );
 const efftype_id effect_bleed( "bleed" );
 const efftype_id effect_blind( "blind" );
@@ -2690,7 +2691,24 @@ bool mattack::fear_paralyze( monster *z )
 
     return true;
 }
+bool mattack::nurse_assist( monster *z )
+{
+    if( !within_visual_range( z, 6 ) ) {
+        z->remove_effect( effect_assist );
+        return false;
+    }
 
+    if( g->u.is_wearing( "badge_doctor" ) ||
+        z->attitude_to( g->u ) == monster_attitude::MATT_FRIEND ) {
+        sounds::sound( z->pos(), 8, sounds::sound_t::speech,
+                       string_format(
+                           _( "a soft robotic voice says, \"Welcome Doctor %s.  I'll be your assistant today.\"" ),
+                           Name::generate( g->u.male ) ) );
+        z->add_effect( effect_assist, 1_turns, num_bp, true );
+    } else {
+        z->remove_effect( effect_assist );
+    }
+}
 bool mattack::photograph( monster *z )
 {
     if( !within_visual_range( z, 6 ) ) {
