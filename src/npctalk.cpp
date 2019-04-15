@@ -1609,6 +1609,22 @@ void talk_effect_fun_t::set_consume_item( JsonObject jo, const std::string &memb
     };
 }
 
+void talk_effect_fun_t::set_remove_item_with( JsonObject jo, const std::string &member,
+        bool is_npc )
+{
+    const std::string &item_name = jo.get_string( member );
+    function = [is_npc, item_name]( const dialogue & d ) {
+        player *actor = d.alpha;
+        if( is_npc ) {
+            actor = dynamic_cast<player *>( d.beta );
+        }
+        itype_id item_id = itype_id( item_name );
+        actor->remove_items_with( [item_id]( const item & it ) {
+            return it.typeId() == item_id;
+        } );
+    };
+}
+
 void talk_effect_fun_t::set_u_spend_cash( int amount )
 {
     function = [amount]( const dialogue & d ) {
@@ -1665,6 +1681,30 @@ void talk_effect_fun_t::set_toggle_npc_rule( const std::string &rule )
             return;
         }
         d.beta->rules.toggle_flag( toggle->second );
+        d.beta->wield_better_weapon();
+    };
+}
+
+void talk_effect_fun_t::set_set_npc_rule( const std::string &rule )
+{
+    function = [rule]( const dialogue & d ) {
+        auto flag = ally_rule_strs.find( rule );
+        if( flag == ally_rule_strs.end() ) {
+            return;
+        }
+        d.beta->rules.set_flag( flag->second );
+        d.beta->wield_better_weapon();
+    };
+}
+
+void talk_effect_fun_t::set_clear_npc_rule( const std::string &rule )
+{
+    function = [rule]( const dialogue & d ) {
+        auto flag = ally_rule_strs.find( rule );
+        if( flag == ally_rule_strs.end() ) {
+            return;
+        }
+        d.beta->rules.clear_flag( flag->second );
         d.beta->wield_better_weapon();
     };
 }
@@ -1810,7 +1850,8 @@ void talk_effect_t::parse_sub_effect( JsonObject jo )
         int cash_change = jo.get_int( "u_spend_cash" );
         subeffect_fun.set_u_spend_cash( cash_change );
     } else if( jo.has_string( "u_sell_item" ) || jo.has_string( "u_buy_item" ) ||
-               jo.has_string( "u_consume_item" ) || jo.has_string( "npc_consume_item" ) ) {
+               jo.has_string( "u_consume_item" ) || jo.has_string( "npc_consume_item" ) ||
+               jo.has_string( "u_remove_item_with" ) || jo.has_string( "npc_remove_item_with" ) ) {
         int cost = 0;
         if( jo.has_int( "cost" ) ) {
             cost = jo.get_int( "cost" );
@@ -1833,6 +1874,10 @@ void talk_effect_t::parse_sub_effect( JsonObject jo )
             subeffect_fun.set_consume_item( jo, "u_consume_item", count );
         } else if( jo.has_string( "npc_consume_item" ) ) {
             subeffect_fun.set_consume_item( jo, "npc_consume_item", count, is_npc );
+        } else if( jo.has_string( "u_remove_item_with" ) ) {
+            subeffect_fun.set_remove_item_with( jo, "u_remove_item_with" );
+        } else if( jo.has_string( "npc_remove_item_with" ) ) {
+            subeffect_fun.set_remove_item_with( jo, "npc_remove_item_with", is_npc );
         }
     } else if( jo.has_string( "npc_change_class" ) ) {
         std::string class_name = jo.get_string( "npc_change_class" );
@@ -1857,6 +1902,12 @@ void talk_effect_t::parse_sub_effect( JsonObject jo )
     } else if( jo.has_string( "toggle_npc_rule" ) ) {
         const std::string rule = jo.get_string( "toggle_npc_rule" );
         subeffect_fun.set_toggle_npc_rule( rule );
+    } else if( jo.has_string( "set_npc_rule" ) ) {
+        const std::string rule = jo.get_string( "set_npc_rule" );
+        subeffect_fun.set_set_npc_rule( rule );
+    } else if( jo.has_string( "clear_npc_rule" ) ) {
+        const std::string rule = jo.get_string( "clear_npc_rule" );
+        subeffect_fun.set_clear_npc_rule( rule );
     } else if( jo.has_string( "set_npc_engagement_rule" ) ) {
         const std::string setting = jo.get_string( "set_npc_engagement_rule" );
         subeffect_fun.set_npc_engagement_rule( setting );

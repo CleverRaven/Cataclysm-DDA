@@ -340,14 +340,14 @@ u_sell_item: item_string, (*optional* cost: cost_num, *optional* count: count_nu
 u_spend_cash: cost_num | Remove `cost_num` from your character's cash.  Negative values means your character gains cash.
 add_debt: mod_list | Increases the NPC's debt to the player by the values in the mod_list.<br/>The following would increase the NPC's debt to the player by 1500x the NPC's altruism and 1000x the NPC's opinion of the player's value: `{ "effect": { "add_debt": [ [ "ALTRUISM", 3 ], [ "VALUE", 2 ], [ "TOTAL", 500 ] ] } }`
 u_consume_item, npc_consume_item: item_string, (*optional* count: count_num) | You or the NPC will delete the item or `count_num` copies of the item from their inventory.<br/>This effect will fail if the you or NPC does not have at least `count_num` copies of the item, so it should be checked with `u_has_items` or `npc_has_items`.
-
+u_remove_item_with, npc_remove_item_with: item_string | You or the NPC will delete any instances of item in inventory.<br/>This is an unconditional remove and will not fail if you or the NPC does not have the item.
 
 #### Behaviour / AI
 
 Effect | Description
 ---|---
-assign_guard | Makes the NPC into a guard, if at a camp, they will be assigned to that camp.
-stop_guard | Releases the NPC from their guard duty (also see `assign_guard`).
+assign_guard | Makes the NPC into a guard.  If allied and at a camp, they will be assigned to that camp.
+stop_guard | Releases the NPC from their guard duty (also see `assign_guard`).  Friendly NPCs will return to following.
 start_camp | The NPC will start a faction camp with the player.
 recover_camp | Makes the NPC the overseer of an existing camp that doesn't have an overseer.
 remove_overseer | Makes the NPC stop being an overseer, abandoning the faction camp.
@@ -372,6 +372,8 @@ npc_class_change: class_string | Change the NPC's faction to `class_string`.
 npc_faction_change: faction_string | Change the NPC's faction membership to `faction_string`.
 u_faction_rep: rep_num | Increase's your reputation with the NPC's current faction, or decreases it if `rep_num` is negative.
 toggle_npc_rule: rule_string | Toggles the value of a boolean NPC follower AI rule such as "use_silent" or "allow_bash"
+set_npc_rule: rule_string | Sets the value of a boolean NPC follower AI rule such as "use_silent" or "allow_bash"
+clear_npc_rule: rule_string | Clears the value of a boolean NPC follower AI rule such as "use_silent" or "allow_bash"
 set_npc_engagement_rule: rule_string | Sets the NPC follower AI rule for engagement distance to the value of `rule_string`.
 set_npc_aim_rule: rule_string | Sets the NPC follower AI rule for aiming speed to the value of `rule_string`.
 
