@@ -14,7 +14,7 @@
     "ammo_type": "40mm",
     "casing": "40mm_casing",
     "range": 40,
-    "damage": 5,
+    "damage": 80,
     "dispersion": 30,
     "recoil": 225,
     "effects": [ "COOKOFF", "NEVER_MISFIRES" ]
@@ -84,7 +84,7 @@
     "name": "40mm buckshot",
     "description": "A 40mm shell with a powerful buckshot load, designed to be used as alternative to shotguns or when breaching barricades and other obstacles.",
     "range": 12,
-    "damage": 70,
+    "damage": 85,
     "recoil": 525,
     "extend": { "effects": [ "SHOT" ] }
   },

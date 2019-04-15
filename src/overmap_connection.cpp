@@ -45,7 +45,7 @@ bool overmap_connection::subtype::allows_terrain( const int_id<oter_t> &oter ) c
 
 void overmap_connection::subtype::load( JsonObject &jo )
 {
-    static const typed_flag_reader<decltype( connection_subtype_flag_map )> flag_reader{ connection_subtype_flag_map, "invalid connection subtype flag" };
+    const auto flag_reader = make_flag_reader( connection_subtype_flag_map, "connection subtype flag" );
 
     mandatory( jo, false, "terrain", terrain );
     mandatory( jo, false, "locations", locations );

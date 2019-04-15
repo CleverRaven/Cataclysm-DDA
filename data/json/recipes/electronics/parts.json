@@ -13,9 +13,7 @@
     "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 3 ] ],
     "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 50 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "tools": [
-      [ [ "mold_plastic", -1 ] ]
-    ],
+    "tools": [ [ [ "mold_plastic", -1 ] ] ],
     "components": [
       [ [ "plastic_chunk", 20 ] ],
       [ [ "scrap", 4 ] ],
@@ -37,9 +35,7 @@
     "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 3 ] ],
     "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 10 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "tools": [
-      [ [ "mold_plastic", -1 ] ]
-    ],
+    "tools": [ [ [ "mold_plastic", -1 ] ] ],
     "components": [
       [ [ "plastic_chunk", 4 ] ],
       [ [ "scrap", 1 ] ],

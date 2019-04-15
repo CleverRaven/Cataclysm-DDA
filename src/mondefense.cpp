@@ -99,7 +99,7 @@ void mdefense::acidsplash( monster &m, Creature *const source,
         }
     }
 
-    tripoint initial_target = source == nullptr ? m.pos() : source->pos();
+    const tripoint initial_target = source == nullptr ? m.pos() : source->pos();
 
     // Don't splatter directly on the `m`, that doesn't work well
     auto pts = closest_tripoints_first( 1, initial_target );

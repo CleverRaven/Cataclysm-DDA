@@ -15,7 +15,7 @@ snippet_library::snippet_library() = default;
 
 void snippet_library::load_snippet( JsonObject &jsobj )
 {
-    std::string category = jsobj.get_string( "category" );
+    const std::string category = jsobj.get_string( "category" );
     if( jsobj.has_array( "text" ) ) {
         JsonArray jarr = jsobj.get_array( "text" );
         add_snippets_from_json( category, jarr );
@@ -99,7 +99,7 @@ int snippet_library::assign( const std::string &category, const int seed ) const
 
 const std::string &snippet_library::get( const int index ) const
 {
-    std::map<int, std::string>::const_iterator chosen_snippet = snippets.find( index );
+    const std::map<int, std::string>::const_iterator chosen_snippet = snippets.find( index );
     if( chosen_snippet == snippets.end() ) {
         return null_string;
     }
@@ -113,8 +113,8 @@ const std::string &snippet_library::random_from_category( const std::string &cat
         return null_string;
     }
 
-    int count = std::distance( iters.first, iters.second );
-    int index = rng( 0, count - 1 );
+    const int count = std::distance( iters.first, iters.second );
+    const int index = rng( 0, count - 1 );
     auto iter = iters.first;
     std::advance( iter, index );
     return get( iter->second );

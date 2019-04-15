@@ -2,7 +2,7 @@
 #ifndef SDL_SOUND_H
 #define SDL_SOUND_H
 
-#ifdef SDL_SOUND
+#if defined(SDL_SOUND)
 #    include "sounds.h"
 
 /**

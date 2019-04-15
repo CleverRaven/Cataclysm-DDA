@@ -190,6 +190,7 @@
     "name": "Cotton",
     "density": 3,
     "soft": true,
+    "reinforces": true,
     "bash_resist": 1,
     "cut_resist": 1,
     "acid_resist": 3,
@@ -577,6 +578,7 @@
     "name": "Leather",
     "density": 6,
     "soft": true,
+    "reinforces": true,
     "bash_resist": 2,
     "cut_resist": 2,
     "acid_resist": 4,
@@ -1089,6 +1091,7 @@
     "name": "Wool",
     "density": 9,
     "soft": true,
+    "reinforces": true,
     "bash_resist": 1,
     "cut_resist": 1,
     "acid_resist": 4,
@@ -1244,5 +1247,20 @@
       { "fuel": -50, "smoke": 2, "burn": 1 },
       { "fuel": -10, "smoke": 2, "burn": 2 }
     ]
+  },
+  {
+    "type": "material",
+    "ident": "soil",
+    "name": "Soil",
+    "density": 4,
+    "bash_resist": 1,
+    "cut_resist": 1,
+    "acid_resist": 0,
+    "fire_resist": 20,
+    "elec_resist": 0,
+    "chip_resist": 0,
+    "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
+    "bash_dmg_verb": "damaged",
+    "cut_dmg_verb": "damaged"
   }
 ]

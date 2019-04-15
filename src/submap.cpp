@@ -54,7 +54,7 @@ bool submap::has_graffiti( const point &p ) const
 
 const std::string &submap::get_graffiti( const point &p ) const
 {
-    auto fresult = find_cosmetic( cosmetics, p, COSMETICS_GRAFFITI );
+    const auto fresult = find_cosmetic( cosmetics, p, COSMETICS_GRAFFITI );
     if( fresult.result ) {
         return cosmetics[ fresult.ndx ].str;
     }
@@ -65,7 +65,7 @@ void submap::set_graffiti( const point &p, const std::string &new_graffiti )
 {
     is_uniform = false;
     // Find signage at p if available
-    auto fresult = find_cosmetic( cosmetics, p, COSMETICS_GRAFFITI );
+    const auto fresult = find_cosmetic( cosmetics, p, COSMETICS_GRAFFITI );
     if( fresult.result ) {
         cosmetics[ fresult.ndx ].str = new_graffiti;
     } else {
@@ -76,7 +76,7 @@ void submap::set_graffiti( const point &p, const std::string &new_graffiti )
 void submap::delete_graffiti( const point &p )
 {
     is_uniform = false;
-    auto fresult = find_cosmetic( cosmetics, p, COSMETICS_GRAFFITI );
+    const auto fresult = find_cosmetic( cosmetics, p, COSMETICS_GRAFFITI );
     if( fresult.result ) {
         cosmetics[ fresult.ndx ] = cosmetics.back();
         cosmetics.pop_back();
@@ -105,7 +105,7 @@ void submap::set_signage( const point &p, const std::string &s )
 {
     is_uniform = false;
     // Find signage at p if available
-    auto fresult = find_cosmetic( cosmetics, p, COSMETICS_SIGNAGE );
+    const auto fresult = find_cosmetic( cosmetics, p, COSMETICS_SIGNAGE );
     if( fresult.result ) {
         cosmetics[ fresult.ndx ].str = s;
     } else {
@@ -115,7 +115,7 @@ void submap::set_signage( const point &p, const std::string &s )
 void submap::delete_signage( const point &p )
 {
     is_uniform = false;
-    auto fresult = find_cosmetic( cosmetics, p, COSMETICS_SIGNAGE );
+    const auto fresult = find_cosmetic( cosmetics, p, COSMETICS_SIGNAGE );
     if( fresult.result ) {
         cosmetics[ fresult.ndx ] = cosmetics.back();
         cosmetics.pop_back();
@@ -124,8 +124,8 @@ void submap::delete_signage( const point &p )
 
 bool submap::contains_vehicle( vehicle *veh )
 {
-    auto match = std::find_if(
-                     begin( vehicles ), end( vehicles ),
+    const auto match = std::find_if(
+                           begin( vehicles ), end( vehicles ),
     [veh]( const std::unique_ptr<vehicle> &v ) {
         return v.get() == veh;
     } );

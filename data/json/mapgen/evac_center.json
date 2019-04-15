@@ -541,7 +541,7 @@
         { "item": "cannedfood", "x": [ 2, 20 ], "y": [ 1, 1 ], "chance": 90 },
         { "item": "cannedfood", "x": [ 3, 19 ], "y": [ 4, 5 ], "chance": 90 },
         { "item": "cannedfood", "x": [ 2, 20 ], "y": [ 8, 8 ], "chance": 90 },
-        { "item": "bed", "x": [15,18], "y": 22, "chance": 100 }
+        { "item": "bed", "x": [ 15, 18 ], "y": 22, "chance": 100 }
       ],
       "place_npcs": [
         { "class": "evac_guard1", "x": 9, "y": 21 },
@@ -709,21 +709,9 @@
         { "item": "textbooks", "x": [ 14, 16 ], "y": 19, "chance": 20 }
       ],
       "place_npcs": [
-        {
-          "class": "scavenger_merc",
-          "x": 8,
-          "y": 5
-        },
-        {
-          "class": "old_guard_rep",
-          "x": 19,
-          "y": 7
-        },
-        {
-          "class": "arsonist",
-          "x": 11,
-          "y": 7
-        }
+        { "class": "scavenger_merc", "x": 8, "y": 5 },
+        { "class": "old_guard_rep", "x": 19, "y": 7 },
+        { "class": "arsonist", "x": 11, "y": 7 }
       ]
     }
   },
@@ -762,10 +750,10 @@
       ],
       "palettes": [ "evac_center" ],
       "place_items": [
-        { "item": "bed", "x": [5,8], "y": 0, "chance": 70 },
-        { "item": "bed", "x": [15,18], "y": 0, "chance": 50 },
-        { "item": "bed", "x": [5,8], "y": 2, "chance": 80 },
-        { "item": "bed", "x": [15,18], "y": 2, "chance": 100 }
+        { "item": "bed", "x": [ 5, 8 ], "y": 0, "chance": 70 },
+        { "item": "bed", "x": [ 15, 18 ], "y": 0, "chance": 50 },
+        { "item": "bed", "x": [ 5, 8 ], "y": 2, "chance": 80 },
+        { "item": "bed", "x": [ 15, 18 ], "y": 2, "chance": 100 }
       ],
       "place_npcs": [
         { "class": "evac_merchant", "x": 23, "y": 0 },

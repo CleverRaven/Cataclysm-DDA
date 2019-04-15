@@ -107,12 +107,12 @@
         "o": "f_bookcase",
         "p": "f_indoor_plant"
       },
-      "toilets": { "t": {} },
+      "toilets": { "t": {  } },
       "items": {
         "w": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] },
         "W": { "item": "laundry", "chance": 50, "repeat": [ 1, 10 ] },
         "Y": { "item": "laundry", "chance": 50, "repeat": [ 1, 10 ] }
-	  },
+      },
       "place_loot": [
         { "group": "bedroom", "x": [ 16, 20 ], "y": [ 17, 20 ], "chance": 80, "repeat": [ 1, 4 ] },
         { "group": "office", "x": [ 14, 15 ], "y": [ 18, 18 ], "chance": 75, "repeat": [ 1, 3 ] },

@@ -191,10 +191,10 @@ void defense_game::init_mtypes()
         mtype *const t = const_cast<mtype *>( &type );
         t->difficulty *= 1.5;
         t->difficulty += static_cast<int>( t->difficulty / 5 );
-        t->flags.insert( MF_BASHES );
-        t->flags.insert( MF_SMELLS );
-        t->flags.insert( MF_HEARS );
-        t->flags.insert( MF_SEES );
+        t->set_flag( MF_BASHES );
+        t->set_flag( MF_SMELLS );
+        t->set_flag( MF_HEARS );
+        t->set_flag( MF_SEES );
     }
 }
 

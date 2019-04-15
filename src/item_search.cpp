@@ -19,31 +19,36 @@ std::function<bool( const item & )> basic_item_filter( std::string filter )
         }
     }
     switch( flag ) {
-        case 'c'://category
+        // category
+        case 'c':
             return [filter]( const item & i ) {
                 return lcmatch( i.get_category().name(), filter );
             };
-        case 'm'://material
+        // material
+        case 'm':
             return [filter]( const item & i ) {
                 return std::any_of( i.made_of().begin(), i.made_of().end(),
                 [&filter]( const material_id & mat ) {
                     return lcmatch( mat->name(), filter );
                 } );
             };
-        case 'q'://qualities
+        // qualities
+        case 'q':
             return [filter]( const item & i ) {
                 return std::any_of( i.quality_of().begin(), i.quality_of().end(),
                 [&filter]( const std::pair<quality_id, int> &e ) {
                     return lcmatch( e.first->name, filter );
                 } );
             };
-        case 'b'://both
+        // both
+        case 'b':
             return [filter]( const item & i ) {
                 auto pair = get_both( filter );
                 return item_filter_from_string( pair.first )( i )
                        && item_filter_from_string( pair.second )( i );
             };
-        case 'd'://disassembled components
+        // disassembled components
+        case 'd':
             return [filter]( const item & i ) {
                 const auto &components = i.get_uncraft_components();
                 for( auto &component : components ) {
@@ -53,7 +58,8 @@ std::function<bool( const item & )> basic_item_filter( std::string filter )
                 }
                 return false;
             };
-        default://by name
+        // by name
+        default:
             return [filter]( const item & a ) {
                 return lcmatch( a.tname(), filter );
             };

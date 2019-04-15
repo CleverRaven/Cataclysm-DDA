@@ -950,6 +950,7 @@
     "skill_used": "tailor",
     "time": 10000,
     "autolearn": true,
+    "reversible": true,
     "using": [ [ "sewing_standard", 50 ] ],
     "components": [ [ [ "rag", 20 ] ] ]
   },
@@ -1187,6 +1188,19 @@
   },
   {
     "type": "recipe",
+    "result": "stepladder",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": 6000,
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_W", "level": 1 } ],
+    "components": [ [ [ "2x4", 12 ] ], [ [ "nail", 30 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "duct_tape",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -1299,15 +1313,15 @@
     "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "fabrication",
     "difficulty": 1,
-    "time": 8000,
+    "time": 45000,
     "reversible": true,
     "autolearn": true,
+    "using": [ [ "steel_standard", 20 ] ],
     "qualities": [ { "id": "GLARE", "level": 2 } ],
     "tools": [
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ], [ "forge", 50 ], [ "oxy_torch", 10 ] ]
-    ],
-    "components": [ [ [ "steel_lump", 10 ] ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -1316,15 +1330,15 @@
     "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "fabrication",
     "difficulty": 1,
-    "time": 8000,
+    "time": 90000,
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "GLARE", "level": 2 } ],
+    "using": [ [ "steel_standard", 100 ] ],
     "tools": [
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ], [ "forge", 50 ], [ "oxy_torch", 10 ] ]
-    ],
-    "components": [ [ [ "steel_lump", 18 ] ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -2899,6 +2913,7 @@
   {
     "type": "recipe",
     "result": "55gal_drum",
+    "id_suffix": "from_scratch",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
     "skill_used": "fabrication",
@@ -2912,6 +2927,7 @@
   {
     "type": "recipe",
     "result": "30gal_drum",
+    "id_suffix": "from_scratch",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
     "skill_used": "fabrication",
@@ -2921,6 +2937,32 @@
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 250 ], [ "oxy_torch", 40 ] ] ],
     "components": [ [ [ "steel_lump", 10 ], [ "steel_chunk", 40 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "55gal_drum",
+    "id_suffix": "welded",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_CONTAINERS",
+    "skill_used": "fabrication",
+    "difficulty": 8,
+    "time": 42000,
+    "autolearn": true,
+    "using": [ [ "welding_standard", 15 ] ],
+    "components": [ [ [ "sheet_metal", 3 ], [ "sheet_metal_small", 72 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "30gal_drum",
+    "id_suffix": "welded",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_CONTAINERS",
+    "skill_used": "fabrication",
+    "difficulty": 8,
+    "time": 26250,
+    "autolearn": true,
+    "using": [ [ "welding_standard", 10 ] ],
+    "components": [ [ [ "sheet_metal", 2 ], [ "sheet_metal_small", 48 ] ] ]
   },
   {
     "type": "recipe",

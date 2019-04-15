@@ -246,6 +246,25 @@
   },
   {
     "type": "AMMO",
+    "id": "pebble_clay",
+    "price": 150,
+    "name": "clay pellet",
+    "symbol": "=",
+    "color": "brown",
+    "description": "A handful of round projectiles made of clay, useful for slings or slingshots.",
+    "material": "clay",
+    "volume": 1,
+    "weight": 3,
+    "ammo_type": "pebble",
+    "damage": 1,
+    "range": 20,
+    "dispersion": 12,
+    "loudness": 0,
+    "count": 40,
+    "effects": [ "NEVER_MISFIRES" ]
+  },
+  {
+    "type": "AMMO",
     "id": "marble",
     "price": 200,
     "name": "marble",
@@ -1000,5 +1019,21 @@
     "weight": 1,
     "ammo_type": "components",
     "count": 150
+  },
+  {
+    "type": "AMMO",
+    "id": "nitrox",
+    "category": "chems",
+    "price": 500,
+    "name": "nitrox",
+    "name_plural": "nitrox",
+    "symbol": "=",
+    "color": "white",
+    "container": "bottle_plastic",
+    "description": "Mixture of oxygen and nitrogen in proportions suitable for diving.",
+    "volume": 1,
+    "weight": 1,
+    "phase": "gas",
+    "ammo_type": "nitrox"
   }
 ]

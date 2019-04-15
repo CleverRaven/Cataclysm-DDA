@@ -42,6 +42,7 @@ class player;
 class npc;
 class recipe;
 struct itype;
+struct islot_comestible;
 struct mtype;
 using mtype_id = string_id<mtype>;
 using bodytype_id = std::string;
@@ -63,6 +64,7 @@ class ma_technique;
 using matec_id = string_id<ma_technique>;
 struct point;
 struct tripoint;
+using recipe_id = string_id<recipe>;
 class Skill;
 using skill_id = string_id<Skill>;
 class fault;
@@ -73,6 +75,7 @@ struct fire_data;
 struct damage_instance;
 struct damage_unit;
 class map;
+struct item_comp;
 
 enum damage_type : int;
 
@@ -185,6 +188,9 @@ class item : public visitable<item>
         struct solitary_tag {};
         item( const itype_id &id, time_point turn, solitary_tag );
         item( const itype *type, time_point turn, solitary_tag );
+
+        /** For constructing in-progress crafts */
+        item( const recipe *rec, long qty, std::list<item> items );
 
         /**
          * Filter converting this instance to another type preserving all other aspects
@@ -300,7 +306,8 @@ class item : public visitable<item>
          * the extent of damage and burning (was created to sort by name without prefix
          * in additional inventory)
          */
-        std::string tname( unsigned int quantity = 1, bool with_prefix = true ) const;
+        std::string tname( unsigned int quantity = 1, bool with_prefix = true,
+                           unsigned int truncate = 0 ) const;
         std::string display_money( unsigned int quantity, unsigned long charge ) const;
         /**
          * Returns the item name and the charges or contained charges (if the item can have
@@ -514,9 +521,11 @@ class item : public visitable<item>
          * @param qty maximum charges to consume. On return set to number of charges not found (or zero)
          * @param used filled with duplicates of each item that provided consumed charges
          * @param pos position at which the charges are being consumed
+         * @param filter Must return true for use to occur.
          * @return true if this item should be deleted (count-by-charges items with no remaining charges)
          */
-        bool use_charges( const itype_id &what, long &qty, std::list<item> &used, const tripoint &pos );
+        bool use_charges( const itype_id &what, long &qty, std::list<item> &used, const tripoint &pos,
+                          const std::function<bool( const item & )> &filter = return_true );
 
         /**
          * Invokes item type's @ref itype::drop_action.
@@ -542,9 +551,10 @@ class item : public visitable<item>
          * @param it Type of consumable item.
          * @param quantity How much to consumed.
          * @param used On success all consumed items will be stored here.
+         * @param filter Must return true for use to occur.
          */
         bool use_amount( const itype_id &it, long &quantity, std::list<item> &used,
-                         const std::function<bool( const item & )> &filter = is_crafting_component );
+                         const std::function<bool( const item & )> &filter = return_true );
 
         /** Permits filthy components, should only be used as a helper in creating filters */
         bool allow_crafting_component() const;
@@ -682,6 +692,9 @@ class item : public visitable<item>
 
         /** Sets the item temperature and item energy from new temperature (K)*/
         void set_item_temperature( float new_temperature );
+
+        /** Sets the item to new temperature and energy based new specific energy (J/g)*/
+        void set_item_specific_energy( const float specific_energy );
 
         /** reset the last_temp_check used when crafting new items and the like */
         void reset_temp_check();
@@ -831,6 +844,10 @@ class item : public visitable<item>
          * @param threshold Item is flammable if it provides more fuel than threshold.
          */
         bool flammable( int threshold = 0 ) const;
+        /**
+        * Whether the item can be repaired beyond normal health.
+        */
+        bool reinforceable() const;
         /*@}*/
 
         /**
@@ -1008,6 +1025,7 @@ class item : public visitable<item>
         bool is_book() const;
         bool is_map() const;
         bool is_salvageable() const;
+        bool is_craft() const;
 
         bool is_tool() const;
         bool is_tool_reversible() const;
@@ -1805,6 +1823,10 @@ class item : public visitable<item>
 
         int get_min_str() const;
 
+        const recipe &get_making() const;
+
+        const cata::optional<islot_comestible> &get_comestible() const;
+
     private:
         /**
          * Calculate the thermal energy and temperature change of the item
@@ -1818,9 +1840,6 @@ class item : public visitable<item>
          * Get the thermal energy of the item in Joules.
          */
         float get_item_thermal_energy();
-
-        /** Sets the item to new temperature and energy based new specific energy (J/g)*/
-        void set_item_specific_energy( const float specific_energy );
 
         /** Calculates item specific energy (J/g) from temperature (K)*/
         float get_specific_energy_from_temperature( const float new_temperature );
@@ -1844,11 +1863,10 @@ class item : public visitable<item>
 
     public:
         static const long INFINITE_CHARGES;
-        typedef std::vector<item> t_item_vector;
 
         const itype *type;
         std::list<item> contents;
-        t_item_vector components;
+        std::list<item> components;
         /** What faults (if any) currently apply to this item */
         std::set<fault_id> faults;
         std::set<std::string> item_tags; // generic item specific flags
@@ -1859,6 +1877,7 @@ class item : public visitable<item>
         const mtype *corpse = nullptr;
         std::string corpse_name;       // Name of the late lamented
         std::set<matec_id> techniques; // item specific techniques
+        const recipe *making = nullptr; // Only for in-progress crafts
 
     public:
         long charges;
@@ -1903,6 +1922,9 @@ class item : public visitable<item>
     public:
         char invlet = 0;      // Inventory letter
         bool active = false; // If true, it has active effects to be processed
+        bool is_favorite = false;
+
+        void set_favorite( const bool favorite );
 };
 
 bool item_compare_by_charges( const item &left, const item &right );
@@ -1929,9 +1951,13 @@ enum hint_rating {
  */
 item &null_item_reference();
 
+/**
+ * Default filter for crafting component searches
+ */
 inline bool is_crafting_component( const item &component )
 {
-    return component.allow_crafting_component() && !component.is_filthy();
+    return ( component.allow_crafting_component() || component.count_by_charges() ) &&
+           !component.is_filthy();
 }
 
 #endif

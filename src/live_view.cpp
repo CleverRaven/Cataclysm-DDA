@@ -2,15 +2,12 @@
 
 #include "catacharset.h" // center_text_pos
 #include "color.h"
+#include "cursesport.h"
 #include "game.h"
 #include "map.h"
 #include "output.h"
 #include "string_formatter.h"
 #include "translations.h"
-
-#if (defined TILES || defined _WIN32 || defined WINDOWS)
-#include "cursesport.h"
-#endif
 
 #include <algorithm> // min & max
 #include <string>
@@ -42,7 +39,7 @@ int live_view::draw( const catacurses::window &win, const int max_height )
 
     const int live_view_box_height = std::min( max_height, std::max( line_out + 1, MIN_BOX_HEIGHT ) );
 
-#if (defined TILES || defined _WIN32 || defined WINDOWS)
+#if defined(TILES) || defined(_WIN32)
     // Because of the way the status UI is done, the live view window must
     // be tall enough to clear the entire height of the viewport below the
     // status bar. This hack allows the border around the live view box to
@@ -64,7 +61,7 @@ int live_view::draw( const catacurses::window &win, const int max_height )
     wprintz( win, c_green, title );
     wprintz( win, c_white, title_suffix );
 
-#if (defined TILES || defined _WIN32 || defined WINDOWS)
+#if defined(TILES) || defined(_WIN32)
     win.get<cata_cursesport::WINDOW>()->height = original_height;
 #endif
 

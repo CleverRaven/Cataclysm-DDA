@@ -77,7 +77,7 @@ struct pathfinder {
     }
 
     tripoint get_next() {
-        auto pt = open.top();
+        const auto pt = open.top();
         open.pop();
         return pt.second;
     }
@@ -122,7 +122,7 @@ bool vertical_move_destination( const map &m, tripoint &t )
     constexpr int omtileszx = SEEX * 2;
     constexpr int omtileszy = SEEY * 2;
     real_coords rc( m.getabs( t.x, t.y ) );
-    point omtile_align_start(
+    const point omtile_align_start(
         m.getlocal( rc.begin_om_pos() )
     );
 

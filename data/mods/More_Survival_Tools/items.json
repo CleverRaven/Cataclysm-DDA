@@ -67,11 +67,7 @@
     "initial_charges": 2000,
     "max_charges": 2000,
     "charges_per_use": 1,
-    "use_action": {
-      "type": "firestarter",
-      "moves": 1000,
-      "moves_slow": 5000
-    },
+    "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 5000 },
     "flags": [ "FIRESTARTER" ]
   },
   {
@@ -113,11 +109,7 @@
     "turns_per_charge": 600,
     "revert_to": "tinderbox",
     "use_action": [
-      {
-        "type": "firestarter",
-        "moves": 200,
-        "moves_slow": 2000
-      },
+      { "type": "firestarter", "moves": 200, "moves_slow": 2000 },
       {
         "target": "tinderbox",
         "msg": "The ember is extinguished.",
@@ -257,14 +249,8 @@
     "range": 13,
     "damage": 8,
     "pierce": 1,
-    "relative": {
-      "weight": 100,
-      "cutting": 2
-    },
-    "proportional": {
-      "price": 0.5,
-      "bashing": 0.8
-    }
+    "relative": { "weight": 100, "cutting": 2 },
+    "proportional": { "price": 0.5, "bashing": 0.8 }
   },
   {
     "id": "javelin_iron",
@@ -298,10 +284,7 @@
     "damage": 9,
     "pierce": 2,
     "relative": { "weight": 30 },
-    "proportional": {
-      "price": 0.5,
-      "cutting": 0.85
-    }
+    "proportional": { "price": 0.5, "cutting": 0.85 }
   },
   {
     "id": "spear_stone",
@@ -487,10 +470,7 @@
     "material": "steel",
     "symbol": ")",
     "color": "light_gray",
-    "container_data": {
-      "contains": 4,
-      "watertight": true
-    },
+    "container_data": { "contains": 4, "watertight": true },
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
     "use_action": "HEAT_FOOD"
   },
@@ -508,10 +488,7 @@
     "material": "copper",
     "symbol": ")",
     "color": "light_red",
-    "container_data": {
-      "contains": 4,
-      "watertight": true
-    },
+    "container_data": { "contains": 4, "watertight": true },
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
     "use_action": "HEAT_FOOD"
   },
@@ -531,12 +508,7 @@
     "contains": 6,
     "seals": true,
     "watertight": true,
-    "armor_data": {
-      "covers": [ "TORSO" ],
-      "coverage": 5,
-      "encumbrance": 5,
-      "material_thickness": 2
-    },
+    "armor_data": { "covers": [ "TORSO" ], "coverage": 5, "encumbrance": 5, "material_thickness": 2 },
     "flags": [ "WAIST" ]
   },
   {
@@ -593,12 +565,7 @@
         "//": "Somewhat lower than the proper whistle."
       },
       "WEATHER_TOOL",
-      {
-        "type": "firestarter",
-        "moves": 1000,
-        "moves_slow": 25000,
-        "need_sunlight": true
-      }
+      { "type": "firestarter", "moves": 1000, "moves_slow": 25000, "need_sunlight": true }
     ],
     "flags": [ "FIRESTARTER", "THERMOMETER" ]
   },

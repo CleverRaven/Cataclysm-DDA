@@ -88,7 +88,7 @@ void anatomy::check() const
     }
 
     for( size_t i = 0; i < 3; i++ ) {
-        float size_all = std::accumulate( cached_bps.begin(), cached_bps.end(), 0.0f, [i]( float acc,
+        const float size_all = std::accumulate( cached_bps.begin(), cached_bps.end(), 0.0f, [i]( float acc,
         const bodypart_id & bp ) {
             return acc + bp->hit_size_relative[i];
         } );
@@ -126,7 +126,7 @@ bodypart_id anatomy::random_body_part() const
 
 bodypart_id anatomy::select_body_part( int size_diff, int hit_roll ) const
 {
-    size_t size_diff_index = static_cast<size_t>( 1 + clamp( size_diff, -1, 1 ) );
+    const size_t size_diff_index = static_cast<size_t>( 1 + clamp( size_diff, -1, 1 ) );
     weighted_float_list<bodypart_id> hit_weights;
     for( const auto &bp : cached_bps ) {
         float weight = bp->hit_size_relative[size_diff_index];

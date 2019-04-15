@@ -31,8 +31,6 @@ const efftype_id effect_sleep( "sleep" );
 
 static const trait_id trait_CEPH_VISION( "CEPH_VISION" );
 static const trait_id trait_FEATHERS( "FEATHERS" );
-static const trait_id trait_GOODHEARING( "GOODHEARING" );
-static const trait_id trait_BADHEARING( "BADHEARING" );
 
 /**
  * \defgroup Weather "Weather and its implications."
@@ -56,7 +54,7 @@ void weather_effect::glare( bool snowglare )
 {
     season_type season = season_of_year( calendar::turn );
     if( is_player_outside() && g->is_in_sunlight( g->u.pos() ) && !g->u.in_sleep_state() &&
-        !g->u.worn_with_flag( "SUN_GLASSES" ) && !g->u.is_blind() && snowglare == false &&
+        !g->u.worn_with_flag( "SUN_GLASSES" ) && !g->u.is_blind() && !snowglare &&
         !g->u.has_bionic( bionic_id( "bio_sunglasses" ) ) ) {
         if( !g->u.has_effect( effect_glare ) ) {
             if( g->u.has_trait( trait_CEPH_VISION ) ) {
@@ -73,7 +71,7 @@ void weather_effect::glare( bool snowglare )
         }
     }
     if( is_player_outside() && !g->u.in_sleep_state() && season == WINTER &&
-        !g->u.worn_with_flag( "SUN_GLASSES" ) && !g->u.is_blind() && snowglare == true &&
+        !g->u.worn_with_flag( "SUN_GLASSES" ) && !g->u.is_blind() && snowglare &&
         !g->u.has_bionic( bionic_id( "bio_sunglasses" ) ) ) {
         if( !g->u.has_effect( effect_snow_glare ) ) {
             if( g->u.has_trait( trait_CEPH_VISION ) ) {
@@ -463,12 +461,11 @@ void weather_effect::thunder()
         if( g->get_levz() >= 0 ) {
             add_msg( _( "You hear a distant rumble of thunder." ) );
             sfx::play_variant_sound( "environment", "thunder_far", 80, rng( 0, 359 ) );
-        } else if( g->u.has_trait( trait_GOODHEARING ) && one_in( 1 - 2 * g->get_levz() ) ) {
+        } else if( one_in( std::max( roll_remainder( 2.0f * g->get_levz() /
+                                     g->u.mutation_value( "hearing_modifier" ) ), 1 ) ) ) {
             add_msg( _( "You hear a rumble of thunder from above." ) );
-            sfx::play_variant_sound( "environment", "thunder_far", 100, rng( 0, 359 ) );
-        } else if( !g->u.has_trait( trait_BADHEARING ) && one_in( 1 - 3 * g->get_levz() ) ) {
-            add_msg( _( "You hear a rumble of thunder from above." ) );
-            sfx::play_variant_sound( "environment", "thunder_far", 60, rng( 0, 359 ) );
+            sfx::play_variant_sound( "environment", "thunder_far",
+                                     ( 80 * g->u.mutation_value( "hearing_modifier" ) ), rng( 0, 359 ) );
         }
     }
 }
@@ -916,11 +913,7 @@ double get_local_windpower( double windpower, const oter_id &omter, const tripoi
 
 bool is_wind_blocker( const tripoint &location )
 {
-    if( g->m.has_flag( "BLOCK_WIND", location ) ) {
-        return true;
-    } else {
-        return false;
-    }
+    return g->m.has_flag( "BLOCK_WIND", location );
 }
 
 std::string get_wind_desc( double windpower )

@@ -27,8 +27,8 @@
 #include "vpart_position.h"
 #include "vpart_reference.h"
 
-#ifdef __ANDROID__
-#include <SDL_keyboard.h>
+#if defined(__ANDROID__)
+#   include <SDL_keyboard.h>
 #endif
 
 #include <algorithm>
@@ -1277,10 +1277,6 @@ bool advanced_inventory::move_all_items( bool nested_call )
         popup( _( "You can't put items there!" ) );
         return false;
     }
-    if( spane.get_area() == AIM_INVENTORY &&
-        !query_yn( _( "Really move everything from your inventory?" ) ) ) {
-        return false;
-    }
     if( spane.get_area() == AIM_WORN &&
         !query_yn( _( "Really remove all your clothes? (woo hoo)" ) ) ) {
         return false;
@@ -1315,14 +1311,22 @@ bool advanced_inventory::move_all_items( bool nested_call )
         std::list<std::pair<int, int>> dropped;
 
         if( spane.get_area() == AIM_INVENTORY ) {
+            // keep a list of favorites separated, only drop non-fav first if they exist
+            std::list<std::pair<int, int>> dropped_favorite;
             for( size_t index = 0; index < g->u.inv.size(); ++index ) {
                 const auto &stack = g->u.inv.const_stack( index );
                 const auto &it = stack.front();
 
                 if( !spane.is_filtered( it ) ) {
-                    dropped.emplace_back( static_cast<int>( index ),
-                                          it.count_by_charges() ? static_cast<int>( it.charges ) : static_cast<int>( stack.size() ) );
+                    ( it.is_favorite ? dropped_favorite : dropped ).emplace_back( static_cast<int>( index ),
+                            it.count_by_charges() ? static_cast<int>( it.charges ) : static_cast<int>( stack.size() ) );
                 }
+            }
+            if( dropped.empty() ) {
+                if( !query_yn( _( "Really drop all your favorite items?" ) ) ) {
+                    return false;
+                }
+                dropped = dropped_favorite;
             }
         } else if( spane.get_area() == AIM_WORN ) {
             // do this in reverse, to account for vector item removal messing with future indices
@@ -1476,6 +1480,7 @@ void advanced_inventory::display()
     ctxt.register_action( "EXAMINE" );
     ctxt.register_action( "SORT" );
     ctxt.register_action( "TOGGLE_AUTO_PICKUP" );
+    ctxt.register_action( "TOGGLE_FAVORITE" );
     ctxt.register_action( "MOVE_SINGLE_ITEM" );
     ctxt.register_action( "MOVE_VARIABLE_ITEM" );
     ctxt.register_action( "MOVE_ITEM_STACK" );
@@ -1614,6 +1619,15 @@ void advanced_inventory::display()
                 popup( _( "You can't put items there!" ) );
                 redraw = true; // to clear the popup
             }
+        } else if( action == "TOGGLE_FAVORITE" ) {
+            if( sitem == nullptr || !sitem->is_item_entry() ) {
+                continue;
+            }
+            for( auto *item : sitem->items ) {
+                item->set_favorite( !item->is_favorite );
+            }
+            recalc = true; // In case we've merged faved and unfaved items
+            redraw = true;
         } else if( action == "MOVE_SINGLE_ITEM" ||
                    action == "MOVE_VARIABLE_ITEM" ||
                    action == "MOVE_ITEM_STACK" ) {
@@ -1791,7 +1805,7 @@ void advanced_inventory::display()
 
             draw_item_filter_rules( dpane.window, 1, 11, item_filter_type::FILTER );
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
             if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
                 SDL_StartTextInput();
             }

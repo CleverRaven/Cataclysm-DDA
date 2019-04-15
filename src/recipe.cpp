@@ -42,10 +42,10 @@ int recipe::batch_time( int batch, float multiplier, size_t assistants ) const
     } else {
         // recipe benefits from batching, so batching scale factor needs to be calculated
         // At batch_rsize, incremental time increase is 99.5% of batch_rscale
-        double scale = batch_rsize / 6.0;
+        const double scale = batch_rsize / 6.0;
         for( double x = 0; x < batch; x++ ) {
             // scaled logistic function output
-            double logf = ( 2.0 / ( 1.0 + exp( -( x / scale ) ) ) ) - 1.0;
+            const double logf = ( 2.0 / ( 1.0 + exp( -( x / scale ) ) ) ) - 1.0;
             total_time += local_time * ( 1.0 - ( batch_rscale * logf ) );
         }
     }
@@ -384,7 +384,7 @@ std::string recipe::required_skills_string( const Character *c, bool print_skill
     }
     return enumerate_as_string( required_skills.begin(), required_skills.end(),
     [&]( const std::pair<skill_id, int> &skill ) {
-        auto player_skill = c ? c->get_skill_level( skill.first ) : 0;
+        const auto player_skill = c ? c->get_skill_level( skill.first ) : 0;
         std::string difficulty_color = skill.second > player_skill ? "yellow" : "green";
         std::string skill_level_string = print_skill_level ? "" : ( std::to_string( player_skill ) + "/" );
         skill_level_string += std::to_string( skill.second );
@@ -414,3 +414,20 @@ std::string recipe::result_name() const
 
     return name;
 }
+
+const std::function<bool( const item & )> recipe::get_component_filter() const
+{
+    std::function<bool( const item & )> filter = is_crafting_component;
+    const item result = create_result();
+
+    // Disallow crafting of non-perishables with rotten components
+    // Make an exception for seeds
+    // TODO: move seed extraction recipes to uncraft
+    if( result.is_food() && !result.goes_bad() && !has_flag( "ALLOW_ROTTEN" ) ) {
+        filter = []( const item & component ) {
+            return is_crafting_component( component ) && !component.rotten();
+        };
+    }
+    return filter;
+}
+

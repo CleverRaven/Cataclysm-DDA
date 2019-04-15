@@ -139,7 +139,7 @@ void dialogue_window::display_responses( const int hilight_lines,
     if( text_only ) {
         return;
     }
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
     input_context ctxt( "DIALOGUE_CHOOSE_RESPONSE" );
     for( size_t i = 0; i < responses.size(); i++ ) {
         ctxt.register_manual_key( 'a' + i );

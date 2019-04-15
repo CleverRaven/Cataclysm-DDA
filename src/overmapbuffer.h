@@ -11,6 +11,7 @@
 #include "int_id.h"
 #include "omdata.h"
 #include "overmap_types.h"
+#include "simple_pathfinding.h"
 #include "string_id.h"
 
 struct mongroup;
@@ -48,6 +49,22 @@ struct city_reference {
 
     operator bool() const {
         return city != nullptr;
+    }
+
+    int get_distance_from_bounds() const;
+};
+
+struct camp_reference {
+    static const camp_reference invalid;
+    /** The camp itself, points into @ref overmap::camps */
+    basecamp *camp;
+    /** The global absolute position of the camp (in submap coordinates!) */
+    tripoint abs_sm_pos;
+    /** Distance to center of the search */
+    int distance;
+
+    operator bool() const {
+        return camp != nullptr;
     }
 
     int get_distance_from_bounds() const;
@@ -158,7 +175,7 @@ class overmapbuffer
         /**
          * Remove basecamp
          */
-        void remove_camp( const basecamp *camp );
+        void remove_camp( const basecamp camp );
         /**
          * Remove the vehicle from being tracked in the overmap.
          */
@@ -166,7 +183,7 @@ class overmapbuffer
         /**
          * Add Basecamp to overmapbuffer
          */
-        void add_camp( basecamp *camp );
+        void add_camp( basecamp camp );
 
         cata::optional<basecamp *> find_camp( const int x, const int y );
         /**
@@ -204,6 +221,10 @@ class overmapbuffer
          * Searches all loaded overmaps.
          */
         std::shared_ptr<npc> find_npc( int id );
+        /**
+         * Get all NPCs active on the overmap
+         */
+        std::vector<std::shared_ptr<npc>> get_overmap_npcs();
         /**
          * Find npc by id and if found, erase it from the npc list
          * and return it ( or return nullptr if not found ).
@@ -274,7 +295,7 @@ class overmapbuffer
          */
         bool reveal( const point &center, int radius, int z );
         bool reveal( const tripoint &center, int radius );
-
+        std::vector<tripoint> get_npc_path( const tripoint &src, const tripoint &dest );
         bool reveal_route( const tripoint &source, const tripoint &dest, int radius = 0,
                            bool road_only = false );
         /**
@@ -401,7 +422,7 @@ class overmapbuffer
          * All entries in the returned vector are valid (have a valid tower pointer).
          */
         std::vector<radio_tower_reference> find_all_radio_stations();
-        std::vector<basecamp *> get_camps_near( const tripoint &location, int radius );
+        std::vector<camp_reference> get_camps_near( const tripoint &location, int radius );
         /**
          * Find all cities within the specified @ref radius.
          * Result is sorted by proximity to @ref location in ascending order.

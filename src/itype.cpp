@@ -44,7 +44,7 @@ bool itype::can_use( const std::string &iuse_name ) const
 
 const use_function *itype::get_use( const std::string &iuse_name ) const
 {
-    auto iter = use_methods.find( iuse_name );
+    const auto iter = use_methods.find( iuse_name );
     return iter != use_methods.end() ? &iter->second : nullptr;
 }
 
@@ -54,7 +54,7 @@ long itype::tick( player &p, item &it, const tripoint &pos ) const
     // Maybe should move charge decrementing here?
     int charges_to_use = 0;
     for( auto &method : use_methods ) {
-        int val = method.second.call( p, it, true, pos );
+        const int val = method.second.call( p, it, true, pos );
         if( charges_to_use < 0 || val < 0 ) {
             charges_to_use = -1;
         } else {

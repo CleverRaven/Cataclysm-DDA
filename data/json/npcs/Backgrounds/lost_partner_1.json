@@ -4,8 +4,9 @@
     "type": "talk_topic",
     "dynamic_line": [
       {
-        "npc_female": "My husband made it out with me, but got eaten by one of those <swear> plant monsters a few days before I met you.  This hasn't been a great year for me.",
-        "npc_male": "My wife made it out with me, but got eaten by one of those <swear> plant monsters a few days before I met you.  This hasn't been a great year for me."
+        "npc_female": true,
+        "yes": "My husband made it out with me, but got eaten by one of those <swear> plant monsters a few days before I met you.  This hasn't been a great year for me.",
+        "no": "My wife made it out with me, but got eaten by one of those <swear> plant monsters a few days before I met you.  This hasn't been a great year for me."
       }
     ],
     "responses": [

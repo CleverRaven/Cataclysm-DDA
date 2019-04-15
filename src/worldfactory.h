@@ -107,6 +107,11 @@ class worldfactory
 
         std::vector<std::string> all_worldnames() const;
 
+        std::string last_world_name;
+        std::string last_character_name;
+
+        void save_last_world_info();
+
         mod_manager &get_mod_manager();
 
         void remove_world( const std::string &worldname );
@@ -124,6 +129,8 @@ class worldfactory
 
     private:
         std::map<std::string, std::unique_ptr<WORLD>> all_worlds;
+
+        void load_last_world_info();
 
         std::string pick_random_name();
         int show_worldgen_tab_options( const catacurses::window &win, WORLDPTR world );

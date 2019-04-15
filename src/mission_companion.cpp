@@ -380,9 +380,9 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
 
     auto reset_cur_key_list = [&]() {
         cur_key_list = mission_key.entries[0];
-        for( auto k : mission_key.entries[1] ) {
+        for( const auto &k : mission_key.entries[1] ) {
             bool has = false;
-            for( auto keys : cur_key_list ) {
+            for( const auto &keys : cur_key_list ) {
                 if( k.id == keys.id ) {
                     has = true;
                     break;
@@ -415,13 +415,13 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
                 size_t  current = i + offset;
                 nc_color col = ( current == sel ? h_white : c_white );
                 //highlight important missions
-                for( auto k : mission_key.entries[0] ) {
+                for( const auto &k : mission_key.entries[0] ) {
                     if( cur_key_list[current].id == k.id ) {
                         col = ( current == sel ? h_white : c_yellow );
                     }
                 }
                 //dull uncraftable items
-                for( auto k : mission_key.entries[10] ) {
+                for( const auto &k : mission_key.entries[10] ) {
                     if( cur_key_list[current].id == k.id ) {
                         col = ( current == sel ? h_white : c_dark_gray );
                     }
@@ -1676,6 +1676,12 @@ void talk_function::companion_return( npc &comp )
     comp.companion_mission_points.clear();
     // npc *may* be active, or not if outside the reality bubble
     g->reload_npcs();
+    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( comp.global_omt_location().x,
+                                     comp.global_omt_location().y );
+    if( bcp ) {
+        basecamp *temp_camp = *bcp;
+        temp_camp->validate_assignees();
+    }
 }
 
 std::vector<npc_ptr> talk_function::companion_list( const npc &p, const std::string &mission_id,
@@ -1793,18 +1799,44 @@ std::vector<comp_rank> talk_function::companion_rank( const std::vector<npc_ptr>
 npc_ptr talk_function::companion_choose( const std::string &skill_tested, int skill_level )
 {
     std::vector<npc_ptr> available;
-    for( npc_ptr &guy : overmap_buffer.get_npcs_near_player( 24 ) ) {
+    for( auto &elem : g->get_follower_list() ) {
+        npc_ptr guy = overmap_buffer.find_npc( elem );
+        if( !guy ) {
+            continue;
+        }
         npc_companion_mission c_mission = guy->get_companion_mission();
-        if( g->u.sees( guy->pos() ) ) {
-            if( guy->is_friend() && c_mission.role_id.empty() ) {
+        // get non-assigned visible followers
+        cata::optional<basecamp *> bcp = overmap_buffer.find_camp( g->u.global_omt_location().x,
+                                         g->u.global_omt_location().y );
+        if( bcp ) {
+            if( g->u.sees( guy->pos() ) && !guy->has_companion_mission() && g->u.posz() == guy->posz() &&
+                ( rl_dist( g->u.pos(), guy->pos() ) <= SEEX * 2 ) ) {
                 available.push_back( guy );
-            } else if( guy->mission == NPC_MISSION_GUARD_ALLY &&
-                       guy->companion_mission_role_id != "FACTION_CAMP" ) {
-                available.push_back( guy );
+                // get assigned NPCs that arent visible, but are at the local camp
+            } else {
+                basecamp *player_camp = *bcp;
+                std::vector<npc_ptr> camp_npcs = player_camp->get_npcs_assigned();
+                if( std::any_of( camp_npcs.begin(), camp_npcs.end(), [guy]( npc_ptr i ) {
+                return i == guy;
+            } ) ) {
+                    available.push_back( guy );
+                }
+            }
+        } else {
+            cata::optional<basecamp *> guy_camp = overmap_buffer.find_camp( guy->global_omt_location().x,
+                                                  guy->global_omt_location().y );
+            if( guy_camp ) {
+                // get NPCs assigned to guard a remote base
+                basecamp *temp_camp = *guy_camp;
+                std::vector<npc_ptr> assigned_npcs = temp_camp->get_npcs_assigned();
+                if( std::any_of( assigned_npcs.begin(), assigned_npcs.end(), [guy]( npc_ptr i ) {
+                return i == guy;
+            } ) ) {
+                    available.push_back( guy );
+                }
             }
         }
     }
-
     if( available.empty() ) {
         popup( _( "You don't have any companions to send out..." ) );
         return nullptr;

@@ -64,7 +64,7 @@ item_penalties get_item_penalties( std::list<item>::const_iterator worn_item_it,
         if( !worn_item_it->covers( bp ) ) {
             continue;
         }
-        int num_items = std::count_if( c.worn.begin(), c.worn.end(),
+        const int num_items = std::count_if( c.worn.begin(), c.worn.end(),
         [layer, bp]( const item & i ) {
             return i.get_layer() == layer && i.covers( bp );
         } );

@@ -430,7 +430,16 @@
     "turns_per_charge": 20,
     "revert_to": "battletorch_done",
     "techniques": [ "WBLOCK_1" ],
-    "use_action": "BATTLETORCH_LIT",
+    "use_action": [
+      { "type": "firestarter", "moves": 30 },
+      {
+        "target": "battletorch",
+        "msg": "The Louisville Slaughterer is extinguished.",
+        "active": false,
+        "menu_text": "Extinguish",
+        "type": "transform"
+      }
+    ],
     "flags": [ "FIRE", "LIGHT_310", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID", "WATER_EXTINGUISH" ]
   },
   {
@@ -894,6 +903,32 @@
     }
   },
   {
+    "id": "bot_prototype_cyborg",
+    "type": "TOOL",
+    "name": "inactive prototype cyborg",
+    "description": "This is a deactivated prototype cyborg, glimpses of humanity can still be seen in its empty eyes.  Using this item involves placing it on the ground and reactivating its mechanical body.  If reprogrammed and rewired successfully the cyborg will then follow you and attack enemies.  You monster.",
+    "weight": 81500,
+    "volume": 250,
+    "//": "It is an affront to humanity, no one will buy it.",
+    "price": 0,
+    "to_hit": -3,
+    "bashing": 8,
+    "material": [ "steel", "flesh" ],
+    "symbol": ";",
+    "color": "light_green",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_prototype_cyborg",
+      "friendly_msg": "The prototype cyborg rises to the sound of screeching metal and peers around for hostiles.",
+      "hostile_msg": "The prototype cyborg lets out a howl of agony and attacks you!",
+      "//": "Very difficult due to organic interference and failed components",
+      "difficulty": 9,
+      "moves": 250,
+      "skill1": "electronics",
+      "skill2": "computer"
+    }
+  },
+  {
     "id": "bot_chickenbot",
     "type": "TOOL",
     "name": "inactive chicken walker",
@@ -1173,6 +1208,56 @@
       "//": "Milspec but immobile and no lethal weaponry",
       "difficulty": 4,
       "moves": 150,
+      "skill1": "electronics",
+      "skill2": "computer"
+    }
+  },
+  {
+    "id": "bot_dispatch",
+    "type": "TOOL",
+    "name": "inactive dispatch",
+    "description": "An inactive Northrop Dispatch, guard model, serving as a mobile assembler and deployer of kamikaze manhacks for defense.  Activate it to place it onto the ground; due to a one-way switch triggered during deactivation, however, it will be nonaggressive, and serves only as a distraction.",
+    "volume": "95000 ml",
+    "weight": 100000,
+    "price": 10000000,
+    "price_postapoc": 100000,
+    "to_hit": -3,
+    "bashing": 6,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "yellow",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_dispatch",
+      "friendly_msg": "The dispatch whirrs onto its legs and searches for a target.",
+      "hostile_msg": "The dispatch turns on you, whacking at you with its arms!",
+      "difficulty": 1,
+      "moves": 300,
+      "skill1": "electronics",
+      "skill2": "computer"
+    }
+  },
+  {
+    "id": "bot_dispatch_military",
+    "type": "TOOL",
+    "name": "inactive military dispatch",
+    "description": "An inactive Northrop Dispatch, military model, serving as a mobile assembler and deployer of lethal manhacks for combat situations.  Activate it to place it onto the ground; due to a one-way switch triggered during deactivation, however, it will be nonaggressive, and serves only as a distraction.",
+    "volume": "95000 ml",
+    "weight": 100000,
+    "price": 100000000,
+    "price_postapoc": 500000,
+    "to_hit": -3,
+    "bashing": 6,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "green",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_dispatch_military",
+      "friendly_msg": "The dispatch whirrs onto its legs and searches for a target.",
+      "hostile_msg": "The dispatch turns on you, slashing at you with its arms!",
+      "difficulty": 1,
+      "moves": 300,
       "skill1": "electronics",
       "skill2": "computer"
     }
@@ -1594,7 +1679,7 @@
     "name_plural": "cellphones",
     "description": "This is a cellphone, an older cousin of a smartphone but still popular in certain circles due to its reliability, sturdiness and the ability to run on common batteries.  Using this cellphone will turn it on and provide light, assuming it is sufficiently charged.  It also has a clock app that includes an alarm.",
     "weight": 226,
-    "volume": 1,
+    "volume": "100 ml",
     "price": 9000,
     "price_postapoc": 2000,
     "material": [ "plastic", "aluminum" ],
@@ -1632,7 +1717,7 @@
     "name_plural": "smartphones",
     "description": "A popular, fancy smartphone.  Capable of making photos due to integrated camera and illuminating an area as per flashlight app, assuming it has enough charge.  The smartphone also has a clock app that includes an alarm.  Runs on a small, rechargeable power cell compatible with Unified Power Supply.",
     "weight": 230,
-    "volume": 1,
+    "volume": "100 ml",
     "price": 20000,
     "price_postapoc": 1900,
     "material": [ "plastic", "aluminum" ],
@@ -3281,6 +3366,47 @@
     "use_action": {
       "type": "explosion",
       "do_flashbang": true,
+      "sound_volume": 0,
+      "sound_msg": "Tick.",
+      "no_deactivate_msg": "You've already pulled the %s's pin, try throwing it instead."
+    },
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "id": "tear_gas_payload",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": "tear gas payload",
+    "description": "This is a dummy item used by tear gas hacks.  You should never see it outside of debug.",
+    "symbol": "*",
+    "color": "dark_gray",
+    "use_action": {
+      "target": "tear_gas_payload_act",
+      "msg": "You pull the pin on the payload.",
+      "target_charges": 5,
+      "active": true,
+      "menu_text": "Pull pin",
+      "type": "transform"
+    },
+    "flags": [ "TRADER_AVOID", "BOMB", "GRENADE" ]
+  },
+  {
+    "id": "tear_gas_payload_act",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": "active tear gas payload",
+    "description": "This is a dummy item used by tear gas hacks that just so happens to be counting down.  You should never see it outside of debug.",
+    "symbol": "*",
+    "color": "dark_gray",
+    "initial_charges": 5,
+    "max_charges": 5,
+    "turns_per_charge": 1,
+    "use_action": {
+      "type": "explosion",
+      "fields_type": "fd_tear_gas",
+      "fields_radius": 3,
+      "fields_min_density": 1,
+      "fields_max_density": 3,
       "sound_volume": 0,
       "sound_msg": "Tick.",
       "no_deactivate_msg": "You've already pulled the %s's pin, try throwing it instead."
@@ -5173,9 +5299,9 @@
     "type": "TOOL",
     "name": "mp3 player (off)",
     "name_plural": "mp3 players (off)",
-    "description": "This battery-devouring device is loaded up with someone's music collection.  Fortunately, there's lots of songs you like, and listening to it will raise your morale slightly.  Use it to turn it on.",
+    "description": "This battery-powered device is loaded up with someone's music collection.  Fortunately, there's lots of songs you like, and listening to it will raise your morale slightly.  Use it to turn it on.",
     "weight": 140,
-    "volume": 1,
+    "volume": "50 ml",
     "price": 3000,
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
@@ -5192,7 +5318,7 @@
     "name_plural": "mp3 players (on)",
     "description": "This mp3 player is turned on and playing some great tunes, raising your morale steadily while on your person.  It runs through batteries quickly; you can turn it off by using it.  It also obscures your hearing.",
     "weight": 140,
-    "volume": 1,
+    "volume": "50 ml",
     "price": 3000,
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
@@ -5476,6 +5602,42 @@
     "use_action": "OXYGEN_BOTTLE"
   },
   {
+    "id": "nitrogen_tank",
+    "type": "TOOL",
+    "name": "nitrogen tank",
+    "description": "This is a tank of compressed nitrogen gas.  Nitrogen is useful for its lack of reactivity.  Don't try to breathe it.",
+    "weight": 2268,
+    "volume": 6,
+    "price": 1000,
+    "to_hit": -4,
+    "bashing": 10,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "initial_charges": 24,
+    "max_charges": 24,
+    "charges_per_use": 1,
+    "looks_like": "oxygen_tank"
+  },
+  {
+    "id": "hydrogen_tank",
+    "type": "TOOL",
+    "name": "nitrogen tank",
+    "description": "This is a tank of compressed hydrogen gas.  If you need to make water from scratch, or lift a zeppelin, it could come in handy.",
+    "weight": 2268,
+    "volume": 6,
+    "price": 1000,
+    "to_hit": -4,
+    "bashing": 10,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "initial_charges": 24,
+    "max_charges": 24,
+    "charges_per_use": 1,
+    "looks_like": "oxygen_tank"
+  },
+  {
     "id": "paint_brush",
     "type": "TOOL",
     "name": "paint brush",
@@ -5538,7 +5700,8 @@
     "initial_charges": 500,
     "max_charges": 500,
     "charges_per_use": 1,
-    "use_action": { "type": "inscribe", "verb": "Write", "gerund": "Written", "on_terrain": true, "material_restricted": false }
+    "use_action": { "type": "inscribe", "verb": "Write", "gerund": "Written", "on_terrain": true, "material_restricted": false },
+    "flags": [ "WRITE_MESSAGE" ]
   },
   {
     "id": "pet_carrier",
@@ -6947,7 +7110,8 @@
     "initial_charges": 10,
     "max_charges": 10,
     "charges_per_use": 1,
-    "use_action": "SPRAY_CAN"
+    "use_action": "SPRAY_CAN",
+    "flags": [ "WRITE_MESSAGE" ]
   },
   {
     "id": "stepladder",
@@ -6993,7 +7157,8 @@
     "initial_charges": 100,
     "max_charges": 100,
     "charges_per_use": 1,
-    "use_action": { "type": "inscribe", "verb": "Write", "gerund": "Written", "on_terrain": true, "material_restricted": false }
+    "use_action": { "type": "inscribe", "verb": "Write", "gerund": "Written", "on_terrain": true, "material_restricted": false },
+    "flags": [ "WRITE_MESSAGE" ]
   },
   {
     "id": "survivor_hairtrimmer",
@@ -7927,6 +8092,49 @@
     "use_action": [ "HAMMER" ]
   },
   {
+    "id": "toolset_extended",
+    "type": "TOOL",
+    "name": "extended toolset",
+    "description": "Your toolset, protruding from your hands.  It can slice, dice, and make everything nice.",
+    "symbol": "#",
+    "color": "white",
+    "weight": 226,
+    "bashing": 3,
+    "cutting": 5,
+    "flags": [ "NO_UNWIELD", "UNBREAKABLE_MELEE", "TRADER_AVOID", "USES_BIONIC_POWER" ],
+    "max_charges": 1000,
+    "note": "Charges will exceed max charges since they're always equal to the player's bionic power, but this has no adverse effects.",
+    "charges_per_use": 1,
+    "use_action": [
+      "HAMMER",
+      "CROWBAR",
+      {
+        "type": "repair_item",
+        "item_action_type": "repair_metal",
+        "materials": [ "kevlar", "plastic", "iron", "steel", "hardsteel", "aluminum", "copper", "silver", "gold" ],
+        "skill": "mechanics",
+        "cost_scaling": 0.1,
+        "move_cost": 1000
+      },
+      { "flame": false, "type": "cauterize" }
+    ],
+    "qualities": [
+      [ "HAMMER", 3 ],
+      [ "HAMMER_FINE", 1 ],
+      [ "SAW_W", 1 ],
+      [ "SAW_M", 2 ],
+      [ "SAW_M_FINE", 1 ],
+      [ "WRENCH", 2 ],
+      [ "WRENCH_FINE", 1 ],
+      [ "SCREW", 1 ],
+      [ "SCREW_FINE", 1 ],
+      [ "CUT", 2 ],
+      [ "PRY", 1 ],
+      [ "DRILL", 1 ],
+      [ "BUTCHER", -38 ]
+    ]
+  },
+  {
     "id": "torch",
     "type": "TOOL",
     "name": "torch",
@@ -7971,7 +8179,16 @@
     "max_charges": 75,
     "turns_per_charge": 20,
     "revert_to": "torch_done",
-    "use_action": "TORCH_LIT",
+    "use_action": [
+      { "type": "firestarter", "moves": 30 },
+      {
+        "target": "torch",
+        "msg": "The torch is extinguished.",
+        "active": false,
+        "menu_text": "Extinguish",
+        "type": "transform"
+      }
+    ],
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "FIRE", "LIGHT_310", "CHARGEDIM", "FLAMING", "TRADER_AVOID", "WATER_EXTINGUISH" ]
   },

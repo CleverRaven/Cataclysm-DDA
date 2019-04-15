@@ -95,8 +95,8 @@
     "type": "profession",
     "ident": "afs_atomic_pitchman",
     "name": { "male": "Atomic Pitchman", "female": "Atomic Pitchwoman" },
-    "description": "You were hired to market Rivtech's products through TV and were on your way to the studio when the end came.  You enter now the end of the world with nothing but the snazzy clothes on your back and a bunch of plutonium-powered toys.",
-    "points": 2,
+    "description": "You were hired to market Rivtech's products through TV and were on your way to the studio when the bombs hit.  You enter now the end of the world with nothing but the snazzy clothes on your back and a bunch of plutonium-powered toys.",
+    "points": 3,
     "skills": [ { "level": 1, "name": "barter" } ],
     "items": {
       "both": [
@@ -106,11 +106,11 @@
         "socks",
         "mbag",
         "afs_atomic_smartphone",
+        "afs_atomic_reading_light",
         "atomic_coffeepot",
         "atomic_lamp_off",
-        "atomic_light_off",
-        "energy_drink_atomic",
-        "smart_phone"
+        "afs_atompot",
+        "energy_drink_atomic"
       ],
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
@@ -200,7 +200,7 @@
     "ident": "afs_librarian",
     "name": "Librarian",
     "description": "The librarian's calling is a simple one, but it suited you fine.  When the sirens sounded, you grabbed some manuals on your way out, and the book you never got to publish.",
-    "points": 2,
+    "points": 1,
     "traits": [ "LOVES_BOOKS" ],
     "items": {
       "both": [
@@ -239,23 +239,6 @@
   },
   {
     "type": "profession",
-    "ident": "afs_cbm_engineer",
-    "name": "CBM Engineer",
-    "description": "You worked as a technician in a sterile, high-security facility concerned with the fabrication of bionic implants.  Armed with the solderers in your hands, and aided by precise machinery, you created CBMs for independent and military contacts.",
-    "points": 2,
-    "skills": [ { "level": 4, "name": "electronics" } ],
-    "CBMs": [ "afs_bio_precision_solderers", "bio_power_storage", "bio_batteries" ],
-    "items": {
-      "both": {
-        "items": [ "coat_lab", "gloves_medical", "mask_dust", "longshirt", "socks", "boots", "backpack", "jeans" ],
-        "entries": [ { "item": "cash_card", "charges": 100000 } ]
-      },
-      "male": [ "briefs" ],
-      "female": [ "bra", "panties" ]
-    }
-  },
-  {
-    "type": "profession",
     "ident": "afs_affluent_executive",
     "name": "Affluent Executive",
     "description": "You worked at a high position in a wealthy company, earning numbers most people could only dream of, and you savored it.  You start with a maxed-out cash card.",
@@ -266,7 +249,7 @@
         "entries": [ { "item": "cash_card", "charges": 200000000 } ]
       },
       "male": [ "briefs", "collarpin", "diamond_ring" ],
-      "female": [ "panties", "fc_hairpin", "pearl_collar" ]
+      "female": [ "panties", "hairpin", "pearl_collar" ]
     }
   }
 ]

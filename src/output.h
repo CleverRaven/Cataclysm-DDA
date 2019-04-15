@@ -48,6 +48,77 @@ using chtype = int;
 #define LINE_OXXX_C 0xa9
 #define LINE_XXXX_C 0xaa
 
+#define LINE_XOXO_S "│" // '|'   Vertical line. ncurses: ACS_VLINE; Unicode: U+2502
+#define LINE_OXOX_S "─" // '-'   Horizontal line. ncurses: ACS_HLINE; Unicode: U+2500
+#define LINE_XXOO_S "└" // '|_'  Lower left corner. ncurses: ACS_LLCORNER; Unicode: U+2514
+#define LINE_OXXO_S "┌" // '|^'  Upper left corner. ncurses: ACS_ULCORNER; Unicode: U+250C
+#define LINE_OOXX_S "┐" // '^|'  Upper right corner. ncurses: ACS_URCORNER; Unicode: U+2510
+#define LINE_XOOX_S "┘" // '_|'  Lower right corner. ncurses: ACS_LRCORNER; Unicode: U+2518
+#define LINE_XXXO_S "├" // '|-'  Tee pointing right. ncurses: ACS_LTEE; Unicode: U+251C
+#define LINE_XXOX_S "┴" // '_|_' Tee pointing up. ncurses: ACS_BTEE; Unicode: U+2534
+#define LINE_XOXX_S "┤" // '-|'  Tee pointing left. ncurses: ACS_RTEE; Unicode: U+2524
+#define LINE_OXXX_S "┬" // '^|^' Tee pointing down. ncurses: ACS_TTEE; Unicode: U+252C
+#define LINE_XXXX_S "┼" // '-|-' Large Plus or cross over. ncurses: ACS_PLUS; Unicode: U+253C
+
+#define LINE_XOXO_UNICODE 0x2502
+#define LINE_OXOX_UNICODE 0x2500
+#define LINE_XXOO_UNICODE 0x2514
+#define LINE_OXXO_UNICODE 0x250C
+#define LINE_OOXX_UNICODE 0x2510
+#define LINE_XOOX_UNICODE 0x2518
+#define LINE_XXXO_UNICODE 0x251C
+#define LINE_XXOX_UNICODE 0x2534
+#define LINE_XOXX_UNICODE 0x2524
+#define LINE_OXXX_UNICODE 0x252C
+#define LINE_XXXX_UNICODE 0x253C
+
+// Supports line drawing
+inline std::string string_from_long( const catacurses::chtype ch )
+{
+    char charcode = ch;
+    // LINE_NESW  - X for on, O for off
+    switch( ch ) {
+        case LINE_XOXO:
+            charcode = LINE_XOXO_C;
+            break;
+        case LINE_OXOX:
+            charcode = LINE_OXOX_C;
+            break;
+        case LINE_XXOO:
+            charcode = LINE_XXOO_C;
+            break;
+        case LINE_OXXO:
+            charcode = LINE_OXXO_C;
+            break;
+        case LINE_OOXX:
+            charcode = LINE_OOXX_C;
+            break;
+        case LINE_XOOX:
+            charcode = LINE_XOOX_C;
+            break;
+        case LINE_XXOX:
+            charcode = LINE_XXOX_C;
+            break;
+        case LINE_XXXO:
+            charcode = LINE_XXXO_C;
+            break;
+        case LINE_XOXX:
+            charcode = LINE_XOXX_C;
+            break;
+        case LINE_OXXX:
+            charcode = LINE_OXXX_C;
+            break;
+        case LINE_XXXX:
+            charcode = LINE_XXXX_C;
+            break;
+        default:
+            charcode = static_cast<char>( ch );
+            break;
+    }
+    char buffer[2] = { charcode, '\0' };
+    return buffer;
+}
+
 // a consistent border color
 #define BORDER_COLOR c_light_gray
 
@@ -553,7 +624,7 @@ template<typename _Container>
 std::string enumerate_as_string( const _Container &values,
                                  enumeration_conjunction conj = enumeration_conjunction::and_ )
 {
-    std::string final_separator = [&]() {
+    const std::string final_separator = [&]() {
         switch( conj ) {
             case enumeration_conjunction::none:
                 return _( ", " );

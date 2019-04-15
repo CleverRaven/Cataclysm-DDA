@@ -6306,7 +6306,7 @@
           "fg": 1900
         },
         {
-          "id": ["oj", "lemonade", "lemonlime", "orangesoda", "broth", "broth_bone", "broth_human", "tequila", "drink_screwdriver", "mead", "brew_mead", "dandelion_wine", "brew_dandelion_wine", "fertilizer_liquid", "iv_mutagen_plant", "dandelion_tea", "dayquil", "mustard", "honey_bottled", "brew_vinegar", "cooking_oil", "protein_shake", "hflesh_shake", "drink_sewerbrew", "drink_hobo", "drink_beeknees", "drink_wsour", "honey_gold", "thyme_oil", "mugwort_oil", "gas_fungicidal", "nicotine_liquid", "lamp_oil" ],
+          "id": ["oj", "lemonade", "lemonlime", "orangesoda", "broth", "broth_bone", "broth_human", "tequila", "drink_screwdriver", "mead", "brew_mead", "dandelion_wine", "brew_dandelion_wine", "fertilizer_liquid", "iv_mutagen_plant", "dandelion_tea", "dayquil", "mustard", "honey_bottled", "brew_vinegar", "cooking_oil", "cooking_oil2", "protein_shake", "hflesh_shake", "drink_sewerbrew", "drink_hobo", "drink_beeknees", "drink_wsour", "honey_gold", "thyme_oil", "mugwort_oil", "gas_fungicidal", "nicotine_liquid", "lamp_oil" ],
           "fg": 1901
         },
         {

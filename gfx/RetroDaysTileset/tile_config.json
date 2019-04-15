@@ -42,6 +42,21 @@
           "rotates": false
         },
         {
+          "id": "mon_zombie_brainless",
+          "fg": 2990,
+          "rotates": false
+        },
+        {
+          "id": "mon_zombie_ears",
+          "fg": 2991,
+          "rotates": false
+        },
+        {
+          "id": "mon_zombie_skull",
+          "fg": 2992,
+          "rotates": false
+        },
+        {
           "id": [
             "mon_zombie_acidic",
             "mon_zombie_acidic_pk"
@@ -74,11 +89,6 @@
             "mon_skeleton_pk"
           ],
           "fg": 10,
-          "rotates": false
-        },
-        {
-          "id": "mon_skeleton_hulk",
-          "fg": 11,
           "rotates": false
         },
         {
@@ -135,6 +145,11 @@
           "rotates": false
         },
         {
+          "id": "mon_zombie_kevlar_1",
+          "fg": 52,
+          "rotates": false
+        },
+        {
           "id": "mon_zombie_brute_grappler",
           "fg": 22,
           "rotates": false
@@ -182,6 +197,11 @@
         },
         {
           "id": "mon_zombie_cop",
+          "fg": 2985,
+          "rotates": false
+        },
+        {
+          "id": "mon_zombie_labsecurity",
           "fg": 29,
           "rotates": false
         },
@@ -320,14 +340,6 @@
           "rotates": false
         },
         {
-          "id": [
-            "mon_zombie_hulk",
-            "mon_zombie_hulk_pk"
-          ],
-          "fg": 52,
-          "rotates": false
-        },
-        {
           "id": "mon_zombie_hunter",
           "fg": 53,
           "rotates": false
@@ -437,6 +449,16 @@
           "rotates": false
         },
         {
+          "id": "mon_zombie_soldier_blackops_1",
+          "fg": 2995,
+          "rotates": false
+        },
+        {
+          "id": "mon_zombie_soldier_blackops_2",
+          "fg": 2996,
+          "rotates": false
+        },
+        {
           "id": "mon_darkman",
           "fg": 2960,
           "rotates": false
@@ -476,12 +498,22 @@
         },
         {
           "id": "mon_zombie_military_pilot",
-          "fg": 76,
+          "fg": 2984,
           "rotates": false
         },
         {
           "id": "mon_zombie_flamer",
           "fg": 77,
+          "rotates": false
+        },
+        {
+          "id": "mon_zombie_soldier_acid_1",
+          "fg": 2993,
+          "rotates": false
+        },
+        {
+          "id": "mon_zombie_soldier_acid_2",
+          "fg": 2994,
           "rotates": false
         },
         {
@@ -1378,16 +1410,6 @@
           "rotates": false
         },
         {
-          "id": "mon_triceratops",
-          "fg": 236,
-          "rotates": false
-        },
-        {
-          "id": "mon_tyrannosaurus",
-          "fg": 237,
-          "rotates": false
-        },
-        {
           "id": "mon_utahraptor",
           "fg": 238,
           "rotates": false
@@ -1529,6 +1551,11 @@
         {
           "id": "mon_cat",
           "fg": 262,
+          "rotates": false
+        },
+        {
+          "id": "debug_mon",
+          "fg": 2980,
           "rotates": false
         },
         {
@@ -2041,6 +2068,21 @@
           "rotates": false
         },
         {
+          "id": "mon_science_bot",
+          "fg": 2986,
+          "rotates": false
+        },
+        {
+          "id": "broken_science_bot",
+          "fg": 2987,
+          "rotates": false
+        },
+        {
+          "id": "bot_science_bot",
+          "fg": 2988,
+          "rotates": false
+        },
+        {
           "id": "mon_molebot",
           "fg": 347,
           "rotates": false
@@ -2048,6 +2090,36 @@
         {
           "id": "mon_riotbot",
           "fg": 348,
+          "rotates": false
+        },
+        {
+          "id": "mon_dispatch",
+          "fg": 3027,
+          "rotates": false
+        },
+        {
+          "id": "bot_dispatch",
+          "fg": 3028,
+          "rotates": false
+        },
+        {
+          "id": "broken_dispatch",
+          "fg": 3029,
+          "rotates": false
+        },
+        {
+          "id": "mon_dispatch_military",
+          "fg": 3030,
+          "rotates": false
+        },
+        {
+          "id": "bot_dispatch_military",
+          "fg": 3031,
+          "rotates": false
+        },
+        {
+          "id": "broken_dispatch_military",
+          "fg": 3032,
           "rotates": false
         },
         {
@@ -2063,6 +2135,11 @@
         {
           "id": "mon_skitterbot",
           "fg": 351,
+          "rotates": false
+        },
+        {
+          "id": "bot_skitterbot",
+          "fg": 2989,
           "rotates": false
         },
         {
@@ -2540,7 +2617,19 @@
         },
         {
           "id": "vp_minifridge",
-          "fg": 428,
+          "fg": 2981,
+          "rotates": false,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 420
+            }
+          ]
+        },
+        {
+          "id": "vp_minifreezer",
+          "fg": 2982,
           "rotates": false,
           "multitile": true,
           "additional_tiles": [
@@ -3585,11 +3674,6 @@
           "rotates": false
         },
         {
-          "id": "vp_tank_barrel",
-          "fg": 499,
-          "rotates": true
-        },
-        {
           "id": "vp_boat_board",
           "fg": 500,
           "rotates": false,
@@ -3986,10 +4070,7 @@
           ]
         },
         {
-          "id": [
-            "vp_drive_by_wire_controls",
-            "vp_controls_electronic"
-          ],
+          "id": "vp_drive_by_wire_controls",
           "fg": 537,
           "rotates": true,
           "multitile": true,
@@ -4053,8 +4134,8 @@
             "vp_battery_car",
             "vp_battery_truck"
           ],
-          "fg": 539,
-          "rotates": true,
+          "fg": 1617,
+          "rotates": false,
           "multitile": true,
           "additional_tiles": [
             {
@@ -4068,8 +4149,8 @@
             "vp_fuel_tank_plut",
             "vp_minireactor"
           ],
-          "fg": 540,
-          "rotates": true,
+          "fg": 1973,
+          "rotates": false,
           "multitile": true,
           "additional_tiles": [
             {
@@ -4690,8 +4771,8 @@
         },
         {
           "id": "vp_washing_machine",
-          "fg": 588,
-          "rotates": true,
+          "fg": 2983,
+          "rotates": false,
           "multitile": true,
           "additional_tiles": [
             {
@@ -9437,6 +9518,7 @@
         {
           "id": [
             "cooking_oil",
+            "cooking_oil2",
             "lamp_oil",
             "protein_shake",
             "hflesh_shake_fortified",
@@ -11065,9 +11147,33 @@
           "rotates": false
         },
         {
+          "id": "vp_tank_small",
+          "fg": 1295,
+          "rotates": false,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 427
+            }
+          ]
+        },
+        {
           "id": "jerrycan_big",
           "fg": 1296,
           "rotates": false
+        },
+        {
+          "id": "vp_tank_medium",
+          "fg": 1296,
+          "rotates": false,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 427
+            }
+          ]
         },
         {
           "id": "jug_clay",
@@ -11090,6 +11196,21 @@
         },
         {
           "id": [
+            "vp_tank",
+            "vp_tank_little"
+          ],
+          "fg": 1299,
+          "rotates": false,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 427
+            }
+          ]
+        },
+        {
+          "id": [
             "waterskin",
             "waterskin2",
             "waterskin3",
@@ -11106,6 +11227,11 @@
           ],
           "fg": 1301,
           "rotates": false
+        },
+        {
+          "id": "vp_tank_barrel",
+          "fg": 1301,
+          "rotates": true
         },
         {
           "id": [
@@ -11481,6 +11607,11 @@
           "rotates": false
         },
         {
+          "id": "f_vent_pipe",
+          "fg": 3038,
+          "rotates": false
+        },
+        {
           "id": [
             "cantilever_medium",
             "cantilever_small"
@@ -11645,6 +11776,11 @@
             "polisher"
           ],
           "fg": 1387,
+          "rotates": false
+        },
+        {
+          "id": "f_roof_turbine_vent",
+          "fg": 2998,
           "rotates": false
         },
         {
@@ -12184,6 +12320,11 @@
           "rotates": false
         },
         {
+          "id": "bodypillow",
+          "fg": 2997,
+          "rotates": false
+        },
+        {
           "id": [
             "pilot_light",
             "crude_firestarter"
@@ -12357,6 +12498,11 @@
             "reinforced_glass_pane"
           ],
           "fg": 1494,
+          "rotates": false
+        },
+        {
+          "id": "t_glass_roof",
+          "fg": 3034,
           "rotates": false
         },
         {
@@ -14118,7 +14264,11 @@
           "rotates": false
         },
         {
-          "id": "directional_antenna",
+          "id": [
+            "directional_antenna",
+            "f_small_satellite_dish",
+            "f_small_satelitte_dish"
+          ],
           "fg": 1713,
           "rotates": false
         },
@@ -15812,7 +15962,12 @@
         },
         {
           "id": "minifridge",
-          "fg": 428,
+          "fg": 2981,
+          "rotates": false
+        },
+        {
+          "id": "minifreezer",
+          "fg": 2982,
           "rotates": false
         },
         {
@@ -15837,7 +15992,8 @@
           "id": [
             "solar_panel",
             "solar_panel_v2",
-            "solar_panel_v3"
+            "solar_panel_v3",
+            "f_solar_unit"
           ],
           "fg": 432,
           "rotates": false
@@ -15973,6 +16129,7 @@
         {
           "id": [
             "t_water_dp",
+            "t_water_moving_dp",
             "t_swater_dp"
           ],
           "fg": 1977,
@@ -15981,6 +16138,7 @@
         {
           "id": [
             "t_water_sh",
+            "t_water_moving_sh",
             "t_swater_sh",
             "t_water_pool"
           ],
@@ -16265,7 +16423,10 @@
           "rotates": false
         },
         {
-          "id": "t_shrub_season_spring",
+          "id": [
+            "t_shrub_season_spring",
+            "t_shrub"
+          ],
           "fg": 2928,
           "rotates": false
         },
@@ -16592,7 +16753,9 @@
           "id": [
             "t_tree_blackjack_season_spring",
             "t_tree_hickory_season_spring",
+            "t_tree_hickory",
             "t_tree_hickory_harvested_season_spring",
+            "t_tree_hickory_harvested",
             "t_tree_maple_season_spring"
           ],
           "fg": 2067,
@@ -17197,6 +17360,22 @@
         {
           "id": "t_bridge",
           "bg": 2157,
+          "rotates": false
+        },
+        {
+          "id": [
+            "t_dock",
+            "t_sh_bridge"
+          ],
+          "fg": 3035,
+          "rotates": false
+        },
+        {
+          "id": [
+            "t_pontoon_dp",
+            "t_riverbridge_dp"
+          ],
+          "fg": 3036,
           "rotates": false
         },
         {
@@ -17818,7 +17997,8 @@
         {
           "id": [
             "t_console_broken",
-            "f_aut_gas_console_o"
+            "f_aut_gas_console_o",
+            "electronics_controls"
           ],
           "fg": 2211,
           "rotates": false
@@ -17826,9 +18006,15 @@
         {
           "id": [
             "t_console",
-            "f_aut_gas_console"
+            "f_aut_gas_console",
+            "vp_controls_electronic"
           ],
           "fg": 2212,
+          "rotates": false
+        },
+        {
+          "id": "f_chimney",
+          "fg": 3040,
           "rotates": false
         },
         {
@@ -18309,6 +18495,11 @@
           "rotates": false
         },
         {
+          "id": "f_birdbath",
+          "fg": 3037,
+          "rotates": false
+        },
+        {
           "id": "f_bathtub",
           "fg": 2270,
           "rotates": false,
@@ -18378,10 +18569,7 @@
           "rotates": false
         },
         {
-          "id": [
-            "f_bench",
-            "t_pontoon_dp"
-          ],
+          "id": "f_bench",
           "fg": 2282,
           "rotates": true
         },
@@ -18633,8 +18821,16 @@
           "rotates": false
         },
         {
-          "id": "f_file_cabinet",
+          "id": [
+            "f_file_cabinet",
+            "f_filing_cabinet"
+          ],
           "fg": 2324,
+          "rotates": false
+        },
+        {
+          "id": "f_glass_cabinet",
+          "fg": 3039,
           "rotates": false
         },
         {
@@ -18736,7 +18932,10 @@
           "rotates": false
         },
         {
-          "id": "t_switchgear_l",
+          "id": [
+            "t_switchgear_l",
+            "f_fume_hood"
+          ],
           "fg": 2356,
           "rotates": false
         },
@@ -18780,7 +18979,10 @@
           ]
         },
         {
-          "id": "f_rack",
+          "id": [
+            "f_rack",
+            "f_utility_shelf"
+          ],
           "fg": 2347,
           "rotates": false
         },
@@ -18935,7 +19137,11 @@
           "rotates": false
         },
         {
-          "id": "f_spike",
+          "id": [
+            "f_spike",
+            "f_cellphone_booster",
+            "f_TV_antenna"
+          ],
           "fg": 2368,
           "rotates": false
         },
@@ -19060,7 +19266,9 @@
             "char_kiln",
             "f_kiln_empty",
             "f_kiln_metal_empty",
-            "brick_kiln"
+            "brick_kiln",
+            "fuel_bunker",
+            "vp_fuel_bunker"
           ],
           "fg": 2386,
           "rotates": false
@@ -19086,6 +19294,11 @@
         },
         {
           "id": "washing_machine",
+          "fg": 2983,
+          "rotates": false
+        },
+        {
+          "id": "f_chemical_mixer",
           "fg": 2388,
           "rotates": false
         },
@@ -19100,11 +19313,13 @@
           "rotates": false
         },
         {
-          "id": [
-            "t_hole",
-            "tr_ledge"
-          ],
+          "id": "t_hole",
           "bg": 2297,
+          "rotates": false
+        },
+        {
+          "id": "tr_ledge",
+          "bg": 0,
           "rotates": false
         },
         {
@@ -19379,6 +19594,81 @@
         },
         {
           "id": [
+            "t_gutter",
+            "t_gutter_north",
+            "t_gutter_east",
+            "t_gutter_south",
+            "t_gutter_west"
+          ],
+          "fg": 2999,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "center",
+              "fg": 3000
+            },
+            {
+              "id": "corner",
+              "fg": 3001
+            },
+            {
+              "id": "edge",
+              "fg": 3002
+            },
+            {
+              "id": "end_piece",
+              "fg": 3003
+            },
+            {
+              "id": "t_connection",
+              "fg": 3004
+            },
+            {
+              "id": "unconnected",
+              "fg": 2999
+            }
+          ]
+        },
+        {
+          "id": "t_gutter_downspout",
+          "fg": 3025,
+          "rotates": true
+        },
+        {
+          "id": "t_gutter_drop",
+          "fg": 3005,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "center",
+              "fg": 3006
+            },
+            {
+              "id": "corner",
+              "fg": 3007
+            },
+            {
+              "id": "edge",
+              "fg": 3008
+            },
+            {
+              "id": "end_piece",
+              "fg": 3009
+            },
+            {
+              "id": "t_connection",
+              "fg": 3010
+            },
+            {
+              "id": "unconnected",
+              "fg": 3005
+            }
+          ]
+        },
+        {
+          "id": [
             "t_secretdoor_brick_wall_c",
             "t_sliding_brick_wall_c"
           ],
@@ -19563,6 +19853,11 @@
           "rotates": false
         },
         {
+          "id": "t_column_halfway",
+          "fg": 3026,
+          "rotates": true
+        },
+        {
           "id": "t_sliding_concrete_wall_control",
           "fg": 2211,
           "rotates": false
@@ -19657,11 +19952,6 @@
           "rotates": false
         },
         {
-          "id": "t_dock",
-          "fg": 2370,
-          "rotates": false
-        },
-        {
           "id": "t_door_bar_c",
           "fg": 2442,
           "rotates": false
@@ -19696,12 +19986,18 @@
           "rotates": false
         },
         {
-          "id": "t_door_curtain_c",
+          "id": [
+            "t_door_curtain_c",
+            "f_curtain"
+          ],
           "fg": 2447,
           "rotates": false
         },
         {
-          "id": "t_door_curtain_o",
+          "id": [
+            "t_door_curtain_o",
+            "f_curtain_open"
+          ],
           "fg": 2448,
           "rotates": false
         },
@@ -20154,39 +20450,104 @@
             "t_guardrail_bg_dp"
           ],
           "fg": 2502,
-          "bg": 2160,
           "rotates": true,
           "multitile": true,
           "additional_tiles": [
             {
               "id": "center",
-              "fg": 2502,
-              "bg": 2160
+              "fg": 2502
             },
             {
               "id": "corner",
-              "fg": 2503,
-              "bg": 2160
+              "fg": 2503
             },
             {
               "id": "edge",
-              "fg": 2504,
-              "bg": 2160
+              "fg": 2504
             },
             {
               "id": "end_piece",
-              "fg": 2505,
-              "bg": 2160
+              "fg": 2505
             },
             {
               "id": "t_connection",
-              "fg": 2506,
-              "bg": 2160
+              "fg": 2506
             },
             {
               "id": "unconnected",
-              "fg": 2507,
-              "bg": 2160
+              "fg": 2507
+            }
+          ]
+        },
+        {
+          "id": [
+            "t_glass_railing",
+            "t_glass_railing_h",
+            "t_glass_railing_v"
+          ],
+          "fg": 3013,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "center",
+              "fg": 3014
+            },
+            {
+              "id": "corner",
+              "fg": 3015
+            },
+            {
+              "id": "edge",
+              "fg": 3016
+            },
+            {
+              "id": "end_piece",
+              "fg": 3017
+            },
+            {
+              "id": "t_connection",
+              "fg": 3018
+            },
+            {
+              "id": "unconnected",
+              "fg": 3013
+            }
+          ]
+        },
+        {
+          "id": [
+            "t_metal_railing",
+            "t_metal_railing_h",
+            "t_metal_railing_v"
+          ],
+          "fg": 3019,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "center",
+              "fg": 3020
+            },
+            {
+              "id": "corner",
+              "fg": 3021
+            },
+            {
+              "id": "edge",
+              "fg": 3022
+            },
+            {
+              "id": "end_piece",
+              "fg": 3023
+            },
+            {
+              "id": "t_connection",
+              "fg": 3024
+            },
+            {
+              "id": "unconnected",
+              "fg": 3025
             }
           ]
         },
@@ -21778,6 +22139,18 @@
         {
           "id": "overlay_mutation_THRESH_MYCUS",
           "fg": 2974
+        },
+        {
+          "id": "overlay_mutation_THRESH_BEAST",
+          "fg": 3011
+        },
+        {
+          "id": "overlay_male_mutation_THRESH_BEAST",
+          "fg": 3012
+        },
+        {
+          "id": "overlay_mutation_THRESH_RAPTOR",
+          "fg": 3033
         }
       ]
     },
@@ -21790,27 +22163,64 @@
       "tiles": [
         {
           "id": "overlay_mutation_THRESH_CATTLE",
-          "fg": 2993
+          "fg": 3072
         },
         {
           "id": "overlay_male_mutation_THRESH_CATTLE",
-          "fg": 2994
+          "fg": 3073
         },
         {
           "id": "overlay_mutation_THRESH_URSINE",
-          "fg": 2995
+          "fg": 3074
+        },
+        {
+          "id": "overlay_mutation_THRESH_LIZARD",
+          "fg": 3081
         },
         {
           "id": "mon_fungaloid_queen",
-          "fg": 2996
+          "fg": 3075
         },
         {
           "id": "mon_fungaloid_seeder",
-          "fg": 2997
+          "fg": 3076
         },
         {
           "id": "mon_fungaloid_tower",
-          "fg": 2998
+          "fg": 3077
+        },
+        {
+          "id": [
+            "mon_zombie_hulk",
+            "mon_zombie_hulk_pk"
+          ],
+          "fg": 3078,
+          "rotates": false
+        },
+        {
+          "id": "mon_zombie_kevlar_2",
+          "fg": 3079,
+          "rotates": false
+        },
+        {
+          "id": "mon_skeleton_hulk",
+          "fg": 3080,
+          "rotates": false
+        },
+        {
+          "id": "mon_tyrannosaurus",
+          "fg": 3082,
+          "rotates": false
+        },
+        {
+          "id": "mon_triceratops",
+          "fg": 3083,
+          "rotates": false
+        },
+        {
+          "id": "mon_dragon_dummy",
+          "fg": 3084,
+          "rotates": false
         }
       ]
     },

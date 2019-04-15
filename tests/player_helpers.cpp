@@ -54,6 +54,8 @@ void clear_player()
 
     dummy.clear_bionics();
 
+    dummy.activity.set_to_null();
+
     // Make stats nominal.
     dummy.str_cur = 8;
     dummy.dex_cur = 8;
@@ -62,4 +64,14 @@ void clear_player()
 
     const tripoint spot( 60, 60, 0 );
     dummy.setpos( spot );
+}
+
+void process_activity( player &dummy )
+{
+    do {
+        dummy.moves += dummy.get_speed();
+        while( dummy.moves > 0 && dummy.activity ) {
+            dummy.activity.do_turn( dummy );
+        }
+    } while( dummy.activity );
 }

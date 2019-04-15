@@ -5,7 +5,7 @@
     "dynamic_line": {
       "u_is_wearing": "badge_marshal",
       "yes": "Can I help you, marshal?",
-      "no": { "u_male": "Morning sir, how can I help you?", "u_female": "Morning ma'am, how can I help you?" }
+      "no": { "u_male": true, "yes": "Morning sir, how can I help you?", "no": "Morning ma'am, how can I help you?" }
     },
     "responses": [
       {

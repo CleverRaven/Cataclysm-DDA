@@ -71,7 +71,7 @@
         "x": { "item": "mechanics", "chance": 50, "repeat": 2 }
       },
       "place_vehicles": [
-        { "vehicle": "garage", "x": [  8,  8 ], "y": [ 9, 10 ], "chance": 25, "rotation": 90 },
+        { "vehicle": "garage", "x": [ 8, 8 ], "y": [ 9, 10 ], "chance": 25, "rotation": 90 },
         { "vehicle": "garage", "x": [ 18, 18 ], "y": [ 9, 10 ], "chance": 25, "rotation": 90 }
       ]
     }
@@ -111,9 +111,9 @@
       ],
       "terrain": {
         " ": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
-        "~": ["t_dirt", "t_pavement", "t_pavement", "t_pavement", "t_pavement", "t_pavement", "t_pavement" ],
-        "_": ["t_dirt", "t_sidewalk", "t_sidewalk", "t_sidewalk", "t_sidewalk", "t_sidewalk", "t_sidewalk" ],
-        "*": ["t_tree_pine", "t_tree", "t_shrub", "t_tree_young" ],
+        "~": [ "t_dirt", "t_pavement", "t_pavement", "t_pavement", "t_pavement", "t_pavement", "t_pavement" ],
+        "_": [ "t_dirt", "t_sidewalk", "t_sidewalk", "t_sidewalk", "t_sidewalk", "t_sidewalk", "t_sidewalk" ],
+        "*": [ "t_tree_pine", "t_tree", "t_shrub", "t_tree_young" ],
         "J": "t_water_pump",
         "D": "t_door_locked",
         "+": "t_door_c",
@@ -136,7 +136,7 @@
         "h": "f_chair",
         "P": "f_hydraulic_press",
         "d": "f_desk",
-        "z": ["f_wreckage", "f_toilet", "f_dumpster", "f_sink" ]
+        "z": [ "f_wreckage", "f_toilet", "f_dumpster", "f_sink" ]
       },
       "items": {
         "L": { "item": "clothing_work_set", "chance": 25 },
@@ -145,7 +145,7 @@
         "x": { "item": "mechanics", "chance": 50, "repeat": 2 }
       },
       "place_vehicles": [
-        { "vehicle": "garage", "x": [  8,  8 ], "y": [ 9, 10 ], "chance": 25, "rotation": 90 },
+        { "vehicle": "garage", "x": [ 8, 8 ], "y": [ 9, 10 ], "chance": 25, "rotation": 90 },
         { "vehicle": "garage", "x": [ 18, 18 ], "y": [ 9, 10 ], "chance": 25, "rotation": 90 }
       ]
     }
@@ -183,7 +183,7 @@
         " |----------|WWWWWWWWWWW",
         "                        "
       ],
-       "terrain": {
+      "terrain": {
         " ": [ "t_grass", "t_grass", "t_grass", "t_dirt", "t_shrub", "t_grass", "t_grass", "t_grass", "t_dirt" ],
         "E": "t_pavement",
         "X": "t_sidewalk",
@@ -229,9 +229,7 @@
         "d": { "item": "office", "chance": 70, "repeat": 2 },
         "T": { "item": "cleaning", "chance": 70, "repeat": 4 }
       },
-      "place_vehicles": [
-        { "vehicle": "garage", "x": [  8,  8 ], "y": [ 9, 10 ], "chance": 95, "rotation": 90 }
-      ]
+      "place_vehicles": [ { "vehicle": "garage", "x": [ 8, 8 ], "y": [ 9, 10 ], "chance": 95, "rotation": 90 } ]
     }
   }
 ]

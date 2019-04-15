@@ -538,6 +538,7 @@ class time_point
         int turn_;
 
     public:
+        time_point();
         // TODO: make private
         // TODO: make explicit
         constexpr time_point( const int t ) : turn_( t ) { }

@@ -23,13 +23,13 @@ int calc_xp_gain( const vpart_info &vp, const skill_id &sk )
 
 int calc_xp_gain( const vpart_info &vp, const skill_id &sk, const Character &who )
 {
-    auto iter = vp.install_skills.find( sk );
+    const auto iter = vp.install_skills.find( sk );
     if( iter == vp.install_skills.end() ) {
         return 0;
     }
 
     // how many levels are we above the requirement?
-    int lvl = std::max( who.get_skill_level( sk ) - iter->second, 1 );
+    const int lvl = std::max( who.get_skill_level( sk ) - iter->second, 1 );
 
     // scale xp gain per hour according to relative level
     // 0-1: 60 xp /h
@@ -63,7 +63,7 @@ vehicle_part &most_repairable_part( vehicle &veh, const Character &who_arg, bool
         }
 
         if( part.is_broken() ) {
-            if( info.install_requirements().can_make_with_inventory( inv ) ) {
+            if( info.install_requirements().can_make_with_inventory( inv, is_crafting_component ) ) {
                 repairable_cache[ &part ] = need_replacement;
             }
 
@@ -71,20 +71,21 @@ vehicle_part &most_repairable_part( vehicle &veh, const Character &who_arg, bool
         }
 
         if( info.is_repairable() &&
-            ( info.repair_requirements() * part.damage_level( 4 ) ).can_make_with_inventory( inv ) ) {
+            ( info.repair_requirements() * part.damage_level( 4 ) ).can_make_with_inventory( inv,
+                    is_crafting_component ) ) {
             repairable_cache[ &part ] = repairable;
         }
     }
 
-    auto part_damage_comparison = [&repairable_cache]( const vehicle_part & a,
+    const auto part_damage_comparison = [&repairable_cache]( const vehicle_part & a,
     const vehicle_part & b ) {
         return ( repairable_cache[ &b ] > repairable_cache[ &a ] ) ||
                ( repairable_cache[ &b ] == repairable_cache[ &a ] && b.damage() > a.damage() );
     };
 
-    auto high_damage_iterator = std::max_element( veh.parts.begin(),
-                                veh.parts.end(),
-                                part_damage_comparison );
+    const auto high_damage_iterator = std::max_element( veh.parts.begin(),
+                                      veh.parts.end(),
+                                      part_damage_comparison );
     if( high_damage_iterator == veh.parts.end() ||
         high_damage_iterator->removed ||
         !high_damage_iterator->info().is_repairable() ||
@@ -110,7 +111,7 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who_c )
 
     inventory map_inv;
     map_inv.form_from_map( who.pos(), PICKUP_RANGE );
-    if( !reqs.can_make_with_inventory( who.crafting_inventory() ) ) {
+    if( !reqs.can_make_with_inventory( who.crafting_inventory(), is_crafting_component ) ) {
         who.add_msg_if_player( m_info, _( "You don't meet the requirements to repair the %s." ),
                                pt.name().c_str() );
         return false;
@@ -119,7 +120,8 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who_c )
     // consume items extracting any base item (which we will need if replacing broken part)
     item base( vp.item );
     for( const auto &e : reqs.get_components() ) {
-        for( auto &obj : who.consume_items( who.select_item_component( e, 1, map_inv ), 1 ) ) {
+        for( auto &obj : who.consume_items( who.select_item_component( e, 1, map_inv ), 1,
+                                            is_crafting_component ) ) {
             if( obj.typeId() == vp.item ) {
                 base = obj;
             }

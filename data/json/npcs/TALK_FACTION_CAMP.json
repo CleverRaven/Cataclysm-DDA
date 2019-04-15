@@ -12,6 +12,12 @@
         "condition": { "u_at_om_location": "field" }
       },
       {
+        "text": "Show me what needs to be done at the camp.",
+        "topic": "TALK_DONE",
+        "effect": "basecamp_mission",
+        "condition": { "npc_at_om_location": "FACTION_CAMP_ANY" }
+      },
+      {
         "text": "I want you to take over the camp here.",
         "topic": "TALK_DONE",
         "effect": "recover_camp",

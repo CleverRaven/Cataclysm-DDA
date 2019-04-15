@@ -302,7 +302,7 @@ void mutation_branch::load( JsonObject &jo, const std::string & )
     auto vam = jo.get_array( "vitamins_absorb_multi" );
     while( vam.has_more() ) {
         auto pair = vam.next_array();
-        std::map<vitamin_id, float> vit;
+        std::map<vitamin_id, double> vit;
         auto vit_array = pair.get_array( 1 );
         // fill the inner map with vitamins
         while( vit_array.has_more() ) {
@@ -335,6 +335,8 @@ void mutation_branch::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "fatigue_modifier", fatigue_modifier, 0.0f );
     optional( jo, was_loaded, "fatigue_regen_modifier", fatigue_regen_modifier, 0.0f );
     optional( jo, was_loaded, "stamina_regen_modifier", stamina_regen_modifier, 0.0f );
+    optional( jo, was_loaded, "overmap_sight", overmap_sight, 0.0f );
+    optional( jo, was_loaded, "overmap_multiplier", overmap_multiplier, 1.0f );
 
     if( jo.has_object( "social_modifiers" ) ) {
         JsonObject sm = jo.get_object( "social_modifiers" );

@@ -250,10 +250,10 @@ class overmap
         // TODO: make private
         std::vector<radio_tower> radios;
         std::map<int, om_vehicle> vehicles;
-        std::vector<basecamp *> camps;
+        std::vector<basecamp> camps;
         std::vector<city> cities;
         std::vector<city> roads_out;
-        cata::optional<basecamp *> find_camp( const int x, const int y ) const;
+        cata::optional<basecamp *> find_camp( const int x, const int y );
         /// Adds the npc to the contained list of npcs ( @ref npcs ).
         void insert_npc( std::shared_ptr<npc> who );
         /// Removes the npc and returns it ( or returns nullptr if not found ).

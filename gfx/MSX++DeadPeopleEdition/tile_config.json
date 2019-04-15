@@ -22918,7 +22918,7 @@
           "fg": 1154
         },
         {
-          "id": ["cooking_oil", "oil_garlic"],
+          "id": [ "cooking_oil", "cooking_oil2", "oil_garlic" ],
           "fg": 1156,
           "rotates": false
         },

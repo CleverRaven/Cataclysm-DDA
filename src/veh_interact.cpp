@@ -261,7 +261,7 @@ bool veh_interact::format_reqs( std::ostringstream &msg, const requirement_data 
 {
 
     const auto inv = g->u.crafting_inventory();
-    bool ok = reqs.can_make_with_inventory( inv );
+    bool ok = reqs.can_make_with_inventory( inv, is_crafting_component );
 
     msg << _( "<color_white>Time required:</color>\n" );
     // TODO: better have a from_moves function
@@ -282,7 +282,8 @@ bool veh_interact::format_reqs( std::ostringstream &msg, const requirement_data 
         msg << string_format( "> %1$s%2$s</color>", status_color( true ), _( "NONE" ) ) << "\n";
     }
 
-    auto comps = reqs.get_folded_components_list( getmaxx( w_msg ) - 2, c_white, inv );
+    auto comps = reqs.get_folded_components_list( getmaxx( w_msg ) - 2, c_white, inv,
+                 is_crafting_component );
     std::copy( comps.begin(), comps.end(), std::ostream_iterator<std::string>( msg, "\n" ) );
 
     auto tools = reqs.get_folded_tools_list( getmaxx( w_msg ) - 2, c_white, inv );
@@ -679,7 +680,7 @@ bool veh_interact::can_install_part()
     //~ %1$s is quality name, %2$d is quality level
     const auto helpers = g->u.get_crafting_helpers();
     std::string str_string;
-    if( helpers.size() > 0 ) {
+    if( !helpers.empty() ) {
         str_string = string_format( _( "strength ( assisted ) %d" ), str );
     } else {
         str_string = string_format( _( "strength %d" ), str );
@@ -1536,7 +1537,7 @@ bool veh_interact::can_remove_part( int idx )
     }
     const auto helpers = g->u.get_crafting_helpers();
     //~ %1$s represents the internal color name which shouldn't be translated, %2$s is the tool quality, %3$i is tool level, %4$s is the internal color name which shouldn't be translated and %5$i is the character's strength
-    if( helpers.size() > 0 ) {
+    if( !helpers.empty() ) {
         msg << string_format(
                 _( "> %1$s1 tool with %2$s %3$i</color> <color_white>OR</color> %4$sstrength ( assisted ) %5$i</color>" ),
                 status_color( use_aid ), qual.obj().name.c_str(), lvl,
@@ -1701,7 +1702,7 @@ bool veh_interact::do_tirechange( std::string &msg )
 
         case LACK_TOOLS:
             //~ %1$s represents the internal color name which shouldn't be translated, %2$s is an internal color name, %3$s is an internal color name, %4$s is an internal color name, and %5$d is the required lift strength
-            if( helpers.size() > 0 ) {
+            if( !helpers.empty() ) {
                 msg = string_format(
                           _( "To change a wheel you need a %1$swrench</color>, a %2$swheel</color>, and either "
                              "%3$slifting equipment</color> or %4$s%5$d</color> strength ( assisted )." ),
@@ -1856,7 +1857,7 @@ int veh_interact::part_at( int dx, int dy )
 bool veh_interact::can_potentially_install( const vpart_info &vpart )
 {
     return g->u.has_trait( trait_DEBUG_HS ) ||
-           vpart.install_requirements().can_make_with_inventory( crafting_inv );
+           vpart.install_requirements().can_make_with_inventory( crafting_inv, is_crafting_component );
 }
 
 /**
@@ -2028,6 +2029,15 @@ void veh_interact::display_veh()
                 mvwputch( w_disp, y, pivot_sx, c_red, LINE_XOXO );
             }
         }
+    }
+
+    // Draw guidelines to make current selection point more visible.
+    for( int y = 0; y < getmaxy( w_disp ); ++y ) {
+        mvwputch( w_disp, y, hw, c_dark_gray, LINE_XOXO );
+    }
+
+    for( int x = 0; x < getmaxx( w_disp ); ++x ) {
+        mvwputch( w_disp, hh, x, c_dark_gray, LINE_OXOX );
     }
 
     //Iterate over structural parts so we only hit each square once
@@ -2761,7 +2771,7 @@ void veh_interact::complete_vehicle()
             auto inv = g->u.crafting_inventory();
 
             const auto reqs = vpinfo.install_requirements();
-            if( !reqs.can_make_with_inventory( inv ) ) {
+            if( !reqs.can_make_with_inventory( inv, is_crafting_component ) ) {
                 add_msg( m_info, _( "You don't meet the requirements to install the %s." ), vpinfo.name().c_str() );
                 break;
             }
@@ -2769,7 +2779,7 @@ void veh_interact::complete_vehicle()
             // consume items extracting a match for the parts base item
             item base;
             for( const auto &e : reqs.get_components() ) {
-                for( auto &obj : g->u.consume_items( e ) ) {
+                for( auto &obj : g->u.consume_items( e, 1, is_crafting_component ) ) {
                     if( obj.typeId() == vpinfo.item ) {
                         base = obj;
                     }
@@ -2910,13 +2920,13 @@ void veh_interact::complete_vehicle()
             auto inv = g->u.crafting_inventory();
 
             const auto reqs = vpinfo.removal_requirements();
-            if( !reqs.can_make_with_inventory( inv ) ) {
+            if( !reqs.can_make_with_inventory( inv, is_crafting_component ) ) {
                 add_msg( m_info, _( "You don't meet the requirements to remove the %s." ), vpinfo.name().c_str() );
                 break;
             }
 
             for( const auto &e : reqs.get_components() ) {
-                g->u.consume_items( e );
+                g->u.consume_items( e, 1, is_crafting_component );
             }
             for( const auto &e : reqs.get_tools() ) {
                 g->u.consume_tools( e );

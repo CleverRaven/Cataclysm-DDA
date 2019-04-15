@@ -75,7 +75,7 @@ void event::actualize()
             }
             // You could drop the flag, you know.
             if( g->u.has_amount( "petrified_eye", 1 ) ) {
-                sounds::sound( g->u.pos(), 60, sounds::sound_t::speech, _( "a tortured scream!" ) );
+                sounds::sound( g->u.pos(), 60, sounds::sound_t::alert, _( "a tortured scream!" ) );
                 if( !g->u.is_deaf() ) {
                     add_msg( _( "The eye you're carrying lets out a tortured scream!" ) );
                     g->u.add_morale( MORALE_SCREAM, -15, 0, 30_minutes, 5_turns );
@@ -282,7 +282,7 @@ void event::per_turn()
                 when -= 1_turns;
                 return;
             }
-            if( calendar::once_every( 3_turns ) ) {
+            if( calendar::once_every( 3_turns ) && !g->u.is_deaf() ) {
                 add_msg( m_warning, _( "You hear screeches from the rock above and around you!" ) );
             }
             break;

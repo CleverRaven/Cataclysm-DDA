@@ -287,14 +287,14 @@ int iuse::xanax( player *p, item *it, bool, const tripoint & )
 
 int iuse::caff( player *p, item *it, bool, const tripoint & )
 {
-    p->mod_fatigue( -( it->type->comestible ? it->type->comestible->stim : 0 ) * 3 );
+    p->mod_fatigue( -( it->get_comestible() ? it->get_comestible()->stim : 0 ) * 3 );
     return it->type->charges_to_use();
 }
 
 int iuse::atomic_caff( player *p, item *it, bool, const tripoint & )
 {
     p->add_msg_if_player( m_good, _( "Wow!  This %s has a kick." ), it->tname().c_str() );
-    p->mod_fatigue( -( it->type->comestible ? it->type->comestible->stim : 0 ) * 12 );
+    p->mod_fatigue( -( it->get_comestible() ? it->get_comestible()->stim : 0 ) * 12 );
     p->irradiate( 8, true );
     return it->type->charges_to_use();
 }
@@ -316,9 +316,9 @@ int alcohol( player &p, const item &it, const int strength )
                    6_turns, 10_turns, 10_turns ) * p.str_max );
         // Metabolizing the booze improves the nutritional value;
         // might not be healthy, and still causes Thirst problems, though
-        p.mod_hunger( -( abs( it.type->comestible ? it.type->comestible->stim : 0 ) ) );
+        p.stomach.mod_nutr( -( abs( it.get_comestible() ? it.type->comestible->stim : 0 ) ) );
         // Metabolizing it cancels out the depressant
-        p.stim += abs( it.type->comestible ? it.type->comestible->stim : 0 );
+        p.stim += abs( it.get_comestible() ? it.get_comestible()->stim : 0 );
     } else if( p.has_trait( trait_TOLERANCE ) ) {
         duration -= alc_strength( strength, 12_minutes, 30_minutes, 45_minutes );
     } else if( p.has_trait( trait_LIGHTWEIGHT ) ) {
@@ -574,7 +574,7 @@ int iuse::antiparasitic( player *p, item *it, bool, const tripoint & )
     }
     if( p->has_effect( effect_tapeworm ) ) {
         p->remove_effect( effect_tapeworm );
-        p->mod_hunger( -1 ); // You just digested the tapeworm.
+        p->guts.mod_nutr( -1 ); // You just digested the tapeworm.
         if( p->has_trait( trait_NOPAIN ) ) {
             p->add_msg_if_player( m_good, _( "Your bowels clench as something inside them dies." ) );
         } else {
@@ -628,10 +628,10 @@ int iuse::anticonvulsant( player *p, item *it, bool, const tripoint & )
     return it->type->charges_to_use();
 }
 
-int iuse::weed_brownie( player *p, item *it, bool, const tripoint & )
+int iuse::weed_cake( player *p, item *it, bool, const tripoint & )
 {
     p->add_msg_if_player(
-        _( "You start scarfing down the delicious brownie.  It tastes a little funny though..." ) );
+        _( "You start scarfing down the delicious cake.  It tastes a little funny though..." ) );
     time_duration duration = 12_minutes;
     if( p->has_trait( trait_TOLERANCE ) ) {
         duration = 9_minutes;
@@ -884,13 +884,12 @@ int iuse::blech( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_bad, _( "Blech, that tastes gross!" ) );
         //reverse the harmful values of drinking this acid.
         double multiplier = -1;
-        p->mod_hunger( -p->nutrition_for( *it ) * multiplier );
-        p->mod_thirst( -it->type->comestible->quench * multiplier );
-        p->mod_thirst( -20 ); //acidproof people can drink acids like diluted water.
-        p->mod_stomach_water( 20 );
-        p->mod_healthy_mod( it->type->comestible->healthy * multiplier,
-                            it->type->comestible->healthy * multiplier );
-        p->add_morale( MORALE_FOOD_BAD, it->type->comestible->fun * multiplier, 60, 1_hours, 30_minutes,
+        p->stomach.mod_nutr( -p->nutrition_for( *it ) * multiplier );
+        p->mod_thirst( -it->get_comestible()->quench * multiplier );
+        p->stomach.mod_quench( 20 ); //acidproof people can drink acids like diluted water.
+        p->mod_healthy_mod( it->get_comestible()->healthy * multiplier,
+                            it->get_comestible()->healthy * multiplier );
+        p->add_morale( MORALE_FOOD_BAD, it->get_comestible()->fun * multiplier, 60, 1_hours, 30_minutes,
                        false, it->type );
     } else {
         p->add_msg_if_player( m_bad, _( "Blech, that burns your throat!" ) );
@@ -914,10 +913,10 @@ int iuse::plantblech( player *p, item *it, bool, const tripoint &pos )
         }
 
         //reverses the harmful values of drinking fertilizer
-        p->mod_hunger( p->nutrition_for( *it ) * multiplier );
-        p->mod_thirst( -it->type->comestible->quench * multiplier );
-        p->mod_healthy_mod( it->type->comestible->healthy * multiplier,
-                            it->type->comestible->healthy * multiplier );
+        p->stomach.mod_nutr( p->nutrition_for( *it ) * multiplier );
+        p->mod_thirst( -it->get_comestible()->quench * multiplier );
+        p->mod_healthy_mod( it->get_comestible()->healthy * multiplier,
+                            it->get_comestible()->healthy * multiplier );
         p->add_morale( MORALE_FOOD_GOOD, -10 * multiplier, 60, 1_hours, 30_minutes, false, it->type );
         return it->type->charges_to_use();
     } else {
@@ -1007,7 +1006,7 @@ int iuse::purify_iv( player *p, item *it, bool, const tripoint & )
             p->mod_pain( 2 * num_cured ); //Hurts worse as it fixes more
             p->add_msg_if_player( m_warning, _( "Feels like you're on fire, but you're OK." ) );
         }
-        p->mod_hunger( 2 * num_cured );
+        p->mod_stored_nutr( 2 * num_cured );
         p->mod_thirst( 2 * num_cured );
         p->mod_fatigue( 2 * num_cured );
     }
@@ -1134,7 +1133,7 @@ static void marloss_common( player &p, item &it, const trait_id &current_color )
         p.mutate();
         // Gruss dich, mutation drain, missed you!
         p.mod_pain( 2 * rng( 1, 5 ) );
-        p.mod_hunger( 10 );
+        p.mod_stored_nutr( 10 );
         p.mod_thirst( 10 );
         p.mod_fatigue( 5 );
     } else if( effect <= 6 ) { // Radiation cleanse is below
@@ -1146,8 +1145,18 @@ static void marloss_common( player &p, item &it, const trait_id &current_color )
             p.radiation = 0;
         }
     } else if( effect == 7 ) {
-        p.add_msg_if_player( m_good, _( "It is delicious, and very filling!" ) );
-        p.set_hunger( -10 );
+
+        // previously used to set hunger to -10. with the new system, needs to do something
+        // else that actually makes sense, so it is a little bit more involved.
+        units::volume fulfill_vol = std::max( p.stomach.capacity() / 8 - p.stomach.contains(), 0_ml );
+        if( fulfill_vol != 0_ml ) {
+            p.add_msg_if_player( m_good, _( "It is delicious, and very filling!" ) );
+            int fulfill_cal = units::to_milliliter( fulfill_vol * 6 );
+            p.stomach.mod_calories( fulfill_cal );
+            p.stomach.mod_contents( fulfill_vol );
+        } else {
+            p.add_msg_if_player( m_bad, _( "It is delicious, but you can't eat any more." ) );
+        }
     } else if( effect == 8 ) {
         p.add_msg_if_player( m_bad, _( "You take one bite, and immediately vomit!" ) );
         p.vomit();
@@ -1336,7 +1345,7 @@ int iuse::mycus( player *p, item *it, bool t, const tripoint &pos )
                !p->has_trait( trait_M_DEPENDENT ) ) { // OK, now set the hook.
         if( !one_in( 3 ) ) {
             p->mutate_category( "MYCUS" );
-            p->mod_hunger( 10 );
+            p->mod_stored_nutr( 10 );
             p->mod_thirst( 10 );
             p->mod_fatigue( 5 );
             p->add_morale( MORALE_MARLOSS, 25, 200 ); // still covers up mutation pain
@@ -1350,7 +1359,7 @@ int iuse::mycus( player *p, item *it, bool t, const tripoint &pos )
             _( "This apple tastes really weird!  You're not sure it's good for you..." ) );
         p->mutate();
         p->mod_pain( 2 * rng( 1, 5 ) );
-        p->mod_hunger( 10 );
+        p->mod_stored_nutr( 10 );
         p->mod_thirst( 10 );
         p->mod_fatigue( 5 );
         p->vomit(); // no hunger/quench benefit for you
@@ -1646,19 +1655,19 @@ int iuse::sew_advanced( player *p, item *it, bool, const tripoint & )
     } else if( rn <= 10 ) {
         p->add_msg_if_player( m_bad,
                               _( "You fail to modify the clothing, and you waste thread and materials." ) );
-        p->consume_items( comps );
+        p->consume_items( comps, 1, is_crafting_component );
         return thread_needed;
     } else if( rn <= 14 ) {
         p->add_msg_if_player( m_mixed, _( "You modify your %s, but waste a lot of thread." ),
                               mod.tname().c_str() );
-        p->consume_items( comps );
+        p->consume_items( comps, 1, is_crafting_component );
         mod.item_tags.insert( the_mod );
         return thread_needed;
     }
 
     p->add_msg_if_player( m_good, _( "You modify your %s!" ), mod.tname().c_str() );
     mod.item_tags.insert( the_mod );
-    p->consume_items( comps );
+    p->consume_items( comps, 1, is_crafting_component );
     return thread_needed / 2;
 }
 
@@ -2490,49 +2499,222 @@ int iuse::makemound( player *p, item *it, bool t, const tripoint & )
     }
 }
 
+struct digging_moves_and_byproducts {
+    int moves;
+    int spawn_count;
+    std::string byproducts_item_group;
+    ter_id result_terrain;
+};
+
+static digging_moves_and_byproducts dig_pit_moves_and_byproducts( player *p, item *it, bool deep,
+        bool channel )
+{
+    // When we dig, we're generally digging out either a deep or shallow pit.
+    //
+    // The dimensions are a little hand-wavey... based on our exactly
+    // as-big-as-they-need-to-be tile sizes, we could assume that the width and height
+    // are 1 meter each. Our pit could be a square as well, or we could assume it's
+    // circular and 1 meter in diameter.
+    //
+    // Depth is even less rigidly defined, both in terms of "what is a z-level", and in
+    // terms of how the deep and shallow pits are used in game.
+    //
+    // A shallow pit gets used to do things like build an improvised shelter or start
+    // the foundation for a wall, and is ostensibly a relatively quick effort: a
+    // survior might get a crude digging implement (e.g. digging stick) and attempt to
+    // dig out the start of an improvised shelter, or they might have a proper shovel
+    // and be digging a foundation footing. Referencing the 2018 IBC
+    // https://codes.iccsafe.org/content/IRC2018/chapter-4-foundations we can see in
+    // R403.1.4 the requirement that "exterior footings shall be placed not less than
+    // 12 inches (305 mm) below the undisturbed ground surface. You'd need even more
+    // space for the actual footing, but that's close enough. I don't think surviviors
+    // care about building to code, but let's call it 12 inches (0.3048 meters) at the
+    // maximum for a shallow pit depth.
+    //
+    // The deep pit is a little more complicated because it gets used for more complex
+    // constructions like traps, reinforced concrete wall footings, palisades, wells,
+    // root cellars, and the like. The depth requirements for those are quite varied,
+    // but let's just throw some number around to get a feel for it: say at least 2
+    // meters deep to be an effective pit trap. The USGS maintains
+    // depth-to-ground-water-level records and provides them at
+    // https://waterdata.usgs.gov/nwis/current/?type=gw. A cursory review (and
+    // remembering it's seasonal) shows values in Massachusetts ranging from 122 feet
+    // and 1 foot, and values between 3 to 9 feet aren't uncommon. Root cellars are
+    // ideally constructed where the ground temperature has stabilized, below the frost
+    // line. This depth varies by location, but is somewhere in the 1 to 3 meter range.
+    //
+    // With all of that in hand, let's make some estimates.
+    //
+    // A shallow pit is a circular pit 1 meter in diameter and 0.3048 meters deep,
+    // which works out to... ~0.239 m^3. That's so close, let's just call it 0.25 m^3
+    // or 250 liters.
+    //
+    // A deep pit is a rectangular pit 1m x 1m x 2m, or 2 m^3, or 2000 liters.
+    //
+    // Now, for how long that takes, things are going to get even more subjective and
+    // couched in assumptions. Let's assume a single individual, digging in optimally
+    // diggable soil(rather than something requiring a pickaxe to break the soil or
+    // requiring saws to remove tree roots), using an appropriate (but manual)
+    // implement designed for the task (e.g. a shovel). The Canadian Centre for
+    // Occupational Health and Safety has some interesting recommendations on the rate
+    // of shovelling, weight of the load, and throw distance at
+    // https://www.ccohs.ca/oshanswers/ergonomics/shovel.html. Of particular interest
+    // is the table of "recommended workload for continuous shovelling", which gives a
+    // weight per minute and a total weight per 15 minutes, as well as a description of
+    // the conditions. It also discusses the need to take breaks, for example
+    // alternating 15 minutes of shoveling and 15 minutes of rest in extreme
+    // conditions. Taking all that into consideration, I'm going to call it 10
+    // scoops/min * 5 kg/scoop for 15 minutes followed by 15 minutes of rest, or
+    // effectively 25 kg/min.
+    //
+    // Now we need to bring the weights and volumes together. Again, more hand waving
+    // as the soil composition is going to have a big influence on this. The
+    // engineering toolbox https://www.engineeringtoolbox.com/dirt-mud-densities-d_1727.html
+    // lists the density of wet and dry versions of many materials. I'm going with the
+    // assumption that this is moist/wet soil that includes clay, silt, load, as well as
+    // some rock, so I'll just call it 1700 kg/m^3 on average.
+    //
+    // Shallow pit is 0.25 m^3 * 1700 kg/m^3, or 425 kg.
+    // Deep pit is 2 m^3 * 1700 kg/m^3, or 3400 kg.
+    //
+    // We'll do some variables below, but for reference:
+    // Shallow pit: 425 kg / 25 kg/min = 17 minutes
+    // Deep pit: 3400 kg / 25 kg/min = 136 minutes
+    //
+    // Now, one addendum: we're digging our deep pit in the location that we've already
+    // dug the shallow pit, so really we should exclude the shallow pit volume from the
+    // deep when counting the amount of work we need to do.
+    //
+    // Adjusted deep pit: ( 3400 kg - 425 kg ) / 25 kg/min = 119 minutes
+
+    constexpr double shallow_pit_volume_m3 = 0.25;
+    constexpr double deep_pit_volume_m3 = 2;
+    constexpr int dig_rate_kg_min = 25;
+    constexpr int material_density_kg_m3 = 1700;
+
+    // At the time of writing this, a shovel is DIG 3, which is what the numbers are
+    // balanced around.
+    constexpr double baseline_dig_quality = 3;
+
+    // Get the dig quality of the tool.
+    const int quality = it->get_quality( DIG );
+
+    // Dig quality affects the dig rate linearly relative to baseline dig quality
+    const double tool_dig_rate = dig_rate_kg_min * quality / baseline_dig_quality;
+
+    ///\EFFECT_STR modifies dig rate
+    // Adjust the dig rate by 2 kg/min per point of strength more/less than 10.
+    const double player_dig_rate = std::max( 1.0, tool_dig_rate + ( p->str_cur - 10 ) * 2 );
+
+    // Figure out the volume of the pit we're digging.
+    // Subtract the shallow volume from the deep, since we already dug that.
+    const double volume_m3 = deep ? ( deep_pit_volume_m3 - shallow_pit_volume_m3 ) :
+                             shallow_pit_volume_m3;
+
+    // And now determine the moves...
+    int dig_minutes = volume_m3 * material_density_kg_m3 / player_dig_rate;
+    int moves = MINUTES( dig_minutes ) * 100;
+
+    // Modify the number of moves based on the help.
+    // TODO: this block of code is all over the place and could probably be consolidated.
+    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
+    const int helpersize = g->u.get_num_crafting_helpers( 3 );
+    moves = moves * ( 1 - ( helpersize / 10 ) );
+
+    ter_id result_terrain;
+    if( channel ) {
+        result_terrain = ter_id( "t_water_moving_sh" );
+    } else {
+        result_terrain = deep ? ter_id( "t_pit" ) : ter_id( "t_pit_shallow" );
+    }
+
+    return { moves, static_cast<int>( volume_m3 / 0.05 ), "digging_soil_loam_50L", result_terrain };
+}
+
 int iuse::dig( player *p, item *it, bool t, const tripoint & )
 {
     if( !p || t ) {
         return 0;
     }
 
-    const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Dig pit where?" ) );
+    const tripoint dig_point = p->pos();
+
+    const bool can_dig_here = g->m.has_flag( "DIGGABLE", dig_point ) && !g->m.has_furn( dig_point ) &&
+                              g->m.tr_at( dig_point ).is_null() && g->m.i_at( dig_point ).empty() && !g->m.veh_at( dig_point );
+
+    if( !can_dig_here ) {
+        p->add_msg_if_player(
+            _( "You can't dig a pit in this location.  Ensure it is clear diggable ground with no items or obstacles." ) );
+        return 0;
+    }
+    const bool can_deepen = g->m.has_flag( "DIGGABLE_CAN_DEEPEN", dig_point );
+    const bool grave = g->m.ter( dig_point ) == t_grave;
+
+    if( !p->crafting_inventory().has_quality( DIG, 2 ) ) {
+        if( can_deepen ) {
+            p->add_msg_if_player( _( "You can't deepen this pit without a proper shovel." ) );
+            return 0;
+        } else if( grave ) {
+            p->add_msg_if_player( _( "You can't exhume a grave without a proper shovel." ) );
+            return 0;
+        }
+    }
+
+    const std::function<bool( tripoint )> f = []( tripoint p ) {
+        return g->m.passable( p );
+    };
+
+    const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
+            _( "Deposit excavated materials where?" ), f, false );
     if( !pnt_ ) {
         return 0;
     }
-    const tripoint pnt = *pnt_;
+    const tripoint deposit_point = *pnt_;
 
-    if( pnt == p->pos() ) {
-        add_msg( m_info, _( "You delve into yourself." ) );
+    if( !g->m.passable( deposit_point ) ) {
+        p->add_msg_if_player(
+            _( "You can't deposit the excavated materials onto an impassable location." ) );
         return 0;
     }
 
-    int moves;
-
-    if( g->m.has_flag( "DIGGABLE", pnt ) ) {
-        if( g->m.ter( pnt ) == t_pit_shallow ) {
-            if( p->crafting_inventory().has_quality( DIG, 2 ) ) {
-                moves = MINUTES( 90 ) / it->get_quality( DIG ) * 100;
-            } else {
-                p->add_msg_if_player( _( "You can't deepen this pit without a proper shovel." ) );
-                return 0;
+    if( grave ) {
+        if( g->u.has_trait_flag( "SPIRITUAL" ) && !g->u.has_trait_flag( "PSYCHOPATH" ) &&
+            g->u.query_yn( _( "Would you really touch the sacred resting place of the dead?" ) ) ) {
+            add_msg( m_info, _( "Exhuming a grave is really against your beliefs." ) );
+            g->u.add_morale( MORALE_GRAVEDIGGER, -50, -100, 48_hours, 12_hours );
+            if( one_in( 3 ) ) {
+                g->u.vomit();
             }
-        } else {
-            moves = MINUTES( 30 ) / it->get_quality( DIG ) * 100;
+        } else if( g->u.has_trait_flag( "PSYCHOPATH" ) ) {
+            p->add_msg_if_player( m_good,
+                                  _( "Exhuming a grave is fun now, where there is no one to object." ) );
+            p->add_morale( MORALE_GRAVEDIGGER, 25, 50, 2_hours, 1_hours );
+        } else if( !g->u.has_trait_flag( "EATDEAD" ) && !g->u.has_trait_flag( "SAPROVORE" ) ) {
+            p->add_msg_if_player( m_bad, _( "Exhuming this grave is utterly disgusting!" ) );
+            p->add_morale( MORALE_GRAVEDIGGER, -25, -50, 2_hours, 1_hours );
+            if( one_in( 5 ) ) {
+                p->vomit();
+            }
         }
-    } else {
-        p->add_msg_if_player( _( "You can't dig a pit on this ground." ) );
-        return 0;
     }
+
     const std::vector<npc *> helpers = g->u.get_crafting_helpers();
-    const int helpersize = g->u.get_num_crafting_helpers( 3 );
-    moves = moves * ( 1 - ( helpersize / 10 ) );
     for( const npc *np : helpers ) {
         add_msg( m_info, _( "%s helps with this task..." ), np->name.c_str() );
         break;
     }
-    p->assign_activity( activity_id( "ACT_DIG" ), moves, -1, p->get_item_position( it ) );
-    p->activity.placement = pnt;
+
+    digging_moves_and_byproducts moves_and_byproducts = dig_pit_moves_and_byproducts( p, it,
+            can_deepen, false );
+
+    player_activity act( activity_id( "ACT_DIG" ), moves_and_byproducts.moves, -1,
+                         p->get_item_position( it ) );
+    act.placement = dig_point;
+    act.values.emplace_back( moves_and_byproducts.spawn_count );
+    act.str_values.emplace_back( moves_and_byproducts.byproducts_item_group );
+    act.str_values.emplace_back( moves_and_byproducts.result_terrain.id().str() );
+    act.coords.emplace_back( deposit_point );
+    p->assign_activity( act );
 
     return it->type->charges_to_use();
 }
@@ -2543,33 +2725,59 @@ int iuse::dig_channel( player *p, item *it, bool t, const tripoint & )
         return 0;
     }
 
-    const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Dig channel where?" ) );
+    const tripoint dig_point = p->pos();
+
+    tripoint north = dig_point + point( 0, -1 );
+    tripoint south = dig_point + point( 0, 1 );
+    tripoint west = dig_point + point( -1, 0 );
+    tripoint east = dig_point + point( 1, 0 );
+
+    const bool can_dig_here = g->m.has_flag( "DIGGABLE", dig_point ) && !g->m.has_furn( dig_point ) &&
+                              g->m.tr_at( dig_point ).is_null() && g->m.i_at( dig_point ).empty() && !g->m.veh_at( dig_point ) &&
+                              ( g->m.has_flag( "CURRENT", north ) ||  g->m.has_flag( "CURRENT", south ) ||
+                                g->m.has_flag( "CURRENT", east ) ||  g->m.has_flag( "CURRENT", west ) );
+
+    if( !can_dig_here ) {
+        p->add_msg_if_player(
+            _( "You can't dig a channel in this location.  Ensure it is clear diggable ground with no items or obstacles, adjacent to flowing water." ) );
+        return 0;
+    }
+
+    const std::function<bool( tripoint )> f = []( tripoint p ) {
+        return g->m.passable( p );
+    };
+
+    const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
+            _( "Deposit excavated materials where?" ), f, false );
     if( !pnt_ ) {
         return 0;
     }
-    tripoint pnt = *pnt_;
+    const tripoint deposit_point = *pnt_;
 
-    if( pnt == p->pos() ) {
-        add_msg( m_info, _( "You channel your inner self." ) );
-        return 0;
-    }
-    int moves;
-
-    tripoint north = pnt + point( 0, -1 );
-    tripoint south = pnt + point( 0, 1 );
-    tripoint west = pnt + point( -1, 0 );
-    tripoint east = pnt + point( 1, 0 );
-    if( ( g->m.has_flag( "DIGGABLE", pnt ) && ( g->m.has_flag( "CURRENT", north ) ||
-            g->m.has_flag( "CURRENT", south ) || g->m.has_flag( "CURRENT", east ) ||
-            g->m.has_flag( "CURRENT", west ) ) ) ) {
-        moves = MINUTES( 120 ) / it->get_quality( DIG ) * 100;
-    } else {
-        p->add_msg_if_player( _( "You can't dig a channel on this ground." ) );
+    if( !g->m.passable( deposit_point ) ) {
+        p->add_msg_if_player(
+            _( "You can't deposit the excavated materials onto an impassable location." ) );
         return 0;
     }
 
-    p->assign_activity( activity_id( "ACT_DIG_CHANNEL" ), moves, -1, p->get_item_position( it ) );
-    p->activity.placement = pnt;
+    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
+    for( const npc *np : helpers ) {
+        add_msg( m_info, _( "%s helps with this task..." ), np->name.c_str() );
+        break;
+    }
+
+    digging_moves_and_byproducts moves_and_byproducts = dig_pit_moves_and_byproducts( p, it, false,
+            true );
+
+    player_activity act( activity_id( "ACT_DIG_CHANNEL" ), moves_and_byproducts.moves, -1,
+                         p->get_item_position( it ) );
+    act.placement = dig_point;
+    act.values.emplace_back( moves_and_byproducts.spawn_count );
+    act.str_values.emplace_back( moves_and_byproducts.byproducts_item_group );
+    act.str_values.emplace_back( moves_and_byproducts.result_terrain.id().str() );
+    act.coords.emplace_back( deposit_point );
+    p->assign_activity( act );
+
 
     return it->type->charges_to_use();
 }
@@ -3745,6 +3953,50 @@ int iuse::mp3_on( player *p, item *it, bool t, const tripoint &pos )
     return it->type->charges_to_use();
 }
 
+int iuse::dive_tank( player *p, item *it, bool t, const tripoint & )
+{
+    if( t ) { // Normal use
+        if( p->is_worn( *it ) ) {
+            if( p->is_underwater() && p->oxygen < 10 ) {
+                p->oxygen += 20;
+            }
+            if( one_in( 15 ) ) {
+                p->add_msg_if_player( m_bad, _( "You take a deep breath from your %s." ), it->tname().c_str() );
+            }
+            if( it->charges == 0 ) {
+                p->add_msg_if_player( m_bad, _( "Air in your %s runs out." ), it->tname().c_str() );
+                it->set_var( "overwrite_env_resist", 0 );
+                it->convert( it->typeId().substr( 0, it->typeId().size() - 3 ) ).active = false; // 3 = "_on"
+            }
+        } else { // not worn = off thanks to on-demand regulator
+            it->set_var( "overwrite_env_resist", 0 );
+            it->convert( it->typeId().substr( 0, it->typeId().size() - 3 ) ).active = false; // 3 = "_on"
+        }
+
+    } else { // Turning it on/off
+        if( it->charges == 0 ) {
+            p->add_msg_if_player( _( "Your %s is empty." ), it->tname().c_str() );
+        } else if( it->active ) { //off
+            p->add_msg_if_player( _( "You turn off the regulator and close the air valve." ) );
+            it->set_var( "overwrite_env_resist", 0 );
+            it->convert( it->typeId().substr( 0, it->typeId().size() - 3 ) ).active = false; // 3 = "_on"
+        } else { //on
+            if( !p->is_worn( *it ) ) {
+                p->add_msg_if_player( _( "You should wear it first." ) );
+            } else {
+                p->add_msg_if_player( _( "You turn on the regulator and open the air valve." ) );
+                it->set_var( "overwrite_env_resist", it->get_base_env_resist_w_filter() );
+                it->convert( it->typeId() + "_on" ).active = true;
+            }
+        }
+    }
+    if( it->charges == 0 ) {
+        it->set_var( "overwrite_env_resist", 0 );
+        it->convert( it->typeId().substr( 0, it->typeId().size() - 3 ) ).active = false; // 3 = "_on"
+    }
+    return it->type->charges_to_use();
+}
+
 int iuse::solarpack( player *p, item *it, bool, const tripoint & )
 {
     if( !p->has_bionic( bionic_id( "bio_cable" ) ) ) {  // Cable CBM required
@@ -4052,7 +4304,7 @@ int iuse::blood_draw( player *p, item *it, bool, const tripoint & )
         if( p->has_trait( trait_ACIDBLOOD ) ) {
             acid_blood = true;
         }
-        p->mod_hunger( 10 );
+        p->mod_stored_nutr( 10 );
         p->mod_thirst( 10 );
         p->mod_pain( 3 );
     }
@@ -4317,92 +4569,6 @@ int iuse::hacksaw( player *p, item *it, bool t, const tripoint & )
                         p->get_item_position( it ) );
     p->activity.placement = pnt;
 
-    return it->type->charges_to_use();
-}
-
-int iuse::torch_lit( player *p, item *it, bool t, const tripoint &pos )
-{
-    if( p->is_underwater() ) {
-        p->add_msg_if_player( _( "The torch is extinguished." ) );
-        it->convert( "torch" ).active = false;
-        return 0;
-    }
-    if( t ) {
-        if( !it->ammo_sufficient() ) {
-            p->add_msg_if_player( _( "The torch burns out." ) );
-            it->convert( "torch_done" ).active = false;
-        }
-    } else if( !it->ammo_sufficient() ) {
-        p->add_msg_if_player( _( "The %s winks out." ), it->tname().c_str() );
-    } else { // Turning it off
-        int choice = uilist( _( "torch (lit)" ), {
-            _( "extinguish" ), _( "light something" )
-        } );
-        switch( choice ) {
-            case 0: {
-                p->add_msg_if_player( _( "The torch is extinguished." ) );
-                if( it->charges <= 1 ) {
-                    it->charges = 0;
-                    it->convert( "torch_done" ).active = false;
-                } else {
-                    it->charges -= 1;
-                    it->convert( "torch" ).active = false;
-                }
-                return 0;
-            }
-            case 1: {
-                tripoint temp = pos;
-                if( firestarter_actor::prep_firestarter_use( *p, temp ) ) {
-                    p->moves -= 5;
-                    firestarter_actor::resolve_firestarter_use( *p, temp );
-                    return it->type->charges_to_use();
-                }
-            }
-        }
-    }
-    return it->type->charges_to_use();
-}
-
-int iuse::battletorch_lit( player *p, item *it, bool t, const tripoint &pos )
-{
-    if( p->is_underwater() ) {
-        p->add_msg_if_player( _( "The Louisville Slaughterer is extinguished." ) );
-        it->convert( "bat" ).active = false;
-        return 0;
-    }
-    if( t ) {
-        if( !it->ammo_sufficient() ) {
-            p->add_msg_if_player( _( "The Louisville Slaughterer burns out." ) );
-            it->convert( "battletorch_done" ).active = false;
-        }
-    } else if( !it->ammo_sufficient() ) {
-        p->add_msg_if_player( _( "The %s winks out" ), it->tname().c_str() );
-    } else { // Turning it off
-        int choice = uilist( _( "Louisville Slaughterer (lit)" ), {
-            _( "extinguish" ), _( "light something" )
-        } );
-        switch( choice ) {
-            case 0: {
-                p->add_msg_if_player( _( "The Louisville Slaughterer is extinguished." ) );
-                if( it->charges <= 1 ) {
-                    it->charges = 0;
-                    it->convert( "battletorch_done" ).active = false;
-                } else {
-                    it->charges -= 1;
-                    it->convert( "battletorch" ).active = false;
-                }
-                return 0;
-            }
-            case 1: {
-                tripoint temp = pos;
-                if( firestarter_actor::prep_firestarter_use( *p, temp ) ) {
-                    p->moves -= 5;
-                    firestarter_actor::resolve_firestarter_use( *p, temp );
-                    return it->type->charges_to_use();
-                }
-            }
-        }
-    }
     return it->type->charges_to_use();
 }
 
@@ -4732,7 +4898,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
                 break;
 
             case AEA_SCREAM:
-                sounds::sound( p->pos(), 40, sounds::sound_t::speech,
+                sounds::sound( p->pos(), 40, sounds::sound_t::alert,
                                string_format( _( "a disturbing scream from %s %s" ),
                                               p->disp_name( true ), it->tname() ) );
                 if( !p->is_deaf() ) {
@@ -5298,8 +5464,9 @@ int iuse::toolmod_attach( player *p, item *it, bool, const tripoint & )
     }
 
     auto filter = [&it]( const item & e ) {
-        // don't allow ups battery mods on a UPS
-        if( it->has_flag( "USE_UPS" ) && ( e.typeId() == "UPS_off" || e.typeId() == "adv_UPS_off" ) ) {
+        // don't allow ups battery mods on a UPS or UPS-powered tools
+        if( it->has_flag( "USE_UPS" ) && ( e.typeId() == "UPS_off" || e.typeId() == "adv_UPS_off" ||
+                                           e.has_flag( "USE_UPS" ) ) ) {
             return false;
         }
 
@@ -6361,7 +6528,7 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
         } catch( const JsonError &e ) {
             debugmsg( "Error NPC photos: %s", e.c_str() );
         }
-        for( auto npc_photo : npc_photos ) {
+        for( const auto &npc_photo : npc_photos ) {
             std::string menu_str;
             if( npc_photo.name == p->name ) {
                 menu_str = _( "You" );
@@ -7129,7 +7296,8 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
             for( const auto &r : g->u.get_learned_recipes().in_category( "CC_FOOD" ) ) {
                 if( multicooked_subcats.count( r->subcategory ) > 0 ) {
                     dishes.push_back( r );
-                    const bool can_make = r->requirements().can_make_with_inventory( crafting_inv );
+                    const bool can_make = r->requirements().can_make_with_inventory( crafting_inv,
+                                          r->get_component_filter() );
 
                     dmenu.addentry( counter++, can_make, -1, r->result_name() );
                 }
@@ -7163,7 +7331,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
 
                 auto reqs = meal->requirements();
                 for( auto it : reqs.get_components() ) {
-                    p->consume_items( it );
+                    p->consume_items( it, 1, is_crafting_component );
                 }
 
                 it->set_var( "DISH", meal->result() );
@@ -7853,7 +8021,7 @@ int iuse::break_stick( player *p, item *it, bool, const tripoint & )
     }
     std::vector<item_comp> comps;
     comps.push_back( item_comp( it->typeId(), 1 ) );
-    p->consume_items( comps );
+    p->consume_items( comps, 1, is_crafting_component );
     int chance = rng( 0, 100 );
     if( chance <= 20 ) {
         p->add_msg_if_player( _( "You try to break the stick in two, but it shatters into splinters." ) );
@@ -7902,6 +8070,22 @@ int iuse::panacea( player *p, item *it, bool, const tripoint & )
     }
     p->add_effect( effect_panacea, 1_minutes );
     return it->type->charges_to_use();
+}
+
+int iuse::craft( player *p, item *it, bool, const tripoint & )
+{
+    int pos = p->get_item_position( it );
+
+    if( pos != INT_MIN ) {
+        p->add_msg_player_or_npc(
+            string_format( pgettext( "in progress craft", "You start working on the %s" ), it->tname() ),
+            string_format( pgettext( "in progress craft", "<npcname> starts working on the %s" ), it->tname()
+                         ) );
+        p->assign_activity( activity_id( "ACT_CRAFT" ) );
+        p->activity.targets.push_back( item_location( *p, it ) );
+        p->activity.values.push_back( 0 ); // Not a long craft
+    }
+    return 0;
 }
 
 int iuse::disassemble( player *p, item *it, bool, const tripoint & )

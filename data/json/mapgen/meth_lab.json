@@ -31,8 +31,8 @@
         ".|9  99    99   ------|.",
         ".|9  99    99   +     |.",
         ".| 9            |     3.",
-        ".|    9         |     |.",
-        ".|99999999999999|     |.",
+        ".|    9         |W    |.",
+        ".|99999999999999|<    |.",
         ".----------------------.",
         "...4...................."
       ],
@@ -52,10 +52,12 @@
         "9": "t_floor",
         ">": "t_floor",
         "G": "t_floor",
+        "W": "t_floor",
         "4": "t_gutter_downspout",
+        "<": "t_stairs_up",
         "|": "t_wall"
       },
-      "furniture": { "9": "f_rack", ">": "f_counter", "G": "f_oven" },
+      "furniture": { "9": "f_rack", ">": "f_counter", "G": "f_oven", "W": "f_water_heater" },
       "place_items": [
         { "item": "trash", "x": [ 2, 21 ], "y": [ 2, 21 ], "chance": 90, "repeat": [ 2, 3 ] },
         { "item": "methchef", "x": [ 10, 10 ], "y": [ 8, 8 ], "chance": 90 },
@@ -97,7 +99,7 @@
         ".|                    3.",
         ".|                    3.",
         ".|                    3.",
-        ".|                    3.",
+        ".|               >    3.",
         ".--5-------------------.",
         "........................"
       ],
@@ -107,6 +109,7 @@
         "|": "t_gutter_west",
         "-": "t_gutter_south",
         "3": "t_gutter_east",
+        ">": "t_stairs_down",
         "5": "t_gutter_drop"
       },
       "furniture": { "&": "f_roof_turbine_vent" },

@@ -131,9 +131,9 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             r.push_back( to_string( obj.volume() / units::legacy_volume_factor ) );
             r.push_back( to_string( to_gram( obj.weight() ) ) );
             r.push_back( to_string( obj.type->stack_size ) );
-            r.push_back( to_string( obj.type->comestible->get_calories() ) );
-            r.push_back( to_string( obj.type->comestible->quench ) );
-            r.push_back( to_string( obj.type->comestible->healthy ) );
+            r.push_back( to_string( obj.get_comestible()->get_calories() ) );
+            r.push_back( to_string( obj.get_comestible()->quench ) );
+            r.push_back( to_string( obj.get_comestible()->healthy ) );
             auto vits = g->u.vitamins_from( obj );
             for( const auto &v : vitamin::all() ) {
                 r.push_back( to_string( vits[ v.first ] ) );
@@ -220,7 +220,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             if( r.second.skill_used == skill_id( s ) && r.second.difficulty > 0 ) {
                     return true;
                 }
-                auto iter = r.second.required_skills.find( skill_id( s ) );
+                const auto iter = r.second.required_skills.find( skill_id( s ) );
                 return iter != r.second.required_skills.end() && iter->second > 0;
             } ) ) {
                 dict.include( &r.second );

@@ -714,7 +714,7 @@ void mdeath::kill_breathers( monster &z )
 void mdeath::detonate( monster &z )
 {
     weighted_int_list<std::string> amm_list;
-    for( auto amm : z.ammo ) {
+    for( const auto &amm : z.ammo ) {
         amm_list.add( amm.first, amm.second );
     }
 
@@ -775,7 +775,7 @@ void mdeath::detonate( monster &z )
     // First die normally
     mdeath::normal( z );
     // Then detonate our suicide bombs
-    for( auto bombs : dets ) {
+    for( const auto &bombs : dets ) {
         item bomb_item( bombs.first, 0 );
         bomb_item.charges = bombs.second;
         bomb_item.active = true;
@@ -843,4 +843,15 @@ void mdeath::fireball( monster &z )
     } else {
         normal( z );
     }
+}
+
+
+void mdeath::conflagration( monster &z )
+{
+    for( const auto &dest : g->m.points_in_radius( z.pos(), 1 ) ) {
+        g->m.propagate_field( dest, fd_fire, 18, 3 );
+    }
+    const std::string explode = string_format( _( "a %s explode!" ), z.name() );
+    sounds::sound( z.pos(), 24, sounds::sound_t::combat, explode );
+
 }

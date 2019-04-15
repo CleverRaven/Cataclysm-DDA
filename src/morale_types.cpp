@@ -11,6 +11,8 @@ const morale_type &morale_type_data::convert_legacy( int lmt )
             morale_type( "morale_null" ),
             morale_type( "morale_food_good" ),
             morale_type( "morale_food_hot" ),
+            morale_type( "morale_ate_with_table" ),
+            morale_type( "morale_ate_without_table" ),
             morale_type( "morale_music" ),
             morale_type( "morale_honey" ),
             morale_type( "morale_game" ),
@@ -83,6 +85,7 @@ const morale_type &morale_type_data::convert_legacy( int lmt )
             morale_type( "morale_perm_filthy" ),
 
             morale_type( "morale_butcher" ),
+            morale_type( "moreale_gravedigger" ),
 
             morale_type( "morale_null" )
         }
@@ -100,6 +103,8 @@ const morale_type &morale_type_data::convert_legacy( int lmt )
 const morale_type MORALE_NULL( "morale_null" );
 const morale_type MORALE_FOOD_GOOD( "morale_food_good" );
 const morale_type MORALE_FOOD_HOT( "morale_food_hot" );
+const morale_type MORALE_ATE_WITH_TABLE( "morale_ate_with_table" );
+const morale_type MORALE_ATE_WITHOUT_TABLE( "morale_ate_without_table" );
 const morale_type MORALE_MUSIC( "morale_music" );
 const morale_type MORALE_HONEY( "morale_honey" );
 const morale_type MORALE_GAME( "morale_game" );
@@ -162,6 +167,7 @@ const morale_type MORALE_PYROMANIA_NOFIRE( "morale_pyromania_nofire" );
 const morale_type MORALE_PERM_FILTHY( "morale_perm_filthy" );
 const morale_type MORALE_PERM_DEBUG( "morale_perm_debug" );
 const morale_type MORALE_BUTCHER( "morale_butcher" );
+const morale_type MORALE_GRAVEDIGGER( "morale_gravedigger" );
 
 namespace
 {

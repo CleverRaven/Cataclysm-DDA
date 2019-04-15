@@ -2479,15 +2479,11 @@ void map::make_rubble( const tripoint &p, const furn_id &rubble_type, const bool
         }
     } else if( rubble_type == f_rubble ) {
         item splinter( "splinter", calendar::turn );
-        item nail( "nail", calendar::turn );
         int splinter_count = rng( 2, 8 );
-        int nail_count = rng( 5, 10 );
         for( int i = 0; i < splinter_count; i++ ) {
             add_item_or_charges( p, splinter );
         }
-        for( int i = 0; i < nail_count; i++ ) {
-            add_item_or_charges( p, nail );
-        }
+        spawn_item( p, "nail", 1, rng( 20, 50 ) );
     }
 }
 
@@ -2585,6 +2581,27 @@ bool map::flammable_items_at( const tripoint &p, int threshold )
         if( i.flammable( threshold ) ) {
             return true;
         }
+    }
+
+    return false;
+}
+
+bool map::is_flammable( const tripoint &p )
+{
+    if( flammable_items_at( p ) ) {
+        return true;
+    }
+
+    if( has_flag( "FLAMMABLE", p ) ) {
+        return true;
+    }
+
+    if( has_flag( "FLAMMABLE_ASH", p ) ) {
+        return true;
+    }
+
+    if( get_field_strength( p, fd_web ) > 0 ) {
+        return true;
     }
 
     return false;
@@ -4720,7 +4737,7 @@ std::list<item> use_charges_from_stack( Stack stack, const itype_id type, long &
 {
     std::list<item> ret;
     for( auto a = stack.begin(); a != stack.end() && quantity > 0; ) {
-        if( filter( *a ) && !a->made_of( LIQUID ) && a->use_charges( type, quantity, ret, pos ) ) {
+        if( !a->made_of( LIQUID ) && a->use_charges( type, quantity, ret, pos, filter ) ) {
             a = stack.erase( a );
         } else {
             ++a;
@@ -5434,47 +5451,24 @@ computer *map::computer_at( const tripoint &p )
     return get_submap_at( p )->comp.get();
 }
 
-bool map::allow_camp( const tripoint &p, const int radius )
+void map::remove_submap_camp( const tripoint &p )
 {
-    return camp_at( p, radius ) == nullptr;
+    basecamp camp;
+    get_submap_at( p )->camp = camp;
 }
 
-// locate the nearest camp in some radius (default CAMPSIZE)
-basecamp *map::camp_at( const tripoint &p, const int radius )
+basecamp map::hoist_submap_camp( const tripoint &p )
 {
-    if( !inbounds( p ) ) {
-        return nullptr;
-    }
-    const int sx = std::max( 0, p.x - radius );
-    const int sy = std::max( 0, p.y - radius );
-    const int ex = std::min( p.x + radius, MAPSIZE_X - 1 );
-    const int ey = std::min( p.y + radius, MAPSIZE_Y - 1 );
-
-    for( int ly = sy; ly < ey; ly += SEEY ) {
-        for( int lx = sx; lx < ex; lx += SEEX ) {
-            submap *const current_submap = get_submap_at( tripoint( lx, ly, p.z ) );
-            if( current_submap->camp.is_valid() ) {
-                // we only allow on camp per size radius, kinda
-                return &( current_submap->camp );
-            }
-        }
-    }
-    return nullptr;
+    basecamp camp = get_submap_at( p )->camp;
+    return camp;
 }
 
 void map::add_camp( const tripoint &p, const std::string &name )
 {
-    if( !allow_camp( p ) ) {
-        dbg( D_ERROR ) << "map::add_camp: Attempting to add camp when one in local area.";
-        return;
-    }
-    point omt = ms_to_omt_copy( g->m.getabs( p.x, p.y ) );
-    tripoint omt_tri = tripoint( omt.x, omt.y, p.z );
-    basecamp temp_camp = basecamp( name, omt_tri );
-    get_submap_at( p )->camp = temp_camp;
-    basecamp *pointer_camp = &get_submap_at( p )->camp;
-    overmap_buffer.add_camp( pointer_camp );
-    g->u.camps.insert( omt_tri );
+    tripoint omt_pos = ms_to_omt_copy( g->m.getabs( p ) );
+    basecamp temp_camp = basecamp( name, omt_pos );
+    overmap_buffer.add_camp( temp_camp );
+    g->u.camps.insert( omt_pos );
     g->validate_camps();
 }
 
@@ -6638,7 +6632,7 @@ void map::rotten_item_spawn( const item &item, const tripoint &pnt )
     if( g->critter_at( pnt ) != nullptr ) {
         return;
     }
-    auto &comest = item.type->comestible;
+    const auto &comest = item.get_comestible();
     mongroup_id mgroup = comest->rot_spawn;
     if( mgroup == "GROUP_NULL" ) {
         return;

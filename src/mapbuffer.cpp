@@ -84,7 +84,7 @@ submap *mapbuffer::lookup_submap( const tripoint &p )
 {
     dbg( D_INFO ) << "mapbuffer::lookup_submap( x[" << p.x << "], y[" << p.y << "], z[" << p.z << "])";
 
-    auto iter = submaps.find( p );
+    const auto iter = submaps.find( p );
     if( iter == submaps.end() ) {
         try {
             return unserialize_submaps( p );

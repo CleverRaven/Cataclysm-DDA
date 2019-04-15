@@ -71,6 +71,7 @@ void material_type::load( JsonObject &jsobj, const std::string & )
     optional( jsobj, was_loaded, "repaired_with", _repaired_with, "null" );
     optional( jsobj, was_loaded, "edible", _edible, false );
     optional( jsobj, was_loaded, "soft", _soft, false );
+    optional( jsobj, was_loaded, "reinforces", _reinforces, false );
 
     auto arr = jsobj.get_array( "vitamins" );
     while( arr.has_more() ) {
@@ -261,6 +262,11 @@ bool material_type::edible() const
 bool material_type::soft() const
 {
     return _soft;
+}
+
+bool material_type::reinforces() const
+{
+    return _reinforces;
 }
 
 const mat_burn_data &material_type::burn_data( size_t intensity ) const

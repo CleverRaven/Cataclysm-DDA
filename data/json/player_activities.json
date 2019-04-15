@@ -37,13 +37,6 @@
     "refuel_fires": true
   },
   {
-    "id": "ACT_LONGCRAFT",
-    "type": "activity_type",
-    "stop_phrase": "Stop crafting?",
-    "based_on": "neither",
-    "refuel_fires": true
-  },
-  {
     "id": "ACT_DISASSEMBLE",
     "type": "activity_type",
     "stop_phrase": "Stop disassembly?",

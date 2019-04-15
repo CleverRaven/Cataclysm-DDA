@@ -8,6 +8,7 @@
     "description": "A tasty cooked wild mushroom.",
     "price": 150,
     "fun": 1,
+    "vitamins": [ [ "vitC", 4 ], [ "iron", 7 ] ],
     "flags": [ "FREEZERBURN" ]
   },
   {
@@ -29,7 +30,7 @@
     "fun": 1,
     "flags": [ "FREEZERBURN", "SMOKABLE" ],
     "smoking_result": "dry_mushroom",
-    "vitamins": [ [ "iron", 12 ] ]
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 52 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -41,7 +42,8 @@
     "description": "A tasty cooked morel mushroom.",
     "price": 1500,
     "fun": 4,
-    "flags": [ "FREEZERBURN" ]
+    "flags": [ "FREEZERBURN" ],
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 52 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -94,6 +96,6 @@
     "fun": -3,
     "flags": [ "FREEZERBURN", "SMOKABLE" ],
     "smoking_result": "dry_mushroom",
-    "vitamins": [ [ "vitC", 1 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "vitC", 2 ], [ "iron", 2 ] ]
   }
 ]

@@ -40,7 +40,6 @@ warning_suppressed_list = {os.path.normpath(i) for i in {
     "data/json/vehicleparts/",
     "data/raw/keybindings.json",
     "data/mods/alt_map_key/overmap_terrain.json",
-    "data/mods/Arcana/monsters.json",
     "data/mods/DeoxyMod/Deoxy_vehicle_parts.json",
     "data/mods/More_Survival_Tools/start_locations.json",
     "data/mods/NPC_Traits/npc_classes.json",
@@ -139,6 +138,7 @@ automatically_convertible = {
     "npc_class",
     "overmap_land_use_code",
     "overmap_terrain",
+    "PET_ARMOR",
     "skill",
     "snippet",
     "speech",
@@ -508,7 +508,7 @@ def extract_dynamic_line(line, outfile):
         extract_dynamic_line_optional(line, "npc_female", outfile)
         extract_dynamic_line_optional(line, "yes", outfile)
         extract_dynamic_line_optional(line, "no", outfile)
-    else:
+    elif type(line) == str:
         writestr(outfile, line)
 
 def extract_talk_response(response, outfile):
