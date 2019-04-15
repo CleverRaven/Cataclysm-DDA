@@ -2795,10 +2795,10 @@ repair_item_actor::repair_type repair_item_actor::default_action( const item &fi
 
 bool damage_item( player &pl, item_location &fix )
 {
-    pl.add_msg_if_player( m_bad, _( "You damage your %s!" ), fix->tname().c_str() );
+    pl.add_msg_if_player( m_bad, _( "You damage your %s!" ), fix->tname() );
     if( fix->inc_damage() ) {
         pl.add_msg_if_player( m_bad, _( "You destroy it!" ) );
-        if ( fix.where() == item_location::type::character ) {
+        if( fix.where() == item_location::type::character ) {
             const int pos = pl.get_item_position( fix.get_item() );
             pl.i_rem_keep_contents( pos );
         } else {
@@ -2864,9 +2864,9 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
     if( action == RT_REPAIR ) {
         if( roll == SUCCESS ) {
             if( fix->damage() > itype::damage_scale ) {
-                pl.add_msg_if_player( m_good, _( "You repair your %s!" ), fix->tname().c_str() );
+                pl.add_msg_if_player( m_good, _( "You repair your %s!" ), fix->tname() );
             } else {
-                pl.add_msg_if_player( m_good, _( "You repair your %s completely!" ), fix->tname().c_str() );
+                pl.add_msg_if_player( m_good, _( "You repair your %s completely!" ), fix->tname() );
             }
             handle_components( pl, *fix, false, false );
             fix->set_damage( std::max( fix->damage() - itype::damage_scale, 0 ) );
@@ -2882,16 +2882,16 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
                               g->u.has_trait( trait_id( "SMALL_OK" ) );
             if( !fix->has_flag( "FIT" ) ) {
                 pl.add_msg_if_player( m_good, _( "You take your %s in, improving the fit." ),
-                                      fix->tname().c_str() );
+                                      fix->tname() );
                 fix->item_tags.insert( "FIT" );
             }
             if( smol && !fix->has_flag( "UNDERSIZE" ) ) {
                 pl.add_msg_if_player( m_good, _( "You resize the %s to accommodate your tiny build." ),
-                                      fix->tname().c_str() );
+                                      fix->tname() );
                 fix->item_tags.insert( "UNDERSIZE" );
             } else if( !smol && fix->has_flag( "UNDERSIZE" ) ) {
                 pl.add_msg_if_player( m_good, _( "You adjust the %s back to its normal size." ),
-                                      fix->tname().c_str() );
+                                      fix->tname() );
                 fix->item_tags.erase( "UNDERSIZE" );
             }
             handle_components( pl, *fix, false, false );
@@ -2909,7 +2909,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
         }
 
         if( roll == SUCCESS ) {
-            pl.add_msg_if_player( m_good, _( "You make your %s extra sturdy." ), fix->tname().c_str() );
+            pl.add_msg_if_player( m_good, _( "You make your %s extra sturdy." ), fix->tname() );
             fix->mod_damage( -itype::damage_scale );
             handle_components( pl, *fix, false, false );
             return AS_SUCCESS;
@@ -2918,7 +2918,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
         return AS_RETRY;
     }
 
-    pl.add_msg_if_player( m_info, _( "Your %s is already enhanced." ), fix->tname().c_str() );
+    pl.add_msg_if_player( m_info, _( "Your %s is already enhanced." ), fix->tname() );
     return AS_CANT;
 }
 
