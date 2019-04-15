@@ -41,13 +41,12 @@
   {
     "type": "item_group",
     "id": "hardware_plumbing",
-    "items": [ { "group": "plumbing_clothing", "prob": 100 }, { "group": "tools_plumbing", "prob": 100 }, { "group": "supplies_plumbing", "prob": 50 }, [ "survnote", 1 ] ]
-  },
-  {
-    "type": "item_group",
-    "id": "plumber_gear",
-    "//": "deprecated, use 'hardware_plumbing' instead. Find and remove all examples of this group and then kill this one.",
-    "items": [ { "group": "hardware_plumbing", "prob": 100 } ]
+    "items": [
+      { "group": "plumbing_clothing", "prob": 100 },
+      { "group": "tools_plumbing", "prob": 100 },
+      { "group": "supplies_plumbing", "prob": 50 },
+      [ "survnote", 1 ]
+    ]
   },
   {
     "type": "item_group",
