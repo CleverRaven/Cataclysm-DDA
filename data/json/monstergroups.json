@@ -4391,7 +4391,8 @@
     "monsters": [
       { "monster": "mon_zombie_brute_grappler", "freq": 33, "cost_multiplier": 10 },
       { "monster": "mon_zombie_brute_ninja", "freq": 16, "cost_multiplier": 10 },
-      { "monster": "mon_zombie_hulk", "freq": 1, "cost_multiplier": 50 }
+      { "monster": "mon_zombie_hulk", "freq": 1, "cost_multiplier": 50 },
+      { "monster": "mon_gas_zombie", "freq": 30, "cost_multiplier": 10 }
     ]
   },
   {

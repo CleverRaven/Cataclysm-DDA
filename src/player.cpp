@@ -271,7 +271,6 @@ static const trait_id trait_DEBUG_NOTEMP( "DEBUG_NOTEMP" );
 static const trait_id trait_DISIMMUNE( "DISIMMUNE" );
 static const trait_id trait_DISRESISTANT( "DISRESISTANT" );
 static const trait_id trait_DOWN( "DOWN" );
-static const trait_id trait_EAGLEEYED( "EAGLEEYED" );
 static const trait_id trait_EASYSLEEPER( "EASYSLEEPER" );
 static const trait_id trait_EASYSLEEPER2( "EASYSLEEPER2" );
 static const trait_id trait_ELECTRORECEPTORS( "ELECTRORECEPTORS" );
@@ -395,7 +394,6 @@ static const trait_id trait_TOUGH_FEET( "TOUGH_FEET" );
 static const trait_id trait_TROGLO( "TROGLO" );
 static const trait_id trait_TROGLO2( "TROGLO2" );
 static const trait_id trait_TROGLO3( "TROGLO3" );
-static const trait_id trait_UNOBSERVANT( "UNOBSERVANT" );
 static const trait_id trait_UNSTABLE( "UNSTABLE" );
 static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
 static const trait_id trait_URSINE_FUR( "URSINE_FUR" );
@@ -2721,17 +2719,11 @@ int player::overmap_sight_range( int light_level ) const
     sight += static_cast<int>( get_per() / 2 );
     // The higher up you are, the farther you can see.
     sight += std::max( 0, posz() ) * 2;
-    // The Scout trait explicitly increases overmap sight range.
-    if( has_trait( trait_EAGLEEYED ) ) {
-        sight += 5;
-    }
-    // The Topographagnosia trait explicitly "cripples" overmap sight range.
-    if( has_trait( trait_UNOBSERVANT ) ) {
-        sight -= 10;
-    }
+    // Mutations like Scout and Topographagnosia affect how far you can see.
+    sight += Character::mutation_value( "overmap_sight" );
 
-    float multiplier = 1;
-    // Binoculars "double" your sight range.
+    float multiplier = Character::mutation_value( "overmap_multiplier" );
+    // Binoculars double your sight range.
     const bool has_optic = ( has_item_with_flag( "ZOOM" ) || has_bionic( bio_eye_optic ) );
     if( has_optic ) {
         multiplier += 1;
@@ -3004,6 +2996,14 @@ void player::search_surroundings()
         const trap &tr = g->m.tr_at( tp );
         if( tr.is_null() || tp == pos() ) {
             continue;
+        }
+        if( has_active_bionic( bio_ground_sonar ) && !knows_trap( tp ) &&
+            ( tr.loadid == tr_beartrap_buried ||
+              tr.loadid == tr_landmine_buried || tr.loadid == tr_sinkhole ) ) {
+            const std::string direction = direction_name( direction_from( pos(), tp ) );
+            add_msg_if_player( m_warning, _( "Your ground sonar detected a %1$s to the %2$s!" ),
+                               tr.name().c_str(), direction.c_str() );
+            add_known_trap( tp, tr );
         }
         if( !sees( tp ) ) {
             continue;

@@ -402,8 +402,9 @@ void vehicle::print_fuel_indicator( const catacurses::window &win, int y, int x,
         if( fuel_data != fuel_usages.end() ) {
             rate = consumption_per_hour( fuel_type, fuel_data->second );
             units = _( "mL" );
-        } else if( fuel_type == itype_id( "battery" ) ) {
-            rate = power_to_energy_bat( total_epower_w() + total_reactor_epower_w(), 3600 );
+        }
+        if( fuel_type == itype_id( "battery" ) ) {
+            rate += power_to_energy_bat( total_epower_w() + total_reactor_epower_w(), 3600 );
             units = _( "kJ" );
         }
         if( rate != 0 ) {

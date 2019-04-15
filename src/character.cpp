@@ -2944,6 +2944,10 @@ float Character::mutation_value( const std::string &val ) const
         return calc_mutation_value_multiplicative<&mutation_branch::hearing_modifier>( cached_mutations );
     } else if( val == "noise_modifier" ) {
         return calc_mutation_value_multiplicative<&mutation_branch::noise_modifier>( cached_mutations );
+    } else if( val == "overmap_sight" ) {
+        return calc_mutation_value_multiplicative<&mutation_branch::overmap_sight>( cached_mutations );
+    } else if( val == "overmap_multiplier" ) {
+        return calc_mutation_value_multiplicative<&mutation_branch::overmap_multiplier>( cached_mutations );
     }
 
     debugmsg( "Invalid mutation value name %s", val.c_str() );
