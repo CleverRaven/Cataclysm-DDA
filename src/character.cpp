@@ -665,6 +665,15 @@ bool Character::has_active_bionic( const bionic_id &b ) const
     return false;
 }
 
+bool Character::has_any_bionic() const
+{
+    bionic_collection tmp_collec = *my_bionics;
+    if( !tmp_collec.empty() ) {
+        return true;
+    }
+    return false;
+}
+
 std::vector<item_location> Character::nearby( const
         std::function<bool( const item *, const item * )> &func, int radius ) const
 {
