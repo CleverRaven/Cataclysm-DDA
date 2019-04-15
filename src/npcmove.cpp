@@ -20,6 +20,7 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "messages.h"
+#include "mission.h"
 #include "monster.h"
 #include "mtype.h"
 #include "npctalk.h"
@@ -61,6 +62,7 @@ const efftype_id effect_onfire( "onfire" );
 const efftype_id effect_npc_run_away( "npc_run_away" );
 const efftype_id effect_npc_fire_bad( "npc_fire_bad" );
 const efftype_id effect_npc_flee_player( "npc_flee_player" );
+const efftype_id effect_npc_player_looking( "npc_player_still_looking" );
 
 enum npc_action : int {
     npc_undecided = 0,
@@ -479,6 +481,25 @@ void npc::regen_ai_cache()
     } else if( old_assessment <= 0.0f && ai_cache.danger_assessment > NPC_DANGER_VERY_LOW ) {
         warn_about( "general_danger" );
     }
+    // NPCs that aren't following the player, guarding, or travelling and that have a
+    // completed mission should move to the player
+    if( !is_following() && !is_guarding() && !is_travelling() ) {
+        for( auto &miss : chatbin.missions_assigned ) {
+            if( miss->is_complete( getID() ) ) {
+                // unless the player found an item and already told the NPC he wanted to keep it
+                const mission_goal &mgoal = miss->get_type().goal;
+                if( ( mgoal == MGOAL_FIND_ITEM || mgoal == MGOAL_FIND_ANY_ITEM ||
+                      mgoal == MGOAL_FIND_ITEM_GROUP ) &&
+                    has_effect( effect_npc_player_looking ) ) {
+                    continue;
+                }
+                goal = g->u.global_omt_location();
+                set_attitude( NPCATT_TALK );
+                break;
+            }
+        }
+    }
+
 }
 
 void npc::move()
