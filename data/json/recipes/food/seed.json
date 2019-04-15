@@ -9,7 +9,8 @@
     "time": 5000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "pumpkin", 1 ] ] ]
+    "components": [ [ [ "pumpkin", 1 ] ] ],
+    "flags": [ "ALLOW_ROTTEN" ]
   },
   {
     "result": "seed_cucumber",
@@ -21,7 +22,8 @@
     "time": 5000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "cucumber", 1 ] ] ]
+    "components": [ [ [ "cucumber", 1 ] ] ],
+    "flags": [ "ALLOW_ROTTEN" ]
   },
   {
     "result": "seed_oats",
@@ -30,7 +32,8 @@
     "subcategory": "CSC_FOOD_SEEDS",
     "skill_used": "survival",
     "autolearn": true,
-    "components": [ [ [ "oats", 1 ] ] ]
+    "components": [ [ [ "oats", 1 ] ] ],
+    "flags": [ "ALLOW_ROTTEN" ]
   },
   {
     "result": "seed_corn",
@@ -42,7 +45,8 @@
     "time": 5000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "corn", 1 ] ] ]
+    "components": [ [ [ "corn", 1 ] ] ],
+    "flags": [ "ALLOW_ROTTEN" ]
   },
   {
     "result": "seed_zucchini",
@@ -54,7 +58,8 @@
     "time": 5000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "zucchini", 1 ] ] ]
+    "components": [ [ [ "zucchini", 1 ] ] ],
+    "flags": [ "ALLOW_ROTTEN" ]
   },
   {
     "result": "seed_barley",
@@ -63,7 +68,8 @@
     "subcategory": "CSC_FOOD_SEEDS",
     "skill_used": "survival",
     "autolearn": true,
-    "components": [ [ [ "barley", 1 ] ] ]
+    "components": [ [ [ "barley", 1 ] ] ],
+    "flags": [ "ALLOW_ROTTEN" ]
   },
   {
     "result": "seed_tomato",
@@ -75,7 +81,8 @@
     "time": 5000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "tomato", 1 ] ] ]
+    "components": [ [ [ "tomato", 1 ] ] ],
+    "flags": [ "ALLOW_ROTTEN" ]
   },
   {
     "result": "seed_cranberries",
@@ -87,7 +94,8 @@
     "time": 5000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "cranberries", 1 ] ] ]
+    "components": [ [ [ "cranberries", 1 ] ] ],
+    "flags": [ "ALLOW_ROTTEN" ]
   },
   {
     "result": "seed_blackberries",
@@ -99,7 +107,8 @@
     "time": 5000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "blackberries", 1 ] ] ]
+    "components": [ [ [ "blackberries", 1 ] ] ],
+    "flags": [ "ALLOW_ROTTEN" ]
   },
   {
     "result": "seed_blueberries",
@@ -111,7 +120,8 @@
     "time": 5000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "blueberries", 1 ] ] ]
+    "components": [ [ [ "blueberries", 1 ] ] ],
+    "flags": [ "ALLOW_ROTTEN" ]
   },
   {
     "result": "seed_raspberries",
@@ -123,7 +133,8 @@
     "time": 5000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "raspberries", 1 ] ] ]
+    "components": [ [ [ "raspberries", 1 ] ] ],
+    "flags": [ "ALLOW_ROTTEN" ]
   },
   {
     "result": "seed_strawberries",
@@ -135,7 +146,8 @@
     "time": 5000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "strawberries", 1 ] ] ]
+    "components": [ [ [ "strawberries", 1 ] ] ],
+    "flags": [ "ALLOW_ROTTEN" ]
   },
   {
     "result": "seed_elderberries",
@@ -147,7 +159,8 @@
     "time": 5000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "elderberries", 1 ] ] ]
+    "components": [ [ [ "elderberries", 1 ] ] ],
+    "flags": [ "ALLOW_ROTTEN" ]
   },
   {
     "result": "seed_mulberries",
@@ -159,7 +172,8 @@
     "time": 5000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "mulberries", 1 ] ] ]
+    "components": [ [ [ "mulberries", 1 ] ] ],
+    "flags": [ "ALLOW_ROTTEN" ]
   },
   {
     "result": "seed_huckleberries",
@@ -171,7 +185,8 @@
     "time": 5000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "huckleberries", 1 ] ] ]
+    "components": [ [ [ "huckleberries", 1 ] ] ],
+    "flags": [ "ALLOW_ROTTEN" ]
   },
   {
     "result": "seed_grapes",
@@ -183,7 +198,8 @@
     "time": 5000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "grapes", 1 ] ] ]
+    "components": [ [ [ "grapes", 1 ] ] ],
+    "flags": [ "ALLOW_ROTTEN" ]
   },
   {
     "result": "seed_rose",
@@ -195,7 +211,8 @@
     "time": 5000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "rose_hips", 1 ] ] ]
+    "components": [ [ [ "rose_hips", 1 ] ] ],
+    "flags": [ "ALLOW_ROTTEN" ]
   },
   {
     "result": "seed_chili_pepper",
@@ -207,7 +224,8 @@
     "time": 5000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "chili_pepper", 1 ] ] ]
+    "components": [ [ [ "chili_pepper", 1 ] ] ],
+    "flags": [ "ALLOW_ROTTEN" ]
   },
   {
     "result": "seed_wheat",
@@ -216,7 +234,8 @@
     "subcategory": "CSC_FOOD_SEEDS",
     "skill_used": "survival",
     "autolearn": true,
-    "components": [ [ [ "wheat", 1 ] ] ]
+    "components": [ [ [ "wheat", 1 ] ] ],
+    "flags": [ "ALLOW_ROTTEN" ]
   },
   {
     "result": "seed_bee_balm",
@@ -228,7 +247,8 @@
     "time": 5000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "bee_balm", 1 ] ] ]
+    "components": [ [ [ "bee_balm", 1 ] ] ],
+    "flags": [ "ALLOW_ROTTEN" ]
   },
   {
     "result": "seed_buckwheat",
@@ -240,7 +260,8 @@
     "time": 5000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "buckwheat", 1 ] ] ]
+    "components": [ [ [ "buckwheat", 1 ] ] ],
+    "flags": [ "ALLOW_ROTTEN" ]
   },
   {
     "result": "seed_dogbane",
@@ -252,7 +273,8 @@
     "time": 5000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "dogbane", 1 ] ] ]
+    "components": [ [ [ "dogbane", 1 ] ] ],
+    "flags": [ "ALLOW_ROTTEN" ]
   },
   {
     "result": "seed_garlic",
@@ -264,7 +286,8 @@
     "time": 5000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "garlic", 1 ] ] ]
+    "components": [ [ [ "garlic", 1 ] ] ],
+    "flags": [ "ALLOW_ROTTEN" ]
   },
   {
     "result": "seed_mugwort",
@@ -276,7 +299,8 @@
     "time": 5000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "mugwort", 1 ] ] ]
+    "components": [ [ [ "mugwort", 1 ] ] ],
+    "flags": [ "ALLOW_ROTTEN" ]
   },
   {
     "result": "seed_mushroom",
@@ -288,7 +312,8 @@
     "time": 5000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "mushroom", 1 ] ] ]
+    "components": [ [ [ "mushroom", 1 ] ] ],
+    "flags": [ "ALLOW_ROTTEN" ]
   },
   {
     "result": "seed_mushroom_morel",
@@ -300,7 +325,8 @@
     "time": 5000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "mushroom_morel", 1 ] ] ]
+    "components": [ [ [ "mushroom_morel", 1 ] ] ],
+    "flags": [ "ALLOW_ROTTEN" ]
   },
   {
     "result": "seed_raw_dandelion",
@@ -311,7 +337,8 @@
     "difficulty": 2,
     "time": 5000,
     "autolearn": true,
-    "components": [ [ [ "raw_dandelion", 4 ] ] ]
+    "components": [ [ [ "raw_dandelion", 4 ] ] ],
+    "flags": [ "ALLOW_ROTTEN" ]
   },
   {
     "result": "seed_rhubarb",
@@ -323,7 +350,8 @@
     "time": 5000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "rhubarb", 4 ] ] ]
+    "components": [ [ [ "rhubarb", 4 ] ] ],
+    "flags": [ "ALLOW_ROTTEN" ]
   },
   {
     "result": "seed_thyme",
@@ -335,7 +363,8 @@
     "time": 5000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "thyme", 1 ] ] ]
+    "components": [ [ [ "thyme", 1 ] ] ],
+    "flags": [ "ALLOW_ROTTEN" ]
   },
   {
     "result": "seed_veggy_wild",
@@ -347,7 +376,8 @@
     "time": 5000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "veggy_wild", 1 ] ] ]
+    "components": [ [ [ "veggy_wild", 1 ] ] ],
+    "flags": [ "ALLOW_ROTTEN" ]
   },
   {
     "result": "seed_wild_herbs",
@@ -359,7 +389,8 @@
     "time": 5000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "wild_herbs", 20 ] ] ]
+    "components": [ [ [ "wild_herbs", 20 ] ] ],
+    "flags": [ "ALLOW_ROTTEN" ]
   },
   {
     "result": "seed_potato_raw",
@@ -371,7 +402,8 @@
     "time": 5000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "potato_raw", 1 ] ] ]
+    "components": [ [ [ "potato_raw", 1 ] ] ],
+    "flags": [ "ALLOW_ROTTEN" ]
   },
   {
     "result": "seed_sunflower",
@@ -382,7 +414,8 @@
     "difficulty": 2,
     "time": 10000,
     "autolearn": true,
-    "components": [ [ [ "sunflower", 1 ] ] ]
+    "components": [ [ [ "sunflower", 1 ] ] ],
+    "flags": [ "ALLOW_ROTTEN" ]
   },
   {
     "result": "seed_beans",
@@ -393,7 +426,8 @@
     "difficulty": 2,
     "time": 5000,
     "autolearn": true,
-    "components": [ [ [ "raw_beans", 1 ] ] ]
+    "components": [ [ [ "raw_beans", 1 ] ] ],
+    "flags": [ "ALLOW_ROTTEN" ]
   },
   {
     "result": "seed_lentils",
@@ -404,6 +438,7 @@
     "difficulty": 2,
     "time": 5000,
     "autolearn": true,
-    "components": [ [ [ "raw_lentils", 1 ] ] ]
+    "components": [ [ [ "raw_lentils", 1 ] ] ],
+    "flags": [ "ALLOW_ROTTEN" ]
   }
 ]

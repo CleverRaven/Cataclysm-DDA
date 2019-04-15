@@ -1489,6 +1489,14 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
         for( const auto &it : dropped ) {
             add_msg( m_good, _( "You found: %s!" ), it->tname().c_str() );
             found_something = true;
+            if( it->typeId() == "mushroom" ) {
+                if( one_in( 10 ) ) {
+                    it->item_tags.insert( "HIDDEN_POISON" );
+                    it->poison = rng( 2, 7 );
+                } else if( one_in( 10 ) ) {
+                    it->item_tags.insert( "HIDDEN_HALLU" );
+                }
+            }
         }
     }
     // 10% to drop a item/items from this group.
@@ -1497,16 +1505,6 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
         for( const auto &it : dropped ) {
             add_msg( m_good, _( "You found: %s!" ), it->tname().c_str() );
             found_something = true;
-            if( it->typeId() == "mushroom" ) {
-                if( one_in( 10 ) ) {
-                    it->item_tags.insert( "HIDDEN_POISON" );
-                    it->poison = rng( 2, 7 );
-                    break;
-                } else if( one_in( 10 ) ) {
-                    it->item_tags.insert( "HIDDEN_HALLU" );
-                    break;
-                }
-            }
         }
     }
 
@@ -2404,7 +2402,7 @@ void activity_handlers::mend_item_finish( player_activity *act, player *p )
 
     const auto inv = p->crafting_inventory();
     const auto &reqs = f->obj().requirements();
-    if( !reqs.can_make_with_inventory( inv ) ) {
+    if( !reqs.can_make_with_inventory( inv, is_crafting_component ) ) {
         add_msg( m_info, _( "You are currently unable to mend the %s." ), target->tname().c_str() );
     }
     for( const auto &e : reqs.get_components() ) {
@@ -2554,7 +2552,11 @@ void activity_handlers::atm_do_turn( player_activity *, player *p )
 
 void activity_handlers::cracking_do_turn( player_activity *act, player *p )
 {
-    if( !( p->has_amount( "stethoscope", 1 ) || p->has_bionic( bionic_id( "bio_ears" ) ) ) ) {
+    auto cracking_tool = p->crafting_inventory().items_with( []( const item & it ) -> bool {
+        item temporary_item( it.type );
+        return temporary_item.has_flag( "SAFECRACK" );
+    } );
+    if( !( cracking_tool.size() > 0 || p->has_bionic( bionic_id( "bio_ears" ) ) ) ) {
         // We lost our cracking tool somehow, bail out.
         act->set_to_null();
         return;
@@ -2675,9 +2677,10 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
     // stored precise to 2 decimal places ( e.g. 67.32 percent would be stored as 6732 )
 
     // Base moves for batch size with no speed modifier or assistants
-    const double base_total_moves = rec.batch_time( craft->charges, 1.0f, 0 );
+    // Must ensure >= 1 so we don't divide by 0;
+    const double base_total_moves = std::max( 1, rec.batch_time( craft->charges, 1.0f, 0 ) );
     // Current expected total moves, includes crafting speed modifiers and assistants
-    const double cur_total_moves = p->expected_time_to_craft( rec, craft->charges );
+    const double cur_total_moves = std::max( 1, p->expected_time_to_craft( rec, craft->charges ) );
     // Delta progress in moves adjusted for current crafting speed
     const double delta_progress = p->get_moves() * base_total_moves / cur_total_moves;
     // Current progress in moves

@@ -568,9 +568,9 @@
       },
       "place_monster": [
         { "monster": [ "mon_broken_cyborg", "mon_zombie_electric" ], "x": [ 14, 16 ], "y": [ 1, 4 ], "chance": 90 },
-        { "monster": "mon_broken_cyborg", "x": [ 14, 16 ], "y": [ 6, 9 ], "chance": 90 },
-        { "monster": "mon_broken_cyborg", "x": [ 21, 22 ], "y": [ 1, 4 ], "chance": 90 },
-        { "monster": "mon_broken_cyborg", "x": [ 21, 22 ], "y": [ 6, 9 ], "chance": 90 }
+        { "monster": [ "mon_broken_cyborg", "mon_prototype_cyborg" ], "x": [ 14, 16 ], "y": [ 6, 9 ], "chance": 90 },
+        { "monster": [ "mon_broken_cyborg", "mon_prototype_cyborg" ], "x": [ 21, 22 ], "y": [ 1, 4 ], "chance": 90 },
+        { "monster": [ "mon_broken_cyborg", "mon_prototype_cyborg" ], "x": [ 21, 22 ], "y": [ 6, 9 ], "chance": 90 }
       ]
     }
   },

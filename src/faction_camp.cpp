@@ -208,7 +208,7 @@ std::map<std::string, bcp_miss_data> basecamp_missions_info = {{
         },
         {
             "_faction_exp_chop_shop_", {
-                "Chop Shop", _( "Chop Shop" ), _( "Working at the chop shop...\n" ),
+                " Chop Shop", _( " Chop Shop" ), _( "Working at the chop shop...\n" ),
                 " (Finish) Chop Shop", _( " (Finish) Chop Shop" )
             }
         },
@@ -618,7 +618,8 @@ void basecamp::get_available_missions( mission_data &mission_key, tripoint omt_t
                 std::string title_e = base_dir + it->first;
                 entry = om_craft_description( it->second, omt_tri, by_radio );
                 const recipe &recp = recipe_id( it->second ).obj();
-                bool craftable = recp.requirements().can_make_with_inventory( found_inv, 1 );
+                bool craftable = recp.requirements().can_make_with_inventory( found_inv,
+                                 recp.get_component_filter() );
                 mission_key.add_start( title_e, "", base_dir, entry, craftable );
             }
         } else {
@@ -1046,7 +1047,8 @@ void basecamp::get_available_missions( mission_data &mission_key, tripoint omt_t
                     std::string title_e = dir + it->first;
                     entry = om_craft_description( it->second, omt_tri, by_radio );
                     const recipe &recp = recipe_id( it->second ).obj();
-                    bool craftable = recp.requirements().can_make_with_inventory( found_inv, 1 );
+                    bool craftable = recp.requirements().can_make_with_inventory( found_inv,
+                                     recp.get_component_filter() );
                     mission_key.add_start( title_e, "", dir, entry, craftable );
                 }
             } else {
@@ -1067,7 +1069,8 @@ void basecamp::get_available_missions( mission_data &mission_key, tripoint omt_t
                     std::string title_e = dir + it->first;
                     entry = om_craft_description( it->second, omt_tri, by_radio );
                     const recipe &recp = recipe_id( it->second ).obj();
-                    bool craftable = recp.requirements().can_make_with_inventory( found_inv, 1 );
+                    bool craftable = recp.requirements().can_make_with_inventory( found_inv,
+                                     recp.get_component_filter() );
                     mission_key.add_start( title_e, "", dir, entry, craftable );
                 }
             } else {
@@ -1170,7 +1173,8 @@ void basecamp::get_available_missions( mission_data &mission_key, tripoint omt_t
                     std::string title_e = dir + it->first;
                     entry = om_craft_description( it->second, omt_tri, by_radio );
                     const recipe &recp = recipe_id( it->second ).obj();
-                    bool craftable = recp.requirements().can_make_with_inventory( found_inv, 1 );
+                    bool craftable = recp.requirements().can_make_with_inventory( found_inv,
+                                     recp.get_component_filter() );
                     mission_key.add_start( title_e, "", dir, entry, craftable );
                 }
             } else {
@@ -1406,7 +1410,7 @@ void basecamp::start_upgrade( const std::string &bldg, const std::string &key, t
     const recipe &making = recipe_id( bldg ).obj();
     //Stop upgrade if you don't have materials
     inventory total_inv = camp_crafting_inventory( omt_tri, by_radio );
-    if( making.requirements().can_make_with_inventory( total_inv, 1 ) ) {
+    if( making.requirements().can_make_with_inventory( total_inv, making.get_component_filter(), 1 ) ) {
         time_duration making_time = time_duration::from_turns( making.time / 100 );
         bool must_feed = bldg != "faction_base_camp_1";
 
@@ -1704,7 +1708,7 @@ void basecamp::start_fortifications( std::string &bldg_exp, tripoint omt_tri, bo
         if( !query_yn( _( "Trip Estimate:\n%s" ), camp_trip_description( total_time, build_time,
                        travel_time, dist, trips, need_food ) ) ) {
             return;
-        } else if( !making.requirements().can_make_with_inventory( total_inv,
+        } else if( !making.requirements().can_make_with_inventory( total_inv, making.get_component_filter(),
                    ( fortify_om.size() * 2 ) - 2 ) ) {
             popup( _( "You don't have the material to build the fortification." ) );
             return;
@@ -1757,7 +1761,8 @@ void basecamp::craft_construction( const std::string &cur_id, const std::string 
         }
         const recipe &making = recipe_id( r.second ).obj();
         inventory total_inv = camp_crafting_inventory( omt_tri, by_radio );
-        if( !making.requirements().can_make_with_inventory( total_inv, 1 ) ) {
+        if( !making.requirements().can_make_with_inventory( total_inv, making.get_component_filter(),
+                1 ) ) {
             popup( _( "You don't have the materials to craft that" ) );
             continue;
         }
@@ -2364,7 +2369,9 @@ void basecamp::combat_mission_return( const std::string &miss )
         bool patrolling = miss == "_faction_camp_combat_0";
         comp_list patrol;
         npc_ptr guy = overmap_buffer.find_npc( comp->getID() );
-        patrol.push_back( guy );
+        if( guy ) {
+            patrol.push_back( guy );
+        }
         for( auto pt : comp->companion_mission_points ) {
             oter_id &omt_ref = overmap_buffer.ter( pt );
             int swim = comp->get_skill_level( skill_swimming );
@@ -2533,7 +2540,7 @@ int basecamp::recipe_batch_max( const recipe &making, const inventory &total_inv
             int batch_turns = making.batch_time( max_batch + batch_size, 1.0, 0 ) / 100;
             int food_req = time_to_food( time_duration::from_turns( batch_turns ) );
             bool can_make = making.requirements().can_make_with_inventory( total_inv,
-                            max_batch + batch_size );
+                            making.get_component_filter(), max_batch + batch_size );
             if( can_make && camp_food_supply() > food_req ) {
                 max_batch += batch_size;
             } else {
@@ -3196,7 +3203,8 @@ std::string basecamp::upgrade_description( const std::string &bldg, tripoint omt
     std::vector<std::string> component_print_buffer;
     int pane = FULL_SCREEN_WIDTH;
     auto tools = making.requirements().get_folded_tools_list( pane, c_white, total_inv, 1 );
-    auto comps = making.requirements().get_folded_components_list( pane, c_white, total_inv, 1 );
+    auto comps = making.requirements().get_folded_components_list( pane, c_white, total_inv,
+                 making.get_component_filter(), 1 );
     component_print_buffer.insert( component_print_buffer.end(), tools.begin(), tools.end() );
     component_print_buffer.insert( component_print_buffer.end(), comps.begin(), comps.end() );
 
@@ -3220,7 +3228,8 @@ std::string om_craft_description( const std::string &itm, tripoint omt_tri, bool
     std::vector<std::string> component_print_buffer;
     int pane = FULL_SCREEN_WIDTH;
     auto tools = making.requirements().get_folded_tools_list( pane, c_white, total_inv, 1 );
-    auto comps = making.requirements().get_folded_components_list( pane, c_white, total_inv, 1 );
+    auto comps = making.requirements().get_folded_components_list( pane, c_white, total_inv,
+                 making.get_component_filter(), 1 );
 
     component_print_buffer.insert( component_print_buffer.end(), tools.begin(), tools.end() );
     component_print_buffer.insert( component_print_buffer.end(), comps.begin(), comps.end() );

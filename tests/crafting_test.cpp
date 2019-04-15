@@ -257,7 +257,8 @@ static void prep_craft( const recipe_id &rid, const std::vector<item> tools,
 
     const requirement_data &reqs = r.requirements();
     inventory crafting_inv = g->u.crafting_inventory();
-    bool can_craft = reqs.can_make_with_inventory( g->u.crafting_inventory() );
+    bool can_craft = reqs.can_make_with_inventory( g->u.crafting_inventory(),
+                     r.get_component_filter() );
     CHECK( can_craft == expect_craftable );
 }
 
@@ -267,7 +268,7 @@ static void fake_test_craft( const recipe_id &rid, const std::vector<item> tools
 {
     prep_craft( rid, tools, expect_craftable );
     if( expect_craftable ) {
-        g->u.consume_components_for_craft( rid.obj(), 1 );
+        g->u.make_craft_with_command( rid, 1, false );
         g->u.invalidate_crafting_inventory();
     }
 }

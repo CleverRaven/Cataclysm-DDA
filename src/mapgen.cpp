@@ -760,8 +760,10 @@ class jmapgen_npc : public jmapgen_piece
                 miss->set_target_npc_id( npc_id );
             }
             npc *p = g->find_npc( npc_id );
-            for( const std::string &new_trait : traits ) {
-                p->set_mutation( trait_id( new_trait ) );
+            if( p != nullptr ) {
+                for( const std::string &new_trait : traits ) {
+                    p->set_mutation( trait_id( new_trait ) );
+                }
             }
         }
 };
@@ -1487,6 +1489,31 @@ class jmapgen_sealed_item : public jmapgen_piece
             dat.m.furn_set( x.get(), y.get(), furniture );
         }
 };
+/**
+ * Translate terrain from one ter_id to another.
+ * "from": id of the starting terrain.
+ * "to": id of the ending terrain
+ * not useful for normal mapgen, very useful for mapgen_update
+ */
+class jmapgen_translate : public jmapgen_piece
+{
+    public:
+        ter_id from;
+        ter_id to;
+        jmapgen_translate( JsonObject &jsi ) : jmapgen_piece() {
+            if( jsi.has_string( "from" ) && jsi.has_string( "to" ) ) {
+                const std::string from_id = jsi.get_string( "from" );
+                const std::string to_id = jsi.get_string( "to" );
+                from = ter_id( from_id );
+                to = ter_id( to_id );
+            }
+        }
+        void apply( const mapgendata &dat, const jmapgen_int &/*x*/, const jmapgen_int &/*y*/,
+                    const float /*mdensity*/, mission * ) const override {
+            dat.m.translate( from, to );
+        }
+};
+
 
 static void load_weighted_entries( JsonObject &jsi, const std::string &json_key,
                                    weighted_int_list<std::string> &list )
@@ -1988,6 +2015,7 @@ mapgen_palette mapgen_palette::load_internal( JsonObject &jo, const std::string 
     new_pal.load_place_mapings<jmapgen_nested>( jo, "nested", format_placings );
     new_pal.load_place_mapings<jmapgen_liquid_item>( jo, "liquids", format_placings );
     new_pal.load_place_mapings<jmapgen_graffiti>( jo, "graffiti", format_placings );
+    new_pal.load_place_mapings<jmapgen_translate>( jo, "translate", format_placings );
 
     return new_pal;
 }
@@ -2160,6 +2188,7 @@ bool mapgen_function_json_base::setup_common( JsonObject jo )
     objects.load_objects<jmapgen_computer>( jo, "place_computers" );
     objects.load_objects<jmapgen_nested>( jo, "place_nested" );
     objects.load_objects<jmapgen_graffiti>( jo, "place_graffiti" );
+    objects.load_objects<jmapgen_translate>( jo, "translate_ter" );
 
     if( !mapgen_defer::defer ) {
         is_ready = true; // skip setup attempts from any additional pointers
@@ -2434,6 +2463,7 @@ void jmapgen_objects::apply( const mapgendata &dat, int offset_x, int offset_y,
     for( auto &obj : objects ) {
         auto where = obj.first;
         where.offset( -offset_x, -offset_y );
+
         const auto &what = *obj.second;
         // The user will only specify repeat once in JSON, but it may get loaded both
         // into the what and where in some cases--we just need the greater value of the two.
@@ -8422,15 +8452,17 @@ void update_mapgen_function_json::update_map( const tripoint &omt_pos, int offse
                    above, below, omt_pos.z, rsettings, update_map );
 
     int rotation = 0;
-    if( map_id.substr( map_id.size() - 6, 6 ) == "_south" ) {
-        rotation = 2;
-        md.m.rotate( rotation );
-    } else if( map_id.substr( map_id.size() - 5, 5 ) == "_east" ) {
-        rotation = 1;
-        md.m.rotate( rotation );
-    } else if( map_id.substr( map_id.size() - 5, 5 ) == "_west" ) {
-        rotation = 3;
-        md.m.rotate( rotation );
+    if( map_id.size() > 7 ) {
+        if( map_id.substr( map_id.size() - 6, 6 ) == "_south" ) {
+            rotation = 2;
+            md.m.rotate( rotation );
+        } else if( map_id.substr( map_id.size() - 5, 5 ) == "_east" ) {
+            rotation = 1;
+            md.m.rotate( rotation );
+        } else if( map_id.substr( map_id.size() - 5, 5 ) == "_west" ) {
+            rotation = 3;
+            md.m.rotate( rotation );
+        }
     }
 
     for( auto &elem : setmap_points ) {

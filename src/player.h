@@ -1309,7 +1309,7 @@ class player : public Character
         // has_amount works ONLY for quantity.
         // has_charges works ONLY for charges.
         std::list<item> use_amount( itype_id it, int quantity,
-                                    const std::function<bool( const item & )> &filter = is_crafting_component );
+                                    const std::function<bool( const item & )> &filter = return_true );
         bool use_charges_if_avail( const itype_id &it, long quantity );// Uses up charges
 
         std::list<item> use_charges( const itype_id &what, long qty,
@@ -1390,10 +1390,9 @@ class player : public Character
         void long_craft();
         void make_craft( const recipe_id &id, int batch_size );
         void make_all_craft( const recipe_id &id, int batch_size );
-        std::list<item> consume_components_for_craft( const recipe &making, int batch_size,
-                bool ignore_last = false );
+        std::list<item> consume_components_for_craft( const recipe &making, int batch_size );
         /** consume components and create an active, in progress craft containing them */
-        void start_craft( const recipe &making, int batch_size, bool is_long );
+        void start_craft( craft_command &command );
         void complete_craft( item &craft );
         /** Returns nearby NPCs ready and willing to help with crafting. */
         std::vector<npc *> get_crafting_helpers() const;
@@ -1419,18 +1418,14 @@ class player : public Character
         comp_selection<item_comp>
         select_item_component( const std::vector<item_comp> &components,
                                int batch, inventory &map_inv, bool can_cancel = false,
-                               const std::function<bool( const item & )> &amount_filter = is_crafting_component,
-                               const std::function<bool( const item & )> &charges_filter = return_true, bool player_inv = true );
+                               const std::function<bool( const item & )> &filter = return_true, bool player_inv = true );
         std::list<item> consume_items( const comp_selection<item_comp> &cs, int batch,
-                                       const std::function<bool( const item & )> &amount_filter = is_crafting_component,
-                                       const std::function<bool( const item & )> &charges_filter = return_true );
+                                       const std::function<bool( const item & )> &filter = return_true );
         std::list<item> consume_items( map &m, const comp_selection<item_comp> &cs, int batch,
-                                       const std::function<bool( const item & )> &amount_filter = is_crafting_component,
-                                       const std::function<bool( const item & )> &charges_filter = return_true,
+                                       const std::function<bool( const item & )> &filter = return_true,
                                        tripoint origin = tripoint_zero, int radius = PICKUP_RANGE );
         std::list<item> consume_items( const std::vector<item_comp> &components, int batch = 1,
-                                       const std::function<bool( const item & )> &amount_filter = is_crafting_component,
-                                       const std::function<bool( const item & )> &charges_filter = return_true );
+                                       const std::function<bool( const item & )> &filter = return_true );
         comp_selection<tool_comp>
         select_tool_component( const std::vector<tool_comp> &tools, int batch, inventory &map_inv,
                                const std::string &hotkeys = DEFAULT_HOTKEYS,

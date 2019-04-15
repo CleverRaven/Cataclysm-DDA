@@ -148,7 +148,8 @@ std::string basecamp::om_upgrade_description( const std::string &bldg, bool trun
     std::vector<std::string> component_print_buffer;
     const int pane = FULL_SCREEN_WIDTH;
     const auto tools = making.requirements().get_folded_tools_list( pane, c_white, total_inv, 1 );
-    const auto comps = making.requirements().get_folded_components_list( pane, c_white, total_inv, 1 );
+    const auto comps = making.requirements().get_folded_components_list( pane, c_white, total_inv,
+                       making.get_component_filter(), 1 );
     component_print_buffer.insert( component_print_buffer.end(), tools.begin(), tools.end() );
     component_print_buffer.insert( component_print_buffer.end(), comps.begin(), comps.end() );
 
@@ -277,6 +278,9 @@ void basecamp::validate_assignees()
     }
     for( auto elem : g->get_follower_list() ) {
         npc_ptr npc_to_add = overmap_buffer.find_npc( elem );
+        if( !npc_to_add ) {
+            continue;
+        }
         if( npc_to_add->global_omt_location() == omt_pos && npc_to_add->mission == NPC_MISSION_GUARD_ALLY &&
             !npc_to_add->has_companion_mission() ) {
             assigned_npcs.push_back( npc_to_add );
@@ -333,7 +337,7 @@ void basecamp::consume_components( const recipe &making, int batch_size, bool by
     if( !by_radio ) {
         for( const auto &it : req.get_components() ) {
             g->u.consume_items( g->m, g->u.select_item_component( it, batch_size, camp_inv, true,
-                                is_crafting_component, return_true, true ), batch_size, is_crafting_component, return_true,
+                                is_crafting_component, true ), batch_size, is_crafting_component,
                                 g->m.getlocal( get_dumping_spot() ), 20 );
         }
         for( const auto &it : req.get_tools() ) {
@@ -345,7 +349,7 @@ void basecamp::consume_components( const recipe &making, int batch_size, bool by
         target_map.load( omt_pos.x * 2, omt_pos.y * 2, omt_pos.z, false );
         for( const auto &it : req.get_components() ) {
             g->u.consume_items( target_map, g->u.select_item_component( it, batch_size, camp_inv, true,
-                                is_crafting_component, return_true, false ), batch_size, is_crafting_component, return_true,
+                                is_crafting_component, false ), batch_size, is_crafting_component,
                                 target_map.getlocal( get_dumping_spot() ), 20 );
         }
         for( const auto &it : req.get_tools() ) {

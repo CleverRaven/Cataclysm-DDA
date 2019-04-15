@@ -3874,7 +3874,7 @@
     "move_cost_mod": -1,
     "required_str": -1,
     "max_volume": 4000,
-    "flags": [ "CONTAINER", "PLACE_ITEM", "LIQUIDCONT" ],
+    "flags": [ "CONTAINER", "PLACE_ITEM", "LIQUIDCONT", "NOITEM", "SEALED" ],
     "examine_action": "keg",
     "keg_capacity": 240,
     "deconstruct": {

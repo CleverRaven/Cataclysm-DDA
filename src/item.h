@@ -75,6 +75,7 @@ struct fire_data;
 struct damage_instance;
 struct damage_unit;
 class map;
+struct item_comp;
 
 enum damage_type : int;
 
@@ -520,9 +521,11 @@ class item : public visitable<item>
          * @param qty maximum charges to consume. On return set to number of charges not found (or zero)
          * @param used filled with duplicates of each item that provided consumed charges
          * @param pos position at which the charges are being consumed
+         * @param filter Must return true for use to occur.
          * @return true if this item should be deleted (count-by-charges items with no remaining charges)
          */
-        bool use_charges( const itype_id &what, long &qty, std::list<item> &used, const tripoint &pos );
+        bool use_charges( const itype_id &what, long &qty, std::list<item> &used, const tripoint &pos,
+                          const std::function<bool( const item & )> &filter = return_true );
 
         /**
          * Invokes item type's @ref itype::drop_action.
@@ -548,9 +551,10 @@ class item : public visitable<item>
          * @param it Type of consumable item.
          * @param quantity How much to consumed.
          * @param used On success all consumed items will be stored here.
+         * @param filter Must return true for use to occur.
          */
         bool use_amount( const itype_id &it, long &quantity, std::list<item> &used,
-                         const std::function<bool( const item & )> &filter = is_crafting_component );
+                         const std::function<bool( const item & )> &filter = return_true );
 
         /** Permits filthy components, should only be used as a helper in creating filters */
         bool allow_crafting_component() const;
@@ -688,6 +692,9 @@ class item : public visitable<item>
 
         /** Sets the item temperature and item energy from new temperature (K)*/
         void set_item_temperature( float new_temperature );
+
+        /** Sets the item to new temperature and energy based new specific energy (J/g)*/
+        void set_item_specific_energy( const float specific_energy );
 
         /** reset the last_temp_check used when crafting new items and the like */
         void reset_temp_check();
@@ -1834,9 +1841,6 @@ class item : public visitable<item>
          */
         float get_item_thermal_energy();
 
-        /** Sets the item to new temperature and energy based new specific energy (J/g)*/
-        void set_item_specific_energy( const float specific_energy );
-
         /** Calculates item specific energy (J/g) from temperature (K)*/
         float get_specific_energy_from_temperature( const float new_temperature );
 
@@ -1947,9 +1951,13 @@ enum hint_rating {
  */
 item &null_item_reference();
 
+/**
+ * Default filter for crafting component searches
+ */
 inline bool is_crafting_component( const item &component )
 {
-    return component.allow_crafting_component() && !component.is_filthy();
+    return ( component.allow_crafting_component() || component.count_by_charges() ) &&
+           !component.is_filthy();
 }
 
 #endif

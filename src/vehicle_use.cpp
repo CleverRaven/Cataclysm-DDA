@@ -994,8 +994,8 @@ void vehicle::operate_plow()
         if( g->m.has_flag( "PLOWABLE", start_plow ) ) {
             g->m.ter_set( start_plow, t_dirtmound );
         } else {
-            const int speed = velocity;
-            const int v_damage = rng( 3, speed );
+            const int speed = abs( velocity );
+            int v_damage = rng( 3, speed );
             damage( vp.part_index(), v_damage, DT_BASH, false );
             sounds::sound( start_plow, v_damage, sounds::sound_t::combat, _( "Clanggggg!" ) );
         }
@@ -1009,8 +1009,8 @@ void vehicle::operate_rockwheel()
         if( g->m.has_flag( "DIGGABLE", start_dig ) ) {
             g->m.ter_set( start_dig, t_pit_shallow );
         } else {
-            const int speed = velocity;
-            const int v_damage = rng( 3, speed );
+            const int speed = abs( velocity );
+            int v_damage = rng( 3, speed );
             damage( vp.part_index(), v_damage, DT_BASH, false );
             sounds::sound( start_dig, v_damage, sounds::sound_t::combat, _( "Clanggggg!" ) );
         }
@@ -1276,7 +1276,7 @@ void vehicle::use_washing_machine( int p )
 
         std::vector<item_comp> detergent;
         detergent.push_back( item_comp( "detergent", 5 ) );
-        g->u.consume_items( detergent );
+        g->u.consume_items( detergent, 1, is_crafting_component );
 
         add_msg( m_good,
                  _( "You pour some detergent into the washing machine, close its lid, and turn it on.  The washing machine is being filled with water from vehicle tanks." ) );

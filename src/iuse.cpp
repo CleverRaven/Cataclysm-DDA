@@ -1655,19 +1655,19 @@ int iuse::sew_advanced( player *p, item *it, bool, const tripoint & )
     } else if( rn <= 10 ) {
         p->add_msg_if_player( m_bad,
                               _( "You fail to modify the clothing, and you waste thread and materials." ) );
-        p->consume_items( comps );
+        p->consume_items( comps, 1, is_crafting_component );
         return thread_needed;
     } else if( rn <= 14 ) {
         p->add_msg_if_player( m_mixed, _( "You modify your %s, but waste a lot of thread." ),
                               mod.tname().c_str() );
-        p->consume_items( comps );
+        p->consume_items( comps, 1, is_crafting_component );
         mod.item_tags.insert( the_mod );
         return thread_needed;
     }
 
     p->add_msg_if_player( m_good, _( "You modify your %s!" ), mod.tname().c_str() );
     mod.item_tags.insert( the_mod );
-    p->consume_items( comps );
+    p->consume_items( comps, 1, is_crafting_component );
     return thread_needed / 2;
 }
 
@@ -7296,7 +7296,8 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
             for( const auto &r : g->u.get_learned_recipes().in_category( "CC_FOOD" ) ) {
                 if( multicooked_subcats.count( r->subcategory ) > 0 ) {
                     dishes.push_back( r );
-                    const bool can_make = r->requirements().can_make_with_inventory( crafting_inv );
+                    const bool can_make = r->requirements().can_make_with_inventory( crafting_inv,
+                                          r->get_component_filter() );
 
                     dmenu.addentry( counter++, can_make, -1, r->result_name() );
                 }
@@ -7330,7 +7331,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
 
                 auto reqs = meal->requirements();
                 for( auto it : reqs.get_components() ) {
-                    p->consume_items( it );
+                    p->consume_items( it, 1, is_crafting_component );
                 }
 
                 it->set_var( "DISH", meal->result() );
@@ -8020,7 +8021,7 @@ int iuse::break_stick( player *p, item *it, bool, const tripoint & )
     }
     std::vector<item_comp> comps;
     comps.push_back( item_comp( it->typeId(), 1 ) );
-    p->consume_items( comps );
+    p->consume_items( comps, 1, is_crafting_component );
     int chance = rng( 0, 100 );
     if( chance <= 20 ) {
         p->add_msg_if_player( _( "You try to break the stick in two, but it shatters into splinters." ) );

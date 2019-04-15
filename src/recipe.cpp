@@ -414,3 +414,20 @@ std::string recipe::result_name() const
 
     return name;
 }
+
+const std::function<bool( const item & )> recipe::get_component_filter() const
+{
+    std::function<bool( const item & )> filter = is_crafting_component;
+    const item result = create_result();
+
+    // Disallow crafting of non-perishables with rotten components
+    // Make an exception for seeds
+    // TODO: move seed extraction recipes to uncraft
+    if( result.is_food() && !result.goes_bad() && !has_flag( "ALLOW_ROTTEN" ) ) {
+        filter = []( const item & component ) {
+            return is_crafting_component( component ) && !component.rotten();
+        };
+    }
+    return filter;
+}
+
