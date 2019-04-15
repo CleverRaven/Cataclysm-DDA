@@ -1053,6 +1053,38 @@ item_location game_menus::inv::salvage( player &p, const salvage_actor *actor )
                          _( "You have nothing to cut up." ) );
 }
 
+class repair_inventory_preset: public inventory_selector_preset
+{
+    public:
+        repair_inventory_preset( const repair_item_actor *actor, const item *main_tool ) :
+            inventory_selector_preset(), actor( actor ), main_tool( main_tool ) {
+
+                /*
+            append_cell( [ actor ]( const item_location & loc ) {
+                return to_string_clipped( time_duration::from_turns( actor->time_to_cut_up(
+                                              *loc.get_item() ) / 100 ) );
+            }, _( "TIME" ) );
+            */
+        }
+
+        bool is_shown( const item_location &loc ) const override {
+            return loc->made_of_any( actor->materials ) && !loc->count_by_charges() && !loc->is_firearm() &&
+                   &*loc != main_tool;
+        }
+
+    private:
+        const repair_item_actor *actor;
+        const item *main_tool;
+};
+
+item_location game_menus::inv::repair( player &p, const repair_item_actor *actor, const item* main_tool )
+{
+    return inv_internal( p, repair_inventory_preset( actor, main_tool ),
+                         _( "Repair what?" ), 1,
+                         string_format( _( "You have no items that could be repaired with a %s." ),
+                             main_tool->type_name( 1 ) ) );
+}
+
 item_location game_menus::inv::saw_barrel( player &p, item &tool )
 {
     const auto actor = dynamic_cast<const saw_barrel_actor *>
