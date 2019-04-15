@@ -35,7 +35,14 @@
         "#": "t_dirt",
         "+": "t_door_metal_c",
         "-": "t_wall_metal",
-        ".": [ "t_water_sh", { "ter": "t_water_sh" }, { "ter": "t_dirt" }, { "ter": "t_grass" }, { "ter": "t_dirt" }, { "ter": "t_dirtmound" } ],
+        ".": [
+          "t_water_sh",
+          { "ter": "t_water_sh" },
+          { "ter": "t_dirt" },
+          { "ter": "t_grass" },
+          { "ter": "t_dirt" },
+          { "ter": "t_dirtmound" }
+        ],
         "3": "t_window_frame",
         "6": "t_machinery_light",
         "C": "t_dirtmound",
@@ -85,7 +92,14 @@
         "#": "t_dirt",
         "+": "t_door_metal_c",
         "-": "t_wall_metal",
-        ".": [ "t_water_sh", { "ter": "t_water_sh" }, { "ter": "t_dirt" }, { "ter": "t_grass" }, { "ter": "t_dirt" }, { "ter": "t_dirtmound" } ],
+        ".": [
+          "t_water_sh",
+          { "ter": "t_water_sh" },
+          { "ter": "t_dirt" },
+          { "ter": "t_grass" },
+          { "ter": "t_dirt" },
+          { "ter": "t_dirtmound" }
+        ],
         ">": "t_stairs_down",
         "A": "t_metal_floor",
         "C": "t_dirtmound",
