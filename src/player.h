@@ -904,8 +904,9 @@ class player : public Character
         /** Handles the effects of consuming an item */
         bool consume_effects( item &eaten );
         /** Handles rooting effects */
-        void rooted_message() const;
         void rooted();
+        /** Handles plant mutant nutrition gain */
+        void plant_nutrition();
         int get_lift_assist() const;
 
         bool list_ammo( const item &base, std::vector<item::reload_option> &ammo_list,
