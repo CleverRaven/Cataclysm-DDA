@@ -1619,7 +1619,9 @@ static bool harvest_common( player &p, const tripoint &examp, bool furn, bool ne
         if( !auto_forage ) {
             p.add_msg_if_player( m_info, _( "Nothing can be harvested from this plant in current season." ) );
         }
-        iexamine::none( p, examp );
+        if( p.manual_examine ) {
+            iexamine::none( p, examp );
+        }
         return false;
     }
 
