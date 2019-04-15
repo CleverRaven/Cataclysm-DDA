@@ -877,6 +877,30 @@
     }
   },
   {
+    "id": "bot_nursebot",
+    "type": "TOOL",
+    "name": "inactive nurse bot",
+    "description": "This is an inactive nurse bot. Using this item involves placing it on the ground and reactivating its mechanical body.  If reprogrammed and rewired successfully the nurse bot will then identify you as a friendly, roam around or follow you, and assist you in surgeries.",
+    "volume": "62500 ml",
+    "weight": 81500,
+    "price": 750000,
+    "to_hit": -3,
+    "bashing": 8,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "light_blue",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_nursebot",
+      "friendly_msg": "The nurse bot beeps affirmatively and awaits orders.",
+      "hostile_msg": "You misprogram the nurse bot. It's looking at you funny.",
+      "difficulty": 6,
+      "moves": 150,
+      "skill1": "electronics",
+      "skill2": "computer"
+    }
+  },
+  {
     "id": "bot_broken_cyborg",
     "type": "TOOL",
     "name": "inactive broken cyborg",
