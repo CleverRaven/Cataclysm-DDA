@@ -3368,7 +3368,7 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, player *p 
     seen.insert( loc );
     const std::function<bool( const oter_id & )> filter = []( const oter_id & ter ) {
         const overmap_land_use_code_id forest_id = overmap_land_use_code_id( "forest" );
-        return ter.obj().get_land_use_code() == forest_id || ter.obj().get_name() == "field";
+        return ter.obj().is_wooded() || ter.obj().get_name() == "field";
     };
     while( !q.empty() ) {
         tripoint tpt = q.front();
@@ -3392,7 +3392,7 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, player *p 
                     }
                     seen.insert( neighbor );
                     const overmap_land_use_code_id forest_id = overmap_land_use_code_id( "forest" );
-                    if( overmap_buffer.ter( neighbor ).obj().get_land_use_code() != forest_id ) {
+                    if( overmap_buffer.ter( neighbor ).obj().is_wooded() ) {
                         continue;
                     }
                     q.push( neighbor );
