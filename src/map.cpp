@@ -4259,9 +4259,6 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
 
 item &map::add_item( const tripoint &p, item new_item )
 {
-    if( new_item.has_temperature() ) {
-        new_item.active = true;
-    }
     if( !inbounds( p ) ) {
         return null_item_reference();
     }
@@ -4270,7 +4267,7 @@ item &map::add_item( const tripoint &p, item new_item )
 
     // Process foods when they are added to the map, here instead of add_item_at()
     // to avoid double processing food during active item processing.
-    if( /*new_item.needs_processing() &&*/ new_item.is_food() ) {
+    if( /*new_item.needs_processing() &&*/ new_item.is_food() || new_item.has_temperature() ) {
         new_item.process( nullptr, p, false );
     }
     return add_item_at( p, current_submap->itm[l.x][l.y].end(), new_item );
@@ -4289,6 +4286,10 @@ item &map::add_item_at( const tripoint &p,
 
     if( new_item.has_flag( "ACT_IN_FIRE" ) && get_field( p, fd_fire ) != nullptr ) {
         new_item.active = true;
+    }
+    if( new_item.has_temperature() ) {
+        new_item.active = true;
+        new_item.process( nullptr, p, false );
     }
 
     point l;

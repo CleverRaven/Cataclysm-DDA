@@ -4654,7 +4654,7 @@ float item::get_latent_heat() const
 float item::get_freeze_point() const
 {
     if( is_corpse() ) {
-        return 32;
+        return made_of_types()[0]->freeze_point();
     }
     // If it is not a corpse it is a food
     return get_comestible()->freeze_point;
@@ -7153,7 +7153,7 @@ void item::process_artifact( player *carrier, const tripoint & /*pos*/ )
 bool item::process_corpse( player *carrier, const tripoint &pos )
 {
     // some corpses rez over time
-    if( corpse == nullptr ) {
+    if( corpse == nullptr || damage() >= max_damage() ) {
         return false;
     }
     if( !ready_to_revive( pos ) ) {
