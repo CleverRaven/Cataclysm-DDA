@@ -72,9 +72,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_EVAC_GUARD1_JOB",
-    "dynamic_line": "Uh, not really.  Go talk to a merchant if you have anything to sell.  Otherwise the Old Guard liaison might have something, if you can find him.",
+    "dynamic_line": "Depends on what you want. Go talk to a merchant if you have anything to sell.  Otherwise the Old Guard liaison might have something, if you can find him. But if you're just looking for someone to put a good word in, I might have something for you.",
     "responses": [
       { "text": "Alright then.", "topic": "TALK_EVAC_GUARD1" },
+      { "text": "A good word might be helpful. What do you need?", "topic": "TALK_MISSION_LIST" },
       { "text": "Old Guard huh, I'll go talk to him!", "topic": "TALK_DONE" },
       { "text": "Who are the Old Guard?", "topic": "TALK_EVAC_GUARD1_OLDGUARD" }
     ]
