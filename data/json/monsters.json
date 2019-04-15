@@ -1058,7 +1058,7 @@
   {
     "id": "mon_nursebot",
     "type": "MONSTER",
-    "name": "Robot Nurse",
+    "name": "nurse bot",
     "description": "",
     "default_faction": "bot",
     "species": [ "ROBOT" ],
