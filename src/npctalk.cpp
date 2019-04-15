@@ -18,6 +18,7 @@
 #include "game.h"
 #include "help.h"
 #include "input.h"
+#include "item_category.h"
 #include "item_group.h"
 #include "itype.h"
 #include "json.h"
@@ -2212,6 +2213,44 @@ void conditional_t::set_has_items( JsonObject &jo, const std::string &member, bo
     }
 }
 
+void conditional_t::set_has_item_category( JsonObject &jo, const std::string &member, bool is_npc )
+{
+    const std::string category_id = jo.get_string( member );
+
+    size_t count = 1;
+    if( jo.has_int( "count" ) ) {
+        int tcount = jo.get_int( "count" );
+        if( tcount > 1 && tcount < INT_MAX ) {
+            count = static_cast<size_t>( tcount );
+        }
+    }
+
+    condition = [category_id, count, is_npc]( const dialogue & d ) {
+        player *actor = d.alpha;
+        if( is_npc ) {
+            actor = dynamic_cast<player *>( d.beta );
+        }
+        const auto items_with = actor->items_with( [category_id]( const item & it ) {
+            return it.get_category().id() == category_id;
+        } );
+        return items_with.size() >= count;
+    };
+}
+
+void conditional_t::set_has_bionics( JsonObject &jo, const std::string &member, bool is_npc )
+{
+    const std::string bionics_id = jo.get_string( member );
+    condition = [bionics_id, is_npc]( const dialogue & d ) {
+        player *actor = d.alpha;
+        if( is_npc ) {
+            actor = dynamic_cast<player *>( d.beta );
+        }
+        if( bionics_id == "ANY" ) {
+            return actor->num_bionics() > 0 || actor->max_power_level > 0;
+        }
+        return actor->has_bionic( bionic_id( bionics_id ) );
+    };
+}
 void conditional_t::set_has_effect( JsonObject &jo, const std::string &member, bool is_npc )
 {
     const std::string &effect_id = jo.get_string( member );
@@ -2693,6 +2732,14 @@ conditional_t::conditional_t( JsonObject jo )
         set_has_items( jo, "u_has_items" );
     } else if( jo.has_member( "npc_has_items" ) ) {
         set_has_items( jo, "npc_has_items", is_npc );
+    } else if( jo.has_string( "u_has_item_category" ) ) {
+        set_has_item_category( jo, "u_has_item_category" );
+    } else if( jo.has_string( "npc_has_item_category" ) ) {
+        set_has_item_category( jo, "npc_has_item_category", is_npc );
+    } else if( jo.has_string( "u_has_bionics" ) ) {
+        set_has_bionics( jo, "u_has_bionics" );
+    } else if( jo.has_string( "npc_has_bionics" ) ) {
+        set_has_bionics( jo, "npc_has_bionics", is_npc );
     } else if( jo.has_string( "u_has_effect" ) ) {
         set_has_effect( jo, "u_has_effect" );
     } else if( jo.has_string( "npc_has_effect" ) ) {

@@ -438,6 +438,8 @@ Condition | Type | Description
 "u_has_perception"<br/>"npc_has_perception" | int | `true` if the player character's or NPC's perception is at least the value of `u_has_perception` or `npc_has_perception`.
 "u_has_item"<br/>"npc_has_item" | string | `true` if the player character or NPC has something with `u_has_item`'s or `npc_has_item`'s `item_id` in their inventory.
 "u_has_items"<br/>"npc_has_item" | dictionary | `u_has_items` or `npc_has_items` must be a dictionary with an `item` string and a `count` int.<br/>`true` if the player character or NPC has at least `count` charges or counts of `item` in their inventory.
+"u_has_item_category<br/>"npc_has_item_category" | string | `"count"`: item_count is an optional field that must be in the same dictionary and defaults to 1 if not specified.  `true` if the player or NPC has item_count items with the same category as `u_has_item_category` or `npc_has_item_category`.
+"u_has_bionics"<br/>"npc_has_bionics" | string | `true` if the player or NPC has an installed bionic with an bionic_id matching "u_has_bionics" or "npc_has_bionics".  The special string "ANY" returns true if the player or NPC has any installed bionics.
 "u_has_effect"<br/>"npc_has_effect" | string | `true` if the player character or NPC is under the effect with `u_has_effect` or `npc_has_effect`'s `effect_id`.
 "u_can_stow_weapon"<br/>"npc_can_stow_weapon" | simple string | `true` if the player character or NPC is wielding a weapon and has enough space to put it away.
 "u_has_weapon"<br/>"npc_has_weapon" | simple string | `true` if the player character or NPC is wielding a weapon.
