@@ -345,11 +345,12 @@ void character_edit_menu()
                     }
                     break;
                 case 5:
-                    p.set_hunger(0);
-                    p.set_thirst(0);
-                    p.set_fatigue(0);
-                    p.set_sleep_deprivation(0);
-                    p.set_stored_kcal(77000);
+                    p.initialize_stomach_contents();
+                    p.set_hunger( 0 );
+                    p.set_thirst( 0 );
+                    p.set_fatigue( 0 );
+                    p.set_sleep_deprivation( 0 );
+                    p.set_stored_kcal( p.get_healthy_kcal() );
                     break;
                 default:
                     if( smenu.ret >= 5 && smenu.ret < static_cast<int>( vits.size() + 5 ) ) {
