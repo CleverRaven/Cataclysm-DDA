@@ -4040,16 +4040,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 comps.push_back( item_comp( it->typeId(), 1 ) );
                 p.consume_items( comps, 1, is_crafting_component );
                 if( needs_anesthesia ) {
-<<<<<<< HEAD
-                    p.consume_items( acomps, 1 );
-<<<<<<< HEAD
-                    item empty_kit( "anesthesia_used" );
-                    g->m.add_item_or_charges( examp, empty_kit );
-=======
                     p.consume_items( acomps, 1, is_crafting_component );
->>>>>>> c00528a4ff1009debff84ecf182ec9fdcd5f5d57
-=======
->>>>>>> parent of 1bf69ac9a6... d
                 }
             }
             break;
