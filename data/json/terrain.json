@@ -8865,6 +8865,7 @@
     "color": "light_gray",
     "move_cost": 3,
     "flags": [ "TRANSPARENT", "NOITEM", "REDUCE_SCENT", "MOUNTABLE", "SHORT", "THIN_OBSTACLE", "ROAD" ],
+    "looks_like": "t_guardrail_bg_dp"
     "bash": {
       "str_min": 8,
       "str_max": 150,
