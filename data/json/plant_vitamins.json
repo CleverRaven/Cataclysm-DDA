@@ -1,0 +1,34 @@
+[
+  {
+    "id": "sunlight",
+    "type": "vitamin",
+    "name": "Sunlight",
+    "rate": 0,
+    "min": 0,
+    "max": 200
+  },
+  {
+    "id": "sunlightVit",
+    "type": "vitamin",
+    "name": "Sunlight Vitamins",
+    "rate": 0,
+    "min": 0,
+    "max": 300
+  },
+  {
+      "id": "roots",
+      "type": "vitamin",
+      "name": "Roots",
+      "rate": 0,
+      "min": 0,
+      "max": 100
+  },
+  {
+    "id": "rootsVit",
+    "type": "vitamin",
+    "name": "Roots Vitamins",
+    "rate": 0,
+    "min": 0,
+    "max": 300
+}
+]

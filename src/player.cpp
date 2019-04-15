@@ -5269,55 +5269,34 @@ void player::suffer()
         sounds::sound( pos(), 10, sounds::sound_t::movement, _( "BZZZZZ" ) );
     }
 
-    //bool wearing_shoes = is_wearing_shoes( side::LEFT ) || is_wearing_shoes( side::RIGHT );
-    //if( has_trait( trait_ROOTS3 ) && g->m.has_flag( "PLOWABLE", pos() ) && !wearing_shoes ) {
-    //    if( one_in( 100 ) ) {
-    //        add_msg_if_player( m_good, _( "This soil is delicious!" ) );
-    //        /*if( get_hunger() > -20 ) {
-    //            mod_hunger( -2 );
-    //            // absorbs kcal directly
-    //            mod_stored_nutr( -2 );
-    //        }*/
-    //        if( get_thirst() > -20 ) {
-    //            mod_thirst( -2 );
-    //        }
-    //        mod_healthy_mod( 10, 50 );
-    //        // No losing oneself in the fertile embrace of rich
-    //        // New England loam.  But it can be a near thing.
-    //        /** @EFFECT_INT decreases chance of losing focus points while eating soil with ROOTS3 */
-    //        if( ( one_in( int_cur ) ) && ( focus_pool >= 25 ) ) {
-    //            focus_pool--;
-    //        }
-    //    } else if( one_in( 50 ) ) {
-    //        /*if( get_hunger() > -20 ) {
-    //            mod_hunger( -1 );
-    //            // absorbs kcal directly
-    //            mod_stored_nutr( -1 );
-    //        }*/
-    //        if( get_thirst() > -20 ) {
-    //            mod_thirst( -1 );
-    //        }
-    //        mod_healthy_mod( 5, 50 );
-    //    }
-    //}
+    bool has_leaves = has_trait(trait_LEAVES);
+    bool has_roots = (has_trait(trait_ROOTS2) || has_trait(trait_ROOTS3));
+    bool is_rooted = has_effect(effect_rooted);
+    bool is_rooting = has_activity(activity_id("ACT_ROOT"));
+    bool is_uprooting = has_activity(activity_id("ACT_UPROOT"));
 
-    if (has_effect(effect_rooted)) {
+    if (is_rooted) {
         rooted();
     }
     // SANITY IS FOR THE WEAK
 
-    if ( has_trait(trait_ROOTS2) && has_active_mutation( trait_ROOTS2 ) && !(has_effect(effect_rooted)) && !(has_activity(activity_id("ACT_ROOT")))) {
+    if (has_leaves || has_roots) {
+        plant_nutrition();
+        // This was getting complicated, so it now gets its own method.
+    }
+
+    if ( has_active_mutation( trait_ROOTS2 ) && !is_rooted && !is_rooting) {
         deactivate_mutation( trait_ROOTS2 );
     }
-    if ( has_trait(trait_ROOTS3) && has_active_mutation( trait_ROOTS3 ) && !(has_effect(effect_rooted)) && !(has_activity(activity_id("ACT_ROOT")))) {
+    if (has_active_mutation( trait_ROOTS3 ) && !is_rooted && !is_rooting) {
         deactivate_mutation( trait_ROOTS3 );
     }
     // Rooting is work now, put your back into it if you want that sweet soil!
 
-    if ( has_trait(trait_ROOTS2) && !has_active_mutation( trait_ROOTS2 ) && has_effect(effect_rooted) && !(has_activity(activity_id("ACT_UPROOT")))) {
+    if ( !has_active_mutation( trait_ROOTS2 ) && is_rooted && !is_uprooting ) {
         activate_mutation( trait_ROOTS2 );
     }
-    if ( has_trait(trait_ROOTS3) && !has_active_mutation( trait_ROOTS3 ) && has_effect(effect_rooted) && !(has_activity(activity_id("ACT_UPROOT")))) {
+    if ( !has_active_mutation( trait_ROOTS3 ) && is_rooted && !is_uprooting) {
         activate_mutation( trait_ROOTS3 );       
     }
     // So players can't actually cancel roots while they're still partially buried. The mutation will quitely re-activate if they still have the rooted effect.
@@ -5795,17 +5774,6 @@ void player::suffer()
                 g->cancel_activity_or_ignore_query( distraction_type::asthma,  _( "You have an asthma attack!" ) );
             }
         }
-    }
-
-    if( has_trait( trait_LEAVES ) && g->is_in_sunlight( pos() ) && one_in( 20 ) ) { // Chance changed from one in 600 to one in 20 for plant rebalance. May make more effective leaves a new mutation instead.
-        mod_hunger( -1 );
-        // photosynthesis absorbs kcal directly
-        mod_stored_nutr( -2 );
-        vitamin_mod( vitamin_id( "vitA" ), 1, true );
-        vitamin_mod( vitamin_id( "vitC" ), 1, true );
-        // Plants typically synthesize these on their own when left in sunlight.
-        // Values capped for now, but might be diverted into some kind plant nutrient storage in the future.
-        // These numbers are very much a WIP in terms of balance
     }
 
     if( get_pain() > 0 ) {
@@ -7493,68 +7461,63 @@ bool player::consume( int target_position )
     return true;
 }
 
-//void player::rooted_message() const
-//{
-//    bool wearing_shoes = is_wearing_shoes( side::LEFT ) || is_wearing_shoes( side::RIGHT );
-//    if( ( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) ) &&
-//        g->m.has_flag( "PLOWABLE", pos() ) &&
-//        !wearing_shoes ) {
-//        add_msg( m_info, _( "You sink your roots into the soil." ) );
-//    }
-//}
-
 void player::rooted()
-// Should average a point every two minutes or so; ground isn't uniformly fertile
 // Overfilling triggered hibernation checks, so capping.
+// TODO: Uncap when plant nutrient storage happens.
 {
-    double shoe_factor = footwear_factor();
-    bool wearing_shoes = is_wearing_shoes( side::LEFT ) || is_wearing_shoes( side::RIGHT );
     if (g->m.has_flag("PLOWABLE", pos())) {
-        if ((has_trait(trait_ROOTS2)) || (has_trait(trait_ROOTS3))) {
-            //add_effect(effect_rooted, 1_turns, num_bp, true);
-            if (one_in(20.0 / (1.0 - shoe_factor))) {
-                /*if( get_hunger() > -20 ) {
-                    mod_hunger( -1 );
-                    // absorbs nutrients from soil directly
-                    mod_stored_nutr( -1 );
-                } */
-                // Plants should get their kcal from the sun, commenting this out for now.
-                if (get_thirst() > -20) {
-                    mod_thirst(-1);
-                }
-                vitamin_mod(vitamin_id("iron"), 1, true);
-                vitamin_mod(vitamin_id("calcium"), 1, true);
-                // Plants typically draw these from the soil.
-                // Will uncap in the future so excess will be diverted to a plant storage system.
-                // as with the leaves change, these numbers are a WIP in terms of balance.
-                mod_healthy_mod(5, 50);
-            }
+        if (has_trait(trait_ROOTS2)) {
+            vitamin_mod(vitamin_id("roots"), 10, false);
+            vitamin_mod(vitamin_id("rootsVit"), 3, false);
         }
-        if (has_trait(trait_ROOTS3) && !wearing_shoes) {
-            if (one_in(50)) {
-                if (get_thirst() > -20) {
-                    mod_thirst(-1);
-                }
-                vitamin_mod(vitamin_id("iron"), 1, true);
-                vitamin_mod(vitamin_id("calcium"), 1, true);
-                mod_healthy_mod(5, 50);
-            }
-            else if (one_in(100)) {
-                add_msg_if_player(m_good, _("This soil is delicious!"));
-                if (get_thirst() > -20) {
-                    mod_thirst(-2);
-                }
-                vitamin_mod(vitamin_id("iron"), 1, true);
-                vitamin_mod(vitamin_id("calcium"), 1, true);
+        else if (has_trait(trait_ROOTS3)) {
+            vitamin_mod(vitamin_id("roots"), 20, false);
+            vitamin_mod(vitamin_id("rootsVit"), 5, false);
+            if (one_in(100)) {
                 mod_healthy_mod(10, 50);
-                // No losing oneself in the fertile embrace of rich
-                // New England loam.  But it can be a near thing.
-                /** @EFFECT_INT decreases chance of losing focus points while eating soil with ROOTS3 */
-                if ((one_in(int_cur)) && (focus_pool >= 25)) {
+                if ((one_in(int_cur)) && focus_pool >= 25) {
                     focus_pool--;
-                }
+                }// Keeping this effect from the old rooted code, sometimes a plant will just lose themselves in the rich new england loam when rooted.
             }
         }
+    }
+}
+
+void player::plant_nutrition()
+{
+    if (has_trait(trait_LEAVES) && g->is_in_sunlight(pos())) {
+        vitamin_mod(vitamin_id("sunlight"), 10, false); // Works out to 30 kcal an hour.
+        vitamin_mod(vitamin_id("sunlightVit"), 10, false); // This will give you 25% of your RDA of vitamins A and C over 12 hours.
+    }
+
+    if (vitamin_get(vitamin_id("sunlight")) == 200) {
+        //mod_hunger(-1);
+        // photosynthesis absorbs kcal directly
+        mod_stored_nutr(-1);
+        vitamin_set(vitamin_id("sunlight"), 0);
+    }
+
+    if (vitamin_get(vitamin_id("sunlightVit")) == 300) {
+        // Plants typically synthesize these on their own when left in sunlight.
+        // Values capped for now, but might be diverted into some kind plant nutrient storage in the future.
+        vitamin_mod(vitamin_id("vitA"), 1, true);
+        vitamin_mod(vitamin_id("vitC"), 1, true);
+        vitamin_set(vitamin_id("sunlightVit"), 0);
+    }
+
+    if (vitamin_get(vitamin_id("roots")) == 20) {
+        if (get_thirst() > -20) {
+            mod_thirst(-1);
+        }
+        vitamin_set(vitamin_id("roots"), 0);
+    }
+
+    if (vitamin_get(vitamin_id("rootsVit")) == 300) {
+        // Plants typically draw these from the soil.
+        // Will uncap in the future so excess will be diverted to a plant storage system.
+        vitamin_mod(vitamin_id("iron"), 1, true);
+        vitamin_mod(vitamin_id("calcium"), 1, true);
+        vitamin_set(vitamin_id("rootsVit"), 0);
     }
 }
 
@@ -11425,9 +11388,6 @@ void player::assign_activity( const player_activity &act, bool allow_resume )
         activity = act;
     }
 
-    //if( activity.rooted() ) {
-    //    rooted_message();
-    //}
 }
 
 bool player::has_activity( const activity_id &type ) const
