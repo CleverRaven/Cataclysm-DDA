@@ -725,7 +725,7 @@ void monster::move()
             }
         }
     }
-    bool can_open_doors = has_flag( MF_CAN_OPEN_DOORS );
+    const bool can_open_doors = has_flag( MF_CAN_OPEN_DOORS );
     // Finished logic section.  By this point, we should have chosen a square to
     //  move to (moved = true).
     if( moved ) { // Actual effects of moving to the square we've chosen
