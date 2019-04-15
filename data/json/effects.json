@@ -195,12 +195,6 @@
     "desc": [ "AI tag used for monsters pushing each other.  This is a bug if you have it." ]
   },
   {
-    "type": "effect_type",
-    "id": "assist",
-    "name": [ "Assisting" ],
-    "desc": [ "AI tag used for monsters assisting surgery.  This is a bug if you have it." ]
-  },
-  {
     "//": "ACTUAL PLAYER EFFECTS START HERE",
     "type": "effect_type",
     "id": "downed",
@@ -209,6 +203,12 @@
     "apply_message": "You're knocked to the floor!",
     "rating": "bad",
     "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "assisted",
+    "name": [ "Assisted" ],
+    "desc": [ "Your receiving assistance to practice a surgery." ]
   },
   {
     "type": "effect_type",
