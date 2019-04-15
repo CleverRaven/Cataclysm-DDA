@@ -75,7 +75,6 @@
     "color": "light_gray",
     "ammo": "battery",
     "initial_charges": 100,
-    "max_charges": 100,
     "turns_per_charge": 8,
     "revert_to": "radio",
     "use_action": "RADIO_ON",
