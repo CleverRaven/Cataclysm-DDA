@@ -718,3 +718,26 @@ void talk_function::set_npc_pickup( npc &p )
     const std::string title = string_format( _( "Pickup rules for %s" ), p.name );
     p.rules.pickup_whitelist->show( title, false );
 }
+
+void talk_function::npc_die( npc &p )
+{
+    p.die( nullptr );
+    const std::shared_ptr<npc> guy = overmap_buffer.find_npc( p.getID() );
+    if( guy && !guy->is_dead() ) {
+        guy->marked_for_death = true;
+    }
+}
+
+void talk_function::npc_thankful( npc &p )
+{
+    if( p.get_attitude() == NPCATT_MUG || p.get_attitude() == NPCATT_WAIT_FOR_LEAVE ||
+        p.get_attitude() == NPCATT_FLEE || p.get_attitude() == NPCATT_KILL ||
+        p.get_attitude() == NPCATT_FLEE_TEMP ) {
+        p.set_attitude( NPCATT_NULL );
+    }
+    if( p.chatbin.first_topic != "TALK_FRIEND" ) {
+        p.chatbin.first_topic = "TALK_STRANGER_FRIENDLY";
+    }
+    p.personality.aggression -= 1;
+
+}

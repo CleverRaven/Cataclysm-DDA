@@ -1972,6 +1972,8 @@ void talk_effect_t::parse_string_effect( const std::string &type, JsonObject &jo
             WRAP( start_training ),
             WRAP( copy_npc_rules ),
             WRAP( set_npc_pickup ),
+            WRAP( npc_die ),
+            WRAP( npc_thankful ),
             WRAP( nothing )
 #undef WRAP
         }

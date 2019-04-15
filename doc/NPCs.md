@@ -359,6 +359,7 @@ hostile | Make the NPC hostile and end the conversation.
 flee | Makes the NPC flee from your character.
 leave | Makes the NPC not follow your character anymore.
 follow | Makes the NPC follow your character.
+npc_thankful | Makes the NPC postively inclined toward your character.
 drop_weapon | Make the NPC drop their weapon.
 stranger_neutral | Changes the NPC's attitude to neutral.
 start_mugging | The NPC will approach your character and steal from your character, attacking if your character resists.
@@ -376,6 +377,7 @@ set_npc_rule: rule_string | Sets the value of a boolean NPC follower AI rule suc
 clear_npc_rule: rule_string | Clears the value of a boolean NPC follower AI rule such as "use_silent" or "allow_bash"
 set_npc_engagement_rule: rule_string | Sets the NPC follower AI rule for engagement distance to the value of `rule_string`.
 set_npc_aim_rule: rule_string | Sets the NPC follower AI rule for aiming speed to the value of `rule_string`.
+npc_die | The NPC will die at the end of the conversation.
 
 #### Deprecated
 
