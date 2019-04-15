@@ -2798,25 +2798,11 @@ bool damage_item( player &pl, item_location &fix )
     pl.add_msg_if_player( m_bad, _( "You damage your %s!" ), fix->tname() );
     if( fix->inc_damage() ) {
         pl.add_msg_if_player( m_bad, _( "You destroy it!" ) );
-        switch( fix.where() ) {
-            case item_location::type::character:
-                const int pos = pl.get_item_position( fix.get_item() );
-                pl.i_rem_keep_contents( pos );
-                break;
-            case item_location::type::map:
-                for( auto &content : fix->contents ) {
-                    g->m.add_item_or_charges( fix.position(), content );
-                }
-                fix.remove_item();
-                break;
-            case item_location::type::vehicle:
-                put_into_vehicle_or_drop( pl, item_drop_reason::deliberate, fix->contents, fix.position() );
-                fix.remove_item();
-                break;
-            default:
-                debugmsg( "Don't know how to handle destroying an item with location type = %d",
-                          fix.where() );
-                break;
+        if( fix.where() == item_location::type::character ) {
+            pl.i_rem_keep_contents( pl.get_item_position( fix.get_item() ) );
+        } else {
+            put_into_vehicle_or_drop( pl, item_drop_reason::deliberate, fix->contents, fix.position() );
+            fix.remove_item();
         }
 
         return true;
