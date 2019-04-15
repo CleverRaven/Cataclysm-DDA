@@ -2,282 +2,408 @@
   {
     "type": "snippet",
     "category": "flier",
-    "text": [ "This is an advertisement for the Diet Devil brand Metabolic Exchange CBM.  It shows a picture of a tiny obese devil sitting on a woman's shoulder.  The woman stares intently at a gigantic wedding cake covered with bacon and candy bars.  The caption reads: \"Burn calories!  Burn!\"" ]
+    "text": [
+      "This is an advertisement for the Diet Devil brand Metabolic Exchange CBM.  It shows a picture of a tiny obese devil sitting on a woman's shoulder.  The woman stares intently at a gigantic wedding cake covered with bacon and candy bars.  The caption reads: \"Burn calories!  Burn!\""
+    ]
   },
   {
     "type": "snippet",
     "category": "flier",
-    "text": [ "This is an advertisement for the Diet Devil brand Internal Furnace CBM.  It shows a picture of a tiny obese devil sitting on a man's shoulder.  The man is about to bite into a frosting-covered baby.  The caption reads: \"Eat What You Want!  How You Want!  Who You Want!\"" ]
+    "text": [
+      "This is an advertisement for the Diet Devil brand Internal Furnace CBM.  It shows a picture of a tiny obese devil sitting on a man's shoulder.  The man is about to bite into a frosting-covered baby.  The caption reads: \"Eat What You Want!  How You Want!  Who You Want!\""
+    ]
   },
   {
     "type": "snippet",
     "category": "flier",
-    "text": [ "This is an advertisement for the Diet Devil brand Ethanol Burner CBM.  It shows a picture of a teenage boy driving a car while chugging a bottle of whiskey.  A tiny obese devil sits on his shoulder and drinks a martini.  The caption reads: \"Drink like there's no tomorrow!\"" ]
+    "text": [
+      "This is an advertisement for the Diet Devil brand Ethanol Burner CBM.  It shows a picture of a teenage boy driving a car while chugging a bottle of whiskey.  A tiny obese devil sits on his shoulder and drinks a martini.  The caption reads: \"Drink like there's no tomorrow!\""
+    ]
   },
   {
     "type": "snippet",
     "category": "flier",
-    "text": [ "This is an advertisement for the Twenty8 brand Diamond Cornea CBM.  It shows a picture of the cyber-module being clutched by an eagle in flight.  The captions read: \"Get the new Model 28.bx Eagle-Eye!\" and \"Twenty8.  See what you've been missing.\"" ]
+    "text": [
+      "This is an advertisement for the Twenty8 brand Diamond Cornea CBM.  It shows a picture of the cyber-module being clutched by an eagle in flight.  The captions read: \"Get the new Model 28.bx Eagle-Eye!\" and \"Twenty8.  See what you've been missing.\""
+    ]
   },
   {
     "type": "snippet",
     "category": "flier",
-    "text": [ "This is an advertisement for the Twenty8 brand Night Vision CBM.  It shows a picture of an owl swooping down on a the cyber-module.  The captions read: \"Get the new Model 28.hx Night-Owl!\" and \"Twenty8.  See what you've been missing.\"" ]
+    "text": [
+      "This is an advertisement for the Twenty8 brand Night Vision CBM.  It shows a picture of an owl swooping down on a the cyber-module.  The captions read: \"Get the new Model 28.hx Night-Owl!\" and \"Twenty8.  See what you've been missing.\""
+    ]
   },
   {
     "type": "snippet",
     "category": "flier",
-    "text": [ "This is an advertisement for the Twenty8 brand Diamond Cornea CBM.  It shows a picture of a flying hawk carrying the cyber-module in its beak.  The captions read: \"Get the new Model 28.xx Hawk-Eye!\" and \"Twenty8.  See what you've been missing.\"" ]
+    "text": [
+      "This is an advertisement for the Twenty8 brand Diamond Cornea CBM.  It shows a picture of a flying hawk carrying the cyber-module in its beak.  The captions read: \"Get the new Model 28.xx Hawk-Eye!\" and \"Twenty8.  See what you've been missing.\""
+    ]
   },
   {
     "type": "snippet",
     "category": "flier",
-    "text": [ "This is an advertisement for the Twenty8 brand Scent Vision CBM.  It shows a picture of a vulture perched on a pile of skulls and cyber-modules.  The captions read: \"Get the new Model 28.vx Vulture today!\" and \"Twenty8.  See what you've been missing.\"" ]
+    "text": [
+      "This is an advertisement for the Twenty8 brand Scent Vision CBM.  It shows a picture of a vulture perched on a pile of skulls and cyber-modules.  The captions read: \"Get the new Model 28.vx Vulture today!\" and \"Twenty8.  See what you've been missing.\""
+    ]
   },
   {
     "type": "snippet",
     "category": "flier",
-    "text": [ "This is an ad for a Twenty8 brand Infrared Vision CBM.  It shows a picture of a robotic phoenix covered in flames.  The captions read: \"Get the new Model 28.tx Phoenix today!\" and \"Twenty8.  See what you've been missing.\"" ]
+    "text": [
+      "This is an ad for a Twenty8 brand Infrared Vision CBM.  It shows a picture of a robotic phoenix covered in flames.  The captions read: \"Get the new Model 28.tx Phoenix today!\" and \"Twenty8.  See what you've been missing.\""
+    ]
   },
   {
     "type": "snippet",
     "category": "flier",
-    "text": [ "This is an advertisement for DoubleTech brand law enforcement robots.  It shows a picture of copbot and an eyebot boldly emerging from a cloud of teargas and flame.  The caption reads: \"DoubleTech Industries.  Built to Protect.  Programmed to Serve.\"" ]
+    "text": [
+      "This is an advertisement for DoubleTech brand law enforcement robots.  It shows a picture of copbot and an eyebot boldly emerging from a cloud of teargas and flame.  The caption reads: \"DoubleTech Industries.  Built to Protect.  Programmed to Serve.\""
+    ]
   },
   {
     "type": "snippet",
     "category": "flier",
-    "text": [ "This is an advertisement for DoubleTech brand law enforcement robots.  It shows a picture of an eyebot flying alongside a bald eagle and a Stealth bomber painted as an American flag.  The caption reads: \"Built to Protect.  Programmed to Serve.\"" ]
+    "text": [
+      "This is an advertisement for DoubleTech brand law enforcement robots.  It shows a picture of an eyebot flying alongside a bald eagle and a Stealth bomber painted as an American flag.  The caption reads: \"Built to Protect.  Programmed to Serve.\""
+    ]
   },
   {
     "type": "snippet",
     "category": "flier",
-    "text": [ "This is an advertisement for DoubleTech brand law enforcement robots.  It shows a picture of a dozen eyebots floating over a woman as she jogs through a park.  The captions read: \"Built to Protect.  Programmed to Serve.\"" ]
+    "text": [
+      "This is an advertisement for DoubleTech brand law enforcement robots.  It shows a picture of a dozen eyebots floating over a woman as she jogs through a park.  The captions read: \"Built to Protect.  Programmed to Serve.\""
+    ]
   },
   {
     "type": "snippet",
     "category": "flier",
-    "text": [ "This is an advertisement for DoubleTech brand law enforcement robots.  It shows a picture of copbot pepper-spraying a handcuffed rioter.  In the background a troop of boy scouts salutes the robot.  The caption reads: \"Built to Protect.  Programmed to Serve.\"" ]
+    "text": [
+      "This is an advertisement for DoubleTech brand law enforcement robots.  It shows a picture of copbot pepper-spraying a handcuffed rioter.  In the background a troop of boy scouts salutes the robot.  The caption reads: \"Built to Protect.  Programmed to Serve.\""
+    ]
   },
   {
     "type": "snippet",
     "category": "flier",
-    "text": [ "This is an advertisement for Robert's Universal Robotics brand law enforcement robots.  It shows a picture of a tribot incinerating a mob of looters and stepping over charred and smoking corpses.  The caption reads: \"R.U.R.  Technology you can Trust.\"" ]
+    "text": [
+      "This is an advertisement for Robert's Universal Robotics brand law enforcement robots.  It shows a picture of a tribot incinerating a mob of looters and stepping over charred and smoking corpses.  The caption reads: \"R.U.R.  Technology you can Trust.\""
+    ]
   },
   {
     "type": "snippet",
     "category": "flier",
-    "text": [ "This is an advertisement for Robert's Universal Robots brand labor-bots.  It shows a picture of a robot carrying a heavy pallet of bricks.  In the background a human foreman is sleeping on the job, with his hardhat pulled down over his eyes.  The captions read: \"It's a tough job, so why should you have to do it?\" and \"R.U.R.  Technology you can Trust.\"" ]
+    "text": [
+      "This is an advertisement for Robert's Universal Robots brand labor-bots.  It shows a picture of a robot carrying a heavy pallet of bricks.  In the background a human foreman is sleeping on the job, with his hardhat pulled down over his eyes.  The captions read: \"It's a tough job, so why should you have to do it?\" and \"R.U.R.  Technology you can Trust.\""
+    ]
   },
   {
     "type": "snippet",
     "category": "flier",
-    "text": [ "This is an advertisement for Robert's Universal Robots brand labor-bots.  It shows a picture of a factory floor run entirely by robots.  In the background a man in a suit reads a newspaper that shows soaring stock prices.  The caption reads: \"R.U.R.  Technology you can Trust.\"" ]
+    "text": [
+      "This is an advertisement for Robert's Universal Robots brand labor-bots.  It shows a picture of a factory floor run entirely by robots.  In the background a man in a suit reads a newspaper that shows soaring stock prices.  The caption reads: \"R.U.R.  Technology you can Trust.\""
+    ]
   },
   {
     "type": "snippet",
     "category": "flier",
-    "text": [ "This is an advertisement for Sybil's Cyber Boutique.  It shows a picture of several bikini-clad female doctors removing the skin from man's face.  The patient is strapped to a chair but cheerfully gives two thumbs up.  The caption reads: \"Free Plastic Surgery While You Wait!\"" ]
+    "text": [
+      "This is an advertisement for Sybil's Cyber Boutique.  It shows a picture of several bikini-clad female doctors removing the skin from man's face.  The patient is strapped to a chair but cheerfully gives two thumbs up.  The caption reads: \"Free Plastic Surgery While You Wait!\""
+    ]
   },
   {
     "type": "snippet",
     "category": "flier",
-    "text": [ "This is an advertisement for Sybil's Cyber Boutique.  It shows a picture of several bikini-clad nurses giving liquid medicine to a delighted patient, who uses a fingertip needle to suck it in into his veins.  Outside the window two shadow figures using the same fingertip needles to absorb something less resembling medicine.  The caption reads: \"Why use old IV when you can have Intravenous Needle CBM!\"" ]
+    "text": [
+      "This is an advertisement for Sybil's Cyber Boutique.  It shows a picture of several bikini-clad nurses giving liquid medicine to a delighted patient, who uses a fingertip needle to suck it in into his veins.  Outside the window two shadow figures using the same fingertip needles to absorb something less resembling medicine.  The caption reads: \"Why use old IV when you can have Intravenous Needle CBM!\""
+    ]
   },
   {
     "type": "snippet",
     "category": "flier",
-    "text": [ "This is an advertisement for Sybil's Cyber Boutique.  It shows a picture of a nerdy looking man surrounded by a group of admiring women.  In the foreground a blood-drenched doctor gives an exaggerated wink and two thumbs up.  The caption reads: \"Holiday sales!  Get the package deals!\"" ]
+    "text": [
+      "This is an advertisement for Sybil's Cyber Boutique.  It shows a picture of a nerdy looking man surrounded by a group of admiring women.  In the foreground a blood-drenched doctor gives an exaggerated wink and two thumbs up.  The caption reads: \"Holiday sales!  Get the package deals!\""
+    ]
   },
   {
     "type": "snippet",
     "category": "flier",
-    "text": [ "This is an advertisement for Sybil's Cyber Boutique.  It shows a picture of a man flexing shiny cybernetic arms in front of a mirror.  He is flanked by two scantily clad nurses who hold bloody chainsaws and give approving thumbs up.  In the background feral dogs gnaw on the man's discarded former limbs.  The caption reads:  \"Spring Cleaning Sale!  20% off!\"" ]
+    "text": [
+      "This is an advertisement for Sybil's Cyber Boutique.  It shows a picture of a man flexing shiny cybernetic arms in front of a mirror.  He is flanked by two scantily clad nurses who hold bloody chainsaws and give approving thumbs up.  In the background feral dogs gnaw on the man's discarded former limbs.  The caption reads:  \"Spring Cleaning Sale!  20% off!\""
+    ]
   },
   {
     "type": "snippet",
     "category": "flier",
-    "text": [ "This is an advertisement for Sybil's Cyber Boutique.  It shows a picture of a man carrying a somewhat confused horse on his shoulders.  He is flanked by two scantily clad nurses who hold bloody chainsaws and give approving thumbs up.  His bulging knees and elbows are stitched and seem to be the source of his ability.  The caption reads:  \"Brand new!  Horse power at hand!\"" ]
+    "text": [
+      "This is an advertisement for Sybil's Cyber Boutique.  It shows a picture of a man carrying a somewhat confused horse on his shoulders.  He is flanked by two scantily clad nurses who hold bloody chainsaws and give approving thumbs up.  His bulging knees and elbows are stitched and seem to be the source of his ability.  The caption reads:  \"Brand new!  Horse power at hand!\""
+    ]
   },
   {
     "type": "snippet",
     "category": "flier",
-    "text": [ "This is an advertisement for Sybil's Cyber Boutique.  It shows a picture of a man smiling while being relentlessly punched by a boxer.  He doesn't even sweat as punches have no effect on him.  Two scantily clad nurses give approving thumbs up from the background.  The caption reads:  \"Bouncy as never before!  Absorb those shocks!\"" ]
+    "text": [
+      "This is an advertisement for Sybil's Cyber Boutique.  It shows a picture of a man smiling while being relentlessly punched by a boxer.  He doesn't even sweat as punches have no effect on him.  Two scantily clad nurses give approving thumbs up from the background.  The caption reads:  \"Bouncy as never before!  Absorb those shocks!\""
+    ]
   },
   {
     "type": "snippet",
     "category": "flier",
-    "text": [ "This is an advertisement for Rivtech brand handguns.  It shows a picture of a well armed couple in business suits with matching handguns facing down a legion of villainous looking characters.  The caption reads:  \"Protect yourself with the Rivtech caseless automagnum!\"" ]
+    "text": [
+      "This is an advertisement for Rivtech brand handguns.  It shows a picture of a well armed couple in business suits with matching handguns facing down a legion of villainous looking characters.  The caption reads:  \"Protect yourself with the Rivtech caseless automagnum!\""
+    ]
   },
   {
     "type": "snippet",
     "category": "flier",
-    "text": [ "This is an advertisement for Rivtech brand rifles.  It shows a picture of a smiling soldier with a futuristic looking rifle on her shoulder saluting the viewer.  The caption reads:  \"Rivtech caseless firearms proudly supports our Military.\"" ]
+    "text": [
+      "This is an advertisement for Rivtech brand rifles.  It shows a picture of a smiling soldier with a futuristic looking rifle on her shoulder saluting the viewer.  The caption reads:  \"Rivtech caseless firearms proudly supports our Military.\""
+    ]
   },
   {
     "type": "snippet",
     "category": "flier",
-    "text": [ "This is an advertisement for Rivtech brand firearms.  It shows a picture of a trio of well armed hunters.  The three are each armed with different futuristic looking weapons and are shooting at a hostile crowd of approaching wildlife.  The caption reads:  \"Rivtech caseless firearms.  Superior stopping power.\"" ]
+    "text": [
+      "This is an advertisement for Rivtech brand firearms.  It shows a picture of a trio of well armed hunters.  The three are each armed with different futuristic looking weapons and are shooting at a hostile crowd of approaching wildlife.  The caption reads:  \"Rivtech caseless firearms.  Superior stopping power.\""
+    ]
   },
   {
     "type": "snippet",
     "category": "flier",
-    "text": [ "This is an advertisement for the Rivtech brand Muscle Augmentation CBM.  It shows a picture of a stylized, howling wolf against a red background.  The caption reads:  \"Rivtech neuroreactive myomer bionics.  The most efficient synthetic adenosine triphosphate recovery system on the market.\" and \"Rivtech Bionics, guaranteed for life.\"" ]
+    "text": [
+      "This is an advertisement for the Rivtech brand Muscle Augmentation CBM.  It shows a picture of a stylized, howling wolf against a red background.  The caption reads:  \"Rivtech neuroreactive myomer bionics.  The most efficient synthetic adenosine triphosphate recovery system on the market.\" and \"Rivtech Bionics, guaranteed for life.\""
+    ]
   },
   {
     "type": "snippet",
     "category": "flier",
-    "text": [ "This is an advertisement for the Rivtech brand Wired Reflexes CBM.  It shows a picture of a stylized, snarling black cat against a red background.  The caption reads:  \"Rivtech neuroelectric stimulation bionics.  The next level in quantum inductive piezochemical nerve stimulation technology.\" and \"Rivtech Bionics, guaranteed for life.\"" ]
+    "text": [
+      "This is an advertisement for the Rivtech brand Wired Reflexes CBM.  It shows a picture of a stylized, snarling black cat against a red background.  The caption reads:  \"Rivtech neuroelectric stimulation bionics.  The next level in quantum inductive piezochemical nerve stimulation technology.\" and \"Rivtech Bionics, guaranteed for life.\""
+    ]
   },
   {
     "type": "snippet",
     "category": "flier",
-    "text": [ "This is an advertisement for the Rivtech brand Monomolecular Blade CBM.  It shows a picture of a woman with a bionic blade extending from her arm steadfastly defending her children from an angry bear.  The caption reads:  \"Rivtech retractable monomolecular blade system.  Failure is never an option.\" and \"Rivtech Bionics, guaranteed for life.\"" ]
+    "text": [
+      "This is an advertisement for the Rivtech brand Monomolecular Blade CBM.  It shows a picture of a woman with a bionic blade extending from her arm steadfastly defending her children from an angry bear.  The caption reads:  \"Rivtech retractable monomolecular blade system.  Failure is never an option.\" and \"Rivtech Bionics, guaranteed for life.\""
+    ]
   },
   {
     "type": "snippet",
     "category": "flier",
-    "text": [ "This is an advertisement for the Rivtech brand Synaptic Accelerator CBM.  It shows a picture of a stylized, soaring raven against a red background.  The caption reads:  \"Introducing the Rivtech Model Six myelination retrovirus system.  The latest in synthetic high-performance glycoprotein deposition technology.\" and \"Rivtech Bionics, guaranteed for life.\"" ]
+    "text": [
+      "This is an advertisement for the Rivtech brand Synaptic Accelerator CBM.  It shows a picture of a stylized, soaring raven against a red background.  The caption reads:  \"Introducing the Rivtech Model Six myelination retrovirus system.  The latest in synthetic high-performance glycoprotein deposition technology.\" and \"Rivtech Bionics, guaranteed for life.\""
+    ]
   },
   {
     "type": "snippet",
     "category": "flier",
-    "text": [ "This is an advertisement for Rivtech brand ammunition.  It shows a picture of an armored steel plate with a gaping hole blasted through the middle.  Sitting beside the plate is a block of brightly colored caseless ammunition.  The caption reads:  \"Rivtech 8x40mm caseless.  Nothing else comes close.\"" ]
+    "text": [
+      "This is an advertisement for Rivtech brand ammunition.  It shows a picture of an armored steel plate with a gaping hole blasted through the middle.  Sitting beside the plate is a block of brightly colored caseless ammunition.  The caption reads:  \"Rivtech 8x40mm caseless.  Nothing else comes close.\""
+    ]
   },
   {
     "type": "snippet",
     "category": "flier",
-    "text": [ "This is an advertisement for Leadworks LLC's Home Frontier Starter Pack.  It shows a picture of a young suburban parent, equipped with rifle and revolver, keeping a steely eye on the neighborhood from the front porch.  Similarly-armed parents are visible in front of every house on the street.  Young children are at play and older ones tend a large vegetable garden.  The caption reads: \"A well-armed community is a SAFE community.  Leadworks, LLC.\"" ]
+    "text": [
+      "This is an advertisement for Leadworks LLC's Home Frontier Starter Pack.  It shows a picture of a young suburban parent, equipped with rifle and revolver, keeping a steely eye on the neighborhood from the front porch.  Similarly-armed parents are visible in front of every house on the street.  Young children are at play and older ones tend a large vegetable garden.  The caption reads: \"A well-armed community is a SAFE community.  Leadworks, LLC.\""
+    ]
   },
   {
     "type": "snippet",
     "category": "flier",
-    "text": [ "This is an advertisement for Leadworks LLC handguns.  It shows a picture of a bionic police officer assisting a young couple, who were being attacked by a gang of ruffians.  The caption reads: \"You don't have to void your warranty or wear out your thumb to achieve felon-stopping firepower.  The L39B, tried and true by our fine cyborgs in blue, is available in .45 ACP for that extra punch, and we offer semiautomatic (but equally robust!) versions for the civilian market.  Leadworks, LLC.\"" ]
+    "text": [
+      "This is a propaganda poster showing the Northrop Dispatch's military variant.  It depicts the iconic dark green, arachnoid dispatch, standing before a fence and facing away from the camera as blurring machines rush forward from its back towards black silhouettes menacing on the horizon.  It reads: \"WE ARE HERE TO PROTECT YOU.\""
+    ]
   },
   {
     "type": "snippet",
     "category": "flier",
-    "text": [ "This is an advertisement for Leadworks LLC modular weapons.  It shows a picture of an overworked-yet-grateful police sergeant assembling a sleek rifle, with similar-looking weapons racked neatly behind her.  The caption reads: \"Leadworks is proud to offer the L523 modular weapon system.  No more must armorers stock and maintain stacks and stacks of rifles, carbines, and squad support weapons, juggling multiple incompatible ammunition types!  Just procure a base unit for every trooper, and use our lightweight and portable conversion kits to swap from house-to-house CQB carbine to rooftop-patrol DSR, safely and cleanly!\"" ]
+    "text": [
+      "This is an advertisement for Leadworks LLC handguns.  It shows a picture of a bionic police officer assisting a young couple, who were being attacked by a gang of ruffians.  The caption reads: \"You don't have to void your warranty or wear out your thumb to achieve felon-stopping firepower.  The L39B, tried and true by our fine cyborgs in blue, is available in .45 ACP for that extra punch, and we offer semiautomatic (but equally robust!) versions for the civilian market.  Leadworks, LLC.\""
+    ]
   },
   {
     "type": "snippet",
     "category": "flier",
-    "text": [ "This is a public notice from the Centers for Disease Control.  Its message, repeated in several languages, reads: Due to the rising threat of so-called \"Green Fever\" the CDC would like to remind the public to cover your nose and mouth with a tissue when you cough or sneeze and wash your hands frequently with soap and water.  In light of recent events, the CDC also recommends an annual flu vaccine for everyone 6 months of age and older." ]
+    "text": [
+      "This is an advertisement for Leadworks LLC modular weapons.  It shows a picture of an overworked-yet-grateful police sergeant assembling a sleek rifle, with similar-looking weapons racked neatly behind her.  The caption reads: \"Leadworks is proud to offer the L523 modular weapon system.  No more must armorers stock and maintain stacks and stacks of rifles, carbines, and squad support weapons, juggling multiple incompatible ammunition types!  Just procure a base unit for every trooper, and use our lightweight and portable conversion kits to swap from house-to-house CQB carbine to rooftop-patrol DSR, safely and cleanly!\""
+    ]
   },
   {
     "type": "snippet",
     "category": "flier",
-    "text": [ "This is a public message from the Federal Emergency Management Agency.  Its message, repeated in several languages, reads: STAY IN YOUR HOMES!  The US government is taking steps to halt the current epidemic of \"Green Fever\" and help is currently on its way to afflicted areas.  In the name of public safety you are hereby ordered to remain in your homes until evacuated to a treatment camp by authorized agents of the United States military.  Thank you for your compliance." ]
+    "text": [
+      "This is a public notice from the Centers for Disease Control.  Its message, repeated in several languages, reads: Due to the rising threat of so-called \"Green Fever\" the CDC would like to remind the public to cover your nose and mouth with a tissue when you cough or sneeze and wash your hands frequently with soap and water.  In light of recent events, the CDC also recommends an annual flu vaccine for everyone 6 months of age and older."
+    ]
   },
   {
     "type": "snippet",
     "category": "flier",
-    "text": [ "This is a public warning from an unnamed source.  Its rambling message, poorly-photocopied onto both sides of the page, reads: Don't believe the lies!  The Army is rounding up people in death camps while the Green Fever spreads like wildfire.  Do not believe what the mainstream news-media is reporting.  All official evacuation points are death-traps.  Secure supplies and escape the cities while there is still time." ]
+    "text": [
+      "This is a public message from the Federal Emergency Management Agency.  Its message, repeated in several languages, reads: STAY IN YOUR HOMES!  The US government is taking steps to halt the current epidemic of \"Green Fever\" and help is currently on its way to afflicted areas.  In the name of public safety you are hereby ordered to remain in your homes until evacuated to a treatment camp by authorized agents of the United States military.  Thank you for your compliance."
+    ]
   },
   {
     "type": "snippet",
     "category": "flier",
-    "text": [ "This is a public message from an unnamed source.  Its message, photocopied from a scrawled handwritten copy, reads: REPENT YOUR SINS O BABYLON FOR THE TIME OF HIS JUDGEMENT IS NIGH!  LOOK UPON YOUR DESTRUCTION AND KNOW THAT IT IS JUST!  YOU WILL BE DIVIDED FATHER AGAINST SON AND MOTHER AGAINST CHILD UNTO THE VERY LAST SINNER!" ]
+    "text": [
+      "This is a public warning from an unnamed source.  Its rambling message, poorly-photocopied onto both sides of the page, reads: Don't believe the lies!  The Army is rounding up people in death camps while the Green Fever spreads like wildfire.  Do not believe what the mainstream news-media is reporting.  All official evacuation points are death-traps.  Secure supplies and escape the cities while there is still time."
+    ]
   },
   {
     "type": "snippet",
     "category": "flier",
-    "text": [ "This is a public warning from the United States Army.  Its brief message, repeated in several languages, reads:  The President of the United States has declared unilateral martial law affecting the entire nation.  Shelter in place until evacuated to an appropriate emergency management camp by authorized military personnel.  This curfew will remain in effect until further notice.  Stay indoors.  Violators will be shot on sight." ]
+    "text": [
+      "This is a public message from an unnamed source.  Its message, photocopied from a scrawled handwritten copy, reads: REPENT YOUR SINS O BABYLON FOR THE TIME OF HIS JUDGEMENT IS NIGH!  LOOK UPON YOUR DESTRUCTION AND KNOW THAT IT IS JUST!  YOU WILL BE DIVIDED FATHER AGAINST SON AND MOTHER AGAINST CHILD UNTO THE VERY LAST SINNER!"
+    ]
   },
   {
     "type": "snippet",
     "category": "flier",
-    "text": [ "This is an advertisement for Rivtech's 'ATOMIC POWER THIRST' energy drink.  While intended to advertise a new flavor called Isotope RU-238 'FRUIT', most of the text is dedicated to a long list of possible side effects: anxiety, insomnia, severe insomnia, dizziness, tremors, nausea, headache, vomiting, delusions, hallucinations, rhabdomyolysis, internal burns, thyroid cancer, extensive internal bleeding, upper gastrointestinal bleeding, diarrhea, cardiac dysrhythmia, cardiovascular collapse, suicidal ideation, seizures, ataxia, amnesia, mania, stroke, neurodegeneration, malignalitaloptereosis, necrotizing fasciitis, recurrent flu, and pinkeye." ]
+    "text": [
+      "This is a public warning from the United States Army.  Its brief message, repeated in several languages, reads:  The President of the United States has declared unilateral martial law affecting the entire nation.  Shelter in place until evacuated to an appropriate emergency management camp by authorized military personnel.  This curfew will remain in effect until further notice.  Stay indoors.  Violators will be shot on sight."
+    ]
   },
   {
     "type": "snippet",
     "category": "flier",
-    "text": [ "This is a soda advertisement.  On the front is a picture of a happy couple on a beach watching the sun set.  Between them are bottles of soda.  The poster reads, \"Cascade Cola, for those special moments\" in bold white letters." ]
+    "text": [
+      "This is an advertisement for Rivtech's 'ATOMIC POWER THIRST' energy drink.  While intended to advertise a new flavor called Isotope RU-238 'FRUIT', most of the text is dedicated to a long list of possible side effects: anxiety, insomnia, severe insomnia, dizziness, tremors, nausea, headache, vomiting, delusions, hallucinations, rhabdomyolysis, internal burns, thyroid cancer, extensive internal bleeding, upper gastrointestinal bleeding, diarrhea, cardiac dysrhythmia, cardiovascular collapse, suicidal ideation, seizures, ataxia, amnesia, mania, stroke, neurodegeneration, malignalitaloptereosis, necrotizing fasciitis, recurrent flu, and pinkeye."
+    ]
   },
   {
     "type": "snippet",
     "category": "flier",
-    "text": [ "This is a flier for a fast food chain.  In it, a man is placing an order with an attractive woman wearing a bright green shirt in the window with two happy children sitting in the back seat.  The flier reads \"Burgers, fries, and a Smile.\" Down in one corner is a company logo." ]
+    "text": [
+      "This is a soda advertisement.  On the front is a picture of a happy couple on a beach watching the sun set.  Between them are bottles of soda.  The poster reads, \"Cascade Cola, for those special moments\" in bold white letters."
+    ]
   },
   {
     "type": "snippet",
     "category": "flier",
-    "text": [ "This is an advertisement for soda.  It shows a dark brown can of soda on a black background.  The label reads \"Spin\"." ]
+    "text": [
+      "This is a flier for a fast food chain.  In it, a man is placing an order with an attractive woman wearing a bright green shirt in the window with two happy children sitting in the back seat.  The flier reads \"Burgers, fries, and a Smile.\" Down in one corner is a company logo."
+    ]
   },
   {
     "type": "snippet",
     "category": "flier",
-    "text": [ "This is a flyer for a local pizza chain.  On it is a picture of a cartoon Italian holding a pizza, with the words \"It's a goooood pizza\" written above his head." ]
+    "text": [
+      "This is an advertisement for soda.  It shows a dark brown can of soda on a black background.  The label reads \"Spin\"."
+    ]
   },
   {
     "type": "snippet",
     "category": "flier",
-    "text": [ "This is a poster advertising contact lenses.  On it is a picture of a blood shot eye with a rather long block of information beneath it making some fairly exaggerated claims about the product." ]
+    "text": [
+      "This is a flyer for a local pizza chain.  On it is a picture of a cartoon Italian holding a pizza, with the words \"It's a goooood pizza\" written above his head."
+    ]
   },
   {
     "type": "snippet",
     "category": "flier",
-    "text": [ "This is a flyer advertising a local radio station.  It has a lot of bright colors and patterns, but no definite message other than \"104.4 all the best, all the time!\" in big yellow letters." ]
+    "text": [
+      "This is a poster advertising contact lenses.  On it is a picture of a blood shot eye with a rather long block of information beneath it making some fairly exaggerated claims about the product."
+    ]
   },
   {
     "type": "snippet",
     "category": "flier",
-    "text": [ "This is a large movie poster for \"Action Packstone 6, Revenge of the Dog Men\".  It shows a fit man in a leather jacket with a revolver and a claymore walking towards the viewer.  At his side is his trusty cyberdog companion and in the background is an explosion." ]
+    "text": [
+      "This is a flyer advertising a local radio station.  It has a lot of bright colors and patterns, but no definite message other than \"104.4 all the best, all the time!\" in big yellow letters."
+    ]
   },
   {
     "type": "snippet",
     "category": "flier",
-    "text": [ "This is an illustrated poster for a brand of solar car.  The vehicle is driving through a lush country side as small animals look on.  The slogan \"Improving the world, one tank at a time.\" is written across the top in small letters." ]
+    "text": [
+      "This is a large movie poster for \"Action Packstone 6, Revenge of the Dog Men\".  It shows a fit man in a leather jacket with a revolver and a claymore walking towards the viewer.  At his side is his trusty cyberdog companion and in the background is an explosion."
+    ]
   },
   {
     "type": "snippet",
     "category": "flier",
-    "text": [ "This is a soda advertisement.  On the front is a picture of a happy couple on a beach watching the sun set.  Between them are bottles of soda.  The poster reads, \"Cascade Cola, for those special moments\" in bold white letters.  Someone has colored in the sun with a black marker.  The words \"oh Discordia\" are scrawled across the top." ]
+    "text": [
+      "This is an illustrated poster for a brand of solar car.  The vehicle is driving through a lush country side as small animals look on.  The slogan \"Improving the world, one tank at a time.\" is written across the top in small letters."
+    ]
   },
   {
     "type": "snippet",
     "category": "flier",
-    "text": [ "This is a flier for a fast food chain.  In it, a man is placing an order with an attractive woman wearing a bright green shirt in the window with two happy children in the back seat.  The flier reads \"Burgers, fries, and a Smile.\" down in one corner is a company logo.  Someone has gone to town on this one with a permanent marker.  It is now covered in rude images and racial epithets." ]
+    "text": [
+      "This is a soda advertisement.  On the front is a picture of a happy couple on a beach watching the sun set.  Between them are bottles of soda.  The poster reads, \"Cascade Cola, for those special moments\" in bold white letters.  Someone has colored in the sun with a black marker.  The words \"oh Discordia\" are scrawled across the top."
+    ]
   },
   {
     "type": "snippet",
     "category": "flier",
-    "text": [ "This is a flier for a local pizza chain.  On it is a picture of a cartoon Italian holding a pizza, with the words \"It's a goooood pizza\" written above his head.  Someone has drawn an exaggerated mustache on the cartoon Italian, along with a pair of crude, oversized breasts." ]
+    "text": [
+      "This is a flier for a fast food chain.  In it, a man is placing an order with an attractive woman wearing a bright green shirt in the window with two happy children in the back seat.  The flier reads \"Burgers, fries, and a Smile.\" down in one corner is a company logo.  Someone has gone to town on this one with a permanent marker.  It is now covered in rude images and racial epithets."
+    ]
   },
   {
     "type": "snippet",
     "category": "flier",
-    "text": [ "This is a poster advertising contact lenses.  On it is a picture of a blood shot eye.  Someone has defaced this one.  The informative part has been torn off, and written in jagged letters across the top in red crayon are the words \"ALL HAIL THE CRIMSON KING!\"." ]
+    "text": [
+      "This is a flier for a local pizza chain.  On it is a picture of a cartoon Italian holding a pizza, with the words \"It's a goooood pizza\" written above his head.  Someone has drawn an exaggerated mustache on the cartoon Italian, along with a pair of crude, oversized breasts."
+    ]
   },
   {
     "type": "snippet",
     "category": "flier",
-    "text": [ "This is an illustrated poster for a brand of solar car.  The vehicle is driving through a lush country side as small animals look on.  The slogan \"Improving the world, one tank at a time.\" is written across the top.  Someone used a blue pen to write \"who gives a shit\" across the slogan and put X's over the eyes of all the animals." ]
+    "text": [
+      "This is a poster advertising contact lenses.  On it is a picture of a blood shot eye.  Someone has defaced this one.  The informative part has been torn off, and written in jagged letters across the top in red crayon are the words \"ALL HAIL THE CRIMSON KING!\"."
+    ]
   },
   {
     "type": "snippet",
     "category": "flier",
-    "text": [ "This is a poster advertising a underground bunker.  The poster shows a nuclear bomb wiping out a city while a family huddles safely underground.  There a slogan \"Concerned about enemy attack?  Want to protect your family?  Join the VAULT program today.\" which is written in the middle.  However, there seems to be no information about *how* one might do so." ]
+    "text": [
+      "This is an illustrated poster for a brand of solar car.  The vehicle is driving through a lush country side as small animals look on.  The slogan \"Improving the world, one tank at a time.\" is written across the top.  Someone used a blue pen to write \"who gives a shit\" across the slogan and put X's over the eyes of all the animals."
+    ]
   },
   {
     "type": "snippet",
     "category": "flier",
-    "text": [ "This is a flier for Red Ryder BBGuns.  On it a child is pulling a shining red wagon with a cooked pheasant on it and a wooden rifle over one shoulder.  The child has a dog trailing beside him and a satisfied look on his face.  The caption reads \"When you chose Red Ryder, you invested in the American Dream.  You invested in our Independence.\"" ]
+    "text": [
+      "This is a poster advertising a underground bunker.  The poster shows a nuclear bomb wiping out a city while a family huddles safely underground.  There a slogan \"Concerned about enemy attack?  Want to protect your family?  Join the VAULT program today.\" which is written in the middle.  However, there seems to be no information about *how* one might do so."
+    ]
   },
   {
     "type": "snippet",
     "category": "flier",
-    "text": [ "This is an old flier for a movie from the 30s.  A tan man with slick black hair and muscles bulging through his offwhite suit is clasping a woman to his hip with one hand, and the woman is wearing a black leather dress.  With her hips splayed, she is holding a pistol in one hand and starring directly out of the advert.  The caption reads \"Witness the rebirth of New Noir with 'Jersey Shore Blues'.  Starring Jenifer Languiz as 'Snookie'!\"" ]
+    "text": [
+      "This is a flier for Red Ryder BBGuns.  On it a child is pulling a shining red wagon with a cooked pheasant on it and a wooden rifle over one shoulder.  The child has a dog trailing beside him and a satisfied look on his face.  The caption reads \"When you chose Red Ryder, you invested in the American Dream.  You invested in our Independence.\""
+    ]
   },
   {
     "type": "snippet",
     "category": "flier",
-    "text": [ "\"Have you found (y)our savior today?  Atom is here for you, it is inside you!\"  This flier marked the rising popularity of the Atom Cult, a religion in which the essence of life is discovered through meticulous inward study and pious donations." ]
+    "text": [
+      "This is an old flier for a movie from the 30s.  A tan man with slick black hair and muscles bulging through his offwhite suit is clasping a woman to his hip with one hand, and the woman is wearing a black leather dress.  With her hips splayed, she is holding a pistol in one hand and starring directly out of the advert.  The caption reads \"Witness the rebirth of New Noir with 'Jersey Shore Blues'.  Starring Jenifer Languiz as 'Snookie'!\""
+    ]
   },
   {
     "type": "snippet",
     "category": "flier",
-    "text": [ "\"Joe's Diner; 1/2 pound of meat, 3 toppings, 'your choice', all with a side of freedom fries and a BIG Gulp size pop.\"" ]
+    "text": [
+      "\"Have you found (y)our savior today?  Atom is here for you, it is inside you!\"  This flier marked the rising popularity of the Atom Cult, a religion in which the essence of life is discovered through meticulous inward study and pious donations."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "flier",
+    "text": [
+      "\"Joe's Diner; 1/2 pound of meat, 3 toppings, 'your choice', all with a side of freedom fries and a BIG Gulp size pop.\""
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "flier",
+    "text": [
+      "This is an advertisement for the Wink & Nod brand Soporific Induction CBM.  It shows a picture of a woman sleeping on a bed of nails with a satisfied smile on her face.  The caption reads: \"Catch Zs with ease, wherever you please!\""
+    ]
   },
   {
     "type": "snippet",
@@ -287,7 +413,9 @@
   {
     "type": "snippet",
     "category": "note",
-    "text": [ "\"Have seen a zombie making its kin raise even despite damage that normally would take them down, the air around it shimmered like around that hole in the air we've seen creatures coming through back home\"" ]
+    "text": [
+      "\"Have seen a zombie making its kin raise even despite damage that normally would take them down, the air around it shimmered like around that hole in the air we've seen creatures coming through back home\""
+    ]
   },
   {
     "type": "snippet",
@@ -332,17 +460,23 @@
   {
     "type": "snippet",
     "category": "note",
-    "text": [ "\"DANNY IF YOU READ THIS THIS IS CLARA WE'RE ALL OKAY AND WE'RE HEADING TO THE RIVER.  A BOAT SAID THEY WERE DOCKED NEARBY.\"" ]
+    "text": [
+      "\"DANNY IF YOU READ THIS THIS IS CLARA WE'RE ALL OKAY AND WE'RE HEADING TO THE RIVER.  A BOAT SAID THEY WERE DOCKED NEARBY.\""
+    ]
   },
   {
     "type": "snippet",
     "category": "note",
-    "text": [ "\"When I think of all the dead people I get mad, because I was supposed to be the next big leader.  WHERES MY CHANCE!??\"" ]
+    "text": [
+      "\"When I think of all the dead people I get mad, because I was supposed to be the next big leader.  WHERES MY CHANCE!??\""
+    ]
   },
   {
     "type": "snippet",
     "category": "note",
-    "text": [ "\"You know they got a machine that can change the weather now?  You put in a bunch o'numbers and the whole thing funks around!\"" ]
+    "text": [
+      "\"You know they got a machine that can change the weather now?  You put in a bunch o'numbers and the whole thing funks around!\""
+    ]
   },
   {
     "type": "snippet",
@@ -357,7 +491,23 @@
   {
     "type": "snippet",
     "category": "note",
-    "text": [ "\"Gotta slow down, man.  I don't think we spend more than 20% of our time fightin',  Put some Marley on and take off that racketus tripcore nonsense, man.\"" ]
+    "text": [
+      "\"If only I had had more time with that Autodoc I could have saved them!  But with that damn chip in their brain those poor cyborg wil never be human again...\""
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "note",
+    "text": [
+      "\"Save the cyborg!  Please whoever read this you must help them!  Knock them out or inactivate them I don't care!  But bring them on that Autodoc and remove the chip messing up their brain.\""
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "note",
+    "text": [
+      "\"Gotta slow down, man.  I don't think we spend more than 20% of our time fightin',  Put some Marley on and take off that racketus tripcore nonsense, man.\""
+    ]
   },
   {
     "type": "snippet",
@@ -372,7 +522,9 @@
   {
     "type": "snippet",
     "category": "note",
-    "text": [ "\"I got my tinfoil hat on.  Good thing too, cause this monster was starrin at me kinda funny, trying to freeze my mind in place.\"" ]
+    "text": [
+      "\"I got my tinfoil hat on.  Good thing too, cause this monster was starrin at me kinda funny, trying to freeze my mind in place.\""
+    ]
   },
   {
     "type": "snippet",
@@ -387,7 +539,9 @@
   {
     "type": "snippet",
     "category": "note",
-    "text": [ "\"ALWAYS WITH THE EFFICIENCY GUYS; YOURE ALWAYS WORKING TO GO HOME TO PAY RENT TO SLEEP TO WAKE UP TO WORK AGAIN.  STOP\"" ]
+    "text": [
+      "\"ALWAYS WITH THE EFFICIENCY GUYS; YOURE ALWAYS WORKING TO GO HOME TO PAY RENT TO SLEEP TO WAKE UP TO WORK AGAIN.  STOP\""
+    ]
   },
   {
     "type": "snippet",
@@ -397,12 +551,16 @@
   {
     "type": "snippet",
     "category": "note",
-    "text": [ "\"If you get a parasite, take some sand and some vodka.  Rub the sand into the afflicted area, real good too; like you're washing your hair.  Then rinse with vodka.\"" ]
+    "text": [
+      "\"If you get a parasite, take some sand and some vodka.  Rub the sand into the afflicted area, real good too; like you're washing your hair.  Then rinse with vodka.\""
+    ]
   },
   {
     "type": "snippet",
     "category": "note",
-    "text": [ "\"I put my toilet water into a gastank.  Then I poured it into a glass cup.  Then I drank it without vomiting my insides back into the toilet.\"" ]
+    "text": [
+      "\"I put my toilet water into a gastank.  Then I poured it into a glass cup.  Then I drank it without vomiting my insides back into the toilet.\""
+    ]
   },
   {
     "type": "snippet",
@@ -417,12 +575,16 @@
   {
     "type": "snippet",
     "category": "note",
-    "text": [ "\"They're all hiding on an oil rig, I heard it myself over the AM airwaves.  They think they're the nobles of the 21st century, the prigs.\"" ]
+    "text": [
+      "\"They're all hiding on an oil rig, I heard it myself over the AM airwaves.  They think they're the nobles of the 21st century, the prigs.\""
+    ]
   },
   {
     "type": "snippet",
     "category": "note",
-    "text": [ "The Green Fever shall purge the land for His Chosen children.  I have seen His black fire shining in the eyes of the afflicted and eagerly await the day He shall consume us all.  Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn." ]
+    "text": [
+      "The Green Fever shall purge the land for His Chosen children.  I have seen His black fire shining in the eyes of the afflicted and eagerly await the day He shall consume us all.  Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn."
+    ]
   },
   {
     "type": "snippet",
@@ -437,7 +599,9 @@
   {
     "type": "snippet",
     "category": "note",
-    "text": [ "\"Some guy is walking through the horde without a scratch.  Please tell me they're docile now.  Please fucking tell me.\"" ]
+    "text": [
+      "\"Some guy is walking through the horde without a scratch.  Please tell me they're docile now.  Please fucking tell me.\""
+    ]
   },
   {
     "type": "snippet",
@@ -452,7 +616,9 @@
   {
     "type": "snippet",
     "category": "note",
-    "text": [ "\"Some of the bridges, they're right next to each other, right?  If you see something up ahead one of those, just careen through to the other side.  My van was long enough to bridge right across!\"" ]
+    "text": [
+      "\"Some of the bridges, they're right next to each other, right?  If you see something up ahead one of those, just careen through to the other side.  My van was long enough to bridge right across!\""
+    ]
   },
   {
     "type": "snippet",
@@ -477,7 +643,9 @@
   {
     "type": "snippet",
     "category": "note",
-    "text": [ "\"Boyfriend stole my pistol while I was asleep.  I locked him in the bathroom and set the house on fire.  At least he attracted their attention.\"" ]
+    "text": [
+      "\"Boyfriend stole my pistol while I was asleep.  I locked him in the bathroom and set the house on fire.  At least he attracted their attention.\""
+    ]
   },
   {
     "type": "snippet",
@@ -497,7 +665,9 @@
   {
     "type": "snippet",
     "category": "note",
-    "text": [ "\"Why would you hide in a farm?  Sure, it's isolated, but if they know where you are, you don't exactly have cover on all sides.\"" ]
+    "text": [
+      "\"Why would you hide in a farm?  Sure, it's isolated, but if they know where you are, you don't exactly have cover on all sides.\""
+    ]
   },
   {
     "type": "snippet",
@@ -507,12 +677,16 @@
   {
     "type": "snippet",
     "category": "note",
-    "text": [ "\"how DO I use THESE bionic THINGS?  I just STUCK the wires IN my WRIST and now I CAN'T STOP twitching.  AND now my LEG hurts!  Is THAT acid?!\"" ]
+    "text": [
+      "\"how DO I use THESE bionic THINGS?  I just STUCK the wires IN my WRIST and now I CAN'T STOP twitching.  AND now my LEG hurts!  Is THAT acid?!\""
+    ]
   },
   {
     "type": "snippet",
     "category": "note",
-    "text": [ "\"I tried playing memorial music for my dead brother, on a radio.  They must have been attracted to it.  I can't see his grave through the crowd anymore.\"" ]
+    "text": [
+      "\"I tried playing memorial music for my dead brother, on a radio.  They must have been attracted to it.  I can't see his grave through the crowd anymore.\""
+    ]
   },
   {
     "type": "snippet",
@@ -527,12 +701,16 @@
   {
     "type": "snippet",
     "category": "note",
-    "text": [ "\"One of those robot tanks was blocking the way out.  Got some sort of sweetspot, though, where it can't decide what to shoot with, maybe 30 yards or so?  Made it to the truck and just drove.\"" ]
+    "text": [
+      "\"One of those robot tanks was blocking the way out.  Got some sort of sweetspot, though, where it can't decide what to shoot with, maybe 30 yards or so?  Made it to the truck and just drove.\""
+    ]
   },
   {
     "type": "snippet",
     "category": "note",
-    "text": [ "\"Those evac shelters have basements.  Remember when they were full of food?  Every single one is fucking empty now...\"" ]
+    "text": [
+      "\"Those evac shelters have basements.  Remember when they were full of food?  Every single one is fucking empty now...\""
+    ]
   },
   {
     "type": "snippet",
@@ -562,7 +740,9 @@
   {
     "type": "snippet",
     "category": "note",
-    "text": [ "\"Local auto shop is full of the things.  And to think I worked with them on repairing cars... now they're just... fucking corpses.\"" ]
+    "text": [
+      "\"Local auto shop is full of the things.  And to think I worked with them on repairing cars... now they're just... fucking corpses.\""
+    ]
   },
   {
     "type": "snippet",
@@ -572,7 +752,9 @@
   {
     "type": "snippet",
     "category": "note",
-    "text": [ "\"I used to be human.  But... my arms... they are like tentacles.  I slither along akin to a snail and I shed my feathers every day.\"" ]
+    "text": [
+      "\"I used to be human.  But... my arms... they are like tentacles.  I slither along akin to a snail and I shed my feathers every day.\""
+    ]
   },
   {
     "type": "snippet",
@@ -607,7 +789,9 @@
   {
     "type": "snippet",
     "category": "note",
-    "text": [ "\"They build modern bullets fuckin crazy.  Set some on fire and they all goes like a lil grenade.  Need kindling first.\"" ]
+    "text": [
+      "\"They build modern bullets fuckin crazy.  Set some on fire and they all goes like a lil grenade.  Need kindling first.\""
+    ]
   },
   {
     "type": "snippet",
@@ -622,12 +806,16 @@
   {
     "type": "snippet",
     "category": "note",
-    "text": [ "\"There are five basic rules to survival.  One, stay prepared and watchful.  Two, keep your iron sights lined up or succumb.  Three, stay FAR WAY from all\"" ]
+    "text": [
+      "\"There are five basic rules to survival.  One, stay prepared and watchful.  Two, keep your iron sights lined up or succumb.  Three, stay FAR WAY from all\""
+    ]
   },
   {
     "type": "snippet",
     "category": "note",
-    "text": [ "\"The bricks of this bathroom look like a face.  Haha... it's all I can focus on.  At least let me shit before you break down the door.  Please...\"" ]
+    "text": [
+      "\"The bricks of this bathroom look like a face.  Haha... it's all I can focus on.  At least let me shit before you break down the door.  Please...\""
+    ]
   },
   {
     "type": "snippet",
@@ -752,12 +940,16 @@
   {
     "type": "snippet",
     "category": "note",
-    "text": [ "\"Most things can be taken out with a shotgun.  More things can be taken out with a grenade.  Imagine what a mini-nuke does.\"" ]
+    "text": [
+      "\"Most things can be taken out with a shotgun.  More things can be taken out with a grenade.  Imagine what a mini-nuke does.\""
+    ]
   },
   {
     "type": "snippet",
     "category": "note",
-    "text": [ "\"My friend gave me lit dynamite, but it hasn't exploded yet... I don't think that's supposed to happen.  God help us.\"" ]
+    "text": [
+      "\"My friend gave me lit dynamite, but it hasn't exploded yet... I don't think that's supposed to happen.  God help us.\""
+    ]
   },
   {
     "type": "snippet",
@@ -777,7 +969,9 @@
   {
     "type": "snippet",
     "category": "note",
-    "text": [ "\"Your backpack's gonna weigh you down in the water.  Hell, feel free to get naked.  Nobody's going to judge your modesty.\"" ]
+    "text": [
+      "\"Your backpack's gonna weigh you down in the water.  Hell, feel free to get naked.  Nobody's going to judge your modesty.\""
+    ]
   },
   {
     "type": "snippet",
@@ -807,7 +1001,9 @@
   {
     "type": "snippet",
     "category": "note",
-    "text": [ "\"I left a stash of rechargeable batteries in my safe and apparently the goddamn zombie Tooth Fairy has taken them all.\"" ]
+    "text": [
+      "\"I left a stash of rechargeable batteries in my safe and apparently the goddamn zombie Tooth Fairy has taken them all.\""
+    ]
   },
   {
     "type": "snippet",
@@ -817,7 +1013,9 @@
   {
     "type": "snippet",
     "category": "note",
-    "text": [ "\"My cousin says that murder nowadays is just a war crime.  War for what, I don't know, since the undead seem to be rebels without a cause.\"" ]
+    "text": [
+      "\"My cousin says that murder nowadays is just a war crime.  War for what, I don't know, since the undead seem to be rebels without a cause.\""
+    ]
   },
   {
     "type": "snippet",
@@ -863,11 +1061,6 @@
     "type": "snippet",
     "category": "note",
     "text": [ "\"Something wrong, with cars..., ram, and,. my speedometer    read six hundred.,.thousand can't feel lungs,\"" ]
-  },
-  {
-    "type": "snippet",
-    "category": "note",
-    "text": [ "\"Somehow I managed to fit an entire goddamn lemon into this makeshift battery.\"" ]
   },
   {
     "type": "snippet",
@@ -942,7 +1135,9 @@
   {
     "type": "snippet",
     "category": "note",
-    "text": [ "\"there was a giant shell in my backyard for a few weeks.  one day a squid guy popped out of it and said his name was steve\"" ]
+    "text": [
+      "\"there was a giant shell in my backyard for a few weeks.  one day a squid guy popped out of it and said his name was steve\""
+    ]
   },
   {
     "type": "snippet",
@@ -952,7 +1147,9 @@
   {
     "type": "snippet",
     "category": "note",
-    "text": [ "\"There's nothing wrong with eating people if you HAVE to.  I mean, I only did it because I didn't want to waste my potato chips!\"" ]
+    "text": [
+      "\"There's nothing wrong with eating people if you HAVE to.  I mean, I only did it because I didn't want to waste my potato chips!\""
+    ]
   },
   {
     "type": "snippet",
@@ -1012,12 +1209,16 @@
   {
     "type": "snippet",
     "category": "note",
-    "text": [ "\"So... what happens if the military rescues us?  We're all freaks by now, right?  How the fuck are we gonna go back to real life?\"" ]
+    "text": [
+      "\"So... what happens if the military rescues us?  We're all freaks by now, right?  How the fuck are we gonna go back to real life?\""
+    ]
   },
   {
     "type": "snippet",
     "category": "note",
-    "text": [ "\"Not sure if my companion WANTED to turn into a bird, but I was the one giving her the serum, and I saved her life!  That's fair, right?\"" ]
+    "text": [
+      "\"Not sure if my companion WANTED to turn into a bird, but I was the one giving her the serum, and I saved her life!  That's fair, right?\""
+    ]
   },
   {
     "type": "snippet",
@@ -1037,7 +1238,9 @@
   {
     "type": "snippet",
     "category": "note",
-    "text": [ "\"Heard of a place up in Maine where people have their shit together.  Hundreds of people, defense, food and shelter... let's go raid it, guys!\"" ]
+    "text": [
+      "\"Heard of a place up in Maine where people have their shit together.  Hundreds of people, defense, food and shelter... let's go raid it, guys!\""
+    ]
   },
   {
     "type": "snippet",
@@ -1132,7 +1335,9 @@
   {
     "type": "snippet",
     "category": "note",
-    "text": [ "\"Gonna settle down one day.  Nice big orchard, couple of friends/future family to spend time with, and my army of zlaves to guard the place.\"" ]
+    "text": [
+      "\"Gonna settle down one day.  Nice big orchard, couple of friends/future family to spend time with, and my army of zlaves to guard the place.\""
+    ]
   },
   {
     "type": "snippet",
@@ -1147,7 +1352,9 @@
   {
     "type": "snippet",
     "category": "note",
-    "text": [ "\"tried to shoot myself but the nanobots fixed it, fucked up the controls, now i can't turn them off i just want it to be over\"" ]
+    "text": [
+      "\"tried to shoot myself but the nanobots fixed it, fucked up the controls, now i can't turn them off i just want it to be over\""
+    ]
   },
   {
     "type": "snippet",
@@ -1162,12 +1369,16 @@
   {
     "type": "snippet",
     "category": "note",
-    "text": [ "\"riddle.  what's 1/4 feathers, 1/4 scales, 1/4 metal, and 1/4 flesh?  answer: sorry, but you should know this one.\"" ]
+    "text": [
+      "\"riddle.  what's 1/4 feathers, 1/4 scales, 1/4 metal, and 1/4 flesh?  answer: sorry, but you should know this one.\""
+    ]
   },
   {
     "type": "snippet",
     "category": "note",
-    "text": [ "\"For anyone that's reading this, I just want to confirm (FROM AN UNBIASED SOURCE) that it was NOT the scientists' fault.\"" ]
+    "text": [
+      "\"For anyone that's reading this, I just want to confirm (FROM AN UNBIASED SOURCE) that it was NOT the scientists' fault.\""
+    ]
   },
   {
     "type": "snippet",
@@ -1177,17 +1388,23 @@
   {
     "type": "snippet",
     "category": "note",
-    "text": [ "\"traveled with a few friends after the thing started.  mostly stuck to bike paths and eaten fruit and mushroomdhfhghghhhh\"" ]
+    "text": [
+      "\"traveled with a few friends after the thing started.  mostly stuck to bike paths and eaten fruit and mushroomdhfhghghhhh\""
+    ]
   },
   {
     "type": "snippet",
     "category": "note",
-    "text": [ "\"We're the eagle-eyes in the sky!  Just two mutant avians in our helicopter!  Filming the Cataclysm!  Check us out on any working electronics!\"" ]
+    "text": [
+      "\"We're the eagle-eyes in the sky!  Just two mutant avians in our helicopter!  Filming the Cataclysm!  Check us out on any working electronics!\""
+    ]
   },
   {
     "type": "snippet",
     "category": "note",
-    "text": [ "\"My friend was getting eaten.  Started ranting about how he had 70 HP on his head, and that the zombie shouldn't penetrate his armor... poor guy.  Bad die roll, I guess.\"" ]
+    "text": [
+      "\"My friend was getting eaten.  Started ranting about how he had 70 HP on his head, and that the zombie shouldn't penetrate his armor... poor guy.  Bad die roll, I guess.\""
+    ]
   },
   {
     "type": "snippet",
@@ -1217,12 +1434,16 @@
   {
     "type": "snippet",
     "category": "note",
-    "text": [ "\"I'm gonna be honest here, I'm really gonna die soon so I dont want to gt forgnottedn ples dont forntget me y nrmmy name is h@@hbhbh\"" ]
+    "text": [
+      "\"I'm gonna be honest here, I'm really gonna die soon so I dont want to gt forgnottedn ples dont forntget me y nrmmy name is h@@hbhbh\""
+    ]
   },
   {
     "type": "snippet",
     "category": "note",
-    "text": [ "\"It wasn't Russia or China, guys.  It was me.  This whole apocalypse is my fault.  You can just call me... Darkling.\"" ]
+    "text": [
+      "\"It wasn't Russia or China, guys.  It was me.  This whole apocalypse is my fault.  You can just call me... Darkling.\""
+    ]
   },
   {
     "type": "snippet",
@@ -1232,7 +1453,9 @@
   {
     "type": "snippet",
     "category": "note",
-    "text": [ "\"I wonder what's in this sarcophagus?  Maybe it's a real sarcophagus.  Maybe there's a big guy named God under here.\"" ]
+    "text": [
+      "\"I wonder what's in this sarcophagus?  Maybe it's a real sarcophagus.  Maybe there's a big guy named God under here.\""
+    ]
   },
   {
     "type": "snippet",
@@ -1242,7 +1465,9 @@
   {
     "type": "snippet",
     "category": "note",
-    "text": [ "\"Got my legs dissected.  It's OK, at least I have my dog!  Her legs were also dissected, but that's OK, we're gonna be OK...\"" ]
+    "text": [
+      "\"Got my legs dissected.  It's OK, at least I have my dog!  Her legs were also dissected, but that's OK, we're gonna be OK...\""
+    ]
   },
   {
     "type": "snippet",
@@ -1282,22 +1507,30 @@
   {
     "type": "snippet",
     "category": "note",
-    "text": [ "\"Check out my cooking show on The Television!  Making Mannwurst sausages out of some of those assholes who tried to raid my kitchen earlier...\"" ]
+    "text": [
+      "\"Check out my cooking show on The Television!  Making Mannwurst sausages out of some of those assholes who tried to raid my kitchen earlier...\""
+    ]
   },
   {
     "type": "snippet",
     "category": "note",
-    "text": [ "\"Renting out my rat tunnels for 50 9mm rounds a night.  I dug them with my own claws, so you know they're the best.\"" ]
+    "text": [
+      "\"Renting out my rat tunnels for 50 9mm rounds a night.  I dug them with my own claws, so you know they're the best.\""
+    ]
   },
   {
     "type": "snippet",
     "category": "note",
-    "text": [ "\"Anyone wanna listen to some music at full volume and shoot the Zs that approach?  You pick the tunes if I get some ammo.\"" ]
+    "text": [
+      "\"Anyone wanna listen to some music at full volume and shoot the Zs that approach?  You pick the tunes if I get some ammo.\""
+    ]
   },
   {
     "type": "snippet",
     "category": "note",
-    "text": [ "\"Lots of new easy ways to burn calories now.  Fighting aminata, managing the fields, running with my wings buzzing, and more.\"" ]
+    "text": [
+      "\"Lots of new easy ways to burn calories now.  Fighting aminata, managing the fields, running with my wings buzzing, and more.\""
+    ]
   },
   {
     "type": "snippet",
@@ -1322,12 +1555,16 @@
   {
     "type": "snippet",
     "category": "note",
-    "text": [ "\"Hey, Ted.  Alexander and Cass and I are heading to Z-Mobile for the last of the meth.  Keep the lizard fetus fed for us, OK?\"" ]
+    "text": [
+      "\"Hey, Ted.  Alexander and Cass and I are heading to Z-Mobile for the last of the meth.  Keep the lizard fetus fed for us, OK?\""
+    ]
   },
   {
     "type": "snippet",
     "category": "note",
-    "text": [ "\"i say we call the material from melting down cars and dead robots 'massachusetite' or 'vermontsteel' or 'connecticut composite'\"" ]
+    "text": [
+      "\"i say we call the material from melting down cars and dead robots 'massachusetite' or 'vermontsteel' or 'connecticut composite'\""
+    ]
   },
   {
     "type": "snippet",
@@ -1342,17 +1579,23 @@
   {
     "type": "snippet",
     "category": "note",
-    "text": [ "\"Hahahahaa stupid fuck in his mansion, with his plate armor and big axe.  Guy never swung the thing in his life.  Can't block bullets, dipshit\"" ]
+    "text": [
+      "\"Hahahahaa stupid fuck in his mansion, with his plate armor and big axe.  Guy never swung the thing in his life.  Can't block bullets, dipshit\""
+    ]
   },
   {
     "type": "snippet",
     "category": "note",
-    "text": [ "\"I woke up with a dozen bears in a tribe outside the vault.  One was covered in red markings, glowing-- speaking.\"" ]
+    "text": [
+      "\"I woke up with a dozen bears in a tribe outside the vault.  One was covered in red markings, glowing-- speaking.\""
+    ]
   },
   {
     "type": "snippet",
     "category": "note",
-    "text": [ "\"poor guy.  watched him from afar with my binocs for months and months.  today he died fighting.  feels like i knew him even though i never approached.\"" ]
+    "text": [
+      "\"poor guy.  watched him from afar with my binocs for months and months.  today he died fighting.  feels like i knew him even though i never approached.\""
+    ]
   },
   {
     "type": "snippet",
@@ -1372,7 +1615,9 @@
   {
     "type": "snippet",
     "category": "note",
-    "text": [ "\"That little fakkin rat din say anythin till we whacked him with a steel chain!  Then 'e just wanted to know if he could buy the chain!\"" ]
+    "text": [
+      "\"That little fakkin rat din say anythin till we whacked him with a steel chain!  Then 'e just wanted to know if he could buy the chain!\""
+    ]
   },
   {
     "type": "snippet",
@@ -1397,17 +1642,23 @@
   {
     "type": "snippet",
     "category": "note",
-    "text": [ "\"Started my own brewery recently.  I just need some glass bottles, now!  Several thousand!  I'm planning way ahead.\"" ]
+    "text": [
+      "\"Started my own brewery recently.  I just need some glass bottles, now!  Several thousand!  I'm planning way ahead.\""
+    ]
   },
   {
     "type": "snippet",
     "category": "note",
-    "text": [ "\"We're the eagle-eyes in the sky!  We're gonna fly our bird 'copter!  Northward!  And bomb the military checkpoint!  Wish us luck!\"" ]
+    "text": [
+      "\"We're the eagle-eyes in the sky!  We're gonna fly our bird 'copter!  Northward!  And bomb the military checkpoint!  Wish us luck!\""
+    ]
   },
   {
     "type": "snippet",
     "category": "note",
-    "text": [ "\"Heard recently of some radio op who lives in a skyscraper, announcing where those hordes are going.  Couldn't find the frequency, though.\"" ]
+    "text": [
+      "\"Heard recently of some radio op who lives in a skyscraper, announcing where those hordes are going.  Couldn't find the frequency, though.\""
+    ]
   },
   {
     "type": "snippet",
@@ -1492,12 +1743,16 @@
   {
     "type": "snippet",
     "category": "note",
-    "text": [ "\"Found some food in a box outside my house.  We ate it and now the fungaloids aren't harming us.  I think we are a mushroom now\"" ]
+    "text": [
+      "\"Found some food in a box outside my house.  We ate it and now the fungaloids aren't harming us.  I think we are a mushroom now\""
+    ]
   },
   {
     "type": "snippet",
     "category": "note",
-    "text": [ "\"saw the girl again.  she looked dead exhausted and walked right into the fungus.  30 mins later and she walked out good as new\"" ]
+    "text": [
+      "\"saw the girl again.  she looked dead exhausted and walked right into the fungus.  30 mins later and she walked out good as new\""
+    ]
   },
   {
     "type": "snippet",
@@ -1522,7 +1777,9 @@
   {
     "type": "snippet",
     "category": "note",
-    "text": [ "\"Go to every fungus patch you find but WEAR A SUIT.  Food there is very very filling.  Look for pink berries, blue flowers\"" ]
+    "text": [
+      "\"Go to every fungus patch you find but WEAR A SUIT.  Food there is very very filling.  Look for pink berries, blue flowers\""
+    ]
   },
   {
     "type": "snippet",
@@ -1653,7 +1910,73 @@
   {
     "type": "snippet",
     "category": "flier",
-    "text": [ "This is an advertisement for a local hospital.  You see a clean hospital room with a smiling man lying on the bed.  The bed is connected to some medical apparatus with a \"Autodoc Mk. X\" printed on it.  A doctor is seen working with its console, while his assistant is unpacking some high-tech hardware.  The caption reads: \"Autodoc - augmentation has never been so easy, reliable, and safe.\"" ]
+    "text": [
+      "This is an advertisement for a local hospital.  You see a clean hospital room with a smiling man lying on the bed.  The bed is connected to some medical apparatus with a \"Autodoc Mk. X\" printed on it.  A doctor is seen working with its console, while his assistant is unpacking some high-tech hardware.  The caption reads: \"Autodoc - augmentation has never been so easy, reliable, and safe.\""
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "scores",
+    "text": [
+      "The card is printed with 2 boxes.  In the first box you see a tally of 5 tick marks.  The second box has a total of 9."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "scores",
+    "text": [
+      "The card is printed with 2 boxes.  In the first box you see a tally of 3 tick marks.  The second box has line trailing off to the edge and a bloody fingerprint."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "scores",
+    "text": [ "The card is printed for a game of golf. Someone has filled out their score for the first 9 holes." ]
+  },
+  {
+    "type": "snippet",
+    "category": "charsheet",
+    "text": [ "It's a Dungeons & Dragons 6th Edition character sheet.  This one is for a fighter." ]
+  },
+  {
+    "type": "snippet",
+    "category": "charsheet",
+    "text": [ "It's a Dungeons & Dragons 6th Edition character sheet.  This one is for a bard." ]
+  },
+  {
+    "type": "snippet",
+    "category": "charsheet",
+    "text": [ "It's a Dungeons & Dragons 6th Edition character sheet.  This one is for a cleric." ]
+  },
+  {
+    "type": "snippet",
+    "category": "charsheet",
+    "text": [ "It's a Dungeons & Dragons 6th Edition character sheet.  This one is for a wizard." ]
+  },
+  {
+    "type": "snippet",
+    "category": "charsheet",
+    "text": [ "It's a Dungeons & Dragons 6th Edition character sheet.  This one is for a rogue." ]
+  },
+  {
+    "type": "snippet",
+    "category": "charsheet",
+    "text": [ "It's a Dungeons & Dragons 6th Edition character sheet.  This one is for a barbarian." ]
+  },
+  {
+    "type": "snippet",
+    "category": "charsheet",
+    "text": [ "It's a Dungeons & Dragons 6th Edition character sheet.  This one is for a warlock." ]
+  },
+  {
+    "type": "snippet",
+    "category": "charsheet",
+    "text": [ "It's a Dungeons & Dragons 6th Edition character sheet.  This one is for a paladin." ]
+  },
+  {
+    "type": "snippet",
+    "category": "charsheet",
+    "text": [ "It's a Dungeons & Dragons 6th Edition character sheet.  This one is for a sorcerer." ]
   },
   {
     "type": "snippet",

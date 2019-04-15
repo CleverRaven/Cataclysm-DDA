@@ -64,7 +64,7 @@ item_penalties get_item_penalties( std::list<item>::const_iterator worn_item_it,
         if( !worn_item_it->covers( bp ) ) {
             continue;
         }
-        int num_items = std::count_if( c.worn.begin(), c.worn.end(),
+        const int num_items = std::count_if( c.worn.begin(), c.worn.end(),
         [layer, bp]( const item & i ) {
             return i.get_layer() == layer && i.covers( bp );
         } );
@@ -278,11 +278,11 @@ std::vector<std::string> clothing_protection( const item &worn_item, const int w
     const std::string space = "  ";
     prot.push_back( string_format( "<color_c_green>[%s]</color>", _( "Protection" ) ) );
     prot.push_back( name_and_value( space + _( "Bash:" ),
-                                    string_format( "%3d", int( worn_item.bash_resist() ) ), width ) );
+                                    string_format( "%3d", static_cast<int>( worn_item.bash_resist() ) ), width ) );
     prot.push_back( name_and_value( space + _( "Cut:" ),
-                                    string_format( "%3d", int( worn_item.cut_resist() ) ), width ) );
+                                    string_format( "%3d", static_cast<int>( worn_item.cut_resist() ) ), width ) );
     prot.push_back( name_and_value( space + _( "Environmental:" ),
-                                    string_format( "%3d", int( worn_item.get_env_resist() ) ), width ) );
+                                    string_format( "%3d", static_cast<int>( worn_item.get_env_resist() ) ), width ) );
     return prot;
 }
 
@@ -525,7 +525,7 @@ void player::sort_armor()
                            ( tmp_worn.size() ) : cont_h - 2;
 
         // Ensure leftListIndex is in bounds
-        int new_index_upper_bound = std::max( 0, int( tmp_worn.size() ) - 1 );
+        int new_index_upper_bound = std::max( 0, static_cast<int>( tmp_worn.size() ) - 1 );
         leftListIndex = std::min( leftListIndex, new_index_upper_bound );
 
         // Left header
@@ -554,12 +554,12 @@ void player::sort_armor()
         // Left footer
         mvwprintz( w_sort_left, cont_h - 1, 0, c_light_gray, _( "(Outermost)" ) );
         if( leftListSize > static_cast<int>( tmp_worn.size() ) ) {
-            // @todo: replace it by right_print()
+            // TODO: replace it by right_print()
             mvwprintz( w_sort_left, cont_h - 1, left_w - utf8_width( _( "<more>" ) ),
                        c_light_blue, _( "<more>" ) );
         }
         if( leftListSize == 0 ) {
-            // @todo: replace it by right_print()
+            // TODO: replace it by right_print()
             mvwprintz( w_sort_left, cont_h - 1, left_w - utf8_width( _( "<empty>" ) ),
                        c_light_blue, _( "<empty>" ) );
         }
@@ -613,7 +613,7 @@ void player::sort_armor()
         // Right footer
         mvwprintz( w_sort_right, cont_h - 1, 0, c_light_gray, _( "(Outermost)" ) );
         if( rightListSize > cont_h - 2 ) {
-            // @todo: replace it by right_print()
+            // TODO: replace it by right_print()
             mvwprintz( w_sort_right, cont_h - 1, right_w - utf8_width( _( "<more>" ) ), c_light_blue,
                        _( "<more>" ) );
         }
@@ -739,7 +739,7 @@ void player::sort_armor()
                         } );
                     }
                 } else if( is_npc() ) {
-                    // @todo: Pass the reason here
+                    // TODO: Pass the reason here
                     popup( _( "Can't put this on!" ) );
                 }
             }
@@ -758,7 +758,7 @@ void player::sort_armor()
                     // reorder `worn` vector to place new item at cursor
                     worn.splice( cursor_it, worn, *new_equip_it );
                 } else if( is_npc() ) {
-                    // @todo: Pass the reason here
+                    // TODO: Pass the reason here
                     popup( _( "Can't put this on!" ) );
                 }
             }

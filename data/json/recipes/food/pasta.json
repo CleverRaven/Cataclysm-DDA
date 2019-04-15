@@ -220,6 +220,7 @@
     "subcategory": "CSC_FOOD_PASTA",
     "skill_used": "cooking",
     "difficulty": 1,
+    "charges": 2,
     "time": 10000,
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 3 } ],
@@ -241,7 +242,7 @@
         [ "sausage", 1 ],
         [ "bratwurst_sausage", 1 ]
       ],
-      [ [ "cheese", 1 ], [ "cheese_hard", 1 ], [ "can_cheese", 1 ] ],
+      [ [ "cheese", 2 ], [ "cheese_hard", 2 ], [ "can_cheese", 2 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]
   },

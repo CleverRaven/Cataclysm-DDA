@@ -117,7 +117,7 @@
         "H": "t_floor",
         "I": "t_floor",
         "L": "t_linoleum_white",
-        "P": "t_palisade_gate_o",
+        "P": "t_dirt",
         "S": "t_shrub",
         "T": "t_floor",
         "W": "t_window",
@@ -848,7 +848,6 @@
         { "item": "cannabis", "repeat": 1, "x": 18, "y": 15 }
       ],
       "furniture": {
-        "#": "f_plant_harvest",
         "&": "f_sink",
         "+": "f_null",
         "-": "f_null",
@@ -879,7 +878,6 @@
         "k": "f_null",
         "l": "f_null",
         "o": "f_oven",
-        "p": "f_plant_harvest",
         "r": "f_null",
         "s": "f_null",
         "t": "f_table",
@@ -911,6 +909,10 @@
         { "chance": 65, "item": "bed", "x": [ 20, 21 ], "y": [ 2, 3 ] },
         { "chance": 30, "item": "snacks", "x": 2, "y": 3 }
       ],
+      "sealed_item": {
+        "#": { "item": { "item": "seed_weed" }, "furniture": "f_plant_harvest" },
+        "p": { "item": { "item": "seed_weed" }, "furniture": "f_plant_harvest" }
+      },
       "place_toilets": [ { "x": 11, "y": 8 } ],
       "rows": [
         "....s.s.s....SSSP..s.s..",

@@ -48,7 +48,7 @@ std::string dependency_node::s_errors()
 {
     std::stringstream ret;
     for( auto &elem : all_errors ) {
-        ret << error_keyvals[( unsigned )( elem.first )];
+        ret << error_keyvals[static_cast<unsigned>( elem.first )];
         ret << enumerate_as_string( elem.second, enumeration_conjunction::none );
     }
     return ret.str();

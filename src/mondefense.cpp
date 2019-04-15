@@ -36,8 +36,13 @@ void mdefense::zapback( monster &m, Creature *const source,
     const player *const foe = dynamic_cast<player *>( source );
 
     // Players/NPCs can avoid the shock by using non-conductive weapons
-    if( foe != nullptr && foe->is_armed() && !foe->weapon.conductive() ) {
-        return;
+    if( foe != nullptr && !foe->weapon.conductive() ) {
+        if( foe->reach_attacking ) {
+            return;
+        }
+        if( !foe->used_weapon().is_null() ) {
+            return;
+        }
     }
 
     if( source->is_elec_immune() ) {
@@ -94,7 +99,7 @@ void mdefense::acidsplash( monster &m, Creature *const source,
         }
     }
 
-    tripoint initial_target = source == nullptr ? m.pos() : source->pos();
+    const tripoint initial_target = source == nullptr ? m.pos() : source->pos();
 
     // Don't splatter directly on the `m`, that doesn't work well
     auto pts = closest_tripoints_first( 1, initial_target );

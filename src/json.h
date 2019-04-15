@@ -1,3 +1,4 @@
+#pragma once
 #ifndef JSON_H
 #define JSON_H
 
@@ -658,10 +659,11 @@ class JsonObject
     public:
         JsonObject( JsonIn &jsin );
         JsonObject( const JsonObject &jsobj );
-        JsonObject() : positions(), start( 0 ), end( 0 ), jsin( NULL ) {}
+        JsonObject() : start( 0 ), end( 0 ), jsin( NULL ) {}
         ~JsonObject() {
             finish();
         }
+        JsonObject &operator=( const JsonObject & );
 
         void finish(); // moves the stream to the end of the object
         size_t size();
@@ -831,10 +833,11 @@ class JsonArray
     public:
         JsonArray( JsonIn &jsin );
         JsonArray( const JsonArray &jsarr );
-        JsonArray() : positions(), start( 0 ), index( 0 ), end( 0 ), jsin( NULL ) {};
+        JsonArray() : start( 0 ), index( 0 ), end( 0 ), jsin( NULL ) {};
         ~JsonArray() {
             finish();
         }
+        JsonArray &operator=( const JsonArray & );
 
         void finish(); // move the stream position to the end of the array
 

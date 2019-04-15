@@ -13,6 +13,7 @@
 #include "debug.h"
 #include "faction.h"
 #include "field.h"
+#include "game_constants.h"
 #include "game_inventory.h"
 #include "gamemode.h"
 #include "gates.h"
@@ -48,6 +49,7 @@
 
 const efftype_id effect_alarm_clock( "alarm_clock" );
 const efftype_id effect_laserlocked( "laserlocked" );
+const efftype_id effect_relax_gas( "relax_gas" );
 
 static const bionic_id bio_remote( "bio_remote" );
 
@@ -57,7 +59,7 @@ static const trait_id trait_SHELL2( "SHELL2" );
 const skill_id skill_driving( "driving" );
 const skill_id skill_melee( "melee" );
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
 extern std::map<std::string, std::list<input_event>> quick_shortcuts_map;
 extern bool add_best_key_for_action_to_quick_shortcuts( action_id action,
         const std::string &category, bool back );
@@ -108,13 +110,17 @@ input_context game::get_player_input( std::string &action )
     user_turn current_turn;
 
     if( get_option<bool>( "ANIMATIONS" ) ) {
-        int iStartX = ( TERRAIN_WINDOW_WIDTH > 121 ) ? ( TERRAIN_WINDOW_WIDTH - 121 ) / 2 : 0;
-        int iStartY = ( TERRAIN_WINDOW_HEIGHT > 121 ) ? ( TERRAIN_WINDOW_HEIGHT - 121 ) / 2 : 0;
-        int iEndX = ( TERRAIN_WINDOW_WIDTH > 121 ) ? TERRAIN_WINDOW_WIDTH - ( TERRAIN_WINDOW_WIDTH - 121 ) /
+        const int TOTAL_VIEW = MAX_VIEW_DISTANCE * 2 + 1;
+        int iStartX = ( TERRAIN_WINDOW_WIDTH > TOTAL_VIEW ) ? ( TERRAIN_WINDOW_WIDTH - TOTAL_VIEW ) / 2 : 0;
+        iStartX -= g->sidebar_offset.x;
+        int iStartY = ( TERRAIN_WINDOW_HEIGHT > TOTAL_VIEW ) ? ( TERRAIN_WINDOW_HEIGHT - TOTAL_VIEW ) / 2 :
+                      0;
+        int iEndX = ( TERRAIN_WINDOW_WIDTH > TOTAL_VIEW ) ? TERRAIN_WINDOW_WIDTH -
+                    ( TERRAIN_WINDOW_WIDTH - TOTAL_VIEW ) /
                     2 :
                     TERRAIN_WINDOW_WIDTH;
-        int iEndY = ( TERRAIN_WINDOW_HEIGHT > 121 ) ? TERRAIN_WINDOW_HEIGHT -
-                    ( TERRAIN_WINDOW_HEIGHT - 121 ) /
+        int iEndY = ( TERRAIN_WINDOW_HEIGHT > TOTAL_VIEW ) ? TERRAIN_WINDOW_HEIGHT -
+                    ( TERRAIN_WINDOW_HEIGHT - TOTAL_VIEW ) /
                     2 : TERRAIN_WINDOW_HEIGHT;
 
         if( fullscreen ) {
@@ -126,10 +132,10 @@ input_context game::get_player_input( std::string &action )
 
         //x% of the Viewport, only shown on visible areas
         const auto weather_info = get_weather_animation( weather );
-        int offset_x = ( u.posx() + u.view_offset.x ) - getmaxx( w_terrain ) / 2;
-        int offset_y = ( u.posy() + u.view_offset.y ) - getmaxy( w_terrain ) / 2;
+        int offset_x = ( u.posx() + u.view_offset.x ) - ( getmaxx( w_terrain ) / 2 ) + g->sidebar_offset.x;
+        int offset_y = ( u.posy() + u.view_offset.y ) - ( getmaxy( w_terrain ) / 2 ) + g->sidebar_offset.y;
 
-#ifdef TILES
+#if defined(TILES)
         if( tile_iso && use_tiles ) {
             iStartX = 0;
             iStartY = 0;
@@ -142,7 +148,7 @@ input_context game::get_player_input( std::string &action )
 
         // TODO: Move the weather calculations out of here.
         const bool bWeatherEffect = ( weather_info.glyph != '?' );
-        const int dropCount = int( iEndX * iEndY * weather_info.factor );
+        const int dropCount = static_cast<int>( iEndX * iEndY * weather_info.factor );
 
         weather_printable wPrint;
         wPrint.colGlyph = weather_info.color;
@@ -171,7 +177,7 @@ input_context game::get_player_input( std::string &action )
                 WEATHER_FLURRIES | WEATHER_SNOW | WEATHER_SNOWSTORM = "weather_snowflake"
                 */
 
-#ifdef TILES
+#if defined(TILES)
                 if( !use_tiles ) {
 #endif //TILES
                     //If not using tiles, erase previous drops from w_terrain
@@ -181,11 +187,11 @@ input_context game::get_player_input( std::string &action )
                         wmove( w_terrain, location.y - offset_y, location.x - offset_x );
                         if( !m.apply_vision_effects( w_terrain, m.get_visibility( lighting, cache ) ) ) {
                             m.drawsq( w_terrain, u, location, false, true,
-                                      u.pos() + u.view_offset,
+                                      u.pos() + u.view_offset + g->sidebar_offset,
                                       lighting == LL_LOW, lighting == LL_BRIGHT );
                         }
                     }
-#ifdef TILES
+#if defined(TILES)
                 }
 #endif //TILES
                 wPrint.vdrops.clear();
@@ -209,7 +215,7 @@ input_context game::get_player_input( std::string &action )
             }
             // don't bother calculating SCT if we won't show it
             if( uquit != QUIT_WATCH && get_option<bool>( "ANIMATION_SCT" ) ) {
-#ifdef TILES
+#if defined(TILES)
                 if( !use_tiles ) {
 #endif
                     for( auto &elem : SCT.vSCT ) {
@@ -221,13 +227,13 @@ input_context game::get_player_input( std::string &action )
                                 wmove( w_terrain, location.y - offset_y, location.x - offset_x );
                                 if( !m.apply_vision_effects( w_terrain, m.get_visibility( lighting, cache ) ) ) {
                                     m.drawsq( w_terrain, u, location, false, true,
-                                              u.pos() + u.view_offset,
+                                              u.pos() + u.view_offset + g->sidebar_offset,
                                               lighting == LL_LOW, lighting == LL_BRIGHT );
                                 }
                             }
                         }
                     }
-#ifdef TILES
+#if defined(TILES)
                 }
 #endif
 
@@ -273,9 +279,9 @@ input_context game::get_player_input( std::string &action )
             }
 
             wrefresh( w_terrain );
+            g->draw_panels();
 
             if( uquit == QUIT_WATCH ) {
-                draw_sidebar();
 
                 query_popup()
                 .wait_message( c_red, _( "Press %s to accept your fate..." ), ctxt.get_desc( "QUIT" ) )
@@ -284,9 +290,6 @@ input_context game::get_player_input( std::string &action )
 
                 break;
             }
-
-            //updating the pixel minimap here allows red flashing indicators for enemies to actually flicker
-            draw_pixel_minimap();
         }
         ctxt.reset_timeout();
     } else {
@@ -538,7 +541,7 @@ static void grab()
         } else {
             add_msg( _( "You grab the %s." ), m.furnname( grabp ).c_str() );
         }
-    } else { // @todo: grab mob? Captured squirrel = pet (or meat that stays fresh longer).
+    } else { // TODO: grab mob? Captured squirrel = pet (or meat that stays fresh longer).
         add_msg( m_info, _( "There's nothing to grab there!" ) );
     }
 }
@@ -632,7 +635,8 @@ static void smash()
             u.deal_damage( nullptr, bp_hand_r, damage_instance( DT_CUT, rng( 0, vol ) ) );
             if( vol > 20 ) {
                 // Hurt left arm too, if it was big
-                u.deal_damage( nullptr, bp_hand_l, damage_instance( DT_CUT, rng( 0, long( vol * .5 ) ) ) );
+                u.deal_damage( nullptr, bp_hand_l, damage_instance( DT_CUT, rng( 0,
+                               static_cast<long>( vol * .5 ) ) ) );
             }
             u.remove_weapon();
             u.check_dead_state();
@@ -741,9 +745,10 @@ static void sleep()
             continue;
         }
 
+        // some bionics
         // bio_alarm is useful for waking up during sleeping
         // turning off bio_leukocyte has 'unpleasant side effects'
-        if( bio.id == bionic_id( "bio_alarm" ) || bio.id == bionic_id( "bio_leukocyte" ) ) {
+        if( bio.info().sleep_friendly ) {
             continue;
         }
 
@@ -758,6 +763,17 @@ static void sleep()
             active.push_back( mdata.name() );
         }
     }
+
+    // check for deactivating any currently played music instrument.
+    for( auto &item : u.inv_dump() ) {
+        if( item->active && item->get_use( "musical_instrument" ) != nullptr ) {
+            u.add_msg_if_player( _( "You stop playing your %s before trying to sleep." ), item->tname() );
+            // deactivate instrument
+            item->active = false;
+        }
+    }
+
+    // ask for deactivation
     std::stringstream data;
     if( !active.empty() ) {
         data << as_m.text << std::endl;
@@ -828,12 +844,17 @@ static void loot()
 
     player &u = g->u;
     int flags = 0;
-    const auto &mgr = zone_manager::get_manager();
+    auto &mgr = zone_manager::get_manager();
     const bool has_hoe = u.has_quality( quality_id( "DIG" ), 1 );
     const bool has_seeds = u.has_item_with( []( const item & itm ) {
         return itm.is_seed();
     } );
     const bool has_fertilizer = u.has_item_with_flag( "FERTILIZER" );
+
+    // Manually update vehicle cache.
+    // In theory this would be handled by the related activity (activity_on_turn_move_loot())
+    // but with a stale cache we never get that far.
+    mgr.cache_vzones();
 
     flags |= g->check_near_zone( zone_type_id( "LOOT_UNSORTED" ), u.pos() ) ? SortLoot : 0;
     if( g->check_near_zone( zone_type_id( "FARM_PLOT" ), u.pos() ) ) {
@@ -858,7 +879,7 @@ static void loot()
 
         if( flags & SortLoot ) {
             menu.addentry_desc( SortLoot, true, 'o', _( "Sort out my loot" ),
-                                _( "Sorts out the loot from Loot: Unsorted zone to nerby appropriate Loot zones. Uses empty space in your inventory or utilizes a cart, if you are holding one." ) );
+                                _( "Sorts out the loot from Loot: Unsorted zone to nearby appropriate Loot zones. Uses empty space in your inventory or utilizes a cart, if you are holding one." ) );
         }
 
         if( flags & TillPlots ) {
@@ -963,7 +984,7 @@ static void read()
 // Perform a reach attach
 // range - the range of the current weapon.
 // u - player
-static void reach_attach( int range, player &u )
+static void reach_attack( int range, player &u )
 {
     g->temp_exit_fullscreen();
     g->m.draw( g->w_terrain, u.pos() );
@@ -974,6 +995,7 @@ static void reach_attach( int range, player &u )
     }
     g->draw_ter();
     wrefresh( g->w_terrain );
+    g->draw_panels();
     g->reenter_fullscreen();
 }
 
@@ -987,7 +1009,7 @@ static void fire()
         const optional_vpart_position vp = g->m.veh_at( u.pos() );
 
         turret_data turret;
-        // @todo: move direct turret firing from ACTION_FIRE to separate function.
+        // TODO: move direct turret firing from ACTION_FIRE to separate function.
         if( vp && ( turret = vp->vehicle().turret_query( u.pos() ) ) ) {
             switch( turret.query() ) {
                 case turret_data::status::no_ammo:
@@ -1085,10 +1107,30 @@ static void fire()
         g->plfire( u.weapon );
     } else if( u.weapon.has_flag( "REACH_ATTACK" ) ) {
         int range = u.weapon.has_flag( "REACH3" ) ? 3 : 2;
-        reach_attach( range, u );
+        if( u.has_effect( effect_relax_gas ) ) {
+            if( one_in( 8 ) ) {
+                add_msg( m_good, _( "Your willpower asserts itself, and so do you!" ) );
+                reach_attack( range, u );
+            } else {
+                u.moves -= rng( 2, 8 ) * 10;
+                add_msg( m_bad, _( "You're too pacified to strike anything..." ) );
+            }
+        } else {
+            reach_attack( range, u );
+        }
     } else if( u.weapon.is_gun() && u.weapon.gun_current_mode().flags.count( "REACH_ATTACK" ) ) {
         int range = u.weapon.gun_current_mode().qty;
-        reach_attach( range, u );
+        if( u.has_effect( effect_relax_gas ) ) {
+            if( one_in( 8 ) ) {
+                add_msg( m_good, _( "Your willpower asserts itself, and so do you!" ) );
+                reach_attack( range, u );
+            } else {
+                u.moves -= rng( 2, 8 ) * 10;
+                add_msg( m_bad, _( "You're too pacified to strike anything..." ) );
+            }
+        } else {
+            reach_attack( range, u );
+        }
     }
 }
 
@@ -1149,7 +1191,7 @@ bool game::handle_action()
             if( act == ACTION_NULL ) {
                 return false;
             }
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
             if( get_option<bool>( "ANDROID_ACTIONMENU_AUTOADD" ) && ctxt.get_category() == "DEFAULTMODE" ) {
                 add_best_key_for_action_to_quick_shortcuts( act, ctxt.get_category(), false );
             }
@@ -1557,8 +1599,12 @@ bool game::handle_action()
                 u.pick_style();
                 break;
 
-            case ACTION_RELOAD:
-                reload();
+            case ACTION_RELOAD_ITEM:
+                reload_item();
+                break;
+
+            case ACTION_RELOAD_WEAPON:
+                reload_weapon();
                 break;
 
             case ACTION_UNLOAD:
@@ -1784,6 +1830,15 @@ bool game::handle_action()
                 ui::omap::display();
                 break;
 
+            case ACTION_SKY:
+                if( m.is_outside( u.pos() ) ) {
+                    werase( w_terrain );
+                    ui::omap::display_visible_weather();
+                } else {
+                    add_msg( m_info, _( "You can't see the sky from here." ) );
+                }
+                break;
+
             case ACTION_MISSIONS:
                 list_missions();
                 break;
@@ -1793,7 +1848,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_FACTIONS:
-                faction_manager_ptr->display();
+                new_faction_manager_ptr->display();
                 refresh_all();
                 break;
 
@@ -1850,16 +1905,16 @@ bool game::handle_action()
                 refresh_all();
                 break;
 
-            case ACTION_TOGGLE_SIDEBAR_STYLE:
-                toggle_sidebar_style();
-                break;
-
             case ACTION_TOGGLE_FULLSCREEN:
                 toggle_fullscreen();
                 break;
 
             case ACTION_TOGGLE_PIXEL_MINIMAP:
                 toggle_pixel_minimap();
+                break;
+
+            case ACTION_TOGGLE_PANEL_ADM:
+                toggle_panel_adm();
                 break;
 
             case ACTION_RELOAD_TILESET:
@@ -1949,6 +2004,6 @@ bool game::handle_action()
 
     u.movecounter = ( !u.is_dead_state() ? ( before_action_moves - u.moves ) : 0 );
     dbg( D_INFO ) << string_format( "%s: [%d] %d - %d = %d", action_ident( act ).c_str(),
-                                    int( calendar::turn ), before_action_moves, u.movecounter, u.moves );
+                                    static_cast<int>( calendar::turn ), before_action_moves, u.movecounter, u.moves );
     return ( !u.is_dead_state() );
 }

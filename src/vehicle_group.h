@@ -28,7 +28,7 @@ extern std::unordered_map<vgroup_id, VehicleGroup> vgroups;
 class VehicleGroup
 {
     public:
-        VehicleGroup() : vehicles() {}
+        VehicleGroup() {}
 
         void add_vehicle( const vproto_id &type, const int &probability ) {
             vehicles.add( type, probability );
@@ -153,7 +153,7 @@ class VehicleFunction_json : public VehicleFunction
 class VehicleSpawn
 {
     public:
-        VehicleSpawn() : types() {}
+        VehicleSpawn() {}
 
         void add( const double &weight, const std::shared_ptr<VehicleFunction> &func ) {
             types.add( func, weight );

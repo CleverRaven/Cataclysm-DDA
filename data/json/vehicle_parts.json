@@ -673,8 +673,9 @@
     "broken_color": "dark_gray",
     "flags": [ "NO_REPAIR" ],
     "requirements": {
-    "install": { "skills": [ [ "mechanics", 2 ] ], "qualities": [ { "id": "SCREW", "level": 3 }, { "id": "WRENCH", "level": 3 } ] },
-    "removal": { "skills": [ [ "mechanics", 2 ] ], "qualities": [ { "id": "SCREW", "level": 1 } ] } },
+      "install": { "skills": [ [ "mechanics", 2 ] ], "qualities": [ { "id": "SCREW", "level": 3 }, { "id": "WRENCH", "level": 3 } ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "qualities": [ { "id": "SCREW", "level": 1 } ] }
+    },
     "breaks_into": [
       { "item": "steel_lump", "count": [ 0, 2 ] },
       { "item": "steel_chunk", "count": [ 1, 3 ] },
@@ -968,7 +969,7 @@
     "item": "v_table",
     "difficulty": 1,
     "location": "center",
-    "flags": [ "CARGO", "OBSTACLE", "TOOL_WRENCH" ],
+    "flags": [ "CARGO", "OBSTACLE", "TOOL_WRENCH", "FLAT_SURF" ],
     "breaks_into": [
       { "item": "2x4", "count": [ 1, 6 ] },
       { "item": "splinter", "count": [ 4, 6 ] },
@@ -989,7 +990,7 @@
     "item": "w_table",
     "difficulty": 1,
     "location": "center",
-    "flags": [ "CARGO", "OBSTACLE", "TOOL_WRENCH" ],
+    "flags": [ "CARGO", "OBSTACLE", "TOOL_WRENCH", "FLAT_SURF" ],
     "breaks_into": [
       { "item": "2x4", "count": [ 1, 6 ] },
       { "item": "splinter", "count": [ 4, 6 ] },
@@ -1044,6 +1045,31 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "qualities": [ { "id": "SCREW", "level": 1 } ] }
     },
     "breaks_into": [ { "group": "ig_vp_device", "count": [ 2, 3 ] } ]
+  },
+  {
+    "id": "mountable_heater",
+    "type": "vehicle_part",
+    "name": "vehicle-mounted heater",
+    "item": "mountable_heater",
+    "location": "center",
+    "symbol": ";",
+    "broken_symbol": ":",
+    "color": "red",
+    "difficulty": 1,
+    "durability": 400,
+    "epower": -90,
+    "bonus": 10,
+    "flags": [ "CTRL_ELECTRONIC", "ENABLED_DRAINS_EPOWER", "SPACE_HEATER" ],
+    "requirements": {
+      "install": {
+        "time": 12000,
+        "skills": [ [ "mechanics", 1 ], [ "electronics", 1 ] ],
+        "qualities": [ { "id": "SCREW", "level": 1 } ]
+      },
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": 3000, "using": [ [ "adhesive", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "qualities": [ { "id": "SCREW", "level": 1 } ] }
+    },
+    "breaks_into": [ { "item": "steel_lump" }, { "item": "steel_chunk", "count": [ 1, 3 ] }, { "item": "scrap", "count": [ 1, 3 ] } ]
   },
   {
     "type": "vehicle_part",
@@ -1218,6 +1244,52 @@
   },
   {
     "type": "vehicle_part",
+    "id": "water_wheel",
+    "name": "water wheel",
+    "symbol": "*",
+    "color": "yellow",
+    "broken_symbol": "x",
+    "broken_color": "yellow",
+    "damage_modifier": 10,
+    "durability": 50,
+    "description": "A water wheel.  Will slowly recharge the vehicle's electrical power when built over shallow moving water.",
+    "epower": 80,
+    "item": "water_wheel",
+    "difficulty": 4,
+    "location": "center",
+    "flags": [ "WATER_WHEEL", "TOOL_WRENCH", "OBSTACLE" ],
+    "requirements": {
+      "install": { "time": 25000, "skills": [ [ "mechanics", 3 ] ], "qualities": [ { "id": "WRENCH", "level": 1 } ] },
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": 2000, "using": [ [ "rope_natural_short", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "qualities": [ { "id": "WRENCH", "level": 1 } ] }
+    },
+    "breaks_into": [ { "item": "splinter", "count": [ 40, 60 ] } ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "xl_water_wheel",
+    "name": "large water wheel",
+    "symbol": "o",
+    "color": "yellow",
+    "broken_symbol": "x",
+    "broken_color": "yellow",
+    "damage_modifier": 10,
+    "durability": 80,
+    "description": "A large water wheel with wooden supports.  Will recharge the vehicle's electrical power when built over shallow moving water.",
+    "epower": 180,
+    "item": "xl_water_wheel",
+    "difficulty": 6,
+    "location": "center",
+    "flags": [ "WATER_WHEEL", "TOOL_WRENCH", "OBSTACLE", "EXTRA_DRAG" ],
+    "requirements": {
+      "install": { "time": 75000, "skills": [ [ "mechanics", 6 ] ], "qualities": [ { "id": "WRENCH", "level": 1 } ] },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": 6000, "using": [ [ "rope_natural_short", 2 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ], "qualities": [ { "id": "WRENCH", "level": 1 } ] }
+    },
+    "breaks_into": [ { "item": "splinter", "count": [ 60, 100 ] } ]
+  },
+  {
+    "type": "vehicle_part",
     "id": "solar_panel",
     "name": "solar panel",
     "symbol": "#",
@@ -1250,7 +1322,7 @@
     "damage_modifier": 10,
     "durability": 15,
     "description": "A small wind turbine.  Will slowly recharge the vehicle's electrical power when exposed to the wind.",
-    "epower": 60,
+    "epower": 10,
     "item": "wind_turbine",
     "location": "on_roof",
     "requirements": {
@@ -1258,11 +1330,38 @@
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": 2000, "using": [ [ "welding_standard", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "qualities": [ { "id": "WRENCH", "level": 1 } ] }
     },
-    "flags": [ "WIND_TURBINE"],
+    "flags": [ "WIND_TURBINE" ],
     "breaks_into": [
       { "item": "steel_lump", "count": [ 2, 4 ] },
       { "item": "steel_chunk", "count": [ 2, 4 ] },
       { "item": "scrap", "count": [ 2, 4 ] }
+    ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "xl_wind_turbine",
+    "name": "large wind turbine",
+    "symbol": "Y",
+    "color": "yellow",
+    "broken_symbol": "X",
+    "broken_color": "yellow",
+    "damage_modifier": 10,
+    "durability": 70,
+    "description": "A large wind turbine with stabilizing legs.  Will recharge the vehicle's electrical power when exposed to the wind. Will cause extra drag on the vehicle.",
+    "epower": 30,
+    "item": "xl_wind_turbine",
+    "location": "on_roof",
+    "power": -3000,
+    "requirements": {
+      "install": { "time": 45000, "skills": [ [ "mechanics", 3 ] ], "qualities": [ { "id": "WRENCH", "level": 1 } ] },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": 6000, "using": [ [ "welding_standard", 15 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ], "qualities": [ { "id": "WRENCH", "level": 1 } ] }
+    },
+    "flags": [ "WIND_TURBINE", "EXTRA_DRAG" ],
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 6, 12 ] },
+      { "item": "steel_chunk", "count": [ 6, 12 ] },
+      { "item": "scrap", "count": [ 6, 12 ] }
     ]
   },
   {
@@ -1416,7 +1515,7 @@
     "broken_color": "light_gray",
     "damage_modifier": 10,
     "durability": 80,
-    "description": "A multi-function crafting station, with a water purifier, food dehydrator, vacuum sealer, and hand press for making ammo.  Draws power from the vehicle's batteries.  'e'xamine the tile with the kitchen buddy to access the water faucet or to purify water in a vehicle tank or in a container in your inventory.  If you attempt craft an item that needs one of the kitchen buddy's functions, it will automically be selected as a tool.",
+    "description": "A multi-function crafting station, with a water purifier, food dehydrator, vacuum sealer, and hand press for making ammo.  Draws power from the vehicle's batteries.  'e'xamine the tile with the kitchen buddy to access the water faucet or to purify water in a vehicle tank or in a container in your inventory.  If you attempt craft an item that needs one of the kitchen buddy's functions, it will automatically be selected as a tool.",
     "size": 200,
     "item": "craftrig",
     "difficulty": 3,
@@ -1444,7 +1543,7 @@
     "broken_symbol": "x",
     "broken_color": "light_gray",
     "damage_modifier": 10,
-    "description": "A small chemistry station, including a hotplate powered by the vehicle's batteries.  'e'xamine the tile with the chemistry lab to access the water faucet or to heat up food with the hotplate.  If you attempt craft an item that needs one of the chemistry lab's functions, it will automically be selected as a tool.",
+    "description": "A small chemistry station, including a hotplate powered by the vehicle's batteries.  'e'xamine the tile with the chemistry lab to access the water faucet or to heat up food with the hotplate.  If you attempt craft an item that needs one of the chemistry lab's functions, it will automatically be selected as a tool.",
     "durability": 80,
     "size": 200,
     "item": "chemlab",
@@ -1843,10 +1942,7 @@
     "size": 200,
     "item": "animal_locker",
     "flags": [ "CARGO", "COVERED", "CAPTURE_MONSTER_VEH", "OBSTACLE" ],
-    "breaks_into": [
-      { "item": "steel_chunk", "count": [ 1, 2 ] },
-      { "item": "scrap", "count": [ 3, 4 ] }
-    ]
+    "breaks_into": [ { "item": "steel_chunk", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 3, 4 ] } ]
   },
   {
     "type": "vehicle_part",
@@ -2110,6 +2206,10 @@
     "location": "armor",
     "flags": [ "ARMOR" ],
     "breaks_into": [ { "item": "chitin_piece", "count": [ 5, 15 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": 60000, "using": [ [ "rope_natural", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": 30000, "using": [ [ "adhesive", 1 ] ] }
+    },
     "damage_reduction": { "all": 10 }
   },
   {
@@ -2376,7 +2476,7 @@
     "item": "v_plow_item",
     "difficulty": 4,
     "location": "under",
-    "power": -70000,
+    "power": -300,
     "flags": [ "PLOW", "EXTRA_DRAG" ],
     "breaks_into": [ { "item": "plastic_chunk", "count": [ 1, 2 ] } ]
   },
@@ -2395,7 +2495,7 @@
     "difficulty": 4,
     "location": "structure",
     "size": 50,
-    "power": -35000,
+    "power": -700,
     "flags": [ "PLANTER", "PROTRUSION", "CARGO", "EXTRA_DRAG" ],
     "breaks_into": [ { "item": "plastic_chunk", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 1, 2 ] } ]
   },
@@ -2413,7 +2513,7 @@
     "item": "v_planter_item_advanced",
     "difficulty": 4,
     "location": "structure",
-    "power": -35000,
+    "power": -700,
     "size": 70,
     "flags": [ "PLANTER", "PROTRUSION", "CARGO", "ADVANCED_PLANTER", "EXTRA_DRAG" ],
     "breaks_into": [
@@ -2433,7 +2533,7 @@
     "broken_color": "light_blue",
     "damage_modifier": 120,
     "bonus": 7,
-    "power": -35000,
+    "power": -700,
     "durability": 200,
     "description": "An automatic reaper.  Use the vehicle controls to turn it on or off.  When on, it will cut down plants that it travels over.  It should be placed in front of any plows in the vehicle for efficient operation.  It does not include cargo space of its own so you need install a cargo space of some kind elsewhere in the vehicle.",
     "item": "v_reaper_item",
@@ -2452,7 +2552,7 @@
     "broken_color": "light_blue",
     "damage_modifier": 120,
     "bonus": 7,
-    "power": -52500,
+    "power": -1050,
     "durability": 200,
     "description": "An automatic reaper.  Use the vehicle controls to turn it on or off.  When turned on, it will stop the vehicle unless it has a strong engine.  When on, it will cut down plants and store them in the vehicle's cargo.  It should be placed in front of any plows in the vehicle for efficient operation.  It has internal cargo space for collecting the harvest.",
     "item": "v_reaper_item_advanced",

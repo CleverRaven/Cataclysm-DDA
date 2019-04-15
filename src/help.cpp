@@ -109,7 +109,7 @@ Press ESC to return to the game." ) ) + 1;
 std::string help::get_note_colors()
 {
     std::string text = _( "Note colors: " );
-    for( auto color_pair : get_note_color_names() ) {
+    for( const auto &color_pair : get_note_color_names() ) {
         // The color index is not translatable, but the name is.
         text += string_format( "<color_%s>%s:%s</color>, ",
                                string_from_color( get_note_color( color_pair.first ) ),

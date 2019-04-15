@@ -126,7 +126,6 @@ public class SplashScreen extends Activity {
             try {
                 totalFiles = countTotalAssets(assetManager, "data") +
                     countTotalAssets(assetManager, "gfx") +
-                    countTotalAssets(assetManager, "lua") +
                     countTotalAssets(assetManager, "lang");
                 showDialog(INSTALL_DIALOG_ID);
             } catch(Exception e) {
@@ -167,13 +166,11 @@ public class SplashScreen extends Activity {
 				// Clear out the old data if it exists (but preserve custom folders + files)
 				deleteRecursive(assetManager, externalFilesDir, new File(externalFilesDir + "/data"));
 				deleteRecursive(assetManager, externalFilesDir, new File(externalFilesDir + "/gfx"));
-				deleteRecursive(assetManager, externalFilesDir, new File(externalFilesDir + "/lua"));
 				deleteRecursive(assetManager, externalFilesDir, new File(externalFilesDir + "/lang"));
 
 				// Install the new data over the top
 				copyAssetFolder(assetManager, "data", externalFilesDir + "/data");
 				copyAssetFolder(assetManager, "gfx", externalFilesDir + "/gfx");
-				copyAssetFolder(assetManager, "lua", externalFilesDir + "/lua");
 				copyAssetFolder(assetManager, "lang", externalFilesDir + "/lang");
             } catch(Exception e) {
 				installationAlert.setMessage(e.getMessage());

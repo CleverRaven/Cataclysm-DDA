@@ -25,5 +25,12 @@
     "time": 1200,
     "qualities": [ { "id": "SAW_M", "level": 2 } ],
     "components": [ [ [ "scrap", 5 ] ] ]
+  },
+  {
+    "result": "character_sheet",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "time": 100,
+    "components": [ [ [ "paper", 3 ] ] ]
   }
 ]

@@ -19,8 +19,7 @@
     "charges": 8,
     "phase": "liquid",
     "flags": [ "EATEN_HOT" ],
-    "fun": 1,
-    "rot_spawn": "GROUP_ROTTING_PLANT"
+    "fun": 1
   },
   {
     "id": "maple_sap",
@@ -34,8 +33,10 @@
     "price": 50,
     "weight": 250,
     "volume": 1,
+    "charges": 1,
     "comestible_type": "DRINK",
-    "container": "bucket",
+    "container": "metal_tank",
+    "material": "water",
     "quench": 45,
     "//": "need 40 parts maple sap to make 1 part maple syrup",
     "proportional": { "calories": 0.025 },
@@ -103,7 +104,8 @@
     "fun": -1,
     "calories": 5,
     "charges": 48,
-    "phase": "liquid"
+    "phase": "liquid",
+    "vitamins": [ [ "iron", 2 ] ]
   },
   {
     "id": "honey_bottled",
@@ -140,12 +142,13 @@
     "volume": 1,
     "comestible_type": "DRINK",
     "container": "jar_glass_sealed",
+    "primary_material": "junk",
     "quench": -2,
     "calories": 190,
     "charges": 8,
     "phase": "liquid",
     "flags": [ "USE_EAT_VERB" ],
-    "vitamins": [ [ "iron", 1 ] ],
+    "vitamins": [ [ "iron", 6 ] ],
     "fun": 2
   },
   {
@@ -168,6 +171,7 @@
     "symbol": "~",
     "description": "Shockingly tart white vinegar.  This is what you get when you let your booze ferment too long.",
     "price": 500,
+    "material": "water",
     "volume": 1,
     "phase": "liquid",
     "charges": 16,
@@ -177,8 +181,8 @@
   {
     "type": "COMESTIBLE",
     "id": "cooking_oil",
-    "name": "cooking oil",
-    "name_plural": "cooking oil",
+    "name": "vegetable cooking oil",
+    "name_plural": "vegetable cooking oil",
     "weight": 15,
     "color": "yellow",
     "container": "jug_plastic",
@@ -188,13 +192,23 @@
     "calories": 127,
     "description": "Thin yellow vegetable oil used for cooking.",
     "price": 40,
-    "material": "oil",
+    "material": [ "oil", "veggy" ],
     "volume": 1,
     "charges": 16,
     "phase": "liquid",
     "fun": -25,
     "flags": "NUTRIENT_OVERRIDE",
+    "vitamins": [  ],
     "freezing_point": 14
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "cooking_oil2",
+    "name": "animal cooking oil",
+    "copy-from": "cooking_oil",
+    "name_plural": "animal cooking oil",
+    "description": "Thin yellow animal oil used for cooking.",
+    "material": [ "flesh", "oil" ]
   },
   {
     "type": "COMESTIBLE",
@@ -218,7 +232,7 @@
     "charges": 4,
     "fun": 2,
     "flags": [ "USE_EAT_VERB" ],
-    "vitamins": [ [ "calcium", 4 ], [ "iron", 6 ] ],
+    "vitamins": [ [ "calcium", 18 ], [ "iron", 23 ] ],
     "freezing_point": -20
   },
   {

@@ -75,6 +75,8 @@
       [ "helmet_riot", 5 ],
       [ "holo_sight", 20 ],
       [ "holster", 15 ],
+      [ "bandolier_shotgun", 15 ],
+      [ "torso_bandolier_shotgun", 8 ],
       [ "kevlar", 20 ],
       [ "knife_combat", 10 ],
       [ "l_car_223_kit", 5 ],

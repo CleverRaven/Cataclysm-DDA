@@ -83,6 +83,18 @@
   },
   {
     "type": "construction",
+    "description": "Build Beaded Curtain",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "time": 60,
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [ [ [ "wooden_bead", 2000 ] ], [ [ "stick_long", 1 ] ], [ [ "string_36", 20 ] ] ],
+    "pre_note": "Can be deconstructed without tools.",
+    "pre_terrain": "t_door_frame",
+    "post_terrain": "f_beaded_door"
+  },
+  {
+    "type": "construction",
     "description": "Build Makeshift Door",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 2 ] ],
@@ -527,6 +539,59 @@
   },
   {
     "type": "construction",
+    "description": "Build Wattle-and-Daub Wall",
+    "//": "Step 1: half of a wall in an empty space",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 3 ], [ "survival", 3 ] ],
+    "time": 50,
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "components": [
+      [ [ "2x4", 5 ], [ "stick", 10 ] ],
+      [ [ "material_quicklime", 4 ], [ "material_limestone", 4 ], [ "clay_lump", 4 ] ],
+      [ [ "pebble", 10 ], [ "material_sand", 10 ] ],
+      [ [ "straw_pile", 4 ], [ "cattail_stalk", 4 ], [ "dogbane", 4 ], [ "pine_bough", 4 ] ],
+      [ [ "water", 5 ], [ "water_clean", 5 ] ]
+    ],
+    "pre_special": "check_empty",
+    "post_terrain": "t_wall_wattle_half"
+  },
+  {
+    "type": "construction",
+    "description": "Build Wattle-and-Daub Wall",
+    "//": "Step 2: complete the half made wall",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 3 ], [ "survival", 3 ] ],
+    "time": 50,
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "components": [
+      [ [ "2x4", 5 ], [ "stick", 10 ] ],
+      [ [ "material_quicklime", 4 ], [ "material_limestone", 4 ], [ "clay_lump", 4 ] ],
+      [ [ "pebble", 10 ], [ "material_sand", 10 ] ],
+      [ [ "straw_pile", 4 ], [ "cattail_stalk", 4 ], [ "dogbane", 4 ], [ "pine_bough", 4 ] ],
+      [ [ "water", 5 ], [ "water_clean", 5 ] ]
+    ],
+    "pre_terrain": "t_wall_wattle_half",
+    "post_terrain": "t_wall_wattle"
+  },
+  {
+    "type": "construction",
+    "description": "Repair Wattle-and-Daub Wall",
+    "category": "REPAIR",
+    "required_skills": [ [ "fabrication", 2 ], [ "survival", 2 ] ],
+    "time": 30,
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "components": [
+      [ [ "2x4", 2 ], [ "stick", 4 ] ],
+      [ [ "material_quicklime", 2 ], [ "material_limestone", 2 ], [ "clay_lump", 2 ] ],
+      [ [ "pebble", 4 ], [ "material_sand", 4 ] ],
+      [ [ "straw_pile", 2 ], [ "cattail_stalk", 2 ], [ "dogbane", 2 ], [ "pine_bough", 2 ] ],
+      [ [ "water", 2 ], [ "water_clean", 2 ] ]
+    ],
+    "pre_terrain": "t_wall_wattle_broken",
+    "post_terrain": "t_wall_wattle"
+  },
+  {
+    "type": "construction",
     "description": "Build Wood Wall",
     "//": "Step 1: half of a wall where a window used to be",
     "category": "CONSTRUCT",
@@ -773,6 +838,44 @@
   },
   {
     "type": "construction",
+    "description": "Build Concrete Column",
+    "//": "Step 1: rebar cage",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 6 ] ],
+    "time": 120,
+    "qualities": [ [ { "id": "WELD", "level": 2 } ], [ { "id": "GLARE", "level": 2 } ] ],
+    "components": [ [ [ "rebar", 16 ] ] ],
+    "pre_terrain": "t_pit",
+    "post_terrain": "t_reb_cage"
+  },
+  {
+    "type": "construction",
+    "description": "Build Concrete Column",
+    "//": "Step 2: foundation",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 6 ] ],
+    "time": 120,
+    "tools": [ [ [ "con_mix", 50 ] ] ],
+    "qualities": [ [ { "id": "SMOOTH", "level": 2 } ] ],
+    "components": [ [ [ "concrete", 6 ] ], [ [ "2x4", 12 ] ], [ [ "water", 4 ], [ "water_clean", 4 ] ] ],
+    "pre_terrain": "t_reb_cage",
+    "post_terrain": "t_column_halfway"
+  },
+  {
+    "type": "construction",
+    "description": "Build Concrete Column",
+    "//": "Step 3: finish column",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 6 ] ],
+    "time": 120,
+    "tools": [ [ [ "con_mix", 50 ] ] ],
+    "qualities": [ [ { "id": "SMOOTH", "level": 2 } ] ],
+    "components": [ [ [ "concrete", 6 ] ], [ [ "water", 4 ], [ "water_clean", 4 ] ] ],
+    "pre_terrain": "t_column_halfway",
+    "post_terrain": "t_column"
+  },
+  {
+    "type": "construction",
     "description": "Build Metal Roof",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 5 ] ],
@@ -894,6 +997,18 @@
   },
   {
     "type": "construction",
+    "description": "Build Pony Wall",
+    "//": "a thin half-wall used to divide rooms.",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": 50,
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [ [ [ "2x4", 10 ] ], [ [ "nail", 20 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "t_ponywall"
+  },
+  {
+    "type": "construction",
     "description": "Build Roof",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ] ],
@@ -903,6 +1018,17 @@
     "pre_note": "Must be supported on at least two sides.",
     "pre_special": "check_support",
     "post_terrain": "t_floor"
+  },
+  {
+    "type": "construction",
+    "description": "Build Thatched Roof",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 3 ], [ "survival", 7 ] ],
+    "time": 360,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "2x4", 5 ], [ "stick", 10 ] ], [ [ "straw_pile", 60 ], [ "withered", 60 ] ], [ [ "cordage", 8, "LIST" ] ] ],
+    "pre_special": "check_support",
+    "post_terrain": "t_dirtfloor_thatchroof"
   },
   {
     "type": "construction",
@@ -1035,6 +1161,40 @@
     "pre_note": "Needs to be supported on both sides by fencing, walls, etc.",
     "pre_special": "check_support",
     "post_terrain": "t_chaingate_c"
+  },
+  {
+    "type": "construction",
+    "description": "Build Chickenwire Fence",
+    "//": "Step 1: 2x4 stud frame",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": 30,
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [ [ [ "2x4", 5 ] ], [ [ "nail", 20 ] ] ],
+    "pre_flags": "DIGGABLE",
+    "post_terrain": "t_chickenwire_fence_post"
+  },
+  {
+    "type": "construction",
+    "description": "Build Chickenwire Fence",
+    "//": "Step 2: chickenwire",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": 30,
+    "components": [ [ [ "wire", 10 ] ] ],
+    "pre_terrain": "t_chickenwire_fence_post",
+    "post_terrain": "t_chickenwire_fence"
+  },
+  {
+    "type": "construction",
+    "description": "Build Chickenwire Gate",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": 45,
+    "components": [ [ [ "wire", 10 ] ], [ [ "2x4", 5 ] ], [ [ "nail", 20 ] ] ],
+    "pre_note": "Needs to be supported on both sides by fencing, walls, etc.",
+    "pre_special": "check_support",
+    "post_terrain": "t_chickenwire_gate_c"
   },
   {
     "type": "construction",
@@ -1181,6 +1341,16 @@
     "time": 30,
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "2x4", 6 ] ], [ [ "nail", 8 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_table"
+  },
+  {
+    "type": "construction",
+    "description": "Place Table",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": 1,
+    "components": [ [ [ "w_table", 1 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_table"
   },
@@ -1529,6 +1699,27 @@
   },
   {
     "type": "construction",
+    "description": "Wax Floor",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "time": 30,
+    "tools": [ [ [ "mop", -1 ], [ "paint_brush", -1 ] ], [ [ "surface_heat", 2, "LIST" ] ] ],
+    "components": [ [ [ "wax", 5 ] ] ],
+    "pre_terrain": "t_floor",
+    "post_terrain": "t_floor_waxed"
+  },
+  {
+    "type": "construction",
+    "description": "Remove Wax From Floor",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": 80,
+    "tools": [ [ "chipper" ] ],
+    "pre_terrain": "t_floor_waxed",
+    "post_terrain": "t_floor"
+  },
+  {
+    "type": "construction",
     "description": "Dig Downstair",
     "category": "DIG",
     "required_skills": [ [ "fabrication", 5 ], [ "survival", 3 ] ],
@@ -1635,15 +1826,43 @@
   },
   {
     "type": "construction",
-    "description": "Build Dock/Shallow Bridge",
+    "description": "Build River Bridge",
+    "//": "Set up River bridge",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 5 ] ],
+    "time": 80,
+    "qualities": [ [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ] ],
+    "components": [
+      [ [ "2x4", 8 ] ],
+      [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ] ],
+      [ [ "55gal_drum", 2 ], [ "30gal_drum", 2 ], [ "wooden_barrel", 2 ] ]
+    ],
+    "pre_terrain": "t_water_moving_dp",
+    "post_terrain": "t_riverbridge_dp"
+  },
+  {
+    "type": "construction",
+    "description": "Build River Dock/Shallow Bridge",
     "//": "Set up dock",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": 80,
     "qualities": [ [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ] ],
     "components": [ [ [ "2x4", 6 ] ], [ [ "log", 1 ] ], [ [ "nail", 12 ] ] ],
-    "pre_terrain": "t_water_sh",
+    "pre_terrain": "t_water_moving_sh",
     "post_terrain": "t_dock"
+  },
+  {
+    "type": "construction",
+    "description": "Build Shallow Temporary Bridge",
+    "//": "Set up shallow bridge",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 4 ] ],
+    "time": 80,
+    "qualities": [ [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ] ],
+    "components": [ [ [ "2x4", 6 ] ], [ [ "log", 1 ] ], [ [ "nail", 12 ] ] ],
+    "pre_terrain": "t_water_sh",
+    "post_terrain": "t_sh_bridge"
   },
   {
     "type": "construction",
@@ -2005,5 +2224,16 @@
     "components": [ [ [ "pillow", 19 ], [ "down_pillow", 19 ] ], [ [ "down_blanket", 3 ], [ "blanket", 3 ], [ "fur_blanket", 3 ] ] ],
     "pre_terrain": "t_floor",
     "post_terrain": "f_pillow_fort"
+  },
+  {
+    "type": "construction",
+    "description": "Build Fire Ring",
+    "category": "FURN",
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": 15,
+    "components": [ [ [ "rock", 20 ] ] ],
+    "pre_note": "Can be deconstructed without tools.",
+    "pre_terrain": "t_pit_shallow",
+    "post_terrain": "f_firering"
   }
 ]

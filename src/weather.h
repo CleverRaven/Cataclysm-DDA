@@ -53,8 +53,8 @@ enum weather_type : int {
     WEATHER_ACID_DRIZZLE, //!< No real effects; warning of acid rain
     WEATHER_ACID_RAIN,    //!< Minor acid damage
     WEATHER_FLURRIES,     //!< Light snow
-    WEATHER_SNOW,         //!< Medium snow glare effects
-    WEATHER_SNOWSTORM,    //!< Heavy snow glare effects, sight penalties
+    WEATHER_SNOW,         //!< snow glare effects
+    WEATHER_SNOWSTORM,    //!< sight penalties
     NUM_WEATHER_TYPES     //!< Sentinel value
 };
 
@@ -112,6 +112,8 @@ void snowstorm();
 struct weather_datum {
     std::string name;       //!< UI name of weather type.
     nc_color color;         //!< UI color of weather type.
+    nc_color map_color;     //!< Map color of weather type.
+    char glyph;             //!< Map glyph of weather type.
     int ranged_penalty;     //!< Penalty to ranged attacks.
     float sight_penalty;    //!< Penalty to per-square visibility, applied in transparency map.
     int light_modifier;     //!< Modification to ambient light.
@@ -124,9 +126,14 @@ struct weather_sum {
     int rain_amount = 0;
     int acid_amount = 0;
     float sunlight = 0.0f;
+    int wind_amount = 0;
 };
 
 weather_datum const weather_data( weather_type const type );
+
+std::string get_shortdirstring( int angle );
+
+std::string get_dirstring( int angle );
 
 std::string weather_forecast( const point &abs_sm_pos );
 
@@ -145,7 +152,6 @@ int get_local_humidity( double humidity, weather_type weather, bool sheltered = 
 double get_local_windpower( double windpower, const oter_id &omter, const tripoint &location,
                             const int &winddirection,
                             bool sheltered = false );
-
 weather_sum sum_conditions( const time_point &start,
                             const time_point &end,
                             const tripoint &location );
@@ -175,6 +181,8 @@ rl_vec2d convert_wind_to_coord( const int angle );
 std::string get_wind_arrow( int );
 
 std::string get_wind_desc( double );
+
+nc_color get_wind_color( double );
 /**
 * Calculates rot per hour at given temperature. Reference in weather_data.cpp
 */

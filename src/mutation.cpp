@@ -11,6 +11,7 @@
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "monster.h"
+#include "morale_types.h"
 #include "output.h"
 #include "player.h"
 #include "translations.h"
@@ -288,9 +289,11 @@ void player::activate_mutation( const trait_id &mut )
     const mutation_branch &mdata = mut.obj();
     auto &tdata = my_mutations[mut];
     int cost = mdata.cost;
+    // Preserve the fake weapon used to initiate ranged mutation firing
+    static item mut_ranged( weapon );
     // You can take yourself halfway to Near Death levels of hunger/thirst.
     // Fatigue can go to Exhausted.
-    if( ( mdata.hunger && get_hunger() + get_starvation() >= 700 ) || ( mdata.thirst &&
+    if( ( mdata.hunger && get_kcal_percent() < 0.5f ) || ( mdata.thirst &&
             get_thirst() >= 260 ) ||
         ( mdata.fatigue && get_fatigue() >= EXHAUSTED ) ) {
         // Insufficient Foo to *maintain* operation is handled in player::suffer
@@ -307,7 +310,8 @@ void player::activate_mutation( const trait_id &mut )
             tdata.charge = mdata.cooldown - 1;
         }
         if( mdata.hunger ) {
-            mod_hunger( cost );
+            // burn some energy
+            mod_stored_nutr( cost );
         }
         if( mdata.thirst ) {
             mod_thirst( cost );
@@ -357,6 +361,26 @@ void player::activate_mutation( const trait_id &mut )
                         moves = MINUTES( 30 ) * 100;
                     } else if( g->m.has_flag( "DIGGABLE", pnt ) ) {
                         moves = MINUTES( 10 ) * 100;
+                        if( g->m.ter( pnt ) == t_grave ) {
+                            moves *= 2; // 6 feet under
+                            if( g->u.has_trait_flag( "SPIRITUAL" ) && !g->u.has_trait_flag( "PSYCHOPATH" ) &&
+                                g->u.query_yn( _( "Would you really touch the sacred resting place of the dead?" ) ) ) {
+                                add_msg( m_info, _( "You are really going against your beliefs here." ) );
+                                g->u.add_morale( MORALE_GRAVEDIGGER, -50, -100, 48_hours, 12_hours );
+                                if( one_in( 3 ) ) {
+                                    g->u.vomit();
+                                }
+                            } else if( g->u.has_trait_flag( "PSYCHOPATH" ) ) {
+                                g->u.add_msg_if_player( m_good, _( "This is fun!" ) );
+                                g->u.add_morale( MORALE_GRAVEDIGGER, 25, 50, 2_hours, 1_hours );
+                            } else if( !g->u.has_trait_flag( "EATDEAD" ) && !g->u.has_trait_flag( "SAPROVORE" ) ) {
+                                g->u.add_msg_if_player( m_bad, _( "This is utterly disgusting!" ) );
+                                g->u.add_morale( MORALE_GRAVEDIGGER, -25, -50, 2_hours, 1_hours );
+                                if( one_in( 5 ) ) {
+                                    g->u.vomit();
+                                }
+                            }
+                        }
                     } else {
                         add_msg_if_player( _( "You can't dig a pit on this ground." ) );
                         return;
@@ -486,6 +510,13 @@ void player::activate_mutation( const trait_id &mut )
         item tmpitem( mdata.spawn_item );
         i_add_or_drop( tmpitem );
         add_msg_if_player( mdata.spawn_item_message() );
+        tdata.powered = false;
+        return;
+    } else if( !mdata.ranged_mutation.empty() ) {
+        mut_ranged = item( mdata.ranged_mutation );
+        add_msg_if_player( mdata.ranged_mutation_message() );
+        g->refresh_all();
+        g->plfire( mut_ranged );
         tdata.powered = false;
         return;
     }
@@ -690,7 +721,7 @@ void player::mutate()
 void player::mutate_category( const std::string &cat )
 {
     // Hacky ID comparison is better than separate hardcoded branch used before
-    // @todo: Turn it into the null id
+    // TODO: Turn it into the null id
     if( cat == "ANY" ) {
         mutate();
         return;
@@ -853,7 +884,7 @@ bool player::mutate_towards( const trait_id &mut )
     prereq = mdata.prereqs; // Reset it
     for( auto &elem : prereq ) {
         if( has_trait( elem ) ) {
-            trait_id pre = elem;
+            const trait_id &pre = elem;
             const auto &p = pre.obj();
             for( size_t j = 0; !replacing && j < p.replacements.size(); j++ ) {
                 if( p.replacements[j] == mut ) {
@@ -868,7 +899,7 @@ bool player::mutate_towards( const trait_id &mut )
     prereq = mdata.prereqs2; // Reset it
     for( auto &elem : prereq ) {
         if( has_trait( elem ) ) {
-            trait_id pre2 = elem;
+            const trait_id &pre2 = elem;
             const auto &p = pre2.obj();
             for( size_t j = 0; !replacing2 && j < p.replacements.size(); j++ ) {
                 if( p.replacements[j] == mut ) {
@@ -895,7 +926,7 @@ bool player::mutate_towards( const trait_id &mut )
         } else {
             rating = m_neutral;
         }
-        // TODO: Limit this to visible mutations
+        //  TODO: Limit this to visible mutations
         // TODO: In case invisible mutation turns into visible or vice versa
         //  print only the visible mutation appearing/disappearing
         add_msg_player_or_npc( rating,
@@ -1134,7 +1165,7 @@ void player::remove_mutation( const trait_id &mut )
 bool player::has_child_flag( const trait_id &flag ) const
 {
     for( auto &elem : flag->replacements ) {
-        trait_id tmp = elem;
+        const trait_id &tmp = elem;
         if( has_trait( tmp ) || has_child_flag( tmp ) ) {
             return true;
         }
@@ -1145,7 +1176,7 @@ bool player::has_child_flag( const trait_id &flag ) const
 void player::remove_child_flag( const trait_id &flag )
 {
     for( auto &elem : flag->replacements ) {
-        trait_id tmp = elem;
+        const trait_id &tmp = elem;
         if( has_trait( tmp ) ) {
             remove_mutation( tmp );
             return;

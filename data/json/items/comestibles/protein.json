@@ -6,6 +6,7 @@
     "name": "soylent green drink",
     "name_plural": "soylent green drinks",
     "description": "A thin slurry of refined human protein mixed with water.  While quite nutritious, it is not particularly tasty.",
+    "primary_material": "water",
     "material": "hflesh"
   },
   {
@@ -46,6 +47,7 @@
     "color": "light_gray",
     "phase": "liquid",
     "container": "bottle_plastic",
+    "material": "water",
     "calories": 100,
     "quench": 40,
     "healthy": 2,

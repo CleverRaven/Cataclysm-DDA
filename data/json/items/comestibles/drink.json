@@ -16,11 +16,56 @@
     "description": "Pressed from fresh apples.  Tasty and nutritious.",
     "price": 85,
     "material": "fruit",
+    "primary_material": "water",
     "volume": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", 40 ] ],
+    "vitamins": [ [ "vitC", 167 ], [ "calcium", 1 ], [ "iron", 1 ] ],
     "fun": 2
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "almond_milk",
+    "name": "almond milk",
+    "weight": 258,
+    "color": "white",
+    "spoils_in": "3 days",
+    "container": "jug_plastic",
+    "comestible_type": "DRINK",
+    "symbol": "~",
+    "quench": 22,
+    "healthy": 2,
+    "calories": 50,
+    "description": "Milk some almonds?  Not quite, but blend them with water, yes!  A dairy-free alternative strong in calcium!  Rival to soy milk.",
+    "price": 40,
+    "material": "water",
+    "volume": 1,
+    "phase": "liquid",
+    "vitamins": [ [ "vitA", 2 ], [ "calcium", 11 ] ],
+    "flags": [ "EATEN_COLD" ],
+    "fun": 1
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "soy_milk",
+    "name": "soy milk",
+    "weight": 258,
+    "color": "white",
+    "spoils_in": "3 days",
+    "container": "jug_plastic",
+    "comestible_type": "DRINK",
+    "symbol": "~",
+    "quench": 22,
+    "healthy": 2,
+    "calories": 110,
+    "description": "Milk some soybeans?  Not quite, but blend them with water, yes!  A dairy-free alternative strong in protein!  Rival to almond milk.",
+    "price": 40,
+    "material": "water",
+    "volume": 1,
+    "phase": "liquid",
+    "vitamins": [ [ "vitA", 2 ], [ "iron", 1 ], [ "calcium", 7 ] ],
+    "flags": [ "EATEN_COLD" ],
+    "fun": 1
   },
   {
     "type": "COMESTIBLE",
@@ -73,7 +118,7 @@
     "material": "fruit",
     "volume": 1,
     "phase": "liquid",
-    "vitamins": [ [ "vitC", 1 ], [ "iron", 10 ] ],
+    "vitamins": [ [ "vitC", 4 ], [ "calcium", 3 ], [ "iron", 43 ] ],
     "fun": 1
   },
   {
@@ -118,7 +163,7 @@
     "volume": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitA", 2 ], [ "vitC", 2 ], [ "calcium", 4 ], [ "iron", 1 ] ],
+    "vitamins": [ [ "vitA", 9 ], [ "vitC", 8 ], [ "calcium", 18 ], [ "iron", 4 ] ],
     "fun": 7
   },
   {
@@ -164,6 +209,7 @@
     "description": "Things go better with cola.  Sugar water with caffeine added.",
     "price": 95,
     "material": "junk",
+    "primary_material": "water",
     "volume": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
@@ -188,6 +234,7 @@
     "description": "It tastes and looks like windshield wiper fluid, but it's loaded to the brim with sugar and caffeine.",
     "price": 100,
     "material": "junk",
+    "primary_material": "water",
     "volume": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
@@ -209,10 +256,11 @@
     "description": "Cow's milk that has been partly dehydrated to vastly increase its shelf life, and also sweetened.",
     "price": 70,
     "material": [ "milk", "junk" ],
+    "primary_material": "milk",
     "volume": 1,
     "phase": "liquid",
     "charges": 10,
-    "vitamins": [ [ "calcium", 2 ] ],
+    "vitamins": [ [ "vitA", 2 ], [ "vitC", 1 ], [ "calcium", 7 ] ],
     "fun": 3
   },
   {
@@ -234,6 +282,7 @@
     "description": "A caffeinated, carbonated drink, flavored with vanilla.",
     "price": 95,
     "material": "junk",
+    "primary_material": "water",
     "volume": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
@@ -255,10 +304,11 @@
     "description": "Made from real Massachusetts cranberries.  Delicious and nutritious.",
     "price": 80,
     "material": "fruit",
+    "primary_material": "water",
     "volume": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", 31 ] ],
+    "vitamins": [ [ "vitA", 1 ], [ "vitC", 131 ], [ "calcium", 3 ], [ "iron", 1 ] ],
     "fun": 3
   },
   {
@@ -277,10 +327,11 @@
     "description": "Mixing cranberry juice and lemon-lime soda works out quite well.",
     "price": 110,
     "material": [ "junk", "fruit" ],
+    "primary_material": "water",
     "volume": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", 15 ] ],
+    "vitamins": [ [ "vitC", 60 ] ],
     "fun": 6
   },
   {
@@ -325,7 +376,7 @@
     "phase": "liquid",
     "charges": 2,
     "flags": [ "EATEN_COLD", "FREEZERBURN" ],
-    "vitamins": [ [ "vitA", 2 ], [ "vitC", 1 ], [ "calcium", 6 ] ],
+    "vitamins": [ [ "vitA", 5 ], [ "vitC", 3 ], [ "calcium", 13 ], [ "iron", 2 ] ],
     "fun": 15
   },
   {
@@ -347,10 +398,11 @@
     "description": "A heavily caffeinated soft drink.  Energy drinks are popular among those who need to stay up late working.",
     "price": 170,
     "material": "junk",
+    "primary_material": "water",
     "volume": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", 25 ] ],
+    "vitamins": [ [ "vitC", 105 ] ],
     "fun": 5
   },
   {
@@ -391,7 +443,8 @@
     "material": [ "water" ],
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
-    "fun": 4
+    "fun": 4,
+    "vitamins": [ [ "iron", 1 ] ]
   },
   {
     "id": "hot_chocolate",
@@ -406,6 +459,7 @@
     "phase": "liquid",
     "container": "bottle_plastic",
     "material": [ "milk", "junk" ],
+    "primary_material": "milk",
     "symbol": "~",
     "color": "brown",
     "comestible_type": "DRINK",
@@ -413,7 +467,7 @@
     "quench": 35,
     "fun": 8,
     "spoils_in": "1 day",
-    "vitamins": [ [ "calcium", 1 ] ],
+    "vitamins": [ [ "calcium", 4 ], [ "iron", 2 ] ],
     "flags": [ "EATEN_HOT" ]
   },
   {
@@ -428,15 +482,16 @@
     "symbol": "~",
     "quench": 20,
     "healthy": 2,
-    "calories": 68,
+    "calories": 32,
     "description": "Freshly-squeezed from real fruit!  Tasty and nutritious.",
     "price": 80,
     "material": "fruit",
+    "primary_material": "water",
     "volume": 1,
     "phase": "liquid",
     "charges": 2,
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", 13 ] ],
+    "vitamins": [ [ "vitC", 53 ], [ "iron", 2 ] ],
     "fun": 3
   },
   {
@@ -455,6 +510,7 @@
     "description": "Clear juice obtained by cooking fruit in a large volume of water.",
     "price": 62,
     "material": "fruit",
+    "primary_material": "water",
     "volume": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
@@ -477,10 +533,11 @@
     "description": "Lemon juice mixed with water and sugar to dull the sourness.  Delicious and refreshing.",
     "price": 80,
     "material": "fruit",
+    "primary_material": "water",
     "volume": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", 4 ] ],
+    "vitamins": [ [ "vitC", 16 ], [ "iron", 2 ] ],
     "fun": 3
   },
   {
@@ -499,6 +556,7 @@
     "description": "Unlike cola this is caffeine free, however it is still carbonated and has plenty of sugar.  Not to mention a lemon-lime taste.",
     "price": 95,
     "material": "junk",
+    "primary_material": "water",
     "volume": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
@@ -507,13 +565,25 @@
   {
     "id": "mex_chocolate",
     "type": "COMESTIBLE",
+    "category": "food",
     "name": "Mexican hot chocolate",
     "name_plural": "Mexican hot chocolate",
-    "copy-from": "hot_chocolate",
     "description": "This semi-bitter chocolate drink made from cocoa, cinnamon, and chilies, traces its history to the Maya and Aztecs.  Perfect for a cold winter day.",
+    "weight": 263,
+    "volume": 1,
     "price": 335,
+    "phase": "liquid",
+    "container": "bottle_plastic",
     "material": [ "milk", "junk" ],
-    "fun": 10
+    "primary_material": "milk",
+    "symbol": "~",
+    "color": "brown",
+    "comestible_type": "DRINK",
+    "calories": 78,
+    "quench": 35,
+    "fun": 10,
+    "spoils_in": "1 day",
+    "flags": [ "EATEN_HOT" ]
   },
   {
     "type": "COMESTIBLE",
@@ -536,7 +606,7 @@
     "volume": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitA", 2 ], [ "vitC", 1 ], [ "calcium", 6 ] ],
+    "vitamins": [ [ "vitA", 10 ], [ "vitC", 4 ], [ "calcium", 25 ] ],
     "fun": 1
   },
   {
@@ -558,10 +628,11 @@
     "description": "Coffee syrup mixed into milk.  It's been the state drink of Rhode Island since 1993.",
     "price": 480,
     "material": [ "milk", "water" ],
+    "primary_material": "milk",
     "volume": 2,
     "phase": "liquid",
     "charges": 2,
-    "vitamins": [ [ "vitA", 1 ], [ "calcium", 3 ] ],
+    "vitamins": [ [ "vitA", 5 ], [ "vitC", 2 ], [ "calcium", 12 ] ],
     "fun": 10
   },
   {
@@ -582,10 +653,11 @@
     "description": "Hot tea with cold milk.",
     "price": 450,
     "material": [ "milk", "water" ],
+    "primary_material": "water",
     "volume": 2,
     "phase": "liquid",
     "charges": 2,
-    "vitamins": [ [ "vitA", 1 ], [ "calcium", 3 ] ],
+    "vitamins": [ [ "vitA", 5 ], [ "vitC", 2 ], [ "calcium", 12 ] ],
     "fun": 10
   },
   {
@@ -604,11 +676,12 @@
     "description": "Freshly-squeezed from real oranges!  Tasty and nutritious.",
     "price": 90,
     "material": "fruit",
+    "primary_material": "water",
     "volume": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
     "//": "most store-bought oj is fortified with calcium.",
-    "vitamins": [ [ "vitC", 35 ], [ "calcium", 7 ] ],
+    "vitamins": [ [ "vitA", 2 ], [ "vitC", 146 ], [ "calcium", 28 ], [ "iron", 2 ] ],
     "fun": 3
   },
   {
@@ -627,6 +700,7 @@
     "description": "Unlike cola this is caffeine free, however it is still carbonated, sweet, and tastes vaguely orange-like.",
     "price": 95,
     "material": "junk",
+    "primary_material": "water",
     "volume": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
@@ -668,10 +742,11 @@
     "description": "A mass-produced grape flavored beverage of artificial origin.  Good for when you want something that tastes like fruit, but still don't care about your health.",
     "price": 85,
     "material": "junk",
+    "primary_material": "water",
     "volume": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", 8 ] ],
+    "vitamins": [ [ "vitC", 50 ], [ "calcium", 3 ] ],
     "fun": 3
   },
   {
@@ -691,6 +766,7 @@
     "description": "Like cola, but without caffeine.  Still not that healthy.",
     "price": 95,
     "material": "junk",
+    "primary_material": "water",
     "volume": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
@@ -714,6 +790,7 @@
     "description": "Originating in Germany almost a century ago, this mix of cola and orange soda tastes great.",
     "price": 100,
     "material": "junk",
+    "primary_material": "water",
     "volume": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
@@ -732,10 +809,12 @@
     "calories": 66,
     "description": "Consisting of a special blend of electrolytes and simple sugars, this beverage tastes like bottled sweat but rehydrates the body faster than water.",
     "price": 55,
+    "material": "water",
     "volume": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "fun": -1
+    "fun": -1,
+    "vitamins": [ [ "vitC", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -752,6 +831,7 @@
     "calories": 17,
     "description": "Water with sugar or honey added.  Tastes okay.",
     "price": 95,
+    "material": "water",
     "volume": 1,
     "phase": "liquid",
     "fun": 2,
@@ -813,10 +893,12 @@
     "description": "Contains up to eight vegetables!  Nutritious and tasty.",
     "price": 40,
     "material": "veggy",
+    "primary_material": "water",
     "volume": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "fun": 1
+    "fun": 1,
+    "vitamins": [ [ "vitA", 60 ], [ "vitC", 180 ], [ "calcium", 4 ], [ "iron", 4 ] ]
   },
   {
     "id": "water_clean",

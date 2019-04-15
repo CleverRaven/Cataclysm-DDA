@@ -22,9 +22,9 @@ If applicable, add screenshots to help explain your problem.
 
 **Versions and configuration(please complete the following information):**
  - OS: [e.g. iOS 8 or Windows 10 or Ubuntu 18.04]
- - Game Version [from the main menu, e.g. 0.C-29938-g90f5268437]
- - Graphics version [Tiles or Terminal]
- - Mods loaded [e.g.dda, boats, hacktheplanet, StatsThroughSkills]
+ - Game Version: [from the main menu, e.g. 0.C-29938-g90f5268437]
+ - Graphics version: [Tiles or Terminal]
+ - Mods loaded: [e.g.dda, boats, hacktheplanet, StatsThroughSkills]
 
 **Additional context**  
 Add any other context about the problem here.  

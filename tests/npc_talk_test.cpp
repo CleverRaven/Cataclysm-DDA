@@ -389,17 +389,18 @@ TEST_CASE( "npc_talk_test" )
     gen_response_lines( d, 1 );
     CHECK( d.responses[0].text == "This is a basic test response." );
 
-    const auto has_item = [&]( const std::string & id, int count ) {
-        return g->u.has_charges( itype_id( id ), count ) ||
-               g->u.has_amount( itype_id( id ), count );
+    const auto has_item = [&]( player & p, const std::string & id, int count ) {
+        return p.has_charges( itype_id( id ), count ) ||
+               p.has_amount( itype_id( id ), count );
     };
-    const auto has_beer_bottle = [&]() {
-        return has_item( "bottle_glass", 1 ) && has_item( "beer", 2 );
+    const auto has_beer_bottle = [&]( player & p, int count ) {
+        return has_item( p, "bottle_glass", 1 ) && has_item( p, "beer", count );
     };
     g->u.cash = 1000;
     g->u.int_cur = 8;
     d.add_topic( "TALK_TEST_EFFECTS" );
-    gen_response_lines( d, 10 );
+    gen_response_lines( d, 19 );
+    // add and remove effect
     REQUIRE( !g->u.has_effect( effect_infection ) );
     talk_effect_t &effects = d.responses[1].success;
     effects.apply( d );
@@ -410,34 +411,49 @@ TEST_CASE( "npc_talk_test" )
     effects.apply( d );
     CHECK( talker_npc.has_effect( effect_infection ) );
     CHECK( talker_npc.get_effect( effect_infection ).is_permanent() );
-    REQUIRE( !g->u.has_trait( trait_PROF_FED ) );
     effects = d.responses[3].success;
+    effects.apply( d );
+    CHECK( !g->u.has_effect( effect_infection ) );
+    effects = d.responses[4].success;
+    effects.apply( d );
+    CHECK( !talker_npc.has_effect( effect_infection ) );
+    // add and remove trait
+    REQUIRE( !g->u.has_trait( trait_PROF_FED ) );
+    effects = d.responses[5].success;
     effects.apply( d );
     CHECK( g->u.has_trait( trait_PROF_FED ) );
     REQUIRE( !talker_npc.has_trait( trait_PROF_FED ) );
-    effects = d.responses[4].success;
-    effects.apply( d );
-    CHECK( talker_npc.has_trait( trait_PROF_FED ) );
-    REQUIRE( !has_beer_bottle() );
-    REQUIRE( g->u.cash == 1000 );
-    effects = d.responses[5].success;
-    effects.apply( d );
-    CHECK( g->u.cash == 500 );
-    CHECK( has_beer_bottle() );
-    REQUIRE( !has_item( "bottle_plastic", 1 ) );
     effects = d.responses[6].success;
     effects.apply( d );
-    CHECK( has_item( "bottle_plastic", 1 ) );
-    CHECK( g->u.cash == 500 );
+    CHECK( talker_npc.has_trait( trait_PROF_FED ) );
     effects = d.responses[7].success;
+    effects.apply( d );
+    CHECK( !g->u.has_trait( trait_PROF_FED ) );
+    effects = d.responses[8].success;
+    effects.apply( d );
+    CHECK( !talker_npc.has_trait( trait_PROF_FED ) );
+    // buying and spending
+    REQUIRE( !has_beer_bottle( g->u, 2 ) );
+    REQUIRE( g->u.cash == 1000 );
+    effects = d.responses[9].success;
+    effects.apply( d );
+    CHECK( g->u.cash == 500 );
+    CHECK( has_beer_bottle( g->u, 2 ) );
+    REQUIRE( !has_item( g->u, "bottle_plastic", 1 ) );
+    effects = d.responses[10].success;
+    effects.apply( d );
+    CHECK( has_item( g->u, "bottle_plastic", 1 ) );
+    CHECK( g->u.cash == 500 );
+    effects = d.responses[11].success;
     effects.apply( d );
     CHECK( g->u.cash == 0 );
     g->u.cash = 1000;
+    // effect chains
     REQUIRE( !g->u.has_effect( effect_infected ) );
     REQUIRE( !talker_npc.has_effect( effect_infected ) );
     REQUIRE( !g->u.has_trait( trait_PROF_SWAT ) );
     REQUIRE( !talker_npc.has_trait( trait_PROF_SWAT ) );
-    effects = d.responses[8].success;
+    effects = d.responses[12].success;
     effects.apply( d );
     CHECK( g->u.has_effect( effect_infected ) );
     CHECK( g->u.get_effect_dur( effect_infected ) == time_duration::from_turns( 10 ) );
@@ -447,6 +463,21 @@ TEST_CASE( "npc_talk_test" )
     CHECK( talker_npc.has_trait( trait_PROF_SWAT ) );
     CHECK( g->u.cash == 0 );
     CHECK( talker_npc.get_attitude() == NPCATT_KILL );
+    // opinion changes
+    talker_npc.op_of_u = npc_opinion();
+    REQUIRE( !talker_npc.op_of_u.trust );
+    REQUIRE( !talker_npc.op_of_u.fear );
+    REQUIRE( !talker_npc.op_of_u.value );
+    REQUIRE( !talker_npc.op_of_u.anger );
+    REQUIRE( !talker_npc.op_of_u.owed );
+    effects = d.responses[13].success;
+    REQUIRE( effects.opinion.trust == 10 );
+    effects.apply( d );
+    CHECK( talker_npc.op_of_u.trust == 10 );
+    CHECK( talker_npc.op_of_u.fear == 11 );
+    CHECK( talker_npc.op_of_u.value == 12 );
+    CHECK( talker_npc.op_of_u.anger == 13 );
+    CHECK( talker_npc.op_of_u.owed == 14 );
 
     d.add_topic( "TALK_TEST_HAS_ITEM" );
     gen_response_lines( d, 4 );
@@ -455,23 +486,70 @@ TEST_CASE( "npc_talk_test" )
     CHECK( d.responses[2].text == "This is a u_has_item bottle_glass test response." );
     CHECK( d.responses[3].text == "This is a u_has_items beer test response." );
 
+    // test sell and consume
     d.add_topic( "TALK_TEST_EFFECTS" );
-    gen_response_lines( d, 10 );
-    REQUIRE( has_item( "bottle_plastic", 1 ) );
-    REQUIRE( has_beer_bottle() );
+    gen_response_lines( d, 19 );
+    REQUIRE( has_item( g->u, "bottle_plastic", 1 ) );
+    REQUIRE( has_beer_bottle( g->u, 2 ) );
     REQUIRE( g->u.wield( g->u.i_at( g->u.inv.position_by_type( "bottle_glass" ) ) ) );
-    effects = d.responses[9].success;
+    effects = d.responses[14].success;
     effects.apply( d );
-    CHECK( !has_item( "bottle_plastic", 1 ) );
-    CHECK( !has_item( "beer", 1 ) );
+    CHECK( !has_item( g->u, "bottle_plastic", 1 ) );
+    CHECK( !has_item( g->u, "beer", 1 ) );
+    CHECK( has_item( talker_npc, "bottle_plastic", 1 ) );
+    CHECK( has_item( talker_npc, "beer", 2 ) );
+    effects = d.responses[15].success;
+    effects.apply( d );
+    CHECK( !has_item( talker_npc, "beer", 2 ) );
+    CHECK( has_item( talker_npc, "beer", 1 ) );
+    effects = d.responses[16].success;
+    effects.apply( d );
+    CHECK( has_item( g->u, "beer", 1 ) );
+    effects = d.responses[17].success;
+    effects.apply( d );
+    CHECK( !has_item( g->u, "beer", 1 ) );
 
     d.add_topic( "TALK_COMBAT_COMMANDS" );
-    gen_response_lines( d, 7 );
+    gen_response_lines( d, 9 );
     CHECK( d.responses[0].text == "Change your engagement rules..." );
     CHECK( d.responses[1].text == "Change your aiming rules..." );
-    CHECK( d.responses[2].text == "Don't use ranged weapons anymore." );
-    CHECK( d.responses[3].text == "Use only silent weapons." );
-    CHECK( d.responses[4].text == "Don't use grenades anymore." );
-    CHECK( d.responses[5].text == "Don't worry about shooting an ally." );
-    CHECK( d.responses[6].text == "Never mind." );
+    CHECK( d.responses[2].text == "If you see me running away, you follow me." );
+    CHECK( d.responses[3].text == "Don't use ranged weapons anymore." );
+    CHECK( d.responses[4].text == "Use only silent weapons." );
+    CHECK( d.responses[5].text == "Don't use grenades anymore." );
+    CHECK( d.responses[6].text == "Don't worry about shooting an ally." );
+    CHECK( d.responses[7].text == "Hold the line: don't move onto obstacles adjacent to me." );
+    CHECK( d.responses[8].text == "Never mind." );
+
+    d.add_topic( "TALK_TEST_VARS" );
+    gen_response_lines( d, 3 );
+    CHECK( d.responses[0].text == "This is a basic test response." );
+    CHECK( d.responses[1].text == "This is a u_add_var test response." );
+    CHECK( d.responses[2].text == "This is a npc_add_var test response." );
+    effects = d.responses[1].success;
+    effects.apply( d );
+    effects = d.responses[2].success;
+    effects.apply( d );
+    gen_response_lines( d, 5 );
+    CHECK( d.responses[0].text == "This is a basic test response." );
+    CHECK( d.responses[1].text == "This is a u_add_var test response." );
+    CHECK( d.responses[2].text == "This is a npc_add_var test response." );
+    CHECK( d.responses[3].text == "This is a u_has_var, u_remove_var test response." );
+    CHECK( d.responses[4].text == "This is a npc_has_var, npc_remove_var test response." );
+    effects = d.responses[3].success;
+    effects.apply( d );
+    effects = d.responses[4].success;
+    effects.apply( d );
+    gen_response_lines( d, 3 );
+    CHECK( d.responses[0].text == "This is a basic test response." );
+    CHECK( d.responses[1].text == "This is a u_add_var test response." );
+    CHECK( d.responses[2].text == "This is a npc_add_var test response." );
+
+    // test change class
+    REQUIRE( talker_npc.myclass == npc_class_id( "NC_TEST_CLASS" ) );
+    d.add_topic( "TALK_TEST_EFFECTS" );
+    gen_response_lines( d, 19 );
+    effects = d.responses[18].success;
+    effects.apply( d );
+    CHECK( talker_npc.myclass == npc_class_id( "NC_NONE" ) );
 }

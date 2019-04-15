@@ -34,7 +34,7 @@
     "name": "Alarm System",
     "description": "A motion-detecting alarm system will notice almost all movement within a fifteen-foot radius, and will silently alert you.  This is very useful during sleep, or if you suspect a cloaked pursuer.",
     "occupied_bodyparts": [ [ "TORSO", 2 ], [ "HEAD", 1 ] ],
-    "flags": [ "BIONIC_TOGGLED" ],
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_SLEEP_FRIENDLY" ],
     "act_cost": 1,
     "react_cost": 1,
     "time": 100
@@ -115,6 +115,16 @@
     "act_cost": 50,
     "fake_item": "bio_blaster_gun",
     "flags": [ "BIONIC_GUN" ]
+  },
+  {
+    "id": "bio_shotgun",
+    "type": "bionic",
+    "name": "Shotgun Arm",
+    "description": "Concealed in your left arm is a surgically integrated one-shot sawn-off shotgun barrel , that pops-up upon activation. Perfect in a pinch.",
+    "occupied_bodyparts": [ [ "ARM_L", 15 ] ],
+    "act_cost": 5,
+    "fake_item": "bio_shotgun_gun",
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON", "NO_UNWIELD" ]
   },
   {
     "id": "bio_blindfold",
@@ -352,7 +362,7 @@
     "id": "bio_eye_optic",
     "type": "bionic",
     "name": "Telescopic Eyes",
-    "description": "Much of the material in your inner eye has been surgically removed and replaced with an array of high-powered, auto-focusing lenses.  You can now see much farther and more clearly than before, any vision problems you might have had are now gone.",
+    "description": "Much of the material in your inner eye has been surgically removed and replaced with an array of high-powered, auto-focusing lenses.  They function as integrated binoculars, letting you see much farther than before, and any vision problems you might have had are now gone.",
     "occupied_bodyparts": [ [ "EYES", 2 ] ],
     "canceled_mutations": [ "HYPEROPIC", "MYOPIC" ]
   },
@@ -412,6 +422,23 @@
     "flags": [ "BIONIC_TOGGLED" ]
   },
   {
+    "id": "bio_tattoo_led",
+    "type": "bionic",
+    "name": "LED Tattoo",
+    "description": "A small LED display just beneath your dermal layer can be illuminated on command to show patterns of your choice at dim or bright luminosity.  It doesn't provide enough light to comfortably read or craft, but it can suffice if you have nothing else.",
+    "act_cost": 1,
+    "react_cost": 1,
+    "time": 50,
+    "flags": [ "BIONIC_TOGGLED" ]
+  },
+  {
+    "id": "bio_glowy",
+    "type": "bionic",
+    "name": "Glowy Thing",
+    "description": "You don't think that capacitor is *meant* to glow, but it does, and usually at bad times.  A malfunctioning bionic randomly turns on and off, causing you to glow and making you visible in the dark without improving how much you can see in the slighest.",
+    "flags": [ "BIONIC_FAULTY" ]
+  },
+  {
     "id": "bio_furnace",
     "type": "bionic",
     "name": "Internal Furnace",
@@ -439,7 +466,7 @@
     "id": "bio_ground_sonar",
     "type": "bionic",
     "name": "Terranian Sonar",
-    "description": "Your feet are equipped with precision sonar equipment, allowing you to detect the movements of creatures below the ground.",
+    "description": "Your feet are equipped with precision sonar equipment, allowing you to detect the movements of creatures below the ground, buried traps, and unstable terrain.",
     "occupied_bodyparts": [ [ "FOOT_L", 3 ], [ "FOOT_R", 3 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
     "act_cost": 5,
@@ -549,7 +576,7 @@
     "name": "Leukocyte Breeder System",
     "description": "You are equipped with bionic stimulators which augment your haematopoiesis system, allowing you to accelerate white blood cell production using bionic power.  It is supposed to run continuously and may cause unpleasant side effects when turned off.",
     "occupied_bodyparts": [ [ "TORSO", 10 ] ],
-    "flags": [ "BIONIC_TOGGLED" ],
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_SLEEP_FRIENDLY" ],
     "act_cost": 10,
     "react_cost": 1,
     "time": 600
@@ -593,7 +620,7 @@
     "name": "Enhanced Memory Banks",
     "description": "Your memory has been enhanced with small quantum storage drives.  While active, you learn - both through reading and practice - more quickly.  Additionally, you can't forget skills you've already learned, and the layout of terrain you've explored will remain in your memory for an incredibly long time.",
     "occupied_bodyparts": [ [ "HEAD", 3 ] ],
-    "flags": [ "BIONIC_TOGGLED" ],
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_SLEEP_FRIENDLY" ],
     "act_cost": 10,
     "react_cost": 1,
     "time": 100
@@ -602,7 +629,7 @@
     "id": "bio_metabolics",
     "type": "bionic",
     "name": "Metabolic Interchange",
-    "description": "Your digestive system and power supply are interconnected.  Energy drains will be regularly counteracted by increasing hunger.  Can be toggled on and off at will.",
+    "description": "Your digestive system and power supply are interconnected.  Bionic energy is replenished at the cost of increasing hunger.  Can be toggled on and off at will.",
     "occupied_bodyparts": [ [ "TORSO", 25 ] ],
     "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED" ]
   },
@@ -1010,8 +1037,17 @@
     "name": "Integrated Toolset",
     "description": "Surgically implanted in your hands and fingers is a complete tool set - screwdriver, hammer, wrench, hacksaw, wood saw, boltcutters, drill and heating elements.  You can use this in place of many tools when crafting.",
     "occupied_bodyparts": [ [ "HAND_L", 3 ], [ "HAND_R", 3 ] ],
-    "flags": [ "BIONIC_TOGGLED" ],
-    "fake_item": "toolset"
+    "fake_item": "toolset",
+    "included_bionics": [ "bio_tools_extend" ],
+    "flags": [ "BIONIC_TOGGLED" ]
+  },
+  {
+    "id": "bio_tools_extend",
+    "type": "bionic",
+    "name": "Extended Toolset",
+    "description": "Extend or withdraw your integrated toolset to cut metal, pry things, or other stuff.  This takes up your hand.",
+    "fake_item": "toolset_extended",
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON" ]
   },
   {
     "id": "bio_torsionratchet",
@@ -1020,6 +1056,14 @@
     "description": "Your joints have been surgically equipped with torsion ratchets that generate power slowly when you move.  Whilst this is toggled, moving will require more effort, though more power will be generated.",
     "occupied_bodyparts": [ [ "ARM_L", 8 ], [ "ARM_R", 8 ], [ "LEG_L", 12 ], [ "LEG_R", 12 ] ],
     "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_NPC_USABLE", "BIONIC_TOGGLED" ]
+  },
+  {
+    "id": "bio_jointservo",
+    "type": "bionic",
+    "name": "Joint Servo",
+    "description": "Your leg joints have been equipped with servomotors that provide power-assisted movement.  They are optimized for running, but walking also requires less effort when this bionic is online.  However, when it's offline it will hamper your movement, as you struggle against its moving parts.",
+    "occupied_bodyparts": [ [ "LEG_L", 12 ], [ "LEG_R", 12 ] ],
+    "flags": [ "BIONIC_TOGGLED" ]
   },
   {
     "id": "bio_trip",
@@ -1092,6 +1136,22 @@
     "name": "Kinetic Shock Absorbers",
     "description": "Most of the flesh in your arms, legs, and upper torso has been replaced with industrial-strength springs and protective padding.  Clenching your fist allows you to fold and unfold this padding; while active, the hydraulic absorbers will prevent damage to your body from severe impacts, at the cost of impaired movement.",
     "occupied_bodyparts": [ [ "TORSO", 1 ], [ "ARM_L", 1 ], [ "ARM_R", 1 ], [ "LEG_L", 1 ], [ "LEG_R", 1 ] ],
+    "flags": [ "BIONIC_TOGGLED" ]
+  },
+  {
+    "id": "bio_taste_blocker",
+    "type": "bionic",
+    "name": "Taste Modifier",
+    "description": "A set of highly sensitive sensors is installed in your mouth, and a small yet sophisticated analyzer is installed in the cavity of your skull.  When you put something that you plan to eat in your mouth, sensors intercept all data related to the comestible (such as taste or texture) from various receptors in your mouth and send it forth to the analyzer.  Based on the gathered data, analyzer can modify it prior to sending it forth to the brain.  Active bionic will nullify the taste of all comestibles with negative enjoyment value at the cost of draining bionic power.",
+    "occupied_bodyparts": [ [ "HEAD", 1 ], [ "MOUTH", 1 ] ],
+    "flags": [ "BIONIC_TOGGLED" ]
+  },
+  {
+    "id": "bio_soporific",
+    "type": "bionic",
+    "name": "Soporific Induction",
+    "description": "An electrode has been implanted into your brain's ventrolateral preoptic nucleus.  It turns on whenever you're trying to fall asleep, creating an artificial but effective sensation of fatigue.",
+    "occupied_bodyparts": [ [ "HEAD", 1 ] ],
     "flags": [ "BIONIC_TOGGLED" ]
   }
 ]

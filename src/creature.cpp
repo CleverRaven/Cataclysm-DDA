@@ -32,6 +32,7 @@ const efftype_id effect_sleep( "sleep" );
 const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_zapped( "zapped" );
 const efftype_id effect_lying_down( "lying_down" );
+const efftype_id effect_no_sight( "no_sight" );
 
 const std::map<std::string, m_size> Creature::size_map = {
     {"TINY", MS_TINY}, {"SMALL", MS_SMALL}, {"MEDIUM", MS_MEDIUM},
@@ -60,7 +61,7 @@ Creature::Creature()
     speed_base = 100;
     underwater = false;
 
-    reset_bonuses();
+    Creature::reset_bonuses();
 
     fake = false;
 }
@@ -203,6 +204,9 @@ bool Creature::sees( const tripoint &t, bool is_player ) const
         } else {
             range = range_min;
         }
+        if( has_effect( effect_no_sight ) ) {
+            range = 1;
+        }
         if( is_player ) {
             // Special case monster -> player visibility, forcing it to be symmetric with player vision.
             const float player_visibility_factor = g->u.visibility() / 100.0f;
@@ -277,7 +281,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
             // friendly to the player, not a target for us
             return npc_ptr->get_attitude() == NPCATT_KILL;
         }
-        //@todo: what about g->u?
+        // TODO: what about g->u?
         return false;
     } );
     for( auto &m : targets ) {

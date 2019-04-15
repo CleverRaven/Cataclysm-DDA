@@ -19,10 +19,23 @@
     "durability": 9,
     "burst": 10,
     "barrel_length": 1,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "muzzle", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
+    ],
     "magazines": [
       [ "762", [ "akmmag", "akmbigmag" ] ],
-      [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ],
+      [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ],
       [ "308", [ "g3mag", "g3bigmag" ] ]
     ],
     "flags": [ "NEVER_JAMS" ]
@@ -50,10 +63,23 @@
     "burst": 12,
     "barrel_length": 1,
     "default_mods": [ "folding_stock" ],
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "muzzle", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
+    ],
     "magazines": [
       [ "762", [ "akmmag", "akmbigmag" ] ],
-      [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ],
+      [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ],
       [ "308", [ "g3mag", "g3bigmag" ] ]
     ]
   },
@@ -79,7 +105,20 @@
     "clip_size": 10,
     "barrel_length": 2,
     "built_in_mods": [ "inter_bayonet" ],
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "muzzle", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
+    ],
     "magazines": [ [ "762", [ "762x39_clip" ] ] ],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS" ]
   }

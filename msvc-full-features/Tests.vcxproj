@@ -107,7 +107,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level1</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(VCInstallDir)UnitTest\include;..\src;$(SDL2ROOT)include;$(SDL2TTF)include;$(SDL2MIXER)include;$(SDL2IMAGE)include;$(GETTEXT)include;$(LUADIR)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(VCInstallDir)UnitTest\include;..\src;$(SDL2ROOT)include;$(SDL2TTF)include;$(SDL2MIXER)include;$(SDL2IMAGE)include;$(GETTEXT)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>SDL_MAIN_HANDLED;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;WIN32_LEAN_AND_MEAN;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UseFullPaths>true</UseFullPaths>
       <SDLCheck>true</SDLCheck>
@@ -117,8 +117,8 @@
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalLibraryDirectories>$(VCInstallDir)UnitTest\lib;$(SDL2ROOT)lib\$(PlatformTarget);$(SDL2TTF)lib\$(PlatformTarget);$(SDL2MIXER)lib\$(PlatformTarget);$(SDL2IMAGE)lib\$(PlatformTarget);$(GETTEXT)lib\$(PlatformTarget);$(LUADIR)lib\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libiconv.lib;libintl.lib;Lua.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(VCInstallDir)UnitTest\lib;$(SDL2ROOT)lib\$(PlatformTarget);$(SDL2TTF)lib\$(PlatformTarget);$(SDL2MIXER)lib\$(PlatformTarget);$(SDL2IMAGE)lib\$(PlatformTarget);$(GETTEXT)lib\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libiconv.lib;libintl.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ProjectReference>
       <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
@@ -129,7 +129,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level1</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(VCInstallDir)UnitTest\include;..\src;$(SDL2ROOT)include;$(SDL2TTF)include;$(SDL2MIXER)include;$(SDL2IMAGE)include;$(GETTEXT)include;$(LUADIR)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(VCInstallDir)UnitTest\include;..\src;$(SDL2ROOT)include;$(SDL2TTF)include;$(SDL2MIXER)include;$(SDL2IMAGE)include;$(GETTEXT)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>SDL_MAIN_HANDLED;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;WIN32_LEAN_AND_MEAN;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UseFullPaths>true</UseFullPaths>
       <CompileAsManaged>false</CompileAsManaged>
@@ -144,8 +144,8 @@
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalLibraryDirectories>$(VCInstallDir)UnitTest\lib;$(SDL2ROOT)lib\$(PlatformTarget);$(SDL2TTF)lib\$(PlatformTarget);$(SDL2MIXER)lib\$(PlatformTarget);$(SDL2IMAGE)lib\$(PlatformTarget);$(GETTEXT)lib\$(PlatformTarget);$(LUADIR)lib\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libiconv.lib;libintl.lib;Lua.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(VCInstallDir)UnitTest\lib;$(SDL2ROOT)lib\$(PlatformTarget);$(SDL2TTF)lib\$(PlatformTarget);$(SDL2MIXER)lib\$(PlatformTarget);$(SDL2IMAGE)lib\$(PlatformTarget);$(GETTEXT)lib\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libiconv.lib;libintl.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <LinkStatus>true</LinkStatus>
       <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
       <IgnoreSpecificDefaultLibraries>
@@ -162,7 +162,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(VCInstallDir)UnitTest\include;..\src;$(SDL2ROOT)include;$(SDL2TTF)include;$(SDL2MIXER)include;$(SDL2IMAGE)include;$(GETTEXT)include;$(LUADIR)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(VCInstallDir)UnitTest\include;..\src;$(SDL2ROOT)include;$(SDL2TTF)include;$(SDL2MIXER)include;$(SDL2IMAGE)include;$(GETTEXT)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>SDL_MAIN_HANDLED;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;WIN32_LEAN_AND_MEAN;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UseFullPaths>true</UseFullPaths>
       <CompileAsManaged>false</CompileAsManaged>
@@ -174,8 +174,8 @@
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(VCInstallDir)UnitTest\lib;$(SDL2ROOT)lib\$(PlatformTarget);$(SDL2TTF)lib\$(PlatformTarget);$(SDL2MIXER)lib\$(PlatformTarget);$(SDL2IMAGE)lib\$(PlatformTarget);$(GETTEXT)lib\$(PlatformTarget);$(LUADIR)lib\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libiconv.lib;libintl.lib;Lua.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(VCInstallDir)UnitTest\lib;$(SDL2ROOT)lib\$(PlatformTarget);$(SDL2TTF)lib\$(PlatformTarget);$(SDL2MIXER)lib\$(PlatformTarget);$(SDL2IMAGE)lib\$(PlatformTarget);$(GETTEXT)lib\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libiconv.lib;libintl.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ProjectReference>
       <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
@@ -188,7 +188,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(VCInstallDir)UnitTest\include;..\src;$(SDL2ROOT)include;$(SDL2TTF)include;$(SDL2MIXER)include;$(SDL2IMAGE)include;$(GETTEXT)include;$(LUADIR)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(VCInstallDir)UnitTest\include;..\src;$(SDL2ROOT)include;$(SDL2TTF)include;$(SDL2MIXER)include;$(SDL2IMAGE)include;$(GETTEXT)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>SDL_MAIN_HANDLED;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;WIN32_LEAN_AND_MEAN;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UseFullPaths>true</UseFullPaths>
       <CompileAsManaged>false</CompileAsManaged>
@@ -204,8 +204,8 @@
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(VCInstallDir)UnitTest\lib;$(SDL2ROOT)lib\$(PlatformTarget);$(SDL2TTF)lib\$(PlatformTarget);$(SDL2MIXER)lib\$(PlatformTarget);$(SDL2IMAGE)lib\$(PlatformTarget);$(GETTEXT)lib\$(PlatformTarget);$(LUADIR)lib\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libiconv.lib;libintl.lib;Lua.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(VCInstallDir)UnitTest\lib;$(SDL2ROOT)lib\$(PlatformTarget);$(SDL2TTF)lib\$(PlatformTarget);$(SDL2MIXER)lib\$(PlatformTarget);$(SDL2IMAGE)lib\$(PlatformTarget);$(GETTEXT)lib\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libiconv.lib;libintl.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <LinkStatus>true</LinkStatus>
       <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
       <IgnoreSpecificDefaultLibraries>

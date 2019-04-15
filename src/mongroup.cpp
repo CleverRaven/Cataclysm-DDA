@@ -83,7 +83,7 @@ const MonsterGroup &MonsterGroupManager::GetUpgradedMonsterGroup( const mongroup
         const time_duration replace_time = groupptr->monster_group_time *
                                            get_option<float>( "MONSTER_UPGRADE_FACTOR" );
         while( groupptr->replace_monster_group &&
-               calendar::turn - calendar::time_of_cataclysm > replace_time ) {
+               calendar::turn - time_point( calendar::start ) > replace_time ) {
             groupptr = &groupptr->new_monster_group.obj();
         }
     }
@@ -364,6 +364,7 @@ void MonsterGroupManager::LoadMonsterGroup( JsonObject &jo )
         || jo.has_string( "default" ) ) { //Not mandatory to specify default if extending existing group
         g.defaultMonster = mtype_id( jo.get_string( "default" ) );
     }
+    g.is_animal = jo.get_bool( "is_animal", false );
     if( jo.has_array( "monsters" ) ) {
         JsonArray monarr = jo.get_array( "monsters" );
 
@@ -417,6 +418,12 @@ void MonsterGroupManager::LoadMonsterGroup( JsonObject &jo )
     }
 
     monsterGroupMap[g.name] = g;
+}
+
+bool MonsterGroupManager::is_animal( const mongroup_id &group_name )
+{
+    const MonsterGroup *groupptr = &group_name.obj();
+    return groupptr->is_animal;
 }
 
 void MonsterGroupManager::ClearMonsterGroups()

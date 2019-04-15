@@ -133,7 +133,7 @@
       },
       "place_signs": [
         { "signage": "<family_name> Family Shooting Range", "x": 10, "y": 4 },
-        { "signage": "Open sunrise to sunset, everday besides Sundays", "x": 13, "y": 4 },
+        { "signage": "Open sunrise to sunset, everyday besides Sundays", "x": 13, "y": 4 },
         { "signage": "5 YARDS", "x": 1, "y": 14 },
         { "signage": "5 YARDS", "x": 22, "y": 14 },
         { "signage": "10 YARDS", "x": 1, "y": 19 },

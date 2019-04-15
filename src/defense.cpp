@@ -190,11 +190,11 @@ void defense_game::init_mtypes()
     for( auto &type : MonsterGenerator::generator().get_all_mtypes() ) {
         mtype *const t = const_cast<mtype *>( &type );
         t->difficulty *= 1.5;
-        t->difficulty += int( t->difficulty / 5 );
-        t->flags.insert( MF_BASHES );
-        t->flags.insert( MF_SMELLS );
-        t->flags.insert( MF_HEARS );
-        t->flags.insert( MF_SEES );
+        t->difficulty += static_cast<int>( t->difficulty / 5 );
+        t->set_flag( MF_BASHES );
+        t->set_flag( MF_SMELLS );
+        t->set_flag( MF_HEARS );
+        t->set_flag( MF_SEES );
     }
 }
 
@@ -532,7 +532,7 @@ void defense_game::setup()
                                .title( _( "Template Name:" ) )
                                .width( 20 )
                                .query_string();
-            //TODO: this is NON FUNCTIONAL!!!
+            // TODO: this is NON FUNCTIONAL!!!
             refresh_setup( w, selection );
         } else {
             switch( selection ) {
@@ -973,7 +973,7 @@ Press %s to buy everything in your cart, %s to buy nothing." ),
                     item_selected = 0;
                     offset = 0;
                 }
-                if( item_selected > offset + 22 ) {
+                if( item_selected > offset + 12 ) {
                     offset++;
                 }
                 draw_caravan_items( w, &( items[category_selected] ),
@@ -1003,7 +1003,7 @@ Press %s to buy everything in your cart, %s to buy nothing." ),
                     item_selected--;
                 } else {
                     item_selected = items[category_selected].size() - 1;
-                    offset = item_selected - 22;
+                    offset = item_selected - 12;
                     if( offset < 0 ) {
                         offset = 0;
                     }
@@ -1285,9 +1285,10 @@ void draw_caravan_categories( const catacurses::window &w, int category_selected
     wprintz( w, ( total_price > cash ? c_red : c_green ), "%s",
              format_money( static_cast<long>( cash ) - static_cast<long>( total_price ) ) );
 
-    for( int i = 0; i < NUM_CARAVAN_CATEGORIES; i++ )
+    for( int i = 0; i < NUM_CARAVAN_CATEGORIES; i++ ) {
         mvwprintz( w, i + 3, 1, ( i == category_selected ? h_white : c_white ),
                    caravan_category_name( caravan_category( i ) ).c_str() );
+    }
     wrefresh( w );
 }
 
@@ -1329,7 +1330,7 @@ int caravan_price( player &u, int price )
 {
     ///\EFFECT_BARTER reduces caravan prices, 5% per point, up to 50%
     if( u.get_skill_level( skill_barter ) > 10 ) {
-        return int( double( price ) * .5 );
+        return static_cast<int>( static_cast<double>( price ) * .5 );
     }
     return price * ( 1.0 - u.get_skill_level( skill_barter ) * .05 );
 }

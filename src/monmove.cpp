@@ -22,6 +22,9 @@
 #include "sounds.h"
 #include "translations.h"
 #include "trap.h"
+#include "vpart_position.h"
+#include "tileray.h"
+#include "vehicle.h"
 
 #define MONSTER_FOLLOW_DIST 8
 
@@ -30,9 +33,15 @@ const species_id FUNGUS( "FUNGUS" );
 const efftype_id effect_bouldering( "bouldering" );
 const efftype_id effect_docile( "docile" );
 const efftype_id effect_downed( "downed" );
+const efftype_id effect_no_sight( "no_sight" );
 const efftype_id effect_pacified( "pacified" );
 const efftype_id effect_pushed( "pushed" );
 const efftype_id effect_stunned( "stunned" );
+
+const species_id ZOMBIE( "ZOMBIE" );
+const species_id BLOB( "BLOB" );
+const species_id ROBOT( "ROBOT" );
+const species_id WORM( "WORM" );
 
 bool monster::wander()
 {
@@ -199,13 +208,13 @@ void monster::plan( const mfactions &factions )
     float dist = !smart_planning ? 1000 : 8.6f;
     bool fleeing = false;
     bool docile = friendly != 0 && has_effect( effect_docile );
-    bool angers_hostile_weak = type->anger.find( MTRIG_HOSTILE_WEAK ) != type->anger.end();
-    int angers_hostile_near =
-        ( type->anger.find( MTRIG_HOSTILE_CLOSE ) != type->anger.end() ) ? 5 : 0;
-    int angers_mating_season = ( type->anger.find( MTRIG_MATING_SEASON ) != type->anger.end() ) ? 3 : 0;
-    int angers_cub_threatened = ( type->anger.find( MTRIG_PLAYER_NEAR_BABY ) != type->anger.end() ) ?
-                                8 : 0;
-    int fears_hostile_near = ( type->fear.find( MTRIG_HOSTILE_CLOSE ) != type->fear.end() ) ? 5 : 0;
+
+    const bool angers_hostile_weak = type->has_anger_trigger( mon_trigger::HOSTILE_WEAK );
+    const int angers_hostile_near = type->has_anger_trigger( mon_trigger::HOSTILE_CLOSE ) ? 5 : 0;
+    const int angers_mating_season = type->has_anger_trigger( mon_trigger::MATING_SEASON ) ? 3 : 0;
+    const int angers_cub_threatened = type->has_anger_trigger( mon_trigger::PLAYER_NEAR_BABY ) ? 8 : 0;
+    const int fears_hostile_near = type->has_fear_trigger( mon_trigger::HOSTILE_CLOSE ) ? 5 : 0;
+
     auto all_monsters = g->all_monsters();
     bool group_morale = has_flag( MF_GROUP_MORALE ) && morale < type->morale;
     bool swarms = has_flag( MF_SWARMS );
@@ -376,7 +385,7 @@ void monster::plan( const mfactions &factions )
         if( angers_hostile_weak && att_to_target != Attitude::A_FRIENDLY ) {
             int hp_per = target->hp_percentage();
             if( hp_per <= 70 ) {
-                anger += 10 - int( hp_per / 10 );
+                anger += 10 - static_cast<int>( hp_per / 10 );
             }
         }
     } else if( friendly > 0 && one_in( 3 ) ) {
@@ -442,9 +451,9 @@ void monster::move()
         static const auto volume_per_hp = units::from_milliliter( 250 );
         for( auto &elem : g->m.i_at( pos() ) ) {
             hp += elem.volume() / volume_per_hp; // Yeah this means it can get more HP than normal.
-            if( has_flag( MF_ABSORBS_SPLITS ) && hp * 2 > type->hp ) {
+            if( has_flag( MF_ABSORBS_SPLITS ) && hp / 2 > type->hp ) {
                 for( const tripoint &dest : g->m.points_in_radius( pos(), 1 ) ) {
-                    if( g->is_empty( dest ) && hp * 2 > type->hp ) {
+                    if( g->is_empty( dest ) && hp / 2 > type->hp ) {
                         if( monster *const  spawn = g->summon_mon( type->id, dest ) ) {
                             hp -= type->hp;
                             //this is a new copy of the monster. Ideally we should copy the stats/effects that affect the parent
@@ -642,7 +651,7 @@ void monster::move()
                 }
 
                 // Last chance - we can still do the z-level stair teleport bullshit that isn't removed yet
-                // @todo: Remove z-level stair bullshit teleport after aligning all stairs
+                // TODO: Remove z-level stair bullshit teleport after aligning all stairs
                 if( !can_z_move &&
                     posx() / ( SEEX * 2 ) == candidate.x / ( SEEX * 2 ) &&
                     posy() / ( SEEY * 2 ) == candidate.y / ( SEEY * 2 ) ) {
@@ -678,6 +687,9 @@ void monster::move()
                 // Friendly fire and pushing are always bad choices - they take a lot of time
                 bad_choice = true;
             }
+
+            // Try to shove vehicle out of the way
+            shove_vehicle( destination, candidate );
 
             // Bail out if we can't move there and we can't bash.
             if( !pathed && !can_move_to( candidate ) ) {
@@ -771,14 +783,24 @@ void monster::footsteps( const tripoint &p )
     if( volume == 0 ) {
         return;
     }
+    std::string footstep = _( "footsteps." );
+    if( type->in_species( BLOB ) ) {
+        footstep = _( "plop." );
+    } else if( type->in_species( ZOMBIE ) ) {
+        footstep = _( "shuffling." );
+    } else if( type->in_species( ROBOT ) ) {
+        footstep = _( "mechanical whirring." );
+    } else if( type->in_species( WORM ) ) {
+        footstep = _( "rustle." );
+    }
     int dist = rl_dist( p, g->u.pos() );
-    sounds::add_footstep( p, volume, dist, this );
+    sounds::add_footstep( p, volume, dist, this, footstep );
     return;
 }
 
 tripoint monster::scent_move()
 {
-    // @todo: Remove when scentmap is 3D
+    // TODO: Remove when scentmap is 3D
     if( abs( posz() - g->get_levz() ) > SCENT_MAP_Z_REACH ) {
         return { -1, -1, INT_MIN };
     }
@@ -1148,6 +1170,13 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
     } else if( has_effect( effect_bouldering ) ) {
         remove_effect( effect_bouldering );
     }
+
+    if( g->m.has_flag_ter_or_furn( TFLAG_NO_SIGHT, p ) && on_ground ) {
+        add_effect( effect_no_sight, 1_turns, num_bp, true );
+    } else if( has_effect( effect_no_sight ) ) {
+        remove_effect( effect_no_sight );
+    }
+
     g->m.creature_on_trap( *this );
     if( !will_be_water && ( has_flag( MF_DIGS ) || has_flag( MF_CAN_DIG ) ) ) {
         underwater = g->m.has_flag( "DIGGABLE", pos() );
@@ -1200,6 +1229,11 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
     if( has_flag( MF_DRIPS_NAPALM ) ) {
         if( one_in( 10 ) ) {
             g->m.add_item_or_charges( pos(), item( "napalm" ) );
+        }
+    }
+    if( has_flag( MF_DRIPS_GASOLINE ) ) {
+        if( one_in( 5 ) ) {
+            g->m.add_item_or_charges( pos(), item( "gasoline" ) );
         }
     }
     return true;
@@ -1542,11 +1576,85 @@ int monster::turns_to_reach( int x, int y )
             // the doors intact.
             return 999;
         } else if( i == 0 ) {
-            turns += double( calc_movecost( pos(), next ) ) / get_speed();
+            turns += static_cast<double>( calc_movecost( pos(), next ) ) / get_speed();
         } else {
-            turns += double( calc_movecost( path[i - 1], next ) ) / get_speed();
+            turns += static_cast<double>( calc_movecost( path[i - 1], next ) ) / get_speed();
         }
     }
 
-    return int( turns + .9 ); // Halve (to get turns) and round up
+    return static_cast<int>( turns + .9 ); // Halve (to get turns) and round up
+}
+
+void monster::shove_vehicle( const tripoint &remote_destination,
+                             const tripoint &nearby_destination )
+{
+    if( this->has_flag( MF_PUSH_VEH ) ) {
+        auto vp = g->m.veh_at( nearby_destination );
+        if( vp ) {
+            vehicle &veh = vp->vehicle();
+            const units::mass veh_mass = veh.total_mass();
+            int shove_moves_minimal = 0;
+            int shove_veh_mass_moves_factor = 0;
+            int shove_velocity = 0;
+            float shove_damage_min = 0.00F;
+            float shove_damage_max = 0.00F;
+            switch( this->get_size() ) {
+                case MS_TINY:
+                case MS_SMALL:
+                    break;
+                case MS_MEDIUM:
+                    if( veh_mass < 500_kilogram ) {
+                        shove_moves_minimal = 150;
+                        shove_veh_mass_moves_factor = 20;
+                        shove_velocity = 500;
+                        shove_damage_min = 0.00F;
+                        shove_damage_max = 0.01F;
+                    }
+                    break;
+                case MS_LARGE:
+                    if( veh_mass < 1000_kilogram ) {
+                        shove_moves_minimal = 100;
+                        shove_veh_mass_moves_factor = 8;
+                        shove_velocity = 1000;
+                        shove_damage_min = 0.00F;
+                        shove_damage_max = 0.03F;
+                    }
+                    break;
+                case MS_HUGE:
+                    if( veh_mass < 1500_kilogram ) {
+                        shove_moves_minimal = 50;
+                        shove_veh_mass_moves_factor = 4;
+                        shove_velocity = 1500;
+                        shove_damage_min = 0.00F;
+                        shove_damage_max = 0.05F;
+                    }
+                    break;
+                default:
+                    break;
+            }
+            if( shove_velocity > 0 ) {
+                //~ %1$s - monster name, %2$s - vehicle name
+                if( g->u.sees( this->pos() ) ) {
+                    g->u.add_msg_if_player( m_bad, _( "%1$s shoves %2$s out of their way!" ), this->disp_name(),
+                                            veh.disp_name() );
+                }
+                int shove_moves = shove_veh_mass_moves_factor * veh_mass / 10_kilogram;
+                shove_moves = std::max( shove_moves, shove_moves_minimal );
+                this->mod_moves( -shove_moves );
+                const int destination_delta_x = remote_destination.x - nearby_destination.x;
+                const int destination_delta_y = remote_destination.y - nearby_destination.y;
+                const int destination_delta_z = remote_destination.z - nearby_destination.z;
+                const tripoint shove_destination( clamp( destination_delta_x, -1, 1 ),
+                                                  clamp( destination_delta_y, -1, 1 ),
+                                                  clamp( destination_delta_z, -1, 1 ) );
+                veh.skidding = true;
+                veh.velocity = shove_velocity;
+                if( shove_destination != tripoint_zero ) {
+                    g->m.move_vehicle( veh, shove_destination, veh.face );
+                }
+                veh.move = tileray( destination_delta_x, destination_delta_y );
+                veh.smash( shove_damage_min, shove_damage_max, 0.10F );
+            }
+        }
+    }
 }

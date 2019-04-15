@@ -57,7 +57,7 @@ class editmap
         int edit_veh();
         int edit_mapgen();
         void cleartmpmap( tinymap &tmpmap );
-        int mapgen_preview( real_coords &tc, uilist &gmenu );
+        int mapgen_preview( const real_coords &tc, uilist &gmenu );
         bool mapgen_set( std::string om_name, tripoint &omt_tgt, int r = 0,
                          bool change_sensitive = true );
         vehicle *mapgen_veh_query( const tripoint &omt_tgt );

@@ -184,19 +184,19 @@ void computer::use()
         size_t options_size = options.size();
         print_newline();
         print_line( "%s - %s", _( name.c_str() ), _( "Root Menu" ) );
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
         input_context ctxt( "COMPUTER_MAINLOOP" );
 #endif
         for( size_t i = 0; i < options_size; i++ ) {
             print_line( "%d - %s", i + 1, _( options[i].name.c_str() ) );
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
             ctxt.register_manual_key( '1' + i, options[i].name.c_str() );
 #endif
         }
-        print_line( "Q - %s", _( "Quit and shut down" ) );
+        print_line( "Q - %s", _( "Quit and Shut Down" ) );
         print_newline();
-#ifdef __ANDROID__
-        ctxt.register_manual_key( 'Q', _( "Quit and shut down" ) );
+#if defined(__ANDROID__)
+        ctxt.register_manual_key( 'Q', _( "Quit and Shut Down" ) );
 #endif
         char ch;
         do {
@@ -600,11 +600,12 @@ void computer::activate_function( computer_action action )
 
             //Put some smoke gas and explosions at the nuke location.
             for( int i = g->u.posx() + 8; i < g->u.posx() + 15; i++ ) {
-                for( int j = g->u.posy() + 3; j < g->u.posy() + 12; j++ )
+                for( int j = g->u.posy() + 3; j < g->u.posy() + 12; j++ ) {
                     if( !one_in( 4 ) ) {
                         tripoint dest( i + rng( -2, 2 ), j + rng( -2, 2 ), g->u.posz() );
                         g->m.add_field( dest, fd_smoke, rng( 1, 9 ) );
                     }
+                }
             }
 
             g->explosion( tripoint( g->u.posx() + 10, g->u.posx() + 21, g->get_levz() ), 200, 0.7,
@@ -783,7 +784,7 @@ know that's sort of a big deal, but come on, these guys can't handle it?\n" ) );
             reset_terminal();
             print_line( _( "\
 SITE %d%d%d\n\
-PERTINANT FOREMAN LOGS WILL BE PREPENDED TO NOTES" ),
+PERTINENT FOREMAN LOGS WILL BE PREPENDED TO NOTES" ),
                         g->get_levx(), g->get_levy(), abs( g->get_levz() ) );
             print_line( _( "\n\
 MINE OPERATIONS SUSPENDED; CONTROL TRANSFERRED TO AMIGARA PROJECT UNDER\n\
@@ -792,7 +793,7 @@ FAULTLINE SOUNDING HAS PLACED DEPTH AT 30.09 KM\n\
 DAMAGE TO FAULTLINE DISCOVERED; NEPOWER MINE CREW PLACED UNDER ARREST FOR\n\
    VIOLATION OF REGULATION 87.08 AND TRANSFERRED TO LAB 89-C FOR USE AS\n\
    SUBJECTS\n\
-QUALITIY OF FAULTLINE NOT COMPROMISED\n\
+QUALITY OF FAULTLINE NOT COMPROMISED\n\
 INITIATING STANDARD TREMOR TEST..." ) );
             print_gibberish_line();
             print_gibberish_line();
@@ -817,9 +818,10 @@ INITIATING STANDARD TREMOR TEST..." ) );
                 const bool broken = g->u.get_hp( static_cast<hp_part>( i ) ) <= 0;
                 body_part part = g->u.hp_to_bp( static_cast<hp_part>( i ) );
                 effect &existing_effect = g->u.get_effect( effect_mending, part );
+                // Skip part if not broken or already healed 50%
                 if( !broken || ( !existing_effect.is_null() &&
-                                 existing_effect.get_duration() <
-                                 existing_effect.get_max_duration() - 5_days ) ) {
+                                 existing_effect.get_duration() >
+                                 existing_effect.get_max_duration() - 5_days - 1_turns ) ) {
                     continue;
                 }
                 g->u.moves -= 500;
@@ -840,7 +842,7 @@ INITIATING STANDARD TREMOR TEST..." ) );
                         g->u.change_side( **worn_item, false );
                     }
                 }
-                g->u.add_effect( effect_mending, 0, part, true );
+                g->u.add_effect( effect_mending, 0_turns, part, true );
                 effect &mending_effect = g->u.get_effect( effect_mending, part );
                 mending_effect.set_duration( mending_effect.get_max_duration() - 5_days );
             }
@@ -990,13 +992,13 @@ SYSTEM ADMINISTRATOR TO RESOLVE THIS ISSUE.\n\
             print_line( _( "\
 GREETINGS CITIZEN. A BIOLOGICAL ATTACK HAS TAKEN PLACE AND A STATE OF \n\
 EMERGENCY HAS BEEN DECLARED. EMERGENCY PERSONNEL WILL BE AIDING YOU \n\
-SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
+SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW. \n\
 \n\
 1. DO NOT PANIC. \n\
 2. REMAIN INSIDE THE BUILDING. \n\
 3. SEEK SHELTER IN THE BASEMENT. \n\
 4. USE PROVIDED GAS MASKS. \n\
-5. AWAIT FURTHER INSTRUCTIONS \n\
+5. AWAIT FURTHER INSTRUCTIONS. \n\
 \n\
   \n" ) );
             query_any( _( "Press any key to continue..." ) );
@@ -1518,7 +1520,7 @@ bool computer::query_bool( const char *const text, Args &&... args )
     const std::string formatted_text = string_format( text, std::forward<Args>( args )... );
     print_line( "%s (Y/N/Q)", formatted_text.c_str() );
     char ret;
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
     input_context ctxt( "COMPUTER_YESNO" );
     ctxt.register_manual_key( 'Y' );
     ctxt.register_manual_key( 'N' );
@@ -1547,7 +1549,7 @@ char computer::query_ynq( const char *const text, Args &&... args )
     const std::string formatted_text = string_format( text, std::forward<Args>( args )... );
     print_line( "%s (Y/N/Q)", formatted_text.c_str() );
     char ret;
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
     input_context ctxt( "COMPUTER_YESNO" );
     ctxt.register_manual_key( 'Y' );
     ctxt.register_manual_key( 'N' );

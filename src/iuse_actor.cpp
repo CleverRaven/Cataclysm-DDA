@@ -130,6 +130,8 @@ void iuse_transform::load( JsonObject &obj )
     need_fire_msg = obj.has_string( "need_fire_msg" ) ? _( obj.get_string( "need_fire_msg" ).c_str() ) :
                     _( "You need a source of fire!" );
 
+    obj.read( "qualities_needed", qualities_needed );
+
     obj.read( "menu_text", menu_text );
     if( !menu_text.empty() ) {
         menu_text = _( menu_text.c_str() );
@@ -196,6 +198,30 @@ long iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) con
     obj->active = active || obj->item_counter;
 
     return 0;
+}
+
+ret_val<bool> iuse_transform::can_use( const player &p, const item &, bool,
+                                       const tripoint & ) const
+{
+    std::map<quality_id, int> unmet_reqs;
+    inventory inv;
+    inv.form_from_map( p.pos(), 1 );
+    for( const auto &quality : qualities_needed ) {
+        if( !p.has_quality( quality.first, quality.second ) &&
+            !inv.has_quality( quality.first, quality.second ) ) {
+            unmet_reqs.insert( quality );
+        }
+    }
+    if( unmet_reqs.empty() ) {
+        return ret_val<bool>::make_success();
+    }
+    std::string unmet_reqs_string = enumerate_as_string( unmet_reqs.begin(), unmet_reqs.end(),
+    [&]( const std::pair<quality_id, int> &unmet_req ) {
+        return string_format( "%s %d", unmet_req.first.obj().name, unmet_req.second );
+    } );
+    return ret_val<bool>::make_failure( string_format( ngettext( "You need a tool with %s.",
+                                        "You need tools with %s.", unmet_reqs.size() ),
+                                        unmet_reqs_string ) );
 }
 
 std::string iuse_transform::get_name() const
@@ -387,7 +413,7 @@ long explosion_iuse::use( player &p, item &it, bool t, const tripoint &pos ) con
 void explosion_iuse::info( const item &, std::vector<iteminfo> &dump ) const
 {
     if( explosion.power <= 0 ) {
-        // @todo: List other effects, like EMP and clouds
+        // TODO: List other effects, like EMP and clouds
         return;
     }
 
@@ -576,7 +602,7 @@ long consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
         }
     }
     // Apply the various effects.
-    for( auto eff : effects ) {
+    for( const auto &eff : effects ) {
         time_duration dur = eff.duration;
         if( p.has_trait( trait_TOLERANCE ) ) {
             dur *= .8;
@@ -591,7 +617,8 @@ long consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
     for( const auto &field : fields_produced ) {
         const field_id fid = field_from_ident( field.first );
         for( int i = 0; i < 3; i++ ) {
-            g->m.add_field( {p.posx() + int( rng( -2, 2 ) ), p.posy() + int( rng( -2, 2 ) ), p.posz()}, fid,
+            g->m.add_field( {p.posx() + static_cast<int>( rng( -2, 2 ) ), p.posy() + static_cast<int>( rng( -2, 2 ) ), p.posz()},
+                            fid,
                             field.second );
         }
     }
@@ -635,7 +662,7 @@ void delayed_transform_iuse::load( JsonObject &obj )
 
 int delayed_transform_iuse::time_to_do( const item &it ) const
 {
-    //@todo: change return type to time_duration
+    // TODO: change return type to time_duration
     return transform_age - to_turns<int>( it.age() );
 }
 
@@ -946,7 +973,8 @@ long deploy_furn_actor::use( player &p, item &it, bool, const tripoint &pos ) co
         return 0;
     }
 
-    if( g->m.move_cost( pnt ) != 2 ) {
+    // For example: dirt = 2, long grass = 3
+    if( g->m.move_cost( pnt ) != 2 && g->m.move_cost( pnt ) != 3 ) {
         p.add_msg_if_player( m_info, _( "You can't deploy a %s there." ), it.tname().c_str() );
         return 0;
     }
@@ -993,6 +1021,9 @@ long reveal_map_actor::use( player &p, item &it, bool, const tripoint & ) const
     } else if( g->get_levz() < 0 ) {
         p.add_msg_if_player( _( "You should read your %s when you get to the surface." ),
                              it.tname().c_str() );
+        return 0;
+    } else if( p.fine_detail_vision_mod() > 4 ) {
+        p.add_msg_if_player( _( "It's too dark to read." ) );
         return 0;
     }
     const tripoint &center = omt_to_sm_copy( it.get_var( "reveal_map_center_omt",
@@ -1041,26 +1072,19 @@ bool firestarter_actor::prep_firestarter_use( const player &p, tripoint &pos )
         p.add_msg_if_player( m_info, _( "There is already a fire." ) );
         return false;
     }
-    if( g->m.flammable_items_at( pos ) ||
-        g->m.has_flag( "FLAMMABLE", pos ) || g->m.has_flag( "FLAMMABLE_ASH", pos ) ||
-        g->m.get_field_strength( pos, fd_web ) > 0 ) {
-        // Check for a brazier.
-        bool has_unactivated_brazier = false;
-        for( const auto &i : g->m.i_at( pos ) ) {
-            if( i.typeId() == "brazier" ) {
-                has_unactivated_brazier = true;
-            }
+    // Check for a brazier.
+    bool has_unactivated_brazier = false;
+    for( const auto &i : g->m.i_at( pos ) ) {
+        if( i.typeId() == "brazier" ) {
+            has_unactivated_brazier = true;
         }
-        if( has_unactivated_brazier &&
-            !query_yn(
-                _( "There's a brazier there but you haven't set it up to contain the fire. Continue?" ) ) ) {
-            return false;
-        }
-        return true;
-    } else {
-        p.add_msg_if_player( m_info, _( "There's nothing to light there." ) );
+    }
+    if( has_unactivated_brazier &&
+        !query_yn(
+            _( "There's a brazier there but you haven't set it up to contain the fire. Continue?" ) ) ) {
         return false;
     }
+    return true;
 }
 
 void firestarter_actor::resolve_firestarter_use( player &p, const tripoint &pos )
@@ -1154,7 +1178,7 @@ long firestarter_actor::use( player &p, item &it, bool t, const tripoint &spos )
             _( "At your skill level, it will take around %d minutes to light a fire." );
         p.add_msg_if_player( m_info, ( need_sunlight ? sun_msg : normal_msg ).c_str(),
                              moves / to_moves<int>( 1_minutes ) );
-    } else if( moves < to_moves<int>( 2_turns ) ) {
+    } else if( moves < to_moves<int>( 2_turns ) && g->m.is_flammable( pos ) ) {
         // If less than 2 turns, don't start a long action
         resolve_firestarter_use( p, pos );
         p.mod_moves( -moves );
@@ -1356,7 +1380,7 @@ int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
     // Original item has been consumed.
     cut.remove_item();
 
-    for( auto salvaged : materials_salvaged ) {
+    for( const auto &salvaged : materials_salvaged ) {
         std::string mat_name = salvaged.first;
         int amount = salvaged.second;
         item result( mat_name, calendar::turn );
@@ -1414,7 +1438,7 @@ bool inscribe_actor::item_inscription( item &cut ) const
     }
 
     if( material_restricted && !cut.made_of_any( material_whitelist ) ) {
-        std::string lower_verb = verb;
+        std::string lower_verb = _( verb );
         std::transform( lower_verb.begin(), lower_verb.end(), lower_verb.begin(), ::tolower );
         add_msg( m_info, _( "You can't %1$s %2$s because of the material it is made of." ),
                  lower_verb.c_str(), cut.display_name().c_str() );
@@ -2024,7 +2048,6 @@ long musical_instrument_actor::use( player &p, item &it, bool t, const tripoint 
         }
     }
 
-
     sounds::ambient_sound( p.pos(), volume, sounds::sound_t::music, desc );
 
     if( !p.has_effect( effect_music ) && p.can_hear( p.pos(), volume ) ) {
@@ -2043,7 +2066,7 @@ long musical_instrument_actor::use( player &p, item &it, bool t, const tripoint 
 ret_val<bool> musical_instrument_actor::can_use( const player &p, const item &, bool,
         const tripoint & ) const
 {
-    // TODO (maybe): Mouth encumbrance? Smoke? Lack of arms? Hand encumbrance?
+    // TODO: (maybe): Mouth encumbrance? Smoke? Lack of arms? Hand encumbrance?
     if( p.is_underwater() ) {
         return ret_val<bool>::make_failure( _( "You can't do that while underwater." ) );
     }
@@ -2545,6 +2568,15 @@ bool repair_item_actor::handle_components( player &pl, const item &fix,
                                             ceil( fix.volume() / 250_ml * cost_scaling ) :
                                             divide_roll_remainder( fix.volume() / 250_ml * cost_scaling, 1.0f ) );
 
+    std::function<bool( const item & )> filter;
+    if( fix.is_filthy() ) {
+        filter = []( const item & component ) {
+            return component.allow_crafting_component();
+        };
+    } else {
+        filter = is_crafting_component;
+    }
+
     // Go through all discovered repair items and see if we have any of them available
     for( const auto &entry : valid_entries ) {
         const auto component_id = entry.obj().repaired_with();
@@ -2552,7 +2584,7 @@ bool repair_item_actor::handle_components( player &pl, const item &fix,
             if( crafting_inv.has_charges( component_id, items_needed ) ) {
                 comps.emplace_back( component_id, items_needed );
             }
-        } else if( crafting_inv.has_amount( component_id, items_needed ) ) {
+        } else if( crafting_inv.has_amount( component_id, items_needed, false, filter ) ) {
             comps.emplace_back( component_id, items_needed );
         }
     }
@@ -2581,7 +2613,7 @@ bool repair_item_actor::handle_components( player &pl, const item &fix,
             debugmsg( "Attempted repair with no components" );
         }
 
-        pl.consume_items( comps );
+        pl.consume_items( comps, 1, filter );
     }
 
     return true;
@@ -2680,7 +2712,7 @@ bool repair_item_actor::can_repair_target( player &pl, const item &fix,
         return false;
     }
 
-    if( fix.has_flag( "PRIMITIVE_RANGED_WEAPON" ) ) {
+    if( fix.has_flag( "PRIMITIVE_RANGED_WEAPON" ) || !fix.reinforceable() ) {
         if( print_msg ) {
             pl.add_msg_if_player( m_info, _( "You cannot improve your %s any more this way." ),
                                   fix.tname().c_str() );
@@ -2899,7 +2931,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
     }
 
     if( action == RT_REINFORCE ) {
-        if( fix.has_flag( "PRIMITIVE_RANGED_WEAPON" ) ) {
+        if( fix.has_flag( "PRIMITIVE_RANGED_WEAPON" ) || !fix.reinforceable() ) {
             pl.add_msg_if_player( m_info, _( "You cannot improve your %s any more this way." ),
                                   fix.tname().c_str() );
             return AS_CANT;
@@ -3162,7 +3194,7 @@ long heal_actor::finish_using( player &healer, player &patient, item &it, hp_par
         healer.add_msg_if_player( _( "You finish using the %s." ), it.tname().c_str() );
     }
 
-    for( auto eff : effects ) {
+    for( const auto &eff : effects ) {
         patient.add_effect( eff.id, eff.duration, eff.bp, eff.permanent );
     }
 
@@ -3264,19 +3296,15 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
     const int torso_bonus = get_heal_value( healer, hp_torso );
 
     if( healer.is_npc() ) {
-        // NPCs heal whichever has sustained the most damage
+        // NPCs heal whatever has sustained the most damaged that they can heal but never
+        // rebandage parts
         int highest_damage = 0;
         for( int i = 0; i < num_hp_parts; i++ ) {
-            int damage = patient.hp_max[i] - patient.hp_cur[i];
-            if( i == hp_head ) {
-                damage *= 1.5;
-            }
-            if( i == hp_torso ) {
-                damage *= 1.2;
-            }
-            // Consider states too
-            // Weights are arbitrary, may need balancing
+            int damage = 0;
             const body_part i_bp = player::hp_to_bp( hp_part( i ) );
+            if( !patient.has_effect( effect_bandaged, i_bp ) ) {
+                damage += patient.hp_max[i] - patient.hp_cur[i];
+            }
             damage += bleed * patient.get_effect_dur( effect_bleed, i_bp ) / 50_turns;
             damage += bite * patient.get_effect_dur( effect_bite, i_bp ) / 100_turns;
             damage += infect * patient.get_effect_dur( effect_infected, i_bp ) / 100_turns;
@@ -3553,7 +3581,7 @@ iuse_actor *emit_actor::clone() const
 void emit_actor::finalize( const itype_id &my_item_type )
 {
     /*
-    // @todo: This must be called after all finalization
+    // TODO: This must be called after all finalization
     for( const auto& e : emits ) {
         if( !e.is_valid() ) {
             debugmsg( "Item %s has unknown emit source %s", my_item_type.c_str(), e.c_str() );
@@ -3785,14 +3813,8 @@ long mutagen_actor::use( player &p, item &it, bool, const tripoint & ) const
         p.mutate_category( m_category.id );
         p.mod_pain( m_category.mutagen_pain * rng( 1, 5 ) );
     }
-
-    if( m_category.mutagen_hunger * mut_count + p.get_hunger() > 300 ) {
-        // in this case starvation is directly updated
-        p.mod_starvation( m_category.mutagen_hunger * mut_count - ( 300 - p.get_hunger() ) );
-        p.set_hunger( 300 );
-    } else {
-        p.mod_hunger( m_category.mutagen_hunger * mut_count ) ;
-    }
+    // burn calories directly
+    p.mod_stored_nutr( m_category.mutagen_hunger * mut_count );
     p.mod_thirst( m_category.mutagen_thirst * mut_count );
     p.mod_fatigue( m_category.mutagen_fatigue * mut_count );
 
@@ -3835,7 +3857,7 @@ long mutagen_iv_actor::use( player &p, item &it, bool, const tripoint & ) const
     if( p.is_player() && !( p.has_trait( trait_NOPAIN ) ) && m_category.iv_sound ) {
         p.mod_pain( m_category.iv_pain );
         /** @EFFECT_STR increases volume of painful shouting when using IV mutagen */
-        sounds::sound( p.pos(), m_category.iv_noise + p.str_cur, sounds::sound_t::speech,
+        sounds::sound( p.pos(), m_category.iv_noise + p.str_cur, sounds::sound_t::alert,
                        m_category.iv_sound_message() );
     }
 

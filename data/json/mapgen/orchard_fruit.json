@@ -54,13 +54,14 @@
         "w": "t_wall_log",
         "|": "t_fence_v"
       },
-      "furniture": { "C": "f_chair", "D": "f_desk", "H": "f_sofa", "b": "f_bench", "p": "f_plant_harvest" },
+      "furniture": { "C": "f_chair", "D": "f_desk", "H": "f_sofa", "b": "f_bench" },
       "place_items": [
         { "item": "supplies_farming", "x": 6, "y": 13, "chance": 50 },
         { "item": "supplies_farming", "x": 4, "y": 11, "chance": 15 },
         { "item": "supplies_farming", "x": 6, "y": 7, "chance": 15 },
         { "item": "supplies_farming", "x": 3, "y": 9, "chance": 99 }
       ],
+      "sealed_item": { "p": { "items": { "item": "farming_seeds", "chance": 100 }, "furniture": "f_plant_harvest" } },
       "place_monsters": [
         { "monster": "GROUP_PARK_SCENIC", "x": 12, "y": 14, "chance": 2 },
         { "monster": "GROUP_PARK_ANIMAL", "x": [ 3, 20 ], "y": [ 16, 20 ], "repeat": 2 }
@@ -125,20 +126,13 @@
         "w": "t_wall_log",
         "|": "t_fence_v"
       },
-      "furniture": {
-        "&": "f_trashcan",
-        "C": "f_chair",
-        "D": "f_desk",
-        "H": "f_sofa",
-        "a": "f_trashcan",
-        "b": "f_bench",
-        "p": "f_plant_harvest"
-      },
+      "furniture": { "&": "f_trashcan", "C": "f_chair", "D": "f_desk", "H": "f_sofa", "a": "f_trashcan", "b": "f_bench" },
       "place_items": [
         { "item": "supplies_farming", "x": 6, "y": 13, "chance": 50 },
         { "item": "supplies_farming", "x": 4, "y": 11, "chance": 15 },
         { "item": "supplies_farming", "x": 6, "y": 7, "chance": 15 }
       ],
+      "sealed_item": { "p": { "items": { "item": "farming_seeds", "chance": 100 }, "furniture": "f_plant_harvest" } },
       "place_monsters": [
         { "monster": "GROUP_PARK_SCENIC", "x": 12, "y": 14, "chance": 2 },
         { "monster": "GROUP_PARK_ANIMAL", "x": [ 3, 20 ], "y": [ 16, 20 ], "repeat": 2 }

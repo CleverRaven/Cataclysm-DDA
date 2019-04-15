@@ -83,7 +83,7 @@ void mdeath::normal( monster &z )
     z.bleed(); // leave some blood if we have to
 
     if( !pulverized ) {
-        make_mon_corpse( z, int( std::floor( corpse_damage * itype::damage_scale ) ) );
+        make_mon_corpse( z, static_cast<int>( std::floor( corpse_damage * itype::damage_scale ) ) );
     }
     // if mdeath::splatter was set along normal makes sure it is not called twice
     bool splatt = false;
@@ -285,7 +285,7 @@ void mdeath::kill_vines( monster &z )
                 break;
             }
         }
-        if( !closer ) { // @todo: closer variable is not being updated and is always false!
+        if( !closer ) { // TODO: closer variable is not being updated and is always false!
             vine->die( &z );
         }
     }
@@ -470,7 +470,7 @@ void mdeath::blobsplit( monster &z )
     g->m.spawn_item( z.pos(), "slime_scrap", 1, 0, calendar::turn );
     if( z.get_speed() <= 0 ) {
         if( g->u.sees( z ) ) {
-            //  TODO:  Add vermin-tagged tiny versions of the splattered blob  :)
+            // TODO: Add vermin-tagged tiny versions of the splattered blob  :)
             add_msg( m_good, _( "The %s splatters apart." ), z.name().c_str() );
         }
         return;
@@ -714,7 +714,7 @@ void mdeath::kill_breathers( monster &z )
 void mdeath::detonate( monster &z )
 {
     weighted_int_list<std::string> amm_list;
-    for( auto amm : z.ammo ) {
+    for( const auto &amm : z.ammo ) {
         amm_list.add( amm.first, amm.second );
     }
 
@@ -775,7 +775,7 @@ void mdeath::detonate( monster &z )
     // First die normally
     mdeath::normal( z );
     // Then detonate our suicide bombs
-    for( auto bombs : dets ) {
+    for( const auto &bombs : dets ) {
         item bomb_item( bombs.first, 0 );
         bomb_item.charges = bombs.second;
         bomb_item.active = true;
@@ -843,4 +843,15 @@ void mdeath::fireball( monster &z )
     } else {
         normal( z );
     }
+}
+
+
+void mdeath::conflagration( monster &z )
+{
+    for( const auto &dest : g->m.points_in_radius( z.pos(), 1 ) ) {
+        g->m.propagate_field( dest, fd_fire, 18, 3 );
+    }
+    const std::string explode = string_format( _( "a %s explode!" ), z.name() );
+    sounds::sound( z.pos(), 24, sounds::sound_t::combat, explode );
+
 }

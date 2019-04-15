@@ -8,6 +8,8 @@
 #include <string>
 #include <vector>
 
+#include "cata_utility.h"
+
 class item;
 template<typename T>
 class string_id;
@@ -74,23 +76,26 @@ class visitable
          * Count maximum available charges from this instance and any contained items
          * @param what ID of item to count charges of
          * @param limit stop searching after this many charges have been found
+         * @param filter only count charges of items that match the filter
          */
-        long charges_of( const std::string &what, long limit = std::numeric_limits<long>::max() ) const;
+        long charges_of( const std::string &what, long limit = std::numeric_limits<long>::max(),
+                         const std::function<bool( const item & )> &filter = return_true ) const;
 
         /**
          * Count items matching id including both this instance and any contained items
-         * @param what ID of items to count
+         * @param what ID of items to count. "any" will count all items (usually used with a filter)
          * @param pseudo whether pseudo-items (from map/vehicle tiles, bionics etc) are considered
          * @param limit stop searching after this many matches
+         * @param filter only count items that match the filter
          * @note items must be empty to be considered a match
          */
         int amount_of( const std::string &what, bool pseudo = true,
-                       int limit = std::numeric_limits<int>::max() ) const;
+                       int limit = std::numeric_limits<int>::max(),
+                       const std::function<bool( const item & )> &filter = return_true ) const;
 
         /** Check instance provides at least qty of an item (@see amount_of) */
-        bool has_amount( const std::string &what, int qty, bool pseudo = true ) const {
-            return amount_of( what, pseudo, qty ) == qty;
-        }
+        bool has_amount( const std::string &what, int qty, bool pseudo = true,
+                         const std::function<bool( const item & )> &filter = return_true ) const;
 
         /** Returns all items (including those within a container) matching the filter */
         std::vector<item *> items_with( const std::function<bool( const item & )> &filter );

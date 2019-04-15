@@ -10,6 +10,7 @@
 #include "monster.h"
 #include "mtype.h"
 #include "output.h"
+#include "overmapbuffer.h"
 #include "rng.h"
 #include "sounds.h"
 #include "translations.h"
@@ -646,7 +647,7 @@ void trapfunc::pit( Creature *c, const tripoint &p )
                 int damage = eff * rng( 10, 20 ) - rng( dodge, dodge * 5 );
                 if( damage > 0 ) {
                     n->add_msg_if_player( m_bad, _( "You hurt yourself!" ) );
-                    n->hurtall( rng( int( damage / 2 ), damage ), n ); // like the message says \-:
+                    n->hurtall( rng( static_cast<int>( damage / 2 ), damage ), n ); // like the message says \-:
                     n->deal_damage( nullptr, bp_leg_l, damage_instance( DT_BASH, damage ) );
                     n->deal_damage( nullptr, bp_leg_r, damage_instance( DT_BASH, damage ) );
                 } else {
@@ -836,7 +837,7 @@ void trapfunc::lava( Creature *c, const tripoint &p )
             n->deal_damage( nullptr, bp_leg_l, damage_instance( DT_HEAT, 20 ) );
             n->deal_damage( nullptr, bp_leg_r, damage_instance( DT_HEAT, 20 ) );
         } else if( z != nullptr ) {
-            // MATERIALS-TODO: use fire resistance
+            // TODO: MATERIALS use fire resistance
             int dam = 30;
             if( z->made_of_any( Creature::cmat_flesh ) ) {
                 dam = 50;
@@ -982,7 +983,19 @@ void trapfunc::ledge( Creature *c, const tripoint &p )
             }
         } else {
             c->add_msg_if_npc( _( "<npcname> falls down a level!" ) );
-            c->die( nullptr );
+            tripoint dest = c->pos();
+            dest.z--;
+            c->impact( 20, dest );
+            if( g->m.has_flag( TFLAG_NO_FLOOR, dest ) && m != nullptr ) {
+                // don't kill until they hit the ground so that subsequent ledges will trigger
+                m->set_hp( std::max( m->get_hp(), 1 ) );
+            }
+
+            c->setpos( dest );
+            if( m != nullptr ) {
+                g->remove_zombie( *m );
+                overmap_buffer.despawn_monster( *m );
+            }
         }
 
         return;
@@ -1178,7 +1191,7 @@ void trapfunc::shadow( Creature *c, const tripoint &p )
     } while( tries < 5 && !g->is_empty( monp ) &&
              !g->m.sees( monp, g->u.pos(), 10 ) );
 
-    if( tries < 5 ) { // @todo: tries increment is missing, so this expression is always true
+    if( tries < 5 ) { // TODO: tries increment is missing, so this expression is always true
         if( monster *const spawned = g->summon_mon( mon_shadow, monp ) ) {
             add_msg( m_warning, _( "A shadow forms nearby." ) );
             spawned->reset_special_rng( "DISAPPEAR" );
@@ -1231,7 +1244,7 @@ void trapfunc::snake( Creature *c, const tripoint &p )
         } while( tries < 5 && !g->is_empty( monp ) &&
                  !g->m.sees( monp, g->u.pos(), 10 ) );
 
-        if( tries < 5 ) { // @todo: tries increment is missing, so this expression is always true
+        if( tries < 5 ) { // TODO: tries increment is missing, so this expression is always true
             if( monster *const spawned = g->summon_mon( mon_shadow_snake, p ) ) {
                 add_msg( m_warning, _( "A shadowy snake forms nearby." ) );
                 spawned->reset_special_rng( "DISAPPEAR" );

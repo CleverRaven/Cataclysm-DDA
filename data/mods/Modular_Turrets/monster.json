@@ -39,7 +39,7 @@
     "copy-from": "base_turret",
     "name": "disarmed military turret",
     "symbol": "t",
-    "description": "The Leadworks LLC's TX series turret, a military-grade automated gun turret using state of the art ATR systems to dynamically reorient itself to new friends and enemies alike.  It requires a inegrated gun module to operate.",
+    "description": "The Leadworks LLC's TX series turret, a military-grade automated gun turret using state of the art ATR systems to dynamically reorient itself to new friends and enemies alike.  It requires a integrated gun module to operate.",
     "color": "light_gray",
     "luminance": 200,
     "revert_to_itype": "bot_milturret_disarmed"
@@ -237,7 +237,7 @@
     "copy-from": "base_turret",
     "name": "50cal turret",
     "symbol": "t",
-    "description": "The Leadworks LLC's TX-13 Sentry, a military-grade automated machinegun turret using state of the art ATR systems to dynamically reorient itself to new friends and enemies alike.  Its integrated 50 calibre machinegun can swivel a full 360 degrees.",
+    "description": "The Leadworks LLC's TX-13 Sentry, a military-grade automated machinegun turret using state of the art ATR systems to dynamically reorient itself to new friends and enemies alike.  Its integrated 50 caliber machinegun can swivel a full 360 degrees.",
     "default_faction": "military",
     "diff": 30,
     "color": "green",

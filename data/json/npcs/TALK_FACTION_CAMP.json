@@ -9,7 +9,13 @@
         "text": "I want you to build a camp here.",
         "topic": "TALK_DONE",
         "effect": "start_camp",
-        "condition": { "and": [ { "u_at_om_location": "field" }, { "npc_allies": 2 } ] }
+        "condition": { "u_at_om_location": "field" }
+      },
+      {
+        "text": "Show me what needs to be done at the camp.",
+        "topic": "TALK_DONE",
+        "effect": "basecamp_mission",
+        "condition": { "npc_at_om_location": "FACTION_CAMP_ANY" }
       },
       {
         "text": "I want you to take over the camp here.",
@@ -82,10 +88,14 @@
   {
     "id": "TALK_CAMP_OVERSEER",
     "type": "talk_topic",
-    "dynamic_line": "Hey Boss...",
+    "dynamic_line": "Hey boss.  I was thinking, you don't really need me sitting in this tent and not really contributing to the camp.  it's a cushy job, but I could do more. We could put up a bulletin board and you could write up what you want done there.  What do you say?",
     "responses": [
-      { "text": "What needs to be done?", "topic": "TALK_CAMP_OVERSEER", "effect": { "companion_mission": "FACTION_CAMP" } },
-      { "text": "We're abandoning this camp.", "topic": "TALK_DONE", "effect": "remove_overseer" },
+      { "text": "What needs to be done?", "topic": "TALK_CAMP_OVERSEER", "effect": "basecamp_mission" },
+      {
+        "text": "Yes, set up the bulletin board and then go back to normal duties.",
+        "topic": "TALK_DONE",
+        "effect": "remove_overseer"
+      },
       { "text": "See you around.", "topic": "TALK_DONE" }
     ]
   }

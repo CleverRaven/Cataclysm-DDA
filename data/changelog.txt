@@ -1,4 +1,23 @@
-# 0.D (2019-01-01)
+# 0.D (Danny)
+
+## Highlights:
+
+Many quality of life enhancements such as auto-pulp, autopickup, batch actions,
+interacting with adjacent items and improved long-action handling.
+Pixel minimap for tiles mode.
+Guns accept magazines when appropriate.
+Player stamina stat that is burned by running and other physical exertion.
+Player faction base that allows incremental growth and autonomous work by NPCs.
+The player remembers terrain and furniture they have seen.
+Carrying racks for small vehicles.
+Vehicle system (speed, fuel consumption, terrain effects) overhaul.
+Overhauled nutrition, food spoilage and food state changes (freezing).
+Overhauled bomb fragment handling.
+NPC dialogue support, group commands, tactical instructions and backstories.
+Dynamic Lighting.
+Roughly DOUBLED the amount of in-game content.
+Unheard-of levels of bugfixing.
+Full translations for Chinese, German, Japanese, Polish and Russian.
 
 ## Features:
 
@@ -123,7 +142,6 @@ Removed restriction to blood draw kit so centrifuge can work with any container 
 Update washing machine to be able to use clean water.
 Add the ability to soak rags and cotton balls on disinfectant.
 Autoattack: Wait a turn if there is nothing in range.
-Carrion monster spawning.
 Changed CBM install and uninstall to require an Autodoc or a NPC doctor.
 Added control over amount of houses with basements, and basements can have individual weights.
 Adds option to disable music and sound.
@@ -167,8 +185,8 @@ Added autopickup rules based on material types.
 Artifacts can consume Portals.
 Update the fireman belt to allow attachments from fire axes, war hammers, and maces.
 Adds stealth modifier as JSON-ized mutation property.
-npctalk: add support for NPC backstories.
-npctalk: NPC group commands to guard and follow.
+Npctalk: add support for NPC backstories.
+Npctalk: NPC group commands to guard and follow.
 NPCs can hear monsters and warn the player about them.
 NPC: Warn the player about dangerous monsters.
 Background traits - framework for dialogue update.
@@ -187,6 +205,23 @@ Adds a corpse to gibbed creatures.
 Selfies can be made and stored on camera.
 NPC photos show visible mutations.
 Enable Loot Zones to bind to vehicle Cargo parts.
+Add support for amphibious vehicles.
+Adds Zone Activity to harvest plots.
+Specific guns can be targetted in json gunmods.
+Add a debug option to spawn map extras.
+Adds a context menu when examining seed drill and advanced seed drill: reload them with seeds.
+Adds a Morale boosting chitchat with friendly NPCs as an activity.
+Update bone mending machine to use mend mechanics instead of magic stemcell treatment.
+Add new pet menu option for survivor to play with certain tamed pets to increase morale.
+Improve traction handling and add new wheel types.
+Shout commands for NPC wake-up and relax.
+Food recipe results' calories and vitamins now based on components.
+Adds skinning butchery action.
+Forests now partially block wind turbines output.
+Enabled snowstorms - wet and glare effects for snow.
+Made wind effects directional, including adding a lee side to structures.
+Added gunmods that wear out over time or quickly.
+Adds ranged attack mutations (using fake guns).
 
 ## Content:
 
@@ -320,6 +355,19 @@ Mainline NPC traits mod.
 Added outbuildings to default farm.
 Regularize city grid and allow large in-city specials.
 Adds area_name into info box when looking_around.
+Adds gunmods that add slots for more gunmods.
+Adds four new NPC backstories available to all NPCs.
+Added Electroreceptors as a starting mutation to the Challenge-Lab scenario.
+Adds medicine to help nausea.
+Added new Martial Art: Sōjutsu.
+Upgrades the outer walls of the refugee center and fills the waiting area with beggars.
+Allow multiple inputs for rifle portion of rifle turret.
+Adds new vehicle part : a wind turbine.
+Adds Free Merchant currency.
+Adds methanol and ether as a possible Molotov components.
+Add "classic literature" and "collector's edition" books, move choice book spawns to library, and adjust library/mansion book spawns overall.
+Adds the possiblitiy to find an evil moose in the kitten finding game.
+Adds new furniture flag that restricts vision when in the furniture.
 
 ## Interface:
 
@@ -526,7 +574,7 @@ Allow viewing long mod descriptions.
 Amount of mods of an item is now displayed as an integer following its name.
 Android quick shortcut dimensions now account for screen density, defaulting to a sensible size on all devices.
 Many options for selecting units to display.
-npctalk: create a big dialogue window.
+Npctalk: create a big dialogue window.
 Even when only capital inputs are allowed, using lowercase inputs should still set the dialog cursor.
 Enhanced limb menu (body window) and textified healing related effects.
 B menu show butcher, disassemble and salvage times.
@@ -561,6 +609,21 @@ Play Now! loads a world with 0 character if available.
 Crafting-gui - colorize book enumeration.
 Veh_interact.cpp - colorize cargo volume.
 Sounds: add descriptions to player shouts.
+Allow installed bionics to be displayed in tiles mode.
+Allow separate tiles for activated mutations/bionics.
+Bionic power - equalize names and colorize values.
+Don't reveal wall connections the player should not know about.
+Automatically calculate monster difficulty.
+Player display: add support for hidden traits.
+Player character will open closed fence gates when walking, will vault over the fence gate when running.
+Allow multiple filters for crafting recipes in crafting menu.
+Status includes approximate times for NPC needs.
+Crafting GUI Filter saves history; possibility to move trough history with arrow keys.
+Changes text color to match map note color.
+Bind '?' to open keybindings window by default.
+Display scenario description after game start.
+Alternative night vision intensity.
+Added scaling option to resize screen elements in SDL mode for use on large screens.
 
 ## Mods:
 
@@ -622,6 +685,11 @@ Partially moved Folding Parts Mod to base game.
 Convert Bright Nights region_settings to region_overlay.
 Added anthill, bee, and large zombie exclusion mods.
 MSX Dead People tileset update and make it default.
+Adds new mod Growable pots.
+Mainlined Tall Buildings mod.
+Add urban development buildings to city spawns.
+Salvaged Robots: More robot themed professions.
+USABLE_FIRE tag makes terrain or furniture usable as a nearby fire for crafting.
 
 ## Balance:
 
@@ -795,6 +863,17 @@ Modifies calorie amounts for flesh/fish and Fat products, including butchery pro
 Rework vehicle safe and max velocities based on physics.
 Adding more requirements to screwdriver set recipe.
 Causes corpse damage level to negatively affect butchery yields.
+Adjust PRY ability levels.
+MBR vests weight and recipe fixes.
+Reset aim of bows between shots.
+Refine forest trailhead placement.
+Adjust clay distribution in forests and on river banks.
+Rebalance comestibles' calories, vitamins, weight, and volume.
+Made vitamin deficiencies slower to accumulate.
+Rebalances recipes to be closer in calorie count for input and output.
+Increases duration of most morale effects
+Rapid metabolism made purifiable.
+Joint Torsion increases stamina usage when moving.
 
 ## Bugfixes:
 
@@ -910,7 +989,7 @@ Prevent heat induced vomiting until dead.
 Folding vehicles: improve collision test when unfolding.
 Fix item category names not updated when switching the language.
 Fixed lightmap-related crashes in MinGW 64-bit executables.
-npc: NPCs on guard duty in a vehicle stay in the vehicle.
+Npc: NPCs on guard duty in a vehicle stay in the vehicle.
 Fixes isometric tile rendering.
 Npc: friendly NPCs only warn about hostile monsters.
 Fix bomb fragment placement with z-levels on.
@@ -929,6 +1008,46 @@ Skip dodge and block techniques when looking for a normal technique.
 Fixed zombie necromancer was able to revive zombies pulped by a very hard hit.
 Fix aiming anywhere after player has moved.
 Applies radiation mitigation to all sources.
+Adds minireactor to electrical power calculation.
+Fixes gunmods that add non-auxiliary gun modes.
+Fix NPC weapon wielding turn cost.
+Fix monsters' special attack description not translated.
+Fix aiming via mouse click.
+Skinning animals smaller than Great Pyrenees now possible.
+Vehicles: don't let drag stop vehicles in active cruise control.
+No map extras in refugee center (for now).
+Greater search range for refugee camp bandit missions.
+Allows vehicles with a seed-drill to plant seeds
+Fixed time cost for auto-mining.
+Fix crash related to null pointer in creature tracker.
+Make fire extinguishers work again.
+Fix ASCII fallback for corpses.
+vehicles: improve split logic.
+Game: adjust vehicle driving offset based on the new speeds.
+Unloading ammunition belt can be interrupted.
+Fix HP not being recalculated during chargen.
+Restore ability to use recipes from eink tablet.
+Made Mycus Fireproofing and Mycogenesis consistent, and they will no longer prevent your clothes from burning.
+Correct several uses of distance metrics.
+basecamp: retrieve companions sent to do expansion crafting.
+Fix wall connectedness on tiles builds with tiles disabled.
+Vehicles: only sink vehicles in deep water.
+Prevent NPC duplications when climbing stairs and colliding with a monster.
+Prevent zone activities from working across z-levels.
+Fix lighting of exterior walls by player-held light sources at night.
+Move control laptop time investment to be before hacking attempt.
+Respect `looks_like` for memorized tiles.
+Disallow pseudo items in crafting component selection.
+Fix calculation of chance to persuade NPCs to train.
+Npc: fix NPC followers not closing doors.
+Serialize recipe charges.
+Fixed NPC dialog around lying and succeeding at missions.
+More mall background tiles will match floor.
+Stop people from randomly mutating new hair styles.
+Silence error message when monster AI traverses an off-map vehicle.
+Fix handling of NPC passenger removal.
+Fix check for available wheels when changing tires.
+Disallow washing in the dark.
 
 ## Performance:
 
@@ -975,6 +1094,11 @@ Faster item layer computation.
 Improve performance of encumbrance calculations.
 Lazily load sound effects as they are encountered instead of at application startup unless explicitly preloaded.
 Faster color name lookup.
+Remove recursive call from open_or_close().
+Performance boost for SDL drawing using color modulated textures.
+Improve sorting large numbers of items into zones.
+Optimize inbounds check and reactor lookup.
+Large optimizations to dynamic lighting via a fast exp approximation.
 
 ## Infrastructure:
 
@@ -1139,6 +1263,35 @@ Add tool qualities to the game for later use in scientific tools.
 Replace tag_colored_string with colorize.
 Run tests for CMake CI build.
 Simpler test randomness seeding.
+Enable functional boats phase.
+Npctalk: add more conditions and dynamic line options.
+Npc: remove hardcoded mutation modifiers to opinions and use JSON values
+Adds not-quite implemented basic analytical tools for chemistry.
+Fix city districts and increase default size.
+Npctalk: add u_sell_item effect.
+Npctalk: add a simple pseudo-switch for responses.
+Fix NPC class loadout selection.
+Npctalk: add mutation threshold flags, static and starting NPC traits, and a basecamp count.
+Document units for power and energy_consumption.
+Replaced hardcoded terrain list with checking of terrain flag.
+Change within_visual_range function to reflect usage.
+Allow more specific control over tests run in CI.
+Improves structure of background stories to prepare for other types of inquiry.
+Improvements to player_activity regarding distractions.
+Npctalk: add true/false responses and CONDITION trials to JSON.
+Allow flag-based blacklisting and whitelisting of overmap locations on a per-region basis.
+Npctalk: add a bunch of new options to JSON.
+Rationalize Visual Studio compatibility code.
+Mutation loading now uses generic_factory.
+Make route_adjacent available to all activity handlers.
+Moved wind generation variables to regional_map_settings.json.
+Npctalk: move NPC needs to JSON.
+Npctalk: move NPC follower AI rules to JSON.
+Npctalk: move almost all dialogue into JSON.
+JSONnizing CBM slot feature.
+Land Use Codes infrastructure.
+Moves allergen handling vitamin absorption to JSON.
+Refactor advanced inventory item movement to use activities.
 
 ## Build:
 
@@ -1255,10 +1408,35 @@ Provide context for translating strings of monster abilities.
 Allowed recoil level to be translated.
 
 ## Statistics:
-
-3062 files changed, 2748553 insertions(+), 1829082 deletions(-)
-34,168 commits
+3271 files changed, 4621405 insertions(+), 1700313 deletions(-)
+37,604 commits
 ~700 contributors
+
+New game entities (core)
+Items:
+11 ammunition types, 84 armors, 13 bionics, 18 books, 258 foods, 18 constructibles, 21 containers,
+547 crafting recipes, 208 misc items, 52 guns, 33 gunmods, 75 tools, 22 wearable tools, 6 tool mods,
+303 uncraft recipes, 17 vehicle wheels
+Mapgen:
+52 epilogues, 46 furnitures, 496 item spawn groups, 1139 mapgen entries, 69 monster spawn lists,
+64 overmap specials, 730 overmap terrains, 34 mapgen palettes, 137 terrain types,
+52 vehicle blueprints, 30 vehicle spawn groups
+Misc:
+4 dreams, 66 effect types, 9 engine faults, 47 harvest entries, 3 martial arts, 14 materials,
+104 monsters, 16 monster factions, 211 mutations, 20 professions, 13 scenarios, 262 snippets,
+31 start locations, 455 talk topics, 8 martial art techniques, 153 vehicle parts, 17 vehicle wheels
+New game entities (mods)
+Items:
+102 ammunition types, 28 armors, 3 bionics, 17 books, 60 foods, 11 constructables, 12 containers,
+6 engines, 206 misc items, 118 guns, 6 gunmods, 43 magazines, 369 crafting recipes, 136 tools,
+158 uncraft recipes
+Mapgen
+12 furnitures, 348 item spawn groups, 1911 mapgen entries, 41 monster spawn groups,
+41 overmap specials, 2372 overmap terrains, 33 mapgen palettes, 11 start locations, 44 terrains,
+24 vehicle blueprints, 24 vehicle spawn groups
+Misc:
+2 harvest entries, 2 martial arts, 119 monsters, 2 mutations, 34 professions, 24 starting scenarios,
+93 snippets, 275 monster speech entries, 8 talk topics, 11 martial art techniques, 395 vehicle parts
 
 ======
 

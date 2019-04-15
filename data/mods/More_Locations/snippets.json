@@ -1,171 +1,212 @@
 [
   {
-      "type" : "snippet",
-      "category" : "robot_protest",
-      "text": "Real work for real people!"
-  },{
-      "type" : "snippet",
-      "category" : "robot_protest",
-      "text": "Strike!"
-  },{
-      "type" : "snippet",
-      "category" : "robot_protest",
-      "text": "Robots stole my job!"
-  },{
-      "type" : "snippet",
-      "category" : "robot_protest",
-      "text": "robot labor=slave labor"
-  },{
-      "type" : "snippet",
-      "category" : "robot_protest",
-      "text": "Bring back our jobs!"
-  },{
-      "type" : "snippet",
-      "category" : "robot_protest",
-      "text": "Robots go home!"
-  },{
-      "type" : "snippet",
-      "category" : "robot_protest",
-      "text": "Human labor"
-  },{
-      "type" : "snippet",
-      "category" : "robot_protest",
-      "text": "We want our old factory!"
-  },{
-      "type" : "snippet",
-      "category" : "robot_protest",
-      "text": "Smash the Bots!"
-  },{
-      "type" : "snippet",
-      "category" : "raider_grave",
-      "text": "Here Lies  <full_name>. What a Jerk."
-  },{
-      "type" : "snippet",
-      "category" : "raider_grave",
-      "text": " <full_name>. Eaten by wolves."
-  },{
-      "type" : "snippet",
-      "category" : "raider_grave",
-      "text": " <full_name>. Infected."
-  },{
-      "type" : "snippet",
-      "category" : "raider_grave",
-      "text": "We send <full_name> on to Valhalla"
-  },{
-      "type" : "snippet",
-      "category" : "raider_grave",
-      "text": "RIP  <given_name> "
-  },{
-      "type" : "snippet",
-      "category" : "raider_grave",
-      "text": " <full_name>. Roasting in Hell."
-  },{
-      "type" : "snippet",
-      "category" : "raider_grave",
-      "text": " <full_name>. Fallen Soldier."
-  },{
-      "type" : "snippet",
-      "category" : "raider_grave",
-      "text": " <full_name>. Ripped apart by a gross tentacle thing in the woods."
-  },{
-      "type" : "snippet",
-      "category" : "raider_grave",
-      "text": " <given_name>. Died as he lived, drunk and on fire."
-  },{
-      "type" : "snippet",
-      "category" : "raider_grave",
-      "text": " <full_name> & <full_name>. Crashed their motorcycles at 120mph. Buried the pieces together."
-  },{
-      "type" : "snippet",
-      "category" : "raider",
-      "text": " <full_name>. Friend, Lover, Cannibal."
-  },{
-      "type" : "snippet",
-      "category" : "raider_grave",
-      "text": " <full_name>. Vaporized by Tank Bot."
-  },{
-      "type" : "snippet",
-      "category" : "raider_grave",
-      "text": " <given_name>. Died in his sleep. Lucky Bastard."
-  },{
-      "type" : "snippet",
-      "category" : "raider_grave.",
-      "text": " Here lies <full_name>. No Smoking near Molotov storage!"
-  },{
-      "type" : "snippet",
-      "category" : "raider_grave",
-      "text": " <full_name>. Gunned down in his prime."
-  },{
-      "type" : "snippet",
-      "category" : "raider_grave",
-      "text": " <full_name>. Drank a mystery serum and mutated to death."
-  },{
-      "type" : "snippet",
-      "category" : "raider_grave",
-      "text": " <given_name>. We'll never see another like him."
-  },{
-      "type" : "snippet",
-      "category" : "raider_grave",
-      "text": " <full_name>. Done in by mutant wasps."
-  },{
-      "type" : "snippet",
-      "category" : "refugee_help",
-      "text": "LIVING INSIDE!"
-  },{
-      "type" : "snippet",
-      "category" : "refugee_help",
-      "text": "Send Help."
-  },{
-      "type" : "snippet",
-      "category" : "refugee_help",
-      "text": "Rooms Available. Rent Negotiable."
-  },{
-      "type" : "snippet",
-      "category" : "refugee_help",
-      "text": "No sick allowed inside!"
-  },{
-      "type" : "snippet",
-      "category" : "refugee_help",
-      "text": "Need clean water."
-  },{
-      "type" : "snippet",
-      "category" : "refugee_help",
-      "text": "Waiting for airlift."
-  },{
-      "type" : "snippet",
-      "category" : "refugee_help",
-      "text": "Ready for EVAC."
-  },{
-      "type" : "snippet",
-      "category" : "refugee_help",
-      "text": "S.O.S."
-  },{
-      "type" : "snippet",
-      "category" : "refugee_help",
-      "text": "No Power. No Food. Send Airdrops Please!"
-  },{
-      "type" : "snippet",
-      "category" : "refugee_help",
-      "text": "No more FEMA camp refugees. You're already dying."
-  },{ 
-      "type" : "snippet",
-      "category" : "refugee_help",
-      "text": "Health check required for entrance."
-  },{ 
-      "type" : "snippet",
-      "category" : "refugee_help",
-      "text": "Running low on Medicine, Food, Water, Optimism."
-  },{
-      "type" : "snippet",
-      "category" : "refugee_help",
-      "text": "Save us, army men."
-  },{
-      "type" : "snippet",
-      "category" : "refugee_help",
-      "text": "HELP!"
-  },{
-      "type" : "snippet",
-      "category" : "refugee_help",
-      "text": "STILL ALIVE.  for now."
+    "type": "snippet",
+    "category": "robot_protest",
+    "text": "Real work for real people!"
+  },
+  {
+    "type": "snippet",
+    "category": "robot_protest",
+    "text": "Strike!"
+  },
+  {
+    "type": "snippet",
+    "category": "robot_protest",
+    "text": "Robots stole my job!"
+  },
+  {
+    "type": "snippet",
+    "category": "robot_protest",
+    "text": "robot labor=slave labor"
+  },
+  {
+    "type": "snippet",
+    "category": "robot_protest",
+    "text": "Bring back our jobs!"
+  },
+  {
+    "type": "snippet",
+    "category": "robot_protest",
+    "text": "Robots go home!"
+  },
+  {
+    "type": "snippet",
+    "category": "robot_protest",
+    "text": "Human labor"
+  },
+  {
+    "type": "snippet",
+    "category": "robot_protest",
+    "text": "We want our old factory!"
+  },
+  {
+    "type": "snippet",
+    "category": "robot_protest",
+    "text": "Smash the Bots!"
+  },
+  {
+    "type": "snippet",
+    "category": "raider_grave",
+    "text": "Here Lies  <full_name>. What a Jerk."
+  },
+  {
+    "type": "snippet",
+    "category": "raider_grave",
+    "text": " <full_name>. Eaten by wolves."
+  },
+  {
+    "type": "snippet",
+    "category": "raider_grave",
+    "text": " <full_name>. Infected."
+  },
+  {
+    "type": "snippet",
+    "category": "raider_grave",
+    "text": "We send <full_name> on to Valhalla"
+  },
+  {
+    "type": "snippet",
+    "category": "raider_grave",
+    "text": "RIP  <given_name> "
+  },
+  {
+    "type": "snippet",
+    "category": "raider_grave",
+    "text": " <full_name>. Roasting in Hell."
+  },
+  {
+    "type": "snippet",
+    "category": "raider_grave",
+    "text": " <full_name>. Fallen Soldier."
+  },
+  {
+    "type": "snippet",
+    "category": "raider_grave",
+    "text": " <full_name>. Ripped apart by a gross tentacle thing in the woods."
+  },
+  {
+    "type": "snippet",
+    "category": "raider_grave",
+    "text": " <given_name>. Died as he lived, drunk and on fire."
+  },
+  {
+    "type": "snippet",
+    "category": "raider_grave",
+    "text": " <full_name> & <full_name>. Crashed their motorcycles at 120mph. Buried the pieces together."
+  },
+  {
+    "type": "snippet",
+    "category": "raider",
+    "text": " <full_name>. Friend, Lover, Cannibal."
+  },
+  {
+    "type": "snippet",
+    "category": "raider_grave",
+    "text": " <full_name>. Vaporized by Tank Bot."
+  },
+  {
+    "type": "snippet",
+    "category": "raider_grave",
+    "text": " <given_name>. Died in his sleep. Lucky Bastard."
+  },
+  {
+    "type": "snippet",
+    "category": "raider_grave.",
+    "text": " Here lies <full_name>. No Smoking near Molotov storage!"
+  },
+  {
+    "type": "snippet",
+    "category": "raider_grave",
+    "text": " <full_name>. Gunned down in his prime."
+  },
+  {
+    "type": "snippet",
+    "category": "raider_grave",
+    "text": " <full_name>. Drank a mystery serum and mutated to death."
+  },
+  {
+    "type": "snippet",
+    "category": "raider_grave",
+    "text": " <given_name>. We'll never see another like him."
+  },
+  {
+    "type": "snippet",
+    "category": "raider_grave",
+    "text": " <full_name>. Done in by mutant wasps."
+  },
+  {
+    "type": "snippet",
+    "category": "refugee_help",
+    "text": "LIVING INSIDE!"
+  },
+  {
+    "type": "snippet",
+    "category": "refugee_help",
+    "text": "Send Help."
+  },
+  {
+    "type": "snippet",
+    "category": "refugee_help",
+    "text": "Rooms Available. Rent Negotiable."
+  },
+  {
+    "type": "snippet",
+    "category": "refugee_help",
+    "text": "No sick allowed inside!"
+  },
+  {
+    "type": "snippet",
+    "category": "refugee_help",
+    "text": "Need clean water."
+  },
+  {
+    "type": "snippet",
+    "category": "refugee_help",
+    "text": "Waiting for airlift."
+  },
+  {
+    "type": "snippet",
+    "category": "refugee_help",
+    "text": "Ready for EVAC."
+  },
+  {
+    "type": "snippet",
+    "category": "refugee_help",
+    "text": "S.O.S."
+  },
+  {
+    "type": "snippet",
+    "category": "refugee_help",
+    "text": "No Power. No Food. Send Airdrops Please!"
+  },
+  {
+    "type": "snippet",
+    "category": "refugee_help",
+    "text": "No more FEMA camp refugees. You're already dying."
+  },
+  {
+    "type": "snippet",
+    "category": "refugee_help",
+    "text": "Health check required for entrance."
+  },
+  {
+    "type": "snippet",
+    "category": "refugee_help",
+    "text": "Running low on Medicine, Food, Water, Optimism."
+  },
+  {
+    "type": "snippet",
+    "category": "refugee_help",
+    "text": "Save us, army men."
+  },
+  {
+    "type": "snippet",
+    "category": "refugee_help",
+    "text": "HELP!"
+  },
+  {
+    "type": "snippet",
+    "category": "refugee_help",
+    "text": "STILL ALIVE.  for now."
   }
 ]

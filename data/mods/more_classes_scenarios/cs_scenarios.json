@@ -107,36 +107,36 @@
     "type": "scenario",
     "ident": "cyberpunk",
     "copy-from": "cyberpunk",
-    "extend": { "professions": [ "bionic_thief", "bionic_hitman", "bio_gangster" ] }
+    "extend": { "professions": [ "bionic_thief", "bionic_hitman", "bio_gangster", "wasteland_cyborg" ] }
   },
   {
     "type": "scenario",
-	"ident": "wilderness",
-	"copy-from": "wilderness",
+    "ident": "wilderness",
+    "copy-from": "wilderness",
     "extend": { "professions": [ "pri-sur" ] }
   },
   {
     "type": "scenario",
-	"ident": "infected",
-	"copy-from": "infected",
+    "ident": "infected",
+    "copy-from": "infected",
     "extend": { "allowed_locs": [ "s_electronics_s", "s_clothes_s" ] }
   },
   {
     "type": "scenario",
-	"ident": "fire",
-	"copy-from": "fire",
+    "ident": "fire",
+    "copy-from": "fire",
     "extend": { "allowed_locs": [ "s_electronics_s", "s_clothes_s" ] }
   },
   {
     "type": "scenario",
-	"ident": "missed",
-	"copy-from": "missed",
+    "ident": "missed",
+    "copy-from": "missed",
     "extend": { "allowed_locs": [ "s_electronics_s", "s_clothes_s" ] }
   },
   {
     "type": "scenario",
-	"ident": "mutant",
-	"copy-from": "mutant",
+    "ident": "mutant",
+    "copy-from": "mutant",
     "extend": { "professions": [ "faulty_bionic" ] }
   },
   {

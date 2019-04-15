@@ -100,7 +100,7 @@ void trap::load( JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "visibility", visibility );
     mandatory( jo, was_loaded, "avoidance", avoidance );
     mandatory( jo, was_loaded, "difficulty", difficulty );
-    // @todo: Is there a generic_factory version of this?
+    // TODO: Is there a generic_factory version of this?
     act = trap_function_from_string( jo.get_string( "action" ) );
 
     optional( jo, was_loaded, "benign", benign, false );
@@ -182,7 +182,7 @@ bool trap::is_funnel() const
 
 bool trap::is_3x3_trap() const
 {
-    // TODO make this a json flag, implement more 3x3 traps.
+    // TODO: make this a json flag, implement more 3x3 traps.
     return id == trap_str_id( "tr_engine" );
 }
 

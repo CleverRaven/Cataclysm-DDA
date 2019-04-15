@@ -32,6 +32,6 @@ fi
 
 if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
   brew update
-  brew install sdl2 sdl2_image sdl2_ttf sdl2_mixer gettext ncurses lua
+  brew install sdl2 sdl2_image sdl2_ttf sdl2_mixer gettext ncurses
   brew link --force gettext ncurses
 fi

@@ -25,7 +25,8 @@
       { "trait": "FLIMSY3" },
       { "trait": "MYOPIC" },
       { "trait": "PACIFIST" },
-      { "trait": "Exp_Teaching2" }
+      { "trait": "Exp_Teaching2" },
+      { "group": "Appearance_demographics" }
     ],
     "skills": [ { "skill": "speech", "bonus": { "rng": [ 0, 3 ] } }, { "skill": "cooking", "bonus": { "rng": [ 0, 3 ] } } ]
   },
@@ -68,7 +69,8 @@
       { "trait": "FLIMSY2" },
       { "trait": "SCHIZOPHRENIC" },
       { "trait": "SLOWLEARNER" },
-      { "trait": "PACIFIST" }
+      { "trait": "PACIFIST" },
+      { "group": "Appearance_demographics" }
     ]
   },
   {
@@ -104,7 +106,8 @@
       { "trait": "FLIMSY2" },
       { "trait": "FASTLEARNER" },
       { "trait": "PACIFIST" },
-      { "trait": "Exp_Mycology2" }
+      { "trait": "Exp_Mycology2" },
+      { "group": "Appearance_demographics" }
     ]
   },
   {
@@ -153,7 +156,8 @@
       { "trait": "PROJUNK" },
       { "trait": "BADBACK" },
       { "trait": "BADKNEES" },
-      { "trait": "BADCARDIO" }
+      { "trait": "BADCARDIO" },
+      { "group": "Appearance_demographics" }
     ]
   },
   {
@@ -217,7 +221,8 @@
       { "trait": "PARKOUR" },
       { "trait": "BADTEMPER" },
       { "trait": "SLOWREADER" },
-      { "trait": "INSOMNIA" }
+      { "trait": "INSOMNIA" },
+      { "group": "Appearance_demographics" }
     ],
     "bonus_str": { "rng": [ 0, 1 ] },
     "bonus_dex": { "rng": [ 1, 2 ] },

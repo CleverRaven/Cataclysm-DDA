@@ -11,7 +11,10 @@ class item;
 class Character;
 class player;
 class map;
-
+namespace catacurses
+{
+class window;
+} // namespace catacurses
 namespace Pickup
 {
 /**

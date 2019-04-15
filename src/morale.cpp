@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <set>
+#include <math.h>
 
 #include "bodypart.h"
 #include "cata_utility.h"
@@ -144,17 +145,26 @@ void player_morale::morale_point::add( const int new_bonus, const int new_max_bo
     new_duration = std::max( 0_turns, new_duration );
     new_decay_start = std::max( 0_turns, new_decay_start );
 
+    const bool same_sign = ( bonus > 0 ) == ( new_max_bonus > 0 );
+
     if( new_cap || new_duration == 0_turns ) {
         duration = new_duration;
         decay_start = new_decay_start;
     } else {
-        bool same_sign = ( bonus > 0 ) == ( new_max_bonus > 0 );
-
         duration = pick_time( duration, new_duration, same_sign );
         decay_start = pick_time( decay_start, new_decay_start, same_sign );
     }
 
-    bonus = normalize_bonus( get_net_bonus() + new_bonus, new_max_bonus, new_cap );
+    int sqrt_of_sum_of_squares;
+    if( same_sign ) {
+        sqrt_of_sum_of_squares = pow( get_net_bonus(), 2 ) + pow( new_bonus, 2 );
+        sqrt_of_sum_of_squares = sqrt( sqrt_of_sum_of_squares );
+        sqrt_of_sum_of_squares *= sgn( bonus );
+    } else {
+        sqrt_of_sum_of_squares = get_net_bonus() + new_bonus;
+    }
+
+    bonus = normalize_bonus( sqrt_of_sum_of_squares, new_max_bonus, new_cap );
     age = 0_turns; // Brand new. The assignment should stay below get_net_bonus() and pick_time().
 }
 
@@ -332,9 +342,19 @@ int player_morale::get_level() const
         const morale_mult mult = get_temper_mult();
 
         level = 0;
+        int sum_of_positive_squares = 0;
+        int sum_of_negative_squares = 0;
+
         for( auto &m : points ) {
-            level += m.get_net_bonus( mult );
+            const int bonus = m.get_net_bonus( mult );
+            if( bonus > 0 ) {
+                sum_of_positive_squares += pow( bonus, 2 );
+            } else {
+                sum_of_negative_squares += pow( bonus, 2 );
+            }
         }
+
+        level = sqrt( sum_of_positive_squares ) - sqrt( sum_of_negative_squares );
 
         if( took_prozac ) {
             level *= morale_mults::prozac;
@@ -698,8 +718,8 @@ void player_morale::update_stylish_bonus()
                 body_parts[bp].fancy > 0 ||
                 body_parts[opposite_body_part( bp )].fancy > 0 ) ? bonus : 0;
         };
-        bonus = std::min( int( 2 * super_fancy_items.size() ) +
-                          2 * std::min( int( no_body_part.fancy ), 3 ) +
+        bonus = std::min( static_cast<int>( 2 * super_fancy_items.size() ) +
+                          2 * std::min( static_cast<int>( no_body_part.fancy ), 3 ) +
                           bp_bonus( bp_torso,  6 ) +
                           bp_bonus( bp_head,   3 ) +
                           bp_bonus( bp_eyes,   2 ) +
@@ -732,7 +752,7 @@ void player_morale::update_masochist_bonus()
     set_permanent( MORALE_PERM_MASOCHIST, bonus );
 }
 
-void player_morale::update_bodytemp_penalty( const time_duration ticks )
+void player_morale::update_bodytemp_penalty( const time_duration &ticks )
 {
     using bp_int_func = std::function<int( body_part )>;
     const auto apply_pen = [ this, ticks ]( morale_type type, bp_int_func bp_int ) -> void {
@@ -794,7 +814,7 @@ void player_morale::update_squeamish_penalty()
             body_parts[bp].filthy > 0 ||
             body_parts[opposite_body_part( bp )].filthy > 0 ) ? penalty : 0;
     };
-    penalty = 2 * std::min( int( no_body_part.filthy ), 3 ) +
+    penalty = 2 * std::min( static_cast<int>( no_body_part.filthy ), 3 ) +
               bp_pen( bp_torso,  6 ) +
               bp_pen( bp_head,   7 ) +
               bp_pen( bp_eyes,   8 ) +

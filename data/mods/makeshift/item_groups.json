@@ -22,17 +22,11 @@
   {
     "id": "museum_melee",
     "type": "item_group",
-    "items": [
-      [ "sword_bayonet", 10 ],
-      [ "pistol_bayonet", 4 ]
-    ]
+    "items": [ [ "sword_bayonet", 10 ], [ "pistol_bayonet", 4 ] ]
   },
   {
     "id": "pawn",
     "type": "item_group",
-    "items": [
-      [ "sword_bayonet", 10 ],
-      [ "pistol_bayonet", 4 ]
-    ]
+    "items": [ [ "sword_bayonet", 10 ], [ "pistol_bayonet", 4 ] ]
   }
 ]

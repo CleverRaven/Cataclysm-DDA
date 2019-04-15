@@ -86,7 +86,7 @@ int vehicle::slowdown( int at_velocity ) const
              name, at_velocity, f_total_drag, slowdown, static_drag() );
     // plows slow rolling vehicles, but not falling or floating vehicles
     if( !( is_falling || is_floating ) ) {
-        slowdown += static_drag();
+        slowdown -= static_drag();
     }
 
     return slowdown;
@@ -127,7 +127,7 @@ void vehicle::thrust( int thd )
         thrusting = ( sgn == thd );
     }
 
-    // @todo: Pass this as an argument to avoid recalculating
+    // TODO: Pass this as an argument to avoid recalculating
     float traction = k_traction( g->m.vehicle_wheel_traction( *this ) );
     int accel = current_acceleration() * traction;
     if( thrusting && accel == 0 ) {
@@ -155,11 +155,12 @@ void vehicle::thrust( int thd )
         int effective_cruise = std::min( cruise_velocity, max_vel );
         if( thd > 0 ) {
             vel_inc = std::min( vel_inc, effective_cruise - velocity );
+            //find power ratio used of engines max
+            load = 1000 * std::max( 0, vel_inc ) / std::max( ( thrusting ? accel : brk ), 1 );
         } else {
             vel_inc = std::max( vel_inc, effective_cruise - velocity );
+            load = 1000 * std::min( 0, vel_inc ) / std::max( ( thrusting ? accel : brk ), 1 );
         }
-        //find power ratio used of engines max
-        load = 1000 * abs( vel_inc ) / std::max( ( thrusting ? accel : brk ), 1 );
     } else {
         load = ( thrusting ? 1000 : 0 );
     }
@@ -701,7 +702,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
         }
     } else {
         if( pl_ctrl ) {
-            if( snd.length() > 0 ) { // @todo: that is always false!
+            if( snd.length() > 0 ) { // TODO: that is always false!
                 //~ 1$s - vehicle name, 2$s - part name, 3$s - collision object name, 4$s - sound message
                 add_msg( m_warning, _( "Your %1$s's %2$s rams into %3$s with a %4$s" ),
                          name, parts[ ret.part ].name(), ret.target_name, snd );
@@ -754,7 +755,7 @@ void vehicle::handle_trap( const tripoint &p, int part )
     int shrap = 0;
     int part_damage = 0;
     std::string snd;
-    // @todo: make trapfuncv?
+    // TODO: make trapfuncv?
 
     if( t == tr_bubblewrap ) {
         noise = 18;
@@ -815,7 +816,7 @@ void vehicle::handle_trap( const tripoint &p, int part )
         return;
     } else if( t == tr_lava ) {
         part_damage = 500;
-        //@todo Make this damage not only wheels, but other parts too, especially tanks with flammable fuel
+        // TODO: Make this damage not only wheels, but other parts too, especially tanks with flammable fuel
     } else {
         return;
     }
@@ -908,7 +909,7 @@ void vehicle::pldrive( int x, int y )
         }
     }
 
-    // @todo: Actually check if we're on land on water (or disable water-skidding)
+    // TODO: Actually check if we're on land on water (or disable water-skidding)
     if( skidding && valid_wheel_config() ) {
         ///\EFFECT_DEX increases chance of regaining control of a vehicle
 
@@ -916,7 +917,7 @@ void vehicle::pldrive( int x, int y )
         if( handling_diff * rng( 1, 10 ) < u.dex_cur + u.get_skill_level( skill_driving ) * 2 ) {
             add_msg( _( "You regain control of the %s." ), name );
             u.practice( skill_driving, velocity / 5 );
-            velocity = int( forward_velocity() );
+            velocity = static_cast<int>( forward_velocity() );
             skidding = false;
             move.init( turn_dir );
         }
@@ -1183,7 +1184,7 @@ void vehicle::check_falling_or_floating()
         water_tiles += g->m.has_flag( TFLAG_DEEP_WATER, p ) ? 1 : 0;
     }
     // floating if 2/3rds of the vehicle is in water
-    is_floating = 3 * water_tiles > 2 * pts.size();
+    is_floating = 3 * water_tiles >= 2 * pts.size();
 }
 
 float map::vehicle_wheel_traction( const vehicle &veh ) const

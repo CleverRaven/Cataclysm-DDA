@@ -210,7 +210,7 @@ class item_location::impl::item_on_map : public item_location::impl
             int mv = dynamic_cast<const player *>( &ch )->item_handling_cost( obj, true, MAP_HANDLING_PENALTY );
             mv += 100 * rl_dist( ch.pos(), cur );
 
-            //@todo: handle unpacking costs
+            // TODO: handle unpacking costs
 
             return mv;
         }
@@ -345,12 +345,12 @@ class item_location::impl::item_on_person : public item_location::impl
 
             } else {
                 // it is more expensive to obtain items from the inventory
-                // @todo: calculate cost for searching in inventory proportional to item volume
+                // TODO: calculate cost for searching in inventory proportional to item volume
                 mv += dynamic_cast<player &>( who ).item_handling_cost( obj, true, INVENTORY_HANDLING_PENALTY );
             }
 
             if( &ch != &who ) {
-                // @todo: implement movement cost for transferring item between characters
+                // TODO: implement movement cost for transferring item between characters
             }
 
             return mv;
@@ -452,7 +452,7 @@ class item_location::impl::item_on_vehicle : public item_location::impl
                      VEHICLE_HANDLING_PENALTY );
             mv += 100 * rl_dist( ch.pos(), cur.veh.global_part_pos3( cur.part ) );
 
-            //@todo: handle unpacking costs
+            // TODO: handle unpacking costs
 
             return mv;
         }
@@ -555,7 +555,7 @@ void item_location::deserialize( JsonIn &js )
     } else if( type == "vehicle" ) {
         vehicle *const veh = veh_pointer_or_null( g->m.veh_at( pos ) );
         int part = obj.get_int( "part" );
-        if( veh && part >= 0 && part < int( veh->parts.size() ) ) {
+        if( veh && part >= 0 && part < static_cast<int>( veh->parts.size() ) ) {
             ptr.reset( new impl::item_on_vehicle( vehicle_cursor( *veh, part ), idx ) );
         }
     }

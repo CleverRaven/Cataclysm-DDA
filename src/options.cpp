@@ -3,6 +3,7 @@
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "cursesdef.h"
+#include "cursesport.h"
 #include "debug.h"
 #include "filesystem.h"
 #include "game.h"
@@ -19,15 +20,11 @@
 #include "translations.h"
 #include "worldfactory.h"
 
-#ifdef TILES
+#if defined(TILES)
 #include "cata_tiles.h"
 #endif // TILES
 
-#if (defined TILES || defined _WIN32 || defined WINDOWS)
-#include "cursesport.h"
-#endif
-
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
 #include <jni.h>
 #endif
 
@@ -45,7 +42,7 @@ int message_ttl;
 bool fov_3d;
 bool tile_iso;
 
-#ifdef TILES
+#if defined(TILES)
 extern std::unique_ptr<cata_tiles> tilecontext;
 #endif // TILES
 
@@ -418,14 +415,14 @@ bool options_manager::cOpt::is_hidden() const
             return false;
 
         case COPT_SDL_HIDE:
-#ifdef TILES
+#if defined(TILES)
             return true;
 #else
             return false;
 #endif
 
         case COPT_CURSES_HIDE:
-#ifndef TILES // If not defined.  it's curses interface.
+#if !defined(TILES) // If not defined.  it's curses interface.
             return true;
 #else
             return false;
@@ -433,14 +430,14 @@ bool options_manager::cOpt::is_hidden() const
 
         case COPT_POSIX_CURSES_HIDE:
             // Check if we on windows and using wincurses.
-#if (defined TILES || defined _WIN32 || defined WINDOWS)
+#if defined(TILES) || defined(_WIN32)
             return false;
 #else
             return true;
 #endif
 
         case COPT_NO_SOUND_HIDE:
-#ifndef SDL_SOUND // If not defined, we have no sound support.
+#if !defined(SDL_SOUND) // If not defined, we have no sound support.
             return true;
 #else
             return false;
@@ -914,7 +911,7 @@ std::vector<options_manager::id_and_option> options_manager::build_soundpacks_li
     return result;
 }
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
 bool android_get_default_setting( const char *settings_name, bool default_value )
 {
     JNIEnv *env = ( JNIEnv * )SDL_AndroidGetJNIEnv();
@@ -949,7 +946,7 @@ void options_manager::init()
         vPages.emplace_back( "world_default", translate_marker( "World Defaults" ) );
     }
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
     vPages.emplace_back( "android", translate_marker( "Android" ) );
 #endif
 
@@ -1074,8 +1071,8 @@ void options_manager::add_options_general()
     get_option( "AUTO_MINING" ).setPrerequisite( "AUTO_FEATURES" );
 
     add( "AUTO_FORAGING", "general", translate_marker( "Auto foraging" ),
-         translate_marker( "Action to perform when 'Auto foraging' is enabled.  Bushes: Only forage bushes.  - Trees: Only forage trees.  - Both: Forage bushes and trees." ),
-    { { "off", translation( "options", "Disabled" ) }, { "bushes", translate_marker( "Bushes" ) }, { "trees", translate_marker( "Trees" ) }, { "both", translate_marker( "Both" ) } },
+         translate_marker( "Action to perform when 'Auto foraging' is enabled.  Bushes: Only forage bushes.  - Trees: Only forage trees.  - Everything: Forage bushes, trees, and everything else including flowers, cattails etc." ),
+    { { "off", translation( "options", "Disabled" ) }, { "bushes", translate_marker( "Bushes" ) }, { "trees", translate_marker( "Trees" ) }, { "both", translate_marker( "Everything" ) } },
     "off"
        );
 
@@ -1199,6 +1196,13 @@ void options_manager::add_options_general()
        );
 
     get_option( "SOUND_EFFECT_VOLUME" ).setPrerequisite( "SOUND_ENABLED" );
+
+    add( "AMBIENT_SOUND_VOLUME", "general", translate_marker( "Ambient sound volume" ),
+         translate_marker( "Adjust the volume of ambient sounds being played by the game." ),
+         0, 200, 100, COPT_NO_SOUND_HIDE
+       );
+
+    get_option( "AMBIENT_SOUND_VOLUME" ).setPrerequisite( "SOUND_ENABLED" );
 }
 
 void options_manager::add_options_interface()
@@ -1301,11 +1305,47 @@ void options_manager::add_options_interface()
 
     mOptionsSort["interface"]++;
 
-    add( "DIAG_MOVE_WITH_MODIFIERS", "interface",
+#if !defined(__ANDROID__)
+    add( "DIAG_MOVE_WITH_MODIFIERS_MODE", "interface",
          translate_marker( "Diagonal movement with cursor keys and modifiers" ),
-         translate_marker( "If true, allows diagonal movement with cursor keys using CTRL and SHIFT modifiers.  Diagonal movement action keys are taken from keybindings, so you need these to be configured." ),
-         true, COPT_CURSES_HIDE
-       );
+         /*
+         Possible modes:
+
+         # None
+
+         # Mode 1: Numpad Emulation
+
+         * Press and keep holding Ctrl
+         * Press and release ↑ to set it as the modifier (until Ctrl is released)
+         * Press and release → to get the move ↑ + → = ↗ i.e. just like pressing and releasing 9
+         * Holding → results in repeated ↗, so just like holding 9
+         * If I press any other direction, they are similarly modified by ↑, both for single presses and while holding.
+
+         # Mode 2: CW/CCW
+
+         * `Shift` + `Cursor Left` -> `7` = `Move Northwest`;
+         * `Shift` + `Cursor Right` -> `3` = `Move Southeast`;
+         * `Shift` + `Cursor Up` -> `9` = `Move Northeast`;
+         * `Shift` + `Cursor Down` -> `1` =  `Move Southwest`.
+
+         and
+
+         * `Ctrl` + `Cursor Left` -> `1` = `Move Southwest`;
+         * `Ctrl` + `Cursor Right` -> `9` = `Move Northeast`;
+         * `Ctrl` + `Cursor Up` -> `7` = `Move Northwest`;
+         * `Ctrl` + `Cursor Down` -> `3` = `Move Southeast`.
+
+         # Mode 3: L/R Tilt
+
+         * `Shift` + `Cursor Left` -> `7` = `Move Northwest`;
+         * `Ctrl` + `Cursor Left` -> `3` = `Move Southeast`;
+         * `Shift` + `Cursor Right` -> `9` = `Move Northeast`;
+         * `Ctrl` + `Cursor Right` -> `1` =  `Move Southwest`.
+
+         */
+    translate_marker( "Allows diagonal movement with cursor keys using CTRL and SHIFT modifiers.  Diagonal movement action keys are taken from keybindings, so you need these to be configured." ), { { "none", translate_marker( "None" ) }, { "mode1", translate_marker( "Mode 1: Numpad Emulation" ) }, { "mode2", translate_marker( "Mode 2: CW/CCW" ) }, { "mode3", translate_marker( "Mode 3: L/R Tilt" ) } },
+    "none", COPT_CURSES_HIDE );
+#endif
 
     mOptionsSort["interface"]++;
 
@@ -1332,10 +1372,9 @@ void options_manager::add_options_interface()
     { { "left", translate_marker( "Left" ) }, { "right", translate_marker( "Right" ) } }, "right"
        );
 
-    add( "SIDEBAR_STYLE", "interface", translate_marker( "Sidebar style" ),
-         translate_marker( "Switch between a narrower or wider sidebar." ),
-         //~ sidebar style
-    { { "wider", translate_marker( "Wider" ) }, { "narrow", translate_marker( "Narrow" ) } }, "narrow"
+    add( "SIDEBAR_SPACERS", "interface", translate_marker( "Draw sidebar spacers" ),
+         translate_marker( "If true, adds an extra space between sidebar panels." ),
+         false
        );
 
     add( "LOG_FLOW", "interface", translate_marker( "Message log flow" ),
@@ -1419,6 +1458,11 @@ void options_manager::add_options_interface()
         { "hidekb", translate_marker( "HideKB" ) }
     },
     "show", COPT_CURSES_HIDE );
+
+    add( "EDGE_SCROLL", "interface", translate_marker( "Edge scrolling" ),
+         translate_marker( "If true, enables edge scrolling/panning with mouse when looking or peeking." ),
+         true, COPT_CURSES_HIDE
+       );
 }
 
 void options_manager::add_options_graphics()
@@ -1435,6 +1479,13 @@ void options_manager::add_options_graphics()
        );
 
     get_option( "ANIMATION_RAIN" ).setPrerequisite( "ANIMATIONS" );
+
+    add( "ANIMATION_PROJECTILES", "graphics", translate_marker( "Projectile animation" ),
+         translate_marker( "If true, will display animations for projectiles like bullets, arrows, and thrown items." ),
+         true
+       );
+
+    get_option( "ANIMATION_PROJECTILES" ).setPrerequisite( "ANIMATIONS" );
 
     add( "ANIMATION_SCT", "graphics", translate_marker( "SCT animation" ),
          translate_marker( "If true, will display scrolling combat text animations." ),
@@ -1472,6 +1523,63 @@ void options_manager::add_options_graphics()
     add( "TERMINAL_Y", "graphics", translate_marker( "Terminal height" ),
          translate_marker( "Set the size of the terminal along the Y axis.  Requires restart." ),
          24, 270, 24, COPT_POSIX_CURSES_HIDE
+       );
+
+    mOptionsSort["graphics"]++;
+
+    add( "FONT_BLENDING", "graphics", translate_marker( "Font blending" ),
+         translate_marker( "If true, fonts will look better." ),
+         false, COPT_CURSES_HIDE
+       );
+
+    add( "FONT_WIDTH", "graphics", translate_marker( "Font width" ),
+         translate_marker( "Set the font width.  Requires restart." ),
+         8, 100, 8, COPT_CURSES_HIDE
+       );
+
+    add( "FONT_HEIGHT", "graphics", translate_marker( "Font height" ),
+         translate_marker( "Set the font height.  Requires restart." ),
+         8, 100, 16, COPT_CURSES_HIDE
+       );
+
+    add( "FONT_SIZE", "graphics", translate_marker( "Font size" ),
+         translate_marker( "Set the font size.  Requires restart." ),
+         8, 100, 16, COPT_CURSES_HIDE
+       );
+
+    add( "MAP_FONT_WIDTH", "graphics", translate_marker( "Map font width" ),
+         translate_marker( "Set the map font width.  Requires restart." ),
+         8, 100, 8, COPT_CURSES_HIDE
+       );
+
+    add( "MAP_FONT_HEIGHT", "graphics", translate_marker( "Map font height" ),
+         translate_marker( "Set the map font height.  Requires restart." ),
+         8, 100, 16, COPT_CURSES_HIDE
+       );
+
+    add( "MAP_FONT_SIZE", "graphics", translate_marker( "Map font size" ),
+         translate_marker( "Set the map font size.  Requires restart." ),
+         8, 100, 16, COPT_CURSES_HIDE
+       );
+
+    add( "OVERMAP_FONT_WIDTH", "graphics", translate_marker( "Overmap font width" ),
+         translate_marker( "Set the overmap font width.  Requires restart." ),
+         8, 100, 8, COPT_CURSES_HIDE
+       );
+
+    add( "OVERMAP_FONT_HEIGHT", "graphics", translate_marker( "Overmap font height" ),
+         translate_marker( "Set the overmap font height.  Requires restart." ),
+         8, 100, 16, COPT_CURSES_HIDE
+       );
+
+    add( "OVERMAP_FONT_SIZE", "graphics", translate_marker( "Overmap font size" ),
+         translate_marker( "Set the overmap font size.  Requires restart." ),
+         8, 100, 16, COPT_CURSES_HIDE
+       );
+
+    add( "USE_DRAW_ASCII_LINES_ROUTINE", "graphics", translate_marker( "SDL ASCII lines" ),
+         translate_marker( "Use SDL ASCII line drawing routine instead of Unicode Line Drawing characters.  Use this option when your selected font doesn't contain necessary glyphs." ),
+         true, COPT_CURSES_HIDE
        );
 
     mOptionsSort["graphics"]++;
@@ -1538,7 +1646,7 @@ void options_manager::add_options_graphics()
          0, 10000, 0, COPT_CURSES_HIDE
        );
 
-#ifndef __ANDROID__ // Android is always fullscreen
+#if !defined(__ANDROID__) // Android is always fullscreen
     add( "FULLSCREEN", "graphics", translate_marker( "Fullscreen" ),
          translate_marker( "Starts Cataclysm in one of the fullscreen modes.  Requires restart." ),
     { { "no", translate_marker( "No" ) }, { "fullscreen", translate_marker( "Fullscreen" ) }, { "windowedbl", translate_marker( "Windowed borderless" ) } },
@@ -1546,8 +1654,8 @@ void options_manager::add_options_graphics()
        );
 #endif
 
-#ifndef __ANDROID__
-#   ifndef TILES
+#if !defined(__ANDROID__)
+#   if !defined(TILES)
     // No renderer selection in non-TILES mode
     add( "RENDERER", "graphics", translate_marker( "Renderer" ),
     translate_marker( "Set which renderer to use.  Requires restart." ),   {   { "software", translate_marker( "software" ) } },
@@ -1573,7 +1681,7 @@ void options_manager::add_options_graphics()
          false, COPT_CURSES_HIDE
        );
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
     get_option( "FRAMEBUFFER_ACCEL" ).setPrerequisite( "SOFTWARE_RENDERING" );
 #else
     get_option( "FRAMEBUFFER_ACCEL" ).setPrerequisite( "RENDERER", "software" );
@@ -1594,6 +1702,17 @@ void options_manager::add_options_graphics()
         { "linear", translate_marker( "Linear filtering" ) }
     },
     "none", COPT_CURSES_HIDE );
+
+#if !defined(__ANDROID__)
+    add( "SCALING_FACTOR", "graphics", translate_marker( "Scaling factor" ),
+    translate_marker( "Factor by which to scale the display. Requires restart." ), {
+        { "1", translate_marker( "1x" ) },
+        { "2", translate_marker( "2x" )},
+        { "4", translate_marker( "4x" )}
+    },
+    "1", COPT_CURSES_HIDE );
+#endif
+
 }
 
 void options_manager::add_options_debug()
@@ -1720,12 +1839,12 @@ void options_manager::add_options_world_default()
     mOptionsSort["world_default"]++;
 
     add( "MONSTER_SPEED", "world_default", translate_marker( "Monster speed" ),
-         translate_marker( "Determines the movement rate of monsters.  A higher value increases monster speed and a lower reduces it." ),
+         translate_marker( "Determines the movement rate of monsters.  A higher value increases monster speed and a lower reduces it.  Requires world reset." ),
          1, 1000, 100, COPT_NO_HIDE, "%i%%"
        );
 
     add( "MONSTER_RESILIENCE", "world_default", translate_marker( "Monster resilience" ),
-         translate_marker( "Determines how much damage monsters can take.  A higher value makes monsters more resilient and a lower makes them more flimsy." ),
+         translate_marker( "Determines how much damage monsters can take.  A higher value makes monsters more resilient and a lower makes them more flimsy.  Requires world reset." ),
          1, 1000, 100, COPT_NO_HIDE, "%i%%"
        );
 
@@ -1743,10 +1862,14 @@ void options_manager::add_options_world_default()
          0, 23, 8
        );
 
-    add( "INITIAL_SEASON", "world_default", translate_marker( "Initial season" ),
-         translate_marker( "Season the player starts in.  Options other than the default delay spawn of the character, so food decay and monster spawns will have advanced." ),
-    { { "spring", translate_marker( "Spring" ) }, { "summer", translate_marker( "Summer" ) }, { "autumn", translate_marker( "Autumn" ) }, { "winter", translate_marker( "Winter" ) } },
-    "spring"
+    add( "INITIAL_DAY", "world_default", translate_marker( "Initial day" ),
+         translate_marker( "How many days into the year the cataclysm occurred. Day 0 is Spring 1. Can be overridden by scenarios. This does not advance food rot or monster evolution." ),
+         0, 999, 0
+       );
+
+    add( "SPAWN_DELAY", "world_default", translate_marker( "Spawn delay" ),
+         translate_marker( "How many days after the cataclysm the player spawns. Day 0 is the day of the cataclysm. Can be overridden by scenarios. Increasing this will cause food rot and monster evolution to advance." ),
+         0, 9999, 0
        );
 
     add( "SEASON_LENGTH", "world_default", translate_marker( "Season length" ),
@@ -1785,7 +1908,7 @@ void options_manager::add_options_world_default()
 
     add( "STATIC_NPC", "world_default", translate_marker( "Static NPCs" ),
          translate_marker( "If true, static NPCs will spawn at pre-defined locations. Requires world reset." ),
-         false
+         true
        );
 
     add( "STARTING_NPC", "world_default", translate_marker( "Starting NPCs spawn" ),
@@ -1811,8 +1934,8 @@ void options_manager::add_options_world_default()
     mOptionsSort["world_default"]++;
 
     add( "ZLEVELS", "world_default", translate_marker( "Experimental z-levels" ),
-         translate_marker( "If true, experimental z-level maps will be enabled.  This feature is not finished yet and turning it on will only slow the game down." ),
-         false
+         translate_marker( "If true, experimental z-level maps will be enabled.  Turn this off if you experience excessive slowdown." ),
+         true
        );
 
     mOptionsSort["world_default"]++;
@@ -1833,7 +1956,7 @@ void options_manager::add_options_world_default()
 
 void options_manager::add_options_android()
 {
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
     add( "ANDROID_QUICKSAVE", "android", translate_marker( "Quicksave on app lose focus" ),
          translate_marker( "If true, quicksave whenever the app loses focus (screen locked, app moved into background etc.) WARNING: Experimental. This may result in corrupt save games." ),
          false
@@ -1855,7 +1978,7 @@ void options_manager::add_options_android()
     mOptionsSort["android"]++;
 
     add( "ANDROID_VIBRATION", "android", translate_marker( "Vibration duration" ),
-         translate_marker( "If non-zero, vibrate the device for this long on input, in millisconds. Ignored if hardware keyboard connected." ),
+         translate_marker( "If non-zero, vibrate the device for this long on input, in milliseconds. Ignored if hardware keyboard connected." ),
          0, 200, 10
        );
 
@@ -1911,7 +2034,7 @@ void options_manager::add_options_android()
        );
 
     add( "ANDROID_HIDE_HOLDS", "android", translate_marker( "Virtual joystick hides shortcuts" ),
-         translate_marker( "If true, hides on-screen keyboard shortcuts while using the virtual joystick. Helps keep the view uncluttered while travelling long distances and navigating menus." ),
+         translate_marker( "If true, hides on-screen keyboard shortcuts while using the virtual joystick. Helps keep the view uncluttered while traveling long distances and navigating menus." ),
          true
        );
 
@@ -2076,7 +2199,7 @@ void options_manager::add_options_android()
 #endif
 }
 
-#ifdef TILES
+#if defined(TILES)
 // Helper method to isolate #ifdeffed tiles code.
 static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_changed, bool ingame )
 {
@@ -2088,9 +2211,6 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
             //g->init_ui is called when zoom is changed
             g->reset_zoom();
             if( ingame ) {
-                if( g->pixel_minimap_option ) {
-                    wrefresh( g->w_pixel_minimap );
-                }
                 g->refresh_all();
             }
             tilecontext->do_tile_loading_report();
@@ -2101,7 +2221,6 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
     } else if( ingame && g->pixel_minimap_option && pixel_minimap_height_changed ) {
         tilecontext->reinit_minimap();
         g->init_ui();
-        wrefresh( g->w_pixel_minimap );
         g->refresh_all();
     }
 }
@@ -2112,7 +2231,7 @@ static void refresh_tiles( bool, bool, bool )
 #endif // TILES
 
 void draw_borders_external( const catacurses::window &w, int horizontal_level,
-                            std::map<int, bool> &mapLines, const bool world_options_only )
+                            const std::map<int, bool> &mapLines, const bool world_options_only )
 {
     if( !world_options_only ) {
         draw_border( w, BORDER_COLOR, _( " OPTIONS " ) );
@@ -2292,7 +2411,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
 
         wrefresh( w_options_header );
 
-#if (defined TILES || defined _WIN32 || defined WINDOWS)
+#if defined(TILES) || defined(_WIN32)
         if( mPageItems[iCurrentPage][iCurrentLine] == "TERMINAL_X" ) {
             int new_terminal_x = 0;
             int new_window_width = 0;
@@ -2435,6 +2554,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
             // keybinding screen erased the internal borders of main menu, restore it:
             draw_borders_internal( w_options_header, mapLines );
         } else if( action == "QUIT" ) {
+            g->reinitmap = true;
             break;
         }
     }
@@ -2445,7 +2565,6 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
     bool lang_changed = false;
     bool used_tiles_changed = false;
     bool pixel_minimap_changed = false;
-    bool sidebar_style_changed = false;
     bool terminal_size_changed = false;
 
     for( auto &iter : OPTIONS_OLD ) {
@@ -2460,9 +2579,6 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
                 || iter.first == "PIXEL_MINIMAP_RATIO"
                 || iter.first == "PIXEL_MINIMAP_MODE" ) {
                 pixel_minimap_changed = true;
-
-            } else if( iter.first == "SIDEBAR_STYLE" ) {
-                sidebar_style_changed = true;
 
             } else if( iter.first == "TILES" || iter.first == "USE_TILES" ) {
                 used_tiles_changed = true;
@@ -2502,20 +2618,17 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
         set_language();
     }
 
-    if( sidebar_style_changed ) {
-        if( ingame ) {
-            g->toggle_sidebar_style();
-        } else {
-#ifdef TILES
-            tilecontext->reinit_minimap();
-#endif
-            g->narrow_sidebar = !g->narrow_sidebar;
-            g->init_ui();
-        }
-    }
-
-#if !defined(__ANDROID__) && (defined TILES || defined _WIN32 || defined WINDOWS)
+#if !defined(__ANDROID__) && (defined(TILES) || defined(_WIN32))
     if( terminal_size_changed ) {
+        int scaling_factor = get_scaling_factor();
+        int TERMX = ::get_option<int>( "TERMINAL_X" );
+        int TERMY = ::get_option<int>( "TERMINAL_Y" );
+        TERMX -= TERMX % scaling_factor;
+        TERMY -= TERMY % scaling_factor;
+        get_option( "TERMINAL_X" ).setValue( std::max( FULL_SCREEN_WIDTH * scaling_factor, TERMX ) );
+        get_option( "TERMINAL_Y" ).setValue( std::max( FULL_SCREEN_HEIGHT * scaling_factor, TERMY ) );
+        save();
+
         handle_resize( projected_window_width(), projected_window_height() );
     }
 #else
@@ -2531,7 +2644,7 @@ void options_manager::serialize( JsonOut &json ) const
 {
     json.start_array();
 
-    // @todo: mPageItems is const here, so we can not use its operator[], therefore the copy
+    // TODO: mPageItems is const here, so we can not use its operator[], therefore the copy
     auto mPageItems = this->mPageItems;
     for( size_t j = 0; j < vPages.size(); ++j ) {
         for( auto &elem : mPageItems[j] ) {
@@ -2631,7 +2744,7 @@ void options_manager::load()
     log_from_top = ::get_option<std::string>( "LOG_FLOW" ) == "new_top";
     message_ttl = ::get_option<int>( "MESSAGE_TTL" );
     fov_3d = ::get_option<bool>( "FOV_3D" );
-#ifdef SDL_SOUND
+#if defined(SDL_SOUND)
     sounds::sound_enabled = ::get_option<bool>( "SOUND_ENABLED" );
 #endif
 }
@@ -2659,11 +2772,6 @@ bool options_manager::load_legacy()
 
     return read_from_file_optional( FILENAMES["legacy_options"], reader ) ||
            read_from_file_optional( FILENAMES["legacy_options2"], reader );
-}
-
-bool use_narrow_sidebar()
-{
-    return TERMY < 25 || g->narrow_sidebar;
 }
 
 bool options_manager::has_option( const std::string &name ) const
@@ -2706,7 +2814,7 @@ options_manager::options_container options_manager::get_world_defaults() const
 
 std::vector<std::string> options_manager::getWorldOptPageItems() const
 {
-    // @todo: mPageItems is const here, so we can not use its operator[], therefore the copy
+    // TODO: mPageItems is const here, so we can not use its operator[], therefore the copy
     auto temp = mPageItems;
     return temp[iWorldOptPage];
 }

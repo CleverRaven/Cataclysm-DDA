@@ -1,11 +1,4 @@
 #pragma once
-//
-//  iexamine.h
-//  Cataclysm
-//
-//  Livingstone
-//
-
 #ifndef IEXAMINE_H
 #define IEXAMINE_H
 
@@ -95,6 +88,7 @@ void trap( player &p, const tripoint &examp );
 void water_source( player &p, const tripoint &examp );
 void kiln_empty( player &p, const tripoint &examp );
 void kiln_full( player &p, const tripoint &examp );
+void fireplace( player &p, const tripoint &examp );
 void fvat_empty( player &p, const tripoint &examp );
 void fvat_full( player &p, const tripoint &examp );
 void keg( player &p, const tripoint &examp );
@@ -107,6 +101,7 @@ void autodoc( player &p, const tripoint &examp );
 void on_smoke_out( const tripoint &examp,
                    const time_point &start_time ); //activates end of smoking effects
 void smoker_options( player &p, const tripoint &examp );
+void open_safe( player &p, const tripoint &examp );
 hack_result hack_attempt( player &p );
 
 bool pour_into_keg( const tripoint &pos, item &liquid );
@@ -123,7 +118,7 @@ void plant_seed( player &p, const tripoint &examp, const itype_id &seed_id );
 void harvest_plant( player &p, const tripoint &examp );
 void fertilize_plant( player &p, const tripoint &tile, const itype_id &fertilizer );
 itype_id choose_fertilizer( player &p, const std::string &pname, bool ask_player );
-std::string fertilize_failure_reason( player &p, const tripoint &tile, const itype_id &fertilizer );
+ret_val<bool> can_fertilize( player &p, const tripoint &tile, const itype_id &fertilizer );
 
 } //namespace iexamine
 

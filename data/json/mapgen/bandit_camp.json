@@ -385,11 +385,7 @@
         { "item": "mechanics", "x": [ 12, 12 ], "y": [ 8, 9 ], "chance": 65 },
         { "item": "mechanics", "x": [ 8, 9 ], "y": [ 4, 4 ], "chance": 65 }
       ],
-      "place_npcs": [
-        { "class": "thug", "x": 1, "y": 17 },
-        { "class": "bandit", "x": 4, "y": 17 },
-        { "class": "thug", "x": 12, "y": 6 }
-      ],
+      "place_npcs": [ { "class": "thug", "x": 1, "y": 17 }, { "class": "bandit", "x": 4, "y": 17 }, { "class": "thug", "x": 12, "y": 6 } ],
       "place_vehicles": [
         { "vehicle": "motorcycle", "x": 8, "y": 6, "chance": 80, "rotation": 180 },
         { "vehicle": "motorcycle", "x": 8, "y": 8, "chance": 80, "rotation": 180 },
