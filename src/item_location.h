@@ -90,11 +90,6 @@ class item_location
          *  @warning all further operations using this class are invalid */
         void remove_item();
 
-        /** Removes the selected item from the game, dumping the contents of
-         *  the item at the location.
-         *  @warning all further operations using this class are invalid */
-        void remove_item_keep_contents();
-
         /** Gets the selected item or nullptr */
         item *get_item();
         const item *get_item() const;

@@ -53,6 +53,7 @@ class basecamp;
 class computer;
 struct itype;
 struct mapgendata;
+class map_cursor;
 class Character;
 class item_location;
 class zone_data;
