@@ -3763,8 +3763,6 @@ void iexamine::ledge( player &p, const tripoint &examp )
                            p.posz() );
             if( p.get_str() < 4 ) {
                 add_msg( m_warning, _( "You are too weak to jump over an obstacle." ) );
-            } else if( p.get_str() < 4 ) {
-                add_msg( m_warning, _( "You are too weak to jump over an obstacle." ) );
             } else if( 100 * p.weight_carried() / p.weight_capacity() > 25 ) {
                 add_msg( m_warning, _( "You are too burdened to jump over an obstacle." ) );
             } else if( !g->m.valid_move( examp, dest, false, true ) ) {
