@@ -744,7 +744,7 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
             int roll = roll_butchery() - corpse_item->damage_level( 4 );
             roll = roll < 0 ? 0 : roll;
             if( entry.type == "bionic" ) {
-                add_msg( m_debug, _( "Roll penalty for corpse damage = -%s") , corpse_item->damage_level( 4 ) );
+                add_msg( m_debug, _( "Roll penalty for corpse damage = -%s" ), corpse_item->damage_level( 4 ) );
                 butcher_cbm_item( entry.drop, p.pos(), bday, roll );
             } else if( entry.type == "bionic_group" ) {
                 butcher_cbm_group( entry.drop, p.pos(), bday, roll );
@@ -982,7 +982,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         skill_level = p->get_skill_level( skill_firstaid );
         skill_level += p->max_quality( quality_id( "CUT_FINE" ) );
         skill_level += p->get_skill_level( skill_electronics ) / 2;
-        add_msg( m_debug, _( "Skill: %s"), skill_level );
+        add_msg( m_debug, _( "Skill: %s" ), skill_level );
     }
 
     const auto roll_butchery = [&]() {
