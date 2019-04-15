@@ -1346,7 +1346,8 @@ void hit_animation( int iX, int iY, nc_color cColor, const std::string &cTile )
     mvwputch(w, iY + VIEW_OFFSET_Y, iX + VIEW_OFFSET_X, cColor, cTile);
     */
 
-    catacurses::window w_hit = catacurses::newwin( 1, 1, iY + VIEW_OFFSET_Y, iX + VIEW_OFFSET_X );
+    catacurses::window w_hit = catacurses::newwin( 1, 1, iY + VIEW_OFFSET_Y,
+                               iX + VIEW_OFFSET_X - g->sidebar_offset.x );
     if( !w_hit ) {
         return; //we passed in negative values (semi-expected), so let's not segfault
     }
