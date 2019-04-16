@@ -844,7 +844,7 @@
     "name": "doctor badge",
     "material": [ "plastic" ],
     "weight": 10,
-    "description": "A plastic name tag marking the wearer as a real Doctor of the medical kind."
+    "description": "A plastic name tag marking the wearer as a real doctor of the medical kind."
   },
   {
     "id": "balclava",
