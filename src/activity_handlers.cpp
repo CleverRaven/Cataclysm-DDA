@@ -12,6 +12,7 @@
 #include "fault.h"
 #include "field.h"
 #include "game.h"
+#include "game_inventory.h"
 #include "gates.h"
 #include "harvest.h"
 #include "iexamine.h"
@@ -2258,8 +2259,8 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
     }
 
     // Valid Repeat choice and target, attempt repair.
-    if( repeat != REPEAT_INIT && act->position != INT_MIN ) {
-        item &fix = p->i_at( act->position );
+    if( repeat != REPEAT_INIT && act->targets.size() >= 2 ) {
+        item_location &fix = act->targets[1];
 
         // Remember our level: we want to stop retrying on level up
         const int old_level = p->get_skill_level( actor->used_skill );
@@ -2285,9 +2286,9 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
         const bool destroyed = attempt == repair_item_actor::AS_DESTROYED;
         if( attempt == repair_item_actor::AS_CANT ||
             destroyed ||
-            !actor->can_repair_target( *p, fix, !destroyed ) ) {
+            !actor->can_repair_target( *p, *fix, !destroyed ) ) {
             // Cannot continue to repair target, select another target.
-            act->position = INT_MIN;
+            act->targets.pop_back();
         }
 
         const bool event_happened =
@@ -2298,7 +2299,7 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
         const bool need_input =
             repeat == REPEAT_ONCE ||
             ( repeat == REPEAT_EVENT && event_happened ) ||
-            ( repeat == REPEAT_FULL && fix.damage() <= 0 );
+            ( repeat == REPEAT_FULL && fix->damage() <= 0 );
         if( need_input ) {
             repeat = REPEAT_INIT;
         }
@@ -2310,25 +2311,21 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
     }
 
     // target selection and validation.
-    while( act->position == INT_MIN ) {
-        const int pos = g->inv_for_filter( _( "Repair what?" ), [&actor, &main_tool]( const item & itm ) {
-            return itm.made_of_any( actor->materials ) && !itm.count_by_charges() && !itm.is_firearm() &&
-                   &itm != &main_tool;
-        }, string_format( _( "You have no items that could be repaired with a %s." ),
-                          main_tool.type_name( 1 ) ) );
+    while( act->targets.size() < 2 ) {
+        auto item_loc = game_menus::inv::repair( *p, actor, &main_tool );
 
-        if( pos == INT_MIN ) {
+        if( item_loc == item_location::nowhere ) {
             p->add_msg_if_player( m_info, _( "Never mind." ) );
             act->set_to_null();
             return;
         }
-        if( actor->can_repair_target( *p, p->i_at( pos ), true ) ) {
-            act->position = pos;
+        if( actor->can_repair_target( *p, *item_loc, true ) ) {
+            act->targets.emplace_back( item_loc.clone() );
             repeat = REPEAT_INIT;
         }
     }
 
-    const item &fix = p->i_at( act->position );
+    const item &fix = *act->targets[1];
 
     if( repeat == REPEAT_INIT ) {
         g->draw();
@@ -2369,7 +2366,7 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
             }
             act->values[0] = static_cast<int>( repeat );
             if( repeat == REPEAT_INIT ) {       // BACK selected, redo target selection next.
-                p->activity.position = INT_MIN;
+                p->activity.targets.pop_back();
                 return;
             }
             if( repeat == REPEAT_FULL && fix.damage() <= 0 ) {
