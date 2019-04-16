@@ -2399,7 +2399,7 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
     } else if( pry_nails( *p, type, pnt ) ) {
         return it->type->charges_to_use();
     } else {
-        p->add_msg_if_player( m_info, _( "There's nothing to pry there." ) );
+        p->add_msg_if_player( m_info, _( "You can't pry that." ) );
         return 0;
     }
 

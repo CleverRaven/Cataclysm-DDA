@@ -3217,7 +3217,6 @@
     "move_cost": 0,
     "roof": "t_flat_roof",
     "flags": [ "NOITEM", "REDUCE_SCENT", "OPENCLOSE_INSIDE", "CONNECT_TO_WALL", "LOCKED", "MINEABLE", "BLOCK_WIND" ],
-    "examine_action": "locked_object",
     "open": "t_door_metal_o",
     "bash": {
       "str_min": 80,
