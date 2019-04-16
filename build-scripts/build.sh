@@ -12,6 +12,7 @@ function run_tests
 ccache --show-stats
 ccache --zero-stats
 export CCACHE_LOGFILE=ccache_log
+export CCACHE_MAXSIZE=1G
 if [ -n "$CMAKE" ]
 then
     bin_path="./"
