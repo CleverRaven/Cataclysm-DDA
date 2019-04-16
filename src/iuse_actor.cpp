@@ -105,7 +105,20 @@ void iuse_transform::load( JsonObject &obj )
 
     obj.read( "msg", msg_transform );
     obj.read( "container", container );
+    if( obj.has_member( "target_charges" ) && obj.has_member( "rand_target_charges" ) ) {
+        obj.throw_error( "Transform actor specified both fixed and random target charges",
+                         "target_charges" );
+    }
     obj.read( "target_charges", ammo_qty );
+    if( obj.has_array( "rand_target_charges" ) ) {
+        JsonArray jarr = obj.get_array( "rand_target_charges" );
+        while( jarr.has_more() ) {
+            random_ammo_qty.push_back( jarr.next_long() );
+        }
+        if( random_ammo_qty.size() < 2 ) {
+            obj.throw_error( "You must specify two or more values to choose between", "rand_target_charges" );
+        }
+    }
     obj.read( "target_ammo", ammo_type );
 
     obj.read( "countdown", countdown );
@@ -177,13 +190,20 @@ long iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) con
     item *obj;
     if( container.empty() ) {
         obj = &it.convert( target );
-        if( ammo_qty >= 0 ) {
-            if( !ammo_type.empty() ) {
-                obj->ammo_set( ammo_type, ammo_qty );
-            } else if( obj->ammo_current() != "null" ) {
-                obj->ammo_set( obj->ammo_current(), ammo_qty );
+        if( ammo_qty >= 0 || random_ammo_qty.size() > 0 ) {
+            long qty;
+            if( random_ammo_qty.size() > 0 ) {
+                const auto index = rng( 1, random_ammo_qty.size() - 1 );
+                qty = rng( random_ammo_qty[index - 1], random_ammo_qty[index] );
             } else {
-                obj->set_countdown( ammo_qty );
+                qty = ammo_qty;
+            }
+            if( !ammo_type.empty() ) {
+                obj->ammo_set( ammo_type, qty );
+            } else if( obj->ammo_current() != "null" ) {
+                obj->ammo_set( obj->ammo_current(), qty );
+            } else {
+                obj->set_countdown( qty );
             }
         }
     } else {

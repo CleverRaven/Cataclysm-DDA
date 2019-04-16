@@ -149,7 +149,7 @@
     ]
   },
   {
-    "result": "grenade",
+    "result": "makeshift_grenade",
     "type": "recipe",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
