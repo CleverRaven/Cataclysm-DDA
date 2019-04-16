@@ -397,10 +397,7 @@ void veh_interact::cache_tool_availability()
 
 void veh_interact::cache_tool_availability_update_lifting( const tripoint &world_cursor_pos )
 {
-    max_lift = std::max( { g->u.max_quality( LIFT ),
-                           map_selector( g->u.pos(), PICKUP_RANGE ).max_quality( LIFT ),
-                           vehicle_selector( world_cursor_pos, 4, true, true ).max_quality( LIFT )
-                         } );
+    max_lift = g->u.best_nearby_lifting_assist( world_cursor_pos );
 }
 
 /**
