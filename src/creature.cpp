@@ -194,6 +194,8 @@ bool Creature::sees( const Creature &critter ) const
                 case MS_SMALL:
                     size_modifier = 1.4;
                     break;
+                case MS_MEDIUM:
+                    break;
                 case MS_LARGE:
                     size_modifier = 0.6;
                     break;
