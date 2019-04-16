@@ -11,6 +11,9 @@ function run_tests
 
 ccache --zero-stats
 export CCACHE_LOGFILE=ccache_log
+echo "ccache config"
+cat /home/travis/.ccache/ccache.conf
+cat /etc/ccache.conf
 if [ -n "$CMAKE" ]
 then
     bin_path="./"
