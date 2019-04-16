@@ -1306,7 +1306,7 @@
       [ [ "gloves_tactical", 1 ] ],
       [ [ "gloves_rubber", 1 ] ],
       [ [ "fire_gauntlets", 1 ] ],
-      [ [ "battery", 100 ] ],
+      [ [ "light_plus_battery_cell", 1 ] ],
       [ [ "flashlight", 1 ] ],
       [ [ "lighter", 1 ] ],
       [ [ "pockknife", 1 ] ],
@@ -1404,7 +1404,7 @@
       [ [ "l_long_45", 1 ] ],
       [ [ "l_enforcer_45", 1 ] ],
       [ [ "small_repairkit", 1 ] ],
-      [ [ "battery", 300 ] ],
+      [ [ "light_battery_cell", 3 ] ],
       [ [ "manual_gun", 1 ] ],
       [ [ "holster", 1 ] ]
     ]
@@ -1740,7 +1740,7 @@
     "result": "radio_car_box",
     "type": "uncraft",
     "time": 500,
-    "components": [ [ [ "radio_car", 1 ] ], [ [ "radiocontrol", 1 ] ], [ [ "battery", 200 ] ] ]
+    "components": [ [ [ "radio_car", 1 ] ], [ [ "radiocontrol", 1 ] ], [ [ "light_battery_cell", 2 ] ] ]
   },
   {
     "result": "radiocontrol",
@@ -2080,7 +2080,7 @@
     "type": "uncraft",
     "time": 500,
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "processor", 1 ] ], [ [ "battery", 20 ] ] ]
+    "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "processor", 1 ] ], [ [ "light_minus_battery_cell", 1 ] ] ]
   },
   {
     "result": "years_old_newspaper",

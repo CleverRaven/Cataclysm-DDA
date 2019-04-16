@@ -2876,7 +2876,7 @@
         "jacket_light",
         "baton",
         "tazer",
-        "battery",
+        "medium_battery_cell",
         "pockknife",
         "wristwatch",
         "cell_phone"
@@ -3550,7 +3550,7 @@
         "1st_aid",
         "smart_phone",
         "wristwatch",
-        "battery"
+        "medium_battery_cell"
       ],
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]

@@ -362,7 +362,7 @@
       [ "barrel_ported", 1 ],
       [ "baseball", 1 ],
       [ "bat", 5 ],
-      [ "battery", 25 ],
+      { "group": "ammo_pocket_batteries_full", "prob": 25 },
       [ "battery_compartment", 5 ],
       [ "beartrap", 10 ],
       [ "beer", 15 ],

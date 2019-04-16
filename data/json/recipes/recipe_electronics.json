@@ -218,16 +218,6 @@
   },
   {
     "type": "recipe",
-    "result": "lightstrip_inactive",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_LIGHTING",
-    "skill_used": "electronics",
-    "time": 1000,
-    "flags": [ "BLIND_EASY" ],
-    "components": [ [ [ "lightstrip_dead", 1 ] ], [ [ "battery", 15 ] ] ]
-  },
-  {
-    "type": "recipe",
     "result": "sheet_metal_lit",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_LIGHTING",
