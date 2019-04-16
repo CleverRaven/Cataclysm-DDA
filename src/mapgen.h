@@ -122,6 +122,11 @@ struct jmapgen_setmap {
         repeat( irepeat ), rotation( irotation ),
         fuel( ifuel ), status( istatus ) {}
     bool apply( const mapgendata &dat, int offset_x, int offset_y, mission *miss = nullptr ) const;
+    /**
+     * checks if applying these objects to data would cause cause a collision with vehicles
+     * on the same map
+     **/
+    bool has_vehicle_collision( const mapgendata &dat, int offset_x, int offset_y ) const;
 };
 
 /**
@@ -157,6 +162,10 @@ class jmapgen_piece
                             float mon_density, mission *miss = nullptr ) const = 0;
         virtual ~jmapgen_piece() = default;
         jmapgen_int repeat;
+        virtual bool has_vehicle_collision( const mapgendata &/*dat*/, int /*offset_x*/,
+                                            int /*offset_y*/ ) const {
+            return false;
+        }
 };
 
 /**
@@ -254,6 +263,12 @@ struct jmapgen_objects {
         void apply( const mapgendata &dat, int offset_x, int offset_y, float density,
                     mission *miss = nullptr ) const;
 
+        /**
+         * checks if applying these objects to data would cause cause a collision with vehicles
+         * on the same map
+         **/
+        bool has_vehicle_collision( const mapgendata &dat, int offset_x, int offset_y ) const;
+
     private:
         /**
          * Combination of where to place something and what to place.
@@ -322,20 +337,20 @@ class mapgen_function_json : public mapgen_function_json_base, public virtual ma
         jmapgen_int rotation;
 };
 
-class update_mapgen_function_json : public mapgen_function_json_base, public virtual mapgen_function
+class update_mapgen_function_json : public mapgen_function_json_base
 {
     public:
-        update_mapgen_function_json( const std::string &s, int w );
+        update_mapgen_function_json( const std::string &s );
         ~update_mapgen_function_json() override = default;
 
-        bool setup_internal( JsonObject & ) override {
-            return true;
-        };
-        void setup_setmap_internal() override { };
+        void setup();
         bool setup_update( JsonObject &jo );
-        void check( const std::string &oter_name ) const override;
-        void generate( map *, const oter_id &, const mapgendata &, const time_point &, float ) override { };
-        void update_map( const tripoint &omt_pos, int offset_x, int offset_y, mission *miss ) const;
+        void check( const std::string &oter_name ) const;
+        bool update_map( const tripoint &omt_pos, int offset_x, int offset_y,
+                         mission *miss, bool verify = false ) const;
+    protected:
+        bool setup_internal( JsonObject &/*jo*/ ) override;
+        ter_id fill_ter;
 };
 
 class mapgen_function_json_nested : public mapgen_function_json_base
