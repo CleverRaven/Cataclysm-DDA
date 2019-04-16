@@ -3,6 +3,7 @@
       "id": "sunlight",
       "type": "vitamin",
       "name": "Sunlight",
+      "deficiency": "something",
       "rate": 0,
       "min": 0,
       "max": 200
@@ -11,6 +12,7 @@
       "id": "sunlightVit",
       "type": "vitamin",
       "name": "Sunlight Vitamins",
+      "deficiency": "something_else",
       "rate": 0,
       "min": 0,
       "max": 300
@@ -19,6 +21,7 @@
       "id": "roots",
       "type": "vitamin",
       "name": "Roots",
+      "deficiency": "another_thing",
       "rate": 0,
       "min": 0,
       "max": 200
@@ -27,6 +30,7 @@
       "id": "rootsVit",
       "type": "vitamin",
       "name": "Roots Vitamins",
+      "deficiency": "a_different_thing",
       "rate": 0,
       "min": 0,
       "max": 300

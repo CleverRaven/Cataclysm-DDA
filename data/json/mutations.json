@@ -5075,7 +5075,7 @@
     "points": -3,
     "visibility": 5,
     "ugliness": 5,
-    "description": "Your roots have developed further, and you can extract much more from the terrain when rooted, but you move more slowly. Activate to root yourself.",
+    "description": "Your roots have developed further, and you can extract much more from the terrain when rooted, but you move more slowly.  Activate to root yourself.",
     "types": [ "LEGS" ],
     "prereqs": [ "ROOTS2" ],
     "prereqs2": [ "SAPROPHAGE" ],

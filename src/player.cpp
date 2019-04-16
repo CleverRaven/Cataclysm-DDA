@@ -5270,7 +5270,7 @@ void player::suffer()
     }
 
     bool has_leaves = has_trait( trait_LEAVES );
-    bool has_roots = ( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) );
+    bool has_roots = has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 );
     bool is_rooted = has_effect( effect_rooted );
     bool is_rooting = has_activity( activity_id( "ACT_ROOT" ) );
     bool is_uprooting = has_activity( activity_id( "ACT_UPROOT" ) );
@@ -7490,7 +7490,6 @@ void player::plant_nutrition()
     }
 
     if( vitamin_get( vitamin_id( "sunlight" ) ) == 200 ) {
-        //mod_hunger(-1);
         // photosynthesis absorbs kcal directly
         mod_stored_nutr( -1 );
         vitamin_set( vitamin_id( "sunlight" ), 0 );
