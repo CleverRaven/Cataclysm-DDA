@@ -76,18 +76,11 @@
     "name": "active makeshift grenade",
     "weight": 300,
     "material": [ "aluminum", "iron" ],
-    "rand_charges": [ 2, 3, 4, 5, 6, 7 ],
+    "rand_charges": [ 2, 7 ],
     "use_action": {
       "type": "explosion",
       "no_deactivate_msg": "You've already primed the %s, try throwing it instead.",
-      "explosion": {
-        "power": 165,
-        "distance_factor" : 0.8,
-        "shrapnel": {
-          "count": 100,
-          "mass": 1.25
-        }
-      }
+      "explosion": { "power": 165, "distance_factor": 0.8, "shrapnel": { "count": 100, "mass": 1.25 } }
     }
   },
   {
