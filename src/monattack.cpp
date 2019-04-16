@@ -2702,7 +2702,7 @@ bool mattack::nurse_assist( monster *z )
         z->attitude_to( g->u ) == monster_attitude::MATT_FRIEND ) {
         sounds::sound( z->pos(), 8, sounds::sound_t::speech,
                        string_format(
-                           _( "a soft robotic voice says, \"Welcome Doctor %s.  I'll be your assistant today.\"" ),
+                           _( "a soft robotic voice says, \"Welcome doctor %s.  I'll be your assistant today.\"" ),
                            Name::generate( g->u.male ) ) );
         g->u.add_effect( effect_assisted, 20_turns );
     } else {
