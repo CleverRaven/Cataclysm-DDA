@@ -14,7 +14,7 @@
     "price": 20,
     "material": "veggy",
     "volume": 4,
-    "flags": [ "EDIBLE_FROZEN" ],
+    "flags": [ "EDIBLE_FROZEN", "MILLABLE" ],
     "charges": 4,
     "vitamins": [ [ "calcium", 6 ], [ "iron", 29 ] ],
     "fun": -15
@@ -71,7 +71,7 @@
     "price": 90,
     "material": "veggy",
     "volume": 2,
-    "flags": [ "EDIBLE_FROZEN" ],
+    "flags": [ "EDIBLE_FROZEN", "MILLABLE" ],
     "charges": 2,
     "vitamins": [ [ "calcium", 3 ], [ "iron", 22 ] ],
     "fun": -10

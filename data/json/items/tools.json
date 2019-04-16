@@ -205,6 +205,36 @@
     "flags": [ "DURABLE_MELEE" ]
   },
   {
+    "id": "water_mill",
+    "type": "TOOL",
+    "name": "water mill",
+    "description": "A small water-powered mill that can convert starchy products into flour. Can be placed via the construction menu.",
+    "weight": 120000,
+    "volume": 90,
+    "price": 100000,
+    "to_hit": -5,
+    "bashing": 40,
+    "material": "wood",
+    "symbol": "*",
+    "color": "red",
+    "flags": [ "DURABLE_MELEE" ]
+  },
+  {
+    "id": "wind_mill",
+    "type": "TOOL",
+    "name": "wind mill",
+    "description": "A small wind-powered mill that can convert starchy products into flour. Can be placed via the construction menu.",
+    "weight": 120000,
+    "volume": 90,
+    "price": 100000,
+    "to_hit": -5,
+    "bashing": 40,
+    "material": "steel",
+    "symbol": "T",
+    "color": "red",
+    "flags": [ "DURABLE_MELEE" ]
+  },
+  {
     "id": "atomic_coffeepot",
     "type": "GENERIC",
     "category": "tools",

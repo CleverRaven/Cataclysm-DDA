@@ -100,6 +100,8 @@ void climb_down( player &p, const tripoint &examp );
 void autodoc( player &p, const tripoint &examp );
 void on_smoke_out( const tripoint &examp,
                    const time_point &start_time ); //activates end of smoking effects
+void mill_finalize( player &, const tripoint &examp, const time_point &start_time );
+void quern_examine( player &p, const tripoint &examp );
 void smoker_options( player &p, const tripoint &examp );
 void open_safe( player &p, const tripoint &examp );
 hack_result hack_attempt( player &p );

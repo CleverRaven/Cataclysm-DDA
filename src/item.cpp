@@ -3788,7 +3788,7 @@ void item::calc_rot( const tripoint &location )
 
         // Frozen food do not rot, so no change to rot variable
         // Smoking food will be checked for rot in smoker_finalize
-        if( item_tags.count( "FROZEN" ) || item_tags.count( "SMOKING" ) ) {
+        if( item_tags.count( "FROZEN" ) || item_tags.count( "SMOKING" ) || item_tags.count( "MILLING" ) ) {
             return;
         }
 
@@ -3817,16 +3817,16 @@ void item::calc_rot( const tripoint &location )
     }
 }
 
-void item::calc_rot_while_smoking( const tripoint &location, time_duration smoking_duration )
+void item::calc_rot_while_processing( const tripoint &location, time_duration processing_duration )
 {
-    if( !item_tags.count( "SMOKING" ) ) {
-        debugmsg( "calc_rot_while_smoking called on non smoking item: %s", tname().c_str() );
+    if( !item_tags.count( "SMOKING" ) && !item_tags.count( "MILLING" ) ) {
+        debugmsg( "calc_rot_while_processing called on non processing item: %s", tname().c_str() );
         return;
     }
 
     // Apply rot at 1/2 normal rate while smoking
-    rot += 0.5 * get_rot_since( last_rot_check, last_rot_check + smoking_duration, location );
-    last_rot_check += smoking_duration;
+    rot += 0.5 * get_rot_since( last_rot_check, last_rot_check + processing_duration, location );
+    last_rot_check += processing_duration;
 }
 
 units::volume item::get_storage() const
@@ -7155,6 +7155,21 @@ bool item::process_corpse( player *carrier, const tripoint &pos )
     return false;
 }
 
+bool item::process_fake_mill( player * /*carrier*/, const tripoint &pos )
+{
+    if( g->m.furn( pos ) != furn_str_id( "f_wind_mill_active" ) &&
+        g->m.furn( pos ) != furn_str_id( "f_water_mill_active" ) ) {
+        item_counter = 0;
+        return true; //destroy fake mill
+    }
+    if( age() >= 6_hours || item_counter == 0 ) {
+        iexamine::mill_finalize( g->u, pos, birthday() ); //activate effects when timers goes to zero
+        return true; //destroy fake mill item
+    }
+
+    return false;
+}
+
 bool item::process_fake_smoke( player * /*carrier*/, const tripoint &pos )
 {
     if( g->m.furn( pos ) != furn_str_id( "f_smoking_rack_active" ) ) {
@@ -7506,6 +7521,9 @@ bool item::process( player *carrier, const tripoint &pos, bool activate, int tem
     }
 
     if( has_flag( "FAKE_SMOKE" ) && process_fake_smoke( carrier, pos ) ) {
+        return true;
+    }
+    if( has_flag( "FAKE_MILL" ) && process_fake_mill( carrier, pos ) ) {
         return true;
     }
     if( is_food() && process_food( carrier, pos, temp, insulation ) ) {

@@ -1854,6 +1854,30 @@
   },
   {
     "type": "construction",
+    "description": "Place Water Mill",
+    "//": "Set up Water Mill",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": 40,
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [ [ [ "water_mill", 1 ] ] ],
+    "pre_terrain": "t_water_moving_sh",
+    "post_terrain": "f_water_mill"
+  },
+  {
+    "type": "construction",
+    "description": "Place Wind Mill",
+    "//": "Set up Wind Mill",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": 40,
+    "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+    "components": [ [ [ "wind_mill", 1 ] ] ],
+    "pre_terrain": "t_pit_shallow",
+    "post_terrain": "f_wind_mill"
+  },
+  {
+    "type": "construction",
     "description": "Build Shallow Temporary Bridge",
     "//": "Set up shallow bridge",
     "category": "CONSTRUCT",
