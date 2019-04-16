@@ -174,7 +174,7 @@
     "type": "overmap_terrain",
     "id": "faction_base_camp_19",
     "name": "survivor base",
-    "sym": 43,
+    "sym": "+",
     "color": "white",
     "see_cost": 5,
     "flags": [ "NO_ROTATE" ]
@@ -183,7 +183,7 @@
     "type": "overmap_terrain",
     "id": "faction_base_camp_20",
     "name": "survivor base",
-    "sym": 43,
+    "sym": "+",
     "color": "white",
     "see_cost": 5,
     "flags": [ "NO_ROTATE" ]
