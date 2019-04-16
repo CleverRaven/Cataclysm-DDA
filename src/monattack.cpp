@@ -2737,14 +2737,17 @@ bool mattack::nurse_operate( monster *z )
         }
         if( found_couch == false ) {
             add_msg( m_info, _( "The %s looks for something but doesn't seem to find it." ), z->name() );
-            return;
+            return false;
         }
         grab( z );
         if( g->u.has_effect( effect_grabbed ) ) {
             z->add_effect( effect_dragging, 1_turns, num_bp, true );
             z->set_dest( couch_pos );
+            return true;
         }
+        return false;
     }
+    return false;
 }
 bool mattack::photograph( monster *z )
 {
