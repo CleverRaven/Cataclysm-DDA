@@ -1043,6 +1043,12 @@ class item : public visitable<item>
 
         bool is_unarmed_weapon() const; //Returns true if the item should be considered unarmed
 
+        bool has_temperature() const;
+        float get_specific_heat_liquid() const;
+        float get_specific_heat_solid() const;
+        float get_latent_heat() const;
+        float get_freeze_point() const; // Farenheit
+
         /** What faults can potentially occur with this item? */
         std::set<fault_id> faults_potential() const;
 
@@ -1850,7 +1856,7 @@ class item : public visitable<item>
         // Sub-functions of @ref process, they handle the processing for different
         // processing types, just to make the process function cleaner.
         // The interface is the same as for @ref process.
-        bool process_food( const player *carrier, const tripoint &p, int temp, float insulation );
+        bool process_food( const tripoint &p );
         bool process_corpse( player *carrier, const tripoint &pos );
         bool process_wet( player *carrier, const tripoint &pos );
         bool process_litcig( player *carrier, const tripoint &pos );

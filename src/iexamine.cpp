@@ -1619,7 +1619,9 @@ static bool harvest_common( player &p, const tripoint &examp, bool furn, bool ne
         if( !auto_forage ) {
             p.add_msg_if_player( m_info, _( "Nothing can be harvested from this plant in current season." ) );
         }
-        iexamine::none( p, examp );
+        if( p.manual_examine ) {
+            iexamine::none( p, examp );
+        }
         return false;
     }
 
@@ -3748,64 +3750,98 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
     }
 }
 
-void iexamine::climb_down( player &p, const tripoint &examp )
+void iexamine::ledge( player &p, const tripoint &examp )
 {
-    if( !g->m.has_zlevels() ) {
-        // No climbing down in 2D mode
-        return;
-    }
 
-    if( !g->m.valid_move( p.pos(), examp, false, true ) ) {
-        // Covered with something
-        return;
-    }
+    uilist cmenu;
+    cmenu.text = _( "There is a ledge here.  What do you want to do?" );
+    cmenu.addentry( 1, true, 'j', _( "Jump over." ) );
+    cmenu.addentry( 2, true, 'c', _( "Climb down." ) );
+    cmenu.query();
 
-    tripoint where = examp;
-    tripoint below = examp;
-    below.z--;
-    while( g->m.valid_move( where, below, false, true ) ) {
-        where.z--;
-        below.z--;
-    }
-
-    const int height = examp.z - where.z;
-    if( height == 0 ) {
-        p.add_msg_if_player( _( "You can't climb down there" ) );
-        return;
-    }
-
-    const int climb_cost = p.climbing_cost( where, examp );
-    const auto fall_mod = p.fall_damage_mod();
-    std::string query_str = ngettext( "Looks like %d story. Jump down?",
-                                      "Looks like %d stories. Jump down?",
-                                      height );
-    if( height > 1 && !query_yn( query_str.c_str(), height ) ) {
-        return;
-    } else if( height == 1 ) {
-        std::string query;
-        if( climb_cost <= 0 && fall_mod > 0.8 ) {
-            query = _( "You probably won't be able to get up and jumping down may hurt. Jump?" );
-        } else if( climb_cost <= 0 ) {
-            query = _( "You probably won't be able to get back up. Climb down?" );
-        } else if( climb_cost < 200 ) {
-            query = _( "You should be able to climb back up easily if you climb down there. Climb down?" );
-        } else {
-            query = _( "You may have problems climbing back up. Climb down?" );
+    switch( cmenu.ret ) {
+        case 1: {
+            tripoint dest( p.posx() + 2 * sgn( examp.x - p.posx() ), p.posy() + 2 * sgn( examp.y - p.posy() ),
+                           p.posz() );
+            if( p.get_str() < 4 ) {
+                add_msg( m_warning, _( "You are too weak to jump over an obstacle." ) );
+            } else if( 100 * p.weight_carried() / p.weight_capacity() > 25 ) {
+                add_msg( m_warning, _( "You are too burdened to jump over an obstacle." ) );
+            } else if( !g->m.valid_move( examp, dest, false, true ) ) {
+                add_msg( m_warning, _( "You cannot jump over an obstacle - something is blocking the way." ) );
+            } else if( g->critter_at( dest ) ) {
+                add_msg( m_warning, _( "You cannot jump over an obstacle - there is %s blocking the way." ),
+                         g->critter_at( dest )->disp_name() );
+            } else if( g->m.ter( dest ).obj().trap == tr_ledge ) {
+                add_msg( m_warning, _( "You are not going to jump over an obstacle only to fall down." ) );
+            } else {
+                add_msg( m_info, _( "You jump over an obstacle." ) );
+                p.setpos( dest );
+            }
+            break;
         }
+        case 2: {
+            if( !g->m.has_zlevels() ) {
+                // No climbing down in 2D mode
+                return;
+            }
 
-        if( !query_yn( query.c_str() ) ) {
-            return;
+            if( !g->m.valid_move( p.pos(), examp, false, true ) ) {
+                // Covered with something
+                return;
+            }
+
+            tripoint where = examp;
+            tripoint below = examp;
+            below.z--;
+            while( g->m.valid_move( where, below, false, true ) ) {
+                where.z--;
+                below.z--;
+            }
+
+            const int height = examp.z - where.z;
+            if( height == 0 ) {
+                p.add_msg_if_player( _( "You can't climb down there" ) );
+                return;
+            }
+
+            const int climb_cost = p.climbing_cost( where, examp );
+            const auto fall_mod = p.fall_damage_mod();
+            std::string query_str = ngettext( "Looks like %d story. Jump down?",
+                                              "Looks like %d stories. Jump down?",
+                                              height );
+            if( height > 1 && !query_yn( query_str.c_str(), height ) ) {
+                return;
+            } else if( height == 1 ) {
+                std::string query;
+                if( climb_cost <= 0 && fall_mod > 0.8 ) {
+                    query = _( "You probably won't be able to get up and jumping down may hurt. Jump?" );
+                } else if( climb_cost <= 0 ) {
+                    query = _( "You probably won't be able to get back up. Climb down?" );
+                } else if( climb_cost < 200 ) {
+                    query = _( "You should be able to climb back up easily if you climb down there. Climb down?" );
+                } else {
+                    query = _( "You may have problems climbing back up. Climb down?" );
+                }
+
+                if( !query_yn( query.c_str() ) ) {
+                    return;
+                }
+            }
+
+            p.moves -= 100 + 100 * fall_mod;
+            p.setpos( examp );
+            if( climb_cost > 0 || rng_float( 0.8, 1.0 ) > fall_mod ) {
+                // One tile of falling less (possibly zero)
+                g->vertical_move( -1, true );
+            }
+            g->m.creature_on_trap( p );
+            break;
         }
+        default:
+            popup( _( "You decided to step back from the ledge." ) );
+            break;
     }
-
-    p.moves -= 100 + 100 * fall_mod;
-    p.setpos( examp );
-    if( climb_cost > 0 || rng_float( 0.8, 1.0 ) > fall_mod ) {
-        // One tile of falling less (possibly zero)
-        g->vertical_move( -1, true );
-    }
-
-    g->m.creature_on_trap( p );
 }
 
 player &player_on_couch( player &p, const tripoint &autodoc_loc, player &null_patient,
@@ -5032,7 +5068,7 @@ iexamine_function iexamine_function_from_string( const std::string &function_nam
             { "kiln_empty", &iexamine::kiln_empty },
             { "kiln_full", &iexamine::kiln_full },
             { "fireplace", &iexamine::fireplace },
-            { "climb_down", &iexamine::climb_down },
+            { "ledge", &iexamine::ledge },
             { "autodoc", &iexamine::autodoc },
             { "quern_examine", &iexamine::quern_examine },
             { "smoker_options", &iexamine::smoker_options },

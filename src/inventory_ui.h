@@ -256,6 +256,8 @@ class inventory_column
 
         const inventory_entry &get_selected() const;
         std::vector<inventory_entry *> get_all_selected() const;
+        std::vector<inventory_entry *> get_entries(
+            const std::function<bool( const inventory_entry &entry )> &filter_func ) const;
 
         inventory_entry *find_by_invlet( long invlet ) const;
 
@@ -671,6 +673,7 @@ class inventory_drop_selector : public inventory_multiselector
         stats get_raw_stats() const override;
         /** Toggle item dropping */
         void set_chosen_count( inventory_entry &entry, size_t count );
+        void process_selected( int &count, const std::vector<inventory_entry *> &selected );
 
     private:
         std::map<const item *, int> dropping;

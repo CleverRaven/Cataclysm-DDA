@@ -229,6 +229,8 @@ struct dialogue {
 
         std::string dynamic_line( const talk_topic &topic ) const;
 
+        /** This dialogue is happening over a radio */
+        bool by_radio = false;
         /**
          * Possible responses from the player character, filled in @ref gen_responses.
          */
@@ -331,7 +333,7 @@ const std::unordered_set<std::string> simple_string_conds = { {
         "at_safe_space", "is_day", "is_outside", "u_has_camp",
         "u_can_stow_weapon", "npc_can_stow_weapon", "u_has_weapon", "npc_has_weapon",
         "u_driving", "npc_driving",
-        "has_pickup_list"
+        "has_pickup_list", "is_by_radio",
     }
 };
 const std::unordered_set<std::string> complex_conds = { {
@@ -414,6 +416,7 @@ struct conditional_t {
         void set_is_driving( bool is_npc = false );
         void set_is_day();
         void set_is_outside();
+        void set_is_by_radio();
         void set_u_has_camp();
         void set_has_pickup_list();
         void set_is_gender( bool is_male, bool is_npc = false );
