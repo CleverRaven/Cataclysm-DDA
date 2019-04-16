@@ -880,7 +880,7 @@
     "id": "bot_nursebot",
     "type": "TOOL",
     "name": "inactive nurse bot",
-    "description": "This is an inactive nurse bot. Using this item involves placing it on the ground and reactivating its mechanical body.  If reprogrammed and rewired successfully the nurse bot will then identify you as a friendly, roam around or follow you, and assist you in surgeries.",
+    "description": "This is an inactive nurse bot.  Using this item involves placing it on the ground and reactivating its mechanical body.  If reprogrammed and rewired successfully the nurse bot will then identify you as a friendly, roam around or follow you, and assist you in surgeries.",
     "volume": "62500 ml",
     "weight": 81500,
     "price": 750000,
