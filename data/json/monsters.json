@@ -1093,7 +1093,7 @@
     "speed": 100,
     "material": [ "steel" ],
     "symbol": "N",
-    "color": "light_grey",
+    "color": "light_gray",
     "bodytype": "human",
     "morale": 100,
     "dodge": 3,
