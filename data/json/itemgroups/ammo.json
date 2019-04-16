@@ -419,35 +419,35 @@
   },
   {
     "type": "item_group",
-    "id": "heavy_batteries_full",
+    "id": "ammo_heavy_batteries_full",
     "items": [ { "item": "heavy_battery_cell", "prob": 80 }, { "item": "heavy_plus_battery_cell", "prob": 20 } ]
   },
   {
     "type": "item_group",
     "id": "ammo_any_batteries_full",
     "items": [
-      { "group": "light_batteries_full", "prob": 5 },
-      { "group": "medium_batteries_full", "prob": 5 },
-      { "group": "heavy_batteries_full", "prob": 5 }
+      { "group": "ammo_light_batteries_full", "prob": 5 },
+      { "group": "ammo_medium_batteries_full", "prob": 5 },
+      { "group": "ammo_heavy_batteries_full", "prob": 5 }
     ]
   },
   {
     "type": "item_group",
     "id": "ammo_any_batteries",
     "items": [
-      { "group": "light_batteries", "prob": 5 },
-      { "group": "medium_batteries", "prob": 5 },
-      { "group": "heavy_batteries", "prob": 5 }
+      { "group": "ammo_light_batteries", "prob": 5 },
+      { "group": "ammo_medium_batteries", "prob": 5 },
+      { "group": "ammo_heavy_batteries", "prob": 5 }
     ]
   },
   {
     "type": "item_group",
     "id": "ammo_pocket_batteries",
-    "items": [ { "group": "light_batteries", "prob": 10 }, { "group": "medium_batteries", "prob": 1 } ]
+    "items": [ { "group": "ammo_light_batteries", "prob": 10 }, { "group": "ammo_medium_batteries", "prob": 1 } ]
   },
   {
     "type": "item_group",
     "id": "ammo_pocket_batteries_full",
-    "items": [ { "group": "light_batteries_full", "prob": 5 }, { "group": "medium_batteries_full", "prob": 5 } ]
+    "items": [ { "group": "ammo_light_batteries_full", "prob": 5 }, { "group": "ammo_medium_batteries_full", "prob": 5 } ]
   }  
 ]

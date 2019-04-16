@@ -17,7 +17,7 @@
       [ "receiver", 30 ],
       [ "transponder", 30 ],
       [ "light_bulb", 60 ],
-      [ "lightstrip_dead", 60 ],
+      [ "lightstrip_inactive", 60 ],
       [ "motor_tiny", 30 ],
       [ "motor_micro", 40 ]
     ]
