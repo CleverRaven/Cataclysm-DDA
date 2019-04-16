@@ -9502,8 +9502,8 @@ void game::eat( int pos )
         return;
     }
 
-    if(!u.has_activity( activity_id( "ACT_EAT" ) ) ){
-        u.assign_activity( activity_id( "ACT_EAT" ) );
+    if(!u.has_activity( activity_id( "ACT_EAT_MENU" ) ) ){
+        u.assign_activity( activity_id( "ACT_EAT_MENU" ) );
     }
 
     auto item_loc = game_menus::inv::consume( u );

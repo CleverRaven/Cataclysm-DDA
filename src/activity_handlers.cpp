@@ -71,7 +71,7 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_AIM" ), aim_do_turn },
     { activity_id( "ACT_PICKUP" ), pickup_do_turn },
     { activity_id( "ACT_WEAR" ), wear_do_turn },
-    { activity_id( "ACT_EAT" ), eat_do_turn },
+    { activity_id( "ACT_EAT_MENU" ), eat_menu_do_turn },
     { activity_id( "ACT_MOVE_ITEMS" ), move_items_do_turn },
     { activity_id( "ACT_MOVE_LOOT" ), move_loot_do_turn },
     { activity_id( "ACT_ADV_INVENTORY" ), adv_inventory_do_turn },
@@ -143,7 +143,7 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_VIBE" ), vibe_finish },
     { activity_id( "ACT_ATM" ), atm_finish },
     { activity_id( "ACT_AIM" ), aim_finish },
-    { activity_id( "ACT_EAT" ), eat_finish },
+    { activity_id( "ACT_EAT_MENU" ), eat_menu_finish },
     { activity_id( "ACT_WASH" ), washing_finish },
     { activity_id( "ACT_HACKSAW" ), hacksaw_finish },
     { activity_id( "ACT_CHOP_TREE" ), chop_tree_finish },
@@ -2522,7 +2522,7 @@ void activity_handlers::wear_do_turn( player_activity *, player * )
 }
 
 // This activity opens the menu (it's not meant to queue consumption of items)
-void activity_handlers::eat_do_turn( player_activity *, player * )
+void activity_handlers::eat_menu_do_turn( player_activity *, player * )
 {
     g->eat();
 }
@@ -2737,7 +2737,7 @@ void activity_handlers::aim_finish( player_activity *, player * )
     // you only re-enter if it gets set again.
     return;
 }
-void activity_handlers::eat_finish( player_activity *, player * )
+void activity_handlers::eat_menu_finish( player_activity *, player * )
 {
     // Only exists to keep the eat activity alive between turns
     return;

@@ -73,7 +73,7 @@ static item_location inv_internal( player &u, const inventory_selector_preset &p
     std::pair<size_t, size_t> init_pair;
     bool init_selection = false;
 
-    if( u.has_activity( activity_id( "ACT_EAT" ) ) && u.activity.values.size() >= 2 ) {
+    if( u.has_activity( activity_id( "ACT_EAT_MENU" ) ) && u.activity.values.size() >= 2 ) {
         init_pair.first = u.activity.values[0];
         init_pair.second = u.activity.values[1];
         init_selection = true;
@@ -107,7 +107,7 @@ static item_location inv_internal( player &u, const inventory_selector_preset &p
             continue;
         }
 
-        if( u.has_activity( activity_id( "ACT_EAT" ) ) ) {
+        if( u.has_activity( activity_id( "ACT_EAT_MENU" ) ) ) {
             u.activity.values.clear();
             init_pair = inv_s.get_selection_position();
             u.activity.values.push_back( init_pair.first );
