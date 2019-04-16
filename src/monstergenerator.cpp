@@ -16,6 +16,7 @@
 #include "monattack.h"
 #include "mondeath.h"
 #include "mondefense.h"
+#include "mondodge.h"
 #include "monfaction.h"
 #include "mongroup.h"
 #include "options.h"
@@ -527,6 +528,12 @@ void MonsterGenerator::init_defense()
     defense_map["ACIDSPLASH"] = &mdefense::acidsplash; //Splash acid on the attacker
 }
 
+void MonsterGenerator::init_dodge()
+{
+    dodge_map["NONE"] = &mdodge::none; //No special dodge effect
+    dodge_map["TELESTAGGER"] = &mdodge::telestagger; //Move to another square adjacent to player and stagger them
+}
+
 void MonsterGenerator::set_species_ids( mtype &mon )
 {
     for( const auto &s : mon.species ) {
@@ -679,6 +686,19 @@ void mtype::load( JsonObject &jo, const std::string &src )
     } else if( !was_loaded ) {
         sp_defense = &mdefense::none;
         def_chance = 0;
+    }
+
+    if( jo.has_member( "special_when_dodges" ) ) {
+        JsonArray jsarr = jo.get_array( "special_when_dodges" );
+        const auto iter = gen.dodge_map.find( jsarr.get_string( 0 ) );
+        if( iter == gen.dodge_map.end() ) {
+            jsarr.throw_error( "Invalid monster dodge function" );
+        }
+        sp_dodge = iter->second;
+        sp_dodge_chance = jsarr.get_int( 1 );
+    } else if( !was_loaded ) {
+        sp_dodge = &mdodge::none;
+        sp_dodge_chance = 0;
     }
 
     if( !was_loaded || jo.has_member( "special_attacks" ) ) {

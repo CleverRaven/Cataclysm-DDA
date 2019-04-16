@@ -2351,9 +2351,13 @@ float monster::speed_rating() const
     return ret;
 }
 
-void monster::on_dodge( Creature *, float )
+void monster::on_dodge( Creature *source, float, dealt_projectile_attack const *const proj )
 {
-    // Currently does nothing, later should handle faction relations
+    if( rng( 0, 100 ) <= static_cast<long>( type->sp_dodge_chance ) ) {
+        type->sp_dodge( *this, source, proj );
+    }
+
+    // TODO: Faction relations
 }
 
 void monster::on_hit( Creature *source, body_part,
