@@ -15,23 +15,6 @@
     "components": [ [ [ "scrap", 6 ] ], [ [ "cable", 4 ] ], [ [ "plut_cell", 1 ] ] ]
   },
   {
-    "result": "battery_compartment",
-    "type": "recipe",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_COMPONENTS",
-    "skill_used": "fabrication",
-    "difficulty": 3,
-    "skills_required": [ "electronics", 3 ],
-    "time": 15000,
-    "reversible": true,
-    "decomp_learn": 2,
-    "autolearn": true,
-    "book_learn": [ [ "manual_electronics", 2 ], [ "advanced_electronics", 2 ] ],
-    "using": [ [ "soldering_standard", 5 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "scrap", 4 ] ], [ [ "cable", 5 ] ] ]
-  },
-  {
     "result": "battery_ups",
     "type": "recipe",
     "category": "CC_ELECTRONIC",

@@ -19,7 +19,7 @@
   },
   {
     "id": "light_minus_battery_cell",
-    "type": "AMMO",
+    "type": "MAGAZINE",
     "name": "ultra-light battery cell",
     "name_plural": "ultra-light battery cells",
     "description": "This is a light battery cell designed for small size over everything else.  It retains its universal compatibility, though.",
@@ -37,7 +37,7 @@
   },
   {
     "id": "light_battery_cell",
-    "type": "AMMO",
+    "type": "MAGAZINE",
     "name": "light battery cell",
     "name_plural": "light battery cells",
     "description": "This is a light battery cell, universally compatible with all kinds of small devices.",
@@ -55,7 +55,7 @@
   },
   {
     "id": "light_plus_battery_cell",
-    "type": "AMMO",
+    "type": "MAGAZINE",
     "name": "light battery cell (high-capacity)",
     "name_plural": "light battery cells (high-capacity)",
     "description": "This is a high-capacity light battery cell, universally compatible with all kinds of personal electronic devices.",
@@ -73,7 +73,7 @@
   },
   {
     "id": "medium_battery_cell",
-    "type": "AMMO",
+    "type": "MAGAZINE",
     "name": "medium battery cell",
     "name_plural": "light battery cells",
     "description": "This is a medium battery cell, universally compatible with all kinds of appliances and power tools.",
@@ -91,7 +91,7 @@
   },
   {
     "id": "medium_plus_battery_cell",
-    "type": "AMMO",
+    "type": "MAGAZINE",
     "name": "medium battery cell (high-capacity)",
     "name_plural": "medium battery cells (high-capacity)",
     "description": "This is a high-capacity medium battery cell, universally compatible with all kinds of appliances and power tools.",
@@ -109,7 +109,7 @@
   },
   {
     "id": "heavy_battery_cell",
-    "type": "AMMO",
+    "type": "MAGAZINE",
     "name": "heavy battery cell",
     "name_plural": "heavy battery cells",
     "description": "This is a heavy battery cell, universally compatible with all kinds of industrial-grade equipment and large tools.",
@@ -127,7 +127,7 @@
   },
   {
     "id": "heavy_plus_battery_cell",
-    "type": "AMMO",
+    "type": "MAGAZINE",
     "name": "heavy battery cell (high-capacity)",
     "name_plural": "heavy battery cells (high-capacity)",
     "description": "This is a high-capacity heavy battery cell, universally compatible with all kinds of industrial-grade equipment and large tools.",

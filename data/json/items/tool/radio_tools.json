@@ -1,5 +1,20 @@
 [
   {
+    "id": "radio_car_box",
+    "type": "GENERIC",
+    "category": "other",
+    "name": "radio car box",
+    "name_plural": "radio car boxes",
+    "description": "A RC car, with radio-control and batteries included!  Disassemble to unpack and enjoy.",
+    "weight": 3200,
+    "volume": 8,
+    "price": 30000,
+    "to_hit": -1,
+    "material": [ "plastic" ],
+    "symbol": ")",
+    "color": "red"
+  }, 
+  {
     "id": "radiocontrol",
     "copy-from": "radio_car_box",
     "type": "TOOL",

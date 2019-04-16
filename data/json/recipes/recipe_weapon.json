@@ -1146,7 +1146,7 @@
       { "id": "SCREW", "level": 1 },
       { "id": "WRENCH", "level": 1 }
     ],
-    "components": [ [ [ "elec_chainsaw_off", 1 ] ], [ [ "battery_compartment", 1 ] ], [ [ "steel_chunk", 3 ], [ "scrap", 9 ] ] ]
+    "components": [ [ [ "elec_chainsaw_off", 1 ] ], [ [ "steel_chunk", 3 ], [ "scrap", 9 ] ] ]
   },
   {
     "type": "recipe",

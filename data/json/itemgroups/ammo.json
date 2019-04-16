@@ -398,7 +398,7 @@
   },
   {
     "type": "item_group",
-    "id": "medium_batteries",
+    "id": "ammo_medium_batteries",
     "items": [
       { "item": "medium_battery_cell", "prob": 80, "charges-min": 0, "charges-max": 500 },
       { "item": "medium_plus_battery_cell", "prob": 20, "charges-min": 0, "charges-max": 600 }
@@ -406,12 +406,12 @@
   },
   {
     "type": "item_group",
-    "id": "medium_batteries_full",
+    "id": "ammo_medium_batteries_full",
     "items": [ { "item": "medium_battery_cell", "prob": 80 }, { "item": "medium_plus_battery_cell", "prob": 20 } ]
   },
   {
     "type": "item_group",
-    "id": "heavy_batteries",
+    "id": "ammo_heavy_batteries",
     "items": [
       { "item": "heavy_battery_cell", "prob": 80, "charges-min": 0, "charges-max": 1000 },
       { "item": "heavy_plus_battery_cell", "prob": 20, "charges-min": 0, "charges-max": 1250 }
@@ -424,7 +424,7 @@
   },
   {
     "type": "item_group",
-    "id": "any_batteries_full",
+    "id": "ammo_any_batteries_full",
     "items": [
       { "group": "light_batteries_full", "prob": 5 },
       { "group": "medium_batteries_full", "prob": 5 },
@@ -433,7 +433,7 @@
   },
   {
     "type": "item_group",
-    "id": "any_batteries",
+    "id": "ammo_any_batteries",
     "items": [
       { "group": "light_batteries", "prob": 5 },
       { "group": "medium_batteries", "prob": 5 },

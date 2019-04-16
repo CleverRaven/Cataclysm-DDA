@@ -1453,14 +1453,6 @@
     "components": [ [ [ "pilot_light", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
   },
   {
-    "result": "lightstrip_dead",
-    "type": "uncraft",
-    "skill_used": "electronics",
-    "time": 1000,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "amplifier", 1 ] ], [ [ "e_scrap", 1 ] ] ]
-  },
-  {
     "result": "locket",
     "type": "uncraft",
     "time": 500,
