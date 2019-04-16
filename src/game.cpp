@@ -6054,11 +6054,13 @@ void game::examine()
     if( !examp_ ) {
         return;
     }
+    u.manual_examine = true;
     // redraw terrain to erase 'examine' window
     draw_ter();
     wrefresh( w_terrain );
     draw_panels();
     examine( *examp_ );
+    u.manual_examine = false;
 }
 
 const std::string get_fire_fuel_string( const tripoint &examp )
