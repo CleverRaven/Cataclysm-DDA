@@ -3383,24 +3383,21 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, player *p 
             }
             return;
         }
-        for( int radius = 1; radius <= 2; radius++ ) {
-            for( int dx = -radius; dx <= radius; dx++ ) {
-                for( int dy = -radius; dy <= radius; dy++ ) {
-                    tripoint neighbor = tripoint( tpt.x + dx, tpt.y + dy, tpt.z );
-                    if( seen.find( neighbor ) != seen.end() ) {
-                        continue;
-                    }
-                    seen.insert( neighbor );
-                    const overmap_land_use_code_id forest_id = overmap_land_use_code_id( "forest" );
-                    if( overmap_buffer.ter( neighbor ).obj().is_wooded() ) {
-                        continue;
-                    }
-                    q.push( neighbor );
+        for( int dx = -1; dx <= 1; dx++ ) {
+            for( int dy = -1; dy <= 1; dy++ ) {
+                tripoint neighbor = tripoint( tpt.x + dx, tpt.y + dy, tpt.z );
+                if( seen.find( neighbor ) != seen.end() ) {
+                    continue;
                 }
+                seen.insert( neighbor );
+                if( !overmap_buffer.ter( neighbor ).obj().is_wooded() ) {
+                    continue;
+                }
+                q.push( neighbor );
             }
         }
         q.pop();
     }
-    act->moves_left = 0;
     p->add_msg_if_player( m_info, _( "The trees have shown you what they will." ) );
+    act->set_to_null();
 }
