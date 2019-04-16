@@ -3824,9 +3824,7 @@ void item::calc_rot( const tripoint &location )
         // rot modifier
         float factor = 1.0;
         if( is_corpse() && has_flag( "FIELD_DRESS" ) ) {
-            factor = 1;
-        } else {
-            factor = 1.25;
+            factor = 0.75;
         }
 
         // simulation of different age of food at the start of the game and good/bad storage
