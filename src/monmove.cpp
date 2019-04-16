@@ -33,6 +33,8 @@ const species_id FUNGUS( "FUNGUS" );
 const efftype_id effect_bouldering( "bouldering" );
 const efftype_id effect_docile( "docile" );
 const efftype_id effect_downed( "downed" );
+const efftype_id effect_dragging( "dragging" );
+const efftype_id effect_grabbed( "grabbed" );
 const efftype_id effect_no_sight( "no_sight" );
 const efftype_id effect_pacified( "pacified" );
 const efftype_id effect_pushed( "pushed" );
@@ -736,6 +738,14 @@ void monster::move()
 
         if( !did_something ) {
             moves -= 100; // If we don't do this, we'll get infinite loops.
+        }
+        if( has_effect( effect_dragging ) ) {
+            if( !g->u.has_effect( effect_grabbed ) ) {
+                remove_effect( effect_dragging );
+            } else {
+                tripoint target_square = pos() - ( g->u.pos() - pos() );
+                g->u.setpos( target_square );
+            }
         }
     } else {
         moves -= 100;
