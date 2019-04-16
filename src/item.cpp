@@ -1054,7 +1054,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                           to_hours<int>( age() ) ) );
 
                 const item *food = is_food_container() ? &contents.front() : this;
-                if( is_rottable() ) {
+                if( goes_bad() ) {
                     info.push_back( iteminfo( "BASE", _( "age (turns): " ),
                                               "", iteminfo::lower_is_better,
                                               to_turns<int>( food->age() ) ) );
@@ -3021,7 +3021,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
             ret << _( " (hallucinogenic)" );
         }
     }
-    if( is_rottable() || is_food() ) {
+    if( goes_bad() || is_food() ) {
         if( item_tags.count( "DIRTY" ) ) {
             ret << _( " (dirty)" );
         } else if( rotten() ) {
@@ -3722,20 +3722,32 @@ std::set<matec_id> item::get_techniques() const
 
 bool item::goes_bad() const
 {
-    return ( is_food() && get_comestible()->spoils != 0_turns ) || is_corpse();
+    if( is_corpse() ) {
+        // Corpses rot only if they are made of rotting materials
+        std::vector<std::string> rotting_materials = {"iflesh", "hflesh", "flesh"};
+        for( std::string material : rotting_materials ) {
+            if( made_of_types()[0]->name() == material ) {
+                return true;
+            }
+        }
+    }
+    return is_food() && get_comestible()->spoils != 0_turns;
 }
 
 double item::get_relative_rot() const
 {
-    if( is_corpse() ) {
-        // Corpse "rots" in 15600 turns (24 h)
-        return rot / 15600_turns;
+    if( is_corpse() && goes_bad() ) {
+        // Corpse "rots" in 14400 turns (24 h)
+        return rot / 14400_turns;
     }
     return goes_bad() ? rot / get_comestible()->spoils : 0;
 }
 
 void item::set_relative_rot( double val )
 {
+    if( is_corpse() && goes_bad() ) {
+        rot = 14400_turns * val;
+    }
     if( goes_bad() ) {
         rot = get_comestible()->spoils * val;
         // calc_rot uses last_rot_check (when it's not time_of_cataclysm) instead of bday.
@@ -3744,7 +3756,6 @@ void item::set_relative_rot( double val )
         if( !has_flag( "SMOKING_RESULT" ) ) {
             last_rot_check = calendar::turn;
         }
-        active = true;
     }
 }
 
@@ -4614,11 +4625,6 @@ bool item::is_food_container() const
 {
     return ( !contents.empty() && contents.front().is_food() ) || ( is_craft() &&
             making->create_result().is_food_container() );
-}
-
-bool item::is_rottable() const
-{
-    return ( is_food() && goes_bad() ) || is_corpse();
 }
 
 bool item::has_temperature() const
@@ -7581,7 +7587,7 @@ bool item::process( player *carrier, const tripoint &pos, bool activate, int tem
     if( is_tool() ) {
         return process_tool( carrier, pos );
     }
-    if( is_rottable() ) {
+    if( goes_bad() ) {
         calc_rot( pos );
     }
     return false;

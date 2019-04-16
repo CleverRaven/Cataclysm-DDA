@@ -842,7 +842,7 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
                 if( obj.has_temperature() ) {
                     obj.set_item_temperature( 0.00001 * corpse_item->temperature );
                 }
-                if( obj.is_rottable() ) {
+                if( obj.goes_bad() ) {
                     obj.set_rot( corpse_item->get_rot() );
                 }
                 g->handle_all_liquid( obj, 1 );
@@ -851,7 +851,7 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
                 if( obj.has_temperature() ) {
                     obj.set_item_temperature( 0.00001 * corpse_item->temperature );
                 }
-                if( obj.is_rottable() ) {
+                if( obj.goes_bad() ) {
                     obj.set_rot( corpse_item->get_rot() );
                 }
                 g->m.add_item_or_charges( p.pos(), obj );
@@ -861,7 +861,7 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
                 if( obj.has_temperature() ) {
                     obj.set_item_temperature( 0.00001 * corpse_item->temperature );
                 }
-                if( obj.is_rottable() ) {
+                if( obj.goes_bad() ) {
                     obj.set_rot( corpse_item->get_rot() );
                 }
                 for( int i = 0; i != roll; ++i ) {

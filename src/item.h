@@ -1046,7 +1046,6 @@ class item : public visitable<item>
 
         bool is_unarmed_weapon() const; //Returns true if the item should be considered unarmed
 
-        bool is_rottable() const;
         bool has_temperature() const;
         float get_specific_heat_liquid() const;
         float get_specific_heat_solid() const;
