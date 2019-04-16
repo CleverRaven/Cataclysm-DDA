@@ -3722,29 +3722,35 @@ std::set<matec_id> item::get_techniques() const
 
 bool item::goes_bad() const
 {
+    add_msg( _( "goes_bad" ) );
     if( is_corpse() ) {
         // Corpses rot only if they are made of rotting materials
-        std::vector<std::string> rotting_materials = {"iflesh", "hflesh", "flesh"};
+        std::vector<std::string> rotting_materials = {"Insect Flesh", "Human Flesh", "Flesh", "Bone"};
         for( std::string material : rotting_materials ) {
             if( made_of_types()[0]->name() == material ) {
                 return true;
             }
         }
+        return false;
     }
     return is_food() && get_comestible()->spoils != 0_turns;
 }
 
 double item::get_relative_rot() const
 {
+    add_msg( _( "get_relative_rot" ) );
     if( is_corpse() && goes_bad() ) {
         // Corpse "rots" in 14400 turns (24 h)
         return rot / 14400_turns;
+    } else if( is_corpse() ) {
+        return 0;
     }
     return goes_bad() ? rot / get_comestible()->spoils : 0;
 }
 
 void item::set_relative_rot( double val )
 {
+    add_msg( _( "set_relative_rot" ) );
     if( is_corpse() && goes_bad() ) {
         rot = 14400_turns * val;
     }
@@ -3820,7 +3826,9 @@ void item::calc_rot( const tripoint &location )
         // rot modifier
         float factor = 1.0;
         if( is_corpse() && has_flag( "FIELD_DRESS" ) ) {
-            factor = 0.75;
+            factor = 1;
+        } else {
+            factor = 1.25;
         }
 
         // simulation of different age of food at the start of the game and good/bad storage
@@ -4639,6 +4647,7 @@ bool item::is_med_container() const
 
 bool item::is_corpse() const
 {
+    add_msg( _( "is_corpse" ) );
     return typeId() == "corpse" && corpse != nullptr;
 }
 
@@ -7500,6 +7509,7 @@ bool item::process_tool( player *carrier, const tripoint &pos )
 
 bool item::process( player *carrier, const tripoint &pos, bool activate )
 {
+    add_msg( _( "PROCESS" ) );
     if( has_temperature() || is_food_container() ) {
         return process( carrier, pos, activate, g->get_temperature( pos ), 1 );
     } else {
