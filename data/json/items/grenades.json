@@ -54,7 +54,7 @@
     "copy-from": "grenade",
     "type": "TOOL",
     "name": "makeshift grenade",
-    "description": "An improvised explosive device cobbled together from parts. Use this item to pull the pin and light the fuse.  You will then have some amount of time before it explodes; throwing it would be a good idea.",
+    "description": "An improvised explosive device cobbled together from parts.  Use this item to pull the pin and light the fuse.  You will then have some amount of time before it explodes; throwing it would be a good idea.",
     "weight": 300,
     "price": 750,
     "material": [ "aluminum", "iron" ],
