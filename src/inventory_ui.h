@@ -271,6 +271,17 @@ class inventory_column
         /** Selects the specified location. */
         bool select( const item_location &loc );
 
+        /**
+         * Change the selection.
+         * @param new_index Index of the entry to select.
+         * @param dir If the entry is not selectable, move in the specified direction
+         */
+        void select( size_t new_index, scroll_direction dir );
+
+        size_t get_selected_index() {
+            return selected_index;
+        }
+
         void set_multiselect( bool multiselect ) {
             this->multiselect = multiselect;
         }
@@ -320,12 +331,6 @@ class inventory_column
             std::vector<std::string> text;
         };
 
-        /**
-         * Change the selection.
-         * @param new_index Index of the entry to select.
-         * @param dir If the entry is not selectable, move in the specified direction
-         */
-        void select( size_t new_index, scroll_direction dir );
         /**
          * Move the selection.
          */
@@ -537,6 +542,18 @@ class inventory_selector
 
         inventory_entry get_selected() {
             return get_active_column().get_selected();
+        }
+
+        void select_position( std::pair<size_t, size_t> position ) {
+            set_active_column( position.first );
+            get_active_column().select( position.second, scroll_direction::BACKWARD );
+        }
+
+        std::pair<size_t, size_t> get_selection_position() {
+            std::pair<size_t, size_t> position;
+            position.first = active_column_index;
+            position.second = get_active_column().get_selected_index();
+            return position;
         }
 
         inventory_column &get_column( size_t index ) const;
