@@ -217,7 +217,7 @@ bool check_butcher_cbm( const int roll )
     // Roll is roughly a rng(0, -3 + 1st_aid + fine_cut_quality + 1/2 electronics + small_dex_bonus)
     // Roll is reduced by corpse damage level, but to no less then 0
     add_msg( m_debug, _( "Roll = %i" ), roll );
-    add_msg( m_debug, _( "Failure chance = %f%%" ), ( 9.0f / ( 10.0f + roll * 2.5f ) )* 100.0f );
+    add_msg( m_debug, _( "Failure chance = %f%%" ), ( 9.0f / ( 10.0f + roll * 2.5f ) ) * 100.0f );
     const bool failed = x_in_y( 9, ( 10 + roll * 2.5 ) );
     return !failed;
 }
