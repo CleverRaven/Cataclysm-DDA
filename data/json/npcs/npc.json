@@ -101,6 +101,7 @@
     "attitude": 0,
     "mission": 8,
     "chat": "TALK_EVAC_GUARD1",
+    "mission_offered": "MISSION_EVAC_SMOKER_GET_CIGARETTES",
     "faction": "free_merchants"
   },
   {
