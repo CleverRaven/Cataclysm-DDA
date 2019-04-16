@@ -180,7 +180,12 @@ bool pick_one_up( const tripoint &pickup_target, item &newit, vehicle *veh,
     pickup_answer option = CANCEL;
     item leftovers = newit;
     const auto wield_check = u.can_wield( newit );
-
+    if( newit.has_owner() &&
+        newit.get_owner() != g->faction_manager_ptr->get( faction_id( "your_followers" ) ) ) {
+        if( !query_yn( "Picking up this item will be considered stealing, continue?" ) ) {
+            return false;
+        }
+    }
     if( newit.invlet != '\0' &&
         u.invlet_to_position( newit.invlet ) != INT_MIN ) {
         // Existing invlet is not re-usable, remove it and let the code in player.cpp/inventory.cpp
@@ -787,6 +792,15 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                         wprintw( w_pickup, " - " );
                     }
                     std::string item_name;
+                    std::string stolen;
+                    bool stealing = false;
+                    if( this_item.has_owner() ) {
+                        const faction *item_fac = this_item.get_owner();
+                        if( item_fac != g->faction_manager_ptr->get( faction_id( "your_followers" ) ) ) {
+                            stolen = string_format( "<color_light_red>!</color>" );
+                            stealing = true;
+                        }
+                    }
                     if( stacked_here[true_it].begin()->_item.ammo_type() == "money" ) {
                         //Count charges
                         // TODO: transition to the item_location system used for the inventory
@@ -805,18 +819,40 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                                  c > 0; ++it, --c ) {
                                 charges += it->_item.charges;
                             }
-                            item_name = string_format( _( "%s of %s" ),
-                                                       stacked_here[true_it].begin()->_item.display_money( getitem[true_it].count, charges ),
-                                                       format_money( charges_total ) );
+                            if( stealing ) {
+                                //~ %s %s of %s ""!20 Cash Cards of $200" - ! added if stealing.
+                                item_name = string_format( _( "%s %s of %s" ), stolen,
+                                                           stacked_here[true_it].begin()->_item.display_money( getitem[true_it].count, charges ),
+                                                           format_money( charges_total ) );
+                            } else {
+                                item_name = string_format( _( "%s of %s" ),
+                                                           stacked_here[true_it].begin()->_item.display_money( getitem[true_it].count, charges ),
+                                                           format_money( charges_total ) );
+                            }
                         }
                     } else {
-                        item_name = this_item.display_name( stacked_here[true_it].size() );
+                        if( stealing ) {
+                            item_name = string_format( "%s %s", stolen,
+                                                       this_item.display_name( stacked_here[true_it].size() ) );
+                        } else {
+                            item_name = this_item.display_name( stacked_here[true_it].size() );
+                        }
                     }
                     if( stacked_here[true_it].size() > 1 ) {
-                        item_name = string_format( "%d %s", stacked_here[true_it].size(), item_name );
+                        if( stealing ) {
+                            item_name = string_format( "%s %d %s", stolen, stacked_here[true_it].size(), item_name );
+                        } else {
+                            item_name = string_format( "%d %s", stacked_here[true_it].size(), item_name );
+                        }
                     }
                     if( get_option<bool>( "ITEM_SYMBOLS" ) ) {
-                        item_name = string_format( "%s %s", this_item.symbol(), item_name );
+                        if( stealing ) {
+                            item_name = string_format( "%s %s %s", stolen, this_item.symbol().c_str(),
+                                                       item_name.c_str() );
+                        } else {
+                            item_name = string_format( "%s %s", this_item.symbol().c_str(),
+                                                       item_name );
+                        }
                     }
                     trim_and_print( w_pickup, 1 + ( cur_it % maxitems ), 6, pickupW - 4, icolor,
                                     item_name );

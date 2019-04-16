@@ -104,6 +104,7 @@ void put_into_vehicle( Character &c, item_drop_reason reason, const std::list<it
             g->m.add_item_or_charges( where, it );
             fallen_count += it.count();
         }
+        it.handle_pickup_ownership( c );
     }
 
     const std::string part_name = veh.part_info( part ).name();
@@ -187,7 +188,17 @@ void put_into_vehicle( Character &c, item_drop_reason reason, const std::list<it
     }
 }
 
-void stash_on_pet( const std::list<item> &items, monster &pet )
+void pass_to_ownership_handling( item obj, Character &c )
+{
+    obj.handle_pickup_ownership( c );
+}
+
+void pass_to_ownership_handling( item obj, player *p )
+{
+    obj.handle_pickup_ownership( *p );
+}
+
+void stash_on_pet( const std::list<item> &items, monster &pet, player *p )
 {
     units::volume remaining_volume = pet.inv.empty() ? 0_ml : pet.inv.front().get_storage();
     units::mass remaining_weight = pet.weight_capacity();
@@ -212,10 +223,12 @@ void stash_on_pet( const std::list<item> &items, monster &pet )
             remaining_volume -= it.volume();
             remaining_weight -= it.weight();
         }
+        // TODO: if NPCs can have pets or move items onto pets
+        pass_to_ownership_handling( it, p );
     }
 }
 
-void drop_on_map( const Character &c, item_drop_reason reason, const std::list<item> &items,
+void drop_on_map( Character &c, item_drop_reason reason, const std::list<item> &items,
                   const tripoint &where )
 {
     if( items.empty() ) {
@@ -296,8 +309,9 @@ void drop_on_map( const Character &c, item_drop_reason reason, const std::list<i
                 break;
         }
     }
-    for( const auto &it : items ) {
+    for( auto &it : items ) {
         g->m.add_item_or_charges( where, it );
+        pass_to_ownership_handling( it, c );
     }
 }
 
@@ -662,7 +676,7 @@ void activity_handlers::stash_do_turn( player_activity *act, player *p )
 
     monster *pet = g->critter_at<monster>( pos );
     if( pet != nullptr && pet->has_effect( effect_pet ) ) {
-        stash_on_pet( obtain_activity_items( *act, *p ), *pet );
+        stash_on_pet( obtain_activity_items( *act, *p ), *pet, p );
     } else {
         p->add_msg_if_player( _( "The pet has moved somewhere else." ) );
         p->cancel_activity();

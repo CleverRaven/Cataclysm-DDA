@@ -85,6 +85,7 @@ enum npc_attitude : int {
     NPCATT_LEGACY_5,
     NPCATT_ACTIVITY, // Perform a mission activity
     NPCATT_FLEE_TEMP, // Get away from the player for a while
+    NPCATT_RECOVER_GOODS, // Chase the player to demand stolen goods back
     NPCATT_END
 };
 
@@ -934,6 +935,8 @@ class npc : public player
         void handle_sound( int priority, const std::string &description, int heard_volume,
                            const tripoint &spos );
 
+        void witness_thievery( item *it );
+
         /* shift() works much like monster::shift(), and is called when the player moves
          * from one submap to an adjacent submap.  It updates our position (shifting by
          * 12 tiles), as well as our plans.
@@ -1169,7 +1172,9 @@ class npc : public player
          */
         tripoint goal;
         std::vector<tripoint> omt_path;
-
+        tripoint wander_pos; // Not actually used (should be: wander there when you hear a sound)
+        int wander_time;
+        item *known_stolen_item = nullptr; // the item that the NPC wants the player to drop or barter for.
         /**
          * Location and index of the corpse we'd like to pulp (if any).
          */

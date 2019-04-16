@@ -746,6 +746,7 @@ long int Character::i_add_to_container( const item &it, const bool unloading )
     visit_items( [ & ]( item * item ) {
         if( charges > 0 && item->is_ammo_container() && item_type == item->contents.front().typeId() ) {
             charges = add_to_container( *item );
+            item->handle_pickup_ownership( *this );
         }
         return VisitResponse::NEXT;
     } );
@@ -773,7 +774,6 @@ item &Character::i_add( item it, bool should_stack )
             break;
         }
     }
-
     auto &item_in_inv = inv.add_item( it, keep_invlet, true, should_stack );
     item_in_inv.on_pickup( *this );
     return item_in_inv;

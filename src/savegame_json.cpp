@@ -1924,6 +1924,9 @@ void item::io( Archive &archive )
     const auto load_making = [this]( const std::string & id ) {
         making = &recipe_id( id ).obj();
     };
+    const auto load_owner = [this]( const std::string & id ) {
+        owner = g->faction_manager_ptr->get( faction_id( id ) );
+    };
 
     archive.template io<const itype>( "typeid", type, load_type, []( const itype & i ) {
         return i.get_id();
@@ -1972,6 +1975,10 @@ void item::io( Archive &archive )
     archive.template io<const recipe>( "making", making, load_making,
     []( const recipe & i ) {
         return i.ident().str();
+    } );
+    archive.template io<const faction>( "owner", owner, load_owner,
+    []( const faction & i ) {
+        return i.id.str();
     } );
     archive.io( "light", light.luminance, nolight.luminance );
     archive.io( "light_width", light.width, nolight.width );

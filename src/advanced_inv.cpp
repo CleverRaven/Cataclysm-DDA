@@ -341,6 +341,15 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
         }
 
         std::string item_name;
+        std::string stolen_string;
+        bool stolen = false;
+        if( it.has_owner() ) {
+            const faction *item_fac = it.get_owner();
+            if( item_fac != g->faction_manager_ptr->get( faction_id( "your_followers" ) ) ) {
+                stolen_string = string_format( "<color_light_red>!</color>" );
+                stolen = true;
+            }
+        }
         if( it.ammo_type() == "money" ) {
             //Count charges
             // TODO: transition to the item_location system used for the normal inventory
@@ -348,9 +357,18 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
             for( const auto item : sitem.items ) {
                 charges_total += item->charges;
             }
-            item_name = it.display_money( sitem.items.size(), charges_total );
+            if( stolen ) {
+                item_name = string_format( "%s %s", stolen_string, it.display_money( sitem.items.size(),
+                                           charges_total ) );
+            } else {
+                item_name = it.display_money( sitem.items.size(), charges_total );
+            }
         } else {
-            item_name = it.display_name();
+            if( stolen ) {
+                item_name = string_format( "%s %s", stolen_string, it.display_name() );
+            } else {
+                item_name = it.display_name();
+            }
         }
         if( get_option<bool>( "ITEM_SYMBOLS" ) ) {
             item_name = string_format( "%s %s", it.symbol(), item_name );

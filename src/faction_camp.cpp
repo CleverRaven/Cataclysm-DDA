@@ -299,6 +299,7 @@ int om_harvest_ter_break( npc &comp, const tripoint &omt_tgt, const ter_id &t, i
 /// @ref take, whether you take the item or count it
 mass_volume om_harvest_itm( npc_ptr comp, const tripoint &omt_tgt, int chance = 100,
                             bool take = true );
+void apply_camp_ownership( const tripoint camp_pos, int radius );
 /*
  * Counts or cuts trees into trunks and trunks into logs
  * @param omt_tgt the targeted OM tile
@@ -3519,6 +3520,7 @@ void basecamp::place_results( item result, bool by_radio )
         target_bay.load( omt_pos.x * 2, omt_pos.y * 2, omt_pos.z, false );
         const tripoint &new_spot = target_bay.getlocal( get_dumping_spot() );
         target_bay.add_item_or_charges( new_spot, result, true );
+        apply_camp_ownership( new_spot, 10 );
         target_bay.save();
     } else {
         auto &mgr = zone_manager::get_manager();
@@ -3533,11 +3535,25 @@ void basecamp::place_results( item result, bool by_radio )
             for( auto &src : src_sorted ) {
                 const auto &src_loc = g->m.getlocal( src );
                 g->m.add_item_or_charges( src_loc, result, true );
+                apply_camp_ownership( src_loc, 10 );
                 break;
             }
             //or dump them at players feet
         } else {
             g->m.add_item_or_charges( g->u.pos(), result, true );
+            apply_camp_ownership( g->u.pos(), 0 );
+        }
+    }
+}
+
+void apply_camp_ownership( const tripoint camp_pos, int radius )
+{
+    for( const tripoint &p : g->m.points_in_rectangle( tripoint( camp_pos.x - radius,
+            camp_pos.y - radius, camp_pos.z ), tripoint( camp_pos.x + radius, camp_pos.y + radius,
+                    camp_pos.z ) ) ) {
+        auto items = g->m.i_at( p.x, p.y );
+        for( item &elem : items ) {
+            elem.set_owner( g->faction_manager_ptr->get( faction_id( "your_followers" ) ) );
         }
     }
 }

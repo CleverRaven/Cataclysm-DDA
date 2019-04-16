@@ -1328,7 +1328,6 @@ class player : public Character
          * All items that have the given flag (@ref item::has_flag).
          */
         std::vector<const item *> all_items_with_flag( const std::string &flag ) const;
-
         void process_active_items();
         /**
          * Remove charges from a specific item (given by its item position).

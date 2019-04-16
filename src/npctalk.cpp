@@ -24,6 +24,7 @@
 #include "game.h"
 #include "help.h"
 #include "input.h"
+#include "item.h"
 #include "item_category.h"
 #include "itype.h"
 #include "json.h"
@@ -604,8 +605,9 @@ void npc::talk_to_u( bool text_only, bool radio_contact )
         d.add_topic( "TALK_LEADER" );
     } else if( is_player_ally() && is_walking_with() ) {
         d.add_topic( "TALK_FRIEND" );
+    } else if( get_attitude() == NPCATT_RECOVER_GOODS ) {
+        d.add_topic( "TALK_STOLE_ITEM" );
     }
-
     int most_difficult_mission = 0;
     for( auto &mission : chatbin.missions ) {
         const auto &type = mission->get_type();
@@ -2260,6 +2262,8 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, JsonObjec
             WRAP( start_mugging ),
             WRAP( player_leaving ),
             WRAP( drop_weapon ),
+            WRAP( drop_stolen_item ),
+            WRAP( remove_stolen_status ),
             WRAP( player_weapon_away ),
             WRAP( player_weapon_drop ),
             WRAP( lead_to_safety ),
@@ -3026,6 +3030,23 @@ void conditional_t::set_is_driving( bool is_npc )
     };
 }
 
+void conditional_t::set_has_stolen_item( bool is_npc )
+{
+    condition = [is_npc]( const dialogue & d ) {
+        player *actor = d.alpha;
+        npc &p = *d.beta;
+        bool found_in_inv = false;
+        for( auto &elem : actor->inv_dump() ) {
+            if( elem->get_old_owner() ) {
+                if( elem->get_old_owner()->id.str() == p.my_fac->id.str() ) {
+                    found_in_inv = true;
+                }
+            }
+        }
+        return found_in_inv;
+    };
+}
+
 void conditional_t::set_is_day()
 {
     condition = []( const dialogue & ) {
@@ -3299,6 +3320,8 @@ conditional_t::conditional_t( const std::string &type )
         set_is_driving( is_npc );
     } else if( type == "is_day" ) {
         set_is_day();
+    } else if( type == "u_has_stolen_item" ) {
+        set_has_stolen_item( is_npc );
     } else if( type == "is_outside" ) {
         set_is_outside();
     } else if( type == "u_has_camp" ) {

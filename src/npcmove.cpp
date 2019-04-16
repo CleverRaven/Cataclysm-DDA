@@ -568,6 +568,14 @@ void npc::regen_ai_cache()
     auto i = std::begin( ai_cache.sound_alerts );
     while( i != std::end( ai_cache.sound_alerts ) ) {
         if( sees( g->m.getlocal( i->abs_pos ) ) ) {
+            // if they were responding to a call for guards because of thievery
+            npc *const sound_source = g->critter_at<npc>( g->m.getlocal( i->abs_pos ) );
+            if( sound_source ) {
+                if( my_fac == sound_source->my_fac && sound_source->known_stolen_item ) {
+                    sound_source->known_stolen_item = nullptr;
+                    set_attitude( NPCATT_RECOVER_GOODS );
+                }
+            }
             i = ai_cache.sound_alerts.erase( i );
             if( ai_cache.sound_alerts.size() == 1 ) {
                 path.clear();
@@ -1147,6 +1155,21 @@ void npc::execute_action( npc_action action )
     }
 }
 
+void npc::witness_thievery( item *it )
+{
+    // Shopkeep is behind glass
+    if( myclass == npc_class_id( "NC_EVAC_SHOPKEEP" ) ) {
+        known_stolen_item = it;
+        return;
+    }
+    set_attitude( NPCATT_RECOVER_GOODS );
+    known_stolen_item = it;
+    for( auto &elem : g->u.inv_dump() ) {
+        if( elem->get_old_owner() ) {
+        }
+    }
+}
+
 npc_action npc::method_of_fleeing()
 {
     if( in_vehicle ) {
@@ -1712,7 +1735,7 @@ npc_action npc::address_needs( float danger )
 
 npc_action npc::address_player()
 {
-    if( attitude == NPCATT_TALK && sees( g->u ) ) {
+    if( ( attitude == NPCATT_TALK || attitude == NPCATT_RECOVER_GOODS ) && sees( g->u ) ) {
         if( g->u.in_sleep_state() ) {
             // Leave sleeping characters alone.
             return npc_undecided;
@@ -2446,7 +2469,25 @@ void npc::find_item()
             // Don't even consider liquids.
             return;
         }
-
+        std::vector<npc *> followers;
+        for( auto &elem : g->get_follower_list() ) {
+            std::shared_ptr<npc> npc_to_get = overmap_buffer.find_npc( elem );
+            if( !npc_to_get ) {
+                continue;
+            }
+            npc *npc_to_add = npc_to_get.get();
+            followers.push_back( npc_to_add );
+        }
+        for( auto &elem : followers ) {
+            if( it.has_owner() && it.get_owner() != my_fac && ( elem->sees( this->pos() ) ||
+                    elem->sees( wanted_item_pos ) ) ) {
+                return;
+            }
+        }
+        if( it.has_owner() && it.get_owner() != my_fac && ( g->u.sees( this->pos() ) ||
+                g->u.sees( wanted_item_pos ) ) ) {
+            return;
+        }
         if( whitelisting && !item_whitelisted( it ) ) {
             return;
         }
@@ -2633,7 +2674,6 @@ void npc::pick_up_item()
         if( itval < worst_item_value ) {
             worst_item_value = itval;
         }
-
         i_add( it );
     }
 
