@@ -9,6 +9,7 @@ function run_tests
     $WINE "$@" -d yes -r cata --rng-seed time $EXTRA_TEST_OPTS
 }
 
+ccache --show-stats
 ccache --zero-stats
 export CCACHE_LOGFILE=ccache_log
 if [ -n "$CMAKE" ]
