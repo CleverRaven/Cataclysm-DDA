@@ -2722,7 +2722,7 @@ bool mattack::nurse_operate( monster *z )
     }
 
     if( g->u.has_any_bionic() ) {
-        add_msg( m_info, _( "The %s scans you and seems to detect your bionics" ), z->name().c_str() );
+        add_msg( m_info, _( "The %s scans you and seems to detect your bionics." ), z->name() );
 
     }
 
