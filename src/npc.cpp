@@ -95,7 +95,6 @@ npc::npc()
     int_max = 0;
     per_max = 0;
     my_fac = nullptr;
-    miss_id = mission_type_id::NULL_ID();
     marked_for_death = false;
     death_drops = true;
     dead = false;
@@ -184,9 +183,12 @@ void npc_template::load( JsonObject &jsobj )
     guy.mission = npc_mission( jsobj.get_int( "mission" ) );
     guy.chatbin.first_topic = jsobj.get_string( "chat" );
     if( jsobj.has_string( "mission_offered" ) ) {
-        guy.miss_id = mission_type_id( jsobj.get_string( "mission_offered" ) );
-    } else {
-        guy.miss_id = mission_type_id::NULL_ID();
+        guy.miss_ids.emplace_back( mission_type_id( jsobj.get_string( "mission_offered" ) ) );
+    } else if( jsobj.has_array( "mission_offered" ) ) {
+        JsonArray ja = jsobj.get_array( "mission_offered" );
+        while( ja.has_more() ) {
+            guy.miss_ids.emplace_back( mission_type_id( ja.next_string() ) );
+        }
     }
     npc_templates[string_id<npc_template>( guy.idz )].guy = std::move( guy );
 }
@@ -249,8 +251,8 @@ void npc::load_npc_template( const string_id<npc_template> &ident )
     attitude = tguy.attitude;
     mission = tguy.mission;
     chatbin.first_topic = tguy.chatbin.first_topic;
-    if( !tguy.miss_id.is_null() ) {
-        add_new_mission( mission::reserve_new( tguy.miss_id, getID() ) );
+    for( const mission_type_id &miss_id : tguy.miss_ids ) {
+        add_new_mission( mission::reserve_new( miss_id, getID() ) );
     }
 }
 
@@ -405,6 +407,13 @@ void npc::randomize( const npc_class_id &type )
         int rounds = mr.second.roll();
         for( int i = 0; i < rounds; ++i ) {
             mutate_category( mr.first );
+        }
+    }
+    // Add bionics
+    for( const auto &bl : type->bionic_list ) {
+        int chance = bl.second;
+        if( rng( 0, 100 ) <= chance ) {
+            add_bionic( bl.first );
         }
     }
 }
@@ -1335,24 +1344,86 @@ int npc::value( const item &it, int market_price ) const
     return ret;
 }
 
-bool npc::has_healing_item( bool bleed, bool bite, bool infect )
+void healing_options::clear_all()
 {
-    return !get_healing_item( bleed, bite, infect, true ).is_null();
+    bandage = false;
+    bleed = false;
+    bite = false;
+    infect = false;
 }
 
-item &npc::get_healing_item( bool bleed, bool bite, bool infect, bool first_best )
+void healing_options::set_all()
 {
-    item *best = &null_item_reference();
-    visit_items( [&best, bleed, bite, infect, first_best]( item * node ) {
+    bandage = true;
+    bleed = true;
+    bite = true;
+    infect = true;
+}
+
+bool npc::has_healing_item( healing_options try_to_fix )
+{
+    return !get_healing_item( try_to_fix, true ).is_null();
+}
+
+healing_options npc::has_healing_options()
+{
+    healing_options try_to_fix;
+    try_to_fix.set_all();
+    return has_healing_options( try_to_fix );
+}
+
+healing_options npc::has_healing_options( healing_options try_to_fix )
+{
+    healing_options can_fix;
+    can_fix.clear_all();
+    healing_options *fix_p = &can_fix;
+
+    visit_items( [&fix_p, try_to_fix]( item * node ) {
         const auto use = node->type->get_use( "heal" );
         if( use == nullptr ) {
             return VisitResponse::NEXT;
         }
 
         auto &actor = dynamic_cast<const heal_actor &>( *( use->get_actor_ptr() ) );
-        if( ( !bleed || actor.bleed > 0 ) ||
-            ( !bite || actor.bite > 0 ) ||
-            ( !infect || actor.infect > 0 ) ) {
+        if( try_to_fix.bandage && !fix_p->bandage && actor.bandages_power > 0.0f ) {
+            fix_p->bandage = true;
+        }
+        if( try_to_fix.bleed && !fix_p->bleed && actor.bleed > 0 ) {
+            fix_p->bleed = true;
+        }
+        if( try_to_fix.bite && !fix_p->bite && actor.bite > 0 ) {
+            fix_p->bite = true;
+        }
+        if( try_to_fix.infect && !fix_p->infect && actor.infect > 0 ) {
+            fix_p->infect = true;
+        }
+        // if we've found items for everything we're looking for, we're done
+        if( ( !try_to_fix.bandage || fix_p->bandage ) &&
+            ( !try_to_fix.bleed || fix_p->bleed ) &&
+            ( !try_to_fix.bite || fix_p->bite ) &&
+            ( !try_to_fix.infect || fix_p->infect ) ) {
+            return VisitResponse::ABORT;
+        }
+
+        return VisitResponse::NEXT;
+    } );
+    return can_fix;
+}
+
+item &npc::get_healing_item( healing_options try_to_fix, bool first_best )
+{
+    item *best = &null_item_reference();
+    visit_items( [&best, try_to_fix, first_best]( item * node ) {
+        const auto use = node->type->get_use( "heal" );
+        if( use == nullptr ) {
+            return VisitResponse::NEXT;
+        }
+
+        auto &actor = dynamic_cast<const heal_actor &>( *( use->get_actor_ptr() ) );
+        if( ( try_to_fix.bandage && actor.bandages_power > 0.0f ) ||
+            ( try_to_fix.bleed && actor.bleed > 0 ) ||
+            ( try_to_fix.bite && actor.bite > 0 ) ||
+            ( try_to_fix.infect && actor.infect > 0 ) ) {
             best = node;
             if( first_best ) {
                 return VisitResponse::ABORT;

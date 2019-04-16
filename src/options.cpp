@@ -1196,6 +1196,13 @@ void options_manager::add_options_general()
        );
 
     get_option( "SOUND_EFFECT_VOLUME" ).setPrerequisite( "SOUND_ENABLED" );
+
+    add( "AMBIENT_SOUND_VOLUME", "general", translate_marker( "Ambient sound volume" ),
+         translate_marker( "Adjust the volume of ambient sounds being played by the game." ),
+         0, 200, 100, COPT_NO_SOUND_HIDE
+       );
+
+    get_option( "AMBIENT_SOUND_VOLUME" ).setPrerequisite( "SOUND_ENABLED" );
 }
 
 void options_manager::add_options_interface()

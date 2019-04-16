@@ -147,6 +147,9 @@ const skill_id skill_dodge( "dodge" );
 const skill_id skill_driving( "driving" );
 const skill_id skill_firstaid( "firstaid" );
 const skill_id skill_survival( "survival" );
+const skill_id skill_electronics( "electronics" );
+const skill_id skill_mechanics( "mechanics" );
+const skill_id skill_computer( "computer" );
 
 const species_id ZOMBIE( "ZOMBIE" );
 const species_id PLANT( "PLANT" );
@@ -2703,6 +2706,9 @@ void game::reset_npc_dispositions()
 {
     for( auto elem : follower_ids ) {
         std::shared_ptr<npc> npc_to_get = overmap_buffer.find_npc( elem );
+        if( !npc_to_get )  {
+            continue;
+        }
         npc *npc_to_add = npc_to_get.get();
         npc_to_add->chatbin.missions.clear();
         npc_to_add->chatbin.missions_assigned.clear();
@@ -2883,7 +2889,8 @@ void game::write_memorial_file( std::string sLastWords )
 
 void game::debug()
 {
-    int action = uilist( _( "Debug Functions - Using these is CHEATING!" ), {
+    int action = uilist(
+    _( "Debug Functions - Using these will cheat not only the game, but yourself.  You won't grow. You won't improve.  Taking this shortcut will gain you nothing. Your victory will be hollow.  Nothing will be risked and nothing will be gained." ), {
         _( "Wish for an item" ),                // 0
         _( "Teleport - Short Range" ),          // 1
         _( "Teleport - Long Range" ),           // 2
@@ -3186,10 +3193,11 @@ void game::debug()
 
         case 24: {
 #if defined(TILES)
+            // *INDENT-OFF*
             const point offset {
                 POSX - u.posx() + u.view_offset.x,
-                     POSY - u.posy() + u.view_offset.y
-            };
+                POSY - u.posy() + u.view_offset.y
+            }; // *INDENT-ON*
             draw_ter();
             auto sounds_to_draw = sounds::get_monster_sounds();
             for( const auto &sound : sounds_to_draw.first ) {
@@ -3202,7 +3210,7 @@ void game::debug()
             draw_panels();
             inp_mngr.wait_for_any_key();
 #else
-            popup( _( "This binary was not compiled with tiles support." ) );
+                popup( _( "This binary was not compiled with tiles support." ) );
 #endif
         }
         break;
@@ -3423,6 +3431,9 @@ void game::disp_NPC_epilogues()
     // TODO: This search needs to be expanded to all NPCs
     for( auto elem : follower_ids ) {
         std::shared_ptr<npc> npc_to_get = overmap_buffer.find_npc( elem );
+        if( !npc_to_get ) {
+            continue;
+        }
         npc *guy = npc_to_get.get();
         epi.random_by_group( guy->male ? "male" : "female" );
         std::vector<std::string> txt;
@@ -4206,7 +4217,7 @@ std::vector<monster *> game::get_fishable( int distance, const tripoint &fish_po
 void game::mon_info( const catacurses::window &w, int hor_padding )
 {
     const int width = getmaxx( w ) - 2 * hor_padding;
-    const int maxheight = getmaxy( w ) - hor_padding;
+    const int maxheight = getmaxy( w );
 
     const int startrow = 0;
 
@@ -4683,6 +4694,9 @@ void game::overmap_npc_move()
     // for now just processing NPC followers on travelling missions
     for( auto &elem : get_follower_list() ) {
         std::shared_ptr<npc> npc_to_get = overmap_buffer.find_npc( elem );
+        if( !npc_to_get ) {
+            continue;
+        }
         npc *npc_to_add = npc_to_get.get();
         if( ( !npc_to_add->is_active() || rl_dist( u.pos(), npc_to_add->pos() ) > SEEX * 2 ) &&
             npc_to_add->mission == NPC_MISSION_TRAVELLING ) {
@@ -5535,13 +5549,11 @@ bool game::revive_corpse( const tripoint &p, item &it )
     critter.init_from_item( it );
     if( critter.get_hp() < 1 ) {
         // Failed reanimation due to corpse being too burned
-        it.active = false;
         return false;
     }
     if( it.has_flag( "FIELD_DRESS" ) || it.has_flag( "FIELD_DRESS_FAILED" ) ||
         it.has_flag( "QUARTERED" ) ) {
         // Failed reanimation due to corpse being butchered
-        it.active = false;
         return false;
     }
 
@@ -5569,6 +5581,79 @@ bool game::revive_corpse( const tripoint &p, item &it )
     return ret;
 }
 
+void game::save_cyborg( item *cyborg, const tripoint couch_pos, player &installer )
+{
+    float adjusted_skill = installer.bionics_adjusted_skill( skill_firstaid,
+                           skill_computer,
+                           skill_electronics,
+                           -1 );
+
+    int damage = cyborg->damage();
+    int dmg_lvl = cyborg->damage_level( 4 );
+    int difficulty = 12;
+
+    if( damage != 0 ) {
+
+        popup( _( "WARNING: Patient's body is damaged.  Difficulty of the procedure is increased by %s." ),
+               dmg_lvl );
+
+        difficulty += dmg_lvl;// damage of the cyborg increases difficulty
+    }
+
+    int chance_of_success = bionic_manip_cos( adjusted_skill, true, difficulty );
+    int success = chance_of_success - rng( 1, 100 ) ;
+
+    if( !g->u.query_yn(
+            _( "WARNING: %i percent chance of SEVERE damage to all body parts!  Continue anyway?" ),
+            100 - static_cast<int>( chance_of_success ) ) ) {
+        return;
+    }
+
+    if( success > 0 ) {
+        add_msg( m_good, _( "Successfully removed Personality override." ) );
+        add_msg( m_bad, _( "Autodoc immediately destroys the CBM upon removal." ) );
+
+        m.i_rem( couch_pos, cyborg );
+
+        const string_id<npc_template> npc_cyborg( "cyborg_rescued" );
+        std::shared_ptr<npc> tmp = std::make_shared<npc>();
+        tmp->normalize();
+        tmp->load_npc_template( npc_cyborg );
+        tmp->spawn_at_precise( { get_levx(), get_levy() }, couch_pos );
+        overmap_buffer.insert_npc( tmp );
+        tmp->hurtall( dmg_lvl * 10, nullptr );
+        tmp->add_effect( effect_downed, rng( 1_turns, 4_turns ), num_bp, false, 0, true );
+        load_npcs();
+
+    } else {
+        const int failure_level = static_cast<int>( sqrt( abs( success ) * 4.0 * difficulty /
+                                  adjusted_skill ) );
+        const int fail_type = std::min( 5, failure_level );
+        switch( fail_type ) {
+            case 1:
+            case 2:
+                add_msg( m_info, _( "The removal fails." ) );
+                add_msg( m_bad, _( "The body is damaged." ) );
+                cyborg->set_damage( damage + 1000 );
+                break;
+            case 3:
+            case 4:
+                add_msg( m_info, _( "The removal fails badly." ) );
+                add_msg( m_bad, _( "The body is badly damaged!" ) );
+                cyborg->set_damage( damage + 2000 );
+                break;
+            case 5:
+                add_msg( m_info, _( "The removal is a catastrophe." ) );
+                add_msg( m_bad, _( "The body is destroyed!" ) );
+                m.i_rem( couch_pos, cyborg );
+                break;
+            default:
+                break;
+        }
+
+    }
+
+}
 static void make_active( item_location loc )
 {
     switch( loc.where() ) {
@@ -5969,11 +6054,13 @@ void game::examine()
     if( !examp_ ) {
         return;
     }
+    u.manual_examine = true;
     // redraw terrain to erase 'examine' window
     draw_ter();
     wrefresh( w_terrain );
     draw_panels();
     examine( *examp_ );
+    u.manual_examine = false;
 }
 
 const std::string get_fire_fuel_string( const tripoint &examp )
@@ -6658,7 +6745,7 @@ void game::zones_manager()
         mvwprintz( w_zones_info, 3, 2, c_white, _( "Select first point." ) );
         wrefresh( w_zones_info );
 
-        tripoint center = u.pos() + u.view_offset + sidebar_offset;
+        tripoint center = u.pos() + u.view_offset;
 
         const look_around_result first = look_around( w_zones_info, center, center, false, true, false );
         if( first.position )
@@ -6666,6 +6753,7 @@ void game::zones_manager()
             mvwprintz( w_zones_info, 3, 2, c_white, _( "Select second point." ) );
             wrefresh( w_zones_info );
 
+            center = center - sidebar_offset;
             const look_around_result second = look_around( w_zones_info, center, *first.position, true, true,
                     false );
             if( second.position ) {
@@ -7046,10 +7134,15 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
 
     temp_exit_fullscreen();
 
+    center = center + sidebar_offset;
+
     const int offset_x = ( u.posx() + u.view_offset.x ) - getmaxx( w_terrain ) / 2;
     const int offset_y = ( u.posy() + u.view_offset.y ) - getmaxy( w_terrain ) / 2;
 
     tripoint lp = start_point; // cursor
+    if( !has_first_point ) {
+        lp = start_point - sidebar_offset;
+    }
     int &lx = lp.x;
     int &ly = lp.y;
     int &lz = lp.z;
@@ -7063,10 +7156,22 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
 
     bool bNewWindow = false;
     if( !w_info ) {
+        int panel_width = panel_manager::get_manager().get_current_layout().begin()->get_width();
+
+        // Set the examine window to a bit smaller than the current minimap size, with a bit less to show some above it.
+        // Hopefully the player has the minimap at or close to the bottom.
+        int height = TERMY - ( catacurses::getmaxy( w_pixel_minimap ) + 11 );
+
+        // If particularly small, base height on panel width irrespective of other elements.
+        // Value here is attempting to get a square-ish result assuming 1x2 proportioned font.
+        if( height < panel_width / 2 ) {
+            height = panel_width / 2;
+        }
+
         int la_y = 0;
-        int la_x = TERMX - 32;
-        int la_h = 16;
-        int la_w = 32;
+        int la_x = TERMX - panel_width;
+        int la_h = height;
+        int la_w = panel_width;
         w_info = catacurses::newwin( la_h, la_w, la_y, la_x );
         bNewWindow = true;
     }
@@ -7161,6 +7266,7 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
 
             // redraw order: terrain, panels, look_around panel
             wrefresh( w_terrain );
+            draw_panels();
             wrefresh( w_info );
 
         }
@@ -7410,13 +7516,13 @@ void centerlistview( const tripoint &active_item_position )
             if( xpos < 0 ) {
                 u.view_offset.x = xpos - xOffset;
             } else {
-                u.view_offset.x = xpos - ( TERRAIN_WINDOW_WIDTH - 1 ) + xOffset;
+                u.view_offset.x = xpos - ( TERRAIN_WINDOW_WIDTH ) + xOffset;
             }
 
             if( ypos < 0 ) {
                 u.view_offset.y = ypos - yOffset;
             } else {
-                u.view_offset.y = ypos - ( TERRAIN_WINDOW_HEIGHT - 1 ) + yOffset;
+                u.view_offset.y = ypos - ( TERRAIN_WINDOW_HEIGHT ) + yOffset;
             }
         } else {
             if( xpos < 0 ) {

@@ -41,6 +41,7 @@ const efftype_id effect_stunned( "stunned" );
 const species_id ZOMBIE( "ZOMBIE" );
 const species_id BLOB( "BLOB" );
 const species_id ROBOT( "ROBOT" );
+const species_id WORM( "WORM" );
 
 bool monster::wander()
 {
@@ -782,13 +783,15 @@ void monster::footsteps( const tripoint &p )
     if( volume == 0 ) {
         return;
     }
-    std::string footstep = "footsteps.";
+    std::string footstep = _( "footsteps." );
     if( type->in_species( BLOB ) ) {
-        footstep = "plop.";
+        footstep = _( "plop." );
     } else if( type->in_species( ZOMBIE ) ) {
-        footstep = "shuffling.";
+        footstep = _( "shuffling." );
     } else if( type->in_species( ROBOT ) ) {
-        footstep = "mechanical whirring.";
+        footstep = _( "mechanical whirring." );
+    } else if( type->in_species( WORM ) ) {
+        footstep = _( "rustle." );
     }
     int dist = rl_dist( p, g->u.pos() );
     sounds::add_footstep( p, volume, dist, this, footstep );
@@ -1226,6 +1229,11 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
     if( has_flag( MF_DRIPS_NAPALM ) ) {
         if( one_in( 10 ) ) {
             g->m.add_item_or_charges( pos(), item( "napalm" ) );
+        }
+    }
+    if( has_flag( MF_DRIPS_GASOLINE ) ) {
+        if( one_in( 5 ) ) {
+            g->m.add_item_or_charges( pos(), item( "gasoline" ) );
         }
     }
     return true;

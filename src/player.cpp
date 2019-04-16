@@ -271,7 +271,6 @@ static const trait_id trait_DEBUG_NOTEMP( "DEBUG_NOTEMP" );
 static const trait_id trait_DISIMMUNE( "DISIMMUNE" );
 static const trait_id trait_DISRESISTANT( "DISRESISTANT" );
 static const trait_id trait_DOWN( "DOWN" );
-static const trait_id trait_EAGLEEYED( "EAGLEEYED" );
 static const trait_id trait_EASYSLEEPER( "EASYSLEEPER" );
 static const trait_id trait_EASYSLEEPER2( "EASYSLEEPER2" );
 static const trait_id trait_ELECTRORECEPTORS( "ELECTRORECEPTORS" );
@@ -395,7 +394,6 @@ static const trait_id trait_TOUGH_FEET( "TOUGH_FEET" );
 static const trait_id trait_TROGLO( "TROGLO" );
 static const trait_id trait_TROGLO2( "TROGLO2" );
 static const trait_id trait_TROGLO3( "TROGLO3" );
-static const trait_id trait_UNOBSERVANT( "UNOBSERVANT" );
 static const trait_id trait_UNSTABLE( "UNSTABLE" );
 static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
 static const trait_id trait_URSINE_FUR( "URSINE_FUR" );
@@ -2721,17 +2719,11 @@ int player::overmap_sight_range( int light_level ) const
     sight += static_cast<int>( get_per() / 2 );
     // The higher up you are, the farther you can see.
     sight += std::max( 0, posz() ) * 2;
-    // The Scout trait explicitly increases overmap sight range.
-    if( has_trait( trait_EAGLEEYED ) ) {
-        sight += 5;
-    }
-    // The Topographagnosia trait explicitly "cripples" overmap sight range.
-    if( has_trait( trait_UNOBSERVANT ) ) {
-        sight -= 10;
-    }
+    // Mutations like Scout and Topographagnosia affect how far you can see.
+    sight += Character::mutation_value( "overmap_sight" );
 
-    float multiplier = 1;
-    // Binoculars "double" your sight range.
+    float multiplier = Character::mutation_value( "overmap_multiplier" );
+    // Binoculars double your sight range.
     const bool has_optic = ( has_item_with_flag( "ZOOM" ) || has_bionic( bio_eye_optic ) );
     if( has_optic ) {
         multiplier += 1;
@@ -3004,6 +2996,14 @@ void player::search_surroundings()
         const trap &tr = g->m.tr_at( tp );
         if( tr.is_null() || tp == pos() ) {
             continue;
+        }
+        if( has_active_bionic( bio_ground_sonar ) && !knows_trap( tp ) &&
+            ( tr.loadid == tr_beartrap_buried ||
+              tr.loadid == tr_landmine_buried || tr.loadid == tr_sinkhole ) ) {
+            const std::string direction = direction_name( direction_from( pos(), tp ) );
+            add_msg_if_player( m_warning, _( "Your ground sonar detected a %1$s to the %2$s!" ),
+                               tr.name().c_str(), direction.c_str() );
+            add_known_trap( tp, tr );
         }
         if( !sees( tp ) ) {
             continue;
@@ -4778,6 +4778,9 @@ void player::siphon( vehicle &veh, const itype_id &type )
     }
 
     item liquid( type, calendar::turn, qty );
+    if( liquid.is_food() ) {
+        liquid.set_item_specific_energy( veh.fuel_specific_energy( type ) );
+    }
     if( g->handle_liquid( liquid, nullptr, 1, nullptr, &veh ) ) {
         veh.drain( type, qty - liquid.charges );
     }
@@ -7238,7 +7241,7 @@ std::list<item> player::use_charges( const itype_id &what, long qty,
 
     bool has_tool_with_UPS = false;
     visit_items( [this, &what, &qty, &res, &del, &has_tool_with_UPS, &filter]( item * e ) {
-        if( filter( *e ) && e->use_charges( what, qty, res, pos() ) ) {
+        if( e->use_charges( what, qty, res, pos(), filter ) ) {
             del.push_back( e );
         }
         if( filter( *e ) && e->typeId() == what && e->has_flag( "USE_UPS" ) ) {
@@ -8285,7 +8288,7 @@ void player::mend_item( item_location &&obj, bool interactive )
     auto inv = crafting_inventory();
 
     for( auto &f : faults ) {
-        f.second = f.first->requirements().can_make_with_inventory( inv );
+        f.second = f.first->requirements().can_make_with_inventory( inv, is_crafting_component );
     }
 
     int sel = 0;
@@ -8300,7 +8303,7 @@ void player::mend_item( item_location &&obj, bool interactive )
         for( auto &f : faults ) {
             auto reqs = f.first->requirements();
             auto tools = reqs.get_folded_tools_list( w, c_white, inv );
-            auto comps = reqs.get_folded_components_list( w, c_white, inv );
+            auto comps = reqs.get_folded_components_list( w, c_white, inv, is_crafting_component );
 
             std::ostringstream descr;
             descr << _( "<color_white>Time required:</color>\n" );
@@ -12295,6 +12298,7 @@ void player::place_corpse()
     }
     std::vector<item *> tmp = inv_dump();
     item body = item::make_corpse( mtype_id::NULL_ID(), calendar::turn, name );
+    body.set_item_temperature( 310.15 );
     for( auto itm : tmp ) {
         g->m.add_item_or_charges( pos(), *itm );
     }

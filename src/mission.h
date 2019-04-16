@@ -118,25 +118,6 @@ struct mission_start {
     static void place_deposit_box( mission * );  // Place a safe deposit box in a nearby bank
     static void find_safety( mission * );        // Goal is set to non-spawn area
     static void recruit_tracker( mission * );    // Recruit a tracker to help you
-    static void ranch_construct_1( mission * );  // Encloses barn
-    static void ranch_construct_2( mission * );  // Adds makeshift beds to the barn, 1 NPC
-    static void ranch_construct_3( mission * );  // Adds a couple of NPCs and fields
-    static void ranch_construct_4( mission * );  // Begins work on wood yard, crop overseer added
-    static void ranch_construct_5( mission * );  // Continues work on wood yard, crops, well (pit)
-    // Continues work on wood yard, well (covered), fireplaces
-    static void ranch_construct_6( mission * );
-    // Continues work on wood yard, well (finished), continues walling
-    static void ranch_construct_7( mission * );
-    // Finishes wood yard, starts outhouse, starts tool shed
-    static void ranch_construct_8( mission * );
-    static void ranch_construct_9( mission * );  // Finishes outhouse, finishes tool shed, starts clinic
-    static void ranch_construct_10( mission * ); // Continues clinic, starts chop-shop
-    static void ranch_construct_11( mission * ); // Continues clinic, continues chop-shop
-    static void ranch_construct_12( mission * ); // Finish chop-shop, starts junk shop
-    static void ranch_construct_13( mission * ); // Continues junk shop
-    static void ranch_construct_14( mission * ); // Finish junk shop, starts bar
-    static void ranch_construct_15( mission * ); // Continues bar
-    static void ranch_construct_16( mission * ); // Finish bar, start greenhouse
     static void ranch_nurse_1( mission * );      // Need aspirin
     static void ranch_nurse_2( mission * );      // Need hotplates
     static void ranch_nurse_3( mission * );      // Need vitamins
@@ -149,10 +130,6 @@ struct mission_start {
     static void ranch_scavenger_1( mission * );  // Expand Junk Shop
     static void ranch_scavenger_2( mission * );  // Expand Junk Shop
     static void ranch_scavenger_3( mission * );  // Expand Junk Shop
-    static void ranch_bartender_1( mission * );  // Expand Bar
-    static void ranch_bartender_2( mission * );  // Expand Bar
-    static void ranch_bartender_3( mission * );  // Expand Bar
-    static void ranch_bartender_4( mission * );  // Expand Bar
     static void place_book( mission * );         // Place a book to retrieve
     static void reveal_refugee_center( mission * ); // Find refugee center
     static void create_lab_console( mission * );  // Reveal lab with an unlocked workstation

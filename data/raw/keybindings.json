@@ -2395,6 +2395,13 @@
   },
   {
     "type": "keybinding",
+    "id": "DROP_NON_FAVORITE",
+    "category": "INVENTORY",
+    "name": "Mark/unmark non-favorite items in multidrop menu",
+    "bindings": [ { "input_method": "keyboard", "key": "," } ]
+  },
+  {
+    "type": "keybinding",
     "id": "ITEMS_NW",
     "category": "ADVANCED_INVENTORY",
     "name": "Select items @ North-West",
