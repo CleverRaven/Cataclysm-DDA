@@ -3833,7 +3833,7 @@ void item::calc_rot( const tripoint &location )
         // conditions by applying starting variation bonus/penalty of +/- 20% of base shelf-life
         // positive = food was produced some time before calendar::start and/or bad storage
         // negative = food was stored in good conditions before calendar::start
-        if( since <= calendar::start && goes_bad() ) {
+        if( since <= calendar::start && goes_bad() && !is_corpse() ) {
             time_duration spoil_variation = get_comestible()->spoils * 0.2f;
             rot += factor * rng( -spoil_variation, spoil_variation );
         }
