@@ -2724,7 +2724,7 @@ bool mattack::nurse_operate( monster *z )
 
     if( g->u.has_any_bionic() ) {
         add_msg( m_info, _( "The %s scans you and seems to detect your bionics." ), z->name() );
-
+        z->anger = 100;
         tripoint couch_pos;
         bool found_couch = false;
         for( const auto &couch_loc : g->m.points_in_radius( z->pos(), 10, 0 ) ) {
@@ -2737,6 +2737,7 @@ bool mattack::nurse_operate( monster *z )
         }
         if( found_couch == false ) {
             add_msg( m_info, _( "The %s looks for something but doesn't seem to find it." ), z->name() );
+            z->anger = 0;
             return false;
         }
         grab( z );
@@ -2747,6 +2748,7 @@ bool mattack::nurse_operate( monster *z )
         }
         return false;
     }
+    z->anger = 0;
     return false;
 }
 bool mattack::photograph( monster *z )
