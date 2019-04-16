@@ -388,6 +388,7 @@ void npc::talk_to_u( bool text_only, bool radio_contact )
     d.add_topic( chatbin.first_topic );
     if( radio_contact ) {
         d.add_topic( "TALK_RADIO" );
+        d.by_radio = true;
     } else if( is_leader() ) {
         d.add_topic( "TALK_LEADER" );
     } else if( is_friend() ) {
@@ -2591,6 +2592,13 @@ void conditional_t::set_has_pickup_list()
     };
 }
 
+void conditional_t::set_is_by_radio()
+{
+    condition = []( const dialogue & d ) {
+        return d.by_radio;
+    };
+}
+
 conditional_t::conditional_t( JsonObject jo )
 {
     // improve the clarity of NPC setter functions
@@ -2804,6 +2812,8 @@ conditional_t::conditional_t( const std::string &type )
         set_u_has_camp();
     } else if( type == "has_pickup_list" ) {
         set_has_pickup_list();
+    } else if( type == "is_by_radio" ) {
+        set_is_by_radio();
     } else {
         condition = []( const dialogue & ) {
             return false;

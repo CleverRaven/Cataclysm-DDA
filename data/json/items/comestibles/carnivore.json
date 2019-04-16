@@ -482,7 +482,7 @@
     "fun": -50
   },
   {
-    "type": "GENERIC",
+    "type": "COMESTIBLE",
     "id": "bone",
     "category": "spare_parts",
     "name": "bone",
@@ -492,7 +492,8 @@
     "description": "A bone from some creature or other.  Could be used to make some stuff, like needles.",
     "price": 0,
     "material": "bone",
-    "volume": 1
+    "volume": 1,
+    "vitamins": [ [ "calcium", 96 ] ]
   },
   {
     "type": "COMESTIBLE",

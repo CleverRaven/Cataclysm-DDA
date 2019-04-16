@@ -12,6 +12,7 @@
 #include "fault.h"
 #include "field.h"
 #include "game.h"
+#include "game_inventory.h"
 #include "gates.h"
 #include "harvest.h"
 #include "iexamine.h"
@@ -836,16 +837,24 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
                 p.add_msg_if_player( m_bad, _( "You fail to harvest: %s" ), drop->nname( 1 ) );
                 continue;
             }
-
             if( drop->phase == LIQUID ) {
-                g->handle_all_liquid( item( drop, bday, roll ), 1 );
-
+                item obj( drop, bday, roll );
+                if( obj.has_temperature() ) {
+                    obj.set_item_temperature( 0.00001 * corpse_item->temperature );
+                }
+                g->handle_all_liquid( obj, 1 );
             } else if( drop->stackable ) {
-                g->m.add_item_or_charges( p.pos(), item( drop, bday, roll ) );
-
+                item obj( drop, bday, roll );
+                if( obj.has_temperature() ) {
+                    obj.set_item_temperature( 0.00001 * corpse_item->temperature );
+                }
+                g->m.add_item_or_charges( p.pos(), obj );
             } else {
                 item obj( drop, bday );
                 obj.set_mtype( &mt );
+                if( obj.has_temperature() ) {
+                    obj.set_item_temperature( 0.00001 * corpse_item->temperature );
+                }
                 for( int i = 0; i != roll; ++i ) {
                     g->m.add_item_or_charges( p.pos(), obj );
                 }
@@ -881,6 +890,7 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
         if( item_charges > 0 ) {
             item ruined_parts( "ruined_chunks", bday, item_charges );
             ruined_parts.set_mtype( &mt );
+            ruined_parts.set_item_temperature( 0.00001 * corpse_item->temperature );
             g->m.add_item_or_charges( p.pos(), ruined_parts );
         }
     }
@@ -1273,7 +1283,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
         const long charges_per_turn = std::max( 1l, liquid.charges_per_volume( volume_per_turn ) );
         liquid.charges = std::min( charges_per_turn, liquid.charges );
         const long original_charges = liquid.charges;
-        if( liquid.is_food() && liquid.specific_energy < 0 ) {
+        if( liquid.has_temperature() && liquid.specific_energy < 0 ) {
             liquid.set_item_temperature( std::max( temp_to_kelvin( g->get_temperature( p->pos() ) ), 277.15 ) );
         }
 
@@ -1741,18 +1751,11 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
             continue;
         }
 
-        if( corpse.damage() >= corpse.max_damage() ) {
-            // Deactivate already-pulped corpses that weren't properly deactivated
-            corpse.active = false;
-            continue;
-        }
-
         while( corpse.damage() < corpse.max_damage() ) {
             // Increase damage as we keep smashing ensuring we eventually smash the target.
             if( x_in_y( pulp_power, corpse.volume() / units::legacy_volume_factor ) ) {
                 corpse.inc_damage( DT_BASH );
                 if( corpse.damage() == corpse.max_damage() ) {
-                    corpse.active = false;
                     num_corpses++;
                 }
             }
@@ -2256,8 +2259,8 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
     }
 
     // Valid Repeat choice and target, attempt repair.
-    if( repeat != REPEAT_INIT && act->position != INT_MIN ) {
-        item &fix = p->i_at( act->position );
+    if( repeat != REPEAT_INIT && act->targets.size() >= 2 ) {
+        item_location &fix = act->targets[1];
 
         // Remember our level: we want to stop retrying on level up
         const int old_level = p->get_skill_level( actor->used_skill );
@@ -2283,9 +2286,9 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
         const bool destroyed = attempt == repair_item_actor::AS_DESTROYED;
         if( attempt == repair_item_actor::AS_CANT ||
             destroyed ||
-            !actor->can_repair_target( *p, fix, !destroyed ) ) {
+            !actor->can_repair_target( *p, *fix, !destroyed ) ) {
             // Cannot continue to repair target, select another target.
-            act->position = INT_MIN;
+            act->targets.pop_back();
         }
 
         const bool event_happened =
@@ -2296,7 +2299,7 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
         const bool need_input =
             repeat == REPEAT_ONCE ||
             ( repeat == REPEAT_EVENT && event_happened ) ||
-            ( repeat == REPEAT_FULL && fix.damage() <= 0 );
+            ( repeat == REPEAT_FULL && fix->damage() <= 0 );
         if( need_input ) {
             repeat = REPEAT_INIT;
         }
@@ -2308,25 +2311,21 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
     }
 
     // target selection and validation.
-    while( act->position == INT_MIN ) {
-        const int pos = g->inv_for_filter( _( "Repair what?" ), [&actor, &main_tool]( const item & itm ) {
-            return itm.made_of_any( actor->materials ) && !itm.count_by_charges() && !itm.is_firearm() &&
-                   &itm != &main_tool;
-        }, string_format( _( "You have no items that could be repaired with a %s." ),
-                          main_tool.type_name( 1 ) ) );
+    while( act->targets.size() < 2 ) {
+        auto item_loc = game_menus::inv::repair( *p, actor, &main_tool );
 
-        if( pos == INT_MIN ) {
+        if( item_loc == item_location::nowhere ) {
             p->add_msg_if_player( m_info, _( "Never mind." ) );
             act->set_to_null();
             return;
         }
-        if( actor->can_repair_target( *p, p->i_at( pos ), true ) ) {
-            act->position = pos;
+        if( actor->can_repair_target( *p, *item_loc, true ) ) {
+            act->targets.emplace_back( item_loc.clone() );
             repeat = REPEAT_INIT;
         }
     }
 
-    const item &fix = p->i_at( act->position );
+    const item &fix = *act->targets[1];
 
     if( repeat == REPEAT_INIT ) {
         g->draw();
@@ -2367,7 +2366,7 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
             }
             act->values[0] = static_cast<int>( repeat );
             if( repeat == REPEAT_INIT ) {       // BACK selected, redo target selection next.
-                p->activity.position = INT_MIN;
+                p->activity.targets.pop_back();
                 return;
             }
             if( repeat == REPEAT_FULL && fix.damage() <= 0 ) {
