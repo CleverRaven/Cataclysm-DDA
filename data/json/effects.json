@@ -208,7 +208,7 @@
     "type": "effect_type",
     "id": "assisted",
     "name": [ "Assisted" ],
-    "desc": [ "Your receiving assistance to practice a surgery." ]
+    "desc": [ "You're receiving assistance to practice a surgery." ]
   },
   {
     "type": "effect_type",
