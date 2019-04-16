@@ -507,7 +507,6 @@ void player::activate_mutation( const trait_id &mut )
         return;
     } else if( mut == trait_TREE_COMMUNION ) {
         tdata.powered = false;
-        const overmap_land_use_code_id forest_id = overmap_land_use_code_id( "forest" );
         if( !overmap_buffer.ter( global_omt_location() ).obj().is_wooded() ) {
             add_msg_if_player( m_info, _( "You can only do that in a wooded area." ) );
             return;
