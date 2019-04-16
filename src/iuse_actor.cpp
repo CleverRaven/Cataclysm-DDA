@@ -4,6 +4,7 @@
 #include <sstream>
 
 #include "action.h"
+#include "activity_handlers.h"
 #include "ammo.h"
 #include "assign.h"
 #include "bionics.h"
