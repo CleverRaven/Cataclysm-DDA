@@ -3722,7 +3722,6 @@ std::set<matec_id> item::get_techniques() const
 
 bool item::goes_bad() const
 {
-    add_msg( _( "goes_bad" ) );
     if( is_corpse() ) {
         // Corpses rot only if they are made of rotting materials
         std::vector<std::string> rotting_materials = {"Insect Flesh", "Human Flesh", "Flesh", "Bone"};
@@ -3738,19 +3737,18 @@ bool item::goes_bad() const
 
 double item::get_relative_rot() const
 {
-    add_msg( _( "get_relative_rot" ) );
-    if( is_corpse() && goes_bad() ) {
-        // Corpse "rots" in 14400 turns (24 h)
-        return rot / 14400_turns;
-    } else if( is_corpse() ) {
-        return 0;
+    if( goes_bad() ) {
+        if( is_corpse() ) {
+            return rot / 14400_turns;
+        } else if( is_food() ) {
+            return rot / get_comestible()->spoils;
+        }
     }
-    return goes_bad() ? rot / get_comestible()->spoils : 0;
+    return 0;
 }
 
 void item::set_relative_rot( double val )
 {
-    add_msg( _( "set_relative_rot" ) );
     if( is_corpse() && goes_bad() ) {
         rot = 14400_turns * val;
     }
@@ -4647,7 +4645,6 @@ bool item::is_med_container() const
 
 bool item::is_corpse() const
 {
-    add_msg( _( "is_corpse" ) );
     return typeId() == "corpse" && corpse != nullptr;
 }
 
@@ -7509,7 +7506,6 @@ bool item::process_tool( player *carrier, const tripoint &pos )
 
 bool item::process( player *carrier, const tripoint &pos, bool activate )
 {
-    add_msg( _( "PROCESS" ) );
     if( has_temperature() || is_food_container() ) {
         return process( carrier, pos, activate, g->get_temperature( pos ), 1 );
     } else {
