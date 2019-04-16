@@ -482,13 +482,15 @@
     "type": "activity_type",
     "stop_phrase": "Stop rooting?",
     "rooted": true,
-    "based_on": "time"
+    "based_on": "time",
+    "no_resume": true
   },
   {
     "id": "ACT_UPROOT",
     "type": "activity_type",
     "stop_phrase": "Stop uprooting?",
     "rooted": true,
-    "based_on": "time"
+    "based_on": "time",
+    "no_resume": true
   }
 ]
