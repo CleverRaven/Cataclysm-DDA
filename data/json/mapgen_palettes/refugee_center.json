@@ -35,6 +35,7 @@
       "O": "f_oven",
       "P": "f_indoor_plant",
       "S": "f_sink",
+      "T": "f_table",
       "U": "f_statue",
       "b": "f_bench",
       "c": "f_counter",
