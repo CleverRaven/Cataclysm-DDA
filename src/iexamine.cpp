@@ -4596,13 +4596,19 @@ void iexamine::on_smoke_out( const tripoint &examp, const time_point &start_time
 
 void iexamine::quern_examine( player &p, const tripoint &examp )
 {
-    if( g->m.furn( examp ) == furn_str_id( "f_water_mill") ){
-        if( !g->m.is_water_shallow_current( examp ) ){
+    if( g->m.furn( examp ) == furn_str_id( "f_water_mill" ) ) {
+        if( !g->m.is_water_shallow_current( examp ) ) {
             add_msg( _( "The water mill needs to be over shallow flowing water to work." ) );
         }
     }
+    if( g->m.furn( examp ) == furn_str_id( "f_wind_mill" ) ) {
+        if( g->is_sheltered( examp ) ) {
+            add_msg( _( "The wind mill needs to be outside in the wind to work." ) );
+        }
+    }
 
-    bool active = g->m.furn( examp ) == furn_str_id( "f_water_mill_active" ) || g->m.furn( examp ) == furn_str_id( "f_wind_mill_active" );
+    bool active = g->m.furn( examp ) == furn_str_id( "f_water_mill_active" ) ||
+                  g->m.furn( examp ) == furn_str_id( "f_wind_mill_active" );
     auto items_here = g->m.i_at( examp );
 
     if( items_here.empty() && active ) {
