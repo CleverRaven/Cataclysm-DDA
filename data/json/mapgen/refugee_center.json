@@ -5,7 +5,7 @@
     "om_terrain": [ "evac_center_1", "evac_center_2", "evac_center_3", "evac_center_4", "evac_center_5" ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_dirt",
       "rows": [
         "........................................................................................................................",
         "........................................................................................................................",
@@ -236,7 +236,7 @@
     "om_terrain": [ "evac_center_21", "evac_center_22", "evac_center_23", "evac_center_24", "evac_center_25" ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_dirt",
       "rows": [
         "......_______,,_______ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss_______,,_______......",
         "......_________________ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss_________________......",
