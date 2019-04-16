@@ -158,20 +158,9 @@ tripoint mission_util::target_closest_lab_entrance( const tripoint &origin, int 
     return closest;
 }
 
-cata::optional<tripoint> mission_util::assign_mission_target( const mission_target_params &params )
+cata::optional<tripoint> find_or_create_om_terrain( const tripoint &origin_pos,
+        const mission_target_params &params )
 {
-    // use the player or NPC's current position, adjust for the z value if any
-    tripoint origin_pos = g->u.global_omt_location();
-    if( !params.origin_u ) {
-        const auto giver = g->find_npc( params.mission_pointer->get_npc_id() );
-        if( giver ) {
-            origin_pos = giver->global_omt_location();
-        }
-    }
-    if( params.z ) {
-        origin_pos.z = *params.z;
-    }
-
     tripoint target_pos = overmap::invalid_tripoint;
 
     omt_find_params find_params;
@@ -225,25 +214,62 @@ cata::optional<tripoint> mission_util::assign_mission_target( const mission_targ
             }
         }
     }
-
     // If we got here and this is still invalid, it means that we couldn't find it and (if
     // allowed by the parameters) we couldn't create it either.
     if( target_pos == overmap::invalid_tripoint ) {
         debugmsg( "Unable to find and assign mission target %s.", params.overmap_terrain_subtype );
         return cata::nullopt;
     }
+    return target_pos;
+}
 
-    if( params.offset ) {
-        target_pos += *params.offset;
+tripoint get_mission_om_origin( const mission_target_params &params )
+{
+    // use the player or NPC's current position, adjust for the z value if any
+    tripoint origin_pos = g->u.global_omt_location();
+    if( !params.origin_u ) {
+        npc *guy = nullptr;
+
+        if( params.guy ) {
+            guy = params.guy;
+        } else if( params.mission_pointer ) {
+            guy = g->find_npc( params.mission_pointer->get_npc_id() );
+        }
+        if( guy ) {
+            origin_pos = guy->global_omt_location();
+        }
+    }
+    if( params.z ) {
+        origin_pos.z = *params.z;
+    }
+    return origin_pos;
+}
+
+cata::optional<tripoint> mission_util::assign_mission_target( const mission_target_params &params )
+{
+    // use the player or NPC's current position, adjust for the z value if any
+    tripoint origin_pos = get_mission_om_origin( params );
+
+    cata::optional<tripoint> target_pos = cata::nullopt;
+    target_pos = find_or_create_om_terrain( origin_pos, params );
+
+    if( target_pos ) {
+        if( params.offset ) {
+            *target_pos += *params.offset;
+        }
+
+        // If we specified a reveal radius, then go ahead and reveal around our found position.
+        if( params.reveal_radius ) {
+            overmap_buffer.reveal( *target_pos, *params.reveal_radius );
+        }
+
+        // Set the mission target to our found position.
+        params.mission_pointer->set_target( *target_pos );
     }
 
-    // If we specified a reveal radius, then go ahead and reveal around our found position.
-    if( params.reveal_radius ) {
-        overmap_buffer.reveal( target_pos, *params.reveal_radius );
-    }
+    return target_pos;
+}
 
-    // Set the mission target to our found position.
-    params.mission_pointer->set_target( target_pos );
 
     return target_pos;
 }
