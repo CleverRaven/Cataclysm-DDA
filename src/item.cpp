@@ -2656,8 +2656,11 @@ nc_color item::color_in_inventory() const
     } else if( has_flag( "LEAK_DAM" ) && has_flag( "RADIOACTIVE" ) && damage() > 0 ) {
         ret = c_light_green;
 
-    } else if( active && !is_food() && !is_food_container() ) {
+    } else if( active && !is_food() && !is_food_container() && !is_corpse() ) {
         // Active items show up as yellow
+        ret = c_yellow;
+    } else if( is_corpse() && can_revive() ) {
+        // Only reviving corpses are yellow
         ret = c_yellow;
     } else if( is_food() || is_food_container() ) {
         const bool preserves = type->container && type->container->preserves;
