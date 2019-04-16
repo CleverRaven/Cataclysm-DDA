@@ -3554,7 +3554,7 @@
     "move_cost_mod": 2,
     "required_str": -1,
     "examine_action": "quern_examine",
-    "flags": [ "SEALED", "ALLOW_FIELD_EFFECT", "CONTAINER", "NOITEM", "BLOCKSDOOR", "AUTOQUERN" ],
+    "flags": [ "SEALED", "ALLOW_FIELD_EFFECT", "CONTAINER", "NOITEM", "BLOCKSDOOR" ],
     "deconstruct": { "items": [ { "item": "wind_mill", "count": 1 } ] },
     "bash": {
       "str_min": 16,
@@ -3579,7 +3579,7 @@
     "move_cost_mod": 2,
     "required_str": -1,
     "examine_action": "quern_examine",
-    "flags": [ "SEALED", "ALLOW_FIELD_EFFECT", "CONTAINER", "NOITEM", "BLOCKSDOOR", "AUTOQUERN" ],
+    "flags": [ "SEALED", "ALLOW_FIELD_EFFECT", "CONTAINER", "NOITEM", "BLOCKSDOOR" ],
     "deconstruct": { "items": [ { "item": "wind_mill", "count": 1 } ] },
     "bash": {
       "str_min": 16,
@@ -3604,7 +3604,7 @@
     "move_cost_mod": 2,
     "required_str": -1,
     "examine_action": "quern_examine",
-    "flags": [ "SEALED", "ALLOW_FIELD_EFFECT", "CONTAINER", "NOITEM", "BLOCKSDOOR", "AUTOQUERN" ],
+    "flags": [ "SEALED", "ALLOW_FIELD_EFFECT", "CONTAINER", "NOITEM", "BLOCKSDOOR" ],
     "deconstruct": { "items": [ { "item": "water_mill", "count": 1 } ] },
     "bash": {
       "str_min": 12,
@@ -3631,7 +3631,7 @@
     "move_cost_mod": 2,
     "required_str": -1,
     "examine_action": "quern_examine",
-    "flags": [ "SEALED", "ALLOW_FIELD_EFFECT", "CONTAINER", "NOITEM", "BLOCKSDOOR", "AUTOQUERN" ],
+    "flags": [ "SEALED", "ALLOW_FIELD_EFFECT", "CONTAINER", "NOITEM", "BLOCKSDOOR" ],
     "deconstruct": { "items": [ { "item": "water_mill", "count": 1 } ] },
     "bash": {
       "str_min": 12,
