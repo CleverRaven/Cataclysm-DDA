@@ -10,6 +10,7 @@ function run_tests
 }
 
 ccache --zero-stats
+export CCACHE_LOGFILE=ccache_log
 if [ -n "$CMAKE" ]
 then
     bin_path="./"
@@ -44,3 +45,4 @@ else
     build-scripts/lint-json.sh
 fi
 ccache --show-stats
+cat ccache_log
