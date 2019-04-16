@@ -9,6 +9,7 @@ function run_tests
     $WINE "$@" -d yes -r cata --rng-seed time $EXTRA_TEST_OPTS
 }
 
+ccache --zero-stats
 if [ -n "$CMAKE" ]
 then
     bin_path="./"
@@ -42,3 +43,4 @@ else
     fi
     build-scripts/lint-json.sh
 fi
+ccache --show-stats
