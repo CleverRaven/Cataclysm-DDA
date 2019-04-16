@@ -213,7 +213,7 @@ void activity_handlers::burrow_finish( player_activity *act, player *p )
 bool check_butcher_cbm( const int roll )
 {
     // Failure rates for dissection rolls
-    // 80% at roll 0, 62% at roll 1, 50% at roll 2, 42% @ 3, 36% @ 4, 32% @ 5, ... , 20% @ 10
+    // 90% at roll 0, 72% at roll 1, 60% at roll 2, 51% @ 3, 45% @ 4, 40% @ 5, ... , 25% @ 10
     // Roll is roughly a rng(0, -3 + 1st_aid + fine_cut_quality + 1/2 electronics + small_dex_bonus)
     // Roll is reduced by corpse damage level, but to no less then 0
     add_msg( m_debug, _( "Roll = %i" ), roll );
