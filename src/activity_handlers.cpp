@@ -2686,7 +2686,7 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
     const double current_progress = craft->item_counter * base_total_moves / 10000000.0 +
                                     delta_progress;
     // Current progress as a percent of base_total_moves to 2 decimal places
-    craft->item_counter = current_progress / base_total_moves * 10000000.0;
+    craft->item_counter = round(current_progress / base_total_moves * 10000000.0);
     p->set_moves( 0 );
 
     // if item_counter has reached 100% or more
