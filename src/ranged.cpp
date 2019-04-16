@@ -1224,7 +1224,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         if( snap_to_target ) {
             center = dst;
         } else {
-            center = pc.pos() + pc.view_offset;
+            center = pc.pos() + pc.view_offset + g->sidebar_offset;
         }
         // Clear the target window.
         for( int i = 1; i <= getmaxy( w_target ) - num_instruction_lines - 2; i++ ) {
@@ -1300,7 +1300,8 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             int available_lines = compact ? 1 : ( height - num_instruction_lines - line_number - 12 );
             line_number = critter->print_info( w_target, line_number, available_lines, 1 );
         } else {
-            mvwputch( g->w_terrain, POSY + dst.y - center.y, POSX + dst.x - center.x, c_red, '*' );
+            mvwputch( g->w_terrain, POSY + dst.y - center.y, POSX + dst.x - center.x,
+                      c_red, '*' );
         }
 
         if( mode == TARGET_MODE_FIRE ) {
@@ -1338,6 +1339,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         }
 
         wrefresh( g->w_terrain );
+        g->draw_panels();
         draw_targeting_window( w_target, relevant->tname(),
                                mode, ctxt, aim_types,
                                static_cast<bool>( on_mode_change ),

@@ -7,7 +7,7 @@
 #include <string>
 #include <vector>
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
 #include <list>
 #include <algorithm>
 #endif
@@ -93,7 +93,7 @@ struct input_event {
     std::string edit;
     bool edit_refresh;
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
     // Used exclusively by the quick shortcuts to determine how stale a shortcut is
     int shortcut_last_used_action_counter;
 #endif
@@ -101,7 +101,7 @@ struct input_event {
     input_event() {
         mouse_x = mouse_y = 0;
         type = CATA_INPUT_ERROR;
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
         shortcut_last_used_action_counter = 0;
 #endif
     }
@@ -109,7 +109,7 @@ struct input_event {
         : type( t ) {
         mouse_x = mouse_y = 0;
         sequence.push_back( s );
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
         shortcut_last_used_action_counter = 0;
 #endif
     }
@@ -120,7 +120,7 @@ struct input_event {
         sequence.push_back( input );
     }
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
     input_event &operator=( const input_event &other ) {
         type = other.type;
         modifiers = other.modifiers;
@@ -368,14 +368,14 @@ extern input_manager inp_mngr;
 class input_context
 {
     public:
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
         // Whatever's on top is our current input context.
         static std::list<input_context *> input_context_stack;
 #endif
 
         input_context() : registered_any_input( false ), category( "default" ),
             handling_coordinate_input( false ) {
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
             input_context_stack.push_back( this );
             allow_text_entry = false;
 #endif
@@ -384,13 +384,13 @@ class input_context
         // outside that window can be ignored
         input_context( std::string category ) : registered_any_input( false ),
             category( category ), handling_coordinate_input( false ) {
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
             input_context_stack.push_back( this );
             allow_text_entry = false;
 #endif
         }
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
         virtual ~input_context() {
             input_context_stack.remove( this );
         }

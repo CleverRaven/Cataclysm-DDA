@@ -15,6 +15,7 @@
 #include "catacharset.h"
 #include "color.h"
 #include "cursesdef.h"
+#include "cursesport.h"
 #include "input.h"
 #include "item.h"
 #include "line.h"
@@ -26,10 +27,7 @@
 #include "string_input_popup.h"
 #include "units.h"
 
-#if (defined TILES || defined _WIN32 || defined WINDOWS)
-#include "cursesport.h"
-#endif
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
 #include <SDL_keyboard.h>
 #endif
 
@@ -699,7 +697,7 @@ input_event draw_item_info( const int iLeft, const int iWidth, const int iTop, c
     catacurses::window win = catacurses::newwin( iHeight, iWidth, iTop + VIEW_OFFSET_Y,
                              iLeft + VIEW_OFFSET_X );
 
-#ifdef TILES
+#if defined(TILES)
     clear_window_area( win );
 #endif // TILES
     wclear( win );
@@ -1496,7 +1494,7 @@ std::string cata::string_formatter::raw_string_format( const char *format, ... )
     errno = 0; // Clear errno before trying
     std::vector<char> buffer( 1024, '\0' );
 
-#if (defined __CYGWIN__)
+#if defined(__CYGWIN__)
     std::string rewritten_format = rewrite_vsnprintf( format );
     format = rewritten_format.c_str();
 #endif
@@ -1717,7 +1715,7 @@ void display_table( const catacurses::window &w, const std::string &title, int c
     const int col_width = width / columns;
     int offset = 0;
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
     // no bindings, but give it its own input context so stale buttons don't hang around.
     input_context ctxt( "DISPLAY_TABLE" );
 #endif
@@ -1758,7 +1756,7 @@ scrollingcombattext::cSCT::cSCT( const int p_iPosX, const int p_iPosY, const dir
 
     // translate from player relative to screen relative direction
     iso_mode = false;
-#ifdef TILES
+#if defined(TILES)
     iso_mode = tile_iso && use_tiles;
 #endif
     oUp = iso_mode ? NORTHEAST : NORTH;
@@ -1803,7 +1801,7 @@ void scrollingcombattext::add( const int p_iPosX, const int p_iPosY, direction p
 
         bool tiled = false;
         bool iso_mode = false;
-#ifdef TILES
+#if defined(TILES)
         tiled = use_tiles;
         iso_mode = tile_iso && use_tiles;
 #endif
@@ -2154,7 +2152,7 @@ std::string format_volume( const units::volume &volume, int width, bool *out_tru
 // In non-SDL mode, width/height is just what's specified in the menu
 #if !defined(TILES)
 // We need to override these for Windows console resizing
-#if !(defined _WIN32 || defined __WIN32__)
+#   if !defined(_WIN32)
 int get_terminal_width()
 {
     int width = get_option<int>( "TERMINAL_X" );
@@ -2165,7 +2163,7 @@ int get_terminal_height()
 {
     return get_option<int>( "TERMINAL_Y" );
 }
-#endif
+#   endif
 
 bool is_draw_tiles_mode()
 {

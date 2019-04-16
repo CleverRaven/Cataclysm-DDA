@@ -172,6 +172,24 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "faction_base_camp_19",
+    "name": "survivor base",
+    "sym": "+",
+    "color": "white",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_camp_20",
+    "name": "survivor base",
+    "sym": "+",
+    "color": "white",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": "faction_base_farm_0",
     "name": "farm survey",
     "sym": "+",

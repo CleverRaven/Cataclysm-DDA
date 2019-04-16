@@ -2556,7 +2556,7 @@ void map::monster_in_field( monster &z )
 
             case fd_fungal_haze:
                 if( !z.type->in_species( FUNGUS ) &&
-                    !z.type->has_flag( "NO_BREATHE" ) &&
+                    !z.type->has_flag( MF_NO_BREATHE ) &&
                     !z.make_fungus() ) {
                     // Don't insta-kill jabberwocks, that's silly
                     const int density = cur.getFieldDensity();

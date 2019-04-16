@@ -113,8 +113,10 @@ class inventory : public visitable<inventory>
          * the player's worn items / weapon
          */
         void restack( player &p );
-
-        void form_from_map( const tripoint &origin, int distance, bool assign_invlet = true );
+        void form_from_map( const tripoint &origin, int distance, bool assign_invlet = true,
+                            bool clear_path = true );
+        void form_from_map( map &m, const tripoint &origin, int distance, bool assign_invlet = true,
+                            bool clear_path = true );
 
         /**
          * Remove a specific item from the inventory. The item is compared
@@ -151,12 +153,12 @@ class inventory : public visitable<inventory>
         // Below, "amount" refers to quantity
         //        "charges" refers to charges
         std::list<item> use_amount( itype_id it, int quantity,
-                                    const std::function<bool( const item & )> &filter = is_crafting_component );
+                                    const std::function<bool( const item & )> &filter = return_true );
 
         bool has_tools( const itype_id &it, int quantity,
                         const std::function<bool( const item & )> &filter = return_true ) const;
         bool has_components( const itype_id &it, int quantity,
-                             const std::function<bool( const item & )> &filter = is_crafting_component ) const;
+                             const std::function<bool( const item & )> &filter = return_true ) const;
         bool has_charges( const itype_id &it, long quantity,
                           const std::function<bool( const item & )> &filter = return_true ) const;
 
@@ -196,7 +198,10 @@ class inventory : public visitable<inventory>
         // Removes invalid invlets, and assigns new ones if assign_invlet is true. Does not update the invlet cache.
         void update_invlet( item &it, bool assign_invlet = true );
 
+        void set_stack_favorite( const int position, const bool favorite );
+
         std::set<char> allocated_invlets() const;
+
 
         /**
          * Returns visitable items binned by their itype.

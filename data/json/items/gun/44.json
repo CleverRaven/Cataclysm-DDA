@@ -117,6 +117,7 @@
     "dispersion": 280,
     "durability": 8,
     "clip_size": 6,
+    "magazines": [ [ "44", [ "44_speedloader6" ] ] ],
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],
@@ -148,6 +149,7 @@
     "dispersion": 280,
     "durability": 8,
     "clip_size": 6,
+    "magazines": [ [ "44", [ "44_speedloader6" ] ] ],
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],

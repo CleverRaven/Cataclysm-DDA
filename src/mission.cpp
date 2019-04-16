@@ -347,13 +347,13 @@ bool mission::is_complete( const int _npc_id ) const
         return false;
 
         case MGOAL_FIND_ITEM: {
+            if( npc_id != -1 && npc_id != _npc_id ) {
+                return false;
+            }
             inventory tmp_inv = u.crafting_inventory();
             // TODO: check for count_by_charges and use appropriate player::has_* function
             if( !tmp_inv.has_amount( type->item_id, item_count ) ) {
                 return tmp_inv.has_amount( type->item_id, 1 ) && tmp_inv.has_charges( type->item_id, item_count );
-            }
-            if( npc_id != -1 && npc_id != _npc_id ) {
-                return false;
             }
         }
         return true;
@@ -543,6 +543,11 @@ int mission::get_npc_id() const
 void mission::set_target( const tripoint &p )
 {
     target = p;
+}
+
+void mission::set_target_npc_id( const int npc_id )
+{
+    target_npc_id = npc_id;
 }
 
 bool mission::is_assigned() const

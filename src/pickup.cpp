@@ -524,7 +524,7 @@ void Pickup::pick_up( const tripoint &p, int min )
         ctxt.register_action( "ANY_INPUT" );
         ctxt.register_action( "HELP_KEYBINDINGS" );
         ctxt.register_action( "FILTER" );
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
         ctxt.allow_text_entry = true; // allow user to specify pickup amount
 #endif
 

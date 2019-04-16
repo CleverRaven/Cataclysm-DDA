@@ -293,7 +293,7 @@ void player::activate_mutation( const trait_id &mut )
     static item mut_ranged( weapon );
     // You can take yourself halfway to Near Death levels of hunger/thirst.
     // Fatigue can go to Exhausted.
-    if( ( mdata.hunger && get_hunger() + get_starvation() >= 700 ) || ( mdata.thirst &&
+    if( ( mdata.hunger && get_kcal_percent() < 0.5f ) || ( mdata.thirst &&
             get_thirst() >= 260 ) ||
         ( mdata.fatigue && get_fatigue() >= EXHAUSTED ) ) {
         // Insufficient Foo to *maintain* operation is handled in player::suffer
@@ -310,7 +310,8 @@ void player::activate_mutation( const trait_id &mut )
             tdata.charge = mdata.cooldown - 1;
         }
         if( mdata.hunger ) {
-            mod_hunger( cost );
+            // burn some energy
+            mod_stored_nutr( cost );
         }
         if( mdata.thirst ) {
             mod_thirst( cost );

@@ -202,8 +202,10 @@ std::string action_ident( action_id act )
             return "wield";
         case ACTION_PICK_STYLE:
             return "pick_style";
-        case ACTION_RELOAD:
-            return "reload";
+        case ACTION_RELOAD_ITEM:
+            return "reload_item";
+        case ACTION_RELOAD_WEAPON:
+            return "reload_weapon";
         case ACTION_UNLOAD:
             return "unload";
         case ACTION_MEND:
@@ -721,10 +723,10 @@ action_id handle_action_menu()
             if( ( entry = &entries.back() ) ) {
                 entry->txt += "..."; // debug _is_a menu.
             }
-#ifndef TILES
+#if !defined(TILES)
             REGISTER_ACTION( ACTION_TOGGLE_FULLSCREEN );
 #endif
-#ifdef TILES
+#if defined(TILES)
             REGISTER_ACTION( ACTION_TOGGLE_PIXEL_MINIMAP );
             REGISTER_ACTION( ACTION_RELOAD_TILESET );
 #endif // TILES
@@ -748,7 +750,8 @@ action_id handle_action_menu()
         } else if( category == _( "Combat" ) ) {
             REGISTER_ACTION( ACTION_TOGGLE_MOVE );
             REGISTER_ACTION( ACTION_FIRE );
-            REGISTER_ACTION( ACTION_RELOAD );
+            REGISTER_ACTION( ACTION_RELOAD_ITEM );
+            REGISTER_ACTION( ACTION_RELOAD_WEAPON );
             REGISTER_ACTION( ACTION_SELECT_FIRE_MODE );
             REGISTER_ACTION( ACTION_THROW );
             REGISTER_ACTION( ACTION_FIRE_BURST );
@@ -780,7 +783,7 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_MUTATIONS );
             REGISTER_ACTION( ACTION_CONTROL_VEHICLE );
             REGISTER_ACTION( ACTION_ITEMACTION );
-#ifdef TILES
+#if defined(TILES)
             if( use_tiles ) {
                 REGISTER_ACTION( ACTION_ZOOM_OUT );
                 REGISTER_ACTION( ACTION_ZOOM_IN );
@@ -959,7 +962,7 @@ cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
         if( should_highlight( pos ) ) {
             highlighted = true;
             g->m.drawsq( g->w_terrain, g->u, pos,
-                         true, true, g->u.pos() + g->u.view_offset );
+                         true, true, g->u.pos() + g->u.view_offset + g->sidebar_offset );
         }
     }
     if( highlighted ) {

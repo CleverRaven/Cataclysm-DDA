@@ -614,6 +614,7 @@ void Item_factory::init()
     add_iuse( "DIVE_TANK", &iuse::dive_tank );
     add_iuse( "DIRECTIONAL_ANTENNA", &iuse::directional_antenna );
     add_iuse( "DISASSEMBLE", &iuse::disassemble );
+    add_iuse( "CRAFT", &iuse::craft );
     add_iuse( "DOGFOOD", &iuse::dogfood );
     add_iuse( "DOG_WHISTLE", &iuse::dog_whistle );
     add_iuse( "DOLLCHAT", &iuse::talking_doll );

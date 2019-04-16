@@ -87,7 +87,10 @@
     "type": "vehicle",
     "id": "raft",
     "name": "raft",
-    "blueprint": [ [ "OO" ], [ "OO" ] ],
+    "blueprint": [
+      [ "OO" ],
+      [ "OO" ]
+    ],
     "parts": [
       { "x": 0, "y": 0, "parts": [ "frame_wood_cross", "seat", "hand_paddles", "boat_board" ] },
       { "x": 1, "y": 0, "parts": [ "frame_wood_cross", "seat", "boat_board" ] },
@@ -99,7 +102,10 @@
     "type": "vehicle",
     "id": "inflatable_boat",
     "name": "inflatable boat",
-    "blueprint": [ [ "OO" ], [ "OO" ] ],
+    "blueprint": [
+      [ "OO" ],
+      [ "OO" ]
+    ],
     "parts": [
       { "x": 0, "y": 0, "parts": [ "inflatable_section", "folding_seat", "inflatable_airbag", "hand_paddles" ] },
       { "x": 1, "y": 0, "parts": [ "inflatable_section", "inflatable_airbag" ] },

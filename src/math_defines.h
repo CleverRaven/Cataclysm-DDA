@@ -1,3 +1,4 @@
+#pragma once
 #ifndef CATA_MATH_DEFINES_H
 #define CATA_MATH_DEFINES_H
 

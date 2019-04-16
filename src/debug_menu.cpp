@@ -300,10 +300,11 @@ void character_edit_menu()
         case D_NEEDS: {
             uilist smenu;
             smenu.addentry( 0, true, 'h', "%s: %d", _( "Hunger" ), p.get_hunger() );
-            smenu.addentry( 1, true, 's', "%s: %d", _( "Starvation" ), p.get_starvation() );
+            smenu.addentry( 1, true, 's', "%s: %d", _( "Stored kCal" ), p.get_stored_kcal() );
             smenu.addentry( 2, true, 't', "%s: %d", _( "Thirst" ), p.get_thirst() );
             smenu.addentry( 3, true, 'f', "%s: %d", _( "Fatigue" ), p.get_fatigue() );
             smenu.addentry( 4, true, 'd', "%s: %d", _( "Sleep Deprivation" ), p.get_sleep_deprivation() );
+            smenu.addentry( 5, true, 'a', _( "Reset all basic needs" ) );
 
             const auto &vits = vitamin::all();
             for( const auto &v : vits ) {
@@ -320,8 +321,8 @@ void character_edit_menu()
                     break;
 
                 case 1:
-                    if( query_int( value, _( "Set starvation to? Currently: %d" ), p.get_starvation() ) ) {
-                        p.set_starvation( value );
+                    if( query_int( value, _( "Set stored kCal to? Currently: %d" ), p.get_stored_kcal() ) ) {
+                        p.set_stored_kcal( value );
                     }
                     break;
 
@@ -343,7 +344,14 @@ void character_edit_menu()
                         p.set_sleep_deprivation( value );
                     }
                     break;
-
+                case 5:
+                    p.initialize_stomach_contents();
+                    p.set_hunger( 0 );
+                    p.set_thirst( 0 );
+                    p.set_fatigue( 0 );
+                    p.set_sleep_deprivation( 0 );
+                    p.set_stored_kcal( p.get_healthy_kcal() );
+                    break;
                 default:
                     if( smenu.ret >= 5 && smenu.ret < static_cast<int>( vits.size() + 5 ) ) {
                         auto iter = std::next( vits.begin(), smenu.ret - 5 );
@@ -653,7 +661,7 @@ void draw_benchmark( const int max_difference )
                                "\n| USE_TILES |  RENDERER | FRAMEBUFFER_ACCEL | USE_COLOR_MODULATED_TEXTURES | FPS |" <<
                                "\n|:---:|:---:|:---:|:---:|:---:|\n| " <<
                                get_option<bool>( "USE_TILES" ) << " | " <<
-#ifndef __ANDROID__
+#if !defined(__ANDROID__)
                                get_option<std::string>( "RENDERER" ) << " | " <<
 #else
                                get_option<bool>( "SOFTWARE_RENDERING" ) << " | " <<

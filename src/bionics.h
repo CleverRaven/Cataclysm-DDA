@@ -64,6 +64,10 @@ struct bionic_data {
      */
     bool armor_interface = false;
     /**
+    * If true, this bionic won't provide a warning if the player tries to sleep while it's active.
+    */
+    bool sleep_friendly = false;
+    /**
      * Body part slots used to install this bionic, mapped to the amount of space required.
      */
     std::map<body_part, size_t> occupied_bodyparts;

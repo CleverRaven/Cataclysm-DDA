@@ -474,7 +474,8 @@ class game
          * If reviving failed, the item is unchanged, as is the environment (no new monsters).
          */
         bool revive_corpse( const tripoint &location, item &corpse );
-
+        /**Turns Broken Cyborg monster into Cyborg NPC via surgery*/
+        void save_cyborg( item *cyborg, const tripoint couch_pos, player &installer );
         /**
          * Returns true if the player is allowed to fire a given item, or false if otherwise.
          * reload_time is stored as a side effect of condition testing.
@@ -513,6 +514,7 @@ class game
 
         /** Returns the next available mission id. */
         int assign_mission_id();
+        /** Find the npc with the given ID. Returns NULL if the npc could not be found. Searches all loaded overmaps. */
         npc *find_npc( int id );
         /** Makes any nearby NPCs on the overmap active. */
         void load_npcs();
@@ -898,7 +900,7 @@ class game
         void load( const save_t &name ); // Load a player-specific save file
         void load_master(); // Load the master data file, with factions &c
         void load_weather( std::istream &fin );
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
         void load_shortcuts( std::istream &fin );
 #endif
         bool start_game(); // Starts a new game in the active world
@@ -913,7 +915,7 @@ class game
         // returns false if saving failed for whatever reason
         bool save_maps();
         void save_weather( std::ostream &fout );
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
         void save_shortcuts( std::ostream &fout );
 #endif
         // Data Initialization
@@ -975,7 +977,8 @@ class game
         void mend( int pos = INT_MIN );
         void autoattack();
     public:
-        void reload( bool try_everything = true ); // Reload a wielded gun/tool  'r'
+        void reload_item(); // Reload an item
+        void reload_weapon( bool try_everything = true ); // Reload a wielded gun/tool  'r'
         // Places the player at the specified point; hurts feet, lists items etc.
         void place_player( const tripoint &dest );
         void place_player_overmap( const tripoint &om_dest );

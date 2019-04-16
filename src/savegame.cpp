@@ -32,7 +32,7 @@
 #include "translations.h"
 #include "tuple_hash.h"
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
 #include "input.h"
 
 extern std::map<std::string, std::list<input_event>> quick_shortcuts_map;
@@ -295,7 +295,7 @@ void game::save_weather( std::ostream &fout )
     fout << "seed: " << seed;
 }
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
 ///// quick shortcuts
 void game::load_shortcuts( std::istream &fin )
 {

@@ -239,7 +239,7 @@ bool mattack::eat_food( monster *z )
         auto items = g->m.i_at( p );
         for( auto &item : items ) {
             //Fun limit prevents scavengers from eating feces
-            if( !item.is_food() || item.type->comestible->fun < -20 ) {
+            if( !item.is_food() || item.get_comestible()->fun < -20 ) {
                 continue;
             }
             //Don't eat own eggs
@@ -823,7 +823,7 @@ bool mattack::resurrect( monster *z )
         for( auto &i : g->m.i_at( p ) ) {
             const mtype *mt = i.get_mtype();
             if( !( i.is_corpse() && i.active && mt->has_flag( MF_REVIVES ) &&
-                   mt->in_species( ZOMBIE ) && !mt->has_flag( "NO_NECRO" ) ) ) {
+                   mt->in_species( ZOMBIE ) && !mt->has_flag( MF_NO_NECRO ) ) ) {
                 continue;
             }
 

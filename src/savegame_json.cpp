@@ -340,11 +340,9 @@ void Character::load( JsonObject &data )
     // needs
     data.read( "thirst", thirst );
     data.read( "hunger", hunger );
-    data.read( "starvation", starvation );
     data.read( "fatigue", fatigue );
     data.read( "sleep_deprivation", sleep_deprivation );
-    data.read( "stomach_food", stomach_food );
-    data.read( "stomach_water", stomach_water );
+    data.read( "stored_calories", stored_calories );
 
     // health
     data.read( "healthy", healthy );
@@ -442,7 +440,6 @@ void Character::load( JsonObject &data )
 
     on_stat_change( "thirst", thirst );
     on_stat_change( "hunger", hunger );
-    on_stat_change( "starvation", starvation );
     on_stat_change( "fatigue", fatigue );
     on_stat_change( "sleep_deprivation", sleep_deprivation );
 }
@@ -473,11 +470,9 @@ void Character::store( JsonOut &json ) const
     // needs
     json.member( "thirst", thirst );
     json.member( "hunger", hunger );
-    json.member( "starvation", starvation );
     json.member( "fatigue", fatigue );
     json.member( "sleep_deprivation", sleep_deprivation );
-    json.member( "stomach_food", stomach_food );
-    json.member( "stomach_water", stomach_water );
+    json.member( "stored_calories", stored_calories );
 
     // breathing
     json.member( "underwater", underwater );
@@ -782,6 +777,9 @@ void player::serialize( JsonOut &json ) const
 
     json.member( "vitamin_levels", vitamin_levels );
 
+    json.member( "stomach", stomach );
+    json.member( "guts", guts );
+
     morale->store( json );
 
     // mission stuff
@@ -909,6 +907,9 @@ void player::deserialize( JsonIn &jsin )
         vitamin_levels[ v.first ] = lvl;
     }
 
+    data.read( "stomach", stomach );
+    data.read( "guts", guts );
+
     morale->load( data );
 
     std::vector<int> tmpmissions;
@@ -998,8 +999,15 @@ void npc_follower_rules::serialize( JsonOut &json ) const
 
     // serialize the flags so they can be changed between save games
     for( const auto &rule : ally_rule_strs ) {
-        json.member( rule.first, has_flag( rule.second ) );
+        json.member( "rule_" + rule.first, has_flag( rule.second, false ) );
     }
+    for( const auto &rule : ally_rule_strs ) {
+        json.member( "override_enable_" + rule.first, has_flag( rule.second ) );
+    }
+    for( const auto &rule : ally_rule_strs ) {
+        json.member( "override_" + rule.first, has_flag( rule.second ) );
+    }
+
     json.member( "pickup_whitelist", *pickup_whitelist );
 
     json.end_object();
@@ -1018,11 +1026,30 @@ void npc_follower_rules::deserialize( JsonIn &jsin )
     // deserialize the flags so they can be changed between save games
     for( const auto &rule : ally_rule_strs ) {
         bool tmpflag = false;
+        // legacy to handle rules that were saved before overrides
         data.read( rule.first, tmpflag );
         if( tmpflag ) {
             set_flag( rule.second );
         } else {
             clear_flag( rule.second );
+        }
+        data.read( "rule_" + rule.first, tmpflag );
+        if( tmpflag ) {
+            set_flag( rule.second );
+        } else {
+            clear_flag( rule.second );
+        }
+        data.read( "override_enable_" + rule.first, tmpflag );
+        if( tmpflag ) {
+            enable_override( rule.second );
+        } else {
+            disable_override( rule.second );
+        }
+        data.read( "override_" + rule.first, tmpflag );
+        if( tmpflag ) {
+            set_override( rule.second );
+        } else {
+            clear_override( rule.second );
         }
     }
 
@@ -1809,6 +1836,9 @@ void item::io( Archive &archive )
             corpse = &mtype_id( id ).obj();
         }
     };
+    const auto load_making = [this]( const std::string & id ) {
+        making = &recipe_id( id ).obj();
+    };
 
     archive.template io<const itype>( "typeid", type, load_type, []( const itype & i ) {
         return i.get_id();
@@ -1853,6 +1883,10 @@ void item::io( Archive &archive )
     archive.template io<const mtype>( "corpse", corpse, load_corpse,
     []( const mtype & i ) {
         return i.id.str();
+    } );
+    archive.template io<const recipe>( "making", making, load_making,
+    []( const recipe & i ) {
+        return i.ident().str();
     } );
     archive.io( "light", light.luminance, nolight.luminance );
     archive.io( "light_width", light.width, nolight.width );
@@ -2509,33 +2543,11 @@ void faction::deserialize( JsonIn &jsin )
     if( !jo.read( "desc", desc ) ) {
         desc.clear();
     }
-    goal = faction_goal( jo.get_int( "goal", goal ) );
-    values = jo.get_int( "values", values );
-    job1 = faction_job( jo.get_int( "job1", job1 ) );
-    job2 = faction_job( jo.get_int( "job2", job2 ) );
     jo.read( "likes_u", likes_u );
     jo.read( "respects_u", respects_u );
     jo.read( "known_by_u", known_by_u );
-    jo.read( "strength", strength );
-    jo.read( "sneak", sneak );
-    jo.read( "crime", crime );
-    jo.read( "cult", cult );
-    jo.read( "good", good );
-    jo.read( "mapx", mapx );
-    jo.read( "mapy", mapy );
-    // omx,omy are obsolete, use them (if present) to make mapx,mapy global coordinates
-    int o = 0;
-    if( jo.read( "omx", o ) ) {
-        mapx += o * OMAPX * 2;
-    }
-    if( jo.read( "omy", o ) ) {
-        mapy += o * OMAPY * 2;
-    }
     jo.read( "size", size );
     jo.read( "power", power );
-    if( !jo.read( "combat_ability", combat_ability ) ) {
-        combat_ability = 100;
-    }
     if( !jo.read( "food_supply", food_supply ) ) {
         food_supply = 100;
     }
@@ -2554,23 +2566,11 @@ void faction::serialize( JsonOut &json ) const
     json.member( "id", id );
     json.member( "name", name );
     json.member( "desc", desc );
-    json.member( "values", values );
-    json.member( "goal", goal );
-    json.member( "job1", job1 );
-    json.member( "job2", job2 );
     json.member( "likes_u", likes_u );
     json.member( "respects_u", respects_u );
     json.member( "known_by_u", known_by_u );
-    json.member( "strength", strength );
-    json.member( "sneak", sneak );
-    json.member( "crime", crime );
-    json.member( "cult", cult );
-    json.member( "good", good );
-    json.member( "mapx", mapx );
-    json.member( "mapy", mapy );
     json.member( "size", size );
     json.member( "power", power );
-    json.member( "combat_ability", combat_ability );
     json.member( "food_supply", food_supply );
     json.member( "wealth", wealth );
     json.member( "opinion_of", opinion_of );
@@ -2922,14 +2922,6 @@ void basecamp::serialize( JsonOut &json ) const
         json.member( "name", name );
         json.member( "pos", omt_pos );
         json.member( "bb_pos", bb_pos );
-        json.member( "sort_points" );
-        json.start_array();
-        for( const tripoint &it : sort_points ) {
-            json.start_object();
-            json.member( "pos", it );
-            json.end_object();
-        }
-        json.end_array();
         json.member( "expansions" );
         json.start_array();
         for( const auto &expansion : expansions ) {

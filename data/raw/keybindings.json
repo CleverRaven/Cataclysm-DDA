@@ -1053,11 +1053,11 @@
     "bindings": [ { "input_method": "keyboard", "key": "f" } ]
   },
   {
-     "type" : "keybinding",
-     "id": "UNLOAD",
-     "category": "VEH_INTERACT",
-     "name": "Unload fuel bunker",
-     "bindings":[ { "input_method":"keyboard", "key":"d" } ]
+    "type": "keybinding",
+    "id": "UNLOAD",
+    "category": "VEH_INTERACT",
+    "name": "Unload fuel bunker",
+    "bindings": [ { "input_method": "keyboard", "key": "d" } ]
   },
   {
     "type": "keybinding",
@@ -1320,6 +1320,13 @@
   },
   {
     "type": "keybinding",
+    "id": "TOGGLE_FAVORITE",
+    "category": "INVENTORY",
+    "name": "Toggle item as favorite",
+    "bindings": [ { "input_method": "keyboard", "key": "*" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "TOGGLE_EXAMINE",
     "category": "BIONICS",
     "name": "Toggle activate/examine",
@@ -1574,7 +1581,7 @@
     "type": "keybinding",
     "name": "Reload Wielded Item",
     "category": "DEFAULTMODE",
-    "id": "reload",
+    "id": "reload_weapon",
     "bindings": [ { "input_method": "keyboard", "key": "r" } ]
   },
   {
@@ -1853,6 +1860,12 @@
   },
   {
     "type": "keybinding",
+    "name": "Reload Item",
+    "category": "DEFAULTMODE",
+    "id": "reload_item"
+  },
+  {
+    "type": "keybinding",
     "name": "Reload Tileset",
     "category": "DEFAULTMODE",
     "id": "reload_tileset"
@@ -2080,6 +2093,20 @@
     "category": "LOOK",
     "name": "List items and monsters",
     "bindings": [ { "input_method": "keyboard", "key": "V" } ]
+  },
+  {
+    "type": "keybinding",
+    "name": "Zoom In",
+    "category": "LOOK",
+    "id": "zoom_in",
+    "bindings": [ { "input_method": "keyboard", "key": "z" } ]
+  },
+  {
+    "type": "keybinding",
+    "name": "Zoom Out",
+    "category": "LOOK",
+    "id": "zoom_out",
+    "bindings": [ { "input_method": "keyboard", "key": "Z" } ]
   },
   {
     "type": "keybinding",
@@ -2368,6 +2395,20 @@
   },
   {
     "type": "keybinding",
+    "id": "TOGGLE_FAVORITE",
+    "category": "ADVANCED_INVENTORY",
+    "name": "Toggle item as favorite",
+    "bindings": [ { "input_method": "keyboard", "key": "*" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "DROP_NON_FAVORITE",
+    "category": "INVENTORY",
+    "name": "Mark/unmark non-favorite items in multidrop menu",
+    "bindings": [ { "input_method": "keyboard", "key": "," } ]
+  },
+  {
+    "type": "keybinding",
     "id": "ITEMS_NW",
     "category": "ADVANCED_INVENTORY",
     "name": "Select items @ North-West",
@@ -2573,7 +2614,11 @@
     "id": "NO",
     "category": "YESNO",
     "name": "No",
-    "bindings": [ { "input_method": "keyboard", "key": "N" }, { "input_method": "keyboard", "key": "n" }, { "input_method": "keyboard", "key": "ESC" } ]
+    "bindings": [
+      { "input_method": "keyboard", "key": "N" },
+      { "input_method": "keyboard", "key": "n" },
+      { "input_method": "keyboard", "key": "ESC" }
+    ]
   },
   {
     "type": "keybinding",
@@ -2587,7 +2632,11 @@
     "id": "NO",
     "category": "CANCEL_ACTIVITY_OR_IGNORE_QUERY",
     "name": "No",
-    "bindings": [ { "input_method": "keyboard", "key": "N" }, { "input_method": "keyboard", "key": "n" }, { "input_method": "keyboard", "key": "ESC" } ]
+    "bindings": [
+      { "input_method": "keyboard", "key": "N" },
+      { "input_method": "keyboard", "key": "n" },
+      { "input_method": "keyboard", "key": "ESC" }
+    ]
   },
   {
     "type": "keybinding",
@@ -2601,6 +2650,10 @@
     "id": "QUIT",
     "category": "POPUP_WAIT",
     "name": "Cancel popup",
-    "bindings": [ { "input_method": "keyboard", "key": "ESC" }, { "input_method": "keyboard", "key": "SPACE" }, { "input_method": "keyboard", "key": "RETURN" } ]
+    "bindings": [
+      { "input_method": "keyboard", "key": "ESC" },
+      { "input_method": "keyboard", "key": "SPACE" },
+      { "input_method": "keyboard", "key": "RETURN" }
+    ]
   }
 ]

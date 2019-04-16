@@ -7,7 +7,7 @@
 #include "ui.h"
 #include "uistate.h"
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
 #include <SDL_keyboard.h>
 
 #include "options.h"
@@ -288,7 +288,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
     if( !ctxt ) {
         create_context();
     }
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
     if( !draw_only && loop && get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
         SDL_StartTextInput();
     }
@@ -367,7 +367,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
         }
 
         if( ch == KEY_ESCAPE ) {
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
             if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
                 SDL_StopTextInput();
             }

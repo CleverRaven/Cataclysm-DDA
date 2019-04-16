@@ -145,7 +145,9 @@ enum action_id : int {
     /** Open the martial-arts style menu */
     ACTION_PICK_STYLE,
     /** Open the load item (e.g. firearms) select menu */
-    ACTION_RELOAD,
+    ACTION_RELOAD_ITEM,
+    /** Attempt to reload wielded weapon, then fall back to the load item select menu */
+    ACTION_RELOAD_WEAPON,
     /** Open the unload item (e.g. firearms) select menu */
     ACTION_UNLOAD,
     /** Open the mending menu (e.g. when using a sewing kit) */

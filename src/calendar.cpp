@@ -640,3 +640,8 @@ std::string to_string( const time_point &p )
                               calendar::name_season( season_of_year( p ) ), day, time );
     }
 }
+
+time_point::time_point()
+{
+    turn_ = 0;
+}

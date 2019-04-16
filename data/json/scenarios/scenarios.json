@@ -240,7 +240,7 @@
     "start_name": "Prison",
     "professions": [ "convict" ],
     "forced_traits": [ "PSYCHOPATH" ],
-    "flags": [ "CITY_START" ]
+    "flags": [ "CITY_START", "LONE_START" ]
   },
   {
     "type": "scenario",

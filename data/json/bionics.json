@@ -34,7 +34,7 @@
     "name": "Alarm System",
     "description": "A motion-detecting alarm system will notice almost all movement within a fifteen-foot radius, and will silently alert you.  This is very useful during sleep, or if you suspect a cloaked pursuer.",
     "occupied_bodyparts": [ [ "TORSO", 2 ], [ "HEAD", 1 ] ],
-    "flags": [ "BIONIC_TOGGLED" ],
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_SLEEP_FRIENDLY" ],
     "act_cost": 1,
     "react_cost": 1,
     "time": 100
@@ -466,7 +466,7 @@
     "id": "bio_ground_sonar",
     "type": "bionic",
     "name": "Terranian Sonar",
-    "description": "Your feet are equipped with precision sonar equipment, allowing you to detect the movements of creatures below the ground.",
+    "description": "Your feet are equipped with precision sonar equipment, allowing you to detect the movements of creatures below the ground, buried traps, and unstable terrain.",
     "occupied_bodyparts": [ [ "FOOT_L", 3 ], [ "FOOT_R", 3 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
     "act_cost": 5,
@@ -576,7 +576,7 @@
     "name": "Leukocyte Breeder System",
     "description": "You are equipped with bionic stimulators which augment your haematopoiesis system, allowing you to accelerate white blood cell production using bionic power.  It is supposed to run continuously and may cause unpleasant side effects when turned off.",
     "occupied_bodyparts": [ [ "TORSO", 10 ] ],
-    "flags": [ "BIONIC_TOGGLED" ],
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_SLEEP_FRIENDLY" ],
     "act_cost": 10,
     "react_cost": 1,
     "time": 600
@@ -620,7 +620,7 @@
     "name": "Enhanced Memory Banks",
     "description": "Your memory has been enhanced with small quantum storage drives.  While active, you learn - both through reading and practice - more quickly.  Additionally, you can't forget skills you've already learned, and the layout of terrain you've explored will remain in your memory for an incredibly long time.",
     "occupied_bodyparts": [ [ "HEAD", 3 ] ],
-    "flags": [ "BIONIC_TOGGLED" ],
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_SLEEP_FRIENDLY" ],
     "act_cost": 10,
     "react_cost": 1,
     "time": 100

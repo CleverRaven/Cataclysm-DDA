@@ -141,7 +141,7 @@ The dynamic line will be chosen based on whether a single dialogue condition is 
     "days_since_cataclysm": 30,
     "yes": "Now, we've got a moment, I was just thinking it's been a month or so since... since all this, how are you coping with it all?",
     "no": "<neutralchitchat>"
-} 
+}
 {
     "is_day": "Sure is bright out.",
     "no": {
@@ -346,10 +346,9 @@ u_consume_item, npc_consume_item: item_string, (*optional* count: count_num) | Y
 
 Effect | Description
 ---|---
-assign_base | Assigns the NPC to a base camp at the player's current position.
-assign_guard | Makes the NPC into a guard, which will defend the current location.
+assign_guard | Makes the NPC into a guard, if at a camp, they will be assigned to that camp.
 stop_guard | Releases the NPC from their guard duty (also see `assign_guard`).
-start_camp | Makes the NPC the overseer of a new faction camp.
+start_camp | The NPC will start a faction camp with the player.
 recover_camp | Makes the NPC the overseer of an existing camp that doesn't have an overseer.
 remove_overseer | Makes the NPC stop being an overseer, abandoning the faction camp.
 wake_up | Wakes up sleeping, but not sedated, NPCs.
@@ -466,6 +465,7 @@ Condition | Type | Description
 "npc_service" | int | `true` if the NPC does not have the "currently_busy" effect and the player character has at least npc_service cash available.  Useful to check if the player character can hire an NPC to perform a task that would take time to complete.  Functionally, this is identical to `"and": [ { "not": { "npc_has_effect": "currently_busy" } }, { "u_has_cash": service_cost } ]`
 "npc_allies" | int | `true` if the player character has at least `npc_allies` number of NPC allies.
 "npc_following" | simple string | `true` if the NPC is following the player character.
+"is_by_radio" | simple string | `true` if the player is talking to the NPC over a radio.
 
 #### NPC only conditions
 

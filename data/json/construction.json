@@ -2224,5 +2224,16 @@
     "components": [ [ [ "pillow", 19 ], [ "down_pillow", 19 ] ], [ [ "down_blanket", 3 ], [ "blanket", 3 ], [ "fur_blanket", 3 ] ] ],
     "pre_terrain": "t_floor",
     "post_terrain": "f_pillow_fort"
+  },
+  {
+    "type": "construction",
+    "description": "Build Fire Ring",
+    "category": "FURN",
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": 15,
+    "components": [ [ [ "rock", 20 ] ] ],
+    "pre_note": "Can be deconstructed without tools.",
+    "pre_terrain": "t_pit_shallow",
+    "post_terrain": "f_firering"
   }
 ]

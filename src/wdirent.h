@@ -110,7 +110,7 @@
 #include <cstdlib>
 #include <cerrno>
 
-#if defined(_WIN32) || defined(WINDOWS)
+#if defined(_WIN32)
 // needed by MultiByteToWideChar
 #include <Windows.h>
 #endif
@@ -220,7 +220,7 @@
 /* Return number of bytes needed to store d_namlen */
 #define _D_ALLOC_NAMLEN(p) (PATH_MAX + 1)
 
-#ifdef __cplusplus
+#if defined(__cplusplus)
 extern "C" {
 #endif
 
@@ -828,7 +828,7 @@ dirent_mbstowcs_s(
     if( get_options().has_option( "ENCODING_CONV" ) && !get_option<bool>( "ENCODING_CONV" ) ) {
         return dirent_mbstowcs_s_old( pReturnValue, wcstr, sizeInWords, mbstr, count );
     }
-#if defined(_WIN32) || defined(WINDOWS)
+#if defined(_WIN32)
     const int required_size = MultiByteToWideChar( CP_ACP, 0, mbstr, -1, NULL, NULL ) + 1;
     if( required_size > sizeInWords ) {
         return 1;
@@ -934,7 +934,7 @@ dirent_wcstombs_s(
     if( get_options().has_option( "ENCODING_CONV" ) && !get_option<bool>( "ENCODING_CONV" ) ) {
         return dirent_wcstombs_s_old( pReturnValue, mbstr, sizeInBytes, wcstr, count );
     }
-#if defined(_WIN32) || defined(WINDOWS)
+#if defined(_WIN32)
     const int required_size = WideCharToMultiByte( CP_ACP, 0, wcstr, -1, NULL, 0, NULL, NULL ) + 1;
     if( required_size > sizeInBytes ) {
         return 1;
@@ -998,7 +998,7 @@ dirent_set_errno(
 #endif
 }
 
-#ifdef __cplusplus
+#if defined(__cplusplus)
 }
 #endif
 #endif /*DIRENT_H*/

@@ -116,20 +116,16 @@
 #include "worldfactory.h"
 #include "map_selector.h"
 
-#ifdef TILES
+#if defined(TILES)
 #include "cata_tiles.h"
 #endif // TILES
 
-#if (defined TILES || defined _WIN32 || defined WINDOWS)
-#include "cursesport.h"
-#endif
-
-#if !(defined _WIN32 || defined WINDOWS || defined TILES)
+#if !(defined(_WIN32) || defined(TILES))
 #include <langinfo.h>
 #include <cstring>
 #endif
 
-#if (defined _WIN32 || defined __WIN32__)
+#if defined(_WIN32)
 #if 1 // Hack to prevent reordering of #include "platform_win.h" by IWYU
 #   include "platform_win.h"
 #endif
@@ -151,6 +147,9 @@ const skill_id skill_dodge( "dodge" );
 const skill_id skill_driving( "driving" );
 const skill_id skill_firstaid( "firstaid" );
 const skill_id skill_survival( "survival" );
+const skill_id skill_electronics( "electronics" );
+const skill_id skill_mechanics( "mechanics" );
+const skill_id skill_computer( "computer" );
 
 const species_id ZOMBIE( "ZOMBIE" );
 const species_id PLANT( "PLANT" );
@@ -206,7 +205,7 @@ static const trait_id trait_BURROW( "BURROW" );
 
 void intro();
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
 extern std::map<std::string, std::list<input_event>> quick_shortcuts_map;
 extern bool add_best_key_for_action_to_quick_shortcuts( action_id action,
         const std::string &category, bool back );
@@ -215,7 +214,7 @@ extern bool add_key_to_quick_shortcuts( long key, const std::string &category, b
 
 //The one and only game instance
 std::unique_ptr<game> g;
-#ifdef TILES
+#if defined(TILES)
 extern std::unique_ptr<cata_tiles> tilecontext;
 extern void toggle_fullscreen_window();
 #endif // TILES
@@ -226,6 +225,8 @@ bool is_valid_in_w_terrain( int x, int y )
 {
     return x >= 0 && x < TERRAIN_WINDOW_WIDTH && y >= 0 && y < TERRAIN_WINDOW_HEIGHT;
 }
+
+#define DEFAULT_TILESET_ZOOM 16
 
 // This is the main game set-up process.
 game::game() :
@@ -249,7 +250,7 @@ game::game() :
     next_mission_id( 1 ),
     remoteveh_cache_time( calendar::before_time_starts ),
     user_action_counter( 0 ),
-    tileset_zoom( 16 ),
+    tileset_zoom( DEFAULT_TILESET_ZOOM ),
     weather_override( WEATHER_NULL ),
     displaying_scent( false )
 
@@ -386,7 +387,7 @@ void game::init_ui( const bool resized )
 
         first_init = false;
 
-#ifdef TILES
+#if defined(TILES)
         //class variable to track the option being active
         //only set once, toggle action is used to change during game
         pixel_minimap_option = get_option<bool>( "PIXEL_MINIMAP" );
@@ -394,7 +395,7 @@ void game::init_ui( const bool resized )
     }
 
     // First get TERMX, TERMY
-#if (defined TILES || defined _WIN32 || defined __WIN32__)
+#if defined(TILES) || defined(_WIN32)
     TERMX = get_terminal_width();
     TERMY = get_terminal_height();
 
@@ -492,7 +493,7 @@ void game::init_ui( const bool resized )
     int pixelminimapH = 0;
     bool pixel_minimap_custom_height = false;
 
-#ifdef TILES
+#if defined(TILES)
     pixel_minimap_custom_height = get_option<int>( "PIXEL_MINIMAP_HEIGHT" ) > 0;
 #endif // TILES
 
@@ -537,7 +538,7 @@ void game::init_ui( const bool resized )
 
 void game::toggle_fullscreen()
 {
-#ifndef TILES
+#if !defined(TILES)
     fullscreen = !fullscreen;
     init_ui();
     refresh_all();
@@ -549,7 +550,7 @@ void game::toggle_fullscreen()
 
 void game::toggle_pixel_minimap()
 {
-#ifdef TILES
+#if defined(TILES)
     if( pixel_minimap_option ) {
         clear_window_area( w_pixel_minimap );
     }
@@ -566,7 +567,7 @@ void game::toggle_panel_adm()
 
 void game::reload_tileset()
 {
-#ifdef TILES
+#if defined(TILES)
     try {
         tilecontext->reinit();
         tilecontext->load_tileset( get_option<std::string>( "TILES" ), false, true );
@@ -1194,7 +1195,7 @@ bool game::cleanup_at_end()
     MAPBUFFER.reset();
     overmap_buffer.clear();
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
     quick_shortcuts_map.clear();
 #endif
     return true;
@@ -1956,7 +1957,7 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
 
     item &oThisItem = u.i_at( pos );
     if( u.has_item( oThisItem ) ) {
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
         if( get_option<bool>( "ANDROID_INVENTORY_AUTOADD" ) ) {
             add_key_to_quick_shortcuts( oThisItem.invlet, "INVENTORY", false );
         }
@@ -1998,7 +1999,7 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
         addentry( 'T', pgettext( "action", "take off" ), u.rate_action_takeoff( oThisItem ) );
         addentry( 'd', pgettext( "action", "drop" ), rate_drop_item );
         addentry( 'U', pgettext( "action", "unload" ), u.rate_action_unload( oThisItem ) );
-        addentry( 'r', pgettext( "action", "reload" ), u.rate_action_reload( oThisItem ) );
+        addentry( 'r', pgettext( "action", "reload_item" ), u.rate_action_reload( oThisItem ) );
         addentry( 'p', pgettext( "action", "part reload" ), u.rate_action_reload( oThisItem ) );
         addentry( 'm', pgettext( "action", "mend" ), u.rate_action_mend( oThisItem ) );
         addentry( 'D', pgettext( "action", "disassemble" ), u.rate_action_disassemble( oThisItem ) );
@@ -2178,7 +2179,7 @@ bool game::handle_mouseview( input_context &ctxt, std::string &action )
     return true;
 }
 
-#ifdef TILES
+#if defined(TILES)
 void rescale_tileset( int size );
 #endif
 
@@ -2236,7 +2237,8 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "read" );
     ctxt.register_action( "wield" );
     ctxt.register_action( "pick_style" );
-    ctxt.register_action( "reload" );
+    ctxt.register_action( "reload_item" );
+    ctxt.register_action( "reload_weapon" );
     ctxt.register_action( "unload" );
     ctxt.register_action( "throw" );
     ctxt.register_action( "fire" );
@@ -2262,7 +2264,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "whitelist_enemy" );
     ctxt.register_action( "save" );
     ctxt.register_action( "quicksave" );
-#ifndef RELEASE
+#if !defined(RELEASE)
     ctxt.register_action( "quickload" );
 #endif
     ctxt.register_action( "quit" );
@@ -2286,7 +2288,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "debug_mode" );
     ctxt.register_action( "zoom_out" );
     ctxt.register_action( "zoom_in" );
-#ifndef __ANDROID__
+#if !defined(__ANDROID__)
     ctxt.register_action( "toggle_fullscreen" );
 #endif
     ctxt.register_action( "toggle_pixel_minimap" );
@@ -2574,7 +2576,7 @@ void game::load( const save_t &name )
     read_from_file_optional( worldpath + name.base_path() + ".log",
                              std::bind( &player::load_memorial_file, &u, _1 ) );
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
     read_from_file_optional( worldpath + name.base_path() + ".shortcuts",
                              std::bind( &game::load_shortcuts, this, _1 ) );
 #endif
@@ -2706,6 +2708,9 @@ void game::reset_npc_dispositions()
 {
     for( auto elem : follower_ids ) {
         std::shared_ptr<npc> npc_to_get = overmap_buffer.find_npc( elem );
+        if( !npc_to_get )  {
+            continue;
+        }
         npc *npc_to_add = npc_to_get.get();
         npc_to_add->chatbin.missions.clear();
         npc_to_add->chatbin.missions_assigned.clear();
@@ -2771,14 +2776,14 @@ bool game::save_player_data()
     const bool saved_log = write_to_file( playerfile + ".log", [&]( std::ostream & fout ) {
         fout << u.dump_memorial();
     }, _( "player memorial" ) );
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
     const bool saved_shortcuts = write_to_file( playerfile + ".shortcuts", [&]( std::ostream & fout ) {
         save_shortcuts( fout );
     }, _( "quick shortcuts" ) );
 #endif
 
     return saved_data && saved_map_memory && saved_weather && saved_log
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
            && saved_shortcuts
 #endif
            ;
@@ -2886,7 +2891,8 @@ void game::write_memorial_file( std::string sLastWords )
 
 void game::debug()
 {
-    int action = uilist( _( "Debug Functions - Using these is CHEATING!" ), {
+    int action = uilist(
+    _( "Debug Functions - Using these will cheat not only the game, but yourself.  You won't grow. You won't improve.  Taking this shortcut will gain you nothing. Your victory will be hollow.  Nothing will be risked and nothing will be gained." ), {
         _( "Wish for an item" ),                // 0
         _( "Teleport - Short Range" ),          // 1
         _( "Teleport - Long Range" ),           // 2
@@ -2991,7 +2997,16 @@ void game::debug()
             }
 
             add_msg( m_info, _( "(you: %d:%d)" ), u.posx(), u.posy() );
-
+            std::string stom =
+                _( "Stomach Contents: %d ml / %d ml kCal: %d, Water: %d ml" );
+            add_msg( m_info, stom.c_str(), units::to_milliliter( u.stomach.contains() ),
+                     units::to_milliliter( u.stomach.capacity() ), u.stomach.get_calories(),
+                     units::to_milliliter( u.stomach.get_water() ), u.get_hunger() );
+            stom = _( "Guts Contents: %d ml / %d ml kCal: %d, Water: %d ml\nHunger: %d, Thirst: %d, kCal: %d / %d" );
+            add_msg( m_info, stom.c_str(), units::to_milliliter( u.guts.contains() ),
+                     units::to_milliliter( u.guts.capacity() ), u.guts.get_calories(),
+                     units::to_milliliter( u.guts.get_water() ), u.get_hunger(), u.get_thirst(), u.get_stored_kcal(),
+                     u.get_healthy_kcal() );
             disp_NPCs();
             break;
         }
@@ -3179,11 +3194,12 @@ void game::debug()
         break;
 
         case 24: {
-#ifdef TILES
+#if defined(TILES)
+            // *INDENT-OFF*
             const point offset {
                 POSX - u.posx() + u.view_offset.x,
                 POSY - u.posy() + u.view_offset.y
-            };
+            }; // *INDENT-ON*
             draw_ter();
             auto sounds_to_draw = sounds::get_monster_sounds();
             for( const auto &sound : sounds_to_draw.first ) {
@@ -3196,7 +3212,7 @@ void game::debug()
             draw_panels();
             inp_mngr.wait_for_any_key();
 #else
-            popup( _( "This binary was not compiled with tiles support." ) );
+                popup( _( "This binary was not compiled with tiles support." ) );
 #endif
         }
         break;
@@ -3417,6 +3433,9 @@ void game::disp_NPC_epilogues()
     // TODO: This search needs to be expanded to all NPCs
     for( auto elem : follower_ids ) {
         std::shared_ptr<npc> npc_to_get = overmap_buffer.find_npc( elem );
+        if( !npc_to_get ) {
+            continue;
+        }
         npc *guy = npc_to_get.get();
         epi.random_by_group( guy->male ? "male" : "female" );
         std::vector<std::string> txt;
@@ -3657,7 +3676,7 @@ void game::draw_pixel_minimap( const catacurses::window &w )
 {
     w_pixel_minimap = w;
     // Make no-op if not TILES build
-#ifdef TILES
+#if defined(TILES)
     // Force a refresh of the pixel minimap.
     // only do so if it is in use
     if( pixel_minimap_option && w_pixel_minimap ) {
@@ -3798,7 +3817,7 @@ void game::draw_veh_dir_indicator( bool next )
     if( const cata::optional<tripoint> indicator_offset = get_veh_dir_indicator_location( next ) ) {
         auto col = next ? c_white : c_dark_gray;
         mvwputch( w_terrain, POSY + indicator_offset->y - u.view_offset.y,
-                  POSX + indicator_offset->x - u.view_offset.x, col, 'X' );
+                  POSX + indicator_offset->x - u.view_offset.x - g->sidebar_offset.x, col, 'X' );
     }
 }
 
@@ -3931,7 +3950,7 @@ void game::draw_minimap()
                 ter_sym = "c";
             } else {
                 const oter_id &cur_ter = overmap_buffer.ter( omx, omy, get_levz() );
-                ter_sym = cur_ter->get_sym();
+                ter_sym = cur_ter->get_symbol();
                 if( overmap_buffer.is_explored( omx, omy, get_levz() ) ) {
                     ter_color = c_dark_gray;
                 } else {
@@ -4200,7 +4219,7 @@ std::vector<monster *> game::get_fishable( int distance, const tripoint &fish_po
 void game::mon_info( const catacurses::window &w, int hor_padding )
 {
     const int width = getmaxx( w ) - 2 * hor_padding;
-    const int maxheight = getmaxy( w ) - hor_padding;
+    const int maxheight = getmaxy( w );
 
     const int startrow = 0;
 
@@ -4678,6 +4697,9 @@ void game::overmap_npc_move()
     // for now just processing NPC followers on travelling missions
     for( auto &elem : get_follower_list() ) {
         std::shared_ptr<npc> npc_to_get = overmap_buffer.find_npc( elem );
+        if( !npc_to_get ) {
+            continue;
+        }
         npc *npc_to_add = npc_to_get.get();
         if( ( !npc_to_add->is_active() || rl_dist( u.pos(), npc_to_add->pos() ) > SEEX * 2 ) &&
             npc_to_add->mission == NPC_MISSION_TRAVELLING ) {
@@ -4698,7 +4720,7 @@ void game::overmap_npc_move()
                 sm_tri = omt_to_sm_copy( next_point );
                 elem->omt_path.clear();
             } else if( path.empty() ) {
-                add_msg( m_info, _( "From your two-way radio you hear %s say: 'Sorry Boss can't make it there!'" ),
+                add_msg( m_info, _( "%s can't reach their destination" ),
                          elem->disp_name() );
             }
             elem->travel_overmap( sm_tri );
@@ -5530,13 +5552,11 @@ bool game::revive_corpse( const tripoint &p, item &it )
     critter.init_from_item( it );
     if( critter.get_hp() < 1 ) {
         // Failed reanimation due to corpse being too burned
-        it.active = false;
         return false;
     }
     if( it.has_flag( "FIELD_DRESS" ) || it.has_flag( "FIELD_DRESS_FAILED" ) ||
         it.has_flag( "QUARTERED" ) ) {
         // Failed reanimation due to corpse being butchered
-        it.active = false;
         return false;
     }
 
@@ -5564,6 +5584,79 @@ bool game::revive_corpse( const tripoint &p, item &it )
     return ret;
 }
 
+void game::save_cyborg( item *cyborg, const tripoint couch_pos, player &installer )
+{
+    float adjusted_skill = installer.bionics_adjusted_skill( skill_firstaid,
+                           skill_computer,
+                           skill_electronics,
+                           -1 );
+
+    int damage = cyborg->damage();
+    int dmg_lvl = cyborg->damage_level( 4 );
+    int difficulty = 12;
+
+    if( damage != 0 ) {
+
+        popup( _( "WARNING: Patient's body is damaged.  Difficulty of the procedure is increased by %s." ),
+               dmg_lvl );
+
+        difficulty += dmg_lvl;// damage of the cyborg increases difficulty
+    }
+
+    int chance_of_success = bionic_manip_cos( adjusted_skill, true, difficulty );
+    int success = chance_of_success - rng( 1, 100 ) ;
+
+    if( !g->u.query_yn(
+            _( "WARNING: %i percent chance of SEVERE damage to all body parts!  Continue anyway?" ),
+            100 - static_cast<int>( chance_of_success ) ) ) {
+        return;
+    }
+
+    if( success > 0 ) {
+        add_msg( m_good, _( "Successfully removed Personality override." ) );
+        add_msg( m_bad, _( "Autodoc immediately destroys the CBM upon removal." ) );
+
+        m.i_rem( couch_pos, cyborg );
+
+        const string_id<npc_template> npc_cyborg( "cyborg_rescued" );
+        std::shared_ptr<npc> tmp = std::make_shared<npc>();
+        tmp->normalize();
+        tmp->load_npc_template( npc_cyborg );
+        tmp->spawn_at_precise( { get_levx(), get_levy() }, couch_pos );
+        overmap_buffer.insert_npc( tmp );
+        tmp->hurtall( dmg_lvl * 10, nullptr );
+        tmp->add_effect( effect_downed, rng( 1_turns, 4_turns ), num_bp, false, 0, true );
+        load_npcs();
+
+    } else {
+        const int failure_level = static_cast<int>( sqrt( abs( success ) * 4.0 * difficulty /
+                                  adjusted_skill ) );
+        const int fail_type = std::min( 5, failure_level );
+        switch( fail_type ) {
+            case 1:
+            case 2:
+                add_msg( m_info, _( "The removal fails." ) );
+                add_msg( m_bad, _( "The body is damaged." ) );
+                cyborg->set_damage( damage + 1000 );
+                break;
+            case 3:
+            case 4:
+                add_msg( m_info, _( "The removal fails badly." ) );
+                add_msg( m_bad, _( "The body is badly damaged!" ) );
+                cyborg->set_damage( damage + 2000 );
+                break;
+            case 5:
+                add_msg( m_info, _( "The removal is a catastrophe." ) );
+                add_msg( m_bad, _( "The body is destroyed!" ) );
+                m.i_rem( couch_pos, cyborg );
+                break;
+            default:
+                break;
+        }
+
+    }
+
+}
 static void make_active( item_location loc )
 {
     switch( loc.where() ) {
@@ -5964,11 +6057,13 @@ void game::examine()
     if( !examp_ ) {
         return;
     }
+    u.manual_examine = true;
     // redraw terrain to erase 'examine' window
     draw_ter();
     wrefresh( w_terrain );
     draw_panels();
     examine( *examp_ );
+    u.manual_examine = false;
 }
 
 const std::string get_fire_fuel_string( const tripoint &examp )
@@ -6653,7 +6748,7 @@ void game::zones_manager()
         mvwprintz( w_zones_info, 3, 2, c_white, _( "Select first point." ) );
         wrefresh( w_zones_info );
 
-        tripoint center = u.pos() + u.view_offset + sidebar_offset;
+        tripoint center = u.pos() + u.view_offset;
 
         const look_around_result first = look_around( w_zones_info, center, center, false, true, false );
         if( first.position )
@@ -6661,6 +6756,7 @@ void game::zones_manager()
             mvwprintz( w_zones_info, 3, 2, c_white, _( "Select second point." ) );
             wrefresh( w_zones_info );
 
+            center = center - sidebar_offset;
             const look_around_result second = look_around( w_zones_info, center, *first.position, true, true,
                     false );
             if( second.position ) {
@@ -6938,7 +7034,7 @@ void game::zones_manager()
             if( blink ) {
                 //draw marked area
                 tripoint offset = tripoint( offset_x, offset_y, 0 ); //ASCII
-#ifdef TILES
+#if defined(TILES)
                 if( use_tiles ) {
                     offset = tripoint_zero; //TILES
                 } else {
@@ -6949,7 +7045,7 @@ void game::zones_manager()
                 draw_zones( start, end, offset );
             } else {
                 //clear marked area
-#ifdef TILES
+#if defined(TILES)
                 if( !use_tiles ) {
 #endif
                     for( int iY = start.y; iY <= end.y; ++iY ) {
@@ -6970,7 +7066,7 @@ void game::zones_manager()
                             }
                         }
                     }
-#ifdef TILES
+#if defined(TILES)
                 }
 #endif
             }
@@ -7041,10 +7137,15 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
 
     temp_exit_fullscreen();
 
+    center = center + sidebar_offset;
+
     const int offset_x = ( u.posx() + u.view_offset.x ) - getmaxx( w_terrain ) / 2;
     const int offset_y = ( u.posy() + u.view_offset.y ) - getmaxy( w_terrain ) / 2;
 
     tripoint lp = start_point; // cursor
+    if( !has_first_point ) {
+        lp = start_point - sidebar_offset;
+    }
     int &lx = lp.x;
     int &ly = lp.y;
     int &lz = lp.z;
@@ -7058,10 +7159,22 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
 
     bool bNewWindow = false;
     if( !w_info ) {
+        int panel_width = panel_manager::get_manager().get_current_layout().begin()->get_width();
+
+        // Set the examine window to a bit smaller than the current minimap size, with a bit less to show some above it.
+        // Hopefully the player has the minimap at or close to the bottom.
+        int height = TERMY - ( catacurses::getmaxy( w_pixel_minimap ) + 11 );
+
+        // If particularly small, base height on panel width irrespective of other elements.
+        // Value here is attempting to get a square-ish result assuming 1x2 proportioned font.
+        if( height < panel_width / 2 ) {
+            height = panel_width / 2;
+        }
+
         int la_y = 0;
-        int la_x = TERMX - 32;
-        int la_h = 16;
-        int la_w = 32;
+        int la_x = TERMX - panel_width;
+        int la_h = height;
+        int la_w = panel_width;
         w_info = catacurses::newwin( la_h, la_w, la_y, la_x );
         bNewWindow = true;
     }
@@ -7092,6 +7205,8 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
+    ctxt.register_action( "zoom_out" );
+    ctxt.register_action( "zoom_in" );
 
     const int old_levz = get_levz();
 
@@ -7137,7 +7252,7 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
                     const tripoint end = tripoint( std::max( dx, POSX ), std::max( dy, POSY ), lz );
 
                     tripoint offset = tripoint_zero; //ASCII/SDL
-#ifdef TILES
+#if defined(TILES)
                     if( use_tiles ) {
                         offset = tripoint( offset_x + lx - u.posx(), offset_y + ly - u.posy(), 0 ); //TILES
                     }
@@ -7154,6 +7269,7 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
 
             // redraw order: terrain, panels, look_around panel
             wrefresh( w_terrain );
+            draw_panels();
             wrefresh( w_info );
 
         }
@@ -7214,6 +7330,7 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
             lp = u.pos();
         } else if( action == "MOUSE_MOVE" ) {
             const tripoint old_lp = lp;
+            const tripoint old_center = center;
             // Maximum mouse events before a forced graphics update
             int max_consume = 10;
             do {
@@ -7222,6 +7339,28 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
                     lx = mouse_pos->x;
                     ly = mouse_pos->y;
                 }
+#if (defined TILES || defined _WIN32 || defined WINDOWS)
+                // Below we implement mouse panning. In order to make
+                // it less jerky we rate limit it by only allowing a
+                // panning move during the first iteration of this
+                // mouse move event consumption loop.
+                if( max_consume == 10 && get_option<bool>( "EDGE_SCROLL" ) ) {
+                    const input_event event = ctxt.get_raw_input();
+                    const int threshold_x = projected_window_width() / 20;
+                    const int threshold_y = projected_window_height() / 20;
+                    const int panning_speed = std::max( DEFAULT_TILESET_ZOOM / tileset_zoom, 1 );
+                    if( event.mouse_x <= threshold_x ) {
+                        center.x -= panning_speed;
+                    } else if( event.mouse_x >= projected_window_width() - threshold_x ) {
+                        center.x += panning_speed;
+                    }
+                    if( event.mouse_y <= threshold_y ) {
+                        center.y -= panning_speed;
+                    } else if( event.mouse_y >= projected_window_height() - threshold_y ) {
+                        center.y += panning_speed;
+                    }
+                }
+#endif
                 if( --max_consume == 0 ) {
                     break;
                 }
@@ -7241,7 +7380,7 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
                 } else {
                     blink = true; // Always draw blink symbols when moving cursor
                 }
-            } else if( lp == old_lp ) { // not blinking and cursor not changed
+            } else if( lp == old_lp && center == old_center ) { // not blinking and cursor not changed
                 redraw = false; // no need to redraw, so don't redraw to save CPU
             }
         } else if( cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
@@ -7261,6 +7400,14 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
             blink = !blink;
         } else if( action == "throw_blind" ) {
             result.peek_action = PA_BLIND_THROW;
+        } else if( action == "zoom_in" ) {
+            center.x = lp.x;
+            center.y = lp.y;
+            zoom_in();
+        } else if( action == "zoom_out" ) {
+            center.x = lp.x;
+            center.y = lp.y;
+            zoom_out();
         }
     } while( action != "QUIT" && action != "CONFIRM" && action != "SELECT" && action != "TRAVEL_TO" &&
              action != "throw_blind" );
@@ -7372,13 +7519,13 @@ void centerlistview( const tripoint &active_item_position )
             if( xpos < 0 ) {
                 u.view_offset.x = xpos - xOffset;
             } else {
-                u.view_offset.x = xpos - ( TERRAIN_WINDOW_WIDTH - 1 ) + xOffset;
+                u.view_offset.x = xpos - ( TERRAIN_WINDOW_WIDTH ) + xOffset;
             }
 
             if( ypos < 0 ) {
                 u.view_offset.y = ypos - yOffset;
             } else {
-                u.view_offset.y = ypos - ( TERRAIN_WINDOW_HEIGHT - 1 ) + yOffset;
+                u.view_offset.y = ypos - ( TERRAIN_WINDOW_HEIGHT ) + yOffset;
             }
         } else {
             if( xpos < 0 ) {
@@ -7405,7 +7552,7 @@ void centerlistview( const tripoint &active_item_position )
 #define MAXIMUM_ZOOM_LEVEL 4
 void game::zoom_out()
 {
-#ifdef TILES
+#if defined(TILES)
     if( tileset_zoom > MAXIMUM_ZOOM_LEVEL ) {
         tileset_zoom = tileset_zoom / 2;
     } else {
@@ -7417,7 +7564,7 @@ void game::zoom_out()
 
 void game::zoom_in()
 {
-#ifdef TILES
+#if defined(TILES)
     if( tileset_zoom == 64 ) {
         tileset_zoom = MAXIMUM_ZOOM_LEVEL;
     } else {
@@ -7429,8 +7576,8 @@ void game::zoom_in()
 
 void game::reset_zoom()
 {
-#ifdef TILES
-    tileset_zoom = 16;
+#if defined(TILES)
+    tileset_zoom = DEFAULT_TILESET_ZOOM;
     rescale_tileset( tileset_zoom );
 #endif // TILES
 }
@@ -9312,9 +9459,10 @@ void game::eat( int pos )
             return;
         } else {
             u.moves -= 400;
-            u.mod_hunger( -20 );
-            add_msg( _( "You eat the leaves from the %s." ), m.ter( u.pos() )->name() );
             m.ter_set( u.pos(), t_grass );
+            add_msg( _( "You eat the underbrush." ) );
+            item food( "underbrush", calendar::turn, 1 );
+            u.eat( food );
             return;
         }
     }
@@ -9325,8 +9473,10 @@ void game::eat( int pos )
             return;
         } else {
             u.moves -= 400;
-            add_msg( _( "You graze on the %s." ), m.ter( u.pos() )->name() );
-            u.mod_hunger( -8 );
+            add_msg( _( "You eat the grass." ) );
+            item food( item( "grass", calendar::turn, 1 ) );
+            u.eat( food );
+            m.ter_set( u.pos(), t_dirt );
             if( m.ter( u.pos() ) == t_grass_tall ) {
                 m.ter_set( u.pos(), t_grass_long );
             } else if( m.ter( u.pos() ) == t_grass_long ) {
@@ -9478,7 +9628,23 @@ void game::reload( item_location &loc, bool prompt, bool empty )
     refresh_all();
 }
 
-void game::reload( bool try_everything )
+
+// Reload something.
+void game::reload_item()
+{
+    item_location item_loc = inv_map_splice( [&]( const item & it ) {
+        return u.rate_action_reload( it ) == HINT_GOOD;
+    }, _( "Reload item" ), 1, _( "You have nothing to reload." ) );
+
+    if( !item_loc ) {
+        add_msg( _( "Never mind." ) );
+        return;
+    }
+
+    reload( item_loc );
+}
+
+void game::reload_weapon( bool try_everything )
 {
     // As a special streamlined activity, hitting reload repeatedly should:
     // Reload wielded gun
@@ -9538,16 +9704,8 @@ void game::reload( bool try_everything )
         }
         return;
     }
-    item_location item_loc = inv_map_splice( [&]( const item & it ) {
-        return u.rate_action_reload( it ) == HINT_GOOD;
-    }, _( "Reload item" ), 1, _( "You have nothing to reload." ) );
 
-    if( !item_loc ) {
-        add_msg( _( "Never mind." ) );
-        return;
-    }
-
-    reload( item_loc );
+    reload_item();
 }
 
 // Unload a container, gun, or tool
@@ -11624,7 +11782,7 @@ cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, 
                     add_msg( m_bad, _( "You descend on your vines, though leaving a part of you behind stings." ) );
                     u.mod_pain( 5 );
                     u.apply_damage( nullptr, bp_torso, 5 );
-                    u.mod_hunger( 10 );
+                    u.mod_stored_nutr( 10 );
                     u.mod_thirst( 10 );
                 } else {
                     add_msg( _( "You gingerly descend using your vines." ) );
@@ -11632,7 +11790,7 @@ cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, 
             } else {
                 add_msg( _( "You effortlessly lower yourself and leave a vine rooted for future use." ) );
                 rope_ladder = true;
-                u.mod_hunger( 10 );
+                u.mod_stored_nutr( 10 );
                 u.mod_thirst( 10 );
             }
         } else {
@@ -12391,7 +12549,7 @@ void intro()
     }
     werase( tmp );
 
-#if !(defined _WIN32 || defined WINDOWS || defined TILES)
+#if !(defined(_WIN32) || defined(TILES))
     // Check whether LC_CTYPE supports the UTF-8 encoding
     // and show a warning if it doesn't
     if( std::strcmp( nl_langinfo( CODESET ), "UTF-8" ) != 0 ) {
