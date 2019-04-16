@@ -9,6 +9,7 @@ function run_tests
     $WINE "$@" -d yes -r cata --rng-seed time $EXTRA_TEST_OPTS
 }
 
+ccache --zero-stats
 if [ -n "$CMAKE" ]
 then
     bin_path="./"
@@ -34,7 +35,7 @@ then
     [ -f "${bin_path}cata_test" ] && run_tests "${bin_path}cata_test"
     [ -f "${bin_path}cata_test-tiles" ] && run_tests "${bin_path}cata_test-tiles"
 else
-    make -j3 RELEASE=1 BACKTRACE=1 DEBUG_SYMBOLS=1 CROSS="$CROSS_COMPILATION"
+    make -j3 RELEASE=1 CCACHE=1 BACKTRACE=1 DEBUG_SYMBOLS=1 CROSS="$CROSS_COMPILATION"
     run_tests ./tests/cata_test
     if [ -n "$MODS" ]
     then
@@ -42,3 +43,4 @@ else
     fi
     build-scripts/lint-json.sh
 fi
+ccache --show-stats

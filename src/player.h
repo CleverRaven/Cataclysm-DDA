@@ -1552,6 +1552,7 @@ class player : public Character
         matype_id style_selected;
         bool keep_hands_free;
         bool reach_attacking = false;
+        bool manual_examine = false;
 
         std::vector <addiction> addictions;
 

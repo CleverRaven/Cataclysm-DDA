@@ -737,7 +737,7 @@ void player::complete_craft( item &craft )
             }
         }
 
-        if( newit.is_food() ) {
+        if( newit.has_temperature() ) {
             if( should_heat ) {
                 newit.heat_up();
             } else {
@@ -763,7 +763,7 @@ void player::complete_craft( item &craft )
             if( bp.goes_bad() ) {
                 bp.set_relative_rot( relative_rot );
             }
-            if( bp.is_food() ) {
+            if( bp.has_temperature() ) {
                 if( should_heat ) {
                     bp.heat_up();
                 } else {
@@ -831,7 +831,7 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
                     player_has.push_back( component );
                     found = true;
                 }
-                if( map_inv.has_components( type, count ) ) {
+                if( map_inv.has_components( type, count, filter ) ) {
                     map_has.push_back( component );
                     found = true;
                 }
@@ -841,7 +841,7 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
                     mixed.push_back( component );
                 }
             } else {
-                if( map_inv.has_components( type, count ) ) {
+                if( map_inv.has_components( type, count, filter ) ) {
                     map_has.push_back( component );
                     found = true;
                 }

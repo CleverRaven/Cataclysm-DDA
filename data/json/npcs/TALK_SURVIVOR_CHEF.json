@@ -1,0 +1,46 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "TALK_NC_SURVIVOR_CHEF",
+    "dynamic_line": "Hey, I didn't expect to live long enough to see another living human!",
+    "responses": [
+      { "text": "What are you doing here?", "topic": "TALK_NC_SURVIVOR_CHEF_INTRO" },
+      { "text": "Wanna get outta here?", "topic": "TALK_SUGGEST_FOLLOW" },
+      { "text": "Let's trade items.", "topic": "TALK_NONE", "effect": "start_trade" },
+      { "text": "I gotta go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_NC_SURVIVOR_CHEF_INTRO",
+    "dynamic_line": "I've been here since shit went down.  Just my luck I had to work.",
+    "responses": [
+      { "text": "Why don't you go somewhere else?", "topic": "TALK_NC_SURVIVOR_CHEF_LEAVE" },
+      { "text": "What did you do before the cataclysm?", "topic": "TALK_NC_SURVIVOR_CHEF_EXPERTISE" },
+      { "text": "Let's trade items.", "topic": "TALK_NONE", "effect": "start_trade" },
+      { "text": "I'm sorry, I gotta go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_NC_SURVIVOR_CHEF_LEAVE",
+    "dynamic_line": "Well, the dishwasher made a break for it three days after things got weird.  He was ripped to shreads before he made it to the street.  I figure this place has gotta be safer then my apartment, and at least I've got all this food here.",
+    "responses": [
+      { "text": "What did you do before the cataclysm?", "topic": "TALK_NC_SURVIVOR_CHEF_EXPERTISE" },
+      { "text": "Wanna get outta here?", "topic": "TALK_SUGGEST_FOLLOW" },
+      { "text": "Let's trade items.", "topic": "TALK_NONE", "effect": "start_trade" },
+      { "text": "I'm sorry, I gotta go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_NC_SURVIVOR_CHEF_EXPERTISE",
+    "dynamic_line": "I've been a cook since forever, this wasn't the best joint, but management was cool.",
+    "responses": [
+      { "text": "Why don't you go somewhere else?", "topic": "TALK_NC_SURVIVOR_CHEF_LEAVE" },
+      { "text": "Wanna get outta here?", "topic": "TALK_SUGGEST_FOLLOW" },
+      { "text": "Let's trade items.", "topic": "TALK_NONE", "effect": "start_trade" },
+      { "text": "I'm sorry, I gotta go.", "topic": "TALK_DONE" }
+    ]
+  }
+]
