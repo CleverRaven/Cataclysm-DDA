@@ -30,6 +30,12 @@
   },
   {
     "type": "effect_type",
+    "id": "dragging",
+    "name": [ "Dragging" ],
+    "desc": [ "AI tag for when a monsters is dragging you with it.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
     "id": "countdown",
     "name": [ "Counting Down" ],
     "desc": [ "AI tag for monster's counting down.  This is a bug if you have it." ]
