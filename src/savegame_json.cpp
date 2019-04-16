@@ -1973,7 +1973,7 @@ void item::io( Archive &archive )
     }
 
     // Activate corpses from old saves
-    if( is_corpse() ) {
+    if( is_corpse() && !active) {
         active = true;
     }
 }
