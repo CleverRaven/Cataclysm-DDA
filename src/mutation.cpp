@@ -506,7 +506,7 @@ void player::activate_mutation( const trait_id &mut )
         return;
     } else if( mut == trait_ROOTS2 ) {
         double shoe_factor = footwear_factor();
-        if( g->m.has_flag( "PLOWABLE", pos() ) && shoe_factor != 1.0 && !has_effect( effect_rooted ) ) {
+        if( g->m.has_flag( "PLOWABLE", pos() ) && shoe_factor <= 0.0 && !has_effect( effect_rooted ) ) {
             assign_activity( player_activity( activity_id( "ACT_ROOT" ), MINUTES( 5 ), -1, 0, "Rooting" ),
                              false );
         } else if( shoe_factor == 1.0 && !has_effect( effect_rooted ) ) {
@@ -516,7 +516,7 @@ void player::activate_mutation( const trait_id &mut )
         } // In addtion to making sure they're standing on soil, it will quitely reactivate if the player has not canceled the "Rooted" effect.
     } else if( mut == trait_ROOTS3 ) {
         double shoe_factor = footwear_factor();
-        if( g->m.has_flag( "PLOWABLE", pos() ) && shoe_factor != 1.0 && !has_effect( effect_rooted ) ) {
+        if( g->m.has_flag( "PLOWABLE", pos() ) && shoe_factor <= 0.0 && !has_effect( effect_rooted ) ) {
             assign_activity( player_activity( activity_id( "ACT_ROOT" ), MINUTES( 5 ), -1, 0, "Rooting" ),
                              false );
         } else if( shoe_factor == 1.0 && !has_effect( effect_rooted ) ) {
