@@ -217,8 +217,8 @@ bool check_butcher_cbm( const int roll )
     // Roll is roughly a rng(0, -3 + 1st_aid + fine_cut_quality + 1/2 electronics + small_dex_bonus)
     // Roll is reduced by corpse damage level, but to no less then 0
     add_msg( m_debug, _( "Roll = %i" ), roll );
-    add_msg( m_debug, _( "Failure chance = %f%%" ), 4.0f / ( 5.0f + roll * 1.5 ) );
-    const bool failed = x_in_y( 4, ( 5 + roll * 1.5 ) );
+    add_msg( m_debug, _( "Failure chance = %f%%" ), ( 9.0f / ( 10.0f + roll * 2.5f ) )* 100.0f );
+    const bool failed = x_in_y( 9, ( 10 + roll * 2.5 ) );
     return !failed;
 }
 
@@ -743,8 +743,9 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
         if( action == DISSECT ) {
             int roll = roll_butchery() - corpse_item->damage_level( 4 );
             roll = roll < 0 ? 0 : roll;
+            roll = std::min( entry.max, roll );
+            add_msg( m_debug, _( "Roll penalty for corpse damage = %s" ), 0 - corpse_item->damage_level( 4 ) );
             if( entry.type == "bionic" ) {
-                add_msg( m_debug, _( "Roll penalty for corpse damage = -%s" ), corpse_item->damage_level( 4 ) );
                 butcher_cbm_item( entry.drop, p.pos(), bday, roll );
             } else if( entry.type == "bionic_group" ) {
                 butcher_cbm_group( entry.drop, p.pos(), bday, roll );
