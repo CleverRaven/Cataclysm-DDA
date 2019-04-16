@@ -2718,7 +2718,7 @@ bool mattack::nurse_operate( monster *z )
     if( g->u.is_wearing( "badge_doctor" ) ||
         z->attitude_to( g->u ) == monster_attitude::MATT_FRIEND ) {
 
-        add_msg( m_info, _( "The %s doesn't seem to register you" ), z->name().c_str() );
+        add_msg( m_info, _( "The %s doesn't seem to register you." ), z->name() );
     }
 
     if( g->u.has_any_bionic() ) {
