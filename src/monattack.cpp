@@ -92,6 +92,7 @@ const efftype_id effect_dazed( "dazed" );
 const efftype_id effect_deaf( "deaf" );
 const efftype_id effect_dermatik( "dermatik" );
 const efftype_id effect_downed( "downed" );
+const efftype_id effect_dragging( "dragging" );
 const efftype_id effect_fearparalyze( "fearparalyze" );
 const efftype_id effect_fungus( "fungus" );
 const efftype_id effect_glowing( "glowing" );
@@ -2711,7 +2712,7 @@ bool mattack::nurse_assist( monster *z )
 }
 bool mattack::nurse_operate( monster *z )
 {
-    if( !within_visual_range( z, 6 ) ) {
+    if( !within_visual_range( z, 6 ) || z->has_effect( effect_dragging ) ) {
         return false;
     }
 
@@ -2724,8 +2725,26 @@ bool mattack::nurse_operate( monster *z )
     if( g->u.has_any_bionic() ) {
         add_msg( m_info, _( "The %s scans you and seems to detect your bionics." ), z->name() );
 
+        tripoint couch_pos;
+        bool found_couch = false;
+        for( const auto &couch_loc : g->m.points_in_radius( z->pos(), 10, 0 ) ) {
+            const furn_str_id couch( "f_autodoc_couch" );
+            if( g->m.furn( couch_loc ) == couch ) {
+                found_couch = true;
+                couch_pos = couch_loc;
+                break;
+            }
+        }
+        if( found_couch == false ) {
+            add_msg( m_info, _( "The %s looks for something but doesn't seem to find it." ), z->name() );
+            return;
+        }
+        grab( z );
+        if( g->u.has_effect( effect_grabbed ) ) {
+            z->add_effect( effect_dragging, 1_turns, num_bp, true );
+            z->set_dest( couch_pos );
+        }
     }
-
 }
 bool mattack::photograph( monster *z )
 {
