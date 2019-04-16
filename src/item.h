@@ -707,8 +707,8 @@ class item : public visitable<item>
 
         /** Set current item @ref rot relative to shelf life (no-op if item does not spoil) */
         void set_relative_rot( double val );
-		
-		void set_rot( time_duration val );
+
+        void set_rot( time_duration val );
 
         /**
          * Get time left to rot, ignoring fridge.
@@ -1046,7 +1046,7 @@ class item : public visitable<item>
 
         bool is_unarmed_weapon() const; //Returns true if the item should be considered unarmed
 
-		bool is_rottable() const;
+        bool is_rottable() const;
         bool has_temperature() const;
         float get_specific_heat_liquid() const;
         float get_specific_heat_solid() const;
