@@ -29,7 +29,7 @@
     "roof": "t_flat_roof",
     "trap": "tr_ledge",
     "flags": [ "TRANSPARENT", "NO_FLOOR" ],
-    "examine_action": "climb_down"
+    "examine_action": "ledge"
   },
   {
     "type": "terrain",
@@ -8133,7 +8133,7 @@
     "move_cost": 2,
     "trap": "tr_ledge",
     "flags": [ "TRANSPARENT", "NO_FLOOR" ],
-    "examine_action": "climb_down"
+    "examine_action": "ledge"
   },
   {
     "type": "terrain",
@@ -9451,7 +9451,7 @@
     "move_cost": 2,
     "trap": "tr_ledge",
     "roof": "t_flat_roof",
-    "examine_action": "climb_down",
+    "examine_action": "ledge",
     "flags": [ "TRANSPARENT", "NO_FLOOR", "INDOORS" ]
   },
   {
