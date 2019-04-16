@@ -509,7 +509,7 @@ void player::activate_mutation( const trait_id &mut )
         if( g->m.has_flag( "PLOWABLE", pos() ) && shoe_factor != 1.0 && !( has_effect( effect_rooted ) ) ) {
             assign_activity( player_activity( activity_id( "ACT_ROOT" ), MINUTES( 5 ), -1, 0, "Rooting" ),
                              false );
-        } else if( shoe_factor = 1.0 && !( has_effect( effect_rooted ) ) ) {
+        } else if( shoe_factor == 1.0 && !( has_effect( effect_rooted ) ) ) {
             add_msg( m_bad, _( "Your footwear imprisons your roots, keeping you from moving them." ) );
         } else if( !( g->m.has_flag( "PLOWABLE", pos() ) ) ) {
             add_msg( m_bad, _( "Your roots scrabble ineffectively at the unyielding surface." ) );
@@ -519,7 +519,7 @@ void player::activate_mutation( const trait_id &mut )
         if( g->m.has_flag( "PLOWABLE", pos() ) && shoe_factor != 1.0 && !( has_effect( effect_rooted ) ) ) {
             assign_activity( player_activity( activity_id( "ACT_ROOT" ), MINUTES( 5 ), -1, 0, "Rooting" ),
                              false );
-        } else if( shoe_factor = 1.0 && !( has_effect( effect_rooted ) ) ) {
+        } else if( shoe_factor == 1.0 && !( has_effect( effect_rooted ) ) ) {
             add_msg( m_bad, _( "Your footwear imprisons your roots, keeping you from moving them." ) );
         } else if( !( g->m.has_flag( "PLOWABLE", pos() ) ) ) {
             add_msg( m_bad, _( "Your roots scrabble ineffectively at the unyielding surface." ) );
