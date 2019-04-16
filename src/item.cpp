@@ -1054,22 +1054,24 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                           to_hours<int>( age() ) ) );
 
                 const item *food = is_food_container() ? &contents.front() : this;
-                if( food && food->goes_bad() ) {
-                    info.push_back( iteminfo( "BASE", _( "bday rot: " ),
+                if( is_rottable() ) {
+                    info.push_back( iteminfo( "BASE", _( "age (turns): " ),
                                               "", iteminfo::lower_is_better,
                                               to_turns<int>( food->age() ) ) );
-                    info.push_back( iteminfo( "BASE", _( "temp rot: " ),
+                    info.push_back( iteminfo( "BASE", _( "rot: " ),
                                               "", iteminfo::lower_is_better,
                                               to_turns<int>( food->rot ) ) );
-                    info.push_back( iteminfo( "BASE", space + _( "max rot: " ),
-                                              "", iteminfo::lower_is_better,
-                                              to_turns<int>( food->get_comestible()->spoils ) ) );
                     info.push_back( iteminfo( "BASE", _( "last rot: " ),
                                               "", iteminfo::lower_is_better,
                                               to_turn<int>( food->last_rot_check ) ) );
                     info.push_back( iteminfo( "BASE", _( "last temp: " ),
                                               "", iteminfo::lower_is_better,
                                               to_turn<int>( food->last_temp_check ) ) );
+                }
+				if( food->is_food() && food->goes_bad() ) {
+                    info.push_back( iteminfo( "BASE", space + _( "max rot: " ),
+                                              "", iteminfo::lower_is_better,
+                                              to_turns<int>( food->get_comestible()->spoils ) ) );
                 }
                 if( has_temperature() || is_food_container() ) {
                     info.push_back( iteminfo( "BASE", _( "Temp: " ), "", iteminfo::lower_is_better,
@@ -3018,7 +3020,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         } else if( has_flag( "HIDDEN_HALLU" ) && g->u.get_skill_level( skill_survival ) >= 5 ) {
             ret << _( " (hallucinogenic)" );
         }
-
+	}
+	if( is_rottable() ) { //if( is_food() ) { is_rottable() 
         if( item_tags.count( "DIRTY" ) ) {
             ret << _( " (dirty)" );
         } else if( rotten() ) {
@@ -3029,8 +3032,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
             ret << _( " (old)" );
         } else if( is_fresh() ) {
             ret << _( " (fresh)" );
-        }
-    }
+		}
+	}
     if( has_temperature() ) {
         if( has_flag( "HOT" ) ) {
             ret << _( " (hot)" );
@@ -3719,11 +3722,15 @@ std::set<matec_id> item::get_techniques() const
 
 bool item::goes_bad() const
 {
-    return is_food() && get_comestible()->spoils != 0_turns;
+    return ( is_food() && get_comestible()->spoils != 0_turns ) || is_corpse();
 }
 
 double item::get_relative_rot() const
 {
+	if( is_corpse() ) {
+		// Corpse "rots" in 15600 turns (24 h)
+		return rot / 15600_turns;
+	}
     return goes_bad() ? rot / get_comestible()->spoils : 0;
 }
 
@@ -3739,6 +3746,11 @@ void item::set_relative_rot( double val )
         }
         active = true;
     }
+}
+
+void item::set_rot( time_duration val )
+{
+    rot = val;
 }
 
 int item::spoilage_sort_order()
@@ -3799,7 +3811,9 @@ void item::calc_rot( const tripoint &location )
         if( is_corpse() && has_flag( "FIELD_DRESS" ) ) {
             factor = 0.75;
         }
-
+		
+		add_msg( _( "R %i" ), to_turns<int>( rot ));
+		
         // simulation of different age of food at the start of the game and good/bad storage
         // conditions by applying starting variation bonus/penalty of +/- 20% of base shelf-life
         // positive = food was produced some time before calendar::start and/or bad storage
@@ -4602,6 +4616,11 @@ bool item::is_food_container() const
 {
     return ( !contents.empty() && contents.front().is_food() ) || ( is_craft() &&
             making->create_result().is_food_container() );
+}
+
+bool item::is_rottable() const
+{
+    return ( is_food() && goes_bad() ) || is_corpse();
 }
 
 bool item::has_temperature() const
@@ -7130,12 +7149,6 @@ void item::reset_temp_check()
     last_temp_check = calendar::turn;
 }
 
-bool item::process_food( const tripoint &p )
-{
-    calc_rot( p );
-    return false;
-}
-
 void item::process_artifact( player *carrier, const tripoint & /*pos*/ )
 {
     if( !is_artifact() ) {
@@ -7546,11 +7559,10 @@ bool item::process( player *carrier, const tripoint &pos, bool activate, int tem
         }
         update_temp( temp, insulation );
     }
-
+	if( is_rottable() ) {
+		calc_rot( pos );
+	}
     if( has_flag( "FAKE_SMOKE" ) && process_fake_smoke( carrier, pos ) ) {
-        return true;
-    }
-    if( is_food() && process_food( pos ) ) {
         return true;
     }
     if( is_corpse() && process_corpse( carrier, pos ) ) {
