@@ -186,8 +186,7 @@ bool Creature::sees( const Creature &critter ) const
                 return sees( critter.pos(), critter.is_player() );
             }
             float size_modifier = 1.0;
-            switch( p->get_size() )
-            {
+            switch( p->get_size() ) {
                 case MS_TINY:
                     size_modifier = 2.0;
                     break;
