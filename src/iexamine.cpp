@@ -4599,11 +4599,13 @@ void iexamine::quern_examine( player &p, const tripoint &examp )
     if( g->m.furn( examp ) == furn_str_id( "f_water_mill" ) ) {
         if( !g->m.is_water_shallow_current( examp ) ) {
             add_msg( _( "The water mill needs to be over shallow flowing water to work." ) );
+            return;
         }
     }
     if( g->m.furn( examp ) == furn_str_id( "f_wind_mill" ) ) {
         if( g->is_sheltered( examp ) ) {
             add_msg( _( "The wind mill needs to be outside in the wind to work." ) );
+            return;
         }
     }
 
