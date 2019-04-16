@@ -31,6 +31,7 @@
       "@": "f_bed",
       "D": "f_trashcan",
       "F": "f_fridge",
+      "H": "f_sofa",
       "L": "f_locker",
       "O": "f_oven",
       "P": "f_indoor_plant",
