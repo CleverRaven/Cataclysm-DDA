@@ -1650,7 +1650,7 @@ For every `type` other then `bionic` and `bionic_group` following entries scale 
 
 
 For `type`s: `bionic` and `bionic_group` following enrties can scale the results:
-    `max` this value (in contrary to `max` for other `type`s) here corresponds to maximum butchery roll that will be passed to 
+    `max` this value (in contrary to `max` for other `type`s) corresponds to maximum butchery roll that will be passed to check_butcher_cbm() in activity_handlers.cpp; view check_butcher_cbm() to see corresponding distribution chances for roll values passed to that function
 
 ### Furniture
 
