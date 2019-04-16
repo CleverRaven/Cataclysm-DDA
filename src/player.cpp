@@ -1819,8 +1819,7 @@ int player::run_cost( int base_cost, bool diag ) const
         // Rationale: Average running speed is 2x walking speed. (NOT sprinting)
         stamina_modifier *= 2.0;
     }
-    if( move_mode == "crouch" )
-    {
+    if( move_mode == "crouch" ) {
         stamina_modifier *= 0.5;
     }
     movecost /= stamina_modifier;
