@@ -9259,7 +9259,25 @@
     "symbol": "^",
     "color": [ "brown" ],
     "move_cost": 2,
-    "flags": [ "TRANSPARENT" ]
+    "bash": {
+      "str_min": 4,
+      "str_max": 40,
+      "ter_set": "t_rock_floor",
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "items": [
+        { "item": "pebble", "count": [ 1, 3 ] },
+        { "item": "sharp_rock", "count": [ 0, 1 ] }
+      ]
+    },
+    "deconstruct": {
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "pebble", "count": [ 2, 6 ] },
+        { "item": "sharp_rock", "count": [ 1, 3 ] }
+      ]
+    },
+    "flags": [ "BASHABLE", "TRANSPARENT" ]
   },
   {
     "id": "t_railroad_track",
@@ -9268,8 +9286,28 @@
     "symbol": "X",
     "color": [ "cyan" ],
     "move_cost": 3,
+    "bash": {
+      "str_min": 60,
+      "str_max": 210,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 12 ] }
+      ]
+    },
+    "deconstruct": {
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 12 ] }
+      ]
+    },
     "connects_to": "RAIL",
-    "flags": [ "TRANSPARENT" ]
+    "flags": [ "BASHABLE", "TRANSPARENT" ]
   },
   {
     "id": "t_railroad_track_h",
@@ -9278,8 +9316,28 @@
     "symbol": "X",
     "color": [ "cyan" ],
     "move_cost": 3,
+    "bash": {
+      "str_min": 60,
+      "str_max": 210,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 12 ] }
+      ]
+    },
+    "deconstruct": {
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 12 ] }
+      ]
+    },
     "connects_to": "RAIL",
-    "flags": [ "TRANSPARENT" ]
+    "flags": [ "BASHABLE", "TRANSPARENT" ]
   },
   {
     "id": "t_railroad_track_v",
@@ -9288,8 +9346,28 @@
     "symbol": "X",
     "color": [ "cyan" ],
     "move_cost": 3,
+    "bash": {
+      "str_min": 60,
+      "str_max": 210,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 12 ] }
+      ]
+    },
+    "deconstruct": {
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 12 ] }
+      ]
+    },
     "connects_to": "RAIL",
-    "flags": [ "TRANSPARENT" ]
+    "flags": [ "BASHABLE", "TRANSPARENT" ]
   },
   {
     "id": "t_railroad_track_d",
@@ -9298,8 +9376,28 @@
     "symbol": "X",
     "color": [ "cyan" ],
     "move_cost": 3,
+    "bash": {
+      "str_min": 60,
+      "str_max": 210,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 12 ] }
+      ]
+    },
+    "deconstruct": {
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 12 ] }
+      ]
+    },
     "connects_to": "RAIL",
-    "flags": [ "TRANSPARENT" ]
+    "flags": [ "BASHABLE", "TRANSPARENT" ]
   },
   {
     "id": "t_railroad_track_d1",
@@ -9308,8 +9406,28 @@
     "symbol": "X",
     "color": [ "cyan" ],
     "move_cost": 3,
+    "bash": {
+      "str_min": 60,
+      "str_max": 210,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 12 ] }
+      ]
+    },
+    "deconstruct": {
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 12 ] }
+      ]
+    },
     "connects_to": "RAIL",
-    "flags": [ "TRANSPARENT" ]
+    "flags": [ "BASHABLE", "TRANSPARENT" ]
   },
   {
     "id": "t_railroad_track_d2",
@@ -9318,8 +9436,28 @@
     "symbol": "X",
     "color": [ "cyan" ],
     "move_cost": 3,
+    "bash": {
+      "str_min": 60,
+      "str_max": 210,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 12 ] }
+      ]
+    },
+    "deconstruct": {
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 12 ] }
+      ]
+    },
     "connects_to": "RAIL",
-    "flags": [ "TRANSPARENT" ]
+    "flags": [ "BASHABLE", "TRANSPARENT" ]
   },
   {
     "id": "t_railroad_tie",
@@ -9328,8 +9466,25 @@
     "symbol": "#",
     "color": [ "dark_gray_yellow" ],
     "move_cost": 3,
+    "bash": {
+      "str_min": 10,
+      "str_max": 120,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "splinter", "count": [ 10, 20 ] }
+      ]
+    },
+    "deconstruct": {
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "log", "count": [ 0, 1 ] },
+        { "item": "splinter", "count": [ 10, 20 ] }
+      ]
+    },
     "connects_to": "RAIL",
-    "flags": [ "TRANSPARENT", "FLAT" ]
+    "flags": [ "BASHABLE", "TRANSPARENT" ]
   },
   {
     "id": "t_railroad_tie_h",
@@ -9338,8 +9493,25 @@
     "symbol": "#",
     "color": [ "dark_gray_yellow" ],
     "move_cost": 3,
+    "bash": {
+      "str_min": 10,
+      "str_max": 120,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "splinter", "count": [ 10, 20 ] }
+      ]
+    },
+    "deconstruct": {
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "log", "count": [ 0, 1 ] },
+        { "item": "splinter", "count": [ 10, 20 ] }
+      ]
+    },
     "connects_to": "RAIL",
-    "flags": [ "TRANSPARENT", "FLAT" ]
+    "flags": [ "BASHABLE", "TRANSPARENT" ]
   },
   {
     "id": "t_railroad_tie_v",
@@ -9348,8 +9520,25 @@
     "symbol": "#",
     "color": [ "dark_gray_yellow" ],
     "move_cost": 3,
+    "bash": {
+      "str_min": 10,
+      "str_max": 120,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "splinter", "count": [ 10, 20 ] }
+      ]
+    },
+    "deconstruct": {
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "log", "count": [ 0, 1 ] },
+        { "item": "splinter", "count": [ 10, 20 ] }
+      ]
+    },
     "connects_to": "RAIL",
-    "flags": [ "TRANSPARENT", "FLAT" ]
+    "flags": [ "BASHABLE", "TRANSPARENT" ]
   },
   {
     "id": "t_railroad_tie_d",
@@ -9358,8 +9547,25 @@
     "symbol": "#",
     "color": [ "dark_gray_yellow" ],
     "move_cost": 3,
+    "bash": {
+      "str_min": 10,
+      "str_max": 120,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "splinter", "count": [ 10, 20 ] }
+      ]
+    },
+    "deconstruct": {
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "log", "count": [ 0, 1 ] },
+        { "item": "splinter", "count": [ 10, 20 ] }
+      ]
+    },
     "connects_to": "RAIL",
-    "flags": [ "TRANSPARENT", "FLAT" ]
+    "flags": [ "BASHABLE", "TRANSPARENT" ]
   },
   {
     "id": "t_railroad_track_on_tie",
@@ -9368,8 +9574,31 @@
     "symbol": "X",
     "color": [ "cyan" ],
     "move_cost": 3,
+    "bash": {
+      "str_min": 60,
+      "str_max": 210,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 12 ] },
+        { "item": "splinter", "count": [ 10, 20 ] }
+      ]
+    },
+    "deconstruct": {
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 12 ] },
+        { "item": "log", "count": [ 0, 1 ] },
+        { "item": "splinter", "count": [ 10, 20 ] }
+      ]
+    },
     "connects_to": "RAIL",
-    "flags": [ "TRANSPARENT" ]
+    "flags": [ "BASHABLE", "TRANSPARENT" ]
   },
   {
     "id": "t_railroad_track_h_on_tie",
@@ -9378,8 +9607,31 @@
     "symbol": "X",
     "color": [ "cyan" ],
     "move_cost": 3,
+    "bash": {
+      "str_min": 60,
+      "str_max": 210,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 12 ] },
+        { "item": "splinter", "count": [ 10, 20 ] }
+      ]
+    },
+    "deconstruct": {
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 12 ] },
+        { "item": "log", "count": [ 0, 1 ] },
+        { "item": "splinter", "count": [ 10, 20 ] }
+      ]
+    },
     "connects_to": "RAIL",
-    "flags": [ "TRANSPARENT" ]
+    "flags": [ "BASHABLE", "TRANSPARENT" ]
   },
   {
     "id": "t_railroad_track_v_on_tie",
@@ -9388,8 +9640,31 @@
     "symbol": "X",
     "color": [ "cyan" ],
     "move_cost": 3,
+    "bash": {
+      "str_min": 60,
+      "str_max": 210,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 12 ] },
+        { "item": "splinter", "count": [ 10, 20 ] }
+      ]
+    },
+    "deconstruct": {
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 12 ] },
+        { "item": "log", "count": [ 0, 1 ] },
+        { "item": "splinter", "count": [ 10, 20 ] }
+      ]
+    },
     "connects_to": "RAIL",
-    "flags": [ "TRANSPARENT" ]
+    "flags": [ "BASHABLE", "TRANSPARENT" ]
   },
   {
     "id": "t_railroad_track_d_on_tie",
@@ -9398,8 +9673,31 @@
     "symbol": "X",
     "color": [ "cyan" ],
     "move_cost": 3,
+    "bash": {
+      "str_min": 60,
+      "str_max": 210,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 12 ] },
+        { "item": "splinter", "count": [ 10, 20 ] }
+      ]
+    },
+    "deconstruct": {
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 12 ] },
+        { "item": "log", "count": [ 0, 1 ] },
+        { "item": "splinter", "count": [ 10, 20 ] }
+      ]
+    },
     "connects_to": "RAIL",
-    "flags": [ "TRANSPARENT" ]
+    "flags": [ "BASHABLE", "TRANSPARENT" ]
   },
   {
     "id": "t_floor_waxed_y",
@@ -9478,7 +9776,25 @@
     "symbol": "#",
     "color": [ "dark_gray_yellow" ],
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAT" ]
+    "bash": {
+      "str_min": 10,
+      "str_max": 120,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "splinter", "count": [ 10, 20 ] }
+      ]
+    },
+    "deconstruct": {
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "log", "count": [ 0, 1 ] },
+        { "item": "splinter", "count": [ 10, 20 ] }
+      ]
+    },
+    "connects_to": "RAIL",
+    "flags": [ "BASHABLE", "TRANSPARENT" ]
   },
   {
     "id": "t_railroad_tie_h",
@@ -9487,7 +9803,25 @@
     "symbol": "-",
     "color": [ "dark_gray_yellow" ],
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAT" ]
+    "bash": {
+      "str_min": 10,
+      "str_max": 120,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "splinter", "count": [ 10, 20 ] }
+      ]
+    },
+    "deconstruct": {
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "log", "count": [ 0, 1 ] },
+        { "item": "splinter", "count": [ 10, 20 ] }
+      ]
+    },
+    "connects_to": "RAIL",
+    "flags": [ "BASHABLE", "TRANSPARENT" ]
   },
   {
     "id": "t_railroad_tie_v",
@@ -9496,7 +9830,25 @@
     "symbol": "|",
     "color": [ "dark_gray" ],
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAT" ]
+    "bash": {
+      "str_min": 10,
+      "str_max": 120,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "splinter", "count": [ 10, 20 ] }
+      ]
+    },
+    "deconstruct": {
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "log", "count": [ 0, 1 ] },
+        { "item": "splinter", "count": [ 10, 20 ] }
+      ]
+    },
+    "connects_to": "RAIL",
+    "flags": [ "BASHABLE", "TRANSPARENT" ]
   },
   {
     "id": "t_railroad_tie_d1",
@@ -9505,7 +9857,25 @@
     "symbol": "/",
     "color": [ "dark_gray_yellow" ],
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAT" ]
+    "bash": {
+      "str_min": 10,
+      "str_max": 120,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "splinter", "count": [ 10, 20 ] }
+      ]
+    },
+    "deconstruct": {
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "log", "count": [ 0, 1 ] },
+        { "item": "splinter", "count": [ 10, 20 ] }
+      ]
+    },
+    "connects_to": "RAIL",
+    "flags": [ "BASHABLE", "TRANSPARENT" ]
   },
   {
     "id": "t_railroad_tie_d2",
@@ -9514,7 +9884,25 @@
     "symbol": "\\",
     "color": [ "dark_gray_yellow" ],
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAT" ]
+    "bash": {
+      "str_min": 10,
+      "str_max": 120,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "splinter", "count": [ 10, 20 ] }
+      ]
+    },
+    "deconstruct": {
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "log", "count": [ 0, 1 ] },
+        { "item": "splinter", "count": [ 10, 20 ] }
+      ]
+    },
+    "connects_to": "RAIL",
+    "flags": [ "BASHABLE", "TRANSPARENT" ]
   },
   {
     "id": "t_railroad_crossing_signal",
