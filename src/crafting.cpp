@@ -737,7 +737,7 @@ void player::complete_craft( item &craft )
             }
         }
 
-        if( newit.is_food() ) {
+        if( newit.has_temperature() ) {
             if( should_heat ) {
                 newit.heat_up();
             } else {
@@ -763,7 +763,7 @@ void player::complete_craft( item &craft )
             if( bp.goes_bad() ) {
                 bp.set_relative_rot( relative_rot );
             }
-            if( bp.is_food() ) {
+            if( bp.has_temperature() ) {
                 if( should_heat ) {
                     bp.heat_up();
                 } else {

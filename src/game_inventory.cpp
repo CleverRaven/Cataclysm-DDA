@@ -70,6 +70,14 @@ static item_location inv_internal( player &u, const inventory_selector_preset &p
     inv_s.set_hint( hint );
     inv_s.set_display_stats( false );
 
+    std::pair<size_t, size_t> init_pair;
+    bool init_selection = false;
+
+    if( u.has_activity( activity_id( "ACT_EAT_MENU" ) ) && u.activity.values.size() >= 2 ) {
+        init_pair.first = u.activity.values[0];
+        init_pair.second = u.activity.values[1];
+        init_selection = true;
+    }
 
     do {
         u.inv.restack( u );
@@ -77,6 +85,12 @@ static item_location inv_internal( player &u, const inventory_selector_preset &p
         inv_s.clear_items();
         inv_s.add_character_items( u );
         inv_s.add_nearby_items( radius );
+
+        if( init_selection ) {
+            inv_s.update();
+            inv_s.select_position( init_pair );
+            init_selection = false;
+        }
 
         if( inv_s.empty() ) {
             const std::string msg = none_message.empty()
@@ -91,6 +105,13 @@ static item_location inv_internal( player &u, const inventory_selector_preset &p
         if( inv_s.keep_open ) {
             inv_s.keep_open = false;
             continue;
+        }
+
+        if( u.has_activity( activity_id( "ACT_EAT_MENU" ) ) ) {
+            u.activity.values.clear();
+            init_pair = inv_s.get_selection_position();
+            u.activity.values.push_back( init_pair.first );
+            u.activity.values.push_back( init_pair.second );
         }
 
         return location;
@@ -1051,6 +1072,32 @@ item_location game_menus::inv::salvage( player &p, const salvage_actor *actor )
     return inv_internal( p, salvage_inventory_preset( actor ),
                          _( "Cut up what?" ), 1,
                          _( "You have nothing to cut up." ) );
+}
+
+class repair_inventory_preset: public inventory_selector_preset
+{
+    public:
+        repair_inventory_preset( const repair_item_actor *actor, const item *main_tool ) :
+            inventory_selector_preset(), actor( actor ), main_tool( main_tool ) {
+        }
+
+        bool is_shown( const item_location &loc ) const override {
+            return loc->made_of_any( actor->materials ) && !loc->count_by_charges() && !loc->is_firearm() &&
+                   &*loc != main_tool;
+        }
+
+    private:
+        const repair_item_actor *actor;
+        const item *main_tool;
+};
+
+item_location game_menus::inv::repair( player &p, const repair_item_actor *actor,
+                                       const item *main_tool )
+{
+    return inv_internal( p, repair_inventory_preset( actor, main_tool ),
+                         _( "Repair what?" ), 1,
+                         string_format( _( "You have no items that could be repaired with a %s." ),
+                                        main_tool->type_name( 1 ) ) );
 }
 
 item_location game_menus::inv::saw_barrel( player &p, item &tool )

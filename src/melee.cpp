@@ -394,8 +394,6 @@ void player::melee_attack( Creature &t, bool allow_special, const matec_id &forc
             }
         }
 
-        t.on_dodge( this, get_melee() );
-
         // Practice melee and relevant weapon skill (if any) except when using CQB bionic
         if( !has_active_bionic( bio_cqb ) ) {
             melee_train( *this, 2, 5, cur_weapon );

@@ -200,7 +200,6 @@ void mdeath::splatter( monster &z )
         // Set corpse to damage that aligns with being pulped
         corpse.set_damage( 4000 );
         corpse.set_flag( "GIBBED" );
-        corpse.active = false;
         if( z.has_effect( effect_no_ammo ) ) {
             corpse.set_var( "no_ammo", "no_ammo" );
         }
@@ -796,6 +795,11 @@ void mdeath::broken_ammo( monster &z )
 void make_mon_corpse( monster &z, int damageLvl )
 {
     item corpse = item::make_corpse( z.type->id, calendar::turn, z.unique_name );
+    // All corpses are at 37 C at time of death
+    // This may not be true but anything better would be way too complicated
+    if( z.is_warm() ) {
+        corpse.set_item_temperature( 310.15 );
+    }
     corpse.set_damage( damageLvl );
     if( z.has_effect( effect_pacified ) && z.type->in_species( ZOMBIE ) ) {
         // Pacified corpses have a chance of becoming unpacified when regenerating.

@@ -882,8 +882,10 @@ class npc : public player
         // #############   VALUES   ################
 
         npc_class_id myclass; // What's our archetype?
-        std::string idz; // A temp variable used to inform the game which npc json to use as a template
-        mission_type_id miss_id; // A temp variable used to link to the correct mission
+        // A temp variable used to inform the game which npc json to use as a template
+        std::string idz;
+        // A temp variable used to link to the correct mission
+        std::vector<mission_type_id> miss_ids;
 
     private:
 

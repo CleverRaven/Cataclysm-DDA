@@ -465,6 +465,7 @@ Condition | Type | Description
 "npc_service" | int | `true` if the NPC does not have the "currently_busy" effect and the player character has at least npc_service cash available.  Useful to check if the player character can hire an NPC to perform a task that would take time to complete.  Functionally, this is identical to `"and": [ { "not": { "npc_has_effect": "currently_busy" } }, { "u_has_cash": service_cost } ]`
 "npc_allies" | int | `true` if the player character has at least `npc_allies` number of NPC allies.
 "npc_following" | simple string | `true` if the NPC is following the player character.
+"is_by_radio" | simple string | `true` if the player is talking to the NPC over a radio.
 
 #### NPC only conditions
 
