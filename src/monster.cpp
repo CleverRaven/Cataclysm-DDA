@@ -1280,10 +1280,6 @@ void monster::melee_attack( Creature &target, float accuracy )
         }
     }
 
-    if( hitspread < 0 && !is_hallucination() ) {
-        target.on_dodge( this, get_melee() );
-    }
-
     target.check_dead_state();
 
     if( is_hallucination() ) {

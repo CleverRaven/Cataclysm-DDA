@@ -1556,6 +1556,10 @@ long sdl_keysym_to_curses( const SDL_Keysym &keysym )
         }
     }
 #endif
+    if( keysym.mod & KMOD_CTRL && keysym.sym >= 'a' && keysym.sym <= 'z' ) {
+        // ASCII ctrl codes, ^A through ^Z.
+        return keysym.sym - 'a' + '\1';
+    }
     switch( keysym.sym ) {
         // This is special: allow entering a Unicode character with ALT+number
         case SDLK_RALT:

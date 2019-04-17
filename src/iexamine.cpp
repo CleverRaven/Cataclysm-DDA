@@ -121,14 +121,14 @@ void iexamine::cvdmachine( player &p, const tripoint & )
     qty = std::max( 1, qty );
     auto reqs = *requirement_id( "cvd_diamond" ) * qty;
 
-    if( !reqs.can_make_with_inventory( p.crafting_inventory() ) ) {
+    if( !reqs.can_make_with_inventory( p.crafting_inventory(), is_crafting_component ) ) {
         popup( "%s", reqs.list_missing().c_str() );
         return;
     }
 
     // Consume materials
     for( const auto &e : reqs.get_components() ) {
-        p.consume_items( e );
+        p.consume_items( e, 1, is_crafting_component );
     }
     for( const auto &e : reqs.get_tools() ) {
         p.consume_tools( e );
@@ -173,14 +173,14 @@ void iexamine::nanofab( player &p, const tripoint &examp )
     auto qty = std::max( 1, new_item.volume() / 250_ml );
     auto reqs = *requirement_id( "nanofabricator" ) * qty;
 
-    if( !reqs.can_make_with_inventory( p.crafting_inventory() ) ) {
+    if( !reqs.can_make_with_inventory( p.crafting_inventory(), is_crafting_component ) ) {
         popup( "%s", reqs.list_missing().c_str() );
         return;
     }
 
     // Consume materials
     for( const auto &e : reqs.get_components() ) {
-        p.consume_items( e );
+        p.consume_items( e, 1, is_crafting_component );
     }
     for( const auto &e : reqs.get_tools() ) {
         p.consume_tools( e );
@@ -989,7 +989,7 @@ void iexamine::pit( player &p, const tripoint &examp )
     planks.push_back( item_comp( "2x4", 1 ) );
 
     if( query_yn( _( "Place a plank over the pit?" ) ) ) {
-        p.consume_items( planks );
+        p.consume_items( planks, 1, is_crafting_component );
         if( g->m.ter( examp ) == t_pit ) {
             g->m.ter_set( examp, t_pit_covered );
         } else if( g->m.ter( examp ) == t_pit_spiked ) {
@@ -1063,7 +1063,12 @@ void iexamine::slot_machine( player &p, const tripoint & )
  */
 void iexamine::safe( player &p, const tripoint &examp )
 {
-    if( !( p.has_amount( "stethoscope", 1 ) || p.has_bionic( bionic_id( "bio_ears" ) ) ) ) {
+    auto cracking_tool = p.crafting_inventory().items_with( []( const item & it ) -> bool {
+        item temporary_item( it.type );
+        return temporary_item.has_flag( "SAFECRACK" );
+    } );
+
+    if( !( cracking_tool.size() > 0 || p.has_bionic( bionic_id( "bio_ears" ) ) ) ) {
         p.moves -= 100;
         // one_in(30^3) chance of guessing
         if( one_in( 27000 ) ) {
@@ -1076,11 +1081,12 @@ void iexamine::safe( player &p, const tripoint &examp )
         }
     }
 
+    if( p.is_deaf() ) {
+        add_msg( m_info, _( "You can't crack a safe while deaf!" ) );
+        return;
+    }
     if( query_yn( _( "Attempt to crack the safe?" ) ) ) {
-        if( p.is_deaf() ) {
-            add_msg( m_info, _( "You can't crack a safe while deaf!" ) );
-            return;
-        }
+        add_msg( m_info, _( "You start cracking the safe." ) );
         // 150 minutes +/- 20 minutes per mechanics point away from 3 +/- 10 minutes per
         // perception point away from 8; capped at 30 minutes minimum. *100 to convert to moves
         ///\EFFECT_PER speeds up safe cracking
@@ -1613,7 +1619,9 @@ static bool harvest_common( player &p, const tripoint &examp, bool furn, bool ne
         if( !auto_forage ) {
             p.add_msg_if_player( m_info, _( "Nothing can be harvested from this plant in current season." ) );
         }
-        iexamine::none( p, examp );
+        if( p.manual_examine ) {
+            iexamine::none( p, examp );
+        }
         return false;
     }
 
@@ -2848,7 +2856,7 @@ void iexamine::tree_maple( player &p, const tripoint &examp )
 
     std::vector<item_comp> comps;
     comps.push_back( item_comp( "tree_spile", 1 ) );
-    p.consume_items( comps );
+    p.consume_items( comps, 1, is_crafting_component );
 
     p.mod_moves( -200 );
     g->m.ter_set( examp, t_tree_maple_tapped );
@@ -3742,73 +3750,108 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
     }
 }
 
-void iexamine::climb_down( player &p, const tripoint &examp )
+void iexamine::ledge( player &p, const tripoint &examp )
 {
-    if( !g->m.has_zlevels() ) {
-        // No climbing down in 2D mode
-        return;
-    }
 
-    if( !g->m.valid_move( p.pos(), examp, false, true ) ) {
-        // Covered with something
-        return;
-    }
+    uilist cmenu;
+    cmenu.text = _( "There is a ledge here.  What do you want to do?" );
+    cmenu.addentry( 1, true, 'j', _( "Jump over." ) );
+    cmenu.addentry( 2, true, 'c', _( "Climb down." ) );
+    cmenu.query();
 
-    tripoint where = examp;
-    tripoint below = examp;
-    below.z--;
-    while( g->m.valid_move( where, below, false, true ) ) {
-        where.z--;
-        below.z--;
-    }
-
-    const int height = examp.z - where.z;
-    if( height == 0 ) {
-        p.add_msg_if_player( _( "You can't climb down there" ) );
-        return;
-    }
-
-    const int climb_cost = p.climbing_cost( where, examp );
-    const auto fall_mod = p.fall_damage_mod();
-    std::string query_str = ngettext( "Looks like %d story. Jump down?",
-                                      "Looks like %d stories. Jump down?",
-                                      height );
-    if( height > 1 && !query_yn( query_str.c_str(), height ) ) {
-        return;
-    } else if( height == 1 ) {
-        std::string query;
-        if( climb_cost <= 0 && fall_mod > 0.8 ) {
-            query = _( "You probably won't be able to get up and jumping down may hurt. Jump?" );
-        } else if( climb_cost <= 0 ) {
-            query = _( "You probably won't be able to get back up. Climb down?" );
-        } else if( climb_cost < 200 ) {
-            query = _( "You should be able to climb back up easily if you climb down there. Climb down?" );
-        } else {
-            query = _( "You may have problems climbing back up. Climb down?" );
+    switch( cmenu.ret ) {
+        case 1: {
+            tripoint dest( p.posx() + 2 * sgn( examp.x - p.posx() ), p.posy() + 2 * sgn( examp.y - p.posy() ),
+                           p.posz() );
+            if( p.get_str() < 4 ) {
+                add_msg( m_warning, _( "You are too weak to jump over an obstacle." ) );
+            } else if( 100 * p.weight_carried() / p.weight_capacity() > 25 ) {
+                add_msg( m_warning, _( "You are too burdened to jump over an obstacle." ) );
+            } else if( !g->m.valid_move( examp, dest, false, true ) ) {
+                add_msg( m_warning, _( "You cannot jump over an obstacle - something is blocking the way." ) );
+            } else if( g->critter_at( dest ) ) {
+                add_msg( m_warning, _( "You cannot jump over an obstacle - there is %s blocking the way." ),
+                         g->critter_at( dest )->disp_name() );
+            } else if( g->m.ter( dest ).obj().trap == tr_ledge ) {
+                add_msg( m_warning, _( "You are not going to jump over an obstacle only to fall down." ) );
+            } else {
+                add_msg( m_info, _( "You jump over an obstacle." ) );
+                p.setpos( dest );
+            }
+            break;
         }
+        case 2: {
+            if( !g->m.has_zlevels() ) {
+                // No climbing down in 2D mode
+                return;
+            }
 
-        if( !query_yn( query.c_str() ) ) {
-            return;
+            if( !g->m.valid_move( p.pos(), examp, false, true ) ) {
+                // Covered with something
+                return;
+            }
+
+            tripoint where = examp;
+            tripoint below = examp;
+            below.z--;
+            while( g->m.valid_move( where, below, false, true ) ) {
+                where.z--;
+                below.z--;
+            }
+
+            const int height = examp.z - where.z;
+            if( height == 0 ) {
+                p.add_msg_if_player( _( "You can't climb down there" ) );
+                return;
+            }
+
+            const int climb_cost = p.climbing_cost( where, examp );
+            const auto fall_mod = p.fall_damage_mod();
+            std::string query_str = ngettext( "Looks like %d story. Jump down?",
+                                              "Looks like %d stories. Jump down?",
+                                              height );
+            if( height > 1 && !query_yn( query_str.c_str(), height ) ) {
+                return;
+            } else if( height == 1 ) {
+                std::string query;
+                if( climb_cost <= 0 && fall_mod > 0.8 ) {
+                    query = _( "You probably won't be able to get up and jumping down may hurt. Jump?" );
+                } else if( climb_cost <= 0 ) {
+                    query = _( "You probably won't be able to get back up. Climb down?" );
+                } else if( climb_cost < 200 ) {
+                    query = _( "You should be able to climb back up easily if you climb down there. Climb down?" );
+                } else {
+                    query = _( "You may have problems climbing back up. Climb down?" );
+                }
+
+                if( !query_yn( query.c_str() ) ) {
+                    return;
+                }
+            }
+
+            p.moves -= 100 + 100 * fall_mod;
+            p.setpos( examp );
+            if( climb_cost > 0 || rng_float( 0.8, 1.0 ) > fall_mod ) {
+                // One tile of falling less (possibly zero)
+                g->vertical_move( -1, true );
+            }
+            g->m.creature_on_trap( p );
+            break;
         }
+        default:
+            popup( _( "You decided to step back from the ledge." ) );
+            break;
     }
-
-    p.moves -= 100 + 100 * fall_mod;
-    p.setpos( examp );
-    if( climb_cost > 0 || rng_float( 0.8, 1.0 ) > fall_mod ) {
-        // One tile of falling less (possibly zero)
-        g->vertical_move( -1, true );
-    }
-
-    g->m.creature_on_trap( p );
 }
 
 player &player_on_couch( player &p, const tripoint &autodoc_loc, player &null_patient,
-                         bool &adjacent_couch )
+                         bool &adjacent_couch, tripoint &couch_pos )
 {
     for( const auto &couch_loc : g->m.points_in_radius( autodoc_loc, 1, 0 ) ) {
         const furn_str_id couch( "f_autodoc_couch" );
         if( g->m.furn( couch_loc ) == couch ) {
             adjacent_couch = true;
+            couch_pos = couch_loc;
             if( p.pos() == couch_loc ) {
                 return p;
             }
@@ -3820,6 +3863,21 @@ player &player_on_couch( player &p, const tripoint &autodoc_loc, player &null_pa
         }
     }
     return null_patient;
+}
+
+item &cyborg_on_couch( const tripoint &couch_pos, item &null_cyborg )
+{
+    for( item &it : g->m.i_at( couch_pos ) ) {
+        if( it.typeId() == "bot_broken_cyborg" || it.typeId() == "bot_prototype_cyborg" ) {
+            return it;
+        }
+        if( it.typeId() == "corpse" ) {
+            if( it.get_mtype()->id == "mon_broken_cyborg" || it.get_mtype()->id == "mon_prototype_cyborg" ) {
+                return it;
+            }
+        }
+    }
+    return null_cyborg;
 }
 
 player &best_installer( player &p, player &null_player, int difficulty )
@@ -3882,15 +3940,61 @@ void iexamine::autodoc( player &p, const tripoint &examp )
 
     bool adjacent_couch = false;
     static player null_player;
-    player &patient = player_on_couch( p, examp, null_player, adjacent_couch );
+    tripoint couch_pos;
+    player &patient = player_on_couch( p, examp, null_player, adjacent_couch, couch_pos );
+
+    static item null_cyborg;
+    item &cyborg = cyborg_on_couch( couch_pos, null_cyborg );
 
     if( !adjacent_couch ) {
         popup( _( "No connected couches found.  Operation impossible.  Exiting." ) );
         return;
     }
     if( &patient == &null_player ) {
-        popup( _( "No patient found located on the connected couches.  Operation impossible.  Exiting." ) );
-        return;
+        if( &cyborg != &null_cyborg ) {
+            if( cyborg.typeId() == "corpse" && !cyborg.active ) {
+                popup( _( "Patient is dead.  Please remove corpse to proceed.  Exiting." ) );
+                return;
+            } else if( cyborg.typeId() == "bot_broken_cyborg" || cyborg.typeId() == "corpse" ) {
+                popup( _( "ERROR Bionic Level Assessement : FULL CYBORG.  Autodoc Mk. XI can't opperate.  Please move patient to appropriate facility.  Exiting." ) );
+                return;
+            }
+
+
+            uilist cmenu;
+            cmenu.text = _( "Autodoc Mk. XI.  Status: Online.  Please choose operation." );
+            cmenu.addentry( 1, true, 'i', _( "Choose Compact Bionic Module to install." ) );
+            cmenu.addentry( 2, true, 'u', _( "Choose installed bionic to uninstall." ) );
+            cmenu.query();
+
+            switch( cmenu.ret ) {
+                case 1: {
+                    popup( _( "ERROR NO SPACE AVAILABLE.  Operation impossible.  Exiting." ) );
+                    break;
+                }
+                case 2: {
+                    std::vector<std::string> choice_names;
+                    choice_names.push_back( "Personality_Override" );
+                    for( size_t i = 0; i < 6; i++ ) {
+                        choice_names.push_back( "C0RR#PTED?D#TA" );
+                    }
+                    int choice_index = uilist( _( "Choose bionic to uninstall" ), choice_names );
+                    if( choice_index == 0 ) {
+                        g->save_cyborg( &cyborg, couch_pos, p );
+                    } else {
+                        popup( _( "UNKNOWN COMMAND.  Autodoc Mk. XI. Crashed." ) );
+                        return;
+                    }
+                    break;
+                }
+                default:
+                    return;
+            }
+            return;
+        } else {
+            popup( _( "No patient found located on the connected couches.  Operation impossible.  Exiting." ) );
+            return;
+        }
     }
 
     bool needs_anesthesia = true;
@@ -3970,9 +4074,9 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 patient.introduce_into_anesthesia( duration, installer, needs_anesthesia );
                 std::vector<item_comp> comps;
                 comps.push_back( item_comp( it->typeId(), 1 ) );
-                p.consume_items( comps, 1 );
+                p.consume_items( comps, 1, is_crafting_component );
                 if( needs_anesthesia ) {
-                    p.consume_items( acomps, 1 );
+                    p.consume_items( acomps, 1, is_crafting_component );
                 }
             }
             break;
@@ -4023,7 +4127,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             if( patient.uninstall_bionic( bionic_id( bionic_types[bionic_index] ), installer, true ) ) {
                 patient.introduce_into_anesthesia( duration, installer, needs_anesthesia );
                 if( needs_anesthesia ) {
-                    p.consume_items( acomps, 1 );
+                    p.consume_items( acomps, 1, is_crafting_component );
                 }
             }
             break;
@@ -4282,26 +4386,14 @@ void smoker_load_food( player &p, const tripoint &examp, const units::volume &re
     inv.remove_items_with( []( const item & it ) {
         return it.rotten();
     } );
-    comp_selection<item_comp> selected = p.select_item_component( comps, 1, inv, true );
-    std::list<item> moved = p.consume_items( selected, 1 );
 
-    // hack, because consume_items doesn't seem to care of what item is consumed despite filters
-    // TODO: find a way to filter out rotten items from those actualy consumed
-    bool rotted = false;
-    for( const item &m : moved ) {
-        if( m.rotten() ) {
-            rotted = true;
-        }
-    }
-    if( rotted ) {
-        add_msg( m_info, _( "You have rotten food mixed with fresh.  Get rid of it first." ) );
-        for( const item &m : moved ) {
-            g->m.add_item( p.pos(), m );
-            p.mod_moves( -p.item_handling_cost( m ) );
-        }
-        p.invalidate_crafting_inventory();
-        return;
-    }
+    const auto is_non_rotten_crafting_component = []( const item & it ) {
+        return is_crafting_component( it ) && !it.rotten();
+    };
+
+    comp_selection<item_comp> selected = p.select_item_component( comps, 1, inv, true,
+                                         is_non_rotten_crafting_component );
+    std::list<item> moved = p.consume_items( selected, 1, is_non_rotten_crafting_component );
 
     for( const item &m : moved ) {
         g->m.add_item( examp, m );
@@ -4578,7 +4670,7 @@ iexamine_function iexamine_function_from_string( const std::string &function_nam
             { "kiln_empty", &iexamine::kiln_empty },
             { "kiln_full", &iexamine::kiln_full },
             { "fireplace", &iexamine::fireplace },
-            { "climb_down", &iexamine::climb_down },
+            { "ledge", &iexamine::ledge },
             { "autodoc", &iexamine::autodoc },
             { "smoker_options", &iexamine::smoker_options },
             { "open_safe", &iexamine::open_safe }

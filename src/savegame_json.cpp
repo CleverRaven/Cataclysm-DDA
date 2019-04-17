@@ -1002,10 +1002,10 @@ void npc_follower_rules::serialize( JsonOut &json ) const
         json.member( "rule_" + rule.first, has_flag( rule.second, false ) );
     }
     for( const auto &rule : ally_rule_strs ) {
-        json.member( "override_enable_" + rule.first, has_flag( rule.second ) );
+        json.member( "override_enable_" + rule.first, has_override_enable( rule.second ) );
     }
     for( const auto &rule : ally_rule_strs ) {
-        json.member( "override_" + rule.first, has_flag( rule.second ) );
+        json.member( "override_" + rule.first, has_override( rule.second ) );
     }
 
     json.member( "pickup_whitelist", *pickup_whitelist );
@@ -2922,14 +2922,6 @@ void basecamp::serialize( JsonOut &json ) const
         json.member( "name", name );
         json.member( "pos", omt_pos );
         json.member( "bb_pos", bb_pos );
-        json.member( "sort_points" );
-        json.start_array();
-        for( const tripoint &it : sort_points ) {
-            json.start_object();
-            json.member( "pos", it );
-            json.end_object();
-        }
-        json.end_array();
         json.member( "expansions" );
         json.start_array();
         for( const auto &expansion : expansions ) {

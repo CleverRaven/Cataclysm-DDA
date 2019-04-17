@@ -1237,9 +1237,9 @@ void draw_stat( player &u, const catacurses::window &w )
 
     nc_color stat_clr = str_string( u ).first;
     mvwprintz( w, 0, 8, stat_clr, "%s", u.str_cur );
-    stat_clr = dex_string( u ).first;
-    mvwprintz( w, 1, 8, stat_clr, "%s", u.int_cur );
     stat_clr = int_string( u ).first;
+    mvwprintz( w, 1, 8, stat_clr, "%s", u.int_cur );
+    stat_clr = dex_string( u ).first;
     mvwprintz( w, 0, 26, stat_clr, "%s", u.dex_cur );
     stat_clr = per_string( u ).first;
     mvwprintz( w, 1, 26, stat_clr, "%s", u.per_cur );

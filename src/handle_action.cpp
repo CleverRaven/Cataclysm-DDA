@@ -844,12 +844,17 @@ static void loot()
 
     player &u = g->u;
     int flags = 0;
-    const auto &mgr = zone_manager::get_manager();
+    auto &mgr = zone_manager::get_manager();
     const bool has_hoe = u.has_quality( quality_id( "DIG" ), 1 );
     const bool has_seeds = u.has_item_with( []( const item & itm ) {
         return itm.is_seed();
     } );
     const bool has_fertilizer = u.has_item_with_flag( "FERTILIZER" );
+
+    // Manually update vehicle cache.
+    // In theory this would be handled by the related activity (activity_on_turn_move_loot())
+    // but with a stale cache we never get that far.
+    mgr.cache_vzones();
 
     flags |= g->check_near_zone( zone_type_id( "LOOT_UNSORTED" ), u.pos() ) ? SortLoot : 0;
     if( g->check_near_zone( zone_type_id( "FARM_PLOT" ), u.pos() ) ) {

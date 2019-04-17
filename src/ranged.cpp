@@ -1224,7 +1224,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         if( snap_to_target ) {
             center = dst;
         } else {
-            center = pc.pos() + pc.view_offset;
+            center = pc.pos() + pc.view_offset + g->sidebar_offset;
         }
         // Clear the target window.
         for( int i = 1; i <= getmaxy( w_target ) - num_instruction_lines - 2; i++ ) {
@@ -1233,7 +1233,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
                 mvwputch( w_target, i, j, c_white, ' ' );
             }
         }
-        g->draw_ter( center + g->sidebar_offset, true );
+        g->draw_ter( center, true );
         int line_number = 1;
         Creature *critter = g->critter_at( dst, true );
         const int relative_elevation = dst.z - pc.pos().z;
@@ -1300,7 +1300,8 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             int available_lines = compact ? 1 : ( height - num_instruction_lines - line_number - 12 );
             line_number = critter->print_info( w_target, line_number, available_lines, 1 );
         } else {
-            mvwputch( g->w_terrain, POSY + dst.y - center.y, POSX + dst.x - center.x, c_red, '*' );
+            mvwputch( g->w_terrain, POSY + dst.y - center.y, POSX + dst.x - center.x,
+                      c_red, '*' );
         }
 
         if( mode == TARGET_MODE_FIRE ) {
