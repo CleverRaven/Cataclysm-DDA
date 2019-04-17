@@ -1200,6 +1200,7 @@ void player::hardcoded_effects( effect &it )
             // alarm was set and player hasn't slept through the alarm.
             if( has_effect( effect_alarm_clock ) && !has_effect( effect_slept_through_alarm ) ) {
                 add_msg_if_player( _( "It looks like you woke up just before your alarm." ) );
+                remove_effect( effect_alarm_clock );
             } else if( has_effect( effect_slept_through_alarm ) ) { // slept though the alarm.
                 if( has_bionic( bionic_id( "bio_watch" ) ) ) {
                     add_msg_if_player( m_warning, _( "It looks like you've slept through your internal alarm..." ) );
@@ -1207,6 +1208,7 @@ void player::hardcoded_effects( effect &it )
                     add_msg_if_player( m_warning, _( "It looks like you've slept through the alarm..." ) );
                 }
                 get_effect( effect_slept_through_alarm ).set_duration( 0_turns );
+                remove_effect( effect_alarm_clock );
             }
         }
     } else if( id == effect_alarm_clock ) {

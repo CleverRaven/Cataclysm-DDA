@@ -10543,6 +10543,7 @@ void player::wake_up()
     remove_effect( effect_sleep );
     remove_effect( effect_slept_through_alarm );
     remove_effect( effect_lying_down );
+    remove_effect( effect_alarm_clock );
     recalc_sight_limits();
 }
 
