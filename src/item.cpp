@@ -3734,7 +3734,7 @@ void item::set_relative_rot( double val )
         // calc_rot uses last_rot_check (when it's not time_of_cataclysm) instead of bday.
         // this makes sure the rotting starts from now, not from bday.
         // if this item is the result of smoking don't do this, we want to start from bday.
-        if( !has_flag( "SMOKING_RESULT" ) ) {
+        if( !has_flag( "PROCESSING_RESULT" ) ) {
             last_rot_check = calendar::turn;
         }
         active = true;
@@ -3790,7 +3790,7 @@ void item::calc_rot( const tripoint &location )
 
         // Frozen food do not rot, so no change to rot variable
         // Smoking food will be checked for rot in smoker_finalize
-        if( item_tags.count( "FROZEN" ) || item_tags.count( "SMOKING" ) || item_tags.count( "MILLING" ) ) {
+        if( item_tags.count( "FROZEN" ) || item_tags.count( "PROCESSING" ) ) {
             return;
         }
 
@@ -3821,7 +3821,7 @@ void item::calc_rot( const tripoint &location )
 
 void item::calc_rot_while_processing( const tripoint &location, time_duration processing_duration )
 {
-    if( !item_tags.count( "SMOKING" ) && !item_tags.count( "MILLING" ) ) {
+    if( !item_tags.count( "PROCESSING" ) ) {
         debugmsg( "calc_rot_while_processing called on non processing item: %s", tname().c_str() );
         return;
     }

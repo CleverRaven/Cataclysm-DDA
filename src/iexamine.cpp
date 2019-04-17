@@ -4145,7 +4145,6 @@ const int CHARCOAL_PER_LITER = 25;
 const units::volume MAX_FOOD_VOLUME = units::from_liter( 20 );
 }
 
-
 static int get_charcoal_charges( units::volume food )
 {
     const int charcoal = to_liter( food ) * sm_rack::CHARCOAL_PER_LITER;
@@ -4153,9 +4152,14 @@ static int get_charcoal_charges( units::volume food )
     return  std::max( charcoal, sm_rack::MIN_CHARCOAL );
 }
 
+static bool is_non_rotten_crafting_component( const item &it )
+{
+    return is_crafting_component( it ) && !it.rotten();
+}
+
 void mill_activate( player &p, const tripoint &examp )
 {
-    furn_id cur_mill_type = g->m.furn( examp );
+    const furn_id cur_mill_type = g->m.furn( examp );
     furn_id next_mill_type = f_null;
     if( cur_mill_type == f_wind_mill ) {
         next_mill_type = f_wind_mill_active;
@@ -4184,8 +4188,8 @@ void mill_activate( player &p, const tripoint &examp )
         }
         if( !it.has_flag( "MILLABLE" ) ) {
             add_msg( m_bad, _( "This rack contains %s, which can't be milled!" ), it.tname( 1,
-                     false ).c_str() );
-            add_msg( _( "You remove %s from the mill." ), it.tname().c_str() );
+                     false ) );
+            add_msg( _( "You remove the %s from the mill." ), it.tname().c_str() );
             g->m.add_item_or_charges( p.pos(), it );
             g->m.i_rem( examp, i );
             return;
@@ -4205,9 +4209,9 @@ void mill_activate( player &p, const tripoint &examp )
 
     for( auto &it : g->m.i_at( examp ) ) {
         if( it.has_flag( "MILLABLE" ) ) {
-            // Do one final rot check before smoking, then apply the smoking FLAG to prevent further checks.
+            // Do one final rot check before milling, then apply the smoking FLAG to prevent further checks.
             it.calc_rot( examp );
-            it.set_flag( "MILLING" );
+            it.set_flag( "PROCESSING" );
         }
     }
     g->m.furn_set( examp, next_mill_type );
@@ -4253,7 +4257,7 @@ void smoker_activate( player &p, const tripoint &examp )
         }
         if( it.typeId() != "charcoal" && !it.has_flag( "SMOKABLE" ) ) {
             add_msg( m_bad, _( "This rack contains %s, which can't be smoked!" ), it.tname( 1,
-                     false ).c_str() );
+                     false ) );
             add_msg( _( "You remove %s from the rack." ), it.tname().c_str() );
             g->m.add_item_or_charges( p.pos(), it );
             g->m.i_rem( examp, i );
@@ -4299,7 +4303,7 @@ void smoker_activate( player &p, const tripoint &examp )
         if( it.has_flag( "SMOKABLE" ) ) {
             // Do one final rot check before smoking, then apply the smoking FLAG to prevent further checks.
             it.calc_rot( examp );
-            it.set_flag( "SMOKING" );
+            it.set_flag( "PROCESSING" );
         }
     }
     g->m.furn_set( examp, next_smoker_type );
@@ -4317,7 +4321,7 @@ void smoker_activate( player &p, const tripoint &examp )
 
 void iexamine::mill_finalize( player &, const tripoint &examp, const time_point &start_time )
 {
-    furn_id cur_mill_type = g->m.furn( examp );
+    const furn_id cur_mill_type = g->m.furn( examp );
     furn_id next_mill_type = f_null;
     if( cur_mill_type == f_wind_mill_active ) {
         next_mill_type = f_wind_mill;
@@ -4340,16 +4344,14 @@ void iexamine::mill_finalize( player &, const tripoint &examp, const time_point 
             it.calc_rot_while_processing( examp, 6_hours );
         }
     }
-
     for( size_t i = 0; i < items.size(); i++ ) {
         auto &item_it = items[i];
         if( item_it.get_comestible() ) {
             item result( "flour", start_time + 6_hours, item_it.charges * 15 );
-
             // Set flag to tell set_relative_rot() to calc from bday not now
-            result.set_flag( "SMOKING_RESULT" );
+            result.set_flag( "PROCESSING_RESULT" );
             result.set_relative_rot( item_it.get_relative_rot() );
-            result.unset_flag( "SMOKING_RESULT" );
+            result.unset_flag( "PROCESSING_RESULT" );
             item_it = result;
         }
     }
@@ -4384,7 +4386,7 @@ void smoker_finalize( player &, const tripoint &examp, const time_point &start_t
         auto &item_it = items[i];
         if( item_it.get_comestible() ) {
             if( item_it.get_comestible()->smoking_result.empty() ) {
-                item_it.unset_flag( "SMOKING" );
+                item_it.unset_flag( "PROCESSING" );
             } else {
                 item result( item_it.get_comestible()->smoking_result, start_time + 6_hours, item_it.charges );
 
@@ -4493,10 +4495,6 @@ void smoker_load_food( player &p, const tripoint &examp, const units::volume &re
     inv.remove_items_with( []( const item & it ) {
         return it.rotten();
     } );
-
-    const auto is_non_rotten_crafting_component = []( const item & it ) {
-        return is_crafting_component( it ) && !it.rotten();
-    };
 
     comp_selection<item_comp> selected = p.select_item_component( comps, 1, inv, true,
                                          is_non_rotten_crafting_component );
@@ -4607,10 +4605,6 @@ void mill_load_food( player &p, const tripoint &examp, const units::volume &rema
         return it.rotten();
     } );
 
-    const auto is_non_rotten_crafting_component = []( const item & it ) {
-        return is_crafting_component( it ) && !it.rotten();
-    };
-
     comp_selection<item_comp> selected = p.select_item_component( comps, 1, inv, true,
                                          is_non_rotten_crafting_component );
     std::list<item> moved = p.consume_items( selected, 1, is_non_rotten_crafting_component );
@@ -4645,8 +4639,8 @@ void iexamine::quern_examine( player &p, const tripoint &examp )
         }
     }
 
-    bool active = g->m.furn( examp ) == furn_str_id( "f_water_mill_active" ) ||
-                  g->m.furn( examp ) == furn_str_id( "f_wind_mill_active" );
+    const bool active = g->m.furn( examp ) == furn_str_id( "f_water_mill_active" ) ||
+                        g->m.furn( examp ) == furn_str_id( "f_wind_mill_active" );
     auto items_here = g->m.i_at( examp );
 
     if( items_here.empty() && active ) {
@@ -4726,7 +4720,7 @@ void iexamine::quern_examine( player &p, const tripoint &examp )
     smenu.query();
 
     switch( smenu.ret ) {
-        case 0: { //inspect smoking rack
+        case 0: { //inspect mill
             if( active ) {
                 pop << "<color_green>" << _( "There's a mill here.  It is turning and milling." ) << "</color>"
                     << "\n";
@@ -4795,7 +4789,6 @@ void iexamine::quern_examine( player &p, const tripoint &examp )
                 }
                 add_msg( m_info, _( "You stop the milling process." ) );
             }
-            /* fallthrough */
             break;
         default:
             add_msg( m_info, _( "Never mind." ) );
