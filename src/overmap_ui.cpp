@@ -939,6 +939,7 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
     ictxt.register_action( "LEVEL_UP" );
     ictxt.register_action( "LEVEL_DOWN" );
     ictxt.register_action( "HELP_KEYBINDINGS" );
+    ictxt.register_action( "MOUSE_MOVE" );
 
     // Actions whose keys we want to display.
     ictxt.register_action( "CENTER" );
@@ -974,6 +975,24 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
             int scroll_d = fast_scroll ? fast_scroll_offset : 1;
             curs.x += vec->x * scroll_d;
             curs.y += vec->y * scroll_d;
+        } else if( action == "MOUSE_MOVE" ) {
+            int max_consume = 10;
+            do {
+                // Below we implement mouse panning. In order to make
+                // it less jerky we rate limit it by only allowing a
+                // panning move during the first iteration of this
+                // mouse move event consumption loop.
+                if( max_consume == 10 ) {
+                    const tripoint edge_scroll = g->mouse_edge_scrolling( ictxt );
+                    curs += edge_scroll;
+                }
+                if( --max_consume == 0 ) {
+                    break;
+                }
+                // Consume all consecutive mouse movements. This lowers CPU consumption
+                // by graphics updates when user moves the mouse continuously.
+                action = ictxt.handle_input( 10 );
+            } while( action == "MOUSE_MOVE" );
         } else if( action == "CENTER" ) {
             curs = orig;
         } else if( action == "LEVEL_DOWN" && curs.z > -OVERMAP_DEPTH ) {
