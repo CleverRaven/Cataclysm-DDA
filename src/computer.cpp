@@ -1458,6 +1458,36 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW. \n\
                 }
             }
             break;
+        // remove shock vent fields; check for existing plutonium generators in radius
+        case COMPACT_DEACTIVATE_SHOCK_VENT:
+                bool has_vent = false;
+                bool has_generator = false;
+                for( const tripoint &dest : g->m.points_in_radius( g->u.pos(), 10 ) ) {
+                    if( g->m.get_field( dest, fd_shock_vent ) != nullptr ) {
+                        has_vent = true;
+                    }
+                    if( g->m.ter( dest ) == t_plut_generator ) {
+                        has_generator = true;
+                    }
+                    g->m.remove_field( dest, fd_shock_vent );
+                }
+                print_line( _( "Initiating POWER-DIAG ver.2.34 ..." ) );
+                if( has_vent ){
+                    print_error( _( "Short circuit detected!." ) );
+                    print_error( _( "Short circuit rerouted." ) );
+                    print_error( _( "Fuse reseted." ) );
+                    print_error( _( "Ground re-enabled." ) );
+                } else {
+                    print_line( _( "Internal power lines status: 85%% OFFLINE. Reason: DAMAGED." ) );
+                }
+                print_line( _( "External power lines status: 100%% OFFLINE. Reason: NO EXTERNAL POWER DETECTED." ) );
+                if( has_generator ) {
+                    print_line( _( "Backup power status: STANDBY MODE." ) );
+                } else {
+                    print_error( _( "Backup power status: OFFLINE. Reason: UNKNOWN" ) );
+                }
+                query_any( _( "Press any key..." ) );
+                break;
 
     } // switch (action)
 }
@@ -1891,7 +1921,8 @@ computer_action computer_action_from_string( const std::string &str )
             { "geiger", COMPACT_GEIGER },
             { "conveyor", COMPACT_CONVEYOR },
             { "shutters", COMPACT_SHUTTERS },
-            { "extract_rad_source", COMPACT_EXTRACT_RAD_SOURCE }
+            { "extract_rad_source", COMPACT_EXTRACT_RAD_SOURCE },
+            { "deactivate_shock_vent", COMPACT_DEACTIVATE_SHOCK_VENT },
         }
     };
 
