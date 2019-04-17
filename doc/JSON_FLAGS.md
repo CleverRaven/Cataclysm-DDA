@@ -309,6 +309,10 @@ Flags used to describe monsters and define their properties and abilities.
 - ```ACIDSPLASH``` Splash acid on the attacker
 - ```ZAPBACK``` Shock attacker on hit
 
+### Monster special evasion
+
+- ```TELESTAGGER``` Teleports to a new tile adjacent to the evaded attacker and stun them for a short duration
+
 ### Special attacks
 
 Some special attacks are also valid use actions for tools and weapons.
@@ -391,6 +395,7 @@ Also see monster_attacks.json for more special attacks, for example, impale and 
 - ```SUICIDE``` Dies after attacking.
 - ```TAZER``` Shock the player.
 - ```TENTACLE``` Lashes a tentacle at the player.
+- ```TELESWAP``` Exchanges positions with the player.
 - ```TRIFFID_GROWTH``` Young triffid grows into an adult.
 - ```TRIFFID_HEARTBEAT``` Grows and crumbles root walls around the player, and spawns more monsters.
 - ```UPGRADE``` Upgrades a regular zombie into a special zombie.

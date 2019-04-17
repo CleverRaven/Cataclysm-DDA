@@ -2354,8 +2354,8 @@ float monster::speed_rating() const
 
 void monster::on_dodge( Creature *source, float, dealt_projectile_attack const *const proj )
 {
-    if( rng( 0, 100 ) <= static_cast<long>( type->sp_dodge_chance ) ) {
-        type->sp_dodge( *this, source, proj );
+    if( rng( 0, 100 ) <= static_cast<long>( type->sp_evade_chance ) ) {
+        type->sp_evade( *this, source, proj );
     }
 
     // TODO: Faction relations

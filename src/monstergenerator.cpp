@@ -16,7 +16,7 @@
 #include "monattack.h"
 #include "mondeath.h"
 #include "mondefense.h"
-#include "mondodge.h"
+#include "monevade.h"
 #include "monfaction.h"
 #include "mongroup.h"
 #include "options.h"
@@ -202,7 +202,7 @@ MonsterGenerator::MonsterGenerator()
     init_phases();
     init_attack();
     init_defense();
-    init_dodge();
+    init_evade();
     init_death();
 }
 
@@ -530,10 +530,10 @@ void MonsterGenerator::init_defense()
     defense_map["ACIDSPLASH"] = &mdefense::acidsplash; //Splash acid on the attacker
 }
 
-void MonsterGenerator::init_dodge()
+void MonsterGenerator::init_evade()
 {
-    dodge_map["NONE"] = &mdodge::none; //No special dodge effect
-    dodge_map["TELESTAGGER"] = &mdodge::telestagger; //Move to another square adjacent to player and stagger them
+    evade_map["NONE"] = &mevade::none; //No special dodge effect
+    evade_map["TELESTAGGER"] = &mevade::telestagger; //Move to another square adjacent to player and stagger them
 }
 
 void MonsterGenerator::set_species_ids( mtype &mon )
@@ -690,17 +690,17 @@ void mtype::load( JsonObject &jo, const std::string &src )
         def_chance = 0;
     }
 
-    if( jo.has_member( "special_when_dodges" ) ) {
-        JsonArray jsarr = jo.get_array( "special_when_dodges" );
-        const auto iter = gen.dodge_map.find( jsarr.get_string( 0 ) );
-        if( iter == gen.dodge_map.end() ) {
+    if( jo.has_member( "special_when_evades" ) ) {
+        JsonArray jsarr = jo.get_array( "special_when_evades" );
+        const auto iter = gen.evade_map.find( jsarr.get_string( 0 ) );
+        if( iter == gen.evade_map.end() ) {
             jsarr.throw_error( "Invalid monster dodge function" );
         }
-        sp_dodge = iter->second;
-        sp_dodge_chance = jsarr.get_int( 1 );
+        sp_evade = iter->second;
+        sp_evade_chance = jsarr.get_int( 1 );
     } else if( !was_loaded ) {
-        sp_dodge = &mdodge::none;
-        sp_dodge_chance = 0;
+        sp_evade = &mevade::none;
+        sp_evade_chance = 0;
     }
 
     if( !was_loaded || jo.has_member( "special_attacks" ) ) {

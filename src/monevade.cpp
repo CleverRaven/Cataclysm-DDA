@@ -1,12 +1,8 @@
-#include "mondodge.h"
+#include "monevade.h"
 
 #include <algorithm>
 
-#include "ballistics.h"
-#include "bodypart.h"
 #include "creature.h"
-#include "damage.h"
-#include "dispersion.h"
 #include "game.h"
 #include "messages.h"
 #include "monster.h"
@@ -18,11 +14,11 @@
 
 const efftype_id effect_stunned( "stunned" );
 
-void mdodge::none( monster &, Creature *, const dealt_projectile_attack * )
+void mevade::none( monster &, Creature *, const dealt_projectile_attack * )
 {
 }
 
-void mdodge::telestagger( monster &m, Creature *const source,
+void mevade::telestagger( monster &m, Creature *const source,
     dealt_projectile_attack const *proj )
 {
     if( source == nullptr ) {
@@ -41,6 +37,6 @@ void mdodge::telestagger( monster &m, Creature *const source,
     }
 
     m.setpos(adjacent);
-    source->add_msg_if_player( m_bad, _( "The %s teleports, sending you reeling." ), m.disp_name().c_str() );
+    source->add_msg_if_player( m_bad, _( "The %s teleports away from your attack, sending you reeling." ), m.name() );
     source->add_effect( effect_stunned, rng( 2_turns, 3_turns ) );
 }

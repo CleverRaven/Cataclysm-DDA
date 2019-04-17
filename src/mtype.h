@@ -31,7 +31,7 @@ enum m_size : int;
 using mon_action_death  = void ( * )( monster & );
 using mon_action_attack = bool ( * )( monster * );
 using mon_action_defend = void ( * )( monster &, Creature *, dealt_projectile_attack const * );
-using mon_action_dodge = void ( * )( monster &, Creature *, dealt_projectile_attack const * );
+using mon_action_evade = void ( * )( monster &, Creature *, dealt_projectile_attack const * );
 struct MonsterGroup;
 using mongroup_id = string_id<MonsterGroup>;
 struct mtype;
@@ -286,14 +286,14 @@ struct mtype {
         std::vector<std::string> special_attacks_names; // names of attacks, in json load order
 
         unsigned int def_chance; // How likely a special "defensive" move is to trigger (0-100%, default 0)
-        unsigned int sp_dodge_chance; // How likely a special "dodge" move is to trigger (0-100%, default 0)
+        unsigned int sp_evade_chance; // How likely a special "dodge" move is to trigger (0-100%, default 0)
 
         std::vector<mon_action_death>  dies;       // What happens when this monster dies
 
         // This monster's special defense/dodge moves that may trigger when the monster is attacked.
         // Note that these can be anything, and are not necessarily beneficial to the monster
         mon_action_defend sp_defense;
-        mon_action_dodge sp_dodge;
+        mon_action_evade sp_evade;
 
         // Monster upgrade variables
         bool upgrades;

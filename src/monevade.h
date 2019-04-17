@@ -1,12 +1,12 @@
 #pragma once
-#ifndef MONDODGE_H
-#define MONDODGE_H
+#ifndef MONEVADE_H
+#define MONEVADE_H
 
 class monster;
 class Creature;
 struct dealt_projectile_attack;
 
-namespace mdodge
+namespace mevade
 {
     /**
     * @param m The monster that dodged.
