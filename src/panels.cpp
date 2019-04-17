@@ -4,6 +4,7 @@
 #include "cata_utility.h"
 #include "color.h"
 #include "cursesdef.h"
+#include "cursesport.h"
 #include "effect.h"
 #include "game.h"
 #include "game_ui.h"
@@ -29,10 +30,6 @@
 #include <cmath>
 #include <string>
 #include <typeinfo>
-
-#if (defined TILES || defined _WIN32 || defined WINDOWS)
-#include "cursesport.h"
-#endif
 
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_THRESH_FELINE( "THRESH_FELINE" );
@@ -297,7 +294,7 @@ void draw_minimap( const player &u, const catacurses::window &w_minimap )
                 ter_sym = "c";
             } else {
                 const oter_id &cur_ter = overmap_buffer.ter( omx, omy, g->get_levz() );
-                ter_sym = cur_ter->get_sym();
+                ter_sym = cur_ter->get_symbol();
                 if( overmap_buffer.is_explored( omx, omy, g->get_levz() ) ) {
                     ter_color = c_dark_gray;
                 } else {
@@ -441,7 +438,7 @@ std::string get_moon()
         case 1:
             return _( "Waxing crescent" );
         case 2:
-            return _( "Half Moon" );
+            return _( "Half moon" );
         case 3:
             return _( "Waxing gibbous" );
         case 4:
@@ -462,25 +459,26 @@ std::string get_moon()
 std::string time_approx()
 {
     const int iHour = hour_of_day<int>( calendar::turn );
-    std::string time_approx;
-    if( iHour >= 22 ) {
-        time_approx = _( "Around midnight" );
-    } else if( iHour >= 20 ) {
-        time_approx = _( "It's getting darker" );
-    } else if( iHour >= 16 ) {
-        time_approx = _( "This is the Evening" );
-    } else if( iHour >= 13 ) {
-        time_approx = _( "In the afternoon" );
-    } else if( iHour >= 11 ) {
-        time_approx = _( "Around noon" );
-    } else if( iHour >= 8 ) {
-        time_approx = _( "Early Morning" );
-    } else if( iHour >= 5 ) {
-        time_approx = _( "Around Dawn" );
-    } else if( iHour >= 0 ) {
-        time_approx = _( "Dead of Night" );
+    if( iHour >= 23 || iHour <= 1 ) {
+        return _( "Around midnight" );
+    } else if( iHour <= 4 ) {
+        return _( "Dead of night" );
+    } else if( iHour <= 6 ) {
+        return _( "Around dawn" );
+    } else if( iHour <= 8 ) {
+        return _( "Early morning" );
+    } else if( iHour <= 10 ) {
+        return _( "Morning" );
+    } else if( iHour <= 13 ) {
+        return _( "Around noon" );
+    } else if( iHour <= 16 ) {
+        return _( "Afternoon" );
+    } else if( iHour <= 18 ) {
+        return _( "Early evening" );
+    } else if( iHour <= 20 ) {
+        return _( "Around dusk" );
     }
-    return time_approx;
+    return _( "Night" );
 }
 
 nc_color value_color( int stat )
@@ -1239,9 +1237,9 @@ void draw_stat( player &u, const catacurses::window &w )
 
     nc_color stat_clr = str_string( u ).first;
     mvwprintz( w, 0, 8, stat_clr, "%s", u.str_cur );
-    stat_clr = dex_string( u ).first;
-    mvwprintz( w, 1, 8, stat_clr, "%s", u.int_cur );
     stat_clr = int_string( u ).first;
+    mvwprintz( w, 1, 8, stat_clr, "%s", u.int_cur );
+    stat_clr = dex_string( u ).first;
     mvwprintz( w, 0, 26, stat_clr, "%s", u.dex_cur );
     stat_clr = per_string( u ).first;
     mvwprintz( w, 1, 26, stat_clr, "%s", u.per_cur );
@@ -1743,9 +1741,9 @@ std::vector<window_panel> initialize_default_classic_panels()
     ret.emplace_back( window_panel( draw_weapon_classic, "Weapon", 1, 44, true ) );
     ret.emplace_back( window_panel( draw_time_classic, "Time", 1, 44, true ) );
     ret.emplace_back( window_panel( draw_armor, "Armor", 5, 44, false ) );
-    ret.emplace_back( window_panel( draw_compass_padding, "Compass", 6, 44, true ) );
+    ret.emplace_back( window_panel( draw_compass_padding, "Compass", 8, 44, true ) );
     ret.emplace_back( window_panel( draw_messages_classic, "Log", -2, 44, true ) );
-#ifdef TILES
+#if defined(TILES)
     ret.emplace_back( window_panel( draw_mminimap, "Map", -1, 44, true ) );
 #endif // TILES
 
@@ -1766,7 +1764,7 @@ std::vector<window_panel> initialize_default_compact_panels()
     ret.emplace_back( window_panel( draw_armor, "Armor", 5, 32, false ) );
     ret.emplace_back( window_panel( draw_messages_classic, "Log", -2, 32, true ) );
     ret.emplace_back( window_panel( draw_compass, "Compass", 8, 32, true ) );
-#ifdef TILES
+#if defined(TILES)
     ret.emplace_back( window_panel( draw_mminimap, "Map", -1, 32, true ) );
 #endif // TILES
 
@@ -1788,7 +1786,7 @@ std::vector<window_panel> initialize_default_label_panels()
     ret.emplace_back( window_panel( draw_env2, "Moon", 2, 32, false ) );
     ret.emplace_back( window_panel( draw_mod2, "Armor", 5, 32, false ) );
     ret.emplace_back( window_panel( draw_compass_padding, "Compass", 8, 32, true ) );
-#ifdef TILES
+#if defined(TILES)
     ret.emplace_back( window_panel( draw_mminimap, "Map", -1, 32, true ) );
 #endif // TILES
 

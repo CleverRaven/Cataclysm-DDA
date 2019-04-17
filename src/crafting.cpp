@@ -321,7 +321,8 @@ bool player::can_make( const recipe *r, int batch_size )
         return false;
     }
 
-    return r->requirements().can_make_with_inventory( crafting_inv, batch_size );
+    return r->requirements().can_make_with_inventory( crafting_inv, r->get_component_filter(),
+            batch_size );
 }
 
 const inventory &player::crafting_inventory()
@@ -407,31 +408,6 @@ void set_components( std::list<item> &components, const std::list<item> &used,
     }
 }
 
-std::list<item> player::consume_components_for_craft( const recipe &making, int batch_size,
-        bool ignore_last )
-{
-    std::list<item> used;
-    if( has_trait( trait_id( "DEBUG_HS" ) ) ) {
-        return used;
-    }
-    if( last_craft->has_cached_selections() && !ignore_last ) {
-        used = last_craft->consume_components();
-    } else {
-        // This should fail and return, but currently crafting_command isn't saved
-        // Meaning there are still cases where has_cached_selections will be false
-        // TODO: Allow saving last_craft and debugmsg+fail craft if selection isn't cached
-        const auto &req = making.requirements();
-        for( const auto &it : req.get_components() ) {
-            std::list<item> tmp = consume_items( it, batch_size );
-            used.splice( used.end(), tmp );
-        }
-        for( const auto &it : req.get_tools() ) {
-            consume_tools( it, batch_size );
-        }
-    }
-    return used;
-}
-
 static void set_item_food( item &newit )
 {
     // TODO: encapsulate this into some function
@@ -495,24 +471,19 @@ static void return_some_components_for_craft( player &p, std::list<item> &used,
     }
 }
 
-void player::start_craft( const recipe &making, int batch_size, bool is_long )
+void player::start_craft( craft_command &command )
 {
-    if( making.ident().is_null() ) {
-        debugmsg( "no recipe with id %s found", activity.name );
+    if( command.empty() ) {
+        debugmsg( "Attempted to start craft with empty command" );
         return;
     }
 
-    // Use up the components and tools
-    const std::list<item> used = consume_components_for_craft( making, batch_size );
-    if( last_craft->has_cached_selections() && used.empty() ) {
-        // This signals failure, even though there seem to be several paths where it shouldn't...
-        return;
-    }
-    if( !used.empty() ) {
-        reset_encumbrance();  // in case we were wearing something just consumed
-    }
+    item craft = command.create_in_progress_craft();
 
-    item craft( &making, batch_size, used );
+    // In case we were wearing something just consumed
+    if( !craft.components.empty() ) {
+        reset_encumbrance();
+    }
 
     item *craft_in_inventory = set_item_inventory( *this, craft );
     if( !has_item( *craft_in_inventory ) ) {
@@ -525,7 +496,7 @@ void player::start_craft( const recipe &making, int batch_size, bool is_long )
                            craft.tname() ) );
         assign_activity( activity_id( "ACT_CRAFT" ) );
         activity.targets.push_back( item_location( *this, craft_in_inventory ) );
-        activity.values.push_back( is_long );
+        activity.values.push_back( command.is_long() );
     }
 }
 
@@ -766,7 +737,7 @@ void player::complete_craft( item &craft )
             }
         }
 
-        if( newit.is_food() ) {
+        if( newit.has_temperature() ) {
             if( should_heat ) {
                 newit.heat_up();
             } else {
@@ -792,7 +763,7 @@ void player::complete_craft( item &craft )
             if( bp.goes_bad() ) {
                 bp.set_relative_rot( relative_rot );
             }
-            if( bp.is_food() ) {
+            if( bp.has_temperature() ) {
                 if( should_heat ) {
                     bp.heat_up();
                 } else {
@@ -811,8 +782,7 @@ void player::complete_craft( item &craft )
 /* selection of component if a recipe requirement has multiple options (e.g. 'duct tap' or 'welder') */
 comp_selection<item_comp> player::select_item_component( const std::vector<item_comp> &components,
         int batch, inventory &map_inv, bool can_cancel,
-        const std::function<bool( const item & )> &amount_filter,
-        const std::function<bool( const item & )> &charges_filter )
+        const std::function<bool( const item & )> &filter, bool player_inv )
 {
     std::vector<item_comp> player_has;
     std::vector<item_comp> map_has;
@@ -826,7 +796,7 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
         bool found = false;
 
         if( item::count_by_charges( type ) && count > 0 ) {
-            long map_charges = map_inv.charges_of( type, std::numeric_limits<long>::max(), charges_filter );
+            long map_charges = map_inv.charges_of( type, std::numeric_limits<long>::max(), filter );
 
             // If map has infinite charges, just use them
             if( map_charges == item::INFINITE_CHARGES ) {
@@ -834,36 +804,47 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
                 selected.comp = component;
                 return selected;
             }
-
-            long player_charges = charges_of( type, std::numeric_limits<long>::max(), charges_filter );
-
-            if( player_charges >= count ) {
-                player_has.push_back( component );
-                found = true;
-            }
-            if( map_charges >= count ) {
-                map_has.push_back( component );
-                found = true;
-            }
-            if( !found && player_charges + map_charges >= count ) {
-                mixed.push_back( component );
+            if( player_inv ) {
+                long player_charges = charges_of( type, std::numeric_limits<long>::max(), filter );
+                if( player_charges >= count ) {
+                    player_has.push_back( component );
+                    found = true;
+                }
+                if( map_charges >= count ) {
+                    map_has.push_back( component );
+                    found = true;
+                }
+                if( !found && player_charges + map_charges >= count ) {
+                    mixed.push_back( component );
+                }
+            } else {
+                if( map_charges >= count ) {
+                    map_has.push_back( component );
+                    found = true;
+                }
             }
         } else { // Counting by units, not charges
 
             // Can't use pseudo items as components
-            if( has_amount( type, count, false, amount_filter ) ) {
-                player_has.push_back( component );
-                found = true;
-            }
-            if( map_inv.has_components( type, count ) ) {
-                map_has.push_back( component );
-                found = true;
-            }
-            if( !found &&
-                amount_of( type, false, std::numeric_limits<int>::max(), amount_filter ) +
-                map_inv.amount_of( type, false, std::numeric_limits<int>::max(),
-                                   amount_filter ) >= count ) {
-                mixed.push_back( component );
+            if( player_inv ) {
+                if( has_amount( type, count, false, filter ) ) {
+                    player_has.push_back( component );
+                    found = true;
+                }
+                if( map_inv.has_components( type, count, filter ) ) {
+                    map_has.push_back( component );
+                    found = true;
+                }
+                if( !found &&
+                    amount_of( type, false, std::numeric_limits<int>::max(), filter ) +
+                    map_inv.amount_of( type, false, std::numeric_limits<int>::max(), filter ) >= count ) {
+                    mixed.push_back( component );
+                }
+            } else {
+                if( map_inv.has_components( type, count, filter ) ) {
+                    map_has.push_back( component );
+                    found = true;
+                }
             }
         }
     }
@@ -888,8 +869,8 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
                                                 item::nname( map_ha.type ),
                                                 ( map_ha.count * batch ),
                                                 item::count_by_charges( map_ha.type ) ?
-                                                map_inv.charges_of( map_ha.type, std::numeric_limits<int>::max(), charges_filter ) :
-                                                map_inv.amount_of( map_ha.type, false, std::numeric_limits<int>::max(), amount_filter ) );
+                                                map_inv.charges_of( map_ha.type, std::numeric_limits<int>::max(), filter ) :
+                                                map_inv.amount_of( map_ha.type, false, std::numeric_limits<int>::max(), filter ) );
             cmenu.addentry( tmpStr );
         }
         for( auto &player_ha : player_has ) { // Index map_has.size()-(map_has.size()+player_has.size()-1)
@@ -897,17 +878,17 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
                                                 item::nname( player_ha.type ),
                                                 ( player_ha.count * batch ),
                                                 item::count_by_charges( player_ha.type ) ?
-                                                charges_of( player_ha.type, std::numeric_limits<int>::max(), charges_filter ) :
-                                                amount_of( player_ha.type, false, std::numeric_limits<int>::max(), amount_filter ) );
+                                                charges_of( player_ha.type, std::numeric_limits<int>::max(), filter ) :
+                                                amount_of( player_ha.type, false, std::numeric_limits<int>::max(), filter ) );
             cmenu.addentry( tmpStr );
         }
         for( auto &component : mixed ) {
             // Index player_has.size()-(map_has.size()+player_has.size()+mixed.size()-1)
             long available = item::count_by_charges( component.type ) ?
-                             map_inv.charges_of( component.type, std::numeric_limits<int>::max(), charges_filter ) +
-                             charges_of( component.type, std::numeric_limits<int>::max(), charges_filter ) :
-                             map_inv.amount_of( component.type, false, std::numeric_limits<int>::max(), amount_filter ) +
-                             amount_of( component.type, false, std::numeric_limits<int>::max(), amount_filter );
+                             map_inv.charges_of( component.type, std::numeric_limits<int>::max(), filter ) +
+                             charges_of( component.type, std::numeric_limits<int>::max(), filter ) :
+                             map_inv.amount_of( component.type, false, std::numeric_limits<int>::max(), filter ) +
+                             amount_of( component.type, false, std::numeric_limits<int>::max(), filter );
             std::string tmpStr = string_format( _( "%s (%d/%d nearby & on person)" ),
                                                 item::nname( component.type ),
                                                 component.count * batch,
@@ -917,11 +898,12 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
 
         // Unlike with tools, it's a bad thing if there aren't any components available
         if( cmenu.entries.empty() ) {
-            if( has_trait( trait_id( "DEBUG_HS" ) ) ) {
-                selected.use_from = use_from_player;
-                return selected;
+            if( player_inv ) {
+                if( has_trait( trait_id( "DEBUG_HS" ) ) ) {
+                    selected.use_from = use_from_player;
+                    return selected;
+                }
             }
-
             debugmsg( "Attempted a recipe with no available components!" );
             selected.use_from = cancel;
             return selected;
@@ -976,8 +958,14 @@ void empty_buckets( player &p )
 }
 
 std::list<item> player::consume_items( const comp_selection<item_comp> &is, int batch,
-                                       const std::function<bool( const item & )> &amount_filter,
-                                       const std::function<bool( const item & )> &charges_filter )
+                                       const std::function<bool( const item & )> &filter )
+{
+    return consume_items( g->m, is, batch, filter, pos(), PICKUP_RANGE );
+}
+
+
+std::list<item> player::consume_items( map &m, const comp_selection<item_comp> &is, int batch,
+                                       const std::function<bool( const item & )> &filter, tripoint origin, int radius )
 {
     std::list<item> ret;
 
@@ -987,7 +975,7 @@ std::list<item> player::consume_items( const comp_selection<item_comp> &is, int 
 
     item_comp selected_comp = is.comp;
 
-    const tripoint &loc = pos();
+    const tripoint &loc = origin;
     const bool by_charges = ( item::count_by_charges( selected_comp.type ) && selected_comp.count > 0 );
     // Count given to use_amount/use_charges, changed by those functions!
     long real_count = ( selected_comp.count > 0 ) ? selected_comp.count * batch : abs(
@@ -995,22 +983,20 @@ std::list<item> player::consume_items( const comp_selection<item_comp> &is, int 
     // First try to get everything from the map, than (remaining amount) from player
     if( is.use_from & use_from_map ) {
         if( by_charges ) {
-            std::list<item> tmp = g->m.use_charges( loc, PICKUP_RANGE, selected_comp.type, real_count,
-                                                    charges_filter );
+            std::list<item> tmp = m.use_charges( loc, radius, selected_comp.type, real_count, filter );
             ret.splice( ret.end(), tmp );
         } else {
-            std::list<item> tmp = g->m.use_amount( loc, PICKUP_RANGE, selected_comp.type,
-                                                   real_count, amount_filter );
+            std::list<item> tmp = g->m.use_amount( loc, radius, selected_comp.type, real_count, filter );
             remove_ammo( tmp, *this );
             ret.splice( ret.end(), tmp );
         }
     }
     if( is.use_from & use_from_player ) {
         if( by_charges ) {
-            std::list<item> tmp = use_charges( selected_comp.type, real_count, charges_filter );
+            std::list<item> tmp = use_charges( selected_comp.type, real_count, filter );
             ret.splice( ret.end(), tmp );
         } else {
-            std::list<item> tmp = use_amount( selected_comp.type, real_count, amount_filter );
+            std::list<item> tmp = use_amount( selected_comp.type, real_count, filter );
             remove_ammo( tmp, *this );
             ret.splice( ret.end(), tmp );
         }
@@ -1033,19 +1019,17 @@ std::list<item> player::consume_items( const comp_selection<item_comp> &is, int 
 In that case, consider using select_item_component with 1 pre-created map inventory, and then passing the results
 to consume_items */
 std::list<item> player::consume_items( const std::vector<item_comp> &components, int batch,
-                                       const std::function<bool( const item & )> &amount_filter,
-                                       const std::function<bool( const item & )> &charges_filter )
+                                       const std::function<bool( const item & )> &filter )
 {
     inventory map_inv;
     map_inv.form_from_map( pos(), PICKUP_RANGE );
-    return consume_items( select_item_component( components, batch, map_inv, false, amount_filter,
-                          charges_filter ),
-                          batch, amount_filter, charges_filter );
+    return consume_items( select_item_component( components, batch, map_inv, false, filter ), batch,
+                          filter );
 }
 
 comp_selection<tool_comp>
 player::select_tool_component( const std::vector<tool_comp> &tools, int batch, inventory &map_inv,
-                               const std::string &hotkeys, bool can_cancel )
+                               const std::string &hotkeys, bool can_cancel, bool player_inv )
 {
 
     comp_selection<tool_comp> selected;
@@ -1058,13 +1042,15 @@ player::select_tool_component( const std::vector<tool_comp> &tools, int batch, i
         itype_id type = it->type;
         if( it->count > 0 ) {
             long count = it->count * batch;
-            if( has_charges( type, count ) ) {
-                player_has.push_back( *it );
+            if( player_inv ) {
+                if( has_charges( type, count ) ) {
+                    player_has.push_back( *it );
+                }
             }
             if( map_inv.has_charges( type, count ) ) {
                 map_has.push_back( *it );
             }
-        } else if( has_amount( type, 1 ) || map_inv.has_tools( type, 1 ) ) {
+        } else if( ( player_inv && has_amount( type, 1 ) ) || map_inv.has_tools( type, 1 ) ) {
             selected.comp = *it;
             found_nocharge = true;
         }
@@ -1139,8 +1125,14 @@ player::select_tool_component( const std::vector<tool_comp> &tools, int batch, i
     return selected;
 }
 
-/* we use this if we selected the tool earlier */
 void player::consume_tools( const comp_selection<tool_comp> &tool, int batch )
+{
+    consume_tools( g->m, tool, batch, pos(), PICKUP_RANGE );
+}
+
+/* we use this if we selected the tool earlier */
+void player::consume_tools( map &m, const comp_selection<tool_comp> &tool, int batch,
+                            tripoint origin, int radius )
 {
     if( has_trait( trait_DEBUG_HS ) ) {
         return;
@@ -1151,7 +1143,7 @@ void player::consume_tools( const comp_selection<tool_comp> &tool, int batch )
     }
     if( tool.use_from & use_from_map ) {
         long quantity = tool.comp.count * batch;
-        g->m.use_charges( pos(), PICKUP_RANGE, tool.comp.type, quantity );
+        m.use_charges( origin, radius, tool.comp.type, quantity );
     }
 
     // else, use_from_none (or cancel), so we don't use up any tools;
@@ -1201,7 +1193,7 @@ ret_val<bool> player::can_disassemble( const item &obj, const inventory &inv ) c
 
     for( const auto &opts : dis.get_qualities() ) {
         for( const auto &qual : opts ) {
-            if( !qual.has( inv ) ) {
+            if( !qual.has( inv, return_true ) ) {
                 // Here should be no dot at the end of the string as 'to_string()' provides it.
                 return ret_val<bool>::make_failure( _( "You need %s" ), qual.to_string().c_str() );
             }

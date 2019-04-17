@@ -999,8 +999,15 @@ void npc_follower_rules::serialize( JsonOut &json ) const
 
     // serialize the flags so they can be changed between save games
     for( const auto &rule : ally_rule_strs ) {
-        json.member( rule.first, has_flag( rule.second ) );
+        json.member( "rule_" + rule.first, has_flag( rule.second, false ) );
     }
+    for( const auto &rule : ally_rule_strs ) {
+        json.member( "override_enable_" + rule.first, has_override_enable( rule.second ) );
+    }
+    for( const auto &rule : ally_rule_strs ) {
+        json.member( "override_" + rule.first, has_override( rule.second ) );
+    }
+
     json.member( "pickup_whitelist", *pickup_whitelist );
 
     json.end_object();
@@ -1019,11 +1026,30 @@ void npc_follower_rules::deserialize( JsonIn &jsin )
     // deserialize the flags so they can be changed between save games
     for( const auto &rule : ally_rule_strs ) {
         bool tmpflag = false;
+        // legacy to handle rules that were saved before overrides
         data.read( rule.first, tmpflag );
         if( tmpflag ) {
             set_flag( rule.second );
         } else {
             clear_flag( rule.second );
+        }
+        data.read( "rule_" + rule.first, tmpflag );
+        if( tmpflag ) {
+            set_flag( rule.second );
+        } else {
+            clear_flag( rule.second );
+        }
+        data.read( "override_enable_" + rule.first, tmpflag );
+        if( tmpflag ) {
+            enable_override( rule.second );
+        } else {
+            disable_override( rule.second );
+        }
+        data.read( "override_" + rule.first, tmpflag );
+        if( tmpflag ) {
+            set_override( rule.second );
+        } else {
+            clear_override( rule.second );
         }
     }
 
@@ -2896,14 +2922,6 @@ void basecamp::serialize( JsonOut &json ) const
         json.member( "name", name );
         json.member( "pos", omt_pos );
         json.member( "bb_pos", bb_pos );
-        json.member( "sort_points" );
-        json.start_array();
-        for( const tripoint &it : sort_points ) {
-            json.start_object();
-            json.member( "pos", it );
-            json.end_object();
-        }
-        json.end_array();
         json.member( "expansions" );
         json.start_array();
         for( const auto &expansion : expansions ) {

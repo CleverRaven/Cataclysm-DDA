@@ -339,7 +339,7 @@
     "ammo": "9mm",
     "skill": "rifle",
     "ranged_damage": 1,
-    "dispersion": 180,
+    "dispersion": 550,
     "durability": 6,
     "loudness": 25,
     "clip_size": 1,

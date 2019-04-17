@@ -216,6 +216,8 @@ void recipe::load( JsonObject &jo, const std::string &src )
         jo.throw_error( "unknown recipe type", "type" );
     }
 
+    assign( jo, "construction_blueprint", blueprint );
+
     // inline requirements are always replaced (cannot be inherited)
     const requirement_id req_id( string_format( "inline_%s_%s", type.c_str(), ident_.c_str() ) );
     requirement_data::load_requirement( jo, req_id );
@@ -413,4 +415,30 @@ std::string recipe::result_name() const
     }
 
     return name;
+}
+
+const std::function<bool( const item & )> recipe::get_component_filter() const
+{
+    std::function<bool( const item & )> filter = is_crafting_component;
+    const item result = create_result();
+
+    // Disallow crafting of non-perishables with rotten components
+    // Make an exception for seeds
+    // TODO: move seed extraction recipes to uncraft
+    if( result.is_food() && !result.goes_bad() && !has_flag( "ALLOW_ROTTEN" ) ) {
+        filter = []( const item & component ) {
+            return is_crafting_component( component ) && !component.rotten();
+        };
+    }
+    return filter;
+}
+
+bool recipe::is_blueprint() const
+{
+    return !blueprint.empty();
+}
+
+std::string recipe::get_blueprint() const
+{
+    return blueprint;
 }

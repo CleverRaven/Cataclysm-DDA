@@ -232,7 +232,10 @@ item::item( const recipe *rec, long qty, std::list<item> items )
         active = true;
         last_temp_check = bday;
         if( goes_bad() ) {
-            set_relative_rot( get_most_rotten_component( *this )->get_relative_rot() );
+            const item *most_rotten = get_most_rotten_component( *this );
+            if( most_rotten ) {
+                set_relative_rot( most_rotten->get_relative_rot() );
+            }
         }
     }
 
@@ -259,8 +262,7 @@ item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &
     item result( "corpse", turn );
     result.corpse = &mt.obj();
 
-    result.active = result.corpse->has_flag( MF_REVIVES );
-    if( result.active && one_in( 20 ) ) {
+    if( result.corpse->has_flag( MF_REVIVES ) && one_in( 20 ) ) {
         result.item_tags.insert( "REVIVE_SPECIAL" );
     }
 
@@ -1069,17 +1071,19 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                               "", iteminfo::lower_is_better,
                                               to_turn<int>( food->last_temp_check ) ) );
                 }
-                if( is_food() || is_food_container() ) {
+                if( has_temperature() || is_food_container() ) {
                     info.push_back( iteminfo( "BASE", _( "Temp: " ), "", iteminfo::lower_is_better,
                                               food->temperature ) );
                     info.push_back( iteminfo( "BASE", _( "Spec ener: " ), "", iteminfo::lower_is_better,
                                               food->specific_energy ) );
                     info.push_back( iteminfo( "BASE", _( "Spec heat lq: " ), "", iteminfo::lower_is_better,
-                                              1000 * food->get_comestible()->specific_heat_liquid ) );
+                                              1000 * food->get_specific_heat_liquid() ) );
                     info.push_back( iteminfo( "BASE", _( "Spec heat sld: " ), "", iteminfo::lower_is_better,
-                                              1000 * food->get_comestible()->specific_heat_solid ) );
+                                              1000 * food->get_specific_heat_solid() ) );
                     info.push_back( iteminfo( "BASE", _( "latent heat: " ), "", iteminfo::lower_is_better,
-                                              food->get_comestible()->latent_heat ) );
+                                              food->get_latent_heat() ) );
+                    info.push_back( iteminfo( "BASE", _( "Freeze point: " ), "", iteminfo::lower_is_better,
+                                              food->get_freeze_point() ) );
                 }
             }
             info.push_back( iteminfo( "BASE", _( "burn: " ), "", iteminfo::lower_is_better,
@@ -2117,7 +2121,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             } else {
                 if( is_craft() ) {
                     const std::string desc = _( "This is an in progress %s.  It is %d percent complete." );
-                    const int percent_progress = 100 * item_counter / making->time;
+                    const int percent_progress = item_counter / 100000;
                     info.push_back( iteminfo( "DESCRIPTION", string_format( desc,
                                               making->result_name(),
                                               percent_progress ) ) );
@@ -2227,6 +2231,9 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                     return item::find_type( e )->nname( 1 );
                 }, enumeration_conjunction::or_ ) );
                 insert_separation_line();
+                if( reinforceable() ) {
+                    info.emplace_back( "DESCRIPTION", _( "* This item can be <good>reinforced</good>." ) );
+                }
 
             } else {
                 info.emplace_back( "DESCRIPTION", _( "* This item is <bad>not repairable</bad>." ) );
@@ -2562,7 +2569,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             } else {
                 const std::string recipes = enumerate_as_string( known_recipes.begin(), known_recipes.end(),
                 [ &inv ]( const recipe * r ) {
-                    if( r->requirements().can_make_with_inventory( inv ) ) {
+                    if( r->requirements().can_make_with_inventory( inv, r->get_component_filter() ) ) {
                         return r->result_name();
                     } else {
                         return string_format( "<dark>%s</dark>", r->result_name() );
@@ -2649,8 +2656,11 @@ nc_color item::color_in_inventory() const
     } else if( has_flag( "LEAK_DAM" ) && has_flag( "RADIOACTIVE" ) && damage() > 0 ) {
         ret = c_light_green;
 
-    } else if( active && !is_food() && !is_food_container() ) {
+    } else if( active && !is_food() && !is_food_container() && !is_corpse() ) {
         // Active items show up as yellow
+        ret = c_yellow;
+    } else if( is_corpse() && can_revive() ) {
+        // Only reviving corpses are yellow
         ret = c_yellow;
     } else if( is_food() || is_food_container() ) {
         const bool preserves = type->container && type->container->preserves;
@@ -2982,7 +2992,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         if( charges > 1 ) {
             ret << " (" << charges << ")";
         }
-        const int percent_progress = 100 * item_counter / making->time;
+        const int percent_progress = item_counter / 100000;
         ret << " (" << percent_progress << "%)";
         maintext = ret.str();
     } else if( contents.size() == 1 ) {
@@ -3023,7 +3033,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         } else if( is_fresh() ) {
             ret << _( " (fresh)" );
         }
-
+    }
+    if( has_temperature() ) {
         if( has_flag( "HOT" ) ) {
             ret << _( " (hot)" );
         }
@@ -4072,7 +4083,7 @@ bool item::craft_has_charges()
     return false;
 }
 
-#ifdef _MSC_VER
+#if defined(_MSC_VER)
 // Deal with MSVC compiler bug (#17791, #17958)
 #pragma optimize( "", off )
 #endif
@@ -4153,7 +4164,7 @@ int item::cut_resist( bool to_self ) const
     return lround( ( resist * eff_thickness ) + padding );
 }
 
-#ifdef _MSC_VER
+#if defined(_MSC_VER)
 #pragma optimize( "", on )
 #endif
 
@@ -4486,6 +4497,19 @@ bool item::conductive() const
     } );
 }
 
+bool item::reinforceable() const
+{
+    if( is_null() || has_flag( "NO_REPAIR" ) ) {
+        return false;
+    }
+
+    // If a material is reinforceable, so are we
+    const auto mats = made_of_types();
+    return std::any_of( mats.begin(), mats.end(), []( const material_type * mt ) {
+        return mt->reinforces() == true;
+    } );
+}
+
 bool item::destroyed_at_zero_charges() const
 {
     return ( is_ammo() || is_food() );
@@ -4583,6 +4607,11 @@ bool item::is_food_container() const
             making->create_result().is_food_container() );
 }
 
+bool item::has_temperature() const
+{
+    return is_food() || is_corpse();
+}
+
 bool item::is_med_container() const
 {
     return !contents.empty() && contents.front().is_medication();
@@ -4596,6 +4625,42 @@ bool item::is_corpse() const
 const mtype *item::get_mtype() const
 {
     return corpse;
+}
+
+float item::get_specific_heat_liquid() const
+{
+    if( is_corpse() ) {
+        return made_of_types()[0]->specific_heat_liquid();
+    }
+    // If it is not a corpse it is a food
+    return get_comestible()->specific_heat_liquid;
+}
+
+float item::get_specific_heat_solid() const
+{
+    if( is_corpse() ) {
+        return made_of_types()[0]->specific_heat_solid();
+    }
+    // If it is not a corpse it is a food
+    return get_comestible()->specific_heat_solid;
+}
+
+float item::get_latent_heat() const
+{
+    if( is_corpse() ) {
+        return made_of_types()[0]->latent_heat();
+    }
+    // If it is not a corpse it is a food
+    return get_comestible()->latent_heat;
+}
+
+float item::get_freeze_point() const
+{
+    if( is_corpse() ) {
+        return made_of_types()[0]->freeze_point();
+    }
+    // If it is not a corpse it is a food
+    return get_comestible()->freeze_point;
 }
 
 void item::set_mtype( const mtype *const m )
@@ -6108,11 +6173,7 @@ bool item::burn( fire_data &frd )
             burnt = 0;
             return false;
         }
-
-        if( burnt + burn_added > mt->hp ) {
-            active = false;
-        }
-    } else if( is_food() ) {
+    } else if( has_temperature() ) {
         heat_up();
     } else if( is_food_container() ) {
         contents.front().heat_up();
@@ -6350,10 +6411,10 @@ bool item::allow_crafting_component() const
 
 void item::set_item_specific_energy( const float new_specific_energy )
 {
-    const float specific_heat_liquid = get_comestible()->specific_heat_liquid; // J/g K
-    const float specific_heat_solid = get_comestible()->specific_heat_solid; // J/g K
-    const float latent_heat = get_comestible()->latent_heat; // J/kg
-    const float freezing_temperature = temp_to_kelvin( get_comestible()->freeze_point );  // K
+    const float specific_heat_liquid = get_specific_heat_liquid(); // J/g K
+    const float specific_heat_solid = get_specific_heat_solid(); // J/g K
+    const float latent_heat = get_latent_heat(); // J/kg
+    const float freezing_temperature = temp_to_kelvin( get_freeze_point() );  // K
     const float completely_frozen_specific_energy = specific_heat_solid *
             freezing_temperature;  // Energy that the item would have if it was completely solid at freezing temperature
     const float completely_liquid_specific_energy = completely_frozen_specific_energy +
@@ -6400,7 +6461,7 @@ void item::set_item_specific_energy( const float new_specific_energy )
         item_tags.insert( "FROZEN" );
         current_phase = SOLID;
         // If below freezing temp AND the food may have parasites AND food does not have "NO_PARASITES" tag then add the "NO_PARASITES" tag.
-        if( new_item_temperature < freezing_temperature && get_comestible()->parasites > 0 ) {
+        if( is_food() && new_item_temperature < freezing_temperature && get_comestible()->parasites > 0 ) {
             if( !( item_tags.count( "NO_PARASITES" ) ) ) {
                 item_tags.insert( "NO_PARASITES" );
             }
@@ -6411,14 +6472,15 @@ void item::set_item_specific_energy( const float new_specific_energy )
     //The extra 0.5 are there to make rounding go better
     temperature = static_cast<int>( 100000 * new_item_temperature + 0.5 );
     specific_energy = static_cast<int>( 100000 * new_specific_energy + 0.5 );
+    reset_temp_check();
 }
 
 float item::get_specific_energy_from_temperature( const float new_temperature )
 {
-    const float specific_heat_liquid = get_comestible()->specific_heat_liquid; // J/g K
-    const float specific_heat_solid = get_comestible()->specific_heat_solid; // J/g K
-    const float latent_heat = get_comestible()->latent_heat; // J/kg
-    const float freezing_temperature = temp_to_kelvin( get_comestible()->freeze_point );  // K
+    const float specific_heat_liquid = get_specific_heat_liquid(); // J/g K
+    const float specific_heat_solid = get_specific_heat_solid(); // J/g K
+    const float latent_heat = get_latent_heat(); // J/kg
+    const float freezing_temperature = temp_to_kelvin( get_freeze_point() );  // K
     const float completely_frozen_energy = specific_heat_solid *
                                            freezing_temperature;  // Energy that the item would have if it was completely solid at freezing temperature
     const float completely_liquid_energy = completely_frozen_energy +
@@ -6436,9 +6498,9 @@ float item::get_specific_energy_from_temperature( const float new_temperature )
 
 void item::set_item_temperature( float new_temperature )
 {
-    const float freezing_temperature = temp_to_kelvin( get_comestible()->freeze_point );  // K
-    const float specific_heat_solid = get_comestible()->specific_heat_solid; // J/g K
-    const float latent_heat = get_comestible()->latent_heat; // J/kg
+    const float freezing_temperature = temp_to_kelvin( get_freeze_point() );  // K
+    const float specific_heat_solid = get_specific_heat_solid(); // J/g K
+    const float latent_heat = get_latent_heat(); // J/kg
 
     float new_specific_energy = get_specific_energy_from_temperature( new_temperature );
     float freeze_percentage = 0;
@@ -6477,7 +6539,7 @@ void item::set_item_temperature( float new_temperature )
         item_tags.insert( "FROZEN" );
         current_phase = SOLID;
         // If below freezing temp AND the food may have parasites AND food does not have "NO_PARASITES" tag then add the "NO_PARASITES" tag.
-        if( new_temperature < freezing_temperature && get_comestible()->parasites > 0 ) {
+        if( is_food() && new_temperature < freezing_temperature && get_comestible()->parasites > 0 ) {
             if( !( item_tags.count( "NO_PARASITES" ) ) ) {
                 item_tags.insert( "NO_PARASITES" );
             }
@@ -6485,6 +6547,7 @@ void item::set_item_temperature( float new_temperature )
     } else if( new_temperature < temp_to_kelvin( temperatures::cold ) ) {
         item_tags.insert( "COLD" );
     }
+    reset_temp_check();
 }
 
 void item::fill_with( item &liquid, long amount )
@@ -6545,16 +6608,20 @@ void item::set_countdown( int num_turns )
 }
 
 bool item::use_charges( const itype_id &what, long &qty, std::list<item> &used,
-                        const tripoint &pos )
+                        const tripoint &pos, const std::function<bool( const item & )> &filter )
 {
     std::vector<item *> del;
 
     // Remember qty to unseal self
     long old_qty = qty;
-    visit_items( [&what, &qty, &used, &pos, &del]( item * e ) {
+    visit_items( [&what, &qty, &used, &pos, &del, &filter]( item * e ) {
         if( qty == 0 ) {
             // found sufficient charges
             return VisitResponse::ABORT;
+        }
+
+        if( !filter( *e ) ) {
+            return VisitResponse::NEXT;
         }
 
         if( e->is_tool() ) {
@@ -6877,10 +6944,10 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
     // temperature = item temperature (10e-5 K). Stored in the item
     const float conductivity_term = 0.046 * std::pow( to_milliliter( volume() ),
                                     2.0 / 3.0 ) / insulation;
-    const float specific_heat_liquid = get_comestible()->specific_heat_liquid;
-    const float specific_heat_solid = get_comestible()->specific_heat_solid;
-    const float latent_heat = get_comestible()->latent_heat;
-    const float freezing_temperature = temp_to_kelvin( get_comestible()->freeze_point );  // K
+    const float specific_heat_liquid = get_specific_heat_liquid();
+    const float specific_heat_solid = get_specific_heat_solid();
+    const float latent_heat = get_latent_heat();
+    const float freezing_temperature = temp_to_kelvin( get_freeze_point() );  // K
     const float completely_frozen_specific_energy = specific_heat_solid *
             freezing_temperature;  // Energy that the item would have if it was completely solid at freezing temperature
     const float completely_liquid_specific_energy = completely_frozen_specific_energy +
@@ -7014,7 +7081,7 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
         item_tags.insert( "FROZEN" );
         current_phase = SOLID;
         // If below freezing temp AND the food may have parasites AND food does not have "NO_PARASITES" tag then add the "NO_PARASITES" tag.
-        if( new_item_temperature < freezing_temperature && get_comestible()->parasites > 0 ) {
+        if( is_food() && new_item_temperature < freezing_temperature && get_comestible()->parasites > 0 ) {
             if( !( item_tags.count( "NO_PARASITES" ) ) ) {
                 item_tags.insert( "NO_PARASITES" );
             }
@@ -7066,15 +7133,8 @@ void item::reset_temp_check()
     last_temp_check = calendar::turn;
 }
 
-bool item::process_food( const player *carrier, const tripoint &p, int temp, float insulation )
+bool item::process_food( const tripoint &p )
 {
-    if( carrier != nullptr && carrier->has_item( *this ) ) {
-        temp += 5; // body heat increases inventory temperature
-        insulation *= 1.5; // clothing provides inventory some level of insulation
-    }
-
-    // temperature can affect rot, so do it first
-    update_temp( temp, insulation );
     calc_rot( p );
     return false;
 }
@@ -7096,13 +7156,12 @@ void item::process_artifact( player *carrier, const tripoint & /*pos*/ )
 bool item::process_corpse( player *carrier, const tripoint &pos )
 {
     // some corpses rez over time
-    if( corpse == nullptr ) {
+    if( corpse == nullptr || damage() >= max_damage() ) {
         return false;
     }
     if( !ready_to_revive( pos ) ) {
         return false;
     }
-    active = false;
     if( rng( 0, volume() / units::legacy_volume_factor ) > burnt && g->revive_corpse( pos, *this ) ) {
         if( carrier == nullptr ) {
             if( g->u.sees( pos ) ) {
@@ -7427,7 +7486,7 @@ bool item::process_tool( player *carrier, const tripoint &pos )
 
 bool item::process( player *carrier, const tripoint &pos, bool activate )
 {
-    if( is_food() || is_food_container() ) {
+    if( has_temperature() || is_food_container() ) {
         return process( carrier, pos, activate, g->get_temperature( pos ), 1 );
     } else {
         return process( carrier, pos, activate, 0, 1 );
@@ -7482,10 +7541,19 @@ bool item::process( player *carrier, const tripoint &pos, bool activate, int tem
         g->m.emit_field( pos, e );
     }
 
+    if( has_temperature() ) {
+
+        if( carrier != nullptr && carrier->has_item( *this ) ) {
+            temp += 5; // body heat increases inventory temperature
+            insulation *= 1.5; // clothing provides inventory some level of insulation
+        }
+        update_temp( temp, insulation );
+    }
+
     if( has_flag( "FAKE_SMOKE" ) && process_fake_smoke( carrier, pos ) ) {
         return true;
     }
-    if( is_food() && process_food( carrier, pos, temp, insulation ) ) {
+    if( is_food() && process_food( pos ) ) {
         return true;
     }
     if( is_corpse() && process_corpse( carrier, pos ) ) {

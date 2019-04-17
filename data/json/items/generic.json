@@ -749,6 +749,20 @@
   },
   {
     "type": "GENERIC",
+    "id": "thermostat",
+    "symbol": ",",
+    "color": "light_gray",
+    "name": "bimetal thermostat",
+    "category": "spare_parts",
+    "description": "A simple thermostat controlled by thermal expansion of a bimetal strip.",
+    "price": 1000,
+    "price_postapoc": 100,
+    "material": "iron",
+    "weight": 226,
+    "volume": 1
+  },
+  {
+    "type": "GENERIC",
     "id": "television",
     "symbol": ";",
     "color": "dark_gray",

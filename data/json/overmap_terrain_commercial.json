@@ -433,6 +433,27 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "s_bike_shop_roof",
+    "name": "bike shop roof",
+    "copy-from": "generic_city_building",
+    "color": "i_cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_bike_shop_1",
+    "name": "bike shop",
+    "copy-from": "generic_city_building",
+    "color": "i_cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_bike_shop_roof_1",
+    "name": "bike shop roof",
+    "copy-from": "generic_city_building",
+    "color": "i_cyan"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "s_pizza_parlor",
     "name": "pizza parlor",
     "copy-from": "generic_city_building",
@@ -468,6 +489,34 @@
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "bank_roof",
+    "name": "bank roof",
+    "sym": "$",
+    "color": "light_gray",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "bank_1",
+    "name": "bank",
+    "sym": "$",
+    "color": "light_gray",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "bank_roof_1",
+    "name": "bank roof",
+    "sym": "$",
+    "color": "light_gray",
+    "see_cost": 5,
+    "mondensity": 2
   },
   {
     "type": "overmap_terrain",
@@ -1302,7 +1351,17 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "loffice_tower_9b",
+    "copy-from": "generic_large_office_tower"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "loffice_tower_10",
+    "copy-from": "generic_large_office_tower"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "loffice_tower_10b",
     "copy-from": "generic_large_office_tower"
   },
   {
@@ -1334,6 +1393,34 @@
     "type": "overmap_terrain",
     "id": "loffice_tower_16",
     "copy-from": "generic_large_office_tower"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "loffice_tower_17",
+    "name": "open air",
+    "sym": ".",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "loffice_tower_18",
+    "name": "open air",
+    "sym": ".",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "loffice_tower_19",
+    "name": "open air",
+    "sym": ".",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "loffice_tower_20",
+    "name": "open air",
+    "sym": ".",
+    "color": "blue"
   },
   {
     "type": "overmap_terrain",

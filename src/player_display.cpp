@@ -511,6 +511,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
     input_context ctxt( "PLAYER_INFO" );
     ctxt.register_updown();
     ctxt.register_action( "NEXT_TAB", _( "Cycle to next category" ) );
+    ctxt.register_action( "PREV_TAB", _( "Cycle to previous category" ) );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "CONFIRM", _( "Toggle skill training" ) );
     ctxt.register_action( "HELP_KEYBINDINGS" );
@@ -852,12 +853,12 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     } else {
                         line--;
                     }
-                } else if( action == "NEXT_TAB" ) {
+                } else if( action == "NEXT_TAB" || action == "PREV_TAB" ) {
                     mvwprintz( w_stats, 0, 0, c_light_gray, header_spaces.c_str() );
                     center_print( w_stats, 0, c_light_gray, title_STATS );
                     wrefresh( w_stats );
                     line = 0;
-                    curtab++;
+                    curtab = action == "NEXT_TAB" ? curtab + 1 : 6;
                 } else if( action == "QUIT" ) {
                     done = true;
                 }
@@ -902,12 +903,12 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                             line--; // unpaired or unequal
                         }
                     }
-                } else if( action == "NEXT_TAB" ) {
+                } else if( action == "NEXT_TAB" || action == "PREV_TAB" ) {
                     mvwprintz( w_encumb, 0, 0, c_light_gray, header_spaces.c_str() );
                     center_print( w_encumb, 0, c_light_gray, title_ENCUMB );
                     wrefresh( w_encumb );
                     line = 0;
-                    curtab++;
+                    curtab = action == "NEXT_TAB" ? curtab + 1 : curtab - 1;
                 } else if( action == "QUIT" ) {
                     done = true;
                 }
@@ -959,7 +960,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     if( line > 0 ) {
                         line--;
                     }
-                } else if( action == "NEXT_TAB" ) {
+                } else if( action == "NEXT_TAB" || action == "PREV_TAB" ) {
                     mvwprintz( w_traits, 0, 0, c_light_gray, header_spaces.c_str() );
                     center_print( w_traits, 0, c_light_gray, title_TRAITS );
                     for( size_t i = 0; i < traitslist.size() && i < trait_win_size_y; i++ ) {
@@ -971,7 +972,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     }
                     wrefresh( w_traits );
                     line = 0;
-                    curtab++;
+                    curtab = action == "NEXT_TAB" ? curtab + 1 : curtab - 1;
                 } else if( action == "QUIT" ) {
                     done = true;
                 }
@@ -1017,7 +1018,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     if( line > 0 ) {
                         line--;
                     }
-                } else if( action == "NEXT_TAB" ) {
+                } else if( action == "NEXT_TAB" || action == "PREV_TAB" ) {
                     mvwprintz( w_bionics, 0, 0, c_light_gray, header_spaces.c_str() );
                     center_print( w_bionics, 0, c_light_gray, title_BIONICS );
                     trim_and_print( w_bionics, 1, 1, getmaxx( w_bionics ) - 1, c_white,
@@ -1029,7 +1030,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     }
                     wrefresh( w_bionics );
                     line = 0;
-                    curtab++;
+                    curtab = action == "NEXT_TAB" ? curtab + 1 : curtab - 1;
                 } else if( action == "QUIT" ) {
                     done = true;
                 }
@@ -1076,15 +1077,16 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     if( line > 0 ) {
                         line--;
                     }
-                } else if( action == "NEXT_TAB" ) {
+                } else if( action == "NEXT_TAB" || action == "PREV_TAB" ) {
                     mvwprintz( w_effects, 0, 0, c_light_gray, header_spaces.c_str() );
                     center_print( w_effects, 0, c_light_gray, title_EFFECTS );
                     for( size_t i = 0; i < effect_name.size() && i < 7; i++ ) {
-                        mvwprintz( w_effects, static_cast<int>( i + 1 ), 0, c_light_gray, effect_name[i] );
+                        trim_and_print( w_effects, static_cast<int>( i ) + 1, 0, getmaxx( w_effects ) - 1, c_light_gray,
+                                        effect_name[i] );
                     }
                     wrefresh( w_effects );
                     line = 0;
-                    curtab = 1;
+                    curtab = action == "NEXT_TAB" ? 1 : curtab - 1;
                 } else if( action == "QUIT" ) {
                     done = true;
                 }
@@ -1176,7 +1178,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     if( line > 0 ) {
                         line--;
                     }
-                } else if( action == "NEXT_TAB" ) {
+                } else if( action == "NEXT_TAB" || action == "PREV_TAB" ) {
                     werase( w_skills );
                     mvwprintz( w_skills, 0, 0, c_light_gray, header_spaces.c_str() );
                     center_print( w_skills, 0, c_light_gray, title_SKILLS );
@@ -1208,7 +1210,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     }
                     wrefresh( w_skills );
                     line = 0;
-                    curtab++;
+                    curtab = action == "NEXT_TAB" ? curtab + 1 : curtab - 1;
                 } else if( action == "CONFIRM" ) {
                     get_skill_level_object( selectedSkill->ident() ).toggleTraining();
                 } else if( action == "QUIT" ) {

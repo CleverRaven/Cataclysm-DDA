@@ -20,7 +20,7 @@
 #include "vpart_position.h"
 #include "vpart_reference.h"
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
 #include <SDL_keyboard.h>
 #endif
 
@@ -560,11 +560,20 @@ const inventory_entry &inventory_column::get_selected() const
 
 std::vector<inventory_entry *> inventory_column::get_all_selected() const
 {
+    const auto filter_to_selected = [&]( const inventory_entry & entry ) {
+        return is_selected( entry );
+    };
+    return get_entries( filter_to_selected );
+}
+
+std::vector<inventory_entry *> inventory_column::get_entries(
+    const std::function<bool( const inventory_entry &entry )> &filter_func ) const
+{
     std::vector<inventory_entry *> res;
 
     if( allows_selecting() ) {
         for( const auto &elem : entries ) {
-            if( is_selected( elem ) ) {
+            if( filter_func( elem ) ) {
                 res.push_back( const_cast<inventory_entry *>( &elem ) );
             }
         }
@@ -1420,7 +1429,7 @@ void inventory_selector::set_filter()
     .max_length( 256 )
     .text( filter );
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
     if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
         SDL_StartTextInput();
     }
@@ -1773,6 +1782,7 @@ inventory_multiselector::inventory_multiselector( const player &p,
     selection_col( new selection_column( "SELECTION_COLUMN", selection_column_title ) )
 {
     ctxt.register_action( "RIGHT", _( "Mark/unmark selected item" ) );
+    ctxt.register_action( "DROP_NON_FAVORITE", _( "Mark/unmark non-favorite items" ) );
 
     for( auto &elem : get_all_columns() ) {
         elem->set_multiselect( true );
@@ -1960,10 +1970,30 @@ inventory_drop_selector::inventory_drop_selector( const player &p,
     inventory_multiselector( p, preset, _( "ITEMS TO DROP" ) ),
     max_chosen_count( std::numeric_limits<decltype( max_chosen_count )>::max() )
 {
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
     // allow user to type a drop number without dismissing virtual keyboard after each keypress
     ctxt.allow_text_entry = true;
 #endif
+}
+
+void inventory_drop_selector::process_selected( int &count,
+        const std::vector<inventory_entry *> &selected )
+{
+    if( count == 0 ) {
+        const bool clear = std::none_of( selected.begin(), selected.end(),
+        []( const inventory_entry * elem ) {
+            return elem->chosen_count > 0;
+        } );
+
+        if( clear ) {
+            count = max_chosen_count;
+        }
+    }
+
+    for( const auto &elem : selected ) {
+        set_chosen_count( *elem, count );
+    }
+    count = 0;
 }
 
 std::list<std::pair<int, int>> inventory_drop_selector::execute()
@@ -1985,6 +2015,15 @@ std::list<std::pair<int, int>> inventory_drop_selector::execute()
             }
             set_chosen_count( *input.entry, count );
             count = 0;
+        } else if( input.action == "DROP_NON_FAVORITE" ) {
+            const auto filter_to_nonfavorite_and_nonworn = []( const inventory_entry & entry ) {
+                return entry.is_item() &&
+                       !entry.location->is_favorite &&
+                       !g->u.is_worn( *entry.location );
+            };
+
+            const auto selected( get_active_column().get_entries( filter_to_nonfavorite_and_nonworn ) );
+            process_selected( count, selected );
         } else if( input.action == "RIGHT" ) {
             const auto selected( get_active_column().get_all_selected() );
 

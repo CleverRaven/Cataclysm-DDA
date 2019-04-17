@@ -128,7 +128,7 @@ void player::power_mutations()
     ctxt.register_action( "TOGGLE_EXAMINE" );
     ctxt.register_action( "REASSIGN" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
     for( const auto &p : passive ) {
         ctxt.register_manual_key( my_mutations[p].key, p.obj().name() );
     }

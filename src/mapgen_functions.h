@@ -243,5 +243,8 @@ void madd_field( map *m, int x, int y, field_id type, int density );
 
 void place_stairs( map *m, oter_id terrain_type, mapgendata dat );
 
-mapgen_update_func add_mapgen_update_func( JsonObject &jo );
+mapgen_update_func add_mapgen_update_func( JsonObject &jo, bool &defer );
+bool run_mapgen_update_func( const std::string update_mapgen_id, const tripoint &omt_pos,
+                             mission *miss = nullptr );
+
 #endif

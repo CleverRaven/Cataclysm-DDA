@@ -62,7 +62,7 @@ static std::string long_to_str( long number )
 
 bool is_mouse_enabled()
 {
-#if ((defined _WIN32 || defined WINDOWS) && !(defined TILES))
+#if defined(_WIN32) && !defined(TILES)
     return false;
 #else
     return true;
@@ -603,7 +603,7 @@ const std::string &input_context::input_to_action( const input_event &inp ) cons
     return CATA_ERROR;
 }
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
 std::list<input_context *> input_context::input_context_stack;
 
 void input_context::register_manual_key( manual_key mk )
@@ -1201,7 +1201,7 @@ long input_manager::get_previously_pressed_key() const
 
 void input_manager::wait_for_any_key()
 {
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
     input_context ctxt( "WAIT_FOR_ANY_KEY" );
 #endif
     while( true ) {
@@ -1217,7 +1217,7 @@ void input_manager::wait_for_any_key()
     }
 }
 
-#if !(defined TILES || defined _WIN32 || defined WINDOWS)
+#if !(defined(TILES) || defined(_WIN32))
 // Also specify that we don't have a gamepad plugged in.
 bool gamepad_available()
 {

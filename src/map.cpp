@@ -4287,6 +4287,10 @@ item &map::add_item_at( const tripoint &p,
     if( new_item.has_flag( "ACT_IN_FIRE" ) && get_field( p, fd_fire ) != nullptr ) {
         new_item.active = true;
     }
+    if( new_item.has_temperature() ) {
+        new_item.active = true;
+        new_item.process( nullptr, p, false );
+    }
 
     point l;
     submap *const current_submap = get_submap_at( p, l );
@@ -4737,7 +4741,7 @@ std::list<item> use_charges_from_stack( Stack stack, const itype_id type, long &
 {
     std::list<item> ret;
     for( auto a = stack.begin(); a != stack.end() && quantity > 0; ) {
-        if( filter( *a ) && !a->made_of( LIQUID ) && a->use_charges( type, quantity, ret, pos ) ) {
+        if( !a->made_of( LIQUID ) && a->use_charges( type, quantity, ret, pos, filter ) ) {
             a = stack.erase( a );
         } else {
             ++a;
@@ -7886,7 +7890,6 @@ void map::add_corpse( const tripoint &p )
     } else {
         body = item::make_corpse( mon_zombie );
         body.item_tags.insert( "REVIVE_SPECIAL" );
-        body.active = true;
     }
 
     add_item_or_charges( p, body );

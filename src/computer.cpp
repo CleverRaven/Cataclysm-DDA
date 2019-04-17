@@ -184,18 +184,18 @@ void computer::use()
         size_t options_size = options.size();
         print_newline();
         print_line( "%s - %s", _( name.c_str() ), _( "Root Menu" ) );
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
         input_context ctxt( "COMPUTER_MAINLOOP" );
 #endif
         for( size_t i = 0; i < options_size; i++ ) {
             print_line( "%d - %s", i + 1, _( options[i].name.c_str() ) );
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
             ctxt.register_manual_key( '1' + i, options[i].name.c_str() );
 #endif
         }
         print_line( "Q - %s", _( "Quit and Shut Down" ) );
         print_newline();
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
         ctxt.register_manual_key( 'Q', _( "Quit and Shut Down" ) );
 #endif
         char ch;
@@ -1520,7 +1520,7 @@ bool computer::query_bool( const char *const text, Args &&... args )
     const std::string formatted_text = string_format( text, std::forward<Args>( args )... );
     print_line( "%s (Y/N/Q)", formatted_text.c_str() );
     char ret;
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
     input_context ctxt( "COMPUTER_YESNO" );
     ctxt.register_manual_key( 'Y' );
     ctxt.register_manual_key( 'N' );
@@ -1549,7 +1549,7 @@ char computer::query_ynq( const char *const text, Args &&... args )
     const std::string formatted_text = string_format( text, std::forward<Args>( args )... );
     print_line( "%s (Y/N/Q)", formatted_text.c_str() );
     char ret;
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
     input_context ctxt( "COMPUTER_YESNO" );
     ctxt.register_manual_key( 'Y' );
     ctxt.register_manual_key( 'N' );

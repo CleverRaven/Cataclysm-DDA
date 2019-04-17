@@ -59,7 +59,7 @@ static const trait_id trait_SHELL2( "SHELL2" );
 const skill_id skill_driving( "driving" );
 const skill_id skill_melee( "melee" );
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
 extern std::map<std::string, std::list<input_event>> quick_shortcuts_map;
 extern bool add_best_key_for_action_to_quick_shortcuts( action_id action,
         const std::string &category, bool back );
@@ -135,7 +135,7 @@ input_context game::get_player_input( std::string &action )
         int offset_x = ( u.posx() + u.view_offset.x ) - ( getmaxx( w_terrain ) / 2 ) + g->sidebar_offset.x;
         int offset_y = ( u.posy() + u.view_offset.y ) - ( getmaxy( w_terrain ) / 2 ) + g->sidebar_offset.y;
 
-#ifdef TILES
+#if defined(TILES)
         if( tile_iso && use_tiles ) {
             iStartX = 0;
             iStartY = 0;
@@ -177,7 +177,7 @@ input_context game::get_player_input( std::string &action )
                 WEATHER_FLURRIES | WEATHER_SNOW | WEATHER_SNOWSTORM = "weather_snowflake"
                 */
 
-#ifdef TILES
+#if defined(TILES)
                 if( !use_tiles ) {
 #endif //TILES
                     //If not using tiles, erase previous drops from w_terrain
@@ -191,7 +191,7 @@ input_context game::get_player_input( std::string &action )
                                       lighting == LL_LOW, lighting == LL_BRIGHT );
                         }
                     }
-#ifdef TILES
+#if defined(TILES)
                 }
 #endif //TILES
                 wPrint.vdrops.clear();
@@ -215,7 +215,7 @@ input_context game::get_player_input( std::string &action )
             }
             // don't bother calculating SCT if we won't show it
             if( uquit != QUIT_WATCH && get_option<bool>( "ANIMATION_SCT" ) ) {
-#ifdef TILES
+#if defined(TILES)
                 if( !use_tiles ) {
 #endif
                     for( auto &elem : SCT.vSCT ) {
@@ -233,7 +233,7 @@ input_context game::get_player_input( std::string &action )
                             }
                         }
                     }
-#ifdef TILES
+#if defined(TILES)
                 }
 #endif
 
@@ -745,9 +745,10 @@ static void sleep()
             continue;
         }
 
+        // some bionics
         // bio_alarm is useful for waking up during sleeping
         // turning off bio_leukocyte has 'unpleasant side effects'
-        if( bio.id == bionic_id( "bio_alarm" ) || bio.id == bionic_id( "bio_leukocyte" ) ) {
+        if( bio.info().sleep_friendly ) {
             continue;
         }
 
@@ -762,6 +763,17 @@ static void sleep()
             active.push_back( mdata.name() );
         }
     }
+
+    // check for deactivating any currently played music instrument.
+    for( auto &item : u.inv_dump() ) {
+        if( item->active && item->get_use( "musical_instrument" ) != nullptr ) {
+            u.add_msg_if_player( _( "You stop playing your %s before trying to sleep." ), item->tname() );
+            // deactivate instrument
+            item->active = false;
+        }
+    }
+
+    // ask for deactivation
     std::stringstream data;
     if( !active.empty() ) {
         data << as_m.text << std::endl;
@@ -832,12 +844,17 @@ static void loot()
 
     player &u = g->u;
     int flags = 0;
-    const auto &mgr = zone_manager::get_manager();
+    auto &mgr = zone_manager::get_manager();
     const bool has_hoe = u.has_quality( quality_id( "DIG" ), 1 );
     const bool has_seeds = u.has_item_with( []( const item & itm ) {
         return itm.is_seed();
     } );
     const bool has_fertilizer = u.has_item_with_flag( "FERTILIZER" );
+
+    // Manually update vehicle cache.
+    // In theory this would be handled by the related activity (activity_on_turn_move_loot())
+    // but with a stale cache we never get that far.
+    mgr.cache_vzones();
 
     flags |= g->check_near_zone( zone_type_id( "LOOT_UNSORTED" ), u.pos() ) ? SortLoot : 0;
     if( g->check_near_zone( zone_type_id( "FARM_PLOT" ), u.pos() ) ) {
@@ -1174,7 +1191,7 @@ bool game::handle_action()
             if( act == ACTION_NULL ) {
                 return false;
             }
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
             if( get_option<bool>( "ANDROID_ACTIONMENU_AUTOADD" ) && ctxt.get_category() == "DEFAULTMODE" ) {
                 add_best_key_for_action_to_quick_shortcuts( act, ctxt.get_category(), false );
             }
@@ -1582,8 +1599,12 @@ bool game::handle_action()
                 u.pick_style();
                 break;
 
-            case ACTION_RELOAD:
-                reload();
+            case ACTION_RELOAD_ITEM:
+                reload_item();
+                break;
+
+            case ACTION_RELOAD_WEAPON:
+                reload_weapon();
                 break;
 
             case ACTION_UNLOAD:

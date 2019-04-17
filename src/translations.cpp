@@ -25,20 +25,20 @@ static void reload_names()
     Name::load_from_file( PATH_INFO::find_translated_file( "namesdir", ".json", "names" ) );
 }
 
-#ifdef LOCALIZE
+#if defined(LOCALIZE)
 #include <cstdlib> // for getenv()/setenv()/putenv()
 
 #include "options.h"
 #include "debug.h"
 #include "ui.h"
-#if (defined _WIN32 || defined WINDOWS)
-#include "platform_win.h"
-#include "mmsystem.h"
+#if defined(_WIN32)
+#   include "platform_win.h"
+#   include "mmsystem.h"
 #endif
 
-#if (defined MACOSX)
-#include <CoreFoundation/CFLocale.h>
-#include <CoreFoundation/CoreFoundation.h>
+#if defined(MACOSX)
+#   include <CoreFoundation/CFLocale.h>
+#   include <CoreFoundation/CoreFoundation.h>
 
 std::string getOSXSystemLang();
 #endif
@@ -53,7 +53,7 @@ const char *pgettext( const char *context, const char *msgid )
     context_id += msgid;
     // null domain, uses global translation domain
     const char *msg_ctxt_id = context_id.c_str();
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
     const char *translation = gettext( msg_ctxt_id );
 #else
     const char *translation = dcgettext( nullptr, msg_ctxt_id, LC_MESSAGES );
@@ -70,7 +70,7 @@ const char *npgettext( const char *const context, const char *const msgid,
 {
     const std::string context_id = std::string( context ) + '\004' + msgid;
     const char *const msg_ctxt_id = context_id.c_str();
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
     const char *const translation = ngettext( msg_ctxt_id, msgid_plural, n );
 #else
     const char *const translation = dcngettext( nullptr, msg_ctxt_id, msgid_plural, n, LC_MESSAGES );
@@ -149,10 +149,10 @@ void select_language()
 void set_language()
 {
     std::string win_or_mac_lang;
-#if (defined _WIN32 || defined WINDOWS)
+#if defined(_WIN32)
     win_or_mac_lang = getLangFromLCID( GetUserDefaultLCID() );
 #endif
-#if (defined MACOSX)
+#if defined(MACOSX)
     win_or_mac_lang = getOSXSystemLang();
 #endif
     // Step 1. Setup locale settings.
@@ -160,7 +160,7 @@ void set_language()
                            get_option<std::string>( "USE_LANG" );
     if( !lang_opt.empty() ) { // Not 'System Language'
         // Overwrite all system locale settings. Use CDDA settings. User wants this.
-#if (defined _WIN32 || defined WINDOWS)
+#if defined(_WIN32)
         std::string lang_env = "LANGUAGE=" + lang_opt;
         if( _putenv( lang_env.c_str() ) != 0 ) {
             DebugLog( D_WARNING, D_MAIN ) << "Can't set 'LANGUAGE' environment variable";
@@ -180,7 +180,7 @@ void set_language()
         }
     }
 
-#if (defined _WIN32 || defined WINDOWS)
+#if defined(_WIN32)
     // Use the ANSI code page 1252 to work around some language output bugs.
     if( setlocale( LC_ALL, ".1252" ) == nullptr ) {
         DebugLog( D_WARNING, D_MAIN ) << "Error while setlocale(LC_ALL, '.1252').";
@@ -189,13 +189,13 @@ void set_language()
 
     // Step 2. Bind to gettext domain.
     std::string locale_dir;
-#if defined __ANDROID__
+#if defined(__ANDROID__)
     // Since we're using libintl-lite instead of libintl on Android, we hack the locale_dir to point directly to the .mo file.
     // This is because of our hacky libintl-lite bindtextdomain() implementation.
     auto env = getenv( "LANGUAGE" );
     locale_dir = std::string( FILENAMES["base_path"] + "lang/mo/" + ( env ? env : "none" ) +
                               "/LC_MESSAGES/cataclysm-dda.mo" );
-#elif (defined __linux__ || (defined MACOSX && !defined TILES))
+#elif (defined(__linux__) || (defined(MACOSX) && !defined(TILES)))
     if( !FILENAMES["base_path"].empty() ) {
         locale_dir = FILENAMES["base_path"] + "share/locale";
     } else {
@@ -213,7 +213,7 @@ void set_language()
     reload_names();
 }
 
-#if (defined MACOSX)
+#if defined(MACOSX)
 std::string getOSXSystemLang()
 {
     // Get the user's language list (in order of preference)

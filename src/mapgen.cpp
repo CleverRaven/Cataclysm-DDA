@@ -237,6 +237,8 @@ void mapgen_function_builtin::generate( map *m, const oter_id &terrain_type, con
  */
 std::map<std::string, std::vector<std::shared_ptr<mapgen_function>> > oter_mapgen;
 std::map<std::string, std::vector<std::shared_ptr<mapgen_function_json_nested>> > nested_mapgen;
+std::map<std::string, std::vector<std::shared_ptr<update_mapgen_function_json>> > update_mapgen;
+
 
 /*
  * index to the above, adjusted to allow for rarity
@@ -275,6 +277,12 @@ void calculate_mapgen_weights()   // TODO: rename as it runs jsonfunction setup 
             ptr->setup();
         }
     }
+    for( auto &pr : update_mapgen ) {
+        for( auto &ptr : pr.second ) {
+            ptr->setup();
+        }
+    }
+
 }
 
 void check_mapgen_definitions()
@@ -289,11 +297,35 @@ void check_mapgen_definitions()
             mapgen_function_ptr->check( oter_definition.first );
         }
     }
+    for( auto &oter_definition : update_mapgen ) {
+        for( auto &mapgen_function_ptr : oter_definition.second ) {
+            mapgen_function_ptr->check( oter_definition.first );
+        }
+    }
 }
 
 /////////////////////////////////////////////////////////////////////////////////
 ///// json mapgen functions
 ///// 1 - init():
+
+/**
+ * Tiny little namespace to hold error messages
+ */
+namespace mapgen_defer
+{
+std::string member;
+std::string message;
+bool defer;
+JsonObject jsi;
+};
+
+void set_mapgen_defer( JsonObject jsi, std::string member, std::string message )
+{
+    mapgen_defer::defer = true;
+    mapgen_defer::jsi = jsi;
+    mapgen_defer::member = member;
+    mapgen_defer::message = message;
+}
 
 /*
  * load a single mapgen json structure; this can be inside an overmap_terrain, or on it's own.
@@ -370,6 +402,28 @@ std::shared_ptr<mapgen_function_json_nested> load_nested_mapgen( JsonObject &jio
     return ret;
 }
 
+std::shared_ptr<update_mapgen_function_json> load_update_mapgen( JsonObject &jio,
+        const std::string &id_base )
+{
+    std::shared_ptr<update_mapgen_function_json> ret;
+    const std::string mgtype = jio.get_string( "method" );
+    if( mgtype == "json" ) {
+        if( jio.has_object( "object" ) ) {
+            JsonObject jo = jio.get_object( "object" );
+            std::string jstr = jo.str();
+            ret = std::make_shared<update_mapgen_function_json>( jstr );
+            update_mapgen[id_base].push_back( ret );
+        } else {
+            debugmsg( "Update mapgen: Invalid mapgen function (missing \"object\" object)",
+                      id_base.c_str() );
+        }
+    } else {
+        debugmsg( "Update mapgen: type for id %s was %s, but update mapgen only supports \"json\"",
+                  id_base.c_str(), mgtype.c_str() );
+    }
+    return ret;
+}
+
 /*
  * feed bits `o json from standalone file to load_mapgen_function. (standalone json "type": "mapgen")
  */
@@ -412,6 +466,8 @@ void load_mapgen( JsonObject &jo )
         load_mapgen_function( jo, jo.get_string( "om_terrain" ), -1 );
     } else if( jo.has_string( "nested_mapgen_id" ) ) {
         load_nested_mapgen( jo, jo.get_string( "nested_mapgen_id" ) );
+    } else if( jo.has_string( "update_mapgen_id" ) ) {
+        load_update_mapgen( jo, jo.get_string( "update_mapgen_id" ) );
     } else {
         debugmsg( "mapgen entry requires \"om_terrain\" or \"nested_mapgen_id\"(string, array of strings, or array of array of strings)\n%s\n",
                   jo.str().c_str() );
@@ -422,6 +478,7 @@ void reset_mapgens()
 {
     oter_mapgen.clear();
     nested_mapgen.clear();
+    update_mapgen.clear();
 }
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -599,7 +656,8 @@ void mapgen_function_json_base::setup_setmap( JsonArray &parray )
                     const ter_str_id tid( tmpid );
 
                     if( !tid.is_valid() ) {
-                        pjo.throw_error( "no such terrain", "id" );
+                        set_mapgen_defer( pjo, "id", "no such terrain" );
+                        return;
                     }
                     tmp_i.val = tid.id();
                 }
@@ -608,7 +666,8 @@ void mapgen_function_json_base::setup_setmap( JsonArray &parray )
                     const furn_str_id fid( tmpid );
 
                     if( !fid.is_valid() ) {
-                        pjo.throw_error( "no such furniture", "id" );
+                        set_mapgen_defer( pjo, "id", "no such furniture" );
+                        return;
                     }
                     tmp_i.val = fid.id();
                 }
@@ -616,7 +675,8 @@ void mapgen_function_json_base::setup_setmap( JsonArray &parray )
                 case JMAPGEN_SETMAP_TRAP: {
                     const trap_str_id sid( tmpid );
                     if( !sid.is_valid() ) {
-                        pjo.throw_error( "no such trap", "id" );
+                        set_mapgen_defer( pjo, "id", "no such trap" );
+                        return;
                     }
                     tmp_i.val = sid.id().to_i();
                 }
@@ -633,7 +693,8 @@ void mapgen_function_json_base::setup_setmap( JsonArray &parray )
         pjo.read( "rotation", tmp_rotation );
         pjo.read( "fuel", tmp_fuel );
         pjo.read( "status", tmp_status );
-        jmapgen_setmap tmp( tmp_x, tmp_y, tmp_x2, tmp_y2, jmapgen_setmap_op( tmpop + setmap_optype ), tmp_i,
+        jmapgen_setmap tmp( tmp_x, tmp_y, tmp_x2, tmp_y2,
+                            jmapgen_setmap_op( tmpop + setmap_optype ), tmp_i,
                             tmp_chance, tmp_repeat, tmp_rotation, tmp_fuel, tmp_status );
 
         setmap_points.push_back( tmp );
@@ -695,7 +756,7 @@ class jmapgen_field : public jmapgen_piece
             , density( jsi.get_int( "density", 1 ) )
             , age( time_duration::from_turns( jsi.get_int( "age", 0 ) ) ) {
             if( ftype == fd_null ) {
-                jsi.throw_error( "invalid field type", "field" );
+                set_mapgen_defer( jsi, "field", "invalid field type" );
             }
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
@@ -712,11 +773,22 @@ class jmapgen_npc : public jmapgen_piece
     public:
         string_id<npc_template> npc_class;
         bool target;
+        std::vector<std::string> traits;
         jmapgen_npc( JsonObject &jsi ) : jmapgen_piece()
             , npc_class( jsi.get_string( "class" ) )
             , target( jsi.get_bool( "target", false ) ) {
             if( !npc_class.is_valid() ) {
-                jsi.throw_error( "unknown npc class", "class" );
+                set_mapgen_defer( jsi, "class", "unknown npc class" );
+            }
+            if( jsi.has_string( "add_trait" ) ) {
+                std::string new_trait = jsi.get_string( "add_trait" );
+                traits.emplace_back( new_trait );
+            } else if( jsi.has_array( "add_trait" ) ) {
+                JsonArray ja = jsi.get_array( "add_trait" );
+                while( ja.has_more() ) {
+                    std::string new_trait = ja.next_string();
+                    traits.emplace_back( new_trait );
+                }
             }
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
@@ -724,6 +796,12 @@ class jmapgen_npc : public jmapgen_piece
             int npc_id = dat.m.place_npc( x.get(), y.get(), npc_class );
             if( miss && target ) {
                 miss->set_target_npc_id( npc_id );
+            }
+            npc *p = g->find_npc( npc_id );
+            if( p != nullptr ) {
+                for( const std::string &new_trait : traits ) {
+                    p->set_mutation( trait_id( new_trait ) );
+                }
             }
         }
 };
@@ -776,6 +854,12 @@ class jmapgen_sign : public jmapgen_piece
             replace_city_tag( signtext, cityname );
             replace_name_tags( signtext );
             return signtext;
+        }
+        bool has_vehicle_collision( const mapgendata &dat, int x, int y ) const override {
+            if( dat.m.veh_at( tripoint( x, y, dat.zlevel ) ) ) {
+                return true;
+            }
+            return false;
         }
 };
 /**
@@ -841,7 +925,7 @@ class jmapgen_vending_machine : public jmapgen_piece
             , reinforced( jsi.get_bool( "reinforced", false ) )
             , item_group_id( jsi.get_string( "item_group", "default_vending_machine" ) ) {
             if( !item_group::group_is_defined( item_group_id ) ) {
-                jsi.throw_error( "no such item group", "item_group" );
+                set_mapgen_defer( jsi, "item_group", "no such item group" );
             }
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
@@ -850,6 +934,12 @@ class jmapgen_vending_machine : public jmapgen_piece
             const int ry = y.get();
             dat.m.furn_set( rx, ry, f_null );
             dat.m.place_vending( rx, ry, item_group_id, reinforced );
+        }
+        bool has_vehicle_collision( const mapgendata &dat, int x, int y ) const override {
+            if( dat.m.veh_at( tripoint( x, y, dat.zlevel ) ) ) {
+                return true;
+            }
+            return false;
         }
 };
 /**
@@ -874,6 +964,12 @@ class jmapgen_toilet : public jmapgen_piece
             } else {
                 dat.m.place_toilet( rx, ry, charges );
             }
+        }
+        bool has_vehicle_collision( const mapgendata &dat, int x, int y ) const override {
+            if( dat.m.veh_at( tripoint( x, y, dat.zlevel ) ) ) {
+                return true;
+            }
+            return false;
         }
 };
 /**
@@ -911,6 +1007,12 @@ class jmapgen_gaspump : public jmapgen_piece
                 dat.m.place_gas_pump( rx, ry, charges );
             }
         }
+        bool has_vehicle_collision( const mapgendata &dat, int x, int y ) const override {
+            if( dat.m.veh_at( tripoint( x, y, dat.zlevel ) ) ) {
+                return true;
+            }
+            return false;
+        }
 };
 
 /**
@@ -930,7 +1032,7 @@ class jmapgen_liquid_item : public jmapgen_piece
             , liquid( jsi.get_string( "liquid" ) )
             , chance( jsi, "chance", 1, 1 ) {
             if( !item::type_is_defined( itype_id( liquid ) ) ) {
-                jsi.throw_error( "no such item type", "liquid" );
+                set_mapgen_defer( jsi, "liquid", "no such item type" );
             }
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
@@ -960,7 +1062,7 @@ class jmapgen_item_group : public jmapgen_piece
             , group_id( jsi.get_string( "item" ) )
             , chance( jsi, "chance", 1, 1 ) {
             if( !item_group::group_is_defined( group_id ) ) {
-                jsi.throw_error( "no such item group", "item" );
+                set_mapgen_defer( jsi, "item", "no such item type" );
             }
             repeat = jmapgen_int( jsi, "repeat", 1, 1 );
         }
@@ -987,10 +1089,10 @@ class jmapgen_loot : public jmapgen_piece
                 jsi.throw_error( "must provide either item or group" );
             }
             if( !group.empty() && !item_group::group_is_defined( group ) ) {
-                jsi.throw_error( "no such item group", "group" );
+                set_mapgen_defer( jsi, "group", "no such item group" );
             }
             if( !name.empty() && !item::type_is_defined( name ) ) {
-                jsi.throw_error( "no such item", "item" );
+                set_mapgen_defer( jsi, "item", "no such item type" );
             }
 
             // All the probabilities are 100 because we do the roll in @ref apply.
@@ -1033,7 +1135,7 @@ class jmapgen_monster_group : public jmapgen_piece
             , density( jsi.get_float( "density", -1.0f ) )
             , chance( jsi, "chance", 1, 1 ) {
             if( !id.is_valid() ) {
-                jsi.throw_error( "no such monster group", "monster" );
+                set_mapgen_defer( jsi, "monster", "no such monster group" );
             }
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
@@ -1085,14 +1187,16 @@ class jmapgen_monster : public jmapgen_piece
                         id = mtype_id( jarr.next_string() );
                     }
                     if( !id.is_valid() ) {
-                        jsi.throw_error( "no such monster", "monster" );
+                        set_mapgen_defer( jsi, "monster", "no such monster" );
+                        return;
                     }
                     ids.add( id, weight );
                 }
             } else {
                 mtype_id id = mtype_id( jsi.get_string( "monster" ) );
                 if( !id.is_valid() ) {
-                    jsi.throw_error( "no such monster", "monster" );
+                    set_mapgen_defer( jsi, "monster", "no such monster" );
+                    return;
                 }
                 ids.add( id, 100 );
             }
@@ -1163,7 +1267,7 @@ class jmapgen_vehicle : public jmapgen_piece
             }
 
             if( !type.is_valid() ) {
-                jsi.throw_error( "no such vehicle type or group", "vehicle" );
+                set_mapgen_defer( jsi, "vehicle", "no such vehicle type or group" );
             }
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
@@ -1172,6 +1276,12 @@ class jmapgen_vehicle : public jmapgen_piece
                 return;
             }
             dat.m.add_vehicle( type, point( x.get(), y.get() ), random_entry( rotation ), fuel, status );
+        }
+        bool has_vehicle_collision( const mapgendata &dat, int x, int y ) const override {
+            if( dat.m.veh_at( tripoint( x, y, dat.zlevel ) ) ) {
+                return true;
+            }
+            return false;
         }
 };
 /**
@@ -1192,7 +1302,7 @@ class jmapgen_spawn_item : public jmapgen_piece
             , amount( jsi, "amount", 1, 1 )
             , chance( jsi, "chance", 100, 100 ) {
             if( !item::type_is_defined( type ) ) {
-                jsi.throw_error( "no such item type", "item" );
+                set_mapgen_defer( jsi, "item", "no such item" );
             }
             repeat = jmapgen_int( jsi, "repeat", 1, 1 );
         }
@@ -1220,7 +1330,7 @@ class jmapgen_trap : public jmapgen_piece
             , id( 0 ) {
             const trap_str_id sid( jsi.get_string( "trap" ) );
             if( !sid.is_valid() ) {
-                jsi.throw_error( "no such trap", "trap" );
+                set_mapgen_defer( jsi, "trap", "no such trap" );
             }
             id = sid.id();
         }
@@ -1238,6 +1348,12 @@ class jmapgen_trap : public jmapgen_piece
             const tripoint actual_loc = tripoint( x.get(), y.get(), dat.m.get_abs_sub().z );
             dat.m.trap_set( actual_loc, id );
         }
+        bool has_vehicle_collision( const mapgendata &dat, int x, int y ) const override {
+            if( dat.m.veh_at( tripoint( x, y, dat.zlevel ) ) ) {
+                return true;
+            }
+            return false;
+        }
 };
 /**
  * Place a furniture.
@@ -1252,6 +1368,12 @@ class jmapgen_furniture : public jmapgen_piece
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                     const float /*mdensity*/, mission * ) const override {
             dat.m.furn_set( x.get(), y.get(), id );
+        }
+        bool has_vehicle_collision( const mapgendata &dat, int x, int y ) const override {
+            if( dat.m.veh_at( tripoint( x, y, dat.zlevel ) ) ) {
+                return true;
+            }
+            return false;
         }
 };
 /**
@@ -1275,6 +1397,12 @@ class jmapgen_terrain : public jmapgen_piece
                     dat.m.i_clear( tripoint( x.get(), y.get(), dat.m.get_abs_sub().z ) );
                 }
             }
+        }
+        bool has_vehicle_collision( const mapgendata &dat, int x, int y ) const override {
+            if( dat.m.veh_at( tripoint( x, y, dat.zlevel ) ) ) {
+                return true;
+            }
+            return false;
         }
 };
 /**
@@ -1353,6 +1481,12 @@ class jmapgen_computer : public jmapgen_piece
             if( target && miss ) {
                 cpu->mission_id = miss->get_id();
             }
+        }
+        bool has_vehicle_collision( const mapgendata &dat, int x, int y ) const override {
+            if( dat.m.veh_at( tripoint( x, y, dat.zlevel ) ) ) {
+                return true;
+            }
+            return false;
         }
 };
 
@@ -1446,7 +1580,38 @@ class jmapgen_sealed_item : public jmapgen_piece
             }
             dat.m.furn_set( x.get(), y.get(), furniture );
         }
+        bool has_vehicle_collision( const mapgendata &dat, int x, int y ) const override {
+            if( dat.m.veh_at( tripoint( x, y, dat.zlevel ) ) ) {
+                return true;
+            }
+            return false;
+        }
 };
+/**
+ * Translate terrain from one ter_id to another.
+ * "from": id of the starting terrain.
+ * "to": id of the ending terrain
+ * not useful for normal mapgen, very useful for mapgen_update
+ */
+class jmapgen_translate : public jmapgen_piece
+{
+    public:
+        ter_id from;
+        ter_id to;
+        jmapgen_translate( JsonObject &jsi ) : jmapgen_piece() {
+            if( jsi.has_string( "from" ) && jsi.has_string( "to" ) ) {
+                const std::string from_id = jsi.get_string( "from" );
+                const std::string to_id = jsi.get_string( "to" );
+                from = ter_id( from_id );
+                to = ter_id( to_id );
+            }
+        }
+        void apply( const mapgendata &dat, const jmapgen_int &/*x*/, const jmapgen_int &/*y*/,
+                    const float /*mdensity*/, mission * ) const override {
+            dat.m.translate( from, to );
+        }
+};
+
 
 static void load_weighted_entries( JsonObject &jsi, const std::string &json_key,
                                    weighted_int_list<std::string> &list )
@@ -1948,6 +2113,7 @@ mapgen_palette mapgen_palette::load_internal( JsonObject &jo, const std::string 
     new_pal.load_place_mapings<jmapgen_nested>( jo, "nested", format_placings );
     new_pal.load_place_mapings<jmapgen_liquid_item>( jo, "liquids", format_placings );
     new_pal.load_place_mapings<jmapgen_graffiti>( jo, "graffiti", format_placings );
+    new_pal.load_place_mapings<jmapgen_translate>( jo, "translate", format_placings );
 
     return new_pal;
 }
@@ -2004,6 +2170,11 @@ void mapgen_function_json_nested::setup()
     setup_common();
 }
 
+void update_mapgen_function_json::setup()
+{
+    setup_common();
+}
+
 /*
  * Parse json, pre-calculating values for stuff, then cheerfully throw json away. Faster than regular mapf, in theory
  */
@@ -2015,8 +2186,14 @@ void mapgen_function_json_base::setup_common()
     std::istringstream iss( jdata );
     JsonIn jsin( iss );
     JsonObject jo = jsin.get_object();
+    mapgen_defer::defer = false;
     if( !setup_common( jo ) ) {
         jsin.error( "format: no terrain map" );
+    }
+    if( mapgen_defer::defer ) {
+        mapgen_defer::jsi.throw_error( mapgen_defer::message, mapgen_defer::member );
+    } else {
+        mapgen_defer::jsi = JsonObject();
     }
 }
 
@@ -2114,8 +2291,11 @@ bool mapgen_function_json_base::setup_common( JsonObject jo )
     objects.load_objects<jmapgen_computer>( jo, "place_computers" );
     objects.load_objects<jmapgen_nested>( jo, "place_nested" );
     objects.load_objects<jmapgen_graffiti>( jo, "place_graffiti" );
+    objects.load_objects<jmapgen_translate>( jo, "translate_ter" );
 
-    is_ready = true; // skip setup attempts from any additional pointers
+    if( !mapgen_defer::defer ) {
+        is_ready = true; // skip setup attempts from any additional pointers
+    }
     return true;
 }
 
@@ -2291,6 +2471,46 @@ bool jmapgen_setmap::apply( const mapgendata &dat, int offset_x, int offset_y, m
     return true;
 }
 
+bool jmapgen_setmap::has_vehicle_collision( const mapgendata &dat, int offset_x,
+        int offset_y ) const
+{
+    const auto get = []( const jmapgen_int & v, int offset ) {
+        return v.get() + offset;
+    };
+    const auto x_get = std::bind( get, x, offset_x );
+    const auto y_get = std::bind( get, y, offset_y );
+    const auto x2_get = std::bind( get, x2, offset_x );
+    const auto y2_get = std::bind( get, y2, offset_y );
+    const tripoint start = tripoint( x_get(), y_get(), 0 );
+    tripoint end = start;
+    switch( op ) {
+        case JMAPGEN_SETMAP_TER:
+        case JMAPGEN_SETMAP_FURN:
+        case JMAPGEN_SETMAP_TRAP:
+            break;
+        /* lines and squares are the same thing for this purpose */
+        case JMAPGEN_SETMAP_LINE_TER:
+        case JMAPGEN_SETMAP_LINE_FURN:
+        case JMAPGEN_SETMAP_LINE_TRAP:
+        case JMAPGEN_SETMAP_SQUARE_TER:
+        case JMAPGEN_SETMAP_SQUARE_FURN:
+        case JMAPGEN_SETMAP_SQUARE_TRAP:
+            end.x = x2_get();
+            end.y = y2_get();
+            break;
+        /* if it's not a terrain, furniture, or trap, it can't collide */
+        default:
+            return false;
+    }
+    for( const tripoint &p : dat.m.points_in_rectangle( start, end ) ) {
+        if( dat.m.veh_at( p ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+
 void mapgen_function_json_base::formatted_set_incredibly_simple( map &m, int offset_x,
         int offset_y ) const
 {
@@ -2386,6 +2606,7 @@ void jmapgen_objects::apply( const mapgendata &dat, int offset_x, int offset_y,
     for( auto &obj : objects ) {
         auto where = obj.first;
         where.offset( -offset_x, -offset_y );
+
         const auto &what = *obj.second;
         // The user will only specify repeat once in JSON, but it may get loaded both
         // into the what and where in some cases--we just need the greater value of the two.
@@ -2394,6 +2615,20 @@ void jmapgen_objects::apply( const mapgendata &dat, int offset_x, int offset_y,
             what.apply( dat, where.x, where.y, density, miss );
         }
     }
+}
+
+bool jmapgen_objects::has_vehicle_collision( const mapgendata &dat, int offset_x,
+        int offset_y ) const
+{
+    for( auto &obj : objects ) {
+        auto where = obj.first;
+        where.offset( -offset_x, -offset_y );
+        const auto &what = *obj.second;
+        if( what.has_vehicle_collision( dat, where.x.get(), where.y.get() ) ) {
+            return true;
+        }
+    }
+    return false;
 }
 
 /////////////
@@ -8336,9 +8571,14 @@ void add_corpse( map *m, int x, int y )
 
 
 //////////////////// mapgen update
-update_mapgen_function_json::update_mapgen_function_json( const std::string &s, const int w ) :
-    mapgen_function( w ), mapgen_function_json_base( s )
+update_mapgen_function_json::update_mapgen_function_json( const std::string &s ) :
+    mapgen_function_json_base( s )
 {
+}
+
+void update_mapgen_function_json::check( const std::string &oter_name ) const
+{
+    check_common( oter_name );
 }
 
 bool update_mapgen_function_json::setup_update( JsonObject &jo )
@@ -8346,12 +8586,21 @@ bool update_mapgen_function_json::setup_update( JsonObject &jo )
     return setup_common( jo );
 }
 
-void update_mapgen_function_json::update_map( const tripoint &omt_pos, int offset_x, int offset_y,
-        mission *miss ) const
+bool update_mapgen_function_json::setup_internal( JsonObject &/*jo*/ )
+{
+    fill_ter = t_null;
+    /* update_mapgen doesn't care about fill_ter or rows */
+    return true;
+}
+
+bool update_mapgen_function_json::update_map( const tripoint &omt_pos, int offset_x, int offset_y,
+        mission *miss, bool verify ) const
 {
     tinymap update_map;
-    const regional_settings &rsettings = overmap_buffer.get_settings( omt_pos.x, omt_pos.y, omt_pos.z );
+    const regional_settings &rsettings = overmap_buffer.get_settings( omt_pos.x, omt_pos.y,
+                                         omt_pos.z );
     update_map.load( omt_pos.x * 2, omt_pos.y * 2, omt_pos.z, false );
+    const std::string map_id = overmap_buffer.ter( omt_pos ).id().c_str();
     oter_id north = overmap_buffer.ter( omt_pos + tripoint( 0, -1, 0 ) );
     oter_id south = overmap_buffer.ter( omt_pos + tripoint( 0, 1, 0 ) );
     oter_id east = overmap_buffer.ter( omt_pos + tripoint( 1, 0, 0 ) );
@@ -8363,19 +8612,49 @@ void update_mapgen_function_json::update_map( const tripoint &omt_pos, int offse
     oter_id above = overmap_buffer.ter( omt_pos + tripoint( 0, 0, 1 ) );
     oter_id below = overmap_buffer.ter( omt_pos + tripoint( 0, 0, -1 ) );
 
-
     mapgendata md( north, south, east, west, northeast, southeast, northwest, southwest,
                    above, below, omt_pos.z, rsettings, update_map );
+
+    int rotation = 0;
+    if( map_id.size() > 7 ) {
+        if( map_id.substr( map_id.size() - 6, 6 ) == "_south" ) {
+            rotation = 2;
+            md.m.rotate( rotation );
+        } else if( map_id.substr( map_id.size() - 5, 5 ) == "_east" ) {
+            rotation = 1;
+            md.m.rotate( rotation );
+        } else if( map_id.substr( map_id.size() - 5, 5 ) == "_west" ) {
+            rotation = 3;
+            md.m.rotate( rotation );
+        }
+    }
+
     for( auto &elem : setmap_points ) {
+        if( verify && elem.has_vehicle_collision( md, offset_x, offset_y ) ) {
+            return false;
+        }
         elem.apply( md, offset_x, offset_y );
     }
+
+    if( verify && objects.has_vehicle_collision( md, offset_x, offset_y ) ) {
+        return false;
+    }
     objects.apply( md, offset_x, offset_y, 0, miss );
+
+    if( rotation ) {
+        md.m.rotate( 4 - rotation );
+    }
+
     update_map.save();
+    g->load_npcs();
+    g->refresh_all();
+    return true;
 }
 
-mapgen_update_func add_mapgen_update_func( JsonObject &jo )
+mapgen_update_func add_mapgen_update_func( JsonObject &jo, bool &defer )
 {
-    update_mapgen_function_json json_data( "", 0 );
+    update_mapgen_function_json json_data( "" );
+    mapgen_defer::defer = defer;
     if( !json_data.setup_update( jo ) ) {
         const auto null_function = []( const tripoint &, mission * ) {
         };
@@ -8384,5 +8663,18 @@ mapgen_update_func add_mapgen_update_func( JsonObject &jo )
     const auto update_function = [json_data]( const tripoint & omt_pos, mission * miss ) {
         json_data.update_map( omt_pos, 0, 0, miss );
     };
+    defer = mapgen_defer::defer;
+    mapgen_defer::jsi = JsonObject();
     return update_function;
+}
+
+bool run_mapgen_update_func( const std::string update_mapgen_id, const tripoint &omt_pos,
+                             mission *miss )
+{
+    const auto update_function = update_mapgen.find( update_mapgen_id );
+
+    if( update_function == update_mapgen.end() || update_function->second.empty() ) {
+        return false;
+    }
+    return update_function->second[0]->update_map( omt_pos, 0, 0, miss, true );
 }

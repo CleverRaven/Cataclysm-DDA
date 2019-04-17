@@ -518,6 +518,7 @@ void editmap::update_view( bool update_info )
     } else {
         g->m.drawsq( g->w_terrain, g->u, target, true, true, target );
     }
+    g->draw_cursor( target );
 
     // hilight target_list points if blink=true (and if it's more than a point )
     if( blink && target_list.size() > 1 ) {
@@ -1815,130 +1816,6 @@ int editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
     return ret;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/*
- * Write over an existing om tile with one from json
- */
-bool editmap::mapgen_set( std::string om_name, tripoint &omt_tgt, int r, bool change_sensitive )
-{
-    if( r > 0 ) {
-        popup( _( "Select a tile up to %d tiles away." ), r );
-        const tripoint where( ui::omap::choose_point() );
-        if( where == overmap::invalid_tripoint ) {
-            return false;
-        }
-        int dist = rl_dist( where.x, where.y, omt_tgt.x, omt_tgt.y );
-        if( dist > r || dist == 0 ) {
-            popup( _( "You must select a tile within %d range of the camp" ), r );
-            return false;
-        }
-
-        omt_tgt = tripoint( where.x, where.y, omt_tgt.z );
-        oter_id &omt_test = overmap_buffer.ter( omt_tgt.x, omt_tgt.y, omt_tgt.z );
-        if( omt_test.id() != "field" ) {
-            popup( _( "You must construct expansions in fields." ) );
-            return false;
-        }
-    }
-
-    // Coordinates of the overmap terrain that should be generated.
-    oter_id &omt_ref = overmap_buffer.ter( omt_tgt.x, omt_tgt.y, omt_tgt.z );
-    omt_ref = oter_id( om_name );
-
-    tinymap target_bay;
-    target_bay.load( omt_tgt.x * 2, omt_tgt.y * 2, omt_tgt.z, false );
-
-    tinymap tmpmap;
-    tmpmap.generate( omt_tgt.x * 2, omt_tgt.y * 2, target.z, calendar::turn );
-    point target_sub( target.x / SEEX, target.y / SEEY );
-
-    g->m.clear_vehicle_cache( target.z );
-    for( int x = 0; x < 2; x++ ) {
-        for( int y = 0; y < 2; y++ ) {
-            submap *destsm = target_bay.get_submap_at_grid( { x, y, target.z } );
-            submap *srcsm = tmpmap.get_submap_at_grid( { x, y, target.z } );
-            destsm->is_uniform = false;
-            srcsm->is_uniform = false;
-
-            if( !destsm->vehicles.empty() ) {
-                popup( _( "Engine cannot support merging vehicles from two overmaps, please remove them from the OM tile." ) );
-                return false;
-            }
-
-            destsm->vehicles.clear();
-            for( auto &veh : srcsm->vehicles ) { // copy vehicles to real map
-                veh->smx = target_sub.x + x;
-                veh->smy = target_sub.y + y;
-                veh->smz = target.z;
-                vehicle *veh_p = veh.get();
-                destsm->vehicles.push_back( std::move( veh ) );
-                g->m.update_vehicle_cache( veh_p, target.z );
-            }
-            srcsm->vehicles.clear();
-            g->m.update_vehicle_list( destsm, target.z );
-
-            int spawns_todo = 0;
-            for( const auto &spawn : srcsm->spawns ) { // copy spawns
-                destsm->spawns.push_back( spawn );
-                spawns_todo++;
-            }
-
-            destsm->field_count = srcsm->field_count; // and count
-            std::memcpy( destsm->trp, srcsm->trp, sizeof( srcsm->trp ) ); // traps
-            std::memcpy( destsm->rad, srcsm->rad, sizeof( srcsm->rad ) ); // radiation
-            std::memcpy( destsm->lum, srcsm->lum, sizeof( srcsm->lum ) ); // emissive items
-
-            for( int sx = 0; sx < SEEX; ++sx ) {
-                for( int sy = 0; sy < SEEY; ++sy ) {
-                    for( auto &elem : srcsm->itm[sx][sy] ) {
-                        destsm->itm[sx][sy].push_back( elem );
-                    }
-                    //Don't cover existing crops, for farm upgrades
-                    if( change_sensitive && destsm->frn[sx][sy] != furn_str_id( "f_plant_seed" ) &&
-                        destsm->frn[sx][sy] != furn_str_id( "f_plant_seedling" ) &&
-                        destsm->frn[sx][sy] != furn_str_id( "f_plant_mature" ) &&
-                        destsm->frn[sx][sy] != furn_str_id( "f_plant_harvest" ) ) {
-
-                        //Don't destroy terrain to place grass/dirt if you don't also have furniture being added
-                        if( ( srcsm->ter[sx][sy] == ter_str_id( "t_grass" ) ||
-                              srcsm->ter[sx][sy] == ter_str_id( "t_dirt" ) ) &&
-                            srcsm->frn[sx][sy] == furn_str_id( "f_null" ) ) {
-                            //Easier to define when not to do it than when to...
-                        } else {
-                            destsm->ter[sx][sy] = srcsm->ter[sx][sy];
-                            destsm->frn[sx][sy] = srcsm->frn[sx][sy];
-                        }
-                    }
-                    //Write over any terrain or furniture that might be there
-                    if( !change_sensitive ) {
-                        destsm->ter[sx][sy] = srcsm->ter[sx][sy];
-                        destsm->frn[sx][sy] = srcsm->frn[sx][sy];
-                    }
-                    destsm->fld[sx][sy] = srcsm->fld[sx][sy];
-                }
-            }
-            destsm->cosmetics = srcsm->cosmetics;
-
-            // various misc variables
-            destsm->active_items = srcsm->active_items;
-
-            destsm->temperature = srcsm->temperature;
-            destsm->last_touched = calendar::turn;
-            destsm->comp = std::move( srcsm->comp );
-            if( srcsm->camp.is_valid() ) {
-                destsm->camp = srcsm->camp;
-            }
-
-            if( spawns_todo > 0 ) {
-                g->m.spawn_monsters( true );
-            }
-        }
-    }
-    g->m.reset_vehicle_cache( target.z );
-    cleartmpmap( tmpmap );
-    return true;
-}
-
 vehicle *editmap::mapgen_veh_query( const tripoint &omt_tgt )
 {
     tinymap target_bay;
@@ -1970,21 +1847,6 @@ vehicle *editmap::mapgen_veh_query( const tripoint &omt_tgt )
         return possible_vehicles[choice];
     }
     return nullptr;
-}
-
-bool editmap::mapgen_veh_has( const tripoint &omt_tgt )
-{
-    tinymap target_bay;
-    target_bay.load( omt_tgt.x * 2, omt_tgt.y * 2, omt_tgt.z, false );
-    for( int x = 0; x < 2; x++ ) {
-        for( int y = 0; y < 2; y++ ) {
-            submap *destsm = target_bay.get_submap_at_grid( { x, y, omt_tgt.z } );
-            if( !destsm->vehicles.empty() ) {
-                return true;
-            }
-        }
-    }
-    return false;
 }
 
 bool editmap::mapgen_veh_destroy( const tripoint &omt_tgt, vehicle *car_target )
@@ -2097,7 +1959,7 @@ int editmap::edit_mapgen()
         gmenu.addentry( -1, !id.id().is_null(), 0, "[%3d] %s", static_cast<int>( id ), id.id().c_str() );
         gmenu.entries[i].extratxt.left = 1;
         gmenu.entries[i].extratxt.color = id->get_color();
-        gmenu.entries[i].extratxt.txt = string_format( "%c", id->get_sym() );
+        gmenu.entries[i].extratxt.txt = string_format( "%c", id->get_symbol() );
     }
     real_coords tc;
     do {
