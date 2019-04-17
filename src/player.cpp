@@ -3124,7 +3124,7 @@ bool player::is_dead_state() const
 }
 
 void player::on_dodge( Creature *source, float difficulty,
-                       dealt_projectile_attack const *const proj )
+                       dealt_projectile_attack const *const /*proj*/ )
 {
     static const matec_id tec_none( "tec_none" );
 
