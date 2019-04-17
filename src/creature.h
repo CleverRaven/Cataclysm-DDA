@@ -296,6 +296,9 @@ class Creature
 
         virtual void setpos( const tripoint &pos ) = 0;
 
+        /** Returns an unoccupied, safe adjacent point. If none exists, returns player position. */
+        tripoint adjacent_tile() const;
+
         /** Processes move stopping effects. Returns false if movement is stopped. */
         virtual bool move_effects( bool attacking ) = 0;
 

@@ -20,6 +20,7 @@
 #include "projectile.h"
 #include "rng.h"
 #include "translations.h"
+#include "trap.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 
@@ -1476,6 +1477,38 @@ void Creature::check_dead_state()
     if( is_dead_state() ) {
         die( nullptr );
     }
+}
+
+// adjacent_tile() returns a safe, unoccupied adjacent tile. If there are no such tiles, returns the creature's position instead.
+tripoint Creature::adjacent_tile() const
+{
+    std::vector<tripoint> ret;
+    int dangerous_fields = 0;
+    for( const tripoint &p : g->m.points_in_radius( pos(), 1 ) ) {
+        if( p == pos() ) {
+            // Don't consider creature position
+            continue;
+        }
+        const trap &curtrap = g->m.tr_at( p );
+        if( g->critter_at( p ) == nullptr && g->m.passable( p ) &&
+            ( curtrap.is_null() || curtrap.is_benign() ) ) {
+            // Only consider tile if unoccupied, passable and has no traps
+            dangerous_fields = 0;
+            auto &tmpfld = g->m.field_at( p );
+            for( auto &fld : tmpfld ) {
+                const field_entry &cur = fld.second;
+                if( cur.is_dangerous() ) {
+                    dangerous_fields++;
+                }
+            }
+
+            if( dangerous_fields == 0 ) {
+                ret.push_back( p );
+            }
+        }
+    }
+
+    return random_entry( ret, pos() ); // creature position if no valid adjacent tiles
 }
 
 const std::pair<std::string, nc_color> &Creature::get_attitude_ui_data( Attitude att )

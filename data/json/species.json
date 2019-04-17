@@ -88,6 +88,10 @@
   },
   {
     "type": "SPECIES",
+    "id": "DIMENSIONAL"
+  },
+  {
+    "type": "SPECIES",
     "id": "HALLUCINATION"
   },
   {

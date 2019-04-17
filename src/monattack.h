@@ -88,6 +88,7 @@ bool stretch_bite( monster *z );
 bool kamikaze( monster *z );
 bool grenadier( monster *z );
 bool grenadier_elite( monster *z );
+bool teleswap( monster *z );
 bool doot( monster *z );
 
 void taze( monster *z, Creature *target );

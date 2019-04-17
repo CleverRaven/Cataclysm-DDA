@@ -1336,6 +1336,7 @@ void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack 
 
     if( missed_by > 1.0 ) {
         // Total miss
+        on_dodge( source, INT_MIN, &attack );
         return;
     }
 
