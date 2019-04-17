@@ -67,6 +67,8 @@ class panel_manager
         bool load();
         void serialize( JsonOut &json );
         void deserialize( JsonIn &jsin );
+        // update the screen offsets so the game knows how to adjust the main window
+        void update_offsets( int x );
 
         std::string current_layout_id;
         std::map<std::string, std::vector<window_panel>> layouts;

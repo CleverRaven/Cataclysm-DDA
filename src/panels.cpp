@@ -1808,6 +1808,7 @@ panel_manager::panel_manager()
 {
     current_layout_id = "labels";
     layouts = initialize_default_panel_layouts();
+
 }
 
 std::vector<window_panel> &panel_manager::get_current_layout()
@@ -1829,6 +1830,16 @@ const std::string panel_manager::get_current_layout_id() const
 void panel_manager::init()
 {
     load();
+    update_offsets( panel_manager::get_manager().get_current_layout().begin()->get_width() );
+}
+
+void panel_manager::update_offsets( int x )
+{
+    if( get_option<std::string>( "SIDEBAR_POSITION" ) == "left" ) {
+        g->sidebar_offsets.left = x;
+    } else {
+        g->sidebar_offsets.right = x;
+    }
 }
 
 bool panel_manager::save()
@@ -2029,17 +2040,18 @@ void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t
             }
             current_layout_id = iter->first;
             int width = panel_manager::get_manager().get_current_layout().begin()->get_width();
+            update_offsets( width );
             int h; // to_map_font_dimension needs a second input
             to_map_font_dimension( width, h );
             if( get_option<std::string>( "SIDEBAR_POSITION" ) == "left" ) {
                 width *= -1;
             }
-            // divided by two because we want the offset to center the screen
-            g->sidebar_offset.x = width / 2;
             werase( w );
             wrefresh( g->w_terrain );
             g->reinitmap = true;
             g->draw_panels( column, index );
+            // tell the game that the main screen might have a different size now.
+            g->init_ui( true );
             return;
         } else if( action == "RIGHT" || action == "LEFT" ) {
             // there are only two columns
