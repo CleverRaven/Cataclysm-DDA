@@ -1830,7 +1830,7 @@ const std::string panel_manager::get_current_layout_id() const
 void panel_manager::init()
 {
     load();
-    update_offsets( panel_manager::get_manager().get_current_layout().begin()->get_width() );
+    update_offsets( get_current_layout().begin()->get_width() );
 }
 
 void panel_manager::update_offsets( int x )
