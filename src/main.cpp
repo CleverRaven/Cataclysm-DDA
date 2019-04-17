@@ -718,7 +718,7 @@ void printHelpMessage( const arg_handler *first_pass_arguments,
     for( ; it != it_end; ++it ) {
         if( it->first != current_help_group ) {
             current_help_group = it->first;
-            printf( "\n%s\n", current_help_group );
+            printf( "\n%s\n", current_help_group.c_str() );
         }
 
         const arg_handler *handler = it->second;
