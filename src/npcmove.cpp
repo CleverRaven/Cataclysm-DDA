@@ -493,13 +493,14 @@ void npc::regen_ai_cache()
                     has_effect( effect_npc_player_looking ) ) {
                     continue;
                 }
-                goal = g->u.global_omt_location();
+                if( global_omt_location() != g->u.global_omt_location() ) {
+                    goal = g->u.global_omt_location();
+                }
                 set_attitude( NPCATT_TALK );
                 break;
             }
         }
     }
-
 }
 
 void npc::move()
