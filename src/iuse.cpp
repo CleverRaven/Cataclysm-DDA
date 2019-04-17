@@ -3931,7 +3931,7 @@ void iuse::play_music( player &p, const tripoint &source, const int volume, cons
     }
     if( do_effects ) {
         p.add_effect( effect_music, 1_turns );
-        p.add_morale( MORALE_MUSIC, 1, max_morale, 5_minutes, 2_minutes );
+        p.add_morale( MORALE_MUSIC, 1, max_morale, 5_minutes, 2_minutes, true );
         // mp3 player reduces hearing
         if( volume == 0 ) {
             p.add_effect( effect_earphones, 1_turns );
