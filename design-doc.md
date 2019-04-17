@@ -1,12 +1,13 @@
 ---
 layout: page
 title: "CDDA Design Document"
+permalink: /design-doc/
 ---
 
 ### Table of Contents
-[User Experience](#user-experience)  
-[Gameplay](#gameplay)  
-[Story](#story)    
+[User Experience](#user-experience)
+[Gameplay](#gameplay)
+[Story](#story)
 
 Cataclysm: Dark Days Ahead is a turn-based survival game set in a post-apocalyptic world. Struggle to survive in a harsh, persistent, procedurally generated world. Scavenge the remnants of a dead civilization for food, equipment, or, if you are lucky, a vehicle with a full tank of gas to get you the hell out of Dodge. Fight to defeat or escape from a wide variety of powerful monstrosities, from zombies to giant insects to killer robots and things far stranger and deadlier, and against the others like yourself, that want what you have…
 
@@ -17,15 +18,15 @@ Explore, fight and survive in an expansive post-apocalyptic game world.
 The core tenet of dark days ahead is if it works in reality, it works in the game. Scavenge and craft makeshift weapons, improvise shelter, outmaneuver enemies, find, repair and drive vehicles. Deal with monsters using your brains, melee weapons, firearms, traps, explosives, other monsters, fire, and if all else fails, a truck or two.
 
 ### User Experience Table of Contents
-[Overview](#overview)  
-[Deployment](#deployment)  
-[Background](#background)  
-[Key Features](#key-features)  
-[Depth](#depth)  
-[Reward System](#reward-system)  
-[Meaningfulness](#meaningfullness)  
-[Collectibles, Easter Eggs & Unlockables](#collectibles)  
-[World](#world)  
+[Overview](#overview)
+[Deployment](#deployment)
+[Background](#background)
+[Key Features](#key-features)
+[Depth](#depth)
+[Reward System](#reward-system)
+[Meaningfulness](#meaningfullness)
+[Collectibles, Easter Eggs & Unlockables](#collectibles)
+[World](#world)
 
 ## Overview
 
@@ -124,7 +125,7 @@ When creating a faction in Cataclysm, consider the following:
 
 *    All factions were part of the same overall culture only a few months ago. We're not at a Mad Max: Fury Road stage yet, and if anyone's acting that way they're probably basing it on a major motion picture.
 *    No faction should be "good". Everyone is in this for themselves, everyone is scared, everyone's first goal is not being eaten by zombies and their second goal is making it to the next winter. There is no time for altruism.
-*    No faction should be "evil". No one is the villain of their own story. Raiders may not be nice, but they believe they're doing what they need to to survive in this harsh world. 
+*    No faction should be "evil". No one is the villain of their own story. Raiders may not be nice, but they believe they're doing what they need to to survive in this harsh world.
 *    Factions should avoid having a single "schtick". The Free Merchants are merchants who believe in a free market, but that's by far not everything they stand for. Think about what the average member of your faction does in their day to day life, and remember they can't spend all their time just thinking about how much they like the free market, or cannibalism, or whatever your cool initial idea was. Expand.
 
 #### Established Factions
@@ -382,8 +383,8 @@ Rivers provide a natural source of both water and some food in the form of fish,
 # Gameplay
 
 ### Gameplay Table of Contents
-[Objectives](#objectives)  
-[Game Stages and Timeline](#game-stages-and-timeline)  
+[Objectives](#objectives)
+[Game Stages and Timeline](#game-stages-and-timeline)
 
 The player can interact with the game world in a huge number of ways, if there's something a survivor can do on their own in reality, they should be able to do it in the game. The game world is a huge uncaring machine, it doesn't react to the player's existence, it's just passively hostile. Generally speaking the player advances in capabilities by acquiring better equipment, learning things, practicing skills, and gaining allies.
 
@@ -399,9 +400,9 @@ Long-term objectives include deeply customizing your base camp and/or vehicle, s
 
 ## Game Stages and Timeline
 #### Game Stages and Timeline Table of Contents
-[Overview](#overview-1)  
-["Lone Wolf" Play Element](#lone-wolf-play-element)  
-["Faction" Play Element](#faction-play-element)  
+[Overview](#overview-1)
+["Lone Wolf" Play Element](#lone-wolf-play-element)
+["Faction" Play Element](#faction-play-element)
 
 ### Overview
 This is an approximation, and does not describe the expected timeline from a player perspective, but rather the expected design structure. In other words, it should not be hard-coded that a given feature is only available on a given day, but rather, game design should make access to that feature require a particular time investment making it unlikely to obtain earlier.
@@ -432,7 +433,7 @@ first couple days to at most first week.
 
 **Key events**:
 
-* Find a basic safe shelter. 
+* Find a basic safe shelter.
 * Find enough food to keep you sort of alive.
 * Find some clean water.
 * Make a safe fire.
@@ -450,7 +451,7 @@ first couple days to at most first week.
 *    At this stage of the game, they should be very common, and pose a huge threat if hostile.
 *    Factions haven't really formed strongly at this time. (The evacuees that will become the Free Merchants are forming the basis of their governance and have started writing notes on old money to make for fair division of resources.)
 
-**Travel/Range**: 
+**Travel/Range**:
 
 *    Travel is almost certainly on foot, within a day's range of shelter if one has been secured.
 
@@ -466,7 +467,7 @@ From mid-spring to end of spring, year 1
 *    Get some armor and weaponry that deals better with zombies
 *    Scavenge small settlements and their outskirts, mainly at night
 *    Obtain a stockpile of food and a more serious water source, allowing you to spend a little while crafting or reading between exploration runs
-*    Begin to stockpile food, books, and tools, but shouldn't have enough food supplies to be able to spend much time reading or learning 
+*    Begin to stockpile food, books, and tools, but shouldn't have enough food supplies to be able to spend much time reading or learning
 
 **Dangers/Threats**:
 
@@ -528,7 +529,7 @@ Mid-to-late summer to winter, year 1
 *    Most other key resources now well stocked - ammo, clothing, armor. Survivor has likely managed to make some deep forays into a few towns, loot a mansion or the upper levels of a Lab.
 *    Although the player isn't equipped to install CBMs or develop higher level mutagens they probably have access to the components now, and can start projects to get them on the go over the winter. Likewise for fancier gear and equipment that isn't available readily from raids.
 *    Decreasing focus on wide ranging travel in favor of developing base defenses
-*    May at this point have achieved welding tools 
+*    May at this point have achieved welding tools
 *    Probably has electricity and a secure water supply at home base.
 
 **Danger/Threats**:
@@ -677,7 +678,7 @@ Note: Canon date of game start is  April 30th, in "YEAR", which equals the IRL y
 - *Big Picture*: An extraterrestrial visitor, frozen in ice, is retrieved by a Japanese whaling boat, and hastily recovered by their government and research agencies. This is the first contact between mi-go and humans. Existence of the aliens is heard in rumours and leaked photos on the internet, until a well-known Redditor posts a 'making of' video that shows detailed information of how she constructed the model alien for an art exhibit. The photos continue to circulate but are relegated to places online where people don't believe in Snopes.
 
 #### YEAR -9
-- **January**: Artificial intelligence using dimensional probability heuristics is developed. This is an AI that can simulate deductive reasoning by scanning several adjacent realities to create a realistic estimation of the outcome of an action, quite analogous to human deductive reasoning. In a small scale this is surprisingly efficient. 
+- **January**: Artificial intelligence using dimensional probability heuristics is developed. This is an AI that can simulate deductive reasoning by scanning several adjacent realities to create a realistic estimation of the outcome of an action, quite analogous to human deductive reasoning. In a small scale this is surprisingly efficient.
 
 #### YEAR -8
 *Big Picture*: Melchior is developed. It is a useful research assistant using dimensional heuristics but nowhere near as intelligent as hoped, due to the prohibitive power requirements of anticipating more than a few minutes ahead in time. Its inability to plan in the long term is seen as a crippling defect, but it remains an overall success.
@@ -696,7 +697,7 @@ Second phase CBM development commences.
 
 #### YEAR -3
 *Big Picture*: The new cold war begins as the US and China enter a race to develop the ultimate transhuman soldier, as well as functional AI.
-- **January**: US reopens portal research, considering it a safer proposition with CBM enhanced soldiers and Melchior's assistance, and potentially a good way to get ahead of China. 
+- **January**: US reopens portal research, considering it a safer proposition with CBM enhanced soldiers and Melchior's assistance, and potentially a good way to get ahead of China.
 - **July**: Researchers publish results regarding portal stability that help to explain the unexpectedly large portal of 9 years ago. Polydimensional topography has numerous stable planes, and the energy required to make portals to certain areas is much lower. Early researchers hadn't known about this, and put far too much energy into a portal to an energetically accessible location, creating a much bigger portal than intended. This knowledge allows much safer exploration of micro portals.
 - **November**: a research remote probe sent to an adjacent dimension brings back an unidentified biocontaminant, which is captured for analysis but inadvertently destroyed by standard safety procedures. The Blob becomes aware of our existence.
 
@@ -705,8 +706,8 @@ Second phase CBM development commences.
 - **May**: XEDRA (Xenophysical Energy Defense Research Agency) is formed to focus research into transdimensional phenomena. Publically they are masked as DARPA researchers, and other more mundane groups. They are given an enormous budget, considered by the US government to be equivalent to NASA in the current cold war. Certain close allies to the US join the effort, sending top minds and resources to XEDRA facilities across North America.
 - **August**: A XEDRA facility in the Northwest reports a major sample stolen. Counterintelligence identifies China as the most likely culprit, and backtraces the theft to hypothesize that significant XEDRA research data was compromised. New protocols are put in place to counter XFS equipped intelligence agents, including advanced robotic security managed by Melchior.
 - **September**: XEDRA is broken into several connected but distinct agencies. In several of these agencies, desperate to catch up for time now lost by presumed stolen research, reasonable safety protocols are dropped in favour of Melchior predictions of immediate repercussions. This has the obvious (especially in hindsight) flaw that anything that does not have immediate repercussions will be missed: there are few lab explosions, but the Blob is able to leverage this weakness.
-- **November 3**: The first manned research expedition to another dimension - rather, a between-space nicknamed "the netherum" by sci-fi obsessed researchers - is launched. Based on reports of strange, hard-to-comprehend geometry, researchers begin using terms from the works of classic horror writers to describe creatures found there. 
-- **December 18**: Sample XE-037 is brought back to Earth from the netherum. It is about thirty grams of blob matter. Standard decontamination protocols are observed. However, standard protocols do not take into account the possibility of malicious, intelligent molecular-scale contaminants. Microscopic particles of XE-037 migrate from the contamination filters onto the skin of scientists and escape containment. Soon after, the Blob enters the groundwater and begins to spread at extremely low concentrations. 
+- **November 3**: The first manned research expedition to another dimension - rather, a between-space nicknamed "the netherum" by sci-fi obsessed researchers - is launched. Based on reports of strange, hard-to-comprehend geometry, researchers begin using terms from the works of classic horror writers to describe creatures found there.
+- **December 18**: Sample XE-037 is brought back to Earth from the netherum. It is about thirty grams of blob matter. Standard decontamination protocols are observed. However, standard protocols do not take into account the possibility of malicious, intelligent molecular-scale contaminants. Microscopic particles of XE-037 migrate from the contamination filters onto the skin of scientists and escape containment. Soon after, the Blob enters the groundwater and begins to spread at extremely low concentrations.
 
 #### Year -1
 

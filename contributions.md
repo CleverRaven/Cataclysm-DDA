@@ -1,6 +1,7 @@
 ---
 layout: page
 title: "Contribution Guidelines"
+permalink: /contributions/
 ---
 
 # Contribute
@@ -29,7 +30,7 @@ There are a couple of guidelines we suggest sticking to:
 
 ## Frequently Asked Questions
 
-####Why does `git pull --ff-only` result in an error?
+#### Why does `git pull --ff-only` result in an error?
 
 If `git pull --ff-only` shows an error, it means that you've committed directly to your local `master` branch. To fix this, we create a new branch with these commits, find the point at which we diverged from `upstream/master`, and then reset `master` to that point.
 
