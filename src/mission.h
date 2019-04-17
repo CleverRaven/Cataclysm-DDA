@@ -26,6 +26,7 @@ class JsonArray;
 class JsonIn;
 class JsonOut;
 struct mission_type;
+class overmapbuffer;
 struct oter_type_t;
 struct species_type;
 class item;
@@ -141,24 +142,41 @@ struct mission_fail {
     static void standard( mission * ) {} // Nothing special happens
 };
 
-struct mission_util {
-    static tripoint reveal_om_ter( const std::string &omter, int reveal_rad, bool must_see,
-                                   int target_z = 0 );
-    static tripoint target_om_ter( const std::string &omter, int reveal_rad, mission *miss,
-                                   bool must_see, int target_z = 0 );
-    static tripoint target_om_ter_random( const std::string &omter, int reveal_rad, mission *miss,
-                                          bool must_see, int range,
-                                          tripoint loc = overmap::invalid_tripoint );
-    static void set_reveal( const std::string &terrain,
-                            std::vector<std::function<void( mission *miss )>> &funcs );
-    static void set_reveal_any( JsonArray &ja,
-                                std::vector<std::function<void( mission *miss )>> &funcs );
-    static void set_assign_om_target( JsonObject &jo,
-                                      std::vector<std::function<void( mission *miss )>> &funcs );
-    static bool set_update_mapgen( JsonObject &jo,
-                                   std::vector<std::function<void( mission *miss )>> &funcs );
-    static bool load_funcs( JsonObject jo,
-                            std::vector<std::function<void( mission *miss )>> &funcs );
+struct mission_target_params {
+    std::string overmap_terrain_subtype;
+    mission *mission_pointer;
+
+    cata::optional<tripoint> search_origin;
+    cata::optional<std::string> replaceable_overmap_terrain_subtype;
+    cata::optional<overmap_special_id> overmap_special;
+    cata::optional<int> reveal_radius;
+
+    bool must_see = false;
+    bool random = false;
+    bool create_if_necessary = true;
+    int search_range = OMAPX;
+    cata::optional<int> z;
+};
+
+namespace mission_util
+{
+tripoint random_house_in_closest_city();
+tripoint target_closest_lab_entrance( const tripoint &origin, int reveal_rad, mission *miss );
+bool reveal_road( const tripoint &source, const tripoint &dest, overmapbuffer &omb );
+tripoint reveal_om_ter( const std::string &omter, int reveal_rad, bool must_see, int target_z = 0 );
+tripoint target_om_ter( const std::string &omter, int reveal_rad, mission *miss, bool must_see,
+                        int target_z = 0 );
+tripoint target_om_ter_random( const std::string &omter, int reveal_rad, mission *miss,
+                               bool must_see, int range, tripoint loc = overmap::invalid_tripoint );
+void set_reveal( const std::string &terrain,
+                 std::vector<std::function<void( mission *miss )>> &funcs );
+void set_reveal_any( JsonArray &ja, std::vector<std::function<void( mission *miss )>> &funcs );
+mission_target_params parse_mission_om_target( JsonObject &jo );
+cata::optional<tripoint> assign_mission_target( const mission_target_params &params );
+void set_assign_om_target( JsonObject &jo,
+                           std::vector<std::function<void( mission *miss )>> &funcs );
+bool set_update_mapgen( JsonObject &jo, std::vector<std::function<void( mission *miss )>> &funcs );
+bool load_funcs( JsonObject jo, std::vector<std::function<void( mission *miss )>> &funcs );
 };
 
 
