@@ -2121,7 +2121,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             } else {
                 if( is_craft() ) {
                     const std::string desc = _( "This is an in progress %s.  It is %d percent complete." );
-                    const int percent_progress = item_counter / 100;
+                    const int percent_progress = item_counter / 100000;
                     info.push_back( iteminfo( "DESCRIPTION", string_format( desc,
                                               making->result_name(),
                                               percent_progress ) ) );
@@ -2992,7 +2992,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         if( charges > 1 ) {
             ret << " (" << charges << ")";
         }
-        const int percent_progress = item_counter / 100;
+        const int percent_progress = item_counter / 100000;
         ret << " (" << percent_progress << "%)";
         maintext = ret.str();
     } else if( contents.size() == 1 ) {

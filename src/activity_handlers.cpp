@@ -2678,7 +2678,7 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
     }
 
     // item_counter represents the percent progress relative to the base batch time
-    // stored precise to 2 decimal places ( e.g. 67.32 percent would be stored as 6732 )
+    // stored precise to 5 decimal places ( e.g. 67.32 percent would be stored as 6732000 )
 
     // Base moves for batch size with no speed modifier or assistants
     // Must ensure >= 1 so we don't divide by 0;
@@ -2688,13 +2688,14 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
     // Delta progress in moves adjusted for current crafting speed
     const double delta_progress = p->get_moves() * base_total_moves / cur_total_moves;
     // Current progress in moves
-    const double current_progress = craft->item_counter * base_total_moves / 10000.0 + delta_progress;
+    const double current_progress = craft->item_counter * base_total_moves / 10000000.0 +
+                                    delta_progress;
     // Current progress as a percent of base_total_moves to 2 decimal places
-    craft->item_counter = current_progress / base_total_moves * 10000.0;
+    craft->item_counter = round( current_progress / base_total_moves * 10000000.0 );
     p->set_moves( 0 );
 
     // if item_counter has reached 100% or more
-    if( craft->item_counter >= 10000 ) {
+    if( craft->item_counter >= 10000000 ) {
         p->cancel_activity();
         item craft_copy = p->i_rem( craft );
         p->complete_craft( craft_copy );
