@@ -3,7 +3,8 @@
     "id": "sunlight",
     "type": "vitamin",
     "name": "Sunlight",
-    "deficiency": "something",
+    "//": "Used to keep track of time in sunlight for conversion into kcal.",
+    "counter": true,
     "rate": 0,
     "min": 0,
     "max": 200
@@ -12,7 +13,8 @@
     "id": "sunlightVit",
     "type": "vitamin",
     "name": "Sunlight Vitamins",
-    "deficiency": "something_else",
+    "//": "Used to keep track of time in sunlight for conversion into vitamin A and vitamin C.",
+    "counter": true,
     "rate": 0,
     "min": 0,
     "max": 300
@@ -21,7 +23,8 @@
     "id": "roots",
     "type": "vitamin",
     "name": "Roots",
-    "deficiency": "another_thing",
+    "//": "Used to keep track of time rooted for conversion into hydration.",
+    "counter": true,
     "rate": 0,
     "min": 0,
     "max": 200
@@ -30,7 +33,8 @@
     "id": "rootsVit",
     "type": "vitamin",
     "name": "Roots Vitamins",
-    "deficiency": "a_different_thing",
+    "//": "Used to keep track of time rooted for conversion into iron and calcium.",
+    "counter": true,
     "rate": 0,
     "min": 0,
     "max": 300
