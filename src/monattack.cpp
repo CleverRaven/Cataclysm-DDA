@@ -4786,7 +4786,7 @@ bool mattack::teleswap( monster *z )
         return false;
     }
 
-    if ( rl_dist( z->pos(), target->pos() ) < 2 ) {
+    if( rl_dist( z->pos(), target->pos() ) < 2 ) {
         return false;
     }
 
@@ -4794,18 +4794,18 @@ bool mattack::teleswap( monster *z )
     const tripoint target_pos = target->pos();
     const tripoint monster_pos = z->pos();
     const tripoint adjacent = z->adjacent_tile();
-    if (adjacent == monster_pos) {
+    if( adjacent == monster_pos ) {
         return false;
     }
-    z->setpos(adjacent);
-    target->setpos(monster_pos);
-    z->setpos(target_pos);
+    z->setpos( adjacent );
+    target->setpos( monster_pos );
+    z->setpos( target_pos );
 
     auto msg_type = target == &g->u ? m_warning : m_info;
     target->add_msg_player_or_npc( msg_type,
-        _( "The %s exchanges positions with you!" ),
-        _( "The %s exchanges positions with <npcname>." ),
-        z->name() );
+                                   _( "The %s exchanges positions with you!" ),
+                                   _( "The %s exchanges positions with <npcname>." ),
+                                   z->name() );
 
     return true;
 }

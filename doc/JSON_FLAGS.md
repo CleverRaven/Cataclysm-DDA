@@ -311,7 +311,7 @@ Flags used to describe monsters and define their properties and abilities.
 
 ### Monster special evasion
 
-- ```TELESTAGGER``` Teleports to a new tile adjacent to the evaded attacker and stun them for a short duration
+- ```TELESTAGGER``` Teleports to a new tile adjacent to the evaded attacker and stuns them for a short duration
 
 ### Special attacks
 
