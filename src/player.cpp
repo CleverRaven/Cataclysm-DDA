@@ -6523,11 +6523,11 @@ void player::mend( int rate_multiplier )
 // sets default stomach contents when starting the game
 void player::initialize_stomach_contents()
 {
-    stomach = stomach_contents( 4000_ml );
+    stomach = stomach_contents( 2500_ml );
     guts = stomach_contents( 24000_ml );
     guts.set_calories( 300 );
     stomach.set_calories( 800 );
-    stomach.mod_contents( 750_ml );
+    stomach.mod_contents( 475_ml );
 }
 
 void player::vomit()
