@@ -575,7 +575,7 @@ std::string mission::name()
     if( type == nullptr ) {
         return "NULL";
     }
-    return _( type->name.c_str() );
+    return _( type->name );
 }
 
 mission_type_id mission::mission_id()
@@ -644,7 +644,7 @@ std::string mission::dialogue_for_topic( const std::string &in_topic ) const
 
     const auto &response = type->dialogue.find( topic );
     if( response != type->dialogue.end() ) {
-        return _( response->second.c_str() );
+        return _( response->second );
     }
 
     return string_format( "Someone forgot to code this message id is %s, topic is %s!",

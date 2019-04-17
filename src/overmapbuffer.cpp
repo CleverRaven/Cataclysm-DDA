@@ -170,7 +170,7 @@ void overmapbuffer::fix_npcs( overmap &new_overmap )
             // This can't really happen without save editing
             // We have no sane option here, just place the NPC on the edge
             debugmsg( "NPC %s is out of bounds, on non-generated overmap %d,%d",
-                      np.name.c_str(), loc.x, loc.y );
+                      np.name, loc.x, loc.y );
             point npc_sm = om_to_sm_copy( npc_om_pos );
             point min = om_to_sm_copy( loc );
             point max = om_to_sm_copy( loc + point( 1, 1 ) ) - point( 1, 1 );
@@ -1245,31 +1245,29 @@ std::string overmapbuffer::get_description_at( const tripoint &where )
             // The city is big enough to be split in districts.
             if( sm_dist <= sm_size / 4 ) {
                 //~ First parameter is a terrain name, second parameter is a city name.
-                return string_format( _( "%1$s in central %2$s" ), ter_name.c_str(), closest_city.name.c_str() );
+                return string_format( _( "%1$s in central %2$s" ), ter_name, closest_city.name );
             } else {
                 //~ First parameter is a terrain name, second parameter is a direction, and third parameter is a city name.
-                return string_format( _( "%1$s in %2$s %3$s" ), ter_name.c_str(), dir_name.c_str(),
-                                      closest_city.name.c_str() );
+                return string_format( _( "%1$s in %2$s %3$s" ), ter_name, dir_name, closest_city.name );
             }
         } else {
             //~ First parameter is a terrain name, second parameter is a city name.
-            return string_format( _( "%1$s in %2$s" ), ter_name.c_str(), closest_city.name.c_str() );
+            return string_format( _( "%1$s in %2$s" ), ter_name, closest_city.name );
         }
     } else if( sm_dist <= sm_size ) {
         if( sm_size >= 8 ) {
             // The city is big enough to have outskirts.
             //~ First parameter is a terrain name, second parameter is a direction, and third parameter is a city name.
-            return string_format( _( "%1$s on the %2$s outskirts of %3$s" ), ter_name.c_str(), dir_name.c_str(),
-                                  closest_city.name.c_str() );
+            return string_format( _( "%1$s on the %2$s outskirts of %3$s" ), ter_name, dir_name,
+                                  closest_city.name );
         } else {
             //~ First parameter is a terrain name, second parameter is a city name.
-            return string_format( _( "%1$s in %2$s" ), ter_name.c_str(), closest_city.name.c_str() );
+            return string_format( _( "%1$s in %2$s" ), ter_name, closest_city.name );
         }
     }
 
     //~ First parameter is a terrain name, second parameter is a direction, and third parameter is a city name.
-    return string_format( _( "%1$s %2$s from %3$s" ), ter_name.c_str(), dir_name.c_str(),
-                          closest_city.name.c_str() );
+    return string_format( _( "%1$s %2$s from %3$s" ), ter_name, dir_name, closest_city.name );
 }
 
 static int modulo( int v, int m )

@@ -425,7 +425,7 @@ void mission_start::place_npc_software( mission *miss )
 
     compmap.ter_set( comppoint, t_console );
     computer *tmpcomp = compmap.add_computer( comppoint, string_format( _( "%s's Terminal" ),
-                        dev->name.c_str() ), 0 );
+                        dev->name ), 0 );
     tmpcomp->mission_id = miss->uid;
     tmpcomp->add_option( _( "Download Software" ), COMPACT_DOWNLOAD_SOFTWARE, 0 );
     compmap.save();
@@ -915,9 +915,9 @@ void static create_lab_consoles( mission *miss, const tripoint &place, const std
 
         tripoint comppoint = find_potential_computer_point( compmap, om_place.z );
 
-        computer *tmpcomp = compmap.add_computer( comppoint, _( comp_name.c_str() ), security );
+        computer *tmpcomp = compmap.add_computer( comppoint, _( comp_name ), security );
         tmpcomp->mission_id = miss->get_id();
-        tmpcomp->add_option( _( download_name.c_str() ), COMPACT_DOWNLOAD_SOFTWARE, security );
+        tmpcomp->add_option( _( download_name ), COMPACT_DOWNLOAD_SOFTWARE, security );
         tmpcomp->add_failure( COMPFAIL_ALARM );
         tmpcomp->add_failure( COMPFAIL_DAMAGE );
         tmpcomp->add_failure( COMPFAIL_MANHACKS );

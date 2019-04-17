@@ -72,7 +72,7 @@ void mdeath::normal( monster &z )
 
     if( g->u.sees( z ) ) {
         //Currently it is possible to get multiple messages that a monster died.
-        add_msg( m_good, _( "The %s dies!" ), z.name().c_str() );
+        add_msg( m_good, _( "The %s dies!" ), z.name() );
     }
 
     const int max_hp = std::max( z.get_hp_max(), 1 );
@@ -212,9 +212,9 @@ void mdeath::acid( monster &z )
     if( g->u.sees( z ) ) {
         if( z.type->dies.size() ==
             1 ) { //If this death function is the only function. The corpse gets dissolved.
-            add_msg( m_mixed, _( "The %s's body dissolves into acid." ), z.name().c_str() );
+            add_msg( m_mixed, _( "The %s's body dissolves into acid." ), z.name() );
         } else {
-            add_msg( m_warning, _( "The %s's body leaks acid." ), z.name().c_str() );
+            add_msg( m_warning, _( "The %s's body leaks acid." ), z.name() );
         }
     }
     g->m.add_field( z.pos(), fd_acid, 3 );
@@ -222,7 +222,7 @@ void mdeath::acid( monster &z )
 
 void mdeath::boomer( monster &z )
 {
-    std::string explode = string_format( _( "a %s explode!" ), z.name().c_str() );
+    std::string explode = string_format( _( "a %s explode!" ), z.name() );
     sounds::sound( z.pos(), 24, sounds::sound_t::combat, explode );
     for( auto &&dest : g->m.points_in_radius( z.pos(), 1 ) ) { // *NOPAD*
         g->m.bash( dest, 10 );
@@ -241,7 +241,7 @@ void mdeath::boomer( monster &z )
 
 void mdeath::boomer_glow( monster &z )
 {
-    std::string explode = string_format( _( "a %s explode!" ), z.name().c_str() );
+    std::string explode = string_format( _( "a %s explode!" ), z.name() );
     sounds::sound( z.pos(), 24, sounds::sound_t::combat, explode );
 
     for( auto &&dest : g->m.points_in_radius( z.pos(), 1 ) ) { // *NOPAD*
@@ -359,7 +359,7 @@ void mdeath::fungus( monster &z )
 void mdeath::disintegrate( monster &z )
 {
     if( g->u.sees( z ) ) {
-        add_msg( m_good, _( "The %s disintegrates!" ), z.name().c_str() );
+        add_msg( m_good, _( "The %s disintegrates!" ), z.name() );
     }
 }
 
@@ -367,9 +367,9 @@ void mdeath::worm( monster &z )
 {
     if( g->u.sees( z ) ) {
         if( z.type->dies.size() == 1 ) {
-            add_msg( m_good, _( "The %s splits in two!" ), z.name().c_str() );
+            add_msg( m_good, _( "The %s splits in two!" ), z.name() );
         } else {
-            add_msg( m_warning, _( "Two worms crawl out of the %s's corpse." ), z.name().c_str() );
+            add_msg( m_warning, _( "Two worms crawl out of the %s's corpse." ), z.name() );
         }
     }
 
@@ -392,7 +392,7 @@ void mdeath::worm( monster &z )
 void mdeath::disappear( monster &z )
 {
     if( g->u.sees( z ) ) {
-        add_msg( m_good, _( "The %s disappears." ), z.name().c_str() );
+        add_msg( m_good, _( "The %s disappears." ), z.name() );
     }
 }
 
@@ -427,7 +427,7 @@ void mdeath::guilt( monster &z )
         if( kill_count == maxKills ) {
             //~ Message after killing a lot of monsters which would normally affect the morale negatively. %s is the monster name, it will be pluralized with a number of 100.
             add_msg( m_good, _( "After killing so many bloody %s you no longer care "
-                                "about their deaths anymore." ), z.name( maxKills ).c_str() );
+                                "about their deaths anymore." ), z.name( maxKills ) );
         }
         return;
     } else if( ( g->u.has_trait( trait_PRED1 ) ) || ( g->u.has_trait( trait_PRED2 ) ) ) {
@@ -443,7 +443,7 @@ void mdeath::guilt( monster &z )
         }
     }
 
-    add_msg( msgtype, msg.c_str(), z.name().c_str() );
+    add_msg( msgtype, msg.c_str(), z.name() );
 
     int moraleMalus = -50 * ( 1.0 - ( static_cast<float>( kill_count ) / maxKills ) );
     int maxMalus = -250 * ( 1.0 - ( static_cast<float>( kill_count ) / maxKills ) );
@@ -470,13 +470,13 @@ void mdeath::blobsplit( monster &z )
     if( z.get_speed() <= 0 ) {
         if( g->u.sees( z ) ) {
             // TODO: Add vermin-tagged tiny versions of the splattered blob  :)
-            add_msg( m_good, _( "The %s splatters apart." ), z.name().c_str() );
+            add_msg( m_good, _( "The %s splatters apart." ), z.name() );
         }
         return;
     }
     if( g->u.sees( z ) ) {
         if( z.type->dies.size() == 1 ) {
-            add_msg( m_good, _( "The %s splits in two!" ), z.name().c_str() );
+            add_msg( m_good, _( "The %s splits in two!" ), z.name() );
         } else {
             add_msg( m_bad, _( "Two small blobs slither out of the corpse." ) );
         }
@@ -525,7 +525,7 @@ void mdeath::jackson( monster &z )
 void mdeath::melt( monster &z )
 {
     if( g->u.sees( z ) ) {
-        add_msg( m_good, _( "The %s melts away." ), z.name().c_str() );
+        add_msg( m_good, _( "The %s melts away." ), z.name() );
     }
 }
 
@@ -627,7 +627,7 @@ void mdeath::broken( monster &z )
     item_id.insert( 0, "broken_" );
     g->m.spawn_item( z.pos(), item_id, 1, 0, calendar::turn );
     if( g->u.sees( z.pos() ) ) {
-        add_msg( m_good, _( "The %s collapses!" ), z.name().c_str() );
+        add_msg( m_good, _( "The %s collapses!" ), z.name() );
     }
 }
 
@@ -653,20 +653,20 @@ void mdeath::darkman( monster &z )
 {
     g->u.remove_effect( effect_darkness );
     if( g->u.sees( z ) ) {
-        add_msg( m_good, _( "The %s melts away." ), z.name().c_str() );
+        add_msg( m_good, _( "The %s melts away." ), z.name() );
     }
 }
 
 void mdeath::gas( monster &z )
 {
-    std::string explode = string_format( _( "a %s explode!" ), z.name().c_str() );
+    std::string explode = string_format( _( "a %s explode!" ), z.name() );
     sounds::sound( z.pos(), 24, sounds::sound_t::combat, explode );
     g->m.emit_field( z.pos(), emit_id( "emit_toxic_blast" ) );
 }
 
 void mdeath::smokeburst( monster &z )
 {
-    std::string explode = string_format( _( "a %s explode!" ), z.name().c_str() );
+    std::string explode = string_format( _( "a %s explode!" ), z.name() );
     sounds::sound( z.pos(), 24, sounds::sound_t::combat, explode );
     g->m.emit_field( z.pos(), emit_id( "emit_smoke_blast" ) );
 }
@@ -685,7 +685,7 @@ void mdeath::jabberwock( monster &z )
             //~ %s is the possessive form of the monster's name
             ch->add_msg_if_player( m_info,
                                    _( "As the flames in %s eyes die out, your weapon seems to shine slightly brighter." ),
-                                   z.disp_name( true ).c_str() );
+                                   z.disp_name( true ) );
         }
         ch->weapon.add_technique( matec_id( "VORPAL" ) );
     }
@@ -695,7 +695,7 @@ void mdeath::jabberwock( monster &z )
 
 void mdeath::gameover( monster &z )
 {
-    add_msg( m_bad, _( "The %s was destroyed!  GAME OVER!" ), z.name().c_str() );
+    add_msg( m_bad, _( "The %s was destroyed!  GAME OVER!" ), z.name() );
     g->u.hp_cur[hp_torso] = 0;
 }
 
@@ -749,7 +749,7 @@ void mdeath::detonate( monster &z )
                                               item::find_type( bomb_id )->get_use( "transform" )->get_actor_ptr() );
             if( actor == nullptr ) {
                 // Invalid bomb item, move to the next ammo item
-                add_msg( m_debug, "Invalid bomb type in detonate mondeath for %s.", z.name().c_str() );
+                add_msg( m_debug, "Invalid bomb type in detonate mondeath for %s.", z.name() );
                 continue;
             }
             dets.emplace_back( actor->target, actor->ammo_qty );
@@ -761,11 +761,11 @@ void mdeath::detonate( monster &z )
             //~ %s is the possessive form of the monster's name
             add_msg( m_info,
                      _( "The %s's hands fly to its pockets, but there's nothing left in them." ),
-                     z.name().c_str() );
+                     z.name() );
         } else {
             //~ %s is the possessive form of the monster's name
             add_msg( m_bad, _( "The %s's hands fly to its remaining pockets, opening them!" ),
-                     z.name().c_str() );
+                     z.name() );
         }
     }
     // HACK, used to stop them from having ammo on respawn
@@ -787,7 +787,7 @@ void mdeath::broken_ammo( monster &z )
     if( g->u.sees( z.pos() ) ) {
         //~ %s is the possessive form of the monster's name
         add_msg( m_info, _( "The %s's interior compartment sizzles with destructive energy." ),
-                 z.name().c_str() );
+                 z.name() );
     }
     mdeath::broken( z );
 }
@@ -841,7 +841,7 @@ void mdeath::fireball( monster &z )
     if( one_in( 10 ) ) {
         g->m.propagate_field( z.pos(), fd_fire, 15, 3 );
         std::string explode = string_format( _( "an explosion of tank of the %s's flamethrower!" ),
-                                             z.name().c_str() );
+                                             z.name() );
         sounds::sound( z.pos(), 24, sounds::sound_t::combat, explode );
         add_msg( m_good, _( "I love the smell of burning zed in the morning." ) );
     } else {

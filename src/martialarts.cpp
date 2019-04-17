@@ -252,14 +252,14 @@ void check_martialarts()
              technique != ma.techniques.cend(); ++technique ) {
             if( !technique->is_valid() ) {
                 debugmsg( "Technique with id %s in style %s doesn't exist.",
-                          technique->c_str(), ma.name.c_str() );
+                          technique->c_str(), ma.name );
             }
         }
         for( auto weapon = ma.weapons.cbegin();
              weapon != ma.weapons.cend(); ++weapon ) {
             if( !item::type_is_defined( *weapon ) ) {
                 debugmsg( "Weapon %s in style %s doesn't exist.",
-                          weapon->c_str(), ma.name.c_str() );
+                          weapon->c_str(), ma.name );
             }
         }
     }
@@ -387,7 +387,7 @@ std::string ma_requirements::get_description( bool buff ) const
         dump << string_format( _( "<bold>Requires:</bold> " ) );
 
         dump << enumerate_as_string( req_buffs.begin(), req_buffs.end(), []( const mabuff_id & bid ) {
-            return _( bid->name.c_str() );
+            return _( bid->name );
         }, enumeration_conjunction::none ) << std::endl;
     }
 
@@ -520,7 +520,7 @@ bool ma_buff::can_melee() const
 std::string ma_buff::get_description( bool passive ) const
 {
     std::stringstream dump;
-    dump << string_format( _( "<bold>Buff technique:</bold> %s" ), _( name.c_str() ) ) << std::endl;
+    dump << string_format( _( "<bold>Buff technique:</bold> %s" ), _( name ) ) << std::endl;
 
     std::string temp = bonuses.get_description();
     if( !temp.empty() ) {
@@ -1041,7 +1041,7 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
 
         for( const auto &tech : ma.techniques ) {
             buffer << string_format( _( "<header>Technique:</header> <bold>%s</bold>   " ),
-                                     _( tech.obj().name.c_str() ) ) << std::endl;
+                                     _( tech.obj().name ) ) << std::endl;
             buffer << tech.obj().get_description() << std::endl << "--" << std::endl;
         }
 
@@ -1080,7 +1080,7 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
 
             werase( w );
             fold_and_print_from( w, 1, 2, width, selected, c_light_gray, text );
-            draw_border( w, BORDER_COLOR, string_format( _( " Style: %s " ), _( ma.name.c_str() ) ) );
+            draw_border( w, BORDER_COLOR, string_format( _( " Style: %s " ), _( ma.name ) ) );
             draw_scrollbar( w, selected, height, iLines, 1, 0, BORDER_COLOR, true );
             wrefresh( w );
             catacurses::refresh();

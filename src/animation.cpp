@@ -733,7 +733,7 @@ void draw_zones_curses( const catacurses::window &w, const tripoint &start, cons
     int         const x = start.x - offset.x;
 
     for( int y = start.y; y <= end.y; ++y ) {
-        mvwprintz( w, y - offset.y, x, col, line.c_str() );
+        mvwprintz( w, y - offset.y, x, col, line );
     }
 }
 } //namespace

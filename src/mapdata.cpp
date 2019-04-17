@@ -326,7 +326,7 @@ void load_season_array( JsonObject &jo, const std::string &key, C &container, F 
 
 std::string map_data_common_t::name() const
 {
-    return _( name_.c_str() );
+    return _( name_ );
 }
 
 void map_data_common_t::load_symbol( JsonObject &jo )

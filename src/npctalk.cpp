@@ -279,7 +279,7 @@ void npc::handle_sound( int priority, const std::string &description, int heard_
         if( ( my_fac == sound_source->my_fac ||
               get_attitude_group( get_attitude() ) == sound_source->get_attitude_group(
                   sound_source->get_attitude() ) ) && ( priority < 6 ) ) {
-            add_msg( m_debug, "NPC ignored same faction %s", name.c_str() );
+            add_msg( m_debug, "NPC ignored same faction %s", name );
             return;
         }
     }
@@ -3071,7 +3071,7 @@ consumption_result try_consume( npc &p, item &it, std::string &reason )
             }
             if( !has ) {
                 reason = string_format( _( "I need a %s to consume that!" ),
-                                        item::nname( comest->tool ).c_str() );
+                                        item::nname( comest->tool ) );
                 return REFUSED;
             }
             p.use_charges( comest->tool, 1 );
@@ -3088,7 +3088,7 @@ consumption_result try_consume( npc &p, item &it, std::string &reason )
         p.consume_effects( to_eat );
         p.moves -= 250;
     } else {
-        debugmsg( "Unknown comestible type of item: %s\n", to_eat.tname().c_str() );
+        debugmsg( "Unknown comestible type of item: %s\n", to_eat.tname() );
     }
 
     if( to_eat.charges > 0 ) {

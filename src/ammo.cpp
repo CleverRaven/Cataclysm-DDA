@@ -74,5 +74,5 @@ void ammunition_type::check_consistency()
 
 std::string ammunition_type::name() const
 {
-    return _( name_.c_str() );
+    return _( name_ );
 }

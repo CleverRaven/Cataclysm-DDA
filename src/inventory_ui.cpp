@@ -227,7 +227,7 @@ std::string inventory_selector_preset::get_caption( const inventory_entry &entry
         entry.location->display_money( count,
                                        entry.location.charges_in_stack( count ) ) : entry.location->display_name( count );
 
-    return ( count > 1 ) ? string_format( "%d %s", count, disp_name.c_str() ) : disp_name;
+    return ( count > 1 ) ? string_format( "%d %s", count, disp_name ) : disp_name;
 }
 
 std::string inventory_selector_preset::get_denial( const inventory_entry &entry ) const
@@ -600,7 +600,7 @@ void inventory_column::set_stack_favorite( const item_location &location, bool f
 
         for( auto &item : items ) {
             if( item.stacks_with( *selected_item ) ) {
-                printf( "%s %s\n", favorite ? "Favoriting" : "Unfavoriting", item.display_name().c_str() );
+                printf( "%s %s\n", favorite ? "Favoriting" : "Unfavoriting", item.display_name() );
                 to_favorite.push_back( &item );
             }
         }
@@ -616,7 +616,7 @@ void inventory_column::set_stack_favorite( const item_location &location, bool f
 
         for( auto &item : items ) {
             if( item.stacks_with( *selected_item ) ) {
-                printf( "%s %s\n", favorite ? "Favoriting" : "Unfavoriting", item.display_name().c_str() );
+                printf( "%s %s\n", favorite ? "Favoriting" : "Unfavoriting", item.display_name() );
                 to_favorite.push_back( &item );
             }
         }
@@ -1017,7 +1017,7 @@ const item_category *inventory_selector::naturalize_category( const item_categor
             return existing;
         }
 
-        const std::string name = string_format( "%s %s", category.name().c_str(), suffix.c_str() );
+        const std::string name = string_format( "%s %s", category.name(), suffix.c_str() );
         const int sort_rank = category.sort_rank() + dist;
         const item_category new_category( id, no_translation( name ), sort_rank );
 
@@ -1529,7 +1529,7 @@ void inventory_selector::draw_footer( const catacurses::window &w ) const
 
         mvwprintz( w, getmaxy( w ) - border, 2, c_light_gray, "< " );
         wprintz( w, c_light_gray, text );
-        wprintz( w, c_white, filter.c_str() );
+        wprintz( w, c_white, filter );
         wprintz( w, c_light_gray, " >" );
     }
 
@@ -1830,7 +1830,7 @@ std::pair<const item *, const item *> inventory_compare_selector::execute()
             }
         } else if( input.action == "CONFIRM" ) {
             popup_getkey( _( "You need two items for comparison.  Use %s to select them." ),
-                          ctxt.get_desc( "RIGHT" ).c_str() );
+                          ctxt.get_desc( "RIGHT" ) );
         } else if( input.action == "QUIT" ) {
             return std::make_pair( nullptr, nullptr );
         } else if( input.action == "INVENTORY_FILTER" ) {
@@ -1915,7 +1915,7 @@ std::list<std::pair<int, int>> inventory_iuse_selector::execute()
         } else if( input.action == "CONFIRM" ) {
             if( to_use.empty() ) {
                 popup_getkey( _( "No items were selected.  Use %s to select them." ),
-                              ctxt.get_desc( "RIGHT" ).c_str() );
+                              ctxt.get_desc( "RIGHT" ) );
                 continue;
             }
             break;
@@ -2063,7 +2063,7 @@ std::list<std::pair<int, int>> inventory_drop_selector::execute()
         } else if( input.action == "CONFIRM" ) {
             if( dropping.empty() ) {
                 popup_getkey( _( "No items were selected.  Use %s to select them." ),
-                              ctxt.get_desc( "RIGHT" ).c_str() );
+                              ctxt.get_desc( "RIGHT" ) );
                 continue;
             }
             break;

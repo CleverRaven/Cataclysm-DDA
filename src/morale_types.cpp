@@ -225,7 +225,7 @@ std::string morale_type_data::describe( const itype *it ) const
         if( !needs_item ) {
             debugmsg( "Item type supplied but not needed" );
         }
-        return string_format( text, it->nname( 1 ).c_str() );
+        return string_format( text, it->nname( 1 ) );
     }
 
     if( needs_item ) {

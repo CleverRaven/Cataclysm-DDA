@@ -109,7 +109,7 @@ void character_edit_menu()
         if( np->has_destination() ) {
             data << string_format( _( "Destination: %d:%d:%d (%s)" ),
                                    np->goal.x, np->goal.y, np->goal.z,
-                                   overmap_buffer.ter( np->goal )->get_name().c_str() ) << std::endl;
+                                   overmap_buffer.ter( np->goal )->get_name() ) << std::endl;
         } else {
             data << _( "No destination." ) << std::endl;
         }
@@ -308,7 +308,7 @@ void character_edit_menu()
 
             const auto &vits = vitamin::all();
             for( const auto &v : vits ) {
-                smenu.addentry( -1, true, 0, "%s: %d", v.second.name().c_str(), p.vitamin_get( v.first ) );
+                smenu.addentry( -1, true, 0, "%s: %d", v.second.name(), p.vitamin_get( v.first ) );
             }
 
             smenu.query();
@@ -606,10 +606,10 @@ void mission_debug::remove_mission( mission &m )
     const auto giver = g->find_npc( m.npc_id );
     if( giver != nullptr ) {
         if( remove_from_vec( giver->chatbin.missions_assigned, &m ) ) {
-            add_msg( _( "Removing from %s missions_assigned" ), giver->name.c_str() );
+            add_msg( _( "Removing from %s missions_assigned" ), giver->name );
         }
         if( remove_from_vec( giver->chatbin.missions, &m ) ) {
-            add_msg( _( "Removing from %s missions" ), giver->name.c_str() );
+            add_msg( _( "Removing from %s missions" ), giver->name );
         }
     }
 }

@@ -24,7 +24,7 @@ static const itype_id fuel_type_muscle( "muscle" );
 
 const std::string vehicle::disp_name() const
 {
-    return string_format( _( "the %s" ), name.c_str() );
+    return string_format( _( "the %s" ), name );
 }
 
 char vehicle::part_sym( const int p, const bool exact ) const
@@ -151,14 +151,14 @@ int vehicle::print_part_list( const catacurses::window &win, int y1, const int m
         std::string partname = vp.name();
 
         if( vp.is_fuel_store() && vp.ammo_current() != "null" ) {
-            partname += string_format( " (%s)", item::nname( vp.ammo_current() ).c_str() );
+            partname += string_format( " (%s)", item::nname( vp.ammo_current() ) );
         }
 
         if( part_flag( pl[i], "CARGO" ) ) {
             //~ used/total volume of a cargo vehicle part
             partname += string_format( _( " (vol: %s/%s %s)" ),
-                                       format_volume( stored_volume( pl[i] ) ).c_str(),
-                                       format_volume( max_volume( pl[i] ) ).c_str(),
+                                       format_volume( stored_volume( pl[i] ) ),
+                                       format_volume( max_volume( pl[i] ) ),
                                        volume_units_abbr() );
         }
 

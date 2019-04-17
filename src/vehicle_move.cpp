@@ -80,7 +80,7 @@ int vehicle::slowdown( int at_velocity ) const
     // converting m/s^2 to vmiph/s
     int slowdown = mps_to_vmiph( accel_slowdown );
     if( slowdown < 0 ) {
-        debugmsg( "vehicle %s has negative drag slowdown %d\n", name.c_str(), slowdown );
+        debugmsg( "vehicle %s has negative drag slowdown %d\n", name, slowdown );
     }
     add_msg( m_debug, "%s at %d vimph, f_drag %3.2f, drag accel %d vmiph - extra drag %d",
              name, at_velocity, f_total_drag, slowdown, static_drag() );

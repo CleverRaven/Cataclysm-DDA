@@ -119,12 +119,12 @@ zone_manager::zone_manager()
 
 std::string zone_type::name() const
 {
-    return _( name_.c_str() );
+    return _( name_ );
 }
 
 std::string zone_type::desc() const
 {
-    return _( desc_.c_str() );
+    return _( desc_ );
 }
 
 std::shared_ptr<zone_options> zone_options::create( const zone_type_id &type )
