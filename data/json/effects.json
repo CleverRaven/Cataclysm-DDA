@@ -1680,37 +1680,5 @@
     "//": "What keeps rooted plants from moving around.",
     "name": [ "Rooted" ],
     "desc": [ "You've sunk your roots into the ground, and are unable to move." ]
-  },
-  {
-    "type": "effect_type",
-    "id": "something",
-    "name": [ "something" ],
-    "desc": [ "This is here for a clever work-around, you should never see it." ],
-    "max_intensity": 1,
-    "rating": "bad"
-  },
-  {
-    "type": "effect_type",
-    "id": "something_else",
-    "name": [ "something else" ],
-    "desc": [ "This is here for a clever work-around, you should never see it." ],
-    "max_intensity": 1,
-    "rating": "bad"
-  },
-  {
-    "type": "effect_type",
-    "id": "another_thing",
-    "name": [ "another thing" ],
-    "desc": [ "This is here for a clever work-around, you should never see it." ],
-    "max_intensity": 1,
-    "rating": "bad"
-  },
-  {
-    "type": "effect_type",
-    "id": "a_different_thing",
-    "name": [ "a different thing" ],
-    "desc": [ "This is here for a clever work-around, you should never see it." ],
-    "max_intensity": 1,
-    "rating": "bad"
   }
 ]
