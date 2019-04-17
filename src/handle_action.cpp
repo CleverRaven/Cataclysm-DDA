@@ -131,8 +131,8 @@ input_context game::get_player_input( std::string &action )
 
         //x% of the Viewport, only shown on visible areas
         const auto weather_info = get_weather_animation( weather );
-        int offset_x = ( u.posx() + u.view_offset.x ) - ( getmaxx( w_terrain ) / 2 );
-        int offset_y = ( u.posy() + u.view_offset.y ) - ( getmaxy( w_terrain ) / 2 );
+        int offset_x = u.posx() + u.view_offset.x - getmaxx( w_terrain ) / 2;
+        int offset_y = u.posy() + u.view_offset.y - getmaxy( w_terrain ) / 2;
 
 #if defined(TILES)
         if( tile_iso && use_tiles ) {
