@@ -840,7 +840,7 @@ void player::hardcoded_effects( effect &it )
             hp_cur[hp_torso] = 0;
         }
     } else if( id == effect_grabbed ) {
-        blocks_left -= 1;
+        set_num_blocks_bonus(get_num_blocks_bonus() - 1);
         int zed_number = 0;
         for( auto &dest : g->m.points_in_radius( pos(), 1, 0 ) ) {
             if( g->critter_at<monster>( dest ) ) {

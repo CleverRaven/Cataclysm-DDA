@@ -471,8 +471,8 @@ bool ma_buff::is_valid_player( const player &u ) const
 
 void ma_buff::apply_player( player &u ) const
 {
-    u.dodges_left += dodges_bonus;
-    u.blocks_left += blocks_bonus;
+    u.set_num_dodges_bonus(u.get_num_dodges_bonus() + dodges_bonus);
+    u.set_num_blocks_bonus(u.get_num_blocks_bonus() + blocks_bonus);
 }
 
 int ma_buff::hit_bonus( const player &u ) const
