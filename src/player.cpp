@@ -12315,6 +12315,7 @@ void player::place_corpse()
     }
     std::vector<item *> tmp = inv_dump();
     item body = item::make_corpse( mtype_id::NULL_ID(), calendar::turn, name );
+    body.set_item_temperature( 310.15 );
     for( auto itm : tmp ) {
         g->m.add_item_or_charges( pos(), *itm );
     }

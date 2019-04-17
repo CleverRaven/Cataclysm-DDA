@@ -5549,13 +5549,11 @@ bool game::revive_corpse( const tripoint &p, item &it )
     critter.init_from_item( it );
     if( critter.get_hp() < 1 ) {
         // Failed reanimation due to corpse being too burned
-        it.active = false;
         return false;
     }
     if( it.has_flag( "FIELD_DRESS" ) || it.has_flag( "FIELD_DRESS_FAILED" ) ||
         it.has_flag( "QUARTERED" ) ) {
         // Failed reanimation due to corpse being butchered
-        it.active = false;
         return false;
     }
 
@@ -6056,11 +6054,13 @@ void game::examine()
     if( !examp_ ) {
         return;
     }
+    u.manual_examine = true;
     // redraw terrain to erase 'examine' window
     draw_ter();
     wrefresh( w_terrain );
     draw_panels();
     examine( *examp_ );
+    u.manual_examine = false;
 }
 
 const std::string get_fire_fuel_string( const tripoint &examp )

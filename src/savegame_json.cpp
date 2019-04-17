@@ -2922,14 +2922,6 @@ void basecamp::serialize( JsonOut &json ) const
         json.member( "name", name );
         json.member( "pos", omt_pos );
         json.member( "bb_pos", bb_pos );
-        json.member( "sort_points" );
-        json.start_array();
-        for( const tripoint &it : sort_points ) {
-            json.start_object();
-            json.member( "pos", it );
-            json.end_object();
-        }
-        json.end_array();
         json.member( "expansions" );
         json.start_array();
         for( const auto &expansion : expansions ) {
