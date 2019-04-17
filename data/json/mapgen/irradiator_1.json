@@ -1,5 +1,17 @@
 [
   {
+    "type": "monstergroup",
+    "name": "GROUP_ZOMBIE_NUCLEAR_INDUSTRY",
+    "default": "mon_zombie_technician",
+    "monsters": [
+      { "monster": "mon_zombie_technician", "freq": 200, "cost_multiplier": 3 },
+      { "monster": "mon_zombie_hazmat", "freq": 250, "cost_multiplier": 3 },
+      { "monster": "mon_zombie_electric", "freq": 100, "cost_multiplier": 5 },
+      { "monster": "mon_skitterbot", "freq": 100, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_cop", "freq": 100, "cost_multiplier": 5 }
+    ]
+  },
+  {
     "id": "radiation_equipment",
     "type": "item_group",
     "subtype": "collection",
@@ -87,10 +99,10 @@
         "'f***************************mmmmmmmmmmm******************************f'",
         "'f**|--------------------------------------------------------------|**f'",
         "'f**|qq  c|c c|c c|c |      f cc fTTf cc f      |XXXX5XXXXXXXXXXXXX|**f'",
-        "'f**|-   c|c c|c c|c | mmmm f    ffff    f mmmm |XM    )         QX|**f'",
-        "'f**|qq  c|c c|c c|c | m/mm G            G mm/m |XM    ) UUUUUUPPPX|**f'",
-        "'f**|qq  c|c c|c c|c | mmmm f     h      f mmmm |XM    ) UUUUUUPPPX|**f'",
-        "'f**|-   -|- -|- -|- |      f    xxx     f      |X     )         PX|**f'",
+        "'f**|-   c|c c|c c|c | mmmm f    ffff    f mmmm |XM    )!!!!!!!!!QX|**f'",
+        "'f**|qq  c|c c|c c|c | mm/m G            G m/mm |XM    )!UUUUUUPPPX|**f'",
+        "'f**|qq  c|c c|c c|c | mmmm f     h      f mmmm |XM    )!UUUUUUPPPX|**f'",
+        "'f**|-   -|- -|- -|- |      f    x7x     f      |X     )!!!!!!!!!PX|**f'",
         "'f**|qq              |------4NN--------NN4------|X  XXXXXXXXXXXXXXX|**f'",
         "'f**|------------NN4-|                          |4NN---------------|**f'",
         "'f**|MMMMMMMM4                                          4ZZPPPZZPPP|**f'",
@@ -98,9 +110,9 @@
         "'f**|MP pPPPP|----==-------XXXXXXXXNXXXXXXXX-----==-----|PPZPPPZPPP|**f'",
         "'f**|TTTTTTTT| C K     KXXXXXXX!Q!!!!!Q!XXXXXX J        |TTTTTTTTTT|**f'",
         "'f**|--------4 C K   KKKXCCMMCX!!UUUUU!!XMMCCX J    J C 4----------|**f'",
-        "'f**|        N C K     KXCXXXCX!!UUUUU!!XCXXCX J    J C N          |**f'",
-        "'f**| CCCCCCCMCC        C1 XXCCCCCC3CCCCCCX 2     M   CCMCCCCCCCCC |**f'",
-        "'f**| C      N C K  CCCCC KXXXX!!UUUUU!!XXX CCCCCCM J C N        C |**f'",
+        "'f**|(       N C K     KXCXXXCX!!UUUUU!!XCXXCX J    J C N         (|**f'",
+        "'f**| CCCCCCCMCC    C  CC1 XXCCCCCC3CCCCCCX 2     M   CCMCCCCCCCCC |**f'",
+        "'f**| C      N C K  CCCC  KXXXX!!UUUUU!!XXX CCCCCCM J C N        C |**f'",
         "'f**| C |----4 C K        KXXXX!!UUUUU!!XXX       M J C 4------| C |**f'",
         "'f**| C |j}hd| C K    [KKKKKXXX!!!!!!!!!XXX WW[[        |j  > Q| C |**f'",
         "'f**| C |j  S|----==-------XXXXXXRRRRRXXXXXX-----==-----|j >>>>| C |**f'",
@@ -110,14 +122,14 @@
         "'f**| C |]  x|x   x|x  ]|  |---N------------|  |.       |c  > >| C |**f'",
         "'f**| C |] hd|dh hd|dh ]|  |##| 4|rG  Gr|B B|  |. htth  |dh >Q>| C |**f'",
         "'f**| C |]  x|x   x|x  ]|  |  |Y----))--|B B|  |. htth  |------| C |**f'",
-        "'f**| C |] hd|dh hd|dh ]|  |F | 4dh   h6|B B|  +       ^|<  + ?| C |**f'",
-        "'f**| C |]  x|x   x|x  ]|  |V |YRRRR4Y6R|-+-|  |  oaao  +   |--| C |**f'",
+        "'f**| C |] hd|dh hd|dh ]|  |F | 4dh   hd|B B|  +       ^|<  + ?| C |**f'",
+        "'f**| C |]  x|x   x|x  ]|  |V |YRRxR4Y6R|-+-|  |  oaao  +   |--| C |**f'",
         "'f**| C |^              +  +  +         +      |  oaao ^|<  + ?| C |**f'",
         "'f**| C |----------------==|---|---++---|----==|---------------| C |**f'",
-        "'f**| C |M    KKKKKKKKK    |A AAAAR  RAAAA A|   JJJJJJJJJ      | C |**f'",
+        "'f**| C |M    KKKKKKKKK    |A AAAAR  RAAAA A|   JJJJJJJJJJJ    | C |**f'",
         "'f**| CCMCC   KKKKKKKKK    |A     D  D     A|J              CCCMCC |**f'",
         "'f**|   N C                |A ^oo^R  R^oo^ A|J  JJW MMMMMCCCC  N   |**f'",
-        "'f**|   4 C  KKKKKKKKK     |-------++-------|J  J W MMMMM      4   |**f'",
+        "'f**| ( 4 C  KKKKKKKKK     |-------++-------|J  J W MMMMM      4 ( |**f'",
         "'f**|   N C  KKKKKKKKK     |gggR{{R  R{{Rggg|J  JJW MMMMMCCCC  N   |**f'",
         "'f**| CCMCC                |g%%D%%D  D%%D%%g|J              CCCMCC |**f'",
         "'f**| C |M   KKKKKKKKKKKK  |gggR{{R  R{{Rggg|   WWWWWWWWWWW    N C |**f'",
@@ -148,10 +160,10 @@
         "'f**L_____________________Lss******ss******ssL_____________________L**f'",
         "'f**L____________________Ls##ssss##ss##ssss##sL____________________L**f'",
         "'f**L___________________Lss--w=w---DD---w=w--ssL___________________L**f'",
-        "'f**L__________________Lssswdh  ^hx  xhA  hdwsssL__________________L**f'",
-        "'f**L__________________Lssswxh   hd  dh  lhxwsssL__________________L**f'",
-        "'f**L__________________Lsss--w-w---DD---w-w--sssL__________________L**f'",
-        "'fffGGGGGGGGGGGGGGGGGGGGfffffffffffGGfffffffffffGGGGGGGGGGGGGGGGGGGGfff'",
+        "'fsss__________________Lssswdh  ^hx  xhA  hdwsssL__________________sssf'",
+        "'fs(s__________________Ls(swxh   hd  dh  lhxws(sL__________________s(sf'",
+        "'fsss__________________Lsss--w-w---DD---w-w--sssL__________________sssf'",
+        "'ffffGGGGGGGGGGGGGGGGGGffffffffffffGGffffffffffffGGGGGGGGGGGGGGGGGGffff'",
         "[[[[L__________________LssssssssssssssssssssssssL__________________L[[[[",
         "[[[[L__________________LssssssssssssssssssssssssL__________________L[[[["
       ],
@@ -196,7 +208,8 @@
         "3": [ "t_rad_platform" ],
         "4": [ "t_card_industrial" ],
         "5": [ "t_console" ],
-        "6": [ "t_console" ]
+        "6": [ "t_console" ],
+        "7": [ "t_console" ]
       },
       "furniture": {
         "#": [ "f_bench" ],
@@ -256,10 +269,19 @@
           "security" : 3,
           "options": [
             { "name": "Open doors", "action": "unlock", "security": 3 },
-            { "name": "Security: Access security locker", "action": "release_bionics", "security": 5 },
-            { "name": "Emergency: Disable protective measures", "action": "unlock_disarm", "security": 5 }
+            { "name": "Access security locker", "action": "release_bionics", "security": 5 }
           ],
           "failures": [ { "action": "alarm" }, { "action": "shutdown" }, { "action": "manhacks" }, { "action": "damage" } ]
+        },
+        "7": {
+          "name": "Power Management",
+          "security" : 2,
+          "options": [
+            { "name": "External power management.", "action": "disconnect", "security": 0 },
+            { "name": "Backup power management.", "action": "disconnect", "security": 0 },
+            { "name": "Run emergency auto-diagnostic.", "action": "deactivate_shock_vent", "security": 2 }
+          ],
+          "failures": [ { "action": "alarm" }, { "action": "damage" } ]
         }
       },
       "toilets": { "?": {} },
@@ -297,19 +319,37 @@
          "U": { "field": "fd_nuke_gas", "density": 3, "age": 990, "chance": 100 },
          "/": { "field": "fd_shock_vent" }
       },
-      "place_items": [],
-      "place_item": [],
-      "place_monsters": [
+      "monster": {
+        "(": { "monster": "mon_turret" },
+        "!": { "monster": "mon_hazmatbot", "chance": 5 }
+      },
+      "monsters": {
+        "h": { "monster": "GROUP_ZOMBIE", "chance": 50 },
+        "o": { "monster": "GROUP_ZOMBIE", "chance": 50 },
+        "#": { "monster": "GROUP_ZOMBIE", "chance": 50 },
+        "_": { "monster": "GROUP_ZOMBIE", "chance": 99 },
+        " ": { "monster": "GROUP_ZOMBIE_NUCLEAR_INDUSTRY", "chance": 50 },
+        "%": { "monster": "GROUP_ZOMBIE_NUCLEAR_INDUSTRY", "chance": 50 },
+        "g": { "monster": "GROUP_ZOMBIE_NUCLEAR_INDUSTRY", "chance": 50 }
+      },
+      "place_item": [
+        { "item": "cobalt_60", "x": [ 57, 61 ], "y": [ 6, 7 ], "amount": [ 1, 5 ], "chance": 50, "repeat": [ 1, 15 ] }
+      ],
+      "place_graffiti": [ 
+        { "text": "Decontamination", "x": 34, "y": 35 },
+        { "text": "Decontamination", "x": 34, "y": 39 },
+        { "text": "Decontamination", "x": 37, "y": 35 },
+        { "text": "Decontamination", "x": 37, "y": 39 }
       ],
       "place_vehicles": [
         { "vehicle": "warehouse_vehicles", "chance": 50, "fuel": -1, "rotation": 0, "status": -1, "x": 8, "y": 48 },
         { "vehicle": "warehouse_vehicles", "chance": 50, "fuel": -1, "rotation": 180, "status": 0, "x": 23, "y": 48 },
         { "vehicle": "warehouse_vehicles", "chance": 50, "fuel": -1, "rotation": 0, "status": 1, "x": 47, "y": 48 },
         { "vehicle": "warehouse_vehicles", "chance": 50, "fuel": -1, "rotation": 180, "status": -1, "x": 60, "y": 48 },
-        { "vehicle": "industrial_transport", "chance": 50, "fuel": -1, "rotation": 90, "status": -1, "x": 10, "y": 62 },
-        { "vehicle": "industrial_transport", "chance": 50, "fuel": -1, "rotation": 90, "status": 0, "x": 20, "y": 62 },
-        { "vehicle": "industrial_transport", "chance": 50, "fuel": -1, "rotation": 90, "status": 1, "x": 53, "y": 62 },
-        { "vehicle": "industrial_transport", "chance": 50, "fuel": -1, "rotation": 90, "status": -1, "x": 62, "y": 62 }
+        { "vehicle": "industrial_transport", "chance": 25, "fuel": -1, "rotation": 90, "status": -1, "x": 10, "y": 62 },
+        { "vehicle": "industrial_transport", "chance": 25, "fuel": -1, "rotation": 90, "status": 0, "x": 20, "y": 62 },
+        { "vehicle": "industrial_transport", "chance": 25, "fuel": -1, "rotation": 90, "status": 1, "x": 53, "y": 62 },
+        { "vehicle": "industrial_transport", "chance": 25, "fuel": -1, "rotation": 90, "status": -1, "x": 62, "y": 62 }
       ]
     }
   },
@@ -423,11 +463,11 @@
       "place_nested": [
         {
           "chunks": [
-            [ "null", 15 ],
-            [ "roof_4x4_survivor", 10 ],
+            [ "null", 5 ],
+            [ "roof_4x4_survivor", 15 ],
             [ "roof_16x16_help", 25 ],
             [ "roof_4x4_holdout", 5 ],
-            [ "roof_6x6_utility", 40 ],
+            [ "roof_6x6_utility", 45 ],
             [ "roof_5x5_coop", 5 ]
           ],
           "x": [ 11, 23 ],
