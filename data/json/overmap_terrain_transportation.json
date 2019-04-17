@@ -408,7 +408,34 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "runway_hangar",
+    "name": "runway",
+    "sym": "─",
+    "color": "light_gray",
+    "see_cost": 5,
+    "extras": "road"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "runway_hangar2",
+    "name": "runway",
+    "sym": "─",
+    "color": "light_gray",
+    "see_cost": 5,
+    "extras": "road"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "runway_wild",
+    "name": "runway",
+    "sym": "─",
+    "color": "light_gray",
+    "see_cost": 5,
+    "extras": "road"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "runway_start",
     "name": "runway",
     "sym": "─",
     "color": "light_gray",
@@ -427,6 +454,15 @@
   {
     "type": "overmap_terrain",
     "id": "runway_fuel",
+    "name": "runway",
+    "sym": "─",
+    "color": "light_gray",
+    "see_cost": 5,
+    "extras": "road"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "runway_fuel2",
     "name": "runway",
     "sym": "─",
     "color": "light_gray",
