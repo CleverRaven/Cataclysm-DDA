@@ -600,7 +600,6 @@ void inventory_column::set_stack_favorite( const item_location &location, bool f
 
         for( auto &item : items ) {
             if( item.stacks_with( *selected_item ) ) {
-                printf( "%s %s\n", favorite ? "Favoriting" : "Unfavoriting", item.display_name() );
                 to_favorite.push_back( &item );
             }
         }
@@ -616,7 +615,6 @@ void inventory_column::set_stack_favorite( const item_location &location, bool f
 
         for( auto &item : items ) {
             if( item.stacks_with( *selected_item ) ) {
-                printf( "%s %s\n", favorite ? "Favoriting" : "Unfavoriting", item.display_name() );
                 to_favorite.push_back( &item );
             }
         }
