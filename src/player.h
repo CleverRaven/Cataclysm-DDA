@@ -855,7 +855,7 @@ class player : public Character
         stomach_contents stomach;
         stomach_contents guts;
 
-        std::pair<std::string, nc_color> get_hunger_description() const;
+        std::pair<std::string, nc_color> get_hunger_description() const override;
         void initialize_stomach_contents();
 
         /** Get vitamin contents for a comestible */
