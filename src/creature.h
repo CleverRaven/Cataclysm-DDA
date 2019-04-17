@@ -238,7 +238,8 @@ class Creature
          * This creature just dodged an attack - possibly special/ranged attack - from source.
          * Players should train dodge, monsters may use some special defenses.
          */
-        virtual void on_dodge( Creature *source, float difficulty = INT_MIN, dealt_projectile_attack const *const proj = nullptr ) = 0;
+        virtual void on_dodge( Creature *source, float difficulty = INT_MIN,
+                               dealt_projectile_attack const *const proj = nullptr ) = 0;
         /**
          * This creature just got hit by an attack - possibly special/ranged attack - from source.
          * Players should train dodge, possibly counter-attack somehow.

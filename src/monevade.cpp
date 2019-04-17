@@ -19,7 +19,7 @@ void mevade::none( monster &, Creature *, const dealt_projectile_attack * )
 }
 
 void mevade::telestagger( monster &m, Creature *const source,
-    dealt_projectile_attack const *proj )
+                          dealt_projectile_attack const *proj )
 {
     if( source == nullptr ) {
         return;
@@ -31,12 +31,13 @@ void mevade::telestagger( monster &m, Creature *const source,
 
     // Find another open position adjacent to the attacker.
     const tripoint adjacent = source->adjacent_tile();
-    if ( adjacent == source->pos() || adjacent == m.pos() ) {
+    if( adjacent == source->pos() || adjacent == m.pos() ) {
         // If we have nowhere to teleport, we can't stagger the attacker.
         return;
     }
 
-    m.setpos(adjacent);
-    source->add_msg_if_player( m_bad, _( "The %s teleports away from your attack, sending you reeling." ), m.name() );
+    m.setpos( adjacent );
+    source->add_msg_if_player( m_bad,
+                               _( "The %s teleports away from your attack, sending you reeling." ), m.name() );
     source->add_effect( effect_stunned, rng( 2_turns, 3_turns ) );
 }

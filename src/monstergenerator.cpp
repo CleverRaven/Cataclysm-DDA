@@ -533,7 +533,8 @@ void MonsterGenerator::init_defense()
 void MonsterGenerator::init_evade()
 {
     evade_map["NONE"] = &mevade::none; //No special dodge effect
-    evade_map["TELESTAGGER"] = &mevade::telestagger; //Move to another square adjacent to player and stagger them
+    evade_map["TELESTAGGER"] =
+        &mevade::telestagger; //Move to another square adjacent to player and stagger them
 }
 
 void MonsterGenerator::set_species_ids( mtype &mon )
