@@ -940,6 +940,7 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
     ictxt.register_action( "LEVEL_DOWN" );
     ictxt.register_action( "HELP_KEYBINDINGS" );
     ictxt.register_action( "MOUSE_MOVE" );
+    ictxt.register_action( "SELECT" );
 
     // Actions whose keys we want to display.
     ictxt.register_action( "CENTER" );
@@ -965,6 +966,7 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
     bool show_explored = true;
     bool fast_scroll = false; /* fast scroll state should reset every time overmap UI is opened */
     int fast_scroll_offset = get_option<int>( "MOVE_VIEW_OFFSET" );
+    cata::optional<tripoint> mouse_pos;
 
     do {
         draw( g->w_overmap, g->w_omlegend, curs, orig, uistate.overmap_show_overlays, show_explored,
@@ -993,6 +995,9 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
                 // by graphics updates when user moves the mouse continuously.
                 action = ictxt.handle_input( 10 );
             } while( action == "MOUSE_MOVE" );
+        } else if( action == "SELECT" && ( mouse_pos = ictxt.get_coordinates( g->w_overmap ) ) ) {
+            curs.x += mouse_pos->x;
+            curs.y += mouse_pos->y;
         } else if( action == "CENTER" ) {
             curs = orig;
         } else if( action == "LEVEL_DOWN" && curs.z > -OVERMAP_DEPTH ) {
