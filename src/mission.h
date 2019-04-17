@@ -152,6 +152,7 @@ struct mission_target_params {
     cata::optional<int> reveal_radius;
 
     bool must_see = false;
+    bool cant_see = false;
     bool random = false;
     bool create_if_necessary = true;
     int search_range = OMAPX;

@@ -167,18 +167,26 @@ cata::optional<tripoint> mission_util::assign_mission_target( const mission_targ
 
     tripoint target_pos = overmap::invalid_tripoint;
 
+    omt_find_params find_params;
+    find_params.type = params.overmap_terrain_subtype;
+    find_params.search_range = params.search_range;
+    //find_params.min_distance = params.min_distance;
+    find_params.must_see = params.must_see;
+    find_params.cant_see = params.cant_see;
+    find_params.allow_subtypes = false;
+    find_params.existing_only = true;
+
     // Either find a random or closest match, based on the criteria.
     if( params.random ) {
-        target_pos = overmap_buffer.find_random( origin_pos, params.overmap_terrain_subtype,
-                     params.search_range, params.must_see, false, true, params.overmap_special );
+        target_pos = overmap_buffer.find_random( origin_pos, find_params );
     } else {
-        target_pos = overmap_buffer.find_closest( origin_pos, params.overmap_terrain_subtype,
-                     params.search_range, params.must_see, false, true, params.overmap_special );
+        target_pos = overmap_buffer.find_closest( origin_pos, find_params );
     }
 
     // If we didn't find a match, and we're allowed to create new terrain, and the player didn't
     // have to see the location beforehand, then we can attempt to create the new terrain.
-    if( target_pos == overmap::invalid_tripoint && params.create_if_necessary && !params.must_see ) {
+    if( target_pos == overmap::invalid_tripoint && params.create_if_necessary &&
+        !params.must_see ) {
         // If this terrain is part of an overmap special...
         if( params.overmap_special ) {
             // ...then attempt to place the whole special.
@@ -187,22 +195,22 @@ cata::optional<tripoint> mission_util::assign_mission_target( const mission_targ
             // If we succeeded in placing the special, then try and find the particular location
             // we're interested in.
             if( placed ) {
-                target_pos = overmap_buffer.find_closest( origin_pos,
-                             params.overmap_terrain_subtype,
-                             params.search_range, false, false, true, params.overmap_special );
+                find_params.must_see = false;
+                find_params.cant_see = true;
+                target_pos = overmap_buffer.find_closest( origin_pos, find_params );
             }
         } else if( params.replaceable_overmap_terrain_subtype ) {
             // This terrain wasn't part of an overmap special, but we do have a replacement
             // terrain specified. Find a random location of that replacement type.
-            target_pos = overmap_buffer.find_random( origin_pos,
-                         *params.replaceable_overmap_terrain_subtype,
-                         params.search_range, false, false, true );
+            find_params.must_see = false;
+            find_params.cant_see = true;
+            find_params.type = *params.replaceable_overmap_terrain_subtype;
+            target_pos = overmap_buffer.find_random( origin_pos, find_params );
 
             // We didn't find it, so allow this search to create new overmaps and try again.
+            find_params.existing_only = true;
             if( target_pos == overmap::invalid_tripoint ) {
-                target_pos = overmap_buffer.find_random( origin_pos,
-                             *params.replaceable_overmap_terrain_subtype,
-                             params.search_range, false, false, false );
+                target_pos = overmap_buffer.find_random( origin_pos, find_params );
             }
 
             // We found a match, so set this position (which was our replacement terrain)
@@ -288,11 +296,17 @@ mission_target_params mission_util::parse_mission_om_target( JsonObject &jo )
     if( jo.has_bool( "must_see" ) ) {
         p.must_see = jo.get_bool( "must_see" );
     }
+    if( jo.has_bool( "exclude_seen" ) ) {
+        p.random = jo.get_bool( "exclude" );
+    }
     if( jo.has_bool( "random" ) ) {
         p.random = jo.get_bool( "random" );
     }
     if( jo.has_int( "search_range" ) ) {
         p.search_range = std::max( 1, jo.get_int( "search_range" ) );
+    }
+    if( jo.has_int( "min_distance" ) ) {
+        p.search_range = std::max( 1, jo.get_int( "min_distance" ) );
     }
     if( jo.has_int( "z" ) ) {
         p.z = jo.get_int( "z" );
