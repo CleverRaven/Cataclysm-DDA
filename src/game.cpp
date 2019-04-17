@@ -459,7 +459,7 @@ void game::init_ui( const bool resized )
      */
     to_map_font_dimension( TERRAIN_WINDOW_WIDTH, TERRAIN_WINDOW_HEIGHT );
 
-    VIEW_OFFSET_X = 0 + sidebar_offsets.left;
+    VIEW_OFFSET_X = sidebar_offsets.left;
     VIEW_OFFSET_Y = 0;
 
     // VIEW_OFFSET_* are in standard font dimension.
