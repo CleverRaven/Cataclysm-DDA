@@ -11378,6 +11378,8 @@ void player::assign_activity( const player_activity &act, bool allow_resume )
         add_msg_if_player( _( "You resume your task." ) );
         activity = backlog.front();
         backlog.pop_front();
+    } else if( !act.rooted() && has_effect( effect_rooted ) ) {
+        add_msg_if_player( m_warning, _( "You cannot do that while rooted." ) );
     } else {
         if( activity ) {
             backlog.push_front( activity );
