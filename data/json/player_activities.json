@@ -531,6 +531,7 @@
     "id": "ACT_EAT_MENU",
     "type": "activity_type",
     "stop_phrase": "Stop eating?",
+    "rooted": true,
     "suspendable": false,
     "based_on": "neither",
     "no_resume": true
