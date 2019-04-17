@@ -5,9 +5,9 @@ permalink: /design-doc/
 ---
 
 ### Table of Contents
-[User Experience](#user-experience)
-[Gameplay](#gameplay)
-[Story](#story)
+* [User Experience](#user-experience)
+* [Gameplay](#gameplay)
+* [Story](#story)
 
 Cataclysm: Dark Days Ahead is a turn-based survival game set in a post-apocalyptic world. Struggle to survive in a harsh, persistent, procedurally generated world. Scavenge the remnants of a dead civilization for food, equipment, or, if you are lucky, a vehicle with a full tank of gas to get you the hell out of Dodge. Fight to defeat or escape from a wide variety of powerful monstrosities, from zombies to giant insects to killer robots and things far stranger and deadlier, and against the others like yourself, that want what you have…
 
@@ -18,15 +18,15 @@ Explore, fight and survive in an expansive post-apocalyptic game world.
 The core tenet of dark days ahead is if it works in reality, it works in the game. Scavenge and craft makeshift weapons, improvise shelter, outmaneuver enemies, find, repair and drive vehicles. Deal with monsters using your brains, melee weapons, firearms, traps, explosives, other monsters, fire, and if all else fails, a truck or two.
 
 ### User Experience Table of Contents
-[Overview](#overview)
-[Deployment](#deployment)
-[Background](#background)
-[Key Features](#key-features)
-[Depth](#depth)
-[Reward System](#reward-system)
-[Meaningfulness](#meaningfullness)
-[Collectibles, Easter Eggs & Unlockables](#collectibles)
-[World](#world)
+* [Overview](#overview)
+* [Deployment](#deployment)
+* [Background](#background)
+* [Key Features](#key-features)
+* [Depth](#depth)
+* [Reward System](#reward-system)
+* [Meaningfulness](#meaningfullness)
+* [Collectibles, Easter Eggs & Unlockables](#collectibles)
+* [World](#world)
 
 ## Overview
 
@@ -383,8 +383,8 @@ Rivers provide a natural source of both water and some food in the form of fish,
 # Gameplay
 
 ### Gameplay Table of Contents
-[Objectives](#objectives)
-[Game Stages and Timeline](#game-stages-and-timeline)
+* [Objectives](#objectives)
+* [Game Stages and Timeline](#game-stages-and-timeline)
 
 The player can interact with the game world in a huge number of ways, if there's something a survivor can do on their own in reality, they should be able to do it in the game. The game world is a huge uncaring machine, it doesn't react to the player's existence, it's just passively hostile. Generally speaking the player advances in capabilities by acquiring better equipment, learning things, practicing skills, and gaining allies.
 
@@ -400,9 +400,9 @@ Long-term objectives include deeply customizing your base camp and/or vehicle, s
 
 ## Game Stages and Timeline
 #### Game Stages and Timeline Table of Contents
-[Overview](#overview-1)
-["Lone Wolf" Play Element](#lone-wolf-play-element)
-["Faction" Play Element](#faction-play-element)
+* [Overview](#overview-1)
+* ["Lone Wolf" Play Element](#lone-wolf-play-element)
+* ["Faction" Play Element](#faction-play-element)
 
 ### Overview
 This is an approximation, and does not describe the expected timeline from a player perspective, but rather the expected design structure. In other words, it should not be hard-coded that a given feature is only available on a given day, but rather, game design should make access to that feature require a particular time investment making it unlikely to obtain earlier.
