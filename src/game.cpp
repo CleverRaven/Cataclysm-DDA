@@ -6743,7 +6743,6 @@ void game::zones_manager()
             mvwprintz( w_zones_info, 3, 2, c_white, _( "Select second point." ) );
             wrefresh( w_zones_info );
 
-            center = center;
             const look_around_result second = look_around( w_zones_info, center, *first.position, true, true,
                     false );
             if( second.position ) {
