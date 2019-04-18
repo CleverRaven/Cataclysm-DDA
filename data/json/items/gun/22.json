@@ -259,5 +259,23 @@
     "durability": 7,
     "magazine_well": 1,
     "magazines": [ [ "22", [ "sw22mag" ] ] ]
+  },
+  {
+    "id": "j22",
+    "copy-from": "pistol_backup",
+    "type": "GUN",
+    "name": "Jennings J-22",
+    "description": "One of the quintessential 'saturday night specials', the Jennings J-22 was very affordably priced with its injection molded zinc slide and frame. Intended to fill the void left after small pocket pistols were banned from import, these were more commonly used by criminals unfazed by their glaring safety issues.",
+    "weight": 340,
+    "volume": "123ml",
+    "price": 7000,
+    "to_hit": -3,
+    "bashing": 1,
+    "material": [ "budget_steel" ],
+    "color": "dark_gray",
+    "ammo": "22",
+    "dispersion": 600,
+    "durability": 4,
+    "magazines": [ [ "22", [ "j22mag" ] ] ]
   }
 ]

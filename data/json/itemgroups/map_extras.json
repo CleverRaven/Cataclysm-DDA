@@ -75,6 +75,7 @@
     "entries": [
       { "group": "drugdealer", "prob": 75 },
       { "item": "pants_cargo", "damage-min": 1, "damage-max": 4 },
+      { "item": "j22", "prob": 50 },
       { "group": "lab_shoes", "damage-min": 1, "damage-max": 4, "prob": 50 },
       { "group": "shirts", "damage-min": 1, "damage-max": 4, "prob": 50 },
       { "group": "jackets", "damage-min": 1, "damage-max": 4, "prob": 30 },
