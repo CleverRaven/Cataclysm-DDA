@@ -1460,6 +1460,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW. \n\
             break;
         // remove shock vent fields; check for existing plutonium generators in radius
         case COMPACT_DEACTIVATE_SHOCK_VENT:
+            g->u.moves -= 30;
             bool has_vent = false;
             bool has_generator = false;
             for( const tripoint &dest : g->m.points_in_radius( g->u.pos(), 10 ) ) {
