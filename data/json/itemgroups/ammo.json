@@ -449,5 +449,5 @@
     "type": "item_group",
     "id": "ammo_pocket_batteries_full",
     "items": [ { "group": "ammo_light_batteries_full", "prob": 5 }, { "group": "ammo_medium_batteries_full", "prob": 5 } ]
-  }  
+  }
 ]
