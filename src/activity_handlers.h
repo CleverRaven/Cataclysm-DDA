@@ -86,6 +86,7 @@ void fertilize_plot_do_turn( player_activity *act, player *p );
 void harvest_plot_do_turn( player_activity *act, player *p );
 void try_sleep_do_turn( player_activity *act, player *p );
 void robot_control_do_turn( player_activity *act, player *p );
+void tree_communion_do_turn( player_activity *act, player *p );
 
 // defined in activity_handlers.cpp
 extern const std::map< activity_id, std::function<void( player_activity *, player * )> >

@@ -455,6 +455,12 @@ class map
         bool sees( const tripoint &F, const tripoint &T, int range, int &bresenham_slope ) const;
     public:
         /**
+        * Returns coverage of target in relation to the observer. Target is loc2, observer is loc1.
+        * First tile from the target is an obstacle, which has the coverage value.
+        * If there's no obstacle adjacent to the target - no coverage.
+        */
+        int obstacle_coverage( const tripoint &loc1, const tripoint &loc2 ) const;
+        /**
          * Check whether there's a direct line of sight between `F` and
          * `T` with the additional movecost restraints.
          *
@@ -814,16 +820,24 @@ class map
         bool hit_with_acid( const tripoint &p );
         bool hit_with_fire( const tripoint &p );
 
-        bool has_adjacent_furniture( const tripoint &p );
-        /** Remove moppable fields/items at this location
-        *  @param p the location
-        *  @return true if anything moppable was there, false otherwise.
-        */
+        /**
+         * Returns true if there is furniture for which filter returns true in a 1 tile radius of p.
+         * Pass return_true<furn_t> to detect all adjacent furniture.
+         * @param p the location to check at
+         * @param filter what to filter the furniture by.
+         */
+        bool has_adjacent_furniture_with( const tripoint &p,
+                                          const std::function<bool( const furn_t & )> &filter );
+        /**
+         * Remove moppable fields/items at this location
+         *  @param p the location
+         *  @return true if anything moppable was there, false otherwise.
+         */
         bool mop_spills( const tripoint &p );
         /**
-        * Moved here from weather.cpp for speed. Decays fire, washable fields and scent.
-        * Washable fields are decayed only by 1/3 of the amount fire is.
-        */
+         * Moved here from weather.cpp for speed. Decays fire, washable fields and scent.
+         * Washable fields are decayed only by 1/3 of the amount fire is.
+         */
         void decay_fields_and_scent( const time_duration &amount );
 
         // Signs
@@ -944,11 +958,11 @@ class map
          */
         /*@{*/
         std::list<item> use_amount_square( const tripoint &p, const itype_id type,
-                                           long &quantity, const std::function<bool( const item & )> &filter = return_true );
+                                           long &quantity, const std::function<bool( const item & )> &filter = return_true<item> );
         std::list<item> use_amount( const tripoint &origin, const int range, const itype_id type,
-                                    long &amount, const std::function<bool( const item & )> &filter = return_true );
+                                    long &amount, const std::function<bool( const item & )> &filter = return_true<item> );
         std::list<item> use_charges( const tripoint &origin, const int range, const itype_id type,
-                                     long &amount, const std::function<bool( const item & )> &filter = return_true );
+                                     long &amount, const std::function<bool( const item & )> &filter = return_true<item> );
         /*@}*/
         std::list<std::pair<tripoint, item *> > get_rc_items( int x = -1, int y = -1, int z = -1 );
 

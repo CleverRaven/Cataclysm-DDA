@@ -512,18 +512,11 @@
     "no_resume": true
   },
   {
-    "id": "ACT_ROOT",
+    "id": "ACT_TREE_COMMUNION",
     "type": "activity_type",
-    "stop_phrase": "Stop rooting?",
+    "stop_phrase": "Stop communing with the trees?",
     "rooted": true,
-    "based_on": "time",
-    "no_resume": true
-  },
-  {
-    "id": "ACT_UPROOT",
-    "type": "activity_type",
-    "stop_phrase": "Stop uprooting?",
-    "rooted": true,
+    "suspendable": false,
     "based_on": "time",
     "no_resume": true
   },

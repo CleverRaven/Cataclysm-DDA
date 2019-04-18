@@ -1971,6 +1971,11 @@ void item::io( Archive &archive )
     if( item_tags.count( "FROZEN" ) && current_phase == LIQUID ) {
         current_phase = SOLID;
     }
+
+    // Activate corpses from old saves
+    if( is_corpse() && !active ) {
+        active = true;
+    }
 }
 
 static void migrate_toolmod( item &it )

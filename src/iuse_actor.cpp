@@ -2058,7 +2058,7 @@ long musical_instrument_actor::use( player &p, item &it, bool t, const tripoint 
         }
         p.add_effect( effect_music, 1_turns );
         const int sign = morale_effect > 0 ? 1 : -1;
-        p.add_morale( MORALE_MUSIC, sign, morale_effect, 5_minutes, 2_minutes );
+        p.add_morale( MORALE_MUSIC, sign, morale_effect, 5_minutes, 2_minutes, true );
     }
 
     return 0;

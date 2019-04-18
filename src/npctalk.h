@@ -69,6 +69,8 @@ void start_training( npc & );
 void wake_up( npc & );
 void copy_npc_rules( npc &p );
 void set_npc_pickup( npc &p );
+void npc_die( npc &p );
+void npc_thankful( npc &p );
 }
 
 time_duration calc_skill_training_time( const npc &p, const skill_id &skill );

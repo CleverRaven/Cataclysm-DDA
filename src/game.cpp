@@ -6205,7 +6205,9 @@ void game::examine( const tripoint &examp )
         if( m.tr_at( examp ).is_null() && m.i_at( examp ).empty() &&
             m.has_flag( "CONTAINER", examp ) && none ) {
             add_msg( _( "It is empty." ) );
-        } else if( m.has_flag( TFLAG_FIRE_CONTAINER, examp ) && xfurn_t.examine == &iexamine::fireplace ) {
+        } else if( ( m.has_flag( TFLAG_FIRE_CONTAINER, examp ) &&
+                     xfurn_t.examine == &iexamine::fireplace ) ||
+                   xfurn_t.examine == &iexamine::workbench ) {
             return;
         } else {
             sounds::process_sound_markers( &u );
@@ -10512,6 +10514,11 @@ bool game::walk_move( const tripoint &dest_loc )
                 volume = 2;
             } else if( u.has_bionic( bionic_id( "bio_ankles" ) ) ) {
                 volume = 12;
+            }
+            if( u.move_mode == "run" ) {
+                volume *= 1.5;
+            } else if( u.move_mode == "crouch" ) {
+                volume /= 2;
             }
             sounds::sound( dest_loc, volume, sounds::sound_t::movement, _( "footsteps" ), true,
                            "none", "none" );    // Sound of footsteps may awaken nearby monsters
