@@ -893,6 +893,20 @@
   },
   {
     "type": "recipe",
+    "result": "workbench",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": 60000,
+    "reversible": true,
+    "decomp_learn": 1,
+    "autolearn": true,
+    "using": [ [ "welding_standard", 5 ] ],
+    "components": [ [ [ "pipe", 8 ] ], [ [ "sheet_metal", 2 ] ], [ [ "sheet_metal_small", 4 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "foot_crank",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",

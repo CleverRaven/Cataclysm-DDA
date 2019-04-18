@@ -620,7 +620,7 @@ bool item::stacks_with( const item &rhs, bool check_components ) const
     if( item_vars != rhs.item_vars ) {
         return false;
     }
-    if( goes_bad() ) {
+    if( goes_bad() && !is_corpse() ) {
         // If this goes bad, the other item should go bad, too. It only depends on the item type.
         // Stack items that fall into the same "bucket" of freshness.
         // Distant buckets are larger than near ones.
@@ -1050,26 +1050,28 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         }
         if( debug && parts->test( iteminfo_parts::BASE_DEBUG ) ) {
             if( g != nullptr ) {
-                info.push_back( iteminfo( "BASE", _( "age: " ), "", iteminfo::lower_is_better,
+                info.push_back( iteminfo( "BASE", _( "age (hours): " ), "", iteminfo::lower_is_better,
                                           to_hours<int>( age() ) ) );
 
                 const item *food = is_food_container() ? &contents.front() : this;
-                if( food && food->goes_bad() ) {
-                    info.push_back( iteminfo( "BASE", _( "bday rot: " ),
+                if( goes_bad() ) {
+                    info.push_back( iteminfo( "BASE", _( "age (turns): " ),
                                               "", iteminfo::lower_is_better,
                                               to_turns<int>( food->age() ) ) );
-                    info.push_back( iteminfo( "BASE", _( "temp rot: " ),
+                    info.push_back( iteminfo( "BASE", _( "rot (turns): " ),
                                               "", iteminfo::lower_is_better,
                                               to_turns<int>( food->rot ) ) );
-                    info.push_back( iteminfo( "BASE", space + _( "max rot: " ),
-                                              "", iteminfo::lower_is_better,
-                                              to_turns<int>( food->get_comestible()->spoils ) ) );
                     info.push_back( iteminfo( "BASE", _( "last rot: " ),
                                               "", iteminfo::lower_is_better,
                                               to_turn<int>( food->last_rot_check ) ) );
                     info.push_back( iteminfo( "BASE", _( "last temp: " ),
                                               "", iteminfo::lower_is_better,
                                               to_turn<int>( food->last_temp_check ) ) );
+                }
+                if( food->is_food() && food->goes_bad() ) {
+                    info.push_back( iteminfo( "BASE", space + _( "max rot (turns): " ),
+                                              "", iteminfo::lower_is_better,
+                                              to_turns<int>( food->get_comestible()->spoils ) ) );
                 }
                 if( has_temperature() || is_food_container() ) {
                     info.push_back( iteminfo( "BASE", _( "Temp: " ), "", iteminfo::lower_is_better,
@@ -2121,7 +2123,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             } else {
                 if( is_craft() ) {
                     const std::string desc = _( "This is an in progress %s.  It is %d percent complete." );
-                    const int percent_progress = item_counter / 100;
+                    const int percent_progress = item_counter / 100000;
                     info.push_back( iteminfo( "DESCRIPTION", string_format( desc,
                                               making->result_name(),
                                               percent_progress ) ) );
@@ -2656,8 +2658,11 @@ nc_color item::color_in_inventory() const
     } else if( has_flag( "LEAK_DAM" ) && has_flag( "RADIOACTIVE" ) && damage() > 0 ) {
         ret = c_light_green;
 
-    } else if( active && !is_food() && !is_food_container() ) {
+    } else if( active && !is_food() && !is_food_container() && !is_corpse() ) {
         // Active items show up as yellow
+        ret = c_yellow;
+    } else if( is_corpse() && can_revive() ) {
+        // Only reviving corpses are yellow
         ret = c_yellow;
     } else if( is_food() || is_food_container() ) {
         const bool preserves = type->container && type->container->preserves;
@@ -2989,7 +2994,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         if( charges > 1 ) {
             ret << " (" << charges << ")";
         }
-        const int percent_progress = item_counter / 100;
+        const int percent_progress = item_counter / 100000;
         ret << " (" << percent_progress << "%)";
         maintext = ret.str();
     } else if( contents.size() == 1 ) {
@@ -3018,7 +3023,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         } else if( has_flag( "HIDDEN_HALLU" ) && g->u.get_skill_level( skill_survival ) >= 5 ) {
             ret << _( " (hallucinogenic)" );
         }
-
+    }
+    if( goes_bad() || is_food() ) {
         if( item_tags.count( "DIRTY" ) ) {
             ret << _( " (dirty)" );
         } else if( rotten() ) {
@@ -3719,16 +3725,36 @@ std::set<matec_id> item::get_techniques() const
 
 bool item::goes_bad() const
 {
+    if( is_corpse() ) {
+        // Corpses rot only if they are made of rotting materials
+        std::vector<std::string> rotting_materials = {"Insect Flesh", "Human Flesh", "Flesh", "Bone"};
+        for( std::string material : rotting_materials ) {
+            if( made_of_types()[0]->name() == material ) {
+                return true;
+            }
+        }
+        return false;
+    }
     return is_food() && get_comestible()->spoils != 0_turns;
 }
 
 double item::get_relative_rot() const
 {
-    return goes_bad() ? rot / get_comestible()->spoils : 0;
+    if( goes_bad() ) {
+        if( is_corpse() ) {
+            return rot / 14400_turns;
+        } else if( is_food() ) {
+            return rot / get_comestible()->spoils;
+        }
+    }
+    return 0;
 }
 
 void item::set_relative_rot( double val )
 {
+    if( is_corpse() && goes_bad() ) {
+        rot = 14400_turns * val;
+    }
     if( goes_bad() ) {
         rot = get_comestible()->spoils * val;
         // calc_rot uses last_rot_check (when it's not time_of_cataclysm) instead of bday.
@@ -3737,8 +3763,12 @@ void item::set_relative_rot( double val )
         if( !has_flag( "PROCESSING_RESULT" ) ) {
             last_rot_check = calendar::turn;
         }
-        active = true;
     }
+}
+
+void item::set_rot( time_duration val )
+{
+    rot = val;
 }
 
 int item::spoilage_sort_order()
@@ -3804,7 +3834,7 @@ void item::calc_rot( const tripoint &location )
         // conditions by applying starting variation bonus/penalty of +/- 20% of base shelf-life
         // positive = food was produced some time before calendar::start and/or bad storage
         // negative = food was stored in good conditions before calendar::start
-        if( since <= calendar::start && goes_bad() ) {
+        if( since <= calendar::start && goes_bad() && !is_corpse() ) {
             time_duration spoil_variation = get_comestible()->spoils * 0.2f;
             rot += factor * rng( -spoil_variation, spoil_variation );
         }
@@ -7130,12 +7160,6 @@ void item::reset_temp_check()
     last_temp_check = calendar::turn;
 }
 
-bool item::process_food( const tripoint &p )
-{
-    calc_rot( p );
-    return false;
-}
-
 void item::process_artifact( player *carrier, const tripoint & /*pos*/ )
 {
     if( !is_artifact() ) {
@@ -7561,7 +7585,6 @@ bool item::process( player *carrier, const tripoint &pos, bool activate, int tem
         }
         update_temp( temp, insulation );
     }
-
     if( has_flag( "FAKE_SMOKE" ) && process_fake_smoke( carrier, pos ) ) {
         return true;
     }
@@ -7591,6 +7614,9 @@ bool item::process( player *carrier, const tripoint &pos, bool activate, int tem
     }
     if( is_tool() ) {
         return process_tool( carrier, pos );
+    }
+    if( goes_bad() ) {
+        calc_rot( pos );
     }
     return false;
 }

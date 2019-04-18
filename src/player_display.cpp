@@ -1081,7 +1081,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     mvwprintz( w_effects, 0, 0, c_light_gray, header_spaces.c_str() );
                     center_print( w_effects, 0, c_light_gray, title_EFFECTS );
                     for( size_t i = 0; i < effect_name.size() && i < 7; i++ ) {
-                        mvwprintz( w_effects, static_cast<int>( i + 1 ), 0, c_light_gray, effect_name[i] );
+                        trim_and_print( w_effects, static_cast<int>( i ) + 1, 0, getmaxx( w_effects ) - 1, c_light_gray,
+                                        effect_name[i] );
                     }
                     wrefresh( w_effects );
                     line = 0;

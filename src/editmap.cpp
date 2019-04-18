@@ -518,6 +518,7 @@ void editmap::update_view( bool update_info )
     } else {
         g->m.drawsq( g->w_terrain, g->u, target, true, true, target );
     }
+    g->draw_cursor( target );
 
     // hilight target_list points if blink=true (and if it's more than a point )
     if( blink && target_list.size() > 1 ) {

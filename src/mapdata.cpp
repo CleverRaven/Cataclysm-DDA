@@ -157,7 +157,8 @@ static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { 
         { "NO_FLOOR",                 TFLAG_NO_FLOOR },       // Things should fall when placed on this tile
         { "SEEN_FROM_ABOVE",          TFLAG_SEEN_FROM_ABOVE },// This should be visible if the tile above has no floor
         { "HIDE_PLACE",               TFLAG_HIDE_PLACE },     // Creature on this tile can't be seen by other creature not standing on adjacent tiles
-        { "BLOCK_WIND",               TFLAG_BLOCK_WIND},      // This tile will partially block the wind.
+        { "BLOCK_WIND",               TFLAG_BLOCK_WIND },     // This tile will partially block the wind.
+        { "FLAT",                     TFLAG_FLAT },           // This tile is flat.
         { "RAMP",                     TFLAG_RAMP },           // Can be used to move up a z-level
     }
 };
@@ -259,6 +260,20 @@ bool map_deconstruct_info::load( JsonObject &jsobj, const std::string &member, b
 
     JsonIn &stream = *j.get_raw( "items" );
     drop_group = item_group::load_item_group( stream, "collection" );
+    return true;
+}
+
+furn_workbench_info::furn_workbench_info() : multiplier( 1.0f ), allowed_mass( units::mass_max ),
+    allowed_volume( units::volume_max ) {}
+
+bool furn_workbench_info::load( JsonObject &jsobj, const std::string &member )
+{
+    JsonObject j = jsobj.get_object( member );
+
+    assign( j, "multiplier", multiplier );
+    assign( j, "mass", allowed_mass );
+    assign( j, "volume", allowed_volume );
+
     return true;
 }
 
@@ -1079,6 +1094,7 @@ void ter_t::load( JsonObject &jo, const std::string &src )
     map_data_common_t::load( jo, src );
     mandatory( jo, was_loaded, "name", name_ );
     mandatory( jo, was_loaded, "move_cost", movecost );
+    optional( jo, was_loaded, "coverage", coverage );
     optional( jo, was_loaded, "max_volume", max_volume, legacy_volume_reader,
               DEFAULT_MAX_VOLUME_IN_SQUARE );
     optional( jo, was_loaded, "trap", trap_id_str );
@@ -1179,6 +1195,7 @@ void furn_t::load( JsonObject &jo, const std::string &src )
     map_data_common_t::load( jo, src );
     mandatory( jo, was_loaded, "name", name_ );
     mandatory( jo, was_loaded, "move_cost_mod", movecost );
+    optional( jo, was_loaded, "coverage", coverage );
     optional( jo, was_loaded, "comfort", comfort, 0 );
     optional( jo, was_loaded, "floor_bedding_warmth", floor_bedding_warmth, 0 );
     optional( jo, was_loaded, "bonus_fire_warmth_feet", bonus_fire_warmth_feet, 300 );
@@ -1201,6 +1218,11 @@ void furn_t::load( JsonObject &jo, const std::string &src )
 
     bash.load( jo, "bash", true );
     deconstruct.load( jo, "deconstruct", true );
+
+    if( jo.has_object( "workbench" ) ) {
+        workbench = furn_workbench_info();
+        workbench->load( jo, "workbench" );
+    }
 }
 
 void map_data_common_t::check() const

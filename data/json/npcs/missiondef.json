@@ -54,9 +54,6 @@
     "value": 150000,
     "urgent": true,
     "item": "inhaler",
-    "start": "need_drugs_npc",
-    "end": "thankful",
-    "fail": "kill_npc",
     "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
     "deadline_low": 30,
     "deadline_high": 48,
@@ -70,7 +67,17 @@
       "success": "Oh thank god!  I'll be right as rain in no time.",
       "success_lie": "What?!  You're lying, I can tell!  Ugh, forget it!",
       "failure": "How am I not dead already?!"
-    }
+    },
+    "start": {
+      "effect": [
+        { "npc_add_trait": "ASTHMA" },
+        { "npc_remove_item_with": "inhaler" },
+        "assign_guard",
+        { "clear_npc_rule": "investigate_noises" }
+      ]
+    },
+    "end": { "effect": [ "stop_guard", { "set_npc_rule": "investigate_noises" }, "npc_thankful" ] },
+    "fail": { "effect": "npc_die" }
   },
   {
     "id": "MISSION_GET_ANTIBIOTICS",
@@ -81,9 +88,6 @@
     "value": 150000,
     "urgent": true,
     "item": "antibiotics",
-    "start": "infect_npc",
-    "end": "heal_infection",
-    "fail": "kill_npc",
     "origins": [ "ORIGIN_OPENER_NPC" ],
     "deadline_low": 24,
     "deadline_high": 48,
@@ -97,7 +101,19 @@
       "success": "Oh thank god!  I'll be right as rain in no time.",
       "success_lie": "What?!  You're lying, I can tell!  Ugh, forget it!",
       "failure": "How am I not dead already?!"
-    }
+    },
+    "start": {
+      "effect": [
+        { "npc_add_effect": "infection", "duration": "PERMANENT" },
+        { "npc_remove_item_with": "antibiotics" },
+        "assign_guard",
+        { "clear_npc_rule": "investigate_noises" }
+      ]
+    },
+    "end": {
+      "effect": [ { "npc_lose_effect": "infection" }, "stop_guard", { "set_npc_rule": "investigate_noises" }, "npc_thankful" ]
+    },
+    "fail": { "effect": "npc_die" }
   },
   {
     "id": "MISSION_GET_BLACK_BOX",
@@ -427,7 +443,7 @@
     "difficulty": 5,
     "value": 250000,
     "start": { "effect": "follow" },
-    "end": "leave",
+    "end": { "effect": "leave" },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_KILL_HORDE_MASTER",
     "dialogue": {
@@ -451,7 +467,7 @@
     "value": 250000,
     "urgent": true,
     "start": "kill_horde_master",
-    "end": "leave",
+    "end": { "effect": "leave" },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_RECRUIT_TRACKER",
     "dialogue": {
@@ -474,8 +490,11 @@
     "difficulty": 5,
     "value": 200000,
     "urgent": true,
-    "start": "place_jabberwock",
-    "end": "thankful",
+    "start": {
+      "assign_mission_target": { "om_terrain": "forest_thick", "reveal_radius": 1, "random": true, "search_range": 8 },
+      "update_mapgen": { "place_monster": [ { "monster": "mon_jabberwock", "x": 11, "y": 11, "target": true } ] }
+    },
+    "end": { "effect": "npc_thankful" },
     "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
     "followup": "MISSION_KILL_100_Z",
     "dialogue": {
@@ -500,7 +519,7 @@
     "urgent": true,
     "place": "near_town",
     "start": "place_zombie_mom",
-    "end": "thankful",
+    "end": { "effect": "npc_thankful" },
     "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
     "dialogue": {
       "describe": "Oh god, I can't believe it happened...",
@@ -542,7 +561,7 @@
     "difficulty": 2,
     "value": 60000,
     "start": { "effect": "follow" },
-    "end": "leave",
+    "end": { "effect": "leave" },
     "origins": [ "ORIGIN_SECONDARY" ],
     "destination": "farm",
     "dialogue": {
@@ -631,7 +650,11 @@
     "goal": "MGOAL_RECRUIT_NPC_CLASS",
     "difficulty": 5,
     "value": 70000,
-    "start": "recruit_tracker",
+    "start": {
+      "assign_mission_target": { "om_terrain": "cabin", "reveal_radius": 2, "random": true, "search_range": 80 },
+      "effect": "follow",
+      "update_mapgen": { "place_npcs": [ { "class": "tracker_gunslinger", "x": 11, "y": 11, "target": true } ] }
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "You seem to know this new world better than most...",

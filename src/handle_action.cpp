@@ -655,12 +655,39 @@ static void smash()
     }
 }
 
+bool try_set_alarm()
+{
+    uilist as_m;
+    const bool already_set = g->u.has_effect( effect_alarm_clock );
+
+    as_m.text = already_set ?
+                _( "You already have an alarm set. What do you want to do?" ) :
+                _( "You have an alarm clock. What do you want to do?" );
+
+    as_m.entries.emplace_back( 0, true, 'a', already_set ?
+                               _( "Change your alarm" ) :
+                               _( "Set an alarm for later" ) );
+    as_m.entries.emplace_back( 1, true, 'w', already_set ?
+                               _( "Keep the alarm and wait a while" ) :
+                               _( "Wait a while" ) );
+    as_m.query();
+
+    return as_m.ret == 0;
+}
+
 static void wait()
 {
     std::map<int, int> durations;
     uilist as_m;
+    player &u = g->u;
+    bool setting_alarm = false;
 
-    const bool has_watch = g->u.has_watch();
+    if( u.has_alarm_clock() ) {
+        setting_alarm = try_set_alarm();
+    }
+
+    const bool has_watch = u.has_watch() || setting_alarm;
+
     const auto add_menu_item = [ &as_m, &durations, has_watch ]
                                ( int retval, int hotkey, const std::string &caption = "",
     int duration = calendar::INDEFINITELY_LONG ) {
@@ -675,14 +702,24 @@ static void wait()
         durations[retval] = duration;
     };
 
-    add_menu_item( 1, '1', !has_watch ? _( "Wait 300 heartbeats" ) : "", MINUTES( 5 ) );
-    add_menu_item( 2, '2', !has_watch ? _( "Wait 1800 heartbeats" ) : "", MINUTES( 30 ) );
+    if( setting_alarm ) {
 
-    if( has_watch ) {
-        add_menu_item( 3, '3', "", HOURS( 1 ) );
-        add_menu_item( 4, '4', "", HOURS( 2 ) );
-        add_menu_item( 5, '5', "", HOURS( 3 ) );
-        add_menu_item( 6, '6', "", HOURS( 6 ) );
+        add_menu_item( 0, '0', "", MINUTES( 30 ) );
+
+        for( int i = 1; i <= 9; ++i ) {
+            add_menu_item( i, '0' + i, "", HOURS( i ) );
+        }
+
+    } else {
+        add_menu_item( 1, '1', !has_watch ? _( "Wait 300 heartbeats" ) : "", MINUTES( 5 ) );
+        add_menu_item( 2, '2', !has_watch ? _( "Wait 1800 heartbeats" ) : "", MINUTES( 30 ) );
+
+        if( has_watch ) {
+            add_menu_item( 3, '3', "", HOURS( 1 ) );
+            add_menu_item( 4, '4', "", HOURS( 2 ) );
+            add_menu_item( 5, '5', "", HOURS( 3 ) );
+            add_menu_item( 6, '6', "", HOURS( 6 ) );
+        }
     }
 
     if( g->get_levz() >= 0 || has_watch ) {
@@ -691,28 +728,54 @@ static void wait()
             return ( remainder > 0 ) ? remainder : DAYS( 1 ) + remainder;
         };
 
-        add_menu_item( 7,  'd', _( "Wait till dawn" ),
+        add_menu_item( 7,  'd',
+                       setting_alarm ? _( "Set alarm for dawn" ) : _( "Wait till dawn" ),
                        diurnal_time_before( calendar::turn.sunrise() ) );
-        add_menu_item( 8,  'n', _( "Wait till noon" ),     diurnal_time_before( HOURS( 12 ) ) );
-        add_menu_item( 9,  'k', _( "Wait till dusk" ),     diurnal_time_before( calendar::turn.sunset() ) );
-        add_menu_item( 10, 'm', _( "Wait till midnight" ), diurnal_time_before( HOURS( 0 ) ) );
-        add_menu_item( 11, 'w', _( "Wait till weather changes" ) );
+        add_menu_item( 8,  'n',
+                       setting_alarm ? _( "Set alarm for noon" ) : _( "Wait till noon" ),
+                       diurnal_time_before( HOURS( 12 ) ) );
+        add_menu_item( 9,  'k',
+                       setting_alarm ? _( "Set alarm for dusk" ) : _( "Wait till dusk" ),
+                       diurnal_time_before( calendar::turn.sunset() ) );
+        add_menu_item( 10, 'm',
+                       setting_alarm ? _( "Set alarm for midnight" ) : _( "Wait till midnight" ),
+                       diurnal_time_before( HOURS( 0 ) ) );
+        if( setting_alarm ) {
+            if( u.has_effect( effect_alarm_clock ) ) {
+                add_menu_item( 11, 'x', _( "Cancel the currently set alarm." ), 0 );
+            }
+        } else {
+            add_menu_item( 11, 'w', _( "Wait till weather changes" ) );
+        }
     }
 
     as_m.text = ( has_watch ) ? string_format( _( "It's %s now. " ),
                 to_string_time_of_day( calendar::turn ) ) : "";
-    as_m.text += _( "Wait for how long?" );
+    as_m.text += setting_alarm ? _( "Set alarm for when?" ) : _( "Wait for how long?" );
     as_m.query(); /* calculate key and window variables, generate window, and loop until we get a valid answer */
 
     if( durations.count( as_m.ret ) == 0 ) {
         return;
     }
 
-    activity_id actType = activity_id( as_m.ret == 11 ? "ACT_WAIT_WEATHER" : "ACT_WAIT" );
+    if( setting_alarm ) {
+        // Setting alarm
+        u.remove_effect( effect_alarm_clock );
+        if( as_m.ret == 11 ) {
+            add_msg( _( "You cancel your alarm." ) );
+        } else {
+            u.add_effect( effect_alarm_clock, time_duration::from_turns( durations[as_m.ret] ) );
+            add_msg( _( "You set your alarm." ) );
+        }
 
-    player_activity new_act( actType, 100 * ( durations[as_m.ret] - 1 ), 0 );
+    } else {
+        // Waiting
+        activity_id actType = activity_id( as_m.ret == 11 ? "ACT_WAIT_WEATHER" : "ACT_WAIT" );
 
-    g->u.assign_activity( new_act, false );
+        player_activity new_act( actType, 100 * ( durations[as_m.ret] - 1 ), 0 );
+
+        u.assign_activity( new_act, false );
+    }
 }
 
 static void sleep()

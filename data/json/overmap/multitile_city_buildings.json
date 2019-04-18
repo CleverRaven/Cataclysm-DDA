@@ -55,6 +55,15 @@
   },
   {
     "type": "city_building",
+    "id": "bowling_alley",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "bowling_alley_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "bowling_alley_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "s_restaurant_coffee",
     "locations": [ "land" ],
     "overmaps": [

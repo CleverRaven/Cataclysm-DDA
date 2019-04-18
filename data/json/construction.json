@@ -1356,6 +1356,27 @@
   },
   {
     "type": "construction",
+    "description": "Build Workbench",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": 60,
+    "using": [ [ "welding_standard", 5 ] ],
+    "components": [ [ [ "pipe", 8 ] ], [ [ "sheet_metal", 2 ] ], [ [ "sheet_metal_small", 4 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_workbench"
+  },
+  {
+    "type": "construction",
+    "description": "Place Workbench",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": 1,
+    "components": [ [ [ "workbench", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_workbench"
+  },
+  {
+    "type": "construction",
     "description": "Build Chair",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 2 ] ],

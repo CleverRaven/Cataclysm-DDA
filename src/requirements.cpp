@@ -499,11 +499,12 @@ std::vector<std::string> requirement_data::get_folded_tools_list( int width, nc_
         return output_buffer;
     }
 
-    std::vector<std::string> folded_qualities = get_folded_list( width, crafting_inv, return_true,
+    std::vector<std::string> folded_qualities = get_folded_list( width, crafting_inv, return_true<item>,
             qualities );
     output_buffer.insert( output_buffer.end(), folded_qualities.begin(), folded_qualities.end() );
 
-    std::vector<std::string> folded_tools = get_folded_list( width, crafting_inv, return_true, tools,
+    std::vector<std::string> folded_tools = get_folded_list( width, crafting_inv, return_true<item>,
+                                            tools,
                                             batch );
     output_buffer.insert( output_buffer.end(), folded_tools.begin(), folded_tools.end() );
     return output_buffer;
@@ -518,10 +519,10 @@ bool requirement_data::can_make_with_inventory( const inventory &crafting_inv,
 
     bool retval = true;
     // All functions must be called to update the available settings in the components.
-    if( !has_comps( crafting_inv, qualities, return_true ) ) {
+    if( !has_comps( crafting_inv, qualities, return_true<item> ) ) {
         retval = false;
     }
-    if( !has_comps( crafting_inv, tools, return_true, batch ) ) {
+    if( !has_comps( crafting_inv, tools, return_true<item>, batch ) ) {
         retval = false;
     }
     if( !has_comps( crafting_inv, components, filter, batch ) ) {
