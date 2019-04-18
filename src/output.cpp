@@ -367,7 +367,7 @@ std::string name_and_value( const std::string &name, const std::string &value, i
     int name_width = utf8_width( name );
     int value_width = utf8_width( value );
     std::stringstream result;
-    result << name.c_str();
+    result << name;
     for( int i = ( name_width + value_width );
          i < std::max( field_width, name_width + value_width ); ++i ) {
         result << " ";
@@ -756,7 +756,7 @@ void draw_item_filter_rules( const catacurses::window &win, int starty, int heig
     // Clear every row, but the leftmost/rightmost pixels intact.
     const int len = getmaxx( win ) - 2;
     for( int i = 0; i < height; i++ ) {
-        mvwprintz( win, starty + i, 1, c_black, std::string( len, ' ' ).c_str() );
+        mvwprintz( win, starty + i, 1, c_black, std::string( len, ' ' ) );
     }
 
     // Not static so that language changes are correctly handled
@@ -1620,7 +1620,7 @@ std::string shortcut_text( nc_color shortcut_color, const std::string &fmt )
         std::string shortcut = fmt.substr( pos + 1, sep - pos - 1 );
 
         return string_format( "%s<color_%s>%s</color>%s", prestring,
-                              string_from_color( shortcut_color ).c_str(),
+                              string_from_color( shortcut_color ),
                               shortcut, poststring );
     }
 
@@ -1687,7 +1687,7 @@ std::pair<std::string, nc_color> get_light_level( const float light )
     static const int maximum_light_level = static_cast< int >( strings.size() ) - 1;
     const int light_level = clamp( static_cast< int >( ceil( light ) ), 0, maximum_light_level );
     const size_t array_index = static_cast< size_t >( light_level );
-    return pair_t{ _( strings[array_index].first.c_str() ), strings[array_index].second };
+    return pair_t{ _( strings[array_index].first ), strings[array_index].second };
 }
 
 std::string get_labeled_bar( const double val, const int width, const std::string &label, char c )

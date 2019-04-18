@@ -782,19 +782,19 @@ void color_manager::show_gui()
                     mvwprintz( w_colors, i - iStartPos, vLines[iCurrentCol - 1] + 2, c_yellow, ">" );
                 }
 
-                mvwprintz( w_colors, i - iStartPos, 3, c_white, iter->first.c_str() ); //color name
+                mvwprintz( w_colors, i - iStartPos, 3, c_white, iter->first ); //color name
                 mvwprintz( w_colors, i - iStartPos, 21, entry.color, _( "default" ) ); //default color
 
                 if( !entry.name_custom.empty() ) {
                     mvwprintz( w_colors, i - iStartPos, 30, name_color_map[entry.name_custom].color,
-                               entry.name_custom.c_str() ); //custom color
+                               entry.name_custom ); //custom color
                 }
 
                 mvwprintz( w_colors, i - iStartPos, 52, entry.invert, _( "default" ) ); //invert default color
 
                 if( !entry.name_invert_custom.empty() ) {
                     mvwprintz( w_colors, i - iStartPos, 61, name_color_map[entry.name_invert_custom].color,
-                               entry.name_invert_custom.c_str() ); //invert custom color
+                               entry.name_invert_custom ); //invert custom color
                 }
             }
         }
@@ -887,7 +887,7 @@ void color_manager::show_gui()
 
             }
 
-            ui_colors.text = string_format( _( "Custom %s color:" ), sColorType.c_str() );
+            ui_colors.text = string_format( _( "Custom %s color:" ), sColorType );
 
             int i = 0;
             for( auto &iter : name_color_map ) {
@@ -904,8 +904,8 @@ void color_manager::show_gui()
                     name_custom = " <color_" + iter.second.name_custom + ">" + iter.second.name_custom + "</color>";
                 }
 
-                ui_colors.addentry( string_format( "%-17s <color_%s>%s</color>%s", iter.first.c_str(),
-                                                   sColor.c_str(), sType.c_str(), name_custom.c_str() ) );
+                ui_colors.addentry( string_format( "%-17s <color_%s>%s</color>%s", iter.first,
+                                                   sColor, sType, name_custom ) );
 
                 i++;
             }

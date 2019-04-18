@@ -79,7 +79,7 @@ basecamp::basecamp( const std::string &name_, const tripoint &bb_pos_,
 std::string basecamp::board_name() const
 {
     //~ Name of a basecamp
-    return string_format( _( "%s Board" ), name.c_str() );
+    return string_format( _( "%s Board" ), name );
 }
 
 // read an expansion's terrain ID of the form faction_base_$TYPE_$CURLEVEL
