@@ -37,20 +37,20 @@ void mevade::stagger_dodge( monster &m, Creature *const source,
     std::vector<tripoint> dests;
     const tripoint &m_pos = m.pos();
     const tripoint &source_pos = source->pos();
-    const int current_dist = square_dist(m_pos, source_pos);
+    const int current_dist = square_dist( m_pos, source_pos );
     for( const tripoint &dest : g->m.points_in_radius( m_pos, 1 ) ) {
-        if (square_dist(source_pos, dest) > current_dist) {
+        if( square_dist( source_pos, dest ) > current_dist ) {
             continue;
         }
-        if (!g->is_empty(dest)) {
+        if( !g->is_empty( dest ) ) {
             continue;
         }
-        if ( !m.has_flag( MF_SWIMS ) && g->m.has_flag( "LIQUID", dest ) ) {
+        if( !m.has_flag( MF_SWIMS ) && g->m.has_flag( "LIQUID", dest ) ) {
             continue;
         }
-        dests.push_back(dest);
+        dests.push_back( dest );
     }
-    m.setpos(random_entry(dests));
+    m.setpos( random_entry( dests ) );
 
     source->add_msg_if_player( m_bad,
                                _( "The %s shifts away from your attack, sending you reeling." ), m.name() );
