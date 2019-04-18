@@ -5566,6 +5566,7 @@
       [ "saline", 1 ],
       [ "extinguisher", 20 ],
       [ "hotplate", 10 ],
+      [ "thermometer", 10 ],
       [ "funnel", 50 ],
       [ "jar_glass", 20 ],
       [ "jar_3l_glass", 15 ],
