@@ -549,7 +549,6 @@ static cata::optional<item_location> wield_craft( player &p, item &craft )
     if( craft.made_of( LIQUID ) ) {
         g->handle_all_liquid( craft, PICKUP_RANGE );
     } else {
-
         if( p.wield( craft ) ) {
             if( p.weapon.invlet ) {
                 p.add_msg_if_player( m_info, _( "Wielding %c - %s" ), p.weapon.invlet,
