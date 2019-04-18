@@ -250,7 +250,7 @@
             { "name": "Cycle conveyor belt", "action": "conveyor", "security": 0 },
             { "name": "Toggle safety shutters", "action": "shutters", "security": 0 },
             { "name": "Probe radiation levels", "action": "geiger", "security": 0 },
-            { "name": "Comence irradiation sequence", "action": "irradiator", "security": 0 },
+            { "name": "Commence irradiation sequence", "action": "irradiator", "security": 0 },
             { "name": "[Maintenance] Extract radiation core", "action": "extract_rad_source", "security": 5 }
            ],
            "failures": [ { "action": "alarm" }, { "action": "damage" } ]
