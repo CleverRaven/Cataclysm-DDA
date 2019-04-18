@@ -4437,6 +4437,13 @@ needs_rates player::calc_needs_rates()
         rates.recovery = 0;
     }
 
+    if( has_activity( activity_id( "ACT_TREE_COMMUNION" ) ) ) {
+        // Much of the body's needs are taken care of by the trees.
+        rates.hunger *= 0.5f;
+        rates.thirst *= 0.5f;
+        rates.fatigue *= 0.5f;
+    }
+
     if( is_npc() ) {
         rates.hunger *= 0.25f;
         rates.thirst *= 0.25f;

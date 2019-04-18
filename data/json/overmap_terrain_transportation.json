@@ -266,7 +266,8 @@
     "mapgen_end": [ { "method": "builtin", "name": "forest_trail_straight" } ],
     "mapgen_tee": [ { "method": "builtin", "name": "forest_trail_tee" } ],
     "mapgen_four_way": [ { "method": "builtin", "name": "forest_trail_four_way" } ],
-    "flags": [ "LINEAR" ]
+    "flags": [ "LINEAR" ],
+    "land_use_code": "forest"
   },
   {
     "type": "overmap_terrain",

@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <queue>
 
 #include "action.h"
 #include "advanced_inv.h"
@@ -27,6 +28,7 @@
 #include "morale_types.h"
 #include "mtype.h"
 #include "output.h"
+#include "overmapbuffer.h"
 #include "player.h"
 #include "recipe.h"
 #include "requirements.h"
@@ -34,6 +36,7 @@
 #include "skill.h"
 #include "sounds.h"
 #include "string_formatter.h"
+#include "text_snippets.h"
 #include "translations.h"
 #include "ui.h"
 #include "veh_interact.h"
@@ -98,7 +101,8 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_PLANT_PLOT" ), plant_plot_do_turn },
     { activity_id( "ACT_FERTILIZE_PLOT" ), fertilize_plot_do_turn },
     { activity_id( "ACT_TRY_SLEEP" ), try_sleep_do_turn },
-    { activity_id( "ACT_ROBOT_CONTROL" ), robot_control_do_turn }
+    { activity_id( "ACT_ROBOT_CONTROL" ), robot_control_do_turn },
+    { activity_id( "ACT_TREE_COMMUNION" ), tree_communion_do_turn }
 };
 
 const std::map< activity_id, std::function<void( player_activity *, player * )> >
@@ -3364,4 +3368,63 @@ void activity_handlers::robot_control_finish( player_activity *act, player *p )
         p->add_msg_if_player( _( "...but the robot refuses to acknowledge you as an ally!" ) );
     }
     p->practice( skill_id( "computer" ), 10 );
+}
+
+void activity_handlers::tree_communion_do_turn( player_activity *act, player *p )
+{
+    // There's an initial rooting process.
+    if( act->values.front() > 0 ) {
+        act->values.front() -= 1;
+        if( act->values.front() == 0 ) {
+            if( p->has_trait( trait_id( "SPIRITUAL" ) ) ) {
+                p->add_msg_if_player( m_good, _( "The ancient tree spirits answer your call." ) );
+            } else {
+                p->add_msg_if_player( m_good, _( "Your communion with the trees has begun." ) );
+            }
+        }
+        return;
+    }
+    // Information is received every minute.
+    if( !calendar::once_every( 1_minutes ) ) {
+        return;
+    }
+    // Breadth-first search forest tiles until one reveals new overmap tiles.
+    std::queue<tripoint> q;
+    std::unordered_set<tripoint> seen;
+    tripoint loc = p->global_omt_location();
+    q.push( loc );
+    seen.insert( loc );
+    const std::function<bool( const oter_id & )> filter = []( const oter_id & ter ) {
+        return ter.obj().is_wooded() || ter.obj().get_name() == "field";
+    };
+    while( !q.empty() ) {
+        tripoint tpt = q.front();
+        if( overmap_buffer.reveal( tpt, 3, filter ) ) {
+            if( p->has_trait( trait_id( "SPIRITUAL" ) ) ) {
+                p->add_morale( MORALE_TREE_COMMUNION, 2, 30, 8_hours, 6_hours );
+            } else {
+                p->add_morale( MORALE_TREE_COMMUNION, 1, 15, 2_hours, 1_hours );
+            }
+            if( one_in( 128 ) ) {
+                p->add_msg_if_player( SNIPPET.random_from_category( "tree_communion" ) );
+            }
+            return;
+        }
+        for( int dx = -1; dx <= 1; dx++ ) {
+            for( int dy = -1; dy <= 1; dy++ ) {
+                tripoint neighbor = tripoint( tpt.x + dx, tpt.y + dy, tpt.z );
+                if( seen.find( neighbor ) != seen.end() ) {
+                    continue;
+                }
+                seen.insert( neighbor );
+                if( !overmap_buffer.ter( neighbor ).obj().is_wooded() ) {
+                    continue;
+                }
+                q.push( neighbor );
+            }
+        }
+        q.pop();
+    }
+    p->add_msg_if_player( m_info, _( "The trees have shown you what they will." ) );
+    act->set_to_null();
 }
