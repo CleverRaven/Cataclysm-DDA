@@ -36,7 +36,7 @@
       { "item": "rag_bloody", "prob": 30 },
       { "group": "drugs_emergency", "prob": 30 },
       { "group": "drugs_heal_simple", "prob": 20 },
-      { "gropu": "drugs_analgesis", "prob": 10 }
+      { "group": "drugs_analgesic", "prob": 10 }
     ]
   },
   {
