@@ -202,7 +202,7 @@
     "name": "Sheltered",
     "points": -3,
     "description": "When the apocalypse broke out, you were funneled into a nearby shelter.  Here you have lived, never leaving, lest the unknowns of the outside world hurt you.  Supplies are running low, and for the first time since the cataclysm, you will be forced to face the outside world.",
-    "allowed_locs": [ "lmoe", "shelter" ],
+    "allowed_locs": [ "lmoe_empty", "shelter" ],
     "start_name": "Enclosed Shelter",
     "flags": [ "WIN_START", "LONE_START" ],
     "professions": [ "sheltered_militia", "sheltered_survivor", "bionic_prepper", "unemployed" ]

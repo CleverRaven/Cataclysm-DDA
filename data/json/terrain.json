@@ -3087,6 +3087,48 @@
   },
   {
     "type": "terrain",
+    "id": "t_secretdoor_metal_c",
+    "name": "metal wall",
+    "description": "An industrially fabricated thick sheet carefully positioned and joined seamlessly with perimeter sealant, this wall is capable of resisting extreme elements as well as hostile forces.  Blast load rated and extremely fire-retardant, breaching will require specialized tools or industrial vehicles.",
+    "symbol": "LINE_OXOX",
+    "looks_like": "t_wall_metal",
+    "color": "cyan",
+    "move_cost": 0,
+    "roof": "t_metal_floor",
+    "flags": [ "NOITEM", "DOOR", "CONNECT_TO_WALL", "AUTO_WALL_SYMBOL", "MINEABLE" ],
+    "open": "t_secretdoor_metal_o",
+    "bash": {
+      "str_min": 80,
+      "str_max": 250,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_mdoor_frame",
+      "items": [ { "item": "scrap", "count": [ 12, 24 ] }, { "item": "steel_plate", "prob": 75 } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_secretdoor_metal_o",
+    "name": "open secret door",
+    "looks_like": "t_mdoor_frame",
+    "description": "This apparently normal segment of metal wall has opened to reveal a secret passage.",
+    "symbol": "'",
+    "color": "cyan",
+    "move_cost": 2,
+    "roof": "t_metal_floor",
+    "flags": [ "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "ROAD", "MINEABLE" ],
+    "close": "t_secretdoor_metal_c",
+    "bash": {
+      "str_min": 80,
+      "str_max": 250,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_mdoor_frame",
+      "items": [ { "item": "scrap", "count": [ 12, 24 ] }, { "item": "steel_plate", "prob": 75 } ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_door_metal_lab_c",
     "name": "closed metal door",
     "description": "An extremely resilient door made of assorted steel, carved and pounded into shape.",

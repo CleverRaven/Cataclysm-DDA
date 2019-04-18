@@ -102,6 +102,15 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "lmoe_under_empty",
+    "name": "LMOE shelter",
+    "sym": 43,
+    "color": "red",
+    "see_cost": 2,
+    "flags": [ "KNOWN_UP", "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": "bunker",
     "name": "military bunker",
     "sym": "B",
