@@ -7591,9 +7591,6 @@ bool item::process( player *carrier, const tripoint &pos, bool activate, int tem
     if( has_flag( "FAKE_MILL" ) && process_fake_mill( carrier, pos ) ) {
         return true;
     }
-    if( is_food() && process_food( pos ) ) {
-        return true;
-    }
     if( is_corpse() && process_corpse( carrier, pos ) ) {
         return true;
     }
