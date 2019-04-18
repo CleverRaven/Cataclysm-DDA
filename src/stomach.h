@@ -2,11 +2,11 @@
 
 #include "itype.h"
 #include "game.h"
-#include "player.h"
 #include "string_id.h"
 #include "units.h"
 
 struct needs_rates;
+class player;
 class vitamin;
 using vitamin_id = string_id<vitamin>;
 
