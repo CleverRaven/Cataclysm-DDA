@@ -938,6 +938,7 @@
       [ "glasses_reading", 90 ],
       [ "glasses_bifocal", 90 ],
       [ "towel", 40 ],
+      [ "thermometer", 2 ],
       [ "hat_ball", 30 ],
       [ "hat_newsboy", 20 ],
       [ "hat_sombrero", 3 ],
