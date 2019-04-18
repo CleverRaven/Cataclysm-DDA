@@ -46,7 +46,6 @@ static const mtype_id mon_zombie_bio_op( "mon_zombie_bio_op" );
 static const mtype_id mon_shia( "mon_shia" );
 static const mtype_id mon_spider_web( "mon_spider_web" );
 static const mtype_id mon_jabberwock( "mon_jabberwock" );
-static const mtype_id mon_swapper( "mon_swapper" );
 
 void mx_null( map &, const tripoint & )
 {
@@ -807,8 +806,8 @@ void mx_fumarole( map &m, const tripoint &abs_sub )
 
 void mx_portal_in( map &m, const tripoint &abs_sub )
 {
-    static const std::array<mtype_id, 6> monsters = { {
-            mon_gelatin, mon_flaming_eye, mon_kreck, mon_gracke, mon_blank, mon_swapper
+    static const std::array<mtype_id, 5> monsters = { {
+            mon_gelatin, mon_flaming_eye, mon_kreck, mon_gracke, mon_blank
         }
     };
     int x = rng( 5, SEEX * 2 - 6 ), y = rng( 5, SEEY * 2 - 6 );
