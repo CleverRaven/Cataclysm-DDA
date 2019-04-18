@@ -5302,8 +5302,8 @@ int iuse::radglove( player *p, item *it, bool, const tripoint & )
         if( p->radiation >= 1 ) {
             p->add_msg_if_player( m_warning, _( "You are currently irradiated." ) );
             p->add_msg_player_or_say( m_info,
-                                      _( "Your radiation level: %d mSv" ),
-                                      _( "It says here that my radiation level is %d mSv" ),
+                                      _( "Your radiation level: %d mSv." ),
+                                      _( "It says here that my radiation level is %d mSv." ),
                                       p->radiation );
         } else {
             p->add_msg_player_or_say( m_info,

@@ -1399,7 +1399,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW. \n\
                 }
             }
             if( !l_exists || !p_exists || !u_exists ) {
-                print_error( _( "Conveyor belt malfunction.  Consult maitainenece team." ) );
+                print_error( _( "Conveyor belt malfunction.  Consult maintenance team." ) );
                 query_any( _( "Press any key..." ) );
                 break;
             }
@@ -1452,9 +1452,9 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW. \n\
                     g->m.translate_radius( t_rad_platform, t_concrete, 8.0, g->u.pos(), true );
                     remove_option( COMPACT_IRRADIATOR );
                     remove_option( COMPACT_EXTRACT_RAD_SOURCE );
-                    query_any( _( "Extraction sequence complete... press any key." ) );
+                    query_any( _( "Extraction sequence complete... Press any key." ) );
                 } else {
-                    query_any( _( "ERROR!  Radiation platform unresponsive... press any key." ) );
+                    query_any( _( "ERROR!  Radiation platform unresponsive... Press any key." ) );
                 }
             }
             break;
@@ -1473,7 +1473,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW. \n\
             }
             print_line( _( "Initiating POWER-DIAG ver.2.34 ..." ) );
             if( has_vent ) {
-                print_error( _( "Short circuit detected!." ) );
+                print_error( _( "Short circuit detected!" ) );
                 print_error( _( "Short circuit rerouted." ) );
                 print_error( _( "Fuse reseted." ) );
                 print_error( _( "Ground re-enabled." ) );
