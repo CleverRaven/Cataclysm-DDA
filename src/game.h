@@ -595,18 +595,6 @@ class game
         bool is_zones_manager_open() const;
         void zones_manager();
 
-        /** Used to implement mouse "edge scrolling". Returns a
-         *  tripoint which is a vector of the resulting "move", i.e.
-         *  (0, 0, 0) if the mouse is not at the edge of the screen,
-         *  otherwise some (x, y, 0) depending on which edges are
-         *  hit.
-         *  This variant adjust scrolling speed according to zoom
-         *  level, making it suitable when viewing the "terrain".
-         */
-        tripoint mouse_edge_scrolling_terrain( input_context ctxt );
-        /** This variant is suitable for the overmap. */
-        tripoint mouse_edge_scrolling_overmap( input_context ctxt );
-
         // Look at nearby terrain ';', or select zone points
         cata::optional<tripoint> look_around();
         look_around_result look_around( catacurses::window w_info, tripoint &center,
@@ -1097,6 +1085,10 @@ class game
         // Input related
         // Handles box showing items under mouse
         bool handle_mouseview( input_context &ctxt, std::string &action );
+        // See input_context::mouse_edge_scrolling(); this is a
+        // variant suitable for the terrain view since it takes the
+        // zoom level into account.
+        tripoint mouse_edge_scrolling_terrain( input_context ctxt );
 
         // On-request draw functions
         void disp_kills();          // Display the player's kill counts
