@@ -113,9 +113,8 @@ void player_activity::do_turn( player &p )
     type->call_do_turn( this, &p );
 
     if( *this && type->rooted() ) {
-        //p.rooted();
         p.pause();
-    } // Commented out rooted(), wondering if this part is even needed at all now.
+    }
 
     if( *this && moves_left <= 0 ) {
         // Note: For some activities "finish" is a misnomer; that's why we explicitly check if the
