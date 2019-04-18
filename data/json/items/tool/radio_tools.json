@@ -13,7 +13,7 @@
     "material": [ "plastic" ],
     "symbol": ")",
     "color": "red"
-  }, 
+  },
   {
     "id": "radiocontrol",
     "copy-from": "radio_car_box",
