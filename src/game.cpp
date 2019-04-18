@@ -420,8 +420,11 @@ void game::init_ui( const bool resized )
 #endif
     // remove some space for the sidebar, this is the maximal space
     // (using standard font) that the terrain window can have
+    int sidebar_left = panel_manager::get_manager().get_width_left();
+    int sidebar_right = panel_manager::get_manager().get_width_right();
+
     TERRAIN_WINDOW_HEIGHT = TERMY;
-    TERRAIN_WINDOW_WIDTH = TERMX - ( sidebar_offsets.left + sidebar_offsets.right );
+    TERRAIN_WINDOW_WIDTH = TERMX - (sidebar_left + sidebar_right);
     TERRAIN_WINDOW_TERM_WIDTH = TERRAIN_WINDOW_WIDTH;
     TERRAIN_WINDOW_TERM_HEIGHT = TERRAIN_WINDOW_HEIGHT;
 
@@ -459,7 +462,7 @@ void game::init_ui( const bool resized )
      */
     to_map_font_dimension( TERRAIN_WINDOW_WIDTH, TERRAIN_WINDOW_HEIGHT );
 
-    VIEW_OFFSET_X = sidebar_offsets.left;
+    VIEW_OFFSET_X = 0;
     VIEW_OFFSET_Y = 0;
 
     // VIEW_OFFSET_* are in standard font dimension.
@@ -470,7 +473,7 @@ void game::init_ui( const bool resized )
     POSY = TERRAIN_WINDOW_HEIGHT / 2;
 
     w_terrain = w_terrain_ptr = catacurses::newwin( TERRAIN_WINDOW_HEIGHT, TERRAIN_WINDOW_WIDTH,
-                                VIEW_OFFSET_Y, VIEW_OFFSET_X );
+                                VIEW_OFFSET_Y, VIEW_OFFSET_X + sidebar_left );
     werase( w_terrain );
 
     /**

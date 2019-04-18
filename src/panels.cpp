@@ -1827,6 +1827,22 @@ const std::string panel_manager::get_current_layout_id() const
     return current_layout_id;
 }
 
+int panel_manager::get_width_right()
+{
+    if( get_option<std::string>( "SIDEBAR_POSITION" ) == "left" ) {
+        return width_left;
+    }
+    return width_right;
+}
+
+int panel_manager::get_width_left()
+{
+    if( get_option<std::string>( "SIDEBAR_POSITION" ) == "left" ) {
+        return width_right;
+    }
+    return width_left;
+}
+
 void panel_manager::init()
 {
     load();
@@ -1835,11 +1851,8 @@ void panel_manager::init()
 
 void panel_manager::update_offsets( int x )
 {
-    if( get_option<std::string>( "SIDEBAR_POSITION" ) == "left" ) {
-        g->sidebar_offsets.left = x;
-    } else {
-        g->sidebar_offsets.right = x;
-    }
+    width_right = x;
+    width_left = 0;
 }
 
 bool panel_manager::save()

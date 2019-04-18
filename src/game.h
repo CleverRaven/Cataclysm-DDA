@@ -152,12 +152,6 @@ struct w_map {
     catacurses::window win;
 };
 
-// Add top/bottom here if ever relevant
-struct edge_offsets {
-    int left;
-    int right;
-};
-
 class game
 {
         friend class editmap;
@@ -868,10 +862,6 @@ class game
         bool reinitmap;
         bool fullscreen;
         bool was_fullscreen;
-
-        // The amount of screen space from each edge the sidebar takes up
-        // Currently only affects x axis.
-        edge_offsets sidebar_offsets;
 
         /** open vehicle interaction screen */
         void exam_vehicle( vehicle &veh, int cx = 0, int cy = 0 );
