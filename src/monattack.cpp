@@ -4775,41 +4775,6 @@ bool mattack::stretch_attack( monster *z )
     return true;
 }
 
-bool mattack::teleswap( monster *z )
-{
-    if( !z->can_act() ) {
-        return false;
-    }
-
-    Creature *target = z->attack_target();
-    if( target == nullptr ) {
-        return false;
-    }
-
-    if( rl_dist( z->pos(), target->pos() ) < 2 ) {
-        return false;
-    }
-
-    // Swap positions.
-    const tripoint target_pos = target->pos();
-    const tripoint monster_pos = z->pos();
-    const tripoint adjacent = z->adjacent_tile();
-    if( adjacent == monster_pos ) {
-        return false;
-    }
-    z->setpos( adjacent );
-    target->setpos( monster_pos );
-    z->setpos( target_pos );
-
-    auto msg_type = target == &g->u ? m_warning : m_info;
-    target->add_msg_player_or_npc( msg_type,
-                                   _( "The %s exchanges positions with you!" ),
-                                   _( "The %s exchanges positions with <npcname>." ),
-                                   z->name() );
-
-    return true;
-}
-
 bool mattack::doot( monster *z )
 {
     z->moves -= 300;

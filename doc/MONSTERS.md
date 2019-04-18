@@ -263,7 +263,7 @@ A special defense attack, triggered when the monster is attacked. It should cont
 
 A special evasion ability, triggered when an attack misses the monster. It should contain an array with the id of the evasion (see Monster special evasion in JSON_FLAGS.md) and the chance for that evasion ability to be actually triggered. Example:
 ```JSON
-"special_when_evades": [ "TELESTAGGER", 100 ]
+"special_when_evades": [ "STAGGER_DODGE", 50 ]
 ```
 
 ## "attack_effs"

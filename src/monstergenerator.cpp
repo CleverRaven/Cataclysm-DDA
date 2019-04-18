@@ -519,7 +519,6 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "RANGED_PULL", mattack::ranged_pull );
     add_hardcoded_attack( "GRAB", mattack::grab );
     add_hardcoded_attack( "GRAB_DRAG", mattack::grab_drag );
-    add_hardcoded_attack( "TELESWAP", mattack::teleswap );
     add_hardcoded_attack( "DOOT", mattack::doot );
 }
 
@@ -533,8 +532,8 @@ void MonsterGenerator::init_defense()
 void MonsterGenerator::init_evade()
 {
     evade_map["NONE"] = &mevade::none; //No special dodge effect
-    evade_map["TELESTAGGER"] =
-        &mevade::telestagger; //Move to another square adjacent to player and stagger them
+    evade_map["STAGGER_DODGE"] =
+        &mevade::stagger_dodge; //Move to another square adjacent to attacker and stagger them
 }
 
 void MonsterGenerator::set_species_ids( mtype &mon )

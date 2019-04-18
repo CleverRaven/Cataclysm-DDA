@@ -1493,7 +1493,6 @@ tripoint Creature::adjacent_tile() const
         if( g->critter_at( p ) == nullptr && g->m.passable( p ) &&
             ( curtrap.is_null() || curtrap.is_benign() ) ) {
             // Only consider tile if unoccupied, passable and has no traps
-            dangerous_fields = 0;
             auto &tmpfld = g->m.field_at( p );
             for( auto &fld : tmpfld ) {
                 const field_entry &cur = fld.second;
