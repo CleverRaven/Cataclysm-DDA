@@ -628,6 +628,7 @@ class npc : public player
         bool is_following() const; // Traveling w/ player (whether as a friend or a slave)
         bool is_friend() const; // Allies with the player
         bool is_leader() const; // Leading the player
+        bool is_ally( const player &p ) const; // in the same faction
         bool is_assigned_to_camp() const;
         /** is performing a player_activity */
         bool has_player_activity() const;
@@ -991,7 +992,7 @@ class npc : public player
         cata::optional<tripoint> get_mission_destination() const;
         bool has_companion_mission() const;
         npc_companion_mission get_companion_mission() const;
-        attitude_group get_attitude_group( npc_attitude att );
+        attitude_group get_attitude_group( npc_attitude att ) const;
 
     protected:
         void store( JsonOut &jsout ) const;
