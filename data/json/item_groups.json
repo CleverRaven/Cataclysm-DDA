@@ -8280,6 +8280,7 @@
     "items": [
       [ "moonshine", 60 ],
       [ "still", 20 ],
+      [ "thermometer", 20 ],
       [ "brew_moonshine", 5 ],
       [ "cornbread", 35 ],
       [ "yeast", 25 ],
