@@ -75,10 +75,7 @@
     "dynamic_line": {
       "u_has_effect": "u_met_Mandeep_Singh",
       "yes": "Hello again.",
-      "no": {
-        "u_male": "Hello sir.  I am Mandeep Singh.",
-        "u_female": "Hello ma'am.  I am Mandeep Singh."
-      }
+      "no": { "u_male": "Hello sir.  I am Mandeep Singh.", "u_female": "Hello ma'am.  I am Mandeep Singh." }
     },
     "responses": [
       {
