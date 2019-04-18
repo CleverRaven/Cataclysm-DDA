@@ -41,9 +41,10 @@
     "copy-from": "engine_combustion",
     "type": "vehicle_part",
     "fuel_type": "gasoline",
+	"fuel_options": [ "diesel", "gasoline" ],
     "m2c": 60,
     "//": "25% energy efficiency",
-    "description": "An advanced combustion engine.  Burns gasoline fuel from a tank in the vehicle. Better power-to-weight ratio than a traditional reciprocating engine, but consumes more fuel."
+    "description": "An advanced combustion engine.  Burns gasoline or diesel fuel from a tank in the vehicle.  Better power-to-weight ratio than a traditional reciprocating engine, but consumes more fuel."
   },
   {
     "id": "diesel_engine_i6",
@@ -307,7 +308,7 @@
     "power": 1006695,
     "energy_consumption": 4026780,
     "breaks_into": [
-	  { "item": "alloy_sheet", "count": [ 8, 12 ] },
+	  { "item": "alloy_plate", "count": [ 1, 2 ] },
       { "item": "steel_lump", "count": [ 45, 58 ] },
       { "item": "steel_chunk", "count": [ 45, 58 ] },
       { "item": "scrap", "count": [ 45, 58 ] }
@@ -324,7 +325,7 @@
     "power": 1416830,
     "energy_consumption": 5667320,
     "breaks_into": [
-	  { "item": "alloy_sheet", "count": [ 12, 16 ] },
+	  { "item": "alloy_plate", "count": [ 2, 4 ] },
       { "item": "steel_lump", "count": [ 50, 65 ] },
       { "item": "steel_chunk", "count": [ 50, 65 ] },
       { "item": "scrap", "count": [ 50, 65 ] }
@@ -341,7 +342,7 @@
     "power": 4474199,
     "energy_consumption": 17896796,
     "breaks_into": [
-	  { "item": "alloy_sheet", "count": [ 24, 32 ] },
+	  { "item": "alloy_plate", "count": [ 4, 6 ] },
       { "item": "steel_lump", "count": [ 100, 120 ] },
       { "item": "steel_chunk", "count": [ 100, 120 ] },
       { "item": "scrap", "count": [ 100, 120 ] }
