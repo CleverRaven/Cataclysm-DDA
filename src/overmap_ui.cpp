@@ -985,7 +985,7 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
                 // panning move during the first iteration of this
                 // mouse move event consumption loop.
                 if( max_consume == 10 ) {
-                    const tripoint edge_scroll = g->mouse_edge_scrolling( ictxt, 2 );
+                    const tripoint edge_scroll = g->mouse_edge_scrolling_overmap( ictxt );
                     curs += edge_scroll;
                 }
                 if( --max_consume == 0 ) {

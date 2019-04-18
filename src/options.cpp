@@ -1458,9 +1458,15 @@ void options_manager::add_options_interface()
     "show", COPT_CURSES_HIDE );
 
     add( "EDGE_SCROLL", "interface", translate_marker( "Edge scrolling" ),
-         translate_marker( "If true, enables edge scrolling/panning with mouse when looking or peeking." ),
-         true, COPT_CURSES_HIDE
-       );
+    translate_marker( "Edge scrolling with the mouse." ), {
+        { "disabled", translate_marker( "Disabled" ) },
+        { "slow", translate_marker( "Slow" ) },
+        { "normal", translate_marker( "Normal" ) },
+        { "fast", translate_marker( "Fast" ) },
+        { "veryfast", translate_marker( "Very fast" ) }
+    },
+    "normal", COPT_CURSES_HIDE );
+
 }
 
 void options_manager::add_options_graphics()

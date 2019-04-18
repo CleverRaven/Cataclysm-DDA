@@ -7112,32 +7112,55 @@ cata::optional<tripoint> game::look_around()
     return result.position;
 }
 
-tripoint game::mouse_edge_scrolling( input_context ctxt, int speed )
+tripoint mouse_edge_scrolling( input_context ctxt, const int speed )
 {
-    tripoint ret( 0, 0, 0 );
+    tripoint ret = tripoint_zero;
+    if( speed == 0 ) {
+        // Fast return when the option is disabled.
+        return ret;
+    }
 #if (defined TILES || defined _WIN32 || defined WINDOWS)
-    if( get_option<bool>( "EDGE_SCROLL" ) ) {
-        const input_event event = ctxt.get_raw_input();
-        const int threshold_x = projected_window_width() / 20;
-        const int threshold_y = projected_window_height() / 20;
-        if( event.mouse_x <= threshold_x ) {
-            ret.x -= speed;
-        } else if( event.mouse_x >= projected_window_width() - threshold_x ) {
-            ret.x += speed;
-        }
-        if( event.mouse_y <= threshold_y ) {
-            ret.y -= speed;
-        } else if( event.mouse_y >= projected_window_height() - threshold_y ) {
-            ret.y += speed;
-        }
+    const input_event event = ctxt.get_raw_input();
+    const int threshold_x = projected_window_width() / 20;
+    const int threshold_y = projected_window_height() / 20;
+    if( event.mouse_x <= threshold_x ) {
+        ret.x -= speed;
+    } else if( event.mouse_x >= projected_window_width() - threshold_x ) {
+        ret.x += speed;
+    }
+    if( event.mouse_y <= threshold_y ) {
+        ret.y -= speed;
+    } else if( event.mouse_y >= projected_window_height() - threshold_y ) {
+        ret.y += speed;
     }
 #endif
     return ret;
 }
 
+int mouse_edge_scrolling_speed() {
+    std::string opt = get_option<std::string>( "EDGE_SCROLL" );
+    if( opt == "disabled" ) {
+        return 0;
+    } else if( opt == "slow" ) {
+        return 1;
+    } else if( opt == "normal" ) {
+        return 2;
+    } else if( opt == "fast" ) {
+        return 4;
+    } else if( opt == "veryfast" ) {
+        return 8;
+    }
+    return 0;
+}
+
 tripoint game::mouse_edge_scrolling_terrain( input_context ctxt )
 {
-    return game::mouse_edge_scrolling( ctxt, std::max( DEFAULT_TILESET_ZOOM / tileset_zoom, 1 ) );
+    return mouse_edge_scrolling( ctxt, mouse_edge_scrolling_speed() * DEFAULT_TILESET_ZOOM / tileset_zoom );
+}
+
+tripoint game::mouse_edge_scrolling_overmap( input_context ctxt )
+{
+    return mouse_edge_scrolling( ctxt, mouse_edge_scrolling_speed() );
 }
 
 look_around_result game::look_around( catacurses::window w_info, tripoint &center,
