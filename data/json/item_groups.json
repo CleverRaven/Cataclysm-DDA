@@ -5484,6 +5484,7 @@
       [ "balance_small", 5 ],
       [ "ph_meter", 5 ],
       [ "voltmeter", 5 ],
+      [ "thermometer", 5 ],
       [ "melting_point", 5 ],
       [ "vortex", 5 ],
       [ "microscope", 5 ],
