@@ -4923,5 +4923,11 @@
       { "monster": "mon_zombie_child", "freq": 20, "cost_multiplier": 1 },
       { "monster": "mon_zombie_crawler", "freq": 10, "cost_multiplier": 1 }
     ]
+  },
+  {
+    "name": "GROUP_PLAIN",
+    "type": "monstergroup",
+    "default": "mon_zombie",
+    "monsters": [ { "monster": "mon_zombie", "freq": 40, "cost_multiplier": 1 } ]
   }
 ]

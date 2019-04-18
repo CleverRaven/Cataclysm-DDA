@@ -476,5 +476,22 @@
     "suspendable": false,
     "based_on": "neither",
     "no_resume": true
+  },
+  {
+    "id": "ACT_TREE_COMMUNION",
+    "type": "activity_type",
+    "stop_phrase": "Stop communing with the trees?",
+    "rooted": true,
+    "suspendable": false,
+    "based_on": "time",
+    "no_resume": true
+  },
+  {
+    "id": "ACT_EAT_MENU",
+    "type": "activity_type",
+    "stop_phrase": "Stop eating?",
+    "suspendable": false,
+    "based_on": "neither",
+    "no_resume": true
   }
 ]

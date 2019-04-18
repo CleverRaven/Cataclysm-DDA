@@ -840,7 +840,7 @@ void player::hardcoded_effects( effect &it )
             hp_cur[hp_torso] = 0;
         }
     } else if( id == effect_grabbed ) {
-        blocks_left -= 1;
+        set_num_blocks_bonus( get_num_blocks_bonus() - 1 );
         int zed_number = 0;
         for( auto &dest : g->m.points_in_radius( pos(), 1, 0 ) ) {
             if( g->critter_at<monster>( dest ) ) {
@@ -1200,6 +1200,7 @@ void player::hardcoded_effects( effect &it )
             // alarm was set and player hasn't slept through the alarm.
             if( has_effect( effect_alarm_clock ) && !has_effect( effect_slept_through_alarm ) ) {
                 add_msg_if_player( _( "It looks like you woke up just before your alarm." ) );
+                remove_effect( effect_alarm_clock );
             } else if( has_effect( effect_slept_through_alarm ) ) { // slept though the alarm.
                 if( has_bionic( bionic_id( "bio_watch" ) ) ) {
                     add_msg_if_player( m_warning, _( "It looks like you've slept through your internal alarm..." ) );
@@ -1207,6 +1208,7 @@ void player::hardcoded_effects( effect &it )
                     add_msg_if_player( m_warning, _( "It looks like you've slept through the alarm..." ) );
                 }
                 get_effect( effect_slept_through_alarm ).set_duration( 0_turns );
+                remove_effect( effect_alarm_clock );
             }
         }
     } else if( id == effect_alarm_clock ) {
@@ -1254,6 +1256,15 @@ void player::hardcoded_effects( effect &it )
                 } else if( dur == 2_turns ) {
                     // let the sound code handle the wake-up part
                     sounds::sound( pos(), 16, sounds::sound_t::alarm, _( "beep-beep-beep!" ) );
+                }
+            }
+        } else {
+            if( dur == 1_turns ) {
+                if( g->u.has_alarm_clock() ) {
+                    sounds::sound( g->u.pos(), 16, sounds::sound_t::alarm, _( "beep-beep-beep!" ) );
+                    const std::string alarm = _( "Your alarm is going off." );
+                    g->cancel_activity_or_ignore_query( distraction_type::noise, alarm );
+                    add_msg( "Your alarm went off." );
                 }
             }
         }

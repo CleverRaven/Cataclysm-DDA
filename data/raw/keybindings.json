@@ -2015,7 +2015,7 @@
   },
   {
     "type": "keybinding",
-    "name": "Toggle move mode (run/walk)",
+    "name": "Toggle move mode (run/walk/crouch)",
     "category": "DEFAULTMODE",
     "id": "toggle_move",
     "bindings": [ { "input_method": "keyboard", "key": "\"" } ]

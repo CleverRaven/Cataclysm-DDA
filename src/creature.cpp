@@ -237,11 +237,40 @@ bool Creature::sees( const Creature &critter ) const
                     abs( posz() - critter.posz() ) <= 1 ) ) ) {
         return false;
     }
-
+    if( const player *p = dynamic_cast<const player *>( &critter ) ) {
+        if( p->move_mode == "crouch" ) {
+            const int coverage = g->m.obstacle_coverage( pos(), critter.pos() );
+            if( coverage < 30 ) {
+                return sees( critter.pos(), critter.is_player() );
+            }
+            float size_modifier = 1.0;
+            switch( p->get_size() ) {
+                case MS_TINY:
+                    size_modifier = 2.0;
+                    break;
+                case MS_SMALL:
+                    size_modifier = 1.4;
+                    break;
+                case MS_MEDIUM:
+                    break;
+                case MS_LARGE:
+                    size_modifier = 0.6;
+                    break;
+                case MS_HUGE:
+                    size_modifier = 0.15;
+                    break;
+            }
+            const int vision_modifier = 30 - 0.5 * coverage * size_modifier;
+            if( vision_modifier > 1 ) {
+                return sees( critter.pos(), critter.is_player(), vision_modifier );
+            }
+            return false;
+        }
+    }
     return sees( critter.pos(), critter.is_player() );
 }
 
-bool Creature::sees( const tripoint &t, bool is_player ) const
+bool Creature::sees( const tripoint &t, bool is_player, int range_mod ) const
 {
     if( !fov_3d && posz() != t.z ) {
         return false;
@@ -264,6 +293,9 @@ bool Creature::sees( const tripoint &t, bool is_player ) const
         }
         if( has_effect( effect_no_sight ) ) {
             range = 1;
+        }
+        if( range_mod > 0 ) {
+            range = std::min( range, range_mod );
         }
         if( is_player ) {
             // Special case monster -> player visibility, forcing it to be symmetric with player vision.

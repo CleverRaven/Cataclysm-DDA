@@ -1836,6 +1836,9 @@ int player::run_cost( int base_cost, bool diag ) const
         // Rationale: Average running speed is 2x walking speed. (NOT sprinting)
         stamina_modifier *= 2.0;
     }
+    if( move_mode == "crouch" ) {
+        stamina_modifier *= 0.5;
+    }
     movecost /= stamina_modifier;
 
     if( diag ) {
@@ -2986,10 +2989,15 @@ void player::toggle_move_mode()
             add_msg( _( "You start running." ) );
         } else {
             add_msg( m_bad, _( "You're too tired to run." ) );
+            move_mode = "crouch";
+            add_msg( _( "You start crouching." ) );
         }
     } else if( move_mode == "run" ) {
+        move_mode = "crouch";
+        add_msg( _( "You slow down and start crouching." ) );
+    } else if( move_mode == "crouch" ) {
         move_mode = "walk";
-        add_msg( _( "You slow to a walk." ) );
+        add_msg( _( "You stop crouching." ) );
     }
 }
 
@@ -4438,6 +4446,13 @@ needs_rates player::calc_needs_rates()
         rates.recovery = 0;
     }
 
+    if( has_activity( activity_id( "ACT_TREE_COMMUNION" ) ) ) {
+        // Much of the body's needs are taken care of by the trees.
+        rates.hunger *= 0.5f;
+        rates.thirst *= 0.5f;
+        rates.fatigue *= 0.5f;
+    }
+
     if( is_npc() ) {
         rates.hunger *= 0.25f;
         rates.thirst *= 0.25f;
@@ -5143,9 +5158,6 @@ void player::process_effects()
         remove_effect( effect_bite );
         remove_effect( effect_infected );
         remove_effect( effect_recover );
-    }
-    if( !( in_sleep_state() ) && has_effect( effect_alarm_clock ) ) {
-        remove_effect( effect_alarm_clock );
     }
 
     //Human only effects
@@ -10555,6 +10567,7 @@ void player::wake_up()
     remove_effect( effect_sleep );
     remove_effect( effect_slept_through_alarm );
     remove_effect( effect_lying_down );
+    remove_effect( effect_alarm_clock );
     recalc_sight_limits();
 }
 
@@ -12049,7 +12062,7 @@ void player::clear_memorized_tile( const tripoint &pos )
     player_map_memory.clear_memorized_tile( pos );
 }
 
-bool player::sees( const tripoint &t, bool ) const
+bool player::sees( const tripoint &t, bool, int ) const
 {
     static const bionic_id str_bio_night( "bio_night" );
     const int wanted_range = rl_dist( pos(), t );

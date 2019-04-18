@@ -813,7 +813,8 @@ bool veh_interact::do_install( std::string &msg )
                part.has_flag( "BED" ) ||
                part.has_flag( "SPACE_HEATER" ) ||
                part.has_flag( "DOOR_MOTOR" ) ||
-               part.has_flag( "WATER_PURIFIER" );
+               part.has_flag( "WATER_PURIFIER" ) ||
+               part.has_flag( "WORKBENCH" );
     };
     tab_filters[4] = [&]( const vpart_info * p ) {
         auto &part = *p;
