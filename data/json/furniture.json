@@ -761,7 +761,7 @@
     "id": "f_exercise",
     "name": "exercise machine",
     "symbol": "T",
-    "description": "Typically used for, well, exercising.  You're not up for it.",
+    "description": "Typically used for, well, exercising.",
     "color": "dark_gray",
     "move_cost_mod": 1,
     "required_str": 8,
@@ -2882,7 +2882,8 @@
   },
   {
     "type": "furniture",
-    "id": "f_floor_canvas",
+    "id": "f_punching_bag",
+    "aliases": "f_floor_canvas",
     "name": "heavy punching bag",
     "description": "Punch Punch!  Exercise those arms!",
     "symbol": "0",
