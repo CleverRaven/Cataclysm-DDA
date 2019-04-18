@@ -413,6 +413,7 @@
       [ "pot_copper", 15 ],
       [ "pot_canning", 15 ],
       [ "pressure_cooker", 5 ],
+      [ "thermometer", 5 ],
       [ "bowl_pewter", 25 ],
       [ "teapot", 15 ],
       [ "pan", 25 ],
