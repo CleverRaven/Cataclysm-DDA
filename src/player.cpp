@@ -2985,10 +2985,10 @@ void player::toggle_move_mode()
         }
     } else if( move_mode == "run" ) {
         move_mode = "crouch";
-        add_msg( _( "You slow down and start crouching." ) );
+        add_msg( _( "You start crouching." ) );
     } else if( move_mode == "crouch" ) {
         move_mode = "walk";
-        add_msg( _( "You stop crouching." ) );
+        add_msg( _( "You start walking." ) );
     }
 }
 
