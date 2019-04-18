@@ -42,7 +42,7 @@ std::string MOD_INFORMATION::name() const
         //~ name of a mod that has no name entry, (%s is the mods identifier)
         return string_format( _( "No name (%s)" ), ident.c_str() );
     } else {
-        return _( name_.c_str() );
+        return _( name_ );
     }
 }
 

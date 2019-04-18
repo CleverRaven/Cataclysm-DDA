@@ -113,7 +113,7 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who_c )
     map_inv.form_from_map( who.pos(), PICKUP_RANGE );
     if( !reqs.can_make_with_inventory( who.crafting_inventory(), is_crafting_component ) ) {
         who.add_msg_if_player( m_info, _( "You don't meet the requirements to repair the %s." ),
-                               pt.name().c_str() );
+                               pt.name() );
         return false;
     }
 
@@ -154,8 +154,7 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who_c )
     }
 
     // TODO: NPC doing that
-    who.add_msg_if_player( m_good, _( "You repair the %1$s's %2$s." ), veh.name.c_str(),
-                           partname.c_str() );
+    who.add_msg_if_player( m_good, _( "You repair the %1$s's %2$s." ), veh.name, partname );
     return true;
 }
 

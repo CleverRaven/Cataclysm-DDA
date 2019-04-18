@@ -112,7 +112,7 @@ void trap::load( JsonObject &jo, const std::string & )
 std::string trap::name() const
 {
     // trap names can be empty, those are special always invisible traps. See player::search_surroundings
-    return name_.empty() ? name_ : _( name_.c_str() );
+    return name_.empty() ? name_ : _( name_ );
 }
 
 void trap::reset()

@@ -277,7 +277,7 @@ void Item_factory::finalize_pre( itype &obj )
             }
         }
 
-        obj.gun->reload_noise = _( obj.gun->reload_noise.c_str() );
+        obj.gun->reload_noise = _( obj.gun->reload_noise );
 
         // TODO: Move to jsons?
         if( obj.gun->skill_used == skill_id( "archery" ) ||
@@ -517,7 +517,7 @@ class iuse_function_wrapper_with_info : public iuse_function_wrapper
             : iuse_function_wrapper( type, f ), info_string( info ) { }
 
         void info( const item &, std::vector<iteminfo> &info ) const override {
-            info.emplace_back( "DESCRIPTION", _( info_string.c_str() ) );
+            info.emplace_back( "DESCRIPTION", _( info_string ) );
         }
         iuse_actor *clone() const override {
             return new iuse_function_wrapper_with_info( *this );
@@ -1102,7 +1102,7 @@ void Item_factory::check_definitions() const
         if( msg.str().empty() ) {
             continue;
         }
-        debugmsg( "warnings for type %s:\n%s", type->id.c_str(), msg.str().c_str() );
+        debugmsg( "warnings for type %s:\n%s", type->id.c_str(), msg.str() );
     }
     for( const auto &e : migrations ) {
         if( !m_templates.count( e.second.replace ) ) {
@@ -1708,7 +1708,7 @@ void Item_factory::load( islot_seed &slot, JsonObject &jo, const std::string & )
 {
     assign( jo, "grow", slot.grow, false, 1_days );
     slot.fruit_div = jo.get_int( "fruit_div", 1 );
-    slot.plant_name = _( jo.get_string( "plant_name" ).c_str() );
+    slot.plant_name = _( jo.get_string( "plant_name" ) );
     slot.fruit_id = jo.get_string( "fruit" );
     slot.spawn_seeds = jo.get_bool( "seeds", true );
     slot.byproducts = jo.get_string_array( "byproducts" );
@@ -2277,7 +2277,7 @@ bool Item_factory::load_sub_ref( std::unique_ptr<Item_spawn_data> &ptr, JsonObje
         if( !obj.has_array( arr_name ) ) {
             return;
         } else if( name != "contents" ) {
-            obj.throw_error( string_format( "You can't use an array for '%s'", arr_name.c_str() ) );
+            obj.throw_error( string_format( "You can't use an array for '%s'", arr_name ) );
         }
         JsonArray arr = obj.get_array( arr_name );
         while( arr.has_more() ) {
@@ -2289,7 +2289,7 @@ bool Item_factory::load_sub_ref( std::unique_ptr<Item_spawn_data> &ptr, JsonObje
 
     if( obj.has_member( name ) ) {
         obj.throw_error( string_format( "This has been a TODO: since 2014. Use '%s' and/or '%s' instead.",
-                                        iname.c_str(), gname.c_str() ) );
+                                        iname, gname ) );
         return false; // TODO: !
     }
     if( obj.has_string( iname ) ) {
@@ -2300,8 +2300,7 @@ bool Item_factory::load_sub_ref( std::unique_ptr<Item_spawn_data> &ptr, JsonObje
     }
 
     if( entries.size() > 1 && name != "contents" ) {
-        obj.throw_error( string_format( "You can only use one of '%s' and '%s'", iname.c_str(),
-                                        gname.c_str() ) );
+        obj.throw_error( string_format( "You can only use one of '%s' and '%s'", iname, gname ) );
         return false;
     } else if( entries.size() == 1 ) {
         const auto type = entries.front().second ? Single_item_creator::Type::S_ITEM_GROUP :

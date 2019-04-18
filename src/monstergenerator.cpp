@@ -945,7 +945,7 @@ void mtype::add_special_attack( JsonArray inner, const std::string & )
         }
         if( test_mode ) {
             debugmsg( "%s specifies more than one attack of (sub)type %s, ignoring all but the last",
-                      id.c_str(), name.c_str() );
+                      id.c_str(), name );
         }
     }
     auto new_attack = mtype_special_attack( iter->second );

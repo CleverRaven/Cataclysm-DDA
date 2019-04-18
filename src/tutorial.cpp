@@ -260,7 +260,7 @@ void load_tutorial_messages( JsonObject &jo )
     tut_text.clear();
     JsonArray messages = jo.get_array( "messages" );
     while( messages.has_more() ) {
-        tut_text.push_back( _( messages.next_string().c_str() ) );
+        tut_text.push_back( _( messages.next_string() ) );
     }
 }
 

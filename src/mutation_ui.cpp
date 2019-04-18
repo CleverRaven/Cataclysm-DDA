@@ -27,7 +27,7 @@ void draw_exam_window( const catacurses::window &win, const int border_y )
 const auto shortcut_desc = []( const std::string &comment, const std::string &keys )
 {
     return string_format( comment.c_str(),
-                          string_format( "<color_yellow>%s</color>", keys.c_str() ).c_str() );
+                          string_format( "<color_yellow>%s</color>", keys.c_str() ) );
 };
 
 void show_mutations_titlebar( const catacurses::window &window, const std::string &menu_mode,
@@ -213,7 +213,7 @@ void player::power_mutations()
                         mut_desc << _( " - Active" );
                     }
                     mvwprintz( wBio, list_start_y + i, second_column + 2, type,
-                               mut_desc.str().c_str() );
+                               mut_desc.str() );
                 }
             }
 
@@ -246,7 +246,7 @@ void player::power_mutations()
             }
             if( !mutation_chars.valid( newch ) ) {
                 popup( _( "Invalid mutation letter. Only those characters are valid:\n\n%s" ),
-                       mutation_chars.get_allowed_chars().c_str() );
+                       mutation_chars.get_allowed_chars() );
                 continue;
             }
             const auto other_mut_id = trait_by_invlet( newch );
