@@ -455,6 +455,12 @@ class map
         bool sees( const tripoint &F, const tripoint &T, int range, int &bresenham_slope ) const;
     public:
         /**
+        * Returns coverage of target in relation to the observer. Target is loc2, observer is loc1.
+        * First tile from the target is an obstacle, which has the coverage value.
+        * If there's no obstacle adjacent to the target - no coverage.
+        */
+        int obstacle_coverage( const tripoint &loc1, const tripoint &loc2 ) const;
+        /**
          * Check whether there's a direct line of sight between `F` and
          * `T` with the additional movecost restraints.
          *

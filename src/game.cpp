@@ -10513,6 +10513,11 @@ bool game::walk_move( const tripoint &dest_loc )
             } else if( u.has_bionic( bionic_id( "bio_ankles" ) ) ) {
                 volume = 12;
             }
+            if( u.move_mode == "run" ) {
+                volume *= 1.5;
+            } else if( u.move_mode == "crouch" ) {
+                volume /= 2;
+            }
             sounds::sound( dest_loc, volume, sounds::sound_t::movement, _( "footsteps" ), true,
                            "none", "none" );    // Sound of footsteps may awaken nearby monsters
             sfx::do_footstep();

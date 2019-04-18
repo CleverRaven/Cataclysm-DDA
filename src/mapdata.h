@@ -172,6 +172,7 @@ enum ter_bitflags : int {
     TFLAG_RAMP,
     TFLAG_HIDE_PLACE,
     TFLAG_BLOCK_WIND,
+    TFLAG_FLAT,
 
     NUM_TERFLAGS
 };
@@ -220,6 +221,7 @@ struct map_data_common_t {
         std::array<long, SEASONS_PER_YEAR> symbol_;
 
         int movecost;   // The amount of movement points required to pass this terrain by default.
+        int coverage; // The coverage percentage of a furniture piece of terrain. <30 won't cover from sight.
         units::volume max_volume; // Maximal volume of items that can be stored in/on this furniture
 
         std::string description;

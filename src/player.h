@@ -417,7 +417,7 @@ class player : public Character
         void clear_memorized_tile( const tripoint &pos );
 
         // see Creature::sees
-        bool sees( const tripoint &c, bool is_player = false ) const override;
+        bool sees( const tripoint &c, bool is_player = false, int range_mod = 0 ) const override;
         // see Creature::sees
         bool sees( const Creature &critter ) const override;
         /**

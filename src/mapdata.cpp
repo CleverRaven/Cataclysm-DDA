@@ -157,7 +157,8 @@ static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { 
         { "NO_FLOOR",                 TFLAG_NO_FLOOR },       // Things should fall when placed on this tile
         { "SEEN_FROM_ABOVE",          TFLAG_SEEN_FROM_ABOVE },// This should be visible if the tile above has no floor
         { "HIDE_PLACE",               TFLAG_HIDE_PLACE },     // Creature on this tile can't be seen by other creature not standing on adjacent tiles
-        { "BLOCK_WIND",               TFLAG_BLOCK_WIND},      // This tile will partially block the wind.
+        { "BLOCK_WIND",               TFLAG_BLOCK_WIND },     // This tile will partially block the wind.
+        { "FLAT",                     TFLAG_FLAT },           // This tile is flat.
         { "RAMP",                     TFLAG_RAMP },           // Can be used to move up a z-level
     }
 };
@@ -1073,6 +1074,7 @@ void ter_t::load( JsonObject &jo, const std::string &src )
     map_data_common_t::load( jo, src );
     mandatory( jo, was_loaded, "name", name_ );
     mandatory( jo, was_loaded, "move_cost", movecost );
+    optional( jo, was_loaded, "coverage", coverage );
     optional( jo, was_loaded, "max_volume", max_volume, legacy_volume_reader,
               DEFAULT_MAX_VOLUME_IN_SQUARE );
     optional( jo, was_loaded, "trap", trap_id_str );
@@ -1173,6 +1175,7 @@ void furn_t::load( JsonObject &jo, const std::string &src )
     map_data_common_t::load( jo, src );
     mandatory( jo, was_loaded, "name", name_ );
     mandatory( jo, was_loaded, "move_cost_mod", movecost );
+    optional( jo, was_loaded, "coverage", coverage );
     optional( jo, was_loaded, "comfort", comfort, 0 );
     optional( jo, was_loaded, "floor_bedding_warmth", floor_bedding_warmth, 0 );
     optional( jo, was_loaded, "bonus_fire_warmth_feet", bonus_fire_warmth_feet, 300 );

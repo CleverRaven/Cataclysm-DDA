@@ -6059,6 +6059,34 @@ bool map::sees( const tripoint &F, const tripoint &T, const int range, int &bres
     return visible;
 }
 
+int map::obstacle_coverage( const tripoint &loc1, const tripoint &loc2 ) const
+{
+    // Can't hide if you are standing on furniture, or non-flat slowing-down terrain tile.
+    if( furn( loc2 ).obj().id || ( move_cost( loc2 ) > 2 && !has_flag_ter( TFLAG_FLAT, loc2 ) ) ) {
+        return 0;
+    }
+    const int ax = std::abs( loc1.x - loc2.x ) * 2;
+    const int ay = std::abs( loc1.y - loc2.y ) * 2;
+    int offset = std::min( ax, ay ) - ( std::max( ax, ay ) / 2 );
+    tripoint obstaclepos;
+    bresenham( loc2, loc1, offset, 0, [&obstaclepos]( const tripoint & new_point ) {
+        // Only adjacent tile between you and enemy is checked for cover.
+        obstaclepos = new_point;
+        return false;
+    } );
+    if( const auto obstacle_f = furn( obstaclepos ) ) {
+        return obstacle_f->coverage;
+    }
+    if( const auto vp = veh_at( obstaclepos ) ) {
+        if( vp->obstacle_at_part() ) {
+            return 60;
+        } else if( !vp->part_with_feature( VPFLAG_AISLE, true ) ) {
+            return 45;
+        }
+    }
+    return ter( obstaclepos )->coverage;
+}
+
 // This method tries a bunch of initial offsets for the line to try and find a clear one.
 // Basically it does, "Find a line from any point in the source that ends up in the target square".
 std::vector<tripoint> map::find_clear_path( const tripoint &source,
