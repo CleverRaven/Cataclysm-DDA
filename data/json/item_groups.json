@@ -2024,6 +2024,7 @@
       [ "minifreezer", 5 ],
       [ "char_smoker", 25 ],
       [ "dehydrator", 15 ],
+      [ "thermometer", 20 ],
       [ "foot_crank", 10 ],
       [ "spray_can", 50 ],
       [ "ax", 8 ],
