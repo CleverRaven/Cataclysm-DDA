@@ -599,9 +599,13 @@ class game
          *  tripoint which is a vector of the resulting "move", i.e.
          *  (0, 0, 0) if the mouse is not at the edge of the screen,
          *  otherwise some (x, y, 0) depending on which edges are
-         *  hit. The move length is adjusted to the zoom level.
+         *  hit.
          */
-        tripoint mouse_edge_scrolling( input_context ctxt );
+        tripoint mouse_edge_scrolling( input_context ctxt, int speed );
+        /** This variant adjust scrolling speed according to zoom
+            level, making it suitable when viewing the "terrain".
+         */
+        tripoint mouse_edge_scrolling_terrain( input_context ctxt );
 
         // Look at nearby terrain ';', or select zone points
         cata::optional<tripoint> look_around();

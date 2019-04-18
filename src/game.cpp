@@ -7112,7 +7112,7 @@ cata::optional<tripoint> game::look_around()
     return result.position;
 }
 
-tripoint game::mouse_edge_scrolling( input_context ctxt )
+tripoint game::mouse_edge_scrolling( input_context ctxt, int speed )
 {
     tripoint ret( 0, 0, 0 );
 #if (defined TILES || defined _WIN32 || defined WINDOWS)
@@ -7120,20 +7120,24 @@ tripoint game::mouse_edge_scrolling( input_context ctxt )
         const input_event event = ctxt.get_raw_input();
         const int threshold_x = projected_window_width() / 20;
         const int threshold_y = projected_window_height() / 20;
-        const int panning_speed = std::max( DEFAULT_TILESET_ZOOM / tileset_zoom, 1 );
         if( event.mouse_x <= threshold_x ) {
-            ret.x -= panning_speed;
+            ret.x -= speed;
         } else if( event.mouse_x >= projected_window_width() - threshold_x ) {
-            ret.x += panning_speed;
+            ret.x += speed;
         }
         if( event.mouse_y <= threshold_y ) {
-            ret.y -= panning_speed;
+            ret.y -= speed;
         } else if( event.mouse_y >= projected_window_height() - threshold_y ) {
-            ret.y += panning_speed;
+            ret.y += speed;
         }
     }
 #endif
     return ret;
+}
+
+tripoint game::mouse_edge_scrolling_terrain( input_context ctxt )
+{
+    return game::mouse_edge_scrolling( ctxt, std::max( DEFAULT_TILESET_ZOOM / tileset_zoom, 1 ) );
 }
 
 look_around_result game::look_around( catacurses::window w_info, tripoint &center,
@@ -7356,7 +7360,7 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
                 // panning move during the first iteration of this
                 // mouse move event consumption loop.
                 if( max_consume == 10 ) {
-                    center += mouse_edge_scrolling( ctxt );
+                    center += mouse_edge_scrolling_terrain( ctxt );
                 }
                 if( --max_consume == 0 ) {
                     break;

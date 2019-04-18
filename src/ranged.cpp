@@ -1545,7 +1545,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
                 // panning move during the first iteration of this
                 // mouse move event consumption loop.
                 if( max_consume == 10 ) {
-                    const tripoint edge_scroll = g->mouse_edge_scrolling( ctxt );
+                    const tripoint edge_scroll = g->mouse_edge_scrolling_terrain( ctxt );
                     pc.view_offset += edge_scroll;
                     if( snap_to_target ) {
                         dst += edge_scroll;
