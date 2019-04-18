@@ -708,6 +708,8 @@ class item : public visitable<item>
         /** Set current item @ref rot relative to shelf life (no-op if item does not spoil) */
         void set_relative_rot( double val );
 
+        void set_rot( time_duration val );
+
         /**
          * Get time left to rot, ignoring fridge.
          * Returns time to rot if item is able to, max int - N otherwise,
@@ -1857,7 +1859,6 @@ class item : public visitable<item>
         // Sub-functions of @ref process, they handle the processing for different
         // processing types, just to make the process function cleaner.
         // The interface is the same as for @ref process.
-        bool process_food( const tripoint &p );
         bool process_corpse( player *carrier, const tripoint &pos );
         bool process_wet( player *carrier, const tripoint &pos );
         bool process_litcig( player *carrier, const tripoint &pos );

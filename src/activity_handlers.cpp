@@ -662,7 +662,7 @@ int corpse_damage_effect( int weight, const std::string &entry_type, int damage_
     return weight;
 }
 
-void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, const time_point &bday,
+void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p,
                              const std::function<int()> &roll_butchery, butcher_type action,
                              const std::function<double()> &roll_drops )
 {
@@ -735,9 +735,9 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
         }
         if( action == DISSECT ) {
             if( entry.type == "bionic" ) {
-                butcher_cbm_item( entry.drop, p.pos(), bday, roll_butchery() );
+                butcher_cbm_item( entry.drop, p.pos(), calendar::turn, roll_butchery() );
             } else if( entry.type == "bionic_group" ) {
-                butcher_cbm_group( entry.drop, p.pos(), bday, roll_butchery() );
+                butcher_cbm_group( entry.drop, p.pos(), calendar::turn, roll_butchery() );
             }
             continue;
         }
@@ -840,22 +840,31 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
                 continue;
             }
             if( drop->phase == LIQUID ) {
-                item obj( drop, bday, roll );
+                item obj( drop, calendar::turn, roll );
                 if( obj.has_temperature() ) {
                     obj.set_item_temperature( 0.00001 * corpse_item->temperature );
+                }
+                if( obj.goes_bad() ) {
+                    obj.set_rot( corpse_item->get_rot() );
                 }
                 g->handle_all_liquid( obj, 1 );
             } else if( drop->stackable ) {
-                item obj( drop, bday, roll );
+                item obj( drop, calendar::turn, roll );
                 if( obj.has_temperature() ) {
                     obj.set_item_temperature( 0.00001 * corpse_item->temperature );
                 }
+                if( obj.goes_bad() ) {
+                    obj.set_rot( corpse_item->get_rot() );
+                }
                 g->m.add_item_or_charges( p.pos(), obj );
             } else {
-                item obj( drop, bday );
+                item obj( drop, calendar::turn, roll );
                 obj.set_mtype( &mt );
                 if( obj.has_temperature() ) {
                     obj.set_item_temperature( 0.00001 * corpse_item->temperature );
+                }
+                if( obj.goes_bad() ) {
+                    obj.set_rot( corpse_item->get_rot() );
                 }
                 for( int i = 0; i != roll; ++i ) {
                     g->m.add_item_or_charges( p.pos(), obj );
@@ -890,9 +899,10 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
         const int item_charges = monster_weight_remaining / to_gram( (
                                      item::find_type( "ruined_chunks" ) )->weight );
         if( item_charges > 0 ) {
-            item ruined_parts( "ruined_chunks", bday, item_charges );
+            item ruined_parts( "ruined_chunks", calendar::turn, item_charges );
             ruined_parts.set_mtype( &mt );
             ruined_parts.set_item_temperature( 0.00001 * corpse_item->temperature );
+            ruined_parts.set_rot( corpse_item->get_rot() );
             g->m.add_item_or_charges( p.pos(), ruined_parts );
         }
     }
@@ -956,15 +966,8 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     item &corpse_item = items_here[act->index];
     auto contents = corpse_item.contents;
     const mtype *corpse = corpse_item.get_mtype();
-    time_point bday = corpse_item.birthday();
     const field_id type_blood = corpse->bloodType();
     const field_id type_gib = corpse->gibType();
-
-    // corpse decays at 75% factor, but meat shares birthday and not relative_rot so this takes care of it
-    // no FIELD_DRESS_FAILED here as it gets no benefit
-    if( corpse_item.has_flag( "FIELD_DRESS" ) && !corpse_item.is_going_bad() ) {
-        bday += corpse_item.age() * 3 / 4;
-    }
 
     if( action == QUARTER ) {
         butchery_quarter( &corpse_item, *p );
@@ -1035,7 +1038,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         return 0.5 * skill_level / 10 + 0.3 * ( factor + 50 ) / 100 + 0.2 * p->dex_cur / 20;
     };
     // all action types - yields
-    butchery_drops_harvest( &corpse_item, *corpse, *p, bday, roll_butchery, action, roll_drops );
+    butchery_drops_harvest( &corpse_item, *corpse, *p, roll_butchery, action, roll_drops );
 
     // reveal hidden items / hidden content
     if( action != F_DRESS && action != SKIN ) {
@@ -1046,7 +1049,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
                                       corpse->nname().c_str() );
                 g->m.add_item_or_charges( p->pos(), content );
             } else if( content.is_bionic() ) {
-                g->m.spawn_item( p->pos(), "burnt_out_bionic", 1, 0, bday );
+                g->m.spawn_item( p->pos(), "burnt_out_bionic", 1, 0, calendar::turn );
             }
         }
     }
