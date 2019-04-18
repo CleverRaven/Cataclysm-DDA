@@ -1632,8 +1632,8 @@ Optional message to be printed when a creature using the harvest definition is b
 
 #### `entries`
 
-Array of dictionaries defining possible items produced on butchering and their likelihood of being produced. 
-`drop` value should be the `id` string of the item to be produced. 
+Array of dictionaries defining possible items produced on butchering and their likelihood of being produced.
+`drop` value should be the `id` string of the item to be produced.
 Acceptable values are as follows:
 `flesh`: the "meat" of the creature.
 `offal`: the "organs" of the creature. these are removed when field dressing.
@@ -1644,7 +1644,7 @@ Acceptable values are as follows:
 
 `type` value should be a string with the associated body part the item comes from.
 
-`base_num` value should be an array with two elements in which the first defines the minimum number of the corresponding item produced and the second defines the maximum number. 
+`base_num` value should be an array with two elements in which the first defines the minimum number of the corresponding item produced and the second defines the maximum number.
 
 `scale_num` value should be an array with two elements, increasing the minimum and maximum drop numbers respectively by element value * survival skill.
 
@@ -1662,14 +1662,16 @@ Acceptable values are as follows:
     "color": "white",
     "move_cost_mod": 2,
     "required_str": 18,
-    "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_HARD"],
+    "flags": [ "TRANSPARENT", "BASHABLE", "FLAMMABLE_HARD" ],
     "crafting_pseudo_item": "anvil",
     "examine_action": "toilet",
     "close": "f_foo_closed",
     "open": "f_foo_open",
     "bash": "TODO",
     "deconstruct": "TODO",
-    "max_volume": 4000
+    "max_volume": 4000,
+    "examine_action": "workbench",
+    "workbench": { "multiplier": 1.1, "mass": 10000, "volume": "50L" }
 }
 ```
 
@@ -1692,6 +1694,10 @@ Strength required to move the furniture around. Negative values indicate an unmo
 #### `crafting_pseudo_item`
 
 (Optional) Id of an item (tool) that will be available for crafting when this furniture is range (the furniture acts as an item of that type).
+
+#### `workbench`
+
+(Optional) Can craft here.  Must specify a speed multiplier, allowed mass, and allowed volume.  Mass/volume over these limits incur a speed penalty.  Must be paired with a `"workbench"` `examine_action` to function.
 
 ### Terrain
 

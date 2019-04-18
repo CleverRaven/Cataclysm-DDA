@@ -79,7 +79,7 @@ class visitable
          * @param filter only count charges of items that match the filter
          */
         long charges_of( const std::string &what, long limit = std::numeric_limits<long>::max(),
-                         const std::function<bool( const item & )> &filter = return_true ) const;
+                         const std::function<bool( const item & )> &filter = return_true<item> ) const;
 
         /**
          * Count items matching id including both this instance and any contained items
@@ -91,11 +91,11 @@ class visitable
          */
         int amount_of( const std::string &what, bool pseudo = true,
                        int limit = std::numeric_limits<int>::max(),
-                       const std::function<bool( const item & )> &filter = return_true ) const;
+                       const std::function<bool( const item & )> &filter = return_true<item> ) const;
 
         /** Check instance provides at least qty of an item (@see amount_of) */
         bool has_amount( const std::string &what, int qty, bool pseudo = true,
-                         const std::function<bool( const item & )> &filter = return_true ) const;
+                         const std::function<bool( const item & )> &filter = return_true<item> ) const;
 
         /** Returns all items (including those within a container) matching the filter */
         std::vector<item *> items_with( const std::function<bool( const item & )> &filter );

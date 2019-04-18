@@ -153,14 +153,14 @@ class inventory : public visitable<inventory>
         // Below, "amount" refers to quantity
         //        "charges" refers to charges
         std::list<item> use_amount( itype_id it, int quantity,
-                                    const std::function<bool( const item & )> &filter = return_true );
+                                    const std::function<bool( const item & )> &filter = return_true<item> );
 
         bool has_tools( const itype_id &it, int quantity,
-                        const std::function<bool( const item & )> &filter = return_true ) const;
+                        const std::function<bool( const item & )> &filter = return_true<item> ) const;
         bool has_components( const itype_id &it, int quantity,
-                             const std::function<bool( const item & )> &filter = return_true ) const;
+                             const std::function<bool( const item & )> &filter = return_true<item> ) const;
         bool has_charges( const itype_id &it, long quantity,
-                          const std::function<bool( const item & )> &filter = return_true ) const;
+                          const std::function<bool( const item & )> &filter = return_true<item> ) const;
 
         int leak_level( const std::string &flag ) const; // level of leaked bad stuff from items
 

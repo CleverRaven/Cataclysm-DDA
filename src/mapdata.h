@@ -9,6 +9,7 @@
 
 #include "color.h"
 #include "int_id.h"
+#include "optional.h"
 #include "string_id.h"
 #include "units.h"
 
@@ -68,6 +69,15 @@ struct map_deconstruct_info {
     map_deconstruct_info();
     bool load( JsonObject &jsobj, const std::string &member, bool is_furniture );
 };
+struct furn_workbench_info {
+    // Base multiplier applied for crafting here
+    float multiplier;
+    // Mass/volume allowed before a crafting speed penalty is applied
+    units::mass allowed_mass;
+    units::volume allowed_volume;
+    furn_workbench_info();
+    bool load( JsonObject &jsobj, const std::string &member );
+};
 
 /*
  * List of known flags, used in both terrain.json and furniture.json.
@@ -108,6 +118,7 @@ struct map_deconstruct_info {
  * EASY_DECONSTRUCT - Player can deconstruct this without tools
  * HIDE_PLACE - Creature on this tile can't be seen by other creature not standing on adjacent tiles
  * BLOCK_WIND - This tile will partially block wind
+ * FLAT_SURF - Furniture or terrain or vehicle part with flat hard surface (ex. table, but not chair; tree stump, etc.).
  *
  * Currently only used for Fungal conversions
  * WALL - This terrain is an upright obstacle
@@ -122,6 +133,7 @@ struct map_deconstruct_info {
  *
  * Furniture only:
  * BLOCKSDOOR - This will boost map terrain's resistance to bashing if str_*_blocked is set (see map_bash_info)
+ * WORKBENCH1/WORKBENCH2/WORKBENCH3 - This is an adequate/good/great workbench for crafting.  Must be paired with a workbench iexamine.
  */
 
 /*
@@ -325,6 +337,8 @@ struct furn_t : map_data_common_t {
     itype_id deployed_item; // item id string used to create furniture
 
     int move_str_req; //The amount of strength required to move through this furniture easily.
+
+    cata::optional<furn_workbench_info> workbench;
 
     // May return NULL
     const itype *crafting_pseudo_item_type() const;

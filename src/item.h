@@ -525,7 +525,7 @@ class item : public visitable<item>
          * @return true if this item should be deleted (count-by-charges items with no remaining charges)
          */
         bool use_charges( const itype_id &what, long &qty, std::list<item> &used, const tripoint &pos,
-                          const std::function<bool( const item & )> &filter = return_true );
+                          const std::function<bool( const item & )> &filter = return_true<item> );
 
         /**
          * Invokes item type's @ref itype::drop_action.
@@ -554,7 +554,7 @@ class item : public visitable<item>
          * @param filter Must return true for use to occur.
          */
         bool use_amount( const itype_id &it, long &quantity, std::list<item> &used,
-                         const std::function<bool( const item & )> &filter = return_true );
+                         const std::function<bool( const item & )> &filter = return_true<item> );
 
         /** Permits filthy components, should only be used as a helper in creating filters */
         bool allow_crafting_component() const;

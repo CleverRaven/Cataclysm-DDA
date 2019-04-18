@@ -775,7 +775,9 @@
       "sound": "smash!",
       "sound_fail": "whump.",
       "items": [ { "item": "2x4", "count": [ 1, 3 ] }, { "item": "nail", "charges": [ 2, 6 ] }, { "item": "splinter", "count": 1 } ]
-    }
+    },
+    "examine_action": "workbench",
+    "workbench": { "multiplier": 1.0, "mass": 100000, "volume": "100L" }
   },
   {
     "type": "furniture",
@@ -888,7 +890,9 @@
       "sound": "smash!",
       "sound_fail": "whump.",
       "items": [ { "item": "2x4", "count": [ 2, 6 ] }, { "item": "nail", "charges": [ 4, 8 ] }, { "item": "splinter", "count": 1 } ]
-    }
+    },
+    "examine_action": "workbench",
+    "workbench": { "multiplier": 1.0, "mass": 100000, "volume": "100L" }
   },
   {
     "type": "furniture",
@@ -1005,7 +1009,9 @@
       "sound": "smash!",
       "sound_fail": "whump.",
       "items": [ { "item": "2x4", "count": [ 2, 6 ] }, { "item": "nail", "charges": [ 4, 8 ] }, { "item": "splinter", "count": 1 } ]
-    }
+    },
+    "examine_action": "workbench",
+    "workbench": { "multiplier": 1.0, "mass": 100000, "volume": "100L" }
   },
   {
     "type": "furniture",
@@ -4570,7 +4576,7 @@
     "coverage": 60,
     "required_str": -1,
     "looks_like": "f_counter",
-    "flags": [ "TRANSPARENT", "PLACE_ITEM", "MOUNTABLE" ],
+    "flags": [ "TRANSPARENT", "PLACE_ITEM", "MOUNTABLE", "FLAT_SURF" ],
     "deconstruct": {
       "items": [
         { "item": "pipe", "count": [ 6, 12 ] },
@@ -4596,7 +4602,9 @@
         { "item": "cable", "charges": [ 1, 3 ] },
         { "item": "cu_pipe", "count": 1 }
       ]
-    }
+    },
+    "examine_action": "workbench",
+    "workbench": { "multiplier": 1.1, "mass": 150000, "volume": "150L" }
   },
   {
     "type": "furniture",
@@ -5647,5 +5655,62 @@
         { "item": "scrap_copper", "count": [ 0, 2 ] }
       ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_workbench",
+    "name": "workbench",
+    "description": "A sturdy workbench built out of metal.  It is perfect for crafting large and heavy things.",
+    "symbol": "#",
+    "color": "red",
+    "move_cost_mod": 2,
+    "required_str": -1,
+    "looks_like": "f_lab_bench",
+    "flags": [ "TRANSPARENT", "PLACE_ITEM", "MOUNTABLE", "FLAT_SURF" ],
+    "deconstruct": {
+      "items": [
+        { "item": "pipe", "count": [ 6, 8 ] },
+        { "item": "sheet_metal", "count": 2 },
+        { "item": "sheet_metal_small", "count": [ 2, 4 ] }
+      ]
+    },
+    "max_volume": 4000,
+    "bash": {
+      "str_min": 35,
+      "str_max": 80,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "pipe", "count": [ 4, 6 ] },
+        { "item": "sheet_metal", "count": [ 0, 1 ] },
+        { "item": "sheet_metal_small", "count": [ 12, 24 ] },
+        { "item": "steel_chunk", "count": [ 4, 8 ] },
+        { "item": "scrap", "count": [ 12, 24 ] }
+      ]
+    },
+    "examine_action": "workbench",
+    "workbench": { "multiplier": 1.2, "mass": 250000, "volume": "250L" }
+  },
+  {
+    "type": "furniture",
+    "id": "f_fake_bench_hands",
+    "name": "fake workbench hands",
+    "description": "This fake workbench holds the stats for working on a wielded item.",
+    "symbol": "#",
+    "color": "red",
+    "move_cost_mod": 2,
+    "required_str": -1,
+    "workbench": { "multiplier": 1.0, "mass": 30000, "volume": "30L" }
+  },
+  {
+    "type": "furniture",
+    "id": "f_fake_bench_ground",
+    "name": "fake workbench ground",
+    "description": "This fake workbench holds the stats for working on a item on the ground.",
+    "symbol": "#",
+    "color": "red",
+    "move_cost_mod": 2,
+    "required_str": -1,
+    "workbench": { "multiplier": 0.75, "mass": 50000, "volume": "100L" }
   }
 ]

@@ -2641,40 +2641,34 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
 {
     item *craft = act->targets.front().get_item();
 
-    if( !craft->is_craft() ) {
-        debugmsg( "ACT_CRAFT target '%s' is not a craft.  Aborting ACT_CRAFT.", craft->tname() );
-        p->cancel_activity();
-        return;
-    }
-    if( !p->has_item( *craft ) ) {
+    // item_location::get_item() will return nullptr if the item is lost
+    if( !craft ) {
         p->add_msg_player_or_npc(
-            string_format(
-                _( "You no longer have the %1$s in your possession.  You stop crafting.  Reactivate the %1$s to continue crafting." ),
-                craft->tname() ),
-            string_format(
-                _( "<npcname> no longer has the %s in their possession.  <npcname> stops crafting." ),
-                craft->tname() )
+            string_format( _( "You no longer have the %1$s in your possession.  You stop crafting. "
+                              " Reactivate the %1$s to continue crafting." ), craft->tname() ),
+            string_format( _( "<npcname> no longer has the %s in their possession.  <npcname> stops"
+                              " crafting." ), craft->tname() )
         );
         p->cancel_activity();
         return;
     }
 
-    const recipe &rec = craft->get_making();
-    const float crafting_speed = p->crafting_speed_multiplier( rec, true );
-    const bool is_long = act->values[0];
-
-    if( crafting_speed <= 0.0f ) {
-        if( p->lighting_craft_speed_multiplier( rec ) <= 0.0f ) {
-            p->add_msg_if_player( m_bad, _( "You can no longer see well enough to keep crafting." ) );
-        } else {
-            p->add_msg_if_player( m_bad, _( "You are too frustrated to continue and just give up." ) );
-        }
+    if( !craft->is_craft() ) {
+        debugmsg( "ACT_CRAFT target '%s' is not a craft.  Aborting ACT_CRAFT.", craft->tname() );
         p->cancel_activity();
         return;
     }
-    if( calendar::once_every( 1_hours ) && crafting_speed < 0.75f ) {
-        // TODO: Describe the causes of slowdown
-        p->add_msg_if_player( m_bad, _( "You can't focus and are working slowly." ) );
+
+    const recipe &rec = craft->get_making();
+    const tripoint loc = act->targets.front().where() == item_location::type::character ?
+                         tripoint_zero : act->targets.front().position();
+    const float crafting_speed = p->crafting_speed_multiplier( *craft, loc );
+    const int assistants = p->available_assistant_count( craft->get_making() );
+    const bool is_long = act->values[0];
+
+    if( crafting_speed <= 0.0f ) {
+        p->cancel_activity();
+        return;
     }
 
     // item_counter represents the percent progress relative to the base batch time
@@ -2684,7 +2678,8 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
     // Must ensure >= 1 so we don't divide by 0;
     const double base_total_moves = std::max( 1, rec.batch_time( craft->charges, 1.0f, 0 ) );
     // Current expected total moves, includes crafting speed modifiers and assistants
-    const double cur_total_moves = std::max( 1, p->expected_time_to_craft( rec, craft->charges ) );
+    const double cur_total_moves = std::max( 1, rec.batch_time( craft->charges, crafting_speed,
+                                   assistants ) );
     // Delta progress in moves adjusted for current crafting speed
     const double delta_progress = p->get_moves() * base_total_moves / cur_total_moves;
     // Current progress in moves
@@ -2696,12 +2691,13 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
 
     // if item_counter has reached 100% or more
     if( craft->item_counter >= 10000000 ) {
+        item craft_copy = *craft;
+        act->targets.front().remove_item();
         p->cancel_activity();
-        item craft_copy = p->i_rem( craft );
-        p->complete_craft( craft_copy );
+        p->complete_craft( craft_copy, loc );
         if( is_long ) {
             if( p->making_would_work( p->lastrecipe, craft_copy.charges ) ) {
-                p->last_craft->execute();
+                p->last_craft->execute( loc );
             }
         }
     }

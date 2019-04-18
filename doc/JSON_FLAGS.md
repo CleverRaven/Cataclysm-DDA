@@ -80,7 +80,7 @@ List of known flags, used in both terrain.json and furniture.json
 - ```FLAMMABLE_ASH``` Burns to ash rather than rubble.
 - ```FLAMMABLE_HARD``` Harder to light on fire, but still possible.
 - ```FLAT``` Player can build and move furniture on.
-- ```FLAT_SURF``` Furniture or terrain or vehicle part with flat hard surface (ex. table, but not chair; tree stump, etc.).
+- ```FLAT_SURF``` Furniture or terrain with a flat hard surface (e.g. table, but not chair; tree stump, etc.).
 - ```GOES_DOWN``` Can use <kbd>></kbd> to go down a level.
 - ```GOES_UP``` Can use <kbd><</kbd> to go up a level.
 - ```HARVESTED``` Marks the harvested version of a terrain type (e.g. harvesting an apple tree turns it into a harvested tree, which later becomes an apple tree again).
@@ -513,6 +513,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```EVENTURN``` Only on during even turns.
 - ```EXTRA_DRAG``` tells the vehicle that the part exerts engine power reduction.
 - ```FAUCET```
+- ```FLAT_SURF``` Part with a flat hard surface (e.g. table).
 - ```FOLDABLE```
 - ```FORGE``` Acts as a forge for crafting.
 - ```FRIDGE``` Can refrigerate items.
@@ -579,6 +580,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```WASHING_MACHINE``` Can be used to wash filthy clothes en masse.
 - ```WATER_WHEEL``` Recharges vehicle batteries when in flowing water.
 - ```WINDOW``` Can see through this part and can install curtains over it.
+- ```WORKBENCH``` Can craft at this part, must be paired with a workbench json entry.
 
 ## Ammo
 
