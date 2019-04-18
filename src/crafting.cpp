@@ -1036,7 +1036,9 @@ void player::complete_craft( item &craft, const tripoint &loc )
         }
 
         finalize_crafted_item( newit );
-        if( loc == tripoint_zero ) {
+        if( newit.made_of( LIQUID ) ) {
+            g->handle_all_liquid( newit, PICKUP_RANGE );
+        } else if( loc == tripoint_zero ) {
             wield_craft( *this, newit );
         } else {
             set_item_map_or_vehicle( *this, loc, newit );
@@ -1058,7 +1060,9 @@ void player::complete_craft( item &craft, const tripoint &loc )
                 }
             }
             finalize_crafted_item( bp );
-            if( loc == tripoint_zero ) {
+            if( bp.made_of( LIQUID ) ) {
+                g->handle_all_liquid( bp, PICKUP_RANGE );
+            } else if( loc == tripoint_zero ) {
                 set_item_inventory( *this, bp );
             } else {
                 set_item_map_or_vehicle( *this, loc, bp );
