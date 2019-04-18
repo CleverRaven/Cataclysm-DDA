@@ -68,6 +68,7 @@ const std::map<std::string, m_flag> flag_map = {
     { "WEBWALK", MF_WEBWALK },
     { "DIGS", MF_DIGS },
     { "CAN_DIG", MF_CAN_DIG },
+    { "CAN_OPEN_DOORS", MF_CAN_OPEN_DOORS },
     { "FLIES", MF_FLIES },
     { "AQUATIC", MF_AQUATIC },
     { "SWIMS", MF_SWIMS },

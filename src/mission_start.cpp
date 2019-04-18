@@ -208,47 +208,6 @@ void mission_start::standard( mission * )
 {
 }
 
-void mission_start::join( mission *miss )
-{
-    npc *p = g->find_npc( miss->npc_id );
-    if( p == nullptr ) {
-        debugmsg( "could not find mission NPC %d", miss->npc_id );
-        return;
-    }
-    p->set_attitude( NPCATT_FOLLOW );
-}
-
-void mission_start::infect_npc( mission *miss )
-{
-    npc *p = g->find_npc( miss->npc_id );
-    if( p == nullptr ) {
-        debugmsg( "couldn't find an NPC!" );
-        return;
-    }
-    p->add_effect( effect_infection, 1_turns, num_bp, true, 1 );
-    // make sure they don't have any antibiotics
-    p->remove_items_with( []( const item & it ) {
-        return it.typeId() == "antibiotics";
-    } );
-    // Make sure they stay here
-    p->guard_current_pos();
-}
-
-void mission_start::need_drugs_npc( mission *miss )
-{
-    npc *p = g->find_npc( miss->npc_id );
-    if( p == nullptr ) {
-        debugmsg( "couldn't find an NPC!" );
-        return;
-    }
-    // make sure they don't have any item goal
-    p->remove_items_with( [&]( const item & it ) {
-        return it.typeId() == miss->item_id;
-    } );
-    // Make sure they stay here
-    p->guard_current_pos();
-}
-
 void mission_start::place_dog( mission *miss )
 {
     const tripoint house = random_house_in_closest_city();
@@ -281,20 +240,6 @@ void mission_start::place_zombie_mom( mission *miss )
     zomhouse.add_spawn( mon_zombie, 1, SEEX, SEEY, false, -1, miss->uid,
                         Name::get( nameIsFemaleName | nameIsGivenName ) );
     zomhouse.save();
-}
-
-void mission_start::place_jabberwock( mission *miss )
-{
-    tripoint site = mission_util::target_om_ter( "forest_thick", 6, miss, false );
-    tinymap grove;
-    grove.load( site.x * 2, site.y * 2, site.z, false );
-    grove.add_spawn( mon_jabberwock, 1, SEEX, SEEY, false, -1, miss->uid, "NONE" );
-    grove.save();
-}
-
-void mission_start::kill_20_nightmares( mission *miss )
-{
-    mission_util::target_om_ter( "necropolis_c_44", 3, miss, false, -2 );
 }
 
 void mission_start::kill_horde_master( mission *miss )
@@ -547,32 +492,6 @@ void mission_start::find_safety( mission *miss )
             miss->target = tripoint( place.x + 20, place.y + 20, place.z );
             break;
     }
-}
-
-void mission_start::recruit_tracker( mission *miss )
-{
-    npc *p = g->find_npc( miss->npc_id );
-    if( p == nullptr ) {
-        debugmsg( "could not find mission NPC %d", miss->npc_id );
-        return;
-    }
-    p->set_attitude( NPCATT_FOLLOW );// NPC joins you
-
-    tripoint site = mission_util::target_om_ter( "cabin", 2, miss, false );
-    miss->recruit_class = NC_COWBOY;
-
-    std::shared_ptr<npc> temp = std::make_shared<npc>();
-    temp->normalize();
-    temp->randomize( NC_COWBOY );
-    // NPCs spawn with submap coordinates, site is in overmap terrain coordinates
-    temp->spawn_at_precise( { site.x * 2, site.y * 2 }, tripoint( 11, 11, site.z ) );
-    overmap_buffer.insert_npc( temp );
-    temp->set_attitude( NPCATT_TALK );
-    temp->mission = NPC_MISSION_SHOPKEEP;
-    temp->personality.aggression -= 1;
-    temp->op_of_u.owed = 10;
-    temp->add_new_mission( mission::reserve_new( mission_type_id( "MISSION_JOIN_TRACKER" ),
-                           temp->getID() ) );
 }
 
 const int RANCH_SIZE = 5;

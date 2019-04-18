@@ -1002,10 +1002,10 @@ void npc_follower_rules::serialize( JsonOut &json ) const
         json.member( "rule_" + rule.first, has_flag( rule.second, false ) );
     }
     for( const auto &rule : ally_rule_strs ) {
-        json.member( "override_enable_" + rule.first, has_flag( rule.second ) );
+        json.member( "override_enable_" + rule.first, has_override_enable( rule.second ) );
     }
     for( const auto &rule : ally_rule_strs ) {
-        json.member( "override_" + rule.first, has_flag( rule.second ) );
+        json.member( "override_" + rule.first, has_override( rule.second ) );
     }
 
     json.member( "pickup_whitelist", *pickup_whitelist );
@@ -1970,6 +1970,11 @@ void item::io( Archive &archive )
     // override phase if frozen, needed for legacy save
     if( item_tags.count( "FROZEN" ) && current_phase == LIQUID ) {
         current_phase = SOLID;
+    }
+
+    // Activate corpses from old saves
+    if( is_corpse() && !active ) {
+        active = true;
     }
 }
 

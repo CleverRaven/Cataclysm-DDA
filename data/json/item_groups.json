@@ -8223,7 +8223,10 @@
       [ "trailmap", 1 ],
       [ "touristmap", 1 ],
       [ "eclipse_glasses", 1 ],
-      [ "thermos", 5 ]
+      [ "thermos", 5 ],
+      [ "gasdiscount_silver", 1 ],
+      [ "gasdiscount_gold", 1 ],
+      [ "gasdiscount_platinum", 1 ]
     ]
   },
   {

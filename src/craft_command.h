@@ -5,6 +5,7 @@
 #include <list>
 #include <vector>
 
+#include "enums.h"
 #include "requirements.h"
 #include "string_id.h"
 
@@ -54,11 +55,12 @@ class craft_command
     public:
         /** Instantiates an empty craft_command, which can't be executed. */
         craft_command() = default;
-        craft_command( const recipe *to_make, int batch_size, bool is_long, player *crafter ) :
-            rec( to_make ), batch_size( batch_size ), longcraft( is_long ), crafter( crafter ) {}
+        craft_command( const recipe *to_make, int batch_size, bool is_long, player *crafter,
+                       const tripoint loc = tripoint_zero ) :
+            rec( to_make ), batch_size( batch_size ), longcraft( is_long ), crafter( crafter ), loc( loc ) {}
 
         /** Selects components to use for the craft, then assigns the crafting activity to 'crafter'. */
-        void execute();
+        void execute( const tripoint &new_loc = tripoint_zero );
 
         /**
          * Consumes the selected components and returns the resulting in progress craft item.
@@ -88,6 +90,10 @@ class craft_command
         bool longcraft = false;
         // This is mainly here for maintainability reasons.
         player *crafter;
+
+        // Location of the workbench to place the item on
+        // zero_tripoint indicates crafting without a workbench
+        tripoint loc = tripoint_zero;
 
         std::vector<comp_selection<item_comp>> item_selections;
         std::vector<comp_selection<tool_comp>> tool_selections;

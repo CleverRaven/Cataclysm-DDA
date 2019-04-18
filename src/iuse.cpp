@@ -3932,7 +3932,7 @@ void iuse::play_music( player &p, const tripoint &source, const int volume, cons
     }
     if( do_effects ) {
         p.add_effect( effect_music, 1_turns );
-        p.add_morale( MORALE_MUSIC, 1, max_morale, 5_minutes, 2_minutes );
+        p.add_morale( MORALE_MUSIC, 1, max_morale, 5_minutes, 2_minutes, true );
         // mp3 player reduces hearing
         if( volume == 0 ) {
             p.add_effect( effect_earphones, 1_turns );
@@ -8075,17 +8075,31 @@ int iuse::panacea( player *p, item *it, bool, const tripoint & )
 
 int iuse::craft( player *p, item *it, bool, const tripoint & )
 {
-    int pos = p->get_item_position( it );
-
-    if( pos != INT_MIN ) {
-        p->add_msg_player_or_npc(
-            string_format( pgettext( "in progress craft", "You start working on the %s" ), it->tname() ),
-            string_format( pgettext( "in progress craft", "<npcname> starts working on the %s" ), it->tname()
-                         ) );
-        p->assign_activity( activity_id( "ACT_CRAFT" ) );
-        p->activity.targets.push_back( item_location( *p, it ) );
-        p->activity.values.push_back( 0 ); // Not a long craft
+    if( !p->is_wielding( *it ) ) {
+        if( !p->is_armed() || query_yn( "Wield the %s and start working?", it->tname() ) ) {
+            if( !p->wield( *it ) ) {
+                // Will likely happen if the in progress craft is too heavy, or the player is
+                // wielding something that can't be unwielded
+                return 0;
+            }
+        }
     }
+
+    const std::string craft_name = p->weapon.tname();
+
+    if( !p->weapon.is_craft() ) {
+        debugmsg( "Attempted to start working on non craft '%s.'  Aborting.", craft_name );
+        return 0;
+    }
+
+    p->add_msg_player_or_npc(
+        string_format( pgettext( "in progress craft", "You start working on the %s." ), craft_name ),
+        string_format( pgettext( "in progress craft", "<npcname> starts working on the %s." ),
+                       craft_name ) );
+    p->assign_activity( activity_id( "ACT_CRAFT" ) );
+    p->activity.targets.push_back( item_location( *p, &p->weapon ) );
+    p->activity.values.push_back( 0 ); // Not a long craft
+
     return 0;
 }
 
