@@ -173,6 +173,7 @@ const morale_type MORALE_PERM_FILTHY( "morale_perm_filthy" );
 const morale_type MORALE_PERM_DEBUG( "morale_perm_debug" );
 const morale_type MORALE_BUTCHER( "morale_butcher" );
 const morale_type MORALE_GRAVEDIGGER( "morale_gravedigger" );
+const morale_type MORALE_TREE_COMMUNION( "morale_tree_communion" );
 
 namespace
 {

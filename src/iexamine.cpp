@@ -50,7 +50,10 @@
 #include "ui.h"
 #include "uistate.h"
 #include "units.h"
+#include "vehicle.h"
+#include "vehicle_selector.h"
 #include "vpart_position.h"
+#include "vpart_reference.h"
 #include "weather.h"
 
 const mtype_id mon_dark_wyrm( "mon_dark_wyrm" );
@@ -76,6 +79,7 @@ const efftype_id effect_sleep( "sleep" );
 static const trait_id trait_AMORPHOUS( "AMORPHOUS" );
 static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
 static const trait_id trait_BADKNEES( "BADKNEES" );
+static const trait_id trait_BURROW( "BURROW" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_INSECT_ARMS_OK( "INSECT_ARMS_OK" );
 static const trait_id trait_M_DEFENDER( "M_DEFENDER" );
@@ -84,10 +88,12 @@ static const trait_id trait_M_FERTILE( "M_FERTILE" );
 static const trait_id trait_M_SPORES( "M_SPORES" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PARKOUR( "PARKOUR" );
+static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
-static const trait_id trait_BURROW( "BURROW" );
+
 const zone_type_id z_loot_unsorted( "LOOT_UNSORTED" );
+
 static void pick_plant( player &p, const tripoint &examp, const std::string &itemType,
                         ter_id new_ter,
                         bool seeds = false );
@@ -4595,6 +4601,120 @@ void iexamine::open_safe( player &, const tripoint &examp )
     g->m.furn_set( examp, f_safe_o );
 }
 
+void iexamine::workbench( player &p, const tripoint &examp )
+{
+    workbench_internal( p, examp, cata::nullopt );
+}
+
+void iexamine::workbench_internal( player &p, const tripoint &examp,
+                                   const cata::optional<vpart_reference> &part )
+{
+    std::vector<item_location> crafts;
+    std::string name;
+
+    bool items_at_loc = false;
+
+    if( part ) {
+        name = part->part().name();
+        auto items_at_part = part->vehicle().get_items( part->part_index() );
+
+        for( item &it : items_at_part ) {
+            if( it.is_craft() ) {
+                crafts.emplace_back( item_location( vehicle_cursor( part->vehicle(), part->part_index() ), &it ) );
+            }
+        }
+    } else {
+        name = g->m.furn( examp ).obj().name();
+
+        auto items_at_furn = g->m.i_at( examp );
+        items_at_loc = !items_at_furn.empty();
+
+        for( item &it : items_at_furn ) {
+            if( it.is_craft() ) {
+                crafts.emplace_back( item_location( map_cursor( examp ), &it ) );
+            }
+        }
+    }
+
+    uilist amenu;
+
+    enum option : int {
+        start_craft = 0,
+        repeat_craft,
+        start_long_craft,
+        work_on_craft,
+        get_items
+    };
+
+    amenu.text = string_format( pgettext( "furniture", "What to do at the %s?" ), name );
+    amenu.addentry( start_craft,      true,            '1', _( "Craft items" ) );
+    amenu.addentry( repeat_craft,     true,            '2', _( "Recraft last recipe" ) );
+    amenu.addentry( start_long_craft, true,            '3', _( "Craft as long as possible" ) );
+    amenu.addentry( work_on_craft,    !crafts.empty(), '4', _( "Work on craft" ) );
+    if( !part ) {
+        amenu.addentry( get_items,    items_at_loc,    '5', _( "Get items" ) );
+    }
+
+    amenu.query();
+
+    const option choice = static_cast<option>( amenu.ret );
+    switch( choice ) {
+        case start_craft: {
+            if( p.has_active_mutation( trait_SHELL2 ) ) {
+                p.add_msg_if_player( m_info, _( "You can't craft while you're in your shell." ) );
+            } else {
+                p.craft( examp );
+            }
+            break;
+        }
+        case repeat_craft: {
+            if( p.has_active_mutation( trait_SHELL2 ) ) {
+                p.add_msg_if_player( m_info, _( "You can't craft while you're in your shell." ) );
+            } else {
+                p.recraft( examp );
+            }
+            break;
+        }
+        case start_long_craft: {
+            if( p.has_active_mutation( trait_SHELL2 ) ) {
+                p.add_msg_if_player( m_info, _( "You can't craft while you're in your shell." ) );
+            } else {
+                p.long_craft( examp );
+            }
+            break;
+        }
+        case work_on_craft: {
+            std::vector<std::string> item_names;
+            for( item_location &it : crafts ) {
+                if( it ) {
+                    item_names.emplace_back( it.get_item()->tname() );
+                }
+            }
+            uilist amenu2( _( "Which craft to work on?" ), item_names );
+
+            if( amenu2.ret == UILIST_CANCEL ) {
+                break;
+            }
+
+            const item *selected_craft = crafts[amenu2.ret].get_item();
+
+            p.add_msg_player_or_npc(
+                string_format( pgettext( "in progress craft", "You start working on the %s." ),
+                               selected_craft->tname() ),
+                string_format( pgettext( "in progress craft", "<npcname> starts working on the %s." ),
+                               selected_craft->tname() ) );
+            p.assign_activity( activity_id( "ACT_CRAFT" ) );
+            p.activity.targets.push_back( crafts[amenu2.ret].clone() );
+            p.activity.values.push_back( 0 ); // Not a long craft
+            break;
+        }
+        case get_items: {
+            Pickup::pick_up( examp, 0 );
+            break;
+        }
+    }
+}
+
 /**
  * Given then name of one of the above functions, returns the matching function
  * pointer. If no match is found, defaults to iexamine::none but prints out a
@@ -4673,7 +4793,8 @@ iexamine_function iexamine_function_from_string( const std::string &function_nam
             { "ledge", &iexamine::ledge },
             { "autodoc", &iexamine::autodoc },
             { "smoker_options", &iexamine::smoker_options },
-            { "open_safe", &iexamine::open_safe }
+            { "open_safe", &iexamine::open_safe },
+            { "workbench", &iexamine::workbench }
         }
     };
 

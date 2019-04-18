@@ -340,6 +340,11 @@
     "text": "Dug out a grave"
   },
   {
+    "id": "morale_tree_communion",
+    "type": "morale_type",
+    "text": "Communed with the trees"
+  },
+  {
     "id": "morale_perm_debug",
     "type": "morale_type",
     "text": "Debug Morale"
