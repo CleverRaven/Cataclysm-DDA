@@ -424,7 +424,7 @@ void game::init_ui( const bool resized )
     int sidebar_right = panel_manager::get_manager().get_width_right();
 
     TERRAIN_WINDOW_HEIGHT = TERMY;
-    TERRAIN_WINDOW_WIDTH = TERMX - (sidebar_left + sidebar_right);
+    TERRAIN_WINDOW_WIDTH = TERMX - ( sidebar_left + sidebar_right );
     TERRAIN_WINDOW_TERM_WIDTH = TERRAIN_WINDOW_WIDTH;
     TERRAIN_WINDOW_TERM_HEIGHT = TERRAIN_WINDOW_HEIGHT;
 
