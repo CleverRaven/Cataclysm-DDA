@@ -3002,7 +3002,7 @@ void player::search_surroundings()
               tr.loadid == tr_landmine_buried || tr.loadid == tr_sinkhole ) ) {
             const std::string direction = direction_name( direction_from( pos(), tp ) );
             add_msg_if_player( m_warning, _( "Your ground sonar detected a %1$s to the %2$s!" ),
-                               tr.name(), direction.c_str() );
+                               tr.name(), direction );
             add_known_trap( tp, tr );
         }
         if( !sees( tp ) ) {
@@ -3019,7 +3019,7 @@ void player::search_surroundings()
                 const std::string direction = direction_name(
                                                   direction_from( pos(), tp ) );
                 add_msg_if_player( _( "You've spotted a %1$s to the %2$s!" ),
-                                   tr.name(), direction.c_str() );
+                                   tr.name(), direction );
             }
             add_known_trap( tp, tr );
         }

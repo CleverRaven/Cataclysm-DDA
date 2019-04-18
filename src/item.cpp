@@ -3203,7 +3203,7 @@ std::string item::display_name( unsigned int quantity ) const
         }
     }
 
-    return string_format( "%s%s%s", name, sidetxt.c_str(), amt.c_str() );
+    return string_format( "%s%s%s", name, sidetxt, amt );
 }
 
 nc_color item::color() const
