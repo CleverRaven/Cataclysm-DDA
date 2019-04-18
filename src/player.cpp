@@ -271,7 +271,6 @@ static const trait_id trait_DEBUG_NOTEMP( "DEBUG_NOTEMP" );
 static const trait_id trait_DISIMMUNE( "DISIMMUNE" );
 static const trait_id trait_DISRESISTANT( "DISRESISTANT" );
 static const trait_id trait_DOWN( "DOWN" );
-static const trait_id trait_EAGLEEYED( "EAGLEEYED" );
 static const trait_id trait_EASYSLEEPER( "EASYSLEEPER" );
 static const trait_id trait_EASYSLEEPER2( "EASYSLEEPER2" );
 static const trait_id trait_ELECTRORECEPTORS( "ELECTRORECEPTORS" );
@@ -395,7 +394,6 @@ static const trait_id trait_TOUGH_FEET( "TOUGH_FEET" );
 static const trait_id trait_TROGLO( "TROGLO" );
 static const trait_id trait_TROGLO2( "TROGLO2" );
 static const trait_id trait_TROGLO3( "TROGLO3" );
-static const trait_id trait_UNOBSERVANT( "UNOBSERVANT" );
 static const trait_id trait_UNSTABLE( "UNSTABLE" );
 static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
 static const trait_id trait_URSINE_FUR( "URSINE_FUR" );
@@ -1829,6 +1827,9 @@ int player::run_cost( int base_cost, bool diag ) const
         // Rationale: Average running speed is 2x walking speed. (NOT sprinting)
         stamina_modifier *= 2.0;
     }
+    if( move_mode == "crouch" ) {
+        stamina_modifier *= 0.5;
+    }
     movecost /= stamina_modifier;
 
     if( diag ) {
@@ -2721,17 +2722,11 @@ int player::overmap_sight_range( int light_level ) const
     sight += static_cast<int>( get_per() / 2 );
     // The higher up you are, the farther you can see.
     sight += std::max( 0, posz() ) * 2;
-    // The Scout trait explicitly increases overmap sight range.
-    if( has_trait( trait_EAGLEEYED ) ) {
-        sight += 5;
-    }
-    // The Topographagnosia trait explicitly "cripples" overmap sight range.
-    if( has_trait( trait_UNOBSERVANT ) ) {
-        sight -= 10;
-    }
+    // Mutations like Scout and Topographagnosia affect how far you can see.
+    sight += Character::mutation_value( "overmap_sight" );
 
-    float multiplier = 1;
-    // Binoculars "double" your sight range.
+    float multiplier = Character::mutation_value( "overmap_multiplier" );
+    // Binoculars double your sight range.
     const bool has_optic = ( has_item_with_flag( "ZOOM" ) || has_bionic( bio_eye_optic ) );
     if( has_optic ) {
         multiplier += 1;
@@ -2985,10 +2980,15 @@ void player::toggle_move_mode()
             add_msg( _( "You start running." ) );
         } else {
             add_msg( m_bad, _( "You're too tired to run." ) );
+            move_mode = "crouch";
+            add_msg( _( "You start crouching." ) );
         }
     } else if( move_mode == "run" ) {
+        move_mode = "crouch";
+        add_msg( _( "You slow down and start crouching." ) );
+    } else if( move_mode == "crouch" ) {
         move_mode = "walk";
-        add_msg( _( "You slow to a walk." ) );
+        add_msg( _( "You stop crouching." ) );
     }
 }
 
@@ -3004,6 +3004,14 @@ void player::search_surroundings()
         const trap &tr = g->m.tr_at( tp );
         if( tr.is_null() || tp == pos() ) {
             continue;
+        }
+        if( has_active_bionic( bio_ground_sonar ) && !knows_trap( tp ) &&
+            ( tr.loadid == tr_beartrap_buried ||
+              tr.loadid == tr_landmine_buried || tr.loadid == tr_sinkhole ) ) {
+            const std::string direction = direction_name( direction_from( pos(), tp ) );
+            add_msg_if_player( m_warning, _( "Your ground sonar detected a %1$s to the %2$s!" ),
+                               tr.name().c_str(), direction.c_str() );
+            add_known_trap( tp, tr );
         }
         if( !sees( tp ) ) {
             continue;
@@ -4429,6 +4437,13 @@ needs_rates player::calc_needs_rates()
         rates.recovery = 0;
     }
 
+    if( has_activity( activity_id( "ACT_TREE_COMMUNION" ) ) ) {
+        // Much of the body's needs are taken care of by the trees.
+        rates.hunger *= 0.5f;
+        rates.thirst *= 0.5f;
+        rates.fatigue *= 0.5f;
+    }
+
     if( is_npc() ) {
         rates.hunger *= 0.25f;
         rates.thirst *= 0.25f;
@@ -5134,9 +5149,6 @@ void player::process_effects()
         remove_effect( effect_bite );
         remove_effect( effect_infected );
         remove_effect( effect_recover );
-    }
-    if( !( in_sleep_state() ) && has_effect( effect_alarm_clock ) ) {
-        remove_effect( effect_alarm_clock );
     }
 
     //Human only effects
@@ -7241,7 +7253,7 @@ std::list<item> player::use_charges( const itype_id &what, long qty,
 
     bool has_tool_with_UPS = false;
     visit_items( [this, &what, &qty, &res, &del, &has_tool_with_UPS, &filter]( item * e ) {
-        if( filter( *e ) && e->use_charges( what, qty, res, pos() ) ) {
+        if( e->use_charges( what, qty, res, pos(), filter ) ) {
             del.push_back( e );
         }
         if( filter( *e ) && e->typeId() == what && e->has_flag( "USE_UPS" ) ) {
@@ -8288,7 +8300,7 @@ void player::mend_item( item_location &&obj, bool interactive )
     auto inv = crafting_inventory();
 
     for( auto &f : faults ) {
-        f.second = f.first->requirements().can_make_with_inventory( inv );
+        f.second = f.first->requirements().can_make_with_inventory( inv, is_crafting_component );
     }
 
     int sel = 0;
@@ -8303,7 +8315,7 @@ void player::mend_item( item_location &&obj, bool interactive )
         for( auto &f : faults ) {
             auto reqs = f.first->requirements();
             auto tools = reqs.get_folded_tools_list( w, c_white, inv );
-            auto comps = reqs.get_folded_components_list( w, c_white, inv );
+            auto comps = reqs.get_folded_components_list( w, c_white, inv, is_crafting_component );
 
             std::ostringstream descr;
             descr << _( "<color_white>Time required:</color>\n" );
@@ -10546,6 +10558,7 @@ void player::wake_up()
     remove_effect( effect_sleep );
     remove_effect( effect_slept_through_alarm );
     remove_effect( effect_lying_down );
+    remove_effect( effect_alarm_clock );
     recalc_sight_limits();
 }
 
@@ -12032,7 +12045,7 @@ void player::clear_memorized_tile( const tripoint &pos )
     player_map_memory.clear_memorized_tile( pos );
 }
 
-bool player::sees( const tripoint &t, bool ) const
+bool player::sees( const tripoint &t, bool, int ) const
 {
     static const bionic_id str_bio_night( "bio_night" );
     const int wanted_range = rl_dist( pos(), t );
@@ -12298,6 +12311,7 @@ void player::place_corpse()
     }
     std::vector<item *> tmp = inv_dump();
     item body = item::make_corpse( mtype_id::NULL_ID(), calendar::turn, name );
+    body.set_item_temperature( 310.15 );
     for( auto itm : tmp ) {
         g->m.add_item_or_charges( pos(), *itm );
     }

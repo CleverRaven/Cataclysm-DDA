@@ -75,6 +75,7 @@ struct fire_data;
 struct damage_instance;
 struct damage_unit;
 class map;
+struct item_comp;
 
 enum damage_type : int;
 
@@ -520,9 +521,11 @@ class item : public visitable<item>
          * @param qty maximum charges to consume. On return set to number of charges not found (or zero)
          * @param used filled with duplicates of each item that provided consumed charges
          * @param pos position at which the charges are being consumed
+         * @param filter Must return true for use to occur.
          * @return true if this item should be deleted (count-by-charges items with no remaining charges)
          */
-        bool use_charges( const itype_id &what, long &qty, std::list<item> &used, const tripoint &pos );
+        bool use_charges( const itype_id &what, long &qty, std::list<item> &used, const tripoint &pos,
+                          const std::function<bool( const item & )> &filter = return_true<item> );
 
         /**
          * Invokes item type's @ref itype::drop_action.
@@ -548,9 +551,10 @@ class item : public visitable<item>
          * @param it Type of consumable item.
          * @param quantity How much to consumed.
          * @param used On success all consumed items will be stored here.
+         * @param filter Must return true for use to occur.
          */
         bool use_amount( const itype_id &it, long &quantity, std::list<item> &used,
-                         const std::function<bool( const item & )> &filter = is_crafting_component );
+                         const std::function<bool( const item & )> &filter = return_true<item> );
 
         /** Permits filthy components, should only be used as a helper in creating filters */
         bool allow_crafting_component() const;
@@ -703,6 +707,8 @@ class item : public visitable<item>
 
         /** Set current item @ref rot relative to shelf life (no-op if item does not spoil) */
         void set_relative_rot( double val );
+
+        void set_rot( time_duration val );
 
         /**
          * Get time left to rot, ignoring fridge.
@@ -1039,6 +1045,12 @@ class item : public visitable<item>
         bool is_irremovable() const;
 
         bool is_unarmed_weapon() const; //Returns true if the item should be considered unarmed
+
+        bool has_temperature() const;
+        float get_specific_heat_liquid() const;
+        float get_specific_heat_solid() const;
+        float get_latent_heat() const;
+        float get_freeze_point() const; // Farenheit
 
         /** What faults can potentially occur with this item? */
         std::set<fault_id> faults_potential() const;
@@ -1847,7 +1859,6 @@ class item : public visitable<item>
         // Sub-functions of @ref process, they handle the processing for different
         // processing types, just to make the process function cleaner.
         // The interface is the same as for @ref process.
-        bool process_food( const player *carrier, const tripoint &p, int temp, float insulation );
         bool process_corpse( player *carrier, const tripoint &pos );
         bool process_wet( player *carrier, const tripoint &pos );
         bool process_litcig( player *carrier, const tripoint &pos );
@@ -1947,9 +1958,13 @@ enum hint_rating {
  */
 item &null_item_reference();
 
+/**
+ * Default filter for crafting component searches
+ */
 inline bool is_crafting_component( const item &component )
 {
-    return component.allow_crafting_component() && !component.is_filthy();
+    return ( component.allow_crafting_component() || component.count_by_charges() ) &&
+           !component.is_filthy();
 }
 
 #endif

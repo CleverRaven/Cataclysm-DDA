@@ -261,7 +261,7 @@ bool veh_interact::format_reqs( std::ostringstream &msg, const requirement_data 
 {
 
     const auto inv = g->u.crafting_inventory();
-    bool ok = reqs.can_make_with_inventory( inv );
+    bool ok = reqs.can_make_with_inventory( inv, is_crafting_component );
 
     msg << _( "<color_white>Time required:</color>\n" );
     // TODO: better have a from_moves function
@@ -282,7 +282,8 @@ bool veh_interact::format_reqs( std::ostringstream &msg, const requirement_data 
         msg << string_format( "> %1$s%2$s</color>", status_color( true ), _( "NONE" ) ) << "\n";
     }
 
-    auto comps = reqs.get_folded_components_list( getmaxx( w_msg ) - 2, c_white, inv );
+    auto comps = reqs.get_folded_components_list( getmaxx( w_msg ) - 2, c_white, inv,
+                 is_crafting_component );
     std::copy( comps.begin(), comps.end(), std::ostream_iterator<std::string>( msg, "\n" ) );
 
     auto tools = reqs.get_folded_tools_list( getmaxx( w_msg ) - 2, c_white, inv );
@@ -812,7 +813,8 @@ bool veh_interact::do_install( std::string &msg )
                part.has_flag( "BED" ) ||
                part.has_flag( "SPACE_HEATER" ) ||
                part.has_flag( "DOOR_MOTOR" ) ||
-               part.has_flag( "WATER_PURIFIER" );
+               part.has_flag( "WATER_PURIFIER" ) ||
+               part.has_flag( "WORKBENCH" );
     };
     tab_filters[4] = [&]( const vpart_info * p ) {
         auto &part = *p;
@@ -1856,7 +1858,7 @@ int veh_interact::part_at( int dx, int dy )
 bool veh_interact::can_potentially_install( const vpart_info &vpart )
 {
     return g->u.has_trait( trait_DEBUG_HS ) ||
-           vpart.install_requirements().can_make_with_inventory( crafting_inv );
+           vpart.install_requirements().can_make_with_inventory( crafting_inv, is_crafting_component );
 }
 
 /**
@@ -2770,7 +2772,7 @@ void veh_interact::complete_vehicle()
             auto inv = g->u.crafting_inventory();
 
             const auto reqs = vpinfo.install_requirements();
-            if( !reqs.can_make_with_inventory( inv ) ) {
+            if( !reqs.can_make_with_inventory( inv, is_crafting_component ) ) {
                 add_msg( m_info, _( "You don't meet the requirements to install the %s." ), vpinfo.name().c_str() );
                 break;
             }
@@ -2778,7 +2780,7 @@ void veh_interact::complete_vehicle()
             // consume items extracting a match for the parts base item
             item base;
             for( const auto &e : reqs.get_components() ) {
-                for( auto &obj : g->u.consume_items( e ) ) {
+                for( auto &obj : g->u.consume_items( e, 1, is_crafting_component ) ) {
                     if( obj.typeId() == vpinfo.item ) {
                         base = obj;
                     }
@@ -2919,13 +2921,13 @@ void veh_interact::complete_vehicle()
             auto inv = g->u.crafting_inventory();
 
             const auto reqs = vpinfo.removal_requirements();
-            if( !reqs.can_make_with_inventory( inv ) ) {
+            if( !reqs.can_make_with_inventory( inv, is_crafting_component ) ) {
                 add_msg( m_info, _( "You don't meet the requirements to remove the %s." ), vpinfo.name().c_str() );
                 break;
             }
 
             for( const auto &e : reqs.get_components() ) {
-                g->u.consume_items( e );
+                g->u.consume_items( e, 1, is_crafting_component );
             }
             for( const auto &e : reqs.get_tools() ) {
                 g->u.consume_tools( e );

@@ -1655,19 +1655,19 @@ int iuse::sew_advanced( player *p, item *it, bool, const tripoint & )
     } else if( rn <= 10 ) {
         p->add_msg_if_player( m_bad,
                               _( "You fail to modify the clothing, and you waste thread and materials." ) );
-        p->consume_items( comps );
+        p->consume_items( comps, 1, is_crafting_component );
         return thread_needed;
     } else if( rn <= 14 ) {
         p->add_msg_if_player( m_mixed, _( "You modify your %s, but waste a lot of thread." ),
                               mod.tname().c_str() );
-        p->consume_items( comps );
+        p->consume_items( comps, 1, is_crafting_component );
         mod.item_tags.insert( the_mod );
         return thread_needed;
     }
 
     p->add_msg_if_player( m_good, _( "You modify your %s!" ), mod.tname().c_str() );
     mod.item_tags.insert( the_mod );
-    p->consume_items( comps );
+    p->consume_items( comps, 1, is_crafting_component );
     return thread_needed / 2;
 }
 
@@ -2399,7 +2399,7 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
     } else if( pry_nails( *p, type, pnt ) ) {
         return it->type->charges_to_use();
     } else {
-        p->add_msg_if_player( m_info, _( "There's nothing to pry there." ) );
+        p->add_msg_if_player( m_info, _( "You can't pry that." ) );
         return 0;
     }
 
@@ -3931,7 +3931,7 @@ void iuse::play_music( player &p, const tripoint &source, const int volume, cons
     }
     if( do_effects ) {
         p.add_effect( effect_music, 1_turns );
-        p.add_morale( MORALE_MUSIC, 1, max_morale, 5_minutes, 2_minutes );
+        p.add_morale( MORALE_MUSIC, 1, max_morale, 5_minutes, 2_minutes, true );
         // mp3 player reduces hearing
         if( volume == 0 ) {
             p.add_effect( effect_earphones, 1_turns );
@@ -7296,7 +7296,8 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
             for( const auto &r : g->u.get_learned_recipes().in_category( "CC_FOOD" ) ) {
                 if( multicooked_subcats.count( r->subcategory ) > 0 ) {
                     dishes.push_back( r );
-                    const bool can_make = r->requirements().can_make_with_inventory( crafting_inv );
+                    const bool can_make = r->requirements().can_make_with_inventory( crafting_inv,
+                                          r->get_component_filter() );
 
                     dmenu.addentry( counter++, can_make, -1, r->result_name() );
                 }
@@ -7330,7 +7331,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
 
                 auto reqs = meal->requirements();
                 for( auto it : reqs.get_components() ) {
-                    p->consume_items( it );
+                    p->consume_items( it, 1, is_crafting_component );
                 }
 
                 it->set_var( "DISH", meal->result() );
@@ -8020,7 +8021,7 @@ int iuse::break_stick( player *p, item *it, bool, const tripoint & )
     }
     std::vector<item_comp> comps;
     comps.push_back( item_comp( it->typeId(), 1 ) );
-    p->consume_items( comps );
+    p->consume_items( comps, 1, is_crafting_component );
     int chance = rng( 0, 100 );
     if( chance <= 20 ) {
         p->add_msg_if_player( _( "You try to break the stick in two, but it shatters into splinters." ) );
@@ -8073,17 +8074,31 @@ int iuse::panacea( player *p, item *it, bool, const tripoint & )
 
 int iuse::craft( player *p, item *it, bool, const tripoint & )
 {
-    int pos = p->get_item_position( it );
-
-    if( pos != INT_MIN ) {
-        p->add_msg_player_or_npc(
-            string_format( pgettext( "in progress craft", "You start working on the %s" ), it->tname() ),
-            string_format( pgettext( "in progress craft", "<npcname> starts working on the %s" ), it->tname()
-                         ) );
-        p->assign_activity( activity_id( "ACT_CRAFT" ) );
-        p->activity.targets.push_back( item_location( *p, it ) );
-        p->activity.values.push_back( 0 ); // Not a long craft
+    if( !p->is_wielding( *it ) ) {
+        if( !p->is_armed() || query_yn( "Wield the %s and start working?", it->tname() ) ) {
+            if( !p->wield( *it ) ) {
+                // Will likely happen if the in progress craft is too heavy, or the player is
+                // wielding something that can't be unwielded
+                return 0;
+            }
+        }
     }
+
+    const std::string craft_name = p->weapon.tname();
+
+    if( !p->weapon.is_craft() ) {
+        debugmsg( "Attempted to start working on non craft '%s.'  Aborting.", craft_name );
+        return 0;
+    }
+
+    p->add_msg_player_or_npc(
+        string_format( pgettext( "in progress craft", "You start working on the %s." ), craft_name ),
+        string_format( pgettext( "in progress craft", "<npcname> starts working on the %s." ),
+                       craft_name ) );
+    p->assign_activity( activity_id( "ACT_CRAFT" ) );
+    p->activity.targets.push_back( item_location( *p, &p->weapon ) );
+    p->activity.values.push_back( 0 ); // Not a long craft
+
     return 0;
 }
 

@@ -46,6 +46,8 @@ static const fault_id fault_starter( "fault_engine_starter" );
 
 const skill_id skill_mechanics( "mechanics" );
 
+static const trait_id trait_SHELL2( "SHELL2" );
+
 enum change_types : int {
     OPENCURTAINS = 0,
     OPENBOTH,
@@ -994,8 +996,8 @@ void vehicle::operate_plow()
         if( g->m.has_flag( "PLOWABLE", start_plow ) ) {
             g->m.ter_set( start_plow, t_dirtmound );
         } else {
-            const int speed = velocity;
-            const int v_damage = rng( 3, speed );
+            const int speed = abs( velocity );
+            int v_damage = rng( 3, speed );
             damage( vp.part_index(), v_damage, DT_BASH, false );
             sounds::sound( start_plow, v_damage, sounds::sound_t::combat, _( "Clanggggg!" ) );
         }
@@ -1009,8 +1011,8 @@ void vehicle::operate_rockwheel()
         if( g->m.has_flag( "DIGGABLE", start_dig ) ) {
             g->m.ter_set( start_dig, t_pit_shallow );
         } else {
-            const int speed = velocity;
-            const int v_damage = rng( 3, speed );
+            const int speed = abs( velocity );
+            int v_damage = rng( 3, speed );
             damage( vp.part_index(), v_damage, DT_BASH, false );
             sounds::sound( start_dig, v_damage, sounds::sound_t::combat, _( "Clanggggg!" ) );
         }
@@ -1276,7 +1278,7 @@ void vehicle::use_washing_machine( int p )
 
         std::vector<item_comp> detergent;
         detergent.push_back( item_comp( "detergent", 5 ) );
-        g->u.consume_items( detergent );
+        g->u.consume_items( detergent, 1, is_crafting_component );
 
         add_msg( m_good,
                  _( "You pour some detergent into the washing machine, close its lid, and turn it on.  The washing machine is being filled with water from vehicle tanks." ) );
@@ -1390,11 +1392,13 @@ veh_interact_results vehicle::interact_with( const tripoint &pos, int interact_p
     const bool has_bike_rack = bike_rack_part >= 0;
     const bool has_planter = avail_part_with_feature( interact_part, "PLANTER", true ) >= 0 ||
                              avail_part_with_feature( interact_part, "ADVANCED_PLANTER", true ) >= 0;
+    const int workbench_part = avail_part_with_feature( interact_part, "WORKBENCH", true );
+    const bool has_workbench = workbench_part >= 0;
 
     enum {
         EXAMINE, TRACK, CONTROL, CONTROL_ELECTRONICS, GET_ITEMS, GET_ITEMS_ON_GROUND, FOLD_VEHICLE, UNLOAD_TURRET, RELOAD_TURRET,
         USE_HOTPLATE, FILL_CONTAINER, DRINK, USE_WELDER, USE_PURIFIER, PURIFY_TANK, USE_WASHMACHINE, USE_MONSTER_CAPTURE,
-        USE_BIKE_RACK, RELOAD_PLANTER
+        USE_BIKE_RACK, RELOAD_PLANTER, WORKBENCH
     };
     uilist selectmenu;
 
@@ -1450,9 +1454,12 @@ veh_interact_results vehicle::interact_with( const tripoint &pos, int interact_p
     if( has_bike_rack ) {
         selectmenu.addentry( USE_BIKE_RACK, true, 'R', _( "Load or unload a vehicle" ) );
     }
-
     if( has_planter ) {
         selectmenu.addentry( RELOAD_PLANTER, true, 's', _( "Reload seed drill with seeds" ) );
+    }
+    if( has_workbench ) {
+        selectmenu.addentry( WORKBENCH, true, '&', string_format( _( "Craft at the %s" ),
+                             parts[workbench_part].name() ) );
     }
 
     int choice;
@@ -1588,6 +1595,10 @@ veh_interact_results vehicle::interact_with( const tripoint &pos, int interact_p
         }
         case RELOAD_PLANTER: {
             reload_seeds( pos );
+            return DONE;
+        }
+        case WORKBENCH: {
+            iexamine::workbench_internal( g->u, pos, vpart_reference( *this, workbench_part ) );
             return DONE;
         }
     }

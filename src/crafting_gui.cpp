@@ -252,7 +252,8 @@ const recipe *select_crafting_recipe( int &batch_size )
                 current.clear();
                 for( int i = 1; i <= 20; i++ ) {
                     current.push_back( chosen );
-                    available.push_back( chosen->requirements().can_make_with_inventory( crafting_inv, i ) );
+                    available.push_back( chosen->requirements().can_make_with_inventory( crafting_inv,
+                                         chosen->get_component_filter(), i ) );
                 }
             } else {
                 std::vector<const recipe *> picking;
@@ -359,7 +360,8 @@ const recipe *select_crafting_recipe( int &batch_size )
                 // cache recipe availability on first display
                 for( const auto e : current ) {
                     if( !availability_cache.count( e ) ) {
-                        availability_cache.emplace( e, e->requirements().can_make_with_inventory( crafting_inv ) );
+                        availability_cache.emplace( e, e->requirements().can_make_with_inventory( crafting_inv,
+                                                    e->get_component_filter() ) );
                     }
                 }
 
@@ -517,7 +519,8 @@ const recipe *select_crafting_recipe( int &batch_size )
 
             std::vector<std::string> component_print_buffer;
             auto tools = req.get_folded_tools_list( pane, col, crafting_inv, count );
-            auto comps = req.get_folded_components_list( pane, col, crafting_inv, count, qry_comps );
+            auto comps = req.get_folded_components_list( pane, col, crafting_inv,
+                         current[ line ]->get_component_filter(), count, qry_comps );
             component_print_buffer.insert( component_print_buffer.end(), tools.begin(), tools.end() );
             component_print_buffer.insert( component_print_buffer.end(), comps.begin(), comps.end() );
 

@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <queue>
 
 #include "action.h"
 #include "advanced_inv.h"
@@ -12,6 +13,7 @@
 #include "fault.h"
 #include "field.h"
 #include "game.h"
+#include "game_inventory.h"
 #include "gates.h"
 #include "harvest.h"
 #include "iexamine.h"
@@ -26,6 +28,7 @@
 #include "morale_types.h"
 #include "mtype.h"
 #include "output.h"
+#include "overmapbuffer.h"
 #include "player.h"
 #include "recipe.h"
 #include "requirements.h"
@@ -33,6 +36,7 @@
 #include "skill.h"
 #include "sounds.h"
 #include "string_formatter.h"
+#include "text_snippets.h"
 #include "translations.h"
 #include "ui.h"
 #include "veh_interact.h"
@@ -70,6 +74,7 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_AIM" ), aim_do_turn },
     { activity_id( "ACT_PICKUP" ), pickup_do_turn },
     { activity_id( "ACT_WEAR" ), wear_do_turn },
+    { activity_id( "ACT_EAT_MENU" ), eat_menu_do_turn },
     { activity_id( "ACT_MOVE_ITEMS" ), move_items_do_turn },
     { activity_id( "ACT_MOVE_LOOT" ), move_loot_do_turn },
     { activity_id( "ACT_ADV_INVENTORY" ), adv_inventory_do_turn },
@@ -96,7 +101,8 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_PLANT_PLOT" ), plant_plot_do_turn },
     { activity_id( "ACT_FERTILIZE_PLOT" ), fertilize_plot_do_turn },
     { activity_id( "ACT_TRY_SLEEP" ), try_sleep_do_turn },
-    { activity_id( "ACT_ROBOT_CONTROL" ), robot_control_do_turn }
+    { activity_id( "ACT_ROBOT_CONTROL" ), robot_control_do_turn },
+    { activity_id( "ACT_TREE_COMMUNION" ), tree_communion_do_turn }
 };
 
 const std::map< activity_id, std::function<void( player_activity *, player * )> >
@@ -141,6 +147,7 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_VIBE" ), vibe_finish },
     { activity_id( "ACT_ATM" ), atm_finish },
     { activity_id( "ACT_AIM" ), aim_finish },
+    { activity_id( "ACT_EAT_MENU" ), eat_menu_finish },
     { activity_id( "ACT_WASH" ), washing_finish },
     { activity_id( "ACT_HACKSAW" ), hacksaw_finish },
     { activity_id( "ACT_CHOP_TREE" ), chop_tree_finish },
@@ -669,7 +676,7 @@ int corpse_damage_effect( int weight, const std::string &entry_type, int damage_
     return weight;
 }
 
-void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, const time_point &bday,
+void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p,
                              const std::function<int()> &roll_butchery, butcher_type action,
                              const std::function<double()> &roll_drops )
 {
@@ -746,9 +753,9 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
             roll = std::min( entry.max, roll );
             add_msg( m_debug, _( "Roll penalty for corpse damage = %s" ), 0 - corpse_item->damage_level( 4 ) );
             if( entry.type == "bionic" ) {
-                butcher_cbm_item( entry.drop, p.pos(), bday, roll );
+                butcher_cbm_item( entry.drop, p.pos(), calendar::turn, roll );
             } else if( entry.type == "bionic_group" ) {
-                butcher_cbm_group( entry.drop, p.pos(), bday, roll );
+                butcher_cbm_group( entry.drop, p.pos(), calendar::turn, roll );
             }
             continue;
         }
@@ -850,16 +857,33 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
                 p.add_msg_if_player( m_bad, _( "You fail to harvest: %s" ), drop->nname( 1 ) );
                 continue;
             }
-
             if( drop->phase == LIQUID ) {
-                g->handle_all_liquid( item( drop, bday, roll ), 1 );
-
+                item obj( drop, calendar::turn, roll );
+                if( obj.has_temperature() ) {
+                    obj.set_item_temperature( 0.00001 * corpse_item->temperature );
+                }
+                if( obj.goes_bad() ) {
+                    obj.set_rot( corpse_item->get_rot() );
+                }
+                g->handle_all_liquid( obj, 1 );
             } else if( drop->stackable ) {
-                g->m.add_item_or_charges( p.pos(), item( drop, bday, roll ) );
-
+                item obj( drop, calendar::turn, roll );
+                if( obj.has_temperature() ) {
+                    obj.set_item_temperature( 0.00001 * corpse_item->temperature );
+                }
+                if( obj.goes_bad() ) {
+                    obj.set_rot( corpse_item->get_rot() );
+                }
+                g->m.add_item_or_charges( p.pos(), obj );
             } else {
-                item obj( drop, bday );
+                item obj( drop, calendar::turn, roll );
                 obj.set_mtype( &mt );
+                if( obj.has_temperature() ) {
+                    obj.set_item_temperature( 0.00001 * corpse_item->temperature );
+                }
+                if( obj.goes_bad() ) {
+                    obj.set_rot( corpse_item->get_rot() );
+                }
                 for( int i = 0; i != roll; ++i ) {
                     g->m.add_item_or_charges( p.pos(), obj );
                 }
@@ -893,8 +917,10 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p, cons
         const int item_charges = monster_weight_remaining / to_gram( (
                                      item::find_type( "ruined_chunks" ) )->weight );
         if( item_charges > 0 ) {
-            item ruined_parts( "ruined_chunks", bday, item_charges );
+            item ruined_parts( "ruined_chunks", calendar::turn, item_charges );
             ruined_parts.set_mtype( &mt );
+            ruined_parts.set_item_temperature( 0.00001 * corpse_item->temperature );
+            ruined_parts.set_rot( corpse_item->get_rot() );
             g->m.add_item_or_charges( p.pos(), ruined_parts );
         }
     }
@@ -958,15 +984,8 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     item &corpse_item = items_here[act->index];
     auto contents = corpse_item.contents;
     const mtype *corpse = corpse_item.get_mtype();
-    time_point bday = corpse_item.birthday();
     const field_id type_blood = corpse->bloodType();
     const field_id type_gib = corpse->gibType();
-
-    // corpse decays at 75% factor, but meat shares birthday and not relative_rot so this takes care of it
-    // no FIELD_DRESS_FAILED here as it gets no benefit
-    if( corpse_item.has_flag( "FIELD_DRESS" ) && !corpse_item.is_going_bad() ) {
-        bday += corpse_item.age() * 3 / 4;
-    }
 
     if( action == QUARTER ) {
         butchery_quarter( &corpse_item, *p );
@@ -1038,7 +1057,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         return 0.5 * skill_level / 10 + 0.3 * ( factor + 50 ) / 100 + 0.2 * p->dex_cur / 20;
     };
     // all action types - yields
-    butchery_drops_harvest( &corpse_item, *corpse, *p, bday, roll_butchery, action, roll_drops );
+    butchery_drops_harvest( &corpse_item, *corpse, *p, roll_butchery, action, roll_drops );
 
     // reveal hidden items / hidden content
     if( action != F_DRESS && action != SKIN ) {
@@ -1049,7 +1068,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
                                       corpse->nname().c_str() );
                 g->m.add_item_or_charges( p->pos(), content );
             } else if( content.is_bionic() ) {
-                g->m.spawn_item( p->pos(), "burnt_out_bionic", 1, 0, bday );
+                g->m.spawn_item( p->pos(), "burnt_out_bionic", 1, 0, calendar::turn );
             }
         }
     }
@@ -1288,7 +1307,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
         const long charges_per_turn = std::max( 1l, liquid.charges_per_volume( volume_per_turn ) );
         liquid.charges = std::min( charges_per_turn, liquid.charges );
         const long original_charges = liquid.charges;
-        if( liquid.is_food() && liquid.specific_energy < 0 ) {
+        if( liquid.has_temperature() && liquid.specific_energy < 0 ) {
             liquid.set_item_temperature( std::max( temp_to_kelvin( g->get_temperature( p->pos() ) ), 277.15 ) );
         }
 
@@ -1501,6 +1520,14 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
         for( const auto &it : dropped ) {
             add_msg( m_good, _( "You found: %s!" ), it->tname().c_str() );
             found_something = true;
+            if( it->typeId() == "mushroom" ) {
+                if( one_in( 10 ) ) {
+                    it->item_tags.insert( "HIDDEN_POISON" );
+                    it->poison = rng( 2, 7 );
+                } else if( one_in( 10 ) ) {
+                    it->item_tags.insert( "HIDDEN_HALLU" );
+                }
+            }
         }
     }
     // 10% to drop a item/items from this group.
@@ -1509,16 +1536,6 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
         for( const auto &it : dropped ) {
             add_msg( m_good, _( "You found: %s!" ), it->tname().c_str() );
             found_something = true;
-            if( it->typeId() == "mushroom" ) {
-                if( one_in( 10 ) ) {
-                    it->item_tags.insert( "HIDDEN_POISON" );
-                    it->poison = rng( 2, 7 );
-                    break;
-                } else if( one_in( 10 ) ) {
-                    it->item_tags.insert( "HIDDEN_HALLU" );
-                    break;
-                }
-            }
         }
     }
 
@@ -1758,18 +1775,11 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
             continue;
         }
 
-        if( corpse.damage() >= corpse.max_damage() ) {
-            // Deactivate already-pulped corpses that weren't properly deactivated
-            corpse.active = false;
-            continue;
-        }
-
         while( corpse.damage() < corpse.max_damage() ) {
             // Increase damage as we keep smashing ensuring we eventually smash the target.
             if( x_in_y( pulp_power, corpse.volume() / units::legacy_volume_factor ) ) {
                 corpse.inc_damage( DT_BASH );
                 if( corpse.damage() == corpse.max_damage() ) {
-                    corpse.active = false;
                     num_corpses++;
                 }
             }
@@ -2273,8 +2283,8 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
     }
 
     // Valid Repeat choice and target, attempt repair.
-    if( repeat != REPEAT_INIT && act->position != INT_MIN ) {
-        item &fix = p->i_at( act->position );
+    if( repeat != REPEAT_INIT && act->targets.size() >= 2 ) {
+        item_location &fix = act->targets[1];
 
         // Remember our level: we want to stop retrying on level up
         const int old_level = p->get_skill_level( actor->used_skill );
@@ -2300,9 +2310,9 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
         const bool destroyed = attempt == repair_item_actor::AS_DESTROYED;
         if( attempt == repair_item_actor::AS_CANT ||
             destroyed ||
-            !actor->can_repair_target( *p, fix, !destroyed ) ) {
+            !actor->can_repair_target( *p, *fix, !destroyed ) ) {
             // Cannot continue to repair target, select another target.
-            act->position = INT_MIN;
+            act->targets.pop_back();
         }
 
         const bool event_happened =
@@ -2313,7 +2323,7 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
         const bool need_input =
             repeat == REPEAT_ONCE ||
             ( repeat == REPEAT_EVENT && event_happened ) ||
-            ( repeat == REPEAT_FULL && fix.damage() <= 0 );
+            ( repeat == REPEAT_FULL && fix->damage() <= 0 );
         if( need_input ) {
             repeat = REPEAT_INIT;
         }
@@ -2325,25 +2335,21 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
     }
 
     // target selection and validation.
-    while( act->position == INT_MIN ) {
-        const int pos = g->inv_for_filter( _( "Repair what?" ), [&actor, &main_tool]( const item & itm ) {
-            return itm.made_of_any( actor->materials ) && !itm.count_by_charges() && !itm.is_firearm() &&
-                   &itm != &main_tool;
-        }, string_format( _( "You have no items that could be repaired with a %s." ),
-                          main_tool.type_name( 1 ) ) );
+    while( act->targets.size() < 2 ) {
+        auto item_loc = game_menus::inv::repair( *p, actor, &main_tool );
 
-        if( pos == INT_MIN ) {
+        if( item_loc == item_location::nowhere ) {
             p->add_msg_if_player( m_info, _( "Never mind." ) );
             act->set_to_null();
             return;
         }
-        if( actor->can_repair_target( *p, p->i_at( pos ), true ) ) {
-            act->position = pos;
+        if( actor->can_repair_target( *p, *item_loc, true ) ) {
+            act->targets.emplace_back( item_loc.clone() );
             repeat = REPEAT_INIT;
         }
     }
 
-    const item &fix = p->i_at( act->position );
+    const item &fix = *act->targets[1];
 
     if( repeat == REPEAT_INIT ) {
         g->draw();
@@ -2384,7 +2390,7 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
             }
             act->values[0] = static_cast<int>( repeat );
             if( repeat == REPEAT_INIT ) {       // BACK selected, redo target selection next.
-                p->activity.position = INT_MIN;
+                p->activity.targets.pop_back();
                 return;
             }
             if( repeat == REPEAT_FULL && fix.damage() <= 0 ) {
@@ -2416,7 +2422,7 @@ void activity_handlers::mend_item_finish( player_activity *act, player *p )
 
     const auto inv = p->crafting_inventory();
     const auto &reqs = f->obj().requirements();
-    if( !reqs.can_make_with_inventory( inv ) ) {
+    if( !reqs.can_make_with_inventory( inv, is_crafting_component ) ) {
         add_msg( m_info, _( "You are currently unable to mend the %s." ), target->tname().c_str() );
     }
     for( const auto &e : reqs.get_components() ) {
@@ -2537,6 +2543,12 @@ void activity_handlers::wear_do_turn( player_activity *, player * )
     activity_on_turn_wear();
 }
 
+// This activity opens the menu (it's not meant to queue consumption of items)
+void activity_handlers::eat_menu_do_turn( player_activity *, player * )
+{
+    g->eat();
+}
+
 void activity_handlers::move_items_do_turn( player_activity *, player * )
 {
     activity_on_turn_move_items();
@@ -2566,7 +2578,11 @@ void activity_handlers::atm_do_turn( player_activity *, player *p )
 
 void activity_handlers::cracking_do_turn( player_activity *act, player *p )
 {
-    if( !( p->has_amount( "stethoscope", 1 ) || p->has_bionic( bionic_id( "bio_ears" ) ) ) ) {
+    auto cracking_tool = p->crafting_inventory().items_with( []( const item & it ) -> bool {
+        item temporary_item( it.type );
+        return temporary_item.has_flag( "SAFECRACK" );
+    } );
+    if( !( cracking_tool.size() > 0 || p->has_bionic( bionic_id( "bio_ears" ) ) ) ) {
         // We lost our cracking tool somehow, bail out.
         act->set_to_null();
         return;
@@ -2647,66 +2663,63 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
 {
     item *craft = act->targets.front().get_item();
 
-    if( !craft->is_craft() ) {
-        debugmsg( "ACT_CRAFT target '%s' is not a craft.  Aborting ACT_CRAFT.", craft->tname() );
-        p->cancel_activity();
-        return;
-    }
-    if( !p->has_item( *craft ) ) {
+    // item_location::get_item() will return nullptr if the item is lost
+    if( !craft ) {
         p->add_msg_player_or_npc(
-            string_format(
-                _( "You no longer have the %1$s in your possession.  You stop crafting.  Reactivate the %1$s to continue crafting." ),
-                craft->tname() ),
-            string_format(
-                _( "<npcname> no longer has the %s in their possession.  <npcname> stops crafting." ),
-                craft->tname() )
+            string_format( _( "You no longer have the %1$s in your possession.  You stop crafting. "
+                              " Reactivate the %1$s to continue crafting." ), craft->tname() ),
+            string_format( _( "<npcname> no longer has the %s in their possession.  <npcname> stops"
+                              " crafting." ), craft->tname() )
         );
         p->cancel_activity();
         return;
     }
 
-    const recipe &rec = craft->get_making();
-    const float crafting_speed = p->crafting_speed_multiplier( rec, true );
-    const bool is_long = act->values[0];
-
-    if( crafting_speed <= 0.0f ) {
-        if( p->lighting_craft_speed_multiplier( rec ) <= 0.0f ) {
-            p->add_msg_if_player( m_bad, _( "You can no longer see well enough to keep crafting." ) );
-        } else {
-            p->add_msg_if_player( m_bad, _( "You are too frustrated to continue and just give up." ) );
-        }
+    if( !craft->is_craft() ) {
+        debugmsg( "ACT_CRAFT target '%s' is not a craft.  Aborting ACT_CRAFT.", craft->tname() );
         p->cancel_activity();
         return;
     }
-    if( calendar::once_every( 1_hours ) && crafting_speed < 0.75f ) {
-        // TODO: Describe the causes of slowdown
-        p->add_msg_if_player( m_bad, _( "You can't focus and are working slowly." ) );
+
+    const recipe &rec = craft->get_making();
+    const tripoint loc = act->targets.front().where() == item_location::type::character ?
+                         tripoint_zero : act->targets.front().position();
+    const float crafting_speed = p->crafting_speed_multiplier( *craft, loc );
+    const int assistants = p->available_assistant_count( craft->get_making() );
+    const bool is_long = act->values[0];
+
+    if( crafting_speed <= 0.0f ) {
+        p->cancel_activity();
+        return;
     }
 
     // item_counter represents the percent progress relative to the base batch time
-    // stored precise to 2 decimal places ( e.g. 67.32 percent would be stored as 6732 )
+    // stored precise to 5 decimal places ( e.g. 67.32 percent would be stored as 6732000 )
 
     // Base moves for batch size with no speed modifier or assistants
     // Must ensure >= 1 so we don't divide by 0;
     const double base_total_moves = std::max( 1, rec.batch_time( craft->charges, 1.0f, 0 ) );
     // Current expected total moves, includes crafting speed modifiers and assistants
-    const double cur_total_moves = std::max( 1, p->expected_time_to_craft( rec, craft->charges ) );
+    const double cur_total_moves = std::max( 1, rec.batch_time( craft->charges, crafting_speed,
+                                   assistants ) );
     // Delta progress in moves adjusted for current crafting speed
     const double delta_progress = p->get_moves() * base_total_moves / cur_total_moves;
     // Current progress in moves
-    const double current_progress = craft->item_counter * base_total_moves / 10000.0 + delta_progress;
+    const double current_progress = craft->item_counter * base_total_moves / 10000000.0 +
+                                    delta_progress;
     // Current progress as a percent of base_total_moves to 2 decimal places
-    craft->item_counter = current_progress / base_total_moves * 10000.0;
+    craft->item_counter = round( current_progress / base_total_moves * 10000000.0 );
     p->set_moves( 0 );
 
     // if item_counter has reached 100% or more
-    if( craft->item_counter >= 10000 ) {
+    if( craft->item_counter >= 10000000 ) {
+        item craft_copy = *craft;
+        act->targets.front().remove_item();
         p->cancel_activity();
-        item craft_copy = p->i_rem( craft );
-        p->complete_craft( craft_copy );
+        p->complete_craft( craft_copy, loc );
         if( is_long ) {
             if( p->making_would_work( p->lastrecipe, craft_copy.charges ) ) {
-                p->last_craft->execute();
+                p->last_craft->execute( loc );
             }
         }
     }
@@ -2741,6 +2754,11 @@ void activity_handlers::aim_finish( player_activity *, player * )
 {
     // Aim bails itself by resetting itself every turn,
     // you only re-enter if it gets set again.
+    return;
+}
+void activity_handlers::eat_menu_finish( player_activity *, player * )
+{
+    // Only exists to keep the eat activity alive between turns
     return;
 }
 
@@ -3365,4 +3383,63 @@ void activity_handlers::robot_control_finish( player_activity *act, player *p )
         p->add_msg_if_player( _( "...but the robot refuses to acknowledge you as an ally!" ) );
     }
     p->practice( skill_id( "computer" ), 10 );
+}
+
+void activity_handlers::tree_communion_do_turn( player_activity *act, player *p )
+{
+    // There's an initial rooting process.
+    if( act->values.front() > 0 ) {
+        act->values.front() -= 1;
+        if( act->values.front() == 0 ) {
+            if( p->has_trait( trait_id( "SPIRITUAL" ) ) ) {
+                p->add_msg_if_player( m_good, _( "The ancient tree spirits answer your call." ) );
+            } else {
+                p->add_msg_if_player( m_good, _( "Your communion with the trees has begun." ) );
+            }
+        }
+        return;
+    }
+    // Information is received every minute.
+    if( !calendar::once_every( 1_minutes ) ) {
+        return;
+    }
+    // Breadth-first search forest tiles until one reveals new overmap tiles.
+    std::queue<tripoint> q;
+    std::unordered_set<tripoint> seen;
+    tripoint loc = p->global_omt_location();
+    q.push( loc );
+    seen.insert( loc );
+    const std::function<bool( const oter_id & )> filter = []( const oter_id & ter ) {
+        return ter.obj().is_wooded() || ter.obj().get_name() == "field";
+    };
+    while( !q.empty() ) {
+        tripoint tpt = q.front();
+        if( overmap_buffer.reveal( tpt, 3, filter ) ) {
+            if( p->has_trait( trait_id( "SPIRITUAL" ) ) ) {
+                p->add_morale( MORALE_TREE_COMMUNION, 2, 30, 8_hours, 6_hours );
+            } else {
+                p->add_morale( MORALE_TREE_COMMUNION, 1, 15, 2_hours, 1_hours );
+            }
+            if( one_in( 128 ) ) {
+                p->add_msg_if_player( SNIPPET.random_from_category( "tree_communion" ) );
+            }
+            return;
+        }
+        for( int dx = -1; dx <= 1; dx++ ) {
+            for( int dy = -1; dy <= 1; dy++ ) {
+                tripoint neighbor = tripoint( tpt.x + dx, tpt.y + dy, tpt.z );
+                if( seen.find( neighbor ) != seen.end() ) {
+                    continue;
+                }
+                seen.insert( neighbor );
+                if( !overmap_buffer.ter( neighbor ).obj().is_wooded() ) {
+                    continue;
+                }
+                q.push( neighbor );
+            }
+        }
+        q.pop();
+    }
+    p->add_msg_if_player( m_info, _( "The trees have shown you what they will." ) );
+    act->set_to_null();
 }

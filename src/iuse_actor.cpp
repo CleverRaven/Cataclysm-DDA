@@ -4,6 +4,7 @@
 #include <sstream>
 
 #include "action.h"
+#include "activity_handlers.h"
 #include "ammo.h"
 #include "assign.h"
 #include "bionics.h"
@@ -104,7 +105,20 @@ void iuse_transform::load( JsonObject &obj )
 
     obj.read( "msg", msg_transform );
     obj.read( "container", container );
+    if( obj.has_member( "target_charges" ) && obj.has_member( "rand_target_charges" ) ) {
+        obj.throw_error( "Transform actor specified both fixed and random target charges",
+                         "target_charges" );
+    }
     obj.read( "target_charges", ammo_qty );
+    if( obj.has_array( "rand_target_charges" ) ) {
+        JsonArray jarr = obj.get_array( "rand_target_charges" );
+        while( jarr.has_more() ) {
+            random_ammo_qty.push_back( jarr.next_long() );
+        }
+        if( random_ammo_qty.size() < 2 ) {
+            obj.throw_error( "You must specify two or more values to choose between", "rand_target_charges" );
+        }
+    }
     obj.read( "target_ammo", ammo_type );
 
     obj.read( "countdown", countdown );
@@ -176,13 +190,20 @@ long iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) con
     item *obj;
     if( container.empty() ) {
         obj = &it.convert( target );
-        if( ammo_qty >= 0 ) {
-            if( !ammo_type.empty() ) {
-                obj->ammo_set( ammo_type, ammo_qty );
-            } else if( obj->ammo_current() != "null" ) {
-                obj->ammo_set( obj->ammo_current(), ammo_qty );
+        if( ammo_qty >= 0 || random_ammo_qty.size() > 0 ) {
+            long qty;
+            if( random_ammo_qty.size() > 0 ) {
+                const auto index = rng( 1, random_ammo_qty.size() - 1 );
+                qty = rng( random_ammo_qty[index - 1], random_ammo_qty[index] );
             } else {
-                obj->set_countdown( ammo_qty );
+                qty = ammo_qty;
+            }
+            if( !ammo_type.empty() ) {
+                obj->ammo_set( ammo_type, qty );
+            } else if( obj->ammo_current() != "null" ) {
+                obj->ammo_set( obj->ammo_current(), qty );
+            } else {
+                obj->set_countdown( qty );
             }
         }
     } else {
@@ -2057,7 +2078,7 @@ long musical_instrument_actor::use( player &p, item &it, bool t, const tripoint 
         }
         p.add_effect( effect_music, 1_turns );
         const int sign = morale_effect > 0 ? 1 : -1;
-        p.add_morale( MORALE_MUSIC, sign, morale_effect, 5_minutes, 2_minutes );
+        p.add_morale( MORALE_MUSIC, sign, morale_effect, 5_minutes, 2_minutes, true );
     }
 
     return 0;
@@ -2793,17 +2814,16 @@ repair_item_actor::repair_type repair_item_actor::default_action( const item &fi
     return RT_NOTHING;
 }
 
-bool damage_item( player &pl, item &fix )
+bool damage_item( player &pl, item_location &fix )
 {
-    pl.add_msg_if_player( m_bad, _( "You damage your %s!" ), fix.tname().c_str() );
-    if( fix.inc_damage() ) {
+    pl.add_msg_if_player( m_bad, _( "You damage your %s!" ), fix->tname() );
+    if( fix->inc_damage() ) {
         pl.add_msg_if_player( m_bad, _( "You destroy it!" ) );
-        const int pos = pl.get_item_position( &fix );
-        if( pos != INT_MIN ) {
-            pl.i_rem_keep_contents( pos );
+        if( fix.where() == item_location::type::character ) {
+            pl.i_rem_keep_contents( pl.get_item_position( fix.get_item() ) );
         } else {
-            // NOTE: Repairing items outside inventory is NOT yet supported!
-            debugmsg( "Tried to remove an item that doesn't exist" );
+            put_into_vehicle_or_drop( pl, item_drop_reason::deliberate, fix->contents, fix.position() );
+            fix.remove_item();
         }
 
         return true;
@@ -2812,19 +2832,20 @@ bool damage_item( player &pl, item &fix )
     return false;
 }
 
-repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &tool, item &fix ) const
+repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &tool,
+        item_location &fix ) const
 {
     if( !can_use_tool( pl, tool, true ) ) {
         return AS_CANT_USE_TOOL;
     }
-    if( !can_repair_target( pl, fix, true ) ) {
+    if( !can_repair_target( pl, *fix, true ) ) {
         return AS_CANT;
     }
 
     const int current_skill_level = pl.get_skill_level( used_skill );
-    const auto action = default_action( fix, current_skill_level );
-    const auto chance = repair_chance( pl, fix, action );
-    int practice_amount = repair_recipe_difficulty( pl, fix, true ) / 2 + 1;
+    const auto action = default_action( *fix, current_skill_level );
+    const auto chance = repair_chance( pl, *fix, action );
+    int practice_amount = repair_recipe_difficulty( pl, *fix, true ) / 2 + 1;
     float roll_value = rng_float( 0.0, 1.0 );
     enum roll_result {
         SUCCESS,
@@ -2861,13 +2882,13 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
 
     if( action == RT_REPAIR ) {
         if( roll == SUCCESS ) {
-            if( fix.damage() > itype::damage_scale ) {
-                pl.add_msg_if_player( m_good, _( "You repair your %s!" ), fix.tname().c_str() );
+            if( fix->damage() > itype::damage_scale ) {
+                pl.add_msg_if_player( m_good, _( "You repair your %s!" ), fix->tname() );
             } else {
-                pl.add_msg_if_player( m_good, _( "You repair your %s completely!" ), fix.tname().c_str() );
+                pl.add_msg_if_player( m_good, _( "You repair your %s completely!" ), fix->tname() );
             }
-            handle_components( pl, fix, false, false );
-            fix.set_damage( std::max( fix.damage() - itype::damage_scale, 0 ) );
+            handle_components( pl, *fix, false, false );
+            fix->set_damage( std::max( fix->damage() - itype::damage_scale, 0 ) );
             return AS_SUCCESS;
         }
 
@@ -2878,21 +2899,21 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
         if( roll == SUCCESS ) {
             const bool smol = g->u.has_trait( trait_id( "SMALL2" ) ) ||
                               g->u.has_trait( trait_id( "SMALL_OK" ) );
-            if( !fix.has_flag( "FIT" ) ) {
+            if( !fix->has_flag( "FIT" ) ) {
                 pl.add_msg_if_player( m_good, _( "You take your %s in, improving the fit." ),
-                                      fix.tname().c_str() );
-                fix.item_tags.insert( "FIT" );
+                                      fix->tname() );
+                fix->item_tags.insert( "FIT" );
             }
-            if( smol && !fix.has_flag( "UNDERSIZE" ) ) {
+            if( smol && !fix->has_flag( "UNDERSIZE" ) ) {
                 pl.add_msg_if_player( m_good, _( "You resize the %s to accommodate your tiny build." ),
-                                      fix.tname().c_str() );
-                fix.item_tags.insert( "UNDERSIZE" );
-            } else if( !smol && fix.has_flag( "UNDERSIZE" ) ) {
+                                      fix->tname() );
+                fix->item_tags.insert( "UNDERSIZE" );
+            } else if( !smol && fix->has_flag( "UNDERSIZE" ) ) {
                 pl.add_msg_if_player( m_good, _( "You adjust the %s back to its normal size." ),
-                                      fix.tname().c_str() );
-                fix.item_tags.erase( "UNDERSIZE" );
+                                      fix->tname() );
+                fix->item_tags.erase( "UNDERSIZE" );
             }
-            handle_components( pl, fix, false, false );
+            handle_components( pl, *fix, false, false );
             return AS_SUCCESS;
         }
 
@@ -2900,23 +2921,23 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
     }
 
     if( action == RT_REINFORCE ) {
-        if( fix.has_flag( "PRIMITIVE_RANGED_WEAPON" ) || !fix.reinforceable() ) {
+        if( fix->has_flag( "PRIMITIVE_RANGED_WEAPON" ) || !fix->reinforceable() ) {
             pl.add_msg_if_player( m_info, _( "You cannot improve your %s any more this way." ),
-                                  fix.tname().c_str() );
+                                  fix->tname().c_str() );
             return AS_CANT;
         }
 
         if( roll == SUCCESS ) {
-            pl.add_msg_if_player( m_good, _( "You make your %s extra sturdy." ), fix.tname().c_str() );
-            fix.mod_damage( -itype::damage_scale );
-            handle_components( pl, fix, false, false );
+            pl.add_msg_if_player( m_good, _( "You make your %s extra sturdy." ), fix->tname() );
+            fix->mod_damage( -itype::damage_scale );
+            handle_components( pl, *fix, false, false );
             return AS_SUCCESS;
         }
 
         return AS_RETRY;
     }
 
-    pl.add_msg_if_player( m_info, _( "Your %s is already enhanced." ), fix.tname().c_str() );
+    pl.add_msg_if_player( m_info, _( "Your %s is already enhanced." ), fix->tname() );
     return AS_CANT;
 }
 

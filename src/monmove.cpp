@@ -725,11 +725,13 @@ void monster::move()
             }
         }
     }
+    const bool can_open_doors = has_flag( MF_CAN_OPEN_DOORS );
     // Finished logic section.  By this point, we should have chosen a square to
     //  move to (moved = true).
     if( moved ) { // Actual effects of moving to the square we've chosen
         const bool did_something =
             ( !pacified && attack_at( next_step ) ) ||
+            ( !pacified && can_open_doors && g->m.open_door( next_step, !g->m.is_outside( pos() ) ) ) ||
             ( !pacified && bash_at( next_step ) ) ||
             ( !pacified && push_to( next_step, 0, 0 ) ) ||
             move_to( next_step, false, get_stagger_adjust( pos(), destination, next_step ) );
@@ -1229,6 +1231,11 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
     if( has_flag( MF_DRIPS_NAPALM ) ) {
         if( one_in( 10 ) ) {
             g->m.add_item_or_charges( pos(), item( "napalm" ) );
+        }
+    }
+    if( has_flag( MF_DRIPS_GASOLINE ) ) {
+        if( one_in( 5 ) ) {
+            g->m.add_item_or_charges( pos(), item( "gasoline" ) );
         }
     }
     return true;

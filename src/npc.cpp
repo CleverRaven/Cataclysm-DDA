@@ -95,7 +95,6 @@ npc::npc()
     int_max = 0;
     per_max = 0;
     my_fac = nullptr;
-    miss_id = mission_type_id::NULL_ID();
     marked_for_death = false;
     death_drops = true;
     dead = false;
@@ -184,9 +183,12 @@ void npc_template::load( JsonObject &jsobj )
     guy.mission = npc_mission( jsobj.get_int( "mission" ) );
     guy.chatbin.first_topic = jsobj.get_string( "chat" );
     if( jsobj.has_string( "mission_offered" ) ) {
-        guy.miss_id = mission_type_id( jsobj.get_string( "mission_offered" ) );
-    } else {
-        guy.miss_id = mission_type_id::NULL_ID();
+        guy.miss_ids.emplace_back( mission_type_id( jsobj.get_string( "mission_offered" ) ) );
+    } else if( jsobj.has_array( "mission_offered" ) ) {
+        JsonArray ja = jsobj.get_array( "mission_offered" );
+        while( ja.has_more() ) {
+            guy.miss_ids.emplace_back( mission_type_id( ja.next_string() ) );
+        }
     }
     npc_templates[string_id<npc_template>( guy.idz )].guy = std::move( guy );
 }
@@ -249,8 +251,8 @@ void npc::load_npc_template( const string_id<npc_template> &ident )
     attitude = tguy.attitude;
     mission = tguy.mission;
     chatbin.first_topic = tguy.chatbin.first_topic;
-    if( !tguy.miss_id.is_null() ) {
-        add_new_mission( mission::reserve_new( tguy.miss_id, getID() ) );
+    for( const mission_type_id &miss_id : tguy.miss_ids ) {
+        add_new_mission( mission::reserve_new( miss_id, getID() ) );
     }
 }
 
@@ -405,6 +407,13 @@ void npc::randomize( const npc_class_id &type )
         int rounds = mr.second.roll();
         for( int i = 0; i < rounds; ++i ) {
             mutate_category( mr.first );
+        }
+    }
+    // Add bionics
+    for( const auto &bl : type->bionic_list ) {
+        int chance = bl.second;
+        if( rng( 0, 100 ) <= chance ) {
+            add_bionic( bl.first );
         }
     }
 }
@@ -876,7 +885,9 @@ bool npc::wield( item &it )
         weapon = it;
     }
 
-    add_msg_if_npc( m_info, _( "<npcname> wields a %s." ),  weapon.tname() );
+    if( g->u.sees( pos() ) ) {
+        add_msg_if_npc( m_info, _( "<npcname> wields a %s." ),  weapon.tname() );
+    }
     return true;
 }
 

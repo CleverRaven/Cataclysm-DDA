@@ -12,6 +12,7 @@ class item;
 class player;
 class npc;
 class map;
+class vpart_reference;
 struct tripoint;
 struct itype;
 struct mtype;
@@ -96,12 +97,15 @@ void reload_furniture( player &p, const tripoint &examp );
 void curtains( player &p, const tripoint &examp );
 void sign( player &p, const tripoint &examp );
 void pay_gas( player &p, const tripoint &examp );
-void climb_down( player &p, const tripoint &examp );
+void ledge( player &p, const tripoint &examp );
 void autodoc( player &p, const tripoint &examp );
 void on_smoke_out( const tripoint &examp,
                    const time_point &start_time ); //activates end of smoking effects
 void smoker_options( player &p, const tripoint &examp );
 void open_safe( player &p, const tripoint &examp );
+void workbench( player &p, const tripoint &examp );
+void workbench_internal( player &p, const tripoint &examp,
+                         const cata::optional<vpart_reference> &part );
 hack_result hack_attempt( player &p );
 
 bool pour_into_keg( const tripoint &pos, item &liquid );
