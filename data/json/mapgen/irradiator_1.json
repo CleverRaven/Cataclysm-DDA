@@ -278,7 +278,7 @@
           "security" : 2,
           "options": [
             { "name": "External power management", "action": "disconnect", "security": 0 },
-            { "name": "Backup power management.", "action": "disconnect", "security": 0 },
+            { "name": "Backup power management", "action": "disconnect", "security": 0 },
             { "name": "Run emergency auto-diagnostic.", "action": "deactivate_shock_vent", "security": 2 }
           ],
           "failures": [ { "action": "alarm" }, { "action": "damage" } ]
