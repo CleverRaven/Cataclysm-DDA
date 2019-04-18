@@ -276,7 +276,7 @@ struct npc_follower_rules {
     void clear_override( ally_rule setit );
 
     void set_danger_overrides();
-    void clear_danger_overrides();
+    void clear_overrides();
 };
 
 struct dangerous_sound {

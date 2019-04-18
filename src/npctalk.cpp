@@ -253,7 +253,7 @@ void game::chat()
         u.shout( _( "We're in danger.  Stay awake, stay close, don't go wandering off, and don't open any doors." ) );
     } else if( nmenu.ret == yell_relax ) {
         for( npc *p : followers ) {
-            p->rules.clear_danger_overrides();
+            talk_function::clear_overrides( *p );
         }
         u.shout( _( "Relax and stand down." ) );
     } else if( nmenu.ret <= static_cast<int>( available.size() ) ) {
@@ -1974,6 +1974,7 @@ void talk_effect_t::parse_string_effect( const std::string &type, JsonObject &jo
             WRAP( set_npc_pickup ),
             WRAP( npc_die ),
             WRAP( npc_thankful ),
+            WRAP( clear_overrides ),
             WRAP( nothing )
 #undef WRAP
         }

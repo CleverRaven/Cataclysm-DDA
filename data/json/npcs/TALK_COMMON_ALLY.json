@@ -515,6 +515,7 @@
         "effect": { "toggle_npc_rule": "ignore_noise" }
       },
       { "text": "Set up pickup rules.", "topic": "TALK_MISC_RULES", "effect": "set_npc_pickup" },
+      { "text": "Clear all overrides.", "topic": "TALK_MISC_RULES", "effect": "clear_overrides" },
       { "text": "Never mind.", "topic": "TALK_NONE" }
     ]
   },

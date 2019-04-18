@@ -2546,7 +2546,7 @@ void npc_follower_rules::set_danger_overrides()
     enable_override( ally_rule::hold_the_line );
 }
 
-void npc_follower_rules::clear_danger_overrides()
+void npc_follower_rules::clear_overrides()
 {
     overrides = ally_rule::DEFAULT;
     override_enable = ally_rule::DEFAULT;
