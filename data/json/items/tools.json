@@ -4766,7 +4766,6 @@
     "symbol": ";",
     "color": "white",
     "ammo": "battery",
-    "flags": [ "NO_UNLOAD" ],
     "use_action": { "target": "lightstrip", "msg": "You irreversibly activate the lightstrip.", "active": true, "type": "transform" },
     "magazines": [ [ "battery", [ "light_battery_cell", "light_plus_battery_cell", "light_minus_battery_cell" ] ] ],
     "magazine_well": 0
