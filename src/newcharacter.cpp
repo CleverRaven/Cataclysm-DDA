@@ -441,14 +441,14 @@ bool player::create( character_type type, const std::string &tempname )
     switch( type ) {
         case PLTYPE_CUSTOM:
             break;
-        case PLTYPE_RANDOM: //fixed scenario, default name if exist
-            randomize( false, points );
+        case PLTYPE_RANDOM: //random scenario, default name if exist
+            randomize( true, points );
             tab = NEWCHAR_TAB_MAX;
             break;
-        case PLTYPE_NOW: //fixed scenario, random name
+        case PLTYPE_NOW: //default world, fixed scenario, random name
             randomize( false, points, true );
             break;
-        case PLTYPE_FULL_RANDOM: //random scenario, random name
+        case PLTYPE_FULL_RANDOM: //default world, random scenario, random name
             randomize( true, points, true );
             break;
         case PLTYPE_TEMPLATE:
