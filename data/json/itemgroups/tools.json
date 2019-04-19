@@ -51,6 +51,7 @@
       [ "jumper_cable", 10 ],
       [ "funnel", 50 ],
       [ "crowbar", 10 ],
+      [ "thermometer", 5 ],
       [ "multitool", 10 ]
     ]
   },
