@@ -1166,7 +1166,7 @@ void npc::decide_needs()
     }
 }
 
-void npc::say( const std::string &line, const bool shout ) const
+void npc::say( const std::string &line, const int priority ) const
 {
     std::string formatted_line = line;
     parse_tags( formatted_line, g->u, *this );
@@ -1179,10 +1179,9 @@ void npc::say( const std::string &line, const bool shout ) const
         add_msg( m_warning, _( "%1$s says something but you can't hear it!" ), name );
     }
     // Sound happens even if we can't hear it
-    // Default volume for shouting for NPCs at 25
-    // TODO use same logic as for player shout volume
-    if( shout ) {
-        sounds::sound( pos(), 25, sounds::sound_t::alert, sound );
+    sounds::sound_t spriority = static_cast<sounds::sound_t>( priority );
+    if( spriority == sounds::sound_t::order || spriority == sounds::sound_t::alert ) {
+        sounds::sound( pos(), get_shout_volume(), spriority, sound );
     } else {
         sounds::sound( pos(), 16, sounds::sound_t::speech, sound );
     }
