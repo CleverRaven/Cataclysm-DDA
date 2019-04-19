@@ -19,11 +19,6 @@ if (localPropertiesFile.exists()) {
 
 def njobs = getProperty("j")
 
-def upstreamBuildNumber = System.getenv('UPSTREAM_BUILD_NUMBER')
-if (upstreamBuildNumber == null) {
-    upstreamBuildNumber = 1
-}
-
 task unzipDeps(type: Copy) {
     def zipFile = new File('./deps.zip')
     def outputDir = new File('.')
@@ -73,7 +68,7 @@ android {
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 26
-        versionCode upstreamBuildNumber
+        versionCode Integer.valueOf(System.env.UPSTREAM_BUILD_NUMBER :? 1 )
         versionName new File('app/jni/src/version.h').text.split("\"")[1]
         if (buildAsApplication) {
             applicationId "com.cleverraven.cataclysmdda"
