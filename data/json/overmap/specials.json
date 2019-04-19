@@ -2281,9 +2281,9 @@
       { "point": [ 2, 2, 1 ], "overmap": "irradiator_1_7_roof_north" }
     ],
     "locations": [ "land" ],
-    "connections": [ 
+    "connections": [
       { "point": [ 0, 3, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 2, 0 ] },
-      { "point": [ 1, 3, 0 ], "terrain": "road"},
+      { "point": [ 1, 3, 0 ], "terrain": "road" },
       { "point": [ 2, 3, 0 ], "terrain": "road", "connection": "local_road", "from": [ 2, 2, 0 ] }
     ],
     "city_distance": [ 5, 15 ],
