@@ -1411,8 +1411,8 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW. \n\
             }
             for( const auto &it : items ) {
                 g->m.add_item_or_charges( unloading, it );
-                g->m.i_clear( platform );
             }
+            g->m.i_clear( platform );
             items = g->m.i_at( loading );
             if( items.size() != 0 ) {
                 print_line( _( "Moving items: LOADING BAY --> PLATFORM." ) );
@@ -1422,9 +1422,9 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW. \n\
             for( const auto &it : items ) {
                 if( !it.made_of_from_type( LIQUID ) ) {
                     g->m.add_item_or_charges( platform, it );
-                    g->m.i_clear( loading );
                 }
             }
+            g->m.i_clear( loading );
             query_any( _( "Conveyor belt cycle complete.  Press any key..." ) );
             break;
         }
