@@ -4912,5 +4912,22 @@
       { "monster": "mon_zombie_child", "freq": 20, "cost_multiplier": 1 },
       { "monster": "mon_zombie_crawler", "freq": 10, "cost_multiplier": 1 }
     ]
+  },
+  {
+    "name": "GROUP_LAB",
+    "type": "monstergroup",
+    "default": "mon_zombie_scientist",
+    "//": "Same as GROUP_CENTRAL_LAB without robots.",
+    "monsters": [
+      { "monster": "mon_zombie_soldier", "freq": 25, "cost_multiplier": 0, "pack_size": [ 1, 4 ] },
+      { "monster": "mon_zombie_hazmat", "freq": 100, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_bio_op", "freq": 50, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_armored", "freq": 5, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_technician", "freq": 50, "cost_multiplier": 3 },
+      { "monster": "mon_zombie_electric", "freq": 50, "cost_multiplier": 3 },
+      { "monster": "mon_zombie_brute_shocker", "freq": 10, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_hulk", "freq": 1, "cost_multiplier": 50 },
+      { "monster": "mon_skeleton_hulk", "freq": 1, "cost_multiplier": 50 }
+    ]
   }
 ]

@@ -102,8 +102,13 @@ const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
 const mtype_id mon_zombie_spitter( "mon_zombie_spitter" );
 const mtype_id mon_zombie_tough( "mon_zombie_tough" );
 
-static const mongroup_id group_turret( "GROUP_TURRET" );
-static const mongroup_id group_robot_secubot( "GROUP_ROBOT_SECUBOT" );
+const mongroup_id GROUP_TURRET( "GROUP_TURRET" );
+const mongroup_id GROUP_ROBOT_SECUBOT( "GROUP_ROBOT_SECUBOT" );
+const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
+const mongroup_id GROUP_SEWER( "GROUP_SEWER" );
+const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
+const mongroup_id GROUP_LAB( "GROUP_LAB" );
+const mongroup_id GROUP_VANILLA( "GROUP_VANILLA" );
 
 void science_room( map *m, int x1, int y1, int x2, int y2, int z, int rotate );
 void set_science_room( map *m, int x1, int y1, bool faces_right, const time_point &when );
@@ -2459,8 +2464,7 @@ void map::draw_map( const oter_id &terrain_type, const oter_id &t_north, const o
                     const oter_id &t_above, const oter_id &t_below, const time_point &when,
                     const float density, const int zlevel, const regional_settings *rsettings )
 {
-    static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
-    static const mongroup_id GROUP_LAB( "GROUP_LAB" );
+    
     // Big old switch statement with a case for each overmap terrain type.
     // Many of these can be copied from another type, then rotated; for instance,
     //  "house_east" is identical to "house_north", just rotated 90 degrees to
@@ -3238,7 +3242,7 @@ ___DEEE|.R.|...,,...|sss\n",
             science_room( this, 2, 2, SEEX - 3, SEEY * 2 - 3, zlevel, 1 );
             science_room( this, SEEX + 2, 2, SEEX * 2 - 3, SEEY * 2 - 3, zlevel, 3 );
 
-            place_spawns( group_turret, 1, SEEX, 5, SEEY, 5, 1, true );
+            place_spawns( GROUP_TURRET, 1, SEEX, 5, SEEY, 5, 1, true );
 
             if( is_ot_type( "road", t_east ) ) {
                 rotate( 1 );
@@ -3782,6 +3786,7 @@ ___DEEE|.R.|...,,...|sss\n",
                         ter_set( x, y, t_thconc_floor );
                     }, center.x, center.y, 1 );
                     add_spawn( mon_hazmatbot, 1, center.x - 1, center.y );
+                    // TODO: change monster spawn
                     if( one_in( 2 ) ) {
                         add_spawn( mon_hazmatbot, 1, center.x + 1, center.y );
                     }
@@ -3955,14 +3960,14 @@ ___DEEE|.R.|...,,...|sss\n",
                 case 1:
                 case 2:
                     loot_variant = rng( 1, 100 ); //The variants have a 67/22/7/4 split.
-                    place_spawns( group_robot_secubot, 1, 6, 6, 6, 6, 1, true );
-                    place_spawns( group_robot_secubot, 1, SEEX * 2 - 7, 6, SEEX * 2 - 7, 6, 1, true );
-                    place_spawns( group_robot_secubot, 1, 6, SEEY * 2 - 7, 6, SEEY * 2 - 7, 1, true );
-                    place_spawns( group_robot_secubot, 1, SEEX * 2 - 7, SEEY * 2 - 7, SEEX * 2 - 7, SEEY * 2 - 7, 1, true );
-                    /* add_spawn( mon_secubot, 1,            6,            6 );
-                    add_spawn( mon_secubot, 1, SEEX * 2 - 7,            6 );
-                    add_spawn( mon_secubot, 1,            6, SEEY * 2 - 7 );
-                    add_spawn( mon_secubot, 1, SEEX * 2 - 7, SEEY * 2 - 7 ); */
+                    place_spawns( GROUP_ROBOT_SECUBOT, 1, 6, 6, 6, 6, 1, true );
+                    place_spawns( GROUP_ROBOT_SECUBOT, 1, SEEX * 2 - 7, 6, SEEX * 2 - 7, 6, 1, true );
+                    place_spawns( GROUP_ROBOT_SECUBOT, 1, 6, SEEY * 2 - 7, 6, SEEY * 2 - 7, 1, true );
+                    place_spawns( GROUP_ROBOT_SECUBOT, 1, SEEX * 2 - 7, SEEY * 2 - 7, SEEX * 2 - 7, SEEY * 2 - 7, 1, true );
+                    // add_spawn( mon_secubot, 1,            6,            6 );
+                    // add_spawn( mon_secubot, 1, SEEX * 2 - 7,            6 );
+                    // add_spawn( mon_secubot, 1,            6, SEEY * 2 - 7 );
+                    // add_spawn( mon_secubot, 1, SEEX * 2 - 7, SEEY * 2 - 7 );
                     spawn_item( SEEX - 4, SEEY - 2, "id_science" );
                     if( loot_variant <= 96 ) {
                         mtrap_set( this, SEEX - 3, SEEY - 3, tr_dissector );
@@ -4051,8 +4056,9 @@ ___DEEE|.R.|...,,...|sss\n",
                                 } else if( j == tw + 2 ) {
                                     ter_set( i, j, t_concrete_wall );
                                 } else { // Empty space holds monsters!
-                                    const mtype_id &type = random_entry( nethercreatures );
-                                    add_spawn( type, 1, i, j );
+                                    // const mtype_id &type = random_entry( nethercreatures );
+                                    // add_spawn( type, 1, i, j );
+                                    place_spawns( GROUP_NETHER, 1, i, j, i, j, true);
                                 }
                             }
                         }
@@ -4077,10 +4083,14 @@ ___DEEE|.R.|...,,...|sss\n",
 
                 // Bionics
                 case 4: {
-                    add_spawn( mon_secubot, 1,            6,            6 );
-                    add_spawn( mon_secubot, 1, SEEX * 2 - 7,            6 );
-                    add_spawn( mon_secubot, 1,            6, SEEY * 2 - 7 );
-                    add_spawn( mon_secubot, 1, SEEX * 2 - 7, SEEY * 2 - 7 );
+                    place_spawns( GROUP_ROBOT_SECUBOT, 1, 6, 6, 6, 6, 1, true );
+                    place_spawns( GROUP_ROBOT_SECUBOT, 1, SEEX * 2 - 7, 6, SEEX * 2 - 7, 6, 1, true );
+                    place_spawns( GROUP_ROBOT_SECUBOT, 1, 6, SEEY * 2 - 7, 6, SEEY * 2 - 7, 1, true );
+                    place_spawns( GROUP_ROBOT_SECUBOT, 1, SEEX * 2 - 7, SEEY * 2 - 7, SEEX * 2 - 7, SEEY * 2 - 7, 1, true );
+                    // add_spawn( mon_secubot, 1,            6,            6 );
+                    // add_spawn( mon_secubot, 1, SEEX * 2 - 7,            6 );
+                    // add_spawn( mon_secubot, 1,            6, SEEY * 2 - 7 );
+                    // add_spawn( mon_secubot, 1, SEEX * 2 - 7, SEEY * 2 - 7 );
                     mtrap_set( this, SEEX - 2, SEEY - 2, tr_dissector );
                     mtrap_set( this, SEEX + 1, SEEY - 2, tr_dissector );
                     mtrap_set( this, SEEX - 2, SEEY + 1, tr_dissector );
@@ -4106,10 +4116,14 @@ ___DEEE|.R.|...,,...|sss\n",
 
                 // CVD Forge
                 case 5:
-                    add_spawn( mon_secubot, 1,            6,            6 );
-                    add_spawn( mon_secubot, 1, SEEX * 2 - 7,            6 );
-                    add_spawn( mon_secubot, 1,            6, SEEY * 2 - 7 );
-                    add_spawn( mon_secubot, 1, SEEX * 2 - 7, SEEY * 2 - 7 );
+                    place_spawns( GROUP_ROBOT_SECUBOT, 1, 6, 6, 6, 6, 1, true );
+                    place_spawns( GROUP_ROBOT_SECUBOT, 1, SEEX * 2 - 7, 6, SEEX * 2 - 7, 6, 1, true );
+                    place_spawns( GROUP_ROBOT_SECUBOT, 1, 6, SEEY * 2 - 7, 6, SEEY * 2 - 7, 1, true );
+                    place_spawns( GROUP_ROBOT_SECUBOT, 1, SEEX * 2 - 7, SEEY * 2 - 7, SEEX * 2 - 7, SEEY * 2 - 7, 1, true );
+                    // add_spawn( mon_secubot, 1,            6,            6 );
+                    // add_spawn( mon_secubot, 1, SEEX * 2 - 7,            6 );
+                    // add_spawn( mon_secubot, 1,            6, SEEY * 2 - 7 );
+                    // add_spawn( mon_secubot, 1, SEEX * 2 - 7, SEEY * 2 - 7 );
                     line( this, t_cvdbody, SEEX - 2, SEEY - 2, SEEX - 2, SEEY + 1 );
                     line( this, t_cvdbody, SEEX - 1, SEEY - 2, SEEX - 1, SEEY + 1 );
                     line( this, t_cvdbody, SEEX, SEEY - 1, SEEX, SEEY + 1 );
@@ -4272,10 +4286,14 @@ ___DEEE|.R.|...,,...|sss\n",
 
                 case 2: // Spreading water
                     square( this, t_water_dp, 4, 4, 5, 5 );
-                    add_spawn( mon_sewer_snake, 1, 4, 4 );
+                    // replaced mon_sewer_snake spawn with GROUP_SEWER
+                    // should a group of only sewer snakes be made? i decided it wouldn't be worth
+                    place_spawns( GROUP_SEWER, 1, 4, 4, 4, 4, 1, true );
+                    // add_spawn( mon_sewer_snake, 1, 4, 4 );
 
                     square( this, t_water_dp, SEEX * 2 - 5, 4, SEEX * 2 - 4, 6 );
-                    add_spawn( mon_sewer_snake, 1, SEEX * 2 - 5, 4 );
+                    place_spawns( GROUP_SEWER, 1, 1, SEEX * 2 - 5, 1, SEEX * 2 - 5, 1, true );
+                    // add_spawn( mon_sewer_snake, 1, SEEX * 2 - 5, 4 );
 
                     square( this, t_water_dp, 4, SEEY * 2 - 5, 6, SEEY * 2 - 4 );
 
@@ -4904,6 +4922,7 @@ ___DEEE|.R.|...,,...|sss\n",
                             sides.push_back( WEST );
                         }
                         if( sides.empty() ) {
+                            // TODO: change to monster group
                             add_spawn( mon_dark_wyrm, 1, SEEX, SEEY );
                             i = num_worms;
                         } else {
@@ -5130,6 +5149,7 @@ ___DEEE|.R.|...,,...|sss\n",
                     add_item( x, y, item::make_corpse() );
                     place_items( "mine_equipment", 60, x, y, x, y, false, 0 );
                 }
+                // TODO: change to monster group
                 add_spawn( mon_dog_thing, 1, rng( SEEX, SEEX + 1 ), rng( SEEX, SEEX + 1 ), true );
                 spawn_artifact( tripoint( rng( SEEX, SEEX + 1 ), rng( SEEY, SEEY + 1 ), abs_sub.z ) );
             }
@@ -5315,6 +5335,7 @@ ___DEEE|.R.|...,,...|sss\n",
         place_items( "toxic_dump_equipment", 85,  19,  1, 19,  3, false, 0 );
         place_items( "toxic_dump_equipment", 85,  19,  5, 19,  7, false, 0 );
         if( x_in_y( 1, 2 ) ) {
+            // TODO: change to monster group
             add_spawn( mon_hazmatbot, 1, 10, 5 );
         }
         //lazy radiation mapping
@@ -5381,6 +5402,7 @@ ___DEEE|.R.|...,,...|sss\n",
             place_items( "cleaning", 85,  6,  11, 6,  14, false, 0 );
             place_items( "tools_common", 85,  10,  6, 13,  6, false, 0 );
             place_items( "toxic_dump_equipment", 85,  22,  14, 23,  15, false, 0 );
+            // TODO: change to monster group
             if( x_in_y( 1, 2 ) ) {
                 add_spawn( mon_hazmatbot, 1, 22, 12 );
             }
@@ -5519,6 +5541,7 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
             place_items( "office", 85,  16,  23, 18,  23, false, 0 );
             place_items( "cleaning", 85,  11,  23, 12,  23, false, 0 );
             place_items( "robots", 90,  2,  11, 3,  11, false, 0 );
+            // TODO: change to monster group
             if( x_in_y( 1, 2 ) ) {
                 add_spawn( mon_hazmatbot, 1, 7, 10 );
             }
@@ -5599,9 +5622,11 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
                     if( one_in( 250 ) ) {
                         add_item( i, j, item::make_corpse() );
                         place_items( "science",  70, i, j, i, j, true, 0 );
-                    } else if( one_in( 80 ) ) {
+                    } 
+                    place_spawns( GROUP_LAB, 80, i, j, i, j, 1, true );
+                    /* else if( one_in( 80 ) ) {
                         add_spawn( mon_zombie, 1, i, j );
-                    }
+                    } */
                 }
                 if( this->ter( i, j ) != t_metal_floor ) {
                     adjust_radiation( x, y, rng( 10, 70 ) );
@@ -5621,6 +5646,7 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
                     if( one_in( 40 ) ) {
                         spawn_item( i, j, "nanomaterial", 1, 5 );
                     }
+                    /*
                     if( one_in( 5 ) ) {
                         if( one_in( 10 ) ) {
                             add_spawn( mon_zombie_child, 1, i, j );
@@ -5629,7 +5655,8 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
                         } else {
                             add_spawn( mon_zombie, 1, i, j );
                         }
-                    }
+                    }*/
+                    place_spawns( GROUP_VANILLA, 5, i, j, i, j, 1, true );
                 }
             }
         }
@@ -5693,8 +5720,9 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
                         if( one_in( 250 ) ) {
                             add_item( i, j, item::make_corpse() );
                             place_items( "science",  70, i, j, i, j, true, 0 );
-                        } else if( one_in( 80 ) ) {
-                            add_spawn( mon_zombie, 1, i, j );
+                        } else {
+                            place_spawns( GROUP_LAB, 1, i, j, i, j, 1, true );
+                            // add_spawn( mon_zombie, 1, i, j );
                         }
                     }
                     if( this->ter( i, j ) != t_metal_floor ) {
@@ -5715,7 +5743,7 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
                         if( one_in( 40 ) ) {
                             spawn_item( i, j, "nanomaterial", 1, 5 );
                         }
-                        if( one_in( 5 ) ) {
+                        /* if( one_in( 5 ) ) {
                             if( one_in( 10 ) ) {
                                 add_spawn( mon_zombie_child, 1, i, j );
                             } else if( one_in( 15 ) ) {
@@ -5723,7 +5751,8 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
                             } else {
                                 add_spawn( mon_zombie, 1, i, j );
                             }
-                        }
+                        } */
+                        place_spawns( GROUP_VANILLA, 5, i, j, i, j, 1, true );
                     }
                 }
             }
@@ -5780,9 +5809,10 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
                         if( one_in( 250 ) ) {
                             add_item( i, j, item::make_corpse() );
                             place_items( "science",  70, i, j, i, j, true, 0 );
-                        } else if( one_in( 80 ) ) {
+                        } /* else if( one_in( 80 ) ) {
                             add_spawn( mon_zombie, 1, i, j );
-                        }
+                        } */
+                        place_spawns( GROUP_LAB, 80, i, j, i, j, 1, true );
                     }
                     if( this->ter( i, j ) != t_metal_floor ) {
                         adjust_radiation( x, y, rng( 10, 70 ) );
@@ -5802,7 +5832,7 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
                         if( one_in( 20 ) ) {
                             spawn_item( i, j, "nanomaterial", 1, 5 );
                         }
-                        if( one_in( 5 ) ) {
+                        /*if( one_in( 5 ) ) {
                             if( one_in( 10 ) ) {
                                 add_spawn( mon_zombie_child, 1, i, j );
                             } else if( one_in( 15 ) ) {
@@ -5810,7 +5840,8 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
                             } else {
                                 add_spawn( mon_zombie, 1, i, j );
                             }
-                        }
+                        }*/
+                        place_spawns( GROUP_VANILLA, 5, i, j, i, j, 1, true );
                     }
                 }
             }
@@ -5876,9 +5907,10 @@ $$$$-|-|=HH-|-HHHH-|####\n",
                         if( one_in( 250 ) ) {
                             add_item( i, j, item::make_corpse() );
                             place_items( "science",  70, i, j, i, j, true, 0 );
-                        } else if( one_in( 80 ) ) {
+                        } /* else if( one_in( 80 ) ) {
                             add_spawn( mon_zombie, 1, i, j );
-                        }
+                        }*/
+                        place_spawns( GROUP_LAB, 80, i, j, i, j, 1, true );
                     }
                     if( this->ter( i, j ) != t_metal_floor ) {
                         adjust_radiation( x, y, rng( 10, 70 ) );
@@ -5898,7 +5930,7 @@ $$$$-|-|=HH-|-HHHH-|####\n",
                         if( one_in( 40 ) ) {
                             spawn_item( i, j, "nanomaterial", 1, 5 );
                         }
-                        if( one_in( 5 ) ) {
+                        /* if( one_in( 5 ) ) {
                             if( one_in( 10 ) ) {
                                 add_spawn( mon_zombie_child, 1, i, j );
                             } else if( one_in( 15 ) ) {
@@ -5906,7 +5938,8 @@ $$$$-|-|=HH-|-HHHH-|####\n",
                             } else {
                                 add_spawn( mon_zombie, 1, i, j );
                             }
-                        }
+                        }*/
+                        place_spawns( GROUP_VANILLA, 5, i, j, i, j, 1, true );
                     }
                 }
             }
@@ -5979,8 +6012,9 @@ $$$$-|-|=HH-|-HHHH-|####\n",
                 place_items( "magazines", 70, x + 3, 4, x + 3, 14, false, 0 );
             }
             if( const auto p = random_point( *this, [this]( const tripoint & n ) {
-            return ter( n ) == t_floor;
+                return ter( n ) == t_floor;
             } ) ) {
+
                 add_spawn( mon_zombie, 1, p->x, p->y );
             }
             // Finally, figure out where the road is; construct our entrance facing that.
@@ -6748,6 +6782,7 @@ void map::place_spawns( const mongroup_id &group, const int chance,
         return;
     }
 
+    // Set chance to be 1 or less to guarantee spawn, else set higher than 1
     if( !one_in( chance ) ) {
         return;
     }
@@ -6760,7 +6795,7 @@ void map::place_spawns( const mongroup_id &group, const int chance,
     }
 
     float multiplier = density * spawn_density;
-    // Only spawn 1 creature if individual flag set
+    // Only spawn 1 creature if individual flag set, else scale 10-20 by density
     float thenum = individual ? 1 : (multiplier * rng_float(10.0f, 50.0f));
     int num = roll_remainder( thenum );
 
