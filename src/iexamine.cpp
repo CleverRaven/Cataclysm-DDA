@@ -4695,7 +4695,7 @@ void iexamine::quern_examine( player &p, const tripoint &examp )
     const auto remaining_capacity = sm_rack::MAX_FOOD_VOLUME - f_volume;
 
     uilist smenu;
-    smenu.text = _( "What to do with the mill?:" );
+    smenu.text = _( "What to do with the mill?" );
     smenu.desc_enabled = true;
 
     smenu.addentry( 0, true, 'i', _( "Inspect mill" ) );
