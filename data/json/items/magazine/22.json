@@ -114,5 +114,21 @@
     "capacity": 10,
     "reliability": 9,
     "flags": [ "MAG_COMPACT" ]
+  },
+  {
+    "id": "j22mag",
+    "type": "MAGAZINE",
+    "name": "Jennings J-22 magazine",
+    "description": "A cheap 6-round steel box magazine for the Jennings J-22.",
+    "weight": 55,
+    "volume": "27ml",
+    "price": 2800,
+    "material": "steel",
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": "22",
+    "capacity": 6,
+    "reliability": 6,
+    "flags": [ "MAG_COMPACT" ]
   }
 ]
