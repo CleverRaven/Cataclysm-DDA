@@ -2085,7 +2085,7 @@ void player::memorial( std::ostream &memorial_file, const std::string &epitaph )
     //~ First parameter is a pronoun ("He"/"She"), second parameter is a description
     // that designates the location relative to its surroundings.
     const std::string kill_place = string_format( _( "%1$s was killed in a %2$s." ),
-                                   pronoun.c_str(), locdesc );
+                                   pronoun, locdesc );
 
     //Header
     memorial_file << string_format( _( "Cataclysm - Dark Days Ahead version %s memorial file" ),
@@ -2094,11 +2094,11 @@ void player::memorial( std::ostream &memorial_file, const std::string &epitaph )
     memorial_file << string_format( _( "In memory of: %s" ), name ) << eol;
     if( epitaph.length() > 0 ) { //Don't record empty epitaphs
         //~ The "%s" will be replaced by an epitaph as displayed in the memorial files. Replace the quotation marks as appropriate for your language.
-        memorial_file << string_format( pgettext( "epitaph", "\"%s\"" ), epitaph.c_str() ) << eol << eol;
+        memorial_file << string_format( pgettext( "epitaph", "\"%s\"" ), epitaph ) << eol << eol;
     }
     //~ First parameter: Pronoun, second parameter: a profession name (with article)
     memorial_file << string_format( _( "%1$s was %2$s when the apocalypse began." ),
-                                    pronoun.c_str(), profession_name ) << eol;
+                                    pronoun, profession_name ) << eol;
     memorial_file << string_format( _( "%1$s died on %2$s." ), pronoun,
                                     to_string( time_point( calendar::turn ) ) ) << eol;
     memorial_file << kill_place << eol;
@@ -4893,7 +4893,7 @@ void player::print_health() const
     auto iter = msg_categories.lower_bound( current_health );
     if( iter != msg_categories.end() && !iter->second.empty() ) {
         const std::string &msg = SNIPPET.random_from_category( iter->second );
-        add_msg_if_player( current_health > 0 ? m_good : m_bad, msg.c_str() );
+        add_msg_if_player( current_health > 0 ? m_good : m_bad, msg );
     }
 }
 
@@ -5650,7 +5650,7 @@ void player::suffer()
                         std::string str = string_format( random_entry_ref( drops ), i_name_w );
                         str[0] = toupper( str[0] );
 
-                        add_msg( m_bad, str.c_str() );
+                        add_msg( m_bad, str );
                         drop( get_item_position( &weapon ), pos() );
                     }
                     done_effect = true;
@@ -6402,7 +6402,7 @@ bool player::irradiate( float rads, bool bypass )
             }
 
             add_msg_if_player( m_warning, _( "Your radiation badge changes from %1$s to %2$s!" ),
-                               col_before.c_str(), col_after.c_str() );
+                               col_before, col_after );
         }
 
         if( rads > 0.0f ) {
@@ -7596,7 +7596,7 @@ item::reload_option player::select_ammo( const item &base,
 
     auto draw_row = [&]( int idx ) {
         const auto &sel = opts[ idx ];
-        std::string row = string_format( "%s| %s |", names[ idx ].c_str(), where[ idx ].c_str() );
+        std::string row = string_format( "%s| %s |", names[ idx ], where[ idx ] );
         row += string_format( ( sel.ammo->is_ammo() ||
                                 sel.ammo->is_ammo_container() ) ? " %-7d |" : "         |", sel.qty() );
         row += string_format( " %-7d ", sel.moves() );
@@ -8247,7 +8247,7 @@ bool player::dispose_item( item_location &&obj, const std::string &prompt )
 
     for( const auto &e : opts ) {
         menu.addentry( -1, e.enabled, e.invlet, string_format( e.enabled ? "%s | %-7d" : "%s |",
-                       e.prompt.c_str(), e.moves ) );
+                       e.prompt, e.moves ) );
     }
 
     menu.query();
@@ -9766,7 +9766,7 @@ bool player::read( int inventory_position, const bool continuous )
                 const std::string lvl_text = skill ? string_format( _( " | current level: %d" ), lvl ) : "";
                 const std::string name_text = elem.first->disp_name() + elem.second;
                 return string_format( ( "%-*s%s" ), static_cast<int>( max_length( m ) ),
-                                      name_text.c_str(), lvl_text.c_str() );
+                                      name_text, lvl_text );
             };
 
             auto add_header = [&menu]( const std::string & str ) {
@@ -10074,7 +10074,7 @@ void player::do_read( item &book )
     if( !out_of_chapters.empty() ) {
         const std::string names = enumerate_as_string( out_of_chapters );
         add_msg( m_info, _( "Rereading the %s isn't as much fun for %s." ),
-                 book.type_name(), names.c_str() );
+                 book.type_name(), names );
         if( out_of_chapters.front() == disp_name() && one_in( 6 ) ) {
             add_msg( m_info, _( "Maybe you should find something new to read..." ) );
         }
@@ -10900,7 +10900,7 @@ bool player::armor_absorb( damage_unit &du, item &armor )
     // add "further" if the damage adjective and verb are the same
     std::string format_string = ( pre_damage_adj == damage_verb ) ?
                                 _( "Your %1$s is %2$s further!" ) : _( "Your %1$s is %2$s!" );
-    add_msg_if_player( m_bad, format_string.c_str(), pre_damage_name, damage_verb );
+    add_msg_if_player( m_bad, format_string, pre_damage_name, damage_verb );
     //item is damaged
     if( is_player() ) {
         SCT.add( posx(), posy(), NORTH, remove_color_tags( pre_damage_name ), m_neutral, damage_verb,

@@ -548,10 +548,9 @@ static cata::optional<item_location> wield_craft( player &p, item &craft )
 {
     if( p.wield( craft ) ) {
         if( p.weapon.invlet ) {
-            p.add_msg_if_player( m_info, _( "Wielding %c - %s" ), p.weapon.invlet,
-                                 p.weapon.display_name().c_str() );
+            p.add_msg_if_player( m_info, _( "Wielding %c - %s" ), p.weapon.invlet, p.weapon.display_name() );
         } else {
-            p.add_msg_if_player( m_info, _( "Wielding - %s" ), p.weapon.display_name().c_str() );
+            p.add_msg_if_player( m_info, _( "Wielding - %s" ), p.weapon.display_name() );
         }
         return item_location( p, &p.weapon );
     }

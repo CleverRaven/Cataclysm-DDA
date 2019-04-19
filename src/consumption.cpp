@@ -1201,7 +1201,8 @@ bool player::feed_furnace_with( item &it )
     if( !can_feed_furnace_with( it ) ) {
         return false;
     }
-    if( it.is_favorite && !g->u.query_yn( _( "Are you sure you want to eat your favorited %s?" ), it.tname() ) ) {
+    if( it.is_favorite &&
+        !g->u.query_yn( _( "Are you sure you want to eat your favorited %s?" ), it.tname() ) ) {
         return false;
     }
 

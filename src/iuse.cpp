@@ -5213,7 +5213,7 @@ int iuse::unfold_generic( player *p, item *it, bool, const tripoint & )
     } else {
         unfold_msg = _( unfold_msg );
     }
-    p->add_msg_if_player( unfold_msg.c_str(), veh->name );
+    p->add_msg_if_player( m_neutral, unfold_msg, veh->name );
 
     p->moves -= it->get_var( "moves", 500 );
     return 1;

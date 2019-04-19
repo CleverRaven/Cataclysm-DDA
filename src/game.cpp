@@ -12237,7 +12237,7 @@ void game::update_stair_monsters()
                     } else {
                         msg = _( "The %1$s pushed the %2$s." );
                     }
-                    add_msg( msg.c_str(), critter.name(), other.name() );
+                    add_msg( m_neutral, msg, critter.name(), other.name() );
                     return;
                 }
             }
@@ -13050,7 +13050,7 @@ void game::add_artifact_messages( const std::vector<art_effect_passive> &effects
     }
 
     if( !stat_info.empty() ) {
-        add_msg( stat_info.c_str() );
+        add_msg( m_neutral, stat_info );
     }
 
     if( net_speed != 0 ) {

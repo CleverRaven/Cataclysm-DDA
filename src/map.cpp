@@ -1268,7 +1268,7 @@ std::string map::furnname( const tripoint &p )
     if( f.has_flag( "PLANT" ) && !i_at( p ).empty() ) {
         const item &seed = i_at( p ).front();
         const std::string &plant = seed.get_plant_name();
-        return string_format( "%s (%s)", f.name(), plant.c_str() );
+        return string_format( "%s (%s)", f.name(), plant );
     } else {
         return f.name();
     }

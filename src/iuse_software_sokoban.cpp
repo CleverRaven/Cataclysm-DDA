@@ -207,8 +207,7 @@ void sokoban_game::draw_level( const catacurses::window &w_sokoban )
                     sTile = "@";
                 }
 
-                mvwprintz( w_sokoban, iOffsetY + ( elem.first ), iOffsetX + ( iterX->first ), cCol,
-                           sTile.c_str() );
+                mvwprintz( w_sokoban, iOffsetY + ( elem.first ), iOffsetX + ( iterX->first ), cCol, sTile );
             }
         }
     }
