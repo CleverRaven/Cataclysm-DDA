@@ -3759,7 +3759,7 @@ void item::set_relative_rot( double val )
         rot = get_comestible()->spoils * val;
         // calc_rot uses last_rot_check (when it's not time_of_cataclysm) instead of bday.
         // this makes sure the rotting starts from now, not from bday.
-        // if this item is the result of smoking don't do this, we want to start from bday.
+        // if this item is the result of smoking or milling don't do this, we want to start from bday.
         if( !has_flag( "PROCESSING_RESULT" ) ) {
             last_rot_check = calendar::turn;
         }
