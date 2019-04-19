@@ -4260,7 +4260,8 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
                 return null_item_reference();
             }
 
-            if( !valid_tile( e ) || has_flag( "NOITEM", e ) || !valid_limits( e ) ) {
+            if( !valid_tile( e ) || !valid_limits( e ) ||
+                has_flag( "NOITEM", e ) || has_flag( "SEALED", e ) ) {
                 continue;
             }
             return place_item( e );
