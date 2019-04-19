@@ -2273,7 +2273,7 @@
     "volume": 1,
     "covers": [ "TORSO" ],
     "encumbrance": 1,
-    "flags": [ "BELTED" ],
+    "flags": [ "BELTED", "SAFECRACK" ],
     "coverage": 5
   },
   {
@@ -2518,5 +2518,48 @@
     "coverage": 25,
     "material_thickness": 4,
     "use_action": "DIVE_TANK"
+  },
+  {
+    "id": "electric_blanket",
+    "type": "TOOL_ARMOR",
+    "name": "electric blanket",
+    "description": "A heated blanket made of polyester.  The most comfortable thing on Earth.  Its cost is usually negligible, but with the power out, it chews through batteries insanely quickly.",
+    "weight": 1123,
+    "volume": 10,
+    "price": 5500,
+    "to_hit": -1,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "color": "brown",
+    "covers": [ "TORSO", "ARMS", "HANDS", "LEGS", "FEET" ],
+    "coverage": 100,
+    "encumbrance": 35,
+    "warmth": 50,
+    "material_thickness": 3,
+    "environmental_protection": 1,
+    "max_charges": 500,
+    "initial_charges": 10,
+    "charges_per_use": 1,
+    "ammo": "battery",
+    "use_action": {
+      "type": "transform",
+      "msg": "You turn the blanket's heating elements on.",
+      "target": "electric_blanket_on",
+      "active": true,
+      "need_charges": 1,
+      "need_charges_msg": "The blanket's batteries are dead."
+    },
+    "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS" ]
+  },
+  {
+    "id": "electric_blanket_on",
+    "type": "TOOL_ARMOR",
+    "name": "electric blanket (on)",
+    "name_plural": "electric blankets (on)",
+    "description": "A heated blanket made of polyster.  It's turned on, making it nice and toasty while it lasts.",
+    "copy-from": "electric_blanket",
+    "warmth": 90,
+    "turns_per_charge": 3,
+    "use_action": { "type": "transform", "msg": "You turn the blanket's heating elements off.", "target": "electric_blanket" }
   }
 ]

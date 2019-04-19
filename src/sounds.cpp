@@ -372,8 +372,8 @@ void sounds::process_sound_markers( player *p )
                     p->activity.set_to_null();
                 }
                 add_msg( _( "You turn off your alarm-clock." ) );
+                p->get_effect( effect_alarm_clock ).set_duration( 0_turns );
             }
-            p->get_effect( effect_alarm_clock ).set_duration( 0_turns );
         }
 
         const std::string &sfx_id = sound.id;

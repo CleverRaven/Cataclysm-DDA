@@ -70,8 +70,8 @@ basecamp::basecamp( const std::string &name_, const tripoint &omt_pos_ ): name( 
 }
 
 basecamp::basecamp( const std::string &name_, const tripoint &bb_pos_,
-                    std::vector<tripoint> sort_points_, std::vector<std::string> directions_,
-                    std::map<std::string, expansion_data> expansions_ ): sort_points( sort_points_ ),
+                    std::vector<std::string> directions_,
+                    std::map<std::string, expansion_data> expansions_ ):
     directions( directions_ ), name( name_ ), bb_pos( bb_pos_ ), expansions( expansions_ )
 {
 }
@@ -79,7 +79,7 @@ basecamp::basecamp( const std::string &name_, const tripoint &bb_pos_,
 std::string basecamp::board_name() const
 {
     //~ Name of a basecamp
-    return string_format( _( "%s Board" ), name.c_str() );
+    return string_format( _( "%s Board" ), name );
 }
 
 // read an expansion's terrain ID of the form faction_base_$TYPE_$CURLEVEL
@@ -111,19 +111,20 @@ void basecamp::define_camp( npc &p )
 {
     query_new_name();
     omt_pos = p.global_omt_location();
-    sort_points = p.companion_mission_points;
+    oter_id &omt_ref = overmap_buffer.ter( omt_pos );
     // purging the regions guarantees all entries will start with faction_base_
     for( const std::pair<std::string, tripoint> &expansion :
          talk_function::om_building_region( omt_pos, 1, true ) ) {
         add_expansion( expansion.first, expansion.second );
     }
-    const std::string om_cur = overmap_buffer.ter( omt_pos ).id().c_str();
+    const std::string om_cur = omt_ref.id().c_str();
     if( om_cur.find( prefix ) == std::string::npos ) {
         expansion_data e;
         e.type = "camp";
         e.cur_level = 0;
         e.pos = omt_pos;
         expansions[ base_dir ] = e;
+        omt_ref = oter_id( "faction_base_camp_0" );
     } else {
         expansions[ base_dir ] = parse_expansion( om_cur, omt_pos );
     }
@@ -148,7 +149,8 @@ std::string basecamp::om_upgrade_description( const std::string &bldg, bool trun
     std::vector<std::string> component_print_buffer;
     const int pane = FULL_SCREEN_WIDTH;
     const auto tools = making.requirements().get_folded_tools_list( pane, c_white, total_inv, 1 );
-    const auto comps = making.requirements().get_folded_components_list( pane, c_white, total_inv, 1 );
+    const auto comps = making.requirements().get_folded_components_list( pane, c_white, total_inv,
+                       making.get_component_filter(), 1 );
     component_print_buffer.insert( component_print_buffer.end(), tools.begin(), tools.end() );
     component_print_buffer.insert( component_print_buffer.end(), comps.begin(), comps.end() );
 
@@ -277,6 +279,9 @@ void basecamp::validate_assignees()
     }
     for( auto elem : g->get_follower_list() ) {
         npc_ptr npc_to_add = overmap_buffer.find_npc( elem );
+        if( !npc_to_add ) {
+            continue;
+        }
         if( npc_to_add->global_omt_location() == omt_pos && npc_to_add->mission == NPC_MISSION_GUARD_ALLY &&
             !npc_to_add->has_companion_mission() ) {
             assigned_npcs.push_back( npc_to_add );
@@ -333,7 +338,7 @@ void basecamp::consume_components( const recipe &making, int batch_size, bool by
     if( !by_radio ) {
         for( const auto &it : req.get_components() ) {
             g->u.consume_items( g->m, g->u.select_item_component( it, batch_size, camp_inv, true,
-                                is_crafting_component, return_true, true ), batch_size, is_crafting_component, return_true,
+                                is_crafting_component, true ), batch_size, is_crafting_component,
                                 g->m.getlocal( get_dumping_spot() ), 20 );
         }
         for( const auto &it : req.get_tools() ) {
@@ -345,7 +350,7 @@ void basecamp::consume_components( const recipe &making, int batch_size, bool by
         target_map.load( omt_pos.x * 2, omt_pos.y * 2, omt_pos.z, false );
         for( const auto &it : req.get_components() ) {
             g->u.consume_items( target_map, g->u.select_item_component( it, batch_size, camp_inv, true,
-                                is_crafting_component, return_true, false ), batch_size, is_crafting_component, return_true,
+                                is_crafting_component, false ), batch_size, is_crafting_component,
                                 target_map.getlocal( get_dumping_spot() ), 20 );
         }
         for( const auto &it : req.get_tools() ) {

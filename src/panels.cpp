@@ -394,7 +394,7 @@ void decorate_panel( const std::string name, const catacurses::window &w )
     static const char *title_suffix = " ";
     static const std::string full_title = string_format( "%s%s%s",
                                           title_prefix, title, title_suffix );
-    const int start_pos = center_text_pos( full_title.c_str(), 0, getmaxx( w ) - 1 );
+    const int start_pos = center_text_pos( full_title, 0, getmaxx( w ) - 1 );
     mvwprintz( w, 0, start_pos, c_white, title_prefix );
     wprintz( w, c_light_red, title );
     wprintz( w, c_white, title_suffix );
@@ -922,7 +922,7 @@ void draw_limb_health( player &u, const catacurses::window &w, int limb_index )
     static auto print_symbol_num = []( const catacurses::window & w, int num, const std::string & sym,
     const nc_color & color ) {
         while( num-- > 0 ) {
-            wprintz( w, color, sym.c_str() );
+            wprintz( w, color, sym );
         }
     };
     if( u.hp_cur[limb_index] == 0 && ( limb_index >= hp_arm_l && limb_index <= hp_leg_r ) ) {
@@ -1041,7 +1041,8 @@ void draw_stealth( player &u, const catacurses::window &w )
     mvwprintz( w, 0, 0, c_light_gray, _( "Speed" ) );
     mvwprintz( w, 0, 7, value_color( u.get_speed() ), "%s", u.get_speed() );
     mvwprintz( w, 0, 15 - to_string( u.movecounter ).length(), c_light_gray,
-               to_string( u.movecounter ) + ( u.move_mode == "walk" ? "W" : "R" ) );
+               to_string( u.movecounter ) + ( u.move_mode == "walk" ? "W" : ( u.move_mode == "crouch" ? "C" :
+                       "R" ) ) );
 
     if( u.is_deaf() ) {
         mvwprintz( w, 0, 22, c_red, _( "DEAF" ) );
@@ -1205,7 +1206,9 @@ void draw_char( player &u, const catacurses::window &w )
 
     const auto str_walk = pgettext( "movement-type", "W" );
     const auto str_run = pgettext( "movement-type", "R" );
-    const char *move = u.move_mode == "walk" ? str_walk : str_run;
+    const auto str_crouch = pgettext( "movement-type", "C" );
+    const char *move = u.move_mode == "walk" ? str_walk : ( u.move_mode == "crouch" ? str_crouch :
+                       str_run );
     std::string movecost = std::to_string( u.movecounter ) + "(" + move + ")";
     bool m_style = get_option<std::string>( "MORALE_STYLE" ) == "horizontal";
     std::string smiley = morale_emotion( morale_pair.second, get_face_type( u ), m_style );
@@ -1237,9 +1240,9 @@ void draw_stat( player &u, const catacurses::window &w )
 
     nc_color stat_clr = str_string( u ).first;
     mvwprintz( w, 0, 8, stat_clr, "%s", u.str_cur );
-    stat_clr = dex_string( u ).first;
-    mvwprintz( w, 1, 8, stat_clr, "%s", u.int_cur );
     stat_clr = int_string( u ).first;
+    mvwprintz( w, 1, 8, stat_clr, "%s", u.int_cur );
+    stat_clr = dex_string( u ).first;
     mvwprintz( w, 0, 26, stat_clr, "%s", u.dex_cur );
     stat_clr = per_string( u ).first;
     mvwprintz( w, 1, 26, stat_clr, "%s", u.per_cur );
@@ -1264,13 +1267,12 @@ void draw_env1( const player &u, const catacurses::window &w )
         mvwprintz( w, 1, 1, c_light_gray, _( "Sky  : Underground" ) );
     } else {
         mvwprintz( w, 1, 1, c_light_gray, _( "Sky  :" ) );
-        wprintz( w, weather_data( g->weather ).color, " %s",
-                 weather_data( g->weather ).name.c_str() );
+        wprintz( w, weather_data( g->weather ).color, " %s", weather_data( g->weather ).name );
     }
     // display lighting
     const auto ll = get_light_level( g->u.fine_detail_vision_mod() );
     mvwprintz( w, 2, 1, c_light_gray, "%s ", _( "Light:" ) );
-    wprintz( w, ll.second, ll.first.c_str() );
+    wprintz( w, ll.second, ll.first );
 
     // display date
     mvwprintz( w, 3, 1, c_light_gray, _( "Date : %s, day %d" ),
@@ -1338,11 +1340,11 @@ void draw_env_compact( player &u, const catacurses::window &w )
     if( g->get_levz() < 0 ) {
         mvwprintz( w, 3, 8, c_light_gray, _( "Underground" ) );
     } else {
-        mvwprintz( w, 3, 8, weather_data( g->weather ).color, weather_data( g->weather ).name.c_str() );
+        mvwprintz( w, 3, 8, weather_data( g->weather ).color, weather_data( g->weather ).name );
     }
     // display lighting
     const auto ll = get_light_level( g->u.fine_detail_vision_mod() );
-    mvwprintz( w, 4, 8, ll.second, ll.first.c_str() );
+    mvwprintz( w, 4, 8, ll.second, ll.first );
     // wind
     const oter_id &cur_om_ter = overmap_buffer.ter( u.global_omt_location() );
     double windpower = get_local_windpower( g->windspeed, cur_om_ter,
@@ -1435,7 +1437,8 @@ void draw_health_classic( player &u, const catacurses::window &w )
         mvwprintz( w, 5, 21, u.get_speed() < 100 ? c_red : c_white,
                    _( "Spd " ) + to_string( u.get_speed() ) );
         mvwprintz( w, 5, 26 + to_string( u.get_speed() ).length(), c_white,
-                   to_string( u.movecounter ) + " " + ( u.move_mode == "walk" ? "W" : "R" ) );
+                   to_string( u.movecounter ) + " " + ( u.move_mode == "walk" ? "W" : ( u.move_mode == "crouch" ? "C" :
+                           "R" ) ) );
     }
 
     // temperature
@@ -1674,7 +1677,7 @@ void draw_weapon_classic( const player &u, const catacurses::window &w )
     const auto &cur_style = u.style_selected.obj();
     if( !u.weapon.is_gun() ) {
         if( cur_style.force_unarmed || cur_style.weapon_valid( u.weapon ) ) {
-            style = _( cur_style.name.c_str() );
+            style = _( cur_style.name );
         } else if( u.is_armed() ) {
             style = _( "Normal" );
         } else {
@@ -1741,7 +1744,7 @@ std::vector<window_panel> initialize_default_classic_panels()
     ret.emplace_back( window_panel( draw_weapon_classic, "Weapon", 1, 44, true ) );
     ret.emplace_back( window_panel( draw_time_classic, "Time", 1, 44, true ) );
     ret.emplace_back( window_panel( draw_armor, "Armor", 5, 44, false ) );
-    ret.emplace_back( window_panel( draw_compass_padding, "Compass", 6, 44, true ) );
+    ret.emplace_back( window_panel( draw_compass_padding, "Compass", 8, 44, true ) );
     ret.emplace_back( window_panel( draw_messages_classic, "Log", -2, 44, true ) );
 #if defined(TILES)
     ret.emplace_back( window_panel( draw_mminimap, "Map", -1, 44, true ) );

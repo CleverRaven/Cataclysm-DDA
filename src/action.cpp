@@ -60,7 +60,7 @@ void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
             if( act == ACTION_NULL ) {
                 debugmsg( "\
 Warning! keymap.txt contains an unknown action, \"%s\"\n\
-Fix \"%s\" at your next chance!", id.c_str(), FILENAMES["keymap"].c_str() );
+Fix \"%s\" at your next chance!", id, FILENAMES["keymap"] );
             } else {
                 while( !keymap_txt.eof() ) {
                     char ch;
@@ -72,7 +72,7 @@ Fix \"%s\" at your next chance!", id.c_str(), FILENAMES["keymap"].c_str() );
                             debugmsg( "\
 Warning!  '%c' assigned twice in the keymap!\n\
 %s is being ignored.\n\
-Fix \"%s\" at your next chance!", ch, id.c_str(), FILENAMES["keymap"].c_str() );
+Fix \"%s\" at your next chance!", ch, id, FILENAMES["keymap"] );
                         } else {
                             kmap[ ch ] = act;
                         }
@@ -477,10 +477,16 @@ action_id get_movement_direction_from_delta( const int dx, const int dy, const i
 
 // Get the key for an action, used in the action menu to give each action the
 // hotkey it is bound to.
+// We ignore bindings to '?' because that will already do something else in
+// this menu (open the menu keybindings).
 long hotkey_for_action( action_id action )
 {
+    auto is_valid_key = []( char key ) {
+        return key != '?';
+    };
     std::vector<char> keys = keys_bound_to( action );
-    return keys.empty() ? -1 : keys[0];
+    auto valid = std::find_if( keys.begin(), keys.end(), is_valid_key );
+    return valid == keys.end() ? -1 : *valid;
 }
 
 bool can_butcher_at( const tripoint &p )
@@ -797,7 +803,7 @@ action_id handle_action_menu()
 
         std::string title = _( "Actions" );
         if( category != "back" ) {
-            catgname = _( category.c_str() );
+            catgname = _( category );
             capitalize_letter( catgname, 0 );
             title += ": " + catgname;
         }

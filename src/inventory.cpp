@@ -873,7 +873,7 @@ void inventory::rust_iron_items()
                 g->m.water_from( g->u.pos() ).typeId() ==
                 "salt_water" ) { //Freshwater without oxygen rusts slower than air
                 elem_stack_iter.inc_damage( DT_ACID ); // rusting never completely destroys an item
-                add_msg( m_bad, _( "Your %s is damaged by rust." ), elem_stack_iter.tname().c_str() );
+                add_msg( m_bad, _( "Your %s is damaged by rust." ), elem_stack_iter.tname() );
             }
         }
     }
@@ -1026,7 +1026,7 @@ void inventory::assign_empty_invlet( item &it, const Character &p, const bool fo
             return;
         }
     }
-    debugmsg( "could not find a hotkey for %s", it.tname().c_str() );
+    debugmsg( "could not find a hotkey for %s", it.tname() );
 }
 
 void inventory::reassign_item( item &it, char invlet, bool remove_old )

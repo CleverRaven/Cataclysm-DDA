@@ -839,6 +839,20 @@
   },
   {
     "type": "recipe",
+    "result": "workbench",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": 60000,
+    "reversible": true,
+    "decomp_learn": 1,
+    "autolearn": true,
+    "using": [ [ "welding_standard", 5 ] ],
+    "components": [ [ [ "pipe", 8 ] ], [ [ "sheet_metal", 2 ] ], [ [ "sheet_metal_small", 4 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "foot_crank",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -950,6 +964,7 @@
     "skill_used": "tailor",
     "time": 10000,
     "autolearn": true,
+    "reversible": true,
     "using": [ [ "sewing_standard", 50 ] ],
     "components": [ [ [ "rag", 20 ] ] ]
   },
@@ -1184,6 +1199,19 @@
     ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "plastic_chunk", 2 ], [ "2x4", 1 ], [ "stick", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "stepladder",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": 6000,
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_W", "level": 1 } ],
+    "components": [ [ [ "2x4", 12 ] ], [ [ "nail", 30 ] ] ]
   },
   {
     "type": "recipe",

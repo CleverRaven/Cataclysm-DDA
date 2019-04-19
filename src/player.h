@@ -24,6 +24,8 @@
 
 static const std::string DEFAULT_HOTKEYS( "1234567890abcdefghijklmnopqrstuvwxyz" );
 
+class ammunition_type;
+using ammotype = string_id<ammunition_type>;
 class craft_command;
 class recipe_subset;
 enum action_id : int;
@@ -35,6 +37,7 @@ struct dealt_projectile_attack;
 class dispersion_sources;
 class monster;
 class game;
+using itype_id = std::string;
 struct trap;
 class mission;
 class profession;
@@ -417,7 +420,7 @@ class player : public Character
         void clear_memorized_tile( const tripoint &pos );
 
         // see Creature::sees
-        bool sees( const tripoint &c, bool is_player = false ) const override;
+        bool sees( const tripoint &c, bool is_player = false, int range_mod = 0 ) const override;
         // see Creature::sees
         bool sees( const Creature &critter ) const override;
         /**
@@ -1308,14 +1311,14 @@ class player : public Character
         // has_amount works ONLY for quantity.
         // has_charges works ONLY for charges.
         std::list<item> use_amount( itype_id it, int quantity,
-                                    const std::function<bool( const item & )> &filter = is_crafting_component );
+                                    const std::function<bool( const item & )> &filter = return_true<item> );
         bool use_charges_if_avail( const itype_id &it, long quantity );// Uses up charges
 
         std::list<item> use_charges( const itype_id &what, long qty,
-                                     const std::function<bool( const item & )> &filter = return_true ); // Uses up charges
+                                     const std::function<bool( const item & )> &filter = return_true<item> ); // Uses up charges
 
         bool has_charges( const itype_id &it, long quantity,
-                          const std::function<bool( const item & )> &filter = return_true ) const;
+                          const std::function<bool( const item & )> &filter = return_true<item> ) const;
 
         /** Returns the amount of item `type' that is currently worn */
         int  amount_worn( const itype_id &id ) const;
@@ -1371,6 +1374,9 @@ class player : public Character
         float morale_crafting_speed_multiplier( const recipe &rec ) const;
         float lighting_craft_speed_multiplier( const recipe &rec ) const;
         float crafting_speed_multiplier( const recipe &rec, bool in_progress = false ) const;
+        /** For use with in progress crafts */
+        float crafting_speed_multiplier( const item &craft, const tripoint &loc ) const;
+        int available_assistant_count( const recipe &rec ) const;
         /**
          * Time to craft not including speed multiplier
          */
@@ -1378,22 +1384,25 @@ class player : public Character
         /**
          * Expected time to craft a recipe, with assumption that multipliers stay constant.
          */
-        int expected_time_to_craft( const recipe &rec, int batch_size = 1 ) const;
+        int expected_time_to_craft( const recipe &rec, int batch_size = 1, bool in_progress = false ) const;
         std::vector<const item *> get_eligible_containers_for_crafting() const;
         bool check_eligible_containers_for_crafting( const recipe &rec, int batch_size = 1 ) const;
         bool has_morale_to_craft() const;
         bool can_make( const recipe *r, int batch_size = 1 );  // have components?
         bool making_would_work( const recipe_id &id_to_make, int batch_size );
-        void craft();
-        void recraft();
-        void long_craft();
-        void make_craft( const recipe_id &id, int batch_size );
-        void make_all_craft( const recipe_id &id, int batch_size );
-        std::list<item> consume_components_for_craft( const recipe &making, int batch_size,
-                bool ignore_last = false );
+
+        /**
+         * Start various types of crafts
+         * @param loc the location of the workbench. tripoint_zero indicates crafting from inventory.
+         */
+        void craft( const tripoint &loc = tripoint_zero );
+        void recraft( const tripoint &loc = tripoint_zero );
+        void long_craft( const tripoint &loc = tripoint_zero );
+        void make_craft( const recipe_id &id, int batch_size, const tripoint &loc = tripoint_zero );
+        void make_all_craft( const recipe_id &id, int batch_size, const tripoint &loc = tripoint_zero );
         /** consume components and create an active, in progress craft containing them */
-        void start_craft( const recipe &making, int batch_size, bool is_long );
-        void complete_craft( item &craft );
+        void start_craft( craft_command &command, const tripoint &loc );
+        void complete_craft( item &craft, const tripoint &loc = tripoint_zero );
         /** Returns nearby NPCs ready and willing to help with crafting. */
         std::vector<npc *> get_crafting_helpers() const;
         int get_num_crafting_helpers( int max ) const;
@@ -1418,18 +1427,14 @@ class player : public Character
         comp_selection<item_comp>
         select_item_component( const std::vector<item_comp> &components,
                                int batch, inventory &map_inv, bool can_cancel = false,
-                               const std::function<bool( const item & )> &amount_filter = is_crafting_component,
-                               const std::function<bool( const item & )> &charges_filter = return_true, bool player_inv = true );
+                               const std::function<bool( const item & )> &filter = return_true<item>, bool player_inv = true );
         std::list<item> consume_items( const comp_selection<item_comp> &cs, int batch,
-                                       const std::function<bool( const item & )> &amount_filter = is_crafting_component,
-                                       const std::function<bool( const item & )> &charges_filter = return_true );
+                                       const std::function<bool( const item & )> &filter = return_true<item> );
         std::list<item> consume_items( map &m, const comp_selection<item_comp> &cs, int batch,
-                                       const std::function<bool( const item & )> &amount_filter = is_crafting_component,
-                                       const std::function<bool( const item & )> &charges_filter = return_true,
+                                       const std::function<bool( const item & )> &filter = return_true<item>,
                                        tripoint origin = tripoint_zero, int radius = PICKUP_RANGE );
         std::list<item> consume_items( const std::vector<item_comp> &components, int batch = 1,
-                                       const std::function<bool( const item & )> &amount_filter = is_crafting_component,
-                                       const std::function<bool( const item & )> &charges_filter = return_true );
+                                       const std::function<bool( const item & )> &filter = return_true<item> );
         comp_selection<tool_comp>
         select_tool_component( const std::vector<tool_comp> &tools, int batch, inventory &map_inv,
                                const std::string &hotkeys = DEFAULT_HOTKEYS,
@@ -1557,10 +1562,12 @@ class player : public Character
         matype_id style_selected;
         bool keep_hands_free;
         bool reach_attacking = false;
+        bool manual_examine = false;
 
         std::vector <addiction> addictions;
 
-        void make_craft_with_command( const recipe_id &id_to_make, int batch_size, bool is_long = false );
+        void make_craft_with_command( const recipe_id &id_to_make, int batch_size, bool is_long = false,
+                                      const tripoint &loc = tripoint_zero );
         pimpl<craft_command> last_craft;
 
         recipe_id lastrecipe;

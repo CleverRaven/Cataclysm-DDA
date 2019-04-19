@@ -46,6 +46,8 @@ static const fault_id fault_starter( "fault_engine_starter" );
 
 const skill_id skill_mechanics( "mechanics" );
 
+static const trait_id trait_SHELL2( "SHELL2" );
+
 enum change_types : int {
     OPENCURTAINS = 0,
     OPENBOTH,
@@ -132,7 +134,7 @@ void vehicle::control_doors()
             doors_with_motors.push_back( door );
             locations.push_back( global_part_pos3( p ) );
             const char *actname = parts[door].open ? _( "Close" ) : _( "Open" );
-            pmenu.addentry( val, true, MENU_AUTOASSIGN, "%s %s", actname, parts[ door ].name().c_str() );
+            pmenu.addentry( val, true, MENU_AUTOASSIGN, "%s %s", actname, parts[ door ].name() );
         }
     }
 
@@ -565,7 +567,7 @@ void vehicle::use_controls( const tripoint &pos )
     actions.push_back( [&] { toggle_tracking(); } );
 
     if( ( is_foldable() || tags.count( "convertible" ) ) && !remote ) {
-        options.emplace_back( string_format( _( "Fold %s" ), name.c_str() ), keybind( "FOLD_VEHICLE" ) );
+        options.emplace_back( string_format( _( "Fold %s" ), name ), keybind( "FOLD_VEHICLE" ) );
         actions.push_back( [&] { fold_up(); } );
     }
 
@@ -624,7 +626,7 @@ bool vehicle::fold_up()
     const bool can_be_folded = is_foldable();
     const bool is_convertible = ( tags.count( "convertible" ) > 0 );
     if( !( can_be_folded || is_convertible ) ) {
-        debugmsg( _( "Tried to fold non-folding vehicle %s" ), name.c_str() );
+        debugmsg( _( "Tried to fold non-folding vehicle %s" ), name );
         return false;
     }
 
@@ -683,10 +685,10 @@ bool vehicle::fold_up()
     if( can_be_folded ) {
         bicycle.set_var( "weight", to_gram( total_mass() ) );
         bicycle.set_var( "volume", total_folded_volume() / units::legacy_volume_factor );
-        bicycle.set_var( "name", string_format( _( "folded %s" ), name.c_str() ) );
+        bicycle.set_var( "name", string_format( _( "folded %s" ), name ) );
         bicycle.set_var( "vehicle_name", name );
         // TODO: a better description?
-        bicycle.set_var( "description", string_format( _( "A folded %s." ), name.c_str() ) );
+        bicycle.set_var( "description", string_format( _( "A folded %s." ), name ) );
     }
 
     g->m.add_item_or_charges( g->u.pos(), bicycle );
@@ -994,8 +996,8 @@ void vehicle::operate_plow()
         if( g->m.has_flag( "PLOWABLE", start_plow ) ) {
             g->m.ter_set( start_plow, t_dirtmound );
         } else {
-            const int speed = velocity;
-            const int v_damage = rng( 3, speed );
+            const int speed = abs( velocity );
+            int v_damage = rng( 3, speed );
             damage( vp.part_index(), v_damage, DT_BASH, false );
             sounds::sound( start_plow, v_damage, sounds::sound_t::combat, _( "Clanggggg!" ) );
         }
@@ -1009,8 +1011,8 @@ void vehicle::operate_rockwheel()
         if( g->m.has_flag( "DIGGABLE", start_dig ) ) {
             g->m.ter_set( start_dig, t_pit_shallow );
         } else {
-            const int speed = velocity;
-            const int v_damage = rng( 3, speed );
+            const int speed = abs( velocity );
+            int v_damage = rng( 3, speed );
             damage( vp.part_index(), v_damage, DT_BASH, false );
             sounds::sound( start_dig, v_damage, sounds::sound_t::combat, _( "Clanggggg!" ) );
         }
@@ -1181,7 +1183,7 @@ void vehicle::open( int part_index )
 {
     if( !part_info( part_index ).has_flag( "OPENABLE" ) ) {
         debugmsg( "Attempted to open non-openable part %d (%s) on a %s!", part_index,
-                  parts[ part_index ].name().c_str(), name.c_str() );
+                  parts[ part_index ].name(), name );
     } else {
         open_or_close( part_index, true );
     }
@@ -1196,7 +1198,7 @@ void vehicle::close( int part_index )
 {
     if( !part_info( part_index ).has_flag( "OPENABLE" ) ) {
         debugmsg( "Attempted to close non-closeable part %d (%s) on a %s!", part_index,
-                  parts[ part_index ].name().c_str(), name.c_str() );
+                  parts[ part_index ].name(), name );
     } else {
         open_or_close( part_index, false );
     }
@@ -1276,7 +1278,7 @@ void vehicle::use_washing_machine( int p )
 
         std::vector<item_comp> detergent;
         detergent.push_back( item_comp( "detergent", 5 ) );
-        g->u.consume_items( detergent );
+        g->u.consume_items( detergent, 1, is_crafting_component );
 
         add_msg( m_good,
                  _( "You pour some detergent into the washing machine, close its lid, and turn it on.  The washing machine is being filled with water from vehicle tanks." ) );
@@ -1390,11 +1392,13 @@ veh_interact_results vehicle::interact_with( const tripoint &pos, int interact_p
     const bool has_bike_rack = bike_rack_part >= 0;
     const bool has_planter = avail_part_with_feature( interact_part, "PLANTER", true ) >= 0 ||
                              avail_part_with_feature( interact_part, "ADVANCED_PLANTER", true ) >= 0;
+    const int workbench_part = avail_part_with_feature( interact_part, "WORKBENCH", true );
+    const bool has_workbench = workbench_part >= 0;
 
     enum {
         EXAMINE, TRACK, CONTROL, CONTROL_ELECTRONICS, GET_ITEMS, GET_ITEMS_ON_GROUND, FOLD_VEHICLE, UNLOAD_TURRET, RELOAD_TURRET,
         USE_HOTPLATE, FILL_CONTAINER, DRINK, USE_WELDER, USE_PURIFIER, PURIFY_TANK, USE_WASHMACHINE, USE_MONSTER_CAPTURE,
-        USE_BIKE_RACK, RELOAD_PLANTER
+        USE_BIKE_RACK, RELOAD_PLANTER, WORKBENCH
     };
     uilist selectmenu;
 
@@ -1450,9 +1454,12 @@ veh_interact_results vehicle::interact_with( const tripoint &pos, int interact_p
     if( has_bike_rack ) {
         selectmenu.addentry( USE_BIKE_RACK, true, 'R', _( "Load or unload a vehicle" ) );
     }
-
     if( has_planter ) {
         selectmenu.addentry( RELOAD_PLANTER, true, 's', _( "Reload seed drill with seeds" ) );
+    }
+    if( has_workbench ) {
+        selectmenu.addentry( WORKBENCH, true, '&', string_format( _( "Craft at the %s" ),
+                             parts[workbench_part].name() ) );
     }
 
     int choice;
@@ -1588,6 +1595,10 @@ veh_interact_results vehicle::interact_with( const tripoint &pos, int interact_p
         }
         case RELOAD_PLANTER: {
             reload_seeds( pos );
+            return DONE;
+        }
+        case WORKBENCH: {
+            iexamine::workbench_internal( g->u, pos, vpart_reference( *this, workbench_part ) );
             return DONE;
         }
     }

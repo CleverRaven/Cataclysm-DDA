@@ -18,6 +18,7 @@
 #include "game.h"
 #include "help.h"
 #include "input.h"
+#include "item_category.h"
 #include "item_group.h"
 #include "itype.h"
 #include "json.h"
@@ -279,7 +280,7 @@ void npc::handle_sound( int priority, const std::string &description, int heard_
         if( ( my_fac == sound_source->my_fac ||
               get_attitude_group( get_attitude() ) == sound_source->get_attitude_group(
                   sound_source->get_attitude() ) ) && ( priority < 6 ) ) {
-            add_msg( m_debug, "NPC ignored same faction %s", name.c_str() );
+            add_msg( m_debug, "NPC ignored same faction %s", name );
             return;
         }
     }
@@ -388,6 +389,7 @@ void npc::talk_to_u( bool text_only, bool radio_contact )
     d.add_topic( chatbin.first_topic );
     if( radio_contact ) {
         d.add_topic( "TALK_RADIO" );
+        d.by_radio = true;
     } else if( is_leader() ) {
         d.add_topic( "TALK_LEADER" );
     } else if( is_friend() ) {
@@ -1607,6 +1609,22 @@ void talk_effect_fun_t::set_consume_item( JsonObject jo, const std::string &memb
     };
 }
 
+void talk_effect_fun_t::set_remove_item_with( JsonObject jo, const std::string &member,
+        bool is_npc )
+{
+    const std::string &item_name = jo.get_string( member );
+    function = [is_npc, item_name]( const dialogue & d ) {
+        player *actor = d.alpha;
+        if( is_npc ) {
+            actor = dynamic_cast<player *>( d.beta );
+        }
+        itype_id item_id = itype_id( item_name );
+        actor->remove_items_with( [item_id]( const item & it ) {
+            return it.typeId() == item_id;
+        } );
+    };
+}
+
 void talk_effect_fun_t::set_u_spend_cash( int amount )
 {
     function = [amount]( const dialogue & d ) {
@@ -1663,6 +1681,30 @@ void talk_effect_fun_t::set_toggle_npc_rule( const std::string &rule )
             return;
         }
         d.beta->rules.toggle_flag( toggle->second );
+        d.beta->wield_better_weapon();
+    };
+}
+
+void talk_effect_fun_t::set_set_npc_rule( const std::string &rule )
+{
+    function = [rule]( const dialogue & d ) {
+        auto flag = ally_rule_strs.find( rule );
+        if( flag == ally_rule_strs.end() ) {
+            return;
+        }
+        d.beta->rules.set_flag( flag->second );
+        d.beta->wield_better_weapon();
+    };
+}
+
+void talk_effect_fun_t::set_clear_npc_rule( const std::string &rule )
+{
+    function = [rule]( const dialogue & d ) {
+        auto flag = ally_rule_strs.find( rule );
+        if( flag == ally_rule_strs.end() ) {
+            return;
+        }
+        d.beta->rules.clear_flag( flag->second );
         d.beta->wield_better_weapon();
     };
 }
@@ -1808,7 +1850,8 @@ void talk_effect_t::parse_sub_effect( JsonObject jo )
         int cash_change = jo.get_int( "u_spend_cash" );
         subeffect_fun.set_u_spend_cash( cash_change );
     } else if( jo.has_string( "u_sell_item" ) || jo.has_string( "u_buy_item" ) ||
-               jo.has_string( "u_consume_item" ) || jo.has_string( "npc_consume_item" ) ) {
+               jo.has_string( "u_consume_item" ) || jo.has_string( "npc_consume_item" ) ||
+               jo.has_string( "u_remove_item_with" ) || jo.has_string( "npc_remove_item_with" ) ) {
         int cost = 0;
         if( jo.has_int( "cost" ) ) {
             cost = jo.get_int( "cost" );
@@ -1831,6 +1874,10 @@ void talk_effect_t::parse_sub_effect( JsonObject jo )
             subeffect_fun.set_consume_item( jo, "u_consume_item", count );
         } else if( jo.has_string( "npc_consume_item" ) ) {
             subeffect_fun.set_consume_item( jo, "npc_consume_item", count, is_npc );
+        } else if( jo.has_string( "u_remove_item_with" ) ) {
+            subeffect_fun.set_remove_item_with( jo, "u_remove_item_with" );
+        } else if( jo.has_string( "npc_remove_item_with" ) ) {
+            subeffect_fun.set_remove_item_with( jo, "npc_remove_item_with", is_npc );
         }
     } else if( jo.has_string( "npc_change_class" ) ) {
         std::string class_name = jo.get_string( "npc_change_class" );
@@ -1855,6 +1902,12 @@ void talk_effect_t::parse_sub_effect( JsonObject jo )
     } else if( jo.has_string( "toggle_npc_rule" ) ) {
         const std::string rule = jo.get_string( "toggle_npc_rule" );
         subeffect_fun.set_toggle_npc_rule( rule );
+    } else if( jo.has_string( "set_npc_rule" ) ) {
+        const std::string rule = jo.get_string( "set_npc_rule" );
+        subeffect_fun.set_set_npc_rule( rule );
+    } else if( jo.has_string( "clear_npc_rule" ) ) {
+        const std::string rule = jo.get_string( "clear_npc_rule" );
+        subeffect_fun.set_clear_npc_rule( rule );
     } else if( jo.has_string( "set_npc_engagement_rule" ) ) {
         const std::string setting = jo.get_string( "set_npc_engagement_rule" );
         subeffect_fun.set_npc_engagement_rule( setting );
@@ -1919,6 +1972,8 @@ void talk_effect_t::parse_string_effect( const std::string &type, JsonObject &jo
             WRAP( start_training ),
             WRAP( copy_npc_rules ),
             WRAP( set_npc_pickup ),
+            WRAP( npc_die ),
+            WRAP( npc_thankful ),
             WRAP( nothing )
 #undef WRAP
         }
@@ -2211,6 +2266,44 @@ void conditional_t::set_has_items( JsonObject &jo, const std::string &member, bo
     }
 }
 
+void conditional_t::set_has_item_category( JsonObject &jo, const std::string &member, bool is_npc )
+{
+    const std::string category_id = jo.get_string( member );
+
+    size_t count = 1;
+    if( jo.has_int( "count" ) ) {
+        int tcount = jo.get_int( "count" );
+        if( tcount > 1 && tcount < INT_MAX ) {
+            count = static_cast<size_t>( tcount );
+        }
+    }
+
+    condition = [category_id, count, is_npc]( const dialogue & d ) {
+        player *actor = d.alpha;
+        if( is_npc ) {
+            actor = dynamic_cast<player *>( d.beta );
+        }
+        const auto items_with = actor->items_with( [category_id]( const item & it ) {
+            return it.get_category().id() == category_id;
+        } );
+        return items_with.size() >= count;
+    };
+}
+
+void conditional_t::set_has_bionics( JsonObject &jo, const std::string &member, bool is_npc )
+{
+    const std::string bionics_id = jo.get_string( member );
+    condition = [bionics_id, is_npc]( const dialogue & d ) {
+        player *actor = d.alpha;
+        if( is_npc ) {
+            actor = dynamic_cast<player *>( d.beta );
+        }
+        if( bionics_id == "ANY" ) {
+            return actor->num_bionics() > 0 || actor->max_power_level > 0;
+        }
+        return actor->has_bionic( bionic_id( bionics_id ) );
+    };
+}
 void conditional_t::set_has_effect( JsonObject &jo, const std::string &member, bool is_npc )
 {
     const std::string &effect_id = jo.get_string( member );
@@ -2591,6 +2684,13 @@ void conditional_t::set_has_pickup_list()
     };
 }
 
+void conditional_t::set_is_by_radio()
+{
+    condition = []( const dialogue & d ) {
+        return d.by_radio;
+    };
+}
+
 conditional_t::conditional_t( JsonObject jo )
 {
     // improve the clarity of NPC setter functions
@@ -2685,6 +2785,14 @@ conditional_t::conditional_t( JsonObject jo )
         set_has_items( jo, "u_has_items" );
     } else if( jo.has_member( "npc_has_items" ) ) {
         set_has_items( jo, "npc_has_items", is_npc );
+    } else if( jo.has_string( "u_has_item_category" ) ) {
+        set_has_item_category( jo, "u_has_item_category" );
+    } else if( jo.has_string( "npc_has_item_category" ) ) {
+        set_has_item_category( jo, "npc_has_item_category", is_npc );
+    } else if( jo.has_string( "u_has_bionics" ) ) {
+        set_has_bionics( jo, "u_has_bionics" );
+    } else if( jo.has_string( "npc_has_bionics" ) ) {
+        set_has_bionics( jo, "npc_has_bionics", is_npc );
     } else if( jo.has_string( "u_has_effect" ) ) {
         set_has_effect( jo, "u_has_effect" );
     } else if( jo.has_string( "npc_has_effect" ) ) {
@@ -2804,6 +2912,8 @@ conditional_t::conditional_t( const std::string &type )
         set_u_has_camp();
     } else if( type == "has_pickup_list" ) {
         set_has_pickup_list();
+    } else if( type == "is_by_radio" ) {
+        set_is_by_radio();
     } else {
         condition = []( const dialogue & ) {
             return false;
@@ -3061,7 +3171,7 @@ consumption_result try_consume( npc &p, item &it, std::string &reason )
             }
             if( !has ) {
                 reason = string_format( _( "I need a %s to consume that!" ),
-                                        item::nname( comest->tool ).c_str() );
+                                        item::nname( comest->tool ) );
                 return REFUSED;
             }
             p.use_charges( comest->tool, 1 );
@@ -3078,7 +3188,7 @@ consumption_result try_consume( npc &p, item &it, std::string &reason )
         p.consume_effects( to_eat );
         p.moves -= 250;
     } else {
-        debugmsg( "Unknown comestible type of item: %s\n", to_eat.tname().c_str() );
+        debugmsg( "Unknown comestible type of item: %s\n", to_eat.tname() );
     }
 
     if( to_eat.charges > 0 ) {

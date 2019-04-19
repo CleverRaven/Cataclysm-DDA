@@ -2091,6 +2091,7 @@
       { "monster": "mon_zombie_survivor", "freq": 1, "cost_multiplier": 25 },
       { "monster": "mon_boomer", "freq": 30, "cost_multiplier": 5 },
       { "monster": "mon_zombie_brute", "freq": 10, "cost_multiplier": 15 },
+      { "monster": "mon_skeleton_brute", "freq": 10, "cost_multiplier": 20 },
       { "monster": "mon_zombie_hulk", "freq": 1, "cost_multiplier": 50 },
       { "monster": "mon_skeleton_hulk", "freq": 1, "cost_multiplier": 50 },
       { "monster": "mon_zombie_master", "freq": 1, "cost_multiplier": 30 },
@@ -4137,6 +4138,7 @@
       { "monster": "mon_boomer_huge", "freq": 20, "cost_multiplier": 5 },
       { "monster": "mon_zombie_brute", "freq": 10, "cost_multiplier": 15 },
       { "monster": "mon_zombie_hulk", "freq": 1, "cost_multiplier": 50 },
+      { "monster": "mon_skeleton_brute", "freq": 10, "cost_multiplier": 20 },
       { "monster": "mon_skeleton_hulk", "freq": 1, "cost_multiplier": 50 },
       { "monster": "mon_zombie_master", "freq": 1, "cost_multiplier": 25 },
       { "monster": "mon_zombie_brute_shocker", "freq": 1, "cost_multiplier": 45 }
@@ -4174,6 +4176,7 @@
       { "monster": "mon_boomer", "freq": 30, "cost_multiplier": 7 },
       { "monster": "mon_zombie_brute", "freq": 10, "cost_multiplier": 15 },
       { "monster": "mon_zombie_hulk", "freq": 1, "cost_multiplier": 50 },
+      { "monster": "mon_skeleton_brute", "freq": 10, "cost_multiplier": 20 },
       { "monster": "mon_skeleton_hulk", "freq": 1, "cost_multiplier": 50 },
       { "monster": "mon_zombie_master", "freq": 1, "cost_multiplier": 25 }
     ]
@@ -4220,6 +4223,7 @@
       { "monster": "mon_boomer", "freq": 30, "cost_multiplier": 7 },
       { "monster": "mon_zombie_brute", "freq": 10, "cost_multiplier": 15 },
       { "monster": "mon_zombie_hulk", "freq": 1, "cost_multiplier": 50 },
+      { "monster": "mon_skeleton_brute", "freq": 10, "cost_multiplier": 20 },
       { "monster": "mon_skeleton_hulk", "freq": 1, "cost_multiplier": 50 },
       { "monster": "mon_zombie_master", "freq": 1, "cost_multiplier": 25 }
     ]
@@ -4259,6 +4263,7 @@
       { "monster": "mon_zombie_brute", "freq": 10, "cost_multiplier": 15 },
       { "monster": "mon_zombie_hulk", "freq": 1, "cost_multiplier": 50 },
       { "monster": "mon_skeleton_hulk", "freq": 1, "cost_multiplier": 50 },
+      { "monster": "mon_skeleton_brute", "freq": 10, "cost_multiplier": 20 },
       { "monster": "mon_zombie_master", "freq": 1, "cost_multiplier": 25 },
       { "monster": "mon_zombie_brute_shocker", "freq": 6, "cost_multiplier": 26 }
     ]
@@ -4298,6 +4303,7 @@
       { "monster": "mon_boomer_huge", "freq": 20, "cost_multiplier": 5 },
       { "monster": "mon_zombie_brute", "freq": 10, "cost_multiplier": 15 },
       { "monster": "mon_zombie_hulk", "freq": 1, "cost_multiplier": 50 },
+      { "monster": "mon_skeleton_brute", "freq": 10, "cost_multiplier": 20 },
       { "monster": "mon_skeleton_hulk", "freq": 1, "cost_multiplier": 50 },
       { "monster": "mon_zombie_master", "freq": 1, "cost_multiplier": 25 }
     ]
@@ -4335,6 +4341,7 @@
       { "monster": "mon_zombie_crawler", "freq": 4, "cost_multiplier": 5 },
       { "monster": "mon_zombie_brute", "freq": 20, "cost_multiplier": 15 },
       { "monster": "mon_zombie_hulk", "freq": 1, "cost_multiplier": 50 },
+      { "monster": "mon_skeleton_brute", "freq": 10, "cost_multiplier": 20 },
       { "monster": "mon_skeleton_hulk", "freq": 1, "cost_multiplier": 50 },
       { "monster": "mon_zombie_master", "freq": 1, "cost_multiplier": 25 },
       { "monster": "mon_zombie_brute_shocker", "freq": 8, "cost_multiplier": 28 }
@@ -4384,7 +4391,8 @@
     "monsters": [
       { "monster": "mon_zombie_brute_grappler", "freq": 33, "cost_multiplier": 10 },
       { "monster": "mon_zombie_brute_ninja", "freq": 16, "cost_multiplier": 10 },
-      { "monster": "mon_zombie_hulk", "freq": 1, "cost_multiplier": 50 }
+      { "monster": "mon_zombie_hulk", "freq": 1, "cost_multiplier": 50 },
+      { "monster": "mon_gas_zombie", "freq": 30, "cost_multiplier": 10 }
     ]
   },
   {
@@ -4408,6 +4416,7 @@
       { "monster": "mon_boomer_huge", "freq": 20, "cost_multiplier": 5 },
       { "monster": "mon_zombie_brute", "freq": 15, "cost_multiplier": 15 },
       { "monster": "mon_zombie_hulk", "freq": 0, "cost_multiplier": 50 },
+      { "monster": "mon_skeleton_brute", "freq": 10, "cost_multiplier": 20 },
       { "monster": "mon_skeleton_hulk", "freq": 0, "cost_multiplier": 50 },
       { "monster": "mon_zombie_master", "freq": 1, "cost_multiplier": 30 },
       { "monster": "mon_zombie_corrosive", "freq": 10, "cost_multiplier": 7 },
@@ -4677,6 +4686,7 @@
       { "monster": "mon_zombie_brute_ninja", "freq": 1, "cost_multiplier": 20 },
       { "monster": "mon_zombie_brute_grappler", "freq": 1, "cost_multiplier": 20 },
       { "monster": "mon_zombie_hulk", "freq": 10, "cost_multiplier": 25 },
+      { "monster": "mon_skeleton_brute", "freq": 15, "cost_multiplier": 12 },
       { "monster": "mon_skeleton_hulk", "freq": 10, "cost_multiplier": 25 },
       { "monster": "mon_zombie_master", "freq": 10, "cost_multiplier": 15 },
       { "monster": "mon_beekeeper", "freq": 5, "cost_multiplier": 1 },
@@ -4888,6 +4898,7 @@
       { "monster": "mon_boomer", "freq": 30, "cost_multiplier": 5 },
       { "monster": "mon_zombie_brute", "freq": 10, "cost_multiplier": 15 },
       { "monster": "mon_zombie_hulk", "freq": 1, "cost_multiplier": 50 },
+      { "monster": "mon_skeleton_brute", "freq": 10, "cost_multiplier": 20 },
       { "monster": "mon_skeleton_hulk", "freq": 1, "cost_multiplier": 50 },
       { "monster": "mon_zombie_master", "freq": 1, "cost_multiplier": 30 },
       { "monster": "mon_beekeeper", "freq": 1, "cost_multiplier": 5 },
@@ -4929,5 +4940,11 @@
       { "monster": "mon_zombie_hulk", "freq": 1, "cost_multiplier": 50 },
       { "monster": "mon_skeleton_hulk", "freq": 1, "cost_multiplier": 50 }
     ]
+  },
+  {
+    "name": "GROUP_PLAIN",
+    "type": "monstergroup",
+    "default": "mon_zombie",
+    "monsters": [ { "monster": "mon_zombie", "freq": 40, "cost_multiplier": 1 } ]
   }
 ]

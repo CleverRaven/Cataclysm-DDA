@@ -52,7 +52,7 @@ const string_id<start_location> &start_location::ident() const
 
 std::string start_location::name() const
 {
-    return _( _name.c_str() );
+    return _( _name );
 }
 
 std::string start_location::target() const

@@ -66,6 +66,7 @@ void material_type::load( JsonObject &jsobj, const std::string & )
     optional( jsobj, was_loaded, "specific_heat_liquid", _specific_heat_liquid );
     optional( jsobj, was_loaded, "specific_heat_solid", _specific_heat_solid );
     optional( jsobj, was_loaded, "latent_heat", _latent_heat );
+    optional( jsobj, was_loaded, "freeze_point", _freeze_point );
 
     assign( jsobj, "salvaged_into", _salvaged_into );
     optional( jsobj, was_loaded, "repaired_with", _repaired_with, "null" );
@@ -170,7 +171,7 @@ material_id material_type::ident() const
 
 std::string material_type::name() const
 {
-    return _( _name.c_str() );
+    return _( _name );
 }
 
 cata::optional<itype_id> material_type::salvaged_into() const
@@ -195,12 +196,12 @@ int material_type::cut_resist() const
 
 std::string material_type::bash_dmg_verb() const
 {
-    return _( _bash_dmg_verb.c_str() );
+    return _( _bash_dmg_verb );
 }
 
 std::string material_type::cut_dmg_verb() const
 {
-    return _( _cut_dmg_verb.c_str() );
+    return _( _cut_dmg_verb );
 }
 
 std::string material_type::dmg_adj( int damage ) const
@@ -211,7 +212,7 @@ std::string material_type::dmg_adj( int damage ) const
     }
 
     // apply bounds checking
-    return _( _dmg_adj[std::min( static_cast<size_t>( damage ), _dmg_adj.size() ) - 1].c_str() );
+    return _( _dmg_adj[std::min( static_cast<size_t>( damage ), _dmg_adj.size() ) - 1] );
 }
 
 int material_type::acid_resist() const
@@ -247,6 +248,11 @@ float material_type::specific_heat_solid() const
 float material_type::latent_heat() const
 {
     return _latent_heat;
+}
+
+int material_type::freeze_point() const
+{
+    return _freeze_point;
 }
 
 int material_type::density() const

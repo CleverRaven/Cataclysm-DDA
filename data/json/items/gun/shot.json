@@ -1,5 +1,27 @@
 [
   {
+    "id": "abzats",
+    "copy-from": "shotgun_base",
+    "type": "GUN",
+    "name": "heavy automatic shotgun",
+    "description": "Modified from the massive M2 Browning, this heavy machine gun has been re-chambered and re-bored for shotgun shells, and completely redesigned to be wielded unmounted by one user.",
+    "weight": 21800,
+    "volume": 16,
+    "price": 745000,
+    "to_hit": -3,
+    "bashing": 12,
+    "material": [ "hardsteel", "wood" ],
+    "symbol": "(",
+    "color": "dark_gray",
+    "dispersion": 450,
+    "durability": 6,
+    "burst": 5,
+    "loudness": 25,
+    "reload": 400,
+    "barrel_length": 3,
+    "magazines": [ [ "shot", [ "shotbelt_20" ] ] ]
+  },
+  {
     "id": "ashot",
     "type": "GUN",
     "reload_noise_volume": 10,

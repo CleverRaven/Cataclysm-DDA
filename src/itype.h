@@ -74,7 +74,7 @@ class gun_modifier_data
             qty_( q ), flags_( f ) { }
         /// @returns The translated name of the gun mode.
         std::string name() const {
-            return _( name_.c_str() );
+            return _( name_ );
         }
         int qty() const {
             return qty_;

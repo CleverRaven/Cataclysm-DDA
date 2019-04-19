@@ -109,7 +109,8 @@
       "To craft items, press <press_craft>. There are seven categories: Weapons, Ammo, Food, Chemicals, Electronics, Armor, and Other. In each major category there are several smaller sub-categories. While a few items require no particular skill to create, the majority require you to have some knowledge. Sometimes a skilled survivor will work out a given recipe from her or his knowledge of the skill, but more often you will need reference material, commonly a book of some sort. Reading such references gives a chance to memorize recipes outright, and you can also craft while referring to the book: just have it handy when crafting. Different knowledge is useful for different applications:",
       "-> Fabrication is the generic artisan skill, used for a wide variety of gear.\n-> Cooking, at low levels, is used for making tasty recipes; at higher levels, you have an understanding of chemistry and can make chemical weapons and beneficial elixirs.\n-> Tailoring is used to create basic clothing, and armor later on.\n-> Electronics lets you make a wide variety of tools with intricate uses.",
       "In addition to the primary crafting skills, other skills may be necessary to create certain items. Traps, Marksmanship, and First Aid are all required for certain items.",
-      "Crafting an item with high difficulty may fail and possibly waste some materials. You should prepare spare material, just in case."
+      "Crafting an item with high difficulty may fail and possibly waste some materials. You should prepare spare material, just in case.",
+      "Crafting very large/heavy items or batches of items is best done at a workbench of some kind.  You could use any ordinary table, or build your own out of metal to handle even heavier loads."
     ]
   },
   {
