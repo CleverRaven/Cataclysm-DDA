@@ -24,6 +24,8 @@
 
 static const std::string DEFAULT_HOTKEYS( "1234567890abcdefghijklmnopqrstuvwxyz" );
 
+class ammunition_type;
+using ammotype = string_id<ammunition_type>;
 class craft_command;
 class recipe_subset;
 enum action_id : int;
@@ -35,6 +37,7 @@ struct dealt_projectile_attack;
 class dispersion_sources;
 class monster;
 class game;
+using itype_id = std::string;
 struct trap;
 class mission;
 class profession;
