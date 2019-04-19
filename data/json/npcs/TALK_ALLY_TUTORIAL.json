@@ -43,7 +43,7 @@
         {
           "is_by_radio": "Are you making a joke?  We're using two-way radios to talk right now. \nWhatever, I'll go over it again in case you forgot.\n"
         },
-        "If you have a two-way radio and I have a two-way radio, you can use the faction interace (keybind '#') key to contact me.  I'll respond as long as I'm not too far away and the signal isn't blocked by the ground.  We can converse normally via a radio, but obviously we can't trade items and I can't train you. \nYou can tell me to come to you or go to any of your faction camps, or if I'm at a faction camp, you can tell me to perform actions at the camp."
+        "If you have a two-way radio and I have a two-way radio, you can use the faction interface (keybind '#') key to contact me.  I'll respond as long as I'm not too far away and the signal isn't blocked by the ground.  We can converse normally via a radio, but obviously we can't trade items and I can't train you. \nYou can tell me to come to you or go to any of your faction camps, or if I'm at a faction camp, you can tell me to perform actions at the camp."
       ]
     },
     "responses": [
