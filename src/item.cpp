@@ -643,7 +643,12 @@ bool item::stacks_with( const item &rhs, bool check_components ) const
     if( corpse != nullptr && rhs.corpse != nullptr && corpse->id != rhs.corpse->id ) {
         return false;
     }
-    if( check_components || rhs.is_comestible() ) {
+    if( is_craft() && rhs.is_craft() ) {
+        if( get_making().ident() != rhs.get_making().ident() ) {
+            return false;
+        }
+    }
+    if( check_components || is_comestible() || is_craft() ) {
         //Only check if at least one item isn't using the default recipe or is comestible
         if( !components.empty() || !rhs.components.empty() ) {
             if( get_uncraft_components() != rhs.get_uncraft_components() ) {
