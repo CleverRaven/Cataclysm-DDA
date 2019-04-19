@@ -4195,7 +4195,7 @@ void mill_activate( player &p, const tripoint &examp )
         if( !it.has_flag( "MILLABLE" ) ) {
             add_msg( m_bad, _( "This rack contains %s, which can't be milled!" ), it.tname( 1,
                      false ) );
-            add_msg( _( "You remove the %s from the mill." ), it.tname().c_str() );
+            add_msg( _( "You remove the %s from the mill." ), it.tname() );
             g->m.add_item_or_charges( p.pos(), it );
             g->m.i_rem( examp, i );
             return;
