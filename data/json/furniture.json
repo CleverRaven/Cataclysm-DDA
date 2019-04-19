@@ -3672,7 +3672,7 @@
     "type": "furniture",
     "id": "f_wind_mill_active",
     "name": "active wind mill",
-    "description": "A small wind-powered mill that can convert starchy products into flour. It's brake has been removed and it is turning.",
+    "description": "A small wind-powered mill that can convert starchy products into flour.  Its brake has been removed and it is turning.",
     "symbol": "T",
     "bgcolor": "red",
     "move_cost_mod": 2,
