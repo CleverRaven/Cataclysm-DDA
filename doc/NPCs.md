@@ -340,14 +340,14 @@ u_sell_item: item_string, (*optional* cost: cost_num, *optional* count: count_nu
 u_spend_cash: cost_num | Remove `cost_num` from your character's cash.  Negative values means your character gains cash.
 add_debt: mod_list | Increases the NPC's debt to the player by the values in the mod_list.<br/>The following would increase the NPC's debt to the player by 1500x the NPC's altruism and 1000x the NPC's opinion of the player's value: `{ "effect": { "add_debt": [ [ "ALTRUISM", 3 ], [ "VALUE", 2 ], [ "TOTAL", 500 ] ] } }`
 u_consume_item, npc_consume_item: item_string, (*optional* count: count_num) | You or the NPC will delete the item or `count_num` copies of the item from their inventory.<br/>This effect will fail if the you or NPC does not have at least `count_num` copies of the item, so it should be checked with `u_has_items` or `npc_has_items`.
-
+u_remove_item_with, npc_remove_item_with: item_string | You or the NPC will delete any instances of item in inventory.<br/>This is an unconditional remove and will not fail if you or the NPC does not have the item.
 
 #### Behaviour / AI
 
 Effect | Description
 ---|---
-assign_guard | Makes the NPC into a guard, if at a camp, they will be assigned to that camp.
-stop_guard | Releases the NPC from their guard duty (also see `assign_guard`).
+assign_guard | Makes the NPC into a guard.  If allied and at a camp, they will be assigned to that camp.
+stop_guard | Releases the NPC from their guard duty (also see `assign_guard`).  Friendly NPCs will return to following.
 start_camp | The NPC will start a faction camp with the player.
 recover_camp | Makes the NPC the overseer of an existing camp that doesn't have an overseer.
 remove_overseer | Makes the NPC stop being an overseer, abandoning the faction camp.
@@ -359,6 +359,7 @@ hostile | Make the NPC hostile and end the conversation.
 flee | Makes the NPC flee from your character.
 leave | Makes the NPC not follow your character anymore.
 follow | Makes the NPC follow your character.
+npc_thankful | Makes the NPC postively inclined toward your character.
 drop_weapon | Make the NPC drop their weapon.
 stranger_neutral | Changes the NPC's attitude to neutral.
 start_mugging | The NPC will approach your character and steal from your character, attacking if your character resists.
@@ -372,8 +373,11 @@ npc_class_change: class_string | Change the NPC's faction to `class_string`.
 npc_faction_change: faction_string | Change the NPC's faction membership to `faction_string`.
 u_faction_rep: rep_num | Increase's your reputation with the NPC's current faction, or decreases it if `rep_num` is negative.
 toggle_npc_rule: rule_string | Toggles the value of a boolean NPC follower AI rule such as "use_silent" or "allow_bash"
+set_npc_rule: rule_string | Sets the value of a boolean NPC follower AI rule such as "use_silent" or "allow_bash"
+clear_npc_rule: rule_string | Clears the value of a boolean NPC follower AI rule such as "use_silent" or "allow_bash"
 set_npc_engagement_rule: rule_string | Sets the NPC follower AI rule for engagement distance to the value of `rule_string`.
 set_npc_aim_rule: rule_string | Sets the NPC follower AI rule for aiming speed to the value of `rule_string`.
+npc_die | The NPC will die at the end of the conversation.
 
 #### Deprecated
 
@@ -438,6 +442,8 @@ Condition | Type | Description
 "u_has_perception"<br/>"npc_has_perception" | int | `true` if the player character's or NPC's perception is at least the value of `u_has_perception` or `npc_has_perception`.
 "u_has_item"<br/>"npc_has_item" | string | `true` if the player character or NPC has something with `u_has_item`'s or `npc_has_item`'s `item_id` in their inventory.
 "u_has_items"<br/>"npc_has_item" | dictionary | `u_has_items` or `npc_has_items` must be a dictionary with an `item` string and a `count` int.<br/>`true` if the player character or NPC has at least `count` charges or counts of `item` in their inventory.
+"u_has_item_category<br/>"npc_has_item_category" | string | `"count"`: item_count is an optional field that must be in the same dictionary and defaults to 1 if not specified.  `true` if the player or NPC has item_count items with the same category as `u_has_item_category` or `npc_has_item_category`.
+"u_has_bionics"<br/>"npc_has_bionics" | string | `true` if the player or NPC has an installed bionic with an bionic_id matching "u_has_bionics" or "npc_has_bionics".  The special string "ANY" returns true if the player or NPC has any installed bionics.
 "u_has_effect"<br/>"npc_has_effect" | string | `true` if the player character or NPC is under the effect with `u_has_effect` or `npc_has_effect`'s `effect_id`.
 "u_can_stow_weapon"<br/>"npc_can_stow_weapon" | simple string | `true` if the player character or NPC is wielding a weapon and has enough space to put it away.
 "u_has_weapon"<br/>"npc_has_weapon" | simple string | `true` if the player character or NPC is wielding a weapon.
@@ -465,6 +471,7 @@ Condition | Type | Description
 "npc_service" | int | `true` if the NPC does not have the "currently_busy" effect and the player character has at least npc_service cash available.  Useful to check if the player character can hire an NPC to perform a task that would take time to complete.  Functionally, this is identical to `"and": [ { "not": { "npc_has_effect": "currently_busy" } }, { "u_has_cash": service_cost } ]`
 "npc_allies" | int | `true` if the player character has at least `npc_allies` number of NPC allies.
 "npc_following" | simple string | `true` if the NPC is following the player character.
+"is_by_radio" | simple string | `true` if the player is talking to the NPC over a radio.
 
 #### NPC only conditions
 

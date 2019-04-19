@@ -58,7 +58,12 @@
     "book_learn": [ [ "mag_cooking", 4 ], [ "mag_glam", 5 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ] ],
-    "components": [ [ [ "liver", 3 ] ], [ [ "salt", 1 ] ], [ [ "sweet_fruit_like", 1, "LIST" ] ], [ [ "vinegar", 2 ] ] ]
+    "components": [
+      [ [ "liver", 3 ] ],
+      [ [ "salt", 1 ], [ "seasoning_salt", 1 ] ],
+      [ [ "sweet_fruit_like", 1, "LIST" ] ],
+      [ [ "vinegar", 2 ] ]
+    ]
   },
   {
     "type": "recipe",

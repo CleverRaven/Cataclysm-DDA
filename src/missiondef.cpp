@@ -94,19 +94,13 @@ enum legacy_mission_type_id {
 static const std::map<std::string, std::function<void( mission * )>> mission_function_map = {{
         // Starts
         { "standard", { } },
-        { "join", mission_start::join },
-        { "infect_npc", mission_start::infect_npc },
-        { "need_drugs_npc", mission_start::need_drugs_npc },
         { "place_dog", mission_start::place_dog },
         { "place_zombie_mom", mission_start::place_zombie_mom },
-        { "place_jabberwock", mission_start::place_jabberwock },
-        { "kill_20_nightmares", mission_start::kill_20_nightmares },
         { "kill_horde_master", mission_start::kill_horde_master },
         { "place_npc_software", mission_start::place_npc_software },
         { "place_priest_diary", mission_start::place_priest_diary },
         { "place_deposit_box", mission_start::place_deposit_box },
         { "find_safety", mission_start::find_safety },
-        { "recruit_tracker", mission_start::recruit_tracker },
         { "ranch_nurse_1", mission_start::ranch_nurse_1 },
         { "ranch_nurse_2", mission_start::ranch_nurse_2 },
         { "ranch_nurse_3", mission_start::ranch_nurse_3 },
@@ -126,12 +120,8 @@ static const std::map<std::string, std::function<void( mission * )>> mission_fun
         { "create_ice_lab_console", mission_start::create_ice_lab_console },
         { "reveal_lab_train_depot", mission_start::reveal_lab_train_depot },
         // Endings
-        { "leave", mission_end::leave },
-        { "thankful", mission_end::thankful },
-        { "deposit_box", mission_end::deposit_box },
-        { "heal_infection", mission_end::heal_infection },
+        { "deposit_box", mission_end::deposit_box }
         // Failures
-        { "kill_npc", mission_fail::kill_npc },
     }
 };
 

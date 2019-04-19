@@ -402,7 +402,7 @@ void monexamine::milk_source( monster &source_mon )
     const auto milked_item = source_mon.type->starting_ammo.find( "milk" );
     if( milked_item == source_mon.type->starting_ammo.end() ) {
         debugmsg( "%s is milkable but has no milk in its starting ammo!",
-                  source_mon.get_name().c_str() );
+                  source_mon.get_name() );
         return;
     }
     const long milk_per_day = milked_item->second;

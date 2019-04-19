@@ -73,7 +73,7 @@ static const std::map<affected_stat, std::string> affected_stat_map_translation 
 std::string string_from_affected_stat( const affected_stat &s )
 {
     const auto &iter = affected_stat_map_translation.find( s );
-    return iter != affected_stat_map_translation.end() ? _( iter->second.c_str() ) : "";
+    return iter != affected_stat_map_translation.end() ? _( iter->second ) : "";
 }
 
 static const std::map<scaling_stat, std::string> scaling_stat_map_translation = {{
@@ -87,7 +87,7 @@ static const std::map<scaling_stat, std::string> scaling_stat_map_translation = 
 std::string string_from_scaling_stat( const scaling_stat &s )
 {
     const auto &iter = scaling_stat_map_translation.find( s );
-    return iter != scaling_stat_map_translation.end() ? _( iter->second.c_str() ) : "";
+    return iter != scaling_stat_map_translation.end() ? _( iter->second ) : "";
 }
 
 bonus_container::bonus_container() = default;

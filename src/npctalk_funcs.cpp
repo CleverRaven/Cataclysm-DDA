@@ -201,6 +201,12 @@ void bulk_trade_accept( npc &, const itype_id &it )
 
 void talk_function::assign_guard( npc &p )
 {
+    if( !p.is_following() ) {
+        p.mission = NPC_MISSION_GUARD;
+        p.set_omt_destination();
+        return;
+    }
+
     if( p.is_travelling() ) {
         if( p.has_companion_mission() ) {
             p.reset_companion_mission();
@@ -215,14 +221,32 @@ void talk_function::assign_guard( npc &p )
     if( bcp ) {
         basecamp *temp_camp = *bcp;
         temp_camp->validate_assignees();
-        add_msg( _( "%1$s is assigned to guard %2$s" ), p.name, temp_camp->camp_name() );
+        if( p.rules.has_flag( ally_rule::ignore_noise ) ) {
+            //~ %1$s is the NPC's translated name, %2$s is the translated faction camp name
+            add_msg( _( "%1$s is assigned to %2$s" ), p.disp_name(), temp_camp->camp_name() );
+        } else {
+            //~ %1$s is the NPC's translated name, %2$s is the translated faction camp name
+            add_msg( _( "%1$s is assigned to guard %2$s" ), p.disp_name(), temp_camp->camp_name() );
+        }
     } else {
-        add_msg( _( "%s is posted as a guard." ), p.name );
+        if( p.rules.has_flag( ally_rule::ignore_noise ) ) {
+            //~ %1$s is the NPC's translated name, %2$s is the pronoun for the NPC's gender
+            add_msg( _( "%1$s will wait for you where %2$s is." ), p.disp_name(),
+                     p.male ? _( "he" ) : _( "she" ) );
+        } else {
+            add_msg( _( "%s is posted as a guard." ), p.disp_name() );
+        }
     }
 }
 
 void talk_function::stop_guard( npc &p )
 {
+    if( p.mission != NPC_MISSION_GUARD_ALLY ) {
+        p.set_attitude( NPCATT_NULL );
+        p.mission = NPC_MISSION_NULL;
+        return;
+    }
+
     p.set_attitude( NPCATT_FOLLOW );
     add_msg( _( "%s begins to follow you." ), p.name );
     p.mission = NPC_MISSION_NULL;
@@ -566,7 +590,7 @@ void talk_function::hostile( npc &p )
 
     g->u.add_memorial_log( pgettext( "memorial_male", "%s became hostile." ),
                            pgettext( "memorial_female", "%s became hostile." ),
-                           p.name.c_str() );
+                           p.name );
     p.set_attitude( NPCATT_KILL );
 }
 
@@ -717,4 +741,27 @@ void talk_function::set_npc_pickup( npc &p )
 {
     const std::string title = string_format( _( "Pickup rules for %s" ), p.name );
     p.rules.pickup_whitelist->show( title, false );
+}
+
+void talk_function::npc_die( npc &p )
+{
+    p.die( nullptr );
+    const std::shared_ptr<npc> guy = overmap_buffer.find_npc( p.getID() );
+    if( guy && !guy->is_dead() ) {
+        guy->marked_for_death = true;
+    }
+}
+
+void talk_function::npc_thankful( npc &p )
+{
+    if( p.get_attitude() == NPCATT_MUG || p.get_attitude() == NPCATT_WAIT_FOR_LEAVE ||
+        p.get_attitude() == NPCATT_FLEE || p.get_attitude() == NPCATT_KILL ||
+        p.get_attitude() == NPCATT_FLEE_TEMP ) {
+        p.set_attitude( NPCATT_NULL );
+    }
+    if( p.chatbin.first_topic != "TALK_FRIEND" ) {
+        p.chatbin.first_topic = "TALK_STRANGER_FRIENDLY";
+    }
+    p.personality.aggression -= 1;
+
 }

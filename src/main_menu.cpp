@@ -106,9 +106,9 @@ void main_menu::print_menu( const catacurses::window &w_open, int iSel, const in
     const nc_color cColor3 = c_light_blue;
 
     if( halloween_theme ) {
-        fold_and_print_from( w_open, 0, 0, 30, 0, c_white, halloween_spider().c_str() );
+        fold_and_print_from( w_open, 0, 0, 30, 0, c_white, halloween_spider() );
         fold_and_print_from( w_open, iMenuOffsetY - 8, getmaxx( w_open ) - 25,
-                             25, 0, c_white, halloween_graves().c_str() );
+                             25, 0, c_white, halloween_graves() );
     }
 
     if( mmenu_title.size() > 1 ) {
@@ -126,7 +126,7 @@ void main_menu::print_menu( const catacurses::window &w_open, int iSel, const in
                 }
                 iLine++;
             } else {
-                mvwprintz( w_open, iLine++, iOffsetX, i < 6 ? cColor1 : cColor2, "%s", mmenu_title[i].c_str() );
+                mvwprintz( w_open, iLine++, iOffsetX, i < 6 ? cColor1 : cColor2, "%s", mmenu_title[i] );
             }
         }
     } else {
@@ -870,7 +870,7 @@ bool main_menu::load_character_tab()
                     }
                     mvwprintz( w_open, line, 15 + iMenuOffsetX + extra_w / 2,
                                ( sel2 == i ? color2 : color1 ), "%s (%d)",
-                               world_name.c_str(), savegames_count );
+                               world_name, savegames_count );
                 }
             }
             wrefresh( w_open );
@@ -924,7 +924,7 @@ bool main_menu::load_character_tab()
                     const bool selected = sel3 + line == iMenuOffsetY - 2;
                     mvwprintz( w_open, line--, 40 + iMenuOffsetX + extra_w / 2,
                                selected ? h_white : c_white,
-                               "%s", savename.player_name().c_str() );
+                               "%s", savename.player_name() );
                 }
             }
             wrefresh( w_open );
@@ -990,7 +990,7 @@ void main_menu::world_tab()
             int yoffset = iMenuOffsetY - 2 - sel2;
 
             const auto all_worldnames = world_generator->all_worldnames();
-            mvwprintz( w_open, yoffset, xoffset - 15, h_white, "%s", all_worldnames[sel2 - 1].c_str() );
+            mvwprintz( w_open, yoffset, xoffset - 15, h_white, "%s", all_worldnames[sel2 - 1] );
 
             for( size_t i = 0; i < vWorldSubItems.size(); ++i ) {
                 nc_color text_color;

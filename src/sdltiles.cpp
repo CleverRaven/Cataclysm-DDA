@@ -3576,6 +3576,10 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
         fh = map_font->fontheight;
     }
 
+    // multiplied by the user's specified scaling factor regardless of whether tiles are in use
+    fw = fw * get_scaling_factor();
+    fh = fh * get_scaling_factor();
+
     // Translate mouse coordinates to map coordinates based on tile size,
     // the window position is *always* in standard font dimensions!
     const int win_left = capture_win->x * fontwidth;
