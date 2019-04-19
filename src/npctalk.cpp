@@ -488,6 +488,7 @@ void npc::talk_to_u( bool text_only, bool radio_contact )
             } while( cat != -1 && topic_category( d.topic_stack.back() ) == cat );
         }
         if( next.id == "TALK_DONE" || d.topic_stack.empty() ) {
+            d.beta->say( _( "Bye." ) );
             d.done = true;
         } else if( next.id != "TALK_NONE" ) {
             d.add_topic( next );
