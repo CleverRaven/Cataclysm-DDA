@@ -683,7 +683,7 @@ void npc::execute_action( npc_action action )
     }
     /*
       debugmsg("%s ran execute_action() with target = %d! Action %s",
-               name.c_str(), target, npc_action_name(action).c_str());
+               name, target, npc_action_name(action));
     */
 
     switch( action ) {
@@ -2709,7 +2709,7 @@ bool npc::alt_attack()
 
     int weapon_index = get_item_position( used );
     if( weapon_index == INT_MIN ) {
-        debugmsg( "npc::alt_attack() couldn't find expected item %s", used->tname().c_str() );
+        debugmsg( "npc::alt_attack() couldn't find expected item %s", used->tname() );
         return false;
     }
 
@@ -2819,7 +2819,7 @@ void npc::heal_player( player &patient )
 
     item &used = get_healing_item( ai_cache.can_heal );
     if( used.is_null() ) {
-        debugmsg( "%s tried to heal you but has no healing item", disp_name().c_str() );
+        debugmsg( "%s tried to heal you but has no healing item", disp_name() );
         return;
     }
 
@@ -2841,7 +2841,7 @@ void npc::heal_self()
 {
     item &used = get_healing_item( ai_cache.can_heal );
     if( used.is_null() ) {
-        debugmsg( "%s tried to heal self but has no healing item", disp_name().c_str() );
+        debugmsg( "%s tried to heal self but has no healing item", disp_name() );
         return;
     }
 
@@ -2993,7 +2993,7 @@ bool npc::consume_food()
     int old_moves = moves;
     bool consumed = consume( index ) && old_moves != moves;
     if( !consumed ) {
-        debugmsg( "%s failed to consume %s", name.c_str(), i_at( index ).tname().c_str() );
+        debugmsg( "%s failed to consume %s", name, i_at( index ).tname() );
     }
 
     return consumed;
@@ -3549,7 +3549,7 @@ void npc::do_reload( const item &it )
     item::reload_option reload_opt = select_ammo( it );
 
     if( !reload_opt ) {
-        debugmsg( "do_reload failed: no usable ammo for %s", it.tname().c_str() );
+        debugmsg( "do_reload failed: no usable ammo for %s", it.tname() );
         return;
     }
 
@@ -3565,7 +3565,7 @@ void npc::do_reload( const item &it )
     const std::string ammo_name = usable_ammo->tname();
     if( !target.reload( *this, std::move( usable_ammo ), qty ) ) {
         debugmsg( "do_reload failed: item %s could not be reloaded with %ld charge(s) of %s",
-                  it.tname().c_str(), qty, ammo_name.c_str() );
+                  it.tname(), qty, ammo_name );
         return;
     }
 

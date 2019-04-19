@@ -260,12 +260,12 @@ void butcher_cbm_group( const std::string &group, const tripoint &pos,
         //The CBM works
         const auto spawned = g->m.put_items_from_loc( group, pos, age );
         for( const auto &it : spawned ) {
-            add_msg( m_good, _( "You discover a %s!" ), it->tname().c_str() );
+            add_msg( m_good, _( "You discover a %s!" ), it->tname() );
         }
     } else {
         //There is a burnt out CBM
         item cbm( "burnt_out_bionic", age );
-        add_msg( m_good, _( "You discover a %s!" ), cbm.tname().c_str() );
+        add_msg( m_good, _( "You discover a %s!" ), cbm.tname() );
         g->m.add_item( pos, cbm );
     }
 }
@@ -415,18 +415,18 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
     if( action == QUARTER ) {
         if( corpse.size == MS_TINY ) {
             u.add_msg_if_player( m_bad, _( "This corpse is too small to quarter without damaging." ),
-                                 corpse.nname().c_str() );
+                                 corpse.nname() );
             act.index = -1;
             return;
         }
         if( corpse_item.has_flag( "QUARTERED" ) ) {
-            u.add_msg_if_player( m_bad, _( "This is already quartered." ), corpse.nname().c_str() );
+            u.add_msg_if_player( m_bad, _( "This is already quartered." ), corpse.nname() );
             act.index = -1;
             return;
         }
         if( !( corpse_item.has_flag( "FIELD_DRESS" ) || corpse_item.has_flag( "FIELD_DRESS_FAILED" ) ) ) {
             u.add_msg_if_player( m_bad, _( "You need to perform field dressing before quartering." ),
-                                 corpse.nname().c_str() );
+                                 corpse.nname() );
             act.index = -1;
             return;
         }
@@ -680,7 +680,7 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p,
                              const std::function<int()> &roll_butchery, butcher_type action,
                              const std::function<double()> &roll_drops )
 {
-    p.add_msg_if_player( m_neutral, _( mt.harvest->message().c_str() ) );
+    p.add_msg_if_player( m_neutral, _( mt.harvest->message() ) );
     int monster_weight = to_gram( mt.weight );
     monster_weight += round( monster_weight * rng_float( -0.1, 0.1 ) );
     if( corpse_item->has_flag( "QUARTERED" ) ) {
@@ -937,7 +937,7 @@ void butchery_quarter( item *corpse_item, player &p )
     corpse_item->set_flag( "QUARTERED" );
     p.add_msg_if_player( m_good,
                          _( "You roughly slice the corpse of %s into four parts and set them aside." ),
-                         corpse_item->get_mtype()->nname().c_str() );
+                         corpse_item->get_mtype()->nname() );
     for( int i = 1; i <= 3; i++ ) { // 4 quarters (one exists, add 3, flag does the rest)
         g->m.add_item_or_charges( p.pos(), *corpse_item, true );
     }
@@ -1064,8 +1064,8 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         for( auto &content : contents ) {
             if( ( roll_butchery() + 10 ) * 5 > rng( 0, 100 ) ) {
                 //~ %1$s - item name, %2$s - monster name
-                p->add_msg_if_player( m_good, _( "You discover a %1$s in the %2$s!" ), content.tname().c_str(),
-                                      corpse->nname().c_str() );
+                p->add_msg_if_player( m_good, _( "You discover a %1$s in the %2$s!" ), content.tname(),
+                                      corpse->nname() );
                 g->m.add_item_or_charges( p->pos(), content );
             } else if( content.is_bionic() ) {
                 g->m.spawn_item( p->pos(), "burnt_out_bionic", 1, 0, calendar::turn );
@@ -1080,11 +1080,11 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         case BUTCHER:
             p->add_msg_if_player( m_good,
                                   _( "You apply few quick cuts to the %s and leave what's left of it for scavengers." ),
-                                  corpse_item.tname().c_str() );
+                                  corpse_item.tname() );
             g->m.i_rem( p->pos(), act->index );
             break; //no set_to_null here, for multibutchering
         case BUTCHER_FULL:
-            p->add_msg_if_player( m_good, _( "You finish butchering the %s." ), corpse_item.tname().c_str() );
+            p->add_msg_if_player( m_good, _( "You finish butchering the %s." ), corpse_item.tname() );
             g->m.i_rem( p->pos(), act->index );
             break;
         case F_DRESS:
@@ -1118,7 +1118,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
 
                 switch( rng( 1, 3 ) ) {
                     case 1:
-                        p->add_msg_if_player( m_good, _( "You field dress the %s." ), corpse->nname().c_str() );
+                        p->add_msg_if_player( m_good, _( "You field dress the %s." ), corpse->nname() );
                         break;
                     case 2:
                         p->add_msg_if_player( m_good,
@@ -1145,20 +1145,20 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         case SKIN:
             switch( rng( 1, 4 ) ) {
                 case 1:
-                    p->add_msg_if_player( m_good, _( "You skin the %s." ), corpse->nname().c_str() );
+                    p->add_msg_if_player( m_good, _( "You skin the %s." ), corpse->nname() );
                     break;
                 case 2:
                     p->add_msg_if_player( m_good, _( "You carefully remove the hide from the %s" ),
-                                          corpse->nname().c_str() );
+                                          corpse->nname() );
                     break;
                 case 3:
                     p->add_msg_if_player( m_good,
                                           _( "The %s is challenging to skin, but you get a good hide from it." ),
-                                          corpse->nname().c_str() );
+                                          corpse->nname() );
                     break;
                 case 4:
                     p->add_msg_if_player( m_good, _( "With a few deft slices you take the skin from the %s" ),
-                                          corpse->nname().c_str() );
+                                          corpse->nname() );
                     break;
             }
             corpse_item.set_flag( "SKINNED" );
@@ -1177,7 +1177,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
             g->m.i_rem( p->pos(), act->index );
             break;
         case DISSECT:
-            p->add_msg_if_player( m_good, _( "You finish dissecting the %s." ), corpse_item.tname().c_str() );
+            p->add_msg_if_player( m_good, _( "You finish dissecting the %s." ), corpse_item.tname() );
             g->m.i_rem( p->pos(), act->index );
             break;
     }
@@ -1328,7 +1328,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
                     iexamine::pour_into_keg( act_ref.coords.at( 1 ), liquid );
                 } else {
                     g->m.add_item_or_charges( act_ref.coords.at( 1 ), liquid );
-                    p->add_msg_if_player( _( "You pour %1$s onto the ground." ), liquid.tname().c_str() );
+                    p->add_msg_if_player( _( "You pour %1$s onto the ground." ), liquid.tname() );
                     liquid.charges = 0;
                 }
                 break;
@@ -1372,11 +1372,11 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
                     source_stack.erase( on_ground );
                     if( g->m.ter( source_pos ).obj().examine == &iexamine::gaspump ) {
                         add_msg( _( "With a clang and a shudder, the %s pump goes silent." ),
-                                 liquid.type_name( 1 ).c_str() );
+                                 liquid.type_name( 1 ) );
                     } else if( g->m.furn( source_pos ).obj().examine == &iexamine::fvat_full ) {
                         g->m.furn_set( source_pos, f_fvat_empty );
                         add_msg( _( "You squeeze the last drops of %s from the vat." ),
-                                 liquid.type_name( 1 ).c_str() );
+                                 liquid.type_name( 1 ) );
                     }
                     act_ref.set_to_null();
                 }
@@ -1448,7 +1448,7 @@ static void rod_fish( player *p, int sSkillLevel, int fishChance, const tripoint
                             mongroup_id( "GROUP_FISH" ) );
                 const mtype_id &fish_mon = random_entry_ref( fish_group );
                 g->m.add_item_or_charges( p->pos(), item::make_corpse( fish_mon ) );
-                p->add_msg_if_player( m_good, _( "You caught a %s." ), fish_mon.obj().nname().c_str() );
+                p->add_msg_if_player( m_good, _( "You caught a %s." ), fish_mon.obj().nname() );
             } else {
                 p->add_msg_if_player( _( "You didn't catch anything." ) );
             }
@@ -1518,7 +1518,7 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
     if( veggy_chance < p->get_skill_level( skill_survival ) * 3 + p->per_cur - 2 ) {
         const auto dropped = g->m.put_items_from_loc( loc, p->pos(), calendar::turn );
         for( const auto &it : dropped ) {
-            add_msg( m_good, _( "You found: %s!" ), it->tname().c_str() );
+            add_msg( m_good, _( "You found: %s!" ), it->tname() );
             found_something = true;
             if( it->typeId() == "mushroom" ) {
                 if( one_in( 10 ) ) {
@@ -1534,7 +1534,7 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
     if( one_in( 10 ) ) {
         const auto dropped = g->m.put_items_from_loc( "trash_forest", p->pos(), calendar::turn );
         for( const auto &it : dropped ) {
-            add_msg( m_good, _( "You found: %s!" ), it->tname().c_str() );
+            add_msg( m_good, _( "You found: %s!" ), it->tname() );
             found_something = true;
         }
     }
@@ -1567,7 +1567,7 @@ void activity_handlers::game_do_turn( player_activity *act, player *p )
     }
     if( game_item.ammo_remaining() == 0 ) {
         act->moves_left = 0;
-        add_msg( m_info, _( "The %s runs out of batteries." ), game_item.tname().c_str() );
+        add_msg( m_info, _( "The %s runs out of batteries." ), game_item.tname() );
     }
 }
 
@@ -1849,7 +1849,7 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
     const bool is_speedloader = act->targets[ 1 ]->has_flag( "SPEEDLOADER" );
 
     if( !reloadable.reload( *p, std::move( act->targets[ 1 ] ), qty ) ) {
-        add_msg( m_info, _( "Can't reload the %s." ), reloadable.tname().c_str() );
+        add_msg( m_info, _( "Can't reload the %s." ), reloadable.tname() );
         return;
     }
 
@@ -1875,7 +1875,7 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
     } else if( reloadable.is_watertight_container() ) {
         msg = _( "You refill the %s." );
     }
-    add_msg( msg.c_str(), reloadable.tname().c_str() );
+    add_msg( msg.c_str(), reloadable.tname() );
 }
 
 void activity_handlers::start_fire_finish( player_activity *act, player *p )
@@ -1935,11 +1935,11 @@ void activity_handlers::train_finish( player_activity *act, player *p )
     if( ma_id.is_valid() ) {
         const auto &mastyle = ma_id.obj();
         // Trained martial arts,
-        add_msg( m_good, _( "You learn %s." ), mastyle.name.c_str() );
+        add_msg( m_good, _( "You learn %s." ), mastyle.name );
         //~ %s is martial art
         p->add_memorial_log( pgettext( "memorial_male", "Learned %s." ),
                              pgettext( "memorial_female", "Learned %s." ),
-                             mastyle.name.c_str() );
+                             mastyle.name );
         p->add_martialart( mastyle.id );
     } else {
         debugmsg( "train_finish without a valid skill or style name" );
@@ -2002,7 +2002,7 @@ void activity_handlers::vibe_do_turn( player_activity *act, player *p )
             vibrator_item.ammo_consume( 1, p->pos() );
             p->add_morale( MORALE_FEELING_GOOD, 3, 40 );
             if( vibrator_item.ammo_remaining() == 0 ) {
-                add_msg( m_info, _( "The %s runs out of batteries." ), vibrator_item.tname().c_str() );
+                add_msg( m_info, _( "The %s runs out of batteries." ), vibrator_item.tname() );
             }
         } else {
             p->add_morale( MORALE_FEELING_GOOD, 1, 40 ); //twenty minutes to fill
@@ -2057,21 +2057,21 @@ void activity_handlers::start_engines_finish( player_activity *act, player *p )
     veh->engine_on = started;
 
     if( attempted == 0 ) {
-        add_msg( m_info, _( "The %s doesn't have an engine!" ), veh->name.c_str() );
+        add_msg( m_info, _( "The %s doesn't have an engine!" ), veh->name );
     } else if( non_muscle_attempted > 0 ) {
         //Some non-muscle engines tried to start
         if( non_muscle_attempted == non_muscle_started ) {
             //All of the non-muscle engines started
             add_msg( ngettext( "The %s's engine starts up.",
-                               "The %s's engines start up.", non_muscle_started ), veh->name.c_str() );
+                               "The %s's engines start up.", non_muscle_started ), veh->name );
         } else if( non_muscle_started > 0 ) {
             //Only some of the non-muscle engines started
             add_msg( ngettext( "One of the %s's engines start up.",
-                               "Some of the %s's engines start up.", non_muscle_started ), veh->name.c_str() );
+                               "Some of the %s's engines start up.", non_muscle_started ), veh->name );
         } else {
             //All of the non-muscle engines failed
             add_msg( m_bad, ngettext( "The %s's engine fails to start.",
-                                      "The %s's engines fail to start.", non_muscle_attempted ), veh->name.c_str() );
+                                      "The %s's engines fail to start.", non_muscle_attempted ), veh->name );
         }
     }
 
@@ -2416,14 +2416,14 @@ void activity_handlers::mend_item_finish( player_activity *act, player *p )
 
     const auto f = target->faults.find( fault_id( act->name ) );
     if( f == target->faults.end() ) {
-        debugmsg( "item %s does not have fault %s", target->tname().c_str(), act->name.c_str() );
+        debugmsg( "item %s does not have fault %s", target->tname(), act->name );
         return;
     }
 
     const auto inv = p->crafting_inventory();
     const auto &reqs = f->obj().requirements();
     if( !reqs.can_make_with_inventory( inv, is_crafting_component ) ) {
-        add_msg( m_info, _( "You are currently unable to mend the %s." ), target->tname().c_str() );
+        add_msg( m_info, _( "You are currently unable to mend the %s." ), target->tname() );
     }
     for( const auto &e : reqs.get_components() ) {
         p->consume_items( e );
@@ -2434,7 +2434,7 @@ void activity_handlers::mend_item_finish( player_activity *act, player *p )
     p->invalidate_crafting_inventory();
 
     target->faults.erase( *f );
-    add_msg( m_good, _( "You successfully mended the %s." ), target->tname().c_str() );
+    add_msg( m_good, _( "You successfully mended the %s." ), target->tname() );
 }
 
 void activity_handlers::gunmod_add_finish( player_activity *act, player *p )
@@ -2466,8 +2466,8 @@ void activity_handlers::gunmod_add_finish( player_activity *act, player *p )
     }
 
     if( rng( 0, 100 ) <= roll ) {
-        add_msg( m_good, _( "You successfully attached the %1$s to your %2$s." ), mod.tname().c_str(),
-                 gun.tname().c_str() );
+        add_msg( m_good, _( "You successfully attached the %1$s to your %2$s." ), mod.tname(),
+                 gun.tname() );
         gun.contents.push_back( p->i_rem( &mod ) );
 
     } else if( rng( 0, 100 ) <= risk ) {
@@ -2478,16 +2478,16 @@ void activity_handlers::gunmod_add_finish( player_activity *act, player *p )
                     p->remove_item( *mod );
                 }
             }
-            add_msg( m_bad, _( "You failed at installing the %s and destroyed your %s!" ), mod.tname().c_str(),
-                     gun.tname().c_str() );
+            add_msg( m_bad, _( "You failed at installing the %s and destroyed your %s!" ), mod.tname(),
+                     gun.tname() );
             p->i_rem( &gun );
         } else {
-            add_msg( m_bad, _( "You failed at installing the %s and damaged your %s!" ), mod.tname().c_str(),
-                     gun.tname().c_str() );
+            add_msg( m_bad, _( "You failed at installing the %s and damaged your %s!" ), mod.tname(),
+                     gun.tname() );
         }
 
     } else {
-        add_msg( m_info, _( "You failed at installing the %s." ), mod.tname().c_str() );
+        add_msg( m_info, _( "You failed at installing the %s." ), mod.tname() );
     }
 }
 
@@ -2501,8 +2501,7 @@ void activity_handlers::toolmod_add_finish( player_activity *act, player *p )
     item &tool = *act->targets[0];
     item &mod = *act->targets[1];
     p->add_msg_if_player( m_good, _( "You successfully attached the %1$s to your %2$s." ),
-                          mod.tname().c_str(),
-                          tool.tname().c_str() );
+                          mod.tname(), tool.tname() );
     mod.item_tags.insert( "IRREMOVABLE" );
     tool.contents.push_back( mod );
     act->targets[1].remove_item();
@@ -2512,7 +2511,7 @@ void activity_handlers::clear_rubble_finish( player_activity *act, player *p )
 {
     const tripoint &pos = act->placement;
     p->add_msg_if_player( m_info, _( "You clear up the %s." ),
-                          g->m.furnname( pos ).c_str() );
+                          g->m.furnname( pos ) );
     g->m.furn_set( pos, f_null );
 
     act->set_to_null();
@@ -2629,13 +2628,13 @@ void activity_handlers::wait_weather_finish( player_activity *act, player *p )
 
 void activity_handlers::wait_npc_finish( player_activity *act, player *p )
 {
-    p->add_msg_if_player( _( "%s finishes with you..." ), act->str_values[0].c_str() );
+    p->add_msg_if_player( _( "%s finishes with you..." ), act->str_values[0] );
     act->set_to_null();
 }
 
 void activity_handlers::socialize_finish( player_activity *act, player *p )
 {
-    p->add_msg_if_player( _( "%s finishes chatting with you." ), act->str_values[0].c_str() );
+    p->add_msg_if_player( _( "%s finishes chatting with you." ), act->str_values[0] );
     act->set_to_null();
 }
 
@@ -3051,7 +3050,7 @@ void activity_handlers::play_with_pet_finish( player_activity *act, player *p )
 {
     p->add_morale( MORALE_PLAY_WITH_PET, rng( 3, 10 ), 10, 5_hours, 25_minutes );
     p->add_msg_if_player( m_good, _( "Playing with your %s has lifted your spirits a bit." ),
-                          act->str_values[0].c_str() );
+                          act->str_values[0] );
     act->set_to_null();
 }
 
@@ -3090,9 +3089,9 @@ void activity_handlers::unload_mag_finish( player_activity *act, player *p )
             item link( *it.type->magazine->linkage, calendar::turn, qty );
             p->add_or_drop_with_msg( link, true );
         }
-        add_msg( _( "You disassemble your %s." ), it.tname().c_str() );
+        add_msg( _( "You disassemble your %s." ), it.tname() );
     } else {
-        add_msg( _( "You unload your %s." ), it.tname().c_str() );
+        add_msg( _( "You unload your %s." ), it.tname() );
     }
 
     if( it.has_flag( "MAG_DESTROY" ) && it.ammo_remaining() == 0 ) {
@@ -3353,7 +3352,7 @@ void activity_handlers::robot_control_finish( player_activity *act, player *p )
         return;
     }
 
-    p->add_msg_if_player( _( "You unleash your override attack on the %s." ), z->name().c_str() );
+    p->add_msg_if_player( _( "You unleash your override attack on the %s." ), z->name() );
 
     /** @EFFECT_INT increases chance of successful robot reprogramming, vs difficulty */
     /** @EFFECT_COMPUTER increases chance of successful robot reprogramming, vs difficulty */
@@ -3361,11 +3360,11 @@ void activity_handlers::robot_control_finish( player_activity *act, player *p )
                           ( ( rng( 2, p->int_cur ) / 2 ) + ( p->get_skill_level( skill_id( "computer" ) ) / 2 ) );
     if( success >= 0 ) {
         p->add_msg_if_player( _( "You successfully override the %s's IFF protocols!" ),
-                              z->name().c_str() );
+                              z->name() );
         z->friendly = -1;
     } else if( success >= -2 ) { //A near success
         p->add_msg_if_player( _( "The %s short circuits as you attempt to reprogram it!" ),
-                              z->name().c_str() );
+                              z->name() );
         z->apply_damage( p, bp_torso, rng( 1, 10 ) ); //damage it a little
         if( z->is_dead() ) {
             p->practice( skill_id( "computer" ), 10 );

@@ -114,7 +114,7 @@ class ui_container
  *     }
  *   }
  *   void select(int num, uilist * menu) {
- *       mvwprintz(menu->window, 0, 0, c_red, "( %s )",game_z[num]->name().c_str() );
+ *       mvwprintz(menu->window, 0, 0, c_red, "( %s )",game_z[num]->name() );
  *   }
  * }
  * uilist monmenu;
