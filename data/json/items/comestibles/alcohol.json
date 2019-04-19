@@ -19,6 +19,7 @@
     "price": 1100,
     "//": "Booze uses nonstandard charge counts: 15 shots of wine to the 750mL bottle.  Priced at 1100 translates to $33 per, because it's still priced per 250 mL charge.",
     "material": [ "alcohol", "water" ],
+    "primary_material": "alcohol",
     "volume": 1,
     "phase": "liquid",
     "charges": 5,
@@ -46,6 +47,7 @@
     "price": 1200,
     "//": "The PLCB can get you some for around $10 per 750mL, but I imagine you want to pay for better ~fermentation~.",
     "material": [ "alcohol", "water" ],
+    "primary_material": "alcohol",
     "volume": 1,
     "phase": "liquid",
     "charges": 5,
@@ -72,6 +74,7 @@
     "description": "The heavily disputed king of red wines.  Pairs well with red meats and pasta.",
     "price": 1650,
     "material": [ "alcohol", "water" ],
+    "primary_material": "alcohol",
     "volume": 1,
     "phase": "liquid",
     "charges": 5,
@@ -97,6 +100,7 @@
     "description": "Prized by collectors and adored by critics, it is one of the rarer and more elegant wines.",
     "price": 2600,
     "material": [ "alcohol", "water" ],
+    "primary_material": "alcohol",
     "volume": 1,
     "phase": "liquid",
     "charges": 5,
@@ -287,6 +291,7 @@
     "description": "Really cheap fortified wine.",
     "price": 158,
     "material": [ "alcohol", "water" ],
+    "primary_material": "alcohol",
     "volume": 1,
     "phase": "liquid",
     "charges": 7,
@@ -341,6 +346,7 @@
     "description": "Weak alcoholic drinks, mixed with no regard for taste.",
     "price": 70,
     "material": [ "alcohol", "water" ],
+    "primary_material": "alcohol",
     "volume": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE" ],
@@ -367,6 +373,7 @@
     "description": "Cheap booze made from fermented fruit juice.  Tastes just like it sounds.",
     "price": 550,
     "material": [ "alcohol", "water" ],
+    "primary_material": "alcohol",
     "volume": 1,
     "phase": "liquid",
     "charges": 7,
@@ -421,6 +428,7 @@
     "description": "Sweetened coffee and whiskey topped with milk.  Start your day the closeted alcoholic way!",
     "price": 500,
     "material": [ "alcohol", "water", "milk" ],
+    "primary_material": "alcohol",
     "volume": 1,
     "phase": "liquid",
     "fun": 20,
@@ -446,11 +454,13 @@
     "description": "A blend of incredibly strong-flavored liquors that somehow tastes like none of them.  It contains no tea, but the inclusion of cola gives it a tea-like color.",
     "price": 600,
     "material": [ "alcohol", "water" ],
+    "primary_material": "alcohol",
     "volume": 1,
     "phase": "liquid",
     "//": "Includes cola, so presumed to be a 250mL cocktail like the others.",
     "flags": [ "EATEN_COLD" ],
-    "fun": 20
+    "fun": 20,
+    "vitamins": [ [ "vitC", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -471,12 +481,13 @@
     "description": "A mix of orange juice and vodka.  It's the surreptitious drunkard mechanic's drink of choice.",
     "price": 600,
     "material": [ "alcohol", "fruit" ],
+    "primary_material": "alcohol",
     "volume": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
     "freezing_point": -29,
-    "vitamins": [ [ "vitC", 4 ] ],
-    "fun": 20
+    "fun": 20,
+    "vitamins": [ [ "vitA", 2 ], [ "vitC", 118 ], [ "calcium", 2 ], [ "iron", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -498,12 +509,13 @@
     "description": "Like apple cider, only with vodka.",
     "price": 500,
     "material": [ "alcohol", "fruit" ],
+    "primary_material": "alcohol",
     "volume": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
     "freezing_point": -29,
-    "vitamins": [ [ "vitC", 4 ] ],
-    "fun": 20
+    "fun": 20,
+    "vitamins": [ [ "vitC", 135 ], [ "calcium", 1 ], [ "iron", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -525,6 +537,7 @@
     "description": "Suitable for tropical retreats and Canadian artists alike.",
     "price": 600,
     "material": [ "alcohol", "junk" ],
+    "primary_material": "alcohol",
     "volume": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
@@ -550,11 +563,13 @@
     "description": "A grain alcohol flavored with hops.  It's best served cold, in a glass, and with a lime - but you're not that lucky.",
     "price": 110,
     "material": [ "alcohol", "water" ],
+    "primary_material": "alcohol",
     "volume": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
     "freezing_point": 23,
-    "fun": 10
+    "fun": 10,
+    "vitamins": [ [ "calcium", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -575,6 +590,7 @@
     "description": "Well-aged honey wine, spiced with a hint of hops.  Goes down bittersweet.",
     "price": 1100,
     "material": [ "alcohol", "honey" ],
+    "primary_material": "alcohol",
     "volume": 1,
     "phase": "liquid",
     "charges": 7,
@@ -602,6 +618,7 @@
     "price": 1400,
     "//": "Nope, homebrew is not more expensive than pinot noir, sorry.",
     "material": [ "alcohol", "water" ],
+    "primary_material": "alcohol",
     "volume": 1,
     "phase": "liquid",
     "charges": 7,
@@ -629,6 +646,7 @@
     "description": "A potent wine flavored with pine resin.  Bold and pungent, its biting taste and strong aroma takes some getting used to.",
     "price": 1000,
     "material": [ "alcohol", "water" ],
+    "primary_material": "alcohol",
     "volume": 1,
     "phase": "liquid",
     "charges": 7,
@@ -655,11 +673,13 @@
     "description": "Not the finest drink you've had, but hey, it's alcohol by the gallon.",
     "price": 500,
     "material": [ "alcohol", "water" ],
+    "primary_material": "alcohol",
     "volume": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
     "freezing_point": 23,
-    "fun": 8
+    "fun": 8,
+    "vitamins": [ [ "calcium", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -708,11 +728,13 @@
     "description": "A lager beer imported from Europe.  Best served cold, in a glass - but you're not that lucky.",
     "price": 260,
     "material": [ "alcohol", "water" ],
+    "primary_material": "alcohol",
     "volume": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
     "freezing_point": 23,
-    "fun": 10
+    "fun": 10,
+    "vitamins": [ [ "calcium", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -734,11 +756,13 @@
     "description": "A tasty craft beer.  Best served cold, in a glass - but you're not that lucky.",
     "price": 150,
     "material": [ "alcohol", "water" ],
+    "primary_material": "alcohol",
     "volume": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
     "freezing_point": 23,
-    "fun": 14
+    "fun": 14,
+    "vitamins": [ [ "calcium", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -760,11 +784,13 @@
     "description": "A very flavorful microbrewed beer.  Best served cold, in a glass - but you're not that lucky.",
     "price": 150,
     "material": [ "alcohol", "water" ],
+    "primary_material": "alcohol",
     "volume": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
     "freezing_point": 23,
-    "fun": 14
+    "fun": 14,
+    "vitamins": [ [ "calcium", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -786,10 +812,12 @@
     "description": "A tasty craft beer, as dark in color as the days ahead.",
     "price": 160,
     "material": [ "alcohol", "water" ],
+    "primary_material": "alcohol",
     "volume": 1,
     "phase": "liquid",
     "freezing_point": 23,
     "fun": 14,
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 1 ] ],
     "flags": [ "EATEN_COLD" ]
   },
   {
@@ -812,11 +840,13 @@
     "description": "A flavorful and filling beer brewed by monks in Belgium.  Best served in a goblet.",
     "price": 130,
     "material": [ "alcohol", "water" ],
+    "primary_material": "alcohol",
     "volume": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
     "freezing_point": 23,
-    "fun": 14
+    "fun": 14,
+    "vitamins": [ [ "calcium", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -838,9 +868,11 @@
     "description": "A very flavorful beer that has been aged in bourbon barrels.  It is as black as midnight on a moonless night and has the viscosity of oil.  While very tasty, it also has an alcohol content on the level with wine.",
     "price": 450,
     "material": [ "alcohol", "water" ],
+    "primary_material": "alcohol",
     "volume": 1,
     "phase": "liquid",
     "fun": 18,
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 1 ] ],
     "flags": [ "EATEN_COLD" ],
     "freezing_point": 23
   },
@@ -863,11 +895,13 @@
     "description": "Strawberries left to ferment with a few other choice ingredients offer up a surprisingly palatable mixture; you barely even have to force yourself to drink it after the first few gulps.",
     "price": 1600,
     "material": [ "alcohol", "water", "fruit" ],
+    "primary_material": "alcohol",
     "volume": 1,
     "phase": "liquid",
     "charges": 6,
     "flags": [ "EATEN_COLD", "EDIBLE_FROZEN" ],
     "fun": 8,
+    "vitamins": [ [ "vitC", 20 ] ],
     "freezing_point": -22
   },
   {
@@ -890,11 +924,13 @@
     "description": "This fermented blueberry mixture is surprisingly hearty, though the soup-like consistency is slightly unsettling no matter how much you drink.",
     "price": 1400,
     "material": [ "alcohol", "water", "fruit" ],
+    "primary_material": "alcohol",
     "volume": 1,
     "phase": "liquid",
     "charges": 6,
     "flags": [ "EATEN_COLD", "EDIBLE_FROZEN" ],
     "fun": -12,
+    "vitamins": [ [ "vitC", 20 ] ],
     "freezing_point": -22
   },
   {
@@ -944,6 +980,7 @@
     "description": "This definitely tastes like a hobo drink.",
     "price": 900,
     "material": [ "alcohol", "junk" ],
+    "primary_material": "alcohol",
     "volume": 2,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
@@ -969,6 +1006,7 @@
     "description": "A mix of equal parts wine and cola.  It's not as bad as some might imagine, and pretty popular among young and/or poor people in some countries.",
     "price": 800,
     "material": [ "alcohol", "junk" ],
+    "primary_material": "alcohol",
     "volume": 2,
     "phase": "liquid",
     "charges": 2,
@@ -994,6 +1032,7 @@
     "description": "This cocktail dates from the Prohibition era.  Gin, honey and lemon in a delightful mix.",
     "price": 850,
     "material": [ "alcohol", "honey" ],
+    "primary_material": "alcohol",
     "volume": 2,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
@@ -1042,6 +1081,7 @@
     "description": "A mixed drink containing all the advantages of its ingredients and none of their disadvantages.  It tastes great and it's a good source of nourishment.",
     "price": 350,
     "material": [ "alcohol", "honey" ],
+    "primary_material": "alcohol",
     "volume": 2,
     "phase": "liquid",
     "charges": 2,
@@ -1066,10 +1106,12 @@
     "description": "Droplet shaped ant food.  It's like a thick balloon the size of a baseball, filled with sticky liquid.  Unlike bee honey, this has mostly a sour taste, probably because ants feed upon a variety of things.",
     "price": 1000,
     "material": [ "junk", "honey" ],
+    "primary_material": "alcohol",
     "volume": 1,
     "charges": 2,
     "stack_size": 20,
-    "fun": -1
+    "fun": -1,
+    "vitamins": [ [ "vitC", 2 ], [ "iron", 4 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1091,11 +1133,13 @@
     "price": 45,
     "//": "A 12-charge gallon currently goes for around US$4, and eggnog is a bit more expensive than that.",
     "material": [ "milk", "alcohol", "egg" ],
+    "primary_material": "alcohol",
     "volume": 1,
     "phase": "liquid",
     "charges": 2,
     "flags": [ "EATEN_COLD", "FREEZERBURN" ],
     "fun": 20,
+    "vitamins": [ [ "vitA", 5 ], [ "vitC", 3 ], [ "calcium", 12 ], [ "iron", 2 ] ],
     "freezing_point": 12
   }
 ]

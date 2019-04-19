@@ -11,19 +11,20 @@
 #include "int_id.h"
 #include "omdata.h"
 #include "overmap_types.h"
+#include "simple_pathfinding.h"
 #include "string_id.h"
 
 struct mongroup;
 class monster;
 class npc;
 struct om_vehicle;
-
 struct oter_t;
 using oter_id = int_id<oter_t>;
 class overmap;
 struct radio_tower;
 struct regional_settings;
 class vehicle;
+class basecamp;
 
 struct radio_tower_reference {
     /** The radio tower itself, points into @ref overmap::radios */
@@ -48,6 +49,22 @@ struct city_reference {
 
     operator bool() const {
         return city != nullptr;
+    }
+
+    int get_distance_from_bounds() const;
+};
+
+struct camp_reference {
+    static const camp_reference invalid;
+    /** The camp itself, points into @ref overmap::camps */
+    basecamp *camp;
+    /** The global absolute position of the camp (in submap coordinates!) */
+    tripoint abs_sm_pos;
+    /** Distance to center of the search */
+    int distance;
+
+    operator bool() const {
+        return camp != nullptr;
     }
 
     int get_distance_from_bounds() const;
@@ -106,6 +123,7 @@ class overmapbuffer
         void toggle_explored( int x, int y, int z );
         bool seen( int x, int y, int z );
         void set_seen( int x, int y, int z, bool seen = true );
+        bool has_camp( int x, int y, int z );
         bool has_vehicle( int x, int y, int z );
         bool has_horde( int x, int y, int z );
         int get_horde_size( int x, int y, int z );
@@ -155,9 +173,19 @@ class overmapbuffer
          */
         void add_vehicle( vehicle *veh );
         /**
+         * Remove basecamp
+         */
+        void remove_camp( const basecamp camp );
+        /**
          * Remove the vehicle from being tracked in the overmap.
          */
         void remove_vehicle( const vehicle *veh );
+        /**
+         * Add Basecamp to overmapbuffer
+         */
+        void add_camp( basecamp camp );
+
+        cata::optional<basecamp *> find_camp( const int x, const int y );
         /**
          * Get all npcs in a area with given radius around (x, y).
          * Only npcs on the given z-level are considered.
@@ -168,6 +196,7 @@ class overmapbuffer
          * A radius of 0 returns only those npcs that are on the
          * specific submap.
          */
+
         std::vector<std::shared_ptr<npc>> get_npcs_near( int x, int y, int z, int radius );
         /**
          * Get all (currently loaded!) npcs that have a companion
@@ -192,6 +221,10 @@ class overmapbuffer
          * Searches all loaded overmaps.
          */
         std::shared_ptr<npc> find_npc( int id );
+        /**
+         * Get all NPCs active on the overmap
+         */
+        std::vector<std::shared_ptr<npc>> get_overmap_npcs();
         /**
          * Find npc by id and if found, erase it from the npc list
          * and return it ( or return nullptr if not found ).
@@ -262,7 +295,9 @@ class overmapbuffer
          */
         bool reveal( const point &center, int radius, int z );
         bool reveal( const tripoint &center, int radius );
-
+        bool reveal( const tripoint &center, int radius,
+                     const std::function<bool( const oter_id & )> &filter );
+        std::vector<tripoint> get_npc_path( const tripoint &src, const tripoint &dest );
         bool reveal_route( const tripoint &source, const tripoint &dest, int radius = 0,
                            bool road_only = false );
         /**
@@ -389,6 +424,7 @@ class overmapbuffer
          * All entries in the returned vector are valid (have a valid tower pointer).
          */
         std::vector<radio_tower_reference> find_all_radio_stations();
+        std::vector<camp_reference> get_camps_near( const tripoint &location, int radius );
         /**
          * Find all cities within the specified @ref radius.
          * Result is sorted by proximity to @ref location in ascending order.

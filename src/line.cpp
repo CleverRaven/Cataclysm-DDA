@@ -237,7 +237,7 @@ float trig_dist( const int x1, const int y1, const int x2, const int y2 )
 
 float trig_dist( const tripoint &loc1, const tripoint &loc2 )
 {
-    return sqrt( double( ( loc1.x - loc2.x ) * ( loc1.x - loc2.x ) ) +
+    return sqrt( static_cast<double>( ( loc1.x - loc2.x ) * ( loc1.x - loc2.x ) ) +
                  ( ( loc1.y - loc2.y ) * ( loc1.y - loc2.y ) ) +
                  ( ( loc1.z - loc2.z ) * ( loc1.z - loc2.z ) ) );
 }
@@ -448,7 +448,7 @@ const std::string direction_name_impl( const direction dir, const bool short_nam
         i = size;
     }
 
-    return short_name ? _( names[i].first.c_str() ) : _( names[i].second.c_str() );
+    return short_name ? _( names[i].first ) : _( names[i].second );
 }
 } //namespace
 
@@ -468,8 +468,7 @@ std::string direction_suffix( const tripoint &p, const tripoint &q )
     if( dist <= 0 ) {
         return std::string();
     }
-    return string_format( "%d%s", dist, trim( direction_name_short( direction_from( p,
-                          q ) ) ).c_str() );
+    return string_format( "%d%s", dist, trim( direction_name_short( direction_from( p, q ) ) ) );
 }
 
 // Cardinals are cardinals. Result is cardinal and adjacent sub-cardinals.

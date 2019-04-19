@@ -1,3 +1,4 @@
+#pragma once
 #ifndef JSON_H
 #define JSON_H
 
@@ -133,9 +134,9 @@ inline E string_to_enum_look_up( const C &container, const std::string &data )
  *             if (name == "id") {
  *                 myobject.id = jsin.get_string();
  *             } else if (name == "name") {
- *                 myobject.name = _(jsin.get_string().c_str());
+ *                 myobject.name = _(jsin.get_string());
  *             } else if (name == "description") {
- *                 myobject.description = _(jsin.get_string().c_str());
+ *                 myobject.description = _(jsin.get_string());
  *             } else if (name == "points") {
  *                 myobject.points = jsin.get_int();
  *             } else if (name == "flags") {
@@ -602,8 +603,8 @@ class JsonOut
  *
  *     JsonObject jo(jsin);
  *     std::string id = jo.get_string("id");
- *     std::string name = _(jo.get_string("name").c_str());
- *     std::string description = _(jo.get_string("description").c_str());
+ *     std::string name = _(jo.get_string("name"));
+ *     std::string description = _(jo.get_string("description"));
  *     int points = jo.get_int("points", 0);
  *     std::set<std::string> tags = jo.get_tags("flags");
  *     my_object_type myobject(id, name, description, points, tags);
@@ -658,10 +659,11 @@ class JsonObject
     public:
         JsonObject( JsonIn &jsin );
         JsonObject( const JsonObject &jsobj );
-        JsonObject() : positions(), start( 0 ), end( 0 ), jsin( NULL ) {}
+        JsonObject() : start( 0 ), end( 0 ), jsin( NULL ) {}
         ~JsonObject() {
             finish();
         }
+        JsonObject &operator=( const JsonObject & );
 
         void finish(); // moves the stream to the end of the object
         size_t size();
@@ -831,10 +833,11 @@ class JsonArray
     public:
         JsonArray( JsonIn &jsin );
         JsonArray( const JsonArray &jsarr );
-        JsonArray() : positions(), start( 0 ), index( 0 ), end( 0 ), jsin( NULL ) {};
+        JsonArray() : start( 0 ), index( 0 ), end( 0 ), jsin( NULL ) {};
         ~JsonArray() {
             finish();
         }
+        JsonArray &operator=( const JsonArray & );
 
         void finish(); // move the stream position to the end of the array
 

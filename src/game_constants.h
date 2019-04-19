@@ -4,10 +4,6 @@
 
 #include "units.h"
 
-#ifndef M_PI
-#define M_PI 3.14159265358979323846
-#endif
-
 // Fixed window sizes
 #define HP_HEIGHT 14
 #define HP_WIDTH 7
@@ -71,7 +67,7 @@
 #define MAX_HANDLING_COST 400
 /** Move cost of accessing an item in inventory. */
 #define INVENTORY_HANDLING_PENALTY 100
-/** Move cost of accessing an item lying on the map. @todo: Less if player is crouching */
+/** Move cost of accessing an item lying on the map. TODO: Less if player is crouching */
 #define MAP_HANDLING_PENALTY 80
 /** Move cost of accessing an item lying on a vehicle. */
 #define VEHICLE_HANDLING_PENALTY 80
@@ -82,7 +78,7 @@
 /** Temperature constants */
 namespace temperatures
 {
-/** temperature at which something starts warming and can become HOT */
+/** temperature at which something starts is considered HOT */
 constexpr int hot = 100; // ~ 38 Celsius
 
 /** the "normal" temperature midpoint between cold and hot */
@@ -92,7 +88,7 @@ constexpr int normal = 70; // ~ 21 Celsius
 constexpr int fridge = 37; // ~ 2.7 Celsius
 
 /** Temperature at which things are considered "cold" */
-constexpr int cold = 40;
+constexpr int cold = 40; // ~4.4 C
 
 /** Temperature inside an active freezer in Fahrenheit  */
 constexpr int freezer = 23; // -5 Celsius

@@ -8,19 +8,18 @@
     <SDL2MIXER>$(WINDEPEND)SDL2_mixer-2.0.4\</SDL2MIXER>
     <SDL2IMAGE>$(WINDEPEND)SDL2_image-2.0.4\</SDL2IMAGE>
     <GETTEXT>$(WINDEPEND)gettext\</GETTEXT>
-    <LUADIR>$(WINDEPEND)lua-5.3.3\</LUADIR>
   </PropertyGroup>
   <PropertyGroup>
     <_PropertySheetDisplayName>WINDEPEND</_PropertySheetDisplayName>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SDL2ROOT)include;$(SDL2TTF)include;$(SDL2MIXER)include;$(SDL2IMAGE)include;$(GETTEXT)include;$(LUADIR)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>SDL_SOUND;TILES;LUA;LOCALIZE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SDL2ROOT)include;$(SDL2TTF)include;$(SDL2MIXER)include;$(SDL2IMAGE)include;$(GETTEXT)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>SDL_SOUND;TILES;LOCALIZE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>$(SDL2ROOT)lib\$(PlatformTarget);$(SDL2TTF)lib\$(PlatformTarget);$(SDL2MIXER)lib\$(PlatformTarget);$(SDL2IMAGE)lib\$(PlatformTarget);$(GETTEXT)lib\$(PlatformTarget);$(LUADIR)lib\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2_image.lib;SDL2_mixer.lib;SDL2_ttf.lib;libiconv.lib;libintl.lib;Lua.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SDL2ROOT)lib\$(PlatformTarget);$(SDL2TTF)lib\$(PlatformTarget);$(SDL2MIXER)lib\$(PlatformTarget);$(SDL2IMAGE)lib\$(PlatformTarget);$(GETTEXT)lib\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2.lib;SDL2_image.lib;SDL2_mixer.lib;SDL2_ttf.lib;libiconv.lib;libintl.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -46,10 +45,6 @@
     </BuildMacro>
     <BuildMacro Include="GETTEXT">
       <Value>$(GETTEXT)</Value>
-      <EnvironmentVariable>true</EnvironmentVariable>
-    </BuildMacro>
-    <BuildMacro Include="LUADIR">
-      <Value>$(LUADIR)</Value>
       <EnvironmentVariable>true</EnvironmentVariable>
     </BuildMacro>
   </ItemGroup>

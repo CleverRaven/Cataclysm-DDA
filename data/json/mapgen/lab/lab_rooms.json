@@ -962,17 +962,18 @@
       "rotation": [0, 3],
       "rows": [
         ".........",
-        ".5.....L.",
+        ".5.....%.",
         "...l|l...",
         "...l|l...",
-        ".5..|..L.",
+        ".5..|..%.",
         "....|l...",
         "```.|l...",
-        "```....L.",
+        "```....%.",
         "```......"
       ],
       "palettes": [ "lab_palette" ],
-      "furniture": { "L": "f_treadmill", "5": [ "f_ergometer", "f_exercise"], "`": "f_canvas_floor" },
+      "terrain": { "%": "t_thconc_floor" },
+      "furniture": { "%": "f_treadmill", "5": [ "f_ergometer", "f_exercise"], "`": "f_canvas_floor" },
       "items": {
         ".": { "item": "clutter_gym", "chance": 3 },
         "l": { "item": "locker_gym", "chance": 30 },

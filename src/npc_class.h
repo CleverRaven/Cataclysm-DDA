@@ -19,6 +19,9 @@ using skill_id = string_id<Skill>;
 struct mutation_branch;
 using trait_id = string_id<mutation_branch>;
 
+struct bionic_data;
+using bionic_id = string_id<bionic_data>;
+
 typedef std::string Group_tag;
 typedef std::string Mutation_category_tag;
 
@@ -30,7 +33,7 @@ typedef string_id<Trait_group> Trait_group_tag;
 
 }
 
-// @todo: Move to better suited file (rng.h/.cpp?)
+// TODO: Move to better suited file (rng.h/.cpp?)
 class distribution
 {
     private:
@@ -39,6 +42,7 @@ class distribution
 
     public:
         distribution();
+        distribution( const distribution & );
 
         float roll() const;
 
@@ -81,7 +85,7 @@ class npc_class
 
         std::map<Mutation_category_tag, distribution> mutation_rounds;
         trait_group::Trait_group_tag traits = trait_group::Trait_group_tag( "EMPTY_GROUP" );
-
+        std::map<bionic_id, int> bionic_list;
         npc_class();
 
         const std::string &get_name() const;
@@ -113,11 +117,12 @@ class npc_class
         static void check_consistency();
 };
 
-// @todo: Get rid of that
+// TODO: Get rid of that
 extern npc_class_id NC_NONE;
 extern npc_class_id NC_EVAC_SHOPKEEP;
 extern npc_class_id NC_SHOPKEEP;
 extern npc_class_id NC_HACKER;
+extern npc_class_id NC_CYBORG;
 extern npc_class_id NC_DOCTOR;
 extern npc_class_id NC_TRADER;
 extern npc_class_id NC_NINJA;

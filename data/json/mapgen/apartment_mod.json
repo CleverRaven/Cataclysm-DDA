@@ -2,10 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [
-      [ "apartments_mod_tower_NW", "apartments_mod_tower_NE" ],
-      [ "apartments_mod_tower_SW", "apartments_mod_tower_SE" ]
-    ],
+    "om_terrain": [ [ "apartments_mod_tower_NW", "apartments_mod_tower_NE" ], [ "apartments_mod_tower_SW", "apartments_mod_tower_SE" ] ],
     "weight": 250,
     "object": {
       "fill_ter": "t_floor",
@@ -96,7 +93,7 @@
         "t": "f_table",
         "u": "f_cupboard"
       },
-      "toilets": { "T": {} },
+      "toilets": { "T": {  } },
       "items": {
         "B": { "item": "bed", "chance": 60 },
         "O": { "item": "oven", "chance": 70 },
@@ -104,9 +101,19 @@
         "T": [ { "item": "magazines", "chance": 50 }, { "item": "novels", "chance": 50 } ],
         "d": { "item": "dresser", "chance": 70 },
         "e": { "item": "fridge", "chance": 70 },
-        "o": [ { "item": "magazines", "chance": 30 }, { "item": "novels", "chance": 40 }, { "item": "alcohol", "chance": 30 }, { "item": "manuals", "chance": 20 } ],
+        "o": [
+          { "item": "magazines", "chance": 30 },
+          { "item": "novels", "chance": 40 },
+          { "item": "alcohol", "chance": 30 },
+          { "item": "manuals", "chance": 20 }
+        ],
         "r": [ { "item": "dresser", "chance": 30 }, { "item": "jackets", "chance": 60 } ],
-        "u": [ { "item": "cleaning", "chance": 50 }, { "item": "home_hw", "chance": 30 }, { "item": "cannedfood", "chance": 50 }, { "item": "pasta", "chance": 50 } ],
+        "u": [
+          { "item": "cleaning", "chance": 50 },
+          { "item": "home_hw", "chance": 30 },
+          { "item": "cannedfood", "chance": 50 },
+          { "item": "pasta", "chance": 50 }
+        ],
         "Y": { "item": "coat_rack", "chance": 35, "repeat": [ 1, 4 ] },
         "p": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] }
       },

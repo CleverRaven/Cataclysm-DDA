@@ -58,7 +58,7 @@ class string_id
          * Note that this id class does not enforce empty id strings (or any specific string at all)
          * to be special. Every string (including the empty one) may be a valid id.
          */
-        string_id() : _id(), _cid( -1 ) {}
+        string_id() : _cid( -1 ) {}
         /**
          * Comparison, only useful when the id is used in std::map or std::set as key. Compares
          * the string id as with the strings comparison.
@@ -173,7 +173,7 @@ class string_id
             return !is_null();
         }
 
-        // @todo: Exposed for now. Hide these and make them accessible to the generic_factory only
+        // TODO: Exposed for now. Hide these and make them accessible to the generic_factory only
 
         /**
          * Assigns a new value for the cached int id.

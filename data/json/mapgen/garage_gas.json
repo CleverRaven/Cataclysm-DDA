@@ -47,7 +47,7 @@
         "|": "t_wall"
       },
       "furniture": { "D": "f_trashcan", "r": "f_rack" },
-      "gaspumps": { "&": {} },
+      "gaspumps": { "&": {  } },
       "place_loot": [
         { "group": "magazines", "x": [ 23, 23 ], "y": [ 10, 10 ], "chance": 80, "repeat": [ 1, 2 ] },
         { "group": "magazines", "x": [ 23, 23 ], "y": [ 13, 13 ], "chance": 80, "repeat": [ 1, 2 ] },
@@ -204,7 +204,7 @@
         "|": "t_wall"
       },
       "furniture": { "S": "f_sink", "c": "f_counter", "r": "f_rack" },
-      "toilets": { "t": {} },
+      "toilets": { "t": {  } },
       "place_loot": [
         { "group": "mechanics", "x": [ 8, 8 ], "y": [ 9, 15 ], "chance": 70, "repeat": [ 1, 2 ] },
         { "group": "mechanics", "x": [ 0, 8 ], "y": [ 19, 19 ], "chance": 75, "repeat": [ 1, 3 ] },

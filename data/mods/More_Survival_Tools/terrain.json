@@ -41,73 +41,9 @@
     },
     "deconstruct": {
       "ter_set": "t_dirt",
-      "items": [
-        { "item": "pointy_stick", "count": 4 },
-        { "item": "string_6", "count": 4 },
-        { "item": "tarp", "count": 1 }
-      ]
+      "items": [ { "item": "pointy_stick", "count": 4 }, { "item": "string_6", "count": 4 }, { "item": "tarp", "count": 1 } ]
     },
     "flags": [ "TRANSPARENT", "FLAMMABLE", "THIN_OBSTACLE", "INDOORS", "MOUNTABLE", "EASY_DECONSTRUCT" ]
-  },
-  {
-    "id": "t_wall_wattle_half",
-    "type": "terrain",
-    "name": "half-built wattle-and-daub wall",
-    "symbol": "#",
-    "color": [ "light_red" ],
-    "move_cost": 4,
-    "bash": {
-      "str_min": 8,
-      "str_max": 75,
-      "ter_set": "t_null",
-      "sound": "crunch!",
-      "sound_fail": "whump!",
-      "items": [
-        { "item": "2x4", "count": [ 1, 3 ] },
-        { "item": "splinter", "count": [ 6, 6 ] }
-      ]
-    },
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "NOITEM", "REDUCE_SCENT", "MOUNTABLE" ]
-  },
-  {
-    "id": "t_wall_wattle",
-    "type": "terrain",
-    "name": "wattle-and-daub wall",
-    "symbol": "#",
-    "color": [ "light_red" ],
-    "move_cost": 0,
-    "bash": {
-      "str_min": 10,
-      "str_max": 140,
-      "ter_set": "t_wall_wattle_broken",
-      "sound": "crunch!",
-      "sound_fail": "whump!",
-      "items": [
-        { "item": "2x4", "count": [ 0, 3 ] },
-        { "item": "splinter", "count": [ 0, 6 ] }
-      ]
-    },
-    "flags": [ "FLAMMABLE_HARD", "NOITEM", "SUPPORTS_ROOF", "WALL" ]
-  },
-  {
-    "id": "t_wall_wattle_broken",
-    "type": "terrain",
-    "name": "broken wattle-and-daub wall",
-    "symbol": "&",
-    "color": [ "light_red" ],
-    "move_cost": 0,
-    "bash": {
-      "str_min": 4,
-      "str_max": 110,
-      "ter_set": "t_null",
-      "sound": "crash!",
-      "sound_fail": "whump!",
-      "items": [
-        { "item": "2x4", "count": [ 0, 3 ] },
-        { "item": "splinter", "count": [ 3, 6 ] }
-      ]
-    },
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT", "PERMEABLE", "CONNECT_TO_WALL" ]
   },
   {
     "id": "t_raincatcher",
@@ -131,11 +67,7 @@
     },
     "deconstruct": {
       "ter_set": "t_dirt",
-      "items": [
-        { "item": "pointy_stick", "count": 3 },
-        { "item": "string_6", "count": 3 },
-        { "item": "tarp", "count": 1 }
-      ]
+      "items": [ { "item": "pointy_stick", "count": 3 }, { "item": "string_6", "count": 3 }, { "item": "tarp", "count": 1 } ]
     },
     "flags": [ "TRANSPARENT", "FLAMMABLE", "THIN_OBSTACLE", "EASY_DECONSTRUCT" ]
   }

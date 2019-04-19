@@ -106,9 +106,9 @@ void main_menu::print_menu( const catacurses::window &w_open, int iSel, const in
     const nc_color cColor3 = c_light_blue;
 
     if( halloween_theme ) {
-        fold_and_print_from( w_open, 0, 0, 30, 0, c_white, halloween_spider().c_str() );
+        fold_and_print_from( w_open, 0, 0, 30, 0, c_white, halloween_spider() );
         fold_and_print_from( w_open, iMenuOffsetY - 8, getmaxx( w_open ) - 25,
-                             25, 0, c_white, halloween_graves().c_str() );
+                             25, 0, c_white, halloween_graves() );
     }
 
     if( mmenu_title.size() > 1 ) {
@@ -126,7 +126,7 @@ void main_menu::print_menu( const catacurses::window &w_open, int iSel, const in
                 }
                 iLine++;
             } else {
-                mvwprintz( w_open, iLine++, iOffsetX, i < 6 ? cColor1 : cColor2, "%s", mmenu_title[i].c_str() );
+                mvwprintz( w_open, iLine++, iOffsetX, i < 6 ? cColor1 : cColor2, "%s", mmenu_title[i] );
             }
         }
     } else {
@@ -620,7 +620,6 @@ bool main_menu::opening_screen()
         g->refresh_all();
         g->draw();
     }
-    g->u.add_msg_if_player( g->scen->description( g->u.male ) );
     return start;
 }
 
@@ -817,15 +816,40 @@ bool main_menu::new_character_tab()
             }
         }
     } // end while
+
+    if( start ) {
+        g->u.add_msg_if_player( g->scen->description( g->u.male ) );
+
+        world_generator->last_world_name = world_generator->active_world->world_name;
+        world_generator->last_character_name = g->u.name;
+        world_generator->save_last_world_info();
+    }
     return start;
 }
 
 bool main_menu::load_character_tab()
 {
     bool start = false;
+    const auto all_worldnames = world_generator->all_worldnames();
+
+    const size_t last_world_pos = std::find( all_worldnames.begin(), all_worldnames.end(),
+                                  world_generator->last_world_name ) - all_worldnames.begin();
+    if( last_world_pos < all_worldnames.size() ) {
+        sel2 = last_world_pos;
+        savegames = world_generator->get_world( all_worldnames[sel2] )->world_saves;
+    }
+    const size_t last_character_pos = std::find_if( savegames.begin(), savegames.end(),
+    []( const save_t &it ) {
+        return it.player_name() == world_generator->last_character_name;
+    } ) - savegames.begin();
+    if( last_character_pos < savegames.size() ) {
+        sel3 = last_character_pos;
+    } else {
+        sel3 = 0;
+    }
+
     while( !start && sel1 == 2 && ( layer == 2 || layer == 3 ) ) {
         print_menu( w_open, 2, iMenuOffsetX, iMenuOffsetY );
-        const auto all_worldnames = world_generator->all_worldnames();
         if( layer == 2 && sel1 == 2 ) {
             if( all_worldnames.empty() ) {
                 mvwprintz( w_open, iMenuOffsetY - 2, 15 + iMenuOffsetX + extra_w / 2,
@@ -841,17 +865,12 @@ bool main_menu::load_character_tab()
                         color1 = c_light_cyan;
                         color2 = h_light_cyan;
                     } else {
-                        if( world_generator->world_need_lua_build( world_name ) ) {
-                            color1 = c_dark_gray;
-                            color2 = h_dark_gray;
-                        } else {
-                            color1 = c_white;
-                            color2 = h_white;
-                        }
+                        color1 = c_white;
+                        color2 = h_white;
                     }
                     mvwprintz( w_open, line, 15 + iMenuOffsetX + extra_w / 2,
                                ( sel2 == i ? color2 : color1 ), "%s (%d)",
-                               world_name.c_str(), savegames_count );
+                               world_name, savegames_count );
                 }
             }
             wrefresh( w_open );
@@ -877,7 +896,6 @@ bool main_menu::load_character_tab()
             } else if( action == "RIGHT" || action == "CONFIRM" ) {
                 if( sel2 >= 0 && sel2 < static_cast<int>( all_worldnames.size() ) ) {
                     layer = 3;
-                    sel3 = 0;
                 }
             }
         } else if( layer == 3 && sel1 == 2 ) {
@@ -895,12 +913,7 @@ bool main_menu::load_character_tab()
             mvwprintz( w_open, iMenuOffsetY - 2 - sel2, 15 + iMenuOffsetX + extra_w / 2,
                        h_white, "%s", wn.c_str() );
 
-            if( ( wn != "TUTORIAL" && wn != "DEFENSE" ) && world_generator->world_need_lua_build( wn ) ) {
-                savegames.clear();
-                mvwprintz( w_open, iMenuOffsetY - 2 - sel2, 40 + iMenuOffsetX + extra_w / 2,
-                           c_red, "%s", _( "This world requires the game to be compiled with Lua." ) );
-                on_error();
-            } else if( savegames.empty() ) {
+            if( savegames.empty() ) {
                 mvwprintz( w_open, iMenuOffsetY - 2 - sel2, 40 + iMenuOffsetX + extra_w / 2,
                            c_red, "%s", _( "No save games found!" ) );
                 on_error();
@@ -911,7 +924,7 @@ bool main_menu::load_character_tab()
                     const bool selected = sel3 + line == iMenuOffsetY - 2;
                     mvwprintz( w_open, line--, 40 + iMenuOffsetX + extra_w / 2,
                                selected ? h_white : c_white,
-                               "%s", savename.player_name().c_str() );
+                               "%s", savename.player_name() );
                 }
             }
             wrefresh( w_open );
@@ -942,6 +955,9 @@ bool main_menu::load_character_tab()
                     werase( w_background );
                     wrefresh( w_background );
                     WORLDPTR world = world_generator->get_world( all_worldnames[sel2] );
+                    world_generator->last_world_name = world->world_name;
+                    world_generator->last_character_name = savegames[sel3].player_name();
+                    world_generator->save_last_world_info();
                     world_generator->set_active_world( world );
                     try {
                         g->setup();
@@ -974,7 +990,7 @@ void main_menu::world_tab()
             int yoffset = iMenuOffsetY - 2 - sel2;
 
             const auto all_worldnames = world_generator->all_worldnames();
-            mvwprintz( w_open, yoffset, xoffset - 15, h_white, "%s", all_worldnames[sel2 - 1].c_str() );
+            mvwprintz( w_open, yoffset, xoffset - 15, h_white, "%s", all_worldnames[sel2 - 1] );
 
             for( size_t i = 0; i < vWorldSubItems.size(); ++i ) {
                 nc_color text_color;

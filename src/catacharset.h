@@ -6,16 +6,23 @@
 #include <string>
 
 #define ANY_LENGTH 5
+#define NULL_UNICODE 0x0000
 #define UNKNOWN_UNICODE 0xFFFD
 
 class utf8_wrapper;
 
 // get a Unicode character from a utf8 string
 uint32_t UTF8_getch( const char **src, int *srclen );
+inline uint32_t UTF8_getch( const std::string &str )
+{
+    const char *utf8str = str.c_str();
+    int len = str.length();
+    return UTF8_getch( &utf8str, &len );
+}
 // from wcwidth.c, return "cell" width of a Unicode char
 int mk_wcwidth( uint32_t ucs );
 // convert cursorx value to byte position
-int cursorx_to_position( const char *line, int cursorx, int *prevpos = NULL, int maxlen = -1 );
+int cursorx_to_position( const char *line, int cursorx, int *prevpos = nullptr, int maxlen = -1 );
 int utf8_width( const char *s, const bool ignore_tags = false );
 int utf8_width( const std::string &str, const bool ignore_tags = false );
 int utf8_width( const utf8_wrapper &str, const bool ignore_tags = false );
@@ -69,7 +76,7 @@ std::string utf8_to_native( const std::string &str );
 class utf8_wrapper
 {
     public:
-        utf8_wrapper() : _data(), _length( 0 ), _display_width( 0 ) { }
+        utf8_wrapper() : _length( 0 ), _display_width( 0 ) { }
         utf8_wrapper( const std::string &d );
         utf8_wrapper( const char *d );
 

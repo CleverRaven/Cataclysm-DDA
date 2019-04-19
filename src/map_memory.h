@@ -25,6 +25,7 @@ class lru_cache
 
         void insert( int limit, const tripoint &, const T & );
         T get( const tripoint &, const T &default_ ) const;
+        void remove( const tripoint & );
 
         void clear();
         const std::list<Pair> &list() const;
@@ -52,6 +53,8 @@ class map_memory
 
         void memorize_symbol( int limit, const tripoint &pos, const long symbol );
         long get_symbol( const tripoint &pos ) const;
+
+        void clear_memorized_tile( const tripoint &pos );
     private:
         lru_cache<memorized_terrain_tile> tile_cache;
         lru_cache<long> symbol_cache;

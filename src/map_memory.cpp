@@ -11,6 +11,16 @@ T lru_cache<T>::get( const tripoint &pos, const T &default_ ) const
 }
 
 template<typename T>
+void lru_cache<T>::remove( const tripoint &pos )
+{
+    auto found = map.find( pos );
+    if( found != map.end() ) {
+        ordered_list.erase( found->second );
+        map.erase( found );
+    }
+}
+
+template<typename T>
 void lru_cache<T>::insert( int limit, const tripoint &pos, const T &t )
 {
     auto found = map.find( pos );
@@ -76,4 +86,10 @@ long map_memory::get_symbol( const tripoint &pos ) const
 void map_memory::memorize_symbol( int limit, const tripoint &pos, const long symbol )
 {
     symbol_cache.insert( limit, pos, symbol );
+}
+
+void map_memory::clear_memorized_tile( const tripoint &pos )
+{
+    tile_cache.remove( pos );
+    symbol_cache.remove( pos );
 }

@@ -211,7 +211,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
 
                 draw_column( COLUMN_RULE, ( rule.rule.empty() ) ? _( "<empty rule>" ) : rule.rule );
                 draw_column( COLUMN_ATTITUDE, Creature::get_attitude_ui_data( rule.attitude ).first );
-                draw_column( COLUMN_PROXIMITY, ( !rule.whitelist ) ? to_string( rule.proximity ).c_str() : "---" );
+                draw_column( COLUMN_PROXIMITY, ( !rule.whitelist ) ? to_string( rule.proximity ) : "---" );
                 draw_column( COLUMN_WHITE_BLACKLIST, ( rule.whitelist ) ? _( "Whitelist" ) : _( "Blacklist" ) );
             }
         }
@@ -428,15 +428,16 @@ void safemode::test_pattern( const int tab_in, const int row_in )
     const int content_height = FULL_SCREEN_HEIGHT - 8;
     const int content_width = FULL_SCREEN_WIDTH - 30;
 
-    catacurses::window w_test_rule_border = catacurses::newwin( content_height + 2, content_width,
-                                            offset_y, offset_x );
-    catacurses::window w_test_rule_content = catacurses::newwin( content_height, content_width - 2,
+    const catacurses::window w_test_rule_border = catacurses::newwin( content_height + 2, content_width,
+            offset_y, offset_x );
+    const catacurses::window w_test_rule_content = catacurses::newwin( content_height,
+            content_width - 2,
             1 + offset_y, 1 + offset_x );
 
     int nmatch = creature_list.size();
-    std::string buf = string_format( ngettext( "%1$d monster matches: %2$s",
-                                     "%1$d monsters match: %2$s",
-                                     nmatch ), nmatch, temp_rules[row_in].rule.c_str() );
+    const std::string buf = string_format( ngettext( "%1$d monster matches: %2$s",
+                                           "%1$d monsters match: %2$s",
+                                           nmatch ), nmatch, temp_rules[row_in].rule.c_str() );
     draw_border( w_test_rule_border, BORDER_COLOR, buf, hilite( c_white ) );
     center_print( w_test_rule_border, content_height + 1, red_background( c_white ),
                   _( "Lists monsters regardless of their attitude." ) );
@@ -549,7 +550,7 @@ void safemode::create_rules()
     add_rules( character_rules );
 }
 
-void safemode::add_rules( std::vector<rules_class> &rules_in )
+void safemode::add_rules( const std::vector<rules_class> &rules_in )
 {
     //if a specific monster is being added, all the rules need to be checked now
     //may have some performance issues since exclusion needs to check all monsters also

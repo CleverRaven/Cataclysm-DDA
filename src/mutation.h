@@ -132,6 +132,19 @@ struct mutation_branch {
         float hp_modifier_secondary = 0.0f;
         // Flat bonus/penalty to hp.
         float hp_adjustment = 0.0f;
+        // Modify strength stat without changing HP
+        float str_modifier = 0.0f;
+        // Additional bonuses
+        float dodge_modifier = 0.0f;
+        float speed_modifier = 1.0f;
+        float movecost_modifier = 1.0f;
+        float movecost_flatground_modifier = 1.0f;
+        float movecost_obstacle_modifier = 1.0f;
+        float attackcost_modifier = 1.0f;
+        float max_stamina_modifier = 1.0f;
+        float weight_capacity_modifier = 1.0f;
+        float hearing_modifier = 1.0f;
+        float noise_modifier = 1.0f;
 
         // Subtracted from the range at which monsters see player, corresponding to percentage of change. Clamped to +/- 60 for effectiveness
         float stealth_modifier = 0.0f;
@@ -147,6 +160,12 @@ struct mutation_branch {
         // Modifier for the rate at which stamina regenerates.
         float stamina_regen_modifier = 0.0f;
 
+        // Adjusts sight range on the overmap. Positives make it farther, negatives make it closer.
+        float overmap_sight = 0.0f;
+
+        // Multiplier for sight range, defaulting to 1.
+        float overmap_multiplier = 1.0f;
+
         // Bonus or penalty to social checks (additive).  50 adds 50% to success, -25 subtracts 25%
         social_modifiers social_mods;
 
@@ -157,11 +176,21 @@ struct mutation_branch {
     public:
         std::string spawn_item_message() const;
 
+        /** The fake gun, if any, spawned and fired by the ranged mutation */
+        itype_id ranged_mutation;
+    private:
+        std::string raw_ranged_mutation_message;
+    public:
+        std::string ranged_mutation_message() const;
+
         /** Attacks granted by this mutation */
         std::vector<mut_attack> attacks_granted;
 
         /** Mutations may adjust one or more of the default vitamin usage rates */
         std::map<vitamin_id, time_duration> vitamin_rates;
+
+        // Mutations may affect absorption rates of vitamins based on material (or "all")
+        std::map<material_id, std::map<vitamin_id, double>> vitamin_absorb_multi;
 
         std::vector<trait_id> prereqs; // Prerequisites; Only one is required
         std::vector<trait_id> prereqs2; // Prerequisites; need one from here too
@@ -302,7 +331,6 @@ struct mutation_branch {
 
         /**
          * Return the idents of all trait groups that are known.
-         * This is meant to be accessed at startup by lua to do mod-related modifications of groups.
          */
         static std::vector<trait_group::Trait_group_tag> get_all_group_names();
 };

@@ -117,32 +117,32 @@ void mutation_category_trait::load( JsonObject &jsobj )
 
 std::string mutation_category_trait::name() const
 {
-    return _( raw_name.c_str() );
+    return _( raw_name );
 }
 
 std::string mutation_category_trait::mutagen_message() const
 {
-    return _( raw_mutagen_message.c_str() );
+    return _( raw_mutagen_message );
 }
 
 std::string mutation_category_trait::iv_message() const
 {
-    return _( raw_iv_message.c_str() );
+    return _( raw_iv_message );
 }
 
 std::string mutation_category_trait::iv_sound_message() const
 {
-    return _( raw_iv_sound_message.c_str() );
+    return _( raw_iv_sound_message );
 }
 
 std::string mutation_category_trait::iv_sleep_message() const
 {
-    return _( raw_iv_sleep_message.c_str() );
+    return _( raw_iv_sleep_message );
 }
 
 std::string mutation_category_trait::junkie_message() const
 {
-    return _( raw_junkie_message.c_str() );
+    return _( raw_junkie_message );
 }
 
 std::string mutation_category_trait::memorial_message_male() const
@@ -272,6 +272,11 @@ void mutation_branch::load( JsonObject &jo, const std::string & )
         optional( si, was_loaded, "type", spawn_item );
         optional( si, was_loaded, "message", raw_spawn_item_message );
     }
+    if( jo.has_object( "ranged_mutation" ) ) {
+        auto si = jo.get_object( "ranged_mutation" );
+        optional( si, was_loaded, "type", ranged_mutation );
+        optional( si, was_loaded, "message", raw_ranged_mutation_message );
+    }
     optional( jo, was_loaded, "initial_ma_styles", initial_ma_styles );
 
     if( jo.has_array( "bodytemp_modifiers" ) ) {
@@ -287,10 +292,25 @@ void mutation_branch::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "player_display", player_display, true );
 
     JsonArray vr = jo.get_array( "vitamin_rates" );
+
     while( vr.has_more() ) {
         auto pair = vr.next_array();
         vitamin_rates.emplace( vitamin_id( pair.get_string( 0 ) ),
                                time_duration::from_turns( pair.get_int( 1 ) ) );
+    }
+
+    auto vam = jo.get_array( "vitamins_absorb_multi" );
+    while( vam.has_more() ) {
+        auto pair = vam.next_array();
+        std::map<vitamin_id, double> vit;
+        auto vit_array = pair.get_array( 1 );
+        // fill the inner map with vitamins
+        while( vit_array.has_more() ) {
+            auto vitamins = vit_array.next_array();
+            vit.emplace( vitamin_id( vitamins.get_string( 0 ) ), vitamins.get_float( 1 ) );
+        }
+        // assign the inner vitamin map to the material_id key
+        vitamin_absorb_multi.emplace( material_id( pair.get_string( 0 ) ), vit );
     }
 
     optional( jo, was_loaded, "healing_awake", healing_awake, 0.0f );
@@ -299,12 +319,24 @@ void mutation_branch::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "hp_modifier_secondary", hp_modifier_secondary, 0.0f );
     optional( jo, was_loaded, "hp_adjustment", hp_adjustment, 0.0f );
     optional( jo, was_loaded, "stealth_modifier", stealth_modifier, 0.0f );
-
+    optional( jo, was_loaded, "str_modifier", str_modifier, 0.0f );
+    optional( jo, was_loaded, "dodge_modifier", dodge_modifier, 0.0f );
+    optional( jo, was_loaded, "speed_modifier", speed_modifier, 1.0f );
+    optional( jo, was_loaded, "movecost_modifier", movecost_modifier, 1.0f );
+    optional( jo, was_loaded, "movecost_flatground_modifier", movecost_flatground_modifier, 1.0f );
+    optional( jo, was_loaded, "movecost_obstacle_modifier", movecost_obstacle_modifier, 1.0f );
+    optional( jo, was_loaded, "attackcost_modifier", attackcost_modifier, 1.0f );
+    optional( jo, was_loaded, "max_stamina_modifier", max_stamina_modifier, 1.0f );
+    optional( jo, was_loaded, "weight_capacity_modifier", weight_capacity_modifier, 1.0f );
+    optional( jo, was_loaded, "hearing_modifier", hearing_modifier, 1.0f );
+    optional( jo, was_loaded, "noise_modifier", noise_modifier, 1.0f );
     optional( jo, was_loaded, "metabolism_modifier", metabolism_modifier, 0.0f );
     optional( jo, was_loaded, "thirst_modifier", thirst_modifier, 0.0f );
     optional( jo, was_loaded, "fatigue_modifier", fatigue_modifier, 0.0f );
     optional( jo, was_loaded, "fatigue_regen_modifier", fatigue_regen_modifier, 0.0f );
     optional( jo, was_loaded, "stamina_regen_modifier", stamina_regen_modifier, 0.0f );
+    optional( jo, was_loaded, "overmap_sight", overmap_sight, 0.0f );
+    optional( jo, was_loaded, "overmap_multiplier", overmap_multiplier, 1.0f );
 
     if( jo.has_object( "social_modifiers" ) ) {
         JsonObject sm = jo.get_object( "social_modifiers" );
@@ -398,17 +430,22 @@ void mutation_branch::load( JsonObject &jo, const std::string & )
 
 std::string mutation_branch::spawn_item_message() const
 {
-    return _( raw_spawn_item_message.c_str() );
+    return _( raw_spawn_item_message );
+}
+
+std::string mutation_branch::ranged_mutation_message() const
+{
+    return _( raw_ranged_mutation_message );
 }
 
 std::string mutation_branch::name() const
 {
-    return _( raw_name.c_str() );
+    return _( raw_name );
 }
 
 std::string mutation_branch::desc() const
 {
-    return _( raw_desc.c_str() );
+    return _( raw_desc );
 }
 
 static void check_consistency( const std::vector<trait_id> &mvec, const trait_id &mid,
@@ -485,7 +522,7 @@ std::vector<std::string> dream::messages() const
 {
     std::vector<std::string> ret;
     for( const auto &msg : raw_messages ) {
-        ret.push_back( _( msg.c_str() ) );
+        ret.push_back( _( msg ) );
     }
     return ret;
 }
@@ -598,7 +635,7 @@ void mutation_branch::load_trait_group( JsonObject &jsobj, const trait_group::Tr
 
     Trait_group &tg = make_group_or_throw( gid, ( subtype == "collection" || subtype == "old" ) );
 
-    // TODO(sm): Looks like this makes the new code backwards-compatible with the old format. Great if so!
+    // TODO: (sm) Looks like this makes the new code backwards-compatible with the old format. Great if so!
     if( subtype == "old" ) {
         JsonArray traits = jsobj.get_array( "traits" );
         while( traits.has_more() ) {
@@ -608,7 +645,7 @@ void mutation_branch::load_trait_group( JsonObject &jsobj, const trait_group::Tr
         return;
     }
 
-    // TODO(sm): Taken from item_factory.cpp almost verbatim. Ensure that these work!
+    // TODO: (sm) Taken from item_factory.cpp almost verbatim. Ensure that these work!
     if( jsobj.has_member( "entries" ) ) {
         JsonArray traits = jsobj.get_array( "entries" );
         while( traits.has_more() ) {

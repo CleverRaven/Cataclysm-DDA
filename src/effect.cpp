@@ -492,7 +492,7 @@ std::string effect::disp_name() const
         }
     }
     if( bp != num_bp ) {
-        ret << " (" << body_part_name( bp ).c_str() << ")";
+        ret << " (" << body_part_name( bp ) << ")";
     }
 
     return ret.str();
@@ -650,10 +650,10 @@ std::string effect::disp_desc( bool reduced ) const
     }
     // Then print the effect description
     if( use_part_descs() ) {
-        ret << string_format( _( tmp_str.c_str() ), body_part_name( bp ).c_str() );
+        ret << string_format( _( tmp_str ), body_part_name( bp ) );
     } else {
         if( !tmp_str.empty() ) {
-            ret << _( tmp_str.c_str() );
+            ret << _( tmp_str );
         }
     }
 
@@ -686,7 +686,7 @@ void effect::decay( std::vector<efftype_id> &rem_ids, std::vector<body_part> &re
     }
 
     // Decay intensity if supposed to do so
-    // @todo: Remove effects that would decay to 0 intensity?
+    // TODO: Remove effects that would decay to 0 intensity?
     if( intensity > 1 && eff_type->int_decay_tick != 0 &&
         to_turn<int>( time ) % eff_type->int_decay_tick == 0 ) {
         set_intensity( intensity + eff_type->int_decay_step, player );
@@ -787,7 +787,7 @@ int effect::set_intensity( int val, bool alert )
         return intensity;
     }
 
-    if( alert && val < intensity && val - 1 < int( eff_type->decay_msgs.size() ) ) {
+    if( alert && val < intensity && val - 1 < static_cast<int>( eff_type->decay_msgs.size() ) ) {
         add_msg( eff_type->decay_msgs[ val - 1 ].second,
                  eff_type->decay_msgs[ val - 1 ].first.c_str() );
     }
@@ -848,9 +848,9 @@ int effect::get_mod( std::string arg, bool reduced ) const
     if( found != mod_data.end() ) {
         max += found->second * ( intensity - 1 );
     }
-    if( int( max ) != 0 ) {
+    if( static_cast<int>( max ) != 0 ) {
         // Return a random value between [min, max]
-        return int( rng( min, max ) );
+        return static_cast<int>( rng( min, max ) );
     } else {
         // Else return the minimum value
         return min;
@@ -880,9 +880,9 @@ int effect::get_avg_mod( std::string arg, bool reduced ) const
     if( found != mod_data.end() ) {
         max += found->second * ( intensity - 1 );
     }
-    if( int( max ) != 0 ) {
+    if( static_cast<int>( max ) != 0 ) {
         // Return an average of min and max
-        return int( ( min + max ) / 2 );
+        return static_cast<int>( ( min + max ) / 2 );
     } else {
         // Else return the minimum value
         return min;
@@ -903,7 +903,7 @@ int effect::get_amount( std::string arg, bool reduced ) const
     if( found != mod_data.end() ) {
         ret += found->second * ( intensity_capped - 1 );
     }
-    return int( ret );
+    return static_cast<int>( ret );
 }
 
 int effect::get_min_val( std::string arg, bool reduced ) const
@@ -918,7 +918,7 @@ int effect::get_min_val( std::string arg, bool reduced ) const
     if( found != mod_data.end() ) {
         ret += found->second * ( intensity - 1 );
     }
-    return int( ret );
+    return static_cast<int>( ret );
 }
 
 int effect::get_max_val( std::string arg, bool reduced ) const
@@ -933,7 +933,7 @@ int effect::get_max_val( std::string arg, bool reduced ) const
     if( found != mod_data.end() ) {
         ret += found->second * ( intensity - 1 );
     }
-    return int( ret );
+    return static_cast<int>( ret );
 }
 
 bool effect::get_sizing( const std::string &arg ) const
@@ -1009,11 +1009,12 @@ double effect::get_percentage( std::string arg, int val, bool reduced ) const
             ret = 0;
         } else {
             // Cast to double here to allow for partial percentages
-            ret = 100 * double( top_base + top_scale ) / double( bot_base + bot_scale );
+            ret = 100 * static_cast<double>( top_base + top_scale ) / static_cast<double>
+                  ( bot_base + bot_scale );
         }
     } else {
         // Cast to double here to allow for partial percentages
-        ret = 100 / double( top_base + top_scale );
+        ret = 100 / static_cast<double>( top_base + top_scale );
     }
     // Divide by ticks between rolls
     if( tick > 1 ) {
@@ -1139,7 +1140,7 @@ std::string effect::get_speed_name() const
     // USes the speed_mod_name if one exists, else defaults to the first entry in "name".
     // But make sure the name for this intensity actually exists!
     if( !eff_type->speed_mod_name.empty() ) {
-        return _( eff_type->speed_mod_name.c_str() );
+        return _( eff_type->speed_mod_name );
     } else if( eff_type->use_name_ints() ) {
         return eff_type->name[ std::min<size_t>( intensity, eff_type->name.size() ) - 1 ].translated();
     } else if( !eff_type->name.empty() ) {

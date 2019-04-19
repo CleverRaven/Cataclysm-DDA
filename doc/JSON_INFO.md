@@ -249,21 +249,39 @@ The syntax listed here is still valid.
 | `acid_resist`    | Ability of a material to resist acid.
 | `elec_resist`    | Ability of a material to resist electricity.
 | `fire_resist`    | Ability of a material to resist fire.
+| `dmg_adj`        | Adjectives used to describe damage states of a material.
 | `density`        | Density of a material.
+| `vitamins`       | Vitamins in a material. Usually overridden by item specific values.
+| `specific_heat_liquid` | Specific heat of a material when not frozen (J/(g K)). Default 4.186.
+| `specific_heat_solid`  | Specific heat of a material when frozen (J/(g K)). Default 2.108.
+| `latent_heat`    | Latent heat of a material (J/g). Default 334.
+| `freeze_point`    | Freezing point of this material (F). Default 32 F ( 0 C ).
 
 ```C++
 {
-    "ident"         : "hflesh",
-    "name"          : "Human Flesh",
-    "bash_resist"   : 1,
-    "cut_resist"    : 1,
-    "bash_dmg_verb" : "bruised",
-    "cut_dmg_verb"  : "sliced",
-    "dmg_adj"       : ["bruised", "mutilated", "badly mutilated", "thoroughly mutilated"],
-    "acid_resist"   : 1,
-    "elec_resist"   : 1,
-    "fire_resist"   : 0,
-    "density"       : 5
+    "type": "material",
+    "ident": "hflesh",
+    "name": "Human Flesh",
+    "density": 5,
+    "specific_heat_liquid": 3.7,
+    "specific_heat_solid": 2.15,
+    "latent_heat": 260,
+    "edible": true,
+    "bash_resist": 1,
+    "cut_resist": 1,
+    "acid_resist": 1,
+    "fire_resist": 1,
+    "elec_resist": 1,
+    "chip_resist": 2,
+    "dmg_adj": [ "bruised", "mutilated", "badly mutilated", "thoroughly mutilated" ],
+    "bash_dmg_verb": "bruised",
+    "cut_dmg_verb": "sliced",
+    "vitamins": [ [ "calcium", 0.1 ], [ "vitB", 1 ], [ "iron", 1.3 ] ],
+    "burn_data": [
+      { "fuel": 1, "smoke": 1, "burn": 1, "volume_per_turn": "2500_ml" },
+      { "fuel": 2, "smoke": 3, "burn": 2, "volume_per_turn": "10000_ml" },
+      { "fuel": 3, "smoke": 10, "burn": 3 }
+    ]
 }
 ```
 
@@ -510,7 +528,7 @@ Mods can modify this via `add:traits` and `remove:traits`.
 "id_suffix": "",             // Optional (default: empty string). Some suffix to make the ident of the recipe unique. The ident of the recipe is "<id-of-result><id_suffix>".
 "override": false,           // Optional (default: false). If false and the ident of the recipe is already used by another recipe, loading of recipes fails. If true and a recipe with the ident is already defined, the existing recipe is replaced by the new recipe.
 "skill_used": "fabrication", // Skill trained and used for success checks
-"requires_skills": [["survival", 1], ["throw", 2]], // Skills required to unlock recipe
+"skills_required": [["survival", 1], ["throw", 2]], // Skills required to unlock recipe
 "book_learn": [              // (optional) Array of books that this recipe can be learned from. Each entry contains the id of the book and the skill level at which it can be learned.
     [ "textbook_anarch", 7, "something" ], // The optional third entry defines a name for the recipe as it should appear in the books description (default is the name of resulting item of the recipe)
     [ "textbook_gaswarfare", 8, "" ] // If the name is empty, the recipe is hidden, it will not be shown in the description of the book.
@@ -533,6 +551,7 @@ Mods can modify this via `add:traits` and `remove:traits`.
   "BLIND_EASY",
   "ANOTHERFLAG"
 ],
+"construction_blueprint": "camp", // an optional string containing an update_mapgen_id.  Used by faction camps to upgrade their buildings
 "qualities": [               // Generic qualities of tools needed to craft
   {"id":"CUT","level":1,"amount":1}
 ],
@@ -602,6 +621,7 @@ Mods can modify this via `add:traits` and `remove:traits`.
 "wet_protection":[{ "part": "HEAD", // Wet Protection on specific bodyparts
                     "good": 1 } ] // "neutral/good/ignored" // Good increases pos and cancels neg, neut cancels neg, ignored cancels both
 "vitamin_rates": [ [ "vitC", -1200 ] ], // How much extra vitamins do you consume per minute. Negative values mean production
+"vitamins_absorb_multi": [ [ "flesh", [ [ "vitA", 0 ], [ "vitB", 0 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ], [ "all", [ [ "vitA", 2 ], [ "vitB", 2 ], [ "vitC", 2 ], [ "calcium", 2 ], [ "iron", 2 ] ] ] ], // multiplier of vitamin absorption based on material. "all" is every material. supports multiple materials.
 "restricts_gear" : [ "TORSO" ], //list of bodyparts that get restricted by this mutation
 "allow_soft_gear" : true, //If there is a list of 'restricts_gear' this sets if the location still allows items made out of soft materials (Only one of the types need to be soft for it to be considered soft). (default: false)
 "destroys_gear" : true, //If true, destroys the gear in the 'restricts_gear' location when mutated into. (default: false)
@@ -868,6 +888,36 @@ Alternately, every item (book, tool, gun, even food) can be used as armor if it 
 }
 ```
 
+### Pet Armor
+Pet armor can be defined like this:
+
+```C++
+"type" : "PET_ARMOR",     // Defines this as armor
+...                   // same entries as above for the generic item.
+                      // additional some armor specific entries:
+"storage" : 0,        //  (Optional, default = 0) How many volume storage slots it adds
+"environmental_protection" : 0,  //  (Optional, default = 0) How much environmental protection it affords
+"material_thickness" : 1,  // Thickness of material, in millimeter units (approximately).  Generally ranges between 1 - 5, more unusual armor types go up to 10 or more
+"pet_bodytype":        // the body type of the pet that this monster will fit.  See MONSTERS.md
+"max_pet_vol:          // the maximum volume of the pet that will fit into this armor.
+"min_pet_vol:          // the minimum volume of the pet that will fit into this armor.
+"power_armor" : false, // If this is a power armor item (those are special).
+```
+Alternately, every item (book, tool, gun, even food) can be used as armor if it has armor_data:
+```C++
+"type" : "TOOL",      // Or any other item type
+...                   // same entries as for the type (e.g. same entries as for any tool),
+"pet_armor_data" : {      // additionally the same armor data like above
+    "storage" : 0,
+    "environmental_protection" : 0,
+    "pet_bodytype": "dog",
+    "max_pet_vol": "35000 ml",
+    "min_pet_vol": "25000 ml",
+    "material_thickness" : 1,
+    "power_armor" : false
+}
+```
+
 ### Books
 
 Books can be defined like this:
@@ -1079,7 +1129,7 @@ Gun mods can be defined like this:
 "turns_per_charge": 20, // Charges consumed over time
 "ammo": "NULL",       // Ammo type used for reloading
 "revert_to": "torch_done", // Transforms into item when charges are expended
-"use_action": "TORCH_LIT" // Action performed when tool is used, see special definition below
+"use_action": "firestarter" // Action performed when tool is used, see special definition below
 ```
 
 ### Seed Data
@@ -1293,6 +1343,7 @@ The contents of use_action fields can either be a string indicating a built-in f
     "need_charges": 1,                      // Number of charges the item needs to transform.
     "need_charges_msg": "The lamp is empty.", // Message to display if there aren't enough charges.
     "target_charges" : 3, // Number of charges the transformed item has.
+    "rand_target_charges: [10, 15, 25], // Randomize the charges the transformed item has. This example has a 50% chance of rng(10, 15) charges and a 50% chance of rng(15, 25) (The endpoints are included)
     "container" : "jar",  // Container holding the target item.
     "moves" : 500         // Moves required to transform the item in excess of a normal action.
 },
@@ -1582,8 +1633,8 @@ Optional message to be printed when a creature using the harvest definition is b
 
 #### `entries`
 
-Array of dictionaries defining possible items produced on butchering and their likelihood of being produced. 
-`drop` value should be the `id` string of the item to be produced. 
+Array of dictionaries defining possible items produced on butchering and their likelihood of being produced.
+`drop` value should be the `id` string of the item to be produced.
 Acceptable values are as follows:
 `flesh`: the "meat" of the creature.
 `offal`: the "organs" of the creature. these are removed when field dressing.
@@ -1594,7 +1645,7 @@ Acceptable values are as follows:
 
 `type` value should be a string with the associated body part the item comes from.
 
-`base_num` value should be an array with two elements in which the first defines the minimum number of the corresponding item produced and the second defines the maximum number. 
+`base_num` value should be an array with two elements in which the first defines the minimum number of the corresponding item produced and the second defines the maximum number.
 
 `scale_num` value should be an array with two elements, increasing the minimum and maximum drop numbers respectively by element value * survival skill.
 
@@ -1612,14 +1663,16 @@ Acceptable values are as follows:
     "color": "white",
     "move_cost_mod": 2,
     "required_str": 18,
-    "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_HARD"],
+    "flags": [ "TRANSPARENT", "BASHABLE", "FLAMMABLE_HARD" ],
     "crafting_pseudo_item": "anvil",
     "examine_action": "toilet",
     "close": "f_foo_closed",
     "open": "f_foo_open",
     "bash": "TODO",
     "deconstruct": "TODO",
-    "max_volume": 4000
+    "max_volume": 4000,
+    "examine_action": "workbench",
+    "workbench": { "multiplier": 1.1, "mass": 10000, "volume": "50L" }
 }
 ```
 
@@ -1642,6 +1695,10 @@ Strength required to move the furniture around. Negative values indicate an unmo
 #### `crafting_pseudo_item`
 
 (Optional) Id of an item (tool) that will be available for crafting when this furniture is range (the furniture acts as an item of that type).
+
+#### `workbench`
+
+(Optional) Can craft here.  Must specify a speed multiplier, allowed mass, and allowed volume.  Mass/volume over these limits incur a speed penalty.  Must be paired with a `"workbench"` `examine_action` to function.
 
 ### Terrain
 

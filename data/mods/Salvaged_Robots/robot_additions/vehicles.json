@@ -3,7 +3,12 @@
     "id": "robotic_taxi",
     "type": "vehicle",
     "name": "Robotic Taxi",
-    "blueprint": [ [ "''''''" ], [ "+#='R'" ], [ "+##'''" ], [ "'++'-o" ] ],
+    "blueprint": [
+      [ "''''''" ],
+      [ "+#='R'" ],
+      [ "+##'''" ],
+      [ "'++'-o" ]
+    ],
     "parts": [
       { "x": -4, "y": -1, "part": "frame_vertical" },
       { "x": -4, "y": -1, "part": "windshield" },
@@ -239,7 +244,13 @@
     "id": "humvee_gl",
     "type": "vehicle",
     "name": "Humvee",
-    "blueprint": [ [ "O-++-OH" ], [ "|H##'|H" ], [ "t###'|H" ], [ "|H##'|H" ], [ "O-++-OH" ] ],
+    "blueprint": [
+      [ "O-++-OH" ],
+      [ "|H##'|H" ],
+      [ "t###'|H" ],
+      [ "|H##'|H" ],
+      [ "O-++-OH" ]
+    ],
     "parts": [
       { "x": 0, "y": 1, "part": "hdframe_vertical_2" },
       { "x": 0, "y": 1, "part": "box" },

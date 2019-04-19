@@ -57,6 +57,7 @@ class player_morale
         void on_stat_change( const std::string &stat, int value );
         void on_item_wear( const item &it );
         void on_item_takeoff( const item &it );
+        void on_worn_item_transform( const item &it );
         void on_worn_item_washed( const item &it );
         void on_effect_int_change( const efftype_id &eid, int intensity, body_part bp = num_bp );
 
@@ -134,7 +135,7 @@ class player_morale
         void update_stylish_bonus();
         void update_squeamish_penalty();
         void update_masochist_bonus();
-        void update_bodytemp_penalty( time_duration ticks );
+        void update_bodytemp_penalty( const time_duration &ticks );
         void update_constrained_penalty();
 
     private:

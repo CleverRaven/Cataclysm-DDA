@@ -66,6 +66,12 @@
   },
   {
     "type": "effect_type",
+    "id": "asked_to_hint",
+    "name": [ "Asked to hint" ],
+    "desc": [ "AI tag: for having recently asked an NPC to give a hint.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
     "id": "asked_personal_info",
     "name": [ "Asked Info" ],
     "desc": [ "AI tag for asking to NPCs for personal information.  This is a bug if you have it." ]
@@ -110,6 +116,32 @@
   },
   {
     "type": "effect_type",
+    "id": "npc_run_away",
+    "name": [ "Running away!" ],
+    "desc": [ "AI tag to enable NPCs to flee.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "npc_flee_player",
+    "name": [ "Running away!" ],
+    "desc": [ "AI tag to enable NPCs to flee the player.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "npc_fire_bad",
+    "name": [ "Avoiding a fire!" ],
+    "desc": [ "AI tag to enable NPCs to escape uncontrolled fires.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "npc_player_still_looking",
+    "name": [ "Waiting for you to find something" ],
+    "desc": [
+      "AI tag to prevent NPCs from following the player while the player is finding an additonal copy of an item.  This is a bug if you have it."
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "infection",
     "name": [ "Infection" ],
     "desc": [ "AI tag used for the infected NPC quest.  This is a bug if you have it." ],
@@ -132,6 +164,12 @@
     "id": "has_bag",
     "name": [ "Has Bag" ],
     "desc": [ "AI tag used for critters holding your bags.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "monster_armor",
+    "name": [ "Has Armor" ],
+    "desc": [ "AI tag used for critters wearing armor.  This is a bug if you have it." ]
   },
   {
     "type": "effect_type",
@@ -282,6 +320,12 @@
     "int_dur_factor": 100,
     "base_mods": { "pain_min": [ 1 ], "pain_chance": [ -50 ], "pain_chance_bot": [ 1000 ] },
     "scaling_mods": { "pain_max_val": [ 5 ], "pain_chance": [ 150 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "glowy_led",
+    "apply_message": "A bionic LED is glowing softly beneath your skin.",
+    "rating": "mixed"
   },
   {
     "type": "effect_type",
@@ -529,6 +573,14 @@
     "name": [ "Stuck in Pit" ],
     "desc": [ "You're stuck in a pit.  Sight distance is limited and you have to climb out." ],
     "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "no_sight",
+    "name": [ "Poor sight" ],
+    "desc": [ "You can't see very far from this spot." ],
+    "apply_message": "Your sight distance is impaired.",
+    "rating": "bad"
   },
   {
     "type": "effect_type",

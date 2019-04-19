@@ -32,6 +32,37 @@
     "responses": [ { "text": "Thanks!", "topic": "TALK_NONE" } ]
   },
   {
+    "id": "TALK_SHELTER_DENY_ADVICE",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "u_driving": "Focus on the road, mate!",
+      "no": {
+        "npc_driving": "I must focus on the road!",
+        "no": {
+          "npc_need": "thirst",
+          "amount": 80,
+          "no": {
+            "npc_need": "hunger",
+            "amount": 160,
+            "no": {
+              "npc_need": "fatigue",
+              "level": "TIRED",
+              "no": {
+                "npc_has_effect": "asked_to_hint",
+                "no": "I have some reason for not telling you.",
+                "yes": "Nothing comes to my mind now. Ask me later perhaps?"
+              },
+              "yes": "I'm too tired, let me rest first."
+            },
+            "yes": "I'm too hungry, give me something to eat."
+          },
+          "yes": "I'm too thirsty, give me something to drink."
+        }
+      }
+    },
+    "responses": [ { "text": "Ah, okay.", "topic": "TALK_NONE" } ]
+  },
+  {
     "id": "TALK_SUGGEST_FOLLOW",
     "type": "talk_topic",
     "category": "CATEGORY_FOLLOW",
@@ -184,25 +215,29 @@
     "type": "talk_topic",
     "dynamic_line": {
       "u_driving": "I can't train you properly while you're operating a vehicle!",
-      "npc_driving": "I can't train you properly while I'm operating a vehicle!",
-      "npc_need": "thirst",
-      "amount": 80,
       "no": {
-        "npc_need": "hunger",
-        "amount": 160,
+        "npc_driving": "I can't train you properly while I'm operating a vehicle!",
         "no": {
-          "npc_need": "fatigue",
-          "level": "TIRED",
+          "npc_need": "thirst",
+          "amount": 80,
           "no": {
-            "npc_has_effect": "asked_to_train",
-            "no": "I have some reason for denying you training.",
-            "yes": "Give it some time, I'll show you something new later..."
+            "npc_need": "hunger",
+            "amount": 160,
+            "no": {
+              "npc_need": "fatigue",
+              "level": "TIRED",
+              "no": {
+                "npc_has_effect": "asked_to_train",
+                "no": "I have some reason for denying you training.",
+                "yes": "Give it some time, I'll show you something new later..."
+              },
+              "yes": "I'm too tired, let me rest first."
+            },
+            "yes": "I'm too hungry, give me something to eat."
           },
-          "yes": "I'm too tired, let me rest first."
-        },
-        "yes": "I'm too hungry, give me something to eat."
-      },
-      "yes": "I'm too thirsty, give me something to drink."
+          "yes": "I'm too thirsty, give me something to drink."
+        }
+      }
     },
     "responses": [ { "text": "Ah, okay.", "topic": "TALK_NONE" } ]
   },

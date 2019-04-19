@@ -61,6 +61,21 @@ Must be included, and must be one of these strings:
 Currently, only "MGOAL_FIND_ITEM", "MGOAL_KILL_MONSTER_TYPE", and "MGOAL_KILL_MONSTER_SPEC"
 missions can be fully defined in JSON without requiring C++ code support.
 
+
+### monster_species
+For "MGOAL_KILL_MONSTER_SPEC", sets the target monster species.
+
+### monster_type
+For "MGOAL_KILL_MONSTER_TYPE", sets the target monster type.
+
+### monster_kill_goal
+For "MGOAL_KILL_MONSTER_SPEC" and "MGOAL_KILL_MONSTER_TYPE", sets the number of monsters above
+the player's current kill count that must be killed to complete the mission.
+
+### dialogue
+This is a dictionary of strings.  The NPC says these exact strings in response to the player
+inquiring about the mission or reporting its completion.
+
 ### start
 Optional field.  If it is present and a string, it must be name of a function in mission_start::
 that takes a mission * and performs the start code for the mission.  A hardcoded function is
@@ -134,19 +149,16 @@ is a consequence.
 executes on the player's current z-level. The `z` attribute can be used to override this and search
 on a different z-level than the player--this is an absolute value rather than relative.
 
-### monster_species
-For "MGOAL_KILL_MONSTER_SPEC", sets the target monster species.
+#### update_mapgen
+The `update_mapgen`` object or array provides a way to modify existing overmap tiles (including the ones created by "assign_mission_target") to add mission specific monsters, NPCs, computers, or items.
 
-### monster_type
-For "MGOAL_KILL_MONSTER_TYPE", sets the target monster type.
+As an array, `update_mapgen` consists of two or more `update_mapgen` objects.
 
-### monster_kill_goal
-For "MGOAL_KILL_MONSTER_SPEC" and "MGOAL_KILL_MONSTER_TYPE", sets the number of monsters above
-the player's current kill count that must be killed to complete the mission.
+As an object, `update_mapgen` contains any valid JSON mapgen objects.  The objects are placed on the mission target terrain from "assign_mission_target" or optionally the closest overmap terrain specified by the `om_terrain` and `om_special` fields.
 
-### dialogue
-This is a dictionary of strings.  The NPC says these exact strings in response to the player
-inquiring about the mission or reporting its completion.
+See doc/MAPGEN.md for more details on JSON mapgen and `update_mapgen`.
+
+An NPC, monster, or computer placed using `update_mapgen` will be the target of a mission if it has the `target` boolean set to `true` in its `place` object in `update_mapgen`.
 
 ## Adding new missions to NPC dialogue
 Any NPC that has missions needs to either:

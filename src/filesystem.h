@@ -6,6 +6,7 @@
 #include <vector>
 
 bool assure_dir_exist( const std::string &path );
+bool dir_exist( const std::string &path );
 bool file_exist( const std::string &path );
 // Remove a file, does not remove folders,
 // returns true on success

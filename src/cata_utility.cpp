@@ -195,7 +195,7 @@ double convert_velocity( int velocity, const units_type vel_units )
 {
     const std::string type = get_option<std::string>( "USE_METRIC_SPEEDS" );
     // internal units to mph conversion
-    double ret = double( velocity ) / 100;
+    double ret = static_cast<double>( velocity ) / 100;
 
     if( type == "km/h" ) {
         switch( vel_units ) {
@@ -540,4 +540,17 @@ bool string_ends_with( const std::string &s1, const std::string &s2 )
 {
     return s1.size() >= s2.size() &&
            s1.compare( s1.size() - s2.size(), s2.size(), s2 ) == 0;
+}
+
+std::string join( const std::vector<std::string> &strings, const std::string &joiner )
+{
+    std::ostringstream buffer;
+
+    for( auto a = strings.begin(); a != strings.end(); ++a ) {
+        if( a != strings.begin() ) {
+            buffer << joiner;
+        }
+        buffer << *a;
+    }
+    return buffer.str();
 }

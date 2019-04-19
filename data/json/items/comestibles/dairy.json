@@ -17,8 +17,7 @@
     "phase": "liquid",
     "flags": [ "FREEZERBURN" ],
     "fun": 15,
-    "vitamins": [ [ "calcium", 8 ] ],
-    "rot_spawn": "GROUP_CARRION"
+    "vitamins": [ [ "vitA", 2 ], [ "vitC", 3 ], [ "calcium", 33 ], [ "iron", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -38,8 +37,7 @@
     "phase": "liquid",
     "fun": 20,
     "flags": [ "FREEZERBURN" ],
-    "vitamins": [ [ "calcium", 2 ] ],
-    "rot_spawn": "GROUP_CARRION"
+    "vitamins": [ [ "calcium", 8 ], [ "iron", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -77,9 +75,9 @@
     "description": "Hard, dry cheese made to last, unlike modern processed cheese.  Will make you thirsty though.",
     "price": 385,
     "material": [ "milk" ],
+    "primary_material": "cheese",
     "volume": 1,
-    "charges": 7,
-    "vitamins": [ [ "vitA", 1 ], [ "calcium", 7 ] ],
+    "vitamins": [ [ "vitA", 5 ], [ "calcium", 32 ], [ "iron", 2 ] ],
     "fun": 5
   },
   {
@@ -98,11 +96,11 @@
     "description": "A block of yellow processed cheese.",
     "price": 450,
     "material": [ "milk" ],
+    "primary_material": "cheese",
     "volume": 1,
     "charges": 8,
     "fun": 7,
-    "vitamins": [ [ "vitA", 1 ], [ "calcium", 3 ] ],
-    "rot_spawn": "GROUP_CARRION"
+    "vitamins": [ [ "vitA", 8 ], [ "calcium", 16 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -119,12 +117,12 @@
     "description": "A tortilla filled with cheese and lightly grilled.",
     "price": 500,
     "material": [ "milk" ],
+    "primary_material": "cheese",
     "volume": 1,
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
     "fun": 6,
-    "vitamins": [ [ "vitA", 2 ], [ "calcium", 7 ], [ "iron", 2 ] ],
-    "rot_spawn": "GROUP_CARRION"
+    "vitamins": [ [ "vitA", 12 ], [ "calcium", 38 ], [ "iron", 10 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -141,11 +139,12 @@
     "description": "Dehydrated milk powder.  Mix with water to make drinkable milk.",
     "price": 1100,
     "material": [ "powder", "milk" ],
+    "primary_material": "powder",
     "volume": 1,
     "cooks_like": "milk",
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 10,
-    "vitamins": [ [ "vitA", 1 ], [ "calcium", 2 ] ],
+    "vitamins": [ [ "vitA", 3 ], [ "vitC", 1 ], [ "calcium", 7 ] ],
     "fun": -5
   }
 ]

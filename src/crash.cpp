@@ -1,4 +1,4 @@
-#if defined BACKTRACE
+#if defined(BACKTRACE)
 
 #include "crash.h"
 
@@ -9,7 +9,7 @@
 #include <initializer_list>
 #include <typeinfo>
 
-#ifdef TILES
+#if defined(TILES)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)
 #       include <SDL2/SDL.h>
 #   else
@@ -22,7 +22,7 @@
 
 [[noreturn]] static void crash_terminate_handler();
 
-#if ( defined _WIN32 || defined _WIN64 )
+#if defined(_WIN32)
 #if 1 // Hack to prevent reordering of #include "platform_win.h" by IWYU
 #include "platform_win.h"
 #endif
@@ -98,8 +98,8 @@ extern "C" {
     {
         HANDLE handle = CreateFile( file, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS,
                                     FILE_ATTRIBUTE_NORMAL, NULL );
-        //@todo call from a separate process as suggested by the documentation
-        //@todo capture stack trace and pass as parameter as suggested by the documentation
+        // TODO: call from a separate process as suggested by the documentation
+        // TODO: capture stack trace and pass as parameter as suggested by the documentation
         MiniDumpWriteDump( GetCurrentProcess(),
                            GetCurrentProcessId(),
                            handle,
@@ -158,7 +158,7 @@ extern "C" {
             append_ch( file, &beg, end, '\n' );
         }
         *beg = '\0';
-#ifdef TILES
+#if defined(TILES)
         if( SDL_ShowSimpleMessageBox( SDL_MESSAGEBOX_ERROR, "Error", buf, NULL ) != 0 ) {
             append_str( file, &beg, end, "Error creating SDL message box: " );
             append_str( file, &beg, end, SDL_GetError() );
@@ -172,8 +172,8 @@ extern "C" {
 
     static void signal_handler( int sig )
     {
-        //@todo thread-safety?
-        //@todo make string literals & static variables atomic?
+        // TODO: thread-safety?
+        // TODO: make string literals & static variables atomic?
         signal( sig, SIG_DFL );
         // undefined behavior according to the standard
         // but we can get nothing out of it without these
@@ -196,7 +196,8 @@ extern "C" {
         }
         log_crash( "Signal", msg );
         // end of UB
-        _Exit( EXIT_FAILURE );
+        std::signal( SIGABRT, SIG_DFL );
+        abort();
     }
 
 } // extern "C"
@@ -204,8 +205,6 @@ extern "C" {
 void init_crash_handlers()
 {
     SymInitialize( GetCurrentProcess(), NULL, TRUE );
-    ULONG stacksize = 2048;
-    SetThreadStackGuarantee( &stacksize );
     for( auto sig : {
              SIGSEGV, SIGILL, SIGABRT, SIGFPE
          } ) {
@@ -249,7 +248,7 @@ extern "C" {
                  << "\nVERSION: " << getVersionString()
                  << "\nTYPE: " << type
                  << "\nMESSAGE: " << msg;
-#ifdef TILES
+#if defined(TILES)
         if( SDL_ShowSimpleMessageBox( SDL_MESSAGEBOX_ERROR, "Error",
                                       log_text.str().c_str(), NULL ) != 0 ) {
             log_text << "Error creating SDL message box: " << SDL_GetError() << '\n';
@@ -286,7 +285,8 @@ extern "C" {
                 return;
         }
         log_crash( "Signal", msg );
-        _Exit( EXIT_FAILURE );
+        std::signal( SIGABRT, SIG_DFL );
+        abort();
     }
 
 } // extern "C"
@@ -306,7 +306,7 @@ void init_crash_handlers()
 
 [[noreturn]] static void crash_terminate_handler()
 {
-    //@todo thread-safety?
+    // TODO: thread-safety?
     const char *type;
     const char *msg;
     try {

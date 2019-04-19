@@ -163,7 +163,7 @@ int lightson_game::start_game()
         std::string action = ctxt.handle_input();
         if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
             position.first = std::min( std::max( position.first + vec->y, 0 ), level_size.first - 1 );
-            position.second = std::min( std::max( position.second + vec->y, 0 ), level_size.second - 1 );
+            position.second = std::min( std::max( position.second + vec->x, 0 ), level_size.second - 1 );
         } else if( action == "TOGGLE_SPACE" || action == "TOGGLE_5" ) {
             toggle_lights();
             win = check_win();

@@ -12,7 +12,7 @@
 #include "player.h"
 #include "string_input_popup.h"
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
 #include <SDL_keyboard.h>
 
 #include "options.h"
@@ -121,24 +121,24 @@ void uilist::init()
     w_y = MENU_AUTOASSIGN;              // -1 = auto center
     w_width = MENU_AUTOASSIGN;          // MENU_AUTOASSIGN = based on text width or max entry width, -2 = based on max entry, folds text
     w_height =
-        MENU_AUTOASSIGN; // -1 = autocalculate based on number of entries + number of lines in text // @todo: fixme: scrolling list with offset
+        MENU_AUTOASSIGN; // -1 = autocalculate based on number of entries + number of lines in text // FIXME: scrolling list with offset
     ret = UILIST_WAIT_INPUT;
     text.clear();          // header text, after (maybe) folding, populates:
     textformatted.clear(); // folded to textwidth
     textwidth = MENU_AUTOASSIGN; // if unset, folds according to w_width
-    textalign = MENU_ALIGN_LEFT; // @todo:
+    textalign = MENU_ALIGN_LEFT; // TODO:
     title.clear();         // Makes use of the top border, no folding, sets min width if w_width is auto
     keypress = 0;          // last keypress from (int)getch()
     window = catacurses::window();         // our window
     keymap.clear();        // keymap[int] == index, for entries[index]
     selected = 0;          // current highlight, for entries[index]
-    entries.clear();       // uilist_entry(int returnval, bool enabled, int keycode, std::string text, ...@todo: submenu stuff)
+    entries.clear();       // uilist_entry(int returnval, bool enabled, int keycode, std::string text, ... TODO: submenu stuff)
     started = false;       // set to true when width and key calculations are done, and window is generated.
     pad_left = 0;          // make a blank space to the left
     pad_right = 0;         // or right
     desc_enabled = false;  // don't show option description by default
     desc_lines = 6;        // default number of lines for description
-    border = true;         // @todo: always true
+    border = true;         // TODO: always true
     border_color = c_magenta; // border color
     text_color = c_light_gray;  // text color
     title_color = c_green;  // title color
@@ -181,7 +181,7 @@ void uilist::filterlist()
 {
     bool notfiltering = ( ! filtering || filter.empty() );
     int num_entries = entries.size();
-    bool nocase = filtering_nocase; // @todo: && is_all_lc( filter )
+    bool nocase = filtering_nocase; // TODO: && is_all_lc( filter )
     std::string fstr;
     fstr.reserve( filter.size() );
     if( nocase ) {
@@ -230,7 +230,7 @@ void uilist::filterlist()
  */
 std::string uilist::inputfilter()
 {
-    std::string identifier; // @todo: uilist.filter_identifier ?
+    std::string identifier; // TODO: uilist.filter_identifier ?
     mvwprintz( window, w_height - 1, 2, border_color, "< " );
     mvwprintz( window, w_height - 1, w_width - 3, border_color, " >" );
     /*
@@ -246,7 +246,7 @@ std::string uilist::inputfilter()
     .window( window, 4, w_height - 1, w_width - 4 )
     .identifier( identifier );
     input_event event;
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
     if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
         SDL_StartTextInput();
     }
@@ -380,7 +380,7 @@ void uilist::setup()
             }
         } else {
             if( w_auto && w_width < txtwidth + pad + 4 + clen ) {
-                w_width = txtwidth + pad + 4 + clen;    // @todo: or +5 if header
+                w_width = txtwidth + pad + 4 + clen;    // TODO: or +5 if header
             }
         }
         if( desc_enabled ) {
@@ -506,10 +506,10 @@ void uilist::setup()
     }
 
     if( w_x == -1 ) {
-        w_x = int( ( TERMX - w_width ) / 2 );
+        w_x = static_cast<int>( ( TERMX - w_width ) / 2 );
     }
     if( w_y == -1 ) {
-        w_y = int( ( TERMY - w_height ) / 2 );
+        w_y = static_cast<int>( ( TERMY - w_height ) / 2 );
     }
 
     if( scrollbar_side == -1 ) {
@@ -678,7 +678,7 @@ void uilist::show()
     }
 
     if( !filter.empty() ) {
-        mvwprintz( window, w_height - 1, 2, border_color, "< %s >", filter.c_str() );
+        mvwprintz( window, w_height - 1, 2, border_color, "< %s >", filter );
         mvwprintz( window, w_height - 1, 4, text_color, filter );
     }
     apply_scrollbar();
@@ -709,10 +709,10 @@ void uilist::redraw( bool redraw_callback )
         wprintz( window, border_color, " >" );
     }
     if( !filter.empty() ) {
-        mvwprintz( window, w_height - 1, 2, border_color, "< %s >", filter.c_str() );
+        mvwprintz( window, w_height - 1, 2, border_color, "< %s >", filter );
         mvwprintz( window, w_height - 1, 4, text_color, filter );
     }
-    ( void )redraw_callback; // TODO
+    ( void )redraw_callback; // TODO: something
     /*
     // pending tests on if this is needed
         if ( redraw_callback && callback != NULL ) {
@@ -842,7 +842,7 @@ void uilist::query( bool loop, int timeout )
 
     show();
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
     for( const auto &entry : entries ) {
         if( entry.hotkey > 0 && entry.enabled ) {
             ctxt.register_manual_key( entry.hotkey, entry.txt );
@@ -952,6 +952,7 @@ void pointmenu_cb::refresh( uilist *menu )
         g->u.view_offset = tripoint_zero;
         g->draw_ter();
         wrefresh( g->w_terrain );
+        g->draw_panels();
         menu->redraw( false ); // show() won't redraw borders
         menu->show();
         return;

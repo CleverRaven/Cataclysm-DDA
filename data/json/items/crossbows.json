@@ -295,7 +295,7 @@
     "durability": 6,
     "clip_size": 1,
     "reload": 500,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "stock", 1 ], [ "dampening", 1 ] ]
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "sling", 1 ], [ "stock", 1 ], [ "dampening", 1 ] ]
   },
   {
     "id": "compositecrossbow",
@@ -304,7 +304,7 @@
     "color": "green",
     "name": "composite crossbow",
     "reload_noise_volume": 4,
-    "description": "A slightly larger, more powerful crossbow utilising composite material limbs and somewhat more modern design practices.",
+    "description": "A slightly larger, more powerful crossbow utilizing composite material limbs and somewhat more modern design practices.",
     "price": 89000,
     "material": [ "steel", "wood", "bone" ],
     "flags": [ "STR_RELOAD", "PRIMITIVE_RANGED_WEAPON" ],
@@ -327,6 +327,7 @@
       [ "mechanism", 4 ],
       [ "rail", 1 ],
       [ "sights", 1 ],
+      [ "sling", 1 ],
       [ "stock", 1 ],
       [ "underbarrel", 1 ],
       [ "dampening", 1 ]
@@ -362,6 +363,7 @@
       [ "mechanism", 4 ],
       [ "rail", 1 ],
       [ "sights", 1 ],
+      [ "sling", 1 ],
       [ "stock", 1 ],
       [ "underbarrel", 1 ],
       [ "dampening", 1 ]
@@ -398,6 +400,7 @@
       [ "mechanism", 4 ],
       [ "rail", 1 ],
       [ "sights", 1 ],
+      [ "sling", 1 ],
       [ "stock", 1 ],
       [ "underbarrel", 1 ],
       [ "dampening", 1 ]
@@ -431,6 +434,7 @@
       [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "rail", 1 ],
+      [ "sling", 1 ],
       [ "stock", 1 ],
       [ "underbarrel", 1 ],
       [ "dampening", 1 ]

@@ -92,10 +92,24 @@
   },
   {
     "type": "EXTERNAL_OPTION",
-    "name": "FILTHY_MORALE",
-    "info": "Morale penalty for filthy clothing.  If true, wearing filthy clothing will cause morale penalties.",
+    "name": "FILTHY_CLOTHES",
+    "info": "If true, zombies will drop filthy clothing.",
     "stype": "bool",
-    "value": false
+    "value": true
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "FILTHY_MORALE",
+    "info": "Morale penalty for filthy clothing.  If true, wearing filthy clothing will cause morale penalties.  Doesn't make sense if FILTHY_CLOTHES option is false.",
+    "stype": "bool",
+    "value": true
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "FILTHY_WOUNDS",
+    "info": "Infected wounds from filthy clothing.  If true, getting hit in a body part covered in filthy clothing may cause infections.  Doesn't make sense if FILTHY_CLOTHES option is false.",
+    "stype": "bool",
+    "value": true
   },
   {
     "type": "EXTERNAL_OPTION",
@@ -108,13 +122,6 @@
     "type": "EXTERNAL_OPTION",
     "name": "SAFE_AUTODOC",
     "info": "Makes autodoc operations completely safe, independent of the players skill.",
-    "stype": "bool",
-    "value": false
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "FILTHY_WOUNDS",
-    "info": "Infected wounds from filthy clothing.  If true, getting hit in a body part covered in filthy clothing may cause infections.",
     "stype": "bool",
     "value": false
   },
@@ -143,6 +150,20 @@
     "type": "EXTERNAL_OPTION",
     "name": "CBM_SLOTS_ENABLED",
     "info": "Enables CBM slots mechanics. If true CBM slots are enabled.",
+    "stype": "bool",
+    "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "SPAWN_ANIMAL_DENSITY",
+    "info": "A scaling factor that determines density of wild, formerly domesticated and mutated animal spawns.",
+    "stype": "float",
+    "value": 1.0
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "DISABLE_ANIMAL_CLASH",
+    "info": "Disable additional spawn of large groups of monsters fighting each other on swamps.",
     "stype": "bool",
     "value": false
   }

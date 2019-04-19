@@ -16,6 +16,7 @@ class item;
 class item_location;
 class player;
 class salvage_actor;
+class repair_item_actor;
 
 typedef std::function<bool( const item_location & )> item_location_filter;
 
@@ -40,7 +41,7 @@ namespace inv
 *
 * The functions here execute customized inventory menus for specific game situations.
 * Each menu displays only related inventory (or nearby) items along with context dependent information.
-* More functions will follow. @todo: update all 'inv_for...()' functions to return @ref item_location instead of
+* More functions will follow. TODO: update all 'inv_for...()' functions to return @ref item_location instead of
 * plain int and move them here.
 * @return Either location of the selected item or null location if none was selected.
 */
@@ -83,6 +84,8 @@ item_location wear( player &p );
 item_location take_off( player &p );
 /** Item cut up menu. */
 item_location salvage( player &p, const salvage_actor *actor );
+/** Repair menu. */
+item_location repair( player &p, const repair_item_actor *actor, const item *main_tool );
 /*@}*/
 
 }

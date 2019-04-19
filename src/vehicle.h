@@ -12,6 +12,7 @@
 #include "calendar.h"
 #include "clzones.h"
 #include "damage.h"
+#include "game_constants.h"
 #include "item.h"
 #include "item_group.h"
 #include "item_stack.h"
@@ -38,6 +39,9 @@ namespace catacurses
 {
 class window;
 } // namespace catacurses
+typedef enum {
+    DONE, ITEMS_FROM_CARGO, ITEMS_FROM_GROUND,
+} veh_interact_results;
 namespace vehicles
 {
 extern point cardinal_d[5];
@@ -588,7 +592,6 @@ class vehicle
         void smash_security_system();
         // get vpart powerinfo for part number, accounting for variable-sized parts and hps.
         int part_vpower_w( int index, bool at_full_hp = false ) const;
-        int part_vpower_vhp( int index, bool at_full_hp = false ) const;
 
         // get vpart epowerinfo for part number.
         int part_epower_w( int index ) const;
@@ -602,6 +605,7 @@ class vehicle
 
         //Refresh all caches and re-locate all parts
         void refresh();
+        bool no_refresh = false;
 
         // Do stuff like clean up blood and produce smoke from broken parts. Returns false if nothing needs doing.
         bool do_environmental_effects();
@@ -649,6 +653,10 @@ class vehicle
         vehicle( const vproto_id &type_id, int veh_init_fuel = -1, int veh_init_status = -1 );
         vehicle();
         ~vehicle();
+
+        /** Disable or enable refresh() ; used to speed up performance when creating a vehicle */
+        void suspend_refresh();
+        void enable_refresh();
 
         /**
          * Set stat for part constrained by range [0,durability]
@@ -726,7 +734,7 @@ class vehicle
         int install_part( const point &dp, const vpart_id &id, item &&obj, bool force = false );
 
         // find a single tile wide vehicle adjacent to a list of part indices
-        bool find_rackable_vehicle( const std::vector<std::vector<int>> &list_of_racks );
+        bool try_to_rack_nearby_vehicle( const std::vector<std::vector<int>> &list_of_racks );
         // merge a previously found single tile vehicle into this vehicle
         bool merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int> &rack_parts );
 
@@ -765,8 +773,8 @@ class vehicle
          * Yields a range containing all parts (including broken ones) that can be
          * iterated over.
          */
-        // @todo maybe not include broken ones? Have a separate function for that?
-        // @todo rename to just `parts()` and rename the data member to `parts_`.
+        // TODO: maybe not include broken ones? Have a separate function for that?
+        // TODO: rename to just `parts()` and rename the data member to `parts_`.
         vehicle_part_range get_all_parts() const;
         /**
          * Yields a range of parts of this vehicle that each have the given feature
@@ -956,6 +964,9 @@ class vehicle
         // Checks how much of an engine's current fuel is left in the tanks.
         int engine_fuel_left( const int e, bool recurse = false ) const;
         int fuel_capacity( const itype_id &ftype ) const;
+
+        // Returns the total specific energy of this fuel type. Frozen is ignored.
+        float fuel_specific_energy( const itype_id &ftype ) const;
 
         // drains a fuel type (e.g. for the kitchen unit)
         // returns amount actually drained, does not engage reactor
@@ -1321,7 +1332,7 @@ class vehicle
          * @param pt the vehicle part containing the turret we're trying to target.
          * @return npc object with suitable attributes for targeting a vehicle turret.
          */
-        npc get_targeting_npc( vehicle_part &pt );
+        npc get_targeting_npc( const vehicle_part &pt );
         /*@}*/
 
         /**
@@ -1430,6 +1441,8 @@ class vehicle
         void use_monster_capture( int part, const tripoint &pos );
         void use_bike_rack( int part );
 
+        veh_interact_results interact_with( const tripoint &pos, int interact_part );
+
         const std::string disp_name() const;
 
         /** Required strength to be able to successfully lift the vehicle unaided by equipment */
@@ -1458,7 +1471,10 @@ class vehicle
         std::vector<int> reactors;         // List of reactor indices
         std::vector<int> solar_panels;     // List of solar panel indices
         std::vector<int> wind_turbines;     // List of wind turbine indices
+        std::vector<int> water_wheels;     // List of water wheel indices
+        std::vector<int> sails;            // List of sail indices
         std::vector<int> funnels;          // List of funnel indices
+        std::vector<int> heaters;          // List of heater parts
         std::vector<int> loose_parts;      // List of UNMOUNT_ON_MOVE parts
         std::vector<int> wheelcache;       // List of wheels
         std::vector<int> steering;         // List of STEERABLE parts
@@ -1581,6 +1597,11 @@ class vehicle
         /** empty the contents of a tank, battery or turret spilling liquids randomly on the ground */
         void leak_fuel( vehicle_part &pt );
 
+        /*
+         * The co-ordinates of the bounding box of the vehicle's mount points
+         */
+        mutable point mount_max;
+        mutable point mount_min;
         /*
          * Fire turret at automatically acquired targets
          * @return number of shots actually fired (which may be zero)

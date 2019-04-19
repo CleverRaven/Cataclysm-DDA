@@ -41,6 +41,8 @@ using bionic_id = string_id<bionic_data>;
 struct furn_t;
 struct itype;
 class item_location;
+struct quality;
+using quality_id = string_id<quality>;
 
 /**
  * Transform an item into a specific type.
@@ -67,6 +69,9 @@ class iuse_transform : public iuse_actor
         /** if zero or positive set remaining ammo of @ref target to this (after transformation) */
         long ammo_qty = -1;
 
+        /** if this has values, set remaining ammo of @ref target to one of them chosen at random (after transformation) */
+        std::vector<long> random_ammo_qty;
+
         /** if positive set transformed item active and start countdown */
         int countdown = 0;
 
@@ -91,6 +96,9 @@ class iuse_transform : public iuse_actor
         /** displayed if item is in player possession with %s replaced by item name */
         std::string need_charges_msg;
 
+        /** Tool qualities needed, e.g. "fine bolt turning 1". **/
+        std::map<quality_id, int> qualities_needed;
+
         std::string menu_text;
 
         iuse_transform( const std::string &type = "transform" ) : iuse_actor( type ) {}
@@ -98,6 +106,7 @@ class iuse_transform : public iuse_actor
         ~iuse_transform() override = default;
         void load( JsonObject &jo ) override;
         long use( player &, item &, bool, const tripoint & ) const override;
+        ret_val<bool> can_use( const player &, const item &, bool, const tripoint & ) const override;
         iuse_actor *clone() const override;
         std::string get_name() const override;
         void finalize( const itype_id &my_item_type ) override;
@@ -790,7 +799,7 @@ class repair_item_actor : public iuse_actor
         };
 
         /** Attempts to repair target item with selected tool */
-        attempt_hint repair( player &pl, item &tool, item &target ) const;
+        attempt_hint repair( player &pl, item &tool, item_location &target ) const;
         /** Checks if repairs on target item are possible. Excludes checks on tool.
           * Doesn't just estimate - should not return true if repairs are not possible or false if they are. */
         bool can_repair_target( player &pl, const item &target, bool print_msg ) const;

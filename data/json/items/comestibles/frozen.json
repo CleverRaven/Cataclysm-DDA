@@ -21,7 +21,7 @@
     "material": "milk",
     "phase": "liquid",
     "charges": 2,
-    "vitamins": [ [ "calcium", 3 ] ],
+    "vitamins": [ [ "vitA", 1 ], [ "calcium", 12 ] ],
     "flags": [ "MELTS" ]
   },
   {
@@ -48,7 +48,8 @@
     "fun": 25,
     "health": -6,
     "price": 400,
-    "material": [ "milk", "junk" ]
+    "material": [ "milk", "junk" ],
+    "primary_material": "milk"
   },
   {
     "type": "COMESTIBLE",
@@ -68,10 +69,11 @@
     "healthy": -1,
     "price": 250,
     "material": "milk",
+    "primary_material": "ice_cream",
     "phase": "liquid",
     "//": "not technically a drink, but is quasi-liquid enough that it'd get all over everything if you carried it",
     "charges": 2,
-    "vitamins": [ [ "vitA", 2 ], [ "calcium", 2 ], [ "vitB", 3 ] ],
+    "vitamins": [ [ "vitA", 9 ], [ "calcium", 9 ], [ "vitB", 11 ] ],
     "flags": [ "MELTS" ]
   },
   {
@@ -83,6 +85,7 @@
     "description": "Government regulations dictate that since this isn't *technically* ice cream, it be called a dairy dessert instead.  It still tastes good, but your body won't like you.",
     "healthy": -2,
     "price": 200,
+    "primary_material": "ice_cream",
     "material": [ "milk", "junk" ]
   },
   {
@@ -96,7 +99,8 @@
     "healthy": -3,
     "price": 300,
     "calories": 150,
-    "vitamins": [ [ "vitA", 2 ], [ "calcium", 2 ], [ "iron", 1 ], [ "vitB", 2 ] ],
+    "primary_material": "ice_cream",
+    "vitamins": [ [ "vitA", 9 ], [ "calcium", 8 ], [ "iron", 4 ], [ "vitB", 8 ] ],
     "material": [ "milk", "junk" ]
   },
   {
@@ -110,7 +114,8 @@
     "calories": 134,
     "fun": 17,
     "price": 300,
-    "vitamins": [ [ "vitA", 2 ], [ "vitC", 1 ], [ "calcium", 2 ], [ "vitB", 2 ] ],
+    "primary_material": "ice_cream",
+    "vitamins": [ [ "vitA", 8 ], [ "vitC", 6 ], [ "calcium", 8 ], [ "iron", 1 ], [ "vitB", 9 ] ],
     "material": [ "milk", "fruit" ]
   },
   {
@@ -123,7 +128,8 @@
     "spoils_in": "2 days",
     "calories": 148,
     "price": 300,
-    "vitamins": [ [ "calcium", 2 ], [ "vitB", 2 ] ],
+    "primary_material": "ice_cream",
+    "vitamins": [ [ "vitA", 1 ], [ "calcium", 8 ], [ "vitB", 10 ] ],
     "material": [ "milk", "egg" ]
   },
   {
@@ -136,7 +142,8 @@
     "calories": 127,
     "price": 275,
     "weight": 80,
-    "vitamins": [ [ "vitC", 1 ], [ "calcium", 2 ] ],
+    "primary_material": "ice_cream",
+    "vitamins": [ [ "vitC", 4 ], [ "calcium", 10 ] ],
     "material": [ "milk" ]
   },
   {
@@ -165,7 +172,8 @@
     "calories": 148,
     "price": 300,
     "weight": 90,
-    "vitamins": [  ],
+    "primary_material": "ice_cream",
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 2 ] ],
     "material": [ "milk" ]
   }
 ]

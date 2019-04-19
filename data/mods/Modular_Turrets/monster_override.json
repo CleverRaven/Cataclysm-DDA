@@ -53,7 +53,7 @@
     "type": "MONSTER",
     "name": "eyebot",
     "looks_like": "mon_eyebot",
-    "description": "A small aerial robot equipped with a suite of cameras and armed with a blinding flash.  No longer linked to police or security network, it continues its unending hunt for criminals and tresspassers.",
+    "description": "A small aerial robot equipped with a suite of cameras and armed with a blinding flash.  No longer linked to police or security network, it continues its unending hunt for criminals and trespassers.",
     "default_faction": "cop_bot",
     "species": [ "ROBOT" ],
     "diff": 2,

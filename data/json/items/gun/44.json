@@ -23,6 +23,7 @@
       [ "accessories", 2 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
+      [ "brass catcher", 1 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "muzzle", 1 ],
@@ -57,9 +58,11 @@
       [ "accessories", 2 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
+      [ "brass catcher", 1 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "sights", 1 ],
+      [ "sling", 1 ],
       [ "stock", 1 ]
     ]
   },
@@ -114,6 +117,7 @@
     "dispersion": 280,
     "durability": 8,
     "clip_size": 6,
+    "magazines": [ [ "44", [ "44_speedloader6" ] ] ],
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],
@@ -145,6 +149,7 @@
     "dispersion": 280,
     "durability": 8,
     "clip_size": 6,
+    "magazines": [ [ "44", [ "44_speedloader6" ] ] ],
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],

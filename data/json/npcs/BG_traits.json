@@ -1,5 +1,9 @@
 [
   {
+    "type": "mutation_type",
+    "id": "BACKGROUND_SURVIVAL_STORY"
+  },
+  {
     "type": "mutation",
     "id": "BGSS_Confused_1",
     "name": "Survivor Story",
@@ -8,6 +12,7 @@
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -19,6 +24,7 @@
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -30,36 +36,43 @@
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
     "type": "mutation",
     "id": "BGSS_No_Past_3",
-    "name": "Survivor",
+    "name": "Survivor Story",
+    "player_display": false,
     "points": 0,
     "description": "This NPC could tell you about how they survived the cataclysm",
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
     "type": "mutation",
     "id": "BGSS_No_Past_4",
     "name": "Survivor",
+    "player_display": false,
     "points": 0,
     "description": "This NPC could tell you about how they survived the cataclysm",
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
     "type": "mutation",
     "id": "BGSS_No_Past_5",
     "name": "Survivor",
+    "player_display": false,
     "points": 0,
     "description": "This NPC could tell you about how they survived the cataclysm",
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -71,6 +84,7 @@
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -82,6 +96,7 @@
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -93,16 +108,19 @@
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
     "type": "mutation",
     "id": "BGSS_Wedding_1",
     "name": "Survivor",
+    "player_display": false,
     "points": 0,
     "description": "This NPC could tell you about how they survived the cataclysm",
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -114,6 +132,7 @@
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -125,6 +144,7 @@
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -135,6 +155,7 @@
     "description": "This NPC could tell you about how they survived the cataclysm",
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -146,6 +167,7 @@
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -157,6 +179,7 @@
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -168,6 +191,7 @@
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -179,6 +203,7 @@
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -190,6 +215,7 @@
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -201,6 +227,7 @@
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -212,6 +239,7 @@
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -223,6 +251,7 @@
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -234,6 +263,7 @@
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -245,6 +275,7 @@
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -256,6 +287,7 @@
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -267,6 +299,7 @@
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -278,6 +311,7 @@
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -289,6 +323,7 @@
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -300,6 +335,7 @@
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -311,6 +347,7 @@
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -322,6 +359,7 @@
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -333,6 +371,7 @@
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -344,6 +383,7 @@
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -355,6 +395,7 @@
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -366,6 +407,7 @@
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -377,6 +419,7 @@
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -388,6 +431,7 @@
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -395,10 +439,11 @@
     "id": "BGSS_Cop_3",
     "name": "Survivor Story",
     "points": 0,
-    "description": "cop3",
+    "description": "This NPC could tell you about how they survived the cataclysm",
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -410,6 +455,7 @@
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -421,6 +467,7 @@
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -432,6 +479,7 @@
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -443,6 +491,7 @@
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -454,6 +503,7 @@
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -465,6 +515,7 @@
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -476,6 +527,7 @@
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -487,6 +539,7 @@
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -498,6 +551,7 @@
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -509,6 +563,7 @@
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -520,6 +575,7 @@
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -531,6 +587,7 @@
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -542,6 +599,7 @@
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -553,6 +611,7 @@
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -564,6 +623,7 @@
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
@@ -576,6 +636,20 @@
     "player_display": false,
     "valid": false,
     "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
+    "flags": [ "BG_SURVIVAL_STORY" ]
+  },
+  {
+    "type": "mutation",
+    "//": "This background is specific to rescued broken cyborg",
+    "id": "BGSS_Cyborg_1",
+    "name": "Survivor Story",
+    "points": 0,
+    "description": "This NPC could tell you about how they survived the cataclysm",
+    "player_display": false,
+    "valid": false,
+    "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   }
 ]

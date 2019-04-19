@@ -11,7 +11,7 @@
 #include "item_group.h"
 #include "output.h"
 
-// @todo: Make a generic factory
+// TODO: Make a generic factory
 static std::map<harvest_id, harvest_list> harvest_all;
 
 /** @relates string_id */
@@ -151,7 +151,7 @@ void harvest_list::check_consistency()
         const std::string errors = enumerate_as_string( hl.entries_.begin(), hl.entries_.end(),
                                    error_func );
         if( !errors.empty() ) {
-            debugmsg( "Harvest list %s has invalid entry: %s", hl_id, errors.c_str() );
+            debugmsg( "Harvest list %s has invalid entry: %s", hl_id, errors );
         }
 
     }
@@ -193,7 +193,7 @@ std::string harvest_list::describe( int at_skill ) const
         } else {
             max_f = en.max;
         }
-        // @todo: Avoid repetition here by making a common harvest drop function
+        // TODO: Avoid repetition here by making a common harvest drop function
         int max_drops = std::min<int>( en.max, std::round( std::max( 0.0f, max_f ) ) );
         int min_drops = std::max<int>( 0.0f, std::round( std::min( min_f, max_f ) ) );
         if( max_drops <= 0 ) {

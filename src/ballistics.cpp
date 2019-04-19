@@ -36,7 +36,7 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
     if( effects.count( "SHATTER_SELF" ) ) {
         // Drop the contents, not the thrown item
         if( g->u.sees( pt ) ) {
-            add_msg( _( "The %s shatters!" ), drop_item.tname().c_str() );
+            add_msg( _( "The %s shatters!" ), drop_item.tname() );
         }
 
         for( const item &i : drop_item.contents ) {
@@ -75,9 +75,7 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
     if( embed ) {
         mon->add_item( dropped_item );
         if( g->u.sees( *mon ) ) {
-            add_msg( _( "The %1$s embeds in %2$s!" ),
-                     dropped_item.tname().c_str(),
-                     mon->disp_name().c_str() );
+            add_msg( _( "The %1$s embeds in %2$s!" ), dropped_item.tname(), mon->disp_name() );
         }
     } else {
         bool do_drop = true;
@@ -147,7 +145,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         const tripoint &target_arg, const dispersion_sources &dispersion,
         Creature *origin, const vehicle *in_veh )
 {
-    const bool do_animation = get_option<bool>( "ANIMATIONS" );
+    const bool do_animation = get_option<bool>( "ANIMATION_PROJECTILES" );
 
     double range = rl_dist( source, target_arg );
 
@@ -203,7 +201,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         // cap wild misses at +/- 30 degrees
         rad += ( one_in( 2 ) ? 1 : -1 ) * std::min( ARCMIN( aim.dispersion ), DEGREES( 30 ) );
 
-        // @todo: This should also represent the miss on z axis
+        // TODO: This should also represent the miss on z axis
         const int offset = std::min<int>( range, sqrtf( aim.missed_by_tiles ) );
         int new_range = no_overshoot ?
                         range + rng( -offset, offset ) :
@@ -250,7 +248,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
 
     if( !no_overshoot && range < extend_to_range ) {
         // Continue line is very "stiff" when the original range is short
-        // @todo: Make it use a more distant point for more realistic extended lines
+        // TODO: Make it use a more distant point for more realistic extended lines
         std::vector<tripoint> trajectory_extension = continue_line( trajectory,
                 extend_to_range - range );
         trajectory.reserve( trajectory.size() + trajectory_extension.size() );
@@ -375,7 +373,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         trajectory.erase( trajectory.begin() );
         trajectory.resize( traj_len-- );
         g->draw_line( tp, trajectory );
-        g->draw_bullet( tp, int( traj_len-- ), trajectory, bullet );
+        g->draw_bullet( tp, static_cast<int>( traj_len-- ), trajectory, bullet );
     }
 
     if( g->m.impassable( tp ) ) {
@@ -409,7 +407,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         } );
         if( mon_ptr ) {
             Creature &z = *mon_ptr;
-            add_msg( _( "The attack bounced to %s!" ), z.get_name().c_str() );
+            add_msg( _( "The attack bounced to %s!" ), z.get_name() );
             z.add_effect( effect_bounced, 1_turns );
             projectile_attack( proj, tp, z.pos(), dispersion, origin, in_veh );
             sfx::play_variant_sound( "fire_gun", "bio_lightning_tail",

@@ -139,7 +139,7 @@ bool damage_instance::operator==( const damage_instance &other ) const
 void damage_instance::deserialize( JsonIn &jsin )
 {
     JsonObject jo( jsin );
-    // @todo Clean up
+    // TODO: Clean up
     damage_units = load_damage_instance( jo ).damage_units;
 }
 

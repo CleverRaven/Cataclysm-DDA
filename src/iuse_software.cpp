@@ -77,8 +77,8 @@ bool play_videogame( const std::string &function_name,
         /* morale/activity workaround >.> */
         game_data["end_message"] = string_format(
                                        _( "You struggle to get '%s' working, and finally give up to play minesweeper." ),
-                                       function_name.c_str() );
-        // @todo: better messages in morale system //  game_data["moraletype"]="MORALE_GAME_SOFTWARE_PROBLEM";
+                                       function_name );
+        // TODO: better messages in morale system //  game_data["moraletype"]="MORALE_GAME_SOFTWARE_PROBLEM";
         return false;
     }
 }

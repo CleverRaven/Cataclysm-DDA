@@ -12,7 +12,7 @@
 #include "string_input_popup.h"
 #include "translations.h"
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
 #include <SDL_keyboard.h>
 
 #include "options.h"
@@ -53,7 +53,7 @@ struct game_message : public JsonDeserializer, public JsonSerializer {
             return message;
         }
         //~ Message %s on the message log was repeated %d times, e.g. "You hear a whack! x 12"
-        return string_format( _( "%s x %d" ), message.c_str(), count );
+        return string_format( _( "%s x %d" ), message, count );
     }
 
     bool is_new( const time_point &current ) const {
@@ -587,7 +587,7 @@ void Messages::dialog::input()
             }
         } else if( action == "FILTER" ) {
             filtering = true;
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
             if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
                 SDL_StartTextInput();
             }

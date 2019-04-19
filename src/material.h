@@ -41,8 +41,13 @@ class material_type
         int _fire_resist = 0;
         int _chip_resist = 0;                         // Resistance to physical damage of the item itself
         int _density = 1;                             // relative to "powder", which is 1
+        float _specific_heat_liquid = 4.186;
+        float _specific_heat_solid = 2.108;
+        float _latent_heat = 334;
+        int _freeze_point = 32; // Farenheit
         bool _edible = false;
         bool _soft = false;
+        bool _reinforces = false;
 
         std::string _bash_dmg_verb;
         std::string _cut_dmg_verb;
@@ -86,12 +91,17 @@ class material_type
         int elec_resist() const;
         int fire_resist() const;
         int chip_resist() const;
+        float specific_heat_liquid() const;
+        float specific_heat_solid() const;
+        float latent_heat() const;
+        int freeze_point() const;
         int density() const;
         bool edible() const;
         bool soft() const;
+        bool reinforces() const;
 
         double vitamin( const vitamin_id &id ) const {
-            auto iter = _vitamins.find( id );
+            const auto iter = _vitamins.find( id );
             return iter != _vitamins.end() ? iter->second : 0;
         }
 
