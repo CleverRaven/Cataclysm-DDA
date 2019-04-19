@@ -370,7 +370,7 @@ bool player::check_eligible_containers_for_crafting( const recipe &rec, int batc
         }
 
         if( charges_to_store > 0 ) {
-            popup( _( "You don't have anything to store %s in!" ), prod.tname().c_str() );
+            popup( _( "You don't have anything to store %s in!" ), prod.tname() );
             return false;
         }
     }
@@ -573,7 +573,7 @@ static item *set_item_inventory( player &p, item &newit )
         } else {
             ret_val = &p.i_add( newit );
             add_msg( m_info, "%c - %s", ret_val->invlet == 0 ? ' ' : ret_val->invlet,
-                     ret_val->tname().c_str() );
+                     ret_val->tname() );
         }
     }
     return ret_val;
@@ -810,7 +810,7 @@ void player::complete_craft( item &craft, const tripoint &loc )
             get_skill_level( making.skill_used ) ) {
             // NPC assistance is worth half a skill level
             skill_dice += 2;
-            add_msg( m_info, _( "%s helps with crafting..." ), np->name.c_str() );
+            add_msg( m_info, _( "%s helps with crafting..." ), np->name );
             break;
         }
     }
@@ -909,32 +909,7 @@ void player::complete_craft( item &craft, const tripoint &loc )
     // Set up the new item, and assign an inventory letter if available
     std::vector<item> newits = making.create_results( batch_size );
 
-    // Check if the recipe tools make this food item hot upon making it.
-    // We don't actually know which specific tool the player used here, but
-    // we're checking for a class of tools; because of the way requirements
-    // processing works, the "surface_heat" id gets nuked into an actual
-    // list of tools, see data/json/recipes/cooking_tools.json.
-    //
-    // Currently it's only checking for a hotplate because that's a
-    // suitable item in both the "surface_heat" and "water_boiling_heat"
-    // tools, and it's usually the first item in a list of tools so if this
-    // does get heated we'll find it right away.
-    bool should_heat = false;
-    if( !newits.empty() && newits.front().is_food() ) {
-        const requirement_data::alter_tool_comp_vector &tool_lists = making.requirements().get_tools();
-        for( const std::vector<tool_comp> &tools : tool_lists ) {
-            for( const tool_comp &t : tools ) {
-                if( t.type == "hotplate" ) {
-                    should_heat = true;
-                    break;
-                }
-            }
-            // if we've already decided to heat it up then we're done
-            if( should_heat ) {
-                break;
-            }
-        }
-    }
+    const bool should_heat = making.hot_result();
 
     bool first = true;
     size_t newit_counter = 0;
@@ -944,9 +919,9 @@ void player::complete_craft( item &craft, const tripoint &loc )
             first = false;
             // TODO: reconsider recipe memorization
             if( knows_recipe( &making ) ) {
-                add_msg( _( "You craft %s from memory." ), newit.type_name( 1 ).c_str() );
+                add_msg( _( "You craft %s from memory." ), newit.type_name( 1 ) );
             } else {
-                add_msg( _( "You craft %s using a book as a reference." ), newit.type_name( 1 ).c_str() );
+                add_msg( _( "You craft %s using a book as a reference." ), newit.type_name( 1 ) );
                 // If we made it, but we don't know it,
                 // we're making it from a book and have a chance to learn it.
                 // Base expected time to learn is 1000*(difficulty^4)/skill/int moves.
@@ -961,7 +936,7 @@ void player::complete_craft( item &craft, const tripoint &loc )
                             ( std::max( get_skill_level( making.skill_used ), 1 ) * std::max( get_int(), 1 ) ) ) ) {
                     learn_recipe( &making );
                     add_msg( m_good, _( "You memorized the recipe for %s!" ),
-                             newit.type_name( 1 ).c_str() );
+                             newit.type_name( 1 ) );
                 }
             }
 
@@ -1036,7 +1011,9 @@ void player::complete_craft( item &craft, const tripoint &loc )
         }
 
         finalize_crafted_item( newit );
-        if( loc == tripoint_zero ) {
+        if( newit.made_of( LIQUID ) ) {
+            g->handle_all_liquid( newit, PICKUP_RANGE );
+        } else if( loc == tripoint_zero ) {
             wield_craft( *this, newit );
         } else {
             set_item_map_or_vehicle( *this, loc, newit );
@@ -1058,7 +1035,9 @@ void player::complete_craft( item &craft, const tripoint &loc )
                 }
             }
             finalize_crafted_item( bp );
-            if( loc == tripoint_zero ) {
+            if( bp.made_of( LIQUID ) ) {
+                g->handle_all_liquid( bp, PICKUP_RANGE );
+            } else if( loc == tripoint_zero ) {
                 set_item_inventory( *this, bp );
             } else {
                 set_item_map_or_vehicle( *this, loc, bp );
@@ -1475,7 +1454,7 @@ ret_val<bool> player::can_disassemble( const item &obj, const inventory &inv ) c
         if( obj.charges < qty ) {
             auto msg = ngettext( "You need at least %d charge of %s.",
                                  "You need at least %d charges of %s.", qty );
-            return ret_val<bool>::make_failure( msg, qty, obj.tname().c_str() );
+            return ret_val<bool>::make_failure( msg, qty, obj.tname() );
         }
     }
 
@@ -1485,7 +1464,7 @@ ret_val<bool> player::can_disassemble( const item &obj, const inventory &inv ) c
         for( const auto &qual : opts ) {
             if( !qual.has( inv, return_true<item> ) ) {
                 // Here should be no dot at the end of the string as 'to_string()' provides it.
-                return ret_val<bool>::make_failure( _( "You need %s" ), qual.to_string().c_str() );
+                return ret_val<bool>::make_failure( _( "You need %s" ), qual.to_string() );
             }
         }
     }
@@ -1501,11 +1480,11 @@ ret_val<bool> player::can_disassemble( const item &obj, const inventory &inv ) c
             const tool_comp &tool_required = opts.front();
             if( tool_required.count <= 0 ) {
                 return ret_val<bool>::make_failure( _( "You need %s." ),
-                                                    item::nname( tool_required.type ).c_str() );
+                                                    item::nname( tool_required.type ) );
             } else {
                 return ret_val<bool>::make_failure( ngettext( "You need a %s with %d charge.",
                                                     "You need a %s with %d charges.", tool_required.count ),
-                                                    item::nname( tool_required.type ).c_str(),
+                                                    item::nname( tool_required.type ),
                                                     tool_required.count );
             }
         }
@@ -1713,7 +1692,7 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
 
     float component_success_chance = std::min( std::pow( 0.8, dis_item.damage_level( 4 ) ), 1.0 );
 
-    add_msg( _( "You disassemble the %s into its components." ), dis_item.tname().c_str() );
+    add_msg( _( "You disassemble the %s into its components." ), dis_item.tname() );
     // Remove any batteries, ammo and mods first
     remove_ammo( dis_item, *this );
     remove_radio_mod( dis_item, *this );
@@ -1801,15 +1780,15 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
     for( const item &newit : components ) {
         const bool comp_success = ( dice( skill_dice, skill_sides ) > dice( diff_dice,  diff_sides ) );
         if( dis.difficulty != 0 && !comp_success ) {
-            add_msg( m_bad, _( "You fail to recover %s." ), newit.tname().c_str() );
+            add_msg( m_bad, _( "You fail to recover %s." ), newit.tname() );
             continue;
         }
         const bool dmg_success = component_success_chance > rng_float( 0, 1 );
         if( !dmg_success ) {
             // Show reason for failure (damaged item, tname contains the damage adjective)
             //~ %1s - material, %2$s - disassembled item
-            add_msg( m_bad, _( "You fail to recover %1$s from the %2$s." ), newit.tname().c_str(),
-                     dis_item.tname().c_str() );
+            add_msg( m_bad, _( "You fail to recover %1$s from the %2$s." ), newit.tname(),
+                     dis_item.tname() );
             continue;
         }
         // Use item from components list, or (if not contained)
@@ -1849,10 +1828,10 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
             if( one_in( 4 ) ) {
                 learn_recipe( &dis.ident().obj() );// TODO: change to forward an id or a reference
                 add_msg( m_good, _( "You learned a recipe for %s from disassembling it!" ),
-                         dis_item.tname().c_str() );
+                         dis_item.tname() );
             } else {
                 add_msg( m_info, _( "You might be able to learn a recipe for %s if you disassemble another." ),
-                         dis_item.tname().c_str() );
+                         dis_item.tname() );
             }
         } else {
             add_msg( m_info, _( "If you had better skills, you might learn a recipe next time." ) );

@@ -13,7 +13,7 @@
     "worn_override": "REFUGEE_Stan_worn",
     "carry_override": "REFUGEE_Stan_carried",
     "weapon_override": "REFUGEE_Stan_wield",
-    "traits": [ { "trait": "MYOPIC" } ],
+    "traits": [ { "trait": "MYOPIC" }, { "group": "Appearance_Germanic" } ],
     "skills": [
       { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
       { "skill": "cooking", "bonus": { "rng": [ 3, 4 ] } },

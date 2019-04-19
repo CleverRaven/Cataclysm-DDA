@@ -1,0 +1,43 @@
+[
+  {
+    "type": "item_group",
+    "id": "home_hw",
+    "items": [
+      { "group": "tools_home", "prob": 150 },
+      { "group": "tools_general", "prob": 30 },
+      { "group": "supplies_hardware", "prob": 50 },
+      [ "manual_mechanics", 35 ],
+      [ "manual_fabrication", 20 ],
+      [ "recipe_bows", 10 ],
+      [ "recipe_arrows", 10 ],
+      [ "bubblewrap", 50 ],
+      [ "binoculars", 20 ],
+      [ "roller_blades", 20 ],
+      [ "duct_tape", 100 ],
+      [ "lawnmower", 25 ],
+      [ "lawn_dart", 10 ],
+      [ "dehydrator", 15 ],
+      { "item": "jar_glass", "prob": 25, "count": [ 1, 12 ] },
+      [ "jar_glass", 50 ],
+      [ "jar_3l_glass", 40 ],
+      [ "flotation_vest", 1 ],
+      [ "fishing_rod_professional", 2 ],
+      [ "bearing", 1 ],
+      [ "atomic_light", 1 ],
+      [ "atomic_lamp", 1 ],
+      [ "alarmclock", 10 ],
+      [ "pet_carrier", 3 ],
+      [ "l-stick", 1 ],
+      [ "charcoal", 20 ],
+      [ "thermometer", 3 ],
+      [ "hygrometer", 3 ],
+      [ "barometer", 3 ],
+      { "collection": [ { "item": "charcoal", "prob": 70 }, { "item": "char_smoker", "prob": 100 } ], "prob": 30 },
+      {
+        "collection": [ { "item": "denat_alcohol", "prob": 70 }, { "item": "popcan_stove", "prob": 100 } ],
+        "prob": 10
+      },
+      { "collection": [ { "item": "oil_lamp", "prob": 100 }, { "item": "lamp_oil", "prob": 70 } ], "prob": 10 }
+    ]
+  }
+]

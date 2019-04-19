@@ -53,7 +53,7 @@ struct game_message : public JsonDeserializer, public JsonSerializer {
             return message;
         }
         //~ Message %s on the message log was repeated %d times, e.g. "You hear a whack! x 12"
-        return string_format( _( "%s x %d" ), message.c_str(), count );
+        return string_format( _( "%s x %d" ), message, count );
     }
 
     bool is_new( const time_point &current ) const {

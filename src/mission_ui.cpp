@@ -139,7 +139,7 @@ void game::list_missions()
                         remaining_time = to_string_approx( remaining );
                     }
 
-                    mvwprintz( w_missions, ++y, 31, c_white, _( "Time remaining: %s" ), remaining_time.c_str() );
+                    mvwprintz( w_missions, ++y, 31, c_white, _( "Time remaining: %s" ), remaining_time );
                 }
             }
             if( miss->has_target() ) {

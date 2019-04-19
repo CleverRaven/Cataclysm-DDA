@@ -427,7 +427,7 @@ static void open()
                 int outside_openable = veh->next_part_to_open( vp->part_index(), true );
                 if( outside_openable == -1 ) {
                     const std::string name = veh->part_info( openable ).name();
-                    add_msg( m_info, _( "That %s can only opened from the inside." ), name.c_str() );
+                    add_msg( m_info, _( "That %s can only opened from the inside." ), name );
                     u.moves += 100;
                 } else {
                     veh->open_all_at( openable );
@@ -438,7 +438,7 @@ static void open()
             if( const cata::optional<vpart_reference> already_open = vp.part_with_feature( "OPENABLE",
                     true ) ) {
                 const std::string name = already_open->info().name();
-                add_msg( m_info, _( "That %s is already open." ), name.c_str() );
+                add_msg( m_info, _( "That %s is already open." ), name );
             }
             u.moves += 100;
         }
@@ -483,7 +483,7 @@ static void handbrake()
     veh->cruise_velocity = 0;
     if( veh->last_turn != 0 && rng( 15, 60 ) * 100 < abs( veh->velocity ) ) {
         veh->skidding = true;
-        add_msg( m_warning, _( "You lose control of %s." ), veh->name.c_str() );
+        add_msg( m_warning, _( "You lose control of %s." ), veh->name );
         veh->turn( veh->last_turn > 0 ? 60 : -60 );
     } else {
         int braking_power = abs( veh->velocity ) / 2 + 10 * 100;
@@ -507,7 +507,7 @@ static void grab()
         if( const optional_vpart_position vp = m.veh_at( u.pos() + u.grab_point ) ) {
             add_msg( _( "You release the %s." ), vp->vehicle().name );
         } else if( m.has_furn( u.pos() + u.grab_point ) ) {
-            add_msg( _( "You release the %s." ), m.furnname( u.pos() + u.grab_point ).c_str() );
+            add_msg( _( "You release the %s." ), m.furnname( u.pos() + u.grab_point ) );
         }
 
         u.grab( OBJECT_NONE );
@@ -532,14 +532,14 @@ static void grab()
         add_msg( _( "You grab the %s." ), vp->vehicle().name );
     } else if( m.has_furn( grabp ) ) { // If not, grab furniture if present
         if( m.furn( grabp ).obj().move_str_req < 0 ) {
-            add_msg( _( "You can not grab the %s" ), m.furnname( grabp ).c_str() );
+            add_msg( _( "You can not grab the %s" ), m.furnname( grabp ) );
             return;
         }
         u.grab( OBJECT_FURNITURE, grabp - u.pos() );
         if( !m.can_move_furniture( grabp, &u ) ) {
-            add_msg( _( "You grab the %s. It feels really heavy." ), m.furnname( grabp ).c_str() );
+            add_msg( _( "You grab the %s. It feels really heavy." ), m.furnname( grabp ) );
         } else {
-            add_msg( _( "You grab the %s." ), m.furnname( grabp ).c_str() );
+            add_msg( _( "You grab the %s." ), m.furnname( grabp ) );
         }
     } else { // TODO: grab mob? Captured squirrel = pet (or meat that stays fresh longer).
         add_msg( m_info, _( "There's nothing to grab there!" ) );
@@ -627,7 +627,7 @@ static void smash()
         const int vol = u.weapon.volume() / units::legacy_volume_factor;
         if( u.weapon.made_of( material_id( "glass" ) ) &&
             rng( 0, vol + 3 ) < vol ) {
-            add_msg( m_bad, _( "Your %s shatters!" ), u.weapon.tname().c_str() );
+            add_msg( m_bad, _( "Your %s shatters!" ), u.weapon.tname() );
             for( auto &elem : u.weapon.contents ) {
                 m.add_item_or_charges( u.pos(), elem );
             }
@@ -644,10 +644,10 @@ static void smash()
         if( smashskill < m.bash_resistance( smashp ) && one_in( 10 ) ) {
             if( m.has_furn( smashp ) && m.furn( smashp ).obj().bash.str_min != -1 ) {
                 // %s is the smashed furniture
-                add_msg( m_neutral, _( "You don't seem to be damaging the %s." ), m.furnname( smashp ).c_str() );
+                add_msg( m_neutral, _( "You don't seem to be damaging the %s." ), m.furnname( smashp ) );
             } else {
                 // %s is the smashed terrain
-                add_msg( m_neutral, _( "You don't seem to be damaging the %s." ), m.tername( smashp ).c_str() );
+                add_msg( m_neutral, _( "You don't seem to be damaging the %s." ), m.tername( smashp ) );
             }
         }
     } else {
@@ -696,7 +696,7 @@ static void wait()
 
         if( has_watch && duration != calendar::INDEFINITELY_LONG ) {
             const std::string dur_str( to_string( time_duration::from_turns( duration ) ) );
-            text += ( text.empty() ? dur_str : string_format( " (%s)", dur_str.c_str() ) );
+            text += ( text.empty() ? dur_str : string_format( " (%s)", dur_str ) );
         }
         as_m.addentry( retval, true, hotkey, text );
         durations[retval] = duration;
@@ -1076,11 +1076,11 @@ static void fire()
         if( vp && ( turret = vp->vehicle().turret_query( u.pos() ) ) ) {
             switch( turret.query() ) {
                 case turret_data::status::no_ammo:
-                    add_msg( m_bad, _( "The %s is out of ammo." ), turret.name().c_str() );
+                    add_msg( m_bad, _( "The %s is out of ammo." ), turret.name() );
                     break;
 
                 case turret_data::status::no_power:
-                    add_msg( m_bad,  _( "The %s is not powered." ), turret.name().c_str() );
+                    add_msg( m_bad,  _( "The %s is not powered." ), turret.name() );
                     break;
 
                 case turret_data::status::ready: {
@@ -1146,8 +1146,8 @@ static void fire()
                 !w.contents.empty() && w.contents.front().is_gun() ) {
                 // draw (first) gun contained in holster
                 options.push_back( string_format( _( "%s from %s (%d)" ),
-                                                  w.contents.front().tname().c_str(),
-                                                  w.type_name().c_str(),
+                                                  w.contents.front().tname(),
+                                                  w.type_name(),
                                                   w.contents.front().ammo_remaining() ) );
 
                 actions.emplace_back( [&] { u.invoke_item( &w, "holster" ); } );
@@ -1789,7 +1789,7 @@ bool game::handle_action()
                 if( veh_ctrl ) {
                     add_msg( m_info, _( "Vehicle control has moved, %s" ),
                              press_x( ACTION_CONTROL_VEHICLE, _( "new binding is " ),
-                                      _( "new default binding is '^'." ) ).c_str() );
+                                      _( "new default binding is '^'." ) ) );
                 } else {
                     sleep();
                 }
@@ -1846,7 +1846,7 @@ bool game::handle_action()
             case ACTION_WHITELIST_ENEMY:
                 if( safe_mode == SAFE_MODE_STOP && !get_safemode().empty() ) {
                     get_safemode().add_rule( get_safemode().lastmon_whitelist, Creature::A_ANY, 0, RULE_WHITELISTED );
-                    add_msg( m_info, _( "Creature whitelisted: %s" ), get_safemode().lastmon_whitelist.c_str() );
+                    add_msg( m_info, _( "Creature whitelisted: %s" ), get_safemode().lastmon_whitelist );
                     set_safe_mode( SAFE_MODE_ON );
                     mostseen = 0;
                 } else {
@@ -2066,7 +2066,7 @@ bool game::handle_action()
     gamemode->post_action( act );
 
     u.movecounter = ( !u.is_dead_state() ? ( before_action_moves - u.moves ) : 0 );
-    dbg( D_INFO ) << string_format( "%s: [%d] %d - %d = %d", action_ident( act ).c_str(),
+    dbg( D_INFO ) << string_format( "%s: [%d] %d - %d = %d", action_ident( act ),
                                     static_cast<int>( calendar::turn ), before_action_moves, u.movecounter, u.moves );
     return ( !u.is_dead_state() );
 }

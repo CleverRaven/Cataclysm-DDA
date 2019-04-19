@@ -119,6 +119,8 @@ class recipe
         bool is_blueprint() const;
         std::string get_blueprint() const;
 
+        bool hot_result() const;
+
     private:
         void add_requirements( const std::vector<std::pair<requirement_id, int>> &reqs );
 

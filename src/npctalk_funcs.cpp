@@ -590,7 +590,7 @@ void talk_function::hostile( npc &p )
 
     g->u.add_memorial_log( pgettext( "memorial_male", "%s became hostile." ),
                            pgettext( "memorial_female", "%s became hostile." ),
-                           p.name.c_str() );
+                           p.name );
     p.set_attitude( NPCATT_KILL );
 }
 
