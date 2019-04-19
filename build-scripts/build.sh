@@ -21,12 +21,11 @@ function just_json
     return 0
 }
 
-if [ -n "$JSON_ONLY" ]
+if [ -n "$TEST_STAGE" ]
 then
     build-scripts/lint-json.sh
     make -j 5 style-json
-    exit 0
-elif [ -n "$TEST_STAGE" -a just_json ]
+elif just_json
     exit 0
 fi
 
