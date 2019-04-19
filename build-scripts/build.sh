@@ -26,7 +26,7 @@ then
     build-scripts/lint-json.sh
     make -j 5 style-json
     exit 0
-elif just_json
+elif [ -n "$TEST_STAGE" -a just_json ]
     exit 0
 fi
 
