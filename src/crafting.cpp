@@ -754,7 +754,8 @@ void player::start_craft( craft_command &command, const tripoint &loc )
                     break;
                 }
                 case DROP: {
-                    // Do nothing
+                    put_into_vehicle_or_drop( *this, item_drop_reason::deliberate, {craft} );
+                    break;
                 }
             }
 
@@ -765,7 +766,6 @@ void player::start_craft( craft_command &command, const tripoint &loc )
     }
 
     if( !craft_in_world.get_item() ) {
-        put_into_vehicle_or_drop( *this, item_drop_reason::deliberate, {craft} );
         add_msg_if_player( _( "Wield and activate the %s to start crafting." ), craft.tname() );
         return;
     }
