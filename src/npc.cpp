@@ -394,8 +394,7 @@ void npc::randomize( const npc_class_id &type )
     starting_inv( *this, myclass );
     has_new_items = true;
 
-    my_mutations.clear();
-    my_traits.clear();
+    empty_traits();
 
     // Add fixed traits
     for( const auto &tid : trait_group::traits_from( myclass->traits ) ) {

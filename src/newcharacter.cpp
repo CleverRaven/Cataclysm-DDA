@@ -2451,6 +2451,7 @@ void Character::empty_traits()
     }
     my_traits.clear();
     my_mutations.clear();
+    cached_mutations.clear();
 }
 
 void Character::empty_skills()
