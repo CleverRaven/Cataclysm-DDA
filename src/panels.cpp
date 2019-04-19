@@ -1808,7 +1808,6 @@ panel_manager::panel_manager()
 {
     current_layout_id = "labels";
     layouts = initialize_default_panel_layouts();
-
 }
 
 std::vector<window_panel> &panel_manager::get_current_layout()
