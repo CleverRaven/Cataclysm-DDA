@@ -4208,7 +4208,7 @@ void mill_activate( player &p, const tripoint &examp )
     // TODO : currently mill just uses sm_rack defined max volume
     if( food_volume > sm_rack::MAX_FOOD_VOLUME ) {
         add_msg( _( "This mill is overloaded with products, and the millstone can't turn.  Remove some and try again." ) );
-        add_msg( _( "You think that you can load about %s %s in it." ),
+        add_msg( pgettext( "volume units", "You think that you can load about %s %s in it." ),
                  format_volume( sm_rack::MAX_FOOD_VOLUME ), volume_units_long() );
         return;
     }
@@ -4617,8 +4617,9 @@ void mill_load_food( player &p, const tripoint &examp, const units::volume &rema
     for( const item &m : moved ) {
         g->m.add_item( examp, m );
         p.mod_moves( -p.item_handling_cost( m ) );
-        add_msg( m_info, _( "You carefully place %s %s in the mill." ), amount, m.nname( m.typeId(),
-                 amount ) );
+        add_msg( m_info, pgettext( "item amount and name", "You carefully place %s %s in the mill." ),
+                 amount, m.nname( m.typeId(),
+                                  amount ) );
     }
     p.invalidate_crafting_inventory();
 }
