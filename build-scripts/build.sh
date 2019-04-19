@@ -11,9 +11,7 @@ function run_tests
 
 function just_json
 {
-    filenames=$(git diff --name-only HEAD...$TRAVIS_BRANCH)
-    echo $filenames
-    for filename in $filenames
+    for filename in $(git diff --name-only HEAD...$TRAVIS_BRANCH | tr -s "$IFS" '\n' )
     do
         if [[ ! "$filename" =~ .json$ ]]
         then
