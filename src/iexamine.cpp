@@ -4215,7 +4215,7 @@ void mill_activate( player &p, const tripoint &examp )
 
     for( auto &it : g->m.i_at( examp ) ) {
         if( it.has_flag( "MILLABLE" ) ) {
-            // Do one final rot check before milling, then apply the smoking FLAG to prevent further checks.
+            // Do one final rot check before milling, then apply the PROCESSING flag to prevent further checks.
             it.calc_rot( examp );
             it.set_flag( "PROCESSING" );
         }
