@@ -4780,7 +4780,7 @@ void iexamine::quern_examine( player &p, const tripoint &examp )
                     // get handling cost before the item reference is invalidated
                     const int handling_cost = -p.item_handling_cost( it );
 
-                    add_msg( _( "You remove %s from the mill." ), it.tname().c_str() );
+                    add_msg( _( "You remove %s from the mill." ), it.tname() );
                     g->m.add_item_or_charges( p.pos(), it );
                     g->m.i_rem( examp, i );
                     p.mod_moves( handling_cost );
