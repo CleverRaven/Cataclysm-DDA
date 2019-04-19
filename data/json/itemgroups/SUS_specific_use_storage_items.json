@@ -1,0 +1,52 @@
+[
+  {
+    "id": "SUS_flatware",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for a flatware drawer.",
+    "subtype": "collection",
+    "items": [
+      { "item": "knife_butter", "count": [ 1, 6 ] },
+      { "item": "knife_butter", "count": [ 1, 6 ] },
+      { "item": "knife_steak", "count": [ 4, 6 ] },
+      { "item": "fork", "count": [ 1, 6 ] },
+      { "item": "fork", "count": [ 1, 6 ] },
+      { "item": "spoon", "count": [ 1, 6 ] },
+      { "item": "spoon", "count": [ 1, 6 ] },
+      { "item": "chopsticks", "prob": 50, "count": [ 0, 6 ] },
+      { "item": "spoon_plastic", "prob": 50, "count": [ 0, 6 ] },
+      { "item": "knife_plastic", "prob": 50, "count": [ 1, 6 ] },
+      { "item": "fork_plastic", "prob": 50, "count": [ 0, 6 ] },
+      [ "corkscrew", 50 ],
+      [ "bottle_opener", 50 ],
+      { "item": "straw_plastic", "prob": 50, "count": [ 1, 6 ] }
+    ]
+  },
+  {
+    "id": "SUS_dishes",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for a cupboard full of dining dishes.",
+    "subtype": "distribution",
+    "items": [
+      {
+        "collection": [
+          { "item": "glass", "count": [ 1, 6 ] },
+          { "item": "glass_plate", "count": [ 1, 6 ] },
+          { "item": "glass_bowl", "count": [ 1, 6 ] },
+          { "item": "glass_wine", "prob": 50, "count": [ 1, 4 ] },
+          [ "bowl_pewter", 50 ]
+        ]
+      },
+      {
+        "collection": [
+          { "item": "ceramic_plate", "count": [ 1, 6 ] },
+          { "item": "ceramic_bowl", "count": [ 1, 6 ] },
+          { "item": "ceramic_cup", "count": [ 1, 6 ] },
+          { "item": "glass_wine", "prob": 50, "count": [ 1, 4 ] },
+          [ "teapot", 50 ]
+        ]
+      }
+    ]
+  }
+]

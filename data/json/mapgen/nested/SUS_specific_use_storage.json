@@ -1,0 +1,28 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "cupboard_flatware",
+    "//": "SUS groups are collections that contain a collection of items that might spawn in a given storage furniture.",
+    "//2": "This is a cupboard with forks, knives, etc",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "X" ],
+      "furniture": [ "X": "f_cupboard" ],
+      "items": { "X": "item": "SUS_flatware", "repeat": [ 1, 2 ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "cupboard_dishes",
+    "//": "SUS groups are collections that contain a collection of items that might spawn in a given storage furniture.",
+    "//2": "This is a cupboard with dining dishes.",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "X" ],
+      "furniture": [ "X": "f_cupboard" ],
+      "items": { "X": "item": "SUS_dishes", "repeat": [ 1, 2 ] }
+    }
+  },
+]
