@@ -432,11 +432,12 @@ const std::function<bool( const item & )> recipe::get_component_filter() const
     }
 
     // If the result is made hot, we can allow frozen components.
+    // EDIBLE_FROZEN components ( e.g. flour, chocolate ) are allowed as well
     // Otherwise forbid them
     std::function<bool( const item & )> frozen_filter = return_true<item>;
     if( result.is_food() && !hot_result() ) {
         frozen_filter = []( const item & component ) {
-            return !component.has_flag( "FROZEN" );
+            return !component.has_flag( "FROZEN" ) || component.has_flag( "EDIBLE_FROZEN" );
         };
     }
 
