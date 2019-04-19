@@ -352,5 +352,194 @@
     "name": "rest area parking",
     "sym": "+",
     "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "control_tower_0",
+    "name": "control tower",
+    "sym": "X",
+    "color": "i_light_gray",
+    "see_cost": 5,
+    "extras": "build"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "control_tower_1",
+    "name": "control tower",
+    "sym": "X",
+    "color": "i_light_gray",
+    "see_cost": 5,
+    "extras": "build"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "control_tower_2",
+    "name": "control tower",
+    "sym": "X",
+    "color": "i_light_gray",
+    "see_cost": 5,
+    "extras": "build"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "control_tower_roof",
+    "name": "control tower roof",
+    "sym": "X",
+    "color": "i_light_gray",
+    "see_cost": 5,
+    "extras": "road"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "runway",
+    "name": "runway",
+    "sym": "─",
+    "color": "light_gray",
+    "see_cost": 5,
+    "extras": "road"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "runway_carts",
+    "name": "runway",
+    "sym": "─",
+    "color": "light_gray",
+    "see_cost": 5,
+    "extras": "road"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "runway_hangar",
+    "name": "runway",
+    "sym": "─",
+    "color": "light_gray",
+    "see_cost": 5,
+    "extras": "road"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "runway_hangar2",
+    "name": "runway",
+    "sym": "─",
+    "color": "light_gray",
+    "see_cost": 5,
+    "extras": "road"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "runway_wild",
+    "name": "runway",
+    "sym": "─",
+    "color": "light_gray",
+    "see_cost": 5,
+    "extras": "road"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "runway_start",
+    "name": "runway",
+    "sym": "─",
+    "color": "light_gray",
+    "see_cost": 5,
+    "extras": "road"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "runway_end",
+    "name": "runway",
+    "sym": "─",
+    "color": "light_gray",
+    "see_cost": 5,
+    "extras": "road"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "runway_fuel",
+    "name": "runway",
+    "sym": "─",
+    "color": "light_gray",
+    "see_cost": 5,
+    "extras": "road"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "runway_fuel2",
+    "name": "runway",
+    "sym": "─",
+    "color": "light_gray",
+    "see_cost": 5,
+    "extras": "road"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "fuel_station",
+    "name": "fuel station",
+    "sym": ".",
+    "color": "dark_gray",
+    "see_cost": 5,
+    "extras": "build"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "fuel_station_roof",
+    "name": "fuel station roof",
+    "sym": ".",
+    "color": "dark_gray",
+    "see_cost": 5,
+    "extras": "build"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airport_lot_0",
+    "name": "parking lot",
+    "sym": "O",
+    "color": "dark_gray",
+    "see_cost": 5,
+    "extras": "build"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "airport_lot_1",
+    "name": "parking lot",
+    "sym": "O",
+    "color": "dark_gray",
+    "see_cost": 5,
+    "extras": "build"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "hangar",
+    "name": "small hangar",
+    "sym": "O",
+    "color": "white",
+    "see_cost": 5,
+    "extras": "build"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "hangar_roof",
+    "name": "small hangar roof",
+    "sym": "O",
+    "color": "white",
+    "see_cost": 5,
+    "extras": "build"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "waiting_area",
+    "name": "waiting area",
+    "sym": "<",
+    "color": "i_light_cyan",
+    "see_cost": 5,
+    "extras": "build"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "waiting_area_roof",
+    "name": "waiting area roof",
+    "sym": "<",
+    "color": "i_light_cyan",
+    "see_cost": 5,
+    "extras": "build"
   }
 ]
