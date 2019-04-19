@@ -34,7 +34,7 @@
     "copy-from": "380_FMJ",
     "type": "AMMO",
     "name": ".380 ACP +P",
-    "description": "Overpressure .380 ACP ammunition with a 90gr jacketed hollow point bullet.  These defensive loadings are designed to maximise performance and tend to be more accurate than practice ammo. One should be careful not to chamber it in 9x18mm Makarov or 9x19mm firearms.",
+    "description": "Overpressure .380 ACP ammunition with a 90gr jacketed hollow point bullet.  These defensive loadings are designed to maximise performance and tend to be more accurate than practice ammo.  One should be careful not to chamber it in 9x18mm Makarov or 9x19mm firearms.",
     "price": 3800,
     "count": 25,
     "relative": { "damage": 4, "pierce": 2, "dispersion": -15 },
