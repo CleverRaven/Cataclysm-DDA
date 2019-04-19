@@ -11,13 +11,15 @@ function run_tests
 
 function just_json
 {
-    for filename in $(git diff --name-only HEAD...$TRAVIS_BRANCH)
+    for filename in $(git diff --name-only $TRAVIS_BRANCH)
     do
         if [[ ! "$filename" =~ .json$ ]]
         then
+            echo "$filename is not json, triggering full build."
             return 1
         fi
     done
+    echo "Only json files present, skipping full build."
     return 0
 }
 
