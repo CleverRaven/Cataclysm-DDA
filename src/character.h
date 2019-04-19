@@ -537,7 +537,7 @@ class Character : public Creature, public visitable<Character>
 
         /** Only use for UI things. Returns all invlets that are currently used in
          * the player inventory, the weapon slot and the worn items. */
-        std::set<char> allocated_invlets() const;
+        std::bitset<std::numeric_limits<char>::max()> allocated_invlets() const;
 
         /**
          * Whether the player carries an active item of the given item type.
