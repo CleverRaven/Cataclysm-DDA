@@ -4582,7 +4582,7 @@ void mill_load_food( player &p, const tripoint &examp, const units::volume &rema
 
     // ... then ask how many to put it
     const std::string popupmsg = string_format( _( "Insert how many %s into the mill?" ),
-                                 item::nname( what->typeId(), count ).c_str() );
+                                 item::nname( what->typeId(), count ) );
     long amount = string_input_popup()
                   .title( popupmsg )
                   .width( 20 )
