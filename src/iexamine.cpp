@@ -4307,7 +4307,7 @@ void smoker_activate( player &p, const tripoint &examp )
     p.use_charges( "fire", 1 );
     for( auto &it : g->m.i_at( examp ) ) {
         if( it.has_flag( "SMOKABLE" ) ) {
-            // Do one final rot check before smoking, then apply the smoking FLAG to prevent further checks.
+            // Do one final rot check before smoking, then apply the PROCESSING flag to prevent further checks.
             it.calc_rot( examp );
             it.set_flag( "PROCESSING" );
         }
