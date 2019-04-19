@@ -6681,7 +6681,7 @@
     "charges_per_use": 1,
     "techniques": [ "WBLOCK_2", "RAPID" ],
     "use_action": "SHOCKTONFA_OFF",
-    "flags": [ "DURABLE_MELEE", "NO_UNLOAD", "RECHARGE", "NONCONDUCTIVE" ]
+    "flags": [ "DURABLE_MELEE", "NO_UNLOAD", "RECHARGE", "NONCONDUCTIVE", "BELT_CLIP" ]
   },
   {
     "id": "shocktonfa_on",
@@ -6705,7 +6705,7 @@
     "revert_to": "shocktonfa_off",
     "techniques": [ "WBLOCK_2", "RAPID" ],
     "use_action": "SHOCKTONFA_ON",
-    "flags": [ "LIGHT_450", "CHARGEDIM", "DURABLE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE" ]
+    "flags": [ "LIGHT_450", "CHARGEDIM", "DURABLE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE", "BELT_CLIP" ]
   },
   {
     "id": "shotgun_trap",
