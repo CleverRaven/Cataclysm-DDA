@@ -136,7 +136,7 @@ void computer::use()
     wrefresh( w_border );
 
     // Login
-    print_line( _( "Logging into %s..." ), _( name.c_str() ) );
+    print_line( _( "Logging into %s..." ), _( name ) );
     if( security > 0 ) {
         if( calendar::turn < next_attempt ) {
             print_error( _( "Access is temporary blocked for security purposes." ) );
@@ -184,14 +184,14 @@ void computer::use()
         //reset_terminal();
         size_t options_size = options.size();
         print_newline();
-        print_line( "%s - %s", _( name.c_str() ), _( "Root Menu" ) );
+        print_line( "%s - %s", _( name ), _( "Root Menu" ) );
 #if defined(__ANDROID__)
         input_context ctxt( "COMPUTER_MAINLOOP" );
 #endif
         for( size_t i = 0; i < options_size; i++ ) {
-            print_line( "%d - %s", i + 1, _( options[i].name.c_str() ) );
+            print_line( "%d - %s", i + 1, _( options[i].name ) );
 #if defined(__ANDROID__)
-            ctxt.register_manual_key( '1' + i, options[i].name.c_str() );
+            ctxt.register_manual_key( '1' + i, options[i].name );
 #endif
         }
         print_line( "Q - %s", _( "Quit and Shut Down" ) );
@@ -526,7 +526,7 @@ void computer::activate_function( computer_action action )
                 g->u.moves -= 70;
             }
 
-            print_text( "%s", log.c_str() );
+            print_text( "%s", log );
             // One's an anomaly
             if( alerts == 0 ) {
                 query_any( _( "Local data-access error logged, alerting helpdesk. Press any key..." ) );
@@ -630,7 +630,7 @@ void computer::activate_function( computer_action action )
             //~ %s is terrain name
             g->u.add_memorial_log( pgettext( "memorial_male", "Launched a nuke at a %s." ),
                                    pgettext( "memorial_female", "Launched a nuke at a %s." ),
-                                   oter->get_name().c_str() );
+                                   oter->get_name() );
             for( int x = target.x - 2; x <= target.x + 2; x++ ) {
                 for( int y = target.y - 2; y <= target.y + 2; y++ ) {
                     // give it a nice rounded shape
@@ -687,7 +687,7 @@ void computer::activate_function( computer_action action )
             print_newline();
 
             for( auto &name : names ) {
-                print_line( "%s", name.c_str() );
+                print_line( "%s", name );
             }
             if( more > 0 ) {
                 print_line( ngettext( "%d OTHER FOUND...", "%d OTHERS FOUND...", more ), more );
@@ -827,7 +827,7 @@ INITIATING STANDARD TREMOR TEST..." ) );
                 }
                 g->u.moves -= 500;
                 print_line( _( "The machine rapidly sets and splints your broken %s." ),
-                            body_part_name( part ).c_str() );
+                            body_part_name( part ) );
                 // TODO: fail here if unable to perform the action, i.e. can't wear more, trait mismatch.
                 if( !g->u.worn_with_flag( "SPLINT", part ) ) {
                     item splint;
@@ -1747,7 +1747,7 @@ template<typename ...Args>
 bool computer::query_bool( const char *const text, Args &&... args )
 {
     const std::string formatted_text = string_format( text, std::forward<Args>( args )... );
-    print_line( "%s (Y/N/Q)", formatted_text.c_str() );
+    print_line( "%s (Y/N/Q)", formatted_text );
     char ret;
 #if defined(__ANDROID__)
     input_context ctxt( "COMPUTER_YESNO" );
@@ -1767,7 +1767,7 @@ template<typename ...Args>
 bool computer::query_any( const char *const text, Args &&... args )
 {
     const std::string formatted_text = string_format( text, std::forward<Args>( args )... );
-    print_line( "%s", formatted_text .c_str() );
+    print_line( "%s", formatted_text );
     inp_mngr.wait_for_any_key();
     return true;
 }
@@ -1776,7 +1776,7 @@ template<typename ...Args>
 char computer::query_ynq( const char *const text, Args &&... args )
 {
     const std::string formatted_text = string_format( text, std::forward<Args>( args )... );
-    print_line( "%s (Y/N/Q)", formatted_text.c_str() );
+    print_line( "%s (Y/N/Q)", formatted_text );
     char ret;
 #if defined(__ANDROID__)
     input_context ctxt( "COMPUTER_YESNO" );
@@ -1933,7 +1933,7 @@ computer_action computer_action_from_string( const std::string &str )
         return iter->second;
     }
 
-    debugmsg( "Invalid computer action %s", str.c_str() );
+    debugmsg( "Invalid computer action %s", str );
     return COMPACT_NULL;
 }
 
@@ -1959,6 +1959,6 @@ computer_failure_type computer_failure_type_from_string( const std::string &str 
         return iter->second;
     }
 
-    debugmsg( "Invalid computer failure %s", str.c_str() );
+    debugmsg( "Invalid computer failure %s", str );
     return COMPFAIL_NULL;
 }

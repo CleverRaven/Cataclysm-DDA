@@ -394,7 +394,7 @@ void decorate_panel( const std::string name, const catacurses::window &w )
     static const char *title_suffix = " ";
     static const std::string full_title = string_format( "%s%s%s",
                                           title_prefix, title, title_suffix );
-    const int start_pos = center_text_pos( full_title.c_str(), 0, getmaxx( w ) - 1 );
+    const int start_pos = center_text_pos( full_title, 0, getmaxx( w ) - 1 );
     mvwprintz( w, 0, start_pos, c_white, title_prefix );
     wprintz( w, c_light_red, title );
     wprintz( w, c_white, title_suffix );
@@ -922,7 +922,7 @@ void draw_limb_health( player &u, const catacurses::window &w, int limb_index )
     static auto print_symbol_num = []( const catacurses::window & w, int num, const std::string & sym,
     const nc_color & color ) {
         while( num-- > 0 ) {
-            wprintz( w, color, sym.c_str() );
+            wprintz( w, color, sym );
         }
     };
     if( u.hp_cur[limb_index] == 0 && ( limb_index >= hp_arm_l && limb_index <= hp_leg_r ) ) {
@@ -1267,13 +1267,12 @@ void draw_env1( const player &u, const catacurses::window &w )
         mvwprintz( w, 1, 1, c_light_gray, _( "Sky  : Underground" ) );
     } else {
         mvwprintz( w, 1, 1, c_light_gray, _( "Sky  :" ) );
-        wprintz( w, weather_data( g->weather ).color, " %s",
-                 weather_data( g->weather ).name.c_str() );
+        wprintz( w, weather_data( g->weather ).color, " %s", weather_data( g->weather ).name );
     }
     // display lighting
     const auto ll = get_light_level( g->u.fine_detail_vision_mod() );
     mvwprintz( w, 2, 1, c_light_gray, "%s ", _( "Light:" ) );
-    wprintz( w, ll.second, ll.first.c_str() );
+    wprintz( w, ll.second, ll.first );
 
     // display date
     mvwprintz( w, 3, 1, c_light_gray, _( "Date : %s, day %d" ),
@@ -1341,11 +1340,11 @@ void draw_env_compact( player &u, const catacurses::window &w )
     if( g->get_levz() < 0 ) {
         mvwprintz( w, 3, 8, c_light_gray, _( "Underground" ) );
     } else {
-        mvwprintz( w, 3, 8, weather_data( g->weather ).color, weather_data( g->weather ).name.c_str() );
+        mvwprintz( w, 3, 8, weather_data( g->weather ).color, weather_data( g->weather ).name );
     }
     // display lighting
     const auto ll = get_light_level( g->u.fine_detail_vision_mod() );
-    mvwprintz( w, 4, 8, ll.second, ll.first.c_str() );
+    mvwprintz( w, 4, 8, ll.second, ll.first );
     // wind
     const oter_id &cur_om_ter = overmap_buffer.ter( u.global_omt_location() );
     double windpower = get_local_windpower( g->windspeed, cur_om_ter,
@@ -1678,7 +1677,7 @@ void draw_weapon_classic( const player &u, const catacurses::window &w )
     const auto &cur_style = u.style_selected.obj();
     if( !u.weapon.is_gun() ) {
         if( cur_style.force_unarmed || cur_style.weapon_valid( u.weapon ) ) {
-            style = _( cur_style.name.c_str() );
+            style = _( cur_style.name );
         } else if( u.is_armed() ) {
             style = _( "Normal" );
         } else {

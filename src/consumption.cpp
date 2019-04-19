@@ -478,7 +478,7 @@ ret_val<edible_rating> player::can_eat( const item &food ) const
         if( !has ) {
             return ret_val<edible_rating>::make_failure( NO_TOOL,
                     string_format( _( "You need a %s to consume that!" ),
-                                   item::nname( comest->tool ).c_str() ) );
+                                   item::nname( comest->tool ) ) );
         }
     }
 
@@ -639,13 +639,13 @@ bool player::eat( item &food, bool force )
                                 stomach.capacity() );
     const bool saprophage = has_trait( trait_id( "SAPROPHAGE" ) );
     if( spoiled && !saprophage ) {
-        add_msg_if_player( m_bad, _( "Ick, this %s doesn't taste so good..." ), food.tname().c_str() );
+        add_msg_if_player( m_bad, _( "Ick, this %s doesn't taste so good..." ), food.tname() );
         if( !has_trait( trait_id( "SAPROVORE" ) ) && !has_trait( trait_id( "EATDEAD" ) ) &&
             ( !has_bionic( bio_digestion ) || one_in( 3 ) ) ) {
             add_effect( effect_foodpoison, rng( 6_minutes, ( nutr + 1 ) * 6_minutes ) );
         }
     } else if( spoiled && saprophage ) {
-        add_msg_if_player( m_good, _( "Mmm, this %s tastes delicious..." ), food.tname().c_str() );
+        add_msg_if_player( m_good, _( "Mmm, this %s tastes delicious..." ), food.tname() );
     }
     if( !consume_effects( food ) ) {
         return false;
@@ -708,26 +708,26 @@ bool player::eat( item &food, bool force )
 
     if( amorphous ) {
         add_msg_player_or_npc( _( "You assimilate your %s." ), _( "<npcname> assimilates a %s." ),
-                               food.tname().c_str() );
+                               food.tname() );
     } else if( drinkable ) {
         if( ( has_trait( trait_id( "SCHIZOPHRENIC" ) ) || has_artifact_with( AEP_SCHIZO ) ) &&
             one_in( 50 ) && !spoiled && food.goes_bad() && is_player() ) {
 
-            add_msg( m_bad, _( "Ick, this %s (rotten) doesn't taste so good..." ), food.tname().c_str() );
-            add_msg( _( "You drink your %s (rotten)." ), food.tname().c_str() );
+            add_msg( m_bad, _( "Ick, this %s (rotten) doesn't taste so good..." ), food.tname() );
+            add_msg( _( "You drink your %s (rotten)." ), food.tname() );
         } else {
             add_msg_player_or_npc( _( "You drink your %s." ), _( "<npcname> drinks a %s." ),
-                                   food.tname().c_str() );
+                                   food.tname() );
         }
     } else if( chew ) {
         if( ( has_trait( trait_id( "SCHIZOPHRENIC" ) ) || has_artifact_with( AEP_SCHIZO ) ) &&
             one_in( 50 ) && !spoiled && food.goes_bad() && is_player() ) {
 
-            add_msg( m_bad, _( "Ick, this %s (rotten) doesn't taste so good..." ), food.tname().c_str() );
-            add_msg( _( "You eat your %s (rotten)." ), food.tname().c_str() );
+            add_msg( m_bad, _( "Ick, this %s (rotten) doesn't taste so good..." ), food.tname() );
+            add_msg( _( "You eat your %s (rotten)." ), food.tname() );
         } else {
             add_msg_player_or_npc( _( "You eat your %s." ), _( "<npcname> eats a %s." ),
-                                   food.tname().c_str() );
+                                   food.tname() );
             if( !spoiled && !food.has_flag( "ALLERGEN_JUNK" ) ) {
                 bool has_table_nearby = false;
                 bool has_chair_nearby = false;
@@ -1064,7 +1064,7 @@ bool player::consume_effects( item &food )
         int excess_food = capacity - get_hunger();
         add_msg_player_or_npc( _( "You feel the %s filling you out." ),
                                _( "<npcname> looks better after eating the %s." ),
-                               food.tname().c_str() );
+                               food.tname() );
         // Guaranteed 1 HP healing, no matter what.  You're welcome.  ;-)
         if( excess_food <= 5 ) {
             healall( 1 );
@@ -1128,7 +1128,7 @@ bool player::feed_battery_with( item &it )
     add_msg_player_or_npc( m_info,
                            _( "You recharge your battery system with the %s." ),
                            _( "<npcname> recharges their battery system with the %s." ),
-                           it.tname().c_str() );
+                           it.tname() );
     mod_moves( -250 );
     return true;
 }
@@ -1171,7 +1171,7 @@ bool player::feed_reactor_with( item &it )
 
     add_msg_player_or_npc( _( "You add your %s to your reactor's tank." ),
                            _( "<npcname> pours %s into their reactor's tank." ),
-                           it.tname().c_str() );
+                           it.tname() );
 
     tank_plut += amount; // TODO: Encapsulate
     it.charges -= 1;
@@ -1209,12 +1209,12 @@ bool player::feed_furnace_with( item &it )
         add_msg_player_or_npc( m_info,
                                _( "You digest your %s, but fail to acquire energy from it." ),
                                _( "<npcname> digests their %s for energy, but fails to acquire energy from it." ),
-                               it.tname().c_str() );
+                               it.tname() );
     } else if( power_level >= max_power_level ) {
         add_msg_player_or_npc(
             _( "You digest your %s, but you're fully powered already, so the energy is wasted." ),
             _( "<npcname> digests a %s for energy, they're fully powered already, so the energy is wasted." ),
-            it.tname().c_str() );
+            it.tname() );
     } else {
         const int profitable_energy = std::min( energy, max_power_level - power_level );
         if( it.count_by_charges() ) {
@@ -1226,7 +1226,7 @@ bool player::feed_furnace_with( item &it )
                                    ngettext( "<npcname> digests %d %s and recharges %d point of energy.",
                                              "<npcname> digests %d %s and recharges %d points of energy.",
                                              profitable_energy
-                                           ), consumed_charges, it.tname().c_str(), profitable_energy
+                                           ), consumed_charges, it.tname(), profitable_energy
                                  );
         } else {
             add_msg_player_or_npc( m_info,
@@ -1237,7 +1237,7 @@ bool player::feed_furnace_with( item &it )
                                    ngettext( "<npcname> digests a %s and recharges %d point of energy.",
                                              "<npcname> digests a %s and recharges %d points of energy.",
                                              profitable_energy
-                                           ), it.tname().c_str(), profitable_energy
+                                           ), it.tname(), profitable_energy
                                  );
         }
         charge_power( profitable_energy );

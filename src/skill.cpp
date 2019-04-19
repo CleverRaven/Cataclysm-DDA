@@ -84,8 +84,7 @@ void Skill::load_skill( JsonObject &jsobj )
         return s._ident == ident;
     } ), end( skills ) );
 
-    const Skill sk( ident, _( jsobj.get_string( "name" ).c_str() ),
-                    _( jsobj.get_string( "description" ).c_str() ),
+    const Skill sk( ident, _( jsobj.get_string( "name" ) ), _( jsobj.get_string( "description" ) ),
                     jsobj.get_tags( "tags" ) );
 
     if( sk.is_contextual_skill() ) {

@@ -143,7 +143,7 @@ bodypart_id anatomy::select_body_part( int size_diff, int hit_roll ) const
 
     // Debug for seeing weights.
     for( const auto &pr : hit_weights ) {
-        add_msg( m_debug, "%s = %.3f", pr.obj.obj().name.c_str(), pr.weight );
+        add_msg( m_debug, "%s = %.3f", pr.obj.obj().name, pr.weight );
     }
 
     const bodypart_id *ret = hit_weights.pick();
@@ -152,6 +152,6 @@ bodypart_id anatomy::select_body_part( int size_diff, int hit_roll ) const
         return bodypart_ids::NULL_ID().id();
     }
 
-    add_msg( m_debug, "selected part: %s", ret->id().obj().name.c_str() );
+    add_msg( m_debug, "selected part: %s", ret->id().obj().name );
     return *ret;
 }

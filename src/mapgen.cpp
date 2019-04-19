@@ -163,7 +163,7 @@ void map::generate( const int x, const int y, const int z, const time_point &whe
     if( ex.chance > 0 && one_in( ex.chance ) ) {
         std::string *extra = ex.values.pick();
         if( extra == nullptr ) {
-            debugmsg( "failed to pick extra for type %s", terrain_type->get_extras().c_str() );
+            debugmsg( "failed to pick extra for type %s", terrain_type->get_extras() );
         } else {
             auto func = MapExtras::get_function( *( ex.values.pick() ) );
             if( func != nullptr ) {
@@ -357,7 +357,7 @@ load_mapgen_function( JsonObject &jio, const std::string &id_base,
                     oter_mapgen[id_base].push_back( ret );
                 } else {
                     debugmsg( "oter_t[%s]: builtin mapgen function \"%s\" does not exist.", id_base.c_str(),
-                              mgname.c_str() );
+                              mgname );
                 }
             } else {
                 debugmsg( "oter_t[%s]: Invalid mapgen function (missing \"name\" value).", id_base.c_str() );
@@ -470,7 +470,7 @@ void load_mapgen( JsonObject &jo )
         load_update_mapgen( jo, jo.get_string( "update_mapgen_id" ) );
     } else {
         debugmsg( "mapgen entry requires \"om_terrain\" or \"nested_mapgen_id\"(string, array of strings, or array of array of strings)\n%s\n",
-                  jo.str().c_str() );
+                  jo.str() );
     }
 }
 
@@ -838,7 +838,7 @@ class jmapgen_sign : public jmapgen_piece
             }
             if( !signtext.empty() ) {
                 // replace tags
-                signtext = _( signtext.c_str() );
+                signtext = _( signtext );
 
                 std::string cityname = "illegible city name";
                 tripoint abs_sub = dat.m.get_abs_sub();
@@ -894,7 +894,7 @@ class jmapgen_graffiti : public jmapgen_piece
             }
             if( !graffiti.empty() ) {
                 // replace tags
-                graffiti = _( graffiti.c_str() );
+                graffiti = _( graffiti );
 
                 std::string cityname = "illegible city name";
                 tripoint abs_sub = dat.m.get_abs_sub();
@@ -6755,7 +6755,7 @@ $$$$-|-|=HH-|-HHHH-|####\n",
             // not one of the hardcoded ones!
             // load from JSON???
             debugmsg( "Error: tried to generate map for omtype %s, \"%s\" (id_mapgen %s)",
-                      terrain_type.id().c_str(), terrain_type->get_name().c_str(), function_key.c_str() );
+                      terrain_type.id().c_str(), terrain_type->get_name(), function_key.c_str() );
             fill_background( this, t_floor );
 
         }

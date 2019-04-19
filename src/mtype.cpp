@@ -217,5 +217,5 @@ int mtype::get_meat_chunks_count() const
 
 std::string mtype::get_description() const
 {
-    return _( description.c_str() );
+    return _( description );
 }

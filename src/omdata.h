@@ -233,7 +233,7 @@ struct oter_t {
         oter_id get_rotated( om_direction::type dir ) const;
 
         const std::string get_name() const {
-            return _( type->name.c_str() );
+            return _( type->name );
         }
 
         std::string get_symbol( const bool from_land_use_code = false ) const {

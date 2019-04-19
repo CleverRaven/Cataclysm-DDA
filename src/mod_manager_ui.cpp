@@ -51,7 +51,7 @@ std::string mod_ui::get_information( const MOD_INFORMATION *mod )
     }
 
     if( !mod->description.empty() ) {
-        info << _( mod->description.c_str() ) << "\n";
+        info << _( mod->description ) << "\n";
     }
 
     std::string note = !mm_tree.is_available( mod->ident ) ? mm_tree.get_node(
