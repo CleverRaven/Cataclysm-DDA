@@ -718,6 +718,20 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
                           topic );
 }
 
+void dialogue::apply_speaker_effects( const talk_topic &the_topic )
+{
+    const auto &topic = the_topic.id;
+    const auto iter = json_talk_topics.find( topic );
+    if( iter == json_talk_topics.end() ) {
+        return;
+    }
+    for( json_dynamic_line_effect &npc_effect : iter->second.get_speaker_effects() ) {
+        if( npc_effect.test_condition( *this ) ) {
+            npc_effect.apply( *this );
+        }
+    }
+}
+
 talk_response &dialogue::add_response( const std::string &text, const std::string &r,
                                        const bool first )
 {
@@ -1299,6 +1313,9 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
 
     // Number of lines to highlight
     const size_t hilight_lines = d_win.add_to_history( challenge );
+
+    apply_speaker_effects( topic );
+
     std::vector<talk_data> response_lines;
     for( size_t i = 0; i < responses.size(); i++ ) {
         response_lines.push_back( responses[i].create_option_line( *this, 'a' + i ) );
@@ -1419,6 +1436,13 @@ talk_effect_fun_t::talk_effect_fun_t( std::function<void( npc &p )> ptr )
     function = [ptr]( const dialogue & d ) {
         npc &p = *d.beta;
         ptr( p );
+    };
+}
+
+talk_effect_fun_t::talk_effect_fun_t( std::function<void( const dialogue &d )> fun )
+{
+    function = [fun]( const dialogue & d ) {
+        fun( d );
     };
 }
 
@@ -1810,7 +1834,7 @@ talk_effect_t::talk_effect_t( JsonObject jo )
     load_effect( jo );
     if( jo.has_object( "topic" ) ) {
         next_topic = load_inline_topic( jo.get_object( "topic" ) );
-    } else {
+    } else if( jo.has_string( "topic" ) ) {
         next_topic = talk_topic( jo.get_string( "topic" ) );
     }
 }
@@ -3047,10 +3071,60 @@ dynamic_line_t::dynamic_line_t( JsonArray ja )
     };
 }
 
+json_dynamic_line_effect::json_dynamic_line_effect( JsonObject jo, const std::string &id )
+{
+    std::function<bool( const dialogue & )> tmp_condition;
+    read_dialogue_condition( jo, tmp_condition, true );
+    talk_effect_t tmp_effect = talk_effect_t( jo );
+    // if the topic has a sentinel, it means implicitly add a check for the sentinel value
+    // and do not run the effects if it is set.  if it is not set, run the effects and
+    // set the sentinel
+    if( jo.has_string( "sentinel" ) ) {
+        const std::string sentinel = jo.get_string( "sentinel" );
+        const std::string varname = "npctalk_var_sentinel_" + id + "_" + sentinel;
+        condition = [varname, tmp_condition]( const dialogue & d ) {
+            return d.alpha->get_value( varname ) != "yes" && tmp_condition( d );
+        };
+        std::function<void( const dialogue &d )> function = [varname]( const dialogue & d ) {
+            d.alpha->set_value( varname, "yes" );
+        };
+        tmp_effect.effects.emplace_back( function );
+    } else {
+        condition = tmp_condition;
+    }
+    effect = tmp_effect;
+}
+
+bool json_dynamic_line_effect::test_condition( const dialogue &d ) const
+{
+    return condition( d );
+}
+
+void json_dynamic_line_effect::apply( dialogue &d ) const
+{
+    effect.apply( d );
+}
+
 void json_talk_topic::load( JsonObject &jo )
 {
     if( jo.has_member( "dynamic_line" ) ) {
         dynamic_line = dynamic_line_t::from_member( jo, "dynamic_line" );
+    }
+    if( jo.has_member( "speaker_effect" ) ) {
+        std::string id = "no_id";
+        if( jo.has_string( "id" ) ) {
+            id = jo.get_string( "id" );
+        } else if( jo.has_array( "id" ) ) {
+            id = jo.get_array( "id" ).next_string();
+        }
+        if( jo.has_object( "speaker_effect" ) ) {
+            speaker_effects.emplace_back( jo.get_object( "speaker_effect" ), id );
+        } else if( jo.has_array( "speaker_effect" ) ) {
+            JsonArray ja = jo.get_array( "speaker_effect" );
+            while( ja.has_more() ) {
+                speaker_effects.emplace_back( ja.next_object(), id );
+            }
+        }
     }
     JsonArray ja = jo.get_array( "responses" );
     responses.reserve( responses.size() + ja.size() );
@@ -3077,6 +3151,11 @@ bool json_talk_topic::gen_responses( dialogue &d ) const
 std::string json_talk_topic::get_dynamic_line( const dialogue &d ) const
 {
     return dynamic_line( d );
+}
+
+std::vector<json_dynamic_line_effect> json_talk_topic::get_speaker_effects() const
+{
+    return speaker_effects;
 }
 
 void json_talk_topic::check_consistency() const
