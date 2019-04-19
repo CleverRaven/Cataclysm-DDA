@@ -4,10 +4,6 @@
 
 #include "units.h"
 
-#if !defined(M_PI)
-#   define M_PI 3.14159265358979323846
-#endif
-
 // Fixed window sizes
 #define HP_HEIGHT 14
 #define HP_WIDTH 7

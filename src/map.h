@@ -461,6 +461,10 @@ class map
         */
         int obstacle_coverage( const tripoint &loc1, const tripoint &loc2 ) const;
         /**
+        * Returns coverage value of the tile.
+        */
+        int coverage( const tripoint &p ) const;
+        /**
          * Check whether there's a direct line of sight between `F` and
          * `T` with the additional movecost restraints.
          *

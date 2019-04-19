@@ -3283,16 +3283,26 @@ bash_params map::bash( const tripoint &p, const int str,
         return bsh;
     }
 
+    bool bashed_sealed = false;
+    if( has_flag( "SEALED", p ) ) {
+        bash_ter_furn( p, bsh );
+        bashed_sealed = true;
+    }
+
     bash_field( p, bsh );
-    bash_items( p, bsh );
+
+    // Don't bash items inside terrain/furniture with SEALED flag
+    if( !bashed_sealed ) {
+        bash_items( p, bsh );
+    }
     // Don't bash the vehicle doing the bashing
     const vehicle *veh = veh_pointer_or_null( veh_at( p ) );
     if( veh != nullptr && veh != bashing_vehicle ) {
         bash_vehicle( p, bsh );
     }
 
-    // If we still didn't bash anything solid (a vehicle), bash furn/ter
-    if( !bsh.bashed_solid ) {
+    // If we still didn't bash anything solid (a vehicle) or a tile with SEALED flag, bash ter/furn
+    if( !bsh.bashed_solid && !bashed_sealed ) {
         bash_ter_furn( p, bsh );
     }
 
@@ -4263,7 +4273,8 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
                 return null_item_reference();
             }
 
-            if( !valid_tile( e ) || has_flag( "NOITEM", e ) || !valid_limits( e ) ) {
+            if( !valid_tile( e ) || !valid_limits( e ) ||
+                has_flag( "NOITEM", e ) || has_flag( "SEALED", e ) ) {
                 continue;
             }
             return place_item( e );
@@ -6102,6 +6113,21 @@ int map::obstacle_coverage( const tripoint &loc1, const tripoint &loc2 ) const
         }
     }
     return ter( obstaclepos )->coverage;
+}
+
+int map::coverage( const tripoint &p ) const
+{
+    if( const auto obstacle_f = furn( p ) ) {
+        return obstacle_f->coverage;
+    }
+    if( const auto vp = veh_at( p ) ) {
+        if( vp->obstacle_at_part() ) {
+            return 60;
+        } else if( !vp->part_with_feature( VPFLAG_AISLE, true ) ) {
+            return 45;
+        }
+    }
+    return ter( p )->coverage;
 }
 
 // This method tries a bunch of initial offsets for the line to try and find a clear one.
