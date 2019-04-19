@@ -26,6 +26,7 @@ then
     build-scripts/lint-json.sh
     make -j 5 style-json
 elif just_json
+then
     exit 0
 fi
 
