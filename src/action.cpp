@@ -60,7 +60,7 @@ void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
             if( act == ACTION_NULL ) {
                 debugmsg( "\
 Warning! keymap.txt contains an unknown action, \"%s\"\n\
-Fix \"%s\" at your next chance!", id.c_str(), FILENAMES["keymap"].c_str() );
+Fix \"%s\" at your next chance!", id, FILENAMES["keymap"] );
             } else {
                 while( !keymap_txt.eof() ) {
                     char ch;
@@ -72,7 +72,7 @@ Fix \"%s\" at your next chance!", id.c_str(), FILENAMES["keymap"].c_str() );
                             debugmsg( "\
 Warning!  '%c' assigned twice in the keymap!\n\
 %s is being ignored.\n\
-Fix \"%s\" at your next chance!", ch, id.c_str(), FILENAMES["keymap"].c_str() );
+Fix \"%s\" at your next chance!", ch, id, FILENAMES["keymap"] );
                         } else {
                             kmap[ ch ] = act;
                         }
@@ -797,7 +797,7 @@ action_id handle_action_menu()
 
         std::string title = _( "Actions" );
         if( category != "back" ) {
-            catgname = _( category.c_str() );
+            catgname = _( category );
             capitalize_letter( catgname, 0 );
             title += ": " + catgname;
         }

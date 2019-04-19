@@ -168,6 +168,7 @@ const morale_type MORALE_PERM_FILTHY( "morale_perm_filthy" );
 const morale_type MORALE_PERM_DEBUG( "morale_perm_debug" );
 const morale_type MORALE_BUTCHER( "morale_butcher" );
 const morale_type MORALE_GRAVEDIGGER( "morale_gravedigger" );
+const morale_type MORALE_TREE_COMMUNION( "morale_tree_communion" );
 
 namespace
 {
@@ -225,7 +226,7 @@ std::string morale_type_data::describe( const itype *it ) const
         if( !needs_item ) {
             debugmsg( "Item type supplied but not needed" );
         }
-        return string_format( text, it->nname( 1 ).c_str() );
+        return string_format( text, it->nname( 1 ) );
     }
 
     if( needs_item ) {

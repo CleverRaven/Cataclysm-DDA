@@ -460,7 +460,7 @@ inline void popup( const char *mes, Args &&... args )
 {
     popup( string_format( mes, std::forward<Args>( args )... ), PF_NONE );
 }
-long popup( const std::string &text, PopupFlags flags );
+long popup( const std::string &text, PopupFlags flags = PF_NONE );
 template<typename ...Args>
 inline void full_screen_popup( const char *mes, Args &&... args )
 {

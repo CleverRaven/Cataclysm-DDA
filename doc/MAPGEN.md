@@ -65,6 +65,7 @@
     * 2.5.16 "loot"
     * 2.5.17 "sealed_item"
     * 2.5.18 "graffiti"
+    * 2.6.19 "translate_ter"
   * 2.6 "rotation"
 * 3 update_mapgen
   * 3.1 overmap tile specification
@@ -683,6 +684,12 @@ Example:
 Places a graffiti message at the location. Either "text" or "snippet" must be defined. The message may include tags like \<full_name\>, \<given_name\>, and \<family_name\> that will insert a randomly generated name, or \<city\> that will insert the nearest city name. Values:
 - "text": (optional, string) the message that will be placed.
 - "snippet": (optional, string) a category of snippets that the message will be pulled from.
+
+### 2.5.19 "translate_ter"
+Translates one type of terrain into another type of terrain.  There is no reason to do this with
+normal mapgen, but it is useful for setting a baseline with update_mapgen.
+- "from": (required, string) the terrain id of the terrain to be transformed
+- "to": (required, string) the terrain id that the from terrain will transformed into
 
 # 2.7 "rotation"
 Rotates the generated map after all the other mapgen stuff has been done. The value can be a single integer or a range (out of which a value will be randomly chosen). Example:

@@ -289,6 +289,16 @@ const direction npc_threat_dir[8] = { NORTHWEST, NORTH, NORTHEAST, EAST,
                                       SOUTHEAST, SOUTH, SOUTHWEST, WEST
                                     };
 
+struct healing_options {
+    bool bandage;
+    bool bleed;
+    bool bite;
+    bool infect;
+    void clear_all();
+    void set_all();
+};
+
+
 // Data relevant only for this action
 struct npc_short_term_cache {
     float danger;
@@ -296,6 +306,9 @@ struct npc_short_term_cache {
     float danger_assessment;
     // Use weak_ptr to avoid circular references between Creatures
     std::weak_ptr<Creature> target;
+    // target is hostile, ally is for aiding actions
+    std::weak_ptr<Creature> ally;
+    healing_options can_heal;
     // map of positions / type / volume of suspicious sounds
     std::vector<dangerous_sound> sound_alerts;
     // current sound position being investigated
@@ -615,6 +628,7 @@ class npc : public player
         bool is_following() const; // Traveling w/ player (whether as a friend or a slave)
         bool is_friend() const; // Allies with the player
         bool is_leader() const; // Leading the player
+        bool is_assigned_to_camp() const;
         /** is performing a player_activity */
         bool has_player_activity() const;
         /** Standing in one spot, moving back if removed from it. */
@@ -644,9 +658,10 @@ class npc : public player
         void stow_item( item &it );
         bool wield( item &it ) override;
         bool adjust_worn();
-        bool has_healing_item( bool bleed = false, bool bite = false, bool infect = false );
-        item &get_healing_item( bool bleed = false, bool bite = false, bool infect = false,
-                                bool first_best = false );
+        bool has_healing_item( healing_options try_to_fix );
+        healing_options has_healing_options();
+        healing_options has_healing_options( healing_options try_to_fix );
+        item &get_healing_item( healing_options try_to_fix, bool first_best = false );
         bool has_painkiller();
         bool took_painkiller() const;
         void use_painkiller();
@@ -663,11 +678,14 @@ class npc : public player
         void regen_ai_cache();
         const Creature *current_target() const;
         Creature *current_target();
+        const Creature *current_ally() const;
+        Creature *current_ally();
         tripoint good_escape_direction( bool include_pos = true );
 
         // Interaction and assessment of the world around us
         float danger_assessment();
         float average_damage_dealt(); // Our guess at how much damage we can deal
+        bool need_heal( const player &n );
         bool bravery_check( int diff );
         bool emergency() const;
         bool emergency( float danger ) const;
@@ -864,8 +882,10 @@ class npc : public player
         // #############   VALUES   ################
 
         npc_class_id myclass; // What's our archetype?
-        std::string idz; // A temp variable used to inform the game which npc json to use as a template
-        mission_type_id miss_id; // A temp variable used to link to the correct mission
+        // A temp variable used to inform the game which npc json to use as a template
+        std::string idz;
+        // A temp variable used to link to the correct mission
+        std::vector<mission_type_id> miss_ids;
 
     private:
 

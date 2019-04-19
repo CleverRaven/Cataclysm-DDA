@@ -303,7 +303,7 @@ point draw_notes( int z )
     bool redraw = true;
     point result( -1, -1 );
 
-    mvwprintz( w_notes, 1, 1, c_white, title.c_str() );
+    mvwprintz( w_notes, 1, 1, c_white, title );
     do {
 #if defined(__ANDROID__)
         input_context ctxt( "DRAW_NOTES" );
@@ -330,16 +330,16 @@ point draw_notes( int z )
                                              std::get<0>( om_symbol ),
                                              note_text.substr( std::get<2>( om_symbol ),
                                                      std::string::npos ) );
-                trim_and_print( w_notes, i + 2, 5, FULL_SCREEN_WIDTH - 7, c_light_gray, "%s", tmp_note.c_str() );
+                trim_and_print( w_notes, i + 2, 5, FULL_SCREEN_WIDTH - 7, c_light_gray, "%s", tmp_note );
 #if defined(__ANDROID__)
                 ctxt.register_manual_key( 'a' + i, notes[cur_it].second.c_str() );
 #endif
             }
             if( start >= maxitems ) {
-                mvwprintw( w_notes, maxitems + 2, 1, back_msg.c_str() );
+                mvwprintw( w_notes, maxitems + 2, 1, back_msg );
             }
             if( start + maxitems < notes.size() ) {
-                mvwprintw( w_notes, maxitems + 2, 2 + back_len, forward_msg.c_str() );
+                mvwprintw( w_notes, maxitems + 2, 2 + back_len, forward_msg );
             }
             mvwprintz( w_notes, 1, 40, c_white, _( "Press letter to center on note" ) );
             mvwprintz( w_notes, FULL_SCREEN_HEIGHT - 2, 40, c_white, _( "Spacebar - Return to map  " ) );
@@ -506,6 +506,9 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
         std::vector<npc *> followers;
         for( auto &elem : g->get_follower_list() ) {
             std::shared_ptr<npc> npc_to_get = overmap_buffer.find_npc( elem );
+            if( !npc_to_get ) {
+                continue;
+            }
             npc *npc_to_add = npc_to_get.get();
             followers.push_back( npc_to_add );
         }
@@ -760,7 +763,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
         for( size_t i = 0; i < corner_text.size(); i++ ) {
             const auto &pr = corner_text[ i ];
             // clear line, print line, print vertical line at the right side.
-            mvwprintz( w, i, 0, c_yellow, spacer.c_str() );
+            mvwprintz( w, i, 0, c_yellow, spacer );
             mvwprintz( w, i, 0, pr.first, pr.second );
             mvwputch( w, i, maxlen, c_white, LINE_XOXO );
         }
@@ -860,8 +863,8 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
 
         const auto print_hint = [&]( const std::string & action, nc_color color = c_magenta ) {
             y += fold_and_print( wbar, y, 1, 27, color, string_format( _( "%s - %s" ),
-                                 inp_ctxt->get_desc( action ).c_str(),
-                                 inp_ctxt->get_action_name( action ).c_str() ) );
+                                 inp_ctxt->get_desc( action ),
+                                 inp_ctxt->get_action_name( action ) ) );
         };
 
         if( data.debug_editor ) {
@@ -986,7 +989,7 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
             for( const auto &color_pair : get_note_color_names() ) {
                 // The color index is not translatable, but the name is.
                 color_notes += string_format( "%1$s:<color_%3$s>%2$s</color>, ", color_pair.first.c_str(),
-                                              _( color_pair.second.c_str() ), string_replace( color_pair.second, " ", "_" ).c_str() );
+                                              _( color_pair.second ), string_replace( color_pair.second, " ", "_" ) );
             }
 
             std::string helper_text = string_format( ".\n\n%s\n%s\n%s\n",
@@ -1160,7 +1163,7 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
                       draw_data_t() );
                 //Draw search box
                 mvwprintz( w_search, 1, 1, c_light_blue, _( "Search:" ) );
-                mvwprintz( w_search, 1, 10, c_light_red, "%*s", 12, term.c_str() );
+                mvwprintz( w_search, 1, 10, c_light_red, "%*s", 12, term );
 
                 mvwprintz( w_search, 2, 1, c_light_blue, _( "Result(s):" ) );
                 mvwprintz( w_search, 2, 16, c_light_red, "%*d/%d", 3, i + 1, locations.size() );
@@ -1168,7 +1171,7 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
                 mvwprintz( w_search, 3, 1, c_light_blue, _( "Direction:" ) );
                 mvwprintz( w_search, 3, 14, c_white, "%*d %s",
                            5, static_cast<int>( trig_dist( orig, tripoint( locations[i], orig.z ) ) ),
-                           direction_name_short( direction_from( orig, tripoint( locations[i], orig.z ) ) ).c_str()
+                           direction_name_short( direction_from( orig, tripoint( locations[i], orig.z ) ) )
                          );
 
                 mvwprintz( w_search, 6, 1, c_white, _( "'<' '>' Cycle targets." ) );
@@ -1256,7 +1259,7 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
                     const std::string &rotation = om_direction::name( uistate.omedit_rotation );
 
                     mvwprintz( w_editor, 3, 1, c_light_gray, "                         " );
-                    mvwprintz( w_editor, 3, 1, c_light_gray, _( "Rotation: %s %s" ), rotation.c_str(),
+                    mvwprintz( w_editor, 3, 1, c_light_gray, _( "Rotation: %s %s" ), rotation,
                                can_rotate ? "" : _( "(fixed)" ) );
                     mvwprintz( w_editor, 5, 1, c_red, _( "Areas highlighted in red" ) );
                     mvwprintz( w_editor, 6, 1, c_red, _( "already have map content" ) );
@@ -1266,10 +1269,10 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
                     if( ( terrain && uistate.place_terrain->is_rotatable() ) ||
                         ( !terrain && uistate.place_special->rotatable ) ) {
                         mvwprintz( w_editor, 11, 1, c_white, _( "[%s] Rotate" ),
-                                   ctxt.get_desc( "ROTATE" ).c_str() );
+                                   ctxt.get_desc( "ROTATE" ) );
                     }
                     mvwprintz( w_editor, 12, 1, c_white, _( "[%s] Apply" ),
-                               ctxt.get_desc( "CONFIRM" ).c_str() );
+                               ctxt.get_desc( "CONFIRM" ) );
                     mvwprintz( w_editor, 13, 1, c_white, _( "[ESCAPE/Q] Cancel" ) );
                     wrefresh( w_editor );
 

@@ -361,7 +361,7 @@ void Character::load( JsonObject &data )
         if( tid.is_valid() ) {
             ++it;
         } else {
-            debugmsg( "character %s has invalid trait %s, it will be ignored", name.c_str(), tid.c_str() );
+            debugmsg( "character %s has invalid trait %s, it will be ignored", name, tid.c_str() );
             my_traits.erase( it++ );
         }
     }
@@ -392,7 +392,7 @@ void Character::load( JsonObject &data )
             cached_mutations.push_back( &mid.obj() );
             ++it;
         } else {
-            debugmsg( "character %s has invalid mutation %s, it will be ignored", name.c_str(), mid.c_str() );
+            debugmsg( "character %s has invalid mutation %s, it will be ignored", name, mid.c_str() );
             my_mutations.erase( it++ );
         }
     }
@@ -409,11 +409,11 @@ void Character::load( JsonObject &data )
     }
 
     if( !data.read( "hp_cur", hp_cur ) ) {
-        debugmsg( "Error, incompatible hp_cur in save file '%s'", parray.str().c_str() );
+        debugmsg( "Error, incompatible hp_cur in save file '%s'", parray.str() );
     }
 
     if( !data.read( "hp_max", hp_max ) ) {
-        debugmsg( "Error, incompatible hp_max in save file '%s'", parray.str().c_str() );
+        debugmsg( "Error, incompatible hp_max in save file '%s'", parray.str() );
     }
 
     inv.clear();
@@ -1002,10 +1002,10 @@ void npc_follower_rules::serialize( JsonOut &json ) const
         json.member( "rule_" + rule.first, has_flag( rule.second, false ) );
     }
     for( const auto &rule : ally_rule_strs ) {
-        json.member( "override_enable_" + rule.first, has_flag( rule.second ) );
+        json.member( "override_enable_" + rule.first, has_override_enable( rule.second ) );
     }
     for( const auto &rule : ally_rule_strs ) {
-        json.member( "override_" + rule.first, has_flag( rule.second ) );
+        json.member( "override_" + rule.first, has_override( rule.second ) );
     }
 
     json.member( "pickup_whitelist", *pickup_whitelist );
@@ -1971,6 +1971,11 @@ void item::io( Archive &archive )
     if( item_tags.count( "FROZEN" ) && current_phase == LIQUID ) {
         current_phase = SOLID;
     }
+
+    // Activate corpses from old saves
+    if( is_corpse() && !active ) {
+        active = true;
+    }
 }
 
 static void migrate_toolmod( item &it )
@@ -2922,14 +2927,6 @@ void basecamp::serialize( JsonOut &json ) const
         json.member( "name", name );
         json.member( "pos", omt_pos );
         json.member( "bb_pos", bb_pos );
-        json.member( "sort_points" );
-        json.start_array();
-        for( const tripoint &it : sort_points ) {
-            json.start_object();
-            json.member( "pos", it );
-            json.end_object();
-        }
-        json.end_array();
         json.member( "expansions" );
         json.start_array();
         for( const auto &expansion : expansions ) {

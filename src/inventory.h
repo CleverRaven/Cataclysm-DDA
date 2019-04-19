@@ -113,8 +113,10 @@ class inventory : public visitable<inventory>
          * the player's worn items / weapon
          */
         void restack( player &p );
-
-        void form_from_map( const tripoint &origin, int distance, bool assign_invlet = true );
+        void form_from_map( const tripoint &origin, int distance, bool assign_invlet = true,
+                            bool clear_path = true );
+        void form_from_map( map &m, const tripoint &origin, int distance, bool assign_invlet = true,
+                            bool clear_path = true );
 
         /**
          * Remove a specific item from the inventory. The item is compared
@@ -151,14 +153,14 @@ class inventory : public visitable<inventory>
         // Below, "amount" refers to quantity
         //        "charges" refers to charges
         std::list<item> use_amount( itype_id it, int quantity,
-                                    const std::function<bool( const item & )> &filter = is_crafting_component );
+                                    const std::function<bool( const item & )> &filter = return_true<item> );
 
         bool has_tools( const itype_id &it, int quantity,
-                        const std::function<bool( const item & )> &filter = return_true ) const;
+                        const std::function<bool( const item & )> &filter = return_true<item> ) const;
         bool has_components( const itype_id &it, int quantity,
-                             const std::function<bool( const item & )> &filter = is_crafting_component ) const;
+                             const std::function<bool( const item & )> &filter = return_true<item> ) const;
         bool has_charges( const itype_id &it, long quantity,
-                          const std::function<bool( const item & )> &filter = return_true ) const;
+                          const std::function<bool( const item & )> &filter = return_true<item> ) const;
 
         int leak_level( const std::string &flag ) const; // level of leaked bad stuff from items
 

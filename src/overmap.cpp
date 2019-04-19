@@ -336,7 +336,7 @@ void overmap_land_use_code::load( JsonObject &jo, const std::string &src )
 
     if( symbol == NULL_UNICODE ) {
         DebugLog( D_ERROR, D_GAME ) << "`sym` node is not defined properly for `land_use_code`: "
-                                    << id.c_str() << " (" << name.c_str() << ")";
+                                    << id.c_str() << " (" << name << ")";
     }
 
     assign( jo, "color", color, strict );
@@ -550,11 +550,11 @@ void oter_type_t::load( JsonObject &jo, const std::string &src )
     } else {
         if( symbol == NULL_UNICODE && !jo.has_string( "abstract" ) ) {
             DebugLog( D_ERROR, D_MAP_GEN ) << "sym is not defined for overmap_terrain: "
-                                           << id.c_str() << " (" << name.c_str() << ")";
+                                           << id.c_str() << " (" << name << ")";
         }
         if( !jo.has_string( "sym" ) && jo.has_number( "sym" ) ) {
             DebugLog( D_ERROR, D_MAP_GEN ) << "sym is defined as number instead of string for overmap_terrain: "
-                                           << id.c_str() << " (" << name.c_str() << ")";
+                                           << id.c_str() << " (" << name << ")";
         }
         load_overmap_terrain_mapgens( jo, id.str() );
     }

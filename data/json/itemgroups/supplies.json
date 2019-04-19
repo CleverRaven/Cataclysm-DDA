@@ -360,5 +360,63 @@
       [ "pump_complex", 10 ],
       [ "well_pump", 50 ]
     ]
+  },
+  {
+    "id": "file_room",
+    "type": "item_group",
+    "items": [ [ "file", 99 ], [ "file", 99 ], [ "record_accounting", 10 ], [ "paper", 80 ], [ "safe_box", 1 ] ]
+  },
+  {
+    "id": "office_mess",
+    "type": "item_group",
+    "items": [
+      [ "file", 99 ],
+      [ "paper", 60 ],
+      [ "laptop", 2 ],
+      [ "inhaler", 1 ],
+      [ "mbag", 2 ],
+      [ "mop", 5 ],
+      [ "cell_phone", 10 ],
+      [ "smart_phone", 10 ],
+      [ "duct_tape", 5 ],
+      [ "battery", 5 ],
+      [ "flashlight", 10 ],
+      [ "umbrella", 5 ],
+      [ "teleumbrella", 10 ],
+      [ "survnote", 1 ],
+      [ "clock", 2 ],
+      [ "coffeemaker", 2 ],
+      [ "bubblewrap", 10 ],
+      [ "glowstick", 10 ],
+      [ "radio", 2 ],
+      [ "fan", 5 ],
+      [ "fan", 5 ],
+      [ "cola", 10 ],
+      [ "can_drink_unsealed", 5 ],
+      [ "cig", 5 ],
+      [ "purse", 2 ],
+      [ "pipe_tobacco", 1 ],
+      [ "permanent_marker", 5 ]
+    ]
+  },
+  {
+    "id": "office_supplies",
+    "type": "item_group",
+    "items": [
+      [ "paper", 100 ],
+      [ "permanent_marker", 35 ],
+      [ "file", 15 ],
+      [ "duct_tape", 15 ],
+      [ "file", 15 ],
+      [ "bubblewrap", 15 ],
+      [ "battery", 10 ],
+      [ "flashlight", 7 ],
+      [ "laptop", 7 ],
+      [ "eink_tablet_pc", 7 ],
+      [ "usb_drive", 5 ],
+      [ "cash_card", 5 ],
+      [ "record_accounting", 1 ],
+      [ "money_bundle", 1 ]
+    ]
   }
 ]
