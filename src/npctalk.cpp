@@ -145,20 +145,20 @@ int cash_to_favor( const npc &, int cash )
 
 void game::chat()
 {
+    int volume = g->u.get_shout_volume();
+
     const std::vector<npc *> available = get_npcs_if( [&]( const npc & guy ) {
         // TODO: Get rid of the z-level check when z-level vision gets "better"
-        return u.posz() == guy.posz() &&
-               u.sees( guy.pos() ) &&
+        return u.posz() == guy.posz() && u.sees( guy.pos() ) &&
                rl_dist( u.pos(), guy.pos() ) <= SEEX * 2;
     } );
     const std::vector<npc *> followers = get_npcs_if( [&]( const npc & guy ) {
-        return guy.is_friend() && guy.is_following() && u.posz() == guy.posz() &&
-               u.sees( guy.pos() ) && rl_dist( u.pos(), guy.pos() ) <= SEEX * 2;
+        return guy.is_friend() && guy.is_following() && guy.can_hear( u.pos(), volume );
     } );
     const std::vector<npc *> guards = get_npcs_if( [&]( const npc & guy ) {
         return guy.mission == NPC_MISSION_GUARD_ALLY &&
-               guy.companion_mission_role_id != "FACTION_CAMP" && u.posz() == guy.posz() &&
-               u.sees( guy.pos() ) && rl_dist( u.pos(), guy.pos() ) <= SEEX * 2;
+               guy.companion_mission_role_id != "FACTION_CAMP" &&
+               guy.can_hear( u.pos(), volume );
     } );
 
     uilist nmenu;
@@ -194,17 +194,20 @@ void game::chat()
                         _( "Tell all your allies to prepare for danger" ) );
         nmenu.addentry( yell_relax = i++, true, 'C',
                         _( "Tell all your allies to relax from danger" ) );
-
     }
     if( !guards.empty() ) {
         nmenu.addentry( yell_follow = i++, true, 'f', _( "Tell all your allies to follow" ) );
     }
 
+    std::string message;
+    std::string yell_msg;
+    bool is_order = true;
     nmenu.query();
     if( nmenu.ret < 0 ) {
         return;
     } else if( nmenu.ret == yell ) {
-        u.shout( _( "yourself shouting loudly!" ) );
+        is_order = false;
+        message = _( "loudly." );
     } else if( nmenu.ret == yell_sentence ) {
         std::string popupdesc = string_format( _( "Enter a sentence to yell" ) );
         string_input_popup popup;
@@ -214,53 +217,60 @@ void game::chat()
         .identifier( "sentence" )
         .max_length( 128 )
         .query();
-        std::string sentence = popup.text();
-        add_msg( _( "You yell, \"%s\"" ), sentence );
-        u.shout( string_format( _( "%s yelling \"%s\"" ), u.disp_name(), sentence ) );
+        yell_msg = popup.text() + ".";
+        is_order = false;
     } else if( nmenu.ret == yell_guard ) {
         for( npc *p : followers ) {
             talk_function::assign_guard( *p );
         }
-        u.shout( _( "Guard here!" ) );
+        yell_msg =  _( "Guard here!" );
     } else if( nmenu.ret == yell_awake ) {
         for( npc *p : followers ) {
             talk_function::wake_up( *p );
         }
-        u.shout( _( "Stay awake!" ) );
+        yell_msg = _( "Stay awake!" );
     } else if( nmenu.ret == yell_sleep ) {
         for( npc *p : followers ) {
             p->rules.set_flag( ally_rule::allow_sleep );
         }
-        u.shout( _( "We're safe!  Take a nap if you're tired." ) );
+        yell_msg = _( "We're safe!  Take a nap if you're tired." );
     } else if( nmenu.ret == yell_follow ) {
         for( npc *p : guards ) {
             talk_function::stop_guard( *p );
         }
-        u.shout( _( "Follow me!" ) );
+        yell_msg = _( "Follow me!" );
     } else if( nmenu.ret == yell_flee ) {
         for( npc *p : followers ) {
             p->rules.set_flag( ally_rule::avoid_combat );
         }
-        u.shout( _( "Fall back to safety!  Flee, you fools!" ) );
+        yell_msg = _( "Fall back to safety!  Flee, you fools!" );
     } else if( nmenu.ret == yell_stop ) {
         for( npc *p : followers ) {
             p->rules.clear_flag( ally_rule::avoid_combat );
         }
-        u.shout( _( "No need to run any more, we can fight here." ) );
+        yell_msg = _( "No need to run any more, we can fight here." );
     } else if( nmenu.ret == yell_danger ) {
         for( npc *p : followers ) {
             p->rules.set_danger_overrides();
         }
-        u.shout( _( "We're in danger.  Stay awake, stay close, don't go wandering off, and don't open any doors." ) );
+        yell_msg = _( "We're in danger.  Stay awake, stay close, don't go wandering off, "
+                      "and don't open any doors." );
     } else if( nmenu.ret == yell_relax ) {
         for( npc *p : followers ) {
             p->rules.clear_danger_overrides();
         }
-        u.shout( _( "Relax and stand down." ) );
+        yell_msg = _( "Relax and stand down." );
     } else if( nmenu.ret <= static_cast<int>( available.size() ) ) {
         available[nmenu.ret]->talk_to_u();
     } else {
         return;
+    }
+    if( !yell_msg.empty() ) {
+        message = string_format( "\"%s\"", yell_msg );
+    }
+    if( !message.empty() ) {
+        add_msg( _( "You yell %s" ), message );
+        u.shout( string_format( _( "%s yelling %s" ), u.disp_name(), message ), is_order );
     }
 
     u.moves -= 100;
