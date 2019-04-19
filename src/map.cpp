@@ -6101,6 +6101,21 @@ int map::obstacle_coverage( const tripoint &loc1, const tripoint &loc2 ) const
     return ter( obstaclepos )->coverage;
 }
 
+int map::coverage( const tripoint &p ) const
+{
+    if( const auto obstacle_f = furn( p ) ) {
+        return obstacle_f->coverage;
+    }
+    if( const auto vp = veh_at( p ) ) {
+        if( vp->obstacle_at_part() ) {
+            return 60;
+        } else if( !vp->part_with_feature( VPFLAG_AISLE, true ) ) {
+            return 45;
+        }
+    }
+    return ter( p )->coverage;
+}
+
 // This method tries a bunch of initial offsets for the line to try and find a clear one.
 // Basically it does, "Find a line from any point in the source that ends up in the target square".
 std::vector<tripoint> map::find_clear_path( const tripoint &source,
