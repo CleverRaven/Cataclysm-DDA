@@ -525,5 +525,10 @@
     "id": "potato_irradiated",
     "type": "MIGRATION",
     "replace": "irradiated_potato"
+  },
+  {
+    "id": "potato_raw",
+    "type": "MIGRATION",
+    "replace": "potato"
   }
 ]

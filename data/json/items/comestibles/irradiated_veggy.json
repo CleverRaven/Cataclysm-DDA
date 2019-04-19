@@ -96,7 +96,7 @@
   {
     "type": "COMESTIBLE",
     "id": "irradiated_potato",
-    "copy-from": "potato_raw",
+    "copy-from": "potato",
     "name": "irradiated potato",
     "name_plural": "irradiated potatoes",
     "description": "An irradiated potato will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",

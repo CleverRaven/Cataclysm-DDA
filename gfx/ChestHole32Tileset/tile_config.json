@@ -10409,7 +10409,7 @@
           "rotates": false
         },
         {
-          "id": "overlay_wielded_potato_raw",
+          "id": "overlay_wielded_potato",
           "fg": 933,
           "bg": 632,
           "rotates": false
@@ -32312,7 +32312,7 @@
           "rotates": false
         },
         {
-          "id": "potato_raw",
+          "id": "potato",
           "fg": 933,
           "bg": 632,
           "rotates": false
