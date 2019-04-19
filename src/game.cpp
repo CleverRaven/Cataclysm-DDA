@@ -6415,7 +6415,8 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
 
     int map_features = fold_and_print( w_look, ++lines, column, max_width, c_dark_gray,
                                        m.features( lp ) );
-    fold_and_print( w_look, ++lines, column, max_width, c_light_gray, _( "Coverage: %d%%" ), m.coverage( lp ) ); //astyle later
+    fold_and_print( w_look, ++lines, column, max_width, c_light_gray, _( "Coverage: %d%%" ),
+                    m.coverage( lp ) );
     if( line < lines ) {
         line = lines + map_features - 1;
     }
