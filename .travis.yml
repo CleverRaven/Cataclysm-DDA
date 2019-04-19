@@ -37,7 +37,7 @@ jobs:
     # Initial test stage, if this fails everything else is cancelled.
     - stage: test
       # GCC 5 is the pre-installed compiler on Xenial
-      env: COMPILER=g++ MODS=--mods=RL_Classes TST_STAGE=1
+      env: COMPILER=g++ MODS=--mods=RL_Classes TEST_STAGE=1
 
     # Then build different configurations and targets in parallel.
     - stage: variants
