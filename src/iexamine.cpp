@@ -4173,7 +4173,7 @@ void mill_activate( player &p, const tripoint &examp )
         next_mill_type = f_water_mill_active;
     } else {
         debugmsg( "Examined furniture has action mill_activate, but is of type %s",
-                  g->m.furn( examp ).id() );
+                  g->m.furn( examp ).id().c_str() );
         return;
     }
     bool food_present = false;
