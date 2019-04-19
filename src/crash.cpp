@@ -196,7 +196,8 @@ extern "C" {
         }
         log_crash( "Signal", msg );
         // end of UB
-        _Exit( EXIT_FAILURE );
+        std::signal( SIGABRT, SIG_DFL );
+        abort();
     }
 
 } // extern "C"
@@ -284,7 +285,8 @@ extern "C" {
                 return;
         }
         log_crash( "Signal", msg );
-        _Exit( EXIT_FAILURE );
+        std::signal( SIGABRT, SIG_DFL );
+        abort();
     }
 
 } // extern "C"
