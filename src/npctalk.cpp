@@ -2696,6 +2696,7 @@ conditional_t::conditional_t( JsonObject jo )
 {
     // improve the clarity of NPC setter functions
     const bool is_npc = true;
+    bool found_sub_member = false;
     const auto parse_array = []( JsonObject jo, const std::string & type ) {
         std::vector<conditional_t> conditionals;
         JsonArray ja = jo.get_array( type );
@@ -2714,6 +2715,7 @@ conditional_t::conditional_t( JsonObject jo )
     };
     if( jo.has_array( "and" ) ) {
         std::vector<conditional_t> and_conditionals = parse_array( jo, "and" );
+        found_sub_member = true;
         condition = [and_conditionals]( const dialogue & d ) {
             for( const auto &cond : and_conditionals ) {
                 if( !cond( d ) ) {
@@ -2724,6 +2726,7 @@ conditional_t::conditional_t( JsonObject jo )
         };
     } else if( jo.has_array( "or" ) ) {
         std::vector<conditional_t> or_conditionals = parse_array( jo, "or" );
+        found_sub_member = true;
         condition = [or_conditionals]( const dialogue & d ) {
             for( const auto &cond : or_conditionals ) {
                 if( cond( d ) ) {
@@ -2734,15 +2737,26 @@ conditional_t::conditional_t( JsonObject jo )
         };
     } else if( jo.has_object( "not" ) ) {
         const conditional_t sub_condition = conditional_t( jo.get_object( "not" ) );
+        found_sub_member = true;
         condition = [sub_condition]( const dialogue & d ) {
             return !sub_condition( d );
         };
     } else if( jo.has_string( "not" ) ) {
         const conditional_t sub_condition = conditional_t( jo.get_string( "not" ) );
+        found_sub_member = true;
         condition = [sub_condition]( const dialogue & d ) {
             return !sub_condition( d );
         };
-    } else if( jo.has_member( "u_has_any_trait" ) ) {
+    }
+    if( !found_sub_member ) {
+        for( const std::string &sub_member : dialogue_data::complex_conds ) {
+            if( jo.has_member( sub_member ) ) {
+                found_sub_member = true;
+                break;
+            }
+        }
+    }
+    if( jo.has_member( "u_has_any_trait" ) ) {
         set_has_any_trait( jo, "u_has_any_trait" );
     } else if( jo.has_member( "npc_has_any_trait" ) ) {
         set_has_any_trait( jo, "npc_has_any_trait", true );
@@ -2833,7 +2847,6 @@ conditional_t::conditional_t( JsonObject jo )
     } else if( jo.has_string( "mission_goal" ) ) {
         set_mission_goal( jo );
     } else {
-        bool found_sub_member = false;
         for( const std::string &sub_member : dialogue_data::simple_string_conds ) {
             if( jo.has_string( sub_member ) ) {
                 const conditional_t sub_condition( jo.get_string( sub_member ) );
@@ -2844,11 +2857,9 @@ conditional_t::conditional_t( JsonObject jo )
                 break;
             }
         }
-        if( !found_sub_member ) {
-            condition = []( const dialogue & ) {
-                return false;
-            };
-        }
+    }
+    if( !found_sub_member ) {
+        jo.throw_error( "unrecognized condition in " + jo.str() );
     }
 }
 

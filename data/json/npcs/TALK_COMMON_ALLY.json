@@ -44,8 +44,8 @@
               { "npc_need": "hunger", "amount": 160 },
               { "npc_need": "fatigue", "level": "TIRED" },
               { "npc_has_effect": "asked_to_train" },
-              { "u_driving": false },
-              { "npc_driving": false }
+              "u_driving",
+              "npc_driving"
             ]
           }
         },
@@ -85,8 +85,8 @@
               { "npc_need": "hunger", "amount": 160 },
               { "npc_need": "fatigue", "level": "TIRED" },
               { "npc_has_effect": "asked_to_hint" },
-              { "u_driving": false },
-              { "npc_driving": false }
+              "u_driving",
+              "npc_driving"
             ]
           }
         },

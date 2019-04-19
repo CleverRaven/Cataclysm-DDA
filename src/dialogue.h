@@ -350,7 +350,7 @@ const std::unordered_set<std::string> complex_conds = { {
         "u_has_bionics", "npc_has_bionics", "u_has_effect", "npc_has_effect", "u_need", "npc_need",
         "u_at_om_location", "npc_at_om_location", "npc_role_nearby", "npc_allies", "npc_service",
         "u_has_cash", "npc_aim_rule", "npc_engagement_rule", "npc_rule", "npc_override",
-        "days_since_cataclysm", "is_season", "mission_goal"
+        "days_since_cataclysm", "is_season", "mission_goal", "u_has_var", "npc_has_var"
     }
 };
 };
