@@ -56,7 +56,7 @@
     "type": "item_group",
     "id": "decontamination",
     "subtype": "collection",
-    "items": [ 
+    "items": [
       { "item": "soap", "prob": 20 },
       { "item": "towel", "prob": 20 },
       { "item": "saline", "prob": 20 },
@@ -70,7 +70,7 @@
     "type": "item_group",
     "id": "packaging",
     "subtype": "collection",
-    "items": [ 
+    "items": [
       { "item": "bag_plastic", "prob": 90 },
       { "item": "bubblewrap", "prob": 60 },
       { "item": "bag_canvas", "prob": 50 },
@@ -192,7 +192,7 @@
         "m": [ "t_oil_circ_brkr_s", "t_station_disc", "t_switchgear_s", "t_potential_trans", "t_current_trans", "t_lgtn_arrest" ],
         "M": [ "t_machinery_heavy" ],
         "e": [ "t_gates_mech_control" ],
-        "#": [ "t_sidewalk"],
+        "#": [ "t_sidewalk" ],
         "P": [ "t_sewage_pump", "t_sewage_pipe", "t_sewage_pipe", "t_sewage_pipe" ],
         "Y": [ "t_door_metal_locked" ],
         "y": [ "t_door_metal_o" ],
@@ -237,27 +237,27 @@
         "[": [ "f_dumpster" ],
         "]": [ "f_bookcase", "f_filing_cabinet" ],
         "?": [ "f_toilet" ],
-        ">": [ "f_vent_pipe"],
+        ">": [ "f_vent_pipe" ],
         ".": [ "f_oven", "f_counter", "f_fridge", "f_trashcan", "f_cupboard" ],
-        "{": [ "f_washer", "f_dryer"]
+        "{": [ "f_washer", "f_dryer" ]
       },
       "computers": {
         "0": {
           "name": "Irradiation Facility Operation Console",
-          "security" : 3,
-          "options": [ 
+          "security": 3,
+          "options": [
             { "name": "Uplink to mainframe servers", "action": "disconnect", "security": 0 },
             { "name": "Cycle conveyor belt", "action": "conveyor", "security": 0 },
             { "name": "Toggle safety shutters", "action": "shutters", "security": 0 },
             { "name": "Probe radiation levels", "action": "geiger", "security": 0 },
             { "name": "Commence irradiation sequence", "action": "irradiator", "security": 0 },
             { "name": "[Maintenance] Extract radiation core", "action": "extract_rad_source", "security": 5 }
-           ],
-           "failures": [ { "action": "alarm" }, { "action": "damage" } ]
+          ],
+          "failures": [ { "action": "alarm" }, { "action": "damage" } ]
         },
         "5": {
           "name": "Hazardous Materials Containment",
-          "security" : 5,
+          "security": 5,
           "options": [
             { "name": "Access containment zone", "action": "release_bionics", "security": 5 },
             { "name": "Geiger counter readout", "action": "geiger", "security": 0 }
@@ -266,7 +266,7 @@
         },
         "6": {
           "name": "Security Access Terminal",
-          "security" : 3,
+          "security": 3,
           "options": [
             { "name": "Open doors", "action": "unlock", "security": 3 },
             { "name": "Access security locker", "action": "release_bionics", "security": 5 }
@@ -275,7 +275,7 @@
         },
         "7": {
           "name": "Power Management",
-          "security" : 2,
+          "security": 2,
           "options": [
             { "name": "External power management", "action": "disconnect", "security": 0 },
             { "name": "Backup power management", "action": "disconnect", "security": 0 },
@@ -284,7 +284,7 @@
           "failures": [ { "action": "alarm" }, { "action": "damage" } ]
         }
       },
-      "toilets": { "?": {} },
+      "toilets": { "?": {  } },
       "vendingmachines": { "V": { "item_group": "vending_drink" }, "F": { "item_group": "vending_food" } },
       "items": {
         "S": { "item": "clothing_outdoor_set", "chance": 50 },
@@ -308,21 +308,13 @@
         "g": { "item": "decontamination", "chance": 15 }
       },
       "place_loot": [
-        { "group": "guns_pistol_common", "x": 34, "y": 26,  "prob": 100, "ammo": 0, "magazine": 100, "repeat": [ 1, 2 ] },
-        { "group": "ammo_pistol_common", "x": 39, "y": 26,  "prob": 100, "repeat": [ 1, 5 ] },
-        { "group": "prison_armor", "x": 39, "y": 26,  "prob": 50, "repeat": [ 1, 2 ] }
+        { "group": "guns_pistol_common", "x": 34, "y": 26, "prob": 100, "ammo": 0, "magazine": 100, "repeat": [ 1, 2 ] },
+        { "group": "ammo_pistol_common", "x": 39, "y": 26, "prob": 100, "repeat": [ 1, 5 ] },
+        { "group": "prison_armor", "x": 39, "y": 26, "prob": 50, "repeat": [ 1, 2 ] }
       ],
-      "liquids": { 
-        "T": { "liquid": "water_clean", "amount": [ 200, 600 ] } 
-      },
-      "fields": {
-         "U": { "field": "fd_nuke_gas", "density": 3, "age": 990, "chance": 100 },
-         "/": { "field": "fd_shock_vent" }
-      },
-      "monster": {
-        "(": { "monster": "mon_turret" },
-        "!": { "monster": "mon_hazmatbot", "chance": 5 }
-      },
+      "liquids": { "T": { "liquid": "water_clean", "amount": [ 200, 600 ] } },
+      "fields": { "U": { "field": "fd_nuke_gas", "density": 3, "age": 990, "chance": 100 }, "/": { "field": "fd_shock_vent" } },
+      "monster": { "(": { "monster": "mon_turret" }, "!": { "monster": "mon_hazmatbot", "chance": 5 } },
       "monsters": {
         "h": { "monster": "GROUP_ZOMBIE", "chance": 50 },
         "o": { "monster": "GROUP_ZOMBIE", "chance": 50 },
@@ -332,10 +324,8 @@
         "%": { "monster": "GROUP_ZOMBIE_NUCLEAR_INDUSTRY", "chance": 50 },
         "g": { "monster": "GROUP_ZOMBIE_NUCLEAR_INDUSTRY", "chance": 50 }
       },
-      "place_item": [
-        { "item": "cobalt_60", "x": [ 57, 61 ], "y": [ 6, 7 ], "amount": [ 1, 5 ], "chance": 50, "repeat": [ 1, 15 ] }
-      ],
-      "place_graffiti": [ 
+      "place_item": [ { "item": "cobalt_60", "x": [ 57, 61 ], "y": [ 6, 7 ], "amount": [ 1, 5 ], "chance": 50, "repeat": [ 1, 15 ] } ],
+      "place_graffiti": [
         { "text": "Decontamination", "x": 34, "y": 35 },
         { "text": "Decontamination", "x": 34, "y": 39 },
         { "text": "Decontamination", "x": 37, "y": 35 },
@@ -346,10 +336,26 @@
         { "vehicle": "warehouse_vehicles", "chance": 50, "fuel": -1, "rotation": 180, "status": 0, "x": 23, "y": 48 },
         { "vehicle": "warehouse_vehicles", "chance": 50, "fuel": -1, "rotation": 0, "status": 1, "x": 47, "y": 48 },
         { "vehicle": "warehouse_vehicles", "chance": 50, "fuel": -1, "rotation": 180, "status": -1, "x": 60, "y": 48 },
-        { "vehicle": "industrial_transport", "chance": 25, "fuel": -1, "rotation": 90, "status": -1, "x": 10, "y": 62 },
+        {
+          "vehicle": "industrial_transport",
+          "chance": 25,
+          "fuel": -1,
+          "rotation": 90,
+          "status": -1,
+          "x": 10,
+          "y": 62
+        },
         { "vehicle": "industrial_transport", "chance": 25, "fuel": -1, "rotation": 90, "status": 0, "x": 20, "y": 62 },
         { "vehicle": "industrial_transport", "chance": 25, "fuel": -1, "rotation": 90, "status": 1, "x": 53, "y": 62 },
-        { "vehicle": "industrial_transport", "chance": 25, "fuel": -1, "rotation": 90, "status": -1, "x": 62, "y": 62 }
+        {
+          "vehicle": "industrial_transport",
+          "chance": 25,
+          "fuel": -1,
+          "rotation": 90,
+          "status": -1,
+          "x": 62,
+          "y": 62
+        }
       ]
     }
   },
@@ -459,7 +465,7 @@
         "D": "f_satellite",
         "A": "f_air_conditioner",
         "C": "f_cellphone_booster"
-       },
+      },
       "place_nested": [
         {
           "chunks": [
