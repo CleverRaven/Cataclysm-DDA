@@ -477,10 +477,16 @@ action_id get_movement_direction_from_delta( const int dx, const int dy, const i
 
 // Get the key for an action, used in the action menu to give each action the
 // hotkey it is bound to.
+// We ignore bindings to '?' because that will already do something else in
+// this menu (open the menu keybindings).
 long hotkey_for_action( action_id action )
 {
+    auto is_valid_key = []( char key ) {
+        return key != '?';
+    };
     std::vector<char> keys = keys_bound_to( action );
-    return keys.empty() ? -1 : keys[0];
+    auto valid = std::find_if( keys.begin(), keys.end(), is_valid_key );
+    return valid == keys.end() ? -1 : *valid;
 }
 
 bool can_butcher_at( const tripoint &p )
