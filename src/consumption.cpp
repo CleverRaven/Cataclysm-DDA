@@ -1201,6 +1201,9 @@ bool player::feed_furnace_with( item &it )
     if( !can_feed_furnace_with( it ) ) {
         return false;
     }
+    if( it.is_favorite && !g->u.query_yn( _( "Are you sure you want to eat this favorited item?" ) ) ) {
+        return false;
+    }
 
     const long consumed_charges = std::min( it.charges, it.charges_per_volume( furnace_max_volume ) );
     const int energy = get_acquirable_energy( it, rechargeable_cbm::furnace );
