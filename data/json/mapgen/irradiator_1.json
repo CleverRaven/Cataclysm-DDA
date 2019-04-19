@@ -168,7 +168,20 @@
         "[[[[L__________________LssssssssssssssssssssssssL__________________L[[[["
       ],
       "terrain": {
-        "*": [ "t_grass", "t_grass", "t_dirt", "t_shrub_rose", "t_shrub_lilac", "t_tree_young", "t_shrub_hydrangea", "t_grass_long", "t_woodchips", "t_moss", "t_grass_long", "t_grass_dead" ],
+        "*": [
+          "t_grass",
+          "t_grass",
+          "t_dirt",
+          "t_shrub_rose",
+          "t_shrub_lilac",
+          "t_tree_young",
+          "t_shrub_hydrangea",
+          "t_grass_long",
+          "t_woodchips",
+          "t_moss",
+          "t_grass_long",
+          "t_grass_dead"
+        ],
         "'": [ "t_fence_barbed" ],
         "X": [ "t_strconc_wall" ],
         "+": [ "t_door_c" ],
