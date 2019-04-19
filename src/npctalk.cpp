@@ -39,6 +39,7 @@
 #include "overmapbuffer.h"
 #include "rng.h"
 #include "skill.h"
+#include "sounds.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "text_snippets.h"
@@ -269,32 +270,46 @@ void game::chat()
 void npc::handle_sound( int priority, const std::string &description, int heard_volume,
                         const tripoint &spos )
 {
+    add_msg( m_debug, "%s heard '%s', priority %d at volume %d from %d:%d, my pos %d:%d",
+             disp_name(), description, priority, heard_volume, spos.x, spos.y, pos().x, pos().y );
+
+    const sounds::sound_t spriority = static_cast<sounds::sound_t>( priority );
+    bool is_player_ally = g->u.pos() == spos && is_ally( g->u );
+    npc *const sound_source = g->critter_at<npc>( spos );
+    bool is_npc_ally = sound_source && sound_source->is_npc() && is_ally( *sound_source );
+
+    if( ( is_player_ally || is_npc_ally ) && spriority == sounds::sound_t::order ) {
+        say( "<acknowledged>" );
+    }
+
     if( sees( spos ) ) {
         return;
     }
     // ignore low priority sounds if the NPC "knows" it came from a friend.
     // @ todo NPC will need to respond to talking noise eventually
     // but only for bantering purposes, not for investigating.
-    npc *const sound_source = g->critter_at<npc>( spos );
-    if( sound_source ) {
-        if( ( my_fac == sound_source->my_fac ||
-              get_attitude_group( get_attitude() ) == sound_source->get_attitude_group(
-                  sound_source->get_attitude() ) ) && ( priority < 6 ) ) {
+    if( spriority < sounds::sound_t::alarm ) {
+        if( is_player_ally ) {
+            add_msg( m_debug, "Allied NPC ignored same faction %s", name );
+            return;
+        }
+        if( is_npc_ally ) {
             add_msg( m_debug, "NPC ignored same faction %s", name );
             return;
         }
     }
     // discount if sound source is player, or seen by player,
     // and listener is friendly and sound source is combat or alert only.
-    if( ( priority < 7 ) && g->u.sees( spos ) && ( is_friend() ||
-            mission == NPC_MISSION_GUARD_ALLY ) ) {
-        add_msg( m_debug, "NPC %s ignored low priority noise that player can see", name );
-        return;
-        // discount if sound source is player, or seen by player,
-        //  listener is neutral and sound type is worth investigating.
-    } else if( priority < 6 && get_attitude_group( get_attitude() ) != attitude_group::hostile &&
-               g->u.sees( spos ) ) {
-        return;
+    if( spriority < sounds::sound_t::alarm && g->u.sees( spos ) ) {
+        if( is_ally( g->u ) ) {
+            add_msg( m_debug, "NPC %s ignored low priority noise that player can see", name );
+            return;
+            // discount if sound source is player, or seen by player,
+            // listener is neutral and sound type is worth investigating.
+        } else if( spriority <  sounds::sound_t::destructive_activity &&
+                   get_attitude_group( get_attitude() ) != attitude_group::hostile ) {
+            return;
+        }
     }
     // patrolling guards will investigate more readily than stationary NPCS
     int investigate_dist = 10;
@@ -304,44 +319,31 @@ void npc::handle_sound( int priority, const std::string &description, int heard_
     if( rules.has_flag( ally_rule::ignore_noise ) ) {
         investigate_dist = 0;
     }
-    if( priority > 3 && ai_cache.total_danger < 1.0f &&
-        rl_dist( pos(), spos ) < investigate_dist ) {
-        add_msg( m_debug, "NPC %s added noise at pos %d:%d", name, spos.x, spos.y );
-        dangerous_sound temp_sound;
-        temp_sound.pos = spos;
-        temp_sound.volume = heard_volume;
-        temp_sound.type = priority;
-        if( !ai_cache.sound_alerts.empty() ) {
-            if( ai_cache.sound_alerts.back().pos != spos ) {
-                ai_cache.sound_alerts.push_back( temp_sound );
-            }
-        } else {
-            ai_cache.sound_alerts.push_back( temp_sound );
-        }
-    }
-    add_msg( m_debug, "%s heard '%s', priority %d at volume %d from %d:%d, my pos %d:%d",
-             disp_name(), description, priority, heard_volume, spos.x, spos.y, pos().x, pos().y );
-    switch( priority ) {
-        case 4: //
-            warn_about( "speech_noise", rng( 1, 10 ) * 1_minutes );
-            break;
-        case 5:
-        case 6:
-        case 7:
-        case 8: // combat noise is only worth comment if we're not fighting
-        case 9:
-            // TODO: Brave NPCs should be less jumpy
-            if( ai_cache.total_danger < 1.0f ) {
+    if( ai_cache.total_danger < 1.0f ) {
+        if( spriority == sounds::sound_t::movement && !in_vehicle ) {
+            warn_about( "movement_noise", rng( 1, 10 ) * 1_minutes, description );
+        } else if( spriority > sounds::sound_t::movement ) {
+            if( !( is_player_ally || is_npc_ally ) && ( spriority == sounds::sound_t::speech ||
+                    spriority == sounds::sound_t::alert || spriority == sounds::sound_t::order ) ) {
+                warn_about( "speech_noise", rng( 1, 10 ) * 1_minutes );
+            } else if( spriority > sounds::sound_t::activity ) {
                 warn_about( "combat_noise", rng( 1, 10 ) * 1_minutes );
             }
-            break;
-        case 3: // movement is is only worth comment if we're not fighting and out of a vehicle
-            if( ai_cache.total_danger < 1.0f && !in_vehicle ) {
-                warn_about( "movement_noise", rng( 1, 10 ) * 1_minutes, description );
+            if( rl_dist( pos(), spos ) < investigate_dist ) {
+                add_msg( m_debug, "NPC %s added noise at pos %d:%d", name, spos.x, spos.y );
+                dangerous_sound temp_sound;
+                temp_sound.pos = spos;
+                temp_sound.volume = heard_volume;
+                temp_sound.type = priority;
+                if( !ai_cache.sound_alerts.empty() ) {
+                    if( ai_cache.sound_alerts.back().pos != spos ) {
+                        ai_cache.sound_alerts.push_back( temp_sound );
+                    }
+                } else {
+                    ai_cache.sound_alerts.push_back( temp_sound );
+                }
             }
-            break;
-        default:
-            break;
+        }
     }
 }
 
