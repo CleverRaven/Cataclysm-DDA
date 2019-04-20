@@ -146,10 +146,12 @@ struct mission_target_params {
     std::string overmap_terrain_subtype;
     mission *mission_pointer;
 
-    cata::optional<tripoint> search_origin;
+    bool origin_u = true;
+    cata::optional<tripoint> offset;
     cata::optional<std::string> replaceable_overmap_terrain_subtype;
     cata::optional<overmap_special_id> overmap_special;
     cata::optional<int> reveal_radius;
+    int min_distance = 0;
 
     bool must_see = false;
     bool cant_see = false;

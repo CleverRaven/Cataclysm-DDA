@@ -587,11 +587,10 @@ void mission_start::place_book( mission * )
 void mission_start::reveal_refugee_center( mission *miss )
 {
     mission_target_params t;
-    t.search_origin = g->u.global_omt_location();
     t.overmap_terrain_subtype = "evac_center_18";
     t.overmap_special = overmap_special_id( "evac_center" );
     t.mission_pointer = miss;
-    t.search_range = OMAPX * 5;
+    t.search_range = 0;
     t.reveal_radius = 3;
 
     const cata::optional<tripoint> target_pos = mission_util::assign_mission_target( t );
@@ -601,7 +600,8 @@ void mission_start::reveal_refugee_center( mission *miss )
         return;
     }
 
-    const tripoint source_road = overmap_buffer.find_closest( *t.search_origin, "road", 3, false );
+    const tripoint source_road = overmap_buffer.find_closest( g->u.global_omt_location(), "road",
+                                 3, false );
     const tripoint dest_road = overmap_buffer.find_closest( *target_pos, "road", 3, false );
 
     if( overmap_buffer.reveal_route( source_road, dest_road, 1, true ) ) {

@@ -160,17 +160,24 @@ tripoint mission_util::target_closest_lab_entrance( const tripoint &origin, int 
 
 cata::optional<tripoint> mission_util::assign_mission_target( const mission_target_params &params )
 {
-    // If a search origin is provided, then use that. Otherwise, use the player's current
-    // location.
-    const tripoint origin_pos = params.search_origin ? *params.search_origin :
-                                g->u.global_omt_location();
+    // use the player or NPC's current position, adjust for the z value if any
+    tripoint origin_pos = g->u.global_omt_location();
+    if( !params.origin_u ) {
+        const auto giver = g->find_npc( params.mission_pointer->get_npc_id() );
+        if( giver ) {
+            origin_pos = giver->global_omt_location();
+        }
+    }
+    if( params.z ) {
+        origin_pos.z = *params.z;
+    }
 
     tripoint target_pos = overmap::invalid_tripoint;
 
     omt_find_params find_params;
     find_params.type = params.overmap_terrain_subtype;
     find_params.search_range = params.search_range;
-    //find_params.min_distance = params.min_distance;
+    find_params.min_distance = params.min_distance;
     find_params.must_see = params.must_see;
     find_params.cant_see = params.cant_see;
     find_params.allow_subtypes = false;
@@ -196,14 +203,12 @@ cata::optional<tripoint> mission_util::assign_mission_target( const mission_targ
             // we're interested in.
             if( placed ) {
                 find_params.must_see = false;
-                find_params.cant_see = true;
                 target_pos = overmap_buffer.find_closest( origin_pos, find_params );
             }
         } else if( params.replaceable_overmap_terrain_subtype ) {
             // This terrain wasn't part of an overmap special, but we do have a replacement
             // terrain specified. Find a random location of that replacement type.
             find_params.must_see = false;
-            find_params.cant_see = true;
             find_params.type = *params.replaceable_overmap_terrain_subtype;
             target_pos = overmap_buffer.find_random( origin_pos, find_params );
 
@@ -226,6 +231,10 @@ cata::optional<tripoint> mission_util::assign_mission_target( const mission_targ
     if( target_pos == overmap::invalid_tripoint ) {
         debugmsg( "Unable to find and assign mission target %s.", params.overmap_terrain_subtype );
         return cata::nullopt;
+    }
+
+    if( params.offset ) {
+        target_pos += *params.offset;
     }
 
     // If we specified a reveal radius, then go ahead and reveal around our found position.
@@ -279,11 +288,13 @@ tripoint mission_util::target_om_ter_random( const std::string &omter, int revea
     return place;
 }
 
-
 mission_target_params mission_util::parse_mission_om_target( JsonObject &jo )
 {
     mission_target_params p;
     p.overmap_terrain_subtype = jo.get_string( "om_terrain" );
+    if( jo.has_bool( "origin_npc" ) ) {
+        p.origin_u = false;
+    }
     if( jo.has_string( "om_terrain_replace" ) ) {
         p.replaceable_overmap_terrain_subtype = jo.get_string( "om_terrain_replace" );
     }
@@ -296,6 +307,9 @@ mission_target_params mission_util::parse_mission_om_target( JsonObject &jo )
     if( jo.has_bool( "must_see" ) ) {
         p.must_see = jo.get_bool( "must_see" );
     }
+    if( jo.has_bool( "cant_see" ) ) {
+        p.cant_see = jo.get_bool( "cant_see" );
+    }
     if( jo.has_bool( "exclude_seen" ) ) {
         p.random = jo.get_bool( "exclude" );
     }
@@ -306,7 +320,20 @@ mission_target_params mission_util::parse_mission_om_target( JsonObject &jo )
         p.search_range = std::max( 1, jo.get_int( "search_range" ) );
     }
     if( jo.has_int( "min_distance" ) ) {
-        p.search_range = std::max( 1, jo.get_int( "min_distance" ) );
+        p.min_distance = std::max( 1, jo.get_int( "min_distance" ) );
+    }
+    if( jo.has_int( "offset_x" ) || jo.has_int( "offset_y" ) || jo.has_int( "offset_z" ) ) {
+        tripoint offset = tripoint( 0, 0, 0 );
+        if( jo.has_int( "offset_x" ) ) {
+            offset.x = jo.get_int( "offset_x" );
+        }
+        if( jo.has_int( "offset_y" ) ) {
+            offset.y = jo.get_int( "offset_y" );
+        }
+        if( jo.has_int( "offset_z" ) ) {
+            offset.z = jo.get_int( "offset_z" );
+        }
+        p.offset = offset;
     }
     if( jo.has_int( "z" ) ) {
         p.z = jo.get_int( "z" );
@@ -347,10 +374,6 @@ void mission_util::set_assign_om_target( JsonObject &jo,
     const auto mission_func = [p]( mission * miss ) {
         mission_target_params mtp = p;
         mtp.mission_pointer = miss;
-        if( p.z ) {
-            const tripoint loc = g->u.global_omt_location();
-            mtp.search_origin = tripoint( loc.x, loc.y, *p.z );
-        }
         assign_mission_target( mtp );
     };
     funcs.emplace_back( mission_func );
