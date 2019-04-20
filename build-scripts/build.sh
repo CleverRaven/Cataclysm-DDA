@@ -29,6 +29,7 @@ then
     make -j 5 style-json
 elif just_json
 then
+    CODE_COVERAGE=""
     exit 0
 fi
 
