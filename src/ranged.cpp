@@ -670,8 +670,7 @@ static int draw_targeting_window( const catacurses::window &w_target, const std:
         mvwprintz( w_target, text_y++, 1, c_white, _( "[%c] to switch firing modes." ),
                    front_or( "SWITCH_MODE", ' ' ) );
         mvwprintz( w_target, text_y++, 1, c_white, _( "[%c] to reload/switch ammo." ),
-                   front_or( "SWITCH_AMMO",
-                             ' ' ) );
+                   front_or( "SWITCH_AMMO", ' ' ) );
     }
 
     if( is_mouse_enabled() ) {
