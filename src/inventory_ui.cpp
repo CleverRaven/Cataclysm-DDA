@@ -227,7 +227,7 @@ std::string inventory_selector_preset::get_caption( const inventory_entry &entry
         entry.location->display_money( count,
                                        entry.location.charges_in_stack( count ) ) : entry.location->display_name( count );
 
-    return ( count > 1 ) ? string_format( "%d %s", count, disp_name.c_str() ) : disp_name;
+    return ( count > 1 ) ? string_format( "%d %s", count, disp_name ) : disp_name;
 }
 
 std::string inventory_selector_preset::get_denial( const inventory_entry &entry ) const
@@ -560,11 +560,20 @@ const inventory_entry &inventory_column::get_selected() const
 
 std::vector<inventory_entry *> inventory_column::get_all_selected() const
 {
+    const auto filter_to_selected = [&]( const inventory_entry & entry ) {
+        return is_selected( entry );
+    };
+    return get_entries( filter_to_selected );
+}
+
+std::vector<inventory_entry *> inventory_column::get_entries(
+    const std::function<bool( const inventory_entry &entry )> &filter_func ) const
+{
     std::vector<inventory_entry *> res;
 
     if( allows_selecting() ) {
         for( const auto &elem : entries ) {
-            if( is_selected( elem ) ) {
+            if( filter_func( elem ) ) {
                 res.push_back( const_cast<inventory_entry *>( &elem ) );
             }
         }
@@ -591,7 +600,6 @@ void inventory_column::set_stack_favorite( const item_location &location, bool f
 
         for( auto &item : items ) {
             if( item.stacks_with( *selected_item ) ) {
-                printf( "%s %s\n", favorite ? "Favoriting" : "Unfavoriting", item.display_name().c_str() );
                 to_favorite.push_back( &item );
             }
         }
@@ -607,7 +615,6 @@ void inventory_column::set_stack_favorite( const item_location &location, bool f
 
         for( auto &item : items ) {
             if( item.stacks_with( *selected_item ) ) {
-                printf( "%s %s\n", favorite ? "Favoriting" : "Unfavoriting", item.display_name().c_str() );
                 to_favorite.push_back( &item );
             }
         }
@@ -1008,7 +1015,7 @@ const item_category *inventory_selector::naturalize_category( const item_categor
             return existing;
         }
 
-        const std::string name = string_format( "%s %s", category.name().c_str(), suffix.c_str() );
+        const std::string name = string_format( "%s %s", category.name(), suffix.c_str() );
         const int sort_rank = category.sort_rank() + dist;
         const item_category new_category( id, no_translation( name ), sort_rank );
 
@@ -1520,7 +1527,7 @@ void inventory_selector::draw_footer( const catacurses::window &w ) const
 
         mvwprintz( w, getmaxy( w ) - border, 2, c_light_gray, "< " );
         wprintz( w, c_light_gray, text );
-        wprintz( w, c_white, filter.c_str() );
+        wprintz( w, c_white, filter );
         wprintz( w, c_light_gray, " >" );
     }
 
@@ -1773,6 +1780,7 @@ inventory_multiselector::inventory_multiselector( const player &p,
     selection_col( new selection_column( "SELECTION_COLUMN", selection_column_title ) )
 {
     ctxt.register_action( "RIGHT", _( "Mark/unmark selected item" ) );
+    ctxt.register_action( "DROP_NON_FAVORITE", _( "Mark/unmark non-favorite items" ) );
 
     for( auto &elem : get_all_columns() ) {
         elem->set_multiselect( true );
@@ -1820,7 +1828,7 @@ std::pair<const item *, const item *> inventory_compare_selector::execute()
             }
         } else if( input.action == "CONFIRM" ) {
             popup_getkey( _( "You need two items for comparison.  Use %s to select them." ),
-                          ctxt.get_desc( "RIGHT" ).c_str() );
+                          ctxt.get_desc( "RIGHT" ) );
         } else if( input.action == "QUIT" ) {
             return std::make_pair( nullptr, nullptr );
         } else if( input.action == "INVENTORY_FILTER" ) {
@@ -1905,7 +1913,7 @@ std::list<std::pair<int, int>> inventory_iuse_selector::execute()
         } else if( input.action == "CONFIRM" ) {
             if( to_use.empty() ) {
                 popup_getkey( _( "No items were selected.  Use %s to select them." ),
-                              ctxt.get_desc( "RIGHT" ).c_str() );
+                              ctxt.get_desc( "RIGHT" ) );
                 continue;
             }
             break;
@@ -1966,6 +1974,26 @@ inventory_drop_selector::inventory_drop_selector( const player &p,
 #endif
 }
 
+void inventory_drop_selector::process_selected( int &count,
+        const std::vector<inventory_entry *> &selected )
+{
+    if( count == 0 ) {
+        const bool clear = std::none_of( selected.begin(), selected.end(),
+        []( const inventory_entry * elem ) {
+            return elem->chosen_count > 0;
+        } );
+
+        if( clear ) {
+            count = max_chosen_count;
+        }
+    }
+
+    for( const auto &elem : selected ) {
+        set_chosen_count( *elem, count );
+    }
+    count = 0;
+}
+
 std::list<std::pair<int, int>> inventory_drop_selector::execute()
 {
     int count = 0;
@@ -1985,6 +2013,15 @@ std::list<std::pair<int, int>> inventory_drop_selector::execute()
             }
             set_chosen_count( *input.entry, count );
             count = 0;
+        } else if( input.action == "DROP_NON_FAVORITE" ) {
+            const auto filter_to_nonfavorite_and_nonworn = []( const inventory_entry & entry ) {
+                return entry.is_item() &&
+                       !entry.location->is_favorite &&
+                       !g->u.is_worn( *entry.location );
+            };
+
+            const auto selected( get_active_column().get_entries( filter_to_nonfavorite_and_nonworn ) );
+            process_selected( count, selected );
         } else if( input.action == "RIGHT" ) {
             const auto selected( get_active_column().get_all_selected() );
 
@@ -2024,7 +2061,7 @@ std::list<std::pair<int, int>> inventory_drop_selector::execute()
         } else if( input.action == "CONFIRM" ) {
             if( dropping.empty() ) {
                 popup_getkey( _( "No items were selected.  Use %s to select them." ),
-                              ctxt.get_desc( "RIGHT" ).c_str() );
+                              ctxt.get_desc( "RIGHT" ) );
                 continue;
             }
             break;

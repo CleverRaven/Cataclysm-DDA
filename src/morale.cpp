@@ -156,12 +156,16 @@ void player_morale::morale_point::add( const int new_bonus, const int new_max_bo
     }
 
     int sqrt_of_sum_of_squares;
-    if( same_sign ) {
+    if( new_cap || !same_sign ) {
+        // If the morale bonus is capped apply the full bonus
+        // This is because some morale types build up slowly to a cap over time (e.g. MORALE_WET)
+        // If the new bonus is opposing apply the full bonus
+        sqrt_of_sum_of_squares = get_net_bonus() + new_bonus;
+    } else {
+        // Otherwise use the sqrt of sum of squares to nerf stacking
         sqrt_of_sum_of_squares = pow( get_net_bonus(), 2 ) + pow( new_bonus, 2 );
         sqrt_of_sum_of_squares = sqrt( sqrt_of_sum_of_squares );
         sqrt_of_sum_of_squares *= sgn( bonus );
-    } else {
-        sqrt_of_sum_of_squares = get_net_bonus() + new_bonus;
     }
 
     bonus = normalize_bonus( sqrt_of_sum_of_squares, new_max_bonus, new_cap );
@@ -254,7 +258,7 @@ void player_morale::add( morale_type type, int bonus, int max_bonus,
 {
     if( ( duration == 0_turns ) & !is_permanent_morale( type ) ) {
         debugmsg( "Tried to set a non-permanent morale \"%s\" as permanent.",
-                  type.obj().describe( item_type ).c_str() );
+                  type.obj().describe( item_type ) );
         return;
     }
 
@@ -498,7 +502,7 @@ bool player_morale::consistent_with( const player_morale &morale ) const
             } );
 
             if( iter == rhs.points.end() || lhp.get_net_bonus() != iter->get_net_bonus() ) {
-                debugmsg( "Morale \"%s\" is inconsistent.", lhp.get_name().c_str() );
+                debugmsg( "Morale \"%s\" is inconsistent.", lhp.get_name() );
                 return false;
             }
         }

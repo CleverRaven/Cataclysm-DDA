@@ -107,7 +107,7 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
             " FUNCTION : %s\n"
             " FILE     : %s\n"
             " LINE     : %s\n",
-            text.c_str(), funcname, filename, line
+            text, funcname, filename, line
         );
 
 #if defined(BACKTRACE)

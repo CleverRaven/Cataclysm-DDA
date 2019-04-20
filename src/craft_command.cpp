@@ -32,10 +32,14 @@ std::string comp_selection<CompType>::nname() const
     return item::nname( comp.type, comp.count );
 }
 
-void craft_command::execute()
+void craft_command::execute( const tripoint &new_loc )
 {
     if( empty() ) {
         return;
+    }
+
+    if( new_loc != tripoint_zero ) {
+        loc = new_loc;
     }
 
     bool need_selections = true;
@@ -79,7 +83,7 @@ void craft_command::execute()
         }
     }
 
-    crafter->start_craft( *this );
+    crafter->start_craft( *this, loc );
     crafter->last_batch = batch_size;
     crafter->lastrecipe = rec->ident();
 

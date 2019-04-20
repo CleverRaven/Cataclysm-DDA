@@ -67,7 +67,7 @@
     "type": "talk_topic",
     "category": "CATEGORY_FOLLOW",
     "dynamic_line": {
-      "npc_has_effect": "infected",
+      "npc_has_effect": "infection",
       "no": {
         "npc_has_effect": "asked_to_follow",
         "no": "Why should I travel with you?",
@@ -80,7 +80,7 @@
         "switch": true,
         "text": "Understood.  I'll get those antibiotics.",
         "topic": "TALK_NONE",
-        "condition": { "npc_has_effect": "infected" }
+        "condition": { "npc_has_effect": "infection" }
       },
       {
         "switch": true,

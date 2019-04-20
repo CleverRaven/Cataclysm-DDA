@@ -620,6 +620,8 @@
         "abstorefront_1": 200,
         "abstorefront_2": 200,
         "police": 100,
+        "police_1": 100,
+        "police_2": 100,
         "fire_station": 200,
         "home_improvement": 200,
         "s_lot": 400,

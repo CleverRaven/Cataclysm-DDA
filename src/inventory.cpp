@@ -873,7 +873,7 @@ void inventory::rust_iron_items()
                 g->m.water_from( g->u.pos() ).typeId() ==
                 "salt_water" ) { //Freshwater without oxygen rusts slower than air
                 elem_stack_iter.inc_damage( DT_ACID ); // rusting never completely destroys an item
-                add_msg( m_bad, _( "Your %s is damaged by rust." ), elem_stack_iter.tname().c_str() );
+                add_msg( m_bad, _( "Your %s is damaged by rust." ), elem_stack_iter.tname() );
             }
         }
     }
@@ -993,21 +993,21 @@ void inventory::assign_empty_invlet( item &it, const Character &p, const bool fo
         return;
     }
 
-    std::set<char> cur_inv = p.allocated_invlets();
+    invlets_bitset cur_inv = p.allocated_invlets();
     itype_id target_type = it.typeId();
-    for( const auto &iter : assigned_invlet ) {
-        if( iter.second == target_type && !cur_inv.count( iter.first ) ) {
+    for( auto iter : assigned_invlet ) {
+        if( iter.second == target_type && !cur_inv[iter.first] ) {
             it.invlet = iter.first;
             return;
         }
     }
-    if( cur_inv.size() < inv_chars.size() ) {
+    if( cur_inv.count() < inv_chars.size() ) {
         for( const auto &inv_char : inv_chars ) {
             if( assigned_invlet.count( inv_char ) ) {
                 // don't overwrite assigned keys
                 continue;
             }
-            if( cur_inv.find( inv_char ) == cur_inv.end() ) {
+            if( !cur_inv[inv_char] ) {
                 it.invlet = inv_char;
                 return;
             }
@@ -1026,7 +1026,7 @@ void inventory::assign_empty_invlet( item &it, const Character &p, const bool fo
             return;
         }
     }
-    debugmsg( "could not find a hotkey for %s", it.tname().c_str() );
+    debugmsg( "could not find a hotkey for %s", it.tname() );
 }
 
 void inventory::reassign_item( item &it, char invlet, bool remove_old )
@@ -1085,15 +1085,15 @@ void inventory::set_stack_favorite( const int position, const bool favorite )
     }
 }
 
-std::set<char> inventory::allocated_invlets() const
+invlets_bitset inventory::allocated_invlets() const
 {
-    std::set<char> invlets;
+    invlets_bitset invlets;
+
     for( const auto &stack : items ) {
         const char invlet = stack.front().invlet;
-        if( invlet != 0 ) {
-            invlets.insert( invlet );
-        }
+        invlets.set( invlet );
     }
+    invlets[0] = false;
     return invlets;
 }
 

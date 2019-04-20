@@ -501,7 +501,7 @@ void weather_effect::light_acid()
     generic_wet( true );
     if( calendar::once_every( 1_minutes ) && is_player_outside() ) {
         if( g->u.weapon.has_flag( "RAIN_PROTECT" ) && !one_in( 3 ) ) {
-            add_msg( _( "Your %s protects you from the acidic drizzle." ), g->u.weapon.tname().c_str() );
+            add_msg( _( "Your %s protects you from the acidic drizzle." ), g->u.weapon.tname() );
         } else {
             if( g->u.worn_with_flag( "RAINPROOF" ) && !one_in( 4 ) ) {
                 add_msg( _( "Your clothing protects you from the acidic drizzle." ) );
@@ -559,7 +559,7 @@ static std::string to_string( const weekdays &d )
     };
     static_assert( static_cast<int>( weekdays::SUNDAY ) == 0,
                    "weekday_names array is out of sync with weekdays enumeration values" );
-    return _( weekday_names[ static_cast<int>( d ) ].c_str() );
+    return _( weekday_names[ static_cast<int>( d ) ] );
 }
 
 static std::string print_time_just_hour( const time_point &p )
@@ -609,8 +609,8 @@ std::string weather_forecast( const point &abs_sm_pos )
     weather_report << string_format(
                        _( "The current time is %s Eastern Standard Time.  At %s in %s, it was %s. The temperature was %s. " ),
                        to_string_time_of_day( calendar::turn ), print_time_just_hour( calendar::turn ),
-                       city_name.c_str(),
-                       weather_data( g->weather ).name.c_str(), print_temperature( g->temperature ).c_str()
+                       city_name,
+                       weather_data( g->weather ).name, print_temperature( g->temperature )
                    );
 
     //weather_report << ", the dewpoint ???, and the relative humidity ???.  ";
@@ -659,8 +659,8 @@ std::string weather_forecast( const point &abs_sm_pos )
         }
         weather_report << string_format(
                            _( "%s... %s. Highs of %s. Lows of %s. " ),
-                           day.c_str(), weather_data( forecast ).name.c_str(),
-                           print_temperature( high ).c_str(), print_temperature( low ).c_str()
+                           day, weather_data( forecast ).name,
+                           print_temperature( high ), print_temperature( low )
                        );
     }
     return weather_report.str();
@@ -677,13 +677,13 @@ std::string print_temperature( double fahrenheit, int decimals )
 
     if( get_option<std::string>( "USE_CELSIUS" ) == "celsius" ) {
         ret << temp_to_celsius( fahrenheit );
-        return string_format( pgettext( "temperature in Celsius", "%sC" ), ret.str().c_str() );
+        return string_format( pgettext( "temperature in Celsius", "%sC" ), ret.str() );
     } else if( get_option<std::string>( "USE_CELSIUS" ) == "kelvin" ) {
         ret << temp_to_kelvin( fahrenheit );
-        return string_format( pgettext( "temperature in Kelvin", "%sK" ), ret.str().c_str() );
+        return string_format( pgettext( "temperature in Kelvin", "%sK" ), ret.str() );
     } else {
         ret << fahrenheit;
-        return string_format( pgettext( "temperature in Fahrenheit", "%sF" ), ret.str().c_str() );
+        return string_format( pgettext( "temperature in Fahrenheit", "%sF" ), ret.str() );
     }
 }
 
@@ -697,7 +697,7 @@ std::string print_humidity( double humidity, int decimals )
     ret << std::fixed;
 
     ret << humidity;
-    return string_format( pgettext( "humidity in percent", "%s%%" ), ret.str().c_str() );
+    return string_format( pgettext( "humidity in percent", "%s%%" ), ret.str() );
 }
 
 /**
@@ -710,7 +710,7 @@ std::string print_pressure( double pressure, int decimals )
     ret << std::fixed;
 
     ret << pressure / 10;
-    return string_format( pgettext( "air pressure in kPa", "%s kPa" ), ret.str().c_str() );
+    return string_format( pgettext( "air pressure in kPa", "%s kPa" ), ret.str() );
 }
 
 int get_local_windchill( double temperature, double humidity, double windpower )

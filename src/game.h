@@ -862,10 +862,6 @@ class game
         bool reinitmap;
         bool fullscreen;
         bool was_fullscreen;
-        // the calculated number of columns to shift the terrain window in order
-        // to center the screen with a sidebar
-        // negative number is left hand side of screen, positive is right side
-        tripoint sidebar_offset;
 
         /** open vehicle interaction screen */
         void exam_vehicle( vehicle &veh, int cx = 0, int cy = 0 );
@@ -968,7 +964,6 @@ class game
         void drop_in_direction(); // Drop w/ direction  'D'
 
         void butcher(); // Butcher a corpse  'B'
-        void eat( int pos = INT_MIN ); // Eat food or fuel  'E' (or 'a')
         void use_item( int pos = INT_MIN ); // Use item; also tries E,R,W  'a'
 
         void change_side( int pos = INT_MIN ); // Change the side on which an item is worn 'c'
@@ -977,6 +972,7 @@ class game
         void mend( int pos = INT_MIN );
         void autoattack();
     public:
+        void eat( int pos = INT_MIN ); // Eat food or fuel  'E' (or 'a')
         void reload_item(); // Reload an item
         void reload_weapon( bool try_everything = true ); // Reload a wielded gun/tool  'r'
         // Places the player at the specified point; hurts feet, lists items etc.

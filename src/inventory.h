@@ -6,8 +6,10 @@
 #include <list>
 #include <string>
 #include <unordered_map>
+#include <bitset>
 #include <utility>
 #include <vector>
+#include <limits>
 
 #include "cata_utility.h"
 #include "enums.h"
@@ -22,6 +24,7 @@ typedef std::vector< std::list<item>* > invslice;
 typedef std::vector< const std::list<item>* > const_invslice;
 typedef std::vector< std::pair<std::list<item>*, int> > indexed_invslice;
 typedef std::unordered_map< itype_id, std::list<const item *> > itype_bin;
+typedef std::bitset<std::numeric_limits<char>::max()> invlets_bitset;
 
 class salvage_actor;
 
@@ -153,14 +156,14 @@ class inventory : public visitable<inventory>
         // Below, "amount" refers to quantity
         //        "charges" refers to charges
         std::list<item> use_amount( itype_id it, int quantity,
-                                    const std::function<bool( const item & )> &filter = return_true );
+                                    const std::function<bool( const item & )> &filter = return_true<item> );
 
         bool has_tools( const itype_id &it, int quantity,
-                        const std::function<bool( const item & )> &filter = return_true ) const;
+                        const std::function<bool( const item & )> &filter = return_true<item> ) const;
         bool has_components( const itype_id &it, int quantity,
-                             const std::function<bool( const item & )> &filter = return_true ) const;
+                             const std::function<bool( const item & )> &filter = return_true<item> ) const;
         bool has_charges( const itype_id &it, long quantity,
-                          const std::function<bool( const item & )> &filter = return_true ) const;
+                          const std::function<bool( const item & )> &filter = return_true<item> ) const;
 
         int leak_level( const std::string &flag ) const; // level of leaked bad stuff from items
 
@@ -200,7 +203,7 @@ class inventory : public visitable<inventory>
 
         void set_stack_favorite( const int position, const bool favorite );
 
-        std::set<char> allocated_invlets() const;
+        invlets_bitset allocated_invlets() const;
 
 
         /**

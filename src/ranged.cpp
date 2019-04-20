@@ -129,7 +129,7 @@ int player::gun_engagement_moves( const item &gun, int target, int start ) const
 bool player::handle_gun_damage( item &it )
 {
     if( !it.is_gun() ) {
-        debugmsg( "Tried to handle_gun_damage of a non-gun %s", it.tname().c_str() );
+        debugmsg( "Tried to handle_gun_damage of a non-gun %s", it.tname() );
         return false;
     }
 
@@ -142,7 +142,7 @@ bool player::handle_gun_damage( item &it )
     if( is_underwater() && !it.has_flag( "WATERPROOF_GUN" ) && one_in( firing->durability ) ) {
         add_msg_player_or_npc( _( "Your %s misfires with a wet click!" ),
                                _( "<npcname>'s %s misfires with a wet click!" ),
-                               it.tname().c_str() );
+                               it.tname() );
         return false;
         // Here we check for a chance for the weapon to suffer a mechanical malfunction.
         // Note that some weapons never jam up 'NEVER_JAMS' and thus are immune to this
@@ -152,11 +152,11 @@ bool player::handle_gun_damage( item &it )
     } else if( ( one_in( 2 << firing->durability ) ) && !it.has_flag( "NEVER_JAMS" ) ) {
         add_msg_player_or_npc( _( "Your %s malfunctions!" ),
                                _( "<npcname>'s %s malfunctions!" ),
-                               it.tname().c_str() );
+                               it.tname() );
         if( it.damage() < it.max_damage() && one_in( 4 * firing->durability ) ) {
             add_msg_player_or_npc( m_bad, _( "Your %s is damaged by the mechanical malfunction!" ),
                                    _( "<npcname>'s %s is damaged by the mechanical malfunction!" ),
-                                   it.tname().c_str() );
+                                   it.tname() );
             // Don't increment until after the message
             it.inc_damage();
         }
@@ -167,7 +167,7 @@ bool player::handle_gun_damage( item &it )
     } else if( !curammo_effects.count( "NEVER_MISFIRES" ) && one_in( 1728 ) ) {
         add_msg_player_or_npc( _( "Your %s misfires with a dry click!" ),
                                _( "<npcname>'s %s misfires with a dry click!" ),
-                               it.tname().c_str() );
+                               it.tname() );
         return false;
         // Here we check for a chance for the weapon to suffer a misfire due to
         // using player-made 'RECYCLED' bullets. Note that not all forms of
@@ -176,11 +176,11 @@ bool player::handle_gun_damage( item &it )
     } else if( curammo_effects.count( "RECYCLED" ) && one_in( 256 ) ) {
         add_msg_player_or_npc( _( "Your %s misfires with a muffled click!" ),
                                _( "<npcname>'s %s misfires with a muffled click!" ),
-                               it.tname().c_str() );
+                               it.tname() );
         if( it.damage() < it.max_damage() && one_in( firing->durability ) ) {
             add_msg_player_or_npc( m_bad, _( "Your %s is damaged by the misfired round!" ),
                                    _( "<npcname>'s %s is damaged by the misfired round!" ),
-                                   it.tname().c_str() );
+                                   it.tname() );
             // Don't increment until after the message
             it.inc_damage();
         }
@@ -212,12 +212,12 @@ bool player::handle_gun_damage( item &it )
                     if( mod->mod_damage( dmgamt ) ) {
                         add_msg_player_or_npc( m_bad,  _( "Your attached %s is destroyed by your shot!" ),
                                                _( "<npcname>'s attached %s is destroyed by their shot!" ),
-                                               mod->tname().c_str() );
+                                               mod->tname() );
                         i_rem( mod );
                     } else if( it.damage() > initstate ) {
                         add_msg_player_or_npc( m_bad,  _( "Your attached %s is damaged by your shot!" ),
                                                _( "<npcname>'s %s is damaged by their shot!" ),
-                                               mod->tname().c_str() );
+                                               mod->tname() );
                     }
                 }
             }
@@ -234,7 +234,7 @@ int player::fire_gun( const tripoint &target, int shots )
 int player::fire_gun( const tripoint &target, int shots, item &gun )
 {
     if( !gun.is_gun() ) {
-        debugmsg( "%s tried to fire non-gun (%s).", name.c_str(), gun.tname().c_str() );
+        debugmsg( "%s tried to fire non-gun (%s).", name, gun.tname() );
         return 0;
     }
 
@@ -249,7 +249,7 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
     }
 
     if( shots <= 0 ) {
-        debugmsg( "Attempted to fire zero or negative shots using %s", gun.tname().c_str() );
+        debugmsg( "Attempted to fire zero or negative shots using %s", gun.tname() );
     }
 
     // usage of any attached bipod is dependent upon terrain
@@ -307,7 +307,7 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
         }
 
         if( gun.ammo_consume( gun.ammo_required(), pos() ) != gun.ammo_required() ) {
-            debugmsg( "Unexpected shortage of ammo whilst firing %s", gun.tname().c_str() );
+            debugmsg( "Unexpected shortage of ammo whilst firing %s", gun.tname() );
             break;
         }
 
@@ -602,15 +602,15 @@ static int draw_targeting_window( const catacurses::window &w_target, const std:
     switch( mode ) {
         case TARGET_MODE_FIRE:
         case TARGET_MODE_TURRET_MANUAL:
-            title = string_format( _( "Firing %s" ), name.c_str() );
+            title = string_format( _( "Firing %s" ), name );
             break;
 
         case TARGET_MODE_THROW:
-            title = string_format( _( "Throwing %s" ), name.c_str() );
+            title = string_format( _( "Throwing %s" ), name );
             break;
 
         case TARGET_MODE_THROW_BLIND:
-            title = string_format( _( "Blind throwing %s" ), name.c_str() );
+            title = string_format( _( "Blind throwing %s" ), name );
             break;
 
         default:
@@ -651,7 +651,7 @@ static int draw_targeting_window( const catacurses::window &w_target, const std:
 
     if( mode == TARGET_MODE_FIRE || mode == TARGET_MODE_TURRET_MANUAL || mode == TARGET_MODE_TURRET ) {
         mvwprintz( w_target, text_y++, 1, c_white, _( "[%s] Cycle targets; [%c] to fire." ),
-                   ctxt.get_desc( "NEXT_TARGET", 1 ).c_str(), front_or( "FIRE", ' ' ) );
+                   ctxt.get_desc( "NEXT_TARGET", 1 ), front_or( "FIRE", ' ' ) );
         mvwprintz( w_target, text_y++, 1, c_white, _( "[%c] target self; [%c] toggle snap-to-target" ),
                    front_or( "CENTER", ' ' ), front_or( "TOGGLE_SNAP_TO_TARGET", ' ' ) );
     }
@@ -727,7 +727,7 @@ static int print_steadiness( const catacurses::window &w, int line_number, doubl
     } else {
         const std::string &steadiness_bar = get_labeled_bar( steadiness, window_width,
                                             _( "Steadiness" ), '*' );
-        mvwprintw( w, line_number++, 1, steadiness_bar.c_str() );
+        mvwprintw( w, line_number++, 1, steadiness_bar );
     }
 
     return line_number;
@@ -855,7 +855,7 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
                 // TODO: Consider not printing 0 chances, but only if you can print something (at least miss 100% or so)
                 int chance = std::min<int>( 100, 100.0 * ( config.aim_level * confidence ) ) - last_chance;
                 last_chance += chance;
-                return string_format( "%s: <color_%s>%3d%%</color>", _( config.label/*.c_str()*/ ), config.color,
+                return string_format( "%s: <color_%s>%3d%%</color>", _( config.label ), config.color,
                                       chance );
             }, enumeration_conjunction::none );
             line_number += fold_and_print_from( w, line_number, 1, window_width, 0,
@@ -928,7 +928,7 @@ static int draw_turret_aim( const player &p, const catacurses::window &w, int li
 
     mvwprintw( w, line_number++, 1, _( "Turrets in range: %d" ), turrets.size() );
     for( const auto e : turrets ) {
-        mvwprintw( w, line_number++, 1, "*  %s", e->name().c_str() );
+        mvwprintw( w, line_number++, 1, "*  %s", e->name() );
     }
 
     return line_number;
@@ -1184,7 +1184,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             if( who.guaranteed_hostile() ) {
                 return true;
             }
-            return query_yn( _( "Really attack %s?" ), who.name.c_str() );
+            return query_yn( _( "Really attack %s?" ), who.name );
         }
         return true;
     };
@@ -1224,7 +1224,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         if( snap_to_target ) {
             center = dst;
         } else {
-            center = pc.pos() + pc.view_offset + g->sidebar_offset;
+            center = pc.pos() + pc.view_offset;
         }
         // Clear the target window.
         for( int i = 1; i <= getmaxy( w_target ) - num_instruction_lines - 2; i++ ) {
@@ -1267,7 +1267,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
 
             if( relevant != m.target ) {
                 mvwprintw( w_target, line_number++, 1, _( "Firing mode: %s %s (%d)" ),
-                           m->tname().c_str(), m.name(), m.qty );
+                           m->tname(), m.name(), m.qty );
             } else {
                 mvwprintw( w_target, line_number++, 1, _( "Firing mode: %s (%d)" ),
                            m.name(), m.qty );
@@ -1278,15 +1278,15 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
                 auto str = string_format( m->ammo_remaining() ?
                                           _( "Ammo: <color_%s>%s</color> (%d/%d)" ) :
                                           _( "Ammo: <color_%s>%s</color>" ),
-                                          get_all_colors().get_name( cur->color ).c_str(),
-                                          cur->nname( std::max( m->ammo_remaining(), 1L ) ).c_str(),
+                                          get_all_colors().get_name( cur->color ),
+                                          cur->nname( std::max( m->ammo_remaining(), 1L ) ),
                                           m->ammo_remaining(), m->ammo_capacity() );
 
                 nc_color col = c_light_gray;
                 print_colored_text( w_target, line_number++, 1, col, col, str );
             }
 
-            mvwprintw( w_target, line_number++, 1, _( "%s" ), print_recoil( g->u ).c_str() );
+            mvwprintw( w_target, line_number++, 1, _( "%s" ), print_recoil( g->u ) );
 
             // Skip blank lines if we're short on space.
             if( !compact ) {
@@ -1327,8 +1327,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
                                      target_size, dst, predicted_recoil );
 
             if( aim_mode->has_threshold ) {
-                mvwprintw( w_target, line_number++, 1, _( "%s Delay: %i" ), aim_mode->name.c_str(),
-                           predicted_delay );
+                mvwprintw( w_target, line_number++, 1, _( "%s Delay: %i" ), aim_mode->name, predicted_delay );
             }
         } else if( mode == TARGET_MODE_TURRET ) {
             line_number = draw_turret_aim( pc, w_target, line_number, dst );
@@ -1951,7 +1950,7 @@ double player::gun_value( const item &weap, long ammo ) const
     double gun_value = damage_and_accuracy * capacity_factor;
 
     add_msg( m_debug, "%s as gun: %.1f total, %.1f dispersion, %.1f damage, %.1f capacity",
-             weap.tname().c_str(), gun_value, dispersion_factor, damage_factor,
+             weap.tname(), gun_value, dispersion_factor, damage_factor,
              capacity_factor );
     return std::max( 0.0, gun_value );
 }

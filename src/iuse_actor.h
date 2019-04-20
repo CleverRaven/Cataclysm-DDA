@@ -69,6 +69,9 @@ class iuse_transform : public iuse_actor
         /** if zero or positive set remaining ammo of @ref target to this (after transformation) */
         long ammo_qty = -1;
 
+        /** if this has values, set remaining ammo of @ref target to one of them chosen at random (after transformation) */
+        std::vector<long> random_ammo_qty;
+
         /** if positive set transformed item active and start countdown */
         int countdown = 0;
 
@@ -796,7 +799,7 @@ class repair_item_actor : public iuse_actor
         };
 
         /** Attempts to repair target item with selected tool */
-        attempt_hint repair( player &pl, item &tool, item &target ) const;
+        attempt_hint repair( player &pl, item &tool, item_location &target ) const;
         /** Checks if repairs on target item are possible. Excludes checks on tool.
           * Doesn't just estimate - should not return true if repairs are not possible or false if they are. */
         bool can_repair_target( player &pl, const item &target, bool print_msg ) const;
