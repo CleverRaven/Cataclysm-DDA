@@ -159,6 +159,7 @@ struct mission_target_params {
     bool create_if_necessary = true;
     int search_range = OMAPX;
     cata::optional<int> z;
+    npc *guy = nullptr;
 };
 
 namespace mission_util
@@ -176,6 +177,7 @@ void set_reveal( const std::string &terrain,
 void set_reveal_any( JsonArray &ja, std::vector<std::function<void( mission *miss )>> &funcs );
 mission_target_params parse_mission_om_target( JsonObject &jo );
 cata::optional<tripoint> assign_mission_target( const mission_target_params &params );
+tripoint get_om_terrain_pos( const mission_target_params &params );
 void set_assign_om_target( JsonObject &jo,
                            std::vector<std::function<void( mission *miss )>> &funcs );
 bool set_update_mapgen( JsonObject &jo, std::vector<std::function<void( mission *miss )>> &funcs );

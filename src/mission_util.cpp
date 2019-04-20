@@ -270,6 +270,27 @@ cata::optional<tripoint> mission_util::assign_mission_target( const mission_targ
     return target_pos;
 }
 
+tripoint mission_util::get_om_terrain_pos( const mission_target_params &params )
+{
+    // use the player or NPC's current position, adjust for the z value if any
+    tripoint origin_pos = get_mission_om_origin( params );
+
+    tripoint target_pos = origin_pos;
+    if( !params.overmap_terrain_subtype.empty() ) {
+        cata::optional<tripoint> temp_pos = find_or_create_om_terrain( origin_pos, params );
+        if( temp_pos ) {
+            target_pos = *temp_pos;
+        }
+    }
+
+    if( params.offset ) {
+        target_pos += *params.offset;
+    }
+
+    // If we specified a reveal radius, then go ahead and reveal around our found position.
+    if( params.reveal_radius ) {
+        overmap_buffer.reveal( target_pos, *params.reveal_radius );
+    }
 
     return target_pos;
 }
@@ -317,7 +338,9 @@ tripoint mission_util::target_om_ter_random( const std::string &omter, int revea
 mission_target_params mission_util::parse_mission_om_target( JsonObject &jo )
 {
     mission_target_params p;
-    p.overmap_terrain_subtype = jo.get_string( "om_terrain" );
+    if( jo.has_string( "om_terrain" ) ) {
+        p.overmap_terrain_subtype = jo.get_string( "om_terrain" );
+    }
     if( jo.has_bool( "origin_npc" ) ) {
         p.origin_u = false;
     }
