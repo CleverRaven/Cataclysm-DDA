@@ -993,7 +993,7 @@
     "description": "This is almost weightless residue left after the burning of some substance.",
     "material": "powder_nonflam",
     "volume": 0.1,
-    "weight": 1,
+    "weight": 0.175,
     "ammo_type": "components",
     "count": 100
   },
