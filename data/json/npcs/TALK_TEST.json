@@ -554,12 +554,14 @@
       {
         "text": "This is a u_add_var test response.",
         "topic": "TALK_DONE",
-        "effect": { "u_add_var": "test", "type": "test", "context": "var_test", "value": "beer" }
+        "effect": { "u_add_var": "test", "type": "test", "context": "var_test", "value": "beer" },
+        "condition": { "not": { "u_has_var": "test", "type": "test", "context": "var_test", "value": "beer" } }
       },
       {
         "text": "This is a npc_add_var test response.",
         "topic": "TALK_DONE",
-        "effect": { "npc_add_var": "test", "type": "test", "context": "var_test", "value": "reeb" }
+        "effect": { "npc_add_var": "test", "type": "test", "context": "var_test", "value": "reeb" },
+        "condition": { "not": { "u_has_var": "test", "type": "test", "context": "var_test", "value": "beer" } }
       },
       {
         "text": "This is a u_has_var, u_remove_var test response.",
