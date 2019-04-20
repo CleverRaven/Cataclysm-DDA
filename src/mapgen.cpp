@@ -8669,6 +8669,15 @@ bool update_mapgen_function_json::update_map( const tripoint &omt_pos, int offse
 
 mapgen_update_func add_mapgen_update_func( JsonObject &jo, bool &defer )
 {
+    if( jo.has_string( "mapgen_update_id" ) ) {
+        const std::string mapgen_update_id = jo.get_string( "mapgen_update_id" );
+        const auto update_function = [mapgen_update_id]( const tripoint & omt_pos,
+        mission * miss ) {
+            run_mapgen_update_func( mapgen_update_id, omt_pos, miss, false );
+        };
+        return update_function;
+    }
+
     update_mapgen_function_json json_data( "" );
     mapgen_defer::defer = defer;
     if( !json_data.setup_update( jo ) ) {

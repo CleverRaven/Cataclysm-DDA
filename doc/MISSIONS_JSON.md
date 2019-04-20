@@ -160,7 +160,7 @@ The `update_mapgen`` object or array provides a way to modify existing overmap t
 
 As an array, `update_mapgen` consists of two or more `update_mapgen` objects.
 
-As an object, `update_mapgen` contains any valid JSON mapgen objects.  The objects are placed on the mission target terrain from "assign_mission_target" or optionally the closest overmap terrain specified by the `om_terrain` and `om_special` fields.
+As an object, `update_mapgen` contains any valid JSON mapgen objects.  The objects are placed on the mission target terrain from "assign_mission_target" or optionally the closest overmap terrain specified by the `om_terrain` and `om_special` fields.  If "mapgen_update_id" is specified, the "mapge_update" object with the matching "mapgen_update_id" will be executed.
 
 See doc/MAPGEN.md for more details on JSON mapgen and `update_mapgen`.
 
