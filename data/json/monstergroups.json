@@ -2077,7 +2077,6 @@
       { "monster": "mon_zombie_electric", "freq": 10, "cost_multiplier": 5 },
       { "monster": "mon_zombie_survivor", "freq": 1, "cost_multiplier": 25 },
       { "monster": "mon_beekeeper", "freq": 1, "cost_multiplier": 5 },
-      { "monster": "mon_zombie_thorny", "freq": 5, "cost_multiplier": 25 },
       { "monster": "mon_zombie_technician", "freq": 1, "cost_multiplier": 12 },
       { "monster": "mon_zombie_runner", "freq": 20, "cost_multiplier": 5, "pack_size": [ 1, 4 ] },
       { "monster": "mon_zombie_runner", "freq": 40, "cost_multiplier": 4 },
@@ -4299,7 +4298,8 @@
       { "monster": "mon_zombie_brute", "freq": 23, "cost_multiplier": 15 },
       { "monster": "mon_zombie_master", "freq": 2, "cost_multiplier": 30 },
       { "monster": "mon_zombie_hollow", "freq": 3, "cost_multiplier": 10 },
-      { "monster": "mon_zombie_predator", "freq": 8, "cost_multiplier": 10 }
+      { "monster": "mon_zombie_predator", "freq": 8, "cost_multiplier": 10 },
+      { "monster": "mon_zombie_thorny", "freq": 8, "cost_multiplier": 5 }
     ]
   },
   {
@@ -4694,7 +4694,6 @@
       { "monster": "mon_zombie_electric", "freq": 10, "cost_multiplier": 5 },
       { "monster": "mon_zombie_survivor", "freq": 1, "cost_multiplier": 25 },
       { "monster": "mon_beekeeper", "freq": 1, "cost_multiplier": 5 },
-      { "monster": "mon_zombie_thorny", "freq": 5, "cost_multiplier": 25 },
       { "monster": "mon_zombie_technician", "freq": 1, "cost_multiplier": 12 },
       { "monster": "mon_zombie_runner", "freq": 20, "cost_multiplier": 5, "pack_size": [ 1, 4 ] },
       { "monster": "mon_zombie_brainless", "freq": 55, "cost_multiplier": 1 }
