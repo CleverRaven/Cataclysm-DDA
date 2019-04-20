@@ -4337,7 +4337,7 @@ void iexamine::mill_finalize( player &, const tripoint &examp, const time_point 
         next_mill_type = f_water_mill;
     } else {
         debugmsg( "Furniture executed action mill_finalize, but is of type %s",
-                  g->m.furn( examp ).id() );
+                  g->m.furn( examp ).id().c_str() );
         return;
     }
 
