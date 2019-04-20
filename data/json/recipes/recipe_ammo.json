@@ -445,7 +445,7 @@
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 2 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "scrap", 6 ], [ "steel_chunk", 2 ] ] ]
+    "components": [ [ [ "steel_chunk", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -460,7 +460,7 @@
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "tools": [ [ [ "forge", 7 ], [ "oxy_torch", 2 ] ] ],
     "//": "Extra steel is for stablizers, mass, etc.  These are mostly better thanks to the maker's skill, though.",
-    "components": [ [ [ "steel_chunk", 2 ] ], [ [ "scrap", 6 ] ] ]
+    "components": [ [ [ "steel_chunk", 5 ] ], [ [ "scrap", 25 ] ] ]
   },
   {
     "type": "recipe",
@@ -474,7 +474,7 @@
     "book_learn": [ [ "recipe_arrows", 2 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "tools": [ [ [ "forge", 7 ], [ "oxy_torch", 2 ] ] ],
-    "components": [ [ [ "steel_chunk", 2 ] ], [ [ "scrap", 6 ] ] ]
+    "components": [ [ [ "steel_chunk", 5 ] ], [ [ "scrap", 25 ] ] ]
   },
   {
     "type": "recipe",
@@ -488,7 +488,7 @@
     "book_learn": [ [ "recipe_arrows", 2 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "tools": [ [ [ "forge", 7 ], [ "oxy_torch", 2 ] ] ],
-    "components": [ [ [ "steel_chunk", 2 ] ], [ [ "scrap", 6 ] ] ]
+    "components": [ [ [ "steel_chunk", 5 ] ], [ [ "scrap", 25 ] ] ]
   },
   {
     "type": "recipe",
