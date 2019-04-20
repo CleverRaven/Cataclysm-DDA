@@ -358,6 +358,7 @@ static const trait_id trait_RADIOACTIVE3( "RADIOACTIVE3" );
 static const trait_id trait_RADIOGENIC( "RADIOGENIC" );
 static const trait_id trait_REGEN( "REGEN" );
 static const trait_id trait_REGEN_LIZ( "REGEN_LIZ" );
+static const trait_id trait_HAIRROOTS( "HAIRROOTS" );
 static const trait_id trait_ROOTS2( "ROOTS2" );
 static const trait_id trait_ROOTS3( "ROOTS3" );
 static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
@@ -4463,9 +4464,12 @@ needs_rates player::calc_needs_rates()
 
     if( has_activity( activity_id( "ACT_TREE_COMMUNION" ) ) ) {
         // Much of the body's needs are taken care of by the trees.
-        rates.hunger *= 0.5f;
-        rates.thirst *= 0.5f;
-        rates.fatigue *= 0.5f;
+        // Hair Roots dont provide any bodily needs.
+    	if( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 )){  
+        	rates.hunger *= 0.5f;
+        	rates.thirst *= 0.5f;
+        	rates.fatigue *= 0.5f;
+        } 
     }
 
     if( is_npc() ) {
