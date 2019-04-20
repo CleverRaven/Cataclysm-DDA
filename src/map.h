@@ -46,7 +46,7 @@ class field;
 class field_entry;
 class vehicle;
 struct fragment_cloud;
-struct submap;
+class submap;
 class item_location;
 class map_cursor;
 struct maptile;
