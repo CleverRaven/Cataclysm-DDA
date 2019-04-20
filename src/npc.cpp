@@ -1166,7 +1166,7 @@ void npc::decide_needs()
     }
 }
 
-void npc::say( const std::string &line, const bool shout ) const
+void npc::say( const std::string &line, const int priority ) const
 {
     std::string formatted_line = line;
     parse_tags( formatted_line, g->u, *this );
@@ -1179,10 +1179,9 @@ void npc::say( const std::string &line, const bool shout ) const
         add_msg( m_warning, _( "%1$s says something but you can't hear it!" ), name );
     }
     // Sound happens even if we can't hear it
-    // Default volume for shouting for NPCs at 25
-    // TODO use same logic as for player shout volume
-    if( shout ) {
-        sounds::sound( pos(), 25, sounds::sound_t::alert, sound );
+    sounds::sound_t spriority = static_cast<sounds::sound_t>( priority );
+    if( spriority == sounds::sound_t::order || spriority == sounds::sound_t::alert ) {
+        sounds::sound( pos(), get_shout_volume(), spriority, sound );
     } else {
         sounds::sound( pos(), 16, sounds::sound_t::speech, sound );
     }
@@ -1445,6 +1444,36 @@ bool npc::took_painkiller() const
 {
     return ( has_effect( effect_pkill1 ) || has_effect( effect_pkill2 ) ||
              has_effect( effect_pkill3 ) || has_effect( effect_pkill_l ) );
+}
+
+bool npc::is_ally( const player &p ) const
+{
+    if( p.getID() == getID() ) {
+        return true;
+    }
+    if( p.is_player() ) {
+        if( ( my_fac && my_fac->id == faction_id( "your_followers" ) ) ||
+            is_friend() || is_following() || mission == NPC_MISSION_GUARD_ALLY ) {
+            return true;
+        } else {
+            for( const int &npc_id : g->get_follower_list() ) {
+                if( npc_id == getID() ) {
+                    return true;
+                }
+            }
+        }
+    } else {
+        const npc &guy = dynamic_cast<const npc &>( p );
+        if( my_fac && guy.my_fac && my_fac->id == guy.my_fac->id ) {
+            return true;
+        } else if( is_ally( g->u ) && guy.is_ally( g->u ) ) {
+            return true;
+        } else if( get_attitude_group( get_attitude() ) ==
+                   guy.get_attitude_group( guy.get_attitude() ) ) {
+            return true;
+        }
+    }
+    return false;
 }
 
 bool npc::is_friend() const
@@ -2379,7 +2408,7 @@ npc_companion_mission npc::get_companion_mission() const
     return comp_mission;
 }
 
-attitude_group npc::get_attitude_group( npc_attitude att )
+attitude_group npc::get_attitude_group( npc_attitude att ) const
 {
     switch( att ) {
         case NPCATT_MUG:

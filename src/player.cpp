@@ -2904,34 +2904,23 @@ void player::pause()
     search_surroundings();
 }
 
-void player::shout( std::string msg )
+int player::get_shout_volume() const
 {
     int base = 10;
     int shout_multiplier = 2;
 
     // Mutations make shouting louder, they also define the default message
-    if( has_trait( trait_SHOUT2 ) ) {
-        base = 15;
-        shout_multiplier = 3;
-        if( msg.empty() ) {
-            msg = is_player() ? _( "yourself scream loudly!" ) : _( "a loud scream!" );
-        }
-    }
-
     if( has_trait( trait_SHOUT3 ) ) {
         shout_multiplier = 4;
         base = 20;
-        if( msg.empty() ) {
-            msg = is_player() ? _( "yourself let out a piercing howl!" ) : _( "a piercing howl!" );
-        }
+    } else if( has_trait( trait_SHOUT2 ) ) {
+        base = 15;
+        shout_multiplier = 3;
     }
 
-    if( msg.empty() ) {
-        msg = is_player() ? _( "yourself shout loudly!" ) : _( "a loud shout!" );
-    }
     // Masks and such dampen the sound
-    // Balanced around  whisper for wearing bondage mask
-    // and noise ~= 10(door smashing) for wearing dust mask for character with strength = 8
+    // Balanced around whisper for wearing bondage mask
+    // and noise ~= 10 (door smashing) for wearing dust mask for character with strength = 8
     /** @EFFECT_STR increases shouting volume */
     const int penalty = encumb( bp_mouth ) * 3 / 2;
     int noise = base + str_cur * shout_multiplier - penalty;
@@ -2941,9 +2930,45 @@ void player::shout( std::string msg )
     constexpr int minimum_noise = 2;
 
     if( noise <= base ) {
+        noise = std::max( minimum_noise, noise );
+    }
+
+    // Screaming underwater is not good for oxygen and harder to do overall
+    if( underwater ) {
+        noise = std::max( minimum_noise, noise / 2 );
+    }
+    return noise;
+}
+
+void player::shout( std::string msg, bool order )
+{
+    int base = 10;
+
+    // Mutations make shouting louder, they also define the default message
+    if( has_trait( trait_SHOUT3 ) ) {
+        base = 20;
+        if( msg.empty() ) {
+            msg = is_player() ? _( "yourself let out a piercing howl!" ) : _( "a piercing howl!" );
+        }
+    } else if( has_trait( trait_SHOUT2 ) ) {
+        base = 15;
+        if( msg.empty() ) {
+            msg = is_player() ? _( "yourself scream loudly!" ) : _( "a loud scream!" );
+        }
+    }
+
+    if( msg.empty() ) {
+        msg = is_player() ? _( "yourself shout loudly!" ) : _( "a loud shout!" );
+    }
+    int noise = get_shout_volume();
+
+    // Minimum noise volume possible after all reductions.
+    // Volume 1 can't be heard even by player
+    constexpr int minimum_noise = 2;
+
+    if( noise <= base ) {
         std::string dampened_shout;
         std::transform( msg.begin(), msg.end(), std::back_inserter( dampened_shout ), tolower );
-        noise = std::max( minimum_noise, noise );
         msg = std::move( dampened_shout );
     }
 
@@ -2952,10 +2977,9 @@ void player::shout( std::string msg )
         if( !has_trait( trait_GILLS ) && !has_trait( trait_GILLS_CEPH ) ) {
             mod_stat( "oxygen", -noise );
         }
-
-        noise = std::max( minimum_noise, noise / 2 );
     }
 
+    const int penalty = encumb( bp_mouth ) * 3 / 2;
     // TODO: indistinct noise descriptions should be handled in the sounds code
     if( noise <= minimum_noise ) {
         add_msg_if_player( m_warning,
@@ -2966,7 +2990,7 @@ void player::shout( std::string msg )
         add_msg_if_player( m_warning, _( "The sound of your voice is significantly muffled!" ) );
     }
 
-    sounds::sound( pos(), noise, sounds::sound_t::alert, msg );
+    sounds::sound( pos(), noise, order ? sounds::sound_t::order : sounds::sound_t::alert, msg );
 }
 
 void player::toggle_move_mode()
@@ -12174,12 +12198,9 @@ bool player::can_hear( const tripoint &source, const int volume ) const
     if( source == pos() && volume == 0 ) {
         return true;
     }
-
-    // TODO: sound attenuation due to weather
-
     const int dist = rl_dist( source, pos() );
     const float volume_multiplier = hearing_ability();
-    return volume * volume_multiplier >= dist;
+    return ( volume - weather_data( g->weather ).sound_attn ) * volume_multiplier >= dist;
 }
 
 float player::hearing_ability() const

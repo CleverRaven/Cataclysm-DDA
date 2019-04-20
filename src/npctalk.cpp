@@ -39,6 +39,7 @@
 #include "overmapbuffer.h"
 #include "rng.h"
 #include "skill.h"
+#include "sounds.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "text_snippets.h"
@@ -144,20 +145,20 @@ int cash_to_favor( const npc &, int cash )
 
 void game::chat()
 {
+    int volume = g->u.get_shout_volume();
+
     const std::vector<npc *> available = get_npcs_if( [&]( const npc & guy ) {
         // TODO: Get rid of the z-level check when z-level vision gets "better"
-        return u.posz() == guy.posz() &&
-               u.sees( guy.pos() ) &&
+        return u.posz() == guy.posz() && u.sees( guy.pos() ) &&
                rl_dist( u.pos(), guy.pos() ) <= SEEX * 2;
     } );
     const std::vector<npc *> followers = get_npcs_if( [&]( const npc & guy ) {
-        return guy.is_friend() && guy.is_following() && u.posz() == guy.posz() &&
-               u.sees( guy.pos() ) && rl_dist( u.pos(), guy.pos() ) <= SEEX * 2;
+        return guy.is_friend() && guy.is_following() && guy.can_hear( u.pos(), volume );
     } );
     const std::vector<npc *> guards = get_npcs_if( [&]( const npc & guy ) {
         return guy.mission == NPC_MISSION_GUARD_ALLY &&
-               guy.companion_mission_role_id != "FACTION_CAMP" && u.posz() == guy.posz() &&
-               u.sees( guy.pos() ) && rl_dist( u.pos(), guy.pos() ) <= SEEX * 2;
+               guy.companion_mission_role_id != "FACTION_CAMP" &&
+               guy.can_hear( u.pos(), volume );
     } );
 
     uilist nmenu;
@@ -193,17 +194,20 @@ void game::chat()
                         _( "Tell all your allies to prepare for danger" ) );
         nmenu.addentry( yell_relax = i++, true, 'C',
                         _( "Tell all your allies to relax from danger" ) );
-
     }
     if( !guards.empty() ) {
         nmenu.addentry( yell_follow = i++, true, 'f', _( "Tell all your allies to follow" ) );
     }
 
+    std::string message;
+    std::string yell_msg;
+    bool is_order = true;
     nmenu.query();
     if( nmenu.ret < 0 ) {
         return;
     } else if( nmenu.ret == yell ) {
-        u.shout( _( "yourself shouting loudly!" ) );
+        is_order = false;
+        message = _( "loudly." );
     } else if( nmenu.ret == yell_sentence ) {
         std::string popupdesc = string_format( _( "Enter a sentence to yell" ) );
         string_input_popup popup;
@@ -213,53 +217,60 @@ void game::chat()
         .identifier( "sentence" )
         .max_length( 128 )
         .query();
-        std::string sentence = popup.text();
-        add_msg( _( "You yell, \"%s\"" ), sentence );
-        u.shout( string_format( _( "%s yelling \"%s\"" ), u.disp_name(), sentence ) );
+        yell_msg = popup.text() + ".";
+        is_order = false;
     } else if( nmenu.ret == yell_guard ) {
         for( npc *p : followers ) {
             talk_function::assign_guard( *p );
         }
-        u.shout( _( "Guard here!" ) );
+        yell_msg =  _( "Guard here!" );
     } else if( nmenu.ret == yell_awake ) {
         for( npc *p : followers ) {
             talk_function::wake_up( *p );
         }
-        u.shout( _( "Stay awake!" ) );
+        yell_msg = _( "Stay awake!" );
     } else if( nmenu.ret == yell_sleep ) {
         for( npc *p : followers ) {
             p->rules.set_flag( ally_rule::allow_sleep );
         }
-        u.shout( _( "We're safe!  Take a nap if you're tired." ) );
+        yell_msg = _( "We're safe!  Take a nap if you're tired." );
     } else if( nmenu.ret == yell_follow ) {
         for( npc *p : guards ) {
             talk_function::stop_guard( *p );
         }
-        u.shout( _( "Follow me!" ) );
+        yell_msg = _( "Follow me!" );
     } else if( nmenu.ret == yell_flee ) {
         for( npc *p : followers ) {
             p->rules.set_flag( ally_rule::avoid_combat );
         }
-        u.shout( _( "Fall back to safety!  Flee, you fools!" ) );
+        yell_msg = _( "Fall back to safety!  Flee, you fools!" );
     } else if( nmenu.ret == yell_stop ) {
         for( npc *p : followers ) {
             p->rules.clear_flag( ally_rule::avoid_combat );
         }
-        u.shout( _( "No need to run any more, we can fight here." ) );
+        yell_msg = _( "No need to run any more, we can fight here." );
     } else if( nmenu.ret == yell_danger ) {
         for( npc *p : followers ) {
             p->rules.set_danger_overrides();
         }
-        u.shout( _( "We're in danger.  Stay awake, stay close, don't go wandering off, and don't open any doors." ) );
+        yell_msg = _( "We're in danger.  Stay awake, stay close, don't go wandering off, "
+                      "and don't open any doors." );
     } else if( nmenu.ret == yell_relax ) {
         for( npc *p : followers ) {
             p->rules.clear_danger_overrides();
         }
-        u.shout( _( "Relax and stand down." ) );
+        yell_msg = _( "Relax and stand down." );
     } else if( nmenu.ret <= static_cast<int>( available.size() ) ) {
         available[nmenu.ret]->talk_to_u();
     } else {
         return;
+    }
+    if( !yell_msg.empty() ) {
+        message = string_format( "\"%s\"", yell_msg );
+    }
+    if( !message.empty() ) {
+        add_msg( _( "You yell %s" ), message );
+        u.shout( string_format( _( "%s yelling %s" ), u.disp_name(), message ), is_order );
     }
 
     u.moves -= 100;
@@ -269,32 +280,46 @@ void game::chat()
 void npc::handle_sound( int priority, const std::string &description, int heard_volume,
                         const tripoint &spos )
 {
+    add_msg( m_debug, "%s heard '%s', priority %d at volume %d from %d:%d, my pos %d:%d",
+             disp_name(), description, priority, heard_volume, spos.x, spos.y, pos().x, pos().y );
+
+    const sounds::sound_t spriority = static_cast<sounds::sound_t>( priority );
+    bool is_player_ally = g->u.pos() == spos && is_ally( g->u );
+    npc *const sound_source = g->critter_at<npc>( spos );
+    bool is_npc_ally = sound_source && sound_source->is_npc() && is_ally( *sound_source );
+
+    if( ( is_player_ally || is_npc_ally ) && spriority == sounds::sound_t::order ) {
+        say( "<acknowledged>" );
+    }
+
     if( sees( spos ) ) {
         return;
     }
     // ignore low priority sounds if the NPC "knows" it came from a friend.
     // @ todo NPC will need to respond to talking noise eventually
     // but only for bantering purposes, not for investigating.
-    npc *const sound_source = g->critter_at<npc>( spos );
-    if( sound_source ) {
-        if( ( my_fac == sound_source->my_fac ||
-              get_attitude_group( get_attitude() ) == sound_source->get_attitude_group(
-                  sound_source->get_attitude() ) ) && ( priority < 6 ) ) {
+    if( spriority < sounds::sound_t::alarm ) {
+        if( is_player_ally ) {
+            add_msg( m_debug, "Allied NPC ignored same faction %s", name );
+            return;
+        }
+        if( is_npc_ally ) {
             add_msg( m_debug, "NPC ignored same faction %s", name );
             return;
         }
     }
     // discount if sound source is player, or seen by player,
     // and listener is friendly and sound source is combat or alert only.
-    if( ( priority < 7 ) && g->u.sees( spos ) && ( is_friend() ||
-            mission == NPC_MISSION_GUARD_ALLY ) ) {
-        add_msg( m_debug, "NPC %s ignored low priority noise that player can see", name );
-        return;
-        // discount if sound source is player, or seen by player,
-        //  listener is neutral and sound type is worth investigating.
-    } else if( priority < 6 && get_attitude_group( get_attitude() ) != attitude_group::hostile &&
-               g->u.sees( spos ) ) {
-        return;
+    if( spriority < sounds::sound_t::alarm && g->u.sees( spos ) ) {
+        if( is_ally( g->u ) ) {
+            add_msg( m_debug, "NPC %s ignored low priority noise that player can see", name );
+            return;
+            // discount if sound source is player, or seen by player,
+            // listener is neutral and sound type is worth investigating.
+        } else if( spriority <  sounds::sound_t::destructive_activity &&
+                   get_attitude_group( get_attitude() ) != attitude_group::hostile ) {
+            return;
+        }
     }
     // patrolling guards will investigate more readily than stationary NPCS
     int investigate_dist = 10;
@@ -304,44 +329,31 @@ void npc::handle_sound( int priority, const std::string &description, int heard_
     if( rules.has_flag( ally_rule::ignore_noise ) ) {
         investigate_dist = 0;
     }
-    if( priority > 3 && ai_cache.total_danger < 1.0f &&
-        rl_dist( pos(), spos ) < investigate_dist ) {
-        add_msg( m_debug, "NPC %s added noise at pos %d:%d", name, spos.x, spos.y );
-        dangerous_sound temp_sound;
-        temp_sound.pos = spos;
-        temp_sound.volume = heard_volume;
-        temp_sound.type = priority;
-        if( !ai_cache.sound_alerts.empty() ) {
-            if( ai_cache.sound_alerts.back().pos != spos ) {
-                ai_cache.sound_alerts.push_back( temp_sound );
-            }
-        } else {
-            ai_cache.sound_alerts.push_back( temp_sound );
-        }
-    }
-    add_msg( m_debug, "%s heard '%s', priority %d at volume %d from %d:%d, my pos %d:%d",
-             disp_name(), description, priority, heard_volume, spos.x, spos.y, pos().x, pos().y );
-    switch( priority ) {
-        case 4: //
-            warn_about( "speech_noise", rng( 1, 10 ) * 1_minutes );
-            break;
-        case 5:
-        case 6:
-        case 7:
-        case 8: // combat noise is only worth comment if we're not fighting
-        case 9:
-            // TODO: Brave NPCs should be less jumpy
-            if( ai_cache.total_danger < 1.0f ) {
+    if( ai_cache.total_danger < 1.0f ) {
+        if( spriority == sounds::sound_t::movement && !in_vehicle ) {
+            warn_about( "movement_noise", rng( 1, 10 ) * 1_minutes, description );
+        } else if( spriority > sounds::sound_t::movement ) {
+            if( !( is_player_ally || is_npc_ally ) && ( spriority == sounds::sound_t::speech ||
+                    spriority == sounds::sound_t::alert || spriority == sounds::sound_t::order ) ) {
+                warn_about( "speech_noise", rng( 1, 10 ) * 1_minutes );
+            } else if( spriority > sounds::sound_t::activity ) {
                 warn_about( "combat_noise", rng( 1, 10 ) * 1_minutes );
             }
-            break;
-        case 3: // movement is is only worth comment if we're not fighting and out of a vehicle
-            if( ai_cache.total_danger < 1.0f && !in_vehicle ) {
-                warn_about( "movement_noise", rng( 1, 10 ) * 1_minutes, description );
+            if( rl_dist( pos(), spos ) < investigate_dist ) {
+                add_msg( m_debug, "NPC %s added noise at pos %d:%d", name, spos.x, spos.y );
+                dangerous_sound temp_sound;
+                temp_sound.pos = spos;
+                temp_sound.volume = heard_volume;
+                temp_sound.type = priority;
+                if( !ai_cache.sound_alerts.empty() ) {
+                    if( ai_cache.sound_alerts.back().pos != spos ) {
+                        ai_cache.sound_alerts.push_back( temp_sound );
+                    }
+                } else {
+                    ai_cache.sound_alerts.push_back( temp_sound );
+                }
             }
-            break;
-        default:
-            break;
+        }
     }
 }
 
@@ -476,6 +488,7 @@ void npc::talk_to_u( bool text_only, bool radio_contact )
             } while( cat != -1 && topic_category( d.topic_stack.back() ) == cat );
         }
         if( next.id == "TALK_DONE" || d.topic_stack.empty() ) {
+            d.beta->say( _( "Bye." ) );
             d.done = true;
         } else if( next.id != "TALK_NONE" ) {
             d.add_topic( next );

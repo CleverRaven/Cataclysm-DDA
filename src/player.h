@@ -452,7 +452,9 @@ class player : public Character
 
         void pause(); // '.' command; pauses & reduces recoil
         void toggle_move_mode(); // Toggles to the next move mode.
-        void shout( std::string text = "" );
+
+        int get_shout_volume() const;
+        void shout( std::string text = "", bool order = false );
 
         // martialarts.cpp
         /** Fires all non-triggered martial arts events */
