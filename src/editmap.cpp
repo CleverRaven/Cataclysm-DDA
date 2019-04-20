@@ -1721,83 +1721,41 @@ int editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
             } else if( gpmenu.ret == 2 ) {
 
                 point target_sub( target.x / SEEX, target.y / SEEY );
-                g->m.clear_vehicle_cache( target.z );
 
-                std::string s;
+                g->m.set_transparency_cache_dirty( target.z );
+                g->m.set_outside_cache_dirty( target.z );
+                g->m.set_floor_cache_dirty( target.z );
+                g->m.set_pathfinding_cache_dirty( target.z );
+
+                g->m.clear_vehicle_cache( target.z );
+                g->m.clear_vehicle_list( target.z );
+
                 for( int x = 0; x < 2; x++ ) {
                     for( int y = 0; y < 2; y++ ) {
                         // Apply previewed mapgen to map. Since this is a function for testing, we try avoid triggering
                         // functions that would alter the results
-                        submap *destsm = g->m.get_submap_at_grid( { target_sub.x + x, target_sub.y + y, target.z } );
-                        submap *srcsm = tmpmap.get_submap_at_grid( { x, y, target.z } );
-                        destsm->is_uniform = false;
-                        srcsm->is_uniform = false;
+                        const auto dest_pos = tripoint{ target_sub.x + x, target_sub.y + y, target.z };
+                        const auto src_pos = tripoint{ x, y, target.z };
 
-                        for( auto &v : destsm->vehicles ) {
-                            auto &ch = g->m.access_cache( v->smz );
-                            ch.vehicle_list.erase( v.get() );
-                            ch.zone_vehicles.erase( v.get() );
+                        submap *destsm = g->m.get_submap_at_grid( dest_pos );
+                        submap *srcsm = tmpmap.get_submap_at_grid( src_pos );
+
+                        std::swap( *destsm, *srcsm );
+
+                        for( auto &veh : destsm->vehicles ) {
+                            veh->smx = dest_pos.x;
+                            veh->smy = dest_pos.y;
+                            veh->smz = dest_pos.z;
                         }
-                        destsm->vehicles.clear();
-                        for( size_t i = 0; i < srcsm->vehicles.size(); i++ ) { // copy vehicles to real map
-                            s += string_format( "  copying vehicle %d/%d", i, srcsm->vehicles.size() );
-                            std::unique_ptr<vehicle> veh = std::move( srcsm->vehicles[i] );
-                            veh->smx = target_sub.x + x;
-                            veh->smy = target_sub.y + y;
-                            veh->smz = target.z;
-                            vehicle *veh_p = veh.get();
-                            destsm->vehicles.push_back( std::move( veh ) );
-                            g->m.update_vehicle_cache( veh_p, target.z );
-                        }
-                        srcsm->vehicles.clear();
+
                         g->m.update_vehicle_list( destsm, target.z ); // update real map's vcaches
 
-                        int spawns_todo = 0;
-                        for( size_t i = 0; i < srcsm->spawns.size(); i++ ) { // copy spawns
-                            int mx = srcsm->spawns[i].pos.x;
-                            int my = srcsm->spawns[i].pos.y;
-                            s += string_format( "  copying monster %d/%d pos %d,%d\n", i, srcsm->spawns.size(), mx, my );
-                            destsm->spawns.push_back( srcsm->spawns[i] );
-                            spawns_todo++;
-                        }
-
-                        for( int sx = 0; sx < SEEX; sx++ ) {  // copy fields
-                            for( int sy = 0; sy < SEEY; sy++ ) {
-                                destsm->fld[sx][sy] = srcsm->fld[sx][sy];
-                            }
-                        }
-                        destsm->field_count = srcsm->field_count; // and count
-
-                        std::memcpy( destsm->ter, srcsm->ter, sizeof( srcsm->ter ) ); // terrain
-                        std::memcpy( destsm->frn, srcsm->frn, sizeof( srcsm->frn ) ); // furniture
-                        std::memcpy( destsm->trp, srcsm->trp, sizeof( srcsm->trp ) ); // traps
-                        std::memcpy( destsm->rad, srcsm->rad, sizeof( srcsm->rad ) ); // radiation
-                        std::memcpy( destsm->lum, srcsm->lum, sizeof( srcsm->lum ) ); // emissive items
-                        for( int x = 0; x < SEEX; ++x ) {
-                            for( int y = 0; y < SEEY; ++y ) {
-                                destsm->itm[x][y].swap( srcsm->itm[x][y] );
-                            }
-                        }
-                        // Swap cosmetics vectors
-                        destsm->cosmetics.swap( srcsm->cosmetics );
-
-                        // various misc variables
-                        destsm->active_items = srcsm->active_items;
-
-                        destsm->temperature = srcsm->temperature;
-                        destsm->last_touched = calendar::turn;
-                        destsm->comp = std::move( srcsm->comp );
-                        destsm->camp = srcsm->camp;
-
-                        if( spawns_todo > 0 ) {                               // trigger spawnpoints
+                        if( destsm->spawns.size() > 0 ) {                               // trigger spawnpoints
                             g->m.spawn_monsters( true );
                         }
                     }
                 }
                 g->m.reset_vehicle_cache( target.z );
-
-                //~ message when applying the map generator
-                popup( _( "Changed 4 submaps\n%s" ), s );
 
             } else if( gpmenu.ret == 3 ) {
                 popup( _( "Changed oter_id from '%s' (%s) to '%s' (%s)" ),
