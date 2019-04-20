@@ -8693,13 +8693,13 @@ mapgen_update_func add_mapgen_update_func( JsonObject &jo, bool &defer )
     return update_function;
 }
 
-bool run_mapgen_update_func( const std::string update_mapgen_id, const tripoint &omt_pos,
-                             mission *miss )
+bool run_mapgen_update_func( const std::string &update_mapgen_id, const tripoint &omt_pos,
+                             mission *miss, bool cancel_on_collision )
 {
     const auto update_function = update_mapgen.find( update_mapgen_id );
 
     if( update_function == update_mapgen.end() || update_function->second.empty() ) {
         return false;
     }
-    return update_function->second[0]->update_map( omt_pos, 0, 0, miss, true );
+    return update_function->second[0]->update_map( omt_pos, 0, 0, miss, cancel_on_collision );
 }
