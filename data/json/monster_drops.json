@@ -364,6 +364,19 @@
   },
   {
     "type": "item_group",
+    "id": "mon_zombie_thorny_death_drops",
+    "subtype": "collection",
+    "entries": [
+      { "item": "rag", "damage": [ 1, 4 ], "count": [ 1, 4 ] },
+      { "group": "pants", "damage": [ 1, 4 ] },
+      { "group": "shoes", "damage": [ 1, 4 ] },
+      { "group": "default_zombie_items" },
+      { "item": "cash_card", "prob": 10, "charges-min": 0, "charges-max": 50000 },
+      { "item": "fighter_sting", "prob": 60 }
+    ]
+  },
+  {
+    "type": "item_group",
     "subtype": "collection",
     "id": "jackson_drops",
     "entries": [
