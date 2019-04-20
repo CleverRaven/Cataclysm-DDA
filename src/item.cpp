@@ -620,7 +620,7 @@ bool item::stacks_with( const item &rhs, bool check_components ) const
     if( item_vars != rhs.item_vars ) {
         return false;
     }
-    if( goes_bad() ) {
+    if( goes_bad() && !is_corpse() ) {
         // If this goes bad, the other item should go bad, too. It only depends on the item type.
         // Stack items that fall into the same "bucket" of freshness.
         // Distant buckets are larger than near ones.
