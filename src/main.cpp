@@ -135,7 +135,8 @@ int main( int argc, char *argv[] )
     std::vector<std::string> opts;
     std::string world; /** if set try to load first save in this world on startup */
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
+
     // Start the standard output logging redirector
     start_logger( "cdda" );
 
@@ -146,26 +147,30 @@ int main( int argc, char *argv[] )
         external_storage_path += '/';
     }
 
-    Path::initBasePath(external_storage_path);
-    Path::initUserDirectory(external_storage_path.c_str());
-#else
-    // Set default file paths
-#ifdef PREFIX
+    Path *applicationPath = new Path(external_storage_path, external_storage_path.c_str());
+
+#endif
+
+    //TODO: If we define PREFIX, we cannot define USER_HOME_DIR.
+#if defined(PREFIX)
+
 #define Q(STR) #STR
 #define QUOTE(STR) Q(STR)
-    Path::initBasePath(std::string( QUOTE( PREFIX ) ) );
-#else
-    Path::initBasePath("");
-#endif
+
+    Path *applicationPath = new Path(std::string( QUOTE( PREFIX ) ), "");
+
 #endif
 
-#if (defined USE_HOME_DIR || defined USE_XDG_DIR)
-    Path::initUserDirectory("");
-#else
-    Path::initUserDirectory("./");
-#endif
+    //TODO: If we define USER_HOME_DIR, we cannot define PREFIX.
+#if defined(USE_HOME_DIR)
 
-    Path::setStandardFilenames();
+    Path *applicationPath = new Path("", "");
+
+#else
+
+    Path *applicationPath = new Path("", "./");
+
+#endif
 
     MAP_SHARING::setDefaults();
     {
@@ -465,6 +470,8 @@ int main( int argc, char *argv[] )
             }
         };
 
+        //Path::toString();
+
         // Process CLI arguments.
         const size_t num_first_pass_arguments =
             sizeof( first_pass_arguments ) / sizeof( first_pass_arguments[0] );
@@ -528,15 +535,15 @@ int main( int argc, char *argv[] )
         }
     }
 
-    if( !dir_exist( FILENAMES["datadir"] ) ) {
+    if( !dir_exist( applicationPath->getPathForValueKey("DATA_DIRE") ) ) {
         printf( "Fatal: Can't find directory \"%s\"\nPlease ensure the current working directory is correct. Perhaps you meant to start \"cataclysm-launcher\"?\n",
-                FILENAMES["datadir"].c_str() );
+                applicationPath->getPathForValueKey("DATA_DIRE").c_str() );
         exit( 1 );
     }
 
-    if( !assure_dir_exist( FILENAMES["user_dir"] ) ) {
+    if( !assure_dir_exist( applicationPath->getPathForValueKey("USER_DIRE") ) ) {
         printf( "Can't open or create %s. Check permissions.\n",
-                FILENAMES["user_dir"].c_str() );
+                applicationPath->getPathForValueKey("USER_DIRE").c_str() );
         exit( 1 );
     }
 

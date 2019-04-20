@@ -7,16 +7,67 @@
 
 class Path
 {
+private:
+
+    std::map<std::string, std::string> pathname;
+
+    /*
+     * Configure the path to the 'data' and 'gfx' directory, which contains
+     * the necessary information for the application to work.
+     *
+     * The location of the 'data' and 'gfx' directory depends on where the
+     * base path is located and the platform on which it is executed.
+     *
+     * @param pathname Map where we keep the routes.
+     */
+    static void initDataDirectory(std::map<std::string, std::string> pathname);
+
+    /*
+     * To use the route it is necessary that the route has the appropriate
+     * format, the routes with the appropriate format must end with '/' in
+     * the case of linux and '\' in the case of windows.
+     *
+     * Example:
+     *
+     *      LINUX:
+     *      - "/usr/home/example/"  (God)
+     *      - "/usr/home/example"   (Bad)
+     *
+     *      WINDOWS:
+     *      - "C:\Programs\Example\"    (God)
+     *      - "C:\Programs\Example"     (Bad)
+     *
+     * @brief: The method adds '/' at the end of the route if necessary.
+     *
+     * @param path Path to apply the format.
+     * @return Formatted path.
+     */
+    static std::string formatPath(std::string path);
+
 public:
 
     Path( std::string basePath, std::string userDirectoryPath );
 
     static void initBasePath(std::string path);
     static void initUserDirectory(std::string path);
+
+    /*
+     * TODO: Make safe method, launch an error in case the key does not exist.
+     * Returns the path according to the value of the key.
+     */
+    std::string getPathForValueKey( std::string valueKey );
+
+    /*
+     * Postcondition:
+     *      - pathanme["BASE_PATH"] has been initialized.
+     *      - pathname["USER_DIRE"] has been initialized.
+     */
     static void setStandardFilenames();
+
     static void updateDataDirectory();
     static void updateConfigurationDirectory();
     static void updatePathname( const std::string &name, const std::string &path);
+    void toString();
 };
 
 extern std::map<std::string, std::string> FILENAMES;

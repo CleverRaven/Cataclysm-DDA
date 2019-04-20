@@ -2,6 +2,7 @@
 
 #include <clocale>
 #include <cstdlib>
+#include <iostream>
 
 #include "filesystem.h"
 #include "options.h"
@@ -52,6 +53,33 @@ void Path::initUserDirectory( std::string path )
     }
 
     FILENAMES["user_dir"] = dir;
+}
+
+void Path::initDataDirectory( std::map<std::string, std::string> pathname )
+{
+    // If the base path is empty (example: ""), it means that the 'data'
+    // directory is at the same level where the application is executed.
+    if (pathname["BASE_PATH"].empty())
+    {
+        pathname["DATA_DIRE"] = "data/";
+        pathname["GFX_DIRE"] = "gfx/";
+    }
+    else
+    {
+#if  defined(DATA_DIR_PREFIX)
+
+        pathname["DATA_DIRE"] = pathname["BASE_PATH"] + "share/cataclysm-dda/";
+        pathname["GFX_DIRE"]  = pathname["DATA_DIRE"] + "gfx/";
+#else
+        pathname["DATA_DIRE"] = pathname["BASE_PATH"] + "data/";
+        pathname["GFX_DIRE"]  = pathname["BASE_PATH"] + "gfx/";
+#endif
+    }
+}
+
+std::string Path::getPathForValueKey( const std::string valueKey )
+{
+    return pathname[valueKey];
 }
 
 void Path::setStandardFilenames( )
@@ -218,8 +246,120 @@ void Path::updatePathname( const std::string &name, const std::string &path )
     }
 }
 
-Path::Path( const std::string basePath, const std::string userDirectoryPath )
-{ }
+void Path::toString( )
+{
+    for( auto const& x : pathname)
+    {
+        std::cout << x.first
+        << ':'
+        << x.second
+        << std::endl;
+    }
+}
+
+// Construct
+
+Path::Path( std::string basePath, std::string userDirectoryPath )
+{
+    pathname["BASE_PATH"] = formatPath(basePath);
+    // TODO: Get user directory
+    pathname["USER_DIRE"] = formatPath(userDirectoryPath);
+
+    // We set the directory 'data' and 'gfx' determined by the base path.
+    initDataDirectory(pathname);
+
+    // Shared Directories
+    pathname["FONT_DIRE"] = pathname["DATA_DIRE"] + "font/";
+    pathname["RAW_DIRE"]  = pathname["DATA_DIRE"] + "raw/";
+    pathname["JSON_DIRE"] = pathname["DATA_DIRE"] + "core/";
+    pathname["MOD_DIRE"]  = pathname["DATA_DIRE"] + "mods/";
+    pathname["NAMES_DIR"] = pathname["DATA_DIRE"] + "names/";
+    pathname["TITLE_DIR"] = pathname["MOD_DIRE"] + "title/";
+    pathname["MOTD_DIRE"] = pathname["DATA_DIRE"] + "motd/";
+    pathname["CREDI_DIR"] = pathname["DATA_DIRE"] + "credits/";
+    pathname["COLOR_TEM"] = pathname["RAW_DIRE"]  + "color_templates/";
+    pathname["DAT_SOUND"] = pathname["DATA_DIRE"] + "sound/";
+    pathname["HELP_DIRE"] = pathname["DATA_DIRE"] + "help/";
+
+    // Shared Files
+    pathname["TITLE_CATACLY"] = pathname["TITLE_DIR"] + "en.title";
+    pathname["TITLE_HALLOWW"] = pathname["TITLE_DIR"] + "en.halloween";
+    pathname["MOTD_FILE"]     = pathname["MOTD_DIRE"] + "en.motd";
+    pathname["CREDITS_FILE"]  = pathname["CREDI_DIR"] + "en.credits";
+    pathname["NAMES_FILE"]    = pathname["NAMES_DIR"] + "en.json";
+    pathname["COLORS_FILE"]   = pathname["RAW_DIRE"]  + "colors.json";
+    pathname["KEYBINDINGS"]   = pathname["RAW_DIRE"]  + "keybindings.json";
+    pathname["KEYBIND_VEHIC"] = pathname["RAW_DIRE"]  + "keybindings/vehicle.json";
+    pathname["SOKOBAN"]       = pathname["RAW_DIRE"]  + "sokoban.txt";
+    pathname["DF_TITLE_JSON"] = pathname["GFX_DIRE"]  + "tile_config.json";
+    pathname["DF_TITLE_PNG"]  = pathname["GFX_DIRE"]  + "tinytile.png";
+    pathname["DF_MODS_DEV"]   = pathname["MOD_DIRE"]  + "default.json";
+    pathname["MODS_REPLACEM"] = pathname["MOD_DIRE"]  + "replacements.json";
+    pathname["DF_SOUND_DIRE"] = pathname["DATA_DIRE"] + "sound/";
+    pathname["HELP_FILE"]     = pathname["HELP_DIRE"] + "texts.json";
+
+    // User Directories
+    pathname["SAVE_DIRE"] = pathname["USER_DIRE"] + "save/";
+    pathname["MEMO_DIRE"] = pathname["USER_DIRE"] + "memorial/";
+    pathname["TEMP_DIRE"] = pathname["USER_DIRE"] + "templates/";
+    pathname["USER_SND"] =  pathname["USER_DIRE"] + "sound/";
+
+    // User Configuration Directory
+    pathname["CONFIG_DIR"] = pathname["USER_DIRE"] + "config/";
+
+    pathname["GRAVEY_DIR"] = pathname["USER_DIRE"] + "graveyard/";
+
+    // User Configuration Files
+    pathname["OPTIONS_USER"] = pathname["CONFIG_DIR"] + "options.json";
+    pathname["OPTINS_PANEL"] = pathname["CONFIG_DIR"] + "panel_options.json";
+    pathname["KEY_MAP_FILE"] = pathname["CONFIG_DIR"] + "keymap.txt";
+    pathname["KEYBIND_USER"] = pathname["CONFIG_DIR"] + "keybindings.json";
+    pathname["DEBUG_FILE"]   = pathname["CONFIG_DIR"] + "debug.log";
+    pathname["CRASH_FILE"]   = pathname["CONFIG_DIR"] + "crash.log";
+    pathname["FONTS_LIST"]   = pathname["CONFIG_DIR"] + "fontlist.txt";
+    pathname["FONTS_DATA"]   = pathname["CONFIG_DIR"] + "fonts.json";
+    pathname["AUTOPICKUP"]   = pathname["CONFIG_DIR"] + "auto_pickup.json";
+    pathname["SAFE_MODE"]    = pathname["CONFIG_DIR"] + "safemode.json";
+    pathname["BASE_COLORS"]  = pathname["CONFIG_DIR"] + "base_colors.json";
+    pathname["CUST_COLORS"]  = pathname["CONFIG_DIR"] + "custom_colors.json";
+    pathname["DF_MODS_USER"] = pathname["CONFIG_DIR"] + "user-default-mods.json";
+    pathname["LAST_WORLD"]   = pathname["CONFIG_DIR"] + "lastworld.json";
+    pathname["USER_MOD_DIR"] = pathname["USER_DIRE"] + "mods/";
+    pathname["WORLD_OPTION"] = "worldoptions.json";
+
+    // NOTES: Reason for removing pre-processing directives:
+    // There is no significant impact to leaving these
+    // predefined configuration files.
+    pathname["TILESET_CONF"] = "tileset.txt";
+    pathname["SNDPACK_CONF"] = "soundpack.txt";
+}
+
+// Functions private
+
+std::string Path::formatPath(std::string path)
+{
+    if( path.empty() )
+    {
+        return path;
+    }
+    else
+    {
+        // We get the last character in the string to verify
+        // that '/' or '\' exists at the end of the string.
+        const char ch = path.at( path.length() - 1 );
+
+        // Is the last character different from '/' or '\'?
+        if( ch != '/' && ch != '\\' )
+        {
+            // If the string does not have the proper format
+            // we add the character '/' to correct it.
+            // NOTA: For Windows it also works to add '/'.
+            path.push_back( '/' );
+        }
+    }
+
+    return path;
+}
 
 /** Map where we store filenames */
 std::map<std::string, std::string> FILENAMES;
