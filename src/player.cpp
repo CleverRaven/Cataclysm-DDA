@@ -12752,9 +12752,11 @@ std::pair<std::string, nc_color> player::get_hunger_description() const
         } else if( recently_ate && contains > cap * 3 / 8 ) {
             hunger_string = _( "Full" );
             hunger_color = c_green;
-        } else if( ( !recently_ate && contains > cap * 3 / 8) || ( !just_ate && recently_ate ) ) {
+        } else if( ( !recently_ate && contains > cap * 3 / 8 ) ) {
             hunger_string = _( "Peckish" );
             hunger_color = c_cyan_yellow;
+        } else if( ( !just_ate && recently_ate ) ) {
+            hunger_string = "";
         } else {
             hunger_string = _( "Hungry" );
             hunger_color = c_yellow;
