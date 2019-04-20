@@ -49,7 +49,21 @@ struct spawn_point {
         mission_id( MIS ), friendly( F ), name( N ) {}
 };
 
-class submap
+template<int sx, int sy>
+struct maptile_soa {
+    ter_id          ter[sx][sy];  // Terrain on each square
+    furn_id         frn[sx][sy];  // Furniture on each square
+    std::uint8_t    lum[sx][sy];  // Number of items emitting light on each square
+    std::list<item> itm[sx][sy];  // Items on each square
+    field           fld[sx][sy];  // Field on each square
+    trap_id         trp[sx][sy];  // Trap on each square
+    int             rad[sx][sy];  // Irradiation of each square
+
+    void swap_soa_tile( const point &p1, const point &p2 );
+    void swap_soa_tile( const point &p, maptile_soa<1, 1> &other );
+};
+
+class submap : public maptile_soa<SEEX, SEEY>    // TODO: Use private inheritance.
 {
     public:
         submap();
@@ -154,14 +168,7 @@ class submap
 
         bool contains_vehicle( vehicle * );
 
-        // TODO: make trp private once the horrible hack known as editmap is resolved
-        ter_id          ter[SEEX][SEEY];  // Terrain on each square
-        furn_id         frn[SEEX][SEEY];  // Furniture on each square
-        std::uint8_t    lum[SEEX][SEEY];  // Number of items emitting light on each square
-        std::list<item> itm[SEEX][SEEY];  // Items on each square
-        field           fld[SEEX][SEEY];  // Field on each square
-        trap_id         trp[SEEX][SEEY];  // Trap on each square
-        int             rad[SEEX][SEEY];  // Irradiation of each square
+        void rotate( int turns );
 
         // If is_uniform is true, this submap is a solid block of terrain
         // Uniform submaps aren't saved/loaded, because regenerating them is faster
