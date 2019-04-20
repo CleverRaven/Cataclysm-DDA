@@ -9081,7 +9081,25 @@
       "sound": "crunch!",
       "sound_fail": "clang!",
       "ter_set": "t_pavement_bg_dp",
-      "items": [ { "item": "scrap", "count": [ 3, 6 ] } ]
+      "items": [ { "item": "pipe", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 3, 6 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_guardrail",
+    "name": "guard rail",
+    "symbol": "#",
+    "color": "light_gray",
+    "move_cost": 3,
+    "flags": [ "TRANSPARENT", "NOITEM", "REDUCE_SCENT", "MOUNTABLE", "SHORT", "THIN_OBSTACLE", "ROAD" ],
+    "looks_like": "t_guardrail_bg_dp",
+    "bash": {
+      "str_min": 8,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "clang!",
+      "ter_set": "t_pavement",
+      "items": [ { "item": "pipe", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 3, 6 ] } ]
     }
   },
   {
