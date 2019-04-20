@@ -9994,7 +9994,7 @@ bool game::prompt_dangerous_tile( const tripoint &dest_loc ) const
             bp_hand_l, bp_hand_r, bp_torso
         };
 
-        static const auto sharp_bp_check = [this]( body_part bp ) {
+        const auto sharp_bp_check = [this]( body_part bp ) {
             return u.immune_to( bp, { DT_CUT, 10 } );
         };
 
@@ -10654,7 +10654,7 @@ void game::place_player( const tripoint &dest_loc )
 
         const std::string forage_type = get_option<std::string>( "AUTO_FORAGING" );
         if( forage_type != "off" ) {
-            static const auto forage = [&]( const tripoint & pos ) {
+            const auto forage = [&]( const tripoint & pos ) {
                 const auto &xter_t = m.ter( pos ).obj().examine;
                 const auto &xfurn_t = m.furn( pos ).obj().examine;
                 const bool forage_everything = forage_type == "both";
@@ -10700,7 +10700,7 @@ void game::place_player( const tripoint &dest_loc )
                 }
             }
         } else if( pulp_butcher == "pulp" || pulp_butcher == "pulp_adjacent" ) {
-            static const auto pulp = [&]( const tripoint & pos ) {
+            const auto pulp = [&]( const tripoint & pos ) {
                 for( const auto &maybe_corpse : m.i_at( pos ) ) {
                     if( maybe_corpse.is_corpse() && maybe_corpse.can_revive() &&
                         maybe_corpse.get_mtype()->bloodType() != fd_acid ) {
