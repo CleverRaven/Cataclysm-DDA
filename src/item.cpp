@@ -3746,7 +3746,7 @@ time_duration item::get_shelf_life() const
         if( is_food() ) {
             return get_comestible()->spoils;
         } else if( is_corpse() ) {
-            return time_duration::from_hours( CORPSE_ROT_TIME );
+            return CORPSE_ROT_TIME;
         }
     }
     return 0;
