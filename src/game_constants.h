@@ -97,6 +97,9 @@ constexpr int freezer = 23; // -5 Celsius
 constexpr int freezing = 32; // 0 Celsius
 }
 
+// Shelf life of corpse in hours. This should be kept same as raw flesh.
+constexpr int CORPSE_ROT_TIME = 24;
+
 /** Weight per level of LIFT/JACK tool quality */
 #define TOOL_LIFT_FACTOR 500_kilogram // 500kg/level
 

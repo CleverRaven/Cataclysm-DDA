@@ -620,14 +620,14 @@ bool item::stacks_with( const item &rhs, bool check_components ) const
     if( item_vars != rhs.item_vars ) {
         return false;
     }
-    if( goes_bad() && !is_corpse() ) {
+    if( goes_bad() ) {
         // If this goes bad, the other item should go bad, too. It only depends on the item type.
         // Stack items that fall into the same "bucket" of freshness.
         // Distant buckets are larger than near ones.
         std::pair<int, clipped_unit> my_clipped_time_to_rot =
-            clipped_time( get_comestible()->spoils - rot );
+            clipped_time( get_shelf_life() - rot );
         std::pair<int, clipped_unit> other_clipped_time_to_rot =
-            clipped_time( rhs.get_comestible()->spoils - rhs.rot );
+            clipped_time( rhs.get_shelf_life() - rhs.rot );
         if( my_clipped_time_to_rot != other_clipped_time_to_rot ) {
             return false;
         }
@@ -845,7 +845,7 @@ std::string get_freshness_description( const item &food_item )
     // can guess its age as one of {quite fresh,midlife,past midlife,old soon}, and also
     // guess about how long until it spoils.
     const double rot_progress = food_item.get_relative_rot();
-    const time_duration shelf_life = food_item.get_comestible()->spoils;
+    const time_duration shelf_life = food_item.get_shelf_life();
     time_duration time_left = shelf_life - ( shelf_life * rot_progress );
 
     // Correct for an estimate that exceeds shelf life -- this happens especially with
@@ -1072,11 +1072,9 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                     info.push_back( iteminfo( "BASE", _( "last temp: " ),
                                               "", iteminfo::lower_is_better,
                                               to_turn<int>( food->last_temp_check ) ) );
-                }
-                if( food->is_food() && food->goes_bad() ) {
                     info.push_back( iteminfo( "BASE", space + _( "max rot (turns): " ),
                                               "", iteminfo::lower_is_better,
-                                              to_turns<int>( food->get_comestible()->spoils ) ) );
+                                              to_turns<int>( food->get_shelf_life() ) ) );
                 }
                 if( has_temperature() || is_food_container() ) {
                     info.push_back( iteminfo( "BASE", _( "Temp: " ), "", iteminfo::lower_is_better,
@@ -1206,7 +1204,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         }
 
         if( food_item->goes_bad() && parts->test( iteminfo_parts::FOOD_ROT ) ) {
-            const std::string rot_time = to_string_clipped( food_item->get_comestible()->spoils );
+            const std::string rot_time = to_string_clipped( food_item->get_shelf_life() );
             info.emplace_back( "DESCRIPTION",
                                string_format(
                                    _( "* This food is <neutral>perishable</neutral>, and at room temperature has an estimated nominal shelf life of <info>%s</info>." ),
@@ -3743,25 +3741,30 @@ bool item::goes_bad() const
     return is_food() && get_comestible()->spoils != 0_turns;
 }
 
+time_duration item::get_shelf_life() const
+{
+    if( goes_bad() ) {
+        if( is_food() ) {
+            return get_comestible()->spoils;
+        } else if( is_corpse() ) {
+            return time_duration::from_hours( CORPSE_ROT_TIME );
+        }
+    }
+    return 0;
+}
+
 double item::get_relative_rot() const
 {
     if( goes_bad() ) {
-        if( is_corpse() ) {
-            return rot / 14400_turns;
-        } else if( is_food() ) {
-            return rot / get_comestible()->spoils;
-        }
+        return rot / get_shelf_life();
     }
     return 0;
 }
 
 void item::set_relative_rot( double val )
 {
-    if( is_corpse() && goes_bad() ) {
-        rot = 14400_turns * val;
-    }
     if( goes_bad() ) {
-        rot = get_comestible()->spoils * val;
+        rot = get_shelf_life() * val;
         // calc_rot uses last_rot_check (when it's not time_of_cataclysm) instead of bday.
         // this makes sure the rotting starts from now, not from bday.
         // if this item is the result of smoking don't do this, we want to start from bday.
@@ -3791,10 +3794,7 @@ int item::spoilage_sort_order()
     }
 
     if( subject->goes_bad() ) {
-        if( subject -> is_corpse() ) {
-            return to_turns<int>( 14400_turns - subject->rot );
-        }
-        return to_turns<int>( subject->get_comestible()->spoils - subject->rot );
+        return to_turns<int>( subject->get_shelf_life() - subject->rot );
     }
 
     if( subject->get_comestible() ) {
@@ -3842,8 +3842,8 @@ void item::calc_rot( const tripoint &location )
         // conditions by applying starting variation bonus/penalty of +/- 20% of base shelf-life
         // positive = food was produced some time before calendar::start and/or bad storage
         // negative = food was stored in good conditions before calendar::start
-        if( since <= calendar::start && goes_bad() && !is_corpse() ) {
-            time_duration spoil_variation = get_comestible()->spoils * 0.2f;
+        if( since <= calendar::start && goes_bad() ) {
+            time_duration spoil_variation = get_shelf_life() * 0.2f;
             rot += factor * rng( -spoil_variation, spoil_variation );
         }
 
