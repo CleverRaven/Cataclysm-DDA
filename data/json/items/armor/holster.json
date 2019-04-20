@@ -82,6 +82,21 @@
     "use_action": { "type": "holster", "max_volume": 4, "draw_cost": 80, "skills": [ "pistol", "shotgun" ] }
   },
   {
+    "id": "bholster",
+    "copy-from": "holster",
+    "type": "ARMOR",
+    "name": "deep concealment holster",
+    "description": "An elastic band with numerous provisions for concealing a very small pistol close to the body. It is awkward to use without practice.  Activate to holster/draw a gun.",
+    "weight": 120,
+    "volume": 1,
+    "price": 3000,
+    "material": "plastic",
+    "covers": [ "LEGS" ],
+    "encumbrance": 1,
+    "use_action": { "type": "holster", "max_volume": 2, "min_volume": 0, "max_weight": 1000, "draw_cost": 210, "skills": [ "pistol" ] },
+    "flags": [ "SKINTIGHT", "WATER_FRIENDLY" ]
+  },
+  {
     "id": "survivor_vest",
     "type": "ARMOR",
     "name": "survivor harness",

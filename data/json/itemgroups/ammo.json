@@ -5,6 +5,8 @@
     "//": "Pistol ammo commonly owned by citizens and found in many locations.",
     "items": [
       [ "32_acp", 20 ],
+      [ "380_FMJ", 25 ],
+      [ "380_JHP", 20 ],
       [ "38_fmj", 25 ],
       [ "38_special", 25 ],
       [ "357sig_jhp", 25 ],
@@ -30,6 +32,7 @@
       [ "460_rowland", 15 ],
       [ "460_fmj", 10 ],
       [ "57mm", 50 ],
+      [ "380_p", 10 ],
       [ "9mmP", 30 ],
       [ "9mmP2", 20 ]
     ]
@@ -65,6 +68,9 @@
       [ "reloaded_38_fmj", 30 ],
       [ "reloaded_38_special", 80 ],
       [ "reloaded_38_super", 40 ],
+      [ "reloaded_380_JHP", 10 ],
+      [ "reloaded_380_FMJ", 15 ],
+      [ "reloaded_380_p", 5 ],
       [ "reloaded_357sig_fmj", 70 ],
       [ "reloaded_357sig_jhp", 70 ],
       [ "reloaded_40fmj", 20 ],

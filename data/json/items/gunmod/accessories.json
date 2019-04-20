@@ -81,7 +81,6 @@
     "material": "steel",
     "symbol": ":",
     "color": "light_gray",
-    "armor_data": { "covers": [ "LEG_EITHER" ] },
     "location": "accessories",
     "mod_targets": [ "rugerlcp", "kp32", "kp3at", "kpf9", "cop_38", "moss_brownie" ],
     "flags": [ "IS_ARMOR", "SKINTIGHT", "WATER_FRIENDLY" ]

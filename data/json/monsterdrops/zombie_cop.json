@@ -34,6 +34,7 @@
       [ "heavy_flashlight", 35 ],
       [ "holster", 25 ],
       [ "kevlar", 35 ],
+      [ "bholster", 3 ],
       [ "legpouch_large", 5 ],
       [ "pocket_firstaid", 10 ],
       [ "rope_30", 5 ],
