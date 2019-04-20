@@ -3004,8 +3004,8 @@ void player::toggle_move_mode()
             add_msg( _( "You start running." ) );
         } else {
             add_msg( m_bad, _( "You're too tired to run." ) );
-            move_mode = "crouch";
-            add_msg( _( "You start crouching." ) );
+            move_mode = "walk";
+            add_msg( _( "You start walking." ) );
         }
     } else if( move_mode == "run" ) {
         move_mode = "crouch";
