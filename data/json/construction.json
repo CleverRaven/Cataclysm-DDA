@@ -1445,8 +1445,7 @@
     "category": "FURN",
     "required_skills": [ [ "fabrication", 4 ], [ "tailor", 3 ] ],
     "time": 60,
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
-    "components": [ [ [ "2x4", 12 ] ], [ [ "nail", 10 ] ], [ [ "blanket", 1 ], [ "down_blanket", 1 ], [ "fur_blanket", 1 ] ] ],
+     "components": [ [ [ "2x4", 12 ] ], [ [ "nail", 10 ] ], [ [ "blanket", 1 ], [ "down_blanket", 1 ], [ "fur_blanket", 1 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_sofa"
   },
@@ -1870,7 +1869,7 @@
     "category": "OTHER",
     "required_skills": [ [ "survival", 0 ] ],
     "time": 6,
-    "byproducts": [ { "item": "straw_pile", "count": [ 0, 1 ] } ],
+    "byproducts": [ { "item": "straw_pile" } ],
     "pre_terrain": "t_grass_long",
     "post_terrain": "t_grass",
     "tools": [ [ [ "scythe", -1 ], [ "sickle", -1 ] ] ]
@@ -1881,7 +1880,7 @@
     "category": "OTHER",
     "required_skills": [ [ "survival", 0 ] ],
     "time": 6,
-    "byproducts": [ { "item": "straw_pile", "count": [ 0, 1 ] } ],
+    "byproducts": [ { "item": "straw_pile" } ],
     "pre_terrain": "t_grass_tall",
     "post_terrain": "t_grass",
     "tools": [ [ [ "scythe", -1 ], [ "sickle", -1 ] ] ]
