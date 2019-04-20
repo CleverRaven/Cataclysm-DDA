@@ -4298,8 +4298,7 @@
       { "monster": "mon_zombie_brute", "freq": 23, "cost_multiplier": 15 },
       { "monster": "mon_zombie_master", "freq": 2, "cost_multiplier": 30 },
       { "monster": "mon_zombie_hollow", "freq": 3, "cost_multiplier": 10 },
-      { "monster": "mon_zombie_predator", "freq": 8, "cost_multiplier": 10 },
-      { "monster": "mon_zombie_thorny", "freq": 8, "cost_multiplier": 5 }
+      { "monster": "mon_zombie_thorny", "freq": 13, "cost_multiplier": 5 }
     ]
   },
   {
