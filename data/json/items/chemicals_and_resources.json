@@ -1157,6 +1157,20 @@
     "flags": [ "FRAGILE_MELEE" ]
   },
   {
+    "id": "cobalt_60",
+    "type": "GENERIC",
+    "category": "other",
+    "price": 1000,
+    "name": "cobalt-60 pellet",
+    "symbol": "=",
+    "color": "green",
+    "description": "Radioactive material that used to be a part of some nuclear industry equipment.  You are yet to find some use for it.",
+    "material": [ "steel", "plastic" ],
+    "flags": [ "LEAK_ALWAYS", "RADIOACTIVE" ],
+    "volume": 1,
+    "weight": 80
+  },
+  {
     "id": "wooden_bead",
     "type": "AMMO",
     "category": "spare_parts",

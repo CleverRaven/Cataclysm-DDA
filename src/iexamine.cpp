@@ -710,7 +710,7 @@ void iexamine::cardreader( player &p, const tripoint &examp )
 {
     bool open = false;
     itype_id card_type = ( g->m.ter( examp ) == t_card_science ? "id_science" :
-                           "id_military" );
+                           g->m.ter( examp ) == t_card_military ? "id_military" : "id_industrial" );
     if( p.has_amount( card_type, 1 ) && query_yn( _( "Swipe your ID card?" ) ) ) {
         p.mod_moves( -100 );
         for( const tripoint &tmp : g->m.points_in_radius( examp, 3 ) ) {

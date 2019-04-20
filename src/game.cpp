@@ -5179,7 +5179,7 @@ void game::emp_blast( const tripoint &p )
         return;
     }
     // TODO: More terrain effects.
-    if( m.ter( x, y ) == t_card_science || m.ter( x, y ) == t_card_military ) {
+    if( m.ter( x, y ) == t_card_science || m.ter( x, y ) == t_card_military ||  m.ter( x, y ) == t_card_industrial ) {
         int rn = rng( 1, 100 );
         if( rn > 92 || rn < 40 ) {
             if( sight ) {
