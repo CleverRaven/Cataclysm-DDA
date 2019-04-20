@@ -539,12 +539,13 @@ void player::activate_mutation( const trait_id &mut )
         if( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 )){
             const time_duration startup_time = has_trait( trait_ROOTS3 ) ? rng( 15_minutes,
                                            30_minutes ) : rng( 60_minutes, 90_minutes );
+            activity.values.push_back( to_turns<int>( startup_time ) );
+            return;
         } else {
             const time_duration startup_time = rng ( 120_minutes, 180_minutes);
+            activity.values.push_back( to_turns<int>( startup_time ) );
+            return;
         }
-
-        activity.values.push_back( to_turns<int>( startup_time ) );
-        return;
     } else if( mut == trait_DEBUG_BIONIC_POWER ) {
         max_power_level += 100;
         add_msg_if_player( m_good, _( "Bionic power storage increased by 100." ) );
