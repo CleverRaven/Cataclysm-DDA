@@ -1860,7 +1860,7 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
     } else if( reloadable.is_watertight_container() ) {
         msg = _( "You refill the %s." );
     }
-    add_msg( msg.c_str(), reloadable.tname() );
+    add_msg( m_neutral, msg, reloadable.tname() );
 }
 
 void activity_handlers::start_fire_finish( player_activity *act, player *p )

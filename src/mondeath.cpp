@@ -443,7 +443,7 @@ void mdeath::guilt( monster &z )
         }
     }
 
-    add_msg( msgtype, msg.c_str(), z.name() );
+    add_msg( msgtype, msg, z.name() );
 
     int moraleMalus = -50 * ( 1.0 - ( static_cast<float>( kill_count ) / maxKills ) );
     int maxMalus = -250 * ( 1.0 - ( static_cast<float>( kill_count ) / maxKills ) );

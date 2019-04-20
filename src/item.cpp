@@ -2862,7 +2862,7 @@ void item::on_wield( player &p, int mv )
         msg = _( "You wield your %s." );
     }
 
-    p.add_msg_if_player( msg.c_str(), tname() );
+    p.add_msg_if_player( m_neutral, msg, tname() );
 }
 
 void item::on_pickup( Character &p )
