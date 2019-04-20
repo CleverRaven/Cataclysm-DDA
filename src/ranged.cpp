@@ -1224,7 +1224,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         if( snap_to_target ) {
             center = dst;
         } else {
-            center = pc.pos() + pc.view_offset + g->sidebar_offset;
+            center = pc.pos() + pc.view_offset;
         }
         // Clear the target window.
         for( int i = 1; i <= getmaxy( w_target ) - num_instruction_lines - 2; i++ ) {
