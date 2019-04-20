@@ -10,6 +10,7 @@
 #include <string>
 
 #include "enums.h"
+#include "game_constants.h"
 #include "json.h"
 #include "messages.h"
 #include "rng.h"
@@ -40,7 +41,7 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
 
     //limit the random seed during noise calculation, a large value flattens the noise generator to zero
     //Windows has a rand limit of 32768, other operating systems can have higher limits
-    const unsigned modSEED = seed % 32768;
+    const unsigned modSEED = seed % SIMPLEX_NOISE_RANDOM_SEED_LIMIT;
     // Noise factors
     double T( raw_noise_4d( x, y, z, modSEED ) * 4.0 );
     double H( raw_noise_4d( x, y, z / 5, modSEED + 101 ) );

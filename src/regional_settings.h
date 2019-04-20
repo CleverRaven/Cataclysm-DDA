@@ -173,6 +173,17 @@ struct overmap_feature_flag_settings {
     overmap_feature_flag_settings() = default;
 };
 
+struct overmap_forest_settings {
+    double noise_threshold_forest = 0.25;
+    double noise_threshold_forest_thick = 0.3;
+    double noise_threshold_swamp_adjacent_water = 0.3;
+    double noise_threshold_swamp_isolated = 0.6;
+    int river_floodplain_buffer_distance_min = 3;
+    int river_floodplain_buffer_distance_max = 15;
+
+    overmap_forest_settings() = default;
+};
+
 struct map_extras {
     unsigned int chance;
     weighted_int_list<std::string> values;
@@ -193,20 +204,13 @@ struct regional_settings {
     weighted_int_list<ter_id> default_groundcover; // ie, 'grass_or_dirt'
     std::shared_ptr<weighted_int_list<ter_str_id>> default_groundcover_str;
 
-    int num_forests           = 250;  // amount of forest groupings per overmap
-    int forest_size_min       = 15;   // size range of a forest group
-    int forest_size_max       = 40;   // size range of a forest group
-    int swamp_maxsize         = 4;    // SWAMPINESS: Affects the size of a swamp
-    int swamp_river_influence = 5;    // voodoo number limiting spread of river through swamp
-    int swamp_spread_chance   =
-        8500; // SWAMPCHANCE: (one in, every forest*forest size) chance of swamp extending past forest
-
     city_settings     city_spec;      // put what where in a city of what kind
     groundcover_extra field_coverage;
     forest_mapgen_settings forest_composition;
     forest_trail_settings forest_trail;
     weather_generator weather;
     overmap_feature_flag_settings overmap_feature_flag;
+    overmap_forest_settings overmap_forest;
 
     std::unordered_map<std::string, map_extras> region_extras;
 
