@@ -3791,6 +3791,9 @@ int item::spoilage_sort_order()
     }
 
     if( subject->goes_bad() ) {
+        if( subject -> is_corpse() ) {
+            return to_turns<int>( 14400_turns - subject->rot );
+        }
         return to_turns<int>( subject->get_comestible()->spoils - subject->rot );
     }
 
