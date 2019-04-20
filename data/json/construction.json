@@ -1445,7 +1445,8 @@
     "category": "FURN",
     "required_skills": [ [ "fabrication", 4 ], [ "tailor", 3 ] ],
     "time": 60,
-     "components": [ [ [ "2x4", 12 ] ], [ [ "nail", 10 ] ], [ [ "blanket", 1 ], [ "down_blanket", 1 ], [ "fur_blanket", 1 ] ] ],
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
+    "components": [ [ [ "2x4", 12 ] ], [ [ "nail", 10 ] ], [ [ "blanket", 1 ], [ "down_blanket", 1 ], [ "fur_blanket", 1 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_sofa"
   },
