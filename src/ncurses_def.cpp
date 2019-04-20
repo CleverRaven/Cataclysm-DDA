@@ -96,12 +96,14 @@ void catacurses::wmove( const window &win, const int y, const int x )
 
 void catacurses::mvwprintw( const window &win, const int y, const int x, const std::string &text )
 {
-    return curses_check_result( ::mvwprintw( win.get<::WINDOW>(), y, x, "%s", text ), OK, "mvwprintw" );
+    return curses_check_result( ::mvwprintw( win.get<::WINDOW>(), y, x, "%s", text.c_str() ),
+                                OK, "mvwprintw" );
 }
 
 void catacurses::wprintw( const window &win, const std::string &text )
 {
-    return curses_check_result( ::wprintw( win.get<::WINDOW>(), "%s", text ), OK, "wprintw" );
+    return curses_check_result( ::wprintw( win.get<::WINDOW>(), "%s", text.c_str() ),
+                                OK, "wprintw" );
 }
 
 void catacurses::refresh()
