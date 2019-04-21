@@ -27,7 +27,8 @@
       [ "motor_tiny", 30 ],
       [ "motor_micro", 40 ],
       [ "jumper_cable", 15 ],
-      [ "jumper_cable_heavy", 5 ]
+      [ "jumper_cable_heavy", 5 ],
+      [ "recharge_station", 20 ]
     ]
   },
   {
@@ -99,7 +100,8 @@
       [ "water_faucet", 100 ],
       [ "bubblewrap", 20 ],
       [ "pump_complex", 5 ],
-      [ "well_pump", 5 ]
+      [ "well_pump", 5 ],
+      [ "recharge_station", 20 ]
     ]
   },
   {
@@ -182,7 +184,8 @@
       [ "peephole", 25 ],
       [ "chem_chromium_oxide", 5 ],
       [ "chem_zinc_powder", 5 ],
-      [ "denat_alcohol", 5 ]
+      [ "denat_alcohol", 5 ],
+      [ "recharge_station", 10 ]
     ]
   },
   {
@@ -344,7 +347,7 @@
       [ "generator_7500w", 3 ],
       [ "storage_battery", 6 ],
       [ "solar_panel", 3 ],
-      [ "recharge_station", 2 ]
+      [ "recharge_station", 8 ]
     ]
   },
   {
