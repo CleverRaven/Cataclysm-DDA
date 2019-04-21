@@ -6879,7 +6879,7 @@
       },
       { "flame": false, "type": "cauterize" }
     ],
-    "flags": [ "SPEAR", "BELT_CLIP", "ALLOWS_REMOTE_USE" ]
+    "flags": [ "SPEAR", "BELT_CLIP", "ALLOWS_REMOTE_USE" ],
     "magazines": [ [ "battery", [ "light_minus_battery_cell", "light_battery_cell", "light_plus_battery_cell" ] ] ]
   },
   {
