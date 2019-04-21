@@ -1115,6 +1115,6 @@
         "contains": 15,
         "watertight": true,
         "seals": true,
-        "properties": [ [ "burst_when_filled", 75 ] ]
+        "properties": [ [ "burst_when_filled", "75" ] ]
     }
 ]
