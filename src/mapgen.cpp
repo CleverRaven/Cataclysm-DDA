@@ -1746,7 +1746,7 @@ bool jmapgen_objects::check_bounds( const jmapgen_place place, JsonObject &jso )
     return true;
 }
 
-void jmapgen_objects::add( const jmapgen_place &place, std::shared_ptr<jmapgen_piece> piece )
+void jmapgen_objects::add( const jmapgen_place &place, std::shared_ptr<const jmapgen_piece> piece )
 {
     objects.emplace_back( place, piece );
 }
