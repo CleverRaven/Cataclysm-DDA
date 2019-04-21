@@ -21,18 +21,20 @@
 #include "enums.h"
 #include "vehicle.h"
 
+class JsonIn;
+class JsonOut;
 class map;
+
+struct mtype;
 struct trap;
 struct ter_t;
 struct furn_t;
 
+using mtype_id = string_id<mtype>;
 using trap_id = int_id<trap>;
 using ter_id = int_id<ter_t>;
 using furn_id = int_id<furn_t>;
 using furn_str_id = string_id<furn_t>;
-struct mtype;
-
-using mtype_id = string_id<mtype>;
 
 struct spawn_point {
     point pos;
@@ -177,6 +179,9 @@ class submap : public maptile_soa<SEEX, SEEY>    // TODO: Use private inheritanc
         bool contains_vehicle( vehicle * );
 
         void rotate( int turns );
+
+        void store( JsonOut &jsout ) const;
+        void load( JsonIn &jsin, const std::string &member_name, bool rubpow_update );
 
         // If is_uniform is true, this submap is a solid block of terrain
         // Uniform submaps aren't saved/loaded, because regenerating them is faster
