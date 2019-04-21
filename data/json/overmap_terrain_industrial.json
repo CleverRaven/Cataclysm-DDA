@@ -279,7 +279,7 @@
     "id": "slaughterhouse_1",
     "copy-from": "generic_city_building",
     "name": "slaughterhouse",
-    "sym": "M",
+    "sym": "%",
     "color": "i_light_gray"
   },
   {
@@ -287,7 +287,7 @@
     "id": "slaughterhouse_1_roof",
     "copy-from": "generic_city_building",
     "name": "slaughterhouse roof",
-    "sym": "M",
+    "sym": "%",
     "color": "i_light_gray"
   },
   {
@@ -295,7 +295,7 @@
     "id": "slaughterhouse_1_basement",
     "copy-from": "generic_city_building",
     "name": "slaughterhouse basement",
-    "sym": "M",
+    "sym": "%",
     "color": "i_light_gray"
   }
 ]
