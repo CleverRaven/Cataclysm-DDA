@@ -1469,6 +1469,7 @@ long arrow_combo_to_numpad( SDL_Keycode mod, SDL_Keycode key )
     return 0;
 }
 
+#if !defined(__ANDROID__)
 static long arrow_combo_modifier = 0;
 
 static long handle_arrow_combo( SDL_Keycode key )
@@ -1484,7 +1485,7 @@ static void end_arrow_combo()
 {
     arrow_combo_modifier = 0;
 }
-
+#endif
 /**
  * Translate SDL key codes to key identifiers used by ncurses, this
  * allows the input_manager to only consider those.
