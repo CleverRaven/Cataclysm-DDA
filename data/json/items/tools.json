@@ -4577,7 +4577,7 @@
       [ "CHISEL", 3 ]
     ],
     "use_action": "GUN_REPAIR",
-    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ]
+    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ],
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
@@ -6782,7 +6782,7 @@
       [ "CHISEL", 3 ]
     ],
     "use_action": "GUN_REPAIR",
-    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ]
+    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ],
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
