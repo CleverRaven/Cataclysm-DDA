@@ -3394,14 +3394,17 @@ body_part bp_affected( npc &who, const efftype_id &effect_type )
 void npc::warn_about( const std::string &type, const time_duration &d, const std::string &name )
 {
     std::string snip;
+    sounds::sound_t spriority = sounds::sound_t::alert;
     if( type == "monster" ) {
         snip = is_enemy() ? "<monster_warning_h>" : "<monster_warning>";
     } else if( type == "explosion" ) {
         snip = is_enemy() ? "<fire_in_the_hole_h>" : "<fire_in_the_hole>";
     } else if( type == "general_danger" ) {
         snip = is_enemy() ? "<general_danger_h>" : "<general_danger>";
+        spriority = sounds::sound_t::speech;
     } else if( type == "relax" ) {
         snip = is_enemy() ? "<its_safe_h>" : "<its_safe>";
+        spriority = sounds::sound_t::speech;
     } else if( type == "kill_npc" ) {
         snip = is_enemy() ? "<kill_npc_h>" : "<kill_npc>";
     } else if( type == "kill_player" ) {
@@ -3414,27 +3417,27 @@ void npc::warn_about( const std::string &type, const time_duration &d, const std
         snip = "<fire_bad>";
     } else if( type == "speech_noise" ) {
         snip = "<speech_warning>";
+        spriority = sounds::sound_t::speech;
     } else if( type == "combat_noise" ) {
         snip = "<combat_noise_warning>";
+        spriority = sounds::sound_t::speech;
     } else if( type == "movement_noise" ) {
         snip = "<movement_noise_warning>";
+        spriority = sounds::sound_t::speech;
     } else if( type == "heal_self" ) {
         snip = "<heal_self>";
+        spriority = sounds::sound_t::speech;
     } else {
         return;
-    }
-    bool alert = false;
-    if( type != "speech_noise" && type != "movement_noise" && type != "relax" ) {
-        alert = true;
     }
     const std::string warning_name = "warning_" + type + name;
     const std::string speech = name.empty() ? snip :
                                string_format( _( "%s %s<punc>" ), snip, name );
-    complain_about( warning_name, d, speech, is_enemy(), alert );
+    complain_about( warning_name, d, speech, is_enemy(), static_cast<int>( spriority ) );
 }
 
 bool npc::complain_about( const std::string &issue, const time_duration &dur,
-                          const std::string &speech, const bool force, const bool alert )
+                          const std::string &speech, const bool force, const int priority )
 {
     // Don't have a default constructor for time_point, so accessing it in the
     // complaints map is a bit difficult, those lambdas should cover it.
@@ -3457,7 +3460,7 @@ bool npc::complain_about( const std::string &issue, const time_duration &dur,
                                         !g->u.in_sleep_state() && !in_sleep_state() );
 
     if( complain_since( issue, dur ) && do_complain ) {
-        say( speech, alert );
+        say( speech, priority );
         set_complain_since( issue );
         return true;
     }

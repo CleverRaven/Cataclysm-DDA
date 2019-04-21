@@ -391,5 +391,19 @@
       [ "tandem", 300 ],
       [ "tricycle", 50 ]
     ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "industrial_transport",
+    "//": "Industrial transport vehicles for transporting goods.",
+    "vehicles": [
+      [ "semi_truck", 200 ],
+      [ "truck_trailer", 200 ],
+      [ "cube_van", 400 ],
+      [ "cube_van_cheap", 500 ],
+      [ "flatbed_truck", 300 ],
+      [ "tatra_truck", 200 ],
+      [ "pickup", 100 ]
+    ]
   }
 ]

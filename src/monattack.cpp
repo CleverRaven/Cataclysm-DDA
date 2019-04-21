@@ -4615,7 +4615,7 @@ int grenade_helper( monster *const z, Creature *const target, const int dist,
         if( data[att].message.empty() ) {
             add_msg( m_debug, "Invalid ammo message in grenadier special." );
         } else {
-            add_msg( m_bad, data[att].message.c_str(), z->name() );
+            add_msg( m_bad, data[att].message, z->name() );
         }
     }
 

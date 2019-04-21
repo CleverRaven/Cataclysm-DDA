@@ -183,7 +183,7 @@ bool player::handle_melee_wear( item &shield, float wear_multiplier )
     if( !shield.inc_damage() ) {
         add_msg_player_or_npc( m_bad, _( "Your %s is damaged by the force of the blow!" ),
                                _( "<npcname>'s %s is damaged by the force of the blow!" ),
-                               str.c_str() );
+                               str );
         return false;
     }
 
@@ -209,7 +209,7 @@ bool player::handle_melee_wear( item &shield, float wear_multiplier )
     if( temp.has_flag( "FRAGILE_MELEE" ) && !temp.components.empty() ) {
         add_msg_player_or_npc( m_bad, _( "Your %s breaks apart!" ),
                                _( "<npcname>'s %s breaks apart!" ),
-                               str.c_str() );
+                               str );
 
         for( auto &comp : temp.components ) {
             int break_chance = comp.typeId() == weak_comp ? 2 : 8;
@@ -228,7 +228,7 @@ bool player::handle_melee_wear( item &shield, float wear_multiplier )
     } else {
         add_msg_player_or_npc( m_bad, _( "Your %s is destroyed by the blow!" ),
                                _( "<npcname>'s %s is destroyed by the blow!" ),
-                               str.c_str() );
+                               str );
     }
 
     return true;
@@ -474,7 +474,7 @@ void player::melee_attack( Creature &t, bool allow_special, const matec_id &forc
             }
 
             if( !specialmsg.empty() ) {
-                add_msg_if_player( specialmsg.c_str() );
+                add_msg_if_player( m_neutral, specialmsg );
             }
         }
 
@@ -1888,7 +1888,7 @@ void player_hit_message( player *attacker, const std::string &message,
 
     // same message is used for player and npc,
     // just using this for the <npcname> substitution.
-    attacker->add_msg_player_or_npc( msgtype, msg.c_str(), msg.c_str(), t.disp_name() );
+    attacker->add_msg_player_or_npc( msgtype, msg, msg, t.disp_name() );
 }
 
 int player::attack_speed( const item &weap ) const

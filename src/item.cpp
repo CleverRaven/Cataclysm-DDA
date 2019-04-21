@@ -643,7 +643,12 @@ bool item::stacks_with( const item &rhs, bool check_components ) const
     if( corpse != nullptr && rhs.corpse != nullptr && corpse->id != rhs.corpse->id ) {
         return false;
     }
-    if( check_components || rhs.is_comestible() ) {
+    if( is_craft() && rhs.is_craft() ) {
+        if( get_making().ident() != rhs.get_making().ident() ) {
+            return false;
+        }
+    }
+    if( check_components || is_comestible() || is_craft() ) {
         //Only check if at least one item isn't using the default recipe or is comestible
         if( !components.empty() || !rhs.components.empty() ) {
             if( get_uncraft_components() != rhs.get_uncraft_components() ) {
@@ -2862,7 +2867,7 @@ void item::on_wield( player &p, int mv )
         msg = _( "You wield your %s." );
     }
 
-    p.add_msg_if_player( msg.c_str(), tname() );
+    p.add_msg_if_player( m_neutral, msg, tname() );
 }
 
 void item::on_pickup( Character &p )
@@ -3786,6 +3791,9 @@ int item::spoilage_sort_order()
     }
 
     if( subject->goes_bad() ) {
+        if( subject -> is_corpse() ) {
+            return to_turns<int>( 14400_turns - subject->rot );
+        }
         return to_turns<int>( subject->get_comestible()->spoils - subject->rot );
     }
 

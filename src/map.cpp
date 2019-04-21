@@ -1268,7 +1268,7 @@ std::string map::furnname( const tripoint &p )
     if( f.has_flag( "PLANT" ) && !i_at( p ).empty() ) {
         const item &seed = i_at( p ).front();
         const std::string &plant = seed.get_plant_name();
-        return string_format( "%s (%s)", f.name(), plant.c_str() );
+        return string_format( "%s (%s)", f.name(), plant );
     } else {
         return f.name();
     }
@@ -3714,7 +3714,7 @@ bool map::hit_with_acid( const tripoint &p )
         ter_set( p, t_floor_wax );
     } else if( t == t_gas_pump || t == t_gas_pump_smashed ) {
         return false;
-    } else if( t == t_card_science || t == t_card_military ) {
+    } else if( t == t_card_science || t == t_card_military || t == t_card_industrial ) {
         ter_set( p, t_card_reader_broken );
     }
     return true;
@@ -3807,12 +3807,10 @@ void map::translate( const ter_id &from, const ter_id &to )
 
 //This function performs the translate function within a given radius of the player.
 void map::translate_radius( const ter_id &from, const ter_id &to, float radi, const tripoint &p,
-                            const bool same_submap )
+                            const bool same_submap, const bool toggle_between )
 {
     if( from == to ) {
-        debugmsg( "map::translate %s => %s",
-                  from.obj().name(),
-                  from.obj().name() );
+        debugmsg( "map::translate %s => %s", from.obj().name(), to.obj().name() );
         return;
     }
 
@@ -3823,12 +3821,17 @@ void map::translate_radius( const ter_id &from, const ter_id &to, float radi, co
     int &y = t.y;
     for( x = 0; x < SEEX * my_MAPSIZE; x++ ) {
         for( y = 0; y < SEEY * my_MAPSIZE; y++ ) {
+            float radiX = sqrt( static_cast<float>( ( uX - x ) * ( uX - x ) + ( uY - y ) * ( uY - y ) ) );
             if( ter( t ) == from ) {
-                float radiX = sqrt( static_cast<float>( ( uX - x ) * ( uX - x ) + ( uY - y ) * ( uY - y ) ) );
                 // within distance, and either no submap limitation or same overmap coords.
                 if( radiX <= radi && ( !same_submap ||
                                        ms_to_omt_copy( getabs( x, y ) ) == ms_to_omt_copy( getabs( uX, uY ) ) ) ) {
                     ter_set( t, to );
+                }
+            } else if( toggle_between && ter( t ) == to ) {
+                if( radiX <= radi && ( !same_submap ||
+                                       ms_to_omt_copy( getabs( x, y ) ) == ms_to_omt_copy( getabs( uX, uY ) ) ) ) {
+                    ter_set( t, from );
                 }
             }
         }

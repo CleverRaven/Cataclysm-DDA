@@ -537,15 +537,13 @@ TEST_CASE( "npc_talk_test" )
     effects.apply( d );
     effects = d.responses[2].success;
     effects.apply( d );
-    gen_response_lines( d, 5 );
+    gen_response_lines( d, 3 );
     CHECK( d.responses[0].text == "This is a basic test response." );
-    CHECK( d.responses[1].text == "This is a u_add_var test response." );
-    CHECK( d.responses[2].text == "This is a npc_add_var test response." );
-    CHECK( d.responses[3].text == "This is a u_has_var, u_remove_var test response." );
-    CHECK( d.responses[4].text == "This is a npc_has_var, npc_remove_var test response." );
-    effects = d.responses[3].success;
+    CHECK( d.responses[1].text == "This is a u_has_var, u_remove_var test response." );
+    CHECK( d.responses[2].text == "This is a npc_has_var, npc_remove_var test response." );
+    effects = d.responses[1].success;
     effects.apply( d );
-    effects = d.responses[4].success;
+    effects = d.responses[2].success;
     effects.apply( d );
     gen_response_lines( d, 3 );
     CHECK( d.responses[0].text == "This is a basic test response." );
@@ -563,6 +561,57 @@ TEST_CASE( "npc_talk_test" )
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a u_has_bionics bio_ads test response." );
     CHECK( d.responses[2].text == "This is a npc_has_bionics ANY response." );
+
+    // speaker effects just use cash because I don't want to do anything complicated
+    g->u.cash = 2000;
+    CHECK( g->u.cash == 2000 );
+    d.add_topic( "TALK_TEST_SPEAKER_EFFECT_SIMPLE" );
+    d.apply_speaker_effects( d.topic_stack.back() );
+    REQUIRE( g->u.cash == 1500 );
+    d.apply_speaker_effects( d.topic_stack.back() );
+    REQUIRE( g->u.cash == 1000 );
+    d.add_topic( "TALK_TEST_SPEAKER_EFFECT_SIMPLE_CONDITIONAL" );
+    d.apply_speaker_effects( d.topic_stack.back() );
+    REQUIRE( g->u.cash == 500 );
+    d.apply_speaker_effects( d.topic_stack.back() );
+    REQUIRE( g->u.cash == 500 );
+    g->u.cash = 2000;
+    CHECK( g->u.cash == 2000 );
+    d.add_topic( "TALK_TEST_SPEAKER_EFFECT_SENTINEL" );
+    d.apply_speaker_effects( d.topic_stack.back() );
+    REQUIRE( g->u.cash == 1500 );
+    d.apply_speaker_effects( d.topic_stack.back() );
+    REQUIRE( g->u.cash == 1500 );
+    d.add_topic( "TALK_TEST_SPEAKER_EFFECT_SENTINEL_CONDITIONAL" );
+    d.apply_speaker_effects( d.topic_stack.back() );
+    REQUIRE( g->u.cash == 1000 );
+    d.apply_speaker_effects( d.topic_stack.back() );
+    REQUIRE( g->u.cash == 1000 );
+
+    g->u.cash = 4500;
+    CHECK( g->u.cash == 4500 );
+    d.add_topic( "TALK_TEST_SPEAKER_EFFECT_COMPOUND" );
+    d.apply_speaker_effects( d.topic_stack.back() );
+    REQUIRE( g->u.cash == 3500 );
+    d.apply_speaker_effects( d.topic_stack.back() );
+    REQUIRE( g->u.cash == 2500 );
+    d.add_topic( "TALK_TEST_SPEAKER_EFFECT_COMPOUND_CONDITIONAL" );
+    d.apply_speaker_effects( d.topic_stack.back() );
+    REQUIRE( g->u.cash == 1000 );
+    d.apply_speaker_effects( d.topic_stack.back() );
+    REQUIRE( g->u.cash == 500 );
+    g->u.cash = 3500;
+    CHECK( g->u.cash == 3500 );
+    d.add_topic( "TALK_TEST_SPEAKER_EFFECT_COMPOUND_SENTINEL" );
+    d.apply_speaker_effects( d.topic_stack.back() );
+    REQUIRE( g->u.cash == 2750 );
+    d.apply_speaker_effects( d.topic_stack.back() );
+    REQUIRE( g->u.cash == 2250 );
+    d.add_topic( "TALK_TEST_SPEAKER_EFFECT_COMPOUND_SENTINEL_CONDITIONAL" );
+    d.apply_speaker_effects( d.topic_stack.back() );
+    REQUIRE( g->u.cash == 1500 );
+    d.apply_speaker_effects( d.topic_stack.back() );
+    REQUIRE( g->u.cash == 1500 );
 
     // test change class
     REQUIRE( talker_npc.myclass == npc_class_id( "NC_TEST_CLASS" ) );

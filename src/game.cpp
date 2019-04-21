@@ -420,8 +420,11 @@ void game::init_ui( const bool resized )
 #endif
     // remove some space for the sidebar, this is the maximal space
     // (using standard font) that the terrain window can have
+    int sidebar_left = panel_manager::get_manager().get_width_left();
+    int sidebar_right = panel_manager::get_manager().get_width_right();
+
     TERRAIN_WINDOW_HEIGHT = TERMY;
-    TERRAIN_WINDOW_WIDTH = TERMX;
+    TERRAIN_WINDOW_WIDTH = TERMX - ( sidebar_left + sidebar_right );
     TERRAIN_WINDOW_TERM_WIDTH = TERRAIN_WINDOW_WIDTH;
     TERRAIN_WINDOW_TERM_HEIGHT = TERRAIN_WINDOW_HEIGHT;
 
@@ -470,7 +473,7 @@ void game::init_ui( const bool resized )
     POSY = TERRAIN_WINDOW_HEIGHT / 2;
 
     w_terrain = w_terrain_ptr = catacurses::newwin( TERRAIN_WINDOW_HEIGHT, TERRAIN_WINDOW_WIDTH,
-                                VIEW_OFFSET_Y, VIEW_OFFSET_X );
+                                VIEW_OFFSET_Y, VIEW_OFFSET_X + sidebar_left );
     werase( w_terrain );
 
     /**
@@ -517,16 +520,6 @@ void game::init_ui( const bool resized )
     // need to init in order to avoid crash. gets updated by the panel code.
     w_pixel_minimap = catacurses::newwin( 1, 1, 0, 0 );
     liveview.init();
-
-    // initializes centering based on sidebar layout
-    int width = panel_manager::get_manager().get_current_layout().begin()->get_width();
-    int h; // to_map_font_dimension needs a second input
-    to_map_font_dimension( width, h );
-    if( get_option<std::string>( "SIDEBAR_POSITION" ) == "left" ) {
-        width *= -1;
-    }
-    // divided by two because we want the offset to center the screen
-    g->sidebar_offset.x = width / 2;
 
     // Only refresh if we are in-game, otherwise all resources are not initialized
     // and this refresh will crash the game.
@@ -2889,7 +2882,7 @@ void game::write_memorial_file( std::string sLastWords )
 void game::debug()
 {
     int action = uilist(
-    _( "Debug Functions - Using these will cheat not only the game, but yourself.  You won't grow. You won't improve.  Taking this shortcut will gain you nothing. Your victory will be hollow.  Nothing will be risked and nothing will be gained." ), {
+    _( "Debug Functions - Using these will cheat not only the game, but yourself.  You won't grow. You won't improve.\nTaking this shortcut will gain you nothing. Your victory will be hollow.\nNothing will be risked and nothing will be gained." ), {
         _( "Wish for an item" ),                // 0
         _( "Teleport - Short Range" ),          // 1
         _( "Teleport - Long Range" ),           // 2
@@ -3719,13 +3712,13 @@ bool game::is_in_viewport( const tripoint &p, int margin ) const
 {
     const tripoint diff( u.pos() + u.view_offset - p );
 
-    return ( std::abs( diff.x ) <= getmaxx( w_terrain ) / 2 - margin - sidebar_offset.x ) &&
-           ( std::abs( diff.y ) <= getmaxy( w_terrain ) / 2 - margin - sidebar_offset.y );
+    return ( std::abs( diff.x ) <= getmaxx( w_terrain ) / 2 - margin ) &&
+           ( std::abs( diff.y ) <= getmaxy( w_terrain ) / 2 - margin );
 }
 
 void game::draw_ter( const bool draw_sounds )
 {
-    draw_ter( u.pos() + u.view_offset + sidebar_offset, false,
+    draw_ter( u.pos() + u.view_offset, false,
               draw_sounds );
 }
 
@@ -3780,7 +3773,7 @@ void game::draw_ter( const tripoint &center, const bool looking, const bool draw
     if( !destination_preview.empty() && u.view_offset.z == 0 ) {
         // Draw auto-move preview trail
         const tripoint &final_destination = destination_preview.back();
-        tripoint line_center = u.pos() + u.view_offset + sidebar_offset;
+        tripoint line_center = u.pos() + u.view_offset;
         draw_line( final_destination, line_center, destination_preview );
         mvwputch( w_terrain, POSY + ( final_destination.y - ( u.posy() + u.view_offset.y ) ),
                   POSX + ( final_destination.x - ( u.posx() + u.view_offset.x ) ), c_white, 'X' );
@@ -3814,7 +3807,7 @@ void game::draw_veh_dir_indicator( bool next )
     if( const cata::optional<tripoint> indicator_offset = get_veh_dir_indicator_location( next ) ) {
         auto col = next ? c_white : c_dark_gray;
         mvwputch( w_terrain, POSY + indicator_offset->y - u.view_offset.y,
-                  POSX + indicator_offset->x - u.view_offset.x - g->sidebar_offset.x, col, 'X' );
+                  POSX + indicator_offset->x - u.view_offset.x, col, 'X' );
     }
 }
 
@@ -4234,7 +4227,7 @@ void game::mon_info( const catacurses::window &w, int hor_padding )
         dangerou = false;
     }
 
-    tripoint view = u.pos() + u.view_offset + sidebar_offset;
+    tripoint view = u.pos() + u.view_offset;
     new_seen_mon.clear();
 
     const int current_turn = calendar::turn;
@@ -5179,7 +5172,7 @@ void game::emp_blast( const tripoint &p )
         return;
     }
     // TODO: More terrain effects.
-    if( m.ter( x, y ) == t_card_science || m.ter( x, y ) == t_card_military ) {
+    if( m.ter( x, y ) == t_card_science || m.ter( x, y ) == t_card_military ||  m.ter( x, y ) == t_card_industrial ) {
         int rn = rng( 1, 100 );
         if( rn > 92 || rn < 40 ) {
             if( sight ) {
@@ -6751,7 +6744,6 @@ void game::zones_manager()
             mvwprintz( w_zones_info, 3, 2, c_white, _( "Select second point." ) );
             wrefresh( w_zones_info );
 
-            center = center - sidebar_offset;
             const look_around_result second = look_around( w_zones_info, center, *first.position, true, true,
                     false );
             if( second.position ) {
@@ -7050,7 +7042,7 @@ void game::zones_manager()
                                           tripoint( iX, iY, u.posz() + u.view_offset.z ),
                                           false,
                                           false,
-                                          u.pos() + u.view_offset + sidebar_offset );
+                                          u.pos() + u.view_offset );
                             } else {
                                 if( u.has_effect( effect_boomered ) ) {
                                     mvwputch( w_terrain, iY - offset_y, iX - offset_x, c_magenta, '#' );
@@ -7132,14 +7124,13 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
 
     temp_exit_fullscreen();
 
-    center = center + sidebar_offset;
 
     const int offset_x = ( u.posx() + u.view_offset.x ) - getmaxx( w_terrain ) / 2;
     const int offset_y = ( u.posy() + u.view_offset.y ) - getmaxy( w_terrain ) / 2;
 
     tripoint lp = start_point; // cursor
     if( !has_first_point ) {
-        lp = start_point - sidebar_offset;
+        lp = start_point;
     }
     int &lx = lp.x;
     int &ly = lp.y;
@@ -7471,7 +7462,7 @@ void game::draw_trail_to_square( const tripoint &t, bool bDrawX )
     draw_ter();
 
     std::vector<tripoint> pts;
-    tripoint center = u.pos() + u.view_offset + sidebar_offset;
+    tripoint center = u.pos() + u.view_offset;
     if( t != tripoint_zero ) {
         //Draw trail
         pts = line_to( u.pos(), u.pos() + t, 0, 0 );
@@ -7489,11 +7480,10 @@ void game::draw_trail_to_square( const tripoint &t, bool bDrawX )
             sym = 'v';
         }
         if( pts.empty() ) {
-            mvwputch( w_terrain, POSY - sidebar_offset.y, POSX - sidebar_offset.x, c_white, sym );
+            mvwputch( w_terrain, POSY, POSX, c_white, sym );
         } else {
-            mvwputch( w_terrain, POSY + ( pts[pts.size() - 1].y - ( u.posy() + u.view_offset.y ) -
-                                          sidebar_offset.y ),
-                      POSX + ( pts[pts.size() - 1].x - ( u.posx() + u.view_offset.x ) - sidebar_offset.x ),
+            mvwputch( w_terrain, POSY + ( pts[pts.size() - 1].y - ( u.posy() + u.view_offset.y ) ),
+                      POSX + ( pts[pts.size() - 1].x - ( u.posx() + u.view_offset.x ) ),
                       c_white, sym );
         }
     }
@@ -10004,7 +9994,7 @@ bool game::prompt_dangerous_tile( const tripoint &dest_loc ) const
             bp_hand_l, bp_hand_r, bp_torso
         };
 
-        static const auto sharp_bp_check = [this]( body_part bp ) {
+        const auto sharp_bp_check = [this]( body_part bp ) {
             return u.immune_to( bp, { DT_CUT, 10 } );
         };
 
@@ -10664,7 +10654,7 @@ void game::place_player( const tripoint &dest_loc )
 
         const std::string forage_type = get_option<std::string>( "AUTO_FORAGING" );
         if( forage_type != "off" ) {
-            static const auto forage = [&]( const tripoint & pos ) {
+            const auto forage = [&]( const tripoint & pos ) {
                 const auto &xter_t = m.ter( pos ).obj().examine;
                 const auto &xfurn_t = m.furn( pos ).obj().examine;
                 const bool forage_everything = forage_type == "both";
@@ -10710,7 +10700,7 @@ void game::place_player( const tripoint &dest_loc )
                 }
             }
         } else if( pulp_butcher == "pulp" || pulp_butcher == "pulp_adjacent" ) {
-            static const auto pulp = [&]( const tripoint & pos ) {
+            const auto pulp = [&]( const tripoint & pos ) {
                 for( const auto &maybe_corpse : m.i_at( pos ) ) {
                     if( maybe_corpse.is_corpse() && maybe_corpse.can_revive() &&
                         maybe_corpse.get_mtype()->bloodType() != fd_acid ) {
@@ -12237,7 +12227,7 @@ void game::update_stair_monsters()
                     } else {
                         msg = _( "The %1$s pushed the %2$s." );
                     }
-                    add_msg( msg.c_str(), critter.name(), other.name() );
+                    add_msg( m_neutral, msg, critter.name(), other.name() );
                     return;
                 }
             }
@@ -12447,7 +12437,7 @@ void game::display_scent()
             return;
         }
         draw_ter();
-        scent.draw( w_terrain, div * 2, u.pos() + u.view_offset + sidebar_offset );
+        scent.draw( w_terrain, div * 2, u.pos() + u.view_offset );
         wrefresh( w_terrain );
         draw_panels();
         inp_mngr.wait_for_any_key();
@@ -13050,7 +13040,7 @@ void game::add_artifact_messages( const std::vector<art_effect_passive> &effects
     }
 
     if( !stat_info.empty() ) {
-        add_msg( stat_info.c_str() );
+        add_msg( m_neutral, stat_info );
     }
 
     if( net_speed != 0 ) {

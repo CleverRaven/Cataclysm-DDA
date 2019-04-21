@@ -653,7 +653,7 @@ std::string monster::extended_description() const
             return type->has_flag( fd.first ) ? fd.second : "";
         } );
         if( !flag_descriptions.empty() ) {
-            ss << string_format( format, flag_descriptions.c_str() ) << std::endl;
+            ss << string_format( format, flag_descriptions ) << std::endl;
         } else if( !if_empty.empty() ) {
             ss << if_empty << std::endl;
         }

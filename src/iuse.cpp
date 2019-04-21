@@ -3219,11 +3219,11 @@ int iuse::geiger( player *p, item *it, bool t, const tripoint &pos )
     } );
     switch( ch ) {
         case 0:
-            p->add_msg_if_player( m_info, _( "Your radiation level: %d (%d from items)" ), p->radiation,
+            p->add_msg_if_player( m_info, _( "Your radiation level: %d mSv (%d mSv from items)" ), p->radiation,
                                   p->leak_level( "RADIOACTIVE" ) );
             break;
         case 1:
-            p->add_msg_if_player( m_info, _( "The ground's radiation level: %d" ),
+            p->add_msg_if_player( m_info, _( "The ground's radiation level: %d mSv/h" ),
                                   g->m.get_radiation( p->pos() ) );
             break;
         case 2:
@@ -3650,12 +3650,13 @@ int iuse::firecracker_act( player *, item *it, bool t, const tripoint &pos )
 int iuse::mininuke( player *p, item *it, bool, const tripoint & )
 {
     int time;
-    bool got_value = query_int( time, _( "Set the timer to (0 to cancel)?" ) );
+    bool got_value = query_int( time, _( "Set the timer to ___ turns (0 to cancel)?" ) );
     if( !got_value || time <= 0 ) {
         p->add_msg_if_player( _( "Never mind." ) );
         return 0;
     }
-    p->add_msg_if_player( _( "You set the timer to %d." ), time );
+    p->add_msg_if_player( _( "You set the timer to %s." ),
+                          to_string( time_duration::from_turns( time ) ) );
     if( !p->is_npc() ) {
         p->add_memorial_log( pgettext( "memorial_male", "Activated a mininuke." ),
                              pgettext( "memorial_female", "Activated a mininuke." ) );
@@ -5213,7 +5214,7 @@ int iuse::unfold_generic( player *p, item *it, bool, const tripoint & )
     } else {
         unfold_msg = _( unfold_msg );
     }
-    p->add_msg_if_player( unfold_msg.c_str(), veh->name );
+    p->add_msg_if_player( m_neutral, unfold_msg, veh->name );
 
     p->moves -= it->get_var( "moves", 500 );
     return 1;
@@ -5301,8 +5302,8 @@ int iuse::radglove( player *p, item *it, bool, const tripoint & )
         if( p->radiation >= 1 ) {
             p->add_msg_if_player( m_warning, _( "You are currently irradiated." ) );
             p->add_msg_player_or_say( m_info,
-                                      _( "Your radiation level: %d" ),
-                                      _( "It says here that my radiation level is %d" ),
+                                      _( "Your radiation level: %d mSv." ),
+                                      _( "It says here that my radiation level is %d mSv." ),
                                       p->radiation );
         } else {
             p->add_msg_player_or_say( m_info,

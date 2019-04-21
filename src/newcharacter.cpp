@@ -1183,8 +1183,7 @@ tab_direction set_traits( const catacurses::window &w, player &u, points_left &p
                 int cur_line_y = 5 + i - start_y;
                 int cur_line_x = 2 + iCurrentPage * page_width;
                 mvwprintz( w, cur_line_y, cur_line_x, c_light_gray, std::string( page_width, ' ' ) );
-                mvwprintz( w, cur_line_y, cur_line_x, cLine,
-                           utf8_truncate( mdata.name(), page_width - 2 ).c_str() );
+                mvwprintz( w, cur_line_y, cur_line_x, cLine, utf8_truncate( mdata.name(), page_width - 2 ) );
             }
 
             for( int i = 0; i < used_pages; i++ ) {
@@ -1697,7 +1696,7 @@ tab_direction set_skills( const catacurses::window &w, player &u, points_left &p
 
             const std::string rec_temp = enumerate_as_string( elem.second.begin(), elem.second.end(),
             []( const std::pair<std::string, int> &rec ) {
-                return string_format( "%s (%d)", rec.first.c_str(), rec.second );
+                return string_format( "%s (%d)", rec.first, rec.second );
             } );
 
             if( elem.first == currentSkill->name() ) {

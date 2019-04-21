@@ -765,3 +765,8 @@ void talk_function::npc_thankful( npc &p )
     p.personality.aggression -= 1;
 
 }
+
+void talk_function::clear_overrides( npc &p )
+{
+    p.rules.clear_overrides();
+}
