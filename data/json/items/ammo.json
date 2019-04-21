@@ -31,7 +31,6 @@
     "symbol": "=",
     "color": "yellow",
     "ammo_type": "battery",
-    "count": 50,
     "capacity": 50,
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ]
@@ -50,7 +49,6 @@
     "symbol": "=",
     "color": "yellow",
     "ammo_type": "battery",
-    "count": 100,
     "capacity": 100,
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ]
@@ -69,7 +67,6 @@
     "symbol": "=",
     "color": "yellow",
     "ammo_type": "battery",
-    "count": 150,
     "capacity": 150,
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ]
@@ -88,7 +85,6 @@
     "symbol": "=",
     "color": "yellow",
     "ammo_type": "battery",
-    "count": 500,
     "capacity": 500,
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ]
@@ -107,7 +103,6 @@
     "symbol": "=",
     "color": "yellow",
     "ammo_type": "battery",
-    "count": 600,
     "capacity": 600,
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ]
@@ -126,7 +121,6 @@
     "symbol": "=",
     "color": "yellow",
     "ammo_type": "battery",
-    "count": 1000,
     "capacity": 1000,
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ]
@@ -145,7 +139,6 @@
     "symbol": "=",
     "color": "yellow",
     "ammo_type": "battery",
-    "count": 1250,
     "capacity": 1250,
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ]
