@@ -23,6 +23,7 @@ function just_json
     return 0
 }
 
+export CCACHE_MAXSIZE=1G
 if [ -n "$TEST_STAGE" ]
 then
     build-scripts/lint-json.sh
