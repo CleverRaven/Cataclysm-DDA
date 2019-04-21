@@ -587,7 +587,7 @@ static item_location set_item_map( const tripoint &loc, item &newit )
     // Includes loc
     const std::vector<tripoint> tiles = closest_tripoints_first( 2, loc );
     for( const tripoint &tile : tiles ) {
-        // Pass false to disallow overflow, null_item_reference indicats failure.
+        // Pass false to disallow overflow, null_item_reference indicates failure.
         item *it_on_map = &g->m.add_item_or_charges( tile, newit, false );
         if( it_on_map != &null_item_reference() ) {
             return item_location( map_cursor( tile ), it_on_map );
