@@ -579,8 +579,26 @@ static item *set_item_inventory( player &p, item &newit )
 }
 
 /**
+ * Helper for @ref set_item_map_or_vehicle
+ * This is needed to still get a vaild item_location if overflow occurs
+ */
+static item_location set_item_map( const tripoint &loc, item &newit )
+{
+    // Includes loc
+    const std::vector<tripoint> tiles = closest_tripoints_first( 2, loc );
+    for( const tripoint &tile : tiles ) {
+        // Pass false to disallow overflow, null_item_reference indicats failure.
+        item *it_on_map = &g->m.add_item_or_charges( tile, newit, false );
+        if( it_on_map != &null_item_reference() ) {
+            return item_location( map_cursor( tile ), it_on_map );
+        }
+    }
+    debugmsg( "Could not place %s on map near (%d, %d, %d)", newit.tname(), loc.x, loc.y, loc.z );
+    return item_location();
+}
+
+/**
  * Set an item on the map or in a vehicle and return the new location
- *
  */
 static item_location set_item_map_or_vehicle( const player &p, const tripoint &loc, item &newit )
 {
@@ -611,7 +629,7 @@ static item_location set_item_map_or_vehicle( const player &p, const tripoint &l
                                      "Not enough space on the %s. <npcname> drops the %s on the ground." ),
                            vp->part().name(), newit.tname() ) );
 
-        return item_location( map_cursor( loc ), &g->m.add_item_or_charges( loc, newit ) );
+        return set_item_map( loc, newit );
 
     } else {
         if( g->m.has_furn( loc ) ) {
@@ -628,7 +646,7 @@ static item_location set_item_map_or_vehicle( const player &p, const tripoint &l
                 string_format( pgettext( "item", "<npcname> puts the %s on the ground." ),
                                newit.tname() ) );
         }
-        return item_location( map_cursor( loc ), &g->m.add_item_or_charges( loc, newit ) );
+        return set_item_map( loc, newit );
     }
 }
 
