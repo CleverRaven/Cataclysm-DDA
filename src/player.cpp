@@ -4465,7 +4465,7 @@ needs_rates player::calc_needs_rates()
     if( has_activity( activity_id( "ACT_TREE_COMMUNION" ) ) ) {
         // Much of the body's needs are taken care of by the trees.
         // Hair Roots dont provide any bodily needs.
-    	if( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 )){  
+    	if( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) ) {  
         	rates.hunger *= 0.5f;
         	rates.thirst *= 0.5f;
         	rates.fatigue *= 0.5f;

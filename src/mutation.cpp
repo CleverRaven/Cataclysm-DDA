@@ -528,7 +528,7 @@ void player::activate_mutation( const trait_id &mut )
             return;
         }
         
-        if( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 )){
+        if( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) ) {
             add_msg_if_player( _( "You reach out to the trees with your roots." ) );
         } else {
             add_msg_if_player( _( "You lay next to the trees letting your hair roots tangle with the trees." ) );
@@ -536,7 +536,7 @@ void player::activate_mutation( const trait_id &mut )
 
         assign_activity( activity_id( "ACT_TREE_COMMUNION" ) );
 
-        if( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 )){
+        if( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) ) {
             const time_duration startup_time = has_trait( trait_ROOTS3 ) ? rng( 15_minutes,
                                            30_minutes ) : rng( 60_minutes, 90_minutes );
             activity.values.push_back( to_turns<int>( startup_time ) );
