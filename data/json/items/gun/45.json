@@ -111,6 +111,7 @@
     "dispersion": 520,
     "durability": 7,
     "burst": 18,
+    "built_in_mods": [ "wire_stock" ],
     "valid_mod_locations": [
       [ "accessories", 3 ],
       [ "barrel", 1 ],
