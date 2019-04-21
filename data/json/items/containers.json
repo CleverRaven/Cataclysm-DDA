@@ -1098,23 +1098,23 @@
     "seals": true,
     "watertight": true
   },
-    {
-        "id": "condom",
-        "type": "CONTAINER",
-        "category": "other",
-        "name": "condom",
-        "description": "A gentleman's balloon. A single use life preventer. A thumbless latex mitten. This could be used as a makeshift water container, but otherwise it's anyone's guess what it's for.",
-        "weight": 5,
-        "volume": 0,
-        "price": 0,
-        "to_hit": -5,
-        "rigid": false,
-        "material": "plastic",
-        "symbol": ")",
-        "color": "white",
-        "contains": 15,
-        "watertight": true,
-        "seals": true,
-        "properties": [ [ "burst_when_filled", "75" ] ]
-    }
+  {
+    "id": "condom",
+    "type": "CONTAINER",
+    "category": "other",
+    "name": "condom",
+    "description": "A gentleman's balloon. A single use life preventer. A thumbless latex mitten. This could be used as a makeshift water container, but otherwise it's anyone's guess what it's for.",
+    "weight": 5,
+    "volume": 0,
+    "price": 0,
+    "to_hit": -5,
+    "rigid": false,
+    "material": "plastic",
+    "symbol": ")",
+    "color": "white",
+    "contains": 15,
+    "watertight": true,
+    "seals": true,
+    "properties": [ [ "burst_when_filled", "75" ] ]
+  }
 ]

@@ -492,8 +492,9 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
                          rng( 0, units::to_milliliter( 2000_ml - volume ) ) < get_str() * 100;
 
     // Item will burst upon landing, destroying the item, and spilling its contents
-    const bool burst = thrown.has_property("burst_when_filled") && thrown.is_container() &&
-        thrown.get_property_long("burst_when_filled") <= ((double)thrown.get_contained().volume().value()) / thrown.get_container_capacity().value() * 100;
+    const bool burst = thrown.has_property( "burst_when_filled" ) && thrown.is_container() &&
+                       thrown.get_property_long( "burst_when_filled" ) <= ( ( double )
+                               thrown.get_contained().volume().value() ) / thrown.get_container_capacity().value() * 100;
 
 
     // Add some flags to the projectile
@@ -524,8 +525,8 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     }
 
     //TODO: Add wet effect if other things care about that
-    if (burst) {
-        proj_effects.insert("BURST");
+    if( burst ) {
+        proj_effects.insert( "BURST" );
     }
 
     // Some minor (skill/2) armor piercing for skillful throws
