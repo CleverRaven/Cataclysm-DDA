@@ -277,8 +277,10 @@ TEST_CASE( "charge_handling" )
 {
     SECTION( "carver" ) {
         std::vector<item> tools;
-        tools.emplace_back( "hotplate", -1, 20 );
-        tools.emplace_back( "soldering_iron", -1, 20 );
+        item soldering_iron = item( "soldering_iron" , 0, 20 );
+        item hot_plate = item( "hotplate", 0, 20 );
+        tools.emplace_back( soldering_iron );
+        tools.emplace_back( hot_plate );
         tools.insert( tools.end(), 10, item( "solder_wire" ) );
         tools.emplace_back( "screwdriver" );
         tools.emplace_back( "mold_plastic" );
