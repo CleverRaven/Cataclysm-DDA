@@ -5,9 +5,7 @@ permalink: /releases/
 ---
 
 # Latest Stable
-The most recent stable release is 0.Danny. Here is a link to the release page on github, where you can download it.
-We recommend stable for the most bug-free experience possible.
-https://github.com/CleverRaven/Cataclysm-DDA/releases/tag/0.D
+The most recent stable release is {{ site.github.latest_release.tag_name }} {{ site.github.latest_release.name }}.  We recommend stable for the most bug-free experience possible.  You can download it from the release page [here]({{ site.github.latest_release.html_url }}).
 
 # Latest Experimental
 Cataclysm: DDA is under constant development. As such, stable can lag behind with features. If you would like access to the bleeding edge of features, the links to the unstable experimental builds are below:
