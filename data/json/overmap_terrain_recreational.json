@@ -845,6 +845,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "bowling_alley_roof",
+    "name": "bowling alley roof",
+    "copy-from": "generic_city_building",
+    "sym": "B",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "gym",
     "name": "boxing gym",
     "copy-from": "generic_city_building",

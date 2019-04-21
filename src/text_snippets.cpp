@@ -28,7 +28,7 @@ void snippet_library::add_snippets_from_json( const std::string &category, JsonA
 {
     while( jarr.has_more() ) {
         if( jarr.test_string() ) {
-            const std::string text = _( jarr.next_string().c_str() );
+            const std::string text = _( jarr.next_string() );
             add_snippet( category, text );
         } else {
             JsonObject jo = jarr.next_object();
@@ -39,7 +39,7 @@ void snippet_library::add_snippets_from_json( const std::string &category, JsonA
 
 void snippet_library::add_snippet_from_json( const std::string &category, JsonObject &jo )
 {
-    const std::string text = _( jo.get_string( "text" ).c_str() );
+    const std::string text = _( jo.get_string( "text" ) );
     const int hash = add_snippet( category, text );
     if( jo.has_member( "id" ) ) {
         const std::string id = jo.get_string( "id" );

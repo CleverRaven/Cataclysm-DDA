@@ -4393,7 +4393,7 @@ void vehicle::place_spawn_items()
         if( rng( 1, 100 ) <= spawn.chance ) {
             int part = part_with_feature( spawn.pos, "CARGO", false );
             if( part < 0 ) {
-                debugmsg( "No CARGO parts at (%d, %d) of %s!", spawn.pos.x, spawn.pos.y, name.c_str() );
+                debugmsg( "No CARGO parts at (%d, %d) of %s!", spawn.pos.x, spawn.pos.y, name );
 
             } else {
                 // if vehicle part is broken only 50% of items spawn and they will be variably damaged
@@ -5114,7 +5114,7 @@ bool vehicle::explode_fuel( int p, damage_type type )
     if( one_in( explosion_chance ) ) {
         g->u.add_memorial_log( pgettext( "memorial_male", "The fuel tank of the %s exploded!" ),
                                pgettext( "memorial_female", "The fuel tank of the %s exploded!" ),
-                               name.c_str() );
+                               name );
         const int pow = 120 * ( 1 - exp( data.explosion_factor / -5000 *
                                          ( parts[p].ammo_remaining() * data.fuel_size_factor ) ) );
         //debugmsg( "damage check dmg=%d pow=%d amount=%d", dmg, pow, parts[p].amount );
@@ -5605,7 +5605,7 @@ bool vehicle::refresh_zones()
             const int part_idx = part_with_feature( z.first, "CARGO", false );
             if( part_idx == -1 ) {
                 debugmsg( "Could not find cargo part at %d,%d on vehicle %s for loot zone. Removing loot zone.",
-                          z.first.x, z.first.y, this->name.c_str() );
+                          z.first.x, z.first.y, this->name );
 
                 // If this loot zone refers to a part that no longer exists at this location, then its unattached somehow.
                 // By continuing here and not adding to new_zones, we effectively remove it

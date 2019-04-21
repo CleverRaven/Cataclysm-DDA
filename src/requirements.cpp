@@ -90,7 +90,7 @@ std::string quality_requirement::to_string( int ) const
 {
     return string_format( ngettext( "%d tool with %s of %d or more.",
                                     "%d tools with %s of %d or more.", count ),
-                          count, type.obj().name.c_str(), level );
+                          count, type.obj().name, level );
 }
 
 bool tool_comp::by_charges() const
@@ -103,7 +103,7 @@ std::string tool_comp::to_string( int batch ) const
     if( by_charges() ) {
         //~ <tool-name> (<number-of-charges> charges)
         return string_format( ngettext( "%s (%d charge)", "%s (%d charges)", count * batch ),
-                              item::nname( type ).c_str(), count * batch );
+                              item::nname( type ), count * batch );
     } else {
         return item::nname( type, abs( count ) );
     }
@@ -114,10 +114,10 @@ std::string item_comp::to_string( int batch ) const
     const int c = std::abs( count ) * batch;
     const auto type_ptr = item::find_type( type );
     if( type_ptr->stackable ) {
-        return string_format( "%s (%d)", type_ptr->nname( 1 ).c_str(), c );
+        return string_format( "%s (%d)", type_ptr->nname( 1 ), c );
     }
     //~ <item-count> <item-name>
-    return string_format( ngettext( "%d %s", "%d %s", c ), c, type_ptr->nname( c ).c_str() );
+    return string_format( ngettext( "%d %s", "%d %s", c ), c, type_ptr->nname( c ) );
 }
 
 void quality_requirement::load( JsonArray &jsarr )
@@ -309,14 +309,14 @@ std::string requirement_data::list_missing() const
 void quality_requirement::check_consistency( const std::string &display_name ) const
 {
     if( !type.is_valid() ) {
-        debugmsg( "Unknown quality %s in %s", type.c_str(), display_name.c_str() );
+        debugmsg( "Unknown quality %s in %s", type.c_str(), display_name );
     }
 }
 
 void component::check_consistency( const std::string &display_name ) const
 {
     if( !item::type_is_defined( type ) ) {
-        debugmsg( "%s in %s is not a valid item template", type.c_str(), display_name.c_str() );
+        debugmsg( "%s in %s is not a valid item template", type.c_str(), display_name );
     }
 }
 
@@ -327,7 +327,7 @@ void requirement_data::check_consistency( const std::vector< std::vector<T> > &v
     for( const auto &list : vec ) {
         for( const auto &comp : list ) {
             if( comp.requirement ) {
-                debugmsg( "Finalization failed to inline %s in %s", comp.type.c_str(), display_name.c_str() );
+                debugmsg( "Finalization failed to inline %s in %s", comp.type.c_str(), display_name );
             }
 
             comp.check_consistency( display_name );
@@ -499,11 +499,12 @@ std::vector<std::string> requirement_data::get_folded_tools_list( int width, nc_
         return output_buffer;
     }
 
-    std::vector<std::string> folded_qualities = get_folded_list( width, crafting_inv, return_true,
+    std::vector<std::string> folded_qualities = get_folded_list( width, crafting_inv, return_true<item>,
             qualities );
     output_buffer.insert( output_buffer.end(), folded_qualities.begin(), folded_qualities.end() );
 
-    std::vector<std::string> folded_tools = get_folded_list( width, crafting_inv, return_true, tools,
+    std::vector<std::string> folded_tools = get_folded_list( width, crafting_inv, return_true<item>,
+                                            tools,
                                             batch );
     output_buffer.insert( output_buffer.end(), folded_tools.begin(), folded_tools.end() );
     return output_buffer;
@@ -518,10 +519,10 @@ bool requirement_data::can_make_with_inventory( const inventory &crafting_inv,
 
     bool retval = true;
     // All functions must be called to update the available settings in the components.
-    if( !has_comps( crafting_inv, qualities, return_true ) ) {
+    if( !has_comps( crafting_inv, qualities, return_true<item> ) ) {
         retval = false;
     }
-    if( !has_comps( crafting_inv, tools, return_true, batch ) ) {
+    if( !has_comps( crafting_inv, tools, return_true<item>, batch ) ) {
         retval = false;
     }
     if( !has_comps( crafting_inv, components, filter, batch ) ) {

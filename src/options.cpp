@@ -358,7 +358,7 @@ void options_manager::cOpt::setPrerequisites( const std::string &sOption,
 {
     const bool hasOption = get_options().has_option( sOption );
     if( !hasOption ) {
-        debugmsg( "setPrerequisite: unknown option %s", sType.c_str() );
+        debugmsg( "setPrerequisite: unknown option %s", sType );
         return;
     }
 
@@ -373,7 +373,7 @@ void options_manager::cOpt::setPrerequisites( const std::string &sOption,
     }
 
     if( !isOfSupportType ) {
-        debugmsg( "setPrerequisite: option %s not of supported type", sType.c_str() );
+        debugmsg( "setPrerequisite: option %s not of supported type", sType );
         return;
     }
 
@@ -478,12 +478,12 @@ std::string options_manager::cOpt::getPage() const
 
 std::string options_manager::cOpt::getMenuText() const
 {
-    return _( sMenuText.c_str() );
+    return _( sMenuText );
 }
 
 std::string options_manager::cOpt::getTooltip() const
 {
-    return _( sTooltip.c_str() );
+    return _( sTooltip );
 }
 
 std::string options_manager::cOpt::getType() const
@@ -506,7 +506,7 @@ bool options_manager::cOpt::operator==( const cOpt &rhs ) const
     } else if( sType == "VOID" ) {
         return true;
     } else {
-        debugmsg( "unknown option type %s", sType.c_str() );
+        debugmsg( "unknown option type %s", sType );
         return false;
     }
 }
@@ -538,7 +538,7 @@ template<>
 std::string options_manager::cOpt::value_as<std::string>() const
 {
     if( eType != CVT_STRING ) {
-        debugmsg( "%s tried to get string value from option of type %s", sName.c_str(), sType.c_str() );
+        debugmsg( "%s tried to get string value from option of type %s", sName, sType );
     }
     return sSet;
 }
@@ -547,7 +547,7 @@ template<>
 bool options_manager::cOpt::value_as<bool>() const
 {
     if( eType != CVT_BOOL ) {
-        debugmsg( "%s tried to get boolean value from option of type %s", sName.c_str(), sType.c_str() );
+        debugmsg( "%s tried to get boolean value from option of type %s", sName, sType );
     }
     return bSet;
 }
@@ -556,7 +556,7 @@ template<>
 float options_manager::cOpt::value_as<float>() const
 {
     if( eType != CVT_FLOAT ) {
-        debugmsg( "%s tried to get float value from option of type %s", sName.c_str(), sType.c_str() );
+        debugmsg( "%s tried to get float value from option of type %s", sName, sType );
     }
     return fSet;
 }
@@ -565,7 +565,7 @@ template<>
 int options_manager::cOpt::value_as<int>() const
 {
     if( eType != CVT_INT ) {
-        debugmsg( "%s tried to get integer value from option of type %s", sName.c_str(), sType.c_str() );
+        debugmsg( "%s tried to get integer value from option of type %s", sName, sType );
     }
     return iSet;
 }
@@ -585,7 +585,7 @@ std::string options_manager::cOpt::getValueName() const
         return ( bSet ) ? _( "True" ) : _( "False" );
 
     } else if( sType == "int_map" ) {
-        return string_format( _( "%d: %s" ), iSet, mIntValues.find( iSet )->second.c_str() );
+        return string_format( _( "%d: %s" ), iSet, mIntValues.find( iSet )->second );
     }
 
     return getValue();
@@ -604,11 +604,10 @@ std::string options_manager::cOpt::getDefaultText( const bool bTranslated ) cons
         [bTranslated]( const id_and_option & elem ) {
             return bTranslated ? elem.second.translated() : elem.first;
         }, enumeration_conjunction::none );
-        return string_format( _( "Default: %s - Values: %s" ),
-                              defaultName.c_str(), sItems.c_str() );
+        return string_format( _( "Default: %s - Values: %s" ), defaultName, sItems );
 
     } else if( sType == "string_input" ) {
-        return string_format( _( "Default: %s" ), sDefault.c_str() );
+        return string_format( _( "Default: %s" ), sDefault );
 
     } else if( sType == "bool" ) {
         return ( bDefault ) ? _( "Default: True" ) : _( "Default: False" );
@@ -617,8 +616,7 @@ std::string options_manager::cOpt::getDefaultText( const bool bTranslated ) cons
         return string_format( _( "Default: %d - Min: %d, Max: %d" ), iDefault, iMin, iMax );
 
     } else if( sType == "int_map" ) {
-        return string_format( _( "Default: %d: %s" ), iDefault,
-                              mIntValues.find( iDefault )->second.c_str() );
+        return string_format( _( "Default: %d: %s" ), iDefault, mIntValues.find( iDefault )->second );
 
     } else if( sType == "float" ) {
         return string_format( _( "Default: %.2f - Min: %.2f, Max: %.2f" ), fDefault, fMin, fMax );
@@ -670,7 +668,7 @@ void options_manager::cOpt::setNext()
         string_input_popup()
         .width( ( iMaxLength > 80 ) ? 80 : ( ( iMaxLength < iMenuTextLength ) ? iMenuTextLength : iMaxLength
                                              + 1 ) )
-        .description( _( sMenuText.c_str() ) )
+        .description( _( sMenuText ) )
         .max_length( iMaxLength )
         .edit( sSet );
 
@@ -744,7 +742,7 @@ void options_manager::cOpt::setPrev()
 void options_manager::cOpt::setValue( float fSetIn )
 {
     if( sType != "float" ) {
-        debugmsg( "tried to set a float value to a %s option", sType.c_str() );
+        debugmsg( "tried to set a float value to a %s option", sType );
         return;
     }
     fSet = fSetIn;
@@ -757,7 +755,7 @@ void options_manager::cOpt::setValue( float fSetIn )
 void options_manager::cOpt::setValue( int iSetIn )
 {
     if( sType != "int" ) {
-        debugmsg( "tried to set an int value to a %s option", sType.c_str() );
+        debugmsg( "tried to set an int value to a %s option", sType );
         return;
     }
     iSet = iSetIn;
@@ -803,7 +801,7 @@ void options_manager::cOpt::setValue( std::string sSetIn )
         if( ssTemp ) {
             setValue( tmpFloat );
         } else {
-            debugmsg( "invalid floating point option: %s", sSetIn.c_str() );
+            debugmsg( "invalid floating point option: %s", sSetIn );
         }
     }
 }
@@ -2361,7 +2359,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
 
             sTemp.str( "" );
             sTemp << i + 1 - iBlankOffset;
-            mvwprintz( w_options, line_pos, 1, c_white, sTemp.str().c_str() );
+            mvwprintz( w_options, line_pos, 1, c_white, sTemp.str() );
 
             if( iCurrentLine == i ) {
                 mvwprintz( w_options, line_pos, name_col, c_yellow, ">> " );
@@ -2402,7 +2400,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
                              ( iCurrentPage == i ) ? hilite( c_light_green ) : c_light_green, _( "Current world" ) );
                 } else {
                     wprintz( w_options_header, ( iCurrentPage == i ) ?
-                             hilite( c_light_green ) : c_light_green, "%s", _( vPages[i].second.c_str() ) );
+                             hilite( c_light_green ) : c_light_green, "%s", _( vPages[i].second ) );
                 }
                 wprintz( w_options_header, c_white, "]" );
                 wputch( w_options_header, BORDER_COLOR, LINE_OXOX );
@@ -2425,8 +2423,8 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
                             ngettext( "%s #%s -- The window will be %d pixel wide with the selected value.",
                                       "%s #%s -- The window will be %d pixels wide with the selected value.",
                                       new_window_width ),
-                            OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getTooltip().c_str(),
-                            OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getDefaultText().c_str(),
+                            OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getTooltip(),
+                            OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getDefaultText(),
                             new_window_width );
         } else if( mPageItems[iCurrentPage][iCurrentLine] == "TERMINAL_Y" ) {
             int new_terminal_y = 0;
@@ -2441,15 +2439,15 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
                             ngettext( "%s #%s -- The window will be %d pixel tall with the selected value.",
                                       "%s #%s -- The window will be %d pixels tall with the selected value.",
                                       new_window_height ),
-                            OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getTooltip().c_str(),
-                            OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getDefaultText().c_str(),
+                            OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getTooltip(),
+                            OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getDefaultText(),
                             new_window_height );
         } else
 #endif
         {
             fold_and_print( w_options_tooltip, 0, 0, 78, c_white, "%s #%s",
-                            OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getTooltip().c_str(),
-                            OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getDefaultText().c_str() );
+                            OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getTooltip(),
+                            OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getDefaultText() );
         }
 
         if( iCurrentPage != iLastPage ) {
@@ -2782,7 +2780,7 @@ bool options_manager::has_option( const std::string &name ) const
 options_manager::cOpt &options_manager::get_option( const std::string &name )
 {
     if( options.count( name ) == 0 ) {
-        debugmsg( "requested non-existing option %s", name.c_str() );
+        debugmsg( "requested non-existing option %s", name );
     }
     if( !world_generator || !world_generator->active_world ) {
         // Global options contains the default for new worlds, which is good enough here.

@@ -70,8 +70,8 @@ basecamp::basecamp( const std::string &name_, const tripoint &omt_pos_ ): name( 
 }
 
 basecamp::basecamp( const std::string &name_, const tripoint &bb_pos_,
-                    std::vector<tripoint> sort_points_, std::vector<std::string> directions_,
-                    std::map<std::string, expansion_data> expansions_ ): sort_points( sort_points_ ),
+                    std::vector<std::string> directions_,
+                    std::map<std::string, expansion_data> expansions_ ):
     directions( directions_ ), name( name_ ), bb_pos( bb_pos_ ), expansions( expansions_ )
 {
 }
@@ -79,7 +79,7 @@ basecamp::basecamp( const std::string &name_, const tripoint &bb_pos_,
 std::string basecamp::board_name() const
 {
     //~ Name of a basecamp
-    return string_format( _( "%s Board" ), name.c_str() );
+    return string_format( _( "%s Board" ), name );
 }
 
 // read an expansion's terrain ID of the form faction_base_$TYPE_$CURLEVEL
@@ -111,19 +111,20 @@ void basecamp::define_camp( npc &p )
 {
     query_new_name();
     omt_pos = p.global_omt_location();
-    sort_points = p.companion_mission_points;
+    oter_id &omt_ref = overmap_buffer.ter( omt_pos );
     // purging the regions guarantees all entries will start with faction_base_
     for( const std::pair<std::string, tripoint> &expansion :
          talk_function::om_building_region( omt_pos, 1, true ) ) {
         add_expansion( expansion.first, expansion.second );
     }
-    const std::string om_cur = overmap_buffer.ter( omt_pos ).id().c_str();
+    const std::string om_cur = omt_ref.id().c_str();
     if( om_cur.find( prefix ) == std::string::npos ) {
         expansion_data e;
         e.type = "camp";
         e.cur_level = 0;
         e.pos = omt_pos;
         expansions[ base_dir ] = e;
+        omt_ref = oter_id( "faction_base_camp_0" );
     } else {
         expansions[ base_dir ] = parse_expansion( om_cur, omt_pos );
     }

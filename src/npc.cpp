@@ -95,7 +95,6 @@ npc::npc()
     int_max = 0;
     per_max = 0;
     my_fac = nullptr;
-    miss_id = mission_type_id::NULL_ID();
     marked_for_death = false;
     death_drops = true;
     dead = false;
@@ -158,10 +157,10 @@ void npc_template::load( JsonObject &jsobj )
     guy.idz = jsobj.get_string( "id" );
     guy.name.clear();
     if( jsobj.has_string( "name_unique" ) ) {
-        guy.name = static_cast<std::string>( _( jsobj.get_string( "name_unique" ).c_str() ) );
+        guy.name = static_cast<std::string>( _( jsobj.get_string( "name_unique" ) ) );
     }
     if( jsobj.has_string( "name_suffix" ) ) {
-        guy.name += ", " + static_cast<std::string>( _( jsobj.get_string( "name_suffix" ).c_str() ) );
+        guy.name += ", " + static_cast<std::string>( _( jsobj.get_string( "name_suffix" ) ) );
     }
     if( jsobj.has_string( "gender" ) ) {
         if( jsobj.get_string( "gender" ) == "male" ) {
@@ -184,9 +183,12 @@ void npc_template::load( JsonObject &jsobj )
     guy.mission = npc_mission( jsobj.get_int( "mission" ) );
     guy.chatbin.first_topic = jsobj.get_string( "chat" );
     if( jsobj.has_string( "mission_offered" ) ) {
-        guy.miss_id = mission_type_id( jsobj.get_string( "mission_offered" ) );
-    } else {
-        guy.miss_id = mission_type_id::NULL_ID();
+        guy.miss_ids.emplace_back( mission_type_id( jsobj.get_string( "mission_offered" ) ) );
+    } else if( jsobj.has_array( "mission_offered" ) ) {
+        JsonArray ja = jsobj.get_array( "mission_offered" );
+        while( ja.has_more() ) {
+            guy.miss_ids.emplace_back( mission_type_id( ja.next_string() ) );
+        }
     }
     npc_templates[string_id<npc_template>( guy.idz )].guy = std::move( guy );
 }
@@ -249,8 +251,8 @@ void npc::load_npc_template( const string_id<npc_template> &ident )
     attitude = tguy.attitude;
     mission = tguy.mission;
     chatbin.first_topic = tguy.chatbin.first_topic;
-    if( !tguy.miss_id.is_null() ) {
-        add_new_mission( mission::reserve_new( tguy.miss_id, getID() ) );
+    for( const mission_type_id &miss_id : tguy.miss_ids ) {
+        add_new_mission( mission::reserve_new( miss_id, getID() ) );
     }
 }
 
@@ -392,8 +394,7 @@ void npc::randomize( const npc_class_id &type )
     starting_inv( *this, myclass );
     has_new_items = true;
 
-    my_mutations.clear();
-    my_traits.clear();
+    empty_traits();
 
     // Add fixed traits
     for( const auto &tid : trait_group::traits_from( myclass->traits ) ) {
@@ -585,7 +586,7 @@ void npc::setpos( const tripoint &pos )
         } else {
             // Don't move the npc pointer around to avoid having two overmaps
             // with the same npc pointer
-            debugmsg( "could not find npc %s on its old overmap", name.c_str() );
+            debugmsg( "could not find npc %s on its old overmap", name );
         }
     }
 }
@@ -606,7 +607,7 @@ void npc::travel_overmap( const tripoint &pos )
         } else {
             // Don't move the npc pointer around to avoid having two overmaps
             // with the same npc pointer
-            debugmsg( "could not find npc %s on its old overmap", name.c_str() );
+            debugmsg( "could not find npc %s on its old overmap", name );
         }
     }
 }
@@ -883,7 +884,9 @@ bool npc::wield( item &it )
         weapon = it;
     }
 
-    add_msg_if_npc( m_info, _( "<npcname> wields a %s." ),  weapon.tname() );
+    if( g->u.sees( pos() ) ) {
+        add_msg_if_npc( m_info, _( "<npcname> wields a %s." ),  weapon.tname() );
+    }
     return true;
 }
 
@@ -1003,8 +1006,7 @@ void npc::form_opinion( const player &u )
         set_attitude( NPCATT_FLEE_TEMP );
     }
 
-    add_msg( m_debug, "%s formed an opinion of u: %s",
-             name.c_str(), npc_attitude_name( attitude ).c_str() );
+    add_msg( m_debug, "%s formed an opinion of u: %s", name, npc_attitude_name( attitude ) );
 }
 
 float npc::vehicle_danger( int radius ) const
@@ -1632,9 +1634,9 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
     // is a blank line. w is 13 characters tall, and we can't use the last one
     // because it's a border as well; so we have lines 6 through 11.
     // w is also 48 characters wide - 2 characters for border = 46 characters for us
-    mvwprintz( w, line++, column, c_white, _( "NPC: %s" ), name.c_str() );
+    mvwprintz( w, line++, column, c_white, _( "NPC: %s" ), name );
     if( is_armed() ) {
-        trim_and_print( w, line++, column, iWidth, c_red, _( "Wielding a %s" ), weapon.tname().c_str() );
+        trim_and_print( w, line++, column, iWidth, c_red, _( "Wielding a %s" ), weapon.tname() );
     }
 
     const auto enumerate_print = [ w, last_line, column, iWidth, &line ]( std::string & str_in,
@@ -1645,9 +1647,9 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
             split = ( str_in.length() <= iWidth ) ? std::string::npos : str_in.find_last_of( ' ',
                     static_cast<long>( iWidth ) );
             if( split == std::string::npos ) {
-                mvwprintz( w, line, column, color, str_in.c_str() );
+                mvwprintz( w, line, column, color, str_in );
             } else {
-                mvwprintz( w, line, column, color, str_in.substr( 0, split ).c_str() );
+                mvwprintz( w, line, column, color, str_in.substr( 0, split ) );
             }
             str_in = str_in.substr( split + 1 );
             line++;
@@ -1815,7 +1817,7 @@ void npc::die( Creature *nkiller )
     Character::die( nkiller );
 
     if( g->u.sees( *this ) ) {
-        add_msg( _( "%s dies!" ), name.c_str() );
+        add_msg( _( "%s dies!" ), name );
     }
 
     if( killer == &g->u && ( !guaranteed_hostile() || hit_by_player ) ) {
@@ -1830,23 +1832,23 @@ void npc::die( Creature *nkiller )
             g->u.add_memorial_log( pgettext( "memorial_male",
                                              "Killed a delicious-looking innocent, %s, in cold blood." ),
                                    pgettext( "memorial_female", "Killed a delicious-looking innocent, %s, in cold blood." ),
-                                   name.c_str() );
+                                   name );
         } else if( psycho ) {
             g->u.add_memorial_log( pgettext( "memorial_male",
                                              "Killed an innocent, %s, in cold blood.  They were weak." ),
                                    pgettext( "memorial_female", "Killed an innocent, %s, in cold blood.  They were weak." ),
-                                   name.c_str() );
+                                   name );
         } else if( cannibal ) {
             g->u.add_memorial_log( pgettext( "memorial_male", "Killed an innocent, %s." ),
                                    pgettext( "memorial_female", "Killed an innocent, %s." ),
-                                   name.c_str() );
+                                   name );
             g->u.add_morale( MORALE_KILLED_INNOCENT, -5, 0, 2_days, 3_hours );
         } else {
             g->u.add_memorial_log( pgettext( "memorial_male",
                                              "Killed an innocent person, %s, in cold blood and felt terrible afterwards." ),
                                    pgettext( "memorial_female",
                                              "Killed an innocent person, %s, in cold blood and felt terrible afterwards." ),
-                                   name.c_str() );
+                                   name );
             g->u.add_morale( MORALE_KILLED_INNOCENT, -100, 0, 2_days, 3_hours );
         }
     }

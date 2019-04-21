@@ -50,7 +50,7 @@ void vitamin::load_vitamin( JsonObject &jo )
     vitamin vit;
 
     vit.id_ = vitamin_id( jo.get_string( "id" ) );
-    vit.name_ = _( jo.get_string( "name" ).c_str() );
+    vit.name_ = _( jo.get_string( "name" ) );
     vit.deficiency_ = efftype_id( jo.get_string( "deficiency" ) );
     vit.excess_ = efftype_id( jo.get_string( "excess", "null" ) );
     vit.min_ = jo.get_int( "min" );

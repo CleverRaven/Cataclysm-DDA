@@ -678,7 +678,7 @@ void uilist::show()
     }
 
     if( !filter.empty() ) {
-        mvwprintz( window, w_height - 1, 2, border_color, "< %s >", filter.c_str() );
+        mvwprintz( window, w_height - 1, 2, border_color, "< %s >", filter );
         mvwprintz( window, w_height - 1, 4, text_color, filter );
     }
     apply_scrollbar();
@@ -709,7 +709,7 @@ void uilist::redraw( bool redraw_callback )
         wprintz( window, border_color, " >" );
     }
     if( !filter.empty() ) {
-        mvwprintz( window, w_height - 1, 2, border_color, "< %s >", filter.c_str() );
+        mvwprintz( window, w_height - 1, 2, border_color, "< %s >", filter );
         mvwprintz( window, w_height - 1, 4, text_color, filter );
     }
     ( void )redraw_callback; // TODO: something

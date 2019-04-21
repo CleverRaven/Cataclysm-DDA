@@ -12,6 +12,7 @@
 #include "calendar.h"
 #include "clzones.h"
 #include "damage.h"
+#include "game_constants.h"
 #include "item.h"
 #include "item_group.h"
 #include "item_stack.h"

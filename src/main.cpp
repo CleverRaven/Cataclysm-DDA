@@ -6,8 +6,10 @@
 #include <iostream>
 #include <locale>
 #include <map>
-#if !defined(_WIN32)
-#   include <signal.h>
+#if defined(_WIN32)
+#include "platform_win.h"
+#else
+#include <signal.h>
 #endif
 #include <stdexcept>
 #if defined(LOCALIZE)

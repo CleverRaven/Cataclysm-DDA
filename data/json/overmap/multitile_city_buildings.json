@@ -17,6 +17,32 @@
   },
   {
     "type": "city_building",
+    "id": "police",
+    "locations": [ "land" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "police_north" }, { "point": [ 0, 0, 1 ], "overmap": "police_roof_north" } ]
+  },
+  {
+    "type": "city_building",
+    "id": "police_1",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "police_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "police_2ndfloor_1_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "police_roof_1_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "police_2",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "police_2_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "police_roof_2_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "police_upper_roof_2_north" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "bank",
     "locations": [ "land" ],
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "bank_north" }, { "point": [ 0, 0, 1 ], "overmap": "bank_roof_north" } ]
@@ -26,6 +52,15 @@
     "id": "bank_1",
     "locations": [ "land" ],
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "bank_1_north" }, { "point": [ 0, 0, 1 ], "overmap": "bank_roof_1_north" } ]
+  },
+  {
+    "type": "city_building",
+    "id": "bowling_alley",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "bowling_alley_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "bowling_alley_roof_north" }
+    ]
   },
   {
     "type": "city_building",

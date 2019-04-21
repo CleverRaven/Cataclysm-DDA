@@ -151,7 +151,7 @@ void harvest_list::check_consistency()
         const std::string errors = enumerate_as_string( hl.entries_.begin(), hl.entries_.end(),
                                    error_func );
         if( !errors.empty() ) {
-            debugmsg( "Harvest list %s has invalid entry: %s", hl_id, errors.c_str() );
+            debugmsg( "Harvest list %s has invalid entry: %s", hl_id, errors );
         }
 
     }
