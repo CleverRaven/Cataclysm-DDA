@@ -4584,7 +4584,8 @@
       [ "SCREW", 1 ],
       [ "CHISEL", 3 ]
     ],
-    "use_action": "GUN_REPAIR"
+    "use_action": "GUN_REPAIR",
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "large_tent_kit",
@@ -5101,7 +5102,8 @@
     "max_charges": 200,
     "charges_per_use": 50,
     "qualities": [ [ "CHISEL", 3 ], [ "HAMMER_FINE", 1 ], [ "HAMMER", 3 ], [ "PRY", 1 ] ],
-    "use_action": "MISC_REPAIR"
+    "use_action": "MISC_REPAIR",
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "mold_plastic",
@@ -5299,7 +5301,7 @@
       "cost_scaling": 0.1,
       "move_cost": 1300
     },
-    "flags": [ "STAB" ]
+    "flags": [ "STAB", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "needle_curved",
@@ -5326,7 +5328,7 @@
       "cost_scaling": 0.1,
       "move_cost": 1200
     },
-    "flags": [ "STAB" ]
+    "flags": [ "STAB", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "needle_wood",
@@ -5353,7 +5355,7 @@
       "cost_scaling": 0.1,
       "move_cost": 1500
     },
-    "flags": [ "STAB" ]
+    "flags": [ "STAB", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "nodachi",
@@ -6528,7 +6530,8 @@
       "tool_quality": 0,
       "cost_scaling": 0.1,
       "move_cost": 1000
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "shavingkit",
@@ -6812,7 +6815,8 @@
       [ "SCREW", 1 ],
       [ "CHISEL", 3 ]
     ],
-    "use_action": "GUN_REPAIR"
+    "use_action": "GUN_REPAIR",
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "smart_lamp",
@@ -6910,7 +6914,7 @@
       },
       { "flame": false, "type": "cauterize" }
     ],
-    "flags": [ "SPEAR", "BELT_CLIP" ]
+    "flags": [ "SPEAR", "BELT_CLIP", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "spear_knife",
@@ -7201,7 +7205,8 @@
         "move_cost": 800
       },
       "SEW_ADVANCED"
-    ]
+    ],
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "talking_doll",
@@ -8371,7 +8376,8 @@
     "material": "wood",
     "symbol": ";",
     "color": "white",
-    "use_action": "WASHCLOTHES"
+    "use_action": "WASHCLOTHES",
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "water_purifier",
