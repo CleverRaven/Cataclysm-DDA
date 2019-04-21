@@ -2547,7 +2547,7 @@
     "symbol": ";",
     "color": "blue",
     "ammo": "battery",
-        "flags": [ "ALLOWS_REMOTE_USE" ],
+    "flags": [ "ALLOWS_REMOTE_USE" ],
     "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ]
   },
   {
@@ -2770,7 +2770,7 @@
     "symbol": ";",
     "color": "blue",
     "ammo": "battery",
-        "charges_per_use": 1,
+    "charges_per_use": 1,
     "revert_to": "eink_tablet_pc",
     "use_action": "EINKTABLETPC",
     "flags": [ "WATCH" ],
@@ -2833,7 +2833,7 @@
     "symbol": ";",
     "color": "yellow",
     "ammo": "battery",
-        "charges_per_use": 10,
+    "charges_per_use": 10,
     "use_action": "HAIRKIT",
     "magazines": [ [ "battery", [ "light_minus_battery_cell" ] ] ]
   },
@@ -3689,7 +3689,7 @@
     "symbol": ";",
     "color": "green",
     "ammo": "battery",
-        "charges_per_use": 1,
+    "charges_per_use": 1,
     "use_action": "GEIGER",
     "magazines": [ [ "battery", [ "light_battery_cell", "light_plus_battery_cell", "light_minus_battery_cell" ] ] ]
   },
@@ -4016,7 +4016,7 @@
     "symbol": ";",
     "color": "green",
     "ammo": "battery",
-        "charges_per_use": 5,
+    "charges_per_use": 5,
     "use_action": "HOTPLATE",
     "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ]
   },
@@ -4549,7 +4549,7 @@
     "symbol": ";",
     "color": "dark_gray",
     "ammo": "battery",
-        "charges_per_use": 25,
+    "charges_per_use": 25,
     "qualities": [
       [ "HAMMER_FINE", 1 ],
       [ "HAMMER", 3 ],
@@ -4931,7 +4931,7 @@
     "color": "green",
     "ammo": "battery",
     "sub": "hotplate",
-        "charges_per_use": 5,
+    "charges_per_use": 5,
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "use_action": [ "HOTPLATE", "HEAT_FOOD" ],
     "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ]
@@ -4987,7 +4987,7 @@
     "color": "green",
     "ammo": "battery",
     "sub": "hotplate",
-        "charges_per_use": 5,
+    "charges_per_use": 5,
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "use_action": [ "HOTPLATE", "HEAT_FOOD" ],
     "magazines": [ [ "battery", [ "medium_plus_battery_cell", "medium_battery_cell" ] ] ]
@@ -5054,7 +5054,7 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": "tape",
-        "max_charges": 200,
+    "max_charges": 200,
     "charges_per_use": 50,
     "qualities": [ [ "CHISEL", 3 ], [ "HAMMER_FINE", 1 ], [ "HAMMER", 3 ], [ "PRY", 1 ] ],
     "use_action": "MISC_REPAIR",
@@ -5169,7 +5169,7 @@
     "symbol": ";",
     "color": "dark_gray",
     "ammo": "battery",
-        "use_action": "MP3",
+    "use_action": "MP3",
     "magazines": [ [ "battery", [ "light_battery_cell", "light_plus_battery_cell", "light_minus_battery_cell" ] ] ]
   },
   {
@@ -5203,7 +5203,7 @@
     "symbol": ";",
     "color": "red",
     "ammo": "battery",
-        "turns_per_charge": 10,
+    "turns_per_charge": 10,
     "revert_to": "multi_cooker",
     "qualities": [ [ "CONTAIN", 1 ] ],
     "use_action": "MULTICOOKER",
@@ -7300,7 +7300,7 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "magenta",
-        "charges_per_use": 25,
+    "charges_per_use": 25,
     "use_action": "TELEPORT",
     "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ]
   },
