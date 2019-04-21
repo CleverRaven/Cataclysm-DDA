@@ -20,9 +20,22 @@ Cataclysm: DDA is under constant development. As such, stable can lag behind wit
 #### For historical interest, here are the previous "Stable" releases.
 
 ------------------
-{% for release in site.github.releases %}
-  {{ release.name }}
-------------------
 
-  {{ release.body }}
+{% for release in site.github.releases %}
+## {{ release.tag_name}} {{ release.name }}
+
+{{ release.body }}
+
+    {% unless release.assets == empty %}
+
+#### {{ release.tag_name}} Download Links
+
+        {% for asset in release.assets %}
+
+* [{{ asset.name }}]({{ asset.browser_download_url }})
+
+        {% endfor %}
+
+    {% endunless %}
+
 {% endfor %}
