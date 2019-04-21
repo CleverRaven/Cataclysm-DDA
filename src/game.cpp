@@ -7314,6 +7314,7 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
         } else if( action == "CENTER" ) {
             center = u.pos();
             lp = u.pos();
+            u.view_offset.z = 0;
         } else if( action == "MOUSE_MOVE" ) {
             const tripoint old_lp = lp;
             const tripoint old_center = center;
