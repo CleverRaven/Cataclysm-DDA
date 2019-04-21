@@ -185,6 +185,8 @@
   {
     "type": "item_group",
     "id": "livingroom",
+    "ammo": 50,
+    "magazine": 100,
     "items": [
       [ "rootbeer", 65 ],
       [ "mag_computer", 35 ],
@@ -2698,6 +2700,8 @@
   {
     "type": "item_group",
     "id": "winter",
+    "ammo": 50,
+    "magazine": 100,
     "items": [
       [ "coat_winter", 50 ],
       [ "peacoat", 30 ],
