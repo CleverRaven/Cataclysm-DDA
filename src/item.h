@@ -702,6 +702,9 @@ class item : public visitable<item>
         /** whether an item is perishable (can rot) */
         bool goes_bad() const;
 
+        /** Get the shelf life of the item*/
+        time_duration get_shelf_life() const;
+
         /** Get @ref rot value relative to shelf life (or 0 if item does not spoil) */
         double get_relative_rot() const;
 
