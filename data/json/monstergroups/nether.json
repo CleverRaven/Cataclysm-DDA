@@ -13,8 +13,6 @@
     "type": "monstergroup",
     "name": "GROUP_BREATHER",
     "default": "mon_breather",
-    "monsters": [
-      { "monster": "mon_breather", "freq": 10, "cost_multiplier": 2, "pack_size": [ 2, 4 ] }
-    ]
+    "monsters": [ { "monster": "mon_breather", "freq": 10, "cost_multiplier": 2, "pack_size": [ 2, 4 ] } ]
   }
 ]
