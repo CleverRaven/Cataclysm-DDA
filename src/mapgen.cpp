@@ -3397,7 +3397,11 @@ ___DEEE|.R.|...,,...|sss\n",
 
         if( ice_lab ) {
             int temperature = -20 + 30 * ( zlevel );
+
             set_temperature( x, y, temperature );
+            set_temperature( x + SEEX, y, temperature );
+            set_temperature( x, y + SEEY, temperature );
+            set_temperature( x + SEEX, y + SEEY, temperature );
         }
 
         // Check for adjacent sewers; used below
@@ -4063,7 +4067,11 @@ ___DEEE|.R.|...,,...|sss\n",
 
         if( ice_lab ) {
             int temperature = -20 + 30 * zlevel;
+
             set_temperature( x, y, temperature );
+            set_temperature( x + SEEX, y, temperature );
+            set_temperature( x, y + SEEY, temperature );
+            set_temperature( x + SEEX, y + SEEY, temperature );
         }
 
         tw = is_ot_subtype( "lab", t_north ) ? 0 : 2;

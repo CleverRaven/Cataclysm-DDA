@@ -882,7 +882,7 @@ class map
 
         // Temperature
         // Temperature for submap
-        int &temperature( const tripoint &p );
+        int get_temperature( const tripoint &p ) const;
         // Set temperature for all four submap quadrants
         void set_temperature( const tripoint &p, const int temperature );
         // 2D overload for mapgen

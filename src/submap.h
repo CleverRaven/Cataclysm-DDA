@@ -150,6 +150,14 @@ class submap : public maptile_soa<SEEX, SEEY>    // TODO: Use private inheritanc
             cosmetics.push_back( ins );
         }
 
+        int get_temperature() const {
+            return temperature;
+        }
+
+        void set_temperature( int new_temperature ) {
+            temperature = new_temperature;
+        }
+
         bool has_graffiti( const point &p ) const;
         const std::string &get_graffiti( const point &p ) const;
         void set_graffiti( const point &p, const std::string &new_graffiti );
@@ -180,7 +188,6 @@ class submap : public maptile_soa<SEEX, SEEY>    // TODO: Use private inheritanc
 
         int field_count = 0;
         time_point last_touched = calendar::time_of_cataclysm;
-        int temperature = 0;
         std::vector<spawn_point> spawns;
         /**
          * Vehicles on this submap (their (0,0) point is on this submap).
@@ -190,6 +197,9 @@ class submap : public maptile_soa<SEEX, SEEY>    // TODO: Use private inheritanc
         std::vector<std::unique_ptr<vehicle>> vehicles;
         std::unique_ptr<computer> comp;
         basecamp camp;  // only allowing one basecamp per submap
+
+    private:
+        int temperature = 0;
 };
 
 /**

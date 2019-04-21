@@ -237,7 +237,7 @@ void mapbuffer::save_quad( const std::string &dirname, const std::string &filena
         jsout.end_array();
 
         jsout.member( "turn_last_touched", sm->last_touched );
-        jsout.member( "temperature", sm->temperature );
+        jsout.member( "temperature", sm->get_temperature() );
 
         // Terrain is saved using a simple RLE scheme.  Legacy saves don't have
         // this feature but the algorithm is backward compatible.
@@ -485,7 +485,7 @@ void mapbuffer::deserialize( JsonIn &jsin )
             } else if( submap_member_name == "turn_last_touched" ) {
                 sm->last_touched = jsin.get_int();
             } else if( submap_member_name == "temperature" ) {
-                sm->temperature = jsin.get_int();
+                sm->set_temperature( jsin.get_int() );
             } else if( submap_member_name == "terrain" ) {
                 // TODO: try block around this to error out if we come up short?
                 jsin.start_array();
