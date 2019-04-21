@@ -1860,7 +1860,7 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
     } else if( reloadable.is_watertight_container() ) {
         msg = _( "You refill the %s." );
     }
-    add_msg( msg.c_str(), reloadable.tname() );
+    add_msg( m_neutral, msg, reloadable.tname() );
 }
 
 void activity_handlers::start_fire_finish( player_activity *act, player *p )
@@ -2650,10 +2650,11 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
     // item_location::get_item() will return nullptr if the item is lost
     if( !craft ) {
         p->add_msg_player_or_npc(
-            string_format( _( "You no longer have the %1$s in your possession.  You stop crafting. "
-                              " Reactivate the %1$s to continue crafting." ), craft->tname() ),
-            string_format( _( "<npcname> no longer has the %s in their possession.  <npcname> stops"
-                              " crafting." ), craft->tname() )
+            string_format( _( "You no longer have the in progress craft in your possession.  "
+                              "You stop crafting.  "
+                              "Reactivate the in progress craft to continue crafting." ) ),
+            string_format( _( "<npcname> no longer has the in progress craft in their possession.  "
+                              "<npcname> stops crafting." ) )
         );
         p->cancel_activity();
         return;

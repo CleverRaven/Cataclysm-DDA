@@ -554,12 +554,14 @@
       {
         "text": "This is a u_add_var test response.",
         "topic": "TALK_DONE",
-        "effect": { "u_add_var": "test", "type": "test", "context": "var_test", "value": "beer" }
+        "effect": { "u_add_var": "test", "type": "test", "context": "var_test", "value": "beer" },
+        "condition": { "not": { "u_has_var": "test", "type": "test", "context": "var_test", "value": "beer" } }
       },
       {
         "text": "This is a npc_add_var test response.",
         "topic": "TALK_DONE",
-        "effect": { "npc_add_var": "test", "type": "test", "context": "var_test", "value": "reeb" }
+        "effect": { "npc_add_var": "test", "type": "test", "context": "var_test", "value": "reeb" },
+        "condition": { "not": { "u_has_var": "test", "type": "test", "context": "var_test", "value": "beer" } }
       },
       {
         "text": "This is a u_has_var, u_remove_var test response.",
@@ -597,6 +599,68 @@
         "condition": { "npc_has_bionics": "ANY" }
       }
     ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TEST_SPEAKER_EFFECT_SIMPLE",
+    "speaker_effect": { "effect": { "u_spend_cash": 500 } },
+    "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
+    "responses": [ { "text": "This is a basic test response.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TEST_SPEAKER_EFFECT_SIMPLE_CONDITIONAL",
+    "speaker_effect": { "condition": { "u_has_cash": 750 }, "effect": { "u_spend_cash": 500 } },
+    "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
+    "responses": [ { "text": "This is a basic test response.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TEST_SPEAKER_EFFECT_SENTINEL",
+    "speaker_effect": { "sentinel": "spend500", "effect": { "u_spend_cash": 500 } },
+    "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
+    "responses": [ { "text": "This is a basic test response.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TEST_SPEAKER_EFFECT_SENTINEL_CONDITIONAL",
+    "speaker_effect": { "sentinel": "spend500", "condition": { "u_has_cash": 750 }, "effect": { "u_spend_cash": 500 } },
+    "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
+    "responses": [ { "text": "This is a basic test response.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TEST_SPEAKER_EFFECT_COMPOUND",
+    "speaker_effect": [ { "effect": { "u_spend_cash": 500 } }, { "effect": { "u_spend_cash": 500 } } ],
+    "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
+    "responses": [ { "text": "This is a basic test response.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TEST_SPEAKER_EFFECT_COMPOUND_CONDITIONAL",
+    "speaker_effect": [
+      { "condition": { "u_has_cash": 1500 }, "effect": { "u_spend_cash": 1000 } },
+      { "condition": { "u_has_cash": 750 }, "effect": { "u_spend_cash": 500 } }
+    ],
+    "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
+    "responses": [ { "text": "This is a basic test response.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TEST_SPEAKER_EFFECT_COMPOUND_SENTINEL",
+    "speaker_effect": [ { "sentinel": "spend250", "effect": { "u_spend_cash": 250 } }, { "effect": { "u_spend_cash": 500 } } ],
+    "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
+    "responses": [ { "text": "This is a basic test response.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TEST_SPEAKER_EFFECT_COMPOUND_SENTINEL_CONDITIONAL",
+    "speaker_effect": [
+      { "sentinel": "spend250", "condition": { "u_has_cash": 750 }, "effect": { "u_spend_cash": 250 } },
+      { "sentinel": "spend500", "condition": { "u_has_cash": 750 }, "effect": { "u_spend_cash": 500 } }
+    ],
+    "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
+    "responses": [ { "text": "This is a basic test response.", "topic": "TALK_DONE" } ]
   },
   {
     "type": "npc",

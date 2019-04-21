@@ -5634,7 +5634,7 @@
           "rotates": false
         },
         {
-          "id": "potato_raw",
+          "id": "potato",
           "fg": 940,
           "bg": 621,
           "rotates": false
@@ -8872,7 +8872,7 @@
           "rotates": false
         },
         {
-          "id": "potato_irradiated",
+          "id": "irradiated_potato",
           "fg": 940,
           "bg": 621
         },

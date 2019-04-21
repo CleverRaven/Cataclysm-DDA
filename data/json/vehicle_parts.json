@@ -509,7 +509,7 @@
     "item": "frame",
     "difficulty": 2,
     "location": "center",
-    "flags": [ "CARGO", "LOCKABLE_CARGO", "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "COVERED", "TOOL_WRENCH" ],
+    "flags": [ "CARGO", "LOCKABLE_CARGO", "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "COVERED" ],
     "breaks_into": "ig_vp_frame"
   },
   {
@@ -527,7 +527,7 @@
     "item": "frame",
     "difficulty": 2,
     "location": "center",
-    "flags": [ "CARGO", "LOCKABLE_CARGO", "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "COVERED", "TOOL_WRENCH", "OPAQUE" ],
+    "flags": [ "CARGO", "LOCKABLE_CARGO", "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "COVERED", "OPAQUE" ],
     "breaks_into": "ig_vp_frame"
   },
   {

@@ -36,6 +36,7 @@
 #include "iuse_actor.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "mapbuffer.h"
 #include "mapdata.h"
 #include "martialarts.h"
 #include "material.h"
@@ -329,6 +330,9 @@ static const trait_id trait_M_SKIN3( "M_SKIN3" );
 static const trait_id trait_M_SPORES( "M_SPORES" );
 static const trait_id trait_NARCOLEPTIC( "NARCOLEPTIC" );
 static const trait_id trait_NAUSEA( "NAUSEA" );
+static const trait_id trait_NOMAD( "NOMAD" );
+static const trait_id trait_NOMAD2( "NOMAD2" );
+static const trait_id trait_NOMAD3( "NOMAD3" );
 static const trait_id trait_NONADDICTIVE( "NONADDICTIVE" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_NO_THIRST( "NO_THIRST" );
@@ -351,6 +355,7 @@ static const trait_id trait_PRED4( "PRED4" );
 static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
+static const trait_id trait_KILLER( "KILLER" );
 static const trait_id trait_QUILLS( "QUILLS" );
 static const trait_id trait_RADIOACTIVE1( "RADIOACTIVE1" );
 static const trait_id trait_RADIOACTIVE2( "RADIOACTIVE2" );
@@ -820,6 +825,57 @@ void player::process_turn()
             add_msg_if_player( m_info, _( "You learned a new style." ) );
         }
     }
+
+    // Update time spent conscious in this overmap tile for the Nomad traits.
+    if( ( has_trait( trait_NOMAD ) || has_trait( trait_NOMAD2 ) || has_trait( trait_NOMAD3 ) ) &&
+        !has_effect( effect_sleep ) && !has_effect( effect_narcosis ) ) {
+        const tripoint ompos = global_omt_location();
+        const point pos = point( ompos.x, ompos.y );
+        if( overmap_time.find( pos ) == overmap_time.end() ) {
+            overmap_time[pos] = 1_turns;
+        } else {
+            overmap_time[pos] += 1_turns;
+        }
+    }
+    // Decay time spent in other overmap tiles.
+    if( calendar::once_every( 1_hours ) ) {
+        const tripoint ompos = global_omt_location();
+        const time_point now = calendar::turn;
+        time_duration decay_time = 0_days;
+        if( has_trait( trait_NOMAD ) ) {
+            decay_time = 7_days;
+        } else if( has_trait( trait_NOMAD2 ) ) {
+            decay_time = 14_days;
+        } else if( has_trait( trait_NOMAD3 ) ) {
+            decay_time = 28_days;
+        }
+        auto it = overmap_time.begin();
+        while( it != overmap_time.end() ) {
+            if( it->first.x == ompos.x && it->first.y == ompos.y ) {
+                it++;
+                continue;
+            }
+            // Find the amount of time passed since the player touched any of the overmap tile's submaps.
+            const tripoint tpt = tripoint( it->first.x, it->first.y, 0 );
+            const time_point last_touched = overmap_buffer.scent_at( tpt ).creation_time;
+            const time_duration since_visit = now - last_touched;
+            // If the player has spent little time in this overmap tile, let it decay after just an hour instead of the usual extended decay time.
+            const time_duration modified_decay_time = it->second > 5_minutes ? decay_time : 1_hours;
+            if( since_visit > modified_decay_time ) {
+                // Reduce the tracked time spent in this overmap tile.
+                const time_duration decay_amount = std::min( since_visit - modified_decay_time, 1_hours );
+                const time_duration updated_value = it->second - decay_amount;
+                if( updated_value <= 0 ) {
+                    // We can stop tracking this tile if there's no longer any time recorded there.
+                    it = overmap_time.erase( it );
+                    continue;
+                } else {
+                    it->second = updated_value;
+                }
+            }
+            it++;
+        }
+    }
 }
 
 void player::action_taken()
@@ -851,6 +907,49 @@ void player::apply_persistent_morale()
         }
         if( pen > 0 ) {
             add_morale( MORALE_PERM_HOARDER, -pen, -pen, 1_minutes, 1_minutes, true );
+        }
+    }
+    // Nomads get a morale penalty if they stay near the same overmap tiles too long.
+    if( has_trait( trait_NOMAD ) || has_trait( trait_NOMAD2 ) || has_trait( trait_NOMAD3 ) ) {
+        const tripoint ompos = global_omt_location();
+        float total_time = 0;
+        // Check how long we've stayed in any overmap tile within 5 of us.
+        const int max_dist = 5;
+        for( int dx = -max_dist; dx <= max_dist; dx++ ) {
+            for( int dy = -max_dist; dy <= max_dist; dy++ ) {
+                const float dist = rl_dist( 0, 0, dx, dy );
+                if( dist > max_dist ) {
+                    continue;
+                }
+                const point pos = point( ompos.x + dx, ompos.y + dy );
+                if( overmap_time.find( pos ) == overmap_time.end() ) {
+                    continue;
+                }
+                // Count time in own tile fully, tiles one away as 4/5, tiles two away as 3/5, etc.
+                total_time += to_moves<float>( overmap_time[pos] ) * ( max_dist - dist ) / max_dist;
+            }
+        }
+        // Characters with higher tiers of Nomad suffer worse morale penalties, faster.
+        int max_unhappiness;
+        float min_time, max_time;
+        if( has_trait( trait_NOMAD ) ) {
+            max_unhappiness = 20;
+            min_time = to_moves<float>( 12_hours );
+            max_time = to_moves<float>( 1_days );
+        } else if( has_trait( trait_NOMAD2 ) ) {
+            max_unhappiness = 40;
+            min_time = to_moves<float>( 4_hours );
+            max_time = to_moves<float>( 8_hours );
+        } else { // traid_NOMAD3
+            max_unhappiness = 60;
+            min_time = to_moves<float>( 1_hours );
+            max_time = to_moves<float>( 2_hours );
+        }
+        // The penalty starts at 1 at min_time and scales up to max_unhappiness at max_time.
+        const float t = ( total_time - min_time ) / ( max_time - min_time );
+        const int pen = ceil( lerp_clamped( 0, max_unhappiness, t ) );
+        if( pen > 0 ) {
+            add_morale( MORALE_PERM_NOMAD, -pen, -pen, 1_minutes, 1_minutes, true );
         }
     }
 }
@@ -2085,7 +2184,7 @@ void player::memorial( std::ostream &memorial_file, const std::string &epitaph )
     //~ First parameter is a pronoun ("He"/"She"), second parameter is a description
     // that designates the location relative to its surroundings.
     const std::string kill_place = string_format( _( "%1$s was killed in a %2$s." ),
-                                   pronoun.c_str(), locdesc );
+                                   pronoun, locdesc );
 
     //Header
     memorial_file << string_format( _( "Cataclysm - Dark Days Ahead version %s memorial file" ),
@@ -2094,11 +2193,11 @@ void player::memorial( std::ostream &memorial_file, const std::string &epitaph )
     memorial_file << string_format( _( "In memory of: %s" ), name ) << eol;
     if( epitaph.length() > 0 ) { //Don't record empty epitaphs
         //~ The "%s" will be replaced by an epitaph as displayed in the memorial files. Replace the quotation marks as appropriate for your language.
-        memorial_file << string_format( pgettext( "epitaph", "\"%s\"" ), epitaph.c_str() ) << eol << eol;
+        memorial_file << string_format( pgettext( "epitaph", "\"%s\"" ), epitaph ) << eol << eol;
     }
     //~ First parameter: Pronoun, second parameter: a profession name (with article)
     memorial_file << string_format( _( "%1$s was %2$s when the apocalypse began." ),
-                                    pronoun.c_str(), profession_name ) << eol;
+                                    pronoun, profession_name ) << eol;
     memorial_file << string_format( _( "%1$s died on %2$s." ), pronoun,
                                     to_string( time_point( calendar::turn ) ) ) << eol;
     memorial_file << kill_place << eol;
@@ -2904,34 +3003,23 @@ void player::pause()
     search_surroundings();
 }
 
-void player::shout( std::string msg )
+int player::get_shout_volume() const
 {
     int base = 10;
     int shout_multiplier = 2;
 
     // Mutations make shouting louder, they also define the default message
-    if( has_trait( trait_SHOUT2 ) ) {
-        base = 15;
-        shout_multiplier = 3;
-        if( msg.empty() ) {
-            msg = is_player() ? _( "yourself scream loudly!" ) : _( "a loud scream!" );
-        }
-    }
-
     if( has_trait( trait_SHOUT3 ) ) {
         shout_multiplier = 4;
         base = 20;
-        if( msg.empty() ) {
-            msg = is_player() ? _( "yourself let out a piercing howl!" ) : _( "a piercing howl!" );
-        }
+    } else if( has_trait( trait_SHOUT2 ) ) {
+        base = 15;
+        shout_multiplier = 3;
     }
 
-    if( msg.empty() ) {
-        msg = is_player() ? _( "yourself shout loudly!" ) : _( "a loud shout!" );
-    }
     // Masks and such dampen the sound
-    // Balanced around  whisper for wearing bondage mask
-    // and noise ~= 10(door smashing) for wearing dust mask for character with strength = 8
+    // Balanced around whisper for wearing bondage mask
+    // and noise ~= 10 (door smashing) for wearing dust mask for character with strength = 8
     /** @EFFECT_STR increases shouting volume */
     const int penalty = encumb( bp_mouth ) * 3 / 2;
     int noise = base + str_cur * shout_multiplier - penalty;
@@ -2941,9 +3029,45 @@ void player::shout( std::string msg )
     constexpr int minimum_noise = 2;
 
     if( noise <= base ) {
+        noise = std::max( minimum_noise, noise );
+    }
+
+    // Screaming underwater is not good for oxygen and harder to do overall
+    if( underwater ) {
+        noise = std::max( minimum_noise, noise / 2 );
+    }
+    return noise;
+}
+
+void player::shout( std::string msg, bool order )
+{
+    int base = 10;
+
+    // Mutations make shouting louder, they also define the default message
+    if( has_trait( trait_SHOUT3 ) ) {
+        base = 20;
+        if( msg.empty() ) {
+            msg = is_player() ? _( "yourself let out a piercing howl!" ) : _( "a piercing howl!" );
+        }
+    } else if( has_trait( trait_SHOUT2 ) ) {
+        base = 15;
+        if( msg.empty() ) {
+            msg = is_player() ? _( "yourself scream loudly!" ) : _( "a loud scream!" );
+        }
+    }
+
+    if( msg.empty() ) {
+        msg = is_player() ? _( "yourself shout loudly!" ) : _( "a loud shout!" );
+    }
+    int noise = get_shout_volume();
+
+    // Minimum noise volume possible after all reductions.
+    // Volume 1 can't be heard even by player
+    constexpr int minimum_noise = 2;
+
+    if( noise <= base ) {
         std::string dampened_shout;
         std::transform( msg.begin(), msg.end(), std::back_inserter( dampened_shout ), tolower );
-        noise = std::max( minimum_noise, noise );
         msg = std::move( dampened_shout );
     }
 
@@ -2952,10 +3076,9 @@ void player::shout( std::string msg )
         if( !has_trait( trait_GILLS ) && !has_trait( trait_GILLS_CEPH ) ) {
             mod_stat( "oxygen", -noise );
         }
-
-        noise = std::max( minimum_noise, noise / 2 );
     }
 
+    const int penalty = encumb( bp_mouth ) * 3 / 2;
     // TODO: indistinct noise descriptions should be handled in the sounds code
     if( noise <= minimum_noise ) {
         add_msg_if_player( m_warning,
@@ -2966,7 +3089,7 @@ void player::shout( std::string msg )
         add_msg_if_player( m_warning, _( "The sound of your voice is significantly muffled!" ) );
     }
 
-    sounds::sound( pos(), noise, sounds::sound_t::alert, msg );
+    sounds::sound( pos(), noise, order ? sounds::sound_t::order : sounds::sound_t::alert, msg );
 }
 
 void player::toggle_move_mode()
@@ -2980,8 +3103,8 @@ void player::toggle_move_mode()
             add_msg( _( "You start running." ) );
         } else {
             add_msg( m_bad, _( "You're too tired to run." ) );
-            move_mode = "crouch";
-            add_msg( _( "You start crouching." ) );
+            move_mode = "walk";
+            add_msg( _( "You start walking." ) );
         }
     } else if( move_mode == "run" ) {
         move_mode = "crouch";
@@ -4893,7 +5016,7 @@ void player::print_health() const
     auto iter = msg_categories.lower_bound( current_health );
     if( iter != msg_categories.end() && !iter->second.empty() ) {
         const std::string &msg = SNIPPET.random_from_category( iter->second );
-        add_msg_if_player( current_health > 0 ? m_good : m_bad, msg.c_str() );
+        add_msg_if_player( current_health > 0 ? m_good : m_bad, msg );
     }
 }
 
@@ -5650,7 +5773,7 @@ void player::suffer()
                         std::string str = string_format( random_entry_ref( drops ), i_name_w );
                         str[0] = toupper( str[0] );
 
-                        add_msg( m_bad, str.c_str() );
+                        add_msg( m_bad, str );
                         drop( get_item_position( &weapon ), pos() );
                     }
                     done_effect = true;
@@ -5927,6 +6050,14 @@ void player::suffer()
         if( calendar::once_every( 4_hours ) ) {
             std::string smokin_hot_fiyah = SNIPPET.random_from_category( "pyromania_withdrawal" );
             add_msg_if_player( m_bad, _( smokin_hot_fiyah ) );
+        }
+    }
+    if( has_trait( trait_KILLER ) && !has_morale( MORALE_KILLER_HAS_KILLED ) &&
+        calendar::once_every( 2_hours ) ) {
+        add_morale( MORALE_KILLER_NEED_TO_KILL, -1, -30, 24_hours, 24_hours );
+        if( calendar::once_every( 4_hours ) ) {
+            std::string snip = SNIPPET.random_from_category( "killer_withdrawal" );
+            add_msg_if_player( m_bad, _( snip ) );
         }
     }
 
@@ -6402,7 +6533,7 @@ bool player::irradiate( float rads, bool bypass )
             }
 
             add_msg_if_player( m_warning, _( "Your radiation badge changes from %1$s to %2$s!" ),
-                               col_before.c_str(), col_after.c_str() );
+                               col_before, col_after );
         }
 
         if( rads > 0.0f ) {
@@ -7596,7 +7727,7 @@ item::reload_option player::select_ammo( const item &base,
 
     auto draw_row = [&]( int idx ) {
         const auto &sel = opts[ idx ];
-        std::string row = string_format( "%s| %s |", names[ idx ].c_str(), where[ idx ].c_str() );
+        std::string row = string_format( "%s| %s |", names[ idx ], where[ idx ] );
         row += string_format( ( sel.ammo->is_ammo() ||
                                 sel.ammo->is_ammo_container() ) ? " %-7d |" : "         |", sel.qty() );
         row += string_format( " %-7d ", sel.moves() );
@@ -8247,7 +8378,7 @@ bool player::dispose_item( item_location &&obj, const std::string &prompt )
 
     for( const auto &e : opts ) {
         menu.addentry( -1, e.enabled, e.invlet, string_format( e.enabled ? "%s | %-7d" : "%s |",
-                       e.prompt.c_str(), e.moves ) );
+                       e.prompt, e.moves ) );
     }
 
     menu.query();
@@ -9766,7 +9897,7 @@ bool player::read( int inventory_position, const bool continuous )
                 const std::string lvl_text = skill ? string_format( _( " | current level: %d" ), lvl ) : "";
                 const std::string name_text = elem.first->disp_name() + elem.second;
                 return string_format( ( "%-*s%s" ), static_cast<int>( max_length( m ) ),
-                                      name_text.c_str(), lvl_text.c_str() );
+                                      name_text, lvl_text );
             };
 
             auto add_header = [&menu]( const std::string & str ) {
@@ -10074,7 +10205,7 @@ void player::do_read( item &book )
     if( !out_of_chapters.empty() ) {
         const std::string names = enumerate_as_string( out_of_chapters );
         add_msg( m_info, _( "Rereading the %s isn't as much fun for %s." ),
-                 book.type_name(), names.c_str() );
+                 book.type_name(), names );
         if( out_of_chapters.front() == disp_name() && one_in( 6 ) ) {
             add_msg( m_info, _( "Maybe you should find something new to read..." ) );
         }
@@ -10900,7 +11031,7 @@ bool player::armor_absorb( damage_unit &du, item &armor )
     // add "further" if the damage adjective and verb are the same
     std::string format_string = ( pre_damage_adj == damage_verb ) ?
                                 _( "Your %1$s is %2$s further!" ) : _( "Your %1$s is %2$s!" );
-    add_msg_if_player( m_bad, format_string.c_str(), pre_damage_name, damage_verb );
+    add_msg_if_player( m_bad, format_string, pre_damage_name, damage_verb );
     //item is damaged
     if( is_player() ) {
         SCT.add( posx(), posy(), NORTH, remove_color_tags( pre_damage_name ), m_neutral, damage_verb,
@@ -12174,12 +12305,9 @@ bool player::can_hear( const tripoint &source, const int volume ) const
     if( source == pos() && volume == 0 ) {
         return true;
     }
-
-    // TODO: sound attenuation due to weather
-
     const int dist = rl_dist( source, pos() );
     const float volume_multiplier = hearing_ability();
-    return volume * volume_multiplier >= dist;
+    return ( volume - weather_data( g->weather ).sound_attn ) * volume_multiplier >= dist;
 }
 
 float player::hearing_ability() const

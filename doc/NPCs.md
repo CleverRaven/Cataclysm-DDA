@@ -17,7 +17,8 @@ Two topics are special:
 Each topic consists of:
 1. a topic id (e.g. "TALK_ARSONIST")
 2. a dynamic line, spoken by the NPC.
-3. a list of responses that can be spoken by the player character.
+3. an optional list of effects that occur when the NPC speaks the dynamic line
+4. a list of responses that can be spoken by the player character.
 
 One can specify new topics in json. It is currently not possible to define the starting topic, so you have to add a response to some of the default topics (e.g. "TALK_STRANGER_FRIENDLY" or "TALK_STRANGER_NEUTRAL") or to topics that can be reached somehow.
 
@@ -61,6 +62,9 @@ This example adds the "I'm going now!" response to all the listed topics.
 
 ### dynamic_line
 The `dynamic_line` is the line spoken by the NPC.  It is optional.  If it is not defined and the topic has the same id as a built-in topic, the `dynamic_line` from that built-in topic will be used.  Otherwise the NPC will say nothing.  See the chapter about dynamic_line below for more details.
+
+### speaker_effect
+The `speaker_effect` is an object or array of effects that will occur after the NPC speaks the `dynamic_line`, no matter which response the player chooses.  See the chapter about Speaker Effects below for more details.
 
 ### response
 The `responses` entry is an array with possible responses.  It must not be empty.  Each entry must be a response object. See the chapter about Responses below for more details.
@@ -153,6 +157,42 @@ The dynamic line will be chosen based on whether a single dialogue condition is 
 ```
 ---
 
+## Speaker Effects
+The `speaker_effect` entry contains dialogue effects that occur after the NPC speaks the `dynamic_line` but before the player responds and regardless of the player response.  Each effect can have an optional condition, and will only be applied if the condition is true.  Each `speaker_effect` can also have an optional `sentinel`, which guarantees the effect will only run once.
+
+Format:
+```C++
+"speaker_effect": {
+  "sentinel": "...",
+  "condition": "...",
+  "effect": "..."
+}
+```
+or:
+```C++
+"speaker_effect": [
+  {
+    "sentinel": "...",
+    "condition": "...",
+    "effect": "..."
+  },
+  {
+    "sentinel": "...",
+    "condition": "...",
+    "effect": "..."
+  }
+]
+```
+
+The `sentinel` can be any string, but sentinels are unique to each `TALK_TOPIC`.  If there are multiple `speaker_effect`s within the `TALK_TOPIC`, they should have different sentinels.  Sentinels are not required, but since the `speaker_effect` will run every time the dialogue returns to the `TALK_TOPIC`, they are highly encouraged to avoid inadvertantly repeating the same effects.
+
+The `effect` can be any legal effect, as described below.  The effect can be a simple string, object, or an array of strings and objects, as normal for objects.
+
+The optional `condition` can be any legal condition, as described below.  If a `condition` is present, the `effect` will only occur if the `condition` is true.
+
+Speaker effects are useful for setting status variables to indicate that player has talked to the NPC without complicating the responses with multiple effect variables.  They can also be used, with a sentinel, to run a mapgen_update effect the first time the player hears some dialogue from the NPC.
+
+---
 ## Responses
 A response contains at least a text, which is display to the user and "spoken" by the player character (its content has no meaning for the game) and a topic to which the dialogue will switch to. It can also have a trial object which can be used to either lie, persuade or intimidate the NPC, see below for details. There can be different results, used either when the trial succeeds and when it fails.
 
@@ -435,7 +475,7 @@ Condition | Type | Description
 "u_has_trait"<br/>"npc_has_trait" | string | `true` if the player character or NPC has a specific trait.  Simpler versions of `u_has_any_trait` and `npc_has_any_trait` that only checks for one trait.
 "u_has_trait_flag"<br/>"npc_has_trait_flag" | string | `true` if the player character or NPC has any traits with the specific trait flag.  More robust versions of `u_has_any_trait` and `npc_has_any_trait`.  The special trait flag "MUTATION_THRESHOLD" checks to see if the player or NPC has crossed a mutation threshold.
 "u_has_any_trait"<br/>"npc_has_any_trait" | array | `true` if the player character or NPC has any trait or mutation in the array. Used to check multiple specific traits.
-"u_has_var", "npc_has_var" | string | `"type"`: type_str, `"context"`: context_str, and `"value"`: value_str are required fields in the same dictionary as `"u_has_var"` or `"npc_has_var"`.<br/>`true` is the player character or NPC has a variable set by `"u_set_var"` or `"npc_set_var"` with the string, type_str, context_str, and value_str.
+"u_has_var", "npc_has_var" | string | `"type"`: type_str, `"context"`: context_str, and `"value"`: value_str are required fields in the same dictionary as `"u_has_var"` or `"npc_has_var"`.<br/>`true` is the player character or NPC has a variable set by `"u_add_var"` or `"npc_add_var"` with the string, type_str, context_str, and value_str.
 "u_has_strength"<br/>"npc_has_strength" | int | `true` if the player character's or NPC's strength is at least the value of `u_has_strength` or `npc_has_strength`.
 "u_has_dexterity"<br/>"npc_has_dexterity" | int | `true` if the player character's or NPC's dexterity is at least the value of `u_has_dexterity` or `npc_has_dexterity`.
 "u_has_intelligence"<br/>"npc_has_intelligence" | int | `true` if the player character's or NPC's intelligence is at least the value of `u_has_intelligence` or `npc_has_intelligence`.

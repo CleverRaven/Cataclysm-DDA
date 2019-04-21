@@ -3629,7 +3629,7 @@ void overmap::place_special( const overmap_special &special, const tripoint &p,
         // the top of this function, so we need to make sure we can place the basement
         // special before doing so.
         if( can_place_special( *basement_tid, basement_p, dir, must_be_unexplored ) || force ) {
-            place_special( *basement_tid, basement_p, dir, cit, force, must_be_unexplored );
+            place_special( *basement_tid, basement_p, dir, cit, must_be_unexplored, force );
         }
     }
 }

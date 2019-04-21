@@ -2844,6 +2844,21 @@
   },
   {
     "type": "GENERIC",
+    "id": "id_industrial",
+    "looks_like": "id_science",
+    "symbol": ",",
+    "color": "green",
+    "name": "industrial ID card",
+    "description": "This ID card once belonged to a high level technician.  The reverse side describes protocol for using it; this could grant access at one control panel, if you can find one.",
+    "price": 120000,
+    "price_postapoc": 10000,
+    "material": "plastic",
+    "weight": 6,
+    "volume": 0,
+    "to_hit": -3
+  },
+  {
+    "type": "GENERIC",
     "id": "neoprene",
     "symbol": ",",
     "color": "dark_gray",

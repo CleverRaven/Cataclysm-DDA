@@ -6,8 +6,10 @@
 #include <list>
 #include <string>
 #include <unordered_map>
+#include <bitset>
 #include <utility>
 #include <vector>
+#include <limits>
 
 #include "cata_utility.h"
 #include "enums.h"
@@ -22,6 +24,7 @@ typedef std::vector< std::list<item>* > invslice;
 typedef std::vector< const std::list<item>* > const_invslice;
 typedef std::vector< std::pair<std::list<item>*, int> > indexed_invslice;
 typedef std::unordered_map< itype_id, std::list<const item *> > itype_bin;
+typedef std::bitset<std::numeric_limits<char>::max()> invlets_bitset;
 
 class salvage_actor;
 
@@ -200,7 +203,7 @@ class inventory : public visitable<inventory>
 
         void set_stack_favorite( const int position, const bool favorite );
 
-        std::set<char> allocated_invlets() const;
+        invlets_bitset allocated_invlets() const;
 
 
         /**

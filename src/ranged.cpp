@@ -574,13 +574,13 @@ static std::string print_recoil( const player &p )
         const int recoil_range = MAX_RECOIL - min_recoil;
         std::string level;
         if( val >= min_recoil + ( recoil_range * 2 / 3 ) ) {
-            level = pgettext( "amount of backward momentum", "High" );
+            level = pgettext( "amount of backward momentum", "<color_red>High</color>" );
         } else if( val >= min_recoil + ( recoil_range / 2 ) ) {
-            level = pgettext( "amount of backward momentum", "Medium" );
+            level = pgettext( "amount of backward momentum", "<color_yellow>Medium</color>" );
         } else if( val >= min_recoil + ( recoil_range / 4 ) ) {
-            level = pgettext( "amount of backward momentum", "Low" );
+            level = pgettext( "amount of backward momentum", "<color_light_green>Low</color>" );
         } else {
-            level = pgettext( "amount of backward momentum", "None" );
+            level = pgettext( "amount of backward momentum", "<color_cyan>None</color>" );
         }
         return string_format( _( "Recoil: %s" ), level );
     }
@@ -591,8 +591,7 @@ static std::string print_recoil( const player &p )
 // returns the number of lines used to draw instructions.
 static int draw_targeting_window( const catacurses::window &w_target, const std::string &name,
                                   target_mode mode, input_context &ctxt,
-                                  const std::vector<aim_type> &aim_types, bool switch_mode,
-                                  bool switch_ammo, bool tiny )
+                                  const std::vector<aim_type> &aim_types, bool tiny )
 {
     draw_border( w_target );
     // Draw the "title" of the window.
@@ -632,13 +631,10 @@ static int draw_targeting_window( const catacurses::window &w_target, const std:
 
     // Reserve lines for aiming and firing instructions.
     if( mode == TARGET_MODE_FIRE ) {
-        text_y -= ( 1 + aim_types.size() );
+        text_y -= ( 3 + aim_types.size() );
     } else if( mode == TARGET_MODE_TURRET_MANUAL || mode == TARGET_MODE_TURRET ) {
         text_y -= 2;
     }
-
-    text_y -= switch_mode ? 1 : 0;
-    text_y -= switch_ammo ? 1 : 0;
 
     // The -1 is the -2 from above, but adjusted since this is a total, not an index.
     int lines_used = getmaxy( w_target ) - 1 - text_y;
@@ -670,13 +666,11 @@ static int draw_targeting_window( const catacurses::window &w_target, const std:
                    front_or( "SWITCH_AIM", ' ' ) );
     }
 
-    if( switch_mode ) {
+    if( mode == TARGET_MODE_FIRE || mode == TARGET_MODE_TURRET_MANUAL || mode == TARGET_MODE_TURRET ) {
         mvwprintz( w_target, text_y++, 1, c_white, _( "[%c] to switch firing modes." ),
                    front_or( "SWITCH_MODE", ' ' ) );
-    }
-    if( switch_ammo ) {
-        mvwprintz( w_target, text_y++, 1, c_white, _( "[%c] to switch ammo." ), front_or( "SWITCH_AMMO",
-                   ' ' ) );
+        mvwprintz( w_target, text_y++, 1, c_white, _( "[%c] to reload/switch ammo." ),
+                   front_or( "SWITCH_AMMO", ' ' ) );
     }
 
     if( is_mouse_enabled() ) {
@@ -1160,9 +1154,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
     }
 
     int num_instruction_lines = draw_targeting_window( w_target, relevant->tname(),
-                                mode, ctxt, aim_types,
-                                static_cast<bool>( on_mode_change ),
-                                static_cast<bool>( on_ammo_change ), tiny );
+                                mode, ctxt, aim_types, tiny );
 
     bool snap_to_target = get_option<bool>( "SNAP_TO_TARGET" );
 
@@ -1224,7 +1216,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         if( snap_to_target ) {
             center = dst;
         } else {
-            center = pc.pos() + pc.view_offset + g->sidebar_offset;
+            center = pc.pos() + pc.view_offset;
         }
         // Clear the target window.
         for( int i = 1; i <= getmaxy( w_target ) - num_instruction_lines - 2; i++ ) {
@@ -1264,13 +1256,17 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         }
         if( mode == TARGET_MODE_FIRE || mode == TARGET_MODE_TURRET_MANUAL ) {
             auto m = relevant->gun_current_mode();
-
+            std::string str = "";
+            nc_color col = c_light_gray;
             if( relevant != m.target ) {
-                mvwprintw( w_target, line_number++, 1, _( "Firing mode: %s %s (%d)" ),
-                           m->tname(), m.name(), m.qty );
+                str = string_format( _( "Firing mode: <color_cyan>%s %s (%d)</color>" ),
+                                     m->tname(), m.name(), m.qty );
+
+                print_colored_text( w_target, line_number++, 1, col, col, str );
             } else {
-                mvwprintw( w_target, line_number++, 1, _( "Firing mode: %s (%d)" ),
-                           m.name(), m.qty );
+                str = string_format( _( "Firing mode: <color_cyan> %s (%d)</color>" ),
+                                     m.name(), m.qty );
+                print_colored_text( w_target, line_number++, 1, col, col, str );
             }
 
             const itype *cur = ammo ? ammo : m->ammo_data();
@@ -1282,11 +1278,11 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
                                           cur->nname( std::max( m->ammo_remaining(), 1L ) ),
                                           m->ammo_remaining(), m->ammo_capacity() );
 
-                nc_color col = c_light_gray;
                 print_colored_text( w_target, line_number++, 1, col, col, str );
             }
 
-            mvwprintw( w_target, line_number++, 1, _( "%s" ), print_recoil( g->u ) );
+            print_colored_text( w_target, line_number++, 1, col, col, string_format( _( "%s" ),
+                                print_recoil( g->u ) ) );
 
             // Skip blank lines if we're short on space.
             if( !compact ) {
@@ -1340,9 +1336,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         wrefresh( g->w_terrain );
         g->draw_panels();
         draw_targeting_window( w_target, relevant->tname(),
-                               mode, ctxt, aim_types,
-                               static_cast<bool>( on_mode_change ),
-                               static_cast<bool>( on_ammo_change ), tiny );
+                               mode, ctxt, aim_types, tiny );
         wrefresh( w_target );
 
         catacurses::refresh();
@@ -1456,10 +1450,16 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         } else if( action == "SWITCH_MODE" ) {
             if( on_mode_change ) {
                 ammo = on_mode_change( relevant );
+            } else {
+                relevant->gun_cycle_mode();
             }
         } else if( action == "SWITCH_AMMO" ) {
             if( on_ammo_change ) {
                 ammo = on_ammo_change( relevant );
+            } else {
+                g->reload( pc.get_item_position( relevant ), true );
+                ret.clear();
+                break;
             }
         } else if( action == "SWITCH_AIM" ) {
             aim_mode++;

@@ -744,9 +744,9 @@ item &Character::i_add( item it, bool should_stack )
 
     // if there's a desired invlet for this item type, try to use it
     bool keep_invlet = false;
-    const std::set<char> cur_inv = allocated_invlets();
-    for( const auto &iter : inv.assigned_invlet ) {
-        if( iter.second == item_type_id && !cur_inv.count( iter.first ) ) {
+    const invlets_bitset cur_inv = allocated_invlets();
+    for( auto iter : inv.assigned_invlet ) {
+        if( iter.second == item_type_id && !cur_inv[iter.first] ) {
             it.invlet = iter.first;
             keep_invlet = true;
             break;
@@ -867,18 +867,16 @@ bool Character::i_add_or_drop( item &it, int qty )
     return retval;
 }
 
-std::set<char> Character::allocated_invlets() const
+invlets_bitset Character::allocated_invlets() const
 {
-    std::set<char> invlets = inv.allocated_invlets();
+    invlets_bitset invlets = inv.allocated_invlets();
 
-    if( weapon.invlet != 0 ) {
-        invlets.insert( weapon.invlet );
-    }
+    invlets.set( weapon.invlet );
     for( const auto &w : worn ) {
-        if( w.invlet != 0 ) {
-            invlets.insert( w.invlet );
-        }
+        invlets.set( w.invlet );
     }
+
+    invlets[0] = false;
 
     return invlets;
 }
@@ -1045,6 +1043,20 @@ units::volume Character::volume_carried() const
     return inv.volume();
 }
 
+int Character::best_nearby_lifting_assist() const
+{
+    return best_nearby_lifting_assist( this->pos() );
+}
+
+int Character::best_nearby_lifting_assist( const tripoint &world_pos ) const
+{
+    const quality_id LIFT( "LIFT" );
+    return std::max( { this->max_quality( LIFT ),
+                       map_selector( this->pos(), PICKUP_RANGE ).max_quality( LIFT ),
+                       vehicle_selector( world_pos, 4, true, true ).max_quality( LIFT )
+                     } );
+}
+
 units::mass Character::weight_carried_with_tweaks( const item_tweaks &tweaks ) const
 {
     const std::map<const item *, int> empty;
@@ -1052,7 +1064,13 @@ units::mass Character::weight_carried_with_tweaks( const item_tweaks &tweaks ) c
 
     units::mass ret = 0_gram;
     if( !without.count( &weapon ) ) {
-        ret += weapon.weight();
+
+        const auto thisweight = weapon.weight();
+        const auto liftrequirement = ceil( units::to_gram<float>( thisweight ) / units::to_gram<float>
+                                           ( TOOL_LIFT_FACTOR ) );
+        if( g->new_game || best_nearby_lifting_assist() < liftrequirement ) {
+            ret += thisweight;
+        }
     }
     for( auto &i : worn ) {
         if( !without.count( &i ) ) {

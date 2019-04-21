@@ -26,8 +26,7 @@ void draw_exam_window( const catacurses::window &win, const int border_y )
 
 const auto shortcut_desc = []( const std::string &comment, const std::string &keys )
 {
-    return string_format( comment.c_str(),
-                          string_format( "<color_yellow>%s</color>", keys.c_str() ) );
+    return string_format( comment, string_format( "<color_yellow>%s</color>", keys ) );
 };
 
 void show_mutations_titlebar( const catacurses::window &window, const std::string &menu_mode,

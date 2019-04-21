@@ -548,10 +548,9 @@ static cata::optional<item_location> wield_craft( player &p, item &craft )
 {
     if( p.wield( craft ) ) {
         if( p.weapon.invlet ) {
-            p.add_msg_if_player( m_info, _( "Wielding %c - %s" ), p.weapon.invlet,
-                                 p.weapon.display_name().c_str() );
+            p.add_msg_if_player( m_info, _( "Wielding %c - %s" ), p.weapon.invlet, p.weapon.display_name() );
         } else {
-            p.add_msg_if_player( m_info, _( "Wielding - %s" ), p.weapon.display_name().c_str() );
+            p.add_msg_if_player( m_info, _( "Wielding - %s" ), p.weapon.display_name() );
         }
         return item_location( p, &p.weapon );
     }
@@ -580,8 +579,26 @@ static item *set_item_inventory( player &p, item &newit )
 }
 
 /**
+ * Helper for @ref set_item_map_or_vehicle
+ * This is needed to still get a vaild item_location if overflow occurs
+ */
+static item_location set_item_map( const tripoint &loc, item &newit )
+{
+    // Includes loc
+    const std::vector<tripoint> tiles = closest_tripoints_first( 2, loc );
+    for( const tripoint &tile : tiles ) {
+        // Pass false to disallow overflow, null_item_reference indicates failure.
+        item *it_on_map = &g->m.add_item_or_charges( tile, newit, false );
+        if( it_on_map != &null_item_reference() ) {
+            return item_location( map_cursor( tile ), it_on_map );
+        }
+    }
+    debugmsg( "Could not place %s on map near (%d, %d, %d)", newit.tname(), loc.x, loc.y, loc.z );
+    return item_location();
+}
+
+/**
  * Set an item on the map or in a vehicle and return the new location
- *
  */
 static item_location set_item_map_or_vehicle( const player &p, const tripoint &loc, item &newit )
 {
@@ -612,7 +629,7 @@ static item_location set_item_map_or_vehicle( const player &p, const tripoint &l
                                      "Not enough space on the %s. <npcname> drops the %s on the ground." ),
                            vp->part().name(), newit.tname() ) );
 
-        return item_location( map_cursor( loc ), &g->m.add_item_or_charges( loc, newit ) );
+        return set_item_map( loc, newit );
 
     } else {
         if( g->m.has_furn( loc ) ) {
@@ -629,7 +646,7 @@ static item_location set_item_map_or_vehicle( const player &p, const tripoint &l
                 string_format( pgettext( "item", "<npcname> puts the %s on the ground." ),
                                newit.tname() ) );
         }
-        return item_location( map_cursor( loc ), &g->m.add_item_or_charges( loc, newit ) );
+        return set_item_map( loc, newit );
     }
 }
 
@@ -677,8 +694,30 @@ void player::start_craft( craft_command &command, const tripoint &loc )
 
     item_location craft_in_world;
 
+    // Check if we are standing next to a workbench. If so, just use that.
+    float best_bench_multi = 0.0;
+    tripoint target = loc;
+    for( const tripoint &adj : g->m.points_in_radius( pos(), 1 ) ) {
+        if( const cata::optional<furn_workbench_info> &wb = g->m.furn( adj ).obj().workbench ) {
+            if( wb->multiplier > best_bench_multi ) {
+                best_bench_multi = wb->multiplier;
+                target = adj;
+            }
+        } else if( const cata::optional<vpart_reference> vp = g->m.veh_at(
+                       adj ).part_with_feature( "WORKBENCH", true ) ) {
+            if( const cata::optional<vpslot_workbench> &wb_info = vp->part().info().get_workbench_info() ) {
+                if( wb_info->multiplier > best_bench_multi ) {
+                    best_bench_multi = wb_info->multiplier;
+                    target = adj;
+                }
+            } else {
+                debugmsg( "part '%S' with WORKBENCH flag has no workbench info", vp->part().name() );
+            }
+        }
+    }
+
     // Crafting without a workbench
-    if( loc == tripoint_zero ) {
+    if( target == tripoint_zero ) {
         if( !is_armed() ) {
             if( cata::optional<item_location> it_loc = wield_craft( *this, craft ) ) {
                 craft_in_world = it_loc->clone();
@@ -689,7 +728,6 @@ void player::start_craft( craft_command &command, const tripoint &loc )
         } else {
             enum option : int {
                 WIELD_CRAFT = 0,
-                BENCH_CRAFT,
                 DROP_CRAFT,
                 STASH,
                 DROP
@@ -700,17 +738,11 @@ void player::start_craft( craft_command &command, const tripoint &loc )
                                         craft.display_name() );
             amenu.addentry( WIELD_CRAFT, !weapon.has_flag( "NO_UNWIELD" ), '1',
                             string_format( _( "Dispose of your wielded %s and start working." ), weapon.tname() ) );
-            const bool adjacent_workbench = g->m.has_adjacent_furniture_with( pos(), []( const furn_t &f ) {
-                std::cout << f.name() << std::endl;
-                return !!f.workbench;
-            } );
-            amenu.addentry( BENCH_CRAFT, adjacent_workbench, '2',
-                            _( "Put it on a workbench and start working." ) );
-            amenu.addentry( DROP_CRAFT, true, '3', _( "Put it down and start working." ) );
+            amenu.addentry( DROP_CRAFT, true, '2', _( "Put it down and start working." ) );
             const bool can_stash = can_pickVolume( craft ) &&
                                    can_pickWeight( craft, !get_option<bool>( "DANGEROUS_PICKUPS" ) );
-            amenu.addentry( STASH, can_stash, '4', _( "Store it in your inventory." ) );
-            amenu.addentry( DROP, true, '5', _( "Drop it on the ground." ) );
+            amenu.addentry( STASH, can_stash, '3', _( "Store it in your inventory." ) );
+            amenu.addentry( DROP, true, '4', _( "Drop it on the ground." ) );
 
             amenu.query();
             const option choice = amenu.ret == UILIST_CANCEL ? DROP : static_cast<option>( amenu.ret );
@@ -722,27 +754,6 @@ void player::start_craft( craft_command &command, const tripoint &loc )
                         // This almost certianly shouldn't happen
                         put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, {craft} );
                     }
-                    break;
-                }
-                case BENCH_CRAFT: {
-                    std::vector<std::string> options;
-                    std::vector<tripoint> benches;
-                    for( const tripoint &adj : g->m.points_in_radius( pos(), 1 ) ) {
-                        if( g->m.furn( adj ).obj().workbench ) {
-                            const std::string option = g->m.furn( adj ).obj().name() + " " +
-                                                       direction_suffix( pos(), adj );
-                            options.emplace_back( option );
-                            benches.emplace_back( adj );
-                        }
-                    }
-                    tripoint bench_choice = benches.front();
-                    if( options.size() > 1 ) {
-                        uilist amenu2( _( "Select a workbench:" ), options );
-                        if( amenu2.ret != UILIST_CANCEL ) {
-                            bench_choice = benches[amenu2.ret];
-                        }
-                    }
-                    craft_in_world = set_item_map_or_vehicle( *this, bench_choice, craft );
                     break;
                 }
                 case DROP_CRAFT: {
@@ -758,18 +769,16 @@ void player::start_craft( craft_command &command, const tripoint &loc )
                     break;
                 }
             }
-
         }
     } else {
         // We have a workbench, put the item there.
-        craft_in_world = set_item_map_or_vehicle( *this, loc, craft );
+        craft_in_world = set_item_map_or_vehicle( *this, target, craft );
     }
 
     if( !craft_in_world.get_item() ) {
         add_msg_if_player( _( "Wield and activate the %s to start crafting." ), craft.tname() );
         return;
     }
-
 
     assign_activity( activity_id( "ACT_CRAFT" ) );
     activity.targets.push_back( craft_in_world.clone() );

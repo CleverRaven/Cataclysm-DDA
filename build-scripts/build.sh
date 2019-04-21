@@ -23,12 +23,14 @@ function just_json
     return 0
 }
 
+export CCACHE_MAXSIZE=1G
 if [ -n "$TEST_STAGE" ]
 then
     build-scripts/lint-json.sh
     make -j 5 style-json
 elif just_json
 then
+    CODE_COVERAGE=""
     exit 0
 fi
 

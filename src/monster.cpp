@@ -22,6 +22,7 @@
 #include "mondefense.h"
 #include "monfaction.h"
 #include "mongroup.h"
+#include "morale_types.h"
 #include "mtype.h"
 #include "npc.h"
 #include "options.h"
@@ -31,6 +32,7 @@
 #include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"
+#include "text_snippets.h"
 #include "translations.h"
 #include "trap.h"
 
@@ -129,6 +131,7 @@ static const trait_id trait_ANIMALEMPATH2( "ANIMALEMPATH2" );
 static const trait_id trait_BEE( "BEE" );
 static const trait_id trait_FLOWERS( "FLOWERS" );
 static const trait_id trait_PACIFIST( "PACIFIST" );
+static const trait_id trait_KILLER( "KILLER" );
 
 static const std::map<m_size, std::string> size_names {
     {m_size::MS_TINY, translate_marker( "tiny" )},
@@ -275,7 +278,7 @@ int monster::next_upgrade_time()
         return type->age_grow;
     }
     const int scaled_half_life = type->half_life * get_option<float>( "MONSTER_UPGRADE_FACTOR" );
-    int day = scaled_half_life;
+    int day = 1; // 1 day of guaranteed evolve time
     for( int i = 0; i < UPGRADE_MAX_ITERS; i++ ) {
         if( one_in( 2 ) ) {
             day += rng( 0, scaled_half_life );
@@ -653,7 +656,7 @@ std::string monster::extended_description() const
             return type->has_flag( fd.first ) ? fd.second : "";
         } );
         if( !flag_descriptions.empty() ) {
-            ss << string_format( format, flag_descriptions.c_str() ) << std::endl;
+            ss << string_format( format, flag_descriptions ) << std::endl;
         } else if( !if_empty.empty() ) {
             ss << if_empty << std::endl;
         }
@@ -1918,6 +1921,14 @@ void monster::die( Creature *nkiller )
             ch->add_memorial_log( pgettext( "memorial_male", "Killed a %s." ),
                                   pgettext( "memorial_female", "Killed a %s." ),
                                   name() );
+        }
+        if( ch->is_player() && ch->has_trait( trait_KILLER ) ) {
+            std::string snip = SNIPPET.random_from_category( "killer_on_kill" );
+            if( one_in( 4 ) ) {
+                ch->add_msg_if_player( m_good, _( snip ) );
+            }
+            ch->add_morale( MORALE_KILLER_HAS_KILLED, 5, 10, 6_hours, 4_hours );
+            ch->rem_morale( MORALE_KILLER_NEED_TO_KILL );
         }
     }
     // We were tied up at the moment of death, add a short rope to inventory

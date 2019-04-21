@@ -452,7 +452,9 @@ class player : public Character
 
         void pause(); // '.' command; pauses & reduces recoil
         void toggle_move_mode(); // Toggles to the next move mode.
-        void shout( std::string text = "" );
+
+        int get_shout_volume() const;
+        void shout( std::string text = "", bool order = false );
 
         // martialarts.cpp
         /** Fires all non-triggered martial arts events */
@@ -1887,6 +1889,9 @@ class player : public Character
 
         /** Stamp of skills. @ref learned_recipes are valid only with this set of skills. */
         mutable decltype( _skills ) valid_autolearn_skills;
+
+        /** Amount of time the player has spent in each overmap tile. */
+        std::unordered_map<point, time_duration> overmap_time;
 
         map_memory player_map_memory;
         bool show_map_memory;

@@ -441,14 +441,14 @@ bool player::create( character_type type, const std::string &tempname )
     switch( type ) {
         case PLTYPE_CUSTOM:
             break;
-        case PLTYPE_RANDOM: //fixed scenario, default name if exist
-            randomize( false, points );
+        case PLTYPE_RANDOM: //random scenario, default name if exist
+            randomize( true, points );
             tab = NEWCHAR_TAB_MAX;
             break;
-        case PLTYPE_NOW: //fixed scenario, random name
+        case PLTYPE_NOW: //default world, fixed scenario, random name
             randomize( false, points, true );
             break;
-        case PLTYPE_FULL_RANDOM: //random scenario, random name
+        case PLTYPE_FULL_RANDOM: //default world, random scenario, random name
             randomize( true, points, true );
             break;
         case PLTYPE_TEMPLATE:
@@ -1183,8 +1183,7 @@ tab_direction set_traits( const catacurses::window &w, player &u, points_left &p
                 int cur_line_y = 5 + i - start_y;
                 int cur_line_x = 2 + iCurrentPage * page_width;
                 mvwprintz( w, cur_line_y, cur_line_x, c_light_gray, std::string( page_width, ' ' ) );
-                mvwprintz( w, cur_line_y, cur_line_x, cLine,
-                           utf8_truncate( mdata.name(), page_width - 2 ).c_str() );
+                mvwprintz( w, cur_line_y, cur_line_x, cLine, utf8_truncate( mdata.name(), page_width - 2 ) );
             }
 
             for( int i = 0; i < used_pages; i++ ) {
@@ -1697,7 +1696,7 @@ tab_direction set_skills( const catacurses::window &w, player &u, points_left &p
 
             const std::string rec_temp = enumerate_as_string( elem.second.begin(), elem.second.end(),
             []( const std::pair<std::string, int> &rec ) {
-                return string_format( "%s (%d)", rec.first.c_str(), rec.second );
+                return string_format( "%s (%d)", rec.first, rec.second );
             } );
 
             if( elem.first == currentSkill->name() ) {

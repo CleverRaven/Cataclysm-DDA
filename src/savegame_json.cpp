@@ -617,6 +617,16 @@ void player::load( JsonObject &data )
         bcdata.read( "pos", bcpt );
         camps.insert( bcpt );
     }
+
+    JsonArray overmap_time_array = data.get_array( "overmap_time" );
+    overmap_time.clear();
+    while( overmap_time_array.has_more() ) {
+        point pt;
+        overmap_time_array.read_next( pt );
+        time_duration tdr;
+        overmap_time_array.read_next( tdr );
+        overmap_time[pt] = tdr;
+    }
 }
 
 /*
@@ -719,6 +729,16 @@ void player::store( JsonOut &json ) const
         json.end_object();
     }
     json.end_array();
+
+    if( !overmap_time.empty() ) {
+        json.member( "overmap_time" );
+        json.start_array();
+        for( const std::pair<point, time_duration> &pr : overmap_time ) {
+            json.write( pr.first );
+            json.write( pr.second );
+        }
+        json.end_array();
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

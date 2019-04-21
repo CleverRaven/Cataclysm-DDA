@@ -240,7 +240,7 @@ bool pick_one_up( const tripoint &pickup_target, item &newit, vehicle *veh,
                     add_msg( m_info, _( "Wielding - %s" ), u.weapon.display_name() );
                 }
             } else {
-                add_msg( wield_check.c_str() );
+                add_msg( m_neutral, wield_check.c_str() );
             }
             break;
         case SPILL:
