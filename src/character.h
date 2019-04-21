@@ -576,6 +576,14 @@ class Character : public Creature, public visitable<Character>
         /** How much dispersion does one point of target's dodge add when throwing at said target? */
         int throw_dispersion_per_dodge( bool add_encumbrance = true ) const;
 
+        /// Checks for items, tools, and vehicles with the Lifting quality near the character
+        /// returning the highest quality in range.
+        int best_nearby_lifting_assist() const;
+
+        /// Alternate version if you need to specify a different orign point for nearby vehicle sources of lifting
+        /// used for operations on distant objects (e.g. vehicle installation/uninstallation)
+        int best_nearby_lifting_assist( const tripoint &world_pos ) const;
+
         units::mass weight_carried() const;
         units::volume volume_carried() const;
 

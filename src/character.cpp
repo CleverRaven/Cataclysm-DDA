@@ -1043,6 +1043,20 @@ units::volume Character::volume_carried() const
     return inv.volume();
 }
 
+int Character::best_nearby_lifting_assist() const
+{
+    return best_nearby_lifting_assist( this->pos() );
+}
+
+int Character::best_nearby_lifting_assist( const tripoint &world_pos ) const
+{
+    const quality_id LIFT( "LIFT" );
+    return std::max( { this->max_quality( LIFT ),
+                       map_selector( this->pos(), PICKUP_RANGE ).max_quality( LIFT ),
+                       vehicle_selector( world_pos, 4, true, true ).max_quality( LIFT )
+                     } );
+}
+
 units::mass Character::weight_carried_with_tweaks( const item_tweaks &tweaks ) const
 {
     const std::map<const item *, int> empty;
@@ -1050,7 +1064,13 @@ units::mass Character::weight_carried_with_tweaks( const item_tweaks &tweaks ) c
 
     units::mass ret = 0_gram;
     if( !without.count( &weapon ) ) {
-        ret += weapon.weight();
+
+        const auto thisweight = weapon.weight();
+        const auto liftrequirement = ceil( units::to_gram<float>( thisweight ) / units::to_gram<float>
+                                           ( TOOL_LIFT_FACTOR ) );
+        if( best_nearby_lifting_assist() < liftrequirement ) {
+            ret += thisweight;
+        }
     }
     for( auto &i : worn ) {
         if( !without.count( &i ) ) {
