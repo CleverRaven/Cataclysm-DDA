@@ -3,7 +3,7 @@
     "type": "monstergroup",
     "name": "GROUP_TRIFFID_OUTER",
     "default": "mon_triffid",
-    "//": "Same as GROUP_TRIFFID with no queen or heart, and creeper hubs/fungal fighters mixed in",
+    "//": "Same as GROUP_TRIFFID with no queen or heart, and creeper hubs/fungal fighters mixed in.",
     "monsters": [
       { "monster": "mon_triffid_young", "freq": 300, "cost_multiplier": 0, "pack_size": [ 2, 4 ] },
       { "monster": "mon_triffid", "freq": 100, "cost_multiplier": 2, "pack_size": [ 2, 3 ] },
@@ -12,5 +12,11 @@
       { "monster": "mon_creeper_hub", "freq": 50, "cost_multiplier": 2 },
       { "monster": "mon_biollante", "freq": 50, "cost_multiplier": 2 }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_TRIFFID_HEART",
+    "default": "mon_triffid_heart",
+    "monsters": [  ]
   }
 ]

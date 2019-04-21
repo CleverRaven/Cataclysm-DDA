@@ -105,17 +105,23 @@ const mtype_id mon_zombie_tough( "mon_zombie_tough" );
 const mongroup_id GROUP_DARK_WYRM( "GROUP_DARK_WYRM" );
 const mongroup_id GROUP_DOG_THING( "GROUP_DOG_THING" );
 const mongroup_id GROUP_FUNGI_FUNGALOID( "GROUP_FUNGI_FUNGALOID" );
-const mongroup_id GROUP_GOO( "GROUP_GOO" );
+const mongroup_id GROUP_BLOB( "GROUP_BLOB" );
+const mongroup_id GROUP_BREATHER( "GROUP_BREATHER" );
+const mongroup_id GROUP_BREATHER_HUB( "GROUP_BREATHER_HUB" );
 const mongroup_id GROUP_HAZMATBOT( "GROUP_HAZMATBOT" );
 const mongroup_id GROUP_LAB( "GROUP_LAB" );
+const mongroup_id GROUP_LAB_CYBORG( "GROUP_LAB_CYBORG" );
 const mongroup_id GROUP_LAB_FEMA( "GROUP_LAB_FEMA" );
 const mongroup_id GROUP_MIL_WEAK( "GROUP_MIL_WEAK" );
 const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
 const mongroup_id GROUP_PLAIN( "GROUP_PLAIN" );
 const mongroup_id GROUP_ROBOT_SECUBOT( "GROUP_ROBOT_SECUBOT" );
 const mongroup_id GROUP_SEWER( "GROUP_SEWER" );
+const mongroup_id GROUP_SPIDER( "GROUP_SPIDER" );
+const mongroup_id GROUP_TRIFFID_HEART( "GROUP_TRIFFID_HEART" );
+const mongroup_id GROUP_TRIFFID( "GROUP_TRIFFID" );
 const mongroup_id GROUP_TRIFFID_OUTER( "GROUP_TRIFFID_OUTER" );
-const mongroup_id GROUP_TURRET( "GROUP_TURRET" );
+const mongroup_id GROUP_TURRET_SMG( "GROUP_TURRET_SMG" );
 const mongroup_id GROUP_VANILLA( "GROUP_VANILLA" );
 const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
 const mongroup_id GROUP_ZOMBIE_COP( "GROUP_ZOMBIE_COP" );
@@ -3428,7 +3434,7 @@ ___DEEE|.R.|...,,...|sss\n",
             science_room( this, 2, 2, SEEX - 3, SEEY * 2 - 3, zlevel, 1 );
             science_room( this, SEEX + 2, 2, SEEX * 2 - 3, SEEY * 2 - 3, zlevel, 3 );
 
-            place_spawns( GROUP_TURRET, 1, SEEX, 5, SEEY, 5, 1, true );
+            place_spawns( GROUP_TURRET_SMG, 1, SEEX, 5, SEEY, 5, 1, true );
 
             if( is_ot_type( "road", t_east ) ) {
                 rotate( 1 );
@@ -6554,10 +6560,7 @@ $$$$-|-|=HH-|-HHHH-|####\n",
                         ter_set( SEEX * 2 - rng( 1, 3 ), SEEY * 2 - rng( 1, 3 ), t_slope_up );
                 }
             }
-            // original spawn was a single blob, now picks from group_goo which includes shoggoth
-            // unsure if a new blob only group should be made
-            // add_spawn( mon_blob, 8, SEEX, SEEY );
-            place_spawns( GROUP_GOO, 1, SEEX, SEEY, SEEX, SEEY, 0.1, true );
+            place_spawns( GROUP_BLOB, 1, SEEX, SEEY, SEEX, SEEY, 0.15 );
             place_items( "sewer", 40, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0 );
 
         } else if( terrain_type == "triffid_roots" ) {
@@ -6588,7 +6591,7 @@ $$$$-|-|=HH-|-HHHH-|####\n",
                                 add_field( {webx, weby, abs_sub.z}, fd_web, rng( 1, 3 ) );
                             }
                         }
-                        add_spawn( mon_spider_web, 1, spawnx, spawny );
+                        place_spawns( GROUP_SPIDER, 1, spawnx, spawny, spawnx, spawny, 1, true );
                     }
                 }
                 // TODO: Non-monster hazards?
@@ -6651,13 +6654,7 @@ $$$$-|-|=HH-|-HHHH-|####\n",
                 ter_set( x, y, t_dirt );
 
                 if( chance >= 10 && one_in( 10 ) ) { // Add a spawn
-                    if( one_in( 2 ) ) {
-                        add_spawn( mon_biollante, 1, x, y );
-                    } else if( !one_in( 4 ) ) {
-                        add_spawn( mon_creeper_hub, 1, x, y );
-                    } else {
-                        add_spawn( mon_triffid, 1, x, y );
-                    }
+                    place_spawns( GROUP_TRIFFID, 1, x, y, x, y, 1, true );
                 }
 
                 if( rng( 0, 99 ) < chance ) { // Force movement down or to the right
@@ -6706,7 +6703,7 @@ $$$$-|-|=HH-|-HHHH-|####\n",
                 } // Done with drunken walk
             } while( x < 19 || y < 19 );
             square( this, t_slope_up, 1, 1, 2, 2 );
-            add_spawn( mon_triffid_heart, 1, 21, 21 );
+            place_spawns( GROUP_TRIFFID_HEART, 1, 21, 21, 21, 21, 1, true );
 
         } else {
             // not one of the hardcoded ones!
@@ -6898,7 +6895,7 @@ void map::place_spawns( const mongroup_id &group, const int chance,
     }
 
     float multiplier = density * spawn_density;
-    // Only spawn 1 creature if individual flag set, else scale 10-20 by density
+    // Only spawn 1 creature if individual flag set, else scale by density
     float thenum = individual ? 1 : ( multiplier * rng_float( 10.0f, 50.0f ) );
     int num = roll_remainder( thenum );
 
@@ -7654,7 +7651,8 @@ void science_room( map *m, int x1, int y1, int x2, int y2, int z, int rotate )
                 tmpcomp->add_failure( COMPFAIL_SHUTDOWN );
                 tmpcomp->add_failure( COMPFAIL_ALARM );
                 tmpcomp->add_failure( COMPFAIL_DAMAGE );
-                m->add_spawn( mon_turret, 1, static_cast<int>( ( x1 + x2 ) / 2 ), desk );
+                m->place_spawns( GROUP_TURRET_SMG, 1, static_cast<int>( ( x1 + x2 ) / 2 ), desk,
+                                 static_cast<int>( ( x1 + x2 ) / 2 ), desk, 1, true );
             } else {
                 int desk = x1 + rng( static_cast<int>( height / 2 ) - static_cast<int>( height / 4 ),
                                      static_cast<int>( height / 2 ) + 1 );
@@ -7668,7 +7666,8 @@ void science_room( map *m, int x1, int y1, int x2, int y2, int z, int rotate )
                 tmpcomp->add_failure( COMPFAIL_SHUTDOWN );
                 tmpcomp->add_failure( COMPFAIL_ALARM );
                 tmpcomp->add_failure( COMPFAIL_DAMAGE );
-                m->add_spawn( mon_turret, 1, desk, static_cast<int>( ( y1 + y2 ) / 2 ) );
+                m->place_spawns( GROUP_TURRET_SMG, 1, desk, static_cast<int>( ( y1 + y2 ) / 2 ),
+                                 desk, static_cast<int>( ( x1 + x2 ) / 2 ), 1, true );
             }
             break;
         case room_chemistry:
@@ -7771,10 +7770,9 @@ void science_room( map *m, int x1, int y1, int x2, int y2, int z, int rotate )
             }
             mtrap_set( m, static_cast<int>( ( x1 + x2 ) / 2 ), static_cast<int>( ( y1 + y2 ) / 2 ),
                        tr_dissector );
-            if( one_in( 10 ) ) {
-                m->add_spawn( mon_broken_cyborg, 1, static_cast<int>( ( ( x1 + x2 ) / 2 ) + 1 ),
-                              static_cast<int>( ( ( y1 + y2 ) / 2 ) + 1 ) );
-            }
+            m->place_spawns( GROUP_LAB_CYBORG, 10, static_cast<int>( ( ( x1 + x2 ) / 2 ) + 1 ),
+                             static_cast<int>( ( ( y1 + y2 ) / 2 ) + 1 ), static_cast<int>( ( ( x1 + x2 ) / 2 ) + 1 ),
+                             static_cast<int>( ( ( y1 + y2 ) / 2 ) + 1 ), 1, true );
             break;
 
         case room_bionics:
@@ -8395,9 +8393,9 @@ void map::create_anomaly( const tripoint &cp, artifact_natural_property prop, bo
             for( int i = cx - 1; i <= cx + 1; i++ ) {
                 for( int j = cy - 1; j <= cy + 1; j++ ) {
                     if( i == cx && j == cy ) {
-                        add_spawn( mon_breather_hub, 1, i, j );
+                        place_spawns( GROUP_BREATHER_HUB, 1, i, j, i, j, 1, true );
                     } else {
-                        add_spawn( mon_breather, 1, i, j );
+                        place_spawns( GROUP_BREATHER, 1, i, j, i, j, 1, true );
                     }
                 }
             }
