@@ -2650,10 +2650,11 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
     // item_location::get_item() will return nullptr if the item is lost
     if( !craft ) {
         p->add_msg_player_or_npc(
-            string_format( _( "You no longer have the %1$s in your possession.  You stop crafting. "
-                              " Reactivate the %1$s to continue crafting." ), craft->tname() ),
-            string_format( _( "<npcname> no longer has the %s in their possession.  <npcname> stops"
-                              " crafting." ), craft->tname() )
+            string_format( _( "You no longer have the in progress craft in your possession.  "
+                              "You stop crafting.  "
+                              "Reactivate the in progress craft to continue crafting." ) ),
+            string_format( _( "<npcname> no longer has the in progress craft in their possession.  "
+                              "<npcname> stops crafting." ) )
         );
         p->cancel_activity();
         return;
