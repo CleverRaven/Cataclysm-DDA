@@ -25,7 +25,6 @@
   {
     "name": "GROUP_TURRET_SMG",
     "type": "monstergroup",
-    "default": "mon_turret",
-    "monsters": [  ]
+    "default": "mon_turret"
   }
 ]

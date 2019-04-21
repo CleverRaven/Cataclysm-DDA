@@ -16,7 +16,6 @@
   {
     "type": "monstergroup",
     "name": "GROUP_TRIFFID_HEART",
-    "default": "mon_triffid_heart",
-    "monsters": [  ]
+    "default": "mon_triffid_heart"
   }
 ]

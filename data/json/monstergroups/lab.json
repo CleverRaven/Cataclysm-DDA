@@ -99,8 +99,6 @@
     "type": "monstergroup",
     "name": "GROUP_LAB_CYBORG",
     "default": "mon_broken_cyborg",
-    "monsters": [
-      { "monster": "mon_prototype_cyborg", "freq": 400, "cost_multiplier": 0 }
-    ]
+    "monsters": [ { "monster": "mon_prototype_cyborg", "freq": 400, "cost_multiplier": 0 } ]
   }
 ]
