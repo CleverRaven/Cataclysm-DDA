@@ -13,7 +13,6 @@
     "weight": 1196,
     "volume": 12,
     "bashing": 6,
-    "initial_charges": 100,
     "charges_per_use": 1,
     "ammo": "battery",
     "use_action": {
@@ -139,7 +138,6 @@
     "material": [ "cotton" ],
     "weight": 182,
     "volume": 3,
-    "initial_charges": 100,
     "charges_per_use": 1,
     "ammo": "battery",
     "use_action": {
@@ -192,7 +190,6 @@
     "material": [ "cotton" ],
     "weight": 864,
     "volume": 8,
-    "initial_charges": 150,
     "charges_per_use": 1,
     "ammo": "battery",
     "use_action": {
@@ -246,7 +243,6 @@
     "material": [ "cotton" ],
     "weight": 210,
     "volume": 3,
-    "initial_charges": 100,
     "charges_per_use": 1,
     "ammo": "battery",
     "use_action": {
@@ -374,7 +370,6 @@
     "weight": 520,
     "volume": 2,
     "bashing": 1,
-    "initial_charges": 100,
     "charges_per_use": 1,
     "ammo": "battery",
     "use_action": {
@@ -405,7 +400,6 @@
     "weight": 520,
     "volume": 2,
     "bashing": 1,
-    "initial_charges": 100,
     "turns_per_charge": 20,
     "ammo": "battery",
     "revert_to": "wearable_light",
@@ -429,7 +423,6 @@
     "weight": 620,
     "volume": 2,
     "bashing": 1,
-    "initial_charges": 150,
     "charges_per_use": 1,
     "ammo": "battery",
     "use_action": {
@@ -990,7 +983,6 @@
     "weight": 1020,
     "volume": 4,
     "to_hit": -3,
-    "initial_charges": 150,
     "charges_per_use": 1,
     "ammo": "battery",
     "use_action": {
@@ -1083,7 +1075,6 @@
     "weight": 1240,
     "volume": 4,
     "to_hit": -3,
-    "initial_charges": 150,
     "turns_per_charge": 14,
     "ammo": "battery",
     "revert_to": "goggles_ir",
@@ -1337,7 +1328,6 @@
     "weight": 68,
     "volume": 1,
     "to_hit": -1,
-    "initial_charges": 50,
     "charges_per_use": 1,
     "ammo": "battery",
     "use_action": "RADGLOVE",
@@ -1886,7 +1876,6 @@
     "material": [ "cotton" ],
     "weight": 1452,
     "volume": 18,
-    "initial_charges": 500,
     "charges_per_use": 1,
     "ammo": "battery",
     "use_action": {
@@ -2197,7 +2186,6 @@
     "material": [ "plastic" ],
     "weight": 179,
     "volume": 4,
-    "initial_charges": 100,
     "charges_per_use": 1,
     "ammo": "battery",
     "use_action": {
@@ -2516,7 +2504,6 @@
     "warmth": 50,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "initial_charges": 100,
     "charges_per_use": 1,
     "ammo": "battery",
     "use_action": {

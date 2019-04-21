@@ -140,7 +140,6 @@
     "symbol": "!",
     "color": "white",
     "ammo": "battery",
-    "initial_charges": 40,
     "charges_per_use": 1,
     "turns_per_charge": 1,
     "use_action": "ECIG",
@@ -1476,7 +1475,6 @@
     "symbol": ";",
     "color": "yellow",
     "ammo": "battery",
-    "initial_charges": 150,
     "charges_per_use": 5,
     "revert_to": "camera",
     "use_action": "CAMERA",
@@ -1495,7 +1493,6 @@
     "symbol": ";",
     "color": "yellow",
     "ammo": "battery",
-    "initial_charges": 150,
     "charges_per_use": 5,
     "revert_to": "camera_pro",
     "use_action": "CAMERA",
@@ -1611,7 +1608,6 @@
     "symbol": "/",
     "color": "yellow",
     "ammo": "battery",
-    "initial_charges": 100,
     "use_action": "CARVER_OFF",
     "flags": [ "SHEATH_SWORD", "NONCONDUCTIVE" ],
     "magazines": [ [ "battery", [ "light_plus_battery_cell", "light_minus_battery_cell", "light_battery_cell" ] ] ]
@@ -1686,7 +1682,6 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": "battery",
-    "initial_charges": 150,
     "charges_per_use": 1,
     "use_action": {
       "target": "cell_phone_flashlight",
@@ -1939,7 +1934,6 @@
     "symbol": "/",
     "color": "yellow",
     "ammo": "battery",
-    "initial_charges": 500,
     "charges_per_use": 5,
     "use_action": { "target": "circsaw_on", "msg": "You turn on the circular saw.", "active": true, "type": "transform" },
     "flags": [ "NONCONDUCTIVE" ],
@@ -2169,7 +2163,6 @@
     "symbol": "$",
     "color": "dark_gray",
     "ammo": "battery",
-    "initial_charges": 100,
     "charges_per_use": 20,
     "qualities": [ [ "CONTAIN", 1 ] ],
     "use_action": "HOTPLATE",
@@ -2241,7 +2234,6 @@
     "symbol": ";",
     "color": "yellow",
     "ammo": "battery",
-    "initial_charges": 500,
     "qualities": [ [ "DRILL", 3 ], [ "SCREW", 1 ] ],
     "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ]
   },
@@ -2555,8 +2547,7 @@
     "symbol": ";",
     "color": "blue",
     "ammo": "battery",
-    "initial_charges": 200,
-    "flags": [ "ALLOWS_REMOTE_USE" ],
+        "flags": [ "ALLOWS_REMOTE_USE" ],
     "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ]
   },
   {
@@ -2779,8 +2770,7 @@
     "symbol": ";",
     "color": "blue",
     "ammo": "battery",
-    "initial_charges": 50,
-    "charges_per_use": 1,
+        "charges_per_use": 1,
     "revert_to": "eink_tablet_pc",
     "use_action": "EINKTABLETPC",
     "flags": [ "WATCH" ],
@@ -2843,8 +2833,7 @@
     "symbol": ";",
     "color": "yellow",
     "ammo": "battery",
-    "initial_charges": 50,
-    "charges_per_use": 10,
+        "charges_per_use": 10,
     "use_action": "HAIRKIT",
     "magazines": [ [ "battery", [ "light_minus_battery_cell" ] ] ]
   },
@@ -3700,8 +3689,7 @@
     "symbol": ";",
     "color": "green",
     "ammo": "battery",
-    "initial_charges": 100,
-    "charges_per_use": 1,
+        "charges_per_use": 1,
     "use_action": "GEIGER",
     "magazines": [ [ "battery", [ "light_battery_cell", "light_plus_battery_cell", "light_minus_battery_cell" ] ] ]
   },
@@ -4028,8 +4016,7 @@
     "symbol": ";",
     "color": "green",
     "ammo": "battery",
-    "initial_charges": 250,
-    "charges_per_use": 5,
+        "charges_per_use": 5,
     "use_action": "HOTPLATE",
     "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ]
   },
@@ -4562,8 +4549,7 @@
     "symbol": ";",
     "color": "dark_gray",
     "ammo": "battery",
-    "initial_charges": 250,
-    "charges_per_use": 25,
+        "charges_per_use": 25,
     "qualities": [
       [ "HAMMER_FINE", 1 ],
       [ "HAMMER", 3 ],
@@ -4945,8 +4931,7 @@
     "color": "green",
     "ammo": "battery",
     "sub": "hotplate",
-    "initial_charges": 250,
-    "charges_per_use": 5,
+        "charges_per_use": 5,
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "use_action": [ "HOTPLATE", "HEAT_FOOD" ],
     "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ]
@@ -5002,8 +4987,7 @@
     "color": "green",
     "ammo": "battery",
     "sub": "hotplate",
-    "initial_charges": 100,
-    "charges_per_use": 5,
+        "charges_per_use": 5,
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "use_action": [ "HOTPLATE", "HEAT_FOOD" ],
     "magazines": [ [ "battery", [ "medium_plus_battery_cell", "medium_battery_cell" ] ] ]
@@ -5070,8 +5054,7 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": "tape",
-    "initial_charges": 100,
-    "max_charges": 200,
+        "max_charges": 200,
     "charges_per_use": 50,
     "qualities": [ [ "CHISEL", 3 ], [ "HAMMER_FINE", 1 ], [ "HAMMER", 3 ], [ "PRY", 1 ] ],
     "use_action": "MISC_REPAIR",
@@ -5186,8 +5169,7 @@
     "symbol": ";",
     "color": "dark_gray",
     "ammo": "battery",
-    "initial_charges": 100,
-    "use_action": "MP3",
+        "use_action": "MP3",
     "magazines": [ [ "battery", [ "light_battery_cell", "light_plus_battery_cell", "light_minus_battery_cell" ] ] ]
   },
   {
@@ -5221,8 +5203,7 @@
     "symbol": ";",
     "color": "red",
     "ammo": "battery",
-    "initial_charges": 300,
-    "turns_per_charge": 10,
+        "turns_per_charge": 10,
     "revert_to": "multi_cooker",
     "qualities": [ [ "CONTAIN", 1 ] ],
     "use_action": "MULTICOOKER",
@@ -5362,7 +5343,6 @@
     "symbol": ";",
     "color": "yellow",
     "ammo": "battery",
-    "initial_charges": 100,
     "use_action": "NOISE_EMITTER_OFF",
     "flags": [ "RADIO_MODABLE" ],
     "magazines": [ [ "battery", [ "light_battery_cell", "light_plus_battery_cell", "light_minus_battery_cell" ] ] ]
@@ -5896,7 +5876,6 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": "battery",
-    "initial_charges": 100,
     "use_action": "PORTABLE_GAME",
     "magazines": [ [ "battery", [ "light_battery_cell", "light_plus_battery_cell", "light_minus_battery_cell" ] ] ]
   },
@@ -6144,7 +6123,6 @@
     "symbol": ";",
     "color": "white",
     "ammo": "battery",
-    "initial_charges": 100,
     "charges_per_use": 1,
     "use_action": {
       "target": "reading_light_on",
@@ -6766,7 +6744,6 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": "battery",
-    "initial_charges": 100,
     "charges_per_use": 100,
     "qualities": [
       [ "HAMMER_FINE", 1 ],
@@ -6800,7 +6777,6 @@
     "symbol": "&",
     "color": "blue",
     "ammo": "battery",
-    "initial_charges": 100,
     "charges_per_use": 1,
     "use_action": {
       "target": "smart_lamp_on",
@@ -6828,7 +6804,6 @@
     "symbol": "&",
     "color": "green",
     "ammo": "battery",
-    "initial_charges": 100,
     "turns_per_charge": 25,
     "revert_to": "smart_lamp",
     "use_action": { "target": "smart_lamp", "msg": "Your smart lamp turned off", "menu_text": "Turn off", "type": "transform" },
@@ -6866,7 +6841,6 @@
     "symbol": ",",
     "color": "light_gray",
     "ammo": "battery",
-    "initial_charges": 20,
     "charges_per_use": 1,
     "use_action": [
       {
@@ -7275,7 +7249,6 @@
     "symbol": ";",
     "color": "dark_gray",
     "ammo": "battery",
-    "initial_charges": 500,
     "charges_per_use": 100,
     "use_action": "TAZER",
     "flags": [ "RECHARGE" ],
@@ -7327,8 +7300,7 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "magenta",
-    "initial_charges": 500,
-    "charges_per_use": 25,
+        "charges_per_use": 25,
     "use_action": "TELEPORT",
     "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ]
   },
@@ -8173,7 +8145,6 @@
     "symbol": ";",
     "color": "white",
     "ammo": "battery",
-    "initial_charges": 250,
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ]
   },
@@ -8210,7 +8181,6 @@
     "symbol": ";",
     "color": "dark_gray",
     "ammo": "battery",
-    "initial_charges": 100,
     "use_action": "VIBE",
     "magazines": [ [ "battery", [ "light_battery_cell", "light_plus_battery_cell", "light_minus_battery_cell" ] ] ]
   },
@@ -8358,7 +8328,6 @@
     "symbol": ";",
     "color": "light_blue",
     "ammo": "battery",
-    "initial_charges": 100,
     "charges_per_use": 1,
     "use_action": "WATER_PURIFIER",
     "flags": [ "ALLOWS_REMOTE_USE" ],
@@ -8627,7 +8596,6 @@
     "symbol": "%",
     "color": "white",
     "ammo": "battery",
-    "initial_charges": 500,
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ]
   },
