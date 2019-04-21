@@ -236,8 +236,8 @@ void mapgen_function_builtin::generate( map *m, const oter_id &terrain_type, con
  * ptr storage.
  */
 std::map<std::string, std::vector<std::shared_ptr<mapgen_function>> > oter_mapgen;
-std::map<std::string, std::vector<std::shared_ptr<mapgen_function_json_nested>> > nested_mapgen;
-std::map<std::string, std::vector<std::shared_ptr<update_mapgen_function_json>> > update_mapgen;
+std::map<std::string, std::vector<std::unique_ptr<mapgen_function_json_nested>> > nested_mapgen;
+std::map<std::string, std::vector<std::unique_ptr<update_mapgen_function_json>> > update_mapgen;
 
 
 /*
@@ -381,17 +381,15 @@ load_mapgen_function( JsonObject &jio, const std::string &id_base,
     return ret;
 }
 
-std::shared_ptr<mapgen_function_json_nested> load_nested_mapgen( JsonObject &jio,
-        const std::string &id_base )
+void load_nested_mapgen( JsonObject &jio, const std::string &id_base )
 {
-    std::shared_ptr<mapgen_function_json_nested> ret;
     const std::string mgtype = jio.get_string( "method" );
     if( mgtype == "json" ) {
         if( jio.has_object( "object" ) ) {
             JsonObject jo = jio.get_object( "object" );
             std::string jstr = jo.str();
-            ret = std::make_shared<mapgen_function_json_nested>( jstr );
-            nested_mapgen[id_base].push_back( ret );
+            nested_mapgen[id_base].push_back(
+                cata::make_unique<mapgen_function_json_nested>( jstr ) );
         } else {
             debugmsg( "Nested mapgen: Invalid mapgen function (missing \"object\" object)", id_base.c_str() );
         }
@@ -399,20 +397,17 @@ std::shared_ptr<mapgen_function_json_nested> load_nested_mapgen( JsonObject &jio
         debugmsg( "Nested mapgen: type for id %s was %s, but nested mapgen only supports \"json\"",
                   id_base.c_str(), mgtype.c_str() );
     }
-    return ret;
 }
 
-std::shared_ptr<update_mapgen_function_json> load_update_mapgen( JsonObject &jio,
-        const std::string &id_base )
+void load_update_mapgen( JsonObject &jio, const std::string &id_base )
 {
-    std::shared_ptr<update_mapgen_function_json> ret;
     const std::string mgtype = jio.get_string( "method" );
     if( mgtype == "json" ) {
         if( jio.has_object( "object" ) ) {
             JsonObject jo = jio.get_object( "object" );
             std::string jstr = jo.str();
-            ret = std::make_shared<update_mapgen_function_json>( jstr );
-            update_mapgen[id_base].push_back( ret );
+            update_mapgen[id_base].push_back(
+                cata::make_unique<update_mapgen_function_json>( jstr ) );
         } else {
             debugmsg( "Update mapgen: Invalid mapgen function (missing \"object\" object)",
                       id_base.c_str() );
@@ -421,7 +416,6 @@ std::shared_ptr<update_mapgen_function_json> load_update_mapgen( JsonObject &jio
         debugmsg( "Update mapgen: type for id %s was %s, but update mapgen only supports \"json\"",
                   id_base.c_str(), mgtype.c_str() );
     }
-    return ret;
 }
 
 /*
