@@ -2832,7 +2832,7 @@
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
-    "upgrades": { "half_life": 28, "into_group": "GROUP_ZOMBIE_UPGRADE" },
+    "upgrades": { "half_life": 14, "into_group": "GROUP_ZOMBIE_UPGRADE" },
     "flags": [
       "SEES",
       "HEARS",
@@ -3440,6 +3440,7 @@
     "harvest": "zombie",
     "special_attacks": [ { "type": "bite", "cooldown": 5 } ],
     "death_function": [ "NORMAL" ],
+    "upgrades": { "half_life": 28, "into": "mon_dog_skeleton" },
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
   },
   {
@@ -3521,7 +3522,7 @@
     "special_when_hit": [ "ZAPBACK", 100 ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
-    "upgrades": { "half_life": 28, "into": "mon_zombie_nullfield" },
+    "upgrades": { "half_life": 28, "into_group": "GROUP_ZOMBIE_ELECTRIC_UPGRADE" },
     "flags": [
       "SEES",
       "HEARS",
@@ -4380,7 +4381,7 @@
     "harvest": "zombie",
     "special_attacks": [ [ "GRAB", 7 ] ],
     "death_function": [ "SMOKEBURST", "NORMAL" ],
-    "upgrades": { "half_life": 28, "into_group": "GROUP_ZOMBIE_UPGRADE" },
+    "upgrades": { "half_life": 14, "into_group": "GROUP_ZOMBIE_UPGRADE" },
     "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ]
   },
   {
@@ -4843,7 +4844,7 @@
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
-    "upgrades": { "half_life": 28, "into_group": "GROUP_ZOMBIE_UPGRADE" },
+    "upgrades": { "half_life": 14, "into_group": "GROUP_ZOMBIE_UPGRADE" },
     "flags": [
       "SEES",
       "HEARS",
