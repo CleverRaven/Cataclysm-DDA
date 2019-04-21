@@ -1068,7 +1068,7 @@ units::mass Character::weight_carried_with_tweaks( const item_tweaks &tweaks ) c
         const auto thisweight = weapon.weight();
         const auto liftrequirement = ceil( units::to_gram<float>( thisweight ) / units::to_gram<float>
                                            ( TOOL_LIFT_FACTOR ) );
-        if( best_nearby_lifting_assist() < liftrequirement ) {
+        if( g->new_game || best_nearby_lifting_assist() < liftrequirement ) {
             ret += thisweight;
         }
     }
