@@ -6216,5 +6216,34 @@
     "description": "NPC trait that makes it impossible to say anything.  It is a bug if you have it.",
     "player_display": false,
     "threshold": true
+  },
+  {
+    "type": "mutation",
+    "id": "NOMAD",
+    "name": "Nomad",
+    "points": -1,
+    "starting_trait": true,
+    "description": "You're too adventurous for your own good.  The more time you spend somewhere, the unhappier it makes you to be there.",
+    "changes_to": [ "NOMAD2" ],
+    "category": [ "BIRD", "FISH", "CHIMERA" ]
+  },
+  {
+    "type": "mutation",
+    "id": "NOMAD2",
+    "name": "Antsy",
+    "points": -2,
+    "description": "You can't bear to stay still for long.  Your morale will suffer unless you constantly explore new territory.",
+    "prereqs": [ "NOMAD" ],
+    "changes_to": [ "NOMAD3" ],
+    "category": [ "BIRD", "FISH", "CHIMERA" ]
+  },
+  {
+    "type": "mutation",
+    "id": "NOMAD3",
+    "name": "Restless",
+    "points": -4,
+    "description": "Spending any amount of time in familiar places makes you miserable.  Must.  Keep.  Moving.",
+    "prereqs": [ "NOMAD2" ],
+    "category": [ "CHIMERA" ]
   }
 ]

@@ -68,6 +68,7 @@ const morale_type &morale_type_data::convert_legacy( int lmt )
             morale_type( "morale_perm_optimist" ),
             morale_type( "morale_perm_badtemper" ),
             morale_type( "morale_perm_constrained" ),
+            morale_type( "morale_perm_nomad" ),
             morale_type( "morale_game_found_kitten" ),
 
             morale_type( "morale_haircut" ),
@@ -158,6 +159,7 @@ const morale_type MORALE_PERM_FANCY( "morale_perm_fancy" );
 const morale_type MORALE_PERM_OPTIMIST( "morale_perm_optimist" );
 const morale_type MORALE_PERM_BADTEMPER( "morale_perm_badtemper" );
 const morale_type MORALE_PERM_CONSTRAINED( "morale_perm_constrained" );
+const morale_type MORALE_PERM_NOMAD( "morale_perm_nomad" );
 const morale_type MORALE_GAME_FOUND_KITTEN( "morale_game_found_kitten" );
 const morale_type MORALE_HAIRCUT( "morale_haircut" );
 const morale_type MORALE_SHAVE( "morale_shave" );

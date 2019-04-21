@@ -36,6 +36,7 @@
 #include "iuse_actor.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "mapbuffer.h"
 #include "mapdata.h"
 #include "martialarts.h"
 #include "material.h"
@@ -329,6 +330,9 @@ static const trait_id trait_M_SKIN3( "M_SKIN3" );
 static const trait_id trait_M_SPORES( "M_SPORES" );
 static const trait_id trait_NARCOLEPTIC( "NARCOLEPTIC" );
 static const trait_id trait_NAUSEA( "NAUSEA" );
+static const trait_id trait_NOMAD( "NOMAD" );
+static const trait_id trait_NOMAD2( "NOMAD2" );
+static const trait_id trait_NOMAD3( "NOMAD3" );
 static const trait_id trait_NONADDICTIVE( "NONADDICTIVE" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_NO_THIRST( "NO_THIRST" );
@@ -821,6 +825,57 @@ void player::process_turn()
             add_msg_if_player( m_info, _( "You learned a new style." ) );
         }
     }
+
+    // Update time spent conscious in this overmap tile for the Nomad traits.
+    if( ( has_trait( trait_NOMAD ) || has_trait( trait_NOMAD2 ) || has_trait( trait_NOMAD3 ) ) &&
+        !has_effect( effect_sleep ) && !has_effect( effect_narcosis ) ) {
+        const tripoint ompos = global_omt_location();
+        const point pos = point( ompos.x, ompos.y );
+        if( overmap_time.find( pos ) == overmap_time.end() ) {
+            overmap_time[pos] = 1_turns;
+        } else {
+            overmap_time[pos] += 1_turns;
+        }
+    }
+    // Decay time spent in other overmap tiles.
+    if( calendar::once_every( 1_hours ) ) {
+        const tripoint ompos = global_omt_location();
+        const time_point now = calendar::turn;
+        time_duration decay_time = 0_days;
+        if( has_trait( trait_NOMAD ) ) {
+            decay_time = 7_days;
+        } else if( has_trait( trait_NOMAD2 ) ) {
+            decay_time = 14_days;
+        } else if( has_trait( trait_NOMAD3 ) ) {
+            decay_time = 28_days;
+        }
+        auto it = overmap_time.begin();
+        while( it != overmap_time.end() ) {
+            if( it->first.x == ompos.x && it->first.y == ompos.y ) {
+                it++;
+                continue;
+            }
+            // Find the amount of time passed since the player touched any of the overmap tile's submaps.
+            const tripoint tpt = tripoint( it->first.x, it->first.y, 0 );
+            const time_point last_touched = overmap_buffer.scent_at( tpt ).creation_time;
+            const time_duration since_visit = now - last_touched;
+            // If the player has spent little time in this overmap tile, let it decay after just an hour instead of the usual extended decay time.
+            const time_duration modified_decay_time = it->second > 5_minutes ? decay_time : 1_hours;
+            if( since_visit > modified_decay_time ) {
+                // Reduce the tracked time spent in this overmap tile.
+                const time_duration decay_amount = std::min( since_visit - modified_decay_time, 1_hours );
+                const time_duration updated_value = it->second - decay_amount;
+                if( updated_value <= 0 ) {
+                    // We can stop tracking this tile if there's no longer any time recorded there.
+                    it = overmap_time.erase( it );
+                    continue;
+                } else {
+                    it->second = updated_value;
+                }
+            }
+            it++;
+        }
+    }
 }
 
 void player::action_taken()
@@ -852,6 +907,49 @@ void player::apply_persistent_morale()
         }
         if( pen > 0 ) {
             add_morale( MORALE_PERM_HOARDER, -pen, -pen, 1_minutes, 1_minutes, true );
+        }
+    }
+    // Nomads get a morale penalty if they stay near the same overmap tiles too long.
+    if( has_trait( trait_NOMAD ) || has_trait( trait_NOMAD2 ) || has_trait( trait_NOMAD3 ) ) {
+        const tripoint ompos = global_omt_location();
+        float total_time = 0;
+        // Check how long we've stayed in any overmap tile within 5 of us.
+        const int max_dist = 5;
+        for( int dx = -max_dist; dx <= max_dist; dx++ ) {
+            for( int dy = -max_dist; dy <= max_dist; dy++ ) {
+                const float dist = rl_dist( 0, 0, dx, dy );
+                if( dist > max_dist ) {
+                    continue;
+                }
+                const point pos = point( ompos.x + dx, ompos.y + dy );
+                if( overmap_time.find( pos ) == overmap_time.end() ) {
+                    continue;
+                }
+                // Count time in own tile fully, tiles one away as 4/5, tiles two away as 3/5, etc.
+                total_time += to_moves<float>( overmap_time[pos] ) * ( max_dist - dist ) / max_dist;
+            }
+        }
+        // Characters with higher tiers of Nomad suffer worse morale penalties, faster.
+        int max_unhappiness;
+        float min_time, max_time;
+        if( has_trait( trait_NOMAD ) ) {
+            max_unhappiness = 20;
+            min_time = to_moves<float>( 12_hours );
+            max_time = to_moves<float>( 1_days );
+        } else if( has_trait( trait_NOMAD2 ) ) {
+            max_unhappiness = 40;
+            min_time = to_moves<float>( 4_hours );
+            max_time = to_moves<float>( 8_hours );
+        } else { // traid_NOMAD3
+            max_unhappiness = 60;
+            min_time = to_moves<float>( 1_hours );
+            max_time = to_moves<float>( 2_hours );
+        }
+        // The penalty starts at 1 at min_time and scales up to max_unhappiness at max_time.
+        const float t = ( total_time - min_time ) / ( max_time - min_time );
+        const int pen = ceil( lerp_clamped( 0, max_unhappiness, t ) );
+        if( pen > 0 ) {
+            add_morale( MORALE_PERM_NOMAD, -pen, -pen, 1_minutes, 1_minutes, true );
         }
     }
 }
