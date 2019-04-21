@@ -550,6 +550,7 @@
       "batch_time_factors": [ 60, 5 ],
       "book_learn": [ [ "manual_pistol", 3 ], [ "manual_smg", 3 ], [ "recipe_bullets", 4 ] ],
       "charges": 1,
+      "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ], [ "ammo_380", 1 ] ],
       "components": [ [ [ "gunpowder", 3 ] ] ]
     },
     {
