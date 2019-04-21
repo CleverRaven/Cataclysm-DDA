@@ -1,3 +1,174 @@
 _site
 .sass-cache
 .jekyll-metadata
+!src/chkjson
+*.7z
+*.a
+*.d
+*.dll
+*.exe
+*.o
+*.tmp
+*.zip
+/WinDepend/
+/bindist/
+/build/
+/cmake-build-debug/
+/config/
+/data/*.template
+/data/font/
+/data/mods/user-default-mods.json
+/dep/
+/doxygen_doc/html/*
+/doxygen_doc/latex/*
+/graveyard/
+/memorial/
+/mods/
+/obj/
+/objwin/
+/save/
+/src/version.h
+/sound/
+/templates/
+/tools/format/json_formatter.cgi
+CataclysmWin.cscope_file_list
+CataclysmWin.depend
+CataclysmWin.layout
+cata_test
+cata_test-tiles
+cataclysm
+cataclysm-tiles
+cataclysm-vcpkg
+cataclysmdda-*
+chkjson*
+debug.log
+logg.txt
+
+# Visual Studio files
+*.code-workspace
+*.ilk
+*.opensdf
+*.pdb
+*.sdf
+*.suo
+*.user
+*.vcxproj.filters
+.vs/
+.vscode/
+Debug*/
+Release*/
+
+# Distribution script results
+/msvc-full-features/distribution
+
+# Visual Studio 2015
+/msvc-full-features/*db
+/msvc-full-features/ipch
+lnk*.tmp
+Cataclysm.exe.lastcodeanalysissucceeded
+
+#Visual Studio 2017
+/msvc-full-features/PredictedInputCache_Debug_x64.dat
+
+# PVS Studio
+/msvc-full-features/*PVS-Studio*
+
+# Temporary and backup files
+*.bak
+*.cbTemp
+*.sw?
+*~
+\#*
+gmon.out
+
+# System Files
+.DS_Store
+._.DS_Store
+Thumbs.db
+cscope.*
+tags
+
+# Compiled binary translations
+/lang/mo/
+
+# Directory for translatable strings
+/lang/json/*
+!/lang/json/README
+
+# Netbeans IDE folders
+nbproject/
+
+# Python runtime files
+*.pyc
+
+# vim files
+*.vim
+*.session
+.ycm_extra_conf.py
+
+# taskwarrior files
+*.task*
+
+# GitEye files
+*.project
+
+# vimdiff backup
+*.orig
+
+# OSX
+Cataclysm.app
+data/osx/AppIcon.icns
+Cataclysm.dmg
+
+# Jetbrains CLion
+.idea/
+
+# test executables and generated data
+/tests/cata_test
+/tests/line_test
+/tests/map_iterator_test
+/tests/shadowcasting_test
+/tests/data/jsionized_overmap.sav
+
+# static library used to link the test executable
+cataclysm.a
+
+# coredumps
+*.core
+
+# sublime-text workspace
+*.sublime-workspace
+
+# cppcheck
+*cppcheck.xml
+*.cppcheck
+
+# clang tooling
+compile_commands.json
+
+# IDA database
+Cataclysm.i64
+Cataclysm.id*
+Cataclysm.til
+Cataclysm.nam
+
+# Transifex Client
+.tx/
+
+# Snapcraft build directories
+prime
+snap
+stage
+
+# Snapcraft build file
+*.snap
+
+# Eclipse IDE
+.cproject
+.settings/
+
+# Apple Xcode IDE
+Xcode/
+
+# gdb
+.gdb_history
