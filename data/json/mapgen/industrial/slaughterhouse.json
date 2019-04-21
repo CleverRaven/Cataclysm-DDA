@@ -21,17 +21,75 @@
       ]
     },
     {
+      "type": "item_group",
+      "id": "slaughter_clothes",
+      "items": [
+        [ "apron_leather", 30 ],
+        [ "jumpsuit", 30 ],
+        [ "gloves_rubber", 10 ],
+        [ "boots_rubber", 10 ],
+        [ "gloves_cut_resistant", 10 ]
+      ]
+    },
+    {
+      "type": "mapgen",
+      "method": "json",
+      "om_terrain": [ "slaughterhouse_1_roof" ],
+      "weight": 500,
+      "object": {
+        "fill_ter": "t_open_air",
+        "rows": [
+          " ----------------------3",
+          " |.....................3",
+          " |.....................3",
+          " |.....................3",
+          " |.....................3",
+          "|-.....................3",
+          "|......................3",
+          "|......................3",
+          "|......................3",
+          "|......................3",
+          "|.........&............3",
+          "|......................3",
+          "|......................3",
+          "|......................3",
+          "|......................3",
+          "|......................3",
+          "|......................3",
+          "|......................3",
+          "|......................3",
+          "_________..............3",
+          "        |..............3",
+          "        4..............3",
+          "        |..............3",
+          "        _______________3" 
+        ],
+        "terrain": {
+        " ": "t_open_air",
+        ".": "t_flat_roof",
+        "3": "t_gutter_east",
+        "_": "t_gutter_south",
+        "-": "t_gutter_north",
+        "|": "t_gutter_west",
+        "4": "t_gutter_drop",
+        "&": "t_flat_roof"
+        },
+        "furniture": { "&": "f_roof_turbine_vent" },
+        "place_items": [ { "item": "roof_trash", "x": [ 2, 22 ], "y": [ 5, 18 ], "chance": 50, "repeat": [ 1, 3 ] } ]
+      }
+    },
+    {
       "type": "mapgen",
       "method": "json",
       "om_terrain": [ "slaughterhouse_1" ],
       "weight": 500,
       "object": {
         "rows": [
-          " -----------------------",
-          " 7          GGGGGGG| &D|",
-          " 7                 |   |",
-          " 7                 |-2-|",
-          "8|8                    |",
+          "~-----------------------",
+          "~7          GGGGGGG| &D|",
+          "~7                 |   |",
+          "~7                 |-2-|",
+          "~|8                    |",
           "|-      yyyyyyyyyyyyyyy|",
           "|       F.....FEA.....3|",
           "|       F.....FEA......|",
@@ -41,19 +99,20 @@
           "|       F.....FEA......|",
           "|       F.....FEA......|",
           "|       F..............|",
-          "|       F.....FEA......|",
-          "|       F.....FEA......|",
-          "|       F.....FEA......|",
-          "|       F..............|",
+          "|       F.....FEA.....8|",
+          "|       F.....FEA......7",
+          "|       F.....FEA......7",
+          "|       F..............7",
           "|       +++++++66++++++|",
-          "----6---1             I1",
-          "4     HH1              1",
-          "4       1              1",
-          "4       1              1",
-          "44444444++++++++++++++++"
+          "----9---1             I1",
+          "4~~~~~HH1              1",
+          "4~~~~~~B1              1",
+          "4~~~~~~~1              1",
+          "4444J444++++++++++++++++"
         ],
         "terrain": {
-          " ": "t_pavement",
+          " ": "t_floor",
+          "~": "t_pavement",
           "+": "t_wall_metal_h",
           "-": "t_wall_h",
           ".": "t_grate",
@@ -65,16 +124,18 @@
           "6": "t_door_metal_c",
           "7": "t_door_metal_locked",
           "8": "t_gates_mech_control",
-          "A": "t_floor",
-          "B": "t_floor",
+          "9": "t_door_locked",
+          "A": "t_grate",
+          "B": "t_gutter_downspout",
           "C": "t_floor",
           "D": "t_floor",
-          "E": "t_dirtfloor",
-          "F": "t_floor",
-          "&": "t_floor",
-          "G": "t_dirtfloor",
+          "E": "t_grate",
+          "F": "t_grate",
+          "G": "t_pavement",
           "H": "t_floor",
           "I": "t_floor",
+          "J": "t_chaingate_l",
+          "&": "t_floor",
           "r": "t_pavement",
           "y": "t_pavement_y",
           "|": "t_wall_v"
@@ -97,6 +158,7 @@
         "toilets": { "&": {  } },
         "place_loot": [
           { "group": "trash", "chance": 100, "repeat": [ 1, 2 ], "x": [ 6, 7 ], "y": [ 20, 20 ] },
+          { "group": "slaughter_clothes", "chance": 100, "repeat": [ 1, 7 ], "x": [ 12, 18 ], "y": [ 1, 1 ] },
           { "group": "slaughter_tools", "chance": 100, "repeat": [ 1, 3 ], "x": [ 16, 16 ], "y": [ 6, 8 ] },
           { "group": "slaughter_tools", "chance": 100, "repeat": [ 1, 3 ], "x": [ 16, 16 ], "y": [ 10, 12 ] },
           { "group": "slaughter_tools", "chance": 100, "repeat": [ 1, 3 ], "x": [ 16, 16 ], "y": [ 14, 16 ] },
@@ -104,6 +166,51 @@
           { "group": "slaughter_raw_meat", "chance": 100, "repeat": [ 1, 3 ], "x": [ 14, 14 ], "y": [ 10, 12 ] },
           { "group": "slaughter_raw_meat", "chance": 100, "repeat": [ 1, 3 ], "x": [ 14, 14 ], "y": [ 14, 16 ] },
           { "group": "slaughter_raw_meat", "chance": 100, "repeat": [ 1, 11 ], "x": [ 8, 8 ], "y": [ 6, 17 ] }
+        ]
+      }
+    },
+    {
+      "type": "mapgen",
+      "method": "json",
+      "om_terrain": [ "slaughterhouse_1_basement" ],
+      "weight": 500,
+      "object": {
+        "fill_ter": "t_thconc_floor",
+        "rows": [
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "        ----------------",
+          "        |.............3|",
+          "        |..............|",
+          "        |..............|",
+          "        |..............|",
+          "        |..............|",
+          "        |..............|",
+          "        |..............|",
+          "        |..............|",
+          "        |..............|",
+          "        |..............|",
+          "        |..............|",
+          "        |..............|",
+          "        ----------------",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        "
+        ],
+        "terrain": {
+          " ": "t_thconc_floor",
+          "-": "t_wall_h",
+          "|": "t_wall_v",
+          ".": "t_floor",
+          "3": "t_stairs_up"
+        },
+        "place_fields": [
+          { "x": [ 9, 23 ], "y": [ 5, 18 ], "field": "fd_blood", "density": 3, "repeat": [ 10, 100 ], "age": 3 }
         ]
       }
     }

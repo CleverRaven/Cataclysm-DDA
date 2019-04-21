@@ -281,5 +281,21 @@
     "name": "slaughterhouse",
     "sym": "M",
     "color": "i_light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "slaughterhouse_1_roof",
+    "copy-from": "generic_city_building",
+    "name": "slaughterhouse roof",
+    "sym": "M",
+    "color": "i_light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "slaughterhouse_1_basement",
+    "copy-from": "generic_city_building",
+    "name": "slaughterhouse basement",
+    "sym": "M",
+    "color": "i_light_gray"
   }
 ]
