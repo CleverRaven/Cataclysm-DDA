@@ -3,8 +3,12 @@ layout: page
 title: Releases
 permalink: /releases/
 ---
-# Latest Build
-Cataclysm: DDA is under constant development, we recommend you start with the latest build, which can be found at the following locations:
+
+# Latest Stable
+The most recent stable release is {{ site.github.latest_release.tag_name }} {{ site.github.latest_release.name }}.  We recommend stable for the most bug-free experience possible.  You can download it from the release page [here]({{ site.github.latest_release.html_url }}).
+
+# Latest Experimental
+Cataclysm: DDA is under constant development. As such, stable can lag behind with features. If you would like access to the bleeding edge of features, the links to the unstable experimental builds are below:
 * [Windows Tiles build](http://dev.narc.ro/cataclysm/jenkins-latest/Windows/Tiles/)
 * [Windows Terminal build](http://dev.narc.ro/cataclysm/jenkins-latest/Windows/Curses/)
 * [Linux 64-bit Terminal build](http://dev.narc.ro/cataclysm/jenkins-latest/Linux_x64/Curses/)
