@@ -1,0 +1,111 @@
+[
+    {
+      "type": "item_group",
+      "id": "slaughter_raw_meat",
+      "items": [
+        { "item": "meat", "prob": 8, "charges": [ 1, 10 ] },
+        { "item": "lung", "prob": 1, "charges": [ 1, 20 ] },
+        { "item": "kidney", "prob": 1, "charges": [ 1, 20 ] },
+        { "item": "liver", "prob": 1, "charges": [ 1, 10 ] },
+        { "item": "brain", "prob": 1, "charges": [ 1, 10 ] },
+        { "item": "sweetbread", "prob": 2, "charges": [ 1, 10 ] }
+      ]
+    },
+    {
+      "type": "item_group",
+      "id": "slaughter_tools",
+      "items": [
+        [ "knife_butcher", 30 ],
+        [ "tongs", 10 ],
+        [ "hacksaw", 10 ]
+      ]
+    },
+    {
+      "type": "mapgen",
+      "method": "json",
+      "om_terrain": [ "slaughterhouse_1" ],
+      "weight": 500,
+      "object": {
+        "rows": [
+          " -----------------------",
+          " 7          GGGGGGG| &D|",
+          " 7                 |   |",
+          " 7                 |-2-|",
+          "8|8                    |",
+          "|-      yyyyyyyyyyyyyyy|",
+          "|       F.....FEA.....3|",
+          "|       F.....FEA......|",
+          "|       F.....FEA......|",
+          "|       F..............|",
+          "|       F.....FEA......|",
+          "|       F.....FEA......|",
+          "|       F.....FEA......|",
+          "|       F..............|",
+          "|       F.....FEA......|",
+          "|       F.....FEA......|",
+          "|       F.....FEA......|",
+          "|       F..............|",
+          "|       +++++++66++++++|",
+          "----6---1             I1",
+          "4     HH1              1",
+          "4       1              1",
+          "4       1              1",
+          "44444444++++++++++++++++"
+        ],
+        "terrain": {
+          " ": "t_pavement",
+          "+": "t_wall_metal_h",
+          "-": "t_wall_h",
+          ".": "t_grate",
+          "1": "t_wall_metal_v",
+          "2": "t_door_c",
+          "3": "t_stairs_down",
+          "4": "t_chainfence",
+          "5": "t_wall_wood",
+          "6": "t_door_metal_c",
+          "7": "t_door_metal_locked",
+          "8": "t_gates_mech_control",
+          "A": "t_floor",
+          "B": "t_floor",
+          "C": "t_floor",
+          "D": "t_floor",
+          "E": "t_dirtfloor",
+          "F": "t_floor",
+          "&": "t_floor",
+          "G": "t_dirtfloor",
+          "H": "t_floor",
+          "I": "t_floor",
+          "r": "t_pavement",
+          "y": "t_pavement_y",
+          "|": "t_wall_v"
+        },
+        "furniture": {
+          "A": "f_rack",
+          "&": "f_toilet",
+          "C": "f_counter",
+          "D": "f_sink",
+          "E": "f_metal_butcher_rack",
+          "F": "f_counter",
+          "G": "f_locker",
+          "H": "f_dumpster",
+          "I": "f_air_conditioner"
+        },
+        "place_fields": [
+          { "x": [ 6, 22 ], "y": [ 3, 17 ], "field": "fd_blood", "density": 1, "repeat": [ 10, 100 ], "age": 3 },
+          { "x": [ 8, 22 ], "y": [ 5, 17 ], "field": "fd_blood", "density": 3, "repeat": [ 10, 100 ], "age": 3 }
+        ],
+        "toilets": { "&": {  } },
+        "place_loot": [
+          { "group": "trash", "chance": 100, "repeat": [ 1, 2 ], "x": [ 6, 7 ], "y": [ 20, 20 ] },
+          { "group": "slaughter_tools", "chance": 100, "repeat": [ 1, 3 ], "x": [ 16, 16 ], "y": [ 6, 8 ] },
+          { "group": "slaughter_tools", "chance": 100, "repeat": [ 1, 3 ], "x": [ 16, 16 ], "y": [ 10, 12 ] },
+          { "group": "slaughter_tools", "chance": 100, "repeat": [ 1, 3 ], "x": [ 16, 16 ], "y": [ 14, 16 ] },
+          { "group": "slaughter_raw_meat", "chance": 100, "repeat": [ 1, 3 ], "x": [ 14, 14 ], "y": [ 6, 8 ] },
+          { "group": "slaughter_raw_meat", "chance": 100, "repeat": [ 1, 3 ], "x": [ 14, 14 ], "y": [ 10, 12 ] },
+          { "group": "slaughter_raw_meat", "chance": 100, "repeat": [ 1, 3 ], "x": [ 14, 14 ], "y": [ 14, 16 ] },
+          { "group": "slaughter_raw_meat", "chance": 100, "repeat": [ 1, 11 ], "x": [ 8, 8 ], "y": [ 6, 17 ] }
+        ]
+      }
+    }
+  ]
+  
