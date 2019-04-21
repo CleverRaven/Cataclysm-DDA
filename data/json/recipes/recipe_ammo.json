@@ -216,7 +216,7 @@
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 10, "LIST" ] ],
-      [ [ "wire", 2 ], [ "pipe", 1 ] ],
+      [ [ "wire", 5 ], [ "pipe", 1 ] ],
       [ [ "fletching", 1, "LIST" ] ]
     ]
   },
