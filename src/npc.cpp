@@ -1473,6 +1473,16 @@ bool npc::took_painkiller() const
              has_effect( effect_pkill3 ) || has_effect( effect_pkill_l ) );
 }
 
+int npc::get_faction_ver() const
+{
+    return faction_api_version;
+}
+
+void npc::set_faction_ver( int new_version )
+{
+    faction_api_version = new_version;
+}
+
 bool npc::is_ally( const player &p ) const
 {
     if( p.getID() == getID() ) {

@@ -641,6 +641,8 @@ class npc : public player
          */
         std::vector<matype_id> styles_offered_to( const player &p ) const;
         // State checks
+        int get_faction_ver() const; // faction version number
+        void set_faction_ver( int new_version );
         bool is_enemy() const; // We want to kill/mug/etc the player
         bool is_following() const; // Traveling w/ player (whether as a friend or a slave)
         bool is_friend() const; // Allies with the player
@@ -907,7 +909,10 @@ class npc : public player
         std::vector<mission_type_id> miss_ids;
 
     private:
-
+        // faction API versions
+        // 2 - allies are in your_followers faction; NPCATT_FOLLOW is follower but not an ally
+        // 0 - allies may be in your_followers faction; NPCATT_FOLLOW is an ally (legacy)
+        int faction_api_version = 2;  // faction API versioning
         npc_attitude attitude; // What we want to do to the player
         /**
          * Global submap coordinates of the submap containing the npc.
