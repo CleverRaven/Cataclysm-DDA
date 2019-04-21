@@ -3743,6 +3743,28 @@
     "flags": [ "WATERPROOF", "STURDY" ]
   },
   {
+    "id": "gloves_cut_resistant",
+    "type": "ARMOR",
+    "name": "pair of cut resistant gloves",
+    "name_plural": "pairs of cut resistant gloves",
+    "description": "A pair of cut resistant gloves, useful when rapidly breaking down carcasses.",
+    "weight": 240,
+    "volume": 1,
+    "price": 9000,
+    "to_hit": 2,
+    "material": [ "steel", "cotton" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "looks_like": "gloves_work",
+    "covers": [ "HANDS" ],
+    "coverage": 95,
+    "encumbrance": 40,
+    "warmth": 10,
+    "material_thickness": 4,
+    "environmental_protection": 1,
+    "flags": [ "STURDY" ]
+  },
+  {
     "id": "gloves_wraps",
     "type": "ARMOR",
     "name": "pair of hand wraps",
