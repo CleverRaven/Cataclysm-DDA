@@ -30,7 +30,8 @@
       [ "elec_jackhammer", 40 ],
       [ "metal_smoother", 90 ],
       [ "jackhammer", 40 ],
-      [ "toolbox", 25 ]
+      [ "toolbox", 25 ],
+      [ "recharge_station", 10 ]
     ]
   },
   {
@@ -52,7 +53,8 @@
       [ "funnel", 50 ],
       [ "crowbar", 10 ],
       [ "thermometer", 5 ],
-      [ "multitool", 10 ]
+      [ "multitool", 10 ],
+      [ "recharge_station", 10 ]
     ]
   },
   {
@@ -132,7 +134,8 @@
       { "group": "tools_common", "prob": 100 },
       [ "soldering_iron", 100 ],
       [ "magnifying_glass", 100 ],
-      [ "voltmeter", 100 ]
+      [ "voltmeter", 100 ],
+      [ "recharge_station", 10 ]
     ]
   },
   {

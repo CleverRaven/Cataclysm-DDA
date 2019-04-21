@@ -746,7 +746,7 @@
     "time": 50000,
     "reversible": true,
     "decomp_learn": 6,
-    "book_learn": [ [ "textbook_mechanics", 8 ], [ "textbook_electronics", 7 ], [ "advanced_electronics", 7 ], [ "textbook_robots", 6 ] ],
+    "book_learn": [ [ "textbook_mechanics", 7 ], [ "textbook_electronics", 6 ], [ "advanced_electronics", 6 ], [ "textbook_robots", 5 ] ],
     "using": [ [ "soldering_standard", 35 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "power_supply", 2 ] ], [ [ "processor", 2 ] ], [ [ "scrap", 5 ] ], [ [ "cable", 8 ] ] ]
