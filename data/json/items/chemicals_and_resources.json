@@ -992,8 +992,8 @@
     "color": "light_gray",
     "description": "This is almost weightless residue left after the burning of some substance.",
     "material": "powder_nonflam",
-    "volume": 0.1,
-    "weight": 0.175,
+    "volume": "164ml",
+    "weight": 1,
     "ammo_type": "components",
     "count": 100
   },
