@@ -732,5 +732,15 @@
       "success_lie": "OK, then hand it over.",
       "failure": "Shit happens."
     }
+  },
+  {
+    "id": "MISSION_INFECTED_START_FIND_ANTIBIOTICS",
+    "type": "mission_definition",
+    "name": "Find Antibiotics Before You Die!",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 1,
+    "value": 0,
+    "origins": [ "ORIGIN_GAME_START" ],
+    "item": "antibiotics"
   }
 ]

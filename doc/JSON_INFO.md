@@ -2019,6 +2019,11 @@ A list of allowed professions that can be chosen when using this scenario. The f
 
 Add a map special to the starting location, see JSON_FLAGS for the possible specials.
 
+## `missions`
+(optional, array of strings)
+
+A list of mission ids that will be started and assigned to the player at the start of the game. Only missions with the ORIGIN_GAME_START origin are allowed. The last mission in the list will be the active mission, if multiple missions are assigned.
+
 # Starting locations
 
 Starting locations are specified as JSON object with "type" member set to "start_location":

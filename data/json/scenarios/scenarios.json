@@ -64,7 +64,8 @@
       "s_bookstore"
     ],
     "blacklist_professions": true,
-    "professions": [ "medic", "jr_survivalist", "camper", "cyberjunkie" ]
+    "professions": [ "medic", "jr_survivalist", "camper", "cyberjunkie" ],
+    "missions": [ "MISSION_INFECTED_START_FIND_ANTIBIOTICS" ]
   },
   {
     "type": "scenario",
