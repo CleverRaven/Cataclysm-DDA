@@ -1,0 +1,25 @@
+[
+  {
+    "name": "GROUP_MIL_WEAK",
+    "type": "monstergroup",
+    "default": "mon_zombie_soldier",
+    "monsters": [
+      { "monster": "mon_zombie_soldier", "freq": 150, "cost_multiplier": 2, "pack_size": [ 1, 4 ] },
+      { "monster": "mon_zombie_flamer", "freq": 200, "cost_multiplier": 30 },
+      { "monster": "mon_zombie_military_pilot", "freq": 5, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "name": "GROUP_MIL_STRONG",
+    "type": "monstergroup",
+    "default": "mon_zombie_soldier",
+    "monsters": [
+      { "monster": "mon_zombie_soldier", "freq": 100, "cost_multiplier": 2, "pack_size": [ 1, 4 ] },
+      { "monster": "mon_zombie_soldier", "freq": 150, "cost_multiplier": 2, "pack_size": [ 2, 6 ] },
+      { "monster": "mon_zombie_flamer", "freq": 100, "cost_multiplier": 30 },
+      { "monster": "mon_zombie_military_pilot", "freq": 5, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_bio_op", "freq": 50, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_armored", "freq": 10, "cost_multiplier": 5 }
+    ]
+  }
+]

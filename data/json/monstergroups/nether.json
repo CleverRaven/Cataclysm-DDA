@@ -1,0 +1,7 @@
+[
+  {
+    "type": "monstergroup",
+    "name": "GROUP_DOG_THING",
+    "default": "mon_dog_thing"
+  }
+]
