@@ -210,6 +210,7 @@
   {
     "type": "recipe",
     "result": "canned_liver",
+    "id_suffix": "jarred",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
