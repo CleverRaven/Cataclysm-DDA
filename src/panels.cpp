@@ -38,7 +38,6 @@
 #include "catacharset.h"
 #include "character.h"
 #include "compatibility.h"
-#include "creature.h"
 #include "debug.h"
 #include "enums.h"
 #include "game_constants.h"

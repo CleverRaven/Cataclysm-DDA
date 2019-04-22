@@ -1,12 +1,12 @@
 #include "player.h" // IWYU pragma: associated
 
-#include <math.h>
 #include <stdlib.h>
 #include <algorithm>
 #include <string>
 #include <limits>
 #include <sstream>
 #include <tuple>
+#include <cmath>
 
 #include "addiction.h"
 #include "calendar.h" // ticks_between

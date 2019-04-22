@@ -79,6 +79,7 @@
 #include "pimpl.h"
 #include "player_activity.h"
 #include "pldata.h"
+#include "character.h"
 
 const mtype_id mon_dark_wyrm( "mon_dark_wyrm" );
 const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );

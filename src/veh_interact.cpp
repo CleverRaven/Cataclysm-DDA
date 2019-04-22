@@ -42,13 +42,14 @@
 #include "vpart_range.h"
 #include "vpart_reference.h"
 #include "calendar.h"
-#include "creature.h"
 #include "enums.h"
 #include "game_constants.h"
 #include "optional.h"
 #include "requirements.h"
 #include "tileray.h"
 #include "units.h"
+#include "material.h"
+#include "pldata.h"
 
 static inline const std::string status_color( bool status )
 {

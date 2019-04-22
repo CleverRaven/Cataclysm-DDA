@@ -15,11 +15,11 @@
 #include "map.h"
 #include "map_helpers.h"
 #include "calendar.h"
-#include "creature.h"
 #include "enums.h"
 #include "item.h"
 #include "lightmap.h"
 #include "shadowcasting.h"
+#include "mtype.h"
 
 void full_map_test( const std::vector<std::string> &setup,
                     const std::vector<std::string> &expected_results,

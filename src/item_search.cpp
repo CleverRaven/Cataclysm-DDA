@@ -7,7 +7,6 @@
 #include "item.h"
 #include "item_category.h"
 #include "material.h"
-#include "itype.h"
 #include "requirements.h"
 #include "string_id.h"
 

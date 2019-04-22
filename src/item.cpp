@@ -68,7 +68,6 @@
 #include "catacharset.h"
 #include "character.h"
 #include "color.h"
-#include "creature.h"
 #include "explosion.h"
 #include "int_id.h"
 #include "inventory.h"
@@ -76,12 +75,13 @@
 #include "iuse.h"
 #include "line.h"
 #include "mapdata.h"
-#include "monster.h"
 #include "optional.h"
 #include "pimpl.h"
 #include "recipe.h"
 #include "rng.h"
 #include "weather_gen.h"
+#include "mongroup.h"
+#include "pldata.h"
 
 static const std::string GUN_MODE_VAR_NAME( "item::mode" );
 

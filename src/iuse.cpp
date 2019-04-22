@@ -87,6 +87,7 @@
 #include "string_id.h"
 #include "vpart_reference.h"
 #include "weather_gen.h"
+#include "material.h"
 
 #define RADIO_PER_TURN 25 // how many characters per turn of radio
 

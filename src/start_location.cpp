@@ -19,14 +19,14 @@
 #include "overmapbuffer.h"
 #include "player.h"
 #include "calendar.h"
-#include "creature.h"
 #include "game_constants.h"
 #include "int_id.h"
 #include "mapgen.h"
-#include "omdata.h"
 #include "pldata.h"
 #include "rng.h"
 #include "translations.h"
+#include "mongroup.h"
+#include "mtype.h"
 
 class item;
 

@@ -23,13 +23,13 @@
 #include "vpart_reference.h"
 #include "bodypart.h"
 #include "calendar.h"
-#include "creature.h"
 #include "enums.h"
 #include "game_constants.h"
 #include "item.h"
 #include "line.h"
 #include "mapdata.h"
 #include "units.h"
+#include "mtype.h"
 
 class monster;
 

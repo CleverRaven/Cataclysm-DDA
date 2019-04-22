@@ -2,7 +2,6 @@
 
 #include <ctype.h>
 #include <errno.h>
-#include <math.h>
 #include <stdio.h>
 #include <algorithm>
 #include <cstdarg>
@@ -17,6 +16,7 @@
 #include <array>
 #include <memory>
 #include <type_traits>
+#include <cmath>
 
 #include "cata_utility.h"
 #include "catacharset.h"

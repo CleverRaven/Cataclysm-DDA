@@ -21,6 +21,7 @@
 #include "creature.h"
 #include "debug.h"
 #include "optional.h"
+#include "mtype.h"
 
 static const itype_id fuel_type_battery( "battery" );
 const efftype_id effect_on_roof( "on_roof" );

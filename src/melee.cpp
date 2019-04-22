@@ -1,7 +1,6 @@
 #include "melee.h"
 
 #include <limits.h>
-#include <math.h>
 #include <algorithm>
 #include <cstdlib>
 #include <sstream>
@@ -14,6 +13,7 @@
 #include <unordered_map>
 #include <utility>
 #include <vector>
+#include <cmath>
 
 #include "cata_utility.h"
 #include "debug.h"
@@ -26,7 +26,6 @@
 #include "martialarts.h"
 #include "messages.h"
 #include "monster.h"
-#include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
 #include "output.h"
@@ -49,6 +48,7 @@
 #include "string_id.h"
 #include "units.h"
 #include "weighted_list.h"
+#include "material.h"
 
 static const bionic_id bio_cqb( "bio_cqb" );
 

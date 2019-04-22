@@ -30,6 +30,7 @@
 #include "enums.h"
 #include "item.h"
 #include "ret_val.h"
+#include "itype.h"
 
 class inventory;
 

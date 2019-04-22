@@ -29,10 +29,10 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_stack.h"
-#include "monster.h"
 #include "omdata.h"
 #include "pldata.h"
 #include "units.h"
+#include "mongroup.h"
 
 const mtype_id mon_zombie( "mon_zombie" );
 

@@ -14,6 +14,8 @@
 #include "item_location.h"
 #include "string_id.h"
 
+struct itype;
+
 TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" )
 {
     const itype_id gun_id   = "m4a1";

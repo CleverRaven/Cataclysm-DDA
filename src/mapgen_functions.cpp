@@ -1,6 +1,7 @@
 #include "mapgen_functions.h"
 
 #include <stdlib.h>
+#include <math.h>
 #include <algorithm>
 #include <array>
 #include <iterator>
@@ -28,10 +29,10 @@
 #include "vpart_position.h"
 #include "calendar.h"
 #include "game_constants.h"
-#include "monster.h"
 #include "regional_settings.h"
 #include "rng.h"
 #include "string_id.h"
+#include "mongroup.h"
 
 class npc_template;
 

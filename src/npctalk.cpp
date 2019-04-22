@@ -64,6 +64,7 @@
 #include "optional.h"
 #include "pimpl.h"
 #include "player_activity.h"
+#include "player.h"
 
 class basecamp;
 

@@ -1,6 +1,7 @@
 #include "map_extras.h"
 
 #include <stdlib.h>
+#include <math.h>
 #include <array>
 #include <list>
 #include <memory>
@@ -17,7 +18,6 @@
 #include "map.h"
 #include "mapdata.h"
 #include "mapgen_functions.h"
-#include "omdata.h"
 #include "overmapbuffer.h"
 #include "rng.h"
 #include "trap.h"

@@ -22,7 +22,6 @@
 #include "messages.h"
 #include "mission.h"
 #include "morale_types.h"
-#include "mtype.h"
 #include "mutation.h"
 #include "npc_class.h"
 #include "output.h"

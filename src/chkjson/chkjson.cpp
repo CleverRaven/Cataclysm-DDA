@@ -7,7 +7,6 @@
 #include <dirent.h>
 #include <locale.h>
 #include <stdio.h>
-#include <cstdlib>
 #include <cstring>  // for strcmp
 #include <stack>    // for stack (obviously)
 #include <string>

@@ -7,9 +7,9 @@
 #include "player.h"
 #include "player_helpers.h"
 #include "item.h"
-#include "creature.h"
 #include "stomach.h"
 #include "units.h"
+#include "pldata.h"
 
 void reset_time()
 {

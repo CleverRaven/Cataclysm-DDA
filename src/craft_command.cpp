@@ -16,7 +16,7 @@
 #include "requirements.h"
 #include "translations.h"
 #include "uistate.h"
-#include "creature.h"
+#include "pldata.h"
 
 template<typename CompType>
 std::string comp_selection<CompType>::nname() const

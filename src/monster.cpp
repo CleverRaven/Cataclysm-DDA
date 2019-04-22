@@ -45,6 +45,7 @@
 #include "mattack_common.h"
 #include "pimpl.h"
 #include "player.h"
+#include "material.h"
 
 struct pathfinding_settings;
 

@@ -44,7 +44,6 @@
 #include "veh_type.h"
 #include "cata_utility.h"
 #include "color.h"
-#include "creature.h"
 #include "enums.h"
 #include "game_constants.h"
 #include "item_stack.h"
@@ -60,6 +59,8 @@
 #include "string_formatter.h"
 #include "string_id.h"
 #include "units.h"
+#include "mtype.h"
+#include "pldata.h"
 
 const efftype_id effect_contacts( "contacts" );
 

@@ -24,13 +24,14 @@
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
-#include "character.h"
 #include "cursesdef.h"
 #include "game_constants.h"
 #include "item.h"
 #include "monster.h"
 #include "omdata.h"
 #include "pldata.h"
+#include "itype.h"
+#include "mapdata.h"
 
 #define SPECIAL_WAVE_CHANCE 5 // One in X chance of single-flavor wave
 #define SPECIAL_WAVE_MIN 5 // Don't use a special wave with < X monsters

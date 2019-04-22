@@ -56,6 +56,8 @@
 #include "player_activity.h"
 #include "string_id.h"
 #include "units.h"
+#include "material.h"
+#include "pldata.h"
 
 const skill_id skill_throw( "throw" );
 const skill_id skill_gun( "gun" );

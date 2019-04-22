@@ -33,7 +33,6 @@
 #include "vpart_reference.h"
 #include "string_input_popup.h"
 #include "color.h"
-#include "creature.h"
 #include "input.h"
 #include "int_id.h"
 #include "inventory.h"

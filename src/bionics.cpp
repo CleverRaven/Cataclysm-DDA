@@ -43,7 +43,6 @@
 #include "calendar.h"
 #include "character.h"
 #include "color.h"
-#include "creature.h"
 #include "cursesdef.h"
 #include "damage.h"
 #include "enums.h"
@@ -52,6 +51,7 @@
 #include "pimpl.h"
 #include "pldata.h"
 #include "units.h"
+#include "mtype.h"
 
 const skill_id skilll_electronics( "electronics" );
 const skill_id skilll_firstaid( "firstaid" );

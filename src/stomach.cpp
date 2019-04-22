@@ -1,11 +1,10 @@
-#include <math.h>
 #include <algorithm>
 #include <memory>
 #include <string>
+#include <cmath>
 
 #include "calendar.h"
 #include "cata_utility.h"
-#include "creature.h"
 #include "json.h"
 #include "player.h"
 #include "stomach.h"
@@ -17,6 +16,7 @@
 #include "optional.h"
 #include "pldata.h"
 #include "rng.h"
+#include "mtype.h"
 
 
 stomach_contents::stomach_contents() = default;

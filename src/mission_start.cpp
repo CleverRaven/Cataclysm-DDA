@@ -25,7 +25,6 @@
 #include "overmapbuffer.h"
 #include "string_formatter.h"
 #include "translations.h"
-#include "creature.h"
 #include "game_constants.h"
 #include "int_id.h"
 #include "item.h"

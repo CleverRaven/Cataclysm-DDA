@@ -9,7 +9,6 @@
 #include "creature.h"
 #include "debug.h"
 #include "generic_factory.h"
-#include "harvest.h"
 #include "item.h"
 #include "item_group.h"
 #include "json.h"

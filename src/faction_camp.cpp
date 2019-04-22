@@ -30,7 +30,6 @@
 #include "messages.h"
 #include "mission.h"
 #include "mission_companion.h"
-#include "mtype.h"
 #include "npc.h"
 #include "npctalk.h"
 #include "output.h"

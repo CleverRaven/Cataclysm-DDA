@@ -24,6 +24,7 @@
 #include "player.h"
 #include "pldata.h"
 #include "rng.h"
+#include "material.h"
 
 const efftype_id effect_grabbed( "grabbed" );
 const efftype_id effect_bite( "bite" );

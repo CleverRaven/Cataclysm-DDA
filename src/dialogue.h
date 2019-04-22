@@ -14,13 +14,14 @@
 #include "npc.h"
 #include "npc_class.h"
 #include "json.h"
-#include "player.h"
 #include "pldata.h"
 #include "string_id.h"
+#include "material.h"
 
 class mission;
 struct dialogue;
 class martialart;
+class player;
 
 enum talk_trial_type : unsigned char {
     TALK_TRIAL_NONE, // No challenge here!

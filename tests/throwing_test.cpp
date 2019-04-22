@@ -15,11 +15,12 @@
 #include "player.h"
 #include "projectile.h"
 #include "test_statistics.h"
-#include "character.h"
 #include "damage.h"
 #include "enums.h"
 #include "game_constants.h"
 #include "inventory.h"
+#include "itype.h"
+#include "material.h"
 
 TEST_CASE( "throwing distance test", "[throwing], [balance]" )
 {

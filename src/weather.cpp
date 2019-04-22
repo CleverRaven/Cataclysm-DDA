@@ -27,7 +27,6 @@
 #include "trap.h"
 #include "weather_gen.h"
 #include "bodypart.h"
-#include "creature.h"
 #include "enums.h"
 #include "item.h"
 #include "itype.h"
@@ -37,6 +36,7 @@
 #include "rng.h"
 #include "string_id.h"
 #include "units.h"
+#include "mtype.h"
 
 const efftype_id effect_glare( "glare" );
 const efftype_id effect_snow_glare( "snow_glare" );

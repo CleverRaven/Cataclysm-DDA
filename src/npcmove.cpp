@@ -1,7 +1,6 @@
 #include "npc.h" // IWYU pragma: associated
 
 #include <limits.h>
-#include <math.h>
 #include <stdlib.h>
 #include <algorithm>
 #include <memory>
@@ -9,6 +8,7 @@
 #include <sstream>
 #include <iterator>
 #include <tuple>
+#include <cmath>
 
 #include "ammo.h"
 #include "cata_algo.h"

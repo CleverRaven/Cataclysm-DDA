@@ -12,7 +12,6 @@
 #include "enums.h"
 #include "inventory.h"
 #include "item.h"
-#include "string_id.h"
 
 player &get_sanitized_player( )
 {

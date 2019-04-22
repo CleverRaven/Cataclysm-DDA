@@ -22,6 +22,7 @@
 #include "iuse.h"
 #include "optional.h"
 #include "units.h"
+#include "item.h"
 
 template<typename V, typename B>
 inline units::quantity<V, B> rng( const units::quantity<V, B> &min,

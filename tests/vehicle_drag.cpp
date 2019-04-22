@@ -15,10 +15,10 @@
 #include "test_statistics.h"
 #include "bodypart.h"
 #include "calendar.h"
-#include "creature.h"
 #include "enums.h"
 #include "game_constants.h"
 #include "mapdata.h"
+#include "mtype.h"
 
 class monster;
 

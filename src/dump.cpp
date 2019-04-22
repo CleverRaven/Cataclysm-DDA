@@ -27,6 +27,7 @@
 #include "ret_val.h"
 #include "translations.h"
 #include "units.h"
+#include "material.h"
 
 bool game::dump_stats( const std::string &what, dump_mode mode,
                        const std::vector<std::string> &opts )

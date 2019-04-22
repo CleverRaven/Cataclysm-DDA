@@ -1,6 +1,7 @@
 #include "mission_companion.h"
 
 #include <stdlib.h>
+#include <math.h>
 #include <algorithm>
 #include <cassert>
 #include <vector>
@@ -50,6 +51,7 @@
 #include "string_id.h"
 #include "ui.h"
 #include "weighted_list.h"
+#include "material.h"
 
 const skill_id skill_dodge( "dodge" );
 const skill_id skill_gun( "gun" );

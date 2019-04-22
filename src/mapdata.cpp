@@ -20,6 +20,7 @@
 #include "assign.h"
 #include "game.h"
 #include "json.h"
+#include "mtype.h"
 
 namespace
 {

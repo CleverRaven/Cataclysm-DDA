@@ -30,6 +30,7 @@
 #include "pldata.h"
 #include "string_formatter.h"
 #include "string_id.h"
+#include "material.h"
 
 class JsonObject;
 class JsonIn;

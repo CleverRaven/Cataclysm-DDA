@@ -26,6 +26,7 @@
 #include "recipe.h"
 #include "requirements.h"
 #include "string_id.h"
+#include "material.h"
 
 TEST_CASE( "recipe_subset" )
 {

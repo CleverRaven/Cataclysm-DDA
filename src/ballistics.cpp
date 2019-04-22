@@ -32,6 +32,7 @@
 #include "optional.h"
 #include "translations.h"
 #include "units.h"
+#include "mtype.h"
 
 const efftype_id effect_bounced( "bounced" );
 

@@ -16,6 +16,7 @@
 #include "color.h"
 #include "creature.h"
 #include "enums.h"
+#include "pldata.h"
 
 namespace
 {

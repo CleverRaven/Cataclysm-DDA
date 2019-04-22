@@ -13,6 +13,7 @@
 #include "character.h"
 #include "item.h"
 #include "pldata.h"
+#include "material.h"
 
 void test_encumbrance_on(
     player &p,

@@ -27,6 +27,8 @@
 #include "player.h"
 #include "rng.h"
 #include "vpart_position.h"
+#include "character.h"
+#include "mtype.h"
 
 static const std::string part_location_structure( "structure" );
 static const itype_id fuel_type_muscle( "muscle" );

@@ -1,6 +1,7 @@
 #include "overmapbuffer.h"
 
 #include <limits.h>
+#include <math.h>
 #include <algorithm>
 #include <cassert>
 #include <cstdlib>

@@ -93,7 +93,6 @@ class faction_manager;
 class new_faction_manager;
 class player;
 class npc;
-class monster;
 struct MOD_INFORMATION;
 
 using mod_id = string_id<MOD_INFORMATION>;

@@ -39,6 +39,8 @@
 #include "player_activity.h"
 #include "rng.h"
 #include "units.h"
+#include "material.h"
+#include "pldata.h"
 
 #if defined(SDL_SOUND)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)

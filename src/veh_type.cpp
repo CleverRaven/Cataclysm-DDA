@@ -7,7 +7,6 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <algorithm>
-#include <type_traits>
 
 #include "ammo.h"
 #include "character.h"
@@ -30,6 +29,7 @@
 #include "game_constants.h"
 #include "item.h"
 #include "player.h"
+#include "mapdata.h"
 
 class npc;
 

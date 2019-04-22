@@ -13,7 +13,6 @@
 #include <utility>
 
 #include "clzones.h"
-#include "creature.h"
 #include "debug.h"
 #include "enums.h"
 #include "field.h"
@@ -46,6 +45,7 @@
 #include "item_stack.h"
 #include "line.h"
 #include "units.h"
+#include "mtype.h"
 
 void cancel_aim_processing();
 

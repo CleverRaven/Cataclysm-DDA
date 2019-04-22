@@ -1,6 +1,5 @@
 #include "game.h" // IWYU pragma: associated
 
-#include <stddef.h>
 #include <algorithm>
 #include <map>
 #include <set>
@@ -35,6 +34,7 @@
 #include "overmap_types.h"
 #include "player.h"
 #include "regional_settings.h"
+#include "itype.h"
 
 #if defined(__ANDROID__)
 #include "input.h"

@@ -1,5 +1,4 @@
 #include <vector>
-#include <algorithm>
 #include <array>
 #include <list>
 #include <ostream>
@@ -20,6 +19,7 @@
 #include "item.h"
 #include "item_location.h"
 #include "player.h"
+#include "material.h"
 
 typedef statistics<bool> firing_statistics;
 

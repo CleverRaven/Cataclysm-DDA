@@ -78,6 +78,7 @@
 #include "player_activity.h"
 #include "tileray.h"
 #include "weighted_list.h"
+#include "material.h"
 
 const mtype_id mon_zombie( "mon_zombie" );
 

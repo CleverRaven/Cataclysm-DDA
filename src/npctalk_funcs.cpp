@@ -28,8 +28,6 @@
 #include "auto_pickup.h"
 #include "bodypart.h"
 #include "calendar.h"
-#include "character.h"
-#include "creature.h"
 #include "enums.h"
 #include "faction.h"
 #include "game_constants.h"
@@ -40,8 +38,8 @@
 #include "player.h"
 #include "player_activity.h"
 #include "pldata.h"
-
-struct itype;
+#include "itype.h"
+#include "mtype.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x), D_NPC) << __FILE__ << ":" << __LINE__ << ": "
 

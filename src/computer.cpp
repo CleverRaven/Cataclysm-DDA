@@ -2,6 +2,7 @@
 
 #include <limits.h>
 #include <stdlib.h>
+#include <math.h>
 #include <algorithm>
 #include <sstream>
 #include <string>

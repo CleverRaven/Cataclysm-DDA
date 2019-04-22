@@ -1,6 +1,5 @@
 #include "mapgen.h"
 
-#include <math.h>
 #include <stdlib.h>
 #include <algorithm>
 #include <list>
@@ -12,6 +11,7 @@
 #include <set>
 #include <stdexcept>
 #include <unordered_map>
+#include <cmath>
 
 #include "ammo.h"
 #include "computer.h"
@@ -53,14 +53,14 @@
 #include "vpart_range.h"
 #include "calendar.h"
 #include "common_types.h"
-#include "creature.h"
 #include "field.h"
 #include "game_constants.h"
 #include "item.h"
-#include "player.h"
 #include "string_id.h"
 #include "tileray.h"
 #include "weighted_list.h"
+#include "material.h"
+#include "pldata.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 

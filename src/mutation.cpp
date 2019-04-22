@@ -19,7 +19,6 @@
 #include "player.h"
 #include "translations.h"
 #include "ui.h"
-#include "creature.h"
 #include "int_id.h"
 #include "messages.h"
 #include "omdata.h"
@@ -27,6 +26,7 @@
 #include "player_activity.h"
 #include "pldata.h"
 #include "rng.h"
+#include "mtype.h"
 
 const efftype_id effect_stunned( "stunned" );
 

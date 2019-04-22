@@ -29,6 +29,7 @@
 #include "optional.h"
 #include "pimpl.h"
 #include "string_id.h"
+#include "mtype.h"
 
 void on_load_test( npc &who, const time_duration &from, const time_duration &to )
 {

@@ -24,12 +24,12 @@
 #include "vpart_reference.h"
 #include "calendar.h"
 #include "character.h"
-#include "creature.h"
 #include "damage.h"
 #include "enums.h"
 #include "optional.h"
 #include "player.h"
 #include "rng.h"
+#include "material.h"
 
 struct itype;
 
