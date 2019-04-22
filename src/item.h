@@ -662,8 +662,7 @@ class item : public visitable<item>
          * Accumulate rot of the item since last rot calculation.
          * This function works for non-rotting stuff, too - it increases the value
          * of rot.
-         * @param p The absolute, global location (in map square coordinates) of the item to
-         * check for temperature.
+         * @param time Time point to which rot is calculated
          */
         void calc_rot( time_point time );
 		

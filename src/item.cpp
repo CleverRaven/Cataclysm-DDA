@@ -3872,7 +3872,7 @@ int get_hourly_rotpoints_at_temp( const int temp )
     return rot_chart[temp];
 }
 
-time_duration get_rot_since( const time_point &start, const time_point &end,
+time_duration item::get_rot_since( const time_point &start, const time_point &end,
                              const tripoint &pos )
 {
     time_duration ret = 0_turns;
@@ -7032,7 +7032,7 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
 			const auto &wgen = g->get_cur_weather_gen();
 			const auto seed = g->get_seed();
 			const auto local = g->m.getlocal( pos );
-			const auto local_mod = g->new_game ? 0 : g->m.temperature( local );
+			auto local_mod = g->new_game ? 0 : g->m.temperature( local );
 			const auto temp_modify = ( !g->new_game ) && ( g->m.ter( local ) == t_rootcellar );
 			
 			
