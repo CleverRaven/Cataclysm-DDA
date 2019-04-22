@@ -3890,11 +3890,11 @@ void item::calc_rot( time_point time )
     float factor = 1.0;
     if( is_corpse() && has_flag( "FIELD_DRESS" ) ) {
         factor = 0.75;
-    } else if( has_flag( "SMOKING" ) ){
-		factor = 0.5;
-	}
-	time_duration time_delta = time - last_temp_check;
-	rot += factor * time_delta / 1_hours * get_hourly_rotpoints_at_temp( temperature ) * 1_turns;
+    } else if( has_flag( "SMOKING" ) ) {
+        factor = 0.5;
+    }
+    time_duration time_delta = time - last_temp_check;
+    rot += factor * time_delta / 1_hours * get_hourly_rotpoints_at_temp( temperature ) * 1_turns;
 
 }
 
@@ -6963,12 +6963,13 @@ void item::apply_freezerburn()
 }
 
 // temp, insulation, pos, carrier
-void item::process_temperature_rot( int temp, float insulation, const tripoint pos, player *carrier )
+void item::process_temperature_rot( int temp, float insulation, const tripoint pos,
+                                    player *carrier )
 {
-	const time_point now = calendar::turn;
-	const time_point since = last_temp_check;
-	
-	const time_duration dur = now - last_temp_check;
+    const time_point now = calendar::turn;
+    const time_point since = last_temp_check;
+
+    const time_duration dur = now - last_temp_check;
 
     // if player debug menu'd the time backward it breaks stuff, just reset the
     // last_temp_check in this case
@@ -6976,87 +6977,87 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
         last_temp_check = now;
         return;
     }
-	
-	
-	// process temperature and rot at most every 100_turns (10 min)
-	// note we're also gated by item::processing_speed
-	time_duration smallest_interval = 100_turns;
+
+
+    // process temperature and rot at most every 100_turns (10 min)
+    // note we're also gated by item::processing_speed
+    time_duration smallest_interval = 100_turns;
     if( dur > smallest_interval ) {
-		
-		bool carried = carrier != nullptr && carrier->has_item( *this );
-		if( carried ) {
-				insulation *= 1.5; // clothing provides inventory some level of insulation
-		}
-		time_point time = since;
-		
-		if( dur > 1_hours ) {
-			
-			const auto &wgen = g->get_cur_weather_gen();
-			const auto seed = g->get_seed();
-			const auto local = g->m.getlocal( pos );
-			auto local_mod = g->new_game ? 0 : g->m.temperature( local );
-			const auto temp_modify = ( !g->new_game ) && ( g->m.ter( local ) == t_rootcellar );
-			
-			
-			if( carried ) {
-				local_mod += 5; // body heat increases inventory temperature
-			}
-			// Process the past of this item since the last time it was processed
-			// First calculate temperature, then calculate rot from that
-			
-			// This code is for items that were left out of reality bubble for long time
-			while( time < now - 1_hours ) {
-				// Get the enviroment temperature
-				time_duration time_delta = std::min( 1_hours, now - 1_hours - time );
-				time += time_delta;
-				
-				w_point weather = wgen.get_weather( pos, time, seed );
 
-				//Use weather if above ground, use map temp if below
-				double env_temperature = ( pos.z >= 0 ? weather.temperature : temp ) + local_mod;
-				// If in a root celler: use AVERAGE_ANNUAL_TEMPERATURE
-				// If not: use calculated temperature
-				
-				env_temperature = ( temp_modify * AVERAGE_ANNUAL_TEMPERATURE ) + ( !temp_modify * temperature );
-				
-				if( now - time < 3_days ){
-					calc_temp( env_temperature, insulation, dur );
-				} else {
-					// There is no point in doing the proper temperature calculations for too long times
-					// Just set the item to enviroment temperature. This temperature won't show for the player and is used only for rotting.
-					temperature = env_temperature;
-				}
-				last_temp_check = time;
-				
-				// Calculate item temperature from enviroment temperature
-				
-				
-				if( goes_bad() ){
-					// Calculate item rot from item temperature
-					calc_rot( time );
-					last_rot_check = time;
-				}
-			}
-		}
+        bool carried = carrier != nullptr && carrier->has_item( *this );
+        if( carried ) {
+            insulation *= 1.5; // clothing provides inventory some level of insulation
+        }
+        time_point time = since;
 
-		// Remaining <1 h from above
-		// and items that are held near the player
-		if( now - time > smallest_interval ){
-			if( carried ) {
-				temp += 5; // body heat increases inventory temperature
-			}
-			calc_temp( temp, insulation, now - time );
-			calc_rot( now );
-			
-			last_temp_check = now;
-		}
-		return;
+        if( dur > 1_hours ) {
+
+            const auto &wgen = g->get_cur_weather_gen();
+            const auto seed = g->get_seed();
+            const auto local = g->m.getlocal( pos );
+            auto local_mod = g->new_game ? 0 : g->m.temperature( local );
+            const auto temp_modify = ( !g->new_game ) && ( g->m.ter( local ) == t_rootcellar );
+
+
+            if( carried ) {
+                local_mod += 5; // body heat increases inventory temperature
+            }
+            // Process the past of this item since the last time it was processed
+            // First calculate temperature, then calculate rot from that
+
+            // This code is for items that were left out of reality bubble for long time
+            while( time < now - 1_hours ) {
+                // Get the enviroment temperature
+                time_duration time_delta = std::min( 1_hours, now - 1_hours - time );
+                time += time_delta;
+
+                w_point weather = wgen.get_weather( pos, time, seed );
+
+                //Use weather if above ground, use map temp if below
+                double env_temperature = ( pos.z >= 0 ? weather.temperature : temp ) + local_mod;
+                // If in a root celler: use AVERAGE_ANNUAL_TEMPERATURE
+                // If not: use calculated temperature
+
+                env_temperature = ( temp_modify * AVERAGE_ANNUAL_TEMPERATURE ) + ( !temp_modify * temperature );
+
+                if( now - time < 3_days ) {
+                    calc_temp( env_temperature, insulation, dur );
+                } else {
+                    // There is no point in doing the proper temperature calculations for too long times
+                    // Just set the item to enviroment temperature. This temperature won't show for the player and is used only for rotting.
+                    temperature = env_temperature;
+                }
+                last_temp_check = time;
+
+                // Calculate item temperature from enviroment temperature
+
+
+                if( goes_bad() ) {
+                    // Calculate item rot from item temperature
+                    calc_rot( time );
+                    last_rot_check = time;
+                }
+            }
+        }
+
+        // Remaining <1 h from above
+        // and items that are held near the player
+        if( now - time > smallest_interval ) {
+            if( carried ) {
+                temp += 5; // body heat increases inventory temperature
+            }
+            calc_temp( temp, insulation, now - time );
+            calc_rot( now );
+
+            last_temp_check = now;
+        }
+        return;
     }
-	// If the item has negative energy process it now. It is a new item.
-	if( specific_energy < 0 ) {
-		calc_temp( temp, insulation, dur );
-		last_temp_check = now;
-	}
+    // If the item has negative energy process it now. It is a new item.
+    if( specific_energy < 0 ) {
+        calc_temp( temp, insulation, dur );
+        last_temp_check = now;
+    }
 }
 
 void item::calc_temp( const int temp, const float insulation, const time_duration &time )
@@ -7675,7 +7676,7 @@ bool item::process( player *carrier, const tripoint &pos, bool activate, int tem
         g->m.emit_field( pos, e );
     }
 
- 
+
     if( has_flag( "FAKE_SMOKE" ) && process_fake_smoke( carrier, pos ) ) {
         return true;
     }
@@ -7700,9 +7701,9 @@ bool item::process( player *carrier, const tripoint &pos, bool activate, int tem
     if( is_tool() ) {
         return process_tool( carrier, pos );
     }
-	if( has_temperature() || goes_bad() ) {
-		process_temperature_rot( temp, insulation, pos, carrier);
-	}
+    if( has_temperature() || goes_bad() ) {
+        process_temperature_rot( temp, insulation, pos, carrier );
+    }
 
     return false;
 }

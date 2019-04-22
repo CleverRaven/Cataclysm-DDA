@@ -676,16 +676,16 @@ class item : public visitable<item>
          */
         void calc_rot_while_smoking( const tripoint &p, time_duration smoking_duration );
 
-		
-		/**
+
+        /**
          * Update temperature for things like food
-		 * Update rot for things that perish
+         * Update rot for things that perish
          * @param temp Temperature at which item is current exposed
          * @param insulation Amount of insulation item has from surroundings
-		 * @param pos The current position
-		 * @param carrier The current carrier
+         * @param pos The current position
+         * @param carrier The current carrier
          */
-		void process_temperature_rot( int temp, float insulation, const tripoint pos, player *carrier );
+        void process_temperature_rot( int temp, float insulation, const tripoint pos, player *carrier );
 
         /** Set the item to HOT */
         void heat_up();
