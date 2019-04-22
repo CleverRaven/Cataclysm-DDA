@@ -815,7 +815,11 @@ bool itag2ivar( const std::string &item_tag, std::map<std::string, std::string> 
 static int get_ranged_pierce( const common_ranged_data &ranged )
 {
     if( ranged.damage.empty() ) {
-        return 0;
+        if( ranged.legacy_pierce ) {
+            return ranged.legacy_pierce;
+        } else {
+            return 0;
+        }
     }
     return ranged.damage.damage_units.front().res_pen;
 }
@@ -1278,8 +1282,8 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                     }
                 } else if( ammo.prop_damage ) {
                     if( parts->test( iteminfo_parts::AMMO_DAMAGE_PROPORTIONAL ) ) {
-                        info.emplace_back( "AMMO", _( "<bold>Damage multiplier</bold>: " ), "",
-                                           iteminfo::no_newline, *ammo.prop_damage );
+                        info.emplace_back( "AMMO", _( "<bold>Damage multiplier</bold>: " ), "<num>%",
+                                           iteminfo::no_newline, *ammo.prop_damage * 100 );
                     }
                 }
                 if( parts->test( iteminfo_parts::AMMO_DAMAGE_AP ) ) {
