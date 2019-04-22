@@ -9455,21 +9455,13 @@
     "type": "item_group",
     "subtype": "distribution",
     "id": "phones",
-    "entries": [
-      {
-        "distribution": [
-          { "item": "cell_phone", "prob": 90, "charges": 0 },
-          { "item": "cell_phone", "prob": 10, "charges-min": 0, "charges-max": 15 }
-        ],
-        "prob": 50
-      },
-      {
-        "distribution": [
-          { "item": "smart_phone", "prob": 90, "charges": 0 },
-          { "item": "smart_phone", "prob": 10, "charges-min": 0, "charges-max": 15 }
-        ],
-        "prob": 50
-      }
+    "items": [
+      { "item": "cell_phone", "prob": 9, "charges-min": 0, "charges-max": 15},
+      { "item": "cell_phone", "prob": 1, "charges-min": 150, "charges-max": 150},
+      { "item": "smart_phone", "prob": 9, "charges-min": 0, "charges-max": 15},
+      { "item": "smart_phone", "prob": 1, "charges-min": 130, "charges-max": 130}
+    
+    
     ]
   },
   {
