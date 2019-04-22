@@ -2264,7 +2264,7 @@
     "category": "weapons",
     "id": "grip_hook",
     "name": "grip hook",
-    "description": "A simple steel meathook with a simple steel handle. Makes a passable melee weapon.",
+    "description": "A simple steel meathook with a simple steel handle.  Makes a passable melee weapon.",
     "weight": 1400,
     "to_hit": 1,
     "color": "light_gray",
