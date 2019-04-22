@@ -1,0 +1,42 @@
+[
+  {
+    "type": "city_building",
+    "id": "slaughterhouse_1_north",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "slaughterhouse_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "slaughterhouse_1_roof_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "slaughterhouse_1_basement_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "slaughterhouse_1_east",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "slaughterhouse_1_east" },
+      { "point": [ 0, 0, 1 ], "overmap": "slaughterhouse_1_roof_east" },
+      { "point": [ 0, 0, -1 ], "overmap": "slaughterhouse_1_basement_east" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "slaughterhouse_1_south",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "slaughterhouse_1_south" },
+      { "point": [ 0, 0, 1 ], "overmap": "slaughterhouse_1_roof_south" },
+      { "point": [ 0, 0, -1 ], "overmap": "slaughterhouse_1_basement_south" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "slaughterhouse_1_west",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "slaughterhouse_1_west" },
+      { "point": [ 0, 0, 1 ], "overmap": "slaughterhouse_1_roof_west" },
+      { "point": [ 0, 0, -1 ], "overmap": "slaughterhouse_1_basement_west" }
+    ]
+  }
+]
