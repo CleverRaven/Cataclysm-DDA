@@ -7026,7 +7026,7 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
 
                 // If in a root celler: use AVERAGE_ANNUAL_TEMPERATURE
                 // If not: use calculated temperature
-                env_temperature = ( temp_modify * AVERAGE_ANNUAL_TEMPERATURE ) + ( !temp_modify * temperature );
+                env_temperature = ( temp_modify * AVERAGE_ANNUAL_TEMPERATURE ) + ( !temp_modify * env_temperature );
 
                 // Calculate item temperature from enviroment temperature
                 if( now - time < 2_days ) {
