@@ -623,6 +623,18 @@ void game::draw_cursor( const tripoint &p )
 }
 #endif
 
+#if defined(TILES)
+void game::draw_highlight( const tripoint &p )
+{
+    tilecontext->init_draw_highlight( p );
+}
+#else
+void game::draw_highlight( const tripoint & )
+{
+    // Do nothing
+}
+#endif
+
 namespace
 {
 void draw_weather_curses( const catacurses::window &win, const weather_printable &w )

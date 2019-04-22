@@ -5720,8 +5720,11 @@ void map::drawsq( const catacurses::window &w, player &u, const tripoint &p, con
                   const bool show_items_arg, const tripoint &view_center,
                   const bool low_light, const bool bright_light, const bool inorder ) const
 {
-    // We only need to draw anything if we're not in tiles mode.
+    // If we are in tiles mode, the only thing we want to potentially draw is a highlight
     if( is_draw_tiles_mode() ) {
+        if( invert_arg ) {
+            g->draw_highlight( p );
+        }
         return;
     }
 
