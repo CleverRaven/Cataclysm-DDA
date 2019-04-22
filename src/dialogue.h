@@ -116,6 +116,7 @@ struct talk_effect_fun_t {
         void set_npc_engagement_rule( const std::string &setting );
         void set_npc_aim_rule( const std::string &setting );
         void set_mapgen_update( JsonObject jo, const std::string &member );
+        void set_bulk_trade_accept( bool is_trade, bool is_npc = false );
 
         void operator()( const dialogue &d ) const {
             if( !function ) {
@@ -161,7 +162,7 @@ struct talk_effect_t {
 
         void load_effect( JsonObject &jo );
         void parse_sub_effect( JsonObject jo );
-        void parse_string_effect( const std::string &type, JsonObject &jo );
+        void parse_string_effect( const std::string &effect_id, JsonObject &jo );
 
         talk_effect_t() = default;
         talk_effect_t( JsonObject );
@@ -231,6 +232,8 @@ struct dialogue {
         talk_topic opt( dialogue_window &d_win, const talk_topic &topic );
 
         dialogue() = default;
+
+        mutable itype_id cur_item;
 
         std::string dynamic_line( const talk_topic &topic ) const;
         void apply_speaker_effects( const talk_topic &the_topic );
