@@ -23,7 +23,7 @@
       { "x": 1, "y": 2, "parts": [ "frame_horizontal", "windshield" ] },
       { "x": 2, "y": -1, "parts": [ "frame_nw", "halfboard_nw", "wheel_wide_or_steerable", "headlight" ] },
       { "x": 2, "y": 0, "parts": [ "frame_horizontal", "halfboard_horizontal" ] },
-      { "x": 2, "y": 0, "parts": [ "engine_v6", "alternator_truck", "battery_car" ] },
+      { "x": 2, "y": 0, "parts": [ "engine_v6", "alternator_car", "battery_car" ] },
       { "x": 2, "y": 1, "parts": [ "frame_horizontal", "halfboard_horizontal" ] },
       { "x": 2, "y": 2, "parts": [ "frame_ne", "halfboard_ne", "wheel_wide_or_steerable", "headlight" ] },
       { "x": 3, "y": -1, "part": "hdframe_horizontal_2" },
