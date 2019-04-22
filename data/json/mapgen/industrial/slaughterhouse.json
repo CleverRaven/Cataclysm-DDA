@@ -41,7 +41,7 @@
       "move_cost_mod": 2,
       "color": "light_gray",
       "deconstruct": { "items": [ { "item": "grip_hook", "count": 1 }, { "item": "chain", "count": 1 } ] },
-      "flags": [ "TRANSPARENT" ]
+      "flags": [ "TRANSPARENT", "SLAUGHTER_EQ" ]
     },
     {
       "type": "mapgen",
