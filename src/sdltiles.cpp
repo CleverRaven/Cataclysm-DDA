@@ -2580,6 +2580,11 @@ void CheckMessages()
                                 actions_remove.insert( ACTION_MOVE_DOWN );
                             }
                         }
+
+                        // Check for actions that work on nearby tiles and own tile
+                        if( can_interact_at( ACTION_PICKUP, pos ) ) {
+                            actions.insert( ACTION_PICKUP );
+                        }
                     }
                 }
 
@@ -2598,12 +2603,7 @@ void CheckMessages()
                     actions_remove.insert( ACTION_EXAMINE );
                 }
 
-                // If we're standing on items, allow player to pick them up.
-                if( g->m.has_items( g->u.pos() ) ) {
-                    actions.insert( ACTION_PICKUP );
-                }
-
-                // We're not able to pickup anything, so remove it
+                // We're not able to pickup anything nearby, so remove it
                 if( std::find( actions.begin(), actions.end(), ACTION_PICKUP ) == actions.end() ) {
                     actions_remove.insert( ACTION_PICKUP );
                 }
