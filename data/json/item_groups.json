@@ -397,6 +397,8 @@
   {
     "type": "item_group",
     "id": "kitchen",
+    "ammo": 75,
+    "magazine": 100,
     "items": [
       [ "aluminum_foil", 25 ],
       [ "chips", 65 ],
@@ -811,6 +813,8 @@
   {
     "type": "item_group",
     "id": "bedroom",
+    "ammo": 50,
+    "magazine": 100,
     "items": [
       [ "inhaler", 14 ],
       [ "eyedrops", 25 ],
@@ -1025,6 +1029,8 @@
   {
     "type": "item_group",
     "id": "dresser",
+    "ammo": 50,
+    "magazine": 100,
     "items": [
       [ "jeans", 90 ],
       [ "pants_checkered", 5 ],
@@ -1912,6 +1918,8 @@
   },
   {
     "type": "item_group",
+    "ammo": 25,
+    "magazine": 100,
     "id": "consumer_electronics",
     "items": [
       [ "amplifier", 8 ],
@@ -2058,6 +2066,8 @@
   {
     "type": "item_group",
     "id": "camping",
+    "ammo": 75,
+    "magazine": 100,
     "items": [
       [ "rope_30", 35 ],
       [ "hatchet", 10 ],
@@ -2206,6 +2216,8 @@
   {
     "type": "item_group",
     "id": "allsporting",
+    "ammo": 50,
+    "magazine": 100,
     "items": [
       [ "aspirin", 85 ],
       [ "sports_drink", 20 ],
