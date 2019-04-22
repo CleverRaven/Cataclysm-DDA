@@ -3882,7 +3882,7 @@ void item::calc_rot( time_point time )
         return;
     }
 
-    if( item_tags.count( "FROZEN" ) ) {
+    if( item_tags.count( "FROZEN" ) || has_flag( "SMOKING" )) {
         return;
     }
 
@@ -3890,9 +3890,7 @@ void item::calc_rot( time_point time )
     float factor = 1.0;
     if( is_corpse() && has_flag( "FIELD_DRESS" ) ) {
         factor = 0.75;
-    } else if( has_flag( "SMOKING" ) ) {
-        factor = 0.5;
-    }
+
     time_duration time_delta = time - last_rot_check;
     rot += factor * time_delta / 1_hours * get_hourly_rotpoints_at_temp( temperature ) * 1_turns;
 
