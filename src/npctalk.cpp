@@ -2157,6 +2157,42 @@ talk_response::talk_response( JsonObject jo )
     // TODO: style
 }
 
+json_talk_repeat_response::json_talk_repeat_response( JsonObject jo )
+{
+    if( jo.has_bool( "is_npc" ) ) {
+        is_npc = true;
+    }
+    if( jo.has_bool( "include_containers" ) ) {
+        include_containers = true;
+    }
+    if( jo.has_string( "for_item" ) ) {
+        for_item.emplace_back( jo.get_string( "for_item" ) );
+    } else if( jo.has_array( "for_item" ) ) {
+        JsonArray ja = jo.get_array( "for_item" );
+        while( ja.has_more() ) {
+            for_item.emplace_back( ja.next_string() );
+        }
+    } else if( jo.has_string( "for_category" ) ) {
+        for_category.emplace_back( jo.get_string( "for_category" ) );
+    } else if( jo.has_array( "for_category" ) ) {
+        JsonArray ja = jo.get_array( "for_category" );
+        while( ja.has_more() ) {
+            for_category.emplace_back( ja.next_string() );
+        }
+    } else {
+        jo.throw_error( "Repeat response with no repeat information!" );
+    }
+    if( for_item.empty() && for_category.empty() ) {
+        jo.throw_error( "Repeat response with empty repeat information!" );
+    }
+    if( jo.has_object( "response" ) ) {
+        response = json_talk_response( jo.get_object( "response" ) );
+    } else {
+        jo.throw_error( "Repeat response with no response!" );
+    }
+}
+
+
 json_talk_response::json_talk_response( JsonObject jo )
     : actual_response( jo )
 {
@@ -3042,6 +3078,22 @@ bool json_talk_response::gen_responses( dialogue &d, bool switch_done ) const
     return false;
 }
 
+// repeat responses always go in front
+bool json_talk_response::gen_repeat_response( dialogue &d, const itype_id &item_id,
+        bool switch_done ) const
+{
+    if( !is_switch || !switch_done ) {
+        if( test_condition( d ) ) {
+            talk_response result = actual_response;
+            result.success.next_topic.item_type = item_id;
+            result.failure.next_topic.item_type = item_id;
+            d.responses.insert( d.responses.begin(), result );
+            return is_switch && !is_default;
+        }
+    }
+    return false;
+}
+
 dynamic_line_t dynamic_line_t::from_member( JsonObject &jo, const std::string &member_name )
 {
     if( jo.has_array( member_name ) ) {
@@ -3202,6 +3254,14 @@ void json_talk_topic::load( JsonObject &jo )
     while( ja.has_more() ) {
         responses.emplace_back( ja.next_object() );
     }
+    if( jo.has_object( "repeat_responses" ) ) {
+        repeat_responses.emplace_back( jo.get_object( "repeat_responses" ) );
+    } else if( jo.has_array( "repeat_responses" ) ) {
+        ja = jo.get_array( "repeat_responses" );
+        while( ja.has_more() ) {
+            repeat_responses.emplace_back( ja.next_object() );
+        }
+    }
     if( responses.empty() ) {
         jo.throw_error( "no responses for talk topic defined", "responses" );
     }
@@ -3212,10 +3272,37 @@ void json_talk_topic::load( JsonObject &jo )
 bool json_talk_topic::gen_responses( dialogue &d ) const
 {
     d.responses.reserve( responses.size() ); // A wild guess, can actually be more or less
+
     bool switch_done = false;
     for( auto &r : responses ) {
         switch_done |= r.gen_responses( d, switch_done );
     }
+    for( const json_talk_repeat_response &repeat : repeat_responses ) {
+        player *actor = d.alpha;
+        if( repeat.is_npc ) {
+            actor = dynamic_cast<player *>( d.beta );
+        }
+        std::function<bool( const item & )> filter = return_true<item>;
+        for( const std::string &item_id : repeat.for_item ) {
+            if( actor->charges_of( item_id ) > 0 || actor->has_amount( item_id, 1 ) ) {
+                switch_done |= repeat.response.gen_repeat_response( d, item_id, switch_done );
+            }
+        }
+        for( const std::string &category_id : repeat.for_category ) {
+            const bool include_containers = repeat.include_containers;
+            const auto items_with = actor->items_with( [category_id,
+            include_containers]( const item & it ) {
+                if( include_containers ) {
+                    return it.get_category().id() == category_id;
+                }
+                return it.type && it.type->category && it.type->category->id() == category_id;
+            } );
+            for( const auto &it : items_with ) {
+                switch_done |= repeat.response.gen_repeat_response( d, it->typeId(), switch_done );
+            }
+        }
+    }
+
     return replace_built_in_responses;
 }
 

@@ -19,6 +19,7 @@ Each topic consists of:
 2. a dynamic line, spoken by the NPC.
 3. an optional list of effects that occur when the NPC speaks the dynamic line
 4. a list of responses that can be spoken by the player character.
+5. a list of repeated responses that can be spoken by the player character, automatically generated if the player or NPC has items in a list of items.
 
 One can specify new topics in json. It is currently not possible to define the starting topic, so you have to add a response to some of the default topics (e.g. "TALK_STRANGER_FRIENDLY" or "TALK_STRANGER_NEUTRAL") or to topics that can be reached somehow.
 
@@ -331,8 +332,32 @@ This is an optional condition which can be used to prevent the response under ce
 
 ---
 
-### response effect
-The `effect` function can be any of the following effects. Multiple effects should be arranged in a list and are processed in the order listed.
+## Repeat Responses
+Repeat responses are responses that should be added to the response list multiple times, once for each instance of an item.
+
+A repeat response has the following format:
+```
+{
+  "for_item": [
+    "jerky", "meat_smoked", "fish_smoked", "cooking_oil", "cooking_oil2", "cornmeal", "flour",
+    "fruit_wine", "beer", "sugar"
+  ],
+  "response": { "text": "Delivering <topic_item>.", "topic": "TALK_DELIVER_ASK" }
+}
+```
+
+`"response"` is mandatory and must be a standard dialogue response, as described above.  `"switch"` is allowed in repeat responses and works normally.
+
+One of `"for_item"` or `"for_category"`, and each can either be a single string or list of items or item categories.  The `response` is generated for each item in the list in the player or NPC's inventory.
+
+`"is_npc"` is an optioanl bool value, and if it is present, the NPC's inventory list is checked.  By default, the player's inventory list is checked.
+
+`"include_containers"` is an optional bool value, and if it is present, items containing an item will generate seperate responses from the item itself.
+
+---
+
+## Dialogue Effects
+The `effect` field of `speaker_effect` or a `response` can be any of the following effects. Multiple effects should be arranged in a list and are processed in the order listed.
 
 #### Missions
 

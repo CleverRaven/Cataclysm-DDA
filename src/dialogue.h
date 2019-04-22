@@ -455,12 +455,29 @@ class json_talk_response
         bool test_condition( const dialogue &d ) const;
 
     public:
+        json_talk_response() = default;
         json_talk_response( JsonObject jo );
 
         /**
          * Callback from @ref json_talk_topic::gen_responses, see there.
          */
         bool gen_responses( dialogue &d, bool switch_done ) const;
+        bool gen_repeat_response( dialogue &d, const itype_id &item_id, bool switch_done ) const;
+};
+
+/**
+ * A structure for generating repeated responses
+ */
+class json_talk_repeat_response
+{
+    public:
+        json_talk_repeat_response() = default;
+        json_talk_repeat_response( JsonObject jo );
+        bool is_npc = false;
+        bool include_containers = false;
+        std::vector<std::string> for_item;
+        std::vector<std::string> for_category;
+        json_talk_response response;
 };
 
 class json_dynamic_line_effect
@@ -473,6 +490,7 @@ class json_dynamic_line_effect
         bool test_condition( const dialogue &d ) const;
         void apply( dialogue &d ) const;
 };
+
 /**
  * Talk topic definitions load from json.
  */
@@ -483,6 +501,7 @@ class json_talk_topic
         std::vector<json_talk_response> responses;
         dynamic_line_t dynamic_line;
         std::vector<json_dynamic_line_effect> speaker_effects;
+        std::vector<json_talk_repeat_response> repeat_responses;
 
     public:
         json_talk_topic() = default;
@@ -506,6 +525,7 @@ class json_talk_topic
          * responses will be added (behind those added here).
          */
         bool gen_responses( dialogue &d ) const;
+        bool gen_repeat_response( dialogue &d, const std::string &item_id );
 };
 
 void unload_talk_topics();
