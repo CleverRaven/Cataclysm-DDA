@@ -33,15 +33,6 @@
       ]
     },
     {
-      "name": "GROUP_SLAUGHTERHOUSE",
-      "type": "monstergroup",
-      "default": "mon_null",
-      "monsters": [
-        { "monster": "mon_chicken", "freq": 200, "cost_multiplier": 0 },
-        { "monster": "mon_rabbit", "freq": 300, "cost_multiplier": 0 }
-      ]
-    },
-    {
       "id": "f_hanging_meathook",
       "type": "furniture",
       "name": "hanging meathook",
@@ -181,13 +172,13 @@
         "place_loot": [
           { "group": "trash", "chance": 100, "repeat": [ 1, 2 ], "x": [ 6, 7 ], "y": [ 20, 20 ] },
           { "group": "slaughter_clothes", "chance": 100, "repeat": [ 1, 7 ], "x": [ 12, 18 ], "y": [ 1, 1 ] },
-          { "group": "slaughter_tools", "chance": 100, "repeat": [ 1, 3 ], "x": [ 16, 16 ], "y": [ 6, 8 ] },
-          { "group": "slaughter_tools", "chance": 100, "repeat": [ 1, 3 ], "x": [ 16, 16 ], "y": [ 10, 12 ] },
-          { "group": "slaughter_tools", "chance": 100, "repeat": [ 1, 3 ], "x": [ 16, 16 ], "y": [ 14, 16 ] },
-          { "group": "slaughter_raw_meat", "chance": 100, "repeat": [ 1, 3 ], "x": [ 14, 14 ], "y": [ 6, 8 ] },
-          { "group": "slaughter_raw_meat", "chance": 100, "repeat": [ 1, 3 ], "x": [ 14, 14 ], "y": [ 10, 12 ] },
-          { "group": "slaughter_raw_meat", "chance": 100, "repeat": [ 1, 3 ], "x": [ 14, 14 ], "y": [ 14, 16 ] },
-          { "group": "slaughter_raw_meat", "chance": 100, "repeat": [ 1, 11 ], "x": [ 8, 8 ], "y": [ 6, 17 ] }
+          { "group": "slaughter_tools", "chance": 10, "repeat": [ 1, 3 ], "x": [ 16, 16 ], "y": [ 6, 8 ] },
+          { "group": "slaughter_tools", "chance": 10, "repeat": [ 1, 3 ], "x": [ 16, 16 ], "y": [ 10, 12 ] },
+          { "group": "slaughter_tools", "chance": 10, "repeat": [ 1, 3 ], "x": [ 16, 16 ], "y": [ 14, 16 ] },
+          { "group": "slaughter_raw_meat", "chance": 10, "repeat": [ 1, 3 ], "x": [ 14, 14 ], "y": [ 6, 8 ] },
+          { "group": "slaughter_raw_meat", "chance": 10, "repeat": [ 1, 3 ], "x": [ 14, 14 ], "y": [ 10, 12 ] },
+          { "group": "slaughter_raw_meat", "chance": 10, "repeat": [ 1, 3 ], "x": [ 14, 14 ], "y": [ 14, 16 ] },
+          { "group": "slaughter_raw_meat", "chance": 10, "repeat": [ 1, 11 ], "x": [ 8, 8 ], "y": [ 6, 17 ] }
         ],
         "place_monsters": [
           { "monster": "GROUP_ROACH", "x": 11, "y": 11, "chance": 10, "density": 0.5 },
