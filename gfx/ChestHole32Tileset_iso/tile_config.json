@@ -10292,7 +10292,7 @@
         },
         {
           "fg": 1849,
-          "id": ["cursor", "line_target", "line_trail"],
+          "id": ["cursor", "highlight", "line_target", "line_trail"],
           "rotates": false
         },
         {
