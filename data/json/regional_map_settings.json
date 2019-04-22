@@ -588,6 +588,8 @@
         "s_clothes": 500,
         "s_library": 200,
         "s_bookstore": 200,
+        "s_bookstore_1": 200,
+        "s_bookstore_2": 200,
         "s_restaurant": 400,
         "s_restaurant_1": 400,
         "s_restaurant_2": 400,
