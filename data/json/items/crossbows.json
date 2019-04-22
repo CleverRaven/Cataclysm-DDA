@@ -225,5 +225,28 @@
       "clip_size" : 10,
       "reload" : 50,
       "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
-   }
+   },
+   {
+    "id": "crossbow_makeshift",
+    "type": "GUN",
+    "name": "makeshift crossbow",
+    "description": "A simple, handmade crossbow of the Skane style, with a wooden peg that is pushed up from underneath to loose the bowstring.  Not as powerful as other crossbow designs, but it is easier to draw the bow back.  Bolts fired from this weapon have a good chance of remaining intact for re-use.",
+    "weight": 5456,
+    "volume": 4,
+    "price": 1380,
+    "bashing": 7,
+    "material": "wood",
+    "symbol": "(",
+    "color": "green",
+    "ammo": "bolt",
+    "skill": "rifle",
+    "range": 6,
+    "ranged_damage": 7,
+    "dispersion": 250,
+    "durability": 6,
+    "clip_size": 1,
+    "reload": 300,
+    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ] ],
+    "flags": [ "PRIMITIVE_RANGED_WEAPON" ]
+  }
 ]
