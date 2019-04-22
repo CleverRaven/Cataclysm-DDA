@@ -161,8 +161,8 @@
           "I": "f_air_conditioner"
         },
         "place_fields": [
-          { "x": [ 6, 21 ], "y": [ 3, 17 ], "field": "fd_blood", "density": 1, "repeat": [ 10, 100 ], "age": 3 },
-          { "x": [ 8, 21 ], "y": [ 5, 17 ], "field": "fd_blood", "density": 3, "repeat": [ 10, 100 ], "age": 3 }
+          { "x": [ 6, 21 ], "y": [ 3, 17 ], "field": "fd_blood", "density": 1, "repeat": [ 10, 30 ], "age": 3 },
+          { "x": [ 8, 21 ], "y": [ 5, 17 ], "field": "fd_blood", "density": 2, "repeat": [ 10, 30 ], "age": 3 }
         ],
         "toilets": { "&": {  } },
         "place_loot": [
