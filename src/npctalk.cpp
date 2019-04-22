@@ -3033,11 +3033,11 @@ bool json_talk_response::test_condition( const dialogue &d ) const
 
 bool json_talk_response::gen_responses( dialogue &d, bool switch_done ) const
 {
-    if( test_condition( d ) ) {
-        if( !is_switch || ( is_switch && !switch_done ) ) {
+    if( !is_switch || !switch_done ) {
+        if( test_condition( d ) ) {
             d.responses.emplace_back( actual_response );
+            return is_switch && !is_default;
         }
-        return is_switch && !is_default;
     }
     return false;
 }
