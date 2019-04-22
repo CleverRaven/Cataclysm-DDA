@@ -1318,7 +1318,7 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
                 int offset = 1;
                 std::string fmtstring = "%i    %3i%%";
                 if( pt.damage_percent() >= 0.5 ) {
-                    fmtstring = "%i   " + delimiter + "%3i%%" + delimiter;
+                    fmtstring = "%i   " + leak_marker + "%3i%%" + leak_marker;
                     offset = 0;
                 }
                 right_print( w, y, offset, item::find_type( pt.ammo_current() )->color,
