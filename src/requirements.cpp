@@ -466,7 +466,9 @@ std::vector<std::string> requirement_data::get_folded_list( int width,
                 const long qty = item::count_by_charges( item_id ) ? crafting_inv.charges_of( item_id,
                                  std::numeric_limits<long>::max(), filter ) : crafting_inv.amount_of( item_id, false,
                                          std::numeric_limits<long>::max(), filter );
-                text = string_format( _( "%s (of %ld)" ), text, qty );
+                text = item::count_by_charges( item_id ) ?
+                       string_format( _( "%s (%d of %ld)" ), item::nname( item_id ), component.count * batch, qty ) :
+                       string_format( _( "%s of %ld" ), text, qty );
             }
 
             if( std::find( buffer_has.begin(), buffer_has.end(), text + color_tag ) != buffer_has.end() ) {
