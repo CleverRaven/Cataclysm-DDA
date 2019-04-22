@@ -7328,13 +7328,13 @@ const std::vector<tripoint> &map::trap_locations( const trap_id type ) const
 
 bool map::inbounds( const tripoint &p ) const
 {
-    constexpr tripoint map_boundary_min( 0, 0, -OVERMAP_DEPTH );
-    constexpr tripoint map_boundary_max( MAPSIZE_Y, MAPSIZE_X, OVERMAP_HEIGHT );
-    constexpr tripoint map_clearance_min( tripoint_zero );
-    constexpr tripoint map_clearance_max( 1, 1, 0 );
+    static constexpr tripoint map_boundary_min( 0, 0, -OVERMAP_DEPTH );
+    static constexpr tripoint map_boundary_max( MAPSIZE_Y, MAPSIZE_X, OVERMAP_HEIGHT );
+    static constexpr tripoint map_clearance_min( tripoint_zero );
+    static constexpr tripoint map_clearance_max( 1, 1, 0 );
 
-    constexpr box map_boundaries( map_boundary_min, map_boundary_max );
-    constexpr box map_clearance( map_clearance_min, map_clearance_max );
+    static constexpr box map_boundaries( map_boundary_min, map_boundary_max );
+    static constexpr box map_clearance( map_clearance_min, map_clearance_max );
 
     return generic_inbounds( p, map_boundaries, map_clearance );
 }
