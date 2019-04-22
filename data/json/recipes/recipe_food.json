@@ -102,7 +102,7 @@
     "result_mult": 2,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
-    "components": [ [ [ "water", 11 ], [ "water_clean", 11 ] ], [ [ "jar_glass", 1 ] ], [ [ "offal", 2 ] ] ]
+    "components": [ [ [ "water", 11 ], [ "water_clean", 11 ] ], [ [ "jar_glass", 1 ] ], [ [ "offal", 2 ], ["liver", 5], ["sweetbread", 5], ["kidney", 5]] ]
   },
   {
     "result": "offal_canned",
@@ -126,7 +126,7 @@
       [ [ "canister_empty", 1 ], [ "can_food_unsealed", 1 ] ],
       [ [ "scrap", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "offal", 1 ] ]
+      [ [ "offal", 1 ], ["liver", 3], ["sweetbread", 3], ["kidney", 3] ]
     ]
   },
   {
@@ -147,7 +147,7 @@
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ], [ "salt_water", 1 ], [ "saline", 5 ] ],
       [ [ "jar_glass", 1 ] ],
-      [ [ "offal", 2 ] ],
+      [ [ "offal", 2 ], ["liver", 5], ["sweetbread", 5], ["kidney", 5]],
       [ [ "vinegar", 1 ] ]
     ]
   },
@@ -7815,7 +7815,7 @@
     "container": "jar_3l_glass_sealed",
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
-    "components": [ [ [ "water", 16 ], [ "water_clean", 16 ] ], [ [ "jar_3l_glass", 1 ] ], [ [ "offal", 12 ] ] ]
+    "components": [ [ [ "water", 16 ], [ "water_clean", 16 ] ], [ [ "jar_3l_glass", 1 ] ], [ [ "offal", 12 ] , ["liver", 30], ["sweetbread", 30], ["kidney", 30]] ]
   },
   {
     "type": "recipe",
