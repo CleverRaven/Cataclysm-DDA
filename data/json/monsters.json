@@ -3569,7 +3569,7 @@
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
-    "upgrades": { "half_life": 10, "into_group": "GROUP_ZOMBIE_FAT" },
+    "upgrades": { "half_life": 20, "into_group": "GROUP_ZOMBIE_FAT" },
     "flags": [
       "SEES",
       "HEARS",
