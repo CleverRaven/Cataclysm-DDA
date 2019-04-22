@@ -3895,7 +3895,8 @@ void item::calc_rot( time_point time )
     // bday and/or last_rot_check might be zero, if both are then we want calendar::start
     const time_point since = std::max( {bday, last_rot_check, ( time_point ) calendar::start} );
     time_duration time_delta = time - since;
-    rot += factor * time_delta / 1_hours * get_hourly_rotpoints_at_temp( temperature ) * 1_turns;
+    rot += factor * time_delta / 1_hours * get_hourly_rotpoints_at_temp( kelvin_to_fareheit(
+                0.00001 * temperature ) ) * 1_turns;
 }
 
 void item::calc_rot_while_smoking( time_duration smoking_duration )
@@ -6985,19 +6986,18 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
         return;
     }
 
+    bool carried = carrier != nullptr && carrier->has_item( *this );
+    if( carried ) {
+        insulation *= 1.5; // clothing provides inventory some level of insulation
+        temp += 5; // body heat increases inventory temperature
+    }
+
     // process temperature and rot at most every 100_turns (10 min)
     // If the item has had its temperature/rot set the two can be out of sync
     // Rot happens slower than temperature changes so for most part last_temp_check dominates
     // note we're also gated by item::processing_speed
     time_duration smallest_interval = 100_turns;
     if( now - last_temp_check >  smallest_interval ) {
-
-        bool carried = carrier != nullptr && carrier->has_item( *this );
-        if( carried ) {
-            insulation *= 1.5; // clothing provides inventory some level of insulation
-            temp += 5; // body heat increases inventory temperature
-        }
-
         time_point time = last_temp_check;
 
         if( now - last_temp_check > 1_hours ) {
@@ -7064,6 +7064,8 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
         last_rot_check = now;
     }
 }
+
+
 
 void item::calc_temp( const int temp, const float insulation, const time_duration &time )
 {
