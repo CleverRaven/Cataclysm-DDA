@@ -2207,10 +2207,11 @@
     "points": 3,
     "visibility": 10,
     "ugliness": -6,
-    "prereqs": [ "FLOWERS" ],
     "description": "The top of your head is blooming with rosebuds.  They're eye catching, and have a strong fragrance that makes you pleasant to be around.",
-    "category": [ "PLANT", "ELFA" ],
+    "prereqs": [ "FLOWERS" ],
+    "cancels": [ "SMELLY", "SMELLY2" ],
     "threshreq": [ "THRESH_PLANT", "THRESH_ELFA" ],
+    "category": [ "PLANT", "ELFA" ],
     "social_modifiers": { "lie": 15, "persuade": 10 }
   },
   {
@@ -5072,7 +5073,7 @@
     "ugliness": 2,
     "description": "Roots have started growing from your leaf like hair, they don't seem to do much.",
     "prereqs": [ "LEAVES" ],
-    "category": [ "PLANT", "ELFA" ],
+    "category": [ "PLANT", "ELFA" ]
   },
   {
     "type": "mutation",
