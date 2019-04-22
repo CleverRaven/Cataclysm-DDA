@@ -2017,6 +2017,8 @@
       "use_message": "You blow the whistle.",
       "//": "Use of %s not currently supported.",
       "noise_message": "FWEEEET!",
+      "noise_id": "misc",
+      "noise_variant": "whistle",
       "noise": 38,
       "moves": 100
     }
