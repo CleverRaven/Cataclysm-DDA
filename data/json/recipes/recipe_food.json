@@ -4207,7 +4207,7 @@
     "batch_time_factors": [ 83, 5 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
-    "components": [ [ [ "water", 11 ], [ "water_clean", 11 ] ], [ [ "jar_glass", 1 ] ], [ [ "meat", 1 ] ] ]
+    "components": [ [ [ "water", 11 ], [ "water_clean", 11 ] ], [ [ "jar_glass", 1 ] ], [ [ "meat", 1 ], ["meat_scrap", 10] ] ]
   },
   {
     "type": "recipe",
@@ -6237,7 +6237,7 @@
       [ [ "canister_empty", 1 ], [ "can_food_unsealed", 1 ] ],
       [ [ "scrap", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "meat", 1 ] ]
+      [ [ "meat", 1 ], ["meat_scrap", 10] ]
     ]
   },
   {
@@ -7735,7 +7735,7 @@
     "batch_time_factors": [ 83, 5 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
-    "components": [ [ [ "water", 16 ], [ "water_clean", 16 ] ], [ [ "jar_3l_glass", 1 ] ], [ [ "meat", 12 ] ] ]
+    "components": [ [ [ "water", 16 ], [ "water_clean", 16 ] ], [ [ "jar_3l_glass", 1 ] ], [ [ "meat", 12 ], ["meat_scrap", 120] ] ]
   },
   {
     "type": "recipe",
@@ -7925,7 +7925,7 @@
     "components": [
       [ [ "water", 6 ], [ "water_clean", 6 ], [ "salt_water", 6 ], [ "saline", 30 ] ],
       [ [ "jar_3l_glass", 1 ] ],
-      [ [ "meat", 12 ] ],
+      [ [ "meat", 12 ], ["meat_scrap", 120]],
       [ [ "vinegar", 6 ] ]
     ]
   },
