@@ -4874,6 +4874,7 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
         // Handle infinite map sources.
         item water = water_from( p );
         if( water.typeId() == type ) {
+            water.charges = quantity;
             ret.push_back( water );
             quantity = 0;
             return ret;
