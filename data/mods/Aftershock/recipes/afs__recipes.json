@@ -1,7 +1,7 @@
 [
   {
     "type": "recipe",
-    "result": "battery",
+    "result": "light_battery_cell",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_COMPONENTS",
     "skill_used": "electronics",
@@ -53,7 +53,7 @@
     "components": [ [ [ "canister_empty", 1 ] ], [ [ "plut_slurry", 10 ], [ "plut_slurry_dense", 5 ] ], [ [ "power_supply", 2 ] ] ]
   },
   {
-    "result": "battery",
+    "result": "light_battery_cell",
     "id_suffix": "afs_plutonium_battery",
     "type": "recipe",
     "category": "CC_ELECTRONIC",
@@ -190,7 +190,7 @@
     "book_learn": [ [ "mag_electronics", 3 ], [ "manual_electronics", 2 ] ],
     "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "SCREW_FINE", "level": 1 } ],
-    "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "battery", 25 ] ], [ [ "cable", 5 ] ], [ [ "circuit", 1 ] ], [ [ "scrap", 1 ] ] ]
+    "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "light_minus_battery_cell" ] ], [ [ "cable", 5 ] ], [ [ "circuit", 1 ] ], [ [ "scrap", 1 ] ] ]
   },
   {
     "type": "recipe",
