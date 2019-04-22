@@ -436,6 +436,8 @@
     "skills": [ { "level": 3, "name": "mechanics" } ],
     "items": {
       "both": {
+        "ammo": 100,
+        "magazine": 100,
         "items": [
           "slingpack",
           "tank_top",
@@ -448,12 +450,11 @@
           "screwdriver",
           "cell_phone",
           "wristwatch",
-          "mag_cars"
+          "mag_cars",
+          "welder"
         ],
         "entries": [
-          { "item": "welder" },
-          { "item": "goggles_welding", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "medium_plus_battery_cell", "charges": 600 }
+          { "item": "goggles_welding", "custom-flags": [ "no_auto_equip" ] }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -1302,7 +1303,20 @@
     "points": 1,
     "skills": [ { "level": 3, "name": "electronics" } ],
     "items": {
-      "both": [ "jumpsuit", "socks", "boots", "tool_belt", "flashlight", "cell_phone", "wristwatch" ],
+      "both": {
+        "ammo": 100,
+        "magazine": 100,
+        "items": [
+          "jumpsuit",
+          "socks",
+          "boots",
+          "tool_belt",
+          "flashlight",
+          "cell_phone",
+          "wristwatch",
+          { "item": "light_battery_cell", "charges": 100 }
+        ]
+      },
       "male": [ "boxer_briefs" ],
       "female": [ "bra", "panties" ]
     }
@@ -1744,6 +1758,7 @@
     "items": {
       "both": {
         "ammo": 100,
+        "magazine": 100,
         "items": [
           "winter_pants_army",
           "army_top",
