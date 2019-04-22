@@ -7000,7 +7000,7 @@
     "skill_used": "cooking",
     "difficulty": 1,
     "time": 4000,
-    "charges": 10,
+    "charges": 15,
     "autolearn": true,
     "flags": [ "BLIND_HARD" ],
     "components": [
