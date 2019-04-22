@@ -4238,7 +4238,7 @@ void smoker_activate( player &p, const tripoint &examp )
     for( auto &it : g->m.i_at( examp ) ) {
         if( it.has_flag( "SMOKABLE" ) ) {
             // Do one final rot check before smoking, then apply the smoking FLAG to prevent further checks.
-            it.calc_rot( examp );
+            it.calc_rot( calendar::turn );
             it.set_flag( "SMOKING" );
         }
     }

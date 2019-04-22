@@ -665,7 +665,16 @@ class item : public visitable<item>
          * @param p The absolute, global location (in map square coordinates) of the item to
          * check for temperature.
          */
-        void calc_rot( const tripoint &p );
+        void calc_rot( time_point time );
+		
+		/**
+		 * Get the amount of rotting that an item would accumulate between start and end turn at the given
+		 * locations.
+		 * The location is in absolute maps squares (the system which the @ref map uses),
+		 * but absolute (@ref map::getabs).
+		 * The returned value is in time at standard conditions it is `end - start`.
+		 */
+		time_duration get_rot_since( const time_point &start, const time_point &end, const tripoint &pos );
 
         /**
          * Accumulate rot of the item since starting smoking.
@@ -677,12 +686,16 @@ class item : public visitable<item>
          */
         void calc_rot_while_smoking( const tripoint &p, time_duration smoking_duration );
 
-        /**
-         * Update temperature for things like foo
+		
+		/**
+         * Update temperature for things like food
+		 * Update rot for things that perish
          * @param temp Temperature at which item is current exposed
          * @param insulation Amount of insulation item has from surroundings
+		 * @param pos The current position
+		 * @param carrier The current carrier
          */
-        void update_temp( const int temp, const float insulation );
+		void process_temperature_rot( int temp, float insulation, const tripoint pos, player *carrier );
 
         /** Set the item to HOT */
         void heat_up();
