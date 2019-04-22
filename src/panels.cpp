@@ -1,14 +1,22 @@
 #include "panels.h"
 
+#include <stdlib.h>
+#include <cmath>
+#include <string>
+#include <array>
+#include <iosfwd>
+#include <iterator>
+#include <list>
+#include <memory>
+#include <utility>
+
 #include "action.h"
 #include "cata_utility.h"
 #include "color.h"
 #include "cursesdef.h"
-#include "cursesport.h"
 #include "effect.h"
 #include "game.h"
 #include "game_ui.h"
-#include "gun_mode.h"
 #include "input.h"
 #include "item.h"
 #include "json.h"
@@ -17,7 +25,6 @@
 #include "options.h"
 #include "messages.h"
 #include "overmap.h"
-#include "overmap_ui.h"
 #include "overmapbuffer.h"
 #include "output.h"
 #include "path_info.h"
@@ -26,10 +33,21 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "weather.h"
-#include "weather_gen.h"
-#include <cmath>
-#include <string>
-#include <typeinfo>
+#include "bodypart.h"
+#include "calendar.h"
+#include "catacharset.h"
+#include "character.h"
+#include "compatibility.h"
+#include "creature.h"
+#include "debug.h"
+#include "enums.h"
+#include "game_constants.h"
+#include "int_id.h"
+#include "itype.h"
+#include "omdata.h"
+#include "pldata.h"
+#include "string_formatter.h"
+#include "tileray.h"
 
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_THRESH_FELINE( "THRESH_FELINE" );

@@ -1,16 +1,31 @@
+#include <limits.h>
 #include <sstream>
+#include <algorithm>
+#include <list>
+#include <memory>
+#include <set>
+#include <string>
+#include <vector>
 
 #include "catch/catch.hpp"
-#include "crafting.h"
 #include "game.h"
 #include "itype.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "npc.h"
-#include "output.h"
 #include "player.h"
 #include "player_helpers.h"
 #include "recipe_dictionary.h"
+#include "calendar.h"
+#include "cata_utility.h"
+#include "enums.h"
+#include "inventory.h"
+#include "item.h"
+#include "optional.h"
+#include "player_activity.h"
+#include "recipe.h"
+#include "requirements.h"
+#include "string_id.h"
 
 TEST_CASE( "recipe_subset" )
 {

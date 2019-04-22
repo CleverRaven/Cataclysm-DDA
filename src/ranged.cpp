@@ -1,9 +1,19 @@
 #include "ranged.h"
 
+#include <stdio.h>
+#include <stdlib.h>
 #include <algorithm>
 #include <cmath>
 #include <string>
 #include <vector>
+#include <array>
+#include <iterator>
+#include <list>
+#include <map>
+#include <memory>
+#include <set>
+#include <tuple>
+#include <utility>
 
 #include "ballistics.h"
 #include "cata_utility.h"
@@ -31,6 +41,21 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "trap.h"
+#include "bodypart.h"
+#include "calendar.h"
+#include "catacharset.h"
+#include "character.h"
+#include "color.h"
+#include "creature.h"
+#include "cursesdef.h"
+#include "damage.h"
+#include "enums.h"
+#include "game_constants.h"
+#include "optional.h"
+#include "player.h"
+#include "player_activity.h"
+#include "string_id.h"
+#include "units.h"
 
 const skill_id skill_throw( "throw" );
 const skill_id skill_gun( "gun" );

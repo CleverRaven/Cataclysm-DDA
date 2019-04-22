@@ -2,9 +2,10 @@
 #include "monstergenerator.h" // IWYU pragma: associated
 
 #include <algorithm>
+#include <set>
+#include <utility>
 
 #include "catacharset.h"
-#include "color.h"
 #include "creature.h"
 #include "debug.h"
 #include "generic_factory.h"
@@ -19,9 +20,14 @@
 #include "monfaction.h"
 #include "mongroup.h"
 #include "options.h"
-#include "output.h"
 #include "rng.h"
-#include "translations.h"
+#include "assign.h"
+#include "bodypart.h"
+#include "damage.h"
+#include "game.h"
+#include "itype.h"
+#include "pathfinding.h"
+#include "units.h"
 
 extern bool test_mode;
 

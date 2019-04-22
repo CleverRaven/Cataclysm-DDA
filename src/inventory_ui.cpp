@@ -6,9 +6,7 @@
 #include "item.h"
 #include "item_category.h"
 #include "item_search.h"
-#include "itype.h"
 #include "map.h"
-#include "map_selector.h"
 #include "options.h"
 #include "output.h"
 #include "player.h"
@@ -19,6 +17,14 @@
 #include "vehicle_selector.h"
 #include "vpart_position.h"
 #include "vpart_reference.h"
+#include "character.h"
+#include "debug.h"
+#include "enums.h"
+#include "inventory.h"
+#include "line.h"
+#include "optional.h"
+#include "string_id.h"
+#include "visitable.h"
 
 #if defined(__ANDROID__)
 #include <SDL_keyboard.h>
@@ -33,6 +39,8 @@
 #include <sstream>
 #include <algorithm>
 #include <cassert>
+#include <iterator>
+#include <type_traits>
 
 /** The maximum distance from the screen edge, to snap a window to it */
 static const size_t max_win_snap_distance = 4;

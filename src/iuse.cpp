@@ -1,19 +1,25 @@
 #include "iuse.h"
 
+#include <limits.h>
 #include <algorithm>
 #include <cmath>
 #include <cstdlib>
 #include <set>
 #include <sstream>
-#include <stdexcept>
 #include <vector>
+#include <array>
+#include <exception>
+#include <functional>
+#include <iterator>
+#include <limits>
+#include <list>
+#include <map>
+#include <utility>
 
 #include "action.h"
 #include "artifact.h"
 #include "calendar.h"
 #include "cata_utility.h"
-#include "coordinate_conversions.h"
-#include "crafting.h"
 #include "debug.h"
 #include "effect.h" // for weed_msg
 #include "event.h"
@@ -21,7 +27,6 @@
 #include "fungal_effects.h"
 #include "game.h"
 #include "game_inventory.h"
-#include "iexamine.h"
 #include "inventory.h"
 #include "iuse_actor.h" // For firestarter
 #include "json.h"
@@ -53,12 +58,35 @@
 #include "translations.h"
 #include "trap.h"
 #include "ui.h"
-#include "uistate.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "veh_type.h"
 #include "weather.h"
+#include "bodypart.h"
+#include "character.h"
+#include "color.h"
+#include "creature.h"
+#include "damage.h"
+#include "enums.h"
+#include "game_constants.h"
+#include "int_id.h"
+#include "inventory_ui.h"
+#include "item.h"
+#include "item_location.h"
+#include "itype.h"
+#include "monster.h"
+#include "omdata.h"
+#include "optional.h"
+#include "pimpl.h"
+#include "player_activity.h"
+#include "pldata.h"
+#include "recipe.h"
+#include "ret_val.h"
+#include "stomach.h"
+#include "string_id.h"
+#include "vpart_reference.h"
+#include "weather_gen.h"
 
 #define RADIO_PER_TURN 25 // how many characters per turn of radio
 

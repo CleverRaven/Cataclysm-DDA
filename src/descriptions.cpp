@@ -1,6 +1,9 @@
 #include "game.h" // IWYU pragma: associated
 
+#include <stddef.h>
 #include <algorithm>
+#include <sstream>
+#include <utility>
 
 #include "calendar.h"
 #include "harvest.h"
@@ -10,7 +13,10 @@
 #include "output.h"
 #include "player.h"
 #include "string_formatter.h"
-#include "ui.h"
+#include "color.h"
+#include "itype.h"
+#include "pldata.h"
+#include "translations.h"
 
 const skill_id skill_survival( "survival" );
 

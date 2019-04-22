@@ -6,6 +6,7 @@
 #include "item.h"
 #include "json.h"
 #include "translations.h"
+#include "string_id.h"
 
 namespace
 {

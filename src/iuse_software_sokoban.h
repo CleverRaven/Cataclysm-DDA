@@ -2,10 +2,12 @@
 #ifndef SOFTWARE_SOKOBAN_H
 #define SOFTWARE_SOKOBAN_H
 
+#include <stddef.h>
 #include <iosfwd>
 #include <map>
 #include <string>
 #include <vector>
+#include <utility>
 
 namespace catacurses
 {

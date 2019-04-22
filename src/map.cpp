@@ -1,10 +1,16 @@
 #include "map.h"
 
+#include <limits.h>
 #include <algorithm>
 #include <cassert>
 #include <cmath>
 #include <cstdlib>
 #include <cstring>
+#include <iterator>
+#include <limits>
+#include <sstream>
+#include <type_traits>
+#include <unordered_map>
 
 #include "ammo.h"
 #include "artifact.h"
@@ -36,7 +42,6 @@
 #include "npc.h"
 #include "options.h"
 #include "output.h"
-#include "overmap.h"
 #include "overmapbuffer.h"
 #include "pathfinding.h"
 #include "projectile.h"
@@ -53,6 +58,26 @@
 #include "vpart_range.h"
 #include "vpart_reference.h"
 #include "weather.h"
+#include "active_item_cache.h"
+#include "basecamp.h"
+#include "bodypart.h"
+#include "character.h"
+#include "color.h"
+#include "creature.h"
+#include "cursesdef.h"
+#include "damage.h"
+#include "field.h"
+#include "item_location.h"
+#include "itype.h"
+#include "iuse.h"
+#include "map_memory.h"
+#include "math_defines.h"
+#include "omdata.h"
+#include "optional.h"
+#include "player.h"
+#include "player_activity.h"
+#include "tileray.h"
+#include "weighted_list.h"
 
 const mtype_id mon_zombie( "mon_zombie" );
 
@@ -65,8 +90,6 @@ const efftype_id effect_crushed( "crushed" );
 const efftype_id effect_stunned( "stunned" );
 
 extern bool is_valid_in_w_terrain( int, int );
-
-#include "overmapbuffer.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 

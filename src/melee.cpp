@@ -1,12 +1,22 @@
 #include "melee.h"
 
+#include <limits.h>
+#include <math.h>
 #include <algorithm>
 #include <cstdlib>
 #include <sstream>
+#include <array>
+#include <limits>
+#include <list>
+#include <memory>
+#include <set>
+#include <string>
+#include <unordered_map>
+#include <utility>
+#include <vector>
 
 #include "cata_utility.h"
 #include "debug.h"
-#include "field.h"
 #include "game.h"
 #include "game_inventory.h"
 #include "itype.h"
@@ -25,6 +35,20 @@
 #include "sounds.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "bodypart.h"
+#include "calendar.h"
+#include "character.h"
+#include "creature.h"
+#include "damage.h"
+#include "enums.h"
+#include "game_constants.h"
+#include "item.h"
+#include "item_location.h"
+#include "optional.h"
+#include "pldata.h"
+#include "string_id.h"
+#include "units.h"
+#include "weighted_list.h"
 
 static const bionic_id bio_cqb( "bio_cqb" );
 

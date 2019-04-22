@@ -2,10 +2,12 @@
 #ifndef MAPDATA_H
 #define MAPDATA_H
 
+#include <stddef.h>
 #include <array>
 #include <bitset>
 #include <set>
 #include <vector>
+#include <string>
 
 #include "color.h"
 #include "int_id.h"
@@ -21,6 +23,7 @@ struct furn_t;
 class harvest_list;
 class player;
 struct tripoint;
+
 using iexamine_function = void ( * )( player &, const tripoint & );
 
 using trap_id = int_id<trap>;

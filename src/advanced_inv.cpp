@@ -14,7 +14,6 @@
 #include "messages.h"
 #include "options.h"
 #include "output.h"
-#include "pickup.h"
 #include "player.h"
 #include "player_activity.h"
 #include "string_formatter.h"
@@ -26,6 +25,16 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_reference.h"
+#include "calendar.h"
+#include "color.h"
+#include "game_constants.h"
+#include "int_id.h"
+#include "inventory.h"
+#include "item.h"
+#include "optional.h"
+#include "pldata.h"
+#include "ret_val.h"
+#include "string_id.h"
 
 #if defined(__ANDROID__)
 #   include <SDL_keyboard.h>
@@ -36,9 +45,13 @@
 #include <cstring>
 #include <map>
 #include <set>
-#include <sstream>
 #include <string>
 #include <vector>
+#include <initializer_list>
+#include <iterator>
+#include <memory>
+#include <unordered_map>
+#include <utility>
 
 enum aim_exit {
     exit_none = 0,

@@ -1,10 +1,15 @@
 #include "item_search.h"
 
+#include <map>
+#include <utility>
+
 #include "cata_utility.h"
 #include "item.h"
 #include "item_category.h"
 #include "material.h"
-#include "recipe_dictionary.h"
+#include "itype.h"
+#include "requirements.h"
+#include "string_id.h"
 
 std::pair<std::string, std::string> get_both( const std::string &a );
 

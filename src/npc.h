@@ -7,31 +7,47 @@
 #include <set>
 #include <string>
 #include <vector>
+#include <array>
+#include <iosfwd>
+#include <list>
+#include <unordered_map>
+#include <utility>
 
 #include "calendar.h"
-#include "faction.h"
 #include "line.h"
 #include "optional.h"
 #include "pimpl.h"
 #include "player.h"
-#include "simple_pathfinding.h"
+#include "auto_pickup.h"
+#include "color.h"
+#include "creature.h"
+#include "cursesdef.h"
+#include "enums.h"
+#include "int_id.h"
+#include "inventory.h"
+#include "item_location.h"
+#include "itype.h"
+#include "pldata.h"
+#include "string_formatter.h"
+#include "string_id.h"
 
 class JsonObject;
 class JsonIn;
 class JsonOut;
 class item;
-class overmap;
-class player;
-class field_entry;
 class npc_class;
-class auto_pickup;
 class monfaction;
 struct mission_type;
-struct npc_companion_mission;
 struct overmap_location;
+class Character;
+class faction;
+class mission;
+class vehicle;
+struct pathfinding_settings;
 
 enum game_message_type : int;
 class gun_mode;
+
 using npc_class_id = string_id<npc_class>;
 using mission_type_id = string_id<mission_type>;
 using mfaction_id = int_id<monfaction>;
@@ -529,7 +545,6 @@ struct npc_chatbin {
     void deserialize( JsonIn &jsin );
 };
 
-class npc;
 class npc_template;
 struct epilogue;
 

@@ -1,9 +1,14 @@
+#include <stdio.h>
 #include <sstream>
+#include <bitset>
+#include <string>
+#include <type_traits>
 
 #include "catch/catch.hpp"
 #include "map_memory.h"
 #include "json.h"
 #include "game_constants.h"
+#include "enums.h"
 
 static constexpr tripoint p1{ 0, 0, 1 };
 static constexpr tripoint p2{ 0, 0, 2 };

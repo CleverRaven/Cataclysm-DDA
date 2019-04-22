@@ -1,9 +1,18 @@
 #include "crafting.h"
 
+#include <limits.h>
+#include <stdlib.h>
 #include <algorithm>
 #include <cmath>
 #include <sstream>
 #include <string>
+#include <functional>
+#include <limits>
+#include <map>
+#include <memory>
+#include <set>
+#include <utility>
+#include <vector>
 
 #include "activity_handlers.h"
 #include "ammo.h"
@@ -33,6 +42,24 @@
 #include "vpart_position.h"
 #include "vpart_reference.h"
 #include "veh_type.h"
+#include "cata_utility.h"
+#include "color.h"
+#include "creature.h"
+#include "enums.h"
+#include "game_constants.h"
+#include "item_stack.h"
+#include "line.h"
+#include "map_selector.h"
+#include "mapdata.h"
+#include "optional.h"
+#include "pimpl.h"
+#include "player.h"
+#include "player_activity.h"
+#include "recipe.h"
+#include "ret_val.h"
+#include "string_formatter.h"
+#include "string_id.h"
+#include "units.h"
 
 const efftype_id effect_contacts( "contacts" );
 

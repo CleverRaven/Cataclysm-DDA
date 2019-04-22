@@ -1,11 +1,14 @@
 #include "string_input_popup.h"
 
+#include <ctype.h>
+
 #include "catacharset.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "input.h"
 #include "output.h"
 #include "ui.h"
 #include "uistate.h"
+#include "translations.h"
 
 #if defined(__ANDROID__)
 #include <SDL_keyboard.h>
@@ -14,6 +17,8 @@
 #endif
 
 #include <cstdlib>
+#include <algorithm>
+#include <vector>
 
 string_input_popup::string_input_popup() = default;
 

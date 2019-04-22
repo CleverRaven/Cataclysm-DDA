@@ -1,11 +1,17 @@
 #include "mapgen.h"
 
+#include <math.h>
+#include <stdlib.h>
 #include <algorithm>
-#include <cassert>
-#include <chrono>
 #include <list>
 #include <random>
 #include <sstream>
+#include <array>
+#include <functional>
+#include <iterator>
+#include <set>
+#include <stdexcept>
+#include <unordered_map>
 
 #include "ammo.h"
 #include "computer.h"
@@ -45,6 +51,16 @@
 #include "vehicle_group.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
+#include "calendar.h"
+#include "common_types.h"
+#include "creature.h"
+#include "field.h"
+#include "game_constants.h"
+#include "item.h"
+#include "player.h"
+#include "string_id.h"
+#include "tileray.h"
+#include "weighted_list.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 

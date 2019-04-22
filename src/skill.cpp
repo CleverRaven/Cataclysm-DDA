@@ -1,7 +1,11 @@
 #include "skill.h"
 
+#include <stddef.h>
 #include <algorithm>
 #include <iterator>
+#include <array>
+#include <memory>
+#include <utility>
 
 #include "debug.h"
 #include "item.h"

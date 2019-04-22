@@ -1,11 +1,13 @@
 #include <ostream>
 #include <vector>
+#include <algorithm>
+#include <list>
+#include <memory>
+#include <string>
 
 #include "catch/catch.hpp"
-#include "dispersion.h"
 #include "game.h"
 #include "item.h"
-#include "itype.h"
 #include "line.h"
 #include "map_helpers.h"
 #include "monster.h"
@@ -13,6 +15,11 @@
 #include "player.h"
 #include "projectile.h"
 #include "test_statistics.h"
+#include "character.h"
+#include "damage.h"
+#include "enums.h"
+#include "game_constants.h"
+#include "inventory.h"
 
 TEST_CASE( "throwing distance test", "[throwing], [balance]" )
 {

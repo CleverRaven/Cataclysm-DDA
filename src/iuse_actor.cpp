@@ -1,7 +1,16 @@
 #include "iuse_actor.h"
 
+#include <ctype.h>
+#include <stddef.h>
 #include <algorithm>
 #include <sstream>
+#include <array>
+#include <cmath>
+#include <functional>
+#include <iterator>
+#include <list>
+#include <memory>
+#include <type_traits>
 
 #include "action.h"
 #include "activity_handlers.h"
@@ -20,7 +29,6 @@
 #include "field.h"
 #include "game.h"
 #include "game_inventory.h"
-#include "generic_factory.h"
 #include "item.h"
 #include "item_factory.h"
 #include "itype.h"
@@ -51,6 +59,18 @@
 #include "vehicle.h"
 #include "vitamin.h"
 #include "weather.h"
+#include "creature.h"
+#include "enums.h"
+#include "int_id.h"
+#include "inventory.h"
+#include "item_location.h"
+#include "json.h"
+#include "line.h"
+#include "player_activity.h"
+#include "recipe.h"
+#include "rng.h"
+
+class npc;
 
 const skill_id skill_mechanics( "mechanics" );
 const skill_id skill_survival( "survival" );

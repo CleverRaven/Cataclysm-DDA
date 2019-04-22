@@ -2,6 +2,9 @@
 
 #include <map>
 #include <sstream>
+#include <algorithm>
+#include <memory>
+#include <unordered_set>
 
 #include "debug.h"
 #include "json.h"
@@ -10,6 +13,9 @@
 #include "player.h"
 #include "rng.h"
 #include "string_formatter.h"
+#include "color.h"
+#include "creature.h"
+#include "enums.h"
 
 namespace
 {

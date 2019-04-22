@@ -2,12 +2,15 @@
 #ifndef CATA_TILES_H
 #define CATA_TILES_H
 
+#include <stddef.h>
 #include <memory>
 #include <map>
 #include <set>
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <algorithm>
+#include <utility>
 
 #include "sdl_wrappers.h"
 #include "animation.h"
@@ -19,11 +22,9 @@
 #include "enums.h"
 #include "weighted_list.h"
 
-class cata_tiles;
 class Creature;
 class player;
 class JsonObject;
-struct visibility_variables;
 
 extern void set_displaybuffer_rendertarget();
 

@@ -1,5 +1,9 @@
 #include "output.h"
 
+#include <ctype.h>
+#include <errno.h>
+#include <math.h>
+#include <stdio.h>
 #include <algorithm>
 #include <cstdarg>
 #include <cstdlib>
@@ -10,6 +14,9 @@
 #include <stdexcept>
 #include <string>
 #include <vector>
+#include <array>
+#include <memory>
+#include <type_traits>
 
 #include "cata_utility.h"
 #include "catacharset.h"

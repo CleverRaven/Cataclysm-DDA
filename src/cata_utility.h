@@ -7,12 +7,11 @@
 #include <string>
 #include <utility>
 #include <vector>
+#include <algorithm>
+#include <type_traits>
 
 #include "units.h"
 
-class item;
-class Creature;
-struct tripoint;
 class JsonIn;
 class JsonOut;
 
@@ -380,6 +379,7 @@ class ofstream_wrapper
 bool write_to_file( const std::string &path, const std::function<void( std::ostream & )> &writer,
                     const char *fail_message );
 class JsonDeserializer;
+
 /**
  * Try to open and read from given file using the given callback.
  *

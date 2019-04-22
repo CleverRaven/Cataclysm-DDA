@@ -1,16 +1,16 @@
 #include "vehicle.h" // IWYU pragma: associated
 
+#include <stdlib.h>
 #include <algorithm>
 #include <set>
 #include <sstream>
+#include <memory>
 
 #include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
-#include "coordinate_conversions.h"
 #include "cursesdef.h"
 #include "debug.h"
-#include "game.h"
 #include "itype.h"
 #include "options.h"
 #include "output.h"
@@ -18,6 +18,8 @@
 #include "translations.h"
 #include "veh_type.h"
 #include "vpart_position.h"
+#include "color.h"
+#include "optional.h"
 
 static const std::string part_location_structure( "structure" );
 static const itype_id fuel_type_muscle( "muscle" );

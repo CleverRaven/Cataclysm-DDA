@@ -1,8 +1,11 @@
 #include "monster.h"
 
+#include <math.h>
 #include <algorithm>
-#include <cstdlib>
 #include <sstream>
+#include <memory>
+#include <tuple>
+#include <unordered_map>
 
 #include "coordinate_conversions.h"
 #include "cursesdef.h"
@@ -35,6 +38,15 @@
 #include "text_snippets.h"
 #include "translations.h"
 #include "trap.h"
+#include "character.h"
+#include "compatibility.h"
+#include "game_constants.h"
+#include "itype.h"
+#include "mattack_common.h"
+#include "pimpl.h"
+#include "player.h"
+
+struct pathfinding_settings;
 
 // Limit the number of iterations for next upgrade_time calculations.
 // This also sets the percentage of monsters that will never upgrade.

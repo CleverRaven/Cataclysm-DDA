@@ -2,12 +2,15 @@
 
 #include <map>
 #include <unordered_map>
+#include <set>
+#include <utility>
+#include <vector>
 
 #include "anatomy.h"
 #include "debug.h"
 #include "generic_factory.h"
-#include "rng.h"
 #include "translations.h"
+#include "json.h"
 
 side opposite_side( side s )
 {

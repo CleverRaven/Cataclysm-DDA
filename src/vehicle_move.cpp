@@ -2,12 +2,12 @@
 
 #include <algorithm>
 #include <array>
-#include <cassert>
 #include <cmath>
 #include <cstdlib>
 #include <set>
+#include <memory>
+#include <ostream>
 
-#include "coordinate_conversions.h"
 #include "debug.h"
 #include "game.h"
 #include "item.h"
@@ -16,12 +16,17 @@
 #include "mapdata.h"
 #include "material.h"
 #include "messages.h"
-#include "output.h"
 #include "sounds.h"
 #include "translations.h"
 #include "trap.h"
 #include "veh_type.h"
-#include "vpart_reference.h"
+#include "bodypart.h"
+#include "creature.h"
+#include "math_defines.h"
+#include "optional.h"
+#include "player.h"
+#include "rng.h"
+#include "vpart_position.h"
 
 static const std::string part_location_structure( "structure" );
 static const itype_id fuel_type_muscle( "muscle" );

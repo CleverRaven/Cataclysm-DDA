@@ -2,13 +2,16 @@
 #ifndef PANELS_H
 #define PANELS_H
 
-#include "json.h"
-
+#include <stddef.h>
 #include <functional>
 #include <map>
 #include <string>
+#include <vector>
 
 class player;
+class JsonIn;
+class JsonOut;
+
 namespace catacurses
 {
 class window;

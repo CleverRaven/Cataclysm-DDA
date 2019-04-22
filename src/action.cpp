@@ -1,8 +1,11 @@
 #include "action.h"
 
+#include <limits.h>
 #include <algorithm>
 #include <istream>
 #include <iterator>
+#include <memory>
+#include <utility>
 
 #include "cata_utility.h"
 #include "debug.h"
@@ -22,6 +25,13 @@
 #include "ui.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+#include "creature.h"
+#include "cursesdef.h"
+#include "enums.h"
+#include "item.h"
+#include "ret_val.h"
+
+class inventory;
 
 void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
                    std::set<action_id> &unbound_keymap );

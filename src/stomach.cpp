@@ -1,3 +1,8 @@
+#include <math.h>
+#include <algorithm>
+#include <memory>
+#include <string>
+
 #include "calendar.h"
 #include "cata_utility.h"
 #include "creature.h"
@@ -5,6 +10,13 @@
 #include "player.h"
 #include "stomach.h"
 #include "units.h"
+#include "compatibility.h"
+#include "game.h"
+#include "item.h"
+#include "itype.h"
+#include "optional.h"
+#include "pldata.h"
+#include "rng.h"
 
 
 stomach_contents::stomach_contents() = default;

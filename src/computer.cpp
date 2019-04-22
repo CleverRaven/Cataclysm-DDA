@@ -1,8 +1,15 @@
 #include "computer.h"
 
+#include <limits.h>
+#include <stdlib.h>
 #include <algorithm>
 #include <sstream>
 #include <string>
+#include <list>
+#include <locale>
+#include <map>
+#include <memory>
+#include <utility>
 
 #include "coordinate_conversions.h"
 #include "debug.h"
@@ -32,6 +39,19 @@
 #include "text_snippets.h"
 #include "translations.h"
 #include "trap.h"
+#include "bodypart.h"
+#include "character.h"
+#include "color.h"
+#include "creature.h"
+#include "enums.h"
+#include "game_constants.h"
+#include "int_id.h"
+#include "item.h"
+#include "item_stack.h"
+#include "omdata.h"
+#include "optional.h"
+#include "pldata.h"
+#include "string_id.h"
 
 const mtype_id mon_manhack( "mon_manhack" );
 const mtype_id mon_secubot( "mon_secubot" );
