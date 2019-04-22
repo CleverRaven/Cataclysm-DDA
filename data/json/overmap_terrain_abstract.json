@@ -158,8 +158,13 @@
   {
     "type": "overmap_terrain",
     "abstract": "generic_cemetery",
-    "name": "generic_cemetery",
-    "land_use_code": "cemetery"
+    "name": "cemetery",
+    "land_use_code": "cemetery",
+    "sym": "n",
+    "color": "white",
+    "extras": "field",
+    "see_cost": 5,
+    "monster_density": 2
   },
   {
     "type": "overmap_terrain",
