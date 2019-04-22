@@ -521,7 +521,6 @@
     "points": 1,
     "description": "You make less noise while walking.  You're also less likely to set off traps.",
     "starting_trait": true,
-    "changes_to": [ "LIGHTSTEP2" ],
     "category": [ "BIRD", "ELFA", "FELINE" ],
     "cancels": [ "CLUMSY" ],
     "noise_modifier": 0.4
