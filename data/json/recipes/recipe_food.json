@@ -87,19 +87,6 @@
     "components": [ [ [ "meat_scrap", 1 ] ] ]
   },
   {
-    "type": "recipe",
-    "result": "offal_cooked",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_MEAT",
-    "skill_used": "cooking",
-    "time": 18000,
-    "autolearn": true,
-    "batch_time_factors": [ 67, 5 ],
-    "qualities": [ { "id": "COOK", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
-    "components": [ [ [ "offal", 1 ] ] ]
-  },
-  {
     "result": "offal_canned",
     "type": "recipe",
     "id_suffix": "jarred",
