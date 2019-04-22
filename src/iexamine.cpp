@@ -4273,6 +4273,12 @@ void smoker_finalize( player &, const tripoint &examp, const time_point &start_t
         return;
     }
 
+    for( auto &it : items ) {
+        if( it.has_flag( "SMOKABLE" ) ) { // Don't check charcoal
+            it.calc_rot_while_smoking( 6_hours );
+        }
+    }
+
     for( size_t i = 0; i < items.size(); i++ ) {
         auto &item_it = items[i];
         if( item_it.get_comestible() ) {

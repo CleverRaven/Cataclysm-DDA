@@ -3882,7 +3882,7 @@ void item::calc_rot( time_point time )
         return;
     }
 
-    if( item_tags.count( "FROZEN" ) || item_tags.count( "SMOKING" ) ) {
+    if( item_tags.count( "FROZEN" ) ) {
         return;
     }
 
@@ -3893,9 +3893,20 @@ void item::calc_rot( time_point time )
     } else if( has_flag( "SMOKING" ) ) {
         factor = 0.5;
     }
-    time_duration time_delta = time - last_temp_check;
+    time_duration time_delta = time - last_rot_check;
     rot += factor * time_delta / 1_hours * get_hourly_rotpoints_at_temp( temperature ) * 1_turns;
 
+}
+
+void item::calc_rot_while_smoking( time_duration smoking_duration )
+{
+    if( !item_tags.count( "SMOKING" ) ) {
+        debugmsg( "calc_rot_while_smoking called on non smoking item: %s", tname() );
+        return;
+    }
+
+    // Apply no rot while smoking
+    last_rot_check += smoking_duration;
 }
 
 units::volume item::get_storage() const
@@ -6962,7 +6973,6 @@ void item::apply_freezerburn()
     }
 }
 
-// temp, insulation, pos, carrier
 void item::process_temperature_rot( int temp, float insulation, const tripoint pos,
                                     player *carrier )
 {
@@ -6979,18 +6989,25 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
     }
 
 
+
+
     // process temperature and rot at most every 100_turns (10 min)
+    // If the item has had its temperature/rot set the two can be out of sync
+    // Rot happens slower than temperature changes so for most part last_temp_check dominates
     // note we're also gated by item::processing_speed
     time_duration smallest_interval = 100_turns;
-    if( dur > smallest_interval ) {
+    if( now - last_temp_check >  smallest_interval ) {
 
         bool carried = carrier != nullptr && carrier->has_item( *this );
         if( carried ) {
             insulation *= 1.5; // clothing provides inventory some level of insulation
+            temp += 5; // body heat increases inventory temperature
         }
-        time_point time = since;
 
-        if( dur > 1_hours ) {
+        time_point time = last_temp_check;
+
+        if( now - last_temp_check > 1_hours ) {
+            // This code is for items that were left out of reality bubble for long time
 
             const auto &wgen = g->get_cur_weather_gen();
             const auto seed = g->get_seed();
@@ -6998,14 +7015,11 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
             auto local_mod = g->new_game ? 0 : g->m.temperature( local );
             const auto temp_modify = ( !g->new_game ) && ( g->m.ter( local ) == t_rootcellar );
 
-
             if( carried ) {
                 local_mod += 5; // body heat increases inventory temperature
             }
-            // Process the past of this item since the last time it was processed
-            // First calculate temperature, then calculate rot from that
 
-            // This code is for items that were left out of reality bubble for long time
+            // Process the past of this item since the last time it was processed
             while( time < now - 1_hours ) {
                 // Get the enviroment temperature
                 time_duration time_delta = std::min( 1_hours, now - 1_hours - time );
@@ -7015,25 +7029,23 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
 
                 //Use weather if above ground, use map temp if below
                 double env_temperature = ( pos.z >= 0 ? weather.temperature : temp ) + local_mod;
+
                 // If in a root celler: use AVERAGE_ANNUAL_TEMPERATURE
                 // If not: use calculated temperature
-
                 env_temperature = ( temp_modify * AVERAGE_ANNUAL_TEMPERATURE ) + ( !temp_modify * temperature );
 
-                if( now - time < 3_days ) {
+                // Calculate item temperature from enviroment temperature
+                if( now - time < 2_days ) {
                     calc_temp( env_temperature, insulation, dur );
-                } else {
+                } else if( last_temp_check >  smallest_interval ) {
                     // There is no point in doing the proper temperature calculations for too long times
                     // Just set the item to enviroment temperature. This temperature won't show for the player and is used only for rotting.
                     temperature = env_temperature;
                 }
                 last_temp_check = time;
 
-                // Calculate item temperature from enviroment temperature
-
-
-                if( goes_bad() ) {
-                    // Calculate item rot from item temperature
+                // Calculate item rot from item temperature
+                if( goes_bad() && time - last_rot_check >  smallest_interval ) {
                     calc_rot( time );
                     last_rot_check = time;
                 }
@@ -7043,20 +7055,19 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
         // Remaining <1 h from above
         // and items that are held near the player
         if( now - time > smallest_interval ) {
-            if( carried ) {
-                temp += 5; // body heat increases inventory temperature
-            }
             calc_temp( temp, insulation, now - time );
             calc_rot( now );
 
+            last_rot_check = now;
             last_temp_check = now;
         }
         return;
     }
     // If the item has negative energy process it now. It is a new item.
     if( specific_energy < 0 ) {
-        calc_temp( temp, insulation, dur );
+        calc_temp( temp, insulation, 1_turns );
         last_temp_check = now;
+        last_rot_check = now;
     }
 }
 
@@ -7073,10 +7084,8 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
     }
     const float mass = to_gram( weight() ); // g
 
-    // If item has not been processed for two days just set it to environment temperature
-    // Or if the item has negative energy (it not been processed ever)
-    // This can cause incorrect freezing/unfreezing when the temperature is close to freezing temperature and the freezing/unfreezing would take longer than two days
-    if( to_turns<int>( time ) > 28800 || specific_energy < 0 ) {
+    // If item has negative energy set to enviroment temperature (it not been processed ever)
+    if( specific_energy < 0 ) {
         set_item_temperature( env_temperature );
         return;
     }
@@ -7701,7 +7710,8 @@ bool item::process( player *carrier, const tripoint &pos, bool activate, int tem
     if( is_tool() ) {
         return process_tool( carrier, pos );
     }
-    if( has_temperature() || goes_bad() ) {
+    // All foods that go bad have temperature
+    if( has_temperature() ) {
         process_temperature_rot( temp, insulation, pos, carrier );
     }
 

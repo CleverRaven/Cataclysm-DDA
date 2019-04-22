@@ -667,19 +667,17 @@ class item : public visitable<item>
         void calc_rot( time_point time );
 
         /**
-         * Accumulate rot of the item since starting smoking.
          * This is part of a workaround so that items don't rot away to nothing if the smoking rack
          * is outside the reality bubble.
-         * @param p The absolute, global location (in map square coordinates) of the item to
-         * check for temperature.
          * @param smoking_duration
          */
-        void calc_rot_while_smoking( const tripoint &p, time_duration smoking_duration );
+        void calc_rot_while_smoking( time_duration smoking_duration );
 
 
         /**
          * Update temperature for things like food
          * Update rot for things that perish
+         * All items that rot also have temperature
          * @param temp Temperature at which item is current exposed
          * @param insulation Amount of insulation item has from surroundings
          * @param pos The current position
