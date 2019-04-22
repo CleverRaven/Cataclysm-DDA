@@ -195,5 +195,23 @@
     "tools": [ [ [ "mold_plastic", -1 ] ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 } ],
     "components": [ [ [ "plastic_chunk", 4 ] ] ]
+  },
+  {
+    "result": "mounted_spare_tire",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "mechanics",
+    "difficulty": 1,
+    "time": 3000,
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [
+      { "id": "WRENCH", "level": 2 }
+    ],
+    "components": [
+      [ [ "wheel_wide_or", 1 ], [ "wheel_wide", 1 ], [ "wheel", 1 ], [ "wheel_slick", 1 ], [ "wheel_armor", 1 ] ],
+      [ [ "spare_tire_carrier", 1 ] ]
+    ]
   }
 ]
