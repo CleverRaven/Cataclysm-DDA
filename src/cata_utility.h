@@ -257,11 +257,11 @@ double temp_to_celsius( double fahrenheit );
 double temp_to_kelvin( double fahrenheit );
 
 /**
- * Convert a temperature from Jelvin to degrees Fahrenheit.
+ * Convert a temperature from Kelvin to degrees Fahrenheit.
  *
  * @return Temperature in degrees C.
  */
-double kelvin_to_fareheit( double kelvin );
+double kelvin_to_fahreheit( double kelvin );
 
 /**
  * Clamp (number and space wise) value to with,
