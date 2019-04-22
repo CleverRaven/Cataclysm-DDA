@@ -450,7 +450,11 @@
           "wristwatch",
           "mag_cars"
         ],
-        "entries": [ { "item": "welder", "charges": 500 }, { "item": "goggles_welding", "custom-flags": [ "no_auto_equip" ] } ]
+        "entries": [
+          { "item": "welder" },
+          { "item": "goggles_welding", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "medium_plus_battery_cell", "charges": 600 }
+        ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "boy_shorts" ]
