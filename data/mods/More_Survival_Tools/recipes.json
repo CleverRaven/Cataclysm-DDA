@@ -851,27 +851,5 @@
   "autolearn": true,
   "using": [ [ "rope_natural_short", 1 ] ],
   "components": [ [ [ "snare_trigger", 1 ] ] ]
-},{
-  "type" : "recipe",
-  "result": "crossbow_makeshift",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_RANGED",
-  "skill_used": "fabrication",
-  "skills_required": [[ "survival", 1 ], [ "archery", 2 ]],
-  "difficulty": 2,
-  "time": 15000,
-  "reversible": true,
-  "autolearn": true,
-  "qualities" : [ {"id":"CUT","level":1} ],
-  "using": [ [ "cordage", 3 ] ],
-  "components": [
-    [
-      [ "2x4", 2 ],
-      [ "stick", 4 ]
-    ],
-    [
-      [ "splinter", 1 ]
-    ]
-  ]
 }
 ]
