@@ -961,8 +961,11 @@ class game
         void on_move_effects();
 
         void control_vehicle(); // Use vehicle controls  '^'
-        void examine( const tripoint &p );// Examine nearby terrain  'e'
+        void examine( const tripoint &p ); // Examine nearby terrain  'e'
         void examine();
+
+        void pickup(); // Pickup neaby items 'g'
+        void pickup( const tripoint &p );
 
         void drop(); // Drop an item  'd'
         void drop_in_direction(); // Drop w/ direction  'D'

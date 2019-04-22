@@ -6242,6 +6242,45 @@ void game::examine( const tripoint &examp )
     }
 }
 
+void game::pickup()
+{
+    // First check if there is no/only one option for pickup
+    int num_tiles_with_items = 0;
+    tripoint tile_with_items = u.pos();
+    for( const tripoint &p : m.points_in_radius( u.pos(), 1 ) ) {
+        if( m.has_items( p ) ) {
+            ++num_tiles_with_items;
+            tile_with_items = p;
+        }
+    }
+    if( num_tiles_with_items == 0 ) {
+        add_msg( _( "There's nothing to pick up there" ) );
+        return;
+    } else if( num_tiles_with_items == 1 ) {
+        pickup( tile_with_items );
+        return;
+    }
+
+    const cata::optional<tripoint> examp_ = choose_adjacent_highlight( _( "Pickup where?" ),
+                                            ACTION_PICKUP );
+    if( !examp_ ) {
+        return;
+    }
+    // redraw terrain to erase 'pickup' window
+    draw_ter();
+    // wrefresh is called in pickup( const tripoint & )
+    pickup( *examp_ );
+}
+
+void game::pickup( const tripoint &p )
+{
+    // Highlight target
+    g->m.drawsq( w_terrain, u, p, true, true, u.pos() + u.view_offset );
+    wrefresh( w_terrain );
+
+    Pickup::pick_up( p, 1 );
+}
+
 //Shift player by one tile, look_around(), then restore previous position.
 //represents carefully peeking around a corner, hence the large move cost.
 void game::peek()
