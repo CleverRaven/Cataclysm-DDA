@@ -160,6 +160,9 @@ struct vehicle_part {
         /** Translated name of a part inclusive of any current status effects */
         std::string name() const;
 
+        /** Translated name of a part with durability prefix */
+        std::string name_with_durability() const;
+
         static constexpr int name_offset = 7;
         /** Stack of the containing vehicle's name, when it it stored as part of another vehicle */
         std::stack<std::string, std::vector<std::string> > carry_names;

@@ -32,6 +32,9 @@ enum task_reason {
 class vehicle;
 struct vehicle_part;
 
+// For marking 'leaking' tanks/reactors/batteries
+const std::string leak_marker = "<color_red>*</color>";
+
 class veh_interact
 {
         using part_selector = std::function<bool( const vehicle_part &pt )>;
@@ -159,6 +162,9 @@ class veh_interact
         void move_overview_line( int );
 
         void count_durability();
+
+        /** Show durability symbol/name as prefix */
+        std::string name_with_durability() const;
 
         std::string total_durability_text;
         nc_color total_durability_color;

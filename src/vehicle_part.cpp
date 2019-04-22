@@ -78,6 +78,14 @@ item vehicle_part::properties_to_item() const
     return tmp;
 }
 
+std::string vehicle_part::name_with_durability() const
+{
+    std::string symbol = this->base.damage_symbol();
+    nc_color color = this->base.damage_color();
+
+    return "<color_" + string_from_color( color ) + ">" + symbol + "</color> " + info().name();
+}
+
 std::string vehicle_part::name() const
 {
     auto res = info().name();
