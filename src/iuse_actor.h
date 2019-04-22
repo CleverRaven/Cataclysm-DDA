@@ -610,6 +610,8 @@ class manualnoise_actor : public iuse_actor
         std::string no_charges_message;
         std::string use_message;
         std::string noise_message;
+        std::string noise_id;
+        std::string noise_variant;
         int noise = 0; // Should work even with no volume, even if it seems impossible
         int moves = 0;
 

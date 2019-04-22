@@ -185,6 +185,8 @@ void messages_in_process( const player_activity &act, const player &p )
 
 void activity_handlers::burrow_do_turn( player_activity *act, player *p )
 {
+    // single sound execution to avoid cluttering in a loop
+    sfx::play_variant_sound( "activity", "burrow", sfx::get_heard_volume( act->placement ) );
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a Rat mutant burrowing!
         sounds::sound( act->placement, 10, sounds::sound_t::movement,
@@ -1691,6 +1693,8 @@ void activity_handlers::make_zlave_finish( player_activity *act, player *p )
 void activity_handlers::pickaxe_do_turn( player_activity *act, player *p )
 {
     const tripoint &pos = act->placement;
+    // single sound execution to avoid cluttering in a loop
+    sfx::play_variant_sound( "tool", "pickaxe", sfx::get_heard_volume( pos ) );
     if( calendar::once_every( 1_minutes ) ) { // each turn is too much
         //~ Sound of a Pickaxe at work!
         sounds::sound( pos, 30, sounds::sound_t::destructive_activity, _( "CHNK! CHNK! CHNK!" ) );
@@ -2079,6 +2083,8 @@ void activity_handlers::oxytorch_do_turn( player_activity *act, player *p )
     it.ammo_consume( charges_used, p->pos() );
     act->values[0] -= static_cast<int>( charges_used );
 
+    // single sound execution to avoid cluttering in a loop
+    sfx::play_variant_sound( "tool", "oxytorch", sfx::get_heard_volume( act->placement ) );
     if( calendar::once_every( 2_turns ) ) {
         sounds::sound( act->placement, 10, sounds::sound_t::destructive_activity, _( "hissssssssss!" ) );
     }
@@ -2749,6 +2755,8 @@ void activity_handlers::eat_menu_finish( player_activity *, player * )
 
 void activity_handlers::hacksaw_do_turn( player_activity *act, player *p )
 {
+    // single sound execution to avoid cluttering in a loop
+    sfx::play_variant_sound( "tool", "hacksaw", sfx::get_heard_volume( act->placement ) );
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a metal sawing tool at work!
         sounds::sound( act->placement, 15, sounds::sound_t::destructive_activity, _( "grnd grnd grnd" ) );
@@ -2814,6 +2822,8 @@ void activity_handlers::hacksaw_finish( player_activity *act, player *p )
 
 void activity_handlers::chop_tree_do_turn( player_activity *act, player *p )
 {
+    // single sound execution to avoid cluttering in a loop
+    sfx::play_variant_sound( "tool", "axe", sfx::get_heard_volume( act->placement ) );
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a wood chopping tool at work!
         sounds::sound( act->placement, 15, sounds::sound_t::activity, _( "CHK!" ) );
@@ -2878,6 +2888,8 @@ void activity_handlers::chop_logs_finish( player_activity *act, player *p )
 
 void activity_handlers::jackhammer_do_turn( player_activity *act, player *p )
 {
+    // single sound execution to avoid cluttering in a loop
+    sfx::play_variant_sound( "tool", "jackhammer", sfx::get_heard_volume( act->placement ) );
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a jackhammer at work!
         sounds::sound( act->placement, 15, sounds::sound_t::destructive_activity, _( "TATATATATATATAT!" ) );
@@ -2903,6 +2915,8 @@ void activity_handlers::jackhammer_finish( player_activity *act, player *p )
 
 void activity_handlers::dig_do_turn( player_activity *act, player *p )
 {
+    // single sound execution to avoid cluttering in a loop
+    sfx::play_variant_sound( "tool", "shovel", sfx::get_heard_volume( act->placement ) );
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a shovel digging a pit at work!
         sounds::sound( act->placement, 10, sounds::sound_t::activity, _( "hsh!" ) );
@@ -2912,6 +2926,8 @@ void activity_handlers::dig_do_turn( player_activity *act, player *p )
 
 void activity_handlers::dig_channel_do_turn( player_activity *act, player *p )
 {
+    // single sound execution to avoid cluttering in a loop
+    sfx::play_variant_sound( "tool", "shovel", sfx::get_heard_volume( act->placement ) );
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a shovel digging a pit at work!
         sounds::sound( act->placement, 10, sounds::sound_t::activity, _( "hsh!" ) );
@@ -3003,6 +3019,8 @@ void activity_handlers::dig_channel_finish( player_activity *act, player *p )
 
 void activity_handlers::fill_pit_do_turn( player_activity *act, player *p )
 {
+    // single sound execution to avoid cluttering in a loop
+    sfx::play_variant_sound( "tool", "jackhammer", sfx::get_heard_volume( act->placement ) );
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a shovel filling a pit or mound at work!
         sounds::sound( act->placement, 10, sounds::sound_t::activity, _( "hsh!" ) );

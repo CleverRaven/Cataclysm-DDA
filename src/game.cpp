@@ -4759,7 +4759,7 @@ void game::flashbang( const tripoint &p, bool player_immune )
             }
         }
     }
-    sounds::sound( p, 12, sounds::sound_t::combat, _( "a huge boom!" ) );
+    sounds::sound( p, 12, sounds::sound_t::combat, _( "a huge boom!" ), false, "misc", "flashbang" );
     // TODO: Blind/deafen NPC
 }
 
@@ -4768,7 +4768,7 @@ void game::shockwave( const tripoint &p, int radius, int force, int stun, int da
 {
     draw_explosion( p, radius, c_blue );
 
-    sounds::sound( p, force * force * dam_mult / 2, sounds::sound_t::combat, _( "Crack!" ) );
+    sounds::sound( p, force * force * dam_mult / 2, sounds::sound_t::combat, _( "Crack!" ), false, "misc", "shockwave" );
 
     for( monster &critter : all_monsters() ) {
         if( rl_dist( critter.pos(), p ) <= radius ) {
@@ -10511,7 +10511,8 @@ bool game::walk_move( const tripoint &dest_loc )
         }
 
         if( one_in( 20 ) && u.has_artifact_with( AEP_MOVEMENT_NOISE ) ) {
-            sounds::sound( u.pos(), 40, sounds::sound_t::movement, _( "a rattling sound." ) );
+            sounds::sound( u.pos(), 40, sounds::sound_t::movement, _( "a rattling sound." ), true,
+            "misc", "rattling" );
         }
     }
 
@@ -11007,7 +11008,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
         }
     }
     sounds::sound( fdest, furntype.move_str_req * 2, sounds::sound_t::movement,
-                   _( "a scraping noise." ) );
+                   _( "a scraping noise." ), true, "misc", "scraping" );
 
     // Actually move the furniture
     m.furn_set( fdest, m.furn( fpos ) );
@@ -12112,7 +12113,7 @@ void game::update_stair_monsters()
             add_msg( m_warning, dump.str() );
         } else {
             sounds::sound( dest, 5, sounds::sound_t::movement,
-                           _( "a sound nearby from the stairs!" ) );
+                           _( "a sound nearby from the stairs!" ), true, "misc", "stairs_movement" );
         }
 
         if( critter.staircount > 0 ) {
