@@ -3882,7 +3882,7 @@ void item::calc_rot( time_point time )
         return;
     }
 
-    if( item_tags.count( "FROZEN" ) || has_flag( "SMOKING" )) {
+    if( item_tags.count( "FROZEN" ) || has_flag( "SMOKING" ) ) {
         return;
     }
 
@@ -3890,10 +3890,12 @@ void item::calc_rot( time_point time )
     float factor = 1.0;
     if( is_corpse() && has_flag( "FIELD_DRESS" ) ) {
         factor = 0.75;
+    }
 
-    time_duration time_delta = time - last_rot_check;
+    // bday and/or last_rot_check might be zero, if both are then we want calendar::start
+    const time_point since = std::max( {bday, last_rot_check, ( time_point ) calendar::start} );
+    time_duration time_delta = time - since;
     rot += factor * time_delta / 1_hours * get_hourly_rotpoints_at_temp( temperature ) * 1_turns;
-
 }
 
 void item::calc_rot_while_smoking( time_duration smoking_duration )
@@ -6975,19 +6977,13 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
                                     player *carrier )
 {
     const time_point now = calendar::turn;
-    const time_point since = last_temp_check;
-
-    const time_duration dur = now - last_temp_check;
 
     // if player debug menu'd the time backward it breaks stuff, just reset the
     // last_temp_check in this case
-    if( dur < 0_turns ) {
+    if( now - last_temp_check < 0_turns ) {
         last_temp_check = now;
         return;
     }
-
-
-
 
     // process temperature and rot at most every 100_turns (10 min)
     // If the item has had its temperature/rot set the two can be out of sync
@@ -7034,8 +7030,8 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
 
                 // Calculate item temperature from enviroment temperature
                 if( now - time < 2_days ) {
-                    calc_temp( env_temperature, insulation, dur );
-                } else if( last_temp_check >  smallest_interval ) {
+                    calc_temp( env_temperature, insulation, time_delta );
+                } else {
                     // There is no point in doing the proper temperature calculations for too long times
                     // Just set the item to enviroment temperature. This temperature won't show for the player and is used only for rotting.
                     temperature = env_temperature;
