@@ -1,5 +1,11 @@
 #include "clzones.h"
 
+#include <stddef.h>
+#include <iosfwd>
+#include <iterator>
+#include <list>
+#include <tuple>
+
 #include "cata_utility.h"
 #include "debug.h"
 #include "game.h"
@@ -15,6 +21,9 @@
 #include "ui.h"
 #include "vehicle.h"
 #include "vpart_reference.h"
+#include "item.h"
+#include "player.h"
+#include "vpart_position.h"
 
 zone_manager::zone_manager()
 {

@@ -1,17 +1,23 @@
 #include "debug.h"
 
 #include <sys/stat.h>
+#include <ctype.h>
+#include <stdio.h>
 #include <algorithm>
 #include <cassert>
-#include <cstdarg>
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
-#include <exception>
 #include <fstream>
 #include <iomanip>
-#include <iosfwd>
-#include <streambuf>
+#include <cstdint>
+#include <iterator>
+#include <locale>
+#include <map>
+#include <memory>
+#include <set>
+#include <sstream>
+#include <type_traits>
 
 #include "cursesdef.h"
 #include "filesystem.h"
@@ -19,6 +25,10 @@
 #include "input.h"
 #include "output.h"
 #include "path_info.h"
+#include "cata_utility.h"
+#include "color.h"
+#include "optional.h"
+#include "translations.h"
 
 #if !defined(_MSC_VER)
 #include <sys/time.h>
@@ -36,7 +46,6 @@
 #   else
 #       include <execinfo.h>
 #       include <unistd.h>
-#       include <cstdlib>
 #   endif
 #endif
 

@@ -1,7 +1,12 @@
 #include "monexamine.h"
 
+#include <limits.h>
 #include <string>
 #include <utility>
+#include <list>
+#include <map>
+#include <memory>
+#include <vector>
 
 #include "calendar.h"
 #include "game.h"
@@ -17,6 +22,13 @@
 #include "string_input_popup.h"
 #include "translations.h"
 #include "ui.h"
+#include "bodypart.h"
+#include "debug.h"
+#include "enums.h"
+#include "player_activity.h"
+#include "rng.h"
+#include "string_formatter.h"
+#include "units.h"
 
 const species_id ZOMBIE( "ZOMBIE" );
 

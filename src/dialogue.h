@@ -5,23 +5,23 @@
 #include <functional>
 #include <string>
 #include <vector>
+#include <set>
+#include <type_traits>
+#include <unordered_set>
+#include <utility>
 
 #include "dialogue_win.h"
 #include "npc.h"
 #include "npc_class.h"
+#include "json.h"
+#include "pldata.h"
+#include "string_id.h"
+#include "material.h"
 
-class JsonObject;
 class mission;
-class time_duration;
-class time_point;
-class npc;
-class item;
-struct tripoint;
-class player;
-template<typename T>
-class string_id;
-
 struct dialogue;
+class martialart;
+class player;
 
 enum talk_trial_type : unsigned char {
     TALK_TRIAL_NONE, // No challenge here!

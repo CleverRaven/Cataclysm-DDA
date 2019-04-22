@@ -1,31 +1,14 @@
-#include "mission.h"
+#include <memory>
+#include <string>
+#include <vector>
 
-#include "computer.h"
-#include "coordinate_conversions.h"
-#include "debug.h"
-#include "dialogue.h"
-#include "field.h"
+#include "mission.h"
 #include "game.h"
-#include "json.h"
-#include "line.h"
-#include "map.h"
-#include "map_iterator.h"
-#include "mapdata.h"
-// TODO: Remove this include once 2D wrappers are no longer needed
-#include "mapgen_functions.h"
-#include "messages.h"
-#include "name.h"
-#include "npc.h"
-#include "npc_class.h"
-#include "omdata.h"
-#include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
-#include "string_formatter.h"
-#include "translations.h"
-#include "trap.h"
-
-#include <stdio.h>
+#include "enums.h"
+#include "player.h"
+#include "rng.h"
 
 /**
  * Reveal the cloest overmap terrain of a type and return the its location

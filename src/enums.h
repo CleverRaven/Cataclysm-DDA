@@ -4,7 +4,8 @@
 
 #include <climits>
 #include <ostream>
-#include <utility>
+#include <cstdint>
+#include <system_error>
 
 class JsonOut;
 class JsonIn;

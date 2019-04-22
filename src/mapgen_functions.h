@@ -3,6 +3,7 @@
 #define MAPGEN_FUNCTIONS_H
 
 #include <string>
+#include <functional>
 
 #include "enums.h"
 #include "int_id.h"
@@ -10,17 +11,22 @@
 
 class time_point;
 struct ter_t;
+
 using ter_id = int_id<ter_t>;
 struct furn_t;
+
 using furn_id = int_id<furn_t>;
 struct trap;
+
 using trap_id = int_id<trap>;
 struct regional_settings;
 class map;
 struct oter_t;
+
 using oter_id = int_id<oter_t>;
 enum field_id : int;
 class mission;
+
 using mapgen_update_func = std::function<void( const tripoint &map_pos3, mission *miss )>;
 class JsonObject;
 

@@ -5,18 +5,29 @@
 #include "npc_favor.h" // IWYU pragma: associated
 #include "pldata.h" // IWYU pragma: associated
 
+#include <ctype.h>
+#include <stddef.h>
 #include <algorithm>
 #include <limits>
 #include <numeric>
 #include <sstream>
+#include <array>
+#include <iterator>
+#include <list>
+#include <map>
+#include <memory>
+#include <set>
+#include <stack>
+#include <unordered_map>
+#include <unordered_set>
+#include <utility>
+#include <vector>
 
 #include "ammo.h"
 #include "auto_pickup.h"
 #include "basecamp.h"
 #include "bionics.h"
 #include "calendar.h"
-#include "crafting.h"
-#include "cursesdef.h"
 #include "debug.h"
 #include "effect.h"
 #include "game.h"
@@ -47,6 +58,27 @@
 #include "vpart_reference.h"
 #include "creature_tracker.h"
 #include "overmapbuffer.h"
+#include "active_item_cache.h"
+#include "bodypart.h"
+#include "character.h"
+#include "clzones.h"
+#include "creature.h"
+#include "faction.h"
+#include "game_constants.h"
+#include "item_location.h"
+#include "itype.h"
+#include "map_memory.h"
+#include "mapdata.h"
+#include "mattack_common.h"
+#include "morale_types.h"
+#include "optional.h"
+#include "pimpl.h"
+#include "recipe.h"
+#include "stomach.h"
+#include "tileray.h"
+#include "visitable.h"
+
+struct oter_type_t;
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -623,7 +655,7 @@ void player::load( JsonObject &data )
     while( overmap_time_array.has_more() ) {
         point pt;
         overmap_time_array.read_next( pt );
-        time_duration tdr;
+        time_duration tdr = 0_turns;
         overmap_time_array.read_next( tdr );
         overmap_time[pt] = tdr;
     }

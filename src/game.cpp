@@ -1,8 +1,8 @@
 #include "game.h"
 
+#include <stdio.h>
+#include <wctype.h>
 #include <algorithm>
-#include <cassert>
-#include <chrono>
 #include <cmath>
 #include <csignal>
 #include <ctime>
@@ -14,6 +14,14 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <cstdlib>
+#include <exception>
+#include <iostream>
+#include <limits>
+#include <tuple>
+#include <type_traits>
+#include <unordered_set>
+#include <utility>
 
 #include "action.h"
 #include "activity_handlers.h"
@@ -34,7 +42,6 @@
 #include "debug_menu.h"
 #include "dependency_tree.h"
 #include "editmap.h"
-#include "effect.h"
 #include "enums.h"
 #include "event.h"
 #include "faction.h"
@@ -115,6 +122,26 @@
 #include "weather_gen.h"
 #include "worldfactory.h"
 #include "map_selector.h"
+#include "basecamp.h"
+#include "character.h"
+#include "color.h"
+#include "damage.h"
+#include "field.h"
+#include "inventory.h"
+#include "item_stack.h"
+#include "itype.h"
+#include "iuse.h"
+#include "player.h"
+#include "player_activity.h"
+#include "pldata.h"
+#include "recipe.h"
+#include "regional_settings.h"
+#include "ret_val.h"
+#include "stomach.h"
+#include "tileray.h"
+#include "ui.h"
+#include "units.h"
+#include "weighted_list.h"
 
 #if defined(TILES)
 #include "cata_tiles.h"

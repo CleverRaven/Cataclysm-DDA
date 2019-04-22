@@ -3,13 +3,9 @@
 #define SOFTWARE_LIGHTSON_H
 
 #include <vector>
+#include <utility>
 
 #include "cursesdef.h"
-
-namespace catacurses
-{
-class window;
-} // namespace catacurses
 
 class lightson_game
 {

@@ -1,14 +1,15 @@
 #include "mission.h" // IWYU pragma: associated
 
+#include <memory>
+
 #include "debug.h"
 #include "game.h"
 #include "messages.h"
 #include "npc.h"
-#include "output.h"
 #include "rng.h"
 #include "translations.h"
-#include "map.h"
-#include "overmapbuffer.h"
+#include "item.h"
+#include "player.h"
 
 void mission_end::deposit_box( mission *miss )
 {

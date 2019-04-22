@@ -7,15 +7,19 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <array>
+#include <exception>
+#include <list>
+#include <memory>
+#include <set>
+#include <type_traits>
+#include <utility>
 
-#include "artifact.h"
-#include "auto_pickup.h"
 #include "calendar.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "computer.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
-#include "debug.h"
 #include "debug_menu.h"
 #include "field.h"
 #include "game.h"
@@ -26,8 +30,6 @@
 #include "monster.h"
 #include "npc.h"
 #include "output.h"
-#include "overmap.h"
-#include "overmap_ui.h"
 #include "overmapbuffer.h"
 #include "scent_map.h"
 #include "string_formatter.h"
@@ -39,6 +41,18 @@
 #include "uistate.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+#include "active_item_cache.h"
+#include "basecamp.h"
+#include "cata_utility.h"
+#include "creature.h"
+#include "game_constants.h"
+#include "int_id.h"
+#include "item.h"
+#include "item_stack.h"
+#include "omdata.h"
+#include "player.h"
+#include "shadowcasting.h"
+#include "string_id.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 

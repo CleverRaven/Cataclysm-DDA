@@ -2,11 +2,18 @@
 #ifndef VEHICLE_H
 #define VEHICLE_H
 
+#include <limits.h>
+#include <stddef.h>
 #include <array>
 #include <list>
 #include <map>
 #include <stack>
 #include <vector>
+#include <functional>
+#include <set>
+#include <string>
+#include <unordered_map>
+#include <utility>
 
 #include "active_item_cache.h"
 #include "calendar.h"
@@ -19,22 +26,32 @@
 #include "line.h"
 #include "string_id.h"
 #include "tileray.h"
-#include "ui.h"
 #include "units.h"
+#include "enums.h"
+#include "item_location.h"
 
 class nc_color;
-class map;
 class player;
 class npc;
 class vehicle;
 class vpart_info;
 class vehicle_part_range;
+class JsonIn;
+class JsonOut;
+class vehicle_cursor;
+class zone_data;
+struct itype;
+struct uilist_entry;
+template <typename T> class visitable;
+
 enum vpart_bitflags : int;
 using vpart_id = string_id<vpart_info>;
 struct vehicle_prototype;
+
 using vproto_id = string_id<vehicle_prototype>;
 template<typename feature_type>
 class vehicle_part_with_feature_range;
+
 namespace catacurses
 {
 class window;

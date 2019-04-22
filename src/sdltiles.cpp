@@ -2,6 +2,7 @@
 
 #include "cursesdef.h" // IWYU pragma: associated
 
+#include <limits.h>
 #include <algorithm>
 #include <cassert>
 #include <cstring>
@@ -10,6 +11,13 @@
 #include <memory>
 #include <stdexcept>
 #include <vector>
+#include <array>
+#include <cmath>
+#include <exception>
+#include <iterator>
+#include <map>
+#include <set>
+#include <type_traits>
 
 #if defined(_MSC_VER) && defined(USE_VCPKG)
 #   include <SDL2/SDL_image.h>
@@ -18,7 +26,6 @@
 #endif
 
 #include "cata_tiles.h"
-#include "cata_utility.h"
 #include "catacharset.h"
 #include "color.h"
 #include "color_loader.h"
@@ -29,19 +36,18 @@
 #include "game.h"
 #include "game_ui.h"
 #include "get_version.h"
-#include "init.h"
 #include "input.h"
-#include "loading_ui.h"
 #include "options.h"
 #include "output.h"
-#include "panels.h"
 #include "path_info.h"
 #include "player.h"
-#include "rng.h"
 #include "sdlsound.h"
 #include "sdl_wrappers.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "enums.h"
+#include "json.h"
+#include "optional.h"
 
 #if defined(__linux__)
 #   include <cstdlib> // getenv()/setenv()

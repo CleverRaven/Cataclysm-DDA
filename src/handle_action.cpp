@@ -1,6 +1,12 @@
 #include "game.h" // IWYU pragma: associated
 
+#include <stdlib.h>
+#include <math.h>
 #include <chrono>
+#include <iterator>
+#include <set>
+#include <sstream>
+#include <utility>
 
 #include "action.h"
 #include "advanced_inv.h"
@@ -44,6 +50,18 @@
 #include "vpart_reference.h"
 #include "weather.h"
 #include "worldfactory.h"
+#include "bodypart.h"
+#include "character.h"
+#include "color.h"
+#include "damage.h"
+#include "lightmap.h"
+#include "line.h"
+#include "player_activity.h"
+#include "rng.h"
+#include "string_formatter.h"
+#include "translations.h"
+#include "ui.h"
+#include "units.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 

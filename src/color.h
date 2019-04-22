@@ -3,11 +3,13 @@
 #define COLOR_H
 
 #include <array>
-#include <functional>
 #include <list>
 #include <string>
 #include <unordered_map>
 #include <utility>
+#include <iosfwd>
+
+class nc_color;
 
 #define all_colors get_all_colors()
 

@@ -1,8 +1,14 @@
 #include "sounds.h"
 
+#include <stdlib.h>
 #include <algorithm>
 #include <chrono>
 #include <cmath>
+#include <memory>
+#include <ostream>
+#include <set>
+#include <type_traits>
+#include <unordered_map>
 
 #include "coordinate_conversions.h"
 #include "debug.h"
@@ -18,12 +24,23 @@
 #include "monster.h"
 #include "mtype.h"
 #include "npc.h"
-#include "output.h"
 #include "overmapbuffer.h"
 #include "player.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "weather.h"
+#include "bodypart.h"
+#include "calendar.h"
+#include "character.h"
+#include "creature.h"
+#include "game_constants.h"
+#include "mapdata.h"
+#include "optional.h"
+#include "player_activity.h"
+#include "rng.h"
+#include "units.h"
+#include "material.h"
+#include "pldata.h"
 
 #if defined(SDL_SOUND)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)

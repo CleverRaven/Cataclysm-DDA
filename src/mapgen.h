@@ -2,29 +2,35 @@
 #ifndef MAPGEN_H
 #define MAPGEN_H
 
+#include <stddef.h>
 #include <map>
 #include <memory>
 #include <string>
 #include <vector>
+#include <utility>
 
 #include "int_id.h"
+#include "mapgen_functions.h"
+#include "regional_settings.h"
 
 class time_point;
 struct ter_t;
+
 using ter_id = int_id<ter_t>;
 struct furn_t;
+
 using furn_id = int_id<furn_t>;
 struct oter_t;
+
 using oter_id = int_id<oter_t>;
 struct point;
 class JsonArray;
 class JsonObject;
-struct mapgendata;
 class mission;
 struct tripoint;
 class map;
+
 typedef void ( *building_gen_pointer )( map *, oter_id, mapgendata, const time_point &, float );
-struct ter_furn_id;
 
 //////////////////////////////////////////////////////////////////////////
 ///// function pointer class; provides abstract referencing of

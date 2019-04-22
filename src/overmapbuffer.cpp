@@ -1,9 +1,14 @@
 #include "overmapbuffer.h"
 
+#include <limits.h>
+#include <math.h>
 #include <algorithm>
 #include <cassert>
 #include <cstdlib>
 #include <sstream>
+#include <iterator>
+#include <list>
+#include <map>
 
 #include "basecamp.h"
 #include "cata_utility.h"
@@ -13,7 +18,6 @@
 #include "game.h"
 #include "line.h"
 #include "map.h"
-#include "messages.h"
 #include "mongroup.h"
 #include "monster.h"
 #include "npc.h"
@@ -23,6 +27,14 @@
 #include "overmap_types.h"
 #include "string_formatter.h"
 #include "vehicle.h"
+#include "calendar.h"
+#include "common_types.h"
+#include "game_constants.h"
+#include "player.h"
+#include "rng.h"
+#include "simple_pathfinding.h"
+#include "string_id.h"
+#include "translations.h"
 
 overmapbuffer overmap_buffer;
 

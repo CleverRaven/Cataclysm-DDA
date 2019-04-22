@@ -1,18 +1,27 @@
 #include "overmap_ui.h"
 
+#include <stddef.h>
+#include <algorithm>
+#include <array>
+#include <list>
+#include <map>
+#include <memory>
+#include <string>
+#include <tuple>
+#include <unordered_map>
+#include <utility>
+#include <vector>
+
 #include "basecamp.h"
 #include "cata_utility.h"
 #include "clzones.h"
 #include "coordinate_conversions.h"
 #include "cursesdef.h"
-#include "faction_camp.h"
 #include "game.h"
 #include "input.h"
 #include "line.h"
 #include "map_iterator.h"
-#include "map.h"
 #include "mapbuffer.h"
-#include "messages.h"
 #include "mongroup.h"
 #include "npc.h"
 #include "options.h"
@@ -26,6 +35,20 @@
 #include "uistate.h"
 #include "weather.h"
 #include "weather_gen.h"
+#include "calendar.h"
+#include "catacharset.h"
+#include "color.h"
+#include "game_constants.h"
+#include "int_id.h"
+#include "omdata.h"
+#include "optional.h"
+#include "overmap_types.h"
+#include "pldata.h"
+#include "regional_settings.h"
+#include "rng.h"
+#include "string_formatter.h"
+#include "string_id.h"
+#include "translations.h"
 
 #if defined(__ANDROID__)
 #include <SDL_keyboard.h>

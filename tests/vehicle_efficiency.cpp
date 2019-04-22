@@ -1,7 +1,16 @@
+#include <stdio.h>
+#include <stdlib.h>
 #include <sstream>
+#include <algorithm>
+#include <cmath>
+#include <map>
+#include <memory>
+#include <set>
+#include <string>
+#include <utility>
+#include <vector>
 
 #include "catch/catch.hpp"
-#include "cata_utility.h"
 #include "game.h"
 #include "itype.h"
 #include "map.h"
@@ -12,6 +21,17 @@
 #include "vehicle.h"
 #include "vpart_range.h"
 #include "vpart_reference.h"
+#include "bodypart.h"
+#include "calendar.h"
+#include "enums.h"
+#include "game_constants.h"
+#include "item.h"
+#include "line.h"
+#include "mapdata.h"
+#include "units.h"
+#include "mtype.h"
+
+class monster;
 
 typedef statistics<long> efficiency_stat;
 
