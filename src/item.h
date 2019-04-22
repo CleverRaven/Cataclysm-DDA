@@ -665,15 +665,6 @@ class item : public visitable<item>
          * @param time Time point to which rot is calculated
          */
         void calc_rot( time_point time );
-		
-		/**
-		 * Get the amount of rotting that an item would accumulate between start and end turn at the given
-		 * locations.
-		 * The location is in absolute maps squares (the system which the @ref map uses),
-		 * but absolute (@ref map::getabs).
-		 * The returned value is in time at standard conditions it is `end - start`.
-		 */
-		time_duration get_rot_since( const time_point &start, const time_point &end, const tripoint &pos );
 
         /**
          * Accumulate rot of the item since starting smoking.

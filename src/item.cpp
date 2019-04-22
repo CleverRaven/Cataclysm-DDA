@@ -3872,34 +3872,6 @@ int get_hourly_rotpoints_at_temp( const int temp )
     return rot_chart[temp];
 }
 
-time_duration item::get_rot_since( const time_point &start, const time_point &end,
-                             const tripoint &pos )
-{
-    time_duration ret = 0_turns;
-    const auto &wgen = g->get_cur_weather_gen();
-    /* Hoisting loop invariants */
-    const auto location_temp = g->get_temperature( pos );
-    const auto local = g->m.getlocal( pos );
-    const auto local_mod = g->new_game ? 0 : g->m.temperature( local );
-    const auto seed = g->get_seed();
-
-    const auto temp_modify = ( !g->new_game ) && ( g->m.ter( local ) == t_rootcellar );
-
-    for( time_point i = start; i < end; i += 1_hours ) {
-        w_point w = wgen.get_weather( pos, i, seed );
-
-        //Use weather if above ground, use map temp if below
-        double temperature = ( pos.z >= 0 ? w.temperature : location_temp ) + local_mod;
-        // If in a root celler: use AVERAGE_ANNUAL_TEMPERATURE
-        // If not: use calculated temperature
-        temperature = ( temp_modify * AVERAGE_ANNUAL_TEMPERATURE ) + ( !temp_modify * temperature );
-
-        ret += std::min( 1_hours, end - i ) / 1_hours * get_hourly_rotpoints_at_temp(
-                   temperature ) * 1_turns;
-    }
-    return ret;
-}
-
 void item::calc_rot( time_point time )
 {
     // Avoid needlessly calculating already rotten things.  Corpses should
@@ -3918,22 +3890,12 @@ void item::calc_rot( time_point time )
     float factor = 1.0;
     if( is_corpse() && has_flag( "FIELD_DRESS" ) ) {
         factor = 0.75;
-    }
+    } else if( has_flag( "SMOKING" ) ){
+		factor = 0.5;
+	}
 	time_duration time_delta = time - last_temp_check;
 	rot += factor * time_delta / 1_hours * get_hourly_rotpoints_at_temp( temperature ) * 1_turns;
 
-}
-
-void item::calc_rot_while_smoking( const tripoint &location, time_duration smoking_duration )
-{
-    if( !item_tags.count( "SMOKING" ) ) {
-        debugmsg( "calc_rot_while_smoking called on non smoking item: %s", tname() );
-        return;
-    }
-
-    // Apply rot at 1/2 normal rate while smoking
-    rot += 0.5 * get_rot_since( last_rot_check, last_rot_check + smoking_duration, location );
-    last_rot_check += smoking_duration;
 }
 
 units::volume item::get_storage() const
