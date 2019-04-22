@@ -3832,7 +3832,7 @@ int calc_hourly_rotpoints_at_temp( const int temp )
     } else if( temp > cutoff ) {
         return cutoffrot;
     } else if( temp < dropoff ) {
-        return ( ( temp - temperatures::freezing ) * dstep );
+        return ( temp - temperatures::freezing ) * dstep;
     } else {
         return lround( 35.91 * std::pow( 2.0, static_cast<float>( temp ) / 16.0 ) );
     }
