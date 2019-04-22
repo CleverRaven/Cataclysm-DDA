@@ -17,7 +17,7 @@
     "ammo": "38",
     "skill": "pistol",
     "ranged_damage": -1,
-    "dispersion": 480,
+    "dispersion": 620,
     "durability": 3,
     "clip_size": 2,
     "reload": 200,
@@ -64,6 +64,7 @@
     "dispersion": 480,
     "durability": 10,
     "clip_size": 5,
+    "magazines": [ [ "38", [ "38_speedloader5" ] ] ],
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],

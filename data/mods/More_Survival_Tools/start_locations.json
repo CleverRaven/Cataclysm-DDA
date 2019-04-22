@@ -1,15 +1,15 @@
 [
   {
-    "type" : "start_location",
-    "ident" : "forest",
-    "copy-from" : "forest",
-    "target" : "forest_thick"
+    "type": "start_location",
+    "ident": "forest",
+    "copy-from": "forest",
+    "target": "forest_thick"
   },
   {
-    "type" : "start_location",
-    "ident" : "swamp",
-    "name" : "Swamp",
-    "target" : "forest_water",
-    "flags" : ["ALLOW_OUTSIDE"]
+    "type": "start_location",
+    "ident": "swamp",
+    "name": "Swamp",
+    "target": "forest_water",
+    "flags": [ "ALLOW_OUTSIDE" ]
   }
 ]

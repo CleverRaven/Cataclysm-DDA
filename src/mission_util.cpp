@@ -27,6 +27,21 @@
 
 #include <stdio.h>
 
+/**
+ * Reveal the cloest overmap terrain of a type and return the its location
+ */
+tripoint mission_util::reveal_om_ter( const std::string &omter, int reveal_rad, bool must_see,
+                                      int target_z )
+{
+    // Missions are normally on z-level 0, but allow an optional argument.
+    tripoint loc = g->u.global_omt_location();
+    loc.z = target_z;
+    const tripoint place = overmap_buffer.find_closest( loc, omter, 0, must_see );
+    if( place != overmap::invalid_tripoint && reveal_rad >= 0 ) {
+        overmap_buffer.reveal( place, reveal_rad );
+    }
+    return place;
+}
 
 /**
  * Set target of mission to closest overmap terrain of that type,
@@ -36,13 +51,7 @@
 tripoint mission_util::target_om_ter( const std::string &omter, int reveal_rad, mission *miss,
                                       bool must_see, int target_z )
 {
-    // Missions are normally on z-level 0, but allow an optional argument.
-    tripoint loc = g->u.global_omt_location();
-    loc.z = target_z;
-    const tripoint place = overmap_buffer.find_closest( loc, omter, 0, must_see );
-    if( place != overmap::invalid_tripoint && reveal_rad >= 0 ) {
-        overmap_buffer.reveal( place, reveal_rad );
-    }
+    const tripoint place = reveal_om_ter( omter, reveal_rad, must_see, target_z );
     miss->set_target( place );
     return place;
 }

@@ -484,5 +484,11 @@
     "id": "paintball",
     "name": "paintball",
     "default": "paintball"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "nitrox",
+    "name": "compressed air",
+    "default": "nitrox"
   }
 ]

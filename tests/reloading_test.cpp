@@ -115,7 +115,7 @@ TEST_CASE( "reload_gun_with_swappable_magazine", "[reload],[gun]" )
 void reload_a_revolver( player &dummy, item &gun, item &ammo )
 {
     while( gun.ammo_remaining() < gun.ammo_capacity() ) {
-        g->reload( false );
+        g->reload_weapon( false );
         REQUIRE( dummy.activity );
         process_activity( dummy );
         CHECK( gun.ammo_remaining() > 0 );
@@ -134,7 +134,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
     GIVEN( "an unarmed player" ) {
         REQUIRE( !dummy.is_armed() );
         WHEN( "the player triggers auto reload" ) {
-            g->reload( false );
+            g->reload_weapon( false );
             THEN( "No activity is generated" ) {
                 CHECK( !dummy.activity );
             }
@@ -152,7 +152,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
         WHEN( "the player triggers auto reload until the revolver is full" ) {
             reload_a_revolver( dummy, dummy.weapon, ammo );
             WHEN( "the player triggers auto reload again" ) {
-                g->reload( false );
+                g->reload_weapon( false );
                 THEN( "no activity is generated" ) {
                     CHECK( !dummy.activity );
                 }
@@ -167,7 +167,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
                 WHEN( "the player triggers auto reload until the second revolver is full" ) {
                     reload_a_revolver( dummy, gun2, ammo );
                     WHEN( "the player triggers auto reload again" ) {
-                        g->reload( false );
+                        g->reload_weapon( false );
                         THEN( "no activity is generated" ) {
                             CHECK( !dummy.activity );
                         }
@@ -192,7 +192,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
         REQUIRE( dummy.weapon.ammo_remaining() == 0 );
 
         WHEN( "the player triggers auto reload" ) {
-            g->reload( false );
+            g->reload_weapon( false );
             REQUIRE( dummy.activity );
             process_activity( dummy );
 
@@ -201,7 +201,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
                 CHECK( mag.contents.front().type == ammo.type );
             }
             WHEN( "the player triggers auto reload again" ) {
-                g->reload( false );
+                g->reload_weapon( false );
                 REQUIRE( dummy.activity );
                 process_activity( dummy );
 
@@ -209,7 +209,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
                     CHECK( dummy.weapon.ammo_remaining() > 0 );
                 }
                 WHEN( "the player triggers auto reload again" ) {
-                    g->reload( false );
+                    g->reload_weapon( false );
                     THEN( "No activity is generated" ) {
                         CHECK( !dummy.activity );
                     }
@@ -224,7 +224,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
             REQUIRE( mag2.ammo_remaining() == 0 );
 
             WHEN( "the player triggers auto reload" ) {
-                g->reload( false );
+                g->reload_weapon( false );
                 REQUIRE( dummy.activity );
                 process_activity( dummy );
 
@@ -233,7 +233,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
                     CHECK( mag.contents.front().type == ammo.type );
                 }
                 WHEN( "the player triggers auto reload again" ) {
-                    g->reload( false );
+                    g->reload_weapon( false );
                     REQUIRE( dummy.activity );
                     process_activity( dummy );
 
@@ -241,7 +241,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
                         CHECK( dummy.weapon.ammo_remaining() > 0 );
                     }
                     WHEN( "the player triggers auto reload again" ) {
-                        g->reload( false );
+                        g->reload_weapon( false );
                         REQUIRE( dummy.activity );
                         process_activity( dummy );
 
@@ -250,7 +250,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
                             CHECK( mag2.contents.front().type == ammo.type );
                         }
                         WHEN( "the player triggers auto reload again" ) {
-                            g->reload( false );
+                            g->reload_weapon( false );
                             THEN( "No activity is generated" ) {
                                 CHECK( !dummy.activity );
                             }

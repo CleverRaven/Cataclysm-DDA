@@ -520,5 +520,15 @@
     "id": "bag_veggy_vac",
     "type": "MIGRATION",
     "replace": "veggy_salted"
+  },
+  {
+    "id": "potato_irradiated",
+    "type": "MIGRATION",
+    "replace": "irradiated_potato"
+  },
+  {
+    "id": "potato_raw",
+    "type": "MIGRATION",
+    "replace": "potato"
   }
 ]

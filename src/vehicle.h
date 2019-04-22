@@ -12,6 +12,7 @@
 #include "calendar.h"
 #include "clzones.h"
 #include "damage.h"
+#include "game_constants.h"
 #include "item.h"
 #include "item_group.h"
 #include "item_stack.h"
@@ -964,6 +965,9 @@ class vehicle
         int engine_fuel_left( const int e, bool recurse = false ) const;
         int fuel_capacity( const itype_id &ftype ) const;
 
+        // Returns the total specific energy of this fuel type. Frozen is ignored.
+        float fuel_specific_energy( const itype_id &ftype ) const;
+
         // drains a fuel type (e.g. for the kitchen unit)
         // returns amount actually drained, does not engage reactor
         int drain( const itype_id &ftype, int amount );
@@ -1468,6 +1472,7 @@ class vehicle
         std::vector<int> solar_panels;     // List of solar panel indices
         std::vector<int> wind_turbines;     // List of wind turbine indices
         std::vector<int> water_wheels;     // List of water wheel indices
+        std::vector<int> sails;            // List of sail indices
         std::vector<int> funnels;          // List of funnel indices
         std::vector<int> heaters;          // List of heater parts
         std::vector<int> loose_parts;      // List of UNMOUNT_ON_MOVE parts

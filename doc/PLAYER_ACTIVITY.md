@@ -20,10 +20,6 @@ Activities are long term actions, that can be interrupted and (optionally) conti
 	* speed: `player_activity::moves_left` may be decremented faster or slower, depending on the character's speed.
 	* neither: `moves_left` will not be decremented. Thus you must define a do_turn function; otherwise the activity will never end!
 * no_resume (false): Rather than resuming, you must always restart the activity from scratch.
-* byproducts (optional): This object defines byproducts that are automatically created on finish or each do_turn. 
-	* finish (optional, item group) - As per ITEM_SPAWN.md. Also allows inline item group definitions. Generated once the activities finishes.
-	* do_turn (optional, item group) - As per ITEM_SPAWN.md. Also allows inline item group definitions. Generated once per `do_turn_interval`.
-	* do_turn_interval (optional, defaults to 1 minute) - A time duration value, used to control how frequently the do_turn item group generates.
 
 ## Termination
 
@@ -66,7 +62,3 @@ For example the pulp activity finishes itself when there are no more unpulped co
 ### `activity_handlers::<activity>_finish` function
 
 This function is called when the activity has been completed (`moves_left` <= 0). It must call `set_to_null()` or assign a new activity. One should not call `cancel_activity` for the finished activity, as this could make a copy of the activity in `player::backlog`, which allows resuming an already finished activity.
-
-### byproducts
-
-If `do_turn` is specified and the `based_on` is `speed`, a warning will be issued. Slower/worse progress will result in `do_turn` byproducts being spawned more often, which is probably not what is intended. 

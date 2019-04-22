@@ -1,45 +1,29 @@
 [
-    {
-        "type": "talk_topic",
-        "id": "TALK_CAPTIVE",
-        "comment": "needs some condition flag for Already Rescued.",
-        "dynamic_line": "Are you part of the rescue team?",
-        "responses": [
-            {
-                "text": "Sorry, <sass>, the rescue has been delayed.",
-                "topic": "TALK_DONE"
-            },
-            {
-                "text": "Part? I AM the rescue team.",
-                "topic": "TALK_CAPTIVE_FREE"
-            }
-        ]
-    },
-    {
-        "type": "talk_topic",
-        "id": "TALK_CAPTIVE_FREE",
-        "dynamic_line": "So are you busting us out of here or what?",
-        "responses": [
-            {
-                "text": "Hold tight, <sass>. I've got to clear a path.",
-                "topic": "TALK_DONE"
-            },
-            {
-                "text": "Pack your bags, <sass>.  We're going on a trip.",
-                "success": {
-                    "topic": "TALK_DONE",
-                    "effect": "follow",
-                    "opinion": {
-                        "trust": 1,
-                        "fear": 0,
-                        "value": 10,
-                        "anger": -1,
-                        "owed": 0,
-                        "favors": 1
-                    }
-                },
-                "topic": "TALK_DONE"
-            }
-        ]
-    }
+  {
+    "type": "talk_topic",
+    "id": "TALK_CAPTIVE",
+    "comment": "needs some condition flag for Already Rescued.",
+    "dynamic_line": "Are you part of the rescue team?",
+    "responses": [
+      { "text": "Sorry, <sass>, the rescue has been delayed.", "topic": "TALK_DONE" },
+      { "text": "Part? I AM the rescue team.", "topic": "TALK_CAPTIVE_FREE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CAPTIVE_FREE",
+    "dynamic_line": "So are you busting us out of here or what?",
+    "responses": [
+      { "text": "Hold tight, <sass>. I've got to clear a path.", "topic": "TALK_DONE" },
+      {
+        "text": "Pack your bags, <sass>.  We're going on a trip.",
+        "success": {
+          "topic": "TALK_DONE",
+          "effect": "follow",
+          "opinion": { "trust": 1, "fear": 0, "value": 10, "anger": -1, "owed": 0, "favors": 1 }
+        },
+        "topic": "TALK_DONE"
+      }
+    ]
+  }
 ]

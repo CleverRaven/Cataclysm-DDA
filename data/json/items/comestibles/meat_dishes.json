@@ -754,7 +754,7 @@
     "description": "A meat pizza, for all the carnivores out there.  Chock full of minced meat and heavily seasoned.",
     "price": 1090,
     "material": [ "wheat", "flesh" ],
-    "volume": 8,
+    "volume": 4,
     "charges": 4,
     "flags": [ "EATEN_HOT" ],
     "fun": 10,

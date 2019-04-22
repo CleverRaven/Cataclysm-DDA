@@ -175,7 +175,7 @@ class wish_mutate_callback: public uilist_callback
             input_context ctxt( menu->input_category );
             mvwprintw( menu->window, menu->w_height - 2, startx,
                        _( "[%s] find, [%s] quit, [t] toggle base trait" ),
-                       ctxt.get_desc( "FILTER" ).c_str(), ctxt.get_desc( "QUIT" ).c_str() );
+                       ctxt.get_desc( "FILTER" ), ctxt.get_desc( "QUIT" ) );
 
         }
 
@@ -329,7 +329,7 @@ class wish_monster_callback: public uilist_callback
             wrefresh( w_info );
             tmp.print_info( w_info, 2, 5, 1 );
 
-            std::string header = string_format( "#%d: %s (%d)%s", entnum, tmp.type->nname().c_str(),
+            std::string header = string_format( "#%d: %s (%d)%s", entnum, tmp.type->nname(),
                                                 group, ( hallucination ? _( " (hallucination)" ) : "" ) );
             mvwprintz( w_info, 0, ( getmaxx( w_info ) - header.size() ) / 2, c_cyan, header );
 
@@ -338,7 +338,7 @@ class wish_monster_callback: public uilist_callback
             input_context ctxt( menu->input_category );
             mvwprintw( w_info, getmaxy( w_info ) - 2, 0,
                        _( "[%s] find, [f]riendly, [h]allucination, [i]ncrease group, [d]ecrease group, [%s] quit" ),
-                       ctxt.get_desc( "FILTER" ).c_str(), ctxt.get_desc( "QUIT" ).c_str() );
+                       ctxt.get_desc( "FILTER" ), ctxt.get_desc( "QUIT" ) );
         }
 
         void refresh( uilist *menu ) override {
@@ -397,7 +397,7 @@ void debug_menu::wishmonster( const cata::optional<tripoint> &p )
                 }
                 input_context ctxt( wmenu.input_category );
                 cb.msg = string_format( _( "Spawned %d/%d monsters, choose another or [%s] to quit." ),
-                                        num_spawned, static_cast<int>( spawn_points.size() ), ctxt.get_desc( "QUIT" ).c_str() );
+                                        num_spawned, static_cast<int>( spawn_points.size() ), ctxt.get_desc( "QUIT" ) );
                 uistate.wishmonster_selected = wmenu.selected;
                 wmenu.redraw();
             }
@@ -458,7 +458,7 @@ class wish_item_callback: public uilist_callback
             input_context ctxt( menu->input_category );
             mvwprintw( menu->window, menu->w_height - 2, startx,
                        _( "[%s] find, [f] container, [F] flag, [%s] quit" ),
-                       ctxt.get_desc( "FILTER" ).c_str(), ctxt.get_desc( "QUIT" ).c_str() );
+                       ctxt.get_desc( "FILTER" ), ctxt.get_desc( "QUIT" ) );
         }
 };
 
@@ -483,7 +483,7 @@ void debug_menu::wishitem( player *p, int x, int y, int z )
     for( size_t i = 0; i < opts.size(); i++ ) {
         item ity( opts[i], 0 );
         wmenu.addentry( i, true, 0, string_format( _( "%.*s" ), wmenu.pad_right - 5,
-                        ity.tname( 1, false ).c_str() ) );
+                        ity.tname( 1, false ) ) );
         wmenu.entries[i].extratxt.txt = ity.symbol();
         wmenu.entries[i].extratxt.color = ity.color();
         wmenu.entries[i].extratxt.left = 1;
@@ -531,7 +531,7 @@ void debug_menu::wishitem( player *p, int x, int y, int z )
                 if( amount > 0 ) {
                     input_context ctxt( wmenu.input_category );
                     cb.msg = string_format( _( "Wish granted. Wish for more or hit [%s] to quit." ),
-                                            ctxt.get_desc( "QUIT" ).c_str() );
+                                            ctxt.get_desc( "QUIT" ) );
                 }
             }
             uistate.wishitem_selected = wmenu.selected;
@@ -559,7 +559,7 @@ void debug_menu::wishskill( player *p )
     for( const auto &s : Skill::skills ) {
         const int level = p->get_skill_level( s.ident() );
         skmenu.addentry( origskills.size() + skoffset, true, -2, _( "@ %d: %s  " ), level,
-                         s.name().c_str() );
+                         s.name() );
         origskills.push_back( level );
     }
 

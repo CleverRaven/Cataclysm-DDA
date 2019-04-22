@@ -1,9 +1,9 @@
 [
   {
-    "name": "GROUP_COFFEE_SHOP_SPITTER",
+    "name": "GROUP_COFFEE_SHOP_ZOMBIE",
     "type": "monstergroup",
     "default": "mon_null",
-    "monsters": [ { "monster": "mon_zombie_spitter", "freq": 65, "cost_multiplier": 5 } ]
+    "monsters": [ { "monster": "mon_zombie", "freq": 65, "cost_multiplier": 5 } ]
   },
   {
     "type": "mapgen",
@@ -120,7 +120,7 @@
         "l": { "item": "coffee_prep", "chance": 50 },
         "r": { "item": "coffee_condiments", "chance": 80 }
       },
-      "monsters": { "!": { "monster": "GROUP_COFFEE_SHOP_SPITTER", "chance": 1 } },
+      "monsters": { "!": { "monster": "GROUP_COFFEE_SHOP_ZOMBIE", "chance": 1 } },
       "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 3, 17 ], "y": [ 13, 18 ], "chance": 1 } ],
       "vehicles": { "c": { "vehicle": "swivel_chair", "chance": 100, "status": 1 } }
     }
@@ -374,7 +374,7 @@
       ],
       "place_monsters": [
         { "chance": 4, "density": 1, "monster": "GROUP_ZOMBIE", "x": 8, "y": 10 },
-        { "chance": 3, "density": 1, "monster": "GROUP_ZOMBIE_FAT", "x": 17, "y": 11 }
+        { "chance": 3, "density": 1, "monster": "GROUP_ZOMBIE_FAT_BASE", "x": 17, "y": 11 }
       ],
       "place_toilets": [ { "x": 20, "y": 17 } ],
       "rows": [

@@ -36,5 +36,20 @@
       { "group": "ammo_rifle_rare", "prob": 20, "count-min": 1, "count-max": 2 },
       { "group": "ammo_shotgun_rare", "prob": 20, "count-min": 1, "count-max": 2 }
     ]
+  },
+  {
+    "id": "vending_drink_home_impr",
+    "type": "item_group",
+    "items": [
+      [ "water_clean", 50 ],
+      [ "water_mineral", 20 ],
+      [ "oj", 40 ],
+      [ "juice", 35 ],
+      [ "cranberry_juice", 35 ],
+      [ "cola", 50 ],
+      [ "lemonlime", 45 ],
+      [ "V8", 15 ],
+      [ "gum", 15 ]
+    ]
   }
 ]

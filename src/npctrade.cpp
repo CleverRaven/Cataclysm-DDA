@@ -119,7 +119,7 @@ bool trade( npc &p, int cost, const std::string &deal )
     std::string header_message = _( "\
 TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\n\
 ? to get information on an item." );
-    mvwprintz( w_head, 0, 0, c_white, header_message.c_str(), p.name.c_str() );
+    mvwprintz( w_head, 0, 0, c_white, header_message.c_str(), p.name );
 
     // If entries were to get over a-z and A-Z, we wouldn't have good keys for them
     const size_t entries_per_page = std::min( TERMY - 7, 2 + ( 'z' - 'a' ) + ( 'Z' - 'A' ) );
@@ -187,7 +187,7 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
     units::mass weight_left = p.weight_capacity() - p.weight_carried();
 
     do {
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
         input_context ctxt( "NPC_TRADE" );
         ctxt.register_manual_key( '\t', "Switch lists" );
         ctxt.register_manual_key( '<', "Back" );
@@ -227,7 +227,7 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
             weight_left = p.weight_capacity() - p.weight_carried_with_tweaks( { temp } );
             mvwprintz( w_head, 3, 2, ( volume_left < 0_ml || weight_left < 0_gram ) ? c_red : c_green,
                        _( "Volume: %s %s, Weight: %.1f %s" ),
-                       format_volume( volume_left ).c_str(), volume_units_abbr(),
+                       format_volume( volume_left ), volume_units_abbr(),
                        convert_weight( weight_left ), weight_units() );
 
             std::string cost_string = ex ? _( "Exchange" ) : ( cash >= 0 ? _( "Profit %s" ) :
@@ -245,7 +245,7 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
             draw_border( w_you, ( !focus_them ? c_yellow : BORDER_COLOR ) );
 
             mvwprintz( w_them, 0, 2, ( cash < 0 || static_cast<int>( p.cash ) >= cash ? c_green : c_red ),
-                       _( "%s: %s" ), p.name.c_str(), format_money( p.cash ) );
+                       _( "%s: %s" ), p.name, format_money( p.cash ) );
             mvwprintz( w_you,  0, 2, ( cash > 0 ||
                                        static_cast<int>( g->u.cash ) >= cash * -1 ? c_green : c_red ),
                        _( "You: %s" ), format_money( g->u.cash ) );
@@ -280,9 +280,9 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                         keychar = keychar - 'z' - 1 + 'A';
                     }
                     trim_and_print( w_whose, i - offset + 1, 1, win_w, color, "%c %c %s",
-                                    static_cast<char>( keychar ), ip.selected ? '+' : '-', itname.c_str() );
-#ifdef __ANDROID__
-                    ctxt.register_manual_key( keychar, itname.c_str() );
+                                    static_cast<char>( keychar ), ip.selected ? '+' : '-', itname );
+#if defined(__ANDROID__)
+                    ctxt.register_manual_key( keychar, itname );
 #endif
 
                     std::string price_str = string_format( "%.2f", ip.price / 100.0 );
@@ -337,7 +337,7 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                     break;
                 }
 
-                mvwprintz( w_head, 0, 0, c_white, header_message.c_str(), p.name.c_str() );
+                mvwprintz( w_head, 0, 0, c_white, header_message.c_str(), p.name );
                 wrefresh( w_head );
                 help += offset;
                 if( help < target_list.size() ) {
@@ -353,7 +353,7 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                     ch = ' ';
                 } else if( volume_left < 0_ml || weight_left < 0_gram ) {
                     // Make sure NPC doesn't go over allowed volume
-                    popup( _( "%s can't carry all that." ), p.name.c_str() );
+                    popup( _( "%s can't carry all that." ), p.name );
                     update = true;
                     ch = ' ';
                 }

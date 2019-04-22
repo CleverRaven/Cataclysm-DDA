@@ -275,6 +275,11 @@
     "text": "Uncomfy Gear"
   },
   {
+    "id": "morale_perm_nomad",
+    "type": "morale_type",
+    "text": "Nomadic Restlessness"
+  },
+  {
     "id": "morale_game_found_kitten",
     "type": "morale_type",
     "text": "Found kitten <3"
@@ -315,6 +320,16 @@
     "text": "Craving fire"
   },
   {
+    "id": "morale_killer_has_killed",
+    "type": "morale_type",
+    "text": "Killed recently"
+  },
+  {
+    "id": "morale_killer_need_to_kill",
+    "type": "morale_type",
+    "text": "Longing to kill"
+  },
+  {
     "id": "morale_perm_filthy",
     "type": "morale_type",
     "text": "Filthy Gear"
@@ -323,6 +338,16 @@
     "id": "morale_butcher",
     "type": "morale_type",
     "text": "Anguished by memories of butchering human corpse"
+  },
+  {
+    "id": "morale_gravedigger",
+    "type": "morale_type",
+    "text": "Dug out a grave"
+  },
+  {
+    "id": "morale_tree_communion",
+    "type": "morale_type",
+    "text": "Communed with the trees"
   },
   {
     "id": "morale_perm_debug",

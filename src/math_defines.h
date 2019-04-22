@@ -1,3 +1,4 @@
+#pragma once
 #ifndef CATA_MATH_DEFINES_H
 #define CATA_MATH_DEFINES_H
 
@@ -13,5 +14,11 @@
 
 #define _USE_MATH_DEFINES
 #include <cmath>
+
+// And on mingw even that doesn't work, so we are forced to have our own
+// fallback definition.
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
 
 #endif // CATA_MATH_DEFINES_H

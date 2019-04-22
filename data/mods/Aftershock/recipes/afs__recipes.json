@@ -408,5 +408,18 @@
     "book_learn": [ [ "recipe_alpha", 9 ], [ "recipe_serum", 9 ] ],
     "qualities": [ { "id": "CHEM", "level": 3 } ],
     "components": [ [ [ "iv_purifier", 3 ] ], [ [ "royal_jelly", 1 ] ], [ [ "slime_scrap", 1 ] ], [ [ "syringe", 1 ] ] ]
+  },
+  {
+    "result": "afs_hauling_space",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": 60000,
+    "autolearn": true,
+    "using": [ [ "welding_standard", 10 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "WRENCH", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "hdframe", 3 ] ], [ [ "sheet_metal", 4 ] ] ]
   }
 ]

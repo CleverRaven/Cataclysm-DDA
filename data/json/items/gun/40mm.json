@@ -12,7 +12,7 @@
     "bashing": 12,
     "material": [ "steel", "wood" ],
     "ammo": "40mm",
-    "dispersion": 300,
+    "dispersion": 550,
     "durability": 6,
     "clip_size": 1,
     "reload": 350

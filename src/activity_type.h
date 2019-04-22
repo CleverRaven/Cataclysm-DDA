@@ -2,8 +2,6 @@
 #ifndef ACTIVITY_TYPE_H
 #define ACTIVITY_TYPE_H
 
-#include "calendar.h"
-#include "optional.h"
 #include "string_id.h"
 
 class activity_type;
@@ -34,16 +32,6 @@ class activity_type
         based_on_type based_on_ = based_on_type::SPEED;
         bool no_resume_ = false;
         bool refuel_fires = false;
-
-        // Interval in which the do_turn_byproducts will actually spawn.
-        time_duration do_turn_byproducts_interval = 1_minutes;
-        // Item group of byproducts created by do_turn.
-        cata::optional<std::string> do_turn_byproducts_item_group;
-        // Item group of byproducts created by finish.
-        cata::optional<std::string> finish_byproducts_item_group;
-
-        void spawn_do_turn_byproducts( player * ) const;
-        void spawn_finish_byproducts( player * ) const;
 
     public:
         const activity_id &id() const {

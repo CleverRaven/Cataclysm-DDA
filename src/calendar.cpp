@@ -588,10 +588,10 @@ const std::string calendar::name_season( season_type s )
         }
     };
     if( s >= SPRING && s <= WINTER ) {
-        return _( season_names_untranslated[ s ].c_str() );
+        return _( season_names_untranslated[ s ] );
     }
 
-    return _( season_names_untranslated[ 4 ].c_str() );
+    return _( season_names_untranslated[ 4 ] );
 }
 
 time_duration rng( time_duration lo, time_duration hi )
@@ -639,4 +639,9 @@ std::string to_string( const time_point &p )
         return string_format( _( "Year %1$d, %2$s, day %3$d %4$s" ), year,
                               calendar::name_season( season_of_year( p ) ), day, time );
     }
+}
+
+time_point::time_point()
+{
+    turn_ = 0;
 }

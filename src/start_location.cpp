@@ -52,7 +52,7 @@ const string_id<start_location> &start_location::ident() const
 
 std::string start_location::name() const
 {
-    return _( _name.c_str() );
+    return _( _name );
 }
 
 std::string start_location::target() const
@@ -405,20 +405,23 @@ void start_location::handle_heli_crash( player &u ) const
         const auto bp_part = u.hp_to_bp( part );
         const int roll = static_cast<int>( rng( 1, 8 ) );
         switch( roll ) {
+            // Damage + Bleed
             case 1:
-            case 2:// Damage + Bleed
+            case 2:
                 u.add_effect( effect_bleed, 6_minutes, bp_part );
             /* fallthrough */
             case 3:
             case 4:
-            case 5: { // Just damage
+            // Just damage
+            case 5: {
                 const auto maxHp = u.get_hp_max( part );
                 // Body part health will range from 33% to 66% with occasional bleed
                 const int dmg = static_cast<int>( rng( maxHp / 3, maxHp * 2 / 3 ) );
                 u.apply_damage( nullptr, bp_part, dmg );
                 break;
             }
-            default: // No damage
+            // No damage
+            default:
                 break;
         }
     }

@@ -52,7 +52,7 @@
             },
             "items": {
                 "l": [ { "item": "cleaning", "chance": 50 }, { "item": "chem_home", "chance": 40 } ],
-                "L": [ { "item": "mechanics", "chance": 70 }, { "item": "plumber_gear", "chance": 30 } ]
+                "L": [ { "item": "mechanics", "chance": 70 }, { "item": "hardware_plumbing", "chance": 30 } ]
             },
             "vehicles": {
                 "v": { "vehicle": "portable_generator", "chance": 10, "status": 0 }

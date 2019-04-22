@@ -113,7 +113,7 @@
     "type": "AMMO",
     "category": "spare_parts",
     "name": "scrap metal",
-    "description": "An bulky assortment of small bits of scrap steel useful in all kinds of crafting",
+    "description": "A bulky assortment of small bits of scrap steel useful in all kinds of crafting.",
     "weight": 50,
     "volume": 1,
     "price": 500,

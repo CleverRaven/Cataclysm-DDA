@@ -295,6 +295,8 @@ class overmapbuffer
          */
         bool reveal( const point &center, int radius, int z );
         bool reveal( const tripoint &center, int radius );
+        bool reveal( const tripoint &center, int radius,
+                     const std::function<bool( const oter_id & )> &filter );
         std::vector<tripoint> get_npc_path( const tripoint &src, const tripoint &dest );
         bool reveal_route( const tripoint &source, const tripoint &dest, int radius = 0,
                            bool road_only = false );

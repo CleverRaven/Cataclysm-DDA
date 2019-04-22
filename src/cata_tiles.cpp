@@ -1,4 +1,4 @@
-#if (defined TILES)
+#if defined(TILES)
 #include "cata_tiles.h"
 
 #include <algorithm>
@@ -811,37 +811,48 @@ void tileset_loader::load_ascii_set( JsonObject &entry )
         curr_tile.offset.y = sprite_offset_y;
         auto &sprites = *( curr_tile.fg.add( std::vector<int>( {index_in_image + offset} ), 1 ) );
         switch( ascii_char ) {
-            case LINE_OXOX_C://box bottom/top side (horizontal line)
+            // box bottom/top side (horizontal line)
+            case LINE_OXOX_C:
                 sprites[0] = 205 + base_offset;
                 break;
-            case LINE_XOXO_C://box left/right side (vertical line)
+            // box left/right side (vertical line)
+            case LINE_XOXO_C:
                 sprites[0] = 186 + base_offset;
                 break;
-            case LINE_OXXO_C://box top left
+            // box top left
+            case LINE_OXXO_C:
                 sprites[0] = 201 + base_offset;
                 break;
-            case LINE_OOXX_C://box top right
+            // box top right
+            case LINE_OOXX_C:
                 sprites[0] = 187 + base_offset;
                 break;
-            case LINE_XOOX_C://box bottom right
+            // box bottom right
+            case LINE_XOOX_C:
                 sprites[0] = 188 + base_offset;
                 break;
-            case LINE_XXOO_C://box bottom left
+            // box bottom left
+            case LINE_XXOO_C:
                 sprites[0] = 200 + base_offset;
                 break;
-            case LINE_XXOX_C://box bottom north T (left, right, up)
+            // box bottom north T (left, right, up)
+            case LINE_XXOX_C:
                 sprites[0] = 202 + base_offset;
                 break;
-            case LINE_XXXO_C://box bottom east T (up, right, down)
+            // box bottom east T (up, right, down)
+            case LINE_XXXO_C:
                 sprites[0] = 208 + base_offset;
                 break;
-            case LINE_OXXX_C://box bottom south T (left, right, down)
+            // box bottom south T (left, right, down)
+            case LINE_OXXX_C:
                 sprites[0] = 203 + base_offset;
                 break;
-            case LINE_XXXX_C://box X (left down up right)
+            // box X (left down up right)
+            case LINE_XXXX_C:
                 sprites[0] = 206 + base_offset;
                 break;
-            case LINE_XOXX_C://box bottom east T (left, down, up)
+            // box bottom east T (left, down, up)
+            case LINE_XOXX_C:
                 sprites[0] = 184 + base_offset;
                 break;
         }
@@ -1006,7 +1017,7 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
         return;
     }
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
     // Attempted bugfix for Google Play crash - prevent divide-by-zero if no tile width/height specified
     if( tile_width == 0 || tile_height == 0 ) {
         return;
@@ -1225,7 +1236,7 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
     } else if( g->u.view_offset != tripoint_zero && !g->u.in_vehicle ) {
         // check to see if player is located at ter
         draw_from_id_string( "cursor", C_NONE, empty_string,
-        {g->ter_view_x - g->sidebar_offset.x, g->ter_view_y - g->sidebar_offset.y, center.z}, 0, 0, LL_LIT,
+        {g->ter_view_x, g->ter_view_y, center.z}, 0, 0, LL_LIT,
         false );
     }
     if( g->u.controlling_vehicle ) {
@@ -1825,12 +1836,20 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
             const vpart_id vpid( id.substr( 3 ) );
             if( vpid.is_valid() ) {
                 const vpart_info &v = vpid.obj();
-                sym = v.sym;
-                if( !subcategory.empty() ) {
-                    sym = special_symbol( subcategory[0] );
-                    rota = 0;
-                    subtile = -1;
+
+                if( subtile == open_ ) {
+                    sym = '\'';
+                } else if( subtile == broken ) {
+                    sym = v.sym_broken;
+                } else {
+                    sym = v.sym;
                 }
+                subtile = -1;
+
+                tileray face = tileray( rota );
+                sym = special_symbol( face.dir_symbol( sym ) );
+                rota = 0;
+
                 col = v.color;
             }
         } else if( category == C_FIELD ) {
@@ -1958,10 +1977,7 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
                        category, subcategory, pos, -1, rota, ll, apply_night_vision_goggles, height_3d );
         }
     }
-    // make sure we aren't going to rotate the tile if it shouldn't be rotated
-    if( !display_tile.rotates && !( category == C_NONE ) && !( category == C_MONSTER ) ) {
-        rota = 0;
-    }
+
     // translate from player-relative to screen relative tile position
     const point screen_pos = player_to_screen( pos.x, pos.y );
 
@@ -1985,6 +2001,11 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
             if( vp ) {
                 seed = vp->mount().x + vp->mount().y * 65536;
             }
+
+            //convert vehicle 360-degree direction (0=E,45=SE, etc) to 4-way tile rotation (0=N,1=W,etc)
+            tileray face = tileray( rota );
+            rota = 3 - face.dir4();
+
         }
         break;
         case C_ITEM:
@@ -2013,6 +2034,11 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
                     break;
                 }
             }
+    }
+
+    // make sure we aren't going to rotate the tile if it shouldn't be rotated
+    if( !display_tile.rotates && !( category == C_NONE ) && !( category == C_MONSTER ) ) {
+        rota = 0;
     }
 
     unsigned int loc_rand = 0;
@@ -2134,7 +2160,7 @@ bool cata_tiles::draw_sprite_at( const tile_type &tile,
                 ret = sprite_tex->render_copy_ex( renderer, &destination, 0, NULL, SDL_FLIP_NONE );
                 break;
             case 1: // 90 degrees (and 270, with just two sprites)
-#if (defined _WIN32 || defined WINDOWS)
+#if defined(_WIN32)
                 destination.y -= 1;
 #endif
                 ret = sprite_tex->render_copy_ex( renderer, &destination, -90, NULL, SDL_FLIP_NONE );
@@ -2144,7 +2170,7 @@ bool cata_tiles::draw_sprite_at( const tile_type &tile,
                                                   static_cast<SDL_RendererFlip>( SDL_FLIP_HORIZONTAL | SDL_FLIP_VERTICAL ) );
                 break;
             case 3: // 270 degrees
-#if (defined _WIN32 || defined WINDOWS)
+#if defined(_WIN32)
                 destination.x -= 1;
 #endif
                 ret = sprite_tex->render_copy_ex( renderer, &destination, 90, NULL, SDL_FLIP_NONE );
@@ -2505,20 +2531,13 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d )
         return false;
     }
     vehicle *const veh = &vp->vehicle();
-    const int veh_part = vp->part_index();
     // veh_part is the index of the part
-    // get a north-east-south-west value instead of east-south-west-north value to use with rotation
-    int veh_dir = ( veh->face.dir4() + 1 ) % 4;
-    if( veh_dir == 1 || veh_dir == 3 ) {
-        veh_dir = ( veh_dir + 2 ) % 4;
-    }
+    const int veh_part = vp->part_index();
 
     // Gets the visible part, should work fine once tileset vp_ids are updated to work with the vehicle part json ids
     // get the vpart_id
     char part_mod = 0;
     const vpart_id &vp_id = veh->part_id_string( veh_part, part_mod );
-    const char sym = veh->face.dir_symbol( veh->part_sym( veh_part ) );
-    std::string subcategory( 1, sym );
 
     // prefix with vp_ ident
     const std::string vpid = "vp_" + vp_id.str();
@@ -2536,13 +2555,14 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d )
     const cata::optional<vpart_reference> cargopart = vp.part_with_feature( "CARGO", true );
     bool draw_highlight = cargopart && !veh->get_items( cargopart->part_index() ).empty();
 
+    int veh_dir = veh->face.dir();
     if( !veh->forward_velocity() && !veh->player_in_control( g->u ) ) {
         if( !g->m.check_and_set_seen_cache( p ) ) {
             g->u.memorize_tile( g->m.getabs( p ), vpid, subtile, veh_dir );
         }
     }
 
-    bool ret = draw_from_id_string( vpid, C_VEHICLE_PART, subcategory, p, subtile, veh_dir,
+    bool ret = draw_from_id_string( vpid, C_VEHICLE_PART, empty_string, p, subtile, veh_dir,
                                     ll, nv_goggles_activated, height_3d );
     if( ret && draw_highlight ) {
         draw_item_highlight( p );
@@ -3322,8 +3342,8 @@ std::vector<options_manager::id_and_option> cata_tiles::build_renderer_list()
 {
     std::vector<options_manager::id_and_option> renderer_names;
     std::vector<options_manager::id_and_option> default_renderer_names = {
-#if (defined TILES)
-#   if (defined _WIN32 || defined WINDOWS)
+#if defined(TILES)
+#   if defined(_WIN32)
         { "direct3d", translate_marker( "direct3d" ) },
 #   endif
         { "software", translate_marker( "software" ) },

@@ -308,6 +308,8 @@ class time_duration
         explicit constexpr time_duration( const int t ) : turns_( t ) { }
 
     public:
+        time_duration() = default;
+
         /// Allows writing `time_duration d = 0;`
         time_duration( const std::nullptr_t ) : turns_( 0 ) { }
 
@@ -538,6 +540,7 @@ class time_point
         int turn_;
 
     public:
+        time_point();
         // TODO: make private
         // TODO: make explicit
         constexpr time_point( const int t ) : turn_( t ) { }

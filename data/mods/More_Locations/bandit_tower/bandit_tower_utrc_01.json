@@ -49,7 +49,7 @@
             },
             "items": {
                 "v": { "item": "trash_cart", "chance": 15 },
-                "x": [ { "item": "plumber_gear", "chance": 20 }, { "item": "hardware_bulk", "chance": 20 } ],
+                "x": [ { "item": "hardware_plumbing", "chance": 20 }, { "item": "hardware_bulk", "chance": 20 } ],
                 "X": { "item": "hardware_bulk", "chance": 35 }
             }
         }

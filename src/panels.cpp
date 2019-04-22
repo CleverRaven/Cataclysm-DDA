@@ -4,6 +4,7 @@
 #include "cata_utility.h"
 #include "color.h"
 #include "cursesdef.h"
+#include "cursesport.h"
 #include "effect.h"
 #include "game.h"
 #include "game_ui.h"
@@ -29,10 +30,6 @@
 #include <cmath>
 #include <string>
 #include <typeinfo>
-
-#if (defined TILES || defined _WIN32 || defined WINDOWS)
-#include "cursesport.h"
-#endif
 
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_THRESH_FELINE( "THRESH_FELINE" );
@@ -198,7 +195,7 @@ void draw_minimap( const player &u, const catacurses::window &w_minimap )
             const int omx = cursx + i;
             const int omy = cursy + j;
             nc_color ter_color;
-            long ter_sym;
+            std::string ter_sym;
             const bool seen = overmap_buffer.seen( omx, omy, g->get_levz() );
             const bool vehicle_here = overmap_buffer.has_vehicle( omx, omy, g->get_levz() );
             if( overmap_buffer.has_note( omx, omy, g->get_levz() ) ) {
@@ -206,7 +203,7 @@ void draw_minimap( const player &u, const catacurses::window &w_minimap )
                 const std::string &note_text = overmap_buffer.note( omx, omy, g->get_levz() );
 
                 ter_color = c_yellow;
-                ter_sym = 'N';
+                ter_sym = "N";
 
                 int symbolIndex = note_text.find( ':' );
                 int colorIndex = note_text.find( ';' );
@@ -241,7 +238,7 @@ void draw_minimap( const player &u, const catacurses::window &w_minimap )
                     if( colorIndex > -1 && !symbolFirst ) {
                         symbolStart = colorIndex + 1;
                     }
-                    ter_sym = note_text.substr( symbolStart, symbolIndex - symbolStart ).c_str()[0];
+                    ter_sym = note_text.substr( symbolStart, symbolIndex - symbolStart );
                 }
 
                 if( colorIndex > -1 ) {
@@ -290,14 +287,14 @@ void draw_minimap( const player &u, const catacurses::window &w_minimap )
                     }
                 }
             } else if( !seen ) {
-                ter_sym = ' ';
+                ter_sym = " ";
                 ter_color = c_black;
             } else if( vehicle_here ) {
                 ter_color = c_cyan;
-                ter_sym = 'c';
+                ter_sym = "c";
             } else {
                 const oter_id &cur_ter = overmap_buffer.ter( omx, omy, g->get_levz() );
-                ter_sym = cur_ter->get_sym();
+                ter_sym = cur_ter->get_symbol();
                 if( overmap_buffer.is_explored( omx, omy, g->get_levz() ) ) {
                     ter_color = c_dark_gray;
                 } else {
@@ -397,7 +394,7 @@ void decorate_panel( const std::string name, const catacurses::window &w )
     static const char *title_suffix = " ";
     static const std::string full_title = string_format( "%s%s%s",
                                           title_prefix, title, title_suffix );
-    const int start_pos = center_text_pos( full_title.c_str(), 0, getmaxx( w ) - 1 );
+    const int start_pos = center_text_pos( full_title, 0, getmaxx( w ) - 1 );
     mvwprintz( w, 0, start_pos, c_white, title_prefix );
     wprintz( w, c_light_red, title );
     wprintz( w, c_white, title_suffix );
@@ -441,7 +438,7 @@ std::string get_moon()
         case 1:
             return _( "Waxing crescent" );
         case 2:
-            return _( "Half Moon" );
+            return _( "Half moon" );
         case 3:
             return _( "Waxing gibbous" );
         case 4:
@@ -462,25 +459,26 @@ std::string get_moon()
 std::string time_approx()
 {
     const int iHour = hour_of_day<int>( calendar::turn );
-    std::string time_approx;
-    if( iHour >= 22 ) {
-        time_approx = _( "Around midnight" );
-    } else if( iHour >= 20 ) {
-        time_approx = _( "It's getting darker" );
-    } else if( iHour >= 16 ) {
-        time_approx = _( "This is the Evening" );
-    } else if( iHour >= 13 ) {
-        time_approx = _( "In the afternoon" );
-    } else if( iHour >= 11 ) {
-        time_approx = _( "Around noon" );
-    } else if( iHour >= 8 ) {
-        time_approx = _( "Early Morning" );
-    } else if( iHour >= 5 ) {
-        time_approx = _( "Around Dawn" );
-    } else if( iHour >= 0 ) {
-        time_approx = _( "Dead of Night" );
+    if( iHour >= 23 || iHour <= 1 ) {
+        return _( "Around midnight" );
+    } else if( iHour <= 4 ) {
+        return _( "Dead of night" );
+    } else if( iHour <= 6 ) {
+        return _( "Around dawn" );
+    } else if( iHour <= 8 ) {
+        return _( "Early morning" );
+    } else if( iHour <= 10 ) {
+        return _( "Morning" );
+    } else if( iHour <= 13 ) {
+        return _( "Around noon" );
+    } else if( iHour <= 16 ) {
+        return _( "Afternoon" );
+    } else if( iHour <= 18 ) {
+        return _( "Early evening" );
+    } else if( iHour <= 20 ) {
+        return _( "Around dusk" );
     }
-    return time_approx;
+    return _( "Night" );
 }
 
 nc_color value_color( int stat )
@@ -924,7 +922,7 @@ void draw_limb_health( player &u, const catacurses::window &w, int limb_index )
     static auto print_symbol_num = []( const catacurses::window & w, int num, const std::string & sym,
     const nc_color & color ) {
         while( num-- > 0 ) {
-            wprintz( w, color, sym.c_str() );
+            wprintz( w, color, sym );
         }
     };
     if( u.hp_cur[limb_index] == 0 && ( limb_index >= hp_arm_l && limb_index <= hp_leg_r ) ) {
@@ -1043,7 +1041,8 @@ void draw_stealth( player &u, const catacurses::window &w )
     mvwprintz( w, 0, 0, c_light_gray, _( "Speed" ) );
     mvwprintz( w, 0, 7, value_color( u.get_speed() ), "%s", u.get_speed() );
     mvwprintz( w, 0, 15 - to_string( u.movecounter ).length(), c_light_gray,
-               to_string( u.movecounter ) + ( u.move_mode == "walk" ? "W" : "R" ) );
+               to_string( u.movecounter ) + ( u.move_mode == "walk" ? "W" : ( u.move_mode == "crouch" ? "C" :
+                       "R" ) ) );
 
     if( u.is_deaf() ) {
         mvwprintz( w, 0, 22, c_red, _( "DEAF" ) );
@@ -1207,7 +1206,9 @@ void draw_char( player &u, const catacurses::window &w )
 
     const auto str_walk = pgettext( "movement-type", "W" );
     const auto str_run = pgettext( "movement-type", "R" );
-    const char *move = u.move_mode == "walk" ? str_walk : str_run;
+    const auto str_crouch = pgettext( "movement-type", "C" );
+    const char *move = u.move_mode == "walk" ? str_walk : ( u.move_mode == "crouch" ? str_crouch :
+                       str_run );
     std::string movecost = std::to_string( u.movecounter ) + "(" + move + ")";
     bool m_style = get_option<std::string>( "MORALE_STYLE" ) == "horizontal";
     std::string smiley = morale_emotion( morale_pair.second, get_face_type( u ), m_style );
@@ -1239,9 +1240,9 @@ void draw_stat( player &u, const catacurses::window &w )
 
     nc_color stat_clr = str_string( u ).first;
     mvwprintz( w, 0, 8, stat_clr, "%s", u.str_cur );
-    stat_clr = dex_string( u ).first;
-    mvwprintz( w, 1, 8, stat_clr, "%s", u.int_cur );
     stat_clr = int_string( u ).first;
+    mvwprintz( w, 1, 8, stat_clr, "%s", u.int_cur );
+    stat_clr = dex_string( u ).first;
     mvwprintz( w, 0, 26, stat_clr, "%s", u.dex_cur );
     stat_clr = per_string( u ).first;
     mvwprintz( w, 1, 26, stat_clr, "%s", u.per_cur );
@@ -1266,13 +1267,12 @@ void draw_env1( const player &u, const catacurses::window &w )
         mvwprintz( w, 1, 1, c_light_gray, _( "Sky  : Underground" ) );
     } else {
         mvwprintz( w, 1, 1, c_light_gray, _( "Sky  :" ) );
-        wprintz( w, weather_data( g->weather ).color, " %s",
-                 weather_data( g->weather ).name.c_str() );
+        wprintz( w, weather_data( g->weather ).color, " %s", weather_data( g->weather ).name );
     }
     // display lighting
     const auto ll = get_light_level( g->u.fine_detail_vision_mod() );
     mvwprintz( w, 2, 1, c_light_gray, "%s ", _( "Light:" ) );
-    wprintz( w, ll.second, ll.first.c_str() );
+    wprintz( w, ll.second, ll.first );
 
     // display date
     mvwprintz( w, 3, 1, c_light_gray, _( "Date : %s, day %d" ),
@@ -1340,11 +1340,11 @@ void draw_env_compact( player &u, const catacurses::window &w )
     if( g->get_levz() < 0 ) {
         mvwprintz( w, 3, 8, c_light_gray, _( "Underground" ) );
     } else {
-        mvwprintz( w, 3, 8, weather_data( g->weather ).color, weather_data( g->weather ).name.c_str() );
+        mvwprintz( w, 3, 8, weather_data( g->weather ).color, weather_data( g->weather ).name );
     }
     // display lighting
     const auto ll = get_light_level( g->u.fine_detail_vision_mod() );
-    mvwprintz( w, 4, 8, ll.second, ll.first.c_str() );
+    mvwprintz( w, 4, 8, ll.second, ll.first );
     // wind
     const oter_id &cur_om_ter = overmap_buffer.ter( u.global_omt_location() );
     double windpower = get_local_windpower( g->windspeed, cur_om_ter,
@@ -1437,7 +1437,8 @@ void draw_health_classic( player &u, const catacurses::window &w )
         mvwprintz( w, 5, 21, u.get_speed() < 100 ? c_red : c_white,
                    _( "Spd " ) + to_string( u.get_speed() ) );
         mvwprintz( w, 5, 26 + to_string( u.get_speed() ).length(), c_white,
-                   to_string( u.movecounter ) + " " + ( u.move_mode == "walk" ? "W" : "R" ) );
+                   to_string( u.movecounter ) + " " + ( u.move_mode == "walk" ? "W" : ( u.move_mode == "crouch" ? "C" :
+                           "R" ) ) );
     }
 
     // temperature
@@ -1676,7 +1677,7 @@ void draw_weapon_classic( const player &u, const catacurses::window &w )
     const auto &cur_style = u.style_selected.obj();
     if( !u.weapon.is_gun() ) {
         if( cur_style.force_unarmed || cur_style.weapon_valid( u.weapon ) ) {
-            style = _( cur_style.name.c_str() );
+            style = _( cur_style.name );
         } else if( u.is_armed() ) {
             style = _( "Normal" );
         } else {
@@ -1743,9 +1744,9 @@ std::vector<window_panel> initialize_default_classic_panels()
     ret.emplace_back( window_panel( draw_weapon_classic, "Weapon", 1, 44, true ) );
     ret.emplace_back( window_panel( draw_time_classic, "Time", 1, 44, true ) );
     ret.emplace_back( window_panel( draw_armor, "Armor", 5, 44, false ) );
-    ret.emplace_back( window_panel( draw_compass_padding, "Compass", 6, 44, true ) );
+    ret.emplace_back( window_panel( draw_compass_padding, "Compass", 8, 44, true ) );
     ret.emplace_back( window_panel( draw_messages_classic, "Log", -2, 44, true ) );
-#ifdef TILES
+#if defined(TILES)
     ret.emplace_back( window_panel( draw_mminimap, "Map", -1, 44, true ) );
 #endif // TILES
 
@@ -1766,7 +1767,7 @@ std::vector<window_panel> initialize_default_compact_panels()
     ret.emplace_back( window_panel( draw_armor, "Armor", 5, 32, false ) );
     ret.emplace_back( window_panel( draw_messages_classic, "Log", -2, 32, true ) );
     ret.emplace_back( window_panel( draw_compass, "Compass", 8, 32, true ) );
-#ifdef TILES
+#if defined(TILES)
     ret.emplace_back( window_panel( draw_mminimap, "Map", -1, 32, true ) );
 #endif // TILES
 
@@ -1788,7 +1789,7 @@ std::vector<window_panel> initialize_default_label_panels()
     ret.emplace_back( window_panel( draw_env2, "Moon", 2, 32, false ) );
     ret.emplace_back( window_panel( draw_mod2, "Armor", 5, 32, false ) );
     ret.emplace_back( window_panel( draw_compass_padding, "Compass", 8, 32, true ) );
-#ifdef TILES
+#if defined(TILES)
     ret.emplace_back( window_panel( draw_mminimap, "Map", -1, 32, true ) );
 #endif // TILES
 
@@ -1828,9 +1829,32 @@ const std::string panel_manager::get_current_layout_id() const
     return current_layout_id;
 }
 
+int panel_manager::get_width_right()
+{
+    if( get_option<std::string>( "SIDEBAR_POSITION" ) == "left" ) {
+        return width_left;
+    }
+    return width_right;
+}
+
+int panel_manager::get_width_left()
+{
+    if( get_option<std::string>( "SIDEBAR_POSITION" ) == "left" ) {
+        return width_right;
+    }
+    return width_left;
+}
+
 void panel_manager::init()
 {
     load();
+    update_offsets( get_current_layout().begin()->get_width() );
+}
+
+void panel_manager::update_offsets( int x )
+{
+    width_right = x;
+    width_left = 0;
 }
 
 bool panel_manager::save()
@@ -1911,7 +1935,7 @@ void panel_manager::deserialize( JsonIn &jsin )
                     if( it->get_name() != name ) {
                         window_panel panel = *it2;
                         layout.erase( it2 );
-                        layout.insert( it, panel );
+                        it = layout.insert( it, panel );
                     }
                     it->toggle = joPanel.get_bool( "toggle" );
                     ++it;
@@ -2031,17 +2055,18 @@ void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t
             }
             current_layout_id = iter->first;
             int width = panel_manager::get_manager().get_current_layout().begin()->get_width();
+            update_offsets( width );
             int h; // to_map_font_dimension needs a second input
             to_map_font_dimension( width, h );
             if( get_option<std::string>( "SIDEBAR_POSITION" ) == "left" ) {
                 width *= -1;
             }
-            // divided by two because we want the offset to center the screen
-            g->sidebar_offset.x = width / 2;
             werase( w );
             wrefresh( g->w_terrain );
             g->reinitmap = true;
             g->draw_panels( column, index );
+            // tell the game that the main screen might have a different size now.
+            g->init_ui( true );
             return;
         } else if( action == "RIGHT" || action == "LEFT" ) {
             // there are only two columns

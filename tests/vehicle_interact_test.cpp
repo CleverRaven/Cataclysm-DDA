@@ -44,7 +44,8 @@ static void test_repair( const std::vector<item> &tools, bool expect_craftable )
     // Bust cache on crafting_inventory()
     g->u.mod_moves( 1 );
     inventory crafting_inv = g->u.crafting_inventory();
-    bool can_repair = vp.repair_requirements().can_make_with_inventory( g->u.crafting_inventory() );
+    bool can_repair = vp.repair_requirements().can_make_with_inventory( g->u.crafting_inventory(),
+                      is_crafting_component );
     CHECK( can_repair == expect_craftable );
 }
 

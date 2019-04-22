@@ -58,6 +58,7 @@
     "dispersion": 90,
     "durability": 8,
     "clip_size": 19,
+    "magazines": [ [ "22", [ "marlin_tubeloader" ] ] ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
@@ -113,7 +114,7 @@
     "ammo": "22",
     "skill": "rifle",
     "ranged_damage": 1,
-    "dispersion": 180,
+    "dispersion": 550,
     "durability": 6,
     "loudness": 25,
     "clip_size": 1,
@@ -202,7 +203,8 @@
     "name": "Ruger LCR .22",
     "name_plural": "Ruger LCR .22",
     "ammo": "22",
-    "clip_size": 8
+    "clip_size": 8,
+    "magazines": [ [ "22", [ "22_speedloader8" ] ] ]
   },
   {
     "id": "sig_mosquito",

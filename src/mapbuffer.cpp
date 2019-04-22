@@ -439,7 +439,7 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
     }
     if( submaps.count( p ) == 0 ) {
         debugmsg( "file %s did not contain the expected submap %d,%d,%d",
-                  quad_path.str().c_str(), p.x, p.y, p.z );
+                  quad_path.str(), p.x, p.y, p.z );
         return nullptr;
     }
     return submaps[ p ];

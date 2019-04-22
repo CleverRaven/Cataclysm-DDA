@@ -7,7 +7,7 @@ void game_ui::init_ui()
     g->init_ui( true );
 }
 
-#if ( !defined TILES )
+#if !defined(TILES)
 
 void reinitialize_framebuffer()
 {

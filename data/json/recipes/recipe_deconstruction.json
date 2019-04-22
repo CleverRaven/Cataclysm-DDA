@@ -2436,5 +2436,36 @@
       [ [ "plastic_chunk", 10 ] ],
       [ [ "solder_wire", 5 ] ]
     ]
+  },
+  {
+    "result": "medium_storage_battery",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 8,
+    "time": 40000,
+    "decomp_learn": [ [ "electronics", 3 ], [ "fabrication", 1 ] ],
+    "using": [ [ "soldering_standard", 20 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "small_storage_battery", 13 ] ], [ [ "e_scrap", 3 ] ], [ [ "scrap", 7 ] ], [ [ "cable", 4 ] ] ]
+  },
+  {
+    "result": "storage_battery",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 8,
+    "time": 120000,
+    "decomp_learn": [ [ "electronics", 3 ], [ "fabrication", 2 ] ],
+    "using": [ [ "soldering_standard", 80 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "small_storage_battery", 79 ] ], [ [ "e_scrap", 15 ] ], [ [ "scrap", 31 ] ], [ [ "cable", 19 ] ] ]
+  },
+  {
+    "result": "electric_blanket",
+    "type": "uncraft",
+    "skill_used": "tailor",
+    "time": 30000,
+    "difficulty": 1,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "rag", 25 ] ], [ [ "element", 5 ] ], [ [ "cable", 5 ] ] ]
   }
 ]
