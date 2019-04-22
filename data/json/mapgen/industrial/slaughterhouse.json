@@ -42,6 +42,17 @@
       ]
     },
     {
+      "id": "f_hanging_meathook",
+      "type": "furniture",
+      "name": "hanging meathook",
+      "symbol": "g",
+      "required_str": -1,
+      "move_cost_mod": 2,
+      "color": "light_gray",
+      "deconstruct": { "items": [ { "item": "grip_hook", "count": 1 }, { "item": "chain", "count": 1 } ] },
+      "flags": [ "TRANSPARENT" ]
+    },
+    {
       "type": "mapgen",
       "method": "json",
       "om_terrain": [ "slaughterhouse_1_roof" ],
@@ -105,19 +116,19 @@
           "~|9-    F.M.M.FEA.M.M3|~",
           "~|      F.M.M.FEA.M.M.|~",
           "~|      F.M.M.FEA.M.M.|~",
-          "~|      F.M.M.MMM.M.M.|~",
+          "~|      F.M.g.MMM.g.M.|~",
           "~|      F.M.M.FEA.M.M.|~",
           "~|      F.M.M.FEA.M.M.|~",
           "~|      F.M.M.FEA.M.M.|~",
-          "~|      F.M.M.MMM.M.M.|~",
+          "~|      F.M.g.MMM.g.M.|~",
           "~|      F.M.M.FEA.8---|~",
           "~|      F.M.M.FEA.M7~~~~",
           "~|      F.M.M.FEA.M7~~~~",
           "~|      F.M.M.MMM.M7~~~~",
           "~|      +++++++66++++++~",
-          "~---9---1MMMMMMMMMMMMI1~",
-          "~4~~~~HH1MMMMMMMMMMMMM1~",
-          "~4~~~~~B1MMMMMMMMMMMMM1~",
+          "~---9---1gMMMMMMMMMMMI1~",
+          "~4~~~~HH1gMMMMMMMMMMMg1~",
+          "~4~~~~~B1gMMgggMggggMg1~",
           "~44444441+++++++++++++1~",
           "~~~~~~~~~~~~~~~~~~~~~~~~"
         ],
@@ -147,7 +158,8 @@
           "J": "t_chaingate_l",
           "M": "t_metal_floor",
           "&": "t_floor",
-          "|": "t_wall_v"
+          "|": "t_wall_v",
+          "g": "t_metal_floor"
         },
         "furniture": {
           "A": "f_rack",
@@ -158,7 +170,8 @@
           "F": "f_counter",
           "G": "f_locker",
           "H": "f_dumpster",
-          "I": "f_air_conditioner"
+          "I": "f_air_conditioner",
+          "g": "f_hanging_meathook"
         },
         "place_fields": [
           { "x": [ 6, 21 ], "y": [ 3, 17 ], "field": "fd_blood", "density": 1, "repeat": [ 10, 30 ], "age": 3 },
