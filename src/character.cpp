@@ -1,8 +1,13 @@
 #include "character.h"
 
+#include <limits.h>
+#include <stdlib.h>
 #include <algorithm>
 #include <numeric>
 #include <sstream>
+#include <cmath>
+#include <iterator>
+#include <memory>
 
 #include "activity_handlers.h"
 #include "bionics.h"
@@ -31,6 +36,13 @@
 #include "veh_interact.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
+#include "catacharset.h"
+#include "game_constants.h"
+#include "item_location.h"
+#include "lightmap.h"
+#include "rng.h"
+#include "stomach.h"
+#include "ui.h"
 
 const efftype_id effect_bandaged( "bandaged" );
 const efftype_id effect_beartrap( "beartrap" );

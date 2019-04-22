@@ -1,6 +1,8 @@
 #include "player.h" // IWYU pragma: associated
 
+#include <stdlib.h>
 #include <algorithm>
+#include <sstream>
 
 #include "addiction.h"
 #include "bionics.h"
@@ -15,6 +17,8 @@
 #include "string_formatter.h"
 #include "units.h"
 #include "weather.h"
+#include "catacharset.h"
+#include "translations.h"
 
 const skill_id skill_swimming( "swimming" );
 

@@ -1,13 +1,13 @@
 #include "mission.h" // IWYU pragma: associated
 
-#include <cstdio>
 #include <vector>
+#include <algorithm>
+#include <memory>
 
 #include "computer.h"
 #include "coordinate_conversions.h"
 #include "debug.h"
 #include "dialogue.h"
-#include "field.h"
 #include "game.h"
 #include "json.h"
 #include "line.h"
@@ -21,14 +21,16 @@
 #include "npc.h"
 #include "npc_class.h"
 #include "omdata.h"
-#include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "string_formatter.h"
 #include "translations.h"
-#include "trap.h"
-
-class DynamicDataLoader;
+#include "game_constants.h"
+#include "int_id.h"
+#include "item.h"
+#include "optional.h"
+#include "player.h"
+#include "rng.h"
 
 const mtype_id mon_charred_nightmare( "mon_charred_nightmare" );
 const mtype_id mon_dog( "mon_dog" );

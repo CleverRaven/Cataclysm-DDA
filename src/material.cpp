@@ -2,6 +2,9 @@
 
 #include <map>
 #include <string>
+#include <algorithm>
+#include <iterator>
+#include <set>
 
 #include "assign.h"
 #include "damage.h" // damage_type
@@ -10,6 +13,8 @@
 #include "item.h"
 #include "json.h"
 #include "translations.h"
+#include "itype.h"
+#include "player.h"
 
 namespace
 {

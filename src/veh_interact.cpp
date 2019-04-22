@@ -1,15 +1,19 @@
 #include "veh_interact.h"
 
+#include <stdlib.h>
 #include <algorithm>
-#include <cassert>
 #include <cmath>
 #include <functional>
 #include <iterator>
 #include <list>
 #include <numeric>
 #include <string>
+#include <array>
+#include <memory>
+#include <set>
+#include <type_traits>
+#include <utility>
 
-#include "action.h"
 #include "activity_handlers.h"
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -37,6 +41,15 @@
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "vpart_reference.h"
+#include "calendar.h"
+#include "enums.h"
+#include "game_constants.h"
+#include "optional.h"
+#include "requirements.h"
+#include "tileray.h"
+#include "units.h"
+#include "material.h"
+#include "pldata.h"
 
 static inline const std::string status_color( bool status )
 {

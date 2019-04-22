@@ -2,6 +2,12 @@
 
 #include <algorithm>
 #include <cmath>
+#include <cstdio>
+#include <exception>
+#include <functional>
+#include <map>
+#include <memory>
+#include <sstream>
 
 #include "auto_pickup.h"
 #include "cata_utility.h"
@@ -26,6 +32,11 @@
 #include "text_snippets.h"
 #include "translations.h"
 #include "worldfactory.h"
+#include "color.h"
+#include "enums.h"
+#include "options.h"
+#include "pldata.h"
+#include "string_formatter.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 

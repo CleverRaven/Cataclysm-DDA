@@ -11,6 +11,10 @@
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
+#include "catacharset.h"
+#include "color.h"
+#include "cursesdef.h"
+#include "enums.h"
 
 #if defined(__ANDROID__)
 #include <SDL_keyboard.h>
@@ -21,6 +25,9 @@
 #include <deque>
 #include <iterator>
 #include <algorithm>
+#include <memory>
+#include <sstream>
+#include <type_traits>
 
 // sidebar messages flow direction
 extern bool log_from_top;

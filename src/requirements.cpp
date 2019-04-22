@@ -1,11 +1,15 @@
 #include "requirements.h"
 
+#include <stdlib.h>
 #include <algorithm>
-#include <cmath>
 #include <limits>
 #include <sstream>
+#include <iterator>
+#include <list>
+#include <memory>
+#include <set>
+#include <unordered_map>
 
-#include "calendar.h"
 #include "cata_utility.h"
 #include "debug.h"
 #include "game.h"
@@ -18,6 +22,10 @@
 #include "player.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "color.h"
+#include "item.h"
+#include "pldata.h"
+#include "visitable.h"
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 

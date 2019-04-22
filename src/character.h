@@ -2,11 +2,19 @@
 #ifndef CHARACTER_H
 #define CHARACTER_H
 
+#include <stddef.h>
 #include <bitset>
 #include <map>
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
+#include <array>
+#include <functional>
+#include <limits>
+#include <list>
+#include <set>
+#include <string>
+#include <utility>
 
 #include "bodypart.h"
 #include "calendar.h"
@@ -14,27 +22,34 @@
 #include "inventory.h"
 #include "pimpl.h"
 #include "pldata.h"
-#include "rng.h"
 #include "visitable.h"
+#include "color.h"
+#include "damage.h"
+#include "enums.h"
+#include "item.h"
+#include "optional.h"
+#include "string_formatter.h"
+#include "string_id.h"
+#include "units.h"
 
 class Skill;
 struct pathfinding_settings;
+class item_location;
+
 using skill_id = string_id<Skill>;
 class SkillLevel;
 class SkillLevelMap;
+
 enum field_id : int;
 class JsonObject;
 class JsonIn;
 class JsonOut;
-class field;
-class field_entry;
 class vehicle;
-struct resistances;
 struct mutation_branch;
 class bionic_collection;
 struct bionic_data;
+
 using bionic_id = string_id<bionic_data>;
-class recipe;
 
 enum vision_modes {
     DEBUG_NIGHTVISION,

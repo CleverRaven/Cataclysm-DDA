@@ -1,5 +1,10 @@
 #include "trap.h" // IWYU pragma: associated
 
+#include <algorithm>
+#include <memory>
+#include <unordered_map>
+#include <utility>
+
 #include "debug.h"
 #include "event.h"
 #include "game.h"
@@ -14,6 +19,16 @@
 #include "rng.h"
 #include "sounds.h"
 #include "translations.h"
+#include "bodypart.h"
+#include "calendar.h"
+#include "creature.h"
+#include "damage.h"
+#include "enums.h"
+#include "game_constants.h"
+#include "item.h"
+#include "itype.h"
+#include "player.h"
+#include "pldata.h"
 
 const mtype_id mon_blob( "mon_blob" );
 const mtype_id mon_shadow( "mon_shadow" );

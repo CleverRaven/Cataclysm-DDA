@@ -1,6 +1,8 @@
+#include <stdio.h>
 #include <string>
+#include <memory>
+#include <vector>
 
-#include "bionics.h"
 #include "catch/catch.hpp"
 #include "calendar.h"
 #include "coordinate_conversions.h"
@@ -14,6 +16,15 @@
 #include "npc.h"
 #include "overmapbuffer.h"
 #include "player.h"
+#include "character.h"
+#include "enums.h"
+#include "inventory.h"
+#include "item.h"
+#include "npc_class.h"
+#include "pimpl.h"
+#include "string_id.h"
+#include "mapdata.h"
+#include "mtype.h"
 
 const efftype_id effect_gave_quest_item( "gave_quest_item" );
 const efftype_id effect_currently_busy( "currently_busy" );

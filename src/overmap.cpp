@@ -3,15 +3,15 @@
 
 #include <algorithm>
 #include <cassert>
-#include <chrono>
 #include <cmath>
-#include <cstdlib>
 #include <cstring>
 #include <numeric>
 #include <ostream>
 #include <queue>
 #include <random>
 #include <vector>
+#include <exception>
+#include <unordered_set>
 
 #include "catacharset.h"
 #include "cata_utility.h"
@@ -43,6 +43,10 @@
 #include "rotatable_symbols.h"
 #include "simple_pathfinding.h"
 #include "translations.h"
+#include "assign.h"
+#include "math_defines.h"
+#include "monster.h"
+#include "string_formatter.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 

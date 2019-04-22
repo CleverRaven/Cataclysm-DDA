@@ -4,14 +4,14 @@
 
 #include <string>
 #include <vector>
-
-#include "enums.h" // For point
+#include <utility>
 
 class monster;
 class player;
 class Creature;
 class item;
 class JsonObject;
+struct tripoint;
 
 namespace sounds
 {

@@ -2,9 +2,12 @@
 
 #include "monster.h" // IWYU pragma: associated
 
+#include <stdlib.h>
 #include <cmath>
+#include <algorithm>
+#include <memory>
+#include <ostream>
 
-#include "cursesdef.h"
 #include "debug.h"
 #include "field.h"
 #include "game.h"
@@ -16,7 +19,6 @@
 #include "monfaction.h"
 #include "mtype.h"
 #include "npc.h"
-#include "output.h"
 #include "rng.h"
 #include "scent_map.h"
 #include "sounds.h"
@@ -25,6 +27,11 @@
 #include "vpart_position.h"
 #include "tileray.h"
 #include "vehicle.h"
+#include "cata_utility.h"
+#include "game_constants.h"
+#include "mattack_common.h"
+#include "pathfinding.h"
+#include "player.h"
 
 #define MONSTER_FOLLOW_DIST 8
 

@@ -3,16 +3,23 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include <array>
+#include <functional>
+#include <list>
+#include <memory>
+#include <utility>
 
 #include "catch/catch.hpp"
 #include "game.h"
 #include "item.h"
 #include "itype.h"
-#include "mutation.h"
 #include "player.h"
 #include "profession.h"
 #include "scenario.h"
 #include "string_id.h"
+#include "optional.h"
+#include "pldata.h"
+#include "ret_val.h"
 
 std::ostream &operator<<( std::ostream &s, const std::vector<trait_id> &v )
 {

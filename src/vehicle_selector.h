@@ -3,6 +3,7 @@
 #define VEHICLE_SELECTOR_H
 
 #include <vector>
+#include <iosfwd>
 
 #include "visitable.h"
 

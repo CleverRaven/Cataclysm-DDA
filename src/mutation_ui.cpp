@@ -4,8 +4,6 @@
 #include <sstream>
 
 #include "mutation.h"
-#include "catacharset.h"
-#include "debug.h"
 #include "game.h"
 #include "input.h"
 #include "output.h"

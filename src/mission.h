@@ -14,11 +14,11 @@
 #include "npc_favor.h"
 #include "overmap.h"
 #include "item_group.h"
+#include "string_id.h"
+#include "mtype.h"
 
 class player;
 class mission;
-class game;
-class npc;
 class Creature;
 class npc_class;
 class JsonObject;
@@ -28,7 +28,7 @@ class JsonOut;
 struct mission_type;
 struct oter_type_t;
 struct species_type;
-struct mtype;
+class item;
 
 enum npc_mission : int;
 

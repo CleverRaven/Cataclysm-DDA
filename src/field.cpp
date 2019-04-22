@@ -1,8 +1,16 @@
 #include "field.h"
 
+#include <math.h>
+#include <stddef.h>
 #include <algorithm>
 #include <queue>
 #include <tuple>
+#include <iterator>
+#include <list>
+#include <memory>
+#include <set>
+#include <utility>
+#include <vector>
 
 #include "calendar.h"
 #include "cata_utility.h"
@@ -22,7 +30,6 @@
 #include "monster.h"
 #include "mtype.h"
 #include "npc.h"
-#include "output.h"
 #include "overmapbuffer.h"
 #include "rng.h"
 #include "scent_map.h"
@@ -31,7 +38,19 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "weather.h"
-#include "weather_gen.h"
+#include "bodypart.h"
+#include "character.h"
+#include "creature.h"
+#include "damage.h"
+#include "int_id.h"
+#include "item.h"
+#include "line.h"
+#include "math_defines.h"
+#include "optional.h"
+#include "player.h"
+#include "pldata.h"
+#include "string_id.h"
+#include "units.h"
 
 const species_id FUNGUS( "FUNGUS" );
 

@@ -1,11 +1,17 @@
 #include "addiction.h"
 
+#include <algorithm>
+#include <map>
+#include <utility>
+
 #include "morale_types.h"
-#include "output.h"
 #include "player.h"
 #include "pldata.h"
 #include "rng.h"
 #include "translations.h"
+#include "calendar.h"
+#include "creature.h"
+#include "enums.h"
 
 const efftype_id effect_hallu( "hallu" );
 const efftype_id effect_shakes( "shakes" );

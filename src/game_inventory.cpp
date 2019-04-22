@@ -1,6 +1,14 @@
 #include "game_inventory.h"
 
+#include <limits.h>
+#include <stddef.h>
 #include <functional>
+#include <bitset>
+#include <map>
+#include <memory>
+#include <set>
+#include <string>
+#include <vector>
 
 #include "game.h"
 #include "inventory_ui.h"
@@ -14,6 +22,26 @@
 #include "recipe_dictionary.h"
 #include "skill.h"
 #include "string_formatter.h"
+#include "calendar.h"
+#include "cata_utility.h"
+#include "color.h"
+#include "compatibility.h"
+#include "damage.h"
+#include "debug.h"
+#include "enums.h"
+#include "input.h"
+#include "inventory.h"
+#include "item_location.h"
+#include "iuse.h"
+#include "optional.h"
+#include "player_activity.h"
+#include "recipe.h"
+#include "requirements.h"
+#include "ret_val.h"
+#include "translations.h"
+#include "units.h"
+
+class Character;
 
 typedef std::function<bool( const item & )> item_filter;
 typedef std::function<bool( const item_location & )> item_location_filter;
