@@ -1075,11 +1075,12 @@
           "longshirt",
           "boots_combat",
           "gloves_tactical",
-          "modularvestkevlar",
+          "armor_riot",
           "mask_gas",
           "helmet_riot",
           "armguard_hard",
           "legguard_hard",
+          "police_belt",
           "badge_deputy",
           "two_way_radio",
           "wristwatch",
@@ -1804,6 +1805,7 @@
     "CBMs": [
       "bio_cqb",
       "bio_blade",
+      "bio_shotgun",
       "bio_shock",
       "bio_carbon",
       "bio_adrenaline",
@@ -2091,6 +2093,16 @@
     "description": "The cataclysm gave you a chance to escape, but freedom comes with a steep price.",
     "points": 0,
     "skills": [ { "level": 1, "name": "melee" } ],
+    "items": { "both": [ "striped_shirt", "striped_pants", "glass_shiv" ], "male": [ "briefs" ], "female": [ "bra", "panties" ] }
+  },
+  {
+    "type": "profession",
+    "ident": "death_row_convict",
+    "name": "Death Row Convict",
+    "description": "You were a serial killer ready to walk the green mile, but now everyone else is dead, and since true death comes only from your hands, you're in for a job.",
+    "points": 0,
+    "skills": [ { "level": 1, "name": "melee" } ],
+    "traits": [ "KILLER" ],
     "items": { "both": [ "striped_shirt", "striped_pants", "glass_shiv" ], "male": [ "briefs" ], "female": [ "bra", "panties" ] }
   },
   {

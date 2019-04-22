@@ -41,6 +41,21 @@
   },
   {
     "type": "GENERIC",
+    "//": "pseudo item, used as fuel type for engines that are wind-powered",
+    "id": "wind",
+    "symbol": "?",
+    "color": "white",
+    "name": "wind",
+    "name_plural": "none",
+    "description": "seeing this is a bug",
+    "stackable": true,
+    "price": 0,
+    "volume": 0,
+    "flags": [ "PSEUDO", "PERPETUAL" ],
+    "fuel": { "energy": 1 }
+  },
+  {
+    "type": "GENERIC",
     "//": "pseudo item, only used for as a required tool, checked for in player::amount_of",
     "id": "apparatus",
     "symbol": "$",
@@ -734,6 +749,20 @@
   },
   {
     "type": "GENERIC",
+    "id": "thermostat",
+    "symbol": ",",
+    "color": "light_gray",
+    "name": "bimetal thermostat",
+    "category": "spare_parts",
+    "description": "A simple thermostat controlled by thermal expansion of a bimetal strip.",
+    "price": 1000,
+    "price_postapoc": 100,
+    "material": "iron",
+    "weight": 226,
+    "volume": 1
+  },
+  {
+    "type": "GENERIC",
     "id": "television",
     "symbol": ";",
     "color": "dark_gray",
@@ -1339,26 +1368,6 @@
     "volume": 8,
     "bashing": 4,
     "to_hit": 1
-  },
-  {
-    "type": "PET_ARMOR",
-    "id": "kevlar_harness",
-    "symbol": "[",
-    "color": "blue",
-    "name": "Kevlar dog harness",
-    "name_plural": "Kevlar dog harnesses",
-    "description": "A blue bulletproof harness, designed to be worn by canines in the service of local law enforcement.  You could put this on a friendly dog.",
-    "price": 30000,
-    "price_postapoc": 3000,
-    "material": [ "kevlar" ],
-    "weight": 4290,
-    "volume": 18,
-    "bashing": 5,
-    "to_hit": -1,
-    "flags": [ "IS_PET_ARMOR" ],
-    "max_pet_vol": "35000 ml",
-    "min_pet_vol": "25000 ml",
-    "pet_bodytype": "dog"
   },
   {
     "type": "GENERIC",
@@ -2835,6 +2844,21 @@
   },
   {
     "type": "GENERIC",
+    "id": "id_industrial",
+    "looks_like": "id_science",
+    "symbol": ",",
+    "color": "green",
+    "name": "industrial ID card",
+    "description": "This ID card once belonged to a high level technician.  The reverse side describes protocol for using it; this could grant access at one control panel, if you can find one.",
+    "price": 120000,
+    "price_postapoc": 10000,
+    "material": "plastic",
+    "weight": 6,
+    "volume": 0,
+    "to_hit": -3
+  },
+  {
+    "type": "GENERIC",
     "id": "neoprene",
     "symbol": ",",
     "color": "dark_gray",
@@ -3000,6 +3024,22 @@
     "bashing": 5
   },
   {
+    "id": "condom",
+    "type": "GENERIC",
+    "category": "other",
+    "name": "condom",
+    "looks_like": "lens",
+    "description": "A gentleman's balloon.  A single use life preventer.  A thumbless latex mitten.   This could be used as a makeshift water container, but otherwise it's anyone's guess what it's for.",
+    "weight": 5,
+    "volume": "5ml",
+    "price": 200,
+    "material": "plastic",
+    "symbol": "*",
+    "color": "white",
+    "bashing": 5,
+    "to_hit": -3
+  },
+  {
     "type": "GENERIC",
     "id": "lock",
     "category": "spare_parts",
@@ -3012,5 +3052,19 @@
     "weight": 5,
     "volume": 1,
     "bashing": 1
+  },
+  {
+    "type": "GENERIC",
+    "id": "craft",
+    "symbol": "%",
+    "color": "white",
+    "name": "in progress craft",
+    "description": "This is an in progress craft.",
+    "price": 0,
+    "weight": 1,
+    "volume": 1,
+    "max_charges": 20,
+    "use_action": "CRAFT",
+    "flags": [ "NO_SALVAGE", "TRADER_AVOID" ]
   }
 ]

@@ -15,6 +15,7 @@
 #include "catacharset.h"
 #include "color.h"
 #include "cursesdef.h"
+#include "cursesport.h"
 #include "input.h"
 #include "item.h"
 #include "line.h"
@@ -26,10 +27,7 @@
 #include "string_input_popup.h"
 #include "units.h"
 
-#if (defined TILES || defined _WIN32 || defined WINDOWS)
-#include "cursesport.h"
-#endif
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
 #include <SDL_keyboard.h>
 #endif
 
@@ -369,7 +367,7 @@ std::string name_and_value( const std::string &name, const std::string &value, i
     int name_width = utf8_width( name );
     int value_width = utf8_width( value );
     std::stringstream result;
-    result << name.c_str();
+    result << name;
     for( int i = ( name_width + value_width );
          i < std::max( field_width, name_width + value_width ); ++i ) {
         result << " ";
@@ -699,7 +697,7 @@ input_event draw_item_info( const int iLeft, const int iWidth, const int iTop, c
     catacurses::window win = catacurses::newwin( iHeight, iWidth, iTop + VIEW_OFFSET_Y,
                              iLeft + VIEW_OFFSET_X );
 
-#ifdef TILES
+#if defined(TILES)
     clear_window_area( win );
 #endif // TILES
     wclear( win );
@@ -758,7 +756,7 @@ void draw_item_filter_rules( const catacurses::window &win, int starty, int heig
     // Clear every row, but the leftmost/rightmost pixels intact.
     const int len = getmaxx( win ) - 2;
     for( int i = 0; i < height; i++ ) {
-        mvwprintz( win, starty + i, 1, c_black, std::string( len, ' ' ).c_str() );
+        mvwprintz( win, starty + i, 1, c_black, std::string( len, ' ' ) );
     }
 
     // Not static so that language changes are correctly handled
@@ -1496,7 +1494,7 @@ std::string cata::string_formatter::raw_string_format( const char *format, ... )
     errno = 0; // Clear errno before trying
     std::vector<char> buffer( 1024, '\0' );
 
-#if (defined __CYGWIN__)
+#if defined(__CYGWIN__)
     std::string rewritten_format = rewrite_vsnprintf( format );
     format = rewritten_format.c_str();
 #endif
@@ -1622,7 +1620,7 @@ std::string shortcut_text( nc_color shortcut_color, const std::string &fmt )
         std::string shortcut = fmt.substr( pos + 1, sep - pos - 1 );
 
         return string_format( "%s<color_%s>%s</color>%s", prestring,
-                              string_from_color( shortcut_color ).c_str(),
+                              string_from_color( shortcut_color ),
                               shortcut, poststring );
     }
 
@@ -1689,7 +1687,7 @@ std::pair<std::string, nc_color> get_light_level( const float light )
     static const int maximum_light_level = static_cast< int >( strings.size() ) - 1;
     const int light_level = clamp( static_cast< int >( ceil( light ) ), 0, maximum_light_level );
     const size_t array_index = static_cast< size_t >( light_level );
-    return pair_t{ _( strings[array_index].first.c_str() ), strings[array_index].second };
+    return pair_t{ _( strings[array_index].first ), strings[array_index].second };
 }
 
 std::string get_labeled_bar( const double val, const int width, const std::string &label, char c )
@@ -1717,7 +1715,7 @@ void display_table( const catacurses::window &w, const std::string &title, int c
     const int col_width = width / columns;
     int offset = 0;
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
     // no bindings, but give it its own input context so stale buttons don't hang around.
     input_context ctxt( "DISPLAY_TABLE" );
 #endif
@@ -1758,7 +1756,7 @@ scrollingcombattext::cSCT::cSCT( const int p_iPosX, const int p_iPosY, const dir
 
     // translate from player relative to screen relative direction
     iso_mode = false;
-#ifdef TILES
+#if defined(TILES)
     iso_mode = tile_iso && use_tiles;
 #endif
     oUp = iso_mode ? NORTHEAST : NORTH;
@@ -1803,7 +1801,7 @@ void scrollingcombattext::add( const int p_iPosX, const int p_iPosY, direction p
 
         bool tiled = false;
         bool iso_mode = false;
-#ifdef TILES
+#if defined(TILES)
         tiled = use_tiles;
         iso_mode = tile_iso && use_tiles;
 #endif
@@ -2154,7 +2152,7 @@ std::string format_volume( const units::volume &volume, int width, bool *out_tru
 // In non-SDL mode, width/height is just what's specified in the menu
 #if !defined(TILES)
 // We need to override these for Windows console resizing
-#if !(defined _WIN32 || defined __WIN32__)
+#   if !defined(_WIN32)
 int get_terminal_width()
 {
     int width = get_option<int>( "TERMINAL_X" );
@@ -2165,7 +2163,7 @@ int get_terminal_height()
 {
     return get_option<int>( "TERMINAL_Y" );
 }
-#endif
+#   endif
 
 bool is_draw_tiles_mode()
 {

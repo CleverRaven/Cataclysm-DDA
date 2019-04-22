@@ -146,7 +146,6 @@ void tutorial_game::pre_action( action_id &act )
         case ACTION_QUICKSAVE:
             popup( _( "You're saving a tutorial - the tutorial world lacks certain features of normal worlds. "
                       "Weird things might happen when you load this save. You have been warned." ) );
-            act = ACTION_NULL;
             break;
         default:
             // Other actions are fine.
@@ -157,7 +156,7 @@ void tutorial_game::pre_action( action_id &act )
 void tutorial_game::post_action( action_id act )
 {
     switch( act ) {
-        case ACTION_RELOAD:
+        case ACTION_RELOAD_WEAPON:
             if( g->u.weapon.is_gun() && !tutorials_seen[LESSON_GUN_FIRE] ) {
                 g->summon_mon( mon_zombie, tripoint( g->u.posx(), g->u.posy() - 6, g->u.posz() ) );
                 g->summon_mon( mon_zombie, tripoint( g->u.posx() + 2, g->u.posy() - 5, g->u.posz() ) );
@@ -261,7 +260,7 @@ void load_tutorial_messages( JsonObject &jo )
     tut_text.clear();
     JsonArray messages = jo.get_array( "messages" );
     while( messages.has_more() ) {
-        tut_text.push_back( _( messages.next_string().c_str() ) );
+        tut_text.push_back( _( messages.next_string() ) );
     }
 }
 

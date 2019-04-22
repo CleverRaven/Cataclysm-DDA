@@ -1,4 +1,4 @@
-#include "omdata.h" // IWYU pragma: associated
+﻿#include "omdata.h" // IWYU pragma: associated
 #include "overmap.h" // IWYU pragma: associated
 
 #include <algorithm>
@@ -13,6 +13,7 @@
 #include <random>
 #include <vector>
 
+#include "catacharset.h"
 #include "cata_utility.h"
 #include "coordinate_conversions.h"
 #include "debug.h"
@@ -73,7 +74,7 @@ namespace om_lines
 {
 
 struct type {
-    long sym;
+    uint32_t symbol;
     size_t mapgen;
     std::string suffix;
 };
@@ -84,22 +85,22 @@ const std::array<std::string, 5> mapgen_suffixes = {{
 };
 
 const std::array < type, 1 + om_direction::bits > all = {{
-        { LINE_XXXX, 4, "_isolated"  },   // 0  ----
-        { LINE_XOXO, 2, "_end_south" },   // 1  ---n
-        { LINE_OXOX, 2, "_end_west"  },   // 2  --e-
-        { LINE_XXOO, 1, "_ne"        },   // 3  --en
-        { LINE_XOXO, 2, "_end_north" },   // 4  -s--
-        { LINE_XOXO, 0, "_ns"        },   // 5  -s-n
-        { LINE_OXXO, 1, "_es"        },   // 6  -se-
-        { LINE_XXXO, 3, "_nes"       },   // 7  -sen
-        { LINE_OXOX, 2, "_end_east"  },   // 8  w---
-        { LINE_XOOX, 1, "_wn"        },   // 9  w--n
-        { LINE_OXOX, 0, "_ew"        },   // 10 w-e-
-        { LINE_XXOX, 3, "_new"       },   // 11 w-en
-        { LINE_OOXX, 1, "_sw"        },   // 12 ws--
-        { LINE_XOXX, 3, "_nsw"       },   // 13 ws-n
-        { LINE_OXXX, 3, "_esw"       },   // 14 wse-
-        { LINE_XXXX, 4, "_nesw"      }    // 15 wsen
+        { UTF8_getch( LINE_XXXX_S ), 4, "_isolated"  }, // 0  ----
+        { UTF8_getch( LINE_XOXO_S ), 2, "_end_south" }, // 1  ---n
+        { UTF8_getch( LINE_OXOX_S ), 2, "_end_west"  }, // 2  --e-
+        { UTF8_getch( LINE_XXOO_S ), 1, "_ne"        }, // 3  --en
+        { UTF8_getch( LINE_XOXO_S ), 2, "_end_north" }, // 4  -s--
+        { UTF8_getch( LINE_XOXO_S ), 0, "_ns"        }, // 5  -s-n
+        { UTF8_getch( LINE_OXXO_S ), 1, "_es"        }, // 6  -se-
+        { UTF8_getch( LINE_XXXO_S ), 3, "_nes"       }, // 7  -sen
+        { UTF8_getch( LINE_OXOX_S ), 2, "_end_east"  }, // 8  w---
+        { UTF8_getch( LINE_XOOX_S ), 1, "_wn"        }, // 9  w--n
+        { UTF8_getch( LINE_OXOX_S ), 0, "_ew"        }, // 10 w-e-
+        { UTF8_getch( LINE_XXOX_S ), 3, "_new"       }, // 11 w-en
+        { UTF8_getch( LINE_OOXX_S ), 1, "_sw"        }, // 12 ws--
+        { UTF8_getch( LINE_XOXX_S ), 3, "_nsw"       }, // 13 ws-n
+        { UTF8_getch( LINE_OXXX_S ), 3, "_esw"       }, // 14 wse-
+        { UTF8_getch( LINE_XXXX_S ), 4, "_nesw"      }  // 15 wsen
     }
 };
 
@@ -319,14 +320,27 @@ void set_oter_ids()   // FIXME: constify
     ot_river_center = oter_id( "river_center" );
 }
 
+std::string overmap_land_use_code::get_symbol() const
+{
+    return utf32_to_utf8( symbol );
+}
+
 void overmap_land_use_code::load( JsonObject &jo, const std::string &src )
 {
     const bool strict = src == "dda";
     assign( jo, "land_use_code", land_use_code, strict );
     assign( jo, "name", name, strict );
     assign( jo, "detailed_definition", detailed_definition, strict );
-    assign( jo, "sym", sym, strict );
+
+    optional( jo, was_loaded, "sym", symbol, unicode_codepoint_from_symbol_reader, NULL_UNICODE );
+
+    if( symbol == NULL_UNICODE ) {
+        DebugLog( D_ERROR, D_GAME ) << "`sym` node is not defined properly for `land_use_code`: "
+                                    << id.c_str() << " (" << name << ")";
+    }
+
     assign( jo, "color", color, strict );
+
 }
 
 void overmap_land_use_code::finalize()
@@ -502,11 +516,17 @@ void load_overmap_terrain_mapgens( JsonObject &jo, const std::string &id_base,
     }
 }
 
+std::string oter_type_t::get_symbol() const
+{
+    return utf32_to_utf8( symbol );
+}
+
 void oter_type_t::load( JsonObject &jo, const std::string &src )
 {
     const bool strict = src == "dda";
 
-    assign( jo, "sym", sym, strict );
+    optional( jo, was_loaded, "sym", symbol, unicode_codepoint_from_symbol_reader, NULL_UNICODE );
+
     assign( jo, "name", name, strict );
     assign( jo, "see_cost", see_cost, strict );
     assign( jo, "travel_cost", travel_cost, strict );
@@ -516,7 +536,7 @@ void oter_type_t::load( JsonObject &jo, const std::string &src )
     assign( jo, "color", color, strict );
     assign( jo, "land_use_code", land_use_code, strict );
 
-    const typed_flag_reader<decltype( oter_flags_map )> flag_reader{ oter_flags_map, "invalid overmap terrain flag" };
+    const auto flag_reader = make_flag_reader( oter_flags_map, "overmap terrain flag" );
     optional( jo, was_loaded, "flags", flags, flag_reader );
 
     if( has_flag( line_drawing ) ) {
@@ -528,8 +548,21 @@ void oter_type_t::load( JsonObject &jo, const std::string &src )
             load_overmap_terrain_mapgens( jo, id.str(), elem );
         }
     } else {
+        if( symbol == NULL_UNICODE && !jo.has_string( "abstract" ) ) {
+            DebugLog( D_ERROR, D_MAP_GEN ) << "sym is not defined for overmap_terrain: "
+                                           << id.c_str() << " (" << name << ")";
+        }
+        if( !jo.has_string( "sym" ) && jo.has_number( "sym" ) ) {
+            DebugLog( D_ERROR, D_MAP_GEN ) << "sym is defined as number instead of string for overmap_terrain: "
+                                           << id.c_str() << " (" << name << ")";
+        }
         load_overmap_terrain_mapgens( jo, id.str() );
     }
+}
+
+void oter_type_t::check() const
+{
+
 }
 
 void oter_type_t::finalize()
@@ -601,23 +634,23 @@ oter_t::oter_t() : oter_t( oter_type_t::null_type ) {}
 oter_t::oter_t( const oter_type_t &type ) :
     type( &type ),
     id( type.id.str() ),
-    sym( type.sym ),
-    sym_alt( type.land_use_code ? type.land_use_code->sym : sym ) {}
+    symbol( type.symbol ),
+    symbol_alt( type.land_use_code ? type.land_use_code->symbol : symbol ) {}
 
 oter_t::oter_t( const oter_type_t &type, om_direction::type dir ) :
     type( &type ),
     id( type.id.str() + "_" + om_direction::id( dir ) ),
     dir( dir ),
-    sym( om_direction::rotate_symbol( type.sym, dir ) ),
-    sym_alt( om_direction::rotate_symbol( type.land_use_code ? type.land_use_code->sym : type.sym,
-                                          dir ) ),
+    symbol( om_direction::rotate_symbol( type.symbol, dir ) ),
+    symbol_alt( om_direction::rotate_symbol( type.land_use_code ? type.land_use_code->symbol :
+                type.symbol, dir ) ),
     line( om_lines::from_dir( dir ) ) {}
 
 oter_t::oter_t( const oter_type_t &type, size_t line ) :
     type( &type ),
     id( type.id.str() + om_lines::all[line].suffix ),
-    sym( om_lines::all[line].sym ),
-    sym_alt( om_lines::all[line].sym ),
+    symbol( om_lines::all[line].symbol ),
+    symbol_alt( om_lines::all[line].symbol ),
     line( line ) {}
 
 std::string oter_t::get_mapgen_id() const
@@ -724,6 +757,7 @@ void overmap_terrains::load( JsonObject &jo, const std::string &src )
 void overmap_terrains::check_consistency()
 {
     for( const auto &elem : terrain_types.get_all() ) {
+        elem.check();
         if( elem.static_spawns.group && !elem.static_spawns.group.is_valid() ) {
             debugmsg( "Invalid monster group \"%s\" in spawns of \"%s\".", elem.static_spawns.group.c_str(),
                       elem.id.c_str() );
@@ -3388,7 +3422,7 @@ tripoint om_direction::rotate( const tripoint &p, type dir )
     return tripoint( rotate( { p.x, p.y }, dir ), p.z );
 }
 
-long om_direction::rotate_symbol( long sym, type dir )
+uint32_t om_direction::rotate_symbol( uint32_t sym, type dir )
 {
     return rotatable_symbols::get( sym, static_cast<int>( dir ) );
 }
@@ -3595,7 +3629,7 @@ void overmap::place_special( const overmap_special &special, const tripoint &p,
         // the top of this function, so we need to make sure we can place the basement
         // special before doing so.
         if( can_place_special( *basement_tid, basement_p, dir, must_be_unexplored ) || force ) {
-            place_special( *basement_tid, basement_p, dir, cit, force, must_be_unexplored );
+            place_special( *basement_tid, basement_p, dir, cit, must_be_unexplored, force );
         }
     }
 }

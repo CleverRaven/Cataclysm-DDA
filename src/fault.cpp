@@ -32,8 +32,8 @@ void fault::load_fault( JsonObject &jo )
     fault f;
 
     f.id_ = fault_id( jo.get_string( "id" ) );
-    f.name_ = _( jo.get_string( "name" ).c_str() );
-    f.description_ = _( jo.get_string( "description" ).c_str() );
+    f.name_ = _( jo.get_string( "name" ) );
+    f.description_ = _( jo.get_string( "description" ) );
 
     f.time_ = jo.get_int( "time" );
 

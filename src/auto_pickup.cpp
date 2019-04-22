@@ -197,7 +197,7 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
                 wprintz( w, ( iLine == i &&
                               iColumn == 1 ) ? hilite( cLineColor ) : cLineColor, "%s",
                          ( ( vRules[iTab][i].sRule.empty() ) ? _( "<empty rule>" ) :
-                           vRules[iTab][i].sRule ).c_str() );
+                           vRules[iTab][i].sRule ) );
 
                 mvwprintz( w, i - iStartPos, 52, ( iLine == i &&
                                                    iColumn == 2 ) ? hilite( cLineColor ) : cLineColor, "%s",
@@ -412,7 +412,7 @@ void auto_pickup::test_pattern( const int iTab, const int iRow )
     int nmatch = vMatchingItems.size();
     const std::string buf = string_format( ngettext( "%1$d item matches: %2$s",
                                            "%1$d items match: %2$s",
-                                           nmatch ), nmatch, vRules[iTab][iRow].sRule.c_str() );
+                                           nmatch ), nmatch, vRules[iTab][iRow].sRule );
     draw_border( w_test_rule_border, BORDER_COLOR, buf, hilite( c_white ) );
     center_print( w_test_rule_border, iContentHeight + 1, red_background( c_white ),
                   _( "Won't display content or suffix matches" ) );
@@ -454,7 +454,7 @@ void auto_pickup::test_pattern( const int iTab, const int iRow )
                 }
 
                 wprintz( w_test_rule_content, ( iLine == i ) ? hilite( cLineColor ) : cLineColor,
-                         vMatchingItems[i].c_str() );
+                         vMatchingItems[i] );
             }
         }
 

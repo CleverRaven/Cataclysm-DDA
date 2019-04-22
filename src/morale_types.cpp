@@ -68,6 +68,7 @@ const morale_type &morale_type_data::convert_legacy( int lmt )
             morale_type( "morale_perm_optimist" ),
             morale_type( "morale_perm_badtemper" ),
             morale_type( "morale_perm_constrained" ),
+            morale_type( "morale_perm_nomad" ),
             morale_type( "morale_game_found_kitten" ),
 
             morale_type( "morale_haircut" ),
@@ -82,9 +83,13 @@ const morale_type &morale_type_data::convert_legacy( int lmt )
             morale_type( "morale_pyromania_nearfire" ),
             morale_type( "morale_pyromania_nofire" ),
 
+            morale_type( "morale_killer_has_killed" ),
+            morale_type( "morale_killer_need_to_kill" ),
+
             morale_type( "morale_perm_filthy" ),
 
             morale_type( "morale_butcher" ),
+            morale_type( "moreale_gravedigger" ),
 
             morale_type( "morale_null" )
         }
@@ -154,6 +159,7 @@ const morale_type MORALE_PERM_FANCY( "morale_perm_fancy" );
 const morale_type MORALE_PERM_OPTIMIST( "morale_perm_optimist" );
 const morale_type MORALE_PERM_BADTEMPER( "morale_perm_badtemper" );
 const morale_type MORALE_PERM_CONSTRAINED( "morale_perm_constrained" );
+const morale_type MORALE_PERM_NOMAD( "morale_perm_nomad" );
 const morale_type MORALE_GAME_FOUND_KITTEN( "morale_game_found_kitten" );
 const morale_type MORALE_HAIRCUT( "morale_haircut" );
 const morale_type MORALE_SHAVE( "morale_shave" );
@@ -163,9 +169,13 @@ const morale_type MORALE_PLAY_WITH_PET( "morale_play_with_pet" );
 const morale_type MORALE_PYROMANIA_STARTFIRE( "morale_pyromania_startfire" );
 const morale_type MORALE_PYROMANIA_NEARFIRE( "morale_pyromania_nearfire" );
 const morale_type MORALE_PYROMANIA_NOFIRE( "morale_pyromania_nofire" );
+const morale_type MORALE_KILLER_HAS_KILLED( "morale_killer_has_killed" );
+const morale_type MORALE_KILLER_NEED_TO_KILL( "morale_killer_need_to_kill" );
 const morale_type MORALE_PERM_FILTHY( "morale_perm_filthy" );
 const morale_type MORALE_PERM_DEBUG( "morale_perm_debug" );
 const morale_type MORALE_BUTCHER( "morale_butcher" );
+const morale_type MORALE_GRAVEDIGGER( "morale_gravedigger" );
+const morale_type MORALE_TREE_COMMUNION( "morale_tree_communion" );
 
 namespace
 {
@@ -223,7 +233,7 @@ std::string morale_type_data::describe( const itype *it ) const
         if( !needs_item ) {
             debugmsg( "Item type supplied but not needed" );
         }
-        return string_format( text, it->nname( 1 ).c_str() );
+        return string_format( text, it->nname( 1 ) );
     }
 
     if( needs_item ) {

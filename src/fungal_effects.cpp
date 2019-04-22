@@ -31,8 +31,7 @@ void fungal_effects::fungalize( const tripoint &p, Creature *origin, double spor
         monster &critter = *mon_ptr;
         if( gm.u.sees( p ) &&
             !critter.type->in_species( FUNGUS ) ) {
-            add_msg( _( "The %s is covered in tiny spores!" ),
-                     critter.name().c_str() );
+            add_msg( _( "The %s is covered in tiny spores!" ), critter.name() );
         }
         if( !critter.make_fungus() ) {
             // Don't insta-kill non-fungables. Jabberwocks, for example

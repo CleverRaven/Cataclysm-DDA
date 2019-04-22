@@ -1,4 +1,4 @@
-#if ((!defined TILES) && (defined _WIN32 || defined WINDOWS))
+#if !defined(TILES) && defined(_WIN32)
 #define UNICODE 1
 #define _UNICODE 1
 
@@ -455,45 +455,56 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
                     }
                 } else {
                     switch( ( unsigned char )win->line[j].chars[i].ch[0] ) {
-                        case LINE_OXOX_C://box bottom/top side (horizontal line)
+                        // box bottom/top side (horizontal line)
+                        case LINE_OXOX_C:
                             HorzLineDIB( drawx, drawy + halfheight, drawx + fontwidth, 1, FG );
                             break;
-                        case LINE_XOXO_C://box left/right side (vertical line)
+                        // box left/right side (vertical line)
+                        case LINE_XOXO_C:
                             VertLineDIB( drawx + halfwidth, drawy, drawy + fontheight, 2, FG );
                             break;
-                        case LINE_OXXO_C://box top left
+                        // box top left
+                        case LINE_OXXO_C:
                             HorzLineDIB( drawx + halfwidth, drawy + halfheight, drawx + fontwidth, 1, FG );
                             VertLineDIB( drawx + halfwidth, drawy + halfheight, drawy + fontheight, 2, FG );
                             break;
-                        case LINE_OOXX_C://box top right
+                        // box top right
+                        case LINE_OOXX_C:
                             HorzLineDIB( drawx, drawy + halfheight, drawx + halfwidth, 1, FG );
                             VertLineDIB( drawx + halfwidth, drawy + halfheight, drawy + fontheight, 2, FG );
                             break;
-                        case LINE_XOOX_C://box bottom right
+                        // box bottom right
+                        case LINE_XOOX_C:
                             HorzLineDIB( drawx, drawy + halfheight, drawx + halfwidth, 1, FG );
                             VertLineDIB( drawx + halfwidth, drawy, drawy + halfheight + 1, 2, FG );
                             break;
-                        case LINE_XXOO_C://box bottom left
+                        // box bottom left
+                        case LINE_XXOO_C:
                             HorzLineDIB( drawx + halfwidth, drawy + halfheight, drawx + fontwidth, 1, FG );
                             VertLineDIB( drawx + halfwidth, drawy, drawy + halfheight + 1, 2, FG );
                             break;
-                        case LINE_XXOX_C://box bottom north T (left, right, up)
+                        // box bottom north T (left, right, up)
+                        case LINE_XXOX_C:
                             HorzLineDIB( drawx, drawy + halfheight, drawx + fontwidth, 1, FG );
                             VertLineDIB( drawx + halfwidth, drawy, drawy + halfheight, 2, FG );
                             break;
-                        case LINE_XXXO_C://box bottom east T (up, right, down)
+                        // box bottom east T (up, right, down)
+                        case LINE_XXXO_C:
                             VertLineDIB( drawx + halfwidth, drawy, drawy + fontheight, 2, FG );
                             HorzLineDIB( drawx + halfwidth, drawy + halfheight, drawx + fontwidth, 1, FG );
                             break;
-                        case LINE_OXXX_C://box bottom south T (left, right, down)
+                        // box bottom south T (left, right, down)
+                        case LINE_OXXX_C:
                             HorzLineDIB( drawx, drawy + halfheight, drawx + fontwidth, 1, FG );
                             VertLineDIB( drawx + halfwidth, drawy + halfheight, drawy + fontheight, 2, FG );
                             break;
-                        case LINE_XXXX_C://box X (left down up right)
+                        // box X (left down up right)
+                        case LINE_XXXX_C:
                             HorzLineDIB( drawx, drawy + halfheight, drawx + fontwidth, 1, FG );
                             VertLineDIB( drawx + halfwidth, drawy, drawy + fontheight, 2, FG );
                             break;
-                        case LINE_XOXX_C://box bottom east T (left, down, up)
+                        // box bottom east T (left, down, up)
+                        case LINE_XOXX_C:
                             VertLineDIB( drawx + halfwidth, drawy, drawy + fontheight, 2, FG );
                             HorzLineDIB( drawx, drawy + halfheight, drawx + halfwidth, 1, FG );
                             break;

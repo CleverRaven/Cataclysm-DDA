@@ -750,7 +750,7 @@
       [ "onion", 15 ],
       [ "chili_pepper", 15 ],
       [ "carrot", 15 ],
-      [ "potato_raw", 15 ],
+      [ "potato", 15 ],
       [ "irradiated_tomato", 4 ],
       [ "irradiated_lettuce", 4 ],
       [ "irradiated_zucchini", 4 ],
@@ -960,6 +960,21 @@
       [ "soup_veggy", 20 ],
       [ "soup_meat", 20 ],
       [ "soup_tomato", 20 ]
+    ]
+  },
+  {
+    "id": "keg_beer",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      [ "keg", 100 ],
+      { "item": "beer", "prob": 40, "container-item": "keg" },
+      { "item": "belgian_ale", "prob": 30, "container-item": "keg" },
+      { "item": "european_pilsner", "prob": 20, "container-item": "keg" },
+      { "item": "india_pale_ale", "prob": 20, "container-item": "keg" },
+      { "item": "pale_ale", "prob": 20, "container-item": "keg" },
+      { "item": "stout", "prob": 10, "container-item": "keg" },
+      { "item": "imperial_stout", "prob": 5, "container-item": "keg" }
     ]
   }
 ]

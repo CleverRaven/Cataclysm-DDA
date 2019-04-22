@@ -20,6 +20,7 @@ struct point;
 class JsonArray;
 class JsonObject;
 struct mapgendata;
+class mission;
 struct tripoint;
 class map;
 typedef void ( *building_gen_pointer )( map *, oter_id, mapgendata, const time_point &, float );
@@ -120,7 +121,12 @@ struct jmapgen_setmap {
         x( ix ), y( iy ), x2( ix2 ), y2( iy2 ), op( iop ), val( ival ), chance( ione_in ),
         repeat( irepeat ), rotation( irotation ),
         fuel( ifuel ), status( istatus ) {}
-    bool apply( const mapgendata &dat, int offset_x, int offset_y ) const;
+    bool apply( const mapgendata &dat, int offset_x, int offset_y, mission *miss = nullptr ) const;
+    /**
+     * checks if applying these objects to data would cause cause a collision with vehicles
+     * on the same map
+     **/
+    bool has_vehicle_collision( const mapgendata &dat, int offset_x, int offset_y ) const;
 };
 
 /**
@@ -153,9 +159,13 @@ class jmapgen_piece
         virtual void check( const std::string &/*oter_name*/ ) const { };
         /** Place something on the map from mapgendata dat, at (x,y). mon_density */
         virtual void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
-                            float mon_density ) const = 0;
+                            float mon_density, mission *miss = nullptr ) const = 0;
         virtual ~jmapgen_piece() = default;
         jmapgen_int repeat;
+        virtual bool has_vehicle_collision( const mapgendata &/*dat*/, int /*offset_x*/,
+                                            int /*offset_y*/ ) const {
+            return false;
+        }
 };
 
 /**
@@ -249,8 +259,15 @@ struct jmapgen_objects {
 
         void check( const std::string &oter_name ) const;
 
-        void apply( const mapgendata &dat, float density ) const;
-        void apply( const mapgendata &dat, int offset_x, int offset_y, float density ) const;
+        void apply( const mapgendata &dat, float density, mission *miss = nullptr ) const;
+        void apply( const mapgendata &dat, int offset_x, int offset_y, float density,
+                    mission *miss = nullptr ) const;
+
+        /**
+         * checks if applying these objects to data would cause cause a collision with vehicles
+         * on the same map
+         **/
+        bool has_vehicle_collision( const mapgendata &dat, int offset_x, int offset_y ) const;
 
     private:
         /**
@@ -278,6 +295,7 @@ class mapgen_function_json_base
         virtual ~mapgen_function_json_base();
 
         void setup_common();
+        bool setup_common( JsonObject jo );
         void setup_setmap( JsonArray &parray );
         // Returns true if the mapgen qualifies at this point already
         virtual bool setup_internal( JsonObject &jo ) = 0;
@@ -317,6 +335,22 @@ class mapgen_function_json : public mapgen_function_json_base, public virtual ma
 
     private:
         jmapgen_int rotation;
+};
+
+class update_mapgen_function_json : public mapgen_function_json_base
+{
+    public:
+        update_mapgen_function_json( const std::string &s );
+        ~update_mapgen_function_json() override = default;
+
+        void setup();
+        bool setup_update( JsonObject &jo );
+        void check( const std::string &oter_name ) const;
+        bool update_map( const tripoint &omt_pos, int offset_x, int offset_y,
+                         mission *miss, bool verify = false ) const;
+    protected:
+        bool setup_internal( JsonObject &/*jo*/ ) override;
+        ter_id fill_ter;
 };
 
 class mapgen_function_json_nested : public mapgen_function_json_base

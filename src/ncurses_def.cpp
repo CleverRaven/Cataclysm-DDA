@@ -1,4 +1,4 @@
-#if !(defined TILES || defined _WIN32 || defined WINDOWS)
+#if !(defined(TILES) || defined(_WIN32))
 
 // input.h must be include *before* the ncurses header. The later has some macro
 // defines that clash with the constants defined in input.h (e.g. KEY_UP).
@@ -7,7 +7,7 @@
 // ncurses can define some functions as macros, but we need those identifiers
 // to be unchanged by the preprocessor, as we use them as function names.
 #define NCURSES_NOMACROS
-#if (defined __CYGWIN__)
+#if defined(__CYGWIN__)
 #include <ncurses/curses.h>
 #else
 #include <curses.h>
@@ -96,13 +96,14 @@ void catacurses::wmove( const window &win, const int y, const int x )
 
 void catacurses::mvwprintw( const window &win, const int y, const int x, const std::string &text )
 {
-    return curses_check_result( ::mvwprintw( win.get<::WINDOW>(), y, x, "%s", text.c_str() ), OK,
-                                "mvwprintw" );
+    return curses_check_result( ::mvwprintw( win.get<::WINDOW>(), y, x, "%s", text.c_str() ),
+                                OK, "mvwprintw" );
 }
 
 void catacurses::wprintw( const window &win, const std::string &text )
 {
-    return curses_check_result( ::wprintw( win.get<::WINDOW>(), "%s", text.c_str() ), OK, "wprintw" );
+    return curses_check_result( ::wprintw( win.get<::WINDOW>(), "%s", text.c_str() ),
+                                OK, "wprintw" );
 }
 
 void catacurses::refresh()
@@ -215,7 +216,7 @@ void catacurses::init_interface()
     if( !stdscr ) {
         throw std::runtime_error( "initscr failed" );
     }
-#if !(defined __CYGWIN__)
+#if !defined(__CYGWIN__)
     // ncurses mouse registration
     mousemask( BUTTON1_CLICKED | BUTTON3_CLICKED | REPORT_MOUSE_POSITION, NULL );
 #endif

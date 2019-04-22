@@ -1019,5 +1019,21 @@
     "weight": 1,
     "ammo_type": "components",
     "count": 150
+  },
+  {
+    "type": "AMMO",
+    "id": "nitrox",
+    "category": "chems",
+    "price": 500,
+    "name": "nitrox",
+    "name_plural": "nitrox",
+    "symbol": "=",
+    "color": "white",
+    "container": "bottle_plastic",
+    "description": "Mixture of oxygen and nitrogen in proportions suitable for diving.",
+    "volume": 1,
+    "weight": 1,
+    "phase": "gas",
+    "ammo_type": "nitrox"
   }
 ]

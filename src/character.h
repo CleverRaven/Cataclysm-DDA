@@ -217,6 +217,9 @@ class Character : public Creature, public visitable<Character>
         virtual void set_healthy_mod( int nhealthy_mod );
 
         /** Getter for need values exclusive to characters */
+        virtual int get_stored_kcal() const;
+        virtual int get_healthy_kcal() const;
+        virtual float get_kcal_percent() const;
         virtual int get_hunger() const;
         virtual int get_starvation() const;
         virtual int get_thirst() const;
@@ -225,26 +228,21 @@ class Character : public Creature, public visitable<Character>
         virtual std::pair<std::string, nc_color> get_fatigue_description() const;
         virtual int get_fatigue() const;
         virtual int get_sleep_deprivation() const;
-        virtual int get_stomach_food() const;
-        virtual int get_stomach_water() const;
 
         /** Modifiers for need values exclusive to characters */
+        virtual void mod_stored_kcal( int nkcal );
+        virtual void mod_stored_nutr( int nnutr );
         virtual void mod_hunger( int nhunger );
-        virtual void mod_starvation( int nstarvation );
         virtual void mod_thirst( int nthirst );
         virtual void mod_fatigue( int nfatigue );
         virtual void mod_sleep_deprivation( int nsleep_deprivation );
-        virtual void mod_stomach_food( int n_stomach_food );
-        virtual void mod_stomach_water( int n_stomach_water );
 
         /** Setters for need values exclusive to characters */
+        virtual void set_stored_kcal( int kcal );
         virtual void set_hunger( int nhunger );
-        virtual void set_starvation( int nstarvation );
         virtual void set_thirst( int nthirst );
         virtual void set_fatigue( int nfatigue );
         virtual void set_sleep_deprivation( int nsleep_deprivation );
-        virtual void set_stomach_food( int n_stomach_food );
-        virtual void set_stomach_water( int n_stomach_water );
 
         void mod_stat( const std::string &stat, float modifier ) override;
 
@@ -539,7 +537,7 @@ class Character : public Creature, public visitable<Character>
 
         /** Only use for UI things. Returns all invlets that are currently used in
          * the player inventory, the weapon slot and the worn items. */
-        std::set<char> allocated_invlets() const;
+        std::bitset<std::numeric_limits<char>::max()> allocated_invlets() const;
 
         /**
          * Whether the player carries an active item of the given item type.
@@ -577,6 +575,14 @@ class Character : public Creature, public visitable<Character>
                                  bool is_blind_throw = false ) const;
         /** How much dispersion does one point of target's dodge add when throwing at said target? */
         int throw_dispersion_per_dodge( bool add_encumbrance = true ) const;
+
+        /// Checks for items, tools, and vehicles with the Lifting quality near the character
+        /// returning the highest quality in range.
+        int best_nearby_lifting_assist() const;
+
+        /// Alternate version if you need to specify a different orign point for nearby vehicle sources of lifting
+        /// used for operations on distant objects (e.g. vehicle installation/uninstallation)
+        int best_nearby_lifting_assist( const tripoint &world_pos ) const;
 
         units::mass weight_carried() const;
         units::volume volume_carried() const;
@@ -827,15 +833,14 @@ class Character : public Creature, public visitable<Character>
 
     private:
         /** Needs (hunger, starvation, thirst, fatigue, etc.) */
+        int stored_calories;
+        int healthy_calories;
+
         int hunger;
-        int starvation;
         int thirst;
 
         int fatigue;
         int sleep_deprivation;
-
-        int stomach_food;
-        int stomach_water;
 };
 
 #endif

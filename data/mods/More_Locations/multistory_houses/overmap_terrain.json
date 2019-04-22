@@ -1,699 +1,773 @@
 [
-   {
-        "type" : "overmap_terrain",
-        "id" : "3storyA_first",
-        "name" : "house",
-        "sym" : 94,
-        "color" : "light_green",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2,
-        "sidewalk" : true
-    },{
-        "type" : "overmap_terrain",
-        "id" : "3storyA_second",
-        "name" : "house",
-        "sym" : 94,
-        "color" : "light_green",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2
-    },{
-        "type" : "overmap_terrain",
-        "id" : "3storyA_third",
-        "name" : "house",
-        "sym" : 94,
-        "color" : "light_green",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2
-    },{
-        "type" : "overmap_terrain",
-        "id" : "3storyA_basement",
-        "name" : "house basement",
-        "sym" : 79,
-        "color" : "dark_gray",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2
-    },{
-        "type" : "overmap_terrain",
-        "id" : "3storyA_roof",
-        "name" : "house roof",
-        "sym" : 94,
-        "color" : "dark_gray",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2
-    },{
-        "type" : "overmap_terrain",
-        "id" : "3storyB_first",
-        "name" : "house",
-        "sym" : 94,
-        "color" : "light_green",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2,
-        "sidewalk" : true
-    },{
-        "type" : "overmap_terrain",
-        "id" : "3storyB_second",
-        "name" : "house",
-        "sym" : 94,
-        "color" : "light_green",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2
-    },{
-        "type" : "overmap_terrain",
-        "id" : "3storyB_third",
-        "name" : "house",
-        "sym" : 94,
-        "color" : "light_green",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2
-    },{
-        "type" : "overmap_terrain",
-        "id" : "3storyB_basement",
-        "name" : "house basement",
-        "sym" : 79,
-        "color" : "dark_gray",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2
-    },{
-        "type" : "overmap_terrain",
-        "id" : "3storyB_roof",
-        "name" : "house roof",
-        "sym" : 94,
-        "color" : "dark_gray",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2
-    },{
-        "type" : "overmap_terrain",
-        "id" : "3storyC_first",
-        "name" : "house",
-        "sym" : 94,
-        "color" : "light_green",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2,
-        "sidewalk" : true
-    },{
-        "type" : "overmap_terrain",
-        "id" : "3storyC_second",
-        "name" : "house",
-        "sym" : 94,
-        "color" : "light_green",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2
-    },{
-        "type" : "overmap_terrain",
-        "id" : "3storyC_third",
-        "name" : "house",
-        "sym" : 94,
-        "color" : "light_green",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2
-    },{
-        "type" : "overmap_terrain",
-        "id" : "3storyC_basement",
-        "name" : "house basement",
-        "sym" : 79,
-        "color" : "dark_gray",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2
-    },{
-        "type" : "overmap_terrain",
-        "id" : "3storyC_roof",
-        "name" : "house roof",
-        "sym" : 94,
-        "color" : "dark_gray",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2
-    },{
-        "type" : "overmap_terrain",
-        "id" : "3storyD_first",
-        "name" : "house",
-        "sym" : 94,
-        "color" : "light_green",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2,
-        "sidewalk" : true
-    },{
-        "type" : "overmap_terrain",
-        "id" : "3storyD_second",
-        "name" : "house",
-        "sym" : 94,
-        "color" : "light_green",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2
-    },{
-        "type" : "overmap_terrain",
-        "id" : "3storyD_third",
-        "name" : "house",
-        "sym" : 94,
-        "color" : "light_green",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2
-    },{
-        "type" : "overmap_terrain",
-        "id" : "3storyD_basement",
-        "name" : "house basement",
-        "sym" : 79,
-        "color" : "dark_gray",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2
-    },{
-        "type" : "overmap_terrain",
-        "id" : "3storyD_roof",
-        "name" : "house roof",
-        "sym" : 94,
-        "color" : "dark_gray",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2
-    },{
-        "type" : "overmap_terrain",
-        "id" : "3storyE_first",
-        "name" : "house",
-        "sym" : 94,
-        "color" : "light_green",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2,
-        "sidewalk" : true
-    },{
-        "type" : "overmap_terrain",
-        "id" : "3storyE_second",
-        "name" : "house",
-        "sym" : 94,
-        "color" : "light_green",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2
-    },{
-        "type" : "overmap_terrain",
-        "id" : "3storyE_third",
-        "name" : "house",
-        "sym" : 94,
-        "color" : "light_green",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2
-    },{
-        "type" : "overmap_terrain",
-        "id" : "3storyE_basement",
-        "name" : "house basement",
-        "sym" : 79,
-        "color" : "dark_gray",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2
-    },{
-        "type" : "overmap_terrain",
-        "id" : "3storyE_roof",
-        "name" : "house roof",
-        "sym" : 94,
-        "color" : "dark_gray",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2
-    },{
-        "type" : "overmap_terrain",
-        "id" : "3storyF_first",
-        "name" : "house",
-        "sym" : 94,
-        "color" : "light_green",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2,
-        "sidewalk" : true
-    },{
-        "type" : "overmap_terrain",
-        "id" : "3storyF_second",
-        "name" : "house",
-        "sym" : 94,
-        "color" : "light_green",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2
-    },{
-        "type" : "overmap_terrain",
-        "id" : "3storyF_third",
-        "name" : "house",
-        "sym" : 94,
-        "color" : "light_green",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2
-    },{
-        "type" : "overmap_terrain",
-        "id" : "3storyF_basement",
-        "name" : "house basement",
-        "sym" : 79,
-        "color" : "dark_gray",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2
-    },{
-        "type" : "overmap_terrain",
-        "id" : "3storyF_roof",
-        "name" : "house roof",
-        "sym" : 94,
-        "color" : "dark_gray",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2
-    },{
-        "type" : "overmap_terrain",
-        "id" : "2storyA_first",
-        "name" : "house",
-        "sym" : 94,
-        "color" : "light_green",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2,
-        "sidewalk" : true
-    },{
-        "type" : "overmap_terrain",
-        "id" : "2storyA_second",
-        "name" : "house",
-        "sym" : 94,
-        "color" : "light_green",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2
-    },{
-        "type" : "overmap_terrain",
-        "id" : "2storyA_basement",
-        "name" : "house basement",
-        "sym" : 79,
-        "color" : "dark_gray",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2
-    },{
-        "type" : "overmap_terrain",
-        "id" : "2storyA_roof",
-        "name" : "house roof",
-        "sym" : 94,
-        "color" : "dark_gray",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2
-    },{
-        "type" : "overmap_terrain",
-        "id" : "2storyB_first",
-        "name" : "house",
-        "sym" : 94,
-        "color" : "light_green",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2,
-        "sidewalk" : true
-    },{
-        "type" : "overmap_terrain",
-        "id" : "2storyB_second",
-        "name" : "house",
-        "sym" : 94,
-        "color" : "light_green",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2
-    },{
-        "type" : "overmap_terrain",
-        "id" : "2storyB_basement",
-        "name" : "house basement",
-        "sym" : 79,
-        "color" : "dark_gray",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2
-    },{
-        "type" : "overmap_terrain",
-        "id" : "2storyB_roof",
-        "name" : "house roof",
-        "sym" : 94,
-        "color" : "dark_gray",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2
-    },{
-        "type" : "overmap_terrain",
-        "id" : "2storyC_first",
-        "name" : "house",
-        "sym" : 94,
-        "color" : "light_green",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2,
-        "sidewalk" : true
-    },{
-        "type" : "overmap_terrain",
-        "id" : "2storyC_second",
-        "name" : "house",
-        "sym" : 94,
-        "color" : "light_green",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2
-    },{
-        "type" : "overmap_terrain",
-        "id" : "2storyC_basement",
-        "name" : "house basement",
-        "sym" : 79,
-        "color" : "dark_gray",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2
-    },{
-        "type" : "overmap_terrain",
-        "id" : "2storyC_roof",
-        "name" : "house roof",
-        "sym" : 94,
-        "color" : "dark_gray",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2
-    },{
-        "type" : "overmap_terrain",
-        "id" : "2storyD_first",
-        "name" : "house",
-        "sym" : 94,
-        "color" : "light_green",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2,
-        "sidewalk" : true
-    },{
-        "type" : "overmap_terrain",
-        "id" : "2storyD_second",
-        "name" : "house",
-        "sym" : 94,
-        "color" : "light_green",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2
-    },{
-        "type" : "overmap_terrain",
-        "id" : "2storyD_basement",
-        "name" : "house basement",
-        "sym" : 79,
-        "color" : "dark_gray",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2
-    },{
-        "type" : "overmap_terrain",
-        "id" : "2storyD_roof",
-        "name" : "house roof",
-        "sym" : 94,
-        "color" : "dark_gray",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2
-    },{
-        "type" : "overmap_terrain",
-        "id" : "2storyE_first",
-        "name" : "house",
-        "sym" : 94,
-        "color" : "light_green",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2,
-        "sidewalk" : true
-    },{
-        "type" : "overmap_terrain",
-        "id" : "2storyE_second",
-        "name" : "house",
-        "sym" : 94,
-        "color" : "light_green",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2
-    },{
-        "type" : "overmap_terrain",
-        "id" : "2storyE_basement",
-        "name" : "house basement",
-        "sym" : 79,
-        "color" : "dark_gray",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2
-    },{
-        "type" : "overmap_terrain",
-        "id" : "2storyE_roof",
-        "name" : "house roof",
-        "sym" : 94,
-        "color" : "dark_gray",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2
-    },{
-        "type" : "overmap_terrain",
-        "id" : "2storyF_first",
-        "name" : "house",
-        "sym" : 94,
-        "color" : "light_green",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2,
-        "sidewalk" : true
-    },{
-        "type" : "overmap_terrain",
-        "id" : "2storyF_second",
-        "name" : "house",
-        "sym" : 94,
-        "color" : "light_green",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2
-    },{
-        "type" : "overmap_terrain",
-        "id" : "2storyF_basement",
-        "name" : "house basement",
-        "sym" : 79,
-        "color" : "dark_gray",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2
-    },{
-        "type" : "overmap_terrain",
-        "id" : "2storyF_roof",
-        "name" : "house roof",
-        "sym" : 94,
-        "color" : "dark_gray",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2
-    },{
-        "type" : "overmap_terrain",
-        "id" : "combohouseA_first",
-        "name" : "house",
-        "sym" : 94,
-        "color" : "light_green",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2,
-        "sidewalk" : true
-    },{
-        "type" : "overmap_terrain",
-        "id" : "combohouseA_second",
-        "name" : "house",
-        "sym" : 94,
-        "color" : "light_green",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2
-    },{
-        "type" : "overmap_terrain",
-        "id" : "combohouseA_basement",
-        "name" : "house basement",
-        "sym" : 79,
-        "color" : "dark_gray",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2
-    },{
-        "type" : "overmap_terrain",
-        "id" : "combohouseA_roof",
-        "name" : "house roof",
-        "sym" : 94,
-        "color" : "dark_gray",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2
-    },{
-        "type" : "overmap_terrain",
-        "id" : "combogarageA_first",
-        "name" : "attached garage",
-        "sym" : 94,
-        "color" : "light_green",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2,
-        "sidewalk" : true
-    },{
-        "type" : "overmap_terrain",
-        "id" : "combogarageA_second",
-        "name" : "house",
-        "sym" : 94,
-        "color" : "light_green",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2,
-        "sidewalk" : true
-    },{
-        "type" : "overmap_terrain",
-        "id" : "combogarageA_roof",
-        "name" : "house roof",
-        "sym" : 94,
-        "color" : "magenta_white",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2
-    },{
-        "type" : "overmap_terrain",
-        "id" : "combohouseB_first",
-        "name" : "house",
-        "sym" : 94,
-        "color" : "light_green",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2,
-        "sidewalk" : true
-    },{
-        "type" : "overmap_terrain",
-        "id" : "combohouseB_second",
-        "name" : "house",
-        "sym" : 94,
-        "color" : "light_green",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2
-    },{
-        "type" : "overmap_terrain",
-        "id" : "combohouseB_basement",
-        "name" : "house basement",
-        "sym" : 79,
-        "color" : "dark_gray",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2
-    },{
-        "type" : "overmap_terrain",
-        "id" : "combohouseB_roof",
-        "name" : "house roof",
-        "sym" : 94,
-        "color" : "dark_gray",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2
-    },{
-        "type" : "overmap_terrain",
-        "id" : "combogarageB_first",
-        "name" : "attached garage",
-        "sym" : 94,
-        "color" : "light_green",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2,
-        "sidewalk" : true
-    },{
-        "type" : "overmap_terrain",
-        "id" : "combogarageB_second",
-        "name" : "house",
-        "sym" : 94,
-        "color" : "light_green",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2,
-        "sidewalk" : true
-    },{
-        "type" : "overmap_terrain",
-        "id" : "combogarageB_roof",
-        "name" : "house roof",
-        "sym" : 94,
-        "color" : "magenta_white",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2
-    },{
-        "type" : "overmap_terrain",
-        "id" : "combohouseC_first",
-        "name" : "house",
-        "sym" : 94,
-        "color" : "light_green",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2,
-        "sidewalk" : true
-    },{
-        "type" : "overmap_terrain",
-        "id" : "combohouseC_second",
-        "name" : "house",
-        "sym" : 94,
-        "color" : "light_green",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2
-    },{
-        "type" : "overmap_terrain",
-        "id" : "combohouseC_basement",
-        "name" : "house basement",
-        "sym" : 79,
-        "color" : "dark_gray",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2
-    },{
-        "type" : "overmap_terrain",
-        "id" : "combohouseC_roof",
-        "name" : "house roof",
-        "sym" : 94,
-        "color" : "dark_gray",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2
-    },{
-        "type" : "overmap_terrain",
-        "id" : "combogarageC_first",
-        "name" : "attached garage",
-        "sym" : 94,
-        "color" : "light_green",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2,
-        "sidewalk" : true
-    },{
-        "type" : "overmap_terrain",
-        "id" : "combogarageC_second",
-        "name" : "house",
-        "sym" : 94,
-        "color" : "light_green",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2,
-        "sidewalk" : true
-    },{
-        "type" : "overmap_terrain",
-        "id" : "combogarageC_roof",
-        "name" : "house roof",
-        "sym" : 94,
-        "color" : "magenta_white",
-        "extras" : "build",
-        "see_cost" : 2,
-        "mondensity" : 2
-    }
- ]
+  {
+    "type": "overmap_terrain",
+    "id": "3storyA_first",
+    "name": "house",
+    "sym": "^",
+    "color": "light_green",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2,
+    "sidewalk": true
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "3storyA_second",
+    "name": "house",
+    "sym": "^",
+    "color": "light_green",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "3storyA_third",
+    "name": "house",
+    "sym": "^",
+    "color": "light_green",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "3storyA_basement",
+    "name": "house basement",
+    "sym": "O",
+    "color": "dark_gray",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "3storyA_roof",
+    "name": "house roof",
+    "sym": "^",
+    "color": "dark_gray",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "3storyB_first",
+    "name": "house",
+    "sym": "^",
+    "color": "light_green",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2,
+    "sidewalk": true
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "3storyB_second",
+    "name": "house",
+    "sym": "^",
+    "color": "light_green",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "3storyB_third",
+    "name": "house",
+    "sym": "^",
+    "color": "light_green",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "3storyB_basement",
+    "name": "house basement",
+    "sym": "O",
+    "color": "dark_gray",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "3storyB_roof",
+    "name": "house roof",
+    "sym": "^",
+    "color": "dark_gray",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "3storyC_first",
+    "name": "house",
+    "sym": "^",
+    "color": "light_green",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2,
+    "sidewalk": true
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "3storyC_second",
+    "name": "house",
+    "sym": "^",
+    "color": "light_green",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "3storyC_third",
+    "name": "house",
+    "sym": "^",
+    "color": "light_green",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "3storyC_basement",
+    "name": "house basement",
+    "sym": "O",
+    "color": "dark_gray",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "3storyC_roof",
+    "name": "house roof",
+    "sym": "^",
+    "color": "dark_gray",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "3storyD_first",
+    "name": "house",
+    "sym": "^",
+    "color": "light_green",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2,
+    "sidewalk": true
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "3storyD_second",
+    "name": "house",
+    "sym": "^",
+    "color": "light_green",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "3storyD_third",
+    "name": "house",
+    "sym": "^",
+    "color": "light_green",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "3storyD_basement",
+    "name": "house basement",
+    "sym": "O",
+    "color": "dark_gray",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "3storyD_roof",
+    "name": "house roof",
+    "sym": "^",
+    "color": "dark_gray",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "3storyE_first",
+    "name": "house",
+    "sym": "^",
+    "color": "light_green",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2,
+    "sidewalk": true
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "3storyE_second",
+    "name": "house",
+    "sym": "^",
+    "color": "light_green",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "3storyE_third",
+    "name": "house",
+    "sym": "^",
+    "color": "light_green",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "3storyE_basement",
+    "name": "house basement",
+    "sym": "O",
+    "color": "dark_gray",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "3storyE_roof",
+    "name": "house roof",
+    "sym": "^",
+    "color": "dark_gray",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "3storyF_first",
+    "name": "house",
+    "sym": "^",
+    "color": "light_green",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2,
+    "sidewalk": true
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "3storyF_second",
+    "name": "house",
+    "sym": "^",
+    "color": "light_green",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "3storyF_third",
+    "name": "house",
+    "sym": "^",
+    "color": "light_green",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "3storyF_basement",
+    "name": "house basement",
+    "sym": "O",
+    "color": "dark_gray",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "3storyF_roof",
+    "name": "house roof",
+    "sym": "^",
+    "color": "dark_gray",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "2storyA_first",
+    "name": "house",
+    "sym": "^",
+    "color": "light_green",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2,
+    "sidewalk": true
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "2storyA_second",
+    "name": "house",
+    "sym": "^",
+    "color": "light_green",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "2storyA_basement",
+    "name": "house basement",
+    "sym": "O",
+    "color": "dark_gray",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "2storyA_roof",
+    "name": "house roof",
+    "sym": "^",
+    "color": "dark_gray",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "2storyB_first",
+    "name": "house",
+    "sym": "^",
+    "color": "light_green",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2,
+    "sidewalk": true
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "2storyB_second",
+    "name": "house",
+    "sym": "^",
+    "color": "light_green",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "2storyB_basement",
+    "name": "house basement",
+    "sym": "O",
+    "color": "dark_gray",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "2storyB_roof",
+    "name": "house roof",
+    "sym": "^",
+    "color": "dark_gray",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "2storyC_first",
+    "name": "house",
+    "sym": "^",
+    "color": "light_green",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2,
+    "sidewalk": true
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "2storyC_second",
+    "name": "house",
+    "sym": "^",
+    "color": "light_green",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "2storyC_basement",
+    "name": "house basement",
+    "sym": "O",
+    "color": "dark_gray",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "2storyC_roof",
+    "name": "house roof",
+    "sym": "^",
+    "color": "dark_gray",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "2storyD_first",
+    "name": "house",
+    "sym": "^",
+    "color": "light_green",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2,
+    "sidewalk": true
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "2storyD_second",
+    "name": "house",
+    "sym": "^",
+    "color": "light_green",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "2storyD_basement",
+    "name": "house basement",
+    "sym": "O",
+    "color": "dark_gray",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "2storyD_roof",
+    "name": "house roof",
+    "sym": "^",
+    "color": "dark_gray",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "2storyE_first",
+    "name": "house",
+    "sym": "^",
+    "color": "light_green",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2,
+    "sidewalk": true
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "2storyE_second",
+    "name": "house",
+    "sym": "^",
+    "color": "light_green",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "2storyE_basement",
+    "name": "house basement",
+    "sym": "O",
+    "color": "dark_gray",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "2storyE_roof",
+    "name": "house roof",
+    "sym": "^",
+    "color": "dark_gray",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "2storyF_first",
+    "name": "house",
+    "sym": "^",
+    "color": "light_green",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2,
+    "sidewalk": true
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "2storyF_second",
+    "name": "house",
+    "sym": "^",
+    "color": "light_green",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "2storyF_basement",
+    "name": "house basement",
+    "sym": "O",
+    "color": "dark_gray",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "2storyF_roof",
+    "name": "house roof",
+    "sym": "^",
+    "color": "dark_gray",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "combohouseA_first",
+    "name": "house",
+    "sym": "^",
+    "color": "light_green",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2,
+    "sidewalk": true
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "combohouseA_second",
+    "name": "house",
+    "sym": "^",
+    "color": "light_green",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "combohouseA_basement",
+    "name": "house basement",
+    "sym": "O",
+    "color": "dark_gray",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "combohouseA_roof",
+    "name": "house roof",
+    "sym": "^",
+    "color": "dark_gray",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "combogarageA_first",
+    "name": "attached garage",
+    "sym": "^",
+    "color": "light_green",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2,
+    "sidewalk": true
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "combogarageA_second",
+    "name": "house",
+    "sym": "^",
+    "color": "light_green",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2,
+    "sidewalk": true
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "combogarageA_roof",
+    "name": "house roof",
+    "sym": "^",
+    "color": "magenta_white",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "combohouseB_first",
+    "name": "house",
+    "sym": "^",
+    "color": "light_green",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2,
+    "sidewalk": true
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "combohouseB_second",
+    "name": "house",
+    "sym": "^",
+    "color": "light_green",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "combohouseB_basement",
+    "name": "house basement",
+    "sym": "O",
+    "color": "dark_gray",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "combohouseB_roof",
+    "name": "house roof",
+    "sym": "^",
+    "color": "dark_gray",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "combogarageB_first",
+    "name": "attached garage",
+    "sym": "^",
+    "color": "light_green",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2,
+    "sidewalk": true
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "combogarageB_second",
+    "name": "house",
+    "sym": "^",
+    "color": "light_green",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2,
+    "sidewalk": true
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "combogarageB_roof",
+    "name": "house roof",
+    "sym": "^",
+    "color": "magenta_white",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "combohouseC_first",
+    "name": "house",
+    "sym": "^",
+    "color": "light_green",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2,
+    "sidewalk": true
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "combohouseC_second",
+    "name": "house",
+    "sym": "^",
+    "color": "light_green",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "combohouseC_basement",
+    "name": "house basement",
+    "sym": "O",
+    "color": "dark_gray",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "combohouseC_roof",
+    "name": "house roof",
+    "sym": "^",
+    "color": "dark_gray",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "combogarageC_first",
+    "name": "attached garage",
+    "sym": "^",
+    "color": "light_green",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2,
+    "sidewalk": true
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "combogarageC_second",
+    "name": "house",
+    "sym": "^",
+    "color": "light_green",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2,
+    "sidewalk": true
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "combogarageC_roof",
+    "name": "house roof",
+    "sym": "^",
+    "color": "magenta_white",
+    "extras": "build",
+    "see_cost": 2,
+    "mondensity": 2
+  }
+]

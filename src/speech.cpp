@@ -14,7 +14,7 @@ SpeechBubble nullSpeech = { "hsss", 0 };
 void load_speech( JsonObject &jo )
 {
     const std::string label = jo.get_string( "speaker" );
-    const std::string sound = _( jo.get_string( "sound" ).c_str() );
+    const std::string sound = _( jo.get_string( "sound" ) );
     const int volume = jo.get_int( "volume" );
     std::map<std::string, std::vector<SpeechBubble> >::iterator speech_type = speech.find( label );
 

@@ -119,12 +119,12 @@ zone_manager::zone_manager()
 
 std::string zone_type::name() const
 {
-    return _( name_.c_str() );
+    return _( name_ );
 }
 
 std::string zone_type::desc() const
 {
-    return _( desc_.c_str() );
+    return _( desc_ );
 }
 
 std::shared_ptr<zone_options> zone_options::create( const zone_type_id &type )
@@ -517,7 +517,7 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
         const auto &it_food = it.is_food_container() ? it.contents.front() : it;
 
         if( it_food.is_food() ) { // skip food without comestible, like MREs
-            if( it_food.type->comestible->comesttype == "DRINK" ) {
+            if( it_food.get_comestible()->comesttype == "DRINK" ) {
                 if( !preserves && it_food.goes_bad() && has_near( zone_type_id( "LOOT_PDRINK" ), where ) ) {
                     return zone_type_id( "LOOT_PDRINK" );
                 } else if( has_near( zone_type_id( "LOOT_DRINK" ), where ) ) {

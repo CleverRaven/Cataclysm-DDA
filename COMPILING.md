@@ -318,6 +318,13 @@ Export Android environment variables (you can add these to the end of `~/.bashrc
     export PATH=$PATH:$ANDROID_SDK_ROOT/tools
     export PATH=$PATH:$ANDROID_NDK_ROOT
 
+You can also use this additional variables if you want to use `ccache` to speed up subsequnt builds:
+
+    export USE_CCACHE=1
+    export NDK_CCACHE=/usr/local/bin/ccache
+
+**Note:** Path to `ccache` can be different on your system.
+
 ### Android device setup
 
 Enable [Developer options on your Android device](https://developer.android.com/studio/debug/dev-options). Connect your device to your PC via USB cable and run:

@@ -25,7 +25,8 @@ enum class sound_t : int {
     destructive_activity,
     alarm,
     combat, // any violent sounding activity
-    alert // louder than speech to get attention
+    alert, // louder than speech to get attention
+    order  // loudest to get attention
 };
 
 // Methods for recording sound events.

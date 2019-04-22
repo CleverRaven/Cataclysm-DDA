@@ -565,20 +565,20 @@
     "type": "COMESTIBLE",
     "id": "kiwi",
     "name": "kiwi",
-    "weight": 142,
+    "weight": 74,
     "color": "brown",
     "spoils_in": "7 days",
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 3,
     "healthy": 2,
-    "calories": 501,
+    "calories": 45,
     "description": "A large, brown and fuzzy-skinned berry.  Its delicious insides are green.",
     "price": 250,
     "material": "fruit",
     "volume": 1,
     "fun": 3,
-    "vitamins": [ [ "vitC", 6 ], [ "calcium", 10 ], [ "iron", 9 ] ]
+    "vitamins": [ [ "vitA", 2 ], [ "vitC", 80 ], [ "calcium", 1 ], [ "iron", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
