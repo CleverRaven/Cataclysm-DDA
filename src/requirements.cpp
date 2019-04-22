@@ -459,7 +459,15 @@ std::vector<std::string> requirement_data::get_folded_list( int width,
         for( const T &component : comp_list ) {
             nc_color color = component.get_color( has_one, crafting_inv, filter, batch );
             const std::string color_tag = get_tag_from_color( color );
-            const std::string text = component.to_string( batch );
+            std::string text = component.to_string( batch );
+            if( component.get_component_type() == COMPONENT_ITEM &&
+                component.has( crafting_inv, filter, batch ) ) {
+                const itype_id item_id = static_cast<itype_id>( component.type );
+                const long qty = item::count_by_charges( item_id ) ? crafting_inv.charges_of( item_id,
+                                 std::numeric_limits<long>::max(), filter ) : crafting_inv.amount_of( item_id, false,
+                                         std::numeric_limits<long>::max(), filter );
+                text = string_format( _( "%s (of %ld)" ), text, qty );
+            }
 
             if( std::find( buffer_has.begin(), buffer_has.end(), text + color_tag ) != buffer_has.end() ) {
                 continue;

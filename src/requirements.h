@@ -29,6 +29,12 @@ enum available_status {
     a_insufficent = 0, // neraly, bt not enough for tool+component
 };
 
+enum component_type : int {
+    COMPONENT_ITEM,
+    COMPONENT_TOOL,
+    COMPONENT_QUALITY,
+};
+
 struct quality {
     bool was_loaded = false;
     quality_id id;
@@ -77,6 +83,9 @@ struct tool_comp : public component {
     nc_color get_color( bool has_one, const inventory &crafting_inv,
                         const std::function<bool( const item & )> &filter, int batch = 1 ) const;
     bool by_charges() const;
+    component_type get_component_type() const {
+        return COMPONENT_TOOL;
+    }
 };
 
 struct item_comp : public component {
@@ -89,6 +98,9 @@ struct item_comp : public component {
     std::string to_string( int batch = 1 ) const;
     nc_color get_color( bool has_one, const inventory &crafting_inv,
                         const std::function<bool( const item & )> &filter, int batch = 1 ) const;
+    component_type get_component_type() const {
+        return COMPONENT_ITEM;
+    }
 };
 
 struct quality_requirement {
@@ -109,6 +121,9 @@ struct quality_requirement {
     void check_consistency( const std::string &display_name ) const;
     nc_color get_color( bool has_one, const inventory &crafting_inv,
                         const std::function<bool( const item & )> &filter, int = 0 ) const;
+    component_type get_component_type() const {
+        return COMPONENT_QUALITY;
+    }
 };
 
 /**
