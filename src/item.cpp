@@ -3895,7 +3895,7 @@ void item::calc_rot( time_point time )
     // bday and/or last_rot_check might be zero, if both are then we want calendar::start
     const time_point since = std::max( {bday, last_rot_check, ( time_point ) calendar::start} );
     time_duration time_delta = time - since;
-    rot += factor * time_delta / 1_hours * get_hourly_rotpoints_at_temp( kelvin_to_fahreheit(
+    rot += factor * time_delta / 1_hours * get_hourly_rotpoints_at_temp( kelvin_to_fahrenheit(
                 0.00001 * temperature ) ) * 1_turns;
 }
 

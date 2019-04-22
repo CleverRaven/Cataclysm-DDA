@@ -262,7 +262,7 @@ double temp_to_kelvin( double fahrenheit )
     return temp_to_celsius( fahrenheit ) + 273.15;
 }
 
-double kelvin_to_fahreheit( double kelvin )
+double kelvin_to_fahrenheit( double kelvin )
 {
     return 1.8 * ( kelvin - 273.15 ) + 32;
 }

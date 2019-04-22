@@ -261,7 +261,7 @@ double temp_to_kelvin( double fahrenheit );
  *
  * @return Temperature in degrees C.
  */
-double kelvin_to_fahreheit( double kelvin );
+double kelvin_to_fahrenheit( double kelvin );
 
 /**
  * Clamp (number and space wise) value to with,
