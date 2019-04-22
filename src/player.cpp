@@ -7737,7 +7737,7 @@ item::reload_option player::select_ammo( const item &base,
                                 sel.ammo->ammo_data();
             if( ammo ) {
                 if( ammo->ammo->prop_damage ) {
-                    row += string_format( "| *%-6d | %-7d", static_cast<int>( *ammo->ammo->prop_damage ),
+                    row += string_format( "| *%-6.2f | %-7d", static_cast<float>( *ammo->ammo->prop_damage ),
                                           ammo->ammo->legacy_pierce );
                 } else {
                     const damage_instance &dam = ammo->ammo->damage;
