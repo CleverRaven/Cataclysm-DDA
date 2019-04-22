@@ -54,10 +54,10 @@
     "skill_used": "cooking",
     "difficulty": 6,
     "charges": 1,
-    "time": 40000,
+    "time": 30000,
     "book_learn": [ [ "mag_cooking", 4 ], [ "mag_glam", 5 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 100, "LIST" ] ] ],
+    "tools": [ [ [ "surface_heat", 50, "LIST" ] ] ],
     "components": [
       [ [ "liver", 3 ] ],
       [ [ "salt", 1 ], [ "seasoning_salt", 1 ] ],
