@@ -297,5 +297,21 @@
     "name": "slaughterhouse basement",
     "sym": "%",
     "color": "i_light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "meatpacking_plant_1",
+    "copy-from": "generic_city_building",
+    "name": "meatpacking plant",
+    "sym": "m",
+    "color": "i_light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "meatpacking_plant_1_roof",
+    "copy-from": "generic_city_building",
+    "name": "meatpacking plant roof",
+    "sym": "m",
+    "color": "i_light_gray"
   }
 ]

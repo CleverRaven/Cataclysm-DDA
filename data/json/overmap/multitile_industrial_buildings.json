@@ -38,5 +38,14 @@
       { "point": [ 0, 0, 1 ], "overmap": "slaughterhouse_1_roof_west" },
       { "point": [ 0, 0, -1 ], "overmap": "slaughterhouse_1_basement_west" }
     ]
+  },
+  {
+    "type": "city_building",
+    "id": "meatpacking_plant_1_north",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "meatpacking_plant_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "meatpacking_plant_1_roof_north" }
+    ]
   }
 ]

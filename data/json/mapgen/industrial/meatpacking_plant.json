@@ -1,0 +1,110 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "meatpacking_plant_1" ],
+    "weight": 500,
+    "object": {
+      "fill_ter": "t_metal_floor",
+      "rows": [
+        "                        ",
+        "                        ",
+        "    ------~~~~------    ",
+        "    |R.T.&H...o00c0O    ",
+        "    |R.T.TH...d0DD0O    ",
+        "    |R.T.TH...|0000l    ",
+        "    |R.T.TH...o0000O    ",
+        "    |....TH...o0000O    ",
+        "    |R.T.TH...|0000|    ",
+        "    |R.T.TH...o0000O    ",
+        "    |R.T.TH...o0000O    ",
+        "    |R.T.TH...|----|    ",
+        "    |.........|000t|    ",
+        "    |CCCCCC...d000s|    ",
+        "    I______++______I    ",
+        "    ICC..........CCI    ",
+        "    ICC..........CCI    ",
+        "    ICC..........CCI    ",
+        "    ICC..........CCI    ",
+        "    ICC..........CCI    ",
+        "    ICC.........ACCI    ",
+        "    ________________    ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": {
+        " ": "t_pavement",
+        ".": "t_metal_floor",
+        "0": "t_floor",
+        "-": "t_wall_h",
+        "|": "t_wall_v",
+        "I": "t_wall_metal_v",
+        "_": "t_wall_metal_h",
+        "~": "t_door_metal_locked",
+        "+": "t_door_metal_c",
+        "d": "t_door_c",
+        "l": "t_door_locked",
+        "&": "t_gates_mech_control",
+        "H": "t_conveyor",
+        "O": "t_window_bars",
+        "o": "t_window",
+        "D": "t_floor",
+        "c": "t_floor"
+      },
+      "furniture": {
+        "R": "f_fridge",
+        "T": "f_counter",
+        "C": "f_crate_c",
+        "A": "f_air_conditioner",
+        "D": "f_desk",
+        "t": "f_toilet",
+        "s": "f_sink",
+        "c": "f_chair"
+      },
+      "toilets": { "t": {  } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "meatpacking_plant_1_roof" ],
+    "weight": 500,
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "    ----------------    ",
+        "    |..............I    ",
+        "    |..............I    ",
+        "    |..............I    ",
+        "    |..............I    ",
+        "    |..............I    ",
+        "    |..............I    ",
+        "    |..............I    ",
+        "    |..............I    ",
+        "    |..............I    ",
+        "    |..............I    ",
+        "    |..............I    ",
+        "    |~~~~~~~~~~~~~~I    ",
+        "    |~~~~~~~~~~~~~~I    ",
+        "    |~~~~~~~~~~~~~~I    ",
+        "    |~~~~~~~~~~~~~~I    ",
+        "    |~~~~~~~~~~~~~~I    ",
+        "    |~~~~~~~~~~~~~~I    ",
+        "    |~~~~~~~~~~~~~~I    ",
+        "    ________________    ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": {
+        " ": "t_open_air",
+        ".": "t_flat_roof",
+        "~": "t_metal_floor",
+        "-": "t_gutter_north",
+        "I": "t_gutter_east",
+        "_": "t_gutter_south",
+        "|": "t_gutter_west"
+      }
+    }
+  }
+]
