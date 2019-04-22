@@ -623,7 +623,7 @@ void player::load( JsonObject &data )
     while( overmap_time_array.has_more() ) {
         point pt;
         overmap_time_array.read_next( pt );
-        time_duration tdr;
+        time_duration tdr = 0_turns;
         overmap_time_array.read_next( tdr );
         overmap_time[pt] = tdr;
     }
