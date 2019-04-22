@@ -8137,7 +8137,7 @@ tripoint_range map::points_in_radius( const tripoint &center, size_t radius, siz
 {
     const int minx = std::max<int>( 0, center.x - radius );
     const int miny = std::max<int>( 0, center.y - radius );
-    const int minz = std::max<int>( -OVERMAP_DEPTH, std::min<int>( OVERMAP_HEIGHT, center.z - radiusz ) );
+    const int minz = clamp<int>( center.z - radiusz, -OVERMAP_DEPTH, OVERMAP_HEIGHT );
     const int maxx = std::min<int>( SEEX * my_MAPSIZE - 1, center.x + radius );
     const int maxy = std::min<int>( SEEX * my_MAPSIZE - 1, center.y + radius );
     const int maxz = clamp<int>( center.z + radiusz, -OVERMAP_DEPTH, OVERMAP_HEIGHT );
