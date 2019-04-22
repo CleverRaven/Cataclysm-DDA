@@ -6997,7 +6997,7 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
     // Rot happens slower than temperature changes so for most part last_temp_check dominates
     // note we're also gated by item::processing_speed
     time_duration smallest_interval = 100_turns;
-    if( now - last_temp_check >  smallest_interval ) {
+    if( now - last_temp_check > smallest_interval ) {
         time_point time = last_temp_check;
 
         if( now - last_temp_check > 1_hours ) {
