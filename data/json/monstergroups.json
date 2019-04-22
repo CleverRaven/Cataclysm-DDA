@@ -2079,7 +2079,6 @@
       { "monster": "mon_beekeeper", "freq": 1, "cost_multiplier": 5 },
       { "monster": "mon_zombie_technician", "freq": 1, "cost_multiplier": 12 },
       { "monster": "mon_zombie_runner", "freq": 20, "cost_multiplier": 5, "pack_size": [ 1, 4 ] },
-      { "monster": "mon_zombie_runner", "freq": 40, "cost_multiplier": 4 },
       { "monster": "mon_zombie_brainless", "freq": 65, "cost_multiplier": 1 }
     ]
   },
