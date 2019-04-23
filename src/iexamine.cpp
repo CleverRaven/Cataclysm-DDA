@@ -1162,7 +1162,8 @@ void iexamine::gunsafe_el( player &p, const tripoint &examp )
         case HACK_FAIL:
             p.add_memorial_log( pgettext( "memorial_male", "Set off an alarm." ),
                                 pgettext( "memorial_female", "Set off an alarm." ) );
-            sounds::sound( p.pos(), 60, sounds::sound_t::music, _( "an alarm sound!" ), true, "environment", "alarm" );
+            sounds::sound( p.pos(), 60, sounds::sound_t::music, _( "an alarm sound!" ), true, "environment",
+                           "alarm" );
             if( examp.z > 0 && !g->events.queued( EVENT_WANTED ) ) {
                 g->events.add( EVENT_WANTED, calendar::turn + 30_minutes, 0, p.global_sm_location() );
             }
@@ -1291,7 +1292,8 @@ void iexamine::pedestal_wyrm( player &p, const tripoint &examp )
         }
     }
     add_msg( _( "The pedestal sinks into the ground..." ) );
-    sounds::sound( examp, 80, sounds::sound_t::combat, _( "an ominous grinding noise..." ), true, "misc", "stones_grinding" );
+    sounds::sound( examp, 80, sounds::sound_t::combat, _( "an ominous grinding noise..." ), true,
+                   "misc", "stones_grinding" );
     g->m.ter_set( examp, t_rock_floor );
     g->events.add( EVENT_SPAWN_WYRMS, calendar::turn + rng( 5_turns, 10_turns ) );
 }
@@ -3690,7 +3692,8 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
             return;
         }
 
-        sounds::sound( p.pos(), 6, sounds::sound_t::activity, _( "Glug Glug Glug" ), true, "tool", "gaspump" );
+        sounds::sound( p.pos(), 6, sounds::sound_t::activity, _( "Glug Glug Glug" ), true, "tool",
+                       "gaspump" );
 
         long cost = liters * pricePerUnit;
         money -= cost;
@@ -3708,7 +3711,8 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
             case HACK_FAIL:
                 p.add_memorial_log( pgettext( "memorial_male", "Set off an alarm." ),
                                     pgettext( "memorial_female", "Set off an alarm." ) );
-                sounds::sound( p.pos(), 60, sounds::sound_t::music, _( "an alarm sound!" ), true, "environment", "alarm" );
+                sounds::sound( p.pos(), 60, sounds::sound_t::music, _( "an alarm sound!" ), true, "environment",
+                               "alarm" );
                 if( examp.z > 0 && !g->events.queued( EVENT_WANTED ) ) {
                     g->events.add( EVENT_WANTED, calendar::turn + 30_minutes, 0, p.global_sm_location() );
                 }
@@ -3744,7 +3748,8 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
                 uistate.ags_pay_gas_selected_pump );
         long amount = pGasPump ? fromPumpFuel( pTank, *pGasPump ) : 0l;
         if( amount >= 0 ) {
-            sounds::sound( p.pos(), 6, sounds::sound_t::activity, _( "Glug Glug Glug" ), true, "tool", "gaspump" );
+            sounds::sound( p.pos(), 6, sounds::sound_t::activity, _( "Glug Glug Glug" ), true, "tool",
+                           "gaspump" );
             cashcard->charges += amount * pricePerUnit / 1000.0f;
             add_msg( m_info, _( "Your cash cards now hold %s." ), format_money( p.charges_of( "cash_card" ) ) );
             p.moves -= 100;

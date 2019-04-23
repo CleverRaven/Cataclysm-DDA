@@ -784,14 +784,16 @@ bool vehicle::start_engine( const int e )
             backfire( e );
         } else {
             sounds::sound( pos, start_moves / 10, sounds::sound_t::movement,
-                            string_format( _( "the %s bang as it starts" ), eng.name() ), true, "vehicle", "engine_bangs_start" );
+                           string_format( _( "the %s bang as it starts" ), eng.name() ), true, "vehicle",
+                           "engine_bangs_start" );
         }
     }
 
     // Immobilizers need removing before the vehicle can be started
     if( eng.faults().count( fault_immobiliser ) ) {
         sounds::sound( pos, 5, sounds::sound_t::alarm,
-                        string_format( _( "the %s making a long beep" ), eng.name() ), true, "vehicle", "fault_immobiliser_beep" );
+                       string_format( _( "the %s making a long beep" ), eng.name() ), true, "vehicle",
+                       "fault_immobiliser_beep" );
         return false;
     }
 
@@ -799,7 +801,8 @@ bool vehicle::start_engine( const int e )
     if( eng.faults_potential().count( fault_starter ) ) {
         if( eng.faults().count( fault_starter ) ) {
             sounds::sound( pos, 2, sounds::sound_t::alarm,
-                            string_format( _( "the %s clicking once" ), eng.name() ), true, "vehicle", "engine_single_click_fail" );
+                           string_format( _( "the %s clicking once" ), eng.name() ), true, "vehicle",
+                           "engine_single_click_fail" );
             return false;
         }
         const int start_draw_bat = power_to_energy_bat( engine_power *
@@ -807,22 +810,25 @@ bool vehicle::start_engine( const int e )
                                    TICKS_TO_SECONDS( start_moves ) );
         if( discharge_battery( start_draw_bat, true ) != 0 ) {
             sounds::sound( pos, 2, sounds::sound_t::alarm,
-                                   string_format( _( "the %s rapidly clicking" ), eng.name() ), true, "vehicle", "engine_multi_click_fail" );
+                           string_format( _( "the %s rapidly clicking" ), eng.name() ), true, "vehicle",
+                           "engine_multi_click_fail" );
             return false;
         }
     }
 
     // Engines always fail to start with faulty fuel pumps
     if( eng.faults().count( fault_pump ) || eng.faults().count( fault_diesel ) ) {
-                sounds::sound( pos, 2, sounds::sound_t::movement,
-                        string_format( _( "the %s quickly stuttering out." ), eng.name() ), true, "vehicle", "engine_stutter_fail" );
+        sounds::sound( pos, 2, sounds::sound_t::movement,
+                       string_format( _( "the %s quickly stuttering out." ), eng.name() ), true, "vehicle",
+                       "engine_stutter_fail" );
         return false;
     }
 
     // Damaged engines have a chance of failing to start
     if( x_in_y( dmg * 100, 120 ) ) {
         sounds::sound( pos, 2, sounds::sound_t::movement,
-                        string_format( _( "the %s clanking and grinding" ), eng.name() ), true, "vehicle", "engine_clanking_fail" );
+                       string_format( _( "the %s clanking and grinding" ), eng.name() ), true, "vehicle",
+                       "engine_clanking_fail" );
         return false;
     }
 
@@ -897,13 +903,16 @@ void vehicle::honk_horn()
         //Determine sound
         if( horn_type.bonus >= 110 ) {
             //~ Loud horn sound
-            sounds::sound( horn_pos, horn_type.bonus, sounds::sound_t::alarm, _( "HOOOOORNK!" ), false, "vehicle", "horn_loud" );
+            sounds::sound( horn_pos, horn_type.bonus, sounds::sound_t::alarm, _( "HOOOOORNK!" ), false,
+                           "vehicle", "horn_loud" );
         } else if( horn_type.bonus >= 80 ) {
             //~ Moderate horn sound
-            sounds::sound( horn_pos, horn_type.bonus, sounds::sound_t::alarm, _( "BEEEP!" ), false, "vehicle", "horn_medium" );
+            sounds::sound( horn_pos, horn_type.bonus, sounds::sound_t::alarm, _( "BEEEP!" ), false, "vehicle",
+                           "horn_medium" );
         } else {
             //~ Weak horn sound
-            sounds::sound( horn_pos, horn_type.bonus, sounds::sound_t::alarm, _( "honk." ), false, "vehicle", "horn_low" );
+            sounds::sound( horn_pos, horn_type.bonus, sounds::sound_t::alarm, _( "honk." ), false, "vehicle",
+                           "horn_low" );
         }
     }
 
@@ -967,7 +976,8 @@ void vehicle::beeper_sound()
         }
 
         //~ Beeper sound
-        sounds::sound( vp.pos(), vp.info().bonus, sounds::sound_t::alarm, _( "beep!" ), false, "vehicle", "rear_beeper" );
+        sounds::sound( vp.pos(), vp.info().bonus, sounds::sound_t::alarm, _( "beep!" ), false, "vehicle",
+                       "rear_beeper" );
     }
 }
 
@@ -1000,7 +1010,8 @@ void vehicle::operate_plow()
             const int speed = abs( velocity );
             int v_damage = rng( 3, speed );
             damage( vp.part_index(), v_damage, DT_BASH, false );
-            sounds::sound( start_plow, v_damage, sounds::sound_t::combat, _( "Clanggggg!" ), false, "smash_success", "hit_vehicle" );
+            sounds::sound( start_plow, v_damage, sounds::sound_t::combat, _( "Clanggggg!" ), false,
+                           "smash_success", "hit_vehicle" );
         }
     }
 }
@@ -1015,7 +1026,8 @@ void vehicle::operate_rockwheel()
             const int speed = abs( velocity );
             int v_damage = rng( 3, speed );
             damage( vp.part_index(), v_damage, DT_BASH, false );
-            sounds::sound( start_dig, v_damage, sounds::sound_t::combat, _( "Clanggggg!" ), false, "smash_success", "hit_vehicle" );
+            sounds::sound( start_dig, v_damage, sounds::sound_t::combat, _( "Clanggggg!" ), false,
+                           "smash_success", "hit_vehicle" );
         }
     }
 }
@@ -1044,7 +1056,8 @@ void vehicle::operate_reaper()
                  *seed.type, plant_produced, seed_produced, false ) ) {
             g->m.add_item_or_charges( reaper_pos, i );
         }
-        sounds::sound( reaper_pos, rng( 10, 25 ), sounds::sound_t::combat, _( "Swish" ), false, "vehicle", "reaper" );
+        sounds::sound( reaper_pos, rng( 10, 25 ), sounds::sound_t::combat, _( "Swish" ), false, "vehicle",
+                       "reaper" );
         if( vp.has_feature( "CARGO" ) ) {
             map_stack stack( g->m.i_at( reaper_pos ) );
             for( auto iter = stack.begin(); iter != stack.end(); ) {
@@ -1076,7 +1089,8 @@ void vehicle::operate_planter()
                 } else if( !g->m.has_flag( "PLOWABLE", loc ) ) {
                     //If it isn't plowable terrain, then it will most likely be damaged.
                     damage( planter_id, rng( 1, 10 ), DT_BASH, false );
-                    sounds::sound( loc, rng( 10, 20 ), sounds::sound_t::combat, _( "Clink" ), false, "smash_success", "hit_vehicle" );
+                    sounds::sound( loc, rng( 10, 20 ), sounds::sound_t::combat, _( "Clink" ), false, "smash_success",
+                                   "hit_vehicle" );
                 }
                 if( !i->count_by_charges() || i->charges == 1 ) {
                     i->set_age( 0_turns );

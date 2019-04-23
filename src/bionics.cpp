@@ -227,7 +227,8 @@ bool player::activate_bionic( int b, bool eff_only )
         }
     } else if( bio.id == "bio_resonator" ) {
         //~Sound of a bionic sonic-resonator shaking the area
-        sounds::sound( pos(), 30, sounds::sound_t::combat, _( "VRRRRMP!" ), false, "bionic", "bio_resonator" );
+        sounds::sound( pos(), 30, sounds::sound_t::combat, _( "VRRRRMP!" ), false, "bionic",
+                       "bio_resonator" );
         for( const tripoint &bashpoint : g->m.points_in_radius( pos(), 1 ) ) {
             g->m.bash( bashpoint, 110 );
             g->m.bash( bashpoint, 110 ); // Multibash effect, so that doors &c will fall
@@ -416,7 +417,8 @@ bool player::activate_bionic( int b, bool eff_only )
     } else if( bio.id == "bio_hydraulics" ) {
         add_msg( m_good, _( "Your muscles hiss as hydraulic strength fills them!" ) );
         //~ Sound of hissing hydraulic muscle! (not quite as loud as a car horn)
-        sounds::sound( pos(), 19, sounds::sound_t::activity, _( "HISISSS!" ), false, "bionic", "bio_hydraulics" );
+        sounds::sound( pos(), 19, sounds::sound_t::activity, _( "HISISSS!" ), false, "bionic",
+                       "bio_hydraulics" );
     } else if( bio.id == "bio_water_extractor" ) {
         bool extracted = false;
         for( auto it = g->m.i_at( pos() ).begin();
@@ -742,7 +744,8 @@ void player::process_bionic( int b )
         }
     } else if( bio.id == "bio_hydraulics" ) {
         // Sound of hissing hydraulic muscle! (not quite as loud as a car horn)
-        sounds::sound( pos(), 19, sounds::sound_t::activity, _( "HISISSS!" ), false, "bionic", "bio_hydraulics" );
+        sounds::sound( pos(), 19, sounds::sound_t::activity, _( "HISISSS!" ), false, "bionic",
+                       "bio_hydraulics" );
     } else if( bio.id == "bio_nanobots" ) {
         for( int i = 0; i < num_hp_parts; i++ ) {
             if( power_level >= 5 && hp_cur[i] > 0 && hp_cur[i] < hp_max[i] ) {

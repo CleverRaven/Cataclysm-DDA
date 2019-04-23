@@ -1579,7 +1579,8 @@ std::string player::melee_special_effects( Creature &t, damage_instance &d, item
                                    weap.tname() );
         }
 
-        sounds::sound( pos(), 16, sounds::sound_t::combat, "Crack!", true, "smash_success", "smash_glass_contents" );
+        sounds::sound( pos(), 16, sounds::sound_t::combat, "Crack!", true, "smash_success",
+                       "smash_glass_contents" );
         // Dump its contents on the ground
         for( auto &elem : weap.contents ) {
             g->m.add_item_or_charges( pos(), elem );

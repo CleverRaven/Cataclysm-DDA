@@ -434,7 +434,8 @@ void computer::activate_function( computer_action action )
         case COMPACT_RELEASE:
             g->u.add_memorial_log( pgettext( "memorial_male", "Released subspace specimens." ),
                                    pgettext( "memorial_female", "Released subspace specimens." ) );
-            sounds::sound( g->u.pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), false, "environment", "alarm" );
+            sounds::sound( g->u.pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), false, "environment",
+                           "alarm" );
             g->m.translate_radius( t_reinforced_glass, t_thconc_floor, 25.0, g->u.pos(), true );
             query_any( _( "Containment shields opened.  Press any key..." ) );
             break;
@@ -444,7 +445,8 @@ void computer::activate_function( computer_action action )
             remove_submap_turrets();
         /* fallthrough */
         case COMPACT_RELEASE_BIONICS:
-            sounds::sound( g->u.pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), false, "environment", "alarm" );
+            sounds::sound( g->u.pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), false, "environment",
+                           "alarm" );
             g->m.translate_radius( t_reinforced_glass, t_thconc_floor, 3.0, g->u.pos(), true );
             query_any( _( "Containment shields opened.  Press any key..." ) );
             break;
@@ -1289,7 +1291,8 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW. \n\
                                 print_error( _( "  >> Radiation spike detected!\n" ) );
                                 print_error( _( "WARNING [912]: Catastrophic malfunction!  Contamination detected! " ) );
                                 print_error( _( "EMERGENCY PROCEDURE [1]:  Evacuate.  Evacuate.  Evacuate.\n" ) );
-                                sounds::sound( g->u.pos(), 30, sounds::sound_t::alarm, _( "an alarm sound!" ), false, "environment", "alarm" );
+                                sounds::sound( g->u.pos(), 30, sounds::sound_t::alarm, _( "an alarm sound!" ), false, "environment",
+                                               "alarm" );
                                 g->m.i_rem( dest, it );
                                 g->m.make_rubble( dest );
                                 g->m.propagate_field( dest, fd_nuke_gas, 100, 3 );
@@ -1535,7 +1538,8 @@ void computer::activate_failure( computer_failure_type fail )
         case COMPFAIL_ALARM:
             g->u.add_memorial_log( pgettext( "memorial_male", "Set off an alarm." ),
                                    pgettext( "memorial_female", "Set off an alarm." ) );
-            sounds::sound( g->u.pos(), 60, sounds::sound_t::alarm, _( "an alarm sound!" ), false, "environment", "alarm" );
+            sounds::sound( g->u.pos(), 60, sounds::sound_t::alarm, _( "an alarm sound!" ), false, "environment",
+                           "alarm" );
             if( g->get_levz() > 0 && !g->events.queued( EVENT_WANTED ) ) {
                 g->events.add( EVENT_WANTED, calendar::turn + 30_minutes, 0, g->u.global_sm_location() );
             }

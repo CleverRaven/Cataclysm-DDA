@@ -310,7 +310,8 @@ void trapfunc::crossbow( Creature *c, const tripoint &p )
 
 void trapfunc::shotgun( Creature *c, const tripoint &p )
 {
-    sounds::sound( p, 60, sounds::sound_t::combat, _( "Kerblam!" ), false, "fire_gun", g->m.tr_at( p ).loadid == tr_shotgun_1 ? "shotgun_s" : "shotgun_d" );
+    sounds::sound( p, 60, sounds::sound_t::combat, _( "Kerblam!" ), false, "fire_gun",
+                   g->m.tr_at( p ).loadid == tr_shotgun_1 ? "shotgun_s" : "shotgun_d" );
     int shots = 1;
     if( c != nullptr ) {
         c->add_msg_player_or_npc( m_neutral, _( "You trigger a shotgun trap!" ),
@@ -595,7 +596,8 @@ void trapfunc::dissector( Creature *c, const tripoint &p )
     if( z != nullptr && z->type->in_species( ROBOT ) ) {
         //The monster is a robot. So the dissector should not try to dissect the monsters flesh.
         sounds::sound( p, 4, sounds::sound_t::speech,
-                       _( "BEEPBOOP! Please remove non-organic object." ), false, "speech", "robot" ); //Dissector error sound.
+                       _( "BEEPBOOP! Please remove non-organic object." ), false, "speech",
+                       "robot" ); //Dissector error sound.
         c->add_msg_player_or_npc( m_bad, _( "The dissector lights up, and shuts down." ),
                                   _( "The dissector lights up, and shuts down." ) );
         return;

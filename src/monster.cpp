@@ -1872,8 +1872,10 @@ void monster::process_turn()
             }
             if( g->lightning_active && !has_effect( effect_supercharged ) && g->m.is_outside( pos() ) ) {
                 g->lightning_active = false; // only one supercharge per strike
-                sounds::sound( pos(), 300, sounds::sound_t::combat, _( "BOOOOOOOM!!!" ), false, "environment", "thunder_near" );
-                sounds::sound( pos(), 20, sounds::sound_t::combat, _( "vrrrRRRUUMMMMMMMM!" ), false, "explosion", "default" );
+                sounds::sound( pos(), 300, sounds::sound_t::combat, _( "BOOOOOOOM!!!" ), false, "environment",
+                               "thunder_near" );
+                sounds::sound( pos(), 20, sounds::sound_t::combat, _( "vrrrRRRUUMMMMMMMM!" ), false, "explosion",
+                               "default" );
                 if( g->u.sees( pos() ) ) {
                     add_msg( m_bad, _( "Lightning strikes the %s!" ), name() );
                     add_msg( m_bad, _( "Your vision goes white!" ) );
@@ -1881,7 +1883,8 @@ void monster::process_turn()
                 }
                 add_effect( effect_supercharged, 12_hours );
             } else if( has_effect( effect_supercharged ) && calendar::once_every( 5_turns ) ) {
-                sounds::sound( pos(), 20, sounds::sound_t::combat, _( "VMMMMMMMMM!" ), false, "humming", "electric" );
+                sounds::sound( pos(), 20, sounds::sound_t::combat, _( "VMMMMMMMMM!" ), false, "humming",
+                               "electric" );
             }
         }
     }

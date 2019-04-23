@@ -254,7 +254,8 @@ static void eff_fun_hallu( player &u, effect &it )
             int loudness = 20 + u.str_cur - u.int_cur;
             loudness = ( loudness > 5 ? loudness : 5 );
             loudness = ( loudness < 30 ? loudness : 30 );
-            sounds::sound( u.pos(), loudness, sounds::sound_t::speech, npc_text, false, "speech", loudness < 15 ? ( u.male ? "NPC_m" : "NPC_f" ) : ( u.male ? "NPC_m_loud" : "NPC_f_loud" ) );
+            sounds::sound( u.pos(), loudness, sounds::sound_t::speech, npc_text, false, "speech",
+                           loudness < 15 ? ( u.male ? "NPC_m" : "NPC_f" ) : ( u.male ? "NPC_m_loud" : "NPC_f_loud" ) );
         }
     } else if( dur == peakTime ) {
         // Visuals start
@@ -1253,13 +1254,15 @@ void player::hardcoded_effects( effect &it )
                     it.mod_duration( 10_minutes );
                 } else if( dur == 2_turns ) {
                     // let the sound code handle the wake-up part
-                    sounds::sound( pos(), 16, sounds::sound_t::alarm, _( "beep-beep-beep!" ), false, "tool", "alarm_clock" );
+                    sounds::sound( pos(), 16, sounds::sound_t::alarm, _( "beep-beep-beep!" ), false, "tool",
+                                   "alarm_clock" );
                 }
             }
         } else {
             if( dur == 1_turns ) {
                 if( g->u.has_alarm_clock() ) {
-                    sounds::sound( g->u.pos(), 16, sounds::sound_t::alarm, _( "beep-beep-beep!" ), false, "tool", "alarm_clock" );
+                    sounds::sound( g->u.pos(), 16, sounds::sound_t::alarm, _( "beep-beep-beep!" ), false, "tool",
+                                   "alarm_clock" );
                     const std::string alarm = _( "Your alarm is going off." );
                     g->cancel_activity_or_ignore_query( distraction_type::noise, alarm );
                     add_msg( "Your alarm went off." );

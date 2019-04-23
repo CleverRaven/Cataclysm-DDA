@@ -2165,10 +2165,10 @@ int iuse::radio_on( player *p, item *it, bool t, const tripoint &pos )
         }
         sounds::ambient_sound( pos, 6, sounds::sound_t::speech, message );
         if( one_in( 10 ) ) {
-            sfx::play_variant_sound( "radio", "static" , 100, 21, 100 );
+            sfx::play_variant_sound( "radio", "static", 100, 21, 100 );
             sfx::fade_audio_channel( 21, 100 );
         } else if( one_in( 10 ) ) {
-            sfx::play_ambient_variant_sound( "radio", "inaudible_chatter" , 100, 21, 100 );
+            sfx::play_ambient_variant_sound( "radio", "inaudible_chatter", 100, 21, 100 );
             sfx::fade_audio_channel( 21, 100 );
         }
     } else { // Activated
@@ -2229,7 +2229,8 @@ int iuse::noise_emitter_on( player *p, item *it, bool t, const tripoint &pos )
 {
     if( t ) { // Normal use
         //~ the sound of a noise emitter when turned on
-        sounds::sound( pos, 30, sounds::sound_t::alarm, _( "KXSHHHHRRCRKLKKK!" ), true, "tool", "noise_emitter" );
+        sounds::sound( pos, 30, sounds::sound_t::alarm, _( "KXSHHHHRRCRKLKKK!" ), true, "tool",
+                       "noise_emitter" );
     } else { // Turning it off
         p->add_msg_if_player( _( "The infernal racket dies as the noise emitter turns off." ) );
         it->convert( "noise_emitter" ).active = false;
@@ -2451,7 +2452,8 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
         if( type == t_door_locked_alarm ) {
             p->add_memorial_log( pgettext( "memorial_male", "Set off an alarm." ),
                                  pgettext( "memorial_female", "Set off an alarm." ) );
-            sounds::sound( p->pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), true, "environment", "alarm" );
+            sounds::sound( p->pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), true, "environment",
+                           "alarm" );
             if( !g->events.queued( EVENT_WANTED ) ) {
                 g->events.add( EVENT_WANTED, calendar::turn + 30_minutes, 0, p->global_sm_location() );
             }
@@ -3192,7 +3194,7 @@ int iuse::geiger( player *p, item *it, bool t, const tripoint &pos )
         std::string description = rads > 50 ? _( "buzzing" ) :
                                   rads > 25 ? _( "rapid clicking" ) : _( "clicking" );
         std::string sound_var = rads > 50 ? _( "geiger_high" ) :
-                                  rads > 25 ? _( "geiger_medium" ) : _( "geiger_low" );
+                                rads > 25 ? _( "geiger_medium" ) : _( "geiger_low" );
 
         sounds::sound( pos, 6, sounds::sound_t::alarm, description, true, "tool", sound_var );
         if( !p->can_hear( pos, 6 ) ) {
@@ -4603,7 +4605,8 @@ int iuse::boltcutters( player *p, item *it, bool, const tripoint & )
     } else if( g->m.ter( pnt ) == t_chainfence ) {
         p->moves -= 500;
         g->m.ter_set( pnt, t_chainfence_posts );
-        sounds::sound( pnt, 5, sounds::sound_t::combat, _( "Snick, snick, gachunk!" ), true, "tool", "boltcutters" );
+        sounds::sound( pnt, 5, sounds::sound_t::combat, _( "Snick, snick, gachunk!" ), true, "tool",
+                       "boltcutters" );
         g->m.spawn_item( pnt, "wire", 20 );
     } else {
         add_msg( m_info, _( "You can't cut that." ) );
@@ -4676,7 +4679,8 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
 
         switch( used ) {
             case AEA_STORM: {
-                sounds::sound( p->pos(), 10, sounds::sound_t::combat, _( "Ka-BOOM!" ), true, "environment", "thunder_near" );
+                sounds::sound( p->pos(), 10, sounds::sound_t::combat, _( "Ka-BOOM!" ), true, "environment",
+                               "thunder_near" );
                 int num_bolts = rng( 2, 4 );
                 for( int j = 0; j < num_bolts; j++ ) {
                     int xdir = 0;
@@ -4764,7 +4768,8 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
             break;
 
             case AEA_PULSE:
-                sounds::sound( p->pos(), 30, sounds::sound_t::combat, _( "The earth shakes!" ), true, "misc", "earthquake" );
+                sounds::sound( p->pos(), 30, sounds::sound_t::combat, _( "The earth shakes!" ), true, "misc",
+                               "earthquake" );
                 for( const tripoint &pt : g->m.points_in_radius( p->pos(), 2 ) ) {
                     g->m.bash( pt, 40 );
                     g->m.bash( pt, 40 );  // Multibash effect, so that doors &c will fall
@@ -5364,7 +5369,8 @@ int iuse::talking_doll( player *p, item *it, bool, const tripoint & )
 
     const SpeechBubble speech = get_speech( it->typeId() );
 
-    sounds::sound( p->pos(), speech.volume, sounds::sound_t::speech, speech.text, true, "speech", it->typeId() );
+    sounds::sound( p->pos(), speech.volume, sounds::sound_t::speech, speech.text, true, "speech",
+                   it->typeId() );
 
     // Sound code doesn't describe noises at the player position
     if( p->can_hear( p->pos(), speech.volume ) ) {
@@ -5571,7 +5577,8 @@ int iuse::misc_repair( player *p, item *it, bool, const tripoint & )
 int iuse::bell( player *p, item *it, bool, const tripoint & )
 {
     if( it->typeId() == "cow_bell" ) {
-        sounds::sound( p->pos(), 12, sounds::sound_t::music, _( "Clank! Clank!" ), true, "misc", "cow_bell" );
+        sounds::sound( p->pos(), 12, sounds::sound_t::music, _( "Clank! Clank!" ), true, "misc",
+                       "cow_bell" );
         if( !p->is_deaf() ) {
             const int cow_factor = 1 + ( p->mutation_category_level.find( "CATTLE" ) ==
                                          p->mutation_category_level.end() ?
@@ -6307,7 +6314,8 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
         trajectory.push_back( aim_point );
 
         p->moves -= 50;
-        sounds::sound( p->pos(), 8, sounds::sound_t::activity, _( "Click." ), true, "tool", "camera_shutter" );
+        sounds::sound( p->pos(), 8, sounds::sound_t::activity, _( "Click." ), true, "tool",
+                       "camera_shutter" );
 
         for( auto &i : trajectory ) {
 
@@ -6656,7 +6664,8 @@ int iuse::ehandcuffs( player *p, item *it, bool t, const tripoint &pos )
         }
 
         if( calendar::once_every( 1_minutes ) ) {
-            sounds::sound( pos, 10, sounds::sound_t::alarm, _( "a police siren, whoop WHOOP." ), true, "environment", "police_siren" );
+            sounds::sound( pos, 10, sounds::sound_t::alarm, _( "a police siren, whoop WHOOP." ), true,
+                           "environment", "police_siren" );
         }
 
         const int x = it->get_var( "HANDCUFFS_X", 0 );

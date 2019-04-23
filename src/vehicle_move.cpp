@@ -713,7 +713,8 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
             }
         }
 
-        sounds::sound( p, smashed ? 80 : 50, sounds::sound_t::combat, snd, false, "smash_success", "hit_vehicle" );
+        sounds::sound( p, smashed ? 80 : 50, sounds::sound_t::combat, snd, false, "smash_success",
+                       "hit_vehicle" );
     }
 
     if( smashed && !vert_coll ) {
