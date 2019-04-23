@@ -14,6 +14,7 @@
 #include "map_helpers.h"
 #include "test_statistics.h"
 #include "vehicle.h"
+#include "veh_type.h"
 #include "vpart_position.h"
 #include "creature.h"
 
@@ -110,10 +111,10 @@ void check_vehicle_damage( const std::string &explosive_id, const std::string &v
     REQUIRE( before_hp.size() == after_hp.size() );
     for( unsigned int i = 0; i < before_hp.size(); ++i ) {
         INFO( target_vehicle->parts[ i ].name() );
-        if( target_vehicle->parts[ i ].name() == "windshield" ||
-            target_vehicle->parts[ i ].name() == "headlight" ) {
+        if( target_vehicle->parts[ i ].info().get_id() == "windshield" ||
+            target_vehicle->parts[ i ].info().get_id() == "headlight" ) {
             CHECK( before_hp[ i ] >= after_hp[ i ] );
-        } else if( target_vehicle->parts[ i ].name() != "clock" ) {
+        } else if( !( target_vehicle->parts[ i ].info().get_id() == "vehicle_clock" ) ) {
             CHECK( before_hp[ i ] == after_hp[ i ] );
         }
     }
