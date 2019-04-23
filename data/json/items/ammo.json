@@ -1,4 +1,4 @@
-[
+
   {
     "type": "AMMO",
     "id": "battery",
@@ -10,8 +10,8 @@
     "color": "yellow",
     "description": "Using an onboard screen, you can see how many kilojoules of energy are in the battery.",
     "material": "iron",
-    "volume": 1,
-    "weight": 1,
+    "volume": 0,
+    "weight": 0,
     "ammo_type": "battery",
     "count": 100,
     "//": "1 battery is 1 kJ of energy. 40 batteries is an alkaline C-cell.",
