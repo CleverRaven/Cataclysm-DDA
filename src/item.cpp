@@ -7133,6 +7133,7 @@ void item::calc_temp( const int temp, const float insulation, const time_point &
     // If item has negative energy set to enviroment temperature (it not been processed ever)
     if( specific_energy < 0 ) {
         set_item_temperature( env_temperature );
+        last_temp_check = time;
         return;
     }
 
@@ -7182,6 +7183,7 @@ void item::calc_temp( const int temp, const float insulation, const time_point &
                 // This may happen rarely with very small items
                 // Just set the item to enviroment temperature
                 set_item_temperature( env_temperature );
+                last_temp_check = time;
                 return;
             }
         }
@@ -7210,6 +7212,7 @@ void item::calc_temp( const int temp, const float insulation, const time_point &
                 // This may happen rarely with very small items
                 // Just set the item to enviroment temperature
                 set_item_temperature( env_temperature );
+                last_temp_check = time;
                 return;
             }
         }
