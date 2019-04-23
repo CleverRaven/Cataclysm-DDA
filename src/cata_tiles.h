@@ -490,6 +490,10 @@ class cata_tiles
         void draw_cursor();
         void void_cursor();
 
+        void init_draw_highlight( const tripoint &p );
+        void draw_highlight();
+        void void_highlight();
+
         void init_draw_weather( weather_printable weather, std::string name );
         void draw_weather_frame();
         void void_weather();
@@ -575,6 +579,7 @@ class cata_tiles
         bool do_draw_hit;
         bool do_draw_line;
         bool do_draw_cursor;
+        bool do_draw_highlight;
         bool do_draw_weather;
         bool do_draw_sct;
         bool do_draw_zones;
@@ -596,6 +601,7 @@ class cata_tiles
         std::string line_endpoint_id;
 
         std::vector<tripoint> cursors;
+        std::vector<tripoint> highlights;
 
         weather_printable anim_weather;
         std::string weather_name;

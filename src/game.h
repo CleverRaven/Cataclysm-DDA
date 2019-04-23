@@ -852,6 +852,9 @@ class game
         // @param center the center of view, same as when calling map::draw
         void draw_critter( const Creature &critter, const tripoint &center );
         void draw_cursor( const tripoint &p );
+        // Draw a highlight graphic at p, for example when examining something.
+        // TILES only, in curses this does nothing
+        void draw_highlight( const tripoint &p );
 
         bool is_in_viewport( const tripoint &p, int margin = 0 ) const;
         /**
