@@ -150,4 +150,8 @@ constexpr double accuracy_grazing  = 1.0;
 /** Character's base weight in units::mass */
 constexpr units::mass CHARACTER_WEIGHT = 81500_gram;
 
+/** Used to limit the random seed during noise calculation. A large value flattens the noise generator to zero.
+    Windows has a rand limit of 32768, other operating systems can have higher limits. */
+constexpr int SIMPLEX_NOISE_RANDOM_SEED_LIMIT = 32768;
+
 #endif

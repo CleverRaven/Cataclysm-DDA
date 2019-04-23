@@ -115,7 +115,7 @@ struct talk_effect_fun_t {
         void set_clear_npc_rule( const std::string &rule );
         void set_npc_engagement_rule( const std::string &setting );
         void set_npc_aim_rule( const std::string &setting );
-
+        void set_mapgen_update( JsonObject jo, const std::string &member );
 
         void operator()( const dialogue &d ) const {
             if( !function ) {

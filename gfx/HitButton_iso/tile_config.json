@@ -1194,7 +1194,7 @@
           "fg": 244
         },
         {
-          "id": ["cursor", "line_target", "vehicle_pointer" ],
+          "id": ["cursor", "highlight", "line_target", "vehicle_pointer" ],
           "fg": 245
         },
         {

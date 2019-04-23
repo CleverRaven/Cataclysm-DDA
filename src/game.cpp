@@ -720,6 +720,7 @@ bool game::start_game()
         // map is loaded.
         start_loc.add_map_special( omtstart, scen->get_map_special() );
     }
+
     tripoint lev = omt_to_sm_copy( omtstart );
     // The player is centered in the map, but lev[xyz] refers to the top left point of the map
     lev.x -= HALF_MAPSIZE;
@@ -829,6 +830,12 @@ bool game::start_game()
 
     // Now that we're done handling coordinates, ensure the player's submap is in the center of the map
     update_map( u );
+
+    // Assign all of this scenario's missions to the player.
+    for( const mission_type_id &m : scen->missions() ) {
+        const auto mission = mission::reserve_new( m, -1 );
+        mission->assign( u );
+    }
 
     //~ %s is player name
     u.add_memorial_log( pgettext( "memorial_male", "%s began their journey into the Cataclysm." ),
@@ -6235,6 +6242,45 @@ void game::examine( const tripoint &examp )
     }
 }
 
+void game::pickup()
+{
+    // First check if there is no/only one option for pickup
+    int num_tiles_with_items = 0;
+    tripoint tile_with_items = u.pos();
+    for( const tripoint &p : m.points_in_radius( u.pos(), 1 ) ) {
+        if( m.has_items( p ) ) {
+            ++num_tiles_with_items;
+            tile_with_items = p;
+        }
+    }
+    if( num_tiles_with_items == 0 ) {
+        add_msg( _( "There's nothing to pick up there" ) );
+        return;
+    } else if( num_tiles_with_items == 1 ) {
+        pickup( tile_with_items );
+        return;
+    }
+
+    const cata::optional<tripoint> examp_ = choose_adjacent_highlight( _( "Pickup where?" ),
+                                            ACTION_PICKUP );
+    if( !examp_ ) {
+        return;
+    }
+    // redraw terrain to erase 'pickup' window
+    draw_ter();
+    // wrefresh is called in pickup( const tripoint & )
+    pickup( *examp_ );
+}
+
+void game::pickup( const tripoint &p )
+{
+    // Highlight target
+    g->m.drawsq( w_terrain, u, p, true, true, u.pos() + u.view_offset );
+    wrefresh( w_terrain );
+
+    Pickup::pick_up( p, 1 );
+}
+
 //Shift player by one tile, look_around(), then restore previous position.
 //represents carefully peeking around a corner, hence the large move cost.
 void game::peek()
@@ -9178,7 +9224,7 @@ void butcher_submenu( map_stack &items, const std::vector<int> &corpses, int cor
     smenu.addentry_col( DISMEMBER, true, 'm', _( "Dismember corpse" ), cut_time( DISMEMBER ),
                         _( "If you're aiming to just destroy a body outright, and don't care about harvesting it, dismembering it will hack it apart in a very short amount of time, but yield little to no usable flesh." ) );
     smenu.addentry_col( DISSECT, true, 'd', _( "Dissect corpse" ), cut_time( DISSECT ),
-                        _( "By careful dissection of the corpse, you will examine it for possible bionic implants, and harvest them if possible.  Requires scalpel-grade cutting tools, ruins corpse, and consumes a lot of time.  Your medical knowledge is most useful here." ) );
+                        _( "By careful dissection of the corpse, you will examine it for possible bionic implants, or discrete organs and harvest them if possible.  Requires scalpel-grade cutting tools, ruins corpse, and consumes a lot of time.  Your medical knowledge is most useful here." ) );
     smenu.query();
     switch( smenu.ret ) {
         case BUTCHER:

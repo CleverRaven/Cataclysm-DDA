@@ -852,6 +852,9 @@ class game
         // @param center the center of view, same as when calling map::draw
         void draw_critter( const Creature &critter, const tripoint &center );
         void draw_cursor( const tripoint &p );
+        // Draw a highlight graphic at p, for example when examining something.
+        // TILES only, in curses this does nothing
+        void draw_highlight( const tripoint &p );
 
         bool is_in_viewport( const tripoint &p, int margin = 0 ) const;
         /**
@@ -961,8 +964,11 @@ class game
         void on_move_effects();
 
         void control_vehicle(); // Use vehicle controls  '^'
-        void examine( const tripoint &p );// Examine nearby terrain  'e'
+        void examine( const tripoint &p ); // Examine nearby terrain  'e'
         void examine();
+
+        void pickup(); // Pickup neaby items 'g'
+        void pickup( const tripoint &p );
 
         void drop(); // Drop an item  'd'
         void drop_in_direction(); // Drop w/ direction  'D'

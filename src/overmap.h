@@ -330,8 +330,8 @@ class overmap
 
         // Overall terrain
         void place_river( point pa, point pb );
-        void place_forest();
-
+        void place_forests();
+        void place_swamps();
         void place_forest_trails();
         void place_forest_trailheads();
 

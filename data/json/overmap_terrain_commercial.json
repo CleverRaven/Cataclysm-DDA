@@ -230,6 +230,55 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "s_bookstore_roof",
+    "name": "bookstore roof",
+    "copy-from": "generic_city_building",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_bookstore_upper_roof",
+    "name": "bookstore roof",
+    "copy-from": "generic_city_building",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_bookstore_1",
+    "name": "bookstore",
+    "copy-from": "generic_city_building",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_bookstore_roof_1",
+    "name": "bookstore roof",
+    "copy-from": "generic_city_building",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_bookstore_upper_roof_1",
+    "name": "bookstore roof",
+    "copy-from": "generic_city_building",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_bookstore_2",
+    "name": "bookstore",
+    "copy-from": "generic_city_building",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_bookstore_roof_2",
+    "name": "bookstore roof",
+    "copy-from": "generic_city_building",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "s_restaurant",
     "name": "restaurant",
     "copy-from": "generic_city_building",

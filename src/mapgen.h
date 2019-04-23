@@ -200,7 +200,7 @@ class mapgen_palette
          * similar to objects, but it uses key to get the actual position where to place things
          * out of the json "bitmap" (which is used to paint the terrain/furniture).
          */
-        using placing_map = std::map< int, std::vector< std::shared_ptr<jmapgen_piece> > >;
+        using placing_map = std::map< int, std::vector< std::shared_ptr<const jmapgen_piece> > >;
 
         std::map<int, ter_id> format_terrain;
         std::map<int, furn_id> format_furniture;
@@ -246,7 +246,7 @@ struct jmapgen_objects {
 
         bool check_bounds( const jmapgen_place place, JsonObject &jso );
 
-        void add( const jmapgen_place &place, std::shared_ptr<jmapgen_piece> piece );
+        void add( const jmapgen_place &place, std::shared_ptr<const jmapgen_piece> piece );
 
         /**
          * PieceType must be inheriting from jmapgen_piece. It must have constructor that accepts a
@@ -279,7 +279,7 @@ struct jmapgen_objects {
         /**
          * Combination of where to place something and what to place.
          */
-        using jmapgen_obj = std::pair<jmapgen_place, std::shared_ptr<jmapgen_piece> >;
+        using jmapgen_obj = std::pair<jmapgen_place, std::shared_ptr<const jmapgen_piece> >;
         std::vector<jmapgen_obj> objects;
         int offset_x;
         int offset_y;

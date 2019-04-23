@@ -2,9 +2,20 @@
   {
     "type": "talk_topic",
     "id": "TALK_CITY_COP",
-    "dynamic_line": "STOP!  Put your hands in the air!  Ha, startled you, didn't I... There is no law anymore...",
+    "dynamic_line": {
+      "u_has_var": "talked_to_survivor_cop",
+      "type": "dialogue",
+      "context": "survivor_cop",
+      "value": "yes",
+      "no": "STOP, Put your hands in the air! Ha, startled you didn't I...there is no law anymore...",
+      "yes": "Hi there, <name_g>."
+    },
     "responses": [
-      { "text": "What are you doing here?", "topic": "TALK_CITY_COP_INTRO" },
+      {
+        "text": "What are you doing here?",
+        "topic": "TALK_CITY_COP_INTRO",
+        "effect": { "u_add_var": "talked_to_survivor_cop", "type": "dialogue", "context": "survivor_cop", "value": "yes" }
+      },
       { "text": "Wanna get outta here?", "topic": "TALK_SUGGEST_FOLLOW" },
       { "text": "Let's trade items.", "topic": "TALK_CITY_COP", "effect": "start_trade" },
       { "text": "Can I do anything for you?", "topic": "TALK_MISSION_OFFER" },
@@ -17,7 +28,6 @@
     "dynamic_line": "I was watching the station when things went sideways.  None of the other officers returned from the last call, well not as humans anyway...",
     "responses": [
       { "text": "Why don't you go somewhere else?", "topic": "TALK_CITY_COP_LEAVE" },
-      { "text": "What was it like in town when things got crazy?", "topic": "TALK_CITY_COP_DAYZ" },
       { "text": "Let's trade then.", "effect": "start_trade", "topic": "TALK_CITY_COP" },
       { "text": "I'm sorry, I gotta go.", "topic": "TALK_DONE" }
     ]

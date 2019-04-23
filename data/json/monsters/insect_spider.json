@@ -172,7 +172,7 @@
     "id": "mon_pregnant_giant_cockroach",
     "type": "MONSTER",
     "name": "pregnant giant cockroach",
-    "description": "A mutant cockroach the size of a small dog.  It's abdomen is heavily swollen.",
+    "description": "A mutant cockroach the size of a small dog.  Its abdomen is heavily swollen.",
     "default_faction": "roach",
     "bodytype": "insect",
     "species": [ "INSECT" ],

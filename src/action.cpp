@@ -584,6 +584,8 @@ bool can_interact_at( action_id action, const tripoint &p )
             return can_move_vertical_at( p, -1 );
         case ACTION_EXAMINE:
             return can_examine_at( p );
+        case ACTION_PICKUP:
+            return g->m.has_items( p );
         default:
             return false;
     }

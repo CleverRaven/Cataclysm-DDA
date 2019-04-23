@@ -5597,7 +5597,7 @@
     "id": "pheromone",
     "type": "TOOL",
     "name": "zombie pheromone",
-    "description": "This is some kind of disgusting ball of rotting meat.  Squeezing it causes a small cloud of pheromones to spray into the air, causing nearby zombies to become friendly for a short period of time.",
+    "description": "This is a disgusting ball of rotting meat of zombie origin.  Squeezing this gland causes a small cloud of pheromones to spray into the air.  Apparently the foul secretion can change zombies' attitude towards you, and they may ignore you for a short period of time.  Perhaps they briefly consider you as one of them.",
     "weight": 238,
     "volume": 1,
     "price": 4000,
