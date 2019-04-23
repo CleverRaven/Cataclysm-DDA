@@ -277,9 +277,9 @@
     "id": "crt_earmor",
     "type": "ARMOR",
     "category": "armor",
-    "name": "C.R.I.T Enforcer Suit",
-    "description": "A series of plates, guards and buckles which assemble into a suit of modern body-armor. Overlapping steel plates on top of kevlar plates cover vast expanses as the armor juts off in places so it can deflect bullets. Built with the idea that comfort is less important that safety, this heavy suit is difficult to move about in but highly protective. Various adjustable conectors such as straps and clips hold it together.",
-    "weight": 41460,
+    "name": "C.R.I.T Enforcer armor assembly",
+    "description": "A series of plates, guards and buckles which assemble into a suit of sturdy body-armor which usually goes over other armor. Overlapping steel plates on top of kevlar plates cover vast expanses as the armor juts off in places so it can deflect attacks. Built with the idea that comfort is less important than safety, this heavy suit is difficult to move about in but highly protective. Various adjustable conectors such as straps and clips hold it together.",
+    "weight": 21460,
     "volume": 45,
     "price": 900000000,
     "to_hit": -5,
@@ -295,6 +295,29 @@
     "material_thickness": 4,
     "environmental_protection": 5,
     "flags": [ "VARSIZE", "STURDY", "BELTED"]
+  },
+  {
+    "id": "crt_earmor_boots",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": "pair of C.R.I.T Enforcer docks",
+    "name_plural": "pairs of C.R.I.T Enforcer docks",
+    "description": "C.R.I.T Enforcer docks. Metal plates vaguely molded into the shape of oversized feet which clamp down onto your owm footwear keep your feet out of harms way. It looks terrible and feels clunky unlike most of C.R.I.T's designs, but they do seem to be worth using if you were to be in the middle of a warzone.",
+    "weight": 2060,
+    "volume": 6,
+    "price": 100000,
+    "to_hit": -1,
+    "bashing": 2,
+    "material": [ "kevlar", "superalloy"],
+    "symbol": "[",
+    "color": "dark_gray",
+    "covers": [ "FEET" ],
+    "coverage": 100,
+    "encumbrance": 30,
+    "warmth": 5,
+    "material_thickness": 3,
+    "environmental_protection": 4,
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER", "OVERSIZE"]
   },
   {
     "id": "crt_sarmor",
@@ -323,7 +346,7 @@
     "category": "armor",
     "name": "C.R.I.T Lone Wolf Series Armor",
     "description": "A matte black suit of outdated and bulky looking plate armor fitted onto a soft kevlar body-suit. Retrofitted with new armor improvements, this heavy armor will definitely protect you from practically anything. Just make sure you can actually walk with it on though.",
-    "weight": 72563,
+    "weight": 42563,
     "volume": 50,
     "price": 100000000,
     "material": [ "hardsteel", "steel", "kevlar"],
@@ -331,17 +354,17 @@
     "color": "light_green",
     "covers": ["TORSO", "LEGS", "ARMS"],
     "coverage": 100,
-    "encumbrance": 50,
+    "encumbrance": 40,
     "warmth": 25,
     "storage": 16,
     "material_thickness": 3,
-    "environmental_protection": 5,
+    "environmental_protection": 10,
     "use_action" : {
       "type": "holster",
       "max_volume": 15,
       "draw_cost": 155,
       "skills": ["smg", "shotgun", "rifle", "launcher"]
       },
-    "flags": [ "WATERPROOF", "OVERSIZE", "COLLAR", "STURDY", "NO_QUICKDRAW"]
+    "flags": [ "VARSIZE", "WATERPROOF", "OUTER", "OVERSIZE", "COLLAR", "STURDY", "NO_QUICKDRAW"]
   }
 ]

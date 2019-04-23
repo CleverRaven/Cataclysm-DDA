@@ -29,7 +29,7 @@
      "type": "TOOL",
      "category": "weapons",
      "name": "C.R.I.T service knife",
-     "description": "C.R.I.T standard-issue knife. Has a built in knuckleduster as a guard and a small, hooked pry bar at the bottom for opening simple things and bashing in heads. Matte black finish helps it avoid flash in dim-light situations and tanto tip allows for light-armor penetration. Blade length allows for pretty decent reach as well. R&D said they put something weird into these though...",
+     "description": "C.R.I.T standard-issue knife. Has a knuckleduster guard and a small, hooked pry bar at the bottom for opening simple things and bashing in heads. Matte black finish helps it avoid flash in dim-light situations and tanto tip allows for light-armor penetration. Blade length allows for pretty decent reach as well. Something makes you feel... connected to the knife.",
      "color": "dark_gray",
      "material": [ "hardsteel"],
      "artifact_data" : {
@@ -40,8 +40,8 @@
      "volume": 3,
      "price": 20000,
      "damage": { "damage_type": "cold", "amount": 100 },
-     "cutting": 12,
-     "bashing": 8,
+     "cutting": 7,
+     "bashing": 5,
      "to_hit": 2,
      "durability": 15,
      "symbol": ";",
@@ -51,27 +51,49 @@
      "techniques": [ "WBLOCK_2", "UHAND", "PROD"]
   },
   {
-     "id": "sword_crt",
+     "id": "crt_knuckledusters",
      "type": "TOOL",
      "category": "weapons",
-     "name": "C.R.I.T Reso-blade",
-     "description": "C.R.I.T R&D's tested melee weapon. Alien runes adorn the carbon steel blade and a hum of energy thrums from within.",
+     "name": "C.R.I.T Knuckledusters",
+     "description": "C.R.I.T CQB knuckledusters. Not too different from any normal pair, but the .",
      "color": "dark_gray",
      "material": [ "hardsteel"],
      "artifact_data" : {
      "charge_type": "ARTC_NULL",
-     "effects_wielded": ["AEP_SPEED_UP", "AEP_SPEED_UP", "AEP_SPEED_UP", "AEP_SPEED_UP", "AEP_SAP_LIFE"]
+     "effects_wielded": ["AEP_SAP_LIFE"]
      },
-     "weight": 5000,
+     "weight": 350,
+     "volume": 3,
+     "price": 20000,
+     "bashing": 10,
+     "to_hit": 1,
+     "durability": 15,
+     "symbol": "8",
+     "flags": [ "UNARMED_WEAPON", "UNBREAKABLE_MELEE" ],
+     "techniques": [ "WBLOCK_2", "UHAND", "HOOK"]
+  },
+  {
+     "id": "sword_crt",
+     "type": "TOOL",
+     "category": "weapons",
+     "name": "C.R.I.T Reso-blade",
+     "description": "C.R.I.T melee weapon. Alien runes adorn the carbon steel blade. The blade oddly lacks sharpness, and yet upon closer oberservation, a hum of energy thrums from within.",
+     "color": "dark_gray",
+     "material": [ "hardsteel"],
+     "artifact_data" : {
+     "charge_type": "ARTC_NULL",
+     "effects_wielded": ["AEP_DEX_UP", "AEP_SPEED_UP", "AEP_SPEED_UP", "AEP_SPEED_UP", "AEP_SAP_LIFE"]
+     },
+     "weight": 2500,
      "volume": 10,
      "price": 20000000,
-     "cutting": 17,
-     "bashing": 7,
-     "to_hit": 5,
+     "cutting": 5,
+     "bashing": 5,
+     "to_hit": 2,
      "symbol": ";",
      "qualities": [ ["BUTCHER", 7 ] ],
      "flags": [ "UNBREAKABLE_MELEE"],
-     "techniques": [ "WBLOCK_3", "tec_feint", "tec_counter", "BERSERK", "DSBI", "DSINERTIAL"]
+     "techniques": [ "WBLOCK_2", "tec_feint", "tec_counter", "BERSERK", "DSINERTIAL"]
   },
   {
      "id": "blade_crt",
@@ -116,7 +138,7 @@
     "flags": [ "DURABLE_MELEE", "BELT_CLIP", "NONCONDUCTIVE" ],
     "to_hit": 1,
     "category": "weapons",
-    "qualities": [ [ "AXE", 3 ], [ "CUT", 1 ], [ "HAMMER", 2 ], [ "HAMMER_FINE", 1 ], [ "BUTCHER", 15 ] ]
+    "qualities": [ [ "AXE", 10 ], [ "CUT", 1 ], [ "HAMMER", 2 ], [ "HAMMER_FINE", 1 ], [ "BUTCHER", 15 ] ]
   },
   {
     "id": "crt_etool",
