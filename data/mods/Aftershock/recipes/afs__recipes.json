@@ -190,7 +190,13 @@
     "book_learn": [ [ "mag_electronics", 3 ], [ "manual_electronics", 2 ] ],
     "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "SCREW_FINE", "level": 1 } ],
-    "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "light_minus_battery_cell", 1 ] ], [ [ "cable", 5 ] ], [ [ "circuit", 1 ] ], [ [ "scrap", 1 ] ] ]
+    "components": [
+      [ [ "plastic_chunk", 1 ] ],
+      [ [ "light_minus_battery_cell", 1 ] ],
+      [ [ "cable", 5 ] ],
+      [ [ "circuit", 1 ] ],
+      [ [ "scrap", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
