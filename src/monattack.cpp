@@ -3314,7 +3314,7 @@ bool mattack::copbot( monster *z )
                 } else if( !cuffed ) {
                     sounds::sound( z->pos(), 18, sounds::sound_t::alert,
                                    _( "a robotic voice boom, \"\
-Please put down your weapon.\"" ),, false, "speech", z->type->id.str() );
+Please put down your weapon.\"" ), false, "speech", z->type->id.str() );
                 }
             } else
                 sounds::sound( z->pos(), 18, sounds::sound_t::alert,
