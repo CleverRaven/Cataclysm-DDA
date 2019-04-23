@@ -720,6 +720,7 @@ bool game::start_game()
         // map is loaded.
         start_loc.add_map_special( omtstart, scen->get_map_special() );
     }
+
     tripoint lev = omt_to_sm_copy( omtstart );
     // The player is centered in the map, but lev[xyz] refers to the top left point of the map
     lev.x -= HALF_MAPSIZE;
@@ -829,6 +830,12 @@ bool game::start_game()
 
     // Now that we're done handling coordinates, ensure the player's submap is in the center of the map
     update_map( u );
+
+    // Assign all of this scenario's missions to the player.
+    for( const mission_type_id &m : scen->missions() ) {
+        const auto mission = mission::reserve_new( m, -1 );
+        mission->assign( u );
+    }
 
     //~ %s is player name
     u.add_memorial_log( pgettext( "memorial_male", "%s began their journey into the Cataclysm." ),
