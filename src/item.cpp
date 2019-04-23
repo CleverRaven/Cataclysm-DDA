@@ -7056,7 +7056,7 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
 
                 // Calculate item temperature from enviroment temperature
                 if( now - time < 2_days ) {
-                    calc_temp( env_temperature, insulation, time_delta );
+                    calc_temp( env_temperature, insulation, time );
                 } else {
                     // There is no point in doing the proper temperature calculations for too long times
                     // Just set the item to enviroment temperature. This temperature won't show for the player and is used only for rotting.
@@ -7069,7 +7069,7 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
                     calc_rot( time );
                     last_rot_check = time;
 
-                    if( has_rotten_away() ) {
+                    if( has_rotten_away() || ( is_corpse() && rot > 10_days ) ) {
                         // No need to track item that will be gone
                         return;
                     }
@@ -7080,7 +7080,7 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
         // Remaining <1 h from above
         // and items that are held near the player
         if( now - time > smallest_interval ) {
-            calc_temp( temp, insulation, now - time );
+            calc_temp( temp, insulation, now );
             calc_rot( now );
 
             last_rot_check = now;
@@ -7090,14 +7090,14 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
     }
     // If the item has negative energy process it now. It is a new item.
     if( specific_energy < 0 ) {
-        calc_temp( temp, insulation, 1_turns );
+        calc_temp( temp, insulation, now );
         last_temp_check = now;
     }
 }
 
 
 
-void item::calc_temp( const int temp, const float insulation, const time_duration &time )
+void item::calc_temp( const int temp, const float insulation, const time_point &time )
 {
     // Limit calculations to max 4000 C (4273.15 K) to avoid specific energy from overflowing
     const float env_temperature = std::min( temp_to_kelvin( temp ), 4273.15 );
@@ -7133,6 +7133,7 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
     float new_item_temperature;
     float freeze_percentage = 0;
     int extra_time;
+    const time_duration time_delta = time - last_temp_check;
 
     // Temperature calculations based on Newton's law of cooling.
     // Calculations are done assuming that the item stays in its phase.
@@ -7141,7 +7142,7 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
     if( 0.00001 * specific_energy < completely_frozen_specific_energy ) {
         // Was solid.
         new_item_temperature = ( - temperature_difference
-                                 * exp( - to_turns<int>( time ) * conductivity_term / ( mass * specific_heat_solid ) )
+                                 * exp( - to_turns<int>( time_delta ) * conductivity_term / ( mass * specific_heat_solid ) )
                                  + env_temperature );
         new_specific_energy = new_item_temperature * specific_heat_solid;
         if( new_item_temperature > freezing_temperature + 0.5 ) {
@@ -7149,7 +7150,7 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
             // 0.5 is here because we don't care if it heats up a bit too high
             // Calculate how long the item was solid
             // and apply rest of the time as melting
-            extra_time = to_turns<int>( time )
+            extra_time = to_turns<int>( time_delta )
                          - log( - temperature_difference / ( freezing_temperature - env_temperature ) )
                          * ( mass * specific_heat_solid / conductivity_term );
             new_specific_energy = completely_frozen_specific_energy
@@ -7167,7 +7168,7 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
     } else if( 0.00001 * specific_energy > completely_liquid_specific_energy ) {
         // Was liquid.
         new_item_temperature = ( - temperature_difference
-                                 * exp( - to_turns<int>( time ) * conductivity_term / ( mass *
+                                 * exp( - to_turns<int>( time_delta ) * conductivity_term / ( mass *
                                          specific_heat_liquid ) )
                                  + env_temperature );
         new_specific_energy = ( new_item_temperature - freezing_temperature ) * specific_heat_liquid +
@@ -7177,7 +7178,7 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
             // 0.5 is here because we don't care if it cools down a bit too low
             // Calculate how long the item was liquid
             // and apply rest of the time as freezing
-            extra_time = to_turns<int>( time )
+            extra_time = to_turns<int>( time_delta )
                          - log( - temperature_difference / ( freezing_temperature - env_temperature ) )
                          * ( mass * specific_heat_liquid / conductivity_term );
             new_specific_energy = completely_liquid_specific_energy
@@ -7195,13 +7196,14 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
     } else {
         // Was melting or freezing
         new_specific_energy = 0.00001 * specific_energy + conductivity_term *
-                              temperature_difference * to_turns<int>( time ) / mass;
+                              temperature_difference * to_turns<int>( time_delta ) / mass;
         new_item_temperature = freezing_temperature;
         if( new_specific_energy > completely_liquid_specific_energy ) {
             // Item melted before temp was calculated
             // Calculate how long the item was melting
             // and apply rest of the time as liquid
-            extra_time = to_turns<int>( time ) - ( mass / ( conductivity_term * temperature_difference ) ) *
+            extra_time = to_turns<int>( time_delta ) - ( mass / ( conductivity_term * temperature_difference ) )
+                         *
                          ( completely_liquid_specific_energy - 0.00001 * specific_energy );
             new_item_temperature = ( ( freezing_temperature - env_temperature )
                                      * exp( - extra_time * conductivity_term / ( mass *
@@ -7213,7 +7215,8 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
             // Item froze before temp was calculated
             // Calculate how long the item was freezing
             // and apply rest of the time as solid
-            extra_time = to_turns<int>( time ) - ( mass / ( conductivity_term * temperature_difference ) ) *
+            extra_time = to_turns<int>( time_delta ) - ( mass / ( conductivity_term * temperature_difference ) )
+                         *
                          ( completely_frozen_specific_energy - 0.00001 * specific_energy );
             new_item_temperature = ( ( freezing_temperature - env_temperature )
                                      * exp( -  extra_time * conductivity_term / ( mass *

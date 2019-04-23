@@ -751,7 +751,7 @@ class item : public visitable<item>
 
         /** at twice regular shelf life perishable items rot away completely */
         bool has_rotten_away() const {
-            return get_relative_rot() > 2.0;
+            return is_food() && get_relative_rot() > 2.0;
         }
 
         /** remove frozen tag and if it takes freezerburn, applies mushy/rotten */
@@ -1855,7 +1855,7 @@ class item : public visitable<item>
          * @param insulation Amount of insulation item has
          * @param time Duration of time at which to process at temperature
          */
-        void calc_temp( const int temp, const float insulation, const time_duration &time );
+        void calc_temp( const int temp, const float insulation, const time_point &time );
 
         /**
          * Get the thermal energy of the item in Joules.
