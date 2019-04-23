@@ -419,6 +419,8 @@ set_npc_engagement_rule: rule_string | Sets the NPC follower AI rule for engagem
 set_npc_aim_rule: rule_string | Sets the NPC follower AI rule for aiming speed to the value of `rule_string`.
 npc_die | The NPC will die at the end of the conversation.
 
+#### Map Updates
+mapgen_update: mapgen_update_id_string<br/>mapgen_update: list of mapgen_update_id_strings, (optional assign_mission_target parameters) | With no other parameters, update's the the overmap tile at the player's current location with the changes described in mapgen_update_id (or for each mapgen_update_id in the list).  The assign_mission_target parameters can be used to change the location of the overmap tile that gets updated.  See doc/MISSIONS_JSON.md for assign_mission_target parameters and doc/MAPGEN.md for mapgen_update.
 #### Deprecated
 
 Effect | Description
@@ -565,11 +567,11 @@ Condition | Type | Description
   "topic": "TALK_NONE",
   "condition": {
     "not": {
-      "npc_has_var": "has_met_PC", "type": "general", "context": "examples", "value": "true"
+      "npc_has_var": "has_met_PC", "type": "general", "context": "examples", "value": "yes"
     }
   },
   "effect": {
-    "npc_set_var": "has_met_PC", "type": "general", "context": "examples", "value": "true" }
+    "npc_add_var": "has_met_PC", "type": "general", "context": "examples", "value": "yes" }
   }
 },
 {
@@ -656,5 +658,26 @@ Condition | Type | Description
     "trial": { "type": "LIE", "difficulty": 10, "mod": [ [ "TRUST", 3 ] ] },
     "success": { "topic": "TALK_NONE" },
     "failure": { "topic": "TALK_MISSION_FAILURE" }
+},
+{
+  "text": "Didn't you say you knew where the Vault was?",
+  "topic: "TALK_VAULT_INFO",
+  "condition": { "not": { "u_has_var": "asked_about_vault", "value": "yes", "type": "sentinel", "context": "old_guard_rep" } },
+  "effect": [
+      { "u_add_var": "asked_about_vault", "value": "yes", "type": "sentinel", "context": "old_guard" },
+      { "mapgen_update": "hulk_hairstyling", "om_terrain": "necropolis_a_13", "om_special": "Necropolis", "om_terrain_replace": "field", "z": 0 }
+  ]
+},
+{
+  "text": "Why do zombies keep attacking every time I talk to you?"
+  "topic": "TALK_RUN_AWAY_MORE_ZOMBIES",
+  "condition": { "u_has_var": "even_more_zombies", "value": "yes", "type": "trigger", "context": "learning_experience" },
+  "effect": [
+    { "mapgen_update": [ "even_more_zombies", "more zombies" ], "origin_npc": true },
+    { "mapgen_update": "more zombies", "origin_npc": true, "offset_x": 1 },
+    { "mapgen_update": "more zombies", "origin_npc": true, "offset_x": -1 },
+    { "mapgen_update": "more zombies", "origin_npc": true, "offset_y": 1 },
+    { "mapgen_update": "more zombies", "origin_npc": true, "offset_y": -1 }
+  ]
 }
 ```
