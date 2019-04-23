@@ -3750,6 +3750,9 @@ std::set<matec_id> item::get_techniques() const
 
 bool item::goes_bad() const
 {
+    if( has_flag( "SMOKING" ) ) {
+        return false;
+    }
     if( is_corpse() ) {
         // Corpses rot only if they are made of rotting materials
         std::vector<std::string> rotting_materials = {"Insect Flesh", "Human Flesh", "Flesh", "Bone"};
@@ -3905,7 +3908,7 @@ void item::calc_rot( time_point time )
         return;
     }
 
-    if( item_tags.count( "FROZEN" ) || has_flag( "SMOKING" ) ) {
+    if( item_tags.count( "FROZEN" ) ) {
         return;
     }
 
