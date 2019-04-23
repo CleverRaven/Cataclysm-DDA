@@ -7032,7 +7032,6 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
         insulation *= 1.5; // clothing provides inventory some level of insulation
     }
 
-
     // process temperature and rot at most once every 100_turns (10 min)
     // If the item has had its temperature/rot set the two can be out of sync
     // Rot happens slower than temperature changes so for most part last_temp_check dominates
@@ -7050,6 +7049,9 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
             auto local_mod = g->new_game ? 0 : g->m.temperature( local );
             const auto temp_modify = ( !g->new_game ) && ( g->m.ter( local ) == t_rootcellar );
 
+            int enviroment_mod = get_heat_radiation( pos, false );
+            enviroment_mod += get_convection_temperature( pos );
+
             if( carried ) {
                 local_mod += 5; // body heat increases inventory temperature
             }
@@ -7063,7 +7065,7 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
                 w_point weather = wgen.get_weather( pos, time, seed );
 
                 //Use weather if above ground, use map temp if below
-                double env_temperature = ( pos.z >= 0 ? weather.temperature : temp ) + local_mod;
+                double env_temperature = ( pos.z >= 0 ? weather.temperature + enviroment_mod : temp ) + local_mod;
 
                 // If in a root celler: use AVERAGE_ANNUAL_TEMPERATURE
                 // If not: use calculated temperature
@@ -7123,7 +7125,7 @@ void item::calc_temp( const int temp, const float insulation, const time_point &
 
     // If no or only small temperature difference then no need to do math.
     if( std::abs( temperature_difference ) < 0.9 ) {
-        reset_temp_check();
+        last_temp_check = time;
         return;
     }
     const float mass = to_gram( weight() ); // g
@@ -7290,7 +7292,7 @@ void item::calc_temp( const int temp, const float insulation, const time_point &
     temperature = static_cast<int>( 100000 * new_item_temperature + 0.5 );
     specific_energy = static_cast<int>( 100000 * new_specific_energy + 0.5 );
 
-    reset_temp_check();
+    last_temp_check = time;
 }
 
 float item::get_item_thermal_energy()
