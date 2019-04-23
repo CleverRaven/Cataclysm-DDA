@@ -148,7 +148,6 @@ int vehicle::print_part_list( const catacurses::window &win, int y1, const int m
         }
 
         const vehicle_part &vp = parts[ pl [ i ] ];
-        nc_color col_cond = vp.is_broken() ? c_dark_gray : vp.base.damage_color();
 
         std::string partname = vp.name();
 
@@ -180,7 +179,7 @@ int vehicle::print_part_list( const catacurses::window &win, int y1, const int m
         nc_color sym_color = static_cast<int>( i ) == hl ? hilite( c_light_gray ) : c_light_gray;
         mvwprintz( win, y, 1, sym_color, left_sym );
         trim_and_print( win, y, 2, getmaxx( win ) - 4,
-                        static_cast<int>( i ) == hl ? hilite( col_cond ) : col_cond, partname );
+                        static_cast<int>( i ) == hl ? hilite( c_light_gray ) : c_light_gray, partname );
         wprintz( win, sym_color, right_sym );
 
         if( i == 0 && vpart_position( const_cast<vehicle &>( *this ), pl[i] ).is_inside() ) {
