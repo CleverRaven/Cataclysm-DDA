@@ -1286,9 +1286,20 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
                     }
                     const itype *pt_ammo_cur = item::find_type( pt.ammo_current() );
                     auto stack = units::legacy_volume_factor / pt_ammo_cur->stack_size;
-                    right_print( w, y, 1, pt_ammo_cur->color,
-                                 string_format( "%s %s %5.1fL", specials, pt_ammo_cur->nname( 1 ),
+                    int offset = 1;
+                    std::string fmtstring = "%s %s  %5.1fL";
+                    if( pt.damage_percent() >= 0.5 ) {
+                        fmtstring = "%s %s " + leak_marker + "%5.1fL" + leak_marker;
+                        offset = 0;
+                    }
+                    right_print( w, y, offset, pt_ammo_cur->color,
+                                 string_format( fmtstring, specials, pt_ammo_cur->nname( 1 ),
                                                 round_up( to_liter( pt.ammo_remaining() * stack ), 1 ) ) );
+                } else {
+                    if( pt.damage_percent() >= 0.5 ) {
+                        std::string outputstr = leak_marker + "      " + leak_marker;
+                        right_print( w, y, 0, c_light_gray, outputstr );
+                    }
                 }
             };
             opts.emplace_back( "TANK", &pt, action && enable &&
@@ -1296,8 +1307,14 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
         } else if( pt.is_fuel_store() && !( pt.is_battery() || pt.is_reactor() ) && !pt.is_broken() ) {
             auto details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
                 if( pt.ammo_current() != "null" ) {
-                    right_print( w, y, 1, item::find_type( pt.ammo_current() )->color,
-                                 string_format( "%s  %6i", item::nname( pt.ammo_current() ),
+                    int offset = 1;
+                    std::string fmtstring = "%s  %6i";
+                    if( pt.damage_percent() >= 0.5 ) {
+                        fmtstring = "%s  " + leak_marker + "%6i" + leak_marker;
+                        offset = 0;
+                    }
+                    right_print( w, y, offset, item::find_type( pt.ammo_current() )->color,
+                                 string_format( fmtstring, item::nname( pt.ammo_current() ),
                                                 pt.ammo_remaining() ) );
                 }
             };
@@ -1311,8 +1328,14 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
             // always display total battery capacity and percentage charge
             auto details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
                 int pct = ( static_cast<double>( pt.ammo_remaining() ) / pt.ammo_capacity() ) * 100;
-                right_print( w, y, 1, item::find_type( pt.ammo_current() )->color,
-                             string_format( "%i    %3i%%", pt.ammo_capacity(), pct ) );
+                int offset = 1;
+                std::string fmtstring = "%i    %3i%%";
+                if( pt.damage_percent() >= 0.5 ) {
+                    fmtstring = "%i   " + leak_marker + "%3i%%" + leak_marker;
+                    offset = 0;
+                }
+                right_print( w, y, offset, item::find_type( pt.ammo_current() )->color,
+                             string_format( fmtstring, pt.ammo_capacity(), pct ) );
             };
             opts.emplace_back( "BATTERY", &pt, action && enable &&
                                enable( pt ) ? next_hotkey( hotkey ) : '\0', details );
@@ -2220,9 +2243,7 @@ void veh_interact::display_stats() const
     const auto print_part = [&]( const std::string & str, int slot, vehicle_part * pt ) {
         mvwprintz( w_stats, y[slot], x[slot], c_light_gray, str );
         int iw = utf8_width( str ) + 1;
-        return fold_and_print( w_stats, y[slot], x[slot] + iw, w[slot],
-                               pt->is_broken() ? c_dark_gray : pt->base.damage_color(),
-                               pt->name() );
+        return fold_and_print( w_stats, y[slot], x[slot] + iw, w[slot], c_light_gray, pt->name() );
     };
 
     vehicle_part *mostDamagedPart = get_most_damaged_part();
