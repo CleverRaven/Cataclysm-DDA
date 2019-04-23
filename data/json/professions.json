@@ -453,9 +453,7 @@
           "mag_cars",
           "welder"
         ],
-        "entries": [
-          { "item": "goggles_welding", "custom-flags": [ "no_auto_equip" ] }
-        ]
+        "entries": [ { "item": "goggles_welding", "custom-flags": [ "no_auto_equip" ] } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "boy_shorts" ]
