@@ -206,7 +206,7 @@
     "time": 3000,
     "reversible": true,
     "autolearn": true,
-    "qualities": [
+    "qualities": [ { "id": "WRENCH", "level": 2 } ],
       { "id": "WRENCH", "level": 2 }
     ],
     "components": [
