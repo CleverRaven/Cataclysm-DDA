@@ -45,7 +45,7 @@
       { "x": -3, "y": 1, "parts": [ "frame_horizontal", "door_trunk", "roof", "muffler" ] },
       { "x": -3, "y": 2, "parts": [ "frame_horizontal", "halfboard_se" ] },
       { "x": -4, "y": 1, "parts": [ "mounted_spare_tire" ] }
-  ],
+    ],
     "items": [
       { "x": 0, "y": 0, "chance": 16, "items": [ "cig" ] },
       { "x": 0, "y": 0, "chance": 16, "items": [ "lighter" ] },
