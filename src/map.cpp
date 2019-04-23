@@ -6698,7 +6698,9 @@ bool map::has_rotten_away( item &itm, const tripoint &pnt ) const
     } else if( itm.type->container && itm.type->container->seals ) {
         // Items inside rot but do not vanish as the container seals them in.
         for( auto &c : itm.contents ) {
-            c.process_temperature_rot( temp, 1, pnt, nullptr );
+            if( c.goes_bad() ) {
+                c.process_temperature_rot( temp, 1, pnt, nullptr );
+            }
         }
         return false;
     } else {
