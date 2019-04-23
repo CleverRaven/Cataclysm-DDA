@@ -491,5 +491,21 @@
     "looks_like": "spoon",
     "proportional": { "weight": 3, "volume": 2 },
     "copy-from": "base_plastic_silverware"
+  },
+  {
+    "type": "GENERIC",
+    "id": "rolling_pin",
+    "name": "rolling pin",
+    "description": "A stout piece of hardwood, turned and sanded smooth, with rounded handles at the ends.  This timeless kitchen tool also doubles as a very effective club.",
+    "weight": 725,
+    "to_hit": 1,
+    "color": "brown",
+    "symbol": "/",
+    "material": [ "wood" ],
+    "techniques": [ "WBLOCK_1", "RAPID" ],
+    "flags": [ "DURABLE_MELEE" ],
+    "volume": "600 ml",
+    "bashing": 8,
+    "price": 700
   }
 ]
