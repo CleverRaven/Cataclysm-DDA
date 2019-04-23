@@ -3,7 +3,7 @@
     "type": "terrain",
     "id": "t_wall_stick",
     "name": "stick wall",
-    "description": "A cheap wall of planks and sticks with log support beams, capable of supporting an upper level or roof. Dirt and stones hold the wall together. Still flammable, even inside the covering.",
+    "description": "A cheap wall of planks and sticks with a log pillar to keep it together. It is capable of supporting an upper level or roof. Dirt and stones make the wall secure. Somewhat flammable.",
     "symbol": "LINE_OXOX",
     "color": "tan",
     "move_cost": 0,

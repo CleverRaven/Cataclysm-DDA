@@ -102,5 +102,20 @@
         "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
         "pre_terrain": "t_pit_shallow",
         "post_terrain": "t_pit"
+  },{
+        "type": "construction",
+        "description": "Makeshift Wall",
+        "category": "DIG",
+        "required_skills": [ [ "survival", 2 ] ],
+        "time": 30,
+        "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+        "components" : [
+            [ [ "stick", 6 ], [ "2x4", 3 ] ],
+            [ [ "rock", 2 ], [ "pebble", 7 ] ],
+            [ [ "withered", 6 ], [ "withered_bundle", 2 ] ]
+            
+        ],
+        "pre_terrain": "t_pit_shallow",
+        "post_terrain": "t_wall_stick"
   }
 ]
