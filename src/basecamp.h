@@ -2,6 +2,7 @@
 #ifndef BASECAMP_H
 #define BASECAMP_H
 
+#include <stddef.h>
 #include <memory>
 #include <vector>
 #include <map>
@@ -13,11 +14,13 @@ class JsonIn;
 class JsonOut;
 class npc;
 class time_duration;
+
 enum class farm_ops;
 class item;
 class recipe;
 class inventory;
 class mission_data;
+
 struct expansion_data {
     std::string type;
     int cur_level;

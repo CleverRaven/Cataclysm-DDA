@@ -348,5 +348,18 @@
       [ "elec_jackhammer", 50 ],
       [ "circsaw_off", 10 ]
     ]
+  },
+  {
+    "id": "tools_tree_cutting",
+    "type": "item_group",
+    "//": "Axes and saws.",
+    "items": [
+      [ "ax", 100 ],
+      [ "chainsaw_off", 80 ],
+      [ "saw", 100 ],
+      [ "circsaw_off", 50 ],
+      [ "circsaw_blade", 10 ],
+      [ "elec_chainsaw_off", 35 ]
+    ]
   }
 ]

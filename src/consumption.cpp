@@ -1,7 +1,12 @@
 #include "player.h" // IWYU pragma: associated
 
+#include <stdlib.h>
 #include <algorithm>
 #include <string>
+#include <limits>
+#include <sstream>
+#include <tuple>
+#include <cmath>
 
 #include "addiction.h"
 #include "calendar.h" // ticks_between
@@ -17,7 +22,6 @@
 #include "morale_types.h"
 #include "mutation.h"
 #include "options.h"
-#include "output.h"
 #include "stomach.h"
 #include "string_formatter.h"
 #include "translations.h"
@@ -25,7 +29,7 @@
 #include "vitamin.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-#include "vpart_reference.h"
+#include "rng.h"
 
 namespace
 {

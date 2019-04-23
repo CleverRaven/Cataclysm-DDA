@@ -1,14 +1,16 @@
 #include "npctalk.h" // IWYU pragma: associated
 
+#include <stddef.h>
 #include <algorithm>
 #include <string>
 #include <vector>
+#include <memory>
+#include <set>
 
 #include "basecamp.h"
 #include "bionics.h"
 #include "debug.h"
 #include "game.h"
-#include "itype.h"
 #include "line.h"
 #include "map.h"
 #include "messages.h"
@@ -17,14 +19,27 @@
 #include "npc.h"
 #include "npctrade.h"
 #include "output.h"
-#include "overmap.h"
 #include "overmapbuffer.h"
 #include "requirements.h"
 #include "rng.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "ui.h"
-#include "units.h"
+#include "auto_pickup.h"
+#include "bodypart.h"
+#include "calendar.h"
+#include "enums.h"
+#include "faction.h"
+#include "game_constants.h"
+#include "item.h"
+#include "item_location.h"
+#include "optional.h"
+#include "pimpl.h"
+#include "player.h"
+#include "player_activity.h"
+#include "pldata.h"
+#include "itype.h"
+#include "mtype.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x), D_NPC) << __FILE__ << ":" << __LINE__ << ": "
 

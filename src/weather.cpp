@@ -4,6 +4,10 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <algorithm>
+#include <array>
+#include <list>
+#include <memory>
 
 #include "calendar.h"
 #include "cata_utility.h"
@@ -14,7 +18,6 @@
 #include "map.h"
 #include "messages.h"
 #include "options.h"
-#include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "player.h"
@@ -23,6 +26,17 @@
 #include "translations.h"
 #include "trap.h"
 #include "weather_gen.h"
+#include "bodypart.h"
+#include "enums.h"
+#include "item.h"
+#include "itype.h"
+#include "mapdata.h"
+#include "math_defines.h"
+#include "pldata.h"
+#include "rng.h"
+#include "string_id.h"
+#include "units.h"
+#include "mtype.h"
 
 const efftype_id effect_glare( "glare" );
 const efftype_id effect_snow_glare( "snow_glare" );

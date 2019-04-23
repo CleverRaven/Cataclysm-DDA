@@ -1,11 +1,17 @@
 #if defined(TILES)
 #include "cata_tiles.h"
 
+#include <math.h>
+#include <stdint.h>
 #include <algorithm>
 #include <array>
 #include <cassert>
 #include <cstdlib>
 #include <fstream>
+#include <bitset>
+#include <iterator>
+#include <stdexcept>
+#include <tuple>
 
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -15,7 +21,6 @@
 #include "debug.h"
 #include "field.h"
 #include "game.h"
-#include "input.h"
 #include "item.h"
 #include "item_factory.h"
 #include "itype.h"
@@ -43,6 +48,18 @@
 #include "vpart_reference.h"
 #include "weather.h"
 #include "weighted_list.h"
+#include "calendar.h"
+#include "character.h"
+#include "color.h"
+#include "creature.h"
+#include "cursesdef.h"
+#include "int_id.h"
+#include "map_memory.h"
+#include "math_defines.h"
+#include "optional.h"
+#include "string_id.h"
+#include "tileray.h"
+#include "translations.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -167,6 +184,7 @@ cata_tiles::cata_tiles( const SDL_Renderer_Ptr &r ) : renderer( r )
     do_draw_hit = false;
     do_draw_line = false;
     do_draw_cursor = false;
+    do_draw_highlight = false;
     do_draw_weather = false;
     do_draw_sct = false;
     do_draw_zones = false;
@@ -1195,8 +1213,8 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
 
     in_animation = do_draw_explosion || do_draw_custom_explosion ||
                    do_draw_bullet || do_draw_hit || do_draw_line ||
-                   do_draw_cursor || do_draw_weather || do_draw_sct ||
-                   do_draw_zones;
+                   do_draw_cursor || do_draw_highlight || do_draw_weather ||
+                   do_draw_sct || do_draw_zones;
 
     draw_footsteps_frame();
     if( in_animation ) {
@@ -1232,6 +1250,10 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
         if( do_draw_cursor ) {
             draw_cursor();
             void_cursor();
+        }
+        if( do_draw_highlight ) {
+            draw_highlight();
+            void_highlight();
         }
     } else if( g->u.view_offset != tripoint_zero && !g->u.in_vehicle ) {
         // check to see if player is located at ter
@@ -2386,9 +2408,6 @@ bool cata_tiles::draw_furniture( const tripoint &p, lit_level ll, int &height_3d
 
     bool ret = draw_from_id_string( f_name, C_FURNITURE, empty_string, p, subtile, rotation, ll,
                                     nv_goggles_activated, height_3d );
-    if( ret && g->m.sees_some_items( p, g->u ) ) {
-        draw_item_highlight( p );
-    }
     return ret;
 }
 
@@ -2799,6 +2818,11 @@ void cata_tiles::init_draw_cursor( const tripoint &p )
     do_draw_cursor = true;
     cursors.emplace_back( p );
 }
+void cata_tiles::init_draw_highlight( const tripoint &p )
+{
+    do_draw_highlight = true;
+    highlights.emplace_back( p );
+}
 void cata_tiles::init_draw_weather( weather_printable weather, std::string name )
 {
     do_draw_weather = true;
@@ -2853,6 +2877,11 @@ void cata_tiles::void_cursor()
 {
     do_draw_cursor = false;
     cursors.clear();
+}
+void cata_tiles::void_highlight()
+{
+    do_draw_highlight = false;
+    highlights.clear();
 }
 void cata_tiles::void_weather()
 {
@@ -3006,6 +3035,12 @@ void cata_tiles::draw_cursor()
 {
     for( const tripoint &p : cursors ) {
         draw_from_id_string( "cursor", p, 0, 0, LL_LIT, false );
+    }
+}
+void cata_tiles::draw_highlight()
+{
+    for( const tripoint &p : highlights ) {
+        draw_from_id_string( "highlight", p, 0, 0, LL_LIT, false );
     }
 }
 void cata_tiles::draw_weather_frame()

@@ -1,21 +1,26 @@
 #include "cata_utility.h"
 
+#include <ctype.h>
+#include <stdio.h>
 #include <algorithm>
 #include <cmath>
-#include <locale>
 #include <string>
+#include <exception>
+#include <iterator>
+#include <memory>
+#include <sstream>
+#include <stdexcept>
 
 #include "debug.h"
-#include "enums.h"
 #include "filesystem.h"
 #include "json.h"
 #include "mapsharing.h"
-#include "material.h"
 #include "options.h"
 #include "output.h"
 #include "rng.h"
 #include "translations.h"
 #include "units.h"
+#include "catacharset.h"
 
 static double pow10( unsigned int n )
 {

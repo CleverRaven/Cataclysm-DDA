@@ -2,9 +2,21 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+#include <limits.h>
+#include <stddef.h>
 #include <array>
 #include <memory>
 #include <unordered_set>
+#include <functional>
+#include <iosfwd>
+#include <list>
+#include <map>
+#include <set>
+#include <string>
+#include <type_traits>
+#include <unordered_map>
+#include <utility>
+#include <vector>
 
 #include "calendar.h"
 #include "cata_utility.h"
@@ -13,21 +25,36 @@
 #include "game_constants.h"
 #include "item.h"
 #include "map_memory.h"
-#include "mapdata.h"
-#include "messages.h"
 #include "optional.h"
 #include "pimpl.h"
 #include "player_activity.h"
 #include "ret_val.h"
 #include "weighted_list.h"
 #include "stomach.h"
+#include "bodypart.h"
+#include "color.h"
+#include "creature.h"
+#include "cursesdef.h"
+#include "enums.h"
+#include "inventory.h"
+#include "item_location.h"
+#include "itype.h"
+#include "pldata.h"
+#include "string_id.h"
+
+class effect;
+class map;
+class npc;
+struct pathfinding_settings;
 
 static const std::string DEFAULT_HOTKEYS( "1234567890abcdefghijklmnopqrstuvwxyz" );
 
 class ammunition_type;
+
 using ammotype = string_id<ammunition_type>;
 class craft_command;
 class recipe_subset;
+
 enum action_id : int;
 struct bionic;
 class JsonObject;
@@ -35,31 +62,34 @@ class JsonIn;
 class JsonOut;
 struct dealt_projectile_attack;
 class dispersion_sources;
-class monster;
-class game;
+
 using itype_id = std::string;
 struct trap;
 class mission;
 class profession;
+
 nc_color encumb_color( int level );
 enum game_message_type : int;
 class ma_technique;
 class martialart;
 class recipe;
+
 using recipe_id = string_id<recipe>;
-struct component;
 struct item_comp;
 struct tool_comp;
 template<typename CompType> struct comp_selection;
 class vehicle;
 class vitamin;
+
 using vitamin_id = string_id<vitamin>;
 class start_location;
+
 using start_location_id = string_id<start_location>;
 struct w_point;
 struct points_left;
 struct targeting_data;
 class morale_type_data;
+
 using morale_type = string_id<morale_type_data>;
 
 namespace debug_menu
@@ -860,6 +890,7 @@ class player : public Character
         stomach_contents stomach;
         stomach_contents guts;
 
+        std::pair<std::string, nc_color> get_hunger_description() const override;
         void initialize_stomach_contents();
 
         /** Get vitamin contents for a comestible */
@@ -1889,6 +1920,9 @@ class player : public Character
 
         /** Stamp of skills. @ref learned_recipes are valid only with this set of skills. */
         mutable decltype( _skills ) valid_autolearn_skills;
+
+        /** Amount of time the player has spent in each overmap tile. */
+        std::unordered_map<point, time_duration> overmap_time;
 
         map_memory player_map_memory;
         bool show_map_memory;

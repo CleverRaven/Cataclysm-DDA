@@ -4,10 +4,13 @@
 #include <memory>
 #include <unordered_map>
 #include <numeric>
+#include <istream>
+#include <iterator>
+#include <list>
+#include <utility>
 
 #include "debug.h"
 #include "game.h"
-#include "io.h"
 #include "line.h"
 #include "npc.h"
 #include "npc_class.h"
@@ -18,6 +21,12 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "item_group.h"
+#include "creature.h"
+#include "inventory.h"
+#include "item.h"
+#include "json.h"
+#include "monster.h"
+#include "player.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 

@@ -1,8 +1,11 @@
+#include <set>
+
 #include "catch/catch.hpp"
 #include "calendar.h"
 #include "itype.h"
 #include "item.h"
 #include "map.h"
+#include "optional.h"
 
 bool is_nearly( float value, float expected )
 {

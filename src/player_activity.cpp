@@ -1,10 +1,10 @@
 #include "player_activity.h"
 
 #include <algorithm>
+#include <iterator>
 
 #include "activity_handlers.h"
 #include "activity_type.h"
-#include "craft_command.h"
 #include "player.h"
 
 player_activity::player_activity() : type( activity_id::NULL_ID() ) { }

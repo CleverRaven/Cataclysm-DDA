@@ -3,12 +3,14 @@
 #include <sstream>
 #include <string>
 #include <utility>
+#include <algorithm>
+#include <type_traits>
 
 #include "character.h"
 #include "damage.h"
 #include "json.h"
-#include "output.h"
 #include "translations.h"
+#include "string_formatter.h"
 
 bool needs_damage_type( affected_stat as )
 {

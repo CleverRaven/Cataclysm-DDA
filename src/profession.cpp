@@ -3,6 +3,8 @@
 #include <cmath>
 #include <iterator>
 #include <map>
+#include <algorithm>
+#include <memory>
 
 #include "addiction.h"
 #include "debug.h"
@@ -14,6 +16,9 @@
 #include "pldata.h"
 #include "text_snippets.h"
 #include "translations.h"
+#include "calendar.h"
+#include "item.h"
+#include "creature.h"
 
 namespace
 {

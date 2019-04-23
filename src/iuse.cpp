@@ -1,19 +1,25 @@
 #include "iuse.h"
 
+#include <limits.h>
 #include <algorithm>
 #include <cmath>
 #include <cstdlib>
 #include <set>
 #include <sstream>
-#include <stdexcept>
 #include <vector>
+#include <array>
+#include <exception>
+#include <functional>
+#include <iterator>
+#include <limits>
+#include <list>
+#include <map>
+#include <utility>
 
 #include "action.h"
 #include "artifact.h"
 #include "calendar.h"
 #include "cata_utility.h"
-#include "coordinate_conversions.h"
-#include "crafting.h"
 #include "debug.h"
 #include "effect.h" // for weed_msg
 #include "event.h"
@@ -21,7 +27,6 @@
 #include "fungal_effects.h"
 #include "game.h"
 #include "game_inventory.h"
-#include "iexamine.h"
 #include "inventory.h"
 #include "iuse_actor.h" // For firestarter
 #include "json.h"
@@ -53,12 +58,36 @@
 #include "translations.h"
 #include "trap.h"
 #include "ui.h"
-#include "uistate.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "veh_type.h"
 #include "weather.h"
+#include "bodypart.h"
+#include "character.h"
+#include "color.h"
+#include "creature.h"
+#include "damage.h"
+#include "enums.h"
+#include "game_constants.h"
+#include "int_id.h"
+#include "inventory_ui.h"
+#include "item.h"
+#include "item_location.h"
+#include "itype.h"
+#include "monster.h"
+#include "omdata.h"
+#include "optional.h"
+#include "pimpl.h"
+#include "player_activity.h"
+#include "pldata.h"
+#include "recipe.h"
+#include "ret_val.h"
+#include "stomach.h"
+#include "string_id.h"
+#include "vpart_reference.h"
+#include "weather_gen.h"
+#include "material.h"
 
 #define RADIO_PER_TURN 25 // how many characters per turn of radio
 
@@ -3696,7 +3725,7 @@ int iuse::pheromone( player *p, item *it, bool, const tripoint &pos )
         if( critter.type->in_species( ZOMBIE ) && critter.friendly == 0 &&
             rng( 0, 500 ) > critter.get_hp() ) {
             converts++;
-            critter.make_friendly();
+            critter.anger = 0;
         }
     }
 
@@ -3704,9 +3733,9 @@ int iuse::pheromone( player *p, item *it, bool, const tripoint &pos )
         if( converts == 0 ) {
             add_msg( _( "...but nothing happens." ) );
         } else if( converts == 1 ) {
-            add_msg( m_good, _( "...and a nearby zombie turns friendly!" ) );
+            add_msg( m_good, _( "...and a nearby zombie becomes passive!" ) );
         } else {
-            add_msg( m_good, _( "...and several nearby zombies turn friendly!" ) );
+            add_msg( m_good, _( "...and several nearby zombies become passive!" ) );
         }
     }
     return it->type->charges_to_use();

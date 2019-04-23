@@ -7,14 +7,18 @@
 #include <unordered_set>
 #include <utility>
 #include <vector>
+#include <functional>
+#include <memory>
+#include <string>
 
 #include "enums.h"
-#include "item.h"
 #include "optional.h"
 #include "string_id.h"
 
 class JsonIn;
 class JsonOut;
+class JsonObject;
+class item;
 
 class zone_type
 {

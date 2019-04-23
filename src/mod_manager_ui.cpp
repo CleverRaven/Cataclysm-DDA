@@ -1,12 +1,15 @@
 #include "mod_manager.h" // IWYU pragma: associated
 
 #include <algorithm>
+#include <exception>
+#include <sstream>
 
 #include "debug.h"
 #include "dependency_tree.h"
 #include "output.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "game.h"
 
 mod_ui::mod_ui( mod_manager &mman )
     : active_manager( mman )

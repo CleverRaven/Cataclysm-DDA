@@ -1,6 +1,12 @@
 #include "game.h" // IWYU pragma: associated
 
+#include <stdlib.h>
+#include <math.h>
 #include <chrono>
+#include <iterator>
+#include <set>
+#include <sstream>
+#include <utility>
 
 #include "action.h"
 #include "advanced_inv.h"
@@ -44,6 +50,18 @@
 #include "vpart_reference.h"
 #include "weather.h"
 #include "worldfactory.h"
+#include "bodypart.h"
+#include "character.h"
+#include "color.h"
+#include "damage.h"
+#include "lightmap.h"
+#include "line.h"
+#include "player_activity.h"
+#include "rng.h"
+#include "string_formatter.h"
+#include "translations.h"
+#include "ui.h"
+#include "units.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -1563,7 +1581,13 @@ bool game::handle_action()
                 break;
 
             case ACTION_PICKUP:
-                Pickup::pick_up( u.pos(), 1 );
+                if( u.has_active_mutation( trait_SHELL2 ) ) {
+                    add_msg( m_info, _( "You can't pick anything up while you're in your shell." ) );
+                } else if( mouse_target ) {
+                    pickup( *mouse_target );
+                } else {
+                    pickup();
+                }
                 break;
 
             case ACTION_GRAB:

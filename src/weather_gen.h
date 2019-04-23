@@ -2,11 +2,13 @@
 #ifndef WEATHER_GEN_H
 #define WEATHER_GEN_H
 
+#include <string>
+
 #include "calendar.h"
-struct point;
+
 struct tripoint;
-class time_point;
 class JsonObject;
+
 enum weather_type : int;
 
 struct w_point {

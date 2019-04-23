@@ -6,15 +6,22 @@
 
 #include "calendar.h"
 #include "game_constants.h"
-#include "generic_factory.h"
 #include "item.h"
 #include "itype.h"
 #include "output.h"
 #include "skill.h"
 #include "uistate.h"
 #include "string_formatter.h"
+#include "assign.h"
+#include "cata_utility.h"
+#include "character.h"
+#include "json.h"
+#include "optional.h"
+#include "player.h"
+#include "translations.h"
 
 struct oter_t;
+
 using oter_str_id = string_id<oter_t>;
 
 recipe::recipe() : skill_used( skill_id::NULL_ID() ) {}

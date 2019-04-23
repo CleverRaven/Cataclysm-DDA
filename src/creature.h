@@ -7,6 +7,8 @@
 #include <set>
 #include <unordered_map>
 #include <vector>
+#include <string>
+#include <utility>
 
 #include "bodypart.h"
 #include "pimpl.h"
@@ -18,19 +20,19 @@ enum game_message_type : int;
 class nc_color;
 class effect;
 class effects_map;
+
 namespace catacurses
 {
 class window;
 } // namespace catacurses
 class field;
 class field_entry;
-class game;
 class JsonObject;
 class JsonOut;
 struct tripoint;
-struct point;
 class time_duration;
 class material_type;
+
 enum damage_type : int;
 enum field_id : int;
 enum m_flag : int;
@@ -40,14 +42,16 @@ struct damage_unit;
 struct dealt_damage_instance;
 struct dealt_projectile_attack;
 struct pathfinding_settings;
-struct projectile;
 struct trap;
 class effect_type;
+
 using efftype_id = string_id<effect_type>;
 using material_id = string_id<material_type>;
 struct mutation_branch;
+
 using trait_id = string_id<mutation_branch>;
 class ma_technique;
+
 using matec_id = string_id<ma_technique>;
 
 enum m_size : int {

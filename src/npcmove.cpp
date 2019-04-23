@@ -1,9 +1,14 @@
 #include "npc.h" // IWYU pragma: associated
 
+#include <limits.h>
+#include <stdlib.h>
 #include <algorithm>
 #include <memory>
 #include <numeric>
 #include <sstream>
+#include <iterator>
+#include <tuple>
+#include <cmath>
 
 #include "ammo.h"
 #include "cata_algo.h"
@@ -24,7 +29,6 @@
 #include "monster.h"
 #include "mtype.h"
 #include "npctalk.h"
-#include "output.h"
 #include "overmap_location.h"
 #include "overmapbuffer.h"
 #include "projectile.h"
@@ -38,6 +42,18 @@
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "vpart_reference.h"
+#include "bodypart.h"
+#include "character.h"
+#include "clzones.h"
+#include "damage.h"
+#include "explosion.h"
+#include "game_constants.h"
+#include "item.h"
+#include "iuse.h"
+#include "mapdata.h"
+#include "player_activity.h"
+#include "ret_val.h"
+#include "units.h"
 
 static constexpr float NPC_DANGER_VERY_LOW = 5.0f;
 static constexpr float NPC_DANGER_MAX = 150.0f;
