@@ -724,7 +724,7 @@
   },
   {
     "type": "construction",
-    "description": "Build Sandbag Wall",
+    "description": "Build Earthbag Wall",
     "//": "Step 1: Build earthbag barricade",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 0 ] ],
@@ -736,7 +736,7 @@
   },
   {
     "type": "construction",
-    "description": "Build Sandbag Wall",
+    "description": "Build Earthbag Wall",
     "//": "Step 2: Finish the earthbag wall",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 0 ] ],
