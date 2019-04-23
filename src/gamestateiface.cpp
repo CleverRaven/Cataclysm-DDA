@@ -49,29 +49,6 @@ bool gsi::update_turn()
     is_self_aware = g->u.has_trait((trait_id)"SELFAWARE");
     
     update_needs();
-
-    static std::array<body_part, 6> part = { {
-            bp_head, bp_torso, bp_arm_l, bp_arm_r, bp_leg_l, bp_leg_r
-        }
-    };
-    std::array<nc_color, num_hp_parts> bp_status = { c_black, c_black, c_black, c_black, c_black, c_black };
-    std::array<float, num_hp_parts> splints = { 0, 0, 0, 0, 0, 0 };
-    for (int i = 0; i < part.size(); i++)
-    {
-        bp_status[i] = g->u.limb_color(part[i], true, true, true);
-    }
-
-    for (int i = 0; i < part.size(); i++)
-    {
-        if (!(g->u.worn_with_flag("SPLINT", part[i])))
-            splints[i] = -1;
-        else
-        {
-            static const efftype_id effect_mending("mending");
-            const auto &eff = g->u.get_effect(effect_mending, part[i]);
-            splints[i] = eff.is_null() ? 0.0 : 100 * eff.get_duration() / eff.get_max_duration();
-        }
-    }
     update_body();
     update_temp();
     update_invlets();
@@ -148,10 +125,13 @@ bool gsi::update_input(std::vector<std::string> registered_actions, std::string 
         }
     }
     );
-    bound_actions = _bound_actions;
-    bound_keys = _bound_keys;
-    ctxt = category;
-    return true;
+    if (bound_actions != _bound_actions || bound_keys != _bound_keys || ctxt == category)
+    {
+        bound_actions = _bound_actions;
+        bound_keys = _bound_keys;
+        ctxt = category;
+        return true;
+    }
 #endif
     return false;
 }
