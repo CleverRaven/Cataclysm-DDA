@@ -376,8 +376,8 @@ void character_edit_menu()
                     p.set_stored_kcal( p.get_healthy_kcal() );
                     break;
                 default:
-                    if( smenu.ret >= 5 && smenu.ret < static_cast<int>( vits.size() + 5 ) ) {
-                        auto iter = std::next( vits.begin(), smenu.ret - 5 );
+                    if( smenu.ret >= 6 && smenu.ret < static_cast<int>( vits.size() + 6 ) ) {
+                        auto iter = std::next( vits.begin(), smenu.ret - 6 );
                         if( query_int( value, _( "Set %s to? Currently: %d" ),
                                        iter->second.name(), p.vitamin_get( iter->first ) ) ) {
                             p.vitamin_set( iter->first, value );
