@@ -258,28 +258,27 @@ bool is_valid_in_w_terrain( int x, int y )
 game::game() :
     liveview( *liveview_ptr ),
     scent_ptr( *this ),
-    new_game( false ),
-    uquit( QUIT_NO ),
     m( *map_ptr ),
     u( *u_ptr ),
     scent( *scent_ptr ),
     events( *event_manager_ptr ),
-    weather( WEATHER_CLEAR ),
+    uquit( QUIT_NO ),
+    new_game( false ),
     lightning_active( false ),
-    u_shared_ptr( &u, null_deleter{} ),
+    weather( WEATHER_CLEAR ),
+    displaying_scent( false ),
     pixel_minimap_option( 0 ),
     safe_mode( SAFE_MODE_ON ),
-    safe_mode_warning_logged( false ),
+    weather_override( WEATHER_NULL ),
+    u_shared_ptr( &u, null_deleter{} ),
     mostseen( 0 ),
+    safe_mode_warning_logged( false ),
     nextweather( calendar::before_time_starts ),
     next_npc_id( 1 ),
     next_mission_id( 1 ),
     remoteveh_cache_time( calendar::before_time_starts ),
     user_action_counter( 0 ),
-    tileset_zoom( DEFAULT_TILESET_ZOOM ),
-    weather_override( WEATHER_NULL ),
-    displaying_scent( false )
-
+    tileset_zoom( DEFAULT_TILESET_ZOOM )
 {
     temperature = 0;
     player_was_sleeping = false;
