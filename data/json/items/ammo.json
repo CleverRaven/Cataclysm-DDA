@@ -9,6 +9,7 @@
     "symbol": "=",
     "color": "yellow",
     "description": "Using an onboard screen, you can see how many kilojoules of energy are in the battery.",
+    "flags": "TRADER_AVOID",
     "material": "iron",
     "volume": 0,
     "weight": 0,
