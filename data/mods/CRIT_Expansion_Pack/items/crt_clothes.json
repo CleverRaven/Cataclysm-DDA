@@ -146,7 +146,7 @@
     "coverage": 50,
     "encumbrance": 10,
     "warmth": 15,
-    "material_thickness": 3,
+    "material_thickness": 1,
     "environmental_protection": 1,
     "flags": [ "FANCY", "VARSIZE", "RAINPROOF", "WATERPROOF" ]
   }
