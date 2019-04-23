@@ -2408,9 +2408,6 @@ bool cata_tiles::draw_furniture( const tripoint &p, lit_level ll, int &height_3d
 
     bool ret = draw_from_id_string( f_name, C_FURNITURE, empty_string, p, subtile, rotation, ll,
                                     nv_goggles_activated, height_3d );
-    if( ret && g->m.sees_some_items( p, g->u ) ) {
-        draw_item_highlight( p );
-    }
     return ret;
 }
 
