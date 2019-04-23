@@ -1,13 +1,17 @@
 #include "player_helpers.h"
 
 #include <list>
+#include <memory>
+#include <vector>
 
 #include "enums.h"
 #include "game.h"
 #include "item.h"
 #include "itype.h"
-#include "map.h"
 #include "player.h"
+#include "inventory.h"
+#include "player_activity.h"
+#include "pldata.h"
 
 int get_remaining_charges( const std::string &tool_id )
 {
@@ -50,7 +54,11 @@ void clear_player()
         dummy.set_mutation( trait_id( "DEBUG_STORAGE" ) );
     }
 
+    dummy.clear_morale();
+
     dummy.clear_bionics();
+
+    dummy.activity.set_to_null();
 
     // Make stats nominal.
     dummy.str_cur = 8;
@@ -60,4 +68,14 @@ void clear_player()
 
     const tripoint spot( 60, 60, 0 );
     dummy.setpos( spot );
+}
+
+void process_activity( player &dummy )
+{
+    do {
+        dummy.moves += dummy.get_speed();
+        while( dummy.moves > 0 && dummy.activity ) {
+            dummy.activity.do_turn( dummy );
+        }
+    } while( dummy.activity );
 }

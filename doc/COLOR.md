@@ -23,6 +23,8 @@ Whenever color is defined in JSON it should be defined in following format: `Pre
 
 `Background` - defines optional color of background/paper.
 
+**Note:** Not all foreground + background pairs are defined by their full name. Use in-game Color manager to see all color names.
+
 **Note:** If color was not found by its name, then `c_unset` is used for `Foreground` and `i_white` for `Background`.
 
 ## Examples of color strings

@@ -9,8 +9,20 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include <iosfwd>
+#include <set>
+#include <utility>
 
 #include "itype.h"
+#include "item.h"
+#include "item_category.h"
+#include "item_group.h"
+#include "iuse.h"
+
+namespace cata
+{
+template <typename T> class optional;
+}  // namespace cata
 
 bool item_is_blacklisted( const std::string &id );
 
@@ -18,10 +30,6 @@ typedef std::string Item_tag;
 typedef std::string Group_tag;
 typedef std::vector<item> Item_list;
 
-class Item_spawn_data;
-class Item_group;
-class item;
-class item_category;
 class Item_factory;
 class JsonObject;
 class JsonArray;
@@ -62,13 +70,6 @@ class Item_factory
          * This should be called once after all json data has been loaded.
          */
         void check_definitions() const;
-        /**
-         * Registers a LUA based iuse function.
-         * @param name The name that is used in the json data to refer to the LUA function.
-         * It is stored in @ref iuse_function_list
-         * @param lua_function The LUA id of the LUA function.
-         */
-        void register_iuse_lua( const std::string &name, int lua_function );
 
         /**
          * @name Item groups
@@ -123,19 +124,17 @@ class Item_factory
         Item_spawn_data *get_group( const Group_tag &id );
         /**
          * Returns the idents of all item groups that are known.
-         * This is meant to be accessed at startup by lua to do mod-related modifications of groups.
          */
         std::vector<Group_tag> get_all_group_names();
         /**
          * Sets the chance of the specified item in the group.
-         * This is meant to be accessed at startup by lua to do mod-related modifications of groups.
          * @param group_id Group to add item to
          * @param item_id Id of item to add to group
          * @param weight The relative weight of the item. A value of 0 removes the item from the
          * group.
          * @return false if the group doesn't exist.
          */
-        bool add_item_to_group( const Group_tag group_id, const Item_tag item_id, int weight );
+        bool add_item_to_group( const Group_tag &group_id, const Item_tag &item_id, int weight );
         /*@}*/
 
         /**
@@ -150,6 +149,7 @@ class Item_factory
         void load_ammo( JsonObject &jo, const std::string &src );
         void load_gun( JsonObject &jo, const std::string &src );
         void load_armor( JsonObject &jo, const std::string &src );
+        void load_pet_armor( JsonObject &jo, const std::string &src );
         void load_tool( JsonObject &jo, const std::string &src );
         void load_toolmod( JsonObject &jo, const std::string &src );
         void load_tool_armor( JsonObject &jo, const std::string &src );
@@ -290,6 +290,7 @@ class Item_factory
         void load( islot_comestible &slot, JsonObject &jo, const std::string &src );
         void load( islot_brewable &slot, JsonObject &jo, const std::string &src );
         void load( islot_armor &slot, JsonObject &jo, const std::string &src );
+        void load( islot_pet_armor &slot, JsonObject &jo, const std::string &src );
         void load( islot_book &slot, JsonObject &jo, const std::string &src );
         void load( islot_mod &slot, JsonObject &jo, const std::string &src );
         void load( islot_engine &slot, JsonObject &jo, const std::string &src );

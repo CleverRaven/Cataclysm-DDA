@@ -1,8 +1,18 @@
 #include "debug_menu.h"
 
+#include <stddef.h>
 #include <algorithm>
 #include <chrono>
 #include <vector>
+#include <array>
+#include <iterator>
+#include <list>
+#include <map>
+#include <memory>
+#include <sstream>
+#include <string>
+#include <type_traits>
+#include <utility>
 
 #include "action.h"
 #include "coordinate_conversions.h"
@@ -22,6 +32,18 @@
 #include "string_input_popup.h"
 #include "ui.h"
 #include "vitamin.h"
+#include "color.h"
+#include "debug.h"
+#include "enums.h"
+#include "faction.h"
+#include "game_constants.h"
+#include "int_id.h"
+#include "inventory.h"
+#include "item.h"
+#include "omdata.h"
+#include "optional.h"
+#include "pldata.h"
+#include "translations.h"
 
 namespace debug_menu
 {
@@ -105,11 +127,12 @@ void character_edit_menu()
         std::stringstream data;
         data << np->name << " " << ( np->male ? _( "Male" ) : _( "Female" ) ) << std::endl;
         data << np->myclass.obj().get_name() << "; " <<
-             npc_attitude_name( np->get_attitude() ) << std::endl;
+             npc_attitude_name( np->get_attitude() ) << "; " <<
+             ( np->my_fac ? np->my_fac->name : _( "no faction" ) ) << std::endl;
         if( np->has_destination() ) {
             data << string_format( _( "Destination: %d:%d:%d (%s)" ),
                                    np->goal.x, np->goal.y, np->goal.z,
-                                   overmap_buffer.ter( np->goal )->get_name().c_str() ) << std::endl;
+                                   overmap_buffer.ter( np->goal )->get_name() ) << std::endl;
         } else {
             data << _( "No destination." ) << std::endl;
         }
@@ -119,10 +142,11 @@ void character_edit_menu()
              << string_format( _( "Anger: %d" ), np->op_of_u.anger ) << " "
              << string_format( _( "Owed: %d" ), np->op_of_u.owed ) << std::endl;
 
-        data << string_format( _( "Aggression: %d" ), int( np->personality.aggression ) ) << " "
-             << string_format( _( "Bravery: %d" ), int( np->personality.bravery ) ) << " "
-             << string_format( _( "Collector: %d" ), int( np->personality.collector ) ) << " "
-             << string_format( _( "Altruism: %d" ), int( np->personality.altruism ) ) << std::endl;
+        data << string_format( _( "Aggression: %d" ),
+                               static_cast<int>( np->personality.aggression ) ) << " "
+             << string_format( _( "Bravery: %d" ), static_cast<int>( np->personality.bravery ) ) << " "
+             << string_format( _( "Collector: %d" ), static_cast<int>( np->personality.collector ) ) << " "
+             << string_format( _( "Altruism: %d" ), static_cast<int>( np->personality.altruism ) ) << std::endl;
 
         data << _( "Needs:" ) << std::endl;
         for( const auto &need : np->needs ) {
@@ -137,7 +161,7 @@ void character_edit_menu()
 
     enum { D_NAME, D_SKILLS, D_STATS, D_ITEMS, D_DELETE_ITEMS, D_ITEM_WORN,
            D_HP, D_MORALE, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION_ADD, D_MISSION_EDIT,
-           D_TELE, D_MUTATE, D_CLASS
+           D_TELE, D_MUTATE, D_CLASS, D_ATTITUDE
          };
     nmenu.addentry( D_NAME, true, 'N', "%s", _( "Edit [N]ame" ) );
     nmenu.addentry( D_SKILLS, true, 's', "%s", _( "Edit [s]kills" ) );
@@ -158,6 +182,7 @@ void character_edit_menu()
     if( p.is_npc() ) {
         nmenu.addentry( D_MISSION_ADD, true, 'm', "%s", _( "Add [m]ission" ) );
         nmenu.addentry( D_CLASS, true, 'c', "%s", _( "Randomize with [c]lass" ) );
+        nmenu.addentry( D_ATTITUDE, true, 'A', "%s", _( "Set [A]ttitude" ) );
     }
     nmenu.query();
     switch( nmenu.ret ) {
@@ -298,14 +323,15 @@ void character_edit_menu()
         case D_NEEDS: {
             uilist smenu;
             smenu.addentry( 0, true, 'h', "%s: %d", _( "Hunger" ), p.get_hunger() );
-            smenu.addentry( 1, true, 's', "%s: %d", _( "Starvation" ), p.get_starvation() );
+            smenu.addentry( 1, true, 's', "%s: %d", _( "Stored kCal" ), p.get_stored_kcal() );
             smenu.addentry( 2, true, 't', "%s: %d", _( "Thirst" ), p.get_thirst() );
             smenu.addentry( 3, true, 'f', "%s: %d", _( "Fatigue" ), p.get_fatigue() );
             smenu.addentry( 4, true, 'd', "%s: %d", _( "Sleep Deprivation" ), p.get_sleep_deprivation() );
+            smenu.addentry( 5, true, 'a', _( "Reset all basic needs" ) );
 
             const auto &vits = vitamin::all();
             for( const auto &v : vits ) {
-                smenu.addentry( -1, true, 0, "%s: %d", v.second.name().c_str(), p.vitamin_get( v.first ) );
+                smenu.addentry( -1, true, 0, "%s: %d", v.second.name(), p.vitamin_get( v.first ) );
             }
 
             smenu.query();
@@ -318,8 +344,8 @@ void character_edit_menu()
                     break;
 
                 case 1:
-                    if( query_int( value, _( "Set starvation to? Currently: %d" ), p.get_starvation() ) ) {
-                        p.set_starvation( value );
+                    if( query_int( value, _( "Set stored kCal to? Currently: %d" ), p.get_stored_kcal() ) ) {
+                        p.set_stored_kcal( value );
                     }
                     break;
 
@@ -341,12 +367,19 @@ void character_edit_menu()
                         p.set_sleep_deprivation( value );
                     }
                     break;
-
+                case 5:
+                    p.initialize_stomach_contents();
+                    p.set_hunger( 0 );
+                    p.set_thirst( 0 );
+                    p.set_fatigue( 0 );
+                    p.set_sleep_deprivation( 0 );
+                    p.set_stored_kcal( p.get_healthy_kcal() );
+                    break;
                 default:
-                    if( smenu.ret > 3 && smenu.ret < static_cast<int>( vits.size() + 4 ) ) {
-                        auto iter = std::next( vits.begin(), smenu.ret - 4 );
+                    if( smenu.ret >= 5 && smenu.ret < static_cast<int>( vits.size() + 5 ) ) {
+                        auto iter = std::next( vits.begin(), smenu.ret - 5 );
                         if( query_int( value, _( "Set %s to? Currently: %d" ),
-                                       iter->second.name().c_str(), p.vitamin_get( iter->first ) ) ) {
+                                       iter->second.name(), p.vitamin_get( iter->first ) ) ) {
                             p.vitamin_set( iter->first, value );
                         }
                     }
@@ -430,6 +463,27 @@ void character_edit_menu()
             classes.query();
             if( classes.ret < static_cast<int>( ids.size() ) && classes.ret >= 0 ) {
                 np->randomize( ids[ classes.ret ] );
+            }
+        }
+        break;
+        case D_ATTITUDE: {
+            uilist attitudes_ui;
+            attitudes_ui.text = _( "Choose new attitude" );
+            std::vector<npc_attitude> attitudes;
+            for( int i = NPCATT_NULL; i < NPCATT_END; i++ ) {
+                npc_attitude att_id = static_cast<npc_attitude>( i );
+                std::string att_name = npc_attitude_name( att_id );
+                attitudes.push_back( att_id );
+                if( att_name == _( "Unknown attitude" ) ) {
+                    continue;
+                }
+
+                attitudes_ui.addentry( i, true, -1, att_name );
+            }
+
+            attitudes_ui.query();
+            if( attitudes_ui.ret < static_cast<int>( attitudes.size() ) && attitudes_ui.ret >= 0 ) {
+                np->set_attitude( attitudes[attitudes_ui.ret] );
             }
         }
     }
@@ -575,10 +629,10 @@ void mission_debug::remove_mission( mission &m )
     const auto giver = g->find_npc( m.npc_id );
     if( giver != nullptr ) {
         if( remove_from_vec( giver->chatbin.missions_assigned, &m ) ) {
-            add_msg( _( "Removing from %s missions_assigned" ), giver->name.c_str() );
+            add_msg( _( "Removing from %s missions_assigned" ), giver->name );
         }
         if( remove_from_vec( giver->chatbin.missions, &m ) ) {
-            add_msg( _( "Removing from %s missions" ), giver->name.c_str() );
+            add_msg( _( "Removing from %s missions" ), giver->name );
         }
     }
 }
@@ -630,17 +684,17 @@ void draw_benchmark( const int max_difference )
                                "\n| USE_TILES |  RENDERER | FRAMEBUFFER_ACCEL | USE_COLOR_MODULATED_TEXTURES | FPS |" <<
                                "\n|:---:|:---:|:---:|:---:|:---:|\n| " <<
                                get_option<bool>( "USE_TILES" ) << " | " <<
-#ifndef __ANDROID__
+#if !defined(__ANDROID__)
                                get_option<std::string>( "RENDERER" ) << " | " <<
 #else
                                get_option<bool>( "SOFTWARE_RENDERING" ) << " | " <<
 #endif
                                get_option<bool>( "FRAMEBUFFER_ACCEL" ) << " | " <<
                                get_option<bool>( "USE_COLOR_MODULATED_TEXTURES" ) << " | " <<
-                               int( 1000.0 * draw_counter / ( double )difference ) << " |\n";
+                               static_cast<int>( 1000.0 * draw_counter / static_cast<double>( difference ) ) << " |\n";
 
     add_msg( m_info, _( "Drew %d times in %.3f seconds. (%.3f fps average)" ), draw_counter,
-             difference / 1000.0, 1000.0 * draw_counter / ( double )difference );
+             difference / 1000.0, 1000.0 * draw_counter / static_cast<double>( difference ) );
 }
 
 }

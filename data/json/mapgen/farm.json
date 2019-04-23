@@ -2,11 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [
-      [ "farm_3", "farm_2", "farm_1" ],
-      [ "farm_6", "farm_5", "farm_4" ],
-      [ "farm_9", "farm_8", "farm_7" ]
-    ],
+    "om_terrain": [ [ "farm_3", "farm_2", "farm_1" ], [ "farm_6", "farm_5", "farm_4" ], [ "farm_9", "farm_8", "farm_7" ] ],
     "weight": 250,
     "object": {
       "fill_ter": "t_dirt",
@@ -141,7 +137,7 @@
         "u": [ "f_cupboard" ],
         "y": [ "f_hay" ]
       },
-      "toilets": { "T": {} },
+      "toilets": { "T": {  } },
       "items": {
         "B": { "item": "bed", "chance": 60 },
         "D": { "item": "hydro", "chance": 5 },
@@ -153,11 +149,20 @@
         "k": { "item": "bedroom", "chance": 65 },
         "Y": { "item": "coat_rack", "chance": 35, "repeat": [ 1, 4 ] },
         "P": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] },
-        "l": [ { "item": "tools_earthworking", "chance": 65 }, { "item": "mechanics", "chance": 40 }, { "item": "home_hw", "chance": 50 }, { "item": "tools_common", "chance": 50 } ],
-        "u": [ { "item": "kitchen", "chance": 70 }, { "item": "cannedfood", "chance": 65 }, { "item": "moonshine_brew", "chance": 65 } ],
+        "l": [
+          { "item": "tools_earthworking", "chance": 65 },
+          { "item": "mechanics", "chance": 40 },
+          { "item": "home_hw", "chance": 50 },
+          { "item": "tools_common", "chance": 50 }
+        ],
+        "u": [
+          { "item": "kitchen", "chance": 70 },
+          { "item": "cannedfood", "chance": 65 },
+          { "item": "moonshine_brew", "chance": 65 }
+        ],
         "Q": { "item": "farming_tools", "chance": 15 }
       },
-      "place_items": [],
+      "place_items": [  ],
       "place_item": [
         { "item": "straw_pile", "x": [ 3, 5 ], "y": [ 5, 7 ], "amount": [ 0, 8 ] },
         { "item": "cattlefodder", "x": [ 3, 5 ], "y": [ 5, 7 ], "amount": [ 0, 4 ] },
@@ -262,10 +267,16 @@
         "u": [ "f_cupboard" ],
         "y": [ "f_hay" ]
       },
-      "toilets": { "T": {} },
+      "toilets": { "T": {  } },
       "items": {
         ".": { "item": "trash", "chance": 20 },
-        "B": [ { "item": "livingroom", "chance": 20 }, { "item": "survival_armor", "chance": 20 }, { "item": "camping", "chance": 20 }, { "item": "gear_survival", "chance": 20 }, { "item": "bed", "chance": 40 } ],
+        "B": [
+          { "item": "livingroom", "chance": 20 },
+          { "item": "survival_armor", "chance": 20 },
+          { "item": "camping", "chance": 20 },
+          { "item": "gear_survival", "chance": 20 },
+          { "item": "bed", "chance": 40 }
+        ],
         "D": { "item": "hydro", "chance": 5 },
         "H": { "item": "livingroom", "chance": 65 },
         "b": { "item": "softdrugs", "chance": 70 },
@@ -274,8 +285,19 @@
         "h": { "item": "bedroom", "chance": 65 },
         "k": { "item": "bedroom", "chance": 65 },
         "P": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] },
-        "l": [ { "item": "tools_earthworking", "chance": 65 }, { "item": "mechanics", "chance": 40 }, { "item": "home_hw", "chance": 50 }, { "item": "tools_common", "chance": 50 } ],
-        "m": [ { "item": "livingroom", "chance": 20 }, { "item": "survival_armor", "chance": 20 }, { "item": "camping", "chance": 20 }, { "item": "gear_survival", "chance": 20 }, { "item": "bed", "chance": 40 } ],
+        "l": [
+          { "item": "tools_earthworking", "chance": 65 },
+          { "item": "mechanics", "chance": 40 },
+          { "item": "home_hw", "chance": 50 },
+          { "item": "tools_common", "chance": 50 }
+        ],
+        "m": [
+          { "item": "livingroom", "chance": 20 },
+          { "item": "survival_armor", "chance": 20 },
+          { "item": "camping", "chance": 20 },
+          { "item": "gear_survival", "chance": 20 },
+          { "item": "bed", "chance": 40 }
+        ],
         "u": [ { "item": "kitchen", "chance": 70 }, { "item": "cannedfood", "chance": 40 }, { "item": "softdrugs", "chance": 40 } ],
         "Q": { "item": "farming_tools", "chance": 15 }
       }

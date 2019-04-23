@@ -1,10 +1,11 @@
 #include "submap.h"
 
+#include <algorithm>
 #include <memory>
+#include <iterator>
 
 #include "mapdata.h"
 #include "trap.h"
-#include "vehicle.h"
 
 submap::submap()
 {
@@ -17,19 +18,6 @@ submap::submap()
     std::uninitialized_fill_n( &rad[0][0], elements, 0 );
 
     is_uniform = false;
-}
-
-submap::~submap()
-{
-    delete_vehicles();
-}
-
-void submap::delete_vehicles()
-{
-    for( vehicle *veh : vehicles ) {
-        delete veh;
-    }
-    vehicles.clear();
 }
 
 static const std::string COSMETICS_GRAFFITI( "GRAFFITI" );
@@ -66,7 +54,7 @@ bool submap::has_graffiti( const point &p ) const
 
 const std::string &submap::get_graffiti( const point &p ) const
 {
-    auto fresult = find_cosmetic( cosmetics, p, COSMETICS_GRAFFITI );
+    const auto fresult = find_cosmetic( cosmetics, p, COSMETICS_GRAFFITI );
     if( fresult.result ) {
         return cosmetics[ fresult.ndx ].str;
     }
@@ -77,7 +65,7 @@ void submap::set_graffiti( const point &p, const std::string &new_graffiti )
 {
     is_uniform = false;
     // Find signage at p if available
-    auto fresult = find_cosmetic( cosmetics, p, COSMETICS_GRAFFITI );
+    const auto fresult = find_cosmetic( cosmetics, p, COSMETICS_GRAFFITI );
     if( fresult.result ) {
         cosmetics[ fresult.ndx ].str = new_graffiti;
     } else {
@@ -88,7 +76,7 @@ void submap::set_graffiti( const point &p, const std::string &new_graffiti )
 void submap::delete_graffiti( const point &p )
 {
     is_uniform = false;
-    auto fresult = find_cosmetic( cosmetics, p, COSMETICS_GRAFFITI );
+    const auto fresult = find_cosmetic( cosmetics, p, COSMETICS_GRAFFITI );
     if( fresult.result ) {
         cosmetics[ fresult.ndx ] = cosmetics.back();
         cosmetics.pop_back();
@@ -117,7 +105,7 @@ void submap::set_signage( const point &p, const std::string &s )
 {
     is_uniform = false;
     // Find signage at p if available
-    auto fresult = find_cosmetic( cosmetics, p, COSMETICS_SIGNAGE );
+    const auto fresult = find_cosmetic( cosmetics, p, COSMETICS_SIGNAGE );
     if( fresult.result ) {
         cosmetics[ fresult.ndx ].str = s;
     } else {
@@ -127,9 +115,19 @@ void submap::set_signage( const point &p, const std::string &s )
 void submap::delete_signage( const point &p )
 {
     is_uniform = false;
-    auto fresult = find_cosmetic( cosmetics, p, COSMETICS_SIGNAGE );
+    const auto fresult = find_cosmetic( cosmetics, p, COSMETICS_SIGNAGE );
     if( fresult.result ) {
         cosmetics[ fresult.ndx ] = cosmetics.back();
         cosmetics.pop_back();
     }
+}
+
+bool submap::contains_vehicle( vehicle *veh )
+{
+    const auto match = std::find_if(
+                           begin( vehicles ), end( vehicles ),
+    [veh]( const std::unique_ptr<vehicle> &v ) {
+        return v.get() == veh;
+    } );
+    return match != vehicles.end();
 }

@@ -89,5 +89,19 @@
     "//": "Large cloud of lightning (example: supercharged incandescent husk)",
     "field": "fd_electricity",
     "qty": 40
+  },
+  {
+    "id": "emit_hot_air2_stream",
+    "type": "emit",
+    "//": "Medium hot air emitter",
+    "field": "fd_hot_air2",
+    "qty": 50
+  },
+  {
+    "id": "emit_hot_air2_blast",
+    "type": "emit",
+    "//": "Large hot air emitter",
+    "field": "fd_hot_air2",
+    "qty": 100
   }
 ]

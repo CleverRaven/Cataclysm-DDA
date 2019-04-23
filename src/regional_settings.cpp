@@ -10,6 +10,7 @@
 #include "options.h"
 #include "rng.h"
 #include "string_formatter.h"
+#include "translations.h"
 
 ter_furn_id::ter_furn_id() : ter( t_null ), furn( f_null ) { }
 
@@ -286,6 +287,30 @@ void load_overmap_feature_flag_settings( JsonObject &jo,
     }
 }
 
+void load_overmap_forest_settings( JsonObject &jo, overmap_forest_settings &overmap_forest_settings,
+                                   const bool strict, const bool overlay )
+{
+    if( !jo.has_object( "overmap_forest_settings" ) ) {
+        if( strict ) {
+            jo.throw_error( "\"overmap_forest_settings\": { ... } required for default" );
+        }
+    } else {
+        JsonObject overmap_forest_settings_jo = jo.get_object( "overmap_forest_settings" );
+        read_and_set_or_throw<double>( overmap_forest_settings_jo, "noise_threshold_forest",
+                                       overmap_forest_settings.noise_threshold_forest, !overlay );
+        read_and_set_or_throw<double>( overmap_forest_settings_jo, "noise_threshold_forest_thick",
+                                       overmap_forest_settings.noise_threshold_forest_thick, !overlay );
+        read_and_set_or_throw<double>( overmap_forest_settings_jo, "noise_threshold_swamp_adjacent_water",
+                                       overmap_forest_settings.noise_threshold_swamp_adjacent_water, !overlay );
+        read_and_set_or_throw<double>( overmap_forest_settings_jo, "noise_threshold_swamp_isolated",
+                                       overmap_forest_settings.noise_threshold_swamp_isolated, !overlay );
+        read_and_set_or_throw<int>( overmap_forest_settings_jo, "river_floodplain_buffer_distance_min",
+                                    overmap_forest_settings.river_floodplain_buffer_distance_min, !overlay );
+        read_and_set_or_throw<int>( overmap_forest_settings_jo, "river_floodplain_buffer_distance_max",
+                                    overmap_forest_settings.river_floodplain_buffer_distance_max, !overlay );
+    }
+}
+
 void load_region_settings( JsonObject &jo )
 {
     regional_settings new_region;
@@ -308,24 +333,6 @@ void load_region_settings( JsonObject &jo )
         }
     } else if( strict ) {
         jo.throw_error( "Weighted list 'default_groundcover' required for 'default'" );
-    }
-    if( ! jo.read( "num_forests", new_region.num_forests ) && strict ) {
-        jo.throw_error( "num_forests required for default" );
-    }
-    if( ! jo.read( "forest_size_min", new_region.forest_size_min ) && strict ) {
-        jo.throw_error( "forest_size_min required for default" );
-    }
-    if( ! jo.read( "forest_size_max", new_region.forest_size_max ) && strict ) {
-        jo.throw_error( "forest_size_max required for default" );
-    }
-    if( ! jo.read( "swamp_maxsize", new_region.swamp_maxsize ) && strict ) {
-        jo.throw_error( "swamp_maxsize required for default" );
-    }
-    if( ! jo.read( "swamp_river_influence", new_region.swamp_river_influence ) && strict ) {
-        jo.throw_error( "swamp_river_influence required for default" );
-    }
-    if( ! jo.read( "swamp_spread_chance", new_region.swamp_spread_chance ) && strict ) {
-        jo.throw_error( "swamp_spread_chance required for default" );
     }
 
     if( ! jo.has_object( "field_coverage" ) ) {
@@ -481,6 +488,8 @@ void load_region_settings( JsonObject &jo )
 
     load_overmap_feature_flag_settings( jo, new_region.overmap_feature_flag, strict, false );
 
+    load_overmap_forest_settings( jo, new_region.overmap_forest, strict, false );
+
     region_settings_map[new_region.id] = new_region;
 }
 
@@ -538,13 +547,6 @@ void apply_region_overlay( JsonObject &jo, regional_settings &region )
             }
         }
     }
-
-    jo.read( "num_forests", region.num_forests );
-    jo.read( "forest_size_min", region.forest_size_min );
-    jo.read( "forest_size_max", region.forest_size_max );
-    jo.read( "swamp_maxsize", region.swamp_maxsize );
-    jo.read( "swamp_river_influence", region.swamp_river_influence );
-    jo.read( "swamp_spread_chance", region.swamp_spread_chance );
 
     JsonObject fieldjo = jo.get_object( "field_coverage" );
     double tmpval = 0.0f;
@@ -650,9 +652,11 @@ void apply_region_overlay( JsonObject &jo, regional_settings &region )
     load_building_types( "parks", region.city_spec.parks );
 
     load_overmap_feature_flag_settings( jo, region.overmap_feature_flag, false, true );
+
+    load_overmap_forest_settings( jo, region.overmap_forest, false, true );
 }
 
-void groundcover_extra::finalize()   // @todo: fixme return bool for failure
+void groundcover_extra::finalize()   // FIXME: return bool for failure
 {
     default_ter = ter_id( default_ter_str );
 

@@ -12,17 +12,17 @@
     "charges": 4,
     "stack_size": 100,
     "material": "veggy",
+    "primary_material": "dried_vegetable",
     "symbol": ".",
     "color": "brown",
-    "rot_spawn": "GROUP_CROPS_GENERAL",
-    "flags": "NUTRIENT_OVERRIDE",
-    "rot_spawn_chance": 2
+    "flags": "NUTRIENT_OVERRIDE"
   },
   {
     "abstract": "seed_fruit",
     "type": "COMESTIBLE",
     "copy-from": "seed",
     "name": "fruit seeds",
+    "primary_material": "dried_vegetable",
     "material": "fruit"
   },
   {
@@ -330,7 +330,7 @@
     "description": "A raw potato, cut into pieces, separating each bud for planting.",
     "weight": 20,
     "stack_size": 10,
-    "seed_data": { "plant_name": "potatoes", "fruit": "potato_raw", "byproducts": [ "withered" ], "grow": "95 days" }
+    "seed_data": { "plant_name": "potatoes", "fruit": "potato", "byproducts": [ "withered" ], "grow": "95 days" }
   },
   {
     "type": "COMESTIBLE",
@@ -381,6 +381,7 @@
     "description": "This looks like a sunflower seed the size of your palm.  It has a strong but delicious aroma, but is clearly either mutated or of alien origin.",
     "price": 0,
     "material": "fruit",
+    "primary_material": "dried_vegetable",
     "volume": 0,
     "stack_size": 10,
     "fun": 30,
@@ -388,21 +389,41 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "raw_beans",
+    "id": "seed_beans",
     "copy-from": "seed",
     "name": "raw beans",
     "name_plural": "raw beans",
     "weight": 194,
     "symbol": "%",
-    "healthy": -2,
-    "calories": 56,
-    "description": "Raw, uncooked beans.  They are mildly toxic in this form, but you could cook them to make them tasty.  Alternatively, you could plant them.",
+    "description": "Raw, uncooked beans, ready for planting.",
+    "charges": 2,
     "price": 90,
-    "fun": -1,
-    "cooks_like": "beans_cooked",
-    "flags": [ "SMOKABLE", "NUTRIENT_OVERRIDE" ],
-    "vitamins": [ [ "iron", 2 ], [ "vitC", 20 ] ],
     "seed_data": { "plant_name": "beans", "fruit": "raw_beans", "byproducts": [ "withered" ], "grow": "91 days" }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "soybean_seed",
+    "copy-from": "seed",
+    "name": "soybean seed",
+    "weight": 160,
+    "symbol": ".",
+    "color": "yellow",
+    "description": "Some soybean seeds.  You could probably plant these.",
+    "price": 90,
+    "seed_data": { "plant_name": "soybean", "fruit": "soybean", "byproducts": [ "withered", "raw_edamame" ], "grow": "91 days" }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "seed_lentils",
+    "copy-from": "seed",
+    "name": "raw lentils",
+    "name_plural": "raw lentils",
+    "weight": 194,
+    "symbol": "%",
+    "description": "Raw, uncooked lentils, ready for planting.",
+    "charges": 2,
+    "price": 90,
+    "seed_data": { "plant_name": "lentils", "fruit": "raw_lentils", "byproducts": [ "withered" ], "grow": "91 days" }
   },
   {
     "type": "COMESTIBLE",
@@ -563,24 +584,6 @@
     "seed_data": { "plant_name": "morel mushroom", "fruit": "mushroom_morel", "grow": "91 days" }
   },
   {
-    "type": "COMESTIBLE",
-    "id": "seed_mushroom_magic",
-    "copy-from": "seed_mushroom_base",
-    "name": "mushroom spores",
-    "name_plural": "mushroom spores",
-    "flags": [ "HIDDEN_HALLU", "NUTRIENT_OVERRIDE" ],
-    "seed_data": { "plant_name": "mushroom", "fruit": "mushroom_magic", "grow": "91 days" }
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "seed_mushroom_poison",
-    "copy-from": "seed_mushroom_base",
-    "name": "mushroom spores",
-    "name_plural": "mushroom spores",
-    "flags": [ "HIDDEN_POISON", "NUTRIENT_OVERRIDE" ],
-    "seed_data": { "plant_name": "mushroom", "fruit": "mushroom_poison", "grow": "91 days" }
-  },
-  {
     "id": "datura_seed",
     "type": "COMESTIBLE",
     "copy-from": "seed",
@@ -615,6 +618,7 @@
     "name_plural": "oat seeds",
     "description": "Some oat seeds.",
     "material": "wheat",
+    "primary_material": "dried_vegetable",
     "weight": 5,
     "stack_size": 40,
     "seed_data": { "plant_name": "oats", "fruit": "oats", "byproducts": [ "withered" ], "grow": "45 days" }
@@ -630,6 +634,7 @@
     "price": 50,
     "stack_size": 40,
     "material": "wheat",
+    "primary_material": "dried_vegetable",
     "seed_data": { "plant_name": "wheat", "fruit": "wheat", "byproducts": [ "straw_pile" ], "grow": "120 days" }
   },
   {
@@ -646,6 +651,7 @@
     "description": "Some fried seeds of a sunflower, pumpkin or other plant.  Quite nutritious and tasty.",
     "price": 80,
     "material": "veggy",
+    "primary_material": "dried_vegetable",
     "volume": 1,
     "flags": [ "SMOKABLE" ],
     "freezing_point": -490,
@@ -669,6 +675,7 @@
     "description": "A hard casing filled with coffee seeds ready for roasting.  The seeds create a dark black, bitter, caffinated liquid not too much unlike coffee.",
     "price": 100,
     "material": [ "veggy" ],
+    "primary_material": "dried_vegetable",
     "volume": 1,
     "charges": 4,
     "fun": -10
@@ -680,6 +687,7 @@
     "container": "bag_plastic",
     "price": 50,
     "material": "veggy",
+    "primary_material": "dried_vegetable",
     "name": "coffee beans",
     "name_plural": "coffee beans",
     "symbol": ".",

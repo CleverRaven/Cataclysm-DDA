@@ -246,6 +246,25 @@
   },
   {
     "type": "AMMO",
+    "id": "pebble_clay",
+    "price": 150,
+    "name": "clay pellet",
+    "symbol": "=",
+    "color": "brown",
+    "description": "A handful of round projectiles made of clay, useful for slings or slingshots.",
+    "material": "clay",
+    "volume": 1,
+    "weight": 3,
+    "ammo_type": "pebble",
+    "damage": 1,
+    "range": 20,
+    "dispersion": 12,
+    "loudness": 0,
+    "count": 40,
+    "effects": [ "NEVER_MISFIRES" ]
+  },
+  {
+    "type": "AMMO",
     "id": "marble",
     "price": 200,
     "name": "marble",
@@ -702,14 +721,11 @@
     "material": "wood",
     "phase": "solid",
     "volume": 1,
-    "weight": 44,
+    "weight": 11,
     "ammo_type": "charcoal",
     "count": 50,
     "stack_size": 10,
-    "fuel": {
-      "//": "Multiply the usual energy density of 1.6 MJ/L by 25, to account for 10 units/250mL instead of 250 units/250 mL",
-      "energy": 40
-    }
+    "fuel": { "energy": 1.6 }
   },
   {
     "type": "AMMO",
@@ -727,10 +743,7 @@
     "ammo_type": "charcoal",
     "count": 250,
     "stack_size": 10,
-    "fuel": {
-      "//": "Multiply the usual energy density of 30 MJ/L by 25, to account for 10 units/250mL instead of 250 units/250 mL",
-      "energy": 750
-    }
+    "fuel": { "energy": 30 }
   },
   {
     "type": "AMMO",
@@ -1006,5 +1019,21 @@
     "weight": 1,
     "ammo_type": "components",
     "count": 150
+  },
+  {
+    "type": "AMMO",
+    "id": "nitrox",
+    "category": "chems",
+    "price": 500,
+    "name": "nitrox",
+    "name_plural": "nitrox",
+    "symbol": "=",
+    "color": "white",
+    "container": "bottle_plastic",
+    "description": "Mixture of oxygen and nitrogen in proportions suitable for diving.",
+    "volume": 1,
+    "weight": 1,
+    "phase": "gas",
+    "ammo_type": "nitrox"
   }
 ]

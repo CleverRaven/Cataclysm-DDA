@@ -268,16 +268,16 @@
     "type": "city_building",
     "id": "urban_18_victorian",
     "overmaps": [
-      { "point": [ 0, 0, -1 ], "overmap": "urban_18_1_south" },
-      { "point": [ 1, 0, -1 ], "overmap": "urban_18_2_south" },
-      { "point": [ 0, 0, 0 ], "overmap": "urban_18_3_south" },
-      { "point": [ 1, 0, 0 ], "overmap": "urban_18_4_south" },
-      { "point": [ 0, 0, 1 ], "overmap": "urban_18_5_south" },
-      { "point": [ 1, 0, 1 ], "overmap": "urban_18_6_south" },
-      { "point": [ 0, 0, 2 ], "overmap": "urban_18_7_south" },
-      { "point": [ 1, 0, 2 ], "overmap": "urban_18_8_south" },
-      { "point": [ 0, 0, 3 ], "overmap": "urban_18_9_south" },
-      { "point": [ 1, 0, 3 ], "overmap": "urban_18_10_south" }
+      { "point": [ 1, 0, -1 ], "overmap": "urban_18_1_south" },
+      { "point": [ 0, 0, -1 ], "overmap": "urban_18_2_south" },
+      { "point": [ 1, 0, 0 ], "overmap": "urban_18_3_south" },
+      { "point": [ 0, 0, 0 ], "overmap": "urban_18_4_south" },
+      { "point": [ 1, 0, 1 ], "overmap": "urban_18_5_south" },
+      { "point": [ 0, 0, 1 ], "overmap": "urban_18_6_south" },
+      { "point": [ 1, 0, 2 ], "overmap": "urban_18_7_south" },
+      { "point": [ 0, 0, 2 ], "overmap": "urban_18_8_south" },
+      { "point": [ 1, 0, 3 ], "overmap": "urban_18_9_south" },
+      { "point": [ 0, 0, 3 ], "overmap": "urban_18_10_south" }
     ],
     "locations": [ "land" ],
     "rotate": true,
@@ -805,6 +805,23 @@
       { "point": [ 0, 0, 1 ], "overmap": "urban_40_4_south" },
       { "point": [ 1, 0, 2 ], "overmap": "urban_40_5_south" },
       { "point": [ 0, 0, 2 ], "overmap": "urban_40_6_south" }
+    ],
+    "locations": [ "land" ],
+    "rotate": true,
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "id": "urban_41_library",
+    "type": "city_building",
+    "overmaps": [
+      { "point": [ 1, 1, 0 ], "overmap": "urban_41_1_south" },
+      { "point": [ 0, 1, 0 ], "overmap": "urban_41_2_south" },
+      { "point": [ 1, 0, 0 ], "overmap": "urban_41_3_south" },
+      { "point": [ 0, 0, 0 ], "overmap": "urban_41_4_south" },
+      { "point": [ 1, 1, 1 ], "overmap": "urban_41_5_south" },
+      { "point": [ 0, 1, 1 ], "overmap": "urban_41_6_south" },
+      { "point": [ 1, 0, 1 ], "overmap": "urban_41_7_south" },
+      { "point": [ 0, 0, 1 ], "overmap": "urban_41_8_south" }
     ],
     "locations": [ "land" ],
     "rotate": true,

@@ -7389,7 +7389,7 @@
             "multitile":false
         },
         {
-            "id": "potato_raw",
+            "id": "potato",
             "fg":-1,
             "bg":-1,
             "rotates":false,

@@ -22,6 +22,14 @@
     "extend": { "flags": [ "BIONIC_NPC_USABLE" ] }
   },
   {
+    "abstract": "bionic_general_faulty",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": "abstract faulty bionic module",
+    "price": 0,
+    "description": "This CBM is broken beyond repair, you can't do anything with it."
+  },
+  {
     "id": "bio_adrenaline",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
@@ -126,6 +134,15 @@
     "type": "BIONIC_ITEM",
     "name": "Fusion Blaster Arm CBM",
     "description": "Your left arm has been replaced by a heavy-duty fusion blaster!  You may use your energy banks to fire a damaging heat ray.  However, you are unable to use or carry two-handed items, and your strength limits what you can use with your one hand.",
+    "price": 220000,
+    "difficulty": 3
+  },
+  {
+    "id": "bio_shotgun",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": "Shotgun Arm CBM",
+    "description": "Concealed in your left arm is a surgically integrated one-shot sawn-off shotgun barrel, that pops-up upon activation. Perfect in a pinch.",
     "price": 220000,
     "difficulty": 3
   },
@@ -287,7 +304,7 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": "Telescopic Eyes CBM",
-    "description": "Much of the material in your inner eye has been removed and replaced with an array of high-powered, auto-focusing lenses.  You can now see much farther and more clearly than before, any vision problems you might have had are now gone.",
+    "description": "Much of the material in your inner eye has been removed and replaced with an array of high-powered, auto-focusing lenses.  They function as integrated binoculars, letting you see much farther than before, and any vision problems you might have had are now gone.",
     "price": 500000,
     "difficulty": 5
   },
@@ -337,6 +354,15 @@
     "difficulty": 2
   },
   {
+    "id": "bio_tattoo_led",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": "LED Tattoo",
+    "description": "An LED display beneath your epidermis allows you to display patterns or pictures through your skin.  When active, it glows dimly, providing a very small amount of light.",
+    "price": 20000,
+    "difficulty": 1
+  },
+  {
     "id": "bio_furnace",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
@@ -368,7 +394,7 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": "Terranian Sonar CBM",
-    "description": "Your feet are equipped with precision sonar equipment, allowing you to detect the movements of creatures below the ground.",
+    "description": "Your feet are equipped with precision sonar equipment, allowing you to detect the movements of creatures below the ground, buried traps, and unstable terrain.",
     "price": 450000,
     "difficulty": 5
   },
@@ -485,7 +511,7 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": "Metabolic Interchange CBM",
-    "description": "Your digestive system and power supply are interconnected.  Energy drains will be regularly counteracted by increasing hunger.  Can be toggled on and off at will.",
+    "description": "Your digestive system and power supply are interconnected.  Bionic energy is replenished at the cost of increasing hunger.  Can be toggled on and off at will.",
     "price": 70000,
     "difficulty": 4
   },
@@ -803,8 +829,17 @@
     "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": "Joint Torsion Ratchet CBM",
-    "description": "Your joints have been equipped with torsion ratchets that generate power slowly when you move.",
+    "description": "Your joints have been equipped with torsion ratchets that generate power slowly when you move.  Whilst this is toggled, moving will require more effort, though more power will be generated.",
     "price": 380000,
+    "difficulty": 4
+  },
+  {
+    "id": "bio_jointservo",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": "Joint Servo CBM",
+    "description": "Your leg joints have been equipped with servomotors that provide power-assisted movement.  They are optimized for running, but walking also requires less effort when this bionic is online.  However, when it's offline it will hamper your movement, as you struggle against its moving parts.",
+    "price": 450000,
     "difficulty": 4
   },
   {
@@ -869,5 +904,166 @@
     "description": "A set of hydraulic springs and foldable padding that replaces most of the flesh in your limbs and upper torso.  While active, these absorbers will negate damage from severe impacts such as falling, at the cost of reducing your ability to move effectively.",
     "price": 10000,
     "difficulty": 4
+  },
+  {
+    "id": "bio_taste_blocker",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": "Taste Modifier CBM",
+    "description": "A set of highly sensitive sensors is installed in your mouth, and a small yet sophisticated analyzer is installed in the cavity of your skull.  When you put something that you plan to eat in your mouth, sensors intercept all data related to the comestible (such as taste or texture) from various receptors in your mouth and send it forth to the analyzer.  Based on the gathered data, analyzer can modify it prior to sending it forth to the brain.  Active bionic will nullify the taste of all comestibles with negative enjoyment value at the cost of draining bionic power.",
+    "price": 40000,
+    "difficulty": 5
+  },
+  {
+    "id": "bio_soporific",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": "Soporific Induction CBM",
+    "description": "A microscopic electrode designed to gently stimulate a particular cluster of neurons in your hypothalamus, helping you fall asleep.",
+    "price": 350000,
+    "difficulty": 2
+  },
+  {
+    "id": "bio_ankles",
+    "copy-from": "bionic_general_faulty",
+    "type": "BIONIC_ITEM",
+    "name": "Squeaky Ankles",
+    "description": "A pair of useless bionics that make squeaking noises.",
+    "difficulty": 4
+  },
+  {
+    "id": "bio_deformity",
+    "copy-from": "bionic_general_faulty",
+    "type": "BIONIC_ITEM",
+    "name": "Pieces Of Junk",
+    "description": "A jumble of broken metal pieces that were removed during reconstructive surgery.",
+    "difficulty": 5
+  },
+  {
+    "id": "bio_dis_acid",
+    "copy-from": "bionic_general_faulty",
+    "type": "BIONIC_ITEM",
+    "name": "Acidic Leaking CBM",
+    "description": "This CBM has been breached in several places and some acid is leaking from it.",
+    "difficulty": 11
+  },
+  {
+    "id": "bio_dis_shock",
+    "copy-from": "bionic_general_faulty",
+    "type": "BIONIC_ITEM",
+    "name": "Faulty Electric System",
+    "description": "This CBM is a mess of naked wire and burnt resistor.",
+    "difficulty": 5
+  },
+  {
+    "id": "bio_drain",
+    "copy-from": "bionic_general_faulty",
+    "type": "BIONIC_ITEM",
+    "name": "Electrical Drain",
+    "description": "This CBM was wired incorrectly and would drain power from any system connected to it.",
+    "difficulty": 5
+  },
+  {
+    "id": "bio_itchy",
+    "copy-from": "bionic_general_faulty",
+    "type": "BIONIC_ITEM",
+    "name": "Itchy Metal Thing",
+    "description": "You can't recognise what this is suppose to be, but it's a very awkward thing to have in one's body.",
+    "difficulty": 3
+  },
+  {
+    "id": "bio_glowy",
+    "copy-from": "bionic_general_faulty",
+    "type": "BIONIC_ITEM",
+    "name": "Glowy Thing",
+    "description": "It's a... thing?  And it glows, at least it did when it was plugged in.",
+    "difficulty": 3
+  },
+  {
+    "id": "bio_leaky",
+    "copy-from": "bionic_general_faulty",
+    "type": "BIONIC_ITEM",
+    "name": "Leaky Bionic",
+    "description": "A mess of pierced pipes and broken seals, something unpleasant is leaking from it.",
+    "difficulty": 7
+  },
+  {
+    "id": "bio_noise",
+    "copy-from": "bionic_general_faulty",
+    "type": "BIONIC_ITEM",
+    "name": "Noisemaker",
+    "description": "A malfunctioning bionic.  When it was plugged in it would occasionally emit a loud burst of noise.",
+    "difficulty": 3
+  },
+  {
+    "id": "bio_nostril",
+    "copy-from": "bionic_general_faulty",
+    "type": "BIONIC_ITEM",
+    "name": "Bionic Nostril",
+    "description": "This thing was up someone's nose, they're probably glad to be rid of it.",
+    "difficulty": 3
+  },
+  {
+    "id": "bio_pokedeye",
+    "copy-from": "bionic_general_faulty",
+    "type": "BIONIC_ITEM",
+    "name": "Bionic Visual Impairment",
+    "difficulty": 8
+  },
+  {
+    "id": "bio_power_weakness",
+    "copy-from": "bionic_general_faulty",
+    "type": "BIONIC_ITEM",
+    "name": "Power Overload",
+    "difficulty": 7
+  },
+  {
+    "id": "bio_shakes",
+    "copy-from": "bionic_general_faulty",
+    "type": "BIONIC_ITEM",
+    "name": "Bionic Short Circuit",
+    "difficulty": 7
+  },
+  {
+    "id": "bio_sleepy",
+    "copy-from": "bionic_general_faulty",
+    "type": "BIONIC_ITEM",
+    "name": "Endocrine Enervator",
+    "difficulty": 11
+  },
+  {
+    "id": "bio_spasm",
+    "copy-from": "bionic_general_faulty",
+    "type": "BIONIC_ITEM",
+    "name": "Motor Control Overstimulator",
+    "difficulty": 11
+  },
+  {
+    "id": "bio_stiff",
+    "copy-from": "bionic_general_faulty",
+    "type": "BIONIC_ITEM",
+    "name": "Wire-Induced Stiffness",
+    "difficulty": 7
+  },
+  {
+    "id": "bio_thumbs",
+    "copy-from": "bionic_general_faulty",
+    "type": "BIONIC_ITEM",
+    "name": "Self-Locking Thumbs",
+    "difficulty": 5
+  },
+  {
+    "id": "bio_trip",
+    "copy-from": "bionic_general_faulty",
+    "type": "BIONIC_ITEM",
+    "name": "Visual Disruptor",
+    "difficulty": 8
+  },
+  {
+    "id": "bio_voice",
+    "copy-from": "bionic_general_faulty",
+    "type": "BIONIC_ITEM",
+    "name": "Voice Remodulator",
+    "difficulty": 5
   }
 ]

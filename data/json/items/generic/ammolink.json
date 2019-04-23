@@ -18,20 +18,14 @@
     "copy-from": "ammolink",
     "type": "GENERIC",
     "name": ".223 ammo belt linkage",
-    "use_action": {
-      "type": "ammobelt",
-      "belt": "belt223"
-    }
+    "use_action": { "type": "ammobelt", "belt": "belt223" }
   },
   {
     "id": "ammolink308",
     "copy-from": "ammolink",
     "type": "GENERIC",
     "name": ".308 ammo belt linkage",
-    "use_action": {
-      "type": "ammobelt",
-      "belt": "belt308"
-    }
+    "use_action": { "type": "ammobelt", "belt": "belt308" }
   },
   {
     "id": "ammolink40mm",
@@ -40,19 +34,13 @@
     "name": "40mm grenade belt linkage",
     "weight": 10,
     "volume": "10ml",
-    "use_action": {
-      "type": "ammobelt",
-      "belt": "belt40mm"
-    }
+    "use_action": { "type": "ammobelt", "belt": "belt40mm" }
   },
   {
     "id": "ammolink50",
     "copy-from": "ammolink",
     "type": "GENERIC",
     "name": ".50 ammo belt linkage",
-    "use_action": {
-      "type": "ammobelt",
-      "belt": "belt50"
-    }
+    "use_action": { "type": "ammobelt", "belt": "belt50" }
   }
 ]

@@ -12,18 +12,13 @@
     "id": "hotel_luggage",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [
-      { "group": "bags_trip", "prob": 25 },
-      { "group": "dresser", "prob": 25, "count": [ 1, 4 ] }
-    ]
+    "entries": [ { "group": "bags_trip", "prob": 25 }, { "group": "dresser", "prob": 25, "count": [ 1, 4 ] } ]
   },
   {
-    "type" : "item_group",
-    "id" : "book_hotel_tower_bible",
+    "type": "item_group",
+    "id": "book_hotel_tower_bible",
     "subtype": "collection",
-    "items":[
-      { "item": "holybook_bible3", "prob": 100 }
-    ]
+    "items": [ { "item": "holybook_bible3", "prob": 100 } ]
   },
   {
     "name": "GROUP_HOTEL_POOL",
@@ -42,9 +37,7 @@
     "monsters": [
       { "monster": "mon_zombie_fat", "freq": 30, "cost_multiplier": 2 },
       { "monster": "mon_zombie_fat", "freq": 15, "cost_multiplier": 8, "pack_size": [ 2, 6 ] },
-      { "monster": "mon_zombie_tough", "freq": 5, "cost_multiplier": 3 },
-      { "monster": "mon_zombie_brute", "freq": 2, "cost_multiplier": 15 },
-      { "monster": "mon_zombie_hulk", "freq": 1, "cost_multiplier": 50 }
+      { "monster": "mon_zombie_tough", "freq": 8, "cost_multiplier": 3 }
     ]
   },
   {
@@ -153,14 +146,12 @@
         " s_____,_____,_____,____",
         " s_____,_____,_____,____"
       ],
-      "terrain": {
-        " ": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
-        ",": "t_pavement_y",
-        "_": "t_pavement",
-        "s": "t_sidewalk"
-      },
+      "terrain": { " ": [ "t_grass", "t_grass", "t_grass", "t_dirt" ], ",": "t_pavement_y", "_": "t_pavement", "s": "t_sidewalk" },
       "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 2 } ],
-      "vehicles": { "V": { "vehicle": "suburban_home", "chance": 50, "rotation": 270 }, "v": { "vehicle": "suburban_home", "chance": 50, "rotation": 90 } }
+      "vehicles": {
+        "V": { "vehicle": "suburban_home", "chance": 50, "rotation": 270 },
+        "v": { "vehicle": "suburban_home", "chance": 50, "rotation": 90 }
+      }
     }
   },
   {
@@ -208,12 +199,7 @@
         "w": "t_window_domestic",
         "|": "t_wall"
       },
-      "furniture": {
-        "B": "f_bed",
-        "c": "f_counter",
-        "d": "f_dresser",
-        "o": "f_counter"
-      },
+      "furniture": { "B": "f_bed", "c": "f_counter", "d": "f_dresser", "o": "f_counter" },
       "items": {
         "B": { "item": "bed", "chance": 50 },
         "L": { "item": "hotel_luggage", "chance": 100 },
@@ -222,7 +208,10 @@
         "o": { "item": "hotel_coffee_bar", "chance": 100 }
       },
       "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 17 ], "y": [ 0, 23 ] } ],
-      "vehicles": { "V": { "vehicle": "suburban_home", "chance": 60, "rotation": 270 }, "v": { "vehicle": "suburban_home", "chance": 60, "rotation": 90 } }
+      "vehicles": {
+        "V": { "vehicle": "suburban_home", "chance": 60, "rotation": 270 },
+        "v": { "vehicle": "suburban_home", "chance": 60, "rotation": 90 }
+      }
     }
   },
   {
@@ -482,12 +471,7 @@
         "w": "t_window_domestic",
         "|": "t_wall"
       },
-      "furniture": {
-        "B": "f_bed",
-        "c": "f_counter",
-        "d": "f_dresser",
-        "o": "f_counter"
-      },
+      "furniture": { "B": "f_bed", "c": "f_counter", "d": "f_dresser", "o": "f_counter" },
       "items": {
         "B": { "item": "bed", "chance": 50 },
         "L": { "item": "hotel_luggage", "chance": 100 },
@@ -555,7 +539,7 @@
         "o": "f_counter",
         "t": "f_table"
       },
-      "toilets": { "T": {} },
+      "toilets": { "T": {  } },
       "items": {
         "B": { "item": "bed", "chance": 50 },
         "L": { "item": "hotel_luggage", "chance": 100 },
@@ -622,7 +606,7 @@
         "o": "f_counter",
         "t": "f_table"
       },
-      "toilets": { "T": {} },
+      "toilets": { "T": {  } },
       "items": {
         "B": { "item": "bed", "chance": 50 },
         "L": { "item": "hotel_luggage", "chance": 100 },
@@ -691,7 +675,7 @@
         "o": "f_counter",
         "t": "f_table"
       },
-      "toilets": { "T": {} },
+      "toilets": { "T": {  } },
       "items": {
         "B": { "item": "bed", "chance": 50 },
         "L": { "item": "hotel_luggage", "chance": 100 },
@@ -746,13 +730,7 @@
         "V": "t_wall_glass",
         "|": "t_wall"
       },
-      "furniture": {
-        "E": "f_exercise",
-        "^": "f_indoor_plant",
-        "e": "f_fridge",
-        "h": "f_chair",
-        "t": "f_table"
-      },
+      "furniture": { "E": "f_exercise", "^": "f_indoor_plant", "e": "f_fridge", "h": "f_chair", "t": "f_table" },
       "place_monsters": [ { "monster": "GROUP_HOTEL_GYM", "x": [ 4, 17 ], "y": [ 12, 21 ], "repeat": 2 } ]
     }
   },
@@ -812,7 +790,7 @@
         "r": "f_rack",
         "t": "f_table"
       },
-      "toilets": { "T": {} },
+      "toilets": { "T": {  } },
       "items": { "l": { "item": "cleaning", "chance": 60 } },
       "item": { "r": { "item": "towel", "chance": 2, "amount": [ 1, 2 ] } },
       "place_monsters": [ { "monster": "GROUP_HOTEL_POOL", "x": [ 0, 22 ], "y": [ 12, 19 ], "repeat": 2 } ]
@@ -871,7 +849,11 @@
         "r": "f_rack",
         "t": "f_table"
       },
-      "items": { "D": { "item": "dresser", "chance": 25 }, "W": { "item": "dresser", "chance": 25 }, "r": { "item": "home_hw", "chance": 60 } },
+      "items": {
+        "D": { "item": "dresser", "chance": 25 },
+        "W": { "item": "dresser", "chance": 25 },
+        "r": { "item": "home_hw", "chance": 60 }
+      },
       "item": { "D": { "item": "blanket", "chance": 12 }, "W": { "item": "blanket", "chance": 12 } }
     }
   }

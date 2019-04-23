@@ -2,8 +2,13 @@
 #ifndef RNG_H
 #define RNG_H
 
+#include <stdint.h>
 #include <array>
 #include <functional>
+#include <random>
+#include <iosfwd>
+#include <iterator>
+#include <type_traits>
 
 #include "optional.h"
 
@@ -12,6 +17,8 @@
 // If this function is called with a non-zero seed then the engine will be
 // seeded (or re-seeded) with the given seed.
 void rng_set_engine_seed( uintmax_t seed );
+
+std::default_random_engine &rng_get_engine();
 
 long rng( long val1, long val2 );
 double rng_float( double val1, double val2 );
@@ -137,13 +144,6 @@ inline V random_entry_removed( C &container )
     container.erase( iter );
     return result;
 }
-
-namespace cata
-{
-template<typename T>
-class optional;
-} // namespace cata
-
 class map;
 struct tripoint;
 class tripoint_range;

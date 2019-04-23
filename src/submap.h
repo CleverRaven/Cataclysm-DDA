@@ -2,9 +2,12 @@
 #ifndef SUBMAP_H
 #define SUBMAP_H
 
+#include <stddef.h>
+#include <stdint.h>
 #include <list>
 #include <memory>
 #include <vector>
+#include <string>
 
 #include "active_item_cache.h"
 #include "basecamp.h"
@@ -15,10 +18,10 @@
 #include "int_id.h"
 #include "item.h"
 #include "string_id.h"
+#include "enums.h"
+#include "vehicle.h"
 
 class map;
-class vehicle;
-class computer;
 struct trap;
 struct ter_t;
 struct furn_t;
@@ -28,6 +31,7 @@ using ter_id = int_id<ter_t>;
 using furn_id = int_id<furn_t>;
 using furn_str_id = string_id<furn_t>;
 struct mtype;
+
 using mtype_id = string_id<mtype>;
 
 struct spawn_point {
@@ -144,6 +148,8 @@ struct submap {
     // Can be used anytime (prevents code from needing to place sign first.)
     void delete_signage( const point &p );
 
+    bool contains_vehicle( vehicle * );
+
     // TODO: make trp private once the horrible hack known as editmap is resolved
     ter_id          ter[SEEX][SEEY];  // Terrain on each square
     furn_id         frn[SEEX][SEEY];  // Furniture on each square
@@ -169,16 +175,12 @@ struct submap {
      * Vehicles on this submap (their (0,0) point is on this submap).
      * This vehicle objects are deleted by this submap when it gets
      * deleted.
-     * TODO: submap owns these pointers, they ought to be unique_ptrs.
      */
-    std::vector<vehicle *> vehicles;
+    std::vector<std::unique_ptr<vehicle>> vehicles;
     std::unique_ptr<computer> comp;
     basecamp camp;  // only allowing one basecamp per submap
 
     submap();
-    ~submap();
-    // delete vehicles and clear the vehicles vector
-    void delete_vehicles();
 };
 
 /**

@@ -160,6 +160,7 @@
     "bgcolor": "yellow",
     "description": "A road barricade.  For barricading roads.",
     "move_cost_mod": -1,
+    "coverage": 30,
     "required_str": 5,
     "flags": [ "CLIMB_SIMPLE", "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "THIN_OBSTACLE", "CLIMBABLE", "PERMEABLE" ],
     "examine_action": "chainfence",
@@ -180,6 +181,7 @@
     "bgcolor": "brown",
     "description": "A sandbag, typically used for blocking bullets.",
     "move_cost_mod": -1,
+    "coverage": 60,
     "required_str": -1,
     "flags": [
       "CLIMB_SIMPLE",
@@ -209,9 +211,10 @@
     "symbol": "#",
     "bgcolor": "brown",
     "move_cost_mod": -1,
+    "coverage": 95,
     "description": "A few stacked sandbags.",
     "required_str": -1,
-    "flags": [ "NOITEM", "BLOCKSDOOR", "EASY_DECONSTRUCT", "MINEABLE" ],
+    "flags": [ "NOITEM", "BLOCKSDOOR", "EASY_DECONSTRUCT", "MINEABLE", "BLOCK_WIND" ],
     "deconstruct": {
       "items": [ { "item": "bag_canvas", "count": 4 }, { "item": "material_sand", "charges": 40 } ],
       "furn_set": "f_sandbag_half"
@@ -233,6 +236,7 @@
     "symbol": "6",
     "color": "blue",
     "move_cost_mod": -1,
+    "coverage": 75,
     "required_str": -1,
     "flags": [ "FLAMMABLE", "NOITEM", "ORGANIC" ],
     "examine_action": "bulletin_board",
@@ -258,7 +262,7 @@
     "move_cost_mod": 2,
     "description": "A variety of plant, used for decoration.",
     "required_str": 5,
-    "max_volume": 2000,
+    "max_volume": 40,
     "flags": [ "CONTAINER", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "TINY", "TRANSPARENT", "EASY_DECONSTRUCT" ],
     "deconstruct": {
       "items": [
@@ -294,7 +298,7 @@
     "color": "yellow",
     "move_cost_mod": 2,
     "required_str": 5,
-    "max_volume": 2000,
+    "max_volume": 40,
     "flags": [ "CONTAINER", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "TINY", "TRANSPARENT", "EASY_DECONSTRUCT" ],
     "deconstruct": {
       "items": [
@@ -329,6 +333,7 @@
     "description": "Quite comfortable to sleep in.",
     "color": "magenta",
     "move_cost_mod": 3,
+    "coverage": 40,
     "comfort": 5,
     "floor_bedding_warmth": 1000,
     "required_str": -1,
@@ -358,6 +363,7 @@
     "color": "white",
     "description": "Emergency water source, from the tank, and provider of relief.",
     "move_cost_mod": 2,
+    "coverage": 30,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "MOUNTABLE", "LIQUIDCONT" ],
     "examine_action": "toilet",
@@ -377,6 +383,7 @@
     "description": "Not as comfortable as a real bed, but it will suffice.",
     "color": "magenta",
     "move_cost_mod": 3,
+    "coverage": 40,
     "comfort": 4,
     "floor_bedding_warmth": 500,
     "required_str": 10,
@@ -406,6 +413,7 @@
     "description": "Kinda itches when you lay on it.",
     "color": "magenta",
     "move_cost_mod": 3,
+    "coverage": 35,
     "comfort": 2,
     "floor_bedding_warmth": 200,
     "required_str": -1,
@@ -432,6 +440,7 @@
     "description": "Emergency relief provider.  Water isn't running, so no water.",
     "color": "white",
     "move_cost_mod": 2,
+    "coverage": 60,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "CONTAINER", "PLACE_ITEM", "MOUNTABLE" ],
     "bash": {
@@ -454,9 +463,11 @@
     "description": "Used for heating and cooking food with electricity.  Doesn't look like it's working, although it still has parts.",
     "color": "dark_gray",
     "move_cost_mod": 2,
+    "coverage": 60,
     "required_str": 10,
     "insulation": 6,
     "flags": [ "PLACE_ITEM", "TRANSPARENT", "FIRE_CONTAINER", "CONTAINER", "BLOCKSDOOR", "MOUNTABLE" ],
+    "examine_action": "fireplace",
     "deconstruct": {
       "items": [
         { "item": "sheet_metal", "count": [ 2, 6 ] },
@@ -468,7 +479,7 @@
         { "item": "pilot_light", "count": 1 }
       ]
     },
-    "max_volume": 1000,
+    "max_volume": 160,
     "bash": {
       "str_min": 8,
       "str_max": 30,
@@ -493,9 +504,11 @@
     "bgcolor": "red",
     "description": "Wood stove for heating and cooking.  Much more effective than an open flame.",
     "move_cost_mod": 2,
+    "coverage": 60,
     "required_str": 10,
     "max_volume": 1000,
     "flags": [ "TRANSPARENT", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM", "MOUNTABLE" ],
+    "examine_action": "fireplace",
     "bash": {
       "str_min": 8,
       "str_max": 30,
@@ -513,8 +526,10 @@
     "description": "Ah.  The relaxation of sitting in front of a fire as the world around you crumbles.",
     "bgcolor": "white",
     "move_cost_mod": 2,
+    "coverage": 50,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM", "MINEABLE" ],
+    "examine_action": "fireplace",
     "bash": {
       "str_min": 30,
       "str_max": 210,
@@ -531,6 +546,7 @@
     "description": "You would be able to clean yourself if water was running.",
     "color": "white",
     "move_cost_mod": 0,
+    "coverage": 35,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR" ],
     "bash": {
@@ -556,8 +572,10 @@
     "description": "You could lay in and take a soothing bath.  Only if water was running.",
     "color": "white",
     "move_cost_mod": 2,
+    "coverage": 30,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MOUNTABLE" ],
+    "max_volume": 800,
     "bash": {
       "str_min": 12,
       "str_max": 50,
@@ -579,9 +597,10 @@
     "description": "Sit down, have a drink.",
     "color": "brown",
     "move_cost_mod": 1,
+    "coverage": 30,
     "bonus_fire_warmth_feet": 1000,
     "required_str": 3,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "CAN_SIT" ],
     "deconstruct": { "items": [ { "item": "2x4", "count": 3 }, { "item": "nail", "charges": [ 2, 6 ] } ] },
     "max_volume": 3500,
     "bash": {
@@ -600,11 +619,12 @@
     "description": "Sit down, have a drink.",
     "color": "brown",
     "move_cost_mod": 1,
+    "coverage": 40,
     "comfort": 1,
     "floor_bedding_warmth": -1500,
     "bonus_fire_warmth_feet": 1000,
     "required_str": 4,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "CAN_SIT" ],
     "deconstruct": { "items": [ { "item": "2x4", "count": 4 }, { "item": "nail", "charges": [ 6, 8 ] } ] },
     "max_volume": 4000,
     "bash": {
@@ -623,6 +643,7 @@
     "description": "A more comfortable way of sitting down.",
     "color": "green",
     "move_cost_mod": 1,
+    "coverage": 45,
     "comfort": 3,
     "floor_bedding_warmth": 500,
     "bonus_fire_warmth_feet": 1000,
@@ -631,7 +652,7 @@
       "items": [ { "item": "2x4", "count": 10 }, { "item": "rag", "count": [ 30, 33 ] }, { "item": "nail", "charges": [ 6, 8 ] } ]
     },
     "max_volume": 4000,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "CAN_SIT" ],
     "bash": {
       "str_min": 12,
       "str_max": 40,
@@ -653,6 +674,7 @@
     "description": "Lay down OR sit down!  Perfect!",
     "bgcolor": "red",
     "move_cost_mod": 1,
+    "coverage": 60,
     "comfort": 4,
     "floor_bedding_warmth": 500,
     "required_str": 10,
@@ -660,7 +682,7 @@
       "items": [ { "item": "2x4", "count": 12 }, { "item": "rag", "count": [ 30, 33 ] }, { "item": "nail", "charges": [ 8, 10 ] } ]
     },
     "max_volume": 4000,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "BLOCKSDOOR", "MOUNTABLE" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "BLOCKSDOOR", "MOUNTABLE", "CAN_SIT" ],
     "bash": {
       "str_min": 12,
       "str_max": 40,
@@ -682,6 +704,7 @@
     "description": "Store your cups.",
     "color": "blue",
     "move_cost_mod": 1,
+    "coverage": 55,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "ORGANIC", "MOUNTABLE" ],
     "deconstruct": { "items": [ { "item": "2x4", "count": 3 }, { "item": "nail", "charges": [ 6, 8 ] } ] },
@@ -703,7 +726,7 @@
     "color": "light_cyan",
     "move_cost_mod": 1,
     "required_str": 5,
-    "max_volume": 4000,
+    "max_volume": 80,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "MOUNTABLE", "SHORT" ],
     "bash": {
       "str_min": 8,
@@ -721,8 +744,9 @@
     "symbol": "{",
     "color": "light_green",
     "move_cost_mod": -1,
+    "coverage": 40,
     "required_str": 5,
-    "max_volume": 4000,
+    "max_volume": 80,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "MOUNTABLE", "SHORT" ],
     "bash": {
       "str_min": 8,
@@ -740,6 +764,7 @@
     "description": "Sit down at it, and, if up to, work on it.",
     "color": "light_red",
     "move_cost_mod": 1,
+    "coverage": 45,
     "required_str": 8,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "FLAT_SURF" ],
     "deconstruct": { "items": [ { "item": "2x4", "count": 4 }, { "item": "nail", "charges": [ 6, 10 ] } ] },
@@ -750,7 +775,9 @@
       "sound": "smash!",
       "sound_fail": "whump.",
       "items": [ { "item": "2x4", "count": [ 1, 3 ] }, { "item": "nail", "charges": [ 2, 6 ] }, { "item": "splinter", "count": 1 } ]
-    }
+    },
+    "examine_action": "workbench",
+    "workbench": { "multiplier": 1.0, "mass": 100000, "volume": "100L" }
   },
   {
     "type": "furniture",
@@ -760,6 +787,7 @@
     "description": "Typically used for, well, exercising.  You're not up for it.",
     "color": "dark_gray",
     "move_cost_mod": 1,
+    "coverage": 35,
     "required_str": 8,
     "flags": [ "TRANSPARENT", "MINEABLE" ],
     "deconstruct": {
@@ -809,11 +837,12 @@
     "description": "Hobo bed.  Use at your own risk.",
     "color": "brown",
     "move_cost_mod": 1,
+    "coverage": 35,
     "comfort": 1,
     "floor_bedding_warmth": -1500,
     "bonus_fire_warmth_feet": 1000,
     "required_str": 8,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT", "CAN_SIT" ],
     "max_volume": 4000,
     "deconstruct": { "items": [ { "item": "2x4", "count": 4 }, { "item": "nail", "charges": [ 6, 10 ] } ] },
     "bash": {
@@ -850,6 +879,7 @@
     "symbol": "#",
     "color": "red",
     "move_cost_mod": 2,
+    "coverage": 50,
     "required_str": 8,
     "max_volume": 4000,
     "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "FLAT_SURF" ],
@@ -860,7 +890,9 @@
       "sound": "smash!",
       "sound_fail": "whump.",
       "items": [ { "item": "2x4", "count": [ 2, 6 ] }, { "item": "nail", "charges": [ 4, 8 ] }, { "item": "splinter", "count": 1 } ]
-    }
+    },
+    "examine_action": "workbench",
+    "workbench": { "multiplier": 1.0, "mass": 100000, "volume": "100L" }
   },
   {
     "type": "furniture",
@@ -870,10 +902,11 @@
     "symbol": "Y",
     "color": "brown",
     "move_cost_mod": -1,
+    "coverage": 30,
     "required_str": 4,
     "flags": [ "TRANSPARENT", "FLAMMABLE", "PLACE_ITEM", "BLOCKSDOOR", "MOUNTABLE" ],
     "deconstruct": { "items": [ { "item": "nail", "charges": [ 2, 6 ] }, { "item": "2x4", "count": 2 } ] },
-    "max_volume": 1000,
+    "max_volume": 120,
     "bash": {
       "str_min": 6,
       "str_max": 30,
@@ -891,6 +924,7 @@
     "color": "brown",
     "examine_action": "sign",
     "move_cost_mod": 1,
+    "coverage": 35,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE" ],
     "deconstruct": { "items": [ { "item": "2x4", "count": 3 }, { "item": "nail", "charges": [ 2, 5 ] } ] },
@@ -915,7 +949,7 @@
     "deconstruct": {
       "items": [ { "item": "2x4", "count": 2 }, { "item": "nail", "charges": [ 2, 5 ] }, { "item": "sheet_metal", "count": 1 } ]
     },
-    "max_volume": 300,
+    "max_volume": 40,
     "bash": {
       "str_min": 12,
       "str_max": 50,
@@ -938,6 +972,7 @@
     "description": "A good-looking pool table.  You wish you learned how to play.",
     "color": "green",
     "move_cost_mod": 2,
+    "coverage": 50,
     "required_str": -1,
     "max_volume": 4000,
     "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "FLAT_SURF" ],
@@ -963,6 +998,7 @@
     "symbol": "#",
     "color": "blue",
     "move_cost_mod": 2,
+    "coverage": 60,
     "required_str": 10,
     "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "FLAT_SURF" ],
     "deconstruct": { "items": [ { "item": "2x4", "count": 6 }, { "item": "nail", "charges": [ 6, 8 ] } ] },
@@ -973,7 +1009,9 @@
       "sound": "smash!",
       "sound_fail": "whump.",
       "items": [ { "item": "2x4", "count": [ 2, 6 ] }, { "item": "nail", "charges": [ 4, 8 ] }, { "item": "splinter", "count": 1 } ]
-    }
+    },
+    "examine_action": "workbench",
+    "workbench": { "multiplier": 1.0, "mass": 100000, "volume": "100L" }
   },
   {
     "type": "furniture",
@@ -983,6 +1021,7 @@
     "description": "Freeze your food with the amazing science of electricity!  Oh wait, none is flowing.",
     "color": "light_cyan",
     "move_cost_mod": -1,
+    "coverage": 90,
     "required_str": 10,
     "insulation": 3,
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE" ],
@@ -994,12 +1033,14 @@
         { "item": "scrap", "count": [ 2, 8 ] },
         { "item": "cable", "charges": [ 1, 3 ] },
         { "item": "hose", "count": 1 },
-        { "item": "cu_pipe", "count": [ 2, 5 ] },
+        { "item": "condensor_coil", "count": 1 },
+        { "item": "evaporator_coil", "count": 1 },
         { "item": "refrigerant_tank", "count": 1 },
+        { "item": "thermostat", "count": 1 },
         { "item": "motor_tiny", "count": 1 }
       ]
     },
-    "max_volume": 4000,
+    "max_volume": 800,
     "bash": {
       "str_min": 18,
       "str_max": 50,
@@ -1026,6 +1067,7 @@
     "color": "light_cyan",
     "description": "Wow!  See INTO your fridge before you open it!",
     "move_cost_mod": -1,
+    "coverage": 90,
     "required_str": 10,
     "insulation": 2,
     "flags": [ "PLACE_ITEM", "BLOCKSDOOR" ],
@@ -1043,7 +1085,7 @@
         { "item": "motor_tiny", "count": 1 }
       ]
     },
-    "max_volume": 5000,
+    "max_volume": 1000,
     "bash": {
       "str_min": 12,
       "str_max": 50,
@@ -1071,6 +1113,7 @@
     "description": "Dress yourself for the prom, or other occasions.",
     "color": "brown",
     "move_cost_mod": -1,
+    "coverage": 70,
     "required_str": 8,
     "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "BLOCKSDOOR", "MOUNTABLE" ],
     "deconstruct": { "items": [ { "item": "2x4", "count": 6 }, { "item": "nail", "charges": [ 6, 8 ] } ] },
@@ -1091,16 +1134,18 @@
     "description": "Usually used for storing equipment or items.",
     "color": "light_gray",
     "move_cost_mod": -1,
+    "coverage": 90,
     "required_str": 9,
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR" ],
     "deconstruct": {
       "items": [
         { "item": "sheet_metal", "count": [ 1, 2 ] },
         { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "lock", "count": [ 0, 1 ] },
         { "item": "pipe", "count": [ 4, 8 ] }
       ]
     },
-    "max_volume": 8000,
+    "max_volume": 2000,
     "bash": {
       "str_min": 12,
       "str_max": 40,
@@ -1122,6 +1167,7 @@
     "symbol": "{",
     "color": "light_gray",
     "move_cost_mod": -1,
+    "coverage": 70,
     "required_str": 8,
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "PLACE_ITEM", "BLOCKSDOOR", "MOUNTABLE" ],
     "deconstruct": {
@@ -1153,6 +1199,7 @@
     "description": "Stores books.  Y'know, Those things.  Who reads books anymore?",
     "color": "brown",
     "move_cost_mod": -1,
+    "coverage": 80,
     "required_str": 9,
     "flags": [ "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "BLOCKSDOOR" ],
     "deconstruct": { "items": [ { "item": "2x4", "count": 12 }, { "item": "nail", "charges": [ 12, 16 ] } ] },
@@ -1173,8 +1220,9 @@
     "symbol": "{",
     "bgcolor": "white",
     "move_cost_mod": -1,
+    "coverage": 60,
     "required_str": 12,
-    "max_volume": 1200,
+    "max_volume": 120,
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "MINEABLE" ],
     "deconstruct": {
       "items": [
@@ -1214,8 +1262,9 @@
     "symbol": "{",
     "bgcolor": "white",
     "move_cost_mod": -1,
+    "coverage": 60,
     "required_str": 12,
-    "max_volume": 1500,
+    "max_volume": 150,
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "MINEABLE" ],
     "deconstruct": {
       "items": [
@@ -1252,6 +1301,7 @@
     "description": "Lookin' good- is that blood?",
     "color": "white",
     "move_cost_mod": 2,
+    "coverage": 80,
     "required_str": 5,
     "flags": [ "NOITEM", "BLOCKSDOOR" ],
     "bash": {
@@ -1272,6 +1322,7 @@
     "symbol": "{",
     "color": "light_gray",
     "move_cost_mod": 2,
+    "coverage": 80,
     "required_str": 5,
     "flags": [ "NOITEM", "BLOCKSDOOR" ],
     "bash": {
@@ -1290,6 +1341,7 @@
     "description": "Buy stuff with a cash card.",
     "color": "light_cyan",
     "move_cost_mod": -1,
+    "coverage": 90,
     "required_str": 12,
     "flags": [ "SEALED", "PLACE_ITEM", "ALARMED", "CONTAINER", "BLOCKSDOOR", "MINEABLE" ],
     "examine_action": "vending",
@@ -1312,6 +1364,7 @@
     "symbol": "{",
     "color": "dark_gray",
     "move_cost_mod": -1,
+    "coverage": 90,
     "required_str": 12,
     "flags": [ "PLACE_ITEM", "CONTAINER", "BLOCKSDOOR", "MINEABLE" ],
     "bash": {
@@ -1336,8 +1389,9 @@
     "symbol": "{",
     "color": "green",
     "move_cost_mod": 3,
+    "coverage": 70,
     "required_str": 16,
-    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "HIDE_PLACE" ],
+    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "HIDE_PLACE", "NO_SIGHT" ],
     "bash": {
       "str_min": 8,
       "str_max": 45,
@@ -1376,6 +1430,7 @@
     "symbol": "0",
     "bgcolor": "brown",
     "move_cost_mod": -1,
+    "coverage": 40,
     "required_str": 14,
     "flags": [
       "TRANSPARENT",
@@ -1392,7 +1447,7 @@
     "deconstruct": {
       "items": [ { "item": "2x4", "count": 12 }, { "item": "nail", "charges": [ 12, 24 ] }, { "item": "rag", "count": [ 15, 20 ] } ]
     },
-    "max_volume": 4000,
+    "max_volume": 3500,
     "bash": {
       "str_min": 12,
       "str_max": 40,
@@ -1414,12 +1469,13 @@
     "symbol": "O",
     "bgcolor": "brown",
     "move_cost_mod": -1,
+    "coverage": 35,
     "required_str": 12,
     "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "SHORT" ],
     "deconstruct": {
       "items": [ { "item": "2x4", "count": 12 }, { "item": "nail", "charges": [ 12, 24 ] }, { "item": "rag", "count": [ 15, 20 ] } ]
     },
-    "max_volume": 4000,
+    "max_volume": 3500,
     "bash": {
       "str_min": 12,
       "str_max": 40,
@@ -1441,6 +1497,7 @@
     "symbol": "X",
     "bgcolor": "brown",
     "move_cost_mod": -1,
+    "coverage": 60,
     "required_str": 12,
     "flags": [
       "TRANSPARENT",
@@ -1472,6 +1529,7 @@
     "symbol": "O",
     "bgcolor": "brown",
     "move_cost_mod": -1,
+    "coverage": 60,
     "required_str": 10,
     "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "SHORT" ],
     "deconstruct": { "items": [ { "item": "2x4", "count": 4 }, { "item": "nail", "charges": [ 6, 10 ] } ] },
@@ -1491,8 +1549,9 @@
     "symbol": "#",
     "color": "blue",
     "move_cost_mod": -1,
+    "coverage": 95,
     "required_str": -1,
-    "flags": [ "FLAMMABLE_HARD", "NOITEM" ],
+    "flags": [ "FLAMMABLE_HARD", "NOITEM", "BLOCK_WIND" ],
     "bash": {
       "str_min": 1,
       "str_max": 8,
@@ -1509,8 +1568,9 @@
     "symbol": "#",
     "color": "blue",
     "move_cost_mod": -1,
+    "coverage": 95,
     "required_str": -1,
-    "flags": [ "FLAMMABLE_HARD", "NOITEM" ],
+    "flags": [ "FLAMMABLE_HARD", "NOITEM", "BLOCK_WIND" ],
     "bash": {
       "str_min": 1,
       "str_max": 8,
@@ -1528,8 +1588,9 @@
     "symbol": "+",
     "color": "blue",
     "move_cost_mod": -1,
+    "coverage": 95,
     "required_str": -1,
-    "flags": [ "FLAMMABLE_HARD", "NOITEM", "DOOR" ],
+    "flags": [ "FLAMMABLE_HARD", "NOITEM", "DOOR", "BLOCK_WIND" ],
     "open": "f_canvas_door_o",
     "bash": {
       "str_min": 1,
@@ -1566,8 +1627,9 @@
     "symbol": "+",
     "color": "blue",
     "move_cost_mod": -1,
+    "coverage": 95,
     "required_str": -1,
-    "flags": [ "FLAMMABLE_HARD", "NOITEM", "DOOR" ],
+    "flags": [ "FLAMMABLE_HARD", "NOITEM", "DOOR", "BLOCK_WIND" ],
     "open": "f_large_canvas_door_o",
     "bash": {
       "str_min": 1,
@@ -1687,8 +1749,9 @@
     "description": "Wall made out of animal skin.  Either an amazing or horrifying sight.",
     "color": "brown",
     "move_cost_mod": -1,
+    "coverage": 95,
     "required_str": -1,
-    "flags": [ "FLAMMABLE_HARD", "NOITEM" ],
+    "flags": [ "FLAMMABLE_HARD", "NOITEM", "BLOCK_WIND" ],
     "bash": {
       "str_min": 1,
       "str_max": 8,
@@ -1705,8 +1768,9 @@
     "symbol": "+",
     "color": "white",
     "move_cost_mod": -1,
+    "coverage": 95,
     "required_str": -1,
-    "flags": [ "FLAMMABLE_HARD", "NOITEM" ],
+    "flags": [ "FLAMMABLE_HARD", "NOITEM", "BLOCK_WIND" ],
     "open": "f_skin_door_o",
     "bash": {
       "str_min": 1,
@@ -1761,6 +1825,7 @@
     "type": "furniture",
     "id": "f_mutpoppy",
     "name": "mutated poppy flower",
+    "description": "These strange flowers have appeared in the wake of the Cataclysm, and their buds can be used for medicinal purposes, like the seeds of the mundane poppy they're named after.  The dirt around them gently churns as their roots writhe beneath the soil, and it's surrounded by an overwhelming floral smell that makes you feel sleepy.",
     "symbol": "f",
     "color": "light_red",
     "move_cost_mod": 0,
@@ -1773,6 +1838,7 @@
     "type": "furniture",
     "id": "f_flower_fungal",
     "name": "fungal flower",
+    "description": "This flower has been overgrown by grey, sinewy tendrils of fungus, and the color has leached from its petals and stem.  It gently sways of its own volition.",
     "symbol": "f",
     "color": "dark_gray",
     "move_cost_mod": 1,
@@ -1785,6 +1851,7 @@
     "type": "furniture",
     "id": "f_fungal_mass",
     "name": "fungal mass",
+    "description": "Thick ropes of mycal matter have covered the ground here completely.  It's soft to the touch, but you sink into it, making moving across it difficult.",
     "symbol": "O",
     "bgcolor": "dark_gray",
     "move_cost_mod": -10,
@@ -1796,6 +1863,7 @@
     "type": "furniture",
     "id": "f_fungal_clump",
     "name": "fungal clump",
+    "description": "Alien mold and stems mingle tightly here, creating a sort of fungal bush.",
     "symbol": "#",
     "bgcolor": "light_gray",
     "move_cost_mod": 3,
@@ -1811,10 +1879,12 @@
     "symbol": "X",
     "color": "light_gray",
     "move_cost_mod": -1,
+    "coverage": 30,
     "required_str": 14,
     "max_volume": 1000,
     "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE", "MINEABLE" ],
     "open": "f_safe_o",
+    "examine_action": "open_safe",
     "bash": {
       "str_min": 40,
       "str_max": 200,
@@ -1831,6 +1901,7 @@
     "description": "What needs protection like this?",
     "color": "light_gray",
     "move_cost_mod": -1,
+    "coverage": 30,
     "required_str": 14,
     "max_volume": 1000,
     "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE", "MINEABLE" ],
@@ -1851,6 +1922,7 @@
     "symbol": "X",
     "color": "light_gray",
     "move_cost_mod": -1,
+    "coverage": 30,
     "required_str": 14,
     "max_volume": 1000,
     "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE", "MINEABLE" ],
@@ -1871,6 +1943,7 @@
     "symbol": "X",
     "color": "light_gray",
     "move_cost_mod": -1,
+    "coverage": 30,
     "required_str": 14,
     "max_volume": 1000,
     "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE", "MINEABLE" ],
@@ -1890,6 +1963,7 @@
     "symbol": "X",
     "color": "light_gray",
     "move_cost_mod": -1,
+    "coverage": 30,
     "required_str": 14,
     "max_volume": 1000,
     "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE", "MINEABLE" ],
@@ -1910,6 +1984,7 @@
     "symbol": "O",
     "color": "light_gray",
     "move_cost_mod": -1,
+    "coverage": 30,
     "required_str": 14,
     "max_volume": 1000,
     "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "MOUNTABLE", "MINEABLE" ],
@@ -2047,9 +2122,11 @@
     "symbol": "H",
     "color": "brown",
     "move_cost_mod": -1,
+    "coverage": 70,
     "required_str": -1,
     "flags": [ "NOITEM", "SEALED", "ALLOW_FIELD_EFFECT", "TRANSPARENT", "FLAMMABLE", "CONTAINER", "LIQUIDCONT" ],
     "examine_action": "keg",
+    "keg_capacity": 500,
     "deconstruct": {
       "items": [
         { "item": "2x4", "count": 18 },
@@ -2082,6 +2159,7 @@
     "symbol": "S",
     "color": "dark_gray",
     "move_cost_mod": -1,
+    "coverage": 50,
     "required_str": 10,
     "flags": [ "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE" ],
     "bash": {
@@ -2100,6 +2178,7 @@
     "symbol": "@",
     "color": "brown",
     "move_cost_mod": 2,
+    "coverage": 40,
     "required_str": 5,
     "flags": [ "PLACE_ITEM", "TRANSPARENT", "FLAMMABLE" ],
     "bash": {
@@ -2112,12 +2191,225 @@
   },
   {
     "type": "furniture",
+    "id": "f_birdbath",
+    "name": "birdbath",
+    "description": "A decorative cement birdbath and pedestal.",
+    "symbol": "o",
+    "color": "light_gray",
+    "move_cost_mod": -1,
+    "required_str": 10,
+    "flags": [ "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "LIQUIDCONT" ],
+    "bash": {
+      "str_min": 16,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "items": [ { "item": "rock", "count": [ 1, 6 ] }, { "item": "rebar", "count": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_rotary_clothesline",
+    "name": "rotary clothes dryer line",
+    "description": "A umbrella shaped clothes line mounted on a pole.",
+    "symbol": "X",
+    "color": "white",
+    "move_cost_mod": -2,
+    "required_str": 10,
+    "flags": [ "TRANSPARENT", "BLOCKSDOOR", "BASHABLE", "PLACE_ITEM" ],
+    "deconstruct": {
+      "items": [ { "item": "pipe", "count": 6 }, { "item": "steel_chunk", "count": [ 2, 6 ] }, { "item": "wire", "count": 10 } ]
+    },
+    "bash": {
+      "str_min": 6,
+      "str_max": 10,
+      "sound": "smash!",
+      "sound_fail": "clang!",
+      "items": [ { "item": "pipe", "count": [ 1, 6 ] }, { "item": "wire", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 1, 6 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_cellphone_booster",
+    "name": "cell phone signal booster",
+    "description": "A cell phone signal booster, it may be useful for parts now.",
+    "symbol": ":",
+    "color": "white",
+    "move_cost_mod": -2,
+    "required_str": 10,
+    "flags": [ "TRANSPARENT", "PLACE_ITEM", "BASHABLE", "DECONSTRUCT" ],
+    "bash": {
+      "str_min": 6,
+      "str_max": 10,
+      "sound": "whack!",
+      "sound_fail": "womp!",
+      "items": [
+        { "item": "e_scrap", "count": [ 1, 6 ] },
+        { "item": "plastic_chunk", "count": [ 1, 2 ] },
+        { "item": "scrap", "count": [ 1, 6 ] },
+        { "item": "antenna", "count": [ 1, 2 ] }
+      ]
+    },
+    "deconstruct": {
+      "items": [
+        { "item": "scrap", "count": [ 4, 6 ] },
+        { "item": "plastic_chunk", "count": [ 1, 2 ] },
+        { "item": "circuit", "count": 1 },
+        { "item": "cable", "charges": [ 10, 15 ] },
+        { "item": "power_supply", "prob": 50 },
+        { "item": "antenna", "count": 2 },
+        { "item": "amplifier", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_small_satelitte_dish",
+    "name": "satelitte dish",
+    "description": "A small satelitte dish for home entertainment.",
+    "symbol": "(",
+    "color": "light_gray",
+    "move_cost_mod": -2,
+    "required_str": 10,
+    "flags": [ "TRANSPARENT", "BASHABLE", "NOITEM" ],
+    "bash": {
+      "items": [
+        { "item": "scrap", "count": [ 4, 6 ] },
+        { "item": "plastic_chunk", "count": [ 4, 12 ] },
+        { "item": "cable", "charges": [ 10, 15 ] },
+        { "item": "power_supply", "prob": 50 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_chimney",
+    "name": "chimney crown",
+    "description": "The top of a chimney, it looks sooty.",
+    "symbol": "#",
+    "color": "red",
+    "move_cost_mod": 2,
+    "coverage": 35,
+    "required_str": -1,
+    "flags": [ "BASHABLE", "MINEABLE" ],
+    "deconstruct": { "items": [ { "item": "sheet_metal", "count": 2 }, { "item": "brick", "count": 30 } ] },
+    "bash": {
+      "str_min": 15,
+      "str_max": 25,
+      "sound": "whack!",
+      "sound_fail": "whump!",
+      "items": [ { "item": "brick", "count": [ 5, 30 ] }, { "item": "scrap", "count": [ 3, 6 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_TV_antenna",
+    "name": "TV antenna",
+    "description": "The television antenna improves reception for televisions.",
+    "symbol": "#",
+    "color": "light_gray",
+    "move_cost_mod": 2,
+    "required_str": 8,
+    "flags": [ "TRANSPARENT", "BASHABLE" ],
+    "deconstruct": { "items": [ { "item": "pipe", "count": 6 }, { "item": "steel_chunk", "count": 2 }, { "item": "cable", "count": 10 } ] },
+    "bash": {
+      "str_min": 6,
+      "str_max": 10,
+      "sound": "clang!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "pipe", "count": [ 1, 6 ] },
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "cable", "count": [ 2, 6 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_vent_pipe",
+    "name": "vent pipe",
+    "description": "The plumbing vent pipe removes gas and odors from the building.",
+    "symbol": "|",
+    "color": "dark_gray",
+    "move_cost_mod": 2,
+    "coverage": 40,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "BASHABLE" ],
+    "deconstruct": { "items": [ { "item": "pipe", "count": 2 }, { "item": "steel_chunk", "count": 2 } ] },
+    "bash": {
+      "str_min": 10,
+      "str_max": 15,
+      "sound": "whack!",
+      "sound_fail": "whump!",
+      "items": [ { "item": "pipe", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 1, 3 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_roof_turbine_vent",
+    "name": "roof turbine vent",
+    "description": "The turbine uses wind power to suck hot and humid air out of the attic.",
+    "symbol": "&",
+    "color": "light_gray",
+    "move_cost_mod": 2,
+    "coverage": 40,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "BASHABLE" ],
+    "deconstruct": { "items": [ { "item": "sheet_metal_small", "count": 6 }, { "item": "steel_chunk", "count": 2 } ] },
+    "bash": {
+      "str_min": 8,
+      "str_max": 12,
+      "sound": "whack!",
+      "sound_fail": "clang!",
+      "items": [ { "item": "sheet_metal_small", "count": [ 1, 5 ] }, { "item": "scrap", "count": [ 3, 6 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_solar_unit",
+    "name": "mounted solar panel",
+    "description": "A mounted solar panel.",
+    "symbol": "#",
+    "color": "yellow",
+    "move_cost_mod": 2,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "BASHABLE" ],
+    "deconstruct": {
+      "items": [
+        { "item": "scrap", "count": [ 4, 6 ] },
+        { "item": "plastic_chunk", "count": [ 1, 2 ] },
+        { "item": "steel_chunk", "count": 3 },
+        { "item": "pipe", "count": 4 },
+        { "item": "2x4", "count": 4 },
+        { "item": "solar_panel", "count": 1 }
+      ]
+    },
+    "bash": {
+      "str_min": 10,
+      "str_max": 20,
+      "sound": "whack!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "solar_cell", "count": [ 1, 5 ] },
+        { "item": "scrap", "count": [ 3, 6 ] },
+        { "item": "amplifier", "prob": 50 },
+        { "item": "cable", "charges": [ 10, 15 ] },
+        { "item": "power_supply", "prob": 50 },
+        { "item": "scrap", "count": [ 4, 6 ] },
+        { "item": "plastic_chunk", "count": [ 1, 2 ] },
+        { "item": "steel_chunk", "count": 3 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_target",
     "name": "target",
     "description": "A metal shooting target in the rough shape of a human.",
     "symbol": "@",
     "color": "black",
     "move_cost_mod": 2,
+    "coverage": 40,
     "required_str": 5,
     "flags": [ "PLACE_ITEM", "TRANSPARENT" ],
     "bash": {
@@ -2169,6 +2461,7 @@
     "type": "furniture",
     "id": "f_flower_marloss",
     "name": "marloss flower",
+    "description": "This flower is like the other flowers taken by the mushrooms, but its bulb is colored a brilliant cyan color, and it emits an aroma both overwhelming and... delicious?",
     "symbol": "f",
     "color": "cyan",
     "move_cost_mod": 1,
@@ -2321,6 +2614,7 @@
     "symbol": "^",
     "color": "light_red",
     "move_cost_mod": -1,
+    "coverage": 40,
     "required_str": -1,
     "crafting_pseudo_item": "char_forge",
     "flags": [ "TRANSPARENT", "SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT" ],
@@ -2342,6 +2636,7 @@
     "symbol": "^",
     "color": "light_red",
     "move_cost_mod": -1,
+    "coverage": 30,
     "required_str": 16,
     "crafting_pseudo_item": "anvil",
     "deconstruct": { "items": [ { "item": "anvil", "count": 1 } ] },
@@ -2356,6 +2651,7 @@
     "symbol": "^",
     "color": "light_red",
     "move_cost_mod": -1,
+    "coverage": 40,
     "required_str": -1,
     "crafting_pseudo_item": "still",
     "deconstruct": { "items": [ { "item": "still", "count": 1 } ] },
@@ -2417,6 +2713,7 @@
     "symbol": "{",
     "color": "light_red",
     "move_cost_mod": -1,
+    "coverage": 90,
     "required_str": 30,
     "flags": [ "SEALED", "PLACE_ITEM", "ALARMED", "CONTAINER", "BLOCKSDOOR", "FLAMMABLE_HARD", "MINEABLE" ],
     "examine_action": "vending",
@@ -2441,6 +2738,7 @@
     "symbol": "6",
     "color": "red",
     "move_cost_mod": -1,
+    "coverage": 75,
     "required_str": 12,
     "flags": [ "BLOCKSDOOR", "TRANSPARENT" ],
     "deconstruct": {
@@ -2480,6 +2778,7 @@
     "symbol": "7",
     "color": "red",
     "move_cost_mod": -1,
+    "coverage": 35,
     "required_str": 8,
     "flags": [ "BLOCKSDOOR", "TRANSPARENT" ],
     "deconstruct": {
@@ -2605,6 +2904,7 @@
     "symbol": "#",
     "color": "light_cyan",
     "move_cost_mod": 2,
+    "coverage": 80,
     "required_str": 9,
     "flags": [ "TRANSPARENT", "SEALED", "PLACE_ITEM" ],
     "bash": {
@@ -2626,6 +2926,7 @@
     "symbol": "#",
     "color": "light_gray",
     "move_cost_mod": 2,
+    "coverage": 80,
     "required_str": 9,
     "flags": [ "TRANSPARENT", "PLACE_ITEM" ],
     "bash": {
@@ -2644,10 +2945,12 @@
     "symbol": "O",
     "color": "light_gray",
     "move_cost_mod": -1,
+    "coverage": 90,
     "required_str": -1,
     "flags": [ "BASHABLE", "CONTAINER", "DECONSTRUCT", "LIQUIDCONT", "NOITEM", "SEALED", "TRANSPARENT" ],
     "deconstruct": { "items": [ { "item": "metal_tank", "count": 4 }, { "item": "water_faucet", "count": 1 } ] },
     "examine_action": "keg",
+    "keg_capacity": 1200,
     "bash": {
       "str_min": 10,
       "str_max": 20,
@@ -2664,6 +2967,7 @@
     "symbol": "0",
     "color": "dark_gray",
     "move_cost_mod": -1,
+    "coverage": 65,
     "required_str": 10,
     "flags": [ "BASHABLE", "BLOCKSDOOR", "PLACE_ITEM", "ORGANIC" ],
     "bash": {
@@ -2696,6 +3000,7 @@
     "symbol": "U",
     "color": "brown",
     "move_cost_mod": -1,
+    "coverage": 40,
     "required_str": -1,
     "examine_action": "kiln_empty",
     "max_volume": 500,
@@ -2718,6 +3023,7 @@
     "symbol": "U",
     "color": "brown_red",
     "move_cost_mod": -1,
+    "coverage": 40,
     "required_str": -1,
     "examine_action": "kiln_full",
     "flags": [ "NOITEM", "SEALED", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM", "EASY_DECONSTRUCT", "MINEABLE" ],
@@ -2738,6 +3044,7 @@
     "symbol": "U",
     "color": "blue",
     "move_cost_mod": -1,
+    "coverage": 40,
     "required_str": -1,
     "examine_action": "kiln_empty",
     "max_volume": 500,
@@ -2764,6 +3071,7 @@
     "symbol": "U",
     "color": "blue_red",
     "move_cost_mod": -1,
+    "coverage": 40,
     "required_str": -1,
     "examine_action": "kiln_full",
     "flags": [ "NOITEM", "SEALED", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM" ],
@@ -2828,6 +3136,7 @@
     "symbol": "9",
     "color": "blue",
     "move_cost_mod": -1,
+    "coverage": 40,
     "required_str": 25,
     "flags": [ "SEALED", "ALARMED", "BLOCKSDOOR" ],
     "examine_action": "pay_gas",
@@ -2840,6 +3149,7 @@
     "symbol": "9",
     "color": "dark_gray",
     "move_cost_mod": -1,
+    "coverage": 40,
     "required_str": 20,
     "flags": [ "BLOCKSDOOR" ],
     "bash": {
@@ -2905,6 +3215,7 @@
     "symbol": "^",
     "color": "light_red",
     "move_cost_mod": -1,
+    "coverage": 40,
     "required_str": -1,
     "crafting_pseudo_item": "char_forge",
     "flags": [ "SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT", "MINEABLE" ],
@@ -2926,6 +3237,7 @@
     "symbol": "^",
     "color": "light_red",
     "move_cost_mod": -1,
+    "coverage": 40,
     "required_str": -1,
     "crafting_pseudo_item": "brick_kiln",
     "flags": [ "SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT", "MINEABLE" ],
@@ -2970,6 +3282,7 @@
     "symbol": "o",
     "color": "dark_gray",
     "move_cost_mod": 3,
+    "coverage": 30,
     "required_str": 10,
     "crafting_pseudo_item": "boulder_anvil",
     "flags": [ "TRANSPARENT", "MINEABLE", "UNSTABLE", "MOUNTABLE", "TINY" ],
@@ -2989,6 +3302,7 @@
     "symbol": "0",
     "color": "dark_gray",
     "move_cost_mod": 6,
+    "coverage": 45,
     "required_str": 16,
     "crafting_pseudo_item": "boulder_anvil",
     "flags": [ "NOITEM", "TRANSPARENT", "MINEABLE", "UNSTABLE", "MOUNTABLE", "SHORT", "BASHABLE" ],
@@ -3008,8 +3322,9 @@
     "symbol": "O",
     "color": "dark_gray",
     "move_cost_mod": -1,
+    "coverage": 65,
     "required_str": 32,
-    "flags": [ "NOITEM", "MINEABLE", "BASHABLE" ],
+    "flags": [ "NOITEM", "MINEABLE", "BASHABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 64,
       "str_max": 160,
@@ -3029,6 +3344,7 @@
     "symbol": "n",
     "color": "dark_gray",
     "move_cost_mod": 2,
+    "coverage": 30,
     "required_str": 12,
     "crafting_pseudo_item": "boulder_anvil",
     "flags": [ "PLACE_ITEM", "BLOCKSDOOR", "TRANSPARENT", "ALLOW_FIELD_EFFECT", "MOUNTABLE", "SHORT", "MINEABLE" ],
@@ -3084,6 +3400,7 @@
     "symbol": "^",
     "color": "light_gray",
     "move_cost_mod": 2,
+    "coverage": 50,
     "required_str": -1,
     "crafting_pseudo_item": "boulder_anvil",
     "flags": [ "MINEABLE", "NOITEM", "TRANSPARENT", "MOUNTABLE", "ROUGH", "PLACE_ITEM" ],
@@ -3103,6 +3420,7 @@
     "symbol": "^",
     "color": "dark_gray",
     "move_cost_mod": 1.5,
+    "coverage": 50,
     "required_str": -1,
     "flags": [ "MINEABLE", "NOITEM", "TRANSPARENT", "MOUNTABLE", "ROUGH", "PLACE_ITEM", "UNSTABLE" ],
     "bash": {
@@ -3120,6 +3438,7 @@
     "symbol": "$",
     "color": "black_white",
     "move_cost_mod": -1,
+    "coverage": 55,
     "required_str": -1,
     "flags": [ "MINEABLE", "NOITEM" ],
     "bash": {
@@ -3137,10 +3456,11 @@
     "symbol": "#",
     "color": "red",
     "move_cost_mod": 2,
+    "coverage": 35,
     "required_str": 8,
     "flags": [ "PLACE_ITEM", "TRANSPARENT", "FIRE_CONTAINER", "EASY_DECONSTRUCT" ],
     "deployed_item": "brazier",
-    "examine_action": "deployed_furniture",
+    "examine_action": "fireplace",
     "max_volume": 4000,
     "bash": {
       "str_min": 8,
@@ -3155,6 +3475,25 @@
     }
   },
   {
+    "id": "f_firering",
+    "type": "furniture",
+    "name": "fire ring",
+    "symbol": "#",
+    "bgcolor": [ "white" ],
+    "move_cost_mod": 2,
+    "required_str": -1,
+    "bash": {
+      "str_min": 15,
+      "str_max": 105,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "items": [ { "item": "rock", "count": [ 5, 15 ] } ]
+    },
+    "deconstruct": { "items": [ { "item": "rock", "count": 20 } ] },
+    "flags": [ "TRANSPARENT", "CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM", "EASY_DECONSTRUCT" ],
+    "examine_action": "fireplace"
+  },
+  {
     "type": "furniture",
     "id": "f_autodoc",
     "name": "Autodoc Mk. XI",
@@ -3163,6 +3502,7 @@
     "color": "light_cyan",
     "looks_like": "f_robotic_arm",
     "move_cost_mod": -1,
+    "coverage": 35,
     "required_str": -1,
     "flags": [ "TRANSPARENT" ],
     "examine_action": "autodoc",
@@ -3208,6 +3548,7 @@
     "description": "A plush red sofa made less comfortable by the medical machinery directly above it.  It has a single leather strap on the right armrest.",
     "bgcolor": "red",
     "move_cost_mod": 2,
+    "coverage": 40,
     "comfort": 4,
     "floor_bedding_warmth": 500,
     "required_str": 10,
@@ -3233,6 +3574,25 @@
         { "item": "rag", "count": [ 20, 30 ] }
       ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_camp_chair",
+    "name": "camp chair",
+    "symbol": "#",
+    "looks_like": "f_chair",
+    "description": "Sit down, have a drink. It can folded for easy transportation.",
+    "color": "brown",
+    "move_cost_mod": 1,
+    "coverage": 35,
+    "floor_bedding_warmth": -1000,
+    "bonus_fire_warmth_feet": 1000,
+    "required_str": 3,
+    "deployed_item": "camp_chair",
+    "examine_action": "deployed_furniture",
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "CAN_SIT" ],
+    "max_volume": 3500,
+    "deconstruct": { "items": [ { "item": "camp_chair", "count": 1 } ] }
   },
   {
     "type": "furniture",
@@ -3291,6 +3651,7 @@
     "symbol": "#",
     "bgcolor": "light_gray",
     "move_cost_mod": 2,
+    "coverage": 40,
     "required_str": -1,
     "deployed_item": "tourist_table",
     "examine_action": "deployed_furniture",
@@ -3319,7 +3680,7 @@
     "required_str": 3,
     "deployed_item": "leather_tarp",
     "examine_action": "deployed_furniture",
-    "flags": [ "TRANSPARENT", "SHORT", "FLAT_SURF" ],
+    "flags": [ "TRANSPARENT", "SHORT", "FLAT_SURF", "CAN_SIT" ],
     "deconstruct": { "items": [ { "item": "leather_tarp", "count": 1 } ] },
     "bash": {
       "str_min": 5,
@@ -3340,7 +3701,7 @@
     "required_str": 3,
     "deployed_item": "fiber_mat",
     "examine_action": "deployed_furniture",
-    "flags": [ "TRANSPARENT", "SHORT", "FLAT_SURF" ],
+    "flags": [ "TRANSPARENT", "SHORT", "FLAT_SURF", "CAN_SIT" ],
     "deconstruct": { "items": [ { "item": "fiber_mat", "count": 1 } ] },
     "bash": {
       "str_min": 5,
@@ -3358,6 +3719,7 @@
     "description": "A comfy place to hide from the world.",
     "color": "white",
     "move_cost_mod": 3,
+    "coverage": 90,
     "comfort": 4,
     "floor_bedding_warmth": 1000,
     "required_str": -1,
@@ -3371,7 +3733,8 @@
       "REDUCE_SCENT",
       "EASY_DECONSTRUCT",
       "BASHABLE",
-      "HIDE_PLACE"
+      "HIDE_PLACE",
+      "NO_SIGHT"
     ],
     "bash": {
       "str_min": 1,
@@ -3381,5 +3744,1973 @@
       "ter_set": "t_floor",
       "items": [ { "item": "pillow", "count": 19 }, { "item": "blanket", "count": 3 } ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_beaded_door",
+    "name": "beaded curtain",
+    "symbol": "+",
+    "color": "pink",
+    "looks_like": "f_canvas_door",
+    "move_cost_mod": 6,
+    "coverage": 90,
+    "required_str": -1,
+    "flags": [ "NOITEM", "DOOR", "PERMEABLE", "FLAMMABLE_ASH", "MOUNTABLE" ],
+    "open": "f_beaded_door_o",
+    "deconstruct": {
+      "items": [ { "item": "stick_long", "count": 1 }, { "item": "string_36", "count": 20 }, { "item": "wooden_bead", "count": 2000 } ]
+    },
+    "bash": {
+      "str_min": 1,
+      "str_max": 1,
+      "sound": "clickity clack...clack...clack",
+      "sound_fail": "clickity clack...clack",
+      "sound_vol": 15,
+      "items": [
+        { "item": "string_36", "count": [ 3, 15 ] },
+        { "item": "stick_long", "count": 1 },
+        { "item": "wooden_bead", "count": [ 200, 500 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_beaded_door_o",
+    "name": "open beaded curtain",
+    "symbol": ".",
+    "color": "pink",
+    "looks_like": "f_canvas_door_o",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "FLAT" ],
+    "close": "f_beaded_door",
+    "deconstruct": {
+      "items": [ { "item": "stick_long", "count": 1 }, { "item": "string_36", "count": 20 }, { "item": "wooden_bead", "count": 2000 } ]
+    },
+    "bash": {
+      "str_min": 1,
+      "str_max": 1,
+      "sound": "clickity clack...clack...clack!",
+      "sound_fail": "clickity clack...clack",
+      "sound_vol": 15,
+      "items": [
+        { "item": "string_36", "count": [ 3, 15 ] },
+        { "item": "stick_long", "count": 1 },
+        { "item": "wooden_bead", "count": [ 200, 500 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_filing_cabinet",
+    "name": "filing cabinet",
+    "looks_like": "f_rack",
+    "description": "A set of drawers in a sturdy metal cabinet, used to hold files.  It can be locked to protect important information.  If you're lucky, there are often keys nearby.",
+    "symbol": "}",
+    "color": "dark_gray",
+    "move_cost_mod": 2,
+    "coverage": 70,
+    "required_str": 7,
+    "flags": [ "PLACE_ITEM", "TRANSPARENT", "CONTAINER", "BLOCKSDOOR", "MOUNTABLE" ],
+    "deconstruct": {
+      "items": [
+        { "item": "sheet_metal", "count": [ 2, 6 ] },
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "lock", "count": [ 0, 1 ] }
+      ]
+    },
+    "max_volume": 800,
+    "bash": {
+      "str_min": 8,
+      "str_max": 30,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [ { "item": "scrap", "count": [ 0, 6 ] }, { "item": "sheet_metal", "count": [ 0, 4 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_wardrobe",
+    "name": "wardrobe",
+    "looks_like": "f_dresser",
+    "description": "A tall piece of furniture - basically a freestanding closet.",
+    "symbol": "{",
+    "color": "i_brown",
+    "move_cost_mod": -1,
+    "coverage": 85,
+    "required_str": 9,
+    "flags": [ "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "BLOCKSDOOR", "MOUNTABLE" ],
+    "deconstruct": { "items": [ { "item": "2x4", "count": 12 }, { "item": "nail", "charges": [ 8, 12 ] } ] },
+    "max_volume": 2000,
+    "bash": {
+      "str_min": 12,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "2x4", "count": [ 4, 8 ] }, { "item": "nail", "charges": [ 6, 12 ] }, { "item": "splinter", "count": 1 } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_piano",
+    "name": "piano",
+    "description": "The ol' ebony and ivory.",
+    "symbol": "P",
+    "color": "i_black",
+    "move_cost_mod": 6,
+    "coverage": 70,
+    "required_str": 8,
+    "//": "While heavy, most large pianos have casters for relatively easy movement.",
+    "flags": [ "FLAMMABLE", "ORGANIC", "BLOCKSDOOR" ],
+    "deconstruct": {
+      "items": [
+        { "item": "2x4", "count": 12 },
+        { "item": "nail", "charges": [ 8, 12 ] },
+        { "item": "wire", "count": [ 2, 10 ] },
+        { "item": "string_36", "count": [ 2, 10 ] },
+        { "item": "wheel_caster", "count": [ 0, 1 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "plastic_chunk", "count": [ 1, 10 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 12,
+      "str_max": 40,
+      "sound": "a suffering piano!",
+      "sound_fail": "kerchang.",
+      "items": [
+        { "item": "2x4", "count": [ 4, 8 ] },
+        { "item": "wire", "count": [ 0, 3 ] },
+        { "item": "nail", "charges": [ 6, 12 ] },
+        { "item": "splinter", "count": 1 },
+        { "item": "plastic_chunk", "count": [ 1, 5 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_home_furnace",
+    "name": "furnace",
+    "looks_like": "t_sewage_pipe",
+    "description": "A gas-powered forced-air central heating unit, with an internal fan to push the air through a building's air ducts and keep it warm.",
+    "symbol": "0",
+    "bgcolor": "white",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": -1,
+    "max_volume": 4000,
+    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR" ],
+    "deconstruct": {
+      "items": [
+        { "item": "pipe", "count": 1 },
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "sheet_metal", "count": [ 2, 6 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "cu_pipe", "count": [ 2, 5 ] },
+        { "item": "thermostat", "count": 1 },
+        { "item": "motor_small", "count": 1 }
+      ]
+    },
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 7 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "sheet_metal", "count": [ 2, 6 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "hose", "count": [ 0, 2 ] },
+        { "item": "cu_pipe", "count": [ 1, 4 ] },
+        { "item": "scrap_copper", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_air_conditioner",
+    "name": "cooling unit",
+    "looks_like": "t_machinery_light",
+    "description": "A big, blocky metal device for refrigerating large areas.",
+    "symbol": "{",
+    "bgcolor": "white",
+    "move_cost_mod": -1,
+    "coverage": 55,
+    "required_str": -1,
+    "max_volume": 4000,
+    "deconstruct": {
+      "items": [
+        { "item": "pipe", "count": 1 },
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "sheet_metal", "count": [ 2, 6 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "cu_pipe", "count": [ 2, 5 ] },
+        { "item": "hose", "count": [ 0, 2 ] },
+        { "item": "thermostat", "count": 1 },
+        { "item": "refrigerant_tank", "count": 1 },
+        { "item": "motor_small", "count": 1 }
+      ]
+    },
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 7 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "sheet_metal", "count": [ 2, 6 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "hose", "count": [ 0, 2 ] },
+        { "item": "cu_pipe", "count": [ 1, 4 ] },
+        { "item": "scrap_copper", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_water_heater",
+    "name": "water heater",
+    "looks_like": "f_standing_tank",
+    "description": "An insulated metal tank that holds water, kept to a temperature by a small gas flame.",
+    "symbol": "0",
+    "bgcolor": "white",
+    "move_cost_mod": -1,
+    "coverage": 55,
+    "required_str": -1,
+    "max_volume": 4000,
+    "flags": [ "CONTAINER", "PLACE_ITEM", "LIQUIDCONT", "NOITEM", "SEALED" ],
+    "examine_action": "keg",
+    "keg_capacity": 240,
+    "deconstruct": {
+      "items": [
+        { "item": "pipe", "count": 1 },
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "sheet_metal", "count": [ 2, 6 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "cu_pipe", "count": [ 2, 5 ] },
+        { "item": "hose", "count": [ 0, 2 ] },
+        { "item": "pilot_light", "count": 1 },
+        { "item": "thermostat", "count": 1 },
+        { "item": "water_faucet", "count": 1 },
+        { "item": "metal_tank", "count": 1 }
+      ]
+    },
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 7 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "sheet_metal", "count": [ 2, 6 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "hose", "count": [ 0, 2 ] },
+        { "item": "cu_pipe", "count": [ 1, 4 ] },
+        { "item": "scrap_copper", "count": [ 0, 2 ] },
+        { "item": "water_faucet", "count": [ 0, 1 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_arc_furnace",
+    "name": "electric arc furnace",
+    "looks_like": "t_machinery_heavy",
+    "description": "Not the kind of furnace you'd heat your house with, this is a device for heating things to extreme temperatures as part of industrial fabrication processes.",
+    "symbol": "0",
+    "color": "white_red",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": -1,
+    "flags": [ "CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM" ],
+    "bash": {
+      "str_min": 40,
+      "str_max": 150,
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "cable", "charges": [ 0, 4 ] },
+        { "item": "scrap", "count": [ 8, 12 ] },
+        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "steel_plate", "count": [ 1, 2 ] }
+      ]
+    },
+    "deconstruct": {
+      "items": [
+        { "item": "cable", "charges": [ 4, 8 ] },
+        { "item": "steel_chunk", "count": [ 4, 6 ] },
+        { "item": "steel_plate", "count": [ 2, 4 ] },
+        { "item": "sheet_metal", "count": [ 4, 6 ] },
+        { "item": "element", "count": [ 10, 25 ] },
+        { "item": "scrap", "count": [ 12, 16 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_drill_press",
+    "name": "drill press",
+    "looks_like": "t_machinery_light",
+    "description": "A powerful drill mounted on a slide that lets it drop precisely down.  Useful in all kinds of projects from industrial fabrication to home woodworking.",
+    "symbol": "7",
+    "color": "yellow_red",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": 10,
+    "flags": [ "BLOCKSDOOR" ],
+    "bash": {
+      "str_min": 40,
+      "str_max": 150,
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "cable", "charges": [ 0, 4 ] },
+        { "item": "scrap", "count": [ 8, 12 ] },
+        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "plastic_chunk", "count": [ 4, 10 ] },
+        { "item": "steel_plate", "count": [ 2, 4 ] }
+      ]
+    },
+    "deconstruct": {
+      "items": [
+        { "item": "cable", "charges": [ 4, 8 ] },
+        { "item": "steel_chunk", "count": [ 4, 6 ] },
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "scrap", "count": [ 12, 16 ] },
+        { "item": "steel_plate", "count": [ 2, 4 ] },
+        { "item": "spike", "count": 1 },
+        { "item": "plastic_chunk", "count": [ 4, 14 ] },
+        { "item": "motor_small", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_tablesaw",
+    "name": "tablesaw",
+    "looks_like": "t_machinery_light",
+    "description": "A rotating saw blade set into a large flat table, for making straight measured cuts.  One of the key tools in a carpenter's arsenal.",
+    "symbol": "7",
+    "color": "yellow_red",
+    "move_cost_mod": 8,
+    "coverage": 40,
+    "required_str": 10,
+    "flags": [ "BLOCKSDOOR", "TRANSPARENT", "MOUNTABLE" ],
+    "//": "some day this should be something you can activate to take down and get an item version of.  That day is not today.",
+    "bash": {
+      "str_min": 40,
+      "str_max": 150,
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "cable", "charges": [ 0, 4 ] },
+        { "item": "scrap", "count": [ 8, 12 ] },
+        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "plastic_chunk", "count": [ 4, 10 ] },
+        { "item": "steel_plate", "count": [ 2, 4 ] }
+      ]
+    },
+    "deconstruct": {
+      "items": [
+        { "item": "cable", "charges": [ 4, 8 ] },
+        { "item": "steel_chunk", "count": [ 4, 6 ] },
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "scrap", "count": [ 12, 16 ] },
+        { "item": "steel_plate", "count": [ 2, 4 ] },
+        { "item": "circsaw_blade", "count": [ 1, 2 ] },
+        { "item": "plastic_chunk", "count": [ 4, 14 ] },
+        { "item": "motor_small", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_mitresaw",
+    "name": "mitre saw",
+    "looks_like": "t_machinery_light",
+    "description": "A circular saw blade on an arm that can slide and rotate in several directions, this is a staple tool for nearly any carpentry.",
+    "symbol": "7",
+    "color": "yellow_cyan",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": 10,
+    "flags": [ "BLOCKSDOOR", "TRANSPARENT" ],
+    "//": "some day this should be something you can activate to take down and get an item version of.  That day is not today.",
+    "bash": {
+      "str_min": 40,
+      "str_max": 150,
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "cable", "charges": [ 0, 4 ] },
+        { "item": "scrap", "count": [ 8, 12 ] },
+        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "plastic_chunk", "count": [ 4, 10 ] },
+        { "item": "steel_plate", "count": [ 2, 4 ] }
+      ]
+    },
+    "deconstruct": {
+      "items": [
+        { "item": "cable", "charges": [ 4, 8 ] },
+        { "item": "pipe", "count": [ 4, 6 ] },
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "scrap", "count": [ 12, 16 ] },
+        { "item": "steel_plate", "count": [ 2, 4 ] },
+        { "item": "circsaw_blade", "count": [ 1, 2 ] },
+        { "item": "plastic_chunk", "count": [ 4, 14 ] },
+        { "item": "motor_small", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_bandsaw",
+    "name": "bandsaw",
+    "looks_like": "t_machinery_light",
+    "description": "A ribbonlike sawblade runs in a single direction in this tool, allowing precise cuts at almost any angle.",
+    "symbol": "7",
+    "color": "yellow_cyan",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": 10,
+    "flags": [ "BLOCKSDOOR" ],
+    "bash": {
+      "str_min": 40,
+      "str_max": 150,
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "cable", "charges": [ 0, 4 ] },
+        { "item": "scrap", "count": [ 8, 12 ] },
+        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "plastic_chunk", "count": [ 4, 10 ] },
+        { "item": "steel_plate", "count": [ 2, 4 ] }
+      ]
+    },
+    "deconstruct": {
+      "items": [
+        { "item": "cable", "charges": [ 4, 8 ] },
+        { "item": "steel_chunk", "count": [ 4, 6 ] },
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "scrap", "count": [ 12, 16 ] },
+        { "item": "steel_plate", "count": [ 2, 4 ] },
+        { "item": "wire", "count": [ 1, 2 ] },
+        { "item": "plastic_chunk", "count": [ 4, 14 ] },
+        { "item": "motor_small", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_router",
+    "name": "router table",
+    "looks_like": "t_machinery_light",
+    "description": "This table has an inset router, a rotating motor with an exchangeable blade head for cutting specific profiles and grooves and stuff.",
+    "symbol": "7",
+    "color": "yellow_green",
+    "move_cost_mod": 8,
+    "coverage": 35,
+    "required_str": 14,
+    "flags": [ "BLOCKSDOOR", "TRANSPARENT", "MOUNTABLE" ],
+    "bash": {
+      "str_min": 40,
+      "str_max": 150,
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "cable", "charges": [ 0, 4 ] },
+        { "item": "scrap", "count": [ 8, 12 ] },
+        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "plastic_chunk", "count": [ 4, 10 ] },
+        { "item": "steel_plate", "count": [ 2, 4 ] }
+      ]
+    },
+    "deconstruct": {
+      "items": [
+        { "item": "cable", "charges": [ 4, 8 ] },
+        { "item": "steel_chunk", "count": [ 4, 6 ] },
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "scrap", "count": [ 12, 16 ] },
+        { "item": "steel_plate", "count": [ 2, 4 ] },
+        { "item": "spike", "count": [ 2, 3 ] },
+        { "item": "plastic_chunk", "count": [ 4, 14 ] },
+        { "item": "motor_small", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_planer",
+    "name": "planer",
+    "looks_like": "t_machinery_light",
+    "description": "A hefty tool that will take in a board and cut it smooth and flat to a specific width.  Particularly great if working with raw lumber stock, but also good just for shaving wood down to size.",
+    "symbol": "7",
+    "color": "yellow_white",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": 12,
+    "flags": [ "BLOCKSDOOR" ],
+    "bash": {
+      "str_min": 40,
+      "str_max": 150,
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "cable", "charges": [ 0, 4 ] },
+        { "item": "scrap", "count": [ 8, 12 ] },
+        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "plastic_chunk", "count": [ 4, 10 ] },
+        { "item": "steel_plate", "count": [ 2, 4 ] }
+      ]
+    },
+    "deconstruct": {
+      "items": [
+        { "item": "cable", "charges": [ 4, 8 ] },
+        { "item": "steel_chunk", "count": [ 4, 6 ] },
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "scrap", "count": [ 12, 16 ] },
+        { "item": "steel_plate", "count": [ 2, 4 ] },
+        { "item": "blade", "count": [ 2, 3 ] },
+        { "item": "plastic_chunk", "count": [ 4, 14 ] },
+        { "item": "motor_small", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_jointer",
+    "name": "jointer",
+    "looks_like": "t_machinery_light",
+    "description": "A table-shaped tool with a rotating blade that will cut down, smooth out, and square off a board to make it very smooth and nice indeed.",
+    "symbol": "7",
+    "color": "yellow_magenta",
+    "move_cost_mod": 8,
+    "coverage": 40,
+    "required_str": 14,
+    "flags": [ "BLOCKSDOOR", "TRANSPARENT", "MOUNTABLE" ],
+    "bash": {
+      "str_min": 40,
+      "str_max": 150,
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "cable", "charges": [ 0, 4 ] },
+        { "item": "scrap", "count": [ 8, 12 ] },
+        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "plastic_chunk", "count": [ 4, 10 ] },
+        { "item": "steel_plate", "count": [ 2, 4 ] }
+      ]
+    },
+    "deconstruct": {
+      "items": [
+        { "item": "cable", "charges": [ 4, 8 ] },
+        { "item": "steel_chunk", "count": [ 4, 6 ] },
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "scrap", "count": [ 12, 16 ] },
+        { "item": "steel_plate", "count": [ 2, 4 ] },
+        { "item": "blade", "count": [ 2, 3 ] },
+        { "item": "plastic_chunk", "count": [ 4, 14 ] },
+        { "item": "motor_small", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_hydraulic_press",
+    "name": "hydraulic press",
+    "looks_like": "t_machinery_light",
+    "description": "If you really want to squash something a lot, this would be exactly the right industrial tool for you.  If, you know, it had power.",
+    "symbol": "9",
+    "color": "black_red",
+    "move_cost_mod": -1,
+    "coverage": 55,
+    "required_str": 16,
+    "flags": [ "BLOCKSDOOR" ],
+    "bash": {
+      "str_min": 40,
+      "str_max": 150,
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "cable", "charges": [ 0, 4 ] },
+        { "item": "scrap", "count": [ 8, 12 ] },
+        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "steel_plate", "count": [ 1, 2 ] }
+      ]
+    },
+    "deconstruct": {
+      "items": [
+        { "item": "cable", "charges": [ 4, 8 ] },
+        { "item": "steel_chunk", "count": [ 4, 6 ] },
+        { "item": "steel_lump", "count": [ 2, 4 ] },
+        { "item": "scrap", "count": [ 12, 16 ] },
+        { "item": "steel_plate", "count": [ 2, 4 ] },
+        { "item": "pipe", "count": [ 2, 4 ] },
+        { "item": "chain", "count": [ 0, 1 ] },
+        { "item": "motor_small", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_heavy_lathe",
+    "name": "power lathe",
+    "looks_like": "t_machinery_light",
+    "description": "An industrial-grade lathe, for turning chunks of metal and other hard things into round chunks of metal and other hard things.",
+    "symbol": "4",
+    "color": "cyan_red",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": 16,
+    "flags": [ "BLOCKSDOOR" ],
+    "bash": {
+      "str_min": 40,
+      "str_max": 150,
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "cable", "charges": [ 0, 4 ] },
+        { "item": "scrap", "count": [ 12, 20 ] },
+        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "steel_lump", "count": [ 1, 2 ] }
+      ]
+    },
+    "deconstruct": {
+      "items": [
+        { "item": "cable", "charges": [ 4, 8 ] },
+        { "item": "steel_chunk", "count": [ 4, 6 ] },
+        { "item": "steel_lump", "count": [ 2, 4 ] },
+        { "item": "scrap", "count": [ 12, 16 ] },
+        { "item": "pipe", "count": [ 0, 4 ] },
+        { "item": "motor_small", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_robotic_assembler",
+    "name": "robotic assembler",
+    "looks_like": "f_robotic_arm",
+    "description": "A durable and versatile robotic arm with a tool fitted to the end, for working on an assembly line.",
+    "symbol": "3",
+    "color": "magenta_cyan",
+    "move_cost_mod": -1,
+    "coverage": 35,
+    "required_str": -1,
+    "bash": {
+      "str_min": 40,
+      "str_max": 150,
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "processor", "count": [ 1, 2 ] },
+        { "item": "RAM", "count": [ 4, 8 ] },
+        { "item": "cable", "charges": [ 4, 6 ] },
+        { "item": "small_lcd_screen", "count": [ 1, 2 ] },
+        { "item": "e_scrap", "count": [ 5, 8 ] },
+        { "item": "circuit", "count": [ 3, 5 ] },
+        { "item": "power_supply", "count": [ 1, 2 ] },
+        { "item": "amplifier", "count": [ 1, 2 ] },
+        { "item": "plastic_chunk", "count": [ 10, 12 ] },
+        { "item": "scrap", "count": [ 6, 8 ] }
+      ]
+    },
+    "deconstruct": {
+      "items": [
+        { "item": "processor", "count": [ 2, 4 ] },
+        { "item": "RAM", "count": [ 8, 16 ] },
+        { "item": "cable", "charges": [ 8, 12 ] },
+        { "item": "small_lcd_screen", "count": [ 2, 4 ] },
+        { "item": "e_scrap", "count": [ 10, 16 ] },
+        { "item": "circuit", "count": [ 6, 10 ] },
+        { "item": "power_supply", "count": [ 2, 4 ] },
+        { "item": "amplifier", "count": [ 2, 4 ] },
+        { "item": "plastic_chunk", "count": [ 10, 12 ] },
+        { "item": "scrap", "count": [ 6, 8 ] },
+        { "item": "motor_small", "count": [ 0, 1 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_chemical_mixer",
+    "description": "When chemicals need to be mixed in large quantities at just the right combinations and temperatures, this is the tool for the job.",
+    "name": "chemical mixer",
+    "symbol": "0",
+    "color": "red_green",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": 16,
+    "bash": {
+      "str_min": 40,
+      "str_max": 150,
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "cable", "charges": [ 0, 4 ] },
+        { "item": "scrap", "count": [ 8, 12 ] },
+        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "metal_tank_little", "count": [ 0, 2 ] },
+        { "item": "jerrycan", "count": [ 0, 2 ] },
+        { "item": "metal_tank", "count": [ 0, 2 ] }
+      ]
+    },
+    "deconstruct": {
+      "items": [
+        { "item": "cable", "charges": [ 4, 8 ] },
+        { "item": "steel_chunk", "count": [ 4, 6 ] },
+        { "item": "scrap", "count": [ 12, 16 ] },
+        { "item": "metal_tank_little", "count": [ 2, 4 ] },
+        { "item": "jerrycan", "count": [ 2, 4 ] },
+        { "item": "metal_tank", "count": [ 2, 4 ] },
+        { "item": "motor_small", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_utility_shelf",
+    "name": "utility shelf",
+    "symbol": "{",
+    "looks_like": "f_rack",
+    "description": "A simple heavy-duty plastic and metal shelving unit.",
+    "color": "light_gray",
+    "move_cost_mod": -1,
+    "coverage": 55,
+    "required_str": 6,
+    "flags": [ "PLACE_ITEM", "BLOCKSDOOR", "EASY_DECONSTRUCT" ],
+    "deconstruct": {
+      "items": [
+        { "item": "sheet_metal_small", "count": [ 4, 6 ] },
+        { "item": "plastic_chunk", "count": [ 2, 12 ] },
+        { "item": "pipe", "count": [ 4, 8 ] }
+      ]
+    },
+    "max_volume": 2000,
+    "bash": {
+      "str_min": 16,
+      "str_max": 40,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 4, 8 ] },
+        { "item": "plastic_chunk", "count": [ 1, 6 ] },
+        { "item": "sheet_metal_small", "count": [ 1, 4 ] },
+        { "item": "pipe", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_glass_cabinet",
+    "name": "glass front cabinet",
+    "symbol": "[",
+    "looks_like": "f_display_rack",
+    "description": "A tall storage cabinet with a clear glass window.",
+    "color": "light_gray",
+    "move_cost_mod": -1,
+    "coverage": 30,
+    "required_str": 8,
+    "flags": [ "PLACE_ITEM", "TRANSPARENT", "BLOCKSDOOR" ],
+    "deconstruct": {
+      "items": [
+        { "item": "2x4", "count": [ 2, 6 ] },
+        { "item": "nail", "charges": [ 4, 16 ] },
+        { "item": "glass_sheet", "count": [ 1, 2 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "pipe", "count": [ 0, 4 ] }
+      ]
+    },
+    "max_volume": 1600,
+    "bash": {
+      "str_min": 12,
+      "str_max": 40,
+      "sound": "glass breaking!",
+      "sound_fail": "crunch!",
+      "items": [
+        { "item": "2x4", "count": [ 1, 4 ] },
+        { "item": "splinter", "count": [ 1, 4 ] },
+        { "item": "nail", "charges": [ 4, 8 ] },
+        { "item": "glass_shard", "count": [ 2, 12 ] },
+        { "item": "scrap", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_floor_lamp",
+    "name": "floor lamp",
+    "symbol": "T",
+    "looks_like": "f_rack_coat",
+    "description": "A tall standing lamp, meant to plug into a wall and light up a room.",
+    "color": "light_gray",
+    "move_cost_mod": 2,
+    "required_str": 1,
+    "flags": [ "BLOCKSDOOR", "PLACE_ITEM", "EASY_DECONSTRUCT" ],
+    "deconstruct": {
+      "items": [
+        { "item": "cable", "charges": [ 1, 2 ] },
+        { "item": "amplifier", "count": [ 1, 4 ] },
+        { "item": "light_bulb", "count": [ 1, 4 ] },
+        { "item": "steel_lump", "count": 1 },
+        { "item": "pipe", "count": 1 }
+      ]
+    },
+    "bash": {
+      "str_min": 12,
+      "str_max": 40,
+      "sound": "metal screeching!",
+      "sound_fail": "bonk!",
+      "items": [
+        { "item": "scrap", "count": [ 1, 2 ] },
+        { "item": "cable", "charges": [ 0, 1 ] },
+        { "item": "e_scrap", "count": [ 0, 1 ] },
+        { "item": "glass_shard", "count": [ 0, 1 ] },
+        { "item": "pipe", "count": [ 0, 1 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_lab_bench",
+    "name": "lab workbench",
+    "description": "A metal storage cabinet topped by a durable resin countertop resistant to most chemical spills and burns.  It has wired in electrical and gas fittings.",
+    "symbol": "0",
+    "bgcolor": "white",
+    "move_cost_mod": 2,
+    "coverage": 60,
+    "required_str": -1,
+    "looks_like": "f_counter",
+    "flags": [ "TRANSPARENT", "PLACE_ITEM", "MOUNTABLE", "FLAT_SURF" ],
+    "deconstruct": {
+      "items": [
+        { "item": "pipe", "count": [ 6, 12 ] },
+        { "item": "cu_pipe", "count": [ 1, 4 ] },
+        { "item": "cable", "charges": [ 1, 4 ] },
+        { "item": "plastic_chunk", "count": [ 50, 75 ] },
+        { "item": "sheet_metal", "count": [ 1, 2 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] }
+      ]
+    },
+    "max_volume": 7000,
+    "bash": {
+      "str_min": 35,
+      "str_max": 80,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 8 ] },
+        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "sheet_metal_small", "count": [ 6, 10 ] },
+        { "item": "plastic_chunk", "count": [ 30, 50 ] },
+        { "item": "pipe", "count": 1 },
+        { "item": "cable", "charges": [ 1, 3 ] },
+        { "item": "cu_pipe", "count": 1 }
+      ]
+    },
+    "examine_action": "workbench",
+    "workbench": { "multiplier": 1.1, "mass": 150000, "volume": "150L" }
+  },
+  {
+    "type": "furniture",
+    "id": "f_fume_hood",
+    "description": "A metal hood overtop of a lab workspace, with durable glass shutters.  A fan in the hood draws fumes and smoke from dangerous chemicals up into a ventilation duct.",
+    "name": "fume hood",
+    "symbol": "^",
+    "color": "black_yellow",
+    "move_cost_mod": -1,
+    "coverage": 50,
+    "required_str": -1,
+    "looks_like": "f_lab_bench",
+    "flags": [ "CONTAINER", "PLACE_ITEM", "FIRE_CONTAINER", "SUPPRESS_SMOKE" ],
+    "deconstruct": {
+      "items": [
+        { "item": "cable", "charges": [ 4, 8 ] },
+        { "item": "pipe", "count": [ 6, 12 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "plastic_chunk", "count": [ 50, 75 ] },
+        { "item": "power_supply", "count": 1 },
+        { "item": "amplifier", "count": [ 1, 2 ] },
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "scrap", "count": [ 12, 16 ] },
+        { "item": "sheet_metal", "count": [ 2, 6 ] },
+        { "item": "hose", "count": [ 0, 2 ] },
+        { "item": "cu_pipe", "count": [ 1, 4 ] },
+        { "item": "reinforced_glass_pane", "count": 2 },
+        { "item": "motor_small", "count": 1 }
+      ]
+    },
+    "bash": {
+      "str_min": 25,
+      "str_max": 60,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 4, 12 ] },
+        { "item": "steel_chunk", "count": [ 4, 8 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
+        { "item": "sheet_metal", "count": [ 1, 4 ] },
+        { "item": "element", "count": [ 1, 3 ] },
+        { "item": "plastic_chunk", "count": [ 30, 50 ] },
+        { "item": "pipe", "count": 1 },
+        { "item": "glass_shard", "count": [ 3, 12 ] },
+        { "item": "cable", "charges": [ 1, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_shaker",
+    "name": "shaker incubator",
+    "description": "A tool for keeping broth nicely mixed, at just the right temperature to grow bacteria.  This is great for microbiology, but terrible for preserving food.",
+    "symbol": "]",
+    "color": "white_yellow",
+    "move_cost_mod": 3,
+    "coverage": 45,
+    "required_str": 10,
+    "max_volume": 4000,
+    "looks_like": "f_glass_fridge",
+    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF" ],
+    "deconstruct": {
+      "items": [
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "sheet_metal", "count": [ 2, 6 ] },
+        { "item": "element", "count": [ 2, 3 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "motor_small", "charges": 1 },
+        { "item": "cu_pipe", "count": [ 1, 3 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 25,
+      "str_max": 60,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 0, 6 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
+        { "item": "sheet_metal", "count": [ 1, 4 ] },
+        { "item": "element", "count": [ 1, 3 ] },
+        { "item": "cable", "charges": [ 1, 15 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_autoclave",
+    "name": "autoclave",
+    "description": "This thing is basically an extremely high tech laundry machine or dishwasher.  It steams things at temperatures that will kill almost anything.",
+    "symbol": "0",
+    "color": "light_blue_white",
+    "move_cost_mod": 3,
+    "coverage": 60,
+    "required_str": 16,
+    "max_volume": 4000,
+    "insulation": 2,
+    "looks_like": "f_washer",
+    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF" ],
+    "deconstruct": {
+      "items": [
+        { "item": "pipe", "count": 1 },
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "sheet_metal", "count": [ 2, 6 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "hose", "count": [ 1, 2 ] },
+        { "item": "motor_small", "count": 1 },
+        { "item": "cu_pipe", "count": [ 2, 5 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 40,
+      "str_max": 80,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 7 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
+        { "item": "sheet_metal", "count": [ 1, 4 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "hose", "count": [ 0, 2 ] },
+        { "item": "cu_pipe", "count": [ 1, 4 ] },
+        { "item": "scrap_copper", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_sample_freezer",
+    "name": "sample freezer",
+    "description": "When cold just isn't cold enough, you have this extreme deep freeze.  This will store stuff at -80 degrees celsius.  Don't lick the metal on the inside.",
+    "symbol": "[",
+    "bgcolor": "white",
+    "move_cost_mod": 2,
+    "coverage": 80,
+    "required_str": 18,
+    "max_volume": 7000,
+    "insulation": 6,
+    "looks_like": "f_fridge",
+    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR" ],
+    "deconstruct": {
+      "items": [
+        { "item": "sheet_metal", "count": [ 2, 6 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "steel_chunk", "count": [ 2, 3 ] },
+        { "item": "scrap", "count": [ 2, 8 ] },
+        { "item": "cable", "charges": [ 1, 3 ] },
+        { "item": "hose", "count": 1 },
+        { "item": "condensor_coil", "count": 1 },
+        { "item": "evaporator_coil", "count": 1 },
+        { "item": "refrigerant_tank", "count": 1 },
+        { "item": "motor_tiny", "count": 1 }
+      ]
+    },
+    "bash": {
+      "str_min": 50,
+      "str_max": 80,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "sheet_metal", "count": [ 1, 4 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "scrap", "count": [ 2, 8 ] },
+        { "item": "cable", "charges": [ 1, 2 ] },
+        { "item": "hose", "count": 1 },
+        { "item": "cu_pipe", "count": [ 2, 4 ] },
+        { "item": "scrap_copper", "count": [ 1, 2 ] },
+        { "item": "motor_tiny", "prob": 25 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_eyewash",
+    "name": "emergency wash station",
+    "description": "This pole has a lot of weird nozzles and attachments.  If there were running water, you could use those attachments to wash harmful chemicals out of your eyes, or to take a pleasant cold shower in a public place.",
+    "symbol": "u",
+    "color": "green",
+    "move_cost_mod": 1,
+    "required_str": -1,
+    "looks_like": "f_sink",
+    "flags": [ "PLACE_ITEM", "TRANSPARENT" ],
+    "deconstruct": {
+      "items": [
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "hose", "count": 1 },
+        { "item": "cu_pipe", "count": [ 2, 5 ] },
+        { "item": "pipe", "count": [ 0, 1 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 12,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "sheet_metal_small", "count": [ 0, 2 ] },
+        { "item": "hose", "count": 1 },
+        { "item": "cu_pipe", "count": [ 0, 3 ] },
+        { "item": "scrap_copper", "count": [ 1, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_IV_pole",
+    "name": "IV pole",
+    "description": "This is basically just a stick on wheels with some hooks at the top.",
+    "symbol": "I",
+    "bgcolor": "white",
+    "move_cost_mod": 0,
+    "required_str": 1,
+    "looks_like": "f_rack_coat",
+    "flags": [ "PLACE_ITEM", "TRANSPARENT" ],
+    "deconstruct": {
+      "items": [ { "item": "steel_lump", "count": 1 }, { "item": "wheel_caster", "count": 1 }, { "item": "pipe", "count": 1 } ]
+    },
+    "bash": {
+      "str_min": 14,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 0, 2 ] },
+        { "item": "steel_chunk", "count": [ 0, 2 ] },
+        { "item": "pipe", "count": [ 0, 1 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_HPLC",
+    "name": "high performance liquid chromatographer",
+    "description": "This high-tech tool would, with electricity and an experienced user, be a very useful way to separate chemicals in a liquid or aqueous phase based on their affinity to a solid state medium in a tube.  In other words, it's a fancy way to separate things.",
+    "symbol": ":",
+    "color": "red_white",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": 12,
+    "looks_like": "t_machinery_light",
+    "flags": [ "TRANSPARENT" ],
+    "deconstruct": {
+      "items": [
+        { "item": "glass_tube_small", "count": [ 6, 12 ] },
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "sheet_metal", "count": [ 2, 4 ] },
+        { "item": "spectrophotometer", "count": 1 },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "hose", "count": [ 3, 6 ] },
+        { "item": "bottle_glass", "count": [ 2, 3 ] },
+        { "item": "motor_tiny", "count": 2 },
+        { "item": "solder_wire", "count": [ 1, 15 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 7 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
+        { "item": "sheet_metal", "count": [ 1, 2 ] },
+        { "item": "glass_shard", "count": [ 5, 10 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "hose", "count": [ 0, 1 ] },
+        { "item": "e_scrap", "count": [ 5, 10 ] },
+        { "item": "plastic_chunk", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_GC",
+    "name": "gas chromatographer",
+    "description": "This high-tech tool would, with electricity and an experienced user, be a very useful way to separate chemicals in a gaseous phase based on their affinity to a solid state medium in a tube.  In other words, it's a fancy way to separate things.",
+    "symbol": ":",
+    "color": "blue_white",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": 18,
+    "looks_like": "t_machinery_old",
+    "flags": [ "BLOCKSDOOR" ],
+    "deconstruct": {
+      "items": [
+        { "item": "glass_tube_small", "count": [ 6, 12 ] },
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "sheet_metal", "count": [ 2, 4 ] },
+        { "item": "spectrophotometer", "count": 1 },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "hose", "count": [ 3, 6 ] },
+        { "item": "bottle_glass", "count": [ 2, 3 ] },
+        { "item": "motor_tiny", "count": 2 },
+        { "item": "solder_wire", "charges": [ 1, 15 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 22,
+      "str_max": 70,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 7 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
+        { "item": "sheet_metal", "count": [ 1, 2 ] },
+        { "item": "glass_shard", "count": [ 5, 10 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "hose", "count": [ 0, 1 ] },
+        { "item": "e_scrap", "count": [ 5, 10 ] },
+        { "item": "plastic_chunk", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_MS",
+    "name": "mass spectrometer",
+    "description": "Inside this thing is a carefully balanced set of electric field generators that can precisely separate ionized particles based on their charge-to-mass ratio, firing them into a detector that measures the exact mass of the particle hitting it.  On the outside, it looks like a very boring white box.",
+    "symbol": "-",
+    "bgcolor": "white",
+    "move_cost_mod": -1,
+    "coverage": 45,
+    "required_str": -1,
+    "max_volume": 4000,
+    "looks_like": "t_machinery_heavy",
+    "flags": [ "TRANSPARENT" ],
+    "deconstruct": {
+      "items": [
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "plastic_chunk", "count": [ 1, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "sheet_metal", "count": [ 2, 4 ] },
+        { "item": "pipe", "count": [ 1, 4 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "solder_wire", "charges": [ 1, 15 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 24,
+      "str_max": 70,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 7 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
+        { "item": "sheet_metal", "count": [ 1, 2 ] },
+        { "item": "pipe", "count": [ 1, 2 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "e_scrap", "count": [ 5, 10 ] },
+        { "item": "plastic_chunk", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_NMR",
+    "name": "nuclear magnetic resonance spectrometer",
+    "description": "This is a giant electromagnet in a kind of sci-fi looking housing.  Somehow it can be used to wiggle molecular bonds or something, and from there, look at the deepest inner workings of chemical structures!  Magnets: how do they work?",
+    "symbol": "M",
+    "color": "white_cyan",
+    "move_cost_mod": -1,
+    "coverage": 65,
+    "required_str": -1,
+    "max_volume": 4000,
+    "looks_like": "t_machinery_heavy",
+    "deconstruct": {
+      "items": [
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "plastic_chunk", "count": [ 1, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "sheet_metal", "count": [ 2, 4 ] },
+        { "item": "pipe", "count": [ 1, 4 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "solder_wire", "charges": [ 1, 15 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 38,
+      "str_max": 70,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 7 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
+        { "item": "sheet_metal", "count": [ 1, 2 ] },
+        { "item": "pipe", "count": [ 1, 2 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "e_scrap", "count": [ 5, 10 ] },
+        { "item": "plastic_chunk", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_electron_microscope",
+    "name": "electron microscope",
+    "description": "An enormous tool for using electron reflections off a surface to see what very tiny things look like.  Amazing for taking gross pictures of bugs.",
+    "symbol": "I",
+    "bgcolor": "white",
+    "move_cost_mod": -1,
+    "required_str": -1,
+    "looks_like": "t_machinery_electronic",
+    "deconstruct": {
+      "items": [
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "plastic_chunk", "count": [ 1, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "sheet_metal", "count": [ 2, 4 ] },
+        { "item": "pipe", "count": [ 1, 4 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "solder_wire", "charges": [ 1, 15 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 35,
+      "str_max": 70,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 7 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
+        { "item": "sheet_metal", "count": [ 1, 2 ] },
+        { "item": "pipe", "count": [ 1, 2 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "e_scrap", "count": [ 5, 10 ] },
+        { "item": "plastic_chunk", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_CTscan",
+    "name": "CT scanner",
+    "description": "This giant donut can take hundreds of x-rays in rapid sequence, making a really cool looking picture of all your innards that have varying degrees of radio-opacity.",
+    "symbol": "o",
+    "bgcolor": "white",
+    "move_cost_mod": 7,
+    "coverage": 65,
+    "required_str": -1,
+    "flags": [ "PLACE_ITEM", "CONTAINER" ],
+    "looks_like": "t_machinery_electronic",
+    "deconstruct": {
+      "items": [
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "plastic_chunk", "count": [ 1, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "sheet_metal", "count": [ 2, 4 ] },
+        { "item": "pipe", "count": [ 1, 4 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "solder_wire", "charges": [ 1, 15 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 40,
+      "str_max": 80,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 7 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
+        { "item": "sheet_metal", "count": [ 1, 2 ] },
+        { "item": "pipe", "count": [ 1, 2 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "e_scrap", "count": [ 5, 10 ] },
+        { "item": "plastic_chunk", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_MRI",
+    "name": "MRI machine",
+    "description": "This thing is really an NMR that you stick a person into, but people weren't excited about getting into a tiny hole in a loud machine called a 'nuclear magnetic resonance imager', so they changed it.",
+    "symbol": "o",
+    "bgcolor": "cyan",
+    "move_cost_mod": 8,
+    "coverage": 65,
+    "required_str": -1,
+    "flags": [ "PLACE_ITEM", "CONTAINER" ],
+    "looks_like": "t_machinery_electronic",
+    "deconstruct": {
+      "items": [
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "plastic_chunk", "count": [ 1, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "sheet_metal", "count": [ 2, 4 ] },
+        { "item": "pipe", "count": [ 1, 4 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "solder_wire", "charges": [ 1, 15 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 40,
+      "str_max": 80,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 7 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
+        { "item": "sheet_metal", "count": [ 1, 2 ] },
+        { "item": "pipe", "count": [ 1, 2 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "e_scrap", "count": [ 5, 10 ] },
+        { "item": "plastic_chunk", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_scan_bed",
+    "name": "scanner bed",
+    "description": "This is a narrow, uncomfortable bed for putting someone into an imaging machine or other small hole.",
+    "symbol": "I",
+    "bgcolor": "white",
+    "move_cost_mod": 4,
+    "coverage": 35,
+    "required_str": 6,
+    "flags": [ "PLACE_ITEM", "TRANSPARENT" ],
+    "looks_like": "f_bed",
+    "deconstruct": {
+      "items": [
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "plastic_chunk", "count": [ 10, 15 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "sheet_metal", "count": [ 2, 3 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 7 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
+        { "item": "sheet_metal", "count": [ 1, 2 ] },
+        { "item": "plastic_chunk", "count": [ 5, 10 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_anesthetic",
+    "name": "anesthetic machine",
+    "description": "Keeping a person at just the right level of asleep to do surgery is hard.  This machine helps an anesthesiologist keep the right mix of drugs and air to keep a patient asleep.",
+    "symbol": "n",
+    "color": "white_red",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": 6,
+    "flags": [ "BLOCKS_DOOR" ],
+    "looks_like": "f_standing_tank",
+    "deconstruct": {
+      "items": [
+        { "item": "glass_tube_small", "count": [ 6, 12 ] },
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "sheet_metal", "count": [ 2, 4 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "hose", "count": [ 3, 6 ] },
+        { "item": "oxygen_tank", "count": [ 1, 2 ] },
+        { "item": "bottle_glass", "count": [ 2, 3 ] },
+        { "item": "motor_tiny", "count": 2 },
+        { "item": "solder_wire", "charges": [ 1, 15 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 7 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
+        { "item": "sheet_metal", "count": [ 1, 2 ] },
+        { "item": "glass_shard", "count": [ 5, 10 ] },
+        { "item": "metal_tank_little", "count": [ 0, 1 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "hose", "count": [ 0, 1 ] },
+        { "item": "e_scrap", "count": [ 5, 10 ] },
+        { "item": "plastic_chunk", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_dialysis",
+    "name": "dialysis machine",
+    "description": "If your kidneys don't work, this is a large and inconvenient machine that can do the job instead!  It's super useful in the apocalypse, especially with how it requires power, tons of supplies, and a trained operator.",
+    "symbol": "8",
+    "bgcolor": "white",
+    "move_cost_mod": -1,
+    "coverage": 50,
+    "required_str": 5,
+    "flags": [ "BLOCKS_DOOR" ],
+    "looks_like": "f_standing_tank",
+    "deconstruct": {
+      "items": [
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "sheet_metal", "count": [ 2, 4 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "hose", "count": [ 3, 6 ] },
+        { "item": "metal_tank_little", "count": [ 0, 1 ] },
+        { "item": "bottle_glass", "count": [ 2, 3 ] },
+        { "item": "motor_tiny", "count": 2 },
+        { "item": "solder_wire", "charges": [ 1, 15 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 7 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
+        { "item": "sheet_metal", "count": [ 1, 2 ] },
+        { "item": "metal_tank_little", "count": [ 0, 1 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "hose", "count": [ 0, 1 ] },
+        { "item": "e_scrap", "count": [ 5, 10 ] },
+        { "item": "plastic_chunk", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_ventilator",
+    "name": "medical ventilator",
+    "description": "When they talk about the 'breathing machine' that you don't want to wind up stuck on, this is what they mean.  It just looks like a couple boxes on a trolley.",
+    "symbol": "F",
+    "color": "blue",
+    "move_cost_mod": -1,
+    "coverage": 35,
+    "required_str": 4,
+    "flags": [ "BLOCKS_DOOR" ],
+    "looks_like": "f_standing_tank",
+    "deconstruct": {
+      "items": [
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "sheet_metal", "count": [ 2, 4 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "hose", "count": [ 3, 6 ] },
+        { "item": "oxygen_tank", "count": [ 1, 2 ] },
+        { "item": "motor_tiny", "count": 2 },
+        { "item": "solder_wire", "charges": [ 1, 15 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 7 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
+        { "item": "sheet_metal", "count": [ 1, 2 ] },
+        { "item": "glass_shard", "count": [ 5, 10 ] },
+        { "item": "metal_tank_little", "count": [ 0, 1 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "hose", "count": [ 0, 1 ] },
+        { "item": "e_scrap", "count": [ 5, 10 ] },
+        { "item": "plastic_chunk", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_curtain",
+    "name": "privacy curtain",
+    "description": "No peeking!",
+    "symbol": "|",
+    "bgcolor": "white",
+    "move_cost_mod": 2,
+    "coverage": 95,
+    "required_str": -1,
+    "open": "f_curtain_open",
+    "flags": [ "PLACE_ITEM" ],
+    "looks_like": "t_curtain",
+    "deconstruct": {
+      "items": [
+        { "item": "pipe", "count": [ 1, 2 ] },
+        { "item": "sheet", "count": [ 1, 2 ] },
+        { "item": "scrap", "count": [ 2, 7 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 2,
+      "str_max": 20,
+      "sound": "swish!",
+      "sound_fail": "clattering metal!",
+      "items": [
+        { "item": "pipe", "count": [ 1, 2 ] },
+        { "item": "sheet", "count": [ 1, 2 ] },
+        { "item": "scrap", "count": [ 2, 7 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_curtain_open",
+    "looks_like": "t_curtain_o",
+    "name": "open privacy curtain",
+    "description": "Stop peeking!",
+    "symbol": "N",
+    "bgcolor": "white",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "close": "f_curtain",
+    "flags": [ "PLACE_ITEM", "TRANSPARENT" ],
+    "deconstruct": {
+      "items": [
+        { "item": "pipe", "count": [ 1, 2 ] },
+        { "item": "sheet", "count": [ 1, 2 ] },
+        { "item": "scrap", "count": [ 2, 7 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 2,
+      "str_max": 20,
+      "sound": "swish!",
+      "sound_fail": "clattering metal!",
+      "items": [
+        { "item": "pipe", "count": [ 1, 2 ] },
+        { "item": "sheet", "count": [ 1, 2 ] },
+        { "item": "scrap", "count": [ 2, 7 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_shredder",
+    "name": "document shredder",
+    "description": "It's not all about hiding government secrets, sometimes you just want to stop identity theft.",
+    "symbol": "H",
+    "bgcolor": "white",
+    "move_cost_mod": 5,
+    "required_str": 6,
+    "looks_like": "f_filing_cabinet",
+    "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR" ],
+    "deconstruct": {
+      "items": [
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "steel_lump", "count": [ 1, 3 ] },
+        { "item": "plastic_chunk", "count": [ 1, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "sheet_metal", "count": [ 2, 4 ] },
+        { "item": "pipe", "count": [ 1, 4 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "motor", "count": 1 },
+        { "item": "solder_wire", "charges": [ 1, 15 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 7 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
+        { "item": "sheet_metal", "count": [ 1, 2 ] },
+        { "item": "pipe", "count": [ 1, 2 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "e_scrap", "count": [ 5, 10 ] },
+        { "item": "plastic_chunk", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_air_filter",
+    "name": "central air filter",
+    "description": "Cleans out dust mites, smoke particles, and more!",
+    "symbol": "#",
+    "bgcolor": "white",
+    "move_cost_mod": -1,
+    "coverage": 50,
+    "required_str": -1,
+    "looks_like": "f_air_conditioner",
+    "deconstruct": {
+      "items": [
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "sheet_metal", "count": [ 2, 4 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "hose", "count": [ 3, 6 ] },
+        { "item": "motor_small", "count": 1 },
+        { "item": "solder_wire", "charges": [ 1, 15 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 12,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 7 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
+        { "item": "sheet_metal", "count": [ 1, 2 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "hose", "count": [ 0, 1 ] },
+        { "item": "e_scrap", "count": [ 5, 10 ] },
+        { "item": "plastic_chunk", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_water_purifier",
+    "looks_like": "f_water_heater",
+    "name": "water purifier",
+    "description": "This removes ions dissolved in the water, making it pretty clean, if you care about that kind of thing.",
+    "symbol": "W",
+    "bgcolor": "blue",
+    "move_cost_mod": -1,
+    "coverage": 50,
+    "required_str": -1,
+    "deconstruct": {
+      "items": [
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "sheet_metal", "count": [ 2, 4 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "hose", "count": [ 3, 6 ] },
+        { "item": "motor_small", "count": 1 },
+        { "item": "solder_wire", "charges": [ 1, 15 ] },
+        { "item": "cu_pipe", "count": [ 2, 5 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 15,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 7 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
+        { "item": "sheet_metal", "count": [ 1, 2 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "hose", "count": [ 0, 1 ] },
+        { "item": "e_scrap", "count": [ 5, 10 ] },
+        { "item": "plastic_chunk", "count": [ 0, 2 ] },
+        { "item": "cu_pipe", "count": [ 1, 3 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_server",
+    "looks_like": "f_utility_shelf",
+    "name": "server stack",
+    "description": "This is a big pile of computers.  They're all turned off.",
+    "symbol": ":",
+    "color": "blue_white",
+    "move_cost_mod": -1,
+    "coverage": 90,
+    "required_str": 8,
+    "flags": [ "BLOCKSDOOR" ],
+    "deconstruct": {
+      "items": [
+        { "item": "sheet_metal_small", "count": [ 4, 6 ] },
+        { "item": "plastic_chunk", "count": [ 2, 12 ] },
+        { "item": "pipe", "count": [ 4, 8 ] },
+        { "item": "laptop", "count": [ 2, 4 ] },
+        { "item": "cable", "charges": [ 5, 10 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 16,
+      "str_max": 40,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 4, 8 ] },
+        { "item": "plastic_chunk", "count": [ 1, 6 ] },
+        { "item": "sheet_metal_small", "count": [ 1, 4 ] },
+        { "item": "pipe", "count": 1 },
+        { "item": "e_scrap", "count": [ 20, 50 ] },
+        { "item": "cable", "charges": [ 2, 8 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_air_compressor",
+    "name": "air compressor",
+    "looks_like": "f_standing_tank",
+    "description": "This durable tank is topped with a motor that will cram as much air into the tank as possible.",
+    "symbol": "8",
+    "color": "black_yellow",
+    "move_cost_mod": -1,
+    "coverage": 80,
+    "required_str": 12,
+    "flags": [ "BLOCKSDOOR" ],
+    "deconstruct": {
+      "items": [
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "hose", "count": [ 3, 6 ] },
+        { "item": "motor", "count": 1 },
+        { "item": "metal_tank", "count": 1 },
+        { "item": "plastic_chunk", "count": [ 4, 6 ] },
+        { "item": "solder_wire", "charges": [ 1, 15 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 7 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
+        { "item": "sheet_metal", "count": [ 1, 2 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "hose", "count": [ 0, 1 ] },
+        { "item": "e_scrap", "count": [ 5, 10 ] },
+        { "item": "plastic_chunk", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_satellite",
+    "name": "large satellite dish",
+    "looks_like": "t_radio_tower",
+    "description": "Somewhere up there, there are still satellites, orbiting and doing their thing, sending signals down to an Earth that is no longer listening.",
+    "symbol": ")",
+    "color": "white_green",
+    "move_cost_mod": -1,
+    "coverage": 70,
+    "required_str": -1,
+    "deconstruct": {
+      "items": [
+        { "item": "pipe", "count": [ 6, 12 ] },
+        { "item": "rebar", "count": [ 6, 12 ] },
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "steel_lump", "count": [ 4, 6 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "sheet_metal", "count": [ 8, 10 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "motor", "count": 1 }
+      ]
+    },
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "pipe", "count": [ 1, 10 ] },
+        { "item": "rebar", "count": [ 1, 10 ] },
+        { "item": "scrap", "count": [ 6, 16 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "steel_lump", "count": [ 0, 6 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
+        { "item": "sheet_metal", "count": [ 1, 2 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "scrap_copper", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_dishwasher",
+    "name": "dishwasher",
+    "looks_like": "f_oven",
+    "description": "This metal box used to spray hot water and soap at dirty dishes to make them clean and to save people an unpleasant chore.  Now, with the power off and it sitting for a while, it is starting to smell a bit off.",
+    "symbol": "{",
+    "bgcolor": "white",
+    "move_cost_mod": -1,
+    "coverage": 60,
+    "required_str": 13,
+    "max_volume": 800,
+    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "MINEABLE" ],
+    "deconstruct": {
+      "items": [
+        { "item": "pipe", "count": 1 },
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "sheet_metal", "count": [ 2, 4 ] },
+        { "item": "blanket", "count": 1 },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "hose", "count": [ 1, 2 ] },
+        { "item": "motor_small", "count": 1 },
+        { "item": "cu_pipe", "count": [ 2, 5 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 7 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
+        { "item": "sheet_metal", "count": [ 1, 2 ] },
+        { "item": "rag", "count": [ 5, 10 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "hose", "count": [ 0, 1 ] },
+        { "item": "cu_pipe", "count": [ 1, 4 ] },
+        { "item": "scrap_copper", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_workbench",
+    "name": "workbench",
+    "description": "A sturdy workbench built out of metal.  It is perfect for crafting large and heavy things.",
+    "symbol": "#",
+    "color": "red",
+    "move_cost_mod": 2,
+    "required_str": -1,
+    "looks_like": "f_lab_bench",
+    "flags": [ "TRANSPARENT", "PLACE_ITEM", "MOUNTABLE", "FLAT_SURF" ],
+    "deconstruct": {
+      "items": [
+        { "item": "pipe", "count": [ 6, 8 ] },
+        { "item": "sheet_metal", "count": 2 },
+        { "item": "sheet_metal_small", "count": [ 2, 4 ] }
+      ]
+    },
+    "max_volume": 4000,
+    "bash": {
+      "str_min": 35,
+      "str_max": 80,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "pipe", "count": [ 4, 6 ] },
+        { "item": "sheet_metal", "count": [ 0, 1 ] },
+        { "item": "sheet_metal_small", "count": [ 12, 24 ] },
+        { "item": "steel_chunk", "count": [ 4, 8 ] },
+        { "item": "scrap", "count": [ 12, 24 ] }
+      ]
+    },
+    "examine_action": "workbench",
+    "workbench": { "multiplier": 1.2, "mass": 250000, "volume": "250L" }
+  },
+  {
+    "type": "furniture",
+    "id": "f_fake_bench_hands",
+    "name": "fake workbench hands",
+    "description": "This fake workbench holds the stats for working on a wielded item.",
+    "symbol": "#",
+    "color": "red",
+    "move_cost_mod": 2,
+    "required_str": -1,
+    "workbench": { "multiplier": 1.0, "mass": 30000, "volume": "30L" }
+  },
+  {
+    "type": "furniture",
+    "id": "f_fake_bench_ground",
+    "name": "fake workbench ground",
+    "description": "This fake workbench holds the stats for working on a item on the ground.",
+    "symbol": "#",
+    "color": "red",
+    "move_cost_mod": 2,
+    "required_str": -1,
+    "workbench": { "multiplier": 0.75, "mass": 50000, "volume": "100L" }
   }
 ]

@@ -15,6 +15,7 @@ MAKE_NULL_ID( harvest_list, "null" )
 MAKE_NULL_ID( effect_type, "null" )
 MAKE_NULL_ID( material_type, "null", 0 )
 
+MAKE_NULL_ID( overmap_land_use_code, "", 0 )
 MAKE_NULL_ID( overmap_special, "", 0 )
 MAKE_NULL_ID( overmap_connection, "", 0 )
 MAKE_NULL_ID( Skill, "none" )

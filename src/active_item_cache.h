@@ -6,8 +6,7 @@
 #include <unordered_map>
 
 #include "enums.h"
-
-class item;
+#include "item.h"
 
 // A struct used to uniquely identify an item within a submap or vehicle.
 struct item_reference {

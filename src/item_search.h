@@ -2,9 +2,11 @@
 #ifndef ITEM_SEARCH_H
 #define ITEM_SEARCH_H
 
+#include <stddef.h>
 #include <algorithm>
 #include <functional>
 #include <string>
+#include <vector>
 
 #include "output.h"
 
@@ -57,12 +59,12 @@ std::function<bool( const T & )> filter_from_string( std::string filter,
             auto apply = [&]( const std::function<bool( const T & )> &func ) {
                 return func( it );
             };
-            bool p_result = std::any_of( functions.begin(), functions.end(),
-                                         apply );
-            bool n_result = std::all_of(
-                                inv_functions.begin(),
-                                inv_functions.end(),
-                                apply );
+            const bool p_result = std::any_of( functions.begin(), functions.end(),
+                                               apply );
+            const bool n_result = std::all_of(
+                                      inv_functions.begin(),
+                                      inv_functions.end(),
+                                      apply );
             if( !functions.empty() && inv_functions.empty() ) {
                 return p_result;
             }
@@ -72,7 +74,7 @@ std::function<bool( const T & )> filter_from_string( std::string filter,
             return p_result && n_result;
         };
     }
-    bool exclude = filter[0] == '-';
+    const bool exclude = filter[0] == '-';
     if( exclude ) {
         return [filter, basic_filter]( const T & i ) {
             return !filter_from_string( filter.substr( 1 ), basic_filter )( i );

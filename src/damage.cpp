@@ -1,8 +1,10 @@
 #include "damage.h"
 
+#include <stddef.h>
 #include <algorithm>
 #include <map>
 #include <numeric>
+#include <utility>
 
 #include "debug.h"
 #include "item.h"
@@ -10,6 +12,7 @@
 #include "monster.h"
 #include "mtype.h"
 #include "translations.h"
+#include "cata_utility.h"
 
 bool damage_unit::operator==( const damage_unit &other ) const
 {
@@ -139,7 +142,7 @@ bool damage_instance::operator==( const damage_instance &other ) const
 void damage_instance::deserialize( JsonIn &jsin )
 {
     JsonObject jo( jsin );
-    // @todo Clean up
+    // TODO: Clean up
     damage_units = load_damage_instance( jo ).damage_units;
 }
 

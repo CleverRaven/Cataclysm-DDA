@@ -10,6 +10,7 @@
 #include <set>
 #include <utility>
 #include <vector>
+#include <sstream>
 
 #include "calendar.h"
 #include "color.h"
@@ -18,24 +19,27 @@
 #include "optional.h"
 #include "string_id.h"
 #include "units.h"
+#include "vehicle.h"
 
 using itype_id = std::string;
 
 class vpart_info;
+
 using vpart_id = string_id<vpart_info>;
 struct vehicle_prototype;
+
 using vproto_id = string_id<vehicle_prototype>;
-class vehicle;
 class JsonObject;
-struct vehicle_item_spawn;
 struct quality;
+
 using quality_id = string_id<quality>;
 class Character;
-
 struct requirement_data;
+
 using requirement_id = string_id<requirement_data>;
 
 class Skill;
+
 using skill_id = string_id<Skill>;
 
 // bitmask backing store of -certain- vpart_info.flags, ones that
@@ -55,6 +59,7 @@ enum vpart_bitflags : int {
     VPFLAG_OPAQUE,
     VPFLAG_OPENABLE,
     VPFLAG_SEATBELT,
+    VPFLAG_SPACE_HEATER,
     VPFLAG_WHEEL,
     VPFLAG_MOUNTABLE,
     VPFLAG_FLOATS,
@@ -71,6 +76,8 @@ enum vpart_bitflags : int {
     VPFLAG_CARGO,
     VPFLAG_INTERNAL,
     VPFLAG_SOLAR_PANEL,
+    VPFLAG_WATER_WHEEL,
+    VPFLAG_WIND_TURBINE,
     VPFLAG_RECHARGE,
     VPFLAG_EXTENDS_VISION,
     VPFLAG_ENABLED_DRAINS_EPOWER,
@@ -110,6 +117,14 @@ struct vpslot_wheel {
     float or_rating;
 };
 
+struct vpslot_workbench {
+    // Base multiplier applied for crafting here
+    float multiplier;
+    // Mass/volume allowed before a crafting speed penalty is applied
+    units::mass allowed_mass;
+    units::volume allowed_volume;
+};
+
 class vpart_info
 {
     private:
@@ -118,6 +133,7 @@ class vpart_info
 
         cata::optional<vpslot_engine> engine_info;
         cata::optional<vpslot_wheel> wheel_info;
+        cata::optional<vpslot_workbench> workbench_info;
 
     public:
         /** Translated name of a part */
@@ -268,6 +284,11 @@ class vpart_info
         std::vector<std::pair<std::string, int>> wheel_terrain_mod() const;
         float wheel_or_rating() const;
 
+        /**
+         * Getter for optional workbench info
+         */
+        const cata::optional<vpslot_workbench> &get_workbench_info() const;
+
     private:
         /** Name from vehicle part definition which if set overrides the base item name */
         mutable std::string name_;
@@ -296,6 +317,7 @@ class vpart_info
         static void load_engine( cata::optional<vpslot_engine> &eptr, JsonObject &jo,
                                  const itype_id &fuel_type );
         static void load_wheel( cata::optional<vpslot_wheel> &whptr, JsonObject &jo );
+        static void load_workbench( cata::optional<vpslot_workbench> &wbptr, JsonObject &jo );
         static void load( JsonObject &jo, const std::string &src );
         static void finalize();
         static void check();

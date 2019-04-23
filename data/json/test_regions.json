@@ -13,6 +13,14 @@
       "boosted_other": { "t_shrub_blueberry": 0.0001, "t_shrub": 4.9, "f_mutcactus_test": 50.0 },
       "boosted_other_percent": 20.0
     },
+    "overmap_forest_settings": {
+      "noise_threshold_forest": 0.6,
+      "noise_threshold_forest_thick": 0.7,
+      "noise_threshold_swamp_adjacent_water": 0.4,
+      "noise_threshold_swamp_isolated": 0.7,
+      "river_floodplain_buffer_distance_min": 1,
+      "river_floodplain_buffer_distance_max": 6
+    },
     "forest_mapgen_settings": {
       "forest": {
         "sparseness_adjacency_factor": 3,
@@ -83,12 +91,6 @@
       "clear_trail_terrain": false,
       "trail_terrain": { "t_dirt": 1 }
     },
-    "num_forests": 2,
-    "forest_size_min": 1,
-    "forest_size_max": 100,
-    "swamp_maxsize": 2,
-    "swamp_river_influence": 5,
-    "swamp_spread_chance": 8500,
     "city": {
       "type": "town",
       "shop_radius": 30,
@@ -119,7 +121,7 @@
     "type": "overmap_terrain",
     "id": "s_restaurant_deserted_test",
     "name": "abandoned drive-through",
-    "sym": 94,
+    "sym": "^",
     "color": "dark_gray_magenta",
     "see_cost": 5,
     "extras": "build",
@@ -223,5 +225,10 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH" ],
     "examine_action": "flower_poppy"
+  },
+  {
+    "type": "region_settings",
+    "id": "river",
+    "swamp_river_influence": 50
   }
 ]

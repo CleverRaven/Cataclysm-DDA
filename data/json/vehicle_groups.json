@@ -76,13 +76,7 @@
   {
     "type": "vehicle_group",
     "id": "police_pileup",
-    "vehicles": [
-        [ "policecar", 400 ],
-        [ "policesuv", 400 ],
-        [ "policecar_k9", 2 ],
-        [ "policesuv_k9", 3 ],
-        [ "police_k9tpt", 1 ]
-    ]
+    "vehicles": [ [ "policecar", 400 ], [ "policesuv", 400 ], [ "policecar_k9", 2 ], [ "policesuv_k9", 3 ], [ "police_k9tpt", 1 ] ]
   },
   {
     "type": "vehicle_group",
@@ -144,13 +138,14 @@
       [ "pickup", 300 ],
       [ "portable_generator", 50 ],
       [ "bicycle", 150 ],
-      [ "dirt_bike", 125 ]
+      [ "bicycle_dirt", 125 ],
+      [ "tricycle", 5 ]
     ]
   },
   {
     "type": "vehicle_group",
     "id": "dirtlot",
-    "vehicles": [ [ "quad_bike", 100 ], [ "pickup", 300 ], [ "dirt_bike", 100 ] ]
+    "vehicles": [ [ "quad_bike", 100 ], [ "pickup", 300 ], [ "bicycle_dirt", 100 ] ]
   },
   {
     "type": "vehicle_group",
@@ -319,7 +314,7 @@
       [ "suv", 800 ],
       [ "suv_electric", 100 ],
       [ "suv_electric_rack", 100 ],
-      [ "dirt_bike", 50 ],
+      [ "bicycle_dirt", 50 ],
       [ "car_mini", 200 ],
       [ "beetle", 200 ],
       [ "pickup", 700 ],
@@ -365,17 +360,50 @@
   },
   {
     "type": "vehicle_group",
+    "id": "workshop_vehicles",
+    "vehicles": [ [ "welding_cart", 30 ], [ "portable_generator", 20 ] ]
+  },
+  {
+    "type": "vehicle_group",
     "id": "crashed_helicopters",
     "vehicles": [
-        [ "helicopter_wreck_1a", 100 ],
-        [ "helicopter_wreck_1b", 400 ],
-        [ "helicopter_wreck_1c", 200 ],
-        [ "helicopter_wreck_2a", 100 ],
-        [ "helicopter_wreck_2b", 400 ],
-        [ "helicopter_wreck_2c", 200 ],
-        [ "helicopter_wreck_3a", 100 ],
-        [ "helicopter_wreck_3b", 400 ],
-        [ "helicopter_wreck_3c", 200 ]
-      ]
+      [ "helicopter_wreck_1a", 100 ],
+      [ "helicopter_wreck_1b", 400 ],
+      [ "helicopter_wreck_1c", 200 ],
+      [ "helicopter_wreck_2a", 100 ],
+      [ "helicopter_wreck_2b", 400 ],
+      [ "helicopter_wreck_2c", 200 ],
+      [ "helicopter_wreck_3a", 100 ],
+      [ "helicopter_wreck_3b", 400 ],
+      [ "helicopter_wreck_3c", 200 ]
+    ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "bikeshop",
+    "vehicles": [
+      [ "bicycle", 1000 ],
+      [ "bicycle_electric", 600 ],
+      [ "bicycle_dirt", 750 ],
+      [ "unicycle", 50 ],
+      [ "scooter", 100 ],
+      [ "scooter_electric", 50 ],
+      [ "tandem", 300 ],
+      [ "tricycle", 50 ]
+    ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "industrial_transport",
+    "//": "Industrial transport vehicles for transporting goods.",
+    "vehicles": [
+      [ "semi_truck", 200 ],
+      [ "truck_trailer", 200 ],
+      [ "cube_van", 400 ],
+      [ "cube_van_cheap", 500 ],
+      [ "flatbed_truck", 300 ],
+      [ "tatra_truck", 200 ],
+      [ "pickup", 100 ]
+    ]
   }
 ]

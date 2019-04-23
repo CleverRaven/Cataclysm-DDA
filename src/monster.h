@@ -2,7 +2,10 @@
 #ifndef MONSTER_H
 #define MONSTER_H
 
+#include <limits.h>
+#include <stddef.h>
 #include <bitset>
+#include <functional>
 #include <map>
 #include <set>
 #include <string>
@@ -13,24 +16,36 @@
 #include "creature.h"
 #include "enums.h"
 #include "int_id.h"
+#include "bodypart.h"
+#include "color.h"
+#include "cursesdef.h"
+#include "damage.h"
+#include "item.h"
+#include "mtype.h"
+#include "optional.h"
+#include "pldata.h"
+#include "string_id.h"
+#include "units.h"
 
 class JsonObject;
 class JsonIn;
 class JsonOut;
-class map;
-class game;
-class item;
 class monfaction;
 class player;
 class Character;
-struct mtype;
-enum monster_trigger : int;
+class effect;
+struct dealt_projectile_attack;
+struct pathfinding_settings;
+struct trap;
+
+enum class mon_trigger;
 enum field_id : int;
 
 using mfaction_id = int_id<monfaction>;
 using mtype_id = string_id<mtype>;
 
 class monster;
+
 typedef std::map< mfaction_id, std::set< monster * > > mfactions;
 
 class mon_special_attack
@@ -187,6 +202,8 @@ class monster : public Creature
         void plan( const mfactions &factions );
         void move(); // Actual movement
         void footsteps( const tripoint &p ); // noise made by movement
+        void shove_vehicle( const tripoint &remote_destination,
+                            const tripoint &nearby_destination ); // shove vehicles out of the way
 
         tripoint scent_move();
         int calc_movecost( const tripoint &f, const tripoint &t ) const;
@@ -255,8 +272,6 @@ class monster : public Creature
         monster_attitude attitude( const Character *u = nullptr ) const; // See the enum above
         Attitude attitude_to( const Creature &other ) const override;
         void process_triggers(); // Process things that anger/scare us
-        void process_trigger( monster_trigger trig, int amount ); // Single trigger
-        int trigger_sum( const std::set<monster_trigger> &triggers ) const;
 
         bool is_underwater() const override;
         bool is_on_ground() const override;
@@ -308,6 +323,7 @@ class monster : public Creature
         float power_rating() const override;
         float speed_rating() const override;
 
+        int get_worn_armor_val( damage_type dt ) const;
         int  get_armor_cut( body_part bp ) const override; // Natural armor, plus any worn armor
         int  get_armor_bash( body_part bp ) const override; // Natural armor, plus any worn armor
         int  get_armor_type( damage_type dt, body_part bp ) const override;
@@ -465,6 +481,10 @@ class monster : public Creature
 
         const pathfinding_settings &get_pathfinding_settings() const override;
         std::set<tripoint> get_path_avoid() const override;
+
+    private:
+        void process_trigger( mon_trigger trig, int amount );
+        void process_trigger( mon_trigger trig, const std::function<int()> &amount_func );
 
     private:
         int hp;

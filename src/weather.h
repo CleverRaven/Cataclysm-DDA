@@ -3,6 +3,7 @@
 #define WEATHER_H
 
 #include "color.h"
+#include "int_id.h"
 
 /**
  * @name BODYTEMP
@@ -32,9 +33,9 @@ class item;
 struct point;
 struct tripoint;
 struct trap;
-template<typename T>
-class int_id;
+struct rl_vec2d;
 struct oter_t;
+
 using oter_id = int_id<oter_t>;
 
 /**
@@ -52,8 +53,8 @@ enum weather_type : int {
     WEATHER_ACID_DRIZZLE, //!< No real effects; warning of acid rain
     WEATHER_ACID_RAIN,    //!< Minor acid damage
     WEATHER_FLURRIES,     //!< Light snow
-    WEATHER_SNOW,         //!< Medium snow
-    WEATHER_SNOWSTORM,    //!< Heavy snow
+    WEATHER_SNOW,         //!< snow glare effects
+    WEATHER_SNOWSTORM,    //!< sight penalties
     NUM_WEATHER_TYPES     //!< Sentinel value
 };
 
@@ -94,7 +95,7 @@ struct weather_printable {
 namespace weather_effect
 {
 void none();        //!< Fallback weather.
-void glare();
+void glare( bool );
 void wet();
 void very_wet();
 void thunder();
@@ -102,13 +103,17 @@ void lightning();
 void light_acid();
 void acid();
 void flurry();      //!< Currently flurries have no additional effects.
-void snow();        //!< Currently snow has no additional effects.
-void snowstorm();   //!< Currently snowstorms have no additional effects.
+void snow();
+void sunny();
+void snow_glare();
+void snowstorm();
 } //namespace weather_effect
 
 struct weather_datum {
     std::string name;       //!< UI name of weather type.
     nc_color color;         //!< UI color of weather type.
+    nc_color map_color;     //!< Map color of weather type.
+    char glyph;             //!< Map glyph of weather type.
     int ranged_penalty;     //!< Penalty to ranged attacks.
     float sight_penalty;    //!< Penalty to per-square visibility, applied in transparency map.
     int light_modifier;     //!< Modification to ambient light.
@@ -121,9 +126,14 @@ struct weather_sum {
     int rain_amount = 0;
     int acid_amount = 0;
     float sunlight = 0.0f;
+    int wind_amount = 0;
 };
 
 weather_datum const weather_data( weather_type const type );
+
+std::string get_shortdirstring( int angle );
+
+std::string get_dirstring( int angle );
 
 std::string weather_forecast( const point &abs_sm_pos );
 
@@ -139,9 +149,9 @@ std::string print_pressure( double pressure, int decimals = 0 );
 
 int get_local_windchill( double temperature, double humidity, double windpower );
 int get_local_humidity( double humidity, weather_type weather, bool sheltered = false );
-int get_local_windpower( double windpower, const oter_id &omter,
-                         bool sheltered = false );
-
+double get_local_windpower( double windpower, const oter_id &omter, const tripoint &location,
+                            const int &winddirection,
+                            bool sheltered = false );
 weather_sum sum_conditions( const time_point &start,
                             const time_point &end,
                             const tripoint &location );
@@ -166,6 +176,13 @@ double funnel_charges_per_turn( double surface_area_mm2, double rain_depth_mm_pe
  */
 time_duration get_rot_since( const time_point &start, const time_point &end, const tripoint &pos );
 
+rl_vec2d convert_wind_to_coord( const int angle );
+
+std::string get_wind_arrow( int );
+
+std::string get_wind_desc( double );
+
+nc_color get_wind_color( double );
 /**
 * Calculates rot per hour at given temperature. Reference in weather_data.cpp
 */
@@ -175,5 +192,7 @@ int get_hourly_rotpoints_at_temp( const int temp );
  * Is it warm enough to plant seeds?
  */
 bool warm_enough_to_plant();
+
+bool is_wind_blocker( const tripoint &location );
 
 #endif

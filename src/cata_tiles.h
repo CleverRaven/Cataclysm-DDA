@@ -2,12 +2,15 @@
 #ifndef CATA_TILES_H
 #define CATA_TILES_H
 
+#include <stddef.h>
 #include <memory>
 #include <map>
 #include <set>
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <algorithm>
+#include <utility>
 
 #include "sdl_wrappers.h"
 #include "animation.h"
@@ -19,11 +22,9 @@
 #include "enums.h"
 #include "weighted_list.h"
 
-class cata_tiles;
 class Creature;
 class player;
 class JsonObject;
-struct visibility_variables;
 
 extern void set_displaybuffer_rendertarget();
 
@@ -179,7 +180,7 @@ struct minimap_shared_texture_pool {
             //shouldn't be happening, but minimap will just be default color instead of crashing
             return nullptr;
         }
-        int index = inactive_index.back();
+        const int index = inactive_index.back();
         inactive_index.pop_back();
         active_index.insert( index );
         i = index;
@@ -189,7 +190,7 @@ struct minimap_shared_texture_pool {
     //releases the provided texture back into the inactive pool to be used again
     //called automatically in the submap cache destructor
     void release_tex( int i, SDL_Texture_Ptr ptr ) {
-        auto it = active_index.find( i );
+        const auto it = active_index.find( i );
         if( it == active_index.end() ) {
             return;
         }
@@ -446,11 +447,13 @@ class cata_tiles
         bool draw_terrain_from_memory( const tripoint &p, int &height_3d );
         bool draw_terrain_below( const tripoint &p, lit_level ll, int &height_3d );
         bool draw_furniture( const tripoint &p, lit_level ll, int &height_3d );
+        bool draw_graffiti( const tripoint &p, lit_level ll, int &height_3d );
         bool draw_trap( const tripoint &p, lit_level ll, int &height_3d );
         bool draw_field_or_item( const tripoint &p, lit_level ll, int &height_3d );
         bool draw_vpart( const tripoint &p, lit_level ll, int &height_3d );
         bool draw_vpart_below( const tripoint &p, lit_level ll, int &height_3d );
         bool draw_critter_at( const tripoint &p, lit_level ll, int &height_3d );
+        bool draw_critter_at_below( const tripoint &p, lit_level ll, int &height_3d );
         bool draw_zone_mark( const tripoint &p, lit_level ll, int &height_3d );
         bool draw_entity( const Creature &critter, const tripoint &p, lit_level ll, int &height_3d );
         void draw_entity_with_overlays( const player &pl, const tripoint &p, lit_level ll, int &height_3d );

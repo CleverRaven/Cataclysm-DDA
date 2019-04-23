@@ -1,6 +1,7 @@
 #include "trap.h"
 
 #include <vector>
+#include <set>
 
 #include "debug.h"
 #include "generic_factory.h"
@@ -12,6 +13,15 @@
 #include "player.h"
 #include "string_id.h"
 #include "translations.h"
+#include "assign.h"
+#include "bodypart.h"
+#include "creature.h"
+#include "enums.h"
+#include "item.h"
+#include "itype.h"
+#include "mapdata.h"
+#include "pldata.h"
+#include "rng.h"
 
 namespace
 {
@@ -100,7 +110,7 @@ void trap::load( JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "visibility", visibility );
     mandatory( jo, was_loaded, "avoidance", avoidance );
     mandatory( jo, was_loaded, "difficulty", difficulty );
-    // @todo: Is there a generic_factory version of this?
+    // TODO: Is there a generic_factory version of this?
     act = trap_function_from_string( jo.get_string( "action" ) );
 
     optional( jo, was_loaded, "benign", benign, false );
@@ -112,7 +122,7 @@ void trap::load( JsonObject &jo, const std::string & )
 std::string trap::name() const
 {
     // trap names can be empty, those are special always invisible traps. See player::search_surroundings
-    return name_.empty() ? name_ : _( name_.c_str() );
+    return name_.empty() ? name_ : _( name_ );
 }
 
 void trap::reset()
@@ -182,7 +192,7 @@ bool trap::is_funnel() const
 
 bool trap::is_3x3_trap() const
 {
-    // TODO make this a json flag, implement more 3x3 traps.
+    // TODO: make this a json flag, implement more 3x3 traps.
     return id == trap_str_id( "tr_engine" );
 }
 

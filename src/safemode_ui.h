@@ -5,6 +5,7 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include <array>
 
 #include "creature.h"
 #include "enums.h"
@@ -71,7 +72,7 @@ class safemode
         bool is_character;
 
         void create_rules();
-        void add_rules( std::vector<rules_class> &rules_in );
+        void add_rules( const std::vector<rules_class> &rules_in );
         void set_rule( const rules_class &rule_in, const std::string &name_in, rule_state rs_in );
 
     public:

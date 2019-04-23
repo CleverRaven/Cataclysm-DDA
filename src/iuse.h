@@ -6,17 +6,15 @@
 #include <string>
 #include <vector>
 
-#include "enums.h"
 #include "units.h"
 
 class item;
 class player;
 class JsonObject;
-class MonsterGenerator;
-
+class monster;
 template<typename T> class ret_val;
-
 struct iteminfo;
+
 typedef std::string itype_id;
 struct tripoint;
 
@@ -42,7 +40,7 @@ class iuse
         int antifungal( player *, item *, bool, const tripoint & );
         int antiparasitic( player *, item *, bool, const tripoint & );
         int anticonvulsant( player *, item *, bool, const tripoint & );
-        int weed_brownie( player *, item *, bool, const tripoint & );
+        int weed_cake( player *, item *, bool, const tripoint & );
         int coke( player *, item *, bool, const tripoint & );
         int meth( player *, item *, bool, const tripoint & );
         int vaccine( player *, item *, bool, const tripoint & );
@@ -84,6 +82,7 @@ class iuse
         int crowbar( player *, item *, bool, const tripoint & );
         int makemound( player *, item *, bool, const tripoint & );
         int dig( player *, item *, bool, const tripoint & );
+        int dig_channel( player *, item *, bool, const tripoint & );
         int fill_pit( player *, item *, bool, const tripoint & );
         int clear_rubble( player *, item *, bool, const tripoint & );
         int siphon( player *, item *, bool, const tripoint & );
@@ -116,7 +115,7 @@ class iuse
         int granade( player *, item *, bool, const tripoint & );
         int granade_act( player *, item *, bool, const tripoint & );
         int c4( player *, item *, bool, const tripoint & );
-        int arrow_flamable( player *, item *, bool, const tripoint & );
+        int arrow_flammable( player *, item *, bool, const tripoint & );
         int acidbomb_act( player *, item *, bool, const tripoint & );
         int grenade_inc_act( player *, item *, bool, const tripoint & );
         int molotov_lit( player *, item *, bool, const tripoint & );
@@ -133,6 +132,7 @@ class iuse
         int shocktonfa_on( player *, item *, bool, const tripoint & );
         int mp3( player *, item *, bool, const tripoint & );
         int mp3_on( player *, item *, bool, const tripoint & );
+        int dive_tank( player *, item *, bool, const tripoint & );
         int gasmask( player *, item *, bool, const tripoint & );
         int portable_game( player *, item *, bool, const tripoint & );
         int vibe( player *, item *, bool, const tripoint & );
@@ -145,8 +145,6 @@ class iuse
         int chop_logs( player *, item *, bool, const tripoint & );
         int oxytorch( player *, item *, bool, const tripoint & );
         int hacksaw( player *, item *, bool, const tripoint & );
-        int torch_lit( player *, item *, bool, const tripoint & );
-        int battletorch_lit( player *, item *, bool, const tripoint & );
         int boltcutters( player *, item *, bool, const tripoint & );
         int mop( player *, item *, bool, const tripoint & );
         int spray_can( player *, item *, bool, const tripoint & );
@@ -177,6 +175,8 @@ class iuse
         int pack_item( player *, item *, bool, const tripoint & );
         int radglove( player *, item *, bool, const tripoint & );
         int robotcontrol( player *, item *, bool, const tripoint & );
+        // Helper for validating a potential taget of robot control
+        static bool robotcontrol_can_target( player *, const monster & );
         int einktabletpc( player *, item *, bool, const tripoint & );
         int camera( player *, item *, bool, const tripoint & );
         int ehandcuffs( player *, item *, bool, const tripoint & );
@@ -205,6 +205,8 @@ class iuse
         int multicooker( player *, item *, bool, const tripoint & );
 
         int remoteveh( player *, item *, bool, const tripoint & );
+
+        int craft( player *, item *, bool, const tripoint & );
 
         int disassemble( player *, item *, bool, const tripoint & );
 

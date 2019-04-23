@@ -2,6 +2,7 @@
 #ifndef ITEMINFO_QUERY_H
 #define ITEMINFO_QUERY_H
 
+#include <stddef.h>
 #include <bitset>
 #include <string>
 #include <vector>
@@ -178,6 +179,7 @@ enum class iteminfo_parts : size_t {
 
     DESCRIPTION_TWOHANDED,
     DESCRIPTION_GUNMOD_DISABLESSIGHTS,
+    DESCRIPTION_GUNMOD_CONSUMABLE,
     DESCRIPTION_RADIOACTIVITY_DAMAGED,
     DESCRIPTION_RADIOACTIVITY_ALWAYS,
 

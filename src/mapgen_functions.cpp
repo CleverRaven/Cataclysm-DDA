@@ -1,12 +1,17 @@
 #include "mapgen_functions.h"
 
+#include <stdlib.h>
+#include <math.h>
 #include <algorithm>
 #include <array>
-#include <chrono>
 #include <iterator>
 #include <random>
+#include <initializer_list>
+#include <map>
+#include <ostream>
+#include <utility>
+#include <vector>
 
-#include "computer.h"
 #include "debug.h"
 #include "field.h"
 #include "item.h"
@@ -19,10 +24,17 @@
 #include "omdata.h"
 #include "options.h"
 #include "overmap.h"
-#include "translations.h"
 #include "trap.h"
 #include "vehicle_group.h"
 #include "vpart_position.h"
+#include "calendar.h"
+#include "game_constants.h"
+#include "regional_settings.h"
+#include "rng.h"
+#include "string_id.h"
+#include "mongroup.h"
+
+class npc_template;
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -100,7 +112,7 @@ building_gen_pointer get_mapgen_cfunction( const std::string &ident )
             { "forest",           &mapgen_forest },
             { "forest_trail_straight",    &mapgen_forest_trail_straight },
             { "forest_trail_curved",      &mapgen_forest_trail_curved },
-            // @todo: Add a dedicated dead-end function. For now it copies the straight section above.
+            // TODO: Add a dedicated dead-end function. For now it copies the straight section above.
             { "forest_trail_end",         &mapgen_forest_trail_straight },
             { "forest_trail_tee",         &mapgen_forest_trail_tee },
             { "forest_trail_four_way",    &mapgen_forest_trail_four_way },
@@ -135,7 +147,6 @@ building_gen_pointer get_mapgen_cfunction( const std::string &ident )
             { "basement_generic_layout", &mapgen_basement_generic_layout }, // empty, not bound
             { "basement_junk", &mapgen_basement_junk },
             { "basement_spiders", &mapgen_basement_spiders },
-            { "police", &mapgen_police },
             { "cave", &mapgen_cave },
             { "cave_rat", &mapgen_cave_rat },
             { "cavern", &mapgen_cavern },
@@ -149,21 +160,21 @@ building_gen_pointer get_mapgen_cfunction( const std::string &ident )
 
             { "subway_straight",    &mapgen_subway },
             { "subway_curved",      &mapgen_subway },
-            // @todo: Add a dedicated dead-end function. For now it copies the straight section above.
+            // TODO: Add a dedicated dead-end function. For now it copies the straight section above.
             { "subway_end",         &mapgen_subway },
             { "subway_tee",         &mapgen_subway },
             { "subway_four_way",    &mapgen_subway },
 
             { "sewer_straight",    &mapgen_sewer_straight },
             { "sewer_curved",      &mapgen_sewer_curved },
-            // @todo: Add a dedicated dead-end function. For now it copies the straight section above.
+            // TODO: Add a dedicated dead-end function. For now it copies the straight section above.
             { "sewer_end",         &mapgen_sewer_straight },
             { "sewer_tee",         &mapgen_sewer_tee },
             { "sewer_four_way",    &mapgen_sewer_four_way },
 
             { "ants_straight",    &mapgen_ants_straight },
             { "ants_curved",      &mapgen_ants_curved },
-            // @todo: Add a dedicated dead-end function. For now it copies the straight section above.
+            // TODO: Add a dedicated dead-end function. For now it copies the straight section above.
             { "ants_end",         &mapgen_ants_straight },
             { "ants_tee",         &mapgen_ants_tee },
             { "ants_four_way",    &mapgen_ants_four_way },
@@ -299,7 +310,7 @@ ter_id mapgendata::groundcover()
 
 const oter_id &mapgendata::neighbor_at( om_direction::type dir ) const
 {
-    // @todo: De-uglify, implement proper conversion somewhere
+    // TODO: De-uglify, implement proper conversion somewhere
     switch( dir ) {
         case om_direction::type::north:
             return north();
@@ -365,7 +376,7 @@ void mapgen_crater( map *m, oter_id, mapgendata dat, const time_point &turn, flo
     m->place_items( "wreckage", 83, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, turn );
 }
 
-// @todo: make void map::ter_or_furn_set(const int x, const int y, const ter_furn_id & tfid);
+// TODO: make void map::ter_or_furn_set(const int x, const int y, const ter_furn_id & tfid);
 void ter_or_furn_set( map *m, const int x, const int y, const ter_furn_id &tfid )
 {
     if( tfid.ter != t_null ) {
@@ -407,7 +418,7 @@ void mapgen_field( map *m, oter_id, mapgendata dat, const time_point &turn, floa
     }
 
     m->place_items( "field", 60, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true,
-                    turn ); // @todo: fixme: take 'rock' out and add as regional biome setting
+                    turn ); // FIXME: take 'rock' out and add as regional biome setting
 }
 
 void mapgen_dirtlot( map *m, oter_id, mapgendata, const time_point &, float )
@@ -790,7 +801,7 @@ bool compare_neswx( bool *a1, std::initializer_list<int> a2 )
 {
     return std::equal( std::begin( a2 ), std::end( a2 ), a1,
     []( int a, bool b ) {
-        return bool( a ) == b;
+        return static_cast<bool>( a ) == b;
     } );
 }
 
@@ -824,7 +835,7 @@ void mapgen_road( map *m, oter_id terrain_type, mapgendata dat, const time_point
 
         // n_* contain details about the neighbor being considered
         bool n_roads_nesw[4] = {};
-        //TODO figure out how to call this function without creating a new oter_id object
+        // TODO: figure out how to call this function without creating a new oter_id object
         int n_num_dirs = terrain_type_to_nesw_array( dat.t_nesw[dir], n_roads_nesw );
         // if 2-way neighbor has a road facing us
         if( n_num_dirs == 2 && n_roads_nesw[( dir + 2 ) % 4] ) {
@@ -844,8 +855,8 @@ void mapgen_road( map *m, oter_id terrain_type, mapgendata dat, const time_point
     bool diag = false;
     int plaza_dir = -1;
     bool fourways_neswx[8] = {};
-    //TODO reduce amount of logical/conditional constructs here
-    //TODO make plazas include adjacent tees
+    // TODO: reduce amount of logical/conditional constructs here
+    // TODO: make plazas include adjacent tees
     switch( num_dirs ) {
         case 4: // 4-way intersection
             for( int dir = 0; dir < 8; dir++ ) {
@@ -1051,7 +1062,7 @@ void mapgen_road( map *m, oter_id terrain_type, mapgendata dat, const time_point
         if( plaza_dir > -1 ) {
             if( plaza_dir == 8 ) { // plaza center
                 fill_background( m, t_sidewalk );
-                //TODO something interesting here
+                // TODO: something interesting here
             } else if( plaza_dir < 4 ) { // plaza side
                 square( m, t_pavement, 0, SEEY - 10, SEEX * 2 - 1, SEEY - 1 );
                 square( m, t_sidewalk, 0, SEEY - 2, SEEX * 2 - 1, SEEY * 2 - 1 );
@@ -1142,7 +1153,7 @@ void mapgen_subway( map *m, oter_id terrain_type, mapgendata dat, const time_poi
         }
         // n_* contain details about the neighbor being considered
         bool n_subway_nesw[4] = {};
-        //TODO figure out how to call this function without creating a new oter_id object
+        // TODO: figure out how to call this function without creating a new oter_id object
         int n_num_dirs = terrain_type_to_nesw_array( dat.t_nesw[dir], n_subway_nesw );
         for( int dir = 0; dir < 4; dir++ ) {
             if( dat.t_nesw[dir]->has_flag( subway_connection ) && !n_subway_nesw[dir] ) {
@@ -1166,7 +1177,7 @@ void mapgen_subway( map *m, oter_id terrain_type, mapgendata dat, const time_poi
     // also keep track of diagonal subway
     int rot = 0;
     bool diag = false;
-    //TODO reduce amount of logical/conditional constructs here
+    // TODO: reduce amount of logical/conditional constructs here
     switch( num_dirs ) {
         case 4: // 4-way intersection
             break;
@@ -1547,9 +1558,9 @@ void mapgen_bridge( map *m, oter_id terrain_type, mapgendata dat, const time_poi
     for( int i = 0; i < SEEX * 2; i++ ) {
         for( int j = 0; j < SEEY * 2; j++ ) {
             if( i < 2 ) {
-                m->ter_set( i, j, river_west ? t_water_dp : grass_or_dirt() );
+                m->ter_set( i, j, river_west ? t_water_moving_dp : grass_or_dirt() );
             } else if( i >= SEEX * 2 - 2 ) {
-                m->ter_set( i, j, river_east ? t_water_dp : grass_or_dirt() );
+                m->ter_set( i, j, river_east ? t_water_moving_dp : grass_or_dirt() );
             } else if( i == 2 || i == SEEX * 2 - 3 ) {
                 m->ter_set( i, j, t_guardrail_bg_dp );
             } else if( i == 3 || i == SEEX * 2 - 4 ) {
@@ -1610,12 +1621,12 @@ void mapgen_railroad( map *m, oter_id terrain_type, mapgendata dat, const time_p
     // which way should our railroads curve, based on neighbor railroads?
     int curvedir_nesw[4] = {};
     for( int dir = 0; dir < 4; dir++ ) { // N E S W
-        if( railroads_nesw[dir] == false || dat.t_nesw[dir]->get_type_id().str() != "railroad" ) {
+        if( !railroads_nesw[dir] || dat.t_nesw[dir]->get_type_id().str() != "railroad" ) {
             continue;
         }
         // n_* contain details about the neighbor being considered
         bool n_railroads_nesw[4] = {};
-        //TODO figure out how to call this function without creating a new oter_id object
+        // TODO: figure out how to call this function without creating a new oter_id object
         int n_num_dirs = terrain_type_to_nesw_array( dat.t_nesw[dir], n_railroads_nesw );
         // if 2-way neighbor has a railroad facing us
         if( n_num_dirs == 2 && n_railroads_nesw[( dir + 2 ) % 4] ) {
@@ -1632,7 +1643,7 @@ void mapgen_railroad( map *m, oter_id terrain_type, mapgendata dat, const time_p
     // also keep track of diagonal railroads
     int rot = 0;
     bool diag = false;
-    //TODO reduce amount of logical/conditional constructs here
+    // TODO: reduce amount of logical/conditional constructs here
     switch( num_dirs ) {
         case 4: // 4-way intersection
             break;
@@ -1931,14 +1942,14 @@ r^X^^^X^________^X^^^X^r",
 void mapgen_river_center( map *m, oter_id, mapgendata dat, const time_point &, float )
 {
     ( void )dat;
-    fill_background( m, t_water_dp );
+    fill_background( m, t_water_moving_dp );
 }
 
 void mapgen_river_curved_not( map *m, oter_id terrain_type, mapgendata dat, const time_point &,
                               float )
 {
     ( void )dat;
-    fill_background( m, t_water_dp );
+    fill_background( m, t_water_moving_dp );
     // this is not_ne, so deep on all sides except ne corner, which is shallow
     // shallow is 20,0, 23,4
     int north_edge = rng( 16, 18 );
@@ -1953,7 +1964,7 @@ void mapgen_river_curved_not( map *m, oter_id terrain_type, mapgendata dat, cons
             if( circle_edge == 9 && one_in( 25 ) ) {
                 m->ter_set( x, y, clay_or_sand() );
             } else if( circle_edge <= 36 ) {
-                m->ter_set( x, y, t_water_sh );
+                m->ter_set( x, y, t_water_moving_sh );
             }
         }
     }
@@ -1973,7 +1984,7 @@ void mapgen_river_straight( map *m, oter_id terrain_type, mapgendata dat, const 
                             float )
 {
     ( void )dat;
-    fill_background( m, t_water_dp );
+    fill_background( m, t_water_moving_dp );
 
     for( int x = 0; x < SEEX * 2; x++ ) {
         int ground_edge = rng( 1, 3 );
@@ -1982,7 +1993,7 @@ void mapgen_river_straight( map *m, oter_id terrain_type, mapgendata dat, const 
         if( one_in( 25 ) ) {
             m->ter_set( x, ++ground_edge, clay_or_sand() );
         }
-        line( m, t_water_sh, x, ++ground_edge, x, shallow_edge );
+        line( m, t_water_moving_sh, x, ++ground_edge, x, shallow_edge );
     }
 
     if( terrain_type == "river_east" ) {
@@ -1999,7 +2010,7 @@ void mapgen_river_straight( map *m, oter_id terrain_type, mapgendata dat, const 
 void mapgen_river_curved( map *m, oter_id terrain_type, mapgendata dat, const time_point &, float )
 {
     ( void )dat;
-    fill_background( m, t_water_dp );
+    fill_background( m, t_water_moving_dp );
     // NE corner deep, other corners are shallow.  do 2 passes: one x, one y
     for( int x = 0; x < SEEX * 2; x++ ) {
         int ground_edge = rng( 1, 3 );
@@ -2008,7 +2019,7 @@ void mapgen_river_curved( map *m, oter_id terrain_type, mapgendata dat, const ti
         if( one_in( 25 ) ) {
             m->ter_set( x, ++ground_edge, clay_or_sand() );
         }
-        line( m, t_water_sh, x, ++ground_edge, x, shallow_edge );
+        line( m, t_water_moving_sh, x, ++ground_edge, x, shallow_edge );
     }
     for( int y = 0; y < SEEY * 2; y++ ) {
         int ground_edge = rng( 19, 21 );
@@ -2017,7 +2028,7 @@ void mapgen_river_curved( map *m, oter_id terrain_type, mapgendata dat, const ti
         if( one_in( 25 ) ) {
             m->ter_set( --ground_edge, y, clay_or_sand() );
         }
-        line( m, t_water_sh, shallow_edge, y, --ground_edge, y );
+        line( m, t_water_moving_sh, shallow_edge, y, --ground_edge, y );
     }
 
     if( terrain_type == "river_se" ) {
@@ -2060,7 +2071,7 @@ void mapgen_parking_lot( map *m, oter_id, mapgendata dat, const time_point &turn
 
 void house_room( map *m, room_type type, int x1, int y1, int x2, int y2, mapgendata &dat )
 {
-    //@todo change this into a parameter
+    // TODO: change this into a parameter
     const time_point turn = calendar::time_of_cataclysm;
     int pos_x1 = 0;
     int pos_y1 = 0;
@@ -2266,11 +2277,13 @@ void house_room( map *m, room_type type, int x1, int y1, int x2, int y2, mapgend
             }
 
             if( one_in( 2 ) ) { //dining table in the kitchen
-                square_furn( m, f_table, int( ( x1 + x2 ) / 2 ) - 1, int( ( y1 + y2 ) / 2 ) - 1,
-                             int( ( x1 + x2 ) / 2 ),
-                             int( ( y1 + y2 ) / 2 ) );
-                m->place_items( "dining", 20, int( ( x1 + x2 ) / 2 ) - 1, int( ( y1 + y2 ) / 2 ) - 1,
-                                int( ( x1 + x2 ) / 2 ), int( ( y1 + y2 ) / 2 ), false, turn );
+                square_furn( m, f_table, static_cast<int>( ( x1 + x2 ) / 2 ) - 1,
+                             static_cast<int>( ( y1 + y2 ) / 2 ) - 1,
+                             static_cast<int>( ( x1 + x2 ) / 2 ),
+                             static_cast<int>( ( y1 + y2 ) / 2 ) );
+                m->place_items( "dining", 20, static_cast<int>( ( x1 + x2 ) / 2 ) - 1,
+                                static_cast<int>( ( y1 + y2 ) / 2 ) - 1,
+                                static_cast<int>( ( x1 + x2 ) / 2 ), static_cast<int>( ( y1 + y2 ) / 2 ), false, turn );
             }
             if( one_in( 2 ) ) {
                 for( int i = 0; i <= 2; i++ ) {
@@ -2321,17 +2334,21 @@ void house_room( map *m, room_type type, int x1, int y1, int x2, int y2, mapgend
                     m->place_items( "bed", 60, x2 - 2, y1 + 1, x2 - 2, y1 + 1, false, turn );
                     break;
                 case 5:
-                    m->furn_set( int( ( x1 + x2 ) / 2 ), y2 - 1, f_bed );
-                    m->furn_set( int( ( x1 + x2 ) / 2 ) + 1, y2 - 1, f_bed );
-                    m->furn_set( int( ( x1 + x2 ) / 2 ), y2 - 2, f_bed );
-                    m->furn_set( int( ( x1 + x2 ) / 2 ) + 1, y2 - 2, f_bed );
-                    m->place_items( "bed", 60, int( ( x1 + x2 ) / 2 ), y2 - 1, int( ( x1 + x2 ) / 2 ), y2 - 1, false,
+                    m->furn_set( static_cast<int>( ( x1 + x2 ) / 2 ), y2 - 1, f_bed );
+                    m->furn_set( static_cast<int>( ( x1 + x2 ) / 2 ) + 1, y2 - 1, f_bed );
+                    m->furn_set( static_cast<int>( ( x1 + x2 ) / 2 ), y2 - 2, f_bed );
+                    m->furn_set( static_cast<int>( ( x1 + x2 ) / 2 ) + 1, y2 - 2, f_bed );
+                    m->place_items( "bed", 60, static_cast<int>( ( x1 + x2 ) / 2 ), y2 - 1,
+                                    static_cast<int>( ( x1 + x2 ) / 2 ), y2 - 1, false,
                                     turn );
-                    m->place_items( "bed", 60, int( ( x1 + x2 ) / 2 ) + 1, y2 - 1, int( ( x1 + x2 ) / 2 ) + 1, y2 - 1,
+                    m->place_items( "bed", 60, static_cast<int>( ( x1 + x2 ) / 2 ) + 1, y2 - 1,
+                                    static_cast<int>( ( x1 + x2 ) / 2 ) + 1, y2 - 1,
                                     false, turn );
-                    m->place_items( "bed", 60, int( ( x1 + x2 ) / 2 ), y2 - 2, int( ( x1 + x2 ) / 2 ), y2 - 2, false,
+                    m->place_items( "bed", 60, static_cast<int>( ( x1 + x2 ) / 2 ), y2 - 2,
+                                    static_cast<int>( ( x1 + x2 ) / 2 ), y2 - 2, false,
                                     turn );
-                    m->place_items( "bed", 60, int( ( x1 + x2 ) / 2 ) + 1, y2 - 2, int( ( x1 + x2 ) / 2 ) + 1, y2 - 2,
+                    m->place_items( "bed", 60, static_cast<int>( ( x1 + x2 ) / 2 ) + 1, y2 - 2,
+                                    static_cast<int>( ( x1 + x2 ) / 2 ) + 1, y2 - 2,
                                     false, turn );
                     break;
             }
@@ -2345,12 +2362,12 @@ void house_room( map *m, room_type type, int x1, int y1, int x2, int y2, mapgend
                     m->place_items( "dresser", 80, x2 - 2, y2 - 1, x2 - 2, y2 - 1, false, turn );
                     break;
                 case 3:
-                    rn = int( ( x1 + x2 ) / 2 );
+                    rn = static_cast<int>( ( x1 + x2 ) / 2 );
                     m->furn_set( rn, y1 + 1, f_dresser );
                     m->place_items( "dresser", 80, rn, y1 + 1, rn, y1 + 1, false, turn );
                     break;
                 case 4:
-                    rn = int( ( y1 + y2 ) / 2 );
+                    rn = static_cast<int>( ( y1 + y2 ) / 2 );
                     m->furn_set( x1 + 1, rn, f_dresser );
                     m->place_items( "dresser", 80, x1 + 1, rn, x1 + 1, rn, false, turn );
                     break;
@@ -2657,7 +2674,7 @@ void mapgen_generic_house( map *m, oter_id terrain_type, mapgendata dat, const t
             break;
 
         case 3: // Long center hallway, kitchen, living room and office
-            mw = int( ( lw + rw ) / 2 );
+            mw = static_cast<int>( ( lw + rw ) / 2 );
             cw = bw - rng( 5, 7 );
             // Hallway doors and windows
             m->ter_set( mw, tw, ( one_in( 6 ) ? t_door_c : t_door_locked ) );
@@ -2783,7 +2800,7 @@ void mapgen_generic_house( map *m, oter_id terrain_type, mapgendata dat, const t
 
     place_stairs( m, terrain_type, dat );
 
-    if( one_in( 100 ) ) { // @todo: region data // Houses have a 1 in 100 chance of wasps!
+    if( one_in( 100 ) ) { // TODO: region data // Houses have a 1 in 100 chance of wasps!
         for( int i = 0; i < SEEX * 2; i++ ) {
             for( int j = 0; j < SEEY * 2; j++ ) {
                 if( m->ter( i, j ) == t_door_c || m->ter( i, j ) == t_door_locked ) {
@@ -2818,7 +2835,7 @@ void mapgen_generic_house( map *m, oter_id terrain_type, mapgendata dat, const t
         }
         m->place_items( "rare", 70, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, false, turn );
 
-    } else if( one_in( 150 ) ) { // @todo: region_data // No wasps; black widows?
+    } else if( one_in( 150 ) ) { // TODO: region_data // No wasps; black widows?
         auto spider_type = mon_spider_widow_giant;
         auto egg_type = f_egg_sackbw;
         if( one_in( 2 ) ) {
@@ -3016,127 +3033,10 @@ void mapgen_basement_spiders( map *m, oter_id terrain_type, mapgendata dat, cons
     m->place_items( "rare", 70, 1, 1, SEEX * 2 - 1, SEEY * 2 - 5, false, turn );
 }
 
-void mapgen_police( map *m, oter_id terrain_type, mapgendata dat, const time_point &turn,
-                    float density )
-{
-
-    ( void )dat;
-    //    } else if (is_ot_type("police", terrain_type)) {
-
-    for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEY * 2; j++ ) {
-            if( ( j ==  7 && i != 17 && i != 18 ) ||
-                ( j == 12 && i !=  0 && i != 17 && i != 18 && i != SEEX * 2 - 1 ) ||
-                ( j == 14 && ( ( i > 0 && i < 6 ) || i == 9 || i == 13 || i == 17 ) ) ||
-                ( j == 15 && i > 17  && i < SEEX * 2 - 1 ) ||
-                ( j == 17 && i >  0  && i < 17 ) ||
-                ( j == 20 ) ) {
-                m->ter_set( i, j, t_wall );
-            } else if( ( ( i == 0 || i == SEEX * 2 - 1 ) && j > 7 && j < 20 ) ||
-                       ( ( i == 5 || i == 10 || i == 16 || i == 19 ) && j > 7 && j < 12 ) ||
-                       ( ( i == 5 || i ==  9 || i == 13 ) && j > 14 && j < 17 ) ||
-                       ( i == 17 && j > 14 && j < 20 ) ) {
-                m->ter_set( i, j, t_wall );
-            } else if( j == 14 && i > 5 && i < 17 && i % 2 == 0 ) {
-                m->ter_set( i, j, t_bars );
-            } else if( ( i > 1 && i < 4 && j > 8 && j < 11 ) ||
-                       ( j == 17 && i > 17 && i < 21 ) ) {
-                m->set( i, j, t_floor, f_counter );
-            } else if( ( i == 20 && j > 7 && j < 12 ) || ( j == 8 && i > 19 && i < 23 ) ||
-                       ( j == 15 && i > 0 && i < 5 ) ) {
-                m->set( i, j, t_floor, f_locker );
-            } else if( j < 7 ) {
-                m->ter_set( i, j, t_pavement );
-            } else if( j > 20 ) {
-                m->ter_set( i, j, t_sidewalk );
-            } else {
-                m->ter_set( i, j, t_floor );
-            }
-        }
-    }
-    m->ter_set( 17, 7, t_door_locked );
-    m->ter_set( 18, 7, t_door_locked );
-    m->ter_set( rng( 1,  4 ), 12, t_door_c );
-    m->ter_set( rng( 6,  9 ), 12, t_door_c );
-    m->ter_set( rng( 11, 15 ), 12, t_door_c );
-    m->ter_set( 21, 12, t_door_metal_locked );
-    computer *tmpcomp = m->add_computer( tripoint( 22, 13, m->get_abs_sub().z ), _( "PolCom OS v1.47" ),
-                                         3 );
-    tmpcomp->add_option( _( "Open Supply Room" ), COMPACT_OPEN, 3 );
-    tmpcomp->add_failure( COMPFAIL_SHUTDOWN );
-    tmpcomp->add_failure( COMPFAIL_ALARM );
-    tmpcomp->add_failure( COMPFAIL_MANHACKS );
-    m->ter_set( 7, 14, t_door_c );
-    m->ter_set( 11, 14, t_door_c );
-    m->ter_set( 15, 14, t_door_c );
-    m->ter_set( rng( 20, 22 ), 15, t_door_c );
-    m->ter_set( 2, 17, t_door_metal_locked );
-    tmpcomp = m->add_computer( tripoint( 22, 13, m->get_abs_sub().z ), _( "PolCom OS v1.47" ), 3 );
-    tmpcomp->add_option( _( "Open Evidence Locker" ), COMPACT_OPEN, 3 );
-    tmpcomp->add_failure( COMPFAIL_SHUTDOWN );
-    tmpcomp->add_failure( COMPFAIL_ALARM );
-    tmpcomp->add_failure( COMPFAIL_MANHACKS );
-    m->ter_set( 17, 18, t_door_c );
-    for( int i = 18; i < SEEX * 2 - 1; i++ ) {
-        m->ter_set( i, 20, t_window );
-    }
-    if( one_in( 3 ) ) {
-        for( int j = 16; j < 20; j++ ) {
-            m->ter_set( SEEX * 2 - 1, j, t_window );
-        }
-    }
-    int rn = rng( 18, 21 );
-    if( one_in( 4 ) ) {
-        m->ter_set( rn, 20, t_door_c );
-        m->ter_set( rn + 1, 20, t_door_c );
-    } else {
-        m->ter_set( rn, 20, t_door_locked );
-        m->ter_set( rn + 1, 20, t_door_locked );
-    }
-    rn = rng( 1, 5 );
-    m->ter_set( rn, 20, t_window );
-    m->ter_set( rn + 1, 20, t_window );
-    rn = rng( 10, 14 );
-    m->ter_set( rn, 20, t_window );
-    m->ter_set( rn + 1, 20, t_window );
-    if( one_in( 2 ) ) {
-        for( int i = 6; i < 10; i++ ) {
-            m->furn_set( i, 8, f_counter );
-        }
-    }
-    if( one_in( 3 ) ) {
-        for( int j = 8; j < 12; j++ ) {
-            m->furn_set( 6, j, f_counter );
-        }
-    }
-    if( one_in( 3 ) ) {
-        for( int j = 8; j < 12; j++ ) {
-            m->furn_set( 9, j, f_counter );
-        }
-    }
-
-    m->place_items( "kitchen",      40,  6,  8,  9, 11,    false, turn );
-    m->place_items( "cop_armory",  70, 20,  8, 22,  8,    false, turn );
-    m->place_items( "cop_gear",  70, 20,  8, 20, 11,    false, turn );
-    m->place_items( "cop_evidence", 60,  1, 15,  4, 15,    false, turn );
-
-    for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEY * 2; j++ ) {
-            if( m->ter( i, j ) == t_floor && one_in( 80 ) ) {
-                m->spawn_item( i, j, "badge_deputy" );
-            }
-        }
-    }
-    autorotate_down();
-
-    m->place_spawns( mongroup_id( "GROUP_POLICE" ), 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density );
-
-}
-
 void mapgen_cave( map *m, oter_id, mapgendata dat, const time_point &turn, float density )
 {
     if( dat.above() == "cave" ) {
-        // We're underground! // FIXME; y u no use z-level
+        // We're underground! // FIXME: y u no use z-level
         for( int i = 0; i < SEEX * 2; i++ ) {
             for( int j = 0; j < SEEY * 2; j++ ) {
                 bool floorHere = ( rng( 0, 6 ) < i || SEEX * 2 - rng( 1, 7 ) > i ||
@@ -3304,7 +3204,7 @@ void mapgen_cavern( map *m, oter_id, mapgendata dat, const time_point &turn, flo
 {
 
     for( int i = 0; i < 4;
-         i++ ) { // don't look at me like that, this was messed up before I touched it :P - AD ( FIXME )
+         i++ ) { // FIXME: don't look at me like that, this was messed up before I touched it :P - AD
         dat.set_dir( i,
                      ( dat.t_nesw[i] == "cavern" || dat.t_nesw[i] == "subway_ns" ||
                        dat.t_nesw[i] == "subway_ew" ? 0 : 3 )
@@ -4392,9 +4292,7 @@ void place_stairs( map *m, oter_id terrain_type, mapgendata dat )
     }
 
     // Shuffle tripoints so that the stairs are not always similarly placed.
-    static auto eng = std::default_random_engine(
-                          std::chrono::system_clock::now().time_since_epoch().count() );
-    std::shuffle( std::begin( tripoints ), std::end( tripoints ), eng );
+    std::shuffle( std::begin( tripoints ), std::end( tripoints ), rng_get_engine() );
 
     bool all_can_be_placed = false;
     tripoint shift( 0, 0, 0 );

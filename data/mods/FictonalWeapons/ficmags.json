@@ -1,5 +1,35 @@
 [
   {
+    "id": "454_speedloader6",
+    "type": "MAGAZINE",
+    "name": ".454 6-round speedloader",
+    "description": "This speedloader can hold 6 rounds of .454 and quickly reload a compatible revolver.",
+    "weight": 116,
+    "volume": 1,
+    "price": 2400,
+    "material": "steel",
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": "454",
+    "capacity": 6,
+    "flags": [ "SPEEDLOADER" ]
+  },
+  {
+    "id": "454_speedloader8",
+    "type": "MAGAZINE",
+    "name": ".454 8-round speedloader",
+    "description": "This speedloader can hold 8 rounds of .454 and quickly reload a compatible revolver.",
+    "weight": 132,
+    "volume": 1,
+    "price": 2800,
+    "material": "steel",
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": "454",
+    "capacity": 8,
+    "flags": [ "SPEEDLOADER" ]
+  },
+  {
     "id": "e1776mag",
     "type": "MAGAZINE",
     "name": "Eagle 1776 magazine",

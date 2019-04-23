@@ -5,6 +5,8 @@
 #include <list>
 #include <map>
 #include <set>
+#include <string>
+#include <utility>
 
 #include "string_id.h"
 
@@ -19,7 +21,7 @@ struct harvest_entry {
     itype_id drop = "null";
     std::pair<float, float> base_num = { 1.0f, 1.0f };
     // This is multiplied by survival and added to the above
-    // @todo: Make it a map: skill->scaling
+    // TODO: Make it a map: skill->scaling
     std::pair<float, float> scale_num = { 0.0f, 0.0f };
 
     int max = 1000;

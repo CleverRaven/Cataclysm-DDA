@@ -10415,7 +10415,7 @@
           "rotates": false
         },
         {
-          "id": "overlay_wielded_potato_raw",
+          "id": "overlay_wielded_potato",
           "fg": 933,
           "bg": 632,
           "rotates": false
@@ -16420,7 +16420,7 @@
           "rotates": false
         },
         {
-          "id": "overlay_wielded_potato_irradiated",
+          "id": "overlay_wielded_irradiated_potato",
           "fg": 933
         },
         {
@@ -29231,7 +29231,7 @@
           "rotates": false
         },
         {
-          "id": "cooking_oil",
+          "id": [ "cooking_oil", "cooking_oil2" ],
           "fg": 810,
           "bg": 632,
           "rotates": false
@@ -29995,6 +29995,78 @@
           "fg": 2380,
           "bg": 632,
           "rotates": false
+        },
+        {
+          "id": "t_door_red_frame",
+          "fg": 2002,
+          "bg": 1962,
+          "rotates": true
+        },
+        {
+          "id": "t_door_green_frame",
+          "fg": 2002,
+          "bg": 1960,
+          "rotates": true
+        },
+        {
+          "id": "t_door_white_frame",
+          "fg": 2002,
+          "bg": 2059,
+          "rotates": true
+        },
+        {
+          "id": "t_door_gray_frame",
+          "fg": 2002,
+          "bg": 2058,
+          "rotates": true
+        },
+        {
+          "id": "t_door_glass_red_o",
+          "fg": 2004,
+          "bg": 1962,
+          "rotates": true
+        },
+        {
+          "id": "t_door_glass_green_o",
+          "fg": 2004,
+          "bg": 1960,
+          "rotates": true
+        },
+        {
+          "id": "t_door_glass_white_o",
+          "fg": 2004,
+          "bg": 2059,
+          "rotates": true
+        },
+        {
+          "id": "t_door_glass_gray_o",
+          "fg": 2004,
+          "bg": 2058,
+          "rotates": true
+        },
+        {
+          "id": "t_door_glass_red_c",
+          "fg": 2003,
+          "bg": 1962,
+          "rotates": true
+        },
+        {
+          "id": "t_door_glass_green_c",
+          "fg": 2003,
+          "bg": 1960,
+          "rotates": true
+        },
+        {
+          "id": "t_door_glass_white_c",
+          "fg": 2003,
+          "bg": 2059,
+          "rotates": true
+        },
+        {
+          "id": "t_door_glass_gray_c",
+          "fg": 2003,
+          "bg": 2058,
+          "rotates": true
         },
         {
           "id": "gasbomb_makeshift",
@@ -32318,7 +32390,7 @@
           "rotates": false
         },
         {
-          "id": "potato_raw",
+          "id": "potato",
           "fg": 933,
           "bg": 632,
           "rotates": false
@@ -40979,6 +41051,54 @@
           "rotates": false
         },
         {
+          "id": "t_door_red_c",
+          "fg": [2906, 2920, 2906, 2920],
+          "bg": 1962,
+          "rotates": true
+        },
+        {
+          "id": "t_door_green_c",
+          "fg": [2906, 2920, 2906, 2920],
+          "bg": 1960,
+          "rotates": true
+        },
+        {
+          "id": "t_door_white_c",
+          "fg": [2906, 2920, 2906, 2920],
+          "bg": 2059,
+          "rotates": true
+        },
+        {
+          "id": "t_door_gray_c",
+          "fg": [2906, 2920, 2906, 2920],
+          "bg": 2058,
+          "rotates": true
+        },
+        {
+          "id": "t_door_red_o",
+          "fg": [2937, 2936, 2937, 2936],
+          "bg": 1962,
+          "rotates": true
+        },
+        {
+          "id": "t_door_green_o",
+          "fg": [2937, 2936, 2937, 2936],
+          "bg": 1960,
+          "rotates": true
+        },
+        {
+          "id": "t_door_white_o",
+          "fg": [2937, 2936, 2937, 2936],
+          "bg": 2059,
+          "rotates": true
+        },
+        {
+          "id": "t_door_gray_o",
+          "fg": [2937, 2936, 2937, 2936],
+          "bg": 2058,
+          "rotates": true
+        },
+        {
           "id": "mon_crawler",
           "fg": 1652,
           "bg": 642,
@@ -45363,7 +45483,7 @@
           "rotates": false
         },
         {
-          "id": "potato_irradiated",
+          "id": "irradiated_potato",
           "fg": 933
         },
         {
@@ -49001,7 +49121,7 @@
           ]
         },
         {
-          "id": [ "t_door_b", "t_door_lab_b" ],
+          "id": [ "t_door_b", "t_door_lab_b", "t_door_red_b", "t_door_green_b", "t_door_white_b", "t_door_gray_b" ],
           "fg": 1997,
           "rotates": false
         },

@@ -9,10 +9,7 @@
     "skills_required": [ "pistol", 3 ],
     "time": 15000,
     "autolearn": true,
-    "qualities": [
-      { "id": "HAMMER", "level": 2 },
-      { "id": "SEW", "level": 1 }
-    ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 9 ], [ "tanned_hide", 1 ] ],
       [ [ "scrap", 3 ] ],
@@ -30,10 +27,7 @@
     "time": 80000,
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [
-      [ [ "leather", 8 ], [ "rag", 8 ] ],
-      [ [ "filament", 20, "LIST" ], [ "cordage", 1, "LIST" ] ]
-    ]
+    "components": [ [ [ "leather", 8 ], [ "rag", 8 ] ], [ [ "filament", 20, "LIST" ], [ "cordage", 1, "LIST" ] ] ]
   },
   {
     "result": "magbandolier",
@@ -63,10 +57,7 @@
     "time": 18000,
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [
-      [ [ "leather", 6 ], [ "tanned_hide", 1 ] ],
-      [ [ "filament", 60, "LIST" ], [ "cordage", 3, "LIST" ] ]
-    ]
+    "components": [ [ [ "leather", 6 ], [ "tanned_hide", 1 ] ], [ [ "filament", 60, "LIST" ], [ "cordage", 3, "LIST" ] ] ]
   },
   {
     "result": "backpack",
@@ -90,10 +81,7 @@
     "time": 50000,
     "autolearn": true,
     "using": [ [ "sewing_standard", 20 ] ],
-    "components": [
-      [ [ "leather", 20 ], [ "tanned_hide", 3 ] ],
-      [ [ "scrap", 6 ] ]
-    ]
+    "components": [ [ [ "leather", 20 ], [ "tanned_hide", 3 ] ], [ [ "scrap", 6 ] ] ]
   },
   {
     "result": "baldric",
@@ -106,15 +94,8 @@
     "time": 40000,
     "autolearn": true,
     "using": [ [ "adhesive", 1 ] ],
-    "qualities": [
-      { "id": "HAMMER", "level": 1 },
-      { "id": "CUT", "level": 1 }
-    ],
-    "components": [
-      [ [ "leather", 12 ], [ "tanned_hide", 2 ] ],
-      [ [ "2x4", 2 ] ],
-      [ [ "nail", 8 ] ]
-    ]
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "leather", 12 ], [ "tanned_hide", 2 ] ], [ [ "2x4", 2 ] ], [ [ "nail", 8 ] ] ]
   },
   {
     "result": "bandolier_pistol",
@@ -156,6 +137,19 @@
     "components": [ [ [ "leather", 8 ] ] ]
   },
   {
+    "result": "torso_bandolier_shotgun",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "skills_required": [ [ "gun", 1 ], [ "shotgun", 1 ] ],
+    "time": 100000,
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 60 ], [ "cordage", 2 ] ],
+    "components": [ [ [ "leather", 14 ] ] ]
+  },
+  {
     "result": "bandolier_wrist",
     "type": "recipe",
     "category": "CC_ARMOR",
@@ -166,10 +160,7 @@
     "time": 80000,
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [
-      [ [ "rag", 4 ] ],
-      [ [ "string_6", 4 ], [ "filament", 40, "LIST" ] ]
-    ]
+    "components": [ [ [ "rag", 4 ] ], [ [ "string_6", 4 ], [ "filament", 40, "LIST" ] ] ]
   },
   {
     "result": "bindle",
@@ -197,10 +188,7 @@
     "time": 65000,
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [
-      [ [ "leather", 3 ] ],
-      [ [ "string_6", 3 ], [ "filament", 10, "LIST" ] ]
-    ]
+    "components": [ [ [ "leather", 3 ] ], [ [ "string_6", 3 ], [ "filament", 10, "LIST" ] ] ]
   },
   {
     "result": "bootstrap",
@@ -213,10 +201,7 @@
     "time": 75000,
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [
-      [ [ "leather", 3 ] ],
-      [ [ "string_6", 3 ], [ "filament", 10, "LIST" ] ]
-    ]
+    "components": [ [ [ "leather", 3 ] ], [ [ "string_6", 3 ], [ "filament", 10, "LIST" ] ] ]
   },
   {
     "result": "bow_sling",
@@ -247,15 +232,8 @@
     "time": 40000,
     "autolearn": true,
     "using": [ [ "adhesive", 1 ] ],
-    "qualities": [
-      { "id": "HAMMER", "level": 1 },
-      { "id": "CUT", "level": 1 }
-    ],
-    "components": [
-      [ [ "leather", 15 ], [ "tanned_hide", 3 ] ],
-      [ [ "2x4", 2 ] ],
-      [ [ "nail", 10 ] ]
-    ]
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "leather", 15 ], [ "tanned_hide", 3 ] ], [ [ "2x4", 2 ] ], [ [ "nail", 10 ] ] ]
   },
   {
     "result": "chestpouch",
@@ -268,10 +246,7 @@
     "time": 78000,
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [
-      [ [ "leather", 4 ], [ "rag", 4 ] ],
-      [ [ "filament", 10, "LIST" ], [ "cordage_short", 1, "LIST" ] ]
-    ]
+    "components": [ [ [ "leather", 4 ], [ "rag", 4 ] ], [ [ "filament", 10, "LIST" ], [ "cordage_short", 1, "LIST" ] ] ]
   },
   {
     "result": "chestrig",
@@ -284,10 +259,7 @@
     "time": 30000,
     "autolearn": true,
     "using": [ [ "sewing_standard", 25 ] ],
-    "tools": [
-      [ [ "surface_heat", 5, "LIST" ] ],
-      [ [ "mold_plastic", -1 ] ]
-    ],
+    "tools": [ [ [ "surface_heat", 5, "LIST" ] ], [ [ "mold_plastic", -1 ] ] ],
     "components": [
       [ [ "rag", 20 ] ],
       [ [ "ragpouch", 2 ], [ "leather_pouch", 2 ] ],
@@ -318,10 +290,7 @@
     "time": 80000,
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [
-      [ [ "leather", 6 ], [ "tanned_hide", 1 ] ],
-      [ [ "filament", 20, "LIST" ], [ "cordage", 1, "LIST" ] ]
-    ]
+    "components": [ [ [ "leather", 6 ], [ "tanned_hide", 1 ] ], [ [ "filament", 20, "LIST" ], [ "cordage", 1, "LIST" ] ] ]
   },
   {
     "result": "grenade_pouch",
@@ -335,11 +304,7 @@
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "tools": [ [ [ "mold_plastic", -1 ] ] ],
-    "components": [
-      [ [ "rag", 4 ] ],
-      [ [ "plastic_chunk", 2 ] ],
-      [ [ "filament", 20, "LIST" ], [ "cordage", 1, "LIST" ] ]
-    ]
+    "components": [ [ [ "rag", 4 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "filament", 20, "LIST" ], [ "cordage", 1, "LIST" ] ] ]
   },
   {
     "result": "hide_bag",
@@ -376,10 +341,7 @@
     "time": 15000,
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [
-      [ [ "leather", 6 ], [ "tanned_hide", 1 ] ],
-      [ [ "filament", 20, "LIST" ], [ "cordage", 1, "LIST" ] ]
-    ]
+    "components": [ [ [ "leather", 6 ], [ "tanned_hide", 1 ] ], [ [ "filament", 20, "LIST" ], [ "cordage", 1, "LIST" ] ] ]
   },
   {
     "result": "jerrypack",
@@ -392,10 +354,7 @@
     "autolearn": true,
     "using": [ [ "adhesive", 3 ] ],
     "qualities": [ { "id": "HAMMER", "level": 3 } ],
-    "components": [
-      [ [ "rag", 6 ], [ "leather", 6 ], [ "cordage_short", 3, "LIST" ] ],
-      [ [ "jerrycan", 1 ] ]
-    ]
+    "components": [ [ [ "rag", 6 ], [ "leather", 6 ], [ "cordage_short", 3, "LIST" ] ], [ [ "jerrycan", 1 ] ] ]
   },
   {
     "result": "leather_belt",
@@ -435,10 +394,7 @@
     "time": 68000,
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [
-      [ [ "leather", 3 ], [ "rag", 3 ] ],
-      [ [ "filament", 10, "LIST" ], [ "cordage_short", 1, "LIST" ] ]
-    ]
+    "components": [ [ [ "leather", 3 ], [ "rag", 3 ] ], [ [ "filament", 10, "LIST" ], [ "cordage_short", 1, "LIST" ] ] ]
   },
   {
     "result": "legpouch_large",
@@ -468,14 +424,8 @@
     "time": 20000,
     "autolearn": true,
     "using": [ [ "sewing_standard", 15 ] ],
-    "tools": [
-      [ [ "surface_heat", 5, "LIST" ] ],
-      [ [ "mold_plastic", -1 ] ]
-    ],
-    "components": [
-      [ [ "rag", 10 ] ],
-      [ [ "plastic_chunk", 2 ] ]
-    ]
+    "tools": [ [ [ "surface_heat", 5, "LIST" ] ], [ [ "mold_plastic", -1 ] ] ],
+    "components": [ [ [ "rag", 10 ] ], [ [ "plastic_chunk", 2 ] ] ]
   },
   {
     "result": "makeshift_knapsack",
@@ -487,7 +437,17 @@
     "reversible": true,
     "autolearn": true,
     "using": [ [ "cordage", 1 ] ],
-    "components": [ [ [ "pants", 1 ], [ "pants_cargo", 1 ], [ "pants_army", 1 ], [ "pants_checkered", 1 ], [ "striped_pants", 1 ], [ "technician_pants_gray", 1 ], [ "jeans", 1 ] ] ],
+    "components": [
+      [
+        [ "pants", 1 ],
+        [ "pants_cargo", 1 ],
+        [ "pants_army", 1 ],
+        [ "pants_checkered", 1 ],
+        [ "striped_pants", 1 ],
+        [ "technician_pants_gray", 1 ],
+        [ "jeans", 1 ]
+      ]
+    ],
     "flags": [ "BLIND_HARD" ]
   },
   {
@@ -499,7 +459,7 @@
     "time": 800,
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "sheet", 1 ] ] ],
+    "components": [ [ [ "sheet", 1 ], [ "blanket", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -561,9 +521,7 @@
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 2 ] ],
     "using": [ [ "sewing_standard", 8 ], [ "steel_tiny", 1 ] ],
-    "qualities": [
-      { "id": "HAMMER", "level": 2 }
-    ],
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "components": [ [ [ "leather", 8 ], [ "tanned_hide", 1 ] ] ]
   },
   {
@@ -591,10 +549,7 @@
     "time": 10000,
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [
-      [ [ "rag", 6 ] ],
-      [ [ "filament", 20, "LIST" ], [ "cordage", 1, "LIST" ] ]
-    ]
+    "components": [ [ [ "rag", 6 ] ], [ [ "filament", 20, "LIST" ], [ "cordage", 1, "LIST" ] ] ]
   },
   {
     "result": "scabbard",
@@ -607,15 +562,8 @@
     "time": 40000,
     "autolearn": true,
     "using": [ [ "adhesive", 1 ] ],
-    "qualities": [
-      { "id": "HAMMER", "level": 1 },
-      { "id": "CUT", "level": 1 }
-    ],
-    "components": [
-      [ [ "leather", 10 ], [ "tanned_hide", 2 ] ],
-      [ [ "2x4", 2 ] ],
-      [ [ "nail", 5 ] ]
-    ]
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "leather", 10 ], [ "tanned_hide", 2 ] ], [ [ "2x4", 2 ] ], [ [ "nail", 5 ] ] ]
   },
   {
     "result": "sheath",
@@ -628,10 +576,7 @@
     "time": 15000,
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [
-      [ [ "leather", 6 ], [ "tanned_hide", 1 ] ],
-      [ [ "filament", 20, "LIST" ], [ "cordage", 1, "LIST" ] ]
-    ]
+    "components": [ [ [ "leather", 6 ], [ "tanned_hide", 1 ] ], [ [ "filament", 20, "LIST" ], [ "cordage", 1, "LIST" ] ] ]
   },
   {
     "result": "sholster",
@@ -644,10 +589,7 @@
     "time": 15000,
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [
-      [ [ "leather", 6 ], [ "tanned_hide", 1 ] ],
-      [ [ "filament", 20, "LIST" ], [ "cordage", 2, "LIST" ] ]
-    ]
+    "components": [ [ [ "leather", 6 ], [ "tanned_hide", 1 ] ], [ [ "filament", 20, "LIST" ], [ "cordage", 2, "LIST" ] ] ]
   },
   {
     "result": "spearsling",
@@ -660,10 +602,7 @@
     "time": 15000,
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [
-      [ [ "felt_patch", 7 ], [ "leather", 7 ], [ "fur", 7 ] ],
-      [ [ "filament", 20, "LIST" ], [ "cordage", 2, "LIST" ] ]
-    ]
+    "components": [ [ [ "felt_patch", 7 ], [ "leather", 7 ], [ "fur", 7 ] ], [ [ "filament", 20, "LIST" ], [ "cordage", 2, "LIST" ] ] ]
   },
   {
     "result": "straw_basket",
@@ -691,7 +630,17 @@
       [ [ "rag", 18 ] ],
       [ [ "leather", 20 ], [ "tanned_hide", 4 ] ],
       [ [ "molle_pack", 4 ], [ "duffelbag", 2 ], [ "rucksack", 4 ] ],
-      [ [ "chestrig", 1 ], [ "legrig", 1 ], [ "vest", 1 ], [ "tool_belt", 1 ], [ "ragpouch", 4 ], [ "leather_pouch", 2 ], [ "dump_pouch", 1 ], [ "purse", 2 ], [ "fanny", 2 ] ],
+      [
+        [ "chestrig", 1 ],
+        [ "legrig", 1 ],
+        [ "vest", 1 ],
+        [ "tool_belt", 1 ],
+        [ "ragpouch", 4 ],
+        [ "leather_pouch", 2 ],
+        [ "dump_pouch", 1 ],
+        [ "purse", 2 ],
+        [ "fanny", 2 ]
+      ],
       [ [ "duct_tape", 200 ] ]
     ]
   },
@@ -710,7 +659,17 @@
       [ [ "rag", 10 ] ],
       [ [ "leather", 10 ], [ "tanned_hide", 2 ] ],
       [ [ "runner_bag", 4 ], [ "backpack", 2 ], [ "backpack_leather", 2 ], [ "mbag", 4 ] ],
-      [ [ "chestrig", 1 ], [ "legrig", 1 ], [ "vest", 1 ], [ "tool_belt", 1 ], [ "ragpouch", 4 ], [ "leather_pouch", 2 ], [ "dump_pouch", 1 ], [ "purse", 2 ], [ "fanny", 2 ] ],
+      [
+        [ "chestrig", 1 ],
+        [ "legrig", 1 ],
+        [ "vest", 1 ],
+        [ "tool_belt", 1 ],
+        [ "ragpouch", 4 ],
+        [ "leather_pouch", 2 ],
+        [ "dump_pouch", 1 ],
+        [ "purse", 2 ],
+        [ "fanny", 2 ]
+      ],
       [ [ "duct_tape", 120 ] ]
     ]
   },
@@ -729,7 +688,17 @@
       [ [ "rag", 14 ] ],
       [ [ "leather", 16 ], [ "tanned_hide", 3 ] ],
       [ [ "backpack", 4 ], [ "backpack_leather", 4 ], [ "molle_pack", 2 ], [ "duffelbag", 1 ], [ "rucksack", 2 ] ],
-      [ [ "chestrig", 1 ], [ "legrig", 1 ], [ "vest", 1 ], [ "tool_belt", 1 ], [ "ragpouch", 4 ], [ "leather_pouch", 2 ], [ "dump_pouch", 1 ], [ "purse", 2 ], [ "fanny", 2 ] ],
+      [
+        [ "chestrig", 1 ],
+        [ "legrig", 1 ],
+        [ "vest", 1 ],
+        [ "tool_belt", 1 ],
+        [ "ragpouch", 4 ],
+        [ "leather_pouch", 2 ],
+        [ "dump_pouch", 1 ],
+        [ "purse", 2 ],
+        [ "fanny", 2 ]
+      ],
       [ [ "duct_tape", 160 ] ]
     ]
   },
@@ -748,7 +717,17 @@
       [ [ "rag", 6 ] ],
       [ [ "leather", 8 ], [ "tanned_hide", 2 ] ],
       [ [ "runner_bag", 2 ], [ "backpack", 1 ], [ "backpack_leather", 1 ], [ "mbag", 2 ] ],
-      [ [ "chestrig", 1 ], [ "legrig", 1 ], [ "vest", 1 ], [ "tool_belt", 1 ], [ "ragpouch", 4 ], [ "leather_pouch", 2 ], [ "dump_pouch", 1 ], [ "purse", 2 ], [ "fanny", 2 ] ],
+      [
+        [ "chestrig", 1 ],
+        [ "legrig", 1 ],
+        [ "vest", 1 ],
+        [ "tool_belt", 1 ],
+        [ "ragpouch", 4 ],
+        [ "leather_pouch", 2 ],
+        [ "dump_pouch", 1 ],
+        [ "purse", 2 ],
+        [ "fanny", 2 ]
+      ],
       [ [ "duct_tape", 80 ] ]
     ]
   },
@@ -767,7 +746,17 @@
       [ [ "rag", 6 ] ],
       [ [ "leather", 6 ], [ "tanned_hide", 1 ] ],
       [ [ "holster", 1 ], [ "sholster", 1 ] ],
-      [ [ "chestrig", 1 ], [ "legrig", 1 ], [ "vest", 1 ], [ "tool_belt", 1 ], [ "ragpouch", 4 ], [ "leather_pouch", 2 ], [ "dump_pouch", 1 ], [ "purse", 2 ], [ "fanny", 2 ] ],
+      [
+        [ "chestrig", 1 ],
+        [ "legrig", 1 ],
+        [ "vest", 1 ],
+        [ "tool_belt", 1 ],
+        [ "ragpouch", 4 ],
+        [ "leather_pouch", 2 ],
+        [ "dump_pouch", 1 ],
+        [ "purse", 2 ],
+        [ "fanny", 2 ]
+      ],
       [ [ "duct_tape", 50 ] ]
     ]
   },
@@ -793,37 +782,28 @@
     "time": 16000,
     "autolearn": true,
     "using": [ [ "sewing_standard", 8 ] ],
-    "components": [
-      [ [ "leather", 6 ], [ "tanned_hide", 1 ], [ "leather_belt", 1 ] ],
-      [ [ "leather_pouch", 5 ] ]
-    ]
+    "components": [ [ [ "leather", 6 ], [ "tanned_hide", 1 ], [ "leather_belt", 1 ] ], [ [ "leather_pouch", 5 ] ] ]
   },
   {
-  "result": "javelin_bag",
-  "type": "recipe",
-  "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_STORAGE",
-  "skill_used": "tailor",
-  "skills_required": [
-    [ "throw", 2 ]
-  ],
-  "difficulty": 2,
-  "time": 80000,
-  "autolearn": true,
-  "using": [
-    [ "sewing_standard", 30 ]
-  ],
-  "components": [
-    [ [ "fur", 32 ], [ "tanned_pelt", 6 ], [ "leather", 32 ], [ "tanned_hide", 6 ] ]
-  ]
-},
-{
+    "result": "javelin_bag",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "skills_required": [ [ "throw", 2 ] ],
+    "difficulty": 2,
+    "time": 80000,
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 30 ] ],
+    "components": [ [ [ "fur", 32 ], [ "tanned_pelt", 6 ], [ "leather", 32 ], [ "tanned_hide", 6 ] ] ]
+  },
+  {
     "result": "grenadebandolier",
     "type": "recipe",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
-	 "skills_required": [ [ "gun", 1 ], [ "throw", 1 ] ],
+    "skills_required": [ [ "gun", 1 ], [ "throw", 1 ] ],
     "difficulty": 3,
     "time": 50000,
     "autolearn": true,

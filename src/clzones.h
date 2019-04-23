@@ -7,14 +7,18 @@
 #include <unordered_set>
 #include <utility>
 #include <vector>
+#include <functional>
+#include <memory>
+#include <string>
 
 #include "enums.h"
-#include "item.h"
 #include "optional.h"
 #include "string_id.h"
 
 class JsonIn;
 class JsonOut;
+class JsonObject;
+class item;
 
 class zone_type
 {
@@ -116,7 +120,6 @@ class plot_options : public zone_options, public mark_option
         void serialize( JsonOut &json ) const override;
         void deserialize( JsonObject &jo_zone ) override;
 };
-
 
 /**
  * These are zones the player can designate.
@@ -255,6 +258,9 @@ class zone_manager
                   const tripoint &start, const tripoint &end,
                   std::shared_ptr<zone_options> options = nullptr );
 
+        void create_vehicle_loot_zone( class vehicle &vehicle, const point &mount_point,
+                                       zone_data &new_zone );
+
         bool remove( zone_data &zone );
 
         unsigned int size() const {
@@ -269,6 +275,7 @@ class zone_manager
         void cache_vzones();
         bool has( const zone_type_id &type, const tripoint &where ) const;
         bool has_near( const zone_type_id &type, const tripoint &where ) const;
+        bool has_loot_dest_near( const tripoint &where ) const;
         std::unordered_set<tripoint> get_near( const zone_type_id &type, const tripoint &where ) const;
         zone_type_id get_near_zone_type_for_item( const item &it, const tripoint &where ) const;
         std::vector<zone_data> get_zones( const zone_type_id &type, const tripoint &where ) const;

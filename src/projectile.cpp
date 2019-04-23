@@ -1,5 +1,7 @@
 #include "projectile.h"
 
+#include <utility>
+
 #include "explosion.h"
 #include "field.h"
 #include "game.h"
@@ -7,6 +9,7 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "rng.h"
+#include "game_constants.h"
 
 projectile::projectile() :
     speed( 0 ), range( 0 ), drop( nullptr ), custom_explosion( nullptr )
@@ -89,12 +92,12 @@ void projectile::unset_custom_explosion()
 void apply_ammo_effects( const tripoint &p, const std::set<std::string> &effects )
 {
     if( effects.count( "EXPLOSIVE_SMALL" ) > 0 ) {
-        // @todo: double-check if this is sensible.
+        // TODO: double-check if this is sensible.
         g->explosion( p, 360, 0.4 );
     }
 
     if( effects.count( "EXPLOSIVE" ) > 0 ) {
-        // @todo: double-check if this is sensible.
+        // TODO: double-check if this is sensible.
         g->explosion( p, 360 );
     }
 
@@ -136,12 +139,12 @@ void apply_ammo_effects( const tripoint &p, const std::set<std::string> &effects
     }
 
     if( effects.count( "EXPLOSIVE_BIG" ) > 0 ) {
-        // @todo: double-check if this is sensible.
+        // TODO: double-check if this is sensible.
         g->explosion( p, 600 );
     }
 
     if( effects.count( "EXPLOSIVE_HUGE" ) > 0 ) {
-        // @todo: double-check if this is sensible.
+        // TODO: double-check if this is sensible.
         g->explosion( p, 1200 );
     }
 

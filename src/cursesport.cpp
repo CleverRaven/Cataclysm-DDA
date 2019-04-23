@@ -1,7 +1,8 @@
-#if (defined TILES || defined _WIN32 || defined WINDOWS)
+#if defined(TILES) || defined(_WIN32)
 #include "cursesport.h"
 
-#include <stdexcept>
+#include <stdint.h>
+#include <memory>
 
 #include "catacharset.h"
 #include "color.h"
@@ -125,7 +126,7 @@ void catacurses::wborder( const window &win_, chtype ls, chtype rs, chtype ts, c
 {
     cata_cursesport::WINDOW *const win = win_.get<cata_cursesport::WINDOW>();
     if( win == nullptr ) {
-        //@todo: log this
+        // TODO: log this
         return;
     }
     int i = 0;
@@ -236,7 +237,7 @@ void catacurses::mvwvline( const window &win, int y, int x, chtype ch, int n )
 void catacurses::wrefresh( const window &win_ )
 {
     cata_cursesport::WINDOW *const win = win_.get<cata_cursesport::WINDOW>();
-    //@todo: log win == nullptr
+    // TODO: log win == nullptr
     if( win != nullptr && win->draw ) {
         cata_cursesport::curses_drawwindow( win_ );
     }
@@ -395,7 +396,7 @@ inline void printstring( cata_cursesport::WINDOW *win, const std::string &text )
 void catacurses::wprintw( const window &win, const std::string &printbuf )
 {
     if( !win ) {
-        //@todo: log this
+        // TODO: log this
         return;
     }
 
@@ -422,7 +423,7 @@ void catacurses::werase( const window &win_ )
 {
     cata_cursesport::WINDOW *const win = win_.get<cata_cursesport::WINDOW>();
     if( win == nullptr ) {
-        //@todo: log this
+        // TODO: log this
         return;
     }
 
@@ -481,7 +482,7 @@ void catacurses::wclear( const window &win_ )
     cata_cursesport::WINDOW *const win = win_.get<cata_cursesport::WINDOW>();
     werase( win_ );
     if( win == nullptr ) {
-        //@todo: log this
+        // TODO: log this
         return;
     }
 
@@ -534,7 +535,7 @@ void catacurses::wattron( const window &win_, const nc_color &attrs )
 {
     cata_cursesport::WINDOW *const win = win_.get<cata_cursesport::WINDOW>();
     if( win == nullptr ) {
-        //@todo: log this
+        // TODO: log this
         return;
     }
 
@@ -553,7 +554,7 @@ void catacurses::wattroff( const window &win_, int )
 {
     cata_cursesport::WINDOW *const win = win_.get<cata_cursesport::WINDOW>();
     if( win == nullptr ) {
-        //@todo: log this
+        // TODO: log this
         return;
     }
 
@@ -563,48 +564,7 @@ void catacurses::wattroff( const window &win_, int )
 
 void catacurses::waddch( const window &win, const chtype ch )
 {
-    char charcode = ch;
-
-    switch( ch ) {      //LINE_NESW  - X for on, O for off
-        case LINE_XOXO:
-            charcode = LINE_XOXO_C;
-            break;
-        case LINE_OXOX:
-            charcode = LINE_OXOX_C;
-            break;
-        case LINE_XXOO:
-            charcode = LINE_XXOO_C;
-            break;
-        case LINE_OXXO:
-            charcode = LINE_OXXO_C;
-            break;
-        case LINE_OOXX:
-            charcode = LINE_OOXX_C;
-            break;
-        case LINE_XOOX:
-            charcode = LINE_XOOX_C;
-            break;
-        case LINE_XXOX:
-            charcode = LINE_XXOX_C;
-            break;
-        case LINE_XXXO:
-            charcode = LINE_XXXO_C;
-            break;
-        case LINE_XOXX:
-            charcode = LINE_XOXX_C;
-            break;
-        case LINE_OXXX:
-            charcode = LINE_OXXX_C;
-            break;
-        case LINE_XXXX:
-            charcode = LINE_XXXX_C;
-            break;
-        default:
-            charcode = static_cast<char>( ch );
-            break;
-    }
-    char buffer[2] = { charcode, '\0' };
-    return printstring( win.get<cata_cursesport::WINDOW>(), buffer );
+    return printstring( win.get<cata_cursesport::WINDOW>(), string_from_long( ch ) );
 }
 
 static constexpr int A_BLINK = 0x00000800; /* Added characters are blinking. */

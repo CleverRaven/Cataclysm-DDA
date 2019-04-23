@@ -4,14 +4,21 @@
 
 #include <map>
 #include <vector>
+#include <string>
 
 #include "map.h"
-#include "omdata.h"
 #include "optional.h"
 #include "trap.h"
-#include "ui.h"
+#include "color.h"
+#include "cursesdef.h"
+#include "enums.h"
 
 struct real_coords;
+class Creature;
+class field;
+class uilist;
+class vehicle;
+
 enum field_id : int;
 
 enum shapetype {
@@ -19,6 +26,7 @@ enum shapetype {
 };
 
 class editmap;
+
 struct editmap_hilight {
     std::vector<bool> blink_interval;
     int cur_blink;
@@ -57,11 +65,8 @@ class editmap
         int edit_veh();
         int edit_mapgen();
         void cleartmpmap( tinymap &tmpmap );
-        int mapgen_preview( real_coords &tc, uilist &gmenu );
-        bool mapgen_set( std::string om_name, tripoint &omt_tgt, int r = 0,
-                         bool change_sensitive = true );
+        int mapgen_preview( const real_coords &tc, uilist &gmenu );
         vehicle *mapgen_veh_query( const tripoint &omt_tgt );
-        bool mapgen_veh_has( const tripoint &omt_tgt );
         bool mapgen_veh_destroy( const tripoint &omt_tgt, vehicle *car_target );
         int mapgen_retarget();
         int select_shape( shapetype shape, int mode = -1 );

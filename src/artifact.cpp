@@ -1,8 +1,14 @@
 #include "artifact.h"
 
+#include <stdlib.h>
 #include <array>
-#include <cmath>
 #include <sstream>
+#include <algorithm>
+#include <map>
+#include <memory>
+#include <set>
+#include <unordered_map>
+#include <vector>
 
 #include "cata_utility.h"
 #include "item_factory.h"
@@ -10,6 +16,13 @@
 #include "rng.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "bodypart.h"
+#include "color.h"
+#include "damage.h"
+#include "iuse.h"
+#include "optional.h"
+#include "units.h"
+#include "item.h"
 
 template<typename V, typename B>
 inline units::quantity<V, B> rng( const units::quantity<V, B> &min,
@@ -645,8 +658,7 @@ void it_artifact_tool::create_name( const std::string &property_name,
                                     const std::string &shape_name )
 {
     name = string_format( pgettext( "artifact name (property, shape)", "%1$s %2$s" ),
-                          property_name.c_str(),
-                          shape_name.c_str() );
+                          property_name, shape_name );
     name_plural = name;
 }
 
@@ -663,7 +675,7 @@ std::string new_artifact()
         it_artifact_tool def;
 
         const artifact_tool_form_datum &info = random_entry_ref( artifact_tool_form_data );
-        def.create_name( _( info.name.c_str() ) );
+        def.create_name( _( info.name ) );
         def.color = info.color;
         def.sym = std::string( 1, info.sym );
         def.materials.push_back( info.material );
@@ -693,13 +705,13 @@ std::string new_artifact()
                     def.item_tags.insert( weapon.tag );
                 }
                 std::ostringstream newname;
-                newname << _( weapon.adjective.c_str() ) << " " << _( info.name.c_str() );
+                newname << _( weapon.adjective ) << " " << _( info.name );
                 def.create_name( newname.str() );
             }
         }
         def.description = string_format(
                               _( "This is the %s.\nIt is the only one of its kind.\nIt may have unknown powers; try activating them." ),
-                              def.nname( 1 ).c_str() );
+                              def.nname( 1 ) );
 
         // Finally, pick some powers
         art_effect_passive passive_tmp = AEP_NULL;
@@ -800,7 +812,7 @@ std::string new_artifact()
 
         const artifact_armor_form_datum &info = random_entry_ref( artifact_armor_form_data );
 
-        def.create_name( _( info.name.c_str() ) );
+        def.create_name( _( info.name ) );
         def.sym = "["; // Armor is always [
         def.color = info.color;
         def.materials.push_back( info.material );
@@ -820,7 +832,7 @@ std::string new_artifact()
         description << string_format( info.plural ?
                                       _( "This is the %s.\nThey are the only ones of their kind." ) :
                                       _( "This is the %s.\nIt is the only one of its kind." ),
-                                      def.nname( 1 ).c_str() );
+                                      def.nname( 1 ) );
 
         // Modify the armor further
         if( !one_in( 4 ) ) {
@@ -869,7 +881,7 @@ std::string new_artifact()
                 description << string_format( info.plural ?
                                               _( "\nThey are %s" ) :
                                               _( "\nIt is %s" ),
-                                              _( modinfo.name.c_str() ) );
+                                              _( modinfo.name ) );
             }
         }
 
@@ -910,9 +922,9 @@ std::string new_natural_artifact( artifact_natural_property prop )
     // Pick a form
     const artifact_shape_datum &shape_data = random_entry_ref( artifact_shape_data );
     // Pick a property
-    artifact_natural_property property = ( prop > ARTPROP_NULL ? prop :
-                                           artifact_natural_property( rng( ARTPROP_NULL + 1,
-                                                   ARTPROP_MAX - 1 ) ) );
+    const artifact_natural_property property = ( prop > ARTPROP_NULL ? prop :
+            artifact_natural_property( rng( ARTPROP_NULL + 1,
+                                            ARTPROP_MAX - 1 ) ) );
     const artifact_property_datum &property_data = artifact_property_data[property];
 
     def.sym = ":";
@@ -924,9 +936,9 @@ std::string new_natural_artifact( artifact_natural_property prop )
     def.melee[DT_CUT] = 0;
     def.m_to_hit = 0;
 
-    def.create_name( _( property_data.name.c_str() ), _( shape_data.name.c_str() ) );
+    def.create_name( _( property_data.name ), _( shape_data.name ) );
     def.description = string_format( pgettext( "artifact description", "This %1$s %2$s." ),
-                                     _( shape_data.desc.c_str() ), _( property_data.desc.c_str() ) );
+                                     _( shape_data.desc ), _( property_data.desc ) );
 
     // Three possibilities: good passive + bad passive, good active + bad active,
     // and bad passive + good active
@@ -1025,7 +1037,7 @@ std::string architects_cube()
     it_artifact_tool def;
 
     const artifact_tool_form_datum &info = artifact_tool_form_data[ARTTOOLFORM_CUBE];
-    def.create_name( _( info.name.c_str() ) );
+    def.create_name( _( info.name ) );
     def.color = info.color;
     def.sym = std::string( 1, info.sym );
     def.materials.push_back( info.material );
@@ -1084,12 +1096,10 @@ std::vector<art_effect_active> fill_bad_active()
 
 std::string artifact_name( const std::string &type )
 {
-    std::string ret;
-    std::string noun = _( random_entry_ref( artifact_noun ).c_str() );
-    std::string adj = _( random_entry_ref( artifact_adj ).c_str() );
-    ret = string_format( noun, adj.c_str() );
-    ret = string_format( pgettext( "artifact name (type, noun)", "%1$s of %2$s" ), type.c_str(),
-                         ret.c_str() );
+    const std::string noun = _( random_entry_ref( artifact_noun ) );
+    const std::string adj = _( random_entry_ref( artifact_adj ) );
+    std::string ret = string_format( noun, adj );
+    ret = string_format( pgettext( "artifact name (type, noun)", "%1$s of %2$s" ), type, ret );
     return ret;
 }
 

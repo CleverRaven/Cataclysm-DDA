@@ -1,7 +1,11 @@
 #include "morale.h"
 
+#include <stdlib.h>
 #include <algorithm>
 #include <set>
+#include <cmath>
+#include <memory>
+#include <utility>
 
 #include "bodypart.h"
 #include "cata_utility.h"
@@ -11,10 +15,16 @@
 #include "input.h"
 #include "item.h"
 #include "itype.h"
+#include "iuse_actor.h"
 #include "morale_types.h"
 #include "options.h"
 #include "output.h"
 #include "translations.h"
+#include "color.h"
+#include "creature.h"
+#include "enums.h"
+#include "iuse.h"
+#include "player.h"
 
 static const efftype_id effect_cold( "cold" );
 static const efftype_id effect_hot( "hot" );
@@ -143,17 +153,30 @@ void player_morale::morale_point::add( const int new_bonus, const int new_max_bo
     new_duration = std::max( 0_turns, new_duration );
     new_decay_start = std::max( 0_turns, new_decay_start );
 
+    const bool same_sign = ( bonus > 0 ) == ( new_max_bonus > 0 );
+
     if( new_cap || new_duration == 0_turns ) {
         duration = new_duration;
         decay_start = new_decay_start;
     } else {
-        bool same_sign = ( bonus > 0 ) == ( new_max_bonus > 0 );
-
         duration = pick_time( duration, new_duration, same_sign );
         decay_start = pick_time( decay_start, new_decay_start, same_sign );
     }
 
-    bonus = normalize_bonus( get_net_bonus() + new_bonus, new_max_bonus, new_cap );
+    int sqrt_of_sum_of_squares;
+    if( new_cap || !same_sign ) {
+        // If the morale bonus is capped apply the full bonus
+        // This is because some morale types build up slowly to a cap over time (e.g. MORALE_WET)
+        // If the new bonus is opposing apply the full bonus
+        sqrt_of_sum_of_squares = get_net_bonus() + new_bonus;
+    } else {
+        // Otherwise use the sqrt of sum of squares to nerf stacking
+        sqrt_of_sum_of_squares = pow( get_net_bonus(), 2 ) + pow( new_bonus, 2 );
+        sqrt_of_sum_of_squares = sqrt( sqrt_of_sum_of_squares );
+        sqrt_of_sum_of_squares *= sgn( bonus );
+    }
+
+    bonus = normalize_bonus( sqrt_of_sum_of_squares, new_max_bonus, new_cap );
     age = 0_turns; // Brand new. The assignment should stay below get_net_bonus() and pick_time().
 }
 
@@ -243,7 +266,7 @@ void player_morale::add( morale_type type, int bonus, int max_bonus,
 {
     if( ( duration == 0_turns ) & !is_permanent_morale( type ) ) {
         debugmsg( "Tried to set a non-permanent morale \"%s\" as permanent.",
-                  type.obj().describe( item_type ).c_str() );
+                  type.obj().describe( item_type ) );
         return;
     }
 
@@ -331,9 +354,19 @@ int player_morale::get_level() const
         const morale_mult mult = get_temper_mult();
 
         level = 0;
+        int sum_of_positive_squares = 0;
+        int sum_of_negative_squares = 0;
+
         for( auto &m : points ) {
-            level += m.get_net_bonus( mult );
+            const int bonus = m.get_net_bonus( mult );
+            if( bonus > 0 ) {
+                sum_of_positive_squares += pow( bonus, 2 );
+            } else {
+                sum_of_negative_squares += pow( bonus, 2 );
+            }
         }
+
+        level = sqrt( sum_of_positive_squares ) - sqrt( sum_of_negative_squares );
 
         if( took_prozac ) {
             level *= morale_mults::prozac;
@@ -477,7 +510,7 @@ bool player_morale::consistent_with( const player_morale &morale ) const
             } );
 
             if( iter == rhs.points.end() || lhp.get_net_bonus() != iter->get_net_bonus() ) {
-                debugmsg( "Morale \"%s\" is inconsistent.", lhp.get_name().c_str() );
+                debugmsg( "Morale \"%s\" is inconsistent.", lhp.get_name() );
                 return false;
             }
         }
@@ -563,6 +596,16 @@ void player_morale::on_item_wear( const item &it )
 void player_morale::on_item_takeoff( const item &it )
 {
     set_worn( it, false );
+}
+
+void player_morale::on_worn_item_transform( const item &it )
+{
+    item dummy = it;
+    dummy.convert( dynamic_cast<iuse_transform *>( item::find_type(
+                       it.typeId() )->get_use( "transform" )->get_actor_ptr() )->target );
+
+    set_worn( dummy, false );
+    set_worn( it, true );
 }
 
 void player_morale::on_worn_item_washed( const item &it )
@@ -687,8 +730,8 @@ void player_morale::update_stylish_bonus()
                 body_parts[bp].fancy > 0 ||
                 body_parts[opposite_body_part( bp )].fancy > 0 ) ? bonus : 0;
         };
-        bonus = std::min( int( 2 * super_fancy_items.size() ) +
-                          2 * std::min( int( no_body_part.fancy ), 3 ) +
+        bonus = std::min( static_cast<int>( 2 * super_fancy_items.size() ) +
+                          2 * std::min( static_cast<int>( no_body_part.fancy ), 3 ) +
                           bp_bonus( bp_torso,  6 ) +
                           bp_bonus( bp_head,   3 ) +
                           bp_bonus( bp_eyes,   2 ) +
@@ -721,7 +764,7 @@ void player_morale::update_masochist_bonus()
     set_permanent( MORALE_PERM_MASOCHIST, bonus );
 }
 
-void player_morale::update_bodytemp_penalty( const time_duration ticks )
+void player_morale::update_bodytemp_penalty( const time_duration &ticks )
 {
     using bp_int_func = std::function<int( body_part )>;
     const auto apply_pen = [ this, ticks ]( morale_type type, bp_int_func bp_int ) -> void {
@@ -783,7 +826,7 @@ void player_morale::update_squeamish_penalty()
             body_parts[bp].filthy > 0 ||
             body_parts[opposite_body_part( bp )].filthy > 0 ) ? penalty : 0;
     };
-    penalty = 2 * std::min( int( no_body_part.filthy ), 3 ) +
+    penalty = 2 * std::min( static_cast<int>( no_body_part.filthy ), 3 ) +
               bp_pen( bp_torso,  6 ) +
               bp_pen( bp_head,   7 ) +
               bp_pen( bp_eyes,   8 ) +

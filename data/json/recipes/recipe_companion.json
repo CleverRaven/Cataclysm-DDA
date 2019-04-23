@@ -72,11 +72,12 @@
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
     "difficulty": 1,
+    "charges": 1,
     "time": 25000,
     "autolearn": false,
     "never_learn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "dahlia_root", 2 ], [ "potato_raw", 2 ], [ "potato_irradiated", 2 ], [ "cattail_stalk", 4 ] ] ]
+    "components": [ [ [ "dahlia_root", 10 ], [ "potato", 5 ], [ "irradiated_potato", 5 ] ] ]
   },
   {
     "type": "recipe",
@@ -145,6 +146,7 @@
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
     "difficulty": 1,
+    "charges": 1,
     "time": 22500,
     "autolearn": false,
     "never_learn": true,
@@ -171,17 +173,18 @@
     "skill_used": "cooking",
     "difficulty": 3,
     "time": 75000,
+    "charges": 1,
     "autolearn": false,
     "never_learn": true,
     "components": [
       [
         [ "salt_water", 1 ],
-        [ "saline", 5 ],
-        [ "salt", 5 ],
+        [ "saline", 1 ],
+        [ "salt", 1 ],
         [ "soysauce", 1 ],
-        [ "seasoning_salt", 5 ],
-        [ "pepper", 10 ],
-        [ "chem_saltpetre", 2 ]
+        [ "seasoning_salt", 1 ],
+        [ "pepper", 2 ],
+        [ "chem_saltpetre", 1 ]
       ],
       [ [ "meat", 1 ] ],
       [ [ "charcoal", 10 ], [ "lamp_oil", 10 ], [ "splinter", 7 ] ]
@@ -237,21 +240,20 @@
     "skill_used": "cooking",
     "difficulty": 3,
     "time": 31250,
+    "charges": 4,
     "autolearn": false,
     "never_learn": true,
     "components": [
-      [ [ "flour", 2 ] ],
+      [ [ "flour", 30 ] ],
       [
-        [ "meat", 1 ],
-        [ "rehydrated_meat", 1 ],
+        [ "meat_red", 1, "LIST" ],
         [ "dry_meat", 1 ],
-        [ "meat_canned", 1 ],
         [ "can_chicken", 1 ],
-        [ "fish", 2 ],
-        [ "rehydrated_fish", 2 ],
-        [ "dry_fish", 2 ],
-        [ "fish_canned", 2 ],
-        [ "can_tuna", 2 ]
+        [ "fish", 1 ],
+        [ "rehydrated_fish", 1 ],
+        [ "dry_fish", 1 ],
+        [ "fish_canned", 1 ],
+        [ "can_tuna", 1 ]
       ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "charcoal", 8 ], [ "lamp_oil", 8 ], [ "splinter", 6 ] ]
@@ -268,7 +270,7 @@
     "time": 75000,
     "autolearn": false,
     "never_learn": true,
-    "components": [ [ [ "meat", 3 ] ], [ [ "charcoal", 15 ] ] ]
+    "components": [ [ [ "meat", 1 ] ], [ [ "charcoal", 15 ] ] ]
   },
   {
     "type": "recipe",
@@ -279,38 +281,12 @@
     "skill_used": "cooking",
     "difficulty": 3,
     "time": 31250,
+    "charges": 4,
     "autolearn": false,
     "never_learn": true,
     "components": [
-      [ [ "flour", 2 ] ],
-      [
-        [ "broccoli", 2 ],
-        [ "irradiated_broccoli", 2 ],
-        [ "tomato", 2 ],
-        [ "irradiated_tomato", 2 ],
-        [ "pumpkin", 2 ],
-        [ "irradiated_pumpkin", 2 ],
-        [ "zucchini", 2 ],
-        [ "irradiated_zucchini", 2 ],
-        [ "celery", 2 ],
-        [ "irradiated_celery", 2 ],
-        [ "cabbage", 2 ],
-        [ "irradiated_cabbage", 2 ],
-        [ "sauerkraut", 4 ],
-        [ "potato_raw", 2 ],
-        [ "potato_irradiated", 2 ],
-        [ "onion", 2 ],
-        [ "irradiated_onion", 2 ],
-        [ "carrot", 12 ],
-        [ "irradiated_carrot", 12 ],
-        [ "veggy", 2 ],
-        [ "dry_veggy", 2 ],
-        [ "rehydrated_veggy", 2 ],
-        [ "veggy_wild", 2 ],
-        [ "plant_sac", 6 ],
-        [ "dandelion_cooked", 2 ],
-        [ "wild_herbs", 40 ]
-      ],
+      [ [ "flour", 30 ] ],
+      [ [ "veggy_any", 8, "LIST" ], [ "dandelion_cooked", 8 ], [ "wild_herbs", 40 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "charcoal", 8 ], [ "lamp_oil", 8 ], [ "splinter", 6 ] ]
     ]
@@ -326,7 +302,7 @@
     "time": 75000,
     "autolearn": false,
     "never_learn": true,
-    "components": [ [ [ "fish", 6 ] ], [ [ "charcoal", 15 ] ] ]
+    "components": [ [ [ "fish", 1 ] ], [ [ "charcoal", 15 ] ] ]
   },
   {
     "type": "recipe",
@@ -348,6 +324,7 @@
     "subcategory": "CSC_FOOD_DRY",
     "skill_used": "cooking",
     "difficulty": 2,
+    "charges": 2,
     "time": 22500,
     "autolearn": false,
     "never_learn": true,
@@ -375,18 +352,19 @@
     "skill_used": "cooking",
     "difficulty": 4,
     "time": 75000,
+    "charges": 6,
     "autolearn": false,
     "never_learn": true,
     "components": [
-      [ [ "meat", 3 ], [ "rehydrated_meat", 6 ], [ "meat_canned", 6 ], [ "can_chicken", 6 ] ],
-      [ [ "fat", 3 ], [ "tallow", 3 ], [ "lard", 3 ] ],
+      [ [ "meat_red", 2, "LIST" ], [ "liver", 10 ] ],
+      [ [ "fat", 1 ], [ "tallow", 2 ], [ "lard", 2 ] ],
       [
-        [ "salt", 10 ],
-        [ "soysauce", 1 ],
-        [ "seasoning_italian", 10 ],
-        [ "wild_herbs", 10 ],
-        [ "seasoning_salt", 10 ],
-        [ "pepper", 10 ]
+        [ "salt", 4 ],
+        [ "soysauce", 2 ],
+        [ "seasoning_italian", 4 ],
+        [ "wild_herbs", 4 ],
+        [ "seasoning_salt", 4 ],
+        [ "pepper", 4 ]
       ],
       [ [ "charcoal", 10 ] ]
     ]
@@ -400,11 +378,12 @@
     "skill_used": "cooking",
     "difficulty": 3,
     "time": 112500,
+    "charges": 1,
     "autolearn": false,
     "never_learn": true,
     "components": [
-      [ [ "flour", 2 ] ],
-      [ [ "salt", 10 ], [ "soysauce", 1 ], [ "seasoning_salt", 10 ] ],
+      [ [ "flour", 6 ] ],
+      [ [ "salt", 1 ], [ "soysauce", 1 ], [ "seasoning_salt", 1 ] ],
       [ [ "water", 2 ], [ "water_clean", 2 ] ],
       [ [ "charcoal", 16 ], [ "lamp_oil", 16 ], [ "splinter", 12 ] ]
     ]
@@ -421,16 +400,18 @@
     "autolearn": false,
     "never_learn": true,
     "components": [
-      [ [ "offal", 4 ] ],
+      [ [ "offal", 4 ], [ "meat_nofish", 2, "LIST" ], [ "brain", 10 ] ],
       [ [ "stomach", 2 ], [ "stomach_large", 1 ] ],
       [
         [ "salt_water", 4 ],
-        [ "saline", 20 ],
-        [ "salt", 20 ],
-        [ "soysauce", 4 ],
-        [ "seasoning_salt", 20 ],
-        [ "pepper", 40 ],
-        [ "chem_saltpetre", 8 ]
+        [ "saline", 8 ],
+        [ "salt", 4 ],
+        [ "chem_saltpetre", 2 ],
+        [ "soysauce", 2 ],
+        [ "seasoning_italian", 4 ],
+        [ "wild_herbs", 4 ],
+        [ "seasoning_salt", 4 ],
+        [ "pepper", 4 ]
       ],
       [ [ "charcoal", 10 ] ]
     ]
@@ -464,8 +445,8 @@
         [ "irradiated_zucchini", 2 ],
         [ "cucumber", 2 ],
         [ "irradiated_cucumber", 2 ],
-        [ "potato_raw", 2 ],
-        [ "potato_irradiated", 2 ],
+        [ "potato", 2 ],
+        [ "irradiated_potato", 2 ],
         [ "corn", 2 ],
         [ "irradiated_corn", 2 ],
         [ "onion", 2 ],
@@ -506,18 +487,19 @@
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
     "difficulty": 5,
+    "charges": 4,
     "time": 56250,
     "autolearn": false,
     "never_learn": true,
     "components": [
-      [ [ "tallow", 2 ], [ "lard", 2 ] ],
+      [ [ "tallow", 1 ], [ "lard", 1 ] ],
       [
-        [ "jerky", 6 ],
+        [ "jerky", 2 ],
         [ "dry_meat", 2 ],
         [ "meat_smoked", 2 ],
-        [ "dry_fish", 3 ],
-        [ "salted_fish", 6 ],
-        [ "fish_smoked", 3 ]
+        [ "dry_fish", 2 ],
+        [ "salted_fish", 2 ],
+        [ "fish_smoked", 2 ]
       ],
       [
         [ "dry_veggy", 2 ],
@@ -530,8 +512,8 @@
         [ "blueberries", 1 ],
         [ "irradiated_cherries", 1 ],
         [ "cherries", 1 ],
-        [ "irradiated_cranberries", 3 ],
-        [ "cranberries", 3 ],
+        [ "irradiated_cranberries", 1 ],
+        [ "cranberries", 1 ],
         [ "irradiated_raspberries", 1 ],
         [ "raspberries", 1 ],
         [ "irradiated_blackberries", 1 ],
@@ -569,8 +551,8 @@
         [ "irradiated_zucchini", 3 ],
         [ "celery", 9 ],
         [ "irradiated_celery", 9 ],
-        [ "potato_raw", 3 ],
-        [ "potato_irradiated", 3 ],
+        [ "potato", 3 ],
+        [ "irradiated_potato", 3 ],
         [ "potato_baked", 3 ],
         [ "can_corn", 3 ],
         [ "corn", 3 ],
@@ -825,7 +807,7 @@
     "never_learn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
-      [ [ "stick_long", 1 ], [ "broom", 1 ], [ "pool_cue", 1 ], [ "pointy_stick", 1 ] ],
+      [ [ "stick_long", 1 ], [ "pool_cue", 1 ] ],
       [ [ "rag", 1 ], [ "felt_patch", 1 ], [ "leather", 1 ], [ "fur", 1 ] ],
       [ [ "duct_tape", 20 ], [ "cordage_short", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
       [ [ "scrap_copper", 3 ], [ "copper", 300 ] ],

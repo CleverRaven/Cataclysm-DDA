@@ -1,7 +1,8 @@
-#ifdef SDL_SOUND
+#if defined(SDL_SOUND)
 
 #include "sdlsound.h"
 
+#include <stdlib.h>
 #include <algorithm>
 #include <chrono>
 #include <map>
@@ -9,6 +10,11 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include <exception>
+#include <memory>
+#include <ostream>
+#include <type_traits>
+#include <utility>
 
 #if defined(_MSC_VER) && defined(USE_VCPKG)
 #    include <SDL2/SDL_mixer.h>
@@ -24,6 +30,7 @@
 #include "path_info.h"
 #include "rng.h"
 #include "sdl_wrappers.h"
+#include "sounds.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -59,7 +66,7 @@ struct music_playlist {
     }
 };
 /** The music we're currently playing. */
-static Mix_Music *current_music = NULL;
+static Mix_Music *current_music = nullptr;
 static std::string current_playlist;
 static size_t current_playlist_at = 0;
 static size_t absolute_playlist_at = 0;
@@ -147,7 +154,7 @@ void musicFinished()
 {
     Mix_HaltMusic();
     Mix_FreeMusic( current_music );
-    current_music = NULL;
+    current_music = nullptr;
 
     const auto iter = playlists.find( current_playlist );
     if( iter == playlists.end() ) {
@@ -270,7 +277,6 @@ static inline int add_sfx_path( const std::string &path )
     }
 }
 
-
 void sfx::load_sound_effects( JsonObject &jsobj )
 {
     if( !sound_init_success ) {
@@ -367,18 +373,15 @@ void empty_effect( int /* chan */, void * /* stream */, int /* len */, void * /*
 
 Mix_Chunk *do_pitch_shift( Mix_Chunk *s, float pitch )
 {
-    Mix_Chunk *result;
     Uint32 s_in = s->alen / 4;
     Uint32 s_out = static_cast<Uint32>( static_cast<float>( s_in ) * pitch );
     float pitch_real = static_cast<float>( s_out ) / static_cast<float>( s_in );
-    Uint32 i;
-    Uint32 j;
-    result = static_cast<Mix_Chunk *>( malloc( sizeof( Mix_Chunk ) ) );
+    Mix_Chunk *result = static_cast<Mix_Chunk *>( malloc( sizeof( Mix_Chunk ) ) );
     result->allocated = 1;
     result->alen = s_out * 4;
     result->abuf = static_cast<Uint8 *>( malloc( result->alen * sizeof( Uint8 ) ) );
     result->volume = s->volume;
-    for( i = 0; i < s_out; i++ ) {
+    for( Uint32 i = 0; i < s_out; i++ ) {
         Sint16 lt = 0;
         Sint16 rt = 0;
         Sint16 lt_out = 0;
@@ -393,7 +396,7 @@ Mix_Chunk *do_pitch_shift( Mix_Chunk *s, float pitch )
             end = begin;
         }
 
-        for( j = begin; j <= end; j++ ) {
+        for( Uint32 j = begin; j <= end; j++ ) {
             lt = ( s->abuf[( 4 * j ) + 1] << 8 ) | ( s->abuf[( 4 * j ) + 0] );
             rt = ( s->abuf[( 4 * j ) + 3] << 8 ) | ( s->abuf[( 4 * j ) + 2] );
             lt_avg += lt;
@@ -472,7 +475,7 @@ void sfx::play_ambient_variant_sound( const std::string &id, const std::string &
 
     Mix_Chunk *effect_to_play = get_sfx_resource( selected_sound_effect.resource_id );
     Mix_VolumeChunk( effect_to_play,
-                     selected_sound_effect.volume * get_option<int>( "SOUND_EFFECT_VOLUME" ) * volume / ( 100 * 100 ) );
+                     selected_sound_effect.volume * get_option<int>( "AMBIENT_SOUND_VOLUME" ) * volume / ( 100 * 100 ) );
     if( Mix_FadeInChannel( channel, effect_to_play, -1, duration ) == -1 ) {
         dbg( D_ERROR ) << "Failed to play sound effect: " << Mix_GetError();
     }

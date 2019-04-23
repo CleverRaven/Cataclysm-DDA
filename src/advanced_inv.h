@@ -2,6 +2,8 @@
 #ifndef ADVANCED_INV_H
 #define ADVANCED_INV_H
 
+#include <ctype.h>
+#include <stddef.h>
 #include <array>
 #include <functional>
 #include <list>
@@ -46,6 +48,7 @@ enum advanced_inv_sortby {
     SORTBY_CHARGES,
     SORTBY_CATEGORY,
     SORTBY_DAMAGE,
+    SORTBY_AMMO,
     SORTBY_SPOILAGE
 };
 
@@ -59,7 +62,7 @@ void advanced_inv();
 
 /**
  * Cancels ongoing move all action.
- * @todo: Make this not needed.
+ * TODO: Make this not needed.
  */
 void cancel_aim_processing();
 
@@ -139,7 +142,7 @@ class item_category;
 struct advanced_inv_listitem {
     typedef std::string itype_id;
     /**
-     * Index of the item in the original storage container (or inventory).
+     * Index of the item in the itemstack.
      */
     int idx;
     /**
@@ -435,22 +438,6 @@ class advanced_inventory
          * actual location has been queried).
          */
         bool query_destination( aim_location &def );
-        /**
-         * Add the item to the destination area.
-         * @param destarea Where add the item to. This must not be AIM_ALL.
-         * @param new_item The item to add.
-         * @param count The amount to add items to add.
-         * @return Returns the amount of items that weren't addable, 0 if everything went fine.
-         */
-        int add_item( aim_location destarea, item &new_item, int count = 1 );
-        /**
-         * Remove the item from source area. Must not be used on items with area
-         *      AIM_ALL or AIM_INVENTORY!
-         * @param sitem The item reference that should be removed, along with the source area.
-         * @param count The amount to move of said item.
-         * @return Returns the amount of items that weren't removable, 0 if everything went fine.
-         */
-        int remove_item( advanced_inv_listitem &sitem, int count = 1 );
         /**
          * Move content of source container into destination container (destination pane = AIM_CONTAINER)
          * @param src_container Source container

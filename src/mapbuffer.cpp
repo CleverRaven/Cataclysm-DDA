@@ -1,6 +1,13 @@
 #include "mapbuffer.h"
 
 #include <sstream>
+#include <algorithm>
+#include <exception>
+#include <functional>
+#include <iterator>
+#include <set>
+#include <utility>
+#include <vector>
 
 #include "cata_utility.h"
 #include "computer.h"
@@ -16,6 +23,15 @@
 #include "translations.h"
 #include "trap.h"
 #include "vehicle.h"
+#include "active_item_cache.h"
+#include "basecamp.h"
+#include "calendar.h"
+#include "field.h"
+#include "game_constants.h"
+#include "int_id.h"
+#include "item.h"
+#include "string_id.h"
+#include "visitable.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -84,7 +100,7 @@ submap *mapbuffer::lookup_submap( const tripoint &p )
 {
     dbg( D_INFO ) << "mapbuffer::lookup_submap( x[" << p.x << "], y[" << p.y << "], z[" << p.z << "])";
 
-    auto iter = submaps.find( p );
+    const auto iter = submaps.find( p );
     if( iter == submaps.end() ) {
         try {
             return unserialize_submaps( p );
@@ -439,7 +455,7 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
     }
     if( submaps.count( p ) == 0 ) {
         debugmsg( "file %s did not contain the expected submap %d,%d,%d",
-                  quad_path.str().c_str(), p.x, p.y, p.z );
+                  quad_path.str(), p.x, p.y, p.z );
         return nullptr;
     }
     return submaps[ p ];
@@ -597,7 +613,7 @@ void mapbuffer::deserialize( JsonIn &jsin )
                     } else {
                         sm->trp[p.x][p.y] = trid.id();
                     }
-                    // @todo: remove brazier trap-to-furniture conversion after 0.D
+                    // TODO: remove brazier trap-to-furniture conversion after 0.D
                     jsin.end_array();
                 }
             } else if( submap_member_name == "fields" ) {
@@ -674,9 +690,9 @@ void mapbuffer::deserialize( JsonIn &jsin )
             } else if( submap_member_name == "vehicles" ) {
                 jsin.start_array();
                 while( !jsin.end_array() ) {
-                    vehicle *tmp = new vehicle();
+                    std::unique_ptr<vehicle> tmp( new vehicle() );
                     jsin.read( *tmp );
-                    sm->vehicles.push_back( tmp );
+                    sm->vehicles.push_back( std::move( tmp ) );
                 }
             } else if( submap_member_name == "computers" ) {
                 std::string computer_data = jsin.get_string();

@@ -98,4 +98,4 @@ Where id describes the id of the sound effect, and a list of variants separated 
 * `melee_hit <weapon> # note: use weapon id "null" for unarmed attacks`
 * `fire_gun <weapon>`
 * `reload <weapon>`
-* `environment thunder_near|thunder_far|daytime|nighttime|indoors|indoors_rain|underground|WEATHER_DRIZZLE|WEATHER_RAINY|WEATHER_THUNDER|WEATHER_FLURRIES|WEATHER_SNOW`
+* `environment thunder_near|thunder_far|daytime|nighttime|indoors|indoors_rain|underground|WEATHER_DRIZZLE|WEATHER_RAINY|WEATHER_THUNDER|WEATHER_FLURRIES|WEATHER_SNOW|WEATHER_SNOWSTORM`

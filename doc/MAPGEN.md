@@ -45,32 +45,34 @@
       * 2.4.0.1 "amount"
       * 2.4.0.2 "chance"
       * 2.4.0.3 "repeat"
-  * 2.5 "lua":
-  * 2.6 specials:
-    * 2.6.0 "fields"
-    * 2.6.1 "npcs"
-    * 2.6.2 "signs"
-    * 2.6.3 "vendingmachines"
-    * 2.6.4 "toilets"
-    * 2.6.5 "gaspumps"
-    * 2.6.6 "items"
-    * 2.6.7 "monsters"
-    * 2.6.8 "vehicles"
-    * 2.6.9 "item"
-    * 2.6.10 "traps"
-    * 2.6.11 "furniture"
-    * 2.6.12 "terrain"
-    * 2.6.13 "monster"
-    * 2.6.14 "rubble"
-    * 2.6.15 "place_liquids"
-    * 2.6.16 "loot"
-  * 2.7 "rotation"
-* 3 Method: lua
-  * 3.0 Tested functions
-  * 3.1 Example script inside overmap_terrain entry
-
-# 0 Intro
-Note: You may wish to read over JSON_INFO.md beforehand.
+  * 2.5 specials:
+    * 2.5.0 "fields"
+    * 2.5.1 "npcs"
+    * 2.5.2 "signs"
+    * 2.5.3 "vendingmachines"
+    * 2.5.4 "toilets"
+    * 2.5.5 "gaspumps"
+    * 2.5.6 "items"
+    * 2.5.7 "monsters"
+    * 2.5.8 "vehicles"
+    * 2.5.9 "item"
+    * 2.5.10 "traps"
+    * 2.5.11 "furniture"
+    * 2.5.12 "terrain"
+    * 2.5.13 "monster"
+    * 2.5.14 "rubble"
+    * 2.5.15 "place_liquids"
+    * 2.5.16 "loot"
+    * 2.5.17 "sealed_item"
+    * 2.5.18 "graffiti"
+    * 2.6.19 "translate_ter"
+  * 2.6 "rotation"
+* 3 update_mapgen
+  * 3.1 overmap tile specification
+    * 3.1.0 "assign_mission_target"
+    * 3.1.1 "om_terrain"
+  * 3.2 mission specials
+    * 3.2.0 "target"
 
 ## 0.0 How buildings and terrain are generated
 Cataclysm creates buildings and terrain on discovery via 'mapgen'; functions specific to an overmap terrain (the tiles you see in [m]ap are also determined by overmap terrain). Overmap terrains ("oter") are defined in overmap_terrain.json.
@@ -87,8 +89,6 @@ One doesn't (and shouldn't) need to create a new overmap_terrain for a new varia
 ## 1.0 Methods
 While adding mapgen as a c++ function is one of the fastest (and the most versatile) ways to generate procedural terrain on the fly, this requires recompiling the game. For mods, one can instead define a mapgen function in:
 * JSON: A set of json arrays and objects for defining stuff and things. Pros: Fastest to apply, mostly complete, supported by one third party map editor so far. Cons: Not a programming language; no if statements or variables means instances of a particular json mapgen definition will all be similar. Support was added for randomizing things, however.
-
-* LUA: The same scripting language used in Garry's Mod, S.T.A.L.K.E.R, CIV5, etc. Pros: Powerful; as a full scripting language it allows for endless variety and options in theory. Cons: In theory; lua needs bindings for internal game functions, and this is a work in progress. Also, it will apply to the map slower than c++ or json.
 
 ## 1.1 Placement
 Mapgen definitions can be added in 2 places:
@@ -110,7 +110,7 @@ As "mapgen": { ... } objects inside an existing overmap_terrain object ( see "s_
 
 ```
 ### 1.1.1 Standalone
-As standalone { "type": "mapgen", ... } objects in a .json inside data/json. Below is the same fast food restaurant, along with one written lua (as part of unhealthy_dining_expansion_mod.json)
+As standalone { "type": "mapgen", ... } objects in a .json inside data/json. Below is the same fast food restaurant.
 ```C++
 [
     {
@@ -119,15 +119,6 @@ As standalone { "type": "mapgen", ... } objects in a .json inside data/json. Bel
         "weight": 250,
         "method": "json",
         "object": {
-            (see below)
-        }
-    },
-    {
-        "type": "mapgen",
-        "om_terrain": "s_restaurant_fast",
-        "weight": 500,
-        "method": "lua",
-        "script": {
             (see below)
         }
     }
@@ -144,25 +135,6 @@ The above example only illustrate the mapgen entries, not the actual format for 
 
 ```
 "object": { (more json here) }
-```
-
--or-
-
-> * "lua" - requires
-
-```
-"script": "-- string of lua code\n -- for newline use \n -- and escape \"quote\"s"
-```
-
--or-
-
-> "lua" - requires
-
-```
-"script": [
-   " -- array of lines ",
-   " -- etc ",
-]
 ```
 
 ### 1.2.1 "om_terrain":
@@ -208,11 +180,10 @@ Default: 1000
 ## 1.3 How "overmap_terrain" variables affect mapgen
 "id" is used to determine the required "om_terrain" id for standalone, -except- when the following variables are set in "overmap_terrain":
 * "extras" - applies rare, random scenes after mapgen; helicopter crashes, etc
-* "mondensity" - determines the default 'density' value for *"place_groups": [ { "monster": ...* (json) or *map:place_monster(..)* (lua)
+* "mondensity" - determines the default 'density' value for *"place_groups": [ { "monster": ...* (json)
 
 ## 1.4 Limitations / TODO
 * JSON: adding specific monster spawns are still WIP.
-* lua: Just about *everything* is WIP; there are issues passing class pointers back and forth with the game that will be corrected eventually
 * The old mapgen.cpp system involved *The Biggest "if / else if / else if / .." Statement Known to Man*(tm), and is only halfway converted to the "builtin" mapgen class. This means that while custom mapgen functions are allowed, the game will cheerfully forget the default if one is added.
 * TODO: Add to this list.
 
@@ -466,13 +437,7 @@ Example: "amount": [ 5, 15 ]
 
 Example: [ 1, 3 ] - apply 1-3 times
 
-#### 2.5 "lua"
-**optional** lua script to run after all of the above finishes. See below.
-> Value: "string"
-
-Example: "lua": "if game.one_in(5000) then\n map:square_ter(\"t_lava\", 3, 3, 20, 20)\n game.add_msg(\"Oh noes micro volcano ;.;\")\n end"
-
-# 2.6 specials
+# 2.5 specials
 **optional** Special map features that do more than just placing furniture / terrain.
 
 Specials can be defined either via a mapping like the terrain / furniture mapping using the "rows" entry above or through their exact location by its coordinates.
@@ -495,6 +460,14 @@ Example (places grass at 2/3 of all '.' square and dirt at 1/3 of them):
     ".": [ "t_grass", "t_grass", "t_dirt" ]
 }
 ```
+It is also possible to specify the number of instances (and consequently their chance) directly, which is particularly useful for rare occurrences (rather than repeating the common value many times):
+```
+"terrain" : {
+    ".": [ [ "t_grass", 2 ], "t_dirt" ]
+}
+```
+
+
 Example (places a blood and a bile field on each '.' square):
 ```
 "fields" : {
@@ -558,46 +531,49 @@ Same as
 }
 ```
 
-### 2.6.0 "fields"
+### 2.5.0 "fields"
 Places a field (see fields.h). Values:
 - "field": (required, string) the field type (e.g. "fd_blood")
 - "density": (optional, integer) field density. Defaults to 1. Possible values are 1, 2, or 3.
 - "age": (optional, integer) field age. Defaults to 0.
 
-### 2.6.1 "npcs"
+### 2.5.1 "npcs"
 Places a new NPC. Values:
 - "class": (required, string) the npc class id, see data/json/npcs/npc.json or define your own npc class.
+- "target": (optional, bool) this NPC is a mission target.  Only valid for update_mapgen.
+- "add_trait" (optional, string or string array) this NPC gets these traits, in addition to any from the class definition.
 
-### 2.6.2 "signs"
+### 2.5.2 "signs"
 Places a sign (furniture f_sign) with a message written on it. Either "signage" or "snippet" must be defined.  The message may include tags like \<full_name\>, \<given_name\>, and \<family_name\> that will insert a randomly generated name, or \<city\> that will insert the nearest city name.  Values:
 - "signage": (optional, string) the message that should appear on the sign.
 - "snippet": (optional, string) a category of snippets that can appear on the sign.
 
-### 2.6.3 "vendingmachines"
+### 2.5.3 "vendingmachines"
 Places a vending machine (furniture) and fills it with items. The machine can sometimes spawn as broken one. Values:
 - "item_group": (optional, string) the item group that is used to create items inside the machine. It defaults to either "vending_food" or "vending_drink" (randomly chosen).
 
-### 2.6.4 "toilets"
+### 2.5.4 "toilets"
 Places a toilet (furniture) and adds water to it. Values:
 - "amount": (optional, integer or min/max array) the amount of water to be placed in the toilet.
 
-### 2.6.5 "gaspumps"
+### 2.5.5 "gaspumps"
 Places a gas pump with gasoline (or sometimes diesel) in it. Values:
 - "amount": (optional, integer or min/max array) the amount of fuel to be placed in the pump.
 - "fuel": (optional, string: "gasoline" or "diesel") the type of fuel to be placed in the pump.
 
-### 2.6.6 "items"
+### 2.5.6 "items"
 Places items from an item group. Values:
 - "item": (required, string) the item group to use.
 - "chance": (optional, integer or min/max array) x in 100 chance that a loop will continue to spawn items from the group (which itself may spawn multiple items or not depending on its type, see `ITEM_SPAWN.md`), unless the chance is 100, in which case it will trigger the item group spawn exactly 1 time (see `map::place_items`).
+- "repeat": (optional, integer or min/max array) the number of times to repeat this placement, default is 1.
 
-### 2.6.7 "monsters"
+### 2.5.7 "monsters"
 Places a monster spawn point, the actual monsters are spawned when the map is loaded. Values:
 - "monster": (required, string) a monster group id, when the map is loaded, a random monsters from that group are spawned.
 - "density": (optional, float) if defined, it overrides the default monster density at the location (monster density is bigger towards the city centers) (see `map::place_spawns`).
 - "chance": (optional, integer or min/max array) one in x chance of spawn point being created (see `map::place_spawns`).
 
-### 2.6.8 "vehicles"
+### 2.5.8 "vehicles"
 Places a vehicle. Values:
 - "vehicle": (required, string) type of the vehicle or id of a vehicle group.
 - "chance": (optional, integer or min/max array) x in 100 chance of the vehicle spawning at all. The default is 1 (which means 1% probability that the vehicle spawns, you probably want something larger).
@@ -605,11 +581,12 @@ Places a vehicle. Values:
 - "fuel": (optional, integer) the fuel status. Default is -1 which makes the tanks 1-7% full. Positive values are interpreted as percentage of the vehicles tanks to fill (e.g. 100 means completely full).
 - "status": (optional, integer) default is -1 (light damage), a value of 0 means perfect condition, 1 means heavily damaged.
 
-### 2.6.9 "item"
+### 2.5.9 "item"
 Places a specific item. Values:
 - "item": (required, string) the item type id of the new item.
 - "chance": (optional, integer or min/max array) one in x chance that the item will spawn. Default is 1, meaning it will always spawn.
 - "amount": (optional, integer or min/max array) the number of items to spawn, default is 1.
+- "repeat": (optional, integer or min/max array) the number of times to repeat this placement, default is 1.
 
 To use this type with explicit coordinates use the name "place_item" (this if for backwards compatibility) like this:
 ```
@@ -621,25 +598,27 @@ To use this type with explicit coordinates use the name "place_item" (this if fo
 ]
 ```
 
-### 2.6.10 "traps"
+### 2.5.10 "traps"
 Places a trap. Values:
 - "trap": (required, string) type id of the trap (e.g. tr_beartrap).
 
-### 2.6.11 "furniture"
+### 2.5.11 "furniture"
 Places furniture. Values:
 - "furn": (required, string) type id of the furniture (e.g. f_chair).
 
-### 2.6.12 "terrain"
+### 2.5.12 "terrain"
 Places terrain. Values:
 - "ter": (required, string) type id of the terrain (e.g. t_floor).
 
-### 2.6.13 "monster"
+### 2.5.13 "monster"
 Places a specific monster. Values:
 - "monster": (required, string) type id of the monster (e.g. mon_zombie).
 - "friendly": (optional, bool) whether the monster is friendly, default is false.
 - "name": (optional, string) a name for that monster, optional, default is to create an unnamed monster.
+- "target": (optional, bool) this monster is a mission target.  Only valid for update_mapgen.
 
-### 2.6.14 "rubble"
+
+### 2.5.14 "rubble"
 Creates rubble and bashes existing terrain (this step is applied last, after other things like furniture/terrain have been set). Creating rubble invokes the bashing function that can destroy terrain and cause structures to collapse.
 Values:
 - "rubble_type": (optional, furniture id, default: f_rubble) the type of the created rubble.
@@ -654,21 +633,24 @@ To use this type with explicit coordinates use the name "place_rubble" (no plura
 ]
 ```
 
-### 2.6.15 "place_liquids"
+### 2.5.15 "place_liquids"
 Creates a liquid item at the specified location. Liquids can't currently be picked up (except for gasoline in tanks or pumps), but can be used to add flavor to mapgen.
 Values:
 - "liquid": (required, item id) the item (a liquid)
 - "amount": (optional, integer/min-max array) amount of liquid to place (a value of 0 defaults to the item's default charges)
 - "chance": (optional, integer/min-max array) one in x chance of spawning a liquid, default value is 1 (100%)
 
-Example for dropping a default amount of gasoline (200 units) on the ground:
+Example for dropping a default amount of gasoline (200 units) on the ground (either by using a character in the rows array or explicit coordinates):
 ```JSON
+"liquids": {
+    "g": { "liquid": "gasoline" }
+},
 "place_liquids": [
     { "liquid": "gasoline", "x": 3, "y": 5 }
 ],
 ```
 
-### 2.6.16 "loot"
+### 2.5.16 "loot"
 Places item(s) from an item group, or an individual item. An important distinction between this and `place_item` and `item`/`items` is that `loot` can spawn a single item from a distribution group (without looping). It can also spawn a matching magazine and ammo for guns.
 - Either `group` or `item` must be specified, but not both
   - "group": (string) the item group to use (see `ITEM_SPAWN.md` for notes on collection vs distribution groups)
@@ -677,6 +659,38 @@ Places item(s) from an item group, or an individual item. An important distincti
 - "ammo": (optional, integer) x in 100 chance of item(s) spawning with the default amount of ammo. Defaults to 0.
 - "magazine": (optional, integer) x in 100 chance of item(s) spawning with the default magazine. Defaults to 0.
 
+### 2.5.17 "sealed_item"
+Places an item or item group inside furniture that has special handling for items.
+
+This is intended for furniture such as `f_plant_harvest` with the `PLANT` flag, because placing items on such furniture via the other means will not work (since they have the `NOITEM` FLAG).
+
+On such furniture, there is supposed to be a single (hidden) seed item which dictates the species of plant.  Using `sealed_item`, you can create such plants by specifying the furniture and a seed item.
+- "furniture": (string) the id of the chosen furniture.
+- Exactly one of:
+  - "item": spawn an item as the "item" special.
+  - "items": spawn an item group as the "items" special.
+
+Example:
+```
+"sealed_item": {
+  "p": {
+    "items": { "item": "farming_seeds", "chance": 100 },
+    "furniture": "f_plant_harvest"
+  }
+},
+```
+
+### 2.5.18 "graffiti"
+Places a graffiti message at the location. Either "text" or "snippet" must be defined. The message may include tags like \<full_name\>, \<given_name\>, and \<family_name\> that will insert a randomly generated name, or \<city\> that will insert the nearest city name. Values:
+- "text": (optional, string) the message that will be placed.
+- "snippet": (optional, string) a category of snippets that the message will be pulled from.
+
+### 2.5.19 "translate_ter"
+Translates one type of terrain into another type of terrain.  There is no reason to do this with
+normal mapgen, but it is useful for setting a baseline with update_mapgen.
+- "from": (required, string) the terrain id of the terrain to be transformed
+- "to": (required, string) the terrain id that the from terrain will transformed into
+
 # 2.7 "rotation"
 Rotates the generated map after all the other mapgen stuff has been done. The value can be a single integer or a range (out of which a value will be randomly chosen). Example:
 ```JSON
@@ -684,48 +698,30 @@ Rotates the generated map after all the other mapgen stuff has been done. The va
 ```
 Values are 90° steps.
 
-## 3 Method: lua
-Lua is very WIP but supports the following map class functions:
-# 3.0 Tested functions
-```
-ter_set(x, y, "ter_id")
-furn_set(x, y, "furn_id")
-line_ter("ter_id", x, y, x2, y2)
-line_furn("furn_id", x, y, x2, y2)
-fill_background("ter_id")
-square_ter("ter_id", x, y, x2, y2)
-square_furn("furn_id", x, y, x2, y2)
-rough_circle("ter_id", x, y, radius)
-place_items("itype", chance, x, y, x2, y2, bool ongrass, int chance)
-```
-## 3.1 Example script inside overmap_terrain entry
-```
-{ "method": "lua", "weight": 500, "comment": "Inlined, easier to edit", "script": [
-    "-- tertype, turn = ...",
-    "function g_or_d_or_p()",
-    "  if game.one_in(6) then",
-    "      return \"t_water_sh\"",
-    "  end",
-    "  if game.rng(1,4) == 1 then",
-    "    return \"t_grass\"",
-    "  end",
-    "  return \"t_dirt\"",
-    "end",
-    "x = 0",
-    "while x < 24 do",
-    "  y = 0",
-    "  while y < 24 do",
-    "    map:ter_set(x, y, g_or_d_or_p())",
-    "    y = y + 1",
-    "  end",
-    "  x = x + 1",
-    "end",
-    "map:place_items(\"field\", 60, 0, 0, 23, 23, 1, turn)",
-    "--map:square_furn(\"f_mutpoppy\", 10,10,13,13)",
-    "--map:line_ter(\"t_paper\", 1, 1, 22, 22)",
-    "game.add_msg(\"generated oter=\"..tertype..\" turn=\"..turn)"
-  ]
-},
-```
-Ideally there will also be a way to load a .lua file directly from the same directory as its mapgen definition
+# 3 update_mapgen
+update_mapgen is a variant of normal JSON mapgen.  Instead of creating a new overmap tile, it
+updates an existing overmap tile with a specific set of changes.  Currently, it only works within
+the NPC mission interface, but it will be expanded to be a general purpose tool for modifying
+existing maps.
+
+update_mapgen generally uses the same fields as JSON mapgen, with a few exceptions.  update_mapgen has a few new fields to support missions, as well as ways to specify which overmap tile will be updated.
+
+# 3.1 overmap tile specification
+update_mapgen updates an existing overmap tile.  These fields provide a way to specify which tile to update.
+
+### 3.1.0 "assign_mission_target"
+assign_mission_target assigns an overmap tile as the target of a mission.  Any update_mapgen in the same scope will update that overmap tile.  The closet overmap terrain with the required terrain ID will be used, and if there is no matching terrain, an overmap special of om_special type will be created and then the om_terrain within that special will be used.
+- "om_terrain" (required, string) the overmap terrain ID of the mission target
+- "om_special" (required, string) the overmap special ID of the mission target
+
+### 3.1.1 "om_terrain"
+the closest overmap tile of type om_terrain in the closest overmap special of type om_special will be used.  The overmap tile will be updated but will not be set as the mission target.
+- "om_terrain" (required, string) the overmap terrain ID of the mission target
+- "om_special" (required, string) the overmap special ID of the mission target
+
+# 3.2 mission specials
+update_mapgen adds new optional keywords to a few mapgen JSON items.
+
+### 3.2.0 "target"
+place_npc, place_monster, and place_computer can take an optional target boolean. If they have `"target": true` and are invoked by update_mapgen with a valid mission, then the NPC, monster, or computer will be marked as the target of the mission.
 

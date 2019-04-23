@@ -1,3 +1,6 @@
+#include <memory>
+#include <vector>
+
 #include "catch/catch.hpp"
 #include "game.h"
 #include "map.h"
@@ -5,9 +8,11 @@
 #include "vehicle.h"
 #include "veh_type.h"
 #include "player.h"
-#include "itype.h"
 #include "calendar.h"
 #include "weather.h"
+#include "enums.h"
+#include "game_constants.h"
+#include "mapdata.h"
 
 static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_plut_cell( "plut_cell" );

@@ -19,11 +19,7 @@
     "type": "GENERIC",
     "name": "long string",
     "description": "A 3-foot long piece of cotton string.  Disassemble it to cut it into smaller pieces.",
-    "proportional": {
-      "weight": 6,
-      "volume": 6,
-      "price": 6
-    }
+    "proportional": { "weight": 6, "volume": 6, "price": 6 }
   },
   {
     "id": "rope_6",
@@ -31,11 +27,7 @@
     "type": "GENERIC",
     "name": "short rope",
     "description": "A six-foot long piece of rope.  Too small to be of much use.",
-    "proportional": {
-      "weight": 6,
-      "volume": 6,
-      "price": 6
-    }
+    "proportional": { "weight": 6, "volume": 6, "price": 6 }
   },
   {
     "id": "rope_30",
@@ -43,17 +35,8 @@
     "type": "GENERIC",
     "name": "long rope",
     "description": "A 30-foot long rope.  Useful for keeping yourself safe from falls.",
-    "armor_data": {
-      "covers": [ "TORSO" ],
-      "coverage": 10,
-      "encumbrance": 12,
-      "material_thickness": 6
-    },
-    "proportional": {
-      "weight": 5,
-      "volume": 5,
-      "price": 5
-    },
+    "armor_data": { "covers": [ "TORSO" ], "coverage": 10, "encumbrance": 12, "material_thickness": 6 },
+    "proportional": { "weight": 5, "volume": 5, "price": 5 },
     "extend": { "flags": [ "BELTED" ] }
   },
   {
@@ -79,17 +62,8 @@
     "type": "GENERIC",
     "name": "long makeshift rope",
     "description": "A 30-foot long rough rope, woven from natural cordage.  Not strong enough to hold up to falls, but still useful for some things.",
-    "armor_data": {
-      "covers": [ "TORSO" ],
-      "coverage": 12,
-      "encumbrance": 14,
-      "material_thickness": 6
-    },
-    "proportional": {
-      "weight": 5,
-      "volume": 5,
-      "price": 5
-    },
+    "armor_data": { "covers": [ "TORSO" ], "coverage": 12, "encumbrance": 14, "material_thickness": 6 },
+    "proportional": { "weight": 5, "volume": 5, "price": 5 },
     "extend": { "flags": [ "BELTED" ] }
   },
   {

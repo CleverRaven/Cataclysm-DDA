@@ -62,7 +62,8 @@
       [ [ "chem_ethanol", 100 ], [ "denat_alcohol", 100 ] ],
       [ [ "lye_powder", 8 ] ],
       [
-        [ "cooking_oil", 8 ],
+        [ "cooking_oil", 64 ],
+        [ "cooking_oil2", 64 ],
         [ "lard", 8 ],
         [ "tallow", 8 ],
         [ "tallow_tainted", 8 ],
@@ -85,7 +86,17 @@
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "tallow", 2 ], [ "tallow_tainted", 2 ], [ "lard", 2 ], [ "cooking_oil", 2 ] ]
-    ]
+      [
+        [ "tallow", 2 ],
+        [ "tallow_tainted", 2 ],
+        [ "lard", 2 ],
+        [ "cooking_oil", 16 ],
+        [ "cooking_oil2", 16 ],
+        [ "fat", 6 ],
+        [ "fat_tainted", 6 ]
+      ]
+    ],
+    "//": "Making lamp oil from (tainted) fat directly is less efficient than using lard/tallow, but allows processing of spoilt fats. See #29770",
+    "flags": [ "ALLOW_ROTTEN" ]
   }
 ]

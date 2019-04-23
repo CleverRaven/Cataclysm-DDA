@@ -6,6 +6,7 @@
 #include <set>
 #include <string>
 #include <vector>
+#include <array>
 
 #include "bodypart.h" // body_part::num_bp
 #include "calendar.h"
@@ -24,37 +25,45 @@
 // see item.h
 class item_category;
 class gun_mode;
+
 using gun_mode_id = string_id<gun_mode>;
 class Item_factory;
-class recipe;
 class emit;
+
 using emit_id = string_id<emit>;
-struct itype;
 class Skill;
+
 using skill_id = string_id<Skill>;
 struct bionic_data;
+
 using bionic_id = string_id<bionic_data>;
 class player;
 class item;
 class vitamin;
+
 using vitamin_id = string_id<vitamin>;
 class ma_technique;
+
 using matec_id = string_id<ma_technique>;
 enum art_effect_active : int;
 enum art_charge : int;
 enum art_charge_req : int;
 enum art_effect_passive : int;
-struct artifact_dream_datum;
 class material_type;
+
 using material_id = string_id<material_type>;
 typedef std::string itype_id;
 class ammunition_type;
+
 using ammotype = string_id<ammunition_type>;
 class fault;
+
 using fault_id = string_id<fault>;
 struct quality;
+
 using quality_id = string_id<quality>;
 struct MonsterGroup;
+
 using mongroup_id = string_id<MonsterGroup>;
 
 enum field_id : int;
@@ -74,7 +83,7 @@ class gun_modifier_data
             qty_( q ), flags_( f ) { }
         /// @returns The translated name of the gun mode.
         std::string name() const {
-            return _( name_.c_str() );
+            return _( name_ );
         }
         int qty() const {
             return qty_;
@@ -136,8 +145,8 @@ struct islot_comestible {
     /** effect on character thirst (may be negative) */
     int quench = 0;
 
-    /** effect on character nutrition (may be negative) */
-    int nutr = 0;
+    /** amount of kcal this food has */
+    unsigned int kcal = 0;
 
     /** Time until becomes rotten at standard temperature, or zero if never spoils */
     time_duration spoils = 0_turns;
@@ -157,7 +166,10 @@ struct islot_comestible {
     /** Reference to other item that replaces this one as a component in recipe results */
     itype_id cooks_like;
 
-    /** @todo: add documentation */
+    /** Reference to item that will be received after smoking current item */
+    itype_id smoking_result;
+
+    /** TODO: add documentation */
     int healthy = 0;
 
     /** chance (odds) of becoming parasitised when eating (zero if never occurs) */
@@ -166,6 +178,11 @@ struct islot_comestible {
     /** freezing point in degrees Fahrenheit, below this temperature item can freeze */
     int freeze_point = temperatures::freezing;
 
+    //** specific heats in J/(g K) and latent heat in J/g */
+    float specific_heat_liquid = 4.186;
+    float specific_heat_solid = 2.108;
+    float latent_heat = 333;
+
     /** vitamins potentially provided by this comestible (if any) */
     std::map<vitamin_id, int> vitamins;
 
@@ -173,7 +190,11 @@ struct islot_comestible {
     static constexpr float kcal_per_nutr = 2500.0f / ( 12 * 24 );
 
     int get_calories() const {
-        return nutr * kcal_per_nutr;
+        return kcal;
+    }
+
+    int get_nutr() const {
+        return kcal / kcal_per_nutr;
     }
     /** The monster group that is drawn from when the item rots away */
     mongroup_id rot_spawn = mongroup_id::NULL_ID();
@@ -253,6 +274,41 @@ struct islot_armor {
      * How much storage this items provides when worn.
      */
     units::volume storage = 0_ml;
+    /**
+     * Whether this is a power armor item.
+     */
+    bool power_armor = false;
+};
+
+struct islot_pet_armor {
+    /**
+     * TODO: document me.
+     */
+    int thickness = 0;
+    /**
+     * Resistance to environmental effects.
+     */
+    int env_resist = 0;
+    /**
+     * Environmental protection of a gas mask with installed filter.
+     */
+    int env_resist_w_filter = 0;
+    /**
+     * How much storage this items provides when worn.
+     */
+    units::volume storage = 0_ml;
+    /**
+     * The maximum volume a pet can be and wear this armor
+     */
+    units::volume max_vol = 0_ml;
+    /**
+     * The minimum volume a pet can be and wear this armor
+     */
+    units::volume min_vol = 0_ml;
+    /**
+     * What animal bodytype can wear this armor
+     */
+    std::string bodytype = "none";
     /**
      * Whether this is a power armor item.
      */
@@ -536,6 +592,12 @@ struct islot_gunmod : common_ranged_data {
     /** Percentage value change to the gun's loading time. Higher is slower */
     int reload_modifier = 0;
 
+    /** Percentage value change to the gun's loading time. Higher is less likely */
+    int consume_chance = 10000;
+
+    /** Divsor to scale back gunmod consumption damage. lower is more damaging. Affected by ammo loudness and recoil, see ranged.cpp for how much. */
+    int consume_divisor = 1;
+
     /** Modifies base strength required */
     int min_str_required_mod = 0;
 
@@ -703,6 +765,7 @@ struct itype {
         cata::optional<islot_comestible> comestible;
         cata::optional<islot_brewable> brewable;
         cata::optional<islot_armor> armor;
+        cata::optional<islot_pet_armor> pet_armor;
         cata::optional<islot_book> book;
         cata::optional<islot_mod> mod;
         cata::optional<islot_engine> engine;

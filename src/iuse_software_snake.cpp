@@ -1,8 +1,11 @@
 #include "iuse_software_snake.h"
 
+#include <stddef.h>
 #include <map>
 #include <string>
 #include <vector>
+#include <memory>
+#include <utility>
 
 #include "catacharset.h"  // utf8_width()
 #include "cursesdef.h"
@@ -11,12 +14,13 @@
 #include "rng.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "color.h"
 
 snake_game::snake_game() = default;
 
 void snake_game::print_score( const catacurses::window &w_snake, int iScore )
 {
-    mvwprintz( w_snake, 0, 5, c_white, string_format( _( "Score: %d" ), iScore ).c_str() );
+    mvwprintz( w_snake, 0, 5, c_white, string_format( _( "Score: %d" ), iScore ) );
 }
 
 void snake_game::print_header( const catacurses::window &w_snake, bool show_shortcut )
@@ -68,11 +72,11 @@ void snake_game::snake_over( const catacurses::window &w_snake, int iScore )
     game_over_text.push_back( "         \\/                  \\/         \\/      " );
 
     for( size_t i = 0; i < game_over_text.size(); i++ ) {
-        mvwprintz( w_snake, i + 3, 17, c_light_red, game_over_text[i].c_str() );
+        mvwprintz( w_snake, i + 3, 17, c_light_red, game_over_text[i] );
     }
 
     center_print( w_snake, 17, c_yellow, string_format( _( "TOTAL SCORE: %d" ), iScore ) );
-    //@todo: print actual bound keys
+    // TODO: print actual bound keys
     center_print( w_snake, 21, c_white, _( "Press 'q' or ESC to exit." ) );
     wrefresh( w_snake );
 }
