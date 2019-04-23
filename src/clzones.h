@@ -271,6 +271,7 @@ class zone_manager
         }
         std::string get_name_from_type( const zone_type_id &type ) const;
         bool has_type( const zone_type_id &type ) const;
+        bool has_defined( const zone_type_id &type ) const;
         void cache_data();
         void cache_vzones();
         bool has( const zone_type_id &type, const tripoint &where ) const;

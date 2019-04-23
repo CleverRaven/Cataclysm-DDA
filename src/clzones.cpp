@@ -36,6 +36,12 @@ zone_manager::zone_manager()
     types.emplace( zone_type_id( "NPC_RETREAT" ),
                    zone_type( translate_marker( "NPC Retreat" ),
                               translate_marker( "When fleeing, friendly NPCs will attempt to retreat toward this zone if it is within 60 tiles." ) ) );
+    types.emplace( zone_type_id( "NPC_NO_INVESTIGATE" ),
+                   zone_type( translate_marker( "NPC Ignore Sounds" ),
+                              translate_marker( "Friendly NPCs won't investigate unseen sounds coming from this zone." ) ) );
+    types.emplace( zone_type_id( "NPC_INVESTIGATE_ONLY" ),
+                   zone_type( translate_marker( "NPC Investigation Area" ),
+                              translate_marker( "Friendly NPCs will investigate unseen sounds only if they come from inside this area." ) ) );
     types.emplace( zone_type_id( "LOOT_UNSORTED" ),
                    zone_type( translate_marker( "Loot: Unsorted" ),
                               translate_marker( "Place to drop unsorted loot. You can use \"sort out loot\" zone-action to sort items inside. It can overlap with Loot zones of different types." ) ) );
@@ -366,6 +372,12 @@ std::string zone_manager::get_name_from_type( const zone_type_id &type ) const
 bool zone_manager::has_type( const zone_type_id &type ) const
 {
     return types.count( type ) > 0;
+}
+
+bool zone_manager::has_defined( const zone_type_id &type ) const
+{
+    const auto &type_iter = area_cache.find( type );
+    return type_iter != area_cache.end();
 }
 
 void zone_manager::cache_data()

@@ -17,6 +17,7 @@
 #include "ammo.h"
 #include "cata_utility.h"
 // needed for the workaround for the std::to_string bug in some compilers
+#include "clzones.h"
 #include "compatibility.h" // IWYU pragma: keep
 #include "debug.h"
 #include "faction_camp.h"
@@ -90,6 +91,9 @@ const efftype_id effect_narcosis( "narcosis" );
 const efftype_id effect_sleep( "sleep" );
 
 static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
+
+const zone_type_id zone_no_investigate( "NPC_NO_INVESTIGATE" );
+const zone_type_id zone_investigate_only( "NPC_INVESTIGATE_ONLY" );
 
 static std::map<std::string, json_talk_topic> json_talk_topics;
 
@@ -359,7 +363,18 @@ void npc::handle_sound( int priority, const std::string &description, int heard_
             } else if( spriority > sounds::sound_t::activity ) {
                 warn_about( "combat_noise", rng( 1, 10 ) * 1_minutes );
             }
-            if( rl_dist( pos(), spos ) < investigate_dist ) {
+            bool should_check = rl_dist( pos(), spos ) < investigate_dist;
+            if( should_check && is_ally( g->u ) ) {
+                const zone_manager &mgr = zone_manager::get_manager();
+                const tripoint &s_abs_pos = g->m.getabs( spos );
+                if( mgr.has( zone_no_investigate, s_abs_pos ) ) {
+                    should_check = false;
+                } else if( mgr.has_defined( zone_investigate_only ) &&
+                           !mgr.has( zone_investigate_only, s_abs_pos ) ) {
+                    should_check = false;
+                }
+            }
+            if( should_check ) {
                 add_msg( m_debug, "NPC %s added noise at pos %d:%d", name, spos.x, spos.y );
                 dangerous_sound temp_sound;
                 temp_sound.pos = spos;
