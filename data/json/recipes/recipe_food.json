@@ -386,7 +386,7 @@
     "batch_time_factors": [ 83, 3 ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "char_smoker", 15 ] ] ],
-    "components": [ [ [ "meat", 1 ] ] ]
+    "components": [ [ [ "meat", 1 ], [ "meat_scrap", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -1764,7 +1764,7 @@
         [ "pepper", 2 ],
         [ "chem_saltpetre", 1 ]
       ],
-      [ [ "meat", 1 ] ]
+      [ [ "meat", 1 ], [ "meat_scrap", 10 ] ]
     ]
   },
   {
