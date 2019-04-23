@@ -6687,11 +6687,11 @@ void player::mend( int rate_multiplier )
 // sets default stomach contents when starting the game
 void player::initialize_stomach_contents()
 {
-    stomach = stomach_contents( 4000_ml );
+    stomach = stomach_contents( 2500_ml );
     guts = stomach_contents( 24000_ml );
     guts.set_calories( 300 );
     stomach.set_calories( 800 );
-    stomach.mod_contents( 750_ml );
+    stomach.mod_contents( 475_ml );
 }
 
 void player::vomit()
@@ -12863,4 +12863,66 @@ void player::do_skill_rust()
             add_msg_if_player( m_bad, _( "Your skill in %s has reduced to %d!" ), aSkill.name(), newSkill );
         }
     }
+}
+
+std::pair<std::string, nc_color> player::get_hunger_description() const
+{
+    const bool calorie_deficit = get_stored_kcal() + guts.get_calories() + guts.get_calories_absorbed()
+                                 < get_healthy_kcal();
+    const units::volume contains = stomach.contains();
+    const units::volume cap = stomach.capacity();
+    std::string hunger_string;
+    nc_color hunger_color = c_white;
+    // i ate just now!
+    const bool just_ate = stomach.time_since_ate() < 15_minutes;
+    // i ate a meal recently enough that i shouldn't need another meal
+    const bool recently_ate = stomach.time_since_ate() < 3_hours;
+    if( calorie_deficit ) {
+        if( contains >= cap ) {
+            hunger_string = _( "Engorged" );
+            hunger_color = c_green;
+        } else if( contains > cap * 3 / 4 ) {
+            hunger_string = _( "Sated" );
+            hunger_color = c_green;
+        } else if( just_ate && contains > cap / 2 ) {
+            hunger_string = _( "Full" );
+            hunger_color = c_green;
+        } else if( just_ate ) {
+            hunger_string = _( "Hungry" );
+            hunger_color = c_yellow;
+        } else if( recently_ate ) {
+            hunger_string = _( "Very Hungry" );
+            hunger_color = c_yellow;
+        } else if( get_kcal_percent() < 0.2f ) {
+            hunger_string = _( "Starving!" );
+            hunger_color = c_red;
+        } else if( get_kcal_percent() < 0.5f ) {
+            hunger_string = _( "Near starving" );
+            hunger_color = c_red;
+        } else {
+            hunger_string = _( "Famished" );
+            hunger_color = c_light_red;
+        }
+    } else {
+        if( contains >= cap * 5 / 6 ) {
+            hunger_string = _( "Engorged" );
+            hunger_color = c_green;
+        } else if( contains > cap * 11 / 20 ) {
+            hunger_string = _( "Sated" );
+            hunger_color = c_green;
+        } else if( recently_ate && contains > cap * 3 / 8 ) {
+            hunger_string = _( "Full" );
+            hunger_color = c_green;
+        } else if( ( stomach.time_since_ate() > 90_minutes && contains < cap / 8 ) ) {
+            hunger_string = _( "Peckish" );
+            hunger_color = c_dark_gray;
+        } else if( ( !just_ate && recently_ate ) ) {
+            hunger_string = "";
+        } else {
+            hunger_string = _( "Hungry" );
+            hunger_color = c_yellow;
+        }
+    }
+
+    return std::make_pair( hunger_string, hunger_color );
 }
