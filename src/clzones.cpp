@@ -445,12 +445,12 @@ bool zone_manager::has( const zone_type_id &type, const tripoint &where ) const
     return point_set.find( where ) != point_set.end() || vzone_set.find( where ) != vzone_set.end();
 }
 
-bool zone_manager::has_near( const zone_type_id &type, const tripoint &where ) const
+bool zone_manager::has_near( const zone_type_id &type, const tripoint &where, int range ) const
 {
     const auto &point_set = get_point_set( type );
     for( auto &point : point_set ) {
         if( point.z == where.z ) {
-            if( square_dist( point, where ) <= MAX_DISTANCE ) {
+            if( square_dist( point, where ) <= range ) {
                 return true;
             }
         }
@@ -459,7 +459,7 @@ bool zone_manager::has_near( const zone_type_id &type, const tripoint &where ) c
     const auto &vzone_set = get_vzone_set( type );
     for( auto &point : vzone_set ) {
         if( point.z == where.z ) {
-            if( square_dist( point, where ) <= MAX_DISTANCE ) {
+            if( square_dist( point, where ) <= range ) {
                 return true;
             }
         }
@@ -485,14 +485,14 @@ bool zone_manager::has_loot_dest_near( const tripoint &where ) const
 }
 
 std::unordered_set<tripoint> zone_manager::get_near( const zone_type_id &type,
-        const tripoint &where ) const
+        const tripoint &where, int range ) const
 {
     const auto &point_set = get_point_set( type );
     auto near_point_set = std::unordered_set<tripoint>();
 
     for( auto &point : point_set ) {
         if( point.z == where.z ) {
-            if( square_dist( point, where ) <= MAX_DISTANCE ) {
+            if( square_dist( point, where ) <= range ) {
                 near_point_set.insert( point );
             }
         }
@@ -501,7 +501,7 @@ std::unordered_set<tripoint> zone_manager::get_near( const zone_type_id &type,
     const auto &vzone_set = get_vzone_set( type );
     for( auto &point : vzone_set ) {
         if( point.z == where.z ) {
-            if( square_dist( point, where ) <= MAX_DISTANCE ) {
+            if( square_dist( point, where ) <= range ) {
                 near_point_set.insert( point );
             }
         }
