@@ -143,7 +143,7 @@
     "name": "tin plate",
     "symbol": ",",
     "description": "A tin dinner plate, lightweight and clanky.",
-    "looks-like": "ceramic_plate",
+    "looks_like": "ceramic_plate",
     "copy-from": "base_tin_dish",
     "qualities": [ [ "CONTAIN", 1 ] ]
   },
@@ -153,7 +153,7 @@
     "name": "tin plate",
     "symbol": "u",
     "description": "An emaled tin cup.  Great for camping or for prison use; makes a wonderful sound when clanged along bars.",
-    "looks-like": "ceramic_cup",
+    "looks_like": "ceramic_cup",
     "proportional": { "weight": 0.8 },
     "copy-from": "base_tin_dish",
     "contains": 1,
@@ -178,7 +178,7 @@
     "name": "glass plate",
     "symbol": ",",
     "description": "A glass dinner plate, for people who don't have clumsy children.",
-    "looks-like": "ceramic_plate",
+    "looks_like": "ceramic_plate",
     "copy-from": "base_glass_dish",
     "qualities": [ [ "CONTAIN", 1 ] ]
   },
@@ -351,9 +351,36 @@
   },
   {
     "type": "GENERIC",
+    "id": "corkscrew",
+    "name": "corkscrew",
+    "description": "Many a pleasant date has been ruined by forgetting this important tool.",
+    "flags": [ "STAB", "SHEATH_KNIFE" ],
+    "looks_like": "fork",
+    "copy-from": "base_silverware"
+  },
+  {
+    "type": "GENERIC",
+    "id": "bottle_opener",
+    "name": "bottle opener",
+    "description": "A simple lever for popping open bottles.",
+    "looks_like": "fork",
+    "copy-from": "base_silverware",
+    "snippet_category": [
+      { "id": "bottleopener1", "text": "This bottle opener is shaped like a zombie head, the mouth pops open the bottle." },
+      { "id": "bottleopener2", "text": "This bottle opener is shaped like a lightsaber." },
+      { "id": "bottleopener3", "text": "This bottle opener is shaped like a revolver." },
+      { "id": "bottleopener4", "text": "This bottle opener is engraved with the words 'I'll die before I give you my beer'." },
+      { "id": "bottleopener5", "text": "This bottle opener is emblazoned with a logo for an HVAC contracting company." },
+      { "id": "bottleopener6", "text": "This bottle opener reads 'Corporate Team Building Exercise 1999'." },
+      { "id": "bottleopener7", "text": "This bottle opener reads 'I'd rather be drinking whiskey'." },
+      { "id": "bottleopener8", "text": "This bottle opener is shaped like a phaser." }
+    ]
+  },
+  {
+    "type": "GENERIC",
     "id": "spork",
     "name": "spork",
-    "description": "Foons are for scrubs, real men use sporks.",
+    "description": "The bastardized hybrid of a spoon and fork, with all the power and capabilities of both in a more annoying to use package.",
     "flags": [ "STAB", "SHEATH_KNIFE" ],
     "looks_like": "fork",
     "copy-from": "base_silverware"
