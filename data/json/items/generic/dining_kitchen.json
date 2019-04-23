@@ -505,7 +505,7 @@
     "techniques": [ "WBLOCK_1", "RAPID" ],
     "flags": [ "DURABLE_MELEE" ],
     "volume": "600 ml",
-    "bashing": 8,
+    "bashing": 7,
     "price": 700
   }
 ]
