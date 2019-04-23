@@ -60,7 +60,7 @@
     "color": "light_gray",
     "price": 400,
     "price_postapoc": 0,
-    "material": "BUDGET_STEEL",
+    "material": "aluminum",
     "weight": 262,
     "volume": "200 ml",
     "bashing": 2,
@@ -123,6 +123,25 @@
     "looks_like": "spoon",
     "copy-from": "base_silverware",
     "flags": [ "SHEATH_KNIFE" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "knife_butter",
+    "name": "butter knife",
+    "name_plural": "butter knives",
+    "description": "A dull knife, absolutely worthless in combat.  Excellent for spreading soft things on bread.",
+    "flags": [ "STAB", "SHEATH_KNIFE" ],
+    "copy-from": "base_silverware"
+  },
+  {
+    "type": "GENERIC",
+    "id": "knife_plastic",
+    "name": "plastic knife",
+    "name_plural": "plastic knives",
+    "description": "A plastic butter knife.  It's actually a bit sharper than its metal counterpart, but that doesn't make it any more effective as a weapon.",
+    "looks_like": "knife_butter",
+    "flags": [ "STAB", "SHEATH_KNIFE" ],
+    "copy-from": "base_plastic_silverware"
   },
   {
     "type": "GENERIC",
