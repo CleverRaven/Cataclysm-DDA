@@ -127,11 +127,9 @@
     "difficulty": 3,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ] ],
-    "components":
-    [
-      [   [ "small_stomach_boiled", 2 ], ["stomach_boiled", 1] ],
-      [   ["water", 4], ["water_clean", 4]
-      ],
+    "components": [
+      [ [ "small_stomach_boiled", 2 ], [ "stomach_boiled", 1 ] ],
+      [ [ "water", 4 ], [ "water_clean", 4 ] ],
       [
         [ "veggy_any", 2, "LIST" ],
         [ "powder_eggs", 2 ],
