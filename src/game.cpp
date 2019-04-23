@@ -6164,13 +6164,7 @@ void game::examine( const tripoint &examp )
 
     const optional_vpart_position vp = m.veh_at( examp );
     if( vp ) {
-        if( u.controlling_vehicle ) {
-            add_msg( m_info, _( "You can't do that while driving." ) );
-        } else if( abs( vp->vehicle().velocity ) > 0 ) {
-            add_msg( m_info, _( "You can't do that on a moving vehicle." ) );
-        } else {
-            Pickup::pick_up( examp, 0 );
-        }
+        Pickup::pick_up( examp, 0 );
         return;
     }
 
