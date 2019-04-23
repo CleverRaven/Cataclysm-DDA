@@ -443,6 +443,38 @@
   },
   {
     "type": "GENERIC",
+    "id": "whisk",
+    "name": "whisk",
+    "description": "Also known as a 'wire whip', this is a less effective weapon than it sounds.",
+    "looks_like": "spoon",
+    "copy-from": "base_utensil"
+  },
+  {
+    "type": "GENERIC",
+    "id": "potato_masher",
+    "name": "potato masher",
+    "description": "This tool can mash potatoes and soft root vegetables; it cannot do the twist.",
+    "looks_like": "fork",
+    "copy-from": "base_utensil"
+  },
+  {
+    "type": "GENERIC",
+    "id": "garlic_press",
+    "name": "garlic press",
+    "description": "This tool can squash a clove or two of garlic into a fine paste.",
+    "looks_like": "spoon",
+    "copy-from": "base_utensil"
+  },
+  {
+    "type": "GENERIC",
+    "id": "can_opener",
+    "name": "can opener",
+    "description": "It's not hard to open cans without this, but it's way messier.",
+    "looks_like": "crank",
+    "copy-from": "base_utensil"
+  },
+  {
+    "type": "GENERIC",
     "id": "carving_fork",
     "name": "carving fork",
     "description": "It's like a tiny pitchfork, or a very large dinner fork.  You use it to hold meat still while you slice it.",
