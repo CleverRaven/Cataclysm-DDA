@@ -749,7 +749,7 @@ class item : public visitable<item>
             return get_relative_rot() > 1.0;
         }
 
-        /** at twice regular shelf life perishable items rot away completely */
+        /** at twice regular shelf life perishable foods rot away completely. Corpses last longer */
         bool has_rotten_away() const {
             return is_food() && get_relative_rot() > 2.0;
         }
@@ -1853,7 +1853,7 @@ class item : public visitable<item>
          * Calculate the thermal energy and temperature change of the item
          * @param temp Temperature of surroundings
          * @param insulation Amount of insulation item has
-         * @param time Duration of time at which to process at temperature
+         * @param time time point which the item is processed to
          */
         void calc_temp( const int temp, const float insulation, const time_point &time );
 

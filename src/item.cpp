@@ -3918,11 +3918,24 @@ void item::calc_rot( time_point time )
         factor = 0.75;
     }
 
+
+
     // bday and/or last_rot_check might be zero, if both are then we want calendar::start
     const time_point since = std::max( {bday, last_rot_check, ( time_point ) calendar::start} );
+
+    // simulation of different age of food at the start of the game and good/bad storage
+    // conditions by applying starting variation bonus/penalty of +/- 20% of base shelf-life
+    // positive = food was produced some time before calendar::start and/or bad storage
+    // negative = food was stored in good conditions before calendar::start
+    if( since <= calendar::start ) {
+        time_duration spoil_variation = get_shelf_life() * 0.2f;
+        rot += factor * rng( -spoil_variation, spoil_variation );
+    }
+
     time_duration time_delta = time - since;
     rot += factor * time_delta / 1_hours * get_hourly_rotpoints_at_temp( kelvin_to_fahrenheit(
                 0.00001 * temperature ) ) * 1_turns;
+    last_rot_check = calendar::turn;
 }
 
 void item::calc_rot_while_smoking( time_duration smoking_duration )
@@ -7008,15 +7021,17 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
     // if player debug menu'd the time backward it breaks stuff, just reset the
     // last_temp_check in this case
     if( now - last_temp_check < 0_turns ) {
-        last_temp_check = now;
+        reset_temp_check();
         return;
     }
 
     bool carried = carrier != nullptr && carrier->has_item( *this );
+    // body heat increases inventory temperature by 5F
+    // This is apllied separately in many places since we may use the unmodified enviroment temperature from get_cur_weather_gen
     if( carried ) {
         insulation *= 1.5; // clothing provides inventory some level of insulation
-        temp += 5; // body heat increases inventory temperature
     }
+
 
     // process temperature and rot at most once every 100_turns (10 min)
     // If the item has had its temperature/rot set the two can be out of sync
@@ -7061,13 +7076,13 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
                     // There is no point in doing the proper temperature calculations for too long times
                     // Just set the item to enviroment temperature. This temperature won't show for the player and is used only for rotting.
                     temperature = env_temperature;
+                    last_temp_check = time;
                 }
-                last_temp_check = time;
+
 
                 // Calculate item rot from item temperature
                 if( goes_bad() && time - last_rot_check >  smallest_interval ) {
                     calc_rot( time );
-                    last_rot_check = time;
 
                     if( has_rotten_away() || ( is_corpse() && rot > 10_days ) ) {
                         // No need to track item that will be gone
@@ -7080,18 +7095,20 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
         // Remaining <1 h from above
         // and items that are held near the player
         if( now - time > smallest_interval ) {
+            if( carried ) {
+                temp += 5; // body heat increases inventory temperature
+            }
             calc_temp( temp, insulation, now );
             calc_rot( now );
-
-            last_rot_check = now;
-            last_temp_check = now;
         }
         return;
     }
     // If the item has negative energy process it now. It is a new item.
     if( specific_energy < 0 ) {
+        if( carried ) {
+            temp += 5; // body heat increases inventory temperature
+        }
         calc_temp( temp, insulation, now );
-        last_temp_check = now;
     }
 }
 
@@ -7106,6 +7123,7 @@ void item::calc_temp( const int temp, const float insulation, const time_point &
 
     // If no or only small temperature difference then no need to do math.
     if( std::abs( temperature_difference ) < 0.9 ) {
+        reset_temp_check();
         return;
     }
     const float mass = to_gram( weight() ); // g
@@ -7271,6 +7289,8 @@ void item::calc_temp( const int temp, const float insulation, const time_point &
     //The extra 0.5 are there to make rounding go better
     temperature = static_cast<int>( 100000 * new_item_temperature + 0.5 );
     specific_energy = static_cast<int>( 100000 * new_specific_energy + 0.5 );
+
+    reset_temp_check();
 }
 
 float item::get_item_thermal_energy()
