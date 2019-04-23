@@ -29,8 +29,8 @@
         "min_melee": 2,
         "unarmed_allowed" : true,
         "mult_bonuses" : [
-            ["movecost", 0.9],
-            ["damage", "bash", 0.60],
+            ["movecost", 1.0],
+            ["damage", "bash", 1.0],
             ["damage", "cut", 0.1],
             ["damage", "stab", 0.15]
         ],
@@ -39,11 +39,11 @@
             ["movecost", "str", -2]
         ],
         "messages" : [
-            "You swiftly jab your weapon at %s",
+            "You swiftly swipe your weapon's tip at %s",
             "<npcname> swiftly jabs their weapon into %s"
         ],
         "stun_dur" : 0.05,
-        "down_dur": 1
+        "down_dur": 0.2
    },{
         "type" : "technique",
         "id" : "tec_crt_enforcement_brutal",
@@ -52,21 +52,20 @@
         "min_melee": 3,
         "unarmed_allowed" : true,
         "mult_bonuses" : [
-            ["movecost",  1.25],
-            ["damage", "bash", 1.05],
+            ["movecost",  1.35],
+            ["damage", "bash", 1.15],
             ["damage", "cut", 1.05],
-            ["damage", "stab", 1.05]
+            ["damage", "stab", 1.0]
         ],
         "flat_bonuses" : [
             ["damage", "bash", "str", 0.5],
-            ["damage", "cut", "dex", 0.2],
-            ["damage", "stab", "str", 0.3],
-            ["movecost", "str", -3]
+            ["damage", "cut", "str", 0.25],
+            ["movecost", "str", -1.5]
         ],
         "crit_tec" : true,
         "messages" : [
-            "You steady your hand and release a piercing jab at %s",
-            "<npcname> releases a piercing jab at %s"
+            "You steady your arm and release a crushing blow at %s",
+            "<npcname> releases a crushing blow at %s"
         ],
         "stun_dur" : 3,
         "knockback_dist" : 2

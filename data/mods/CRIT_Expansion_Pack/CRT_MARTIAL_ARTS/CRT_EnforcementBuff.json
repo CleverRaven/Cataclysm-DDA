@@ -16,13 +16,13 @@
         "type" : "martial_art",
         "id" : "style_crt_enforcement",
         "name" : "C.R.I.T Enforcement",
-        "description": "A defensive style that is centered around stunning swings, knockback and grounding enemies. Each attack landed increases your armor by 0.25 and offers other combat bonuses based on stats.",
+        "description": "A defensive style that is centered around stunning swings, knockback and grounding enemies. Each attack landed increases your armor by 0.125 and offers other combat bonuses based on stats.",
         "arm_block" : 2,
         "leg_block" : 10,
         "static_buffs" : [
             {
                 "id" : "crt_enforcement_static",
-                "name" : "C.R.I.T Calculation",
+                "name" : "C.R.I.T Guard",
                 "description" : "+1 armor. STR provides accuracy and minor bash damage and arpen.",
                 "unarmed_allowed" : true,
                 "flat_bonuses" : [
@@ -45,17 +45,15 @@
                 "buff_duration" : 10,
                 "max_stacks" : 10,
                 "flat_bonuses" : [
-                    ["hit", "dex", 0.015],
-                    ["damage", "bash", 0.10],
+                    ["damage", "bash", 0.05],
                     ["damage", "bash", "str",  0.05],
                     ["armor", "bash", 0.05],
                     ["armor", "cut", 0.05],
                     ["armor", "stab", 0.05],
-                    ["armor", "bash", "str", 0.1],
-                    ["armor", "cut", "str",  0.1],
+                    ["armor", "bash", "str", 0.15],
+                    ["armor", "cut", "str",  0.125],
                     ["armor", "stab", "str",  0.1],
-                    ["movecost", "str", -0.05],
-                    ["movecost", "dex", -0.02]
+                    ["movecost", "str", -0.05]
                 ]
             }
         ],
@@ -68,6 +66,7 @@
         "weapons" : [
             "knife_crt",
             "crt_nstick",
+            "crt_knuckledusters",
             "baton-extended",
             "cudgel",
             "sword_wood",
