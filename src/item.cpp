@@ -6992,7 +6992,7 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
         temp += 5; // body heat increases inventory temperature
     }
 
-    // process temperature and rot at most every 100_turns (10 min)
+    // process temperature and rot at most once every 100_turns (10 min)
     // If the item has had its temperature/rot set the two can be out of sync
     // Rot happens slower than temperature changes so for most part last_temp_check dominates
     // note we're also gated by item::processing_speed
@@ -7042,6 +7042,11 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
                 if( goes_bad() && time - last_rot_check >  smallest_interval ) {
                     calc_rot( time );
                     last_rot_check = time;
+
+                    if( has_rotten_away() ) {
+                        // No need to track item that will be gone
+                        return;
+                    }
                 }
             }
         }
@@ -7061,7 +7066,6 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
     if( specific_energy < 0 ) {
         calc_temp( temp, insulation, 1_turns );
         last_temp_check = now;
-        last_rot_check = now;
     }
 }
 
