@@ -207,7 +207,6 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "WRENCH", "level": 2 } ],
-      { "id": "WRENCH", "level": 2 }
     ],
     "components": [
       [ [ "wheel_wide_or", 1 ], [ "wheel_wide", 1 ], [ "wheel", 1 ], [ "wheel_slick", 1 ], [ "wheel_armor", 1 ] ],
