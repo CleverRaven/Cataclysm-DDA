@@ -171,6 +171,8 @@ std::string action_ident( action_id act )
             return "advinv";
         case ACTION_PICKUP:
             return "pickup";
+        case ACTION_PICKUP_ADJACENT:
+            return "pickup_adjacent";
         case ACTION_GRAB:
             return "grab";
         case ACTION_HAUL:
@@ -585,6 +587,7 @@ bool can_interact_at( action_id action, const tripoint &p )
         case ACTION_EXAMINE:
             return can_examine_at( p );
         case ACTION_PICKUP:
+        case ACTION_PICKUP_ADJACENT:
             return g->m.has_items( p );
         default:
             return false;
@@ -759,6 +762,7 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_CLOSE );
             REGISTER_ACTION( ACTION_CHAT );
             REGISTER_ACTION( ACTION_PICKUP );
+            REGISTER_ACTION( ACTION_PICKUP_ADJACENT );
             REGISTER_ACTION( ACTION_GRAB );
             REGISTER_ACTION( ACTION_HAUL );
             REGISTER_ACTION( ACTION_BUTCHER );

@@ -2546,13 +2546,6 @@ void CheckMessages()
                                 if( curtainpart >= 0 && veh->is_open( curtainpart ) && ( dx != 0 || dy != 0 ) ) {
                                     actions.insert( ACTION_CLOSE );
                                 }
-                                if( dx == 0 && dy == 0 ) {
-                                    int cargopart = veh->part_with_feature( veh_part, "CARGO", true );
-                                    bool can_pickup = cargopart >= 0 && ( !veh->get_items( cargopart ).empty() );
-                                    if( can_pickup ) {
-                                        actions.insert( ACTION_PICKUP );
-                                    }
-                                }
                             }
                         }
 
@@ -2589,8 +2582,8 @@ void CheckMessages()
                         }
 
                         // Check for actions that work on nearby tiles and own tile
-                        if( can_interact_at( ACTION_PICKUP, pos ) ) {
-                            actions.insert( ACTION_PICKUP );
+                        if( can_interact_at( ACTION_PICKUP_ADJACENT, pos ) ) {
+                            actions.insert( ACTION_PICKUP_ADJACENT );
                         }
                     }
                 }
@@ -2611,8 +2604,8 @@ void CheckMessages()
                 }
 
                 // We're not able to pickup anything nearby, so remove it
-                if( std::find( actions.begin(), actions.end(), ACTION_PICKUP ) == actions.end() ) {
-                    actions_remove.insert( ACTION_PICKUP );
+                if( std::find( actions.begin(), actions.end(), ACTION_PICKUP_ADJACENT ) == actions.end() ) {
+                    actions_remove.insert( ACTION_PICKUP_ADJACENT );
                 }
 
                 // Check if we can't move because of safe mode - if so, add ability to ignore

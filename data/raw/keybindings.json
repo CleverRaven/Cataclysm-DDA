@@ -1428,7 +1428,14 @@
     "name": "Pick up Item(s)",
     "category": "DEFAULTMODE",
     "id": "pickup",
-    "bindings": [ { "input_method": "keyboard", "key": "," }, { "input_method": "keyboard", "key": "g" } ]
+    "bindings": [ { "input_method": "keyboard", "key": "," } ]
+  },
+  {
+    "type": "keybinding",
+    "name": "Pick up Nearby Item(s)",
+    "category": "DEFAULTMODE",
+    "id": "pickup_adjacent",
+    "bindings": [ { "input_method": "keyboard", "key": "g" } ]
   },
   {
     "type": "keybinding",

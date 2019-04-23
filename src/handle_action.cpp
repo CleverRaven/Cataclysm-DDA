@@ -1583,10 +1583,17 @@ bool game::handle_action()
             case ACTION_PICKUP:
                 if( u.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't pick anything up while you're in your shell." ) );
+                } else {
+                    pickup();
+                }
+                break;
+            case ACTION_PICKUP_ADJACENT:
+                if( u.has_active_mutation( trait_SHELL2 ) ) {
+                    add_msg( m_info, _( "You can't pick anything up while you're in your shell." ) );
                 } else if( mouse_target ) {
                     pickup( *mouse_target );
                 } else {
-                    pickup();
+                    pickup_adjacent();
                 }
                 break;
 

@@ -2242,6 +2242,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "examine" );
     ctxt.register_action( "advinv" );
     ctxt.register_action( "pickup" );
+    ctxt.register_action( "pickup_adjacent" );
     ctxt.register_action( "grab" );
     ctxt.register_action( "haul" );
     ctxt.register_action( "butcher" );
@@ -6242,7 +6243,7 @@ void game::examine( const tripoint &examp )
     }
 }
 
-void game::pickup()
+void game::pickup_adjacent()
 {
     // First check if there is no/only one option for pickup
     int num_tiles_with_items = 0;
@@ -6270,6 +6271,11 @@ void game::pickup()
     draw_ter();
     // wrefresh is called in pickup( const tripoint & )
     pickup( *examp_ );
+}
+
+void game::pickup()
+{
+    pickup( u.pos() );
 }
 
 void game::pickup( const tripoint &p )
