@@ -1,0 +1,145 @@
+[
+  {
+    "type": "GENERIC",
+    "id": "base_silverware",
+    "symbol": ";",
+    "color": "light_gray",
+    "price": 100,
+    "price_postapoc": 0,
+    "weight": 48,
+    "volume": "25 ml",
+    "material": "steel",
+    "bashing": 2,
+    "cutting": 1,
+    "to_hit": -1
+  },
+  {
+    "type": "GENERIC",
+    "id": "base_plastic_silverware",
+    "symbol": ";",
+    "color": "light_gray",
+    "price": 10,
+    "price_postapoc": 0,
+    "weight": 28,
+    "volume": "25 ml",
+    "material": "plastic",
+    "bashing": 1,
+    "cutting": 1,
+    "to_hit": -2
+  },
+  {
+    "type": "GENERIC",
+    "id": "base_ceramic_dish",
+    "symbol": ",",
+    "color": "yellow",
+    "price": 1200,
+    "price_postapoc": 0,
+    "material": "ceramic",
+    "weight": 362,
+    "volume": "200 ml",
+    "bashing": 3,
+    "to_hit:": -1
+  },
+  {
+    "type": "GENERIC",
+    "id": "base_glass_dish",
+    "symbol": ",",
+    "color": "cyan",
+    "price": 1400,
+    "price_postapoc": 0,
+    "material": "glass",
+    "weight": 362,
+    "volume": "200 ml",
+    "bashing": 3,
+    "to_hit:": -1
+  },
+  {
+    "type": "GENERIC",
+    "id": "base_tin_dish",
+    "symbol": ",",
+    "color": "light_gray",
+    "price": 400,
+    "price_postapoc": 0,
+    "material": "BUDGET_STEEL",
+    "weight": 262,
+    "volume": "200 ml",
+    "bashing": 2,
+    "to_hit:": -1
+  },
+  {
+    "type": "GENERIC",
+    "id": "ceramic_plate",
+    "name": "ceramic plate",
+    "description": "A ceramic dinner plate, unremarkable in every way.",
+    "copy-from": "base_ceramic_dish",
+    "qualities": [ [ "CONTAIN", 1 ] ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "tin_plate",
+    "name": "tin plate",
+    "description": "A tin dinner plate, lightweight and clanky.",
+    "copy-from": "base_tin_dish",
+    "qualities": [ [ "CONTAIN", 1 ] ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "glass_plate",
+    "name": "glass plate",
+    "description": "A glass dinner plate, for people who don't have clumsy children.",
+    "copy-from": "base_glass_dish",
+    "qualities": [ [ "CONTAIN", 1 ] ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "fork",
+    "name": "fork",
+    "description": "A fork, if you stab something with it you eat it right away.  Wait...  nevermind.",
+    "copy-from": "base_silverware",
+    "flags": [ "STAB", "SHEATH_KNIFE" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "fork_plastic",
+    "name": "plastic fork",
+    "description": "A plastic disposable fork.  Great for picnic lunches in the post apocalyptic wasteland.",
+    "looks_like": "fork",
+    "copy-from": "base_plastic_silverware",
+    "flags": [ "STAB", "SHEATH_KNIFE" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "spoon",
+    "name": "spoon",
+    "description": "Do not try to bend the spoon.  That is impossible.",
+    "copy-from": "base_plastic_silverware",
+    "flags": [ "SHEATH_KNIFE" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "spoon_plastic",
+    "name": "plastic spoon",
+    "description": "A plastic disposable spoon.  Easier to bend than the metal variety.",
+    "looks_like": "spoon",
+    "copy-from": "base_silverware",
+    "flags": [ "SHEATH_KNIFE" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "spork",
+    "name": "spork",
+    "description": "Foons are for scrubs, real men use sporks.",
+    "flags": [ "STAB", "SHEATH_KNIFE" ],
+    "looks_like": "fork",
+    "copy-from": "base_silverware"
+  },
+  {
+    "type": "GENERIC",
+    "id": "foon",
+    "name": "foon",
+    "description": "Clearly the superior instrument.  Sporks are just imitators.",
+    "flags": [ "STAB", "SHEATH_KNIFE" ],
+    "looks_like": "spork",
+    "copy-from": "base_silverware"
+  },
+]
