@@ -15,6 +15,20 @@
   },
   {
     "type": "GENERIC",
+    "id": "base_utensil",
+    "symbol": ";",
+    "color": "light_gray",
+    "price": 200,
+    "price_postapoc": 0,
+    "weight": 158,
+    "volume": "75 ml",
+    "material": "steel",
+    "bashing": 3,
+    "cutting": 2,
+    "to_hit": -1
+  },
+  {
+    "type": "GENERIC",
     "id": "base_plastic_silverware",
     "symbol": ";",
     "color": "light_gray",
@@ -259,7 +273,7 @@
     "category": "other",
     "name": "kiddie bowl",
     "symbol": "u",
-    "proportional": { "weight": 0.6 },
+    "proportional": { "weight": 0.6, "volume": 0.5 },
     "description": "A plastic bowl designed for use by children.",
     "copy-from": "base_plastic_dish",
     "contains": 1,
@@ -314,7 +328,7 @@
     "category": "other",
     "name": "kiddie spoon",
     "symbol": "u",
-    "proportional": { "weight": 0.7 },
+    "proportional": { "weight": 0.7, "volume": 0.5 },
     "description": "A plastic spoon designed for use by children.",
     "looks_like": "spoon",
     "copy-from": "base_plastic_silverware",
@@ -347,6 +361,14 @@
     "description": "A plastic butter knife.  It's actually a bit sharper than its metal counterpart, but that doesn't make it any more effective as a weapon.",
     "looks_like": "knife_butter",
     "flags": [ "STAB", "SHEATH_KNIFE" ],
+    "copy-from": "base_plastic_silverware"
+  },
+  {
+    "type": "GENERIC",
+    "id": "plastic_straw",
+    "name": "plastic straw",
+    "proportional": { "weight": 0.7, "volume": 0.5 },
+    "description": "A plastic straw, for drinking things and making litter",
     "copy-from": "base_plastic_silverware"
   },
   {
@@ -410,5 +432,32 @@
     "bashing": 1,
     "cutting": 1,
     "to_hit": -1
+  },
+  {
+    "type": "GENERIC",
+    "id": "ladle",
+    "name": "ladle",
+    "description": "When you need to scoop some soup, this is the utensil for you.",
+    "looks_like": "spoon",
+    "copy-from": "base_utensil"
+  },
+  {
+    "type": "GENERIC",
+    "id": "carving_fork",
+    "name": "carving fork",
+    "description": "It's like a tiny pitchfork, or a very large dinner fork.  You use it to hold meat still while you slice it.",
+    "looks_like": "fork",
+    "copy-from": "base_utensil",
+    "proportional": { "cutting": 2 },
+    "flags": [ "STAB", "SHEATH_KNIFE" ],
+  },
+  {
+    "type": "GENERIC",
+    "id": "spatula",
+    "name": "spatula",
+    "description": "A rubber scraper for making sure you get every last scrap of cookie dough.",
+    "looks_like": "spoon",
+    "proportional": { "weight": 3, "volume": 2 },
+    "copy-from": "base_plastic_silverware"
   }
 ]
