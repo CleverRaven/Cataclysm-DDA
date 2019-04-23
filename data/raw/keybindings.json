@@ -1425,10 +1425,16 @@
   },
   {
     "type": "keybinding",
-    "name": "Pick up Item(s)",
+    "name": "Pick up Nearby Item(s)",
     "category": "DEFAULTMODE",
     "id": "pickup",
-    "bindings": [ { "input_method": "keyboard", "key": "," }, { "input_method": "keyboard", "key": "g" } ]
+    "bindings": [ { "input_method": "keyboard", "key": "g" } ]
+  },
+  {
+    "type": "keybinding",
+    "name": "Pickup Item(s) at Player Feet",
+    "category": "DEFAULTMODE",
+    "id": "pickup_feet"
   },
   {
     "type": "keybinding",
