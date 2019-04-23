@@ -1,9 +1,9 @@
 [
   {
-    "id": "SUS_flatware",
+    "id": "SUS_silverware",
     "type": "item_group",
     "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
-    "//2": "This group is for a flatware drawer.",
+    "//2": "This group is for a silverware drawer.",
     "subtype": "collection",
     "items": [
       { "item": "knife_butter", "count": [ 1, 6 ] },
@@ -14,12 +14,38 @@
       { "item": "spoon", "count": [ 1, 6 ] },
       { "item": "spoon", "count": [ 1, 6 ] },
       { "item": "chopsticks", "prob": 50, "count": [ 0, 6 ] },
-      { "item": "spoon_plastic", "prob": 50, "count": [ 0, 6 ] },
-      { "item": "knife_plastic", "prob": 50, "count": [ 1, 6 ] },
-      { "item": "fork_plastic", "prob": 50, "count": [ 0, 6 ] },
-      [ "corkscrew", 50 ],
-      [ "bottle_opener", 50 ],
-      { "item": "straw_plastic", "prob": 50, "count": [ 1, 6 ] }
+      { "item": "plastic_spoon", "prob": 50, "count": [ 0, 6 ] },
+      { "item": "plastic_knife", "prob": 50, "count": [ 1, 6 ] },
+      { "item": "plastic_fork", "prob": 50, "count": [ 0, 6 ] },
+      [ "corkscrew", 75 ],
+      [ "bottle_opener", 75 ],
+      { "item": "plastic_straw", "prob": 50, "count": [ 1, 6 ] }
+    ]
+  },
+  {
+    "id": "SUS_utensils",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for a utensils drawer.",
+    "subtype": "collection",
+    "items": [
+      { "item": "tongs", "prob": 95 },
+      { "item": "tongs", "prob": 50 },
+      { "item": "ladle", "prob": 95 },
+      { "item": "ladle", "prob": 50 },
+      { "item": "spatula", "prob": 95, "count": [ 1, 2 ] },
+      { "item": "spatula", "prob": 40, "count": [ 1, 2 ] },
+      { "item": "whisk", "prob": 95 },
+      { "item": "whisk", "prob": 50 },
+      { "item": "can_opener", "prob": 95 },
+      { "item": "can_opener", "prob": 70 },
+      { "item": "peeler", "prob": 95, "count": [ 1, 2 ] },
+      { "item": "peeler", "prob": 75 },
+      { "item": "garlic_press", "prob": 95 },
+      { "item": "potato_masher", "prob": 95 },
+      { "item": "carving_fork", "prob": 50 },
+      { "item": "corkscrew", "prob": 95 },
+      { "item": "bottle_opener", "prob": 95 }
     ]
   },
   {
@@ -29,24 +55,21 @@
     "//2": "This group is for a cupboard full of dining dishes.",
     "subtype": "distribution",
     "items": [
-      {
+      { "item": "glass_wine", "prob": 50, "count": [ 1, 4 ] },
+      { "item": "bowl_pewter", "prob": 50, "count": [ 1, 4 ] },
+      { "item": "ceramic_cup", "prob": 75, "count": [ 1, 4 ] },
+      { "item": "glass", "count": [ 1, 6 ] },
+      { "item": "ceramic_mug", "count": [ 1, 6 ] },
+      "distribution": [
         "collection": [
-          { "item": "glass", "count": [ 1, 6 ] },
           { "item": "glass_plate", "count": [ 1, 6 ] },
-          { "item": "glass_bowl", "count": [ 1, 6 ] },
-          { "item": "glass_wine", "prob": 50, "count": [ 1, 4 ] },
-          [ "bowl_pewter", 50 ]
-        ]
-      },
-      {
+          { "item": "glass_bowl", "count": [ 1, 6 ] }
+        ],
         "collection": [
           { "item": "ceramic_plate", "count": [ 1, 6 ] },
-          { "item": "ceramic_bowl", "count": [ 1, 6 ] },
-          { "item": "ceramic_cup", "count": [ 1, 6 ] },
-          { "item": "glass_wine", "prob": 50, "count": [ 1, 4 ] },
-          [ "teapot", 50 ]
+          { "item": "ceramic_bowl", "count": [ 1, 6 ] }
         ]
-      }
+      ]
     ]
   }
 ]
