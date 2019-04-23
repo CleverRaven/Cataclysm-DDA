@@ -276,7 +276,10 @@ class zone_manager
         bool has( const zone_type_id &type, const tripoint &where ) const;
         bool has_near( const zone_type_id &type, const tripoint &where, int range = MAX_DISTANCE ) const;
         bool has_loot_dest_near( const tripoint &where ) const;
-        std::unordered_set<tripoint> get_near( const zone_type_id &type, const tripoint &where, int range = MAX_DISTANCE ) const;
+        std::unordered_set<tripoint> get_near( const zone_type_id &type, const tripoint &where,
+                                               int range = MAX_DISTANCE ) const;
+        cata::optional<tripoint> get_nearest( const zone_type_id &type, const tripoint &where,
+                                              int range = MAX_DISTANCE ) const;
         zone_type_id get_near_zone_type_for_item( const item &it, const tripoint &where ) const;
         std::vector<zone_data> get_zones( const zone_type_id &type, const tripoint &where ) const;
         const zone_data *get_bottom_zone( const tripoint &where ) const;

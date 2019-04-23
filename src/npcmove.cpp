@@ -12,6 +12,7 @@
 
 #include "ammo.h"
 #include "cata_algo.h"
+#include "clzones.h"
 #include "debug.h"
 #include "dispersion.h"
 #include "effect.h"
@@ -149,6 +150,19 @@ bool clear_shot_reach( const tripoint &from, const tripoint &to )
 
 tripoint npc::good_escape_direction( bool include_pos )
 {
+    if( !is_enemy() && path.empty() ) {
+        zone_type_id retreat_zone = zone_type_id( "NPC_RETREAT" );
+        const tripoint &abs_pos = global_square_location();
+        const zone_manager &mgr = zone_manager::get_manager();
+        cata::optional<tripoint> retreat_target = mgr.get_nearest( retreat_zone, abs_pos, 60 );
+        if( retreat_target && *retreat_target != abs_pos ) {
+            update_path( g->m.getlocal( *retreat_target ) );
+            if( !path.empty() ) {
+                return path[0];
+            }
+        }
+    }
+
     std::vector<tripoint> candidates;
 
     const auto rate_pt = [&]( const tripoint & pt, const float threat_val ) {
@@ -314,6 +328,7 @@ void npc::assess_danger()
             if( dist < 3 && !has_effect( effect_npc_fire_bad ) ) {
                 warn_about( "fire_bad", 1_minutes );
                 add_effect( effect_npc_fire_bad, 5_turns );
+                path.clear();
             }
         }
     }
@@ -428,6 +443,7 @@ void npc::assess_danger()
             time_duration run_away_for = 5_turns + 1_turns * rng( 0, 5 );
             warn_about( "run_away", run_away_for );
             add_effect( effect_npc_run_away, run_away_for );
+            path.clear();
         }
     }
     // update the threat cache
@@ -552,6 +568,9 @@ void npc::move()
      * NPCs flee from uncontained fires within 3 tiles
      */
     if( !in_vehicle && ( sees_dangerous_field( pos() ) || has_effect( effect_npc_fire_bad ) ) ) {
+        if( sees_dangerous_field( pos() ) ) {
+            path.clear();
+        }
         const tripoint escape_dir = good_escape_direction( sees_dangerous_field( pos() ) );
         if( escape_dir != pos() ) {
             move_to( escape_dir );
@@ -789,7 +808,11 @@ void npc::execute_action( npc_action action )
             break;
 
         case npc_flee:
-            move_to( tar );
+            if( path.empty() ) {
+                move_to( tar );
+            } else {
+                move_to_next();
+            }
             break;
 
         case npc_reach_attack:
