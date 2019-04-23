@@ -90,9 +90,10 @@
         "required_skills": [ [ "survival", 2 ] ],
         "time": 50,
         "qualities": [ [ { "id": "AXE", "level": 2 }, { "id": "SAW_W", "level": 1 } ] ],
+        "byproducts": [ { "item": "log", "charges": [ 2, 3 ] } ],
         "pre_terrain": "t_trunk",
         "post_terrain": "t_dirt",
-        "post_special": "done_trunk_log"
+        "post_special": "done_trunk_plank"
     },{
         "type": "construction",
         "description": "Pitfall",
