@@ -154,6 +154,7 @@
     "symbol": "u",
     "description": "An emaled tin cup.  Great for camping or for prison use; makes a wonderful sound when clanged along bars.",
     "looks-like": "ceramic_cup",
+    "proportional": { "weight": 0.8 },
     "copy-from": "base_tin_dish",
     "contains": 1,
     "watertight": true,
@@ -198,6 +199,7 @@
     "type": "CONTAINER",
     "name": "wine glass",
     "name_plural": "wine glasses",
+    "proportional": { "weight": 0.5 },
     "symbol": "Y",
     "description": "A stemmed drinking glass that makes you feel very fancy when you drink from it.",
     "copy-from": "base_glass_dish",
@@ -252,6 +254,27 @@
     "qualities": [ [ "CONTAIN", 1 ] ]
   },
   {
+    "id": "plastic_bowl_kids",
+    "type": "CONTAINER",
+    "category": "other",
+    "name": "kiddie bowl",
+    "symbol": "u",
+    "proportional": { "weight": 0.6 },
+    "description": "A plastic bowl designed for use by children.",
+    "copy-from": "base_plastic_dish",
+    "contains": 1,
+    "watertight": true,
+    "qualities": [ [ "CONTAIN", 1 ] ],
+    "snippet_category": [
+      { "id": "kbowl1", "text": "This bowl is decorated with cartoon bears." },
+      { "id": "kbowl2", "text": "There is a drawing of Yoda at the bottom of this bowl, and the words 'Eaten it all, you have'." },
+      { "id": "kbowl3", "text": "This bowl is covered in cartoon dogs and a logo that reads 'Paw Patrol'." },
+      { "id": "kbowl4", "text": "There are orange and blue fish chasing each other around the rim of this bowl." },
+      { "id": "kbowl5", "text": "This bowl is shaped like the head of a silly frog with the opening forming the mouth." },
+      { "id": "kbowl6", "text": "There are cute farm animals decorating this bowl." }
+    ]
+  },
+  {
     "type": "GENERIC",
     "id": "fork",
     "name": "fork",
@@ -261,7 +284,7 @@
   },
   {
     "type": "GENERIC",
-    "id": "fork_plastic",
+    "id": "plastic_fork",
     "name": "plastic fork",
     "description": "A plastic disposable fork.  Great for picnic lunches in the post apocalyptic wasteland.",
     "looks_like": "fork",
@@ -273,17 +296,39 @@
     "id": "spoon",
     "name": "spoon",
     "description": "Do not try to bend the spoon.  That is impossible.",
-    "copy-from": "base_plastic_silverware",
+    "copy-from": "base_silverware",
     "flags": [ "SHEATH_KNIFE" ]
   },
   {
     "type": "GENERIC",
-    "id": "spoon_plastic",
+    "id": "plastic_spoon",
     "name": "plastic spoon",
     "description": "A plastic disposable spoon.  Easier to bend than the metal variety.",
     "looks_like": "spoon",
-    "copy-from": "base_silverware",
+    "copy-from": "base_plastic_silverware",
     "flags": [ "SHEATH_KNIFE" ]
+  },
+  {
+    "id": "plastic_spoon_kids",
+    "type": "CONTAINER",
+    "category": "other",
+    "name": "kiddie spoon",
+    "symbol": "u",
+    "proportional": { "weight": 0.7 },
+    "description": "A plastic spoon designed for use by children.",
+    "looks_like": "spoon",
+    "copy-from": "base_plastic_silverware",
+    "contains": 1,
+    "watertight": true,
+    "qualities": [ [ "CONTAIN", 1 ] ],
+    "snippet_category": [
+      { "id": "kspoon1", "text": "This spoon is striped in bright primary colors." },
+      { "id": "kspoon2", "text": "This spoon is styled to look like a bulldozer." },
+      { "id": "kspoon3", "text": "This spoon is covered in cartoon dogs and a logo that reads 'Paw Patrol'." },
+      { "id": "kspoon4", "text": "There is a cute cartoon bear on the handle of this spoon." },
+      { "id": "kspoon5", "text": "There are cartoon cats all over this spoon." },
+      { "id": "kspoon6", "text": "This spoon has a sillhouette of a giraffe going down the handle." }
+    ]
   },
   {
     "type": "GENERIC",
@@ -296,7 +341,7 @@
   },
   {
     "type": "GENERIC",
-    "id": "knife_plastic",
+    "id": "plastic_knife",
     "name": "plastic knife",
     "name_plural": "plastic knives",
     "description": "A plastic butter knife.  It's actually a bit sharper than its metal counterpart, but that doesn't make it any more effective as a weapon.",
