@@ -78,14 +78,6 @@ item vehicle_part::properties_to_item() const
     return tmp;
 }
 
-std::string vehicle_part::name_with_durability() const
-{
-    std::string symbol = this->base.damage_symbol();
-    nc_color color = this->base.damage_color();
-
-    return "<color_" + string_from_color( color ) + ">" + symbol + "</color> " + info().name();
-}
-
 std::string vehicle_part::name() const
 {
     auto res = info().name();
@@ -104,6 +96,16 @@ std::string vehicle_part::name() const
     if( base.has_var( "contained_name" ) ) {
         res += string_format( _( " holding %s" ), base.get_var( "contained_name" ) );
     }
+
+    std::string symbol = this->base.damage_symbol();
+    nc_color color = this->base.damage_color();
+
+    if( is_broken() ) {
+        color = c_dark_gray;
+        symbol = _( R"(XX)" );
+    }
+
+    res.insert( 0, "<color_" + string_from_color( color ) + ">" + symbol + "</color> " );
     return res;
 }
 

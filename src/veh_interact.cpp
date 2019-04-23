@@ -1407,7 +1407,7 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
             trim_and_print( w_list, y, 1, getmaxx( w_list ) - 1,
                             highlighted ? hilite( col ) : col,
                             "<color_dark_gray>%c </color>%s",
-                            opts[idx].hotkey ? opts[idx].hotkey : ' ', pt.name_with_durability() );
+                            opts[idx].hotkey ? opts[idx].hotkey : ' ', pt.name() );
 
             // print extra columns (if any)
             opts[idx].details( pt, w_list, y );
@@ -2230,9 +2230,7 @@ void veh_interact::display_stats() const
     const auto print_part = [&]( const std::string & str, int slot, vehicle_part * pt ) {
         mvwprintz( w_stats, y[slot], x[slot], c_light_gray, str );
         int iw = utf8_width( str ) + 1;
-        return fold_and_print( w_stats, y[slot], x[slot] + iw, w[slot],
-                               pt->is_broken() ? c_dark_gray : pt->base.damage_color(),
-                               pt->name() );
+        return fold_and_print( w_stats, y[slot], x[slot] + iw, w[slot], c_light_gray, pt->name() );
     };
 
     vehicle_part *mostDamagedPart = get_most_damaged_part();
