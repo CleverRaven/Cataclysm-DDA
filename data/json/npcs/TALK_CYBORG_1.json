@@ -4,8 +4,8 @@
     "type": "talk_topic",
     "dynamic_line": "You... You saved me!  *Zzzt* Let me come with you, I can help!",
     "responses": [
-      { "text": "You're on your own.  Bye.", "topic": "TALK_DONE" },
-      { "text": "Of course!  Come with me.", "topic": "TALK_AGREE_FOLLOW" }
+      { "text": "Of course!  Come with me.", "topic": "TALK_AGREE_FOLLOW", "effect": "follow", "opinion": { "trust": 1, "value": 1 } },
+      { "text": "You're on your own.  Bye.", "topic": "TALK_DONE" }
     ]
   }
 ]
