@@ -9460,8 +9460,6 @@
       { "item": "cell_phone", "prob": 1, "charges-min": 150, "charges-max": 150},
       { "item": "smart_phone", "prob": 9, "charges-min": 0, "charges-max": 15},
       { "item": "smart_phone", "prob": 1, "charges-min": 130, "charges-max": 130}
-    
-    
     ]
   },
   {
