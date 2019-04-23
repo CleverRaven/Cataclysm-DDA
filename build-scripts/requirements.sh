@@ -35,6 +35,10 @@ if [ -n "${CODE_COVERAGE}" ]; then
   export LDFLAGS=--coverage;
 fi
 
+if [ -n "$CATA_CLANG_TIDY" ]; then
+    travis_retry pip install --user compiledb
+fi
+
 # Influenced by https://github.com/zer0main/battleship/blob/master/build/windows/requirements.sh
 if [ -n "${MXE_TARGET}" ]; then
     sudo add-apt-repository 'deb [arch=amd64] https://mirror.mxe.cc/repos/apt xenial main'
