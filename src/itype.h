@@ -816,15 +816,6 @@ struct itype {
         /** Actions an instance can perform (if any) indexed by action type */
         std::map<std::string, use_function> use_methods;
 
-        /** Default countdown interval (if any) for item */
-        int countdown_interval = 0;
-
-        /** Action to take when countdown expires */
-        use_function countdown_action;
-
-        /** Is item destroyed after the countdown action is run? */
-        bool countdown_destroy = false;
-
         /** Action to take BEFORE the item is placed on map. If it returns non-zero, item won't be placed. */
         use_function drop_action;
 
@@ -835,21 +826,30 @@ struct itype {
         std::set<matec_id> techniques;
 
         // Minimum stat(s) or skill(s) to use the item
+        std::map<skill_id, int> min_skills;
         int min_str = 0;
         int min_dex = 0;
         int min_int = 0;
         int min_per = 0;
-        std::map<skill_id, int> min_skills;
-
-        // Should the item explode when lit on fire
-        bool explode_in_fire = false;
-        // How should the item explode
-        explosion_data explosion;
 
         phase_id phase      = SOLID; // e.g. solid, liquid, gas
 
+        // How should the item explode
+        explosion_data explosion;
+        // Should the item explode when lit on fire
+        bool explode_in_fire = false;
+
         /** Can item be combined with other identical items? */
         bool stackable = false;
+
+        /** Is item destroyed after the countdown action is run? */
+        bool countdown_destroy = false;
+
+        /** Default countdown interval (if any) for item */
+        int countdown_interval = 0;
+
+        /** Action to take when countdown expires */
+        use_function countdown_action;
 
         /**
          * @name Non-negative properties
@@ -896,8 +896,8 @@ struct itype {
 
         const item_category *category = nullptr; // category pointer or NULL for automatic selection
 
-        nc_color color = c_white; // Color on the map (color.h)
         std::string sym;
+        nc_color color = c_white; // Color on the map (color.h)
 
         int damage_min = -1000; /** Minimum amount of damage to an item (state of maximum repair) */
         int damage_max =  4000; /** Maximum amount of damage to an item (state before destroyed) */
