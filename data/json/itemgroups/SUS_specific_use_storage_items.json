@@ -37,14 +37,16 @@
       { "item": "spatula", "prob": 40, "count": [ 1, 2 ] },
       { "item": "whisk", "prob": 95 },
       { "item": "whisk", "prob": 50 },
+      { "item": "rolling_pin", "prob": 80 },
+      { "item": "rolling_pin", "prob": 30 },
       { "item": "can_opener", "prob": 95 },
       { "item": "can_opener", "prob": 70 },
       { "item": "peeler", "prob": 95, "count": [ 1, 2 ] },
       { "item": "peeler", "prob": 75 },
-      { "item": "garlic_press", "prob": 95 },
-      { "item": "potato_masher", "prob": 95 },
+      { "item": "garlic_press", "prob": 65 },
+      { "item": "potato_masher", "prob": 85 },
       { "item": "carving_fork", "prob": 50 },
-      { "item": "corkscrew", "prob": 95 },
+      { "item": "corkscrew", "prob": 90 },
       { "item": "bottle_opener", "prob": 95 }
     ]
   },
@@ -60,16 +62,14 @@
       { "item": "ceramic_cup", "prob": 75, "count": [ 1, 4 ] },
       { "item": "glass", "count": [ 1, 6 ] },
       { "item": "ceramic_mug", "count": [ 1, 6 ] },
-      "distribution": [
-        "collection": [
-          { "item": "glass_plate", "count": [ 1, 6 ] },
-          { "item": "glass_bowl", "count": [ 1, 6 ] }
-        ],
-        "collection": [
-          { "item": "ceramic_plate", "count": [ 1, 6 ] },
-          { "item": "ceramic_bowl", "count": [ 1, 6 ] }
+      {
+        "distribution": [
+          { "collection": [ { "item": "glass_plate", "count": [ 1, 6 ] }, { "item": "glass_bowl", "count": [ 1, 6 ] } ] },
+          {
+            "collection": [ { "item": "ceramic_plate", "count": [ 1, 6 ] }, { "item": "ceramic_bowl", "count": [ 1, 6 ] } ]
+          }
         ]
-      ]
+      }
     ]
   }
 ]
