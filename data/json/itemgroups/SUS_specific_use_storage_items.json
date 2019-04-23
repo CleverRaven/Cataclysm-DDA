@@ -51,6 +51,32 @@
     ]
   },
   {
+    "id": "SUS_junk_drawer",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for a junk drawer.",
+    "subtype": "collection",
+    "items": [
+      { "group": "tools_common", "prob": 90 },
+      { "group": "tools_common", "prob": 75 },
+      { "group": "tools_common", "prob": 35 },
+      { "item": "xacto", "prob": 95 },
+      { "item": "scissors", "prob": 85 },
+      { "item": "permanent_marker", "prob": 85 },
+      { "item": "permanent_marker", "prob": 65 },
+      { "item": "paper", "prob": 85 },
+      { "item": "battery", "count": [ 1, 2 ], "prob": 85 },
+      { "item": "string_36", "count": [ 1, 6 ], "prob": 95 },
+      { "item": "string_36", "count": [ 1, 6 ], "prob": 75 },
+      { "item": "string_36", "count": [ 1, 6 ], "prob": 50 },
+      { "item": "duct_tape", "count": [ 1, 2 ], "prob": 75 },
+      { "item": "plastic_straw", "prob": 70, "count": [ 1, 6 ] }
+      { "item": "plastic_straw", "prob": 50, "count": [ 1, 6 ] }
+      { "item": "corkscrew", "prob": 60 },
+      { "item": "bottle_opener", "prob": 75 }
+    ]
+  },
+  {
     "id": "SUS_dishes",
     "type": "item_group",
     "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
