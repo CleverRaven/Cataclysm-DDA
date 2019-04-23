@@ -6686,7 +6686,7 @@ void map::loadn( const int gridx, const int gridy, const int gridz, const bool u
 bool map::has_rotten_away( item &itm, const tripoint &pnt ) const
 {
     int temp = g->get_temperature( pnt );
-    if( itm.is_corpse() ) {
+    if( itm.is_corpse() && itm.goes_bad()) {
         itm.process_temperature_rot( temp, 1, pnt, nullptr );
         return itm.get_rot() > 10_days && !itm.can_revive();
     } else if( itm.goes_bad() ) {
