@@ -2730,6 +2730,7 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
 
     // item_counter represents the percent progress relative to the base batch time
     // stored precise to 5 decimal places ( e.g. 67.32 percent would be stored as 6732000 )
+    const int old_counter = craft->item_counter;
 
     // Base moves for batch size with no speed modifier or assistants
     // Must ensure >= 1 so we don't divide by 0;
@@ -2745,6 +2746,13 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
     // Current progress as a percent of base_total_moves to 2 decimal places
     craft->item_counter = round( current_progress / base_total_moves * 10000000.0 );
     p->set_moves( 0 );
+
+    // This is to ensure we don't over count skill steps
+    craft->item_counter = std::min( craft->item_counter, 10000000 );
+
+    // Skill is gained after every 5% progress
+    const int skill_steps = craft->item_counter / 500000 - old_counter / 500000;
+    p->craft_skill_gain( *craft, skill_steps );
 
     // if item_counter has reached 100% or more
     if( craft->item_counter >= 10000000 ) {
