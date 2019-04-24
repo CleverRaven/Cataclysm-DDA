@@ -74,6 +74,7 @@ void game::serialize( std::ostream &fout )
     json.member( "turn", static_cast<int>( calendar::turn ) );
     json.member( "calendar_start", static_cast<int>( calendar::start ) );
     json.member( "initial_season", static_cast<int>( calendar::initial_season ) );
+    json.member( "auto_travel_mode", auto_travel_mode );
     json.member( "run_mode", static_cast<int>( safe_mode ) );
     json.member( "mostseen", mostseen );
     // current map coordinates
@@ -186,6 +187,7 @@ void game::unserialize( std::istream &fin )
         data.read( "calendar_start", tmpcalstart );
         calendar::initial_season = static_cast<season_type>( data.get_int( "initial_season",
                                    static_cast<int>( SPRING ) ) );
+        data.read( "auto_travel_mode", auto_travel_mode );
         data.read( "run_mode", tmprun );
         data.read( "mostseen", mostseen );
         data.read( "levx", levx );

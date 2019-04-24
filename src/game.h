@@ -951,6 +951,12 @@ class game
         // Standard movement; handles attacks, traps, &c. Returns false if auto move
         // should be canceled
         bool plmove( int dx, int dy, int dz = 0 );
+        inline bool plmove( tripoint d ) {
+            return plmove( d.x, d.y, d.z );
+        }
+        inline bool plmove( point d ) {
+            return plmove( d.x, d.y );
+        }
         // Handle pushing during move, returns true if it handled the move
         bool grabbed_move( const tripoint &dp );
         bool grabbed_veh_move( const tripoint &dp );
@@ -1108,6 +1114,7 @@ class game
         // ########################## DATA ################################
 
     public:
+        bool auto_travel_mode = false;
         safe_mode_type safe_mode;
         int turnssincelastmon; // needed for auto run mode
         bool debug_pathfinding = false; // show NPC pathfinding on overmap ui
