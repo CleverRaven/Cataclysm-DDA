@@ -165,6 +165,18 @@ bool Creature::hide( const tripoint &target, bool move )
             return false;
         }
     }
+
+    if( has_effect( effect_hidden ) && g->m.impassable( target ) ) {
+        if( ( g->m.ter( pos() ) == g->m.ter( target ) ) ) {
+            if( !g->m.has_flag_ter_or_furn( "CONECT", target ) ) {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+
     if( move ) {
         setpos( target );
         moves -= 100; // TODO : make cost specific to hiding
