@@ -321,8 +321,8 @@ void npc::assess_danger()
         if( !sees( critter ) ) {
             continue;
         }
-        auto att = critter.attitude( this );
-        if( att == MATT_FRIEND ) {
+        auto att = critter.attitude_to( *this );
+        if( att == A_FRIENDLY ) {
             ai_cache.friends.emplace_back( g->shared_from( critter ) );
             continue;
         }
@@ -335,23 +335,22 @@ void npc::assess_danger()
             }
         }
 
-        if( att == MATT_FPASSIVE ) {
+        if( att != A_HOSTILE ) {
             continue;
         }
         int dist = rl_dist( pos(), critter.pos() );
         float scaled_distance = std::max( 1.0f, dist / critter.speed_rating() );
         float hp_percent = 1.0f - static_cast<float>( critter.get_hp() ) / critter.get_hp_max();
-        float min_danger = ( att == MATT_ATTACK ) ? NPC_DANGER_VERY_LOW : 0.0f;
         float critter_danger = std::max( critter_threat * ( hp_percent * 0.5f + 0.5f ),
-                                         min_danger );
+                                         NPC_DANGER_VERY_LOW );
         ai_cache.total_danger += critter_danger / scaled_distance;
         if( is_following() && !ok_by_rules( critter, dist, scaled_distance ) ) {
             continue;
         }
 
         // don't ignore monsters that are too close or too close to the player
-        float min_priority = ( att == MATT_ATTACK ) && ( dist <= def_radius ||
-                             ( is_following() && too_close( critter.pos(), g->u.pos() ) ) ) ?
+        float min_priority = dist <= def_radius ||
+                             ( is_following() && too_close( critter.pos(), g->u.pos() ) ) ?
                              NPC_DANGER_VERY_LOW : 0.0f;
         float priority = std::max( min_priority,
                                    critter_danger - 2.0f * ( scaled_distance - 1.0f ) );
@@ -369,13 +368,12 @@ void npc::assess_danger()
             warn_about( "monster", 10_minutes, bogey );
         }
 
-        auto att = attitude_to( guy );
         int dist = rl_dist( pos(), guy.pos() );
         int scaled_distance = std::max( 1, ( 100 * dist ) / guy.get_speed() );
         ai_cache.total_danger += guy_threat / scaled_distance;
         if( !is_following() || ok_by_rules( guy, dist, scaled_distance ) ) {
-            float min_priority = ( att == A_HOSTILE ) && ( dist <= def_radius ||
-                                 ( is_following() && too_close( guy.pos(), g->u.pos() ) ) ) ?
+            float min_priority = dist <= def_radius ||
+                                 ( is_following() && too_close( guy.pos(), g->u.pos() ) ) ?
                                  NPC_DANGER_VERY_LOW : 0.0f;
             float priority = std::max( guy_threat - 2.0f * ( scaled_distance - 1 ),
                                        min_priority );
@@ -396,17 +394,17 @@ void npc::assess_danger()
         }
 
         auto att = attitude_to( guy );
-        if( att == Creature::A_FRIENDLY ) {
+        if( att == A_FRIENDLY ) {
             ai_cache.friends.emplace_back( g->shared_from( guy ) );
-        } else if( att == Creature::A_NEUTRAL ) {
+        } else if( att == A_NEUTRAL ) {
             // Nothing
             continue;
         }
         float guy_threat = evaluate_enemy( guy );
-        if( att == Creature::A_FRIENDLY ) {
+        if( att == A_FRIENDLY ) {
             float min_danger = assessment >= NPC_DANGER_VERY_LOW ? NPC_DANGER_VERY_LOW : -10.0f;
             assessment = std::max( min_danger, assessment - guy_threat * 0.5f );
-        } else {
+        } else if( att == A_HOSTILE ) {
             assessment += handle_hostile( guy, guy_threat, "bandit", "kill_npc" );
         }
     }
@@ -569,10 +567,6 @@ void npc::move()
         // TODO: Think about how this actually needs to work, for now assume flee from player
         ai_cache.target = g->shared_from( g->u );
     }
-
-    add_msg( m_debug, "%s target: %s and danger: %s", disp_name(),
-             target != nullptr ? "valid" : "INVALID",
-             ai_cache.danger > 0 ? "valid" : "INVALID" );
 
     if( !ai_cache.dangerous_explosives.empty() ) {
         action = npc_escape_explosion;
