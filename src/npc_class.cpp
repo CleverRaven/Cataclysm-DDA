@@ -1,6 +1,12 @@
 #include "npc_class.h"
 
+#include <stddef.h>
 #include <list>
+#include <algorithm>
+#include <array>
+#include <iterator>
+#include <set>
+#include <utility>
 
 #include "debug.h"
 #include "generic_factory.h"
@@ -9,6 +15,8 @@
 #include "rng.h"
 #include "skill.h"
 #include "trait_group.h"
+#include "itype.h"
+#include "json.h"
 
 static const std::array<npc_class_id, 19> legacy_ids = {{
         npc_class_id( "NC_NONE" ),

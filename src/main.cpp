@@ -1,19 +1,26 @@
 /* Entry point and main loop for Cataclysm
  */
 
+#include <locale.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include <cstring>
 #include <ctime>
 #include <iostream>
 #include <locale>
 #include <map>
-#if !defined(_WIN32)
-#   include <signal.h>
+#include <array>
+#include <exception>
+#include <functional>
+#include <memory>
+#include <string>
+#include <utility>
+#include <vector>
+#if defined(_WIN32)
+#include "platform_win.h"
+#else
+#include <signal.h>
 #endif
-#include <stdexcept>
-#if defined(LOCALIZE)
-#   include <libintl.h>
-#endif
-
 #include "color.h"
 #include "crash.h"
 #include "cursesdef.h"
@@ -28,6 +35,8 @@
 #include "path_info.h"
 #include "rng.h"
 #include "translations.h"
+#include "input.h"
+#include "worldfactory.h"
 
 #if defined(TILES)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)

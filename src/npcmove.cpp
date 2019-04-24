@@ -1,9 +1,14 @@
 #include "npc.h" // IWYU pragma: associated
 
+#include <limits.h>
+#include <stdlib.h>
 #include <algorithm>
 #include <memory>
 #include <numeric>
 #include <sstream>
+#include <iterator>
+#include <tuple>
+#include <cmath>
 
 #include "ammo.h"
 #include "cata_algo.h"
@@ -20,10 +25,10 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "messages.h"
+#include "mission.h"
 #include "monster.h"
 #include "mtype.h"
 #include "npctalk.h"
-#include "output.h"
 #include "overmap_location.h"
 #include "overmapbuffer.h"
 #include "projectile.h"
@@ -37,6 +42,18 @@
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "vpart_reference.h"
+#include "bodypart.h"
+#include "character.h"
+#include "clzones.h"
+#include "damage.h"
+#include "explosion.h"
+#include "game_constants.h"
+#include "item.h"
+#include "iuse.h"
+#include "mapdata.h"
+#include "player_activity.h"
+#include "ret_val.h"
+#include "units.h"
 
 static constexpr float NPC_DANGER_VERY_LOW = 5.0f;
 static constexpr float NPC_DANGER_MAX = 150.0f;
@@ -62,6 +79,7 @@ const efftype_id effect_onfire( "onfire" );
 const efftype_id effect_npc_run_away( "npc_run_away" );
 const efftype_id effect_npc_fire_bad( "npc_fire_bad" );
 const efftype_id effect_npc_flee_player( "npc_flee_player" );
+const efftype_id effect_npc_player_looking( "npc_player_still_looking" );
 
 enum npc_action : int {
     npc_undecided = 0,
@@ -447,7 +465,7 @@ float npc::character_danger( const Character &uc ) const
 
     ret *= std::max( 0.5, u.get_speed() / 100.0 );
 
-    add_msg( m_debug, "%s danger: %1f", u.disp_name().c_str(), ret );
+    add_msg( m_debug, "%s danger: %1f", u.disp_name(), ret );
     return ret;
 }
 
@@ -480,6 +498,26 @@ void npc::regen_ai_cache()
     } else if( old_assessment <= 0.0f && ai_cache.danger_assessment > NPC_DANGER_VERY_LOW ) {
         warn_about( "general_danger" );
     }
+    // NPCs that aren't following the player, guarding, or travelling and that have a
+    // completed mission should move to the player
+    if( !is_following() && !is_guarding() && !is_travelling() ) {
+        for( auto &miss : chatbin.missions_assigned ) {
+            if( miss->is_complete( getID() ) ) {
+                // unless the player found an item and already told the NPC he wanted to keep it
+                const mission_goal &mgoal = miss->get_type().goal;
+                if( ( mgoal == MGOAL_FIND_ITEM || mgoal == MGOAL_FIND_ANY_ITEM ||
+                      mgoal == MGOAL_FIND_ITEM_GROUP ) &&
+                    has_effect( effect_npc_player_looking ) ) {
+                    continue;
+                }
+                if( global_omt_location() != g->u.global_omt_location() ) {
+                    goal = g->u.global_omt_location();
+                }
+                set_attitude( NPCATT_TALK );
+                break;
+            }
+        }
+    }
 }
 
 void npc::move()
@@ -496,12 +534,11 @@ void npc::move()
     const Creature *target = current_target();
     const std::string &target_name = target != nullptr ? target->disp_name() : no_target_str;
     add_msg( m_debug, "NPC %s: target = %s, danger = %.1f, range = %d",
-             name.c_str(), target_name.c_str(), ai_cache.danger,
-             confident_shoot_range( weapon, recoil_total() ) );
+             name, target_name, ai_cache.danger, confident_shoot_range( weapon, recoil_total() ) );
 
     //faction opinion determines if it should consider you hostile
     if( !is_enemy() && guaranteed_hostile() && sees( g->u ) ) {
-        add_msg( m_debug, "NPC %s turning hostile because is guaranteed_hostile()", name.c_str() );
+        add_msg( m_debug, "NPC %s turning hostile because is guaranteed_hostile()", name );
         if( op_of_u.fear > 10 + personality.aggression + personality.bravery ) {
             set_attitude( NPCATT_FLEE_TEMP );    // We don't want to take u on!
         } else {
@@ -534,32 +571,36 @@ void npc::move()
         ai_cache.target = g->shared_from( g->u );
     }
 
+    add_msg( m_debug, "%s target: %s and danger: %s", disp_name(),
+             target != nullptr ? "valid" : "INVALID",
+             ai_cache.danger > 0 ? "valid" : "INVALID" );
+
     if( !ai_cache.dangerous_explosives.empty() ) {
         action = npc_escape_explosion;
     } else if( target == &g->u && attitude == NPCATT_FLEE_TEMP ) {
         action = method_of_fleeing();
     } else if( has_effect( effect_npc_run_away ) ) {
         action = method_of_fleeing();
-    } else if( target != nullptr && ai_cache.danger > 0 &&
-               !rules.has_flag( ally_rule::avoid_combat ) ) {
+    } else if( target != nullptr && ai_cache.danger > 0 ) {
         action = method_of_attack();
     } else if( !ai_cache.sound_alerts.empty() && !is_following() ) {
         if( !ai_cache.guard_pos ) {
             ai_cache.guard_pos = pos();
         }
         if( ai_cache.sound_alerts.size() > 1 ) {
-            std::sort( ai_cache.sound_alerts.begin(), ai_cache.sound_alerts.end(), compare_sound_alert );
+            std::sort( ai_cache.sound_alerts.begin(), ai_cache.sound_alerts.end(),
+                       compare_sound_alert );
             if( ai_cache.sound_alerts.size() > 10 ) {
                 ai_cache.sound_alerts.resize( 10 );
             }
         }
         ai_cache.spos = ai_cache.sound_alerts.front().pos;
-        add_msg( m_debug, "NPC %s: investigating sound at x(%d) y(%d)", name.c_str(), ai_cache.spos.x,
+        add_msg( m_debug, "NPC %s: investigating sound at x(%d) y(%d)", name, ai_cache.spos.x,
                  ai_cache.spos.y );
         action = npc_investigate_sound;
     } else if( ai_cache.sound_alerts.empty() && ai_cache.guard_pos ) {
         tripoint return_guard_pos = *ai_cache.guard_pos;
-        add_msg( m_debug, "NPC %s: returning to guard spot at x(%d) y(%d)", name.c_str(),
+        add_msg( m_debug, "NPC %s: returning to guard spot at x(%d) y(%d)", name,
                  return_guard_pos.x, return_guard_pos.y );
         action = npc_return_to_guard_pos;
     } else {
@@ -641,7 +682,7 @@ void npc::move()
         action = method_of_attack();
     }
 
-    add_msg( m_debug, "%s chose action %s.", name.c_str(), npc_action_name( action ).c_str() );
+    add_msg( m_debug, "%s chose action %s.", name, npc_action_name( action ) );
 
     execute_action( action );
 }
@@ -659,7 +700,7 @@ void npc::execute_action( npc_action action )
     }
     /*
       debugmsg("%s ran execute_action() with target = %d! Action %s",
-               name.c_str(), target, npc_action_name(action).c_str());
+               name, target, npc_action_name(action));
     */
 
     switch( action ) {
@@ -719,7 +760,7 @@ void npc::execute_action( npc_action action )
                 if( !has_effect( effect_lying_down ) ) {
                     add_effect( effect_lying_down, 30_minutes, num_bp, false, 1 );
                     if( g->u.sees( *this ) && !g->u.in_sleep_state() ) {
-                        add_msg( _( "%s lies down to sleep." ), name.c_str() );
+                        add_msg( _( "%s lies down to sleep." ), name );
                     }
                 }
             } else {
@@ -963,7 +1004,7 @@ void npc::execute_action( npc_action action )
             break;
 
         case npc_noop:
-            add_msg( m_debug, "%s skips turn (noop)", disp_name().c_str() );
+            add_msg( m_debug, "%s skips turn (noop)", disp_name() );
             return;
 
         default:
@@ -972,7 +1013,7 @@ void npc::execute_action( npc_action action )
 
     if( oldmoves == moves ) {
         add_msg( m_debug, "NPC didn't use its moves.  Action %s (%d).",
-                 npc_action_name( action ).c_str(), action );
+                 npc_action_name( action ), action );
     }
 }
 
@@ -1043,12 +1084,14 @@ npc_action npc::method_of_attack()
     } );
 
     if( emergency() && alt_attack() ) {
+        add_msg( m_debug, "%s is trying an alternate attack", disp_name() );
         return npc_noop;
     }
 
     // reach attacks are silent and consume no ammo so prefer these if available
     int reach_range = weapon.reach_range( *this );
     if( reach_range > 1 && reach_range >= dist && clear_shot_reach( pos(), tar ) ) {
+        add_msg( m_debug, "%s is trying a reach attack", disp_name() );
         return npc_reach_attack;
     }
 
@@ -1060,25 +1103,30 @@ npc_action npc::method_of_attack()
 
         if( wont_hit_friend( tar, weapon, false ) ) {
             weapon.gun_set_mode( modes[ 0 ].first );
+            add_msg( m_debug, "%s is trying to shoot someone", disp_name() );
             return npc_shoot;
 
         } else {
             if( !dont_move ) {
+                add_msg( m_debug, "%s is trying to avoid friendly fire", disp_name() );
                 return npc_avoid_friendly_fire;
             }
         }
     }
 
     if( dist == 1 ) {
+        add_msg( m_debug, "%s is trying a melle attack", disp_name() );
         return npc_melee;
     }
 
     // TODO: Add a time check now that wielding takes a lot of time
     if( wield_better_weapon() ) {
+        add_msg( m_debug, "%s is changing weapons", disp_name() );
         return npc_noop;
     }
 
     if( !weapon.ammo_sufficient() && can_reload_current() ) {
+        add_msg( m_debug, "%s is reloading", disp_name() );
         return npc_reload;
     }
 
@@ -1086,9 +1134,10 @@ npc_action npc::method_of_attack()
     if( !modes.empty() && sees( *critter ) &&
         aim_per_move( weapon, recoil ) > 0 &&
         confident_shoot_range( weapon, get_most_accurate_sight( weapon ) ) >= dist ) {
+        add_msg( m_debug, "%s is aiming" );
         return npc_aim;
     }
-
+    add_msg( m_debug, "%s can't figure out what to do", disp_name() );
     return dont_move ? npc_undecided : npc_melee;
 }
 
@@ -1753,12 +1802,11 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         ///\EFFECT_DEX_NPC increases chance to climb CLIMBABLE furniture or terrain
         int climb = get_dex();
         if( one_in( climb ) ) {
-            add_msg_if_npc( m_neutral, _( "%1$s tries to climb the %2$s but slips." ),
-                            name.c_str(), g->m.tername( p ).c_str() );
+            add_msg_if_npc( m_neutral, _( "%1$s tries to climb the %2$s but slips." ), name,
+                            g->m.tername( p ) );
             moves -= 400;
         } else {
-            add_msg_if_npc( m_neutral, _( "%1$s climbs over the %2$s." ), name.c_str(),
-                            g->m.tername( p ).c_str() );
+            add_msg_if_npc( m_neutral, _( "%1$s climbs over the %2$s." ), name, g->m.tername( p ) );
             moves -= ( 500 - ( rng( 0, climb ) * 20 ) );
             moved = true;
         }
@@ -2171,7 +2219,7 @@ void npc::find_item()
     }
 
     if( fetching_item && rl_dist( wanted_item_pos, pos() ) > 1 && is_following() ) {
-        say( _( "Hold on, I want to pick up that %s." ), wanted_name.c_str() );
+        say( _( "Hold on, I want to pick up that %s." ), wanted_name );
     }
 }
 
@@ -2182,7 +2230,7 @@ void npc::pick_up_item()
     }
 
     if( is_following() && !rules.has_flag( ally_rule::allow_pick_up ) ) {
-        add_msg( m_debug, "%s::pick_up_item(); Cancelling on player's request", name.c_str() );
+        add_msg( m_debug, "%s::pick_up_item(); Cancelling on player's request", name );
         fetching_item = false;
         moves -= 1;
         return;
@@ -2203,7 +2251,7 @@ void npc::pick_up_item()
         return;
     }
 
-    add_msg( m_debug, "%s::pick_up_item(); [%d, %d, %d] => [%d, %d, %d]", name.c_str(),
+    add_msg( m_debug, "%s::pick_up_item(); [%d, %d, %d] => [%d, %d, %d]", name,
              posx(), posy(), posz(), wanted_item_pos.x, wanted_item_pos.y, wanted_item_pos.z );
     if( const cata::optional<tripoint> dest = nearest_passable( wanted_item_pos, pos() ) ) {
         update_path( *dest );
@@ -2245,16 +2293,14 @@ void npc::pick_up_item()
     bool u_see = g->u.sees( *this ) || g->u.sees( wanted_item_pos );
     if( u_see ) {
         if( picked_up.size() == 1 ) {
-            add_msg( _( "%1$s picks up a %2$s." ), name.c_str(),
-                     picked_up.front().tname().c_str() );
+            add_msg( _( "%1$s picks up a %2$s." ), name, picked_up.front().tname() );
         } else if( picked_up.size() == 2 ) {
-            add_msg( _( "%1$s picks up a %2$s and a %3$s." ), name.c_str(),
-                     picked_up.front().tname().c_str(),
-                     picked_up.back().tname().c_str() );
+            add_msg( _( "%1$s picks up a %2$s and a %3$s." ), name, picked_up.front().tname(),
+                     picked_up.back().tname() );
         } else if( picked_up.size() > 2 ) {
-            add_msg( _( "%s picks up several items." ), name.c_str() );
+            add_msg( _( "%s picks up several items." ), name );
         } else {
-            add_msg( _( "%s looks around nervously, as if searching for something." ), name.c_str() );
+            add_msg( _( "%s looks around nervously, as if searching for something." ), name );
         }
     }
 
@@ -2335,7 +2381,7 @@ std::list<item> npc::pick_up_item_vehicle( vehicle &veh, int part_index )
 void npc::drop_items( int weight, int volume )
 {
     add_msg( m_debug, "%s is dropping items-%d,%d (%d items, wgt %d/%d, vol %d/%d)",
-             name.c_str(), weight, volume, inv.size(), to_gram( weight_carried() ),
+             name, weight, volume, inv.size(), to_gram( weight_carried() ),
              to_gram( weight_capacity() ), volume_carried() / units::legacy_volume_factor,
              volume_capacity() / units::legacy_volume_factor );
 
@@ -2427,13 +2473,10 @@ void npc::drop_items( int weight, int volume )
     // Finally, describe the action if u can see it
     if( g->u.sees( *this ) ) {
         if( num_items_dropped >= 3 ) {
-            add_msg( ngettext( "%s drops %d item.", "%s drops %d items.",
-                               num_items_dropped ), name.c_str(),
+            add_msg( ngettext( "%s drops %d item.", "%s drops %d items.", num_items_dropped ), name,
                      num_items_dropped );
         } else {
-            std::string item_name_str = item_name.str();
-            add_msg( _( "%1$s drops a %2$s." ), name.c_str(),
-                     item_name_str.c_str() );
+            add_msg( _( "%1$s drops a %2$s." ), name, item_name.str() );
         }
     }
     update_worst_item_value();
@@ -2510,8 +2553,7 @@ bool npc::find_corpse_to_pulp()
     }
 
     if( corpse != nullptr && corpse != old_target && is_following() ) {
-        say( _( "Hold on, I want to pulp that %s." ),
-             corpse->tname().c_str() );
+        say( _( "Hold on, I want to pulp that %s." ), corpse->tname() );
     }
 
     return corpse != nullptr;
@@ -2634,7 +2676,7 @@ bool npc::wield_better_weapon()
 
 bool npc::scan_new_items()
 {
-    add_msg( m_debug, "%s scanning new items", name.c_str() );
+    add_msg( m_debug, "%s scanning new items", name );
     if( wield_better_weapon() ) {
         return true;
     } else {
@@ -2649,7 +2691,7 @@ bool npc::scan_new_items()
 void npc_throw( npc &np, item &it, int index, const tripoint &pos )
 {
     if( g->u.sees( np ) ) {
-        add_msg( _( "%1$s throws a %2$s." ), np.name.c_str(), it.tname().c_str() );
+        add_msg( _( "%1$s throws a %2$s." ), np.name, it.tname() );
     }
 
     long stack_size = -1;
@@ -2729,8 +2771,7 @@ bool npc::alt_attack()
 
     int weapon_index = get_item_position( used );
     if( weapon_index == INT_MIN ) {
-        debugmsg( "npc::alt_attack() couldn't find expected item %s",
-                  used->tname().c_str() );
+        debugmsg( "npc::alt_attack() couldn't find expected item %s", used->tname() );
         return false;
     }
 
@@ -2840,7 +2881,7 @@ void npc::heal_player( player &patient )
 
     item &used = get_healing_item( ai_cache.can_heal );
     if( used.is_null() ) {
-        debugmsg( "%s tried to heal you but has no healing item", disp_name().c_str() );
+        debugmsg( "%s tried to heal you but has no healing item", disp_name() );
         return;
     }
     if( !is_hallucination() ) {
@@ -2878,7 +2919,7 @@ void npc::heal_self()
 {
     item &used = get_healing_item( ai_cache.can_heal );
     if( used.is_null() ) {
-        debugmsg( "%s tried to heal self but has no healing item", disp_name().c_str() );
+        debugmsg( "%s tried to heal self but has no healing item", disp_name() );
         return;
     }
 
@@ -3030,7 +3071,7 @@ bool npc::consume_food()
     int old_moves = moves;
     bool consumed = consume( index ) && old_moves != moves;
     if( !consumed ) {
-        debugmsg( "%s failed to consume %s", name.c_str(), i_at( index ).tname().c_str() );
+        debugmsg( "%s failed to consume %s", name, i_at( index ).tname() );
     }
 
     return consumed;
@@ -3058,11 +3099,10 @@ void npc::mug_player( player &mark )
         // Describe the action
         if( mark.is_npc() ) {
             if( u_see ) {
-                add_msg( _( "%1$s takes %2$s's money!" ),
-                         name.c_str(), mark.name.c_str() );
+                add_msg( _( "%1$s takes %2$s's money!" ), name, mark.name );
             }
         } else {
-            add_msg( m_bad, _( "%s takes your money!" ), name.c_str() );
+            add_msg( m_bad, _( "%s takes your money!" ), name );
         }
         return;
     }
@@ -3387,7 +3427,7 @@ std::string npc_action_name( npc_action action )
 void print_action( const char *prepend, npc_action action )
 {
     if( action != npc_undecided ) {
-        add_msg( m_debug, prepend, npc_action_name( action ).c_str() );
+        add_msg( m_debug, prepend, npc_action_name( action ) );
     }
 }
 
@@ -3436,14 +3476,17 @@ body_part bp_affected( npc &who, const efftype_id &effect_type )
 void npc::warn_about( const std::string &type, const time_duration &d, const std::string &name )
 {
     std::string snip;
+    sounds::sound_t spriority = sounds::sound_t::alert;
     if( type == "monster" ) {
         snip = is_enemy() ? "<monster_warning_h>" : "<monster_warning>";
     } else if( type == "explosion" ) {
         snip = is_enemy() ? "<fire_in_the_hole_h>" : "<fire_in_the_hole>";
     } else if( type == "general_danger" ) {
         snip = is_enemy() ? "<general_danger_h>" : "<general_danger>";
+        spriority = sounds::sound_t::speech;
     } else if( type == "relax" ) {
         snip = is_enemy() ? "<its_safe_h>" : "<its_safe>";
+        spriority = sounds::sound_t::speech;
     } else if( type == "kill_npc" ) {
         snip = is_enemy() ? "<kill_npc_h>" : "<kill_npc>";
     } else if( type == "kill_player" ) {
@@ -3456,27 +3499,27 @@ void npc::warn_about( const std::string &type, const time_duration &d, const std
         snip = "<fire_bad>";
     } else if( type == "speech_noise" ) {
         snip = "<speech_warning>";
+        spriority = sounds::sound_t::speech;
     } else if( type == "combat_noise" ) {
         snip = "<combat_noise_warning>";
+        spriority = sounds::sound_t::speech;
     } else if( type == "movement_noise" ) {
         snip = "<movement_noise_warning>";
+        spriority = sounds::sound_t::speech;
     } else if( type == "heal_self" ) {
         snip = "<heal_self>";
+        spriority = sounds::sound_t::speech;
     } else {
         return;
-    }
-    bool alert = false;
-    if( type != "speech_noise" && type != "movement_noise" && type != "relax" ) {
-        alert = true;
     }
     const std::string warning_name = "warning_" + type + name;
     const std::string speech = name.empty() ? snip :
                                string_format( _( "%s %s<punc>" ), snip, name );
-    complain_about( warning_name, d, speech, is_enemy(), alert );
+    complain_about( warning_name, d, speech, is_enemy(), static_cast<int>( spriority ) );
 }
 
 bool npc::complain_about( const std::string &issue, const time_duration &dur,
-                          const std::string &speech, const bool force, const bool alert )
+                          const std::string &speech, const bool force, const int priority )
 {
     // Don't have a default constructor for time_point, so accessing it in the
     // complaints map is a bit difficult, those lambdas should cover it.
@@ -3499,7 +3542,7 @@ bool npc::complain_about( const std::string &issue, const time_duration &dur,
                                         !g->u.in_sleep_state() && !in_sleep_state() );
 
     if( complain_since( issue, dur ) && do_complain ) {
-        say( speech, alert );
+        say( speech, priority );
         set_complain_since( issue );
         return true;
     }
@@ -3527,7 +3570,7 @@ bool npc::complain()
         const auto &eff = get_effect( effect_infected, bp );
         int intensity = eff.get_intensity();
         const std::string speech = string_format( _( "My %s wound is infected..." ),
-                                   body_part_name( bp ).c_str() );
+                                   body_part_name( bp ) );
         if( complain_about( infected_string, time_duration::from_hours( 4 - intensity ), speech,
                             intensity >= 3 ) ) {
             // Only one complaint per turn
@@ -3539,7 +3582,7 @@ bool npc::complain()
     if( has_effect( effect_bite ) ) {
         body_part bp = bp_affected( *this, effect_bite );
         const std::string speech = string_format( _( "The bite wound on my %s looks bad." ),
-                                   body_part_name( bp ).c_str() );
+                                   body_part_name( bp ) );
         if( complain_about( bite_string, 1_hours, speech ) ) {
             return true;
         }
@@ -3577,7 +3620,7 @@ bool npc::complain()
     //Bleeding every 5 minutes
     if( has_effect( effect_bleed ) ) {
         body_part bp = bp_affected( *this, effect_bleed );
-        std::string speech = string_format( _( "My %s is bleeding!" ), body_part_name( bp ).c_str() );
+        std::string speech = string_format( _( "My %s is bleeding!" ), body_part_name( bp ) );
         if( complain_about( bleed_string, 5_minutes, speech ) ) {
             return true;
         }
@@ -3591,7 +3634,7 @@ void npc::do_reload( const item &it )
     item::reload_option reload_opt = select_ammo( it );
 
     if( !reload_opt ) {
-        debugmsg( "do_reload failed: no usable ammo for %s", it.tname().c_str() );
+        debugmsg( "do_reload failed: no usable ammo for %s", it.tname() );
         return;
     }
 
@@ -3607,7 +3650,7 @@ void npc::do_reload( const item &it )
     const std::string ammo_name = usable_ammo->tname();
     if( !target.reload( *this, std::move( usable_ammo ), qty ) ) {
         debugmsg( "do_reload failed: item %s could not be reloaded with %ld charge(s) of %s",
-                  it.tname().c_str(), qty, ammo_name.c_str() );
+                  it.tname(), qty, ammo_name );
         return;
     }
 
@@ -3615,7 +3658,7 @@ void npc::do_reload( const item &it )
     recoil = MAX_RECOIL;
 
     if( g->u.sees( *this ) ) {
-        add_msg( _( "%1$s reloads their %2$s." ), name.c_str(), it.tname().c_str() );
+        add_msg( _( "%1$s reloads their %2$s." ), name, it.tname() );
         sfx::play_variant_sound( "reload", it.typeId(), sfx::get_heard_volume( pos() ),
                                  sfx::get_heard_angle( pos() ) );
     }

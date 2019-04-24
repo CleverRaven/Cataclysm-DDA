@@ -28,6 +28,7 @@
     "id": "cop_gear",
     "items": [
       [ "1st_aid", 30 ],
+      [ "armor_riot", 20 ],
       [ "airhorn", 5 ],
       [ "bandages", 20 ],
       [ "chestrig", 5 ],
@@ -36,6 +37,7 @@
       [ "kevlar", 35 ],
       [ "legpouch_large", 5 ],
       [ "pocket_firstaid", 10 ],
+      [ "police_belt", 20 ],
       [ "rope_30", 5 ],
       [ "sm_extinguisher", 5 ],
       [ "two_way_radio", 30 ],

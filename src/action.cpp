@@ -1,8 +1,11 @@
 #include "action.h"
 
+#include <limits.h>
 #include <algorithm>
 #include <istream>
 #include <iterator>
+#include <memory>
+#include <utility>
 
 #include "cata_utility.h"
 #include "debug.h"
@@ -22,6 +25,14 @@
 #include "ui.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+#include "creature.h"
+#include "cursesdef.h"
+#include "enums.h"
+#include "item.h"
+#include "ret_val.h"
+#include "itype.h"
+
+class inventory;
 
 void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
                    std::set<action_id> &unbound_keymap );
@@ -60,7 +71,7 @@ void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
             if( act == ACTION_NULL ) {
                 debugmsg( "\
 Warning! keymap.txt contains an unknown action, \"%s\"\n\
-Fix \"%s\" at your next chance!", id.c_str(), FILENAMES["keymap"].c_str() );
+Fix \"%s\" at your next chance!", id, FILENAMES["keymap"] );
             } else {
                 while( !keymap_txt.eof() ) {
                     char ch;
@@ -72,7 +83,7 @@ Fix \"%s\" at your next chance!", id.c_str(), FILENAMES["keymap"].c_str() );
                             debugmsg( "\
 Warning!  '%c' assigned twice in the keymap!\n\
 %s is being ignored.\n\
-Fix \"%s\" at your next chance!", ch, id.c_str(), FILENAMES["keymap"].c_str() );
+Fix \"%s\" at your next chance!", ch, id, FILENAMES["keymap"] );
                         } else {
                             kmap[ ch ] = act;
                         }
@@ -477,10 +488,16 @@ action_id get_movement_direction_from_delta( const int dx, const int dy, const i
 
 // Get the key for an action, used in the action menu to give each action the
 // hotkey it is bound to.
+// We ignore bindings to '?' because that will already do something else in
+// this menu (open the menu keybindings).
 long hotkey_for_action( action_id action )
 {
+    auto is_valid_key = []( char key ) {
+        return key != '?';
+    };
     std::vector<char> keys = keys_bound_to( action );
-    return keys.empty() ? -1 : keys[0];
+    auto valid = std::find_if( keys.begin(), keys.end(), is_valid_key );
+    return valid == keys.end() ? -1 : *valid;
 }
 
 bool can_butcher_at( const tripoint &p )
@@ -567,6 +584,8 @@ bool can_interact_at( action_id action, const tripoint &p )
             return can_move_vertical_at( p, -1 );
         case ACTION_EXAMINE:
             return can_examine_at( p );
+        case ACTION_PICKUP:
+            return g->m.has_items( p );
         default:
             return false;
     }
@@ -797,7 +816,7 @@ action_id handle_action_menu()
 
         std::string title = _( "Actions" );
         if( category != "back" ) {
-            catgname = _( category.c_str() );
+            catgname = _( category );
             capitalize_letter( catgname, 0 );
             title += ": " + catgname;
         }
@@ -959,7 +978,7 @@ cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
         if( should_highlight( pos ) ) {
             highlighted = true;
             g->m.drawsq( g->w_terrain, g->u, pos,
-                         true, true, g->u.pos() + g->u.view_offset + g->sidebar_offset );
+                         true, true, g->u.pos() + g->u.view_offset );
         }
     }
     if( highlighted ) {

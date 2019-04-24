@@ -5,10 +5,9 @@
     "default": "mon_zombie_crawler",
     "monsters": [
       { "monster": "mon_zombie_technician", "freq": 150, "cost_multiplier": 1 },
-      { "monster": "mon_zombie_gasbag", "freq": 150, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_fat", "freq": 150, "cost_multiplier": 1 },
       { "monster": "mon_zombie_crawler", "freq": 100, "cost_multiplier": 1 },
-      { "monster": "mon_zombie_survivor", "freq": 70, "cost_multiplier": 1 },
-      { "monster": "mon_zombie_hulk", "freq": 50, "cost_multiplier": 1 }
+      { "monster": "mon_zombie_survivor", "freq": 70, "cost_multiplier": 1 }
     ]
   },
   {

@@ -2,11 +2,13 @@
 #ifndef WORLDFACTORY_H
 #define WORLDFACTORY_H
 
+#include <stddef.h>
 #include <functional>
 #include <iosfwd>
 #include <map>
 #include <memory>
 #include <vector>
+#include <string>
 
 #include "options.h"
 #include "pimpl.h"
@@ -14,12 +16,14 @@
 
 class JsonIn;
 class JsonObject;
+
 enum special_game_id : int;
 namespace catacurses
 {
 class window;
 } // namespace catacurses
 struct MOD_INFORMATION;
+
 using mod_id = string_id<MOD_INFORMATION>;
 
 class save_t

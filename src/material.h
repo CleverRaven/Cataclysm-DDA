@@ -2,10 +2,12 @@
 #ifndef MATERIAL_H
 #define MATERIAL_H
 
+#include <stddef.h>
 #include <array>
 #include <map>
 #include <string>
 #include <vector>
+#include <utility>
 
 #include "fire.h"
 #include "game_constants.h"
@@ -14,10 +16,12 @@
 
 enum damage_type : int;
 class material_type;
+
 using material_id = string_id<material_type>;
 using itype_id = std::string;
 class JsonObject;
 class vitamin;
+
 using vitamin_id = string_id<vitamin>;
 using mat_burn_products = std::vector<std::pair<itype_id, float>>;
 using mat_compacts_into = std::vector<itype_id>;
@@ -44,6 +48,7 @@ class material_type
         float _specific_heat_liquid = 4.186;
         float _specific_heat_solid = 2.108;
         float _latent_heat = 334;
+        int _freeze_point = 32; // Farenheit
         bool _edible = false;
         bool _soft = false;
         bool _reinforces = false;
@@ -93,6 +98,7 @@ class material_type
         float specific_heat_liquid() const;
         float specific_heat_solid() const;
         float latent_heat() const;
+        int freeze_point() const;
         int density() const;
         bool edible() const;
         bool soft() const;

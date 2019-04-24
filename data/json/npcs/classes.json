@@ -392,5 +392,26 @@
       { "id": "bio_power_storage", "chance": 100 },
       { "id": "bio_torsionratchet", "chance": 100 }
     ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_CITY_COP",
+    "name": "former cop",
+    "job_description": "I used to be a police officer, but I'm just a survivor now.",
+    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "common": false,
+    "bonus_per": { "one_in": 4 },
+    "shopkeeper_item_group": "NC_CITY_COP_misc",
+    "skills": [
+      {
+        "skill": "ALL",
+        "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -2 }, { "one_in": 4 } ] } ] }
+      },
+      { "skill": "barter", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "gun", "bonus": { "rng": [ 4, 8 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "pistol", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "rifle", "bonus": { "rng": [ 3, 6 ] } }
+    ]
   }
 ]

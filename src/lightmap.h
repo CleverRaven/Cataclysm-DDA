@@ -2,6 +2,8 @@
 #ifndef LIGHTMAP_H
 #define LIGHTMAP_H
 
+#include <math.h>
+
 #define LIGHT_SOURCE_LOCAL  0.1f
 #define LIGHT_SOURCE_BRIGHT 10
 

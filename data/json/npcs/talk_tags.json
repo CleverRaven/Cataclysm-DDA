@@ -833,6 +833,22 @@
   },
   {
     "type": "snippet",
+    "category": "<acknowledged>",
+    "text": [
+      "Got it!",
+      "I'm on it.",
+      "Understood.",
+      "I hear you.",
+      "I'll do that.",
+      "Sure, I got that.",
+      "Okay.",
+      "Will do.",
+      "No problem.",
+      "Can do."
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "<BGSS_intro_question>",
     "text": [
       "Tell me about how you survived the cataclysm.",

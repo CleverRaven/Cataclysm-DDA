@@ -1,16 +1,18 @@
 #include "mission_companion.h"
 
+#include <stdlib.h>
+#include <math.h>
 #include <algorithm>
 #include <cassert>
 #include <vector>
+#include <array>
+#include <list>
+#include <unordered_map>
+#include <utility>
 
-#include "bionics.h"
 #include "calendar.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "coordinate_conversions.h"
-#include "craft_command.h"
-#include "dialogue.h"
-#include "editmap.h"
 #include "faction_camp.h"
 #include "input.h"
 #include "item_group.h"
@@ -23,10 +25,33 @@
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "rng.h"
-#include "string_input_popup.h"
 #include "translations.h"
-#include "vehicle.h"
-#include "vpart_range.h"
+#include "basecamp.h"
+#include "color.h"
+#include "creature.h"
+#include "cursesdef.h"
+#include "enums.h"
+#include "faction.h"
+#include "game.h"
+#include "game_constants.h"
+#include "int_id.h"
+#include "inventory.h"
+#include "item.h"
+#include "item_stack.h"
+#include "map.h"
+#include "monster.h"
+#include "npc.h"
+#include "npc_class.h"
+#include "optional.h"
+#include "output.h"
+#include "pimpl.h"
+#include "player.h"
+#include "pldata.h"
+#include "string_formatter.h"
+#include "string_id.h"
+#include "ui.h"
+#include "weighted_list.h"
+#include "material.h"
 
 const skill_id skill_dodge( "dodge" );
 const skill_id skill_gun( "gun" );

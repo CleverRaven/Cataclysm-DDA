@@ -3,6 +3,8 @@
 #include "color.h"
 #include "output.h"
 #include "ui.h"
+#include "cursesdef.h"
+#include "translations.h"
 
 #if defined(TILES)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)

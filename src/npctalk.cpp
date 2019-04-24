@@ -1,43 +1,48 @@
 #include "dialogue.h" // IWYU pragma: associated
 
+#include <limits.h>
+#include <math.h>
+#include <stddef.h>
 #include <algorithm>
 #include <sstream>
 #include <string>
 #include <vector>
+#include <array>
+#include <iterator>
+#include <list>
+#include <map>
+#include <memory>
+#include <unordered_map>
 
 #include "ammo.h"
-#include "basecamp.h"
 #include "cata_utility.h"
-#include "catacharset.h"
 // needed for the workaround for the std::to_string bug in some compilers
 #include "compatibility.h" // IWYU pragma: keep
-#include "coordinate_conversions.h"
 #include "debug.h"
-#include "editmap.h"
 #include "faction_camp.h"
 #include "game.h"
 #include "help.h"
 #include "input.h"
-#include "item_group.h"
+#include "item_category.h"
 #include "itype.h"
 #include "json.h"
 #include "line.h"
 #include "map.h"
+#include "mapgen_functions.h"
 #include "map_selector.h"
 #include "martialarts.h"
 #include "messages.h"
 #include "mission.h"
 #include "mission_companion.h"
-#include "morale_types.h"
 #include "npc.h"
 #include "npc_class.h"
 #include "npctalk.h"
 #include "npctrade.h"
 #include "output.h"
-#include "overmap.h"
 #include "overmapbuffer.h"
 #include "rng.h"
 #include "skill.h"
+#include "sounds.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "text_snippets.h"
@@ -45,8 +50,25 @@
 #include "ui.h"
 #include "units.h"
 #include "vehicle.h"
-#include "vehicle_selector.h"
 #include "vpart_position.h"
+#include "auto_pickup.h"
+#include "bodypart.h"
+#include "calendar.h"
+#include "character.h"
+#include "color.h"
+#include "enums.h"
+#include "faction.h"
+#include "game_constants.h"
+#include "int_id.h"
+#include "item.h"
+#include "mapdata.h"
+#include "material.h"
+#include "optional.h"
+#include "pimpl.h"
+#include "player_activity.h"
+#include "player.h"
+
+class basecamp;
 
 const skill_id skill_speech( "speech" );
 const skill_id skill_barter( "barter" );
@@ -143,20 +165,20 @@ int cash_to_favor( const npc &, int cash )
 
 void game::chat()
 {
+    int volume = g->u.get_shout_volume();
+
     const std::vector<npc *> available = get_npcs_if( [&]( const npc & guy ) {
         // TODO: Get rid of the z-level check when z-level vision gets "better"
-        return u.posz() == guy.posz() &&
-               u.sees( guy.pos() ) &&
+        return u.posz() == guy.posz() && u.sees( guy.pos() ) &&
                rl_dist( u.pos(), guy.pos() ) <= SEEX * 2;
     } );
     const std::vector<npc *> followers = get_npcs_if( [&]( const npc & guy ) {
-        return guy.is_friend() && guy.is_following() && u.posz() == guy.posz() &&
-               u.sees( guy.pos() ) && rl_dist( u.pos(), guy.pos() ) <= SEEX * 2;
+        return guy.is_friend() && guy.is_following() && guy.can_hear( u.pos(), volume );
     } );
     const std::vector<npc *> guards = get_npcs_if( [&]( const npc & guy ) {
         return guy.mission == NPC_MISSION_GUARD_ALLY &&
-               guy.companion_mission_role_id != "FACTION_CAMP" && u.posz() == guy.posz() &&
-               u.sees( guy.pos() ) && rl_dist( u.pos(), guy.pos() ) <= SEEX * 2;
+               guy.companion_mission_role_id != "FACTION_CAMP" &&
+               guy.can_hear( u.pos(), volume );
     } );
 
     uilist nmenu;
@@ -192,17 +214,20 @@ void game::chat()
                         _( "Tell all your allies to prepare for danger" ) );
         nmenu.addentry( yell_relax = i++, true, 'C',
                         _( "Tell all your allies to relax from danger" ) );
-
     }
     if( !guards.empty() ) {
         nmenu.addentry( yell_follow = i++, true, 'f', _( "Tell all your allies to follow" ) );
     }
 
+    std::string message;
+    std::string yell_msg;
+    bool is_order = true;
     nmenu.query();
     if( nmenu.ret < 0 ) {
         return;
     } else if( nmenu.ret == yell ) {
-        u.shout( _( "yourself shouting loudly!" ) );
+        is_order = false;
+        message = _( "loudly." );
     } else if( nmenu.ret == yell_sentence ) {
         std::string popupdesc = string_format( _( "Enter a sentence to yell" ) );
         string_input_popup popup;
@@ -212,53 +237,60 @@ void game::chat()
         .identifier( "sentence" )
         .max_length( 128 )
         .query();
-        std::string sentence = popup.text();
-        add_msg( _( "You yell, \"%s\"" ), sentence );
-        u.shout( string_format( _( "%s yelling \"%s\"" ), u.disp_name(), sentence ) );
+        yell_msg = popup.text() + ".";
+        is_order = false;
     } else if( nmenu.ret == yell_guard ) {
         for( npc *p : followers ) {
             talk_function::assign_guard( *p );
         }
-        u.shout( _( "Guard here!" ) );
+        yell_msg =  _( "Guard here!" );
     } else if( nmenu.ret == yell_awake ) {
         for( npc *p : followers ) {
             talk_function::wake_up( *p );
         }
-        u.shout( _( "Stay awake!" ) );
+        yell_msg = _( "Stay awake!" );
     } else if( nmenu.ret == yell_sleep ) {
         for( npc *p : followers ) {
             p->rules.set_flag( ally_rule::allow_sleep );
         }
-        u.shout( _( "We're safe!  Take a nap if you're tired." ) );
+        yell_msg = _( "We're safe!  Take a nap if you're tired." );
     } else if( nmenu.ret == yell_follow ) {
         for( npc *p : guards ) {
             talk_function::stop_guard( *p );
         }
-        u.shout( _( "Follow me!" ) );
+        yell_msg = _( "Follow me!" );
     } else if( nmenu.ret == yell_flee ) {
         for( npc *p : followers ) {
             p->rules.set_flag( ally_rule::avoid_combat );
         }
-        u.shout( _( "Fall back to safety!  Flee, you fools!" ) );
+        yell_msg = _( "Fall back to safety!  Flee, you fools!" );
     } else if( nmenu.ret == yell_stop ) {
         for( npc *p : followers ) {
             p->rules.clear_flag( ally_rule::avoid_combat );
         }
-        u.shout( _( "No need to run any more, we can fight here." ) );
+        yell_msg = _( "No need to run any more, we can fight here." );
     } else if( nmenu.ret == yell_danger ) {
         for( npc *p : followers ) {
             p->rules.set_danger_overrides();
         }
-        u.shout( _( "We're in danger.  Stay awake, stay close, don't go wandering off, and don't open any doors." ) );
+        yell_msg = _( "We're in danger.  Stay awake, stay close, don't go wandering off, "
+                      "and don't open any doors." );
     } else if( nmenu.ret == yell_relax ) {
         for( npc *p : followers ) {
-            p->rules.clear_danger_overrides();
+            talk_function::clear_overrides( *p );
         }
-        u.shout( _( "Relax and stand down." ) );
+        yell_msg = _( "Relax and stand down." );
     } else if( nmenu.ret <= static_cast<int>( available.size() ) ) {
         available[nmenu.ret]->talk_to_u();
     } else {
         return;
+    }
+    if( !yell_msg.empty() ) {
+        message = string_format( "\"%s\"", yell_msg );
+    }
+    if( !message.empty() ) {
+        add_msg( _( "You yell %s" ), message );
+        u.shout( string_format( _( "%s yelling %s" ), u.disp_name(), message ), is_order );
     }
 
     u.moves -= 100;
@@ -268,32 +300,46 @@ void game::chat()
 void npc::handle_sound( int priority, const std::string &description, int heard_volume,
                         const tripoint &spos )
 {
+    add_msg( m_debug, "%s heard '%s', priority %d at volume %d from %d:%d, my pos %d:%d",
+             disp_name(), description, priority, heard_volume, spos.x, spos.y, pos().x, pos().y );
+
+    const sounds::sound_t spriority = static_cast<sounds::sound_t>( priority );
+    bool is_player_ally = g->u.pos() == spos && is_ally( g->u );
+    npc *const sound_source = g->critter_at<npc>( spos );
+    bool is_npc_ally = sound_source && sound_source->is_npc() && is_ally( *sound_source );
+
+    if( ( is_player_ally || is_npc_ally ) && spriority == sounds::sound_t::order ) {
+        say( "<acknowledged>" );
+    }
+
     if( sees( spos ) || is_hallucination() ) {
         return;
     }
     // ignore low priority sounds if the NPC "knows" it came from a friend.
     // @ todo NPC will need to respond to talking noise eventually
     // but only for bantering purposes, not for investigating.
-    npc *const sound_source = g->critter_at<npc>( spos );
-    if( sound_source ) {
-        if( ( my_fac == sound_source->my_fac ||
-              get_attitude_group( get_attitude() ) == sound_source->get_attitude_group(
-                  sound_source->get_attitude() ) ) && ( priority < 6 ) ) {
-            add_msg( m_debug, "NPC ignored same faction %s", name.c_str() );
+    if( spriority < sounds::sound_t::alarm ) {
+        if( is_player_ally ) {
+            add_msg( m_debug, "Allied NPC ignored same faction %s", name );
+            return;
+        }
+        if( is_npc_ally ) {
+            add_msg( m_debug, "NPC ignored same faction %s", name );
             return;
         }
     }
     // discount if sound source is player, or seen by player,
     // and listener is friendly and sound source is combat or alert only.
-    if( ( priority < 7 ) && g->u.sees( spos ) && ( is_friend() ||
-            mission == NPC_MISSION_GUARD_ALLY ) ) {
-        add_msg( m_debug, "NPC %s ignored low priority noise that player can see", name );
-        return;
-        // discount if sound source is player, or seen by player,
-        //  listener is neutral and sound type is worth investigating.
-    } else if( priority < 6 && get_attitude_group( get_attitude() ) != attitude_group::hostile &&
-               g->u.sees( spos ) ) {
-        return;
+    if( spriority < sounds::sound_t::alarm && g->u.sees( spos ) ) {
+        if( is_ally( g->u ) ) {
+            add_msg( m_debug, "NPC %s ignored low priority noise that player can see", name );
+            return;
+            // discount if sound source is player, or seen by player,
+            // listener is neutral and sound type is worth investigating.
+        } else if( spriority <  sounds::sound_t::destructive_activity &&
+                   get_attitude_group( get_attitude() ) != attitude_group::hostile ) {
+            return;
+        }
     }
     // patrolling guards will investigate more readily than stationary NPCS
     int investigate_dist = 10;
@@ -303,44 +349,31 @@ void npc::handle_sound( int priority, const std::string &description, int heard_
     if( rules.has_flag( ally_rule::ignore_noise ) ) {
         investigate_dist = 0;
     }
-    if( priority > 3 && ai_cache.total_danger < 1.0f &&
-        rl_dist( pos(), spos ) < investigate_dist ) {
-        add_msg( m_debug, "NPC %s added noise at pos %d:%d", name, spos.x, spos.y );
-        dangerous_sound temp_sound;
-        temp_sound.pos = spos;
-        temp_sound.volume = heard_volume;
-        temp_sound.type = priority;
-        if( !ai_cache.sound_alerts.empty() ) {
-            if( ai_cache.sound_alerts.back().pos != spos ) {
-                ai_cache.sound_alerts.push_back( temp_sound );
-            }
-        } else {
-            ai_cache.sound_alerts.push_back( temp_sound );
-        }
-    }
-    add_msg( m_debug, "%s heard '%s', priority %d at volume %d from %d:%d, my pos %d:%d",
-             disp_name(), description, priority, heard_volume, spos.x, spos.y, pos().x, pos().y );
-    switch( priority ) {
-        case 4: //
-            warn_about( "speech_noise", rng( 1, 10 ) * 1_minutes );
-            break;
-        case 5:
-        case 6:
-        case 7:
-        case 8: // combat noise is only worth comment if we're not fighting
-        case 9:
-            // TODO: Brave NPCs should be less jumpy
-            if( ai_cache.total_danger < 1.0f ) {
+    if( ai_cache.total_danger < 1.0f ) {
+        if( spriority == sounds::sound_t::movement && !in_vehicle ) {
+            warn_about( "movement_noise", rng( 1, 10 ) * 1_minutes, description );
+        } else if( spriority > sounds::sound_t::movement ) {
+            if( !( is_player_ally || is_npc_ally ) && ( spriority == sounds::sound_t::speech ||
+                    spriority == sounds::sound_t::alert || spriority == sounds::sound_t::order ) ) {
+                warn_about( "speech_noise", rng( 1, 10 ) * 1_minutes );
+            } else if( spriority > sounds::sound_t::activity ) {
                 warn_about( "combat_noise", rng( 1, 10 ) * 1_minutes );
             }
-            break;
-        case 3: // movement is is only worth comment if we're not fighting and out of a vehicle
-            if( ai_cache.total_danger < 1.0f && !in_vehicle ) {
-                warn_about( "movement_noise", rng( 1, 10 ) * 1_minutes, description );
+            if( rl_dist( pos(), spos ) < investigate_dist ) {
+                add_msg( m_debug, "NPC %s added noise at pos %d:%d", name, spos.x, spos.y );
+                dangerous_sound temp_sound;
+                temp_sound.pos = spos;
+                temp_sound.volume = heard_volume;
+                temp_sound.type = priority;
+                if( !ai_cache.sound_alerts.empty() ) {
+                    if( ai_cache.sound_alerts.back().pos != spos ) {
+                        ai_cache.sound_alerts.push_back( temp_sound );
+                    }
+                } else {
+                    ai_cache.sound_alerts.push_back( temp_sound );
+                }
             }
-            break;
-        default:
-            break;
+        }
     }
 }
 
@@ -388,6 +421,7 @@ void npc::talk_to_u( bool text_only, bool radio_contact )
     d.add_topic( chatbin.first_topic );
     if( radio_contact ) {
         d.add_topic( "TALK_RADIO" );
+        d.by_radio = true;
     } else if( is_leader() ) {
         d.add_topic( "TALK_LEADER" );
     } else if( is_friend() ) {
@@ -474,6 +508,7 @@ void npc::talk_to_u( bool text_only, bool radio_contact )
             } while( cat != -1 && topic_category( d.topic_stack.back() ) == cat );
         }
         if( next.id == "TALK_DONE" || d.topic_stack.empty() ) {
+            d.beta->say( _( "Bye." ) );
             d.done = true;
         } else if( next.id != "TALK_NONE" ) {
             d.add_topic( next );
@@ -714,6 +749,20 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
 
     return string_format( "I don't know what to say for %s. (BUG (npctalk.cpp:dynamic_line))",
                           topic );
+}
+
+void dialogue::apply_speaker_effects( const talk_topic &the_topic )
+{
+    const auto &topic = the_topic.id;
+    const auto iter = json_talk_topics.find( topic );
+    if( iter == json_talk_topics.end() ) {
+        return;
+    }
+    for( json_dynamic_line_effect &npc_effect : iter->second.get_speaker_effects() ) {
+        if( npc_effect.test_condition( *this ) ) {
+            npc_effect.apply( *this );
+        }
+    }
 }
 
 talk_response &dialogue::add_response( const std::string &text, const std::string &r,
@@ -1297,6 +1346,9 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
 
     // Number of lines to highlight
     const size_t hilight_lines = d_win.add_to_history( challenge );
+
+    apply_speaker_effects( topic );
+
     std::vector<talk_data> response_lines;
     for( size_t i = 0; i < responses.size(); i++ ) {
         response_lines.push_back( responses[i].create_option_line( *this, 'a' + i ) );
@@ -1417,6 +1469,13 @@ talk_effect_fun_t::talk_effect_fun_t( std::function<void( npc &p )> ptr )
     function = [ptr]( const dialogue & d ) {
         npc &p = *d.beta;
         ptr( p );
+    };
+}
+
+talk_effect_fun_t::talk_effect_fun_t( std::function<void( const dialogue &d )> fun )
+{
+    function = [fun]( const dialogue & d ) {
+        fun( d );
     };
 }
 
@@ -1607,6 +1666,22 @@ void talk_effect_fun_t::set_consume_item( JsonObject jo, const std::string &memb
     };
 }
 
+void talk_effect_fun_t::set_remove_item_with( JsonObject jo, const std::string &member,
+        bool is_npc )
+{
+    const std::string &item_name = jo.get_string( member );
+    function = [is_npc, item_name]( const dialogue & d ) {
+        player *actor = d.alpha;
+        if( is_npc ) {
+            actor = dynamic_cast<player *>( d.beta );
+        }
+        itype_id item_id = itype_id( item_name );
+        actor->remove_items_with( [item_id]( const item & it ) {
+            return it.typeId() == item_id;
+        } );
+    };
+}
+
 void talk_effect_fun_t::set_u_spend_cash( int amount )
 {
     function = [amount]( const dialogue & d ) {
@@ -1667,6 +1742,30 @@ void talk_effect_fun_t::set_toggle_npc_rule( const std::string &rule )
     };
 }
 
+void talk_effect_fun_t::set_set_npc_rule( const std::string &rule )
+{
+    function = [rule]( const dialogue & d ) {
+        auto flag = ally_rule_strs.find( rule );
+        if( flag == ally_rule_strs.end() ) {
+            return;
+        }
+        d.beta->rules.set_flag( flag->second );
+        d.beta->wield_better_weapon();
+    };
+}
+
+void talk_effect_fun_t::set_clear_npc_rule( const std::string &rule )
+{
+    function = [rule]( const dialogue & d ) {
+        auto flag = ally_rule_strs.find( rule );
+        if( flag == ally_rule_strs.end() ) {
+            return;
+        }
+        d.beta->rules.clear_flag( flag->second );
+        d.beta->wield_better_weapon();
+    };
+}
+
 void talk_effect_fun_t::set_npc_engagement_rule( const std::string &setting )
 {
     function = [setting]( const dialogue & d ) {
@@ -1683,6 +1782,30 @@ void talk_effect_fun_t::set_npc_aim_rule( const std::string &setting )
         auto rule = aim_rule_strs.find( setting );
         if( rule != aim_rule_strs.end() ) {
             d.beta->rules.aim = rule->second;
+        }
+    };
+}
+
+void talk_effect_fun_t::set_mapgen_update( JsonObject jo, const std::string &member )
+{
+    mission_target_params target_params = mission_util::parse_mission_om_target( jo );
+    std::vector<std::string> update_ids;
+
+    if( jo.has_string( member ) ) {
+        update_ids.emplace_back( jo.get_string( member ) );
+    } else if( jo.has_array( member ) ) {
+        JsonArray ja = jo.get_array( member );
+        while( ja.has_more() ) {
+            update_ids.emplace_back( ja.next_string() );
+        }
+    }
+
+    function = [target_params, update_ids]( const dialogue & d ) {
+        mission_target_params update_params = target_params;
+        update_params.guy = d.beta;
+        const tripoint omt_pos = mission_util::get_om_terrain_pos( update_params );
+        for( const std::string mapgen_update_id : update_ids ) {
+            run_mapgen_update_func( mapgen_update_id, omt_pos, d.beta->chatbin.mission_selected );
         }
     };
 }
@@ -1768,7 +1891,7 @@ talk_effect_t::talk_effect_t( JsonObject jo )
     load_effect( jo );
     if( jo.has_object( "topic" ) ) {
         next_topic = load_inline_topic( jo.get_object( "topic" ) );
-    } else {
+    } else if( jo.has_string( "topic" ) ) {
         next_topic = talk_topic( jo.get_string( "topic" ) );
     }
 }
@@ -1808,7 +1931,8 @@ void talk_effect_t::parse_sub_effect( JsonObject jo )
         int cash_change = jo.get_int( "u_spend_cash" );
         subeffect_fun.set_u_spend_cash( cash_change );
     } else if( jo.has_string( "u_sell_item" ) || jo.has_string( "u_buy_item" ) ||
-               jo.has_string( "u_consume_item" ) || jo.has_string( "npc_consume_item" ) ) {
+               jo.has_string( "u_consume_item" ) || jo.has_string( "npc_consume_item" ) ||
+               jo.has_string( "u_remove_item_with" ) || jo.has_string( "npc_remove_item_with" ) ) {
         int cost = 0;
         if( jo.has_int( "cost" ) ) {
             cost = jo.get_int( "cost" );
@@ -1831,6 +1955,10 @@ void talk_effect_t::parse_sub_effect( JsonObject jo )
             subeffect_fun.set_consume_item( jo, "u_consume_item", count );
         } else if( jo.has_string( "npc_consume_item" ) ) {
             subeffect_fun.set_consume_item( jo, "npc_consume_item", count, is_npc );
+        } else if( jo.has_string( "u_remove_item_with" ) ) {
+            subeffect_fun.set_remove_item_with( jo, "u_remove_item_with" );
+        } else if( jo.has_string( "npc_remove_item_with" ) ) {
+            subeffect_fun.set_remove_item_with( jo, "npc_remove_item_with", is_npc );
         }
     } else if( jo.has_string( "npc_change_class" ) ) {
         std::string class_name = jo.get_string( "npc_change_class" );
@@ -1855,12 +1983,20 @@ void talk_effect_t::parse_sub_effect( JsonObject jo )
     } else if( jo.has_string( "toggle_npc_rule" ) ) {
         const std::string rule = jo.get_string( "toggle_npc_rule" );
         subeffect_fun.set_toggle_npc_rule( rule );
+    } else if( jo.has_string( "set_npc_rule" ) ) {
+        const std::string rule = jo.get_string( "set_npc_rule" );
+        subeffect_fun.set_set_npc_rule( rule );
+    } else if( jo.has_string( "clear_npc_rule" ) ) {
+        const std::string rule = jo.get_string( "clear_npc_rule" );
+        subeffect_fun.set_clear_npc_rule( rule );
     } else if( jo.has_string( "set_npc_engagement_rule" ) ) {
         const std::string setting = jo.get_string( "set_npc_engagement_rule" );
         subeffect_fun.set_npc_engagement_rule( setting );
     } else if( jo.has_string( "set_npc_aim_rule" ) ) {
         const std::string setting = jo.get_string( "set_npc_aim_rule" );
         subeffect_fun.set_npc_aim_rule( setting );
+    } else if( jo.has_member( "mapgen_update" ) ) {
+        subeffect_fun.set_mapgen_update( jo, "mapgen_update" );
     } else {
         jo.throw_error( "invalid sub effect syntax :" + jo.str() );
     }
@@ -1919,6 +2055,9 @@ void talk_effect_t::parse_string_effect( const std::string &type, JsonObject &jo
             WRAP( start_training ),
             WRAP( copy_npc_rules ),
             WRAP( set_npc_pickup ),
+            WRAP( npc_die ),
+            WRAP( npc_thankful ),
+            WRAP( clear_overrides ),
             WRAP( nothing )
 #undef WRAP
         }
@@ -2211,6 +2350,44 @@ void conditional_t::set_has_items( JsonObject &jo, const std::string &member, bo
     }
 }
 
+void conditional_t::set_has_item_category( JsonObject &jo, const std::string &member, bool is_npc )
+{
+    const std::string category_id = jo.get_string( member );
+
+    size_t count = 1;
+    if( jo.has_int( "count" ) ) {
+        int tcount = jo.get_int( "count" );
+        if( tcount > 1 && tcount < INT_MAX ) {
+            count = static_cast<size_t>( tcount );
+        }
+    }
+
+    condition = [category_id, count, is_npc]( const dialogue & d ) {
+        player *actor = d.alpha;
+        if( is_npc ) {
+            actor = dynamic_cast<player *>( d.beta );
+        }
+        const auto items_with = actor->items_with( [category_id]( const item & it ) {
+            return it.get_category().id() == category_id;
+        } );
+        return items_with.size() >= count;
+    };
+}
+
+void conditional_t::set_has_bionics( JsonObject &jo, const std::string &member, bool is_npc )
+{
+    const std::string bionics_id = jo.get_string( member );
+    condition = [bionics_id, is_npc]( const dialogue & d ) {
+        player *actor = d.alpha;
+        if( is_npc ) {
+            actor = dynamic_cast<player *>( d.beta );
+        }
+        if( bionics_id == "ANY" ) {
+            return actor->num_bionics() > 0 || actor->max_power_level > 0;
+        }
+        return actor->has_bionic( bionic_id( bionics_id ) );
+    };
+}
 void conditional_t::set_has_effect( JsonObject &jo, const std::string &member, bool is_npc )
 {
     const std::string &effect_id = jo.get_string( member );
@@ -2591,10 +2768,18 @@ void conditional_t::set_has_pickup_list()
     };
 }
 
+void conditional_t::set_is_by_radio()
+{
+    condition = []( const dialogue & d ) {
+        return d.by_radio;
+    };
+}
+
 conditional_t::conditional_t( JsonObject jo )
 {
     // improve the clarity of NPC setter functions
     const bool is_npc = true;
+    bool found_sub_member = false;
     const auto parse_array = []( JsonObject jo, const std::string & type ) {
         std::vector<conditional_t> conditionals;
         JsonArray ja = jo.get_array( type );
@@ -2613,6 +2798,7 @@ conditional_t::conditional_t( JsonObject jo )
     };
     if( jo.has_array( "and" ) ) {
         std::vector<conditional_t> and_conditionals = parse_array( jo, "and" );
+        found_sub_member = true;
         condition = [and_conditionals]( const dialogue & d ) {
             for( const auto &cond : and_conditionals ) {
                 if( !cond( d ) ) {
@@ -2623,6 +2809,7 @@ conditional_t::conditional_t( JsonObject jo )
         };
     } else if( jo.has_array( "or" ) ) {
         std::vector<conditional_t> or_conditionals = parse_array( jo, "or" );
+        found_sub_member = true;
         condition = [or_conditionals]( const dialogue & d ) {
             for( const auto &cond : or_conditionals ) {
                 if( cond( d ) ) {
@@ -2633,15 +2820,26 @@ conditional_t::conditional_t( JsonObject jo )
         };
     } else if( jo.has_object( "not" ) ) {
         const conditional_t sub_condition = conditional_t( jo.get_object( "not" ) );
+        found_sub_member = true;
         condition = [sub_condition]( const dialogue & d ) {
             return !sub_condition( d );
         };
     } else if( jo.has_string( "not" ) ) {
         const conditional_t sub_condition = conditional_t( jo.get_string( "not" ) );
+        found_sub_member = true;
         condition = [sub_condition]( const dialogue & d ) {
             return !sub_condition( d );
         };
-    } else if( jo.has_member( "u_has_any_trait" ) ) {
+    }
+    if( !found_sub_member ) {
+        for( const std::string &sub_member : dialogue_data::complex_conds ) {
+            if( jo.has_member( sub_member ) ) {
+                found_sub_member = true;
+                break;
+            }
+        }
+    }
+    if( jo.has_member( "u_has_any_trait" ) ) {
         set_has_any_trait( jo, "u_has_any_trait" );
     } else if( jo.has_member( "npc_has_any_trait" ) ) {
         set_has_any_trait( jo, "npc_has_any_trait", true );
@@ -2685,6 +2883,14 @@ conditional_t::conditional_t( JsonObject jo )
         set_has_items( jo, "u_has_items" );
     } else if( jo.has_member( "npc_has_items" ) ) {
         set_has_items( jo, "npc_has_items", is_npc );
+    } else if( jo.has_string( "u_has_item_category" ) ) {
+        set_has_item_category( jo, "u_has_item_category" );
+    } else if( jo.has_string( "npc_has_item_category" ) ) {
+        set_has_item_category( jo, "npc_has_item_category", is_npc );
+    } else if( jo.has_string( "u_has_bionics" ) ) {
+        set_has_bionics( jo, "u_has_bionics" );
+    } else if( jo.has_string( "npc_has_bionics" ) ) {
+        set_has_bionics( jo, "npc_has_bionics", is_npc );
     } else if( jo.has_string( "u_has_effect" ) ) {
         set_has_effect( jo, "u_has_effect" );
     } else if( jo.has_string( "npc_has_effect" ) ) {
@@ -2724,7 +2930,6 @@ conditional_t::conditional_t( JsonObject jo )
     } else if( jo.has_string( "mission_goal" ) ) {
         set_mission_goal( jo );
     } else {
-        bool found_sub_member = false;
         for( const std::string &sub_member : dialogue_data::simple_string_conds ) {
             if( jo.has_string( sub_member ) ) {
                 const conditional_t sub_condition( jo.get_string( sub_member ) );
@@ -2735,11 +2940,9 @@ conditional_t::conditional_t( JsonObject jo )
                 break;
             }
         }
-        if( !found_sub_member ) {
-            condition = []( const dialogue & ) {
-                return false;
-            };
-        }
+    }
+    if( !found_sub_member ) {
+        jo.throw_error( "unrecognized condition in " + jo.str() );
     }
 }
 
@@ -2804,6 +3007,8 @@ conditional_t::conditional_t( const std::string &type )
         set_u_has_camp();
     } else if( type == "has_pickup_list" ) {
         set_has_pickup_list();
+    } else if( type == "is_by_radio" ) {
+        set_is_by_radio();
     } else {
         condition = []( const dialogue & ) {
             return false;
@@ -2937,10 +3142,60 @@ dynamic_line_t::dynamic_line_t( JsonArray ja )
     };
 }
 
+json_dynamic_line_effect::json_dynamic_line_effect( JsonObject jo, const std::string &id )
+{
+    std::function<bool( const dialogue & )> tmp_condition;
+    read_dialogue_condition( jo, tmp_condition, true );
+    talk_effect_t tmp_effect = talk_effect_t( jo );
+    // if the topic has a sentinel, it means implicitly add a check for the sentinel value
+    // and do not run the effects if it is set.  if it is not set, run the effects and
+    // set the sentinel
+    if( jo.has_string( "sentinel" ) ) {
+        const std::string sentinel = jo.get_string( "sentinel" );
+        const std::string varname = "npctalk_var_sentinel_" + id + "_" + sentinel;
+        condition = [varname, tmp_condition]( const dialogue & d ) {
+            return d.alpha->get_value( varname ) != "yes" && tmp_condition( d );
+        };
+        std::function<void( const dialogue &d )> function = [varname]( const dialogue & d ) {
+            d.alpha->set_value( varname, "yes" );
+        };
+        tmp_effect.effects.emplace_back( function );
+    } else {
+        condition = tmp_condition;
+    }
+    effect = tmp_effect;
+}
+
+bool json_dynamic_line_effect::test_condition( const dialogue &d ) const
+{
+    return condition( d );
+}
+
+void json_dynamic_line_effect::apply( dialogue &d ) const
+{
+    effect.apply( d );
+}
+
 void json_talk_topic::load( JsonObject &jo )
 {
     if( jo.has_member( "dynamic_line" ) ) {
         dynamic_line = dynamic_line_t::from_member( jo, "dynamic_line" );
+    }
+    if( jo.has_member( "speaker_effect" ) ) {
+        std::string id = "no_id";
+        if( jo.has_string( "id" ) ) {
+            id = jo.get_string( "id" );
+        } else if( jo.has_array( "id" ) ) {
+            id = jo.get_array( "id" ).next_string();
+        }
+        if( jo.has_object( "speaker_effect" ) ) {
+            speaker_effects.emplace_back( jo.get_object( "speaker_effect" ), id );
+        } else if( jo.has_array( "speaker_effect" ) ) {
+            JsonArray ja = jo.get_array( "speaker_effect" );
+            while( ja.has_more() ) {
+                speaker_effects.emplace_back( ja.next_object(), id );
+            }
+        }
     }
     JsonArray ja = jo.get_array( "responses" );
     responses.reserve( responses.size() + ja.size() );
@@ -2967,6 +3222,11 @@ bool json_talk_topic::gen_responses( dialogue &d ) const
 std::string json_talk_topic::get_dynamic_line( const dialogue &d ) const
 {
     return dynamic_line( d );
+}
+
+std::vector<json_dynamic_line_effect> json_talk_topic::get_speaker_effects() const
+{
+    return speaker_effects;
 }
 
 void json_talk_topic::check_consistency() const
@@ -3061,7 +3321,7 @@ consumption_result try_consume( npc &p, item &it, std::string &reason )
             }
             if( !has ) {
                 reason = string_format( _( "I need a %s to consume that!" ),
-                                        item::nname( comest->tool ).c_str() );
+                                        item::nname( comest->tool ) );
                 return REFUSED;
             }
             p.use_charges( comest->tool, 1 );
@@ -3078,7 +3338,7 @@ consumption_result try_consume( npc &p, item &it, std::string &reason )
         p.consume_effects( to_eat );
         p.moves -= 250;
     } else {
-        debugmsg( "Unknown comestible type of item: %s\n", to_eat.tname().c_str() );
+        debugmsg( "Unknown comestible type of item: %s\n", to_eat.tname() );
     }
 
     if( to_eat.charges > 0 ) {

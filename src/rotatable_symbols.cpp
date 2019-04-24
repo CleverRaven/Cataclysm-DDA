@@ -1,11 +1,15 @@
 #include "rotatable_symbols.h"
 
+#include <stdlib.h>
 #include <array>
 #include <vector>
+#include <algorithm>
+#include <cstdint>
 
 #include "generic_factory.h"
 #include "json.h"
 #include "string_formatter.h"
+#include "catacharset.h"
 
 namespace
 {
