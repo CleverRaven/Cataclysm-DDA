@@ -27,9 +27,6 @@
 using std::min; // from <algorithm>
 using std::max;
 
-int projected_window_width();
-int projected_window_height();
-
 static const std::string default_context_id( "default" );
 
 template <class T1, class T2>
@@ -1283,48 +1280,6 @@ const std::string input_context::get_action_name( const std::string &action_id )
 
     // 4) Unable to find suitable name. Keybindings configuration likely borked
     return action_id;
-}
-
-tripoint input_context::mouse_edge_scrolling( const int speed )
-{
-    tripoint ret = tripoint_zero;
-    if( speed == 0 ) {
-        // Fast return when the option is disabled.
-        return ret;
-    }
-#if (defined TILES || defined _WIN32 || defined WINDOWS)
-    const input_event event = get_raw_input();
-    const int threshold_x = projected_window_width() / 20;
-    const int threshold_y = projected_window_height() / 20;
-    if( event.mouse_x <= threshold_x ) {
-        ret.x -= speed;
-    } else if( event.mouse_x >= projected_window_width() - threshold_x ) {
-        ret.x += speed;
-    }
-    if( event.mouse_y <= threshold_y ) {
-        ret.y -= speed;
-    } else if( event.mouse_y >= projected_window_height() - threshold_y ) {
-        ret.y += speed;
-    }
-#endif
-    return ret;
-}
-
-int input_context::mouse_edge_scrolling_speed() const
-{
-    std::string opt = get_option<std::string>( "EDGE_SCROLL" );
-    if( opt == "disabled" ) {
-        return 0;
-    } else if( opt == "slow" ) {
-        return 1;
-    } else if( opt == "normal" ) {
-        return 2;
-    } else if( opt == "fast" ) {
-        return 4;
-    } else if( opt == "veryfast" ) {
-        return 8;
-    }
-    return 0;
 }
 
 // (Press X (or Y)|Try) to Z

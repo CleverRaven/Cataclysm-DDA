@@ -627,24 +627,6 @@ class input_context
          * (x, y, width, height) would describe an area on the visible window that, if clicked, triggers the action.
          */
 
-        /**
-         * Used to implement mouse "edge scrolling". Returns a
-         * tripoint which is a vector of the resulting "move", i.e.
-         * (0, 0, 0) if the mouse is not at the edge of the screen,
-         * otherwise some (x, y, 0) depending on which edges are hit.
-         *
-         * @param speed The number of steps to scroll.
-         */
-        tripoint mouse_edge_scrolling( const int speed );
-        /**
-         * Returns a numeric representation of the edge scrolling
-         * speed setting, which is the number of steps to scroll under
-         * normal circumstances (e.g. normal zoom level). Callers of
-         * mouse_edge_scrolling() are supposed to pass some function
-         * of this return value as the "speed" parameter.
-         */
-        int mouse_edge_scrolling_speed() const;
-
         // (Press X (or Y)|Try) to Z
         std::string press_x( const std::string &action_id ) const;
         std::string press_x( const std::string &action_id, const std::string &key_bound,
