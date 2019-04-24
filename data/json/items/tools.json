@@ -1856,7 +1856,7 @@
     "name": "charcoal smoker",
     "description": "This is a portable charcoal smoker.  Good for weekend barbecuing and preserving meat with smoke.",
     "weight": 2600,
-    "volume": 18,
+    "volume": 20,
     "price": 10000,
     "to_hit": -2,
     "bashing": 9,
@@ -1864,7 +1864,7 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": "charcoal",
-    "max_charges": 180,
+    "max_charges": 200,
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
