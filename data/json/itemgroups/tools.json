@@ -47,6 +47,7 @@
       [ "screwdriver_set", 50 ],
       [ "wrench", 40 ],
       [ "xacto", 40 ],
+      [ "bucket", 5 ],
       [ "jumper_cable", 10 ],
       [ "funnel", 50 ],
       [ "crowbar", 10 ],
