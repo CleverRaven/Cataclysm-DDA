@@ -3167,28 +3167,6 @@
     "flags": [ "VARSIZE", "STURDY", "ALLOWS_NATURAL_ATTACKS" ]
   },
   {
-    "id": "geta",
-    "type": "ARMOR",
-    "name": "pair of geta",
-    "name_plural": "pairs of geta",
-    "description": "Simple wooden geta.",
-    "weight": 460,
-    "volume": 4,
-    "price": 6500,
-    "to_hit": -2,
-    "bashing": 5,
-    "material": [ "wood", "cotton" ],
-    "symbol": "[",
-    "color": "yellow",
-    "covers": [ "FEET" ],
-    "coverage": 50,
-    "encumbrance": 10,
-    "warmth": 5,
-    "material_thickness": 2,
-    "environmental_protection": 1,
-    "flags": [ "VARSIZE", "WATERPROOF" ]
-  },
-  {
     "id": "glasses_bal",
     "type": "ARMOR",
     "category": "armor",
