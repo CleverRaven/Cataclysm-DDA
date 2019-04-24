@@ -3619,8 +3619,8 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
         const int selected_column = ( coordinate_x - win_left ) / fw;
         const int selected_row = ( coordinate_y - win_top ) / fh;
 
-        x = view_offset_x - ( ( capture_win->width / 2 ) - selected_column );
-        y = view_offset_y - ( ( capture_win->height / 2 ) - selected_row );
+        x = view_offset_x - ( capture_win->width / 2 ) - selected_column;
+        y = view_offset_y - ( capture_win->height / 2 ) - selected_row;
     }
 
     return tripoint( x, y, g->get_levz() );
