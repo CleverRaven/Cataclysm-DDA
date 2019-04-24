@@ -54,23 +54,26 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
     // TODO: make this depend on latitude and altitude?
     const double mod_t( 0 );
     // Current baseline temperature. Degrees Celsius.
-    const double current_t( base_temperature + mod_t );
+    const double current_t( base_temperature +
+                            mod_t );
     // Start and end at -1 going up to 1 in summer.
     const double seasonal_variation( ctn * -1 );
     // Harsh winter nights, hot summers.
     const double season_atenuation( ctn / 2 + 1 );
     // Make summers peak faster and winters not perma-frozen.
-    const double season_dispersion( pow( 2, ctn + 1 ) - 2.3 );
+    const double season_dispersion( pow( 2,
+                                         ctn + 1 ) - 2.3 );
     // Day-night temperature variation.
-    const double daily_variation( cos( tau * dayFraction - tau / 8 ) * -1 * season_atenuation / 2 +
+    const double daily_variation( cos( tau * dayFraction - tau / 8 ) * -1 * ( ( season_atenuation / 2 ) * base_temp_daynight_variation ) +
                                   season_dispersion * -1 );
-
     // Add baseline to the noise.
     T += current_t;
     // Add season curve offset to account for the winter-summer difference in day-night difference.
-    T += seasonal_variation * 8 * exp( -pow( current_t * 2.7 / 10 - 0.5, 2 ) );
-    // Add daily variation scaled to the inverse of the current baseline. A very specific and finicky adjustment curve.
-    T += daily_variation * 8 * exp( -pow( current_t / 30, 2 ) );
+    T += ( seasonal_variation * base_temp_season_variation ) * 8 * exp( -pow( current_t * 2.7 / 10 - 0.5,
+                                       2 ) );
+     // Add daily variation scaled to the inverse of the current baseline. A very specific and finicky adjustment curve.
+    T += daily_variation * 8 * exp( -pow( current_t / 30,
+                                          2 ) );
     // Convert to imperial. =|
     T = T * 9 / 5 + 32;
 
@@ -266,5 +269,7 @@ weather_generator weather_generator::load( JsonObject &jo )
     ret.base_wind = jo.get_float( "base_wind", 5.7 );
     ret.base_wind_distrib_peaks = jo.get_int( "base_wind_distrib_peaks", 30 );
     ret.base_wind_season_variation = jo.get_int( "base_wind_season_variation", 64 );
+    ret.base_temp_season_variation = jo.get_int( "base_temp_season_variation", 1 );
+    ret.base_temp_daynight_variation = jo.get_int( "base_temp_daynight_variation", 1 );
     return ret;
 }

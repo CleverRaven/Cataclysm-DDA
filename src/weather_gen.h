@@ -37,6 +37,9 @@ class weather_generator
         int base_wind_distrib_peaks = 30;
         // How much the wind folows seasonal variation ( lower means more change )
         int base_wind_season_variation = 64;
+
+        int base_temp_season_variation = 1; //Extra scaling factor for how much hotter the "hot" months are
+        int base_temp_daynight_variation = 1;
         static int current_winddir;
 
         weather_generator();
