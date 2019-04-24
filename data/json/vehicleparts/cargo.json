@@ -69,5 +69,22 @@
       { "item": "scrap", "count": [ 6, 8 ] }
     ],
     "flags": [ "BIKE_RACK_VEH", "MULTISQUARE", "TOOL_WRENCH" ]
+  },
+  {
+    "id": "mounted_spare_tire",
+    "type": "vehicle_part",
+    "name": "mounted spare tire",
+    "item": "mounted_spare_tire",
+    "location": "structure",
+    "symbol": "o",
+    "broken_symbol": "#",
+    "color": "light_gray",
+    "broken_color": "dark_gray",
+    "difficulty": 1,
+    "durability": 75,
+    "description": "Spare tire stored on an external carrier rig.",
+    "size": 60,
+    "damage_modifier": 60,
+    "flags": [ "UNMOUNT_ON_DAMAGE", "PROTRUSION", "TOOL_WRENCH" ]
   }
 ]
