@@ -1821,14 +1821,18 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
 
     if( moved ) {
 
-        if( has_effect( effect_hidden ) && !g->m.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, pos() ) ) {
-            if( g->m.impassable( pos() ) ) {
+        if( has_effect( effect_hidden ) ) {
+            if( !g->m.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, pos() ) ) {
+                if( g->m.impassable( pos() ) ) {
+                    unhide( prev_pos );
+                    return;
+                } else {
+                    unhide( prev_pos );
+                }
+            } else if( !g->m.impassable( p ) && g->m.impassable( pos() ) ) {
                 unhide( prev_pos );
                 return;
-            } else {
-                unhide( prev_pos );
             }
-
         }
         const tripoint old_pos = pos();
         setpos( p );

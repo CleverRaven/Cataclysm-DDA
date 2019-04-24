@@ -1168,12 +1168,17 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
                  g->m.tername( p ) );
     }
 
-    if( has_effect( effect_hidden ) && !g->m.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, p ) ) {
-        if( g->m.impassable( pos() ) ) {
+    if( has_effect( effect_hidden ) ) {
+        if( !g->m.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, p ) ) {
+            if( g->m.impassable( pos() ) ) {
+                footsteps( prev_pos );
+                return unhide( prev_pos );
+            } else {
+                unhide( prev_pos );
+            }
+        } else if( !g->m.impassable( p ) && g->m.impassable( pos() ) ) {
             footsteps( prev_pos );
             return unhide( prev_pos );
-        } else {
-            unhide( prev_pos );
         }
     }
 
