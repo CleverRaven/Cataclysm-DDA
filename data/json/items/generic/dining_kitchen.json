@@ -90,6 +90,19 @@
     "to_hit:": -1
   },
   {
+    "id": "base_cookware",
+    "type": "GENERIC",
+    "category": "tools",
+    "symbol": ")",
+    "watertight": true,
+    "to_hit": 1,
+    "price": 4500,
+    "price_postapoc": 10,
+    "use_action": "HEAT_FOOD",
+    "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
+    "flags": [ "ALLOWS_REMOTE_USE" ]
+  },
+  {
     "type": "GENERIC",
     "id": "ceramic_plate",
     "name": "ceramic plate",
@@ -136,7 +149,10 @@
       { "id": "mug1", "text": "The side of the mug reads 'World's Greatest Dad'." },
       { "id": "mug2", "text": "The side of the mug reads 'World's Greatest Mom'." },
       { "id": "mug3", "text": "The side of the mug has a picture of a happy looking family printed on'." },
-      { "id": "mug4", "text": "The side of the mug has a comical green face on it and says 'I'm a zombie without my coffee!'." },
+      {
+        "id": "mug4",
+        "text": "The side of the mug has a comical green face on it and says 'I'm a zombie without my coffee!'."
+      },
       { "id": "mug5", "text": "The side of the mug reads 'I'd rather be playing open source games'." },
       { "id": "mug6", "text": "The side of the mug reads 'If you think I'm bad, look in a mirror'." },
       { "id": "mug7", "text": "The side of the mug has a diagram of a caffeine molecule." },
@@ -146,7 +162,10 @@
       { "id": "mug11", "text": "The side of the mug reads 'STAR WARS' over a picture of a lightsaber." },
       { "id": "mug12", "text": "The side of the mug reads 'House Stark' and depicts a fictional crest." },
       { "id": "mug13", "text": "The side of the mug reads 'My fandom could beat up your fandom'. " },
-      { "id": "mug14", "text": "The side of the mug reads 'Do you even linux, bro?' and has a picture of a muscular penguin." },
+      {
+        "id": "mug14",
+        "text": "The side of the mug reads 'Do you even linux, bro?' and has a picture of a muscular penguin."
+      },
       { "id": "mug15", "text": "The side of the mug reads 'I wish this was wine!'" },
       { "id": "mug16", "text": "The side of the mug reads 'CasUaL aLcoHoLiSm'" }
     ]
@@ -281,10 +300,16 @@
     "qualities": [ [ "CONTAIN", 1 ] ],
     "snippet_category": [
       { "id": "kbowl1", "text": "This bowl is decorated with cartoon bears." },
-      { "id": "kbowl2", "text": "There is a drawing of Yoda at the bottom of this bowl, and the words 'Eaten it all, you have'." },
+      {
+        "id": "kbowl2",
+        "text": "There is a drawing of Yoda at the bottom of this bowl, and the words 'Eaten it all, you have'."
+      },
       { "id": "kbowl3", "text": "This bowl is covered in cartoon dogs and a logo that reads 'Paw Patrol'." },
       { "id": "kbowl4", "text": "There are orange and blue fish chasing each other around the rim of this bowl." },
-      { "id": "kbowl5", "text": "This bowl is shaped like the head of a silly frog with the opening forming the mouth." },
+      {
+        "id": "kbowl5",
+        "text": "This bowl is shaped like the head of a silly frog with the opening forming the mouth."
+      },
       { "id": "kbowl6", "text": "There are cute farm animals decorating this bowl." }
     ]
   },
@@ -391,8 +416,14 @@
       { "id": "bottleopener1", "text": "This bottle opener is shaped like a zombie head, the mouth pops open the bottle." },
       { "id": "bottleopener2", "text": "This bottle opener is shaped like a lightsaber." },
       { "id": "bottleopener3", "text": "This bottle opener is shaped like a revolver." },
-      { "id": "bottleopener4", "text": "This bottle opener is engraved with the words 'I'll die before I give you my beer'." },
-      { "id": "bottleopener5", "text": "This bottle opener is emblazoned with a logo for an HVAC contracting company." },
+      {
+        "id": "bottleopener4",
+        "text": "This bottle opener is engraved with the words 'I'll die before I give you my beer'."
+      },
+      {
+        "id": "bottleopener5",
+        "text": "This bottle opener is emblazoned with a logo for an HVAC contracting company."
+      },
       { "id": "bottleopener6", "text": "This bottle opener reads 'Corporate Team Building Exercise 1999'." },
       { "id": "bottleopener7", "text": "This bottle opener reads 'I'd rather be drinking whiskey'." },
       { "id": "bottleopener8", "text": "This bottle opener is shaped like a phaser." }
@@ -481,7 +512,7 @@
     "looks_like": "fork",
     "copy-from": "base_utensil",
     "proportional": { "cutting": 2 },
-    "flags": [ "STAB", "SHEATH_KNIFE" ],
+    "flags": [ "STAB", "SHEATH_KNIFE" ]
   },
   {
     "type": "GENERIC",
@@ -507,5 +538,142 @@
     "volume": "600 ml",
     "bashing": 7,
     "price": 700
+  },
+  {
+    "id": "pot",
+    "name": "pot",
+    "description": "Useful for boiling water when cooking spaghetti and more.",
+    "copy-from": "base_cookpot",
+    "material": "steel",
+    "color": "light_gray",
+    "weight": 550,
+    "volume": 8,
+    "bashing": 6,
+    "contains": 8
+  },
+  {
+    "id": "iron_pot",
+    "name": "cast-iron pot",
+    "description": "This hefty black pot is made from cast iron and coated in a sturdy enamel.",
+    "copy-from": "base_cookpot",
+    "material": "iron",
+    "color": "dark_gray",
+    "weight": 3000,
+    "volume": 8,
+    "bashing": 10,
+    "contains": 8
+  },
+  {
+    "id": "pot_copper",
+    "name": "copper pot",
+    "description": "Useful for boiling water when cooking spaghetti and more.  Made from copper, with a lining of tin to prevent metal from leaching into acidic foods.",
+    "copy-from": "base_cookpot",
+    "material": "copper",
+    "color": "light_red",
+    "weight": 750,
+    "volume": 8,
+    "bashing": 6,
+    "contains": 8
+  },
+  {
+    "id": "pot_ceramic",
+    "name": "casserole",
+    "description": "A ceramic pot made for both cooking and serving, particularly one-pot dinners.",
+    "copy-from": "base_cookpot",
+    "material": "ceramic",
+    "color": "white",
+    "weight": 650,
+    "volume": 8,
+    "bashing": 4,
+    "contains": 8
+  },
+  {
+    "id": "stock_pot",
+    "name": "stock pot",
+    "description": "A large pot for making soup stocks.  You could fit a whole turkey in there, with a bit of shoving.",
+    "copy-from": "base_cookpot",
+    "material": "steel",
+    "color": "light_gray",
+    "weight": 2490,
+    "volume": 36,
+    "//": "Volume assumes you can stick some stuff in the pot inside your bag",
+    "bashing": 8,
+    "contains": 48
+  },
+  {
+    "id": "pot_canning",
+    "type": "GENERIC",
+    "category": "tools",
+    "name": "canning pot",
+    "description": "A very large 25 liter pot, primarily meant for canning food in glass jars via the water bath method, though it can cook normal foods just as well.  Canning foods with it will require a lot of water.  If you're only canning a couple of jars at a time, you'd fill it up with rocks or something to displace the water above the lids.",
+    "weight": 5625,
+    "volume": 100,
+    "price": 20000,
+    "to_hit": -2,
+    "bashing": 10,
+    "material": "steel",
+    "symbol": ")",
+    "color": "dark_gray",
+    "container_data": { "contains": 100, "watertight": true },
+    "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
+    "use_action": "HEAT_FOOD"
+  },
+  {
+    "id": "pan",
+    "name": "cast-iron frying pan",
+    "description": "A cast-iron pan.  Makes a decent melee weapon, and is used for cooking.",
+    "copy-from": "base_cookpot",
+    "material": "iron",
+    "color": "dark_gray",
+    "proportional": { "to-hit": 2 },
+    "weight": 2628,
+    "volume": 4,
+    "bashing": 12,
+    "contains": 4,
+    "delete": { "qualities": [ [ "COOK", 3 ] ] },
+    "extend": { "qualities": [ [ "HAMMER", 1 ], [ "COOK", 2 ] ] }
+  },
+  {
+    "id": "steel_pan",
+    "name": "steel frying pan",
+    "description": "A steel frying pan.  Makes a decent melee weapon, and is used for cooking.",
+    "copy-from": "base_cookpot",
+    "material": "steel",
+    "color": "light_gray",
+    "proportional": { "to-hit": 2 },
+    "weight": 528,
+    "volume": 4,
+    "bashing": 8,
+    "contains": 4,
+    "delete": { "qualities": [ [ "COOK", 3 ] ] },
+    "extend": { "qualities": [ [ "COOK", 2 ] ] }
+  },
+  {
+    "id": "copper_pan",
+    "name": "copper frying pan",
+    "description": "A copper frying pan, coated in a thin layer of tin.  Makes a decent melee weapon, and is used for cooking.",
+    "copy-from": "base_cookpot",
+    "material": "copper",
+    "color": "light_red",
+    "proportional": { "to-hit": 2 },
+    "weight": 628,
+    "volume": 4,
+    "bashing": 7,
+    "contains": 4,
+    "delete": { "qualities": [ [ "COOK", 3 ] ] },
+    "extend": { "qualities": [ [ "COOK", 2 ] ] }
+  },
+  {
+    "id": "kettle",
+    "name": "kettle",
+    "description": "A stovetop kettle for boiling water.",
+    "copy-from": "base_cookpot",
+    "material": "steel",
+    "color": "light_gray",
+    "weight": 728,
+    "volume": 6,
+    "bashing": 5,
+    "contains": 6,
+    "delete": { "qualities": [ [ "COOK", 3 ] ] }
   }
 ]
