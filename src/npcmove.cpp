@@ -1810,7 +1810,10 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
     // TODO : Make hiding more sensible and less random
     if( hide( p, false ) ) {
         if( one_in( 2 ) ) {
-            prev_pos = pos();
+
+            if( !has_effect( effect_hidden ) ) {
+                prev_pos = pos();
+            }
             hide( p );
             return;
         }
