@@ -30,6 +30,14 @@ class vitamin
             return name_;
         }
 
+        /**
+        * If this vitamin is being used as a counter
+        * Counters get a different set of integrity checks and still work with simplified nutrition enabled
+        */
+        bool counter() const {
+            return counter_;
+        }
+
         /** Disease effect with increasing intensity proportional to vitamin deficiency */
         const efftype_id &deficiency() const {
             return deficiency_;
@@ -76,6 +84,7 @@ class vitamin
     private:
         vitamin_id id_;
         std::string name_;
+        bool counter_;
         efftype_id deficiency_;
         efftype_id excess_;
         int min_;

@@ -370,8 +370,11 @@ void player::vitamins_mod( const std::map<vitamin_id, int> &vitamins, bool cappe
 
 int player::vitamin_get( const vitamin_id &vit ) const
 {
+    bool counter = vit.obj().counter();
     if( get_option<bool>( "NO_VITAMINS" ) ) {
-        return 0;
+        if( !counter ) {
+            return 0;
+        }
     }
 
     const auto &v = vitamin_levels.find( vit );
