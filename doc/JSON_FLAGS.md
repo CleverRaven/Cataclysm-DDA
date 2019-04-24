@@ -63,6 +63,7 @@ List of known flags, used in both terrain.json and furniture.json
 - ```CAN_SIT``` Furniture the player can sit on. Player sitting near furniture with the "FLAT_SURF" tag will get mood bonus for eating.
 - ```CHIP``` Used in construction menu to determine if wall can have paint chipped off.
 - ```COLLAPSES``` Has a roof that can collapse.
+- ```CONNECT```` Only for impassable tile with the HIDE_PLACE flag, allows to hide into this tile from a similar one. Does not affect the way this tile is displayed !
 - ```CONNECT_TO_WALL``` (only for terrain) This flag has been superseded by the JSON entry `connects_to`, but is retained for backward compatibility.
 - ```CONSOLE``` Used as a computer.
 - ```CONTAINER``` Items on this square are hidden until looted by the player.
