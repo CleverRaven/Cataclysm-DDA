@@ -10617,16 +10617,15 @@ bool game::walk_move( const tripoint &dest_loc )
         u.lifetime_stats.squares_walked++;
     }
 
-    if( u.has_effect( effect_hidden ) && !m.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, dest_loc ) ) {
-        if( m.impassable( u.pos() ) ) {
-            on_move_effects();
-            return u.unhide( u.prev_pos );
-        } else {
-            u.unhide( u.prev_pos );
-        }
-    }
-    else if( u.has_effect( effect_hidden ) && m.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, dest_loc ) ) {
-        if( ( m.ter( u.pos() ) != m.ter( dest_loc ) ) && m.impassable( u.pos() ) ) {
+    if( u.has_effect( effect_hidden ) ) {
+        if( !m.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, dest_loc ) ) {
+            if( m.impassable( u.pos() ) ) {
+                on_move_effects();
+                return u.unhide( u.prev_pos );
+            } else {
+                u.unhide( u.prev_pos );
+            }
+        } else if( !m.impassable( dest_loc ) && m.impassable( u.pos() ) ) {
             on_move_effects();
             return u.unhide( u.prev_pos );
         }
