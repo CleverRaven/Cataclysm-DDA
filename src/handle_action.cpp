@@ -1607,7 +1607,9 @@ bool game::handle_action()
                         if( u.has_effect( effect_hidden ) && ( !g->m.impassable( *pnt ) || ( u.pos() == *pnt ) ) ) {
                             add_msg( m_info, _( "You are already hidden." ) );
                         } else {
-                            u.prev_pos = u.pos();
+                            if( !u.has_effect( effect_hidden ) ) {
+                                u.prev_pos = u.pos();
+                            }
                             u.hide( *pnt );
                         }
                     }
