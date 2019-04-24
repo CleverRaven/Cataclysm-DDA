@@ -70,8 +70,13 @@ static int debugClass = D_MAIN;
 
 extern bool test_mode;
 
-/** When in @ref test_mode will be set if any debugmsg are emitted */
-bool test_dirty = false;
+/** Set to true when any error is logged. */
+static bool error_observed = false;
+
+bool debug_has_error_been_observed()
+{
+    return error_observed;
+}
 
 bool debug_mode = false;
 
@@ -89,14 +94,12 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
     assert( line != nullptr );
     assert( funcname != nullptr );
 
-    if( test_mode ) {
-        test_dirty = true;
-        std::cerr << filename << ":" << line << " [" << funcname << "] " << text << std::endl;
-        return;
-    }
-
     DebugLog( D_ERROR, D_MAIN ) << filename << ":" << line << " [" << funcname << "] "
                                 << text << std::flush;
+
+    if( test_mode ) {
+        return;
+    }
 
     std::string msg_key( filename );
     msg_key += line;
@@ -732,6 +735,10 @@ void debug_write_backtrace( std::ostream &out )
 
 std::ostream &DebugLog( DebugLevel lev, DebugClass cl )
 {
+    if( lev & D_ERROR ) {
+        error_observed = true;
+    }
+
     // If debugging has not been initialized then stop
     // (we could instead use std::cerr in this case?)
     if( !debugFile.file ) {

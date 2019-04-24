@@ -142,6 +142,11 @@ void limitDebugLevel( int );
  */
 void limitDebugClass( int );
 
+/**
+ * @return true if any error has been logged in this run.
+ */
+bool debug_has_error_been_observed();
+
 // Debug Only                                                       {{{1
 // ---------------------------------------------------------------------
 
