@@ -7021,6 +7021,7 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
                                     player *carrier )
 {
     const time_point now = calendar::turn;
+    bool carried = carrier != nullptr && carrier->has_item( *this );
 
     // process temperature and rot at most once every 100_turns (10 min)
     // If the item has had its temperature/rot set the two can be out of sync
@@ -7028,6 +7029,14 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
     // note we're also gated by item::processing_speed
     time_duration smallest_interval = 100_turns;
     if( now - last_temp_check < smallest_interval ) {
+        // Could be newly created item.
+        if( specific_energy < 0 ) {
+            if( carried ) {
+                temp += 5; // body heat increases inventory temperature
+            }
+            calc_temp( temp, insulation, now );
+            calc_rot( now );
+        }
         return;
     }
 
@@ -7038,13 +7047,11 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
         return;
     }
 
-    bool carried = carrier != nullptr && carrier->has_item( *this );
     // body heat increases inventory temperature by 5F
     // This is apllied separately in many places since we may use the unmodified enviroment temperature from get_cur_weather_gen
     if( carried ) {
         insulation *= 1.5; // clothing provides inventory some level of insulation
     }
-
 
     time_point time = last_temp_check;
 
@@ -7105,7 +7112,7 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
     // Remaining <1 h from above
     // and items that are held near the player
     // If the item has negative energy process it now. It is a new item.
-    if( now - time > smallest_interval || specific_energy < 0 ) {
+    if( now - time > smallest_interval ) {
         if( carried ) {
             temp += 5; // body heat increases inventory temperature
         }
