@@ -2936,6 +2936,8 @@
     "types": [ "HORNS" ],
     "prereqs": [ "HEADBUMPS" ],
     "category": [ "INSECT" ],
+    "active": true,
+    "starts_active": true,
     "restricts_gear": [ "HEAD" ],
     "allow_soft_gear": true
   },
