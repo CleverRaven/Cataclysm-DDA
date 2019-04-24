@@ -240,11 +240,11 @@
     "items": [
       [ "meat", 10 ],
       [ "offal", 10 ],
-      { "item": "lung", "prob": 10, "charges": 2 },
-      { "item": "kidney", "prob": 10, "charges": 2 },
-      { "item": "liver", "prob": 10, "charges": 1 },
-      { "item": "brain", "prob": 10, "charges": 1 },
-      { "item": "sweetbread", "prob": 10, "charges": 1 }
+      { "item": "lung", "prob": 10, "count": [ 1, 3 ] },
+      { "item": "kidney", "prob": 10, "count": [ 1, 3 ] },
+      { "item": "liver", "prob": 10, "count": [ 1, 3 ] },
+      { "item": "brain", "prob": 10, "count": [ 1, 3 ] },
+      { "item": "sweetbread", "prob": 10, "count": [ 1, 3 ] }
     ]
   },
   {
