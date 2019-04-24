@@ -16,16 +16,16 @@
 // By default, that engine is seeded by time on first call to such a function.
 // If this function is called with a non-zero seed then the engine will be
 // seeded (or re-seeded) with the given seed.
-void rng_set_engine_seed( uintmax_t seed );
-std::mt19937 &rng_get_engine();
+void rng_set_engine_seed( unsigned int seed );
 
-std::mt19937 &rng_get_engine();
-uintmax_t rng_bits();
-long rng( long val1, long val2 );
+std::default_random_engine &rng_get_engine();
+unsigned int rng_bits();
+
+int rng( int val1, int val2 );
 double rng_float( double val1, double val2 );
-bool one_in( long chance );
+bool one_in( int chance );
 bool x_in_y( double x, double y );
-long dice( long number, long sides );
+int dice( int number, int sides );
 
 // Returns x + x_in_y( x-int(x), 1 )
 int roll_remainder( double value );

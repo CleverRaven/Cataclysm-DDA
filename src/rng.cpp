@@ -8,66 +8,51 @@
 
 #include "cata_utility.h"
 
-static std::uniform_int_distribution<long> rng_int_dist;
-static std::uniform_real_distribution<double> rng_real_dist;
-static std::normal_distribution<double> rng_normal_dist;
-
-uintmax_t rng_bits()
+unsigned int rng_bits()
 {
-    size_t size = sizeof( uintmax_t ) * CHAR_BIT;
-    size_t word = rng_get_engine().word_size;
-    div_t res = div( static_cast<int>( size ), static_cast<int>( word ) );
-    if( res.rem ) {
-        res.quot++;
-    }
-    uintmax_t ret = 0;
-    while( true ) {
-        res.quot--;
-        ret |= rng_get_engine()();
-        if( !res.quot ) {
-            break;
-        }
-        ret <<= word;
-    }
-    return ret;
+    // Whole uint range.
+    static std::uniform_int_distribution<unsigned int> rng_uint_dist;
+    return rng_uint_dist( rng_get_engine() );
 }
 
-long rng( long lo, long hi )
+int rng( int lo, int hi )
 {
+    static std::uniform_int_distribution<int> rng_int_dist;
     if( lo > hi ) {
         std::swap( lo, hi );
     }
-
-    decltype( rng_int_dist.param() ) range( lo, hi );
-    rng_int_dist.param( range );
-    return rng_int_dist( rng_get_engine() );
+    return rng_int_dist( rng_get_engine(), std::uniform_int_distribution<>::param_type( lo, hi ) );
 }
 
 double rng_float( double lo, double hi )
 {
+    static std::uniform_real_distribution<double> rng_real_dist;
     if( lo > hi ) {
         std::swap( lo, hi );
     }
-
-    decltype( rng_real_dist.param() ) range( lo, hi );
-    rng_real_dist.param( range );
-    return rng_real_dist( rng_get_engine() );
+    return rng_real_dist( rng_get_engine(), std::uniform_real_distribution<>::param_type( lo, hi ) );
 }
 
-bool one_in( long chance )
+double normal_roll( double mean, double stddev )
+{
+    static std::normal_distribution<double> rng_normal_dist;
+    return rng_normal_dist( rng_get_engine(), std::normal_distribution<>::param_type( mean, stddev ) );
+}
+
+bool one_in( int chance )
 {
     return ( chance <= 1 || rng( 0, chance - 1 ) == 0 );
 }
 
 bool x_in_y( double x, double y )
 {
-    return rng_float( 0, 1 ) * y <= x;
+    return rng_float( 0, y ) <= x;
 }
 
-long dice( long number, long sides )
+int dice( int number, int sides )
 {
-    long ret = 0;
-    for( long i = 0; i < number; i++ ) {
+    int ret = 0;
+    for( int i = 0; i < number; i++ ) {
         ret += rng( 1, sides );
     }
     return ret;
@@ -90,7 +75,7 @@ int roll_remainder( double value )
 // for world seeding.
 int djb2_hash( const unsigned char *input )
 {
-    unsigned long hash = 5381;
+    unsigned int hash = 5381;
     unsigned char c = *input++;
     while( c != '\0' ) {
         hash = ( ( hash << 5 ) + hash ) + c; /* hash * 33 + c */
@@ -113,22 +98,16 @@ double rng_normal( double lo, double hi )
     return clamp( val, lo, hi );
 }
 
-std::mt19937 &rng_get_engine()
+std::default_random_engine &rng_get_engine()
 {
-    static std::mt19937 eng( std::chrono::high_resolution_clock::now().time_since_epoch().count() );
+    static std::default_random_engine eng(
+        std::chrono::high_resolution_clock::now().time_since_epoch().count() );
     return eng;
 }
 
-void rng_set_engine_seed( uintmax_t seed )
+void rng_set_engine_seed( unsigned int seed )
 {
     if( seed != 0 ) {
         rng_get_engine().seed( seed );
     }
-}
-
-double normal_roll( double mean, double stddev )
-{
-    decltype( rng_normal_dist.param() ) params( mean, stddev );
-    rng_normal_dist.param( params );
-    return rng_normal_dist( rng_get_engine() );
 }

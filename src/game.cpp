@@ -1678,7 +1678,7 @@ const weather_generator &game::get_cur_weather_gen() const
     return settings.weather;
 }
 
-uintmax_t game::get_seed() const
+unsigned int game::get_seed() const
 {
     return seed;
 }

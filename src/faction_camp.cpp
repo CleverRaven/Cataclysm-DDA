@@ -1893,11 +1893,11 @@ static std::pair<size_t, std::string> farm_action( const tripoint &omt_tgt, farm
                     if( farm_valid_seed( seed ) ) {
                         plots_cnt += 1;
                         if( comp ) {
-                            long skillLevel = comp->get_skill_level( skill_survival );
+                            int skillLevel = comp->get_skill_level( skill_survival );
                             ///\EFFECT_SURVIVAL increases number of plants harvested from a seed
-                            long plant_cnt = rng( skillLevel / 2, skillLevel );
-                            plant_cnt = std::min( std::max( plant_cnt, 1l ), 9l );
-                            long seed_cnt = std::max( 1l, rng( plant_cnt / 4, plant_cnt / 2 ) );
+                            int plant_cnt = rng( skillLevel / 2, skillLevel );
+                            plant_cnt = std::min( std::max( plant_cnt, 1 ), 9 );
+                            int seed_cnt = std::max( 1, rng( plant_cnt / 4, plant_cnt / 2 ) );
                             for( auto &i : iexamine::get_harvest_items( *seed.type, plant_cnt,
                                     seed_cnt, true ) ) {
                                 g->m.add_item_or_charges( g->u.pos(), i );
