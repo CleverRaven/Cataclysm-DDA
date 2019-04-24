@@ -499,6 +499,16 @@ class game
          * @return Whether an attack was actually performed.
          */
         bool plfire( item &weapon, int bp_cost = 0 );
+        /**
+         * Similar to plfire() with these differences:
+         * • If unarmed:
+         *   ◦ will use any turret that you currently can control.
+         *   ◦ will ask if you want to draw any holstered gun.
+         * • Works for wielded melee weapons with reach.
+         *
+         * @return Whether an attack was actually performed.
+         */
+        bool try_fire();
         /** Redirects to player::cancel_activity(). */
         void cancel_activity();
         /** Asks if the player wants to cancel their activity, and if so cancels it. */
@@ -998,7 +1008,13 @@ class game
         void wield( item_location &loc );
 
         void chat(); // Talk to a nearby NPC  'C'
-        void plthrow( int pos = INT_MIN,
+        /**
+         * Handles interactive parts of throwing (select item to
+         * throw,target selection, etc.).
+         *
+         * @return Whether a throw was actually performed.
+         */
+        bool plthrow( int pos = INT_MIN,
                       const cata::optional<tripoint> &blind_throw_from_pos = cata::nullopt ); // Throw an item  't'
 
         // Internal methods to show "look around" info
