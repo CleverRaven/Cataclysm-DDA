@@ -2599,6 +2599,8 @@ void mapgen_function_json::generate( mapgendata &md )
 
     objects.apply( md, point_zero );
 
+    resolve_regional_terrain_and_furniture( md );
+
     m->rotate( rotation.get() );
 
     if( md.terrain_type()->is_rotatable() ) {
@@ -2620,6 +2622,8 @@ void mapgen_function_json_nested::nest( mapgendata &dat, const point &offset ) c
     }
 
     objects.apply( dat, offset );
+
+    resolve_regional_terrain_and_furniture( dat );
 }
 
 /*
@@ -6263,6 +6267,8 @@ void map::draw_connections( mapgendata &dat )
             }
         }
     }
+
+    resolve_regional_terrain_and_furniture( dat );
 }
 
 void map::place_spawns( const mongroup_id &group, const int chance,
@@ -7753,6 +7759,8 @@ bool update_mapgen_function_json::update_map( mapgendata &md, const point &offse
         return false;
     }
     objects.apply( md, offset );
+
+    resolve_regional_terrain_and_furniture( md );
 
     return true;
 }

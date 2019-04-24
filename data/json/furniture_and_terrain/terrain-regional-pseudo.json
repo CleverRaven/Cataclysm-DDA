@@ -1,0 +1,32 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_region_groundcover",
+    "name": "this should never actually show up, it's a pseudo terrain",
+    "description": "this should never actually show up, it's a pseudo terrain",
+    "symbol": " ",
+    "color": "black",
+    "move_cost": 0,
+    "flags": [ "TRANSPARENT", "NOITEM" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_region_tree",
+    "name": "this should never actually show up, it's a pseudo terrain",
+    "description": "this should never actually show up, it's a pseudo terrain",
+    "symbol": " ",
+    "color": "black",
+    "move_cost": 0,
+    "flags": [ "TRANSPARENT", "NOITEM" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_region_shrub",
+    "name": "this should never actually show up, it's a pseudo terrain",
+    "description": "this should never actually show up, it's a pseudo terrain",
+    "symbol": " ",
+    "color": "black",
+    "move_cost": 0,
+    "flags": [ "TRANSPARENT", "NOITEM" ]
+  }
+]
