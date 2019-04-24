@@ -52,14 +52,21 @@ void vitamin::load_vitamin( JsonObject &jo )
 
     vit.id_ = vitamin_id( jo.get_string( "id" ) );
     vit.name_ = _( jo.get_string( "name" ) );
-    vit.deficiency_ = efftype_id( jo.get_string( "deficiency" ) );
+    vit.counter_ = jo.get_bool( "counter", false );
+    vit.deficiency_ = efftype_id( jo.get_string( "deficiency", "null" ) );
     vit.excess_ = efftype_id( jo.get_string( "excess", "null" ) );
     vit.min_ = jo.get_int( "min" );
     vit.max_ = jo.get_int( "max", 0 );
     assign( jo, "rate", vit.rate_, false, 1_turns );
 
-    if( vit.rate_ < 0_turns ) {
-        jo.throw_error( "vitamin consumption rate cannot be negative", "rate" );
+    if( !vit.counter_ ) {
+        if( vit.rate_ < 0_turns ) {
+            jo.throw_error( "vitamin consumption rate cannot be negative", "rate" );
+        }
+    } else {
+        if( vit.rate_ != 0_turns ) {
+            jo.throw_error( "vitamns used as counters must have rate of 0", "rate" );
+        }
     }
 
     auto def = jo.get_array( "disease" );
@@ -83,12 +90,23 @@ const std::map<vitamin_id, vitamin> &vitamin::all()
 void vitamin::check_consistency()
 {
     for( const auto &v : vitamins_all ) {
-        if( !v.second.deficiency_.is_valid() ) {
-            debugmsg( "vitamin %s has unknown deficiency %s", v.second.id_.c_str(),
-                      v.second.deficiency_.c_str() );
-        }
-        if( !( v.second.excess_.is_null() || v.second.excess_.is_valid() ) ) {
-            debugmsg( "vitamin %s has unknown excess %s", v.second.id_.c_str(), v.second.excess_.c_str() );
+        if( !v.second.counter_ ) {
+            if( !v.second.deficiency_.is_valid() ) {
+                debugmsg( "vitamin %s has unknown deficiency %s", v.second.id_.c_str(),
+                          v.second.deficiency_.c_str() );
+            }
+            if( !( v.second.excess_.is_null() || v.second.excess_.is_valid() ) ) {
+                debugmsg( "vitamin %s has unknown excess %s", v.second.id_.c_str(), v.second.excess_.c_str() );
+            }
+        } else {
+            if( !v.second.deficiency_.is_null() ) {
+                debugmsg( "vitamn %s flagged as counter has defined deficiency %s (counters shouldn't have deficiencies)",
+                          v.second.id_.c_str(), v.second.deficiency_.c_str() );
+            }
+            if( !v.second.excess_.is_null() ) {
+                debugmsg( "vitamin %s flagged as counter has defined excess %s (counters shouldn't have excesses)",
+                          v.second.id_.c_str(), v.second.excess_.c_str() );
+            }
         }
     }
 }
