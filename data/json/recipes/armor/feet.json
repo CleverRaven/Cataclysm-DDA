@@ -274,7 +274,7 @@
     "difficulty": 1,
     "time": 40000,
     "book_learn": [ [ "tailor_japanese", 2 ] ],
-    "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "CUT", "level": 1 }  ],
+    "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "2x4", 1 ] ], [ [ "string_6", 1 ] ] ]
   },
   {

@@ -480,13 +480,23 @@
     "id": "soa_fake_weapon_samurai",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ { "group": "samurai_sword_set_fake", "prob": 7 }, [ "bokken_fake", 6 ], [ "nodachi_fake", 5 ], [ "naginata_fake", 5 ] ]
+    "items": [
+      { "group": "samurai_sword_set_fake", "prob": 7 },
+      [ "bokken_fake", 6 ],
+      [ "nodachi_fake", 5 ],
+      [ "naginata_fake", 5 ]
+    ]
   },
   {
     "id": "soa_poor_weapon_samurai",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ { "group": "samurai_sword_set_inferior", "prob": 7 }, [ "bokken_inferior", 6 ], [ "nodachi_inferior", 5 ], [ "naginata_inferior", 5 ] ]
+    "items": [
+      { "group": "samurai_sword_set_inferior", "prob": 7 },
+      [ "bokken_inferior", 6 ],
+      [ "nodachi_inferior", 5 ],
+      [ "naginata_inferior", 5 ]
+    ]
   },
   {
     "id": "soa_real_weapon_samurai",

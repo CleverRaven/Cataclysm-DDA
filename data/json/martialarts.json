@@ -541,13 +541,7 @@
         "max_stacks": 1
       }
     ],
-    "techniques": [
-      "niten_water_cut",
-      "niten_red_leaf",
-      "niten_stone_cut",
-      "niten_timing_attack",
-      "niten_feint"
-    ],
+    "techniques": [ "niten_water_cut", "niten_red_leaf", "niten_stone_cut", "niten_timing_attack", "niten_feint" ],
     "weapons": [
       "katana",
       "katana_inferior",
