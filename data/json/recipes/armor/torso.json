@@ -322,6 +322,18 @@
     "components": [ [ [ "felt_patch", 33 ] ] ]
   },
   {
+    "result": "haori",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "difficulty": 5,
+    "time": 60000,
+    "book_learn": [ [ "tailor_japanese", 5 ] ],
+    "using": [ [ "sewing_standard", 15 ] ],
+    "components": [ [ [ "rag", 20 ] ] ]
+  },
+  {
     "result": "hoodie",
     "type": "recipe",
     "category": "CC_ARMOR",
