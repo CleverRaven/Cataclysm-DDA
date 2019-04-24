@@ -284,6 +284,8 @@ int main( int argc, const char *argv[] )
         return EXIT_FAILURE;
     }
 
+    bool error_during_initialization = debug_has_error_been_observed();
+
     const auto start = std::chrono::system_clock::now();
     std::time_t start_time = std::chrono::system_clock::to_time_t( start );
     // Leading newline in case there were debug messages during
@@ -303,6 +305,16 @@ int main( int argc, const char *argv[] )
     std::chrono::duration<double> elapsed_seconds = end - start;
     printf( "Ended test at %sThe test took %.3f seconds\n", std::ctime( &end_time ),
             elapsed_seconds.count() );
+
+    if( error_during_initialization ) {
+        printf( "\nTreating result as failure due to error logged during initialization.\n" );
+        return 1;
+    }
+
+    if( debug_has_error_been_observed() ) {
+        printf( "\nTreating result as failure due to error logged during tests.\n" );
+        return 1;
+    }
 
     return result;
 }
