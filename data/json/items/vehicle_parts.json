@@ -1387,5 +1387,18 @@
     "//": "mods will need to expand",
     "ammo_type": "charcoal",
     "price": 3000
+  },
+  {
+    "id": "mounted_spare_tire",
+    "type": "GENERIC",
+    "name": "mounted spare tire",
+    "description": "A spare tire mounted on a carrier rig, ready to be attached to the rear bumper of a vehicle.",
+    "symbol": "o",
+    "color": "dark_gray",
+    "material": "steel",
+    "category": "veh_parts",
+    "weight": 27600,
+    "volume": 75,
+    "price": 37500
   }
 ]

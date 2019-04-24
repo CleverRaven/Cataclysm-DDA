@@ -3066,5 +3066,19 @@
     "max_charges": 20,
     "use_action": "CRAFT",
     "flags": [ "NO_SALVAGE", "TRADER_AVOID" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "spare_tire_carrier",
+    "category": "spare_parts",
+    "symbol": "t",
+    "color": "dark_gray",
+    "name": "spare tire carrier",
+    "description": "A bumper mounted rig for attaching and storing a spare tire on the back of a vehicle.  Combine it with a wheel to get a mountable piece.",
+    "price": 3500,
+    "material": "steel",
+    "weight": 5000,
+    "volume": 20,
+    "bashing": 8
   }
 ]
