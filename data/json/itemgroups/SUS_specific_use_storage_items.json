@@ -57,23 +57,31 @@
     "//2": "This group is for a junk drawer.",
     "subtype": "collection",
     "items": [
-      { "group": "tools_common", "prob": 90 },
-      { "group": "tools_common", "prob": 75 },
-      { "group": "tools_common", "prob": 35 },
-      { "item": "xacto", "prob": 95 },
-      { "item": "scissors", "prob": 85 },
-      { "item": "permanent_marker", "prob": 85 },
-      { "item": "permanent_marker", "prob": 65 },
-      { "item": "paper", "prob": 85 },
+      { "item": "xacto", "prob": 80 },
+      { "item": "scissors", "prob": 80 },
+      { "item": "screwdriver", "prob": 70 },
+      { "item": "hammer", "prob": 60 },
+      { "item": "pliers", "prob": 60 },
+      { "item": "flashlight", "prob": 75 },
+      { "item": "hammer", "prob": 75 },
+      { "item": "permanent_marker", "prob": 75 },
+      { "item": "permanent_marker", "prob": 40 },
+      { "item": "paper", "prob": 55 },
       { "item": "battery", "count": [ 1, 2 ], "prob": 85 },
-      { "item": "string_36", "count": [ 1, 6 ], "prob": 95 },
-      { "item": "string_36", "count": [ 1, 6 ], "prob": 75 },
-      { "item": "string_36", "count": [ 1, 6 ], "prob": 50 },
-      { "item": "duct_tape", "count": [ 1, 2 ], "prob": 75 },
+      { "item": "string_36", "count": [ 1, 4 ], "prob": 80 },
+      { "item": "string_36", "count": [ 1, 4 ], "prob": 50 },
+      { "item": "string_36", "count": [ 1, 4 ], "prob": 20 },
+      { "item": "duct_tape", "prob": 50 },
+      { "item": "duct_tape", "prob": 30 },
       { "item": "plastic_straw", "prob": 70, "count": [ 1, 6 ] },
-      { "item": "plastic_straw", "prob": 50, "count": [ 1, 6 ] },
+      { "item": "plastic_straw", "prob": 40, "count": [ 1, 6 ] },
       { "item": "corkscrew", "prob": 60 },
-      { "item": "bottle_opener", "prob": 75 }
+      { "item": "bottle_opener", "prob": 75 },
+      { "item": "candle", "prob": 75 },
+      {
+        "distribution": [ { "item": "matches" }, { "item": "lighter" } ],
+        "prob": 90
+      }
     ]
   },
   {
@@ -117,6 +125,21 @@
       { "item": "steel_pan", "prob": 80 },
       { "item": "copper_pan", "prob": 30 },
       { "item": "kettle", "prob": 80 }
+    ]
+  },
+  {
+    "id": "SUS_sink",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for the cleaning materials under a kitchen sink.",
+    "subtype": "collection",
+    "items": [
+      { "item": "detergent", "count": [ 1, 2 ] },
+      { "item": "rag", "count": [ 1, 6 ] },
+      { "item": "towel", "count": [ 1, 2 ] },
+      { "item": "brush", "count": [ 1, 2 ], "prob": 85 },
+      { "item": "bleach", "prob": 75 },
+      { "item": "ammonia", "prob": 65 }
     ]
   }
 ]

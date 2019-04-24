@@ -5184,6 +5184,20 @@
     "use_action": "MOP"
   },
   {
+    "id": "brush",
+    "type": "TOOL",
+    "name": "scrub brush",
+    "description": "This is a simple scrub brush.",
+    "weight": 70,
+    "volume": 1,
+    "price": 200,
+    "to_hit": -1,
+    "bashing": 1,
+    "material": "plastic",
+    "symbol": "/",
+    "color": "light_gray"
+  },
+  {
     "id": "mortar_pestle",
     "type": "TOOL",
     "name": "mortar and pestle",
