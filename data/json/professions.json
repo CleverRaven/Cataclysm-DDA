@@ -3560,20 +3560,10 @@
   "type": "profession",
   "ident": "urban_samurai",
   "name": "Urban Samurai",
-  "description": "You were an unusual presence in town, always sighted in what appeared to be a Japanese bathrobe. Some claimed you were the earthly apparition of an old shinto god; others said you once won a skateboarding championship in another state. More importantly, the grocery service stopped coming last week, and now the TV no longer turns on. This displeases you.",
+  "description": "You were always an inexplicable sight in town, always with the funny hair, always wearing what appeared to be some kind of Japanese bathrobe. Some claimed you were a visiting Shinto god. Little of this concerns you, but last week the grocery service stopped coming and now the TV no longer turns on. This displeases you.",
   "points": 2,
   "skills": { "level": 2, "name": "melee" },
   "items": {
-    "male": {
-        "entries": [ { "item": "wakizashi_inferior", "container-item": "scabbard" } ]
-      },
-      "female": {
-        "items": [
-          "chestwrap",
-          "barrette"
-        ],
-        "entries": [ { "item": "bokken_inferior", "container-item": "scabbard" } ]
-      },
     "both": {
       "items": [
         "haori",
@@ -3583,8 +3573,9 @@
         "tabi_dress",
         "geta"
       ],
-      "entries": [ { "item": "whiskey", "container-item": "flask_hip" } ]
-    }
+      "entries": [ { "item": "bokken_inferior", "container-item": "scabbard" } ]
+    },
+    "female": [ "chestwrap" ]
   }
 }
 ]
