@@ -69,7 +69,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_NC_SURVIVOR_CHEF_STORY4",
-    "dynamic_line": "I ran to the back of the kitchen and hid as best I could.  People outside were screaming and I could here them running.  Suddenly I heard more glass shatter and something skitter out of the resturant.  I waited a moment and then went and checked the dining area.  Both the stranger and the thing were gone.  People were running in the streets, some even had guns so I locked all the doors and blocked the windows with what I could and barricaded myself in here.",
+    "dynamic_line": "I ran to the back of the kitchen and hid as best I could.  People outside were screaming and I could hear them running.  Suddenly I heard more glass shatter and something skitter out of the resturant.  I waited a moment and then went and checked the dining area.  Both the stranger and the thing were gone.  People were running in the streets, some even had guns so I locked all the doors and blocked the windows with what I could and barricaded myself in here.",
     "responses": [
       { "text": "Crazy, so you have been here ever since?", "topic": "TALK_NC_SURVIVOR_CHEF_STORY5" },
       { "text": "What did you do before the cataclysm?", "topic": "TALK_NC_SURVIVOR_CHEF_EXPERTISE" },
