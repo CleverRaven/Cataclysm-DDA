@@ -603,9 +603,9 @@ class game
          *  This variant adjust scrolling speed according to zoom
          *  level, making it suitable when viewing the "terrain".
          */
-        tripoint mouse_edge_scrolling_terrain( input_context ctxt );
+        tripoint mouse_edge_scrolling_terrain( input_context &ctxt );
         /** This variant is suitable for the overmap. */
-        tripoint mouse_edge_scrolling_overmap( input_context ctxt );
+        tripoint mouse_edge_scrolling_overmap( input_context &ctxt );
 
         // Look at nearby terrain ';', or select zone points
         cata::optional<tripoint> look_around();

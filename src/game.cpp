@@ -7153,12 +7153,12 @@ int mouse_edge_scrolling_speed() {
     return 0;
 }
 
-tripoint game::mouse_edge_scrolling_terrain( input_context ctxt )
+tripoint game::mouse_edge_scrolling_terrain( input_context &ctxt )
 {
     return mouse_edge_scrolling( ctxt, mouse_edge_scrolling_speed() * DEFAULT_TILESET_ZOOM / tileset_zoom );
 }
 
-tripoint game::mouse_edge_scrolling_overmap( input_context ctxt )
+tripoint game::mouse_edge_scrolling_overmap( input_context &ctxt )
 {
     return mouse_edge_scrolling( ctxt, mouse_edge_scrolling_speed() );
 }
