@@ -555,7 +555,7 @@ void sfx::do_ambient()
         return;
     }
     audio_muted = false;
-    const bool is_deaf = g->u.get_effect_int( effect_deaf ) > 0;
+    const bool is_deaf = g->u.is_deaf();
     const int heard_volume = get_heard_volume( g->u.pos() );
     const bool is_underground = ::is_underground( g->u.pos() );
     const bool is_sheltered = g->is_sheltered( g->u.pos() );
