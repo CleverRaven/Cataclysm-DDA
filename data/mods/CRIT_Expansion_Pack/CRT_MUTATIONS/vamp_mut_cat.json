@@ -24,7 +24,7 @@
         "use_action": { "type": "mutagen", "mutation_category": "VAMP" }
     },
     {
-        "id": "iv_mutagen_vampire",
+        "id": "iv_mutagen_vamp",
         "copy-from": "iv_mutagen_flavor",
         "type": "COMESTIBLE",
         "name": "vampire serum",

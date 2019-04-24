@@ -40,28 +40,4 @@
             "persuade" : 7,
             "intimidate" : 1
     }
-    },
-    {
-        "type" : "mutation",
-        "id" : "SLASHERS",
-        "name" : "Slashers",
-        "points" : 5,
-        "visibility" : 8,
-        "ugliness" : 4,
-        "description" : "Your torso has grown an extra set of 'arms' with massive bone blades at the end, they look like they can do some serious damage; especially with that thick acid that they secrete.",
-        "prereqs" : ["FANGS"],
-        "threshreq" : ["THRESH_VAMP"],
-        "category" : ["VAMP"],
-        "social_modifiers" : {
-            "intimidate" : 15
-        },
-        "attacks" : {
-            "attack_text_u" : "You tear into %s with your blades",
-            "attack_text_npc" : "%1$s tears into %2$s with their blades",
-            "body_part" : "TORSO",
-            "chance" : 45,
-            "base_damage" : { "damage_type" : "cut", "amount" : 15},
-            "strength_damage" : { "damage_type" : "acid", "amount" : 0.5}
-        }
-     }
 ]
