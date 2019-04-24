@@ -12218,7 +12218,7 @@ bool player::sees( const Creature &critter ) const
 {
     // This handles only the player/npc specific stuff (monsters don't have traits or bionics).
     const int dist = rl_dist( pos(), critter.pos() );
-    if( dist <= 3 && has_trait( trait_ANTENNAE ) ) {
+    if( dist <= 3 && has_active_mutation( trait_ANTENNAE ) ) {
         return true;
     }
     if( critter.digging() && has_active_bionic( bio_ground_sonar ) ) {
