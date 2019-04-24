@@ -967,9 +967,9 @@ class game
         void examine( const tripoint &p ); // Examine nearby terrain  'e'
         void examine();
 
-        void pickup_adjacent(); // Pickup nearby items 'g'
-        void pickup(); // Pick items at player position ','
-        void pickup( const tripoint &p );
+        void pickup(); // Pick items at player position ',', min 1
+        void pickup_adjacent(); // Pickup nearby items 'g', min 0
+        void pickup_adjacent( const tripoint &p );
 
         void drop(); // Drop an item  'd'
         void drop_in_direction(); // Drop w/ direction  'D'

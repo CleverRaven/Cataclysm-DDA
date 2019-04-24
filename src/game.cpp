@@ -6258,7 +6258,7 @@ void game::pickup_adjacent()
         add_msg( _( "There's nothing to pick up there" ) );
         return;
     } else if( num_tiles_with_items == 1 ) {
-        pickup( tile_with_items );
+        pickup_adjacent( tile_with_items );
         return;
     }
 
@@ -6270,21 +6270,21 @@ void game::pickup_adjacent()
     // redraw terrain to erase 'pickup' window
     draw_ter();
     // wrefresh is called in pickup( const tripoint & )
-    pickup( *examp_ );
+    pickup_adjacent( *examp_ );
 }
 
 void game::pickup()
 {
-    pickup( u.pos() );
+    Pickup::pick_up( u.pos(), 1 );
 }
 
-void game::pickup( const tripoint &p )
+void game::pickup_adjacent( const tripoint &p )
 {
     // Highlight target
     g->m.drawsq( w_terrain, u, p, true, true, u.pos() + u.view_offset );
     wrefresh( w_terrain );
 
-    Pickup::pick_up( p, 1 );
+    Pickup::pick_up( p, 0 );
 }
 
 //Shift player by one tile, look_around(), then restore previous position.
