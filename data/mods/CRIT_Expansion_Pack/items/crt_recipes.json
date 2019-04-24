@@ -6,16 +6,37 @@
     "subcategory": "CSC_OTHER_OTHER",
     "skill_used": "survival",
     "difficulty": 1,
-    "time": 1000,
-    "book_learn": [ [ "mag_survival", 1 ], [ "textbook_survival", 1 ], [ "survival_book", 1 ], [ "pocket_survival", 1 ] ],
+    "time": 100,
+    "autolearn": [ [ "mag_survival", 1 ], [ "textbook_survival", 1 ], [ "survival_book", 1 ], [ "pocket_survival", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [
         [ "pine_bough", 1 ],
         [ "willowbark", 1 ],
-        ["tanbark", 1],
-        ["birchbark",1]
+        [ "tanbark", 1],
+        [ "birchbark", 1]
       ]
     ]
+  },
+  {
+    "result": "withered_bundle",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": 300,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "withered", 3 ] ] ]
+  },
+  {
+    "result": "withered_bundle",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": 400,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "withered", 3 ] ] ]
   }
 ]

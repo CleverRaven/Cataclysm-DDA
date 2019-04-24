@@ -31,7 +31,7 @@
      "symbol": "[",
      "material": [ "cotton", "neoprene" ],
      "warmth": 17,
-     "covers": [ "FEET"],
+     "covers": [ "LEGS"],
      "encumbrance": 10,
      "coverage": 100,
      "material_thickness": 2,
