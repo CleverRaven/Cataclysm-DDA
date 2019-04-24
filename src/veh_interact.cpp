@@ -1,15 +1,19 @@
 #include "veh_interact.h"
 
+#include <stdlib.h>
 #include <algorithm>
-#include <cassert>
 #include <cmath>
 #include <functional>
 #include <iterator>
 #include <list>
 #include <numeric>
 #include <string>
+#include <array>
+#include <memory>
+#include <set>
+#include <type_traits>
+#include <utility>
 
-#include "action.h"
 #include "activity_handlers.h"
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -37,6 +41,15 @@
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "vpart_reference.h"
+#include "calendar.h"
+#include "enums.h"
+#include "game_constants.h"
+#include "optional.h"
+#include "requirements.h"
+#include "tileray.h"
+#include "units.h"
+#include "material.h"
+#include "pldata.h"
 
 static inline const std::string status_color( bool status )
 {
@@ -275,7 +288,7 @@ bool veh_interact::format_reqs( std::ostringstream &msg, const requirement_data 
         }
         //~ %1$s represents the internal color name which shouldn't be translated, %2$s is skill name, and %3$i is skill level
         msg << string_format( _( "> %1$s%2$s %3$i</color>\n" ), status_color( hasSkill ),
-                              e.first.obj().name().c_str(), e.second );
+                              e.first.obj().name(), e.second );
     }
     if( skills.empty() ) {
         //~ %1$s represents the internal color name which shouldn't be translated, %2$s is the word "NONE"
@@ -397,10 +410,7 @@ void veh_interact::cache_tool_availability()
 
 void veh_interact::cache_tool_availability_update_lifting( const tripoint &world_cursor_pos )
 {
-    max_lift = std::max( { g->u.max_quality( LIFT ),
-                           map_selector( g->u.pos(), PICKUP_RANGE ).max_quality( LIFT ),
-                           vehicle_selector( world_cursor_pos, 4, true, true ).max_quality( LIFT )
-                         } );
+    max_lift = g->u.best_nearby_lifting_assist( world_cursor_pos );
 }
 
 /**
@@ -636,7 +646,7 @@ bool veh_interact::can_install_part()
         //~ %1$s represents the internal color name which shouldn't be translated, %2$s is skill name, and %3$i is skill level
         msg << string_format( _( "> %1$s%2$s %3$i</color> for extra engines." ),
                               status_color( g->u.get_skill_level( skill_mechanics ) >= dif_eng ),
-                              skill_mechanics.obj().name().c_str(), dif_eng ) << "\n";
+                              skill_mechanics.obj().name(), dif_eng ) << "\n";
     }
 
     if( dif_steering > 0 ) {
@@ -646,7 +656,7 @@ bool veh_interact::can_install_part()
         //~ %1$s represents the internal color name which shouldn't be translated, %2$s is skill name, and %3$i is skill level
         msg << string_format( _( "> %1$s%2$s %3$i</color> for extra steering axles." ),
                               status_color( g->u.get_skill_level( skill_mechanics ) >= dif_steering ),
-                              skill_mechanics.obj().name().c_str(), dif_steering ) << "\n";
+                              skill_mechanics.obj().name(), dif_steering ) << "\n";
     }
 
     int lvl = 0;
@@ -686,7 +696,7 @@ bool veh_interact::can_install_part()
         str_string = string_format( _( "strength %d" ), str );
     }
     std::string aid_string = string_format( _( "1 tool with %1$s %2$d" ),
-                                            qual.obj().name.c_str(), lvl );
+                                            qual.obj().name, lvl );
     msg << string_format( _( "> %1$s <color_white>OR</color> %2$s" ),
                           colorize( aid_string, aid_color ),
                           colorize( str_string, str_color ) ) << "\n";
@@ -1042,7 +1052,7 @@ bool veh_interact::do_repair( std::string &msg )
             sel_vpart_info = &vp;
             const std::vector<npc *> helpers = g->u.get_crafting_helpers();
             for( const npc *np : helpers ) {
-                add_msg( m_info, _( "%s helps with this task..." ), np->name.c_str() );
+                add_msg( m_info, _( "%s helps with this task..." ), np->name );
             }
             sel_cmd = 'r';
             break;
@@ -1128,7 +1138,7 @@ bool veh_interact::do_refill( std::string &msg )
             return false;
         };
 
-        target = g->inv_map_splice( validate, string_format( _( "Refill %s" ), pt.name().c_str() ), 1 );
+        target = g->inv_map_splice( validate, string_format( _( "Refill %s" ), pt.name() ), 1 );
         if( target ) {
             sel_vehicle_part = &pt;
             sel_vpart_info = &pt.info();
@@ -1238,7 +1248,7 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
             auto details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
                 right_print( w, y, 1, item::find_type( pt.ammo_current() )->color,
                              string_format( "%s     <color_light_gray>%3s</color>",
-                                            pt.fuel_current() != "null" ? item::nname( pt.fuel_current() ).c_str() : "",
+                                            pt.fuel_current() != "null" ? item::nname( pt.fuel_current() ) : "",
                                             pt.enabled ? _( "Yes" ) : _( "No" ) ) );
             };
 
@@ -1248,7 +1258,7 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
                 int y = 0;
                 for( const auto &e : pt.faults() ) {
                     y += fold_and_print( w_msg, y, 1, getmaxx( w_msg ) - 2, c_red,
-                                         _( "Faulty %1$s" ), e.obj().name().c_str() );
+                                         _( "Faulty %1$s" ), e.obj().name() );
                     y += fold_and_print( w_msg, y, 3, getmaxx( w_msg ) - 4, c_light_gray, e.obj().description() );
                     y++;
                 }
@@ -1276,9 +1286,20 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
                     }
                     const itype *pt_ammo_cur = item::find_type( pt.ammo_current() );
                     auto stack = units::legacy_volume_factor / pt_ammo_cur->stack_size;
-                    right_print( w, y, 1, pt_ammo_cur->color,
-                                 string_format( "%s %s %5.1fL", specials, pt_ammo_cur->nname( 1 ),
+                    int offset = 1;
+                    std::string fmtstring = "%s %s  %5.1fL";
+                    if( pt.damage_percent() >= 0.5 ) {
+                        fmtstring = "%s %s " + leak_marker + "%5.1fL" + leak_marker;
+                        offset = 0;
+                    }
+                    right_print( w, y, offset, pt_ammo_cur->color,
+                                 string_format( fmtstring, specials, pt_ammo_cur->nname( 1 ),
                                                 round_up( to_liter( pt.ammo_remaining() * stack ), 1 ) ) );
+                } else {
+                    if( pt.damage_percent() >= 0.5 ) {
+                        std::string outputstr = leak_marker + "      " + leak_marker;
+                        right_print( w, y, 0, c_light_gray, outputstr );
+                    }
                 }
             };
             opts.emplace_back( "TANK", &pt, action && enable &&
@@ -1286,8 +1307,14 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
         } else if( pt.is_fuel_store() && !( pt.is_battery() || pt.is_reactor() ) && !pt.is_broken() ) {
             auto details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
                 if( pt.ammo_current() != "null" ) {
-                    right_print( w, y, 1, item::find_type( pt.ammo_current() )->color,
-                                 string_format( "%s  %6i", item::nname( pt.ammo_current() ),
+                    int offset = 1;
+                    std::string fmtstring = "%s  %6i";
+                    if( pt.damage_percent() >= 0.5 ) {
+                        fmtstring = "%s  " + leak_marker + "%6i" + leak_marker;
+                        offset = 0;
+                    }
+                    right_print( w, y, offset, item::find_type( pt.ammo_current() )->color,
+                                 string_format( fmtstring, item::nname( pt.ammo_current() ),
                                                 pt.ammo_remaining() ) );
                 }
             };
@@ -1301,8 +1328,14 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
             // always display total battery capacity and percentage charge
             auto details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
                 int pct = ( static_cast<double>( pt.ammo_remaining() ) / pt.ammo_capacity() ) * 100;
-                right_print( w, y, 1, item::find_type( pt.ammo_current() )->color,
-                             string_format( "%i    %3i%%", pt.ammo_capacity(), pct ) );
+                int offset = 1;
+                std::string fmtstring = "%i    %3i%%";
+                if( pt.damage_percent() >= 0.5 ) {
+                    fmtstring = "%i   " + leak_marker + "%3i%%" + leak_marker;
+                    offset = 0;
+                }
+                right_print( w, y, offset, item::find_type( pt.ammo_current() )->color,
+                             string_format( fmtstring, pt.ammo_capacity(), pct ) );
             };
             opts.emplace_back( "BATTERY", &pt, action && enable &&
                                enable( pt ) ? next_hotkey( hotkey ) : '\0', details );
@@ -1312,7 +1345,7 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
     auto details_ammo = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
         if( pt.ammo_remaining() ) {
             right_print( w, y, 1, item::find_type( pt.ammo_current() )->color,
-                         string_format( "%s   %5i", item::nname( pt.ammo_current() ).c_str(), pt.ammo_remaining() ) );
+                         string_format( "%s   %5i", item::nname( pt.ammo_current() ), pt.ammo_remaining() ) );
         }
     };
 
@@ -1387,7 +1420,7 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
             trim_and_print( w_list, y, 1, getmaxx( w_list ) - 1,
                             highlighted ? hilite( col ) : col,
                             "<color_dark_gray>%c </color>%s",
-                            opts[idx].hotkey ? opts[idx].hotkey : ' ', pt.name().c_str() );
+                            opts[idx].hotkey ? opts[idx].hotkey : ' ', pt.name() );
 
             // print extra columns (if any)
             opts[idx].details( pt, w_list, y );
@@ -1541,12 +1574,12 @@ bool veh_interact::can_remove_part( int idx )
     if( !helpers.empty() ) {
         msg << string_format(
                 _( "> %1$s1 tool with %2$s %3$i</color> <color_white>OR</color> %4$sstrength ( assisted ) %5$i</color>" ),
-                status_color( use_aid ), qual.obj().name.c_str(), lvl,
+                status_color( use_aid ), qual.obj().name, lvl,
                 status_color( use_str ), str ) << "\n";
     } else {
         msg << string_format(
                 _( "> %1$s1 tool with %2$s %3$i</color> <color_white>OR</color> %4$sstrength %5$i</color>" ),
-                status_color( use_aid ), qual.obj().name.c_str(), lvl,
+                status_color( use_aid ), qual.obj().name, lvl,
                 status_color( use_str ), str ) << "\n";
     }
     std::string reason;
@@ -1616,7 +1649,7 @@ bool veh_interact::do_remove( std::string &msg )
         if( can_remove && ( action == "REMOVE" || action == "CONFIRM" ) ) {
             const std::vector<npc *> helpers = g->u.get_crafting_helpers();
             for( const npc *np : helpers ) {
-                add_msg( m_info, _( "%s helps with this task..." ), np->name.c_str() );
+                add_msg( m_info, _( "%s helps with this task..." ), np->name );
             }
             sel_cmd = 'o';
             break;
@@ -1741,7 +1774,7 @@ bool veh_interact::do_tirechange( std::string &msg )
         if( ( action == "TIRE_CHANGE" || action == "CONFIRM" ) &&
             is_wheel && has_comps && has_wrench && ( g->u.can_lift( *veh ) || has_jack ) ) {
             for( const npc *np : helpers ) {
-                add_msg( m_info, _( "%s helps with this task..." ), np->name.c_str() );
+                add_msg( m_info, _( "%s helps with this task..." ), np->name );
             }
             sel_cmd = 'c';
             break;
@@ -2210,9 +2243,7 @@ void veh_interact::display_stats() const
     const auto print_part = [&]( const std::string & str, int slot, vehicle_part * pt ) {
         mvwprintz( w_stats, y[slot], x[slot], c_light_gray, str );
         int iw = utf8_width( str ) + 1;
-        return fold_and_print( w_stats, y[slot], x[slot] + iw, w[slot],
-                               pt->is_broken() ? c_dark_gray : pt->base.damage_color(),
-                               pt->name() );
+        return fold_and_print( w_stats, y[slot], x[slot] + iw, w[slot], c_light_gray, pt->name() );
     };
 
     vehicle_part *mostDamagedPart = get_most_damaged_part();
@@ -2287,7 +2318,7 @@ void veh_interact::display_name()
 {
     werase( w_name );
     mvwprintz( w_name, 0, 1, c_light_gray, _( "Name: " ) );
-    mvwprintz( w_name, 0, 1 + utf8_width( _( "Name: " ) ), c_light_green, veh->name.c_str() );
+    mvwprintz( w_name, 0, 1 + utf8_width( _( "Name: " ) ), c_light_green, veh->name );
     wrefresh( w_name );
 }
 
@@ -2375,8 +2406,7 @@ void veh_interact::display_list( size_t pos, const std::vector<const vpart_info 
         int y = i - page * lines_per_page + header;
         mvwputch( w_list, y, 1, info.color, special_symbol( info.sym ) );
         nc_color col = can_potentially_install( info ) ? c_white : c_dark_gray;
-        trim_and_print( w_list, y, 3, getmaxx( w_list ) - 3, pos == i ? hilite( col ) : col,
-                        info.name().c_str() );
+        trim_and_print( w_list, y, 3, getmaxx( w_list ) - 3, pos == i ? hilite( col ) : col, info.name() );
     }
     wrefresh( w_list );
 }
@@ -2773,7 +2803,7 @@ void veh_interact::complete_vehicle()
 
             const auto reqs = vpinfo.install_requirements();
             if( !reqs.can_make_with_inventory( inv, is_crafting_component ) ) {
-                add_msg( m_info, _( "You don't meet the requirements to install the %s." ), vpinfo.name().c_str() );
+                add_msg( m_info, _( "You don't meet the requirements to install the %s." ), vpinfo.name() );
                 break;
             }
 
@@ -2788,7 +2818,7 @@ void veh_interact::complete_vehicle()
             }
             if( base.is_null() ) {
                 if( !g->u.has_trait( trait_DEBUG_HS ) ) {
-                    add_msg( m_info, _( "Could not find base part in requirements for %s." ), vpinfo.name().c_str() );
+                    add_msg( m_info, _( "Could not find base part in requirements for %s." ), vpinfo.name() );
                     break;
                 } else {
                     base = item( vpinfo.item );
@@ -2856,8 +2886,8 @@ void veh_interact::complete_vehicle()
                 g->m.board_vehicle( vehp, pl );
             }
 
-            add_msg( m_good, _( "You install a %1$s into the %2$s." ), veh->parts[ partnum ].name().c_str(),
-                     veh->name.c_str() );
+            add_msg( m_good, _( "You install a %1$s into the %2$s." ), veh->parts[ partnum ].name(),
+                     veh->name );
 
             for( const auto &sk : vpinfo.install_skills ) {
                 g->u.practice( sk.first, veh_utils::calc_xp_gain( vpinfo, sk.first ) );
@@ -2886,12 +2916,10 @@ void veh_interact::complete_vehicle()
 
                 if( pt.ammo_remaining() != pt.ammo_capacity() ) {
                     //~ 1$s vehicle name, 2$s tank name
-                    add_msg( m_good, _( "You refill the %1$s's %2$s." ),
-                             veh->name.c_str(), pt.name().c_str() );
+                    add_msg( m_good, _( "You refill the %1$s's %2$s." ), veh->name, pt.name() );
                 } else {
                     //~ 1$s vehicle name, 2$s tank name
-                    add_msg( m_good, _( "You completely refill the %1$s's %2$s." ),
-                             veh->name.c_str(), pt.name().c_str() );
+                    add_msg( m_good, _( "You completely refill the %1$s's %2$s." ), veh->name, pt.name() );
                 }
 
                 if( contents.front().charges == 0 ) {
@@ -2905,8 +2933,7 @@ void veh_interact::complete_vehicle()
                 pt.base.reload( g->u, std::move( src ), qty );
 
                 //~ 1$s vehicle name, 2$s reactor name
-                add_msg( m_good, _( "You refuel the %1$s's %2$s." ),
-                         veh->name.c_str(), pt.name().c_str() );
+                add_msg( m_good, _( "You refuel the %1$s's %2$s." ), veh->name, pt.name() );
 
             } else {
                 debugmsg( "vehicle part is not reloadable" );
@@ -2922,7 +2949,7 @@ void veh_interact::complete_vehicle()
 
             const auto reqs = vpinfo.removal_requirements();
             if( !reqs.can_make_with_inventory( inv, is_crafting_component ) ) {
-                add_msg( m_info, _( "You don't meet the requirements to remove the %s." ), vpinfo.name().c_str() );
+                add_msg( m_info, _( "You don't meet the requirements to remove the %s." ), vpinfo.name() );
                 break;
             }
 
@@ -2952,10 +2979,10 @@ void veh_interact::complete_vehicle()
 
             if( broken ) {
                 add_msg( _( "You remove the broken %1$s from the %2$s." ),
-                         veh->parts[ vehicle_part ].name().c_str(), veh->name.c_str() );
+                         veh->parts[ vehicle_part ].name(), veh->name );
             } else {
                 add_msg( _( "You remove the %1$s from the %2$s." ),
-                         veh->parts[ vehicle_part ].name().c_str(), veh->name.c_str() );
+                         veh->parts[ vehicle_part ].name(), veh->name );
             }
 
             if( !broken ) {
@@ -2971,7 +2998,7 @@ void veh_interact::complete_vehicle()
             }
 
             if( veh->parts.size() < 2 ) {
-                add_msg( _( "You completely dismantle the %s." ), veh->name.c_str() );
+                add_msg( _( "You completely dismantle the %s." ), veh->name );
                 g->u.activity.set_to_null();
                 g->m.destroy_vehicle( veh );
             } else {
@@ -3007,7 +3034,7 @@ void veh_interact::complete_vehicle()
                     g->m.add_item_or_charges( g->u.posx(), g->u.posy(), removed_wheel );
                 }
                 add_msg( _( "You replace one of the %1$s's tires with a %2$s." ),
-                         veh->name.c_str(), veh->parts[ partnum ].name().c_str() );
+                         veh->name, veh->parts[ partnum ].name() );
             }
             break;
     }

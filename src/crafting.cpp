@@ -1,9 +1,18 @@
 #include "crafting.h"
 
+#include <limits.h>
+#include <stdlib.h>
 #include <algorithm>
 #include <cmath>
 #include <sstream>
 #include <string>
+#include <functional>
+#include <limits>
+#include <map>
+#include <memory>
+#include <set>
+#include <utility>
+#include <vector>
 
 #include "activity_handlers.h"
 #include "ammo.h"
@@ -33,6 +42,25 @@
 #include "vpart_position.h"
 #include "vpart_reference.h"
 #include "veh_type.h"
+#include "cata_utility.h"
+#include "color.h"
+#include "enums.h"
+#include "game_constants.h"
+#include "item_stack.h"
+#include "line.h"
+#include "map_selector.h"
+#include "mapdata.h"
+#include "optional.h"
+#include "pimpl.h"
+#include "player.h"
+#include "player_activity.h"
+#include "recipe.h"
+#include "ret_val.h"
+#include "string_formatter.h"
+#include "string_id.h"
+#include "units.h"
+#include "mtype.h"
+#include "pldata.h"
 
 const efftype_id effect_contacts( "contacts" );
 
@@ -370,7 +398,7 @@ bool player::check_eligible_containers_for_crafting( const recipe &rec, int batc
         }
 
         if( charges_to_store > 0 ) {
-            popup( _( "You don't have anything to store %s in!" ), prod.tname().c_str() );
+            popup( _( "You don't have anything to store %s in!" ), prod.tname() );
             return false;
         }
     }
@@ -548,10 +576,9 @@ static cata::optional<item_location> wield_craft( player &p, item &craft )
 {
     if( p.wield( craft ) ) {
         if( p.weapon.invlet ) {
-            p.add_msg_if_player( m_info, _( "Wielding %c - %s" ), p.weapon.invlet,
-                                 p.weapon.display_name().c_str() );
+            p.add_msg_if_player( m_info, _( "Wielding %c - %s" ), p.weapon.invlet, p.weapon.display_name() );
         } else {
-            p.add_msg_if_player( m_info, _( "Wielding - %s" ), p.weapon.display_name().c_str() );
+            p.add_msg_if_player( m_info, _( "Wielding - %s" ), p.weapon.display_name() );
         }
         return item_location( p, &p.weapon );
     }
@@ -573,15 +600,33 @@ static item *set_item_inventory( player &p, item &newit )
         } else {
             ret_val = &p.i_add( newit );
             add_msg( m_info, "%c - %s", ret_val->invlet == 0 ? ' ' : ret_val->invlet,
-                     ret_val->tname().c_str() );
+                     ret_val->tname() );
         }
     }
     return ret_val;
 }
 
 /**
+ * Helper for @ref set_item_map_or_vehicle
+ * This is needed to still get a vaild item_location if overflow occurs
+ */
+static item_location set_item_map( const tripoint &loc, item &newit )
+{
+    // Includes loc
+    const std::vector<tripoint> tiles = closest_tripoints_first( 2, loc );
+    for( const tripoint &tile : tiles ) {
+        // Pass false to disallow overflow, null_item_reference indicates failure.
+        item *it_on_map = &g->m.add_item_or_charges( tile, newit, false );
+        if( it_on_map != &null_item_reference() ) {
+            return item_location( map_cursor( tile ), it_on_map );
+        }
+    }
+    debugmsg( "Could not place %s on map near (%d, %d, %d)", newit.tname(), loc.x, loc.y, loc.z );
+    return item_location();
+}
+
+/**
  * Set an item on the map or in a vehicle and return the new location
- *
  */
 static item_location set_item_map_or_vehicle( const player &p, const tripoint &loc, item &newit )
 {
@@ -612,7 +657,7 @@ static item_location set_item_map_or_vehicle( const player &p, const tripoint &l
                                      "Not enough space on the %s. <npcname> drops the %s on the ground." ),
                            vp->part().name(), newit.tname() ) );
 
-        return item_location( map_cursor( loc ), &g->m.add_item_or_charges( loc, newit ) );
+        return set_item_map( loc, newit );
 
     } else {
         if( g->m.has_furn( loc ) ) {
@@ -629,7 +674,7 @@ static item_location set_item_map_or_vehicle( const player &p, const tripoint &l
                 string_format( pgettext( "item", "<npcname> puts the %s on the ground." ),
                                newit.tname() ) );
         }
-        return item_location( map_cursor( loc ), &g->m.add_item_or_charges( loc, newit ) );
+        return set_item_map( loc, newit );
     }
 }
 
@@ -677,8 +722,30 @@ void player::start_craft( craft_command &command, const tripoint &loc )
 
     item_location craft_in_world;
 
+    // Check if we are standing next to a workbench. If so, just use that.
+    float best_bench_multi = 0.0;
+    tripoint target = loc;
+    for( const tripoint &adj : g->m.points_in_radius( pos(), 1 ) ) {
+        if( const cata::optional<furn_workbench_info> &wb = g->m.furn( adj ).obj().workbench ) {
+            if( wb->multiplier > best_bench_multi ) {
+                best_bench_multi = wb->multiplier;
+                target = adj;
+            }
+        } else if( const cata::optional<vpart_reference> vp = g->m.veh_at(
+                       adj ).part_with_feature( "WORKBENCH", true ) ) {
+            if( const cata::optional<vpslot_workbench> &wb_info = vp->part().info().get_workbench_info() ) {
+                if( wb_info->multiplier > best_bench_multi ) {
+                    best_bench_multi = wb_info->multiplier;
+                    target = adj;
+                }
+            } else {
+                debugmsg( "part '%S' with WORKBENCH flag has no workbench info", vp->part().name() );
+            }
+        }
+    }
+
     // Crafting without a workbench
-    if( loc == tripoint_zero ) {
+    if( target == tripoint_zero ) {
         if( !is_armed() ) {
             if( cata::optional<item_location> it_loc = wield_craft( *this, craft ) ) {
                 craft_in_world = it_loc->clone();
@@ -689,7 +756,6 @@ void player::start_craft( craft_command &command, const tripoint &loc )
         } else {
             enum option : int {
                 WIELD_CRAFT = 0,
-                BENCH_CRAFT,
                 DROP_CRAFT,
                 STASH,
                 DROP
@@ -700,17 +766,11 @@ void player::start_craft( craft_command &command, const tripoint &loc )
                                         craft.display_name() );
             amenu.addentry( WIELD_CRAFT, !weapon.has_flag( "NO_UNWIELD" ), '1',
                             string_format( _( "Dispose of your wielded %s and start working." ), weapon.tname() ) );
-            const bool adjacent_workbench = g->m.has_adjacent_furniture_with( pos(), []( const furn_t &f ) {
-                std::cout << f.name() << std::endl;
-                return !!f.workbench;
-            } );
-            amenu.addentry( BENCH_CRAFT, adjacent_workbench, '2',
-                            _( "Put it on a workbench and start working." ) );
-            amenu.addentry( DROP_CRAFT, true, '3', _( "Put it down and start working." ) );
+            amenu.addentry( DROP_CRAFT, true, '2', _( "Put it down and start working." ) );
             const bool can_stash = can_pickVolume( craft ) &&
                                    can_pickWeight( craft, !get_option<bool>( "DANGEROUS_PICKUPS" ) );
-            amenu.addentry( STASH, can_stash, '4', _( "Store it in your inventory." ) );
-            amenu.addentry( DROP, true, '5', _( "Drop it on the ground." ) );
+            amenu.addentry( STASH, can_stash, '3', _( "Store it in your inventory." ) );
+            amenu.addentry( DROP, true, '4', _( "Drop it on the ground." ) );
 
             amenu.query();
             const option choice = amenu.ret == UILIST_CANCEL ? DROP : static_cast<option>( amenu.ret );
@@ -724,27 +784,6 @@ void player::start_craft( craft_command &command, const tripoint &loc )
                     }
                     break;
                 }
-                case BENCH_CRAFT: {
-                    std::vector<std::string> options;
-                    std::vector<tripoint> benches;
-                    for( const tripoint &adj : g->m.points_in_radius( pos(), 1 ) ) {
-                        if( g->m.furn( adj ).obj().workbench ) {
-                            const std::string option = g->m.furn( adj ).obj().name() + " " +
-                                                       direction_suffix( pos(), adj );
-                            options.emplace_back( option );
-                            benches.emplace_back( adj );
-                        }
-                    }
-                    tripoint bench_choice = benches.front();
-                    if( options.size() > 1 ) {
-                        uilist amenu2( _( "Select a workbench:" ), options );
-                        if( amenu2.ret != UILIST_CANCEL ) {
-                            bench_choice = benches[amenu2.ret];
-                        }
-                    }
-                    craft_in_world = set_item_map_or_vehicle( *this, bench_choice, craft );
-                    break;
-                }
                 case DROP_CRAFT: {
                     craft_in_world = set_item_map_or_vehicle( *this, pos(), craft );
                     break;
@@ -754,22 +793,20 @@ void player::start_craft( craft_command &command, const tripoint &loc )
                     break;
                 }
                 case DROP: {
-                    // Do nothing
+                    put_into_vehicle_or_drop( *this, item_drop_reason::deliberate, {craft} );
+                    break;
                 }
             }
-
         }
     } else {
         // We have a workbench, put the item there.
-        craft_in_world = set_item_map_or_vehicle( *this, loc, craft );
+        craft_in_world = set_item_map_or_vehicle( *this, target, craft );
     }
 
     if( !craft_in_world.get_item() ) {
-        put_into_vehicle_or_drop( *this, item_drop_reason::deliberate, {craft} );
         add_msg_if_player( _( "Wield and activate the %s to start crafting." ), craft.tname() );
         return;
     }
-
 
     assign_activity( activity_id( "ACT_CRAFT" ) );
     activity.targets.push_back( craft_in_world.clone() );
@@ -810,7 +847,7 @@ void player::complete_craft( item &craft, const tripoint &loc )
             get_skill_level( making.skill_used ) ) {
             // NPC assistance is worth half a skill level
             skill_dice += 2;
-            add_msg( m_info, _( "%s helps with crafting..." ), np->name.c_str() );
+            add_msg( m_info, _( "%s helps with crafting..." ), np->name );
             break;
         }
     }
@@ -909,32 +946,7 @@ void player::complete_craft( item &craft, const tripoint &loc )
     // Set up the new item, and assign an inventory letter if available
     std::vector<item> newits = making.create_results( batch_size );
 
-    // Check if the recipe tools make this food item hot upon making it.
-    // We don't actually know which specific tool the player used here, but
-    // we're checking for a class of tools; because of the way requirements
-    // processing works, the "surface_heat" id gets nuked into an actual
-    // list of tools, see data/json/recipes/cooking_tools.json.
-    //
-    // Currently it's only checking for a hotplate because that's a
-    // suitable item in both the "surface_heat" and "water_boiling_heat"
-    // tools, and it's usually the first item in a list of tools so if this
-    // does get heated we'll find it right away.
-    bool should_heat = false;
-    if( !newits.empty() && newits.front().is_food() ) {
-        const requirement_data::alter_tool_comp_vector &tool_lists = making.requirements().get_tools();
-        for( const std::vector<tool_comp> &tools : tool_lists ) {
-            for( const tool_comp &t : tools ) {
-                if( t.type == "hotplate" ) {
-                    should_heat = true;
-                    break;
-                }
-            }
-            // if we've already decided to heat it up then we're done
-            if( should_heat ) {
-                break;
-            }
-        }
-    }
+    const bool should_heat = making.hot_result();
 
     bool first = true;
     size_t newit_counter = 0;
@@ -944,9 +956,9 @@ void player::complete_craft( item &craft, const tripoint &loc )
             first = false;
             // TODO: reconsider recipe memorization
             if( knows_recipe( &making ) ) {
-                add_msg( _( "You craft %s from memory." ), newit.type_name( 1 ).c_str() );
+                add_msg( _( "You craft %s from memory." ), newit.type_name( 1 ) );
             } else {
-                add_msg( _( "You craft %s using a book as a reference." ), newit.type_name( 1 ).c_str() );
+                add_msg( _( "You craft %s using a book as a reference." ), newit.type_name( 1 ) );
                 // If we made it, but we don't know it,
                 // we're making it from a book and have a chance to learn it.
                 // Base expected time to learn is 1000*(difficulty^4)/skill/int moves.
@@ -961,7 +973,7 @@ void player::complete_craft( item &craft, const tripoint &loc )
                             ( std::max( get_skill_level( making.skill_used ), 1 ) * std::max( get_int(), 1 ) ) ) ) {
                     learn_recipe( &making );
                     add_msg( m_good, _( "You memorized the recipe for %s!" ),
-                             newit.type_name( 1 ).c_str() );
+                             newit.type_name( 1 ) );
                 }
             }
 
@@ -1036,7 +1048,9 @@ void player::complete_craft( item &craft, const tripoint &loc )
         }
 
         finalize_crafted_item( newit );
-        if( loc == tripoint_zero ) {
+        if( newit.made_of( LIQUID ) ) {
+            g->handle_all_liquid( newit, PICKUP_RANGE );
+        } else if( loc == tripoint_zero ) {
             wield_craft( *this, newit );
         } else {
             set_item_map_or_vehicle( *this, loc, newit );
@@ -1058,7 +1072,9 @@ void player::complete_craft( item &craft, const tripoint &loc )
                 }
             }
             finalize_crafted_item( bp );
-            if( loc == tripoint_zero ) {
+            if( bp.made_of( LIQUID ) ) {
+                g->handle_all_liquid( bp, PICKUP_RANGE );
+            } else if( loc == tripoint_zero ) {
                 set_item_inventory( *this, bp );
             } else {
                 set_item_map_or_vehicle( *this, loc, bp );
@@ -1475,7 +1491,7 @@ ret_val<bool> player::can_disassemble( const item &obj, const inventory &inv ) c
         if( obj.charges < qty ) {
             auto msg = ngettext( "You need at least %d charge of %s.",
                                  "You need at least %d charges of %s.", qty );
-            return ret_val<bool>::make_failure( msg, qty, obj.tname().c_str() );
+            return ret_val<bool>::make_failure( msg, qty, obj.tname() );
         }
     }
 
@@ -1485,7 +1501,7 @@ ret_val<bool> player::can_disassemble( const item &obj, const inventory &inv ) c
         for( const auto &qual : opts ) {
             if( !qual.has( inv, return_true<item> ) ) {
                 // Here should be no dot at the end of the string as 'to_string()' provides it.
-                return ret_val<bool>::make_failure( _( "You need %s" ), qual.to_string().c_str() );
+                return ret_val<bool>::make_failure( _( "You need %s" ), qual.to_string() );
             }
         }
     }
@@ -1501,11 +1517,11 @@ ret_val<bool> player::can_disassemble( const item &obj, const inventory &inv ) c
             const tool_comp &tool_required = opts.front();
             if( tool_required.count <= 0 ) {
                 return ret_val<bool>::make_failure( _( "You need %s." ),
-                                                    item::nname( tool_required.type ).c_str() );
+                                                    item::nname( tool_required.type ) );
             } else {
                 return ret_val<bool>::make_failure( ngettext( "You need a %s with %d charge.",
                                                     "You need a %s with %d charges.", tool_required.count ),
-                                                    item::nname( tool_required.type ).c_str(),
+                                                    item::nname( tool_required.type ),
                                                     tool_required.count );
             }
         }
@@ -1713,7 +1729,7 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
 
     float component_success_chance = std::min( std::pow( 0.8, dis_item.damage_level( 4 ) ), 1.0 );
 
-    add_msg( _( "You disassemble the %s into its components." ), dis_item.tname().c_str() );
+    add_msg( _( "You disassemble the %s into its components." ), dis_item.tname() );
     // Remove any batteries, ammo and mods first
     remove_ammo( dis_item, *this );
     remove_radio_mod( dis_item, *this );
@@ -1801,15 +1817,15 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
     for( const item &newit : components ) {
         const bool comp_success = ( dice( skill_dice, skill_sides ) > dice( diff_dice,  diff_sides ) );
         if( dis.difficulty != 0 && !comp_success ) {
-            add_msg( m_bad, _( "You fail to recover %s." ), newit.tname().c_str() );
+            add_msg( m_bad, _( "You fail to recover %s." ), newit.tname() );
             continue;
         }
         const bool dmg_success = component_success_chance > rng_float( 0, 1 );
         if( !dmg_success ) {
             // Show reason for failure (damaged item, tname contains the damage adjective)
             //~ %1s - material, %2$s - disassembled item
-            add_msg( m_bad, _( "You fail to recover %1$s from the %2$s." ), newit.tname().c_str(),
-                     dis_item.tname().c_str() );
+            add_msg( m_bad, _( "You fail to recover %1$s from the %2$s." ), newit.tname(),
+                     dis_item.tname() );
             continue;
         }
         // Use item from components list, or (if not contained)
@@ -1849,10 +1865,10 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
             if( one_in( 4 ) ) {
                 learn_recipe( &dis.ident().obj() );// TODO: change to forward an id or a reference
                 add_msg( m_good, _( "You learned a recipe for %s from disassembling it!" ),
-                         dis_item.tname().c_str() );
+                         dis_item.tname() );
             } else {
                 add_msg( m_info, _( "You might be able to learn a recipe for %s if you disassemble another." ),
-                         dis_item.tname().c_str() );
+                         dis_item.tname() );
             }
         } else {
             add_msg( m_info, _( "If you had better skills, you might learn a recipe next time." ) );

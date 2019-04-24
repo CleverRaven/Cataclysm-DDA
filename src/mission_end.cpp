@@ -1,14 +1,15 @@
 #include "mission.h" // IWYU pragma: associated
 
+#include <memory>
+
 #include "debug.h"
 #include "game.h"
 #include "messages.h"
 #include "npc.h"
-#include "output.h"
 #include "rng.h"
 #include "translations.h"
-#include "map.h"
-#include "overmapbuffer.h"
+#include "item.h"
+#include "player.h"
 
 void mission_end::deposit_box( mission *miss )
 {
@@ -25,5 +26,5 @@ void mission_end::deposit_box( mission *miss )
         itemName = "m4a1";
     }
     g->u.i_add( item( itemName, 0 ) );
-    add_msg( m_good, _( "%s gave you an item from the deposit box." ), p->name.c_str() );
+    add_msg( m_good, _( "%s gave you an item from the deposit box." ), p->name );
 }

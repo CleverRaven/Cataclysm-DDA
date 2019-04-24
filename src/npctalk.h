@@ -2,16 +2,14 @@
 #ifndef NPCTALK_H
 #define NPCTALK_H
 
-#include "auto_pickup.h"
-
-#include <string>
-
 #include "string_id.h"
 
 class martialart;
+
 using matype_id = string_id<martialart>;
 class npc;
 class Skill;
+
 using skill_id = string_id<Skill>;
 class time_duration;
 
@@ -71,6 +69,7 @@ void copy_npc_rules( npc &p );
 void set_npc_pickup( npc &p );
 void npc_die( npc &p );
 void npc_thankful( npc &p );
+void clear_overrides( npc &p );
 }
 
 time_duration calc_skill_training_time( const npc &p, const skill_id &skill );

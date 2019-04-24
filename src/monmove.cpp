@@ -2,9 +2,12 @@
 
 #include "monster.h" // IWYU pragma: associated
 
+#include <stdlib.h>
 #include <cmath>
+#include <algorithm>
+#include <memory>
+#include <ostream>
 
-#include "cursesdef.h"
 #include "debug.h"
 #include "field.h"
 #include "game.h"
@@ -16,7 +19,6 @@
 #include "monfaction.h"
 #include "mtype.h"
 #include "npc.h"
-#include "output.h"
 #include "rng.h"
 #include "scent_map.h"
 #include "sounds.h"
@@ -25,6 +27,11 @@
 #include "vpart_position.h"
 #include "tileray.h"
 #include "vehicle.h"
+#include "cata_utility.h"
+#include "game_constants.h"
+#include "mattack_common.h"
+#include "pathfinding.h"
+#include "player.h"
 
 #define MONSTER_FOLLOW_DIST 8
 
@@ -447,7 +454,7 @@ void monster::move()
         !g->m.has_flag( TFLAG_SEALED, pos() ) && g->m.has_items( pos() ) ) {
         if( g->u.sees( *this ) ) {
             add_msg( _( "The %s flows around the objects on the floor and they are quickly dissolved!" ),
-                     name().c_str() );
+                     name() );
         }
         static const auto volume_per_hp = units::from_milliliter( 250 );
         for( auto &elem : g->m.i_at( pos() ) ) {
@@ -461,7 +468,7 @@ void monster::move()
                             spawn->make_ally( *this );
                             if( g->u.sees( *this ) ) {
                                 add_msg( _( "The %s splits in two!" ),
-                                         name().c_str() );
+                                         name() );
                             }
                         }
                     }
@@ -516,7 +523,7 @@ void monster::move()
         if( g->m.has_flag( "LIQUID", pos() ) && can_drown() && one_in( 10 ) ) {
             die( nullptr );
             if( g->u.sees( pos() ) ) {
-                add_msg( _( "The %s drowns!" ), name().c_str() );
+                add_msg( _( "The %s drowns!" ), name() );
             }
             return;
         }
@@ -1101,17 +1108,17 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
                 moves -= 100;
                 force = true;
                 if( g->u.sees( *this ) ) {
-                    add_msg( _( "The %1$s flies over the %2$s." ), name().c_str(),
-                             g->m.has_flag_furn( "CLIMBABLE", p ) ? g->m.furnname( p ).c_str() :
-                             g->m.tername( p ).c_str() );
+                    add_msg( _( "The %1$s flies over the %2$s." ), name(),
+                             g->m.has_flag_furn( "CLIMBABLE", p ) ? g->m.furnname( p ) :
+                             g->m.tername( p ) );
                 }
             } else if( has_flag( MF_CLIMBS ) ) {
                 moves -= 150;
                 force = true;
                 if( g->u.sees( *this ) ) {
-                    add_msg( _( "The %1$s climbs over the %2$s." ), name().c_str(),
-                             g->m.has_flag_furn( "CLIMBABLE", p ) ? g->m.furnname( p ).c_str() :
-                             g->m.tername( p ).c_str() );
+                    add_msg( _( "The %1$s climbs over the %2$s." ), name(),
+                             g->m.has_flag_furn( "CLIMBABLE", p ) ? g->m.furnname( p ) :
+                             g->m.tername( p ) );
                 }
             }
         }
@@ -1147,18 +1154,18 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
     //Birds and other flying creatures flying over the deep water terrain
     if( was_water && flies && g->u.sees( p ) ) {
         if( one_in( 4 ) ) {
-            add_msg( m_warning, _( "A %1$s flies over the %2$s!" ), name().c_str(),
-                     g->m.tername( pos() ).c_str() );
+            add_msg( m_warning, _( "A %1$s flies over the %2$s!" ), name(),
+                     g->m.tername( pos() ) );
         }
     } else if( was_water && !will_be_water && g->u.sees( p ) ) {
         //Use more dramatic messages for swimming monsters
-        add_msg( m_warning, _( "A %1$s %2$s from the %3$s!" ), name().c_str(),
+        add_msg( m_warning, _( "A %1$s %2$s from the %3$s!" ), name(),
                  has_flag( MF_SWIMS ) || has_flag( MF_AQUATIC ) ? _( "leaps" ) : _( "emerges" ),
-                 g->m.tername( pos() ).c_str() );
+                 g->m.tername( pos() ) );
     } else if( !was_water && will_be_water && g->u.sees( p ) ) {
-        add_msg( m_warning, _( "A %1$s %2$s into the %3$s!" ), name().c_str(),
+        add_msg( m_warning, _( "A %1$s %2$s into the %3$s!" ), name(),
                  has_flag( MF_SWIMS ) || has_flag( MF_AQUATIC ) ? _( "dives" ) : _( "sinks" ),
-                 g->m.tername( p ).c_str() );
+                 g->m.tername( p ) );
     }
 
     if( has_effect( effect_hidden ) && !g->m.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, p ) ) {
@@ -1384,7 +1391,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
     // Only print the message when near player or it can get spammy
     if( rl_dist( g->u.pos(), pos() ) < 4 && g->u.sees( *critter ) ) {
         add_msg( m_warning, _( "The %1$s tramples %2$s" ),
-                 name().c_str(), critter->disp_name().c_str() );
+                 name(), critter->disp_name() );
     }
 
     moves -= movecost_attacker;
@@ -1484,7 +1491,7 @@ void monster::knock_back_from( const tripoint &p )
         z->check_dead_state();
 
         if( u_see ) {
-            add_msg( _( "The %1$s bounces off a %2$s!" ), name().c_str(), z->name().c_str() );
+            add_msg( _( "The %1$s bounces off a %2$s!" ), name(), z->name() );
         }
 
         return;
@@ -1495,7 +1502,7 @@ void monster::knock_back_from( const tripoint &p )
         add_effect( effect_stunned, 1_turns );
         p->deal_damage( this, bp_torso, damage_instance( DT_BASH, type->size ) );
         if( u_see ) {
-            add_msg( _( "The %1$s bounces off %2$s!" ), name().c_str(), p->name.c_str() );
+            add_msg( _( "The %1$s bounces off %2$s!" ), name(), p->name );
         }
 
         p->check_dead_state();
@@ -1507,13 +1514,13 @@ void monster::knock_back_from( const tripoint &p )
         if( g->m.has_flag( "LIQUID", to ) && can_drown() ) {
             die( nullptr );
             if( u_see ) {
-                add_msg( _( "The %s drowns!" ), name().c_str() );
+                add_msg( _( "The %s drowns!" ), name() );
             }
 
         } else if( has_flag( MF_AQUATIC ) ) { // We swim but we're NOT in water
             die( nullptr );
             if( u_see ) {
-                add_msg( _( "The %s flops around and dies!" ), name().c_str() );
+                add_msg( _( "The %s flops around and dies!" ), name() );
             }
         }
     }
@@ -1524,8 +1531,8 @@ void monster::knock_back_from( const tripoint &p )
         apply_damage( nullptr, bp_torso, type->size );
         add_effect( effect_stunned, 2_turns );
         if( u_see ) {
-            add_msg( _( "The %1$s bounces off a %2$s." ), name().c_str(),
-                     g->m.obstacle_name( to ).c_str() );
+            add_msg( _( "The %1$s bounces off a %2$s." ), name(),
+                     g->m.obstacle_name( to ) );
         }
 
     } else { // It's no wall

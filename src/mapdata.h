@@ -2,10 +2,12 @@
 #ifndef MAPDATA_H
 #define MAPDATA_H
 
+#include <stddef.h>
 #include <array>
 #include <bitset>
 #include <set>
 #include <vector>
+#include <string>
 
 #include "color.h"
 #include "int_id.h"
@@ -21,6 +23,7 @@ struct furn_t;
 class harvest_list;
 class player;
 struct tripoint;
+
 using iexamine_function = void ( * )( player &, const tripoint & );
 
 using trap_id = int_id<trap>;
@@ -397,7 +400,7 @@ extern ter_id t_null,
        t_wall_metal,
        t_wall_glass,
        t_wall_glass_alarm,
-       t_reinforced_glass,
+       t_reinforced_glass, t_reinforced_glass_shutter, t_reinforced_glass_shutter_open,
        t_reinforced_door_glass_o,
        t_reinforced_door_glass_c,
        t_bars,
@@ -466,7 +469,7 @@ extern ter_id t_null,
        t_slope_up, t_rope_up,
        t_manhole_cover,
        // Special
-       t_card_science, t_card_military, t_card_reader_broken, t_slot_machine,
+       t_card_science, t_card_military, t_card_industrial, t_card_reader_broken, t_slot_machine,
        t_elevator_control, t_elevator_control_off, t_elevator, t_pedestal_wyrm,
        t_pedestal_temple,
        // Temple tiles
@@ -475,7 +478,7 @@ extern ter_id t_null,
        t_rdoor_c, t_rdoor_b, t_rdoor_o, t_mdoor_frame, t_window_reinforced, t_window_reinforced_noglass,
        t_window_enhanced, t_window_enhanced_noglass, t_open_air, t_plut_generator,
        t_pavement_bg_dp, t_pavement_y_bg_dp, t_sidewalk_bg_dp, t_guardrail_bg_dp,
-       t_linoleum_white, t_linoleum_gray,
+       t_linoleum_white, t_linoleum_gray, t_rad_platform,
        // Railroad and subway
        t_railroad_rubble,
        t_buffer_stop, t_railroad_crossing_signal, t_crossbuck_wood, t_crossbuck_metal,

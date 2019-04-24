@@ -92,4 +92,25 @@ SDL_Surface_Ptr CreateRGBSurface( Uint32 flags, int width, int height, int depth
                                   Uint32 Gmask, Uint32 Bmask, Uint32 Amask );
 /**@}*/
 
+/**
+ * Comparison operators which SDL lacks being a C-ish lib.
+ */
+/**@{*/
+
+inline bool operator==( const SDL_Color &lhs, const SDL_Color &rhs )
+{
+    return
+        lhs.r == rhs.r &&
+        lhs.g == rhs.g &&
+        lhs.b == rhs.b &&
+        lhs.a == rhs.a;
+}
+
+inline bool operator!=( const SDL_Color &lhs, const SDL_Color &rhs )
+{
+    return !operator==( lhs, rhs );
+}
+
+/**@}*/
+
 #endif

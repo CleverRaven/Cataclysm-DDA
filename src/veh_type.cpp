@@ -1,9 +1,12 @@
 #include "veh_type.h"
 
+#include <assert.h>
+#include <stddef.h>
 #include <numeric>
 #include <sstream>
 #include <unordered_map>
 #include <unordered_set>
+#include <algorithm>
 
 #include "ammo.h"
 #include "character.h"
@@ -11,7 +14,6 @@
 #include "debug.h"
 #include "flag.h"
 #include "game.h"
-#include "generic_factory.h"
 #include "init.h"
 #include "item_group.h"
 #include "itype.h"
@@ -22,6 +24,14 @@
 #include "translations.h"
 #include "vehicle.h"
 #include "vehicle_group.h"
+#include "assign.h"
+#include "cata_utility.h"
+#include "game_constants.h"
+#include "item.h"
+#include "player.h"
+#include "mapdata.h"
+
+class npc;
 
 const skill_id skill_mechanics( "mechanics" );
 
@@ -392,7 +402,7 @@ void vpart_info::finalize()
         // if part name specified ensure it is translated
         // otherwise the name of the base item will be used
         if( !e.second.name_.empty() ) {
-            e.second.name_ = _( e.second.name_.c_str() );
+            e.second.name_ = _( e.second.name_ );
         }
 
         if( e.second.folded_volume > 0_ml ) {
@@ -578,7 +588,7 @@ void vpart_info::check()
             debugmsg( "vehicle part %s has negative folded volume", part.id.c_str() );
         }
         if( part.has_flag( "FOLDABLE" ) && part.folded_volume == 0_ml ) {
-            debugmsg( "vehicle part %s has folding part with zero folded volume", part.name().c_str() );
+            debugmsg( "vehicle part %s has folding part with zero folded volume", part.name() );
         }
         if( !item::type_is_defined( part.default_ammo ) ) {
             debugmsg( "vehicle part %s has undefined default ammo %s", part.id.c_str(), part.item.c_str() );
@@ -660,7 +670,7 @@ int vpart_info::format_description( std::ostringstream &msg, const std::string &
     class::item base( item );
     std::ostringstream long_descrip;
     if( ! description.empty() ) {
-        long_descrip << _( description.c_str() );
+        long_descrip << _( description );
     }
     for( const auto &flagid : flags ) {
         if( flagid == "ALARMCLOCK" || flagid == "WATCH" ) {
@@ -671,16 +681,16 @@ int vpart_info::format_description( std::ostringstream &msg, const std::string &
             if( ! long_descrip.str().empty() ) {
                 long_descrip << "  ";
             }
-            long_descrip << _( flag.info().c_str() );
+            long_descrip << _( flag.info() );
         }
     }
     if( ( has_flag( "SEAT" ) || has_flag( "BED" ) ) && ! has_flag( "BELTABLE" ) ) {
         json_flag nobelt = json_flag::get( "NONBELTABLE" );
-        long_descrip << "  " << _( nobelt.info().c_str() );
+        long_descrip << "  " << _( nobelt.info() );
     }
     if( has_flag( "BOARDABLE" ) && has_flag( "OPENABLE" ) ) {
         json_flag nobelt = json_flag::get( "DOOR" );
-        long_descrip << "  " << _( nobelt.info().c_str() );
+        long_descrip << "  " << _( nobelt.info() );
     }
     if( has_flag( "TURRET" ) ) {
         long_descrip << string_format( _( "\nRange: %1$5d     Damage: %2$5.0f" ),
@@ -703,7 +713,7 @@ int vpart_info::format_description( std::ostringstream &msg, const std::string &
     const quality_id quality_lift( "LIFT" );
     for( const auto &qual : qualities ) {
         msg << "> " << format_color << string_format( _( "Has level %1$d %2$s quality" ),
-                qual.second, qual.first.obj().name.c_str() );
+                qual.second, qual.first.obj().name );
         if( qual.first == quality_jack || qual.first == quality_lift ) {
             msg << string_format( _( " and is rated at %1$d %2$s" ),
                                   static_cast<int>( convert_weight( qual.second * TOOL_LIFT_FACTOR ) ),
@@ -949,7 +959,7 @@ void vehicle_prototype::load( JsonObject &jo )
         next_spawn.chance = spawn_info.get_int( "chance" );
         if( next_spawn.chance <= 0 || next_spawn.chance > 100 ) {
             debugmsg( "Invalid spawn chance in %s (%d, %d): %d%%",
-                      vproto.name.c_str(), next_spawn.pos.x, next_spawn.pos.y, next_spawn.chance );
+                      vproto.name, next_spawn.pos.x, next_spawn.pos.y, next_spawn.chance );
         }
 
         // constrain both with_magazine and with_ammo to [0-100]
@@ -1002,7 +1012,7 @@ void vehicle_prototype::finalize()
         proto.blueprint.reset( new vehicle() );
         vehicle &blueprint = *proto.blueprint;
         blueprint.type = id;
-        blueprint.name = _( proto.name.c_str() );
+        blueprint.name = _( proto.name );
 
         blueprint.suspend_refresh();
         for( auto &pt : proto.parts ) {
@@ -1015,7 +1025,7 @@ void vehicle_prototype::finalize()
 
             if( blueprint.install_part( pt.pos, pt.part ) < 0 ) {
                 debugmsg( "init_vehicles: '%s' part '%s'(%d) can't be installed to %d,%d",
-                          blueprint.name.c_str(), pt.part.c_str(),
+                          blueprint.name, pt.part.c_str(),
                           blueprint.parts.size(), pt.pos.x, pt.pos.y );
             }
 
@@ -1062,7 +1072,7 @@ void vehicle_prototype::finalize()
         for( auto &i : proto.item_spawns ) {
             if( cargo_spots.count( i.pos ) == 0 ) {
                 debugmsg( "Invalid spawn location (no CARGO vpart) in %s (%d, %d): %d%%",
-                          proto.name.c_str(), i.pos.x, i.pos.y, i.chance );
+                          proto.name, i.pos.x, i.pos.y, i.chance );
             }
             for( auto &j : i.item_ids ) {
                 if( !item::type_is_defined( j ) ) {

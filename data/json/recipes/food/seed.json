@@ -402,7 +402,7 @@
     "time": 5000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "potato_raw", 1 ] ] ],
+    "components": [ [ [ "potato", 1 ] ] ],
     "flags": [ "ALLOW_ROTTEN" ]
   },
   {

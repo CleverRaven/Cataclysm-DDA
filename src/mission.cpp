@@ -4,10 +4,13 @@
 #include <memory>
 #include <unordered_map>
 #include <numeric>
+#include <istream>
+#include <iterator>
+#include <list>
+#include <utility>
 
 #include "debug.h"
 #include "game.h"
-#include "io.h"
 #include "line.h"
 #include "npc.h"
 #include "npc_class.h"
@@ -18,6 +21,12 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "item_group.h"
+#include "creature.h"
+#include "inventory.h"
+#include "item.h"
+#include "json.h"
+#include "monster.h"
+#include "player.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -575,7 +584,7 @@ std::string mission::name()
     if( type == nullptr ) {
         return "NULL";
     }
-    return _( type->name.c_str() );
+    return _( type->name );
 }
 
 mission_type_id mission::mission_id()
@@ -644,7 +653,7 @@ std::string mission::dialogue_for_topic( const std::string &in_topic ) const
 
     const auto &response = type->dialogue.find( topic );
     if( response != type->dialogue.end() ) {
-        return _( response->second.c_str() );
+        return _( response->second );
     }
 
     return string_format( "Someone forgot to code this message id is %s, topic is %s!",

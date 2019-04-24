@@ -1,8 +1,11 @@
 #include "morale.h"
 
+#include <stdlib.h>
 #include <algorithm>
 #include <set>
-#include <math.h>
+#include <cmath>
+#include <memory>
+#include <utility>
 
 #include "bodypart.h"
 #include "cata_utility.h"
@@ -17,6 +20,11 @@
 #include "options.h"
 #include "output.h"
 #include "translations.h"
+#include "color.h"
+#include "creature.h"
+#include "enums.h"
+#include "iuse.h"
+#include "player.h"
 
 static const efftype_id effect_cold( "cold" );
 static const efftype_id effect_hot( "hot" );
@@ -258,7 +266,7 @@ void player_morale::add( morale_type type, int bonus, int max_bonus,
 {
     if( ( duration == 0_turns ) & !is_permanent_morale( type ) ) {
         debugmsg( "Tried to set a non-permanent morale \"%s\" as permanent.",
-                  type.obj().describe( item_type ).c_str() );
+                  type.obj().describe( item_type ) );
         return;
     }
 
@@ -502,7 +510,7 @@ bool player_morale::consistent_with( const player_morale &morale ) const
             } );
 
             if( iter == rhs.points.end() || lhp.get_net_bonus() != iter->get_net_bonus() ) {
-                debugmsg( "Morale \"%s\" is inconsistent.", lhp.get_name().c_str() );
+                debugmsg( "Morale \"%s\" is inconsistent.", lhp.get_name() );
                 return false;
             }
         }

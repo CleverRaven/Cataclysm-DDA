@@ -2,12 +2,13 @@
 
 #include <algorithm>
 #include <array>
-#include <cassert>
 #include <cmath>
 #include <cstdlib>
 #include <sstream>
+#include <memory>
+#include <tuple>
+#include <type_traits>
 
-#include "coordinate_conversions.h"
 #include "activity_handlers.h"
 #include "debug.h"
 #include "game.h"
@@ -19,7 +20,6 @@
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "messages.h"
-#include "mtype.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "sounds.h"
@@ -28,11 +28,20 @@
 #include "ui.h"
 #include "veh_interact.h"
 #include "veh_type.h"
-#include "vehicle_selector.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "vpart_reference.h"
 #include "string_input_popup.h"
+#include "color.h"
+#include "input.h"
+#include "int_id.h"
+#include "inventory.h"
+#include "iuse.h"
+#include "player.h"
+#include "player_activity.h"
+#include "pldata.h"
+#include "requirements.h"
+#include "rng.h"
 
 static const itype_id fuel_type_none( "null" );
 static const itype_id fuel_type_battery( "battery" );
@@ -134,7 +143,7 @@ void vehicle::control_doors()
             doors_with_motors.push_back( door );
             locations.push_back( global_part_pos3( p ) );
             const char *actname = parts[door].open ? _( "Close" ) : _( "Open" );
-            pmenu.addentry( val, true, MENU_AUTOASSIGN, "%s %s", actname, parts[ door ].name().c_str() );
+            pmenu.addentry( val, true, MENU_AUTOASSIGN, "%s %s", actname, parts[ door ].name() );
         }
     }
 
@@ -567,7 +576,7 @@ void vehicle::use_controls( const tripoint &pos )
     actions.push_back( [&] { toggle_tracking(); } );
 
     if( ( is_foldable() || tags.count( "convertible" ) ) && !remote ) {
-        options.emplace_back( string_format( _( "Fold %s" ), name.c_str() ), keybind( "FOLD_VEHICLE" ) );
+        options.emplace_back( string_format( _( "Fold %s" ), name ), keybind( "FOLD_VEHICLE" ) );
         actions.push_back( [&] { fold_up(); } );
     }
 
@@ -626,7 +635,7 @@ bool vehicle::fold_up()
     const bool can_be_folded = is_foldable();
     const bool is_convertible = ( tags.count( "convertible" ) > 0 );
     if( !( can_be_folded || is_convertible ) ) {
-        debugmsg( _( "Tried to fold non-folding vehicle %s" ), name.c_str() );
+        debugmsg( _( "Tried to fold non-folding vehicle %s" ), name );
         return false;
     }
 
@@ -685,10 +694,10 @@ bool vehicle::fold_up()
     if( can_be_folded ) {
         bicycle.set_var( "weight", to_gram( total_mass() ) );
         bicycle.set_var( "volume", total_folded_volume() / units::legacy_volume_factor );
-        bicycle.set_var( "name", string_format( _( "folded %s" ), name.c_str() ) );
+        bicycle.set_var( "name", string_format( _( "folded %s" ), name ) );
         bicycle.set_var( "vehicle_name", name );
         // TODO: a better description?
-        bicycle.set_var( "description", string_format( _( "A folded %s." ), name.c_str() ) );
+        bicycle.set_var( "description", string_format( _( "A folded %s." ), name ) );
     }
 
     g->m.add_item_or_charges( g->u.pos(), bicycle );
@@ -1183,7 +1192,7 @@ void vehicle::open( int part_index )
 {
     if( !part_info( part_index ).has_flag( "OPENABLE" ) ) {
         debugmsg( "Attempted to open non-openable part %d (%s) on a %s!", part_index,
-                  parts[ part_index ].name().c_str(), name.c_str() );
+                  parts[ part_index ].name(), name );
     } else {
         open_or_close( part_index, true );
     }
@@ -1198,7 +1207,7 @@ void vehicle::close( int part_index )
 {
     if( !part_info( part_index ).has_flag( "OPENABLE" ) ) {
         debugmsg( "Attempted to close non-closeable part %d (%s) on a %s!", part_index,
-                  parts[ part_index ].name().c_str(), name.c_str() );
+                  parts[ part_index ].name(), name );
     } else {
         open_or_close( part_index, false );
     }

@@ -2,6 +2,8 @@
 #ifndef MAP_H
 #define MAP_H
 
+#include <stddef.h>
+#include <stdint.h>
 #include <array>
 #include <bitset>
 #include <list>
@@ -10,6 +12,9 @@
 #include <set>
 #include <utility>
 #include <vector>
+#include <functional>
+#include <string>
+#include <tuple>
 
 #include "calendar.h"
 #include "enums.h"
@@ -21,25 +26,21 @@
 #include "shadowcasting.h"
 #include "string_id.h"
 #include "units.h"
+#include "cata_utility.h"
 
 namespace catacurses
 {
 class window;
 } // namespace catacurses
-namespace cata
-{
-template<typename T>
-class optional;
-} // namespace cata
 class emit;
+
 using emit_id = string_id<emit>;
-class vpart_position;
 class optional_vpart_position;
 class player;
 class monster;
-class item;
 class Creature;
 class tripoint_range;
+
 enum field_id : int;
 class field;
 class field_entry;
@@ -51,14 +52,11 @@ class map_cursor;
 struct maptile;
 class basecamp;
 class computer;
-struct itype;
-struct mapgendata;
-class map_cursor;
 class Character;
-class item_location;
 class zone_data;
 struct trap;
 struct oter_t;
+
 enum direction : unsigned;
 using itype_id = std::string;
 using trap_id = int_id<trap>;
@@ -68,17 +66,21 @@ class visitable;
 struct regional_settings;
 struct mongroup;
 struct ter_t;
+
 using ter_id = int_id<ter_t>;
 using ter_str_id = string_id<ter_t>;
 struct furn_t;
+
 using furn_id = int_id<furn_t>;
 using furn_str_id = string_id<furn_t>;
 struct mtype;
+
 using mtype_id = string_id<mtype>;
 struct projectile;
 struct veh_collision;
 class tileray;
 class harvest_list;
+
 using harvest_id = string_id<harvest_list>;
 class npc_template;
 
@@ -95,12 +97,16 @@ struct wrapped_vehicle {
 typedef std::vector<wrapped_vehicle> VehicleList;
 typedef std::string items_location;
 struct vehicle_prototype;
+
 using vproto_id = string_id<vehicle_prototype>;
 class VehicleGroup;
+
 using vgroup_id = string_id<VehicleGroup>;
 struct MonsterGroup;
+
 using mongroup_id = string_id<MonsterGroup>;
 class map;
+
 enum ter_bitflags : int;
 struct pathfinding_cache;
 struct pathfinding_settings;
@@ -461,6 +467,10 @@ class map
         */
         int obstacle_coverage( const tripoint &loc1, const tripoint &loc2 ) const;
         /**
+        * Returns coverage value of the tile.
+        */
+        int coverage( const tripoint &p ) const;
+        /**
          * Check whether there's a direct line of sight between `F` and
          * `T` with the additional movecost restraints.
          *
@@ -785,8 +795,9 @@ class map
         // Change all instances of $from->$to
         void translate( const ter_id &from, const ter_id &to );
         // Change all instances $from->$to within this radius, optionally limited to locations in the same submap.
+        // Optionally toggles instances $from->$to & $to->$from
         void translate_radius( const ter_id &from, const ter_id &to, const float radi, const tripoint &p,
-                               const bool same_submap = false );
+                               const bool same_submap = false, const bool toggle_between = false );
         bool close_door( const tripoint &p, const bool inside, const bool check_only );
         bool open_door( const tripoint &p, const bool inside, const bool check_only = false );
         // Destruction

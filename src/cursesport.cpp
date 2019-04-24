@@ -1,7 +1,8 @@
 #if defined(TILES) || defined(_WIN32)
 #include "cursesport.h"
 
-#include <stdexcept>
+#include <stdint.h>
+#include <memory>
 
 #include "catacharset.h"
 #include "color.h"

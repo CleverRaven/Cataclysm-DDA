@@ -499,6 +499,18 @@
   },
   {
     "type": "npc",
+    "id": "survivor_cop",
+    "//": "A police officer who has taken over the station since the cataclysm.  They sell items out of the evidence locker.",
+    "name_suffix": "officer",
+    "class": "NC_CITY_COP",
+    "attitude": 0,
+    "mission": 7,
+    "mission_offered": "MISSION_GET_CITY_COP_MOMENTO",
+    "chat": "TALK_CITY_COP",
+    "faction": "wasteland_scavengers"
+  },
+  {
+    "type": "npc",
     "id": "tracker_gunslinger",
     "//": "the gunslinger that spawns for MISSION_RECRUIT_TRACKER",
     "class": "NC_COWBOY",

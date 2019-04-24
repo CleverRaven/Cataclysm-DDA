@@ -1,6 +1,9 @@
 #include "mutation.h"
 
+#include <stddef.h>
 #include <algorithm>
+#include <list>
+#include <unordered_set>
 
 #include "action.h"
 #include "field.h"
@@ -12,11 +15,18 @@
 #include "mapdata.h"
 #include "monster.h"
 #include "morale_types.h"
-#include "output.h"
 #include "overmapbuffer.h"
 #include "player.h"
 #include "translations.h"
 #include "ui.h"
+#include "int_id.h"
+#include "messages.h"
+#include "omdata.h"
+#include "optional.h"
+#include "player_activity.h"
+#include "pldata.h"
+#include "rng.h"
+#include "mtype.h"
 
 const efftype_id effect_stunned( "stunned" );
 
@@ -219,7 +229,7 @@ void Character::mutation_effect( const trait_id &mut )
             add_msg_player_or_npc( m_bad,
                                    _( "Your %s is destroyed!" ),
                                    _( "<npcname>'s %s is destroyed!" ),
-                                   armor.tname().c_str() );
+                                   armor.tname() );
             for( item &remain : armor.contents ) {
                 g->m.add_item_or_charges( pos(), remain );
             }
@@ -227,7 +237,7 @@ void Character::mutation_effect( const trait_id &mut )
             add_msg_player_or_npc( m_bad,
                                    _( "Your %s is pushed off!" ),
                                    _( "<npcname>'s %s is pushed off!" ),
-                                   armor.tname().c_str() );
+                                   armor.tname() );
             g->m.add_item_or_charges( pos(), armor );
         }
         return true;
@@ -1258,7 +1268,7 @@ static mutagen_rejection try_reject_mutagen( player &p, const item &it, bool str
         p.add_msg_player_or_npc( m_warning,
                                  _( "The %s sears your insides white-hot, and you collapse to the ground!" ),
                                  _( "<npcname> writhes in agony and collapses to the ground!" ),
-                                 it.tname().c_str() );
+                                 it.tname() );
         p.vomit();
         p.mod_pain( 35 + ( strong ? 20 : 0 ) );
         // Lose a significant amount of HP, probably about 25-33%
@@ -1278,7 +1288,7 @@ static mutagen_rejection try_reject_mutagen( player &p, const item &it, bool str
         } else {
             p.add_msg_if_player( m_warning,
                                  _( "That was some toxic %s!  Let's stick with Marloss next time, that's safe." ),
-                                 it.tname().c_str() );
+                                 it.tname() );
             p.add_memorial_log( pgettext( "memorial_male", "Suffered a toxic marloss/mutagen reaction." ),
                                 pgettext( "memorial_female", "Suffered a toxic marloss/mutagen reaction." ) );
         }

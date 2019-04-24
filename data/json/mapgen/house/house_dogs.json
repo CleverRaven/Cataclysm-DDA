@@ -4,9 +4,8 @@
     "type": "monstergroup",
     "default": "mon_null",
     "monsters": [
-      { "monster": "mon_zombie_dog", "freq": 100, "cost_multiplier": 0, "pack_size": [ 5, 8 ] },
-      { "monster": "mon_dog_zombie_rot", "freq": 100, "cost_multiplier": 0, "pack_size": [ 1, 4 ] },
-      { "monster": "mon_dog_skeleton", "freq": 70, "cost_multiplier": 0, "pack_size": [ 1, 3 ] }
+      { "monster": "mon_zombie_dog", "freq": 135, "cost_multiplier": 0, "pack_size": [ 5, 8 ] },
+      { "monster": "mon_dog_zombie_rot", "freq": 135, "cost_multiplier": 0, "pack_size": [ 1, 4 ] }
     ]
   },
   {

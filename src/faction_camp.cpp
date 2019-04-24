@@ -1,23 +1,23 @@
 #include "faction_camp.h" // IWYU pragma: associated
 
+#include <stddef.h>
 #include <algorithm>
-#include <cassert>
 #include <string>
 #include <vector>
+#include <list>
+#include <map>
+#include <memory>
+#include <set>
+#include <unordered_set>
 
-#include "ammo.h"
 #include "activity_handlers.h"
 #include "bionics.h"
 #include "catacharset.h"
 #include "clzones.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
-#include "construction.h"
 #include "coordinate_conversions.h"
-#include "craft_command.h"
 #include "debug.h"
-#include "dialogue.h"
 #include "editmap.h"
-#include "field.h"
 #include "game.h"
 #include "iexamine.h"
 #include "item_group.h"
@@ -25,13 +25,11 @@
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
-#include "mapbuffer.h"
 #include "mapdata.h"
 #include "mapgen_functions.h"
 #include "messages.h"
 #include "mission.h"
 #include "mission_companion.h"
-#include "mtype.h"
 #include "npc.h"
 #include "npctalk.h"
 #include "output.h"
@@ -50,6 +48,25 @@
 #include "vpart_range.h"
 #include "vpart_reference.h"
 #include "basecamp.h"
+#include "calendar.h"
+#include "color.h"
+#include "cursesdef.h"
+#include "enums.h"
+#include "faction.h"
+#include "game_constants.h"
+#include "int_id.h"
+#include "inventory.h"
+#include "item.h"
+#include "omdata.h"
+#include "optional.h"
+#include "pimpl.h"
+#include "player.h"
+#include "player_activity.h"
+#include "string_formatter.h"
+#include "string_id.h"
+#include "ui.h"
+#include "units.h"
+#include "weighted_list.h"
 
 const skill_id skill_dodge( "dodge" );
 const skill_id skill_gun( "gun" );

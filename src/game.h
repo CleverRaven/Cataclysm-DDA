@@ -2,12 +2,17 @@
 #ifndef GAME_H
 #define GAME_H
 
+#include <limits.h>
 #include <array>
 #include <list>
 #include <map>
 #include <memory>
 #include <unordered_map>
 #include <vector>
+#include <ctime>
+#include <functional>
+#include <iosfwd>
+#include <string>
 
 #include "calendar.h"
 #include "cursesdef.h"
@@ -17,12 +22,16 @@
 #include "item_location.h"
 #include "optional.h"
 #include "pimpl.h"
-#include "posix_time.h"
+#include "creature.h"
+#include "item.h"
+#include "string_id.h"
+#include "monster.h"
 
 extern bool test_mode;
 
 // The reference to the one and only game instance.
 class game;
+
 extern std::unique_ptr<game> g;
 
 extern bool trigdist;
@@ -36,6 +45,7 @@ extern const int savegame_version;
 extern int savegame_loading_version;
 
 class input_context;
+
 input_context get_default_mode_input_context();
 
 enum class dump_mode {
@@ -63,51 +73,46 @@ enum weather_type : int;
 enum action_id : int;
 enum target_mode : int;
 
-class item_location;
-class item;
 struct targeting_data;
 struct special_game;
-struct itype;
 struct mtype;
+
 using mtype_id = string_id<mtype>;
 struct species_type;
+
 using species_id = string_id<species_type>;
 using itype_id = std::string;
 class ammunition_type;
+
 using ammotype = string_id<ammunition_type>;
-class mission;
 class map;
-class Creature;
 class zone_type;
+
 using zone_type_id = string_id<zone_type>;
-class Character;
 class faction_manager;
 class new_faction_manager;
 class player;
 class npc;
-class monster;
 struct MOD_INFORMATION;
+
 using mod_id = string_id<MOD_INFORMATION>;
 class vehicle;
 class Creature_tracker;
-class calendar;
 class scenario;
-class DynamicDataLoader;
-class salvage_actor;
-class input_context;
 class map_item_stack;
 struct WORLD;
 class save_t;
+
 typedef WORLD *WORLDPTR;
 class overmap;
 class event_manager;
+
 enum event_type : int;
-struct vehicle_part;
 struct ter_t;
+
 using ter_id = int_id<ter_t>;
 class weather_generator;
 struct weather_printable;
-class faction;
 class live_view;
 class nc_color;
 struct w_point;
@@ -115,7 +120,6 @@ struct explosion_data;
 struct visibility_variables;
 class scent_map;
 class loading_ui;
-class window_panel;
 
 typedef std::function<bool( const item & )> item_filter;
 
@@ -848,6 +852,9 @@ class game
         // @param center the center of view, same as when calling map::draw
         void draw_critter( const Creature &critter, const tripoint &center );
         void draw_cursor( const tripoint &p );
+        // Draw a highlight graphic at p, for example when examining something.
+        // TILES only, in curses this does nothing
+        void draw_highlight( const tripoint &p );
 
         bool is_in_viewport( const tripoint &p, int margin = 0 ) const;
         /**
@@ -862,10 +869,6 @@ class game
         bool reinitmap;
         bool fullscreen;
         bool was_fullscreen;
-        // the calculated number of columns to shift the terrain window in order
-        // to center the screen with a sidebar
-        // negative number is left hand side of screen, positive is right side
-        tripoint sidebar_offset;
 
         /** open vehicle interaction screen */
         void exam_vehicle( vehicle &veh, int cx = 0, int cy = 0 );
@@ -961,8 +964,11 @@ class game
         void on_move_effects();
 
         void control_vehicle(); // Use vehicle controls  '^'
-        void examine( const tripoint &p );// Examine nearby terrain  'e'
+        void examine( const tripoint &p ); // Examine nearby terrain  'e'
         void examine();
+
+        void pickup(); // Pickup neaby items 'g'
+        void pickup( const tripoint &p );
 
         void drop(); // Drop an item  'd'
         void drop_in_direction(); // Drop w/ direction  'D'

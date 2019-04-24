@@ -1,11 +1,15 @@
 #include "requirements.h"
 
+#include <stdlib.h>
 #include <algorithm>
-#include <cmath>
 #include <limits>
 #include <sstream>
+#include <iterator>
+#include <list>
+#include <memory>
+#include <set>
+#include <unordered_map>
 
-#include "calendar.h"
 #include "cata_utility.h"
 #include "debug.h"
 #include "game.h"
@@ -18,6 +22,10 @@
 #include "player.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "color.h"
+#include "item.h"
+#include "pldata.h"
+#include "visitable.h"
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
@@ -90,7 +98,7 @@ std::string quality_requirement::to_string( int ) const
 {
     return string_format( ngettext( "%d tool with %s of %d or more.",
                                     "%d tools with %s of %d or more.", count ),
-                          count, type.obj().name.c_str(), level );
+                          count, type.obj().name, level );
 }
 
 bool tool_comp::by_charges() const
@@ -103,7 +111,7 @@ std::string tool_comp::to_string( int batch ) const
     if( by_charges() ) {
         //~ <tool-name> (<number-of-charges> charges)
         return string_format( ngettext( "%s (%d charge)", "%s (%d charges)", count * batch ),
-                              item::nname( type ).c_str(), count * batch );
+                              item::nname( type ), count * batch );
     } else {
         return item::nname( type, abs( count ) );
     }
@@ -114,10 +122,10 @@ std::string item_comp::to_string( int batch ) const
     const int c = std::abs( count ) * batch;
     const auto type_ptr = item::find_type( type );
     if( type_ptr->stackable ) {
-        return string_format( "%s (%d)", type_ptr->nname( 1 ).c_str(), c );
+        return string_format( "%s (%d)", type_ptr->nname( 1 ), c );
     }
     //~ <item-count> <item-name>
-    return string_format( ngettext( "%d %s", "%d %s", c ), c, type_ptr->nname( c ).c_str() );
+    return string_format( ngettext( "%d %s", "%d %s", c ), c, type_ptr->nname( c ) );
 }
 
 void quality_requirement::load( JsonArray &jsarr )
@@ -309,14 +317,14 @@ std::string requirement_data::list_missing() const
 void quality_requirement::check_consistency( const std::string &display_name ) const
 {
     if( !type.is_valid() ) {
-        debugmsg( "Unknown quality %s in %s", type.c_str(), display_name.c_str() );
+        debugmsg( "Unknown quality %s in %s", type.c_str(), display_name );
     }
 }
 
 void component::check_consistency( const std::string &display_name ) const
 {
     if( !item::type_is_defined( type ) ) {
-        debugmsg( "%s in %s is not a valid item template", type.c_str(), display_name.c_str() );
+        debugmsg( "%s in %s is not a valid item template", type.c_str(), display_name );
     }
 }
 
@@ -327,7 +335,7 @@ void requirement_data::check_consistency( const std::vector< std::vector<T> > &v
     for( const auto &list : vec ) {
         for( const auto &comp : list ) {
             if( comp.requirement ) {
-                debugmsg( "Finalization failed to inline %s in %s", comp.type.c_str(), display_name.c_str() );
+                debugmsg( "Finalization failed to inline %s in %s", comp.type.c_str(), display_name );
             }
 
             comp.check_consistency( display_name );
@@ -459,7 +467,20 @@ std::vector<std::string> requirement_data::get_folded_list( int width,
         for( const T &component : comp_list ) {
             nc_color color = component.get_color( has_one, crafting_inv, filter, batch );
             const std::string color_tag = get_tag_from_color( color );
-            const std::string text = component.to_string( batch );
+            std::string text = component.to_string( batch );
+            if( component.get_component_type() == COMPONENT_ITEM &&
+                component.has( crafting_inv, filter, batch ) ) {
+                const itype_id item_id = static_cast<itype_id>( component.type );
+                long qty;
+                if( item::count_by_charges( item_id ) ) {
+                    qty = crafting_inv.charges_of( item_id, std::numeric_limits<long>::max(), filter );
+                } else {
+                    qty = crafting_inv.amount_of( item_id, false, std::numeric_limits<int>::max(), filter );
+                }
+                text = item::count_by_charges( item_id ) ?
+                       string_format( _( "%s (%d of %ld)" ), item::nname( item_id ), component.count * batch, qty ) :
+                       string_format( _( "%s of %ld" ), text, qty );
+            }
 
             if( std::find( buffer_has.begin(), buffer_has.end(), text + color_tag ) != buffer_has.end() ) {
                 continue;

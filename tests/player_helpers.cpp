@@ -1,13 +1,17 @@
 #include "player_helpers.h"
 
 #include <list>
+#include <memory>
+#include <vector>
 
 #include "enums.h"
 #include "game.h"
 #include "item.h"
 #include "itype.h"
-#include "map.h"
 #include "player.h"
+#include "inventory.h"
+#include "player_activity.h"
+#include "pldata.h"
 
 int get_remaining_charges( const std::string &tool_id )
 {

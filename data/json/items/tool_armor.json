@@ -2549,7 +2549,7 @@
       "need_charges": 1,
       "need_charges_msg": "The blanket's batteries are dead."
     },
-    "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS", "RECHARGE" ]
+    "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS" ]
   },
   {
     "id": "electric_blanket_on",

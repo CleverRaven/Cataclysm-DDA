@@ -1,9 +1,11 @@
 #include <functional>
 #include <unordered_set>
 #include <vector>
+#include <algorithm>
+#include <cstddef>
+#include <iterator>
 
 #include "catch/catch.hpp"
-#include "map.h"
 #include "enums.h"
 
 #ifdef RELEASE

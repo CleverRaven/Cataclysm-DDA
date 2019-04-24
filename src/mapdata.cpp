@@ -1,11 +1,14 @@
 #include "mapdata.h"
 
 #include <unordered_map>
+#include <algorithm>
+#include <iterator>
+#include <map>
+#include <utility>
 
 #include "calendar.h"
 #include "color.h"
 #include "debug.h"
-#include "game_constants.h"
 #include "generic_factory.h"
 #include "harvest.h"
 #include "iexamine.h"
@@ -14,6 +17,10 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "trap.h"
+#include "assign.h"
+#include "game.h"
+#include "json.h"
+#include "mtype.h"
 
 namespace
 {
@@ -341,7 +348,7 @@ void load_season_array( JsonObject &jo, const std::string &key, C &container, F 
 
 std::string map_data_common_t::name() const
 {
-    return _( name_.c_str() );
+    return _( name_ );
 }
 
 void map_data_common_t::load_symbol( JsonObject &jo )
@@ -478,7 +485,7 @@ ter_id t_null,
        t_wall_metal,
        t_wall_glass,
        t_wall_glass_alarm,
-       t_reinforced_glass,
+       t_reinforced_glass, t_reinforced_glass_shutter, t_reinforced_glass_shutter_open,
        t_reinforced_door_glass_o,
        t_reinforced_door_glass_c,
        t_bars,
@@ -550,13 +557,14 @@ ter_id t_null,
        t_slope_up, t_rope_up,
        t_manhole_cover,
        // Special
-       t_card_science, t_card_military, t_card_reader_broken, t_slot_machine,
+       t_card_science, t_card_military, t_card_industrial, t_card_reader_broken, t_slot_machine,
        t_elevator_control, t_elevator_control_off, t_elevator, t_pedestal_wyrm,
        t_pedestal_temple,
        // Temple tiles
        t_rock_red, t_rock_green, t_rock_blue, t_floor_red, t_floor_green, t_floor_blue,
        t_switch_rg, t_switch_gb, t_switch_rb, t_switch_even, t_open_air, t_plut_generator,
        t_pavement_bg_dp, t_pavement_y_bg_dp, t_sidewalk_bg_dp, t_guardrail_bg_dp,
+       t_rad_platform,
        // Railroad and subway
        t_railroad_rubble,
        t_buffer_stop, t_railroad_crossing_signal, t_crossbuck_wood, t_crossbuck_metal,
@@ -628,6 +636,8 @@ void set_ter_ids()
     t_wall_glass = ter_id( "t_wall_glass" );
     t_wall_glass_alarm = ter_id( "t_wall_glass_alarm" );
     t_reinforced_glass = ter_id( "t_reinforced_glass" );
+    t_reinforced_glass_shutter = ter_id( "t_reinforced_glass_shutter" );
+    t_reinforced_glass_shutter_open = ter_id( "t_reinforced_glass_shutter_open" );
     t_reinforced_door_glass_c = ter_id( "t_reinforced_door_glass_c" );
     t_reinforced_door_glass_o = ter_id( "t_reinforced_door_glass_o" );
     t_bars = ter_id( "t_bars" );
@@ -811,6 +821,7 @@ void set_ter_ids()
     t_manhole_cover = ter_id( "t_manhole_cover" );
     t_card_science = ter_id( "t_card_science" );
     t_card_military = ter_id( "t_card_military" );
+    t_card_industrial = ter_id( "t_card_industrial" );
     t_card_reader_broken = ter_id( "t_card_reader_broken" );
     t_slot_machine = ter_id( "t_slot_machine" );
     t_elevator_control = ter_id( "t_elevator_control" );
@@ -841,6 +852,7 @@ void set_ter_ids()
     t_pavement_y_bg_dp = ter_id( "t_pavement_y_bg_dp" );
     t_sidewalk_bg_dp = ter_id( "t_sidewalk_bg_dp" );
     t_guardrail_bg_dp = ter_id( "t_guardrail_bg_dp" );
+    t_rad_platform = ter_id( "t_rad_platform" );
     t_improvised_shelter = ter_id( "t_improvised_shelter" );
     t_railroad_rubble = ter_id( "t_railroad_rubble" );
     t_buffer_stop = ter_id( "t_buffer_stop" );

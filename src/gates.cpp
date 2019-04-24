@@ -3,6 +3,9 @@
 #include <algorithm>
 #include <string>
 #include <vector>
+#include <list>
+#include <memory>
+#include <set>
 
 #include "game.h" // TODO: This is a circular dependency
 #include "generic_factory.h"
@@ -11,10 +14,21 @@
 #include "map.h"
 #include "mapdata.h"
 #include "messages.h"
-#include "output.h"
 #include "player.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+#include "character.h"
+#include "creature.h"
+#include "debug.h"
+#include "enums.h"
+#include "int_id.h"
+#include "item.h"
+#include "item_stack.h"
+#include "optional.h"
+#include "player_activity.h"
+#include "string_id.h"
+#include "translations.h"
+#include "units.h"
 
 // Gates namespace
 
@@ -22,6 +36,7 @@ namespace
 {
 
 struct gate_data;
+
 using gate_id = string_id<gate_data>;
 
 struct gate_data {
@@ -204,11 +219,11 @@ void gates::open_gate( const tripoint &pos )
 
     if( g->u.sees( pos ) ) {
         if( open ) {
-            add_msg( gate.open_message.c_str() );
+            add_msg( gate.open_message );
         } else if( close ) {
-            add_msg( gate.close_message.c_str() );
+            add_msg( gate.close_message );
         } else if( fail ) {
-            add_msg( gate.fail_message.c_str() );
+            add_msg( gate.fail_message );
         } else {
             add_msg( _( "Nothing happens." ) );
         }
@@ -226,7 +241,7 @@ void gates::open_gate( const tripoint &pos, player &p )
 
     const gate_data &gate = gates_data.obj( gid );
 
-    p.add_msg_if_player( gate.pull_message.c_str() );
+    p.add_msg_if_player( gate.pull_message );
     p.assign_activity( activity_id( "ACT_OPEN_GATE" ), gate.moves );
     p.activity.placement = pos;
 }
@@ -244,9 +259,9 @@ void doors::close_door( map &m, Character &who, const tripoint &closep )
             who.add_msg_if_player( m_info, _( "There's some buffoon in the way!" ) );
         } else if( mon->is_monster() ) {
             // TODO: Houseflies, mosquitoes, etc shouldn't count
-            who.add_msg_if_player( m_info, _( "The %s is in the way!" ), mon->get_name().c_str() );
+            who.add_msg_if_player( m_info, _( "The %s is in the way!" ), mon->get_name() );
         } else {
-            who.add_msg_if_player( m_info, _( "%s is in the way!" ), mon->disp_name().c_str() );
+            who.add_msg_if_player( m_info, _( "%s is in the way!" ), mon->disp_name() );
         }
         return;
     }
@@ -263,12 +278,12 @@ void doors::close_door( map &m, Character &who, const tripoint &closep )
             didit = true;
         } else if( inside_closable >= 0 ) {
             who.add_msg_if_player( m_info, _( "That %s can only be closed from the inside." ),
-                                   veh->parts[inside_closable].name().c_str() );
+                                   veh->parts[inside_closable].name() );
         } else if( openable >= 0 ) {
             who.add_msg_if_player( m_info, _( "That %s is already closed." ),
-                                   veh->parts[openable].name().c_str() );
+                                   veh->parts[openable].name() );
         } else {
-            who.add_msg_if_player( m_info, _( "You cannot close the %s." ), veh->parts[vpart].name().c_str() );
+            who.add_msg_if_player( m_info, _( "You cannot close the %s." ), veh->parts[vpart].name() );
         }
     } else if( m.furn( closep ) == furn_str_id( "f_crate_o" ) ) {
         who.add_msg_if_player( m_info, _( "You'll need to construct a seal to close the crate!" ) );
@@ -276,9 +291,9 @@ void doors::close_door( map &m, Character &who, const tripoint &closep )
         if( m.close_door( closep, true, true ) ) {
             who.add_msg_if_player( m_info,
                                    _( "You cannot close the %s from outside.  You must be inside the building." ),
-                                   m.name( closep ).c_str() );
+                                   m.name( closep ) );
         } else {
-            who.add_msg_if_player( m_info, _( "You cannot close the %s." ), m.name( closep ).c_str() );
+            who.add_msg_if_player( m_info, _( "You cannot close the %s." ), m.name( closep ) );
         }
     } else {
         auto items_in_way = m.i_at( closep );
@@ -292,14 +307,14 @@ void doors::close_door( map &m, Character &who, const tripoint &closep )
             } );
             if( toobig != items_in_way.end() ) {
                 who.add_msg_if_player( m_info, _( "The %s is too big to just nudge out of the way." ),
-                                       toobig->tname().c_str() );
+                                       toobig->tname() );
             } else if( items_in_way.stored_volume() > max_nudge ) {
                 who.add_msg_if_player( m_info, _( "There is too much stuff in the way." ) );
             } else {
                 m.close_door( closep, inside, false );
                 didit = true;
                 who.add_msg_if_player( m_info, _( "You push the %s out of the way." ),
-                                       items_in_way.size() == 1 ?  items_in_way[0].tname().c_str() : _( "stuff" ) );
+                                       items_in_way.size() == 1 ?  items_in_way[0].tname() : _( "stuff" ) );
                 who.mod_moves( -std::min( items_in_way.stored_volume() / ( max_nudge / 50 ), 100 ) );
 
                 if( m.has_flag( "NOITEM", closep ) ) {

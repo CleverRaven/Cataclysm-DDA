@@ -406,7 +406,7 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "potato_raw",
+    "id": "potato",
     "name": "raw potato",
     "name_plural": "raw potatoes",
     "weight": 210,

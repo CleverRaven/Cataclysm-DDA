@@ -1,9 +1,14 @@
 #include "npc.h" // IWYU pragma: associated
 
+#include <limits.h>
+#include <stdlib.h>
 #include <algorithm>
 #include <memory>
 #include <numeric>
 #include <sstream>
+#include <iterator>
+#include <tuple>
+#include <cmath>
 
 #include "ammo.h"
 #include "cata_algo.h"
@@ -24,7 +29,6 @@
 #include "monster.h"
 #include "mtype.h"
 #include "npctalk.h"
-#include "output.h"
 #include "overmap_location.h"
 #include "overmapbuffer.h"
 #include "projectile.h"
@@ -38,6 +42,18 @@
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "vpart_reference.h"
+#include "bodypart.h"
+#include "character.h"
+#include "clzones.h"
+#include "damage.h"
+#include "explosion.h"
+#include "game_constants.h"
+#include "item.h"
+#include "iuse.h"
+#include "mapdata.h"
+#include "player_activity.h"
+#include "ret_val.h"
+#include "units.h"
 
 static constexpr float NPC_DANGER_VERY_LOW = 5.0f;
 static constexpr float NPC_DANGER_MAX = 150.0f;
@@ -684,7 +700,7 @@ void npc::execute_action( npc_action action )
     }
     /*
       debugmsg("%s ran execute_action() with target = %d! Action %s",
-               name.c_str(), target, npc_action_name(action).c_str());
+               name, target, npc_action_name(action));
     */
 
     switch( action ) {
@@ -2723,7 +2739,7 @@ bool npc::alt_attack()
 
     int weapon_index = get_item_position( used );
     if( weapon_index == INT_MIN ) {
-        debugmsg( "npc::alt_attack() couldn't find expected item %s", used->tname().c_str() );
+        debugmsg( "npc::alt_attack() couldn't find expected item %s", used->tname() );
         return false;
     }
 
@@ -2833,7 +2849,7 @@ void npc::heal_player( player &patient )
 
     item &used = get_healing_item( ai_cache.can_heal );
     if( used.is_null() ) {
-        debugmsg( "%s tried to heal you but has no healing item", disp_name().c_str() );
+        debugmsg( "%s tried to heal you but has no healing item", disp_name() );
         return;
     }
 
@@ -2855,7 +2871,7 @@ void npc::heal_self()
 {
     item &used = get_healing_item( ai_cache.can_heal );
     if( used.is_null() ) {
-        debugmsg( "%s tried to heal self but has no healing item", disp_name().c_str() );
+        debugmsg( "%s tried to heal self but has no healing item", disp_name() );
         return;
     }
 
@@ -3007,7 +3023,7 @@ bool npc::consume_food()
     int old_moves = moves;
     bool consumed = consume( index ) && old_moves != moves;
     if( !consumed ) {
-        debugmsg( "%s failed to consume %s", name.c_str(), i_at( index ).tname().c_str() );
+        debugmsg( "%s failed to consume %s", name, i_at( index ).tname() );
     }
 
     return consumed;
@@ -3408,14 +3424,17 @@ body_part bp_affected( npc &who, const efftype_id &effect_type )
 void npc::warn_about( const std::string &type, const time_duration &d, const std::string &name )
 {
     std::string snip;
+    sounds::sound_t spriority = sounds::sound_t::alert;
     if( type == "monster" ) {
         snip = is_enemy() ? "<monster_warning_h>" : "<monster_warning>";
     } else if( type == "explosion" ) {
         snip = is_enemy() ? "<fire_in_the_hole_h>" : "<fire_in_the_hole>";
     } else if( type == "general_danger" ) {
         snip = is_enemy() ? "<general_danger_h>" : "<general_danger>";
+        spriority = sounds::sound_t::speech;
     } else if( type == "relax" ) {
         snip = is_enemy() ? "<its_safe_h>" : "<its_safe>";
+        spriority = sounds::sound_t::speech;
     } else if( type == "kill_npc" ) {
         snip = is_enemy() ? "<kill_npc_h>" : "<kill_npc>";
     } else if( type == "kill_player" ) {
@@ -3428,27 +3447,27 @@ void npc::warn_about( const std::string &type, const time_duration &d, const std
         snip = "<fire_bad>";
     } else if( type == "speech_noise" ) {
         snip = "<speech_warning>";
+        spriority = sounds::sound_t::speech;
     } else if( type == "combat_noise" ) {
         snip = "<combat_noise_warning>";
+        spriority = sounds::sound_t::speech;
     } else if( type == "movement_noise" ) {
         snip = "<movement_noise_warning>";
+        spriority = sounds::sound_t::speech;
     } else if( type == "heal_self" ) {
         snip = "<heal_self>";
+        spriority = sounds::sound_t::speech;
     } else {
         return;
-    }
-    bool alert = false;
-    if( type != "speech_noise" && type != "movement_noise" && type != "relax" ) {
-        alert = true;
     }
     const std::string warning_name = "warning_" + type + name;
     const std::string speech = name.empty() ? snip :
                                string_format( _( "%s %s<punc>" ), snip, name );
-    complain_about( warning_name, d, speech, is_enemy(), alert );
+    complain_about( warning_name, d, speech, is_enemy(), static_cast<int>( spriority ) );
 }
 
 bool npc::complain_about( const std::string &issue, const time_duration &dur,
-                          const std::string &speech, const bool force, const bool alert )
+                          const std::string &speech, const bool force, const int priority )
 {
     // Don't have a default constructor for time_point, so accessing it in the
     // complaints map is a bit difficult, those lambdas should cover it.
@@ -3471,7 +3490,7 @@ bool npc::complain_about( const std::string &issue, const time_duration &dur,
                                         !g->u.in_sleep_state() && !in_sleep_state() );
 
     if( complain_since( issue, dur ) && do_complain ) {
-        say( speech, alert );
+        say( speech, priority );
         set_complain_since( issue );
         return true;
     }
@@ -3563,7 +3582,7 @@ void npc::do_reload( const item &it )
     item::reload_option reload_opt = select_ammo( it );
 
     if( !reload_opt ) {
-        debugmsg( "do_reload failed: no usable ammo for %s", it.tname().c_str() );
+        debugmsg( "do_reload failed: no usable ammo for %s", it.tname() );
         return;
     }
 
@@ -3579,7 +3598,7 @@ void npc::do_reload( const item &it )
     const std::string ammo_name = usable_ammo->tname();
     if( !target.reload( *this, std::move( usable_ammo ), qty ) ) {
         debugmsg( "do_reload failed: item %s could not be reloaded with %ld charge(s) of %s",
-                  it.tname().c_str(), qty, ammo_name.c_str() );
+                  it.tname(), qty, ammo_name );
         return;
     }
 

@@ -1052,7 +1052,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```SOLARPACK_OFF``` Fold solar backpack array.
 - ```NOISE_EMITTER_OFF``` Turn the noise emitter on.
 - ```NOISE_EMITTER_ON``` Turn the noise emitter off.
-- ```PHEROMONE``` Makes zombies love you.
+- ```PHEROMONE``` Makes zombies ignore you.
 - ```PICKAXE``` Does nothing but berate you for having it (I'm serious).
 - ```PLACE_RANDOMLY``` This is very much like the flag in the manhack iuse, it prevents the item from querying the player as to where they want the monster unloaded to, and instead choses randomly.
 - ```PORTABLE_GAME``` Play games.

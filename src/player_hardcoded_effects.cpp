@@ -1,7 +1,9 @@
 #include "player.h" // IWYU pragma: associated
 
+#include <math.h>
+#include <stdlib.h>
+
 #include "effect.h"
-#include "field.h"
 #include "fungal_effects.h"
 #include "game.h"
 #include "map.h"
@@ -11,9 +13,11 @@
 #include "messages.h"
 #include "mongroup.h"
 #include "monster.h"
-#include "output.h"
 #include "sounds.h"
 #include "weather.h"
+#include "rng.h"
+#include "translations.h"
+#include "units.h"
 
 #if defined(TILES)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)
@@ -24,6 +28,7 @@
 #endif // TILES
 
 #include <functional>
+#include <algorithm>
 
 const mtype_id mon_dermatik_larva( "mon_dermatik_larva" );
 
@@ -312,7 +317,7 @@ struct temperature_effect {
             u.mod_per_bonus( -per_pen );
         }
         if( !msg.empty() && !u.has_effect( effect_sleep ) && one_in( msg_chance ) ) {
-            u.add_msg_if_player( m_warning, "%s", _( msg.c_str() ) );
+            u.add_msg_if_player( m_warning, "%s", _( msg ) );
         }
     }
 };
@@ -501,13 +506,11 @@ void player::hardcoded_effects( effect &it )
         if( x_in_y( intense, 100 + 50 * get_int() ) ) {
             if( !is_npc() ) {
                 //~ %s is bodypart in accusative.
-                add_msg( m_warning, _( "You start scratching your %s!" ),
-                         body_part_name_accusative( bp ).c_str() );
+                add_msg( m_warning, _( "You start scratching your %s!" ), body_part_name_accusative( bp ) );
                 g->cancel_activity();
             } else if( g->u.sees( pos() ) ) {
                 //~ 1$s is NPC name, 2$s is bodypart in accusative.
-                add_msg( _( "%1$s starts scratching their %2$s!" ), name.c_str(),
-                         body_part_name_accusative( bp ).c_str() );
+                add_msg( _( "%1$s starts scratching their %2$s!" ), name, body_part_name_accusative( bp ) );
             }
             moves -= 150;
             apply_damage( nullptr, bp, 1 );
@@ -898,7 +901,7 @@ void player::hardcoded_effects( effect &it )
             if( x_in_y( recover_factor, 108000 ) ) {
                 //~ %s is bodypart name.
                 add_msg_if_player( m_good, _( "Your %s wound begins to feel better!" ),
-                                   body_part_name( bp ).c_str() );
+                                   body_part_name( bp ) );
                 // Set ourselves up for removal
                 it.set_duration( 0_turns );
                 recovered = true;
@@ -950,7 +953,7 @@ void player::hardcoded_effects( effect &it )
             if( x_in_y( recover_factor, 864000 ) ) {
                 //~ %s is bodypart name.
                 add_msg_if_player( m_good, _( "Your %s wound begins to feel better!" ),
-                                   body_part_name( bp ).c_str() );
+                                   body_part_name( bp ) );
                 add_effect( effect_recover, 4 * dur );
                 // Set ourselves up for removal
                 it.set_duration( 0_turns );
@@ -1129,7 +1132,7 @@ void player::hardcoded_effects( effect &it )
                 Creature *hostile_critter = g->is_hostile_very_close();
                 if( hostile_critter != nullptr ) {
                     add_msg_if_player( _( "You see %s approaching!" ),
-                                       hostile_critter->disp_name().c_str() );
+                                       hostile_critter->disp_name() );
                     it.set_duration( 0_turns );
                     woke_up = true;
                 }
