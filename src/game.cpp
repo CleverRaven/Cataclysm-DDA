@@ -2168,7 +2168,7 @@ bool game::handle_mouseview( input_context &ctxt, std::string &action )
     return true;
 }
 
-tripoint mouse_edge_scrolling( input_context ctxt, const int speed )
+tripoint mouse_edge_scrolling( input_context ctxt __attribute__( ( unused ) ), const int speed )
 {
     tripoint ret = tripoint_zero;
     if( speed == 0 ) {
