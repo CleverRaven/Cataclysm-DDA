@@ -21,12 +21,6 @@
         "default": true
       },
       {
-        "text": "I want you to take over the camp here.",
-        "topic": "TALK_HALLU_CAMP",
-        "condition": { "npc_has_trait": "HALLUCINATION" },
-        "switch": true
-      },
-      {
         "text": "Show me what needs to be done at the camp.",
         "topic": "TALK_DONE",
         "effect": "basecamp_mission",
