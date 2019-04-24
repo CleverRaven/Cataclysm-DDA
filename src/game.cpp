@@ -10625,6 +10625,12 @@ bool game::walk_move( const tripoint &dest_loc )
             u.unhide( u.prev_pos );
         }
     }
+    else if( u.has_effect( effect_hidden ) && m.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, dest_loc ) ) {
+        if( ( m.ter( u.pos() ) != m.ter( dest_loc ) ) && m.impassable( u.pos() ) ) {
+            on_move_effects();
+            return u.unhide( u.prev_pos );
+        }
+    }
 
     place_player( dest_loc );
     on_move_effects();
