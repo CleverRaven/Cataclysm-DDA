@@ -1,58 +1,5 @@
 [
   {
-    "id": "boxing_clothes",
-    "type": "item_group",
-    "items": [
-      [ "tank_top", 40 ],
-      [ "shorts", 40 ],
-      [ "boxing_gloves", 50 ],
-      [ "headgear", 50 ],
-      [ "mouthpiece", 50 ],
-      [ "jersey", 40 ],
-      [ "coat_rain", 15 ],
-      [ "hood_rain", 15 ],
-      [ "gloves_wraps", 45 ],
-      [ "jeans", 30 ],
-      [ "sports_bra", 25 ],
-      [ "jacket_leather", 20 ],
-      [ "aspirin", 30 ],
-      [ "water_clean", 30 ],
-      [ "sports_drink", 30 ],
-      [ "1st_aid", 20 ]
-    ]
-  },
-  {
-    "id": "boxing_books",
-    "type": "item_group",
-    "items": [
-      [ "mag_unarmed", 40 ],
-      [ "manual_boxing", 50 ],
-      [ "mag_melee", 25 ],
-      [ "mag_bashing", 10 ],
-      [ "manual_melee", 15 ],
-      [ "recipe_melee", 10 ],
-      [ "manual_taekwondo", 10 ],
-      [ "manual_karate", 10 ],
-      [ "manual_muay_thai", 2 ],
-      [ "manual_krav_maga", 10 ]
-    ]
-  },
-  {
-    "id": "boxing_misc",
-    "type": "item_group",
-    "items": [
-      [ "aspirin", 50 ],
-      [ "1st_aid", 40 ],
-      [ "bandages", 30 ],
-      [ "duct_tape", 20 ],
-      [ "sewing_kit", 10 ],
-      [ "mouthpiece", 10 ],
-      [ "cigar", 20 ],
-      [ "cig", 15 ],
-      [ "matches", 10 ]
-    ]
-  },
-  {
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "gym" ],
