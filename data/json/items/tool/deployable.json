@@ -58,7 +58,7 @@
     "bashing": 7,
     "material": [ "steel" ],
     "symbol": "=",
-    "color": "grey",
+    "color": "light_gray",
     "use_action": { "type": "deploy_furn", "furn_type": "f_metal_smoking_rack" }
   },
   {
