@@ -226,6 +226,40 @@ const std::unordered_map<std::string, aim_rule> aim_rule_strs = { {
     }
 };
 
+// How much CBM power should remain before attempting to recharge, values are percents of power
+enum cbm_recharge_rule {
+    CBM_RECHARGE_ALL = 90,
+    CBM_RECHARGE_MOST = 75,
+    CBM_RECHARGE_SOME = 50,
+    CBM_RECHARGE_LITTLE = 25,
+    CBM_RECHARGE_NONE = 10
+};
+const std::unordered_map<std::string, cbm_recharge_rule> cbm_recharge_strs = { {
+        { "CBM_RECHARGE_ALL", CBM_RECHARGE_ALL },
+        { "CBM_RECHARGE_MOST", CBM_RECHARGE_MOST },
+        { "CBM_RECHARGE_SOME", CBM_RECHARGE_SOME },
+        { "CBM_RECHARGE_LITTLE", CBM_RECHARGE_LITTLE },
+        { "CBM_RECHARGE_NONE", CBM_RECHARGE_NONE }
+    }
+};
+
+// How much CBM power to reserve for defense, values are percents of total power
+enum cbm_reserve_rule {
+    CBM_RESERVE_ALL = 100,
+    CBM_RESERVE_MOST = 75,
+    CBM_RESERVE_SOME = 50,
+    CBM_RESERVE_LITTLE = 25,
+    CBM_RESERVE_NONE = 0
+};
+const std::unordered_map<std::string, cbm_reserve_rule> cbm_reserve_strs = { {
+        { "CBM_RESERVE_ALL", CBM_RESERVE_ALL },
+        { "CBM_RESERVE_MOST", CBM_RESERVE_MOST },
+        { "CBM_RESERVE_SOME", CBM_RESERVE_SOME },
+        { "CBM_RESERVE_LITTLE", CBM_RESERVE_LITTLE },
+        { "CBM_RESERVE_NONE", CBM_RESERVE_NONE }
+    }
+};
+
 enum class ally_rule {
     DEFAULT = 0,
     use_guns = 1,
@@ -363,6 +397,8 @@ const std::unordered_map<std::string, ally_rule_data> ally_rule_strs = { {
 struct npc_follower_rules {
     combat_engagement engagement;
     aim_rule aim = AIM_WHEN_CONVENIENT;
+    cbm_recharge_rule cbm_recharge = CBM_RECHARGE_SOME;
+    cbm_reserve_rule cbm_reserve = CBM_RESERVE_SOME;
     ally_rule flags;
     ally_rule override_enable;
     ally_rule overrides;
