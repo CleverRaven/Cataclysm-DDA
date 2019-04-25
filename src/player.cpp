@@ -11538,6 +11538,7 @@ void player::cancel_activity()
     if( activity && activity.is_suspendable() ) {
         backlog.push_front( activity );
     }
+    sfx::end_activity_sounds(); // kill activity sounds when canceled
     activity = player_activity();
 }
 

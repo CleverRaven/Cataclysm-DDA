@@ -211,7 +211,7 @@ Where id describes the id of the sound effect, and a list of variants separated 
 * `vehicle reaper|scoop|scoop_thump`
 
     # miscelaneous sounds
-* `misc flashbang|flash|shockwave|earthquake|stairs_movement|stones_grinding|bomb_ticking|lit_fuse|cow_bell|bell`
+* `misc flashbang|flash|shockwave|earthquake|stairs_movement|stones_grinding|bomb_ticking|lit_fuse|cow_bell|bell|timber`
 * `misc rc_car_hits_obstacle|rc_car_drives`
 * `misc default|whistle|airhorn|horn_bicycle|servomotor`
 * `misc beep|ding|`

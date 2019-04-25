@@ -94,7 +94,7 @@ bool init_sound()
         // Mix_OpenAudio returns non-zero if something went wrong trying to open the device
         if( !Mix_OpenAudio( audio_rate, audio_format, audio_channels, audio_buffers ) ) {
             Mix_AllocateChannels( 128 );
-            Mix_ReserveChannels( 20 );
+            Mix_ReserveChannels( 21 );
 
             // For the sound effects system.
             Mix_GroupChannels( 2, 9, 1 );

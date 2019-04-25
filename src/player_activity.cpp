@@ -6,6 +6,7 @@
 #include "activity_type.h"
 #include "craft_command.h"
 #include "player.h"
+#include "sounds.h"
 
 player_activity::player_activity() : type( activity_id::NULL_ID() ) { }
 
@@ -63,6 +64,7 @@ player_activity &player_activity::operator=( const player_activity &rhs )
 void player_activity::set_to_null()
 {
     type = activity_id::NULL_ID();
+    sfx::end_activity_sounds(); // kill activity sounds when activity is nullified
 }
 
 bool player_activity::rooted() const

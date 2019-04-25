@@ -46,6 +46,7 @@ float g_sfx_volume_multiplier = 1;
 auto start_sfx_timestamp = std::chrono::high_resolution_clock::now();
 auto end_sfx_timestamp = std::chrono::high_resolution_clock::now();
 auto sfx_time = end_sfx_timestamp - start_sfx_timestamp;
+activity_id act;
 
 const efftype_id effect_alarm_clock( "alarm_clock" );
 const efftype_id effect_deaf( "deaf" );
@@ -524,6 +525,7 @@ void sfx::do_ambient()
     18: Idle chainsaw
     19: Chainsaw theme
     20: Outdoor blizzard
+    21: Player activities
     Group Assignments:
     1: SFX related to weather
     2: SFX related to time of day
@@ -1110,6 +1112,28 @@ void sfx::do_obstacle()
     } else {
         play_variant_sound( "plmove", "clear_obstacle", heard_volume, 0, 0.8, 1.2 );
     }
+}
+
+void sfx::play_activity_sound( const std::string &id, const std::string &variant, int volume )
+{
+    add_msg( m_debug, string_format( "Sound: %s", act.str() ) );
+
+    if( is_channel_playing( 21 ) ) {
+        add_msg( m_debug, "Channel 21 playing." );
+    } else {
+        add_msg( m_debug, "Channel 21 NOT playing." );
+    }
+
+    if( act != g->u.activity.id() ) {
+        act = g->u.activity.id();
+        play_ambient_variant_sound( id, variant, volume, 21, 0 );
+    }
+}
+
+void sfx::end_activity_sounds()
+{
+    act = activity_id::NULL_ID();
+    fade_audio_channel( 21, 2000 );
 }
 
 #else // if defined(SDL_SOUND)

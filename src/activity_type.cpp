@@ -9,6 +9,7 @@
 #include "json.h"
 #include "player.h"
 #include "translations.h"
+#include "sounds.h"
 
 // activity_type functions
 static std::map< activity_id, activity_type > activity_type_all;
@@ -94,6 +95,7 @@ bool activity_type::call_finish( player_activity *act, player *p ) const
     const auto &pair = activity_handlers::finish_functions.find( id_ );
     if( pair != activity_handlers::finish_functions.end() ) {
         pair->second( act, p );
+        sfx::end_activity_sounds(); // kill activity sounds at finish
         return true;
     }
     return false;
