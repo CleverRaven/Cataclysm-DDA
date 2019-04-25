@@ -8101,6 +8101,19 @@ std::list<item_location> map::get_active_items_in_radius( const tripoint &center
     return result;
 }
 
+tripoint map::find_furniture_in_radius( const tripoint &center, size_t radius, furn_id target,
+                                        size_t radiusz )
+{
+    tripoint furn_pos;
+    for( const auto &furn_loc : g->m.points_in_radius( center, radius, radiusz ) ) {
+        if( g->m.furn( furn_loc ) == target ) {
+            furn_pos = furn_loc;
+            break;
+        }
+    }
+    return furn_pos;
+}
+
 level_cache &map::access_cache( int zlev )
 {
     if( zlev >= -OVERMAP_DEPTH && zlev <= OVERMAP_HEIGHT ) {
