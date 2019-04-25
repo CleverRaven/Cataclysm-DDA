@@ -1,6 +1,7 @@
 #include "trap.h"
 
 #include <vector>
+#include <set>
 
 #include "debug.h"
 #include "generic_factory.h"
@@ -12,6 +13,15 @@
 #include "player.h"
 #include "string_id.h"
 #include "translations.h"
+#include "assign.h"
+#include "bodypart.h"
+#include "creature.h"
+#include "enums.h"
+#include "item.h"
+#include "itype.h"
+#include "mapdata.h"
+#include "pldata.h"
+#include "rng.h"
 
 namespace
 {
@@ -112,7 +122,7 @@ void trap::load( JsonObject &jo, const std::string & )
 std::string trap::name() const
 {
     // trap names can be empty, those are special always invisible traps. See player::search_surroundings
-    return name_.empty() ? name_ : _( name_.c_str() );
+    return name_.empty() ? name_ : _( name_ );
 }
 
 void trap::reset()

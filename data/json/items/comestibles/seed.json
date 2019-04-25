@@ -330,7 +330,7 @@
     "description": "A raw potato, cut into pieces, separating each bud for planting.",
     "weight": 20,
     "stack_size": 10,
-    "seed_data": { "plant_name": "potatoes", "fruit": "potato_raw", "byproducts": [ "withered" ], "grow": "95 days" }
+    "seed_data": { "plant_name": "potatoes", "fruit": "potato", "byproducts": [ "withered" ], "grow": "95 days" }
   },
   {
     "type": "COMESTIBLE",

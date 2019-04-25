@@ -1,4 +1,5 @@
 #include <clocale>
+#include <string>
 
 #include "catch/catch.hpp"
 #include "catacharset.h"

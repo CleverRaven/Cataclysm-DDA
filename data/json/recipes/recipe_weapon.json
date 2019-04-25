@@ -281,7 +281,7 @@
     "reversible": true,
     "autolearn": true,
     "components": [
-      [ [ "stick_long", 1 ], [ "broom", 1 ] ],
+      [ [ "stick_long", 1 ], [ "broom", 1 ], [ "pool_cue", 1 ] ],
       [ [ "spike", 1 ] ],
       [ [ "rag", 1 ], [ "felt_patch", 1 ], [ "leather", 1 ], [ "fur", 1 ] ],
       [ [ "cordage", 1, "LIST" ], [ "duct_tape", 50 ] ]

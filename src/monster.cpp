@@ -1,8 +1,11 @@
 #include "monster.h"
 
+#include <math.h>
 #include <algorithm>
-#include <cstdlib>
 #include <sstream>
+#include <memory>
+#include <tuple>
+#include <unordered_map>
 
 #include "coordinate_conversions.h"
 #include "cursesdef.h"
@@ -22,6 +25,7 @@
 #include "mondefense.h"
 #include "monfaction.h"
 #include "mongroup.h"
+#include "morale_types.h"
 #include "mtype.h"
 #include "npc.h"
 #include "options.h"
@@ -31,8 +35,19 @@
 #include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"
+#include "text_snippets.h"
 #include "translations.h"
 #include "trap.h"
+#include "character.h"
+#include "compatibility.h"
+#include "game_constants.h"
+#include "itype.h"
+#include "mattack_common.h"
+#include "pimpl.h"
+#include "player.h"
+#include "material.h"
+
+struct pathfinding_settings;
 
 // Limit the number of iterations for next upgrade_time calculations.
 // This also sets the percentage of monsters that will never upgrade.
@@ -129,6 +144,7 @@ static const trait_id trait_ANIMALEMPATH2( "ANIMALEMPATH2" );
 static const trait_id trait_BEE( "BEE" );
 static const trait_id trait_FLOWERS( "FLOWERS" );
 static const trait_id trait_PACIFIST( "PACIFIST" );
+static const trait_id trait_KILLER( "KILLER" );
 
 static const std::map<m_size, std::string> size_names {
     {m_size::MS_TINY, translate_marker( "tiny" )},
@@ -275,7 +291,7 @@ int monster::next_upgrade_time()
         return type->age_grow;
     }
     const int scaled_half_life = type->half_life * get_option<float>( "MONSTER_UPGRADE_FACTOR" );
-    int day = scaled_half_life;
+    int day = 1; // 1 day of guaranteed evolve time
     for( int i = 0; i < UPGRADE_MAX_ITERS; i++ ) {
         if( one_in( 2 ) ) {
             day += rng( 0, scaled_half_life );
@@ -454,7 +470,7 @@ std::string monster::name( unsigned int quantity ) const
     }
     if( !unique_name.empty() ) {
         return string_format( "%s: %s",
-                              ( type->nname( quantity ).c_str() ), unique_name.c_str() );
+                              ( type->nname( quantity ) ), unique_name );
     }
     return type->nname( quantity );
 }
@@ -494,9 +510,9 @@ std::string monster::name_with_armor() const
 std::string monster::disp_name( bool possessive ) const
 {
     if( !possessive ) {
-        return string_format( _( "the %s" ), name().c_str() );
+        return string_format( _( "the %s" ), name() );
     } else {
-        return string_format( _( "the %s's" ), name().c_str() );
+        return string_format( _( "the %s's" ), name() );
     }
 }
 
@@ -514,7 +530,7 @@ std::pair<std::string, nc_color> monster::get_attitude() const
 {
     const auto att = attitude_names.at( attitude( &( g->u ) ) );
     return {
-        _( att.first.c_str() ),
+        _( att.first ),
         all_colors.get( att.second )
     };
 }
@@ -555,7 +571,7 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
 {
     const int vEnd = vStart + vLines;
 
-    mvwprintz( w, vStart, column, c_white, "%s ", name().c_str() );
+    mvwprintz( w, vStart, column, c_white, "%s ", name() );
 
     const auto att = get_attitude();
     wprintz( w, att.second, att.first );
@@ -608,7 +624,7 @@ std::string monster::extended_description() const
     ss << string_format( _( "This is a %s.  %s %s" ), name(), att_colored,
                          difficulty_str ) << std::endl;
     if( !get_effect_status().empty() ) {
-        ss << string_format( _( "<stat>It is %s.</stat>" ), get_effect_status().c_str() ) << std::endl;
+        ss << string_format( _( "<stat>It is %s.</stat>" ), get_effect_status() ) << std::endl;
     }
 
     ss << "--" << std::endl;
@@ -616,11 +632,11 @@ std::string monster::extended_description() const
     ss << colorize( hp_bar.first, hp_bar.second ) << std::endl;
 
     ss << "--" << std::endl;
-    ss << string_format( "<dark>%s</dark>", type->get_description().c_str() ) << std::endl;
+    ss << string_format( "<dark>%s</dark>", type->get_description() ) << std::endl;
     ss << "--" << std::endl;
 
     ss << string_format( _( "It is %s in size." ),
-                         _( size_names.at( get_size() ).c_str() ) ) << std::endl;
+                         _( size_names.at( get_size() ) ) ) << std::endl;
 
     std::vector<std::string> types;
     if( type->has_flag( MF_ANIMAL ) ) {
@@ -640,7 +656,7 @@ std::string monster::extended_description() const
     }
     if( !types.empty() ) {
         ss << string_format( _( "It is %s." ),
-                             enumerate_as_string( types ).c_str() ) << std::endl;
+                             enumerate_as_string( types ) ) << std::endl;
     }
 
     using flag_description = std::pair<m_flag, std::string>;
@@ -653,7 +669,7 @@ std::string monster::extended_description() const
             return type->has_flag( fd.first ) ? fd.second : "";
         } );
         if( !flag_descriptions.empty() ) {
-            ss << string_format( format, flag_descriptions.c_str() ) << std::endl;
+            ss << string_format( format, flag_descriptions ) << std::endl;
         } else if( !if_empty.empty() ) {
             ss << if_empty << std::endl;
         }
@@ -1158,7 +1174,7 @@ void monster::absorb_hit( body_part, damage_instance &dam )
 {
     for( auto &elem : dam.damage_units ) {
         add_msg( m_debug, "Dam Type: %s :: Ar Pen: %.1f :: Armor Mult: %.1f",
-                 name_by_dt( elem.type ).c_str(), elem.res_pen, elem.res_mult );
+                 name_by_dt( elem.type ), elem.res_pen, elem.res_mult );
         elem.amount -= std::min( resistances( *this ).get_effective_resist( elem ) +
                                  get_worn_armor_val( elem.type ), elem.amount );
     }
@@ -1266,7 +1282,7 @@ void monster::melee_attack( Creature &target, float accuracy )
                 //~ $1s is monster name, %2$s is that monster target name,
                 //~ $3s is target armor name.
                 add_msg( _( "The %1$s hits %2$s but is stopped by its %3$s." ),
-                         name().c_str(),
+                         name(),
                          target.disp_name(),
                          target.skin_name() );
             }
@@ -1449,14 +1465,14 @@ bool monster::move_effects( bool )
     if( has_effect( effect_downed ) ) {
         remove_effect( effect_downed );
         if( u_see_me ) {
-            add_msg( _( "The %s climbs to its feet!" ), name().c_str() );
+            add_msg( _( "The %s climbs to its feet!" ), name() );
         }
         return false;
     }
     if( has_effect( effect_webbed ) ) {
         if( x_in_y( type->melee_dice * type->melee_sides, 6 * get_effect_int( effect_webbed ) ) ) {
             if( u_see_me ) {
-                add_msg( _( "The %s breaks free of the webs!" ), name().c_str() );
+                add_msg( _( "The %s breaks free of the webs!" ), name() );
             }
             remove_effect( effect_webbed );
         }
@@ -1468,7 +1484,7 @@ bool monster::move_effects( bool )
             g->m.spawn_item( pos(), "string_36" );
             g->m.spawn_item( pos(), "snare_trigger" );
             if( u_see_me ) {
-                add_msg( _( "The %s escapes the light snare!" ), name().c_str() );
+                add_msg( _( "The %s escapes the light snare!" ), name() );
             }
         }
         return false;
@@ -1480,7 +1496,7 @@ bool monster::move_effects( bool )
                 g->m.spawn_item( pos(), "rope_6" );
                 g->m.spawn_item( pos(), "snare_trigger" );
                 if( u_see_me ) {
-                    add_msg( _( "The %s escapes the heavy snare!" ), name().c_str() );
+                    add_msg( _( "The %s escapes the heavy snare!" ), name() );
                 }
             }
         }
@@ -1492,7 +1508,7 @@ bool monster::move_effects( bool )
                 remove_effect( effect_beartrap );
                 g->m.spawn_item( pos(), "beartrap" );
                 if( u_see_me ) {
-                    add_msg( _( "The %s escapes the bear trap!" ), name().c_str() );
+                    add_msg( _( "The %s escapes the bear trap!" ), name() );
                 }
             }
         }
@@ -1502,7 +1518,7 @@ bool monster::move_effects( bool )
         if( x_in_y( type->melee_dice * type->melee_sides, 100 ) ) {
             remove_effect( effect_crushed );
             if( u_see_me ) {
-                add_msg( _( "The %s frees itself from the rubble!" ), name().c_str() );
+                add_msg( _( "The %s frees itself from the rubble!" ), name() );
             }
         }
         return false;
@@ -1515,7 +1531,7 @@ bool monster::move_effects( bool )
             return false;
         } else {
             if( u_see_me ) {
-                add_msg( _( "The %s escapes the pit!" ), name().c_str() );
+                add_msg( _( "The %s escapes the pit!" ), name() );
             }
             remove_effect( effect_in_pit );
         }
@@ -1526,7 +1542,7 @@ bool monster::move_effects( bool )
             return false;
         } else {
             if( u_see_me ) {
-                add_msg( _( "The %s breaks free from the grab!" ), name().c_str() );
+                add_msg( _( "The %s breaks free from the grab!" ), name() );
             }
             remove_effect( effect_grabbed );
         }
@@ -1857,12 +1873,12 @@ void monster::process_turn()
                     if( one_in( 4 ) ) {
                         g->explosion( pos(), 40, 0.8, true );
                         if( player_sees ) {
-                            add_msg( m_warning, _( "The %s explodes in a fiery inferno!" ), g->m.tername( zap ).c_str() );
+                            add_msg( m_warning, _( "The %s explodes in a fiery inferno!" ), g->m.tername( zap ) );
                         }
                     } else {
                         if( player_sees ) {
-                            add_msg( m_warning, _( "Lightning from %1$s engulfs the %2$s!" ), name().c_str(),
-                                     g->m.tername( zap ).c_str() );
+                            add_msg( m_warning, _( "Lightning from %1$s engulfs the %2$s!" ), name(),
+                                     g->m.tername( zap ) );
                         }
                         g->m.add_field( zap, fd_fire, 1, 2_turns );
                     }
@@ -1873,7 +1889,7 @@ void monster::process_turn()
                 sounds::sound( pos(), 300, sounds::sound_t::combat, _( "BOOOOOOOM!!!" ) );
                 sounds::sound( pos(), 20, sounds::sound_t::combat, _( "vrrrRRRUUMMMMMMMM!" ) );
                 if( g->u.sees( pos() ) ) {
-                    add_msg( m_bad, _( "Lightning strikes the %s!" ), name().c_str() );
+                    add_msg( m_bad, _( "Lightning strikes the %s!" ), name() );
                     add_msg( m_bad, _( "Your vision goes white!" ) );
                     g->u.add_effect( effect_blind, rng( 1_minutes, 2_minutes ) );
                 }
@@ -1918,7 +1934,15 @@ void monster::die( Creature *nkiller )
         if( type->difficulty >= 30 ) {
             ch->add_memorial_log( pgettext( "memorial_male", "Killed a %s." ),
                                   pgettext( "memorial_female", "Killed a %s." ),
-                                  name().c_str() );
+                                  name() );
+        }
+        if( ch->is_player() && ch->has_trait( trait_KILLER ) ) {
+            std::string snip = SNIPPET.random_from_category( "killer_on_kill" );
+            if( one_in( 4 ) ) {
+                ch->add_msg_if_player( m_good, _( snip ) );
+            }
+            ch->add_morale( MORALE_KILLER_HAS_KILLED, 5, 10, 6_hours, 4_hours );
+            ch->rem_morale( MORALE_KILLER_NEED_TO_KILL );
         }
     }
     // We were tied up at the moment of death, add a short rope to inventory
@@ -2084,11 +2108,11 @@ void monster::process_effects()
 
     //If this monster has the ability to heal in combat, do it now.
     if( has_flag( MF_REGENERATES_50 ) && heal( 50 ) > 0 && one_in( 2 ) && g->u.sees( *this ) ) {
-        add_msg( m_warning, _( "The %s is visibly regenerating!" ), name().c_str() );
+        add_msg( m_warning, _( "The %s is visibly regenerating!" ), name() );
     }
 
     if( has_flag( MF_REGENERATES_10 ) && heal( 10 ) > 0 && one_in( 2 ) && g->u.sees( *this ) ) {
-        add_msg( m_warning, _( "The %s seems a little healthier." ), name().c_str() );
+        add_msg( m_warning, _( "The %s seems a little healthier." ), name() );
     }
 
     if( has_flag( MF_REGENERATES_IN_DARK ) ) {
@@ -2096,7 +2120,7 @@ void monster::process_effects()
         // Magic number 10000 was chosen so that a floodlight prevents regeneration in a range of 20 tiles
         if( heal( static_cast<int>( 50.0 *  exp( - light * light / 10000 ) )  > 0 && one_in( 2 ) &&
                   g->u.sees( *this ) ) ) {
-            add_msg( m_warning, _( "The %s uses the darkness to regenerate." ), name().c_str() );
+            add_msg( m_warning, _( "The %s uses the darkness to regenerate." ), name() );
         }
     }
 
@@ -2124,7 +2148,7 @@ void monster::process_effects()
     // If this critter dies in sunlight, check & assess damage.
     if( has_flag( MF_SUNDEATH ) && g->is_in_sunlight( pos() ) ) {
         if( g->u.sees( *this ) ) {
-            add_msg( m_good, _( "The %s burns horribly in the sunlight!" ), name().c_str() );
+            add_msg( m_good, _( "The %s burns horribly in the sunlight!" ), name() );
         }
         apply_damage( nullptr, bp_torso, 100 );
         if( hp < 0 ) {
@@ -2200,7 +2224,7 @@ bool monster::make_fungus()
 
     if( g->u.sees( pos() ) ) {
         add_msg( m_info, _( "The spores transform %1$s into a %2$s!" ),
-                 old_name.c_str(), name().c_str() );
+                 old_name, name() );
     }
 
     return true;
@@ -2540,7 +2564,7 @@ void monster::on_load()
     }
 
     add_msg( m_debug, "on_load() by %s, %d turns, healed %d hp, %d speed",
-             name().c_str(), to_turns<int>( dt ), healed, healed_speed );
+             name(), to_turns<int>( dt ), healed, healed_speed );
 }
 
 const pathfinding_settings &monster::get_pathfinding_settings() const

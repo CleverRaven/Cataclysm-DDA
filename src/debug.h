@@ -48,6 +48,8 @@
 // ---------------------------------------------------------------------
 #include <iostream>
 #include <vector>
+#include <string>
+#include <utility>
 
 #define STRING2(x) #x
 #define STRING(x) STRING2(x)
@@ -139,6 +141,11 @@ void limitDebugLevel( int );
  * Note that D_UNSPECIFIC is always logged.
  */
 void limitDebugClass( int );
+
+/**
+ * @return true if any error has been logged in this run.
+ */
+bool debug_has_error_been_observed();
 
 // Debug Only                                                       {{{1
 // ---------------------------------------------------------------------

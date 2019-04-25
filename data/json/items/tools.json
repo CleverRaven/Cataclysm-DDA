@@ -3817,101 +3817,6 @@
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ]
   },
   {
-    "id": "grenade",
-    "type": "TOOL",
-    "category": "weapons",
-    "name": "grenade",
-    "description": "This is a military grade fragmentary hand grenade.  Use this item to pull the pin and light the fuse.  You will then have five turns before it explodes; throwing it would be a good idea.",
-    "weight": 397,
-    "volume": 1,
-    "price": 1500,
-    "to_hit": -1,
-    "bashing": 6,
-    "material": [ "steel", "plastic" ],
-    "symbol": "*",
-    "color": "green",
-    "use_action": {
-      "target": "grenade_act",
-      "msg": "You pull the pin on the grenade.",
-      "target_charges": 5,
-      "active": true,
-      "menu_text": "Pull pin",
-      "type": "transform"
-    },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ]
-  },
-  {
-    "id": "grenade_act",
-    "type": "TOOL",
-    "category": "weapons",
-    "name": "active grenade",
-    "description": "This is an active grenade, and will explode any second now.  Better throw it!",
-    "weight": 397,
-    "volume": 1,
-    "price": 0,
-    "to_hit": -1,
-    "bashing": 6,
-    "material": [ "steel", "plastic" ],
-    "symbol": "*",
-    "color": "green",
-    "initial_charges": 5,
-    "max_charges": 5,
-    "turns_per_charge": 1,
-    "use_action": {
-      "type": "explosion",
-      "sound_volume": 0,
-      "sound_msg": "Tick.",
-      "no_deactivate_msg": "You've already pulled the %s's pin, try throwing it instead.",
-      "explosion": { "power": 185, "shrapnel": 212 }
-    },
-    "flags": [ "BOMB", "TRADER_AVOID" ]
-  },
-  {
-    "id": "grenade_inc",
-    "type": "TOOL",
-    "category": "weapons",
-    "name": "incendiary grenade",
-    "description": "This is a military grade incendiary hand grenade.  Use this item to pull the pin and light the fuse.  You will then have five turns before it explodes into a raging inferno; throwing it would be a good idea.",
-    "weight": 180,
-    "volume": 1,
-    "price": 2000,
-    "to_hit": -1,
-    "bashing": 6,
-    "material": [ "steel" ],
-    "symbol": "*",
-    "color": "light_red",
-    "use_action": {
-      "target": "grenade_inc_act",
-      "msg": "You pull the pin on the grenade.",
-      "target_charges": 5,
-      "active": true,
-      "menu_text": "Pull pin",
-      "type": "transform"
-    },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "ACT_IN_FIRE", "GRENADE" ]
-  },
-  {
-    "id": "grenade_inc_act",
-    "type": "TOOL",
-    "category": "weapons",
-    "name": "active incendiary grenade",
-    "description": "This is an active incendiary grenade, likely to burst into an inferno any second now.  Better throw it!",
-    "weight": 180,
-    "volume": 1,
-    "price": 0,
-    "to_hit": -1,
-    "bashing": 6,
-    "material": [ "steel" ],
-    "symbol": "*",
-    "color": "light_red",
-    "initial_charges": 5,
-    "max_charges": 5,
-    "turns_per_charge": 1,
-    "revert_to": "canister_empty",
-    "use_action": "GRENADE_INC_ACT",
-    "flags": [ "ACT_IN_FIRE", "BOMB", "TRADER_AVOID" ]
-  },
-  {
     "id": "hacksaw",
     "type": "TOOL",
     "name": "hacksaw",
@@ -4679,7 +4584,8 @@
       [ "SCREW", 1 ],
       [ "CHISEL", 3 ]
     ],
-    "use_action": "GUN_REPAIR"
+    "use_action": "GUN_REPAIR",
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "large_tent_kit",
@@ -5196,7 +5102,8 @@
     "max_charges": 200,
     "charges_per_use": 50,
     "qualities": [ [ "CHISEL", 3 ], [ "HAMMER_FINE", 1 ], [ "HAMMER", 3 ], [ "PRY", 1 ] ],
-    "use_action": "MISC_REPAIR"
+    "use_action": "MISC_REPAIR",
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "mold_plastic",
@@ -5394,7 +5301,7 @@
       "cost_scaling": 0.1,
       "move_cost": 1300
     },
-    "flags": [ "STAB" ]
+    "flags": [ "STAB", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "needle_curved",
@@ -5421,7 +5328,7 @@
       "cost_scaling": 0.1,
       "move_cost": 1200
     },
-    "flags": [ "STAB" ]
+    "flags": [ "STAB", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "needle_wood",
@@ -5448,7 +5355,7 @@
       "cost_scaling": 0.1,
       "move_cost": 1500
     },
-    "flags": [ "STAB" ]
+    "flags": [ "STAB", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "nodachi",
@@ -5741,7 +5648,7 @@
     "id": "pheromone",
     "type": "TOOL",
     "name": "zombie pheromone",
-    "description": "This is some kind of disgusting ball of rotting meat.  Squeezing it causes a small cloud of pheromones to spray into the air, causing nearby zombies to become friendly for a short period of time.",
+    "description": "This is a disgusting ball of rotting meat of zombie origin.  Squeezing this gland causes a small cloud of pheromones to spray into the air.  Apparently the foul secretion can change zombies' attitude towards you, and they may ignore you for a short period of time.  Perhaps they briefly consider you as one of them.",
     "weight": 238,
     "volume": 1,
     "price": 4000,
@@ -6529,58 +6436,6 @@
     "flags": [ "SPEAR" ]
   },
   {
-    "id": "scrambler",
-    "type": "TOOL",
-    "category": "weapons",
-    "name": "scrambler grenade",
-    "description": "This is a highly modified EMP grenade, designed to scramble robots' IFF control chips, rather than destroy them.  This converts the robot to your side for a short time, before the backup systems kick in.  Use this item to pull the pin and light the fuse, turning it into an active scrambler grenade.",
-    "weight": 500,
-    "volume": 1,
-    "price": 6000,
-    "to_hit": -1,
-    "bashing": 5,
-    "material": [ "steel", "plastic" ],
-    "symbol": "*",
-    "color": "yellow",
-    "use_action": {
-      "target": "scrambler_act",
-      "msg": "You pull the pin on the scrambler grenade.",
-      "target_charges": 3,
-      "active": true,
-      "menu_text": "Pull pin",
-      "type": "transform"
-    },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ]
-  },
-  {
-    "id": "scrambler_act",
-    "type": "TOOL",
-    "category": "weapons",
-    "name": "active scrambler grenade",
-    "description": "This scrambler grenade is active, and will soon detonate, releasing a control wave that temporarily converts robots to your side.",
-    "weight": 500,
-    "volume": 1,
-    "price": 0,
-    "to_hit": -1,
-    "bashing": 5,
-    "material": [ "steel", "plastic" ],
-    "symbol": "*",
-    "color": "yellow",
-    "initial_charges": 3,
-    "max_charges": 3,
-    "turns_per_charge": 1,
-    "use_action": {
-      "type": "explosion",
-      "draw_explosion_radius": 4,
-      "draw_explosion_color": "cyan",
-      "scrambler_blast_radius": 4,
-      "sound_volume": 0,
-      "sound_msg": "Tick.",
-      "no_deactivate_msg": "You've already pulled the %s's pin, try throwing it instead."
-    },
-    "flags": [ "TRADER_AVOID" ]
-  },
-  {
     "id": "screwdriver",
     "type": "TOOL",
     "name": "screwdriver",
@@ -6675,7 +6530,8 @@
       "tool_quality": 0,
       "cost_scaling": 0.1,
       "move_cost": 1000
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "shavingkit",
@@ -6828,7 +6684,7 @@
     "charges_per_use": 1,
     "techniques": [ "WBLOCK_2", "RAPID" ],
     "use_action": "SHOCKTONFA_OFF",
-    "flags": [ "DURABLE_MELEE", "NO_UNLOAD", "RECHARGE", "NONCONDUCTIVE" ]
+    "flags": [ "DURABLE_MELEE", "NO_UNLOAD", "RECHARGE", "NONCONDUCTIVE", "BELT_CLIP" ]
   },
   {
     "id": "shocktonfa_on",
@@ -6852,7 +6708,7 @@
     "revert_to": "shocktonfa_off",
     "techniques": [ "WBLOCK_2", "RAPID" ],
     "use_action": "SHOCKTONFA_ON",
-    "flags": [ "LIGHT_450", "CHARGEDIM", "DURABLE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE" ]
+    "flags": [ "LIGHT_450", "CHARGEDIM", "DURABLE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE", "BELT_CLIP" ]
   },
   {
     "id": "shotgun_trap",
@@ -6959,7 +6815,8 @@
       [ "SCREW", 1 ],
       [ "CHISEL", 3 ]
     ],
-    "use_action": "GUN_REPAIR"
+    "use_action": "GUN_REPAIR",
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "smart_lamp",
@@ -7057,7 +6914,7 @@
       },
       { "flame": false, "type": "cauterize" }
     ],
-    "flags": [ "SPEAR", "BELT_CLIP" ]
+    "flags": [ "SPEAR", "BELT_CLIP", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "spear_knife",
@@ -7348,7 +7205,8 @@
         "move_cost": 800
       },
       "SEW_ADVANCED"
-    ]
+    ],
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "talking_doll",
@@ -8518,7 +8376,8 @@
     "material": "wood",
     "symbol": ";",
     "color": "white",
-    "use_action": "WASHCLOTHES"
+    "use_action": "WASHCLOTHES",
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "water_purifier",

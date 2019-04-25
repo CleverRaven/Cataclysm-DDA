@@ -1,8 +1,9 @@
 #include "start_location.h"
 
+#include <limits.h>
 #include <algorithm>
-#include <chrono>
 #include <random>
+#include <memory>
 
 #include "coordinate_conversions.h"
 #include "debug.h"
@@ -10,7 +11,6 @@
 #include "field.h"
 #include "game.h"
 #include "generic_factory.h"
-#include "json.h"
 #include "map.h"
 #include "map_extras.h"
 #include "mapdata.h"
@@ -18,6 +18,17 @@
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "player.h"
+#include "calendar.h"
+#include "game_constants.h"
+#include "int_id.h"
+#include "mapgen.h"
+#include "pldata.h"
+#include "rng.h"
+#include "translations.h"
+#include "mongroup.h"
+#include "mtype.h"
+
+class item;
 
 const efftype_id effect_bleed( "bleed" );
 
@@ -52,7 +63,7 @@ const string_id<start_location> &start_location::ident() const
 
 std::string start_location::name() const
 {
-    return _( _name.c_str() );
+    return _( _name );
 }
 
 std::string start_location::target() const

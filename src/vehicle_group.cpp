@@ -1,5 +1,9 @@
 #include "vehicle_group.h"
 
+#include <stddef.h>
+#include <functional>
+#include <utility>
+
 #include "debug.h"
 #include "enums.h"
 #include "json.h"
@@ -205,8 +209,8 @@ void builtin_jackknifed_semi( map &m, const std::string &terrainid )
 {
     const VehicleLocation *loc = vplacement_id( terrainid + "_semi" ).obj().pick();
     if( ! loc ) {
-        debugmsg( "builtin_jackknifed_semi unable to get location to place vehicle. placement %s",
-                  ( terrainid + "_semi" ).c_str() );
+        debugmsg( "builtin_jackknifed_semi unable to get location to place vehicle. placement %s_semi",
+                  terrainid );
         return;
     }
 

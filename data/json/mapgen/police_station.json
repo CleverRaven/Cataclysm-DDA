@@ -168,8 +168,8 @@
         "|......................|",
         "|$^$|..|+-|-+|-+--|-+--|",
         "|..2|..|.S|S.|t..c|....|",
-        "|.dd|..|.t|t.|...c|Ccc.|",
-        "|.Cd|..|+-|-+|...c|.cc.|",
+        "|.dd|..|.t|t.|N..c|Ccc.|",
+        "|.Cd|..|+-|-+|U..c|.cc.|",
         "|..6|..|.&|&.|cccc|.C..|",
         "|-=-|..----------------|",
         "|L.L|<.*__,,,,,,,,,,,,,,",
@@ -208,6 +208,8 @@
         "t": "f_trashcan",
         "d": "f_desk",
         "F": "f_filing_cabinet",
+        "N": "f_vending_c",
+        "U": "f_vending_c",
         "b": "f_bench"
       },
       "items": {
@@ -216,7 +218,9 @@
         "c": { "item": "kitchen", "chance": 40 },
         "1": { "item": "cop_gear", "chance": 70 },
         "l": { "item": "cop_armory", "chance": 70 },
-        "L": { "item": "cop_evidence", "chance": 60 }
+        "L": { "item": "cop_evidence", "chance": 60 },
+        "N": { "item": "vending_food_items", "chance": 70, "repeat": [ 4, 12 ] },
+        "U": { "item": "vending_drink_items", "chance": 70, "repeat": [ 4, 12 ] }
       },
       "toilets": { "&": {  } },
       "computers": {
@@ -233,7 +237,7 @@
           "failures": [ { "action": "shutdown" }, { "action": "alarm" }, { "action": "manhacks" } ]
         }
       },
-      "place_monsters": [ { "monster": "GROUP_POLICE", "x": [ 1, 22 ], "y": [ 0, 23 ], "repeat": 4 } ]
+      "place_monsters": [ { "monster": "GROUP_POLICE", "x": [ 7, 22 ], "y": [ 7, 14 ], "repeat": 4 } ]
     }
   },
   {
@@ -310,38 +314,37 @@
         "b": "f_bench"
       },
       "toilets": { "&": {  } },
-      "place_loot": [ { "item": "television", "x": 14, "y": 12, "chance": 100 } ],
+      "place_loot": [ { "item": "television", "x": 14, "y": 12, "chance": 100 }, { "item": "family_photo", "x": 5, "y": 4, "chance": 100 } ],
       "items": {
         "3": [
-          { "item": "ammo_swat", "chance": 20, "repeat": [ 2, 3 ] },
-          { "item": "ammo_cop", "chance": 70, "repeat": [ 2, 3 ] },
-          { "item": "ammo_common", "chance": 70, "repeat": [ 2, 3 ] }
+          { "item": "ammo_swat", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "guns_swat", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "ammo_common", "chance": 20, "repeat": [ 1, 2 ] }
         ],
         "9": [
-          { "item": "guns_cop", "chance": 20, "repeat": [ 2, 3 ] },
-          { "item": "guns_swat", "chance": 20, "repeat": [ 2, 3 ] },
-          { "item": "guns_common", "chance": 20, "repeat": [ 2, 3 ] }
+          { "item": "guns_cop", "chance": 50, "repeat": [ 1, 3 ] },
+          { "item": "ammo_cop", "chance": 50, "repeat": [ 1, 3 ] },
+          { "item": "guns_common", "chance": 20, "repeat": [ 1, 3 ] }
         ],
         "7": [
-          { "item": "jewelry_front", "chance": 30, "repeat": [ 2, 3 ] },
-          { "item": "harddrugs", "chance": 30, "repeat": [ 2, 3 ] },
-          { "item": "jewelry_safe", "chance": 20, "repeat": [ 2, 3 ] },
-          { "item": "bionics_common", "chance": 20, "repeat": [ 2, 3 ] },
-          { "item": "consumer_electronics", "chance": 50, "repeat": [ 2, 3 ] },
-          { "item": "cop_evidence", "chance": 20, "repeat": [ 2, 3 ] }
+          { "item": "jewelry_front", "chance": 50, "repeat": [ 2, 3 ] },
+          { "item": "stash_drugs", "chance": 50, "repeat": [ 2, 3 ] },
+          { "item": "harddrugs", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "jewelry_safe", "chance": 20 },
+          { "item": "bionics_common", "chance": 10 }
         ],
-        "F": { "item": "office", "chance": 100 },
-        "t": { "item": "trash_cart", "chance": 50, "repeat": [ 2, 3 ] },
-        "d": { "item": "office", "chance": 40, "repeat": [ 2, 3 ] },
-        "B": { "item": "bed", "chance": 40, "repeat": [ 2, 3 ] },
-        "b": { "item": "bed", "chance": 40, "repeat": [ 1, 2 ] },
-        "^": { "item": "bedroom", "chance": 40, "repeat": [ 2, 3 ] },
-        "1": { "item": "cop_gear", "chance": 70, "repeat": [ 2, 3 ] },
-        "l": { "item": "cop_armory", "chance": 70, "repeat": [ 2, 3 ] },
+        "F": [ { "item": "office", "chance": 50 }, { "item": "consumer_electronics", "chance": 30, "repeat": [ 1, 2 ] } ],
+        "t": { "item": "trash_cart", "chance": 30, "repeat": [ 1, 2 ] },
+        "d": { "item": "office", "chance": 30, "repeat": [ 1, 2 ] },
+        "B": { "item": "bed", "chance": 30 },
+        "b": { "item": "bed", "chance": 30, "repeat": [ 1, 2 ] },
+        "^": { "item": "bedroom", "chance": 30, "repeat": [ 1, 2 ] },
+        "1": { "item": "cop_gear", "chance": 30, "repeat": [ 1, 2 ] },
+        "l": { "item": "cop_armory", "chance": 30, "repeat": [ 1, 2 ] },
         "L": [
-          { "item": "cop_evidence", "chance": 60, "repeat": [ 2, 3 ] },
-          { "item": "stash_drugs", "chance": 60, "repeat": [ 2, 3 ] },
-          { "item": "drugdealer", "chance": 60, "repeat": [ 2, 3 ] }
+          { "item": "cop_evidence", "chance": 30, "repeat": [ 1, 2 ] },
+          { "item": "stash_drugs", "chance": 30, "repeat": [ 1, 2 ] },
+          { "item": "drugdealer", "chance": 30, "repeat": [ 1, 2 ] }
         ]
       },
       "computers": {
@@ -358,7 +361,8 @@
           "failures": [ { "action": "shutdown" }, { "action": "alarm" }, { "action": "manhacks" } ]
         }
       },
-      "place_monsters": [ { "monster": "GROUP_POLICE", "x": [ 7, 22 ], "y": [ 7, 14 ], "repeat": 4 } ]
+      "place_nested": [ { "chunks": [ [ "null", 95 ], [ "city_cop_police_station", 5 ] ], "x": 0, "y": 13 } ],
+      "place_monsters": [ { "monster": "GROUP_POLICE", "x": [ 7, 22 ], "y": [ 7, 14 ], "repeat": 2 } ]
     }
   },
   {

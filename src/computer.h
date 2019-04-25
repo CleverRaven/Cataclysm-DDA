@@ -8,7 +8,6 @@
 #include "calendar.h"
 #include "cursesdef.h"
 
-class game;
 class player;
 class JsonObject;
 
@@ -59,6 +58,12 @@ enum computer_action {
     COMPACT_OPEN_DISARM,
     COMPACT_UNLOCK_DISARM,
     COMPACT_RELEASE_DISARM,
+    COMPACT_IRRADIATOR,
+    COMPACT_GEIGER,
+    COMPACT_CONVEYOR,
+    COMPACT_SHUTTERS,
+    COMPACT_EXTRACT_RAD_SOURCE,
+    COMPACT_DEACTIVATE_SHOCK_VENT,
     NUM_COMPUTER_ACTIONS
 };
 

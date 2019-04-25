@@ -80,7 +80,7 @@ List of known flags, used in both terrain.json and furniture.json
 - ```FLAMMABLE_ASH``` Burns to ash rather than rubble.
 - ```FLAMMABLE_HARD``` Harder to light on fire, but still possible.
 - ```FLAT``` Player can build and move furniture on.
-- ```FLAT_SURF``` Furniture or terrain or vehicle part with flat hard surface (ex. table, but not chair; tree stump, etc.).
+- ```FLAT_SURF``` Furniture or terrain with a flat hard surface (e.g. table, but not chair; tree stump, etc.).
 - ```GOES_DOWN``` Can use <kbd>></kbd> to go down a level.
 - ```GOES_UP``` Can use <kbd><</kbd> to go up a level.
 - ```HARVESTED``` Marks the harvested version of a terrain type (e.g. harvesting an apple tree turns it into a harvested tree, which later becomes an apple tree again).
@@ -231,6 +231,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```BONES``` May produce bones and sinews when butchered.
 - ```BORES``` Tunnels through just about anything (15x bash multiplier: dark wyrms' bash skill 12->180)
 - ```CAN_DIG``` Can dig _and_ walk.
+- ```CAN_OPEN_DOORS``` Can open doors on its path.
 - ```CATFOOD``` Becomes friendly / tamed with cat food.
 - ```CATTLEFODDER``` Becomes friendly / tamed with cattle fodder.
 - ```CBM_CIV``` May produce a common CBM a power CBM when butchered.
@@ -517,6 +518,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```EVENTURN``` Only on during even turns.
 - ```EXTRA_DRAG``` tells the vehicle that the part exerts engine power reduction.
 - ```FAUCET```
+- ```FLAT_SURF``` Part with a flat hard surface (e.g. table).
 - ```FOLDABLE```
 - ```FORGE``` Acts as a forge for crafting.
 - ```FRIDGE``` Can refrigerate items.
@@ -583,6 +585,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```WASHING_MACHINE``` Can be used to wash filthy clothes en masse.
 - ```WATER_WHEEL``` Recharges vehicle batteries when in flowing water.
 - ```WINDOW``` Can see through this part and can install curtains over it.
+- ```WORKBENCH``` Can craft at this part, must be paired with a workbench json entry.
 
 ## Ammo
 
@@ -1052,7 +1055,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```SOLARPACK_OFF``` Fold solar backpack array.
 - ```NOISE_EMITTER_OFF``` Turn the noise emitter on.
 - ```NOISE_EMITTER_ON``` Turn the noise emitter off.
-- ```PHEROMONE``` Makes zombies love you.
+- ```PHEROMONE``` Makes zombies ignore you.
 - ```PICKAXE``` Does nothing but berate you for having it (I'm serious).
 - ```PLACE_RANDOMLY``` This is very much like the flag in the manhack iuse, it prevents the item from querying the player as to where they want the monster unloaded to, and instead choses randomly.
 - ```PORTABLE_GAME``` Play games.

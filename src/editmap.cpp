@@ -7,15 +7,19 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <array>
+#include <exception>
+#include <list>
+#include <memory>
+#include <set>
+#include <type_traits>
+#include <utility>
 
-#include "artifact.h"
-#include "auto_pickup.h"
 #include "calendar.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "computer.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
-#include "debug.h"
 #include "debug_menu.h"
 #include "field.h"
 #include "game.h"
@@ -26,8 +30,6 @@
 #include "monster.h"
 #include "npc.h"
 #include "output.h"
-#include "overmap.h"
-#include "overmap_ui.h"
 #include "overmapbuffer.h"
 #include "scent_map.h"
 #include "string_formatter.h"
@@ -39,6 +41,18 @@
 #include "uistate.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+#include "active_item_cache.h"
+#include "basecamp.h"
+#include "cata_utility.h"
+#include "creature.h"
+#include "game_constants.h"
+#include "int_id.h"
+#include "item.h"
+#include "item_stack.h"
+#include "omdata.h"
+#include "player.h"
+#include "shadowcasting.h"
+#include "string_id.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -320,9 +334,9 @@ void editmap::uphelp( const std::string &txt1, const std::string &txt2, const st
     if( !txt1.empty() ) {
         mvwprintw( w_help, 0, 0, padding );
         mvwprintw( w_help, 1, 0, padding );
-        mvwprintw( w_help, ( !txt2.empty() ? 0 : 1 ), 0, txt1.c_str() );
+        mvwprintw( w_help, ( !txt2.empty() ? 0 : 1 ), 0, txt1 );
         if( !txt2.empty() ) {
-            mvwprintw( w_help, 1, 0, txt2.c_str() );
+            mvwprintw( w_help, 1, 0, txt2 );
         }
     }
     if( !title.empty() ) {
@@ -518,6 +532,7 @@ void editmap::update_view( bool update_info )
     } else {
         g->m.drawsq( g->w_terrain, g->u, target, true, true, target );
     }
+    g->draw_cursor( target );
 
     // hilight target_list points if blink=true (and if it's more than a point )
     if( blink && target_list.size() > 1 ) {
@@ -577,19 +592,19 @@ void editmap::update_view( bool update_info )
 
         mvwprintz( w_info, 0, 2, c_light_gray, "< %d,%d >", target.x, target.y );
         for( int i = 1; i < infoHeight - 2; i++ ) { // clear window
-            mvwprintz( w_info, i, 1, c_white, padding.c_str() );
+            mvwprintz( w_info, i, 1, c_white, padding );
         }
 
         mvwputch( w_info, off, 2, terrain_type.color(), terrain_type.symbol() );
         mvwprintw( w_info, off, 4, _( "%d: %s; movecost %d" ), g->m.ter( target ).to_i(),
-                   terrain_type.name().c_str(),
+                   terrain_type.name(),
                    terrain_type.movecost
                  );
         off++; // 2
         if( g->m.furn( target ) > 0 ) {
             mvwputch( w_info, off, 2, furniture_type.color(), furniture_type.symbol() );
             mvwprintw( w_info, off, 4, _( "%d: %s; movecost %d movestr %d" ), g->m.furn( target ).to_i(),
-                       furniture_type.name().c_str(),
+                       furniture_type.name(),
                        furniture_type.movecost,
                        furniture_type.move_str_req
                      );
@@ -626,14 +641,14 @@ void editmap::update_view( bool update_info )
             extras += _( " [roof]" );
         }
 
-        mvwprintw( w_info, off, 1, "%s %s", g->m.features( target ).c_str(), extras.c_str() );
+        mvwprintw( w_info, off, 1, "%s %s", g->m.features( target ).c_str(), extras );
         off++;  // 9
 
         for( auto &fld : *cur_field ) {
             const field_entry &cur = fld.second;
             mvwprintz( w_info, off, 1, cur.color(),
                        _( "field: %s (%d) density %d age %d" ),
-                       cur.name().c_str(), cur.getFieldType(),
+                       cur.name(), cur.getFieldType(),
                        cur.getFieldDensity(), to_turns<int>( cur.getFieldAge() )
                      );
             off++; // 10ish
@@ -641,7 +656,7 @@ void editmap::update_view( bool update_info )
 
         if( cur_trap != tr_null ) {
             auto &t = cur_trap.obj();
-            mvwprintz( w_info, off, 1, t.color, _( "trap: %s (%d)" ), t.name().c_str(), cur_trap.to_i() );
+            mvwprintz( w_info, off, 1, t.color, _( "trap: %s (%d)" ), t.name(), cur_trap.to_i() );
             off++; // 11
         }
 
@@ -657,7 +672,7 @@ void editmap::update_view( bool update_info )
         const int target_stack_size = target_stack.size();
         if( !g->m.has_flag( "CONTAINER", target ) && target_stack_size > 0 ) {
             trim_and_print( w_info, off, 1, getmaxx( w_info ), c_light_gray, _( "There is a %s there." ),
-                            target_stack.front().tname().c_str() );
+                            target_stack.front().tname() );
             off++;
             if( target_stack_size > 1 ) {
                 mvwprintw( w_info, off, 1, ngettext( "There is %d other item there as well.",
@@ -669,7 +684,7 @@ void editmap::update_view( bool update_info )
         }
 
         if( g->m.has_graffiti_at( target ) ) {
-            mvwprintw( w_info, off, 1, _( "Graffiti: %s" ), g->m.graffiti_at( target ).c_str() );
+            mvwprintw( w_info, off, 1, _( "Graffiti: %s" ), g->m.graffiti_at( target ) );
         }
 
         wrefresh( w_info );
@@ -840,7 +855,7 @@ int editmap::edit_ter()
             }
 
             mvwprintw( w_pickter, 0, 2, "< %s[%d]: %s >", pttype.id.c_str(), pttype.id.id().to_i(),
-                       pttype.name().c_str() );
+                       pttype.name() );
             mvwprintz( w_pickter, off, 2, c_white, _( "movecost %d" ), pttype.movecost );
             std::string extras;
             if( pttype.has_flag( TFLAG_INDOORS ) ) {
@@ -849,7 +864,7 @@ int editmap::edit_ter()
             if( pttype.has_flag( TFLAG_SUPPORTS_ROOF ) ) {
                 extras += _( "[roof] " );
             }
-            wprintw( w_pickter, " %s", extras.c_str() );
+            wprintw( w_pickter, " %s", extras );
         }
 
         off += 2;
@@ -895,7 +910,7 @@ int editmap::edit_ter()
             }
 
             mvwprintw( w_pickter, 0, 2, "< %s[%d]: %s >", pftype.id.c_str(), pftype.id.id().to_i(),
-                       pftype.name().c_str() );
+                       pftype.name() );
             mvwprintz( w_pickter, off, 2, c_white, _( "movecost %d" ), pftype.movecost );
             std::string fextras;
             if( pftype.has_flag( TFLAG_INDOORS ) ) {
@@ -904,7 +919,7 @@ int editmap::edit_ter()
             if( pftype.has_flag( TFLAG_SUPPORTS_ROOF ) ) {
                 fextras += _( "[roof] " );
             }
-            wprintw( w_pickter, " %s", fextras.c_str() );
+            wprintw( w_pickter, " %s", fextras );
         }
 
         // draw green |'s around terrain or furniture tilesets depending on selection
@@ -1113,9 +1128,9 @@ int editmap::edit_fld()
                 femenu.addentry( pgettext( "map editor: used to describe a clean field (e.g. without blood)",
                                            "-clear-" ) );
 
-                femenu.addentry( string_format( "1: %s", ftype.name( 0 ).c_str() ) );
-                femenu.addentry( string_format( "2: %s", ftype.name( 1 ).c_str() ) );
-                femenu.addentry( string_format( "3: %s", ftype.name( 2 ).c_str() ) );
+                femenu.addentry( string_format( "1: %s", ftype.name( 0 ) ) );
+                femenu.addentry( string_format( "2: %s", ftype.name( 1 ) ) );
+                femenu.addentry( string_format( "3: %s", ftype.name( 2 ) ) );
                 femenu.entries[fdens].text_color = c_cyan;
                 femenu.selected = ( sel_fdensity > 0 ? sel_fdensity : fdens );
 
@@ -1227,7 +1242,7 @@ int editmap::edit_trp()
                 } else {
                     if( tr.name().length() > 0 ) {
                         //~ trap editor list entry. 1st string is display name, 2nd string is internal name of trap
-                        tnam = string_format( _( "%s (%s)" ), tr.name().c_str(), tr.id.c_str() );
+                        tnam = string_format( _( "%s (%s)" ), tr.name(), tr.id.c_str() );
                     } else {
                         tnam = tr.id.str();
                     }
@@ -1289,7 +1304,7 @@ int editmap::edit_itm()
     auto items = g->m.i_at( target );
     int i = 0;
     for( auto &an_item : items ) {
-        ilmenu.addentry( i++, true, 0, "%s%s", an_item.tname().c_str(),
+        ilmenu.addentry( i++, true, 0, "%s%s", an_item.tname(),
                          an_item.is_emissive() ? " L" : "" );
     }
     ilmenu.addentry( items.size(), true, 'a', _( "Add item" ) );
@@ -1364,7 +1379,7 @@ int editmap::edit_itm()
             ilmenu.entries.clear();
             i = 0;
             for( auto &an_item : items ) {
-                ilmenu.addentry( i++, true, 0, "%s%s", an_item.tname().c_str(),
+                ilmenu.addentry( i++, true, 0, "%s%s", an_item.tname(),
                                  an_item.is_emissive() ? " L" : "" );
             }
             ilmenu.addentry( items.size(), true, 'a',
@@ -1782,12 +1797,12 @@ int editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
                 g->m.reset_vehicle_cache( target.z );
 
                 //~ message when applying the map generator
-                popup( _( "Changed 4 submaps\n%s" ), s.c_str() );
+                popup( _( "Changed 4 submaps\n%s" ), s );
 
             } else if( gpmenu.ret == 3 ) {
                 popup( _( "Changed oter_id from '%s' (%s) to '%s' (%s)" ),
-                       orig_oters->get_name().c_str(), orig_oters.id().c_str(),
-                       omt_ref->get_name().c_str(), omt_ref.id().c_str() );
+                       orig_oters->get_name(), orig_oters.id().c_str(),
+                       omt_ref->get_name(), omt_ref.id().c_str() );
             }
         } else if( gpmenu.keypress == 'm' ) {
             // TODO: keep preview as is and move target

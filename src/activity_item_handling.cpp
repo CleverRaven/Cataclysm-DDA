@@ -1,13 +1,18 @@
 #include "activity_handlers.h" // IWYU pragma: associated
 
+#include <limits.h>
+#include <stddef.h>
 #include <algorithm>
 #include <cassert>
 #include <list>
 #include <vector>
+#include <iterator>
+#include <memory>
+#include <set>
+#include <string>
+#include <utility>
 
-#include "action.h"
 #include "clzones.h"
-#include "creature.h"
 #include "debug.h"
 #include "enums.h"
 #include "field.h"
@@ -33,6 +38,14 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_reference.h"
+#include "calendar.h"
+#include "character.h"
+#include "game_constants.h"
+#include "inventory.h"
+#include "item_stack.h"
+#include "line.h"
+#include "units.h"
+#include "mtype.h"
 
 void cancel_aim_processing();
 
@@ -438,7 +451,7 @@ void debug_drop_list( const std::list<act_item> &list )
     std::string res( "Items ordered to drop:\n" );
     for( const auto &ait : list ) {
         res += string_format( "Drop %d %s for %d moves\n",
-                              ait.count, ait.it->display_name( ait.count ).c_str(), ait.consumed_moves );
+                              ait.count, ait.it->display_name( ait.count ), ait.consumed_moves );
     }
     popup( res, PF_GET_KEY );
 }
