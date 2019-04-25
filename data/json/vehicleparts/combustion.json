@@ -20,22 +20,21 @@
     "copy-from": "engine_combustion",
     "type": "vehicle_part",
     "fuel_type": "diesel",
-    "fuel_options": [ "diesel", "biodiesel", "lamp_oil" ],
+    "fuel_options": [ "diesel", "chem_ethanol", "chem_methanol", "denat_alcohol", "lamp_oil" ],
     "cold_affects_start": true,
     "m2c": 65,
     "//": "40% energy efficiency",
     "extend": { "flags": [ "E_COLD_START" ] },
-    "description": "A combustion engine.  Burns diesel fuel from a tank in the vehicle.  Can also burn biodiesel or lamp oil, though somewhat less efficiently."
+    "description": "A combustion engine.  Burns diesel fuel from a tank in the vehicle.  Can also burn methanol, ethanol, or lamp oil, though somewhat less efficiently."
   },
   {
     "abstract": "gasoline_engine",
     "copy-from": "engine_combustion",
     "type": "vehicle_part",
     "fuel_type": "gasoline",
-    "fuel_options": [ "gasoline", "chem_ethanol", "chem_methanol", "denat_alcohol" ],
     "m2c": 60,
     "//": "30% energy efficiency",
-    "description": "A combustion engine.  Burns gasoline fuel from a tank in the vehicle. Can also burn ethanol, methanol or denatured alcohol, though somewhat less efficiently."
+    "description": "A combustion engine.  Burns gasoline fuel from a tank in the vehicle."
   },
   {
     "id": "diesel_engine_i6",
