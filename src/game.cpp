@@ -11030,12 +11030,12 @@ bool game::grabbed_furn_move( const tripoint &dp )
         return liquid_item.made_of_from_type( LIQUID );
     } );
 
-    bool dst_item_ok = ( !m.has_flag( "NOITEM", fdest ) &&
-                         !m.has_flag( "SWIMMABLE", fdest ) &&
-                         !m.has_flag( "DESTROY_ITEM", fdest ) &&
-                         only_liquid_items );
-    bool src_item_ok = ( m.furn( fpos ).obj().has_flag( "CONTAINER" ) ||
-                         m.furn( fpos ).obj().has_flag( "SEALED" ) );
+    const bool dst_item_ok = !m.has_flag( "NOITEM", fdest ) &&
+                             !m.has_flag( "SWIMMABLE", fdest ) &&
+                             !m.has_flag( "DESTROY_ITEM", fdest ) &&
+                             only_liquid_items;
+    const bool src_item_ok = m.furn( fpos ).obj().has_flag( "CONTAINER" ) ||
+                             m.furn( fpos ).obj().has_flag( "SEALED" );
 
     int str_req = furntype.move_str_req;
     // Factor in weight of items contained in the furniture.
