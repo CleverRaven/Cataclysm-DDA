@@ -4332,7 +4332,7 @@ void smoker_load_food( player &p, const tripoint &examp, const units::volume &re
 {
     std::vector<item_comp> comps;
 
-    if( g->m.furn( examp ) == furn_str_id( "f_smoking_rack_active" ) || g->m.furn( examp ) == furn_str_id( "f_metal_smoking_rack_active" )) {
+    if( g->m.furn( examp ) == furn_str_id( "f_smoking_rack_active" ) || g->m.furn( examp ) == furn_str_id( "f_metal_smoking_rack_active" ) ) {
         p.add_msg_if_player( _( "You can't place more food while it's smoking." ) );
         return;
     }
@@ -4442,15 +4442,15 @@ void smoker_load_food( player &p, const tripoint &examp, const units::volume &re
 
 void iexamine::on_smoke_out( const tripoint &examp, const time_point &start_time )
 {
-    if( g->m.furn( examp ) == furn_str_id( "f_smoking_rack_active" ) || g->m.furn( examp ) == furn_str_id( "f_metal_smoking_rack_active" )) {
+    if( g->m.furn( examp ) == furn_str_id( "f_smoking_rack_active" ) || g->m.furn( examp ) == furn_str_id( "f_metal_smoking_rack_active" ) ) {
         smoker_finalize( g->u, examp, start_time );
     }
 }
 
 void iexamine::smoker_options( player &p, const tripoint &examp )
 {
-    bool active = (g->m.furn( examp ) == furn_str_id( "f_smoking_rack_active" ) || g->m.furn( examp ) == furn_str_id( "f_metal_smoking_rack_active" )) ? true : false;
-    const bool portable = (g->m.furn( examp ) == furn_str_id( "f_metal_smoking_rack" ) || g->m.furn( examp ) == furn_str_id( "f_metal_smoking_rack_active" )) ? true: false;
+    const bool active = g->m.furn( examp ) == furn_str_id( "f_smoking_rack_active" ) || g->m.furn( examp ) == furn_str_id( "f_metal_smoking_rack_active" );
+    const bool portable = g->m.furn( examp ) == furn_str_id( "f_metal_smoking_rack" ) || g->m.furn( examp ) == furn_str_id( "f_metal_smoking_rack_active" );
 	auto items_here = g->m.i_at( examp );
 	
 	if( portable && items_here.empty() && active ) {
@@ -4539,12 +4539,11 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
                                  sm_rack::CHARCOAL_PER_LITER, format_volume( 1000_ml ), volume_units_long(),
                                  sm_rack::MIN_CHARCOAL ) );
 		if( portable ) {
-			smenu.addentry_desc(8, !active, 'd',
+			smenu.addentry_desc( 8, !active, 'd',
 							active ? _( "You cannot disassemble this smoking rack while it is active!" ) :
-							_( "Disassemble the smoking rack" ), _("")); 
+							_( "Disassemble the smoking rack" ), _("") ); 
 		}
-							
-	} else {
+		} else {
         smenu.addentry_desc( 7, true, 'x',
                              _( "Quench burning charcoal" ),
                              _( "Quenching will stop smoking process, but also destroy all used charcoal." ) );
