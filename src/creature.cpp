@@ -167,7 +167,7 @@ bool Creature::hide( const tripoint &target, bool move )
     }
 
     if( has_effect( effect_hidden ) && g->m.impassable( target ) ) {
-        if( ( g->m.ter( pos() ) == g->m.ter( target ) ) ) {
+        if( g->m.ter( pos() ) == g->m.ter( target ) ) {
             if( !g->m.has_flag_ter_or_furn( "CONNECT", target ) ) {
                 return false;
             }
