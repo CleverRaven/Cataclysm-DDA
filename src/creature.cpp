@@ -176,7 +176,6 @@ bool Creature::hide( const tripoint &target, bool move )
         }
     }
 
-
     if( move ) {
         setpos( target );
         moves -= 100; // TODO : make cost specific to hiding
