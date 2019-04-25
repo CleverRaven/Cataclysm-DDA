@@ -1,19 +1,13 @@
 #include "bionics.h"
 
-#include <limits.h>
-#include <math.h>
-#include <stdlib.h>
 #include <algorithm> //std::min
 #include <sstream>
-#include <array>
-#include <iterator>
-#include <list>
-#include <memory>
 
 #include "action.h"
 #include "ballistics.h"
 #include "cata_utility.h"
 #include "debug.h"
+#include "dispersion.h"
 #include "effect.h"
 #include "field.h"
 #include "game.h"
@@ -28,6 +22,7 @@
 #include "mutation.h"
 #include "options.h"
 #include "output.h"
+#include "overmap.h"
 #include "overmapbuffer.h"
 #include "player.h"
 #include "projectile.h"
@@ -40,18 +35,6 @@
 #include "vpart_position.h"
 #include "weather.h"
 #include "weather_gen.h"
-#include "calendar.h"
-#include "character.h"
-#include "color.h"
-#include "cursesdef.h"
-#include "damage.h"
-#include "enums.h"
-#include "line.h"
-#include "optional.h"
-#include "pimpl.h"
-#include "pldata.h"
-#include "units.h"
-#include "mtype.h"
 
 const skill_id skilll_electronics( "electronics" );
 const skill_id skilll_firstaid( "firstaid" );
