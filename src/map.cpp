@@ -4736,7 +4736,7 @@ bool map::has_items( const tripoint &p ) const
 }
 
 template <typename Stack>
-std::list<item> use_amount_stack( Stack stack, const itype_id type, long &quantity,
+std::list<item> use_amount_stack( Stack stack, const itype_id &type, long &quantity,
                                   const std::function<bool( const item & )> &filter )
 {
     std::list<item> ret;
@@ -4750,7 +4750,7 @@ std::list<item> use_amount_stack( Stack stack, const itype_id type, long &quanti
     return ret;
 }
 
-std::list<item> map::use_amount_square( const tripoint &p, const itype_id type,
+std::list<item> map::use_amount_square( const tripoint &p, const itype_id &type,
                                         long &quantity, const std::function<bool( const item & )> &filter )
 {
     std::list<item> ret;
