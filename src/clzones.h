@@ -221,7 +221,7 @@ class zone_manager
         using ref_const_zone_data = std::reference_wrapper<const zone_data>;
 
     private:
-        const int MAX_DISTANCE = 10;
+        static const int MAX_DISTANCE = 10;
         std::vector<zone_data> zones;
         //Containers for Revert functionality for Vehicle Zones
         //Pointer to added zone to be removed
