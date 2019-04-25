@@ -2725,9 +2725,10 @@ bool mattack::nurse_operate( monster *z )
     if( g->u.has_any_bionic() ) {
         add_msg( m_info, _( "The %s scans you and seems to detect your bionics." ), z->name() );
         z->anger = 100;
-        tripoint couch_pos = g->m.find_furniture_in_radius( z->pos(), 10, furn_id( "f_autodoc_couch" ) ) ;
+        std::list<tripoint> couch_pos = g->m.find_furnitures_in_radius( z->pos(), 10,
+                                        furn_id( "f_autodoc_couch" ) ) ;
 
-        if( couch_pos == tripoint() ) {
+        if( couch_pos.empty() ) {
             add_msg( m_info, _( "The %s looks for something but doesn't seem to find it." ), z->name() );
             z->anger = 0;
             return false;
@@ -2735,7 +2736,6 @@ bool mattack::nurse_operate( monster *z )
         grab( z );
         if( g->u.has_effect( effect_grabbed ) ) {
             z->add_effect( effect_dragging, 1_turns, num_bp, true );
-            z->set_dest( couch_pos );
             return true;
         }
         return false;
