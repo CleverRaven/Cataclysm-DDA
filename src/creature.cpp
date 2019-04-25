@@ -189,7 +189,6 @@ bool Creature::hide( const tripoint &target, bool move )
     }
 
     return true;
-
 }
 
 bool Creature::unhide( const tripoint entered_from )
