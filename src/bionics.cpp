@@ -1,13 +1,19 @@
 #include "bionics.h"
 
+#include <limits.h>
+#include <math.h>
+#include <stdlib.h>
 #include <algorithm> //std::min
 #include <sstream>
+#include <array>
+#include <iterator>
+#include <list>
+#include <memory>
 
 #include "action.h"
 #include "ballistics.h"
 #include "cata_utility.h"
 #include "debug.h"
-#include "dispersion.h"
 #include "effect.h"
 #include "field.h"
 #include "game.h"
@@ -22,7 +28,6 @@
 #include "mutation.h"
 #include "options.h"
 #include "output.h"
-#include "overmap.h"
 #include "overmapbuffer.h"
 #include "player.h"
 #include "projectile.h"
@@ -35,6 +40,18 @@
 #include "vpart_position.h"
 #include "weather.h"
 #include "weather_gen.h"
+#include "calendar.h"
+#include "character.h"
+#include "color.h"
+#include "cursesdef.h"
+#include "damage.h"
+#include "enums.h"
+#include "line.h"
+#include "optional.h"
+#include "pimpl.h"
+#include "pldata.h"
+#include "units.h"
+#include "mtype.h"
 
 const skill_id skilll_electronics( "electronics" );
 const skill_id skilll_firstaid( "firstaid" );
@@ -364,7 +381,7 @@ bool player::activate_bionic( int b, bool eff_only )
         mod_moves( -100 );
     } else if( bio.id == "bio_evap" ) {
         item water = item( "water_clean", 0 );
-        water.reset_temp_check();
+        water.set_item_temperature( 283.15 );
         int humidity = weatherPoint.humidity;
         int water_charges = lround( humidity * 3.0 / 100.0 );
         // At 50% relative humidity or more, the player will draw 2 units of water
@@ -430,6 +447,7 @@ bool player::activate_bionic( int b, bool eff_only )
                     query_yn( _( "Extract water from the %s" ),
                               colorize( it->tname(), it->color_in_inventory() ) ) ) {
                     item water( "water_clean", calendar::turn, avail );
+                    water.set_item_temperature( 0.00001 * it->temperature );
                     if( g->consume_liquid( water ) ) {
                         extracted = true;
                         it->set_var( "remaining_water", static_cast<int>( water.charges ) );

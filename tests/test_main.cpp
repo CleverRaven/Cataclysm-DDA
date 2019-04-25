@@ -13,9 +13,20 @@
 #endif // _GLIBCXX_DEBUG
 
 #define CATCH_CONFIG_RUNNER
+#include <assert.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include <algorithm>
 #include <cstring>
 #include <chrono>
+#include <ctime>
+#include <exception>
+#include <map>
+#include <memory>
+#include <ostream>
+#include <string>
+#include <utility>
+#include <vector>
 
 #include "catch/catch.hpp"
 #include "debug.h"
@@ -23,13 +34,15 @@
 #include "game.h"
 #include "loading_ui.h"
 #include "map.h"
-#include "mod_manager.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "path_info.h"
-#include "pathfinding.h"
 #include "player.h"
 #include "worldfactory.h"
+#include "color.h"
+#include "options.h"
+#include "pldata.h"
+#include "rng.h"
 
 typedef std::pair<std::string, std::string> name_value_pair_t;
 typedef std::vector<name_value_pair_t> option_overrides_t;
@@ -271,6 +284,8 @@ int main( int argc, const char *argv[] )
         return EXIT_FAILURE;
     }
 
+    bool error_during_initialization = debug_has_error_been_observed();
+
     const auto start = std::chrono::system_clock::now();
     std::time_t start_time = std::chrono::system_clock::to_time_t( start );
     // Leading newline in case there were debug messages during
@@ -290,6 +305,16 @@ int main( int argc, const char *argv[] )
     std::chrono::duration<double> elapsed_seconds = end - start;
     printf( "Ended test at %sThe test took %.3f seconds\n", std::ctime( &end_time ),
             elapsed_seconds.count() );
+
+    if( error_during_initialization ) {
+        printf( "\nTreating result as failure due to error logged during initialization.\n" );
+        return 1;
+    }
+
+    if( debug_has_error_been_observed() ) {
+        printf( "\nTreating result as failure due to error logged during tests.\n" );
+        return 1;
+    }
 
     return result;
 }

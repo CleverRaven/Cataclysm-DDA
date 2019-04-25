@@ -1,19 +1,22 @@
 #include "craft_command.h"
 
+#include <stdlib.h>
 #include <sstream>
 #include <algorithm>
+#include <limits>
+#include <list>
 
 #include "debug.h"
 #include "game_constants.h"
 #include "inventory.h"
 #include "item.h"
-#include "itype.h"
 #include "output.h"
 #include "player.h"
 #include "recipe.h"
 #include "requirements.h"
 #include "translations.h"
 #include "uistate.h"
+#include "pldata.h"
 
 template<typename CompType>
 std::string comp_selection<CompType>::nname() const

@@ -2,8 +2,11 @@
 
 #include <cstdlib>
 #include <fstream>
-#include <sstream>
 #include <string>
+#include <algorithm>
+#include <map>
+#include <memory>
+#include <utility>
 
 #include "cata_utility.h"
 #include "debug.h"
@@ -20,6 +23,9 @@
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
+#include "color.h"
+#include "compatibility.h"
+#include "cursesdef.h"
 
 safemode &get_safemode()
 {

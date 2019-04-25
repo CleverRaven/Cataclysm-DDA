@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <numeric>
+#include <memory>
 
 #include "game.h"
 #include "gun_mode.h"
@@ -9,7 +10,6 @@
 #include "itype.h"
 #include "messages.h"
 #include "npc.h"
-#include "output.h"
 #include "player.h"
 #include "projectile.h"
 #include "ranged.h"
@@ -18,6 +18,10 @@
 #include "ui.h"
 #include "veh_type.h"
 #include "vehicle_selector.h"
+#include "creature.h"
+#include "debug.h"
+#include "optional.h"
+#include "mtype.h"
 
 static const itype_id fuel_type_battery( "battery" );
 const efftype_id effect_on_roof( "on_roof" );

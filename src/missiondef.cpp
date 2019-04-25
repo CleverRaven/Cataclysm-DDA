@@ -1,6 +1,7 @@
 #include "mission.h" // IWYU pragma: associated
 
 #include <algorithm>
+#include <set>
 
 #include "assign.h"
 #include "calendar.h"
@@ -8,6 +9,9 @@
 #include "init.h"
 #include "item.h"
 #include "rng.h"
+#include "debug.h"
+#include "game.h"
+#include "json.h"
 
 enum legacy_mission_type_id {
     MISSION_NULL,

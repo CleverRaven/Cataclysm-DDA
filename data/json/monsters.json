@@ -4348,7 +4348,7 @@
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
-    "upgrades": { "half_life": 10, "into": "mon_zombie_hunter" },
+    "upgrades": { "half_life": 20, "into": "mon_zombie_hunter" },
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
   },
   {

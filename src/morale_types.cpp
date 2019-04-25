@@ -1,9 +1,15 @@
 #include "morale_types.h"
 
+#include <stddef.h>
+#include <set>
+#include <vector>
+
 #include "generic_factory.h"
 #include "itype.h"
 #include "json.h"
 #include "string_formatter.h"
+#include "debug.h"
+#include "player.h"
 
 const morale_type &morale_type_data::convert_legacy( int lmt )
 {
@@ -89,7 +95,7 @@ const morale_type &morale_type_data::convert_legacy( int lmt )
             morale_type( "morale_perm_filthy" ),
 
             morale_type( "morale_butcher" ),
-            morale_type( "moreale_gravedigger" ),
+            morale_type( "morale_gravedigger" ),
 
             morale_type( "morale_null" )
         }

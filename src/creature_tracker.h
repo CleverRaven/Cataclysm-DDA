@@ -2,6 +2,7 @@
 #ifndef CREATURE_TRACKER_H
 #define CREATURE_TRACKER_H
 
+#include <stddef.h>
 #include <memory>
 #include <unordered_map>
 #include <vector>

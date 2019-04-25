@@ -1,8 +1,18 @@
 #include "debug_menu.h"
 
+#include <stddef.h>
 #include <algorithm>
 #include <chrono>
 #include <vector>
+#include <array>
+#include <iterator>
+#include <list>
+#include <map>
+#include <memory>
+#include <sstream>
+#include <string>
+#include <type_traits>
+#include <utility>
 
 #include "action.h"
 #include "coordinate_conversions.h"
@@ -22,6 +32,18 @@
 #include "string_input_popup.h"
 #include "ui.h"
 #include "vitamin.h"
+#include "color.h"
+#include "debug.h"
+#include "enums.h"
+#include "faction.h"
+#include "game_constants.h"
+#include "int_id.h"
+#include "inventory.h"
+#include "item.h"
+#include "omdata.h"
+#include "optional.h"
+#include "pldata.h"
+#include "translations.h"
 
 namespace debug_menu
 {
@@ -354,8 +376,8 @@ void character_edit_menu()
                     p.set_stored_kcal( p.get_healthy_kcal() );
                     break;
                 default:
-                    if( smenu.ret >= 5 && smenu.ret < static_cast<int>( vits.size() + 5 ) ) {
-                        auto iter = std::next( vits.begin(), smenu.ret - 5 );
+                    if( smenu.ret >= 6 && smenu.ret < static_cast<int>( vits.size() + 6 ) ) {
+                        auto iter = std::next( vits.begin(), smenu.ret - 6 );
                         if( query_int( value, _( "Set %s to? Currently: %d" ),
                                        iter->second.name(), p.vitamin_get( iter->first ) ) ) {
                             p.vitamin_set( iter->first, value );

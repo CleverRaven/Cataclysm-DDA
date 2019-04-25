@@ -1,41 +1,44 @@
 #include "dialogue.h" // IWYU pragma: associated
 
+#include <limits.h>
+#include <math.h>
+#include <stddef.h>
 #include <algorithm>
 #include <sstream>
 #include <string>
 #include <vector>
+#include <array>
+#include <iterator>
+#include <list>
+#include <map>
+#include <memory>
+#include <unordered_map>
 
 #include "ammo.h"
-#include "basecamp.h"
 #include "cata_utility.h"
-#include "catacharset.h"
 // needed for the workaround for the std::to_string bug in some compilers
 #include "compatibility.h" // IWYU pragma: keep
-#include "coordinate_conversions.h"
 #include "debug.h"
-#include "editmap.h"
 #include "faction_camp.h"
 #include "game.h"
 #include "help.h"
 #include "input.h"
 #include "item_category.h"
-#include "item_group.h"
 #include "itype.h"
 #include "json.h"
 #include "line.h"
 #include "map.h"
+#include "mapgen_functions.h"
 #include "map_selector.h"
 #include "martialarts.h"
 #include "messages.h"
 #include "mission.h"
 #include "mission_companion.h"
-#include "morale_types.h"
 #include "npc.h"
 #include "npc_class.h"
 #include "npctalk.h"
 #include "npctrade.h"
 #include "output.h"
-#include "overmap.h"
 #include "overmapbuffer.h"
 #include "rng.h"
 #include "skill.h"
@@ -47,8 +50,25 @@
 #include "ui.h"
 #include "units.h"
 #include "vehicle.h"
-#include "vehicle_selector.h"
 #include "vpart_position.h"
+#include "auto_pickup.h"
+#include "bodypart.h"
+#include "calendar.h"
+#include "character.h"
+#include "color.h"
+#include "enums.h"
+#include "faction.h"
+#include "game_constants.h"
+#include "int_id.h"
+#include "item.h"
+#include "mapdata.h"
+#include "material.h"
+#include "optional.h"
+#include "pimpl.h"
+#include "player_activity.h"
+#include "player.h"
+
+class basecamp;
 
 const skill_id skill_speech( "speech" );
 const skill_id skill_barter( "barter" );
@@ -1766,6 +1786,30 @@ void talk_effect_fun_t::set_npc_aim_rule( const std::string &setting )
     };
 }
 
+void talk_effect_fun_t::set_mapgen_update( JsonObject jo, const std::string &member )
+{
+    mission_target_params target_params = mission_util::parse_mission_om_target( jo );
+    std::vector<std::string> update_ids;
+
+    if( jo.has_string( member ) ) {
+        update_ids.emplace_back( jo.get_string( member ) );
+    } else if( jo.has_array( member ) ) {
+        JsonArray ja = jo.get_array( member );
+        while( ja.has_more() ) {
+            update_ids.emplace_back( ja.next_string() );
+        }
+    }
+
+    function = [target_params, update_ids]( const dialogue & d ) {
+        mission_target_params update_params = target_params;
+        update_params.guy = d.beta;
+        const tripoint omt_pos = mission_util::get_om_terrain_pos( update_params );
+        for( const std::string mapgen_update_id : update_ids ) {
+            run_mapgen_update_func( mapgen_update_id, omt_pos, d.beta->chatbin.mission_selected );
+        }
+    };
+}
+
 void talk_effect_t::set_effect_consequence( const talk_effect_fun_t &fun, dialogue_consequence con )
 {
     effects.push_back( fun );
@@ -1951,6 +1995,8 @@ void talk_effect_t::parse_sub_effect( JsonObject jo )
     } else if( jo.has_string( "set_npc_aim_rule" ) ) {
         const std::string setting = jo.get_string( "set_npc_aim_rule" );
         subeffect_fun.set_npc_aim_rule( setting );
+    } else if( jo.has_member( "mapgen_update" ) ) {
+        subeffect_fun.set_mapgen_update( jo, "mapgen_update" );
     } else {
         jo.throw_error( "invalid sub effect syntax :" + jo.str() );
     }

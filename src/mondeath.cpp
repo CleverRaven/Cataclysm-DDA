@@ -1,8 +1,15 @@
 #include "mondeath.h"
 
+#include <stdlib.h>
 #include <algorithm>
 #include <cmath>
 #include <vector>
+#include <array>
+#include <map>
+#include <memory>
+#include <string>
+#include <type_traits>
+#include <utility>
 
 #include "event.h"
 #include "field.h"
@@ -18,12 +25,21 @@
 #include "monster.h"
 #include "morale_types.h"
 #include "mtype.h"
-#include "output.h"
 #include "player.h"
 #include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "bodypart.h"
+#include "calendar.h"
+#include "creature.h"
+#include "enums.h"
+#include "item.h"
+#include "item_stack.h"
+#include "iuse.h"
+#include "pldata.h"
+#include "units.h"
+#include "weighted_list.h"
 
 const mtype_id mon_blob( "mon_blob" );
 const mtype_id mon_blob_brain( "mon_blob_brain" );

@@ -1,8 +1,18 @@
 #include "activity_handlers.h"
 
+#include <limits.h>
+#include <stddef.h>
 #include <algorithm>
 #include <cmath>
 #include <queue>
+#include <array>
+#include <iterator>
+#include <memory>
+#include <ostream>
+#include <set>
+#include <stdexcept>
+#include <string>
+#include <utility>
 
 #include "action.h"
 #include "advanced_inv.h"
@@ -43,6 +53,31 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "map_selector.h"
+#include "bodypart.h"
+#include "calendar.h"
+#include "cata_utility.h"
+#include "character.h"
+#include "creature.h"
+#include "damage.h"
+#include "enums.h"
+#include "int_id.h"
+#include "inventory.h"
+#include "item.h"
+#include "item_group.h"
+#include "item_location.h"
+#include "item_stack.h"
+#include "iuse.h"
+#include "line.h"
+#include "monster.h"
+#include "omdata.h"
+#include "optional.h"
+#include "pimpl.h"
+#include "pldata.h"
+#include "ret_val.h"
+#include "string_id.h"
+#include "units.h"
+
+class npc;
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -220,10 +255,13 @@ void activity_handlers::burrow_finish( player_activity *act, player *p )
 
 bool check_butcher_cbm( const int roll )
 {
-    // 2/3 chance of failure with a roll of 0, 2/6 with a roll of 1, 2/9 etc.
-    // The roll is usually b/t 0 and first_aid-3, so first_aid 4 will succeed
-    // 50%, first_aid 5 will succeed 61%, first_aid 6 will succeed 67%, etc.
-    const bool failed = x_in_y( 2, 3 + roll * 3 );
+    // Failure rates for dissection rolls
+    // 90% at roll 0, 72% at roll 1, 60% at roll 2, 51% @ 3, 45% @ 4, 40% @ 5, ... , 25% @ 10
+    // Roll is roughly a rng(0, -3 + 1st_aid + fine_cut_quality + 1/2 electronics + small_dex_bonus)
+    // Roll is reduced by corpse damage level, but to no less then 0
+    add_msg( m_debug, _( "Roll = %i" ), roll );
+    add_msg( m_debug, _( "Failure chance = %f%%" ), ( 9.0f / ( 10.0f + roll * 2.5f ) ) * 100.0f );
+    const bool failed = x_in_y( 9, ( 10 + roll * 2.5 ) );
     return !failed;
 }
 
@@ -233,10 +271,17 @@ void butcher_cbm_item( const std::string &what, const tripoint &pos,
     if( roll < 0 ) {
         return;
     }
-
-    item cbm( check_butcher_cbm( roll ) ? what : "burnt_out_bionic", age );
-    add_msg( m_good, _( "You discover a %s!" ), cbm.tname() );
-    g->m.add_item( pos, cbm );
+    if( item::find_type( itype_id( what ) )->bionic.has_value() ) {
+        item cbm( check_butcher_cbm( roll ) ? what : "burnt_out_bionic", age );
+        add_msg( m_good, _( "You discover a %s!" ), cbm.tname() );
+        g->m.add_item( pos, cbm );
+    } else if( check_butcher_cbm( roll ) ) {
+        item something( what, age );
+        add_msg( m_good, _( "You discover a %s!" ), something.tname() );
+        g->m.add_item( pos, something );
+    } else {
+        add_msg( m_bad, _( "You discover only damaged organs." ) );
+    }
 }
 
 void butcher_cbm_group( const std::string &group, const tripoint &pos,
@@ -739,10 +784,14 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p,
             }
         }
         if( action == DISSECT ) {
+            int roll = roll_butchery() - corpse_item->damage_level( 4 );
+            roll = roll < 0 ? 0 : roll;
+            roll = std::min( entry.max, roll );
+            add_msg( m_debug, _( "Roll penalty for corpse damage = %s" ), 0 - corpse_item->damage_level( 4 ) );
             if( entry.type == "bionic" ) {
-                butcher_cbm_item( entry.drop, p.pos(), calendar::turn, roll_butchery() );
+                butcher_cbm_item( entry.drop, p.pos(), calendar::turn, roll );
             } else if( entry.type == "bionic_group" ) {
-                butcher_cbm_group( entry.drop, p.pos(), calendar::turn, roll_butchery() );
+                butcher_cbm_group( entry.drop, p.pos(), calendar::turn, roll );
             }
             continue;
         }
@@ -989,6 +1038,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         skill_level = p->get_skill_level( skill_firstaid );
         skill_level += p->max_quality( quality_id( "CUT_FINE" ) );
         skill_level += p->get_skill_level( skill_electronics ) / 2;
+        add_msg( m_debug, _( "Skill: %s" ), skill_level );
     }
 
     const auto roll_butchery = [&]() {

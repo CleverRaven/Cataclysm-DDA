@@ -1,5 +1,7 @@
 #include "options.h"
 
+#include <limits.h>
+
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "cursesdef.h"
@@ -19,6 +21,7 @@
 #include "string_input_popup.h"
 #include "translations.h"
 #include "worldfactory.h"
+#include "color.h"
 
 #if defined(TILES)
 #include "cata_tiles.h"
@@ -34,6 +37,8 @@
 #include <memory>
 #include <sstream>
 #include <string>
+#include <exception>
+#include <iterator>
 
 bool trigdist;
 bool use_tiles;

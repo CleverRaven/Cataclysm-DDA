@@ -1,24 +1,28 @@
 #include "npctrade.h"
 
+#include <stdlib.h>
 #include <algorithm>
 #include <string>
 #include <vector>
+#include <list>
+#include <memory>
 
 #include "cata_utility.h"
-#include "debug.h"
 #include "game.h"
-#include "help.h"
 #include "input.h"
-#include "item_group.h"
-#include "map.h"
 #include "map_selector.h"
 #include "npc.h"
 #include "output.h"
 #include "skill.h"
 #include "string_formatter.h"
 #include "translations.h"
-#include "vehicle.h"
 #include "vehicle_selector.h"
+#include "color.h"
+#include "cursesdef.h"
+#include "item.h"
+#include "player.h"
+#include "units.h"
+#include "visitable.h"
 
 const skill_id skill_barter( "barter" );
 

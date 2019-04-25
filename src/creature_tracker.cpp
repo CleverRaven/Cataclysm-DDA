@@ -1,9 +1,11 @@
 #include "creature_tracker.h"
 
 #include <algorithm>
+#include <ostream>
+#include <string>
+#include <utility>
 
 #include "debug.h"
-#include "item.h"
 #include "mongroup.h"
 #include "monster.h"
 #include "mtype.h"

@@ -11,7 +11,15 @@ function run_tests
 
 function just_json
 {
-    for filename in $(git diff --name-only $TRAVIS_BRANCH)
+    if [ -n $TRAVIS_COMMIT_RANGE ]
+    then
+        # If this string is populated, it will work.
+        files_changed="$(git diff --name-only $TRAVIS_COMMIT_RANGE)"
+    else
+        # The only time it isn't populated is on a new PR branch, where THIS will work.
+        files_changed="$(git diff --name-only $TRAVIS_BRANCH)"
+    fi
+    for filename in $files_changed
     do
         if [[ ! "$filename" =~ .json$ ]]
         then
@@ -30,7 +38,6 @@ then
     make -j 5 style-json
 elif just_json
 then
-    CODE_COVERAGE=""
     exit 0
 fi
 

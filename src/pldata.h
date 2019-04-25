@@ -2,22 +2,27 @@
 #ifndef PLDATA_H
 #define PLDATA_H
 
+#include <string>
+
 #include "calendar.h"
 #include "string_id.h"
 
 class JsonIn;
 class JsonOut;
-
 class martialart;
+
 using matype_id = string_id<martialart>;
 
 class ma_buff;
+
 using mabuff_id = string_id<ma_buff>;
 
 class ma_technique;
+
 using matec_id = string_id<ma_technique>;
 
 struct mutation_branch;
+
 using trait_id = string_id<mutation_branch>;
 
 typedef std::string dis_type;

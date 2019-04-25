@@ -1,8 +1,11 @@
 #include "action.h"
 
+#include <limits.h>
 #include <algorithm>
 #include <istream>
 #include <iterator>
+#include <memory>
+#include <utility>
 
 #include "cata_utility.h"
 #include "debug.h"
@@ -22,6 +25,14 @@
 #include "ui.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+#include "creature.h"
+#include "cursesdef.h"
+#include "enums.h"
+#include "item.h"
+#include "ret_val.h"
+#include "itype.h"
+
+class inventory;
 
 void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
                    std::set<action_id> &unbound_keymap );
@@ -573,6 +584,8 @@ bool can_interact_at( action_id action, const tripoint &p )
             return can_move_vertical_at( p, -1 );
         case ACTION_EXAMINE:
             return can_examine_at( p );
+        case ACTION_PICKUP:
+            return g->m.has_items( p );
         default:
             return false;
     }

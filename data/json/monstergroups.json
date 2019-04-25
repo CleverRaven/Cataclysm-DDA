@@ -2079,7 +2079,6 @@
       { "monster": "mon_beekeeper", "freq": 1, "cost_multiplier": 5 },
       { "monster": "mon_zombie_technician", "freq": 1, "cost_multiplier": 12 },
       { "monster": "mon_zombie_runner", "freq": 20, "cost_multiplier": 5, "pack_size": [ 1, 4 ] },
-      { "monster": "mon_zombie_runner", "freq": 40, "cost_multiplier": 4 },
       { "monster": "mon_zombie_brainless", "freq": 65, "cost_multiplier": 1 }
     ]
   },
@@ -2088,10 +2087,12 @@
     "name": "GROUP_TRIFFID",
     "default": "mon_triffid",
     "monsters": [
-      { "monster": "mon_triffid_young", "freq": 300, "cost_multiplier": 0 },
-      { "monster": "mon_fungal_fighter", "freq": 160, "cost_multiplier": 0 },
+      { "monster": "mon_triffid_young", "freq": 100, "cost_multiplier": 1 },
+      { "monster": "mon_fungal_fighter", "freq": 100, "cost_multiplier": 1 },
       { "monster": "mon_vinebeast", "freq": 160, "cost_multiplier": 10 },
-      { "monster": "mon_triffid_queen", "freq": 60, "cost_multiplier": 0 },
+      { "monster": "mon_triffid_queen", "freq": 60, "cost_multiplier": 20 },
+      { "monster": "mon_creeper_hub", "freq": 50, "cost_multiplier": 2 },
+      { "monster": "mon_biollante", "freq": 50, "cost_multiplier": 2 },
       { "monster": "mon_triffid_heart", "freq": 0, "cost_multiplier": 0 }
     ]
   },
@@ -2147,6 +2148,18 @@
       { "monster": "mon_blob_large", "freq": 5, "cost_multiplier": 6, "pack_size": [ 5, 10 ] },
       { "monster": "mon_blob_brain", "freq": 1, "cost_multiplier": 10 },
       { "monster": "mon_shoggoth", "freq": 1, "cost_multiplier": 10 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_BLOB",
+    "default": "mon_blob",
+    "//": "GROUP_GOO has a shoggoth, which isn't even the same faction as blobs. Also removes brain blob.",
+    "monsters": [
+      { "monster": "mon_blob_small", "freq": 200, "cost_multiplier": 0 },
+      { "monster": "mon_blob_small", "freq": 100, "cost_multiplier": 0, "pack_size": [ 2, 12 ] },
+      { "monster": "mon_blob", "freq": 5, "cost_multiplier": 3, "pack_size": [ 5, 10 ] },
+      { "monster": "mon_blob_large", "freq": 5, "cost_multiplier": 6, "pack_size": [ 5, 10 ] }
     ]
   },
   {
@@ -4135,7 +4148,7 @@
   {
     "type": "monstergroup",
     "name": "GROUP_PHARM",
-    "//": "+15% fast",
+    "//": "+13% fast",
     "default": "mon_zombie",
     "monsters": [
       { "monster": "mon_zombie_fat", "freq": 130, "cost_multiplier": 2 },
@@ -4146,13 +4159,13 @@
       { "monster": "mon_zombie_cop", "freq": 20, "cost_multiplier": 2 },
       { "monster": "mon_zombie_hazmat", "freq": 10, "cost_multiplier": 2 },
       { "monster": "mon_zombie_fireman", "freq": 10, "cost_multiplier": 2 },
-      { "monster": "mon_zombie_dog", "freq": 150, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_dog", "freq": 130, "cost_multiplier": 2 },
       { "monster": "mon_dog_zombie_cop", "freq": 15, "cost_multiplier": 2 },
       { "monster": "mon_dog_zombie_rot", "freq": 40, "cost_multiplier": 2 },
       { "monster": "mon_zombie_swimmer", "freq": 20, "cost_multiplier": 2 },
       { "monster": "mon_zombie_electric", "freq": 30, "cost_multiplier": 5 },
       { "monster": "mon_zombie_survivor", "freq": 1, "cost_multiplier": 25 },
-      { "monster": "mon_zombie_runner", "freq": 150, "cost_multiplier": 3 }
+      { "monster": "mon_zombie_runner", "freq": 130, "cost_multiplier": 3 }
     ]
   },
   {
@@ -4292,7 +4305,7 @@
       { "monster": "mon_zombie_gasbag", "freq": 15, "cost_multiplier": 5 },
       { "monster": "mon_zombie_biter", "freq": 15, "cost_multiplier": 5 },
       { "monster": "mon_zombie_shrieker", "freq": 45, "cost_multiplier": 5 },
-      { "monster": "mon_zombie_spitter", "freq": 60, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_acidic", "freq": 45, "cost_multiplier": 2 },
       { "monster": "mon_zombie_necro", "freq": 8, "cost_multiplier": 25 },
       { "monster": "mon_boomer", "freq": 45, "cost_multiplier": 5 },
       { "monster": "mon_zombie_brute", "freq": 23, "cost_multiplier": 15 },
@@ -4715,5 +4728,17 @@
     "type": "monstergroup",
     "default": "mon_zombie",
     "monsters": [ { "monster": "mon_zombie", "freq": 40, "cost_multiplier": 1 } ]
+  },
+  {
+    "name": "GROUP_DARK_WYRM",
+    "type": "monstergroup",
+    "default": "mon_dark_wyrm",
+    "monsters": [ { "monster": "mon_dark_wyrm", "freq": 40, "cost_multiplier": 1 } ]
+  },
+  {
+    "name": "GROUP_HAZMATBOT",
+    "type": "monstergroup",
+    "default": "mon_hazmatbot",
+    "monsters": [ { "monster": "mon_hazmatbot", "freq": 40, "cost_multiplier": 1 } ]
   }
 ]
