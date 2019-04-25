@@ -167,7 +167,7 @@ bool Creature::hide( const tripoint &target, bool move )
     }
 
     if( has_effect( effect_hidden ) && g->m.impassable( target ) ) {
-        if( g->m.ter( pos() ) == g->m.ter( target ) ) {
+        if( g->m.furn( pos() ) == g->m.furn( target ) ) {
             if( !g->m.has_flag_ter_or_furn( "CONNECT", target ) ) {
                 return false;
             }
@@ -202,7 +202,7 @@ bool Creature::unhide( const tripoint entered_from )
     }
 
     setpos( entered_from );
-    mod_moves ( -g->m.move_cost( entered_from ) + 100 );
+    mod_moves( -g->m.move_cost( entered_from ) +
                100 ); // mimic combined_movecost but set move_cost to 100 for current pos, because impassable tile are 0 movecost
     return true;
 }
