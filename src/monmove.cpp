@@ -744,7 +744,7 @@ void monster::move()
         if( has_effect( effect_dragging ) ) {
             if( !g->u.has_effect( effect_grabbed ) ) {
                 remove_effect( effect_dragging );
-            } else {
+            } else if( drag_to != pos() ) {
                 g->u.setpos( drag_to );
             }
         }
