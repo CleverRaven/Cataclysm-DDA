@@ -188,7 +188,7 @@ std::string map_data_common_t::extended_description() const
                 ss << "<bad>You are too big to hide in here.</bad>" << std::endl;
             }
         } else if( has_flag( "MAX_SMALL" ) ) {
-            ss << "This place can accommodate <info>Small</info> creatures." << std::endl;
+            ss << "This place can accommodate <info>small</info> creatures." << std::endl;
             if( g->u.get_size() <= MS_SMALL ) {
                 ss << "<good>Your size allows you to hide here.</good>" << std::endl;
             } else {
