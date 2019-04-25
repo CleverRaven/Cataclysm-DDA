@@ -262,7 +262,7 @@
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.3 },
       { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.05 },
       { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
-      { "drop": "feather", "type": "skin", "mass_ratio": 0.05 }
+      { "drop": "feather", "type": "skin", "mass_ratio": 0.01 }
     ]
   },
   {
