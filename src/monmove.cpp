@@ -376,10 +376,18 @@ void monster::plan( const mfactions &factions )
     }
 
     if( has_effect( effect_dragging ) ) {
-
-        tripoint couch_pos = g->m.find_furniture_in_radius( pos(), 10, furn_id( "f_autodoc_couch" ) );
-        if( couch_pos != tripoint() ) {
-            set_dest( couch_pos );
+        bool found_path_to_couch = false;
+        for( const auto &couch_pos : g->m.find_furnitures_in_radius( pos(), 10,
+                furn_id( "f_autodoc_couch" ) ) ) {
+            if( g->m.clear_path( pos(), couch_pos, 10, 0, 1000 ) ) {
+                set_dest( couch_pos );
+                found_path_to_couch = true;
+                break;
+            }
+        }
+        if( !found_path_to_couch ) {
+            anger = 0;
+            remove_effect( effect_dragging );
         }
     } else if( target != nullptr ) {
 
