@@ -375,7 +375,13 @@ void monster::plan( const mfactions &factions )
         }
     }
 
-    if( target != nullptr ) {
+    if( has_effect( effect_dragging ) ) {
+
+        tripoint couch_pos = g->m.find_furniture_in_radius( pos(), 10, furn_id( "f_autodoc_couch" ) );
+        if( couch_pos != tripoint() ) {
+            set_dest( couch_pos );
+        }
+    } else if( target != nullptr ) {
 
         tripoint dest = target->pos();
         auto att_to_target = attitude_to( *target );
