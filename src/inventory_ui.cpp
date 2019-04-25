@@ -204,7 +204,7 @@ bool inventory_selector_preset::sort_compare( const inventory_entry &lhs,
     // Place items with an assigned inventory letter first, since the player cared enough to assign them
     const bool left_fav  = g->u.inv.assigned_invlet.count( lhs.location->invlet );
     const bool right_fav = g->u.inv.assigned_invlet.count( rhs.location->invlet );
-    if( ( left_fav && right_fav ) || ( !left_fav && !right_fav ) ) {
+    if( left_fav == right_fav ) {
         return lhs.cached_name.compare( rhs.cached_name ) < 0; // Simple alphabetic order
     } else if( left_fav ) {
         return true;
