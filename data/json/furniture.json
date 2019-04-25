@@ -3251,7 +3251,6 @@
       "items": [ { "item": "scrap", "count": 4 }, { "item": "pipe", "count": [ 3, 5 ] } ]
     }
   },
-
   {
     "type": "furniture",
     "id": "f_forge_rock",
