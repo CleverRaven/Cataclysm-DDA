@@ -202,7 +202,7 @@ bool Creature::unhide( const tripoint entered_from )
     }
 
     setpos( entered_from );
-    moves -= ( g->m.move_cost( entered_from ) +
+    mod_moves ( -g->m.move_cost( entered_from ) + 100 );
                100 ); // mimic combined_movecost but set move_cost to 100 for current pos, because impassable tile are 0 movecost
     return true;
 }
