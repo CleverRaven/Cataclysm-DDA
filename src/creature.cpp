@@ -197,7 +197,7 @@ bool Creature::unhide( const tripoint entered_from )
     remove_effect( effect_hidden );
 
     if( !g->m.impassable( pos() ) ) {
-        moves -= 50; // cost less move because we're not moving, just unhiding.
+        mod_moves( -50 ); // cost less move because we're not moving, just unhiding.
         return true;
     }
 
