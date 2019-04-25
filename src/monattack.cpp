@@ -2725,17 +2725,9 @@ bool mattack::nurse_operate( monster *z )
     if( g->u.has_any_bionic() ) {
         add_msg( m_info, _( "The %s scans you and seems to detect your bionics." ), z->name() );
         z->anger = 100;
-        tripoint couch_pos;
-        bool found_couch = false;
-        for( const auto &couch_loc : g->m.points_in_radius( z->pos(), 10, 0 ) ) {
-            const furn_str_id couch( "f_autodoc_couch" );
-            if( g->m.furn( couch_loc ) == couch ) {
-                found_couch = true;
-                couch_pos = couch_loc;
-                break;
-            }
-        }
-        if( found_couch == false ) {
+        tripoint couch_pos = g->m.find_furniture_in_radius( z->pos(), 10, furn_id( "f_autodoc_couch" ) ) ;
+
+        if( couch_pos == tripoint() ) {
             add_msg( m_info, _( "The %s looks for something but doesn't seem to find it." ), z->name() );
             z->anger = 0;
             return false;
