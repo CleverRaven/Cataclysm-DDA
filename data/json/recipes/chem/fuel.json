@@ -71,7 +71,8 @@
         [ "fat_tainted", 16 ],
         [ "lamp_oil", 1000 ]
       ]
-    ]
+    ],
+    "flags": [ "ALLOW_ROTTEN" ]
   },
   {
     "result": "lamp_oil",
