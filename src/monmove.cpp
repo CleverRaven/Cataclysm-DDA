@@ -471,6 +471,8 @@ void monster::move()
         }
         g->m.i_clear( pos() );
     }
+    // record position before moving to put the player there if we're dragging
+    tripoint drag_to = pos();
 
     const bool pacified = has_effect( effect_pacified );
 
@@ -743,8 +745,7 @@ void monster::move()
             if( !g->u.has_effect( effect_grabbed ) ) {
                 remove_effect( effect_dragging );
             } else {
-                tripoint target_square = pos() - ( g->u.pos() - pos() );
-                g->u.setpos( target_square );
+                g->u.setpos( drag_to );
             }
         }
     } else {
