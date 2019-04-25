@@ -288,12 +288,11 @@ struct mtype {
         float luminance;           // 0 is default, >0 gives luminance to lightmap
 
         unsigned int def_chance; // How likely a special "defensive" move is to trigger (0-100%, default 0)
+        unsigned int sp_evade_chance; // How likely a special "dodge" move is to trigger (0-100%, default 0)
         // special attack frequencies and function pointers
         std::map<std::string, mtype_special_attack> special_attacks;
         std::vector<std::string> special_attacks_names; // names of attacks, in json load order
 
-        unsigned int def_chance; // How likely a special "defensive" move is to trigger (0-100%, default 0)
-        unsigned int sp_evade_chance; // How likely a special "dodge" move is to trigger (0-100%, default 0)
 
         std::vector<mon_action_death>  dies;       // What happens when this monster dies
 
