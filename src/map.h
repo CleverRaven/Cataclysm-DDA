@@ -1605,9 +1605,9 @@ class map
 
         std::list<item_location> get_active_items_in_radius( const tripoint &center, int radius ) const;
 
-        /**returns position of the first furniture matching target in the specified radius*/
-        tripoint find_furniture_in_radius( const tripoint &center, size_t radius, furn_id target,
-                                           size_t radiusz = 0 );
+        /**returns positions of furnitures matching target in the specified radius*/
+        std::list<tripoint> find_furnitures_in_radius( const tripoint &center, size_t radius, furn_id target,
+                size_t radiusz = 0 );
 
         level_cache &access_cache( int zlev );
         const level_cache &access_cache( int zlev ) const;
