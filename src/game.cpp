@@ -2233,7 +2233,11 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "shift_sw" );
     ctxt.register_action( "shift_w" );
     ctxt.register_action( "shift_nw" );
-    ctxt.register_action( "toggle_move" );
+    ctxt.register_action( "cycle_move" );
+    ctxt.register_action( "reset_move" );
+    ctxt.register_action( "toggle_run" );
+    ctxt.register_action( "toggle_crouch" );
+    ctxt.register_action( "open_movement" );
     ctxt.register_action( "open" );
     ctxt.register_action( "close" );
     ctxt.register_action( "smash" );
@@ -10324,7 +10328,7 @@ bool game::plmove( int dx, int dy, int dz )
     // open it if we are walking
     // vault over it if we are running
     if( m.passable_ter_furn( dest_loc )
-        && u.move_mode == "walk"
+        && u.get_movement_mode() == "walk"
         && m.open_door( dest_loc, !m.is_outside( u.pos() ) ) ) {
         u.moves -= 100;
         // if auto-move is on, continue moving next turn
@@ -10572,9 +10576,9 @@ bool game::walk_move( const tripoint &dest_loc )
             } else if( u.has_bionic( bionic_id( "bio_ankles" ) ) ) {
                 volume = 12;
             }
-            if( u.move_mode == "run" ) {
+            if( u.get_movement_mode() == "run" ) {
                 volume *= 1.5;
-            } else if( u.move_mode == "crouch" ) {
+            } else if( u.get_movement_mode() == "crouch" ) {
                 volume /= 2;
             }
             sounds::sound( dest_loc, volume, sounds::sound_t::movement, _( "footsteps" ), true,
@@ -11168,16 +11172,16 @@ void game::on_move_effects()
         }
     }
     if( u.has_active_bionic( bionic_id( "bio_jointservo" ) ) ) {
-        if( u.move_mode == "run" ) {
+        if( u.get_movement_mode() == "run" ) {
             u.charge_power( -20 );
         } else {
             u.charge_power( -10 );
         }
     }
 
-    if( u.move_mode == "run" ) {
+    if( u.get_movement_mode() == "run" ) {
         if( u.stamina <= 0 ) {
-            u.toggle_move_mode();
+            u.toggle_run_mode();
         }
         if( u.stamina < u.get_stamina_max() / 2 && one_in( u.stamina ) ) {
             u.add_effect( effect_winded, 3_turns );
