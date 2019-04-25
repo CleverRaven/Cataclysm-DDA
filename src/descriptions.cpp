@@ -208,7 +208,6 @@ std::string map_data_common_t::extended_description() const
             } else {
                 ss << "<bad>You are too big to hide in here.</bad>" << std::endl;
             }
-
         }
         if( has_flag( "NO_SIGHT" ) ) {
             ss << "<bad>Hiding in here would reduce sight range dramatically.</bad>" << std::endl;
