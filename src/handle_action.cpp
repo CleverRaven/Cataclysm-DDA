@@ -1602,7 +1602,7 @@ bool game::handle_action()
             case ACTION_HIDE:
                 if( const cata::optional<tripoint> pnt = choose_adjacent( _( "Hide where?" ) ) ) {
                     if( !u.hide( *pnt, false ) ) {
-                        add_msg( m_info, _( "You can't hide in the %s." ), g->m.name( *pnt ).c_str() );
+                        add_msg( m_info, _( "You can't hide in the %s." ), g->m.name( *pnt ) );
                     } else {
                         if( u.has_effect( effect_hidden ) && ( !g->m.impassable( *pnt ) || ( u.pos() == *pnt ) ) ) {
                             add_msg( m_info, _( "You are already hidden." ) );
