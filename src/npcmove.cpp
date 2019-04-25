@@ -1820,7 +1820,6 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
     }
 
     if( moved ) {
-
         if( has_effect( effect_hidden ) ) {
             if( !g->m.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, pos() ) ) {
                 if( g->m.impassable( pos() ) ) {
