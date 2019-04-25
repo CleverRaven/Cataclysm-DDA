@@ -13,6 +13,7 @@
 #include "field.h"
 #include "game.h"
 #include "map.h"
+#include "map_iterator.h"
 #include "messages.h"
 #include "monster.h"
 #include "mtype.h"
@@ -1529,13 +1530,14 @@ tripoint Creature::adjacent_tile() const
     int dangerous_fields = 0;
     for( const tripoint &p : g->m.points_in_radius( pos(), 1 ) ) {
         if( p == pos() ) {
-            // Don't consider creature position
+            // Don't consider player position
             continue;
         }
         const trap &curtrap = g->m.tr_at( p );
         if( g->critter_at( p ) == nullptr && g->m.passable( p ) &&
             ( curtrap.is_null() || curtrap.is_benign() ) ) {
             // Only consider tile if unoccupied, passable and has no traps
+            dangerous_fields = 0;
             auto &tmpfld = g->m.field_at( p );
             for( auto &fld : tmpfld ) {
                 const field_entry &cur = fld.second;
@@ -1550,7 +1552,7 @@ tripoint Creature::adjacent_tile() const
         }
     }
 
-    return random_entry( ret, pos() ); // creature position if no valid adjacent tiles
+    return random_entry( ret, pos() ); // player position if no valid adjacent tiles
 }
 
 const std::pair<std::string, nc_color> &Creature::get_attitude_ui_data( Attitude att )
