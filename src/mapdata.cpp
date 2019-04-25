@@ -915,7 +915,7 @@ furn_id f_null,
         f_floor_canvas,
         f_tatami,
         f_kiln_empty, f_kiln_full, f_kiln_metal_empty, f_kiln_metal_full,
-        f_smoking_rack, f_smoking_rack_active,
+        f_smoking_rack, f_smoking_rack_active, f_metal_smoking_rack, f_metal_smoking_rack_active,
         f_robotic_arm, f_vending_reinforced,
         f_brazier,
         f_autodoc_couch;
@@ -1020,6 +1020,8 @@ void set_furn_ids()
     f_kiln_metal_full = furn_id( "f_kiln_metal_full" );
     f_smoking_rack = furn_id( "f_smoking_rack" );
     f_smoking_rack_active = furn_id( "f_smoking_rack_active" );
+	f_metal_smoking_rack = furn_id( "f_metal_smoking_rack" );
+    f_metal_smoking_rack_active = furn_id( "f_metal_smoking_rack_active" );
     f_robotic_arm = furn_id( "f_robotic_arm" );
     f_brazier = furn_id( "f_brazier" );
     f_autodoc_couch = furn_id( "f_autodoc_couch" );
