@@ -2168,13 +2168,15 @@ bool game::handle_mouseview( input_context &ctxt, std::string &action )
     return true;
 }
 
-tripoint mouse_edge_scrolling( input_context ctxt __attribute__( ( unused ) ), const int speed )
+tripoint mouse_edge_scrolling( input_context ctxt, const int speed )
 {
     tripoint ret = tripoint_zero;
     if( speed == 0 ) {
         // Fast return when the option is disabled.
         return ret;
     }
+    // Ensure this variable is used even if the #if below is false
+    ( void ) ctxt;
 #if (defined TILES || defined _WIN32 || defined WINDOWS)
     const input_event event = ctxt.get_raw_input();
     const int threshold_x = projected_window_width() / 20;
