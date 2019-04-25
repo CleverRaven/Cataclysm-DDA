@@ -2,9 +2,15 @@
 #ifndef OUTPUT_H
 #define OUTPUT_H
 
+#include <stddef.h>
+#include <stdint.h>
 #include <sstream>
 #include <string>
 #include <vector>
+#include <algorithm>
+#include <iterator>
+#include <locale>
+#include <utility>
 
 #include "catacharset.h"
 #include "color.h"
@@ -13,14 +19,16 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "units.h"
+#include "debug.h"
 
 struct input_event;
 struct iteminfo;
+
 enum direction : unsigned;
-class input_context;
 namespace catacurses
 {
 class window;
+
 using chtype = int;
 } // namespace catacurses
 

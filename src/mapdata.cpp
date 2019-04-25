@@ -1,11 +1,14 @@
 #include "mapdata.h"
 
 #include <unordered_map>
+#include <algorithm>
+#include <iterator>
+#include <map>
+#include <utility>
 
 #include "calendar.h"
 #include "color.h"
 #include "debug.h"
-#include "game_constants.h"
 #include "generic_factory.h"
 #include "harvest.h"
 #include "iexamine.h"
@@ -14,6 +17,10 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "trap.h"
+#include "assign.h"
+#include "game.h"
+#include "json.h"
+#include "mtype.h"
 
 namespace
 {

@@ -2,9 +2,12 @@
 #ifndef PLAYER_ACTIVITY_H
 #define PLAYER_ACTIVITY_H
 
+#include <stddef.h>
 #include <climits>
 #include <set>
 #include <vector>
+#include <memory>
+#include <string>
 
 #include "enums.h"
 #include "item_location.h"
@@ -14,7 +17,6 @@ class player;
 class Character;
 class JsonIn;
 class JsonOut;
-class player_activity;
 class activity_type;
 class monster;
 

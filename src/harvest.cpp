@@ -4,12 +4,15 @@
 #include <cmath>
 #include <sstream>
 #include <string>
+#include <iterator>
 
 #include "assign.h"
 #include "debug.h"
 #include "item.h"
 #include "item_group.h"
 #include "output.h"
+#include "json.h"
+#include "mapdata.h"
 
 // TODO: Make a generic factory
 static std::map<harvest_id, harvest_list> harvest_all;

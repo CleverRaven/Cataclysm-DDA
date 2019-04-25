@@ -1,7 +1,9 @@
 #include "player.h" // IWYU pragma: associated
 
+#include <math.h>
+#include <stdlib.h>
+
 #include "effect.h"
-#include "field.h"
 #include "fungal_effects.h"
 #include "game.h"
 #include "map.h"
@@ -11,9 +13,11 @@
 #include "messages.h"
 #include "mongroup.h"
 #include "monster.h"
-#include "output.h"
 #include "sounds.h"
 #include "weather.h"
+#include "rng.h"
+#include "translations.h"
+#include "units.h"
 
 #if defined(TILES)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)
@@ -24,6 +28,7 @@
 #endif // TILES
 
 #include <functional>
+#include <algorithm>
 
 const mtype_id mon_dermatik_larva( "mon_dermatik_larva" );
 

@@ -1,13 +1,22 @@
 #include "monattack.h"
 
+#include <limits.h>
+#include <stdlib.h>
 #include <algorithm>
 #include <cmath>
 #include <map>
+#include <array>
+#include <list>
+#include <memory>
+#include <ostream>
+#include <set>
+#include <string>
+#include <utility>
+#include <vector>
 
 #include "ballistics.h"
 #include "bodypart.h"
 #include "debug.h"
-#include "dispersion.h"
 #include "effect.h"
 #include "event.h"
 #include "field.h"
@@ -38,6 +47,24 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "weighted_list.h"
+#include "calendar.h"
+#include "character.h"
+#include "creature.h"
+#include "damage.h"
+#include "enums.h"
+#include "explosion.h"
+#include "game_constants.h"
+#include "int_id.h"
+#include "item.h"
+#include "item_stack.h"
+#include "iuse.h"
+#include "optional.h"
+#include "pathfinding.h"
+#include "player.h"
+#include "string_formatter.h"
+#include "tileray.h"
+#include "material.h"
+#include "pldata.h"
 
 const mtype_id mon_ant( "mon_ant" );
 const mtype_id mon_ant_acid( "mon_ant_acid" );

@@ -3,8 +3,8 @@
 #include <cstdlib>
 #include <cstring>
 #include <array>
+#include <iosfwd>
 
-#include "cursesdef.h"
 #include "options.h"
 #include "wcwidth.h"
 

@@ -1,31 +1,22 @@
 #include "basecamp.h"
 
 #include <algorithm>
-#include <array>
 #include <sstream>
 #include <map>
 #include <string>
 #include <vector>
+#include <utility>
 
 #include "craft_command.h"
-#include "crafting.h"
 #include "output.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "enums.h"
 #include "game.h"
-#include "game_inventory.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_group.h"
-#include "itype.h"
 #include "map.h"
-#include "map_iterator.h"
-#include "mapbuffer.h"
-#include "mapdata.h"
-#include "messages.h"
-#include "overmap.h"
-#include "overmap_ui.h"
 #include "overmapbuffer.h"
 #include "player.h"
 #include "npc.h"
@@ -35,6 +26,11 @@
 #include "skill.h"
 #include "string_input_popup.h"
 #include "faction_camp.h"
+#include "calendar.h"
+#include "color.h"
+#include "compatibility.h"
+#include "omdata.h"
+#include "string_id.h"
 
 static const std::string base_dir = "[B]";
 static const std::string prefix = "faction_base_";

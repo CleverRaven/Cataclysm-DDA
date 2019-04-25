@@ -3,19 +3,22 @@
 #define IEXAMINE_H
 
 #include <list>
+#include <string>
+#include <tuple>
+#include <vector>
 
 #include "itype.h"
 #include "string_id.h"
+#include "calendar.h"
+#include "optional.h"
+#include "ret_val.h"
 
-class game;
 class item;
 class player;
-class npc;
-class map;
 class vpart_reference;
 struct tripoint;
-struct itype;
 struct mtype;
+
 using mtype_id = string_id<mtype>;
 using seed_tuple = std::tuple<itype_id, std::string, int>;
 

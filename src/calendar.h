@@ -3,8 +3,8 @@
 #define CALENDAR_H
 
 #include <string>
-
-#include "optional.h"
+#include <iosfwd>
+#include <utility>
 
 class time_duration;
 class time_point;

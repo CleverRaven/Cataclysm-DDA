@@ -3,11 +3,9 @@
 #include <algorithm>
 #include <string>
 #include <vector>
+#include <memory>
 
-#include "debug.h"
-#include "game.h"
 #include "input.h"
-#include "map.h"
 #include "output.h"
 #include "translations.h"
 

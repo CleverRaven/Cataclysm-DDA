@@ -5,10 +5,12 @@
 #include <map>
 #include <stack>
 #include <vector>
+#include <string>
 
 #include "string_id.h"
 
 struct MOD_INFORMATION;
+
 using mod_id = string_id<MOD_INFORMATION>;
 
 enum NODE_ERROR_TYPE {

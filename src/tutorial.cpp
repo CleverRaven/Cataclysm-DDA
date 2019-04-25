@@ -1,5 +1,11 @@
 #include "tutorial.h"
 
+#include <stddef.h>
+#include <array>
+#include <memory>
+#include <string>
+#include <vector>
+
 #include "action.h"
 #include "coordinate_conversions.h"
 #include "game.h"
@@ -16,6 +22,17 @@
 #include "scent_map.h"
 #include "translations.h"
 #include "trap.h"
+#include "calendar.h"
+#include "enums.h"
+#include "game_constants.h"
+#include "int_id.h"
+#include "inventory.h"
+#include "item.h"
+#include "item_stack.h"
+#include "omdata.h"
+#include "pldata.h"
+#include "units.h"
+#include "mongroup.h"
 
 const mtype_id mon_zombie( "mon_zombie" );
 

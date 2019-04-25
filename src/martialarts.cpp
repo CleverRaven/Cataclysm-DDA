@@ -3,6 +3,11 @@
 #include <algorithm>
 #include <map>
 #include <string>
+#include <array>
+#include <memory>
+#include <sstream>
+#include <unordered_map>
+#include <utility>
 
 #include "damage.h"
 #include "debug.h"
@@ -16,6 +21,12 @@
 #include "skill.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "color.h"
+#include "creature.h"
+#include "cursesdef.h"
+#include "item.h"
+#include "pimpl.h"
+#include "pldata.h"
 
 const skill_id skill_melee( "melee" );
 const skill_id skill_bashing( "bashing" );

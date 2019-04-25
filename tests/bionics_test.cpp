@@ -1,9 +1,20 @@
+#include <limits.h>
+#include <stddef.h>
+#include <list>
+#include <memory>
+#include <string>
+#include <vector>
+
 #include "catch/catch.hpp"
 #include "ammo.h"
 #include "bionics.h"
 #include "game.h"
 #include "item.h"
 #include "player.h"
+#include "calendar.h"
+#include "itype.h"
+#include "pimpl.h"
+#include "string_id.h"
 
 void clear_bionics( player &p )
 {

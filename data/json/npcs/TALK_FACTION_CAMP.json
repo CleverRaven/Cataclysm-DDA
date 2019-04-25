@@ -18,12 +18,6 @@
         "effect": "basecamp_mission",
         "condition": { "npc_at_om_location": "FACTION_CAMP_ANY" }
       },
-      {
-        "text": "I want you to take over the camp here.",
-        "topic": "TALK_DONE",
-        "effect": "recover_camp",
-        "condition": { "and": [ { "u_at_om_location": "FACTION_CAMP_ANY" }, { "not": { "npc_role_nearby": "FACTION_CAMP" } } ] }
-      },
       { "text": "Nothing.  Let's talk about something else.", "topic": "TALK_FRIEND" },
       { "text": "Never mind, let's talk about other things you can do", "topic": "TALK_ALLY_TUTORIAL" },
       { "text": "Nothing.  Lets' get back to work.", "topic": "TALK_DONE" }

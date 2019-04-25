@@ -10,6 +10,7 @@
 #include "mondeath.h"
 #include "monstergenerator.h"
 #include "translations.h"
+#include "mapdata.h"
 
 const species_id MOLLUSK( "MOLLUSK" );
 

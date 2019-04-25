@@ -3,6 +3,8 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <array>
+#include <functional>
 
 #include "catacharset.h"
 #include "input.h"
@@ -11,6 +13,11 @@
 #include "string_input_popup.h"
 #include "translations.h"
 #include "ui.h"
+#include "color.h"
+#include "compatibility.h"
+#include "cursesdef.h"
+#include "enums.h"
+#include "optional.h"
 
 std::vector<tripoint> closest_tripoints_first( int radius, const tripoint &p );
 

@@ -1,6 +1,13 @@
 #include "mapbuffer.h"
 
 #include <sstream>
+#include <algorithm>
+#include <exception>
+#include <functional>
+#include <iterator>
+#include <set>
+#include <utility>
+#include <vector>
 
 #include "cata_utility.h"
 #include "computer.h"
@@ -16,6 +23,15 @@
 #include "translations.h"
 #include "trap.h"
 #include "vehicle.h"
+#include "active_item_cache.h"
+#include "basecamp.h"
+#include "calendar.h"
+#include "field.h"
+#include "game_constants.h"
+#include "int_id.h"
+#include "item.h"
+#include "string_id.h"
+#include "visitable.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 

@@ -2,7 +2,7 @@
 #ifndef DEBUG_MENU_H
 #define DEBUG_MENU_H
 
-#include "enums.h"
+struct tripoint;
 
 namespace cata
 {
@@ -27,7 +27,6 @@ void wishskill( player *p );
 void mutation_wish();
 void draw_benchmark( const int max_difference );
 
-class mission_debug;
 
 }
 

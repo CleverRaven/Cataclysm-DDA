@@ -9,6 +9,12 @@
 #include "player.h"
 #include "popup.h"
 #include "weather.h"
+#include "creature.h"
+#include "cursesdef.h"
+#include "enums.h"
+#include "game_constants.h"
+#include "posix_time.h"
+#include "translations.h"
 
 #if defined(TILES)
 #include <memory>
@@ -19,6 +25,11 @@ extern std::unique_ptr<cata_tiles> tilecontext; // obtained from sdltiles.cpp
 #endif
 
 #include <algorithm>
+#include <list>
+#include <map>
+#include <string>
+#include <utility>
+#include <vector>
 
 bool is_valid_in_w_terrain( int x, int y ); // see game.cpp
 
@@ -620,6 +631,18 @@ void game::draw_cursor( const tripoint &p )
 {
     const tripoint rp = relative_view_pos( *this, p );
     mvwputch_inv( w_terrain, rp.y, rp.x, c_light_green, 'X' );
+}
+#endif
+
+#if defined(TILES)
+void game::draw_highlight( const tripoint &p )
+{
+    tilecontext->init_draw_highlight( p );
+}
+#else
+void game::draw_highlight( const tripoint & )
+{
+    // Do nothing
 }
 #endif
 

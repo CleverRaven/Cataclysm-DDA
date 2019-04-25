@@ -58,7 +58,9 @@
       [ "screwdriver", 15 ],
       [ "superglue", 5 ],
       [ "polisher", 15 ],
-      [ "solar_panel", 15 ]
+      [ "solar_panel", 15 ],
+      [ "spare_tire_carrier", 10 ],
+      [ "mounted_spare_tire", 10 ]
     ]
   },
   {
@@ -85,7 +87,9 @@
       [ "screwdriver", 15 ],
       [ "superglue", 5 ],
       [ "polisher", 15 ],
-      [ "solar_panel", 15 ]
+      [ "solar_panel", 15 ],
+      [ "spare_tire_carrier", 10 ],
+      [ "mounted_spare_tire", 10 ]
     ]
   },
   {
