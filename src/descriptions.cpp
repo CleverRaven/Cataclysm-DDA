@@ -181,7 +181,7 @@ std::string map_data_common_t::extended_description() const
         ss << "--" << std::endl;
         ss << "This could be use as an hiding place." << std::endl;
         if( has_flag( "MAX_TINY" ) ) {
-            ss << "This place can accommodate <info>Tiny</info> creatures." << std::endl;
+            ss << "This place can accommodate <info>tiny</info> creatures." << std::endl;
             if( g->u.get_size() == MS_TINY ) {
                 ss << "<good>Your size allows you to hide here.</good>" << std::endl;
             } else {
