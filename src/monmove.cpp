@@ -386,49 +386,26 @@ void monster::plan( const mfactions &factions )
             type->id;// We might eventually have other monsters using the dragging effect
 
         if( mon_id == mon_defective_robot_nurse ) {
+
             bool found_path_to_couch = false;
             tripoint tmp( pos().x + 12, pos().y + 12, pos().z );
+            tripoint couch_loc;
             for( const auto &couch_pos : g->m.find_furnitures_in_radius( pos(), 10,
                     furn_id( "f_autodoc_couch" ) ) ) {
                 if( g->m.clear_path( pos(), couch_pos, 10, 0, 100 ) ) {
                     if( rl_dist( pos(), couch_pos ) < rl_dist( pos(), tmp ) ) {
                         tmp = couch_pos;
-                        set_dest( couch_pos );
                         found_path_to_couch = true;
-                    }
-                    if( rl_dist( pos(), couch_pos ) == 1 ) {
-                        if( g->u.has_effect( effect_grabbed ) ) {
-                            g->u.setpos( couch_pos );
-                            add_msg( m_bad, _( "The %s slowy but firmly puts you down onto the autodoc couch." ), name() );
-                            if( !has_effect( effect_countdown ) ) {
-                                add_effect( effect_countdown, 2_turns );
-                                add_msg( m_bad, _( "The %s produces a syringe full of some translucent liquid." ), name() );
-                            }
-
-                        }
+                        couch_loc = couch_pos;
                     }
                 }
             }
+
             if( !found_path_to_couch ) {
                 anger = 0;
                 remove_effect( effect_dragging );
-            }
-
-            if( get_effect_dur( effect_countdown ) == 1_turns ) {
-                if( g->u.has_effect( effect_grabbed ) ) {
-
-                    bionic_collection collec = *g->u.my_bionics;
-                    int index = rng( 0, collec.size() - 1 );
-                    bionic target_cbm = collec[index];
-                    item bionic_to_uninstall = item( target_cbm.id.str(), 0 );
-                    const itype *itemtype = bionic_to_uninstall.type;
-                    const time_duration duration = itemtype->bionic->difficulty * 20_minutes;
-                    add_effect( effect_operating, duration );
-                    add_msg( m_bad,
-                             _( "You feel a tiny pricking sensation in your right arm, and lose all sensation before abruptly blacking out." ) );
-                    g->u.add_effect( effect_narcosis, duration );
-                    g->u.fall_asleep( duration );
-                }
+            } else {
+                set_dest( couch_loc );
             }
         }
 
@@ -562,6 +539,40 @@ void monster::move()
                 continue;
             }
             reset_special( special_name );
+        }
+    }
+
+    // defective nurse code
+    const mtype_id &mon_id = type->id;
+    if( mon_id == mon_defective_robot_nurse && has_effect( effect_dragging ) ) {
+
+
+        if( rl_dist( pos(), goal ) == 1 ) {
+            if( g->u.has_effect( effect_grabbed ) ) {
+                g->u.setpos( goal );
+                add_msg( m_bad, _( "The %s slowy but firmly puts you down onto the autodoc couch." ), name() );
+                if( !has_effect( effect_countdown ) ) {
+                    add_effect( effect_countdown, 2_turns );
+                    add_msg( m_bad, _( "The %s produces a syringe full of some translucent liquid." ), name() );
+                }
+
+            }
+        }
+        if( get_effect_dur( effect_countdown ) == 1_turns ) {
+            if( g->u.has_effect( effect_grabbed ) ) {
+
+                bionic_collection collec = *g->u.my_bionics;
+                int index = rng( 0, collec.size() - 1 );
+                bionic target_cbm = collec[index];
+                item bionic_to_uninstall = item( target_cbm.id.str(), 0 );
+                const itype *itemtype = bionic_to_uninstall.type;
+                const time_duration duration = itemtype->bionic->difficulty * 20_minutes;
+                add_effect( effect_operating, duration );
+                add_msg( m_bad,
+                         _( "You feel a tiny pricking sensation in your right arm, and lose all sensation before abruptly blacking out." ) );
+                g->u.add_effect( effect_narcosis, duration );
+                g->u.fall_asleep( duration );
+            }
         }
     }
 
