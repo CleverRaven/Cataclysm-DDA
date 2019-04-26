@@ -549,15 +549,13 @@ void monster::move()
 
         if( rl_dist( pos(), goal ) == 1 && g->m.furn( goal ) == furn_id( "f_autodoc_couch" ) &&
             !has_effect( effect_operating ) ) {
-            if( g->u.has_effect( effect_grabbed ) ) {
+            if( g->u.has_effect( effect_grabbed ) && !has_effect( effect_countdown ) ) {
                 add_msg( m_bad, _( "The %s slowy but firmly puts you down onto the autodoc couch." ), name() );
                 int u_dist = rl_dist( g->u.pos(), goal );
                 g->u.setpos( goal );
 
-                if( !has_effect( effect_countdown ) ) {
-                    add_effect( effect_countdown, 2_turns );// there's still time to get away
-                    add_msg( m_bad, _( "The %s produces a syringe full of some translucent liquid." ), name() );
-                }
+                add_effect( effect_countdown, 2_turns );// there's still time to get away
+                add_msg( m_bad, _( "The %s produces a syringe full of some translucent liquid." ), name() );
             }
         }
         if( get_effect_dur( effect_countdown ) == 1_turns && !has_effect( effect_operating ) ) {
@@ -573,7 +571,7 @@ void monster::move()
                          _( "You feel a tiny pricking sensation in your right arm, and lose all sensation before abruptly blacking out." ) );
                 g->u.add_effect( effect_narcosis, duration );
                 g->u.fall_asleep( duration );
-                add_effect(effect_operating, duration);
+                add_effect( effect_operating, duration );
             }
         }
     }
