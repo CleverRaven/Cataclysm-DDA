@@ -928,6 +928,7 @@ class game
         void set_critter_died();
         void mon_info( const catacurses::window &,
                        int hor_padding = 0 ); // Prints a list of nearby monsters
+        void cleanup_dead();     // Delete any dead NPCs/monsters
     private:
         void wield();
         void wield( int pos ); // Wield a weapon  'w'
@@ -982,9 +983,6 @@ class game
         void rebuild_mon_at_cache();
 
         // Routine loop functions, approximately in order of execution
-    public:
-        void cleanup_dead();     // Delete any dead NPCs/monsters
-    private:
         void monmove();          // Monster movement
         void overmap_npc_move(); // NPC overmap movement
         void process_activity(); // Processes and enacts the player's activity
@@ -1017,6 +1015,7 @@ class game
         void autosave();         // automatic quicksaves - Performs some checks before calling quicksave()
     public:
         void quicksave();        // Saves the game without quitting
+        void disp_NPCs();        // Currently for debug use.  Lists global NPCs.
     private:
         void quickload();        // Loads the previously saved game if it exists
 
@@ -1028,9 +1027,6 @@ class game
         void disp_kills();          // Display the player's kill counts
         void disp_faction_ends();   // Display the faction endings
         void disp_NPC_epilogues();  // Display NPC endings
-    public:
-        void disp_NPCs();           // Currently for debug use.  Lists global NPCs.
-    private:
         void list_missions();       // Listed current, completed and failed missions (mission_ui.cpp)
 
         // Debug functions
