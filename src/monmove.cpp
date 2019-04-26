@@ -37,6 +37,7 @@ const efftype_id effect_downed( "downed" );
 const efftype_id effect_dragging( "dragging" );
 const efftype_id effect_grabbed( "grabbed" );
 const efftype_id effect_no_sight( "no_sight" );
+const efftype_id effect_operating( "operating" );
 const efftype_id effect_pacified( "pacified" );
 const efftype_id effect_pushed( "pushed" );
 const efftype_id effect_stunned( "stunned" );
@@ -381,7 +382,6 @@ void monster::plan( const mfactions &factions )
     if( has_effect( effect_dragging ) ) {
         const mtype_id &mon_id =
             type->id;// We might eventually have other monsters using the dragging effect
-
         if( mon_id == mon_defective_robot_nurse ) {
             bool found_path_to_couch = false;
             tripoint tmp( pos().x + 12, pos().y + 12, pos().z );
@@ -393,15 +393,14 @@ void monster::plan( const mfactions &factions )
                         set_dest( couch_pos );
                         found_path_to_couch = true;
                     }
-                    if( rl_dist( pos(), couch_pos ) == 1 ) {
+                    if( rl_dist( pos(), couch_pos ) == 1 && !has_effect( effect_operating ) ) {
                         if( g->u.has_effect( effect_grabbed ) ) {
                             g->u.setpos( couch_pos );
                             add_msg( m_bad, _( "The %s slowy but firmly puts you down onto the autodoc couch." ), name() );
                             if( !has_effect( effect_countdown ) ) {
-                                add_effect( effect_countdown, 2_turns );
+                                add_effect( effect_countdown, 3_turns );
                                 add_msg( m_bad, _( "The %s produces a syringe full of some translucent liquid." ), name() );
                             }
-
                         }
                     }
                 }
@@ -411,7 +410,6 @@ void monster::plan( const mfactions &factions )
                 remove_effect( effect_dragging );
             }
         }
-
     } else if( target != nullptr ) {
 
         tripoint dest = target->pos();
