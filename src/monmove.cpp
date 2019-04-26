@@ -553,7 +553,6 @@ void monster::move()
                 add_msg( m_bad, _( "The %s slowy but firmly puts you down onto the autodoc couch." ), name() );
                 int u_dist = rl_dist( g->u.pos(), goal );
                 g->u.setpos( goal );
-                mod_moves( -100 * u_dist );
 
                 if( !has_effect( effect_countdown ) ) {
                     add_effect( effect_countdown, 2_turns );// there's still time to get away
@@ -570,11 +569,11 @@ void monster::move()
                 item bionic_to_uninstall = item( target_cbm.id.str(), 0 );
                 const itype *itemtype = bionic_to_uninstall.type;
                 const time_duration duration = itemtype->bionic->difficulty * 20_minutes;
-                add_effect( effect_operating, duration );
                 add_msg( m_bad,
                          _( "You feel a tiny pricking sensation in your right arm, and lose all sensation before abruptly blacking out." ) );
                 g->u.add_effect( effect_narcosis, duration );
                 g->u.fall_asleep( duration );
+                add_effect(effect_operating, duration);
             }
         }
     }
