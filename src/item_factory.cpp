@@ -649,6 +649,7 @@ void Item_factory::init()
     add_iuse( "GUNMOD_ATTACH", &iuse::gunmod_attach );
     add_iuse( "TOOLMOD_ATTACH", &iuse::toolmod_attach );
     add_iuse( "HACKSAW", &iuse::hacksaw );
+    add_iuse( "HAIRBRUSH", &iuse::hairbrush );
     add_iuse( "HAIRKIT", &iuse::hairkit );
     add_iuse( "HAMMER", &iuse::hammer );
     add_iuse( "HEATPACK", &iuse::heatpack );

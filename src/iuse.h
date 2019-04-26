@@ -176,6 +176,7 @@ class iuse
         int rm13armor_on( player *, item *, bool, const tripoint & );
         int unpack_item( player *, item *, bool, const tripoint & );
         int pack_item( player *, item *, bool, const tripoint & );
+        int hairbrush( player *, item *, bool, const tripoint & );
         int radglove( player *, item *, bool, const tripoint & );
         int robotcontrol( player *, item *, bool, const tripoint & );
         // Helper for validating a potential taget of robot control

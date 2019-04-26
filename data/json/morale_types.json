@@ -280,6 +280,11 @@
     "text": "Found kitten <3"
   },
   {
+    "id": "morale_groomed",
+    "type": "morale_type",
+    "text": "Groomed Self"
+  },
+  {
     "id": "morale_haircut",
     "type": "morale_type",
     "text": "Got a Haircut"

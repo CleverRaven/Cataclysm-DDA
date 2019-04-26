@@ -5278,6 +5278,16 @@ int iuse::stimpack( player *p, item *it, bool, const tripoint & )
     return it->type->charges_to_use();
 }
 
+int iuse::hairbrush( player *p, item *it, bool, const tripoint & )
+{
+    if( p->is_groomed() ) {
+        p->add_msg_if_player( _( "You're already groomed!" ) );
+    } else {
+        p->assign_activity( activity_id( "ACT_GROOM" ), 2000 );
+    }
+    return it->type->charges_to_use();
+}
+
 int iuse::radglove( player *p, item *it, bool, const tripoint & )
 {
     if( p->get_item_position( it ) >= -1 ) {

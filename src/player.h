@@ -1731,6 +1731,14 @@ class player : public Character
 
         std::set<tripoint> camps;
 
+		inline bool is_groomed() const {
+			return groomed;
+		}
+
+		inline void set_groomed( bool state ) {
+			groomed = state;
+		}
+
     protected:
         // The player's position on the local map.
         tripoint position;
@@ -1864,6 +1872,8 @@ class player : public Character
 
         map_memory player_map_memory;
         bool show_map_memory;
+
+		bool groomed;
 };
 
 #endif

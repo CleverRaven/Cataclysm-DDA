@@ -8843,6 +8843,20 @@
     "flags": [ "STAB", "BELT_CLIP" ]
   },
   {
+    "id": "hairbrush", 
+    "type": "TOOL",
+    "name": "hairbrush",
+    "description": "A hairbrush, for keeping your hair neat and tidy.",
+    "weight": 150,
+    "volume": 1,
+    "price": 200,
+    "material": [ "plastic", "wood" ],
+    "symbol": ";",
+    "color": "pink",
+    "flags": [ "BELT_CLIP" ],
+	"use_action": "HAIRBRUSH"
+  },
+  {
     "id": "electrolysis_kit",
     "type": "TOOL",
     "name": "electrolysis kit",

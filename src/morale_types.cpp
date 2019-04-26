@@ -159,6 +159,7 @@ const morale_type MORALE_GAME_FOUND_KITTEN( "morale_game_found_kitten" );
 const morale_type MORALE_HAIRCUT( "morale_haircut" );
 const morale_type MORALE_SHAVE( "morale_shave" );
 const morale_type MORALE_CHAT( "morale_chat" );
+const morale_type MORALE_GROOMED( "morale_groomed" );
 const morale_type MORALE_VOMITED( "morale_vomited" );
 const morale_type MORALE_PLAY_WITH_PET( "morale_play_with_pet" );
 const morale_type MORALE_PYROMANIA_STARTFIRE( "morale_pyromania_startfire" );

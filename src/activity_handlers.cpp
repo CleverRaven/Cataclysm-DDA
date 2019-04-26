@@ -155,7 +155,8 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_SHAVE" ), shaving_finish },
     { activity_id( "ACT_HAIRCUT" ), haircut_finish },
     { activity_id( "ACT_UNLOAD_MAG" ), unload_mag_finish },
-    { activity_id( "ACT_ROBOT_CONTROL" ), robot_control_finish }
+    { activity_id( "ACT_ROBOT_CONTROL" ), robot_control_finish },
+    { activity_id( "ACT_GROOM" ), groom_finish }
 };
 
 void messages_in_process( const player_activity &act, const player &p )
@@ -3321,4 +3322,12 @@ void activity_handlers::robot_control_finish( player_activity *act, player *p )
         p->add_msg_if_player( _( "...but the robot refuses to acknowledge you as an ally!" ) );
     }
     p->practice( skill_id( "computer" ), 10 );
+}
+
+void activity_handlers::groom_finish( player_activity *act, player *p )
+{
+    p->set_groomed( true );
+    p->add_morale( MORALE_GROOMED, 5, 5, 240_minutes, 10_minutes );
+    p->add_msg_if_player( _( "You finish grooming yourself." ) );
+    act->set_to_null();
 }
