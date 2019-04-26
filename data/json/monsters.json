@@ -1081,7 +1081,7 @@
     "flags": [ "SEES", "ELECTRONIC", "NO_BREATHE", "FIREPROOF", "PUSH_MON", "HEARS" ]
   },
   {
-    "id": "mon_broken_nursebot",
+    "id": "mon_defective_nursebot",
     "type": "MONSTER",
     "name": "nurse bot",
     "description": "",
@@ -1103,7 +1103,7 @@
     "special_attacks": [ [ "OPERATE", 30 ] ],
     "death_drops": { "groups": [ [ "robots", 4 ] ] },
     "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "ELECTRONIC", "NO_BREATHE", "FIREPROOF", "PUSH_MON", "HEARS" ]
+    "flags": [ "SEES", "ELECTRONIC", "NO_BREATHE", "FIREPROOF", "PUSH_MON", "HEARS", "BAD_NURSE" ]
   },
   {
     "id": "mon_flaming_eye",
