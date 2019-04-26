@@ -6,10 +6,14 @@
 #include <map>
 #include <unordered_set>
 #include <vector>
+#include <list>
 
 #include "player_activity.h"
 
 class player;
+class Character;
+class item;
+struct tripoint;
 
 std::vector<tripoint> get_sorted_tiles_by_distance( const tripoint &abspos,
         const std::unordered_set<tripoint> &tiles );
@@ -65,6 +69,7 @@ void oxytorch_do_turn( player_activity *act, player *p );
 void aim_do_turn( player_activity *act, player *p );
 void pickup_do_turn( player_activity *act, player *p );
 void wear_do_turn( player_activity *act, player *p );
+void eat_menu_do_turn( player_activity *act, player *p );
 void move_items_do_turn( player_activity *act, player *p );
 void move_loot_do_turn( player_activity *act, player *p );
 void adv_inventory_do_turn( player_activity *act, player *p );
@@ -77,7 +82,6 @@ void hacksaw_do_turn( player_activity *act, player *p );
 void chop_tree_do_turn( player_activity *act, player *p );
 void jackhammer_do_turn( player_activity *act, player *p );
 void dig_do_turn( player_activity *act, player *p );
-void dig_deepen_do_turn( player_activity *act, player *p );
 void dig_channel_do_turn( player_activity *act, player *p );
 void fill_pit_do_turn( player_activity *act, player *p );
 void till_plot_do_turn( player_activity *act, player *p );
@@ -86,6 +90,7 @@ void fertilize_plot_do_turn( player_activity *act, player *p );
 void harvest_plot_do_turn( player_activity *act, player *p );
 void try_sleep_do_turn( player_activity *act, player *p );
 void robot_control_do_turn( player_activity *act, player *p );
+void tree_communion_do_turn( player_activity *act, player *p );
 
 // defined in activity_handlers.cpp
 extern const std::map< activity_id, std::function<void( player_activity *, player * )> >
@@ -121,20 +126,18 @@ void wait_weather_finish( player_activity *act, player *p );
 void wait_npc_finish( player_activity *act, player *p );
 void socialize_finish( player_activity *act, player *p );
 void try_sleep_finish( player_activity *act, player *p );
-void craft_finish( player_activity *act, player *p );
-void longcraft_finish( player_activity *act, player *p );
 void disassemble_finish( player_activity *act, player *p );
 void build_finish( player_activity *act, player *p );
 void vibe_finish( player_activity *act, player *p );
 void atm_finish( player_activity *act, player *p );
 void aim_finish( player_activity *act, player *p );
+void eat_menu_finish( player_activity *act, player *p );
 void washing_finish( player_activity *act, player *p );
 void hacksaw_finish( player_activity *act, player *p );
 void chop_tree_finish( player_activity *act, player *p );
 void chop_logs_finish( player_activity *act, player *p );
 void jackhammer_finish( player_activity *act, player *p );
 void dig_finish( player_activity *act, player *p );
-void dig_deepen_finish( player_activity *act, player *p );
 void dig_channel_finish( player_activity *act, player *p );
 void fill_pit_finish( player_activity *act, player *p );
 void play_with_pet_finish( player_activity *act, player *p );

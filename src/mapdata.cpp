@@ -1,11 +1,14 @@
 #include "mapdata.h"
 
 #include <unordered_map>
+#include <algorithm>
+#include <iterator>
+#include <map>
+#include <utility>
 
 #include "calendar.h"
 #include "color.h"
 #include "debug.h"
-#include "game_constants.h"
 #include "generic_factory.h"
 #include "harvest.h"
 #include "iexamine.h"
@@ -14,6 +17,10 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "trap.h"
+#include "assign.h"
+#include "game.h"
+#include "json.h"
+#include "mtype.h"
 
 namespace
 {
@@ -157,7 +164,8 @@ static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { 
         { "NO_FLOOR",                 TFLAG_NO_FLOOR },       // Things should fall when placed on this tile
         { "SEEN_FROM_ABOVE",          TFLAG_SEEN_FROM_ABOVE },// This should be visible if the tile above has no floor
         { "HIDE_PLACE",               TFLAG_HIDE_PLACE },     // Creature on this tile can't be seen by other creature not standing on adjacent tiles
-        { "BLOCK_WIND",               TFLAG_BLOCK_WIND},      // This tile will partially block the wind.
+        { "BLOCK_WIND",               TFLAG_BLOCK_WIND },     // This tile will partially block the wind.
+        { "FLAT",                     TFLAG_FLAT },           // This tile is flat.
         { "RAMP",                     TFLAG_RAMP },           // Can be used to move up a z-level
     }
 };
@@ -262,6 +270,20 @@ bool map_deconstruct_info::load( JsonObject &jsobj, const std::string &member, b
     return true;
 }
 
+furn_workbench_info::furn_workbench_info() : multiplier( 1.0f ), allowed_mass( units::mass_max ),
+    allowed_volume( units::volume_max ) {}
+
+bool furn_workbench_info::load( JsonObject &jsobj, const std::string &member )
+{
+    JsonObject j = jsobj.get_object( member );
+
+    assign( j, "multiplier", multiplier );
+    assign( j, "mass", allowed_mass );
+    assign( j, "volume", allowed_volume );
+
+    return true;
+}
+
 furn_t null_furniture_t()
 {
     furn_t new_furniture;
@@ -326,7 +348,7 @@ void load_season_array( JsonObject &jo, const std::string &key, C &container, F 
 
 std::string map_data_common_t::name() const
 {
-    return _( name_.c_str() );
+    return _( name_ );
 }
 
 void map_data_common_t::load_symbol( JsonObject &jo )
@@ -438,7 +460,7 @@ bool map_data_common_t::connects( int &ret ) const
 ter_id t_null,
        t_hole, // Real nothingness; makes you fall a z-level
        // Ground
-       t_dirt, t_sand, t_clay, t_dirtmound, t_pit_shallow, t_pit,
+       t_dirt, t_sand, t_clay, t_dirtmound, t_pit_shallow, t_pit, t_grave,
        t_pit_corpsed, t_pit_covered, t_pit_spiked, t_pit_spiked_covered, t_pit_glass, t_pit_glass_covered,
        t_rock_floor,
        t_grass, t_grass_long, t_grass_tall, t_grass_golf, t_grass_dead, t_grass_white,
@@ -463,7 +485,7 @@ ter_id t_null,
        t_wall_metal,
        t_wall_glass,
        t_wall_glass_alarm,
-       t_reinforced_glass,
+       t_reinforced_glass, t_reinforced_glass_shutter, t_reinforced_glass_shutter_open,
        t_reinforced_door_glass_o,
        t_reinforced_door_glass_c,
        t_bars,
@@ -535,13 +557,14 @@ ter_id t_null,
        t_slope_up, t_rope_up,
        t_manhole_cover,
        // Special
-       t_card_science, t_card_military, t_card_reader_broken, t_slot_machine,
+       t_card_science, t_card_military, t_card_industrial, t_card_reader_broken, t_slot_machine,
        t_elevator_control, t_elevator_control_off, t_elevator, t_pedestal_wyrm,
        t_pedestal_temple,
        // Temple tiles
        t_rock_red, t_rock_green, t_rock_blue, t_floor_red, t_floor_green, t_floor_blue,
        t_switch_rg, t_switch_gb, t_switch_rb, t_switch_even, t_open_air, t_plut_generator,
        t_pavement_bg_dp, t_pavement_y_bg_dp, t_sidewalk_bg_dp, t_guardrail_bg_dp,
+       t_rad_platform,
        // Railroad and subway
        t_railroad_rubble,
        t_buffer_stop, t_railroad_crossing_signal, t_crossbuck_wood, t_crossbuck_metal,
@@ -561,6 +584,7 @@ void set_ter_ids()
     t_sand = ter_id( "t_sand" );
     t_clay = ter_id( "t_clay" );
     t_dirtmound = ter_id( "t_dirtmound" );
+    t_grave = ter_id( "t_grave" );
     t_pit_shallow = ter_id( "t_pit_shallow" );
     t_pit = ter_id( "t_pit" );
     t_pit_corpsed = ter_id( "t_pit_corpsed" );
@@ -612,6 +636,8 @@ void set_ter_ids()
     t_wall_glass = ter_id( "t_wall_glass" );
     t_wall_glass_alarm = ter_id( "t_wall_glass_alarm" );
     t_reinforced_glass = ter_id( "t_reinforced_glass" );
+    t_reinforced_glass_shutter = ter_id( "t_reinforced_glass_shutter" );
+    t_reinforced_glass_shutter_open = ter_id( "t_reinforced_glass_shutter_open" );
     t_reinforced_door_glass_c = ter_id( "t_reinforced_door_glass_c" );
     t_reinforced_door_glass_o = ter_id( "t_reinforced_door_glass_o" );
     t_bars = ter_id( "t_bars" );
@@ -795,6 +821,7 @@ void set_ter_ids()
     t_manhole_cover = ter_id( "t_manhole_cover" );
     t_card_science = ter_id( "t_card_science" );
     t_card_military = ter_id( "t_card_military" );
+    t_card_industrial = ter_id( "t_card_industrial" );
     t_card_reader_broken = ter_id( "t_card_reader_broken" );
     t_slot_machine = ter_id( "t_slot_machine" );
     t_elevator_control = ter_id( "t_elevator_control" );
@@ -825,6 +852,7 @@ void set_ter_ids()
     t_pavement_y_bg_dp = ter_id( "t_pavement_y_bg_dp" );
     t_sidewalk_bg_dp = ter_id( "t_sidewalk_bg_dp" );
     t_guardrail_bg_dp = ter_id( "t_guardrail_bg_dp" );
+    t_rad_platform = ter_id( "t_rad_platform" );
     t_improvised_shelter = ter_id( "t_improvised_shelter" );
     t_railroad_rubble = ter_id( "t_railroad_rubble" );
     t_buffer_stop = ter_id( "t_buffer_stop" );
@@ -1072,6 +1100,7 @@ void ter_t::load( JsonObject &jo, const std::string &src )
     map_data_common_t::load( jo, src );
     mandatory( jo, was_loaded, "name", name_ );
     mandatory( jo, was_loaded, "move_cost", movecost );
+    optional( jo, was_loaded, "coverage", coverage );
     optional( jo, was_loaded, "max_volume", max_volume, legacy_volume_reader,
               DEFAULT_MAX_VOLUME_IN_SQUARE );
     optional( jo, was_loaded, "trap", trap_id_str );
@@ -1172,6 +1201,7 @@ void furn_t::load( JsonObject &jo, const std::string &src )
     map_data_common_t::load( jo, src );
     mandatory( jo, was_loaded, "name", name_ );
     mandatory( jo, was_loaded, "move_cost_mod", movecost );
+    optional( jo, was_loaded, "coverage", coverage );
     optional( jo, was_loaded, "comfort", comfort, 0 );
     optional( jo, was_loaded, "floor_bedding_warmth", floor_bedding_warmth, 0 );
     optional( jo, was_loaded, "bonus_fire_warmth_feet", bonus_fire_warmth_feet, 300 );
@@ -1194,6 +1224,11 @@ void furn_t::load( JsonObject &jo, const std::string &src )
 
     bash.load( jo, "bash", true );
     deconstruct.load( jo, "deconstruct", true );
+
+    if( jo.has_object( "workbench" ) ) {
+        workbench = furn_workbench_info();
+        workbench->load( jo, "workbench" );
+    }
 }
 
 void map_data_common_t::check() const

@@ -85,6 +85,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "380",
+    "name": ".380 ACP",
+    "default": "380_JHP"
+  },
+  {
+    "type": "ammunition_type",
     "id": "38",
     "name": ".38",
     "default": "38_special"
@@ -478,5 +484,11 @@
     "id": "paintball",
     "name": "paintball",
     "default": "paintball"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "nitrox",
+    "name": "compressed air",
+    "default": "nitrox"
   }
 ]

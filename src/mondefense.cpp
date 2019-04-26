@@ -1,20 +1,25 @@
 #include "mondefense.h"
 
+#include <stddef.h>
 #include <algorithm>
+#include <memory>
+#include <set>
+#include <string>
+#include <vector>
 
 #include "ballistics.h"
 #include "bodypart.h"
 #include "creature.h"
 #include "damage.h"
-#include "dispersion.h"
 #include "game.h"
 #include "messages.h"
 #include "monster.h"
-#include "output.h"
 #include "player.h"
 #include "projectile.h"
 #include "rng.h"
 #include "translations.h"
+#include "enums.h"
+#include "item.h"
 
 std::vector<tripoint> closest_tripoints_first( int radius, const tripoint &p );
 
@@ -52,7 +57,7 @@ void mdefense::zapback( monster &m, Creature *const source,
     if( g->u.sees( source->pos() ) ) {
         const auto msg_type = ( source == &g->u ) ? m_bad : m_info;
         add_msg( msg_type, _( "Striking the %1$s shocks %2$s!" ),
-                 m.name().c_str(), source->disp_name().c_str() );
+                 m.name(), source->disp_name() );
     }
 
     damage_instance const shock {
@@ -95,7 +100,7 @@ void mdefense::acidsplash( monster &m, Creature *const source,
             }
 
             source->add_msg_if_player( m_bad, _( "Acid covering %s burns your hand!" ),
-                                       m.disp_name().c_str() );
+                                       m.disp_name() );
         }
     }
 
@@ -118,6 +123,6 @@ void mdefense::acidsplash( monster &m, Creature *const source,
 
     if( g->u.sees( m.pos() ) ) {
         add_msg( m_warning, _( "Acid sprays out of %s as it is hit!" ),
-                 m.disp_name().c_str() );
+                 m.disp_name() );
     }
 }

@@ -436,6 +436,8 @@
     "skills": [ { "level": 3, "name": "mechanics" } ],
     "items": {
       "both": {
+        "ammo": 100,
+        "magazine": 100,
         "items": [
           "slingpack",
           "tank_top",
@@ -448,9 +450,10 @@
           "screwdriver",
           "cell_phone",
           "wristwatch",
-          "mag_cars"
+          "mag_cars",
+          "welder"
         ],
-        "entries": [ { "item": "welder", "charges": 500 }, { "item": "goggles_welding", "custom-flags": [ "no_auto_equip" ] } ]
+        "entries": [ { "item": "goggles_welding", "custom-flags": [ "no_auto_equip" ] } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "boy_shorts" ]
@@ -1075,11 +1078,12 @@
           "longshirt",
           "boots_combat",
           "gloves_tactical",
-          "modularvestkevlar",
+          "armor_riot",
           "mask_gas",
           "helmet_riot",
           "armguard_hard",
           "legguard_hard",
+          "police_belt",
           "badge_deputy",
           "two_way_radio",
           "wristwatch",
@@ -1297,7 +1301,20 @@
     "points": 1,
     "skills": [ { "level": 3, "name": "electronics" } ],
     "items": {
-      "both": [ "jumpsuit", "socks", "boots", "tool_belt", "flashlight", "cell_phone", "wristwatch" ],
+      "both": {
+        "ammo": 100,
+        "magazine": 100,
+        "items": [
+          "jumpsuit",
+          "socks",
+          "boots",
+          "tool_belt",
+          "flashlight",
+          "cell_phone",
+          "wristwatch",
+          { "item": "light_battery_cell", "charges": 100 }
+        ]
+      },
       "male": [ "boxer_briefs" ],
       "female": [ "bra", "panties" ]
     }
@@ -1739,6 +1756,7 @@
     "items": {
       "both": {
         "ammo": 100,
+        "magazine": 100,
         "items": [
           "winter_pants_army",
           "army_top",
@@ -1804,6 +1822,7 @@
     "CBMs": [
       "bio_cqb",
       "bio_blade",
+      "bio_shotgun",
       "bio_shock",
       "bio_carbon",
       "bio_adrenaline",
@@ -2091,6 +2110,16 @@
     "description": "The cataclysm gave you a chance to escape, but freedom comes with a steep price.",
     "points": 0,
     "skills": [ { "level": 1, "name": "melee" } ],
+    "items": { "both": [ "striped_shirt", "striped_pants", "glass_shiv" ], "male": [ "briefs" ], "female": [ "bra", "panties" ] }
+  },
+  {
+    "type": "profession",
+    "ident": "death_row_convict",
+    "name": "Death Row Convict",
+    "description": "You were a serial killer ready to walk the green mile, but now everyone else is dead, and since true death comes only from your hands, you're in for a job.",
+    "points": 0,
+    "skills": [ { "level": 1, "name": "melee" } ],
+    "traits": [ "KILLER" ],
     "items": { "both": [ "striped_shirt", "striped_pants", "glass_shiv" ], "male": [ "briefs" ], "female": [ "bra", "panties" ] }
   },
   {
@@ -2875,7 +2904,7 @@
         "jacket_light",
         "baton",
         "tazer",
-        "battery",
+        "medium_battery_cell",
         "pockknife",
         "wristwatch",
         "cell_phone"
@@ -3549,7 +3578,7 @@
         "1st_aid",
         "smart_phone",
         "wristwatch",
-        "battery"
+        "medium_battery_cell"
       ],
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]

@@ -138,6 +138,15 @@
     "difficulty": 3
   },
   {
+    "id": "bio_shotgun",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": "Shotgun Arm CBM",
+    "description": "Concealed in your left arm is a surgically integrated one-shot sawn-off shotgun barrel, that pops-up upon activation. Perfect in a pinch.",
+    "price": 220000,
+    "difficulty": 3
+  },
+  {
     "id": "bio_blood_anal",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
@@ -295,7 +304,7 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": "Telescopic Eyes CBM",
-    "description": "Much of the material in your inner eye has been removed and replaced with an array of high-powered, auto-focusing lenses.  You can now see much farther and more clearly than before, any vision problems you might have had are now gone.",
+    "description": "Much of the material in your inner eye has been removed and replaced with an array of high-powered, auto-focusing lenses.  They function as integrated binoculars, letting you see much farther than before, and any vision problems you might have had are now gone.",
     "price": 500000,
     "difficulty": 5
   },
@@ -385,7 +394,7 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": "Terranian Sonar CBM",
-    "description": "Your feet are equipped with precision sonar equipment, allowing you to detect the movements of creatures below the ground.",
+    "description": "Your feet are equipped with precision sonar equipment, allowing you to detect the movements of creatures below the ground, buried traps, and unstable terrain.",
     "price": 450000,
     "difficulty": 5
   },
@@ -960,6 +969,14 @@
     "type": "BIONIC_ITEM",
     "name": "Itchy Metal Thing",
     "description": "You can't recognise what this is suppose to be, but it's a very awkward thing to have in one's body.",
+    "difficulty": 3
+  },
+  {
+    "id": "bio_glowy",
+    "copy-from": "bionic_general_faulty",
+    "type": "BIONIC_ITEM",
+    "name": "Glowy Thing",
+    "description": "It's a... thing?  And it glows, at least it did when it was plugged in.",
     "difficulty": 3
   },
   {

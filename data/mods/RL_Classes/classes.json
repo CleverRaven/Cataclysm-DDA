@@ -1,441 +1,269 @@
 [
-    {
-        "type": "profession",
-        "ident": "fighter",
-        "name": "Fighter",
-        "description": "A master of arms and armor and a fearsome martial combatant; you are a fighter, forged in warfare and tempered on the battlefield.",
-        "points": 0,
-        "skills": [
-            {
-                "level": 3,
-                "name": "melee"
-            },
-            {
-                "level": 2,
-                "name": "cutting"
-            },
-            {
-                "level": 2,
-                "name": "bashing"
-            },
-            {
-                "level": 1,
-                "name": "stabbing"
-            },
-            {
-                "level": 1,
-                "name": "dodge"
-            },
-            {
-                "level": 1,
-                "name": "firstaid"
-            }
+  {
+    "type": "profession",
+    "ident": "fighter",
+    "name": "Fighter",
+    "description": "A master of arms and armor and a fearsome martial combatant; you are a fighter, forged in warfare and tempered on the battlefield.",
+    "points": 0,
+    "skills": [
+      { "level": 3, "name": "melee" },
+      { "level": 2, "name": "cutting" },
+      { "level": 2, "name": "bashing" },
+      { "level": 1, "name": "stabbing" },
+      { "level": 1, "name": "dodge" },
+      { "level": 1, "name": "firstaid" }
+    ],
+    "items": {
+      "both": {
+        "items": [
+          "armor_plarmor",
+          "boots_plate",
+          "gloves_plate",
+          "helmet_larmor",
+          "backpack_leather",
+          "waterskin",
+          "meat_smoked",
+          "hardtack"
         ],
-        "items": {
-            "both": {
-                "items": [
-                    "armor_plarmor",
-                    "boots_plate",
-                    "gloves_plate",
-                    "helmet_larmor",
-                    "backpack_leather",
-                    "waterskin",
-                    "meat_smoked",
-                    "hardtack"
-                ],
-                "entries": [
-                    { "item": "broadsword", "container-item": "scabbard" },
-                    { "item": "knife_trench", "container-item": "sheath" },
-                    { "item": "bandages", "count": 6 }
-                ]
-            }
-        }
-    },
-    {
-        "type": "profession",
-        "ident": "rogue",
-        "name": "Rogue",
-        "description": "A street urchin skilled in legerdemain and deadly with a blade; you are a rogue, a resourceful trickster and master thief.",
-        "points": 0,
-        "skills": [
-            {
-                "level": 3,
-                "name": "mechanics"
-            },
-            {
-                "level": 2,
-                "name": "traps"
-            },
-            {
-                "level": 2,
-                "name": "dodge"
-            },
-            {
-                "level": 1,
-                "name": "melee"
-            },
-            {
-                "level": 1,
-                "name": "cutting"
-            },
-            {
-                "level": 1,
-                "name": "throw"
-            }
-        ],
-        "items": {
-            "both": {
-                "items": [
-                    "armor_larmor",
-                    "armguard_larmor",
-                    "boots_larmor",
-                    "gauntlets_larmor",
-                    "backpack_leather",
-                    "knit_scarf",
-                    "picklocks",
-                    "caltrops",
-                    "waterskin",
-                    "meat_smoked",
-                    "dry_veggy"
-                ],
-                "entries": [
-                    { "item": "kukri", "container-item": "sheath" },
-                    { "item": "throwing_knife", "count": 10 }
-                ]
-            }
-        }
-    },
-    {
-        "type": "profession",
-        "ident": "barbarian",
-        "name": "Barbarian",
-        "description": "A child of Crom hailing from the bitter north; you are a barbarian, as fearsome and formidable as the untamed land you call home.",
-        "points": 0,
-        "skills": [
-            {
-                "level": 3,
-                "name": "melee"
-            },
-            {
-                "level": 2,
-                "name": "survival"
-            },
-            {
-                "level": 2,
-                "name": "dodge"
-            },
-            {
-                "level": 1,
-                "name": "cutting"
-            },
-            {
-                "level": 1,
-                "name": "bashing"
-            },
-            {
-                "level": 1,
-                "name": "unarmed"
-            }
-        ],
-        "items": {
-            "both": {
-                "items": [
-                    "loincloth_fur",
-                    "gauntlets_bone",
-                    "boots_bone",
-                    "backpack_leather",
-                    "hat_fur",
-                    "battleaxe",
-                    "fire_drill",
-                    "waterskin",
-                    "fish_smoked",
-                    "dry_fish",
-                    "mead"
-                ],
-                "entries": [
-                    { "item": "knife_trench", "container-item": "sheath" },
-                    { "item": "pemmican", "charges": 8, "container-item": "wrapper" }
-                ]
-            },
-            "female": [
-                "bikini_top_fur"
-            ]
-        }
-    },
-    {
-        "type": "profession",
-        "ident": "skald",
-        "name": "Skald",
-        "description": "A mysterious wandering minstrel and storyteller hailing from the northern highlands; you are a skald, a noble barbarian lore-keeper and speaker to the spirits.",
-        "points": 0,
-        "skills": [
-            {
-                "level": 3,
-                "name": "speech"
-            },
-            {
-                "level": 2,
-                "name": "cooking"
-            },
-            {
-                "level": 2,
-                "name": "survival"
-            },
-            {
-                "level": 1,
-                "name": "dodge"
-            },
-            {
-                "level": 1,
-                "name": "firstaid"
-            }
-        ],
-        "CBMs":[
-            "bio_face_mask",
-            "bio_ethanol",
-            "bio_memory",
-            "bio_adrenaline",
-            "bio_power_storage"
-        ],
-        "items": {
-            "both": {
-                "items": [
-                    "kilt",
-                    "vest_leather",
-                    "cloak",
-                    "gauntlets_larmor",
-                    "knee_high_boots",
-                    "backpack_leather",
-                    "bagpipes",
-                    "pot",
-                    "scots_cookbook",
-                    "fire_drill",
-                    "bandages",
-                    "waterskin",
-                    "haggis",
-                    "whiskey",
-                    "mead"
-                ],
-                "entries": [
-                    { "item": "broadsword", "container-item": "scabbard" },
-                    { "item": "knife_trench", "container-item": "sheath" }
-                ]
-            }
-        }
-    },
-    {
-        "type": "profession",
-        "ident": "ranger",
-        "name": "Ranger",
-        "description": "One of the few who wander but are never lost; you are a ranger, wise in the ways of the forest and deadly with a bow.",
-        "points": 0,
-        "skills": [
-            {
-                "level": 3,
-                "name": "archery"
-            },
-            {
-                "level": 2,
-                "name": "survival"
-            },
-            {
-                "level": 2,
-                "name": "dodge"
-            },
-            {
-                "level": 1,
-                "name": "melee"
-            },
-            {
-                "level": 1,
-                "name": "cutting"
-            },
-            {
-                "level": 1,
-                "name": "firstaid"
-            }
-        ],
-        "items": {
-            "both": {
-                "items": [
-                "armor_larmor",
-                "vambrace_larmor",
-                "gauntlets_larmor",
-                "boots_larmor",
-                "knit_scarf",
-                "backpack_leather",
-                "quiver",
-                "cloak",
-                "shortbow",
-                "fire_drill",
-                "waterskin"
-                ],
-                "entries": [
-                    { "item": "arrow_wood", "charges": 20, "container-item": "quiver" },
-                    { "item": "knife_combat", "container-item": "sheath" },
-                    { "item": "granola", "charges": 8, "container-item": "wrapper" },
-                    { "item": "pemmican", "charges": 8, "container-item": "wrapper" }
-                ]
-            }
-        }
-    },
-    {
-        "type": "profession",
-        "ident": "monk",
-        "name": "Monk",
-        "description": "Servant to an exotic order of ascetics; you are a monk, a pious devotee with extensive knowledge of unarmed combat.",
-        "points": 0,
-        "skills": [
-            {
-                "level": 3,
-                "name": "unarmed"
-            },
-            {
-                "level": 2,
-                "name": "dodge"
-            },
-            {
-                "level": 2,
-                "name": "firstaid"
-            },
-            {
-                "level": 1,
-                "name": "melee"
-            },
-            {
-                "level": 1,
-                "name": "bashing"
-            },
-            {
-                "level": 1,
-                "name": "survival"
-            }
-        ],
-        "items": {
-            "both": {
-                "items": [
-                    "judo_gi",
-                    "geta",
-                    "backpack_leather",
-                    "cloak",
-                    "i_staff",
-                    "1st_aid",
-                    "waterskin",
-                    "dry_veggy",
-                    "dry_veggy"
-                ],
-                "entries": [
-                    { "item": "tanto", "container-item": "sheath" }
-                ]
-            }
-        }
-    },
-    {
-        "type": "profession",
-        "ident": "knight",
-        "name": "Knight",
-        "description": "Sworn defender of the land; you are a knight, an educated warrior trained since childhood in the ways of honorable combat.",
-        "points": 0,
-        "skills": [
-            {
-                "level": 3,
-                "name": "melee"
-            },
-            {
-                "level": 2,
-                "name": "cutting"
-            },
-            {
-                "level": 2,
-                "name": "speech"
-            },
-            {
-                "level": 1,
-                "name": "bashing"
-            },
-            {
-                "level": 1,
-                "name": "stabbing"
-            },
-            {
-                "level": 1,
-                "name": "dodge"
-            }
-        ],
-        "items": {
-            "both": {
-                "items": [
-                    "armor_lightplate",
-                    "boots_plate",
-                    "gloves_plate",
-                    "helmet_barbute",
-                    "backpack_leather",
-                    "cloak",
-                    "waterskin",
-                    "meat_smoked",
-                    "cheese_hard",
-                    "brandy"
-                ],
-                "entries": [
-                    { "item": "zweihander", "container-item": "bscabbard" }
-                ]
-            }
-        }
-    },
-    {
-        "type": "profession",
-        "ident": "wizard",
-        "name": {
-            "male": "Sorcerer",
-            "female": "Sorceress"
-        },
-        "description": "A wise student of ancient and forbidden knowledge; you are a wizard, a mystical practitioner of the (bionic) arcane arts.",
-        "points": 0,
-        "CBMs":[
-            "bio_ethanol",
-            "bio_flashlight",
-            "bio_laser",
-            "bio_chain_lightning",
-            "bio_night",
-            "bio_ads",
-            "bio_teleport",
-            "bio_cloak",
-            "bio_power_storage_mkII"
-        ],
-        "skills": [
-            {
-                "level": 2,
-                "name": "cooking"
-            },
-            {
-                "level": 1,
-                "name": "firstaid"
-            },
-            {
-                "level": 1,
-                "name": "speech"
-            }
-        ],
-        "items": {
-            "both": {
-                "items": [
-                "loincloth_leather",
-                "leathersandals",
-                "backpack_leather",
-                "cloak",
-                "1st_aid",
-                "waterskin",
-                "dandelion_wine",
-                "pine_wine"
-                ],
-                "entries": [
-                    { "item": "kris", "container-item": "scabbard" },
-                    { "item": "dry_mushroom", "count": 8 }
-                ]
-            },
-            "female": [
-                "bikini_top_leather"
-            ]
-        }
+        "entries": [
+          { "item": "broadsword", "container-item": "scabbard" },
+          { "item": "knife_trench", "container-item": "sheath" },
+          { "item": "bandages", "count": 6 }
+        ]
+      }
     }
+  },
+  {
+    "type": "profession",
+    "ident": "rogue",
+    "name": "Rogue",
+    "description": "A street urchin skilled in legerdemain and deadly with a blade; you are a rogue, a resourceful trickster and master thief.",
+    "points": 0,
+    "skills": [
+      { "level": 3, "name": "mechanics" },
+      { "level": 2, "name": "traps" },
+      { "level": 2, "name": "dodge" },
+      { "level": 1, "name": "melee" },
+      { "level": 1, "name": "cutting" },
+      { "level": 1, "name": "throw" }
+    ],
+    "items": {
+      "both": {
+        "items": [
+          "armor_larmor",
+          "armguard_larmor",
+          "boots_larmor",
+          "gauntlets_larmor",
+          "backpack_leather",
+          "knit_scarf",
+          "picklocks",
+          "caltrops",
+          "waterskin",
+          "meat_smoked",
+          "dry_veggy"
+        ],
+        "entries": [ { "item": "kukri", "container-item": "sheath" }, { "item": "throwing_knife", "count": 10 } ]
+      }
+    }
+  },
+  {
+    "type": "profession",
+    "ident": "barbarian",
+    "name": "Barbarian",
+    "description": "A child of Crom hailing from the bitter north; you are a barbarian, as fearsome and formidable as the untamed land you call home.",
+    "points": 0,
+    "skills": [
+      { "level": 3, "name": "melee" },
+      { "level": 2, "name": "survival" },
+      { "level": 2, "name": "dodge" },
+      { "level": 1, "name": "cutting" },
+      { "level": 1, "name": "bashing" },
+      { "level": 1, "name": "unarmed" }
+    ],
+    "items": {
+      "both": {
+        "items": [
+          "loincloth_fur",
+          "gauntlets_bone",
+          "boots_bone",
+          "backpack_leather",
+          "hat_fur",
+          "battleaxe",
+          "fire_drill",
+          "waterskin",
+          "fish_smoked",
+          "dry_fish",
+          "mead"
+        ],
+        "entries": [
+          { "item": "knife_trench", "container-item": "sheath" },
+          { "item": "pemmican", "charges": 8, "container-item": "wrapper" }
+        ]
+      },
+      "female": [ "bikini_top_fur" ]
+    }
+  },
+  {
+    "type": "profession",
+    "ident": "skald",
+    "name": "Skald",
+    "description": "A mysterious wandering minstrel and storyteller hailing from the northern highlands; you are a skald, a noble barbarian lore-keeper and speaker to the spirits.",
+    "points": 0,
+    "skills": [
+      { "level": 3, "name": "speech" },
+      { "level": 2, "name": "cooking" },
+      { "level": 2, "name": "survival" },
+      { "level": 1, "name": "dodge" },
+      { "level": 1, "name": "firstaid" }
+    ],
+    "CBMs": [ "bio_face_mask", "bio_ethanol", "bio_memory", "bio_adrenaline", "bio_power_storage" ],
+    "items": {
+      "both": {
+        "items": [
+          "kilt",
+          "vest_leather",
+          "cloak",
+          "gauntlets_larmor",
+          "knee_high_boots",
+          "backpack_leather",
+          "bagpipes",
+          "pot",
+          "scots_cookbook",
+          "fire_drill",
+          "bandages",
+          "waterskin",
+          "haggis",
+          "whiskey",
+          "mead"
+        ],
+        "entries": [ { "item": "broadsword", "container-item": "scabbard" }, { "item": "knife_trench", "container-item": "sheath" } ]
+      }
+    }
+  },
+  {
+    "type": "profession",
+    "ident": "ranger",
+    "name": "Ranger",
+    "description": "One of the few who wander but are never lost; you are a ranger, wise in the ways of the forest and deadly with a bow.",
+    "points": 0,
+    "skills": [
+      { "level": 3, "name": "archery" },
+      { "level": 2, "name": "survival" },
+      { "level": 2, "name": "dodge" },
+      { "level": 1, "name": "melee" },
+      { "level": 1, "name": "cutting" },
+      { "level": 1, "name": "firstaid" }
+    ],
+    "items": {
+      "both": {
+        "items": [
+          "armor_larmor",
+          "vambrace_larmor",
+          "gauntlets_larmor",
+          "boots_larmor",
+          "knit_scarf",
+          "backpack_leather",
+          "quiver",
+          "cloak",
+          "shortbow",
+          "fire_drill",
+          "waterskin"
+        ],
+        "entries": [
+          { "item": "arrow_wood", "charges": 20, "container-item": "quiver" },
+          { "item": "knife_combat", "container-item": "sheath" },
+          { "item": "granola", "charges": 8, "container-item": "wrapper" },
+          { "item": "pemmican", "charges": 8, "container-item": "wrapper" }
+        ]
+      }
+    }
+  },
+  {
+    "type": "profession",
+    "ident": "monk",
+    "name": "Monk",
+    "description": "Servant to an exotic order of ascetics; you are a monk, a pious devotee with extensive knowledge of unarmed combat.",
+    "points": 0,
+    "skills": [
+      { "level": 3, "name": "unarmed" },
+      { "level": 2, "name": "dodge" },
+      { "level": 2, "name": "firstaid" },
+      { "level": 1, "name": "melee" },
+      { "level": 1, "name": "bashing" },
+      { "level": 1, "name": "survival" }
+    ],
+    "items": {
+      "both": {
+        "items": [ "judo_gi", "geta", "backpack_leather", "cloak", "i_staff", "1st_aid", "waterskin", "dry_veggy", "dry_veggy" ],
+        "entries": [ { "item": "tanto", "container-item": "sheath" } ]
+      }
+    }
+  },
+  {
+    "type": "profession",
+    "ident": "knight",
+    "name": "Knight",
+    "description": "Sworn defender of the land; you are a knight, an educated warrior trained since childhood in the ways of honorable combat.",
+    "points": 0,
+    "skills": [
+      { "level": 3, "name": "melee" },
+      { "level": 2, "name": "cutting" },
+      { "level": 2, "name": "speech" },
+      { "level": 1, "name": "bashing" },
+      { "level": 1, "name": "stabbing" },
+      { "level": 1, "name": "dodge" }
+    ],
+    "items": {
+      "both": {
+        "items": [
+          "armor_lightplate",
+          "boots_plate",
+          "gloves_plate",
+          "helmet_barbute",
+          "backpack_leather",
+          "cloak",
+          "waterskin",
+          "meat_smoked",
+          "cheese_hard",
+          "brandy"
+        ],
+        "entries": [ { "item": "zweihander", "container-item": "bscabbard" } ]
+      }
+    }
+  },
+  {
+    "type": "profession",
+    "ident": "wizard",
+    "name": { "male": "Sorcerer", "female": "Sorceress" },
+    "description": "A wise student of ancient and forbidden knowledge; you are a wizard, a mystical practitioner of the (bionic) arcane arts.",
+    "points": 0,
+    "CBMs": [
+      "bio_ethanol",
+      "bio_flashlight",
+      "bio_laser",
+      "bio_chain_lightning",
+      "bio_night",
+      "bio_ads",
+      "bio_teleport",
+      "bio_cloak",
+      "bio_power_storage_mkII"
+    ],
+    "skills": [ { "level": 2, "name": "cooking" }, { "level": 1, "name": "firstaid" }, { "level": 1, "name": "speech" } ],
+    "items": {
+      "both": {
+        "items": [
+          "loincloth_leather",
+          "leathersandals",
+          "backpack_leather",
+          "cloak",
+          "1st_aid",
+          "waterskin",
+          "dandelion_wine",
+          "pine_wine"
+        ],
+        "entries": [ { "item": "kris", "container-item": "scabbard" }, { "item": "dry_mushroom", "count": 8 } ]
+      },
+      "female": [ "bikini_top_leather" ]
+    }
+  }
 ]

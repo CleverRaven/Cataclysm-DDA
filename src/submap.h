@@ -2,9 +2,12 @@
 #ifndef SUBMAP_H
 #define SUBMAP_H
 
+#include <stddef.h>
+#include <stdint.h>
 #include <list>
 #include <memory>
 #include <vector>
+#include <string>
 
 #include "active_item_cache.h"
 #include "basecamp.h"
@@ -15,10 +18,10 @@
 #include "int_id.h"
 #include "item.h"
 #include "string_id.h"
+#include "enums.h"
+#include "vehicle.h"
 
 class map;
-class vehicle;
-class computer;
 struct trap;
 struct ter_t;
 struct furn_t;
@@ -28,6 +31,7 @@ using ter_id = int_id<ter_t>;
 using furn_id = int_id<furn_t>;
 using furn_str_id = string_id<furn_t>;
 struct mtype;
+
 using mtype_id = string_id<mtype>;
 
 struct spawn_point {

@@ -1,6 +1,12 @@
 #include "npc_class.h"
 
+#include <stddef.h>
 #include <list>
+#include <algorithm>
+#include <array>
+#include <iterator>
+#include <set>
+#include <utility>
 
 #include "debug.h"
 #include "generic_factory.h"
@@ -9,12 +15,15 @@
 #include "rng.h"
 #include "skill.h"
 #include "trait_group.h"
+#include "itype.h"
+#include "json.h"
 
-static const std::array<npc_class_id, 17> legacy_ids = {{
+static const std::array<npc_class_id, 18> legacy_ids = {{
         npc_class_id( "NC_NONE" ),
         npc_class_id( "NC_EVAC_SHOPKEEP" ),  // Found in the Evacuation Center, unique, has more goods than he should be able to carry
         npc_class_id( "NC_SHOPKEEP" ),       // Found in towns.  Stays in his shop mostly.
         npc_class_id( "NC_HACKER" ),         // Weak in combat but has hacking skills and equipment
+        npc_class_id( "NC_CYBORG" ),         // Broken Cyborg rescued from a lab
         npc_class_id( "NC_DOCTOR" ),         // Found in towns, or roaming.  Stays in the clinic.
         npc_class_id( "NC_TRADER" ),         // Roaming trader, journeying between towns.
         npc_class_id( "NC_NINJA" ),          // Specializes in unarmed combat, carries few items
@@ -35,6 +44,7 @@ npc_class_id NC_NONE( "NC_NONE" );
 npc_class_id NC_EVAC_SHOPKEEP( "NC_EVAC_SHOPKEEP" );
 npc_class_id NC_SHOPKEEP( "NC_SHOPKEEP" );
 npc_class_id NC_HACKER( "NC_HACKER" );
+npc_class_id NC_CYBORG( "NC_CYBORG" );
 npc_class_id NC_DOCTOR( "NC_DOCTOR" );
 npc_class_id NC_TRADER( "NC_TRADER" );
 npc_class_id NC_NINJA( "NC_NINJA" );
@@ -282,6 +292,18 @@ void npc_class::load( JsonObject &jo, const std::string & )
             }
         }
     }
+
+    if( jo.has_array( "bionics" ) ) {
+        JsonArray jarr = jo.get_array( "bionics" );
+        while( jarr.has_more() ) {
+            JsonObject bionic_obj = jarr.next_object();
+            auto bionic_ids = bionic_obj.get_tags( "id" );
+            int chance = bionic_obj.get_int( "chance" );
+            for( const auto &bid : bionic_ids ) {
+                bionic_list[ bionic_id( bid )] = chance;
+            }
+        }
+    }
 }
 
 const npc_class_id &npc_class::from_legacy_int( int i )
@@ -365,6 +387,11 @@ distribution::distribution()
     generator_function = []() {
         return 0.0f;
     };
+}
+
+distribution::distribution( const distribution &d )
+{
+    generator_function = d.generator_function;
 }
 
 distribution::distribution( std::function<float()> gen )

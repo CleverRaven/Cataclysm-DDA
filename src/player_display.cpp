@@ -1,6 +1,8 @@
 #include "player.h" // IWYU pragma: associated
 
+#include <stdlib.h>
 #include <algorithm>
+#include <sstream>
 
 #include "addiction.h"
 #include "bionics.h"
@@ -15,6 +17,8 @@
 #include "string_formatter.h"
 #include "units.h"
 #include "weather.h"
+#include "catacharset.h"
+#include "translations.h"
 
 const skill_id skill_swimming( "swimming" );
 
@@ -96,17 +100,16 @@ void player::print_encumbrance( const catacurses::window &win, int line,
         nc_color limb_color = ( orig_line == bp ) ?
                               ( highlighted ? h_green : h_light_gray ) :
                               ( highlighted ? c_green : c_light_gray );
-        mvwprintz( win, row, 1, limb_color, out.c_str() );
+        mvwprintz( win, row, 1, limb_color, out );
         // accumulated encumbrance from clothing, plus extra encumbrance from layering
-        wprintz( win, encumb_color( e.encumbrance ), string_format( "%3d", e.armor_encumbrance ).c_str() );
+        wprintz( win, encumb_color( e.encumbrance ), string_format( "%3d", e.armor_encumbrance ) );
         // separator in low toned color
         wprintz( win, c_light_gray, "+" );
         // take into account the new encumbrance system for layers
-        wprintz( win, encumb_color( e.encumbrance ), string_format( "%-3d",
-                 e.layer_penalty ).c_str() );
+        wprintz( win, encumb_color( e.encumbrance ), string_format( "%-3d", e.layer_penalty ) );
         // print warmth, tethered to right hand side of the window
         out = string_format( "(% 3d)", temperature_print_rescaling( temp_conv[bp] ) );
-        mvwprintz( win, row, getmaxx( win ) - 6, bodytemp_color( bp ), out.c_str() );
+        mvwprintz( win, row, getmaxx( win ) - 6, bodytemp_color( bp ), out );
         row++;
     }
 
@@ -280,12 +283,6 @@ void player::disp_info()
                 starvation_text << _( "Intelligence" ) << " -" << static_cast<int>( starvation_base_penalty / 1000 )
                                 << "   ";
             }
-        }
-
-        int starvation_speed_penalty = abs( hunger_speed_penalty( get_starvation() + get_hunger() ) );
-
-        if( get_hunger() + get_starvation() > 100 ) {
-            starvation_text << _( "Speed" ) << " -" << starvation_speed_penalty << "%   ";
         }
 
         effect_text.push_back( starvation_text.str() );
@@ -502,29 +499,28 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
             }
         }
         //~ player info window: 1s - name, 2s - gender, 3s - Prof or Mutation name
-        mvwprintw( w_tip, 0, 0, _( "%1$s | %2$s | %3$s" ), name.c_str(),
-                   male ? _( "Male" ) : _( "Female" ), race.c_str() );
+        mvwprintw( w_tip, 0, 0, _( "%1$s | %2$s | %3$s" ), name, male ? _( "Male" ) : _( "Female" ), race );
     } else if( prof == nullptr || prof == prof->generic() ) {
         // Regular person. Nothing interesting.
         //~ player info window: 1s - name, 2s - gender, '|' - field separator.
-        mvwprintw( w_tip, 0, 0, _( "%1$s | %2$s" ), name.c_str(),
-                   male ? _( "Male" ) : _( "Female" ) );
+        mvwprintw( w_tip, 0, 0, _( "%1$s | %2$s" ), name, male ? _( "Male" ) : _( "Female" ) );
     } else {
-        mvwprintw( w_tip, 0, 0, _( "%1$s | %2$s | %3$s" ), name.c_str(),
-                   male ? _( "Male" ) : _( "Female" ), prof->gender_appropriate_name( male ).c_str() );
+        mvwprintw( w_tip, 0, 0, _( "%1$s | %2$s | %3$s" ), name,
+                   male ? _( "Male" ) : _( "Female" ), prof->gender_appropriate_name( male ) );
     }
 
     input_context ctxt( "PLAYER_INFO" );
     ctxt.register_updown();
     ctxt.register_action( "NEXT_TAB", _( "Cycle to next category" ) );
+    ctxt.register_action( "PREV_TAB", _( "Cycle to previous category" ) );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "CONFIRM", _( "Toggle skill training" ) );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     std::string action;
 
     std::string help_msg = string_format( _( "Press %s for help." ),
-                                          ctxt.get_desc( "HELP_KEYBINDINGS" ).c_str() );
-    mvwprintz( w_tip, 0, FULL_SCREEN_WIDTH - utf8_width( help_msg ), c_light_red, help_msg.c_str() );
+                                          ctxt.get_desc( "HELP_KEYBINDINGS" ) );
+    mvwprintz( w_tip, 0, FULL_SCREEN_WIDTH - utf8_width( help_msg ), c_light_red, help_msg );
     help_msg.clear();
     wrefresh( w_tip );
 
@@ -643,7 +639,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
         }
 
         if( line < skill_win_size_y + 1 ) {
-            mvwprintz( w_skills, line, 1, text_color, "%s:", ( elem )->name().c_str() );
+            mvwprintz( w_skills, line, 1, text_color, "%s:", ( elem )->name() );
 
             if( ( elem )->ident() == skill_id( "dodge" ) ) {
                 mvwprintz( w_skills, line, 14, text_color, "%4.1f/%-2d(%2d%%)",
@@ -684,9 +680,9 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                    ( pen < 10 ? " " : "" ), pen );
         line++;
     }
-    if( get_hunger() + get_starvation() > 100 ) {
-        pen = abs( hunger_speed_penalty( get_hunger() + get_starvation() ) );
-        mvwprintz( w_speed, line, 1, c_red, _( "Under-Fed           -%s%d%%" ),
+    if( kcal_speed_penalty() < 0 ) {
+        pen = abs( kcal_speed_penalty() );
+        mvwprintz( w_speed, line, 1, c_red, _( "Starving            -%s%d%%" ),
                    ( pen < 10 ? " " : "" ), pen );
         line++;
     }
@@ -781,7 +777,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
         werase( w_info );
         switch( curtab ) {
             case 1: // Stats tab
-                mvwprintz( w_stats, 0, 0, h_light_gray, header_spaces.c_str() );
+                mvwprintz( w_stats, 0, 0, h_light_gray, header_spaces );
                 center_print( w_stats, 0, h_light_gray, title_STATS );
 
                 // Clear bonus/penalty menu.
@@ -858,12 +854,12 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     } else {
                         line--;
                     }
-                } else if( action == "NEXT_TAB" ) {
-                    mvwprintz( w_stats, 0, 0, c_light_gray, header_spaces.c_str() );
+                } else if( action == "NEXT_TAB" || action == "PREV_TAB" ) {
+                    mvwprintz( w_stats, 0, 0, c_light_gray, header_spaces );
                     center_print( w_stats, 0, c_light_gray, title_STATS );
                     wrefresh( w_stats );
                     line = 0;
-                    curtab++;
+                    curtab = action == "NEXT_TAB" ? curtab + 1 : 6;
                 } else if( action == "QUIT" ) {
                     done = true;
                 }
@@ -908,12 +904,12 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                             line--; // unpaired or unequal
                         }
                     }
-                } else if( action == "NEXT_TAB" ) {
-                    mvwprintz( w_encumb, 0, 0, c_light_gray, header_spaces.c_str() );
+                } else if( action == "NEXT_TAB" || action == "PREV_TAB" ) {
+                    mvwprintz( w_encumb, 0, 0, c_light_gray, header_spaces );
                     center_print( w_encumb, 0, c_light_gray, title_ENCUMB );
                     wrefresh( w_encumb );
                     line = 0;
-                    curtab++;
+                    curtab = action == "NEXT_TAB" ? curtab + 1 : curtab - 1;
                 } else if( action == "QUIT" ) {
                     done = true;
                 }
@@ -965,8 +961,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     if( line > 0 ) {
                         line--;
                     }
-                } else if( action == "NEXT_TAB" ) {
-                    mvwprintz( w_traits, 0, 0, c_light_gray, header_spaces.c_str() );
+                } else if( action == "NEXT_TAB" || action == "PREV_TAB" ) {
+                    mvwprintz( w_traits, 0, 0, c_light_gray, header_spaces );
                     center_print( w_traits, 0, c_light_gray, title_TRAITS );
                     for( size_t i = 0; i < traitslist.size() && i < trait_win_size_y; i++ ) {
                         const auto &mdata = traitslist[i].obj();
@@ -977,7 +973,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     }
                     wrefresh( w_traits );
                     line = 0;
-                    curtab++;
+                    curtab = action == "NEXT_TAB" ? curtab + 1 : curtab - 1;
                 } else if( action == "QUIT" ) {
                     done = true;
                 }
@@ -1023,8 +1019,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     if( line > 0 ) {
                         line--;
                     }
-                } else if( action == "NEXT_TAB" ) {
-                    mvwprintz( w_bionics, 0, 0, c_light_gray, header_spaces.c_str() );
+                } else if( action == "NEXT_TAB" || action == "PREV_TAB" ) {
+                    mvwprintz( w_bionics, 0, 0, c_light_gray, header_spaces );
                     center_print( w_bionics, 0, c_light_gray, title_BIONICS );
                     trim_and_print( w_bionics, 1, 1, getmaxx( w_bionics ) - 1, c_white,
                                     string_format( _( "Bionic Power: <color_light_blue>%1$d</color>" ), max_power_level ) );
@@ -1035,14 +1031,14 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     }
                     wrefresh( w_bionics );
                     line = 0;
-                    curtab++;
+                    curtab = action == "NEXT_TAB" ? curtab + 1 : curtab - 1;
                 } else if( action == "QUIT" ) {
                     done = true;
                 }
                 break;
 
             case 6: // Effects tab
-                mvwprintz( w_effects, 0, 0, h_light_gray, header_spaces.c_str() );
+                mvwprintz( w_effects, 0, 0, h_light_gray, header_spaces );
                 center_print( w_effects, 0, h_light_gray, title_EFFECTS );
                 half_y = effect_win_size_y / 2;
                 if( line <= half_y ) {
@@ -1082,22 +1078,23 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     if( line > 0 ) {
                         line--;
                     }
-                } else if( action == "NEXT_TAB" ) {
-                    mvwprintz( w_effects, 0, 0, c_light_gray, header_spaces.c_str() );
+                } else if( action == "NEXT_TAB" || action == "PREV_TAB" ) {
+                    mvwprintz( w_effects, 0, 0, c_light_gray, header_spaces );
                     center_print( w_effects, 0, c_light_gray, title_EFFECTS );
                     for( size_t i = 0; i < effect_name.size() && i < 7; i++ ) {
-                        mvwprintz( w_effects, static_cast<int>( i + 1 ), 0, c_light_gray, effect_name[i] );
+                        trim_and_print( w_effects, static_cast<int>( i ) + 1, 0, getmaxx( w_effects ) - 1, c_light_gray,
+                                        effect_name[i] );
                     }
                     wrefresh( w_effects );
                     line = 0;
-                    curtab = 1;
+                    curtab = action == "NEXT_TAB" ? 1 : curtab - 1;
                 } else if( action == "QUIT" ) {
                     done = true;
                 }
                 break;
 
             case 3: // Skills tab
-                mvwprintz( w_skills, 0, 0, h_light_gray, header_spaces.c_str() );
+                mvwprintz( w_skills, 0, 0, h_light_gray, header_spaces );
                 center_print( w_skills, 0, h_light_gray, title_SKILLS );
                 half_y = skill_win_size_y / 2;
                 if( line <= half_y ) {
@@ -1152,7 +1149,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     }
                     mvwprintz( w_skills, static_cast<int>( 1 + i - min ), 1, c_light_gray,
                                "                         " );
-                    mvwprintz( w_skills, static_cast<int>( 1 + i - min ), 1, cstatus, "%s:", aSkill->name().c_str() );
+                    mvwprintz( w_skills, static_cast<int>( 1 + i - min ), 1, cstatus, "%s:", aSkill->name() );
 
                     if( aSkill->ident() == skill_id( "dodge" ) ) {
                         mvwprintz( w_skills, static_cast<int>( 1 + i - min ), 14, cstatus, "%4.1f/%-2d(%2d%%)",
@@ -1182,9 +1179,9 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     if( line > 0 ) {
                         line--;
                     }
-                } else if( action == "NEXT_TAB" ) {
+                } else if( action == "NEXT_TAB" || action == "PREV_TAB" ) {
                     werase( w_skills );
-                    mvwprintz( w_skills, 0, 0, c_light_gray, header_spaces.c_str() );
+                    mvwprintz( w_skills, 0, 0, c_light_gray, header_spaces );
                     center_print( w_skills, 0, c_light_gray, title_SKILLS );
                     for( size_t i = 0; i < skillslist.size() && i < static_cast<size_t>( skill_win_size_y ); i++ ) {
                         const Skill *thisSkill = skillslist[i];
@@ -1202,7 +1199,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                             cstatus = isLearning ? c_light_blue : c_blue;
                         }
 
-                        mvwprintz( w_skills, i + 1,  1, cstatus, "%s:", thisSkill->name().c_str() );
+                        mvwprintz( w_skills, i + 1,  1, cstatus, "%s:", thisSkill->name() );
 
                         if( thisSkill->ident() == skill_id( "dodge" ) ) {
                             mvwprintz( w_skills, i + 1, 14, cstatus, "%4.1f/%-2d(%2d%%)",
@@ -1214,7 +1211,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     }
                     wrefresh( w_skills );
                     line = 0;
-                    curtab++;
+                    curtab = action == "NEXT_TAB" ? curtab + 1 : curtab - 1;
                 } else if( action == "CONFIRM" ) {
                     get_skill_level_object( selectedSkill->ident() ).toggleTraining();
                 } else if( action == "QUIT" ) {

@@ -1,18 +1,27 @@
 #include "overmap_ui.h"
 
+#include <stddef.h>
+#include <algorithm>
+#include <array>
+#include <list>
+#include <map>
+#include <memory>
+#include <string>
+#include <tuple>
+#include <unordered_map>
+#include <utility>
+#include <vector>
+
 #include "basecamp.h"
 #include "cata_utility.h"
 #include "clzones.h"
 #include "coordinate_conversions.h"
 #include "cursesdef.h"
-#include "faction_camp.h"
 #include "game.h"
 #include "input.h"
 #include "line.h"
 #include "map_iterator.h"
-#include "map.h"
 #include "mapbuffer.h"
-#include "messages.h"
 #include "mongroup.h"
 #include "npc.h"
 #include "options.h"
@@ -26,8 +35,22 @@
 #include "uistate.h"
 #include "weather.h"
 #include "weather_gen.h"
+#include "calendar.h"
+#include "catacharset.h"
+#include "color.h"
+#include "game_constants.h"
+#include "int_id.h"
+#include "omdata.h"
+#include "optional.h"
+#include "overmap_types.h"
+#include "pldata.h"
+#include "regional_settings.h"
+#include "rng.h"
+#include "string_formatter.h"
+#include "string_id.h"
+#include "translations.h"
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
 #include <SDL_keyboard.h>
 #endif
 
@@ -94,26 +117,26 @@ std::tuple<char, nc_color, size_t> get_note_display_info( const std::string &not
     return result;
 }
 
-std::array<std::pair<nc_color, long>, npm_width *npm_height> get_overmap_neighbors(
+std::array<std::pair<nc_color, std::string>, npm_width *npm_height> get_overmap_neighbors(
     const tripoint &current )
 {
     const bool has_debug_vision = g->u.has_trait( trait_id( "DEBUG_NIGHTVISION" ) );
 
-    std::array<std::pair<nc_color, long>, npm_width *npm_height> map_around;
+    std::array<std::pair<nc_color, std::string>, npm_width *npm_height> map_around;
     int index = 0;
     const point shift( npm_width / 2, npm_height / 2 );
     for( const tripoint &dest : tripoint_range( current - shift, current + shift ) ) {
         nc_color ter_color = c_black;
-        long ter_sym = ' ';
+        std::string ter_sym = " ";
         const bool see = has_debug_vision || overmap_buffer.seen( dest.x, dest.y, dest.z );
         if( see ) {
             // Only load terrain if we can actually see it
             oter_id cur_ter = overmap_buffer.ter( dest );
             ter_color = cur_ter->get_color();
-            ter_sym = cur_ter->get_sym();
+            ter_sym = cur_ter->get_symbol();
         } else {
             ter_color = c_dark_gray;
-            ter_sym = '#';
+            ter_sym = "#";
         }
         map_around[index++] = std::make_pair( ter_color, ter_sym );
     }
@@ -121,7 +144,7 @@ std::array<std::pair<nc_color, long>, npm_width *npm_height> get_overmap_neighbo
 }
 
 void update_note_preview( const std::string &note,
-                          const std::array<std::pair<nc_color, long>, npm_width *npm_height> &map_around,
+                          const std::array<std::pair<nc_color, std::string>, npm_width *npm_height> &map_around,
                           const std::tuple<catacurses::window *, catacurses::window *, catacurses::window *>
                           &preview_windows )
 {
@@ -180,7 +203,7 @@ weather_type get_weather_at_point( const tripoint &pos )
     return iter->second;
 }
 
-bool get_scent_glyph( const tripoint &pos, nc_color &ter_color, long &ter_sym )
+bool get_scent_glyph( const tripoint &pos, nc_color &ter_color, std::string &ter_sym )
 {
     auto possible_scent = overmap_buffer.scent_at( pos );
     if( possible_scent.creation_time != calendar::before_time_starts ) {
@@ -198,7 +221,7 @@ bool get_scent_glyph( const tripoint &pos, nc_color &ter_color, long &ter_sym )
             c++;
             scent_strength /= 10;
         }
-        ter_sym = c;
+        ter_sym = std::string( 1, c );
         return true;
     }
     // but it makes no scents!
@@ -303,9 +326,9 @@ point draw_notes( int z )
     bool redraw = true;
     point result( -1, -1 );
 
-    mvwprintz( w_notes, 1, 1, c_white, title.c_str() );
+    mvwprintz( w_notes, 1, 1, c_white, title );
     do {
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
         input_context ctxt( "DRAW_NOTES" );
 #endif
         if( redraw ) {
@@ -330,16 +353,16 @@ point draw_notes( int z )
                                              std::get<0>( om_symbol ),
                                              note_text.substr( std::get<2>( om_symbol ),
                                                      std::string::npos ) );
-                trim_and_print( w_notes, i + 2, 5, FULL_SCREEN_WIDTH - 7, c_light_gray, "%s", tmp_note.c_str() );
-#ifdef __ANDROID__
+                trim_and_print( w_notes, i + 2, 5, FULL_SCREEN_WIDTH - 7, c_light_gray, "%s", tmp_note );
+#if defined(__ANDROID__)
                 ctxt.register_manual_key( 'a' + i, notes[cur_it].second.c_str() );
 #endif
             }
             if( start >= maxitems ) {
-                mvwprintw( w_notes, maxitems + 2, 1, back_msg.c_str() );
+                mvwprintw( w_notes, maxitems + 2, 1, back_msg );
             }
             if( start + maxitems < notes.size() ) {
-                mvwprintw( w_notes, maxitems + 2, 2 + back_len, forward_msg.c_str() );
+                mvwprintw( w_notes, maxitems + 2, 2 + back_len, forward_msg );
             }
             mvwprintz( w_notes, 1, 40, c_white, _( "Press letter to center on note" ) );
             mvwprintz( w_notes, FULL_SCREEN_HEIGHT - 2, 40, c_white, _( "Spacebar - Return to map  " ) );
@@ -425,7 +448,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
     size_t cache_next = 0;
 
     const auto set_color_and_symbol = [&]( const oter_id & cur_ter, const int omx, const int omy,
-                                           const int z, long & ter_sym,
+                                           const int z, std::string & ter_sym,
     nc_color & ter_color ) {
         // First see if we have the oter_t cached
         oter_t const *info = nullptr;
@@ -445,7 +468,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
         if( info ) {
             const bool explored = show_explored && overmap_buffer.is_explored( omx, omy, z );
             ter_color = explored ? c_dark_gray : info->get_color( uistate.overmap_land_use_codes );
-            ter_sym = info->get_sym( uistate.overmap_land_use_codes );
+            ter_sym = info->get_symbol( uistate.overmap_land_use_codes );
         }
     };
 
@@ -454,7 +477,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
 
     // For use with place_special: cache the color and symbol of each submap
     // and record the bounds to optimize lookups below
-    std::unordered_map<point, std::pair<long, nc_color>> special_cache;
+    std::unordered_map<point, std::pair<std::string, nc_color>> special_cache;
 
     point s_begin, s_end = point_zero;
     if( blink && uistate.place_special ) {
@@ -464,7 +487,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
                 const oter_id oter =  s_ter.terrain->get_rotated( uistate.omedit_rotation );
 
                 special_cache.insert( std::make_pair(
-                                          rp, std::make_pair( oter->get_sym(), oter->get_color() ) ) );
+                                          rp, std::make_pair( oter->get_symbol(), oter->get_color() ) ) );
 
                 s_begin.x = std::min( s_begin.x, rp.x );
                 s_begin.y = std::min( s_begin.y, rp.y );
@@ -506,6 +529,9 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
         std::vector<npc *> followers;
         for( auto &elem : g->get_follower_list() ) {
             std::shared_ptr<npc> npc_to_get = overmap_buffer.find_npc( elem );
+            if( !npc_to_get ) {
+                continue;
+            }
             npc *npc_to_add = npc_to_get.get();
             followers.push_back( npc_to_add );
         }
@@ -541,7 +567,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
 
             oter_id cur_ter = oter_str_id::NULL_ID();
             nc_color ter_color = c_black;
-            long ter_sym = ' ';
+            std::string ter_sym = " ";
 
             const bool see = has_debug_vision || overmap_buffer.seen( omx, omy, z );
             if( see ) {
@@ -557,7 +583,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
             if( blink && cur_pos == orig ) {
                 // Display player pos, should always be visible
                 ter_color = g->u.symbol_color();
-                ter_sym   = '@';
+                ter_sym = "@";
             } else if( viewing_weather && ( data.debug_weather || los_sky ) ) {
                 weather_datum weather = weather_data( get_weather_at_point( tripoint( omx, omy, z ) ) );
                 ter_color = weather.map_color;
@@ -566,11 +592,11 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
             } else if( blink && has_target && omx == target.x && omy == target.y ) {
                 // Mission target, display always, player should know where it is anyway.
                 ter_color = c_red;
-                ter_sym   = '*';
+                ter_sym = "*";
                 if( target.z > z ) {
-                    ter_sym = '^';
+                    ter_sym = "^";
                 } else if( target.z < z ) {
-                    ter_sym = 'v';
+                    ter_sym = "v";
                 }
             } else if( blink && overmap_buffer.has_note( cur_pos ) ) {
                 // Display notes in all situations, even when not seen
@@ -579,27 +605,27 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
             } else if( !see ) {
                 // All cases above ignore the seen-status,
                 ter_color = c_dark_gray;
-                ter_sym   = '#';
+                ter_sym   = "#";
                 // All cases below assume that see is true.
             } else if( blink && npc_color.count( cur_pos ) != 0 ) {
                 // Visible NPCs are cached already
                 ter_color = npc_color[ cur_pos ].color;
-                ter_sym   = '@';
+                ter_sym   = "@";
             } else if( blink && mycount != 0 && g->debug_pathfinding ) {
                 ter_color = c_red;
-                ter_sym   = '!';
+                ter_sym   = "!";
             } else if( blink && showhordes && los &&
                        overmap_buffer.get_horde_size( omx, omy, z ) >= HORDE_VISIBILITY_SIZE ) {
                 // Display Hordes only when within player line-of-sight
                 ter_color = c_green;
-                ter_sym   = overmap_buffer.get_horde_size( omx, omy, z ) > HORDE_VISIBILITY_SIZE * 2 ? 'Z' : 'z';
+                ter_sym   = overmap_buffer.get_horde_size( omx, omy, z ) > HORDE_VISIBILITY_SIZE * 2 ? "Z" : "z";
             } else if( blink && overmap_buffer.has_vehicle( omx, omy, z ) ) {
                 // Display Vehicles only when player can see the location
                 ter_color = c_cyan;
-                ter_sym   = 'c';
+                ter_sym   = "c";
             } else if( !sZoneName.empty() && tripointZone.x == omx && tripointZone.y == omy ) {
                 ter_color = c_yellow;
-                ter_sym   = 'Z';
+                ter_sym   = "Z";
             } else if( !uistate.overmap_show_forest_trails && cur_ter &&
                        is_ot_type( "forest_trail", cur_ter ) ) {
                 // If forest trails shouldn't be displayed, and this is a forest trail, then
@@ -621,7 +647,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
 
                 if( mgroup && mgroup->target.x / 2 == localx / 2 && mgroup->target.y / 2 == localy / 2 ) {
                     ter_color = c_red;
-                    ter_sym = 'x';
+                    ter_sym = "x";
                 } else {
                     const auto &groups = overmap_buffer.monsters_at( omx, omy, center.z );
                     for( auto &mgp : groups ) {
@@ -631,15 +657,15 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
                         }
                         if( mgp->horde ) {
                             // Hordes show as +
-                            ter_sym = '+';
+                            ter_sym = "+";
                             break;
                         } else {
                             // Regular groups show as -
-                            ter_sym = '-';
+                            ter_sym = "-";
                         }
                     }
                     // Set the color only if we encountered an eligible group.
-                    if( ter_sym == '+' || ter_sym == '-' ) {
+                    if( ter_sym == "+" || ter_sym == "-" ) {
                         if( los ) {
                             ter_color = c_light_blue;
                         } else {
@@ -653,7 +679,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
             if( uistate.place_terrain || uistate.place_special ) {
                 if( blink && uistate.place_terrain && omx == cursx && omy == cursy ) {
                     ter_color = uistate.place_terrain->get_color();
-                    ter_sym = uistate.place_terrain->get_sym();
+                    ter_sym = uistate.place_terrain->get_symbol();
                 } else if( blink && uistate.place_special ) {
                     if( omx - cursx >= s_begin.x && omx - cursx <= s_end.x &&
                         omy - cursy >= s_begin.y && omy - cursy <= s_end.y ) {
@@ -695,32 +721,32 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
           target.y >= offset_y + om_map_height ) ) {
         int marker_x = clamp( target.x - offset_x, 0, om_map_width  - 1 );
         int marker_y = clamp( target.y - offset_y, 0, om_map_height - 1 );
-        long marker_sym = ' ';
+        std::string marker_sym = " ";
 
         switch( direction_from( cursx, cursy, target.x, target.y ) ) {
             case NORTH:
-                marker_sym = '^';
+                marker_sym = "^";
                 break;
             case NORTHEAST:
-                marker_sym = LINE_OOXX;
+                marker_sym = LINE_OOXX_S;
                 break;
             case EAST:
-                marker_sym = '>';
+                marker_sym = ">";
                 break;
             case SOUTHEAST:
-                marker_sym = LINE_XOOX;
+                marker_sym = LINE_XOOX_S;
                 break;
             case SOUTH:
-                marker_sym = 'v';
+                marker_sym = "v";
                 break;
             case SOUTHWEST:
-                marker_sym = LINE_XXOO;
+                marker_sym = LINE_XXOO_S;
                 break;
             case WEST:
-                marker_sym = '<';
+                marker_sym = "<";
                 break;
             case NORTHWEST:
-                marker_sym = LINE_OXXO;
+                marker_sym = LINE_OXXO_S;
                 break;
             default:
                 break; //Do nothing
@@ -760,7 +786,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
         for( size_t i = 0; i < corner_text.size(); i++ ) {
             const auto &pr = corner_text[ i ];
             // clear line, print line, print vertical line at the right side.
-            mvwprintz( w, i, 0, c_yellow, spacer.c_str() );
+            mvwprintz( w, i, 0, c_yellow, spacer );
             mvwprintz( w, i, 0, pr.first, pr.second );
             mvwputch( w, i, maxlen, c_white, LINE_XOXO );
         }
@@ -820,7 +846,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
             const auto &ter = ccur_ter.obj();
             const auto sm_pos = omt_to_sm_copy( tripoint( cursx, cursy, z ) );
 
-            mvwputch( wbar, 1, 1, ter.get_color(), ter.get_sym() );
+            mvwputch( wbar, 1, 1, ter.get_color(), ter.get_symbol() );
 
             lines = fold_and_print( wbar, 1, 3, 25, ter.get_color(),
                                     overmap_buffer.get_description_at( sm_pos ) );
@@ -860,8 +886,8 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
 
         const auto print_hint = [&]( const std::string & action, nc_color color = c_magenta ) {
             y += fold_and_print( wbar, y, 1, 27, color, string_format( _( "%s - %s" ),
-                                 inp_ctxt->get_desc( action ).c_str(),
-                                 inp_ctxt->get_action_name( action ).c_str() ) );
+                                 inp_ctxt->get_desc( action ),
+                                 inp_ctxt->get_action_name( action ) ) );
         };
 
         if( data.debug_editor ) {
@@ -986,7 +1012,7 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
             for( const auto &color_pair : get_note_color_names() ) {
                 // The color index is not translatable, but the name is.
                 color_notes += string_format( "%1$s:<color_%3$s>%2$s</color>, ", color_pair.first.c_str(),
-                                              _( color_pair.second.c_str() ), string_replace( color_pair.second, " ", "_" ).c_str() );
+                                              _( color_pair.second ), string_replace( color_pair.second, " ", "_" ) );
             }
 
             std::string helper_text = string_format( ".\n\n%s\n%s\n%s\n",
@@ -1007,7 +1033,7 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
             catacurses::window w_preview_map = catacurses::newwin( npm_height + 2, npm_width + 2, 2, 0 );
             auto preview_windows = std::make_tuple( &w_preview, &w_preview_title, &w_preview_map );
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
             if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
                 SDL_StartTextInput();
             }
@@ -1160,7 +1186,7 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
                       draw_data_t() );
                 //Draw search box
                 mvwprintz( w_search, 1, 1, c_light_blue, _( "Search:" ) );
-                mvwprintz( w_search, 1, 10, c_light_red, "%*s", 12, term.c_str() );
+                mvwprintz( w_search, 1, 10, c_light_red, "%*s", 12, term );
 
                 mvwprintz( w_search, 2, 1, c_light_blue, _( "Result(s):" ) );
                 mvwprintz( w_search, 2, 16, c_light_red, "%*d/%d", 3, i + 1, locations.size() );
@@ -1168,7 +1194,7 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
                 mvwprintz( w_search, 3, 1, c_light_blue, _( "Direction:" ) );
                 mvwprintz( w_search, 3, 14, c_white, "%*d %s",
                            5, static_cast<int>( trig_dist( orig, tripoint( locations[i], orig.z ) ) ),
-                           direction_name_short( direction_from( orig, tripoint( locations[i], orig.z ) ) ).c_str()
+                           direction_name_short( direction_from( orig, tripoint( locations[i], orig.z ) ) )
                          );
 
                 mvwprintz( w_search, 6, 1, c_white, _( "'<' '>' Cycle targets." ) );
@@ -1256,7 +1282,7 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
                     const std::string &rotation = om_direction::name( uistate.omedit_rotation );
 
                     mvwprintz( w_editor, 3, 1, c_light_gray, "                         " );
-                    mvwprintz( w_editor, 3, 1, c_light_gray, _( "Rotation: %s %s" ), rotation.c_str(),
+                    mvwprintz( w_editor, 3, 1, c_light_gray, _( "Rotation: %s %s" ), rotation,
                                can_rotate ? "" : _( "(fixed)" ) );
                     mvwprintz( w_editor, 5, 1, c_red, _( "Areas highlighted in red" ) );
                     mvwprintz( w_editor, 6, 1, c_red, _( "already have map content" ) );
@@ -1266,10 +1292,10 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
                     if( ( terrain && uistate.place_terrain->is_rotatable() ) ||
                         ( !terrain && uistate.place_special->rotatable ) ) {
                         mvwprintz( w_editor, 11, 1, c_white, _( "[%s] Rotate" ),
-                                   ctxt.get_desc( "ROTATE" ).c_str() );
+                                   ctxt.get_desc( "ROTATE" ) );
                     }
                     mvwprintz( w_editor, 12, 1, c_white, _( "[%s] Apply" ),
-                               ctxt.get_desc( "CONFIRM" ).c_str() );
+                               ctxt.get_desc( "CONFIRM" ) );
                     mvwprintz( w_editor, 13, 1, c_white, _( "[ESCAPE/Q] Cancel" ) );
                     wrefresh( w_editor );
 

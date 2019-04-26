@@ -6,18 +6,15 @@
 #include <string>
 #include <vector>
 
-#include "enums.h"
 #include "units.h"
 
 class item;
 class player;
 class JsonObject;
-class MonsterGenerator;
 class monster;
-
 template<typename T> class ret_val;
-
 struct iteminfo;
+
 typedef std::string itype_id;
 struct tripoint;
 
@@ -135,6 +132,7 @@ class iuse
         int shocktonfa_on( player *, item *, bool, const tripoint & );
         int mp3( player *, item *, bool, const tripoint & );
         int mp3_on( player *, item *, bool, const tripoint & );
+        int dive_tank( player *, item *, bool, const tripoint & );
         int gasmask( player *, item *, bool, const tripoint & );
         int portable_game( player *, item *, bool, const tripoint & );
         int vibe( player *, item *, bool, const tripoint & );
@@ -207,6 +205,8 @@ class iuse
         int multicooker( player *, item *, bool, const tripoint & );
 
         int remoteveh( player *, item *, bool, const tripoint & );
+
+        int craft( player *, item *, bool, const tripoint & );
 
         int disassemble( player *, item *, bool, const tripoint & );
 

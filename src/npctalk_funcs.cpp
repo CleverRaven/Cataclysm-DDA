@@ -1,14 +1,16 @@
 #include "npctalk.h" // IWYU pragma: associated
 
+#include <stddef.h>
 #include <algorithm>
 #include <string>
 #include <vector>
+#include <memory>
+#include <set>
 
 #include "basecamp.h"
 #include "bionics.h"
 #include "debug.h"
 #include "game.h"
-#include "itype.h"
 #include "line.h"
 #include "map.h"
 #include "messages.h"
@@ -17,14 +19,27 @@
 #include "npc.h"
 #include "npctrade.h"
 #include "output.h"
-#include "overmap.h"
 #include "overmapbuffer.h"
 #include "requirements.h"
 #include "rng.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "ui.h"
-#include "units.h"
+#include "auto_pickup.h"
+#include "bodypart.h"
+#include "calendar.h"
+#include "enums.h"
+#include "faction.h"
+#include "game_constants.h"
+#include "item.h"
+#include "item_location.h"
+#include "optional.h"
+#include "pimpl.h"
+#include "player.h"
+#include "player_activity.h"
+#include "pldata.h"
+#include "itype.h"
+#include "mtype.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x), D_NPC) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -178,49 +193,66 @@ void talk_function::goto_location( npc &p )
     return;
 }
 
-std::string bulk_trade_inquire( const npc &, const itype_id &it )
-{
-    int you_have = g->u.charges_of( it );
-    item tmp( it );
-    int item_cost = tmp.price( true );
-    tmp.charges = you_have;
-    int total_cost = tmp.price( true );
-    return string_format( _( "I'm willing to pay %s per batch for a total of %s" ),
-                          format_money( item_cost ), format_money( total_cost ) );
-}
-
-void bulk_trade_accept( npc &, const itype_id &it )
-{
-    int you_have = g->u.charges_of( it );
-    item tmp( it );
-    tmp.charges = you_have;
-    int total = tmp.price( true );
-    g->u.use_charges( it, you_have );
-    g->u.cash += total;
-}
-
 void talk_function::assign_guard( npc &p )
 {
+    if( !p.is_following() ) {
+        p.mission = NPC_MISSION_GUARD;
+        p.set_omt_destination();
+        return;
+    }
+
     if( p.is_travelling() ) {
         if( p.has_companion_mission() ) {
             p.reset_companion_mission();
         }
     }
-    add_msg( _( "%s is posted as a guard." ), p.name );
     p.set_attitude( NPCATT_NULL );
     p.mission = NPC_MISSION_GUARD_ALLY;
     p.chatbin.first_topic = "TALK_FRIEND_GUARD";
     p.set_omt_destination();
+    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( p.global_omt_location().x,
+                                     p.global_omt_location().y );
+    if( bcp ) {
+        basecamp *temp_camp = *bcp;
+        temp_camp->validate_assignees();
+        if( p.rules.has_flag( ally_rule::ignore_noise ) ) {
+            //~ %1$s is the NPC's translated name, %2$s is the translated faction camp name
+            add_msg( _( "%1$s is assigned to %2$s" ), p.disp_name(), temp_camp->camp_name() );
+        } else {
+            //~ %1$s is the NPC's translated name, %2$s is the translated faction camp name
+            add_msg( _( "%1$s is assigned to guard %2$s" ), p.disp_name(), temp_camp->camp_name() );
+        }
+    } else {
+        if( p.rules.has_flag( ally_rule::ignore_noise ) ) {
+            //~ %1$s is the NPC's translated name, %2$s is the pronoun for the NPC's gender
+            add_msg( _( "%1$s will wait for you where %2$s is." ), p.disp_name(),
+                     p.male ? _( "he" ) : _( "she" ) );
+        } else {
+            add_msg( _( "%s is posted as a guard." ), p.disp_name() );
+        }
+    }
 }
 
 void talk_function::stop_guard( npc &p )
 {
+    if( p.mission != NPC_MISSION_GUARD_ALLY ) {
+        p.set_attitude( NPCATT_NULL );
+        p.mission = NPC_MISSION_NULL;
+        return;
+    }
+
     p.set_attitude( NPCATT_FOLLOW );
     add_msg( _( "%s begins to follow you." ), p.name );
     p.mission = NPC_MISSION_NULL;
     p.chatbin.first_topic = "TALK_FRIEND";
     p.goal = npc::no_goal_point;
     p.guard_pos = npc::no_goal_point;
+    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( p.global_omt_location().x,
+                                     p.global_omt_location().y );
+    if( bcp ) {
+        basecamp *temp_camp = *bcp;
+        temp_camp->validate_assignees();
+    }
 }
 
 void talk_function::wake_up( npc &p )
@@ -552,7 +584,7 @@ void talk_function::hostile( npc &p )
 
     g->u.add_memorial_log( pgettext( "memorial_male", "%s became hostile." ),
                            pgettext( "memorial_female", "%s became hostile." ),
-                           p.name.c_str() );
+                           p.name );
     p.set_attitude( NPCATT_KILL );
 }
 
@@ -703,4 +735,32 @@ void talk_function::set_npc_pickup( npc &p )
 {
     const std::string title = string_format( _( "Pickup rules for %s" ), p.name );
     p.rules.pickup_whitelist->show( title, false );
+}
+
+void talk_function::npc_die( npc &p )
+{
+    p.die( nullptr );
+    const std::shared_ptr<npc> guy = overmap_buffer.find_npc( p.getID() );
+    if( guy && !guy->is_dead() ) {
+        guy->marked_for_death = true;
+    }
+}
+
+void talk_function::npc_thankful( npc &p )
+{
+    if( p.get_attitude() == NPCATT_MUG || p.get_attitude() == NPCATT_WAIT_FOR_LEAVE ||
+        p.get_attitude() == NPCATT_FLEE || p.get_attitude() == NPCATT_KILL ||
+        p.get_attitude() == NPCATT_FLEE_TEMP ) {
+        p.set_attitude( NPCATT_NULL );
+    }
+    if( p.chatbin.first_topic != "TALK_FRIEND" ) {
+        p.chatbin.first_topic = "TALK_STRANGER_FRIENDLY";
+    }
+    p.personality.aggression -= 1;
+
+}
+
+void talk_function::clear_overrides( npc &p )
+{
+    p.rules.clear_overrides();
 }

@@ -1,6 +1,7 @@
 #include "active_item_cache.h"
 
 #include <algorithm>
+#include <utility>
 
 #include "debug.h"
 #include "item.h"

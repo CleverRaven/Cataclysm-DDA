@@ -12,6 +12,16 @@ private:
     std::map<std::string, std::string> pathname;
 
     /*
+     * Here will be the instace stored.
+     */
+    static Path* instance;
+
+    /*
+     * Private constructor to prevent instancing.
+     */
+    Path( std::string basePath, std::string userDirectoryPath );
+
+    /*
      * Configure the path to the 'data' and 'gfx' directory, which contains
      * the necessary information for the application to work.
      *
@@ -46,10 +56,22 @@ private:
 
 public:
 
-    Path( std::string basePath, std::string userDirectoryPath );
-
     static void initBasePath(std::string path);
     static void initUserDirectory(std::string path);
+
+    /*
+     * Notes: This method needs to be called first
+     * to build the object properly, as it requires
+     * certain parameters.
+     *
+     * Static access method.
+     */
+    static Path *getInstance( std::string basePath, std::string userDirectoryPath );
+
+    /*
+     * Static access method.
+     */
+    static Path *getInstace();
 
     /*
      * TODO: Make safe method, launch an error in case the key does not exist.

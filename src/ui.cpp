@@ -1,7 +1,11 @@
 #include "ui.h"
 
+#include <ctype.h>
+#include <limits.h>
+#include <stdlib.h>
 #include <algorithm>
 #include <iterator>
+#include <memory>
 
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -12,7 +16,7 @@
 #include "player.h"
 #include "string_input_popup.h"
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
 #include <SDL_keyboard.h>
 
 #include "options.h"
@@ -246,7 +250,7 @@ std::string uilist::inputfilter()
     .window( window, 4, w_height - 1, w_width - 4 )
     .identifier( identifier );
     input_event event;
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
     if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
         SDL_StartTextInput();
     }
@@ -678,7 +682,7 @@ void uilist::show()
     }
 
     if( !filter.empty() ) {
-        mvwprintz( window, w_height - 1, 2, border_color, "< %s >", filter.c_str() );
+        mvwprintz( window, w_height - 1, 2, border_color, "< %s >", filter );
         mvwprintz( window, w_height - 1, 4, text_color, filter );
     }
     apply_scrollbar();
@@ -709,7 +713,7 @@ void uilist::redraw( bool redraw_callback )
         wprintz( window, border_color, " >" );
     }
     if( !filter.empty() ) {
-        mvwprintz( window, w_height - 1, 2, border_color, "< %s >", filter.c_str() );
+        mvwprintz( window, w_height - 1, 2, border_color, "< %s >", filter );
         mvwprintz( window, w_height - 1, 4, text_color, filter );
     }
     ( void )redraw_callback; // TODO: something
@@ -842,7 +846,7 @@ void uilist::query( bool loop, int timeout )
 
     show();
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
     for( const auto &entry : entries ) {
         if( entry.hotkey > 0 && entry.enabled ) {
             ctxt.register_manual_key( entry.hotkey, entry.txt );

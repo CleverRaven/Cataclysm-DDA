@@ -2,10 +2,12 @@
 #ifndef CATACHARSET_H
 #define CATACHARSET_H
 
+#include <stddef.h>
 #include <cstdint>
 #include <string>
 
 #define ANY_LENGTH 5
+#define NULL_UNICODE 0x0000
 #define UNKNOWN_UNICODE 0xFFFD
 
 class utf8_wrapper;

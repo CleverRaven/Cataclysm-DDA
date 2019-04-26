@@ -3,12 +3,12 @@
 #include <clocale>
 #include <cstdlib>
 #include <iostream>
+#include <utility>
 
 #include "filesystem.h"
 #include "options.h"
-#include "translations.h"
 
-#if (defined _WIN32 || defined WINDOW)
+#if defined(_WIN32)
 #include <windows.h>
 #endif
 
@@ -32,14 +32,14 @@ void Path::initUserDirectory( std::string path )
     if( dir.empty() ) {
         const char *user_dir;
 
-#if (defined _WIN32 || defined WINDOW)
+#if defined(_WIN32)
         user_dir = getenv( "LOCALAPPDATA" );
         // On Windows userdir without dot
         dir = std::string( user_dir ) + "/cataclysm-dda/";
-#elif defined MACOSX
+#elif defined(MACOSX)
         user_dir = getenv( "HOME" );
         dir = std::string( user_dir ) + "/Library/Application Support/Cataclysm/";
-#elif (defined USE_XDG_DIR)
+#elif defined(USE_XDG_DIR)
         if( ( user_dir = getenv( "XDG_DATA_HOME" ) ) ) {
             dir = std::string( user_dir ) + "/cataclysm-dda/";
         } else {
@@ -80,6 +80,26 @@ void Path::initDataDirectory( std::map<std::string, std::string> pathname )
 std::string Path::getPathForValueKey( const std::string valueKey )
 {
     return pathname[valueKey];
+}
+
+Path * Path::getInstance( std::string basePath, std::string userDirectoryPath )
+{
+    if (instance == 0)
+    {
+        instance = new Path( basePath, userDirectoryPath );
+    }
+
+    return instance;
+}
+
+Path* Path::getInstace( )
+{
+    if (instance == 0)
+    {
+        // TODO: Raise error, the object hasn't been created.
+    }
+
+    return instance;
 }
 
 void Path::setStandardFilenames( )
@@ -133,7 +153,7 @@ void Path::setStandardFilenames( )
     updatePathname( "templatedir", FILENAMES[ "user_dir" ] + "templates/" );
     updatePathname( "user_sound", FILENAMES[ "user_dir" ] + "sound/" );
 
-#ifdef USE_XDG_DIR
+#if defined(USE_XDG_DIR)
 
     const char *user_dir;
     std::string dir;
@@ -174,11 +194,11 @@ void Path::setStandardFilenames( )
     updatePathname( "legacy_autopickup2", FILENAMES[ "config_dir" ] + "auto_pickup.txt" );
     updatePathname( "legacy_fontdata", FILENAMES[ "datadir" ] + "fontdata.json" );
     updatePathname( "legacy_worldoptions", "worldoptions.txt" );
-#ifdef TILES
+#if defined(TILES)
     // Default tileset config file.
     updatePathname( "tileset-conf", "tileset.txt" );
 #endif
-#ifdef SDL_SOUND
+#if defined(SDL_SOUND)
     // Default soundpack config file.
     updatePathname( "soundpack-conf", "soundpack.txt" );
 #endif
@@ -257,7 +277,12 @@ void Path::toString( )
     }
 }
 
-// Construct
+/*
+ * Null, because instance will be initialized on demand.
+ */
+Path* Path::instance = 0;
+
+// Private Construct
 
 Path::Path( std::string basePath, std::string userDirectoryPath )
 {
@@ -369,10 +394,10 @@ std::string PATH_INFO::find_translated_file( const std::string &pathid,
 {
     const std::string base_path = FILENAMES[pathid];
 
-#if defined LOCALIZE && ! defined __CYGWIN__
+#if defined(LOCALIZE) && !defined(__CYGWIN__)
     std::string loc_name;
     if( get_option<std::string>( "USE_LANG" ).empty() ) {
-#if (defined _WIN32 || defined WINDOWS)
+#if defined(_WIN32)
         loc_name = getLangFromLCID( GetUserDefaultLCID() );
         if( !loc_name.empty() ) {
             const std::string local_path = base_path + loc_name + extension;

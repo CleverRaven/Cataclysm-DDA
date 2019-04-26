@@ -50,7 +50,8 @@
       [ "humvee_gl", 50 ],
       [ "icecream_truck", 50 ],
       [ "wienermobile", 5 ],
-      [ "tatra_truck", 100 ]
+      [ "tatra_truck", 100 ],
+      [ "4x4_car", 500 ]
     ]
   },
   {
@@ -70,19 +71,14 @@
       [ "flatbed_truck", 1000 ],
       [ "cube_van", 500 ],
       [ "cube_van_cheap", 500 ],
-      [ "hippie_van", 500 ]
+      [ "hippie_van", 500 ],
+      [ "4x4_car", 500 ]
     ]
   },
   {
     "type": "vehicle_group",
     "id": "police_pileup",
-    "vehicles": [
-        [ "policecar", 400 ],
-        [ "policesuv", 400 ],
-        [ "policecar_k9", 2 ],
-        [ "policesuv_k9", 3 ],
-        [ "police_k9tpt", 1 ]
-    ]
+    "vehicles": [ [ "policecar", 400 ], [ "policesuv", 400 ], [ "policecar_k9", 2 ], [ "policesuv_k9", 3 ], [ "police_k9tpt", 1 ] ]
   },
   {
     "type": "vehicle_group",
@@ -119,7 +115,8 @@
       [ "armored_car", 300 ],
       [ "superbike", 50 ],
       [ "wienermobile", 5 ],
-      [ "tatra_truck", 300 ]
+      [ "tatra_truck", 300 ],
+      [ "4x4_car", 400 ]
     ]
   },
   {
@@ -145,7 +142,8 @@
       [ "portable_generator", 50 ],
       [ "bicycle", 150 ],
       [ "bicycle_dirt", 125 ],
-      [ "tricycle", 5 ]
+      [ "tricycle", 5 ],
+      [ "4x4_car", 200 ]
     ]
   },
   {
@@ -196,7 +194,8 @@
       [ "shopping_cart", 1000 ],
       [ "icecream_truck", 50 ],
       [ "wienermobile", 5 ],
-      [ "portable_generator", 50 ]
+      [ "portable_generator", 50 ],
+      [ "4x4_car", 200 ]
     ]
   },
   {
@@ -288,7 +287,8 @@
       [ "beetle", 500 ],
       [ "bubble_car", 20 ],
       [ "pickup", 600 ],
-      [ "hippie_van", 700 ]
+      [ "hippie_van", 700 ],
+      [ "4x4_car", 500 ]
     ]
   },
   {
@@ -307,7 +307,8 @@
       [ "flatbed_truck", 200 ],
       [ "cube_van_cheap", 400 ],
       [ "pickup", 500 ],
-      [ "hippie_van", 350 ]
+      [ "hippie_van", 350 ],
+      [ "4x4_car", 500 ]
     ]
   },
   {
@@ -324,7 +325,8 @@
       [ "car_mini", 200 ],
       [ "beetle", 200 ],
       [ "pickup", 700 ],
-      [ "hippie_van", 800 ]
+      [ "hippie_van", 800 ],
+      [ "4x4_car", 800 ]
     ]
   },
   {
@@ -365,23 +367,51 @@
     "vehicles": [ [ "golf_cart", 100 ], [ "golf_cart_4seat", 65 ] ]
   },
   {
-      "type": "vehicle_group",
-      "id": "workshop_vehicles",
-      "vehicles": [ [ "welding_cart", 30 ], [ "portable_generator", 20 ] ]
+    "type": "vehicle_group",
+    "id": "workshop_vehicles",
+    "vehicles": [ [ "welding_cart", 30 ], [ "portable_generator", 20 ] ]
   },
   {
     "type": "vehicle_group",
     "id": "crashed_helicopters",
     "vehicles": [
-        [ "helicopter_wreck_1a", 100 ],
-        [ "helicopter_wreck_1b", 400 ],
-        [ "helicopter_wreck_1c", 200 ],
-        [ "helicopter_wreck_2a", 100 ],
-        [ "helicopter_wreck_2b", 400 ],
-        [ "helicopter_wreck_2c", 200 ],
-        [ "helicopter_wreck_3a", 100 ],
-        [ "helicopter_wreck_3b", 400 ],
-        [ "helicopter_wreck_3c", 200 ]
-      ]
+      [ "helicopter_wreck_1a", 100 ],
+      [ "helicopter_wreck_1b", 400 ],
+      [ "helicopter_wreck_1c", 200 ],
+      [ "helicopter_wreck_2a", 100 ],
+      [ "helicopter_wreck_2b", 400 ],
+      [ "helicopter_wreck_2c", 200 ],
+      [ "helicopter_wreck_3a", 100 ],
+      [ "helicopter_wreck_3b", 400 ],
+      [ "helicopter_wreck_3c", 200 ]
+    ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "bikeshop",
+    "vehicles": [
+      [ "bicycle", 1000 ],
+      [ "bicycle_electric", 600 ],
+      [ "bicycle_dirt", 750 ],
+      [ "unicycle", 50 ],
+      [ "scooter", 100 ],
+      [ "scooter_electric", 50 ],
+      [ "tandem", 300 ],
+      [ "tricycle", 50 ]
+    ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "industrial_transport",
+    "//": "Industrial transport vehicles for transporting goods.",
+    "vehicles": [
+      [ "semi_truck", 200 ],
+      [ "truck_trailer", 200 ],
+      [ "cube_van", 400 ],
+      [ "cube_van_cheap", 500 ],
+      [ "flatbed_truck", 300 ],
+      [ "tatra_truck", 200 ],
+      [ "pickup", 100 ]
+    ]
   }
 ]

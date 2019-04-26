@@ -1,6 +1,12 @@
 #include "game.h" // IWYU pragma: associated
 
+#include <stdlib.h>
+#include <math.h>
 #include <chrono>
+#include <iterator>
+#include <set>
+#include <sstream>
+#include <utility>
 
 #include "action.h"
 #include "advanced_inv.h"
@@ -13,6 +19,7 @@
 #include "debug.h"
 #include "faction.h"
 #include "field.h"
+#include "game_constants.h"
 #include "game_inventory.h"
 #include "gamemode.h"
 #include "gates.h"
@@ -43,6 +50,18 @@
 #include "vpart_reference.h"
 #include "weather.h"
 #include "worldfactory.h"
+#include "bodypart.h"
+#include "character.h"
+#include "color.h"
+#include "damage.h"
+#include "lightmap.h"
+#include "line.h"
+#include "player_activity.h"
+#include "rng.h"
+#include "string_formatter.h"
+#include "translations.h"
+#include "ui.h"
+#include "units.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -58,7 +77,7 @@ static const trait_id trait_SHELL2( "SHELL2" );
 const skill_id skill_driving( "driving" );
 const skill_id skill_melee( "melee" );
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
 extern std::map<std::string, std::list<input_event>> quick_shortcuts_map;
 extern bool add_best_key_for_action_to_quick_shortcuts( action_id action,
         const std::string &category, bool back );
@@ -109,13 +128,16 @@ input_context game::get_player_input( std::string &action )
     user_turn current_turn;
 
     if( get_option<bool>( "ANIMATIONS" ) ) {
-        int iStartX = ( TERRAIN_WINDOW_WIDTH > 121 ) ? ( TERRAIN_WINDOW_WIDTH - 121 ) / 2 : 0;
-        int iStartY = ( TERRAIN_WINDOW_HEIGHT > 121 ) ? ( TERRAIN_WINDOW_HEIGHT - 121 ) / 2 : 0;
-        int iEndX = ( TERRAIN_WINDOW_WIDTH > 121 ) ? TERRAIN_WINDOW_WIDTH - ( TERRAIN_WINDOW_WIDTH - 121 ) /
+        const int TOTAL_VIEW = MAX_VIEW_DISTANCE * 2 + 1;
+        int iStartX = ( TERRAIN_WINDOW_WIDTH > TOTAL_VIEW ) ? ( TERRAIN_WINDOW_WIDTH - TOTAL_VIEW ) / 2 : 0;
+        int iStartY = ( TERRAIN_WINDOW_HEIGHT > TOTAL_VIEW ) ? ( TERRAIN_WINDOW_HEIGHT - TOTAL_VIEW ) / 2 :
+                      0;
+        int iEndX = ( TERRAIN_WINDOW_WIDTH > TOTAL_VIEW ) ? TERRAIN_WINDOW_WIDTH -
+                    ( TERRAIN_WINDOW_WIDTH - TOTAL_VIEW ) /
                     2 :
                     TERRAIN_WINDOW_WIDTH;
-        int iEndY = ( TERRAIN_WINDOW_HEIGHT > 121 ) ? TERRAIN_WINDOW_HEIGHT -
-                    ( TERRAIN_WINDOW_HEIGHT - 121 ) /
+        int iEndY = ( TERRAIN_WINDOW_HEIGHT > TOTAL_VIEW ) ? TERRAIN_WINDOW_HEIGHT -
+                    ( TERRAIN_WINDOW_HEIGHT - TOTAL_VIEW ) /
                     2 : TERRAIN_WINDOW_HEIGHT;
 
         if( fullscreen ) {
@@ -127,10 +149,10 @@ input_context game::get_player_input( std::string &action )
 
         //x% of the Viewport, only shown on visible areas
         const auto weather_info = get_weather_animation( weather );
-        int offset_x = ( u.posx() + u.view_offset.x ) - ( getmaxx( w_terrain ) / 2 ) + g->sidebar_offset.x;
-        int offset_y = ( u.posy() + u.view_offset.y ) - ( getmaxy( w_terrain ) / 2 ) + g->sidebar_offset.y;
+        int offset_x = u.posx() + u.view_offset.x - getmaxx( w_terrain ) / 2;
+        int offset_y = u.posy() + u.view_offset.y - getmaxy( w_terrain ) / 2;
 
-#ifdef TILES
+#if defined(TILES)
         if( tile_iso && use_tiles ) {
             iStartX = 0;
             iStartY = 0;
@@ -172,7 +194,7 @@ input_context game::get_player_input( std::string &action )
                 WEATHER_FLURRIES | WEATHER_SNOW | WEATHER_SNOWSTORM = "weather_snowflake"
                 */
 
-#ifdef TILES
+#if defined(TILES)
                 if( !use_tiles ) {
 #endif //TILES
                     //If not using tiles, erase previous drops from w_terrain
@@ -182,11 +204,11 @@ input_context game::get_player_input( std::string &action )
                         wmove( w_terrain, location.y - offset_y, location.x - offset_x );
                         if( !m.apply_vision_effects( w_terrain, m.get_visibility( lighting, cache ) ) ) {
                             m.drawsq( w_terrain, u, location, false, true,
-                                      u.pos() + u.view_offset + g->sidebar_offset,
+                                      u.pos() + u.view_offset,
                                       lighting == LL_LOW, lighting == LL_BRIGHT );
                         }
                     }
-#ifdef TILES
+#if defined(TILES)
                 }
 #endif //TILES
                 wPrint.vdrops.clear();
@@ -210,7 +232,7 @@ input_context game::get_player_input( std::string &action )
             }
             // don't bother calculating SCT if we won't show it
             if( uquit != QUIT_WATCH && get_option<bool>( "ANIMATION_SCT" ) ) {
-#ifdef TILES
+#if defined(TILES)
                 if( !use_tiles ) {
 #endif
                     for( auto &elem : SCT.vSCT ) {
@@ -222,13 +244,13 @@ input_context game::get_player_input( std::string &action )
                                 wmove( w_terrain, location.y - offset_y, location.x - offset_x );
                                 if( !m.apply_vision_effects( w_terrain, m.get_visibility( lighting, cache ) ) ) {
                                     m.drawsq( w_terrain, u, location, false, true,
-                                              u.pos() + u.view_offset + g->sidebar_offset,
+                                              u.pos() + u.view_offset,
                                               lighting == LL_LOW, lighting == LL_BRIGHT );
                                 }
                             }
                         }
                     }
-#ifdef TILES
+#if defined(TILES)
                 }
 #endif
 
@@ -422,7 +444,7 @@ static void open()
                 int outside_openable = veh->next_part_to_open( vp->part_index(), true );
                 if( outside_openable == -1 ) {
                     const std::string name = veh->part_info( openable ).name();
-                    add_msg( m_info, _( "That %s can only opened from the inside." ), name.c_str() );
+                    add_msg( m_info, _( "That %s can only opened from the inside." ), name );
                     u.moves += 100;
                 } else {
                     veh->open_all_at( openable );
@@ -433,7 +455,7 @@ static void open()
             if( const cata::optional<vpart_reference> already_open = vp.part_with_feature( "OPENABLE",
                     true ) ) {
                 const std::string name = already_open->info().name();
-                add_msg( m_info, _( "That %s is already open." ), name.c_str() );
+                add_msg( m_info, _( "That %s is already open." ), name );
             }
             u.moves += 100;
         }
@@ -478,7 +500,7 @@ static void handbrake()
     veh->cruise_velocity = 0;
     if( veh->last_turn != 0 && rng( 15, 60 ) * 100 < abs( veh->velocity ) ) {
         veh->skidding = true;
-        add_msg( m_warning, _( "You lose control of %s." ), veh->name.c_str() );
+        add_msg( m_warning, _( "You lose control of %s." ), veh->name );
         veh->turn( veh->last_turn > 0 ? 60 : -60 );
     } else {
         int braking_power = abs( veh->velocity ) / 2 + 10 * 100;
@@ -502,7 +524,7 @@ static void grab()
         if( const optional_vpart_position vp = m.veh_at( u.pos() + u.grab_point ) ) {
             add_msg( _( "You release the %s." ), vp->vehicle().name );
         } else if( m.has_furn( u.pos() + u.grab_point ) ) {
-            add_msg( _( "You release the %s." ), m.furnname( u.pos() + u.grab_point ).c_str() );
+            add_msg( _( "You release the %s." ), m.furnname( u.pos() + u.grab_point ) );
         }
 
         u.grab( OBJECT_NONE );
@@ -527,14 +549,14 @@ static void grab()
         add_msg( _( "You grab the %s." ), vp->vehicle().name );
     } else if( m.has_furn( grabp ) ) { // If not, grab furniture if present
         if( m.furn( grabp ).obj().move_str_req < 0 ) {
-            add_msg( _( "You can not grab the %s" ), m.furnname( grabp ).c_str() );
+            add_msg( _( "You can not grab the %s" ), m.furnname( grabp ) );
             return;
         }
         u.grab( OBJECT_FURNITURE, grabp - u.pos() );
         if( !m.can_move_furniture( grabp, &u ) ) {
-            add_msg( _( "You grab the %s. It feels really heavy." ), m.furnname( grabp ).c_str() );
+            add_msg( _( "You grab the %s. It feels really heavy." ), m.furnname( grabp ) );
         } else {
-            add_msg( _( "You grab the %s." ), m.furnname( grabp ).c_str() );
+            add_msg( _( "You grab the %s." ), m.furnname( grabp ) );
         }
     } else { // TODO: grab mob? Captured squirrel = pet (or meat that stays fresh longer).
         add_msg( m_info, _( "There's nothing to grab there!" ) );
@@ -622,7 +644,7 @@ static void smash()
         const int vol = u.weapon.volume() / units::legacy_volume_factor;
         if( u.weapon.made_of( material_id( "glass" ) ) &&
             rng( 0, vol + 3 ) < vol ) {
-            add_msg( m_bad, _( "Your %s shatters!" ), u.weapon.tname().c_str() );
+            add_msg( m_bad, _( "Your %s shatters!" ), u.weapon.tname() );
             for( auto &elem : u.weapon.contents ) {
                 m.add_item_or_charges( u.pos(), elem );
             }
@@ -639,10 +661,10 @@ static void smash()
         if( smashskill < m.bash_resistance( smashp ) && one_in( 10 ) ) {
             if( m.has_furn( smashp ) && m.furn( smashp ).obj().bash.str_min != -1 ) {
                 // %s is the smashed furniture
-                add_msg( m_neutral, _( "You don't seem to be damaging the %s." ), m.furnname( smashp ).c_str() );
+                add_msg( m_neutral, _( "You don't seem to be damaging the %s." ), m.furnname( smashp ) );
             } else {
                 // %s is the smashed terrain
-                add_msg( m_neutral, _( "You don't seem to be damaging the %s." ), m.tername( smashp ).c_str() );
+                add_msg( m_neutral, _( "You don't seem to be damaging the %s." ), m.tername( smashp ) );
             }
         }
     } else {
@@ -650,12 +672,39 @@ static void smash()
     }
 }
 
+bool try_set_alarm()
+{
+    uilist as_m;
+    const bool already_set = g->u.has_effect( effect_alarm_clock );
+
+    as_m.text = already_set ?
+                _( "You already have an alarm set. What do you want to do?" ) :
+                _( "You have an alarm clock. What do you want to do?" );
+
+    as_m.entries.emplace_back( 0, true, 'a', already_set ?
+                               _( "Change your alarm" ) :
+                               _( "Set an alarm for later" ) );
+    as_m.entries.emplace_back( 1, true, 'w', already_set ?
+                               _( "Keep the alarm and wait a while" ) :
+                               _( "Wait a while" ) );
+    as_m.query();
+
+    return as_m.ret == 0;
+}
+
 static void wait()
 {
     std::map<int, int> durations;
     uilist as_m;
+    player &u = g->u;
+    bool setting_alarm = false;
 
-    const bool has_watch = g->u.has_watch();
+    if( u.has_alarm_clock() ) {
+        setting_alarm = try_set_alarm();
+    }
+
+    const bool has_watch = u.has_watch() || setting_alarm;
+
     const auto add_menu_item = [ &as_m, &durations, has_watch ]
                                ( int retval, int hotkey, const std::string &caption = "",
     int duration = calendar::INDEFINITELY_LONG ) {
@@ -664,20 +713,30 @@ static void wait()
 
         if( has_watch && duration != calendar::INDEFINITELY_LONG ) {
             const std::string dur_str( to_string( time_duration::from_turns( duration ) ) );
-            text += ( text.empty() ? dur_str : string_format( " (%s)", dur_str.c_str() ) );
+            text += ( text.empty() ? dur_str : string_format( " (%s)", dur_str ) );
         }
         as_m.addentry( retval, true, hotkey, text );
         durations[retval] = duration;
     };
 
-    add_menu_item( 1, '1', !has_watch ? _( "Wait 300 heartbeats" ) : "", MINUTES( 5 ) );
-    add_menu_item( 2, '2', !has_watch ? _( "Wait 1800 heartbeats" ) : "", MINUTES( 30 ) );
+    if( setting_alarm ) {
 
-    if( has_watch ) {
-        add_menu_item( 3, '3', "", HOURS( 1 ) );
-        add_menu_item( 4, '4', "", HOURS( 2 ) );
-        add_menu_item( 5, '5', "", HOURS( 3 ) );
-        add_menu_item( 6, '6', "", HOURS( 6 ) );
+        add_menu_item( 0, '0', "", MINUTES( 30 ) );
+
+        for( int i = 1; i <= 9; ++i ) {
+            add_menu_item( i, '0' + i, "", HOURS( i ) );
+        }
+
+    } else {
+        add_menu_item( 1, '1', !has_watch ? _( "Wait 300 heartbeats" ) : "", MINUTES( 5 ) );
+        add_menu_item( 2, '2', !has_watch ? _( "Wait 1800 heartbeats" ) : "", MINUTES( 30 ) );
+
+        if( has_watch ) {
+            add_menu_item( 3, '3', "", HOURS( 1 ) );
+            add_menu_item( 4, '4', "", HOURS( 2 ) );
+            add_menu_item( 5, '5', "", HOURS( 3 ) );
+            add_menu_item( 6, '6', "", HOURS( 6 ) );
+        }
     }
 
     if( g->get_levz() >= 0 || has_watch ) {
@@ -686,28 +745,54 @@ static void wait()
             return ( remainder > 0 ) ? remainder : DAYS( 1 ) + remainder;
         };
 
-        add_menu_item( 7,  'd', _( "Wait till dawn" ),
+        add_menu_item( 7,  'd',
+                       setting_alarm ? _( "Set alarm for dawn" ) : _( "Wait till dawn" ),
                        diurnal_time_before( calendar::turn.sunrise() ) );
-        add_menu_item( 8,  'n', _( "Wait till noon" ),     diurnal_time_before( HOURS( 12 ) ) );
-        add_menu_item( 9,  'k', _( "Wait till dusk" ),     diurnal_time_before( calendar::turn.sunset() ) );
-        add_menu_item( 10, 'm', _( "Wait till midnight" ), diurnal_time_before( HOURS( 0 ) ) );
-        add_menu_item( 11, 'w', _( "Wait till weather changes" ) );
+        add_menu_item( 8,  'n',
+                       setting_alarm ? _( "Set alarm for noon" ) : _( "Wait till noon" ),
+                       diurnal_time_before( HOURS( 12 ) ) );
+        add_menu_item( 9,  'k',
+                       setting_alarm ? _( "Set alarm for dusk" ) : _( "Wait till dusk" ),
+                       diurnal_time_before( calendar::turn.sunset() ) );
+        add_menu_item( 10, 'm',
+                       setting_alarm ? _( "Set alarm for midnight" ) : _( "Wait till midnight" ),
+                       diurnal_time_before( HOURS( 0 ) ) );
+        if( setting_alarm ) {
+            if( u.has_effect( effect_alarm_clock ) ) {
+                add_menu_item( 11, 'x', _( "Cancel the currently set alarm." ), 0 );
+            }
+        } else {
+            add_menu_item( 11, 'w', _( "Wait till weather changes" ) );
+        }
     }
 
     as_m.text = ( has_watch ) ? string_format( _( "It's %s now. " ),
                 to_string_time_of_day( calendar::turn ) ) : "";
-    as_m.text += _( "Wait for how long?" );
+    as_m.text += setting_alarm ? _( "Set alarm for when?" ) : _( "Wait for how long?" );
     as_m.query(); /* calculate key and window variables, generate window, and loop until we get a valid answer */
 
     if( durations.count( as_m.ret ) == 0 ) {
         return;
     }
 
-    activity_id actType = activity_id( as_m.ret == 11 ? "ACT_WAIT_WEATHER" : "ACT_WAIT" );
+    if( setting_alarm ) {
+        // Setting alarm
+        u.remove_effect( effect_alarm_clock );
+        if( as_m.ret == 11 ) {
+            add_msg( _( "You cancel your alarm." ) );
+        } else {
+            u.add_effect( effect_alarm_clock, time_duration::from_turns( durations[as_m.ret] ) );
+            add_msg( _( "You set your alarm." ) );
+        }
 
-    player_activity new_act( actType, 100 * ( durations[as_m.ret] - 1 ), 0 );
+    } else {
+        // Waiting
+        activity_id actType = activity_id( as_m.ret == 11 ? "ACT_WAIT_WEATHER" : "ACT_WAIT" );
 
-    g->u.assign_activity( new_act, false );
+        player_activity new_act( actType, 100 * ( durations[as_m.ret] - 1 ), 0 );
+
+        u.assign_activity( new_act, false );
+    }
 }
 
 static void sleep()
@@ -740,9 +825,10 @@ static void sleep()
             continue;
         }
 
+        // some bionics
         // bio_alarm is useful for waking up during sleeping
         // turning off bio_leukocyte has 'unpleasant side effects'
-        if( bio.id == bionic_id( "bio_alarm" ) || bio.id == bionic_id( "bio_leukocyte" ) ) {
+        if( bio.info().sleep_friendly ) {
             continue;
         }
 
@@ -757,6 +843,17 @@ static void sleep()
             active.push_back( mdata.name() );
         }
     }
+
+    // check for deactivating any currently played music instrument.
+    for( auto &item : u.inv_dump() ) {
+        if( item->active && item->get_use( "musical_instrument" ) != nullptr ) {
+            u.add_msg_if_player( _( "You stop playing your %s before trying to sleep." ), item->tname() );
+            // deactivate instrument
+            item->active = false;
+        }
+    }
+
+    // ask for deactivation
     std::stringstream data;
     if( !active.empty() ) {
         data << as_m.text << std::endl;
@@ -827,12 +924,17 @@ static void loot()
 
     player &u = g->u;
     int flags = 0;
-    const auto &mgr = zone_manager::get_manager();
+    auto &mgr = zone_manager::get_manager();
     const bool has_hoe = u.has_quality( quality_id( "DIG" ), 1 );
     const bool has_seeds = u.has_item_with( []( const item & itm ) {
         return itm.is_seed();
     } );
     const bool has_fertilizer = u.has_item_with_flag( "FERTILIZER" );
+
+    // Manually update vehicle cache.
+    // In theory this would be handled by the related activity (activity_on_turn_move_loot())
+    // but with a stale cache we never get that far.
+    mgr.cache_vzones();
 
     flags |= g->check_near_zone( zone_type_id( "LOOT_UNSORTED" ), u.pos() ) ? SortLoot : 0;
     if( g->check_near_zone( zone_type_id( "FARM_PLOT" ), u.pos() ) ) {
@@ -991,11 +1093,11 @@ static void fire()
         if( vp && ( turret = vp->vehicle().turret_query( u.pos() ) ) ) {
             switch( turret.query() ) {
                 case turret_data::status::no_ammo:
-                    add_msg( m_bad, _( "The %s is out of ammo." ), turret.name().c_str() );
+                    add_msg( m_bad, _( "The %s is out of ammo." ), turret.name() );
                     break;
 
                 case turret_data::status::no_power:
-                    add_msg( m_bad,  _( "The %s is not powered." ), turret.name().c_str() );
+                    add_msg( m_bad,  _( "The %s is not powered." ), turret.name() );
                     break;
 
                 case turret_data::status::ready: {
@@ -1061,8 +1163,8 @@ static void fire()
                 !w.contents.empty() && w.contents.front().is_gun() ) {
                 // draw (first) gun contained in holster
                 options.push_back( string_format( _( "%s from %s (%d)" ),
-                                                  w.contents.front().tname().c_str(),
-                                                  w.type_name().c_str(),
+                                                  w.contents.front().tname(),
+                                                  w.type_name(),
                                                   w.contents.front().ammo_remaining() ) );
 
                 actions.emplace_back( [&] { u.invoke_item( &w, "holster" ); } );
@@ -1109,6 +1211,33 @@ static void fire()
         } else {
             reach_attack( range, u );
         }
+    }
+}
+
+static void open_movement_mode_menu()
+{
+    player &u = g->u;
+    uilist as_m;
+
+    as_m.text = _( "Change to which movement mode?" );
+
+    as_m.entries.emplace_back( 0, true, 'w', _( "Walk" ) );
+    as_m.entries.emplace_back( 1, true, 'r', _( "Run" ) );
+    as_m.entries.emplace_back( 2, true, 'c', _( "Crouch" ) );
+    as_m.query();
+
+    switch( as_m.ret ) {
+        case 0:
+            u.set_movement_mode( "walk" );
+            break;
+        case 1:
+            u.set_movement_mode( "run" );
+            break;
+        case 2:
+            u.set_movement_mode( "crouch" );
+            break;
+        default:
+            break;
     }
 }
 
@@ -1169,7 +1298,7 @@ bool game::handle_action()
             if( act == ACTION_NULL ) {
                 return false;
             }
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
             if( get_option<bool>( "ANDROID_ACTIONMENU_AUTOADD" ) && ctxt.get_category() == "DEFAULTMODE" ) {
                 add_best_key_for_action_to_quick_shortcuts( act, ctxt.get_category(), false );
             }
@@ -1328,8 +1457,24 @@ bool game::handle_action()
                 }
                 break;
 
-            case ACTION_TOGGLE_MOVE:
-                u.toggle_move_mode();
+            case ACTION_CYCLE_MOVE:
+                u.cycle_move_mode();
+                break;
+
+            case ACTION_RESET_MOVE:
+                u.reset_move_mode();
+                break;
+
+            case ACTION_TOGGLE_RUN:
+                u.toggle_run_mode();
+                break;
+
+            case ACTION_TOGGLE_CROUCH:
+                u.toggle_crouch_mode();
+                break;
+
+            case ACTION_OPEN_MOVEMENT:
+                open_movement_mode_menu();
                 break;
 
             case ACTION_MOVE_N:
@@ -1479,7 +1624,13 @@ bool game::handle_action()
                 break;
 
             case ACTION_PICKUP:
-                Pickup::pick_up( u.pos(), 1 );
+                if( u.has_active_mutation( trait_SHELL2 ) ) {
+                    add_msg( m_info, _( "You can't pick anything up while you're in your shell." ) );
+                } else if( mouse_target ) {
+                    pickup( *mouse_target );
+                } else {
+                    pickup();
+                }
                 break;
 
             case ACTION_GRAB:
@@ -1577,8 +1728,12 @@ bool game::handle_action()
                 u.pick_style();
                 break;
 
-            case ACTION_RELOAD:
-                reload();
+            case ACTION_RELOAD_ITEM:
+                reload_item();
+                break;
+
+            case ACTION_RELOAD_WEAPON:
+                reload_weapon();
                 break;
 
             case ACTION_UNLOAD:
@@ -1700,7 +1855,7 @@ bool game::handle_action()
                 if( veh_ctrl ) {
                     add_msg( m_info, _( "Vehicle control has moved, %s" ),
                              press_x( ACTION_CONTROL_VEHICLE, _( "new binding is " ),
-                                      _( "new default binding is '^'." ) ).c_str() );
+                                      _( "new default binding is '^'." ) ) );
                 } else {
                     sleep();
                 }
@@ -1757,7 +1912,7 @@ bool game::handle_action()
             case ACTION_WHITELIST_ENEMY:
                 if( safe_mode == SAFE_MODE_STOP && !get_safemode().empty() ) {
                     get_safemode().add_rule( get_safemode().lastmon_whitelist, Creature::A_ANY, 0, RULE_WHITELISTED );
-                    add_msg( m_info, _( "Creature whitelisted: %s" ), get_safemode().lastmon_whitelist.c_str() );
+                    add_msg( m_info, _( "Creature whitelisted: %s" ), get_safemode().lastmon_whitelist );
                     set_safe_mode( SAFE_MODE_ON );
                     mostseen = 0;
                 } else {
@@ -1849,6 +2004,7 @@ bool game::handle_action()
             case ACTION_OPTIONS:
                 get_options().show( true );
                 refresh_all();
+                g->init_ui( true );
                 break;
 
             case ACTION_AUTOPICKUP:
@@ -1977,7 +2133,7 @@ bool game::handle_action()
     gamemode->post_action( act );
 
     u.movecounter = ( !u.is_dead_state() ? ( before_action_moves - u.moves ) : 0 );
-    dbg( D_INFO ) << string_format( "%s: [%d] %d - %d = %d", action_ident( act ).c_str(),
+    dbg( D_INFO ) << string_format( "%s: [%d] %d - %d = %d", action_ident( act ),
                                     static_cast<int>( calendar::turn ), before_action_moves, u.movecounter, u.moves );
     return ( !u.is_dead_state() );
 }

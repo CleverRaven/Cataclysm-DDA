@@ -292,7 +292,7 @@
   {
     "type": "mutation",
     "id": "TABLEMANNERS",
-    "name": "Rigid table manners",
+    "name": "Rigid Table Manners",
     "points": -1,
     "description": "You've been taught proper table manners from your early childhood on.  Now you can't even think about eating without a table.  Eating without it frustrates you, but eating like a civilized person gives you a bigger morale bonus.",
     "starting_trait": true,
@@ -531,8 +531,9 @@
     "description": "You're an excellent navigator and your ability to spot distant landmarks is unmatched.  Your sight radius on the overmap extends beyond the normal range.",
     "valid": false,
     "starting_trait": true,
-    "category": [ "MOUSE" ],
-    "cancels": [ "MYOPIC", "UNOBSERVANT" ]
+    "category": [ "BIRD", "MOUSE" ],
+    "cancels": [ "MYOPIC", "UNOBSERVANT" ],
+    "overmap_sight": 5
   },
   {
     "type": "mutation",
@@ -542,7 +543,8 @@
     "description": "Focal brain damage has rendered you incapable of recognizing landmarks and orienting yourself in your surroundings, severely crippling your sight radius on the overmap.",
     "valid": false,
     "starting_trait": true,
-    "cancels": [ "EAGLEEYED" ]
+    "cancels": [ "EAGLEEYED" ],
+    "overmap_sight": -10
   },
   {
     "type": "mutation",
@@ -564,6 +566,19 @@
     "starting_trait": true,
     "valid": false,
     "social_modifiers": { "intimidate": 5 },
+    "cancels": [ "PACIFIST" ],
+    "flags": [ "CANNIBAL" ]
+  },
+  {
+    "type": "mutation",
+    "id": "KILLER",
+    "name": "Killer Drive",
+    "points": 2,
+    "description": "You derive enjoyment from killing things.  Putting end to life seem to spark some dark satisfaction and thrill, and you crave it every moment.",
+    "starting_trait": true,
+    "valid": false,
+    "social_modifiers": { "intimidate": 10 },
+    "prereqs": [ "PSYCHOPATH" ],
     "cancels": [ "PACIFIST" ],
     "flags": [ "CANNIBAL" ]
   },
@@ -1109,7 +1124,7 @@
     "starting_trait": true,
     "social_modifiers": { "intimidate": -10 },
     "valid": false,
-    "cancels": [ "PSYCHOPATH", "PRED1", "PRED2", "PRED3", "PRED4" ]
+    "cancels": [ "PSYCHOPATH", "KILLER", "PRED1", "PRED2", "PRED3", "PRED4" ]
   },
   {
     "type": "mutation",
@@ -2921,6 +2936,8 @@
     "types": [ "HORNS" ],
     "prereqs": [ "HEADBUMPS" ],
     "category": [ "INSECT" ],
+    "active": true,
+    "starts_active": true,
     "restricts_gear": [ "HEAD" ],
     "allow_soft_gear": true
   },
@@ -5099,6 +5116,18 @@
   },
   {
     "type": "mutation",
+    "id": "TREE_COMMUNION",
+    "name": "Mycorrhizal Communion",
+    "points": 1,
+    "description": "You have gained the ability to commune with trees and comprehend their ancient wisdom. Activate next to a tree to gradually gain overmap vision through connected forests.",
+    "prereqs": [ "ROOTS2", "ROOTS3" ],
+    "threshreq": [ "THRESH_PLANT" ],
+    "category": [ "PLANT" ],
+    "active": true,
+    "cost": 0
+  },
+  {
+    "type": "mutation",
     "id": "COLDBLOOD",
     "name": "Heat Dependent",
     "points": 0,
@@ -6189,5 +6218,34 @@
     "description": "NPC trait that makes it impossible to say anything.  It is a bug if you have it.",
     "player_display": false,
     "threshold": true
+  },
+  {
+    "type": "mutation",
+    "id": "NOMAD",
+    "name": "Nomad",
+    "points": -1,
+    "starting_trait": true,
+    "description": "You're too adventurous for your own good.  The more time you spend somewhere, the unhappier it makes you to be there.",
+    "changes_to": [ "NOMAD2" ],
+    "category": [ "BIRD", "FISH", "CHIMERA" ]
+  },
+  {
+    "type": "mutation",
+    "id": "NOMAD2",
+    "name": "Antsy",
+    "points": -2,
+    "description": "You can't bear to stay still for long.  Your morale will suffer unless you constantly explore new territory.",
+    "prereqs": [ "NOMAD" ],
+    "changes_to": [ "NOMAD3" ],
+    "category": [ "BIRD", "FISH", "CHIMERA" ]
+  },
+  {
+    "type": "mutation",
+    "id": "NOMAD3",
+    "name": "Restless",
+    "points": -4,
+    "description": "Spending any amount of time in familiar places makes you miserable.  Must.  Keep.  Moving.",
+    "prereqs": [ "NOMAD2" ],
+    "category": [ "CHIMERA" ]
   }
 ]
