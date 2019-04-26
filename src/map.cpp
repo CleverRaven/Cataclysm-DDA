@@ -7688,6 +7688,13 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
         }
     }
 
+    // The tile player is standing on should always be transparent
+    const tripoint &p = g->u.pos();
+    if( ( has_furn( p ) && !furn( p ).obj().transparent ) || !ter( p ).obj().transparent ) {
+        get_cache( p.z ).transparency_cache[p.x][p.y] = LIGHT_TRANSPARENCY_CLEAR;
+        set_transparency_cache_dirty( p.z );
+    }
+
     build_seen_cache( g->u.pos(), zlev );
     if( !skip_lightmap ) {
         generate_lightmap( zlev );
