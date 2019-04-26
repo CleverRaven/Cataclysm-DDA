@@ -32,7 +32,13 @@
     "type": "effect_type",
     "id": "dragging",
     "name": [ "Dragging" ],
-    "desc": [ "AI tag for when a monsters is dragging you with it.  This is a bug if you have it." ]
+    "desc": [ "AI tag for when a monster is dragging you behind it.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "opperating",
+    "name": [ "Opperating" ],
+    "desc": [ "AI tag for when a monster is opperating on you.  This is a bug if you have it." ]
   },
   {
     "type": "effect_type",
