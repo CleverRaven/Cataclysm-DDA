@@ -4189,8 +4189,7 @@ void smoker_activate( player &p, const tripoint &examp )
     furn_id next_smoker_type = f_null;
     if( cur_smoker_type == f_smoking_rack ) {
         next_smoker_type = f_smoking_rack_active;
-    } 
-	else if( cur_smoker_type == f_metal_smoking_rack ) {
+    } else if( cur_smoker_type == f_metal_smoking_rack ) {
         next_smoker_type = f_metal_smoking_rack_active;
     } else {
         debugmsg( "Examined furniture has action smoker_activate, but is of type %s",
@@ -4291,7 +4290,7 @@ void smoker_finalize( player &, const tripoint &examp, const time_point &start_t
         next_smoker_type = f_smoking_rack;
     } else if( cur_smoker_type == f_metal_smoking_rack_active ) {
         next_smoker_type = f_metal_smoking_rack;
-	} else {
+    } else {
         debugmsg( "Furniture executed action smoker_finalize, but is of type %s",
                   g->m.furn( examp ).id().c_str() );
         return;
@@ -4332,7 +4331,8 @@ void smoker_load_food( player &p, const tripoint &examp, const units::volume &re
 {
     std::vector<item_comp> comps;
 
-    if( g->m.furn( examp ) == furn_str_id( "f_smoking_rack_active" ) || g->m.furn( examp ) == furn_str_id( "f_metal_smoking_rack_active" ) ) {
+    if( g->m.furn( examp ) == furn_str_id( "f_smoking_rack_active" ) ||
+        g->m.furn( examp ) == furn_str_id( "f_metal_smoking_rack_active" ) ) {
         p.add_msg_if_player( _( "You can't place more food while it's smoking." ) );
         return;
     }
@@ -4442,34 +4442,35 @@ void smoker_load_food( player &p, const tripoint &examp, const units::volume &re
 
 void iexamine::on_smoke_out( const tripoint &examp, const time_point &start_time )
 {
-    if( g->m.furn( examp ) == furn_str_id( "f_smoking_rack_active" ) || g->m.furn( examp ) == furn_str_id( "f_metal_smoking_rack_active" ) ) {
+    if( g->m.furn( examp ) == furn_str_id( "f_smoking_rack_active" ) ||
+        g->m.furn( examp ) == furn_str_id( "f_metal_smoking_rack_active" ) ) {
         smoker_finalize( g->u, examp, start_time );
     }
 }
 
 void iexamine::smoker_options( player &p, const tripoint &examp )
 {
-    const bool active = g->m.furn( examp ) == furn_str_id( "f_smoking_rack_active" ) || g->m.furn( examp ) == furn_str_id( "f_metal_smoking_rack_active" );
-    const bool portable = g->m.furn( examp ) == furn_str_id( "f_metal_smoking_rack" ) || g->m.furn( examp ) == furn_str_id( "f_metal_smoking_rack_active" );
-	auto items_here = g->m.i_at( examp );
-	
-	if( portable && items_here.empty() && active ) {
-		debugmsg( "f_metal_smoking_rack_active was empty!" );
+    const bool active = g->m.furn( examp ) == furn_str_id( "f_smoking_rack_active" ) ||
+                        g->m.furn( examp ) == furn_str_id( "f_metal_smoking_rack_active" );
+    const bool portable = g->m.furn( examp ) == furn_str_id( "f_metal_smoking_rack" ) ||
+                          g->m.furn( examp ) == furn_str_id( "f_metal_smoking_rack_active" );
+    auto items_here = g->m.i_at( examp );
+
+    if( portable && items_here.empty() && active ) {
+        debugmsg( "f_metal_smoking_rack_active was empty!" );
         g->m.furn_set( examp, f_metal_smoking_rack );
-		return;
-	}
-    else if( items_here.empty() && active ) {
+        return;
+    } else if( items_here.empty() && active ) {
         debugmsg( "f_smoking_rack_active was empty!" );
         g->m.furn_set( examp, f_smoking_rack );
         return;
     }
-	if( portable && items_here.size() == 1 && items_here.begin()->typeId() == "fake_smoke_plume" ) {
-		debugmsg( "f_metal_smoking_rack_active was empty, and had fake_smoke_plume!" );
+    if( portable && items_here.size() == 1 && items_here.begin()->typeId() == "fake_smoke_plume" ) {
+        debugmsg( "f_metal_smoking_rack_active was empty, and had fake_smoke_plume!" );
         g->m.furn_set( examp, f_metal_smoking_rack );
         items_here.erase( items_here.begin() );
         return;
-	}
-    else if( items_here.size() == 1 && items_here.begin()->typeId() == "fake_smoke_plume" ) {
+    } else if( items_here.size() == 1 && items_here.begin()->typeId() == "fake_smoke_plume" ) {
         debugmsg( "f_smoking_rack_active was empty, and had fake_smoke_plume!" );
         g->m.furn_set( examp, f_smoking_rack );
         items_here.erase( items_here.begin() );
@@ -4538,12 +4539,12 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
                                  _( "You need %d charges of charcoal for %s %s of food. Minimal amount of charcoal is %d charges." ),
                                  sm_rack::CHARCOAL_PER_LITER, format_volume( 1000_ml ), volume_units_long(),
                                  sm_rack::MIN_CHARCOAL ) );
-		if( portable ) {
-			smenu.addentry_desc( 8, !active, 'd',
-							active ? _( "You cannot disassemble this smoking rack while it is active!" ) :
-							_( "Disassemble the smoking rack" ), _("") ); 
-		}
-		} else {
+        if( portable ) {
+            smenu.addentry_desc( 8, !active, 'd',
+                                 active ? _( "You cannot disassemble this smoking rack while it is active!" ) :
+                                 _( "Disassemble the smoking rack" ), _( "" ) );
+        }
+    } else {
         smenu.addentry_desc( 7, true, 'x',
                              _( "Quench burning charcoal" ),
                              _( "Quenching will stop smoking process, but also destroy all used charcoal." ) );
@@ -4625,11 +4626,10 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
                     i--;
                 }
             }
-			if( portable && active && rem_f_opt ) {
-				g->m.furn_set( examp, f_metal_smoking_rack );
+            if( portable && active && rem_f_opt ) {
+                g->m.furn_set( examp, f_metal_smoking_rack );
                 add_msg( m_info, _( "You stop the smoking process." ) );
-			}
-            else if( active && rem_f_opt ) {
+            } else if( active && rem_f_opt ) {
                 g->m.furn_set( examp, f_smoking_rack );
                 add_msg( m_info, _( "You stop the smoking process." ) );
             }
@@ -4639,18 +4639,18 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
             add_msg( m_info, _( "Never mind." ) );
             break;
         case 7:
-			if( portable ) {
-            g->m.furn_set( examp, f_metal_smoking_rack );
-            add_msg( m_info, _( "You stop the smoking process." ) );
-			} else {
-			g->m.furn_set( examp, f_smoking_rack );
-            add_msg( m_info, _( "You stop the smoking process." ) );
+            if( portable ) {
+                g->m.furn_set( examp, f_metal_smoking_rack );
+                add_msg( m_info, _( "You stop the smoking process." ) );
+            } else {
+                g->m.furn_set( examp, f_smoking_rack );
+                add_msg( m_info, _( "You stop the smoking process." ) );
             }
-			break;
-		case 8:
-			g->m.furn_set( examp, f_metal_smoking_rack );
-			deployed_furniture( p, examp );
-			break;
+            break;
+        case 8:
+            g->m.furn_set( examp, f_metal_smoking_rack );
+            deployed_furniture( p, examp );
+            break;
     }
 }
 
