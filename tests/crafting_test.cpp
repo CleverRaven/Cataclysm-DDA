@@ -427,6 +427,7 @@ static int actually_test_craft( const recipe_id &rid, const std::vector<item> to
     REQUIRE( g->u.morale_crafting_speed_multiplier( rec ) == 1.0 );
     REQUIRE( g->u.lighting_craft_speed_multiplier( rec ) == 1.0 );
     REQUIRE( !g->u.activity );
+    REQUIRE( g->u.has_recipe( &rec, g->u.crafting_inventory(), g->u.get_crafting_helpers() ) != -1 );
     g->u.make_craft( rid, 1 );
     CHECK( g->u.activity );
     CHECK( g->u.activity.id() == activity_id( "ACT_CRAFT" ) );
