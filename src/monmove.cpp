@@ -39,7 +39,7 @@ const efftype_id effect_dragging( "dragging" );
 const efftype_id effect_grabbed( "grabbed" );
 const efftype_id effect_narcosis( "narcosis" );
 const efftype_id effect_no_sight( "no_sight" );
-const efftype_id effect_opperating( "opperating" );
+const efftype_id effect_operating( "operating" );
 const efftype_id effect_pacified( "pacified" );
 const efftype_id effect_pushed( "pushed" );
 const efftype_id effect_stunned( "stunned" );
