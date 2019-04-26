@@ -215,7 +215,7 @@ int cursorx_to_position( const char *line, int cursorx, int *prevpos, int maxlen
     return i;
 }
 
-std::string utf8_truncate( std::string s, size_t length )
+std::string utf8_truncate( const std::string &s, size_t length )
 {
 
     if( length == 0 || s.empty() ) {
