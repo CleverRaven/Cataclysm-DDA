@@ -423,6 +423,7 @@
     "volume": 10,
     "bashing": 13,
     "to_hit": -1,
+	"ranged_damage": 12,
     "range": 8,
     "dispersion": 500,
     "recoil": 30,
