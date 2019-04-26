@@ -838,7 +838,11 @@ bool itag2ivar( const std::string &item_tag, std::map<std::string, std::string> 
 static int get_ranged_pierce( const common_ranged_data &ranged )
 {
     if( ranged.damage.empty() ) {
-        return 0;
+        if( ranged.legacy_pierce ) {
+            return ranged.legacy_pierce;
+        } else {
+            return 0;
+        }
     }
     return ranged.damage.damage_units.front().res_pen;
 }
@@ -1293,7 +1297,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             }
 
             const auto &ammo = *ammo_data()->ammo;
-            if( !ammo.damage.empty() || ammo.prop_damage ) {
+            if( ammo_data()->ammo.has_value() ) {
                 if( !ammo.damage.empty() ) {
                     if( parts->test( iteminfo_parts::AMMO_DAMAGE_VALUE ) ) {
                         info.emplace_back( "AMMO", _( "<bold>Damage</bold>: " ), "",
@@ -1302,8 +1306,12 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                 } else if( ammo.prop_damage ) {
                     if( parts->test( iteminfo_parts::AMMO_DAMAGE_PROPORTIONAL ) ) {
                         info.emplace_back( "AMMO", _( "<bold>Damage multiplier</bold>: " ), "",
-                                           iteminfo::no_newline, *ammo.prop_damage );
+                                           iteminfo::no_newline | iteminfo::is_decimal,
+                                           *ammo.prop_damage );
                     }
+                } else {
+                    info.emplace_back( "AMMO", _( "<bold>No damage change</bold>" ), "",
+                                       iteminfo::no_newline );
                 }
                 if( parts->test( iteminfo_parts::AMMO_DAMAGE_AP ) ) {
                     info.emplace_back( "AMMO", space + _( "Armor-pierce: " ),

@@ -19,6 +19,7 @@ Each topic consists of:
 2. a dynamic line, spoken by the NPC.
 3. an optional list of effects that occur when the NPC speaks the dynamic line
 4. a list of responses that can be spoken by the player character.
+5. a list of repeated responses that can be spoken by the player character, automatically generated if the player or NPC has items in a list of items.
 
 One can specify new topics in json. It is currently not possible to define the starting topic, so you have to add a response to some of the default topics (e.g. "TALK_STRANGER_FRIENDLY" or "TALK_STRANGER_NEUTRAL") or to topics that can be reached somehow.
 
@@ -331,8 +332,32 @@ This is an optional condition which can be used to prevent the response under ce
 
 ---
 
-### response effect
-The `effect` function can be any of the following effects. Multiple effects should be arranged in a list and are processed in the order listed.
+## Repeat Responses
+Repeat responses are responses that should be added to the response list multiple times, once for each instance of an item.
+
+A repeat response has the following format:
+```
+{
+  "for_item": [
+    "jerky", "meat_smoked", "fish_smoked", "cooking_oil", "cooking_oil2", "cornmeal", "flour",
+    "fruit_wine", "beer", "sugar"
+  ],
+  "response": { "text": "Delivering <topic_item>.", "topic": "TALK_DELIVER_ASK" }
+}
+```
+
+`"response"` is mandatory and must be a standard dialogue response, as described above.  `"switch"` is allowed in repeat responses and works normally.
+
+One of `"for_item"` or `"for_category"`, and each can either be a single string or list of items or item categories.  The `response` is generated for each item in the list in the player or NPC's inventory.
+
+`"is_npc"` is an optioanl bool value, and if it is present, the NPC's inventory list is checked.  By default, the player's inventory list is checked.
+
+`"include_containers"` is an optional bool value, and if it is present, items containing an item will generate seperate responses from the item itself.
+
+---
+
+## Dialogue Effects
+The `effect` field of `speaker_effect` or a `response` can be any of the following effects. Multiple effects should be arranged in a list and are processed in the order listed.
 
 #### Missions
 
@@ -377,6 +402,8 @@ buy_100_logs | Places 100 logs in the ranch garage, and makes the NPC unavailabl
 give_equipment | Allows your character to select items from the NPC's inventory and transfer them to your inventory.
 u_buy_item: item_string, (*optional* cost: cost_num, *optional* count: count_num, *optional* container: container_string) | The NPC will give your character the item or `count_num` copies of the item, contained in container, and will remove `cost_num` from your character's cash if specified.<br/>If cost isn't present, the NPC gives your character the item at no charge.
 u_sell_item: item_string, (*optional* cost: cost_num, *optional* count: count_num) | Your character will give the NPC the item or `count_num` copies of the item, and will add `cost_num` to your character's cash if specified.<br/>If cost isn't present, the your character gives the NPC the item at no charge.<br/>This effect will fail if you do not have at least `count_num` copies of the item, so it should be checked with `u_has_items`.
+u_bulk_trade_accept<br/>npc_bulk_trade_accept | Only valid after a repeat_response.  The player trades all instances of the item from the repeat_response with the NPC.  For u_bulk_trade_accept, the player loses the items from their inventory and gains cash; for npc_bulk_trade_accept, the player gains the items from the NPC's inventory and loses cash.
+u_bulk_donate<br/>npc_bulk_donate | Only valid after a repeat_response.  The player or NPC transfers all instances of the item from the repeat_response.  For u_bulk_donate, the player loses the items from their inventory and the NPC gains them; for npc_bulk_donate, the player gains the items from the NPC's inventory and the NPC loses them.
 u_spend_cash: cost_num | Remove `cost_num` from your character's cash.  Negative values means your character gains cash.
 add_debt: mod_list | Increases the NPC's debt to the player by the values in the mod_list.<br/>The following would increase the NPC's debt to the player by 1500x the NPC's altruism and 1000x the NPC's opinion of the player's value: `{ "effect": { "add_debt": [ [ "ALTRUISM", 3 ], [ "VALUE", 2 ], [ "TOTAL", 500 ] ] } }`
 u_consume_item, npc_consume_item: item_string, (*optional* count: count_num) | You or the NPC will delete the item or `count_num` copies of the item from their inventory.<br/>This effect will fail if the you or NPC does not have at least `count_num` copies of the item, so it should be checked with `u_has_items` or `npc_has_items`.

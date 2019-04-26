@@ -57,7 +57,17 @@
     "time": 5000,
     "autolearn": true,
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "battery", 125 ] ] ]
+    "components": [
+      [
+        [ "light_minus_battery_cell", 20 ],
+        [ "light_battery_cell", 10 ],
+        [ "light_plus_battery_cell", 5 ],
+        [ "medium_battery_cell", 2 ],
+        [ "medium_plus_battery_cell", 2 ],
+        [ "heavy_battery_cell", 1 ],
+        [ "heavy_plus_battery_cell", 1 ]
+      ]
+    ]
   },
   {
     "type": "recipe",

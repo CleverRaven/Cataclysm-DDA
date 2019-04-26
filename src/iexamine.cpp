@@ -4723,6 +4723,10 @@ void iexamine::workbench_internal( player &p, const tripoint &examp,
 
             const item *selected_craft = crafts[amenu2.ret].get_item();
 
+            if( !p.can_continue_craft( *selected_craft ) ) {
+                break;
+            }
+
             p.add_msg_player_or_npc(
                 string_format( pgettext( "in progress craft", "You start working on the %s." ),
                                selected_craft->tname() ),

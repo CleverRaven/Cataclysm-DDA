@@ -980,8 +980,9 @@ void draw_stealth( player &u, const catacurses::window &w )
     mvwprintz( w, 0, 0, c_light_gray, _( "Speed" ) );
     mvwprintz( w, 0, 7, value_color( u.get_speed() ), "%s", u.get_speed() );
     mvwprintz( w, 0, 15 - to_string( u.movecounter ).length(), c_light_gray,
-               to_string( u.movecounter ) + ( u.move_mode == "walk" ? "W" : ( u.move_mode == "crouch" ? "C" :
-                       "R" ) ) );
+               to_string( u.movecounter ) + ( u.get_movement_mode() == "walk" ? "W" :
+                       ( u.get_movement_mode() == "crouch" ? "C" :
+                         "R" ) ) );
 
     if( u.is_deaf() ) {
         mvwprintz( w, 0, 22, c_red, _( "DEAF" ) );
@@ -1146,7 +1147,8 @@ void draw_char( player &u, const catacurses::window &w )
     const auto str_walk = pgettext( "movement-type", "W" );
     const auto str_run = pgettext( "movement-type", "R" );
     const auto str_crouch = pgettext( "movement-type", "C" );
-    const char *move = u.move_mode == "walk" ? str_walk : ( u.move_mode == "crouch" ? str_crouch :
+    const char *move = u.get_movement_mode() == "walk" ? str_walk : ( u.get_movement_mode() == "crouch"
+                       ? str_crouch :
                        str_run );
     std::string movecost = std::to_string( u.movecounter ) + "(" + move + ")";
     bool m_style = get_option<std::string>( "MORALE_STYLE" ) == "horizontal";
@@ -1238,6 +1240,17 @@ void draw_env2( const player &u, const catacurses::window &w )
     wrefresh( w );
 }
 
+void draw_weapon_labels( const player &u, const catacurses::window &w )
+{
+    werase( w );
+    nc_color color = c_light_gray;
+    mvwprintz( w, 0, 1, c_light_gray, _( "Wield:" ) );
+    mvwprintz( w, 1, 1, c_light_gray, _( "Style:" ) );
+    print_colored_text( w, 0, 8, color, c_light_gray, u.weapname( getmaxx( w ) - 8 ) );
+    mvwprintz( w, 1, 8, c_light_gray, u.get_combat_style().name );
+    wrefresh( w );
+}
+
 void draw_mod1( const player &u, const catacurses::window &w )
 {
     werase( w );
@@ -1246,19 +1259,16 @@ void draw_mod1( const player &u, const catacurses::window &w )
     std::pair<std::string, nc_color> rest_pair = u.get_fatigue_description();
     std::pair<nc_color, std::string> temp_pair = temp_stat( u );
     std::pair<nc_color, std::string> pain_pair = pain_stat( u );
-    mvwprintz( w, 0, 1, c_light_gray, _( "Wield:" ) );
-    mvwprintz( w, 1, 1, c_light_gray, _( "Food :" ) );
-    mvwprintz( w, 2, 1, c_light_gray, _( "Drink:" ) );
-    mvwprintz( w, 3, 1, c_light_gray, _( "Rest :" ) );
-    mvwprintz( w, 4, 1, c_light_gray, _( "Pain :" ) );
-    mvwprintz( w, 5, 1, c_light_gray, _( "Heat :" ) );
-    nc_color color = c_light_gray;
-    print_colored_text( w, 0, 8, color, c_light_gray, u.weapname( getmaxx( w ) - 8 ) );
-    mvwprintz( w, 1, 8, hunger_pair.second, hunger_pair.first );
-    mvwprintz( w, 2, 8, thirst_pair.second, thirst_pair.first );
-    mvwprintz( w, 3, 8, rest_pair.second, rest_pair.first );
-    mvwprintz( w, 4, 8, pain_pair.first, pain_pair.second );
-    mvwprintz( w, 5, 8, temp_pair.first, temp_pair.second );
+    mvwprintz( w, 0, 1, c_light_gray, _( "Food :" ) );
+    mvwprintz( w, 1, 1, c_light_gray, _( "Drink:" ) );
+    mvwprintz( w, 2, 1, c_light_gray, _( "Rest :" ) );
+    mvwprintz( w, 3, 1, c_light_gray, _( "Pain :" ) );
+    mvwprintz( w, 4, 1, c_light_gray, _( "Heat :" ) );
+    mvwprintz( w, 0, 8, hunger_pair.second, hunger_pair.first );
+    mvwprintz( w, 1, 8, thirst_pair.second, thirst_pair.first );
+    mvwprintz( w, 2, 8, rest_pair.second, rest_pair.first );
+    mvwprintz( w, 3, 8, pain_pair.first, pain_pair.second );
+    mvwprintz( w, 4, 8, temp_pair.first, temp_pair.second );
     wrefresh( w );
 }
 
@@ -1376,8 +1386,9 @@ void draw_health_classic( player &u, const catacurses::window &w )
         mvwprintz( w, 5, 21, u.get_speed() < 100 ? c_red : c_white,
                    _( "Spd " ) + to_string( u.get_speed() ) );
         mvwprintz( w, 5, 26 + to_string( u.get_speed() ).length(), c_white,
-                   to_string( u.movecounter ) + " " + ( u.move_mode == "walk" ? "W" : ( u.move_mode == "crouch" ? "C" :
-                           "R" ) ) );
+                   to_string( u.movecounter ) + " " + ( u.get_movement_mode() == "walk" ? "W" :
+                           ( u.get_movement_mode() == "crouch" ? "C" :
+                             "R" ) ) );
     }
 
     // temperature
@@ -1723,7 +1734,8 @@ std::vector<window_panel> initialize_default_label_panels()
     ret.emplace_back( window_panel( draw_stat, "Stats", 3, 32, true ) );
     ret.emplace_back( window_panel( draw_veh_padding, "Vehicle", 1, 32, true ) );
     ret.emplace_back( window_panel( draw_env1, "Location", 5, 32, true ) );
-    ret.emplace_back( window_panel( draw_mod1, "Needs", 6, 32, true ) );
+    ret.emplace_back( window_panel( draw_weapon_labels, "Weapon", 2, 32, true ) );
+    ret.emplace_back( window_panel( draw_mod1, "Needs", 5, 32, true ) );
     ret.emplace_back( window_panel( draw_messages, "Log", -2, 32, true ) );
     ret.emplace_back( window_panel( draw_env2, "Moon", 2, 32, false ) );
     ret.emplace_back( window_panel( draw_mod2, "Armor", 5, 32, false ) );

@@ -469,7 +469,7 @@ std::vector<std::string> requirement_data::get_folded_list( int width,
             const std::string color_tag = get_tag_from_color( color );
             std::string text = component.to_string( batch );
             if( component.get_component_type() == COMPONENT_ITEM &&
-                component.has( crafting_inv, filter, batch ) ) {
+                has_one ) {
                 const itype_id item_id = static_cast<itype_id>( component.type );
                 long qty;
                 if( item::count_by_charges( item_id ) ) {

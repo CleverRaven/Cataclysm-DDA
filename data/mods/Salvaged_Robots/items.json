@@ -193,7 +193,8 @@
         "move_cost": 1000
       },
       { "type": "place_monster", "monster_id": "mon_craftbuddy", "moves": 100 }
-    ]
+    ],
+    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ]
   },
   {
     "type": "TOOL",

@@ -259,6 +259,15 @@
     "volume": "5ml"
   },
   {
+    "id": "380_casing",
+    "copy-from": "casing",
+    "type": "GENERIC",
+    "name": ".380 ACP casing",
+    "description": "An empty casing from a .380 ACP round.",
+    "weight": 3,
+    "volume": "5ml"
+  },
+  {
     "id": "shot_hull",
     "type": "GENERIC",
     "category": "spare_parts",
