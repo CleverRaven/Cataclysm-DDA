@@ -1,9 +1,12 @@
+#include <memory>
+#include <vector>
+
 #include "catch/catch.hpp"
 #include "game.h"
 #include "map.h"
 #include "player.h"
-#include "veh_type.h"
 #include "vehicle.h"
+#include "enums.h"
 
 TEST_CASE( "destroy_grabbed_vehicle_section" )
 {

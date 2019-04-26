@@ -37,13 +37,6 @@
     "refuel_fires": true
   },
   {
-    "id": "ACT_LONGCRAFT",
-    "type": "activity_type",
-    "stop_phrase": "Stop crafting?",
-    "based_on": "neither",
-    "refuel_fires": true
-  },
-  {
     "id": "ACT_DISASSEMBLE",
     "type": "activity_type",
     "stop_phrase": "Stop disassembly?",
@@ -489,5 +482,21 @@
     "type": "activity_type",
     "stop_phrase": "Stop grooming yourself?",
     "based_on": "time"
+  },
+    "id": "ACT_TREE_COMMUNION",
+    "type": "activity_type",
+    "stop_phrase": "Stop communing with the trees?",
+    "rooted": true,
+    "suspendable": false,
+    "based_on": "time",
+    "no_resume": true
+  },
+  {
+    "id": "ACT_EAT_MENU",
+    "type": "activity_type",
+    "stop_phrase": "Stop eating?",
+    "suspendable": false,
+    "based_on": "neither",
+    "no_resume": true
   }
 ]

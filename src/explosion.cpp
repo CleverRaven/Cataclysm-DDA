@@ -1,11 +1,20 @@
 #include "explosion.h" // IWYU pragma: associated
 #include "fragment_cloud.h" // IWYU pragma: associated
 
+#include <stddef.h>
 #include <algorithm>
-#include <chrono>
+#include <queue>
+#include <random>
+#include <array>
+#include <cmath>
+#include <limits>
+#include <map>
+#include <memory>
+#include <set>
+#include <utility>
+#include <vector>
 
 #include "cata_utility.h"
-#include "character.h"
 #include "creature.h"
 #include "debug.h"
 #include "field.h"
@@ -15,7 +24,6 @@
 #include "math_defines.h"
 #include "map.h"
 #include "messages.h"
-#include "output.h"
 #include "player.h"
 #include "projectile.h"
 #include "shadowcasting.h"
@@ -23,9 +31,19 @@
 #include "translations.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-
-#include <queue>
-#include <random>
+#include "bodypart.h"
+#include "calendar.h"
+#include "color.h"
+#include "damage.h"
+#include "enums.h"
+#include "game_constants.h"
+#include "item.h"
+#include "itype.h"
+#include "line.h"
+#include "optional.h"
+#include "rng.h"
+#include "string_formatter.h"
+#include "units.h"
 
 static const itype_id null_itype( "null" );
 
@@ -215,7 +233,7 @@ void game::do_blast( const tripoint &p, const float power,
         }
 
         add_msg( m_debug, "Blast hits %s with force %.1f",
-                 critter->disp_name().c_str(), force );
+                 critter->disp_name(), force );
 
         player *pl = dynamic_cast<player *>( critter );
         if( pl == nullptr ) {
@@ -224,7 +242,7 @@ void game::do_blast( const tripoint &p, const float power,
             const int actual_dmg = rng( dmg * 2, dmg * 3 );
             critter->apply_damage( nullptr, bp_torso, actual_dmg );
             critter->check_dead_state();
-            add_msg( m_debug, "Blast hits %s for %d damage", critter->disp_name().c_str(), actual_dmg );
+            add_msg( m_debug, "Blast hits %s for %d damage", critter->disp_name(), actual_dmg );
             continue;
         }
 
@@ -257,11 +275,9 @@ void game::do_blast( const tripoint &p, const float power,
             const auto result = pl->deal_damage( nullptr, blp.bp, dmg_instance );
             const int res_dmg = result.total_damage();
 
-            add_msg( m_debug, "%s for %d raw, %d actual",
-                     hit_part_name.c_str(), part_dam, res_dmg );
+            add_msg( m_debug, "%s for %d raw, %d actual", hit_part_name, part_dam, res_dmg );
             if( res_dmg > 0 ) {
-                pl->add_msg_if_player( m_bad, _( "Your %s is hit for %d damage!" ),
-                                       hit_part_name.c_str(), res_dmg );
+                pl->add_msg_if_player( m_bad, _( "Your %s is hit for %d damage!" ), hit_part_name, res_dmg );
             }
         }
     }
@@ -498,7 +514,7 @@ std::vector<tripoint> game::shrapnel( const tripoint &src, int power,
                         non_damaging_hits++;
                     }
                     add_msg( m_debug, "Shrapnel hit %s at %d m/s at a distance of %d",
-                             critter->disp_name().c_str(),
+                             critter->disp_name(),
                              frag.proj.speed, rl_dist( src, target ) );
                     add_msg( m_debug, "Shrapnel dealt %d damage", frag.dealt_dam.total_damage() );
                     if( critter->is_dead_state() ) {
@@ -525,7 +541,7 @@ std::vector<tripoint> game::shrapnel( const tripoint &src, int power,
                     if( critter->is_player() ) {
                         add_msg( ngettext( "You are hit by %s bomb fragment, %s.",
                                            "You are hit by %s bomb fragments, %s.", total_hits ),
-                                 impact_count.c_str(), damage_description );
+                                 impact_count, damage_description );
                     } else if( critter->is_npc() ) {
                         critter->add_msg_if_npc(
                             ngettext( "<npcname> is hit by %s bomb fragment, %s.",
@@ -535,7 +551,7 @@ std::vector<tripoint> game::shrapnel( const tripoint &src, int power,
                     } else {
                         add_msg( ngettext( "The %s is hit by %s bomb fragment, %s.",
                                            "The %s is hit by %s bomb fragments, %s.", total_hits ),
-                                 critter->disp_name().c_str(), impact_count, damage_description );
+                                 critter->disp_name(), impact_count, damage_description );
                     }
                 }
             }

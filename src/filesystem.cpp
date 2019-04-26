@@ -2,19 +2,21 @@
 
 // FILE I/O
 #include <sys/stat.h>
+#include <stdlib.h>
 #include <algorithm>
 #include <cerrno>
-#include <cstddef>
 #include <cstdio>
 #include <cstring>
 #include <deque>
 #include <fstream>
 #include <string>
 #include <vector>
+#include <iterator>
+#include <utility>
 
 #include "debug.h"
 
-#ifdef _MSC_VER
+#if defined(_MSC_VER)
 #   include <direct.h>
 
 #   include "wdirent.h"
@@ -23,7 +25,7 @@
 #   include <unistd.h>
 #endif
 
-#if defined(_WIN32) || defined (__WIN32__)
+#if defined(_WIN32)
 #   include "platform_win.h"
 #endif
 
@@ -31,7 +33,7 @@
 // HACK: mingw only issue as of 14/01/2015
 // TODO: move elsewhere
 //--------------------------------------------------------------------------------------------------
-#if (defined __MINGW32__ || defined __CYGWIN__)
+#if defined(__MINGW32__) || defined(__CYGWIN__)
 size_t strnlen( const char *const start, const size_t maxlen )
 {
     const auto end = reinterpret_cast<const char *>( memchr( start, '\0', maxlen ) );
@@ -42,11 +44,11 @@ size_t strnlen( const char *const start, const size_t maxlen )
 namespace
 {
 
-#if (defined _WIN32 || defined __WIN32__)
+#if defined(_WIN32)
 bool do_mkdir( const std::string &path, const int mode )
 {
     ( void )mode; //not used on windows
-#ifdef _MSC_VER
+#if defined(_MSC_VER)
     return _mkdir( path.c_str() ) == 0;
 #else
     return mkdir( path.c_str() ) == 0;
@@ -82,7 +84,7 @@ bool file_exist( const std::string &path )
     return ( stat( path.c_str(), &buffer ) == 0 );
 }
 
-#if (defined _WIN32 || defined __WIN32__)
+#if defined(_WIN32)
 bool remove_file( const std::string &path )
 {
     return DeleteFile( path.c_str() ) != 0;
@@ -94,7 +96,7 @@ bool remove_file( const std::string &path )
 }
 #endif
 
-#if (defined _WIN32 || defined __WIN32__)
+#if defined(_WIN32)
 bool rename_file( const std::string &old_path, const std::string &new_path )
 {
     // Windows rename function does not override existing targets, so we
@@ -116,7 +118,7 @@ bool rename_file( const std::string &old_path, const std::string &new_path )
 
 bool remove_directory( const std::string &path )
 {
-#if (defined _WIN32 || defined __WIN32__)
+#if defined(_WIN32)
     return RemoveDirectory( path.c_str() );
 #else
     return remove( path.c_str() ) == 0;
@@ -125,7 +127,7 @@ bool remove_directory( const std::string &path )
 
 const char *cata_files::eol()
 {
-#ifdef _WIN32
+#if defined(_WIN32)
     static const char local_eol[] = "\r\n";
 #else
     static const char local_eol[] = "\n";
@@ -169,7 +171,7 @@ void for_each_dir_entry( const std::string &path, Function function )
 }
 
 //--------------------------------------------------------------------------------------------------
-#if !defined (_WIN32) && !defined (__WIN32__)
+#if !defined(_WIN32)
 std::string resolve_path( const std::string &full_path )
 {
     const auto result_str = realpath( full_path.c_str(), nullptr );
@@ -203,7 +205,7 @@ bool is_directory_stat( const std::string &full_path )
         return true;
     }
 
-#if !defined (_WIN32) && !defined (__WIN32__)
+#if !defined(_WIN32)
     if( S_ISLNK( result.st_mode ) ) {
         return is_directory_stat( resolve_path( full_path ) );
     }
@@ -215,7 +217,7 @@ bool is_directory_stat( const std::string &full_path )
 //--------------------------------------------------------------------------------------------------
 // Returns true if entry is a directory, false otherwise.
 //--------------------------------------------------------------------------------------------------
-#if defined (__MINGW32__)
+#if defined(__MINGW32__)
 bool is_directory( const dirent &entry, const std::string &full_path )
 {
     // no dirent::d_type
@@ -229,7 +231,7 @@ bool is_directory( const dirent &entry, const std::string &full_path )
         return true;
     }
 
-#if !defined (_WIN32) && !defined (__WIN32__)
+#if !defined(_WIN32)
     if( entry.d_type == DT_LNK ) {
         return is_directory_stat( resolve_path( full_path ) );
     }

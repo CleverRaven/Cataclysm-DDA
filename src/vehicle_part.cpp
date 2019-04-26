@@ -4,8 +4,8 @@
 #include <cassert>
 #include <cmath>
 #include <set>
+#include <memory>
 
-#include "coordinate_conversions.h"
 #include "debug.h"
 #include "game.h"
 #include "item.h"
@@ -13,12 +13,12 @@
 #include "map.h"
 #include "messages.h"
 #include "npc.h"
-#include "output.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "veh_type.h"
 #include "vpart_position.h"
 #include "weather.h"
+#include "optional.h"
 
 static const itype_id fuel_type_none( "null" );
 static const itype_id fuel_type_battery( "battery" );
@@ -96,6 +96,16 @@ std::string vehicle_part::name() const
     if( base.has_var( "contained_name" ) ) {
         res += string_format( _( " holding %s" ), base.get_var( "contained_name" ) );
     }
+
+    std::string symbol = this->base.damage_symbol();
+    nc_color color = this->base.damage_color();
+
+    if( is_broken() ) {
+        color = c_dark_gray;
+        symbol = _( R"(XX)" );
+    }
+
+    res.insert( 0, "<color_" + string_from_color( color ) + ">" + symbol + "</color> " );
     return res;
 }
 

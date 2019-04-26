@@ -281,7 +281,7 @@
     "reversible": true,
     "autolearn": true,
     "components": [
-      [ [ "stick_long", 1 ], [ "broom", 1 ] ],
+      [ [ "stick_long", 1 ], [ "broom", 1 ], [ "pool_cue", 1 ] ],
       [ [ "spike", 1 ] ],
       [ [ "rag", 1 ], [ "felt_patch", 1 ], [ "leather", 1 ], [ "fur", 1 ] ],
       [ [ "cordage", 1, "LIST" ], [ "duct_tape", 50 ] ]
@@ -1146,7 +1146,7 @@
       { "id": "SCREW", "level": 1 },
       { "id": "WRENCH", "level": 1 }
     ],
-    "components": [ [ [ "elec_chainsaw_off", 1 ] ], [ [ "battery_compartment", 1 ] ], [ [ "steel_chunk", 3 ], [ "scrap", 9 ] ] ]
+    "components": [ [ [ "elec_chainsaw_off", 1 ] ], [ [ "steel_chunk", 3 ], [ "scrap", 9 ] ] ]
   },
   {
     "type": "recipe",
@@ -1405,7 +1405,7 @@
       [ [ "power_supply", 1 ] ],
       [ [ "lens", 1 ], [ "lens_small", 1 ] ],
       [ [ "lens", 1 ], [ "lens_small", 1 ] ],
-      [ [ "battery", 100 ], [ "plut_cell", 1 ] ],
+      [ [ "light_battery_cell", 1 ], [ "plut_cell", 1 ] ],
       [
         [ "scrap", 1 ],
         [ "can_drink_unsealed", 1 ],
@@ -1496,7 +1496,7 @@
       [ [ "power_supply", 1 ] ],
       [ [ "lens", 1 ], [ "lens_small", 1 ] ],
       [ [ "lens", 1 ], [ "lens_small", 1 ] ],
-      [ [ "battery", 100 ], [ "plut_cell", 1 ] ],
+      [ [ "light_battery_cell", 1 ], [ "plut_cell", 1 ] ],
       [
         [ "scrap", 1 ],
         [ "can_drink_unsealed", 1 ],
@@ -2942,7 +2942,7 @@
     "book_learn": [ [ "manual_launcher", 7 ] ],
     "using": [ [ "welding_standard", 3 ] ],
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "sheet_metal", 2 ] ], [ [ "pilot_light", 2 ] ], [ [ "battery", 200 ] ], [ [ "processor", 2 ] ] ]
+    "components": [ [ [ "sheet_metal", 2 ] ], [ [ "pilot_light", 2 ] ], [ [ "light_battery_cell", 2 ] ], [ [ "processor", 2 ] ] ]
   },
   {
     "type": "recipe",

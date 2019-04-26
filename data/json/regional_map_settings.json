@@ -106,6 +106,14 @@
       },
       "boosted_other_percent": 50.0
     },
+    "overmap_forest_settings": {
+      "noise_threshold_forest": 0.2,
+      "noise_threshold_forest_thick": 0.25,
+      "noise_threshold_swamp_adjacent_water": 0.3,
+      "noise_threshold_swamp_isolated": 0.6,
+      "river_floodplain_buffer_distance_min": 3,
+      "river_floodplain_buffer_distance_max": 15
+    },
     "forest_mapgen_settings": {
       "forest": {
         "sparseness_adjacency_factor": 3,
@@ -517,12 +525,6 @@
         }
       }
     },
-    "num_forests": 250,
-    "forest_size_min": 15,
-    "forest_size_max": 40,
-    "swamp_maxsize": 4,
-    "swamp_river_influence": 5,
-    "swamp_spread_chance": 8500,
     "city": {
       "type": "town",
       "shop_radius": 30,
@@ -588,12 +590,15 @@
         "s_clothes": 500,
         "s_library": 200,
         "s_bookstore": 200,
+        "s_bookstore_1": 200,
+        "s_bookstore_2": 200,
         "s_restaurant": 400,
         "s_restaurant_1": 400,
         "s_restaurant_2": 400,
         "s_restaurant_3": 400,
         "sub_station": 500,
         "bank": 300,
+        "bank_1": 300,
         "s_pizza_parlor": 400,
         "s_pizza_parlor_1": 400,
         "bar": 400,
@@ -619,6 +624,8 @@
         "abstorefront_1": 200,
         "abstorefront_2": 200,
         "police": 100,
+        "police_1": 100,
+        "police_2": 100,
         "fire_station": 200,
         "home_improvement": 200,
         "s_lot": 400,
@@ -650,6 +657,7 @@
         "icecream_shop": 200,
         "s_butcher": 200,
         "s_bike_shop": 100,
+        "s_bike_shop_1": 100,
         "paintball_field": 100,
         "smoke_lounge": 100,
         "gambling_hall": 100,
@@ -674,9 +682,8 @@
         "hotel": 75,
         "hospital": 175,
         "public_works": 200,
-        "office_tower": 150,
         "office_tower_2": 150,
-        "office_tower_large": 100,
+        "office_tower_large": 500,
         "office_tower_hiddenlab": 50,
         "mall": 100,
         "home_improvement_superstore_new": 150,

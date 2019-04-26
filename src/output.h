@@ -2,24 +2,33 @@
 #ifndef OUTPUT_H
 #define OUTPUT_H
 
+#include <stddef.h>
+#include <stdint.h>
 #include <sstream>
 #include <string>
 #include <vector>
+#include <algorithm>
+#include <iterator>
+#include <locale>
+#include <utility>
 
 #include "catacharset.h"
 #include "color.h"
+#include "enums.h"
 #include "player.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "units.h"
+#include "debug.h"
 
 struct input_event;
 struct iteminfo;
+
 enum direction : unsigned;
-class input_context;
 namespace catacurses
 {
 class window;
+
 using chtype = int;
 } // namespace catacurses
 
@@ -59,6 +68,18 @@ using chtype = int;
 #define LINE_XOXX_S "┤" // '-|'  Tee pointing left. ncurses: ACS_RTEE; Unicode: U+2524
 #define LINE_OXXX_S "┬" // '^|^' Tee pointing down. ncurses: ACS_TTEE; Unicode: U+252C
 #define LINE_XXXX_S "┼" // '-|-' Large Plus or cross over. ncurses: ACS_PLUS; Unicode: U+253C
+
+#define LINE_XOXO_UNICODE 0x2502
+#define LINE_OXOX_UNICODE 0x2500
+#define LINE_XXOO_UNICODE 0x2514
+#define LINE_OXXO_UNICODE 0x250C
+#define LINE_OOXX_UNICODE 0x2510
+#define LINE_XOOX_UNICODE 0x2518
+#define LINE_XXXO_UNICODE 0x251C
+#define LINE_XXOX_UNICODE 0x2534
+#define LINE_XOXX_UNICODE 0x2524
+#define LINE_OXXX_UNICODE 0x252C
+#define LINE_XXXX_UNICODE 0x253C
 
 // Supports line drawing
 inline std::string string_from_long( const catacurses::chtype ch )
@@ -125,25 +146,6 @@ extern int FULL_SCREEN_WIDTH; // width of "full screen" popups
 extern int FULL_SCREEN_HEIGHT; // height of "full screen" popups
 extern int OVERMAP_WINDOW_WIDTH; // width of overmap window
 extern int OVERMAP_WINDOW_HEIGHT; // height of overmap window
-
-enum game_message_type : int {
-    m_good,    /* something good happened to the player character, e.g. health boost, increasing in skill */
-    m_bad,      /* something bad happened to the player character, e.g. damage, decreasing in skill */
-    m_mixed,   /* something happened to the player character which is mixed (has good and bad parts),
-                  e.g. gaining a mutation with mixed effect*/
-    m_warning, /* warns the player about a danger. e.g. enemy appeared, an alarm sounds, noise heard. */
-    m_info,    /* informs the player about something, e.g. on examination, seeing an item,
-                  about how to use a certain function, etc. */
-    m_neutral,  /* neutral or indifferent events which aren’t informational or nothing really happened e.g.
-                  a miss, a non-critical failure. May also effect for good or bad effects which are
-                  just very slight to be notable. This is the default message type. */
-
-    m_debug, /* only shown when debug_mode is true */
-    /* custom SCT colors */
-    m_headshot,
-    m_critical,
-    m_grazing
-};
 
 nc_color msgtype_to_color( const game_message_type type, const bool bOldMsg = false );
 
@@ -448,7 +450,7 @@ inline void popup( const char *mes, Args &&... args )
 {
     popup( string_format( mes, std::forward<Args>( args )... ), PF_NONE );
 }
-long popup( const std::string &text, PopupFlags flags );
+long popup( const std::string &text, PopupFlags flags = PF_NONE );
 template<typename ...Args>
 inline void full_screen_popup( const char *mes, Args &&... args )
 {

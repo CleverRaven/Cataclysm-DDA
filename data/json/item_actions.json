@@ -1033,5 +1033,9 @@
     "type": "item_action",
     "id": "HAIRBRUSH",
     "name": "Groom yourself"
+  },
+  {
+    "id": "CRAFT",
+    "name": "Work on craft"
   }
 ]

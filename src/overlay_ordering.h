@@ -3,8 +3,7 @@
 #define OVERLAY_ORDERING_H
 
 #include <map>
-
-#include "string_id.h"
+#include <string>
 
 class JsonObject;
 

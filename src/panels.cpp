@@ -1,5 +1,15 @@
 #include "panels.h"
 
+#include <stdlib.h>
+#include <cmath>
+#include <string>
+#include <array>
+#include <iosfwd>
+#include <iterator>
+#include <list>
+#include <memory>
+#include <utility>
+
 #include "action.h"
 #include "cata_utility.h"
 #include "color.h"
@@ -7,7 +17,6 @@
 #include "effect.h"
 #include "game.h"
 #include "game_ui.h"
-#include "gun_mode.h"
 #include "input.h"
 #include "item.h"
 #include "json.h"
@@ -16,7 +25,6 @@
 #include "options.h"
 #include "messages.h"
 #include "overmap.h"
-#include "overmap_ui.h"
 #include "overmapbuffer.h"
 #include "output.h"
 #include "path_info.h"
@@ -25,14 +33,20 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "weather.h"
-#include "weather_gen.h"
-#include <cmath>
-#include <string>
-#include <typeinfo>
-
-#if (defined TILES || defined _WIN32 || defined WINDOWS)
-#include "cursesport.h"
-#endif
+#include "bodypart.h"
+#include "calendar.h"
+#include "catacharset.h"
+#include "character.h"
+#include "compatibility.h"
+#include "debug.h"
+#include "enums.h"
+#include "game_constants.h"
+#include "int_id.h"
+#include "itype.h"
+#include "omdata.h"
+#include "pldata.h"
+#include "string_formatter.h"
+#include "tileray.h"
 
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_THRESH_FELINE( "THRESH_FELINE" );
@@ -297,7 +311,7 @@ void draw_minimap( const player &u, const catacurses::window &w_minimap )
                 ter_sym = "c";
             } else {
                 const oter_id &cur_ter = overmap_buffer.ter( omx, omy, g->get_levz() );
-                ter_sym = cur_ter->get_sym();
+                ter_sym = cur_ter->get_symbol();
                 if( overmap_buffer.is_explored( omx, omy, g->get_levz() ) ) {
                     ter_color = c_dark_gray;
                 } else {
@@ -397,7 +411,7 @@ void decorate_panel( const std::string name, const catacurses::window &w )
     static const char *title_suffix = " ";
     static const std::string full_title = string_format( "%s%s%s",
                                           title_prefix, title, title_suffix );
-    const int start_pos = center_text_pos( full_title.c_str(), 0, getmaxx( w ) - 1 );
+    const int start_pos = center_text_pos( full_title, 0, getmaxx( w ) - 1 );
     mvwprintz( w, 0, start_pos, c_white, title_prefix );
     wprintz( w, c_light_red, title );
     wprintz( w, c_white, title_suffix );
@@ -441,7 +455,7 @@ std::string get_moon()
         case 1:
             return _( "Waxing crescent" );
         case 2:
-            return _( "Half Moon" );
+            return _( "Half moon" );
         case 3:
             return _( "Waxing gibbous" );
         case 4:
@@ -462,25 +476,26 @@ std::string get_moon()
 std::string time_approx()
 {
     const int iHour = hour_of_day<int>( calendar::turn );
-    std::string time_approx;
-    if( iHour >= 22 ) {
-        time_approx = _( "Around midnight" );
-    } else if( iHour >= 20 ) {
-        time_approx = _( "It's getting darker" );
-    } else if( iHour >= 16 ) {
-        time_approx = _( "This is the Evening" );
-    } else if( iHour >= 13 ) {
-        time_approx = _( "In the afternoon" );
-    } else if( iHour >= 11 ) {
-        time_approx = _( "Around noon" );
-    } else if( iHour >= 8 ) {
-        time_approx = _( "Early Morning" );
-    } else if( iHour >= 5 ) {
-        time_approx = _( "Around Dawn" );
-    } else if( iHour >= 0 ) {
-        time_approx = _( "Dead of Night" );
+    if( iHour >= 23 || iHour <= 1 ) {
+        return _( "Around midnight" );
+    } else if( iHour <= 4 ) {
+        return _( "Dead of night" );
+    } else if( iHour <= 6 ) {
+        return _( "Around dawn" );
+    } else if( iHour <= 8 ) {
+        return _( "Early morning" );
+    } else if( iHour <= 10 ) {
+        return _( "Morning" );
+    } else if( iHour <= 13 ) {
+        return _( "Around noon" );
+    } else if( iHour <= 16 ) {
+        return _( "Afternoon" );
+    } else if( iHour <= 18 ) {
+        return _( "Early evening" );
+    } else if( iHour <= 20 ) {
+        return _( "Around dusk" );
     }
-    return time_approx;
+    return _( "Night" );
 }
 
 nc_color value_color( int stat )
@@ -526,84 +541,6 @@ std::pair<nc_color, int> morale_stat( const player &u )
         morale_color = c_red;
     }
     return std::make_pair( morale_color, morale_int );
-}
-
-std::pair<nc_color, std::string> hunger_stat( const player &u )
-{
-    std::string hunger_string;
-    nc_color hunger_color = c_yellow;
-    if( u.get_hunger() >= 300 && u.get_starvation() > 2500 ) {
-        hunger_color = c_red;
-        hunger_string = _( "Starving!" );
-    } else if( u.get_hunger() >= 300 && u.get_starvation() > 1100 ) {
-        hunger_color = c_light_red;
-        hunger_string = _( "Near starving" );
-    } else if( u.get_hunger() > 250 ) {
-        hunger_color = c_light_red;
-        hunger_string = _( "Famished" );
-    } else if( u.get_hunger() > 100 ) {
-        hunger_color = c_yellow;
-        hunger_string = _( "Very hungry" );
-    } else if( u.get_hunger() > 40 ) {
-        hunger_color = c_yellow;
-        hunger_string = _( "Hungry" );
-    } else if( u.get_hunger() < -60 ) {
-        hunger_color = c_green;
-        hunger_string = _( "Engorged" );
-    } else if( u.get_hunger() < -20 ) {
-        hunger_color = c_green;
-        hunger_string = _( "Sated" );
-    } else if( u.get_hunger() < 0 ) {
-        hunger_color = c_green;
-        hunger_string = _( "Full" );
-    }
-    return std::make_pair( hunger_color, hunger_string );
-}
-
-std::pair<nc_color, std::string> thirst_stat( const player &u )
-{
-    std::string hydration_string;
-    nc_color hydration_color = c_yellow;
-    if( u.get_thirst() > 520 ) {
-        hydration_color = c_light_red;
-        hydration_string = _( "Parched" );
-    } else if( u.get_thirst() > 240 ) {
-        hydration_color = c_light_red;
-        hydration_string = _( "Dehydrated" );
-    } else if( u.get_thirst() > 80 ) {
-        hydration_color = c_yellow;
-        hydration_string = _( "Very Thirsty" );
-    } else if( u.get_thirst() > 40 ) {
-        hydration_color = c_yellow;
-        hydration_string = _( "Thirsty" );
-    } else if( u.get_thirst() < -60 ) {
-        hydration_color = c_green;
-        hydration_string = _( "Turgid" );
-    } else if( u.get_thirst() < -20 ) {
-        hydration_color = c_green;
-        hydration_string = _( "Hydrated" );
-    } else if( u.get_thirst() < 0 ) {
-        hydration_color = c_green;
-        hydration_string = _( "Slaked" );
-    }
-    return std::make_pair( hydration_color, hydration_string );
-}
-
-std::pair<nc_color, std::string> rest_stat( const player &u )
-{
-    std::string rest_string;
-    nc_color rest_color = c_yellow;
-    if( u.get_fatigue() > EXHAUSTED ) {
-        rest_color = c_red;
-        rest_string = _( "Exhausted" );
-    } else if( u.get_fatigue() > DEAD_TIRED ) {
-        rest_color = c_light_red;
-        rest_string = _( "Dead tired" );
-    } else if( u.get_fatigue() > TIRED ) {
-        rest_color = c_yellow;
-        rest_string = _( "Tired" );
-    }
-    return std::make_pair( rest_color, rest_string );
 }
 
 std::pair<int, int> temp_delta( const player &u )
@@ -681,13 +618,13 @@ std::pair<nc_color, std::string> temp_delta_arrows( const player &u )
     const int delta = conv_zone - cur_zone;
     // Decide if temp_cur is rising or falling
     if( delta > 2 ) {
-        temp_message = " ↑↑↑" ;
+        temp_message = " ↑↑↑";
         temp_color = c_red;
     } else if( delta == 2 ) {
-        temp_message = " ↑↑" ;
+        temp_message = " ↑↑";
         temp_color = c_light_red;
     } else if( delta == 1 ) {
-        temp_message = " ↑" ;
+        temp_message = " ↑";
         temp_color = c_yellow;
     } else if( delta == 0 ) {
         temp_message = "-";
@@ -714,22 +651,22 @@ std::pair<nc_color, std::string> temp_stat( const player &u )
     // printCur the hottest/coldest bodypart
     std::string temp_string;
     nc_color temp_color = c_yellow;
-    if( u.temp_cur[current_bp_extreme] >         BODYTEMP_SCORCHING ) {
+    if( u.temp_cur[current_bp_extreme] > BODYTEMP_SCORCHING ) {
         temp_color = c_red;
         temp_string = _( "Scorching!" );
-    } else if( u.temp_cur[current_bp_extreme] >  BODYTEMP_VERY_HOT ) {
+    } else if( u.temp_cur[current_bp_extreme] > BODYTEMP_VERY_HOT ) {
         temp_color = c_light_red;
         temp_string = _( "Very hot!" );
-    } else if( u.temp_cur[current_bp_extreme] >  BODYTEMP_HOT ) {
+    } else if( u.temp_cur[current_bp_extreme] > BODYTEMP_HOT ) {
         temp_color = c_yellow;
         temp_string = _( "Warm" );
-    } else if( u.temp_cur[current_bp_extreme] >  BODYTEMP_COLD ) {
+    } else if( u.temp_cur[current_bp_extreme] > BODYTEMP_COLD ) {
         temp_color = c_green;
         temp_string = _( "Comfortable" );
-    } else if( u.temp_cur[current_bp_extreme] >  BODYTEMP_VERY_COLD ) {
+    } else if( u.temp_cur[current_bp_extreme] > BODYTEMP_VERY_COLD ) {
         temp_color = c_light_blue;
         temp_string = _( "Chilly" );
-    } else if( u.temp_cur[current_bp_extreme] >  BODYTEMP_FREEZING ) {
+    } else if( u.temp_cur[current_bp_extreme] > BODYTEMP_FREEZING ) {
         temp_color = c_cyan;
         temp_string = _( "Very cold!" );
     } else if( u.temp_cur[current_bp_extreme] <= BODYTEMP_FREEZING ) {
@@ -924,7 +861,7 @@ void draw_limb_health( player &u, const catacurses::window &w, int limb_index )
     static auto print_symbol_num = []( const catacurses::window & w, int num, const std::string & sym,
     const nc_color & color ) {
         while( num-- > 0 ) {
-            wprintz( w, color, sym.c_str() );
+            wprintz( w, color, sym );
         }
     };
     if( u.hp_cur[limb_index] == 0 && ( limb_index >= hp_arm_l && limb_index <= hp_leg_r ) ) {
@@ -1043,7 +980,9 @@ void draw_stealth( player &u, const catacurses::window &w )
     mvwprintz( w, 0, 0, c_light_gray, _( "Speed" ) );
     mvwprintz( w, 0, 7, value_color( u.get_speed() ), "%s", u.get_speed() );
     mvwprintz( w, 0, 15 - to_string( u.movecounter ).length(), c_light_gray,
-               to_string( u.movecounter ) + ( u.move_mode == "walk" ? "W" : "R" ) );
+               to_string( u.movecounter ) + ( u.get_movement_mode() == "walk" ? "W" :
+                       ( u.get_movement_mode() == "crouch" ? "C" :
+                         "R" ) ) );
 
     if( u.is_deaf() ) {
         mvwprintz( w, 0, 22, c_red, _( "DEAF" ) );
@@ -1128,15 +1067,15 @@ void draw_needs( const player &u, const catacurses::window &w )
 {
     werase( w );
 
-    auto pair = hunger_stat( u );
-    mvwprintz( w, 0, 0, pair.first, pair.second );
-    pair = rest_stat( u );
-    mvwprintz( w, 1, 0, pair.first, pair.second );
-    pair = pain_stat( u );
+    auto hunger_pair = u.get_hunger_description();
+    mvwprintz( w, 0, 0, hunger_pair.second, hunger_pair.first );
+    hunger_pair = u.get_fatigue_description();
+    mvwprintz( w, 1, 0, hunger_pair.second, hunger_pair.first );
+    auto pair = pain_stat( u );
     mvwprintz( w, 2, 0, pair.first, pair.second );
 
-    pair = thirst_stat( u );
-    mvwprintz( w, 0, 17, pair.first, pair.second );
+    hunger_pair = u.get_thirst_description();
+    mvwprintz( w, 0, 17, hunger_pair.second, hunger_pair.first );
     pair = temp_stat( u );
     mvwprintz( w, 1, 17, pair.first, pair.second );
     const auto arrow = temp_delta_arrows( u );
@@ -1167,7 +1106,7 @@ void draw_limb( player &u, const catacurses::window &w )
     }
 
     // display limbs status
-    static std::array<body_part, 6> part = {{
+    static std::array<body_part, 6> part = { {
             bp_head, bp_torso, bp_arm_l, bp_arm_r, bp_leg_l, bp_leg_r
         }
     };
@@ -1198,20 +1137,23 @@ void draw_char( player &u, const catacurses::window &w )
 {
     werase( w );
     std::pair<nc_color, int> morale_pair = morale_stat( u );
-    mvwprintz( w,  0, 1,  c_light_gray, _( "Sound:" ) );
-    mvwprintz( w,  1, 1,  c_light_gray, _( "Stam :" ) );
-    mvwprintz( w,  2, 1,  c_light_gray, _( "Focus:" ) );
-    mvwprintz( w,  0, 19, c_light_gray, _( "Mood :" ) );
-    mvwprintz( w,  1, 19, c_light_gray, _( "Speed:" ) );
-    mvwprintz( w,  2, 19, c_light_gray, _( "Move :" ) );
+    mvwprintz( w, 0, 1, c_light_gray, _( "Sound:" ) );
+    mvwprintz( w, 1, 1, c_light_gray, _( "Stam :" ) );
+    mvwprintz( w, 2, 1, c_light_gray, _( "Focus:" ) );
+    mvwprintz( w, 0, 19, c_light_gray, _( "Mood :" ) );
+    mvwprintz( w, 1, 19, c_light_gray, _( "Speed:" ) );
+    mvwprintz( w, 2, 19, c_light_gray, _( "Move :" ) );
 
     const auto str_walk = pgettext( "movement-type", "W" );
     const auto str_run = pgettext( "movement-type", "R" );
-    const char *move = u.move_mode == "walk" ? str_walk : str_run;
+    const auto str_crouch = pgettext( "movement-type", "C" );
+    const char *move = u.get_movement_mode() == "walk" ? str_walk : ( u.get_movement_mode() == "crouch"
+                       ? str_crouch :
+                       str_run );
     std::string movecost = std::to_string( u.movecounter ) + "(" + move + ")";
     bool m_style = get_option<std::string>( "MORALE_STYLE" ) == "horizontal";
     std::string smiley = morale_emotion( morale_pair.second, get_face_type( u ), m_style );
-    mvwprintz( w,  0, 8, c_light_gray, "%s", u.volume );
+    mvwprintz( w, 0, 8, c_light_gray, "%s", u.volume );
 
     // print stamina
     auto needs_pair = std::make_pair( get_hp_bar( u.stamina, u.get_stamina_max() ).second,
@@ -1221,10 +1163,10 @@ void draw_char( player &u, const catacurses::window &w )
         mvwprintz( w, 1, 12 - i, c_white, "." );
     }
 
-    mvwprintz( w,  2, 8, focus_color( u.focus_pool ), "%s", u.focus_pool );
-    mvwprintz( w,  0, 26, morale_pair.first, "%s", smiley );
-    mvwprintz( w,  1, 26, focus_color( u.get_speed() ), "%s", u.get_speed() );
-    mvwprintz( w,  2, 26, c_light_gray, "%s", movecost );
+    mvwprintz( w, 2, 8, focus_color( u.focus_pool ), "%s", u.focus_pool );
+    mvwprintz( w, 0, 26, morale_pair.first, "%s", smiley );
+    mvwprintz( w, 1, 26, focus_color( u.get_speed() ), "%s", u.get_speed() );
+    mvwprintz( w, 2, 26, c_light_gray, "%s", movecost );
     wrefresh( w );
 }
 
@@ -1232,22 +1174,22 @@ void draw_stat( player &u, const catacurses::window &w )
 {
     werase( w );
 
-    mvwprintz( w, 0, 1,  c_light_gray, _( "Str  :" ) );
-    mvwprintz( w, 1, 1,  c_light_gray, _( "Int  :" ) );
+    mvwprintz( w, 0, 1, c_light_gray, _( "Str  :" ) );
+    mvwprintz( w, 1, 1, c_light_gray, _( "Int  :" ) );
     mvwprintz( w, 0, 19, c_light_gray, _( "Dex  :" ) );
     mvwprintz( w, 1, 19, c_light_gray, _( "Per  :" ) );
 
     nc_color stat_clr = str_string( u ).first;
     mvwprintz( w, 0, 8, stat_clr, "%s", u.str_cur );
-    stat_clr = dex_string( u ).first;
-    mvwprintz( w, 1, 8, stat_clr, "%s", u.int_cur );
     stat_clr = int_string( u ).first;
+    mvwprintz( w, 1, 8, stat_clr, "%s", u.int_cur );
+    stat_clr = dex_string( u ).first;
     mvwprintz( w, 0, 26, stat_clr, "%s", u.dex_cur );
     stat_clr = per_string( u ).first;
     mvwprintz( w, 1, 26, stat_clr, "%s", u.per_cur );
 
     std::pair<nc_color, std::string> pwr_pair = power_stat( u );
-    mvwprintz( w, 2, 1,  c_light_gray, _( "Power:" ) );
+    mvwprintz( w, 2, 1, c_light_gray, _( "Power:" ) );
     mvwprintz( w, 2, 19, c_light_gray, _( "Safe :" ) );
     mvwprintz( w, 2, 8, pwr_pair.first, "%s", pwr_pair.second );
     mvwprintz( w, 2, 26, safe_color(), g->safe_mode ? _( "On" ) : _( "Off" ) );
@@ -1266,13 +1208,12 @@ void draw_env1( const player &u, const catacurses::window &w )
         mvwprintz( w, 1, 1, c_light_gray, _( "Sky  : Underground" ) );
     } else {
         mvwprintz( w, 1, 1, c_light_gray, _( "Sky  :" ) );
-        wprintz( w, weather_data( g->weather ).color, " %s",
-                 weather_data( g->weather ).name.c_str() );
+        wprintz( w, weather_data( g->weather ).color, " %s", weather_data( g->weather ).name );
     }
     // display lighting
     const auto ll = get_light_level( g->u.fine_detail_vision_mod() );
     mvwprintz( w, 2, 1, c_light_gray, "%s ", _( "Light:" ) );
-    wprintz( w, ll.second, ll.first.c_str() );
+    wprintz( w, ll.second, ll.first );
 
     // display date
     mvwprintz( w, 3, 1, c_light_gray, _( "Date : %s, day %d" ),
@@ -1294,32 +1235,40 @@ void draw_env1( const player &u, const catacurses::window &w )
 void draw_env2( const player &u, const catacurses::window &w )
 {
     werase( w );
-    mvwprintz( w, 0, 1, c_light_gray, _( "Moon : %s" ), get_moon( ) );
+    mvwprintz( w, 0, 1, c_light_gray, _( "Moon : %s" ), get_moon() );
     mvwprintz( w, 1, 1, c_light_gray, _( "Temp : %s" ), get_temp( u ) );
+    wrefresh( w );
+}
+
+void draw_weapon_labels( const player &u, const catacurses::window &w )
+{
+    werase( w );
+    nc_color color = c_light_gray;
+    mvwprintz( w, 0, 1, c_light_gray, _( "Wield:" ) );
+    mvwprintz( w, 1, 1, c_light_gray, _( "Style:" ) );
+    print_colored_text( w, 0, 8, color, c_light_gray, u.weapname( getmaxx( w ) - 8 ) );
+    mvwprintz( w, 1, 8, c_light_gray, u.get_combat_style().name );
     wrefresh( w );
 }
 
 void draw_mod1( const player &u, const catacurses::window &w )
 {
     werase( w );
-    std::pair<nc_color, std::string> hunger_pair = hunger_stat( u );
-    std::pair<nc_color, std::string> thirst_pair = thirst_stat( u );
-    std::pair<nc_color, std::string> rest_pair = rest_stat( u );
+    std::pair<std::string, nc_color> hunger_pair = u.get_hunger_description();
+    std::pair<std::string, nc_color> thirst_pair = u.get_thirst_description();
+    std::pair<std::string, nc_color> rest_pair = u.get_fatigue_description();
     std::pair<nc_color, std::string> temp_pair = temp_stat( u );
     std::pair<nc_color, std::string> pain_pair = pain_stat( u );
-    mvwprintz( w, 0,  1,  c_light_gray, _( "Wield:" ) );
-    mvwprintz( w, 1,  1,  c_light_gray, _( "Food :" ) );
-    mvwprintz( w, 2,  1,  c_light_gray, _( "Drink:" ) );
-    mvwprintz( w, 3,  1,  c_light_gray, _( "Rest :" ) );
-    mvwprintz( w, 4,  1,  c_light_gray, _( "Pain :" ) );
-    mvwprintz( w, 5,  1,  c_light_gray, _( "Heat :" ) );
-    nc_color color = c_light_gray;
-    print_colored_text( w, 0,  8, color, c_light_gray, u.weapname( getmaxx( w ) - 8 ) );
-    mvwprintz( w, 1,  8, hunger_pair.first, hunger_pair.second );
-    mvwprintz( w, 2,  8, thirst_pair.first, thirst_pair.second );
-    mvwprintz( w, 3,  8, rest_pair.first, rest_pair.second );
-    mvwprintz( w, 4,  8, pain_pair.first, pain_pair.second );
-    mvwprintz( w, 5,  8, temp_pair.first, temp_pair.second );
+    mvwprintz( w, 0, 1, c_light_gray, _( "Food :" ) );
+    mvwprintz( w, 1, 1, c_light_gray, _( "Drink:" ) );
+    mvwprintz( w, 2, 1, c_light_gray, _( "Rest :" ) );
+    mvwprintz( w, 3, 1, c_light_gray, _( "Pain :" ) );
+    mvwprintz( w, 4, 1, c_light_gray, _( "Heat :" ) );
+    mvwprintz( w, 0, 8, hunger_pair.second, hunger_pair.first );
+    mvwprintz( w, 1, 8, thirst_pair.second, thirst_pair.first );
+    mvwprintz( w, 2, 8, rest_pair.second, rest_pair.first );
+    mvwprintz( w, 3, 8, pain_pair.first, pain_pair.second );
+    mvwprintz( w, 4, 8, temp_pair.first, temp_pair.second );
     wrefresh( w );
 }
 
@@ -1340,11 +1289,11 @@ void draw_env_compact( player &u, const catacurses::window &w )
     if( g->get_levz() < 0 ) {
         mvwprintz( w, 3, 8, c_light_gray, _( "Underground" ) );
     } else {
-        mvwprintz( w, 3, 8, weather_data( g->weather ).color, weather_data( g->weather ).name.c_str() );
+        mvwprintz( w, 3, 8, weather_data( g->weather ).color, weather_data( g->weather ).name );
     }
     // display lighting
     const auto ll = get_light_level( g->u.fine_detail_vision_mod() );
-    mvwprintz( w, 4, 8, ll.second, ll.first.c_str() );
+    mvwprintz( w, 4, 8, ll.second, ll.first );
     // wind
     const oter_id &cur_om_ter = overmap_buffer.ter( u.global_omt_location() );
     double windpower = get_local_windpower( g->windspeed, cur_om_ter,
@@ -1387,16 +1336,16 @@ void draw_health_classic( player &u, const catacurses::window &w )
     }
 
     // needs
-    auto needs_pair = hunger_stat( u );
-    mvwprintz( w, 1, 21, needs_pair.first, needs_pair.second );
-    needs_pair = thirst_stat( u );
-    mvwprintz( w, 2, 21, needs_pair.first, needs_pair.second );
+    auto needs_pair = u.get_hunger_description();
+    mvwprintz( w, 1, 21, needs_pair.second, needs_pair.first );
+    needs_pair = u.get_thirst_description();
+    mvwprintz( w, 2, 21, needs_pair.second, needs_pair.first );
     mvwprintz( w, 4, 21, c_white, _( "Focus" ) );
     mvwprintz( w, 4, 27, c_white, to_string( u.focus_pool ) );
-    needs_pair = rest_stat( u );
-    mvwprintz( w, 3, 21, needs_pair.first, needs_pair.second );
-    needs_pair = pain_stat( u );
-    mvwprintz( w, 0, 21, needs_pair.first, needs_pair.second );
+    needs_pair = u.get_fatigue_description();
+    mvwprintz( w, 3, 21, needs_pair.second, needs_pair.first );
+    auto pain_pair = pain_stat( u );
+    mvwprintz( w, 0, 21, pain_pair.first, pain_pair.second );
 
     // print mood
     std::pair<nc_color, int> morale_pair = morale_stat( u );
@@ -1406,14 +1355,14 @@ void draw_health_classic( player &u, const catacurses::window &w )
 
     if( !veh ) {
         // stats
-        needs_pair = str_string( u );
-        mvwprintz( w, 0, 38, needs_pair.first, needs_pair.second );
-        needs_pair = dex_string( u );
-        mvwprintz( w, 1, 38, needs_pair.first, needs_pair.second );
-        needs_pair = int_string( u );
-        mvwprintz( w, 2, 38, needs_pair.first, needs_pair.second );
-        needs_pair = per_string( u );
-        mvwprintz( w, 3, 38, needs_pair.first, needs_pair.second );
+        auto pair = str_string( u );
+        mvwprintz( w, 0, 38, pair.first, pair.second );
+        pair = dex_string( u );
+        mvwprintz( w, 1, 38, pair.first, pair.second );
+        pair = int_string( u );
+        mvwprintz( w, 2, 38, pair.first, pair.second );
+        pair = per_string( u );
+        mvwprintz( w, 3, 38, pair.first, pair.second );
     }
 
     // print safe mode// print safe mode
@@ -1424,11 +1373,11 @@ void draw_health_classic( player &u, const catacurses::window &w )
     mvwprintz( w, 4, 40, safe_color(), safe_str );
 
     // print stamina
-    needs_pair = std::make_pair( get_hp_bar( u.stamina, u.get_stamina_max() ).second,
-                                 get_hp_bar( u.stamina, u.get_stamina_max() ).first );
+    auto pair = std::make_pair( get_hp_bar( u.stamina, u.get_stamina_max() ).second,
+                                get_hp_bar( u.stamina, u.get_stamina_max() ).first );
     mvwprintz( w, 5, 35, c_light_gray, _( "Stm" ) );
-    mvwprintz( w, 5, 39, needs_pair.first, needs_pair.second );
-    for( size_t i = 0; i < 5 - needs_pair.second.length(); i++ ) {
+    mvwprintz( w, 5, 39, pair.first, pair.second );
+    for( size_t i = 0; i < 5 - pair.second.length(); i++ ) {
         mvwprintz( w, 5, 43 - i, c_white, "." );
     }
 
@@ -1437,17 +1386,19 @@ void draw_health_classic( player &u, const catacurses::window &w )
         mvwprintz( w, 5, 21, u.get_speed() < 100 ? c_red : c_white,
                    _( "Spd " ) + to_string( u.get_speed() ) );
         mvwprintz( w, 5, 26 + to_string( u.get_speed() ).length(), c_white,
-                   to_string( u.movecounter ) + " " + ( u.move_mode == "walk" ? "W" : "R" ) );
+                   to_string( u.movecounter ) + " " + ( u.get_movement_mode() == "walk" ? "W" :
+                           ( u.get_movement_mode() == "crouch" ? "C" :
+                             "R" ) ) );
     }
 
     // temperature
-    needs_pair = temp_stat( u );
-    mvwprintz( w, 6, 21, needs_pair.first, needs_pair.second + temp_delta_string( u ) );
+    pair = temp_stat( u );
+    mvwprintz( w, 6, 21, pair.first, pair.second + temp_delta_string( u ) );
 
     // power
-    needs_pair = power_stat( u );
+    pair = power_stat( u );
     mvwprintz( w, 6, 8, c_light_gray, _( "POWER" ) );
-    mvwprintz( w, 6, 14, needs_pair.first, needs_pair.second );
+    mvwprintz( w, 6, 14, pair.first, pair.second );
 
     // vehicle display
     if( veh ) {
@@ -1676,7 +1627,7 @@ void draw_weapon_classic( const player &u, const catacurses::window &w )
     const auto &cur_style = u.style_selected.obj();
     if( !u.weapon.is_gun() ) {
         if( cur_style.force_unarmed || cur_style.weapon_valid( u.weapon ) ) {
-            style = _( cur_style.name.c_str() );
+            style = _( cur_style.name );
         } else if( u.is_armed() ) {
             style = _( "Normal" );
         } else {
@@ -1743,9 +1694,9 @@ std::vector<window_panel> initialize_default_classic_panels()
     ret.emplace_back( window_panel( draw_weapon_classic, "Weapon", 1, 44, true ) );
     ret.emplace_back( window_panel( draw_time_classic, "Time", 1, 44, true ) );
     ret.emplace_back( window_panel( draw_armor, "Armor", 5, 44, false ) );
-    ret.emplace_back( window_panel( draw_compass_padding, "Compass", 6, 44, true ) );
+    ret.emplace_back( window_panel( draw_compass_padding, "Compass", 8, 44, true ) );
     ret.emplace_back( window_panel( draw_messages_classic, "Log", -2, 44, true ) );
-#ifdef TILES
+#if defined(TILES)
     ret.emplace_back( window_panel( draw_mminimap, "Map", -1, 44, true ) );
 #endif // TILES
 
@@ -1766,7 +1717,7 @@ std::vector<window_panel> initialize_default_compact_panels()
     ret.emplace_back( window_panel( draw_armor, "Armor", 5, 32, false ) );
     ret.emplace_back( window_panel( draw_messages_classic, "Log", -2, 32, true ) );
     ret.emplace_back( window_panel( draw_compass, "Compass", 8, 32, true ) );
-#ifdef TILES
+#if defined(TILES)
     ret.emplace_back( window_panel( draw_mminimap, "Map", -1, 32, true ) );
 #endif // TILES
 
@@ -1783,12 +1734,13 @@ std::vector<window_panel> initialize_default_label_panels()
     ret.emplace_back( window_panel( draw_stat, "Stats", 3, 32, true ) );
     ret.emplace_back( window_panel( draw_veh_padding, "Vehicle", 1, 32, true ) );
     ret.emplace_back( window_panel( draw_env1, "Location", 5, 32, true ) );
-    ret.emplace_back( window_panel( draw_mod1, "Needs", 6, 32, true ) );
+    ret.emplace_back( window_panel( draw_weapon_labels, "Weapon", 2, 32, true ) );
+    ret.emplace_back( window_panel( draw_mod1, "Needs", 5, 32, true ) );
     ret.emplace_back( window_panel( draw_messages, "Log", -2, 32, true ) );
     ret.emplace_back( window_panel( draw_env2, "Moon", 2, 32, false ) );
     ret.emplace_back( window_panel( draw_mod2, "Armor", 5, 32, false ) );
     ret.emplace_back( window_panel( draw_compass_padding, "Compass", 8, 32, true ) );
-#ifdef TILES
+#if defined(TILES)
     ret.emplace_back( window_panel( draw_mminimap, "Map", -1, 32, true ) );
 #endif // TILES
 
@@ -1828,9 +1780,32 @@ const std::string panel_manager::get_current_layout_id() const
     return current_layout_id;
 }
 
+int panel_manager::get_width_right()
+{
+    if( get_option<std::string>( "SIDEBAR_POSITION" ) == "left" ) {
+        return width_left;
+    }
+    return width_right;
+}
+
+int panel_manager::get_width_left()
+{
+    if( get_option<std::string>( "SIDEBAR_POSITION" ) == "left" ) {
+        return width_right;
+    }
+    return width_left;
+}
+
 void panel_manager::init()
 {
     load();
+    update_offsets( get_current_layout().begin()->get_width() );
+}
+
+void panel_manager::update_offsets( int x )
+{
+    width_right = x;
+    width_left = 0;
 }
 
 bool panel_manager::save()
@@ -1911,7 +1886,7 @@ void panel_manager::deserialize( JsonIn &jsin )
                     if( it->get_name() != name ) {
                         window_panel panel = *it2;
                         layout.erase( it2 );
-                        layout.insert( it, panel );
+                        it = layout.insert( it, panel );
                     }
                     it->toggle = joPanel.get_bool( "toggle" );
                     ++it;
@@ -2031,17 +2006,18 @@ void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t
             }
             current_layout_id = iter->first;
             int width = panel_manager::get_manager().get_current_layout().begin()->get_width();
+            update_offsets( width );
             int h; // to_map_font_dimension needs a second input
             to_map_font_dimension( width, h );
             if( get_option<std::string>( "SIDEBAR_POSITION" ) == "left" ) {
                 width *= -1;
             }
-            // divided by two because we want the offset to center the screen
-            g->sidebar_offset.x = width / 2;
             werase( w );
             wrefresh( g->w_terrain );
             g->reinitmap = true;
             g->draw_panels( column, index );
+            // tell the game that the main screen might have a different size now.
+            g->init_ui( true );
             return;
         } else if( action == "RIGHT" || action == "LEFT" ) {
             // there are only two columns

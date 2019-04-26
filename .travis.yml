@@ -37,7 +37,7 @@ jobs:
     # Initial test stage, if this fails everything else is cancelled.
     - stage: test
       # GCC 5 is the pre-installed compiler on Xenial
-      env: COMPILER=g++ MODS=--mods=RL_Classes
+      env: COMPILER=g++ MODS=--mods=RL_Classes TEST_STAGE=1
 
     # Then build different configurations and targets in parallel.
     - stage: variants
@@ -63,8 +63,8 @@ jobs:
         apt:
           packages: ["wine"]
 
-    # CMake Clang 6.0 Tiles
-    - env: CLANG=clang++-6.0 TILES=1 SOUND=1 CXXFLAGS=-Wno-error=unused-command-line-argument CMAKE=1
+    # CMake Clang 6.0 Tiles with CMAKE
+    - env: CLANG=clang++-6.0 TILES=1 SOUND=1 CXXFLAGS=-Wno-error=unused-command-line-argument CMAKE=1 RELEASE=1
       dist: trusty
       compiler: clang
       addons: &clang60
