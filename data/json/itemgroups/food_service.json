@@ -976,5 +976,50 @@
       { "item": "stout", "prob": 10, "container-item": "keg" },
       { "item": "imperial_stout", "prob": 5, "container-item": "keg" }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "butcher_raw_meat",
+    "items": [
+      [ "meat", 8 ],
+      [ "lunchmeat", 6 ],
+      { "item": "lung", "prob": 1, "charges": 2 },
+      { "item": "kidney", "prob": 1, "charges": 2 },
+      { "item": "liver", "prob": 1, "charges": 1 },
+      { "item": "brain", "prob": 1, "charges": 1 },
+      { "item": "sweetbread", "prob": 2, "charges": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "butcher_meat",
+    "items": [
+      [ "meat", 20 ],
+      [ "offal", 10 ],
+      [ "lunchmeat", 15 ],
+      [ "bologna", 10 ],
+      [ "hotdogs_frozen", 6 ],
+      [ "sausage", 4 ],
+      [ "sweet_sausage", 2 ],
+      [ "bratwurst_sausage", 4 ],
+      [ "meat_salted", 2 ],
+      [ "meat_canned", 2 ],
+      [ "offal_canned", 2 ],
+      [ "meat_smoked", 2 ],
+      { "item": "meat_pickled", "prob": 2, "charges": 2, "container-item": "jar_glass_sealed" },
+      { "item": "offal_pickled", "prob": 2, "charges": 2, "container-item": "jar_glass_sealed" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "butcher_tools",
+    "items": [
+      [ "knife_steak", 20 ],
+      [ "knife_butcher", 30 ],
+      [ "tongs", 10 ],
+      [ "carver_off", 5 ],
+      [ "meat", 1 ],
+      [ "hacksaw", 10 ]
+    ]
   }
 ]
