@@ -47,7 +47,7 @@
     "symbol": "!",
     "color": "pink",
     "use_action": "ADRENALINE_INJECTOR",
-    "flags": "NO_INGEST"
+    "flags": [ "NO_INGEST" ]
   },
   {
     "id": "antibiotics",
