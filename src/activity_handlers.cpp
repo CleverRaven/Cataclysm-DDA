@@ -2716,6 +2716,11 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
         return;
     }
 
+    if( !p->can_continue_craft( *craft ) ) {
+        p->cancel_activity();
+        return;
+    }
+
     const recipe &rec = craft->get_making();
     const tripoint loc = act->targets.front().where() == item_location::type::character ?
                          tripoint_zero : act->targets.front().position();
