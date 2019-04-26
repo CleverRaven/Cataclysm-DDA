@@ -256,6 +256,7 @@
         "F": "f_glass_fridge",
         "k": "f_rack",
         "l": "f_desk",
+        "L": "f_locker",
         "m": "f_trashcan",
         "p": "f_metal_butcher_rack",
         "S": "f_sink"
