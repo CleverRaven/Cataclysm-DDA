@@ -1100,7 +1100,7 @@
     "armor_bash": 8,
     "armor_cut": 10,
     "revert_to_itype": "bot_nursebot",
-    "special_attacks": [ [ "OPERATE", 30 ] ],
+    "special_attacks": [ [ "OPERATE", 1 ] ],
     "death_drops": { "groups": [ [ "robots", 4 ] ] },
     "death_function": [ "BROKEN" ],
     "flags": [ "SEES", "ELECTRONIC", "NO_BREATHE", "FIREPROOF", "PUSH_MON", "HEARS" ]
