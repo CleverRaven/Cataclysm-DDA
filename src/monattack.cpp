@@ -100,6 +100,7 @@ const efftype_id effect_grabbed( "grabbed" );
 const efftype_id effect_infected( "infected" );
 const efftype_id effect_laserlocked( "laserlocked" );
 const efftype_id effect_onfire( "onfire" );
+const efftype_id effect_operating( "operating" );
 const efftype_id effect_paralyzepoison( "paralyzepoison" );
 const efftype_id effect_raising( "raising" );
 const efftype_id effect_rat( "rat" );
@@ -2712,7 +2713,8 @@ bool mattack::nurse_assist( monster *z )
 }
 bool mattack::nurse_operate( monster *z )
 {
-    if( !within_visual_range( z, 6 ) || z->has_effect( effect_dragging ) ) {
+    if( !within_visual_range( z, 6 ) || z->has_effect( effect_dragging ) ||
+        z->has_effect( effect_operating ) ) {
         return false;
     }
 
