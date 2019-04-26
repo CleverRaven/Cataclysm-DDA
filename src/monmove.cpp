@@ -547,7 +547,7 @@ void monster::move()
     if( mon_id == mon_defective_robot_nurse && has_effect( effect_dragging ) ) {
 
 
-        if( rl_dist( pos(), goal ) == 1 ) {
+        if( rl_dist( pos(), goal ) == 1 && g->m.furn( goal ) == furn_id( "f_autodoc_couch" ) ) {
             if( g->u.has_effect( effect_grabbed ) ) {
                 g->u.setpos( goal );
                 add_msg( m_bad, _( "The %s slowy but firmly puts you down onto the autodoc couch." ), name() );
@@ -555,7 +555,6 @@ void monster::move()
                     add_effect( effect_countdown, 2_turns );
                     add_msg( m_bad, _( "The %s produces a syringe full of some translucent liquid." ), name() );
                 }
-
             }
         }
         if( get_effect_dur( effect_countdown ) == 1_turns ) {
