@@ -1,7 +1,7 @@
 [
   {
     "type": "monstergroup",
-    "name": "GROUP_FUNGI_FUNGALOIDS",
+    "name": "GROUP_FUNGI_FUNGALOID",
     "default": "mon_fungaloid",
     "monsters": [
       { "monster": "mon_fungaloid", "freq": 300, "cost_multiplier": 0 },
