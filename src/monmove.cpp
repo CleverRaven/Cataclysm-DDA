@@ -39,6 +39,7 @@ const efftype_id effect_dragging( "dragging" );
 const efftype_id effect_grabbed( "grabbed" );
 const efftype_id effect_narcosis( "narcosis" );
 const efftype_id effect_no_sight( "no_sight" );
+const efftype_id effect_opperating( "opperating" );
 const efftype_id effect_pacified( "pacified" );
 const efftype_id effect_pushed( "pushed" );
 const efftype_id effect_stunned( "stunned" );
@@ -402,21 +403,6 @@ void monster::plan( const mfactions &factions )
                             if( !has_effect( effect_countdown ) ) {
                                 add_effect( effect_countdown, 2_turns );
                                 add_msg( m_bad, _( "The %s produces a syringe full of some translucent liquid." ), name() );
-                            } else if( get_effect_dur( effect_countdown ) == 1_turns ) {
-                                if( g->u.has_effect( effect_grabbed ) ) {
-
-                                    bionic_collection collec = *g->u.my_bionics;
-                                    int index = rng( 0, collec.size() - 1 );
-                                    bionic target_cbm = collec[index];
-                                    item bionic_to_uninstall = item( target_cbm.id.str(), 0 );
-                                    const itype *itemtype = bionic_to_uninstall.type;
-                                    const time_duration duration = itemtype->bionic->difficulty * 20_minutes;
-
-                                    add_msg( m_bad,
-                                             _( "You feel a tiny pricking sensation in your right arm, and lose all sensation before abruptly blacking out." ) );
-                                    g->u.add_effect( effect_narcosis, duration );
-                                    g->u.fall_asleep( duration );
-                                }
                             }
 
                         }
@@ -426,6 +412,23 @@ void monster::plan( const mfactions &factions )
             if( !found_path_to_couch ) {
                 anger = 0;
                 remove_effect( effect_dragging );
+            }
+
+            if( get_effect_dur( effect_countdown ) == 1_turns ) {
+                if( g->u.has_effect( effect_grabbed ) ) {
+
+                    bionic_collection collec = *g->u.my_bionics;
+                    int index = rng( 0, collec.size() - 1 );
+                    bionic target_cbm = collec[index];
+                    item bionic_to_uninstall = item( target_cbm.id.str(), 0 );
+                    const itype *itemtype = bionic_to_uninstall.type;
+                    const time_duration duration = itemtype->bionic->difficulty * 20_minutes;
+                    add_effect( effect_opperating, duration );
+                    add_msg( m_bad,
+                             _( "You feel a tiny pricking sensation in your right arm, and lose all sensation before abruptly blacking out." ) );
+                    g->u.add_effect( effect_narcosis, duration );
+                    g->u.fall_asleep( duration );
+                }
             }
         }
 
