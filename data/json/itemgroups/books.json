@@ -27,6 +27,22 @@
     ]
   },
   {
+    "id": "boxing_books",
+    "type": "item_group",
+    "items": [
+      [ "mag_unarmed", 40 ],
+      [ "manual_boxing", 50 ],
+      [ "mag_melee", 25 ],
+      [ "mag_bashing", 10 ],
+      [ "manual_melee", 15 ],
+      [ "recipe_melee", 10 ],
+      [ "manual_taekwondo", 10 ],
+      [ "manual_karate", 10 ],
+      [ "manual_muay_thai", 2 ],
+      [ "manual_krav_maga", 10 ]
+    ]
+  },
+  {
     "type": "item_group",
     "id": "book_martial",
     "//": "Books about martial arts",
