@@ -20,10 +20,7 @@
     "id": "ammo_380",
     "type": "requirement",
     "//": "Components required for 380 ammo",
-    "components": [
-      [ [ "380_casing", 1 ] ],
-      [ [ "smpistol_primer", 1 ] ]
-    ]
+    "components": [ [ [ "380_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ] ]
   },
   {
     "id": "ammo_shot",
