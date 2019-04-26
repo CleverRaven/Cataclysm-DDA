@@ -6520,7 +6520,7 @@ void player::suffer()
         } else if( has_effect( effect_shakes ) && one_in( 75 ) ) {
             moves -= 10;
             add_msg_player_or_npc( m_warning, _( "Your shaking legs make you stumble." ),
-                                   _( "<npcname stumbles." ) );
+                                   _( "<npcname> stumbles." ) );
             if( !has_effect( effect_downed ) && one_in( 10 ) ) {
                 add_msg_player_or_npc( m_bad, _( "You fall over!" ), _( "<npcname> falls over!" ) );
                 add_effect( effect_downed, rng( 3_turns, 10_turns ) );
