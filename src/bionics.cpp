@@ -817,7 +817,7 @@ void player::process_bionic( int b )
     }
 }
 
-void player::bionics_uninstall_failure( player &installer, int difficulty, int success,
+void player::bionics_uninstall_failure( Creature &installer, int difficulty, int success,
                                         float adjusted_skill )
 {
     // "success" should be passed in as a negative integer representing how far off we
@@ -835,28 +835,52 @@ void player::bionics_uninstall_failure( player &installer, int difficulty, int s
         add_msg( m_neutral, _( "The removal fails without incident." ) );
         return;
     }
-    switch( rng( 1, 5 ) ) {
-        case 1:
-            installer.add_msg_player_or_npc( m_neutral,
-                                             _( "You flub the removal." ),
-                                             _( "<npcname> flubs the removal." ) );
-            break;
-        case 2:
-            installer.add_msg_player_or_npc( m_neutral,
-                                             _( "You mess up the removal." ),
-                                             _( "<npcname> messes up the removal." ) );
-            break;
-        case 3:
-            add_msg( m_neutral, _( "The removal fails." ) );
-            break;
-        case 4:
-            add_msg( m_neutral, _( "The removal is a failure." ) );
-            break;
-        case 5:
-            installer.add_msg_player_or_npc( m_neutral,
-                                             _( "You screw up the removal." ),
-                                             _( "<npcname> screws up the removal." ) );
-            break;
+    if( !installer.is_monster() ) {
+
+
+        switch( rng( 1, 5 ) ) {
+            case 1:
+                installer.add_msg_player_or_npc( m_neutral,
+                                                 _( "You flub the removal." ),
+                                                 _( "<npcname> flubs the removal." ) );
+                break;
+            case 2:
+                installer.add_msg_player_or_npc( m_neutral,
+                                                 _( "You mess up the removal." ),
+                                                 _( "<npcname> messes up the removal." ) );
+                break;
+            case 3:
+                add_msg( m_neutral, _( "The removal fails." ) );
+                break;
+            case 4:
+                add_msg( m_neutral, _( "The removal is a failure." ) );
+                break;
+            case 5:
+                installer.add_msg_player_or_npc( m_neutral,
+                                                 _( "You screw up the removal." ),
+                                                 _( "<npcname> screws up the removal." ) );
+                break;
+        }
+
+    } else {
+
+        switch( rng( 1, 5 ) ) {
+            case 1:
+                add_msg( m_mixed, _( "%s flub the operation." ), installer.disp_name() );
+                break;
+            case 2:
+                add_msg( m_mixed, _( "%s messes up the operation." ), installer.disp_name() );
+                break;
+            case 3:
+                add_msg( m_mixed, _( "The operation fails." ) );
+                break;
+            case 4:
+                add_msg( m_mixed, _( "The operation is a failure." ) );
+                break;
+            case 5:
+                add_msg( m_mixed, _( "%s screws up the operation." ), installer.disp_name() );
+                break;
+        }
     }
 
     switch( fail_type ) {
@@ -879,6 +903,8 @@ void player::bionics_uninstall_failure( player &installer, int difficulty, int s
             hurtall( rng( 30, 80 ), this ); // stop hurting yourself!
             break;
     }
+
+
 
 }
 
