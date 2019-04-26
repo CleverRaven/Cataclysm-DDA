@@ -2707,24 +2707,24 @@ int iuse::dig( player *p, item *it, bool t, const tripoint & )
     }
 
     if( grave ) {
-        if( g->u.has_trait_flag( "SPIRITUAL" ) && !g->u.has_trait_flag( "PSYCHOPATH" ) &&
-            g->u.query_yn( _( "Would you really touch the sacred resting place of the dead?" ) ) ) {
-            add_msg( m_info, _( "Exhuming a grave is really against your beliefs." ) );
-            g->u.add_morale( MORALE_GRAVEDIGGER, -50, -100, 48_hours, 12_hours );
-            if( one_in( 3 ) ) {
-                g->u.vomit();
-            }
-        } else if( g->u.has_trait_flag( "PSYCHOPATH" ) ) {
-            p->add_msg_if_player( m_good,
-                                  _( "Exhuming a grave is fun now, where there is no one to object." ) );
-            p->add_morale( MORALE_GRAVEDIGGER, 25, 50, 2_hours, 1_hours );
-        } else if( !g->u.has_trait_flag( "EATDEAD" ) && !g->u.has_trait_flag( "SAPROVORE" ) ) {
-            p->add_msg_if_player( m_bad, _( "Exhuming this grave is utterly disgusting!" ) );
-            p->add_morale( MORALE_GRAVEDIGGER, -25, -50, 2_hours, 1_hours );
-            if( one_in( 5 ) ) {
-                p->vomit();
-            }
-        }
+	    if( g->u.has_trait( trait_id("SPIRITUAL") ) && !g->u.has_trait( trait_id("PSYCHOPATH") ) &&
+			    g->u.query_yn( _( "Would you really touch the sacred resting place of the dead?" ) ) ) {
+		    add_msg( m_info, _( "Exhuming a grave is really against your beliefs." ) );
+		    g->u.add_morale( MORALE_GRAVEDIGGER, -50, -100, 48_hours, 12_hours );
+		    if( one_in( 3 ) ) {
+			    g->u.vomit();
+		    }
+	    } else if( g->u.has_trait( trait_id("PSYCHOPATH") ) ) {
+		    p->add_msg_if_player( m_good,
+				    _( "Exhuming a grave is fun now, where there is no one to object." ) );
+		    g->u.add_morale( MORALE_GRAVEDIGGER, 25, 50, 2_hours, 1_hours );
+	    } else if( !g->u.has_trait( trait_id("EATDEAD") ) && !g->u.has_trait( trait_id("SAPROVORE") ) ) {
+		    p->add_msg_if_player( m_bad, _( "Exhuming this grave is utterly disgusting!" ) );
+		    g->u.add_morale( MORALE_GRAVEDIGGER, -25, -50, 2_hours, 1_hours );
+		    if( one_in( 5 ) ) {
+			    p->vomit();
+		    }
+	    }
     }
 
     const std::vector<npc *> helpers = g->u.get_crafting_helpers();
