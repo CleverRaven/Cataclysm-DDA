@@ -583,10 +583,15 @@ void monster::move()
                 int success = chance_of_success - rng( 1, 100 );
                 if( success > 0 ) {
 
-                    // until bionics can be flagged as non-removable
-                    add_msg_player_or_npc( m_neutral, _( "Your parts are jiggled back into their familiar places." ),
-                                           _( "<npcname>'s parts are jiggled back into their familiar places." ) );
-                    add_msg( m_mixed, _( "Successfully removed %s." ), target_cbm.info().name );
+                    if( attack_target()->is_player ) {
+                        add_msg( m_neutral, _( "Your parts are jiggled back into their familiar places." ) );
+                        add_msg( m_mixed, _( "Successfully removed %s." ), target_cbm.info().name );
+                    } else if( attack_target()->is_npc && g->u.sees( *this ) ) {
+                        add_msg( m_neutral, _( "%s's parts are jiggled back into their familiar places." ),
+                                 attack_target()->disp_name() );
+                        add_msg( m_mixed, _( "Successfully removed %s." ), target_cbm.info().name );
+                    }
+
                     // remove power bank provided by bionic
                     g->u.max_power_level -= target_cbm.info().capacity;
                     g->u.remove_bionic( target_cbm.id );
