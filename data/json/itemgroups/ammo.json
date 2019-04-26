@@ -377,5 +377,83 @@
       { "item": "9x18mm_casing", "prob": 80, "count": 20 },
       { "item": "shot_hull", "prob": 100, "count": 20 }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_light_batteries",
+    "items": [
+      { "item": "light_battery_cell", "prob": 50, "charges-min": 0, "charges-max": 100 },
+      { "item": "light_minus_battery_cell", "prob": 30, "charges-min": 0, "charges-max": 50 },
+      { "item": "light_plus_battery_cell", "prob": 20, "charges-min": 0, "charges-max": 150 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_light_batteries_full",
+    "items": [
+      { "item": "light_battery_cell", "prob": 50, "charges-min": 100, "charges-max": 100 },
+      { "item": "light_minus_battery_cell", "prob": 30, "charges-min": 50, "charges-max": 50 },
+      { "item": "light_plus_battery_cell", "prob": 20, "charges-min": 150, "charges-max": 150 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_medium_batteries",
+    "items": [
+      { "item": "medium_battery_cell", "prob": 80, "charges-min": 0, "charges-max": 500 },
+      { "item": "medium_plus_battery_cell", "prob": 20, "charges-min": 0, "charges-max": 600 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_medium_batteries_full",
+    "items": [
+      { "item": "medium_battery_cell", "prob": 80, "charges-min": 500, "charges-max": 500 },
+      { "item": "medium_plus_battery_cell", "prob": 20, "charges-min": 600, "charges-max": 600 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_heavy_batteries",
+    "items": [
+      { "item": "heavy_battery_cell", "prob": 80, "charges-min": 0, "charges-max": 1000 },
+      { "item": "heavy_plus_battery_cell", "prob": 20, "charges-min": 0, "charges-max": 1250 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_heavy_batteries_full",
+    "items": [
+      { "item": "heavy_battery_cell", "prob": 80, "charges-min": 1000, "charges-max": 1000 },
+      { "item": "heavy_plus_battery_cell", "prob": 20, "charges-min": 1250, "charges-max": 1250 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_any_batteries_full",
+    "items": [
+      { "group": "ammo_light_batteries_full", "prob": 5 },
+      { "group": "ammo_medium_batteries_full", "prob": 5 },
+      { "group": "ammo_heavy_batteries_full", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_any_batteries",
+    "items": [
+      { "group": "ammo_light_batteries", "prob": 5 },
+      { "group": "ammo_medium_batteries", "prob": 5 },
+      { "group": "ammo_heavy_batteries", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_pocket_batteries",
+    "items": [ { "group": "ammo_light_batteries", "prob": 10 }, { "group": "ammo_medium_batteries", "prob": 1 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_pocket_batteries_full",
+    "items": [ { "group": "ammo_light_batteries_full", "prob": 5 }, { "group": "ammo_medium_batteries_full", "prob": 5 } ]
   }
 ]

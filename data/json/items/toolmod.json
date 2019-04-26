@@ -22,15 +22,6 @@
     "flags": [ "NO_UNLOAD", "LEAK_DAM", "RADIOACTIVE" ]
   },
   {
-    "id": "battery_compartment",
-    "copy-from": "mod_battery",
-    "type": "TOOLMOD",
-    "category": "spare_parts",
-    "name": "extra battery mod",
-    "description": "This is a homemade battery compartment made with spare electronics.  With enough electronics skill, you could attach this to any electronic tool to double the amount of batteries it can hold.",
-    "capacity_multiplier": 2
-  },
-  {
     "id": "battery_ups",
     "copy-from": "mod_battery",
     "type": "TOOLMOD",
@@ -65,5 +56,38 @@
     "color": "light_green",
     "acceptable_ammo": [ "battery" ],
     "magazine_adaptor": [ [ "battery", [ "small_storage_battery", "battery_car", "battery_motorbike" ] ] ]
+  },
+  {
+    "id": "magazine_battery_light_mod",
+    "copy-from": "mod_battery",
+    "type": "TOOLMOD",
+    "category": "spare_parts",
+    "name": "light battery mod",
+    "description": "A battery compartment mod that allows the use of light batteries in tools that otherwise could not.",
+    "color": "light_green",
+    "acceptable_ammo": [ "battery" ],
+    "magazine_adaptor": [ [ "battery", [ "light_battery_cell", "light_plus_battery_cell", "light_minus_battery_cell" ] ] ]
+  },
+  {
+    "id": "magazine_battery_medium_mod",
+    "copy-from": "mod_battery",
+    "type": "TOOLMOD",
+    "category": "spare_parts",
+    "name": "medium battery mod",
+    "description": "A battery compartment mod that allows the use of medium batteries in tools that otherwise could not.",
+    "color": "light_green",
+    "acceptable_ammo": [ "battery" ],
+    "magazine_adaptor": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ]
+  },
+  {
+    "id": "magazine_battery_heavy_mod",
+    "copy-from": "mod_battery",
+    "type": "TOOLMOD",
+    "category": "spare_parts",
+    "name": "heavy battery mod",
+    "description": "A battery compartment mod that allows the use of heavy batteries in tools that otherwise could not.",
+    "color": "light_green",
+    "acceptable_ammo": [ "battery" ],
+    "magazine_adaptor": [ [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell" ] ] ]
   }
 ]

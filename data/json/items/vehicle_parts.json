@@ -1015,7 +1015,7 @@
     "type": "GENERIC",
     "id": "recharge_station",
     "name": "UPS-compatible recharging station",
-    "description": "A Unified Power System recharging station designed to operate on vehicle power.  Once installed in a vehicle storage space and turned on from a dashboard or electronics control unit, it will slowly charge all tools with rechargeable batteries in that space.  The system can only be installed in existing storage compartments.",
+    "description": "A Unified Power System recharging station designed to operate on vehicle power.  Once installed in a vehicle storage space and turned on from a dashboard or electronics control unit, it will slowly charge all UPS compatible tools and battery cells in that space.  The system can only be installed in existing storage compartments.",
     "weight": 10000,
     "to_hit": 1,
     "color": "light_blue",
