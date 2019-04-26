@@ -4,6 +4,7 @@
 
 #include <cmath>
 
+#include "bionics.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "field.h"
@@ -31,10 +32,12 @@
 const species_id FUNGUS( "FUNGUS" );
 
 const efftype_id effect_bouldering( "bouldering" );
+const efftype_id effect_countdown( "countdown" );
 const efftype_id effect_docile( "docile" );
 const efftype_id effect_downed( "downed" );
 const efftype_id effect_dragging( "dragging" );
 const efftype_id effect_grabbed( "grabbed" );
+const efftype_id effect_narcosis( "narcosis" );
 const efftype_id effect_no_sight( "no_sight" );
 const efftype_id effect_pacified( "pacified" );
 const efftype_id effect_pushed( "pushed" );
@@ -397,6 +400,26 @@ void monster::plan( const mfactions &factions )
                             g->u.setpos( couch_pos );
                             unset_dest();
                             add_msg( m_bad, _( "The %s slowy but firmly puts you down onto the autodoc couch." ), name() );
+                            if( !has_effect( effect_countdown ) ) {
+                                add_effect( effect_countdown, 2_turns );
+                                add_msg( m_bad, _( "The %s produces a syringe full of some translucent liquid." ), name() );
+                            } else if( get_effect_dur( effect_countdown ) == 1_turns ) {
+                                if( g->u.has_effect( effect_grabbed ) ) {
+
+                                    bionic_collection collec = *g->u.my_bionics;
+                                    int index = rng( 0, collec.size() );
+                                    bionic target_cbm = collec[index];
+                                    item bionic_to_uninstall = item( target_cbm.id.str(), 0 );
+                                    const itype *itemtype = bionic_to_uninstall.type;
+                                    const time_duration duration = itemtype->bionic->difficulty * 20_minutes;
+
+                                    add_msg( m_bad,
+                                             _( "You feel a tiny pricking sensation in your right arm, and lose all sensation before abruptly blacking out." ) );
+                                    g->u.add_effect( effect_narcosis, duration );
+                                    g->u.fall_asleep( duration );
+                                }
+                            }
+
                         }
                     }
                 }
