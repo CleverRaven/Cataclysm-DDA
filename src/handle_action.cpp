@@ -17,6 +17,7 @@
 #include "construction.h"
 #include "cursesdef.h"
 #include "debug.h"
+#include "debug_menu.h"
 #include "faction.h"
 #include "field.h"
 #include "game_constants.h"
@@ -2031,7 +2032,7 @@ bool game::handle_action()
                 if( MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger() ) {
                     break;    //don't do anything when sharing and not debugger
                 }
-                debug();
+                debug_menu::debug();
                 refresh_all();
                 break;
 

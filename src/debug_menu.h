@@ -2,6 +2,7 @@
 #ifndef DEBUG_MENU_H
 #define DEBUG_MENU_H
 
+#define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 struct tripoint;
 
 namespace cata
@@ -26,6 +27,8 @@ void wishmutate( player *p );
 void wishskill( player *p );
 void mutation_wish();
 void draw_benchmark( const int max_difference );
+
+void debug();
 
 
 }

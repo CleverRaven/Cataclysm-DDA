@@ -982,7 +982,9 @@ class game
         void rebuild_mon_at_cache();
 
         // Routine loop functions, approximately in order of execution
+    public:
         void cleanup_dead();     // Delete any dead NPCs/monsters
+    private:
         void monmove();          // Monster movement
         void overmap_npc_move(); // NPC overmap movement
         void process_activity(); // Processes and enacts the player's activity
@@ -1026,11 +1028,12 @@ class game
         void disp_kills();          // Display the player's kill counts
         void disp_faction_ends();   // Display the faction endings
         void disp_NPC_epilogues();  // Display NPC endings
-        void disp_NPCs();           // Currently UNUSED.  Lists global NPCs.
+    public:
+        void disp_NPCs();           // Currently for debug use.  Lists global NPCs.
+    private:
         void list_missions();       // Listed current, completed and failed missions (mission_ui.cpp)
 
         // Debug functions
-        void debug();           // All-encompassing debug screen. TODO: This.
         void display_scent();   // Displays the scent map
 
         Creature *is_hostile_within( int distance );
@@ -1109,7 +1112,8 @@ class game
         cata::optional<int> wind_direction_override;
         cata::optional<int> windspeed_override;
         weather_type weather_override;
-
+        // not only sets nextweather, but updates weather as well
+        void set_nextweather( time_point t );
     private:
         std::shared_ptr<player> u_shared_ptr;
         std::vector<std::shared_ptr<npc>> active_npc;
