@@ -193,27 +193,6 @@ void talk_function::goto_location( npc &p )
     return;
 }
 
-std::string bulk_trade_inquire( const npc &, const itype_id &it )
-{
-    int you_have = g->u.charges_of( it );
-    item tmp( it );
-    int item_cost = tmp.price( true );
-    tmp.charges = you_have;
-    int total_cost = tmp.price( true );
-    return string_format( _( "I'm willing to pay %s per batch for a total of %s" ),
-                          format_money( item_cost ), format_money( total_cost ) );
-}
-
-void bulk_trade_accept( npc &, const itype_id &it )
-{
-    int you_have = g->u.charges_of( it );
-    item tmp( it );
-    tmp.charges = you_have;
-    int total = tmp.price( true );
-    g->u.use_charges( it, you_have );
-    g->u.cash += total;
-}
-
 void talk_function::assign_guard( npc &p )
 {
     if( !p.is_following() ) {
