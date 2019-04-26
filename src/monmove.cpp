@@ -396,6 +396,7 @@ void monster::plan( const mfactions &factions )
                     if( rl_dist( pos(), couch_pos ) == 1 && !has_effect( effect_operating ) ) {
                         if( g->u.has_effect( effect_grabbed ) ) {
                             g->u.setpos( couch_pos );
+                            unset_dest();
                             add_msg( m_bad, _( "The %s slowy but firmly puts you down onto the autodoc couch." ), name() );
                             if( !has_effect( effect_countdown ) ) {
                                 add_effect( effect_countdown, 3_turns );
