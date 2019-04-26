@@ -377,7 +377,7 @@ void monster::plan( const mfactions &factions )
 
     if( has_effect( effect_dragging ) ) {
         bool found_path_to_couch = false;
-        tripoint tmp( 12, 12, pos().z );
+        tripoint tmp( pos().x+12, pos().y+12, pos().z );
         for( const auto &couch_pos : g->m.find_furnitures_in_radius( pos(), 10,
                 furn_id( "f_autodoc_couch" ) ) ) {
             if( g->m.clear_path( pos(), couch_pos, 10, 0, 100 ) ) {
