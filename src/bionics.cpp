@@ -380,7 +380,7 @@ bool player::activate_bionic( int b, bool eff_only )
         mod_moves( -100 );
     } else if( bio.id == "bio_evap" ) {
         item water = item( "water_clean", 0 );
-        water.reset_temp_check();
+        water.set_item_temperature( 283.15 );
         int humidity = weatherPoint.humidity;
         int water_charges = lround( humidity * 3.0 / 100.0 );
         // At 50% relative humidity or more, the player will draw 2 units of water
@@ -445,6 +445,7 @@ bool player::activate_bionic( int b, bool eff_only )
                     query_yn( _( "Extract water from the %s" ),
                               colorize( it->tname(), it->color_in_inventory() ) ) ) {
                     item water( "water_clean", calendar::turn, avail );
+                    water.set_item_temperature( 0.00001 * it->temperature );
                     if( g->consume_liquid( water ) ) {
                         extracted = true;
                         it->set_var( "remaining_water", static_cast<int>( water.charges ) );

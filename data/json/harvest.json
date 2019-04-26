@@ -252,7 +252,7 @@
     "type": "harvest",
     "entries": [
       { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.4 },
-      { "drop": "feather", "type": "skin", "mass_ratio": 0.05 }
+      { "drop": "feather", "type": "skin", "mass_ratio": 0.01 }
     ]
   },
   {
@@ -262,7 +262,7 @@
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.3 },
       { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.05 },
       { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
-      { "drop": "feather", "type": "skin", "mass_ratio": 0.05 }
+      { "drop": "feather", "type": "skin", "mass_ratio": 0.01 }
     ]
   },
   {
@@ -272,7 +272,7 @@
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.3 },
       { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.03 },
       { "drop": "fat", "type": "flesh", "mass_ratio": 0.18 },
-      { "drop": "feather", "type": "skin", "mass_ratio": 0.03 },
+      { "drop": "feather", "type": "skin", "mass_ratio": 0.02 },
       { "drop": "bone", "type": "bone", "mass_ratio": 0.1 }
     ]
   },
