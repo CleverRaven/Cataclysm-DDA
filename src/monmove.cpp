@@ -423,7 +423,7 @@ void monster::plan( const mfactions &factions )
                     item bionic_to_uninstall = item( target_cbm.id.str(), 0 );
                     const itype *itemtype = bionic_to_uninstall.type;
                     const time_duration duration = itemtype->bionic->difficulty * 20_minutes;
-                    add_effect( effect_opperating, duration );
+                    add_effect( effect_operating, duration );
                     add_msg( m_bad,
                              _( "You feel a tiny pricking sensation in your right arm, and lose all sensation before abruptly blacking out." ) );
                     g->u.add_effect( effect_narcosis, duration );
