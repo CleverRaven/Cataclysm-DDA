@@ -58,6 +58,7 @@ const efftype_id effect_high( "high" );
 const efftype_id effect_iodine( "iodine" );
 const efftype_id effect_narcosis( "narcosis" );
 const efftype_id effect_meth( "meth" );
+const efftype_id effect_operating( "operating" );
 const efftype_id effect_paincysts( "paincysts" );
 const efftype_id effect_pblue( "pblue" );
 const efftype_id effect_pkill1( "pkill1" );
@@ -1087,6 +1088,8 @@ bool player::uninstall_bionic( const bionic &target_cbm, monster &installer, pla
     int success = chance_of_success - rng( 1, 100 );
 
     const time_duration duration = difficulty * 20_minutes;
+
+    installer.add_effect( effect_operating, duration );
 
     if( patient.is_player() ) {
         add_msg( m_bad,
