@@ -38,7 +38,8 @@
     "stim": -5,
     "addiction_potential": 6,
     "container": "test_tube",
-    "tools_needed": "syringe"
+    "tools_needed": "syringe",
+    "flags": "NO_INGEST"
   },
   {
     "id": "iv_mutagen",
@@ -468,7 +469,7 @@
     "healthy": -6,
     "stim": -5,
     "use_action": "PURIFY_SMART",
-    "flags": [ "NPC_SAFE", "TRADER_AVOID", "NUTRIENT_OVERRIDE" ]
+    "flags": [ "NPC_SAFE", "TRADER_AVOID", "NUTRIENT_OVERRIDE", "NO_INGEST" ]
   },
   {
     "type": "COMESTIBLE",

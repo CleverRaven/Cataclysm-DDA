@@ -7533,7 +7533,18 @@ bool player::consume_med( item &target )
 
     // TODO: Get the target it was used on
     // Otherwise injecting someone will give us addictions etc.
-    consume_effects( target );
+    if( target.has_flag( "NO_INGEST" ) ) {
+        const auto &comest = *target.get_comestible();
+        // Assume that parenteral meds don't spoil, so don't apply rot
+        modify_health( comest );
+        modify_stimulation( comest );
+        modify_addiction( comest );
+        modify_morale( target );
+    } else {
+        // Take by mouth
+        consume_effects( target );
+    }
+
     mod_moves( -250 );
     target.charges -= amount_used;
     return target.charges <= 0;
