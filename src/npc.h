@@ -7,31 +7,48 @@
 #include <set>
 #include <string>
 #include <vector>
+#include <array>
+#include <iosfwd>
+#include <list>
+#include <unordered_map>
+#include <utility>
 
 #include "calendar.h"
-#include "faction.h"
 #include "line.h"
 #include "optional.h"
 #include "pimpl.h"
 #include "player.h"
-#include "simple_pathfinding.h"
+#include "auto_pickup.h"
+#include "color.h"
+#include "creature.h"
+#include "cursesdef.h"
+#include "enums.h"
+#include "int_id.h"
+#include "inventory.h"
+#include "item_location.h"
+#include "itype.h"
+#include "pldata.h"
+#include "string_formatter.h"
+#include "string_id.h"
+#include "material.h"
 
 class JsonObject;
 class JsonIn;
 class JsonOut;
 class item;
-class overmap;
-class player;
-class field_entry;
 class npc_class;
-class auto_pickup;
 class monfaction;
 struct mission_type;
-struct npc_companion_mission;
 struct overmap_location;
+class Character;
+class faction;
+class mission;
+class vehicle;
+struct pathfinding_settings;
 
 enum game_message_type : int;
 class gun_mode;
+
 using npc_class_id = string_id<npc_class>;
 using mission_type_id = string_id<mission_type>;
 using mfaction_id = int_id<monfaction>;
@@ -276,7 +293,7 @@ struct npc_follower_rules {
     void clear_override( ally_rule setit );
 
     void set_danger_overrides();
-    void clear_danger_overrides();
+    void clear_overrides();
 };
 
 struct dangerous_sound {
@@ -529,7 +546,6 @@ struct npc_chatbin {
     void deserialize( JsonIn &jsin );
 };
 
-class npc;
 class npc_template;
 struct epilogue;
 
@@ -628,6 +644,7 @@ class npc : public player
         bool is_following() const; // Traveling w/ player (whether as a friend or a slave)
         bool is_friend() const; // Allies with the player
         bool is_leader() const; // Leading the player
+        bool is_ally( const player &p ) const; // in the same faction
         bool is_assigned_to_camp() const;
         /** is performing a player_activity */
         bool has_player_activity() const;
@@ -694,7 +711,7 @@ class npc : public player
         void say( const char *const line, Args &&... args ) const {
             return say( string_format( line, std::forward<Args>( args )... ) );
         }
-        void say( const std::string &line, const bool shout = false ) const;
+        void say( const std::string &line, const int priority = 0 ) const;
         void decide_needs();
         void die( Creature *killer ) override;
         bool is_dead() const;
@@ -706,7 +723,8 @@ class npc : public player
         // @param force true if the complaint should happen even if not enough time has elapsed since last complaint
         // @param speech words of this complaint
         bool complain_about( const std::string &issue, const time_duration &dur,
-                             const std::string &speech, const bool force = false, const bool alert = false );
+                             const std::string &speech, const bool force = false,
+                             const int priority = 0 );
         // wrapper for complain_about that warns about a specific type of threat, with
         // different warnings for hostile or friendly NPCs and hostile NPCs always complaining
         void warn_about( const std::string &type, const time_duration &d = 10_minutes,
@@ -882,8 +900,10 @@ class npc : public player
         // #############   VALUES   ################
 
         npc_class_id myclass; // What's our archetype?
-        std::string idz; // A temp variable used to inform the game which npc json to use as a template
-        mission_type_id miss_id; // A temp variable used to link to the correct mission
+        // A temp variable used to inform the game which npc json to use as a template
+        std::string idz;
+        // A temp variable used to link to the correct mission
+        std::vector<mission_type_id> miss_ids;
 
     private:
 
@@ -989,7 +1009,7 @@ class npc : public player
         cata::optional<tripoint> get_mission_destination() const;
         bool has_companion_mission() const;
         npc_companion_mission get_companion_mission() const;
-        attitude_group get_attitude_group( npc_attitude att );
+        attitude_group get_attitude_group( npc_attitude att ) const;
 
     protected:
         void store( JsonOut &jsout ) const;

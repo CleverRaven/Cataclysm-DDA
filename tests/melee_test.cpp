@@ -1,11 +1,15 @@
+#include <stddef.h>
 #include <sstream>
 #include <string>
 
 #include "catch/catch.hpp"
-#include "game.h"
 #include "monattack.h"
 #include "monster.h"
 #include "npc.h"
+#include "creature.h"
+#include "item.h"
+#include "player.h"
+#include "material.h"
 
 static float brute_probability( Creature &attacker, Creature &target, const size_t iters )
 {

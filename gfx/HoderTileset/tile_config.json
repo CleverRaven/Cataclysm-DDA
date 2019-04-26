@@ -76,6 +76,10 @@
             "fg":12
         },
         {
+            "id":"highlight",
+            "fg":12
+        },
+        {
             "id":"lighting_boomered_light",
             "fg":50,
             "rotates":false
@@ -8851,7 +8855,7 @@
          "multitile" : false
       },
       {
-         "id" : "potato_raw",
+         "id" : "potato",
          "fg" : 1074,
          "bg" : 193,
          "rotates" : false,

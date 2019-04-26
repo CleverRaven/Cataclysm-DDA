@@ -5,28 +5,36 @@
 #include <functional>
 #include <map>
 #include <vector>
+#include <string>
+#include <utility>
 
 #include "string_id.h"
-#include "item.h"
 
 class nc_color;
 class JsonObject;
 class JsonArray;
 class inventory;
-
-
 struct requirement_data;
+class item;
+
 using requirement_id = string_id<requirement_data>;
 
 // Denotes the id of an item type
 typedef std::string itype_id;
 struct quality;
+
 using quality_id = string_id<quality>;
 
 enum available_status {
     a_true = +1, // yes, it's available
     a_false = -1, // no, it's not available
     a_insufficent = 0, // neraly, bt not enough for tool+component
+};
+
+enum component_type : int {
+    COMPONENT_ITEM,
+    COMPONENT_TOOL,
+    COMPONENT_QUALITY,
 };
 
 struct quality {
@@ -77,6 +85,9 @@ struct tool_comp : public component {
     nc_color get_color( bool has_one, const inventory &crafting_inv,
                         const std::function<bool( const item & )> &filter, int batch = 1 ) const;
     bool by_charges() const;
+    component_type get_component_type() const {
+        return COMPONENT_TOOL;
+    }
 };
 
 struct item_comp : public component {
@@ -89,6 +100,9 @@ struct item_comp : public component {
     std::string to_string( int batch = 1 ) const;
     nc_color get_color( bool has_one, const inventory &crafting_inv,
                         const std::function<bool( const item & )> &filter, int batch = 1 ) const;
+    component_type get_component_type() const {
+        return COMPONENT_ITEM;
+    }
 };
 
 struct quality_requirement {
@@ -109,6 +123,9 @@ struct quality_requirement {
     void check_consistency( const std::string &display_name ) const;
     nc_color get_color( bool has_one, const inventory &crafting_inv,
                         const std::function<bool( const item & )> &filter, int = 0 ) const;
+    component_type get_component_type() const {
+        return COMPONENT_QUALITY;
+    }
 };
 
 /**

@@ -1,5 +1,11 @@
 #include "clzones.h"
 
+#include <stddef.h>
+#include <iosfwd>
+#include <iterator>
+#include <list>
+#include <tuple>
+
 #include "cata_utility.h"
 #include "debug.h"
 #include "game.h"
@@ -15,6 +21,9 @@
 #include "ui.h"
 #include "vehicle.h"
 #include "vpart_reference.h"
+#include "item.h"
+#include "player.h"
+#include "vpart_position.h"
 
 zone_manager::zone_manager()
 {
@@ -119,12 +128,12 @@ zone_manager::zone_manager()
 
 std::string zone_type::name() const
 {
-    return _( name_.c_str() );
+    return _( name_ );
 }
 
 std::string zone_type::desc() const
 {
-    return _( desc_.c_str() );
+    return _( desc_ );
 }
 
 std::shared_ptr<zone_options> zone_options::create( const zone_type_id &type )

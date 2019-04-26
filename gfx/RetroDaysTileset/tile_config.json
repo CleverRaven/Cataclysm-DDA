@@ -10222,8 +10222,8 @@
         },
         {
           "id": [
-            "potato_raw",
-            "potato_irradiated",
+            "potato",
+            "irradiated_potato",
             "kiwi",
             "irradiated_kiwi",
             "egg_bird"
@@ -21404,6 +21404,7 @@
         {
           "id": [
             "cursor",
+            "highlight",
             "line_target",
             "vehicle_pointer"
           ],

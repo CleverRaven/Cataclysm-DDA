@@ -1099,15 +1099,34 @@
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
     "skill_used": "electronics",
-    "skills_required": [ "fabrication", 1 ],
+    "skills_required": [ "fabrication", 2 ],
     "difficulty": 3,
-    "time": 10000,
-    "reversible": true,
-    "decomp_learn": 3,
+    "time": 40000,
     "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 3 ] ],
-    "using": [ [ "soldering_standard", 10 ] ],
+    "using": [ [ "soldering_standard", 20 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "small_storage_battery", 8 ] ], [ [ "scrap", 4 ] ], [ [ "cable", 5 ] ] ]
+    "components": [ [ [ "small_storage_battery", 14 ] ], [ [ "e_scrap", 4 ] ], [ [ "scrap", 8 ] ], [ [ "cable", 5 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "storage_battery",
+    "id_suffix": "from_medium",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_PARTS",
+    "skill_used": "electronics",
+    "skills_required": [ "fabrication", 3 ],
+    "difficulty": 3,
+    "time": 40000,
+    "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 3 ] ],
+    "using": [ [ "soldering_standard", 20 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "medium_storage_battery", 5 ] ],
+      [ [ "small_storage_battery", 10 ] ],
+      [ [ "e_scrap", 4 ] ],
+      [ [ "scrap", 8 ] ],
+      [ [ "cable", 5 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -1115,15 +1134,13 @@
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
     "skill_used": "electronics",
-    "skills_required": [ "fabrication", 1 ],
+    "skills_required": [ "fabrication", 3 ],
     "difficulty": 3,
-    "time": 20000,
-    "reversible": true,
-    "decomp_learn": 3,
+    "time": 120000,
     "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 3 ] ],
-    "using": [ [ "soldering_standard", 20 ] ],
+    "using": [ [ "soldering_standard", 80 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "medium_storage_battery", 4 ] ], [ [ "scrap", 8 ] ], [ [ "cable", 10 ] ] ]
+    "components": [ [ [ "small_storage_battery", 80 ] ], [ [ "e_scrap", 16 ] ], [ [ "scrap", 32 ] ], [ [ "cable", 20 ] ] ]
   },
   {
     "type": "recipe",

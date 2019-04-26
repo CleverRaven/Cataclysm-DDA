@@ -7,7 +7,7 @@
       { "monster": "mon_zombie", "freq": 600, "cost_multiplier": 1, "pack_size": [ 3, 5 ] },
       { "monster": "mon_zombie", "freq": 200, "cost_multiplier": 1 },
       { "monster": "mon_zombie_tough", "freq": 50, "cost_multiplier": 3 },
-      { "monster": "mon_zombie_gasbag", "freq": 30, "cost_multiplier": 10, "pack_size": [ 3, 5 ] },
+      { "monster": "mon_zombie_fat", "freq": 30, "cost_multiplier": 7, "pack_size": [ 3, 5 ] },
       { "monster": "mon_zombie_cop", "freq": 20, "cost_multiplier": 6 }
     ]
   },

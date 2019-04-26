@@ -1,8 +1,16 @@
 #include "field.h"
 
+#include <math.h>
+#include <stddef.h>
 #include <algorithm>
 #include <queue>
 #include <tuple>
+#include <iterator>
+#include <list>
+#include <memory>
+#include <set>
+#include <utility>
+#include <vector>
 
 #include "calendar.h"
 #include "cata_utility.h"
@@ -22,7 +30,6 @@
 #include "monster.h"
 #include "mtype.h"
 #include "npc.h"
-#include "output.h"
 #include "overmapbuffer.h"
 #include "rng.h"
 #include "scent_map.h"
@@ -31,7 +38,19 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "weather.h"
-#include "weather_gen.h"
+#include "bodypart.h"
+#include "character.h"
+#include "creature.h"
+#include "damage.h"
+#include "int_id.h"
+#include "item.h"
+#include "line.h"
+#include "math_defines.h"
+#include "optional.h"
+#include "player.h"
+#include "pldata.h"
+#include "string_id.h"
+#include "units.h"
 
 const species_id FUNGUS( "FUNGUS" );
 
@@ -1589,7 +1608,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                     tripoint newp = random_entry( valid );
                                     add_item_or_charges( newp, tmp );
                                     if( g->u.pos() == newp ) {
-                                        add_msg( m_bad, _( "A %s hits you!" ), tmp.tname().c_str() );
+                                        add_msg( m_bad, _( "A %s hits you!" ), tmp.tname() );
                                         body_part hit = random_body_part();
                                         g->u.deal_damage( nullptr, hit, damage_instance( DT_BASH, 6 ) );
                                         g->u.check_dead_state();
@@ -1600,14 +1619,13 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                         body_part hit = random_body_part();
                                         p->deal_damage( nullptr, hit, damage_instance( DT_BASH, 6 ) );
                                         if( g->u.sees( newp ) ) {
-                                            add_msg( _( "A %1$s hits %2$s!" ), tmp.tname().c_str(), p->name.c_str() );
+                                            add_msg( _( "A %1$s hits %2$s!" ), tmp.tname(), p->name );
                                         }
                                         p->check_dead_state();
                                     } else if( monster *const mon = g->critter_at<monster>( newp ) ) {
                                         mon->apply_damage( nullptr, bp_torso, 6 - mon->get_armor_bash( bp_torso ) );
                                         if( g->u.sees( newp ) ) {
-                                            add_msg( _( "A %1$s hits the %2$s!" ), tmp.tname().c_str(),
-                                                     mon->name().c_str() );
+                                            add_msg( _( "A %1$s hits the %2$s!" ), tmp.tname(), mon->name() );
                                         }
                                         mon->check_dead_state();
                                     }
@@ -2023,12 +2041,9 @@ void map::player_in_field( player &u )
                         total_damage += dealt.type_damage( DT_HEAT );
                     }
                     if( total_damage > 0 ) {
-                        u.add_msg_player_or_npc( m_bad,
-                                                 _( player_burn_msg[msg_num].c_str() ),
-                                                 _( npc_burn_msg[msg_num].c_str() ) );
+                        u.add_msg_player_or_npc( m_bad, _( player_burn_msg[msg_num] ), _( npc_burn_msg[msg_num] ) );
                     } else {
-                        u.add_msg_if_player( m_warning,
-                                             _( player_warn_msg[msg_num].c_str() ) );
+                        u.add_msg_if_player( m_warning, _( player_warn_msg[msg_num] ) );
                     }
                     u.check_dead_state();
                 }
@@ -2101,7 +2116,7 @@ void map::player_in_field( player &u )
                 }
                 if( inhaled ) {
                     // player does not know how the npc feels, so no message.
-                    u.add_msg_if_player( m_bad, _( "You feel sick from inhaling the %s" ), cur.name().c_str() );
+                    u.add_msg_if_player( m_bad, _( "You feel sick from inhaling the %s" ), cur.name() );
                 }
             }
             break;
@@ -2270,11 +2285,11 @@ void map::player_in_field( player &u )
                 if( u.has_trait( trait_id( "THRESH_MYCUS" ) ) || u.has_trait( trait_id( "THRESH_MARLOSS" ) ) ) {
                     inhaled |= u.add_env_effect( effect_badpoison, bp_mouth, 5, density * 1_minutes );
                     u.hurtall( rng( density, density * 2 ), nullptr );
-                    u.add_msg_if_player( m_bad, _( "The %s burns your skin." ), cur.name().c_str() );
+                    u.add_msg_if_player( m_bad, _( "The %s burns your skin." ), cur.name() );
                 }
 
                 if( inhaled ) {
-                    u.add_msg_if_player( m_bad, _( "The %s makes you feel sick." ), cur.name().c_str() );
+                    u.add_msg_if_player( m_bad, _( "The %s makes you feel sick." ), cur.name() );
                 }
             }
             break;
@@ -2510,7 +2525,7 @@ void map::monster_in_field( monster &z )
                     } else if( monster *const other = g->critter_at<monster>( newpos ) ) {
                         if( g->u.sees( z ) ) {
                             add_msg( _( "The %1$s teleports into a %2$s, killing them both!" ),
-                                     z.name().c_str(), other->name().c_str() );
+                                     z.name(), other->name() );
                         }
                         other->die_in_explosion( &z );
                     } else {
@@ -2805,7 +2820,7 @@ std::map<field_id, field_entry>::const_iterator field::end() const
 std::string field_t::name( const int density ) const
 {
     const std::string &n = untranslated_name[std::min( std::max( 0, density ), MAX_FIELD_DENSITY - 1 )];
-    return n.empty() ? n : _( n.c_str() );
+    return n.empty() ? n : _( n );
 }
 
 /*
