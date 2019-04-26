@@ -3851,7 +3851,7 @@ void item::calc_rot( const tripoint &location )
 
 void item::calc_rot_while_processing( const tripoint &location, time_duration processing_duration )
 {
-    if( !item_tags.count( "SMOKING" ) ) {
+    if( !item_tags.count( "PROCESSING" ) ) {
         debugmsg( "calc_rot_while_smoking called on non smoking item: %s", tname() );
         return;
     }
