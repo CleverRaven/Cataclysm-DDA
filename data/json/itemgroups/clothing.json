@@ -363,5 +363,27 @@
     "type": "item_group",
     "//": "Full face protection worn with hazmat suits",
     "items": [ { "collection": [ { "item": "glasses_safety" }, { "item": "mask_filter" } ], "prob": 40 }, [ "mask_gas", 60 ] ]
+  },
+  {
+    "id": "boxing_clothes",
+    "type": "item_group",
+    "items": [
+      [ "tank_top", 40 ],
+      [ "shorts", 40 ],
+      [ "boxing_gloves", 50 ],
+      [ "headgear", 50 ],
+      [ "mouthpiece", 50 ],
+      [ "jersey", 40 ],
+      [ "coat_rain", 15 ],
+      [ "hood_rain", 15 ],
+      [ "gloves_wraps", 45 ],
+      [ "jeans", 30 ],
+      [ "sports_bra", 25 ],
+      [ "jacket_leather", 20 ],
+      [ "aspirin", 30 ],
+      [ "water_clean", 30 ],
+      [ "sports_drink", 30 ],
+      [ "1st_aid", 20 ]
+    ]
   }
 ]

@@ -350,7 +350,7 @@
       [ [ "plastic_chunk", 2 ] ],
       [ [ "amplifier", 1 ] ],
       [ [ "power_supply", 1 ] ],
-      [ [ "battery", 100 ], [ "plut_cell", 1 ] ],
+      [ [ "light_battery_cell", 1 ], [ "plut_cell", 1 ] ],
       [ [ "silver_small", 10 ] ],
       [ [ "gold_small", 10 ] ],
       [ [ "chem_aluminium_powder", 10 ] ],

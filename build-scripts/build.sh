@@ -9,34 +9,12 @@ function run_tests
     $WINE "$@" -d yes -r cata --rng-seed time $EXTRA_TEST_OPTS
 }
 
-function just_json
-{
-    if [ -n $TRAVIS_COMMIT_RANGE ]
-    then
-        # If this string is populated, it will work.
-        files_changed="$(git diff --name-only $TRAVIS_COMMIT_RANGE)"
-    else
-        # The only time it isn't populated is on a new PR branch, where THIS will work.
-        files_changed="$(git diff --name-only $TRAVIS_BRANCH)"
-    fi
-    for filename in $files_changed
-    do
-        if [[ ! "$filename" =~ .json$ ]]
-        then
-            echo "$filename is not json, triggering full build."
-            return 1
-        fi
-    done
-    echo "Only json files present, skipping full build."
-    return 0
-}
-
 export CCACHE_MAXSIZE=1G
 if [ -n "$TEST_STAGE" ]
 then
     build-scripts/lint-json.sh
     make -j 5 style-json
-elif just_json
+elif [ -n "$JUST_JSON" ]
 then
     exit 0
 fi

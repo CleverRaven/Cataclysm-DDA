@@ -3110,9 +3110,9 @@ void player::shout( std::string msg, bool order )
     sounds::sound( pos(), noise, order ? sounds::sound_t::order : sounds::sound_t::alert, msg );
 }
 
-void player::toggle_move_mode()
+void player::set_movement_mode( std::string new_mode )
 {
-    if( move_mode == "walk" ) {
+    if( new_mode == "run" ) {
         if( stamina > 0 && !has_effect( effect_winded ) ) {
             move_mode = "run";
             if( is_hauling() ) {
@@ -3121,15 +3121,54 @@ void player::toggle_move_mode()
             add_msg( _( "You start running." ) );
         } else {
             add_msg( m_bad, _( "You're too tired to run." ) );
-            move_mode = "walk";
-            add_msg( _( "You start walking." ) );
         }
-    } else if( move_mode == "run" ) {
+    } else if( new_mode == "crouch" ) {
         move_mode = "crouch";
         add_msg( _( "You start crouching." ) );
-    } else if( move_mode == "crouch" ) {
+    } else {
         move_mode = "walk";
         add_msg( _( "You start walking." ) );
+    }
+}
+
+const std::string player::get_movement_mode() const
+{
+    return move_mode;
+}
+
+void player::toggle_run_mode()
+{
+    if( move_mode == "run" ) {
+        set_movement_mode( "walk" );
+    } else {
+        set_movement_mode( "run" );
+    }
+}
+
+void player::toggle_crouch_mode()
+{
+    if( move_mode == "crouch" ) {
+        set_movement_mode( "walk" );
+    } else {
+        set_movement_mode( "crouch" );
+    }
+}
+
+void player::reset_move_mode()
+{
+    if( move_mode != "walk" ) {
+        set_movement_mode( "walk" );
+    }
+}
+
+void player::cycle_move_mode()
+{
+    if( move_mode == "walk" ) {
+        set_movement_mode( "run" );
+    } else if( move_mode == "run" ) {
+        set_movement_mode( "crouch" );
+    } else if( move_mode == "crouch" ) {
+        set_movement_mode( "walk" );
     }
 }
 
@@ -6481,7 +6520,7 @@ void player::suffer()
         } else if( has_effect( effect_shakes ) && one_in( 75 ) ) {
             moves -= 10;
             add_msg_player_or_npc( m_warning, _( "Your shaking legs make you stumble." ),
-                                   _( "<npcname stumbles." ) );
+                                   _( "<npcname> stumbles." ) );
             if( !has_effect( effect_downed ) && one_in( 10 ) ) {
                 add_msg_player_or_npc( m_bad, _( "You fall over!" ), _( "<npcname> falls over!" ) );
                 add_effect( effect_downed, rng( 3_turns, 10_turns ) );
@@ -7755,7 +7794,7 @@ item::reload_option player::select_ammo( const item &base,
                                 sel.ammo->ammo_data();
             if( ammo ) {
                 if( ammo->ammo->prop_damage ) {
-                    row += string_format( "| *%-6d | %-7d", static_cast<int>( *ammo->ammo->prop_damage ),
+                    row += string_format( "| *%-6.2f | %-7d", static_cast<float>( *ammo->ammo->prop_damage ),
                                           ammo->ammo->legacy_pierce );
                 } else {
                     const damage_instance &dam = ammo->ammo->damage;

@@ -17,6 +17,7 @@
 #include "ammo.h"
 #include "cata_utility.h"
 // needed for the workaround for the std::to_string bug in some compilers
+#include "clzones.h"
 #include "compatibility.h" // IWYU pragma: keep
 #include "debug.h"
 #include "faction_camp.h"
@@ -91,6 +92,9 @@ const efftype_id effect_sleep( "sleep" );
 
 static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
 
+const zone_type_id zone_no_investigate( "NPC_NO_INVESTIGATE" );
+const zone_type_id zone_investigate_only( "NPC_INVESTIGATE_ONLY" );
+
 static std::map<std::string, json_talk_topic> json_talk_topics;
 
 // Every OWED_VAL that the NPC owes you counts as +1 towards convincing
@@ -103,9 +107,6 @@ int topic_category( const talk_topic &the_topic );
 const talk_topic &special_talk( char ch );
 
 std::string give_item_to( npc &p, bool allow_use, bool allow_carry );
-
-std::string bulk_trade_inquire( const npc &, const itype_id &it );
-void bulk_trade_accept( npc &, const itype_id &it );
 
 const std::string &talk_trial::name() const
 {
@@ -359,7 +360,18 @@ void npc::handle_sound( int priority, const std::string &description, int heard_
             } else if( spriority > sounds::sound_t::activity ) {
                 warn_about( "combat_noise", rng( 1, 10 ) * 1_minutes );
             }
-            if( rl_dist( pos(), spos ) < investigate_dist ) {
+            bool should_check = rl_dist( pos(), spos ) < investigate_dist;
+            if( should_check && is_ally( g->u ) ) {
+                const zone_manager &mgr = zone_manager::get_manager();
+                const tripoint &s_abs_pos = g->m.getabs( spos );
+                if( mgr.has( zone_no_investigate, s_abs_pos ) ) {
+                    should_check = false;
+                } else if( mgr.has_defined( zone_investigate_only ) &&
+                           !mgr.has( zone_investigate_only, s_abs_pos ) ) {
+                    should_check = false;
+                }
+            }
+            if( should_check ) {
                 add_msg( m_debug, "NPC %s added noise at pos %d:%d", name, spos.x, spos.y );
                 dangerous_sound temp_sound;
                 temp_sound.pos = spos;
@@ -531,6 +543,10 @@ void npc::talk_to_u( bool text_only, bool radio_contact )
 
 std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
 {
+    if( the_topic.item_type != "null" ) {
+        cur_item = the_topic.item_type;
+    }
+
     // For compatibility
     const auto &topic = the_topic.id;
     const auto iter = json_talk_topics.find( topic );
@@ -594,10 +610,6 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
 
     if( topic == "TALK_NONE" || topic == "TALK_DONE" ) {
         return _( "Bye." );
-    } else if( topic == "TALK_DELIVER_ASK" ) {
-        return bulk_trade_inquire( *p, the_topic.item_type );
-    } else if( topic == "TALK_DELIVER_CONFIRM" ) {
-        return _( "Pleasure doing business!" );
     } else if( topic == "TALK_TRAIN" ) {
         if( !g->u.backlog.empty() && g->u.backlog.front().id() == activity_id( "ACT_TRAIN" ) ) {
             return _( "Shall we resume?" );
@@ -880,35 +892,6 @@ void dialogue::gen_responses( const talk_topic &the_topic )
                 add_response( miss_it->get_type().name, "TALK_MISSION_INQUIRE", miss_it );
             }
         }
-    } else if( topic == "TALK_FREE_MERCHANT_STOCKS" ) {
-        add_response( _( "Who are you?" ), "TALK_FREE_MERCHANT_STOCKS_NEW", true );
-        static const std::vector<itype_id> wanted = {{
-                "jerky", "meat_smoked", "fish_smoked",
-                "cooking_oil", "cooking_oil2", "cornmeal", "flour",
-                "fruit_wine", "beer", "sugar",
-            }
-        };
-
-        for( const auto &id : wanted ) {
-            if( g->u.charges_of( id ) > 0 ) {
-                const std::string msg = string_format( _( "Delivering %s." ), item::nname( id ) );
-                add_response( msg, "TALK_DELIVER_ASK", id, true );
-            }
-        }
-
-    } else if( topic == "TALK_DELIVER_ASK" ) {
-        if( the_topic.item_type == "null" ) {
-            debugmsg( "delivering nulls" );
-        }
-        add_response( _( "Works for me." ), "TALK_DELIVER_CONFIRM", the_topic.item_type );
-        add_response( _( "Maybe later." ), "TALK_DONE" );
-    } else if( topic == "TALK_DELIVER_CONFIRM" ) {
-        bulk_trade_accept( *p, the_topic.item_type );
-        add_response_done( _( "You might be seeing more of me..." ) );
-    } else if( topic == "TALK_RANCH_NURSE_HIRE" ) {
-        if( g->u.charges_of( "bandages" ) > 0 ) {
-            add_response( _( "Delivering bandages." ), "TALK_DELIVER_ASK", itype_id( "bandages" ) );
-        }
     } else if( topic == "TALK_TRAIN" ) {
         if( !g->u.backlog.empty() && g->u.backlog.front().id() == activity_id( "ACT_TRAIN" ) ) {
             player_activity &backlog = g->u.backlog.front();
@@ -1172,7 +1155,7 @@ int topic_category( const talk_topic &the_topic )
     return -1; // Not grouped with other topics
 }
 
-void parse_tags( std::string &phrase, const player &u, const player &me )
+void parse_tags( std::string &phrase, const player &u, const player &me, const itype_id &item_type )
 {
     phrase = remove_color_tags( phrase );
 
@@ -1225,6 +1208,19 @@ void parse_tags( std::string &phrase, const player &u, const player &me )
         } else if( tag == "<mypronoun>" ) {
             std::string npcstr = me.male ? pgettext( "npc", "He" ) : pgettext( "npc", "She" );
             phrase.replace( fa, l, npcstr );
+        } else if( tag == "<topic_item>" ) {
+            phrase.replace( fa, l, item::nname( item_type, 2 ) );
+        } else if( tag == "<topic_item_price>" ) {
+            item tmp( item_type );
+            phrase.replace( fa, l, format_money( tmp.price( true ) ) );
+        } else if( tag == "<topic_item_my_total_price>" ) {
+            item tmp( item_type );
+            tmp.charges = me.charges_of( item_type );
+            phrase.replace( fa, l, format_money( tmp.price( true ) ) );
+        } else if( tag == "<topic_item_your_total_price>" ) {
+            item tmp( item_type );
+            tmp.charges = u.charges_of( item_type );
+            phrase.replace( fa, l, format_money( tmp.price( true ) ) );
         } else if( !tag.empty() ) {
             debugmsg( "Bad tag. '%s' (%d - %d)", tag.c_str(), fa, fb );
             phrase.replace( fa, fb - fa + 1, "????" );
@@ -1257,7 +1253,7 @@ talk_data talk_response::create_option_line( const dialogue &d, const char lette
         ftext = string_format( pgettext( "talk option", "%1$c: [%2$s %3$d%%] %4$s" ), letter,
                                trial.name(), trial.calc_chance( d ), text );
     }
-    parse_tags( ftext, *d.alpha, *d.beta );
+    parse_tags( ftext, *d.alpha, *d.beta, success.next_topic.item_type );
 
     nc_color color;
     std::set<dialogue_consequence> consequences = get_consequences( d );
@@ -1327,7 +1323,7 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
     }
 
     // Parse any tags in challenge
-    parse_tags( challenge, *alpha, *beta );
+    parse_tags( challenge, *alpha, *beta, topic.item_type );
     capitalize_letter( challenge );
 
     // Prepend "My Name: "
@@ -1810,6 +1806,27 @@ void talk_effect_fun_t::set_mapgen_update( JsonObject jo, const std::string &mem
     };
 }
 
+void talk_effect_fun_t::set_bulk_trade_accept( bool is_trade, bool is_npc )
+{
+    function = [is_trade, is_npc]( const dialogue & d ) {
+        player *seller = d.alpha;
+        player *buyer = dynamic_cast<player *>( d.beta );
+        if( is_npc ) {
+            seller = dynamic_cast<player *>( d.beta );
+            buyer = d.alpha;
+        }
+        int seller_has = seller->charges_of( d.cur_item );
+        item tmp( d.cur_item );
+        tmp.charges = seller_has;
+        if( is_trade ) {
+            int price = tmp.price( true ) * ( is_npc ? -1 : 1 );
+            g->u.cash += price;
+        }
+        seller->use_charges( d.cur_item, seller_has );
+        buyer->i_add( tmp );
+    };
+}
+
 void talk_effect_t::set_effect_consequence( const talk_effect_fun_t &fun, dialogue_consequence con )
 {
     effects.push_back( fun );
@@ -2003,7 +2020,7 @@ void talk_effect_t::parse_sub_effect( JsonObject jo )
     set_effect( subeffect_fun );
 }
 
-void talk_effect_t::parse_string_effect( const std::string &type, JsonObject &jo )
+void talk_effect_t::parse_string_effect( const std::string &effect_id, JsonObject &jo )
 {
     static const std::unordered_map<std::string, void( * )( npc & )> static_functions_map = {
         {
@@ -2062,13 +2079,23 @@ void talk_effect_t::parse_string_effect( const std::string &type, JsonObject &jo
 #undef WRAP
         }
     };
-    const auto iter = static_functions_map.find( type );
+    const auto iter = static_functions_map.find( effect_id );
     if( iter != static_functions_map.end() ) {
         set_effect( iter->second );
         return;
     }
-    // more functions can be added here, they don't need to be in the map above.
-    jo.throw_error( "unknown effect string", type );
+
+    if( effect_id == "u_bulk_trade_accept" || effect_id == "npc_bulk_trade_accept" ||
+        effect_id == "u_bulk_donate" || effect_id == "npc_bulk_donate" ) {
+        talk_effect_fun_t subeffect_fun;
+        bool is_npc = effect_id == "npc_bulk_trade_accept" || effect_id == "npc_bulk_donate";
+        bool is_trade = effect_id == "u_bulk_trade_accept" || effect_id == "npc_bulk_trade_accept";
+        subeffect_fun.set_bulk_trade_accept( is_trade, is_npc );
+        set_effect( subeffect_fun );
+        return;
+    }
+
+    jo.throw_error( "unknown effect string", effect_id );
 }
 
 void talk_effect_t::load_effect( JsonObject &jo )
@@ -2156,6 +2183,42 @@ talk_response::talk_response( JsonObject jo )
     // TODO: skill
     // TODO: style
 }
+
+json_talk_repeat_response::json_talk_repeat_response( JsonObject jo )
+{
+    if( jo.has_bool( "is_npc" ) ) {
+        is_npc = true;
+    }
+    if( jo.has_bool( "include_containers" ) ) {
+        include_containers = true;
+    }
+    if( jo.has_string( "for_item" ) ) {
+        for_item.emplace_back( jo.get_string( "for_item" ) );
+    } else if( jo.has_array( "for_item" ) ) {
+        JsonArray ja = jo.get_array( "for_item" );
+        while( ja.has_more() ) {
+            for_item.emplace_back( ja.next_string() );
+        }
+    } else if( jo.has_string( "for_category" ) ) {
+        for_category.emplace_back( jo.get_string( "for_category" ) );
+    } else if( jo.has_array( "for_category" ) ) {
+        JsonArray ja = jo.get_array( "for_category" );
+        while( ja.has_more() ) {
+            for_category.emplace_back( ja.next_string() );
+        }
+    } else {
+        jo.throw_error( "Repeat response with no repeat information!" );
+    }
+    if( for_item.empty() && for_category.empty() ) {
+        jo.throw_error( "Repeat response with empty repeat information!" );
+    }
+    if( jo.has_object( "response" ) ) {
+        response = json_talk_response( jo.get_object( "response" ) );
+    } else {
+        jo.throw_error( "Repeat response with no response!" );
+    }
+}
+
 
 json_talk_response::json_talk_response( JsonObject jo )
     : actual_response( jo )
@@ -3033,11 +3096,27 @@ bool json_talk_response::test_condition( const dialogue &d ) const
 
 bool json_talk_response::gen_responses( dialogue &d, bool switch_done ) const
 {
-    if( test_condition( d ) ) {
-        if( !is_switch || ( is_switch && !switch_done ) ) {
+    if( !is_switch || !switch_done ) {
+        if( test_condition( d ) ) {
             d.responses.emplace_back( actual_response );
+            return is_switch && !is_default;
         }
-        return is_switch && !is_default;
+    }
+    return false;
+}
+
+// repeat responses always go in front
+bool json_talk_response::gen_repeat_response( dialogue &d, const itype_id &item_id,
+        bool switch_done ) const
+{
+    if( !is_switch || !switch_done ) {
+        if( test_condition( d ) ) {
+            talk_response result = actual_response;
+            result.success.next_topic.item_type = item_id;
+            result.failure.next_topic.item_type = item_id;
+            d.responses.insert( d.responses.begin(), result );
+            return is_switch && !is_default;
+        }
     }
     return false;
 }
@@ -3202,6 +3281,14 @@ void json_talk_topic::load( JsonObject &jo )
     while( ja.has_more() ) {
         responses.emplace_back( ja.next_object() );
     }
+    if( jo.has_object( "repeat_responses" ) ) {
+        repeat_responses.emplace_back( jo.get_object( "repeat_responses" ) );
+    } else if( jo.has_array( "repeat_responses" ) ) {
+        ja = jo.get_array( "repeat_responses" );
+        while( ja.has_more() ) {
+            repeat_responses.emplace_back( ja.next_object() );
+        }
+    }
     if( responses.empty() ) {
         jo.throw_error( "no responses for talk topic defined", "responses" );
     }
@@ -3212,10 +3299,37 @@ void json_talk_topic::load( JsonObject &jo )
 bool json_talk_topic::gen_responses( dialogue &d ) const
 {
     d.responses.reserve( responses.size() ); // A wild guess, can actually be more or less
+
     bool switch_done = false;
     for( auto &r : responses ) {
         switch_done |= r.gen_responses( d, switch_done );
     }
+    for( const json_talk_repeat_response &repeat : repeat_responses ) {
+        player *actor = d.alpha;
+        if( repeat.is_npc ) {
+            actor = dynamic_cast<player *>( d.beta );
+        }
+        std::function<bool( const item & )> filter = return_true<item>;
+        for( const std::string &item_id : repeat.for_item ) {
+            if( actor->charges_of( item_id ) > 0 || actor->has_amount( item_id, 1 ) ) {
+                switch_done |= repeat.response.gen_repeat_response( d, item_id, switch_done );
+            }
+        }
+        for( const std::string &category_id : repeat.for_category ) {
+            const bool include_containers = repeat.include_containers;
+            const auto items_with = actor->items_with( [category_id,
+            include_containers]( const item & it ) {
+                if( include_containers ) {
+                    return it.get_category().id() == category_id;
+                }
+                return it.type && it.type->category && it.type->category->id() == category_id;
+            } );
+            for( const auto &it : items_with ) {
+                switch_done |= repeat.response.gen_repeat_response( d, it->typeId(), switch_done );
+            }
+        }
+    }
+
     return replace_built_in_responses;
 }
 

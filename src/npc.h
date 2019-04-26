@@ -54,7 +54,8 @@ using mission_type_id = string_id<mission_type>;
 using mfaction_id = int_id<monfaction>;
 using overmap_location_str_id = string_id<overmap_location>;
 
-void parse_tags( std::string &phrase, const player &u, const player &me );
+void parse_tags( std::string &phrase, const player &u, const player &me,
+                 const itype_id &item_type = "null" );
 
 /*
  * Talk:   Trust midlow->high, fear low->mid, need doesn't matter

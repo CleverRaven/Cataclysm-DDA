@@ -1832,6 +1832,10 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
         // use newit, the default constructed.
         item act_item = newit;
 
+        if( act_item.has_temperature() ) {
+            act_item.set_item_temperature( temp_to_kelvin( g->get_temperature( loc ) ) );
+        }
+
         // Refitted clothing disassembles into refitted components (when applicable)
         if( dis_item.has_flag( "FIT" ) && act_item.has_flag( "VARSIZE" ) ) {
             act_item.item_tags.insert( "FIT" );
