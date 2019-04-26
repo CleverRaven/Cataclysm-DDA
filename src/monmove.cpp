@@ -45,6 +45,8 @@ const species_id BLOB( "BLOB" );
 const species_id ROBOT( "ROBOT" );
 const species_id WORM( "WORM" );
 
+const mtype_id mon_defective_robot_nurse( "mon_defective_nursebot" );
+
 bool monster::wander()
 {
     return ( goal == pos() );
@@ -376,22 +378,35 @@ void monster::plan( const mfactions &factions )
     }
 
     if( has_effect( effect_dragging ) ) {
-        bool found_path_to_couch = false;
-        tripoint tmp( pos().x+12, pos().y+12, pos().z );
-        for( const auto &couch_pos : g->m.find_furnitures_in_radius( pos(), 10,
-                furn_id( "f_autodoc_couch" ) ) ) {
-            if( g->m.clear_path( pos(), couch_pos, 10, 0, 100 ) ) {
-                if( rl_dist( pos(), couch_pos ) < rl_dist( pos(), tmp ) ) {
-                    tmp = couch_pos;
-                    set_dest( couch_pos );
-                    found_path_to_couch = true;
+        const mtype_id &mon_id =
+            type->id;// We might eventually have other monsters using the dragging effect
+
+        if( mon_id == mon_defective_robot_nurse ) {
+            bool found_path_to_couch = false;
+            tripoint tmp( pos().x + 12, pos().y + 12, pos().z );
+            for( const auto &couch_pos : g->m.find_furnitures_in_radius( pos(), 10,
+                    furn_id( "f_autodoc_couch" ) ) ) {
+                if( g->m.clear_path( pos(), couch_pos, 10, 0, 100 ) ) {
+                    if( rl_dist( pos(), couch_pos ) < rl_dist( pos(), tmp ) ) {
+                        tmp = couch_pos;
+                        set_dest( couch_pos );
+                        found_path_to_couch = true;
+                    }
+                    if( rl_dist( pos(), couch_pos ) == 1 ) {
+                        if( g->u.has_effect( effect_grabbed ) ) {
+                            g->u.setpos( couch_pos );
+                            unset_dest();
+                            add_msg( m_bad, _( "The %s slowy but firmly puts you down onto the autodoc couch." ), name() );
+                        }
+                    }
                 }
             }
+            if( !found_path_to_couch ) {
+                anger = 0;
+                remove_effect( effect_dragging );
+            }
         }
-        if( !found_path_to_couch ) {
-            anger = 0;
-            remove_effect( effect_dragging );
-        }
+
     } else if( target != nullptr ) {
 
         tripoint dest = target->pos();
