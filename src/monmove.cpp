@@ -379,7 +379,7 @@ void monster::plan( const mfactions &factions )
         bool found_path_to_couch = false;
         for( const auto &couch_pos : g->m.find_furnitures_in_radius( pos(), 10,
                 furn_id( "f_autodoc_couch" ) ) ) {
-            if( g->m.clear_path( pos(), couch_pos, 10, 0, 1000 ) ) {
+            if( g->m.clear_path( pos(), couch_pos, 10, 0, 100 ) ) {
                 set_dest( couch_pos );
                 found_path_to_couch = true;
                 break;
