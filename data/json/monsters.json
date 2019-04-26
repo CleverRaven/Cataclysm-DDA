@@ -1103,7 +1103,7 @@
     "special_attacks": [ [ "OPERATE", 30 ] ],
     "death_drops": { "groups": [ [ "robots", 4 ] ] },
     "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "ELECTRONIC", "NO_BREATHE", "FIREPROOF", "PUSH_MON", "HEARS", "BAD_NURSE" ]
+    "flags": [ "SEES", "ELECTRONIC", "NO_BREATHE", "FIREPROOF", "PUSH_MON", "HEARS" ]
   },
   {
     "id": "mon_flaming_eye",
