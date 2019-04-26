@@ -407,7 +407,7 @@ void monster::plan( const mfactions &factions )
                                 if( g->u.has_effect( effect_grabbed ) ) {
 
                                     bionic_collection collec = *g->u.my_bionics;
-                                    int index = rng( 0, collec.size() );
+                                    int index = rng( 0, collec.size() - 1 );
                                     bionic target_cbm = collec[index];
                                     item bionic_to_uninstall = item( target_cbm.id.str(), 0 );
                                     const itype *itemtype = bionic_to_uninstall.type;
