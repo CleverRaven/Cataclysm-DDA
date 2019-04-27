@@ -573,7 +573,11 @@ void monster::move()
                 int index = rng( 0, collec.size() - 1 );
                 bionic target_cbm = collec[index];
 
-                g->u.uninstall_bionic( target_cbm, *this, *attack_target(), 68 );
+                //8 intelligence*4 + 8 first aid*4 + 3 computer *3 + 1 electronic*1 = 68
+                float adjusted_skill = static_cast<float>( 68 ) - std::min( static_cast<float>( 40 ),
+                                       static_cast<float>( 68 ) - static_cast<float>( 68 ) / static_cast<float>( 10.0 ) );
+
+                g->u.uninstall_bionic( target_cbm, *this, *attack_target(), adjusted_skill );
 
             }
         }
