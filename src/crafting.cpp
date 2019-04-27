@@ -821,6 +821,11 @@ void player::start_craft( craft_command &command, const tripoint &loc )
 
 void player::complete_craft( item &craft, const tripoint &loc )
 {
+    if( !craft.is_craft() ) {
+        debugmsg( "complete_craft() called on non-craft '%s.'  Aborting.", craft.tname() );
+        return;
+    }
+
     const recipe &making = craft.get_making(); // Which recipe is it?
     const int batch_size = craft.charges;
 
@@ -1083,6 +1088,27 @@ void player::complete_craft( item &craft, const tripoint &loc )
     }
 
     inv.restack( *this );
+}
+
+bool player::can_continue_craft( const item &craft )
+{
+    if( !craft.is_craft() ) {
+        debugmsg( "complete_craft() called on non-craft '%s.'  Aborting.", craft.tname() );
+        return false;
+    }
+
+    const recipe &rec = craft.get_making();
+    if( has_recipe( &rec, crafting_inventory(), get_crafting_helpers() ) == -1 ) {
+        add_msg_player_or_npc(
+            string_format( _( "You don't know the recipe for the %s and can't continue crafting." ),
+                           rec.result_name() ),
+            string_format( _( "<npcname> doesn't know the recipe for the %s and can't continue crafting." ),
+                           rec.result_name() )
+        );
+        return false;
+    }
+
+    return true;
 }
 
 /* selection of component if a recipe requirement has multiple options (e.g. 'duct tap' or 'welder') */
@@ -1831,6 +1857,10 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
         // Use item from components list, or (if not contained)
         // use newit, the default constructed.
         item act_item = newit;
+
+        if( act_item.has_temperature() ) {
+            act_item.set_item_temperature( temp_to_kelvin( g->get_temperature( loc ) ) );
+        }
 
         // Refitted clothing disassembles into refitted components (when applicable)
         if( dis_item.has_flag( "FIT" ) && act_item.has_flag( "VARSIZE" ) ) {
