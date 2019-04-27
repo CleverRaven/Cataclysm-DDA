@@ -10,7 +10,7 @@
     "price": 50000,
     "ammo_type": "anesthetic",
     "count": 3,
-    "material": "liquid",
+    "phase": "liquid",
     "symbol": "!",
     "color": "cyan",
     "looks_like": "1st_aid"
