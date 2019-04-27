@@ -1139,6 +1139,15 @@
   },
   {
     "type": "city_building",
+    "id": "cs_gardening_allotment",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "cs_gardening_allotment_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "cs_gardening_allotment_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "icecream_shop",
     "locations": [ "land" ],
     "overmaps": [

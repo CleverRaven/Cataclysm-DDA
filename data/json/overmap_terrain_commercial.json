@@ -1635,6 +1635,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "cs_gardening_allotment_roof",
+    "copy-from": "generic_city_building",
+    "name": "gardening allotment roof",
+    "sym": "a",
+    "color": "brown_green"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "animalpound",
     "name": "animal pound",
     "copy-from": "generic_city_building",
