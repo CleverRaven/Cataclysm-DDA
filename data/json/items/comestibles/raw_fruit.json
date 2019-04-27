@@ -604,10 +604,9 @@
     "vitamins": [ [ "vitA", 17 ], [ "vitC", 18 ], [ "calcium", 2 ], [ "iron", 4 ] ]
   },
   {
-	  "type": "COMESTIBLE",
-	  "id": "cactus_pad",
-	  "name": "cactus pad",
-	  "name": "cactus pads",
+    "type": "COMESTIBLE",
+    "id": "cactus_pad",
+    "name": "cactus pad",
     "weight": 100,
     "color": "green",
     "spoils_in": "1 days",
@@ -616,10 +615,11 @@
     "quench": 15,
     "healthy": 1,
     "calories": 100,
-    "description": "A edible pad of a cactus",
+    "description": "A edible pad of a cactus.",
     "price": 50,
     "material": "fruit",
     "volume": 1,
     "fun": -1,
     "vitamins": [ [ "vitA", 10 ], [ "vitC", 16 ], [ "calcium", 16 ], [ "iron", 2 ] ]
   }
+]
