@@ -399,9 +399,13 @@ TEST_CASE( "npc_talk_test" )
     CHECK( trial_effect.next_topic.id == "TALK_TEST_FALSE_CONDITION_NEXT" );
 
     g->u.remove_items_with( []( const item & it ) {
-        return it.get_category().id() == "books";
+        return it.get_category().id() == "books" || it.get_category().id() == "food" ||
+               it.typeId() == "bottle_glass";
     } );
     d.add_topic( "TALK_TEST_HAS_ITEM" );
+    gen_response_lines( d, 1 );
+    CHECK( d.responses[0].text == "This is a basic test response." );
+    d.add_topic( "TALK_TEST_ITEM_REPEAT" );
     gen_response_lines( d, 1 );
     CHECK( d.responses[0].text == "This is a basic test response." );
 
@@ -496,13 +500,33 @@ TEST_CASE( "npc_talk_test" )
     CHECK( talker_npc.op_of_u.owed == 14 );
 
     d.add_topic( "TALK_TEST_HAS_ITEM" );
-    gen_response_lines( d, 6 );
-    CHECK( d.responses[0].text == "This is a basic test response." );
-    CHECK( d.responses[1].text == "This is a u_has_item beer test response." );
-    CHECK( d.responses[2].text == "This is a u_has_item bottle_glass test response." );
-    CHECK( d.responses[3].text == "This is a u_has_items beer test response." );
-    CHECK( d.responses[4].text == "This is a u_has_item_category books test response." );
-    CHECK( d.responses[5].text == "This is a u_has_item_category books count 2 test response." );
+    gen_response_lines( d, 7 );
+    CHECK( d.responses[1].text == "This is a basic test response." );
+    CHECK( d.responses[2].text == "This is a u_has_item beer test response." );
+    CHECK( d.responses[3].text == "This is a u_has_item bottle_glass test response." );
+    CHECK( d.responses[4].text == "This is a u_has_items beer test response." );
+    CHECK( d.responses[5].text == "This is a u_has_item_category books test response." );
+    CHECK( d.responses[6].text == "This is a u_has_item_category books count 2 test response." );
+    CHECK( d.responses[0].text == "This is a repeated item manual_speech test response" );
+    CHECK( d.responses[0].success.next_topic.item_type ==  "manual_speech" );
+
+    d.add_topic( "TALK_TEST_ITEM_REPEAT" );
+    gen_response_lines( d, 8 );
+    CHECK( d.responses[0].text == "This is a repeated category books, food test response" );
+    CHECK( d.responses[0].success.next_topic.item_type ==  "beer" );
+    CHECK( d.responses[1].text == "This is a repeated category books, food test response" );
+    CHECK( d.responses[1].success.next_topic.item_type ==  "dnd_handbook" );
+    CHECK( d.responses[2].text == "This is a repeated category books, food test response" );
+    CHECK( d.responses[2].success.next_topic.item_type ==  "manual_speech" );
+    CHECK( d.responses[3].text == "This is a repeated category books test response" );
+    CHECK( d.responses[3].success.next_topic.item_type ==  "dnd_handbook" );
+    CHECK( d.responses[4].text == "This is a repeated category books test response" );
+    CHECK( d.responses[4].success.next_topic.item_type ==  "manual_speech" );
+    CHECK( d.responses[5].text == "This is a repeated item beer, bottle_glass test response" );
+    CHECK( d.responses[5].success.next_topic.item_type ==  "bottle_glass" );
+    CHECK( d.responses[6].text == "This is a repeated item beer, bottle_glass test response" );
+    CHECK( d.responses[6].success.next_topic.item_type ==  "beer" );
+    CHECK( d.responses[7].text == "This is a basic test response." );
 
     // test sell and consume
     d.add_topic( "TALK_TEST_EFFECTS" );

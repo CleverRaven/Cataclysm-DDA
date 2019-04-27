@@ -175,6 +175,8 @@ class JsonIn
 
     public:
         JsonIn( std::istream &s ) : stream( &s ) {}
+        JsonIn( const JsonIn & ) = delete;
+        JsonIn &operator=( const JsonIn & ) = delete;
 
         bool get_ate_separator() {
             return ate_separator;
@@ -402,7 +404,7 @@ class JsonIn
 
         // error messages
         std::string line_number( int offset_modifier = 0 ); // for occasional use only
-        void error( std::string message, int offset = 0 ); // ditto
+        void error( const std::string &message, int offset = 0 ); // ditto
         void rewind( int max_lines = -1, int max_chars = -1 );
         std::string substr( size_t pos, size_t len = std::string::npos );
 };
@@ -447,6 +449,8 @@ class JsonOut
 
     public:
         JsonOut( std::ostream &stream, bool pretty_print = false, int depth = 0 );
+        JsonOut( const JsonOut & ) = delete;
+        JsonOut &operator=( const JsonOut & ) = delete;
 
         // punctuation
         void write_indent();

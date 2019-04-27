@@ -247,6 +247,21 @@
     "items": [ [ "bowling_ball", 100 ] ]
   },
   {
+    "id": "boxing_misc",
+    "type": "item_group",
+    "items": [
+      [ "aspirin", 50 ],
+      [ "1st_aid", 40 ],
+      [ "bandages", 30 ],
+      [ "duct_tape", 20 ],
+      [ "sewing_kit", 10 ],
+      [ "mouthpiece", 10 ],
+      [ "cigar", 20 ],
+      [ "cig", 15 ],
+      [ "matches", 10 ]
+    ]
+  },
+  {
     "type": "item_group",
     "id": "bikeshop_tools",
     "items": [

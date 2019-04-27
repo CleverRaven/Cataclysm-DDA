@@ -2233,7 +2233,11 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "shift_sw" );
     ctxt.register_action( "shift_w" );
     ctxt.register_action( "shift_nw" );
-    ctxt.register_action( "toggle_move" );
+    ctxt.register_action( "cycle_move" );
+    ctxt.register_action( "reset_move" );
+    ctxt.register_action( "toggle_run" );
+    ctxt.register_action( "toggle_crouch" );
+    ctxt.register_action( "open_movement" );
     ctxt.register_action( "open" );
     ctxt.register_action( "close" );
     ctxt.register_action( "smash" );
@@ -10324,7 +10328,7 @@ bool game::plmove( int dx, int dy, int dz )
     // open it if we are walking
     // vault over it if we are running
     if( m.passable_ter_furn( dest_loc )
-        && u.move_mode == "walk"
+        && u.get_movement_mode() == "walk"
         && m.open_door( dest_loc, !m.is_outside( u.pos() ) ) ) {
         u.moves -= 100;
         // if auto-move is on, continue moving next turn
@@ -10572,9 +10576,9 @@ bool game::walk_move( const tripoint &dest_loc )
             } else if( u.has_bionic( bionic_id( "bio_ankles" ) ) ) {
                 volume = 12;
             }
-            if( u.move_mode == "run" ) {
+            if( u.get_movement_mode() == "run" ) {
                 volume *= 1.5;
-            } else if( u.move_mode == "crouch" ) {
+            } else if( u.get_movement_mode() == "crouch" ) {
                 volume /= 2;
             }
             sounds::sound( dest_loc, volume, sounds::sound_t::movement, _( "footsteps" ), true,
@@ -11024,11 +11028,17 @@ bool game::grabbed_furn_move( const tripoint &dp )
     const furn_t furntype = m.furn( fpos ).obj();
     const int src_items = m.i_at( fpos ).size();
     const int dst_items = m.i_at( fdest ).size();
-    bool dst_item_ok = ( !m.has_flag( "NOITEM", fdest ) &&
-                         !m.has_flag( "SWIMMABLE", fdest ) &&
-                         !m.has_flag( "DESTROY_ITEM", fdest ) );
-    bool src_item_ok = ( m.furn( fpos ).obj().has_flag( "CONTAINER" ) ||
-                         m.furn( fpos ).obj().has_flag( "SEALED" ) );
+    const bool only_liquid_items = std::all_of( m.i_at( fdest ).begin(), m.i_at( fdest ).end(),
+    [&]( item & liquid_item ) {
+        return liquid_item.made_of_from_type( LIQUID );
+    } );
+
+    const bool dst_item_ok = !m.has_flag( "NOITEM", fdest ) &&
+                             !m.has_flag( "SWIMMABLE", fdest ) &&
+                             !m.has_flag( "DESTROY_ITEM", fdest ) &&
+                             only_liquid_items;
+    const bool src_item_ok = m.furn( fpos ).obj().has_flag( "CONTAINER" ) ||
+                             m.furn( fpos ).obj().has_flag( "SEALED" );
 
     int str_req = furntype.move_str_req;
     // Factor in weight of items contained in the furniture.
@@ -11051,7 +11061,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
         u.moves -= 100;
         u.mod_pain( 1 ); // Hurt ourselves.
         return true; // furniture and or obstacle wins.
-    } else if( !src_item_ok && dst_items > 0 ) {
+    } else if( !src_item_ok && !dst_item_ok && dst_items > 0 ) {
         add_msg( _( "There's stuff in the way." ) );
         u.moves -= 50;
         return true;
@@ -11081,11 +11091,16 @@ bool game::grabbed_furn_move( const tripoint &dp )
     sounds::sound( fdest, furntype.move_str_req * 2, sounds::sound_t::movement,
                    _( "a scraping noise." ) );
 
-    // Actually move the furniture
+    // Actually move the furniture.
     m.furn_set( fdest, m.furn( fpos ) );
     m.furn_set( fpos, f_null );
 
-    if( src_items > 0 ) { // and the stuff inside.
+    // Is there is only liquids on the ground, remove them after moving furniture.
+    if( dst_items > 0 && only_liquid_items ) {
+        m.i_clear( fdest );
+    }
+
+    if( src_items > 0 ) { // Move the stuff inside.
         if( dst_item_ok && src_item_ok ) {
             // Assume contents of both cells are legal, so we can just swap contents.
             std::list<item> temp;
@@ -11168,16 +11183,16 @@ void game::on_move_effects()
         }
     }
     if( u.has_active_bionic( bionic_id( "bio_jointservo" ) ) ) {
-        if( u.move_mode == "run" ) {
+        if( u.get_movement_mode() == "run" ) {
             u.charge_power( -20 );
         } else {
             u.charge_power( -10 );
         }
     }
 
-    if( u.move_mode == "run" ) {
+    if( u.get_movement_mode() == "run" ) {
         if( u.stamina <= 0 ) {
-            u.toggle_move_mode();
+            u.toggle_run_mode();
         }
         if( u.stamina < u.get_stamina_max() / 2 && one_in( u.stamina ) ) {
             u.add_effect( effect_winded, 3_turns );

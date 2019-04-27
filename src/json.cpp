@@ -1473,7 +1473,7 @@ std::string JsonIn::line_number( int offset_modifier )
     return ret.str();
 }
 
-void JsonIn::error( std::string message, int offset )
+void JsonIn::error( const std::string &message, int offset )
 {
     std::ostringstream err;
     err << line_number( offset ) << ": " << message;

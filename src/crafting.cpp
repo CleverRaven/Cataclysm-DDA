@@ -819,8 +819,58 @@ void player::start_craft( craft_command &command, const tripoint &loc )
                        craft.tname() ) );
 }
 
+void player::craft_skill_gain( const item &craft, const int &multiplier )
+{
+    if( !craft.is_craft() ) {
+        debugmsg( "craft_skill_check() called on non-craft '%s.' Aborting.", craft.tname() );
+        return;
+    }
+
+    const recipe &making = craft.get_making();
+    const int batch_size = craft.charges;
+
+    std::vector<npc *> helpers = get_crafting_helpers();
+
+    if( making.skill_used ) {
+        // Normalize experience gain to crafting time, giving a bonus for longer crafting
+        const double batch_mult = batch_size + base_time_to_craft( making, batch_size ) / 30000.0;
+        // This is called after every 5% crafting progress, so divide by 20
+        const int base_practice = divide_roll_remainder( ( making.difficulty * 15 + 10 ) * batch_mult,
+                                  20.0 ) * multiplier;
+        const int skill_cap = static_cast<int>( making.difficulty * 1.25 );
+        practice( making.skill_used, base_practice, skill_cap );
+
+        // NPCs assisting or watching should gain experience...
+        for( auto &helper : helpers ) {
+            //If the NPC can understand what you are doing, they gain more exp
+            if( helper->get_skill_level( making.skill_used ) >= making.difficulty ) {
+                helper->practice( making.skill_used,
+                                  divide_roll_remainder( base_practice, 2.0 ),
+                                  skill_cap );
+                if( batch_size > 1 ) {
+                    add_msg( m_info, _( "%s assists with crafting..." ), helper->name );
+                }
+                if( batch_size == 1 ) {
+                    add_msg( m_info, _( "%s could assist you with a batch..." ), helper->name );
+                }
+                // NPCs around you understand the skill used better
+            } else {
+                helper->practice( making.skill_used,
+                                  divide_roll_remainder( base_practice, 10.0 ),
+                                  skill_cap );
+                add_msg( m_info, _( "%s watches you craft..." ), helper->name );
+            }
+        }
+    }
+}
+
 void player::complete_craft( item &craft, const tripoint &loc )
 {
+    if( !craft.is_craft() ) {
+        debugmsg( "complete_craft() called on non-craft '%s.'  Aborting.", craft.tname() );
+        return;
+    }
+
     const recipe &making = craft.get_making(); // Which recipe is it?
     const int batch_size = craft.charges;
 
@@ -896,36 +946,6 @@ void player::complete_craft( item &craft, const tripoint &loc )
 
     int skill_roll = dice( skill_dice, skill_sides );
     int diff_roll  = dice( diff_dice,  diff_sides );
-
-    if( making.skill_used ) {
-        // normalize experience gain to crafting time, giving a bonus for longer crafting
-        const double batch_mult = batch_size + base_time_to_craft( making, batch_size ) / 30000.0;
-        const int base_practice = ( making.difficulty * 15 + 10 ) * batch_mult;
-        const int skill_cap = static_cast<int>( making.difficulty * 1.25 );
-        practice( making.skill_used, base_practice, skill_cap );
-
-        //NPCs assisting or watching should gain experience...
-        for( auto &helper : helpers ) {
-            //If the NPC can understand what you are doing, they gain more exp
-            if( helper->get_skill_level( making.skill_used ) >= making.difficulty ) {
-                helper->practice( making.skill_used,
-                                  static_cast<int>( base_practice * 0.50 ),
-                                  skill_cap );
-                if( batch_size > 1 ) {
-                    add_msg( m_info, _( "%s assists with crafting..." ), helper->name );
-                }
-                if( batch_size == 1 ) {
-                    add_msg( m_info, _( "%s could assist you with a batch..." ), helper->name );
-                }
-                //NPCs around you understand the skill used better
-            } else {
-                helper->practice( making.skill_used,
-                                  static_cast<int>( base_practice * 0.15 ),
-                                  skill_cap );
-                add_msg( m_info, _( "%s watches you craft..." ), helper->name );
-            }
-        }
-    }
 
     std::list<item> &used = craft.components;
     const double relative_rot = craft.get_relative_rot();
@@ -1083,6 +1103,27 @@ void player::complete_craft( item &craft, const tripoint &loc )
     }
 
     inv.restack( *this );
+}
+
+bool player::can_continue_craft( const item &craft )
+{
+    if( !craft.is_craft() ) {
+        debugmsg( "complete_craft() called on non-craft '%s.'  Aborting.", craft.tname() );
+        return false;
+    }
+
+    const recipe &rec = craft.get_making();
+    if( has_recipe( &rec, crafting_inventory(), get_crafting_helpers() ) == -1 ) {
+        add_msg_player_or_npc(
+            string_format( _( "You don't know the recipe for the %s and can't continue crafting." ),
+                           rec.result_name() ),
+            string_format( _( "<npcname> doesn't know the recipe for the %s and can't continue crafting." ),
+                           rec.result_name() )
+        );
+        return false;
+    }
+
+    return true;
 }
 
 /* selection of component if a recipe requirement has multiple options (e.g. 'duct tap' or 'welder') */
@@ -1831,6 +1872,10 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
         // Use item from components list, or (if not contained)
         // use newit, the default constructed.
         item act_item = newit;
+
+        if( act_item.has_temperature() ) {
+            act_item.set_item_temperature( temp_to_kelvin( g->get_temperature( loc ) ) );
+        }
 
         // Refitted clothing disassembles into refitted components (when applicable)
         if( dis_item.has_flag( "FIT" ) && act_item.has_flag( "VARSIZE" ) ) {
