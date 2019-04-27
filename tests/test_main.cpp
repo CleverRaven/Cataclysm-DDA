@@ -204,22 +204,15 @@ option_overrides_t extract_option_overrides( std::vector<const char *> &arg_vec 
     return ret;
 }
 
-struct CataReporter : Catch::ConsoleReporter {
-    using ConsoleReporter::ConsoleReporter;
+struct CataListener : Catch::TestEventListenerBase {
+    using TestEventListenerBase::TestEventListenerBase;
 
-    static std::string getDescription() {
-        return "As console reporter, but with backtrace support if enabled at build time "
-               "and seeding the Cataclysm RNG before each test";
-    }
-
-    virtual void sectionStarting( Catch::SectionInfo const &sectionInfo ) override {
-        ConsoleReporter::sectionStarting( sectionInfo );
+    virtual void sectionStarting( Catch::SectionInfo const & ) override {
         // Initialize the cata RNG with the Catch seed for reproducible tests
         rng_set_engine_seed( m_config->rngSeed() );
     }
 
     bool assertionEnded( Catch::AssertionStats const &assertionStats ) override {
-        const auto r = ConsoleReporter::assertionEnded( assertionStats );
 #ifdef BACKTRACE
         Catch::AssertionResult const &result = assertionStats.assertionResult;
 
@@ -231,11 +224,11 @@ struct CataReporter : Catch::ConsoleReporter {
         }
 #endif
 
-        return r;
+        return false;
     }
 };
 
-CATCH_REGISTER_REPORTER( "cata", CataReporter )
+CATCH_REGISTER_LISTENER( CataListener )
 
 int main( int argc, const char *argv[] )
 {
