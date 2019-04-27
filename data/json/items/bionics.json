@@ -49,7 +49,7 @@
   },
   {
     "id": "bio_advreactor",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": "Advanced Microreactor CBM",
     "description": "This stripped down mini-reactor is safer than it appears due to integrated radiation cleansers.  There is no way to shut it down, but you can toggle additional fuel intake.",
@@ -112,7 +112,7 @@
   },
   {
     "id": "bio_batteries",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": "Battery System CBM",
     "description": "You have a battery draining attachment, and thus can make use of the energy contained in normal, everyday batteries.  Use 'E' to consume batteries.  Can be toggled on and off at will.",
@@ -499,7 +499,7 @@
   },
   {
     "id": "bio_metabolics",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": "Metabolic Interchange CBM",
     "description": "Your digestive system and power supply are interconnected.  Bionic energy is replenished at the cost of increasing hunger.  Can be toggled on and off at will.",
@@ -653,7 +653,7 @@
   },
   {
     "id": "bio_reactor",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": "Internal Microreactor CBM",
     "description": "This stripped down mini-reactor may not be the best thing to have in your chest.  There is no way to shut it down, but you can toggle additional fuel intake.",
@@ -663,7 +663,7 @@
   {
     "id": "bio_reactor_upgrade",
     "bionic_id": "bio_advreactor",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": "Microreactor Upgrade CBM",
     "description": "A kit for upgrading a pre-installed microreactor with enhanced maximum yield and automatic radiation scrubbing.",

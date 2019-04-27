@@ -84,6 +84,18 @@ const efftype_id effect_npc_fire_bad( "npc_fire_bad" );
 const efftype_id effect_npc_flee_player( "npc_flee_player" );
 const efftype_id effect_npc_player_looking( "npc_player_still_looking" );
 
+// power source CBMs
+const bionic_id bio_advreactor( "bio_advreactor" );
+const bionic_id bio_batteries( "bio_batteries" );
+const bionic_id bio_ethanol( "bio_ethanol" );
+const bionic_id bio_furnace( "bio_furnace" );
+const bionic_id bio_metabolics( "bio_metabolics" );
+const bionic_id bio_reactor( "bio_reactor" );
+const bionic_id bio_torsionratchet( "bio_torsionratchet" );
+
+const ammotype reactor_slurry( "reactor_slurry" );
+const ammotype plutonium( "plutonium" );
+
 enum npc_action : int {
     npc_undecided = 0,
     npc_pause,
@@ -107,6 +119,16 @@ enum npc_action : int {
 
 namespace
 {
+const std::vector<bionic_id> power_cbms = { {
+        bio_advreactor,
+        bio_batteries,
+        bio_ethanol,
+        bio_furnace,
+        bio_metabolics,
+        bio_reactor,
+        bio_torsionratchet
+    }
+};
 
 const int avoidance_vehicles_radius = 5;
 
@@ -548,6 +570,8 @@ void npc::move()
         set_attitude( NPCATT_NULL );
     }
     regen_ai_cache();
+    adjust_power_cbms();
+
     npc_action action = npc_undecided;
 
     static const std::string no_target_str = "none";
@@ -1334,6 +1358,16 @@ const item_location npc::find_usable_ammo( const item &weap ) const
     return const_cast<npc *>( this )->find_usable_ammo( weap );
 }
 
+void npc::adjust_power_cbms()
+{
+    if( !is_player_ally() || wants_to_recharge_cbm() ) {
+        return;
+    }
+    for( const bionic_id &cbm_id : power_cbms ) {
+        deactivate_bionic_by_id( cbm_id );
+    }
+}
+
 bool npc::activate_bionic_by_id( const bionic_id &cbm_id, bool eff_only )
 {
     int index = 0;
@@ -1379,6 +1413,91 @@ bool npc::deactivate_bionic_by_id( const bionic_id &cbm_id, bool eff_only )
         }
         index += 1;
     }
+    return false;
+}
+
+bool npc::wants_to_recharge_cbm()
+{
+    return power_level < ( max_power_level * static_cast<int>( rules.cbm_recharge ) / 100 );
+}
+
+bool npc::consume_cbm_items( const std::function<bool( const item & )> &filter )
+{
+    invslice slice = inv.slice();
+    int index = -1;
+    for( unsigned int i = 0; i < slice.size(); i++ ) {
+        const item &it = slice[i]->front();
+        const item &real_item = it.is_container() ?  it.contents.front() : it;
+        if( filter( real_item ) ) {
+            index = i;
+            break;
+        }
+    }
+    if( index < 0 ) {
+        return false;
+    }
+    int old_moves = moves;
+    return consume( index ) && old_moves != moves;
+}
+
+bool npc::recharge_cbm()
+{
+    // non-allied NPCs don't consume resources to recharge
+    if( !is_player_ally() ) {
+        charge_power( max_power_level );
+        return true;
+    }
+
+    use_bionic_by_id( bio_torsionratchet );
+    use_bionic_by_id( bio_metabolics );
+
+    if( use_bionic_by_id( bio_furnace ) ) {
+        const std::function<bool( const item & )> furnace_filter = []( const item & it ) {
+            return it.typeId() == itype_id( "withered" ) || it.typeId() == itype_id( "file" ) ||
+                   it.has_flag( "FIREWOOD" );
+        };
+        if( consume_cbm_items( furnace_filter ) ) {
+            return true;
+        } else {
+            complain_about( "need_junk", 3_hours, "<need_junk>", false );
+        }
+    }
+
+    if( use_bionic_by_id( bio_batteries ) ) {
+        const std::function<bool( const item & )> battery_filter = []( const item & it ) {
+            return it.typeId() == itype_id( "battery" );
+        };
+        if( consume_cbm_items( battery_filter ) ) {
+            return true;
+        } else {
+            complain_about( "need_batteries", 3_hours, "<need_batteries>", false );
+        }
+    }
+
+    if( use_bionic_by_id( bio_ethanol ) ) {
+        const std::function<bool( const item & )> ethanol_filter = []( const item & it ) {
+            return it.type->can_use( "WEAK_ALCOHOL" ) || it.type->can_use( "ALCOHOL" ) ||
+                   it.type->can_use( "STRONG_ALOCHOL" );
+        };
+        if( consume_cbm_items( ethanol_filter ) ) {
+            return true;
+        } else {
+            complain_about( "need_booze", 3_hours, "<need_booze>", false );
+        }
+    }
+
+    if( use_bionic_by_id( bio_reactor ) || use_bionic_by_id( bio_advreactor ) ) {
+        const std::function<bool( const item & )> reactor_filter = []( const item & it ) {
+            return it.is_ammo() && ( it.type->ammo->type.count( plutonium ) > 0 ||
+                                     it.type->ammo->type.count( reactor_slurry ) > 0 );
+        };
+        if( consume_cbm_items( reactor_filter ) ) {
+            return true;
+        } else {
+            complain_about( "need_radioactives", 3_hours, "<need_radioactives>", false );
+        }
+    }
+
     return false;
 }
 
@@ -1429,16 +1548,21 @@ npc_action npc::address_needs( float danger )
         }
     }
 
-    if( danger <= NPC_DANGER_VERY_LOW && find_corpse_to_pulp() ) {
-        if( !do_pulp() ) {
-            move_to_next();
+    if( danger <= NPC_DANGER_VERY_LOW ) {
+        if( wants_to_recharge_cbm() && recharge_cbm() ) {
+            return npc_noop;
         }
 
-        return npc_noop;
-    }
+        if( find_corpse_to_pulp() ) {
+            if( !do_pulp() ) {
+                move_to_next();
+            }
+            return npc_noop;
+        }
 
-    if( danger <= NPC_DANGER_VERY_LOW && adjust_worn() ) {
-        return npc_noop;
+        if( adjust_worn() ) {
+            return npc_noop;
+        }
     }
 
     const auto could_sleep = [&]() {

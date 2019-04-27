@@ -888,6 +888,14 @@ class npc : public player
         /*
          *  CBM management functions
          */
+        void adjust_power_cbms();
+        // find items that can be used to fuel CBM rechargers
+        // can't use can_feed_*_with because they're private to player and too general
+        bool consume_cbm_items( const std::function<bool( const item & )> &filter );
+        // returns true if fuel resources are consumed
+        bool recharge_cbm();
+        // power is below the requested levels
+        bool wants_to_recharge_cbm();
         // return false if not present or can't be activated; true if present and already active
         // or if the call activates it
         bool use_bionic_by_id( const bionic_id &cbm_id, bool eff_only = false );
