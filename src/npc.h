@@ -647,6 +647,7 @@ class npc : public player
         bool is_following() const; // Traveling w/ player (whether as a friend or a slave)
         bool is_friend() const; // Allies with the player
         bool is_leader() const; // Leading the player
+        bool is_walking_with() const; // Leading, following, or waiting for the player
         bool is_ally( const player &p ) const; // in the same faction
         bool is_stationary( bool include_guards = true ) const; // isn't moving
         bool is_guarding() const; // has a guard mission

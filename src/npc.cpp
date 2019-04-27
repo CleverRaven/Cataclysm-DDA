@@ -1528,20 +1528,19 @@ bool npc::guaranteed_hostile() const
     return is_enemy() || ( my_fac != nullptr && my_fac->likes_u < -10 );
 }
 
+bool npc::is_walking_with() const
+{
+    return attitude == NPCATT_FOLLOW || attitude == NPCATT_LEAD || attitude == NPCATT_WAIT;
+}
+
 bool npc::is_following() const
 {
-    switch( attitude ) {
-        case NPCATT_FOLLOW:
-        case NPCATT_WAIT:
-            return true;
-        default:
-            return false;
-    }
+    return attitude == NPCATT_FOLLOW || attitude == NPCATT_WAIT;
 }
 
 bool npc::is_leader() const
 {
-    return ( attitude == NPCATT_LEAD );
+    return attitude == NPCATT_LEAD;
 }
 
 bool npc::is_assigned_to_camp() const
@@ -2357,6 +2356,8 @@ std::string npc::extended_description() const
         ss << _( "Is your friend." );
     } else if( is_following() ) {
         ss << _( "Is following you." );
+    } else if( is_leader() ) {
+        ss << _( "Is guiding you." );
     } else if( guaranteed_hostile() ) {
         ss << _( "Will try to kill you or flee from you if you reveal yourself." );
     } else {
