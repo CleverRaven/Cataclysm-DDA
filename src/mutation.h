@@ -15,31 +15,18 @@
 #include "character.h"
 #include "damage.h"
 #include "enums.h" // tripoint
+#include "item.h"
 #include "string_id.h"
 #include "tuple_hash.h"
-#include "item.h"
+#include "type_id.h"
 
 class nc_color;
 class JsonObject;
 class vitamin;
 class player;
-
-using vitamin_id = string_id<vitamin>;
-class martialart;
-
-using matype_id = string_id<martialart>;
 struct dream;
-struct mutation_branch;
-
-using trait_id = string_id<mutation_branch>;
 using itype_id = std::string;
-class Trait_group;
 class JsonArray;
-
-namespace trait_group
-{
-using Trait_group_tag = string_id<Trait_group>;
-}
 
 extern std::vector<dream> dreams;
 extern std::map<std::string, std::vector<trait_id> > mutations_category;

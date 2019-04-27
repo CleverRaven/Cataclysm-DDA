@@ -8,13 +8,12 @@
 #include "enums.h"
 #include "requirements.h"
 #include "string_id.h"
+#include "type_id.h"
 
 class inventory;
 class item;
 class player;
 class recipe;
-
-using requirement_id = string_id<requirement_data>;
 
 /**
 *   enum used by comp_selection to indicate where a component should be consumed from.

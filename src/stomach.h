@@ -6,6 +6,7 @@
 #include "string_id.h"
 #include "units.h"
 #include "calendar.h"
+#include "type_id.h"
 
 struct needs_rates;
 class player;
@@ -13,8 +14,6 @@ class vitamin;
 class JsonIn;
 class JsonOut;
 class item;
-
-using vitamin_id = string_id<vitamin>;
 
 // how much the stomach_contents passes
 // based on 30 minute increments

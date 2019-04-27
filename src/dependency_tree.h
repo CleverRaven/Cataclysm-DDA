@@ -8,10 +8,7 @@
 #include <string>
 
 #include "string_id.h"
-
-struct MOD_INFORMATION;
-
-using mod_id = string_id<MOD_INFORMATION>;
+#include "type_id.h"
 
 enum NODE_ERROR_TYPE {
     DEPENDENCY,

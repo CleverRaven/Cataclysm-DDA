@@ -6,19 +6,9 @@
 #include <string>
 
 #include "string_id.h"
+#include "type_id.h"
 
 class JsonObject;
-class fault;
-
-using fault_id = string_id<fault>;
-
-class Skill;
-
-using skill_id = string_id<Skill>;
-
-struct requirement_data;
-
-using requirement_id = string_id<requirement_data>;
 
 class fault
 {

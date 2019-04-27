@@ -16,14 +16,13 @@
 #include "omdata.h"
 #include "overmap_types.h"
 #include "optional.h"
+#include "type_id.h"
 
 struct mongroup;
 class monster;
 class npc;
 struct om_vehicle;
 class overmap_special_batch;
-
-using oter_id = int_id<oter_t>;
 class overmap;
 struct radio_tower;
 struct regional_settings;

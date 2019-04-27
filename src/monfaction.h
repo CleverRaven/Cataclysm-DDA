@@ -6,12 +6,9 @@
 
 #include "int_id.h"
 #include "string_id.h"
+#include "type_id.h"
 
-class monfaction;
 class JsonObject;
-
-using mfaction_id = int_id<monfaction>;
-using mfaction_str_id = string_id<monfaction>;
 
 enum mf_attitude {
     MFA_BY_MOOD = 0,    // Hostile if angry

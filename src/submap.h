@@ -19,6 +19,7 @@
 #include "item.h"
 #include "string_id.h"
 #include "enums.h"
+#include "type_id.h"
 #include "vehicle.h"
 
 class JsonIn;
@@ -29,12 +30,6 @@ struct mtype;
 struct trap;
 struct ter_t;
 struct furn_t;
-
-using mtype_id = string_id<mtype>;
-using trap_id = int_id<trap>;
-using ter_id = int_id<ter_t>;
-using furn_id = int_id<furn_t>;
-using furn_str_id = string_id<furn_t>;
 
 struct spawn_point {
     point pos;

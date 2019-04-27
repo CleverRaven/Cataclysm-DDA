@@ -5,11 +5,9 @@
 #include <string>
 
 #include "string_id.h"
+#include "type_id.h"
 
 class JsonObject;
-class morale_type_data;
-
-using morale_type = string_id<morale_type_data>;
 
 struct itype;
 

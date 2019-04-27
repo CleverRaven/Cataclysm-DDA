@@ -41,6 +41,7 @@
 #include "itype.h"
 #include "pldata.h"
 #include "string_id.h"
+#include "type_id.h"
 
 class effect;
 class map;
@@ -49,9 +50,6 @@ struct pathfinding_settings;
 
 static const std::string DEFAULT_HOTKEYS( "1234567890abcdefghijklmnopqrstuvwxyz" );
 
-class ammunition_type;
-
-using ammotype = string_id<ammunition_type>;
 class craft_command;
 class recipe_subset;
 
@@ -72,25 +70,13 @@ nc_color encumb_color( int level );
 enum game_message_type : int;
 class ma_technique;
 class martialart;
-class recipe;
-
-using recipe_id = string_id<recipe>;
 struct item_comp;
 struct tool_comp;
 template<typename CompType> struct comp_selection;
 class vehicle;
-class vitamin;
-
-using vitamin_id = string_id<vitamin>;
-class start_location;
-
-using start_location_id = string_id<start_location>;
 struct w_point;
 struct points_left;
 struct targeting_data;
-class morale_type_data;
-
-using morale_type = string_id<morale_type_data>;
 
 namespace debug_menu
 {

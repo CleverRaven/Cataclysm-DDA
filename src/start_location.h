@@ -8,6 +8,7 @@
 #include <string>
 
 #include "string_id.h"
+#include "type_id.h"
 
 class tinymap;
 class player;
@@ -15,9 +16,6 @@ class JsonObject;
 struct tripoint;
 template<typename T>
 class generic_factory;
-struct MonsterGroup;
-
-using mongroup_id = string_id<MonsterGroup>;
 
 class start_location
 {

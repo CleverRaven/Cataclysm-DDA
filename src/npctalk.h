@@ -3,14 +3,9 @@
 #define NPCTALK_H
 
 #include "string_id.h"
+#include "type_id.h"
 
-class martialart;
-
-using matype_id = string_id<martialart>;
 class npc;
-class Skill;
-
-using skill_id = string_id<Skill>;
 class time_duration;
 
 namespace talk_function

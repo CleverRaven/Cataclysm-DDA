@@ -13,28 +13,19 @@
 #include "int_id.h"
 #include "optional.h"
 #include "string_id.h"
+#include "type_id.h"
 #include "units.h"
 
 class JsonObject;
 struct itype;
-struct trap;
 struct ter_t;
 struct furn_t;
-class harvest_list;
 class player;
 struct tripoint;
 
 using iexamine_function = void ( * )( player &, const tripoint & );
 
-using trap_id = int_id<trap>;
-using trap_str_id = string_id<trap>;
-
-using ter_id = int_id<ter_t>;
-using ter_str_id = string_id<ter_t>;
-using furn_id = int_id<furn_t>;
-using furn_str_id = string_id<furn_t>;
 using itype_id = std::string;
-using harvest_id = string_id<harvest_list>;
 
 struct map_bash_info {
     int str_min;            // min str(*) required to bash

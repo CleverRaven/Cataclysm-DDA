@@ -10,6 +10,7 @@
 #include "color.h"
 #include "int_id.h"
 #include "string_id.h"
+#include "type_id.h"
 #include "units.h"
 
 class Creature;
@@ -19,9 +20,6 @@ class map;
 struct trap;
 struct tripoint;
 class JsonObject;
-
-using trap_id = int_id<trap>;
-using trap_str_id = string_id<trap>;
 
 namespace trapfunc
 {

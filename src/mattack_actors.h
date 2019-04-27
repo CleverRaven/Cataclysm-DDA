@@ -12,15 +12,13 @@
 #include "mattack_common.h"
 #include "mtype.h"
 #include "string_id.h"
+#include "type_id.h"
 #include "weighted_list.h"
 #include "bodypart.h"
 
 class JsonObject;
 class monster;
-class gun_mode;
 class Creature;
-
-using gun_mode_id = string_id<gun_mode>;
 
 class leap_actor : public mattack_actor
 {

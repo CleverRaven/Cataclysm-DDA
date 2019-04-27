@@ -4,6 +4,7 @@
 
 #include "color.h"
 #include "int_id.h"
+#include "type_id.h"
 
 /**
  * @name BODYTEMP
@@ -34,9 +35,6 @@ struct point;
 struct tripoint;
 struct trap;
 struct rl_vec2d;
-struct oter_t;
-
-using oter_id = int_id<oter_t>;
 
 /**
  * Weather type enum.

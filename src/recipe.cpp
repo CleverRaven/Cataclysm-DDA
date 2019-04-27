@@ -19,10 +19,7 @@
 #include "optional.h"
 #include "player.h"
 #include "translations.h"
-
-struct oter_t;
-
-using oter_str_id = string_id<oter_t>;
+#include "type_id.h"
 
 recipe::recipe() : skill_used( skill_id::NULL_ID() ) {}
 
