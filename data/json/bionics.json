@@ -13,7 +13,7 @@
     "name": "Active Defense System",
     "description": "A thin forcefield surrounds your body, continually draining power.  Anything attempting to penetrate this field has a chance of being deflected at the cost of energy.  Bullets will be stopped more often than swords and those in turn more often than massive objects.",
     "occupied_bodyparts": [ [ "TORSO", 10 ], [ "HEAD", 1 ], [ "ARM_L", 1 ], [ "ARM_R", 1 ], [ "LEG_L", 2 ], [ "LEG_R", 2 ] ],
-    "flags": [ "BIONIC_TOGGLED" ],
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
     "act_cost": 10,
     "react_cost": 10,
     "time": 1
@@ -390,7 +390,7 @@
       [ "FOOT_L", 1 ],
       [ "FOOT_R", 1 ]
     ],
-    "flags": [ "BIONIC_TOGGLED" ],
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
     "act_cost": 1,
     "react_cost": 1,
     "time": 2
@@ -482,7 +482,7 @@
       [ "FOOT_L", 2 ],
       [ "FOOT_R", 2 ]
     ],
-    "flags": [ "BIONIC_TOGGLED" ]
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ]
   },
   {
     "id": "bio_heatsink",
@@ -501,7 +501,7 @@
       [ "FOOT_L", 1 ],
       [ "FOOT_R", 1 ]
     ],
-    "flags": [ "BIONIC_TOGGLED" ],
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
     "act_cost": 4,
     "react_cost": 4,
     "time": 1
@@ -512,7 +512,7 @@
     "name": "Hydraulic Muscles",
     "description": "While activated, your muscles will be greatly enhanced, increasing your strength by 20.",
     "occupied_bodyparts": [ [ "TORSO", 4 ], [ "ARM_L", 8 ], [ "ARM_R", 8 ], [ "LEG_L", 14 ], [ "LEG_R", 14 ] ],
-    "flags": [ "BIONIC_TOGGLED" ],
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
     "act_cost": 17,
     "react_cost": 17,
     "time": 1
@@ -685,7 +685,7 @@
     "name": "Offensive Defense System",
     "description": "A thin forcefield surrounds your body, continually draining power.  This field does not deflect penetration, but rather delivers a strong shock, damaging unarmed attackers and those with a conductive weapon.",
     "occupied_bodyparts": [ [ "TORSO", 10 ], [ "HEAD", 1 ], [ "ARM_L", 1 ], [ "ARM_R", 1 ], [ "LEG_L", 2 ], [ "LEG_R", 2 ] ],
-    "flags": [ "BIONIC_TOGGLED" ],
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
     "act_cost": 10,
     "react_cost": 10,
     "time": 1
@@ -886,7 +886,7 @@
     "name": "Electroshock Unit",
     "description": "While fighting unarmed, or with a weapon that conducts electricity, there is a chance that a successful hit will shock your opponent, inflicting extra damage and disabling them temporarily at the cost of some energy.",
     "occupied_bodyparts": [ [ "TORSO", 8 ], [ "ARM_L", 3 ], [ "ARM_R", 3 ], [ "HAND_L", 1 ], [ "HAND_R", 1 ] ],
-    "flags": [ "BIONIC_TOGGLED" ]
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ]
   },
   {
     "id": "bio_shockwave",

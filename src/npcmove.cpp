@@ -93,6 +93,17 @@ const bionic_id bio_metabolics( "bio_metabolics" );
 const bionic_id bio_reactor( "bio_reactor" );
 const bionic_id bio_torsionratchet( "bio_torsionratchet" );
 
+// active defense CBMs - activate when in danger
+const bionic_id bio_ads( "bio_ads" );
+const bionic_id bio_faraday( "bio_faraday" );
+const bionic_id bio_heat_absorb( "bio_heat_absorb" );
+const bionic_id bio_heat_sink( "bio_heatsink" );
+const bionic_id bio_ods( "bio_ods" );
+const bionic_id bio_shock( "bio_shock" );
+
+// melee CBMs - activate for melee combat
+const bionic_id bio_hydraulics( "bio_hydraulics" );
+
 // weapon CBMs - activate in combat if they're better than what we have
 const bionic_id bio_lightning( "bio_chain_lightning" );
 const bionic_id bio_laser( "bio_laser" );
@@ -135,6 +146,16 @@ const std::vector<bionic_id> power_cbms = { {
         bio_torsionratchet
     }
 };
+const std::vector<bionic_id> defense_cbms = { {
+        bio_ads,
+        bio_faraday,
+        bio_heat_absorb,
+        bio_heat_sink,
+        bio_ods,
+        bio_shock
+    }
+};
+
 // lightning, laser, blade, claws in order of use priority
 const std::vector<bionic_id> weapon_cbms = { {
         bio_lightning,
@@ -878,6 +899,9 @@ void npc::execute_action( npc_action action )
         case npc_reach_attack:
             if( weapon.reach_range( *this ) >= rl_dist( pos(), tar ) &&
                 clear_shot_reach( pos(), tar ) ) {
+                if( can_use_offensive_cbm() ) {
+                    activate_bionic_by_id( bio_hydraulics );
+                }
                 reach_attack( tar );
                 break;
             }
@@ -888,6 +912,9 @@ void npc::execute_action( npc_action action )
                 move_to_next();
             } else if( path.size() == 1 ) {
                 if( cur != nullptr ) {
+                    if( can_use_offensive_cbm() ) {
+                        activate_bionic_by_id( bio_hydraulics );
+                    }
                     melee_attack( *cur, true );
                 }
             } else {
@@ -1396,6 +1423,9 @@ void npc::adjust_power_cbms()
 
 void npc::activate_combat_cbms()
 {
+    for( const bionic_id &cbm_id : defense_cbms ) {
+        activate_bionic_by_id( cbm_id );
+    }
     if( can_use_offensive_cbm() ) {
         for( const bionic_id &cbm_id : weapon_cbms ) {
             check_or_use_weapon_cbm( cbm_id );
@@ -1405,6 +1435,10 @@ void npc::activate_combat_cbms()
 
 void npc::deactivate_combat_cbms()
 {
+    for( const bionic_id &cbm_id : defense_cbms ) {
+        deactivate_bionic_by_id( cbm_id );
+    }
+    deactivate_bionic_by_id( bio_hydraulics );
     for( const bionic_id &cbm_id : weapon_cbms ) {
         deactivate_bionic_by_id( cbm_id );
     }
