@@ -8222,6 +8222,20 @@ std::list<tripoint> map::find_furnitures_in_radius( const tripoint &center, size
     return furn_locs;
 }
 
+std::list<Creature> map::get_creatures_in_radius( const tripoint &center, size_t radius,
+        size_t radiusz )
+{
+    std::list<Creature> creatures;
+    for( const auto &loc : points_in_radius( center, radius, radiusz ) ) {
+        Creature &tmp_critter = *g->critter_at( loc );
+        if( &tmp_critter != nullptr ) {
+            creatures.push_back( tmp_critter );
+        }
+
+    }
+    return creatures;
+}
+
 level_cache &map::access_cache( int zlev )
 {
     if( zlev >= -OVERMAP_DEPTH && zlev <= OVERMAP_HEIGHT ) {
