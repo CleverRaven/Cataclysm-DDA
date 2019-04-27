@@ -429,7 +429,7 @@ void npc::assess_danger()
         float player_diff = evaluate_enemy( g->u );
         if( is_enemy() ) {
             assessment += handle_hostile( g->u, player_diff, "maniac", "kill_player" );
-        } else if( is_friend() ) {
+        } else if( is_friendly( g->u ) ) {
             float min_danger = assessment >= NPC_DANGER_VERY_LOW ? NPC_DANGER_VERY_LOW : -10.0f;
             assessment = std::max( min_danger, assessment - player_diff * 0.5f );
         }
@@ -1316,26 +1316,20 @@ npc_action npc::address_needs( float danger )
         return npc_use_painkiller;
     }
 
-    // should check all allies, but factions are stupid right now
-    if( is_friend() ) {
-        if( need_heal( g->u ) ) {
-            ai_cache.ally = g->shared_from( g->u );
+    if( is_player_ally() && need_heal( g->u ) ) {
+        ai_cache.ally = g->shared_from( g->u );
+        return npc_heal_player;
+    }
+
+    const std::vector<npc *> allies = g->get_npcs_if( [&]( const npc & guy ) {
+        return guy.getID() != getID() && guy.is_ally( *this ) && posz() == guy.posz() &&
+               sees( guy.pos() ) && rl_dist( pos(), guy.pos() ) <= SEEX * 2;
+    } );
+
+    for( npc *guy : allies ) {
+        if( need_heal( *guy ) ) {
+            ai_cache.ally = g->shared_from( *guy );
             return npc_heal_player;
-        }
-
-        const std::vector<npc *> followers = g->get_npcs_if( [&]( const npc & guy ) {
-            return guy.is_friend() && guy.is_following() && posz() == guy.posz() &&
-                   sees( guy.pos() ) && rl_dist( pos(), guy.pos() ) <= SEEX * 2;
-        } );
-
-        for( npc *guy : followers ) {
-            if( guy == this ) {
-                continue;
-            }
-            if( need_heal( *guy ) ) {
-                ai_cache.ally = g->shared_from( *guy );
-                return npc_heal_player;
-            }
         }
     }
 
@@ -1844,7 +1838,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         }
 
         // Close doors behind self (if you can)
-        if( is_friend() && rules.has_flag( ally_rule::close_doors ) ) {
+        if( rules.has_flag( ally_rule::close_doors ) && is_player_ally() ) {
             doors::close_door( g->m, *this, old_pos );
         }
 
@@ -3013,7 +3007,7 @@ bool npc::consume_food()
     }
 
     if( index == -1 ) {
-        if( !is_friend() ) {
+        if( !is_player_ally() ) {
             // TODO: Remove this and let player "exploit" hungry NPCs
             set_hunger( 0 );
             set_thirst( 0 );

@@ -1228,7 +1228,7 @@ bool npc::wants_to_sell( const item &it, int at_price, int market_price ) const
         return true;
     }
 
-    if( is_friend() ) {
+    if( is_player_ally() ) {
         return true;
     }
 
@@ -1247,7 +1247,7 @@ bool npc::wants_to_buy( const item &it, int at_price, int market_price ) const
     ( void )market_price;
     ( void )it;
 
-    if( is_friend() ) {
+    if( is_player_ally() ) {
         return true;
     }
 
@@ -1258,7 +1258,7 @@ bool npc::wants_to_buy( const item &it, int at_price, int market_price ) const
 void npc::shop_restock()
 {
     restock = calendar::turn + 3_days;
-    if( is_friend() ) {
+    if( is_player_ally() ) {
         return;
     }
 
@@ -1523,14 +1523,14 @@ bool npc::is_player_ally() const
     return is_ally( g->u );
 }
 
-bool npc::is_friend() const
+bool npc::is_friendly( const player &p ) const
 {
-    return attitude == NPCATT_FOLLOW || attitude == NPCATT_LEAD;
+    return is_ally( p ) || ( p.is_player() && ( is_walking_with() || is_player_ally() ) );
 }
 
 bool npc::is_minion() const
 {
-    return is_friend() && op_of_u.trust >= 5;
+    return is_player_ally() && op_of_u.trust >= 5;
 }
 
 bool npc::guaranteed_hostile() const
@@ -1541,6 +1541,12 @@ bool npc::guaranteed_hostile() const
 bool npc::is_walking_with() const
 {
     return attitude == NPCATT_FOLLOW || attitude == NPCATT_LEAD || attitude == NPCATT_WAIT;
+}
+
+bool npc::is_obeying( const player &p ) const
+{
+    return ( p.is_player() && is_walking_with() && is_player_ally() ) ||
+           ( is_ally( p ) && is_stationary( true ) );
 }
 
 bool npc::is_following() const
@@ -1602,13 +1608,13 @@ bool npc::is_travelling() const
 
 Creature::Attitude npc::attitude_to( const Creature &other ) const
 {
-    if( is_friend() ) {
+    if( is_player_ally() ) {
         // Friendly NPCs share player's alliances
         return g->u.attitude_to( other );
     }
 
     if( other.is_npc() ) {
-        // Hostile NPCs are also hostile towards player's allied
+        // Hostile NPCs are also hostile towards player's allies
         if( is_enemy() && other.attitude_to( g->u ) == A_FRIENDLY ) {
             return A_HOSTILE;
         }
@@ -1687,7 +1693,7 @@ int npc::follow_distance() const
 {
     // If the player is standing on stairs, follow closely
     // This makes the stair hack less painful to use
-    if( is_friend() &&
+    if( is_walking_with() &&
         ( g->m.has_flag( TFLAG_GOES_DOWN, g->u.pos() ) ||
           g->m.has_flag( TFLAG_GOES_UP, g->u.pos() ) ) ) {
         return 1;
@@ -1702,7 +1708,7 @@ nc_color npc::basic_symbol_color() const
         return c_red;
     } else if( attitude == NPCATT_FLEE || attitude == NPCATT_FLEE_TEMP ) {
         return c_light_red;
-    } else if( is_friend() ) {
+    } else if( is_player_ally() ) {
         return c_green;
     } else if( is_following() ) {
         return c_light_green;
@@ -2340,7 +2346,7 @@ mfaction_id npc::get_monster_faction() const
     static const string_id<monfaction> player_fac( "player" );
     static const string_id<monfaction> bee_fac( "bee" );
 
-    if( is_friend() ) {
+    if( is_player_ally() ) {
         return player_fac.id();
     }
 
@@ -2362,7 +2368,7 @@ std::string npc::extended_description() const
         ss << _( "Is trying to kill you." );
     } else if( attitude == NPCATT_FLEE || attitude == NPCATT_FLEE_TEMP ) {
         ss << _( "Is trying to flee from you." );
-    } else if( is_friend() ) {
+    } else if( is_player_ally() ) {
         ss << _( "Is your friend." );
     } else if( is_following() ) {
         ss << _( "Is following you." );

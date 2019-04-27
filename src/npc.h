@@ -645,7 +645,8 @@ class npc : public player
         void set_faction_ver( int new_version );
         bool is_enemy() const; // We want to kill/mug/etc the player
         bool is_following() const; // Traveling w/ player (whether as a friend or a slave)
-        bool is_friend() const; // Allies with the player
+        bool is_obeying( const player &p ) const;
+        bool is_friendly( const player &p ) const; // ally of or travelling with p
         bool is_leader() const; // Leading the player
         bool is_walking_with() const; // Leading, following, or waiting for the player
         bool is_ally( const player &p ) const; // in the same faction
