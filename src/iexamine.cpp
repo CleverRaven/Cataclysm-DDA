@@ -4113,7 +4113,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                     }
 
                 }
-                installer.mod_moves(-500);
+                installer.mod_moves( -500 );
             }
             break;
         }
