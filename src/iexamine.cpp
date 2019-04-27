@@ -1556,6 +1556,40 @@ void iexamine::flower_poppy( player &p, const tripoint &examp )
 }
 
 /**
+ * Prompt pick (or drink nectar if able) poppy bud. Not safe for player.
+ *
+ * Drinking causes: -25 hunger, +20 fatigue, pkill2-70 effect and, 1 in 20 pkiller-1 addiction.
+ * Picking w/ env_resist < 5 causes 1 in 3  sleep for 12 min and 4 dmg to each leg
+ */
+void iexamine::flower_cactus( player &p, const tripoint &examp )
+{
+    if( dead_plant( true, p, examp ) ) {
+        return;
+    }
+
+    if( !query_yn( _( "Pick %s?" ), g->m.furnname( examp ) ) ) {
+        none( p, examp );
+        return;
+    }
+
+    if( one_in( 6 ) ) {
+        add_msg( m_bad, _( "The cactus's nettles sting you!" ) );
+        p.apply_damage( nullptr, bp_arm_l, 4 );
+        p.apply_damage( nullptr, bp_arm_r, 4 );
+    }
+
+    g->m.furn_set( examp, f_null );
+
+    if( p.can_pickWeight( item( "cactus_pad" ), true ) &&
+        p.can_pickVolume( item( "cactus_pad" ), true ) ) {
+        p.i_add( item( "cactus_pad" ) );
+        p.add_msg_if_player( _( "You harvest: cactus pad" ) );
+    } else {
+        g->m.add_item_or_charges( p.pos(), item( "cactus_pad" ) );
+        p.add_msg_if_player( _( "You harvest and drop: cactus pad" ) );
+    }
+}
+/**
  * It's a flower, drink nectar if your able to.
  */
 void iexamine::flower_bluebell( player &p, const tripoint &examp )
