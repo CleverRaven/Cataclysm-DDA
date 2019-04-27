@@ -622,4 +622,4 @@
     "volume": 1,
     "fun": -1,
     "vitamins": [ [ "vitA", 10 ], [ "vitC", 16 ], [ "calcium", 16 ], [ "iron", 2 ] ]
-]
+  }
