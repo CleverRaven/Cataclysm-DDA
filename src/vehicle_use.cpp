@@ -524,6 +524,8 @@ void vehicle::use_controls( const tripoint &pos )
                 if( engine_on && has_engine_type_not( fuel_type_muscle, true ) )
                 {
                     add_msg( _( "You turn the engine off and let go of the controls." ) );
+                    sounds::sound( pos, 2, sounds::sound_t::movement,
+                    _( "the engine go silent" ), true, "vehicle", "engine_stop" );
                 } else
                 {
                     add_msg( _( "You let go of the controls." ) );
@@ -542,6 +544,8 @@ void vehicle::use_controls( const tripoint &pos )
                 {
                     engine_on = false;
                     add_msg( _( "You turn the engine off." ) );
+                    sounds::sound( pos, 2, sounds::sound_t::movement,
+                    _( "the engine go silent" ), true, "vehicle", "engine_stop" );
                 } else
                 {
                     start_engines();
@@ -809,7 +813,7 @@ bool vehicle::start_engine( const int e )
     // Engine with starter motors can fail on both battery and starter motor
     if( eng.faults_potential().count( fault_starter ) ) {
         if( eng.faults().count( fault_starter ) ) {
-            sounds::sound( pos, 2, sounds::sound_t::alarm,
+            sounds::sound( pos, eng.info().engine_noise_factor(), sounds::sound_t::alarm,
                            string_format( _( "the %s clicking once" ), eng.name() ), true, "vehicle",
                            "engine_single_click_fail" );
             return false;
@@ -818,7 +822,7 @@ bool vehicle::start_engine( const int e )
                                    ( 1.0 + dmg / 2 + cold_factor / 5 ) * 10,
                                    TICKS_TO_SECONDS( start_moves ) );
         if( discharge_battery( start_draw_bat, true ) != 0 ) {
-            sounds::sound( pos, 2, sounds::sound_t::alarm,
+            sounds::sound( pos, eng.info().engine_noise_factor(), sounds::sound_t::alarm,
                            string_format( _( "the %s rapidly clicking" ), eng.name() ), true, "vehicle",
                            "engine_multi_click_fail" );
             return false;
@@ -827,7 +831,7 @@ bool vehicle::start_engine( const int e )
 
     // Engines always fail to start with faulty fuel pumps
     if( eng.faults().count( fault_pump ) || eng.faults().count( fault_diesel ) ) {
-        sounds::sound( pos, 2, sounds::sound_t::movement,
+        sounds::sound( pos, eng.info().engine_noise_factor(), sounds::sound_t::movement,
                        string_format( _( "the %s quickly stuttering out." ), eng.name() ), true, "vehicle",
                        "engine_stutter_fail" );
         return false;
@@ -835,11 +839,13 @@ bool vehicle::start_engine( const int e )
 
     // Damaged engines have a chance of failing to start
     if( x_in_y( dmg * 100, 120 ) ) {
-        sounds::sound( pos, 2, sounds::sound_t::movement,
+        sounds::sound( pos, eng.info().engine_noise_factor(), sounds::sound_t::movement,
                        string_format( _( "the %s clanking and grinding" ), eng.name() ), true, "vehicle",
                        "engine_clanking_fail" );
         return false;
     }
+    sounds::sound( pos, eng.info().engine_noise_factor(), sounds::sound_t::movement,
+                string_format( _( "the %s starting" ), eng.name() ), true, "vehicle", "engine_start" );
 
     return true;
 }
@@ -1257,7 +1263,7 @@ void vehicle::open_or_close( const int part_index, const bool opening )
     parts[part_index].open = opening;
     insides_dirty = true;
     g->m.set_transparency_cache_dirty( smz );
-
+    sfx::play_variant_sound( opening ? "vehicle_open" : "vehicle_close", parts[ part_index ].info().get_id().str(), 100 );
     for( auto const &vec : find_lines_of_parts( part_index, "OPENABLE" ) ) {
         for( auto const &partID : vec ) {
             parts[partID].open = opening;

@@ -163,7 +163,7 @@ Where id describes the id of the sound effect, and a list of variants separated 
     important: `plmove <terrain>` has priority over default `plmove|walk_<what>` (excluding `|barefoot`)
     example: if `plmove|t_grass_long` is defined it will be played before default `plmove|walk_grass` default for all grassy terrains
 
-* `plmove <terrain>`
+* `plmove <terrain>|<vehicle_part>`
 * `plmove walk_grass|walk_dirt|walk_metal|walk_water|walk_tarmac|walk_barefoot|clear_obstacle`
 
     # fatigue
@@ -211,10 +211,13 @@ Where id describes the id of the sound effect, and a list of variants separated 
 * `fire ignition`
 
     # vehicle sounds - engine and other parts in action
-* `vehicle engine_working|engine_backfire`
+* `vehicle engine_start|engine_working|engine_backfire|engine_stop`
 * `vehicle engine_bangs_start|fault_immobiliser_beep|engine_single_click_fail|engine_multi_click_fail|engine_stutter_fail|engine_clanking_fail`
 * `vehicle horn_loud|horn_medium|horn_low|rear_beeper|chimes|car_alarm`
 * `vehicle reaper|scoop|scoop_thump`
+
+* `vehicle_open <vehicle_part>` # note: doors, trunks, hatches, etc.
+* `vehicle_close <vehicle part>`
 
     # miscelaneous sounds
 * `misc flashbang|flash|shockwave|earthquake|stairs_movement|stones_grinding|bomb_ticking|lit_fuse|cow_bell|bell|timber`
