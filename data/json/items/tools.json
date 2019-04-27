@@ -4648,7 +4648,7 @@
     "name": "lighter",
     "description": "This is a disposable plastic lighter.  A lighter must be carried to use various drugs, like cigarettes, or to light things like Molotov cocktails.  You can also use a lighter to light nearby items on fire.",
     "weight": 14,
-    "volume": 0,
+    "volume": "14 ml",
     "price": 100,
     "material": [ "plastic", "aluminum" ],
     "symbol": ",",
