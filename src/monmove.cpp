@@ -554,7 +554,7 @@ void monster::move()
     const mtype_id &mon_id = type->id;
     if( mon_id == mon_defective_robot_nurse && has_effect( effect_dragging ) ) {
 
-        player *dragged_foe = dynamic_cast<player *>( attack_target() );
+
         if( rl_dist( pos(), goal ) == 1 && g->m.furn( goal ) == furn_id( "f_autodoc_couch" ) &&
             !has_effect( effect_operating ) ) {
             if( dragged_foe->has_effect( effect_grabbed ) && !has_effect( effect_countdown ) ) {
@@ -819,8 +819,9 @@ void monster::move()
             moves -= 100; // If we don't do this, we'll get infinite loops.
         }
         if( has_effect( effect_dragging ) ) {
-            player *dragged_foe = dynamic_cast<player *>( attack_target() );
+
             if( !dragged_foe->has_effect( effect_grabbed ) ) {
+                dragged_foe = nullptr;
                 remove_effect( effect_dragging );
             } else if( drag_to != pos() ) {
                 dragged_foe->setpos( drag_to );

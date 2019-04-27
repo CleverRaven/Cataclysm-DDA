@@ -415,6 +415,7 @@ class monster : public Creature
         tripoint wander_pos; // Wander destination - Just try to move in that direction
         int wandf;           // Urge to wander - Increased by sound, decrements each move
         std::vector<item> inv; // Inventory
+        player* dragged_foe; // player being dragged by the monster
 
         // DEFINING VALUES
         int friendly;
