@@ -1739,7 +1739,7 @@
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "ash", 500 ] ] ]
   },
   {
-    "result": "anesthesia",
+    "result": "anesthetic",
     "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CC_OTHER_MEDICAL",
