@@ -1648,7 +1648,7 @@ Creature::Attitude npc::attitude_to( const Creature &other ) const
 
 int npc::smash_ability() const
 {
-    if( !is_following() || rules.has_flag( ally_rule::allow_bash ) ) {
+    if( !is_player_ally() || rules.has_flag( ally_rule::allow_bash ) ) {
         ///\EFFECT_STR_NPC increases smash ability
         return str_cur + weapon.damage_melee( DT_BASH );
     }
@@ -1710,7 +1710,7 @@ nc_color npc::basic_symbol_color() const
         return c_light_red;
     } else if( is_player_ally() ) {
         return c_green;
-    } else if( is_following() ) {
+    } else if( is_walking_with() ) {
         return c_light_green;
     } else if( guaranteed_hostile() ) {
         return c_red;
@@ -2222,7 +2222,7 @@ void npc::process_turn()
 {
     player::process_turn();
 
-    if( is_following() && calendar::once_every( 1_hours ) &&
+    if( is_player_ally() && calendar::once_every( 1_hours ) &&
         get_hunger() < 200 && get_thirst() < 100 && op_of_u.trust < 5 ) {
         // Friends who are well fed will like you more
         // 24 checks per day, best case chance at trust 0 is 1 in 48 for +1 trust per 2 days

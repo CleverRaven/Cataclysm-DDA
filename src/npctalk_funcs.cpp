@@ -195,7 +195,7 @@ void talk_function::goto_location( npc &p )
 
 void talk_function::assign_guard( npc &p )
 {
-    if( !p.is_following() ) {
+    if( !p.is_player_ally() ) {
         p.mission = NPC_MISSION_GUARD;
         p.set_omt_destination();
         return;
@@ -698,7 +698,7 @@ npc *pick_follower()
     std::vector<tripoint> locations;
 
     for( npc &guy : g->all_npcs() ) {
-        if( guy.is_following() && g->u.sees( guy ) ) {
+        if( guy.is_player_ally() && g->u.sees( guy ) ) {
             followers.push_back( &guy );
             locations.push_back( guy.pos() );
         }
