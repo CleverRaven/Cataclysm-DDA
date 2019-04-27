@@ -110,7 +110,7 @@
           "boots_lsurvivor"
         ],
         "entries": [
-          { "item": "shocktonfa_off", "contents-item": "battery_ups" },
+          { "item": "shocktonfa_off" },
           { "item": "coilgun", "ammo-item": "combatnail", "charges": 50, "contents-item": [ "shoulder_strap" ] },
           { "item": "nailmag", "ammo-item": "combatnail", "charges": 50 }
         ]

@@ -22,16 +22,6 @@
     "flags": [ "NO_UNLOAD", "LEAK_DAM", "RADIOACTIVE" ]
   },
   {
-    "id": "battery_ups",
-    "copy-from": "mod_battery",
-    "type": "TOOLMOD",
-    "category": "spare_parts",
-    "name": "UPS conversion mod",
-    "description": "This device replaces conventional battery connections with a rechargeable power cell that runs off of a Unified Power System.  Having the UPS on or placing a tool in a special recharging station will slowly charge it.",
-    "ammo_modifier": "battery",
-    "flags": [ "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
-  },
-  {
     "id": "double_plutonium_core",
     "type": "TOOLMOD",
     "category": "spare_parts",

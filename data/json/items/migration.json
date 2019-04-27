@@ -522,6 +522,11 @@
     "replace": "veggy_salted"
   },
   {
+    "id": "battery_ups",
+    "type": "MIGRATION",
+    "replace": "small_storage_battery"
+  },
+  {
     "id": "potato_irradiated",
     "type": "MIGRATION",
     "replace": "irradiated_potato"

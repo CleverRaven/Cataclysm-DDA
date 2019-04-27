@@ -2770,7 +2770,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
-    "components": [ [ [ "cerberus_laser", 1 ] ], [ [ "battery_ups", 1 ] ], [ [ "cable", 15 ] ] ]
+    "components": [ [ [ "cerberus_laser", 1 ] ], [ [ "small_storage_battery", 1 ] ], [ [ "cable", 15 ] ] ]
   },
   {
     "type": "recipe",
@@ -2981,7 +2981,6 @@
       [ [ "processor", 1 ] ],
       [ [ "RAM", 1 ] ],
       [ [ "small_lcd_screen", 1 ] ],
-      [ [ "battery_ups", 1 ] ],
       [ [ "small_storage_battery", 2 ], [ "UPS_off", 2 ] ]
     ]
   },
