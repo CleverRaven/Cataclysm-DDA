@@ -1082,6 +1082,10 @@ void sfx::do_footstep()
             play_variant_sound( "plmove", "walk_barefoot", heard_volume, 0, 0.8, 1.2 );
             start_sfx_timestamp = std::chrono::high_resolution_clock::now();
             return;
+        } else if( sfx::has_variant_sound( "plmove", terrain.str() ) ) {
+            play_variant_sound( "plmove", terrain.str(), heard_volume, 0, 0.8, 1.2 );
+            start_sfx_timestamp = std::chrono::high_resolution_clock::now();
+            return;
         } else if( grass.count( terrain ) > 0 ) {
             play_variant_sound( "plmove", "walk_grass", heard_volume, 0, 0.8, 1.2 );
             start_sfx_timestamp = std::chrono::high_resolution_clock::now();
@@ -1110,22 +1114,24 @@ void sfx::do_footstep()
     }
 }
 
-void sfx::do_obstacle()
+void sfx::do_obstacle( const std::string &obst )
 {
     int heard_volume = sfx::get_heard_volume( g->u.pos() );
-    const auto terrain = g->m.ter( g->u.pos() ).id();
-    static const std::set<ter_str_id> water = {
-        ter_str_id( "t_water_sh" ),
-        ter_str_id( "t_water_dp" ),
-        ter_str_id( "t_water_moving_sh" ),
-        ter_str_id( "t_water_moving_dp" ),
-        ter_str_id( "t_swater_sh" ),
-        ter_str_id( "t_swater_dp" ),
-        ter_str_id( "t_water_pool" ),
-        ter_str_id( "t_sewage" ),
+    //const auto terrain = g->m.ter( g->u.pos() ).id();
+    static const std::set<std::string> water = {
+        "t_water_sh",
+        "t_water_dp",
+        "t_water_moving_sh",
+        "t_water_moving_dp",
+        "t_swater_sh",
+        "t_swater_dp",
+        "t_water_pool",
+        "t_sewage",
     };
-    if( water.count( terrain ) > 0 ) {
-        return;
+    if( sfx::has_variant_sound( "plmove", obst ) ) {
+        play_variant_sound( "plmove", obst, heard_volume, 0, 0.8, 1.2 );
+    } else if( water.count( obst ) > 0 ) {
+        play_variant_sound( "plmove", "walk_water", heard_volume, 0, 0.8, 1.2 );
     } else {
         play_variant_sound( "plmove", "clear_obstacle", heard_volume, 0, 0.8, 1.2 );
     }
@@ -1133,14 +1139,6 @@ void sfx::do_obstacle()
 
 void sfx::play_activity_sound( const std::string &id, const std::string &variant, int volume )
 {
-    add_msg( m_debug, string_format( "Sound: %s", act.str() ) );
-
-    if( is_channel_playing( 21 ) ) {
-        add_msg( m_debug, "Channel 21 playing." );
-    } else {
-        add_msg( m_debug, "Channel 21 NOT playing." );
-    }
-
     if( act != g->u.activity.id() ) {
         act = g->u.activity.id();
         play_ambient_variant_sound( id, variant, volume, 21, 0 );
@@ -1163,6 +1161,8 @@ void sfx::load_playlist( JsonObject & ) { }
 void sfx::play_variant_sound( const std::string &, const std::string &, int, int, float, float ) { }
 void sfx::play_variant_sound( const std::string &, const std::string &, int ) { }
 void sfx::play_ambient_variant_sound( const std::string &, const std::string &, int, int, int ) { }
+void play_activity_sound( const std::string &, const std::string &, int ) { }
+void end_activity_sounds() { }
 void sfx::generate_gun_sound( const player &, const item & ) { }
 void sfx::generate_melee_sound( const tripoint &, const tripoint &, bool, bool,
                                 const std::string & ) { }
@@ -1178,10 +1178,14 @@ bool is_channel_playing( int )
 {
     return false;
 }
+bool has_variant_sound( const std::string &, const std::string & )
+{
+    return false;
+}
 void sfx::stop_sound_effect_fade( int, int ) { }
 void sfx::do_player_death_hurt( const player &, bool ) { }
 void sfx::do_fatigue() { }
-void sfx::do_obstacle() { }
+void sfx::do_obstacle( const std::string & ) { }
 /*@}*/
 
 #endif // if defined(SDL_SOUND)

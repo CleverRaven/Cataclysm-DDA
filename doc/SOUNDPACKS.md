@@ -98,7 +98,7 @@ A full list of sound effect id's and variants is given in the following. Each li
 
 Where id describes the id of the sound effect, and a list of variants separated by | follows. When the variants are omitted, the variant "default" is assumed. Where the variants do not represent literal strings, but variables, they will be enclosed in `<` `>`. For instance, `<furniture>` is a placeholder for any valid furniture ID (as in the furniture definition JSON).
 
-    # opne/close doors
+    # open/close doors
 * `open_door default|<furniture>|<terrain>`
 * `close_door default|<furniture>|<terrain>`
 
@@ -159,8 +159,14 @@ Where id describes the id of the sound effect, and a list of variants separated 
 
 * `player_laugh laugh_f|laugh_m`
 
-    # player movement and fatigue
+    # player movement sfx
+    important: `plmove <terrain>` has priority over default `plmove|walk_<what>` (excluding `|barefoot`)
+    example: if `plmove|t_grass_long` is defined it will be played before default `plmove|walk_grass` default for all grassy terrains
+
+* `plmove <terrain>`
 * `plmove walk_grass|walk_dirt|walk_metal|walk_water|walk_tarmac|walk_barefoot|clear_obstacle`
+
+    # fatigue
 * `plmove fatigue_m_low|fatigue_m_med|fatigue_m_high|fatigue_f_low|fatigue_f_med|fatigue_f_high`
 
     # player hurt sounds

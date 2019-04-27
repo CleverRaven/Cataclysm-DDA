@@ -101,10 +101,12 @@ void do_ambient();
 void fade_audio_group( int tag, int duration );
 void fade_audio_channel( int tag, int duration );
 bool is_channel_playing( int channel );
+bool has_variant_sound( const std::string &id, const std::string &variant );
 void stop_sound_effect_fade( int channel, int duration );
 void do_player_death_hurt( const player &target, bool death );
 void do_fatigue();
-void do_obstacle();
+// @param obst should be string id of obstacle terrain or vehicle part
+void do_obstacle( const std::string &obst = "" );
 }
 
 #endif

@@ -357,6 +357,11 @@ const sound_effect *find_random_effect( const std::string &id, const std::string
     return find_random_effect( id_and_variant( id, "default" ) );
 }
 
+bool sfx::has_variant_sound( const std::string &id, const std::string &variant )
+{
+    return find_random_effect( id, variant ) != nullptr ? true : false;
+}
+
 // Deletes the dynamically created chunk (if such a chunk had been played).
 void cleanup_when_channel_finished( int /* channel */, void *udata )
 {
