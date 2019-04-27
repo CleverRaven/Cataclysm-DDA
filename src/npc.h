@@ -648,11 +648,12 @@ class npc : public player
         bool is_friend() const; // Allies with the player
         bool is_leader() const; // Leading the player
         bool is_ally( const player &p ) const; // in the same faction
+        bool is_stationary( bool include_guards = true ) const; // isn't moving
+        bool is_guarding() const; // has a guard mission
+        bool is_patrolling() const; // has a guard patrol mission
         bool is_assigned_to_camp() const;
         /** is performing a player_activity */
         bool has_player_activity() const;
-        /** Standing in one spot, moving back if removed from it. */
-        bool is_guarding() const;
         bool is_travelling() const;
         /** Trusts you a lot. */
         bool is_minion() const;
