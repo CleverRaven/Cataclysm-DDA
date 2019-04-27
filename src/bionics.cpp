@@ -922,8 +922,6 @@ void player::bionics_uninstall_failure( Creature &installer, int difficulty, int
             break;
     }
 
-
-
 }
 
 // bionic manipulation adjusted skill
