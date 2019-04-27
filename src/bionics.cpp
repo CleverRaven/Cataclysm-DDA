@@ -83,6 +83,7 @@ const efftype_id effect_pkill2( "pkill2" );
 const efftype_id effect_pkill3( "pkill3" );
 const efftype_id effect_pkill_l( "pkill_l" );
 const efftype_id effect_poison( "poison" );
+const efftype_id effect_sleep( "sleep" );
 const efftype_id effect_stung( "stung" );
 const efftype_id effect_tapeworm( "tapeworm" );
 const efftype_id effect_teleglow( "teleglow" );
@@ -1094,7 +1095,7 @@ bool player::uninstall_bionic( const bionic_id &b_id, player &installer, bool au
     return true;
 }
 
-bool player::uninstall_bionic( const bionic &target_cbm, monster &installer, player &patient,
+bool player::uninstall_bionic( const bionic &target_cbm, monster &installer, Creature &patient,
                                float adjusted_skill, bool autodoc )
 {
     item bionic_to_uninstall = item( target_cbm.id.str(), 0 );
@@ -1112,7 +1113,7 @@ bool player::uninstall_bionic( const bionic &target_cbm, monster &installer, pla
                  _( "You feel a tiny pricking sensation in your right arm, and lose all sensation before abruptly blacking out." ) );
     }
     patient.add_effect( effect_narcosis, duration );
-    patient.fall_asleep( duration );
+    patient.add_effect( effect_sleep, duration );
 
     if( success > 0 ) {
 
