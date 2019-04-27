@@ -16,7 +16,6 @@
 
 #include "ballistics.h"
 #include "bodypart.h"
-#include "creature.h"
 #include "debug.h"
 #include "effect.h"
 #include "event.h"
@@ -2759,10 +2758,10 @@ bool mattack::nurse_operate( monster *z )
     }
 
     bool found_target = false;
-    player *target;
+    player *target = nullptr;
     tripoint tmp_pos( z->pos().x + 12, z->pos().y + 12, z->pos().z );
-    for( auto &critter : g->m.get_creatures_in_radius( z->pos(), 6 ) ) {
-        player *tmp_player = dynamic_cast< player *>( &critter );
+    for( auto critter : g->m.get_creatures_in_radius( z->pos(), 6 ) ) {
+        player *tmp_player = dynamic_cast< player *>( critter );
         if( tmp_player != nullptr && z->sees( *tmp_player ) ) {
             if( tmp_player->has_any_bionic() ) {
                 if( rl_dist( z->pos(), tmp_player->pos() ) < rl_dist( z->pos(), tmp_pos ) ) {
