@@ -889,6 +889,8 @@ class npc : public player
          *  CBM management functions
          */
         void adjust_power_cbms();
+        void activate_combat_cbms();
+        void deactivate_combat_cbms();
         // find items that can be used to fuel CBM rechargers
         // can't use can_feed_*_with because they're private to player and too general
         bool consume_cbm_items( const std::function<bool( const item & )> &filter );
@@ -896,6 +898,8 @@ class npc : public player
         bool recharge_cbm();
         // power is below the requested levels
         bool wants_to_recharge_cbm();
+        // has power available to use offensive CBMs
+        bool can_use_offensive_cbm() const;
         // return false if not present or can't be activated; true if present and already active
         // or if the call activates it
         bool use_bionic_by_id( const bionic_id &cbm_id, bool eff_only = false );
@@ -903,6 +907,12 @@ class npc : public player
         // present and the call activates it
         bool activate_bionic_by_id( const bionic_id &cbm_id, bool eff_only = false );
         bool deactivate_bionic_by_id( const bionic_id &cbm_id, bool eff_only = false );
+        // in bionics.cpp
+        // can't use bionics::activate because it calls plfire directly
+        void discharge_cbm_weapon();
+        // check if an NPC has a bionic weapon and activate it if possible
+        void check_or_use_weapon_cbm( const bionic_id &cbm_id );
+
         // complain about a specific issue if enough time has passed
         // @param issue string identifier of the issue
         // @param dur time duration between complaints
@@ -1221,6 +1231,11 @@ class npc : public player
         void load( JsonObject &jsin );
 
     private:
+        // the weapon we're actually holding when using bionic fake guns
+        item real_weapon;
+        // the index of the bionics for the fake gun;
+        int cbm_weapon_index = -1;
+
         void setID( int id );
         bool dead;  // If true, we need to be cleaned up
 

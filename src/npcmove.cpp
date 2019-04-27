@@ -93,6 +93,12 @@ const bionic_id bio_metabolics( "bio_metabolics" );
 const bionic_id bio_reactor( "bio_reactor" );
 const bionic_id bio_torsionratchet( "bio_torsionratchet" );
 
+// weapon CBMs - activate in combat if they're better than what we have
+const bionic_id bio_lightning( "bio_chain_lightning" );
+const bionic_id bio_laser( "bio_laser" );
+const bionic_id bio_blade( "bio_blade" );
+const bionic_id bio_claws( "bio_claws" );
+
 const ammotype reactor_slurry( "reactor_slurry" );
 const ammotype plutonium( "plutonium" );
 
@@ -127,6 +133,14 @@ const std::vector<bionic_id> power_cbms = { {
         bio_metabolics,
         bio_reactor,
         bio_torsionratchet
+    }
+};
+// lightning, laser, blade, claws in order of use priority
+const std::vector<bionic_id> weapon_cbms = { {
+        bio_lightning,
+        bio_laser,
+        bio_blade,
+        bio_claws
     }
 };
 
@@ -662,6 +676,8 @@ void npc::move()
         action = npc_return_to_guard_pos;
     } else {
         // No present danger
+        deactivate_combat_cbms();
+
         action = address_needs();
         print_action( "address_needs %s", action );
 
@@ -890,10 +906,14 @@ void npc::execute_action( npc_action action )
                 break;
             }
             aim();
-            if( !is_hallucination() ) {
-                fire_gun( tar, mode.qty, *mode );
-            } else {
+            if( is_hallucination() ) {
                 pretend_fire( this, mode.qty, *mode );
+            } else {
+                fire_gun( tar, mode.qty, *mode );
+                // "discard" the fake bio weapon after shooting it
+                if( cbm_weapon_index >= 0 ) {
+                    discharge_cbm_weapon();
+                }
             }
             break;
         }
@@ -1107,6 +1127,9 @@ npc_action npc::method_of_attack()
     // TODO: Change the in_vehicle check to actual "are we driving" check
     const bool dont_move = in_vehicle || rules.engagement == ENGAGE_NO_MOVE;
 
+    // if there's enough of a threat to be here, power up the combat CBMs
+    activate_combat_cbms();
+
     long ups_charges = charges_of( "UPS" );
 
     // get any suitable modes excluding melee, any forbidden to NPCs and those without ammo
@@ -1185,15 +1208,18 @@ npc_action npc::method_of_attack()
         return npc_melee;
     }
 
-    // TODO: Add a time check now that wielding takes a lot of time
-    if( wield_better_weapon() ) {
-        add_msg( m_debug, "%s is changing weapons", disp_name() );
-        return npc_noop;
-    }
+    // don't mess with CBM weapons
+    if( cbm_weapon_index < 0 ) {
+        // TODO: Add a time check now that wielding takes a lot of time
+        if( wield_better_weapon() ) {
+            add_msg( m_debug, "%s is changing weapons", disp_name() );
+            return npc_noop;
+        }
 
-    if( !weapon.ammo_sufficient() && can_reload_current() ) {
-        add_msg( m_debug, "%s is reloading", disp_name() );
-        return npc_reload;
+        if( !weapon.ammo_sufficient() && can_reload_current() ) {
+            add_msg( m_debug, "%s is reloading", disp_name() );
+            return npc_reload;
+        }
     }
 
     // TODO: Needs a check for transparent but non-passable tiles on the way
@@ -1368,6 +1394,23 @@ void npc::adjust_power_cbms()
     }
 }
 
+void npc::activate_combat_cbms()
+{
+    if( can_use_offensive_cbm() ) {
+        for( const bionic_id &cbm_id : weapon_cbms ) {
+            check_or_use_weapon_cbm( cbm_id );
+        }
+    }
+}
+
+void npc::deactivate_combat_cbms()
+{
+    for( const bionic_id &cbm_id : weapon_cbms ) {
+        deactivate_bionic_by_id( cbm_id );
+    }
+    cbm_weapon_index = -1;
+}
+
 bool npc::activate_bionic_by_id( const bionic_id &cbm_id, bool eff_only )
 {
     int index = 0;
@@ -1419,6 +1462,11 @@ bool npc::deactivate_bionic_by_id( const bionic_id &cbm_id, bool eff_only )
 bool npc::wants_to_recharge_cbm()
 {
     return power_level < ( max_power_level * static_cast<int>( rules.cbm_recharge ) / 100 );
+}
+
+bool npc::can_use_offensive_cbm() const
+{
+    return power_level > ( max_power_level * static_cast<int>( rules.cbm_reserve ) / 100 );
 }
 
 bool npc::consume_cbm_items( const std::function<bool( const item & )> &filter )

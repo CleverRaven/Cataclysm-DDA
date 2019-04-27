@@ -30,6 +30,7 @@
 #include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
+#include "npc.h"
 #include "player.h"
 #include "projectile.h"
 #include "rng.h"
@@ -147,6 +148,81 @@ void force_comedown( effect &eff )
     }
 
     eff.set_duration( std::min( eff.get_duration(), eff.get_int_dur_factor() ) );
+}
+
+void npc::discharge_cbm_weapon()
+{
+    if( cbm_weapon_index < 0 ) {
+        return;
+    }
+    bionic &bio = ( *my_bionics )[cbm_weapon_index];
+    charge_power( -bionics[bio.id].power_activate );
+    weapon = real_weapon;
+    cbm_weapon_index = -1;
+}
+
+void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
+{
+    // if we're already using a bio_weapon, keep using it
+    if( cbm_weapon_index >= 0 ) {
+        return;
+    }
+
+    int free_power = std::max( 0, power_level - max_power_level *
+                               static_cast<int>( rules.cbm_reserve ) / 100 );
+    if( free_power == 0 ) {
+        return;
+    }
+
+    int index = 0;
+    bool found = false;
+    for( auto &i : *my_bionics ) {
+        if( i.id == cbm_id && !i.powered ) {
+            found = true;
+            break;
+        }
+        index += 1;
+    }
+    if( !found ) {
+        return;
+    }
+    bionic &bio = ( *my_bionics )[index];
+
+    if( bionics[bio.id].gun_bionic ) {
+        item cbm_weapon = item( bionics[bio.id].fake_item );
+        bool not_allowed = !rules.has_flag( ally_rule::use_guns ) ||
+                           ( rules.has_flag( ally_rule::use_silent ) && !cbm_weapon.is_silent() );
+        if( is_player_ally() && not_allowed ) {
+            return;
+        }
+
+        int ups_charges = charges_of( "UPS" );
+        int ammo_count = weapon.ammo_remaining();
+        int ups_drain = weapon.get_gun_ups_drain();
+        if( ups_drain > 0 ) {
+            ammo_count = std::min( ammo_count, ups_charges / ups_drain );
+        }
+        int cbm_ammo = free_power / bionics[bio.id].power_activate;
+
+        if( weapon_value( weapon, ammo_count ) < weapon_value( cbm_weapon, cbm_ammo ) ) {
+            real_weapon = weapon;
+            weapon = cbm_weapon;
+            cbm_weapon_index = index;
+        }
+    } else if( bionics[bio.id].weapon_bionic && !weapon.has_flag( "NO_UNWIELD" ) &&
+               free_power > bionics[bio.id].power_activate ) {
+        if( is_armed() ) {
+            stow_item( weapon );
+        }
+        if( g->u.sees( pos() ) ) {
+            add_msg( m_info, "%s activates their %s", disp_name(), bionics[bio.id].name );
+        }
+
+        weapon = item( bionics[bio.id].fake_item );
+        charge_power( -bionics[bio.id].power_activate );
+        bio.powered = true;
+        cbm_weapon_index = index;
+    }
 }
 
 // Why put this in a Big Switch?  Why not let bionics have pointers to

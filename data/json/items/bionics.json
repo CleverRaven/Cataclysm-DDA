@@ -121,7 +121,7 @@
   },
   {
     "id": "bio_blade",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": "Monomolecular Blade CBM",
     "description": "A deadly foot-long blade made of advanced material now resides inside your forearm, capable of being extended through the back of your wrist at the cost of a small amount of power.  Though exceptionally sharp, it will prevent you from holding anything else while extended.",
@@ -184,7 +184,7 @@
   },
   {
     "id": "bio_chain_lightning",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": "Chain Lightning CBM",
     "description": "Your body is equipped with a chain lightning generator, allowing you to emit a blast of lightning at a target, leaving a trail of lightning in its wake, jumping to additional targets within 4 tiles of the previous target.",
@@ -193,7 +193,7 @@
   },
   {
     "id": "bio_claws",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": "Bionic Claws CBM",
     "description": "Vicious claws have been installed inside your fingers, allowing you to extend and retract them at the cost of a small amount of power.  These do considerable cutting damage, but prevent you from holding anything else while extended.",
@@ -436,7 +436,7 @@
   },
   {
     "id": "bio_laser",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": "Finger-Mounted Laser CBM",
     "description": "One of your fingers has a small high-powered laser embedded in it.  This long range weapon is not incredibly damaging, but is very accurate, and has the potential to start fires.",

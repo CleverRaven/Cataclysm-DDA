@@ -104,7 +104,7 @@
     "occupied_bodyparts": [ [ "ARM_R", 5 ], [ "HAND_R", 2 ] ],
     "act_cost": 200,
     "fake_item": "bio_blade_weapon",
-    "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON" ]
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON", "BIONIC_NPC_USABLE" ]
   },
   {
     "id": "bio_blaster",
@@ -185,7 +185,7 @@
     "occupied_bodyparts": [ [ "TORSO", 16 ], [ "ARM_L", 4 ], [ "ARM_R", 4 ] ],
     "act_cost": 125,
     "fake_item": "bio_lightning",
-    "flags": [ "BIONIC_GUN" ]
+    "flags": [ "BIONIC_GUN", "BIONIC_NPC_USABLE" ]
   },
   {
     "id": "bio_claws",
@@ -195,7 +195,7 @@
     "occupied_bodyparts": [ [ "HAND_L", 5 ], [ "HAND_R", 5 ] ],
     "act_cost": 100,
     "fake_item": "bio_claws_weapon",
-    "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON" ]
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON", "BIONIC_NPC_USABLE" ]
   },
   {
     "id": "bio_climate",
@@ -552,7 +552,7 @@
     "occupied_bodyparts": [ [ "HAND_R", 1 ] ],
     "act_cost": 50,
     "fake_item": "bio_laser_gun",
-    "flags": [ "BIONIC_GUN" ]
+    "flags": [ "BIONIC_GUN", "BIONIC_NPC_USABLE" ]
   },
   {
     "id": "bio_leaky",
