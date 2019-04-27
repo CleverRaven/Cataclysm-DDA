@@ -572,46 +572,8 @@ void monster::move()
                 bionic_collection collec = *g->u.my_bionics;
                 int index = rng( 0, collec.size() - 1 );
                 bionic target_cbm = collec[index];
-                item bionic_to_uninstall = item( target_cbm.id.str(), 0 );
-                const itype *itemtype = bionic_to_uninstall.type;
-                int difficulty = itemtype->bionic->difficulty;
-                const time_duration duration = difficulty * 20_minutes;
 
-                add_msg( m_bad,
-                         _( "You feel a tiny pricking sensation in your right arm, and lose all sensation before abruptly blacking out." ) );
-                g->u.add_effect( effect_narcosis, duration );
-                g->u.fall_asleep( duration );
-                add_effect( effect_operating, duration );
-
-                //8 intelligence*4 + 8 first aid*4 + 3 computer *3 + 1 electronic*1 = 68
-                float adjusted_skill = static_cast<float>( 68 ) - std::min( static_cast<float>( 40 ),
-                                       static_cast<float>( 68 ) - static_cast<float>( 68 ) / static_cast<float>( 10.0 ) );
-                // defective nursebot is not using the autodoc
-                int chance_of_success = bionic_manip_cos( adjusted_skill, false, difficulty + 2 );
-                int success = chance_of_success - rng( 1, 100 );
-                if( success > 0 ) {
-
-                    if( attack_target()->is_player() ) {
-                        add_msg( m_neutral, _( "Your parts are jiggled back into their familiar places." ) );
-                        add_msg( m_mixed, _( "Successfully removed %s." ), target_cbm.info().name );
-                    } else if( attack_target()->is_npc() && g->u.sees( *this ) ) {
-                        add_msg( m_neutral, _( "%s's parts are jiggled back into their familiar places." ),
-                                 attack_target()->disp_name() );
-                        add_msg( m_mixed, _( "Successfully removed %s." ), target_cbm.info().name );
-                    }
-
-                    // remove power bank provided by bionic
-                    g->u.max_power_level -= target_cbm.info().capacity;
-                    g->u.remove_bionic( target_cbm.id );
-                    if( item::type_is_defined( target_cbm.id.c_str() ) ) {
-                        g->m.spawn_item( pos(), target_cbm.id.c_str(), 1 );
-                    } else {
-                        g->m.spawn_item( pos(), "burnt_out_bionic", 1 );
-                    }
-                } else {
-                    g->u.bionics_uninstall_failure( *this, difficulty, success, adjusted_skill );
-                }
-                g->refresh_all();
+                g->u.uninstall_bionic( target_cbm, *this, *attack_target(), 68 );
 
             }
         }
