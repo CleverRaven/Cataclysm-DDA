@@ -16,6 +16,7 @@
 #include "artifact.h"
 #include "calendar.h"
 #include "coordinate_conversions.h"
+#include "creature.h"
 #include "clzones.h"
 #include "debug.h"
 #include "drawing_primitives.h"

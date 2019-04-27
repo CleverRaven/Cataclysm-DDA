@@ -16,6 +16,7 @@
 
 #include "ballistics.h"
 #include "bodypart.h"
+#include "creature.h"
 #include "debug.h"
 #include "effect.h"
 #include "event.h"
