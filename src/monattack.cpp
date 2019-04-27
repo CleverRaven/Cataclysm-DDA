@@ -2740,20 +2740,47 @@ bool mattack::nurse_assist( monster *z )
 }
 bool mattack::nurse_operate( monster *z )
 {
-    if( !within_visual_range( z, 6 ) || z->has_effect( effect_dragging ) ||
-        z->has_effect( effect_operating ) ) {
+    if( z->has_effect( effect_dragging ) || z->has_effect( effect_operating ) ) {
         return false;
     }
+    bool u_see = g->u.sees( *z );
 
-    if( g->u.is_wearing( "badge_doctor" ) ||
-        z->attitude_to( g->u ) == monster_attitude::MATT_FOLLOW ) {
+    if( ( g->u.is_wearing( "badge_doctor" ) ||
+          z->attitude_to( g->u ) == monster_attitude::MATT_FOLLOW ) && u_see ) {
 
         add_msg( m_info, _( "The %s doesn't seem to register you as a doctor." ), z->name() );
     }
 
-    if( g->u.has_any_bionic() ) {
-        add_msg( m_info, _( "The %s scans you and seems to detect your bionics." ), z->name() );
-        z->anger = 100;
+
+
+    if( u_see ) {
+        add_msg( m_info, _( "The %s is scanning it's surroundings." ), z->name() );
+    }
+
+    bool found_target = false;
+    player *target;
+    tripoint tmp_pos( z->pos().x + 12, z->pos().y + 12, z->pos().z );
+    for( auto &critter : g->m.get_creatures_in_radius( z->pos(), 6 ) ) {
+        player *tmp_player = dynamic_cast< player *>( &critter );
+        if( tmp_player != nullptr && z->sees( *tmp_player ) ) {
+            if( tmp_player->has_any_bionic() ) {
+                if( rl_dist( z->pos(), tmp_player->pos() ) < rl_dist( z->pos(), tmp_pos ) ) {
+                    tmp_pos = tmp_player->pos();
+                    target = tmp_player;
+                    found_target = true;
+                }
+            }
+        }
+    }
+
+    if( found_target && u_see ) {
+        add_msg( m_info, _( "The %1$s scans %2$s and seems to detect something." ), z->name(),
+                 target->name );
+    }
+
+    if( found_target ) {
+
+        //z->anger = 100;
         std::list<tripoint> couch_pos = g->m.find_furnitures_in_radius( z->pos(), 10,
                                         furn_id( "f_autodoc_couch" ) ) ;
 
@@ -2762,6 +2789,7 @@ bool mattack::nurse_operate( monster *z )
             z->anger = 0;
             return false;
         }
+        z->set_dest( target->pos() );// should designate target as the attack_target
         grab( z );
         if( g->u.has_effect( effect_grabbed ) ) {
             z->add_effect( effect_dragging, 1_turns, num_bp, true );
