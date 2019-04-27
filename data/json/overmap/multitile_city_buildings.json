@@ -1060,6 +1060,15 @@
   },
   {
     "type": "city_building",
+    "id": "cs_car_dealership",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "cs_car_dealership_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "cs_car_dealership_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "s_restaurant",
     "locations": [ "land" ],
     "overmaps": [
