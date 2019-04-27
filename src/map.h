@@ -970,7 +970,7 @@ class map
          * somewhere else.
          */
         /*@{*/
-        std::list<item> use_amount_square( const tripoint &p, const itype_id type,
+        std::list<item> use_amount_square( const tripoint &p, const itype_id &type,
                                            long &quantity, const std::function<bool( const item & )> &filter = return_true<item> );
         std::list<item> use_amount( const tripoint &origin, const int range, const itype_id type,
                                     long &amount, const std::function<bool( const item & )> &filter = return_true<item> );
