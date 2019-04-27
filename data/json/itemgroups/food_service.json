@@ -981,7 +981,7 @@
     "type": "item_group",
     "id": "butcher_raw_meat",
     "items": [
-      [ "stomach_larget", 2 ],
+      [ "stomach_large", 2 ],
       [ "stomach_boiled", 2 ],
       [ "meat", 8 ],
       [ "lunchmeat", 6 ],
