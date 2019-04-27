@@ -468,8 +468,7 @@ std::vector<std::string> requirement_data::get_folded_list( int width,
             nc_color color = component.get_color( has_one, crafting_inv, filter, batch );
             const std::string color_tag = get_tag_from_color( color );
             std::string text = component.to_string( batch );
-            if( component.get_component_type() == COMPONENT_ITEM &&
-                has_one ) {
+            if( component.get_component_type() == COMPONENT_ITEM ) {
                 const itype_id item_id = static_cast<itype_id>( component.type );
                 long qty;
                 if( item::count_by_charges( item_id ) ) {
@@ -477,9 +476,11 @@ std::vector<std::string> requirement_data::get_folded_list( int width,
                 } else {
                     qty = crafting_inv.amount_of( item_id, false, std::numeric_limits<int>::max(), filter );
                 }
-                text = item::count_by_charges( item_id ) ?
-                       string_format( _( "%s (%d of %ld)" ), item::nname( item_id ), component.count * batch, qty ) :
-                       string_format( _( "%s of %ld" ), text, qty );
+                if( qty > 0 ){
+                    text = item::count_by_charges( item_id ) ?
+                           string_format( _( "%s (%d of %ld)" ), item::nname( item_id ), component.count * batch, qty ) :
+                           string_format( _( "%s of %ld" ), text, qty );
+                }
             }
 
             if( std::find( buffer_has.begin(), buffer_has.end(), text + color_tag ) != buffer_has.end() ) {
