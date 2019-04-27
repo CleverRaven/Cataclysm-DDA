@@ -308,11 +308,13 @@ int main( int argc, const char *argv[] )
 
     if( error_during_initialization ) {
         printf( "\nTreating result as failure due to error logged during initialization.\n" );
+        printf( "Randomness seeded to: %u\n", seed );
         return 1;
     }
 
     if( debug_has_error_been_observed() ) {
         printf( "\nTreating result as failure due to error logged during tests.\n" );
+        printf( "Randomness seeded to: %u\n", seed );
         return 1;
     }
 
