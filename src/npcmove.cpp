@@ -11,6 +11,7 @@
 #include <cmath>
 
 #include "ammo.h"
+#include "bionics.h"
 #include "cata_algo.h"
 #include "clzones.h"
 #include "debug.h"
@@ -1331,6 +1332,54 @@ item_location npc::find_usable_ammo( const item &weap )
 const item_location npc::find_usable_ammo( const item &weap ) const
 {
     return const_cast<npc *>( this )->find_usable_ammo( weap );
+}
+
+bool npc::activate_bionic_by_id( const bionic_id &cbm_id, bool eff_only )
+{
+    int index = 0;
+    for( auto &i : *my_bionics ) {
+        if( i.id == cbm_id ) {
+            if( !i.powered ) {
+                return activate_bionic( index, eff_only );
+            } else {
+                return false;
+            }
+        }
+        index += 1;
+    }
+    return false;
+}
+
+bool npc::use_bionic_by_id( const bionic_id &cbm_id, bool eff_only )
+{
+    int index = 0;
+    for( auto &i : *my_bionics ) {
+        if( i.id == cbm_id ) {
+            if( !i.powered ) {
+                return activate_bionic( index, eff_only );
+            } else {
+                return true;
+            }
+        }
+        index += 1;
+    }
+    return false;
+}
+
+bool npc::deactivate_bionic_by_id( const bionic_id &cbm_id, bool eff_only )
+{
+    int index = 0;
+    for( auto &i : *my_bionics ) {
+        if( i.id == cbm_id ) {
+            if( i.powered ) {
+                return deactivate_bionic( index, eff_only );
+            } else {
+                return false;
+            }
+        }
+        index += 1;
+    }
+    return false;
 }
 
 npc_action npc::address_needs( float danger )

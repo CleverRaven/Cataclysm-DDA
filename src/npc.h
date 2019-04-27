@@ -31,6 +31,7 @@
 #include "material.h"
 #include "type_id.h"
 
+struct bionic_data;
 class JsonObject;
 class JsonIn;
 class JsonOut;
@@ -45,6 +46,10 @@ struct pathfinding_settings;
 enum game_message_type : int;
 class gun_mode;
 
+using bionic_id = string_id<bionic_data>;
+using npc_class_id = string_id<npc_class>;
+using mission_type_id = string_id<mission_type>;
+using mfaction_id = int_id<monfaction>;
 using overmap_location_str_id = string_id<overmap_location>;
 
 void parse_tags( std::string &phrase, const player &u, const player &me,
@@ -880,6 +885,16 @@ class npc : public player
         // How well we smash terrain (not corpses!)
         int smash_ability() const;
 
+        /*
+         *  CBM management functions
+         */
+        // return false if not present or can't be activated; true if present and already active
+        // or if the call activates it
+        bool use_bionic_by_id( const bionic_id &cbm_id, bool eff_only = false );
+        // return false if not present, can't be activated, or is already active; returns true if
+        // present and the call activates it
+        bool activate_bionic_by_id( const bionic_id &cbm_id, bool eff_only = false );
+        bool deactivate_bionic_by_id( const bionic_id &cbm_id, bool eff_only = false );
         // complain about a specific issue if enough time has passed
         // @param issue string identifier of the issue
         // @param dur time duration between complaints
