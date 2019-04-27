@@ -8112,6 +8112,8 @@ int iuse::craft( player *p, item *it, bool, const tripoint & )
                 // wielding something that can't be unwielded
                 return 0;
             }
+        } else {
+            return 0;
         }
     }
 
