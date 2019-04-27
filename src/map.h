@@ -747,9 +747,11 @@ class map
         void make_rubble( const tripoint &p, const furn_id &rubble_type, const bool items );
 
         bool is_divable( const int x, const int y ) const;
+        bool is_water_shallow_current( const int x, const int y ) const;
         bool is_outside( const int x, const int y ) const;
         bool is_divable( const tripoint &p ) const;
         bool is_outside( const tripoint &p ) const;
+        bool is_water_shallow_current( const tripoint &p ) const;
         /** Check if the last terrain is wall in direction NORTH, SOUTH, WEST or EAST
          *  @param no_furn if true, the function will stop and return false
          *  if it encounters a furniture

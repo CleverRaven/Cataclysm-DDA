@@ -677,15 +677,14 @@ class item : public visitable<item>
         void calc_rot( const tripoint &p );
 
         /**
-         * Accumulate rot of the item since starting smoking.
+         * Accumulate rot of the item since starting smoking or milling
          * This is part of a workaround so that items don't rot away to nothing if the smoking rack
-         * is outside the reality bubble.
+         * or mill is outside the reality bubble.
          * @param p The absolute, global location (in map square coordinates) of the item to
          * check for temperature.
-         * @param smoking_duration
+         * @param processing_duration
          */
-        void calc_rot_while_smoking( const tripoint &p, time_duration smoking_duration );
-
+        void calc_rot_while_processing( const tripoint &p, time_duration processing_duration );
         /**
          * Update temperature for things like foo
          * @param temp Temperature at which item is current exposed
@@ -1877,6 +1876,7 @@ class item : public visitable<item>
         bool process_extinguish( player *carrier, const tripoint &pos );
         // Place conditions that should remove fake smoke item in this sub-function
         bool process_fake_smoke( player *carrier, const tripoint &pos );
+        bool process_fake_mill( player *carrier, const tripoint &pos );
         bool process_cable( player *carrier, const tripoint &pos );
         bool process_tool( player *carrier, const tripoint &pos );
 

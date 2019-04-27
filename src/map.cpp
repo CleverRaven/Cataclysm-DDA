@@ -2523,6 +2523,16 @@ bool map::is_divable( const int x, const int y ) const
     return has_flag( "SWIMMABLE", x, y ) && has_flag( TFLAG_DEEP_WATER, x, y );
 }
 
+bool map::is_water_shallow_current( const int x, const int y ) const
+{
+    return has_flag( "CURRENT", x, y ) && !has_flag( TFLAG_DEEP_WATER, x, y );
+}
+
+bool map::is_water_shallow_current( const tripoint &p ) const
+{
+    return has_flag( "CURRENT", p ) && !has_flag( TFLAG_DEEP_WATER, p );
+}
+
 bool map::is_divable( const tripoint &p ) const
 {
     return has_flag( "SWIMMABLE", p ) && has_flag( TFLAG_DEEP_WATER, p );

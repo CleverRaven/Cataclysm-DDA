@@ -3797,8 +3797,8 @@ void item::set_relative_rot( double val )
         rot = get_shelf_life() * val;
         // calc_rot uses last_rot_check (when it's not time_of_cataclysm) instead of bday.
         // this makes sure the rotting starts from now, not from bday.
-        // if this item is the result of smoking don't do this, we want to start from bday.
-        if( !has_flag( "SMOKING_RESULT" ) ) {
+        // if this item is the result of smoking or milling don't do this, we want to start from bday.
+        if( !has_flag( "PROCESSING_RESULT" ) ) {
             last_rot_check = calendar::turn;
         }
     }
@@ -3858,7 +3858,7 @@ void item::calc_rot( const tripoint &location )
 
         // Frozen food do not rot, so no change to rot variable
         // Smoking food will be checked for rot in smoker_finalize
-        if( item_tags.count( "FROZEN" ) || item_tags.count( "SMOKING" ) ) {
+        if( item_tags.count( "FROZEN" ) || item_tags.count( "PROCESSING" ) ) {
             return;
         }
 
@@ -3887,16 +3887,16 @@ void item::calc_rot( const tripoint &location )
     }
 }
 
-void item::calc_rot_while_smoking( const tripoint &location, time_duration smoking_duration )
+void item::calc_rot_while_processing( const tripoint &location, time_duration processing_duration )
 {
-    if( !item_tags.count( "SMOKING" ) ) {
+    if( !item_tags.count( "PROCESSING" ) ) {
         debugmsg( "calc_rot_while_smoking called on non smoking item: %s", tname() );
         return;
     }
 
     // Apply rot at 1/2 normal rate while smoking
-    rot += 0.5 * get_rot_since( last_rot_check, last_rot_check + smoking_duration, location );
-    last_rot_check += smoking_duration;
+    rot += 0.5 * get_rot_since( last_rot_check, last_rot_check + processing_duration, location );
+    last_rot_check += processing_duration;
 }
 
 units::volume item::get_storage() const
@@ -7250,6 +7250,21 @@ bool item::process_corpse( player *carrier, const tripoint &pos )
     return false;
 }
 
+bool item::process_fake_mill( player * /*carrier*/, const tripoint &pos )
+{
+    if( g->m.furn( pos ) != furn_str_id( "f_wind_mill_active" ) &&
+        g->m.furn( pos ) != furn_str_id( "f_water_mill_active" ) ) {
+        item_counter = 0;
+        return true; //destroy fake mill
+    }
+    if( age() >= 6_hours || item_counter == 0 ) {
+        iexamine::mill_finalize( g->u, pos, birthday() ); //activate effects when timers goes to zero
+        return true; //destroy fake mill item
+    }
+
+    return false;
+}
+
 bool item::process_fake_smoke( player * /*carrier*/, const tripoint &pos )
 {
     if( g->m.furn( pos ) != furn_str_id( "f_smoking_rack_active" ) ) {
@@ -7609,6 +7624,9 @@ bool item::process( player *carrier, const tripoint &pos, bool activate, int tem
         update_temp( temp, insulation );
     }
     if( has_flag( "FAKE_SMOKE" ) && process_fake_smoke( carrier, pos ) ) {
+        return true;
+    }
+    if( has_flag( "FAKE_MILL" ) && process_fake_mill( carrier, pos ) ) {
         return true;
     }
     if( is_corpse() && process_corpse( carrier, pos ) ) {
