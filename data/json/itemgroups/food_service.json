@@ -981,15 +981,16 @@
     "type": "item_group",
     "id": "butcher_raw_meat",
     "items": [
+      [ "stomach_larget", 2 ],
+      [ "stomach_boiled", 2 ],
       [ "meat", 8 ],
       [ "lunchmeat", 6 ],
-      [ "offal", 10 ],
       [ "hotdogs_frozen", 6 ],
-      { "item": "lung", "prob": 1, "charges": 2 },
-      { "item": "kidney", "prob": 1, "charges": 2 },
-      { "item": "liver", "prob": 1, "charges": 1 },
-      { "item": "brain", "prob": 1, "charges": 1 },
-      { "item": "sweetbread", "prob": 2, "charges": 1 }
+      { "item": "lung", "prob": 2, "charges": 5 },
+      { "item": "kidney", "prob": 2, "charges": 5 },
+      { "item": "liver", "prob": 4, "charges": 5 },
+      { "item": "brain", "prob": 2, "charges": 5 },
+      { "item": "sweetbread", "prob": 2, "charges": 2 }
     ]
   },
   {
