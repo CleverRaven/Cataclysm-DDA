@@ -89,6 +89,7 @@ const species_id HUMAN( "HUMAN" );
 const species_id ZOMBIE( "ZOMBIE" );
 
 const efftype_id effect_milked( "milked" );
+const efftype_id effect_groomed( "groomed" );
 const efftype_id effect_sleep( "sleep" );
 
 using namespace activity_handlers;
@@ -3428,9 +3429,28 @@ void activity_handlers::robot_control_finish( player_activity *act, player *p )
 
 void activity_handlers::groom_finish( player_activity *act, player *p )
 {
-    p->set_groomed( true );
-    p->add_morale( MORALE_GROOMED, 5, 5, 240_minutes, 10_minutes );
     p->add_msg_if_player( _( "You finish grooming yourself." ) );
+    bool has_hairclip = p->worn_with_flag( "HAIRCLIP" );
+    if( !has_hairclip && p->has_item_with_flag( "HAIRCLIP" ) ) {
+        const item *hairclip = random_entry( p->all_items_with_flag( "HAIRCLIP" ) );
+        if( p->can_wear( *hairclip ).success() &&
+            query_yn( _( "Do you want to wear your hairclips to keep your hair tidy?" ) ) ) {
+            p->wear_item( *hairclip );
+            has_hairclip = true;
+        }
+    }
+    if( has_hairclip ) {
+        p->add_effect( effect_groomed, 12_hours );
+        p->add_msg_if_player( m_good, _( "Your hair is kept tidy by your hairclips." ) );
+    } else {
+        p->add_effect( effect_groomed, 8_hours );
+    }
+    if( p->has_trait( trait_id( "STYLISH" ) ) ) {
+        p->add_morale( MORALE_GROOMED, 10, 10, 240_minutes, 30_minutes );
+        p->add_msg_if_player( m_good, _( "You are happy to have neat hair again!" ) );
+    } else {
+        p->add_morale( MORALE_GROOMED, 3, 3, 120_minutes, 10_minutes );
+    }
     act->set_to_null();
 }
 

@@ -1660,6 +1660,12 @@
   },
   {
     "type": "effect_type",
+    "id": "groomed",
+    "name": [ "Groomed" ],
+    "desc": [ "Your hair is well groomed." ]
+  },
+  {
+    "type": "effect_type",
     "id": "supercharged",
     "//": "not given to players by default",
     "name": [ "Supercharged" ],

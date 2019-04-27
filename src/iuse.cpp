@@ -150,6 +150,7 @@ const efftype_id effect_foodpoison( "foodpoison" );
 const efftype_id effect_formication( "formication" );
 const efftype_id effect_fungus( "fungus" );
 const efftype_id effect_glowing( "glowing" );
+const efftype_id effect_groomed( "groomed" );
 const efftype_id effect_hallu( "hallu" );
 const efftype_id effect_high( "high" );
 const efftype_id effect_infected( "infected" );
@@ -5319,9 +5320,10 @@ int iuse::stimpack( player *p, item *it, bool, const tripoint & )
 
 int iuse::hairbrush( player *p, item *it, bool, const tripoint & )
 {
-    if( p->is_groomed() ) {
+    if( p->has_effect( effect_groomed ) ) {
         p->add_msg_if_player( _( "You're already groomed!" ) );
     } else {
+        p->add_msg_if_player( _( "You start grooming yourself..." ) );
         p->assign_activity( activity_id( "ACT_GROOM" ), 2000 );
     }
     return it->type->charges_to_use();

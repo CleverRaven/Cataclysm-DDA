@@ -483,6 +483,7 @@
     "stop_phrase": "Stop grooming yourself?",
     "based_on": "time"
   },
+  {
     "id": "ACT_TREE_COMMUNION",
     "type": "activity_type",
     "stop_phrase": "Stop communing with the trees?",
