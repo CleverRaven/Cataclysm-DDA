@@ -1577,12 +1577,13 @@ void iexamine::flower_cactus( player &p, const tripoint &examp )
 
     g->m.furn_set( examp, f_null );
 
+    item tmpCactus = item("cactus_pad");
     if( p.can_pickWeight( item( "cactus_pad" ), true ) &&
         p.can_pickVolume( item( "cactus_pad" ), true ) ) {
-        p.i_add( item( "cactus_pad" ) );
+        p.i_add( tmpCactus);
         p.add_msg_if_player( _( "You harvest: cactus pad." ) );
     } else {
-        g->m.add_item_or_charges( p.pos(), item( "cactus_pad" ) );
+        g->m.add_item_or_charges( p.pos(), tmpCactus );
         p.add_msg_if_player( _( "You harvest and drop: cactus pad." ) );
     }
 }
