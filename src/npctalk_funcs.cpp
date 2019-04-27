@@ -547,6 +547,11 @@ void talk_function::follow( npc &p )
     p.cash = 0;
 }
 
+void talk_function::follow_only( npc &p )
+{
+    p.set_attitude( NPCATT_FOLLOW );
+}
+
 void talk_function::deny_follow( npc &p )
 {
     p.add_effect( effect_asked_to_follow, 6_hours );
@@ -598,6 +603,13 @@ void talk_function::leave( npc &p )
 {
     add_msg( _( "%s leaves." ), p.name );
     g->remove_npc_follower( p.getID() );
+    p.clear_fac();
+    p.set_attitude( NPCATT_NULL );
+}
+
+void talk_function::stop_following( npc &p )
+{
+    add_msg( _( "%s leaves." ), p.name );
     p.set_attitude( NPCATT_NULL );
 }
 

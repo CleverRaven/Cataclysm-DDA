@@ -458,6 +458,11 @@ void npc::set_fac( const string_id<faction> &id )
     fac_id = my_fac->id;
 }
 
+void npc::clear_fac()
+{
+    my_fac = nullptr;
+    fac_id = string_id<faction>( "" );
+}
 // item id from group "<class-name>_<what>" or from fallback group
 // may still be a null item!
 item random_item_from( const npc_class_id &type, const std::string &what,
@@ -1220,10 +1225,8 @@ bool npc::wants_to_sell( const item &it ) const
     return wants_to_sell( it, value( it, market_price ), market_price );
 }
 
-bool npc::wants_to_sell( const item &it, int at_price, int market_price ) const
+bool npc::wants_to_sell( const item &/*it*/, int at_price, int market_price ) const
 {
-    ( void )it;
-
     if( mission == NPC_MISSION_SHOPKEEP ) {
         return true;
     }
@@ -1242,11 +1245,8 @@ bool npc::wants_to_buy( const item &it ) const
     return wants_to_buy( it, value( it, market_price ), market_price );
 }
 
-bool npc::wants_to_buy( const item &it, int at_price, int market_price ) const
+bool npc::wants_to_buy( const item &/*it*/, int at_price, int /*market_price*/ ) const
 {
-    ( void )market_price;
-    ( void )it;
-
     if( is_player_ally() ) {
         return true;
     }

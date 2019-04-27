@@ -424,8 +424,10 @@ end_conversation | Ends the conversation and makes the NPC ignore you from now o
 insult_combat | Ends the conversation and makes the NPC hostile, adds a message that character starts a fight with the NPC.
 hostile | Make the NPC hostile and end the conversation.
 flee | Makes the NPC flee from your character.
-leave | Makes the NPC not follow your character anymore.
-follow | Makes the NPC follow your character.
+follow | Makes the NPC follow your character, joining the "Your Followers faction".
+leave | Makes the NPC leave the "Your Followers" faction and stop following your character.
+follow_only | Makes the NPC follow your character without changing factions.
+stop_following | Makes the NPC stop following your character without changing  factions.
 npc_thankful | Makes the NPC postively inclined toward your character.
 drop_weapon | Make the NPC drop their weapon.
 stranger_neutral | Changes the NPC's attitude to neutral.

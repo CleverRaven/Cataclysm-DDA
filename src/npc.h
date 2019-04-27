@@ -576,6 +576,7 @@ class npc : public player
         void randomize( const npc_class_id &type = npc_class_id::NULL_ID() );
         void randomize_from_faction( faction *fac );
         void set_fac( const string_id<faction> &id );
+        void clear_fac();
         /**
          * Set @ref submap_coords and @ref pos.
          * @param mx,my,mz are global submap coordinates.
@@ -694,9 +695,9 @@ class npc : public player
         bool will_accept_from_player( const item &it ) const;
 
         bool wants_to_sell( const item &it ) const;
-        bool wants_to_sell( const item &it, int at_price, int market_price ) const;
+        bool wants_to_sell( const item &/*it*/, int at_price, int market_price ) const;
         bool wants_to_buy( const item &it ) const;
-        bool wants_to_buy( const item &it, int at_price, int market_price ) const;
+        bool wants_to_buy( const item &/*it*/, int at_price, int /*market_price*/ ) const;
 
         // AI helpers
         void regen_ai_cache();

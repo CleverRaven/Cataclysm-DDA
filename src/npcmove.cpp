@@ -3169,7 +3169,7 @@ void npc::reach_omt_destination()
     }
     // Guarding NPCs want a specific point, not just an overmap tile
     // Rest stops having a goal after reaching it
-    if( !is_guarding() ) {
+    if( !( is_guarding() || is_patrolling() ) ) {
         goal = no_goal_point;
         return;
     }
@@ -3208,7 +3208,7 @@ void npc::set_omt_destination()
      * Also, NPCs should be able to assign themselves missions like "break into that
      *  lab" or "map that river bank."
      */
-    if( is_guarding() ) {
+    if( is_stationary( true ) ) {
         guard_current_pos();
         return;
     }
