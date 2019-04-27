@@ -3968,17 +3968,18 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         needs_anesthesia = false;
     } else {
         std::vector<const item *> a_filter = p.crafting_inventory().items_with( []( const item & it ) {
-            if( it.has_flag( "ANESTHESIA" ) ) {
-                return it.has_flag( "ANESTHESIA" ); // legacy
-            }
             return it.has_quality( quality_id( "ANESTHESIA" ) );
         } );
+        std::vector<const item *> b_filter = p.crafting_inventory().items_with( []( const item & it ) {
+            return it.has_flag( "ANESTHESIA" ); // legacy
+        } );
         for( const item *anesthesia_item : a_filter ) {
-            if( anesthesia_item->is_tool() && anesthesia_item->ammo_remaining() >= 1 ) {
+            if( anesthesia_item->ammo_remaining() >= 1 ) {
                 anesth_kit.push_back( tool_comp( anesthesia_item->typeId(), 1 ) );
-            } else {
-                acomps.push_back( item_comp( anesthesia_item->typeId(), 1 ) );
             }
+        }
+        for( const item *anesthesia_item : b_filter ) {
+            acomps.push_back( item_comp( anesthesia_item->typeId(), 1 ) ); // legacy
         }
         if( anesth_kit.empty() && acomps.empty() ) {
             popup( _( "You need an anesthesia kit with at least one charge for autodoc to perform any operation." ) );
