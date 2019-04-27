@@ -3968,7 +3968,9 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         needs_anesthesia = false;
     } else {
         std::vector<const item *> a_filter = p.crafting_inventory().items_with( []( const item & it ) {
-            return it.has_flag( "ANESTHESIA" ); // legacy
+            if( it.has_flag( "ANESTHESIA" ) ) {
+                return it.has_flag( "ANESTHESIA" ); // legacy
+            }
             return it.has_quality( quality_id( "ANESTHESIA" ) );
         } );
         for( const item *anesthesia_item : a_filter ) {
