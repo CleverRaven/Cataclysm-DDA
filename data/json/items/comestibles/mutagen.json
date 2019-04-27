@@ -39,7 +39,7 @@
     "addiction_potential": 6,
     "container": "test_tube",
     "tools_needed": "syringe",
-    "flags": "NO_INGEST"
+    "flags": [ "NO_INGEST" ]
   },
   {
     "id": "iv_mutagen",
