@@ -5508,7 +5508,7 @@
   {
     "id": "hydrogen_tank",
     "type": "TOOL",
-    "name": "nitrogen tank",
+    "name": "hydrogen tank",
     "description": "This is a tank of compressed hydrogen gas.  If you need to make water from scratch, or lift a zeppelin, it could come in handy.",
     "weight": 2268,
     "volume": 6,
