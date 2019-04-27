@@ -568,7 +568,7 @@
     "name": "Leukocyte Breeder System",
     "description": "You are equipped with bionic stimulators which augment your haematopoiesis system, allowing you to accelerate white blood cell production using bionic power.  It is supposed to run continuously and may cause unpleasant side effects when turned off.",
     "occupied_bodyparts": [ [ "TORSO", 10 ] ],
-    "flags": [ "BIONIC_TOGGLED", "BIONIC_SLEEP_FRIENDLY" ],
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_SLEEP_FRIENDLY", "BIONIC_NPC_USABLE" ],
     "act_cost": 10,
     "react_cost": 1,
     "time": 600
@@ -639,7 +639,7 @@
     "name": "Repair Nanobots",
     "description": "Inside your body is a fleet of tiny dormant robots.  While activated they will flit about your body, repairing damage and stopping bleeding at the cost of power.",
     "occupied_bodyparts": [ [ "TORSO", 10 ] ],
-    "flags": [ "BIONIC_TOGGLED" ]
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ]
   },
   {
     "id": "bio_night",
@@ -696,7 +696,7 @@
     "name": "Sensory Dulling",
     "description": "Your nervous system is wired to allow you to inhibit the signals of pain, allowing you to dull your senses at will.  However, the use of this system may cause delayed reaction time and drowsiness.",
     "occupied_bodyparts": [ [ "HEAD", 2 ] ],
-    "flags": [ "BIONIC_TOGGLED" ]
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ]
   },
   {
     "id": "bio_plut_filter",
@@ -704,7 +704,7 @@
     "name": "Plutonium Filter",
     "description": "This set of tanks and filters allows you to more rapidly extract usable plutonium from slurry for a microreactor.",
     "occupied_bodyparts": [ [ "TORSO", 10 ] ],
-    "flags": [ "BIONIC_TOGGLED" ],
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
     "act_cost": 1,
     "react_cost": 1,
     "time": 2
@@ -793,6 +793,7 @@
     "name": "Radiation Scrubber System",
     "description": "A system of advanced piezomechanical blood filters have been surgically implanted throughout your body, allowing you to purge yourself of absorbed radiation at the cost of some bionic power.",
     "occupied_bodyparts": [ [ "TORSO", 5 ], [ "ARM_L", 1 ], [ "ARM_R", 1 ], [ "LEG_L", 2 ], [ "LEG_R", 2 ] ],
+    "flags": [ "BIONIC_NPC_USABLE" ],
     "act_cost": 50
   },
   {
@@ -978,6 +979,7 @@
     "description": "Your eyes have quick-reacting transition lenses surgically installed over them.  They negate glare penalties, partially protect you from bright flashes, and protect your eyes when welding.",
     "occupied_bodyparts": [ [ "EYES", 1 ] ],
     "included_bionics": [ "bio_blindfold" ],
+    "flags": [ "BIONIC_NPC_USABLE" ],
     "fake_item": "fake_goggles"
   },
   {
@@ -1031,7 +1033,7 @@
     "occupied_bodyparts": [ [ "HAND_L", 3 ], [ "HAND_R", 3 ] ],
     "fake_item": "toolset",
     "included_bionics": [ "bio_tools_extend" ],
-    "flags": [ "BIONIC_TOGGLED" ]
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ]
   },
   {
     "id": "bio_tools_extend",

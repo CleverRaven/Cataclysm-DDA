@@ -101,6 +101,16 @@ const bionic_id bio_heat_sink( "bio_heatsink" );
 const bionic_id bio_ods( "bio_ods" );
 const bionic_id bio_shock( "bio_shock" );
 
+// special health CBMs - activate as needed
+const bionic_id bio_painkiller( "bio_painkiller" );
+const bionic_id bio_nanobots( "bio_nanobots" );
+const bionic_id bio_radscrubber( "bio_radscrubber" );
+const bionic_id bio_soporific( "bio_soporific" );
+
+// health CBMs - always activate
+const bionic_id bio_leukocyte( "bio_leukocyte" );
+const bionic_id bio_plutfilter( "bio_plutfilter" );
+
 // melee CBMs - activate for melee combat
 const bionic_id bio_hydraulics( "bio_hydraulics" );
 
@@ -153,6 +163,12 @@ const std::vector<bionic_id> defense_cbms = { {
         bio_heat_sink,
         bio_ods,
         bio_shock
+    }
+};
+
+const std::vector<bionic_id> health_cbms = { {
+        bio_leukocyte,
+        bio_plutfilter
     }
 };
 
@@ -857,6 +873,7 @@ void npc::execute_action( npc_action action )
             if( best_spot == pos() || path.empty() ) {
                 move_pause();
                 if( !has_effect( effect_lying_down ) ) {
+                    activate_bionic_by_id( bio_soporific );
                     add_effect( effect_lying_down, 30_minutes, num_bp, false, 1 );
                     if( g->u.sees( *this ) && !g->u.in_sleep_state() ) {
                         add_msg( _( "%s lies down to sleep." ), name );
@@ -1588,11 +1605,19 @@ npc_action npc::address_needs( float danger )
     ai_cache.can_heal = has_healing_options();
 
     if( need_heal( *this ) ) {
-        return npc_heal;
+        if( !use_bionic_by_id( bio_nanobots ) ) {
+            return npc_heal;
+        }
+    } else {
+        deactivate_bionic_by_id( bio_nanobots );
     }
 
-    if( get_perceived_pain() >= 15 && has_painkiller() && !took_painkiller() ) {
-        return npc_use_painkiller;
+    if( get_perceived_pain() >= 15 ) {
+        if( !activate_bionic_by_id( bio_painkiller ) && has_painkiller() && !took_painkiller() ) {
+            return npc_use_painkiller;
+        }
+    } else {
+        deactivate_bionic_by_id( bio_nanobots );
     }
 
     if( is_player_ally() && need_heal( g->u ) ) {
@@ -2267,8 +2292,14 @@ void npc::move_pause()
 
 {
     // make sure we're using the best weapon
-    if( calendar::once_every( 1_hours ) && wield_better_weapon() ) {
-        return;
+    if( calendar::once_every( 1_hours ) ) {
+        deactivate_bionic_by_id( bio_soporific );
+        for( const bionic_id &bio_id : health_cbms ) {
+            activate_bionic_by_id( bio_id );
+        }
+        if( wield_better_weapon() ) {
+            return;
+        }
     }
     // NPCs currently always aim when using a gun, even with no target
     // This simulates them aiming at stuff just at the edge of their range
@@ -3902,10 +3933,13 @@ bool npc::complain()
 
     // Radiation every 10 minutes
     if( radiation > 90 ) {
+        activate_bionic_by_id( bio_radscrubber );
         std::string speech = _( "I'm suffering from radiation sickness..." );
         if( complain_about( radiation_string, 10_minutes, speech, radiation > 150 ) ) {
             return true;
         }
+    } else if( !radiation ) {
+        deactivate_bionic_by_id( bio_radscrubber );
     }
 
     // Hunger every 3-6 hours

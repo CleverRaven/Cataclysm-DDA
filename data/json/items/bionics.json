@@ -445,7 +445,7 @@
   },
   {
     "id": "bio_leukocyte",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": "Leukocyte Breeder System CBM",
     "description": "You are equipped with bionic stimulators which augment your haematopoiesis system, allowing you to accelerate white blood cell production using bionic power.  It is supposed to run continuously and may cause unpleasant side effects when turned off.",
@@ -517,7 +517,7 @@
   },
   {
     "id": "bio_nanobots",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": "Repair Nanobots CBM",
     "description": "Inside your body is a fleet of tiny dormant robots.  While activated they will flit about your body, repairing damage and stopping bleeding at the cost of power.",
@@ -553,7 +553,7 @@
   },
   {
     "id": "bio_painkiller",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": "Sensory Dulling CBM",
     "description": "Your nervous system is wired to allow you to inhibit the signals of pain, allowing you to dull your senses at will.  However, the use of this system may cause delayed reaction time and drowsiness.",
@@ -562,7 +562,7 @@
   },
   {
     "id": "bio_plut_filter",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": "Plutonium Filter CBM",
     "description": "System of tanks and filters to extract plutonium more rapidly from slurry for a microreactor.",
@@ -626,7 +626,7 @@
   },
   {
     "id": "bio_radscrubber",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": "Radiation Scrubber System CBM",
     "description": "A system of advanced piezomechanical blood filters have been implanted throughout your body, allowing you to purge yourself of absorbed radiation at the cost of some bionic power.",
@@ -772,7 +772,7 @@
   },
   {
     "id": "bio_sunglasses",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": "Anti-Glare Compensators CBM",
     "description": "Your eyes have quick-reacting transition lenses installed over them.  They negate glare penalties, partially protect you from bright flashes, and protect your eyes when welding.",
@@ -808,7 +808,7 @@
   },
   {
     "id": "bio_tools",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": "Integrated Toolset CBM",
     "description": "Surgically implanted in your hands and fingers is a complete tool set - screwdriver, hammer, wrench, hacksaw, wood saw, boltcutters, drill and heating elements.  You can use this in place of many tools when crafting.",
@@ -907,7 +907,7 @@
   },
   {
     "id": "bio_soporific",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": "Soporific Induction CBM",
     "description": "A microscopic electrode designed to gently stimulate a particular cluster of neurons in your hypothalamus, helping you fall asleep.",
