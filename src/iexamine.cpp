@@ -5208,6 +5208,7 @@ iexamine_function iexamine_function_from_string( const std::string &function_nam
             { "door_peephole", &iexamine::door_peephole },
             { "fswitch", &iexamine::fswitch },
             { "flower_poppy", &iexamine::flower_poppy },
+	    { "flower_cactus", &iexamine::flower_cactus },
             { "fungus", &iexamine::fungus },
             { "flower_spurge", &iexamine::flower_spurge },
             { "flower_tulip", &iexamine::flower_tulip },
