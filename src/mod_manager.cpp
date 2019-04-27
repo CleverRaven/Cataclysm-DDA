@@ -1,18 +1,21 @@
 #include "mod_manager.h"
 
 #include <queue>
+#include <algorithm>
+#include <iterator>
+#include <memory>
+#include <sstream>
 
 #include "cata_utility.h"
 #include "debug.h"
 #include "dependency_tree.h"
 #include "filesystem.h"
-#include "generic_factory.h"
 #include "json.h"
-#include "output.h"
 #include "path_info.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "worldfactory.h"
+#include "assign.h"
 
 static const std::string MOD_SEARCH_FILE( "modinfo.json" );
 
@@ -42,7 +45,7 @@ std::string MOD_INFORMATION::name() const
         //~ name of a mod that has no name entry, (%s is the mods identifier)
         return string_format( _( "No name (%s)" ), ident.c_str() );
     } else {
-        return _( name_.c_str() );
+        return _( name_ );
     }
 }
 

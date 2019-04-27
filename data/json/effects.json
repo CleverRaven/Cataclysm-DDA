@@ -146,6 +146,14 @@
   },
   {
     "type": "effect_type",
+    "id": "npc_player_still_looking",
+    "name": [ "Waiting for you to find something" ],
+    "desc": [
+      "AI tag to prevent NPCs from following the player while the player is finding an additonal copy of an item.  This is a bug if you have it."
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "infection",
     "name": [ "Infection" ],
     "desc": [ "AI tag used for the infected NPC quest.  This is a bug if you have it." ],

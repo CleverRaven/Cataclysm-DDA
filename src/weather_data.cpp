@@ -1,9 +1,11 @@
 #include "weather.h" // IWYU pragma: associated
 
+#include <stddef.h>
 #include <array>
 #include <cmath>
 #include <map>
 #include <vector>
+#include <iterator>
 
 #include "color.h"
 #include "game_constants.h"
@@ -103,7 +105,7 @@ weather_datum const weather_data( weather_type const type )
     const auto i = static_cast<size_t>( type );
     if( i < NUM_WEATHER_TYPES ) {
         weather_datum localized = data[i];
-        localized.name = _( localized.name.c_str() );
+        localized.name = _( localized.name );
         return localized;
     }
 

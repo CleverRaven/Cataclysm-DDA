@@ -57,7 +57,17 @@
     "time": 5000,
     "autolearn": true,
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "battery", 125 ] ] ]
+    "components": [
+      [
+        [ "light_minus_battery_cell", 20 ],
+        [ "light_battery_cell", 10 ],
+        [ "light_plus_battery_cell", 5 ],
+        [ "medium_battery_cell", 2 ],
+        [ "medium_plus_battery_cell", 2 ],
+        [ "heavy_battery_cell", 1 ],
+        [ "heavy_plus_battery_cell", 1 ]
+      ]
+    ]
   },
   {
     "type": "recipe",
@@ -1395,7 +1405,8 @@
       [ [ "tallow", 2 ], [ "lard", 2 ], [ "cooking_oil", 16 ], [ "cooking_oil2", 16 ] ],
       [ [ "lye", 2 ], [ "lye_powder", 75 ] ],
       [ [ "water", 2 ], [ "water_clean", 2 ] ]
-    ]
+    ],
+    "flags": [ "ALLOW_ROTTEN" ]
   },
   {
     "type": "recipe",

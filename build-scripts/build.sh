@@ -9,6 +9,17 @@ function run_tests
     $WINE "$@" -d yes -r cata --rng-seed time $EXTRA_TEST_OPTS
 }
 
+export CCACHE_MAXSIZE=1G
+if [ -n "$TEST_STAGE" ]
+then
+    build-scripts/lint-json.sh
+    make -j 5 style-json
+elif [ -n "$JUST_JSON" ]
+then
+    exit 0
+fi
+
+ccache --zero-stats
 if [ -n "$CMAKE" ]
 then
     bin_path="./"
@@ -34,11 +45,11 @@ then
     [ -f "${bin_path}cata_test" ] && run_tests "${bin_path}cata_test"
     [ -f "${bin_path}cata_test-tiles" ] && run_tests "${bin_path}cata_test-tiles"
 else
-    make -j3 RELEASE=1 BACKTRACE=1 DEBUG_SYMBOLS=1 CROSS="$CROSS_COMPILATION"
+    make -j3 RELEASE=1 CCACHE=1 BACKTRACE=1 CROSS="$CROSS_COMPILATION" LINTJSON=0
     run_tests ./tests/cata_test
     if [ -n "$MODS" ]
     then
         run_tests ./tests/cata_test $MODS
     fi
-    build-scripts/lint-json.sh
 fi
+ccache --show-stats

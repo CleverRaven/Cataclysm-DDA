@@ -571,6 +571,19 @@
   },
   {
     "type": "mutation",
+    "id": "KILLER",
+    "name": "Killer Drive",
+    "points": 2,
+    "description": "You derive enjoyment from killing things.  Putting end to life seem to spark some dark satisfaction and thrill, and you crave it every moment.",
+    "starting_trait": true,
+    "valid": false,
+    "social_modifiers": { "intimidate": 10 },
+    "prereqs": [ "PSYCHOPATH" ],
+    "cancels": [ "PACIFIST" ],
+    "flags": [ "CANNIBAL" ]
+  },
+  {
+    "type": "mutation",
     "id": "MARTIAL_ARTS",
     "name": "Martial Arts Training",
     "points": 2,
@@ -1111,7 +1124,7 @@
     "starting_trait": true,
     "social_modifiers": { "intimidate": -10 },
     "valid": false,
-    "cancels": [ "PSYCHOPATH", "PRED1", "PRED2", "PRED3", "PRED4" ]
+    "cancels": [ "PSYCHOPATH", "KILLER", "PRED1", "PRED2", "PRED3", "PRED4" ]
   },
   {
     "type": "mutation",
@@ -2923,6 +2936,8 @@
     "types": [ "HORNS" ],
     "prereqs": [ "HEADBUMPS" ],
     "category": [ "INSECT" ],
+    "active": true,
+    "starts_active": true,
     "restricts_gear": [ "HEAD" ],
     "allow_soft_gear": true
   },
@@ -5101,6 +5116,18 @@
   },
   {
     "type": "mutation",
+    "id": "TREE_COMMUNION",
+    "name": "Mycorrhizal Communion",
+    "points": 1,
+    "description": "You have gained the ability to commune with trees and comprehend their ancient wisdom. Activate next to a tree to gradually gain overmap vision through connected forests.",
+    "prereqs": [ "ROOTS2", "ROOTS3" ],
+    "threshreq": [ "THRESH_PLANT" ],
+    "category": [ "PLANT" ],
+    "active": true,
+    "cost": 0
+  },
+  {
+    "type": "mutation",
     "id": "COLDBLOOD",
     "name": "Heat Dependent",
     "points": 0,
@@ -6191,5 +6218,34 @@
     "description": "NPC trait that makes it impossible to say anything.  It is a bug if you have it.",
     "player_display": false,
     "threshold": true
+  },
+  {
+    "type": "mutation",
+    "id": "NOMAD",
+    "name": "Nomad",
+    "points": -1,
+    "starting_trait": true,
+    "description": "You're too adventurous for your own good.  The more time you spend somewhere, the unhappier it makes you to be there.",
+    "changes_to": [ "NOMAD2" ],
+    "category": [ "BIRD", "FISH", "CHIMERA" ]
+  },
+  {
+    "type": "mutation",
+    "id": "NOMAD2",
+    "name": "Antsy",
+    "points": -2,
+    "description": "You can't bear to stay still for long.  Your morale will suffer unless you constantly explore new territory.",
+    "prereqs": [ "NOMAD" ],
+    "changes_to": [ "NOMAD3" ],
+    "category": [ "BIRD", "FISH", "CHIMERA" ]
+  },
+  {
+    "type": "mutation",
+    "id": "NOMAD3",
+    "name": "Restless",
+    "points": -4,
+    "description": "Spending any amount of time in familiar places makes you miserable.  Must.  Keep.  Moving.",
+    "prereqs": [ "NOMAD2" ],
+    "category": [ "CHIMERA" ]
   }
 ]

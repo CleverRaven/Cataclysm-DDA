@@ -2,25 +2,30 @@
 #ifndef INVENTORY_UI_H
 #define INVENTORY_UI_H
 
+#include <limits.h>
+#include <stddef.h>
 #include <functional>
 #include <limits>
 #include <memory>
+#include <array>
+#include <list>
+#include <map>
+#include <string>
+#include <utility>
+#include <vector>
 
 #include "color.h"
 #include "cursesdef.h"
-#include "enums.h"
 #include "input.h"
 #include "item_location.h"
 #include "pimpl.h"
 #include "units.h"
+#include "item_category.h"
 
 class Character;
-
 class item;
-class item_category;
-class item_location;
-
 class player;
+struct tripoint;
 
 enum class navigation_mode : int {
     ITEM = 0,
@@ -256,6 +261,8 @@ class inventory_column
 
         const inventory_entry &get_selected() const;
         std::vector<inventory_entry *> get_all_selected() const;
+        std::vector<inventory_entry *> get_entries(
+            const std::function<bool( const inventory_entry &entry )> &filter_func ) const;
 
         inventory_entry *find_by_invlet( long invlet ) const;
 
@@ -268,6 +275,17 @@ class inventory_column
 
         /** Selects the specified location. */
         bool select( const item_location &loc );
+
+        /**
+         * Change the selection.
+         * @param new_index Index of the entry to select.
+         * @param dir If the entry is not selectable, move in the specified direction
+         */
+        void select( size_t new_index, scroll_direction dir );
+
+        size_t get_selected_index() {
+            return selected_index;
+        }
 
         void set_multiselect( bool multiselect ) {
             this->multiselect = multiselect;
@@ -318,12 +336,6 @@ class inventory_column
             std::vector<std::string> text;
         };
 
-        /**
-         * Change the selection.
-         * @param new_index Index of the entry to select.
-         * @param dir If the entry is not selectable, move in the specified direction
-         */
-        void select( size_t new_index, scroll_direction dir );
         /**
          * Move the selection.
          */
@@ -537,6 +549,18 @@ class inventory_selector
             return get_active_column().get_selected();
         }
 
+        void select_position( std::pair<size_t, size_t> position ) {
+            set_active_column( position.first );
+            get_active_column().select( position.second, scroll_direction::BACKWARD );
+        }
+
+        std::pair<size_t, size_t> get_selection_position() {
+            std::pair<size_t, size_t> position;
+            position.first = active_column_index;
+            position.second = get_active_column().get_selected_index();
+            return position;
+        }
+
         inventory_column &get_column( size_t index ) const;
         inventory_column &get_active_column() const {
             return get_column( active_column_index );
@@ -671,6 +695,7 @@ class inventory_drop_selector : public inventory_multiselector
         stats get_raw_stats() const override;
         /** Toggle item dropping */
         void set_chosen_count( inventory_entry &entry, size_t count );
+        void process_selected( int &count, const std::vector<inventory_entry *> &selected );
 
     private:
         std::map<const item *, int> dropping;

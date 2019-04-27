@@ -1,14 +1,15 @@
+#include <stdio.h>
+#include <memory>
+
 #include "catch/catch.hpp"
 #include "calendar.h"
-#include "crafting.h"
 #include "game.h"
-#include "itype.h"
-#include "map_helpers.h"
-#include "npc.h"
 #include "player.h"
 #include "player_helpers.h"
-#include "test_statistics.h"
 #include "item.h"
+#include "stomach.h"
+#include "units.h"
+#include "pldata.h"
 
 void reset_time()
 {

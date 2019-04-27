@@ -2008,10 +2008,34 @@
   },
   {
     "type": "keybinding",
-    "name": "Toggle move mode (run/walk)",
+    "name": "Cycle move mode (run/walk/crouch)",
     "category": "DEFAULTMODE",
-    "id": "toggle_move",
+    "id": "cycle_move",
     "bindings": [ { "input_method": "keyboard", "key": "\"" } ]
+  },
+  {
+    "type": "keybinding",
+    "name": "Reset Movement to Walk",
+    "category": "DEFAULTMODE",
+    "id": "reset_move"
+  },
+  {
+    "type": "keybinding",
+    "name": "Toggle Run",
+    "category": "DEFAULTMODE",
+    "id": "toggle_run"
+  },
+  {
+    "type": "keybinding",
+    "name": "Toggle Crouch",
+    "category": "DEFAULTMODE",
+    "id": "toggle_crouch"
+  },
+  {
+    "type": "keybinding",
+    "name": "Movement Mode Menu",
+    "category": "DEFAULTMODE",
+    "id": "open_movement"
   },
   {
     "type": "keybinding",
@@ -2392,6 +2416,13 @@
     "category": "ADVANCED_INVENTORY",
     "name": "Toggle item as favorite",
     "bindings": [ { "input_method": "keyboard", "key": "*" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "DROP_NON_FAVORITE",
+    "category": "INVENTORY",
+    "name": "Mark/unmark non-favorite items in multidrop menu",
+    "bindings": [ { "input_method": "keyboard", "key": "," } ]
   },
   {
     "type": "keybinding",

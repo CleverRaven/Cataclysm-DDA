@@ -1,14 +1,19 @@
 #include "crafting_gui.h"
 
+#include <stddef.h>
 #include <algorithm>
 #include <map>
 #include <string>
 #include <vector>
+#include <iterator>
+#include <list>
+#include <memory>
+#include <set>
+#include <utility>
 
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "crafting.h"
-#include "debug.h"
 #include "game.h"
 #include "input.h"
 #include "itype.h"
@@ -23,6 +28,14 @@
 #include "translations.h"
 #include "ui.h"
 #include "uistate.h"
+#include "calendar.h"
+#include "color.h"
+#include "cursesdef.h"
+#include "item.h"
+#include "recipe.h"
+
+class inventory;
+class npc;
 
 enum TAB_MODE {
     NORMAL,
@@ -94,10 +107,10 @@ std::string get_subcat_name( const std::string &cat, const std::string &prefixed
 void translate_all()
 {
     for( const auto &cat : craft_cat_list ) {
-        normalized_names[cat] = _( get_cat_name( cat ).c_str() );
+        normalized_names[cat] = _( get_cat_name( cat ) );
 
         for( const auto &subcat : craft_subcat_list[cat] ) {
-            normalized_names[subcat] =  _( get_subcat_name( cat, subcat ).c_str() ) ;
+            normalized_names[subcat] =  _( get_subcat_name( cat, subcat ) ) ;
         }
     }
 }
@@ -124,12 +137,12 @@ int print_items( const recipe &r, const catacurses::window &w, int ypos, int xpo
         std::string desc;
         if( t->count_by_charges() ) {
             amount *= t->charges_default();
-            desc = string_format( "> %s (%d)", t->nname( 1 ).c_str(), amount );
+            desc = string_format( "> %s (%d)", t->nname( 1 ), amount );
         } else {
             desc = string_format( "> %d %s", amount,
-                                  t->nname( static_cast<unsigned int>( amount ) ).c_str() );
+                                  t->nname( static_cast<unsigned int>( amount ) ) );
         }
-        mvwprintz( w, ypos++, xpos, col, desc.c_str() );
+        mvwprintz( w, ypos++, xpos, col, desc );
     }
 
     return ypos - oldy;
@@ -437,49 +450,49 @@ const recipe *select_crafting_recipe( int &batch_size )
                 for( int i = recmin; i < recmin + dataLines; ++i ) {
                     std::string tmp_name = current[i]->result_name();
                     if( batch ) {
-                        tmp_name = string_format( _( "%2dx %s" ), i + 1, tmp_name.c_str() );
+                        tmp_name = string_format( _( "%2dx %s" ), i + 1, tmp_name );
                     }
                     mvwprintz( w_data, i - recmin, 2, c_dark_gray, "" ); // Clear the line
                     if( i == line ) {
                         mvwprintz( w_data, i - recmin, 2, ( available[i] ? h_white : h_dark_gray ),
-                                   utf8_truncate( tmp_name, 28 ).c_str() );
+                                   utf8_truncate( tmp_name, 28 ) );
                     } else {
                         mvwprintz( w_data, i - recmin, 2, ( available[i] ? c_white : c_dark_gray ),
-                                   utf8_truncate( tmp_name, 28 ).c_str() );
+                                   utf8_truncate( tmp_name, 28 ) );
                     }
                 }
             } else if( line >= recmax - dataHalfLines ) {
                 for( int i = recmax - dataLines; i < recmax; ++i ) {
                     std::string tmp_name = current[i]->result_name();
                     if( batch ) {
-                        tmp_name = string_format( _( "%2dx %s" ), i + 1, tmp_name.c_str() );
+                        tmp_name = string_format( _( "%2dx %s" ), i + 1, tmp_name );
                     }
                     mvwprintz( w_data, dataLines + i - recmax, 2, c_light_gray, "" ); // Clear the line
                     if( i == line ) {
                         mvwprintz( w_data, dataLines + i - recmax, 2,
                                    ( available[i] ? h_white : h_dark_gray ),
-                                   utf8_truncate( tmp_name, 28 ).c_str() );
+                                   utf8_truncate( tmp_name, 28 ) );
                     } else {
                         mvwprintz( w_data, dataLines + i - recmax, 2,
                                    ( available[i] ? c_white : c_dark_gray ),
-                                   utf8_truncate( tmp_name, 28 ).c_str() );
+                                   utf8_truncate( tmp_name, 28 ) );
                     }
                 }
             } else {
                 for( int i = line - dataHalfLines; i < line - dataHalfLines + dataLines; ++i ) {
                     std::string tmp_name = current[i]->result_name();
                     if( batch ) {
-                        tmp_name = string_format( _( "%2dx %s" ), i + 1, tmp_name.c_str() );
+                        tmp_name = string_format( _( "%2dx %s" ), i + 1, tmp_name );
                     }
                     mvwprintz( w_data, dataHalfLines + i - line, 2, c_light_gray, "" ); // Clear the line
                     if( i == line ) {
                         mvwprintz( w_data, dataHalfLines + i - line, 2,
                                    ( available[i] ? h_white : h_dark_gray ),
-                                   utf8_truncate( tmp_name, 28 ).c_str() );
+                                   utf8_truncate( tmp_name, 28 ) );
                     } else {
                         mvwprintz( w_data, dataHalfLines + i - line, 2,
                                    ( available[i] ? c_white : c_dark_gray ),
-                                   utf8_truncate( tmp_name, 28 ).c_str() );
+                                   utf8_truncate( tmp_name, 28 ) );
                     }
                 }
             }
@@ -487,14 +500,14 @@ const recipe *select_crafting_recipe( int &batch_size )
             for( size_t i = 0; i < current.size() && i < static_cast<size_t>( dataHeight ) + 1; ++i ) {
                 std::string tmp_name = current[i]->result_name();
                 if( batch ) {
-                    tmp_name = string_format( _( "%2dx %s" ), static_cast<int>( i ) + 1, tmp_name.c_str() );
+                    tmp_name = string_format( _( "%2dx %s" ), static_cast<int>( i ) + 1, tmp_name );
                 }
                 if( static_cast<int>( i ) == line ) {
                     mvwprintz( w_data, i, 2, ( available[i] ? h_white : h_dark_gray ),
-                               utf8_truncate( tmp_name, 28 ).c_str() );
+                               utf8_truncate( tmp_name, 28 ) );
                 } else {
                     mvwprintz( w_data, i, 2, ( available[i] ? c_white : c_dark_gray ),
-                               utf8_truncate( tmp_name, 28 ).c_str() );
+                               utf8_truncate( tmp_name, 28 ) );
                 }
             }
         }
@@ -532,7 +545,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                 []( itype_id type_id ) {
                     return colorize( item::find_type( type_id )->nname( 1 ), c_cyan );
                 } );
-                const std::string text = string_format( _( "Written in: %s" ), enumerated_books.c_str() );
+                const std::string text = string_format( _( "Written in: %s" ), enumerated_books );
                 std::vector<std::string> folded_lines = foldstring( text, pane );
                 component_print_buffer.insert(
                     component_print_buffer.end(), folded_lines.begin(), folded_lines.end() );
@@ -709,7 +722,7 @@ const recipe *select_crafting_recipe( int &batch_size )
             }
             tmp = current[line]->create_result();
 
-            full_screen_popup( "%s\n%s", tmp.type_name( 1 ).c_str(),  tmp.info( true ).c_str() );
+            full_screen_popup( "%s\n%s", tmp.type_name( 1 ),  tmp.info( true ) );
             redraw = true;
             keepline = true;
         } else if( action == "FILTER" ) {
