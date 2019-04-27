@@ -4,6 +4,8 @@
 
 set -ex
 
+num_jobs=3
+
 function run_tests
 {
     $WINE "$@" -d yes --rng-seed time $EXTRA_TEST_OPTS
@@ -15,7 +17,7 @@ export CCACHE_MAXSIZE=1G
 if [ -n "$TEST_STAGE" ]
 then
     build-scripts/lint-json.sh
-    make -j 5 style-json
+    make -j "$num_jobs" style-json
 elif [ -n "$JUST_JSON" ]
 then
     exit 0
@@ -54,7 +56,7 @@ then
         ln -s build/compile_commands.json
         grep '"file": "' build/compile_commands.json | \
             sed "s+.*$PWD/++;s+\"$++" | shuf | \
-            xargs -P 3 -n 1 ./build-scripts/clang-tidy-wrapper.sh
+            xargs -P "$num_jobs" -n 1 ./build-scripts/clang-tidy-wrapper.sh
     else
         # Regular build
         make -j3
@@ -64,7 +66,7 @@ then
         [ -f "${bin_path}cata_test-tiles" ] && run_tests "${bin_path}cata_test-tiles"
     fi
 else
-    make -j3 RELEASE=1 CCACHE=1 BACKTRACE=1 CROSS="$CROSS_COMPILATION" LINTJSON=0
+    make -j "$num_jobs" RELEASE=1 CCACHE=1 BACKTRACE=1 CROSS="$CROSS_COMPILATION" LINTJSON=0
     run_tests ./tests/cata_test
     if [ -n "$MODS" ]
     then
