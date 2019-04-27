@@ -8122,6 +8122,10 @@ int iuse::craft( player *p, item *it, bool, const tripoint & )
         return 0;
     }
 
+    if( !p->can_continue_craft( p->weapon ) ) {
+        return 0;
+    }
+
     p->add_msg_player_or_npc(
         string_format( pgettext( "in progress craft", "You start working on the %s." ), craft_name ),
         string_format( pgettext( "in progress craft", "<npcname> starts working on the %s." ),

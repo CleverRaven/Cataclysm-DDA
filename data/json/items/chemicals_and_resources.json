@@ -777,7 +777,8 @@
     "price_postapoc": 2000,
     "volume": 1,
     "charges": 15,
-    "stack_size": 100
+    "stack_size": 100,
+    "flags": [ "NO_INGEST" ]
   },
   {
     "type": "GENERIC",
