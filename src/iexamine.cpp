@@ -3962,19 +3962,23 @@ void iexamine::autodoc( player &p, const tripoint &examp )
     }
 
     bool needs_anesthesia = true;
+    std::vector<item_comp> acomps;//legacy
     std::vector<tool_comp> anesth_kit;
     if( p.has_trait( trait_NOPAIN ) || p.has_bionic( bionic_id( "bio_painkiller" ) ) ) {
         needs_anesthesia = false;
     } else {
         std::vector<const item *> a_filter = p.crafting_inventory().items_with( []( const item & it ) {
+            return it.has_flag( "ANESTHESIA" ); // legacy
             return it.has_quality( quality_id( "ANESTHESIA" ) );
         } );
         for( const item *anesthesia_item : a_filter ) {
-            if( anesthesia_item->ammo_remaining() >= 1 ) {
+            if( anesthesia_item->is_tool() && anesthesia_item->ammo_remaining() >= 1 ) {
                 anesth_kit.push_back( tool_comp( anesthesia_item->typeId(), 1 ) );
+            } else {
+                acomps.push_back( item_comp( anesthesia_item->typeId(), 1 ) );
             }
         }
-        if( anesth_kit.empty() ) {
+        if( anesth_kit.empty() && acomps.empty() ) {
             popup( _( "You need an anesthesia kit with at least one charge for autodoc to perform any operation." ) );
             return;
         }
@@ -4042,7 +4046,12 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 comps.push_back( item_comp( it->typeId(), 1 ) );
                 p.consume_items( comps, 1, is_crafting_component );
                 if( needs_anesthesia ) {
-                    p.consume_tools( anesth_kit, 1 );
+                    if( acomps.empty() ) { // consume obsolete anesthesia first
+                        p.consume_tools( anesth_kit, 1 );
+                    } else {
+                        p.consume_items( acomps, 1, is_crafting_component );//legacy
+                    }
+
                 }
             }
             break;
@@ -4093,7 +4102,12 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             if( patient.uninstall_bionic( bionic_id( bionic_types[bionic_index] ), installer, true ) ) {
                 patient.introduce_into_anesthesia( duration, installer, needs_anesthesia );
                 if( needs_anesthesia ) {
-                    p.consume_tools( anesth_kit, 1 );
+                    if( acomps.empty() ) { // consume obsolete anesthesia first
+                        p.consume_tools( anesth_kit, 1 );
+                    } else {
+                        p.consume_items( acomps, 1, is_crafting_component ); // legacy
+                    }
+
                 }
             }
             break;
