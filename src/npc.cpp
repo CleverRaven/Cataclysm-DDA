@@ -1489,28 +1489,38 @@ bool npc::is_ally( const player &p ) const
         return true;
     }
     if( p.is_player() ) {
-        if( ( my_fac && my_fac->id == faction_id( "your_followers" ) ) ||
-            is_friend() || is_following() || mission == NPC_MISSION_GUARD_ALLY ) {
+        if( my_fac && my_fac->id == faction_id( "your_followers" ) ) {
             return true;
-        } else {
-            for( const int &npc_id : g->get_follower_list() ) {
-                if( npc_id == getID() ) {
-                    return true;
-                }
+        }
+        if( faction_api_version < 2 ) {
+            // legacy attitude support so let's be specific here
+            if( attitude == NPCATT_FOLLOW || attitude == NPCATT_LEAD ||
+                attitude == NPCATT_WAIT || mission == NPC_MISSION_ACTIVITY ||
+                mission == NPC_MISSION_TRAVELLING || mission == NPC_MISSION_GUARD_ALLY ||
+                has_companion_mission() ) {
+                return true;
             }
         }
     } else {
         const npc &guy = dynamic_cast<const npc &>( p );
         if( my_fac && guy.my_fac && my_fac->id == guy.my_fac->id ) {
             return true;
-        } else if( is_ally( g->u ) && guy.is_ally( g->u ) ) {
-            return true;
-        } else if( get_attitude_group( get_attitude() ) ==
-                   guy.get_attitude_group( guy.get_attitude() ) ) {
-            return true;
+        }
+        if( faction_api_version < 2 ) {
+            if( is_ally( g->u ) && guy.is_ally( g->u ) ) {
+                return true;
+            } else if( get_attitude_group( get_attitude() ) ==
+                       guy.get_attitude_group( guy.get_attitude() ) ) {
+                return true;
+            }
         }
     }
     return false;
+}
+
+bool npc::is_player_ally() const
+{
+    return is_ally( g->u );
 }
 
 bool npc::is_friend() const
