@@ -819,10 +819,11 @@ void monster::move()
             moves -= 100; // If we don't do this, we'll get infinite loops.
         }
         if( has_effect( effect_dragging ) ) {
-            if( !g->u.has_effect( effect_grabbed ) ) {
+            Creature &dragged_foe = *attack_target();
+            if( dragged_foe.has_effect( effect_grabbed ) ) {
                 remove_effect( effect_dragging );
             } else if( drag_to != pos() ) {
-                g->u.setpos( drag_to );
+                dragged_foe.setpos( drag_to );
             }
         }
     } else {
