@@ -2780,7 +2780,7 @@ bool mattack::nurse_operate( monster *z )
 
     if( found_target ) {
 
-        //z->anger = 100;
+        z->anger = 100;
         std::list<tripoint> couch_pos = g->m.find_furnitures_in_radius( z->pos(), 10,
                                         furn_id( "f_autodoc_couch" ) ) ;
 
@@ -2791,7 +2791,7 @@ bool mattack::nurse_operate( monster *z )
         }
         z->set_dest( target->pos() );// should designate target as the attack_target
         grab( z );
-        if( g->u.has_effect( effect_grabbed ) ) {
+        if( target->has_effect( effect_grabbed ) ) {
             z->add_effect( effect_dragging, 1_turns, num_bp, true );
             return true;
         }

@@ -554,22 +554,22 @@ void monster::move()
     const mtype_id &mon_id = type->id;
     if( mon_id == mon_defective_robot_nurse && has_effect( effect_dragging ) ) {
 
-
+        player *dragged_foe = dynamic_cast<player *>( attack_target() );
         if( rl_dist( pos(), goal ) == 1 && g->m.furn( goal ) == furn_id( "f_autodoc_couch" ) &&
             !has_effect( effect_operating ) ) {
-            if( g->u.has_effect( effect_grabbed ) && !has_effect( effect_countdown ) ) {
+            if( dragged_foe->has_effect( effect_grabbed ) && !has_effect( effect_countdown ) ) {
                 add_msg( m_bad, _( "The %s slowy but firmly puts you down onto the autodoc couch." ), name() );
-                int u_dist = rl_dist( g->u.pos(), goal );
-                g->u.setpos( goal );
+                int u_dist = rl_dist( dragged_foe->pos(), goal );
+                dragged_foe->setpos( goal );
 
                 add_effect( effect_countdown, 2_turns );// there's still time to get away
                 add_msg( m_bad, _( "The %s produces a syringe full of some translucent liquid." ), name() );
             }
         }
         if( get_effect_dur( effect_countdown ) == 1_turns && !has_effect( effect_operating ) ) {
-            if( g->u.has_effect( effect_grabbed ) ) {
+            if( dragged_foe->has_effect( effect_grabbed ) ) {
 
-                bionic_collection collec = *g->u.my_bionics;
+                bionic_collection collec = *dragged_foe->my_bionics;
                 int index = rng( 0, collec.size() - 1 );
                 bionic target_cbm = collec[index];
 
@@ -819,11 +819,11 @@ void monster::move()
             moves -= 100; // If we don't do this, we'll get infinite loops.
         }
         if( has_effect( effect_dragging ) ) {
-            Creature &dragged_foe = *attack_target();
-            if( dragged_foe.has_effect( effect_grabbed ) ) {
+            player *dragged_foe = dynamic_cast<player *>( attack_target() );
+            if( !dragged_foe->has_effect( effect_grabbed ) ) {
                 remove_effect( effect_dragging );
             } else if( drag_to != pos() ) {
-                dragged_foe.setpos( drag_to );
+                dragged_foe->setpos( drag_to );
             }
         }
     } else {
