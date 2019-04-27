@@ -218,6 +218,16 @@
       { "text": "Change your engagement rules...", "topic": "TALK_COMBAT_ENGAGEMENT" },
       { "text": "Change your aiming rules...", "topic": "TALK_AIM_RULES" },
       {
+        "text": "Change your bionic power reserve rules...",
+        "topic": "TALK_CBM_RESERVE_RULES",
+        "condition": { "npc_has_bionics": "ANY" }
+      },
+      {
+        "text": "Change your bionic power recharge rules...",
+        "topic": "TALK_CBM_RECHARGE_RULES",
+        "condition": { "npc_has_bionics": "ANY" }
+      },
+      {
         "truefalsetext": {
           "condition": { "npc_rule": "follow_close" },
           "true": "Move freely as you need to.",
@@ -336,6 +346,124 @@
     ]
   },
   {
+    "id": "TALK_CBM_RESERVE_RULES",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "and": [
+        {
+          "npc_cbm_reserve_rule": "CBM_RESERVE_ALL",
+          "no": {
+            "npc_cbm_reserve_rule": "CBM_RESERVE_MOST",
+            "no": {
+              "npc_cbm_reserve_rule": "CBM_RESERVE_SOME",
+              "no": {
+                "npc_cbm_reserve_rule": "CBM_RESERVE_LITTLE",
+                "no": "*will not reserve any power for defense or utility CBMs.",
+                "yes": "*will reserve 25% of CBM power for defense or utility CBMs."
+              },
+              "yes": "*will reserve 50% of CBM power for defense or utility CBMs."
+            },
+            "yes": "*will reserve 75% of CBM power for defense or utility CBMs."
+          },
+          "yes": "*will reserve 100% of CBM power for defense or utility CBMs."
+        },
+        "  How should much power should <mypronoun> reserve for defense or utility CBMs?"
+      ]
+    },
+    "responses": [
+      {
+        "text": "Don't use any CBM weapons.  Save all power for defense or utility CBMs.",
+        "topic": "TALK_NONE",
+        "condition": { "not": { "npc_cbm_reserve_rule": "CBM_RESERVE_ALL" } },
+        "effect": { "set_npc_cbm_reserve_rule": "CBM_RESERVE_ALL" }
+      },
+      {
+        "text": "Use CBM weapons, but save 75% of total power for defense or utility CBMs.",
+        "topic": "TALK_NONE",
+        "condition": { "not": { "npc_cbm_reserve_rule": "CBM_RESERVE_MOST" } },
+        "effect": { "set_npc_cbm_reserve_rule": "CBM_RESERVE_MOST" }
+      },
+      {
+        "text": "Use CBM weapons, but save 50% of total power for defense or utility CBMs.",
+        "topic": "TALK_NONE",
+        "condition": { "not": { "npc_cbm_reserve_rule": "CBM_RESERVE_SOME" } },
+        "effect": { "set_npc_cbm_reserve_rule": "CBM_RESERVE_SOME" }
+      },
+      {
+        "text": "Use CBM weapons, but save 25% of total power for defense or utility CBMs.",
+        "topic": "TALK_NONE",
+        "condition": { "not": { "npc_cbm_reserve_rule": "CBM_RESERVE_LITTLE" } },
+        "effect": { "set_npc_cbm_reserve_rule": "CBM_RESERVE_LITTLE" }
+      },
+      {
+        "text": "Go wild with CBM weapons.  Don't reserve any power for defense or utility CBMs.",
+        "topic": "TALK_NONE",
+        "condition": { "not": { "npc_cbm_reserve_rule": "CBM_RESERVE_NONE" } },
+        "effect": { "set_npc_cbm_reserve_rule": "CBM_RESERVE_NONE" }
+      },
+      { "text": "Never mind.", "topic": "TALK_NONE" }
+    ]
+  },
+  {
+    "id": "TALK_CBM_RECHARGE_RULES",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "and": [
+        {
+          "npc_cbm_recharge_rule": "CBM_RECHARGE_ALL",
+          "no": {
+            "npc_cbm_recharge_rule": "CBM_RECHARGE_MOST",
+            "no": {
+              "npc_cbm_recharge_rule": "CBM_RECHARGE_SOME",
+              "no": {
+                "npc_cbm_recharge_rule": "CBM_RECHARGE_LITTLE",
+                "no": "*will recharge power CBMs until <mypronoun> has 10% of total power.",
+                "yes": "*will recharge power CBMs until <mypronoun> has 25% of total power."
+              },
+              "yes": "*will recharge power CBMs until <mypronoun> has 50% of total power."
+            },
+            "yes": "*will recharge power CBMs until <mypronoun> has 75% of total power."
+          },
+          "yes": "*will recharge power CBMs until <mypronoun> has 90% of total power."
+        },
+        "  When should <mypronoun> consume supplies to recharge power CBMs?"
+      ]
+    },
+    "responses": [
+      {
+        "text": "We have plenty of supplies.  Recharge until you have 90% of total power.",
+        "topic": "TALK_NONE",
+        "condition": { "not": { "npc_cbm_recharge_rule": "CBM_RECHARGE_ALL" } },
+        "effect": { "set_npc_cbm_recharge_rule": "CBM_RECHARGE_ALL" }
+      },
+      {
+        "text": "We have supplies.  Recharge until you have 75% of total power.",
+        "topic": "TALK_NONE",
+        "condition": { "not": { "npc_cbm_recharge_rule": "CBM_RECHARGE_MOST" } },
+        "effect": { "set_npc_cbm_recharge_rule": "CBM_RECHARGE_MOST" }
+      },
+      {
+        "text": "We have some supplies.  Recharge until you have 50% of total power.",
+        "topic": "TALK_NONE",
+        "condition": { "not": { "npc_cbm_recharge_rule": "CBM_RECHARGE_SOME" } },
+        "effect": { "set_npc_cbm_recharge_rule": "CBM_RECHARGE_SOME" }
+      },
+      {
+        "text": "We're running low on supplies.  Recharge until you have 25% of total power.",
+        "topic": "TALK_NONE",
+        "condition": { "not": { "npc_cbm_recharge_rule": "CBM_RECHARGE_LITTLE" } },
+        "effect": { "set_npc_cbm_recharge_rule": "CBM_RECHARGE_LITTLE" }
+      },
+      {
+        "text": "We're almost out of supplies.  Recharge until you have 10% of total power.",
+        "topic": "TALK_NONE",
+        "condition": { "not": { "npc_cbm_recharge_rule": "CBM_RECHARGE_NONE" } },
+        "effect": { "set_npc_cbm_recharge_rule": "CBM_RECHARGE_NONE" }
+      },
+      { "text": "Never mind.", "topic": "TALK_NONE" }
+    ]
+  },
+  {
     "id": "TALK_AIM_RULES",
     "type": "talk_topic",
     "dynamic_line": {
@@ -376,8 +504,7 @@
         "topic": "TALK_NONE",
         "condition": { "not": { "npc_aim_rule": "AIM_STRICTLY_PRECISE" } },
         "effect": { "set_npc_aim_rule": "AIM_STRICTLY_PRECISE" }
-      },
-      { "text": "Never mind.", "topic": "TALK_NONE" }
+      }
     ]
   },
   {
