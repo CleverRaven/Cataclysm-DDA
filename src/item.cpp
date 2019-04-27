@@ -5421,6 +5421,7 @@ long item::ammo_remaining() const
 long item::ammo_capacity() const
 {
     long res = 0;
+    float multiplier = 1;
 
     const item *mag = magazine_current();
     if( mag ) {
@@ -5430,7 +5431,22 @@ long item::ammo_capacity() const
     if( is_tool() ) {
         res = type->tool->max_charges;
         for( const auto e : toolmods() ) {
-            res *= e->type->mod->capacity_multiplier;
+            multiplier *= e->type->mod->capacity_multiplier;
+        }
+
+        // If there's a capacity multiplier, but we don't have a capacity, use the default magazine
+        // if we can't use the modded item default magazine, fall back to the base item default magazine
+        if( multiplier != 1 && res == 0 && ( magazine_default() != "null" ||
+                                             magazine_default( false ) != "null" ) ) {
+            if( magazine_default() != "null" ) {
+                item mag( magazine_default() );
+                res = mag.type->magazine->capacity * multiplier;
+            } else {
+                item mag( magazine_default( false ) );
+                res = mag.type->magazine->capacity * multiplier;
+            }
+        } else {
+            res *= multiplier;
         }
     }
 

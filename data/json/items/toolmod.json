@@ -29,7 +29,8 @@
     "name": "UPS conversion mod",
     "description": "This device replaces conventional battery connections with a rechargeable power cell that runs off of a Unified Power System.  Having the UPS on or placing a tool in a special recharging station will slowly charge it.",
     "ammo_modifier": "battery",
-    "flags": [ "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
+    "flags": [ "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ],
+    "capacity_multiplier": 0.8
   },
   {
     "id": "double_plutonium_core",

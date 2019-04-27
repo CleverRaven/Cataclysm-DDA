@@ -7196,6 +7196,10 @@ void player::process_active_items()
         if( it.charges < it.type->maximum_charges() ) {
             ch_UPS_used++;
             it.charges++;
+        } else if( it.ammo_type() == "battery" && it.ammo_remaining() < it.ammo_capacity() ) {
+            // Battery-using item that has no maximum_charges but does have an ammo capacity
+            it.charges++;
+            ch_UPS_used++;
         }
     }
     if( weapon.has_flag( "USE_UPS" ) &&  ch_UPS_used < ch_UPS &&
@@ -7214,6 +7218,11 @@ void player::process_active_items()
         if( worn_item.charges < worn_item.type->maximum_charges() ) {
             ch_UPS_used++;
             worn_item.charges++;
+        } else if( worn_item.ammo_type() == "battery" &&
+                   worn_item.ammo_remaining() < worn_item.ammo_capacity() ) {
+            // Battery-using item that has no maximum_charges but does have an ammo capacity
+            worn_item.charges++;
+            ch_UPS_used++;
         }
     }
     if( ch_UPS_used > 0 ) {
