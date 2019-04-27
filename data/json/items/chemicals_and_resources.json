@@ -11,6 +11,7 @@
     "ammo_type": "anesthetic",
     "count": 3,
     "phase": "liquid",
+    "container": "jar_3l_glass",
     "symbol": "!",
     "color": "cyan",
     "looks_like": "1st_aid"
