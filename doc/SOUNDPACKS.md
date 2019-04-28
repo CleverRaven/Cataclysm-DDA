@@ -41,7 +41,7 @@ Sound effects can be included with a format like this:
     }
 ]
 ```
-Adding variaty: If for a certain `id`'s `variant` multiple `files` are defined, they will be chosen at random when `variant` is played.
+Adding variety: If for a certain `id`'s `variant` multiple `files` are defined, they will be chosen at random when `variant` is played.
 
 ### Preloading SFX
 
@@ -184,7 +184,7 @@ Where id describes the id of the sound effect, and a list of variants separated 
 * `tool geiger_low|geiger_medium|geiger_high`
 * `trap bubble_wrap|bear_trap|snare|teleport|dissector`
 
-    # varous activities
+    # various activities
 * `activity burrow`
 
     # musical instruments, `_bad` is used when you fail to play it well
@@ -219,7 +219,7 @@ Where id describes the id of the sound effect, and a list of variants separated 
 * `vehicle_open <vehicle_part>` # note: doors, trunks, hatches, etc.
 * `vehicle_close <vehicle part>`
 
-    # miscelaneous sounds
+    # miscellaneous sounds
 * `misc flashbang|flash|shockwave|earthquake|stairs_movement|stones_grinding|bomb_ticking|lit_fuse|cow_bell|bell|timber`
 * `misc rc_car_hits_obstacle|rc_car_drives`
 * `misc default|whistle|airhorn|horn_bicycle|servomotor`
