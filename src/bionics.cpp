@@ -1151,8 +1151,10 @@ bool player::uninstall_bionic( const bionic &target_cbm, monster &installer, pla
     int success = chance_of_success - rng( 1, 100 );
 
     const time_duration duration = difficulty * 20_minutes;
+    if( !installer.has_effect( effect_operating ) ) { // don't stack up the effect
+        installer.add_effect( effect_operating, duration );
+    }
 
-    installer.add_effect( effect_operating, duration );
 
     if( patient.is_player() ) {
         add_msg( m_bad,
