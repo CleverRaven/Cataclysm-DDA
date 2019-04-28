@@ -2496,7 +2496,8 @@ void npc::drop_items( int weight, int volume )
 
 bool npc::find_corpse_to_pulp()
 {
-    if( ( is_player_ally() && ( !rules.has_flag( ally_rule::allow_pulp ) || g->u.in_vehicle ) ) || is_hallucination() ) {
+    if( ( is_player_ally() && ( !rules.has_flag( ally_rule::allow_pulp ) || g->u.in_vehicle ) ) ||
+        is_hallucination() ) {
         return false;
     }
 
