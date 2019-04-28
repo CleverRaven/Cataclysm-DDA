@@ -475,6 +475,55 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "s_butcher_roof",
+    "name": "butcher shop roof",
+    "copy-from": "generic_city_building",
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_butcher_upper_roof",
+    "name": "butcher shop roof",
+    "copy-from": "generic_city_building",
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_butcher_1",
+    "name": "butcher shop",
+    "copy-from": "generic_city_building",
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_butcher_roof_1",
+    "name": "butcher shop roof",
+    "copy-from": "generic_city_building",
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_butcher_upper_roof_1",
+    "name": "butcher shop roof",
+    "copy-from": "generic_city_building",
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_butcher_2",
+    "name": "butcher shop",
+    "copy-from": "generic_city_building",
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_butcher_roof_2",
+    "name": "butcher shop roof",
+    "copy-from": "generic_city_building",
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "s_bike_shop",
     "name": "bike shop",
     "copy-from": "generic_city_building",
