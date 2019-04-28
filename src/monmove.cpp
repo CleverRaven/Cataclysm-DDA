@@ -558,7 +558,7 @@ void monster::move()
         if( rl_dist( pos(), goal ) == 1 && g->m.furn( goal ) == furn_id( "f_autodoc_couch" ) &&
             !has_effect( effect_operating ) ) {
             if( dragged_foe->has_effect( effect_grabbed ) && !has_effect( effect_countdown ) ) {
-                add_msg( m_bad, _( "The %s slowy but firmly puts you down onto the autodoc couch." ), name() );
+                add_msg( m_bad, _( "The %1$s slowy but firmly puts %2$s down onto the autodoc couch." ), name(), dragged_foe->name );
                 int u_dist = rl_dist( dragged_foe->pos(), goal );
                 dragged_foe->setpos( goal );
 
@@ -577,7 +577,7 @@ void monster::move()
                 float adjusted_skill = static_cast<float>( 77 ) - std::min( static_cast<float>( 40 ),
                                        static_cast<float>( 77 ) - static_cast<float>( 77 ) / static_cast<float>( 10.0 ) );
 
-                g->u.uninstall_bionic( target_cbm, *this, *attack_target(), adjusted_skill );
+                g->u.uninstall_bionic( target_cbm, *this, *dragged_foe, adjusted_skill );
 
             }
         }
