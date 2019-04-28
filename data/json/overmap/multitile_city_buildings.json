@@ -1213,6 +1213,34 @@
   },
   {
     "type": "city_building",
+    "id": "office_doctor",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "office_doctor_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "office_doctor_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "office_doctor_1",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "office_doctor_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "office_doctor_1_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "office_doctor_2",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "office_doctor_2_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "office_doctor_roof_2_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "office_doctor_upper_roof_2_north" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "candy_shop",
     "locations": [ "land" ],
     "overmaps": [
