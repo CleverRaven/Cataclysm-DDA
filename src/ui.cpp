@@ -121,6 +121,7 @@ uilist::operator int() const
  */
 void uilist::init()
 {
+    assert( !test_mode ); // uilist should not be used in tests where there's no place for it
     w_x = MENU_AUTOASSIGN;              // starting position
     w_y = MENU_AUTOASSIGN;              // -1 = auto center
     w_width = MENU_AUTOASSIGN;          // MENU_AUTOASSIGN = based on text width or max entry width, -2 = based on max entry, folds text
