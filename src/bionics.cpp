@@ -1141,7 +1141,7 @@ bool player::uninstall_bionic( const bionic_id &b_id, player &installer, bool au
     return true;
 }
 
-bool player::uninstall_bionic( const bionic &target_cbm, monster &installer, Creature &patient,
+bool player::uninstall_bionic( const bionic &target_cbm, monster &installer, player &patient,
                                float adjusted_skill, bool autodoc )
 {
     item bionic_to_uninstall = item( target_cbm.id.str(), 0 );
@@ -1177,8 +1177,8 @@ bool player::uninstall_bionic( const bionic &target_cbm, monster &installer, Cre
         }
 
         // remove power bank provided by bionic
-        g->u.max_power_level -= target_cbm.info().capacity;
-        g->u.remove_bionic( target_cbm.id );
+        patient.max_power_level -= target_cbm.info().capacity;
+        patient.remove_bionic( target_cbm.id );
         if( item::type_is_defined( target_cbm.id.c_str() ) ) {
             g->m.spawn_item( patient.pos(), target_cbm.id.c_str(), 1 );
         } else {
