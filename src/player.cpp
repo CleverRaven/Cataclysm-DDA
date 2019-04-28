@@ -12166,7 +12166,7 @@ Creature::Attitude player::attitude_to( const Creature &other ) const
     if( p != nullptr ) {
         if( p->is_enemy() ) {
             return A_HOSTILE;
-        } else if( p->is_friend() ) {
+        } else if( p->is_player_ally() ) {
             return A_FRIENDLY;
         } else {
             return A_NEUTRAL;

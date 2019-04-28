@@ -1556,6 +1556,8 @@ class item : public visitable<item>
         long ammo_remaining() const;
         /** Maximum quantity of ammunition loadable for tool, gun or auxiliary gunmod */
         long ammo_capacity() const;
+        /** @param potential_capacity whether to try a default magazine if necessary */
+        long ammo_capacity( bool potential_capacity ) const;
         /** Quantity of ammunition consumed per usage of tool or with each shot of gun */
         long ammo_required() const;
 

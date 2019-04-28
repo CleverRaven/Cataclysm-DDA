@@ -1353,6 +1353,12 @@ void npc::load( JsonObject &data )
     if( data.read( "my_fac", facID ) ) {
         fac_id = faction_id( facID );
     }
+    int temp_fac_api_ver = 0;
+    if( data.read( "faction_api_ver", temp_fac_api_ver ) ) {
+        faction_api_version = temp_fac_api_ver;
+    } else {
+        faction_api_version = 0;
+    }
 
     if( data.read( "attitude", atttmp ) ) {
         attitude = npc_attitude( atttmp );
@@ -1479,6 +1485,7 @@ void npc::store( JsonOut &json ) const
     json.member( "pulp_location", pulp_location );
 
     json.member( "mission", mission ); // TODO: stringid
+    json.member( "faction_api_ver", faction_api_version );
     if( !fac_id.str().empty() ) { // set in constructor
         json.member( "my_fac", my_fac->id.c_str() );
     }
