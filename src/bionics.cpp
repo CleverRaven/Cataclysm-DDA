@@ -1109,6 +1109,10 @@ bool player::uninstall_bionic( const bionic &target_cbm, monster &installer, Cre
     if( patient.is_player() ) {
         add_msg( m_bad,
                  _( "You feel a tiny pricking sensation in your right arm, and lose all sensation before abruptly blacking out." ) );
+    } else if( g->u.sees( installer ) ) {
+        add_msg( m_bad,
+                 _( "The %1$s gently inserts a syringe into %2$s's arm and starts injecting something while holding them down." ),
+                 installer.name(), patient.disp_name() );
     }
     patient.add_effect( effect_narcosis, duration );
     patient.add_effect( effect_sleep, duration );
@@ -1128,9 +1132,9 @@ bool player::uninstall_bionic( const bionic &target_cbm, monster &installer, Cre
         g->u.max_power_level -= target_cbm.info().capacity;
         g->u.remove_bionic( target_cbm.id );
         if( item::type_is_defined( target_cbm.id.c_str() ) ) {
-            g->m.spawn_item( pos(), target_cbm.id.c_str(), 1 );
+            g->m.spawn_item( patient.pos(), target_cbm.id.c_str(), 1 );
         } else {
-            g->m.spawn_item( pos(), "burnt_out_bionic", 1 );
+            g->m.spawn_item( patient.pos(), "burnt_out_bionic", 1 );
         }
     } else {
         bionics_uninstall_failure( installer, difficulty, success, adjusted_skill );
