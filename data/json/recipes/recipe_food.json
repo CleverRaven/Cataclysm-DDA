@@ -8581,5 +8581,16 @@
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [ [ [ "flour", 4 ] ], [ [ "sourdough_starter", 1 ] ], [ [ "water", 3 ], [ "water_clean", 3 ] ] ]
-  }
+  },
+  {
+	  "type": "recipe",
+	  "result": "nopalitos",
+	  "catergory":"CC_FOOD",
+	  "subcatergory":"CSC_FOOD_OTHER",
+	  "skill_used": "cooking",
+	  "difficulty": 2,
+	  "time": 40000,
+	  "autolearn":true,
+	  "qualities":[ {"id":"CUT", "level": 1},{"id":"COOKING","level":1}],
+	  "components":[ ["cactus_pad",3] ]
 ]
