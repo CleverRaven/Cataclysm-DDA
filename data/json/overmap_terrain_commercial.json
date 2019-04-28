@@ -1561,6 +1561,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "cs_car_dealership_roof",
+    "copy-from": "generic_city_building",
+    "name": "car dealership",
+    "sym": "c",
+    "color": "i_cyan"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "cs_tire_shop",
     "copy-from": "generic_city_building",
     "name": "tire shop",
