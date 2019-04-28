@@ -590,7 +590,8 @@ void uilist::show()
         wprintz( window, border_color, " >" );
     }
 
-    std::string padspaces = std::string( w_width - 2 - pad_left - pad_right, ' ' );
+    const int pad_size = std::max( 0, w_width - 2 - pad_left - pad_right );
+    std::string padspaces = std::string( pad_size, ' ' );
     const int text_lines = textformatted.size();
     int estart = 1;
     if( !textformatted.empty() ) {
