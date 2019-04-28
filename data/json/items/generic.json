@@ -3088,7 +3088,7 @@
     "material": "steel",
     "symbol": ";",
     "color": "red",
-    "name": "Welding Component Kit",
+    "name": "welding component kit",
     "description": "A set of components useful for constructing a full-featured welding station, complete with soldering capability.",
     "price": 9000,
     "weight": 4500,
