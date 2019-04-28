@@ -1,9 +1,3 @@
-data/json/vehicles/carts.json
-data/json/vehicles/emergency.json
-data/json/vehicles/farm.json
-data/json/vehicles/military.json
-data/json/vehicles/utility.json
-data/json/vehicles/vans_busses.json
 data/mods/BrightNights/mapgen/municipal_microreactor.json
 data/mods/BrightNights/mapgen/s_gas.json
 data/mods/BrightNights/vehicles/cars.json
