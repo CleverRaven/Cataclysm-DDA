@@ -4593,12 +4593,16 @@ void game::monmove()
     // Make sure these don't match the first time around.
     tripoint cached_lev = m.get_abs_sub() + tripoint( 1, 0, 0 );
 
+    // used to force update of the monster factions if a monster has changed its z-level.
+    bool force_mfactions_update = false;
+
     mfactions monster_factions;
     const auto &playerfaction = mfaction_str_id( "player" );
     for( monster &critter : all_monsters() ) {
-        // The first time through, and any time the map has been shifted,
+        // The first time through, and any time the map has been shifted, or a monster changed its z-level
         // recalculate monster factions.
-        if( cached_lev != m.get_abs_sub() ) {
+        if( cached_lev != m.get_abs_sub() || force_mfactions_update ) {
+            force_mfactions_update = false;
             // monster::plan() needs to know about all monsters on the same team as the monster.
             monster_factions.clear();
             for( monster &critter : all_monsters() ) {
@@ -4650,6 +4654,16 @@ void game::monmove()
             critter.move(); // Move one square, possibly hit u
             critter.process_triggers();
             m.creature_in_field( critter );
+        }
+
+        // FIX #28679
+        // It is possible that a monster has fallen down a z-level during critter.move() above, if it stepped on a trap.
+        // In this case the monster is deleted during the iteration of this `for` loop in
+        //  game::non_dead_range<monster>::iterator::operator++().
+        // We must make sure that we update the monster_factions so we don't pass a deleted monster later in critter.plan().
+        // Note that this only applies if z-levels are not active.
+        if ( !g->m.has_zlevels() && critter.posz() != g->u.posz() ) {
+            force_mfactions_update = true;
         }
 
         if( !critter.is_dead() &&
