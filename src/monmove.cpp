@@ -552,7 +552,7 @@ void monster::move()
 
     // defective nursebot surgery code
     const mtype_id &mon_id = type->id;
-    if( mon_id == mon_defective_robot_nurse && has_effect( effect_dragging ) ) {
+    if( mon_id == mon_defective_robot_nurse && has_effect( effect_dragging ) && dragged_foe != nullptr ) {
 
 
         if( rl_dist( pos(), goal ) == 1 && g->m.furn( goal ) == furn_id( "f_autodoc_couch" ) &&
@@ -818,7 +818,7 @@ void monster::move()
         if( !did_something ) {
             moves -= 100; // If we don't do this, we'll get infinite loops.
         }
-        if( has_effect( effect_dragging ) ) {
+        if( has_effect( effect_dragging ) && dragged_foe !=nullptr ) {
 
             if( !dragged_foe->has_effect( effect_grabbed ) ) {
                 dragged_foe = nullptr;
