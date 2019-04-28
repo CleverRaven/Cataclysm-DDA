@@ -229,6 +229,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "anesthetic",
+    "name": "anesthetic",
+    "default": "anesthetic"
+  },
+  {
+    "type": "ammunition_type",
     "id": "soap",
     "name": "soap",
     "default": "soap"

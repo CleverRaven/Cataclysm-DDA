@@ -6511,6 +6511,23 @@
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
+    "id": "anesthetic_kit",
+    "type": "TOOL",
+    "name": "anesthesia kit",
+    "description": "A kit for inducing anesthesia for surgery, containing specialized canisters with a variety of powerful hypnotic, analgetic, and stimulative drugs.  It's intended for use in specialized medical equipment, and can't be administered manually.",
+    "weight": 100,
+    "volume": 1,
+    "price": 1000,
+    "to_hit": -1,
+    "material": [ "glass" ],
+    "symbol": "!",
+    "color": "cyan",
+    "ammo": "anesthetic",
+    "initial_charges": 3,
+    "max_charges": 3,
+    "qualities": [ [ "ANESTHESIA", 1 ] ]
+  },
+  {
     "id": "shavingkit",
     "type": "TOOL",
     "name": "shaving kit",
