@@ -4263,7 +4263,7 @@ void mill_activate( player &p, const tripoint &examp )
     for( auto &it : g->m.i_at( examp ) ) {
         if( it.has_flag( "MILLABLE" ) ) {
             // Do one final rot check before milling, then apply the PROCESSING flag to prevent further checks.
-            it.calc_rot( examp );
+            it.process_temperature_rot( g->get_temperature( examp ), 1, examp, nullptr );
             it.set_flag( "PROCESSING" );
         }
     }

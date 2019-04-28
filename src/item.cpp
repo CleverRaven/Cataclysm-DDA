@@ -3916,7 +3916,7 @@ void item::calc_rot( time_point time )
         return;
     }
 
-    if( item_tags.count( "FROZEN" ) || item_tags.count( "PROCESSING" ) ) {
+    if( item_tags.count( "FROZEN" ) ) {
         return;
     }
     // rot modifier
@@ -3954,7 +3954,7 @@ void item::calc_rot_while_processing( time_duration processing_duration )
 
     // Apply no rot or temperature while smoking
     last_rot_check += processing_duration;
-    last_temp_check += processing_duration
+    last_temp_check += processing_duration;
 }
 
 units::volume item::get_storage() const
