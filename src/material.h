@@ -15,9 +15,12 @@
 #include "string_id.h"
 #include "type_id.h"
 
+class material_type;
+
 enum damage_type : int;
 using itype_id = std::string;
 class JsonObject;
+
 using mat_burn_products = std::vector<std::pair<itype_id, float>>;
 using mat_compacts_into = std::vector<itype_id>;
 using material_list = std::vector<material_type>;

@@ -15,7 +15,6 @@
 #include "calendar.h"
 #include "creature.h"
 #include "enums.h"
-#include "int_id.h"
 #include "bodypart.h"
 #include "color.h"
 #include "cursesdef.h"
@@ -24,7 +23,6 @@
 #include "mtype.h"
 #include "optional.h"
 #include "pldata.h"
-#include "string_id.h"
 #include "type_id.h"
 #include "units.h"
 

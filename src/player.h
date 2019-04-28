@@ -38,15 +38,16 @@
 #include "enums.h"
 #include "inventory.h"
 #include "item_location.h"
-#include "itype.h"
 #include "pldata.h"
-#include "string_id.h"
 #include "type_id.h"
 
 class effect;
 class map;
 class npc;
 struct pathfinding_settings;
+class recipe;
+struct islot_comestible;
+struct itype;
 
 static const std::string DEFAULT_HOTKEYS( "1234567890abcdefghijklmnopqrstuvwxyz" );
 

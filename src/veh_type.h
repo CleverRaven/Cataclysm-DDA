@@ -21,6 +21,7 @@
 #include "type_id.h"
 #include "units.h"
 #include "vehicle.h"
+#include "requirements.h"
 
 using itype_id = std::string;
 

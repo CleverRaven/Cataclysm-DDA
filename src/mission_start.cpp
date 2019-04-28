@@ -1,21 +1,15 @@
 #include "mission.h" // IWYU pragma: associated
 
 #include <vector>
-#include <algorithm>
 #include <memory>
 
 #include "computer.h"
-#include "coordinate_conversions.h"
 #include "debug.h"
-#include "dialogue.h"
 #include "game.h"
-#include "json.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
-// TODO: Remove this include once 2D wrappers are no longer needed
-#include "mapgen_functions.h"
 #include "messages.h"
 #include "name.h"
 #include "npc.h"

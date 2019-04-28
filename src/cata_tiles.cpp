@@ -61,6 +61,7 @@
 #include "string_id.h"
 #include "tileray.h"
 #include "translations.h"
+#include "type_id.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 

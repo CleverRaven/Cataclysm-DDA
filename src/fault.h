@@ -9,6 +9,7 @@
 #include "type_id.h"
 
 class JsonObject;
+struct requirement_data;
 
 class fault
 {

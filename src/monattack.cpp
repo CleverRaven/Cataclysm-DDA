@@ -48,7 +48,6 @@
 #include "vpart_position.h"
 #include "weighted_list.h"
 #include "calendar.h"
-#include "character.h"
 #include "creature.h"
 #include "damage.h"
 #include "enums.h"
@@ -63,8 +62,7 @@
 #include "player.h"
 #include "string_formatter.h"
 #include "tileray.h"
-#include "material.h"
-#include "pldata.h"
+#include "type_id.h"
 
 const mtype_id mon_ant( "mon_ant" );
 const mtype_id mon_ant_acid( "mon_ant_acid" );

@@ -60,7 +60,8 @@
 #include "tileray.h"
 #include "weighted_list.h"
 #include "material.h"
-#include "pldata.h"
+#include "cata_utility.h"
+#include "int_id.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 

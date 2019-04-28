@@ -12,7 +12,6 @@
 
 #include "options.h"
 #include "pimpl.h"
-#include "string_id.h"
 #include "type_id.h"
 
 class JsonIn;

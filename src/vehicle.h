@@ -43,6 +43,7 @@ class zone_data;
 struct itype;
 struct uilist_entry;
 template <typename T> class visitable;
+class vpart_info;
 
 enum vpart_bitflags : int;
 template<typename feature_type>

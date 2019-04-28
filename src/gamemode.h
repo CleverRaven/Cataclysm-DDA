@@ -8,7 +8,6 @@
 
 #include "calendar.h"
 #include "enums.h"
-#include "string_id.h"
 #include "type_id.h"
 
 enum action_id : int;

@@ -15,16 +15,17 @@
 #include "character.h"
 #include "damage.h"
 #include "enums.h" // tripoint
-#include "item.h"
 #include "string_id.h"
 #include "tuple_hash.h"
 #include "type_id.h"
 
 class nc_color;
 class JsonObject;
-class vitamin;
 class player;
 struct dream;
+class Trait_group;
+class item;
+
 using itype_id = std::string;
 class JsonArray;
 

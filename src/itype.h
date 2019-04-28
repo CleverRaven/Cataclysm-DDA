@@ -18,7 +18,6 @@
 #include "iuse.h" // use_function
 #include "optional.h"
 #include "pldata.h" // add_type
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
@@ -28,6 +27,7 @@ class item_category;
 class Item_factory;
 class player;
 class item;
+
 enum art_effect_active : int;
 enum art_charge : int;
 enum art_charge_req : int;

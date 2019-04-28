@@ -33,6 +33,7 @@
 #include "ui.h"
 #include "worldfactory.h"
 #include "recipe.h"
+#include "string_id.h"
 
 // Colors used in this file: (Most else defaults to c_light_gray)
 #define COL_STAT_ACT        c_white   // Selected stat

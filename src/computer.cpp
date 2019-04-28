@@ -41,7 +41,6 @@
 #include "translations.h"
 #include "trap.h"
 #include "bodypart.h"
-#include "character.h"
 #include "color.h"
 #include "creature.h"
 #include "enums.h"
@@ -53,6 +52,7 @@
 #include "optional.h"
 #include "pldata.h"
 #include "string_id.h"
+#include "type_id.h"
 
 const mtype_id mon_manhack( "mon_manhack" );
 const mtype_id mon_secubot( "mon_secubot" );

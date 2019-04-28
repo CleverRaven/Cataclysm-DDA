@@ -7,7 +7,6 @@
 #include <vector>
 #include <utility>
 
-#include "int_id.h"
 #include "type_id.h"
 
 class map;

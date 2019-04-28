@@ -17,7 +17,6 @@ class Creature;
 class item;
 class player;
 class map;
-struct trap;
 struct tripoint;
 class JsonObject;
 

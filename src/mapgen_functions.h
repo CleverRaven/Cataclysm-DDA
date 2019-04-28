@@ -6,15 +6,13 @@
 #include <functional>
 
 #include "enums.h"
-#include "int_id.h"
 #include "type_id.h"
 #include "weighted_list.h"
 
 class time_point;
-struct trap;
-
 struct regional_settings;
 class map;
+
 enum field_id : int;
 class mission;
 

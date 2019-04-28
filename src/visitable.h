@@ -9,7 +9,6 @@
 #include <vector>
 
 #include "cata_utility.h"
-#include "string_id.h"
 #include "type_id.h"
 
 class item;

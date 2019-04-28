@@ -11,7 +11,6 @@
 #include <utility>
 
 #include "requirements.h"
-#include "string_id.h"
 #include "type_id.h"
 
 class item;

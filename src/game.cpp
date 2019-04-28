@@ -79,12 +79,10 @@
 #include "mod_manager.h"
 #include "monattack.h"
 #include "monexamine.h"
-#include "monfaction.h"
 #include "mongroup.h"
 #include "monstergenerator.h"
 #include "morale_types.h"
 #include "mtype.h"
-#include "mutation.h"
 #include "npc.h"
 #include "npc_class.h"
 #include "omdata.h"
@@ -143,6 +141,8 @@
 #include "ui.h"
 #include "units.h"
 #include "weighted_list.h"
+#include "int_id.h"
+#include "string_id.h"
 
 #if defined(TILES)
 #include "cata_tiles.h"

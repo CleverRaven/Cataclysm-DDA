@@ -23,8 +23,11 @@
 #include "type_id.h"
 #include "units.h"
 #include "visitable.h"
+#include "gun_mode.h"
 
 class item;
+class material_type;
+struct mtype;
 
 namespace cata
 {
@@ -44,6 +47,7 @@ class player;
 class recipe;
 struct itype;
 struct islot_comestible;
+
 using bodytype_id = std::string;
 struct islot_armor;
 struct use_function;
@@ -55,6 +59,7 @@ enum body_part : int;
 enum m_size : int;
 enum class side : int;
 class body_part_set;
+
 using itype_id = std::string;
 struct fire_data;
 struct damage_instance;

@@ -22,7 +22,6 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "color.h"
-#include "creature.h"
 #include "cursesdef.h"
 #include "item.h"
 #include "pimpl.h"

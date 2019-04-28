@@ -11,10 +11,8 @@
 #include "damage.h"
 #include "enum_bitset.h"
 #include "enums.h"
-#include "int_id.h"
 #include "mattack_common.h"
 #include "pathfinding.h"
-#include "string_id.h"
 #include "type_id.h"
 #include "units.h"
 
@@ -22,6 +20,7 @@ class Creature;
 class monster;
 template <typename E> struct enum_traits;
 struct dealt_projectile_attack;
+struct species_type;
 
 enum field_id : int;
 enum body_part : int;

@@ -13,7 +13,6 @@
 #include "bodypart.h"
 #include "pimpl.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "type_id.h"
 #include "units.h"
 

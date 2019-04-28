@@ -7,7 +7,6 @@
 #include <vector>
 #include <string>
 
-#include "string_id.h"
 #include "type_id.h"
 
 enum NODE_ERROR_TYPE {

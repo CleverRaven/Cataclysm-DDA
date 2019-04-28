@@ -5,8 +5,6 @@
 #include <string>
 
 #include "calendar.h"
-#include "string_id.h"
-#include "type_id.h"
 
 class JsonIn;
 class JsonOut;

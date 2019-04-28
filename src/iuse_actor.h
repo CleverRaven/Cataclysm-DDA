@@ -20,15 +20,16 @@
 #include "units.h"
 #include "optional.h"
 
-class vitamin;
 class item;
 class player;
 struct iteminfo;
 struct tripoint;
+
 enum field_id : int;
 enum hp_part : int;
 enum body_part : int;
 class JsonObject;
+
 using itype_id = std::string;
 struct furn_t;
 struct itype;
@@ -886,8 +887,6 @@ class heal_actor : public iuse_actor
         iuse_actor *clone() const override;
         void info( const item &, std::vector<iteminfo> & ) const override;
 };
-
-struct ter_t;
 
 class place_trap_actor : public iuse_actor
 {

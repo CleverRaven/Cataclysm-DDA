@@ -7,8 +7,6 @@
 
 #include "enums.h"
 #include "requirements.h"
-#include "string_id.h"
-#include "type_id.h"
 
 class inventory;
 class item;

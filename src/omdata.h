@@ -24,6 +24,7 @@
 
 struct city;
 class overmap_land_use_code;
+struct MonsterGroup;
 
 using overmap_land_use_code_id = string_id<overmap_land_use_code>;
 struct oter_t;

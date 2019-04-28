@@ -1,6 +1,8 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <algorithm>
+#include <functional>
 
 #include "coordinate_conversions.h"
 #include "dialogue.h"
@@ -15,6 +17,12 @@
 #include "enums.h"
 #include "player.h"
 #include "rng.h"
+#include "debug.h"
+#include "line.h"
+#include "omdata.h"
+#include "optional.h"
+#include "translations.h"
+#include "type_id.h"
 
 const tripoint reveal_destination( const std::string &type )
 {

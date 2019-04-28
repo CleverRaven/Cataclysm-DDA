@@ -76,6 +76,7 @@
 #include "ret_val.h"
 #include "string_id.h"
 #include "units.h"
+#include "type_id.h"
 
 class npc;
 

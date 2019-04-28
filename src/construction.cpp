@@ -44,7 +44,6 @@
 #include "int_id.h"
 #include "item.h"
 #include "player_activity.h"
-#include "pldata.h"
 
 class inventory;
 

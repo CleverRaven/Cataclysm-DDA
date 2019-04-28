@@ -3,14 +3,12 @@
 #include <map>
 #include <utility>
 
-#include "string_id.h"
 #include "units.h"
 #include "calendar.h"
 #include "type_id.h"
 
 struct needs_rates;
 class player;
-class vitamin;
 class JsonIn;
 class JsonOut;
 class item;

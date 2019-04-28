@@ -9,7 +9,6 @@
 #include "json.h"
 #include "string_formatter.h"
 #include "debug.h"
-#include "player.h"
 
 const morale_type &morale_type_data::convert_legacy( int lmt )
 {

@@ -11,7 +11,6 @@
 #include "damage.h"
 #include "mattack_common.h"
 #include "mtype.h"
-#include "string_id.h"
 #include "type_id.h"
 #include "weighted_list.h"
 #include "bodypart.h"

@@ -2,7 +2,6 @@
 #ifndef NPCTALK_H
 #define NPCTALK_H
 
-#include "string_id.h"
 #include "type_id.h"
 
 class npc;

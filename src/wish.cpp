@@ -32,6 +32,7 @@
 #include "item.h"
 #include "itype.h"
 #include "optional.h"
+#include "type_id.h"
 
 class wish_mutate_callback: public uilist_callback
 {

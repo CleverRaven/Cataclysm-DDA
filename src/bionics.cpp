@@ -25,7 +25,6 @@
 #include "map_iterator.h"
 #include "messages.h"
 #include "morale_types.h"
-#include "mutation.h"
 #include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
@@ -41,7 +40,6 @@
 #include "weather.h"
 #include "weather_gen.h"
 #include "calendar.h"
-#include "character.h"
 #include "color.h"
 #include "cursesdef.h"
 #include "damage.h"
@@ -51,7 +49,6 @@
 #include "pimpl.h"
 #include "pldata.h"
 #include "units.h"
-#include "mtype.h"
 
 const skill_id skilll_electronics( "electronics" );
 const skill_id skilll_firstaid( "firstaid" );

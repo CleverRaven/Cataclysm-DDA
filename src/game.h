@@ -19,13 +19,11 @@
 #include "cursesdef.h"
 #include "enums.h"
 #include "game_constants.h"
-#include "int_id.h"
 #include "item_location.h"
 #include "optional.h"
 #include "pimpl.h"
 #include "creature.h"
 #include "item.h"
-#include "string_id.h"
 #include "type_id.h"
 #include "monster.h"
 
@@ -77,6 +75,7 @@ enum target_mode : int;
 
 struct targeting_data;
 struct special_game;
+
 using itype_id = std::string;
 class map;
 class faction_manager;

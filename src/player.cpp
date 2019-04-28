@@ -94,6 +94,7 @@
 #include "rng.h"
 #include "units.h"
 #include "visitable.h"
+#include "string_id.h"
 
 constexpr double SQRT_2 = 1.41421356237309504880;
 

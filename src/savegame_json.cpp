@@ -37,7 +37,6 @@
 #include "item_factory.h"
 #include "json.h"
 #include "mission.h"
-#include "monfaction.h"
 #include "monster.h"
 #include "morale.h"
 #include "mtype.h"
@@ -78,8 +77,10 @@
 #include "stomach.h"
 #include "tileray.h"
 #include "visitable.h"
+#include "string_id.h"
 
 struct oter_type_t;
+struct mutation_branch;
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 

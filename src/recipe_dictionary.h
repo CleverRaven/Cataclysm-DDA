@@ -11,7 +11,6 @@
 #include <vector>
 
 #include "recipe.h"
-#include "string_id.h"
 #include "type_id.h"
 
 class JsonIn;

@@ -45,7 +45,7 @@
 #include "item_stack.h"
 #include "line.h"
 #include "units.h"
-#include "mtype.h"
+#include "type_id.h"
 
 void cancel_aim_processing();
 

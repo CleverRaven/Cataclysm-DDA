@@ -4,7 +4,6 @@
 
 #include <string>
 
-#include "string_id.h"
 #include "type_id.h"
 
 class addiction;

@@ -17,6 +17,7 @@
 class JsonObject;
 class map;
 class VehicleSpawn;
+class VehicleGroup;
 
 using vspawn_id = string_id<VehicleSpawn>;
 struct point;

@@ -67,6 +67,7 @@
 #include "ui.h"
 #include "units.h"
 #include "weighted_list.h"
+#include "type_id.h"
 
 const skill_id skill_dodge( "dodge" );
 const skill_id skill_gun( "gun" );

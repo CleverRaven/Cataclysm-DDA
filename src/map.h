@@ -19,15 +19,17 @@
 #include "calendar.h"
 #include "enums.h"
 #include "game_constants.h"
-#include "int_id.h"
 #include "item.h"
 #include "item_stack.h"
 #include "lightmap.h"
 #include "shadowcasting.h"
-#include "string_id.h"
 #include "type_id.h"
 #include "units.h"
 #include "cata_utility.h"
+
+struct furn_t;
+struct ter_t;
+template <typename T> class string_id;
 
 namespace catacurses
 {

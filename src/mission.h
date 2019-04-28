@@ -17,6 +17,9 @@
 #include "string_id.h"
 #include "mtype.h"
 #include "type_id.h"
+#include "game_constants.h"
+#include "omdata.h"
+#include "optional.h"
 
 class player;
 class mission;
@@ -26,8 +29,8 @@ class JsonArray;
 class JsonIn;
 class JsonOut;
 class overmapbuffer;
-struct oter_type_t;
 class item;
+class npc;
 
 enum npc_mission : int;
 

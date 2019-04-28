@@ -28,6 +28,7 @@
 #include "translations.h"
 #include "color.h"
 #include "game.h"
+#include "string_id.h"
 
 using namespace std::placeholders;
 

@@ -32,7 +32,7 @@
 #include "regional_settings.h"
 #include "rng.h"
 #include "string_id.h"
-#include "mongroup.h"
+#include "int_id.h"
 
 class npc_template;
 

@@ -30,7 +30,6 @@
 #include "line.h"
 #include "map.h"
 #include "mapgen_functions.h"
-#include "map_selector.h"
 #include "martialarts.h"
 #include "messages.h"
 #include "mission.h"

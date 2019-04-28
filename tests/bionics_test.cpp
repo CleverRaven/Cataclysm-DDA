@@ -12,9 +12,9 @@
 #include "item.h"
 #include "player.h"
 #include "calendar.h"
-#include "itype.h"
 #include "pimpl.h"
 #include "string_id.h"
+#include "type_id.h"
 
 void clear_bionics( player &p )
 {
