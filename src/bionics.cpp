@@ -1165,12 +1165,16 @@ bool player::uninstall_bionic( const bionic &target_cbm, monster &installer, pla
     patient.add_effect( effect_narcosis, duration );
     patient.add_effect( effect_sleep, duration );
 
+    if( g->u.sees( patient ) ) {
+        add_msg( "%1$s falls asleep and %2$s starts operating.", patient.name, installer.disp_name() );
+    }
+
     if( success > 0 ) {
 
         if( patient.is_player() ) {
             add_msg( m_neutral, _( "Your parts are jiggled back into their familiar places." ) );
             add_msg( m_mixed, _( "Successfully removed %s." ), target_cbm.info().name );
-        } else if( patient.is_npc() && g->u.sees( *this ) ) {
+        } else if( patient.is_npc() && g->u.sees( patient ) ) {
             add_msg( m_neutral, _( "%s's parts are jiggled back into their familiar places." ),
                      patient.disp_name() );
             add_msg( m_mixed, _( "Successfully removed %s." ), target_cbm.info().name );
