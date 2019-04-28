@@ -712,8 +712,7 @@
     "price": 100,
     "material": "veggy",
     "volume": 1,
-    "vitamins": [ [ "vitA", 27 ], [ "vitc", 30 ], [ "calcium", 32 ], [ "iron", 8 ] ],
+    "vitamins": [ [ "vitA", 27 ], [ "vitC", 30 ], [ "calcium", 32 ], [ "iron", 8 ] ],
     "fun": 3
   }
 ]
-
