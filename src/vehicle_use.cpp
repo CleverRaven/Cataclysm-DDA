@@ -1485,13 +1485,7 @@ veh_interact_results vehicle::interact_with( const tripoint &pos, int interact_p
         if( fuel_left( "battery" ) < pseudo.ammo_required() ) {
             return false;
         }
-        auto capacity = 0;
-        if( pseudo.magazine_default() != "null" ) {
-            item mag( pseudo.magazine_default() );
-            capacity = mag.type->magazine->capacity;
-        } else {
-            capacity = pseudo.ammo_capacity();
-        }
+        auto capacity = pseudo.ammo_capacity( true );
         auto qty = capacity - discharge_battery( capacity );
         pseudo.ammo_set( "battery", qty );
         g->u.invoke_item( &pseudo );
