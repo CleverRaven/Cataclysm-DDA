@@ -1,0 +1,38 @@
+[
+  {
+    "id": "counter_sunlight_vitamin",
+    "type": "vitamin",
+    "name": "Counter for Sunlight Vitamins",
+    "counter": true,
+    "min": 0,
+    "max": 3000,
+    "rate": 0
+  },
+  {
+    "id": "counter_sunlight_kcal",
+    "type": "vitamin",
+    "name": "Counter for Sunlight Nutrition",
+    "counter": true,
+    "min": 0,
+    "max": 2000,
+    "rate": 0
+  },
+  {
+    "id": "counter_roots_vitamins",
+    "type": "vitamin",
+    "name": "Counter for Roots Vitamins",
+    "counter": true,
+    "min": 0,
+    "max": 96,
+    "rate": 0
+  },
+  {
+    "id": "counter_roots_water",
+    "type": "vitamin",
+    "name": "Counter for Roots Water",
+    "counter": true,
+    "min": 0,
+    "max": 425,
+    "rate": 0
+  }
+]
