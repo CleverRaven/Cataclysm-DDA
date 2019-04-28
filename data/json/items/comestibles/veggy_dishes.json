@@ -698,21 +698,21 @@
     "fun": -2
   },
   {
-	  "type": "COMESTIBLE",
-	  "id":"nopalitos",
-	  "name":"nopalito",
-	  "weight":200,
-	  "color":"green",
-	  "spoils_in":"10 days",
-	  "symbol":"%",
-	  "quench":30,
-	  "healthy":1,
-	  "calories":55,
-	  "description": "A less prickly version of cacus pads",
-	  "price":100,
-	  "material":"veggy",
-	  "voloume": 1,
-	  "vitamins": [ [ "vitA", 27], ["vitc",30],["calcium",32],["iron",8]],
-	  "fun":3
+    "type": "COMESTIBLE",
+    "id":"nopalitos",
+    "name":"nopalito",
+    "weight":200,
+    "color":"green",
+    "spoils_in":"10 days",
+    "symbol":"%",
+    "quench":30,
+    "healthy":1,
+    "calories":55,
+    "description": "A less prickly version of cactus pads",
+    "price":100,
+    "material":"veggy",
+    "voloume": 1,
+    "vitamins": [ [ "vitA", 27], ["vitc",30],["calcium",32],["iron",8]],
+    "fun":3
   }
 ]
