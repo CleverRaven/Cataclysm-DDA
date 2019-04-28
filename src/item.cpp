@@ -5420,6 +5420,11 @@ long item::ammo_remaining() const
 
 long item::ammo_capacity() const
 {
+    return ammo_capacity( false );
+}
+
+long item::ammo_capacity( bool potential_capacity ) const
+{
     long res = 0;
 
     const item *mag = magazine_current();
@@ -5429,6 +5434,9 @@ long item::ammo_capacity() const
 
     if( is_tool() ) {
         res = type->tool->max_charges;
+        if( res == 0 && magazine_default() != "null" && potential_capacity == true ) {
+            res = find_type( magazine_default() )->magazine->capacity;
+        }
         for( const auto e : toolmods() ) {
             res *= e->type->mod->capacity_multiplier;
         }
