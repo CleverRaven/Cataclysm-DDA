@@ -849,6 +849,39 @@
   },
   {
     "type": "snippet",
+    "category": "<weed_smoke>",
+    "text": [
+      "Whew... smells like skunk!",
+      "Man, that smells like some good shit!",
+      "Hey, don't bogart the joint!",
+      "C'mon, <name_g>, I can smell it, pass it over.",
+      "Wow, that smell takes me back.",
+      "Ah, man.  Good times, good times.  Love that scent.",
+      "What do I smell?  Well, I guess it's legal now.",
+      "Mmm, that weed smells good.",
+      "Man, I can smell the weed, can I have some?",
+      "Are you sure it's a good idea to smoke that now?"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<meth_smoke>",
+    "text": [
+      "I don't know... should you really be smoking that stuff?",
+      "<name_g>, that's going to ruin your nose.",
+      "Man, that stinks.  Put it out!",
+      "You're going to kill yourself smoking that stuff, <name_g>.",
+      "Oh, wow, that smell... Can I have some?",
+      "Are you sure it's a good idea to smoke that now?"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<crack_smoke>",
+    "text": [ "Ew, smells like burning rubber!", "Ugh, that smells rancid!", "<meth_smoke>" ]
+  },
+  {
+    "type": "snippet",
     "category": "<BGSS_intro_question>",
     "text": [
       "Tell me about how you survived the cataclysm.",

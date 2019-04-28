@@ -195,7 +195,7 @@ bool Creature::sees( const Creature &critter ) const
         return false;
     }
     if( const player *p = dynamic_cast<const player *>( &critter ) ) {
-        if( p->move_mode == "crouch" ) {
+        if( p->get_movement_mode() == "crouch" ) {
             const int coverage = g->m.obstacle_coverage( pos(), critter.pos() );
             if( coverage < 30 ) {
                 return sees( critter.pos(), critter.is_player() );

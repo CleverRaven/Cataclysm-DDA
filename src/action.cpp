@@ -157,8 +157,16 @@ std::string action_ident( action_id act )
             return "shift_w";
         case ACTION_SHIFT_NW:
             return "shift_nw";
-        case ACTION_TOGGLE_MOVE:
-            return "toggle_move";
+        case ACTION_CYCLE_MOVE:
+            return "cycle_move";
+        case ACTION_RESET_MOVE:
+            return "reset_move";
+        case ACTION_TOGGLE_RUN:
+            return "toggle_run";
+        case ACTION_TOGGLE_CROUCH:
+            return "toggle_crouch";
+        case ACTION_OPEN_MOVEMENT:
+            return "open_movement";
         case ACTION_OPEN:
             return "open";
         case ACTION_CLOSE:
@@ -612,7 +620,7 @@ action_id handle_action_menu()
     if( !g->u.get_hostile_creatures( 60 ).empty() ) {
         // Only prioritize movement options if we're not driving.
         if( !g->u.controlling_vehicle ) {
-            action_weightings[ACTION_TOGGLE_MOVE] = 400;
+            action_weightings[ACTION_CYCLE_MOVE] = 400;
         }
         // Only prioritize fire weapon options if we're wielding a ranged weapon.
         if( g->u.weapon.is_gun() || g->u.weapon.has_flag( "REACH_ATTACK" ) ) {
@@ -621,8 +629,12 @@ action_id handle_action_menu()
     }
 
     // If we're already running, make it simple to toggle running to off.
-    if( g->u.move_mode != "walk" ) {
-        action_weightings[ACTION_TOGGLE_MOVE] = 300;
+    if( g->u.get_movement_mode() == "run" ) {
+        action_weightings[ACTION_TOGGLE_RUN] = 300;
+    }
+    // If we're already crouching, make it simple to toggle crouching to off.
+    if( g->u.get_movement_mode() == "crouch" ) {
+        action_weightings[ACTION_TOGGLE_CROUCH] = 300;
     }
 
     // Check if we're on a vehicle, if so, vehicle controls should be top.
@@ -764,7 +776,11 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_BUTCHER );
             REGISTER_ACTION( ACTION_LOOT );
         } else if( category == _( "Combat" ) ) {
-            REGISTER_ACTION( ACTION_TOGGLE_MOVE );
+            REGISTER_ACTION( ACTION_CYCLE_MOVE );
+            REGISTER_ACTION( ACTION_RESET_MOVE );
+            REGISTER_ACTION( ACTION_TOGGLE_RUN );
+            REGISTER_ACTION( ACTION_TOGGLE_CROUCH );
+            REGISTER_ACTION( ACTION_OPEN_MOVEMENT );
             REGISTER_ACTION( ACTION_FIRE );
             REGISTER_ACTION( ACTION_RELOAD_ITEM );
             REGISTER_ACTION( ACTION_RELOAD_WEAPON );

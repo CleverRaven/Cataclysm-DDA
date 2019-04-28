@@ -12,6 +12,7 @@
 
 #include "ammo.h"
 #include "cata_algo.h"
+#include "clzones.h"
 #include "debug.h"
 #include "dispersion.h"
 #include "effect.h"
@@ -150,6 +151,19 @@ bool clear_shot_reach( const tripoint &from, const tripoint &to )
 
 tripoint npc::good_escape_direction( bool include_pos )
 {
+    if( !is_enemy() && path.empty() ) {
+        zone_type_id retreat_zone = zone_type_id( "NPC_RETREAT" );
+        const tripoint &abs_pos = global_square_location();
+        const zone_manager &mgr = zone_manager::get_manager();
+        cata::optional<tripoint> retreat_target = mgr.get_nearest( retreat_zone, abs_pos, 60 );
+        if( retreat_target && *retreat_target != abs_pos ) {
+            update_path( g->m.getlocal( *retreat_target ) );
+            if( !path.empty() ) {
+                return path[0];
+            }
+        }
+    }
+
     std::vector<tripoint> candidates;
 
     const auto rate_pt = [&]( const tripoint & pt, const float threat_val ) {
@@ -315,6 +329,7 @@ void npc::assess_danger()
             if( dist < 3 && !has_effect( effect_npc_fire_bad ) ) {
                 warn_about( "fire_bad", 1_minutes );
                 add_effect( effect_npc_fire_bad, 5_turns );
+                path.clear();
             }
         }
     }
@@ -322,8 +337,8 @@ void npc::assess_danger()
         if( !sees( critter ) ) {
             continue;
         }
-        auto att = critter.attitude( this );
-        if( att == MATT_FRIEND ) {
+        auto att = critter.attitude_to( *this );
+        if( att == A_FRIENDLY ) {
             ai_cache.friends.emplace_back( g->shared_from( critter ) );
             continue;
         }
@@ -336,23 +351,22 @@ void npc::assess_danger()
             }
         }
 
-        if( att == MATT_FPASSIVE ) {
+        if( att != A_HOSTILE ) {
             continue;
         }
         int dist = rl_dist( pos(), critter.pos() );
         float scaled_distance = std::max( 1.0f, dist / critter.speed_rating() );
         float hp_percent = 1.0f - static_cast<float>( critter.get_hp() ) / critter.get_hp_max();
-        float min_danger = ( att == MATT_ATTACK ) ? NPC_DANGER_VERY_LOW : 0.0f;
         float critter_danger = std::max( critter_threat * ( hp_percent * 0.5f + 0.5f ),
-                                         min_danger );
+                                         NPC_DANGER_VERY_LOW );
         ai_cache.total_danger += critter_danger / scaled_distance;
-        if( is_following() && !ok_by_rules( critter, dist, scaled_distance ) ) {
+        if( is_player_ally() && !ok_by_rules( critter, dist, scaled_distance ) ) {
             continue;
         }
 
         // don't ignore monsters that are too close or too close to the player
-        float min_priority = ( att == MATT_ATTACK ) && ( dist <= def_radius ||
-                             ( is_following() && too_close( critter.pos(), g->u.pos() ) ) ) ?
+        float min_priority = dist <= def_radius ||
+                             ( is_player_ally() && too_close( critter.pos(), g->u.pos() ) ) ?
                              NPC_DANGER_VERY_LOW : 0.0f;
         float priority = std::max( min_priority,
                                    critter_danger - 2.0f * ( scaled_distance - 1.0f ) );
@@ -370,13 +384,12 @@ void npc::assess_danger()
             warn_about( "monster", 10_minutes, bogey );
         }
 
-        auto att = attitude_to( guy );
         int dist = rl_dist( pos(), guy.pos() );
         int scaled_distance = std::max( 1, ( 100 * dist ) / guy.get_speed() );
         ai_cache.total_danger += guy_threat / scaled_distance;
-        if( !is_following() || ok_by_rules( guy, dist, scaled_distance ) ) {
-            float min_priority = ( att == A_HOSTILE ) && ( dist <= def_radius ||
-                                 ( is_following() && too_close( guy.pos(), g->u.pos() ) ) ) ?
+        if( !is_player_ally() || ok_by_rules( guy, dist, scaled_distance ) ) {
+            float min_priority = dist <= def_radius ||
+                                 ( is_friendly( g->u ) && too_close( guy.pos(), g->u.pos() ) ) ?
                                  NPC_DANGER_VERY_LOW : 0.0f;
             float priority = std::max( guy_threat - 2.0f * ( scaled_distance - 1 ),
                                        min_priority );
@@ -397,17 +410,17 @@ void npc::assess_danger()
         }
 
         auto att = attitude_to( guy );
-        if( att == Creature::A_FRIENDLY ) {
+        if( att == A_FRIENDLY ) {
             ai_cache.friends.emplace_back( g->shared_from( guy ) );
-        } else if( att == Creature::A_NEUTRAL ) {
+        } else if( att == A_NEUTRAL ) {
             // Nothing
             continue;
         }
         float guy_threat = evaluate_enemy( guy );
-        if( att == Creature::A_FRIENDLY ) {
+        if( att == A_FRIENDLY ) {
             float min_danger = assessment >= NPC_DANGER_VERY_LOW ? NPC_DANGER_VERY_LOW : -10.0f;
             assessment = std::max( min_danger, assessment - guy_threat * 0.5f );
-        } else {
+        } else if( att == A_HOSTILE ) {
             assessment += handle_hostile( guy, guy_threat, "bandit", "kill_npc" );
         }
     }
@@ -417,7 +430,7 @@ void npc::assess_danger()
         float player_diff = evaluate_enemy( g->u );
         if( is_enemy() ) {
             assessment += handle_hostile( g->u, player_diff, "maniac", "kill_player" );
-        } else if( is_friend() ) {
+        } else if( is_friendly( g->u ) ) {
             float min_danger = assessment >= NPC_DANGER_VERY_LOW ? NPC_DANGER_VERY_LOW : -10.0f;
             assessment = std::max( min_danger, assessment - player_diff * 0.5f );
         }
@@ -429,6 +442,7 @@ void npc::assess_danger()
             time_duration run_away_for = 5_turns + 1_turns * rng( 0, 5 );
             warn_about( "run_away", run_away_for );
             add_effect( effect_npc_run_away, run_away_for );
+            path.clear();
         }
     }
     // update the threat cache
@@ -498,9 +512,8 @@ void npc::regen_ai_cache()
     } else if( old_assessment <= 0.0f && ai_cache.danger_assessment > NPC_DANGER_VERY_LOW ) {
         warn_about( "general_danger" );
     }
-    // NPCs that aren't following the player, guarding, or travelling and that have a
-    // completed mission should move to the player
-    if( !is_following() && !is_guarding() && !is_travelling() ) {
+    // Non-allied NPCs with a completed mission should move to the player
+    if( !is_player_ally() && !is_stationary( true ) ) {
         for( auto &miss : chatbin.missions_assigned ) {
             if( miss->is_complete( getID() ) ) {
                 // unless the player found an item and already told the NPC he wanted to keep it
@@ -553,6 +566,9 @@ void npc::move()
      * NPCs flee from uncontained fires within 3 tiles
      */
     if( !in_vehicle && ( sees_dangerous_field( pos() ) || has_effect( effect_npc_fire_bad ) ) ) {
+        if( sees_dangerous_field( pos() ) ) {
+            path.clear();
+        }
         const tripoint escape_dir = good_escape_direction( sees_dangerous_field( pos() ) );
         if( escape_dir != pos() ) {
             move_to( escape_dir );
@@ -571,10 +587,6 @@ void npc::move()
         ai_cache.target = g->shared_from( g->u );
     }
 
-    add_msg( m_debug, "%s target: %s and danger: %s", disp_name(),
-             target != nullptr ? "valid" : "INVALID",
-             ai_cache.danger > 0 ? "valid" : "INVALID" );
-
     if( !ai_cache.dangerous_explosives.empty() ) {
         action = npc_escape_explosion;
     } else if( target == &g->u && attitude == NPCATT_FLEE_TEMP ) {
@@ -583,7 +595,7 @@ void npc::move()
         action = method_of_fleeing();
     } else if( target != nullptr && ai_cache.danger > 0 ) {
         action = method_of_attack();
-    } else if( !ai_cache.sound_alerts.empty() && !is_following() ) {
+    } else if( !ai_cache.sound_alerts.empty() && !is_walking_with() ) {
         if( !ai_cache.guard_pos ) {
             ai_cache.guard_pos = pos();
         }
@@ -633,7 +645,7 @@ void npc::move()
     }
 
     if( action == npc_undecided ) {
-        if( is_guarding() ) {
+        if( is_stationary( true ) ) {
             // if we're in a vehicle, stay in the vehicle
             if( in_vehicle ) {
                 action = npc_pause;
@@ -649,7 +661,7 @@ void npc::move()
         }
 
         // check if in vehicle before rushing off to fetch things
-        if( is_following() && g->u.in_vehicle ) {
+        if( is_walking_with() && g->u.in_vehicle ) {
             action = npc_follow_embarked;
         } else if( fetching_item ) {
             // Set to true if find_item() found something
@@ -750,7 +762,7 @@ void npc::execute_action( npc_action action )
                     best_spot = p;
                 }
             }
-            if( is_following() ) {
+            if( is_walking_with() ) {
                 complain_about( "napping", 30_minutes, _( "<warn_sleep>" ) );
             }
             update_path( best_spot );
@@ -790,7 +802,11 @@ void npc::execute_action( npc_action action )
             break;
 
         case npc_flee:
-            move_to( tar );
+            if( path.empty() ) {
+                move_to( tar );
+            } else {
+                move_to_next();
+            }
             break;
 
         case npc_reach_attack:
@@ -1047,7 +1063,7 @@ npc_action npc::method_of_attack()
     // if we require a silent weapon inappropriate modes are also removed
     // except in emergency only fire bursts if danger > 0.5 and don't shoot at all at harmless targets
     std::vector<std::pair<gun_mode_id, gun_mode>> modes;
-    if( rules.has_flag( ally_rule::use_guns ) || !is_following() ) {
+    if( rules.has_flag( ally_rule::use_guns ) || !is_player_ally() ) {
         for( const auto &e : weapon.gun_all_modes() ) {
             modes.push_back( e );
         }
@@ -1060,7 +1076,7 @@ npc_action npc::method_of_attack()
                    !m->ammo_sufficient( m.qty ) || !can_use( *m.target ) ||
                    m->get_gun_ups_drain() > ups_charges ||
                    ( danger <= ( ( m.qty == 1 ) ? 0.0 : 0.5 ) && !emergency() ) ||
-                   ( rules.has_flag( ally_rule::use_silent ) && is_following() &&
+                   ( rules.has_flag( ally_rule::use_silent ) && is_player_ally() &&
                      !m.target->is_silent() );
 
         } ), modes.end() );
@@ -1304,26 +1320,20 @@ npc_action npc::address_needs( float danger )
         return npc_use_painkiller;
     }
 
-    // should check all allies, but factions are stupid right now
-    if( is_friend() ) {
-        if( need_heal( g->u ) ) {
-            ai_cache.ally = g->shared_from( g->u );
+    if( is_player_ally() && need_heal( g->u ) ) {
+        ai_cache.ally = g->shared_from( g->u );
+        return npc_heal_player;
+    }
+
+    const std::vector<npc *> allies = g->get_npcs_if( [&]( const npc & guy ) {
+        return guy.getID() != getID() && guy.is_ally( *this ) && posz() == guy.posz() &&
+               sees( guy.pos() ) && rl_dist( pos(), guy.pos() ) <= SEEX * 2;
+    } );
+
+    for( npc *guy : allies ) {
+        if( need_heal( *guy ) ) {
+            ai_cache.ally = g->shared_from( *guy );
             return npc_heal_player;
-        }
-
-        const std::vector<npc *> followers = g->get_npcs_if( [&]( const npc & guy ) {
-            return guy.is_friend() && guy.is_following() && posz() == guy.posz() &&
-                   sees( guy.pos() ) && rl_dist( pos(), guy.pos() ) <= SEEX * 2;
-        } );
-
-        for( npc *guy : followers ) {
-            if( guy == this ) {
-                continue;
-            }
-            if( need_heal( *guy ) ) {
-                ai_cache.ally = g->shared_from( *guy );
-                return npc_heal_player;
-            }
         }
     }
 
@@ -1360,7 +1370,8 @@ npc_action npc::address_needs( float danger )
         if( danger <= 0.01 ) {
             if( get_fatigue() >= TIRED ) {
                 return true;
-            } else if( is_following() && g->u.in_sleep_state() && get_fatigue() > ( TIRED / 2 ) ) {
+            } else if( is_walking_with() && g->u.in_sleep_state() &&
+                       get_fatigue() > ( TIRED / 2 ) ) {
                 return true;
             }
         }
@@ -1368,7 +1379,7 @@ npc_action npc::address_needs( float danger )
     };
     // TODO: More risky attempts at sleep when exhausted
     if( could_sleep() ) {
-        if( !is_following() ) {
+        if( !is_player_ally() ) {
             set_fatigue( 0 ); // TODO: Make tired NPCs handle sleep offscreen
             return npc_undecided;
         }
@@ -1473,7 +1484,7 @@ npc_action npc::long_term_goal_action()
 
 double npc::confidence_mult() const
 {
-    if( !is_following() ) {
+    if( !is_player_ally() ) {
         return 1.0f;
     }
 
@@ -1845,7 +1856,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         }
 
         // Close doors behind self (if you can)
-        if( is_friend() && rules.has_flag( ally_rule::close_doors ) && !is_hallucination() ) {
+        if( ( rules.has_flag( ally_rule::close_doors ) && is_player_ally() ) && !is_hallucination() ) {
             doors::close_door( g->m, *this, old_pos );
         }
 
@@ -2090,7 +2101,8 @@ void npc::find_item()
         return;
     }
 
-    if( is_following() && !rules.has_flag( ally_rule::allow_pick_up ) ) {
+    if( is_player_ally() && !rules.has_flag( ally_rule::allow_pick_up ) ) {
+
         // Grabbing stuff not allowed by our "owner"
         return;
     }
@@ -2162,7 +2174,7 @@ void npc::find_item()
     for( const tripoint &p : closest_tripoints_first( range, pos() ) ) {
         // TODO: Make this sight check not overdraw nearby tiles
         // TODO: Optimize that zone check
-        if( is_following() && g->check_zone( no_pickup, p ) ) {
+        if( is_player_ally() && g->check_zone( no_pickup, p ) ) {
             continue;
         }
 
@@ -2218,7 +2230,7 @@ void npc::find_item()
         fetching_item = false;
     }
 
-    if( fetching_item && rl_dist( wanted_item_pos, pos() ) > 1 && is_following() ) {
+    if( fetching_item && rl_dist( wanted_item_pos, pos() ) > 1 && is_walking_with() ) {
         say( _( "Hold on, I want to pick up that %s." ), wanted_name );
     }
 }
@@ -2229,7 +2241,7 @@ void npc::pick_up_item()
         return;
     }
 
-    if( is_following() && !rules.has_flag( ally_rule::allow_pick_up ) ) {
+    if( !rules.has_flag( ally_rule::allow_pick_up ) && is_player_ally() ) {
         add_msg( m_debug, "%s::pick_up_item(); Cancelling on player's request", name );
         fetching_item = false;
         moves -= 1;
@@ -2242,7 +2254,7 @@ void npc::pick_up_item()
 
     if( ( !g->m.has_items( wanted_item_pos ) && !has_cargo &&
           !g->m.is_harvestable( wanted_item_pos ) && sees( wanted_item_pos ) ) ||
-        ( is_following() && g->check_zone( zone_type_id( "NO_NPC_PICKUP" ), wanted_item_pos ) ) ) {
+        ( is_player_ally() && g->check_zone( zone_type_id( "NO_NPC_PICKUP" ), wanted_item_pos ) ) ) {
         // Items we wanted no longer exist and we can see it
         // Or player who is leading us doesn't want us to pick it up
         fetching_item = false;
@@ -2484,8 +2496,7 @@ void npc::drop_items( int weight, int volume )
 
 bool npc::find_corpse_to_pulp()
 {
-    if( ( is_following() && ( !rules.has_flag( ally_rule::allow_pulp ) || g->u.in_vehicle ) ) ||
-        is_hallucination() ) {
+    if( ( is_player_ally() && ( !rules.has_flag( ally_rule::allow_pulp ) || g->u.in_vehicle ) ) || is_hallucination() ) {
         return false;
     }
 
@@ -2537,7 +2548,7 @@ bool npc::find_corpse_to_pulp()
 
     if( corpse == nullptr ) {
         // If we're following the player, don't wander off to pulp corpses
-        const tripoint &around = is_following() ? g->u.pos() : pos();
+        const tripoint &around = is_walking_with() ? g->u.pos() : pos();
         for( const tripoint &p : closest_tripoints_first( range, around ) ) {
             corpse = check_tile( p );
 
@@ -2552,7 +2563,7 @@ bool npc::find_corpse_to_pulp()
         }
     }
 
-    if( corpse != nullptr && corpse != old_target && is_following() ) {
+    if( corpse != nullptr && corpse != old_target && is_walking_with() ) {
         say( _( "Hold on, I want to pulp that %s." ), corpse->tname() );
     }
 
@@ -2606,8 +2617,8 @@ bool npc::do_player_activity()
 bool npc::wield_better_weapon()
 {
     // TODO: Allow wielding weaker weapons against weaker targets
-    bool can_use_gun = ( !is_following() || rules.has_flag( ally_rule::use_guns ) );
-    bool use_silent = ( is_following() && rules.has_flag( ally_rule::use_silent ) );
+    bool can_use_gun = ( !is_player_ally() || rules.has_flag( ally_rule::use_guns ) );
+    bool use_silent = ( is_player_ally() && rules.has_flag( ally_rule::use_silent ) );
     invslice slice = inv.slice();
 
     // Check if there's something better to wield
@@ -2712,7 +2723,7 @@ void npc_throw( npc &np, item &it, int index, const tripoint &pos )
 
 bool npc::alt_attack()
 {
-    if( ( is_following() && !rules.has_flag( ally_rule::use_grenades ) ) || is_hallucination() ) {
+    if( ( is_player_ally() && !rules.has_flag( ally_rule::use_grenades ) ) || is_hallucination() ) {
         return false;
     }
 
@@ -3058,7 +3069,7 @@ bool npc::consume_food()
     }
 
     if( index == -1 ) {
-        if( !is_friend() ) {
+        if( !is_player_ally() ) {
             // TODO: Remove this and let player "exploit" hungry NPCs
             set_hunger( 0 );
             set_thirst( 0 );
@@ -3224,7 +3235,7 @@ void npc::reach_omt_destination()
     }
     // Guarding NPCs want a specific point, not just an overmap tile
     // Rest stops having a goal after reaching it
-    if( !is_guarding() ) {
+    if( !( is_guarding() || is_patrolling() ) ) {
         goal = no_goal_point;
         return;
     }
@@ -3263,7 +3274,7 @@ void npc::set_omt_destination()
      * Also, NPCs should be able to assign themselves missions like "break into that
      *  lab" or "map that river bank."
      */
-    if( is_guarding() ) {
+    if( is_stationary( true ) ) {
         guard_current_pos();
         return;
     }
@@ -3558,8 +3569,8 @@ bool npc::complain()
     static const std::string radiation_string = "radiation";
     static const std::string hunger_string = "hunger";
     static const std::string thirst_string = "thirst";
-    // TODO: Allow calling for help when scared
-    if( !is_following() || !g->u.sees( *this ) ) {
+
+    if( !is_player_ally() || !g->u.sees( *this ) ) {
         return false;
     }
 

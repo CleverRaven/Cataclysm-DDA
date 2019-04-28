@@ -381,23 +381,31 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
     size_t part_x = ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
     catacurses::window w_list = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
                                 part_y + TITLE_TAB_HEIGHT, part_x );
-    catacurses::window w_info = catacurses::newwin( FULL_SCREEN_HEIGHT - 3,
-                                FULL_SCREEN_WIDTH - 1 - MAX_FAC_NAME_SIZE,
-                                part_y + TITLE_TAB_HEIGHT + 1,
-                                part_x + MAX_FAC_NAME_SIZE );
     catacurses::window w_tabs = catacurses::newwin( TITLE_TAB_HEIGHT, FULL_SCREEN_WIDTH,
                                 part_y, part_x );
 
-    int maxlength = FULL_SCREEN_WIDTH - 1 - MAX_FAC_NAME_SIZE;
     size_t sel = 0;
     int offset = 0;
     bool redraw = true;
+
+    // The following are for managing the right pane scrollbar.
+    size_t info_offset = 0;
+    size_t info_height = FULL_SCREEN_HEIGHT - 3;
+    size_t info_width = FULL_SCREEN_WIDTH - 1 - MAX_FAC_NAME_SIZE;
+    size_t end_line = 0;
+    nc_color col = c_white;
+    std::vector<std::string> mission_text;
+
+    catacurses::window w_info = catacurses::newwin( info_height, info_width,
+                                part_y + TITLE_TAB_HEIGHT + 1, part_x + MAX_FAC_NAME_SIZE );
 
     input_context ctxt( "FACTIONS" );
     ctxt.register_action( "UP", _( "Move cursor up" ) );
     ctxt.register_action( "DOWN", _( "Move cursor down" ) );
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "PREV_TAB" );
+    ctxt.register_action( "PAGE_UP" );
+    ctxt.register_action( "PAGE_DOWN" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
@@ -457,7 +465,31 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
             draw_scrollbar( w_list, sel, FULL_SCREEN_HEIGHT - 2, cur_key_list.size(), 1 );
             wrefresh( w_list );
             werase( w_info );
-            fold_and_print( w_info, 0, 0, maxlength, c_white, mission_key.cur_key.text );
+
+            // Fold mission text, store it for scrolling
+            mission_text = foldstring( mission_key.cur_key.text, info_width - 2, ' ' );
+            if( info_offset > mission_text.size() - info_height ) {
+                info_offset = mission_text.size() - info_height;
+            }
+            if( mission_text.size() < info_height ) {
+                info_offset = 0;
+            }
+            scrollbar()
+            .offset_x( info_width - 1 )
+            .offset_y( 0 )
+            .content_size( mission_text.size() )
+            .viewport_pos( info_offset )
+            .viewport_size( info_height )
+            .apply( w_info );
+            if( info_offset < mission_text.size() ) {
+                end_line = std::min( info_height, mission_text.size() - info_offset );
+            }
+
+            // Display the current subset of the mission text.
+            for( size_t start_line = 0; start_line < end_line; start_line++ ) {
+                print_colored_text( w_info, start_line, 0, col, col, mission_text[start_line + info_offset] );
+            }
+
             wrefresh( w_info );
 
             if( role_id == "FACTION_CAMP" ) {
@@ -475,6 +507,7 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
             } else {
                 sel++;
             }
+            info_offset = 0;
             redraw = true;
         } else if( action == "UP" ) {
             mvwprintz( w_list, sel + 2, 1, c_white, "-%s", mission_key.cur_key.id );
@@ -483,11 +516,21 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
             } else {
                 sel--;
             }
+            info_offset = 0;
+            redraw = true;
+        } else if( action == "PAGE_UP" ) {
+            if( info_offset > 0 ) {
+                info_offset--;
+                redraw = true;
+            }
+        } else if( action == "PAGE_DOWN" ) {
+            info_offset++;
             redraw = true;
         } else if( action == "NEXT_TAB" && role_id == "FACTION_CAMP" ) {
             redraw = true;
             sel = 0;
             offset = 0;
+            info_offset = 0;
 
             do {
                 if( tab_mode == TAB_NW ) {
@@ -502,6 +545,7 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
             redraw = true;
             sel = 0;
             offset = 0;
+            info_offset = 0;
 
             do {
                 if( tab_mode == TAB_MAIN ) {
@@ -532,6 +576,7 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
             g->draw_ter();
             wrefresh( g->w_terrain );
             g->draw_panels();
+            redraw = true;
         }
     }
     g->refresh_all();

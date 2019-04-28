@@ -229,6 +229,8 @@ static const trait_id trait_VINES2( "VINES2" );
 static const trait_id trait_VINES3( "VINES3" );
 static const trait_id trait_BURROW( "BURROW" );
 
+static const faction_id your_followers( "your_followers" );
+
 void intro();
 
 #if defined(__ANDROID__)
@@ -258,28 +260,27 @@ bool is_valid_in_w_terrain( int x, int y )
 game::game() :
     liveview( *liveview_ptr ),
     scent_ptr( *this ),
-    new_game( false ),
-    uquit( QUIT_NO ),
     m( *map_ptr ),
     u( *u_ptr ),
     scent( *scent_ptr ),
     events( *event_manager_ptr ),
-    weather( WEATHER_CLEAR ),
+    uquit( QUIT_NO ),
+    new_game( false ),
     lightning_active( false ),
-    u_shared_ptr( &u, null_deleter{} ),
+    weather( WEATHER_CLEAR ),
+    displaying_scent( false ),
     pixel_minimap_option( 0 ),
     safe_mode( SAFE_MODE_ON ),
-    safe_mode_warning_logged( false ),
+    weather_override( WEATHER_NULL ),
+    u_shared_ptr( &u, null_deleter{} ),
     mostseen( 0 ),
+    safe_mode_warning_logged( false ),
     nextweather( calendar::before_time_starts ),
     next_npc_id( 1 ),
     next_mission_id( 1 ),
     remoteveh_cache_time( calendar::before_time_starts ),
     user_action_counter( 0 ),
-    tileset_zoom( DEFAULT_TILESET_ZOOM ),
-    weather_override( WEATHER_NULL ),
-    displaying_scent( false )
-
+    tileset_zoom( DEFAULT_TILESET_ZOOM )
 {
     temperature = 0;
     player_was_sleeping = false;
@@ -1866,45 +1867,45 @@ void game::record_npc_kill( const npc &p )
 
 void game::add_npc_follower( const int &id )
 {
-    if( !std::any_of( follower_ids.begin(), follower_ids.end(), [id]( int i ) {
-    return i == id;
-} ) ) {
-        follower_ids.push_back( id );
-    }
-    if( !std::any_of( u.follower_ids.begin(), u.follower_ids.end(), [id]( int i ) {
-    return i == id;
-} ) ) {
-        u.follower_ids.push_back( id );
-    }
+    follower_ids.insert( id );
+    u.follower_ids.insert( id );
 }
 
 void game::remove_npc_follower( const int &id )
 {
-    follower_ids.erase( std::remove( follower_ids.begin(), follower_ids.end(), id ),
-                        follower_ids.end() );
-    u.follower_ids.erase( std::remove( u.follower_ids.begin(), u.follower_ids.end(), id ),
-                          u.follower_ids.end() );
+    follower_ids.erase( id );
+    u.follower_ids.erase( id );
+}
+
+void update_faction_api( npc *guy )
+{
+    if( guy->get_faction_ver() < 2 ) {
+        guy->set_fac( your_followers );
+        guy->set_faction_ver( 2 );
+    }
 }
 
 void game::validate_npc_followers()
 {
     // Make sure visible followers are in the list.
-    const std::vector<npc *> visible_followers = g->get_npcs_if( [&]( const npc & guy ) {
-        return ( guy.is_friend() && guy.is_following() ) || guy.mission == NPC_MISSION_GUARD_ALLY;
+    const std::vector<npc *> visible_followers = get_npcs_if( [&]( const npc & guy ) {
+        return guy.is_player_ally();
     } );
-    for( auto &elem : visible_followers ) {
-        add_npc_follower( elem->getID() );
+    for( npc *guy : visible_followers ) {
+        update_faction_api( guy );
+        add_npc_follower( guy->getID() );
     }
     // Make sure overmapbuffered NPC followers are in the list.
     for( const auto &temp_guy : overmap_buffer.get_npcs_near_player( 300 ) ) {
         npc *guy = temp_guy.get();
-        if( ( guy->is_friend() && guy->is_following() ) || guy->has_companion_mission() ) {
+        if( guy->is_player_ally() ) {
+            update_faction_api( guy );
             add_npc_follower( guy->getID() );
         }
     }
     // Make sure that serialized player followers sync up with game list
-    for( const auto &temp_guy : u.follower_ids ) {
-        add_npc_follower( temp_guy );
+    for( const auto &temp_id : u.follower_ids ) {
+        add_npc_follower( temp_id );
     }
 }
 
@@ -1922,7 +1923,7 @@ void game::validate_camps()
     }
 }
 
-std::vector<int> game::get_follower_list()
+std::set<int> game::get_follower_list()
 {
     return follower_ids;
 }
@@ -2234,7 +2235,11 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "shift_sw" );
     ctxt.register_action( "shift_w" );
     ctxt.register_action( "shift_nw" );
-    ctxt.register_action( "toggle_move" );
+    ctxt.register_action( "cycle_move" );
+    ctxt.register_action( "reset_move" );
+    ctxt.register_action( "toggle_run" );
+    ctxt.register_action( "toggle_crouch" );
+    ctxt.register_action( "open_movement" );
     ctxt.register_action( "open" );
     ctxt.register_action( "close" );
     ctxt.register_action( "smash" );
@@ -5985,7 +5990,7 @@ bool game::npc_menu( npc &who )
         steal
     };
 
-    const bool obeys = debug_mode || ( who.is_friend() && !who.in_sleep_state() );
+    const bool obeys = debug_mode || ( who.is_player_ally() && !who.in_sleep_state() );
 
     uilist amenu;
 
@@ -5997,7 +6002,7 @@ bool game::npc_menu( npc &who )
     amenu.addentry( use_item, true, 'i', _( "Use item on" ) );
     amenu.addentry( sort_armor, true, 'r', _( "Sort armor" ) );
     amenu.addentry( attack, true, 'a', _( "Attack" ) );
-    if( !who.is_friend() ) {
+    if( !who.is_player_ally() ) {
         amenu.addentry( disarm, who.is_armed(), 'd', _( "Disarm" ) );
         amenu.addentry( steal, !who.is_enemy(), 'S', _( "Steal" ) );
     }
@@ -10339,7 +10344,7 @@ bool game::plmove( int dx, int dy, int dz )
     // open it if we are walking
     // vault over it if we are running
     if( m.passable_ter_furn( dest_loc )
-        && u.move_mode == "walk"
+        && u.get_movement_mode() == "walk"
         && m.open_door( dest_loc, !m.is_outside( u.pos() ) ) ) {
         u.moves -= 100;
         // if auto-move is on, continue moving next turn
@@ -10587,9 +10592,9 @@ bool game::walk_move( const tripoint &dest_loc )
             } else if( u.has_bionic( bionic_id( "bio_ankles" ) ) ) {
                 volume = 12;
             }
-            if( u.move_mode == "run" ) {
+            if( u.get_movement_mode() == "run" ) {
                 volume *= 1.5;
-            } else if( u.move_mode == "crouch" ) {
+            } else if( u.get_movement_mode() == "crouch" ) {
                 volume /= 2;
             }
             sounds::sound( dest_loc, volume, sounds::sound_t::movement, _( "footsteps" ), true,
@@ -11039,11 +11044,17 @@ bool game::grabbed_furn_move( const tripoint &dp )
     const furn_t furntype = m.furn( fpos ).obj();
     const int src_items = m.i_at( fpos ).size();
     const int dst_items = m.i_at( fdest ).size();
-    bool dst_item_ok = ( !m.has_flag( "NOITEM", fdest ) &&
-                         !m.has_flag( "SWIMMABLE", fdest ) &&
-                         !m.has_flag( "DESTROY_ITEM", fdest ) );
-    bool src_item_ok = ( m.furn( fpos ).obj().has_flag( "CONTAINER" ) ||
-                         m.furn( fpos ).obj().has_flag( "SEALED" ) );
+    const bool only_liquid_items = std::all_of( m.i_at( fdest ).begin(), m.i_at( fdest ).end(),
+    [&]( item & liquid_item ) {
+        return liquid_item.made_of_from_type( LIQUID );
+    } );
+
+    const bool dst_item_ok = !m.has_flag( "NOITEM", fdest ) &&
+                             !m.has_flag( "SWIMMABLE", fdest ) &&
+                             !m.has_flag( "DESTROY_ITEM", fdest ) &&
+                             only_liquid_items;
+    const bool src_item_ok = m.furn( fpos ).obj().has_flag( "CONTAINER" ) ||
+                             m.furn( fpos ).obj().has_flag( "SEALED" );
 
     int str_req = furntype.move_str_req;
     // Factor in weight of items contained in the furniture.
@@ -11066,7 +11077,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
         u.moves -= 100;
         u.mod_pain( 1 ); // Hurt ourselves.
         return true; // furniture and or obstacle wins.
-    } else if( !src_item_ok && dst_items > 0 ) {
+    } else if( !src_item_ok && !dst_item_ok && dst_items > 0 ) {
         add_msg( _( "There's stuff in the way." ) );
         u.moves -= 50;
         return true;
@@ -11096,11 +11107,16 @@ bool game::grabbed_furn_move( const tripoint &dp )
     sounds::sound( fdest, furntype.move_str_req * 2, sounds::sound_t::movement,
                    _( "a scraping noise." ) );
 
-    // Actually move the furniture
+    // Actually move the furniture.
     m.furn_set( fdest, m.furn( fpos ) );
     m.furn_set( fpos, f_null );
 
-    if( src_items > 0 ) { // and the stuff inside.
+    // Is there is only liquids on the ground, remove them after moving furniture.
+    if( dst_items > 0 && only_liquid_items ) {
+        m.i_clear( fdest );
+    }
+
+    if( src_items > 0 ) { // Move the stuff inside.
         if( dst_item_ok && src_item_ok ) {
             // Assume contents of both cells are legal, so we can just swap contents.
             std::list<item> temp;
@@ -11183,16 +11199,16 @@ void game::on_move_effects()
         }
     }
     if( u.has_active_bionic( bionic_id( "bio_jointservo" ) ) ) {
-        if( u.move_mode == "run" ) {
+        if( u.get_movement_mode() == "run" ) {
             u.charge_power( -20 );
         } else {
             u.charge_power( -10 );
         }
     }
 
-    if( u.move_mode == "run" ) {
+    if( u.get_movement_mode() == "run" ) {
         if( u.stamina <= 0 ) {
-            u.toggle_move_mode();
+            u.toggle_run_mode();
         }
         if( u.stamina < u.get_stamina_max() / 2 && one_in( u.stamina ) ) {
             u.add_effect( effect_winded, 3_turns );
@@ -11662,7 +11678,7 @@ void game::vertical_move( int movez, bool force )
     if( !m.has_zlevels() && abs( movez ) == 1 ) {
         std::copy_if( active_npc.begin(), active_npc.end(), back_inserter( npcs_to_bring ),
         [this]( const std::shared_ptr<npc> &np ) {
-            return np->is_friend() && rl_dist( np->pos(), u.pos() ) < 2;
+            return np->is_walking_with() && rl_dist( np->pos(), u.pos() ) < 2;
         } );
     }
 
@@ -13208,7 +13224,7 @@ std::vector<npc *> game::allies()
 {
     return get_npcs_if( [&]( const npc & guy ) {
         if( !guy.is_hallucination() ) {
-            return guy.is_friend() || guy.mission == NPC_MISSION_GUARD_ALLY;
+            return guy.is_ally( g->u );
         } else {
             return false;
         }

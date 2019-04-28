@@ -459,6 +459,11 @@ void npc::set_fac( const string_id<faction> &id )
     fac_id = my_fac->id;
 }
 
+void npc::clear_fac()
+{
+    my_fac = nullptr;
+    fac_id = string_id<faction>( "" );
+}
 // item id from group "<class-name>_<what>" or from fallback group
 // may still be a null item!
 item random_item_from( const npc_class_id &type, const std::string &what,
@@ -1229,15 +1234,13 @@ bool npc::wants_to_sell( const item &it ) const
     return wants_to_sell( it, value( it, market_price ), market_price );
 }
 
-bool npc::wants_to_sell( const item &it, int at_price, int market_price ) const
+bool npc::wants_to_sell( const item &/*it*/, int at_price, int market_price ) const
 {
-    ( void )it;
-
     if( mission == NPC_MISSION_SHOPKEEP ) {
         return true;
     }
 
-    if( is_friend() ) {
+    if( is_player_ally() ) {
         return true;
     }
 
@@ -1251,12 +1254,9 @@ bool npc::wants_to_buy( const item &it ) const
     return wants_to_buy( it, value( it, market_price ), market_price );
 }
 
-bool npc::wants_to_buy( const item &it, int at_price, int market_price ) const
+bool npc::wants_to_buy( const item &/*it*/, int at_price, int /*market_price*/ ) const
 {
-    ( void )market_price;
-    ( void )it;
-
-    if( is_friend() ) {
+    if( is_player_ally() ) {
         return true;
     }
 
@@ -1267,7 +1267,7 @@ bool npc::wants_to_buy( const item &it, int at_price, int market_price ) const
 void npc::shop_restock()
 {
     restock = calendar::turn + 3_days;
-    if( is_friend() ) {
+    if( is_player_ally() ) {
         return;
     }
 
@@ -1482,44 +1482,64 @@ bool npc::took_painkiller() const
              has_effect( effect_pkill3 ) || has_effect( effect_pkill_l ) );
 }
 
+int npc::get_faction_ver() const
+{
+    return faction_api_version;
+}
+
+void npc::set_faction_ver( int new_version )
+{
+    faction_api_version = new_version;
+}
+
 bool npc::is_ally( const player &p ) const
 {
     if( p.getID() == getID() ) {
         return true;
     }
     if( p.is_player() ) {
-        if( ( my_fac && my_fac->id == faction_id( "your_followers" ) ) ||
-            is_friend() || is_following() || mission == NPC_MISSION_GUARD_ALLY ) {
+        if( my_fac && my_fac->id == faction_id( "your_followers" ) ) {
             return true;
-        } else {
-            for( const int &npc_id : g->get_follower_list() ) {
-                if( npc_id == getID() ) {
-                    return true;
-                }
+        }
+        if( faction_api_version < 2 ) {
+            // legacy attitude support so let's be specific here
+            if( attitude == NPCATT_FOLLOW || attitude == NPCATT_LEAD ||
+                attitude == NPCATT_WAIT || mission == NPC_MISSION_ACTIVITY ||
+                mission == NPC_MISSION_TRAVELLING || mission == NPC_MISSION_GUARD_ALLY ||
+                has_companion_mission() ) {
+                return true;
             }
         }
     } else {
         const npc &guy = dynamic_cast<const npc &>( p );
         if( my_fac && guy.my_fac && my_fac->id == guy.my_fac->id ) {
             return true;
-        } else if( is_ally( g->u ) && guy.is_ally( g->u ) ) {
-            return true;
-        } else if( get_attitude_group( get_attitude() ) ==
-                   guy.get_attitude_group( guy.get_attitude() ) ) {
-            return true;
+        }
+        if( faction_api_version < 2 ) {
+            if( is_ally( g->u ) && guy.is_ally( g->u ) ) {
+                return true;
+            } else if( get_attitude_group( get_attitude() ) ==
+                       guy.get_attitude_group( guy.get_attitude() ) ) {
+                return true;
+            }
         }
     }
     return false;
 }
 
-bool npc::is_friend() const
+bool npc::is_player_ally() const
 {
-    return attitude == NPCATT_FOLLOW || attitude == NPCATT_LEAD;
+    return is_ally( g->u );
+}
+
+bool npc::is_friendly( const player &p ) const
+{
+    return is_ally( p ) || ( p.is_player() && ( is_walking_with() || is_player_ally() ) );
 }
 
 bool npc::is_minion() const
 {
-    return is_friend() && op_of_u.trust >= 5;
+    return is_player_ally() && op_of_u.trust >= 5;
 }
 
 bool npc::guaranteed_hostile() const
@@ -1527,20 +1547,25 @@ bool npc::guaranteed_hostile() const
     return is_enemy() || ( my_fac != nullptr && my_fac->likes_u < -10 );
 }
 
+bool npc::is_walking_with() const
+{
+    return attitude == NPCATT_FOLLOW || attitude == NPCATT_LEAD || attitude == NPCATT_WAIT;
+}
+
+bool npc::is_obeying( const player &p ) const
+{
+    return ( p.is_player() && is_walking_with() && is_player_ally() ) ||
+           ( is_ally( p ) && is_stationary( true ) );
+}
+
 bool npc::is_following() const
 {
-    switch( attitude ) {
-        case NPCATT_FOLLOW:
-        case NPCATT_WAIT:
-            return true;
-        default:
-            return false;
-    }
+    return attitude == NPCATT_FOLLOW || attitude == NPCATT_WAIT;
 }
 
 bool npc::is_leader() const
 {
-    return ( attitude == NPCATT_LEAD );
+    return attitude == NPCATT_LEAD;
 }
 
 bool npc::is_assigned_to_camp() const
@@ -1561,12 +1586,23 @@ bool npc::is_enemy() const
     return attitude == NPCATT_KILL || attitude == NPCATT_FLEE || attitude == NPCATT_FLEE_TEMP;
 }
 
-bool npc::is_guarding() const
+bool npc::is_stationary( bool include_guards ) const
 {
-    return mission == NPC_MISSION_SHELTER || mission == NPC_MISSION_SHOPKEEP
-           || mission == NPC_MISSION_GUARD || mission == NPC_MISSION_GUARD_ALLY
-           || mission == NPC_MISSION_ACTIVITY || mission == NPC_MISSION_GUARD_PATROL
-           || has_effect( effect_infection );
+    if( include_guards && is_guarding() ) {
+        return true;
+    }
+    return mission == NPC_MISSION_SHELTER || mission == NPC_MISSION_SHOPKEEP ||
+           has_effect( effect_infection );
+}
+
+bool npc::is_guarding( ) const
+{
+    return mission == NPC_MISSION_GUARD || mission == NPC_MISSION_GUARD_ALLY;
+}
+
+bool npc::is_patrolling() const
+{
+    return mission == NPC_MISSION_GUARD_PATROL;
 }
 
 bool npc::has_player_activity() const
@@ -1581,13 +1617,13 @@ bool npc::is_travelling() const
 
 Creature::Attitude npc::attitude_to( const Creature &other ) const
 {
-    if( is_friend() ) {
+    if( is_player_ally() ) {
         // Friendly NPCs share player's alliances
         return g->u.attitude_to( other );
     }
 
     if( other.is_npc() ) {
-        // Hostile NPCs are also hostile towards player's allied
+        // Hostile NPCs are also hostile towards player's allies
         if( is_enemy() && other.attitude_to( g->u ) == A_FRIENDLY ) {
             return A_HOSTILE;
         }
@@ -1621,7 +1657,7 @@ Creature::Attitude npc::attitude_to( const Creature &other ) const
 
 int npc::smash_ability() const
 {
-    if( !is_hallucination() && ( !is_following() || rules.has_flag( ally_rule::allow_bash ) ) ) {
+    if( !is_hallucination() && ( !is_player_ally() || rules.has_flag( ally_rule::allow_bash ) ) ) {
         ///\EFFECT_STR_NPC increases smash ability
         return str_cur + weapon.damage_melee( DT_BASH );
     }
@@ -1666,7 +1702,7 @@ int npc::follow_distance() const
 {
     // If the player is standing on stairs, follow closely
     // This makes the stair hack less painful to use
-    if( is_friend() &&
+    if( is_walking_with() &&
         ( g->m.has_flag( TFLAG_GOES_DOWN, g->u.pos() ) ||
           g->m.has_flag( TFLAG_GOES_UP, g->u.pos() ) ) ) {
         return 1;
@@ -1681,9 +1717,9 @@ nc_color npc::basic_symbol_color() const
         return c_red;
     } else if( attitude == NPCATT_FLEE || attitude == NPCATT_FLEE_TEMP ) {
         return c_light_red;
-    } else if( is_friend() ) {
+    } else if( is_player_ally() ) {
         return c_green;
-    } else if( is_following() ) {
+    } else if( is_walking_with() ) {
         return c_light_green;
     } else if( guaranteed_hostile() ) {
         return c_red;
@@ -2205,7 +2241,7 @@ void npc::process_turn()
 {
     player::process_turn();
 
-    if( is_following() && calendar::once_every( 1_hours ) &&
+    if( is_player_ally() && calendar::once_every( 1_hours ) &&
         get_hunger() < 200 && get_thirst() < 100 && op_of_u.trust < 5 ) {
         // Friends who are well fed will like you more
         // 24 checks per day, best case chance at trust 0 is 1 in 48 for +1 trust per 2 days
@@ -2333,7 +2369,7 @@ mfaction_id npc::get_monster_faction() const
     static const string_id<monfaction> player_fac( "player" );
     static const string_id<monfaction> bee_fac( "bee" );
 
-    if( is_friend() ) {
+    if( is_player_ally() ) {
         return player_fac.id();
     }
 
@@ -2355,10 +2391,12 @@ std::string npc::extended_description() const
         ss << _( "Is trying to kill you." );
     } else if( attitude == NPCATT_FLEE || attitude == NPCATT_FLEE_TEMP ) {
         ss << _( "Is trying to flee from you." );
-    } else if( is_friend() ) {
+    } else if( is_player_ally() ) {
         ss << _( "Is your friend." );
     } else if( is_following() ) {
         ss << _( "Is following you." );
+    } else if( is_leader() ) {
+        ss << _( "Is guiding you." );
     } else if( guaranteed_hostile() ) {
         ss << _( "Will try to kill you or flee from you if you reveal yourself." );
     } else {
