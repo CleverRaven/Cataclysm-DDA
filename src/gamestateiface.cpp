@@ -53,27 +53,18 @@ bool gsi::update_turn()
     update_temp();
     update_invlets();
     update_stamina();
+    update_pain();
 
     power_level = g->u.power_level;
     max_power_level = g->u.max_power_level;
-    pain = g->u.get_perceived_pain();
     morale = g->u.get_morale_level();
 
     // is this necessary anymore?
     update_safemode(false);
 
     // Environment Stats
-    update_light();
-    if (g->get_levz() < 0)
-        weather = "Underground";
-    else
-        weather = weather_data(g->weather).name.c_str();
+    update_weather();
 
-    if (g->u.has_item_with_flag("THERMOMETER") ||
-        g->u.has_bionic(bionic_id("bio_meteorologist")))
-        temp = g->get_temperature(g->u.pos());
-    else
-        temp = -500;
 
     gsi_socket::get().sockout();
     return true;
@@ -138,58 +129,9 @@ bool gsi::update_input(std::vector<std::string> registered_actions, std::string 
 
 void gsi::update_needs()
 {
-    int hunger = g->u.get_hunger();
-    int starvation = g->u.get_starvation();
-    int thirst = g->u.get_thirst();
-    int fatigue = g->u.get_fatigue();
-
-    // Hunger
-    if (hunger >= 300 && starvation > 2500)
-        hunger_level = -5;
-    else if (hunger >= 300 && starvation > 1100)
-        hunger_level = -4;
-    else if (hunger > 250)
-        hunger_level = -3;
-    else if (hunger > 100)
-        hunger_level = -2;
-    else if (hunger > 40)
-        hunger_level = -1;
-    else if (hunger < -60)
-        hunger_level = 3;
-    else if (hunger < -20)
-        hunger_level = 2;
-    else if (hunger < 0)
-        hunger_level = 1;
-    else
-        hunger_level = 0;
-
-    // Thirst
-    if (thirst > 520)
-        thirst_level = -4;
-    else if (thirst > 240)
-        thirst_level = -3;
-    else if (thirst > 80)
-        thirst_level = -2;
-    else if (thirst > 40)
-        thirst_level = -1;
-    else if (thirst < -60)
-        thirst_level = 3;
-    else if (thirst < -20)
-        thirst_level = 2;
-    else if (thirst < 0)
-        thirst_level = 1;
-    else
-        thirst_level = 0;
-
-    // Fatigue
-    if (fatigue > EXHAUSTED)
-        fatigue_level = -3;
-    else if (fatigue > DEAD_TIRED)
-        fatigue_level = -2;
-    else if (fatigue > TIRED)
-        fatigue_level = -1;
-    else
-        fatigue_level = 0;
+    hunger_level = g->u.get_hunger_description().first;
+    thirst_level = g->u.get_thirst_description().first;
+    fatigue_level = g->u.get_fatigue_description().first;
 }
 
 void gsi::update_stamina()
@@ -256,6 +198,14 @@ void gsi::update_body()
         else
             limb_state[i] = 0;
     }
+}
+
+void gsi::update_pain() 
+{
+    pain_string = g->u.get_pain_description();
+    pain = -1;
+    if (is_self_aware)
+        pain = g->u.get_perceived_pain();
 }
 
 int define_temp_level_gsi(const int lvl)
@@ -348,9 +298,24 @@ void gsi::update_invlets()
     }
 }
 
-void gsi::update_light()
+void gsi::update_weather()
 {
+    // Light Level
     light_level = get_all_colors().get_name(get_light_level(g->u.fine_detail_vision_mod()).second);
+
+    // Weather Status
+    if (g->get_levz() < 0)
+        weather = "Underground";
+    else
+        weather = weather_data(g->weather).name;
+
+    // Ambient Temperature
+    // Temp is always fahrenheit
+    if (g->u.has_item_with_flag("THERMOMETER") ||
+        g->u.has_bionic(bionic_id("bio_meteorologist")))
+        temp = g->get_temperature(g->u.pos());
+    else
+        temp = -500;
 }
 
 void gsi::serialize(JsonOut &jsout) const
@@ -608,7 +573,3 @@ void gsi_socket::sockout()
     
     return;
 }
-
-
-
-
