@@ -3430,21 +3430,23 @@ void activity_handlers::robot_control_finish( player_activity *act, player *p )
 void activity_handlers::groom_finish( player_activity *act, player *p )
 {
     p->add_msg_if_player( _( "You finish grooming yourself." ) );
-    bool has_hairclip = p->worn_with_flag( "HAIRCLIP" );
-    if( !has_hairclip && p->has_item_with_flag( "HAIRCLIP" ) ) {
-        const item *hairclip = random_entry( p->all_items_with_flag( "HAIRCLIP" ) );
-        if( p->can_wear( *hairclip ).success() &&
-            query_yn( _( "Do you want to wear your hairclips to keep your hair tidy?" ) ) ) {
-            p->wear_item( *hairclip );
-            has_hairclip = true;
+
+    bool has_hairpin = p->worn_with_flag( "HAIRPIN" );
+    if( !has_hairpin && p->has_item_with_flag( "HAIRPIN" ) ) {
+        const item *hairpin = random_entry( p->all_items_with_flag( "HAIRPIN" ) );
+        if( p->can_wear( *hairpin ).success() &&
+            query_yn( _( "Do you want to wear your hairpins to keep your hair tidy?" ) ) ) {
+            p->wear_item( *hairpin );
+            has_hairpin = true;
         }
     }
-    if( has_hairclip ) {
+    if( has_hairpin ) {
         p->add_effect( effect_groomed, 12_hours );
-        p->add_msg_if_player( m_good, _( "Your hair is kept tidy by your hairclips." ) );
+        p->add_msg_if_player( m_good, _( "Your hairpins are keeping your hair tidy." ) );
     } else {
         p->add_effect( effect_groomed, 8_hours );
     }
+
     if( p->has_trait( trait_id( "STYLISH" ) ) ) {
         p->add_morale( MORALE_GROOMED, 10, 10, 240_minutes, 30_minutes );
         p->add_msg_if_player( m_good, _( "You are happy to have neat hair again!" ) );

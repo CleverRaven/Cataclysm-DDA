@@ -5320,6 +5320,10 @@ int iuse::stimpack( player *p, item *it, bool, const tripoint & )
 
 int iuse::hairbrush( player *p, item *it, bool, const tripoint & )
 {
+    if( p->has_trait( trait_id( "HAIR_BALD" ) ) ) {
+        p->add_msg_if_player( m_bad, _( "You don't have any hair!" ) );
+        return it->type->charges_to_use();
+    }
     if( p->has_effect( effect_groomed ) ) {
         p->add_msg_if_player( _( "You're already groomed!" ) );
     } else {

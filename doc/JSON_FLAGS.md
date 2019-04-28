@@ -744,6 +744,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```FIX_NEARSIGHT``` This gear corrects nearsightedness.
 - ```FLOTATION``` Prevents the player from drowning in deep water. Also prevents diving underwater.
 - ```FRAGILE``` This gear is less resistant to damage than normal.
+- ```HAIRPIN``` This item keeps hair in place.
 - ```HELMET_COMPAT``` Items that are not SKINTIGHT or OVERSIZE but can be worn with a helmet.
 - ```HOOD``` Allow this clothing to conditionally cover the head, for additional warmth or water protection., if the player's head isn't encumbered
 - ```HYGROMETER``` This gear is equipped with an accurate hygrometer (which is used to measure humidity).

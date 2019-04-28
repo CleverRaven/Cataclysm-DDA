@@ -1389,7 +1389,8 @@
     "price": 50,
     "material": [ "iron" ],
     "weight": 2,
-    "use_action": { "type": "picklock", "pick_quality": 3 }
+    "use_action": { "type": "picklock", "pick_quality": 3 },
+    "flags": [ "HAIRPIN" ]
   },
   {
     "id": "fc_hairpin",
@@ -1403,7 +1404,7 @@
     "material": [ "plastic" ],
     "weight": 4,
     "use_action": { "type": "picklock", "pick_quality": 1 },
-    "flags": [ "FANCY" ]
+    "flags": [ "FANCY", "HAIRPIN" ]
   },
   {
     "id": "towel",

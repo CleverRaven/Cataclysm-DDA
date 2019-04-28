@@ -8662,7 +8662,7 @@
     "flags": [ "STAB", "BELT_CLIP" ]
   },
   {
-    "id": "hairbrush", 
+    "id": "hairbrush",
     "type": "TOOL",
     "name": "hairbrush",
     "description": "A hairbrush, for keeping your hair neat and tidy.",
@@ -8673,7 +8673,7 @@
     "symbol": ";",
     "color": "pink",
     "flags": [ "BELT_CLIP" ],
-	"use_action": "HAIRBRUSH"
+    "use_action": "HAIRBRUSH"
   },
   {
     "id": "electrolysis_kit",

@@ -1035,7 +1035,7 @@
     "name": "Groom yourself"
   },
   {
-	"type": "item_action",
+    "type": "item_action",
     "id": "CRAFT",
     "name": "Work on craft"
   }
