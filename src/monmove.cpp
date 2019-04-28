@@ -571,6 +571,7 @@ void monster::move()
                 sounds::sound( pos(), 8, sounds::sound_t::speech,
                                string_format(
                                    _( "a soft robotic voice says, \"Please step away from the autodoc, this patient needs immediate care.\"" ) ) );
+                push_to( goal, 4, 0 );
             }
         }
         if( get_effect_dur( effect_countdown ) == 1_turns && !has_effect( effect_operating ) ) {
