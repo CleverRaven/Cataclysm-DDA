@@ -4029,18 +4029,27 @@ void iexamine::autodoc( player &p, const tripoint &examp )
     }
 
     bool needs_anesthesia = true;
-    std::vector<item_comp> acomps;
+    std::vector<item_comp> acomps;//legacy
+    std::vector<tool_comp> anesth_kit;
     if( p.has_trait( trait_NOPAIN ) || p.has_bionic( bionic_id( "bio_painkiller" ) ) ) {
         needs_anesthesia = false;
     } else {
         std::vector<const item *> a_filter = p.crafting_inventory().items_with( []( const item & it ) {
-            return it.has_flag( "ANESTHESIA" );
+            return it.has_quality( quality_id( "ANESTHESIA" ) );
+        } );
+        std::vector<const item *> b_filter = p.crafting_inventory().items_with( []( const item & it ) {
+            return it.has_flag( "ANESTHESIA" ); // legacy
         } );
         for( const item *anesthesia_item : a_filter ) {
-            acomps.push_back( item_comp( anesthesia_item->typeId(), 1 ) );
+            if( anesthesia_item->ammo_remaining() >= 1 ) {
+                anesth_kit.push_back( tool_comp( anesthesia_item->typeId(), 1 ) );
+            }
         }
-        if( acomps.empty() ) {
-            popup( _( "You need an anesthesia kit for autodoc to perform any operation." ) );
+        for( const item *anesthesia_item : b_filter ) {
+            acomps.push_back( item_comp( anesthesia_item->typeId(), 1 ) ); // legacy
+        }
+        if( anesth_kit.empty() && acomps.empty() ) {
+            popup( _( "You need an anesthesia kit with at least one charge for autodoc to perform any operation." ) );
             return;
         }
     }
@@ -4107,8 +4116,14 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 comps.push_back( item_comp( it->typeId(), 1 ) );
                 p.consume_items( comps, 1, is_crafting_component );
                 if( needs_anesthesia ) {
-                    p.consume_items( acomps, 1, is_crafting_component );
+                    if( acomps.empty() ) { // consume obsolete anesthesia first
+                        p.consume_tools( anesth_kit, 1 );
+                    } else {
+                        p.consume_items( acomps, 1, is_crafting_component );//legacy
+                    }
+
                 }
+                installer.mod_moves( -500 );
             }
             break;
         }
@@ -4158,8 +4173,14 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             if( patient.uninstall_bionic( bionic_id( bionic_types[bionic_index] ), installer, true ) ) {
                 patient.introduce_into_anesthesia( duration, installer, needs_anesthesia );
                 if( needs_anesthesia ) {
-                    p.consume_items( acomps, 1, is_crafting_component );
+                    if( acomps.empty() ) { // consume obsolete anesthesia first
+                        p.consume_tools( anesth_kit, 1 );
+                    } else {
+                        p.consume_items( acomps, 1, is_crafting_component ); // legacy
+                    }
+
                 }
+                installer.mod_moves( -500 );
             }
             break;
         }
@@ -4181,6 +4202,77 @@ static int get_charcoal_charges( units::volume food )
     const int charcoal = to_liter( food ) * sm_rack::CHARCOAL_PER_LITER;
 
     return  std::max( charcoal, sm_rack::MIN_CHARCOAL );
+}
+
+static bool is_non_rotten_crafting_component( const item &it )
+{
+    return is_crafting_component( it ) && !it.rotten();
+}
+
+void mill_activate( player &p, const tripoint &examp )
+{
+    const furn_id cur_mill_type = g->m.furn( examp );
+    furn_id next_mill_type = f_null;
+    if( cur_mill_type == f_wind_mill ) {
+        next_mill_type = f_wind_mill_active;
+    } else if( cur_mill_type == f_water_mill ) {
+        next_mill_type = f_water_mill_active;
+    } else {
+        debugmsg( "Examined furniture has action mill_activate, but is of type %s",
+                  g->m.furn( examp ).id().c_str() );
+        return;
+    }
+    bool food_present = false;
+    auto items = g->m.i_at( examp );
+    units::volume food_volume = 0_ml;
+
+    for( size_t i = 0; i < items.size(); i++ ) {
+        auto &it = items[i];
+        if( it.typeId() == "flour" ) {
+            add_msg( _( "This mill already contains flour." ) );
+            add_msg( _( "Remove it before starting the mill again." ) );
+            return;
+        }
+        if( it.has_flag( "MILLABLE" ) ) {
+            food_present = true;
+            food_volume += it.volume();
+            continue;
+        }
+        if( !it.has_flag( "MILLABLE" ) ) {
+            add_msg( m_bad, _( "This rack contains %s, which can't be milled!" ), it.tname( 1,
+                     false ) );
+            add_msg( _( "You remove the %s from the mill." ), it.tname() );
+            g->m.add_item_or_charges( p.pos(), it );
+            g->m.i_rem( examp, i );
+            p.mod_moves( -p.item_handling_cost( it ) );
+            return;
+        }
+    }
+    if( !food_present ) {
+        add_msg( _( "This mill is empty.  Fill it with starchy products such as wheat, barley or oats and try again." ) );
+        return;
+    }
+    // TODO : currently mill just uses sm_rack defined max volume
+    if( food_volume > sm_rack::MAX_FOOD_VOLUME ) {
+        add_msg( _( "This mill is overloaded with products, and the millstone can't turn.  Remove some and try again." ) );
+        add_msg( pgettext( "volume units", "You think that you can load about %s %s in it." ),
+                 format_volume( sm_rack::MAX_FOOD_VOLUME ), volume_units_long() );
+        return;
+    }
+
+    for( auto &it : g->m.i_at( examp ) ) {
+        if( it.has_flag( "MILLABLE" ) ) {
+            // Do one final rot check before milling, then apply the PROCESSING flag to prevent further checks.
+            it.calc_rot( examp );
+            it.set_flag( "PROCESSING" );
+        }
+    }
+    g->m.furn_set( examp, next_mill_type );
+    item result( "fake_milling_item", calendar::turn );
+    result.item_counter = 3600; // = 6 hours
+    result.activate();
+    g->m.add_item( examp, result );
+    add_msg( _( "You remove the brake on the millstone and it slowly starts to turn." ) );
 }
 
 void smoker_activate( player &p, const tripoint &examp )
@@ -4222,6 +4314,7 @@ void smoker_activate( player &p, const tripoint &examp )
             add_msg( _( "You remove %s from the rack." ), it.tname() );
             g->m.add_item_or_charges( p.pos(), it );
             g->m.i_rem( examp, i );
+            p.mod_moves( -p.item_handling_cost( it ) );
             return;
         }
         if( it.has_flag( "SMOKED" ) && it.has_flag( "SMOKABLE" ) ) {
@@ -4262,9 +4355,9 @@ void smoker_activate( player &p, const tripoint &examp )
     p.use_charges( "fire", 1 );
     for( auto &it : g->m.i_at( examp ) ) {
         if( it.has_flag( "SMOKABLE" ) ) {
-            // Do one final rot check before smoking, then apply the smoking FLAG to prevent further checks.
+            // Do one final rot check before smoking, then apply the PROCESSING flag to prevent further checks.
             it.calc_rot( examp );
-            it.set_flag( "SMOKING" );
+            it.set_flag( "PROCESSING" );
         }
     }
     g->m.furn_set( examp, next_smoker_type );
@@ -4278,6 +4371,45 @@ void smoker_activate( player &p, const tripoint &examp )
     result.activate();
     g->m.add_item( examp, result );
     add_msg( _( "You light a small fire under the rack and it starts to smoke." ) );
+}
+
+void iexamine::mill_finalize( player &, const tripoint &examp, const time_point &start_time )
+{
+    const furn_id cur_mill_type = g->m.furn( examp );
+    furn_id next_mill_type = f_null;
+    if( cur_mill_type == f_wind_mill_active ) {
+        next_mill_type = f_wind_mill;
+    } else if( cur_mill_type == f_water_mill_active ) {
+        next_mill_type = f_water_mill;
+    } else {
+        debugmsg( "Furniture executed action mill_finalize, but is of type %s",
+                  g->m.furn( examp ).id().c_str() );
+        return;
+    }
+
+    auto items = g->m.i_at( examp );
+    if( items.empty() ) {
+        g->m.furn_set( examp, next_mill_type );
+        return;
+    }
+
+    for( auto &it : items ) {
+        if( it.has_flag( "MILLABLE" ) ) {
+            it.calc_rot_while_processing( examp, 6_hours );
+        }
+    }
+    for( size_t i = 0; i < items.size(); i++ ) {
+        auto &item_it = items[i];
+        if( item_it.get_comestible() ) {
+            item result( "flour", start_time + 6_hours, item_it.charges * 15 );
+            // Set flag to tell set_relative_rot() to calc from bday not now
+            result.set_flag( "PROCESSING_RESULT" );
+            result.set_relative_rot( item_it.get_relative_rot() );
+            result.unset_flag( "PROCESSING_RESULT" );
+            item_it = result;
+        }
+    }
+    g->m.furn_set( examp, next_mill_type );
 }
 
 void smoker_finalize( player &, const tripoint &examp, const time_point &start_time )
@@ -4300,7 +4432,7 @@ void smoker_finalize( player &, const tripoint &examp, const time_point &start_t
 
     for( auto &it : items ) {
         if( it.has_flag( "SMOKABLE" ) ) { // Don't check charcoal
-            it.calc_rot_while_smoking( examp, 6_hours );
+            it.calc_rot_while_processing( examp, 6_hours );
         }
     }
 
@@ -4308,7 +4440,7 @@ void smoker_finalize( player &, const tripoint &examp, const time_point &start_t
         auto &item_it = items[i];
         if( item_it.get_comestible() ) {
             if( item_it.get_comestible()->smoking_result.empty() ) {
-                item_it.unset_flag( "SMOKING" );
+                item_it.unset_flag( "PROCESSING" );
             } else {
                 item result( item_it.get_comestible()->smoking_result, start_time + 6_hours, item_it.charges );
 
@@ -4418,10 +4550,6 @@ void smoker_load_food( player &p, const tripoint &examp, const units::volume &re
         return it.rotten();
     } );
 
-    const auto is_non_rotten_crafting_component = []( const item & it ) {
-        return is_crafting_component( it ) && !it.rotten();
-    };
-
     comp_selection<item_comp> selected = p.select_item_component( comps, 1, inv, true,
                                          is_non_rotten_crafting_component );
     std::list<item> moved = p.consume_items( selected, 1, is_non_rotten_crafting_component );
@@ -4435,10 +4563,299 @@ void smoker_load_food( player &p, const tripoint &examp, const units::volume &re
     p.invalidate_crafting_inventory();
 }
 
+void mill_load_food( player &p, const tripoint &examp, const units::volume &remaining_capacity )
+{
+    std::vector<item_comp> comps;
+
+    if( g->m.furn( examp ) == furn_str_id( "f_wind_mill_active" ) ||
+        g->m.furn( examp ) == furn_str_id( "f_water_mill_active" ) ) {
+        p.add_msg_if_player( _( "You can't place more food while it's milling." ) );
+        return;
+    }
+    // filter millable food
+    inventory inv = p.crafting_inventory();
+    inv.remove_items_with( []( const item & it ) {
+        return it.rotten();
+    } );
+    std::vector<const item *> filtered = p.crafting_inventory().items_with( []( const item & it ) {
+        return it.has_flag( "MILLABLE" );
+    } );
+
+    uilist smenu;
+    smenu.text = _( "Load mill with what kind of product?" );
+    // count and ask for item to be placed ...
+    int count = 0;
+    std::list<std::string> names;
+    std::vector<const item *> entries;
+    for( const item *millable_item : filtered ) {
+
+        if( millable_item->count_by_charges() ) {
+            count = inv.charges_of( millable_item->typeId() );
+        } else {
+            count = inv.amount_of( millable_item->typeId() );
+        }
+        if( count != 0 ) {
+            auto on_list = std::find( names.begin(), names.end(), item::nname( millable_item->typeId(), 1 ) );
+            if( on_list == names.end() ) {
+                smenu.addentry( item::nname( millable_item->typeId(), 1 ) );
+                entries.push_back( millable_item );
+            }
+            names.push_back( item::nname( millable_item->typeId(), 1 ) );
+            comps.push_back( item_comp( millable_item->typeId(), count ) );
+        }
+        count = 0;
+    }
+
+    if( comps.empty() ) {
+        p.add_msg_if_player( _( "You don't have any products that can be milled." ) );
+        return;
+    }
+
+    smenu.query();
+
+    if( smenu.ret < 0 || static_cast<size_t>( smenu.ret ) >= entries.size() ) {
+        add_msg( m_info, _( "Never mind." ) );
+        return;
+    }
+    count = 0;
+    auto what = entries[smenu.ret];
+    for( const auto &c : comps ) {
+        if( c.type == what->typeId() ) {
+            count = c.count;
+        }
+    }
+
+    const int max_count_for_capacity =  remaining_capacity / what->base_volume();
+    const int max_count = std::min( count, max_count_for_capacity );
+
+    // ... then ask how many to put it
+    const std::string popupmsg = string_format( _( "Insert how many %s into the mill?" ),
+                                 item::nname( what->typeId(), count ) );
+    long amount = string_input_popup()
+                  .title( popupmsg )
+                  .width( 20 )
+                  .text( to_string( max_count ) )
+                  .only_digits( true )
+                  .query_long();
+
+    if( amount == 0 ) {
+        add_msg( m_info, _( "Never mind." ) );
+        return;
+    } else if( amount > count ) {
+        add_msg( m_info, _( "You don't have that many." ) );
+        return;
+    } else if( amount > max_count_for_capacity ) {
+        add_msg( m_info, _( "You can't place that many." ) );
+        return;
+    }
+
+    // reload comps with chosen items and quantity
+    comps.clear();
+    comps.push_back( item_comp( what->typeId(), amount ) );
+
+    // select from where to get the items from and place them
+    inv.form_from_map( g->u.pos(), PICKUP_RANGE );
+    inv.remove_items_with( []( const item & it ) {
+        return it.rotten();
+    } );
+
+    comp_selection<item_comp> selected = p.select_item_component( comps, 1, inv, true,
+                                         is_non_rotten_crafting_component );
+    std::list<item> moved = p.consume_items( selected, 1, is_non_rotten_crafting_component );
+    for( const item &m : moved ) {
+        g->m.add_item( examp, m );
+        p.mod_moves( -p.item_handling_cost( m ) );
+        add_msg( m_info, pgettext( "item amount and name", "You carefully place %s %s in the mill." ),
+                 amount, m.nname( m.typeId(),
+                                  amount ) );
+    }
+    p.invalidate_crafting_inventory();
+}
+
 void iexamine::on_smoke_out( const tripoint &examp, const time_point &start_time )
 {
     if( g->m.furn( examp ) == furn_str_id( "f_smoking_rack_active" ) ) {
         smoker_finalize( g->u, examp, start_time );
+    }
+}
+
+void iexamine::quern_examine( player &p, const tripoint &examp )
+{
+    if( g->m.furn( examp ) == furn_str_id( "f_water_mill" ) ) {
+        if( !g->m.is_water_shallow_current( examp ) ) {
+            add_msg( _( "The water mill needs to be over shallow flowing water to work." ) );
+            return;
+        }
+    }
+    if( g->m.furn( examp ) == furn_str_id( "f_wind_mill" ) ) {
+        if( g->is_sheltered( examp ) ) {
+            add_msg( _( "The wind mill needs to be outside in the wind to work." ) );
+            return;
+        }
+    }
+
+    const bool active = g->m.furn( examp ) == furn_str_id( "f_water_mill_active" ) ||
+                        g->m.furn( examp ) == furn_str_id( "f_wind_mill_active" );
+    auto items_here = g->m.i_at( examp );
+
+    if( items_here.empty() && active ) {
+        debugmsg( "active mill was empty!" );
+        if( g->m.furn( examp ) == furn_str_id( "f_water_mill_active" ) ) {
+            g->m.furn_set( examp, f_water_mill );
+        } else if( g->m.furn( examp ) == furn_str_id( "f_wind_mill_active" ) ) {
+            g->m.furn_set( examp, f_wind_mill );
+        }
+        return;
+    }
+
+    if( items_here.size() == 1 && items_here.begin()->typeId() == "fake_milling_item" ) {
+        debugmsg( "f_mill_active was empty, and had fake_milling_item!" );
+        if( g->m.furn( examp ) == furn_str_id( "f_water_mill_active" ) ) {
+            g->m.furn_set( examp, f_water_mill );
+        } else if( g->m.furn( examp ) == furn_str_id( "f_wind_mill_active" ) ) {
+            g->m.furn_set( examp, f_wind_mill );
+        }
+        items_here.erase( items_here.begin() );
+        return;
+    }
+
+    std::stringstream pop;
+    time_duration time_left = 0_turns;
+    int hours_left = 0;
+    int minutes_left = 0;
+    units::volume f_volume = 0_ml;
+    bool f_check = false;
+
+    for( size_t i = 0; i < items_here.size(); i++ ) {
+        auto &it = items_here[i];
+        if( it.is_food() ) {
+            f_check = true;
+            f_volume += it.volume();
+        }
+        if( active && it.typeId() == "fake_milling_item" ) {
+            time_left = time_duration::from_turns( it.item_counter );
+            hours_left = to_hours<int>( time_left );
+            minutes_left = to_minutes<int>( time_left ) + 1;
+        }
+    }
+
+    const bool empty = f_volume == 0_ml;
+    const bool full = f_volume >= sm_rack::MAX_FOOD_VOLUME;
+    const auto remaining_capacity = sm_rack::MAX_FOOD_VOLUME - f_volume;
+
+    uilist smenu;
+    smenu.text = _( "What to do with the mill?" );
+    smenu.desc_enabled = true;
+
+    smenu.addentry( 0, true, 'i', _( "Inspect mill" ) );
+
+    if( !active ) {
+        smenu.addentry_desc( 1, !empty, 'r',
+                             empty ?  _( "Remove brake and start milling... insert some products for milling first" ) :
+                             _( "Remove brake and start milling" ),
+                             _( "Remove brake and start milling, milling will take about 6 hours." ) );
+
+        smenu.addentry_desc( 2, !full, 'p',
+                             full ? _( "Insert products for milling... mill is full" ) :
+                             string_format( _( "Insert products for milling... remaining capacity is %s %s" ),
+                                            format_volume( remaining_capacity ), volume_units_abbr() ),
+                             _( "Fill the mill with starchy products such as wheat, barley or oats." ) );
+
+        if( f_check ) {
+            smenu.addentry( 3, f_check, 'e', _( "Remove products from mill" ) );
+        }
+
+    } else {
+        smenu.addentry_desc( 4, true, 'x',
+                             _( "Apply brake to mill" ),
+                             _( "Applying the brake will stop milling process." ) );
+    }
+
+
+    smenu.query();
+
+    switch( smenu.ret ) {
+        case 0: { //inspect mill
+            if( active ) {
+                pop << "<color_green>" << _( "There's a mill here.  It is turning and milling." ) << "</color>"
+                    << "\n";
+                if( time_left > 0_turns ) {
+                    if( minutes_left > 60 ) {
+                        pop << string_format( ngettext( "It will finish milling in about %d hour.",
+                                                        "It will finish milling in about %d hours.",
+                                                        hours_left ), hours_left ) << "\n \n ";
+                    } else if( minutes_left > 30 ) {
+                        pop << _( "It will finish milling in less than an hour." );
+                    } else {
+                        pop << string_format( _( "It should take about %d minutes to finish milling." ), minutes_left );
+                    }
+                }
+            } else {
+                pop << "<color_green>" << _( "There's a mill here." ) << "</color>" << "\n";
+            }
+            pop << "<color_green>" << _( "You inspect its contents and find: " ) << "</color>" << "\n \n ";
+            if( items_here.empty() ) {
+                pop << _( "... that it is empty." );
+            } else {
+                for( size_t i = 0; i < items_here.size(); i++ ) {
+                    auto &it = items_here[i];
+                    if( it.typeId() == "fake_milling_item" ) {
+                        pop << "\n " << "<color_red>" << _( "You see some grains that are not yet milled to fine flour." )
+                            << "</color>" <<
+                            "\n ";
+                        continue;
+                    }
+                    pop << "-> " << it.nname( it.typeId(), it.charges );
+                    pop << " (" << std::to_string( it.charges ) << ") \n ";
+                }
+            }
+            popup( pop.str(), PF_NONE );
+            break;
+        }
+        case 1: //activate
+            if( active ) {
+                add_msg( _( "It is already milling." ) );
+            } else {
+                mill_activate( p, examp );
+            }
+            break;
+        case 2: // load food
+            mill_load_food( p, examp, remaining_capacity );
+            break;
+        case 3: // remove food
+            for( size_t i = 0; i < items_here.size(); i++ ) {
+                auto &it = items_here[i];
+                if( it.is_food() ) {
+                    // get handling cost before the item reference is invalidated
+                    const int handling_cost = -p.item_handling_cost( it );
+
+                    add_msg( _( "You remove %s from the mill." ), it.tname() );
+                    g->m.add_item_or_charges( p.pos(), it );
+                    g->m.i_rem( examp, i );
+                    p.mod_moves( handling_cost );
+                    i--;
+                }
+            }
+            if( active ) {
+                if( g->m.furn( examp ) == furn_str_id( "f_water_mill_active" ) ) {
+                    g->m.furn_set( examp, f_water_mill );
+                } else if( g->m.furn( examp ) == furn_str_id( "f_wind_mill_active" ) ) {
+                    g->m.furn_set( examp, f_wind_mill );
+                }
+                add_msg( m_info, _( "You stop the milling process." ) );
+            }
+            break;
+        default:
+            add_msg( m_info, _( "Never mind." ) );
+            break;
+        case 4:
+            if( g->m.furn( examp ) == furn_str_id( "f_water_mill_active" ) ) {
+                g->m.furn_set( examp, f_water_mill );
+            } else if( g->m.furn( examp ) == furn_str_id( "f_wind_mill_active" ) ) {
+                g->m.furn_set( examp, f_wind_mill );
+            }
+            add_msg( m_info, _( "You stop the milling process." ) );
+            break;
     }
 }
 
@@ -4821,6 +5238,7 @@ iexamine_function iexamine_function_from_string( const std::string &function_nam
             { "fireplace", &iexamine::fireplace },
             { "ledge", &iexamine::ledge },
             { "autodoc", &iexamine::autodoc },
+            { "quern_examine", &iexamine::quern_examine },
             { "smoker_options", &iexamine::smoker_options },
             { "open_safe", &iexamine::open_safe },
             { "workbench", &iexamine::workbench }

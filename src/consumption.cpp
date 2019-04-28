@@ -911,37 +911,8 @@ bool player::eat( item &food, bool force )
     return true;
 }
 
-bool player::consume_effects( item &food )
+void player::modify_health( const islot_comestible &comest )
 {
-    if( !food.is_comestible() ) {
-        debugmsg( "called player::consume_effects with non-comestible" );
-        return false;
-    }
-    const auto &comest = *food.get_comestible();
-
-    if( has_trait( trait_id( "THRESH_PLANT" ) ) && food.type->can_use( "PLANTBLECH" ) ) {
-        // used to cap nutrition and thirst, but no longer
-        return false;
-    }
-    if( ( has_trait( trait_id( "HERBIVORE" ) ) || has_trait( trait_id( "RUMINANT" ) ) ) &&
-        food.has_any_flag( herbivore_blacklist ) ) {
-        // No good can come of this.
-        return false;
-    }
-
-    // Rotten food causes health loss
-    const float relative_rot = food.get_relative_rot();
-    if( relative_rot > 1.0f && !has_trait( trait_id( "SAPROPHAGE" ) ) &&
-        !has_trait( trait_id( "SAPROVORE" ) ) && !has_bionic( bio_digestion ) ) {
-        const float rottedness = clamp( 2 * relative_rot - 2.0f, 0.1f, 1.0f );
-        // ~-1 health per 1 nutrition at halfway-rotten-away, ~0 at "just got rotten"
-        // But always round down
-        int h_loss = -rottedness * comest.get_nutr();
-        mod_healthy_mod( h_loss, -200 );
-        add_msg( m_debug, "%d health from %0.2f%% rotten food", h_loss, rottedness );
-    }
-
-    const auto nutr = nutrition_for( food ); // used in hibernation messages.
     int effective_health = comest.healthy;
     if( effective_health != 0 ) {
         // Effectively no cap on health modifiers from food
@@ -950,7 +921,10 @@ bool player::consume_effects( item &food )
         }
         mod_healthy_mod( effective_health, ( effective_health >= 0 ) ? 200 : -200 );
     }
+}
 
+void player::modify_stimulation( const islot_comestible &comest )
+{
     if( comest.stim != 0 &&
         ( abs( stim ) < ( abs( comest.stim ) * 3 ) ||
           sgn( stim ) != sgn( comest.stim ) ) ) {
@@ -980,11 +954,18 @@ bool player::consume_effects( item &food )
                                                 _( "You're feeling even more paranoid than usual." ) };
         add_msg_if_player( m_bad, random_entry_ref( stimboost_msg ) );
     }
+}
+
+void player::modify_addiction( const islot_comestible &comest )
+{
     add_addiction( comest.add, comest.addict );
     if( addiction_craving( comest.add ) != MORALE_NULL ) {
         rem_morale( addiction_craving( comest.add ) );
     }
+}
 
+void player::modify_morale( item &food, const int nutr )
+{
     time_duration morale_time = 2_hours;
     if( food.has_flag( "HOT" ) && food.has_flag( "EATEN_HOT" ) ) {
         morale_time = 3_hours;
@@ -1000,6 +981,45 @@ bool player::consume_effects( item &food )
         add_morale( MORALE_FOOD_GOOD, fun.first, fun.second, morale_time, morale_time / 2, false,
                     food.type );
     }
+}
+
+bool player::consume_effects( item &food )
+{
+    if( !food.is_comestible() ) {
+        debugmsg( "called player::consume_effects with non-comestible" );
+        return false;
+    }
+
+    if( has_trait( trait_id( "THRESH_PLANT" ) ) && food.type->can_use( "PLANTBLECH" ) ) {
+        // used to cap nutrition and thirst, but no longer
+        return false;
+    }
+    if( ( has_trait( trait_id( "HERBIVORE" ) ) || has_trait( trait_id( "RUMINANT" ) ) ) &&
+        food.has_any_flag( herbivore_blacklist ) ) {
+        // No good can come of this.
+        return false;
+    }
+
+    const auto &comest = *food.get_comestible();
+
+    // Rotten food causes health loss
+    const float relative_rot = food.get_relative_rot();
+    if( relative_rot > 1.0f && !has_trait( trait_id( "SAPROPHAGE" ) ) &&
+        !has_trait( trait_id( "SAPROVORE" ) ) && !has_bionic( bio_digestion ) ) {
+        const float rottedness = clamp( 2 * relative_rot - 2.0f, 0.1f, 1.0f );
+        // ~-1 health per 1 nutrition at halfway-rotten-away, ~0 at "just got rotten"
+        // But always round down
+        int h_loss = -rottedness * comest.get_nutr();
+        mod_healthy_mod( h_loss, -200 );
+        add_msg( m_debug, "%d health from %0.2f%% rotten food", h_loss, rottedness );
+    }
+
+    const auto nutr = nutrition_for( food ); // used in hibernation messages.
+
+    modify_health( comest );
+    modify_stimulation( comest );
+    modify_addiction( comest );
+    modify_morale( food, nutr );
 
     const bool hibernate = has_active_mutation( trait_id( "HIBERNATE" ) );
     if( hibernate ) {

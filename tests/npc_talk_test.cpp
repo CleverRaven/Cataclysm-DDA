@@ -23,6 +23,7 @@
 #include "npc_class.h"
 #include "pimpl.h"
 #include "string_id.h"
+#include "npctalk.h"
 #include "mapdata.h"
 #include "mtype.h"
 
@@ -229,9 +230,9 @@ TEST_CASE( "npc_talk_test" )
     CHECK( d.responses[1].text == "This is a class test response." );
 
     for( npc *guy : g->allies() ) {
-        guy->set_attitude( NPCATT_NULL );
+        talk_function::leave( *guy );
     }
-    talker_npc.set_attitude( NPCATT_FOLLOW );
+    talk_function::follow( talker_npc );
     d.add_topic( "TALK_TEST_NPC_ALLIES" );
     gen_response_lines( d, 2 );
     CHECK( d.responses[0].text == "This is a basic test response." );

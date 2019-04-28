@@ -63,7 +63,6 @@
     "time": 30000,
     "book_learn": [ [ "recipe_lab_cvd", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "charges": 500,
     "components": [
       [ [ "steel_chunk", 1 ], [ "scrap", 1 ] ],
       [ [ "can_drink_unsealed", 1 ], [ "can_food_unsealed", 1 ], [ "canister_empty", 1 ] ],
