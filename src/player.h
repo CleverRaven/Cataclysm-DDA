@@ -367,7 +367,11 @@ class player : public Character
         /**Used by monster to perform surgery*/
         bool uninstall_bionic( const bionic &target_cbm, monster &installer, Creature &patient,
                                float adjusted_skill, bool autodoc = false );
-        void bionics_uninstall_failure( Creature &installer, int difficulty, int success,
+        /**When a player fails the surgery*/
+        void bionics_uninstall_failure( player &installer, int difficulty, int success,
+                                        float adjusted_skill );
+        /**When a monster fails the surgery*/
+        void bionics_uninstall_failure( monster &installer, player &patient, int difficulty, int success,
                                         float adjusted_skill );
         /** Adds the entered amount to the player's bionic power_level */
         void charge_power( int amount );
