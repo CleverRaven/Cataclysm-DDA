@@ -13,7 +13,7 @@
     "worn_override": "REFUGEE_Dana_worn",
     "carry_override": "REFUGEE_Dana_carried",
     "weapon_override": "REFUGEE_Dana_wield",
-    "traits": [ { "trait": "PAINRESIST" }, { "trait": "MYOPIC" } ],
+    "traits": [ { "trait": "PAINRESIST" }, { "trait": "MYOPIC" }, { "group": "Appearance_Irish" } ],
     "skills": [
       { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
       { "skill": "tailor", "bonus": { "rng": [ 1, 2 ] } },

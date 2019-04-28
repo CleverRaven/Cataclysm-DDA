@@ -38,7 +38,8 @@
     "stim": -5,
     "addiction_potential": 6,
     "container": "test_tube",
-    "tools_needed": "syringe"
+    "tools_needed": "syringe",
+    "flags": [ "NO_INGEST" ]
   },
   {
     "id": "iv_mutagen",
@@ -126,7 +127,7 @@
     "type": "COMESTIBLE",
     "name": "feline serum",
     "description": "A super-concentrated mutagen, yellow and highly reflective.  You need a syringe to inject it...  if you really want to?",
-    "color": "light_yellow",
+    "color": "yellow",
     "use_action": { "type": "mutagen_iv", "mutation_category": "FELINE" }
   },
   {
@@ -144,7 +145,7 @@
     "type": "COMESTIBLE",
     "name": "insect serum",
     "description": "A super-concentrated mutagen that's a beautiful amber color.  You need a syringe to inject it...  if you really want to?",
-    "color": "light_yellow",
+    "color": "yellow",
     "use_action": { "type": "mutagen_iv", "mutation_category": "INSECT" }
   },
   {
@@ -468,7 +469,7 @@
     "healthy": -6,
     "stim": -5,
     "use_action": "PURIFY_SMART",
-    "flags": [ "NPC_SAFE", "TRADER_AVOID", "NUTRIENT_OVERRIDE" ]
+    "flags": [ "NPC_SAFE", "TRADER_AVOID", "NUTRIENT_OVERRIDE", "NO_INGEST" ]
   },
   {
     "type": "COMESTIBLE",

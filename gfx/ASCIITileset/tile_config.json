@@ -12,7 +12,7 @@
         { "id": "lighting_boomered_dark", "fg": 2, "rotates": false },
         { "id": "lighting_lowlight_light", "fg": 3, "rotates": false },
         { "id": "lighting_lowlight_dark", "fg": 4, "rotates": false },
-        { "id": [ "cursor", "line_target", "line_trail" ], "fg": 5 },
+        { "id": [ "cursor", "highlight", "line_target", "line_trail" ], "fg": 5 },
         { "id": "highlight_item", "fg": 6, "rotates": false },
         { "id": "animation_line", "bg": 7 },
         { "id": "ruined_chunks", "fg": 8 },

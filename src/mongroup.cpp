@@ -1,5 +1,8 @@
 #include "mongroup.h"
 
+#include <algorithm>
+#include <utility>
+
 #include "assign.h"
 #include "calendar.h"
 #include "debug.h"

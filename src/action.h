@@ -56,8 +56,16 @@ enum action_id : int {
     ACTION_MOVE_DOWN,
     /** Ascend a staircase */
     ACTION_MOVE_UP,
-    /** Toggle run/walk mode */
-    ACTION_TOGGLE_MOVE,
+    /** Cycle run/walk/crouch mode */
+    ACTION_CYCLE_MOVE,
+    /** Reset movement mode to walk  */
+    ACTION_RESET_MOVE,
+    /** Toggle run on/off */
+    ACTION_TOGGLE_RUN,
+    /** Toggle crouch on/off */
+    ACTION_TOGGLE_CROUCH,
+    /** Open movement mode menu */
+    ACTION_OPEN_MOVEMENT,
     /**@}*/
 
     // Viewport movement actions and related

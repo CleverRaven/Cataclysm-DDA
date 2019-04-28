@@ -845,8 +845,30 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "bowling_alley_roof",
+    "name": "bowling alley roof",
+    "copy-from": "generic_city_building",
+    "sym": "B",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "gym",
     "name": "boxing gym",
+    "copy-from": "generic_city_building",
+    "color": "yellow_cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "gym_roof",
+    "name": "boxing gym roof",
+    "copy-from": "generic_city_building",
+    "color": "yellow_cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "gym_upper_roof",
+    "name": "boxing gym roof",
     "copy-from": "generic_city_building",
     "color": "yellow_cyan"
   },

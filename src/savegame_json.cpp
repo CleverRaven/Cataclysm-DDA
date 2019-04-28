@@ -5,18 +5,29 @@
 #include "npc_favor.h" // IWYU pragma: associated
 #include "pldata.h" // IWYU pragma: associated
 
+#include <ctype.h>
+#include <stddef.h>
 #include <algorithm>
 #include <limits>
 #include <numeric>
 #include <sstream>
+#include <array>
+#include <iterator>
+#include <list>
+#include <map>
+#include <memory>
+#include <set>
+#include <stack>
+#include <unordered_map>
+#include <unordered_set>
+#include <utility>
+#include <vector>
 
 #include "ammo.h"
 #include "auto_pickup.h"
 #include "basecamp.h"
 #include "bionics.h"
 #include "calendar.h"
-#include "crafting.h"
-#include "cursesdef.h"
 #include "debug.h"
 #include "effect.h"
 #include "game.h"
@@ -47,6 +58,27 @@
 #include "vpart_reference.h"
 #include "creature_tracker.h"
 #include "overmapbuffer.h"
+#include "active_item_cache.h"
+#include "bodypart.h"
+#include "character.h"
+#include "clzones.h"
+#include "creature.h"
+#include "faction.h"
+#include "game_constants.h"
+#include "item_location.h"
+#include "itype.h"
+#include "map_memory.h"
+#include "mapdata.h"
+#include "mattack_common.h"
+#include "morale_types.h"
+#include "optional.h"
+#include "pimpl.h"
+#include "recipe.h"
+#include "stomach.h"
+#include "tileray.h"
+#include "visitable.h"
+
+struct oter_type_t;
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -361,7 +393,7 @@ void Character::load( JsonObject &data )
         if( tid.is_valid() ) {
             ++it;
         } else {
-            debugmsg( "character %s has invalid trait %s, it will be ignored", name.c_str(), tid.c_str() );
+            debugmsg( "character %s has invalid trait %s, it will be ignored", name, tid.c_str() );
             my_traits.erase( it++ );
         }
     }
@@ -392,7 +424,7 @@ void Character::load( JsonObject &data )
             cached_mutations.push_back( &mid.obj() );
             ++it;
         } else {
-            debugmsg( "character %s has invalid mutation %s, it will be ignored", name.c_str(), mid.c_str() );
+            debugmsg( "character %s has invalid mutation %s, it will be ignored", name, mid.c_str() );
             my_mutations.erase( it++ );
         }
     }
@@ -409,11 +441,11 @@ void Character::load( JsonObject &data )
     }
 
     if( !data.read( "hp_cur", hp_cur ) ) {
-        debugmsg( "Error, incompatible hp_cur in save file '%s'", parray.str().c_str() );
+        debugmsg( "Error, incompatible hp_cur in save file '%s'", parray.str() );
     }
 
     if( !data.read( "hp_max", hp_max ) ) {
-        debugmsg( "Error, incompatible hp_max in save file '%s'", parray.str().c_str() );
+        debugmsg( "Error, incompatible hp_max in save file '%s'", parray.str() );
     }
 
     inv.clear();
@@ -617,6 +649,16 @@ void player::load( JsonObject &data )
         bcdata.read( "pos", bcpt );
         camps.insert( bcpt );
     }
+
+    JsonArray overmap_time_array = data.get_array( "overmap_time" );
+    overmap_time.clear();
+    while( overmap_time_array.has_more() ) {
+        point pt;
+        overmap_time_array.read_next( pt );
+        time_duration tdr = 0_turns;
+        overmap_time_array.read_next( tdr );
+        overmap_time[pt] = tdr;
+    }
 }
 
 /*
@@ -719,6 +761,16 @@ void player::store( JsonOut &json ) const
         json.end_object();
     }
     json.end_array();
+
+    if( !overmap_time.empty() ) {
+        json.member( "overmap_time" );
+        json.start_array();
+        for( const std::pair<point, time_duration> &pr : overmap_time ) {
+            json.write( pr.first );
+            json.write( pr.second );
+        }
+        json.end_array();
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1002,10 +1054,10 @@ void npc_follower_rules::serialize( JsonOut &json ) const
         json.member( "rule_" + rule.first, has_flag( rule.second, false ) );
     }
     for( const auto &rule : ally_rule_strs ) {
-        json.member( "override_enable_" + rule.first, has_flag( rule.second ) );
+        json.member( "override_enable_" + rule.first, has_override_enable( rule.second ) );
     }
     for( const auto &rule : ally_rule_strs ) {
-        json.member( "override_" + rule.first, has_flag( rule.second ) );
+        json.member( "override_" + rule.first, has_override( rule.second ) );
     }
 
     json.member( "pickup_whitelist", *pickup_whitelist );
@@ -1301,6 +1353,12 @@ void npc::load( JsonObject &data )
     if( data.read( "my_fac", facID ) ) {
         fac_id = faction_id( facID );
     }
+    int temp_fac_api_ver = 0;
+    if( data.read( "faction_api_ver", temp_fac_api_ver ) ) {
+        faction_api_version = temp_fac_api_ver;
+    } else {
+        faction_api_version = 0;
+    }
 
     if( data.read( "attitude", atttmp ) ) {
         attitude = npc_attitude( atttmp );
@@ -1427,6 +1485,7 @@ void npc::store( JsonOut &json ) const
     json.member( "pulp_location", pulp_location );
 
     json.member( "mission", mission ); // TODO: stringid
+    json.member( "faction_api_ver", faction_api_version );
     if( !fac_id.str().empty() ) { // set in constructor
         json.member( "my_fac", my_fac->id.c_str() );
     }
@@ -1970,6 +2029,11 @@ void item::io( Archive &archive )
     // override phase if frozen, needed for legacy save
     if( item_tags.count( "FROZEN" ) && current_phase == LIQUID ) {
         current_phase = SOLID;
+    }
+
+    // Activate corpses from old saves
+    if( is_corpse() && !active ) {
+        active = true;
     }
 }
 
@@ -2922,14 +2986,6 @@ void basecamp::serialize( JsonOut &json ) const
         json.member( "name", name );
         json.member( "pos", omt_pos );
         json.member( "bb_pos", bb_pos );
-        json.member( "sort_points" );
-        json.start_array();
-        for( const tripoint &it : sort_points ) {
-            json.start_object();
-            json.member( "pos", it );
-            json.end_object();
-        }
-        json.end_array();
         json.member( "expansions" );
         json.start_array();
         for( const auto &expansion : expansions ) {

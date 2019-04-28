@@ -337,7 +337,7 @@ class generic_factory
          */
         const T &obj( const int_id<T> &id ) const {
             if( !is_valid( id ) ) {
-                debugmsg( "invalid %s id \"%d\"", type_name.c_str(), id.to_i() );
+                debugmsg( "invalid %s id \"%d\"", type_name, id.to_i() );
                 return dummy_obj;
             }
             return list[id];
@@ -352,7 +352,7 @@ class generic_factory
         const T &obj( const string_id<T> &id ) const {
             int_id<T> i_id;
             if( !find_id( id, i_id ) ) {
-                debugmsg( "invalid %s id \"%s\"", type_name.c_str(), id.c_str() );
+                debugmsg( "invalid %s id \"%s\"", type_name, id.c_str() );
                 return dummy_obj;
             }
             return list[i_id];
@@ -380,7 +380,7 @@ class generic_factory
             if( find_id( id, result ) ) {
                 return result;
             }
-            debugmsg( "invalid %s id \"%s\"", type_name.c_str(), id.c_str() );
+            debugmsg( "invalid %s id \"%s\"", type_name, id.c_str() );
             return null_id;
         }
         /**
@@ -552,7 +552,7 @@ inline bool translated_string_reader( JsonObject &jo, const std::string &member_
         return false;
     }
     if( !member.empty() ) {
-        member = _( member.c_str() );
+        member = _( member );
     }
     return true;
 }

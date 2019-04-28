@@ -1,8 +1,18 @@
 #include "debug_menu.h"
 
+#include <stddef.h>
 #include <algorithm>
 #include <chrono>
 #include <vector>
+#include <array>
+#include <iterator>
+#include <list>
+#include <map>
+#include <memory>
+#include <sstream>
+#include <string>
+#include <type_traits>
+#include <utility>
 
 #include "action.h"
 #include "coordinate_conversions.h"
@@ -22,6 +32,18 @@
 #include "string_input_popup.h"
 #include "ui.h"
 #include "vitamin.h"
+#include "color.h"
+#include "debug.h"
+#include "enums.h"
+#include "faction.h"
+#include "game_constants.h"
+#include "int_id.h"
+#include "inventory.h"
+#include "item.h"
+#include "omdata.h"
+#include "optional.h"
+#include "pldata.h"
+#include "translations.h"
 
 namespace debug_menu
 {
@@ -105,11 +127,13 @@ void character_edit_menu()
         std::stringstream data;
         data << np->name << " " << ( np->male ? _( "Male" ) : _( "Female" ) ) << std::endl;
         data << np->myclass.obj().get_name() << "; " <<
-             npc_attitude_name( np->get_attitude() ) << std::endl;
+             npc_attitude_name( np->get_attitude() ) << "; " <<
+             ( np->my_fac ? np->my_fac->name : _( "no faction" ) ) << "; " <<
+             "api: " << np->get_faction_ver() << std::endl;
         if( np->has_destination() ) {
             data << string_format( _( "Destination: %d:%d:%d (%s)" ),
                                    np->goal.x, np->goal.y, np->goal.z,
-                                   overmap_buffer.ter( np->goal )->get_name().c_str() ) << std::endl;
+                                   overmap_buffer.ter( np->goal )->get_name() ) << std::endl;
         } else {
             data << _( "No destination." ) << std::endl;
         }
@@ -304,10 +328,11 @@ void character_edit_menu()
             smenu.addentry( 2, true, 't', "%s: %d", _( "Thirst" ), p.get_thirst() );
             smenu.addentry( 3, true, 'f', "%s: %d", _( "Fatigue" ), p.get_fatigue() );
             smenu.addentry( 4, true, 'd', "%s: %d", _( "Sleep Deprivation" ), p.get_sleep_deprivation() );
+            smenu.addentry( 5, true, 'a', _( "Reset all basic needs" ) );
 
             const auto &vits = vitamin::all();
             for( const auto &v : vits ) {
-                smenu.addentry( -1, true, 0, "%s: %d", v.second.name().c_str(), p.vitamin_get( v.first ) );
+                smenu.addentry( -1, true, 0, "%s: %d", v.second.name(), p.vitamin_get( v.first ) );
             }
 
             smenu.query();
@@ -343,10 +368,17 @@ void character_edit_menu()
                         p.set_sleep_deprivation( value );
                     }
                     break;
-
+                case 5:
+                    p.initialize_stomach_contents();
+                    p.set_hunger( 0 );
+                    p.set_thirst( 0 );
+                    p.set_fatigue( 0 );
+                    p.set_sleep_deprivation( 0 );
+                    p.set_stored_kcal( p.get_healthy_kcal() );
+                    break;
                 default:
-                    if( smenu.ret >= 5 && smenu.ret < static_cast<int>( vits.size() + 5 ) ) {
-                        auto iter = std::next( vits.begin(), smenu.ret - 5 );
+                    if( smenu.ret >= 6 && smenu.ret < static_cast<int>( vits.size() + 6 ) ) {
+                        auto iter = std::next( vits.begin(), smenu.ret - 6 );
                         if( query_int( value, _( "Set %s to? Currently: %d" ),
                                        iter->second.name(), p.vitamin_get( iter->first ) ) ) {
                             p.vitamin_set( iter->first, value );
@@ -598,10 +630,10 @@ void mission_debug::remove_mission( mission &m )
     const auto giver = g->find_npc( m.npc_id );
     if( giver != nullptr ) {
         if( remove_from_vec( giver->chatbin.missions_assigned, &m ) ) {
-            add_msg( _( "Removing from %s missions_assigned" ), giver->name.c_str() );
+            add_msg( _( "Removing from %s missions_assigned" ), giver->name );
         }
         if( remove_from_vec( giver->chatbin.missions, &m ) ) {
-            add_msg( _( "Removing from %s missions" ), giver->name.c_str() );
+            add_msg( _( "Removing from %s missions" ), giver->name );
         }
     }
 }
