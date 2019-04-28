@@ -1,10 +1,5 @@
 [
   {
-    "id": "record_patient",
-    "type": "item_group",
-    "items": [ [ "record_patient", 100 ] ]
-  },
-  {
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "office_doctor" ],
@@ -65,25 +60,6 @@
         }
       }
     }
-  },
-  {
-    "id": "doctors_books",
-    "type": "item_group",
-    "items": [
-      [ "mag_firstaid", 50 ],
-      [ "textbook_firstaid", 200 ],
-      [ "manual_swimming", 50 ],
-      [ "manual_first_aid", 200 ],
-      [ "pocket_firstaid", 100 ],
-      [ "textbook_chemistry", 200 ],
-      [ "adv_chemistry", 200 ],
-      [ "emergency_book", 200 ],
-      [ "record_patient", 100 ],
-      [ "recipe_medicalmut", 50 ],
-      [ "recipe_serum", 10 ],
-      [ "recipe_labchem", 100 ],
-      [ "recipe_augs", 100 ]
-    ]
   },
   {
     "type": "mapgen",
