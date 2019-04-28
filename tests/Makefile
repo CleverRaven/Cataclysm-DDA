@@ -32,7 +32,7 @@ $(BUILD_PREFIX)cata_test: $(OBJS) $(CATA_LIB)
 
 # Iterate over all the individual tests.
 check: $(TEST_TARGET)
-	cd .. && tests/$(TEST_TARGET) -d yes --rng-seed time
+	cd .. && tests/$(TEST_TARGET) -d yes -r cata --rng-seed time
 
 clean:
 	rm -rf *obj
