@@ -571,6 +571,7 @@ void monster::move()
                 sounds::sound( pos(), 8, sounds::sound_t::speech,
                                string_format(
                                    _( "a soft robotic voice says, \"Please step away from the autodoc, this patient needs immediate care.\"" ) ) );
+                // TODO: Make it able to push NPC/player
                 push_to( goal, 4, 0 );
             }
         }
