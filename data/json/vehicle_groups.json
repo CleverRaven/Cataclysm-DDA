@@ -130,6 +130,7 @@
       [ "beetle", 300 ],
       [ "car_sports", 100 ],
       [ "car_sports_electric", 50 ],
+      [ "car_racing_electric", 5 ],
       [ "superbike", 50 ],
       [ "motorcycle", 200 ],
       [ "motorcycle_sidecart", 100 ],
@@ -210,6 +211,7 @@
       [ "portable_generator", 20 ],
       [ "quad_bike", 10 ],
       [ "quad_bike_chassis", 20 ],
+      [ "car_racing_electric", 5 ],
       [ "superbike", 5 ],
       [ "welding_cart", 20 ]
     ]
@@ -280,6 +282,7 @@
       [ "electric_car", 400 ],
       [ "car_sports", 400 ],
       [ "car_sports_electric", 100 ],
+      [ "car_racing_electric", 5 ],
       [ "suv", 500 ],
       [ "suv_electric", 200 ],
       [ "suv_electric", 120 ],
