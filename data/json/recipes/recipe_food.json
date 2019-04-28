@@ -8591,7 +8591,7 @@
     "difficulty": 2,
     "time": 40000,
     "autolearn": true,
-    "qualities": [ {"id":"CUT", "level": 1},{"id":"COOK","level":1}],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [ [ [ "cactus_pad", 3 ] ] ]
   }
