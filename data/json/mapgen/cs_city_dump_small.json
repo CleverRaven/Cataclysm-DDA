@@ -4,7 +4,7 @@
     "id": "custom_trash",
     "items": [
       [ "mag_porn", 10 ],
-      [ "battery", 10 ],
+      { "group": "ammo_pocket_batteries", "prob": 10 },
       [ "television", 20 ],
       [ "two_way_radio", 10 ],
       [ "eyedrops", 10 ],

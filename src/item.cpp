@@ -838,7 +838,11 @@ bool itag2ivar( const std::string &item_tag, std::map<std::string, std::string> 
 static int get_ranged_pierce( const common_ranged_data &ranged )
 {
     if( ranged.damage.empty() ) {
-        return 0;
+        if( ranged.legacy_pierce ) {
+            return ranged.legacy_pierce;
+        } else {
+            return 0;
+        }
     }
     return ranged.damage.damage_units.front().res_pen;
 }
@@ -1293,7 +1297,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             }
 
             const auto &ammo = *ammo_data()->ammo;
-            if( !ammo.damage.empty() || ammo.prop_damage ) {
+            if( ammo_data()->ammo.has_value() ) {
                 if( !ammo.damage.empty() ) {
                     if( parts->test( iteminfo_parts::AMMO_DAMAGE_VALUE ) ) {
                         info.emplace_back( "AMMO", _( "<bold>Damage</bold>: " ), "",
@@ -1302,8 +1306,12 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                 } else if( ammo.prop_damage ) {
                     if( parts->test( iteminfo_parts::AMMO_DAMAGE_PROPORTIONAL ) ) {
                         info.emplace_back( "AMMO", _( "<bold>Damage multiplier</bold>: " ), "",
-                                           iteminfo::no_newline, *ammo.prop_damage );
+                                           iteminfo::no_newline | iteminfo::is_decimal,
+                                           *ammo.prop_damage );
                     }
+                } else {
+                    info.emplace_back( "AMMO", _( "<bold>No damage change</bold>" ), "",
+                                       iteminfo::no_newline );
                 }
                 if( parts->test( iteminfo_parts::AMMO_DAMAGE_AP ) ) {
                     info.emplace_back( "AMMO", space + _( "Armor-pierce: " ),
@@ -3750,7 +3758,7 @@ std::set<matec_id> item::get_techniques() const
 
 bool item::goes_bad() const
 {
-    if( has_flag( "SMOKING" ) ) {
+    if( has_flag( "PROCESSING" ) ) {
         return false;
     }
     if( is_corpse() ) {
@@ -3792,8 +3800,8 @@ void item::set_relative_rot( double val )
         rot = get_shelf_life() * val;
         // calc_rot uses last_rot_check (when it's not time_of_cataclysm) instead of bday.
         // this makes sure the rotting starts from now, not from bday.
-        // if this item is the result of smoking don't do this, we want to start from bday.
-        if( !has_flag( "SMOKING_RESULT" ) ) {
+        // if this item is the result of smoking or milling don't do this, we want to start from bday.
+        if( !has_flag( "PROCESSING_RESULT" ) ) {
             last_rot_check = calendar::turn;
         }
     }
@@ -3908,10 +3916,9 @@ void item::calc_rot( time_point time )
         return;
     }
 
-    if( item_tags.count( "FROZEN" ) ) {
+    if( item_tags.count( "FROZEN" ) || item_tags.count( "PROCESSING" ) ) {
         return;
     }
-
     // rot modifier
     float factor = 1.0;
     if( is_corpse() && has_flag( "FIELD_DRESS" ) ) {
@@ -3938,9 +3945,9 @@ void item::calc_rot( time_point time )
     last_rot_check = calendar::turn;
 }
 
-void item::calc_rot_while_smoking( time_duration smoking_duration )
+void item::calc_rot_while_processing( const tripoint &location, time_duration processing_duration )
 {
-    if( !item_tags.count( "SMOKING" ) ) {
+    if( !item_tags.count( "PROCESSING" ) ) {
         debugmsg( "calc_rot_while_smoking called on non smoking item: %s", tname() );
         return;
     }
@@ -3949,8 +3956,8 @@ void item::calc_rot_while_smoking( time_duration smoking_duration )
     temperature = 190;
 
     // Apply no rot or temperature while smoking
-    last_rot_check += smoking_duration;
-    last_temp_check += smoking_duration;
+    last_rot_check += processing_duration;
+    last_temp_check += processing_duration
 }
 
 units::volume item::get_storage() const
@@ -5474,6 +5481,11 @@ long item::ammo_remaining() const
 
 long item::ammo_capacity() const
 {
+    return ammo_capacity( false );
+}
+
+long item::ammo_capacity( bool potential_capacity ) const
+{
     long res = 0;
 
     const item *mag = magazine_current();
@@ -5483,6 +5495,9 @@ long item::ammo_capacity() const
 
     if( is_tool() ) {
         res = type->tool->max_charges;
+        if( res == 0 && magazine_default() != "null" && potential_capacity == true ) {
+            res = find_type( magazine_default() )->magazine->capacity;
+        }
         for( const auto e : toolmods() ) {
             res *= e->type->mod->capacity_multiplier;
         }
@@ -7396,6 +7411,21 @@ bool item::process_corpse( player *carrier, const tripoint &pos )
     return false;
 }
 
+bool item::process_fake_mill( player * /*carrier*/, const tripoint &pos )
+{
+    if( g->m.furn( pos ) != furn_str_id( "f_wind_mill_active" ) &&
+        g->m.furn( pos ) != furn_str_id( "f_water_mill_active" ) ) {
+        item_counter = 0;
+        return true; //destroy fake mill
+    }
+    if( age() >= 6_hours || item_counter == 0 ) {
+        iexamine::mill_finalize( g->u, pos, birthday() ); //activate effects when timers goes to zero
+        return true; //destroy fake mill item
+    }
+
+    return false;
+}
+
 bool item::process_fake_smoke( player * /*carrier*/, const tripoint &pos )
 {
     if( g->m.furn( pos ) != furn_str_id( "f_smoking_rack_active" ) ) {
@@ -7748,6 +7778,9 @@ bool item::process( player *carrier, const tripoint &pos, bool activate, int tem
 
 
     if( has_flag( "FAKE_SMOKE" ) && process_fake_smoke( carrier, pos ) ) {
+        return true;
+    }
+    if( has_flag( "FAKE_MILL" ) && process_fake_mill( carrier, pos ) ) {
         return true;
     }
     if( is_corpse() && process_corpse( carrier, pos ) ) {

@@ -76,7 +76,7 @@
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
     "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
-    "components": [ [ [ "meat", 1 ] ] ]
+    "components": [ [ [ "meat", 1 ], [ "meat_scrap", 10 ] ] ]
   },
   {
     "result": "dry_meat_tainted",

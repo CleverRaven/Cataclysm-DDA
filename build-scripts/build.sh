@@ -6,21 +6,7 @@ set -ex
 
 function run_tests
 {
-    $WINE "$@" -d yes -r cata --rng-seed time $EXTRA_TEST_OPTS
-}
-
-function just_json
-{
-    for filename in $(git diff --name-only $TRAVIS_BRANCH)
-    do
-        if [[ ! "$filename" =~ .json$ ]]
-        then
-            echo "$filename is not json, triggering full build."
-            return 1
-        fi
-    done
-    echo "Only json files present, skipping full build."
-    return 0
+    $WINE "$@" -d yes --rng-seed time $EXTRA_TEST_OPTS
 }
 
 export CCACHE_MAXSIZE=1G
@@ -28,9 +14,8 @@ if [ -n "$TEST_STAGE" ]
 then
     build-scripts/lint-json.sh
     make -j 5 style-json
-elif just_json
+elif [ -n "$JUST_JSON" ]
 then
-    CODE_COVERAGE=""
     exit 0
 fi
 

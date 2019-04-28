@@ -680,8 +680,7 @@ class item : public visitable<item>
          * is outside the reality bubble.
          * @param smoking_duration
          */
-        void calc_rot_while_smoking( time_duration smoking_duration );
-
+        void calc_rot_while_processing( time_duration smoking_duration );
 
         /**
          * Update temperature for things like food
@@ -1558,6 +1557,8 @@ class item : public visitable<item>
         long ammo_remaining() const;
         /** Maximum quantity of ammunition loadable for tool, gun or auxiliary gunmod */
         long ammo_capacity() const;
+        /** @param potential_capacity whether to try a default magazine if necessary */
+        long ammo_capacity( bool potential_capacity ) const;
         /** Quantity of ammunition consumed per usage of tool or with each shot of gun */
         long ammo_required() const;
 
@@ -1878,6 +1879,7 @@ class item : public visitable<item>
         bool process_extinguish( player *carrier, const tripoint &pos );
         // Place conditions that should remove fake smoke item in this sub-function
         bool process_fake_smoke( player *carrier, const tripoint &pos );
+        bool process_fake_mill( player *carrier, const tripoint &pos );
         bool process_cable( player *carrier, const tripoint &pos );
         bool process_tool( player *carrier, const tripoint &pos );
 

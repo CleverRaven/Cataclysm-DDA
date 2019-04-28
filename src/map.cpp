@@ -2523,6 +2523,16 @@ bool map::is_divable( const int x, const int y ) const
     return has_flag( "SWIMMABLE", x, y ) && has_flag( TFLAG_DEEP_WATER, x, y );
 }
 
+bool map::is_water_shallow_current( const int x, const int y ) const
+{
+    return has_flag( "CURRENT", x, y ) && !has_flag( TFLAG_DEEP_WATER, x, y );
+}
+
+bool map::is_water_shallow_current( const tripoint &p ) const
+{
+    return has_flag( "CURRENT", p ) && !has_flag( TFLAG_DEEP_WATER, p );
+}
+
 bool map::is_divable( const tripoint &p ) const
 {
     return has_flag( "SWIMMABLE", p ) && has_flag( TFLAG_DEEP_WATER, p );
@@ -4317,9 +4327,9 @@ item &map::add_item( const tripoint &p, item new_item )
     point l;
     submap *const current_submap = get_submap_at( p, l );
 
-    // Process foods when they are added to the map, here instead of add_item_at()
-    // to avoid double processing food during active item processing.
-    if( /*new_item.needs_processing() &&*/ new_item.is_food() ) {
+    // Process foods and temperature tracked items when they are added to the map, here instead of add_item_at()
+    // to avoid double processing food and corpses during active item processing.
+    if( new_item.is_food() || new_item.has_temperature() ) {
         new_item.process( nullptr, p, false );
     }
     return add_item_at( p, current_submap->itm[l.x][l.y].end(), new_item );
@@ -4341,7 +4351,6 @@ item &map::add_item_at( const tripoint &p,
     }
     if( new_item.has_temperature() ) {
         new_item.active = true;
-        new_item.process( nullptr, p, false );
     }
 
     point l;
@@ -4736,7 +4745,7 @@ bool map::has_items( const tripoint &p ) const
 }
 
 template <typename Stack>
-std::list<item> use_amount_stack( Stack stack, const itype_id type, long &quantity,
+std::list<item> use_amount_stack( Stack stack, const itype_id &type, long &quantity,
                                   const std::function<bool( const item & )> &filter )
 {
     std::list<item> ret;
@@ -4750,7 +4759,7 @@ std::list<item> use_amount_stack( Stack stack, const itype_id type, long &quanti
     return ret;
 }
 
-std::list<item> map::use_amount_square( const tripoint &p, const itype_id type,
+std::list<item> map::use_amount_square( const tripoint &p, const itype_id &type,
                                         long &quantity, const std::function<bool( const item & )> &filter )
 {
     std::list<item> ret;
@@ -7689,6 +7698,13 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
                 floor_cache[px][py] = true;
             }
         }
+    }
+
+    // The tile player is standing on should always be transparent
+    const tripoint &p = g->u.pos();
+    if( ( has_furn( p ) && !furn( p ).obj().transparent ) || !ter( p ).obj().transparent ) {
+        get_cache( p.z ).transparency_cache[p.x][p.y] = LIGHT_TRANSPARENCY_CLEAR;
+        set_transparency_cache_dirty( p.z );
     }
 
     build_seen_cache( g->u.pos(), zlev );

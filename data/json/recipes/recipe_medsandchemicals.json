@@ -57,7 +57,17 @@
     "time": 5000,
     "autolearn": true,
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "battery", 125 ] ] ]
+    "components": [
+      [
+        [ "light_minus_battery_cell", 20 ],
+        [ "light_battery_cell", 10 ],
+        [ "light_plus_battery_cell", 5 ],
+        [ "medium_battery_cell", 2 ],
+        [ "medium_plus_battery_cell", 2 ],
+        [ "heavy_battery_cell", 1 ],
+        [ "heavy_plus_battery_cell", 1 ]
+      ]
+    ]
   },
   {
     "type": "recipe",
@@ -1395,7 +1405,8 @@
       [ [ "tallow", 2 ], [ "lard", 2 ], [ "cooking_oil", 16 ], [ "cooking_oil2", 16 ] ],
       [ [ "lye", 2 ], [ "lye_powder", 75 ] ],
       [ [ "water", 2 ], [ "water_clean", 2 ] ]
-    ]
+    ],
+    "flags": [ "ALLOW_ROTTEN" ]
   },
   {
     "type": "recipe",
@@ -1739,21 +1750,18 @@
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "ash", 500 ] ] ]
   },
   {
-    "result": "anesthesia",
+    "result": "anesthetic",
     "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CC_OTHER_MEDICAL",
     "skill_used": "firstaid",
     "difficulty": 3,
     "//": "This difficulty assumes that anaesthesia administration will be handled by the autodoc or the person using the kit. The included amount of ether is an estimate, based on average body size.",
-    "time": 5000,
+    "time": 2500,
     "book_learn": [ [ "textbook_firstaid", 6 ], [ "emergency_book", 5 ] ],
-    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "components": [
       [ [ "ether", 2700 ] ],
-      [ [ "jar_3l_glass", 1 ] ],
-      [ [ "hose", 1 ] ],
-      [ [ "rag", 2 ] ],
       [ [ "heroin", 5 ], [ "oxycodone", 10 ], [ "tramadol", 15 ], [ "codeine", 20 ], [ "poppy_pain", 20 ] ]
     ]
   },

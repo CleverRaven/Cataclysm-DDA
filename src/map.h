@@ -747,9 +747,11 @@ class map
         void make_rubble( const tripoint &p, const furn_id &rubble_type, const bool items );
 
         bool is_divable( const int x, const int y ) const;
+        bool is_water_shallow_current( const int x, const int y ) const;
         bool is_outside( const int x, const int y ) const;
         bool is_divable( const tripoint &p ) const;
         bool is_outside( const tripoint &p ) const;
+        bool is_water_shallow_current( const tripoint &p ) const;
         /** Check if the last terrain is wall in direction NORTH, SOUTH, WEST or EAST
          *  @param no_furn if true, the function will stop and return false
          *  if it encounters a furniture
@@ -968,7 +970,7 @@ class map
          * somewhere else.
          */
         /*@{*/
-        std::list<item> use_amount_square( const tripoint &p, const itype_id type,
+        std::list<item> use_amount_square( const tripoint &p, const itype_id &type,
                                            long &quantity, const std::function<bool( const item & )> &filter = return_true<item> );
         std::list<item> use_amount( const tripoint &origin, const int range, const itype_id type,
                                     long &amount, const std::function<bool( const item & )> &filter = return_true<item> );
@@ -1205,7 +1207,8 @@ class map
         // mapgen.cpp functions
         void generate( const int x, const int y, const int z, const time_point &when );
         void place_spawns( const mongroup_id &group, const int chance,
-                           const int x1, const int y1, const int x2, const int y2, const float density );
+                           const int x1, const int y1, const int x2, const int y2, const float density,
+                           const bool individual = false, const bool friendly = false );
         void place_gas_pump( const int x, const int y, const int charges );
         void place_gas_pump( const int x, const int y, const int charges, const std::string &fuel_type );
         // 6 liters at 250 ml per charge
