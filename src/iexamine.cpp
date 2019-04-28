@@ -4394,7 +4394,7 @@ void iexamine::mill_finalize( player &, const tripoint &examp, const time_point 
 
     for( auto &it : items ) {
         if( it.has_flag( "MILLABLE" ) ) {
-            it.calc_rot_while_processing( examp, 6_hours );
+            it.calc_rot_while_processing( 6_hours );
         }
     }
     for( size_t i = 0; i < items.size(); i++ ) {

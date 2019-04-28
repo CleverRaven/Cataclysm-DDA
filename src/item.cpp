@@ -3945,15 +3945,12 @@ void item::calc_rot( time_point time )
     last_rot_check = calendar::turn;
 }
 
-void item::calc_rot_while_processing( const tripoint &location, time_duration processing_duration )
+void item::calc_rot_while_processing( time_duration processing_duration )
 {
     if( !item_tags.count( "PROCESSING" ) ) {
-        debugmsg( "calc_rot_while_smoking called on non smoking item: %s", tname() );
+        debugmsg( "calc_rot_while_processing called on non smoking item: %s", tname() );
         return;
     }
-
-    // Set temperature to 90 C
-    temperature = 190;
 
     // Apply no rot or temperature while smoking
     last_rot_check += processing_duration;
