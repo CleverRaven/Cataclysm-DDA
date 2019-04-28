@@ -229,6 +229,8 @@ static const trait_id trait_VINES2( "VINES2" );
 static const trait_id trait_VINES3( "VINES3" );
 static const trait_id trait_BURROW( "BURROW" );
 
+static const faction_id your_followers( "your_followers" );
+
 void intro();
 
 #if defined(__ANDROID__)
@@ -1865,45 +1867,45 @@ void game::record_npc_kill( const npc &p )
 
 void game::add_npc_follower( const int &id )
 {
-    if( !std::any_of( follower_ids.begin(), follower_ids.end(), [id]( int i ) {
-    return i == id;
-} ) ) {
-        follower_ids.push_back( id );
-    }
-    if( !std::any_of( u.follower_ids.begin(), u.follower_ids.end(), [id]( int i ) {
-    return i == id;
-} ) ) {
-        u.follower_ids.push_back( id );
-    }
+    follower_ids.insert( id );
+    u.follower_ids.insert( id );
 }
 
 void game::remove_npc_follower( const int &id )
 {
-    follower_ids.erase( std::remove( follower_ids.begin(), follower_ids.end(), id ),
-                        follower_ids.end() );
-    u.follower_ids.erase( std::remove( u.follower_ids.begin(), u.follower_ids.end(), id ),
-                          u.follower_ids.end() );
+    follower_ids.erase( id );
+    u.follower_ids.erase( id );
+}
+
+void update_faction_api( npc *guy )
+{
+    if( guy->get_faction_ver() < 2 ) {
+        guy->set_fac( your_followers );
+        guy->set_faction_ver( 2 );
+    }
 }
 
 void game::validate_npc_followers()
 {
     // Make sure visible followers are in the list.
-    const std::vector<npc *> visible_followers = g->get_npcs_if( [&]( const npc & guy ) {
-        return ( guy.is_friend() && guy.is_following() ) || guy.mission == NPC_MISSION_GUARD_ALLY;
+    const std::vector<npc *> visible_followers = get_npcs_if( [&]( const npc & guy ) {
+        return guy.is_player_ally();
     } );
-    for( auto &elem : visible_followers ) {
-        add_npc_follower( elem->getID() );
+    for( npc *guy : visible_followers ) {
+        update_faction_api( guy );
+        add_npc_follower( guy->getID() );
     }
     // Make sure overmapbuffered NPC followers are in the list.
     for( const auto &temp_guy : overmap_buffer.get_npcs_near_player( 300 ) ) {
         npc *guy = temp_guy.get();
-        if( ( guy->is_friend() && guy->is_following() ) || guy->has_companion_mission() ) {
+        if( guy->is_player_ally() ) {
+            update_faction_api( guy );
             add_npc_follower( guy->getID() );
         }
     }
     // Make sure that serialized player followers sync up with game list
-    for( const auto &temp_guy : u.follower_ids ) {
-        add_npc_follower( temp_guy );
+    for( const auto &temp_id : u.follower_ids ) {
+        add_npc_follower( temp_id );
     }
 }
 
@@ -1921,7 +1923,7 @@ void game::validate_camps()
     }
 }
 
-std::vector<int> game::get_follower_list()
+std::set<int> game::get_follower_list()
 {
     return follower_ids;
 }
@@ -5974,7 +5976,7 @@ bool game::npc_menu( npc &who )
         steal
     };
 
-    const bool obeys = debug_mode || ( who.is_friend() && !who.in_sleep_state() );
+    const bool obeys = debug_mode || ( who.is_player_ally() && !who.in_sleep_state() );
 
     uilist amenu;
 
@@ -5986,7 +5988,7 @@ bool game::npc_menu( npc &who )
     amenu.addentry( use_item, true, 'i', _( "Use item on" ) );
     amenu.addentry( sort_armor, true, 'r', _( "Sort armor" ) );
     amenu.addentry( attack, true, 'a', _( "Attack" ) );
-    if( !who.is_friend() ) {
+    if( !who.is_player_ally() ) {
         amenu.addentry( disarm, who.is_armed(), 'd', _( "Disarm" ) );
         amenu.addentry( steal, !who.is_enemy(), 'S', _( "Steal" ) );
     }
@@ -11662,7 +11664,7 @@ void game::vertical_move( int movez, bool force )
     if( !m.has_zlevels() && abs( movez ) == 1 ) {
         std::copy_if( active_npc.begin(), active_npc.end(), back_inserter( npcs_to_bring ),
         [this]( const std::shared_ptr<npc> &np ) {
-            return np->is_friend() && rl_dist( np->pos(), u.pos() ) < 2;
+            return np->is_walking_with() && rl_dist( np->pos(), u.pos() ) < 2;
         } );
     }
 
@@ -13207,7 +13209,7 @@ overmap &game::get_cur_om() const
 std::vector<npc *> game::allies()
 {
     return get_npcs_if( [&]( const npc & guy ) {
-        return guy.is_friend() || guy.mission == NPC_MISSION_GUARD_ALLY;
+        return guy.is_ally( g->u );
     } );
 }
 
