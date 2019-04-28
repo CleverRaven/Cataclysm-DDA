@@ -552,18 +552,25 @@ void monster::move()
 
     // defective nursebot surgery code
     const mtype_id &mon_id = type->id;
-    if( mon_id == mon_defective_robot_nurse && has_effect( effect_dragging ) && dragged_foe != nullptr ) {
+    if( mon_id == mon_defective_robot_nurse && has_effect( effect_dragging ) &&
+        dragged_foe != nullptr ) {
 
 
         if( rl_dist( pos(), goal ) == 1 && g->m.furn( goal ) == furn_id( "f_autodoc_couch" ) &&
             !has_effect( effect_operating ) ) {
-            if( dragged_foe->has_effect( effect_grabbed ) && !has_effect( effect_countdown ) ) {
-                add_msg( m_bad, _( "The %1$s slowy but firmly puts %2$s down onto the autodoc couch." ), name(), dragged_foe->name );
-                int u_dist = rl_dist( dragged_foe->pos(), goal );
+            if( dragged_foe->has_effect( effect_grabbed ) && !has_effect( effect_countdown ) &&
+                g->critter_at( goal ) == nullptr ) {
+                add_msg( m_bad, _( "The %1$s slowy but firmly puts %2$s down onto the autodoc couch." ), name(),
+                         dragged_foe->name );
+
                 dragged_foe->setpos( goal );
 
                 add_effect( effect_countdown, 2_turns );// there's still time to get away
                 add_msg( m_bad, _( "The %s produces a syringe full of some translucent liquid." ), name() );
+            } else if( g->critter_at( goal ) != nullptr ) {
+                sounds::sound( pos(), 8, sounds::sound_t::speech,
+                               string_format(
+                                   _( "a soft robotic voice says, \"Please step away from the autodoc, this patient needs immediate care.\"" ) ) );
             }
         }
         if( get_effect_dur( effect_countdown ) == 1_turns && !has_effect( effect_operating ) ) {
@@ -818,12 +825,12 @@ void monster::move()
         if( !did_something ) {
             moves -= 100; // If we don't do this, we'll get infinite loops.
         }
-        if( has_effect( effect_dragging ) && dragged_foe !=nullptr ) {
+        if( has_effect( effect_dragging ) && dragged_foe != nullptr ) {
 
             if( !dragged_foe->has_effect( effect_grabbed ) ) {
                 dragged_foe = nullptr;
                 remove_effect( effect_dragging );
-            } else if( drag_to != pos() ) {
+            } else if( drag_to != pos() && g->critter_at( drag_to ) == nullptr ) {
                 dragged_foe->setpos( drag_to );
             }
         }
