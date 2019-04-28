@@ -1355,7 +1355,7 @@ bool player::can_consume_as_is( const item &it ) const
 
 bool player::can_consume( const item &it ) const
 {
-    if( can_consume_as_is( it ) ) {
+    if( can_consume_as_is( it ) && !it.has_flag( "NO_INGEST" ) ) {
         return true;
     }
     // checking NO_UNLOAD to prevent consumption of `battery` when contained in `battery_car` (#20012)

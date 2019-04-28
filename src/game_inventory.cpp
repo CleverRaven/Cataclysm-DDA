@@ -644,9 +644,11 @@ class activatable_inventory_preset : public pickup_inventory_preset
         }
 
         bool is_shown( const item_location &loc ) const override {
-            if( !( *loc ).is_container_empty() && ( *loc ).get_contained().is_medication() &&
-                ( *loc ).get_contained().type->has_use() ) {
-                return true;
+            if( !( *loc ).is_container_empty() ) {
+                const item item = ( *loc ).get_contained();
+                if( item.is_medication() && item.has_flag( "NO_INGEST" ) && item.type->has_use() ) {
+                    return true;
+                }
             }
             return loc->type->has_use();
         }
