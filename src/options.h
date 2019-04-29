@@ -32,9 +32,7 @@ class options_manager
         static std::vector<id_and_option> load_soundpack_from(
             const std::string &path );
 
-        bool load_legacy();
-
-        void enable_json( const std::string &var );
+    void enable_json( const std::string &var );
         void add_retry( const std::string &var, const std::string &val );
 
         std::map<std::string, std::string> post_json_verify;

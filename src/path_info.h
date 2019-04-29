@@ -54,8 +54,6 @@ private:
 
 public:
 
-    static void initBasePath(std::string path);
-
     void initUserDirectory( );
 
     /*
@@ -78,16 +76,6 @@ public:
      */
     std::string getPathForValueKey( std::string valueKey );
 
-    /*
-     * Postcondition:
-     *      - pathanme["BASE_PATH"] has been initialized.
-     *      - pathname["USER_DIRE"] has been initialized.
-     */
-    static void setStandardFilenames();
-
-    static void updateDataDirectory();
-    static void updateConfigurationDirectory();
-    static void updatePathname( const std::string &name, const std::string &path);
     void toString();
 };
 

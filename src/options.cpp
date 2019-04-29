@@ -2739,14 +2739,7 @@ void options_manager::load()
     const auto file = path->getPathForValueKey("OPTIONS_USER");
     if( !read_from_file_optional_json( file, [&]( JsonIn & jsin ) {
     deserialize( jsin );
-    } ) ) {
-        if( load_legacy() ) {
-            if( save() ) {
-                remove_file( FILENAMES["legacy_options"] );
-                remove_file( FILENAMES["legacy_options2"] );
-            }
-        }
-    }
+    } ) )
 
     // cache to global due to heavy usage.
     trigdist = ::get_option<bool>( "CIRCLEDIST" );
@@ -2757,31 +2750,6 @@ void options_manager::load()
 #if defined(SDL_SOUND)
     sounds::sound_enabled = ::get_option<bool>( "SOUND_ENABLED" );
 #endif
-}
-
-bool options_manager::load_legacy()
-{
-    const auto reader = [&]( std::istream & fin ) {
-        std::string sLine;
-        while( !fin.eof() ) {
-            getline( fin, sLine );
-
-            if( !sLine.empty() && sLine[0] != '#' && std::count( sLine.begin(), sLine.end(), ' ' ) == 1 ) {
-                int iPos = sLine.find( ' ' );
-                const std::string loadedvar = migrateOptionName( sLine.substr( 0, iPos ) );
-                const std::string loadedval = migrateOptionValue( sLine.substr( 0, iPos ), sLine.substr( iPos + 1,
-                                              sLine.length() ) );
-                // option with values from post init() might get clobbered
-
-                add_retry( loadedvar, loadedval ); // stash it until update();
-
-                options[ loadedvar ].setValue( loadedval );
-            }
-        }
-    };
-
-    return read_from_file_optional( FILENAMES["legacy_options"], reader ) ||
-           read_from_file_optional( FILENAMES["legacy_options2"], reader );
 }
 
 bool options_manager::has_option( const std::string &name ) const

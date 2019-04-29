@@ -1404,15 +1404,6 @@ bool WORLD::load_options()
         return true;
     }
 
-    const auto legacy_path = folder_path() + "/" + FILENAMES["legacy_worldoptions"];
-    if( read_from_file_optional( legacy_path, std::bind( &WORLD::load_legacy_options, this, _1 ) ) ) {
-        if( save() ) {
-            // Remove old file as the options have been saved to the new file.
-            remove_file( legacy_path );
-        }
-        return true;
-    }
-
     return false;
 }
 

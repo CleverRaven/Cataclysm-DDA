@@ -143,6 +143,7 @@ int main( int argc, char *argv[] )
     std::string world; /** if set try to load first save in this world on startup */
 
 #if defined(__ANDROID__)
+
     // Start the standard output logging redirector
     start_logger( "cdda" );
 
@@ -179,10 +180,12 @@ int main( int argc, char *argv[] )
 #endif
 
     MAP_SHARING::setDefaults();
+
     {
         const char *section_default = nullptr;
         const char *section_map_sharing = "Map sharing";
         const char *section_user_directory = "User directories";
+
         const std::array<arg_handler, 12> first_pass_arguments = {{
                 {
                     "--seed", "<string of letters and or numbers>",
@@ -265,20 +268,6 @@ int main( int argc, char *argv[] )
                     }
                 },
                 {
-                    "--basepath", "<path>",
-                    "Base path for all game data subdirectories",
-                    section_default,
-                    []( int num_args, const char **params )
-                    {
-                        if( num_args < 1 ) {
-                            return -1;
-                        }
-                        Path::initBasePath(params[0]);
-                        Path::setStandardFilenames();
-                        return 1;
-                    }
-                },
-                {
                     "--shared", nullptr,
                     "Activates the map-sharing mode",
                     section_map_sharing,
@@ -337,21 +326,6 @@ int main( int argc, char *argv[] )
                         MAP_SHARING::setCompetitive( true );
                         return 0;
                     }
-                },
-                {
-                    "--userdir", "<path>",
-                    "Base path for user-overrides to files from the ./data directory and named below",
-                    section_user_directory,
-                    []( int num_args, const char **params ) -> int {
-                        if( num_args < 1 )
-                        {
-                            return -1;
-                        }
-                        // TODO: Fix the called to initUserDirectory
-                        // Path::initUserDirectory(params[0]);
-                        Path::setStandardFilenames();
-                        return 1;
-                    }
                 }
             }
         };
@@ -367,113 +341,7 @@ int main( int argc, char *argv[] )
                         MAP_SHARING::setWorldmenu( true );
                         return true;
                     }
-                },
-                {
-                    "--datadir", "<directory name>",
-                    "Sub directory from which game data is loaded",
-                    nullptr,
-                    []( int num_args, const char **params ) -> int {
-                        if( num_args < 1 )
-                        {
-                            return -1;
-                        }
-                        Path::updatePathname( "datadir", params[ 0 ] );
-                        Path::updateDataDirectory();
-                        return 1;
-                    }
-                },
-                {
-                    "--savedir", "<directory name>",
-                    "Subdirectory for game saves",
-                    section_user_directory,
-                    []( int num_args, const char **params ) -> int {
-                        if( num_args < 1 )
-                        {
-                            return -1;
-                        }
-                        Path::updatePathname( "savedir", params[ 0 ] );
-                        return 1;
-                    }
-                },
-                {
-                    "--configdir", "<directory name>",
-                    "Subdirectory for game configuration",
-                    section_user_directory,
-                    []( int num_args, const char **params ) -> int {
-                        if( num_args < 1 )
-                        {
-                            return -1;
-                        }
-                        Path::updatePathname( "config_dir", params[ 0 ] );
-                        Path::updateConfigurationDirectory();
-                        return 1;
-                    }
-                },
-                {
-                    "--memorialdir", "<directory name>",
-                    "Subdirectory for memorials",
-                    section_user_directory,
-                    []( int num_args, const char **params ) -> int {
-                        if( num_args < 1 )
-                        {
-                            return -1;
-                        }
-                        Path::updatePathname( "memorialdir", params[ 0 ] );
-                        return 1;
-                    }
-                },
-                {
-                    "--optionfile", "<filename>",
-                    "Name of the options file within the configdir",
-                    section_user_directory,
-                    []( int num_args, const char **params ) -> int {
-                        if( num_args < 1 )
-                        {
-                            return -1;
-                        }
-                        Path::updatePathname( "options", params[ 0 ] );
-                        return 1;
-                    }
-                },
-                {
-                    "--keymapfile", "<filename>",
-                    "Name of the keymap file within the configdir",
-                    section_user_directory,
-                    []( int num_args, const char **params ) -> int {
-                        if( num_args < 1 )
-                        {
-                            return -1;
-                        }
-                        Path::updatePathname( "keymap", params[ 0 ] );
-                        return 1;
-                    }
-                },
-                {
-                    "--autopickupfile", "<filename>",
-                    "Name of the autopickup options file within the configdir",
-                    nullptr,
-                    []( int num_args, const char **params ) -> int {
-                        if( num_args < 1 )
-                        {
-                            return -1;
-                        }
-                        Path::updatePathname( "autopickup", params[ 0 ] );
-                        return 1;
-                    }
-                },
-                {
-                    "--motdfile", "<filename>",
-                    "Name of the message of the day file within the motd directory",
-                    nullptr,
-                    []( int num_args, const char **params ) -> int {
-                        if( num_args < 1 )
-                        {
-                            return -1;
-                        }
-                        Path::updatePathname( "motd", params[ 0 ] );
-                        return 1;
-                    }
-                },
+                }
             }
         };
 

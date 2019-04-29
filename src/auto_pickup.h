@@ -21,9 +21,8 @@ class auto_pickup
         void test_pattern( const int iTab, const int iRow );
         void load( const bool bCharacter );
         bool save( const bool bCharacter );
-        bool load_legacy( const bool bCharacter );
 
-        bool bChar;
+    bool bChar;
 
         enum TAB : int {
             GLOBAL_TAB,

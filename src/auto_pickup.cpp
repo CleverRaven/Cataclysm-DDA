@@ -716,13 +716,7 @@ void auto_pickup::load( const bool bCharacter )
 
     if( !read_from_file_optional_json( sFile, [this]( JsonIn & jsin ) {
     deserialize( jsin );
-    } ) ) {
-        if( load_legacy( bCharacter ) ) {
-            if( save( bCharacter ) ) {
-                remove_file( sFile );
-            }
-        }
-    }
+    } ) )
 
     ready = false;
 }
@@ -759,29 +753,6 @@ void auto_pickup::deserialize( JsonIn &jsin )
 
         vRules[( bChar ) ? CHARACTER_TAB : GLOBAL_TAB].push_back( cRules( sRule, bActive, bExclude ) );
     }
-}
-
-bool auto_pickup::load_legacy( const bool bCharacter )
-{
-    std::string sFile = FILENAMES["legacy_autopickup2"];
-
-    if( bCharacter ) {
-        sFile = g->get_player_base_save_path() + ".apu.txt";
-    }
-
-    auto &rules = vRules[( bCharacter ) ? CHARACTER_TAB : GLOBAL_TAB];
-
-    using namespace std::placeholders;
-    const auto &reader = std::bind( &auto_pickup::load_legacy_rules, this, std::ref( rules ), _1 );
-    if( !read_from_file_optional( sFile, reader ) ) {
-        if( !bCharacter ) {
-            return read_from_file_optional( FILENAMES["legacy_autopickup"], reader );
-        } else {
-            return false;
-        }
-    }
-
-    return true;
 }
 
 void auto_pickup::load_legacy_rules( std::vector<cRules> &rules, std::istream &fin )

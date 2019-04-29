@@ -3206,24 +3206,9 @@ static cata::optional<std::string> find_system_font( const std::string &name, in
     Path *path = Path::getInstance();
 
     const std::string fontlist_path = path->getPathForValueKey("FONTS_LIST");
+
     std::ifstream fin( fontlist_path.c_str() );
-    if( !fin.is_open() ) {
-        // Try opening the fontlist at the old location.
-        fin.open( FILENAMES["legacy_fontlist"].c_str() );
-        if( !fin.is_open() ) {
-            dbg( D_INFO ) << "Generating fontlist";
-            assure_dir_exist( path->getPathForValueKey("CONFIG_DIR") );
-            save_font_list();
-            fin.open( fontlist_path.c_str() );
-            if( !fin ) {
-                dbg( D_ERROR ) << "Can't open or create fontlist file " << fontlist_path;
-                return cata::nullopt;
-            }
-        } else {
-            // Write out fontlist to the new location.
-            save_font_list();
-        }
-    }
+
     if( fin.is_open() ) {
         std::string fname;
         std::string fpath;

@@ -49,8 +49,6 @@ void load_keyboard_settings( std::map<char, action_id> &keymap,
 
     if( read_from_file_optional( path->getPathForValueKey("KEY_MAP_FILE"), parser ) ) {
         keymap_file_loaded_from = path->getPathForValueKey("KEY_MAP_FILE");
-    } else if( read_from_file_optional( FILENAMES["legacy_keymap"], parser ) ) {
-        keymap_file_loaded_from = FILENAMES["legacy_keymap"];
     }
 }
 
