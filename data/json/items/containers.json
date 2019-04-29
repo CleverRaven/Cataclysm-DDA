@@ -128,6 +128,24 @@
     "color": "light_gray",
     "contains": 24,
     "flags": [ "TRADER_AVOID" ]
+	},
+	{
+    "id": "bag_zipper",
+    "type": "CONTAINER",
+    "category": "other",
+    "name": "zipper bag",
+    "name_plural": "zipper bags",
+    "description": "An inexpensive flexible rectangular storage bag on its typical small size. Transparent and made of plastic, it can be sealed and opened by a slider which works in a similar way to a zip fastener.",
+    "weight": 2,
+    "volume": 0,
+    "price": 0,
+	"rigid": false,
+    "material": "plastic",
+    "symbol": ")",
+    "color": "light_gray",
+    "contains": 1,
+	"seals": true,
+	"flags": [ "TRADER_AVOID" ]
   },
   {
     "id": "bag_body_bag",
