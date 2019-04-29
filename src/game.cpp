@@ -11200,11 +11200,9 @@ void game::on_move_effects()
         }
     }
 
-    if( u.get_movement_mode() == "run" ) {
-        if( u.has_effect( effect_winded ) ) {
-            u.toggle_run_mode();
-            add_msg( m_bad, _( "You don't have enough stamina for running." ) );
-        }
+    if( u.get_movement_mode() == "run" && u.has_effect( effect_winded ) ) {
+        u.toggle_run_mode();
+        add_msg( m_bad, _( "You don't have enough stamina for running." ) );
     }
 
     // apply martial art move bonuses
