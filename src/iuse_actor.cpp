@@ -2182,11 +2182,13 @@ long learn_spell_actor::use( player &p, item &, bool, const tripoint & ) const
         return 0;
     }
     const bool knows_spell = p.knows_spell( spells[action] );
-    player_activity study_spell( activity_id( "ACT_STUDY_SPELL" ), p.time_to_learn_spell( spells[action] ) );
+    player_activity study_spell( activity_id( "ACT_STUDY_SPELL" ),
+                                 p.time_to_learn_spell( spells[action] ) );
     study_spell.str_values = {
         "", // reserved for "until you gain a spell level" option [0]
-        "learn" }; // [1]
-    study_spell.values = { 0,0 };
+        "learn"
+    }; // [1]
+    study_spell.values = { 0, 0 };
     if( knows_spell ) {
         study_spell.str_values[1] = "study";
         const int study_time = uilist( _( "Spend how long studying?" ), {

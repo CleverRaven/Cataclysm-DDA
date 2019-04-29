@@ -1261,6 +1261,15 @@ static void cast_spell()
 
     bool can_cast_spells = false;
     std::vector<uilist_entry> spell_names;
+    {
+        uilist_entry dummy( _( "Spell" ) );
+        dummy.ctxt = string_format( "%3s  %3s  %3s %5s %10s", _( "LVL" ), _( "XP%" ), _( "RNG" ),
+                                    _( "FAIL%" ), _( "Cast Time" ) );
+        dummy.enabled = false;
+        dummy.text_color = c_blue;
+        dummy.force_color = true;
+        spell_names.emplace_back( dummy );
+    }
     for( spell_id sp : spells ) {
         spell temp_spell = u.get_spell( sp );
         std::string nm = temp_spell.name();
@@ -1270,8 +1279,10 @@ static void cast_spell()
         } else {
             entry.enabled = false;
         }
-        entry.ctxt = string_format( "%s %i (%s)", _( "Level" ), temp_spell.get_level(),
-                                    temp_spell.is_max_level() ? _( "MAX" ) : temp_spell.exp_progress() );
+        const std::string turns = string_format( "%i turns", temp_spell.casting_time() / 100 );
+        entry.ctxt = string_format( "%3i (%3s) %3i %3i %c %10s", temp_spell.get_level(),
+                                    temp_spell.is_max_level() ? _( "MAX" ) : temp_spell.exp_progress(), temp_spell.range(),
+                                    static_cast<int>( round( 100.0f * temp_spell.spell_fail() ) ), '%', _( turns ) );
         spell_names.emplace_back( entry );
     }
 

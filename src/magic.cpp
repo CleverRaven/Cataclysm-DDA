@@ -153,7 +153,7 @@ void spell_type::check_consistency()
         if( sp_t.min_aoe > sp_t.max_aoe ) {
             debugmsg( string_format( "ERROR: %s has higher min_aoe than max_aoe", sp_t.id.c_str() ) );
         }
-        if( sp_t.min_damage > sp_t.max_damage ) {
+        if( abs( sp_t.min_damage ) > abs( sp_t.max_damage ) ) {
             debugmsg( string_format( "ERROR: %s has higher min_damage than max_damage", sp_t.id.c_str() ) );
         }
         if( sp_t.min_range > sp_t.max_range ) {
@@ -208,8 +208,13 @@ spell_id spell::id() const
 
 int spell::damage() const
 {
-    return std::min( static_cast<int>( type->min_damage + round( get_level() *
-                                       type->damage_increment ) ), type->max_damage );
+    if( type->min_damage >= 0 ) {
+        return std::min( static_cast<int>( type->min_damage + round( get_level() *
+                                           type->damage_increment ) ), type->max_damage );
+    } else { // if it's negative, min and max work differently
+        return std::max( static_cast<int>( type->min_damage + round( get_level() *
+                                           type->damage_increment ) ), type->max_damage );
+    }
 }
 
 int spell::aoe() const
@@ -226,7 +231,8 @@ int spell::range() const
 
 int spell::duration() const
 {
-    return std::min( static_cast<int>( type->min_duration + round( get_level() * type->duration_increment ) ),
+    return std::min( static_cast<int>( type->min_duration + round( get_level() *
+                                       type->duration_increment ) ),
                      type->max_duration );
 }
 
@@ -552,6 +558,20 @@ std::string spell::effect_data() const
     return type->effect_str;
 }
 
+int spell::heal( const tripoint &target ) const
+{
+    monster *const mon = g->critter_at<monster>( target );
+    if( mon ) {
+        return mon->heal( -damage() );
+    }
+    player *const p = g->critter_at<player>( target );
+    if( p ) {
+        p->healall( -damage() );
+        return -damage();
+    }
+    return -1;
+}
+
 // player
 
 bool player::knows_spell( const std::string &sp ) const
@@ -594,9 +614,10 @@ void player::learn_spell( const spell_type *sp, bool force )
         has_trait_cat = has_opposite_trait( sp->spell_class );
     }
     if( force || new_spell.can_learn() || no_spell_class || !has_trait_cat ) {
-        if( !force && !no_spell_class && !has_trait_cat ){
-            if( query_yn( _( "Learning this spell will make you a %s and lock you out of other unique spells.\nContinue?" ),
-                          sp->spell_class.obj().name() ) ) {
+        if( !force && !no_spell_class && !has_trait_cat ) {
+            if( query_yn(
+                    _( "Learning this spell will make you a %s and lock you out of other unique spells.\nContinue?" ),
+                    sp->spell_class.obj().name() ) ) {
                 set_mutation( sp->spell_class );
                 add_msg_if_player( sp->spell_class.obj().desc() );
             } else {
@@ -712,7 +733,8 @@ int player::time_to_learn_spell( spell_id sp ) const
 {
     assert( !knows_spell( sp ) );
     const int THIRTY_MINUTES = 30000;
-    return THIRTY_MINUTES * ( sp.obj().difficulty * ( 1.0 + ( get_int() - 8.0 ) / 8.0 ) + ( get_skill_level( skill_id( "SPELLCRAFT" ) ) / 10.0 ) );
+    return THIRTY_MINUTES * ( sp.obj().difficulty * ( 1.0 + ( get_int() - 8.0 ) / 8.0 ) +
+                              ( get_skill_level( skill_id( "SPELLCRAFT" ) ) / 10.0 ) );
 }
 
 // spell_effect
@@ -747,7 +769,7 @@ void shallow_pit( const tripoint &target )
     add_msg( m_info, _( "The earth moves out of the way for you" ) );
 }
 
-void target_attack( const spell &sp, const tripoint &target )
+void target_attack( spell &sp, const tripoint &target )
 {
     Creature *const cr = g->critter_at<Creature>( target );
     if( !cr ) {
@@ -765,6 +787,9 @@ void target_attack( const spell &sp, const tripoint &target )
     atk.proj = bolt;
     if( sp.damage() > 0 ) {
         cr->deal_projectile_attack( &g->u, atk, true );
+    } else {
+        sp.heal( target );
+        add_msg( m_good, _( "%s wounds are closing up!" ), cr->disp_name( true ) );
     }
     if( !sp.effect_data().empty() ) {
         const int dur_moves = sp.duration();

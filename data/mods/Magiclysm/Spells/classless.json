@@ -1,15 +1,15 @@
 [
   {
     "id": "pain_split",
-	"type": "SPELL",
-	"name": "Pain Split",
-	"description": "Evens out damage among your limbs.",
-	"valid_targets": [ "self" ],
-	"effect": "pain_split",
-	"base_casting_time": 100,
-	"base_energy_cost": 10,
-	"energy_source": "MANA",
-	"difficulty": 4,
-	"max_level": 1
+    "type": "SPELL",
+    "name": "Pain Split",
+    "description": "Evens out damage among your limbs.",
+    "valid_targets": [ "self" ],
+    "effect": "pain_split",
+    "base_casting_time": 100,
+    "base_energy_cost": 10,
+    "energy_source": "MANA",
+    "difficulty": 4,
+    "max_level": 1
   }
 ]

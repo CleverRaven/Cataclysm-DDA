@@ -1,0 +1,41 @@
+[
+  {
+    "id": "light_healing",
+    "type": "SPELL",
+    "name": "Cure Light Wounds",
+    "description": "Heals a little bit of damage on the target.",
+    "valid_targets": [ "self", "ally" ],
+    "min_damage": -5,
+    "max_damage": -20,
+    "damage_increment": -1,
+    "max_level": 10,
+    "min_range": 0,
+    "max_range": 4,
+    "range_increment": 0.75,
+    "effect": "target_attack",
+    "base_casting_time": 300,
+    "base_energy_cost": 300,
+    "spell_class": "PRIEST",
+    "difficulty": 2,
+    "energy_source": "MANA"
+  },
+  {
+    "id": "smite",
+    "type": "SPELL",
+    "name": "Smite",
+    "description": "Evil has become pervasive throughout the world.  Let your power be the light that shines in the darkness!",
+    "valid_targets": [ "hostile" ],
+    "min_damage": 10,
+    "max_damage": 200,
+    "damage_increment": 15,
+    "min_range": 1,
+    "max_range": 1,
+    "effect": "target_attack",
+    "base_casting_time": 85,
+    "base_energy_cost": 250,
+    "spell_class": "PRIEST",
+    "difficulty": 8,
+    "max_level": 15,
+    "energy_source": "MANA"
+  }
+]
