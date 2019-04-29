@@ -1780,6 +1780,9 @@ void basecamp::start_crafting( const std::string &cur_id, const std::string &cur
                                       making.skill_used.str(), making.difficulty );
         if( comp != nullptr ) {
             consume_components( total_inv, making, batch_size, by_radio );
+            for( const item &results : making.create_results( batch_size ) ) {
+                comp->companion_mission_inv.add_item( results );
+            }
         }
     }
 }
