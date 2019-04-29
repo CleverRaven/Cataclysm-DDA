@@ -950,6 +950,7 @@
     "skills_required": [ "survival", 1 ],
     "time": 18000,
     "autolearn": true,
+    "batch_time_factors": [ 40, 5 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "cattail_stalk", 1 ] ] ]

@@ -474,7 +474,7 @@
     "name_plural": "military black boxes",
     "description": "This is a black box, seemingly pulled from some sort of military vehicle wreckage.  If you can find a system to analyze this you may find something of interest.",
     "weight": 4535,
-    "volume": "20 L",
+    "volume": "2 L",
     "price": 0,
     "to_hit": -1,
     "bashing": 4,

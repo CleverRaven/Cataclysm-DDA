@@ -46,6 +46,35 @@
   },
   {
     "type": "city_building",
+    "id": "s_butcher",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "s_butcher_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "s_butcher_roof_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "s_butcher_upper_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "s_butcher_1",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "s_butcher_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "s_butcher_roof_1_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "s_butcher_upper_roof_1_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "s_butcher_2",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "s_butcher_2_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "s_butcher_roof_2_north" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "police",
     "locations": [ "land" ],
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "police_north" }, { "point": [ 0, 0, 1 ], "overmap": "police_roof_north" } ]
@@ -1060,6 +1089,15 @@
   },
   {
     "type": "city_building",
+    "id": "cs_car_dealership",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "cs_car_dealership_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "cs_car_dealership_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "s_restaurant",
     "locations": [ "land" ],
     "overmaps": [
@@ -1135,6 +1173,15 @@
       { "point": [ 0, 0, 0 ], "overmap": "bakery_north" },
       { "point": [ 0, 0, 1 ], "overmap": "bakery_roof_north" },
       { "point": [ 0, 0, 2 ], "overmap": "bakery_upper_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "cs_gardening_allotment",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "cs_gardening_allotment_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "cs_gardening_allotment_roof_north" }
     ]
   },
   {
