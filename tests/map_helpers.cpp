@@ -35,7 +35,6 @@ void clear_creatures()
 {
     // Remove any interfering monsters.
     g->clear_zombies();
-    g->unload_npcs();
 }
 
 void clear_npcs()
@@ -72,6 +71,7 @@ void clear_map()
     }
     wipe_map_terrain();
     g->m.clear_traps();
+    clear_npcs();
     clear_creatures();
 }
 
