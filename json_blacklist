@@ -1,16 +1,3 @@
-data/mods/BrightNights/mapgen/municipal_microreactor.json
-data/mods/BrightNights/mapgen/s_gas.json
-data/mods/BrightNights/vehicles/cars.json
-data/mods/More_Locations/bandit_tower/bandit_tower_1blc_01.json
-data/mods/More_Locations/bandit_tower/bandit_tower_1blc_02.json
-data/mods/More_Locations/bandit_tower/bandit_tower_1blc_03.json
-data/mods/More_Locations/bandit_tower/bandit_tower_1blc_04.json
-data/mods/More_Locations/bandit_tower/bandit_tower_1blc_05.json
-data/mods/More_Locations/bandit_tower/bandit_tower_1brc_01.json
-data/mods/More_Locations/bandit_tower/bandit_tower_1brc_02.json
-data/mods/More_Locations/bandit_tower/bandit_tower_1brc_03.json
-data/mods/More_Locations/bandit_tower/bandit_tower_1cyblc_01.json
-data/mods/More_Locations/bandit_tower/bandit_tower_1cybrc_00.json
 data/mods/More_Locations/bandit_tower/bandit_tower_1cytlc_00.json
 data/mods/More_Locations/bandit_tower/bandit_tower_1cytlc_01.json
 data/mods/More_Locations/bandit_tower/bandit_tower_1cytrc_01.json
