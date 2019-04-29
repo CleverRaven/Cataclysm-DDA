@@ -22,6 +22,48 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "office_doctor_roof",
+    "name": "doctor's office roof",
+    "copy-from": "generic_city_building",
+    "color": "i_light_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "office_doctor_1",
+    "name": "doctor's office",
+    "copy-from": "generic_city_building",
+    "color": "i_light_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "office_doctor_roof_1",
+    "name": "doctor's office roof",
+    "copy-from": "generic_city_building",
+    "color": "i_light_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "office_doctor_2",
+    "name": "doctor's office",
+    "copy-from": "generic_city_building",
+    "color": "i_light_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "office_doctor_roof_2",
+    "name": "doctor's office roof",
+    "copy-from": "generic_city_building",
+    "color": "i_light_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "office_doctor_upper_roof_2",
+    "name": "doctor's office roof",
+    "copy-from": "generic_city_building",
+    "color": "i_light_red"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "office_cubical",
     "name": "office",
     "copy-from": "generic_city_building",
@@ -1597,6 +1639,22 @@
     "id": "cs_car_showroom",
     "copy-from": "generic_city_building",
     "name": "car showroom",
+    "sym": "c",
+    "color": "i_cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cs_car_showroom_2ndfloor",
+    "copy-from": "generic_city_building",
+    "name": "car showroom 2nd floor",
+    "sym": "c",
+    "color": "i_cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cs_car_showroom_roof",
+    "copy-from": "generic_city_building",
+    "name": "car showroom roof",
     "sym": "c",
     "color": "i_cyan"
   },

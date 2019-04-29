@@ -1588,7 +1588,7 @@ bool npc::is_stationary( bool include_guards ) const
 
 bool npc::is_guarding( ) const
 {
-    return mission == NPC_MISSION_GUARD || mission == NPC_MISSION_GUARD_ALLY;
+    return mission == NPC_MISSION_GUARD || mission == NPC_MISSION_GUARD_ALLY || is_patrolling();
 }
 
 bool npc::is_patrolling() const

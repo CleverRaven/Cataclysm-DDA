@@ -978,6 +978,21 @@
     ]
   },
   {
+    "id": "flask_liquor",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      [ "flask_hip", 100 ],
+      { "item": "whiskey", "prob": 40, "container-item": "flask_hip" },
+      { "item": "vodka", "prob": 30, "container-item": "flask_hip" },
+      { "item": "gin", "prob": 20, "container-item": "flask_hip" },
+      { "item": "rum", "prob": 20, "container-item": "flask_hip" },
+      { "item": "tequila", "prob": 20, "container-item": "flask_hip" },
+      { "item": "brandy", "prob": 10, "container-item": "flask_hip" },
+      { "item": "moonshine", "prob": 5, "container-item": "flask_hip" }
+    ]
+  },
+  {
     "type": "item_group",
     "id": "butcher_raw_meat",
     "items": [
