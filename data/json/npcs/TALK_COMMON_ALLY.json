@@ -28,13 +28,14 @@
     ]
   },
   {
-    "id": [ "TALK_FRIEND", "TALK_GIVE_ITEM", "TALK_USE_ITEM" ],
+    "id": [ "TALK_FRIEND", "TALK_GIVE_ITEM", "TALK_USE_ITEM", "TALK_RADIO" ],
     "type": "talk_topic",
     "responses": [
       { "text": "Combat commands...", "topic": "TALK_COMBAT_COMMANDS" },
       { "text": "Can I do anything for you?", "topic": "TALK_MISSION_LIST" },
       {
         "text": "Can you teach me anything?",
+        "condition": { "not": "is_by_radio" },
         "trial": {
           "type": "CONDITION",
           "condition": {
@@ -42,19 +43,30 @@
               { "npc_need": "thirst", "amount": 80 },
               { "npc_need": "hunger", "amount": 160 },
               { "npc_need": "fatigue", "level": "TIRED" },
-              { "npc_has_effect": "asked_to_train" }
+              { "npc_has_effect": "asked_to_train" },
+              "u_driving",
+              "npc_driving"
             ]
           }
         },
         "success": { "topic": "TALK_DENY_TRAIN" },
         "failure": { "topic": "TALK_TRAIN_PERSUADE" }
       },
-      { "text": "Let's trade items", "topic": "TALK_FRIEND", "effect": "start_trade" },
-      { "text": "Guard this position", "topic": "TALK_FRIEND_GUARD", "effect": "assign_guard" },
-      { "text": "Please go to this location...", "topic": "TALK_GOTO_LOCATION", "effect": "goto_location" },
+      {
+        "text": "Let's trade items",
+        "condition": { "not": "is_by_radio" },
+        "topic": "TALK_FRIEND",
+        "effect": "start_trade"
+      },
+      {
+        "text": "Guard this position",
+        "condition": { "not": "is_by_radio" },
+        "topic": "TALK_FRIEND_GUARD",
+        "effect": "assign_guard"
+      },
       { "text": "I'd like to know a bit more about you...", "topic": "TALK_FRIEND", "effect": "reveal_stats" },
-      { "text": "I want you to use this item", "topic": "TALK_USE_ITEM" },
-      { "text": "Hold on to this item", "topic": "TALK_GIVE_ITEM" },
+      { "text": "I want you to use this item", "condition": { "not": "is_by_radio" }, "topic": "TALK_USE_ITEM" },
+      { "text": "Hold on to this item", "condition": { "not": "is_by_radio" }, "topic": "TALK_GIVE_ITEM" },
       { "text": "Miscellaneous rules...", "topic": "TALK_MISC_RULES" },
       { "text": "I'm going to go my own way for a while.", "topic": "TALK_LEAVE" },
       { "text": "Let's go.", "topic": "TALK_DONE" },
@@ -63,6 +75,31 @@
         "topic": "TALK_FRIEND_CHAT",
         "condition": { "not": { "npc_has_effect": "asked_to_socialize" } }
       },
+      {
+        "text": "Any hints about the world we now live in?",
+        "trial": {
+          "type": "CONDITION",
+          "condition": {
+            "or": [
+              { "npc_need": "thirst", "amount": 80 },
+              { "npc_need": "hunger", "amount": 160 },
+              { "npc_need": "fatigue", "level": "TIRED" },
+              { "npc_has_effect": "asked_to_hint" },
+              "u_driving",
+              "npc_driving"
+            ]
+          }
+        },
+        "success": { "topic": "TALK_SHELTER_DENY_ADVICE" },
+        "failure": { "topic": "TALK_SHELTER_ADVICE", "effect": { "npc_add_effect": "asked_to_hint", "duration": 300 } }
+      },
+      {
+        "text": "Please go to this location...",
+        "topic": "TALK_GOTO_LOCATION",
+        "condition": { "or": [ "is_by_radio", "u_has_camp" ] },
+        "effect": "goto_location"
+      },
+      { "text": "Tell me about giving you orders.", "topic": "TALK_ALLY_TUTORIAL" },
       { "text": "Let's talk about faction camps.", "topic": "TALK_CAMP_GENERAL" }
     ]
   },
@@ -478,6 +515,7 @@
         "effect": { "toggle_npc_rule": "ignore_noise" }
       },
       { "text": "Set up pickup rules.", "topic": "TALK_MISC_RULES", "effect": "set_npc_pickup" },
+      { "text": "Clear all overrides.", "topic": "TALK_MISC_RULES", "effect": "clear_overrides" },
       { "text": "Never mind.", "topic": "TALK_NONE" }
     ]
   },
@@ -497,7 +535,12 @@
     "responses": [
       { "text": "Please go to this location...", "topic": "TALK_GOTO_LOCATION_RADIO", "effect": "goto_location" },
       { "text": "Stay at your current position.", "topic": "TALK_DONE", "effect": "assign_guard" },
-      { "text": "Never mind.", "topic": "TALK_DONE" }
+      {
+        "text": "Show me what needs to be done at the camp.",
+        "topic": "TALK_DONE",
+        "effect": "basecamp_mission",
+        "condition": { "npc_at_om_location": "FACTION_CAMP_ANY" }
+      }
     ]
   },
   {

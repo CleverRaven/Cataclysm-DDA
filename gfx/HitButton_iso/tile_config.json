@@ -1194,7 +1194,7 @@
           "fg": 244
         },
         {
-          "id": ["cursor", "line_target", "vehicle_pointer" ],
+          "id": ["cursor", "highlight", "line_target", "vehicle_pointer" ],
           "fg": 245
         },
         {
@@ -6603,7 +6603,7 @@
           "fg": 1980
         },
         {
-          "id": ["frozen_dinner", "cooked_dinner", "frozen_burrito", "cooked_burrito", "flatbread", "bread", "brownie_weed", "brioche", "toastem", "toastem2", "toastem3", "toasterpastryfrozen", "toasterpastry", "hardtack", "wastebread", "cornbread", "johnnycake", "sugar_beet", "potato_raw", "potato_irradiated", "potato_baked", "pie", "pie_veggy", "pie_meat", "pie_human", "coconut", "cotton_boll" ],
+          "id": ["frozen_dinner", "cooked_dinner", "frozen_burrito", "cooked_burrito", "flatbread", "bread", "brownie_weed", "brioche", "toastem", "toastem2", "toastem3", "toasterpastryfrozen", "toasterpastry", "hardtack", "wastebread", "cornbread", "johnnycake", "sugar_beet", "potato", "irradiated_potato", "potato_baked", "pie", "pie_veggy", "pie_meat", "pie_human", "coconut", "cotton_boll" ],
           "fg": 1981
         },
         {

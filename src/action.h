@@ -56,8 +56,16 @@ enum action_id : int {
     ACTION_MOVE_DOWN,
     /** Ascend a staircase */
     ACTION_MOVE_UP,
-    /** Toggle run/walk mode */
-    ACTION_TOGGLE_MOVE,
+    /** Cycle run/walk/crouch mode */
+    ACTION_CYCLE_MOVE,
+    /** Reset movement mode to walk  */
+    ACTION_RESET_MOVE,
+    /** Toggle run on/off */
+    ACTION_TOGGLE_RUN,
+    /** Toggle crouch on/off */
+    ACTION_TOGGLE_CROUCH,
+    /** Open movement mode menu */
+    ACTION_OPEN_MOVEMENT,
     /**@}*/
 
     // Viewport movement actions and related
@@ -143,7 +151,9 @@ enum action_id : int {
     /** Open the martial-arts style menu */
     ACTION_PICK_STYLE,
     /** Open the load item (e.g. firearms) select menu */
-    ACTION_RELOAD,
+    ACTION_RELOAD_ITEM,
+    /** Attempt to reload wielded weapon, then fall back to the load item select menu */
+    ACTION_RELOAD_WEAPON,
     /** Open the unload item (e.g. firearms) select menu */
     ACTION_UNLOAD,
     /** Open the mending menu (e.g. when using a sewing kit) */

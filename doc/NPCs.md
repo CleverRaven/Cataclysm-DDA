@@ -17,7 +17,9 @@ Two topics are special:
 Each topic consists of:
 1. a topic id (e.g. "TALK_ARSONIST")
 2. a dynamic line, spoken by the NPC.
-3. a list of responses that can be spoken by the player character.
+3. an optional list of effects that occur when the NPC speaks the dynamic line
+4. a list of responses that can be spoken by the player character.
+5. a list of repeated responses that can be spoken by the player character, automatically generated if the player or NPC has items in a list of items.
 
 One can specify new topics in json. It is currently not possible to define the starting topic, so you have to add a response to some of the default topics (e.g. "TALK_STRANGER_FRIENDLY" or "TALK_STRANGER_NEUTRAL") or to topics that can be reached somehow.
 
@@ -61,6 +63,9 @@ This example adds the "I'm going now!" response to all the listed topics.
 
 ### dynamic_line
 The `dynamic_line` is the line spoken by the NPC.  It is optional.  If it is not defined and the topic has the same id as a built-in topic, the `dynamic_line` from that built-in topic will be used.  Otherwise the NPC will say nothing.  See the chapter about dynamic_line below for more details.
+
+### speaker_effect
+The `speaker_effect` is an object or array of effects that will occur after the NPC speaks the `dynamic_line`, no matter which response the player chooses.  See the chapter about Speaker Effects below for more details.
 
 ### response
 The `responses` entry is an array with possible responses.  It must not be empty.  Each entry must be a response object. See the chapter about Responses below for more details.
@@ -141,7 +146,7 @@ The dynamic line will be chosen based on whether a single dialogue condition is 
     "days_since_cataclysm": 30,
     "yes": "Now, we've got a moment, I was just thinking it's been a month or so since... since all this, how are you coping with it all?",
     "no": "<neutralchitchat>"
-} 
+}
 {
     "is_day": "Sure is bright out.",
     "no": {
@@ -153,6 +158,42 @@ The dynamic line will be chosen based on whether a single dialogue condition is 
 ```
 ---
 
+## Speaker Effects
+The `speaker_effect` entry contains dialogue effects that occur after the NPC speaks the `dynamic_line` but before the player responds and regardless of the player response.  Each effect can have an optional condition, and will only be applied if the condition is true.  Each `speaker_effect` can also have an optional `sentinel`, which guarantees the effect will only run once.
+
+Format:
+```C++
+"speaker_effect": {
+  "sentinel": "...",
+  "condition": "...",
+  "effect": "..."
+}
+```
+or:
+```C++
+"speaker_effect": [
+  {
+    "sentinel": "...",
+    "condition": "...",
+    "effect": "..."
+  },
+  {
+    "sentinel": "...",
+    "condition": "...",
+    "effect": "..."
+  }
+]
+```
+
+The `sentinel` can be any string, but sentinels are unique to each `TALK_TOPIC`.  If there are multiple `speaker_effect`s within the `TALK_TOPIC`, they should have different sentinels.  Sentinels are not required, but since the `speaker_effect` will run every time the dialogue returns to the `TALK_TOPIC`, they are highly encouraged to avoid inadvertantly repeating the same effects.
+
+The `effect` can be any legal effect, as described below.  The effect can be a simple string, object, or an array of strings and objects, as normal for objects.
+
+The optional `condition` can be any legal condition, as described below.  If a `condition` is present, the `effect` will only occur if the `condition` is true.
+
+Speaker effects are useful for setting status variables to indicate that player has talked to the NPC without complicating the responses with multiple effect variables.  They can also be used, with a sentinel, to run a mapgen_update effect the first time the player hears some dialogue from the NPC.
+
+---
 ## Responses
 A response contains at least a text, which is display to the user and "spoken" by the player character (its content has no meaning for the game) and a topic to which the dialogue will switch to. It can also have a trial object which can be used to either lie, persuade or intimidate the NPC, see below for details. There can be different results, used either when the trial succeeds and when it fails.
 
@@ -291,8 +332,32 @@ This is an optional condition which can be used to prevent the response under ce
 
 ---
 
-### response effect
-The `effect` function can be any of the following effects. Multiple effects should be arranged in a list and are processed in the order listed.
+## Repeat Responses
+Repeat responses are responses that should be added to the response list multiple times, once for each instance of an item.
+
+A repeat response has the following format:
+```
+{
+  "for_item": [
+    "jerky", "meat_smoked", "fish_smoked", "cooking_oil", "cooking_oil2", "cornmeal", "flour",
+    "fruit_wine", "beer", "sugar"
+  ],
+  "response": { "text": "Delivering <topic_item>.", "topic": "TALK_DELIVER_ASK" }
+}
+```
+
+`"response"` is mandatory and must be a standard dialogue response, as described above.  `"switch"` is allowed in repeat responses and works normally.
+
+One of `"for_item"` or `"for_category"`, and each can either be a single string or list of items or item categories.  The `response` is generated for each item in the list in the player or NPC's inventory.
+
+`"is_npc"` is an optioanl bool value, and if it is present, the NPC's inventory list is checked.  By default, the player's inventory list is checked.
+
+`"include_containers"` is an optional bool value, and if it is present, items containing an item will generate seperate responses from the item itself.
+
+---
+
+## Dialogue Effects
+The `effect` field of `speaker_effect` or a `response` can be any of the following effects. Multiple effects should be arranged in a list and are processed in the order listed.
 
 #### Missions
 
@@ -337,19 +402,20 @@ buy_100_logs | Places 100 logs in the ranch garage, and makes the NPC unavailabl
 give_equipment | Allows your character to select items from the NPC's inventory and transfer them to your inventory.
 u_buy_item: item_string, (*optional* cost: cost_num, *optional* count: count_num, *optional* container: container_string) | The NPC will give your character the item or `count_num` copies of the item, contained in container, and will remove `cost_num` from your character's cash if specified.<br/>If cost isn't present, the NPC gives your character the item at no charge.
 u_sell_item: item_string, (*optional* cost: cost_num, *optional* count: count_num) | Your character will give the NPC the item or `count_num` copies of the item, and will add `cost_num` to your character's cash if specified.<br/>If cost isn't present, the your character gives the NPC the item at no charge.<br/>This effect will fail if you do not have at least `count_num` copies of the item, so it should be checked with `u_has_items`.
+u_bulk_trade_accept<br/>npc_bulk_trade_accept | Only valid after a repeat_response.  The player trades all instances of the item from the repeat_response with the NPC.  For u_bulk_trade_accept, the player loses the items from their inventory and gains cash; for npc_bulk_trade_accept, the player gains the items from the NPC's inventory and loses cash.
+u_bulk_donate<br/>npc_bulk_donate | Only valid after a repeat_response.  The player or NPC transfers all instances of the item from the repeat_response.  For u_bulk_donate, the player loses the items from their inventory and the NPC gains them; for npc_bulk_donate, the player gains the items from the NPC's inventory and the NPC loses them.
 u_spend_cash: cost_num | Remove `cost_num` from your character's cash.  Negative values means your character gains cash.
 add_debt: mod_list | Increases the NPC's debt to the player by the values in the mod_list.<br/>The following would increase the NPC's debt to the player by 1500x the NPC's altruism and 1000x the NPC's opinion of the player's value: `{ "effect": { "add_debt": [ [ "ALTRUISM", 3 ], [ "VALUE", 2 ], [ "TOTAL", 500 ] ] } }`
 u_consume_item, npc_consume_item: item_string, (*optional* count: count_num) | You or the NPC will delete the item or `count_num` copies of the item from their inventory.<br/>This effect will fail if the you or NPC does not have at least `count_num` copies of the item, so it should be checked with `u_has_items` or `npc_has_items`.
-
+u_remove_item_with, npc_remove_item_with: item_string | You or the NPC will delete any instances of item in inventory.<br/>This is an unconditional remove and will not fail if you or the NPC does not have the item.
 
 #### Behaviour / AI
 
 Effect | Description
 ---|---
-assign_base | Assigns the NPC to a base camp at the player's current position.
-assign_guard | Makes the NPC into a guard, which will defend the current location.
-stop_guard | Releases the NPC from their guard duty (also see `assign_guard`).
-start_camp | Makes the NPC the overseer of a new faction camp.
+assign_guard | Makes the NPC into a guard.  If allied and at a camp, they will be assigned to that camp.
+stop_guard | Releases the NPC from their guard duty (also see `assign_guard`).  Friendly NPCs will return to following.
+start_camp | The NPC will start a faction camp with the player.
 recover_camp | Makes the NPC the overseer of an existing camp that doesn't have an overseer.
 remove_overseer | Makes the NPC stop being an overseer, abandoning the faction camp.
 wake_up | Wakes up sleeping, but not sedated, NPCs.
@@ -358,8 +424,11 @@ end_conversation | Ends the conversation and makes the NPC ignore you from now o
 insult_combat | Ends the conversation and makes the NPC hostile, adds a message that character starts a fight with the NPC.
 hostile | Make the NPC hostile and end the conversation.
 flee | Makes the NPC flee from your character.
-leave | Makes the NPC not follow your character anymore.
-follow | Makes the NPC follow your character.
+follow | Makes the NPC follow your character, joining the "Your Followers faction".
+leave | Makes the NPC leave the "Your Followers" faction and stop following your character.
+follow_only | Makes the NPC follow your character without changing factions.
+stop_following | Makes the NPC stop following your character without changing  factions.
+npc_thankful | Makes the NPC postively inclined toward your character.
 drop_weapon | Make the NPC drop their weapon.
 stranger_neutral | Changes the NPC's attitude to neutral.
 start_mugging | The NPC will approach your character and steal from your character, attacking if your character resists.
@@ -373,9 +442,14 @@ npc_class_change: class_string | Change the NPC's faction to `class_string`.
 npc_faction_change: faction_string | Change the NPC's faction membership to `faction_string`.
 u_faction_rep: rep_num | Increase's your reputation with the NPC's current faction, or decreases it if `rep_num` is negative.
 toggle_npc_rule: rule_string | Toggles the value of a boolean NPC follower AI rule such as "use_silent" or "allow_bash"
+set_npc_rule: rule_string | Sets the value of a boolean NPC follower AI rule such as "use_silent" or "allow_bash"
+clear_npc_rule: rule_string | Clears the value of a boolean NPC follower AI rule such as "use_silent" or "allow_bash"
 set_npc_engagement_rule: rule_string | Sets the NPC follower AI rule for engagement distance to the value of `rule_string`.
 set_npc_aim_rule: rule_string | Sets the NPC follower AI rule for aiming speed to the value of `rule_string`.
+npc_die | The NPC will die at the end of the conversation.
 
+#### Map Updates
+mapgen_update: mapgen_update_id_string<br/>mapgen_update: list of mapgen_update_id_strings, (optional assign_mission_target parameters) | With no other parameters, update's the the overmap tile at the player's current location with the changes described in mapgen_update_id (or for each mapgen_update_id in the list).  The assign_mission_target parameters can be used to change the location of the overmap tile that gets updated.  See doc/MISSIONS_JSON.md for assign_mission_target parameters and doc/MAPGEN.md for mapgen_update.
 #### Deprecated
 
 Effect | Description
@@ -432,13 +506,15 @@ Condition | Type | Description
 "u_has_trait"<br/>"npc_has_trait" | string | `true` if the player character or NPC has a specific trait.  Simpler versions of `u_has_any_trait` and `npc_has_any_trait` that only checks for one trait.
 "u_has_trait_flag"<br/>"npc_has_trait_flag" | string | `true` if the player character or NPC has any traits with the specific trait flag.  More robust versions of `u_has_any_trait` and `npc_has_any_trait`.  The special trait flag "MUTATION_THRESHOLD" checks to see if the player or NPC has crossed a mutation threshold.
 "u_has_any_trait"<br/>"npc_has_any_trait" | array | `true` if the player character or NPC has any trait or mutation in the array. Used to check multiple specific traits.
-"u_has_var", "npc_has_var" | string | `"type"`: type_str, `"context"`: context_str, and `"value"`: value_str are required fields in the same dictionary as `"u_has_var"` or `"npc_has_var"`.<br/>`true` is the player character or NPC has a variable set by `"u_set_var"` or `"npc_set_var"` with the string, type_str, context_str, and value_str.
+"u_has_var", "npc_has_var" | string | `"type"`: type_str, `"context"`: context_str, and `"value"`: value_str are required fields in the same dictionary as `"u_has_var"` or `"npc_has_var"`.<br/>`true` is the player character or NPC has a variable set by `"u_add_var"` or `"npc_add_var"` with the string, type_str, context_str, and value_str.
 "u_has_strength"<br/>"npc_has_strength" | int | `true` if the player character's or NPC's strength is at least the value of `u_has_strength` or `npc_has_strength`.
 "u_has_dexterity"<br/>"npc_has_dexterity" | int | `true` if the player character's or NPC's dexterity is at least the value of `u_has_dexterity` or `npc_has_dexterity`.
 "u_has_intelligence"<br/>"npc_has_intelligence" | int | `true` if the player character's or NPC's intelligence is at least the value of `u_has_intelligence` or `npc_has_intelligence`.
 "u_has_perception"<br/>"npc_has_perception" | int | `true` if the player character's or NPC's perception is at least the value of `u_has_perception` or `npc_has_perception`.
 "u_has_item"<br/>"npc_has_item" | string | `true` if the player character or NPC has something with `u_has_item`'s or `npc_has_item`'s `item_id` in their inventory.
 "u_has_items"<br/>"npc_has_item" | dictionary | `u_has_items` or `npc_has_items` must be a dictionary with an `item` string and a `count` int.<br/>`true` if the player character or NPC has at least `count` charges or counts of `item` in their inventory.
+"u_has_item_category<br/>"npc_has_item_category" | string | `"count"`: item_count is an optional field that must be in the same dictionary and defaults to 1 if not specified.  `true` if the player or NPC has item_count items with the same category as `u_has_item_category` or `npc_has_item_category`.
+"u_has_bionics"<br/>"npc_has_bionics" | string | `true` if the player or NPC has an installed bionic with an bionic_id matching "u_has_bionics" or "npc_has_bionics".  The special string "ANY" returns true if the player or NPC has any installed bionics.
 "u_has_effect"<br/>"npc_has_effect" | string | `true` if the player character or NPC is under the effect with `u_has_effect` or `npc_has_effect`'s `effect_id`.
 "u_can_stow_weapon"<br/>"npc_can_stow_weapon" | simple string | `true` if the player character or NPC is wielding a weapon and has enough space to put it away.
 "u_has_weapon"<br/>"npc_has_weapon" | simple string | `true` if the player character or NPC is wielding a weapon.
@@ -466,6 +542,7 @@ Condition | Type | Description
 "npc_service" | int | `true` if the NPC does not have the "currently_busy" effect and the player character has at least npc_service cash available.  Useful to check if the player character can hire an NPC to perform a task that would take time to complete.  Functionally, this is identical to `"and": [ { "not": { "npc_has_effect": "currently_busy" } }, { "u_has_cash": service_cost } ]`
 "npc_allies" | int | `true` if the player character has at least `npc_allies` number of NPC allies.
 "npc_following" | simple string | `true` if the NPC is following the player character.
+"is_by_radio" | simple string | `true` if the player is talking to the NPC over a radio.
 
 #### NPC only conditions
 
@@ -519,11 +596,11 @@ Condition | Type | Description
   "topic": "TALK_NONE",
   "condition": {
     "not": {
-      "npc_has_var": "has_met_PC", "type": "general", "context": "examples", "value": "true"
+      "npc_has_var": "has_met_PC", "type": "general", "context": "examples", "value": "yes"
     }
   },
   "effect": {
-    "npc_set_var": "has_met_PC", "type": "general", "context": "examples", "value": "true" }
+    "npc_add_var": "has_met_PC", "type": "general", "context": "examples", "value": "yes" }
   }
 },
 {
@@ -610,5 +687,26 @@ Condition | Type | Description
     "trial": { "type": "LIE", "difficulty": 10, "mod": [ [ "TRUST", 3 ] ] },
     "success": { "topic": "TALK_NONE" },
     "failure": { "topic": "TALK_MISSION_FAILURE" }
+},
+{
+  "text": "Didn't you say you knew where the Vault was?",
+  "topic: "TALK_VAULT_INFO",
+  "condition": { "not": { "u_has_var": "asked_about_vault", "value": "yes", "type": "sentinel", "context": "old_guard_rep" } },
+  "effect": [
+      { "u_add_var": "asked_about_vault", "value": "yes", "type": "sentinel", "context": "old_guard" },
+      { "mapgen_update": "hulk_hairstyling", "om_terrain": "necropolis_a_13", "om_special": "Necropolis", "om_terrain_replace": "field", "z": 0 }
+  ]
+},
+{
+  "text": "Why do zombies keep attacking every time I talk to you?"
+  "topic": "TALK_RUN_AWAY_MORE_ZOMBIES",
+  "condition": { "u_has_var": "even_more_zombies", "value": "yes", "type": "trigger", "context": "learning_experience" },
+  "effect": [
+    { "mapgen_update": [ "even_more_zombies", "more zombies" ], "origin_npc": true },
+    { "mapgen_update": "more zombies", "origin_npc": true, "offset_x": 1 },
+    { "mapgen_update": "more zombies", "origin_npc": true, "offset_x": -1 },
+    { "mapgen_update": "more zombies", "origin_npc": true, "offset_y": 1 },
+    { "mapgen_update": "more zombies", "origin_npc": true, "offset_y": -1 }
+  ]
 }
 ```

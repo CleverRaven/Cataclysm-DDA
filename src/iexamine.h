@@ -1,27 +1,24 @@
 #pragma once
-//
-//  iexamine.h
-//  Cataclysm
-//
-//  Livingstone
-//
-
 #ifndef IEXAMINE_H
 #define IEXAMINE_H
 
 #include <list>
+#include <string>
+#include <tuple>
+#include <vector>
 
 #include "itype.h"
 #include "string_id.h"
+#include "calendar.h"
+#include "optional.h"
+#include "ret_val.h"
 
-class game;
 class item;
 class player;
-class npc;
-class map;
+class vpart_reference;
 struct tripoint;
-struct itype;
 struct mtype;
+
 using mtype_id = string_id<mtype>;
 using seed_tuple = std::tuple<itype_id, std::string, int>;
 
@@ -103,12 +100,17 @@ void reload_furniture( player &p, const tripoint &examp );
 void curtains( player &p, const tripoint &examp );
 void sign( player &p, const tripoint &examp );
 void pay_gas( player &p, const tripoint &examp );
-void climb_down( player &p, const tripoint &examp );
+void ledge( player &p, const tripoint &examp );
 void autodoc( player &p, const tripoint &examp );
 void on_smoke_out( const tripoint &examp,
                    const time_point &start_time ); //activates end of smoking effects
+void mill_finalize( player &, const tripoint &examp, const time_point &start_time );
+void quern_examine( player &p, const tripoint &examp );
 void smoker_options( player &p, const tripoint &examp );
 void open_safe( player &p, const tripoint &examp );
+void workbench( player &p, const tripoint &examp );
+void workbench_internal( player &p, const tripoint &examp,
+                         const cata::optional<vpart_reference> &part );
 hack_result hack_attempt( player &p );
 
 bool pour_into_keg( const tripoint &pos, item &liquid );

@@ -1,16 +1,32 @@
+#include <limits.h>
 #include <sstream>
+#include <algorithm>
+#include <list>
+#include <memory>
+#include <set>
+#include <string>
+#include <vector>
 
 #include "catch/catch.hpp"
-#include "crafting.h"
 #include "game.h"
 #include "itype.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "npc.h"
-#include "output.h"
 #include "player.h"
 #include "player_helpers.h"
 #include "recipe_dictionary.h"
+#include "calendar.h"
+#include "cata_utility.h"
+#include "enums.h"
+#include "inventory.h"
+#include "item.h"
+#include "optional.h"
+#include "player_activity.h"
+#include "recipe.h"
+#include "requirements.h"
+#include "string_id.h"
+#include "material.h"
 
 TEST_CASE( "recipe_subset" )
 {
@@ -257,7 +273,8 @@ static void prep_craft( const recipe_id &rid, const std::vector<item> tools,
 
     const requirement_data &reqs = r.requirements();
     inventory crafting_inv = g->u.crafting_inventory();
-    bool can_craft = reqs.can_make_with_inventory( g->u.crafting_inventory() );
+    bool can_craft = reqs.can_make_with_inventory( g->u.crafting_inventory(),
+                     r.get_component_filter() );
     CHECK( can_craft == expect_craftable );
 }
 
@@ -267,7 +284,7 @@ static void fake_test_craft( const recipe_id &rid, const std::vector<item> tools
 {
     prep_craft( rid, tools, expect_craftable );
     if( expect_craftable ) {
-        g->u.consume_components_for_craft( rid.obj(), 1 );
+        g->u.make_craft_with_command( rid, 1, false );
         g->u.invalidate_crafting_inventory();
     }
 }
@@ -410,6 +427,11 @@ static int actually_test_craft( const recipe_id &rid, const std::vector<item> to
     REQUIRE( g->u.morale_crafting_speed_multiplier( rec ) == 1.0 );
     REQUIRE( g->u.lighting_craft_speed_multiplier( rec ) == 1.0 );
     REQUIRE( !g->u.activity );
+
+    // This really shouldn't be needed, but for some reason the tests fail for mingw builds without it
+    g->u.learn_recipe( &rec );
+    REQUIRE( g->u.has_recipe( &rec, g->u.crafting_inventory(), g->u.get_crafting_helpers() ) != -1 );
+
     g->u.make_craft( rid, 1 );
     CHECK( g->u.activity );
     CHECK( g->u.activity.id() == activity_id( "ACT_CRAFT" ) );
@@ -456,14 +478,17 @@ static void verify_inventory( const std::vector<std::string> &has,
     for( const item *i : g->u.inv_dump() ) {
         os << "  " << i->typeId() << " (" << i->charges << ")\n";
     }
+    os << "Wielded:\n" << g->u.weapon.tname() << "\n";
     INFO( os.str() );
     for( const std::string &i : has ) {
         INFO( "expecting " << i );
-        CHECK( player_has_item_of_type( i ) );
+        const bool has = player_has_item_of_type( i ) || g->u.weapon.type->get_id() == i;
+        CHECK( has );
     }
     for( const std::string &i : hasnt ) {
         INFO( "not expecting " << i );
-        CHECK( !player_has_item_of_type( i ) );
+        const bool has = !player_has_item_of_type( i ) && !( g->u.weapon.type->get_id() == i );
+        CHECK( has );
     }
 }
 

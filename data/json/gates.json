@@ -5,7 +5,18 @@
     "other_handles": [ "t_gates_control_concrete", "t_gates_control_brick" ],
     "door": "t_door_metal_locked",
     "floor": "t_floor",
-    "walls": [ "t_wall", "t_wall_r", "t_wall_w", "t_wall_b", "t_wall_g", "t_wall_y", "t_wall_p", "t_concrete_wall", "t_brick_wall" ],
+    "walls": [
+      "t_wall",
+      "t_wall_r",
+      "t_wall_w",
+      "t_wall_b",
+      "t_wall_g",
+      "t_wall_y",
+      "t_wall_p",
+      "t_concrete_wall",
+      "t_brick_wall",
+      "t_strconc_wall"
+    ],
     "messages": {
       "pull": "You turn the handle...",
       "open": "The gate is opened!",
@@ -21,7 +32,18 @@
     "other_handles": [ "t_gates_control_concrete_lab", "t_gates_control_brick_lab" ],
     "door": "t_door_metal_locked",
     "floor": "t_thconc_floor",
-    "walls": [ "t_wall", "t_wall_r", "t_wall_w", "t_wall_b", "t_wall_g", "t_wall_y", "t_wall_p", "t_concrete_wall", "t_brick_wall" ],
+    "walls": [
+      "t_wall",
+      "t_wall_r",
+      "t_wall_w",
+      "t_wall_b",
+      "t_wall_g",
+      "t_wall_y",
+      "t_wall_p",
+      "t_concrete_wall",
+      "t_brick_wall",
+      "t_strconc_wall"
+    ],
     "messages": {
       "pull": "You turn the handle...",
       "open": "The gate is opened!",

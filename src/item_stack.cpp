@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <list>
+#include <iterator>
 
 #include "item.h"
 #include "units.h"

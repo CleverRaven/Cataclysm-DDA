@@ -1,15 +1,13 @@
 #include "faction.h"
 
-#include <algorithm>
-#include <cmath>
 #include <cstdlib>
 #include <map>
-#include <sstream>
 #include <string>
+#include <memory>
+#include <set>
+#include <utility>
 
 #include "basecamp.h"
-#include "catacharset.h"
-#include "coordinate_conversions.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "enums.h"
@@ -19,20 +17,17 @@
 #include "input.h"
 #include "json.h"
 #include "line.h"
-#include "map.h"
-#include "messages.h"
-#include "mission.h"
 #include "npc.h"
-#include "npctalk.h"
-#include "omdata.h"
 #include "output.h"
-#include "overmap.h"
 #include "overmapbuffer.h"
 #include "player.h"
-#include "rng.h"
 #include "skill.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "item.h"
+#include "itype.h"
+#include "optional.h"
+#include "pimpl.h"
 
 static std::map<faction_id, faction_template> _all_faction_templates;
 
@@ -399,9 +394,31 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     if( has_companion_mission() && mission != NPC_MISSION_TRAVELLING ) {
         can_see = "Not interactable while on a mission";
         see_color = c_light_red;
-    } else if( rl_dist( g->u.pos(), pos() ) > SEEX * 2 || !g->u.sees( pos() ) ) {
+        // is the NPC even in the same area as the player?
+    } else if( rl_dist( player_abspos, global_omt_location() ) > 3 ||
+               ( rl_dist( g->u.pos(), pos() ) > SEEX * 2 || !g->u.sees( pos() ) ) ) {
         if( u_has_radio && guy_has_radio ) {
-            if( ( g->u.pos().z >= 0 && pos().z >= 0 ) || ( g->u.pos().z == pos().z ) ) {
+            // TODO: better range calculation than just elevation.
+            int max_range = 200;
+            max_range *= ( 1 + ( g->u.pos().z * 0.1 ) );
+            max_range *= ( 1 + ( pos().z * 0.1 ) );
+            if( is_stationed ) {
+                // if camp that NPC is at, has a radio tower
+                if( stationed_at->has_level( "camp", 20, "[B]" ) ) {
+                    max_range *= 5;
+                }
+            }
+            // if camp that player is at, has a radio tower
+            cata::optional<basecamp *> player_camp = overmap_buffer.find_camp( g->u.global_omt_location().x,
+                    g->u.global_omt_location().y );
+            if( const cata::optional<basecamp *> player_camp = overmap_buffer.find_camp(
+                        g->u.global_omt_location().x, g->u.global_omt_location().y ) ) {
+                if( ( *player_camp )->has_level( "camp", 20, "[B]" ) ) {
+                    max_range *= 5;
+                }
+            }
+            if( ( ( g->u.pos().z >= 0 && pos().z >= 0 ) || ( g->u.pos().z == pos().z ) ) &&
+                square_dist( g->u.global_sm_location(), global_sm_location() ) <= max_range ) {
                 retval = 2;
                 can_see = "Within radio range";
                 see_color = c_light_green;
@@ -436,6 +453,8 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
         current_status += _( "Following" );
     } else if( is_leader() ) {
         current_status += _( "Leading" );
+    } else if( is_patrolling() ) {
+        current_status += _( "Patrolling" );
     } else if( is_guarding() ) {
         current_status += _( "Guarding" );
     }
@@ -517,6 +536,9 @@ void new_faction_manager::display() const
         std::vector<npc *> followers;
         for( auto &elem : g->get_follower_list() ) {
             std::shared_ptr<npc> npc_to_get = overmap_buffer.find_npc( elem );
+            if( !npc_to_get ) {
+                continue;
+            }
             npc *npc_to_add = npc_to_get.get();
             followers.push_back( npc_to_add );
         }

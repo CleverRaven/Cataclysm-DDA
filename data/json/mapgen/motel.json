@@ -1553,7 +1553,7 @@
     "om_terrain": [ "motel_twd_second_floor" ],
     "weight": 300,
     "object": {
-    "fill_ter": "t_open_air",
+      "fill_ter": "t_open_air",
       "rows": [
         "                        ",
         "                        ",
@@ -1597,14 +1597,7 @@
         "=": "t_door_c",
         "w": "t_curtains"
       },
-      "furniture": {
-        "b": "f_bed",
-        "t": "f_table",
-        "%": "f_sink",
-        "$": "f_shower",
-        ":": "f_dresser",
-        "Y": "f_rack_coat"
-      },
+      "furniture": { "b": "f_bed", "t": "f_table", "%": "f_sink", "$": "f_shower", ":": "f_dresser", "Y": "f_rack_coat" },
       "toilets": { "&": {  } }
     }
   }

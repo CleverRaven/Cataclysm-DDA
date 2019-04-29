@@ -65,6 +65,7 @@
     * 2.5.16 "loot"
     * 2.5.17 "sealed_item"
     * 2.5.18 "graffiti"
+    * 2.6.19 "translate_ter"
   * 2.6 "rotation"
 * 3 update_mapgen
   * 3.1 overmap tile specification
@@ -540,6 +541,7 @@ Places a field (see fields.h). Values:
 Places a new NPC. Values:
 - "class": (required, string) the npc class id, see data/json/npcs/npc.json or define your own npc class.
 - "target": (optional, bool) this NPC is a mission target.  Only valid for update_mapgen.
+- "add_trait" (optional, string or string array) this NPC gets these traits, in addition to any from the class definition.
 
 ### 2.5.2 "signs"
 Places a sign (furniture f_sign) with a message written on it. Either "signage" or "snippet" must be defined.  The message may include tags like \<full_name\>, \<given_name\>, and \<family_name\> that will insert a randomly generated name, or \<city\> that will insert the nearest city name.  Values:
@@ -683,6 +685,12 @@ Places a graffiti message at the location. Either "text" or "snippet" must be de
 - "text": (optional, string) the message that will be placed.
 - "snippet": (optional, string) a category of snippets that the message will be pulled from.
 
+### 2.5.19 "translate_ter"
+Translates one type of terrain into another type of terrain.  There is no reason to do this with
+normal mapgen, but it is useful for setting a baseline with update_mapgen.
+- "from": (required, string) the terrain id of the terrain to be transformed
+- "to": (required, string) the terrain id that the from terrain will transformed into
+
 # 2.7 "rotation"
 Rotates the generated map after all the other mapgen stuff has been done. The value can be a single integer or a range (out of which a value will be randomly chosen). Example:
 ```JSON
@@ -694,7 +702,7 @@ Values are 90° steps.
 update_mapgen is a variant of normal JSON mapgen.  Instead of creating a new overmap tile, it
 updates an existing overmap tile with a specific set of changes.  Currently, it only works within
 the NPC mission interface, but it will be expanded to be a general purpose tool for modifying
-existing maps.  update_mapgen currently only works with maps that cannot rotate.
+existing maps.
 
 update_mapgen generally uses the same fields as JSON mapgen, with a few exceptions.  update_mapgen has a few new fields to support missions, as well as ways to specify which overmap tile will be updated.
 

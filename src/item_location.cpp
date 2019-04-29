@@ -3,6 +3,8 @@
 #include <climits>
 #include <list>
 #include <algorithm>
+#include <iosfwd>
+#include <vector>
 
 #include "character.h"
 #include "debug.h"
@@ -14,13 +16,18 @@
 #include "json.h"
 #include "map.h"
 #include "map_selector.h"
-#include "output.h"
 #include "player.h"
 #include "translations.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
 #include "vpart_position.h"
 #include "vpart_reference.h"
+#include "color.h"
+#include "item.h"
+#include "iuse.h"
+#include "line.h"
+#include "optional.h"
+#include "visitable.h"
 
 template <typename T>
 static int find_index( const T &sel, const item *obj )

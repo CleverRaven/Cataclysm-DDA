@@ -2,6 +2,7 @@
 #ifndef ROTATABLE_SYMBOLS_H
 #define ROTATABLE_SYMBOLS_H
 
+#include <stdint.h>
 #include <string>
 
 class JsonObject;
@@ -13,10 +14,10 @@ void load( JsonObject &jo, const std::string &src );
 void reset();
 
 // Rotate a symbol n times (clockwise).
-// @param sym Symbol to rotate.
+// @param symbol Symbol to rotate.
 // @param n Number of rotations.
 
-std::string get( const std::string &sym, int n );
+uint32_t get( const uint32_t &symbol, int n );
 
 }
 

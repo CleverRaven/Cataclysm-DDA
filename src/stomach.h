@@ -1,13 +1,19 @@
 #pragma once
 
-#include "itype.h"
-#include "game.h"
-#include "player.h"
+#include <map>
+#include <utility>
+
 #include "string_id.h"
 #include "units.h"
+#include "calendar.h"
 
 struct needs_rates;
+class player;
 class vitamin;
+class JsonIn;
+class JsonOut;
+class item;
+
 using vitamin_id = string_id<vitamin>;
 
 // how much the stomach_contents passes

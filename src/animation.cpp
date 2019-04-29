@@ -9,8 +9,14 @@
 #include "player.h"
 #include "popup.h"
 #include "weather.h"
+#include "creature.h"
+#include "cursesdef.h"
+#include "enums.h"
+#include "game_constants.h"
+#include "posix_time.h"
+#include "translations.h"
 
-#ifdef TILES
+#if defined(TILES)
 #include <memory>
 
 #include "cata_tiles.h" // all animation functions will be pushed out to a cata_tiles function in some manner
@@ -19,6 +25,11 @@ extern std::unique_ptr<cata_tiles> tilecontext; // obtained from sdltiles.cpp
 #endif
 
 #include <algorithm>
+#include <list>
+#include <map>
+#include <string>
+#include <utility>
+#include <vector>
 
 bool is_valid_in_w_terrain( int x, int y ); // see game.cpp
 
@@ -398,7 +409,7 @@ void draw_bullet_curses( map &m, const tripoint &t, const char bullet, const tri
         return;
     }
 
-    const tripoint vp = g->u.pos() + g->u.view_offset + g->sidebar_offset;
+    const tripoint vp = g->u.pos() + g->u.view_offset;
 
     if( p != nullptr && p->z == vp.z ) {
         m.drawsq( g->w_terrain, g->u, *p, false, true, vp );
@@ -623,6 +634,18 @@ void game::draw_cursor( const tripoint &p )
 }
 #endif
 
+#if defined(TILES)
+void game::draw_highlight( const tripoint &p )
+{
+    tilecontext->init_draw_highlight( p );
+}
+#else
+void game::draw_highlight( const tripoint & )
+{
+    // Do nothing
+}
+#endif
+
 namespace
 {
 void draw_weather_curses( const catacurses::window &win, const weather_printable &w )
@@ -682,7 +705,7 @@ namespace
 {
 void draw_sct_curses( game &g )
 {
-    const tripoint off = relative_view_pos( g.u, 0, 0, 0 ) - g.sidebar_offset;
+    const tripoint off = relative_view_pos( g.u, 0, 0, 0 );
 
     for( const auto &text : SCT.vSCT ) {
         const int dy = off.y + text.getPosY();
@@ -733,7 +756,7 @@ void draw_zones_curses( const catacurses::window &w, const tripoint &start, cons
     int         const x = start.x - offset.x;
 
     for( int y = start.y; y <= end.y; ++y ) {
-        mvwprintz( w, y - offset.y, x, col, line.c_str() );
+        mvwprintz( w, y - offset.y, x, col, line );
     }
 }
 } //namespace

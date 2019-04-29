@@ -3,16 +3,17 @@
 
 #include <algorithm>
 #include <cassert>
-#include <chrono>
 #include <cmath>
-#include <cstdlib>
 #include <cstring>
 #include <numeric>
 #include <ostream>
 #include <queue>
 #include <random>
 #include <vector>
+#include <exception>
+#include <unordered_set>
 
+#include "catacharset.h"
 #include "cata_utility.h"
 #include "coordinate_conversions.h"
 #include "debug.h"
@@ -34,6 +35,7 @@
 #include "options.h"
 #include "output.h"
 #include "overmap_connection.h"
+#include "overmap_noise.h"
 #include "overmap_location.h"
 #include "overmap_types.h"
 #include "overmapbuffer.h"
@@ -42,6 +44,10 @@
 #include "rotatable_symbols.h"
 #include "simple_pathfinding.h"
 #include "translations.h"
+#include "assign.h"
+#include "math_defines.h"
+#include "monster.h"
+#include "string_formatter.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -73,7 +79,7 @@ namespace om_lines
 {
 
 struct type {
-    std::string sym;
+    uint32_t symbol;
     size_t mapgen;
     std::string suffix;
 };
@@ -84,22 +90,22 @@ const std::array<std::string, 5> mapgen_suffixes = {{
 };
 
 const std::array < type, 1 + om_direction::bits > all = {{
-        { LINE_XXXX_S, 4, "_isolated"  },   // 0  ----
-        { LINE_XOXO_S, 2, "_end_south" },   // 1  ---n
-        { LINE_OXOX_S, 2, "_end_west"  },   // 2  --e-
-        { LINE_XXOO_S, 1, "_ne"        },   // 3  --en
-        { LINE_XOXO_S, 2, "_end_north" },   // 4  -s--
-        { LINE_XOXO_S, 0, "_ns"        },   // 5  -s-n
-        { LINE_OXXO_S, 1, "_es"        },   // 6  -se-
-        { LINE_XXXO_S, 3, "_nes"       },   // 7  -sen
-        { LINE_OXOX_S, 2, "_end_east"  },   // 8  w---
-        { LINE_XOOX_S, 1, "_wn"        },   // 9  w--n
-        { LINE_OXOX_S, 0, "_ew"        },   // 10 w-e-
-        { LINE_XXOX_S, 3, "_new"       },   // 11 w-en
-        { LINE_OOXX_S, 1, "_sw"        },   // 12 ws--
-        { LINE_XOXX_S, 3, "_nsw"       },   // 13 ws-n
-        { LINE_OXXX_S, 3, "_esw"       },   // 14 wse-
-        { LINE_XXXX_S, 4, "_nesw"      }    // 15 wsen
+        { UTF8_getch( LINE_XXXX_S ), 4, "_isolated"  }, // 0  ----
+        { UTF8_getch( LINE_XOXO_S ), 2, "_end_south" }, // 1  ---n
+        { UTF8_getch( LINE_OXOX_S ), 2, "_end_west"  }, // 2  --e-
+        { UTF8_getch( LINE_XXOO_S ), 1, "_ne"        }, // 3  --en
+        { UTF8_getch( LINE_XOXO_S ), 2, "_end_north" }, // 4  -s--
+        { UTF8_getch( LINE_XOXO_S ), 0, "_ns"        }, // 5  -s-n
+        { UTF8_getch( LINE_OXXO_S ), 1, "_es"        }, // 6  -se-
+        { UTF8_getch( LINE_XXXO_S ), 3, "_nes"       }, // 7  -sen
+        { UTF8_getch( LINE_OXOX_S ), 2, "_end_east"  }, // 8  w---
+        { UTF8_getch( LINE_XOOX_S ), 1, "_wn"        }, // 9  w--n
+        { UTF8_getch( LINE_OXOX_S ), 0, "_ew"        }, // 10 w-e-
+        { UTF8_getch( LINE_XXOX_S ), 3, "_new"       }, // 11 w-en
+        { UTF8_getch( LINE_OOXX_S ), 1, "_sw"        }, // 12 ws--
+        { UTF8_getch( LINE_XOXX_S ), 3, "_nsw"       }, // 13 ws-n
+        { UTF8_getch( LINE_OXXX_S ), 3, "_esw"       }, // 14 wse-
+        { UTF8_getch( LINE_XXXX_S ), 4, "_nesw"      }  // 15 wsen
     }
 };
 
@@ -335,7 +341,7 @@ void overmap_land_use_code::load( JsonObject &jo, const std::string &src )
 
     if( symbol == NULL_UNICODE ) {
         DebugLog( D_ERROR, D_GAME ) << "`sym` node is not defined properly for `land_use_code`: "
-                                    << id.c_str() << " (" << name.c_str() << ")";
+                                    << id.c_str() << " (" << name << ")";
     }
 
     assign( jo, "color", color, strict );
@@ -535,7 +541,7 @@ void oter_type_t::load( JsonObject &jo, const std::string &src )
     assign( jo, "color", color, strict );
     assign( jo, "land_use_code", land_use_code, strict );
 
-    const typed_flag_reader<decltype( oter_flags_map )> flag_reader{ oter_flags_map, "invalid overmap terrain flag" };
+    const auto flag_reader = make_flag_reader( oter_flags_map, "overmap terrain flag" );
     optional( jo, was_loaded, "flags", flags, flag_reader );
 
     if( has_flag( line_drawing ) ) {
@@ -549,11 +555,11 @@ void oter_type_t::load( JsonObject &jo, const std::string &src )
     } else {
         if( symbol == NULL_UNICODE && !jo.has_string( "abstract" ) ) {
             DebugLog( D_ERROR, D_MAP_GEN ) << "sym is not defined for overmap_terrain: "
-                                           << id.c_str() << " (" << name.c_str() << ")";
+                                           << id.c_str() << " (" << name << ")";
         }
         if( !jo.has_string( "sym" ) && jo.has_number( "sym" ) ) {
             DebugLog( D_ERROR, D_MAP_GEN ) << "sym is defined as number instead of string for overmap_terrain: "
-                                           << id.c_str() << " (" << name.c_str() << ")";
+                                           << id.c_str() << " (" << name << ")";
         }
         load_overmap_terrain_mapgens( jo, id.str() );
     }
@@ -633,24 +639,23 @@ oter_t::oter_t() : oter_t( oter_type_t::null_type ) {}
 oter_t::oter_t( const oter_type_t &type ) :
     type( &type ),
     id( type.id.str() ),
-    sym( type.get_symbol() ),
-    sym_alt( type.land_use_code ? type.land_use_code->get_symbol() : sym ) {}
+    symbol( type.symbol ),
+    symbol_alt( type.land_use_code ? type.land_use_code->symbol : symbol ) {}
 
 oter_t::oter_t( const oter_type_t &type, om_direction::type dir ) :
     type( &type ),
     id( type.id.str() + "_" + om_direction::id( dir ) ),
     dir( dir ),
-    sym( om_direction::rotate_symbol( type.get_symbol(), dir ) ),
-    sym_alt( om_direction::rotate_symbol( type.land_use_code ? type.land_use_code->get_symbol() :
-                                          type.get_symbol(),
-                                          dir ) ),
+    symbol( om_direction::rotate_symbol( type.symbol, dir ) ),
+    symbol_alt( om_direction::rotate_symbol( type.land_use_code ? type.land_use_code->symbol :
+                type.symbol, dir ) ),
     line( om_lines::from_dir( dir ) ) {}
 
 oter_t::oter_t( const oter_type_t &type, size_t line ) :
     type( &type ),
     id( type.id.str() + om_lines::all[line].suffix ),
-    sym( om_lines::all[line].sym ),
-    sym_alt( om_lines::all[line].sym ),
+    symbol( om_lines::all[line].symbol ),
+    symbol_alt( om_lines::all[line].symbol ),
     line( line ) {}
 
 std::string oter_t::get_mapgen_id() const
@@ -1459,10 +1464,10 @@ void overmap::generate( const overmap *north, const overmap *east,
         }
     }
 
-    // Cities and forests come next.
-    // These are agnostic of adjacent maps, so it's very simple.
+    place_forests();
+    place_swamps();
+
     place_cities();
-    place_forest();
 
     place_forest_trails();
 
@@ -2050,108 +2055,6 @@ void overmap::signal_hordes( const tripoint &p, const int sig_power )
     }
 }
 
-void grow_forest_oter_id( oter_id &oid, bool swampy )
-{
-    if( swampy && ( oid == ot_field || oid == ot_forest ) ) {
-        oid = ot_forest_water;
-    } else if( oid == ot_forest ) {
-        oid = ot_forest_thick;
-    } else if( oid == ot_field ) {
-        oid = ot_forest;
-    }
-}
-
-void overmap::place_forest()
-{
-    int forests_placed = 0;
-    for( int i = 0; i < settings.num_forests; i++ ) {
-        int forx = 0;
-        int fory = 0;
-        int fors = 0;
-        // try to place this forest
-        int tries = 100;
-        do {
-            // forx and fory determine the epicenter of the forest
-            forx = rng( 0, OMAPX - 1 );
-            fory = rng( 0, OMAPY - 1 );
-            // fors determines its basic size
-            fors = rng( settings.forest_size_min, settings.forest_size_max );
-            const auto iter = std::find_if(
-                                  cities.begin(),
-                                  cities.end(),
-            [&]( const city & c ) {
-                return
-                    // is this city too close?
-                    trig_dist( forx, fory, c.pos.x, c.pos.y ) - fors / 2 < c.size &&
-                    // occasionally accept near a city if we've been failing
-                    tries > rng( -1000 / ( i - forests_placed + 1 ), 2 );
-            }
-                              );
-            if( iter == cities.end() ) { // every city was too close
-                break;
-            }
-        } while( tries-- );
-
-        // if we gave up, don't bother trying to place another forest
-        if( tries == 0 ) {
-            break;
-        }
-
-        forests_placed++;
-
-        int swamps = settings.swamp_maxsize; // How big the swamp may be...
-        int x = forx;
-        int y = fory;
-
-        // Depending on the size on the forest...
-        for( int j = 0; j < fors; j++ ) {
-            int swamp_chance = 0;
-            for( int k = -2; k <= 2; k++ ) {
-                for( int l = -2; l <= 2; l++ ) {
-                    if( ter( x + k, y + l, 0 ) == "forest_water" ||
-                        check_ot_type( "river", x + k, y + l, 0 ) ) {
-                        swamp_chance += settings.swamp_river_influence;
-                    }
-                }
-            }
-            bool swampy = false;
-            if( swamps > 0 && swamp_chance > 0 && !one_in( swamp_chance ) &&
-                ( ter( x, y, 0 ) == "forest" || ter( x, y, 0 ) == "forest_thick" ||
-                  ter( x, y, 0 ) == "field" || one_in( settings.swamp_spread_chance ) ) ) {
-                // ...and make a swamp.
-                ter( x, y, 0 ) = oter_id( "forest_water" );
-                swampy = true;
-                swamps--;
-            } else if( swamp_chance == 0 ) {
-                swamps = settings.swamp_maxsize;
-            }
-
-            // Place or enlarge forest
-            for( int mx = -1; mx < 2; mx++ ) {
-                for( int my = -1; my < 2; my++ ) {
-                    grow_forest_oter_id( ter( x + mx, y + my, 0 ),
-                                         ( mx == 0 && my == 0 ? false : swampy ) );
-                }
-            }
-            // Random walk our forest
-            x += rng( -2, 2 );
-            if( x < 0 ) {
-                x = 0;
-            }
-            if( x > OMAPX ) {
-                x = OMAPX;
-            }
-            y += rng( -2, 2 );
-            if( y < 0 ) {
-                y = 0;
-            }
-            if( y > OMAPY ) {
-                y = OMAPY;
-            }
-        }
-    }
-}
-
 void overmap::place_forest_trails()
 {
     std::unordered_set<point> visited;
@@ -2372,6 +2275,88 @@ void overmap::place_forest_trailheads()
         // ...then connect our road points with local_road connections.
         const string_id<overmap_connection> local_road( "local_road" );
         connect_closest_points( road_points, 0, *local_road );
+    }
+}
+
+void overmap::place_forests()
+{
+    const oter_id default_oter_id( settings.default_oter );
+    const oter_id forest( "forest" );
+    const oter_id forest_thick( "forest_thick" );
+
+    const om_noise::om_noise_layer_forest f( global_base_point(), g->get_seed() );
+
+    for( int x = 0; x < OMAPX; x++ ) {
+        for( int y = 0; y < OMAPY; y++ ) {
+            oter_id &oter = ter( x, y, 0 );
+
+            // At this point in the process, we only want to consider converting the terrain into
+            // a forest if it's currently the default terrain type (e.g. a field).
+            if( oter != default_oter_id ) {
+                continue;
+            }
+
+            const point p( x, y );
+            const float n = f.noise_at( p );
+
+            // If the noise here meets our threshold, turn it into a forest.
+            if( n > settings.overmap_forest.noise_threshold_forest_thick ) {
+                oter = forest_thick;
+            } else if( n > settings.overmap_forest.noise_threshold_forest ) {
+                oter = forest;
+            }
+        }
+    }
+}
+
+void overmap::place_swamps()
+{
+    // Buffer our river terrains by a variable radius and increment a counter for the location each
+    // time it's included in a buffer. It's a floodplain that we'll then intersect later with some
+    // noise to adjust how frequently it occurs.
+    std::vector<std::vector<int>> floodplain( OMAPX, std::vector<int>( OMAPY, 0 ) );
+    for( int x = 0; x < OMAPX; x++ ) {
+        for( int y = 0; y < OMAPY; y++ ) {
+            if( is_ot_subtype( "river", ter( x, y, 0 ) ) ) {
+                std::vector<point> buffered_points = closest_points_first( rng(
+                        settings.overmap_forest.river_floodplain_buffer_distance_min,
+                        settings.overmap_forest.river_floodplain_buffer_distance_max ), x, y );
+                for( const point &p : buffered_points )  {
+                    if( !inbounds( p ) ) {
+                        continue;
+                    }
+                    floodplain[p.x][p.y] += 1;
+                }
+            }
+        }
+    }
+
+    const oter_id forest_water( "forest_water" );
+
+    // Get a layer of noise to use in conjunction with our river buffered floodplain.
+    const om_noise::om_noise_layer_floodplain f( global_base_point(), g->get_seed() );
+
+    for( int x = 0; x < OMAPX; x++ ) {
+        for( int y = 0; y < OMAPY; y++ ) {
+            // If this location isn't a forest, there's nothing to do here. We'll only grow swamps in existing
+            // forest terrain.
+            if( !is_ot_subtype( "forest", ter( x, y, 0 ) ) ) {
+                continue;
+            }
+
+            // If this was a part of our buffered floodplain, and the noise here meets the threshold, and the one_in rng
+            // triggers, then we should flood this location and make it a swamp.
+            const bool should_flood = ( floodplain[x][y] > 0 && !one_in( floodplain[x][y] ) && f.noise_at( { x, y } )
+                                        > settings.overmap_forest.noise_threshold_swamp_adjacent_water );
+
+            // If this location meets our isolated swamp threshold, regardless of floodplain values, we'll make it
+            // into a swamp.
+            const bool should_isolated_swamp = f.noise_at( { x, y } ) >
+                                               settings.overmap_forest.noise_threshold_swamp_isolated;
+            if( should_flood || should_isolated_swamp )  {
+                ter( x, y, 0 ) = forest_water;
+            }
+        }
     }
 }
 
@@ -3422,7 +3407,7 @@ tripoint om_direction::rotate( const tripoint &p, type dir )
     return tripoint( rotate( { p.x, p.y }, dir ), p.z );
 }
 
-std::string om_direction::rotate_symbol( const std::string &sym, type dir )
+uint32_t om_direction::rotate_symbol( uint32_t sym, type dir )
 {
     return rotatable_symbols::get( sym, static_cast<int>( dir ) );
 }
@@ -3629,7 +3614,7 @@ void overmap::place_special( const overmap_special &special, const tripoint &p,
         // the top of this function, so we need to make sure we can place the basement
         // special before doing so.
         if( can_place_special( *basement_tid, basement_p, dir, must_be_unexplored ) || force ) {
-            place_special( *basement_tid, basement_p, dir, cit, force, must_be_unexplored );
+            place_special( *basement_tid, basement_p, dir, cit, must_be_unexplored, force );
         }
     }
 }

@@ -1,7 +1,8 @@
-#ifdef SDL_SOUND
+#if defined(SDL_SOUND)
 
 #include "sdlsound.h"
 
+#include <stdlib.h>
 #include <algorithm>
 #include <chrono>
 #include <map>
@@ -9,6 +10,11 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include <exception>
+#include <memory>
+#include <ostream>
+#include <type_traits>
+#include <utility>
 
 #if defined(_MSC_VER) && defined(USE_VCPKG)
 #    include <SDL2/SDL_mixer.h>
@@ -24,6 +30,7 @@
 #include "path_info.h"
 #include "rng.h"
 #include "sdl_wrappers.h"
+#include "sounds.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -468,7 +475,7 @@ void sfx::play_ambient_variant_sound( const std::string &id, const std::string &
 
     Mix_Chunk *effect_to_play = get_sfx_resource( selected_sound_effect.resource_id );
     Mix_VolumeChunk( effect_to_play,
-                     selected_sound_effect.volume * get_option<int>( "SOUND_EFFECT_VOLUME" ) * volume / ( 100 * 100 ) );
+                     selected_sound_effect.volume * get_option<int>( "AMBIENT_SOUND_VOLUME" ) * volume / ( 100 * 100 ) );
     if( Mix_FadeInChannel( channel, effect_to_play, -1, duration ) == -1 ) {
         dbg( D_ERROR ) << "Failed to play sound effect: " << Mix_GetError();
     }

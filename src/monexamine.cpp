@@ -1,7 +1,12 @@
 #include "monexamine.h"
 
+#include <limits.h>
 #include <string>
 #include <utility>
+#include <list>
+#include <map>
+#include <memory>
+#include <vector>
 
 #include "calendar.h"
 #include "game.h"
@@ -17,6 +22,13 @@
 #include "string_input_popup.h"
 #include "translations.h"
 #include "ui.h"
+#include "bodypart.h"
+#include "debug.h"
+#include "enums.h"
+#include "player_activity.h"
+#include "rng.h"
+#include "string_formatter.h"
+#include "units.h"
 
 const species_id ZOMBIE( "ZOMBIE" );
 
@@ -402,7 +414,7 @@ void monexamine::milk_source( monster &source_mon )
     const auto milked_item = source_mon.type->starting_ammo.find( "milk" );
     if( milked_item == source_mon.type->starting_ammo.end() ) {
         debugmsg( "%s is milkable but has no milk in its starting ammo!",
-                  source_mon.get_name().c_str() );
+                  source_mon.get_name() );
         return;
     }
     const long milk_per_day = milked_item->second;
@@ -421,6 +433,7 @@ void monexamine::milk_source( monster &source_mon )
         }
 
         item milk( milked_item->first, calendar::turn, remaining_milk );
+        milk.set_item_temperature( 311.75 );
         if( g->handle_liquid( milk, nullptr, 1, nullptr, nullptr, -1, &source_mon ) ) {
             add_msg( _( "You milk the %s." ), source_mon.get_name() );
             long transferred_milk = remaining_milk - milk.charges;

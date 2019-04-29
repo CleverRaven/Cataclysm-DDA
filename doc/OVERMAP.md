@@ -195,9 +195,8 @@ rotation for the referenced overmap terrains (e.g. the `_north` version for all)
 | `name`            | Name for the location shown in game.                                                             |
 | `sym`             | Symbol used when drawing the location. ASCII (e.g. F is 70) plus some specials for line drawing. |
 | `color`           | Color to draw the symbol in. See COLOR.md.                                                       |
-| `see_cost`        | Affects player vision on overmap. Higher values obstruct vision more.
-| `travel_cost`     | Affects pathfinding cost. Higher values are harder to travel through (reference: Forest = 10 )
-|
+| `see_cost`        | Affects player vision on overmap. Higher values obstruct vision more.                            |
+| `travel_cost`     | Affects pathfinding cost. Higher values are harder to travel through (reference: Forest = 10 )   |
 | `extras`          | Reference to a named `map_extras` in region_settings, defines which map extras can be applied.   |
 | `mondensity`      | Summed with values for adjacent overmap terrains to influence density of monsters spawned here.  |
 | `spawns`          | Spawns added once at mapgen. Monster group, % chance, population range (min/max).                |

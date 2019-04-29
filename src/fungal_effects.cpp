@@ -1,5 +1,7 @@
 #include "fungal_effects.h"
 
+#include <memory>
+
 #include "creature.h"
 #include "field.h"
 #include "game.h"
@@ -9,8 +11,16 @@
 #include "messages.h"
 #include "monster.h"
 #include "mtype.h"
-#include "output.h"
 #include "player.h"
+#include "bodypart.h"
+#include "calendar.h"
+#include "enums.h"
+#include "item.h"
+#include "item_stack.h"
+#include "itype.h"
+#include "pldata.h"
+#include "rng.h"
+#include "translations.h"
 
 const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
 const mtype_id mon_spore( "mon_spore" );
@@ -31,8 +41,7 @@ void fungal_effects::fungalize( const tripoint &p, Creature *origin, double spor
         monster &critter = *mon_ptr;
         if( gm.u.sees( p ) &&
             !critter.type->in_species( FUNGUS ) ) {
-            add_msg( _( "The %s is covered in tiny spores!" ),
-                     critter.name().c_str() );
+            add_msg( _( "The %s is covered in tiny spores!" ), critter.name() );
         }
         if( !critter.make_fungus() ) {
             // Don't insta-kill non-fungables. Jabberwocks, for example
@@ -154,7 +163,7 @@ bool fungal_effects::spread_fungus( const tripoint &p )
                 m.ter_set( p, t_tree_fungal_young );
                 converted = true;
             }
-        } else if( m.has_flag( "WALL", p ) ) {
+        } else if( m.has_flag( "WALL", p ) && m.has_flag( "FLAMMABLE", p ) ) {
             if( x_in_y( growth * 10, 5000 ) ) {
                 converted = true;
                 m.ter_set( p, t_fungus_wall );
@@ -252,7 +261,7 @@ bool fungal_effects::spread_fungus( const tripoint &p )
                         }
                         converted = true;
                     }
-                } else if( m.has_flag( "WALL", dest ) ) {
+                } else if( m.has_flag( "WALL", dest ) && m.has_flag( "FLAMMABLE", dest ) ) {
                     if( one_in( 50 ) ) {
                         converted = true;
                         m.ter_set( dest, t_fungus_wall );
