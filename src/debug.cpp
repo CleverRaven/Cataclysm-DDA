@@ -123,10 +123,13 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
         );
 
 #if defined(BACKTRACE)
+
+    Path *path = Path::getInstance( );
+
     std::string backtrace_instructions =
         string_format(
             _( "See %s for a full stack backtrace" ),
-            FILENAMES["debug"]
+            path->getPathForValueKey("DEBUG_FILE")
         );
 #endif
 
@@ -406,7 +409,9 @@ void setupDebug( DebugOutput output_mode )
         limitDebugClass( cl );
     }
 
-    debugFile.init( output_mode, FILENAMES["debug"] );
+    Path *path = Path::getInstance( );
+
+    debugFile.init( output_mode, path->getPathForValueKey("DEBUG_FILE") );
 }
 
 void deinitDebug()

@@ -27,10 +27,8 @@ private:
      *
      * The location of the 'data' and 'gfx' directory depends on where the
      * base path is located and the platform on which it is executed.
-     *
-     * @param pathname Map where we keep the routes.
      */
-    static void initDataDirectory(std::map<std::string, std::string> pathname);
+    void initDataDirectory( );
 
     /*
      * To use the route it is necessary that the route has the appropriate
@@ -57,7 +55,8 @@ private:
 public:
 
     static void initBasePath(std::string path);
-    static void initUserDirectory(std::string path);
+
+    void initUserDirectory( );
 
     /*
      * Notes: This method needs to be called first
@@ -71,7 +70,7 @@ public:
     /*
      * Static access method.
      */
-    static Path *getInstace();
+    static Path *getInstance();
 
     /*
      * TODO: Make safe method, launch an error in case the key does not exist.

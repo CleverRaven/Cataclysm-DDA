@@ -2547,7 +2547,9 @@ void save_template( const player &u, const std::string &name, const points_left 
     }
 #endif
 
-    write_to_file( FILENAMES["templatedir"] + native + ".template", [&]( std::ostream & fout ) {
+    Path *path = Path::getInstance( );
+
+    write_to_file( path->getPathForValueKey("TEMP_DIRE") + native + ".template", [&]( std::ostream & fout ) {
         JsonOut jsout( fout, true );
 
         jsout.start_array();
@@ -2567,7 +2569,9 @@ void save_template( const player &u, const std::string &name, const points_left 
 
 bool player::load_template( const std::string &template_name, points_left &points )
 {
-    return read_from_file_json( FILENAMES["templatedir"] + utf8_to_native( template_name ) +
+    Path *path = Path::getInstance( );
+
+    return read_from_file_json( path->getPathForValueKey("TEMP_DIRE") + utf8_to_native( template_name ) +
     ".template", [&]( JsonIn & jsin ) {
 
         if( jsin.test_array() ) {

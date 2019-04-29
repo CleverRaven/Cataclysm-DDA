@@ -242,7 +242,10 @@ int sokoban_game::start_game()
     const int iOffsetY = ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
 
     using namespace std::placeholders;
-    read_from_file( FILENAMES["sokoban"], std::bind( &sokoban_game::parse_level, this, _1 ) );
+
+    Path *path = Path::getInstance( );
+
+    read_from_file( path->getPathForValueKey("SOKOBAN"), std::bind( &sokoban_game::parse_level, this, _1 ) );
 
     const catacurses::window w_sokoban = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
                                          iOffsetY, iOffsetX );

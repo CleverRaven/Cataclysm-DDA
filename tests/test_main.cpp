@@ -91,19 +91,17 @@ std::vector<mod_id> extract_mod_selection( std::vector<const char *> &arg_vec )
 void init_global_game_state( const std::vector<mod_id> &mods,
                              option_overrides_t &option_overrides )
 {
-    Path::initBasePath("");
-    Path::initUserDirectory("./");
-    Path::setStandardFilenames();
+    Path *path = Path::getInstance("", "./");
 
-    if( !assure_dir_exist( FILENAMES["config_dir"] ) ) {
+    if( !assure_dir_exist( path->getPathForValueKey("CONFIG_DIR") ) ) {
         assert( !"Unable to make config directory. Check permissions." );
     }
 
-    if( !assure_dir_exist( FILENAMES["savedir"] ) ) {
+    if( !assure_dir_exist( path->getPathForValueKey("SAVE_DIRE") ) ) {
         assert( !"Unable to make save directory. Check permissions." );
     }
 
-    if( !assure_dir_exist( FILENAMES["templatedir"] ) ) {
+    if( !assure_dir_exist( path->getPathForValueKey("TEMP_DIRE") ) ) {
         assert( !"Unable to make templates directory. Check permissions." );
     }
 

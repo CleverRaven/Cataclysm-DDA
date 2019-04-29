@@ -60,13 +60,16 @@ class font_loader
     public:
         /// @throws std::exception upon any kind of error.
         void load() {
-            const std::string fontdata = FILENAMES["fontdata"];
+
+            Path *path = Path::getInstance( );
+
+            const std::string fontdata = path->getPathForValueKey("FONTS_DATA");
             const std::string legacy_fontdata = FILENAMES["legacy_fontdata"];
             if( file_exist( fontdata ) ) {
                 load_throws( fontdata );
             } else {
                 load_throws( legacy_fontdata );
-                assure_dir_exist( FILENAMES["config_dir"] );
+                assure_dir_exist( path->getPathForValueKey("CONFIG_DIR") );
                 save( fontdata );
             }
         }

@@ -25,37 +25,53 @@ void Path::initBasePath( std::string path )
     FILENAMES["base_path"] = path;
 }
 
-void Path::initUserDirectory( std::string path )
+void Path::initUserDirectory( )
 {
-    std::string dir = std::string( path );
+    // If the path to the user directory is empty
+    // it means that it was not set previously
+    // and therefore we must set it.
+    if( pathname["USER_DIRE"].empty() ) {
 
-    if( dir.empty() ) {
-        const char *user_dir;
+        const char *pathUserDirectory;
+
+        // Path to the directory that stores the
+        // Cataclysm DDA configuration files.
+        // This path is built from the path of
+        // the user directory.
+        std::string pathDirectoryCataclysm;
 
 #if defined(_WIN32)
-        user_dir = getenv( "LOCALAPPDATA" );
-        // On Windows userdir without dot
-        dir = std::string( user_dir ) + "/cataclysm-dda/";
-#elif defined(MACOSX)
-        user_dir = getenv( "HOME" );
-        dir = std::string( user_dir ) + "/Library/Application Support/Cataclysm/";
-#elif defined(USE_XDG_DIR)
-        if( ( user_dir = getenv( "XDG_DATA_HOME" ) ) ) {
-            dir = std::string( user_dir ) + "/cataclysm-dda/";
-        } else {
-            user_dir = getenv( "HOME" );
-            dir = std::string( user_dir ) + "/.local/share/cataclysm-dda/";
-        }
-#else
-        user_dir = getenv( "HOME" );
-        dir = std::string( user_dir ) + "/.cataclysm-dda/";
-#endif
-    }
 
-    FILENAMES["user_dir"] = dir;
+        pathUserDirectory = getenv( "LOCALAPPDATA" );
+        // On Windows userdir without dot
+        pathDirectoryCataclysm = std::string( pathUserDirectory ) + "/cataclysm-dda/";
+
+#elif defined(MACOSX)
+
+        pathUserDirectory = getenv( "HOME" );
+        pathDirectoryCataclysm = std::string( pathUserDirectory ) + "/Library/Application Support/Cataclysm/";
+
+#elif defined(USE_XDG_DIR)
+
+        if( ( pathUserDirectory = getenv( "XDG_DATA_HOME" ) ) ) {
+            pathDirectoryCataclysm = std::string( pathUserDirectory ) + "/cataclysm-dda/";
+        } else {
+            pathUserDirectory = getenv( "HOME" );
+            pathDirectoryCataclysm = std::string( pathUserDirectory ) + "/.local/share/cataclysm-dda/";
+        }
+
+#else
+
+        pathUserDirectory = getenv( "HOME" );
+        pathDirectoryCataclysm = std::string( pathUserDirectory ) + "/.cataclysm-dda/";
+
+#endif
+
+        pathname["USER_DIRE"] = pathDirectoryCataclysm;
+    }
 }
 
-void Path::initDataDirectory( std::map<std::string, std::string> pathname )
+void Path::initDataDirectory( )
 {
     // If the base path is empty (example: ""), it means that the 'data'
     // directory is at the same level where the application is executed.
@@ -92,7 +108,7 @@ Path * Path::getInstance( std::string basePath, std::string userDirectoryPath )
     return instance;
 }
 
-Path* Path::getInstace( )
+Path* Path::getInstance( )
 {
     if (instance == 0)
     {
@@ -287,11 +303,11 @@ Path* Path::instance = 0;
 Path::Path( std::string basePath, std::string userDirectoryPath )
 {
     pathname["BASE_PATH"] = formatPath(basePath);
-    // TODO: Get user directory
     pathname["USER_DIRE"] = formatPath(userDirectoryPath);
 
+    initUserDirectory( );
     // We set the directory 'data' and 'gfx' determined by the base path.
-    initDataDirectory(pathname);
+    initDataDirectory( );
 
     // Shared Directories
     pathname["FONT_DIRE"] = pathname["DATA_DIRE"] + "font/";
@@ -299,11 +315,11 @@ Path::Path( std::string basePath, std::string userDirectoryPath )
     pathname["JSON_DIRE"] = pathname["DATA_DIRE"] + "core/";
     pathname["MOD_DIRE"]  = pathname["DATA_DIRE"] + "mods/";
     pathname["NAMES_DIR"] = pathname["DATA_DIRE"] + "names/";
-    pathname["TITLE_DIR"] = pathname["MOD_DIRE"] + "title/";
+    pathname["TITLE_DIR"] = pathname["MOD_DIRE"]  + "title/";
     pathname["MOTD_DIRE"] = pathname["DATA_DIRE"] + "motd/";
     pathname["CREDI_DIR"] = pathname["DATA_DIRE"] + "credits/";
     pathname["COLOR_TEM"] = pathname["RAW_DIRE"]  + "color_templates/";
-    pathname["DAT_SOUND"] = pathname["DATA_DIRE"] + "sound/";
+    pathname["DAT_SOUND"] = pathname["DATA_DIRE"] + "sound";
     pathname["HELP_DIRE"] = pathname["DATA_DIRE"] + "help/";
 
     // Shared Files
@@ -320,7 +336,7 @@ Path::Path( std::string basePath, std::string userDirectoryPath )
     pathname["DF_TITLE_PNG"]  = pathname["GFX_DIRE"]  + "tinytile.png";
     pathname["DF_MODS_DEV"]   = pathname["MOD_DIRE"]  + "default.json";
     pathname["MODS_REPLACEM"] = pathname["MOD_DIRE"]  + "replacements.json";
-    pathname["DF_SOUND_DIRE"] = pathname["DATA_DIRE"] + "sound/";
+    pathname["DF_SOUND_DIRE"] = pathname["DATA_DIRE"] + "sound";
     pathname["HELP_FILE"]     = pathname["HELP_DIRE"] + "texts.json";
 
     // User Directories
@@ -392,7 +408,9 @@ std::map<std::string, std::string> FILENAMES;
 std::string PATH_INFO::find_translated_file( const std::string &pathid,
         const std::string &extension, const std::string &fallbackid )
 {
-    const std::string base_path = FILENAMES[pathid];
+    Path *path = Path::getInstance();
+
+    const std::string base_path = path->getPathForValueKey(pathid);
 
 #if defined(LOCALIZE) && !defined(__CYGWIN__)
     std::string loc_name;
@@ -438,5 +456,5 @@ std::string PATH_INFO::find_translated_file( const std::string &pathid,
     }
 #endif
     ( void ) extension;
-    return FILENAMES[fallbackid];
+    return path->getPathForValueKey(fallbackid);
 }

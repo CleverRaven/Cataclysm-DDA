@@ -3167,9 +3167,12 @@ static void font_folder_list( std::ofstream &fout, const std::string &path,
 static void save_font_list()
 {
     std::set<std::string> bitmap_fonts;
-    std::ofstream fout( FILENAMES["fontlist"].c_str(), std::ios_base::trunc );
 
-    font_folder_list( fout, FILENAMES["fontdir"], bitmap_fonts );
+    Path *path = Path::getInstance();
+
+    std::ofstream fout( path->getPathForValueKey("FONTS_LIST").c_str(), std::ios_base::trunc );
+
+    font_folder_list( fout, path->getPathForValueKey("FONT_DIRE"), bitmap_fonts );
 
 #if defined(_WIN32)
     char buf[256];
@@ -3200,14 +3203,16 @@ static void save_font_list()
 
 static cata::optional<std::string> find_system_font( const std::string &name, int &faceIndex )
 {
-    const std::string fontlist_path = FILENAMES["fontlist"];
+    Path *path = Path::getInstance();
+
+    const std::string fontlist_path = path->getPathForValueKey("FONTS_LIST");
     std::ifstream fin( fontlist_path.c_str() );
     if( !fin.is_open() ) {
         // Try opening the fontlist at the old location.
         fin.open( FILENAMES["legacy_fontlist"].c_str() );
         if( !fin.is_open() ) {
             dbg( D_INFO ) << "Generating fontlist";
-            assure_dir_exist( FILENAMES["config_dir"] );
+            assure_dir_exist( path->getPathForValueKey("CONFIG_DIR") );
             save_font_list();
             fin.open( fontlist_path.c_str() );
             if( !fin ) {
@@ -3450,11 +3455,14 @@ std::unique_ptr<Font> Font::load_font( const std::string &typeface, int fontsize
                                        int fontheight, const bool fontblending )
 {
     if( ends_with( typeface, ".bmp" ) || ends_with( typeface, ".png" ) ) {
+
+        Path *path = Path::getInstance();
+
         // Seems to be an image file, not a font.
         // Try to load as bitmap font.
         try {
             return std::unique_ptr<Font>( new BitmapFont( fontwidth, fontheight,
-                                          FILENAMES["fontdir"] + typeface ) );
+                                                          path->getPathForValueKey("FONT_DIRE") + typeface ) );
         } catch( std::exception &err ) {
             dbg( D_ERROR ) << "Failed to load " << typeface << ": " << err.what();
             // Continue to load as truetype font
@@ -3742,6 +3750,9 @@ CachedTTFFont::CachedTTFFont( const int w, const int h, std::string typeface, in
     : Font( w, h )
     , fontblending( fontblending )
 {
+
+    Path *path = Path::getInstance();
+
     int faceIndex = 0;
     if( const cata::optional<std::string> sysfnt = find_system_font( typeface, faceIndex ) ) {
         typeface = *sysfnt;
@@ -3750,13 +3761,13 @@ CachedTTFFont::CachedTTFFont( const int w, const int h, std::string typeface, in
     //make fontdata compatible with wincurse
     if( !file_exist( typeface ) ) {
         faceIndex = 0;
-        typeface = FILENAMES["fontdir"] + typeface + ".ttf";
+        typeface = path->getPathForValueKey("FONT_DIRE") + typeface + ".ttf";
         dbg( D_INFO ) << "Using compatible font [" + typeface + "]." ;
     }
     //different default font with wincurse
     if( !file_exist( typeface ) ) {
         faceIndex = 0;
-        typeface = FILENAMES["fontdir"] + "fixedsys.ttf";
+        typeface = path->getPathForValueKey("FONT_DIRE") + "fixedsys.ttf";
         dbg( D_INFO ) << "Using fallback font [" + typeface + "]." ;
     }
     dbg( D_INFO ) << "Loading truetype font [" + typeface + "]." ;

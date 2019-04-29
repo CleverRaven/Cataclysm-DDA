@@ -250,8 +250,10 @@ void cata_tiles::reinit_minimap()
 static void get_tile_information( std::string config_path, std::string &json_path,
                                   std::string &tileset_path )
 {
-    const std::string default_json = FILENAMES["defaulttilejson"];
-    const std::string default_tileset = FILENAMES["defaulttilepng"];
+    Path *path = Path::getInstance();
+
+    const std::string default_json = path->getPathForValueKey("DF_TITLE_JSON");
+    const std::string default_tileset = path->getPathForValueKey("DF_TITLE_PNG");
 
     // Get JSON and TILESET vars from config
     const auto reader = [&]( std::istream & fin ) {
@@ -543,17 +545,19 @@ void tileset_loader::load( const std::string &tileset_id, const bool precheck )
     std::string tileset_path;
     std::string tileset_root;
 
+    Path *path = Path::getInstance();
+
     const auto tset_iter = TILESETS.find( tileset_id );
     if( tset_iter != TILESETS.end() ) {
         tileset_root = tset_iter->second;
         dbg( D_INFO ) << '"' << tileset_id << '"' << " tileset: found config file path: " << tileset_root;
-        get_tile_information( tileset_root + '/' + FILENAMES["tileset-conf"],
+        get_tile_information( tileset_root + '/' + path->getPathForValueKey("TILESET_CONF"),
                               json_conf, tileset_path );
         dbg( D_INFO ) << "Current tileset is: " << tileset_id;
     } else {
         dbg( D_ERROR ) << "Tileset \"" << tileset_id << "\" from options is invalid";
-        json_conf = FILENAMES["defaulttilejson"];
-        tileset_path = FILENAMES["defaulttilepng"];
+        json_conf = path->getPathForValueKey("DF_TITLE_JSON");
+        tileset_path = path->getPathForValueKey("DF_TITLE_PNG");
     }
 
     std::string json_path = tileset_root + '/' + json_conf;

@@ -824,11 +824,14 @@ static std::vector<options_manager::id_and_option> build_resource_list(
     std::vector<options_manager::id_and_option> resource_names;
 
     resource_option.clear();
-    const auto resource_dirs = get_directories_with( FILENAMES[filename_label],
-                               FILENAMES[dirname_label], true );
+
+    Path *path = Path::getInstance();
+
+    const auto resource_dirs = get_directories_with( path->getPathForValueKey(filename_label),
+                                                     path->getPathForValueKey(dirname_label), true );
 
     for( auto &resource_dir : resource_dirs ) {
-        read_from_file( resource_dir + "/" + FILENAMES[filename_label], [&]( std::istream & fin ) {
+        read_from_file( resource_dir + "/" + path->getPathForValueKey(filename_label), [&]( std::istream & fin ) {
             std::string resource_name;
             std::string view_name;
             // should only have 2 values inside it, otherwise is going to only load the last 2 values
@@ -870,7 +873,7 @@ static std::vector<options_manager::id_and_option> build_resource_list(
 std::vector<options_manager::id_and_option> options_manager::build_tilesets_list()
 {
     auto tileset_names = build_resource_list( TILESETS, "tileset",
-                         "gfxdir", "tileset-conf" );
+                         "GFX_DIRE", "TILESET_CONF" );
 
     if( tileset_names.empty() ) {
         tileset_names.emplace_back( "hoder", translation( "Hoder's" ) );
@@ -884,7 +887,7 @@ std::vector<options_manager::id_and_option> options_manager::load_soundpack_from
 {
     // build_resource_list will clear &resource_option - first param
     std::map<std::string, std::string> local_soundpacks;
-    auto soundpack_names = build_resource_list( local_soundpacks, "soundpack", path, "soundpack-conf" );
+    auto soundpack_names = build_resource_list( local_soundpacks, "soundpack", path, "SNDPACK_CONF" );
 
     // Copy over found soundpacks
     SOUNDPACKS.insert( local_soundpacks.begin(), local_soundpacks.end() );
@@ -900,11 +903,11 @@ std::vector<options_manager::id_and_option> options_manager::build_soundpacks_li
     std::vector<id_and_option> result;
 
     // Search data directory for sound packs
-    auto data_soundpacks = load_soundpack_from( "data_sound" );
+    auto data_soundpacks = load_soundpack_from( "DAT_SOUND" );
     result.insert( result.end(), data_soundpacks.begin(), data_soundpacks.end() );
 
     // Search user directory for sound packs
-    auto user_soundpacks = load_soundpack_from( "user_sound" );
+    auto user_soundpacks = load_soundpack_from( "USER_SND" );
     result.insert( result.end(), user_soundpacks.begin(), user_soundpacks.end() );
 
     // Select default built-in sound pack
@@ -2710,7 +2713,9 @@ std::string options_manager::migrateOptionValue( const std::string &name,
 
 bool options_manager::save()
 {
-    const auto savefile = FILENAMES["options"];
+    Path *path = Path::getInstance( );
+
+    const auto savefile = path->getPathForValueKey("OPTIONS_USER");
 
     // cache to global due to heavy usage.
     trigdist = ::get_option<bool>( "CIRCLEDIST" );
@@ -2729,7 +2734,9 @@ bool options_manager::save()
 
 void options_manager::load()
 {
-    const auto file = FILENAMES["options"];
+    Path *path = Path::getInstance( );
+
+    const auto file = path->getPathForValueKey("OPTIONS_USER");
     if( !read_from_file_optional_json( file, [&]( JsonIn & jsin ) {
     deserialize( jsin );
     } ) ) {

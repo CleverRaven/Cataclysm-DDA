@@ -29,7 +29,7 @@
 static void reload_names()
 {
     Name::clear();
-    Name::load_from_file( PATH_INFO::find_translated_file( "namesdir", ".json", "names" ) );
+    Name::load_from_file( PATH_INFO::find_translated_file( "NAMES_DIR", ".json", "NAMES_FILE" ) );
 }
 
 #if defined(LOCALIZE)
@@ -196,6 +196,7 @@ void set_language()
 
     // Step 2. Bind to gettext domain.
     std::string locale_dir;
+
 #if defined(__ANDROID__)
     // Since we're using libintl-lite instead of libintl on Android, we hack the locale_dir to point directly to the .mo file.
     // This is because of our hacky libintl-lite bindtextdomain() implementation.
@@ -203,8 +204,11 @@ void set_language()
     locale_dir = std::string( FILENAMES["base_path"] + "lang/mo/" + ( env ? env : "none" ) +
                               "/LC_MESSAGES/cataclysm-dda.mo" );
 #elif (defined(__linux__) || (defined(MACOSX) && !defined(TILES)))
-    if( !FILENAMES["base_path"].empty() ) {
-        locale_dir = FILENAMES["base_path"] + "share/locale";
+
+    Path *path = Path::getInstance();
+
+    if( !path->getPathForValueKey("BASE_PATH").empty() ) {
+        locale_dir = path->getPathForValueKey("BASE_PATH") + "share/locale";
     } else {
         locale_dir = "lang/mo";
     }

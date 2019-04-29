@@ -673,7 +673,10 @@ bool auto_pickup::save_global()
 bool auto_pickup::save( const bool bCharacter )
 {
     bChar = bCharacter;
-    auto savefile = FILENAMES["autopickup"];
+
+    Path *path = Path::getInstance( );
+
+    auto savefile = path->getPathForValueKey("AUTOPICKUP");
 
     if( bCharacter ) {
         savefile = g->get_player_base_save_path() + ".apu.json";
@@ -704,7 +707,9 @@ void auto_pickup::load( const bool bCharacter )
 {
     bChar = bCharacter;
 
-    std::string sFile = FILENAMES["autopickup"];
+    Path *path = Path::getInstance( );
+
+    std::string sFile = path->getPathForValueKey("AUTOPICKUP");
     if( bCharacter ) {
         sFile = g->get_player_base_save_path() + ".apu.json";
     }

@@ -87,7 +87,9 @@ void WORLD::COPY_WORLD( const WORLD *world_to_copy )
 
 std::string WORLD::folder_path() const
 {
-    return FILENAMES["savedir"] + utf8_to_native( world_name );
+    Path *path = Path::getInstance( );
+
+    return path->getPathForValueKey("SAVE_DIRE") + utf8_to_native( world_name );
 }
 
 bool WORLD::save_exists( const save_t &name ) const
@@ -215,7 +217,10 @@ bool WORLD::save( const bool is_conversion ) const
     }
 
     if( !is_conversion ) {
-        const auto savefile = folder_path() + "/" + FILENAMES["worldoptions"];
+
+        Path *path = Path::getInstance( );
+
+        const auto savefile = folder_path() + "/" + path->getPathForValueKey("WORLD_OPTION");
         const bool saved = write_to_file( savefile, [&]( std::ostream & fout ) {
             JsonOut jout( fout );
 
@@ -251,8 +256,11 @@ void worldfactory::init()
     load_last_world_info();
 
     std::vector<std::string> qualifiers;
-    qualifiers.push_back( FILENAMES["worldoptions"] );
-    qualifiers.push_back( FILENAMES["legacy_worldoptions"] );
+
+    Path *path = Path::getInstance( );
+
+    qualifiers.push_back( path->getPathForValueKey("WORLD_OPTION") );
+    // qualifiers.push_back( FILENAMES["legacy_worldoptions"] );
     qualifiers.push_back( SAVE_MASTER );
 
     all_worlds.clear();
@@ -260,7 +268,8 @@ void worldfactory::init()
     // get the master files. These determine the validity of a world
     // worlds exist by having an option file
     // create worlds
-    for( const auto &world_dir : get_directories_with( qualifiers, FILENAMES["savedir"], true ) ) {
+    for( const auto &world_dir : get_directories_with( qualifiers,
+            path->getPathForValueKey("SAVE_DIRE"), true ) ) {
         // get the save files
         auto world_sav_files = get_files_from_path( SAVE_EXTENSION, world_dir, false );
         // split the save file names between the directory and the extension
@@ -542,7 +551,10 @@ void worldfactory::remove_world( const std::string &worldname )
 
 void worldfactory::load_last_world_info()
 {
-    std::ifstream file( FILENAMES["lastworld"], std::ifstream::in | std::ifstream::binary );
+    Path *path = Path::getInstance( );
+
+    std::ifstream file( path->getPathForValueKey("LAST_WORLD"),
+            std::ifstream::in | std::ifstream::binary );
     if( !file.good() ) {
         return;
     }
@@ -555,7 +567,9 @@ void worldfactory::load_last_world_info()
 
 void worldfactory::save_last_world_info()
 {
-    write_to_file( FILENAMES["lastworld"], [&]( std::ostream & file ) {
+    Path *path = Path::getInstance( );
+
+    write_to_file( path->getPathForValueKey("LAST_WORLD"), [&]( std::ostream & file ) {
         JsonOut jsout( file, true );
         jsout.start_object();
         jsout.member( "world_name", last_world_name );
@@ -1380,7 +1394,10 @@ bool WORLD::load_options()
     WORLD_OPTIONS = get_options().get_world_defaults();
 
     using namespace std::placeholders;
-    const auto path = folder_path() + "/" + FILENAMES["worldoptions"];
+
+    Path *appPath = Path::getInstance( );
+
+    const auto path = folder_path() + "/" + appPath->getPathForValueKey("WORLD_OPTION");
     if( read_from_file_optional_json( path, [&]( JsonIn & jsin ) {
     load_options( jsin );
     } ) ) {
@@ -1456,7 +1473,9 @@ WORLDPTR worldfactory::get_world( const std::string &name )
 // Helper predicate to exclude files from deletion when resetting a world directory.
 static bool isForbidden( const std::string &candidate )
 {
-    if( candidate.find( FILENAMES["worldoptions"] ) != std::string::npos ||
+    Path *path = Path::getInstance( );
+
+    if( candidate.find( path->getPathForValueKey("WORLD_OPTION") ) != std::string::npos ||
         candidate.find( "mods.json" ) != std::string::npos ) {
         return true;
     }

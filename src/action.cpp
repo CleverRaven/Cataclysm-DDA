@@ -44,8 +44,11 @@ void load_keyboard_settings( std::map<char, action_id> &keymap,
     const auto parser = [&]( std::istream & fin ) {
         parse_keymap( fin, keymap, unbound_keymap );
     };
-    if( read_from_file_optional( FILENAMES["keymap"], parser ) ) {
-        keymap_file_loaded_from = FILENAMES["keymap"];
+
+    Path *path = Path::getInstance( );
+
+    if( read_from_file_optional( path->getPathForValueKey("KEY_MAP_FILE"), parser ) ) {
+        keymap_file_loaded_from = path->getPathForValueKey("KEY_MAP_FILE");
     } else if( read_from_file_optional( FILENAMES["legacy_keymap"], parser ) ) {
         keymap_file_loaded_from = FILENAMES["legacy_keymap"];
     }
@@ -54,6 +57,8 @@ void load_keyboard_settings( std::map<char, action_id> &keymap,
 void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
                    std::set<action_id> &unbound_keymap )
 {
+    Path *path = Path::getInstance( );
+
     while( !keymap_txt.eof() ) {
         std::string id;
         keymap_txt >> id;
@@ -71,7 +76,7 @@ void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
             if( act == ACTION_NULL ) {
                 debugmsg( "\
 Warning! keymap.txt contains an unknown action, \"%s\"\n\
-Fix \"%s\" at your next chance!", id, FILENAMES["keymap"] );
+Fix \"%s\" at your next chance!", id, path->getPathForValueKey("KEY_MAP_FILE") );
             } else {
                 while( !keymap_txt.eof() ) {
                     char ch;
@@ -83,7 +88,7 @@ Fix \"%s\" at your next chance!", id, FILENAMES["keymap"] );
                             debugmsg( "\
 Warning!  '%c' assigned twice in the keymap!\n\
 %s is being ignored.\n\
-Fix \"%s\" at your next chance!", ch, id, FILENAMES["keymap"] );
+Fix \"%s\" at your next chance!", ch, id, path->getPathForValueKey("KEY_MAP_FILE") );
                         } else {
                             kmap[ ch ] = act;
                         }

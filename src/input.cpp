@@ -114,20 +114,22 @@ void input_manager::init()
     init_keycode_mapping();
     reset_timeout();
 
+    Path *path = Path::getInstance( );
+
     try {
-        load( FILENAMES["keybindings"], false );
+        load( path->getPathForValueKey("KEYBINDINGS"), false );
     } catch( const JsonError &err ) {
-        throw std::runtime_error( FILENAMES["keybindings"] + ": " + err.what() );
+        throw std::runtime_error( path->getPathForValueKey("KEYBINDINGS") + ": " + err.what() );
     }
     try {
-        load( FILENAMES["keybindings_vehicle"], false );
+        load( path->getPathForValueKey("KEYBIND_VEHIC"), false );
     } catch( const JsonError &err ) {
-        throw std::runtime_error( FILENAMES["keybindings_vehicle"] + ": " + err.what() );
+        throw std::runtime_error( path->getPathForValueKey("KEYBIND_VEHIC") + ": " + err.what() );
     }
     try {
-        load( FILENAMES["user_keybindings"], true );
+        load( path->getPathForValueKey("KEYBIND_USER"), true );
     } catch( const JsonError &err ) {
-        throw std::runtime_error( FILENAMES["user_keybindings"] + ": " + err.what() );
+        throw std::runtime_error( path->getPathForValueKey("KEYBIND_USER") + ": " + err.what() );
     }
 
     if( keymap_file_loaded_from.empty() || ( keymap.empty() && unbound_keymap.empty() ) ) {
@@ -267,7 +269,9 @@ void input_manager::load( const std::string &file_name, bool is_user_preferences
 
 void input_manager::save()
 {
-    write_to_file( FILENAMES["user_keybindings"], [&]( std::ostream & data_file ) {
+    Path *path = Path::getInstance( );
+
+    write_to_file( path->getPathForValueKey("KEYBIND_USER"), [&]( std::ostream & data_file ) {
         JsonOut jsout( data_file, true );
 
         jsout.start_array();

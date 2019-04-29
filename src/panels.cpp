@@ -1810,7 +1810,9 @@ void panel_manager::update_offsets( int x )
 
 bool panel_manager::save()
 {
-    return write_to_file( FILENAMES["panel_options"], [&]( std::ostream & fout ) {
+    Path *path = Path::getInstance( );
+
+    return write_to_file( path->getPathForValueKey("OPTINS_PANEL"), [&]( std::ostream & fout ) {
         JsonOut jout( fout, true );
         serialize( jout );
     }, _( "panel_options" ) );
@@ -1818,7 +1820,9 @@ bool panel_manager::save()
 
 bool panel_manager::load()
 {
-    return read_from_file_optional_json( FILENAMES["panel_options"], [&]( JsonIn & jsin ) {
+    Path *path = Path::getInstance( );
+
+    return read_from_file_optional_json( path->getPathForValueKey("OPTINS_PANEL"), [&]( JsonIn & jsin ) {
         deserialize( jsin );
     } );
 }

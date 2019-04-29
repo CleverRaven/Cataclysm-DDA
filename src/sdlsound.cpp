@@ -483,7 +483,9 @@ void sfx::play_ambient_variant_sound( const std::string &id, const std::string &
 
 void load_soundset()
 {
-    const std::string default_path = FILENAMES["defaultsounddir"];
+    Path *path = Path::getInstance();
+
+    const std::string default_path = path->getPathForValueKey("DF_SOUND_DIRE");
     const std::string default_soundpack = "basic";
     std::string current_soundpack = get_option<std::string>( "SOUNDPACKS" );
     std::string soundpack_path;
