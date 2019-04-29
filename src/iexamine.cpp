@@ -1267,10 +1267,10 @@ void iexamine::bulletin_board( player &p, const tripoint &examp )
         }
         const std::string title = ( "Base Missions" );
         mission_data mission_key;
-        temp_camp->get_available_missions( mission_key, omt_tri, false );
-        if( talk_function::display_and_choose_opts( mission_key, temp_camp->camp_omt_pos(), "FACTION_CAMP",
-                title ) ) {
-            temp_camp->handle_mission( mission_key.cur_key.id, mission_key.cur_key.dir, omt_tri, false );
+        temp_camp->get_available_missions( mission_key, false );
+        if( talk_function::display_and_choose_opts( mission_key, temp_camp->camp_omt_pos(),
+                "FACTION_CAMP", title ) ) {
+            temp_camp->handle_mission( mission_key.cur_key.id, mission_key.cur_key.dir, false );
         }
     } else {
         p.add_msg_if_player( _( "This bulletin board is not inside a camp" ) );
