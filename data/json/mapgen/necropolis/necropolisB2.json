@@ -5519,10 +5519,7 @@
         { "group": "book_military", "x": [ 16, 17 ], "y": [ 5, 5 ], "chance": 70 },
         { "group": "cop_gear", "x": [ 19, 19 ], "y": [ 1, 3 ], "chance": 50 }
       ],
-      "place_npcs": [
-        { "class": "old_guard_soldier", "x": 14, "y": 23 },
-        { "class": "old_guard_soldier", "x": 8, "y": 21 }
-      ],
+      "place_npcs": [ { "class": "old_guard_soldier", "x": 14, "y": 23 }, { "class": "old_guard_soldier", "x": 8, "y": 21 } ],
       "place_monsters": [
         { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 12 ], "density": 0.05 },
         { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 12 ], "density": 0.25 }
