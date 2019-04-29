@@ -290,61 +290,76 @@ static void get_tile_information( std::string config_path, std::string &json_pat
     }
 }
 
-static inline Uint8 average_pixel_color( const SDL_Color &color )
-{
-    return 85 * ( color.r + color.g + color.b ) >> 8; // 85/256 ~ 1/3
-}
+// A wrapper of SDL_Color
+struct pixel {
+    union {
+        SDL_Color color;
+        struct {
+            Uint8 r;
+            Uint8 g;
+            Uint8 b;
+            Uint8 a;
+        };
+        Uint32 color_data;
+    };
 
-static inline SDL_Color color_pixel_grayscale( const SDL_Color &color )
-{
-    if( is_black( color ) ) {
-        return color;
+    pixel() : color_data( 0 ) {}
+
+    inline bool isBlack() {
+        return ( color_data & 0xffffff ) == 0; // A fast r == 0 && g == 0 && b == 0
     }
 
-    const Uint8 av = average_pixel_color( color );
+    inline Uint8 averagePixelColor() {
+        return 86 * ( r + g + b ) >> 8; // 86/256 ~ 1/3. (Exactly the same in 213/256 cases)
+    }
+};
+
+static_assert( offsetof( SDL_Color, r ) == 0, "Pixel struct modified" );
+static_assert( offsetof( SDL_Color, g ) == 1, "Pixel struct modified" );
+static_assert( offsetof( SDL_Color, b ) == 2, "Pixel struct modified" );
+static_assert( offsetof( SDL_Color, a ) == 3, "Pixel struct modified" );
+
+static inline void color_pixel_grayscale( pixel &color )
+{
+    if( color.isBlack() ) {
+        return;
+    }
+
+    const Uint8 av = color.averagePixelColor();
     const Uint8 result = std::max( av * 5 >> 3, 0x01 );
 
-    return { result, result, result, color.a };
+    color.color_data = ( result * 0x00010101 ) | ( color.a << ( 3 * 8 ) ); // Fast set R, G, B to result
 }
 
-static inline SDL_Color color_pixel_nightvision( const SDL_Color &color )
+static inline void color_pixel_nightvision( pixel &color )
 {
-    const Uint8 av = average_pixel_color( color );
+    const Uint8 av = color.averagePixelColor();
     const Uint8 result = std::min( ( av * ( ( av * 3 >> 2 ) + 64 ) >> 8 ) + 16, 0xFF );
 
-    return {
-        static_cast<Uint8>( result >> 2 ),
-        static_cast<Uint8>( result ),
-        static_cast<Uint8>( result >> 3 ),
-        color.a
-    };
+    color.r = static_cast<Uint8>( result >> 2 );
+    color.g = static_cast<Uint8>( result );
+    color.b = static_cast<Uint8>( result >> 3 );
 }
 
-static inline SDL_Color color_pixel_overexposed( const SDL_Color &color )
+static inline void color_pixel_overexposed( pixel &color )
 {
-    const Uint8 av = average_pixel_color( color );
+    const Uint8 av = color.averagePixelColor();
     const Uint8 result = std::min( 64 + ( av * ( ( av >> 2 ) + 0xC0 ) >> 8 ), 0xFF );
 
-    return {
-        static_cast<Uint8>( result >> 2 ),
-        static_cast<Uint8>( result ),
-        static_cast<Uint8>( result >> 3 ),
-        color.a
-    };
+    color.r = static_cast<Uint8>( result >> 2 );
+    color.g = static_cast<Uint8>( result );
+    color.b = static_cast<Uint8>( result >> 3 );
 }
 
-static inline SDL_Color color_pixel_memorized( const SDL_Color &color )
+static inline void color_pixel_memorized( pixel &color )
 {
-    if( is_black( color ) ) {
-        return color;
+    if( color.isBlack() ) {
+        return;
     }
-    // 85/256 ~ 1/3
-    return {
-        std::max<Uint8>( 85 * color.r >> 8, 0x01 ),
-        std::max<Uint8>( 85 * color.g >> 8, 0x01 ),
-        std::max<Uint8>( 85 * color.b >> 8, 0x01 ),
-        color.a
-    };
+    // 86/256 ~ 1/3
+    color.r = std::max<Uint8>( 86 * color.r >> 8, 0x01 );
+    color.g = std::max<Uint8>( 86 * color.g >> 8, 0x01 );
+    color.b = std::max<Uint8>( 86 * color.b >> 8, 0x01 );
 }
 
 template<typename PixelConverter>
@@ -357,17 +372,16 @@ static SDL_Surface_Ptr apply_color_filter( const SDL_Surface_Ptr &original,
     throwErrorIf( SDL_BlitSurface( original.get(), NULL, surf.get(), NULL ) != 0,
                   "SDL_BlitSurface failed" );
 
-    auto pix = reinterpret_cast<SDL_Color *>( surf->pixels );
+    const auto begin = reinterpret_cast<pixel *>( surf->pixels );
+    const auto end = begin + ( surf->h * surf->w );
 
-    for( int y = 0, ey = surf->h; y < ey; ++y ) {
-        for( int x = 0, ex = surf->w; x < ex; ++x, ++pix ) {
-            if( pix->a == 0x00 ) {
-                // This check significantly improves the performance since
-                // vast majority of pixels in the tilesets are completely transparent.
-                continue;
-            }
-            *pix = pixel_converter( *pix );
+    for( auto pix = begin; pix < end; pix++ ) {
+        if( pix->a == 0x00 ) {
+            // This check significantly improves the performance since
+            // vast majority of pixels in the tilesets are completely transparent.
+            continue;
         }
+        pixel_converter( *pix );
     }
 
     return surf;
@@ -1497,38 +1511,33 @@ void cata_tiles::draw_minimap( int destx, int desty, const tripoint &center, int
             tripoint p( x, y, center.z );
 
             lit_level lighting = ch.visibility_cache[p.x][p.y];
-            SDL_Color color;
-            color.a = 255;
+            pixel color;
             if( lighting == LL_BLANK ) {
-                color.r = 0;
-                color.g = 0;
-                color.b = 0;
+                color.color_data = 0xff000000; // (0, 0, 0, 255)
             } else if( lighting == LL_DARK ) {
-                color.r = 12;
-                color.g = 12;
-                color.b = 12;
+                color.color_data = 0xff0c0c0c; // (12, 12, 12, 255)
             } else if( const optional_vpart_position vp = g->m.veh_at( p ) ) {
-                color = cursesColorToSDL( vp->vehicle().part_color( vp->part_index() ) );
+                color.color = cursesColorToSDL( vp->vehicle().part_color( vp->part_index() ) );
             } else if( g->m.has_furn( p ) ) {
                 auto &furniture = g->m.furn( p ).obj();
-                color = cursesColorToSDL( furniture.color() );
+                color.color = cursesColorToSDL( furniture.color() );
             } else {
                 auto &terrain = g->m.ter( p ).obj();
-                color = cursesColorToSDL( terrain.color() );
+                color.color = cursesColorToSDL( terrain.color() );
             }
             //color terrain according to lighting conditions
             if( nv_goggle ) {
                 if( lighting == LL_LOW ) {
-                    color = color_pixel_nightvision( color );
+                    color_pixel_nightvision( color );
                 } else if( lighting != LL_DARK && lighting != LL_BLANK ) {
-                    color = color_pixel_overexposed( color );
+                    color_pixel_overexposed( color );
                 }
             } else if( lighting == LL_LOW ) {
-                color = color_pixel_grayscale( color );
+                color_pixel_grayscale( color );
             }
 
             //add an individual color update to the cache
-            update_minimap_cache( p, adjust_color_brightness( color, brightness ) );
+            update_minimap_cache( p, adjust_color_brightness( color.color, brightness ) );
         }
     }
 
