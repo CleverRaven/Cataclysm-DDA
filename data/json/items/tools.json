@@ -7348,10 +7348,12 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "magenta",
-    "ammo": "battery",
+    "initial_charges": 20,
+    "max_charges": 20,
+    "charges_per_use": 1,
+    "use_action": "TELEPORT"
     "charges_per_use": 25,
-    "use_action": "TELEPORT",
-    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ]
+    "use_action": "TELEPORT"
   },
   {
     "id": "teleumbrella",
