@@ -278,7 +278,8 @@ void basecamp::validate_assignees()
         if( !npc_to_add ) {
             continue;
         }
-        if( npc_to_add->global_omt_location() == omt_pos && npc_to_add->mission == NPC_MISSION_GUARD_ALLY &&
+        if( npc_to_add->global_omt_location() == omt_pos &&
+            npc_to_add->mission == NPC_MISSION_GUARD_ALLY &&
             !npc_to_add->has_companion_mission() ) {
             assigned_npcs.push_back( npc_to_add );
         }

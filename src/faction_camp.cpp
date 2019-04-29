@@ -3405,7 +3405,8 @@ std::string camp_car_description( vehicle *car )
         if( pt.is_battery() ) {
             const vpart_info &vp = pt.info();
             entry += string_format( ">%s:%*d%%\n", vp.name(), 32 - vp.name().length(),
-                                    static_cast<int>( 100.0 * pt.ammo_remaining() / pt.ammo_capacity() ) );
+                                    static_cast<int>( 100.0 * pt.ammo_remaining() /
+                                            pt.ammo_capacity() ) );
         }
     }
     entry += " \n";
@@ -3598,7 +3599,8 @@ bool survive_random_encounter( npc &comp, std::string &situation, int favor, int
                        comp.name );
                 popup( _( "Terrified, %s spun around and delivered a massive kick to the creature's torso..." ),
                        comp.name );
-                popup( _( "Collapsing into a pile of gore, %s walked away unscathed..." ), comp.name );
+                popup( _( "Collapsing into a pile of gore, %s walked away unscathed..." ),
+                       comp.name );
                 popup( _( "(Sounds like bullshit, you wonder what really happened.)" ) );
             }
             talk_function::companion_skill_trainer( comp, "combat", 10_minutes, 10 - favor );
