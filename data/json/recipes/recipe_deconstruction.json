@@ -1238,6 +1238,13 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
+    "result": "scorecard",
+    "type": "uncraft",
+    "time": 100,
+    "components": [ [ [ "paper", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
     "result": "foon",
     "type": "uncraft",
     "time": 1500,
