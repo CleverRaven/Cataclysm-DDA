@@ -128,7 +128,8 @@ void character_edit_menu()
         data << np->name << " " << ( np->male ? _( "Male" ) : _( "Female" ) ) << std::endl;
         data << np->myclass.obj().get_name() << "; " <<
              npc_attitude_name( np->get_attitude() ) << "; " <<
-             ( np->my_fac ? np->my_fac->name : _( "no faction" ) ) << std::endl;
+             ( np->my_fac ? np->my_fac->name : _( "no faction" ) ) << "; " <<
+             "api: " << np->get_faction_ver() << std::endl;
         if( np->has_destination() ) {
             data << string_format( _( "Destination: %d:%d:%d (%s)" ),
                                    np->goal.x, np->goal.y, np->goal.z,

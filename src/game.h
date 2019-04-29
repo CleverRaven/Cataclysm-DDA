@@ -8,6 +8,7 @@
 #include <map>
 #include <memory>
 #include <unordered_map>
+#include <set>
 #include <vector>
 #include <ctime>
 #include <functional>
@@ -511,12 +512,12 @@ class game
         void increase_kill_count( const mtype_id &id );
         /** Record the fact that the player murdered an NPC. */
         void record_npc_kill( const npc &p );
-        /** Add follower id to list. */
+        /** Add follower id to set of followers. */
         void add_npc_follower( const int &id );
-        /** Remove follower id from follower list. */
+        /** Remove follower id from follower set. */
         void remove_npc_follower( const int &id );
-        /** Get list of followers. */
-        std::vector<int> get_follower_list();
+        /** Get set of followers. */
+        std::set<int> get_follower_list();
         /** validate list of followers to account for overmap buffers */
         void validate_npc_followers();
         /** validate camps to ensure they are on the overmap list */
@@ -1126,7 +1127,7 @@ class game
         bool bVMonsterLookFire;
         time_point nextweather; // The time on which weather will shift next.
         int next_npc_id, next_mission_id; // Keep track of UIDs
-        std::vector<int> follower_ids; // Keep track of follower NPC IDs
+        std::set<int> follower_ids; // Keep track of follower NPC IDs
         std::map<mtype_id, int> kills;         // Player's kill count
         std::list<std::string> npc_kills;      // names of NPCs the player killed
         int moves_since_last_save;

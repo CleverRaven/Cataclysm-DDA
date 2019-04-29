@@ -204,6 +204,36 @@
     "flags": [ "DURABLE_MELEE" ]
   },
   {
+    "id": "water_mill",
+    "type": "TOOL",
+    "name": "water mill",
+    "description": "A small water-powered mill that can convert starchy products into flour. Can be placed via the construction menu.",
+    "weight": 120000,
+    "volume": 90,
+    "price": 100000,
+    "to_hit": -5,
+    "bashing": 40,
+    "material": "wood",
+    "symbol": "*",
+    "color": "red",
+    "flags": [ "DURABLE_MELEE" ]
+  },
+  {
+    "id": "wind_mill",
+    "type": "TOOL",
+    "name": "wind mill",
+    "description": "A small wind-powered mill that can convert starchy products into flour. Can be placed via the construction menu.",
+    "weight": 120000,
+    "volume": 90,
+    "price": 100000,
+    "to_hit": -5,
+    "bashing": 40,
+    "material": "steel",
+    "symbol": "T",
+    "color": "red",
+    "flags": [ "DURABLE_MELEE" ]
+  },
+  {
     "id": "atomic_coffeepot",
     "type": "GENERIC",
     "category": "tools",
@@ -4618,7 +4648,7 @@
     "name": "lighter",
     "description": "This is a disposable plastic lighter.  A lighter must be carried to use various drugs, like cigarettes, or to light things like Molotov cocktails.  You can also use a lighter to light nearby items on fire.",
     "weight": 14,
-    "volume": 0,
+    "volume": "14 ml",
     "price": 100,
     "material": [ "plastic", "aluminum" ],
     "symbol": ",",
@@ -4679,7 +4709,7 @@
     "color": "dark_gray",
     "qualities": [ [ "DIG", 2 ], [ "AXE", 1 ], [ "CUT", 1 ], [ "BUTCHER", -11 ], [ "COOK", 1 ] ],
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
-    "flags": [ "NEEDS_UNFOLD" ]
+    "flags": [ "NEEDS_UNFOLD", "BELT_CLIP" ]
   },
   {
     "id": "machete",
@@ -5478,7 +5508,7 @@
   {
     "id": "hydrogen_tank",
     "type": "TOOL",
-    "name": "nitrogen tank",
+    "name": "hydrogen tank",
     "description": "This is a tank of compressed hydrogen gas.  If you need to make water from scratch, or lift a zeppelin, it could come in handy.",
     "weight": 2268,
     "volume": 6,
@@ -6153,7 +6183,7 @@
     "name": "refillable lighter",
     "description": "This is a lighter featuring a flip top cover and refuelable tank.  A lighter must be carried to use various drugs, like cigarettes, or to light things like Molotov cocktails.  You can also use a lighter to light nearby items on fire.",
     "weight": 20,
-    "volume": 0,
+    "volume": "31 ml",
     "price": 3000,
     "material": "aluminum",
     "symbol": ",",
@@ -6183,7 +6213,7 @@
     "name_plural": "refillable lighters",
     "description": "This is a lighter featuring a flip top cover and refuelable tank.  It is lit.",
     "weight": 20,
-    "volume": 0,
+    "volume": "31 ml",
     "price": 3000,
     "material": "aluminum",
     "symbol": ",",
@@ -6479,6 +6509,23 @@
       "move_cost": 1000
     },
     "flags": [ "ALLOWS_REMOTE_USE" ]
+  },
+  {
+    "id": "anesthetic_kit",
+    "type": "TOOL",
+    "name": "anesthesia kit",
+    "description": "A kit for inducing anesthesia for surgery, containing specialized canisters with a variety of powerful hypnotic, analgetic, and stimulative drugs.  It's intended for use in specialized medical equipment, and can't be administered manually.",
+    "weight": 100,
+    "volume": 1,
+    "price": 1000,
+    "to_hit": -1,
+    "material": [ "glass" ],
+    "symbol": "!",
+    "color": "cyan",
+    "ammo": "anesthetic",
+    "initial_charges": 3,
+    "max_charges": 3,
+    "qualities": [ [ "ANESTHESIA", 1 ] ]
   },
   {
     "id": "shavingkit",

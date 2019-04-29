@@ -8,10 +8,12 @@
 #include "map.h"
 #include "mapdata.h"
 #include "monster.h"
+#include "npc.h"
 #include "player.h"
 #include "field.h"
 #include "enums.h"
 #include "game_constants.h"
+#include "overmapbuffer.h"
 #include "pimpl.h"
 
 void wipe_map_terrain()
@@ -34,6 +36,14 @@ void clear_creatures()
     // Remove any interfering monsters.
     g->clear_zombies();
     g->unload_npcs();
+}
+
+void clear_npcs()
+{
+    for( npc &n : g->all_npcs() ) {
+        n.die( nullptr );
+        overmap_buffer.remove_npc( n.getID() );
+    }
 }
 
 void clear_fields( const int zlevel )

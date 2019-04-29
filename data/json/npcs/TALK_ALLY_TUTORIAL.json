@@ -13,7 +13,7 @@
       { "text": "What's that about training?", "topic": "TALK_ALLY_TUTORIAL_TRAINING" },
       { "text": "Tell me about you carrying stuff", "topic": "TALK_ALLY_TUTORIAL_MULE" },
       { "text": "You can perform first aid?", "topic": "TALK_ALLY_TUTORIAL_MEDIC" },
-      { "text": "Tell me about faction camps.", "topic": "TALK_CAMP_TUTORIAL_1" },
+      { "text": "Tell me about faction camps.", "topic": "TALK_CAMP_TUTORIAL_INTRO" },
       { "text": "What do you mean, you can go places?", "topic": "TALK_ALLY_TUTORIAL_MOVEMENT" },
       { "text": "What do you do as a guard?", "topic": "TALK_ALLY_TUTORIAL_GUARD" },
       { "text": "What about chit-chatting and your background?", "topic": "TALK_ALLY_TUTORIAL_SOCIAL" },
@@ -133,7 +133,7 @@
     "responses": [
       { "text": "We can talk with radios?", "topic": "TALK_ALLY_TUTORIAL_RADIO" },
       { "text": "What do you do as a guard?", "topic": "TALK_ALLY_TUTORIAL_GUARD" },
-      { "text": "Tell me about faction camps.", "topic": "TALK_CAMP_TUTORIAL_1" },
+      { "text": "Tell me about faction camps.", "topic": "TALK_CAMP_TUTORIAL_INTRO" },
       {
         "text": "Thanks for the explanation.  I wanted to know more about something else.",
         "topic": "TALK_ALLY_TUTORIAL"

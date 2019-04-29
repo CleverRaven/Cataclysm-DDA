@@ -31,6 +31,11 @@
           "rotates": false
         },
         {
+          "id": "mon_hologram",
+          "fg": 3063,
+          "rotates": false
+        },
+        {
           "id": [
             "mon_zombie",
             "mon_zombie_pk",
@@ -92,6 +97,11 @@
           "rotates": false
         },
         {
+          "id": "mon_skeleton_brute",
+          "fg": 11,
+          "rotates": false
+        },
+        {
           "id": "mon_skeleton_scorched",
           "fg": 12,
           "rotates": false
@@ -142,6 +152,11 @@
         {
           "id": "mon_zombie_brute",
           "fg": 21,
+          "rotates": false
+        },
+        {
+          "id": "mon_gas_zombie",
+          "fg": 3049,
           "rotates": false
         },
         {
@@ -282,6 +297,10 @@
           ],
           "fg": 41,
           "rotates": false
+        },
+        {
+          "id": "mon_zombie_thorny",
+          "fg": 3061
         },
         {
           "id": "mon_zombie_fiend_shocker",
@@ -1918,7 +1937,7 @@
         },
         {
           "id": "mon_ratman_ninja",
-          "fg": 319,
+          "fg": 3071,
           "rotates": false
         },
         {
@@ -2020,6 +2039,11 @@
         {
           "id": "mon_broken_cyborg",
           "fg": 337,
+          "rotates": false
+        },
+        {
+          "id": "mon_prototype_cyborg",
+          "fg": 3048,
           "rotates": false
         },
         {
@@ -6787,23 +6811,7 @@
           "rotates": false
         },
         {
-          "id": [
-            "cloak",
-            "cloak_wool"
-          ],
-          "fg": 783,
-          "rotates": false
-        },
-        {
-          "id": "cloak_fur",
-          "fg": 784,
-          "rotates": false
-        },
-        {
-          "id": [
-            "cloak_leather",
-            "robe"
-          ],
+          "id": "robe",
           "fg": 785,
           "rotates": false
         },
@@ -7022,6 +7030,16 @@
             "sleeping_bag_fur"
           ],
           "fg": 818,
+          "rotates": false
+        },
+        {
+          "id": "electric_blanket",
+          "fg": 3064,
+          "rotates": false
+        },
+        {
+          "id": "electric_blanket_on",
+          "fg": 3065,
           "rotates": false
         },
         {
@@ -7412,6 +7430,7 @@
         {
           "id": [
             "helmet_riot",
+            "helmet_riot_raised",
             "tac_fullhelmet"
           ],
           "fg": 876,
@@ -7544,14 +7563,6 @@
             "technician_pants_ltblue"
           ],
           "fg": 895,
-          "rotates": false
-        },
-        {
-          "id": [
-            "jedi_cloak",
-            "optical_cloak"
-          ],
-          "fg": 896,
           "rotates": false
         },
         {
@@ -7782,9 +7793,19 @@
             "legpouch",
             "legpouch_large",
             "camelbak",
-            "makeshift_knapsack"
+            "makeshift_knapsack",
+            "solarpack",
+            "q_solarpack"
           ],
           "fg": 930,
+          "rotates": false
+        },
+        {
+          "id": [
+            "solarpack_on",
+            "q_solarpack_on"
+          ],
+          "fg": 3062,
           "rotates": false
         },
         {
@@ -8468,7 +8489,8 @@
             "sleeveless_trenchcoat",
             "chainmail_vest",
             "sleeveless_duster",
-            "vest_leather_mod"
+            "vest_leather_mod",
+            "cloak"
           ],
           "fg": 1029,
           "rotates": false
@@ -8481,9 +8503,31 @@
             "sleeveless_trenchcoat_survivor",
             "sleeveless_duster_fur",
             "sleeveless_duster_leather",
-            "sleeveless_duster_survivor"
+            "sleeveless_duster_survivor",
+            "cloak_leather",
+            "jedi_cloak"
           ],
           "fg": 1030,
+          "rotates": false
+        },
+        {
+          "id": "cloak_fur",
+          "fg": 3068,
+          "rotates": false
+        },
+        {
+          "id": "optical_cloak",
+          "fg": 3069,
+          "rotates": false
+        },
+        {
+          "id": "holo_cloak",
+          "fg": 3070,
+          "rotates": false
+        },
+        {
+          "id": "cloak_wool",
+          "fg": 3066,
           "rotates": false
         },
         {
@@ -8551,12 +8595,12 @@
             "f_large_groundsheet",
             "f_center_groundsheet"
           ],
-          "bg": 1037,
+          "fg": 1037,
           "rotates": false
         },
         {
           "id": "fd_blood",
-          "bg": 1038,
+          "fg": 1038,
           "rotates": false
         },
         {
@@ -8566,7 +8610,7 @@
         },
         {
           "id": "fd_blood_veggy",
-          "bg": 1040,
+          "fg": 1040,
           "rotates": false
         },
         {
@@ -8574,12 +8618,12 @@
             "fd_blood_invertebrate",
             "fd_gibs_invertebrate"
           ],
-          "bg": 1041,
+          "fg": 1041,
           "rotates": false
         },
         {
           "id": "fd_blood_insect",
-          "bg": 1042,
+          "fg": 1042,
           "rotates": false
         },
         {
@@ -8600,7 +8644,7 @@
             "f_ash",
             "t_ash"
           ],
-          "bg": 1045,
+          "fg": 1045,
           "rotates": false
         },
         {
@@ -8836,6 +8880,9 @@
             "novel_coa",
             "novel_samurai",
             "tall_tales",
+            "recipe_fauxfur",
+            "classic_literature",
+            "collector_book",
             "manual_brawl",
             "manual_knives",
             "manual_stabbing",
@@ -9354,7 +9401,8 @@
             "dogfood",
             "coffee_raw",
             "f_woodchips",
-            "feces_roach"
+            "feces_roach",
+            "material_soil"
           ],
           "fg": 1098,
           "rotates": false
@@ -10427,6 +10475,7 @@
         {
           "id": [
             "sausage",
+            "mre_maplesausage",
             "hotdogs_frozen",
             "hotdogs_cooked",
             "hotdogs_campfire",
@@ -10860,6 +10909,10 @@
             "sweet_water",
             "chem_methanol",
             "chem_ethanol",
+            "chem_DMSO",
+            "chem_chloroform",
+            "chem_phenol",
+            "chem_glycerol",
             "denat_alcohol",
             "chem_acetic_acid",
             "chem_acetone",
@@ -15028,7 +15081,11 @@
         {
           "id": [
             "oxygen_tank",
-            "smoxygen_tank"
+            "smoxygen_tank",
+            "scuba_tank",
+            "scuba_tank_on",
+            "small_scuba_tank",
+            "small_scuba_tank_on"
           ],
           "fg": 1833,
           "rotates": false
@@ -16123,7 +16180,7 @@
             "t_open_air",
             "t_open_air_rooved"
           ],
-          "bg": 1976,
+          "fg": 1976,
           "rotates": false
         },
         {
@@ -16150,12 +16207,12 @@
             "t_dirtmound",
             "t_claymound"
           ],
-          "bg": 1979,
+          "fg": 1979,
           "rotates": false
         },
         {
           "id": "t_sandmound",
-          "bg": 1980,
+          "fg": 1980,
           "rotates": false
         },
         {
@@ -16163,47 +16220,47 @@
             "t_dirt",
             "t_dirtfloor"
           ],
-          "bg": 1981,
+          "fg": 1981,
           "rotates": false
         },
         {
           "id": "t_woodchips",
-          "bg": 2876,
+          "fg": 2876,
           "rotates": false
         },
         {
           "id": "t_dirt_season_winter",
-          "bg": 1982,
+          "fg": 1982,
           "rotates": false
         },
         {
           "id": "t_clay",
-          "bg": 1983,
+          "fg": 1983,
           "rotates": false
         },
         {
           "id": "t_sand",
-          "bg": 1044,
+          "fg": 1044,
           "rotates": false
         },
         {
           "id": "t_rock_floor",
-          "bg": 1984,
+          "fg": 1984,
           "rotates": false
         },
         {
           "id": "t_searth_test",
-          "bg": 1985,
-          "rotates": false
-        },
-        {
-          "id": "t_stairs_down",
-          "fg": 2976,
+          "fg": 1985,
           "rotates": false
         },
         {
           "id": "t_stairs_up",
           "fg": 2553,
+          "rotates": false
+        },
+        {
+          "id": "t_stairs_down",
+          "fg": 2976,
           "rotates": false
         },
         {
@@ -16217,23 +16274,23 @@
           "rotates": false
         },
         {
-          "id": "t_slope_down",
-          "fg": 2977,
-          "rotates": false
-        },
-        {
           "id": "t_slope_up",
           "fg": 1987,
           "rotates": false
         },
         {
-          "id": "t_ladder_down",
-          "fg": 2479,
+          "id": "t_slope_down",
+          "fg": 2977,
           "rotates": false
         },
         {
           "id": "t_ladder_up",
           "fg": 2480,
+          "rotates": false
+        },
+        {
+          "id": "t_ladder_down",
+          "fg": 2479,
           "rotates": false
         },
         {
@@ -16276,7 +16333,7 @@
             "t_fungus",
             "t_grass_white"
           ],
-          "bg": 2095,
+          "fg": 2095,
           "rotates": false
         },
         {
@@ -16335,7 +16392,10 @@
           "rotates": false
         },
         {
-          "id": "t_underbrush_season_spring",
+          "id": [
+            "t_underbrush_season_spring",
+            "t_underbrush"
+          ],
           "fg": 2006,
           "rotates": false
         },
@@ -16376,9 +16436,13 @@
         {
           "id": [
             "t_underbrush_harvested_summer_season_spring",
+            "t_underbrush_harvested_summer",
             "t_underbrush_harvested_autumn_season_spring",
+            "t_underbrush_harvested_autumn",
             "t_underbrush_harvested_winter_season_spring",
-            "t_underbrush_harvested_spring_season_spring"
+            "t_underbrush_harvested_winter",
+            "t_underbrush_harvested_spring_season_spring",
+            "t_underbrush_harvested_spring"
           ],
           "fg": 2011,
           "rotates": false
@@ -16404,18 +16468,28 @@
           "rotates": false
         },
         {
-          "id": "t_shrub_season_summer",
+          "id": [
+            "t_shrub_season_summer",
+            "t_shrub_peanut_season_summer",
+            "t_shrub_peanut_harvested_season_summer"
+          ],
           "fg": 2926,
           "rotates": false
         },
         {
-          "id": "t_shrub_season_autumn",
+          "id": [
+            "t_shrub_season_autumn",
+            "t_shrub_peanut_season_autumn",
+            "t_shrub_peanut_harvested_season_autumn"
+          ],
           "fg": 2927,
           "rotates": false
         },
         {
           "id": [
             "t_shrub_season_winter",
+            "t_shrub_peanut_season_winter",
+            "t_shrub_peanut_harvested_season_winter",
             "t_shrub_blueberry_season_winter",
             "t_shrub_strawberry_season_winter"
           ],
@@ -16425,7 +16499,11 @@
         {
           "id": [
             "t_shrub_season_spring",
-            "t_shrub"
+            "t_shrub",
+            "t_shrub_peanut_season_spring",
+            "t_shrub_peanut",
+            "t_shrub_peanut_harvested_season_spring",
+            "t_shrub_peanut_harvested"
           ],
           "fg": 2928,
           "rotates": false
@@ -16623,13 +16701,19 @@
           "rotates": false
         },
         {
-          "id": "t_tree",
+          "id": [
+            "t_tree_harvested_season_spring",
+            "t_tree_harvested",
+            "t_tree_season_summer",
+            "t_tree_harvested_season_summer"
+          ],
           "fg": 2053,
           "rotates": false
         },
         {
           "id": [
             "t_tree_season_spring",
+            "t_tree",
             "t_tree_apple_season_summer",
             "t_tree_pear_season_summer",
             "t_tree_apple_harvested",
@@ -16641,6 +16725,7 @@
         {
           "id": [
             "t_tree_season_autumn",
+            "t_tree_harvested_season_autumn",
             "t_tree_cherry_season_autumn",
             "t_tree_plum_season_autumn",
             "t_tree_peach_season_autumn",
@@ -16652,6 +16737,7 @@
         {
           "id": [
             "t_tree_season_winter",
+            "t_tree_harvested_season_winter",
             "t_tree_cherry_season_winter",
             "t_tree_plum_season_winter",
             "t_tree_apple_season_winter",
@@ -16723,6 +16809,10 @@
             "t_tree_blackjack",
             "t_tree_hickory_season_summer",
             "t_tree_hickory_harvested_season_summer",
+            "t_tree_almond_season_summer",
+            "t_tree_almond_harvested_season_summer",
+            "t_tree_pecan_season_summer",
+            "t_tree_pecan_harvested_season_summer",
             "t_tree_maple_season_summer"
           ],
           "fg": 2064,
@@ -16732,7 +16822,11 @@
           "id": [
             "t_tree_blackjack_season_autumn",
             "t_tree_hickory_season_autumn",
-            "t_tree_hickory_harvested_season_autumn"
+            "t_tree_hickory_harvested_season_autumn",
+            "t_tree_almond_season_autumn",
+            "t_tree_almond_harvested_season_autumn",
+            "t_tree_pecan_season_autumn",
+            "t_tree_pecan_harvested_season_autumn"
           ],
           "fg": 2065,
           "rotates": false
@@ -16743,6 +16837,10 @@
             "t_tree_birch_harvested_season_winter",
             "t_tree_hickory_season_winter",
             "t_tree_hickory_harvested_season_winter",
+            "t_tree_almond_season_winter",
+            "t_tree_almond_harvested_season_winter",
+            "t_tree_pecan_season_winter",
+            "t_tree_pecan_harvested_season_winter",
             "t_tree_maple_season_winter",
             "t_tree_willow_season_winter"
           ],
@@ -16756,7 +16854,16 @@
             "t_tree_hickory",
             "t_tree_hickory_harvested_season_spring",
             "t_tree_hickory_harvested",
-            "t_tree_maple_season_spring"
+            "t_tree_maple_season_spring",
+            "t_tree_maple",
+            "t_tree_almond_season_spring",
+            "t_tree_almond",
+            "t_tree_almond_harvested_season_spring",
+            "t_tree_almond_harvested",
+            "t_tree_pecan_season_spring",
+            "t_tree_pecan",
+            "t_tree_pecan_harvested_season_spring",
+            "t_tree_pecan_harvested"
           ],
           "fg": 2067,
           "rotates": false
@@ -16767,7 +16874,10 @@
           "rotates": false
         },
         {
-          "id": "t_tree_birch_season_spring",
+          "id": [
+            "t_tree_birch_season_spring",
+            "t_tree_birch"
+          ],
           "fg": 2069,
           "rotates": false
         },
@@ -16787,7 +16897,10 @@
           "rotates": false
         },
         {
-          "id": "t_tree_birch_harvested_season_spring",
+          "id": [
+            "t_tree_birch_harvested_season_spring",
+            "t_tree_birch_harvested"
+          ],
           "fg": 2073,
           "rotates": false
         },
@@ -16817,7 +16930,10 @@
           "rotates": false
         },
         {
-          "id": "t_tree_willow_season_spring",
+          "id": [
+            "t_tree_willow_season_spring",
+            "t_tree_willow"
+          ],
           "fg": 2077,
           "rotates": false
         },
@@ -16832,7 +16948,10 @@
           "rotates": false
         },
         {
-          "id": "t_tree_willow_harvested_season_spring",
+          "id": [
+            "t_tree_willow_harvested_season_spring",
+            "t_tree_willow_harvested"
+          ],
           "fg": 2080,
           "rotates": false
         },
@@ -16872,7 +16991,10 @@
           "rotates": false
         },
         {
-          "id": "t_tree_maple_tapped_season_spring",
+          "id": [
+            "t_tree_maple_tapped_season_spring",
+            "t_tree_maple_tapped"
+          ],
           "fg": 2088,
           "rotates": false
         },
@@ -16920,12 +17042,12 @@
         },
         {
           "id": "t_fungus_floor_in",
-          "bg": 2096,
+          "fg": 2096,
           "rotates": false
         },
         {
           "id": "t_fungus_floor_out",
-          "bg": 2097,
+          "fg": 2097,
           "rotates": false
         },
         {
@@ -17005,7 +17127,7 @@
         },
         {
           "id": "tr_lava",
-          "bg": 2110,
+          "fg": 2110,
           "rotates": false
         },
         {
@@ -17063,7 +17185,7 @@
             "tr_sinkhole",
             "t_pit_foxhole"
           ],
-          "bg": 2113,
+          "fg": 2113,
           "rotates": false
         },
         {
@@ -17249,7 +17371,7 @@
         },
         {
           "id": "t_rootcellar",
-          "bg": 2877,
+          "fg": 2877,
           "rotates": false
         },
         {
@@ -17354,12 +17476,12 @@
             "fd_rubble",
             "f_rubble_rock"
           ],
-          "bg": 2156,
+          "fg": 2156,
           "rotates": false
         },
         {
           "id": "t_bridge",
-          "bg": 2157,
+          "fg": 2157,
           "rotates": false
         },
         {
@@ -17380,7 +17502,7 @@
         },
         {
           "id": "t_carpet_purple",
-          "bg": 2158,
+          "fg": 2158,
           "rotates": false
         },
         {
@@ -17388,7 +17510,7 @@
             "t_carpet_yellow",
             "t_floor_waxed_y"
           ],
-          "bg": 2159,
+          "fg": 2159,
           "rotates": false
         },
         {
@@ -17400,7 +17522,7 @@
             "t_thconc_floor",
             "t_railroad_rubble"
           ],
-          "bg": 2160,
+          "fg": 2160,
           "rotates": false
         },
         {
@@ -17733,7 +17855,7 @@
         },
         {
           "id": "t_floor",
-          "bg": 2184,
+          "fg": 2184,
           "rotates": false
         },
         {
@@ -17843,73 +17965,61 @@
         {
           "id": "t_door_red_c",
           "fg": 2197,
-          "bg": 2215,
           "rotates": false
         },
         {
           "id": "t_door_green_c",
           "fg": 2197,
-          "bg": 2214,
           "rotates": false
         },
         {
           "id": "t_door_white_c",
           "fg": 2197,
-          "bg": 2258,
           "rotates": false
         },
         {
           "id": "t_door_gray_c",
           "fg": 2197,
-          "bg": 2218,
           "rotates": false
         },
         {
           "id": "t_door_red_o",
           "fg": 2200,
-          "bg": 2215,
           "rotates": false
         },
         {
           "id": "t_door_green_o",
           "fg": 2200,
-          "bg": 2214,
           "rotates": false
         },
         {
           "id": "t_door_white_o",
           "fg": 2200,
-          "bg": 2258,
           "rotates": false
         },
         {
           "id": "t_door_gray_o",
           "fg": 2200,
-          "bg": 2218,
           "rotates": false
         },
         {
           "id": "t_door_red_b",
           "fg": 2199,
-          "bg": 2215,
           "rotates": false
         },
         {
           "id": "t_door_green_b",
           "fg": 2199,
-          "bg": 2214,
           "rotates": false
         },
         {
           "id": "t_door_white_b",
           "fg": 2199,
-          "bg": 2258,
           "rotates": false
         },
         {
           "id": "t_door_gray_b",
           "fg": 2199,
-          "bg": 2218,
           "rotates": false
         },
         {
@@ -17980,21 +18090,6 @@
           "rotates": false
         },
         {
-          "id": "t_window_stained_green",
-          "fg": 2208,
-          "rotates": true
-        },
-        {
-          "id": "t_window_stained_red",
-          "fg": 2209,
-          "rotates": true
-        },
-        {
-          "id": "t_window_stained_blue",
-          "fg": 2210,
-          "rotates": true
-        },
-        {
           "id": [
             "t_console_broken",
             "f_aut_gas_console_o",
@@ -18019,7 +18114,7 @@
         },
         {
           "id": "t_floor_blue",
-          "bg": 2213,
+          "fg": 2213,
           "rotates": false
         },
         {
@@ -18027,7 +18122,7 @@
             "t_floor_green",
             "t_carpet_green"
           ],
-          "bg": 2214,
+          "fg": 2214,
           "rotates": false
         },
         {
@@ -18035,27 +18130,27 @@
             "t_floor_red",
             "t_carpet_red"
           ],
-          "bg": 2215,
+          "fg": 2215,
           "rotates": false
         },
         {
           "id": "t_floor_waxed",
-          "bg": 2216,
+          "fg": 2216,
           "rotates": false
         },
         {
           "id": "t_floor_primitive",
-          "bg": 2938,
+          "fg": 2938,
           "rotates": false
         },
         {
           "id": "t_floor_wax",
-          "bg": 2217,
+          "fg": 2217,
           "rotates": false
         },
         {
           "id": "t_linoleum_gray",
-          "bg": 2218,
+          "fg": 2218,
           "rotates": false
         },
         {
@@ -18065,17 +18160,17 @@
         },
         {
           "id": "t_machinery_electronic",
-          "bg": 2219,
+          "fg": 2219,
           "rotates": false
         },
         {
           "id": "t_machinery_light",
-          "bg": 2220,
+          "fg": 2220,
           "rotates": false
         },
         {
           "id": "t_machinery_old",
-          "bg": 2221,
+          "fg": 2221,
           "rotates": false
         },
         {
@@ -18084,7 +18179,7 @@
             "t_scrap_floor",
             "t_junk_floor"
           ],
-          "bg": 2767,
+          "fg": 2767,
           "rotates": false
         },
         {
@@ -18092,7 +18187,7 @@
             "t_pavement",
             "t_pavement_bg_dp"
           ],
-          "bg": 2223,
+          "fg": 2223,
           "rotates": false
         },
         {
@@ -18129,7 +18224,7 @@
             "t_pit_glass_covered",
             "t_pit_spiked_covered"
           ],
-          "bg": 2229,
+          "fg": 2229,
           "rotates": false
         },
         {
@@ -18384,17 +18479,17 @@
             "t_sidewalk",
             "t_sidewalk_bg_dp"
           ],
-          "bg": 2254,
+          "fg": 2254,
           "rotates": false
         },
         {
           "id": "t_utility_light",
-          "bg": 2255,
+          "fg": 2255,
           "rotates": false
         },
         {
           "id": "t_thconc_floor_olight",
-          "bg": 2971,
+          "fg": 2971,
           "rotates": false
         },
         {
@@ -18403,7 +18498,7 @@
             "t_ov_reb_cage",
             "t_ov_smreb_cage"
           ],
-          "bg": 2256,
+          "fg": 2256,
           "rotates": false
         },
         {
@@ -18411,7 +18506,7 @@
             "t_rubble",
             "f_rubble"
           ],
-          "bg": 2257,
+          "fg": 2257,
           "rotates": false
         },
         {
@@ -18421,7 +18516,7 @@
             "f_canvas_floor",
             "t_paper_floor"
           ],
-          "bg": 2258,
+          "fg": 2258,
           "rotates": false
         },
         {
@@ -18429,7 +18524,7 @@
             "t_wreckage",
             "f_wreckage"
           ],
-          "bg": 2259,
+          "fg": 2259,
           "rotates": false
         },
         {
@@ -18571,7 +18666,14 @@
         {
           "id": "f_bench",
           "fg": 2282,
-          "rotates": true
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+          {
+            "id": "t_connection",
+            "fg": 3067
+          }
+          ]
         },
         {
           "id": "f_bigmirror",
@@ -18639,7 +18741,6 @@
             "f_large_canvas_wall"
           ],
           "fg": 2291,
-          "bg": 2297,
           "rotates": false,
           "multitile": true,
           "additional_tiles": [
@@ -18692,7 +18793,7 @@
         },
         {
           "id": "f_coffin_c",
-          "fg": 2300,
+          "fg": 3054,
           "rotates": false
         },
         {
@@ -19068,7 +19169,6 @@
         {
           "id": "f_skin_wall",
           "fg": 2359,
-          "bg": 2297,
           "rotates": false,
           "multitile": true,
           "additional_tiles": [
@@ -19314,12 +19414,12 @@
         },
         {
           "id": "t_hole",
-          "bg": 2297,
+          "fg": 2297,
           "rotates": false
         },
         {
           "id": "tr_ledge",
-          "bg": 0,
+          "fg": 0,
           "rotates": false
         },
         {
@@ -19362,7 +19462,6 @@
         {
           "id": "t_slide",
           "fg": 2395,
-          "bg": 2297,
           "rotates": false,
           "multitile": true,
           "additional_tiles": [
@@ -19379,7 +19478,6 @@
         {
           "id": "t_monkey_bars",
           "fg": 2397,
-          "bg": 2297,
           "rotates": false,
           "multitile": true,
           "additional_tiles": [
@@ -19405,13 +19503,11 @@
           "additional_tiles": [
             {
               "id": "corner",
-              "fg": 2400,
-              "bg": 2297
+              "fg": 2400
             },
             {
               "id": "t_connection",
-              "fg": 2401,
-              "bg": 2297
+              "fg": 2401
             }
           ]
         },
@@ -20035,49 +20131,41 @@
         {
           "id": "t_door_glass_red_c",
           "fg": 2203,
-          "bg": 2215,
           "rotates": true
         },
         {
           "id": "t_door_glass_green_c",
           "fg": 2203,
-          "bg": 2214,
           "rotates": true
         },
         {
           "id": "t_door_glass_white_c",
           "fg": 2203,
-          "bg": 2258,
           "rotates": true
         },
         {
           "id": "t_door_glass_gray_c",
           "fg": 2203,
-          "bg": 2218,
           "rotates": true
         },
         {
           "id": "t_door_glass_red_o",
           "fg": 2204,
-          "bg": 2215,
           "rotates": true
         },
         {
           "id": "t_door_glass_green_o",
           "fg": 2204,
-          "bg": 2214,
           "rotates": true
         },
         {
           "id": "t_door_glass_white_o",
           "fg": 2204,
-          "bg": 2258,
           "rotates": true
         },
         {
           "id": "t_door_glass_gray_o",
           "fg": 2204,
-          "bg": 2218,
           "rotates": true
         },
         {
@@ -20591,8 +20679,7 @@
                 2513,
                 2514,
                 2515
-              ],
-              "bg": 2160
+              ]
             },
             {
               "id": "edge",
@@ -20815,17 +20902,17 @@
         },
         {
           "id": "t_sewage",
-          "bg": 2548,
+          "fg": 2548,
           "rotates": false
         },
         {
           "id": "t_sludge",
-          "bg": 2549,
+          "fg": 2549,
           "rotates": false
         },
         {
           "id": "t_tar",
-          "bg": 2550,
+          "fg": 2550,
           "rotates": false
         },
         {
@@ -20982,9 +21069,88 @@
           "rotates": false
         },
         {
+          "id": "t_window_stained_red",
+          "fg": 2209,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "t_connection",
+              "fg": 3041
+            }
+          ]
+        },
+        {
+          "id": "t_window_stained_green",
+          "fg": 2208,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "t_connection",
+              "fg": 3042
+            }
+          ]
+        },
+        {
           "id": "t_window_domestic",
           "fg": 2574,
-          "rotates": true
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "t_connection",
+              "fg": 3043
+            }
+          ]
+        },
+        {
+          "id": "t_window_open",
+          "fg": 2585,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "t_connection",
+              "fg": 3044
+            }
+          ]
+        },
+        {
+          "id": "t_window_stained_blue",
+          "fg": 2210,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "t_connection",
+              "fg": 3045
+            }
+          ]
+        },
+        {
+          "id": "t_window_no_curtains",
+          "fg": 2582,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "t_connection",
+              "fg": 3046
+            }
+          ]
+        },
+        {
+          "id": "t_window_no_curtains_open",
+          "fg": 2583,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "t_connection",
+              "fg": 3047
+            }
+          ]
         },
         {
           "id": "t_window_bars_alarm",
@@ -21034,24 +21200,9 @@
           "rotates": false
         },
         {
-          "id": "t_window_no_curtains",
-          "fg": 2582,
-          "rotates": true
-        },
-        {
-          "id": "t_window_no_curtains_open",
-          "fg": 2583,
-          "rotates": true
-        },
-        {
           "id": "t_window_no_curtains_taped",
           "fg": 2584,
           "rotates": false
-        },
-        {
-          "id": "t_window_open",
-          "fg": 2585,
-          "rotates": true
         },
         {
           "id": "t_window_reinforced",
@@ -21340,23 +21491,23 @@
         },
         {
           "id": "animation_hit",
-          "bg": 2629
+          "fg": 2629
         },
         {
           "id": "animation_line",
-          "bg": 2630
+          "fg": 2630
         },
         {
           "id": "weather_acid_drop",
-          "bg": 2631
+          "fg": 2631
         },
         {
           "id": "weather_rain_drop",
-          "bg": 2632
+          "fg": 2632
         },
         {
           "id": "weather_snowflake",
-          "bg": 2633
+          "fg": 2633
         },
         {
           "id": "animation_bullet_flame",
@@ -21953,19 +22104,8 @@
           "rotates": false
         },
         {
-          "id": "lighting_boomered_dark",
-          "fg": 2722,
-          "rotates": false
-        },
-        {
-          "id": "lighting_boomered_light",
-          "fg": 2723,
-          "rotates": false
-        },
-        {
           "id": "lighting_hidden",
           "fg": 2297,
-          "bg": 2297,
           "rotates": false
         },
         {
@@ -21979,8 +22119,18 @@
           "rotates": false
         },
         {
+          "id": "lighting_boomered_dark",
+          "fg": 2722,
+          "rotates": false
+        },
+        {
+          "id": "lighting_boomered_light",
+          "fg": 2723,
+          "rotates": false
+        },
+        {
           "id": "line_trail",
-          "bg": 2641
+          "fg": 2641
         },
         {
           "id": "unknown",
@@ -22152,6 +22302,114 @@
         {
           "id": "overlay_mutation_THRESH_RAPTOR",
           "fg": 3033
+        },
+        {
+          "id": "overlay_mutation_THRESH_CEPHALOPOD",
+          "fg": 3050
+        },
+        {
+          "id": "overlay_male_mutation_THRESH_CEPHALOPOD",
+          "fg": 3051
+        },
+        {
+          "id": "overlay_mutation_INT_UP_4",
+          "fg": 3052
+        },
+        {
+          "id": "overlay_male_mutation_INT_UP_4",
+          "fg": 3053
+        },
+        {
+          "id": "overlay_mutation_THRESH_FELINE",
+          "fg": 3055
+        },
+        {
+          "id": "overlay_mutation_THRESH_LUPINE",
+          "fg": 3056
+        },
+        {
+          "id": "overlay_mutation_THRESH_PLANT",
+          "fg": 3057
+        },
+        {
+          "id": "overlay_male_mutation_THRESH_PLANT",
+          "fg": 3058
+        },
+        {
+          "id": "overlay_mutation_FLOWERS",
+          "fg": 3059
+        },
+        {
+          "id": "overlay_male_mutation_FLOWERS",
+          "fg": 3060
+        },
+        {
+          "id": "overlay_mutation_THRESH_SPIDER",
+          "fg": 3072
+        },
+        {
+          "id": "overlay_male_mutation_THRESH_SPIDER",
+          "fg": 3073
+        },
+        {
+          "id": "overlay_mutation_THRESH_INSECT",
+          "fg": 3074
+        },
+        {
+          "id": "overlay_mutation_THRESH_FISH",
+          "fg": 3075
+        },
+        {
+          "id": "overlay_mutation_THRESH_SLIME",
+          "fg": 3076
+        },
+        {
+          "id": "overlay_male_mutation_THRESH_SLIME",
+          "fg": 3077
+        },
+        {
+          "id": [
+            "overlay_mutation_BENDY1",
+            "overlay_mutation_BENDY2",
+            "overlay_mutation_BENDY3"
+          ],
+          "fg": 3078
+        },
+        {
+          "id": [
+            "overlay_male_mutation_BENDY1",
+            "overlay_male_mutation_BENDY2",
+            "overlay_male_mutation_BENDY3"
+          ],
+          "fg": 3079
+        },
+        {
+          "id": "overlay_mutation_AMORPHOUS",
+          "fg": 3080
+        },
+        {
+          "id": "overlay_male_mutation_AMORPHOUS",
+          "fg": 3081
+        },
+        {
+          "id": "overlay_mutation_PER_SLIME",
+          "fg": 3082
+        },
+        {
+          "id": "overlay_male_mutation_PER_SLIME",
+          "fg": 3083
+        },
+        {
+          "id": "overlay_mutation_PER_SLIME_OK",
+          "fg": 3084
+        },
+        {
+          "id": "overlay_mutation_THRESH_CHIMERA",
+          "fg": 3085
+        },
+        {
+          "id": "overlay_mutation_THRESH_BIRD",
+          "fg": 3086
         }
       ]
     },
@@ -22164,63 +22422,63 @@
       "tiles": [
         {
           "id": "overlay_mutation_THRESH_CATTLE",
-          "fg": 3072
+          "fg": 3104
         },
         {
           "id": "overlay_male_mutation_THRESH_CATTLE",
-          "fg": 3073
+          "fg": 3105
         },
         {
           "id": "overlay_mutation_THRESH_URSINE",
-          "fg": 3074
+          "fg": 3106
         },
         {
           "id": "overlay_mutation_THRESH_LIZARD",
-          "fg": 3081
+          "fg": 3113
         },
         {
           "id": "mon_fungaloid_queen",
-          "fg": 3075
+          "fg": 3107
         },
         {
           "id": "mon_fungaloid_seeder",
-          "fg": 3076
+          "fg": 3108
         },
         {
           "id": "mon_fungaloid_tower",
-          "fg": 3077
+          "fg": 3109
         },
         {
           "id": [
             "mon_zombie_hulk",
             "mon_zombie_hulk_pk"
           ],
-          "fg": 3078,
+          "fg": 3110,
           "rotates": false
         },
         {
           "id": "mon_zombie_kevlar_2",
-          "fg": 3079,
+          "fg": 3111,
           "rotates": false
         },
         {
           "id": "mon_skeleton_hulk",
-          "fg": 3080,
+          "fg": 3112,
           "rotates": false
         },
         {
           "id": "mon_tyrannosaurus",
-          "fg": 3082,
+          "fg": 3114,
           "rotates": false
         },
         {
           "id": "mon_triceratops",
-          "fg": 3083,
+          "fg": 3115,
           "rotates": false
         },
         {
           "id": "mon_dragon_dummy",
-          "fg": 3084,
+          "fg": 3116,
           "rotates": false
         }
       ]
@@ -22361,32 +22619,48 @@
         "THRESH_CEPHALOPOD",
         "THRESH_FISH",
         "THRESH_TROGLOBITE",
+        "THRESH_LIZARD",
         "THRESH_RAPTOR",
         "THRESH_BIRD",
         "THRESH_MOUSE",
         "THRESH_RAT",
+        "THRESH_CATTLE",
         "THRESH_LUPINE",
+        "THRESH_URSINE",
         "THRESH_FELINE",
         "THRESH_BEAST",
         "THRESH_CHIMERA",
-        "THRESH_MEDICAL",
-        "THRESH_ELFA",
         "THRESH_ALPHA",
         "THRESH_MYCUS"
       ],
       "order": 5000
     },
     {
-      "id": "INT_UP_4",
-      "order": 5500
+      "id": [
+        "BENDY1",
+        "BENDY2",
+        "BENDY3"
+      ],
+      "order": 5100
     },
     {
       "id": [
-        "THRESH_LIZARD",
-        "THRESH_CATTLE",
-        "THRESH_URSINE"
+        "AMORPHOUS",
+        "INT_UP_4",
+        "FLOWERS"
       ],
-      "order": 7000
+      "order": 5200
+    },
+    {
+      "id": [
+        "PER_SLIME",
+        "THRESH_ELFA"
+      ],
+      "order": 5300
+    },
+    {
+      "id": "PER_SLIME_OK",
+      "order": 5400
     }
   ]
 }

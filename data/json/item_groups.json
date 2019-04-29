@@ -3485,7 +3485,8 @@
       [ "smoxygen_tank", 25 ],
       [ "bfipowder", 15 ],
       [ "quikclot", 10 ],
-      [ "anesthesia", 20 ]
+      [ "anesthetic", 20 ],
+      [ "anesthetic_kit", 10 ]
     ]
   },
   {
@@ -6056,6 +6057,8 @@
   {
     "type": "item_group",
     "id": "mine_equipment",
+    "ammo": 80,
+    "magazine": 100,
     "items": [
       [ "water_clean", 90 ],
       [ "1st_aid", 35 ],

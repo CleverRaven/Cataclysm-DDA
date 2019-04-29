@@ -408,12 +408,12 @@ npc *vehicle_part::crew() const
     if( !res ) {
         return nullptr;
     }
-    return res->is_friend() ? res : nullptr;
+    return res->is_player_ally() ? res : nullptr;
 }
 
 bool vehicle_part::set_crew( const npc &who )
 {
-    if( who.is_dead_state() || !who.is_friend() ) {
+    if( who.is_dead_state() || !( who.is_walking_with() || who.is_player_ally() ) ) {
         return false;
     }
     if( is_broken() || ( !is_seat() && !is_turret() ) ) {

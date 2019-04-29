@@ -33,11 +33,7 @@
         "                        ",
         "                        "
       ],
-      "terrain": {
-        " ": [ "t_dirt", "t_dirt", "t_grass" ],
-        "&": "t_radio_tower",
-        "6": "t_radio_controls"
-      }
+      "terrain": { " ": [ "t_dirt", "t_dirt", "t_grass" ], "&": "t_radio_tower", "6": "t_radio_controls" }
     }
   },
   {

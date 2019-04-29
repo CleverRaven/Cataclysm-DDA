@@ -148,8 +148,6 @@
     "bashing": 8,
     "to_hit": -3,
     "ammo": "battery",
-    "initial_charges": 0,
-    "max_charges": 500,
     "qualities": [
       [ "CONTAIN", 1 ],
       [ "BUTCHER", 10 ],
