@@ -1105,7 +1105,7 @@ std::vector<tripoint> target_handler::target_ui( spell_id sp )
     return target_ui( g->u.get_spell( sp ) );
 }
 // does not have a targeting mode because we know this is the spellcasting version of this function
-std::vector<tripoint> target_handler::target_ui( spell casting )
+std::vector<tripoint> target_handler::target_ui( spell &casting )
 {
     player &pc = g->u;
     if( !casting.can_cast() ) {
@@ -1368,15 +1368,10 @@ std::vector<tripoint> target_handler::target_ui( spell casting )
             }
             dst = t[newtarget]->pos();
         } else if( action == "FIRE" ) {
-            if( !confirm_non_enemy_target( dst ) ) {
+            if( casting.damage() > 0 && !confirm_non_enemy_target( dst ) ) {
                 continue;
             }
             target = find_target( t, dst );
-            /*
-            if( src == dst ) {
-                ret.clear();
-                ret.emplace_back( pc.pos() );
-            }*/
             break;
         } else if( action == "CENTER" ) {
             dst = src;
@@ -1410,13 +1405,14 @@ std::vector<tripoint> target_handler::target_ui( spell casting )
 
     const auto lt_ptr = pc.last_target.lock();
     if( npc *const guy = dynamic_cast<npc *>( lt_ptr.get() ) ) {
-        if( !guy->guaranteed_hostile() ) {
-            // TODO: get rid of this. Or combine it with effect_hit_by_player
-            guy->hit_by_player = true; // used for morale penalty
+        if( casting.damage() > 0 ) {
+            if( !guy->guaranteed_hostile() ) {
+                // TODO: get rid of this. Or combine it with effect_hit_by_player
+                guy->hit_by_player = true; // used for morale penalty
+            }
+            // TODO: should probably go into the on-hit code?
+            guy->make_angry();
         }
-        // TODO: should probably go into the on-hit code?
-        guy->make_angry();
-
     } else if( monster *const mon = dynamic_cast<monster *>( lt_ptr.get() ) ) {
         // TODO: get rid of this. Or move into the on-hit code?
         mon->add_effect( effect_hit_by_player, 10_minutes );

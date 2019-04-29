@@ -71,7 +71,7 @@ class target_handler
                                          const target_callback &on_ammo_change = target_callback() );
         // magic version of target_ui
         std::vector<tripoint> target_ui( spell_id sp );
-        std::vector<tripoint> target_ui( spell casting );
+        std::vector<tripoint> target_ui( spell &casting );
 };
 
 int range_with_even_chance_of_good_hit( int dispersion );

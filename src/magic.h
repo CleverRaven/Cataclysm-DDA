@@ -169,8 +169,6 @@ class spell
         float exp_modifier() const;
         // level up!
         void gain_level();
-        // you lose a level! =(
-        void lose_level();
         // is the spell at max level?
         bool is_max_level() const;
 
@@ -223,6 +221,9 @@ class spell
         // difficulty of the level
         int get_difficulty() const;
 
+        // heals the critter at the location, returns amount healed (player heals each body part)
+        int heal( const tripoint &target ) const;
+
         // is the target valid for this spell?
         bool is_valid_target( const tripoint &p ) const;
 };
@@ -231,7 +232,7 @@ namespace spell_effect
 {
 void pain_split(); // only does g->u
 void shallow_pit( const tripoint &target );
-void target_attack( const spell &sp, const tripoint &target );
+void target_attack( spell &sp, const tripoint &target );
 }
 
 #endif
