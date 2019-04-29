@@ -3381,7 +3381,11 @@
           "wristwatch",
           "matches"
         ],
-        "entries": [ { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] } ]
+        "entries": [
+          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "light_battery_cell", "charges": 100 },
+          { "item": "light_battery_cell", "charges": 100 }
+        ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "boy_shorts", "sports_bra" ]
