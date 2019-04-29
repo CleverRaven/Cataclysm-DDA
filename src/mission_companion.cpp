@@ -1746,12 +1746,6 @@ void talk_function::companion_return( npc &comp )
     comp.companion_mission_points.clear();
     // npc *may* be active, or not if outside the reality bubble
     g->reload_npcs();
-    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( comp.global_omt_location().x,
-                                     comp.global_omt_location().y );
-    if( bcp ) {
-        basecamp *temp_camp = *bcp;
-        temp_camp->validate_assignees();
-    }
 }
 
 std::vector<npc_ptr> talk_function::companion_list( const npc &p, const std::string &mission_id,

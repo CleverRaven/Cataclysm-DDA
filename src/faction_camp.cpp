@@ -2046,7 +2046,25 @@ void basecamp::finish_return( npc &comp, bool fixed_time, const std::string &ret
         popup( _( "Your companion seems disappointed that your pantry is empty..." ) );
     }
     int avail_food = std::min( need_food, camp_food_supply() ) + time_to_food( reserve_time );
-    talk_function::companion_return( comp );
+    // movng all the logic from talk_function::companion return here instead of polluting
+    // mission_companion
+    comp.reset_companion_mission();
+    comp.companion_mission_time = calendar::before_time_starts;
+    comp.companion_mission_time_ret = calendar::before_time_starts;
+    bool by_radio = g->u.global_omt_location() != comp.global_omt_location();
+    for( size_t i = 0; i < comp.companion_mission_inv.size(); i++ ) {
+        for( const auto &it : comp.companion_mission_inv.const_stack( i ) ) {
+            if( !it.count_by_charges() || it.charges > 0 ) {
+                place_results( it, by_radio );
+            }
+        }
+    }
+    comp.companion_mission_inv.clear();
+    comp.companion_mission_points.clear();
+    // npc *may* be active, or not if outside the reality bubble
+    g->reload_npcs();
+    validate_assignees();
+
     camp_food_supply( -need_food );
     comp.mod_hunger( -avail_food );
     // TODO: more complicated calculation?
