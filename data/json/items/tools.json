@@ -4709,7 +4709,7 @@
     "color": "dark_gray",
     "qualities": [ [ "DIG", 2 ], [ "AXE", 1 ], [ "CUT", 1 ], [ "BUTCHER", -11 ], [ "COOK", 1 ] ],
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
-    "flags": [ "NEEDS_UNFOLD" ]
+    "flags": [ "NEEDS_UNFOLD", "BELT_CLIP" ]
   },
   {
     "id": "machete",
