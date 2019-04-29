@@ -7348,6 +7348,7 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "magenta",
+    "ammo": "battery",
     "charges_per_use": 25,
     "use_action": "TELEPORT",
     "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ]
