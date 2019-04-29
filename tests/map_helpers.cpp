@@ -39,6 +39,10 @@ void clear_creatures()
 
 void clear_npcs()
 {
+    // Unload and reaload to ensure that all active NPCs are in the
+    // overmap_buffer.
+    g->unload_npcs();
+    g->load_npcs();
     for( npc &n : g->all_npcs() ) {
         n.die( nullptr );
         overmap_buffer.remove_npc( n.getID() );
