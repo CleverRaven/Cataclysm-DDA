@@ -2757,7 +2757,9 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
 
     // Skill is gained after every 5% progress
     const int skill_steps = craft->item_counter / 500000 - old_counter / 500000;
-    p->craft_skill_gain( *craft, skill_steps );
+    if( skill_steps > 0 ) {
+        p->craft_skill_gain( *craft, skill_steps );
+    }
 
     // if item_counter has reached 100% or more
     if( craft->item_counter >= 10000000 ) {
