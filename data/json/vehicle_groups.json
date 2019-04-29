@@ -427,7 +427,7 @@
       [ "golf_cart", 200 ],
       [ "golf_cart_4seat", 100 ]
     ]
-  }
+  },
   {
     "type": "vehicle_group",
     "id": "industrial_transport",
