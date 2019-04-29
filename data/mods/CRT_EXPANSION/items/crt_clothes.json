@@ -31,7 +31,7 @@
      "symbol": "[",
      "material": [ "cotton", "neoprene" ],
      "warmth": 17,
-     "covers": [ "FEET"],
+     "covers": [ "LEGS"],
      "encumbrance": 10,
      "coverage": 100,
      "material_thickness": 2,
@@ -53,7 +53,7 @@
     "type": "ARMOR",
     "name": "pair of C.R.I.T shoes",
     "name_plural": "pairs of C.R.I.T dress shoes",
-    "description": "C.R.I.T dress shoes. Fancy",
+    "description": "A sleek pair of dress shoes. Fancy but easy on the eyes.",
     "weight": 1060,
     "volume": 6,
     "price": 100000,
@@ -74,7 +74,7 @@
      "id": "crt_rec_gloves",
      "type": "ARMOR",
      "name": "pair of C.R.I.T rec gloves",
-     "description": "C.R.I.T standard-issue rec gloves. Skin-hugging and sleek, these gloves are made with cotton and neoprene for warmth. ",
+     "description": "C.R.I.T standard-issue rec gloves. Skin-hugging and sleek, these gloves are made with cotton with a neoprene lining for grip-pads and warmth. ",
      "weight": 558,
      "volume": 1,
      "price": 100000,
@@ -105,7 +105,7 @@
       "min_volume": 0,
       "max_volume": 4,
       "draw_cost": 5,
-      "flags": [ "SHEATH_KNIFE", "SHEATH_SWORD" ]
+      "flags": ["BELT_CLIP", "SHEATH_KNIFE", "SHEATH_SWORD" ]
     },
      "flags": ["STURDY", "WAIST"]
   },
@@ -127,7 +127,7 @@
     "encumbrance": 13,
     "storage": 5,
     "warmth": 15,
-    "material_thickness": 2,
+    "material_thickness": 1,
     "environmental_protection": 2,
     "flags": [ "POCKETS", "OUTER", "OVERSIZE", "COLLAR", "WATERPROOF", "RAINPROOF", "FANCY"]
   },
