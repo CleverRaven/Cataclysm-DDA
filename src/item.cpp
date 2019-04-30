@@ -7069,7 +7069,7 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
 
     time_point time = std::min( { last_rot_check, last_temp_check } );
 
-    if( now - last_temp_check > 1_hours ) {
+    if( now - time > 1_hours ) {
         // This code is for items that were left out of reality bubble for long time
 
         const auto &wgen = g->get_cur_weather_gen();
@@ -7101,13 +7101,13 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
             env_temperature = ( temp_modify * AVERAGE_ANNUAL_TEMPERATURE ) + ( !temp_modify * env_temperature );
 
             // Calculate item temperature from enviroment temperature
-            if( now - time < 2_days ) {
-                calc_temp( env_temperature, insulation, time );
-            } else {
-                // There is no point in doing the proper temperature calculations for too long times
-                // Just set the item to enviroment temperature. This temperature won't show for the player and is used only for rotting.
+            // If the time was more than 2 d ago just set the item to enviroment temperature
+            if( now - time > 2_days ) {
+                // This value shouldn't be there anymore after the loop is done so we don't bother with the set_item_temperature()
                 temperature = static_cast<int>( 100000 * temp_to_kelvin( env_temperature ) );
                 last_temp_check = time;
+            } else if( time - last_temp_check >  smallest_interval ) {
+                calc_temp( env_temperature, insulation, time );
             }
 
 
