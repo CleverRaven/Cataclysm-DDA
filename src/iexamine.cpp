@@ -1247,30 +1247,13 @@ void iexamine::bulletin_board( player &p, const tripoint &examp )
         basecamp *temp_camp = *bcp;
         temp_camp->validate_assignees();
         temp_camp->validate_sort_points();
-        if( temp_camp->get_dumping_spot() == tripoint_zero ) {
-            auto &mgr = zone_manager::get_manager();
-            if( g->m.check_vehicle_zones( g->get_levz() ) ) {
-                mgr.cache_vzones();
-            }
-            tripoint src_loc;
-            const auto abspos = g->m.getabs( p.pos() );
-            if( mgr.has_near( z_loot_unsorted, abspos ) ) {
-                const auto &src_set = mgr.get_near( z_loot_unsorted, abspos );
-                const auto &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
-                // Find the nearest unsorted zone to dump objects at
-                for( auto &src : src_sorted ) {
-                    src_loc = g->m.getlocal( src );
-                    break;
-                }
-            }
-            temp_camp->set_dumping_spot( g->m.getabs( src_loc ) );
-        }
+
         const std::string title = ( "Base Missions" );
         mission_data mission_key;
-        temp_camp->get_available_missions( mission_key, omt_tri, false );
-        if( talk_function::display_and_choose_opts( mission_key, temp_camp->camp_omt_pos(), "FACTION_CAMP",
-                title ) ) {
-            temp_camp->handle_mission( mission_key.cur_key.id, mission_key.cur_key.dir, omt_tri, false );
+        temp_camp->get_available_missions( mission_key, false );
+        if( talk_function::display_and_choose_opts( mission_key, temp_camp->camp_omt_pos(),
+                "FACTION_CAMP", title ) ) {
+            temp_camp->handle_mission( mission_key.cur_key.id, mission_key.cur_key.dir, false );
         }
     } else {
         p.add_msg_if_player( _( "This bulletin board is not inside a camp" ) );
