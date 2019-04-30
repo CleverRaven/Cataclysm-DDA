@@ -4593,12 +4593,16 @@ void game::monmove()
     // Make sure these don't match the first time around.
     tripoint cached_lev = m.get_abs_sub() + tripoint( 1, 0, 0 );
 
+    // used to force update of the monster factions if a monster has changed its z-level.
+    bool force_mfactions_update = false;
+
     mfactions monster_factions;
     const auto &playerfaction = mfaction_str_id( "player" );
     for( monster &critter : all_monsters() ) {
-        // The first time through, and any time the map has been shifted,
+        // The first time through, and any time the map has been shifted, or a monster changed its z-level
         // recalculate monster factions.
-        if( cached_lev != m.get_abs_sub() ) {
+        if( cached_lev != m.get_abs_sub() || force_mfactions_update ) {
+            force_mfactions_update = false;
             // monster::plan() needs to know about all monsters on the same team as the monster.
             monster_factions.clear();
             for( monster &critter : all_monsters() ) {
@@ -4650,6 +4654,16 @@ void game::monmove()
             critter.move(); // Move one square, possibly hit u
             critter.process_triggers();
             m.creature_in_field( critter );
+        }
+
+        // FIX #28679
+        // It is possible that a monster has fallen down a z-level during critter.move() above, if it stepped on a trap.
+        // In this case the monster is deleted during the iteration of this `for` loop in
+        //  game::non_dead_range<monster>::iterator::operator++().
+        // We must make sure that we update the monster_factions so we don't pass a deleted monster later in critter.plan().
+        // Note that this only applies if z-levels are not active.
+        if ( !g->m.has_zlevels() && critter.posz() != g->u.posz() ) {
+            force_mfactions_update = true;
         }
 
         if( !critter.is_dead() &&
@@ -6169,13 +6183,7 @@ void game::examine( const tripoint &examp )
 
     const optional_vpart_position vp = m.veh_at( examp );
     if( vp ) {
-        if( u.controlling_vehicle ) {
-            add_msg( m_info, _( "You can't do that while driving." ) );
-        } else if( abs( vp->vehicle().velocity ) > 0 ) {
-            add_msg( m_info, _( "You can't do that on a moving vehicle." ) );
-        } else {
-            Pickup::pick_up( examp, 0 );
-        }
+        vp->vehicle().interact_with( examp, vp->part_index() );
         return;
     }
 
@@ -6253,7 +6261,13 @@ void game::pickup()
     int num_tiles_with_items = 0;
     tripoint tile_with_items = u.pos();
     for( const tripoint &p : m.points_in_radius( u.pos(), 1 ) ) {
-        if( m.has_items( p ) ) {
+        bool veh_has_items = false;
+        const optional_vpart_position vp = m.veh_at( p );
+        if( vp ) {
+            const int cargo_part = vp->vehicle().part_with_feature( vp->part_index(), "CARGO", false );
+            veh_has_items = cargo_part >= 0 && !vp->vehicle().get_items( cargo_part ).empty();
+        }
+        if( m.has_items( p ) || veh_has_items ) {
             ++num_tiles_with_items;
             tile_with_items = p;
         }
