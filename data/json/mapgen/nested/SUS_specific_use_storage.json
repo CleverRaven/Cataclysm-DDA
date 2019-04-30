@@ -8,8 +8,8 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],
-      "furniture": [ "X": "f_cupboard" ],
-      "items": { "X": "item": "SUS_flatware", "repeat": [ 1, 2 ] }
+      "furniture": { "X": "f_cupboard" },
+      "items": { "X": { "item": "SUS_flatware", "repeat": [ 1, 2 ] } }
     }
   },
   {
@@ -21,8 +21,8 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],
-      "furniture": [ "X": "f_cupboard" ],
-      "items": { "X": "item": "SUS_dishes", "repeat": [ 1, 2 ] }
+      "furniture": { "X": "f_cupboard" },
+      "items": { "X": { "item": "SUS_dishes", "repeat": [ 1, 2 ] } }
     }
-  },
+  }
 ]
