@@ -4,12 +4,12 @@
     "method": "json",
     "nested_mapgen_id": "cupboard_utensils",
     "//": "SUS groups are collections that contain a collection of items that might spawn in a given storage furniture.",
-    "//2": "This is a cupboard with a junk drawer and a utensils drawer",
+    "//2": "This is a cupboard with a junk drawer, a knife drawer, and a utensils drawer - presumably a 3-drawer cabinet",
     "object": {
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],
       "furniture": { "X": "f_cupboard" },
-      "items": { "X": [ { "item": "SUS_junk_drawer" }, { "item": "SUS_utensils" } ] }
+      "items": { "X": [ { "item": "SUS_junk_drawer" }, { "item": "SUS_utensils" }, { "item": "SUS_knife_drawer" } ] }
     }
   },
   {
