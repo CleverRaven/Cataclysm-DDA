@@ -5,6 +5,9 @@
 #include <iosfwd>
 #include <vector>
 
+// Note: 4/30/2019, changing dispersion sources to reflect a normal 
+// distribution, where the sum of all normal_sources is the standard
+// deviation of the distribution.  add_range should become depricated
 class dispersion_sources
 {
     private:
@@ -16,6 +19,9 @@ class dispersion_sources
             if( normal_source != 0.0 ) {
                 normal_sources.push_back( normal_source );
             }
+        }
+        void add_normal( double new_source ) {
+            normal_sources.push_back( new_source );
         }
         void add_range( double new_source ) {
             linear_sources.push_back( new_source );
