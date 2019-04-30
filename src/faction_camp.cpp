@@ -1270,6 +1270,7 @@ bool basecamp::handle_mission( const std::string &miss_id, const std::string &mi
         }
         start_fortifications( bldg_exp, by_radio );
     } else if( miss_id == "Finish Map Fort" ) {
+        add_msg( "fortifications_return called");
         fortifications_return();
     }
 
@@ -1628,6 +1629,7 @@ void basecamp::start_relay_hide_site()
 
 void basecamp::start_fortifications( std::string &bldg_exp, bool by_radio )
 {
+    add_msg( "start fortifications called");
     std::vector<std::string> allowed_locations;
     if( bldg_exp == "faction_wall_level_N_1" ) {
         allowed_locations = {
@@ -1713,6 +1715,7 @@ void basecamp::start_fortifications( std::string &bldg_exp, bool by_radio )
         }
         comp->companion_mission_role_id = bldg_exp;
         for( auto pt : fortify_om ) {
+            add_msg( "pt loop to add mission points");
             comp->companion_mission_points.push_back( pt );
         }
     }
@@ -2204,9 +2207,9 @@ bool basecamp::gathering_return( const std::string &task, time_duration min_time
 void basecamp::fortifications_return()
 {
     const std::string msg = _( "returns from constructing fortifications..." );
-    npc_ptr comp = mission_return( "_faction_camp_om_fortifications", 3_hours, true, msg,
-                                   "construction", 2 );
+    npc_ptr comp = companion_choose_return( "_faction_camp_om_fortifications", 3_hours );
     if( comp != nullptr ) {
+        add_msg( "comp != nullptr");
         std::string build_n = "faction_wall_level_N_0";
         std::string build_e = "faction_wall_level_E_0";
         std::string build_s = "faction_wall_level_S_0";
@@ -2228,6 +2231,7 @@ void basecamp::fortifications_return()
         //Add fences
         auto build_point = comp->companion_mission_points;
         for( size_t pt = 0; pt < build_point.size(); pt++ ) {
+            add_msg( "pt loop");
             //First point is always at top or west since they are built in a line and sorted
             if( pt == 0 ) {
                 run_mapgen_update_func( build_first, build_point[pt] );
@@ -2238,6 +2242,7 @@ void basecamp::fortifications_return()
                 run_mapgen_update_func( build_second, build_point[pt] );
             }
         }
+        finish_return( *comp, true, msg, "construction", 2 );
     }
 }
 
@@ -2883,20 +2888,20 @@ void om_range_mark( const tripoint &origin, int range, bool add_notes,
 {
     std::vector<tripoint> note_pts;
     //North Limit
-    for( int x = origin.x - range - 1; x < origin.x + range + 2; x++ ) {
-        note_pts.push_back( tripoint( x, origin.y - range - 1, origin.z ) );
+    for( int x = origin.x - range; x < origin.x + range + 1; x++ ) {
+        note_pts.push_back( tripoint( x, origin.y - range, origin.z ) );
     }
     //South
-    for( int x = origin.x - range - 1; x < origin.x + range + 2; x++ ) {
-        note_pts.push_back( tripoint( x, origin.y + range + 1, origin.z ) );
+    for( int x = origin.x - range; x < origin.x + range + 1; x++ ) {
+        note_pts.push_back( tripoint( x, origin.y + range, origin.z ) );
     }
     //West
-    for( int y = origin.y - range - 1; y < origin.y + range + 2; y++ ) {
-        note_pts.push_back( tripoint( origin.x - range - 1, y, origin.z ) );
+    for( int y = origin.y - range; y < origin.y + range + 1; y++ ) {
+        note_pts.push_back( tripoint( origin.x - range, y, origin.z ) );
     }
     //East
-    for( int y = origin.y - range - 1; y < origin.y + range + 2; y++ ) {
-        note_pts.push_back( tripoint( origin.x + range + 1, y, origin.z ) );
+    for( int y = origin.y - range; y < origin.y + range + 1; y++ ) {
+        note_pts.push_back( tripoint( origin.x + range, y, origin.z ) );
     }
 
     for( auto pt : note_pts ) {
