@@ -3913,11 +3913,12 @@ void item::calc_rot( time_point time )
     // is in a sealed container they won't rot away, this avoids needlessly
     // calculating their rot in that case.
     if( !is_corpse() && get_relative_rot() > 2.0 ) {
+        last_rot_check = time;
         return;
     }
 
     if( item_tags.count( "FROZEN" ) ) {
-        last_rot_check = calendar::turn;
+        last_rot_check = time;
         return;
     }
     // rot modifier
@@ -7067,7 +7068,7 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
     }
 
     time_point time = std::min( { last_rot_check, last_temp_check } );
-    // const time_point since = std::min( { last_rot_check, last_temp_check} );
+
     if( now - last_temp_check > 1_hours ) {
         // This code is for items that were left out of reality bubble for long time
 
