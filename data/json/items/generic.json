@@ -915,6 +915,7 @@
   {
     "type": "GENERIC",
     "id": "broken_nursebot_defective",
+    "name": "broken nurse bot",
     "copy-from": "broken_nursebot"
   },
   {
