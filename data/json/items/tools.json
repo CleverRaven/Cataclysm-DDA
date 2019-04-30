@@ -4258,25 +4258,6 @@
     "flags": [ "LIGHT_8", "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
   },
   {
-    "id": "knife_butcher",
-    "type": "TOOL",
-    "category": "weapons",
-    "name": "butcher knife",
-    "name_plural": "butcher knives",
-    "description": "This is a sharp, heavy knife.  It makes a good melee weapon, and is an ideal item for butchering corpses.",
-    "weight": 680,
-    "volume": 2,
-    "price": 3000,
-    "to_hit": -1,
-    "bashing": 2,
-    "cutting": 10,
-    "material": "steel",
-    "symbol": ";",
-    "color": "light_gray",
-    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 25 ] ],
-    "flags": [ "SHEATH_KNIFE" ]
-  },
-  {
     "id": "knife_combat",
     "type": "TOOL",
     "category": "weapons",
@@ -4367,24 +4348,6 @@
     "techniques": [ "RAPID", "WBLOCK_1" ],
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],
     "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE", "NO_CVD" ]
-  },
-  {
-    "id": "knife_steak",
-    "type": "TOOL",
-    "name": "steak knife",
-    "name_plural": "steak knives",
-    "description": "This is a sharp knife, designed for cutting meat.  It makes a poor melee weapon, but is decent at butchering corpses.",
-    "weight": 453,
-    "volume": 1,
-    "price": 250,
-    "to_hit": -1,
-    "bashing": 2,
-    "cutting": 7,
-    "material": "steel",
-    "symbol": ";",
-    "color": "light_gray",
-    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 20 ] ],
-    "flags": [ "STAB", "SHEATH_KNIFE" ]
   },
   {
     "id": "knife_swissarmy",
