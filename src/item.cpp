@@ -7035,6 +7035,15 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
                                     player *carrier )
 {
     const time_point now = calendar::turn;
+
+    // if player debug menu'd the time backward it breaks stuff, just reset the
+    // last_temp_check and last_rot_check in this case
+    if( now - last_temp_check < 0_turns ) {
+        reset_temp_check();
+        last_rot_check = now;
+        return;
+    }
+
     bool carried = carrier != nullptr && carrier->has_item( *this );
 
     // process temperature and rot at most once every 100_turns (10 min)
@@ -7049,13 +7058,6 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
             calc_temp( temp, insulation, now );
             calc_rot( now );
         }
-        return;
-    }
-
-    // if player debug menu'd the time backward it breaks stuff, just reset the
-    // last_temp_check in this case
-    if( now - last_temp_check < 0_turns ) {
-        reset_temp_check();
         return;
     }
 
