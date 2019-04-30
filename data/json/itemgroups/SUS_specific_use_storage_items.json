@@ -57,21 +57,17 @@
     "//2": "This group is for a drawer full of knives and related implements.",
     "subtype": "collection",
     "items": [
-      {
-        "distribution": [ { "item": "knife_chef", "prob": 10 }, { "item": "knife_vegetable_cleaver", "prob": 3 } ]
-      },
+      { "distribution": [ { "item": "knife_chef", "prob": 10 }, { "item": "knife_vegetable_cleaver", "prob": 3 } ] },
       { "item": "knife_paring" },
       { "item": "knife_paring", "prob": 75 },
       { "item": "knife_bread", "prob": 95 },
       { "item": "knife_bread", "prob": 45 },
       {
-        "distribution": [ { "item": "knife_butcher", "prob": 10 }, { "item": "knife_meat_cleaver", "prob": 10 } ], "prob": 65 
+        "distribution": [ { "item": "knife_butcher", "prob": 10 }, { "item": "knife_meat_cleaver", "prob": 10 } ],
+        "prob": 65
       },
       { "item": "knife_steak", "count": [ 2, 4 ], "prob": 75 },
-      {
-        "collection": [ { "item": "knife_carving" }, { "item": "carving_fork", "prob": 90 } ],
-        "prob": 85
-      },
+      { "collection": [ { "item": "knife_carving" }, { "item": "carving_fork", "prob": 90 } ], "prob": 85 },
       { "item": "scissors", "prob": 80 },
       { "item": "peeler", "prob": 75, "count": [ 1, 2 ] },
       { "item": "cutting_board", "count": [ 1, 2 ] },
@@ -106,10 +102,7 @@
       { "item": "corkscrew", "prob": 60 },
       { "item": "bottle_opener", "prob": 75 },
       { "item": "candle", "prob": 75 },
-      {
-        "distribution": [ { "item": "matches" }, { "item": "lighter" } ],
-        "prob": 90
-      }
+      { "distribution": [ { "item": "matches" }, { "item": "lighter" } ], "prob": 90 }
     ]
   },
   {
@@ -141,10 +134,7 @@
     "items": [
       { "item": "pot", "count": [ 1, 2 ] },
       { "item": "pot", "prob": 50 },
-      {
-        "collection": [ { "item": "iron_pot" }, { "item": "iron_pot", "prob": 60 } ],
-        "prob": 70
-      },
+      { "collection": [ { "item": "iron_pot" }, { "item": "iron_pot", "prob": 60 } ], "prob": 70 },
       { "item": "casserole", "prob": 90 },
       { "item": "copper_pot", "prob": 75 },
       { "item": "stock_pot", "prob": 50 },
