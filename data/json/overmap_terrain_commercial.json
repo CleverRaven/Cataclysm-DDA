@@ -15,8 +15,71 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "s_pharm_roof",
+    "name": "pharmacy roof",
+    "copy-from": "generic_city_building",
+    "color": "light_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_pharm_1",
+    "name": "pharmacy",
+    "copy-from": "generic_city_building",
+    "color": "light_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_pharm_roof_1",
+    "name": "pharmacy roof",
+    "copy-from": "generic_city_building",
+    "color": "light_red"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "office_doctor",
     "name": "doctor's office",
+    "copy-from": "generic_city_building",
+    "color": "i_light_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "office_doctor_roof",
+    "name": "doctor's office roof",
+    "copy-from": "generic_city_building",
+    "color": "i_light_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "office_doctor_1",
+    "name": "doctor's office",
+    "copy-from": "generic_city_building",
+    "color": "i_light_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "office_doctor_roof_1",
+    "name": "doctor's office roof",
+    "copy-from": "generic_city_building",
+    "color": "i_light_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "office_doctor_2",
+    "name": "doctor's office",
+    "copy-from": "generic_city_building",
+    "color": "i_light_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "office_doctor_roof_2",
+    "name": "doctor's office roof",
+    "copy-from": "generic_city_building",
+    "color": "i_light_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "office_doctor_upper_roof_2",
+    "name": "doctor's office roof",
     "copy-from": "generic_city_building",
     "color": "i_light_red"
   },
@@ -230,6 +293,55 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "s_bookstore_roof",
+    "name": "bookstore roof",
+    "copy-from": "generic_city_building",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_bookstore_upper_roof",
+    "name": "bookstore roof",
+    "copy-from": "generic_city_building",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_bookstore_1",
+    "name": "bookstore",
+    "copy-from": "generic_city_building",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_bookstore_roof_1",
+    "name": "bookstore roof",
+    "copy-from": "generic_city_building",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_bookstore_upper_roof_1",
+    "name": "bookstore roof",
+    "copy-from": "generic_city_building",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_bookstore_2",
+    "name": "bookstore",
+    "copy-from": "generic_city_building",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_bookstore_roof_2",
+    "name": "bookstore roof",
+    "copy-from": "generic_city_building",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "s_restaurant",
     "name": "restaurant",
     "copy-from": "generic_city_building",
@@ -421,6 +533,55 @@
     "type": "overmap_terrain",
     "id": "s_butcher",
     "name": "butcher shop",
+    "copy-from": "generic_city_building",
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_butcher_roof",
+    "name": "butcher shop roof",
+    "copy-from": "generic_city_building",
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_butcher_upper_roof",
+    "name": "butcher shop roof",
+    "copy-from": "generic_city_building",
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_butcher_1",
+    "name": "butcher shop",
+    "copy-from": "generic_city_building",
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_butcher_roof_1",
+    "name": "butcher shop roof",
+    "copy-from": "generic_city_building",
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_butcher_upper_roof_1",
+    "name": "butcher shop roof",
+    "copy-from": "generic_city_building",
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_butcher_2",
+    "name": "butcher shop",
+    "copy-from": "generic_city_building",
+    "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_butcher_roof_2",
+    "name": "butcher shop roof",
     "copy-from": "generic_city_building",
     "color": "i_red"
   },
@@ -1504,7 +1665,31 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "cs_car_showroom_2ndfloor",
+    "copy-from": "generic_city_building",
+    "name": "car showroom 2nd floor",
+    "sym": "c",
+    "color": "i_cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cs_car_showroom_roof",
+    "copy-from": "generic_city_building",
+    "name": "car showroom roof",
+    "sym": "c",
+    "color": "i_cyan"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "cs_car_dealership",
+    "copy-from": "generic_city_building",
+    "name": "car dealership",
+    "sym": "c",
+    "color": "i_cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cs_car_dealership_roof",
     "copy-from": "generic_city_building",
     "name": "car dealership",
     "sym": "c",
@@ -1581,6 +1766,14 @@
     "id": "cs_gardening_allotment",
     "copy-from": "generic_city_building",
     "name": "gardening allotment",
+    "sym": "a",
+    "color": "brown_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cs_gardening_allotment_roof",
+    "copy-from": "generic_city_building",
+    "name": "gardening allotment roof",
     "sym": "a",
     "color": "brown_green"
   },

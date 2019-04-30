@@ -6,10 +6,14 @@
 #include <map>
 #include <unordered_set>
 #include <vector>
+#include <list>
 
 #include "player_activity.h"
 
 class player;
+class Character;
+class item;
+struct tripoint;
 
 std::vector<tripoint> get_sorted_tiles_by_distance( const tripoint &abspos,
         const std::unordered_set<tripoint> &tiles );
@@ -86,6 +90,7 @@ void fertilize_plot_do_turn( player_activity *act, player *p );
 void harvest_plot_do_turn( player_activity *act, player *p );
 void try_sleep_do_turn( player_activity *act, player *p );
 void robot_control_do_turn( player_activity *act, player *p );
+void tree_communion_do_turn( player_activity *act, player *p );
 
 // defined in activity_handlers.cpp
 extern const std::map< activity_id, std::function<void( player_activity *, player * )> >

@@ -4,6 +4,7 @@
 
 #include <map>
 #include <vector>
+#include <string>
 
 enum damage_type : int;
 

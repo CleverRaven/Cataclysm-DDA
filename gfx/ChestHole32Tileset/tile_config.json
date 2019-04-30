@@ -10409,7 +10409,7 @@
           "rotates": false
         },
         {
-          "id": "overlay_wielded_potato_raw",
+          "id": "overlay_wielded_potato",
           "fg": 933,
           "bg": 632,
           "rotates": false
@@ -16414,7 +16414,7 @@
           "rotates": false
         },
         {
-          "id": "overlay_wielded_potato_irradiated",
+          "id": "overlay_wielded_irradiated_potato",
           "fg": 933
         },
         {
@@ -32312,7 +32312,7 @@
           "rotates": false
         },
         {
-          "id": "potato_raw",
+          "id": "potato",
           "fg": 933,
           "bg": 632,
           "rotates": false
@@ -45448,7 +45448,7 @@
           "rotates": false
         },
         {
-          "id": "potato_irradiated",
+          "id": "irradiated_potato",
           "fg": 933
         },
         {
@@ -48927,6 +48927,11 @@
         },
         {
           "id": "cursor",
+          "fg": 1849,
+          "rotates": false
+        },
+        {
+          "id": "highlight",
           "fg": 1849,
           "rotates": false
         },

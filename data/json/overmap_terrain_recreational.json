@@ -860,6 +860,20 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "gym_roof",
+    "name": "boxing gym roof",
+    "copy-from": "generic_city_building",
+    "color": "yellow_cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "gym_upper_roof",
+    "name": "boxing gym roof",
+    "copy-from": "generic_city_building",
+    "color": "yellow_cyan"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "gym_fitness",
     "name": "fitness gym",
     "copy-from": "generic_city_building",

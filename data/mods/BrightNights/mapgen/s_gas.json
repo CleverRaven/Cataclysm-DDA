@@ -32,26 +32,15 @@
         "____________|||||||||||,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "palettes": [
-        "general_jc"
-      ],
+      "palettes": [ "general_jc" ],
       "set": [
         { "point": "terrain", "id": "t_dirt", "x": [ 0, 23 ], "y": [ 0, 2 ], "repeat": [ 8, 10 ] },
         { "point": "terrain", "id": "t_dirt", "x": [ 0, 23 ], "y": [ 0, 4 ], "repeat": [ 8, 2 ] }
       ],
-      "terrain": {
-        "T": "t_atm"
-      },
-      "furniture": {
-        "V": "f_vending_reinforced",
-        "k": "f_rack"
-      },
-      "toilets": {
-        "&": {}
-      },
-      "gaspumps": {
-        "G": {}
-      },
+      "terrain": { "T": "t_atm" },
+      "furniture": { "V": "f_vending_reinforced", "k": "f_rack" },
+      "toilets": { "&": {  } },
+      "gaspumps": { "G": {  } },
       "items": {
         "F": { "item": "fridgesnacks", "chance": 50, "repeat": [ 1, 2 ] },
         "d": { "item": "office", "chance": 33, "repeat": [ 1, 2 ] },
@@ -66,9 +55,7 @@
         { "group": "magazines", "x": 9, "y": [ 14, 16 ], "chance": 90 },
         { "group": "softdrugs", "x": [ 15, 18 ], "y": [ 20, 19 ], "chance": 80, "repeat": [ 0, 2 ] }
       ],
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 } ]
     }
   }
 ]

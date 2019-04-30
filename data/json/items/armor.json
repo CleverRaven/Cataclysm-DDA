@@ -9490,6 +9490,25 @@
     "flags": [ "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ]
   },
   {
+    "id": "headscarf",
+    "type": "ARMOR",
+    "name": "headscarf",
+    "description": "A loose cloth worn over the head and around the neck.",
+    "weight": 70,
+    "volume": 1,
+    "price": 85,
+    "to_hit": -1,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "color": "yellow",
+    "covers": [ "HEAD" ],
+    "coverage": 70,
+    "encumbrance": 4,
+    "warmth": 7,
+    "material_thickness": 1,
+    "flags": [ "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ]
+  },
+  {
     "id": "tux",
     "type": "ARMOR",
     "name": "tuxedo",

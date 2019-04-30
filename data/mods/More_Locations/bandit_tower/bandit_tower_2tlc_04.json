@@ -1,64 +1,48 @@
 [
-    {
-        "type": "mapgen",
-        "om_terrain": "bandit_tower_2tlc",
-        "comment" : "top left corner, second story and even levels",
-        "weight": 250,
-        "method": "json",
-        "object": {
-            "fill_ter": "t_floor",
-            "rows": [
-                "################88######",
-                "################88######",
-                "#################8######",
-                "#######==kk=====++==gg==",
-                "#######=Lxxx.......|~~==",
-                "#####===...........|~~==",
-                "#####===HH.........|..0W",
-                "###=====HH...L.....|....",
-                "###=..hh...v.......+....",
-                "###=..hh...........---..",
-                "###k.....00.........A|ll",
-                "###k................A|--",
-                "###k...L................",
-                "###=....................",
-                "###=....................",
-                "###=...........XJJJXX...",
-                "8#8............J=======.",
-                "888............J=====Mee",
-                "###2...........J==>>>Mee",
-                "###2..............>>>Mee",
-                "###2..............>>>Mee",
-                "###2............=MMMMMMM",
-                "###2*...........=eeeeM==",
-                "###===-------|...88eeM=="
-            ],
-            "rotation": 0,
-            "palettes": [
-                "tri_tower",
-                "upper_level",
-                "bandit_tower_stuff"
-            ],
-            "terrain":{
-                "5": "t_pavement",
-                "8": "t_bridge",
-                "k": "t_scrap_wall",
-                "K": "t_door_bar_locked"
-            },
-            "furniture":{
-                "h": "f_water_heater",
-                "H": "f_home_furnace",
-                "Y": "f_exercise",
-                "J": "f_kiln_empty"
-            },
-            "items":{
-                "l": { "item": "cleaning", "chance": 70 },
-                "L": { "item": "tools_common", "chance": 70 },
-                "X": { "item": "stash_wood", "chance": 90 }
-            },
-            "vehicles": {
-                "v": { "vehicle": "portable_generator", "status": 0, "chance": 100 }
-            }
-        }
+  {
+    "type": "mapgen",
+    "om_terrain": "bandit_tower_2tlc",
+    "comment": "top left corner, second story and even levels",
+    "weight": 250,
+    "method": "json",
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "################88######",
+        "################88######",
+        "#################8######",
+        "#######==kk=====++==gg==",
+        "#######=Lxxx.......|~~==",
+        "#####===...........|~~==",
+        "#####===HH.........|..0W",
+        "###=====HH...L.....|....",
+        "###=..hh...v.......+....",
+        "###=..hh...........---..",
+        "###k.....00.........A|ll",
+        "###k................A|--",
+        "###k...L................",
+        "###=....................",
+        "###=....................",
+        "###=...........XJJJXX...",
+        "8#8............J=======.",
+        "888............J=====Mee",
+        "###2...........J==>>>Mee",
+        "###2..............>>>Mee",
+        "###2..............>>>Mee",
+        "###2............=MMMMMMM",
+        "###2*...........=eeeeM==",
+        "###===-------|...88eeM=="
+      ],
+      "rotation": 0,
+      "palettes": [ "tri_tower", "upper_level", "bandit_tower_stuff" ],
+      "terrain": { "5": "t_pavement", "8": "t_bridge", "k": "t_scrap_wall", "K": "t_door_bar_locked" },
+      "furniture": { "h": "f_water_heater", "H": "f_home_furnace", "Y": "f_exercise", "J": "f_kiln_empty" },
+      "items": {
+        "l": { "item": "cleaning", "chance": 70 },
+        "L": { "item": "tools_common", "chance": 70 },
+        "X": { "item": "stash_wood", "chance": 90 }
+      },
+      "vehicles": { "v": { "vehicle": "portable_generator", "status": 0, "chance": 100 } }
     }
+  }
 ]

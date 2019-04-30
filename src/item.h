@@ -8,6 +8,10 @@
 #include <set>
 #include <string>
 #include <vector>
+#include <functional>
+#include <memory>
+#include <type_traits>
+#include <utility>
 
 #include "calendar.h"
 #include "cata_utility.h"
@@ -18,7 +22,8 @@
 #include "string_id.h"
 #include "units.h"
 #include "visitable.h"
-#include "requirements.h"
+
+class item;
 
 namespace cata
 {
@@ -26,7 +31,6 @@ template<typename T>
 class optional;
 } // namespace cata
 class nc_color;
-class JsonObject;
 class JsonIn;
 class JsonOut;
 class iteminfo_query;
@@ -34,23 +38,25 @@ template<typename T>
 class ret_val;
 class gun_type_type;
 class gunmod_location;
-class game;
 class gun_mode;
+
 using gun_mode_id = string_id<gun_mode>;
 class Character;
 class player;
-class npc;
 class recipe;
 struct itype;
 struct islot_comestible;
 struct mtype;
+
 using mtype_id = string_id<mtype>;
 using bodytype_id = std::string;
 struct islot_armor;
 struct use_function;
 class material_type;
+
 using material_id = string_id<material_type>;
 class item_category;
+
 enum art_effect_passive : int;
 enum phase_id : int;
 enum body_part : int;
@@ -58,18 +64,21 @@ enum m_size : int;
 enum class side : int;
 class body_part_set;
 class ammunition_type;
+
 using ammotype = string_id<ammunition_type>;
 using itype_id = std::string;
 class ma_technique;
+
 using matec_id = string_id<ma_technique>;
-struct point;
-struct tripoint;
 using recipe_id = string_id<recipe>;
 class Skill;
+
 using skill_id = string_id<Skill>;
 class fault;
+
 using fault_id = string_id<fault>;
 struct quality;
+
 using quality_id = string_id<quality>;
 struct fire_data;
 struct damage_instance;
@@ -525,7 +534,7 @@ class item : public visitable<item>
          * @return true if this item should be deleted (count-by-charges items with no remaining charges)
          */
         bool use_charges( const itype_id &what, long &qty, std::list<item> &used, const tripoint &pos,
-                          const std::function<bool( const item & )> &filter = return_true );
+                          const std::function<bool( const item & )> &filter = return_true<item> );
 
         /**
          * Invokes item type's @ref itype::drop_action.
@@ -554,7 +563,7 @@ class item : public visitable<item>
          * @param filter Must return true for use to occur.
          */
         bool use_amount( const itype_id &it, long &quantity, std::list<item> &used,
-                         const std::function<bool( const item & )> &filter = return_true );
+                         const std::function<bool( const item & )> &filter = return_true<item> );
 
         /** Permits filthy components, should only be used as a helper in creating filters */
         bool allow_crafting_component() const;
@@ -660,29 +669,29 @@ class item : public visitable<item>
 
         /**
          * Accumulate rot of the item since last rot calculation.
-         * This function works for non-rotting stuff, too - it increases the value
-         * of rot.
-         * @param p The absolute, global location (in map square coordinates) of the item to
-         * check for temperature.
+         * This function should not be called directly. since it does not have all the needed checks or temperature calculations.
+         * If you need to calc rot of item call process_temperature_rot instead.
+         * @param time Time point to which rot is calculated
          */
-        void calc_rot( const tripoint &p );
+        void calc_rot( time_point time );
 
         /**
-         * Accumulate rot of the item since starting smoking.
          * This is part of a workaround so that items don't rot away to nothing if the smoking rack
          * is outside the reality bubble.
-         * @param p The absolute, global location (in map square coordinates) of the item to
-         * check for temperature.
          * @param smoking_duration
          */
-        void calc_rot_while_smoking( const tripoint &p, time_duration smoking_duration );
+        void calc_rot_while_processing( time_duration smoking_duration );
 
         /**
-         * Update temperature for things like foo
+         * Update temperature for things like food
+         * Update rot for things that perish
+         * All items that rot also have temperature
          * @param temp Temperature at which item is current exposed
          * @param insulation Amount of insulation item has from surroundings
+         * @param pos The current position
+         * @param carrier The current carrier
          */
-        void update_temp( const int temp, const float insulation );
+        void process_temperature_rot( int temp, float insulation, const tripoint pos, player *carrier );
 
         /** Set the item to HOT */
         void heat_up();
@@ -702,11 +711,16 @@ class item : public visitable<item>
         /** whether an item is perishable (can rot) */
         bool goes_bad() const;
 
+        /** Get the shelf life of the item*/
+        time_duration get_shelf_life() const;
+
         /** Get @ref rot value relative to shelf life (or 0 if item does not spoil) */
         double get_relative_rot() const;
 
         /** Set current item @ref rot relative to shelf life (no-op if item does not spoil) */
         void set_relative_rot( double val );
+
+        void set_rot( time_duration val );
 
         /**
          * Get time left to rot, ignoring fridge.
@@ -734,9 +748,9 @@ class item : public visitable<item>
             return get_relative_rot() > 1.0;
         }
 
-        /** at twice regular shelf life perishable items rot away completely */
+        /** at twice regular shelf life perishable foods rot away completely. Corpses last longer */
         bool has_rotten_away() const {
-            return get_relative_rot() > 2.0;
+            return is_food() && get_relative_rot() > 2.0;
         }
 
         /** remove frozen tag and if it takes freezerburn, applies mushy/rotten */
@@ -1543,6 +1557,8 @@ class item : public visitable<item>
         long ammo_remaining() const;
         /** Maximum quantity of ammunition loadable for tool, gun or auxiliary gunmod */
         long ammo_capacity() const;
+        /** @param potential_capacity whether to try a default magazine if necessary */
+        long ammo_capacity( bool potential_capacity ) const;
         /** Quantity of ammunition consumed per usage of tool or with each shot of gun */
         long ammo_required() const;
 
@@ -1838,9 +1854,9 @@ class item : public visitable<item>
          * Calculate the thermal energy and temperature change of the item
          * @param temp Temperature of surroundings
          * @param insulation Amount of insulation item has
-         * @param time Duration of time at which to process at temperature
+         * @param time time point which the item is processed to
          */
-        void calc_temp( const int temp, const float insulation, const time_duration &time );
+        void calc_temp( const int temp, const float insulation, const time_point &time );
 
         /**
          * Get the thermal energy of the item in Joules.
@@ -1857,13 +1873,13 @@ class item : public visitable<item>
         // Sub-functions of @ref process, they handle the processing for different
         // processing types, just to make the process function cleaner.
         // The interface is the same as for @ref process.
-        bool process_food( const tripoint &p );
         bool process_corpse( player *carrier, const tripoint &pos );
         bool process_wet( player *carrier, const tripoint &pos );
         bool process_litcig( player *carrier, const tripoint &pos );
         bool process_extinguish( player *carrier, const tripoint &pos );
         // Place conditions that should remove fake smoke item in this sub-function
         bool process_fake_smoke( player *carrier, const tripoint &pos );
+        bool process_fake_mill( player *carrier, const tripoint &pos );
         bool process_cable( player *carrier, const tripoint &pos );
         bool process_tool( player *carrier, const tripoint &pos );
 

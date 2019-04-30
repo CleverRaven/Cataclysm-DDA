@@ -4,14 +4,14 @@
 
 #include <string>
 #include <vector>
-
-#include "enums.h" // For point
+#include <utility>
 
 class monster;
 class player;
 class Creature;
 class item;
 class JsonObject;
+struct tripoint;
 
 namespace sounds
 {
@@ -25,7 +25,8 @@ enum class sound_t : int {
     destructive_activity,
     alarm,
     combat, // any violent sounding activity
-    alert // louder than speech to get attention
+    alert, // louder than speech to get attention
+    order  // loudest to get attention
 };
 
 // Methods for recording sound events.

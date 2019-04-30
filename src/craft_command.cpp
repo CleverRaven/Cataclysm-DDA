@@ -1,19 +1,22 @@
 #include "craft_command.h"
 
+#include <stdlib.h>
 #include <sstream>
 #include <algorithm>
+#include <limits>
+#include <list>
 
 #include "debug.h"
 #include "game_constants.h"
 #include "inventory.h"
 #include "item.h"
-#include "itype.h"
 #include "output.h"
 #include "player.h"
 #include "recipe.h"
 #include "requirements.h"
 #include "translations.h"
 #include "uistate.h"
+#include "pldata.h"
 
 template<typename CompType>
 std::string comp_selection<CompType>::nname() const
@@ -32,10 +35,14 @@ std::string comp_selection<CompType>::nname() const
     return item::nname( comp.type, comp.count );
 }
 
-void craft_command::execute()
+void craft_command::execute( const tripoint &new_loc )
 {
     if( empty() ) {
         return;
+    }
+
+    if( new_loc != tripoint_zero ) {
+        loc = new_loc;
     }
 
     bool need_selections = true;
@@ -79,7 +86,7 @@ void craft_command::execute()
         }
     }
 
-    crafter->start_craft( *this );
+    crafter->start_craft( *this, loc );
     crafter->last_batch = batch_size;
     crafter->lastrecipe = rec->ident();
 

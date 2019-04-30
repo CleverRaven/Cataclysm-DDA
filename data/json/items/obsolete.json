@@ -1,5 +1,22 @@
 [
   {
+    "id": "anesthesia",
+    "type": "AMMO",
+    "name": "anesthetic kit",
+    "category": "chems",
+    "description": "A kit for inducing anesthesia for surgery, containing specialized canisters with a variety of powerful hypnotic, analgetic, and stimulative drugs.  It's intended for use in specialized medical equipment, and can't be administered manually.",
+    "weight": 100,
+    "volume": 1,
+    "price": 50000,
+    "ammo_type": "components",
+    "count": 3,
+    "material": "plastic",
+    "symbol": "!",
+    "color": "cyan",
+    "looks_like": "1st_aid",
+    "flags": [ "ANESTHESIA" ]
+  },
+  {
     "id": "barrel_big",
     "type": "GUNMOD",
     "name": "barrel extension",

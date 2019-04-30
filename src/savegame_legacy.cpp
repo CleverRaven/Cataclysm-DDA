@@ -1,7 +1,16 @@
+#include <stddef.h>
 #include <sstream>
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include <array>
+#include <list>
+#include <map>
+#include <memory>
+#include <set>
+#include <system_error>
+#include <type_traits>
+#include <utility>
 
 #include "debug.h"
 // for legacy classdata loaders
@@ -14,6 +23,14 @@
 #include "options.h"
 #include "overmap.h"
 #include "player_activity.h"
+#include "cata_utility.h"
+#include "enums.h"
+#include "game_constants.h"
+#include "inventory.h"
+#include "monster.h"
+#include "omdata.h"
+#include "regional_settings.h"
+#include "rng.h"
 
 namespace std
 {

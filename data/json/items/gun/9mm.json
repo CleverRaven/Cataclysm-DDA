@@ -516,5 +516,18 @@
       [ "46", [ "hk46mag", "hk46bigmag" ] ],
       [ "57", [ "fn57mag" ] ]
     ]
+  },
+  {
+    "id": "kpf9",
+    "copy-from": "kp32",
+    "type": "GUN",
+    "name": "Kel-Tec PF-9",
+    "description": "The Kel-Tec PF-9 remains one of the most popular backup pistols due to its history of reliability, affordability, and concealability.  Chambered in 9x19mm, recoil is best described as unpleasant, and follow up shots are difficult to place quickly.",
+    "weight": 360,
+    "volume": "360ml",
+    "ranged_damage": -1,
+    "price": 18000,
+    "bashing": 2,
+    "ammo": "9mm"
   }
 ]

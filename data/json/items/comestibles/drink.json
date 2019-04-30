@@ -611,6 +611,14 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "milk_reconstituted",
+    "name": "reconstituted milk",
+    "name_plural": "reconstituted milk",
+    "copy-from": "milk",
+    "description": "Baby cow food, appropriated for adult humans.  This milk has been reconstituted from a processed milk.  Spoils rapidly."
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "milk_coffee",
     "name": "coffee milk",
     "weight": 259,

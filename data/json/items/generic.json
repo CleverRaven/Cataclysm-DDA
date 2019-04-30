@@ -2844,6 +2844,21 @@
   },
   {
     "type": "GENERIC",
+    "id": "id_industrial",
+    "looks_like": "id_science",
+    "symbol": ",",
+    "color": "green",
+    "name": "industrial ID card",
+    "description": "This ID card once belonged to a high level technician.  The reverse side describes protocol for using it; this could grant access at one control panel, if you can find one.",
+    "price": 120000,
+    "price_postapoc": 10000,
+    "material": "plastic",
+    "weight": 6,
+    "volume": 0,
+    "to_hit": -3
+  },
+  {
+    "type": "GENERIC",
     "id": "neoprene",
     "symbol": ",",
     "color": "dark_gray",
@@ -3009,6 +3024,22 @@
     "bashing": 5
   },
   {
+    "id": "condom",
+    "type": "GENERIC",
+    "category": "other",
+    "name": "condom",
+    "looks_like": "lens",
+    "description": "A gentleman's balloon.  A single use life preventer.  A thumbless latex mitten.   This could be used as a makeshift water container, but otherwise it's anyone's guess what it's for.",
+    "weight": 5,
+    "volume": "5ml",
+    "price": 200,
+    "material": "plastic",
+    "symbol": "*",
+    "color": "white",
+    "bashing": 5,
+    "to_hit": -3
+  },
+  {
     "type": "GENERIC",
     "id": "lock",
     "category": "spare_parts",
@@ -3035,5 +3066,33 @@
     "max_charges": 20,
     "use_action": "CRAFT",
     "flags": [ "NO_SALVAGE", "TRADER_AVOID" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "spare_tire_carrier",
+    "category": "spare_parts",
+    "symbol": "t",
+    "color": "dark_gray",
+    "name": "spare tire carrier",
+    "description": "A bumper mounted rig for attaching and storing a spare tire on the back of a vehicle.  Combine it with a wheel to get a mountable piece.",
+    "price": 3500,
+    "material": "steel",
+    "weight": 5000,
+    "volume": 20,
+    "bashing": 8
+  },
+  {
+    "type": "GENERIC",
+    "id": "welding_components",
+    "category": "spare_parts",
+    "material": "steel",
+    "symbol": ";",
+    "color": "red",
+    "name": "welding component kit",
+    "description": "A set of components useful for constructing a full-featured welding station, complete with soldering capability.",
+    "price": 9000,
+    "weight": 4500,
+    "volume": 12,
+    "bashing": 8
   }
 ]

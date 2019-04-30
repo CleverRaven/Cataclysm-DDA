@@ -17,6 +17,64 @@
   },
   {
     "type": "city_building",
+    "id": "s_bookstore",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "s_bookstore_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "s_bookstore_roof_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "s_bookstore_upper_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "s_bookstore_1",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "s_bookstore_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "s_bookstore_roof_1_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "s_bookstore_upper_roof_1_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "s_bookstore_2",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "s_bookstore_2_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "s_bookstore_roof_2_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "s_butcher",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "s_butcher_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "s_butcher_roof_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "s_butcher_upper_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "s_butcher_1",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "s_butcher_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "s_butcher_roof_1_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "s_butcher_upper_roof_1_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "s_butcher_2",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "s_butcher_2_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "s_butcher_roof_2_north" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "police",
     "locations": [ "land" ],
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "police_north" }, { "point": [ 0, 0, 1 ], "overmap": "police_roof_north" } ]
@@ -697,7 +755,11 @@
       { "point": [ 0, 0, 0 ], "overmap": "lumberyard_0_0_north" },
       { "point": [ 1, 0, 0 ], "overmap": "lumberyard_1_0_north" },
       { "point": [ 0, 1, 0 ], "overmap": "lumberyard_0_1_north" },
-      { "point": [ 1, 1, 0 ], "overmap": "lumberyard_1_1_north" }
+      { "point": [ 1, 1, 0 ], "overmap": "lumberyard_1_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "lumberyard_0_0_roof_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "lumberyard_1_0_roof_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "lumberyard_0_1_roof_north" },
+      { "point": [ 1, 1, 1 ], "overmap": "lumberyard_1_1_roof_north" }
     ]
   },
   {
@@ -1027,6 +1089,15 @@
   },
   {
     "type": "city_building",
+    "id": "cs_car_dealership",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "cs_car_dealership_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "cs_car_dealership_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "s_restaurant",
     "locations": [ "land" ],
     "overmaps": [
@@ -1106,6 +1177,15 @@
   },
   {
     "type": "city_building",
+    "id": "cs_gardening_allotment",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "cs_gardening_allotment_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "cs_gardening_allotment_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "icecream_shop",
     "locations": [ "land" ],
     "overmaps": [
@@ -1130,6 +1210,34 @@
     "id": "bar_1",
     "locations": [ "land" ],
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "bar_1_north" }, { "point": [ 0, 0, 1 ], "overmap": "bar_roof_1_north" } ]
+  },
+  {
+    "type": "city_building",
+    "id": "office_doctor",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "office_doctor_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "office_doctor_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "office_doctor_1",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "office_doctor_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "office_doctor_roof_1_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "office_doctor_2",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "office_doctor_2_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "office_doctor_roof_2_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "office_doctor_upper_roof_2_north" }
+    ]
   },
   {
     "type": "city_building",
@@ -1166,5 +1274,37 @@
       { "point": [ 0, 0, 0 ], "overmap": "s_bike_shop_1_north" },
       { "point": [ 0, 0, 1 ], "overmap": "s_bike_shop_roof_1_north" }
     ]
+  },
+  {
+    "type": "city_building",
+    "id": "cs_car_showroom",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "cs_car_showroom_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "cs_car_showroom_2ndfloor_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "cs_car_showroom_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "gym",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "gym_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "gym_roof_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "gym_upper_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "s_pharm",
+    "locations": [ "land" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "s_pharm_north" }, { "point": [ 0, 0, 1 ], "overmap": "s_pharm_roof_north" } ]
+  },
+  {
+    "type": "city_building",
+    "id": "s_pharm_1",
+    "locations": [ "land" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "s_pharm_1_north" }, { "point": [ 0, 0, 1 ], "overmap": "s_pharm_roof_1_north" } ]
   }
 ]

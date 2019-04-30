@@ -1,60 +1,44 @@
 [
-    {
-        "type": "mapgen",
-        "om_terrain": "bandit_tower_2trc",
-        "comment" : "top right corner, second story and even levels",
-        "weight": 250,
-        "method": "json",
-        "object": {
-            "fill_ter": "t_floor",
-            "rows": [
-                "################88######",
-                "################88######",
-                "################88######",
-                "#######==ww=====..==ww==",
-                "#######=.BBW+by....|BB==",
-                "#####===.BB.|-|....|BB==",
-                "#####===....+d|....|..cD",
-                "###=====+------....|...D",
-                "###=*AAAA..........+...D",
-                "###=...............---++",
-                "###w.......@@........|dd",
-                "###w.................|--",
-                "###w.....@...........+.d",
-                "###=...............-----",
-                "###=..................x.",
-                "###=--yy+y---|....xx....",
-                "###2........n|x.=======.",
-                "###2..J.....n|..=====Mee",
-                "###2.....Y...|..==<<<Mee",
-                "###2..J......|....<<<Mee",
-                "###2.....Y...|....<<<Mee",
-                "888...J......|..=MMMMMMM",
-                "888........ll|..=eeeeM==",
-                "###===-------|...eeeeM=="
-            ],
-            "rotation": 1,
-            "palettes": [
-                "tri_tower",
-                "upper_level",
-                "bandit_tower_stuff"
-            ],
-            "terrain":{
-                "5": "t_pavement",
-                "8": "t_bridge",
-                "y": "t_wall_wood"
-            },
-            "furniture":{
-                "Y": "f_exercise",
-                "J": "f_treadmill"
-            },
-            "items":{
-                "l": { "item": "sports", "chance": 20 },
-                "x": { "item": "allsporting", "chance": 20 }
-            },
-            "npcs": {
-                "@": { "class": "thug" }
-            }
-        }
+  {
+    "type": "mapgen",
+    "om_terrain": "bandit_tower_2trc",
+    "comment": "top right corner, second story and even levels",
+    "weight": 250,
+    "method": "json",
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "################88######",
+        "################88######",
+        "################88######",
+        "#######==ww=====..==ww==",
+        "#######=.BBW+by....|BB==",
+        "#####===.BB.|-|....|BB==",
+        "#####===....+d|....|..cD",
+        "###=====+------....|...D",
+        "###=*AAAA..........+...D",
+        "###=...............---++",
+        "###w.......@@........|dd",
+        "###w.................|--",
+        "###w.....@...........+.d",
+        "###=...............-----",
+        "###=..................x.",
+        "###=--yy+y---|....xx....",
+        "###2........n|x.=======.",
+        "###2..J.....n|..=====Mee",
+        "###2.....Y...|..==<<<Mee",
+        "###2..J......|....<<<Mee",
+        "###2.....Y...|....<<<Mee",
+        "888...J......|..=MMMMMMM",
+        "888........ll|..=eeeeM==",
+        "###===-------|...eeeeM=="
+      ],
+      "rotation": 1,
+      "palettes": [ "tri_tower", "upper_level", "bandit_tower_stuff" ],
+      "terrain": { "5": "t_pavement", "8": "t_bridge", "y": "t_wall_wood" },
+      "furniture": { "Y": "f_exercise", "J": "f_treadmill" },
+      "items": { "l": { "item": "sports", "chance": 20 }, "x": { "item": "allsporting", "chance": 20 } },
+      "npcs": { "@": { "class": "thug" } }
     }
+  }
 ]

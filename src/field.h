@@ -5,13 +5,14 @@
 #include <array>
 #include <map>
 #include <string>
+#include <tuple>
 
 #include "calendar.h"
 #include "color.h"
 #include "game_constants.h"
-#include "map.h"
-#include "map_iterator.h"
-#include "mapdata.h"
+
+struct maptile;
+struct tripoint;
 
 enum phase_id : int;
 
