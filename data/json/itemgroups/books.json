@@ -506,6 +506,7 @@
       [ "manual_aikido", 12 ],
       [ "manual_taekwondo", 12 ],
       [ "manual_tai_chi", 12 ],
+      [ "manual_pankration", 5 ],
       [ "manual_fencing", 4 ],
       [ "manual_eskrima", 3 ],
       [ "manual_krav_maga", 3 ],
