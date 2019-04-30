@@ -87,7 +87,7 @@ void WORLD::COPY_WORLD( const WORLD *world_to_copy )
 
 std::string WORLD::folder_path() const
 {
-    Path *path = Path::getInstance( );
+    Path *path = Path::getInstance( "Save-Directory" );
 
     return path->getPathForValueKey("SAVE_DIRE") + utf8_to_native( world_name );
 }
@@ -218,7 +218,7 @@ bool WORLD::save( const bool is_conversion ) const
 
     if( !is_conversion ) {
 
-        Path *path = Path::getInstance( );
+        Path *path = Path::getInstance( "Save-World-Options" );
 
         const auto savefile = folder_path() + "/" + path->getPathForValueKey("WORLD_OPTION");
         const bool saved = write_to_file( savefile, [&]( std::ostream & fout ) {
@@ -257,7 +257,7 @@ void worldfactory::init()
 
     std::vector<std::string> qualifiers;
 
-    Path *path = Path::getInstance( );
+    Path *path = Path::getInstance( "Init-World-Options" );
 
     qualifiers.push_back( path->getPathForValueKey("WORLD_OPTION") );
     qualifiers.push_back( SAVE_MASTER );
@@ -550,7 +550,7 @@ void worldfactory::remove_world( const std::string &worldname )
 
 void worldfactory::load_last_world_info()
 {
-    Path *path = Path::getInstance( );
+    Path *path = Path::getInstance( "Load-Last-World" );
 
     std::ifstream file( path->getPathForValueKey("LAST_WORLD"),
             std::ifstream::in | std::ifstream::binary );
@@ -566,7 +566,7 @@ void worldfactory::load_last_world_info()
 
 void worldfactory::save_last_world_info()
 {
-    Path *path = Path::getInstance( );
+    Path *path = Path::getInstance( "Save-Last-World" );
 
     write_to_file( path->getPathForValueKey("LAST_WORLD"), [&]( std::ostream & file ) {
         JsonOut jsout( file, true );
@@ -1394,7 +1394,7 @@ bool WORLD::load_options()
 
     using namespace std::placeholders;
 
-    Path *appPath = Path::getInstance( );
+    Path *appPath = Path::getInstance( "Load-Options" );
 
     const auto path = folder_path() + "/" + appPath->getPathForValueKey("WORLD_OPTION");
     if( read_from_file_optional_json( path, [&]( JsonIn & jsin ) {
@@ -1463,7 +1463,7 @@ WORLDPTR worldfactory::get_world( const std::string &name )
 // Helper predicate to exclude files from deletion when resetting a world directory.
 static bool isForbidden( const std::string &candidate )
 {
-    Path *path = Path::getInstance( );
+    Path *path = Path::getInstance( "Is-Forbidden" );
 
     if( candidate.find( path->getPathForValueKey("WORLD_OPTION") ) != std::string::npos ||
         candidate.find( "mods.json" ) != std::string::npos ) {

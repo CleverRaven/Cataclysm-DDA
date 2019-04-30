@@ -250,7 +250,7 @@ void cata_tiles::reinit_minimap()
 static void get_tile_information( std::string config_path, std::string &json_path,
                                   std::string &tileset_path )
 {
-    Path *path = Path::getInstance();
+    Path *path = Path::getInstance( "Get-Tile-Information" );
 
     const std::string default_json = path->getPathForValueKey("DF_TITLE_JSON");
     const std::string default_tileset = path->getPathForValueKey("DF_TITLE_PNG");
@@ -545,7 +545,7 @@ void tileset_loader::load( const std::string &tileset_id, const bool precheck )
     std::string tileset_path;
     std::string tileset_root;
 
-    Path *path = Path::getInstance();
+    Path *path = Path::getInstance( "Load-Tile-Information" );
 
     const auto tset_iter = TILESETS.find( tileset_id );
     if( tset_iter != TILESETS.end() ) {

@@ -2547,7 +2547,7 @@ void save_template( const player &u, const std::string &name, const points_left 
     }
 #endif
 
-    Path *path = Path::getInstance( );
+    Path *path = Path::getInstance( "Save-Template" );
 
     write_to_file( path->getPathForValueKey("TEMP_DIRE") + native + ".template", [&]( std::ostream & fout ) {
         JsonOut jsout( fout, true );
@@ -2569,7 +2569,7 @@ void save_template( const player &u, const std::string &name, const points_left 
 
 bool player::load_template( const std::string &template_name, points_left &points )
 {
-    Path *path = Path::getInstance( );
+    Path *path = Path::getInstance( "Load-Template" );
 
     return read_from_file_json( path->getPathForValueKey("TEMP_DIRE") + utf8_to_native( template_name ) +
     ".template", [&]( JsonIn & jsin ) {

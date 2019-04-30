@@ -229,7 +229,7 @@ extern "C" {
 
     static void log_crash( const char *type, const char *msg )
     {
-        Path *path = Path::getInstance( );
+        Path *path = Path::getInstance( "Load-Crash" );
 
         // This implementation is not technically async-signal-safe for many
         // reasons, including the memory allocations and the SDL message box.

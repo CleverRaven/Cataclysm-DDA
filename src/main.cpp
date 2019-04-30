@@ -407,8 +407,6 @@ int main( int argc, char *argv[] )
         }
     }
 
-    applicationPath->toString();
-
     if( !dir_exist( applicationPath->getPathForValueKey("DATA_DIRE") ) ) {
         printf( "Fatal: Can't find directory \"%s\"\nPlease ensure the current working directory is correct. Perhaps you meant to start \"cataclysm-launcher\"?\n",
                 applicationPath->getPathForValueKey("DATA_DIRE").c_str() );

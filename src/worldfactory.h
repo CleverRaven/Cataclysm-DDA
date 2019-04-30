@@ -18,6 +18,7 @@ class JsonIn;
 class JsonObject;
 
 enum special_game_id : int;
+
 namespace catacurses
 {
 class window;

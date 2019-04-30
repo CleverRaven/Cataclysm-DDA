@@ -61,7 +61,7 @@ class font_loader
         /// @throws std::exception upon any kind of error.
         void load() {
 
-            Path *path = Path::getInstance( );
+            Path *path = Path::getInstance( "Load-Fonts-Data" );
 
             const std::string fontdata = path->getPathForValueKey("FONTS_DATA");
 

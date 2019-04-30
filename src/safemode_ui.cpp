@@ -629,7 +629,7 @@ bool safemode::save( const bool is_character_in )
 {
     is_character = is_character_in;
 
-    Path *path = Path::getInstance( );
+    Path *path = Path::getInstance( "Save-Safe-Mode" );
 
     auto file = path->getPathForValueKey("SAFE_MODE");
 
@@ -664,7 +664,7 @@ void safemode::load( const bool is_character_in )
 {
     is_character = is_character_in;
 
-    Path *path = Path::getInstance( );
+    Path *path = Path::getInstance( "Safe-Mode" );
 
     std::ifstream fin;
     std::string file = path->getPathForValueKey("SAFE_MODE");

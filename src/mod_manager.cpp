@@ -105,7 +105,7 @@ void mod_manager::load_replacement_mods( const std::string &path )
 
 mod_manager::mod_manager()
 {
-    Path *path = Path::getInstance( );
+    Path *path = Path::getInstance( "Mod-Replacements" );
 
     load_replacement_mods( path->getPathForValueKey("MODS_REPLACEM") );
     refresh_mod_list();
@@ -142,7 +142,7 @@ void mod_manager::refresh_mod_list()
 
     std::map<mod_id, std::vector<mod_id>> mod_dependency_map;
 
-    Path *path = Path::getInstance( );
+    Path *path = Path::getInstance( "Refresh-Mod-List" );
 
     load_mods_from( path->getPathForValueKey("MOD_DIRE") );
     load_mods_from( path->getPathForValueKey("USER_MOD_DIR") );
@@ -275,7 +275,7 @@ bool mod_manager::set_default_mods( const t_mod_list &mods )
 {
     default_mods = mods;
 
-    Path *path = Path::getInstance( );
+    Path *path = Path::getInstance( "Set-Default-Mods" );
 
     return write_to_file( path->getPathForValueKey("DF_MODS_USER"), [&]( std::ostream & fout ) {
         JsonOut json( fout, true ); // pretty-print

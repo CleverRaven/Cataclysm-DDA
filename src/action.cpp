@@ -45,7 +45,7 @@ void load_keyboard_settings( std::map<char, action_id> &keymap,
         parse_keymap( fin, keymap, unbound_keymap );
     };
 
-    Path *path = Path::getInstance( );
+    Path *path = Path::getInstance( "Load-Key-Map" );
 
     if( read_from_file_optional( path->getPathForValueKey("KEY_MAP_FILE"), parser ) ) {
         keymap_file_loaded_from = path->getPathForValueKey("KEY_MAP_FILE");
@@ -55,7 +55,7 @@ void load_keyboard_settings( std::map<char, action_id> &keymap,
 void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
                    std::set<action_id> &unbound_keymap )
 {
-    Path *path = Path::getInstance( );
+    Path *path = Path::getInstance( "Parse-Key-Map" );
 
     while( !keymap_txt.eof() ) {
         std::string id;

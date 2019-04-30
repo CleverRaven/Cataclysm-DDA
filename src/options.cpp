@@ -825,7 +825,7 @@ static std::vector<options_manager::id_and_option> build_resource_list(
 
     resource_option.clear();
 
-    Path *path = Path::getInstance();
+    Path *path = Path::getInstance( "Build-Resource-List" );
 
     const auto resource_dirs = get_directories_with( path->getPathForValueKey(filename_label),
                                                      path->getPathForValueKey(dirname_label), true );
@@ -2713,7 +2713,7 @@ std::string options_manager::migrateOptionValue( const std::string &name,
 
 bool options_manager::save()
 {
-    Path *path = Path::getInstance( );
+    Path *path = Path::getInstance( "Save-Options-User" );
 
     const auto savefile = path->getPathForValueKey("OPTIONS_USER");
 
@@ -2734,7 +2734,7 @@ bool options_manager::save()
 
 void options_manager::load()
 {
-    Path *path = Path::getInstance( );
+    Path *path = Path::getInstance( "Load-Options-User" );
 
     const auto file = path->getPathForValueKey("OPTIONS_USER");
     if( !read_from_file_optional_json( file, [&]( JsonIn & jsin ) {

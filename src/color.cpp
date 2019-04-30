@@ -848,7 +848,7 @@ void color_manager::show_gui()
 
         } else if( action == "LOAD_TEMPLATE" ) {
 
-            Path *path = Path::getInstance( );
+            Path *path = Path::getInstance( "Show-GUI-Color" );
 
             auto vFiles = get_files_from_path( ".json", path->getPathForValueKey("COLOR_TEM"), false, true );
 
@@ -962,7 +962,7 @@ void color_manager::show_gui()
 
 bool color_manager::save_custom()
 {
-    Path *path = Path::getInstance( );
+    Path *path = Path::getInstance( "Save-Colors" );
 
     const auto savefile = path->getPathForValueKey("CUST_COLORS");
 
@@ -974,7 +974,7 @@ bool color_manager::save_custom()
 
 void color_manager::load_custom( const std::string &sPath )
 {
-    Path *path = Path::getInstance( );
+    Path *path = Path::getInstance( "Load-Colors" );
 
     const auto file = ( sPath.empty() ) ? path->getPathForValueKey("CUST_COLORS") : sPath;
 

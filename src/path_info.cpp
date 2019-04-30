@@ -87,8 +87,12 @@ std::string Path::getPathForValueKey( const std::string valueKey )
 
 Path * Path::getInstance( std::string basePath, std::string userDirectoryPath )
 {
+    std::cout << std::endl << "getInstace(string, string)" << std::endl;
+
     if (instance == 0)
     {
+        std::cout << std::endl << "Only once" << std::endl;
+
         instance = new Path( basePath, userDirectoryPath );
     }
 
@@ -97,6 +101,20 @@ Path * Path::getInstance( std::string basePath, std::string userDirectoryPath )
 
 Path* Path::getInstance( )
 {
+    std::cout << std::endl << "getInstace()" << std::endl;
+
+    if (instance == 0)
+    {
+        // TODO: Raise error, the object hasn't been created.
+    }
+
+    return instance;
+}
+
+Path* Path::getInstance( std::string who )
+{
+    std::cout << std::endl << "getInstace(" << who << ")" << std::endl;
+
     if (instance == 0)
     {
         // TODO: Raise error, the object hasn't been created.
@@ -228,7 +246,7 @@ std::string Path::formatPath(std::string path)
 std::string PATH_INFO::find_translated_file( const std::string &pathid,
         const std::string &extension, const std::string &fallbackid )
 {
-    Path *path = Path::getInstance();
+    Path *path = Path::getInstance( "Find-Translate-File" );
 
     const std::string base_path = path->getPathForValueKey(pathid);
 

@@ -674,7 +674,7 @@ bool auto_pickup::save( const bool bCharacter )
 {
     bChar = bCharacter;
 
-    Path *path = Path::getInstance( );
+    Path *path = Path::getInstance( "Save-Auto-Pick" );
 
     auto savefile = path->getPathForValueKey("AUTOPICKUP");
 
@@ -707,7 +707,7 @@ void auto_pickup::load( const bool bCharacter )
 {
     bChar = bCharacter;
 
-    Path *path = Path::getInstance( );
+    Path *path = Path::getInstance( "Load-Auto-Pick" );
 
     std::string sFile = path->getPathForValueKey("AUTOPICKUP");
     if( bCharacter ) {
