@@ -1,6 +1,12 @@
 #include "ballistics.h"
 
+#include <math.h>
+#include <stddef.h>
 #include <algorithm>
+#include <list>
+#include <memory>
+#include <set>
+#include <vector>
 
 #include "creature.h"
 #include "dispersion.h"
@@ -11,14 +17,22 @@
 #include "messages.h"
 #include "monster.h"
 #include "options.h"
-#include "output.h"
 #include "player.h"
 #include "projectile.h"
 #include "rng.h"
 #include "sounds.h"
 #include "trap.h"
-#include "vehicle.h"
 #include "vpart_position.h"
+#include "calendar.h"
+#include "damage.h"
+#include "debug.h"
+#include "enums.h"
+#include "item.h"
+#include "itype.h"
+#include "optional.h"
+#include "translations.h"
+#include "units.h"
+#include "mtype.h"
 
 const efftype_id effect_bounced( "bounced" );
 
@@ -36,7 +50,7 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
     if( effects.count( "SHATTER_SELF" ) ) {
         // Drop the contents, not the thrown item
         if( g->u.sees( pt ) ) {
-            add_msg( _( "The %s shatters!" ), drop_item.tname().c_str() );
+            add_msg( _( "The %s shatters!" ), drop_item.tname() );
         }
 
         for( const item &i : drop_item.contents ) {
@@ -75,9 +89,7 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
     if( embed ) {
         mon->add_item( dropped_item );
         if( g->u.sees( *mon ) ) {
-            add_msg( _( "The %1$s embeds in %2$s!" ),
-                     dropped_item.tname().c_str(),
-                     mon->disp_name().c_str() );
+            add_msg( _( "The %1$s embeds in %2$s!" ), dropped_item.tname(), mon->disp_name() );
         }
     } else {
         bool do_drop = true;
@@ -409,7 +421,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         } );
         if( mon_ptr ) {
             Creature &z = *mon_ptr;
-            add_msg( _( "The attack bounced to %s!" ), z.get_name().c_str() );
+            add_msg( _( "The attack bounced to %s!" ), z.get_name() );
             z.add_effect( effect_bounced, 1_turns );
             projectile_attack( proj, tp, z.pos(), dispersion, origin, in_veh );
             sfx::play_variant_sound( "fire_gun", "bio_lightning_tail",

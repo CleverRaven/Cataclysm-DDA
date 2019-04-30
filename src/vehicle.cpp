@@ -14,6 +14,7 @@
 #include <set>
 #include <sstream>
 #include <unordered_map>
+#include <memory>
 
 #include "ammo.h"
 #include "cata_utility.h"
@@ -29,17 +30,23 @@
 #include "mapbuffer.h"
 #include "mapdata.h"
 #include "messages.h"
-#include "output.h"
-#include "overmap.h"
 #include "overmapbuffer.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "submap.h"
 #include "translations.h"
-#include "veh_interact.h"
 #include "veh_type.h"
 #include "vehicle_selector.h"
 #include "weather.h"
+#include "character.h"
+#include "field.h"
+#include "math_defines.h"
+#include "pimpl.h"
+#include "player.h"
+#include "player_activity.h"
+#include "pldata.h"
+#include "rng.h"
+#include "weather_gen.h"
 
 /*
  * Speed up all those if ( blarg == "structure" ) statements that are used everywhere;
@@ -2817,6 +2824,22 @@ int vehicle::fuel_capacity( const itype_id &ftype ) const
     } );
 }
 
+float vehicle::fuel_specific_energy( const itype_id &ftype ) const
+{
+    float total_energy = 0;
+    float total_mass = 0;
+    for( auto vehicle_part : parts ) {
+        if( vehicle_part.is_tank() && vehicle_part.ammo_current() == ftype  &&
+            vehicle_part.base.contents_made_of( LIQUID ) ) {
+            float energy = vehicle_part.base.contents.front().specific_energy;
+            float mass = to_gram( vehicle_part.base.contents.front().weight() );
+            total_energy += energy * mass;
+            total_mass += mass;
+        }
+    }
+    return total_energy / total_mass;
+}
+
 int vehicle::drain( const itype_id &ftype, int amount )
 {
     if( ftype == fuel_type_battery ) {
@@ -3725,7 +3748,7 @@ void vehicle::consume_fuel( int load, const int t_seconds, bool skip_electric )
             g->u.charge_power( -10 );
         }
         if( one_in( 10 ) ) {
-            g->u.mod_hunger( mod );
+            g->u.mod_stored_nutr( mod );
             g->u.mod_thirst( mod );
             g->u.mod_fatigue( mod );
         }
@@ -4377,7 +4400,7 @@ void vehicle::place_spawn_items()
         if( rng( 1, 100 ) <= spawn.chance ) {
             int part = part_with_feature( spawn.pos, "CARGO", false );
             if( part < 0 ) {
-                debugmsg( "No CARGO parts at (%d, %d) of %s!", spawn.pos.x, spawn.pos.y, name.c_str() );
+                debugmsg( "No CARGO parts at (%d, %d) of %s!", spawn.pos.x, spawn.pos.y, name );
 
             } else {
                 // if vehicle part is broken only 50% of items spawn and they will be variably damaged
@@ -5098,7 +5121,7 @@ bool vehicle::explode_fuel( int p, damage_type type )
     if( one_in( explosion_chance ) ) {
         g->u.add_memorial_log( pgettext( "memorial_male", "The fuel tank of the %s exploded!" ),
                                pgettext( "memorial_female", "The fuel tank of the %s exploded!" ),
-                               name.c_str() );
+                               name );
         const int pow = 120 * ( 1 - exp( data.explosion_factor / -5000 *
                                          ( parts[p].ammo_remaining() * data.fuel_size_factor ) ) );
         //debugmsg( "damage check dmg=%d pow=%d amount=%d", dmg, pow, parts[p].amount );
@@ -5589,7 +5612,7 @@ bool vehicle::refresh_zones()
             const int part_idx = part_with_feature( z.first, "CARGO", false );
             if( part_idx == -1 ) {
                 debugmsg( "Could not find cargo part at %d,%d on vehicle %s for loot zone. Removing loot zone.",
-                          z.first.x, z.first.y, this->name.c_str() );
+                          z.first.x, z.first.y, this->name );
 
                 // If this loot zone refers to a part that no longer exists at this location, then its unattached somehow.
                 // By continuing here and not adding to new_zones, we effectively remove it

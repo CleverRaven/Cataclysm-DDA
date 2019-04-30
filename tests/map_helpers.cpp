@@ -1,10 +1,20 @@
+#include <memory>
+#include <string>
+#include <utility>
+#include <vector>
+
 #include "creature_tracker.h"
 #include "game.h"
 #include "map.h"
 #include "mapdata.h"
 #include "monster.h"
+#include "npc.h"
 #include "player.h"
 #include "field.h"
+#include "enums.h"
+#include "game_constants.h"
+#include "overmapbuffer.h"
+#include "pimpl.h"
 
 void wipe_map_terrain()
 {
@@ -25,7 +35,18 @@ void clear_creatures()
 {
     // Remove any interfering monsters.
     g->clear_zombies();
+}
+
+void clear_npcs()
+{
+    // Unload and reaload to ensure that all active NPCs are in the
+    // overmap_buffer.
     g->unload_npcs();
+    g->load_npcs();
+    for( npc &n : g->all_npcs() ) {
+        n.die( nullptr );
+        overmap_buffer.remove_npc( n.getID() );
+    }
 }
 
 void clear_fields( const int zlevel )
@@ -54,6 +75,7 @@ void clear_map()
     }
     wipe_map_terrain();
     g->m.clear_traps();
+    clear_npcs();
     clear_creatures();
 }
 

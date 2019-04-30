@@ -628,6 +628,28 @@
     "flags": [ "VARSIZE", "OUTER", "FANCY" ]
   },
   {
+    "id": "armor_riot",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": "riot armor",
+    "description": "Black armor used by riot police officers.  The padded layers and hard plastic shoulder guards offer good protection without much encumbrance.  The word POLICE is emblazoned across the front.",
+    "looks_like": "kevlar",
+    "weight": 4000,
+    "volume": 30,
+    "price": 35000,
+    "to_hit": -3,
+    "bashing": 6,
+    "material": [ "plastic", "cotton" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "covers": [ "TORSO", "ARMS" ],
+    "coverage": 70,
+    "encumbrance": 10,
+    "warmth": 10,
+    "material_thickness": 5,
+    "flags": [ "STURDY", "OUTER" ]
+  },
+  {
     "id": "armor_samurai",
     "type": "ARMOR",
     "category": "armor",
@@ -7171,6 +7193,33 @@
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
   },
   {
+    "id": "police_belt",
+    "type": "ARMOR",
+    "name": "police duty belt",
+    "description": "Black leather belt used by police officers.  It has several pouches and a holder for a baton.",
+    "looks_like": "fireman_belt",
+    "weight": 250,
+    "volume": 8,
+    "price": 10000,
+    "bashing": 5,
+    "material": [ "leather", "steel" ],
+    "symbol": "[",
+    "color": "brown",
+    "covers": [ "TORSO" ],
+    "encumbrance": 4,
+    "storage": 8,
+    "use_action": {
+      "type": "holster",
+      "holster_prompt": "Attach what to holder?",
+      "holster_msg": "You attach your %s to your %s.",
+      "max_volume": 9,
+      "max_weight": 3600,
+      "draw_cost": 50,
+      "flags": [ "BELT_CLIP" ]
+    },
+    "flags": [ "WAIST", "WATER_FRIENDLY" ]
+  },
+  {
     "id": "polo_shirt",
     "type": "ARMOR",
     "name": "polo shirt",
@@ -9441,6 +9490,25 @@
     "flags": [ "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ]
   },
   {
+    "id": "headscarf",
+    "type": "ARMOR",
+    "name": "headscarf",
+    "description": "A loose cloth worn over the head and around the neck.",
+    "weight": 70,
+    "volume": 1,
+    "price": 85,
+    "to_hit": -1,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "color": "yellow",
+    "covers": [ "HEAD" ],
+    "coverage": 70,
+    "encumbrance": 4,
+    "warmth": 7,
+    "material_thickness": 1,
+    "flags": [ "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ]
+  },
+  {
     "id": "tux",
     "type": "ARMOR",
     "name": "tuxedo",
@@ -10009,7 +10077,7 @@
     "warmth": 30,
     "material_thickness": 5,
     "environmental_protection": 20,
-    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "STURDY" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "STURDY", "OUTER" ]
   },
   {
     "id": "gloves_golf",

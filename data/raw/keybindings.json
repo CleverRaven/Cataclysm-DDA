@@ -1320,6 +1320,13 @@
   },
   {
     "type": "keybinding",
+    "id": "TOGGLE_FAVORITE",
+    "category": "INVENTORY",
+    "name": "Toggle item as favorite",
+    "bindings": [ { "input_method": "keyboard", "key": "*" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "TOGGLE_EXAMINE",
     "category": "BIONICS",
     "name": "Toggle activate/examine",
@@ -1567,7 +1574,7 @@
     "type": "keybinding",
     "name": "Reload Wielded Item",
     "category": "DEFAULTMODE",
-    "id": "reload",
+    "id": "reload_weapon",
     "bindings": [ { "input_method": "keyboard", "key": "r" } ]
   },
   {
@@ -1846,6 +1853,12 @@
   },
   {
     "type": "keybinding",
+    "name": "Reload Item",
+    "category": "DEFAULTMODE",
+    "id": "reload_item"
+  },
+  {
+    "type": "keybinding",
     "name": "Reload Tileset",
     "category": "DEFAULTMODE",
     "id": "reload_tileset"
@@ -1995,10 +2008,34 @@
   },
   {
     "type": "keybinding",
-    "name": "Toggle move mode (run/walk)",
+    "name": "Cycle move mode (run/walk/crouch)",
     "category": "DEFAULTMODE",
-    "id": "toggle_move",
+    "id": "cycle_move",
     "bindings": [ { "input_method": "keyboard", "key": "\"" } ]
+  },
+  {
+    "type": "keybinding",
+    "name": "Reset Movement to Walk",
+    "category": "DEFAULTMODE",
+    "id": "reset_move"
+  },
+  {
+    "type": "keybinding",
+    "name": "Toggle Run",
+    "category": "DEFAULTMODE",
+    "id": "toggle_run"
+  },
+  {
+    "type": "keybinding",
+    "name": "Toggle Crouch",
+    "category": "DEFAULTMODE",
+    "id": "toggle_crouch"
+  },
+  {
+    "type": "keybinding",
+    "name": "Movement Mode Menu",
+    "category": "DEFAULTMODE",
+    "id": "open_movement"
   },
   {
     "type": "keybinding",
@@ -2073,6 +2110,20 @@
     "category": "LOOK",
     "name": "List items and monsters",
     "bindings": [ { "input_method": "keyboard", "key": "V" } ]
+  },
+  {
+    "type": "keybinding",
+    "name": "Zoom In",
+    "category": "LOOK",
+    "id": "zoom_in",
+    "bindings": [ { "input_method": "keyboard", "key": "z" } ]
+  },
+  {
+    "type": "keybinding",
+    "name": "Zoom Out",
+    "category": "LOOK",
+    "id": "zoom_out",
+    "bindings": [ { "input_method": "keyboard", "key": "Z" } ]
   },
   {
     "type": "keybinding",
@@ -2358,6 +2409,20 @@
     "category": "ADVANCED_INVENTORY",
     "name": "Toggle category selection mode",
     "bindings": [ { "input_method": "keyboard", "key": "t" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TOGGLE_FAVORITE",
+    "category": "ADVANCED_INVENTORY",
+    "name": "Toggle item as favorite",
+    "bindings": [ { "input_method": "keyboard", "key": "*" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "DROP_NON_FAVORITE",
+    "category": "INVENTORY",
+    "name": "Mark/unmark non-favorite items in multidrop menu",
+    "bindings": [ { "input_method": "keyboard", "key": "," } ]
   },
   {
     "type": "keybinding",

@@ -5729,7 +5729,7 @@
         {
           "bg": 632,
           "fg": 933,
-          "id": ["potato_raw", "potato_irradiated"],
+          "id": ["potato", "irradiated_potato"],
           "rotates": false
         },
         {
@@ -10292,7 +10292,7 @@
         },
         {
           "fg": 1849,
-          "id": ["cursor", "line_target", "line_trail"],
+          "id": ["cursor", "highlight", "line_target", "line_trail"],
           "rotates": false
         },
         {

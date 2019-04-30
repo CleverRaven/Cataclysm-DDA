@@ -76,7 +76,7 @@
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
     "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
-    "components": [ [ [ "meat", 1 ] ] ]
+    "components": [ [ [ "meat", 1 ], [ "meat_scrap", 10 ] ] ]
   },
   {
     "result": "dry_meat_tainted",
@@ -128,8 +128,8 @@
         [ "irradiated_zucchini", 1 ],
         [ "celery", 1 ],
         [ "irradiated_celery", 1 ],
-        [ "potato_raw", 1 ],
-        [ "potato_irradiated", 1 ],
+        [ "potato", 1 ],
+        [ "irradiated_potato", 1 ],
         [ "onion", 1 ],
         [ "irradiated_onion", 1 ],
         [ "carrot", 1 ],

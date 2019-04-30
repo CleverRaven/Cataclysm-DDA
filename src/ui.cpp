@@ -1,7 +1,11 @@
 #include "ui.h"
 
+#include <ctype.h>
+#include <limits.h>
+#include <stdlib.h>
 #include <algorithm>
 #include <iterator>
+#include <memory>
 
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -12,7 +16,7 @@
 #include "player.h"
 #include "string_input_popup.h"
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
 #include <SDL_keyboard.h>
 
 #include "options.h"
@@ -117,6 +121,7 @@ uilist::operator int() const
  */
 void uilist::init()
 {
+    assert( !test_mode ); // uilist should not be used in tests where there's no place for it
     w_x = MENU_AUTOASSIGN;              // starting position
     w_y = MENU_AUTOASSIGN;              // -1 = auto center
     w_width = MENU_AUTOASSIGN;          // MENU_AUTOASSIGN = based on text width or max entry width, -2 = based on max entry, folds text
@@ -246,7 +251,7 @@ std::string uilist::inputfilter()
     .window( window, 4, w_height - 1, w_width - 4 )
     .identifier( identifier );
     input_event event;
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
     if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
         SDL_StartTextInput();
     }
@@ -586,7 +591,8 @@ void uilist::show()
         wprintz( window, border_color, " >" );
     }
 
-    std::string padspaces = std::string( w_width - 2 - pad_left - pad_right, ' ' );
+    const int pad_size = std::max( 0, w_width - 2 - pad_left - pad_right );
+    std::string padspaces = std::string( pad_size, ' ' );
     const int text_lines = textformatted.size();
     int estart = 1;
     if( !textformatted.empty() ) {
@@ -678,7 +684,7 @@ void uilist::show()
     }
 
     if( !filter.empty() ) {
-        mvwprintz( window, w_height - 1, 2, border_color, "< %s >", filter.c_str() );
+        mvwprintz( window, w_height - 1, 2, border_color, "< %s >", filter );
         mvwprintz( window, w_height - 1, 4, text_color, filter );
     }
     apply_scrollbar();
@@ -709,7 +715,7 @@ void uilist::redraw( bool redraw_callback )
         wprintz( window, border_color, " >" );
     }
     if( !filter.empty() ) {
-        mvwprintz( window, w_height - 1, 2, border_color, "< %s >", filter.c_str() );
+        mvwprintz( window, w_height - 1, 2, border_color, "< %s >", filter );
         mvwprintz( window, w_height - 1, 4, text_color, filter );
     }
     ( void )redraw_callback; // TODO: something
@@ -842,7 +848,7 @@ void uilist::query( bool loop, int timeout )
 
     show();
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
     for( const auto &entry : entries ) {
         if( entry.hotkey > 0 && entry.enabled ) {
             ctxt.register_manual_key( entry.hotkey, entry.txt );

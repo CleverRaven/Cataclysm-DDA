@@ -58,8 +58,19 @@ Must be included, and must be one of these strings:
 "MGOAL_KILL_MONSTER_TYPE" - Kill some number of a specific monster type
 "MGOAL_KILL_MONSTER_SPEC" -  Kill some number of monsters from a specific species
 
-Currently, only "MGOAL_FIND_ITEM", "MGOAL_KILL_MONSTER_TYPE", and "MGOAL_KILL_MONSTER_SPEC"
-missions can be fully defined in JSON without requiring C++ code support.
+### monster_species
+For "MGOAL_KILL_MONSTER_SPEC", sets the target monster species.
+
+### monster_type
+For "MGOAL_KILL_MONSTER_TYPE", sets the target monster type.
+
+### monster_kill_goal
+For "MGOAL_KILL_MONSTER_SPEC" and "MGOAL_KILL_MONSTER_TYPE", sets the number of monsters above
+the player's current kill count that must be killed to complete the mission.
+
+### dialogue
+This is a dictionary of strings.  The NPC says these exact strings in response to the player
+inquiring about the mission or reporting its completion.
 
 ### start
 Optional field.  If it is present and a string, it must be name of a function in mission_start::
@@ -81,21 +92,25 @@ be revealed.
 
 #### assign_mission_target
 
-The **assign_mission_target** object specifies the criteria for finding (or creating if 
+The `assign_mission_target` object specifies the criteria for finding (or creating if
 necessary) a particular overmap terrain and designating it as the mission target. Its parameters
 allow control over how it is picked and how some effects (such as revealing the surrounding area)
 are applied afterwards. The `om_terrain` is the only required field.
 
-|      Identifier      |                                  Description                                  |
-| -------------------- | ----------------------------------------------------------------------------- |
-| `om_terrain`         | ID of overmap terrain which will be selected as the target. Mandatory.        |
-| `om_special`         | ID of overmap special containing the overmap terrain.                         |
-| `om_terrain_replace` | ID of overmap terrain to be found and replaced if om_terrain cannot be found. |
-| `reveal_radius`      | Radius in overmap terrain coordinates to reveal.                              |
-| `must_see`           | If true, the `om_terrain` must have been seen already.                        |
-| `random`             | If true, a random matching om_terrain is used. If false, the closest is used. |
-| `search_range`       | Range in overmap terrain coordinates to look for a matching `om_terrain`.     |
-| `z`                  | If specified, will be used rather than the player's z when searching.         |
+     Identifier      |                                  Description
+-------------------- | --------------------------------------------------------------------------
+`om_terrain`         | ID of overmap terrain which will be selected as the target. Mandatory.
+`om_special`         | ID of overmap special containing the overmap terrain.
+`om_terrain_replace` | ID of overmap terrain to be found and replaced if `om_terrain` cannot be found.
+`reveal_radius`      | Radius in overmap terrain coordinates to reveal.
+`must_see`           | If true, the `om_terrain` must have been seen already.
+`cant_see`           | If true, the `om_terrain` must not have been seen already.
+`random`             | If true, a random matching `om_terrain` is used. If false, the closest is used.
+`search_range`       | Range in overmap terrain coordinates to look for a matching `om_terrain`.
+`min_distance`       | Range in overmap terrain coordinates.  Instances of `om_terrain` in this range will be ignored.
+`origin_npc`         | Start the search at the NPC's, rather than the player's, current position.
+`z`                  | If specified, will be used rather than the player or NPC's z when searching.
+`offset_x`,<br\>`offset_y`,<br\>`offset_z` | After finding or creating `om_terrain`, offset the mission target terrain by the offsets in overmap terrain coordinates.
 
 **example**
 ```json
@@ -128,25 +143,28 @@ If `must_see` is set to true, the game will not create the terrain if it can't b
 to avoid having new terrains magically appear in areas where the player has already been, and this
 is a consequence.
 
-`reveal_radius` and `search_range` are both in overmap terrain coordinates (an overmap is currently
-180 x 180 OMT units). The search is centered on the player, gives preference to existing overmaps
-(and will only spawn new overmaps if the terrain can't be found on existing overmaps), and only
-executes on the player's current z-level. The `z` attribute can be used to override this and search
-on a different z-level than the player--this is an absolute value rather than relative.
+`reveal_radius`, `min_distance`, and `search_range` are all in overmap terrain coordinates (an
+overmap is currently 180 x 180 OMT units).  The search is centered on the player unless
+`origin_npc` is set, in which case it centered on the NPC.  Currently, there is rarely a
+difference between the two, but it is possible to assign missions over a radio.  The search gives
+preference to existing overmaps (and will only spawn new overmaps if the terrain can't be found
+on existing overmaps), and only executes on the player's current z-level. The `z` attribute can
+be used to override this and search on a different z-level than the player--this is an absolute
+value rather than relative.
 
-### monster_species
-For "MGOAL_KILL_MONSTER_SPEC", sets the target monster species.
+`offset_x`, `offset_y`, and `offset_z` change the final location of the mission target by their
+values.  This can change the mission target's overmap terrain type away from `om_terrain`.
 
-### monster_type
-For "MGOAL_KILL_MONSTER_TYPE", sets the target monster type.
+#### update_mapgen
+The `update_mapgen`` object or array provides a way to modify existing overmap tiles (including the ones created by "assign_mission_target") to add mission specific monsters, NPCs, computers, or items.
 
-### monster_kill_goal
-For "MGOAL_KILL_MONSTER_SPEC" and "MGOAL_KILL_MONSTER_TYPE", sets the number of monsters above
-the player's current kill count that must be killed to complete the mission.
+As an array, `update_mapgen` consists of two or more `update_mapgen` objects.
 
-### dialogue
-This is a dictionary of strings.  The NPC says these exact strings in response to the player
-inquiring about the mission or reporting its completion.
+As an object, `update_mapgen` contains any valid JSON mapgen objects.  The objects are placed on the mission target terrain from "assign_mission_target" or optionally the closest overmap terrain specified by the `om_terrain` and `om_special` fields.  If "mapgen_update_id" is specified, the "mapge_update" object with the matching "mapgen_update_id" will be executed.
+
+See doc/MAPGEN.md for more details on JSON mapgen and `update_mapgen`.
+
+An NPC, monster, or computer placed using `update_mapgen` will be the target of a mission if it has the `target` boolean set to `true` in its `place` object in `update_mapgen`.
 
 ## Adding new missions to NPC dialogue
 Any NPC that has missions needs to either:

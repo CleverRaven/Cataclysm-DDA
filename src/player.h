@@ -2,9 +2,21 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+#include <limits.h>
+#include <stddef.h>
 #include <array>
 #include <memory>
 #include <unordered_set>
+#include <functional>
+#include <iosfwd>
+#include <list>
+#include <map>
+#include <set>
+#include <string>
+#include <type_traits>
+#include <unordered_map>
+#include <utility>
+#include <vector>
 
 #include "calendar.h"
 #include "cata_utility.h"
@@ -13,18 +25,36 @@
 #include "game_constants.h"
 #include "item.h"
 #include "map_memory.h"
-#include "mapdata.h"
-#include "messages.h"
 #include "optional.h"
 #include "pimpl.h"
 #include "player_activity.h"
 #include "ret_val.h"
 #include "weighted_list.h"
+#include "stomach.h"
+#include "bodypart.h"
+#include "color.h"
+#include "creature.h"
+#include "cursesdef.h"
+#include "enums.h"
+#include "inventory.h"
+#include "item_location.h"
+#include "itype.h"
+#include "pldata.h"
+#include "string_id.h"
+
+class effect;
+class map;
+class npc;
+struct pathfinding_settings;
 
 static const std::string DEFAULT_HOTKEYS( "1234567890abcdefghijklmnopqrstuvwxyz" );
 
+class ammunition_type;
+
+using ammotype = string_id<ammunition_type>;
 class craft_command;
 class recipe_subset;
+
 enum action_id : int;
 struct bionic;
 class JsonObject;
@@ -32,30 +62,34 @@ class JsonIn;
 class JsonOut;
 struct dealt_projectile_attack;
 class dispersion_sources;
-class monster;
-class game;
+
+using itype_id = std::string;
 struct trap;
 class mission;
 class profession;
+
 nc_color encumb_color( int level );
 enum game_message_type : int;
 class ma_technique;
 class martialart;
 class recipe;
+
 using recipe_id = string_id<recipe>;
-struct component;
 struct item_comp;
 struct tool_comp;
 template<typename CompType> struct comp_selection;
 class vehicle;
 class vitamin;
+
 using vitamin_id = string_id<vitamin>;
 class start_location;
+
 using start_location_id = string_id<start_location>;
 struct w_point;
 struct points_left;
 struct targeting_data;
 class morale_type_data;
+
 using morale_type = string_id<morale_type_data>;
 
 namespace debug_menu
@@ -150,6 +184,7 @@ struct needs_rates {
     float hunger;
     float fatigue;
     float recovery;
+    float kcal = 0.0f;
 };
 
 class player : public Character
@@ -256,6 +291,8 @@ class player : public Character
         void update_body();
         /** Updates all "biology" as if time between `from` and `to` passed. */
         void update_body( const time_point &from, const time_point &to );
+        /** Updates the stomach to give accurate hunger messages */
+        void update_stomach( const time_point &from, const time_point &to );
         /** Increases hunger, thirst, fatigue and stimulants wearing off. `rate_multiplier` is for retroactive updates. */
         void update_needs( int rate_multiplier );
         needs_rates calc_needs_rates();
@@ -413,7 +450,7 @@ class player : public Character
         void clear_memorized_tile( const tripoint &pos );
 
         // see Creature::sees
-        bool sees( const tripoint &c, bool is_player = false ) const override;
+        bool sees( const tripoint &c, bool is_player = false, int range_mod = 0 ) const override;
         // see Creature::sees
         bool sees( const Creature &critter ) const override;
         /**
@@ -444,8 +481,17 @@ class player : public Character
         Attitude attitude_to( const Creature &other ) const override;
 
         void pause(); // '.' command; pauses & reduces recoil
-        void toggle_move_mode(); // Toggles to the next move mode.
-        void shout( std::string text = "" );
+
+        void set_movement_mode( std::string mode );
+        const std::string get_movement_mode() const;
+
+        void cycle_move_mode(); // Cycles to the next move mode.
+        void reset_move_mode(); // Resets to walking.
+        void toggle_run_mode(); // Toggles running on/off.
+        void toggle_crouch_mode(); // Toggles crouching on/off.
+
+        int get_shout_volume() const;
+        void shout( std::string text = "", bool order = false );
 
         // martialarts.cpp
         /** Fires all non-triggered martial arts events */
@@ -815,6 +861,14 @@ class player : public Character
         morale_type allergy_type( const item &food ) const;
         /** Used for eating entered comestible, returns true if comestible is successfully eaten */
         bool eat( item &food, bool force = false );
+        /** Used to apply health modifications from food and medication **/
+        void modify_health( const islot_comestible &comest );
+        /** Used to apply stimulation modifications from food and medication **/
+        void modify_stimulation( const islot_comestible &comest );
+        /** Used to apply addiction modifications from food and medication **/
+        void modify_addiction( const islot_comestible &comest );
+        /** Used to apply morale modifications from food and medication **/
+        void modify_morale( item &food, int nutr = 0 );
 
         /** Can the food be [theoretically] eaten no matter the consequences? */
         ret_val<edible_rating> can_eat( const item &food ) const;
@@ -836,6 +890,8 @@ class player : public Character
         int kcal_for( const item &comest ) const;
         /** Handles the nutrition value for a comestible **/
         int nutrition_for( const item &comest ) const;
+        // easy way to get calorie value from nutrition_for
+        int calories_for( const item &comest ) const;
         /** Handles the enjoyability value for a comestible. First value is enjoyability, second is cap. **/
         std::pair<int, int> fun_for( const item &comest ) const;
         /** Handles the enjoyability value for a book. **/
@@ -845,6 +901,12 @@ class player : public Character
          * the first of its contents (if it's comestible) or null item otherwise.
          */
         item &get_comestible_from( item &it ) const;
+
+        stomach_contents stomach;
+        stomach_contents guts;
+
+        std::pair<std::string, nc_color> get_hunger_description() const override;
+        void initialize_stomach_contents();
 
         /** Get vitamin contents for a comestible */
         std::map<vitamin_id, int> vitamins_from( const item &it ) const;
@@ -861,6 +923,8 @@ class player : public Character
          * @return adjusted level for the vitamin or zero if vitamin does not exist
          */
         int vitamin_mod( const vitamin_id &vit, int qty, bool capped = true );
+
+        void vitamins_mod( const std::map<vitamin_id, int>, bool capped = true );
 
         /**
          * Check current level of a vitamin
@@ -889,7 +953,7 @@ class player : public Character
         /** Current metabolic rate due to traits, hunger, speed, etc. */
         float metabolic_rate() const;
         /** Handles the effects of consuming an item */
-        void consume_effects( const item &eaten );
+        bool consume_effects( item &eaten );
         /** Handles rooting effects */
         void rooted_message() const;
         void rooted();
@@ -1212,8 +1276,7 @@ class player : public Character
         int get_wind_resistance( body_part bp ) const;
         /** Returns the effect of pain on stats */
         stat_mod get_pain_penalty() const;
-        /** Returns the penalty to speed from hunger */
-        static int hunger_speed_penalty( int hunger );
+        int kcal_speed_penalty();
         /** Returns the penalty to speed from thirst */
         static int thirst_speed_penalty( int thirst );
 
@@ -1296,14 +1359,14 @@ class player : public Character
         // has_amount works ONLY for quantity.
         // has_charges works ONLY for charges.
         std::list<item> use_amount( itype_id it, int quantity,
-                                    const std::function<bool( const item & )> &filter = is_crafting_component );
+                                    const std::function<bool( const item & )> &filter = return_true<item> );
         bool use_charges_if_avail( const itype_id &it, long quantity );// Uses up charges
 
         std::list<item> use_charges( const itype_id &what, long qty,
-                                     const std::function<bool( const item & )> &filter = return_true ); // Uses up charges
+                                     const std::function<bool( const item & )> &filter = return_true<item> ); // Uses up charges
 
         bool has_charges( const itype_id &it, long quantity,
-                          const std::function<bool( const item & )> &filter = return_true ) const;
+                          const std::function<bool( const item & )> &filter = return_true<item> ) const;
 
         /** Returns the amount of item `type' that is currently worn */
         int  amount_worn( const itype_id &id ) const;
@@ -1359,6 +1422,9 @@ class player : public Character
         float morale_crafting_speed_multiplier( const recipe &rec ) const;
         float lighting_craft_speed_multiplier( const recipe &rec ) const;
         float crafting_speed_multiplier( const recipe &rec, bool in_progress = false ) const;
+        /** For use with in progress crafts */
+        float crafting_speed_multiplier( const item &craft, const tripoint &loc ) const;
+        int available_assistant_count( const recipe &rec ) const;
         /**
          * Time to craft not including speed multiplier
          */
@@ -1366,25 +1432,42 @@ class player : public Character
         /**
          * Expected time to craft a recipe, with assumption that multipliers stay constant.
          */
-        int expected_time_to_craft( const recipe &rec, int batch_size = 1 ) const;
+        int expected_time_to_craft( const recipe &rec, int batch_size = 1, bool in_progress = false ) const;
         std::vector<const item *> get_eligible_containers_for_crafting() const;
         bool check_eligible_containers_for_crafting( const recipe &rec, int batch_size = 1 ) const;
         bool has_morale_to_craft() const;
         bool can_make( const recipe *r, int batch_size = 1 );  // have components?
         bool making_would_work( const recipe_id &id_to_make, int batch_size );
-        void craft();
-        void recraft();
-        void long_craft();
-        void make_craft( const recipe_id &id, int batch_size );
-        void make_all_craft( const recipe_id &id, int batch_size );
-        std::list<item> consume_components_for_craft( const recipe &making, int batch_size,
-                bool ignore_last = false );
+
+        /**
+         * Start various types of crafts
+         * @param loc the location of the workbench. tripoint_zero indicates crafting from inventory.
+         */
+        void craft( const tripoint &loc = tripoint_zero );
+        void recraft( const tripoint &loc = tripoint_zero );
+        void long_craft( const tripoint &loc = tripoint_zero );
+        void make_craft( const recipe_id &id, int batch_size, const tripoint &loc = tripoint_zero );
+        void make_all_craft( const recipe_id &id, int batch_size, const tripoint &loc = tripoint_zero );
         /** consume components and create an active, in progress craft containing them */
-        void start_craft( const recipe &making, int batch_size, bool is_long );
-        void complete_craft( item &craft );
+        void start_craft( craft_command &command, const tripoint &loc );
+        void complete_craft( item &craft, const tripoint &loc = tripoint_zero );
+        /**
+         * Check if the player meets the requirements to continue the in progress craft and if
+         * unable to continue print messages explaining the reason.
+         * @param craft the currently in progress craft
+         * @return if the craft can be continued
+         */
+        bool can_continue_craft( const item &craft );
         /** Returns nearby NPCs ready and willing to help with crafting. */
         std::vector<npc *> get_crafting_helpers() const;
         int get_num_crafting_helpers( int max ) const;
+        /**
+         * Handle skill gain for player and followers during crafting
+         * @param craft the currently in progress craft
+         * @param mulitplier what factor to multiply the base skill gain by.  This is used to apply
+         * multiple steps of incremental skill gain simultaneously if needed.
+         */
+        void craft_skill_gain( const item &craft, const int &multiplier );
         /**
          * Check if the player can disassemble an item using the current crafting inventory
          * @param obj Object to check for disassembly
@@ -1406,19 +1489,21 @@ class player : public Character
         comp_selection<item_comp>
         select_item_component( const std::vector<item_comp> &components,
                                int batch, inventory &map_inv, bool can_cancel = false,
-                               const std::function<bool( const item & )> &amount_filter = is_crafting_component,
-                               const std::function<bool( const item & )> &charges_filter = return_true );
+                               const std::function<bool( const item & )> &filter = return_true<item>, bool player_inv = true );
         std::list<item> consume_items( const comp_selection<item_comp> &cs, int batch,
-                                       const std::function<bool( const item & )> &amount_filter = is_crafting_component,
-                                       const std::function<bool( const item & )> &charges_filter = return_true );
+                                       const std::function<bool( const item & )> &filter = return_true<item> );
+        std::list<item> consume_items( map &m, const comp_selection<item_comp> &cs, int batch,
+                                       const std::function<bool( const item & )> &filter = return_true<item>,
+                                       tripoint origin = tripoint_zero, int radius = PICKUP_RANGE );
         std::list<item> consume_items( const std::vector<item_comp> &components, int batch = 1,
-                                       const std::function<bool( const item & )> &amount_filter = is_crafting_component,
-                                       const std::function<bool( const item & )> &charges_filter = return_true );
+                                       const std::function<bool( const item & )> &filter = return_true<item> );
         comp_selection<tool_comp>
         select_tool_component( const std::vector<tool_comp> &tools, int batch, inventory &map_inv,
                                const std::string &hotkeys = DEFAULT_HOTKEYS,
-                               bool can_cancel = false );
+                               bool can_cancel = false, bool player_inv = true );
         void consume_tools( const comp_selection<tool_comp> &tool, int batch );
+        void consume_tools( map &m, const comp_selection<tool_comp> &tool, int batch,
+                            tripoint origin = tripoint_zero, int radius = PICKUP_RANGE );
         void consume_tools( const std::vector<tool_comp> &tools, int batch = 1,
                             const std::string &hotkeys = DEFAULT_HOTKEYS );
 
@@ -1499,7 +1584,6 @@ class player : public Character
 
         time_point next_climate_control_check;
         bool last_climate_control_ret;
-        std::string move_mode;
         int power_level;
         int max_power_level;
         int tank_plut;
@@ -1539,10 +1623,12 @@ class player : public Character
         matype_id style_selected;
         bool keep_hands_free;
         bool reach_attacking = false;
+        bool manual_examine = false;
 
         std::vector <addiction> addictions;
 
-        void make_craft_with_command( const recipe_id &id_to_make, int batch_size, bool is_long = false );
+        void make_craft_with_command( const recipe_id &id_to_make, int batch_size, bool is_long = false,
+                                      const tripoint &loc = tripoint_zero );
         pimpl<craft_command> last_craft;
 
         recipe_id lastrecipe;
@@ -1563,7 +1649,7 @@ class player : public Character
         void load_memorial_file( std::istream &fin );
         //Notable events, to be printed in memorial
         std::vector <std::string> memorial_log;
-        std::vector<int> follower_ids;
+        std::set<int> follower_ids;
         //Record of player stats, for posterity only
         stats lifetime_stats;
 
@@ -1814,6 +1900,8 @@ class player : public Character
 
         int pkill;
 
+        std::string move_mode;
+
         std::vector<tripoint> auto_move_route;
         player_activity destination_activity;
         cata::optional<tripoint> destination_point;
@@ -1862,6 +1950,9 @@ class player : public Character
 
         /** Stamp of skills. @ref learned_recipes are valid only with this set of skills. */
         mutable decltype( _skills ) valid_autolearn_skills;
+
+        /** Amount of time the player has spent in each overmap tile. */
+        std::unordered_map<point, time_duration> overmap_time;
 
         map_memory player_map_memory;
         bool show_map_memory;

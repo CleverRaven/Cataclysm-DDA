@@ -28,13 +28,14 @@
     ]
   },
   {
-    "id": [ "TALK_FRIEND", "TALK_GIVE_ITEM", "TALK_USE_ITEM" ],
+    "id": [ "TALK_FRIEND", "TALK_GIVE_ITEM", "TALK_USE_ITEM", "TALK_RADIO" ],
     "type": "talk_topic",
     "responses": [
       { "text": "Combat commands...", "topic": "TALK_COMBAT_COMMANDS" },
       { "text": "Can I do anything for you?", "topic": "TALK_MISSION_LIST" },
       {
         "text": "Can you teach me anything?",
+        "condition": { "not": "is_by_radio" },
         "trial": {
           "type": "CONDITION",
           "condition": {
@@ -42,19 +43,30 @@
               { "npc_need": "thirst", "amount": 80 },
               { "npc_need": "hunger", "amount": 160 },
               { "npc_need": "fatigue", "level": "TIRED" },
-              { "npc_has_effect": "asked_to_train" }
+              { "npc_has_effect": "asked_to_train" },
+              "u_driving",
+              "npc_driving"
             ]
           }
         },
         "success": { "topic": "TALK_DENY_TRAIN" },
         "failure": { "topic": "TALK_TRAIN_PERSUADE" }
       },
-      { "text": "Let's trade items", "topic": "TALK_FRIEND", "effect": "start_trade" },
-      { "text": "Guard this position", "topic": "TALK_FRIEND_GUARD", "effect": "assign_guard" },
-      { "text": "Please go to this location...", "topic": "TALK_GOTO_LOCATION", "effect": "goto_location" },
+      {
+        "text": "Let's trade items",
+        "condition": { "not": "is_by_radio" },
+        "topic": "TALK_FRIEND",
+        "effect": "start_trade"
+      },
+      {
+        "text": "Guard this position",
+        "condition": { "not": "is_by_radio" },
+        "topic": "TALK_FRIEND_GUARD",
+        "effect": "assign_guard"
+      },
       { "text": "I'd like to know a bit more about you...", "topic": "TALK_FRIEND", "effect": "reveal_stats" },
-      { "text": "I want you to use this item", "topic": "TALK_USE_ITEM" },
-      { "text": "Hold on to this item", "topic": "TALK_GIVE_ITEM" },
+      { "text": "I want you to use this item", "condition": { "not": "is_by_radio" }, "topic": "TALK_USE_ITEM" },
+      { "text": "Hold on to this item", "condition": { "not": "is_by_radio" }, "topic": "TALK_GIVE_ITEM" },
       { "text": "Miscellaneous rules...", "topic": "TALK_MISC_RULES" },
       { "text": "I'm going to go my own way for a while.", "topic": "TALK_LEAVE" },
       { "text": "Let's go.", "topic": "TALK_DONE" },
@@ -63,6 +75,31 @@
         "topic": "TALK_FRIEND_CHAT",
         "condition": { "not": { "npc_has_effect": "asked_to_socialize" } }
       },
+      {
+        "text": "Any hints about the world we now live in?",
+        "trial": {
+          "type": "CONDITION",
+          "condition": {
+            "or": [
+              { "npc_need": "thirst", "amount": 80 },
+              { "npc_need": "hunger", "amount": 160 },
+              { "npc_need": "fatigue", "level": "TIRED" },
+              { "npc_has_effect": "asked_to_hint" },
+              "u_driving",
+              "npc_driving"
+            ]
+          }
+        },
+        "success": { "topic": "TALK_SHELTER_DENY_ADVICE" },
+        "failure": { "topic": "TALK_SHELTER_ADVICE", "effect": { "npc_add_effect": "asked_to_hint", "duration": 300 } }
+      },
+      {
+        "text": "Please go to this location...",
+        "topic": "TALK_GOTO_LOCATION",
+        "condition": { "or": [ "is_by_radio", "u_has_camp" ] },
+        "effect": "goto_location"
+      },
+      { "text": "Tell me about giving you orders.", "topic": "TALK_ALLY_TUTORIAL" },
       { "text": "Let's talk about faction camps.", "topic": "TALK_CAMP_GENERAL" }
     ]
   },
@@ -93,33 +130,63 @@
           "yes": "*will not engage enemies."
         },
         {
-          "npc_rule": "avoid_combat",
-          "yes": "  <mypronoun> will follow you instead of fighting.",
-          "no": "  <mypronoun> will fight instead of following you."
+          "and": [
+            { "npc_override": "avoid_combat", "yes": "  OVERRIDE: ", "no": "  " },
+            {
+              "npc_rule": "avoid_combat",
+              "yes": "<mypronoun> will follow you instead of fighting.",
+              "no": "<mypronoun> will fight instead of following you."
+            }
+          ]
         },
         {
-          "npc_rule": "use_guns",
-          "yes": {
-            "npc_rule": "use_silent",
-            "yes": "  <mypronoun> will use silenced ranged weapons.",
-            "no": "  <mypronoun> will use ranged weapons."
-          },
-          "no": "  <mypronoun> will not use ranged weapons."
+          "and": [
+            { "npc_override": "use_guns", "yes": "  OVERRIDE: ", "no": "  " },
+            {
+              "npc_rule": "use_guns",
+              "yes": {
+                "and": [
+                  { "npc_override": "use_silent", "yes": "  OVERRIDE: ", "no": "  " },
+                  {
+                    "npc_rule": "use_silent",
+                    "yes": "<mypronoun> will use silenced ranged weapons.",
+                    "no": "<mypronoun> will use ranged weapons."
+                  }
+                ]
+              },
+              "no": "<mypronoun> will not use ranged weapons."
+            }
+          ]
         },
         {
-          "npc_rule": "use_grenades",
-          "yes": "  <mypronoun> will use grenades.",
-          "no": "  <mypronoun> will not use grenades."
+          "and": [
+            { "npc_override": "use_grenades", "yes": "  OVERRIDE: ", "no": "  " },
+            {
+              "npc_rule": "use_grenades",
+              "yes": "<mypronoun> will use grenades.",
+              "no": "<mypronoun> will not use grenades."
+            }
+          ]
         },
         {
-          "npc_rule": "avoid_friendly_fire",
-          "yes": "  <mypronoun> will avoid shooting if allies are in the line of fire.",
-          "no": "  <mypronoun> will shoot even if allies are in the line of fire."
+          "and": [
+            { "npc_override": "avoid_friendly_fire", "yes": "  OVERRIDE: ", "no": "  " },
+            {
+              "npc_rule": "avoid_friendly_fire",
+              "yes": "<mypronoun> will avoid shooting if allies are in the line of fire.",
+              "no": "<mypronoun> will shoot even if allies are in the line of fire."
+            }
+          ]
         },
         {
-          "npc_rule": "hold_the_line",
-          "yes": "  <mypronoun> will hold the line by not moving into doorways or obstructions adjacent to you.",
-          "no": "  <mypronoun> will move freely to attack enemies."
+          "and": [
+            { "npc_override": "hold_the_line", "yes": "  OVERRIDE: ", "no": "  " },
+            {
+              "npc_rule": "hold_the_line",
+              "yes": "<mypronoun> will hold the line by not moving into doorways or obstructions adjacent to you.",
+              "no": "<mypronoun> will move freely to attack enemies."
+            }
+          ]
         },
         "  What should <mypronoun> do?"
       ]
@@ -311,44 +378,84 @@
     "dynamic_line": {
       "and": [
         {
-          "npc_rule": "allow_pick_up",
-          "yes": { "has_pickup_list": true, "yes": "* will pick up items from the whitelist.", "no": "* will pick up all items." },
-          "no": "* will not pick up items."
+          "and": [
+            { "npc_override": "allow_pick_up", "yes": "OVERRIDE: " },
+            {
+              "npc_rule": "allow_pick_up",
+              "yes": { "has_pickup_list": "* will pick up items from the whitelist.", "no": "* will pick up all items." },
+              "no": "* will not pick up items."
+            }
+          ]
         },
         {
-          "npc_rule": "allow_bash",
-          "yes": "  <mypronoun> will bash down obstacles.",
-          "no": "  <mypronoun> will not bash down obstacles."
+          "and": [
+            { "npc_override": "allow_bash", "yes": "  OVERRIDE: ", "no": "  " },
+            {
+              "npc_rule": "allow_bash",
+              "yes": "<mypronoun> will bash down obstacles.",
+              "no": "<mypronoun> will not bash down obstacles."
+            }
+          ]
         },
         {
-          "npc_rule": "allow_sleep",
-          "yes": "  <mypronoun> will sleep when tired.",
-          "no": "  <mypronoun> will sleep only when exhausted."
+          "and": [
+            { "npc_override": "allow_sleep", "yes": "  OVERRIDE: ", "no": "  " },
+            {
+              "npc_rule": "allow_sleep",
+              "yes": "<mypronoun> will sleep when tired.",
+              "no": "<mypronoun> will sleep only when exhausted."
+            }
+          ]
         },
         {
-          "npc_rule": "allow_complain",
-          "yes": "  <mypronoun> will complain about wounds and needs.",
-          "no": "  <mypronoun> will only complain in an emergency."
+          "and": [
+            { "npc_override": "allow_complain", "yes": "  OVERRIDE: ", "no": "  " },
+            {
+              "npc_rule": "allow_complain",
+              "yes": "<mypronoun> will complain about wounds and needs.",
+              "no": "<mypronoun> will only complain in an emergency."
+            }
+          ]
         },
         {
-          "npc_rule": "allow_pulp",
-          "yes": "  <mypronoun> will smash nearby zombie corpses.",
-          "no": "  <mypronoun> will leave zombie corpses intact."
+          "and": [
+            { "npc_override": "allow_pulp", "yes": "  OVERRIDE: ", "no": "  " },
+            {
+              "npc_rule": "allow_pulp",
+              "yes": "<mypronoun> will smash nearby zombie corpses.",
+              "no": "<mypronoun> will leave zombie corpses intact."
+            }
+          ]
         },
         {
-          "npc_rule": "close_doors",
-          "yes": "  <mypronoun> will close doors behind themselves.",
-          "no": "  <mypronoun> will leave doors open."
+          "and": [
+            { "npc_override": "close_doors", "yes": "  OVERRIDE: ", "no": "  " },
+            {
+              "npc_rule": "close_doors",
+              "yes": "<mypronoun> will close doors behind themselves.",
+              "no": "<mypronoun> will leave doors open."
+            }
+          ]
         },
         {
-          "npc_rule": "avoid_doors",
-          "yes": "  <mypronoun> will not go places that require opening a door.",
-          "no": "  <mypronoun> will open doors to reach a destination."
+          "and": [
+            { "npc_override": "ignore_noise", "yes": "  OVERRIDE: ", "no": "  " },
+            {
+              "npc_rule": "ignore_noise",
+              "yes": "<mypronoun> will not investigate noises.",
+              "no": "<mypronoun> will investigate noises coming from unseen places."
+            }
+          ]
         },
         {
-          "npc_rule": "ignore_noise",
-          "yes": "<mypronoun> will not investigate noises.",
-          "no": "<mypronoun> will investigate noises coming from unseen places."
+          "and": [
+            { "npc_override": "avoid_doors", "yes": "  OVERRIDE: ", "no": "  " },
+            {
+              "npc_rule": "avoid_doors",
+              "yes": "<mypronoun> will not go places that require opening a door.",
+              "no": "<mypronoun> will open doors to reach a destination."
+            }
+          ]
         }
       ]
     },
@@ -408,6 +515,7 @@
         "effect": { "toggle_npc_rule": "ignore_noise" }
       },
       { "text": "Set up pickup rules.", "topic": "TALK_MISC_RULES", "effect": "set_npc_pickup" },
+      { "text": "Clear all overrides.", "topic": "TALK_MISC_RULES", "effect": "clear_overrides" },
       { "text": "Never mind.", "topic": "TALK_NONE" }
     ]
   },
@@ -427,7 +535,12 @@
     "responses": [
       { "text": "Please go to this location...", "topic": "TALK_GOTO_LOCATION_RADIO", "effect": "goto_location" },
       { "text": "Stay at your current position.", "topic": "TALK_DONE", "effect": "assign_guard" },
-      { "text": "Never mind.", "topic": "TALK_DONE" }
+      {
+        "text": "Show me what needs to be done at the camp.",
+        "topic": "TALK_DONE",
+        "effect": "basecamp_mission",
+        "condition": { "npc_at_om_location": "FACTION_CAMP_ANY" }
+      }
     ]
   },
   {

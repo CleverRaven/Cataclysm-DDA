@@ -2,9 +2,12 @@
 #ifndef BIONICS_H
 #define BIONICS_H
 
+#include <stddef.h>
 #include <map>
 #include <set>
 #include <vector>
+#include <string>
+#include <utility>
 
 #include "bodypart.h"
 #include "string_id.h"
@@ -14,10 +17,13 @@ class JsonObject;
 class JsonIn;
 class JsonOut;
 struct quality;
+
 using quality_id = string_id<quality>;
 struct mutation_branch;
+
 using trait_id = string_id<mutation_branch>;
 struct bionic_data;
+
 using bionic_id = string_id<bionic_data>;
 using itype_id = std::string;
 
@@ -63,6 +69,10 @@ struct bionic_data {
      * If true, this bionic can provide power to powered armor.
      */
     bool armor_interface = false;
+    /**
+    * If true, this bionic won't provide a warning if the player tries to sleep while it's active.
+    */
+    bool sleep_friendly = false;
     /**
      * Body part slots used to install this bionic, mapped to the amount of space required.
      */

@@ -5,7 +5,12 @@
     "nested_mapgen_id": "roof_4x4_holdout",
     "object": {
       "mapgensize": [ 4, 4 ],
-      "rows": [ "xxxx", "xct_", "x___", "____" ],
+      "rows": [
+        "xxxx",
+        "xct_",
+        "x___",
+        "____"
+      ],
       "terrain": { "_": "t_flat_roof" },
       "furniture": { "c": "f_camp_chair", "x": "f_sandbag_wall", "t": "f_table" },
       "place_loot": [
@@ -22,7 +27,12 @@
     "nested_mapgen_id": "roof_4x4_party",
     "object": {
       "mapgensize": [ 4, 4 ],
-      "rows": [ "_ct_", "____", "_b_c", "c___" ],
+      "rows": [
+        "_ct_",
+        "____",
+        "_b_c",
+        "c___"
+      ],
       "terrain": { "_": "t_flat_roof", "c": "t_flat_roof", "b": "t_flat_roof", "t": "t_flat_roof" },
       "furniture": { "c": "f_camp_chair", "b": "f_brazier", "t": "f_table" },
       "place_items": [
@@ -109,7 +119,13 @@
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 3 ],
-      "rows": [ "xxxxx", "x__tx", "+__tx", "xtttx", "xxxxx" ],
+      "rows": [
+        "xxxxx",
+        "x__tx",
+        "+__tx",
+        "xtttx",
+        "xxxxx"
+      ],
       "terrain": { "_": "t_floor_primitive", "+": "t_chickenwire_gate_c", "x": "t_chickenwire_fence", "t": "t_dirtfloor" },
       "furniture": { "t": "f_table" },
       "place_loot": [
@@ -126,7 +142,12 @@
     "object": {
       "mapgensize": [ 4, 4 ],
       "rotation": [ 0, 3 ],
-      "rows": [ "_xxx", "__ax", "_xxx", "__ox" ],
+      "rows": [
+        "_xxx",
+        "__ax",
+        "_xxx",
+        "__ox"
+      ],
       "terrain": { "_": "t_concrete", "x": "t_sewage_pipe" },
       "furniture": { "o": "f_water_heater", "a": "f_air_conditioner" }
     }
@@ -138,7 +159,12 @@
     "object": {
       "mapgensize": [ 4, 4 ],
       "rotation": [ 0, 3 ],
-      "rows": [ "UUUU", "UAaU", "c_oU", "UUUU" ],
+      "rows": [
+        "UUUU",
+        "UAaU",
+        "c_oU",
+        "UUUU"
+      ],
       "terrain": { "_": "t_null", "c": "t_chaingate_l", "U": "t_chainfence" },
       "furniture": { "o": "f_water_heater", "a": "f_water_purifier", "A": "f_standing_tank" }
     }
@@ -150,7 +176,14 @@
     "object": {
       "mapgensize": [ 6, 6 ],
       "rotation": [ 0, 3 ],
-      "rows": [ "_xxxxx", "_xA__x", "_xx__x", "_____x", "xooa_x", "xxxxxx" ],
+      "rows": [
+        "_xxxxx",
+        "_xA__x",
+        "_xx__x",
+        "_____x",
+        "xooa_x",
+        "xxxxxx"
+      ],
       "terrain": { "_": "t_null", "x": "t_sewage_pipe" },
       "furniture": { "o": "f_water_heater", "a": "f_water_purifier", "A": "f_standing_tank" }
     }
@@ -229,6 +262,40 @@
         { "furn": "f_air_conditioner", "x": 1, "y": 0 },
         { "furn": "f_solar_unit", "x": 0, "y": 1 },
         { "furn": "f_water_purifier", "x": 1, "y": 1 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "roof_6x6_survivor",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "..AA..",
+        "......",
+        "..a...",
+        ".o..o.",
+        "......",
+        "....A."
+      ],
+      "set": [
+        { "point": "trap", "id": "tr_funnel", "x": 0, "y": 0 },
+        { "point": "trap", "id": "tr_cot", "x": 5, "y": 5 },
+        { "point": "trap", "id": "tr_cot", "x": 3, "y": 5 }
+      ],
+      "terrain": { ".": "t_null" },
+      "furniture": { "o": "f_camp_chair", "a": "f_brazier", "A": "f_tourist_table" },
+      "place_loot": [
+        { "group": "cannedfood", "x": [ 2, 3 ], "y": 0, "repeat": [ 2, 3 ] },
+        { "group": "camping", "x": [ 0, 5 ], "y": [ 0, 3 ], "chance": 50, "repeat": [ 2, 3 ] },
+        { "group": "stash_wood", "x": 1, "y": 2, "repeat": [ 2, 3 ] },
+        { "group": "bed", "x": 5, "y": 5, "chance": 50, "repeat": [ 1, 2 ] },
+        { "group": "bed", "x": 3, "y": 5, "chance": 50, "repeat": [ 1, 2 ] },
+        { "item": "jug_plastic", "x": 0, "y": 0 },
+        { "item": "can_drink_unsealed", "x": [ 0, 5 ], "y": [ 0, 5 ], "chance": 30, "repeat": [ 2, 3 ] },
+        { "item": "can_food_unsealed", "x": [ 0, 5 ], "y": [ 0, 5 ], "chance": 40, "repeat": [ 2, 3 ] }
       ]
     }
   }

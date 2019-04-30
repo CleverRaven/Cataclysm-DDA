@@ -2,12 +2,15 @@
 
 #include <map>
 #include <unordered_map>
+#include <set>
+#include <utility>
+#include <vector>
 
 #include "anatomy.h"
 #include "debug.h"
 #include "generic_factory.h"
-#include "rng.h"
 #include "translations.h"
+#include "json.h"
 
 side opposite_side( side s )
 {
@@ -248,13 +251,13 @@ std::string body_part_name_as_heading( body_part bp, int number )
 
 std::string body_part_hp_bar_ui_text( body_part bp )
 {
-    return _( get_bp( bp ).hp_bar_ui_text.c_str() );
+    return _( get_bp( bp ).hp_bar_ui_text );
 }
 
 std::string encumb_text( body_part bp )
 {
     const std::string &txt = get_bp( bp ).encumb_text;
-    return !txt.empty() ? _( txt.c_str() ) : txt;
+    return !txt.empty() ? _( txt ) : txt;
 }
 
 body_part random_body_part( bool main_parts_only )

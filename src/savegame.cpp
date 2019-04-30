@@ -1,24 +1,21 @@
 #include "game.h" // IWYU pragma: associated
 
 #include <algorithm>
-#include <cmath>
 #include <map>
 #include <set>
 #include <sstream>
 #include <string>
 #include <vector>
+#include <type_traits>
+#include <unordered_set>
+#include <utility>
 
-#include "artifact.h"
-#include "auto_pickup.h"
-#include "computer.h"
 #include "coordinate_conversions.h"
 #include "creature_tracker.h"
 #include "debug.h"
 #include "faction.h"
 #include "io.h"
-#include "line.h"
 #include "map.h"
-#include "mapdata.h"
 #include "messages.h"
 #include "mission.h"
 #include "mongroup.h"
@@ -31,8 +28,15 @@
 #include "scent_map.h"
 #include "translations.h"
 #include "tuple_hash.h"
+#include "basecamp.h"
+#include "json.h"
+#include "omdata.h"
+#include "overmap_types.h"
+#include "player.h"
+#include "regional_settings.h"
+#include "itype.h"
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
 #include "input.h"
 
 extern std::map<std::string, std::list<input_event>> quick_shortcuts_map;
@@ -295,7 +299,7 @@ void game::save_weather( std::ostream &fout )
     fout << "seed: " << seed;
 }
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
 ///// quick shortcuts
 void game::load_shortcuts( std::istream &fin )
 {

@@ -1,12 +1,13 @@
 #include "mapsharing.h"
 
-#ifdef __linux__
+#include <cstdlib>
+
+#if defined(__linux__)
 #include <sys/file.h>
 #include <sys/stat.h>
-#include <sys/types.h>
-#include <cstdio>
 #include <fcntl.h>
 #include <unistd.h>
+#include <cstdio>
 #endif // __linux__
 
 bool MAP_SHARING::sharing;
@@ -95,7 +96,7 @@ void MAP_SHARING::setDefaults()
     MAP_SHARING::addAdmin( "admin" );
 }
 
-#ifndef __linux__ // make non-Linux operating systems happy
+#if !defined(__linux__) // make non-Linux operating systems happy
 
 int getLock( const char * )
 {

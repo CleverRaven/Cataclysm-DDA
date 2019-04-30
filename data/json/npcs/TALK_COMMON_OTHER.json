@@ -32,11 +32,42 @@
     "responses": [ { "text": "Thanks!", "topic": "TALK_NONE" } ]
   },
   {
+    "id": "TALK_SHELTER_DENY_ADVICE",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "u_driving": "Focus on the road, mate!",
+      "no": {
+        "npc_driving": "I must focus on the road!",
+        "no": {
+          "npc_need": "thirst",
+          "amount": 80,
+          "no": {
+            "npc_need": "hunger",
+            "amount": 160,
+            "no": {
+              "npc_need": "fatigue",
+              "level": "TIRED",
+              "no": {
+                "npc_has_effect": "asked_to_hint",
+                "no": "I have some reason for not telling you.",
+                "yes": "Nothing comes to my mind now. Ask me later perhaps?"
+              },
+              "yes": "I'm too tired, let me rest first."
+            },
+            "yes": "I'm too hungry, give me something to eat."
+          },
+          "yes": "I'm too thirsty, give me something to drink."
+        }
+      }
+    },
+    "responses": [ { "text": "Ah, okay.", "topic": "TALK_NONE" } ]
+  },
+  {
     "id": "TALK_SUGGEST_FOLLOW",
     "type": "talk_topic",
     "category": "CATEGORY_FOLLOW",
     "dynamic_line": {
-      "npc_has_effect": "infected",
+      "npc_has_effect": "infection",
       "no": {
         "npc_has_effect": "asked_to_follow",
         "no": "Why should I travel with you?",
@@ -49,7 +80,7 @@
         "switch": true,
         "text": "Understood.  I'll get those antibiotics.",
         "topic": "TALK_NONE",
-        "condition": { "npc_has_effect": "infected" }
+        "condition": { "npc_has_effect": "infection" }
       },
       {
         "switch": true,
@@ -348,5 +379,17 @@
     "id": [ "TALK_SIZE_UP", "TALK_LOOK_AT", "TALK_OPINION", "TALK_SHOUT" ],
     "type": "talk_topic",
     "responses": [ { "text": "Okay", "topic": "TALK_NONE" } ]
+  },
+  {
+    "id": "TALK_DELIVER_ASK",
+    "type": "talk_topic",
+    "dynamic_line": "I'm willing to pay <topic_item_price> per batch for a total of <topic_item_your_total_price>.",
+    "responses": [ { "text": "Works for me.", "topic": "TALK_DELIVER_CONFIRM" }, { "text": "Maybe later.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "TALK_DELIVER_CONFIRM",
+    "type": "talk_topic",
+    "dynamic_line": "Pleasure doing business!",
+    "responses": [ { "text": "You might be seeing more of me...", "topic": "TALK_DONE", "effect": "u_bulk_trade_accept" } ]
   }
 ]
