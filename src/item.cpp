@@ -7076,8 +7076,15 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
         auto local_mod = g->new_game ? 0 : g->m.temperature( local );
         const auto temp_modify = ( !g->new_game ) && ( g->m.ter( local ) == t_rootcellar );
 
-        int enviroment_mod = get_heat_radiation( pos, false );
-        enviroment_mod += get_convection_temperature( pos );
+        int enviroment_mod;
+        // Toilets and vending machines will try to get the heat radiation and convection during mapgen and segfault.
+        // So lets not take them into account for items that were created before calendar::start
+        if( to_turn<int>( last_temp_check ) > to_turn<int>( calendar::start ) ) {
+            enviroment_mod = get_heat_radiation( pos, false );
+            enviroment_mod += get_convection_temperature( pos );
+        } else {
+            enviroment_mod = 0;
+        }
 
         if( carried ) {
             local_mod += 5; // body heat increases inventory temperature
