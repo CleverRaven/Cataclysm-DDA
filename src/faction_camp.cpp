@@ -1629,7 +1629,8 @@ void basecamp::start_relay_hide_site()
 void basecamp::start_fortifications( std::string &bldg_exp, bool by_radio )
 {
     std::vector<std::string> allowed_locations = {
-        "forest", "forest_thick", "forest_water", "field" };
+        "forest", "forest_thick", "forest_water", "field"
+    };
     popup( _( "Select a start and end point.  Line must be straight.  Fields, forests, and "
               "swamps are valid fortification locations.  In addition to existing fortification "
               "constructions." ) );
@@ -1644,17 +1645,17 @@ void basecamp::start_fortifications( std::string &bldg_exp, bool by_radio )
             popup( "Construction line must be straight!" );
             return;
         }
-        if( bldg_exp == "faction_wall_level_N_1" ){
+        if( bldg_exp == "faction_wall_level_N_1" ) {
             std::vector<tripoint> tmp_line = line_to( stop, start, 0 );
             int line_count = tmp_line.size();
             int yes_count = 0;
-            for( auto elem : tmp_line ){
-                if(std::find(fortifications.begin(), fortifications.end(), elem) != fortifications.end() ){
+            for( auto elem : tmp_line ) {
+                if( std::find( fortifications.begin(), fortifications.end(), elem ) != fortifications.end() ) {
                     yes_count += 1;
                 }
             }
-            if( yes_count < line_count ){
-                popup( _("Spiked pits must be built over existing trenches!") );
+            if( yes_count < line_count ) {
+                popup( _( "Spiked pits must be built over existing trenches!" ) );
                 return;
             }
         }
@@ -2235,7 +2236,7 @@ void basecamp::fortifications_return()
                 run_mapgen_update_func( build_first, build_point[pt] );
                 run_mapgen_update_func( build_second, build_point[pt] );
             }
-            if( comp->companion_mission_role_id == "faction_wall_level_N_0" ){
+            if( comp->companion_mission_role_id == "faction_wall_level_N_0" ) {
                 tripoint fort_point = build_point[pt];
                 fortifications.push_back( fort_point );
             }
