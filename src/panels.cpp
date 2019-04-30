@@ -71,11 +71,10 @@ window_panel::window_panel( std::function<void( player &, const catacurses::wind
 
 std::string trunc_ellipse( std::string input, unsigned int trunc )
 {
-    if( static_cast<unsigned int>( utf8_width( input ) ) < trunc || trunc == 0 ) {
-        return input;
-    } else {
+    if( utf8_width( input ) > static_cast<int>( trunc ) ) {
         return utf8_truncate( input, trunc - 1 ) + "…";
     }
+    return input;
 }
 
 void draw_rectangle( const catacurses::window &w, nc_color, point top_left,
