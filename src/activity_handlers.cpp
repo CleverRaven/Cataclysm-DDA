@@ -2004,6 +2004,7 @@ void activity_handlers::vehicle_finish( player_activity *act, player *p )
                   act->values.size() );
     } else {
         if( vp ) {
+            g->m.invalidate_map_cache( g->get_levz() );
             g->refresh_all();
             // TODO: Z (and also where the activity is queued)
             // Or not, because the vehicle coordinates are dropped anyway
@@ -2562,6 +2563,7 @@ void activity_handlers::meditate_finish( player_activity *act, player *p )
 void activity_handlers::aim_do_turn( player_activity *act, player * )
 {
     if( act->index == 0 ) {
+        g->m.invalidate_map_cache( g->get_levz() );
         g->m.build_map_cache( g->get_levz() );
         g->plfire();
     }

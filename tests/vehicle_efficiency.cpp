@@ -65,6 +65,7 @@ void clear_game( const ter_id &terrain )
         g->m.destroy_vehicle( veh.v );
     }
 
+    g->m.invalidate_map_cache( 0 );
     g->m.build_map_cache( 0, true );
 }
 

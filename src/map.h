@@ -264,6 +264,15 @@ class map
             }
         }
 
+        inline void invalidate_map_cache( const int zlev ) {
+            if( inbounds_z( zlev ) ) {
+                level_cache &ch = get_cache( zlev );
+                ch.floor_cache_dirty = true;
+                ch.transparency_cache_dirty = true;
+                ch.outside_cache_dirty = true;
+            }
+        }
+
         bool check_and_set_seen_cache( const tripoint &p ) const {
             std::bitset<MAPSIZE_X *MAPSIZE_Y> &memory_seen_cache =
                 get_cache( p.z ).map_memory_seen_cache;
