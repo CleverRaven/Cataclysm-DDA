@@ -1126,6 +1126,9 @@ int monster::group_bash_skill( const tripoint &target )
 
 bool monster::attack_at( const tripoint &p )
 {
+    if( has_flag( MF_PACIFIST ) ) {
+        return false;
+    }
     if( p.z != posz() ) {
         return false; // TODO: Remove this
     }

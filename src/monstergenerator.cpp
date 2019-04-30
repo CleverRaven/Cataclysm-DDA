@@ -132,6 +132,7 @@ const std::map<std::string, m_flag> flag_map = {
     { "NIGHT_INVISIBILITY", MF_NIGHT_INVISIBILITY },
     { "REVIVES_HEALTHY", MF_REVIVES_HEALTHY },
     { "NO_NECRO", MF_NO_NECRO },
+    { "PACIFIST", MF_PACIFIST },
     { "PUSH_MON", MF_PUSH_MON },
     { "PUSH_VEH", MF_PUSH_VEH },
     { "PATH_AVOID_DANGER_1", MF_AVOID_DANGER_1 },
