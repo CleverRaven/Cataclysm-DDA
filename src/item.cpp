@@ -3942,9 +3942,6 @@ void item::calc_rot( time_point time )
     }
 
     time_duration time_delta = time - since;
-    if( to_turn<int>( time ) < to_turn<int>( since ) ) {
-        debugmsg( "NEG TIME" );
-    }
     rot += factor * time_delta / 1_hours * get_hourly_rotpoints_at_temp( kelvin_to_fahrenheit(
                 0.00001 * temperature ) ) * 1_turns;
     last_rot_check = time;
