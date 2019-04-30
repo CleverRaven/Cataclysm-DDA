@@ -197,6 +197,7 @@ item::item( const itype *type, time_point turn, long qty ) : type( type ), bday(
     } else if( get_comestible() ) {
         active = is_food();
         last_temp_check = bday;
+        last_rot_check = bday;
 
     } else if( type->tool ) {
         if( ammo_remaining() && ammo_type() ) {
@@ -254,6 +255,7 @@ item::item( const recipe *rec, long qty, std::list<item> items )
     if( is_food() ) {
         active = true;
         last_temp_check = bday;
+        last_rot_check = bday;
         if( goes_bad() ) {
             const item *most_rotten = get_most_rotten_component( *this );
             if( most_rotten ) {
@@ -3927,10 +3929,8 @@ void item::calc_rot( time_point time )
         factor = 0.75;
     }
 
-
-
     // bday and/or last_rot_check might be zero, if both are then we want calendar::start
-    const time_point since = std::max( {bday, last_rot_check, ( time_point ) calendar::start} );
+    const time_point since = std::max( {last_rot_check, ( time_point ) calendar::start} );
 
     // simulation of different age of food at the start of the game and good/bad storage
     // conditions by applying starting variation bonus/penalty of +/- 20% of base shelf-life
@@ -3942,6 +3942,9 @@ void item::calc_rot( time_point time )
     }
 
     time_duration time_delta = time - since;
+    if( to_turn<int>( time ) < to_turn<int>( since ) ) {
+        debugmsg( "NEG TIME" );
+    }
     rot += factor * time_delta / 1_hours * get_hourly_rotpoints_at_temp( kelvin_to_fahrenheit(
                 0.00001 * temperature ) ) * 1_turns;
     last_rot_check = time;
