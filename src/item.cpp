@@ -1085,7 +1085,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                           to_hours<int>( age() ) ) );
 
                 const item *food = is_food_container() ? &contents.front() : this;
-                if( goes_bad() ) {
+                if( food->goes_bad() ) {
                     info.push_back( iteminfo( "BASE", _( "age (turns): " ),
                                               "", iteminfo::lower_is_better,
                                               to_turns<int>( food->age() ) ) );
@@ -1102,7 +1102,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                               "", iteminfo::lower_is_better,
                                               to_turns<int>( food->get_shelf_life() ) ) );
                 }
-                if( has_temperature() || is_food_container() ) {
+                if( food->has_temperature() ) {
                     info.push_back( iteminfo( "BASE", _( "Temp: " ), "", iteminfo::lower_is_better,
                                               food->temperature ) );
                     info.push_back( iteminfo( "BASE", _( "Spec ener: " ), "", iteminfo::lower_is_better,
@@ -3917,6 +3917,7 @@ void item::calc_rot( time_point time )
     }
 
     if( item_tags.count( "FROZEN" ) ) {
+        last_rot_check = calendar::turn;
         return;
     }
     // rot modifier
@@ -3942,7 +3943,7 @@ void item::calc_rot( time_point time )
     time_duration time_delta = time - since;
     rot += factor * time_delta / 1_hours * get_hourly_rotpoints_at_temp( kelvin_to_fahrenheit(
                 0.00001 * temperature ) ) * 1_turns;
-    last_rot_check = calendar::turn;
+    last_rot_check = time;
 }
 
 void item::calc_rot_while_processing( time_duration processing_duration )
@@ -7065,8 +7066,8 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
         insulation *= 1.5; // clothing provides inventory some level of insulation
     }
 
-    time_point time = last_temp_check;
-
+    time_point time = std::min( { last_rot_check, last_temp_check } );
+    // const time_point since = std::min( { last_rot_check, last_temp_check} );
     if( now - last_temp_check > 1_hours ) {
         // This code is for items that were left out of reality bubble for long time
 
@@ -7104,7 +7105,7 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
             } else {
                 // There is no point in doing the proper temperature calculations for too long times
                 // Just set the item to enviroment temperature. This temperature won't show for the player and is used only for rotting.
-                temperature = env_temperature;
+                temperature = static_cast<int>( 100000 * temp_to_kelvin( env_temperature ) );
                 last_temp_check = time;
             }
 
@@ -7130,6 +7131,11 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
         }
         calc_temp( temp, insulation, now );
         calc_rot( now );
+    }
+
+    // Some new items can evade all the above. Set them here.
+    if( specific_energy < 0 ) {
+        set_item_temperature( temp_to_kelvin( temp ) );
     }
 }
 
