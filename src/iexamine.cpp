@@ -4246,7 +4246,7 @@ void mill_activate( player &p, const tripoint &examp )
     for( auto &it : g->m.i_at( examp ) ) {
         if( it.has_flag( "MILLABLE" ) ) {
             // Do one final rot check before milling, then apply the PROCESSING flag to prevent further checks.
-            it.calc_rot( examp );
+            it.process_temperature_rot( g->get_temperature( examp ), 1, examp, nullptr );
             it.set_flag( "PROCESSING" );
         }
     }
@@ -4338,8 +4338,7 @@ void smoker_activate( player &p, const tripoint &examp )
     p.use_charges( "fire", 1 );
     for( auto &it : g->m.i_at( examp ) ) {
         if( it.has_flag( "SMOKABLE" ) ) {
-            // Do one final rot check before smoking, then apply the PROCESSING flag to prevent further checks.
-            it.calc_rot( examp );
+            it.process_temperature_rot( g->get_temperature( examp ), 1, examp, nullptr );
             it.set_flag( "PROCESSING" );
         }
     }
@@ -4378,7 +4377,7 @@ void iexamine::mill_finalize( player &, const tripoint &examp, const time_point 
 
     for( auto &it : items ) {
         if( it.has_flag( "MILLABLE" ) ) {
-            it.calc_rot_while_processing( examp, 6_hours );
+            it.calc_rot_while_processing( 6_hours );
         }
     }
     for( size_t i = 0; i < items.size(); i++ ) {
@@ -4415,7 +4414,7 @@ void smoker_finalize( player &, const tripoint &examp, const time_point &start_t
 
     for( auto &it : items ) {
         if( it.has_flag( "SMOKABLE" ) ) { // Don't check charcoal
-            it.calc_rot_while_processing( examp, 6_hours );
+            it.calc_rot_while_processing( 6_hours );
         }
     }
 
