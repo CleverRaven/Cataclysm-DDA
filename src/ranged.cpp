@@ -117,6 +117,7 @@ double Creature::ranged_target_size() const
 
 int range_with_even_chance_of_good_hit( int dispersion )
 {
+    // TODO: update table, this can be radically simplified now
     // Empirically determined by "synthetic_range_test" in tests/ranged_balance.cpp.
     static const std::array<int, 59> dispersion_for_even_chance_of_good_hit = {{
             1731, 859, 573, 421, 341, 286, 245, 214, 191, 175,
@@ -304,7 +305,7 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
         }
 
         dispersion_sources dispersion = get_weapon_dispersion( gun );
-        dispersion.add_range( recoil_total() );
+        dispersion.add_normal( recoil_total() );
 
         // If this is a vehicle mounted turret, which vehicle is it mounted on?
         const vehicle *in_veh = has_effect( effect_on_roof ) ? veh_pointer_or_null( g->m.veh_at(
@@ -849,9 +850,9 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
         if( type.has_threshold ) {
             label = type.name;
             threshold = type.threshold;
-            current_dispersion.add_range( threshold );
+            current_dispersion.add_normal( threshold );
         } else {
-            current_dispersion.add_range( recoil );
+            current_dispersion.add_normal( recoil );
         }
 
         int moves_to_fire;
@@ -1806,6 +1807,7 @@ static bool is_driving( const player &p )
 
 static double dispersion_from_skill( double skill, double weapon_dispersion )
 {
+    // TODO: radically simplify this.  It isn't necessary.
     if( skill >= MAX_SKILL ) {
         return 0.0;
     }
@@ -1831,13 +1833,14 @@ static double dispersion_from_skill( double skill, double weapon_dispersion )
 }
 
 // utility functions for projectile_attack
+// Note: Why is the player object extended in ranged.cpp?  
 dispersion_sources player::get_weapon_dispersion( const item &obj ) const
 {
     int weapon_dispersion = obj.gun_dispersion();
     dispersion_sources dispersion( weapon_dispersion );
-    dispersion.add_range( ranged_dex_mod() );
+    dispersion.add_normal( ranged_dex_mod() );
 
-    dispersion.add_range( ( encumb( bp_arm_l ) + encumb( bp_arm_r ) ) / 5 );
+    dispersion.add_normal( ( encumb( bp_arm_l ) + encumb( bp_arm_r ) ) / 5 );
 
     if( is_driving( *this ) ) {
         // get volume of gun (or for auxiliary gunmods the parent gun)
@@ -1845,7 +1848,7 @@ dispersion_sources player::get_weapon_dispersion( const item &obj ) const
         const int vol = ( parent ? parent->volume() : obj.volume() ) / 250_ml;
 
         /** @EFFECT_DRIVING reduces the inaccuracy penalty when using guns whilst driving */
-        dispersion.add_range( std::max( vol - get_skill_level( skill_driving ), 1 ) * 20 );
+        dispersion.add_normal( std::max( vol - get_skill_level( skill_driving ), 1 ) * 20 );
     }
 
     /** @EFFECT_GUN improves usage of accurate weapons and sights */
@@ -1853,7 +1856,7 @@ dispersion_sources player::get_weapon_dispersion( const item &obj ) const
                                            get_skill_level( obj.gun_skill() ) ) / 2.0;
     avgSkill = std::min( avgSkill, static_cast<double>( MAX_SKILL ) );
 
-    dispersion.add_range( dispersion_from_skill( avgSkill, weapon_dispersion ) );
+    dispersion.add_normal( dispersion_from_skill( avgSkill, weapon_dispersion ) );
 
     if( has_bionic( bionic_id( "bio_targeting" ) ) ) {
         dispersion.add_multiplier( 0.75 );
@@ -1863,7 +1866,6 @@ dispersion_sources player::get_weapon_dispersion( const item &obj ) const
         // Range is effectively four times longer when shooting unflagged guns underwater.
         ( !is_underwater() && obj.has_flag( "UNDERWATER_GUN" ) ) ) {
         // Range is effectively four times longer when shooting flagged guns out of water.
-        dispersion.add_range( 150 ); //Adding dispersion for additonal debuff
         dispersion.add_multiplier( 4 );
     }
 
@@ -1874,6 +1876,7 @@ double player::gun_value( const item &weap, long ammo ) const
 {
     // TODO: Mods
     // TODO: Allow using a specified type of ammo rather than default
+    // TODO: 4/30/2019, update dispersion math based on new normal distribution
     if( !weap.type->gun ) {
         return 0.0;
     }

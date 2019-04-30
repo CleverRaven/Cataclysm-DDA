@@ -145,8 +145,10 @@ projectile_attack_aim projectile_attack_roll( const dispersion_sources &dispersi
     aim.missed_by_tiles = iso_tangent( range, aim.dispersion );
 
     // fraction we missed a monster target by (0.0 = perfect hit, 1.0 = miss)
+    // missed_by_tiles is relative to the center of the target.  It is a hit
+    // if it is within target_size/2.
     if( target_size > 0.0 ) {
-        aim.missed_by = std::min( 1.0, aim.missed_by_tiles / target_size );
+        aim.missed_by = std::min( 1.0, aim.missed_by_tiles * 2 / target_size );
     } else {
         // Special case 0 size targets, just to be safe from 0.0/0.0 NaNs
         aim.missed_by = 1.0;
