@@ -7,12 +7,12 @@
     "subtype": "collection",
     "items": [
       { "item": "knife_butter", "count": [ 1, 6 ] },
-      { "item": "knife_butter", "count": [ 1, 6 ] },
-      { "item": "knife_steak", "count": [ 4, 6 ] },
+      { "item": "knife_butter", "count": [ 1, 6 ], "prob": 75 },
+      { "item": "knife_steak", "count": [ 2, 6 ], "prob": 85 },
       { "item": "fork", "count": [ 1, 6 ] },
-      { "item": "fork", "count": [ 1, 6 ] },
+      { "item": "fork", "count": [ 1, 6 ], "prob": 75 },
       { "item": "spoon", "count": [ 1, 6 ] },
-      { "item": "spoon", "count": [ 1, 6 ] },
+      { "item": "spoon", "count": [ 1, 6 ], "prob": 75 },
       { "item": "chopsticks", "prob": 50, "count": [ 0, 6 ] },
       { "item": "plastic_spoon", "prob": 50, "count": [ 0, 6 ] },
       { "item": "plastic_knife", "prob": 50, "count": [ 1, 6 ] },
@@ -48,6 +48,34 @@
       { "item": "carving_fork", "prob": 50 },
       { "item": "corkscrew", "prob": 90 },
       { "item": "bottle_opener", "prob": 95 }
+    ]
+  },
+  {
+    "id": "SUS_knives",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for a drawer full of knives and related implements.",
+    "subtype": "collection",
+    "items": [
+      {
+        "distribution": [ { "item": "knife_chef", "prob": 10 }, { "item": "knife_vegetable_cleaver", "prob": 3 } ]
+      },
+      { "item": "knife_paring" },
+      { "item": "knife_paring", "prob": 75 },
+      { "item": "knife_bread", "prob": 95 },
+      { "item": "knife_bread", "prob": 45 },
+      {
+        "distribution": [ { "item": "knife_butcher", "prob": 10 }, { "item": "knife_meat_cleaver", "prob": 10 } ], "prob": 65 
+      },
+      { "item": "knife_steak", "count": [ 2, 4 ], "prob": 75 },
+      {
+        "collection": [ { "item": "knife_carving" }, { "item": "carving_fork", "prob": 90 } ],
+        "prob": 85
+      },
+      { "item": "scissors", "prob": 80 },
+      { "item": "peeler", "prob": 75, "count": [ 1, 2 ] },
+      { "item": "cutting_board", "count": [ 1, 2 ] },
+      { "item": "cutting_board", "prob": 75 }
     ]
   },
   {
