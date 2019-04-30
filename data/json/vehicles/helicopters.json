@@ -1,4 +1,4 @@
-[
+[[
   {
     "id": "helicopter_wreck_1a",
     "type": "vehicle",
@@ -68,7 +68,7 @@
       { "x": 1, "y": -1, "part": "plating_military" },
       { "x": 0, "y": -1, "part": "plating_military" },
       { "x": -3, "y": -1, "part": "engine_turbine_medium" },
-	  { "x": -4, "y": -1, "part": "engine_turbine_medium" },
+      { "x": -4, "y": -1, "part": "engine_turbine_medium" },
       { "x": 2, "y": -2, "part": "windshield" },
       { "x": 2, "y": 0, "part": "windshield" },
       { "x": -4, "y": -1, "part": "board_vertical" },
@@ -244,7 +244,7 @@
       { "x": 1, "y": -1, "part": "plating_military" },
       { "x": 0, "y": -1, "part": "plating_military" },
       { "x": -3, "y": -1, "part": "engine_turbine_medium" },
-	  { "x": -4, "y": -1, "part": "engine_turbine_medium" },
+      { "x": -4, "y": -1, "part": "engine_turbine_medium" },
       { "x": 2, "y": -2, "part": "windshield" },
       { "x": 2, "y": 0, "part": "windshield" },
       { "x": -4, "y": -1, "part": "board_vertical" },
@@ -379,7 +379,7 @@
       { "x": 0, "y": 0, "part": "plating_military" },
       { "x": -1, "y": 2, "part": "plating_military" },
       { "x": -3, "y": 1, "part": "engine_turbine_medium" },
-	  { "x": -4, "y": 1, "part": "engine_turbine_medium" },
+      { "x": -4, "y": 1, "part": "engine_turbine_medium" },
       { "x": -4, "y": 1, "part": "board_vertical" },
       { "x": -2, "y": 1, "part": "board_vertical" },
       { "x": -3, "y": 1, "part": "plating_military" },
@@ -938,8 +938,8 @@
       { "x": -4, "y": 1, "part": "seatbelt" },
       { "x": -2, "y": 0, "part": "omnicam" },
       { "x": 0, "y": 0, "part": "cam_control" },
-	  { "x": -5, "y": -8, "part": "engine_turbine_large" },
-	  { "x": -5, "y": 8, "part": "engine_turbine_large" }
+      { "x": -5, "y": -8, "part": "engine_turbine_large" },
+      { "x": -5, "y": 8, "part": "engine_turbine_large" }
     ],
     "items": [
       { "x": -12, "y": -1, "chance": 5, "items": [ "grenade" ] },
@@ -1364,7 +1364,7 @@
       { "x": -2, "y": 3, "part": "roof" },
       { "x": -3, "y": 3, "part": "roof" },
       { "x": -4, "y": 3, "part": "roof" },
-	  { "x": -5, "y": -8, "part": "engine_turbine_large" }
+      { "x": -5, "y": -8, "part": "engine_turbine_large" }
     ],
     "items": [
       { "x": -12, "y": -1, "chance": 5, "items": [ "grenade" ] },
@@ -1938,8 +1938,8 @@
       { "x": -6, "y": -1, "part": "roof" },
       { "x": -5, "y": -1, "part": "roof" },
       { "x": -4, "y": -1, "part": "roof" },
-	  { "x": -5, "y": 0, "part": "engine_turbine_medium" },
-	  { "x": -5, "y": 2, "part": "engine_turbine_medium" }
+      { "x": -5, "y": 0, "part": "engine_turbine_medium" },
+      { "x": -5, "y": 2, "part": "engine_turbine_medium" }
     ],
     "items": [
       { "x": -6, "y": 1, "chance": 7, "items": [ "mre_veggy_box" ] },
@@ -2124,8 +2124,8 @@
       { "x": -3, "y": 3, "part": "roof" },
       { "x": -2, "y": 3, "part": "roof" },
       { "x": -1, "y": 3, "part": "roof" },
-	  { "x": -5, "y": 0, "part": "engine_turbine_medium" },
-	  { "x": -5, "y": 2, "part": "engine_turbine_medium" }
+      { "x": -5, "y": 0, "part": "engine_turbine_medium" },
+      { "x": -5, "y": 2, "part": "engine_turbine_medium" }
     ],
     "items": [
       { "x": -6, "y": 1, "chance": 7, "items": [ "mre_veggy_box" ] },
@@ -2283,8 +2283,8 @@
       { "x": 0, "y": 1, "part": "aisle_vertical" },
       { "x": -2, "y": 3, "part": "door_sliding" },
       { "x": -3, "y": 3, "part": "door_sliding" },
-	  { "x": -5, "y": 0, "part": "engine_turbine_medium" },
-	  { "x": -5, "y": 2, "part": "engine_turbine_medium" }
+      { "x": -5, "y": 0, "part": "engine_turbine_medium" },
+      { "x": -5, "y": 2, "part": "engine_turbine_medium" }
     ],
     "items": [
       { "x": -6, "y": 1, "chance": 7, "items": [ "mre_veggy_box" ] },
@@ -2323,3 +2323,4 @@
     ]
   }
 ]
+
