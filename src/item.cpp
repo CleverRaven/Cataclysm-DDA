@@ -3691,7 +3691,7 @@ int item::get_quality( const quality_id &id ) const
     if( itm.is_ammo() ) {
             auto &ammo_types = itm.type->ammo->type;
             return ammo_types.find( ammo_type() ) != ammo_types.end();
-        } else if( itm.is_toolmod() ) {
+        } else if( itm.is_toolmod() || itm.is_magazine() ) {
             return true;
         }
         return false;
