@@ -675,5 +675,20 @@
     "bashing": 5,
     "contains": 6,
     "delete": { "qualities": [ [ "COOK", 3 ] ] }
+  },
+  {
+    "id": "cutting_board",
+    "name": "cutting board",
+    "description": "A large flat piece of wood for chopping vegetables on without ruining your knife or your countertop.",
+    "weight": 945,
+    "to_hit": -1,
+    "color": "brown",
+    "symbol": "/",
+    "material": [ "wood" ],
+    "techniques": [ "WBLOCK_2" ],
+    "flags": [ "DURABLE_MELEE" ],
+    "volume": "900 ml",
+    "bashing": 7,
+    "price": 200
   }
 ]
