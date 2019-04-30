@@ -264,7 +264,7 @@ class map
             }
         }
 
-        inline void invalidate_map_cache( const int zlev ) {
+        void invalidate_map_cache( const int zlev ) {
             if( inbounds_z( zlev ) ) {
                 level_cache &ch = get_cache( zlev );
                 ch.floor_cache_dirty = true;
