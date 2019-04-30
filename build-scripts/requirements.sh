@@ -4,15 +4,7 @@ set -e
 
 function just_json
 {
-    if [ -n $TRAVIS_COMMIT_RANGE ]
-    then
-        # If this string is populated, it will work.
-        files_changed="$(git diff --name-only $TRAVIS_COMMIT_RANGE)"
-    else
-        # The only time it isn't populated is on a new PR branch, where THIS will work.
-        files_changed="$(git diff --name-only $TRAVIS_BRANCH)"
-    fi
-    for filename in $files_changed
+    for filename in $(./build-scripts/files_changed)
     do
         if [[ ! "$filename" =~ .json$ ]]
         then

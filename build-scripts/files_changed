@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# Helper script to get the list of changed files for this build.
+# If a PR it lists the changes from the target branch.
+# If a 'regular' branch build the changes since the last build.
+# https://docs.travis-ci.com/user/environment-variables/
+
+if [ -n $TRAVIS_COMMIT_RANGE ]
+then
+    # If this string is populated, it will work.
+    git diff --name-only $TRAVIS_COMMIT_RANGE
+else
+    # The only time it isn't populated is on a new PR branch, where THIS will work.
+    git diff --name-only $TRAVIS_BRANCH
+fi

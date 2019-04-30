@@ -54,9 +54,28 @@ then
 
         cd ..
         ln -s build/compile_commands.json
-        grep '"file": "' build/compile_commands.json | \
-            sed "s+.*$PWD/++;s+\"$++" | shuf | \
-            xargs -P "$num_jobs" -n 1 ./build-scripts/clang-tidy-wrapper.sh
+
+        # We want to first analyze all files that changed in this PR, then as
+        # many others as possible, in a random order.
+        set +x
+        all_cpp_files="$( \
+            grep '"file": "' build/compile_commands.json | \
+            sed "s+.*$PWD/++;s+\"$++")"
+        changed_cpp_files="$( \
+            ./build-scripts/files_changed | grep -F "$all_cpp_files" || true )"
+        remaining_cpp_files="$( \
+            echo "$all_cpp_files" | grep -v -F "$changed_cpp_files" || true )"
+        set -x
+
+        function analyze_files_in_random_order
+        {
+            shuf | xargs -P "$num_jobs" -n 1 ./build-scripts/clang-tidy-wrapper.sh
+        }
+
+        echo "Analyzing changed files"
+        echo "$changed_cpp_files" | analyze_files_in_random_order
+        echo "Analyzing remaining files"
+        echo "$remaining_cpp_files" | analyze_files_in_random_order
     else
         # Regular build
         make -j3
