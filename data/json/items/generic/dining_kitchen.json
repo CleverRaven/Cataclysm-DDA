@@ -1,6 +1,7 @@
 [
   {
     "id": "base_silverware",
+    "type": "GENERIC",
     "symbol": ";",
     "color": "light_gray",
     "price": 100,
@@ -14,6 +15,7 @@
   },
   {
     "id": "base_utensil",
+    "type": "GENERIC",
     "symbol": ";",
     "color": "light_gray",
     "price": 200,
@@ -27,6 +29,7 @@
   },
   {
     "id": "base_plastic_silverware",
+    "type": "GENERIC",
     "symbol": ";",
     "color": "light_gray",
     "price": 10,
@@ -40,6 +43,7 @@
   },
   {
     "id": "base_ceramic_dish",
+    "type": "GENERIC",
     "color": "yellow",
     "price": 1200,
     "price_postapoc": 0,
@@ -51,6 +55,7 @@
   },
   {
     "id": "base_glass_dish",
+    "type": "GENERIC",
     "color": "cyan",
     "price": 1400,
     "price_postapoc": 0,
@@ -62,6 +67,7 @@
   },
   {
     "id": "base_tin_dish",
+    "type": "GENERIC",
     "color": "light_gray",
     "price": 400,
     "price_postapoc": 0,
@@ -73,6 +79,7 @@
   },
   {
     "id": "base_plastic_dish",
+    "type": "GENERIC",
     "color": "light_cyan",
     "price": 400,
     "price_postapoc": 0,
@@ -84,6 +91,7 @@
   },
   {
     "id": "base_cookpot",
+    "type": "GENERIC",
     "symbol": ")",
     "watertight": true,
     "to_hit": 1,
