@@ -485,7 +485,7 @@ void load_soundset()
 {
     Path *path = Path::getInstance();
 
-    const std::string default_path = path->getPathForValueKey("DF_SOUND_DIRE");
+    const std::string default_path = path->getPathForValueKey("DAT_SOUND");
     const std::string default_soundpack = "basic";
     std::string current_soundpack = get_option<std::string>( "SOUNDPACKS" );
     std::string soundpack_path;

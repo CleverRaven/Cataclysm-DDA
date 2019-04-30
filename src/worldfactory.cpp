@@ -260,7 +260,6 @@ void worldfactory::init()
     Path *path = Path::getInstance( );
 
     qualifiers.push_back( path->getPathForValueKey("WORLD_OPTION") );
-    // qualifiers.push_back( FILENAMES["legacy_worldoptions"] );
     qualifiers.push_back( SAVE_MASTER );
 
     all_worlds.clear();

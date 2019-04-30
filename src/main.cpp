@@ -184,7 +184,6 @@ int main( int argc, char *argv[] )
     {
         const char *section_default = nullptr;
         const char *section_map_sharing = "Map sharing";
-        const char *section_user_directory = "User directories";
 
         const std::array<arg_handler, 12> first_pass_arguments = {{
                 {
@@ -344,8 +343,6 @@ int main( int argc, char *argv[] )
                 }
             }
         };
-
-        //Path::toString();
 
         // Process CLI arguments.
         const size_t num_first_pass_arguments =

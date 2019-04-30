@@ -60,7 +60,7 @@ void Path::initUserDirectory( )
 
 void Path::initDataDirectory( )
 {
-    // If the base path is empty (example: ""), it means that the 'data'
+    // If the base path is empty (see: ""), it means that the 'data'
     // directory is at the same level where the application is executed.
     if (pathname["BASE_PATH"].empty())
     {
@@ -128,6 +128,7 @@ Path::Path( std::string basePath, std::string userDirectoryPath )
     pathname["BASE_PATH"] = formatPath(basePath);
     pathname["USER_DIRE"] = formatPath(userDirectoryPath);
 
+    // We set the user directory in case that {userDirectoryPath} is empty.
     initUserDirectory( );
     // We set the directory 'data' and 'gfx' determined by the base path.
     initDataDirectory( );
@@ -138,7 +139,7 @@ Path::Path( std::string basePath, std::string userDirectoryPath )
     pathname["JSON_DIRE"] = pathname["DATA_DIRE"] + "core/";
     pathname["MOD_DIRE"]  = pathname["DATA_DIRE"] + "mods/";
     pathname["NAMES_DIR"] = pathname["DATA_DIRE"] + "names/";
-    pathname["TITLE_DIR"] = pathname["MOD_DIRE"]  + "title/";
+    pathname["TITLE_DIR"] = pathname["DATA_DIRE"] + "title/";
     pathname["MOTD_DIRE"] = pathname["DATA_DIRE"] + "motd/";
     pathname["CREDI_DIR"] = pathname["DATA_DIRE"] + "credits/";
     pathname["COLOR_TEM"] = pathname["RAW_DIRE"]  + "color_templates/";
@@ -159,7 +160,6 @@ Path::Path( std::string basePath, std::string userDirectoryPath )
     pathname["DF_TITLE_PNG"]  = pathname["GFX_DIRE"]  + "tinytile.png";
     pathname["DF_MODS_DEV"]   = pathname["MOD_DIRE"]  + "default.json";
     pathname["MODS_REPLACEM"] = pathname["MOD_DIRE"]  + "replacements.json";
-    pathname["DF_SOUND_DIRE"] = pathname["DATA_DIRE"] + "sound";
     pathname["HELP_FILE"]     = pathname["HELP_DIRE"] + "texts.json";
 
     // User Directories
@@ -188,7 +188,7 @@ Path::Path( std::string basePath, std::string userDirectoryPath )
     pathname["CUST_COLORS"]  = pathname["CONFIG_DIR"] + "custom_colors.json";
     pathname["DF_MODS_USER"] = pathname["CONFIG_DIR"] + "user-default-mods.json";
     pathname["LAST_WORLD"]   = pathname["CONFIG_DIR"] + "lastworld.json";
-    pathname["USER_MOD_DIR"] = pathname["USER_DIRE"] + "mods/";
+    pathname["USER_MOD_DIR"] = pathname["USER_DIRE"]  + "mods/";
     pathname["WORLD_OPTION"] = "worldoptions.json";
 
     // NOTES: Reason for removing pre-processing directives:
@@ -224,9 +224,6 @@ std::string Path::formatPath(std::string path)
 
     return path;
 }
-
-/** Map where we store filenames */
-std::map<std::string, std::string> FILENAMES;
 
 std::string PATH_INFO::find_translated_file( const std::string &pathid,
         const std::string &extension, const std::string &fallbackid )

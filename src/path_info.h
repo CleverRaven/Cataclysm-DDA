@@ -27,6 +27,13 @@ private:
      *
      * The location of the 'data' and 'gfx' directory depends on where the
      * base path is located and the platform on which it is executed.
+     *
+     * Precondition:
+     *      pathname["BASE_PATH"] has been initialized.
+     *
+     * Poscondition:
+     *      pathname["DATA_DIRE"] has been initialized.
+     *      pathname["GFX_DIRE"] has been initialized.
      */
     void initDataDirectory( );
 
@@ -38,12 +45,12 @@ private:
      * Example:
      *
      *      LINUX:
-     *      - "/usr/home/example/"  (God)
-     *      - "/usr/home/example"   (Bad)
+     *      - "/usr/home/example/"  (Accepted)
+     *      - "/usr/home/example"   (Rejected)
      *
      *      WINDOWS:
-     *      - "C:\Programs\Example\"    (God)
-     *      - "C:\Programs\Example"     (Bad)
+     *      - "C:\Programs\Example\"    (Accepted)
+     *      - "C:\Programs\Example"     (Rejected)
      *
      * @brief: The method adds '/' at the end of the route if necessary.
      *
@@ -54,6 +61,22 @@ private:
 
 public:
 
+    /*
+     * @brief: Sets the path to the user directory,
+     * IF IT HAS NOT BEEN previously set.
+     *
+     * If the path to the user directory
+     * has not been previously initialized
+     * (see, when invoking the object for the first time)
+     * the method will set it automatically and by default.
+     *
+     * Notes:
+     *      1) The path to the user directory for UNIX systems is HOME.
+     *      2) The path to the user directory for WINDOWS systems is APPDATA.
+     *
+     * Poscondition:
+     *      pathname["USER_DIRE"] has been initialized.
+     */
     void initUserDirectory( );
 
     /*
@@ -67,6 +90,9 @@ public:
 
     /*
      * Static access method.
+     *
+     * Precondition:
+     *      The method { getInstance( string, string ) } has been called.
      */
     static Path *getInstance();
 
@@ -78,8 +104,6 @@ public:
 
     void toString();
 };
-
-extern std::map<std::string, std::string> FILENAMES;
 
 namespace PATH_INFO
 {
