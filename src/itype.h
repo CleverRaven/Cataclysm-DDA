@@ -646,9 +646,6 @@ struct islot_ammo : common_ranged_data {
      * Type id of casings, if any.
      */
     cata::optional<itype_id> casing;
-    /**
-     * Default charges.
-     */
 
     /**
      * Control chance for and state of any items dropped at ranged target
@@ -660,7 +657,11 @@ struct islot_ammo : common_ranged_data {
     bool drop_active = true;
     /*@}*/
 
+    /**
+     * Default charges.
+     */
     long def_charges = 1;
+
     /**
      * TODO: document me.
      */
@@ -693,6 +694,12 @@ struct islot_ammo : common_ranged_data {
      * damage of the gun by this value.
      */
     cata::optional<float> prop_damage;
+
+    /**
+     * Some combat ammo might not have a damage or prop_damage value
+     * Set this to make it show as combat ammo anyway
+     */
+    cata::optional<bool> force_stat_display;
 };
 
 struct islot_bionic {
