@@ -134,6 +134,7 @@
     "type": "CONTAINER",
     "category": "other",
     "name": "zipper bag",
+    "looks_like": "bag_plastic",
     "description": "An inexpensive flexible rectangular storage bag on its typical small size.  Transparent and made of plastic, it can be sealed and opened by a slider which works in a similar way to a zip fastener.",
     "weight": 2,
     "volume": 0,
