@@ -3,6 +3,7 @@
 
 import json
 import os
+import itertools
 import subprocess
 from optparse import OptionParser
 from sys import platform
@@ -180,6 +181,12 @@ needs_plural = {
 use_format_strings = {
     "technique",
 }
+
+# For handling grammatical gender
+all_genders = ["f", "m", "n"]
+
+def gender_options(subject):
+    return [subject + ":" + g for g in all_genders]
 
 ##
 ##  SPECIALIZED EXTRACTION FUNCTIONS
@@ -492,6 +499,14 @@ def extract_recipe_group(item):
         for i in item.get("recipes"):
             writestr(outfile, i.get("description"))
 
+def extract_gendered_dynamic_line_optional(line, outfile):
+    if "gendered_line" in line:
+        msg = line["gendered_line"]
+        subjects = line["relevant_genders"]
+        options = [gender_options(subject) for subject in subjects]
+        for context_list in itertools.product(*options):
+            context = " ".join(context_list)
+            writestr(outfile, msg, context=context)
 
 def extract_dynamic_line_optional(line, member, outfile):
     if member in line:
@@ -502,6 +517,7 @@ def extract_dynamic_line(line, outfile):
         for l in line:
             extract_dynamic_line(l, outfile)
     elif type(line) == dict:
+        extract_gendered_dynamic_line_optional(line, outfile)
         extract_dynamic_line_optional(line, "u_male", outfile)
         extract_dynamic_line_optional(line, "u_female", outfile)
         extract_dynamic_line_optional(line, "npc_male", outfile)

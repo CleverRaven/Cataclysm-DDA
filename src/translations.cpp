@@ -20,6 +20,7 @@
 
 #include "json.h"
 #include "name.h"
+#include "output.h"
 #include "path_info.h"
 #include "cursesdef.h"
 
@@ -87,6 +88,40 @@ const char *npgettext( const char *const context, const char *const msgid,
     } else {
         return translation;
     }
+}
+
+std::string gettext_gendered( const GenderMap &genders, const std::string &msg )
+{
+    //~ Space-separated list of grammatical genders. Default should be first.
+    //~ Use short names and try to be consistent between languages as far as
+    //~ possible.  Current choices are m (male), f (female), n (neuter).
+    //~ As appropriate we might add e.g. a (animate) or c (common).
+    //~ New genders must be added to all_genders in lang/extract_json_strings.py
+    //~ The primary purpose of this is for NPC dialogue which might depend on
+    //~ gender.  Only add genders to the extent needed by such translations.
+    //~ They are likely only needed if they affect the first and second
+    //~ person.  For example, one gender suffices for English even though
+    //~ third person pronouns differ.
+    std::string language_genders_s = pgettext( "grammatical gender list", "n" );
+    std::vector<std::string> language_genders = string_split( language_genders_s, ' ' );
+    if( language_genders.empty() ) {
+        language_genders.push_back( "n" );
+    }
+
+    std::vector<std::string> chosen_genders;
+    for( const auto &subject_genders : genders ) {
+        std::string chosen_gender = language_genders[0]; // default if no match
+        for( const std::string &gender : subject_genders.second ) {
+            if( std::find( language_genders.begin(), language_genders.end(), gender ) !=
+                language_genders.end() ) {
+                chosen_gender = gender;
+                break;
+            }
+        }
+        chosen_genders.push_back( subject_genders.first + ":" + chosen_gender );
+    }
+    std::string context = join( chosen_genders, " " );
+    return pgettext( context.c_str(), msg.c_str() );
 }
 
 bool isValidLanguage( const std::string &lang )

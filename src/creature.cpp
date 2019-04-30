@@ -83,6 +83,12 @@ Creature::Creature()
 
 Creature::~Creature() = default;
 
+std::vector<std::string> Creature::get_grammatical_genders() const
+{
+    // Returning empty list means we use the language-specified default
+    return {};
+}
+
 void Creature::normalize()
 {
 }

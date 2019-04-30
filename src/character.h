@@ -694,6 +694,8 @@ class Character : public Creature, public visitable<Character>
 
         std::string get_name() const override;
 
+        std::vector<std::string> get_grammatical_genders() const override;
+
         /**
          * It is supposed to hide the query_yn to simplify player vs. npc code.
          */

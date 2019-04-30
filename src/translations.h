@@ -2,7 +2,9 @@
 #ifndef TRANSLATIONS_H
 #define TRANSLATIONS_H
 
+#include <map>
 #include <string>
+#include <vector>
 
 #include "optional.h"
 
@@ -73,6 +75,21 @@ const char *npgettext( const char *context, const char *msgid, const char *msgid
 #define npgettext(STRING0, STRING1, STRING2, COUNT) ngettext(STRING1, STRING2, COUNT)
 
 #endif // LOCALIZE
+
+using GenderMap = std::map<std::string, std::vector<std::string>>;
+/**
+ * Translation with a gendered context
+ *
+ * Similar to pgettext, but the context is a collection of genders.
+ * @param genders A map where each key is a subject name (a string which should
+ * make sense to the translator in the context of the line to be translated)
+ * and the corresponding value is a list of potential genders for that subject.
+ * The first gender from the list of genders for the current language will be
+ * chosen for each subject (or the language default if there are no genders in
+ * common).
+ */
+std::string gettext_gendered( const GenderMap &genders, const std::string &msg );
+
 bool isValidLanguage( const std::string &lang );
 std::string getLangFromLCID( const int &lcid );
 void select_language();

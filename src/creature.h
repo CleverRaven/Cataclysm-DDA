@@ -80,6 +80,8 @@ class Creature
         virtual std::string disp_name( bool possessive = false ) const = 0; // displayname for Creature
         virtual std::string skin_name() const = 0; // name of outer layer, e.g. "armor plates"
 
+        virtual std::vector<std::string> get_grammatical_genders() const;
+
         virtual bool is_player() const {
             return false;
         }
