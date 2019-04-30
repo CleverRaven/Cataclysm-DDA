@@ -3,7 +3,6 @@
     "id": "base_kitchen_knife",
     "name": "generic kitchen knife",
     "type": "TOOL",
-    "category": "weapons",
     "material": "steel",
     "symbol": ";",
     "color": "light_gray"
