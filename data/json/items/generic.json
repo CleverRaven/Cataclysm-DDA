@@ -896,6 +896,29 @@
   },
   {
     "type": "GENERIC",
+    "id": "broken_nursebot",
+    "symbol": ",",
+    "color": "dark_gray",
+    "name": "broken nurse bot",
+    "category": "other",
+    "description": "A broken nurse bot.  It's smooth face staring vacantly into empty space.  Could be gutted for parts.",
+    "price": 30000,
+    "price_postapoc": 1000,
+    "material": [ "steel", "plastic" ],
+    "weight": 140000,
+    "volume": 250,
+    "bashing": 6,
+    "cutting": 6,
+    "to_hit": -3,
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_nursebot_defective",
+    "copy-from": "broken_nursebot"
+  },
+  {
+    "type": "GENERIC",
     "id": "broken_riotbot",
     "symbol": ",",
     "color": "green",

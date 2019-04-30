@@ -1081,7 +1081,7 @@
     "flags": [ "SEES", "ELECTRONIC", "NO_BREATHE", "FIREPROOF", "PUSH_MON", "HEARS" ]
   },
   {
-    "id": "mon_defective_nursebot",
+    "id": "mon_nursebot_defective",
     "type": "MONSTER",
     "name": "nurse bot",
     "description": "",
