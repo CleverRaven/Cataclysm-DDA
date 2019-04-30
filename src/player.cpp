@@ -381,6 +381,7 @@ static const trait_id trait_RADIOACTIVE3( "RADIOACTIVE3" );
 static const trait_id trait_RADIOGENIC( "RADIOGENIC" );
 static const trait_id trait_REGEN( "REGEN" );
 static const trait_id trait_REGEN_LIZ( "REGEN_LIZ" );
+static const trait_id trait_HAIRROOTS( "HAIRROOTS" );
 static const trait_id trait_ROOTS2( "ROOTS2" );
 static const trait_id trait_ROOTS3( "ROOTS3" );
 static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
@@ -4619,9 +4620,12 @@ needs_rates player::calc_needs_rates()
 
     if( has_activity( activity_id( "ACT_TREE_COMMUNION" ) ) ) {
         // Much of the body's needs are taken care of by the trees.
-        rates.hunger *= 0.5f;
-        rates.thirst *= 0.5f;
-        rates.fatigue *= 0.5f;
+        // Hair Roots dont provide any bodily needs.
+        if( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) ) {
+            rates.hunger *= 0.5f;
+            rates.thirst *= 0.5f;
+            rates.fatigue *= 0.5f;
+        }
     }
 
     if( is_npc() ) {
@@ -12963,10 +12967,11 @@ std::pair<std::string, nc_color> player::get_hunger_description() const
         } else if( recently_ate && contains > cap * 3 / 8 ) {
             hunger_string = _( "Full" );
             hunger_color = c_green;
-        } else if( ( stomach.time_since_ate() > 90_minutes && contains < cap / 8 ) ) {
+        } else if( ( stomach.time_since_ate() > 90_minutes && contains < cap / 8 ) || ( just_ate &&
+                   contains > 0_ml && contains < cap * 3 / 8 ) ) {
             hunger_string = _( "Peckish" );
             hunger_color = c_dark_gray;
-        } else if( ( !just_ate && recently_ate ) ) {
+        } else if( !just_ate && ( recently_ate || contains > 0_ml ) ) {
             hunger_string = "";
         } else {
             hunger_string = _( "Hungry" );

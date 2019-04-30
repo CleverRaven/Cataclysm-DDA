@@ -572,6 +572,17 @@ bool can_examine_at( const tripoint &p )
     return tr.can_see( p, g->u );
 }
 
+bool can_pickup_at( const tripoint &p )
+{
+    bool veh_has_items = false;
+    const optional_vpart_position vp = g->m.veh_at( p );
+    if( vp ) {
+        const int cargo_part = vp->vehicle().part_with_feature( vp->part_index(), "CARGO", false );
+        veh_has_items = cargo_part >= 0 && !vp->vehicle().get_items( cargo_part ).empty();
+    }
+    return g->m.has_items( p ) || veh_has_items;
+}
+
 bool can_interact_at( action_id action, const tripoint &p )
 {
     switch( action ) {
@@ -593,7 +604,7 @@ bool can_interact_at( action_id action, const tripoint &p )
         case ACTION_EXAMINE:
             return can_examine_at( p );
         case ACTION_PICKUP:
-            return g->m.has_items( p );
+            return can_pickup_at( p );
         default:
             return false;
     }

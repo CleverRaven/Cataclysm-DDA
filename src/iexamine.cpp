@@ -1247,30 +1247,13 @@ void iexamine::bulletin_board( player &p, const tripoint &examp )
         basecamp *temp_camp = *bcp;
         temp_camp->validate_assignees();
         temp_camp->validate_sort_points();
-        if( temp_camp->get_dumping_spot() == tripoint_zero ) {
-            auto &mgr = zone_manager::get_manager();
-            if( g->m.check_vehicle_zones( g->get_levz() ) ) {
-                mgr.cache_vzones();
-            }
-            tripoint src_loc;
-            const auto abspos = g->m.getabs( p.pos() );
-            if( mgr.has_near( z_loot_unsorted, abspos ) ) {
-                const auto &src_set = mgr.get_near( z_loot_unsorted, abspos );
-                const auto &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
-                // Find the nearest unsorted zone to dump objects at
-                for( auto &src : src_sorted ) {
-                    src_loc = g->m.getlocal( src );
-                    break;
-                }
-            }
-            temp_camp->set_dumping_spot( g->m.getabs( src_loc ) );
-        }
+
         const std::string title = ( "Base Missions" );
         mission_data mission_key;
-        temp_camp->get_available_missions( mission_key, omt_tri, false );
-        if( talk_function::display_and_choose_opts( mission_key, temp_camp->camp_omt_pos(), "FACTION_CAMP",
-                title ) ) {
-            temp_camp->handle_mission( mission_key.cur_key.id, mission_key.cur_key.dir, omt_tri, false );
+        temp_camp->get_available_missions( mission_key, false );
+        if( talk_function::display_and_choose_opts( mission_key, temp_camp->camp_omt_pos(),
+                "FACTION_CAMP", title ) ) {
+            temp_camp->handle_mission( mission_key.cur_key.id, mission_key.cur_key.dir, false );
         }
     } else {
         p.add_msg_if_player( _( "This bulletin board is not inside a camp" ) );
@@ -4263,7 +4246,7 @@ void mill_activate( player &p, const tripoint &examp )
     for( auto &it : g->m.i_at( examp ) ) {
         if( it.has_flag( "MILLABLE" ) ) {
             // Do one final rot check before milling, then apply the PROCESSING flag to prevent further checks.
-            it.calc_rot( examp );
+            it.process_temperature_rot( g->get_temperature( examp ), 1, examp, nullptr );
             it.set_flag( "PROCESSING" );
         }
     }
@@ -4355,8 +4338,7 @@ void smoker_activate( player &p, const tripoint &examp )
     p.use_charges( "fire", 1 );
     for( auto &it : g->m.i_at( examp ) ) {
         if( it.has_flag( "SMOKABLE" ) ) {
-            // Do one final rot check before smoking, then apply the PROCESSING flag to prevent further checks.
-            it.calc_rot( examp );
+            it.process_temperature_rot( g->get_temperature( examp ), 1, examp, nullptr );
             it.set_flag( "PROCESSING" );
         }
     }
@@ -4395,7 +4377,7 @@ void iexamine::mill_finalize( player &, const tripoint &examp, const time_point 
 
     for( auto &it : items ) {
         if( it.has_flag( "MILLABLE" ) ) {
-            it.calc_rot_while_processing( examp, 6_hours );
+            it.calc_rot_while_processing( 6_hours );
         }
     }
     for( size_t i = 0; i < items.size(); i++ ) {
@@ -4432,7 +4414,7 @@ void smoker_finalize( player &, const tripoint &examp, const time_point &start_t
 
     for( auto &it : items ) {
         if( it.has_flag( "SMOKABLE" ) ) { // Don't check charcoal
-            it.calc_rot_while_processing( examp, 6_hours );
+            it.calc_rot_while_processing( 6_hours );
         }
     }
 

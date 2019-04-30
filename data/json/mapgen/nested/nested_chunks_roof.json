@@ -264,5 +264,39 @@
         { "furn": "f_water_purifier", "x": 1, "y": 1 }
       ]
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "roof_6x6_survivor",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "..AA..",
+        "......",
+        "..a...",
+        ".o..o.",
+        "......",
+        "....A."
+      ],
+      "set": [
+        { "point": "trap", "id": "tr_funnel", "x": 0, "y": 0 },
+        { "point": "trap", "id": "tr_cot", "x": 5, "y": 5 },
+        { "point": "trap", "id": "tr_cot", "x": 3, "y": 5 }
+      ],
+      "terrain": { ".": "t_null" },
+      "furniture": { "o": "f_camp_chair", "a": "f_brazier", "A": "f_tourist_table" },
+      "place_loot": [
+        { "group": "cannedfood", "x": [ 2, 3 ], "y": 0, "repeat": [ 2, 3 ] },
+        { "group": "camping", "x": [ 0, 5 ], "y": [ 0, 3 ], "chance": 50, "repeat": [ 2, 3 ] },
+        { "group": "stash_wood", "x": 1, "y": 2, "repeat": [ 2, 3 ] },
+        { "group": "bed", "x": 5, "y": 5, "chance": 50, "repeat": [ 1, 2 ] },
+        { "group": "bed", "x": 3, "y": 5, "chance": 50, "repeat": [ 1, 2 ] },
+        { "item": "jug_plastic", "x": 0, "y": 0 },
+        { "item": "can_drink_unsealed", "x": [ 0, 5 ], "y": [ 0, 5 ], "chance": 30, "repeat": [ 2, 3 ] },
+        { "item": "can_food_unsealed", "x": [ 0, 5 ], "y": [ 0, 5 ], "chance": 40, "repeat": [ 2, 3 ] }
+      ]
+    }
   }
 ]

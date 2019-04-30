@@ -3080,5 +3080,19 @@
     "weight": 5000,
     "volume": 20,
     "bashing": 8
+  },
+  {
+    "type": "GENERIC",
+    "id": "welding_components",
+    "category": "spare_parts",
+    "material": "steel",
+    "symbol": ";",
+    "color": "red",
+    "name": "welding component kit",
+    "description": "A set of components useful for constructing a full-featured welding station, complete with soldering capability.",
+    "price": 9000,
+    "weight": 4500,
+    "volume": 12,
+    "bashing": 8
   }
 ]

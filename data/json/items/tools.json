@@ -4709,7 +4709,7 @@
     "color": "dark_gray",
     "qualities": [ [ "DIG", 2 ], [ "AXE", 1 ], [ "CUT", 1 ], [ "BUTCHER", -11 ], [ "COOK", 1 ] ],
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
-    "flags": [ "NEEDS_UNFOLD" ]
+    "flags": [ "NEEDS_UNFOLD", "BELT_CLIP" ]
   },
   {
     "id": "machete",
@@ -7348,9 +7348,10 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "magenta",
-    "charges_per_use": 25,
-    "use_action": "TELEPORT",
-    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ]
+    "initial_charges": 20,
+    "max_charges": 20,
+    "charges_per_use": 1,
+    "use_action": "TELEPORT"
   },
   {
     "id": "teleumbrella",

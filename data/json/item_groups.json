@@ -6057,6 +6057,8 @@
   {
     "type": "item_group",
     "id": "mine_equipment",
+    "ammo": 80,
+    "magazine": 100,
     "items": [
       [ "water_clean", 90 ],
       [ "1st_aid", 35 ],
