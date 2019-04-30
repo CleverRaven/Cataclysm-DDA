@@ -57,7 +57,7 @@ const species_id BLOB( "BLOB" );
 const species_id ROBOT( "ROBOT" );
 const species_id WORM( "WORM" );
 
-const mtype_id mon_defective_robot_nurse( "mon_defective_nursebot" );
+const mtype_id mon_defective_robot_nurse( "mon_nursebot_defective" );
 
 bool monster::wander()
 {
