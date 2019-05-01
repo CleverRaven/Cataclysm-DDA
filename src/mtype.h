@@ -270,6 +270,8 @@ struct mtype {
         int melee_dice = 0;     /** number of dice of bonus bashing damage on melee hit */
         int melee_sides = 0;    /** number of sides those dice have */
 
+        int grab_strength = 1;    /**intensity of the effect_grabbed applied*/
+
         int sk_dodge = 0;       /** dodge skill */
 
         /** If unset (-1) then values are calculated automatically from other properties */

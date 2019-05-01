@@ -632,6 +632,8 @@ void mtype::load( JsonObject &jo, const std::string &src )
     assign( jo, "melee_dice", melee_dice, strict, 0 );
     assign( jo, "melee_dice_sides", melee_sides, strict, 0 );
 
+    assign( jo, "grab_strength", grab_strength, strict, 0 );
+
     assign( jo, "dodge", sk_dodge, strict, 0 );
     assign( jo, "armor_bash", armor_bash, strict, 0 );
     assign( jo, "armor_cut", armor_cut, strict, 0 );
