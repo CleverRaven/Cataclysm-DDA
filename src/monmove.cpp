@@ -589,6 +589,8 @@ void monster::move()
                 g->u.uninstall_bionic( target_cbm, *this, *dragged_foe, adjusted_skill );
 
                 dragged_foe->remove_effect( effect_grabbed );
+                remove_effect( effect_dragging );
+                dragged_foe = nullptr;
                 anger = 0;
             }
         }
