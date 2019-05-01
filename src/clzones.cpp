@@ -803,6 +803,41 @@ void zone_manager::swap( zone_data &a, zone_data &b )
     std::swap( a, b );
 }
 
+void zone_manager::rotate_zones( map &target_map, const int turns )
+{
+    if( turns == 0 ) {
+        return;
+    }
+    const tripoint a_start = target_map.getabs( tripoint( 0, 0, 0 ) );
+    const tripoint a_end = target_map.getabs( tripoint( 23, 23, 0 ) );
+    const point dim( 24, 24 );
+    for( zone_data &zone : zones ) {
+        const tripoint z_start = zone.get_start_point();
+        const tripoint z_end = zone.get_end_point();
+        if( ( a_start.x <= z_start.x && a_start.y <= z_start.y ) &&
+            ( a_end.x > z_start.x && a_end.y >= z_start.y ) &&
+            ( a_start.x <= z_end.x && a_start.y <= z_end.y ) &&
+            ( a_end.x >= z_end.x && a_end.y >= z_end.y ) ) {
+            tripoint z_l_start3 = target_map.getlocal( z_start );
+            tripoint z_l_end3 = target_map.getlocal( z_end );
+            // don't rotate centered squares
+            if( z_l_start3.x == z_l_start3.y && z_l_end3.x == z_l_end3.y &&
+                ( z_l_start3.x + z_l_end3.x ) == 23 ) {
+                continue;
+            }
+            point z_l_start = point( z_l_start3.x, z_l_start3.y ).rotate( turns, dim );
+            point z_l_end = point( z_l_end3.x, z_l_end3.y ).rotate( turns, dim );
+            point new_z_start = target_map.getabs( z_l_start );
+            point new_z_end = target_map.getabs( z_l_end );
+            tripoint first = tripoint( std::min( new_z_start.x, new_z_end.x ),
+                                       std::min( new_z_start.y, new_z_end.y ), a_start.z );
+            tripoint second = tripoint( std::max( new_z_start.x, new_z_end.x ),
+                                        std::max( new_z_start.y, new_z_end.y ), a_end.z );
+            zone.set_position( std::make_pair( first, second ), false );
+        }
+    }
+}
+
 void zone_manager::start_sort( const std::vector<tripoint> &src_sorted )
 {
     for( auto &src : src_sorted ) {

@@ -21,6 +21,7 @@ class JsonOut;
 class JsonObject;
 class item;
 class faction;
+class map;
 
 using faction_id = string_id<faction>;
 const faction_id your_fac( "your_followers" );
@@ -318,6 +319,7 @@ class zone_manager
         cata::optional<std::string> query_name( const std::string &default_name = "" ) const;
         cata::optional<zone_type_id> query_type() const;
         void swap( zone_data &a, zone_data &b );
+        void rotate_zones( map &target_map, const int turns );
 
         void start_sort( const std::vector<tripoint> &src_sorted );
         void end_sort();
