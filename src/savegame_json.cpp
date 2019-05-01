@@ -2987,7 +2987,7 @@ void basecamp::serialize( JsonOut &json ) const
         json.member( "pos", omt_pos );
         json.member( "bb_pos", bb_pos );
         json.member( "expansions" );
-        json.member( "fortifications");
+        json.member( "fortifications" );
         json.start_array();
         for( const auto &expansion : expansions ) {
             json.start_object();
