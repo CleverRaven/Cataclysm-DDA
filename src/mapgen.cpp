@@ -8615,6 +8615,7 @@ bool update_mapgen_function_json::update_map( const tripoint &omt_pos, int offse
 
     update_map.save();
     g->load_npcs();
+    g->m.invalidate_map_cache( omt_pos.z );
     g->refresh_all();
     return true;
 }

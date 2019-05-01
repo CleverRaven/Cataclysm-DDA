@@ -28,6 +28,7 @@ void wipe_map_terrain()
     for( wrapped_vehicle &veh : g->m.get_vehicles() ) {
         g->m.destroy_vehicle( veh.v );
     }
+    g->m.invalidate_map_cache( 0 );
     g->m.build_map_cache( 0, true );
 }
 
