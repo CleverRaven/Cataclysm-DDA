@@ -83,6 +83,7 @@ const mtype_id mon_breather_hub( "mon_breather_hub" );
 const mtype_id mon_creeper_hub( "mon_creeper_hub" );
 const mtype_id mon_creeper_vine( "mon_creeper_vine" );
 const mtype_id mon_dermatik( "mon_dermatik" );
+const mtype_id mon_defective_robot_nurse( "mon_nursebot_defective" );
 const mtype_id mon_fungal_hedgerow( "mon_fungal_hedgerow" );
 const mtype_id mon_fungaloid( "mon_fungaloid" );
 const mtype_id mon_fungaloid_young( "mon_fungaloid_young" );
@@ -2571,7 +2572,8 @@ bool mattack::grab( monster *z )
     }
 
     const int prev_effect = target->get_effect_int( effect_grabbed );
-    target->add_effect( effect_grabbed, 2_turns, bp_torso, false, prev_effect + z->get_grab_strength() );
+    target->add_effect( effect_grabbed, 2_turns, bp_torso, false,
+                        prev_effect + z->get_grab_strength() );
     target->add_msg_player_or_npc( m_bad, _( "The %s grabs you!" ), _( "The %s grabs <npcname>!" ),
                                    z->name() );
 
@@ -2790,7 +2792,27 @@ bool mattack::nurse_operate( monster *z )
             return false;
         }
         z->set_dest( target->pos() );// should designate target as the attack_target
-        grab( z );
+        if( target->has_effect( effect_grabbed ) ) {
+            for( auto critter : g->m.get_creatures_in_radius( target->pos(), 1 ) ) {
+                monster *kinbot = dynamic_cast<monster *>( critter );
+                if( kinbot->type->id != mon_defective_robot_nurse ) {
+                    sounds::sound( z->pos(), 8, sounds::sound_t::speech,
+                                   string_format(
+                                       _( "a soft robotic voice says, \"Unhand this patient immediatly! If you keep interfering with the procedure I'll be forced to call law enforcement.\"" ) ) );
+                    z->push_to( kinbot->pos(), 6, 0 );// try to push the perpetrator away
+                } else {
+                    sounds::sound( z->pos(), 8, sounds::sound_t::speech,
+                                   string_format(
+                                       _( "a soft robotic voice says, \"Greetings kinbot. Please take good care of this patient.\"" ) ) );
+                    return false; // situation is under control no need to intervene;
+                }
+
+            }
+        } else {
+            grab( z );
+        }
+
+
         if( target->has_effect( effect_grabbed ) ) {
             z->dragged_foe = target;
             z->add_effect( effect_dragging, 1_turns, num_bp, true );
