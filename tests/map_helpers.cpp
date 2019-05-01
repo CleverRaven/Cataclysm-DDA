@@ -73,12 +73,9 @@ void clear_map()
     for( int z = -2; z <= 0; ++z ) {
         clear_fields( z );
     }
-    // Remove NPCs before vehicles otherwise you get unboarding errors
-    // TODO: Fixc vehicle detaching so that it removes boarded NPCs first, so
-    // that this is not a problem.
+    wipe_map_terrain();
     clear_npcs();
     clear_creatures();
-    wipe_map_terrain();
     g->m.clear_traps();
 }
 
