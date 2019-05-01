@@ -75,9 +75,9 @@ void clear_map()
         clear_fields( z );
     }
     wipe_map_terrain();
-    g->m.clear_traps();
     clear_npcs();
     clear_creatures();
+    g->m.clear_traps();
 }
 
 void clear_map_and_put_player_underground()
