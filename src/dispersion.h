@@ -32,6 +32,7 @@ class dispersion_sources
         double roll() const;
         double max() const;
         double avg() const;
+        double stdev() const;
 
         friend std::ostream &operator<<( std::ostream &stream, const dispersion_sources &sources );
 };

@@ -117,9 +117,8 @@ double Creature::ranged_target_size() const
 
 int range_with_even_chance_of_good_hit( int dispersion )
 {
-    // TODO: update table, this can be radically simplified now
     // Empirically determined by "synthetic_range_test" in tests/ranged_balance.cpp.
-    static const std::array<int, 59> dispersion_for_even_chance_of_good_hit = {{
+    /* static const std::array<int, 59> dispersion_for_even_chance_of_good_hit = {{
             1731, 859, 573, 421, 341, 286, 245, 214, 191, 175,
             151, 143, 129, 118, 114, 107, 101, 94, 90, 78,
             78, 78, 74, 71, 68, 66, 62, 61, 59, 57,
@@ -127,7 +126,24 @@ int range_with_even_chance_of_good_hit( int dispersion )
             41, 41, 39, 39, 38, 37, 36, 35, 34, 34,
             33, 33, 32, 30, 30, 30, 30, 29, 28
         }
+    }; */
+    // now that dispersion is a true normal distribution, this table can be
+    // calculated directly. This table assumes the target is a normal size mob,
+    // so the shot must be within 0.25 tiles of the target for a hit. The
+    //maximum angle to still hit a target at distance "d" is:
+    // max_angle_in_radians = atan( 0.25 / d )
+    // max_dispersion = max_angle_in_radians * 180 * 60 / (pi * 0.674 )
+    // 0.674 is from a z-table for a normal distribution
+   static const std::array<int, 59> dispersion_for_even_chance_of_good_hit = {{
+            1250, 634, 424, 318, 255, 212, 182, 159, 142, 127,
+            116, 106, 98, 91, 85, 80, 75, 71, 67, 64,
+            61, 58, 55, 53, 51, 49, 47, 46, 44, 43,
+            41, 40, 39, 38, 36, 35, 34, 34, 33, 32,
+            31, 30, 30, 29, 28, 28, 27, 27, 26, 26,
+            25, 25, 24, 24, 23, 23, 22, 22, 22
+        }
     };
+
     int even_chance_range = 0;
     while( static_cast<unsigned>( even_chance_range ) <
            dispersion_for_even_chance_of_good_hit.size() &&
@@ -758,16 +774,14 @@ static int print_steadiness( const catacurses::window &w, int line_number, doubl
 static double confidence_estimate( int range, double target_size,
                                    const dispersion_sources &dispersion )
 {
-    // This is a rough estimate of accuracy based on a linear distribution across min and max
-    // dispersion.  It is highly inaccurate probability-wise, but this is intentional, the player
-    // is not doing Gaussian integration in their head while aiming.  The result gives the player
-    // correct relative measures of chance to hit, and corresponds with the actual distribution at
-    // min, max, and mean.
-    if( range == 0 ) {
+    // 5/1/2019 - Updated to reflect normal distribution changes.
+    if( range == 0 ) { // does this ever happen?
         return 2 * target_size;
     }
-    const double max_lateral_offset = iso_tangent( range, dispersion.max() );
-    return 1 / ( max_lateral_offset / target_size );
+    // dispersion is the stdev of the distribution. Convert to units of tiles:
+    const double stdev_tiles = iso_tangent( range, dispersion.stdev() );
+    // CDF from https://en.wikipedia.org/wiki/Half-normal_distribution
+    return erf( target_size * 0.5 / ( stdev_tiles * sqrt(2) ) );
 }
 
 static std::vector<aim_type> get_default_aim_type()
@@ -911,7 +925,7 @@ static int print_aim( const player &p, const catacurses::window &w, int line_num
     // Dodge doesn't affect gun attacks
 
     dispersion_sources dispersion = p.get_weapon_dispersion( *weapon );
-    dispersion.add_range( p.recoil_vehicle() );
+    dispersion.add_normal( p.recoil_vehicle() );
 
     const double min_dispersion = p.effective_dispersion( p.weapon.sight_dispersion() );
     const double steadiness_range = MAX_RECOIL - min_dispersion;

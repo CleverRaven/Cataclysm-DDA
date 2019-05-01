@@ -59,3 +59,12 @@ double dispersion_sources::avg() const
     return sum;
 }
 
+double dispersion_sources::stdev() const
+{
+    // returns the sum of all normal_sources
+    double sum = 0.0;
+    for( const double &source : normal_sources ) {
+        sum += source;
+    }
+    return sum;
+}
