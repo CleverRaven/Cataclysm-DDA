@@ -8777,14 +8777,14 @@
     "symbol": ",",
     "color": "light_gray",
     "ammo": "tinder",
-    "max_charges": 50,
+    "max_charges": 100,
     "charges_per_use": 25,
     "use_action": [
       {
         "target": "hobo_stove_on",
         "msg": "The hobo stove is lit.",
         "need_fire": 1,
-        "need_fire_msg": "You need a lighter!",
+        "need_fire_msg": "You need a source of fire!",
         "active": false,
         "menu_text": "Light",
         "type": "transform"
@@ -8806,11 +8806,10 @@
     "symbol": ",",
     "color": "light_gray",
     "ammo": "tinder",
-    "max_charges": 50,
+    "max_charges": 100,
     "charges_per_use": 25,
     "turns_per_charge": 300,
     "revert_to": "hobo_stove",
-    "qualities": [ [ "BOIL", 1 ] ],
     "use_action": [
       { "type": "HOTPLATE", "moves": 60, "msg": "You heat up the food.", "menu_text": "Heat up food" },
       {

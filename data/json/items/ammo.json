@@ -1177,9 +1177,6 @@
     "color": "brown",
     "count": 50,
     "ammo_type": "tinder",
-    "range": 0,
-    "damage": 0,
-    "dispersion": 0,
     "effects": [ "NEVER_MISFIRES" ]
   }
 ]
