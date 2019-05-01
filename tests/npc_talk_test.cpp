@@ -16,6 +16,7 @@
 #include "npc.h"
 #include "overmapbuffer.h"
 #include "player.h"
+#include "player_helpers.h"
 #include "character.h"
 #include "enums.h"
 #include "inventory.h"
@@ -80,6 +81,7 @@ void change_om_type( const std::string &new_type )
 
 TEST_CASE( "npc_talk_test" )
 {
+    clear_player();
     const tripoint test_origin( 15, 15, 0 );
     g->u.setpos( test_origin );
 

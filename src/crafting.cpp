@@ -847,10 +847,10 @@ void player::craft_skill_gain( const item &craft, const int &multiplier )
                 helper->practice( making.skill_used,
                                   divide_roll_remainder( base_practice, 2.0 ),
                                   skill_cap );
-                if( batch_size > 1 ) {
+                if( batch_size > 1 && one_in( 3 ) ) {
                     add_msg( m_info, _( "%s assists with crafting..." ), helper->name );
                 }
-                if( batch_size == 1 ) {
+                if( batch_size == 1 && one_in( 3 ) ) {
                     add_msg( m_info, _( "%s could assist you with a batch..." ), helper->name );
                 }
                 // NPCs around you understand the skill used better
@@ -858,7 +858,9 @@ void player::craft_skill_gain( const item &craft, const int &multiplier )
                 helper->practice( making.skill_used,
                                   divide_roll_remainder( base_practice, 10.0 ),
                                   skill_cap );
-                add_msg( m_info, _( "%s watches you craft..." ), helper->name );
+                if( one_in( 3 ) ) {
+                    add_msg( m_info, _( "%s watches you craft..." ), helper->name );
+                }
             }
         }
     }

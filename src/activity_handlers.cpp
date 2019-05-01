@@ -2004,6 +2004,7 @@ void activity_handlers::vehicle_finish( player_activity *act, player *p )
                   act->values.size() );
     } else {
         if( vp ) {
+            g->m.invalidate_map_cache( g->get_levz() );
             g->refresh_all();
             // TODO: Z (and also where the activity is queued)
             // Or not, because the vehicle coordinates are dropped anyway
@@ -2562,6 +2563,7 @@ void activity_handlers::meditate_finish( player_activity *act, player *p )
 void activity_handlers::aim_do_turn( player_activity *act, player * )
 {
     if( act->index == 0 ) {
+        g->m.invalidate_map_cache( g->get_levz() );
         g->m.build_map_cache( g->get_levz() );
         g->plfire();
     }
@@ -2757,7 +2759,9 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
 
     // Skill is gained after every 5% progress
     const int skill_steps = craft->item_counter / 500000 - old_counter / 500000;
-    p->craft_skill_gain( *craft, skill_steps );
+    if( skill_steps > 0 ) {
+        p->craft_skill_gain( *craft, skill_steps );
+    }
 
     // if item_counter has reached 100% or more
     if( craft->item_counter >= 10000000 ) {

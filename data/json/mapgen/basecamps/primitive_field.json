@@ -1155,6 +1155,18 @@
   },
   {
     "type": "mapgen",
+    "update_mapgen_id": "faction_base_field_camp_19",
+    "method": "json",
+    "object": { "set": [ { "point": "terrain", "id": "t_radio_tower", "x": 12, "y": 21 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "faction_base_field_camp_20",
+    "method": "json",
+    "object": { "set": [ { "point": "terrain", "id": "t_radio_controls", "x": 13, "y": 21 } ] }
+  },
+  {
+    "type": "mapgen",
     "//": "legacy name for now",
     "update_mapgen_id": "faction_base_farm_0",
     "method": "json",

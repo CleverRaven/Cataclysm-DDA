@@ -25,6 +25,51 @@
     ]
   },
   {
+    "type": "item_group",
+    "id": "oa_ig_cs_desks",
+    "//": "For cs_car_showroom",
+    "items": [
+      { "group": "ammo_pocket_batteries_full", "prob": 30 },
+      [ "radio", 10 ],
+      [ "eyedrops", 10 ],
+      [ "rag", 30 ],
+      [ "paper", 30 ],
+      [ "foon", 30 ],
+      [ "spork", 30 ],
+      [ "coffee_raw", 20 ],
+      [ "coffee_syrup", 20 ],
+      [ "crude_picklock", 10 ],
+      [ "picklocks", 5 ],
+      [ "cell_phone", 10 ],
+      [ "file", 40 ],
+      [ "mag_mechanics", 20 ],
+      [ "manual_mechanics", 10 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "oa_ig_cs_lockers",
+    "//": "For cs_car_showroom",
+    "items": [
+      { "group": "ammo_pocket_batteries_full", "prob": 10 },
+      [ "radio", 10 ],
+      [ "rag", 30 ],
+      [ "dress_shoes", 20 ],
+      [ "longshirt", 30 ],
+      [ "polo_shirt", 30 ],
+      [ "dress_shirt", 30 ],
+      [ "skinny_tie", 10 ],
+      [ "tieclip", 10 ],
+      [ "collarpin", 10 ],
+      [ "blazer", 35 ],
+      [ "undershirt", 30 ],
+      [ "suit", 30 ],
+      [ "waistcoat", 30 ],
+      [ "gold_watch", 5 ],
+      [ "wristwatch", 10 ]
+    ]
+  },
+  {
     "id": "cop_armory",
     "type": "item_group",
     "magazine": 100,

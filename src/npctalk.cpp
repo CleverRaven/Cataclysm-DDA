@@ -639,8 +639,6 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
             response = string_format( ngettext( "%d foot.", "%d feet.", dist ), dist );
         }
         return response;
-    } else if( topic == "TALK_FRIEND" ) {
-        return _( "What is it?" );
     } else if( topic == "TALK_DESCRIBE_MISSION" ) {
         switch( p->mission ) {
             case NPC_MISSION_SHELTER:
@@ -741,11 +739,6 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         return "&" + p->short_description();
     } else if( topic == "TALK_OPINION" ) {
         return "&" + p->opinion_text();
-    } else if( topic == "TALK_USE_ITEM" ) {
-        return give_item_to( *p, true, false );
-    } else if( topic == "TALK_GIVE_ITEM" ) {
-        return give_item_to( *p, false, true );
-        // Maybe TODO: Allow an option to "just take it, use it if you want"
     } else if( topic == "TALK_MIND_CONTROL" ) {
         bool not_following = g->get_follower_list().count( p->getID() ) == 0;
         p->companion_mission_role_id.clear();
@@ -1823,6 +1816,13 @@ void talk_effect_fun_t::set_bulk_trade_accept( bool is_trade, bool is_npc )
     };
 }
 
+void talk_effect_fun_t::set_npc_gets_item( bool to_use )
+{
+    function = [to_use]( const dialogue & d ) {
+        d.reason = give_item_to( *( d.beta ), to_use, !to_use );
+    };
+}
+
 void talk_effect_t::set_effect_consequence( const talk_effect_fun_t &fun, dialogue_consequence con )
 {
     effects.push_back( fun );
@@ -2083,12 +2083,19 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, JsonObjec
         return;
     }
 
+    talk_effect_fun_t subeffect_fun;
     if( effect_id == "u_bulk_trade_accept" || effect_id == "npc_bulk_trade_accept" ||
         effect_id == "u_bulk_donate" || effect_id == "npc_bulk_donate" ) {
-        talk_effect_fun_t subeffect_fun;
         bool is_npc = effect_id == "npc_bulk_trade_accept" || effect_id == "npc_bulk_donate";
         bool is_trade = effect_id == "u_bulk_trade_accept" || effect_id == "npc_bulk_trade_accept";
         subeffect_fun.set_bulk_trade_accept( is_trade, is_npc );
+        set_effect( subeffect_fun );
+        return;
+    }
+
+    if( effect_id == "npc_gets_item" || effect_id == "npc_gets_item_to_use" ) {
+        bool to_use = effect_id == "npc_gets_item_to_use";
+        subeffect_fun.set_npc_gets_item( to_use );
         set_effect( subeffect_fun );
         return;
     }
@@ -2836,6 +2843,13 @@ void conditional_t::set_is_by_radio()
     };
 }
 
+void conditional_t::set_has_reason()
+{
+    condition = []( const dialogue & d ) {
+        return !d.reason.empty();
+    };
+}
+
 conditional_t::conditional_t( JsonObject jo )
 {
     // improve the clarity of NPC setter functions
@@ -3070,6 +3084,8 @@ conditional_t::conditional_t( const std::string &type )
         set_has_pickup_list();
     } else if( type == "is_by_radio" ) {
         set_is_by_radio();
+    } else if( type == "has_reason" ) {
+        set_has_reason();
     } else {
         condition = []( const dialogue & ) {
             return false;
@@ -3165,6 +3181,12 @@ dynamic_line_t::dynamic_line_t( JsonObject jo )
     } else if( jo.has_member( "give_hint" ) ) {
         function = [&]( const dialogue & ) {
             return get_hint();
+        };
+    } else if( jo.has_member( "use_reason" ) ) {
+        function = [&]( const dialogue & d ) {
+            std::string tmp = d.reason;
+            d.reason.clear();
+            return tmp;
         };
     } else {
         conditional_t dcondition;
@@ -3537,44 +3559,36 @@ std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
         return _( "Thanks!" );
     }
 
-    std::stringstream reason;
-    reason << _( "Nope." );
-    reason << std::endl;
+    std::string reason = _( "Nope." );
     if( allow_use ) {
         if( !no_consume_reason.empty() ) {
-            reason << no_consume_reason;
-            reason << std::endl;
+            reason += no_consume_reason + "\n";
         }
 
-        reason << _( "My current weapon is better than this." );
-        reason << std::endl;
-        reason << string_format( _( "(new weapon value: %.1f vs %.1f)." ),
-                                 new_weapon_value, cur_weapon_value );
+        reason += _( "My current weapon is better than this." );
+        reason += "\n" + string_format( _( "(new weapon value: %.1f vs %.1f)." ), new_weapon_value,
+                                        cur_weapon_value );
         if( !given.is_gun() && given.is_armor() ) {
-            reason << std::endl;
-            reason << string_format( _( "It's too encumbering to wear." ) );
+            reason += "\n" + string_format( _( "It's too encumbering to wear." ) );
         }
     }
     if( allow_carry ) {
         if( !p.can_pickVolume( given ) ) {
             const units::volume free_space = p.volume_capacity() - p.volume_carried();
-            reason << std::endl;
-            reason << string_format( _( "I have no space to store it." ) );
-            reason << std::endl;
+            reason += "\n" + string_format( _( "I have no space to store it." ) ) + "\n";
             if( free_space > 0_ml ) {
-                reason << string_format( _( "I can only store %s %s more." ),
+                reason += string_format( _( "I can only store %s %s more." ),
                                          format_volume( free_space ), volume_units_long() );
             } else {
-                reason << string_format( _( "...or to store anything else for that matter." ) );
+                reason += string_format( _( "...or to store anything else for that matter." ) );
             }
         }
         if( !p.can_pickWeight( given ) ) {
-            reason << std::endl;
-            reason << string_format( _( "It is too heavy for me to carry." ) );
+            reason += "\n" + string_format( _( "It is too heavy for me to carry." ) );
         }
     }
 
-    return reason.str();
+    return reason;
 }
 
 bool npc::has_item_whitelist() const
