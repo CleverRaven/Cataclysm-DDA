@@ -4454,7 +4454,11 @@ nc_color item::damage_color() const
         case 3:
             return c_light_red;
         case 4:
-            return c_red;
+            if( damage() >= max_damage() ) {
+                return c_dark_gray;
+            } else {
+                return c_red;
+            }
     }
 }
 
@@ -4472,7 +4476,12 @@ std::string item::damage_symbol() const
         case 3:
             return _( R"(\.)" );
         case 4:
-            return _( R"(..)" );
+            if( damage() >= max_damage() ) {
+                return _( R"(XX)" );
+            } else {
+                return _( R"(..)" );
+            }
+
     }
 }
 
