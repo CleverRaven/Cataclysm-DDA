@@ -194,8 +194,8 @@ item::item( const itype *type, time_point turn, long qty ) : type( type ), bday(
             emplace_back( type->magazine->default_ammo, calendar::turn, type->magazine->count );
         }
 
-    } else if( get_comestible() ) {
-        active = is_food();
+    } else if( has_temperature() || goes_bad() ) {
+        active = true;
         last_temp_check = bday;
         last_rot_check = bday;
 
