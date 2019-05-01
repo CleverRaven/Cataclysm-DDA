@@ -71,7 +71,6 @@
     "type": "AMMO",
     "category": "weapons",
     "name": "throwing stick",
-    "name_plural": "throwing sticks",
     "description": "A stick carved into a shape suitable for throwing at a target.  Not a boomerang, so don't expect it to return to your hand.",
     "weight": 574,
     "volume": 2,
