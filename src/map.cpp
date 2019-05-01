@@ -3754,6 +3754,47 @@ bool map::hit_with_acid( const tripoint &p )
     return true;
 }
 
+void map::fell_tree( const tripoint &p, const tripoint &direction )
+{
+    int dir_x, dir_y;
+
+    if( direction == tripoint_zero ) {
+        // TODO: pick a random direction properly
+        dir_x = ( 2 * rng( 0, 1 ) - 1 );
+        dir_y =  rng( -1, 1 );
+    } else {
+        // an extra-long direction vector shouldn't mean a bigger tree
+        dir_x = ( direction.x > 0 ) - ( direction.x < 0 );
+        dir_y = ( direction.y > 0 ) - ( direction.y < 0 );
+    }
+
+    const tripoint to = p + point( 3 * dir_x + rng( -1, 1 ),
+                                   3 * dir_y + rng( -1, 1 ) );
+
+    std::vector<tripoint> tree = line_to( p, to, rng( 1, 8 ) );
+    for( auto &elem : tree ) {
+        this->destroy( elem );
+        this->ter_set( elem, t_trunk );
+    }
+
+    this->ter_set( p, t_stump );
+}
+
+bool map::buck_tree( const tripoint &p )
+{
+    if( this->ter( p ) == t_trunk ) {
+        this->spawn_item( p, "log", rng( 2, 3 ), 0, calendar::turn );
+        this->spawn_item( p, "stick_long", rng( 0, 1 ), 0, calendar::turn );
+    } else if( this->ter( p ) == t_stump ) {
+        this->spawn_item( p, "log", rng( 0, 2 ), 0, calendar::turn );
+        this->spawn_item( p, "splinter", rng( 5, 15 ), 0, calendar::turn );
+    } else {
+        return false;
+    }
+    this->ter_set( p, t_dirt );
+    return true;
+}
+
 // returns true if terrain stops fire
 bool map::hit_with_fire( const tripoint &p )
 {

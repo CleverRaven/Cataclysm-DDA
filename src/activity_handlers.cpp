@@ -2890,8 +2890,6 @@ void activity_handlers::chop_tree_do_turn( player_activity *act, player *p )
 
 void activity_handlers::chop_tree_finish( player_activity *act, player *p )
 {
-    const tripoint &pos = act->placement;
-
     tripoint direction;
     while( true ) {
         if( const cata::optional<tripoint> dir = choose_direction(
@@ -2901,15 +2899,8 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
         }
         // try again
     }
+    g->m.fell_tree( act->placement, direction );
 
-    const tripoint to = pos + point( 3 * direction.x + rng( -1, 1 ), 3 * direction.y + rng( -1, 1 ) );
-    std::vector<tripoint> tree = line_to( pos, to, rng( 1, 8 ) );
-    for( auto &elem : tree ) {
-        g->m.destroy( elem );
-        g->m.ter_set( elem, t_trunk );
-    }
-
-    g->m.ter_set( pos, t_stump );
     const std::vector<npc *> helpers = g->u.get_crafting_helpers();
     const int helpersize = g->u.get_num_crafting_helpers( 3 );
     p->mod_stored_nutr( 5 - helpersize );
@@ -2922,17 +2913,8 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
 
 void activity_handlers::chop_logs_finish( player_activity *act, player *p )
 {
-    const tripoint &pos = act->placement;
+    g->m.buck_tree( act->placement );
 
-    if( g->m.ter( pos ) == t_trunk ) {
-        g->m.spawn_item( pos.x, pos.y, "log", rng( 2, 3 ), 0, calendar::turn );
-        g->m.spawn_item( pos.x, pos.y, "stick_long", rng( 0, 1 ), 0, calendar::turn );
-    } else if( g->m.ter( pos ) == t_stump ) {
-        g->m.spawn_item( pos.x, pos.y, "log", rng( 0, 2 ), 0, calendar::turn );
-        g->m.spawn_item( pos.x, pos.y, "splinter", rng( 5, 15 ), 0, calendar::turn );
-    }
-
-    g->m.ter_set( pos, t_dirt );
     const std::vector<npc *> helpers = g->u.get_crafting_helpers();
     const int helpersize = g->u.get_num_crafting_helpers( 3 );
     p->mod_stored_nutr( 5 - helpersize );
