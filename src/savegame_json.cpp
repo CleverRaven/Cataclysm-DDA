@@ -2999,7 +2999,7 @@ void basecamp::serialize( JsonOut &json ) const
         }
         for( const auto &fortification : fortifications ){
             json.start_object();
-            json.member( "pos", expansion );
+            json.member( "pos", fortification );
             json.end_object();
         }
         json.end_array();
@@ -3032,7 +3032,7 @@ void basecamp::deserialize( JsonIn &jsin )
     while( jo.has_more() ) {
         JsonObject edata = jo.next_object();
         tripoint restore_pos;
-        edata.read( "pos"), restore_pos );
+        edata.read( "pos", restore_pos );
         fortifications.push_back( restore_pos );
     }
 }
