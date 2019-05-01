@@ -461,7 +461,7 @@ bool Character::move_effects( bool attacking )
 
             /** @EFFECT_STR increases chance to escape grab, if >DEX */
         } else if( rng( 0, std::max( get_dex(), get_str() ) ) <
-                   rng( get_effect_int( effect_grabbed ), 8 ) ) {
+                   rng( get_effect_int( effect_grabbed, bp_torso ), 8 ) ) {
             // Randomly compare higher of dex or str to grab intensity.
             add_msg_player_or_npc( m_bad, _( "You try break out of the grab, but fail!" ),
                                    _( "<npcname> tries to break out of the grab, but fails!" ) );
