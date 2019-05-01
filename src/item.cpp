@@ -1297,7 +1297,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             }
 
             const auto &ammo = *ammo_data()->ammo;
-            if( ammo_data()->ammo.has_value() ) {
+            if( !ammo.damage.empty() || ammo.prop_damage || ammo.force_stat_display ) {
                 if( !ammo.damage.empty() ) {
                     if( parts->test( iteminfo_parts::AMMO_DAMAGE_VALUE ) ) {
                         info.emplace_back( "AMMO", _( "<bold>Damage</bold>: " ), "",
@@ -1310,8 +1310,8 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                            *ammo.prop_damage );
                     }
                 } else {
-                    info.emplace_back( "AMMO", _( "<bold>No damage change</bold>" ), "",
-                                       iteminfo::no_newline );
+                    info.emplace_back( "AMMO", _( "<bold>Damage multiplier</bold>: " ), "",
+                                       iteminfo::no_newline | iteminfo::is_decimal, 1.0 );
                 }
                 if( parts->test( iteminfo_parts::AMMO_DAMAGE_AP ) ) {
                     info.emplace_back( "AMMO", space + _( "Armor-pierce: " ),
