@@ -3912,6 +3912,9 @@ int get_hourly_rotpoints_at_temp( const int temp )
 
 void item::calc_rot( time_point time )
 {
+    if( !goes_bad() ) {
+        return;
+    }
     // Avoid needlessly calculating already rotten things.  Corpses should
     // always rot away and food rots away at twice the shelf life.  If the food
     // is in a sealed container they won't rot away, this avoids needlessly
@@ -7058,9 +7061,7 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
                 temp += 5; // body heat increases inventory temperature
             }
             calc_temp( temp, insulation, now );
-            if( goes_bad() ) {
-                calc_rot( now );
-            }
+            calc_rot( now );
         }
         return;
     }
@@ -7123,7 +7124,7 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
 
 
             // Calculate item rot from item temperature
-            if( goes_bad() && time - last_rot_check >  smallest_interval ) {
+            if( time - last_rot_check >  smallest_interval ) {
                 calc_rot( time );
 
                 if( has_rotten_away() || ( is_corpse() && rot > 10_days ) ) {
@@ -7142,9 +7143,7 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
             temp += 5; // body heat increases inventory temperature
         }
         calc_temp( temp, insulation, now );
-        if( goes_bad() ) {
-            calc_rot( now );
-        }
+        calc_rot( now );
         return;
     }
 
