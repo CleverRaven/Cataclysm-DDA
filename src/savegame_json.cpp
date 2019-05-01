@@ -2997,7 +2997,7 @@ void basecamp::serialize( JsonOut &json ) const
             json.member( "pos", expansion.second.pos );
             json.end_object();
         }
-        for( const auto &fortification : fortifications ){
+        for( const auto &fortification : fortifications ) {
             json.start_object();
             json.member( "pos", fortification );
             json.end_object();
