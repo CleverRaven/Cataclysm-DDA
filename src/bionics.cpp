@@ -1152,7 +1152,7 @@ bool player::uninstall_bionic( const bionic &target_cbm, monster &installer, pla
 
     const time_duration duration = difficulty * 20_minutes;
     if( !installer.has_effect( effect_operating ) ) { // don't stack up the effect
-        installer.add_effect( effect_operating, duration-20_minutes );
+        installer.add_effect( effect_operating, duration + 5_turns );
     }
 
 
@@ -1168,7 +1168,8 @@ bool player::uninstall_bionic( const bionic &target_cbm, monster &installer, pla
     patient.add_effect( effect_sleep, duration );
 
     if( g->u.sees( patient ) ) {
-        add_msg( "%1$s falls asleep and %2$s starts operating.", patient.disp_name(), installer.disp_name() );
+        add_msg( "%1$s falls asleep and %2$s starts operating.", patient.disp_name(),
+                 installer.disp_name() );
     }
 
     if( success > 0 ) {
