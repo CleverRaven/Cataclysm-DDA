@@ -30,47 +30,6 @@
   },
   {
     "type": "recipe",
-    "result": "hobo_stove",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_TOOLS",
-    "skill_used": "survival",
-    "skills_required": [ "fabrication", 1 ],
-    "difficulty": 4,
-    "time": 5000,
-    "autolearn": true,
-    "book_learn": [ [ "mag_survival", 2 ], [ "textbook_survival", 1 ], [ "cookbook", 2 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "can_drink_unsealed", 2 ], [ "can_food_unsealed", 2 ], [ "scrap", 4 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "tinder",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "survival",
-    "difficulty": 1,
-    "time": 1000,
-    "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [
-      [
-        [ "stick", 1 ],
-        [ "2x4", 1 ],
-        [ "splinter", 2 ],
-        [ "pine_bough", 1 ],
-        [ "rag", 1 ],
-        [ "paper", 5 ],
-        [ "rolling_paper", 30 ],
-        [ "wrapper", 5 ],
-        [ "withered", 2 ],
-        [ "cattail_stalk", 1 ],
-        [ "birchbark", 1 ],
-        [ "willowbark", 1 ]
-      ]
-    ]
-  },
-  {
-    "type": "recipe",
     "result": "torch",
     "id_suffix": "pine",
     "category": "CC_WEAPON",

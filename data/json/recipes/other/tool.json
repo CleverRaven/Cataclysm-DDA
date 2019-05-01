@@ -163,5 +163,19 @@
     "autolearn": true,
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 } ],
     "components": [ [ [ "wire", 4 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "hobo_stove",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "survival",
+    "skills_required": [ "fabrication", 1 ],
+    "difficulty": 4,
+    "time": 5000,
+    "autolearn": true,
+    "book_learn": [ [ "mag_survival", 2 ], [ "textbook_survival", 1 ], [ "cookbook", 2 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "can_food_unsealed", 2 ], [ "scrap", 4 ] ] ]
   }
 ]

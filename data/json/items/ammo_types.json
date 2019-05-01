@@ -496,5 +496,11 @@
     "id": "nitrox",
     "name": "compressed air",
     "default": "nitrox"
+  },
+  {
+    "id": "tinder",
+    "name": "tinder",
+    "default": "tinder",
+    "type": "ammunition_type"
   }
 ]
