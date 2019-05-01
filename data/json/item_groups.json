@@ -4665,6 +4665,8 @@
   {
     "type": "item_group",
     "id": "chem_school",
+    "ammo": 50,
+    "magazine": 100,
     "items": [
       [ "balance_small", 5 ],
       [ "ph_meter", 5 ],
@@ -4772,6 +4774,8 @@
   {
     "type": "item_group",
     "id": "chem_lab",
+    "ammo": 50,
+    "magazine": 100,
     "items": [
       { "group": "supplies_reagents_lab", "prob": 60 },
       [ "ether", 5 ],
@@ -4829,6 +4833,8 @@
   {
     "type": "item_group",
     "id": "mut_lab",
+    "ammo": 50,
+    "magazine": 100,
     "items": [
       { "group": "supplies_reagents_lab", "prob": 20 },
       [ "gelbox", 3 ],
@@ -5114,6 +5120,8 @@
   {
     "type": "item_group",
     "id": "lab_dorm",
+    "ammo": 50,
+    "magazine": 100,
     "items": [
       [ "inhaler", 14 ],
       [ "eyedrops", 20 ],
