@@ -7050,7 +7050,7 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
 
     // process temperature and rot at most once every 100_turns (10 min)
     // note we're also gated by item::processing_speed
-    time_duration smallest_interval = 100_turns;
+    time_duration smallest_interval = 10_minutes;
     if( now - last_temp_check < smallest_interval ) {
         // Could be newly created item.
         if( specific_energy < 0 ) {
@@ -7058,7 +7058,9 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
                 temp += 5; // body heat increases inventory temperature
             }
             calc_temp( temp, insulation, now );
-            calc_rot( now );
+            if( goes_bad() ) {
+                calc_rot( now );
+            }
         }
         return;
     }
@@ -7140,7 +7142,10 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
             temp += 5; // body heat increases inventory temperature
         }
         calc_temp( temp, insulation, now );
-        calc_rot( now );
+        if( goes_bad() ) {
+            calc_rot( now );
+        }
+        return;
     }
 
     // Some new items can evade all the above. Set them here.
