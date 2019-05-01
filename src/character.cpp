@@ -450,7 +450,7 @@ bool Character::move_effects( bool attacking )
             const monster *const mon = g->critter_at<monster>( dest );
             if( mon && ( mon->has_flag( MF_GRABS ) ||
                          mon->type->has_special_attack( "GRAB" ) ) ) {
-                zed_number ++;
+                zed_number += mon->get_grab_strength();
             }
         }
         if( zed_number == 0 ) {
