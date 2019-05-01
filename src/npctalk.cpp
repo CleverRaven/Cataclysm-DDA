@@ -300,8 +300,12 @@ void game::chat()
 void npc::handle_sound( int priority, const std::string &description, int heard_volume,
                         const tripoint &spos )
 {
+    const tripoint s_abs_pos = g->m.getabs( spos );
+    const tripoint my_abs_pos = g->m.getabs( pos() );
+
     add_msg( m_debug, "%s heard '%s', priority %d at volume %d from %d:%d, my pos %d:%d",
-             disp_name(), description, priority, heard_volume, spos.x, spos.y, pos().x, pos().y );
+             disp_name(), description, priority, heard_volume, s_abs_pos.x, s_abs_pos.y,
+             my_abs_pos.x, my_abs_pos.y );
 
     const sounds::sound_t spriority = static_cast<sounds::sound_t>( priority );
     bool player_ally = g->u.pos() == spos && is_player_ally();
@@ -354,30 +358,30 @@ void npc::handle_sound( int priority, const std::string &description, int heard_
             warn_about( "movement_noise", rng( 1, 10 ) * 1_minutes, description );
         } else if( spriority > sounds::sound_t::movement ) {
             if( !( player_ally || npc_ally ) && ( spriority == sounds::sound_t::speech ||
-                                                  spriority == sounds::sound_t::alert || spriority == sounds::sound_t::order ) ) {
+                                                  spriority == sounds::sound_t::alert ||
+                                                  spriority == sounds::sound_t::order ) ) {
                 warn_about( "speech_noise", rng( 1, 10 ) * 1_minutes );
             } else if( spriority > sounds::sound_t::activity ) {
                 warn_about( "combat_noise", rng( 1, 10 ) * 1_minutes );
             }
             bool should_check = rl_dist( pos(), spos ) < investigate_dist;
-            if( should_check && is_ally( g->u ) ) {
+            if( should_check ) {
                 const zone_manager &mgr = zone_manager::get_manager();
-                const tripoint &s_abs_pos = g->m.getabs( spos );
-                if( mgr.has( zone_no_investigate, s_abs_pos ) ) {
+                if( mgr.has( zone_no_investigate, s_abs_pos, fac_id ) ) {
                     should_check = false;
-                } else if( mgr.has_defined( zone_investigate_only ) &&
-                           !mgr.has( zone_investigate_only, s_abs_pos ) ) {
+                } else if( mgr.has( zone_investigate_only, my_abs_pos, fac_id ) &&
+                           !mgr.has( zone_investigate_only, s_abs_pos, fac_id ) ) {
                     should_check = false;
                 }
             }
             if( should_check ) {
-                add_msg( m_debug, "NPC %s added noise at pos %d:%d", name, spos.x, spos.y );
+                add_msg( m_debug, "%s added noise at pos %d:%d", name, s_abs_pos.x, s_abs_pos.y );
                 dangerous_sound temp_sound;
-                temp_sound.pos = spos;
+                temp_sound.abs_pos = s_abs_pos;
                 temp_sound.volume = heard_volume;
                 temp_sound.type = priority;
                 if( !ai_cache.sound_alerts.empty() ) {
-                    if( ai_cache.sound_alerts.back().pos != spos ) {
+                    if( ai_cache.sound_alerts.back().abs_pos != s_abs_pos ) {
                         ai_cache.sound_alerts.push_back( temp_sound );
                     }
                 } else {

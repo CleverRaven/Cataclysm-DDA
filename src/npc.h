@@ -290,7 +290,7 @@ struct npc_follower_rules {
 };
 
 struct dangerous_sound {
-    tripoint pos;
+    tripoint abs_pos;
     int type;
     int volume;
 };
@@ -321,7 +321,9 @@ struct npc_short_term_cache {
     // map of positions / type / volume of suspicious sounds
     std::vector<dangerous_sound> sound_alerts;
     // current sound position being investigated
-    tripoint spos;
+    tripoint s_abs_pos;
+    // number of times we haven't moved when investigating a sound
+    int stuck = 0;
     // Position to return to guarding
     cata::optional<tripoint> guard_pos;
     double my_weapon_value;
