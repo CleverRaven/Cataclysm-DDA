@@ -543,7 +543,7 @@
     "entries": [
       { "drop": "stick_fiber", "type": "bone", "mass_ratio": 0.5 },
       { "drop": "veggy", "type": "flesh", "mass_ratio": 0.2 },
-      { "drop": "veggy", "type": "offal", "mass_ratio": 0.05 }
+      { "drop": "plant_sac", "type": "offal", "mass_ratio": 0.05 }
     ]
   },
   {
@@ -552,7 +552,7 @@
     "entries": [
       { "drop": "stick_fiber", "type": "bone", "mass_ratio": 0.5 },
       { "drop": "veggy", "type": "flesh", "mass_ratio": 0.2 },
-      { "drop": "veggy", "type": "offal", "mass_ratio": 0.05 }
+      { "drop": "plan_sac", "type": "offal", "mass_ratio": 0.05 }
     ]
   },
   {
@@ -561,7 +561,7 @@
     "entries": [
       { "drop": "stick_fiber", "type": "bone", "mass_ratio": 0.4 },
       { "drop": "veggy", "type": "flesh", "mass_ratio": 0.2 },
-      { "drop": "veggy", "type": "offal", "mass_ratio": 0.05 },
+      { "drop": "plant_sac", "type": "offal", "mass_ratio": 0.05 },
       { "drop": "stick", "type": "bone", "mass_ratio": 0.05 }
     ]
   },
@@ -572,7 +572,7 @@
       { "drop": "log", "type": "bone", "mass_ratio": 0.35 },
       { "drop": "stick_fiber", "type": "bone", "mass_ratio": 0.15 },
       { "drop": "veggy", "type": "flesh", "mass_ratio": 0.2 },
-      { "drop": "veggy", "type": "offal", "mass_ratio": 0.05 }
+      { "drop": "plant_sac", "type": "offal", "mass_ratio": 0.05 }
     ]
   }
 ]
