@@ -2799,7 +2799,7 @@ bool mattack::nurse_operate( monster *z )
                     if( mon->type->id != mon_defective_robot_nurse ) {
                         sounds::sound( z->pos(), 8, sounds::sound_t::speech,
                                        string_format(
-                                           _( "a soft robotic voice says, \"Unhand this patient immediatly! If you keep interfering with the procedure I'll be forced to call law enforcement.\"" ) ) );
+                                           _( "a soft robotic voice says, \"Unhand this patient immediately!  If you keep interfering with the procedure I'll be forced to call law enforcement.\"" ) ) );
                         z->push_to( mon->pos(), 6, 0 );// try to push the perpetrator away
                     } else {
                         sounds::sound( z->pos(), 8, sounds::sound_t::speech,
