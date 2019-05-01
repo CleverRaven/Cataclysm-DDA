@@ -2777,7 +2777,7 @@ bool mattack::nurse_operate( monster *z )
 
     if( found_target && u_see ) {
         add_msg( m_info, _( "The %1$s scans %2$s and seems to detect something." ), z->name(),
-                 target->name );
+                 target->disp_name() );
     }
 
     if( found_target ) {
@@ -2794,19 +2794,21 @@ bool mattack::nurse_operate( monster *z )
         z->set_dest( target->pos() );// should designate target as the attack_target
         if( target->has_effect( effect_grabbed ) ) {
             for( auto critter : g->m.get_creatures_in_radius( target->pos(), 1 ) ) {
-                monster *kinbot = dynamic_cast<monster *>( critter );
-                if( kinbot->type->id != mon_defective_robot_nurse ) {
-                    sounds::sound( z->pos(), 8, sounds::sound_t::speech,
-                                   string_format(
-                                       _( "a soft robotic voice says, \"Unhand this patient immediatly! If you keep interfering with the procedure I'll be forced to call law enforcement.\"" ) ) );
-                    z->push_to( kinbot->pos(), 6, 0 );// try to push the perpetrator away
-                } else {
-                    sounds::sound( z->pos(), 8, sounds::sound_t::speech,
-                                   string_format(
-                                       _( "a soft robotic voice says, \"Greetings kinbot. Please take good care of this patient.\"" ) ) );
-                    return false; // situation is under control no need to intervene;
+                monster *mon = dynamic_cast<monster *>( critter );
+                if( mon != nullptr && mon != z ) {
+                    if( mon->type->id != mon_defective_robot_nurse ) {
+                        sounds::sound( z->pos(), 8, sounds::sound_t::speech,
+                                       string_format(
+                                           _( "a soft robotic voice says, \"Unhand this patient immediatly! If you keep interfering with the procedure I'll be forced to call law enforcement.\"" ) ) );
+                        z->push_to( mon->pos(), 6, 0 );// try to push the perpetrator away
+                    } else {
+                        sounds::sound( z->pos(), 8, sounds::sound_t::speech,
+                                       string_format(
+                                           _( "a soft robotic voice says, \"Greetings kinbot. Please take good care of this patient.\"" ) ) );
+                        z->anger = 0;
+                        return false; // situation is under control no need to intervene;
+                    }
                 }
-
             }
         } else {
             grab( z );
