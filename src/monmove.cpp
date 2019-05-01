@@ -388,6 +388,18 @@ void monster::plan( const mfactions &factions )
             }
         }
     }
+    // Operating monster keep you safe while they operate, how nice....
+    if( has_effect( effect_operating ) ) {
+        friendly = 100;
+        for( auto critter : g->m.get_creatures_in_radius( pos(), 6 ) ) {
+            monster *mon = dynamic_cast<monster *>( critter );
+            if( mon != nullptr && mon->type->in_species( ZOMBIE ) ) {
+                anger = 100;
+            } else {
+                anger = 0;
+            }
+        }
+    }
 
     if( has_effect( effect_dragging ) ) {
         const mtype_id &mon_id =
@@ -591,7 +603,7 @@ void monster::move()
                 dragged_foe->remove_effect( effect_grabbed );
                 remove_effect( effect_dragging );
                 dragged_foe = nullptr;
-                anger = 0;
+
             }
         }
     }
