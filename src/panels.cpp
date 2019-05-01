@@ -11,6 +11,8 @@
 #include <utility>
 
 #include "action.h"
+#include "behavior.h"
+#include "behavior_oracle.h"
 #include "cata_utility.h"
 #include "color.h"
 #include "cursesdef.h"
@@ -1567,6 +1569,17 @@ void draw_veh_padding( const player &u, const catacurses::window &w )
     wrefresh( w );
 }
 
+void draw_ai_goal( const player &u, const catacurses::window &w )
+{
+    werase( w );
+    behavior::tree needs;
+    needs.add( &string_id<behavior::node_t>( "npc_needs" ).obj() );
+    behavior::character_oracle_t player_oracle( &u );
+    std::string current_need = needs.tick( &player_oracle );
+    mvwprintz( w, 0, 1, c_light_gray, _( "Goal: %s" ), current_need );
+    wrefresh( w );
+}
+
 void draw_location_classic( const player &u, const catacurses::window &w )
 {
     werase( w );
@@ -1698,7 +1711,7 @@ std::vector<window_panel> initialize_default_classic_panels()
 #if defined(TILES)
     ret.emplace_back( window_panel( draw_mminimap, "Map", -1, 44, true ) );
 #endif // TILES
-
+    ret.emplace_back( window_panel( draw_ai_goal, "AI Needs", 1, 44, false ) );
     return ret;
 }
 
@@ -1719,6 +1732,7 @@ std::vector<window_panel> initialize_default_compact_panels()
 #if defined(TILES)
     ret.emplace_back( window_panel( draw_mminimap, "Map", -1, 32, true ) );
 #endif // TILES
+    ret.emplace_back( window_panel( draw_ai_goal, "AI Needs", 1, 32, false ) );
 
     return ret;
 }
@@ -1742,6 +1756,7 @@ std::vector<window_panel> initialize_default_label_panels()
 #if defined(TILES)
     ret.emplace_back( window_panel( draw_mminimap, "Map", -1, 32, true ) );
 #endif // TILES
+    ret.emplace_back( window_panel( draw_ai_goal, "AI Needs", 1, 32, false ) );
 
     return ret;
 }
