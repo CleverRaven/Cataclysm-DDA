@@ -1168,7 +1168,7 @@ bool player::uninstall_bionic( const bionic &target_cbm, monster &installer, pla
     patient.add_effect( effect_sleep, duration );
 
     if( g->u.sees( patient ) ) {
-        add_msg( "%1$s falls asleep and %2$s starts operating.", patient.name, installer.disp_name() );
+        add_msg( "%1$s falls asleep and %2$s starts operating.", patient.disp_name(), installer.disp_name() );
     }
 
     if( success > 0 ) {
