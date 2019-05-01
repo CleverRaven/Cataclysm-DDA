@@ -32,10 +32,10 @@
     "copy-from": "engine_combustion",
     "type": "vehicle_part",
     "fuel_type": "gasoline",
-    "fuel_options": [ "gasoline", "chem_ethanol", "chem_methanol", "denat_alcohol" ],
+    "fuel_options": [ "gasoline" ],
     "m2c": 60,
     "//": "30% energy efficiency",
-    "description": "A combustion engine.  Burns gasoline fuel from a tank in the vehicle.  Can also burn ethanol, methanol or denatured alcohol, though somewhat less efficiently."
+    "description": "A combustion engine.  Burns gasoline fuel from a tank in the vehicle."
   },
   {
     "id": "diesel_engine_i6",
