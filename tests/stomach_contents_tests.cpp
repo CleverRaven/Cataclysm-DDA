@@ -220,8 +220,8 @@ TEST_CASE( "hunger" )
         print_stomach_contents( dummy, print_tests );
         printf( "eat 2 cooked meat\n" );
     }
-    CHECK( hunger_time <= 320 );
-    CHECK( hunger_time >= 250 );
+    CHECK( hunger_time <= 440 );
+    CHECK( hunger_time >= 400 );
     item f( "meat_cooked" );
     dummy.eat( f );
     f = item( "meat_cooked" );
@@ -235,8 +235,8 @@ TEST_CASE( "hunger" )
         print_stomach_contents( dummy, print_tests );
         printf( "eat 2 beansnrice\n" );
     }
-    CHECK( hunger_time <= 380 );
-    CHECK( hunger_time >= 340 );
+    CHECK( hunger_time <= 350 );
+    CHECK( hunger_time >= 310 );
     f = item( "beansnrice" );
     dummy.eat( f );
     f = item( "beansnrice" );
@@ -247,8 +247,8 @@ TEST_CASE( "hunger" )
     if( print_tests ) {
         printf( "%d minutes til hunger sets in\n", hunger_time );
     }
-    CHECK( hunger_time <= 380 );
-    CHECK( hunger_time >= 340 );
+    CHECK( hunger_time <= 320 );
+    CHECK( hunger_time >= 280 );
     if( print_tests ) {
         print_stomach_contents( dummy, print_tests );
         printf( "eat 16 veggy\n" );
@@ -264,8 +264,8 @@ TEST_CASE( "hunger" )
         printf( "%d minutes til hunger sets in\n", hunger_time );
         print_stomach_contents( dummy, print_tests );
     }
-    CHECK( hunger_time <= 410 );
-    CHECK( hunger_time >= 370 );
+    CHECK( hunger_time <= 350 );
+    CHECK( hunger_time >= 310 );
     if( print_tests ) {
         printf( "eat 16 veggy with extreme metabolism\n" );
     }
