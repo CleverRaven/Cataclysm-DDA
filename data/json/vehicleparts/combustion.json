@@ -32,7 +32,6 @@
     "copy-from": "engine_combustion",
     "type": "vehicle_part",
     "fuel_type": "gasoline",
-    "fuel_options": [ "gasoline" ],
     "m2c": 60,
     "//": "30% energy efficiency",
     "description": "A combustion engine.  Burns gasoline fuel from a tank in the vehicle."
