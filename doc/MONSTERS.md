@@ -137,6 +137,11 @@ TODO: describe this.
 
 Number of dices and their sides that are rolled on monster melee attack. This defines the amount of bash damage.
 
+## "grab_strength"
+(integer, optional)
+
+Intensity of the grab effect applied by this monster. Defaults to 1, is only usefull for monster with a GRAB special attack and the GRABS flag. A monster with grab_strength = n applies a grab as if it was n zombies. A player with max(Str,Dex)<=n has no chance of breaking that grab. 
+
 ## "melee_cut"
 (integer, optional)
 
