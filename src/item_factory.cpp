@@ -663,6 +663,7 @@ void Item_factory::init()
     add_iuse( "GRANADE", &iuse::granade );
     add_iuse( "GRANADE_ACT", &iuse::granade_act );
     add_iuse( "GRENADE_INC_ACT", &iuse::grenade_inc_act );
+    add_iuse( "SADDLE_ACT", &iuse::saddle_act );
     add_iuse( "GUN_REPAIR", &iuse::gun_repair );
     add_iuse( "GUNMOD_ATTACH", &iuse::gunmod_attach );
     add_iuse( "TOOLMOD_ATTACH", &iuse::toolmod_attach );

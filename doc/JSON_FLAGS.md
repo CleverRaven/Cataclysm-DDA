@@ -471,6 +471,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```plutonium``` 1.21 Gigawatts!
 - ```water``` Clean.
 - ```wind``` Wind powered.
+- ```animal``` animal legs.
 
 ### Flags
 

@@ -2091,9 +2091,16 @@ void activity_handlers::start_engines_finish( player_activity *act, player *p )
 
     //Did any engines start?
     veh->engine_on = started;
-
+    bool is_animal_vehicle = veh->is_animal_vehicle;
+    if( is_animal_vehicle ) {
+        add_msg( "is animal vehcle" );
+    } else {
+        add_msg( "is not animal vehicle " );
+    }
     if( attempted == 0 ) {
         add_msg( m_info, _( "The %s doesn't have an engine!" ), veh->name );
+    } else if( is_animal_vehicle ) {
+        add_msg( m_info, _( "You take up the reins, your %s whickers." ), veh->name );
     } else if( non_muscle_attempted > 0 ) {
         //Some non-muscle engines tried to start
         if( non_muscle_attempted == non_muscle_started ) {
@@ -2113,7 +2120,11 @@ void activity_handlers::start_engines_finish( player_activity *act, player *p )
 
     if( take_control && !veh->engine_on && !veh->velocity ) {
         p->controlling_vehicle = false;
-        add_msg( _( "You let go of the controls." ) );
+        if( is_animal_vehicle ) {
+            add_msg( _( "You let go of the reins" ) );
+        } else {
+            add_msg( _( "You let go of the controls." ) );
+        }
     }
 }
 

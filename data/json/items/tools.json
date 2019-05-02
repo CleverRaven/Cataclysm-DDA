@@ -110,9 +110,9 @@
     "flags": [ "ACT_ON_RANGED_HIT", "NPC_THROWN" ]
   },
   {
-    "id": "saddle",
+    "id": "horse_saddle",
     "type": "TOOL",
-    "name": "saddle",
+    "name": "horse saddle",
     "description": "This is a handcrafted leather saddle, activate it to tame a horse and ride it.",
     "weight": 900,
     "volume": 15,
@@ -122,7 +122,8 @@
     "material": "leather",
     "symbol": "A",
     "color": "brown",
-    "use_action": "SADDLE_ACT",
+    "properties": [ [ "monster_size_capacity", "HUGE" ] ],
+    "use_action": "SADDLE_ACT"
   },
   {
     "id": "adv_UPS_off",

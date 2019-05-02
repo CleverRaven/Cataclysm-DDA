@@ -1420,13 +1420,14 @@ int feedpet( player &p, monster &mon, m_flag food_flag, const char *message )
 
 int iuse::saddle_act( player *p, item *it, bool t, const tripoint &pos )
 {
+    ( void )pos;
+    ( void )t;
     const cata::optional<tripoint> pnt_ = choose_adjacent( string_format( _( "Use the %s where?" ),
                                           it->tname() ) );
     if( !pnt_ ) {
         return 0;
     }
     const tripoint pnt = *pnt_;
-    p->moves -= 15;
     if( g->critter_at<npc>( pnt ) != nullptr ) {
         if( npc *const person_ = g->critter_at<npc>( pnt ) ) {
             npc &person = *person_;
@@ -1434,15 +1435,55 @@ int iuse::saddle_act( player *p, item *it, bool t, const tripoint &pos )
         }
     } else if( monster *const mon_ptr = g->critter_at<monster>( pnt, true ) ) {
         monster &critter = *mon_ptr;
-        if( !critter.has_flag( MF_SADDLE ) ){
+        if( !critter.has_flag( MF_SADDLE ) ) {
             p->add_msg_if_player( _( "You cannot ride this creature." ) );
+            return 0;
         } else {
-            return 1;
+            if( p->is_underwater() ) {
+                p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
+                return 0;
+            }
+            if( !it->has_property( "monster_size_capacity" ) ) {
+                debugmsg( "%s has no monster_size_capacity.", it->tname() );
+                return 0;
+            }
+            const std::string capacity = it->get_property_string( "monster_size_capacity" );
+            if( Creature::size_map.count( capacity ) == 0 ) {
+                debugmsg( "%s has invalid monster_size_capacity %s.",
+                          it->tname(), capacity.c_str() );
+                return 0;
+            }
+            if( critter.get_size() > Creature::size_map.find( capacity )->second ) {
+                p->add_msg_if_player( m_info, _( "The %1$s is too big to saddle with your %s." ),
+                                      critter.type->nname(), it->tname() );
+                return 0;
+            }
+            if( critter.friendly != 0 ) {
+                vehicle *veh = g->m.add_vehicle( vproto_id( critter.type->nname() ), pnt.x, pnt.y, 0, 0, 0, false );
+                if( veh == nullptr ) {
+                    p->add_msg_if_player( m_info, _( "There's no room to use the %s." ), it->tname() );
+                    return 0;
+                }
+                veh->name = critter.type->nname();
+                g->m.add_vehicle_to_cache( veh );
+                p->add_msg_if_player( m_neutral, "You attach the saddle to your %s.", veh->name );
+                it->contain_monster( pnt );
+                for( vehicle_part &part : veh->parts ) {
+                    part.set_base( *it );
+                }
+                veh->is_animal_vehicle = true;
+                return 1;
+            } else {
+                p->add_msg_if_player( m_info, _( "The %s tries to bite your hand, perhaps tame it first?" ),
+                                      critter.type->nname() );
+                return 0;
+            }
         }
     } else {
         p->add_msg_if_player( "You cannot use the %s there.", it->tname() );
         return 0;
     }
+    return 0;
 }
 
 int petfood( player &p, const item &it, Petfood animal_food_type )
@@ -7802,6 +7843,7 @@ int item::release_monster( const tripoint &target, bool spawn )
 // at target
 int item::contain_monster( const tripoint &target )
 {
+    add_msg( "contain_monster ran" );
     const monster *const mon_ptr = g->critter_at<monster>( target );
     if( !mon_ptr ) {
         return 0;
@@ -7833,6 +7875,7 @@ int item::contain_monster( const tripoint &target )
     }
     set_var( "weight", new_weight );
     g->remove_zombie( f );
+    add_msg( "contain_monster finished ran" );
     return 0;
 }
 

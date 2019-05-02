@@ -11,6 +11,13 @@
     ]
   },
   {
+    "id": "horse",
+    "type": "vehicle",
+    "name": "horse",
+    "blueprint": [ "#" ],
+    "parts": [ { "x": 0, "y": 0, "part": "horse" } ]
+  },
+  {
     "id": "food_cart",
     "type": "vehicle",
     "name": "Food Vendor Cart",

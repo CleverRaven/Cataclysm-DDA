@@ -47,6 +47,7 @@
 static const itype_id fuel_type_none( "null" );
 static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_muscle( "muscle" );
+static const itype_id fuel_type_animal( "animal" );
 
 static const fault_id fault_diesel( "fault_engine_pump_diesel" );
 static const fault_id fault_glowplug( "fault_engine_glow_plug" );
@@ -259,6 +260,25 @@ void vehicle::set_electronics_menu_options( std::vector<uilist_entry> &options,
             refresh();
         } );
     }
+}
+
+void vehicle::remove_saddle()
+{
+    int vehicle_part = 0;
+    const tripoint part_loc = global_part_pos3( vehicle_part );
+    item base = item( parts[vehicle_part].get_base() );
+    std::list<item> resulting_items;
+    vehicle_stack contents = this->get_items( vehicle_part );
+    resulting_items.insert( resulting_items.end(), contents.begin(), contents.end() );
+    contents.clear();
+    // Power cables shouldnt be here, but incase they are.
+    if( this->part_flag( vehicle_part, "POWER_TRANSFER" ) ) {
+        this->remove_remote_part( vehicle_part );
+    }
+    g->m.destroy_vehicle( this );
+    put_into_vehicle_or_drop( g->u, item_drop_reason::deliberate, resulting_items );
+    base.release_monster( part_loc, true );
+    g->u.inv.add_item( base, false, true );
 }
 
 void vehicle::control_electronics()
@@ -483,7 +503,7 @@ void vehicle::use_controls( const tripoint &pos )
 
     bool remote = g->remoteveh() == this;
     bool has_electronic_controls = false;
-
+    bool animal_vehicle = is_animal_vehicle;
     if( remote ) {
         options.emplace_back( _( "Stop controlling" ), keybind( "RELEASE_CONTROLS" ) );
         actions.push_back( [&] {
@@ -497,12 +517,21 @@ void vehicle::use_controls( const tripoint &pos )
 
     } else if( veh_pointer_or_null( g->m.veh_at( pos ) ) == this ) {
         if( g->u.controlling_vehicle ) {
-            options.emplace_back( _( "Let go of controls" ), keybind( "RELEASE_CONTROLS" ) );
-            actions.push_back( [&] {
-                g->u.controlling_vehicle = false;
-                add_msg( _( "You let go of the controls." ) );
-                refresh();
-            } );
+            if( animal_vehicle ) {
+                options.emplace_back( _( "Let go of reins" ), keybind( "RELEASE_CONTROLS" ) );
+                actions.push_back( [&] {
+                    g->u.controlling_vehicle = false;
+                    add_msg( _( "You let go of the reins." ) );
+                    refresh();
+                } );
+            } else {
+                options.emplace_back( _( "Let go of controls" ), keybind( "RELEASE_CONTROLS" ) );
+                actions.push_back( [&] {
+                    g->u.controlling_vehicle = false;
+                    add_msg( _( "You let go of the controls." ) );
+                    refresh();
+                } );
+            }
         }
         has_electronic_controls = !get_parts_at( pos, "CTRL_ELECTRONIC",
                                   part_status_flag::any ).empty();
@@ -522,7 +551,7 @@ void vehicle::use_controls( const tripoint &pos )
         if( g->u.controlling_vehicle || ( remote && engine_on ) ) {
             options.emplace_back( _( "Stop driving" ), keybind( "TOGGLE_ENGINE" ) );
             actions.push_back( [&] {
-                if( engine_on && has_engine_type_not( fuel_type_muscle, true ) )
+                if( engine_on && has_engine_type_not( fuel_type_muscle, true ) && !animal_vehicle )
                 {
                     add_msg( _( "You turn the engine off and let go of the controls." ) );
                 } else
@@ -535,7 +564,8 @@ void vehicle::use_controls( const tripoint &pos )
                 refresh();
             } );
 
-        } else if( has_engine_type_not( fuel_type_muscle, true ) ) {
+        } else if( has_engine_type_not( fuel_type_muscle, true ) &&
+                   has_engine_type_not( fuel_type_animal, true ) ) {
             options.emplace_back( engine_on ? _( "Turn off the engine" ) : _( "Turn on the engine" ),
                                   keybind( "TOGGLE_ENGINE" ) );
             actions.push_back( [&] {
@@ -1407,15 +1437,18 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     const bool has_workbench = workbench_part >= 0;
 
     enum {
-        EXAMINE, TRACK, CONTROL, CONTROL_ELECTRONICS, GET_ITEMS, GET_ITEMS_ON_GROUND, FOLD_VEHICLE, UNLOAD_TURRET, RELOAD_TURRET,
+        EXAMINE, REMOVE_SADDLE, TRACK, CONTROL, CONTROL_ELECTRONICS, GET_ITEMS, GET_ITEMS_ON_GROUND, FOLD_VEHICLE, UNLOAD_TURRET, RELOAD_TURRET,
         USE_HOTPLATE, FILL_CONTAINER, DRINK, USE_WELDER, USE_PURIFIER, PURIFY_TANK, USE_WASHMACHINE, USE_MONSTER_CAPTURE,
         USE_BIKE_RACK, RELOAD_PLANTER, WORKBENCH
     };
     uilist selectmenu;
-
-    selectmenu.addentry( EXAMINE, true, 'e', _( "Examine vehicle" ) );
+    if( !is_animal_vehicle ) {
+        selectmenu.addentry( EXAMINE, true, 'e', _( "Examine vehicle" ) );
+    } else {
+        selectmenu.addentry( REMOVE_SADDLE, true, 'r', _( "Remove saddle" ) );
+    }
     selectmenu.addentry( TRACK, true, keybind( "TOGGLE_TRACKING" ), tracking_toggle_string() );
-    if( has_controls ) {
+    if( has_controls && !is_animal_vehicle ) {
         selectmenu.addentry( CONTROL, true, 'v', _( "Control vehicle" ) );
     }
     if( has_electronics ) {
@@ -1593,6 +1626,10 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
         }
         case EXAMINE: {
             g->exam_vehicle( *this );
+            return;
+        }
+        case REMOVE_SADDLE: {
+            remove_saddle();
             return;
         }
         case TRACK: {

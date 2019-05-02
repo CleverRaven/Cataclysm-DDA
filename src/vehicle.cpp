@@ -55,6 +55,7 @@
 static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_muscle( "muscle" );
 static const itype_id fuel_type_wind( "wind" );
+static const itype_id fuel_type_animal( "animal" );
 static const itype_id fuel_type_plutonium_cell( "plut_cell" );
 static const std::string part_location_structure( "structure" );
 static const std::string part_location_center( "center" );
@@ -3177,11 +3178,18 @@ void vehicle::spew_smoke( double joules, int part, int density )
 void vehicle::noise_and_smoke( int load, time_duration time )
 {
     const std::array<int, 8> sound_levels = {{ 0, 15, 30, 60, 100, 140, 180, INT_MAX }};
-    const std::array<std::string, 8> sound_msgs = {{
+    std::array<std::string, 8> sound_msgs = {{
             _( "hmm" ), _( "hummm!" ), _( "whirrr!" ), _( "vroom!" ), _( "roarrr!" ),
             _( "ROARRR!" ), _( "BRRROARRR!" ), _( "BRUMBRUMBRUMBRUM!" )
         }
     };
+    if( this->is_animal_vehicle ) {
+        sound_msgs = {{
+                _( "clip clop" ), _( "clip clop clop!" ), _( "clip clip clop clop!" ), _( "clippity cloppity!" ), _( "clippity cloppity cloppity !" ),
+                _( "CLIP CLOP CLIP CLOP!" ), _( "CLIPCLOPCLIPCLOPCLIPCLOP!" ), _( "CLIPPITYCLOPPITYCLIPPITY!" )
+            }
+        };
+    }
     double noise = 0.0;
     double mufflesmoke = 0.0;
     double muffle = 1.0;

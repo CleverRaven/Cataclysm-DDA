@@ -56,6 +56,21 @@
   },
   {
     "type": "GENERIC",
+    "//": "pseudo item, used as fuel type for engines that are animal-powered",
+    "id": "animal",
+    "symbol": "?",
+    "color": "white",
+    "name": "animal",
+    "name_plural": "none",
+    "description": "seeing this is a bug",
+    "stackable": true,
+    "price": 0,
+    "volume": 0,
+    "flags": [ "PSEUDO", "PERPETUAL" ],
+    "fuel": { "energy": 1 }
+  },
+  {
+    "type": "GENERIC",
     "//": "pseudo item, only used for as a required tool, checked for in player::amount_of",
     "id": "apparatus",
     "symbol": "$",

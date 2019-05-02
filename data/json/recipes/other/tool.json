@@ -40,11 +40,11 @@
     "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "swage", -1 ] ] ]
   },
   {
-    "result": "saddle",
+    "result": "horse_saddle",
     "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
-    "skill_used": "tailoring",
+    "skill_used": "tailor",
     "difficulty": 4,
     "skills_required": [ "survival", 3 ],
     "time": 500000,

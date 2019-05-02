@@ -1398,6 +1398,7 @@ class vehicle
                                            std::vector<std::function<void()>> &actions );
         //main method for the control of multiple electronics
         void control_electronics();
+        void remove_saddle();
         //main method for the control of individual engines
         void control_engines();
         // shows ui menu to select an engine
@@ -1579,6 +1580,8 @@ class vehicle
         bool is_locked                  = false;
         // vehicle has alarm on
         bool is_alarm_on                = false;
+        // vehicle is an "animal"
+        bool is_animal_vehicle          = false;
         bool camera_on                  = false;
         // skidding mode
         bool skidding                   = false;
