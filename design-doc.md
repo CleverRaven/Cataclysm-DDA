@@ -607,7 +607,9 @@ A great deal of game progression is gated by acquisition of items. The player ca
 
 The player is able to supplement these scavenged goods by crafting a wide variety of items, ranging from mundane cooking to advanced chemistry.
 
-Structures provide a valuable resource as well, which can be found and modified or constructed from scratch as well.
+Structures provide a valuable resource as well, which can be found and modified or constructed from scratch.
+
+Vehicles in various states of repair litter the world, and can be driven, repaired and modified.
 
 ### Senses
 
@@ -656,6 +658,18 @@ The player can accumulate raw materials and tools to craft a wide variety of ite
 Skill,tool, raw material and time requirements to craft items reflect the parameters of crafting the corresponding item in reality.
 
 This places many useful items out of reach of most survivors, in particular staples such as electronics  internal combustion engines, most firearms and gunpowder are out of reach.
+
+### Structures
+
+The player can also build and modify permanent structures, providing shelter from both the environment and marauding monsters.
+
+### Vehicles
+
+Scavenged or built, vehicles provide a trump card of sorts for the player, providing mobility, storage and shelter all at once, at the cost of significant upkeep.
+
+Pre-cataclysm vehicles are modeled on existing real world vehicles.
+
+The survivor can repair, modify and even build vehicles from scratch, but the quality is never the same as the original.
 
 # Story
 
