@@ -62,6 +62,7 @@ class basecamp
         }
         std::string board_name() const;
         std::vector<std::string> directions;
+        std::vector<tripoint> fortifications;
         std::string name;
         void faction_display( const catacurses::window &fac_w, const int width ) const;
 
