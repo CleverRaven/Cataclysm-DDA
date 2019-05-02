@@ -4194,7 +4194,7 @@ void game::monmove()
         //  game::non_dead_range<monster>::iterator::operator++().
         // We must make sure that we update the monster_factions so we don't pass a deleted monster later in critter.plan().
         // Note that this only applies if z-levels are not active.
-        if ( !g->m.has_zlevels() && critter.posz() != g->u.posz() ) {
+        if( !g->m.has_zlevels() && critter.posz() != g->u.posz() ) {
             force_mfactions_update = true;
         }
 
