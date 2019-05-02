@@ -2770,7 +2770,9 @@ bool mattack::nurse_operate( monster *z )
     tripoint tmp_pos( z->pos().x + 12, z->pos().y + 12, z->pos().z );
     for( auto critter : g->m.get_creatures_in_radius( z->pos(), 6 ) ) {
         player *tmp_player = dynamic_cast< player *>( critter );
-        if( tmp_player != nullptr && z->sees( *tmp_player ) ) {
+        if( tmp_player != nullptr && z->sees( *tmp_player ) &&
+            g->m.clear_path( z->pos(), tmp_player->pos(), 10, 0,
+                             100 ) ) { // no need to scan players we can't reach
             if( tmp_player->has_any_bionic() ) {
                 if( rl_dist( z->pos(), tmp_player->pos() ) < rl_dist( z->pos(), tmp_pos ) ) {
                     tmp_pos = tmp_player->pos();
