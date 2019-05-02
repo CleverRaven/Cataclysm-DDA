@@ -9,7 +9,6 @@
 #include <cstdlib>
 #include <fstream>
 #include <bitset>
-#include <iostream>
 #include <iterator>
 #include <stdexcept>
 #include <tuple>
@@ -1733,7 +1732,6 @@ const tile_type *cata_tiles::find_tile_looks_like( std::string &id, TILE_CATEGOR
                 return nullptr;
             }
             const vpart_info &new_vpi = new_vpid.obj();
-            std::cout << looks_like;
             if( looks_like != "vp_horse" ) {
                 looks_like = "vp_" + new_vpi.looks_like;
             } else {

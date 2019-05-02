@@ -7843,7 +7843,6 @@ int item::release_monster( const tripoint &target, bool spawn )
 // at target
 int item::contain_monster( const tripoint &target )
 {
-    add_msg( "contain_monster ran" );
     const monster *const mon_ptr = g->critter_at<monster>( target );
     if( !mon_ptr ) {
         return 0;
@@ -7875,7 +7874,6 @@ int item::contain_monster( const tripoint &target )
     }
     set_var( "weight", new_weight );
     g->remove_zombie( f );
-    add_msg( "contain_monster finished ran" );
     return 0;
 }
 
