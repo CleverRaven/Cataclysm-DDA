@@ -3,6 +3,7 @@
     "id": "base_silverware",
     "name": "generic silverware",
     "type": "GENERIC",
+    "description": "generic item template",
     "symbol": ";",
     "color": "light_gray",
     "price": 100,
@@ -18,6 +19,7 @@
     "id": "base_utensil",
     "name": "generic utensil",
     "type": "GENERIC",
+    "description": "generic item template",
     "symbol": ";",
     "color": "light_gray",
     "price": 200,
@@ -33,6 +35,7 @@
     "id": "base_plastic_silverware",
     "name": "generic silverware",
     "type": "GENERIC",
+    "description": "generic item template",
     "symbol": ";",
     "color": "light_gray",
     "price": 10,
@@ -47,7 +50,9 @@
   {
     "id": "base_ceramic_dish",
     "name": "generic dish",
+    "description": "generic item template",
     "type": "GENERIC",
+    "symbol": ")",
     "color": "yellow",
     "price": 1200,
     "price_postapoc": 0,
@@ -60,7 +65,9 @@
   {
     "id": "base_glass_dish",
     "name": "generic dish",
+    "description": "generic item template",
     "type": "GENERIC",
+    "symbol": ")",
     "color": "cyan",
     "price": 1400,
     "price_postapoc": 0,
@@ -73,6 +80,7 @@
   {
     "id": "base_tin_dish",
     "name": "generic dish",
+    "description": "generic item template",
     "type": "GENERIC",
     "color": "light_gray",
     "price": 400,
@@ -86,7 +94,9 @@
   {
     "id": "base_plastic_dish",
     "name": "generic dish",
+    "description": "generic item template",
     "type": "GENERIC",
+    "symbol": ")",
     "color": "light_cyan",
     "price": 400,
     "price_postapoc": 0,
@@ -99,6 +109,7 @@
   {
     "id": "base_cookpot",
     "name": "generic cook pot",
+    "description": "generic item template",
     "type": "GENERIC",
     "symbol": ")",
     "watertight": true,
@@ -428,6 +439,16 @@
     "description": "Many a pleasant date has been ruined by forgetting this important tool.",
     "flags": [ "STAB", "SHEATH_KNIFE" ],
     "looks_like": "fork",
+    "copy-from": "base_silverware"
+  },
+  {
+    "type": "GENERIC",
+    "category": "other",
+    "id": "peeler",
+    "name": "vegetable peeler",
+    "description": "This is a simple tool for peeling the outer skin off fruit and veggies without stabbing yourself.",
+    "flags": [ "SHEATH_KNIFE" ],
+    "looks_like": "knife_butter",
     "copy-from": "base_silverware"
   },
   {
