@@ -112,7 +112,7 @@
     "//2": "This group is for a cupboard full of dining dishes.",
     "subtype": "distribution",
     "items": [
-      { "item": "glass_wine", "prob": 50, "count": [ 1, 4 ] },
+      { "item": "wine_glass", "prob": 50, "count": [ 1, 4 ] },
       { "item": "bowl_pewter", "prob": 50, "count": [ 1, 4 ] },
       { "item": "ceramic_cup", "prob": 75, "count": [ 1, 4 ] },
       { "item": "glass", "count": [ 1, 6 ] },
@@ -136,7 +136,7 @@
       { "item": "pot", "prob": 50 },
       { "collection": [ { "item": "iron_pot" }, { "item": "iron_pot", "prob": 60 } ], "prob": 70 },
       { "item": "casserole", "prob": 90 },
-      { "item": "copper_pot", "prob": 75 },
+      { "item": "pot_copper", "prob": 75 },
       { "item": "stock_pot", "prob": 50 },
       { "item": "pot_canning", "prob": 25 },
       { "item": "pan", "count": [ 1, 2 ] },
