@@ -40,6 +40,20 @@
     "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "swage", -1 ] ] ]
   },
   {
+    "result": "saddle",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "tailoring",
+    "difficulty": 4,
+    "skills_required": [ "survival", 3 ],
+    "time": 500000,
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 100 ], [ "cordage", 4 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 }, { "id": "SEW", "level": 1 } ],
+    "components": [ [ [ "leather", 24 ], [ "tanned_hide", 4 ], [ "fur", 24 ], [ "tanned_pelt", 4 ] ] ]
+  },
+  {
     "result": "jack_makeshift",
     "type": "recipe",
     "category": "CC_OTHER",

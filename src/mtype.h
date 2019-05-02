@@ -181,6 +181,7 @@ enum m_flag : int {
     MF_MILKABLE,            // This monster is milkable.
     MF_NO_BREED,            // This monster doesn't breed, even though it has breed data
     MF_PET_WONT_FOLLOW,     // This monster won't follow the player automatically when tamed.
+    MF_SADDLE,              // This monster can be ridden with a saddle.
     MF_DRIPS_NAPALM,        // This monster ocassionally drips napalm on move
     MF_DRIPS_GASOLINE,      // This monster occasionally drips gasoline on move
     MF_ELECTRIC_FIELD,      // This monster is surrounded by an electrical field that ignites flammable liquids near it

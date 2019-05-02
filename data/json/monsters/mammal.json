@@ -1291,7 +1291,7 @@
     "harvest": "mammal_large_leather",
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 2 },
     "special_attacks": [ [ "EAT_CROP", 60 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "CATTLEFODDER", "PET_WONT_FOLLOW", "PATH_AVOID_DANGER_1", "WARM" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "CATTLEFODDER", "PET_WONT_FOLLOW", "PATH_AVOID_DANGER_1", "WARM", "SADDLE" ]
   },
   {
     "id": "mon_lemming",

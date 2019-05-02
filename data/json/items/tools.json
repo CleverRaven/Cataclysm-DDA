@@ -110,6 +110,21 @@
     "flags": [ "ACT_ON_RANGED_HIT", "NPC_THROWN" ]
   },
   {
+    "id": "saddle",
+    "type": "TOOL",
+    "name": "saddle",
+    "description": "This is a handcrafted leather saddle, activate it to tame a horse and ride it.",
+    "weight": 900,
+    "volume": 15,
+    "price": 8000,
+    "to_hit": -1,
+    "bashing": 4,
+    "material": "leather",
+    "symbol": "A",
+    "color": "brown",
+    "use_action": "SADDLE_ACT",
+  },
+  {
     "id": "adv_UPS_off",
     "type": "TOOL",
     "name": "advanced UPS",

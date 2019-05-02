@@ -206,6 +206,11 @@
   },
   {
     "type": "item_action",
+    "id": "SADDLE_ACT",
+    "name": "Use saddle"
+  },
+  {
+    "type": "item_action",
     "id": "ACIDBOMB_ACT",
     "name": "Activate"
   },

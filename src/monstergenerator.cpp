@@ -145,6 +145,7 @@ const std::map<std::string, m_flag> flag_map = {
     { "MILKABLE", MF_MILKABLE },
     { "NO_BREED", MF_NO_BREED },
     { "PET_WONT_FOLLOW", MF_PET_WONT_FOLLOW },
+    { "SADDLE", MF_SADDLE },
     { "DRIPS_NAPALM", MF_DRIPS_NAPALM },
     { "DRIPS_GASOLINE", MF_DRIPS_GASOLINE },
     { "ELECTRIC_FIELD", MF_ELECTRIC_FIELD },

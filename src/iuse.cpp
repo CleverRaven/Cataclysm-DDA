@@ -1418,6 +1418,33 @@ int feedpet( player &p, monster &mon, m_flag food_flag, const char *message )
     }
 }
 
+int iuse::saddle_act( player *p, item *it, bool t, const tripoint &pos )
+{
+    const cata::optional<tripoint> pnt_ = choose_adjacent( string_format( _( "Use the %s where?" ),
+                                          it->tname() ) );
+    if( !pnt_ ) {
+        return 0;
+    }
+    const tripoint pnt = *pnt_;
+    p->moves -= 15;
+    if( g->critter_at<npc>( pnt ) != nullptr ) {
+        if( npc *const person_ = g->critter_at<npc>( pnt ) ) {
+            npc &person = *person_;
+            p->add_msg_if_player( _( "You cannot ride %2$s, that would be weird." ), person.name );
+        }
+    } else if( monster *const mon_ptr = g->critter_at<monster>( pnt, true ) ) {
+        monster &critter = *mon_ptr;
+        if( !critter.has_flag( MF_SADDLE ) ){
+            p->add_msg_if_player( _( "You cannot ride this creature." ) );
+        } else {
+            return 1;
+        }
+    } else {
+        p->add_msg_if_player( "You cannot use the %s there.", it->tname() );
+        return 0;
+    }
+}
+
 int petfood( player &p, const item &it, Petfood animal_food_type )
 {
     const cata::optional<tripoint> pnt_ = choose_adjacent( string_format( _( "Put the %s where?" ),

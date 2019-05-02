@@ -117,6 +117,7 @@ class iuse
         int c4( player *, item *, bool, const tripoint & );
         int arrow_flammable( player *, item *, bool, const tripoint & );
         int acidbomb_act( player *, item *, bool, const tripoint & );
+        int saddle_act( player *, item *, bool, const tripoint & );
         int grenade_inc_act( player *, item *, bool, const tripoint & );
         int molotov_lit( player *, item *, bool, const tripoint & );
         int firecracker_pack( player *, item *, bool, const tripoint & );
