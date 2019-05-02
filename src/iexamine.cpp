@@ -1539,6 +1539,38 @@ void iexamine::flower_poppy( player &p, const tripoint &examp )
 }
 
 /**
+ * Prompt pick cactus pad. Not safe for player.
+ */
+void iexamine::flower_cactus( player &p, const tripoint &examp )
+{
+    if( dead_plant( true, p, examp ) ) {
+        return;
+    }
+
+    if( !query_yn( _( "Pick %s?" ), g->m.furnname( examp ) ) ) {
+        none( p, examp );
+        return;
+    }
+
+    if( one_in( 6 ) ) {
+        add_msg( m_bad, _( "The cactus' nettles sting you!" ) );
+        p.apply_damage( nullptr, bp_arm_l, 4 );
+        p.apply_damage( nullptr, bp_arm_r, 4 );
+    }
+
+    g->m.furn_set( examp, f_null );
+
+    item cactus_pad = item( "cactus_pad" );
+    if( p.can_pickWeight( cactus_pad, true ) &&
+        p.can_pickVolume( cactus_pad, true ) ) {
+        p.i_add( cactus_pad );
+        p.add_msg_if_player( _( "You harvest: %s." ), cactus_pad.tname() );
+    } else {
+        g->m.add_item_or_charges( p.pos(), cactus_pad );
+        p.add_msg_if_player( _( "You harvest and drop: %s." ), cactus_pad.tname() );
+    }
+}
+/**
  * It's a flower, drink nectar if your able to.
  */
 void iexamine::flower_bluebell( player &p, const tripoint &examp )
@@ -5180,6 +5212,7 @@ iexamine_function iexamine_function_from_string( const std::string &function_nam
             { "door_peephole", &iexamine::door_peephole },
             { "fswitch", &iexamine::fswitch },
             { "flower_poppy", &iexamine::flower_poppy },
+            { "flower_cactus", &iexamine::flower_cactus },
             { "fungus", &iexamine::fungus },
             { "flower_spurge", &iexamine::flower_spurge },
             { "flower_tulip", &iexamine::flower_tulip },
