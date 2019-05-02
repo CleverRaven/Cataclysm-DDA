@@ -2320,7 +2320,7 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
 
     // Valid Repeat choice and target, attempt repair.
     if( repeat != REPEAT_INIT && act->targets.size() >= 2 ) {
-        auto &fix_location = act->targets[1];
+        item_location &fix_location = act->targets[1];
 
         // Remember our level: we want to stop retrying on level up
         const auto old_level = p->get_skill_level( actor->used_skill );
