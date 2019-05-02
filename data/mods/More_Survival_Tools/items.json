@@ -157,27 +157,6 @@
     "use_action": "MISC_REPAIR"
   },
   {
-    "id": "throwing_stick",
-    "type": "AMMO",
-    "category": "weapons",
-    "name": "throwing stick",
-    "name_plural": "throwing sticks",
-    "description": "A stick carved into a shape suitable for throwing at a target.  Not a boomerang, so don't expect it to return to your hand.",
-    "weight": 574,
-    "volume": 2,
-    "price": 200,
-    "bashing": 14,
-    "material": "wood",
-    "symbol": ";",
-    "color": "brown",
-    "ammo_type": "thrown",
-    "range": 0,
-    "damage": 0,
-    "dispersion": 0,
-    "effects": [ "BEANBAG" ],
-    "flags": [ "NOGIB" ]
-  },
-  {
     "id": "hand_axe",
     "type": "TOOL",
     "name": "hand axe",
