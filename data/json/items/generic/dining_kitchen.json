@@ -82,6 +82,7 @@
     "name": "generic dish",
     "description": "generic item template",
     "type": "GENERIC",
+    "symbol": ")",
     "color": "light_gray",
     "price": 400,
     "price_postapoc": 0,
