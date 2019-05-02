@@ -399,6 +399,8 @@ void monster::plan( const mfactions &factions )
                 anger = 0;
             }
         }
+    } else {
+        friendly = 0;
     }
 
     if( has_effect( effect_dragging ) ) {
