@@ -36,7 +36,7 @@
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ]
   },
-    {
+  {
     "id": "light_minus_atomic_battery_cell",
     "type": "MAGAZINE",
     "category": "spare_parts",
@@ -89,7 +89,7 @@
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ]
   },
-    {
+  {
     "id": "light_atomic_battery_cell",
     "type": "MAGAZINE",
     "category": "spare_parts",
@@ -142,7 +142,7 @@
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ]
   },
-    {
+  {
     "id": "medium_atomic_battery_cell",
     "type": "MAGAZINE",
     "category": "spare_parts",
@@ -195,7 +195,7 @@
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ]
   },
-    {
+  {
     "id": "heavy_atomic_battery_cell",
     "type": "MAGAZINE",
     "category": "spare_parts",
