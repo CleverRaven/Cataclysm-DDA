@@ -2004,6 +2004,7 @@ void activity_handlers::vehicle_finish( player_activity *act, player *p )
                   act->values.size() );
     } else {
         if( vp ) {
+            g->m.invalidate_map_cache( g->get_levz() );
             g->refresh_all();
             // TODO: Z (and also where the activity is queued)
             // Or not, because the vehicle coordinates are dropped anyway
@@ -2319,11 +2320,11 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
 
     // Valid Repeat choice and target, attempt repair.
     if( repeat != REPEAT_INIT && act->targets.size() >= 2 ) {
-        item_location &fix = act->targets[1];
+        item_location &fix_location = act->targets[1];
 
         // Remember our level: we want to stop retrying on level up
         const int old_level = p->get_skill_level( actor->used_skill );
-        const auto attempt = actor->repair( *p, *used_tool, fix );
+        const auto attempt = actor->repair( *p, *used_tool, fix_location );
         if( attempt != repair_item_actor::AS_CANT ) {
             if( ploc && ploc->where() == item_location::type::map ) {
                 used_tool->ammo_consume( used_tool->ammo_required(), ploc->position() );
@@ -2343,22 +2344,22 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
         // Print message explaining why we stopped
         // But only if we didn't destroy the item (because then it's obvious)
         const bool destroyed = attempt == repair_item_actor::AS_DESTROYED;
-        if( attempt == repair_item_actor::AS_CANT ||
-            destroyed ||
-            !actor->can_repair_target( *p, *fix, !destroyed ) ) {
+        const bool cannot_continue_repair = attempt == repair_item_actor::AS_CANT ||
+                                            destroyed || !actor->can_repair_target( *p, *fix_location, !destroyed );
+        if( cannot_continue_repair ) {
             // Cannot continue to repair target, select another target.
+            // **Warning**: as soon as the item is popped back, it is destroyed and can't be used anymore!
             act->targets.pop_back();
         }
 
-        const bool event_happened =
-            attempt == repair_item_actor::AS_FAILURE ||
-            attempt == repair_item_actor::AS_SUCCESS ||
-            old_level != p->get_skill_level( actor->used_skill );
+        const bool event_happened = attempt == repair_item_actor::AS_FAILURE ||
+                                    attempt == repair_item_actor::AS_SUCCESS ||
+                                    old_level != p->get_skill_level( actor->used_skill );
 
         const bool need_input =
-            repeat == REPEAT_ONCE ||
+            ( repeat == REPEAT_ONCE ) ||
             ( repeat == REPEAT_EVENT && event_happened ) ||
-            ( repeat == REPEAT_FULL && fix->damage() <= 0 );
+            ( repeat == REPEAT_FULL && ( cannot_continue_repair || fix_location->damage() <= 0 ) );
         if( need_input ) {
             repeat = REPEAT_INIT;
         }
@@ -2562,6 +2563,7 @@ void activity_handlers::meditate_finish( player_activity *act, player *p )
 void activity_handlers::aim_do_turn( player_activity *act, player * )
 {
     if( act->index == 0 ) {
+        g->m.invalidate_map_cache( g->get_levz() );
         g->m.build_map_cache( g->get_levz() );
         g->plfire();
     }

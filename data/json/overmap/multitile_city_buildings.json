@@ -1241,6 +1241,16 @@
   },
   {
     "type": "city_building",
+    "id": "cs_internet_cafe",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "cs_internet_cafe_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "cs_internet_cafe_roof_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "cs_internet_cafe_upper_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "candy_shop",
     "locations": [ "land" ],
     "overmaps": [
@@ -1294,5 +1304,17 @@
       { "point": [ 0, 0, 1 ], "overmap": "gym_roof_north" },
       { "point": [ 0, 0, 2 ], "overmap": "gym_upper_roof_north" }
     ]
+  },
+  {
+    "type": "city_building",
+    "id": "s_pharm",
+    "locations": [ "land" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "s_pharm_north" }, { "point": [ 0, 0, 1 ], "overmap": "s_pharm_roof_north" } ]
+  },
+  {
+    "type": "city_building",
+    "id": "s_pharm_1",
+    "locations": [ "land" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "s_pharm_1_north" }, { "point": [ 0, 0, 1 ], "overmap": "s_pharm_roof_1_north" } ]
   }
 ]

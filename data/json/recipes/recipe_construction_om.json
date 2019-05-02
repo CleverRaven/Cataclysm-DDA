@@ -335,6 +335,7 @@
     "autolearn": false,
     "never_learn": true,
     "time": 2880000,
+    "construction_blueprint": "faction_base_field_camp_19",
     "qualities": [
       { "id": "HAMMER", "level": 2 },
       { "id": "SAW_M", "level": 1 },
@@ -359,7 +360,7 @@
   {
     "type": "recipe",
     "result": "faction_base_camp_20",
-    "description": "We need to add a console to control the radio tower.",
+    "description": "We need to build a console to control the radio tower.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "skill_used": "electronics",
@@ -367,6 +368,7 @@
     "autolearn": false,
     "never_learn": true,
     "time": 2880000,
+    "construction_blueprint": "faction_base_field_camp_20",
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "processor", 2 ] ],

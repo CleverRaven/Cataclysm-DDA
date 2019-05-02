@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <algorithm>
 #include <array>
+#include <climits>
 #include <functional>
 #include <iosfwd>
 #include <map>
@@ -83,7 +84,7 @@ struct radio_tower {
     radio_tower( int X = -1, int Y = -1, int S = -1, std::string M = "",
                  radio_type T = MESSAGE_BROADCAST ) :
         x( X ), y( Y ), strength( S ), type( T ), message( M ) {
-        frequency = rand();
+        frequency = rng( 0, INT_MAX );
     }
 };
 

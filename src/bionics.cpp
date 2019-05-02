@@ -1057,6 +1057,7 @@ bool player::uninstall_bionic( const bionic_id &b_id, player &installer, bool au
         }
         bionics_uninstall_failure( installer, difficulty, success, adjusted_skill );
     }
+    g->m.invalidate_map_cache( g->get_levz() );
     g->refresh_all();
     return true;
 }
@@ -1151,6 +1152,7 @@ bool player::install_bionics( const itype &type, player &installer, bool autodoc
         }
         bionics_install_failure( installer, difficult, success, adjusted_skill );
     }
+    g->m.invalidate_map_cache( g->get_levz() );
     g->refresh_all();
     return true;
 }

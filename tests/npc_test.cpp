@@ -316,14 +316,8 @@ TEST_CASE( "npc-movement" )
 
     g->place_player( tripoint( 60, 60, 0 ) );
 
-    // kill npcs before removing vehicles so they are correctly unboarded
-    clear_npcs();
-    clear_creatures();
-    // remove existing vehicles
-    VehicleList vehs = g->m.get_vehicles( g->u.pos(), g->u.pos() + point( width - 1, height - 1 ) );
-    for( auto &veh : vehs ) {
-        g->m.detach_vehicle( veh.v );
-    }
+    clear_map();
+
     for( int y = 0; y < height; ++y ) {
         for( int x = 0; x < width; ++x ) {
             const char type = setup[y][x];

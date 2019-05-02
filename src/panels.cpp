@@ -71,11 +71,10 @@ window_panel::window_panel( std::function<void( player &, const catacurses::wind
 
 std::string trunc_ellipse( std::string input, unsigned int trunc )
 {
-    if( input.length() < trunc || trunc == 0 ) {
-        return input;
-    } else {
+    if( utf8_width( input ) > static_cast<int>( trunc ) ) {
         return utf8_truncate( input, trunc - 1 ) + "…";
     }
+    return input;
 }
 
 void draw_rectangle( const catacurses::window &w, nc_color, point top_left,
@@ -1079,7 +1078,7 @@ void draw_needs( const player &u, const catacurses::window &w )
     pair = temp_stat( u );
     mvwprintz( w, 1, 17, pair.first, pair.second );
     const auto arrow = temp_delta_arrows( u );
-    mvwprintz( w, 1, 17 + pair.second.length(), arrow.first, arrow.second );
+    mvwprintz( w, 1, 17 + utf8_width( pair.second ), arrow.first, arrow.second );
 
     mvwprintz( w, 2, 17, c_light_gray, _( "Focus" ) );
     mvwprintz( w, 2, 24, focus_color( u.focus_pool ), to_string( u.focus_pool ) );
@@ -1303,7 +1302,7 @@ void draw_env_compact( player &u, const catacurses::window &w )
 
     if( u.has_item_with_flag( "THERMOMETER" ) || u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
         std::string temp = print_temperature( g->get_temperature( u.pos() ) );
-        mvwprintz( w, 5, 31 - temp.length(), c_light_gray, temp );
+        mvwprintz( w, 5, 31 - utf8_width( temp ), c_light_gray, temp );
     }
 
     wrefresh( w );
@@ -1674,7 +1673,7 @@ void draw_hint( const player &, const catacurses::window &w )
     werase( w );
     std::string press = press_x( ACTION_TOGGLE_PANEL_ADM );
     mvwprintz( w, 0, 1, c_light_green, press );
-    mvwprintz( w, 0, 2 + press.length(), c_white, _( "to open sidebar options" ) );
+    mvwprintz( w, 0, 2 + utf8_width( press ), c_white, _( "to open sidebar options" ) );
 
     wrefresh( w );
 }

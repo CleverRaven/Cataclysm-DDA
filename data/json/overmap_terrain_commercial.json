@@ -15,6 +15,27 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "s_pharm_roof",
+    "name": "pharmacy roof",
+    "copy-from": "generic_city_building",
+    "color": "light_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_pharm_1",
+    "name": "pharmacy",
+    "copy-from": "generic_city_building",
+    "color": "light_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_pharm_roof_1",
+    "name": "pharmacy roof",
+    "copy-from": "generic_city_building",
+    "color": "light_red"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "office_doctor",
     "name": "doctor's office",
     "copy-from": "generic_city_building",
@@ -1631,6 +1652,22 @@
     "id": "cs_internet_cafe",
     "copy-from": "generic_city_building",
     "name": "internet cafe",
+    "sym": "i",
+    "color": "light_green_cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cs_internet_cafe_roof",
+    "copy-from": "generic_city_building",
+    "name": "internet cafe roof",
+    "sym": "i",
+    "color": "light_green_cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cs_internet_cafe_upper_roof",
+    "copy-from": "generic_city_building",
+    "name": "internet cafe roof",
     "sym": "i",
     "color": "light_green_cyan"
   },

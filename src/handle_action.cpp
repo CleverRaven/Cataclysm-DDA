@@ -17,6 +17,7 @@
 #include "construction.h"
 #include "cursesdef.h"
 #include "debug.h"
+#include "debug_menu.h"
 #include "faction.h"
 #include "field.h"
 #include "game_constants.h"
@@ -1837,6 +1838,7 @@ bool game::handle_action()
                     add_msg( m_info, _( "You can't disassemble items while driving." ) );
                 } else {
                     u.disassemble();
+                    g->m.invalidate_map_cache( g->get_levz() );
                     refresh_all();
                 }
                 break;
@@ -1951,7 +1953,6 @@ bool game::handle_action()
 
             case ACTION_PL_INFO:
                 u.disp_info();
-                refresh_all();
                 break;
 
             case ACTION_MAP:
@@ -1978,7 +1979,6 @@ bool game::handle_action()
 
             case ACTION_FACTIONS:
                 new_faction_manager_ptr->display();
-                refresh_all();
                 break;
 
             case ACTION_MORALE:
@@ -2003,7 +2003,6 @@ bool game::handle_action()
 
             case ACTION_OPTIONS:
                 get_options().show( true );
-                refresh_all();
                 g->init_ui( true );
                 break;
 
@@ -2031,8 +2030,7 @@ bool game::handle_action()
                 if( MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger() ) {
                     break;    //don't do anything when sharing and not debugger
                 }
-                debug();
-                refresh_all();
+                debug_menu::debug();
                 break;
 
             case ACTION_TOGGLE_FULLSCREEN:
