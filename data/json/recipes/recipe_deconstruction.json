@@ -1321,7 +1321,7 @@
       [ [ "sleeping_bag_roll", 1 ] ],
       [ [ "ear_plugs", 1 ] ]
     ],
-    "flags": [ "BLIND_EASY" ]
+    "flags": [ "BLIND_EASY", "FULL_MAGAZINE" ]
   },
   {
     "result": "gold_bracelet",
