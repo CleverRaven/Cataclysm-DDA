@@ -535,5 +535,10 @@
     "id": "lightstrip_dead",
     "type": "MIGRATION",
     "replace": "lightstrip_inactive"
+  },
+  {
+    "id": "battery_atomic",
+    "type": "MIGRATION",
+    "replace": "light_atomic_battery_cell"
   }
 ]
