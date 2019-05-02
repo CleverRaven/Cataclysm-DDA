@@ -48,7 +48,7 @@ double dispersion_sources::avg() const
     }
     // from https://en.wikipedia.org/wiki/Half-normal_distribution
     // the mean of a half normal distribution is stdev * sqrt(2/pi)
-    sum = sum * 0.798
+    sum = sum * 0.798;
 
     for( const double &source : linear_sources ) {
         sum += source / 2;
