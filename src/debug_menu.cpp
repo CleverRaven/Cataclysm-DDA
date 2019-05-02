@@ -218,16 +218,22 @@ static int debug_menu_uilist()
         switch( group ) {
             case DEBUG_QUIT_NOSAVE:
                 action = DEBUG_QUIT_NOSAVE;
+                break;
             case 1:
                 action = spawning_uilist();
+                break;
             case 2:
                 action = player_uilist();
+                break;
             case 3:
                 action = teleport_uilist();
+                break;
             case 4:
                 action = map_uilist();
+                break;
             case 5:
                 action = info_uilist();
+                break;
             default:
                 return group;
         }
