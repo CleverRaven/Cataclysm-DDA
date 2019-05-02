@@ -8,6 +8,12 @@
   {
     "type": "speech",
     "speaker": "mon_mi_go",
+    "sound": "\"Papaya!\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
     "sound": "\"Who's there?\"",
     "volume": 40
   },

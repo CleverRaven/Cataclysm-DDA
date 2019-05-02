@@ -6,7 +6,7 @@ set -ex
 
 function run_tests
 {
-    $WINE "$@" -d yes -r cata --rng-seed time $EXTRA_TEST_OPTS
+    $WINE "$@" -d yes --rng-seed time $EXTRA_TEST_OPTS
 }
 
 export CCACHE_MAXSIZE=1G

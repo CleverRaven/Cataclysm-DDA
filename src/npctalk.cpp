@@ -130,7 +130,7 @@ time_duration calc_skill_training_time( const npc &p, const skill_id &skill )
 
 int calc_skill_training_cost( const npc &p, const skill_id &skill )
 {
-    if( p.is_friend() ) {
+    if( p.is_player_ally() ) {
         return 0;
     }
 
@@ -147,7 +147,7 @@ time_duration calc_ma_style_training_time( const npc &, const matype_id & /* id 
 
 int calc_ma_style_training_cost( const npc &p, const matype_id & /* id */ )
 {
-    if( p.is_friend() ) {
+    if( p.is_player_ally() ) {
         return 0;
     }
 
@@ -174,7 +174,7 @@ void game::chat()
                rl_dist( u.pos(), guy.pos() ) <= SEEX * 2;
     } );
     const std::vector<npc *> followers = get_npcs_if( [&]( const npc & guy ) {
-        return guy.is_friend() && guy.is_following() && guy.can_hear( u.pos(), volume );
+        return guy.is_player_ally() && guy.is_following() && guy.can_hear( u.pos(), volume );
     } );
     const std::vector<npc *> guards = get_npcs_if( [&]( const npc & guy ) {
         return guy.mission == NPC_MISSION_GUARD_ALLY &&
@@ -305,11 +305,11 @@ void npc::handle_sound( int priority, const std::string &description, int heard_
              disp_name(), description, priority, heard_volume, spos.x, spos.y, pos().x, pos().y );
 
     const sounds::sound_t spriority = static_cast<sounds::sound_t>( priority );
-    bool is_player_ally = g->u.pos() == spos && is_ally( g->u );
+    bool player_ally = g->u.pos() == spos && is_player_ally();
     npc *const sound_source = g->critter_at<npc>( spos );
-    bool is_npc_ally = sound_source && sound_source->is_npc() && is_ally( *sound_source );
+    bool npc_ally = sound_source && sound_source->is_npc() && is_ally( *sound_source );
 
-    if( ( is_player_ally || is_npc_ally ) && spriority == sounds::sound_t::order ) {
+    if( ( player_ally || npc_ally ) && spriority == sounds::sound_t::order ) {
         say( "<acknowledged>" );
     }
 
@@ -320,11 +320,11 @@ void npc::handle_sound( int priority, const std::string &description, int heard_
     // @ todo NPC will need to respond to talking noise eventually
     // but only for bantering purposes, not for investigating.
     if( spriority < sounds::sound_t::alarm ) {
-        if( is_player_ally ) {
+        if( player_ally ) {
             add_msg( m_debug, "Allied NPC ignored same faction %s", name );
             return;
         }
-        if( is_npc_ally ) {
+        if( npc_ally ) {
             add_msg( m_debug, "NPC ignored same faction %s", name );
             return;
         }
@@ -332,7 +332,7 @@ void npc::handle_sound( int priority, const std::string &description, int heard_
     // discount if sound source is player, or seen by player,
     // and listener is friendly and sound source is combat or alert only.
     if( spriority < sounds::sound_t::alarm && g->u.sees( spos ) ) {
-        if( is_ally( g->u ) ) {
+        if( is_player_ally() ) {
             add_msg( m_debug, "NPC %s ignored low priority noise that player can see", name );
             return;
             // discount if sound source is player, or seen by player,
@@ -354,8 +354,8 @@ void npc::handle_sound( int priority, const std::string &description, int heard_
         if( spriority == sounds::sound_t::movement && !in_vehicle ) {
             warn_about( "movement_noise", rng( 1, 10 ) * 1_minutes, description );
         } else if( spriority > sounds::sound_t::movement ) {
-            if( !( is_player_ally || is_npc_ally ) && ( spriority == sounds::sound_t::speech ||
-                    spriority == sounds::sound_t::alert || spriority == sounds::sound_t::order ) ) {
+            if( !( player_ally || npc_ally ) && ( spriority == sounds::sound_t::speech ||
+                                                  spriority == sounds::sound_t::alert || spriority == sounds::sound_t::order ) ) {
                 warn_about( "speech_noise", rng( 1, 10 ) * 1_minutes );
             } else if( spriority > sounds::sound_t::activity ) {
                 warn_about( "combat_noise", rng( 1, 10 ) * 1_minutes );
@@ -436,7 +436,7 @@ void npc::talk_to_u( bool text_only, bool radio_contact )
         d.by_radio = true;
     } else if( is_leader() ) {
         d.add_topic( "TALK_LEADER" );
-    } else if( is_friend() ) {
+    } else if( is_player_ally() && is_walking_with() ) {
         d.add_topic( "TALK_FRIEND" );
     }
 
@@ -639,8 +639,6 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
             response = string_format( ngettext( "%d foot.", "%d feet.", dist ), dist );
         }
         return response;
-    } else if( topic == "TALK_FRIEND" ) {
-        return _( "What is it?" );
     } else if( topic == "TALK_DESCRIBE_MISSION" ) {
         switch( p->mission ) {
             case NPC_MISSION_SHELTER:
@@ -672,7 +670,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
             return "&You can't make anything out.";
         }
 
-        if( p->is_friend() || ability > 100 ) {
+        if( p->is_player_ally() || ability > 100 ) {
             ability = 100;
         }
 
@@ -741,20 +739,11 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         return "&" + p->short_description();
     } else if( topic == "TALK_OPINION" ) {
         return "&" + p->opinion_text();
-    } else if( topic == "TALK_USE_ITEM" ) {
-        return give_item_to( *p, true, false );
-    } else if( topic == "TALK_GIVE_ITEM" ) {
-        return give_item_to( *p, false, true );
-        // Maybe TODO: Allow an option to "just take it, use it if you want"
     } else if( topic == "TALK_MIND_CONTROL" ) {
+        bool not_following = g->get_follower_list().count( p->getID() ) == 0;
         p->companion_mission_role_id.clear();
-        p->set_attitude( NPCATT_FOLLOW );
-        std::vector<int> followerlist = g->get_follower_list();
-        int npc_id = p->getID();
-        if( !std::any_of( followerlist.begin(), followerlist.end(), [npc_id]( int i ) {
-        return i == npc_id;
-    } ) ) {
-            g->add_npc_follower( npc_id );
+        talk_function::follow( *p );
+        if( not_following ) {
             return _( "YES, MASTER!" );
         }
     }
@@ -939,7 +928,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         add_response_done( _( "Let's keep moving." ) );
     }
 
-    if( g->u.has_trait( trait_DEBUG_MIND_CONTROL ) && !p->is_friend() ) {
+    if( g->u.has_trait( trait_DEBUG_MIND_CONTROL ) && !p->is_player_ally() ) {
         add_response( _( "OBEY ME!" ), "TALK_MIND_CONTROL" );
         add_response_done( _( "Bye." ) );
     }
@@ -1827,6 +1816,13 @@ void talk_effect_fun_t::set_bulk_trade_accept( bool is_trade, bool is_npc )
     };
 }
 
+void talk_effect_fun_t::set_npc_gets_item( bool to_use )
+{
+    function = [to_use]( const dialogue & d ) {
+        d.reason = give_item_to( *( d.beta ), to_use, !to_use );
+    };
+}
+
 void talk_effect_t::set_effect_consequence( const talk_effect_fun_t &fun, dialogue_consequence con )
 {
     effects.push_back( fun );
@@ -2053,6 +2049,7 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, JsonObjec
             WRAP( bionic_install ),
             WRAP( bionic_remove ),
             WRAP( follow ),
+            WRAP( follow_only ),
             WRAP( deny_follow ),
             WRAP( deny_lead ),
             WRAP( deny_equipment ),
@@ -2061,6 +2058,7 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, JsonObjec
             WRAP( hostile ),
             WRAP( flee ),
             WRAP( leave ),
+            WRAP( stop_following ),
             WRAP( goto_location ),
             WRAP( stranger_neutral ),
             WRAP( start_mugging ),
@@ -2085,12 +2083,19 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, JsonObjec
         return;
     }
 
+    talk_effect_fun_t subeffect_fun;
     if( effect_id == "u_bulk_trade_accept" || effect_id == "npc_bulk_trade_accept" ||
         effect_id == "u_bulk_donate" || effect_id == "npc_bulk_donate" ) {
-        talk_effect_fun_t subeffect_fun;
         bool is_npc = effect_id == "npc_bulk_trade_accept" || effect_id == "npc_bulk_donate";
         bool is_trade = effect_id == "u_bulk_trade_accept" || effect_id == "npc_bulk_trade_accept";
         subeffect_fun.set_bulk_trade_accept( is_trade, is_npc );
+        set_effect( subeffect_fun );
+        return;
+    }
+
+    if( effect_id == "npc_gets_item" || effect_id == "npc_gets_item_to_use" ) {
+        bool to_use = effect_id == "npc_gets_item_to_use";
+        subeffect_fun.set_npc_gets_item( to_use );
         set_effect( subeffect_fun );
         return;
     }
@@ -2734,7 +2739,7 @@ void conditional_t::set_npc_following()
 void conditional_t::set_npc_friend()
 {
     condition = []( const dialogue & d ) {
-        return d.beta->is_friend();
+        return d.beta->is_friendly( g->u );
     };
 }
 
@@ -2835,6 +2840,13 @@ void conditional_t::set_is_by_radio()
 {
     condition = []( const dialogue & d ) {
         return d.by_radio;
+    };
+}
+
+void conditional_t::set_has_reason()
+{
+    condition = []( const dialogue & d ) {
+        return !d.reason.empty();
     };
 }
 
@@ -3072,6 +3084,8 @@ conditional_t::conditional_t( const std::string &type )
         set_has_pickup_list();
     } else if( type == "is_by_radio" ) {
         set_is_by_radio();
+    } else if( type == "has_reason" ) {
+        set_has_reason();
     } else {
         condition = []( const dialogue & ) {
             return false;
@@ -3167,6 +3181,12 @@ dynamic_line_t::dynamic_line_t( JsonObject jo )
     } else if( jo.has_member( "give_hint" ) ) {
         function = [&]( const dialogue & ) {
             return get_hint();
+        };
+    } else if( jo.has_member( "use_reason" ) ) {
+        function = [&]( const dialogue & d ) {
+            std::string tmp = d.reason;
+            d.reason.clear();
+            return tmp;
         };
     } else {
         conditional_t dcondition;
@@ -3536,49 +3556,41 @@ std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
         return _( "Thanks!" );
     }
 
-    std::stringstream reason;
-    reason << _( "Nope." );
-    reason << std::endl;
+    std::string reason = _( "Nope." );
     if( allow_use ) {
         if( !no_consume_reason.empty() ) {
-            reason << no_consume_reason;
-            reason << std::endl;
+            reason += no_consume_reason + "\n";
         }
 
-        reason << _( "My current weapon is better than this." );
-        reason << std::endl;
-        reason << string_format( _( "(new weapon value: %.1f vs %.1f)." ),
-                                 new_weapon_value, cur_weapon_value );
+        reason += _( "My current weapon is better than this." );
+        reason += "\n" + string_format( _( "(new weapon value: %.1f vs %.1f)." ), new_weapon_value,
+                                        cur_weapon_value );
         if( !given.is_gun() && given.is_armor() ) {
-            reason << std::endl;
-            reason << string_format( _( "It's too encumbering to wear." ) );
+            reason += "\n" + string_format( _( "It's too encumbering to wear." ) );
         }
     }
     if( allow_carry ) {
         if( !p.can_pickVolume( given ) ) {
             const units::volume free_space = p.volume_capacity() - p.volume_carried();
-            reason << std::endl;
-            reason << string_format( _( "I have no space to store it." ) );
-            reason << std::endl;
+            reason += "\n" + string_format( _( "I have no space to store it." ) ) + "\n";
             if( free_space > 0_ml ) {
-                reason << string_format( _( "I can only store %s %s more." ),
+                reason += string_format( _( "I can only store %s %s more." ),
                                          format_volume( free_space ), volume_units_long() );
             } else {
-                reason << string_format( _( "...or to store anything else for that matter." ) );
+                reason += string_format( _( "...or to store anything else for that matter." ) );
             }
         }
         if( !p.can_pickWeight( given ) ) {
-            reason << std::endl;
-            reason << string_format( _( "It is too heavy for me to carry." ) );
+            reason += "\n" + string_format( _( "It is too heavy for me to carry." ) );
         }
     }
 
-    return reason.str();
+    return reason;
 }
 
 bool npc::has_item_whitelist() const
 {
-    return is_following() && !rules.pickup_whitelist->empty();
+    return is_player_ally() && !rules.pickup_whitelist->empty();
 }
 
 bool npc::item_name_whitelisted( const std::string &to_match )

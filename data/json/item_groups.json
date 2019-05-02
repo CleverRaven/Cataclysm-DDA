@@ -3485,7 +3485,8 @@
       [ "smoxygen_tank", 25 ],
       [ "bfipowder", 15 ],
       [ "quikclot", 10 ],
-      [ "anesthesia", 20 ]
+      [ "anesthetic", 20 ],
+      [ "anesthetic_kit", 10 ]
     ]
   },
   {
@@ -4664,6 +4665,8 @@
   {
     "type": "item_group",
     "id": "chem_school",
+    "ammo": 50,
+    "magazine": 100,
     "items": [
       [ "balance_small", 5 ],
       [ "ph_meter", 5 ],
@@ -4771,6 +4774,8 @@
   {
     "type": "item_group",
     "id": "chem_lab",
+    "ammo": 50,
+    "magazine": 100,
     "items": [
       { "group": "supplies_reagents_lab", "prob": 60 },
       [ "ether", 5 ],
@@ -4828,6 +4833,8 @@
   {
     "type": "item_group",
     "id": "mut_lab",
+    "ammo": 50,
+    "magazine": 100,
     "items": [
       { "group": "supplies_reagents_lab", "prob": 20 },
       [ "gelbox", 3 ],
@@ -5113,6 +5120,8 @@
   {
     "type": "item_group",
     "id": "lab_dorm",
+    "ammo": 50,
+    "magazine": 100,
     "items": [
       [ "inhaler", 14 ],
       [ "eyedrops", 20 ],
@@ -6056,6 +6065,8 @@
   {
     "type": "item_group",
     "id": "mine_equipment",
+    "ammo": 80,
+    "magazine": 100,
     "items": [
       [ "water_clean", 90 ],
       [ "1st_aid", 35 ],

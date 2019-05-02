@@ -819,6 +819,51 @@ void player::start_craft( craft_command &command, const tripoint &loc )
                        craft.tname() ) );
 }
 
+void player::craft_skill_gain( const item &craft, const int &multiplier )
+{
+    if( !craft.is_craft() ) {
+        debugmsg( "craft_skill_check() called on non-craft '%s.' Aborting.", craft.tname() );
+        return;
+    }
+
+    const recipe &making = craft.get_making();
+    const int batch_size = craft.charges;
+
+    std::vector<npc *> helpers = get_crafting_helpers();
+
+    if( making.skill_used ) {
+        // Normalize experience gain to crafting time, giving a bonus for longer crafting
+        const double batch_mult = batch_size + base_time_to_craft( making, batch_size ) / 30000.0;
+        // This is called after every 5% crafting progress, so divide by 20
+        const int base_practice = roll_remainder( ( making.difficulty * 15 + 10 ) * batch_mult /
+                                  20.0 ) * multiplier;
+        const int skill_cap = static_cast<int>( making.difficulty * 1.25 );
+        practice( making.skill_used, base_practice, skill_cap );
+
+        // NPCs assisting or watching should gain experience...
+        for( auto &helper : helpers ) {
+            //If the NPC can understand what you are doing, they gain more exp
+            if( helper->get_skill_level( making.skill_used ) >= making.difficulty ) {
+                helper->practice( making.skill_used, roll_remainder( base_practice / 2.0 ),
+                                  skill_cap );
+                if( batch_size > 1 && one_in( 3 ) ) {
+                    add_msg( m_info, _( "%s assists with crafting..." ), helper->name );
+                }
+                if( batch_size == 1 && one_in( 3 ) ) {
+                    add_msg( m_info, _( "%s could assist you with a batch..." ), helper->name );
+                }
+                // NPCs around you understand the skill used better
+            } else {
+                helper->practice( making.skill_used, roll_remainder( base_practice / 10.0 ),
+                                  skill_cap );
+                if( one_in( 3 ) ) {
+                    add_msg( m_info, _( "%s watches you craft..." ), helper->name );
+                }
+            }
+        }
+    }
+}
+
 void player::complete_craft( item &craft, const tripoint &loc )
 {
     if( !craft.is_craft() ) {
@@ -901,36 +946,6 @@ void player::complete_craft( item &craft, const tripoint &loc )
 
     int skill_roll = dice( skill_dice, skill_sides );
     int diff_roll  = dice( diff_dice,  diff_sides );
-
-    if( making.skill_used ) {
-        // normalize experience gain to crafting time, giving a bonus for longer crafting
-        const double batch_mult = batch_size + base_time_to_craft( making, batch_size ) / 30000.0;
-        const int base_practice = ( making.difficulty * 15 + 10 ) * batch_mult;
-        const int skill_cap = static_cast<int>( making.difficulty * 1.25 );
-        practice( making.skill_used, base_practice, skill_cap );
-
-        //NPCs assisting or watching should gain experience...
-        for( auto &helper : helpers ) {
-            //If the NPC can understand what you are doing, they gain more exp
-            if( helper->get_skill_level( making.skill_used ) >= making.difficulty ) {
-                helper->practice( making.skill_used,
-                                  static_cast<int>( base_practice * 0.50 ),
-                                  skill_cap );
-                if( batch_size > 1 ) {
-                    add_msg( m_info, _( "%s assists with crafting..." ), helper->name );
-                }
-                if( batch_size == 1 ) {
-                    add_msg( m_info, _( "%s could assist you with a batch..." ), helper->name );
-                }
-                //NPCs around you understand the skill used better
-            } else {
-                helper->practice( making.skill_used,
-                                  static_cast<int>( base_practice * 0.15 ),
-                                  skill_cap );
-                add_msg( m_info, _( "%s watches you craft..." ), helper->name );
-            }
-        }
-    }
 
     std::list<item> &used = craft.components;
     const double relative_rot = craft.get_relative_rot();
@@ -1957,8 +1972,9 @@ void remove_ammo( item &dis_item, player &p )
 std::vector<npc *> player::get_crafting_helpers() const
 {
     return g->get_npcs_if( [this]( const npc & guy ) {
-        return rl_dist( guy.pos(), pos() ) < PICKUP_RANGE && ( guy.is_friend() ||
-                guy.mission == NPC_MISSION_GUARD_ALLY ) &&
-               !guy.in_sleep_state() && g->m.clear_path( pos(), guy.pos(), PICKUP_RANGE, 1, 100 );
+        // NPCs can help craft if awake, taking orders, within pickup range and have clear path
+        return !guy.in_sleep_state() && guy.is_obeying( *this ) &&
+               rl_dist( guy.pos(), pos() ) < PICKUP_RANGE &&
+               g->m.clear_path( pos(), guy.pos(), PICKUP_RANGE, 1, 100 );
     } );
 }

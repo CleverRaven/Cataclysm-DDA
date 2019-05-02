@@ -113,8 +113,6 @@
     "warmth": 20,
     "environmental_protection": 11,
     "qualities": [ [ "GLARE", 3 ] ],
-    "max_charges": 100,
-    "initial_charges": 100,
     "charges_per_use": 1,
     "ammo": "battery",
     "use_action": {

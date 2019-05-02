@@ -81,10 +81,10 @@ int snippet_library::get_snippet_by_id( const std::string &id ) const
 
 int snippet_library::assign( const std::string &category ) const
 {
-    return assign( category, rand() );
+    return assign( category, rng_bits() );
 }
 
-int snippet_library::assign( const std::string &category, const int seed ) const
+int snippet_library::assign( const std::string &category, const unsigned seed ) const
 {
     const int count = categories.count( category );
     if( count == 0 ) {

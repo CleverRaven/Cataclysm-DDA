@@ -365,7 +365,7 @@ bool Pickup::do_pickup( const tripoint &pickup_target_arg, bool from_vehicle,
 }
 
 // Pick up items at (pos).
-void Pickup::pick_up( const tripoint &p, int min )
+void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
 {
     int cargo_part = -1;
 
@@ -374,25 +374,29 @@ void Pickup::pick_up( const tripoint &p, int min )
     bool from_vehicle = false;
 
     if( min != -1 ) {
-        veh_interact_results get_items_from = ITEMS_FROM_GROUND;
-        if( veh != nullptr ) {
-            get_items_from = veh->interact_with( p, vp->part_index() );
-        }
-        switch( get_items_from ) {
-            case DONE:
-                return;
-            case ITEMS_FROM_CARGO: {
-                const cata::optional<vpart_reference> carg = vp.part_with_feature( "CARGO", false );
-                cargo_part = carg ? carg->part_index() : -1;
-                from_vehicle = cargo_part >= 0;
-                break;
-            }
-            case ITEMS_FROM_GROUND:
-                // Nothing to change, default is to pick from ground anyway.
-                if( g->m.has_flag( "SEALED", p ) ) {
+        if( veh != nullptr && get_items_from == prompt ) {
+            const cata::optional<vpart_reference> carg = vp.part_with_feature( "CARGO", false );
+            const bool veh_has_items = carg && !veh->get_items( carg->part_index() ).empty();
+            const bool map_has_items = g->m.has_items( p );
+            if( veh_has_items && map_has_items ) {
+                uilist amenu( _( "Get items from where?" ), { _( "Get items from vehicle cargo" ), _( "Get items on the ground" ) } );
+                if( amenu.ret == UILIST_CANCEL ) {
                     return;
                 }
-                break;
+                get_items_from = static_cast<from_where>( amenu.ret );
+            } else if( veh_has_items ) {
+                get_items_from = from_cargo;
+            }
+        }
+        if( get_items_from == from_cargo ) {
+            const cata::optional<vpart_reference> carg = vp.part_with_feature( "CARGO", false );
+            cargo_part = carg ? carg->part_index() : -1;
+            from_vehicle = cargo_part >= 0;
+        } else {
+            // Nothing to change, default is to pick from ground anyway.
+            if( g->m.has_flag( "SEALED", p ) ) {
+                return;
+            }
         }
     }
 

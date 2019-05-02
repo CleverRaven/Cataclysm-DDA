@@ -73,6 +73,7 @@
     "dispersion": 180,
     "loudness": 0,
     "count": 10,
+    "show_stats": true,
     "effects": [ "RECOVER_8" ]
   },
   {
@@ -151,6 +152,7 @@
     "dispersion": 100,
     "loudness": 0,
     "count": 10,
+    "show_stats": true,
     "effects": [ "RECOVER_20" ]
   },
   {
@@ -423,6 +425,7 @@
     "volume": 10,
     "bashing": 13,
     "to_hit": -1,
+    "ranged_damage": 12,
     "range": 8,
     "dispersion": 500,
     "recoil": 30,

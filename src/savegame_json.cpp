@@ -1353,6 +1353,12 @@ void npc::load( JsonObject &data )
     if( data.read( "my_fac", facID ) ) {
         fac_id = faction_id( facID );
     }
+    int temp_fac_api_ver = 0;
+    if( data.read( "faction_api_ver", temp_fac_api_ver ) ) {
+        faction_api_version = temp_fac_api_ver;
+    } else {
+        faction_api_version = 0;
+    }
 
     if( data.read( "attitude", atttmp ) ) {
         attitude = npc_attitude( atttmp );
@@ -1479,6 +1485,7 @@ void npc::store( JsonOut &json ) const
     json.member( "pulp_location", pulp_location );
 
     json.member( "mission", mission ); // TODO: stringid
+    json.member( "faction_api_ver", faction_api_version );
     if( !fac_id.str().empty() ) { // set in constructor
         json.member( "my_fac", my_fac->id.c_str() );
     }
@@ -2980,6 +2987,7 @@ void basecamp::serialize( JsonOut &json ) const
         json.member( "pos", omt_pos );
         json.member( "bb_pos", bb_pos );
         json.member( "expansions" );
+        json.member( "fortifications" );
         json.start_array();
         for( const auto &expansion : expansions ) {
             json.start_object();
@@ -2987,6 +2995,11 @@ void basecamp::serialize( JsonOut &json ) const
             json.member( "type", expansion.second.type );
             json.member( "cur_level", expansion.second.cur_level );
             json.member( "pos", expansion.second.pos );
+            json.end_object();
+        }
+        for( const auto &fortification : fortifications ) {
+            json.start_object();
+            json.member( "pos", fortification );
             json.end_object();
         }
         json.end_array();
@@ -3014,5 +3027,12 @@ void basecamp::deserialize( JsonIn &jsin )
         if( dir != "[B]" ) {
             directions.push_back( dir );
         }
+    }
+    JsonArray jo = data.get_array( "fortifications" );
+    while( jo.has_more() ) {
+        JsonObject edata = jo.next_object();
+        tripoint restore_pos;
+        edata.read( "pos", restore_pos );
+        fortifications.push_back( restore_pos );
     }
 }

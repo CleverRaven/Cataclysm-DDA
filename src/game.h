@@ -8,6 +8,7 @@
 #include <map>
 #include <memory>
 #include <unordered_map>
+#include <set>
 #include <vector>
 #include <ctime>
 #include <functional>
@@ -511,12 +512,12 @@ class game
         void increase_kill_count( const mtype_id &id );
         /** Record the fact that the player murdered an NPC. */
         void record_npc_kill( const npc &p );
-        /** Add follower id to list. */
+        /** Add follower id to set of followers. */
         void add_npc_follower( const int &id );
-        /** Remove follower id from follower list. */
+        /** Remove follower id from follower set. */
         void remove_npc_follower( const int &id );
-        /** Get list of followers. */
-        std::vector<int> get_follower_list();
+        /** Get set of followers. */
+        std::set<int> get_follower_list();
         /** validate list of followers to account for overmap buffers */
         void validate_npc_followers();
         /** validate camps to ensure they are on the overmap list */
@@ -927,6 +928,7 @@ class game
         void set_critter_died();
         void mon_info( const catacurses::window &,
                        int hor_padding = 0 ); // Prints a list of nearby monsters
+        void cleanup_dead();     // Delete any dead NPCs/monsters
     private:
         void wield();
         void wield( int pos ); // Wield a weapon  'w'
@@ -981,7 +983,6 @@ class game
         void rebuild_mon_at_cache();
 
         // Routine loop functions, approximately in order of execution
-        void cleanup_dead();     // Delete any dead NPCs/monsters
         void monmove();          // Monster movement
         void overmap_npc_move(); // NPC overmap movement
         void process_activity(); // Processes and enacts the player's activity
@@ -1014,6 +1015,7 @@ class game
         void autosave();         // automatic quicksaves - Performs some checks before calling quicksave()
     public:
         void quicksave();        // Saves the game without quitting
+        void disp_NPCs();        // Currently for debug use.  Lists global NPCs.
     private:
         void quickload();        // Loads the previously saved game if it exists
 
@@ -1025,11 +1027,9 @@ class game
         void disp_kills();          // Display the player's kill counts
         void disp_faction_ends();   // Display the faction endings
         void disp_NPC_epilogues();  // Display NPC endings
-        void disp_NPCs();           // Currently UNUSED.  Lists global NPCs.
         void list_missions();       // Listed current, completed and failed missions (mission_ui.cpp)
 
         // Debug functions
-        void debug();           // All-encompassing debug screen. TODO: This.
         void display_scent();   // Displays the scent map
 
         Creature *is_hostile_within( int distance );
@@ -1108,7 +1108,8 @@ class game
         cata::optional<int> wind_direction_override;
         cata::optional<int> windspeed_override;
         weather_type weather_override;
-
+        // not only sets nextweather, but updates weather as well
+        void set_nextweather( time_point t );
     private:
         std::shared_ptr<player> u_shared_ptr;
         std::vector<std::shared_ptr<npc>> active_npc;
@@ -1126,7 +1127,7 @@ class game
         bool bVMonsterLookFire;
         time_point nextweather; // The time on which weather will shift next.
         int next_npc_id, next_mission_id; // Keep track of UIDs
-        std::vector<int> follower_ids; // Keep track of follower NPC IDs
+        std::set<int> follower_ids; // Keep track of follower NPC IDs
         std::map<mtype_id, int> kills;         // Player's kill count
         std::list<std::string> npc_kills;      // names of NPCs the player killed
         int moves_since_last_save;

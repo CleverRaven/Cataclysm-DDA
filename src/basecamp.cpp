@@ -278,7 +278,8 @@ void basecamp::validate_assignees()
         if( !npc_to_add ) {
             continue;
         }
-        if( npc_to_add->global_omt_location() == omt_pos && npc_to_add->mission == NPC_MISSION_GUARD_ALLY &&
+        if( npc_to_add->global_omt_location() == omt_pos &&
+            npc_to_add->mission == NPC_MISSION_GUARD_ALLY &&
             !npc_to_add->has_companion_mission() ) {
             assigned_npcs.push_back( npc_to_add );
         }
@@ -327,9 +328,9 @@ void basecamp::set_name( const std::string &new_name )
     name = new_name;
 }
 
-void basecamp::consume_components( const recipe &making, int batch_size, bool by_radio )
+void basecamp::consume_components( inventory &camp_inv, const recipe &making, int batch_size,
+                                   bool by_radio )
 {
-    inventory camp_inv = return_camp_inventory( by_radio );
     const auto &req = making.requirements();
     if( !by_radio ) {
         for( const auto &it : req.get_components() ) {
@@ -338,26 +339,29 @@ void basecamp::consume_components( const recipe &making, int batch_size, bool by
                                 g->m.getlocal( get_dumping_spot() ), 20 );
         }
         for( const auto &it : req.get_tools() ) {
-            g->u.consume_tools( g->m, g->u.select_tool_component( it, batch_size, camp_inv, DEFAULT_HOTKEYS,
-                                true, true ), batch_size, g->m.getlocal( get_dumping_spot() ), 20 );
+            g->u.consume_tools( g->m, g->u.select_tool_component( it, batch_size, camp_inv,
+                                DEFAULT_HOTKEYS, true, true ), batch_size,
+                                g->m.getlocal( get_dumping_spot() ), 20 );
         }
     } else {
         tinymap target_map;
         target_map.load( omt_pos.x * 2, omt_pos.y * 2, omt_pos.z, false );
         for( const auto &it : req.get_components() ) {
-            g->u.consume_items( target_map, g->u.select_item_component( it, batch_size, camp_inv, true,
-                                is_crafting_component, false ), batch_size, is_crafting_component,
-                                target_map.getlocal( get_dumping_spot() ), 20 );
+            g->u.consume_items( target_map, g->u.select_item_component( it, batch_size, camp_inv,
+                                true, is_crafting_component, false ), batch_size,
+                                is_crafting_component, target_map.getlocal( get_dumping_spot() ),
+                                20 );
         }
         for( const auto &it : req.get_tools() ) {
             g->u.consume_tools( target_map, g->u.select_tool_component( it, batch_size, camp_inv,
-                                DEFAULT_HOTKEYS, true, false ), batch_size, target_map.getlocal( get_dumping_spot() ), 20 );
+                                DEFAULT_HOTKEYS, true, false ), batch_size,
+                                target_map.getlocal( get_dumping_spot() ), 20 );
         }
         target_map.save();
     }
 }
 
-inventory basecamp::return_camp_inventory( const bool by_radio )
+inventory basecamp::crafting_inventory( const bool by_radio )
 {
     inventory new_inv;
     if( !by_radio ) {
@@ -365,7 +369,8 @@ inventory basecamp::return_camp_inventory( const bool by_radio )
     } else {
         tinymap target_map;
         target_map.load( omt_pos.x * 2, omt_pos.y * 2, omt_pos.z, false );
-        new_inv.form_from_map( target_map, target_map.getlocal( get_dumping_spot() ), 20, false, false );
+        new_inv.form_from_map( target_map, target_map.getlocal( get_dumping_spot() ), 20, false,
+                               false );
     }
     return new_inv;
 }

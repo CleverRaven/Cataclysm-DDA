@@ -413,6 +413,7 @@ static void set_time( int time )
     g->reset_light_level();
     int z = g->u.posz();
     g->m.update_visibility_cache( z );
+    g->m.invalidate_map_cache( z );
     g->m.build_map_cache( z );
 }
 
@@ -427,6 +428,11 @@ static int actually_test_craft( const recipe_id &rid, const std::vector<item> to
     REQUIRE( g->u.morale_crafting_speed_multiplier( rec ) == 1.0 );
     REQUIRE( g->u.lighting_craft_speed_multiplier( rec ) == 1.0 );
     REQUIRE( !g->u.activity );
+
+    // This really shouldn't be needed, but for some reason the tests fail for mingw builds without it
+    g->u.learn_recipe( &rec );
+    REQUIRE( g->u.has_recipe( &rec, g->u.crafting_inventory(), g->u.get_crafting_helpers() ) != -1 );
+
     g->u.make_craft( rid, 1 );
     CHECK( g->u.activity );
     CHECK( g->u.activity.id() == activity_id( "ACT_CRAFT" ) );

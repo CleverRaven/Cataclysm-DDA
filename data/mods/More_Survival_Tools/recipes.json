@@ -157,19 +157,6 @@
   },
   {
     "type": "recipe",
-    "result": "throwing_stick",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_RANGED",
-    "skill_used": "survival",
-    "skills_required": [ "fabrication", 1 ],
-    "difficulty": 1,
-    "time": 1000,
-    "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
     "result": "hand_axe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",

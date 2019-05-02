@@ -2608,7 +2608,7 @@ bool repair_item_actor::handle_components( player &pl, const item &fix,
     // TODO: should 250_ml be part of the cost_scaling?
     const int items_needed = std::max<int>( 1, just_check ?
                                             ceil( fix.volume() / 250_ml * cost_scaling ) :
-                                            divide_roll_remainder( fix.volume() / 250_ml * cost_scaling, 1.0f ) );
+                                            roll_remainder( fix.volume() / 250_ml * cost_scaling ) );
 
     std::function<bool( const item & )> filter;
     if( fix.is_filthy() ) {
@@ -2734,7 +2734,7 @@ bool repair_item_actor::can_repair_target( player &pl, const item &fix,
     }
 
     const bool small = pl.has_trait( trait_SMALL2 ) || pl.has_trait( trait_SMALL_OK );
-    if( ( small && !fix.has_flag( "UNDERSIZE" ) ) || ( !small && fix.has_flag( "UNDERSIZE" ) ) ) {
+    if( small != fix.has_flag( "UNDERSIZE" ) ) {
         return true;
     }
 
@@ -2811,16 +2811,14 @@ std::pair<float, float> repair_item_actor::repair_chance(
 repair_item_actor::repair_type repair_item_actor::default_action( const item &fix,
         int current_skill_level ) const
 {
-    const bool smol = g->u.has_trait( trait_id( "SMALL2" ) ) ||
-                      g->u.has_trait( trait_id( "SMALL_OK" ) );
+    const bool small = g->u.has_trait( trait_id( "SMALL2" ) ) ||
+                       g->u.has_trait( trait_id( "SMALL_OK" ) );
     if( fix.damage() > 0 ) {
         return RT_REPAIR;
     }
 
     if( fix.has_flag( "VARSIZE" ) &&
-        ( ( ( !fix.has_flag( "FIT" ) ) ) ||
-          ( smol && !fix.has_flag( "UNDERSIZE" ) )  ||
-          ( !smol && fix.has_flag( "UNDERSIZE" ) ) ) ) {
+        ( !fix.has_flag( "FIT" ) ||  small != fix.has_flag( "UNDERSIZE" ) ) ) {
         return RT_REFIT;
     }
 
@@ -2837,8 +2835,9 @@ repair_item_actor::repair_type repair_item_actor::default_action( const item &fi
 
 bool damage_item( player &pl, item_location &fix )
 {
+    const auto destroyed = fix->inc_damage();
     pl.add_msg_if_player( m_bad, _( "You damage your %s!" ), fix->tname() );
-    if( fix->inc_damage() ) {
+    if( destroyed ) {
         pl.add_msg_if_player( m_bad, _( "You destroy it!" ) );
         if( fix.where() == item_location::type::character ) {
             pl.i_rem_keep_contents( pl.get_item_position( fix.get_item() ) );
@@ -2903,13 +2902,14 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
 
     if( action == RT_REPAIR ) {
         if( roll == SUCCESS ) {
-            if( fix->damage() > itype::damage_scale ) {
+            const auto damage = fix->damage();
+            handle_components( pl, *fix, false, false );
+            fix->set_damage( std::max( damage - itype::damage_scale, 0 ) );
+            if( damage > itype::damage_scale ) {
                 pl.add_msg_if_player( m_good, _( "You repair your %s!" ), fix->tname() );
             } else {
                 pl.add_msg_if_player( m_good, _( "You repair your %s completely!" ), fix->tname() );
             }
-            handle_components( pl, *fix, false, false );
-            fix->set_damage( std::max( fix->damage() - itype::damage_scale, 0 ) );
             return AS_SUCCESS;
         }
 
@@ -2918,18 +2918,18 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
 
     if( action == RT_REFIT ) {
         if( roll == SUCCESS ) {
-            const bool smol = g->u.has_trait( trait_id( "SMALL2" ) ) ||
-                              g->u.has_trait( trait_id( "SMALL_OK" ) );
+            const bool small = g->u.has_trait( trait_id( "SMALL2" ) ) ||
+                               g->u.has_trait( trait_id( "SMALL_OK" ) );
             if( !fix->has_flag( "FIT" ) ) {
                 pl.add_msg_if_player( m_good, _( "You take your %s in, improving the fit." ),
                                       fix->tname() );
                 fix->item_tags.insert( "FIT" );
             }
-            if( smol && !fix->has_flag( "UNDERSIZE" ) ) {
+            if( small && !fix->has_flag( "UNDERSIZE" ) ) {
                 pl.add_msg_if_player( m_good, _( "You resize the %s to accommodate your tiny build." ),
                                       fix->tname() );
                 fix->item_tags.insert( "UNDERSIZE" );
-            } else if( !smol && fix->has_flag( "UNDERSIZE" ) ) {
+            } else if( !small && fix->has_flag( "UNDERSIZE" ) ) {
                 pl.add_msg_if_player( m_good, _( "You adjust the %s back to its normal size." ),
                                       fix->tname() );
                 fix->item_tags.erase( "UNDERSIZE" );
