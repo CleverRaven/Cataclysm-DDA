@@ -1636,6 +1636,22 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "cs_internet_cafe_roof",
+    "copy-from": "generic_city_building",
+    "name": "internet cafe roof",
+    "sym": "i",
+    "color": "light_green_cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cs_internet_cafe_upper_roof",
+    "copy-from": "generic_city_building",
+    "name": "internet cafe roof",
+    "sym": "i",
+    "color": "light_green_cyan"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "cs_car_showroom",
     "copy-from": "generic_city_building",
     "name": "car showroom",
