@@ -1145,6 +1145,15 @@ bool player::uninstall_bionic( const bionic_id &b_id, player &installer, bool au
 bool player::uninstall_bionic( const bionic &target_cbm, monster &installer, player &patient,
                                float adjusted_skill, bool autodoc )
 {
+    const std::string ammo_type( "anesthetic" );
+
+    if( installer.ammo[ammo_type] <= 0 ) {
+        if( g->u.sees( installer ) ) {
+            add_msg( "The %s's anesthesia kit looks empty", installer.name() );
+        }
+        return false;
+    }
+
     item bionic_to_uninstall = item( target_cbm.id.str(), 0 );
     const itype *itemtype = bionic_to_uninstall.type;
     int difficulty = itemtype->bionic->difficulty;
@@ -1165,6 +1174,9 @@ bool player::uninstall_bionic( const bionic &target_cbm, monster &installer, pla
                  _( "The %1$s gently inserts a syringe into %2$s's arm and starts injecting something while holding them down." ),
                  installer.name(), patient.disp_name() );
     }
+
+    installer.ammo[ammo_type] -= 1 ;
+
     patient.add_effect( effect_narcosis, duration );
     patient.add_effect( effect_sleep, duration );
 
