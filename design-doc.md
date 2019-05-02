@@ -607,6 +607,8 @@ A great deal of game progression is gated by acquisition of items. The player ca
 
 The player is able to supplement these scavenged goods by crafting a wide variety of items, ranging from mundane cooking to advanced chemistry.
 
+Structures provide a valuable resource as well, which can be found and modified or constructed from scratch as well.
+
 ### Senses
 
 The player character can perceive their surroundings by sight, hearing, smell and touch.
