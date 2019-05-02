@@ -1308,6 +1308,7 @@ void debug()
                 break;
         }
         catacurses::erase();
+        m.invalidate_map_cache( g->get_levz() );
         g->refresh_all();
     }
 
