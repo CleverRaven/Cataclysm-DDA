@@ -2345,7 +2345,7 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
         // But only if we didn't destroy the item (because then it's obvious)
         const bool destroyed = attempt == repair_item_actor::AS_DESTROYED;
         const bool cannot_continue_repair = attempt == repair_item_actor::AS_CANT ||
-            destroyed || !actor->can_repair_target( *p, *fix_location, !destroyed );
+                                            destroyed || !actor->can_repair_target( *p, *fix_location, !destroyed );
         if( cannot_continue_repair ) {
             // Cannot continue to repair target, select another target.
             // **Warning**: as soon as the item is popped back, it is destroyed and can't be used anymore!
@@ -2353,8 +2353,8 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
         }
 
         const bool event_happened = attempt == repair_item_actor::AS_FAILURE ||
-            attempt == repair_item_actor::AS_SUCCESS ||
-            old_level != p->get_skill_level( actor->used_skill );
+                                    attempt == repair_item_actor::AS_SUCCESS ||
+                                    old_level != p->get_skill_level( actor->used_skill );
 
         const bool need_input =
             ( repeat == REPEAT_ONCE ) ||
