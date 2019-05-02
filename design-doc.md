@@ -80,6 +80,8 @@ DF seems to over-invest in world building.  The progress made by the game is ast
 
 Explore a gigantic procedurally generated world.
 
+Unique and deep focus on the complex implications ofvan apocalyptic scenario.
+
 Scavenge, Build, Drive and Crash procedurally generated vehicles.
 
 Craft a huge variety of useful and questionable items to aid in your survival.
@@ -372,7 +374,7 @@ Tactically forests provide a great resource for evading pursuers by breaking lin
 
 Enemies in forests are less pervasive than in towns and cities, but can still occur in dense pockets.
 
-### Rivers
+### Rivers/Lakes
 
 Without any form of water borne vehicle, rivers represent a hard barrier to player movement. While an unencumbered player can likely swim across a river, that leaves them vulnerable once they reach the other side.
 
@@ -601,7 +603,7 @@ The player character can see other entities in a wide area around themselves, wi
 
 The player character can attack adjacent (and sometimes nearby) enemies with melee weapons, and distant enemies with various ranged weapons.
 
-A great deal of game progression is gated by acquisition of items. The player can scavenge items from the procedurally generated towns and cities,  as well as more exotic locations.
+A great deal of game progression is gated by acquisition of items. The player can scavenge items from the procedurally generated towns and cities, as well as more exotic locations.
 
 The player is able to supplement these scavenged goods by crafting a wide variety of items, ranging from mundane cooking to advanced chemistry.
 
@@ -638,6 +640,20 @@ Unarmed combat is possible, but is even more dangerous than armed melee combat, 
 The player character is expected to obtain the vast majority of their possessions by scavenging items made before the cataclysm. With the vast reduction in population, the surplus of durable goods available to each survivor is staggering.
 
 In general, goods should be distributed in a way representative of how they would be distributed in reality, and if this negatively impacts game balance, other game aspects such as placement of enemies should be adjusted to bring things in balance rather than adjusting the placement of items.
+
+This results in a glut of marginally useful resources, but scarcity of ideal resources.
+
+For example cars are extrordinarally common, but robust and functional cars that are both in full working order and not surrounded by dangerous enemies are rare.
+
+Likewise improvised melee weapons appear in vast numbers, but quality melee weapons and powerful firearms and ammunition are somewhat harder to come by.
+
+### Crafting
+
+The player can accumulate raw materials and tools to craft a wide variety of items to supplement what they scavenge.
+
+Skill,tool, raw material and time requirements to craft items reflect the parameters of crafting the corresponding item in reality.
+
+This places many useful items out of reach of most survivors, in particular staples such as electronics  internal combustion engines, most firearms and gunpowder are out of reach.
 
 # Story
 
