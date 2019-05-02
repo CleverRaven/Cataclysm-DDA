@@ -2916,9 +2916,10 @@ void npc::heal_player( player &patient )
 
 void npc:: pretend_heal( player &patient, item used )
 {
-    add_msg( _( "%1$s heals %2$s." ), disp_name(),
-             patient.disp_name() ); // you can tell that it's not real by looking at your HP though
-
+    if( g->u.sees( *this ) ) {
+        add_msg( _( "%1$s heals %2$s." ), disp_name(),
+                 patient.disp_name() ); // you can tell that it's not real by looking at your HP though
+    }
     consume_charges( used, 1 ); // empty hallucination's inventory to avoid spammming
     moves -= 100; // consumes moves to avoid infinite loop
 }
