@@ -80,7 +80,7 @@ DF seems to over-invest in world building.  The progress made by the game is ast
 
 Explore a gigantic procedurally generated world.
 
-Unique and deep focus on the complex implications ofvan apocalyptic scenario.
+Unique and deep focus on the complex implications of an apocalyptic scenario.
 
 DDA uses a hybrid turn-based system. Each action has a move cost, many of which are procedurally determined. Once actions deplete an actor's move points, their turn ends and any other game entities act for a similar duration.  Game actors receive an allotment of move points each turn based on their stats and conditions. All game entities, including the player character, monsters and NPCs use the same system.
 
@@ -97,6 +97,8 @@ The player is able to supplement these scavenged goods by crafting a wide variet
 Structures provide a valuable resource as well, which can be found and modified or constructed from scratch.
 
 Vehicles in various states of repair litter the world, and can be driven, repaired and modified.
+
+NPCs can form factions either independently or with the player.
 
 ### Senses
 
