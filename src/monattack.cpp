@@ -2749,19 +2749,19 @@ bool mattack::nurse_operate( monster *z )
     }
     bool u_see = g->u.sees( *z );
 
-    if( ( g->u.is_wearing( "badge_doctor" ) ||
-          z->attitude_to( g->u ) == monster_attitude::MATT_FOLLOW ) && u_see ) {
+    if( ( ( g->u.is_wearing( "badge_doctor" ) ||
+            z->attitude_to( g->u ) == monster_attitude::MATT_FOLLOW ) && u_see ) && one_in( 30 ) ) {
 
         add_msg( m_info, _( "The %s doesn't seem to register you as a doctor." ), z->name() );
     }
 
-    if( z->ammo[ammo_type] == 0 && u_see ) {
+    if( z->ammo[ammo_type] == 0 && u_see && one_in( 30 ) ) {
         add_msg( m_info, _( "The %s looks at its empty anesthesia kit with a dejected look." ), z->name() );
         return false;
     }
 
 
-    if( u_see ) {
+    if( u_see && one_in( 10 ) ) {
         add_msg( m_info, _( "The %s is scanning it's surroundings." ), z->name() );
     }
 
