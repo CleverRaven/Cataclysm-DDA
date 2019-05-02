@@ -59,7 +59,7 @@
         "P": "f_indoor_plant",
         "S": "f_sink",
         "c": "f_counter",
-        "c": "f_cupboard",
+        "C": "f_cupboard",
         "1": "f_cupboard",
         "2": "f_cupboard",
         "3": "f_cupboard",
