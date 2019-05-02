@@ -7,7 +7,7 @@ set -eu
 set -o pipefail
 
 seconds_since_build_start=$(($(date +%s) - $(cat build-start-time)))
-time_limit=$((40*60)) # Stop 40 minutes after build started
+time_limit=$((15*60)) # Stop 15 minutes after build started
 printf "%s/%s seconds elapsed\n" "$seconds_since_build_start" "$time_limit"
 if [ "$seconds_since_build_start" -gt "$time_limit" ]
 then
