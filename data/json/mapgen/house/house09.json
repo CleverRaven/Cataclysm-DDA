@@ -79,8 +79,8 @@
         "p": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] },
         "W": { "item": "laundry", "chance": 50, "repeat": [ 1, 10 ] },
         "Y": { "item": "laundry", "chance": 50, "repeat": [ 1, 10 ] },
-	    "1": [ { "item": "SUS_dishes" }, { "item": "SUS_silverware" } ],
-	    "2": { "item": "SUS_cookware" },
+        "1": [ { "item": "SUS_dishes" }, { "item": "SUS_silverware" } ],
+        "2": { "item": "SUS_cookware" },
         "3": [ { "item": "SUS_utensils" }, { "item": "SUS_knife_drawer" } ],
         "4": { "item": "SUS_junk_drawer" },
         "5": { "item": "SUS_kitchen_sink" }
