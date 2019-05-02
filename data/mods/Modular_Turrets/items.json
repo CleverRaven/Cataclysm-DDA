@@ -15,7 +15,7 @@
     "symbol": ",",
     "color": "green",
     "ammo": "battery",
-    "magazines": [ [ "battery", [ "light_battery_cell", "light_plus_battery_cell", "light_minus_battery_cell" ] ] ]
+    "magazines": [ [ "battery", [ "light_battery_cell", "light_plus_battery_cell", "light_minus_battery_cell", "light_minus_atomic_battery_cell", "light_atomic_battery_cell" ] ] ]
   },
   {
     "abstract": "robopart_base",
