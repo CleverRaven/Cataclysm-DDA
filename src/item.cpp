@@ -4496,7 +4496,7 @@ std::string item::durability_indicator( bool include_intact ) const
     } else {
         outputstring = string_format( "%s ", get_base_material().dmg_adj( damage_level( 4 ) ) );
         if( include_intact && outputstring == " " ) {
-            outputstring = "fully intact ";
+            outputstring = _( "fully intact " );
         }
     }
 
