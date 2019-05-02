@@ -1092,7 +1092,7 @@ void talk_function::field_harvest( npc &p, const std::string &place )
                             plantCount = 1;
                         }
                         number_plants += plantCount;
-                        number_seeds += std::max( 1l, rng( plantCount / 4, plantCount / 2 ) );
+                        number_seeds += std::max( 1, rng( plantCount / 4, plantCount / 2 ) );
                     }
                 }
             }

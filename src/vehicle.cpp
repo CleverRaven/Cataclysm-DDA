@@ -5411,7 +5411,7 @@ void vehicle::update_time( const time_point &update_to )
         }
 
         double area = pow( pt.info().size / units::legacy_volume_factor, 2 ) * M_PI;
-        int qty = divide_roll_remainder( funnel_charges_per_turn( area, accum_weather.rain_amount ), 1.0 );
+        int qty = roll_remainder( funnel_charges_per_turn( area, accum_weather.rain_amount ) );
         int c_qty = qty + ( tank->can_reload( water_clean ) ?  tank->ammo_remaining() : 0 );
         int cost_to_purify = c_qty * item::find_type( "water_purifier" )->charges_to_use();
 
