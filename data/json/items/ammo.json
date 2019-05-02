@@ -49,7 +49,7 @@
     "symbol": "=",
     "color": "green",
     "ammo_type": "battery",
-    "initial_charges": 5000,
+    "count": 5000,
     "capacity": 5000,
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "NO_UNLOAD" ]
@@ -102,7 +102,7 @@
     "symbol": "=",
     "color": "green",
     "ammo_type": "battery",
-    "initial_charges": 7500,
+    "count": 7500,
     "capacity": 7500,
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "NO_UNLOAD" ]
@@ -155,7 +155,7 @@
     "symbol": "=",
     "color": "green",
     "ammo_type": "battery",
-    "initial_charges": 10000,
+    "count": 10000,
     "capacity": 10000,
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "NO_UNLOAD" ]
@@ -208,7 +208,7 @@
     "symbol": "=",
     "color": "green",
     "ammo_type": "battery",
-    "initial_charges": 15000,
+    "count": 15000,
     "capacity": 15000,
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "NO_UNLOAD" ]
