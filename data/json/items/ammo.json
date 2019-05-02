@@ -41,7 +41,7 @@
     "type": "MAGAZINE",
     "category": "spare_parts",
     "name": "atomic ultra-light battery cell",
-    "description": "This is an atomic battery designed for small size over everything else.  It retains its universal compatibility, though.  It cannot be recharged",
+    "description": "This is an atomic battery designed for small size over everything else.  It retains its universal compatibility, though.  It cannot be recharged.",
     "weight": 800,
     "volume": 0,
     "price": 15000,
