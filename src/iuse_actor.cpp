@@ -2835,8 +2835,11 @@ repair_item_actor::repair_type repair_item_actor::default_action( const item &fi
 
 bool damage_item( player &pl, item_location &fix )
 {
+    const std::string startdurability = fix->durability_indicator( true );
     const auto destroyed = fix->inc_damage();
-    pl.add_msg_if_player( m_bad, _( "You damage your %s!" ), fix->tname() );
+    const std::string resultdurability = fix->durability_indicator( true );
+    pl.add_msg_if_player( m_bad, _( "You damage your %s! ( %s-> %s)" ), fix->tname( 1, false ),
+                          startdurability, resultdurability );
     if( destroyed ) {
         pl.add_msg_if_player( m_bad, _( "You destroy it!" ) );
         if( fix.where() == item_location::type::character ) {
@@ -2902,13 +2905,17 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
 
     if( action == RT_REPAIR ) {
         if( roll == SUCCESS ) {
+            const std::string startdurability = fix->durability_indicator( true );
             const auto damage = fix->damage();
             handle_components( pl, *fix, false, false );
             fix->set_damage( std::max( damage - itype::damage_scale, 0 ) );
+            const std::string resultdurability = fix->durability_indicator( true );
             if( damage > itype::damage_scale ) {
-                pl.add_msg_if_player( m_good, _( "You repair your %s!" ), fix->tname() );
+                pl.add_msg_if_player( m_good, _( "You repair your %s! ( %s-> %s)" ), fix->tname( 1, false ),
+                                      startdurability, resultdurability );
             } else {
-                pl.add_msg_if_player( m_good, _( "You repair your %s completely!" ), fix->tname() );
+                pl.add_msg_if_player( m_good, _( "You repair your %s completely! ( %s-> %s)" ), fix->tname( 1,
+                                      false ), startdurability, resultdurability );
             }
             return AS_SUCCESS;
         }
