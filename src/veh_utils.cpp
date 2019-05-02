@@ -151,7 +151,8 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who_c )
 
     // If part is broken, it will be destroyed and references invalidated
     std::string partname = pt.name( false );
-    const std::string startdurability = pt.get_base().durability_indicator();
+    const std::string startdurability = "<color_" + string_from_color( pt.get_base().damage_color() ) +
+                                        ">" + pt.get_base(). damage_symbol() + " </color>";
     bool wasbroken = pt.is_broken();
     if( wasbroken ) {
         const int dir = pt.direction;
