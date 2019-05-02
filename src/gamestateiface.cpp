@@ -5,6 +5,7 @@
 #include <condition_variable>
 #include <string>
 #include <sstream>
+#include <limits>
 
 #include <functional>
 #include <iostream>
@@ -133,6 +134,11 @@ bool gsi::update_input(std::vector<std::string> registered_actions, std::string 
         return true;
     }
 #endif
+    return false;
+}
+
+bool gsi::update_ui_adv_inventory()
+{
     return false;
 }
 
@@ -330,10 +336,14 @@ void gsi::update_invlets()
     invlets_c.clear();
     invlets_s.clear();
 
-    std::set<char> invlets_temp = g->u.allocated_invlets();
+    auto invlets_temp = g->u.allocated_invlets();
     std::vector<char> invlets_i;
-    std::copy(invlets_temp.begin(), invlets_temp.end(), std::back_inserter(invlets_i));
-    for (int i = 0; i < invlets_temp.size(); i++)
+
+    for (char i = 0; i < invlets_temp.size(); i++)
+        if (invlets_temp.test(i))
+            invlets_i.push_back(i);
+
+    for (int i = 0; i < invlets_i.size(); i++)
     {
         item t; 
         if (g->u.weapon.invlet == invlets_i[i])
