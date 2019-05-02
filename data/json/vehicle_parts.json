@@ -344,7 +344,7 @@
     "durability": 400,
     "description": "An aisle.  A hatch lets you access a cargo space beneath it.",
     "size": 350,
-    "item": "sheet_metal",
+    "item": "cargo_aisle",
     "difficulty": 1,
     "location": "center",
     "flags": [ "AISLE", "BOARDABLE", "CARGO", "LOCKABLE_CARGO", "COVERED" ],
