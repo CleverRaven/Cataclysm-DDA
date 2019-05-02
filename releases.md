@@ -22,19 +22,24 @@ Cataclysm: DDA is under constant development. As such, stable can lag behind wit
 ------------------
 
 {% for release in site.github.releases %}
+
+    {% unless release.prerelease %}
+
 ## {{ release.tag_name}} {{ release.name }}
 
 {{ release.body }}
 
-    {% unless release.assets == empty %}
+        {% unless release.assets == empty %}
 
 #### {{ release.tag_name}} Download Links
 
-        {% for asset in release.assets %}
+            {% for asset in release.assets %}
 
 * [{{ asset.name }}]({{ asset.browser_download_url }})
 
-        {% endfor %}
+            {% endfor %}
+
+        {% endunless %}
 
     {% endunless %}
 
