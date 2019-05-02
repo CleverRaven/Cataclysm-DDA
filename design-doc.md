@@ -296,7 +296,7 @@ Missions (fairly complete): Deal with monsters and bandits, get parts for the ce
 "The largest gang of hooligans and bandits that preys upon other survivors.  Even if you have no gear, there is always a need for slaves and fresh meat."
 
 
-Description: The Hell's Raiders are a collection of smaller gangs, some of which existed before the Cataclysm.  Much of the membership was already willing to commit armed robbery or more violent crimes, and their attitudes haven't changed not that law enforcement is defunct and zombies roam the land.
+Description: The Hell's Raiders are a collection of smaller gangs, some of which existed before the Cataclysm.  Much of the membership was already willing to commit armed robbery or more violent crimes, and their attitudes haven't changed now that law enforcement is defunct and zombies roam the land.
 
 Structure: Most gangs are led by a boss with an aptitude for leadership and violence.  The members consist of former criminals, along with some desperate people who figure having a rough bunch of thugs on your side is a good survival strategy.  Slaves round out the gang structure and perform menial labor, gardening, and other low risk but necessary work.
 
