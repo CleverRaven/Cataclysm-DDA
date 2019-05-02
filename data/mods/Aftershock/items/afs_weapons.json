@@ -23,7 +23,18 @@
       "active": true
     },
     "flags": [ "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ],
-    "magazines": [ [ "battery", [ "light_battery_cell", "light_minus_battery_cell", "light_plus_battery_cell", "light_minus_atomic_battery_cell", "light_atomic_battery_cell" ] ] ]
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_battery_cell",
+          "light_minus_battery_cell",
+          "light_plus_battery_cell",
+          "light_minus_atomic_battery_cell",
+          "light_atomic_battery_cell"
+        ]
+      ]
+    ]
   },
   {
     "id": "afs_energy_saber_on",
@@ -50,7 +61,18 @@
       "target": "afs_energy_saber_off",
       "msg": "The blade dissipates into particles."
     },
-    "magazines": [ [ "battery", [ "light_battery_cell", "light_minus_battery_cell", "light_plus_battery_cell", "light_minus_atomic_battery_cell", "light_atomic_battery_cell" ] ] ]
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_battery_cell",
+          "light_minus_battery_cell",
+          "light_plus_battery_cell",
+          "light_minus_atomic_battery_cell",
+          "light_atomic_battery_cell"
+        ]
+      ]
+    ]
   },
   {
     "id": "afs_hardlight_longbow",
