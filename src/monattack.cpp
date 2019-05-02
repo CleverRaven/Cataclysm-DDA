@@ -2742,6 +2742,8 @@ bool mattack::nurse_assist( monster *z )
 }
 bool mattack::nurse_operate( monster *z )
 {
+    const std::string ammo_type( "anesthetic" );
+
     if( z->has_effect( effect_dragging ) || z->has_effect( effect_operating ) ) {
         return false;
     }
@@ -2753,6 +2755,10 @@ bool mattack::nurse_operate( monster *z )
         add_msg( m_info, _( "The %s doesn't seem to register you as a doctor." ), z->name() );
     }
 
+    if( z->ammo[ammo_type] == 0 && u_see ) {
+        add_msg( m_info, _( "The %s looks at its empty anesthesia kit with a dejected look." ), z->name() );
+        return false;
+    }
 
 
     if( u_see ) {
