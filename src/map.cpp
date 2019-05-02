@@ -312,6 +312,14 @@ std::unique_ptr<vehicle> map::detach_vehicle( vehicle *veh )
         veh->smz = abs_sub.z;
     }
 
+    // Unboard all passengers before detaching
+    for( auto const &part : veh->get_avail_parts( VPFLAG_BOARDABLE ) ) {
+        player *passenger = part.get_passenger();
+        if( passenger ) {
+            unboard_vehicle( part.pos() );
+        }
+    }
+
     submap *const current_submap = get_submap_at_grid( {veh->smx, veh->smy, veh->smz} );
     auto &ch = get_cache( veh->smz );
     for( size_t i = 0; i < current_submap->vehicles.size(); i++ ) {

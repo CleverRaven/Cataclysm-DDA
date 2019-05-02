@@ -647,7 +647,7 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": "Railgun CBM",
-    "description": "EM field generators in your arms double the range and damage of thrown iron and steel objects at a cost of 1 power per throw, causing them to leave a trail of electricity that can cause additional damage.",
+    "description": "EM field generators in your arms increase the range and damage of thrown iron and steel objects at a cost of 1 power per throw, causing them to leave a trail of electricity that can cause additional damage.",
     "price": 220000,
     "difficulty": 3
   },

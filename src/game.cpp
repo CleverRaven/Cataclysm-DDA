@@ -728,10 +728,12 @@ bool game::start_game()
     lev.y -= HALF_MAPSIZE;
     load_map( lev );
 
+    m.invalidate_map_cache( get_levz() );
     m.build_map_cache( get_levz() );
     // Do this after the map cache has been built!
     start_loc.place_player( u );
     // ...but then rebuild it, because we want visibility cache to avoid spawning monsters in sight
+    m.invalidate_map_cache( get_levz() );
     m.build_map_cache( get_levz() );
     // Start the overmap with out immediate neighborhood visible, this needs to be after place_player
     overmap_buffer.reveal( point( u.global_omt_location().x, u.global_omt_location().y ),
@@ -1495,6 +1497,7 @@ bool game::do_turn()
     sounds::process_sounds();
     // Update vision caches for monsters. If this turns out to be expensive,
     // consider a stripped down cache just for monsters.
+    m.invalidate_map_cache( get_levz() );
     m.build_map_cache( get_levz(), true );
     monmove();
     if( calendar::once_every( 3_minutes ) ) {
@@ -1963,7 +1966,6 @@ void game::handle_key_blocking_activity()
             cancel_activity_query( _( "Confirm:" ) );
         } else if( action == "player_data" ) {
             u.disp_info();
-            refresh_all();
         } else if( action == "messages" ) {
             Messages::display_messages();
             refresh_all();
@@ -3163,6 +3165,7 @@ void game::draw()
 
     //temporary fix for updating visibility for minimap
     ter_view_z = ( u.pos() + u.view_offset ).z;
+    m.invalidate_map_cache( ter_view_z );
     m.build_map_cache( ter_view_z );
     m.update_visibility_cache( ter_view_z );
 
@@ -6912,6 +6915,7 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
 
             add_msg( m_debug, "levx: %d, levy: %d, levz :%d", get_levx(), get_levy(), center.z );
             u.view_offset.z = center.z - u.posz();
+            m.invalidate_map_cache( center.z );
             refresh_all();
             if( select_zone && has_first_point ) { // is blinking
                 blink = true; // Always draw blink symbols when moving cursor
@@ -7025,6 +7029,7 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
              action != "throw_blind" );
 
     if( m.has_zlevels() && center.z != old_levz ) {
+        m.invalidate_map_cache( old_levz );
         m.build_map_cache( old_levz );
         u.view_offset.z = 0;
     }
@@ -11309,6 +11314,7 @@ void game::vertical_move( int movez, bool force )
         }
     }
 
+    m.invalidate_map_cache( g->get_levz() );
     refresh_all();
     // Upon force movement, traps can not be avoided.
     m.creature_on_trap( u, !force );
@@ -11585,6 +11591,7 @@ point game::update_map( int &x, int &y )
     load_npcs();
 
     // Make sure map cache is consistent since it may have shifted.
+    m.invalidate_map_cache( get_levz() );
     m.build_map_cache( get_levz() );
 
     // Spawn monsters if appropriate

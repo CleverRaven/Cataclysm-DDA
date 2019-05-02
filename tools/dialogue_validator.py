@@ -5,7 +5,9 @@ import argparse
 import os
 
 # no one references these, but we may want them again some day
-OBSOLETE_TOPICS = [ "TALK_DENY_GUARD", "TALK_FRIEND_UNCOMFORTABLE" ]
+OBSOLETE_TOPICS = [
+    "TALK_DENY_GUARD", "TALK_FRIEND_UNCOMFORTABLE", "TALK_USE_ITEM", "TALK_GIVE_ITEM"
+]
 
 
 args = argparse.ArgumentParser(description="Confirm that every talk topic in every response in a "
