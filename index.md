@@ -35,15 +35,13 @@ Graphical builds run much faster with some kind of graphics acceleration.  2GB o
 
 ## Downloads
 
-Cataclysm has official builds for Windows, Linux and OSX, and each platform comes in both terminal and graphical flavors. There are also "unnoficial" builds for IOS and Android.
+Cataclysm has official builds for Windows, Linux and OSX, and each platform comes in both terminal and graphical flavors. There are also "unnofficial" builds for IOS and Android.
 
-Cataclysm: DDA is under constant development, the latest successful builds for the various flavors are available at the following locations:
-* [Windows Tiles build](http://dev.narc.ro/cataclysm/jenkins-latest/Windows/Tiles/)
-* [Windows Terminal build](http://dev.narc.ro/cataclysm/jenkins-latest/Windows/Curses/)
-* [Linux 64-bit Terminal build](http://dev.narc.ro/cataclysm/jenkins-latest/Linux_x64/Curses/)
-* [Linux 64-bit Tiles build](http://dev.narc.ro/cataclysm/jenkins-latest/Linux_x64/Tiles/)
-* [OSX Terminal build](http://dev.narc.ro/cataclysm/jenkins-latest/OSX/Curses/)
-* [OSX Tiles build](http://dev.narc.ro/cataclysm/jenkins-latest/OSX/Tiles/)
+### Latest Stable
+The most recent stable release is {{ site.github.latest_release.tag_name }} {{ site.github.latest_release.name }}.  We recommend stable for the most bug-free experience possible.  You can download it from the [Releases Page]({{ site.baseurl }}{% link releases.md %}).
+
+### Latest Experimental
+Cataclysm: DDA is under constant development. As such, stable can lag behind with features. If you would like access to the bleeding edge of features and any bugs that may come along with them, you can download the [latest experimental builds]({{ site.baseurl }}{% link pages/experimental.md %}).
 
 ## Frequently Asked Questions
 
