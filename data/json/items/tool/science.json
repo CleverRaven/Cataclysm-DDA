@@ -16,7 +16,7 @@
     "charges_per_use": 1,
     "qualities": [ [ "DISTILL", 1 ], [ "CHEM", 3 ], [ "BOIL", 1 ] ],
     "use_action": "HOTPLATE",
-    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ]
+    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell" ] ] ]
   },
   {
     "id": "chemistry_set_basic",
@@ -48,7 +48,7 @@
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "ANALYSIS", 1 ] ],
-    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ]
+    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell" ] ] ]
   },
   {
     "id": "balance_small",
@@ -78,7 +78,7 @@
     "material": [ "plastic", "steel" ],
     "symbol": ";",
     "color": "light_gray",
-    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ]
+    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell" ] ] ]
   },
   {
     "id": "cuvettes",
@@ -109,7 +109,7 @@
     "material": [ "plastic", "glass" ],
     "symbol": ";",
     "color": "light_gray",
-    "magazines": [ [ "battery", [ "light_battery_cell", "light_plus_battery_cell", "light_minus_battery_cell" ] ] ]
+    "magazines": [ [ "battery", [ "light_battery_cell", "light_plus_battery_cell", "light_minus_battery_cell", "light_atomic_battery_cell", "light_minus_atomic_battery_cell" ] ] ]
   },
   {
     "id": "voltmeter",
@@ -125,7 +125,7 @@
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "magazines": [ [ "battery", [ "light_battery_cell", "light_plus_battery_cell", "light_minus_battery_cell" ] ] ]
+    "magazines": [ [ "battery", [ "light_battery_cell", "light_plus_battery_cell", "light_minus_battery_cell", "light_atomic_battery_cell", "light_minus_atomic_battery_cell" ] ] ]
   },
   {
     "id": "melting_point",
@@ -142,7 +142,7 @@
     "material": [ "plastic", "glass" ],
     "symbol": ";",
     "color": "light_gray",
-    "magazines": [ [ "battery", [ "light_battery_cell", "light_plus_battery_cell", "light_minus_battery_cell" ] ] ]
+    "magazines": [ [ "battery", [ "light_battery_cell", "light_plus_battery_cell", "light_minus_battery_cell", "light_atomic_battery_cell", "light_minus_atomic_battery_cell" ] ] ]
   },
   {
     "id": "vortex",
@@ -323,7 +323,7 @@
     "color": "white",
     "ammo": "battery",
     "qualities": [ [ "CONCENTRATE", 1 ] ],
-    "magazines": [ [ "battery", [ "light_battery_cell", "light_plus_battery_cell", "light_minus_battery_cell" ] ] ]
+    "magazines": [ [ "battery", [ "light_battery_cell", "light_plus_battery_cell", "light_minus_battery_cell", "light_atomic_battery_cell", "light_minus_atomic_battery_cell" ] ] ]
   },
   {
     "id": "stopcock",
