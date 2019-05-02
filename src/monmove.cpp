@@ -57,7 +57,6 @@ const species_id BLOB( "BLOB" );
 const species_id ROBOT( "ROBOT" );
 const species_id WORM( "WORM" );
 
-const mtype_id mon_defective_robot_nurse( "mon_nursebot_defective" );
 
 bool monster::wander()
 {
@@ -407,7 +406,7 @@ void monster::plan( const mfactions &factions )
         const mtype_id &mon_id =
             type->id;// We might eventually have other monsters using the dragging effect
 
-        if( mon_id == mon_defective_robot_nurse ) {
+        if( type->has_special_attack( "OPERATE" ) ) {
 
             bool found_path_to_couch = false;
             tripoint tmp( pos().x + 12, pos().y + 12, pos().z );
@@ -566,7 +565,7 @@ void monster::move()
 
     // defective nursebot surgery code
     const mtype_id &mon_id = type->id;
-    if( mon_id == mon_defective_robot_nurse && has_effect( effect_dragging ) &&
+    if( type->has_special_attack( "OPERATE" ) && has_effect( effect_dragging ) &&
         dragged_foe != nullptr ) {
 
 
