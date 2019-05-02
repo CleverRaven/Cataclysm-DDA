@@ -11,6 +11,7 @@
 TEST_CASE( "destroy_grabbed_vehicle_section" )
 {
     GIVEN( "A vehicle grabbed by the player" ) {
+        CHECK( !g->u.in_vehicle );
         const tripoint test_origin( 60, 60, 0 );
         g->u.setpos( test_origin );
         const tripoint vehicle_origin = test_origin + tripoint( 1, 1, 0 );
