@@ -51,7 +51,7 @@
     ]
   },
   {
-    "id": "SUS_knives",
+    "id": "SUS_knife_drawer",
     "type": "item_group",
     "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
     "//2": "This group is for a drawer full of knives and related implements.",
