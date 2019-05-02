@@ -201,6 +201,8 @@ void submap::rotate( int turns )
         }
     }
 
+    active_items.rotate_locations( turns, { SEEX, SEEY } );
+
     for( auto &elem : cosmetics ) {
         elem.pos = rotate_point( elem.pos );
     }
