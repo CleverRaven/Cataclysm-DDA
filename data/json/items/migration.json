@@ -530,5 +530,10 @@
     "id": "potato_raw",
     "type": "MIGRATION",
     "replace": "potato"
+  },
+  {
+    "id": "lightstrip_dead",
+    "type": "MIGRATION",
+    "replace": "lightstrip_inactive"
   }
 ]

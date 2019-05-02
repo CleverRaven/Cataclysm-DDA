@@ -1214,6 +1214,33 @@ static void fire()
     }
 }
 
+static void open_movement_mode_menu()
+{
+    player &u = g->u;
+    uilist as_m;
+
+    as_m.text = _( "Change to which movement mode?" );
+
+    as_m.entries.emplace_back( 0, true, 'w', _( "Walk" ) );
+    as_m.entries.emplace_back( 1, true, 'r', _( "Run" ) );
+    as_m.entries.emplace_back( 2, true, 'c', _( "Crouch" ) );
+    as_m.query();
+
+    switch( as_m.ret ) {
+        case 0:
+            u.set_movement_mode( "walk" );
+            break;
+        case 1:
+            u.set_movement_mode( "run" );
+            break;
+        case 2:
+            u.set_movement_mode( "crouch" );
+            break;
+        default:
+            break;
+    }
+}
+
 bool game::handle_action()
 {
     std::string action;
@@ -1430,8 +1457,24 @@ bool game::handle_action()
                 }
                 break;
 
-            case ACTION_TOGGLE_MOVE:
-                u.toggle_move_mode();
+            case ACTION_CYCLE_MOVE:
+                u.cycle_move_mode();
+                break;
+
+            case ACTION_RESET_MOVE:
+                u.reset_move_mode();
+                break;
+
+            case ACTION_TOGGLE_RUN:
+                u.toggle_run_mode();
+                break;
+
+            case ACTION_TOGGLE_CROUCH:
+                u.toggle_crouch_mode();
+                break;
+
+            case ACTION_OPEN_MOVEMENT:
+                open_movement_mode_menu();
                 break;
 
             case ACTION_MOVE_N:

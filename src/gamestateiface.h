@@ -156,20 +156,12 @@ private:
      * Update the parameters for hunger, thirst, and fatigue.
      *
      * This function's output should reflect what is shown in the sidebar.  Currently, this
-     * means an integer representing distinct need states.
-     *
-     * In the event of a large overhaul, the following guidelines should be followed for 
-     * redesigning this function:
-     *  - 0 should represent blank needs (e.g. no "Hungry" or "Full")
-     *  - Positive values represent over full needs ("Full", "Slaked")
-     *  - Negative values represent underfilled needs ("Hungry", "Tired")
-     *  - If enums are available for constants representing needs levels, those should
-     *    be referenced in this function and/or any helper functions.
+     * is just the string shown in the sidebar.
      *
      * @see {hunger_level, thirst_level, fatigue_level}
      */
     void update_needs();
-    int hunger_level, thirst_level, fatigue_level;
+    std::string hunger_level, thirst_level, fatigue_level;
 
     /**
      * Update the parameter for stamina.
@@ -189,6 +181,7 @@ private:
      * for characters with self-awareness.
      */
     void update_body();
+    
     std::array<int, num_hp_parts> hp_cur_level, hp_max_level;
     std::array<int, num_hp_parts> limb_state;
     std::array<float, num_hp_parts> splint_state;
@@ -210,20 +203,30 @@ private:
      */
     void update_invlets();
 
-    void update_light();
+    /**
+     * Update parameters for light level, ambient temperature, and weather.
+     *
+     *
+     */
+    void update_weather();
+    std::string light_level;
+    std::string weather;
+    int temp;
+
+    void update_pain();
+    int pain;
+    std::string pain_string;
 
 
     int power_level, max_power_level;
-    int pain;
+    
     int morale;
     int safe_mode;
     std::vector<std::string> bound_actions;
     std::vector<std::vector<std::string>> bound_keys;
     
 
-    std::string light_level;
-    std::string weather;
-    int temp;
+
 };
 
 

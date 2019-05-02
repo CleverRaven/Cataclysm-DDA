@@ -114,6 +114,15 @@
     "qualities": [ [ "ANVIL", 1 ] ]
   },
   {
+    "id": "fake_milling_item",
+    "copy-from": "fake_item",
+    "type": "GENERIC",
+    "name": "semi ground grains",
+    "name_plural": "semi ground grains",
+    "description": "A paste of half-finished milled grains, not yet flour.",
+    "flags": [ "TRADER_AVOID", "FAKE_MILL" ]
+  },
+  {
     "id": "fake_smoke_plume",
     "copy-from": "fake_item",
     "type": "GENERIC",

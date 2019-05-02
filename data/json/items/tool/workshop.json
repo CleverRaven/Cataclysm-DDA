@@ -60,6 +60,7 @@
     "charges_per_use": 4,
     "use_action": "OXYTORCH",
     "qualities": [ [ "WELD", 2 ] ],
-    "magazines": [ [ "weldgas", [ "weldtank", "tinyweldtank" ] ] ]
+    "magazines": [ [ "weldgas", [ "weldtank", "tinyweldtank" ] ] ],
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   }
 ]
