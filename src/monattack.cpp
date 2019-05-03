@@ -124,6 +124,7 @@ const efftype_id effect_dragging( "dragging" );
 const efftype_id effect_fearparalyze( "fearparalyze" );
 const efftype_id effect_fungus( "fungus" );
 const efftype_id effect_glowing( "glowing" );
+const efftype_id effect_got_checked( "got_checked" );
 const efftype_id effect_grabbed( "grabbed" );
 const efftype_id effect_infected( "infected" );
 const efftype_id effect_laserlocked( "laserlocked" );
@@ -2734,15 +2735,48 @@ bool mattack::nurse_assist( monster *z )
         add_msg( m_info, _( "The %s is scanning its surroundings." ), z->name() );
     }
 
-    if( g->u.is_wearing( "badge_doctor" ) ||
-        z->attitude_to( g->u ) == monster_attitude::MATT_FRIEND ) {
-        sounds::sound( z->pos(), 8, sounds::sound_t::speech,
-                       string_format(
-                           _( "a soft robotic voice says, \"Welcome doctor %s.  I'll be your assistant today.\"" ),
-                           Name::generate( g->u.male ) ) );
-        g->u.add_effect( effect_assisted, 20_turns );
-    } else {
-        g->u.remove_effect( effect_assisted );
+    bool found_target = false;
+    player *target = nullptr;
+    tripoint tmp_pos( z->pos().x + 12, z->pos().y + 12, z->pos().z );
+    for( auto critter : g->m.get_creatures_in_radius( z->pos(), 6 ) ) {
+        player *tmp_player = dynamic_cast<player *>( critter );
+        if( tmp_player != nullptr && z->sees( *tmp_player ) &&
+            g->m.clear_path( z->pos(), tmp_player->pos(), 10, 0,
+                             100 ) ) { // no need to scan players we can't reach
+            if( rl_dist( z->pos(), tmp_player->pos() ) < rl_dist( z->pos(), tmp_pos ) ) {
+                tmp_pos = tmp_player->pos();
+                target = tmp_player;
+                found_target = true;
+            }
+        }
+    }
+
+    if( found_target ) {
+        if( target->is_wearing( "badge_doctor" ) ||
+            z->attitude_to( *target ) == monster_attitude::MATT_FRIEND ) {
+            sounds::sound( z->pos(), 8, sounds::sound_t::speech,
+                           string_format(
+                               _( "a soft robotic voice says, \"Welcome doctor %s.  I'll be your assistant today.\"" ),
+                               Name::generate( target->male ) ) );
+            target->add_effect( effect_assisted, 20_turns );
+        }
+
+        if( one_in( 20 ) ) {
+            sounds::sound( z->pos(), 8, sounds::sound_t::speech,
+                           string_format(
+                               _( "a soft robotic voice says, \"Come here.  I'll give you a check-up.\"" ) ) );
+
+            if( rl_dist( target->pos(), z->pos() ) > 1 ) {
+                sounds::sound( z->pos(), 8, sounds::sound_t::speech,
+                               string_format(
+                                   _( "a soft robotic voice says, \"Come on.  I don't bite, I promise it won't hurt one bit.\"" ) ) );
+            } else {
+                sounds::sound( z->pos(), 8, sounds::sound_t::speech,
+                               string_format(
+                                   _( "a soft robotic voice says, \"Here we go.  Just hold still.\"" ) ) );
+                target->add_effect( effect_got_checked, 10_turns );
+            }
+        }
     }
 }
 bool mattack::nurse_operate( monster *z )

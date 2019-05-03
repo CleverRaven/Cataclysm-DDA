@@ -232,6 +232,12 @@
   },
   {
     "type": "effect_type",
+    "id": "got_checked",
+    "name": [ "Got a check-up" ],
+    "desc": [ "Your received a complete check-up and are now aware of the state of your health." ]
+  },
+  {
+    "type": "effect_type",
     "id": "winded",
     "name": [ "Winded" ],
     "desc": [ "You're short of breath.  Running and fighting will be difficult until you recover." ],
