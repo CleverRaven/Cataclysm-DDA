@@ -11,6 +11,7 @@
 #include "ammo.h"
 #include "auto_pickup.h"
 #include "coordinate_conversions.h"
+#include "effect.h"
 #include "game.h"
 #include "item_group.h"
 #include "itype.h"
@@ -1588,7 +1589,7 @@ bool npc::is_stationary( bool include_guards ) const
 
 bool npc::is_guarding( ) const
 {
-    return mission == NPC_MISSION_GUARD || mission == NPC_MISSION_GUARD_ALLY;
+    return mission == NPC_MISSION_GUARD || mission == NPC_MISSION_GUARD_ALLY || is_patrolling();
 }
 
 bool npc::is_patrolling() const
@@ -2058,6 +2059,21 @@ void npc::on_unload()
 
 void npc::on_load()
 {
+    const auto advance_effects = [&]( const time_duration & elapsed_dur ) {
+        for( auto &elem : *effects ) {
+            for( auto &_effect_it : elem.second ) {
+                effect &e = _effect_it.second;
+                const time_duration &time_left = e.get_duration();
+                if( time_left > 1_turns ) {
+                    if( time_left < elapsed_dur ) {
+                        e.set_duration( 1_turns );
+                    } else {
+                        e.set_duration( time_left - elapsed_dur );
+                    }
+                }
+            }
+        }
+    };
     // Cap at some reasonable number, say 2 days
     const time_duration dt = std::min( calendar::turn - last_updated, 2_days );
     // TODO: Sleeping, healing etc.
@@ -2067,12 +2083,15 @@ void npc::on_load()
     // First update with 30 minute granularity, then 5 minutes, then turns
     for( ; cur < calendar::turn - 30_minutes; cur += 30_minutes + 1_turns ) {
         update_body( cur, cur + 30_minutes );
+        advance_effects( 30_minutes );
     }
     for( ; cur < calendar::turn - 5_minutes; cur += 5_minutes + 1_turns ) {
         update_body( cur, cur + 5_minutes );
+        advance_effects( 5_minutes );
     }
     for( ; cur < calendar::turn; cur += 1_turns ) {
         update_body( cur, cur + 1_turns );
+        process_effects();
     }
 
     if( dt > 0_turns ) {

@@ -1,61 +1,50 @@
 [
-    {
-        "type": "mapgen",
-        "om_terrain": "refugee_tower_1gate",
-        "comment" : "gate at the top left corner of the whole compound",
-        "weight": 200,
-        "method": "json",
-        "object": {
-            "fill_ter": "t_pavement",
-             "rows": [
-                "#####              #####",
-                "#####              #####",
-                "###v#              #####",
-                "#####              #####",
-                "#####              #v###",
-                "#####              #####",
-                "####9              #####",
-                "#####              #####",
-                "#####              #####",
-                "#####              #####",
-                "#####              #####",
-                "#####              #####",
-                "#####              #####",
-                "#####              #####",
-                "#####              #####",
-                "#####              #####",
-                "#####              #####",
-                "#####              #####",
-                "#####              #####",
-                "#####              #####",
-                "#####Y Y Y  Y  YY  #####",
-                "##===[[[[[[[[[[[[[[===##",
-                "##=@#PPPPPPPPPPPPPP%@=##",
-                "##=##PPPPPPPPPPPPPP##=##"
-            ],
-            "palettes": [
-               "tri_tower",
-               "ground_level"
-            ],
-            "terrain":{
-                "p": "t_pavement",
-                "P": "t_pavement",
-                "y": "t_pavement_y",
-                "v": "t_grass",
-                "%": "t_gates_mech_control",
-                "9": "t_card_reader_broken"
-            },
-            "signs":{
-                "Y": {"snippet": "refugee_help" }
-            },
-            "vehicles": {
-                "v": { "vehicle": "suburban_home", "chance": 50 }
-            },
-            "npcs": {
-                "z": { "class": "refugee" },
-                "Z": { "class": "mutant_refugee" },
-                "@": { "class": "talented_refugee" }
-            }
-        }
+  {
+    "type": "mapgen",
+    "om_terrain": "refugee_tower_1gate",
+    "comment": "gate at the top left corner of the whole compound",
+    "weight": 200,
+    "method": "json",
+    "object": {
+      "fill_ter": "t_pavement",
+      "rows": [
+        "#####              #####",
+        "#####              #####",
+        "###v#              #####",
+        "#####              #####",
+        "#####              #v###",
+        "#####              #####",
+        "####9              #####",
+        "#####              #####",
+        "#####              #####",
+        "#####              #####",
+        "#####              #####",
+        "#####              #####",
+        "#####              #####",
+        "#####              #####",
+        "#####              #####",
+        "#####              #####",
+        "#####              #####",
+        "#####              #####",
+        "#####              #####",
+        "#####              #####",
+        "#####Y Y Y  Y  YY  #####",
+        "##===[[[[[[[[[[[[[[===##",
+        "##=@#PPPPPPPPPPPPPP%@=##",
+        "##=##PPPPPPPPPPPPPP##=##"
+      ],
+      "palettes": [ "tri_tower", "ground_level" ],
+      "terrain": {
+        "p": "t_pavement",
+        "P": "t_pavement",
+        "y": "t_pavement_y",
+        "v": "t_grass",
+        "%": "t_gates_mech_control",
+        "9": "t_card_reader_broken"
+      },
+      "signs": { "Y": { "snippet": "refugee_help" } },
+      "vehicles": { "v": { "vehicle": "suburban_home", "chance": 50 } },
+      "npcs": { "z": { "class": "refugee" }, "Z": { "class": "mutant_refugee" }, "@": { "class": "talented_refugee" } }
     }
+  }
 ]

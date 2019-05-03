@@ -1,44 +1,39 @@
 [
-    {
-        "type": "mapgen",
-        "om_terrain": "combohouseB_first",
-        "weight": 250,
-        "method": "json",
-        "object": {
-            "fill_ter": "t_floor",
-            "rows": [
-                "###WW###################",
-                "###WW###################",
-                "###WW###################",
-                "###WW####WWWWWWWWWWWWWWW",
-                "###WW####Wfffffffffff===",
-                "###WW####WF##########=l ",
-                "###WWWWWWWF##########=l ",
-                "###WWWWWWWF##########=l ",
-                "#######=++====ww==w===l ",
-                "#######=            A|l ",
-                "#######=    a       A|x ",
-                "#######w        AAA T|x ",
-                "#######=    ---------|  ",
-                "#######=b          <<|> ",
-                "#######=--  ----  -----+",
-                "#######=C     R|  |     ",
-                "######Hwo      +  +   T ",
-                "######Hws      |  |   T ",
-                "#######=U     c|  |  cT ",
-                "#######=CU  TTT|  |     ",
-                "#######===ww==w=++==ggg=",
-                "###############WWWW#####",
-                "###############WWWW#####",
-                "########################"
-            ],
-            "palettes": [
-               "multistory_house",
-               "ground_level"
-            ],
-            "set": [
-                { "square": "terrain", "x": 22, "y": 5, "x2": 23, "y2": 19, "id": "t_concrete_floor" }
-            ]
-        }
+  {
+    "type": "mapgen",
+    "om_terrain": "combohouseB_first",
+    "weight": 250,
+    "method": "json",
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "###WW###################",
+        "###WW###################",
+        "###WW###################",
+        "###WW####WWWWWWWWWWWWWWW",
+        "###WW####Wfffffffffff===",
+        "###WW####WF##########=l ",
+        "###WWWWWWWF##########=l ",
+        "###WWWWWWWF##########=l ",
+        "#######=++====ww==w===l ",
+        "#######=            A|l ",
+        "#######=    a       A|x ",
+        "#######w        AAA T|x ",
+        "#######=    ---------|  ",
+        "#######=b          <<|> ",
+        "#######=--  ----  -----+",
+        "#######=C     R|  |     ",
+        "######Hwo      +  +   T ",
+        "######Hws      |  |   T ",
+        "#######=U     c|  |  cT ",
+        "#######=CU  TTT|  |     ",
+        "#######===ww==w=++==ggg=",
+        "###############WWWW#####",
+        "###############WWWW#####",
+        "########################"
+      ],
+      "palettes": [ "multistory_house", "ground_level" ],
+      "set": [ { "square": "terrain", "x": 22, "y": 5, "x2": 23, "y2": 19, "id": "t_concrete_floor" } ]
     }
+  }
 ]

@@ -28,6 +28,7 @@ void wipe_map_terrain()
     for( wrapped_vehicle &veh : g->m.get_vehicles() ) {
         g->m.destroy_vehicle( veh.v );
     }
+    g->m.invalidate_map_cache( 0 );
     g->m.build_map_cache( 0, true );
 }
 
@@ -35,11 +36,14 @@ void clear_creatures()
 {
     // Remove any interfering monsters.
     g->clear_zombies();
-    g->unload_npcs();
 }
 
 void clear_npcs()
 {
+    // Unload and reaload to ensure that all active NPCs are in the
+    // overmap_buffer.
+    g->unload_npcs();
+    g->load_npcs();
     for( npc &n : g->all_npcs() ) {
         n.die( nullptr );
         overmap_buffer.remove_npc( n.getID() );
@@ -71,8 +75,9 @@ void clear_map()
         clear_fields( z );
     }
     wipe_map_terrain();
-    g->m.clear_traps();
+    clear_npcs();
     clear_creatures();
+    g->m.clear_traps();
 }
 
 void clear_map_and_put_player_underground()

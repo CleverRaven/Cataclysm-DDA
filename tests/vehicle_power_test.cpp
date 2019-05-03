@@ -28,6 +28,7 @@ TEST_CASE( "vehicle_power" )
             g->m.i_clear( p );
         }
 
+        g->m.invalidate_map_cache( 0 );
         g->m.build_map_cache( 0, true );
 
         const tripoint test_origin( 15, 15, 0 );

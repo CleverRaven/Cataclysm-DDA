@@ -933,6 +933,20 @@
     "price": 40000
   },
   {
+    "id": "cargo_aisle",
+    "type": "GENERIC",
+    "name": "floor trunk",
+    "description": "A section of flooring with a cargo-space beneath, and a hinged door for access.",
+    "weight": 18000,
+    "color": "cyan",
+    "symbol": "]",
+    "volume": 200,
+    "bashing": 2,
+    "material": [ "steel", "plastic" ],
+    "category": "veh_parts",
+    "price": 20000
+  },
+  {
     "id": "livestock_carrier",
     "type": "GENERIC",
     "name": "livestock carrier",

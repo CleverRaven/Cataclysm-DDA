@@ -413,6 +413,7 @@ static void set_time( int time )
     g->reset_light_level();
     int z = g->u.posz();
     g->m.update_visibility_cache( z );
+    g->m.invalidate_map_cache( z );
     g->m.build_map_cache( z );
 }
 

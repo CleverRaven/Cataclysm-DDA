@@ -835,7 +835,7 @@ void player::craft_skill_gain( const item &craft, const int &multiplier )
         // Normalize experience gain to crafting time, giving a bonus for longer crafting
         const double batch_mult = batch_size + base_time_to_craft( making, batch_size ) / 30000.0;
         // This is called after every 5% crafting progress, so divide by 20
-        const int base_practice = divide_roll_remainder( ( making.difficulty * 15 + 10 ) * batch_mult,
+        const int base_practice = roll_remainder( ( making.difficulty * 15 + 10 ) * batch_mult /
                                   20.0 ) * multiplier;
         const int skill_cap = static_cast<int>( making.difficulty * 1.25 );
         practice( making.skill_used, base_practice, skill_cap );
@@ -844,21 +844,21 @@ void player::craft_skill_gain( const item &craft, const int &multiplier )
         for( auto &helper : helpers ) {
             //If the NPC can understand what you are doing, they gain more exp
             if( helper->get_skill_level( making.skill_used ) >= making.difficulty ) {
-                helper->practice( making.skill_used,
-                                  divide_roll_remainder( base_practice, 2.0 ),
+                helper->practice( making.skill_used, roll_remainder( base_practice / 2.0 ),
                                   skill_cap );
-                if( batch_size > 1 ) {
+                if( batch_size > 1 && one_in( 3 ) ) {
                     add_msg( m_info, _( "%s assists with crafting..." ), helper->name );
                 }
-                if( batch_size == 1 ) {
+                if( batch_size == 1 && one_in( 3 ) ) {
                     add_msg( m_info, _( "%s could assist you with a batch..." ), helper->name );
                 }
                 // NPCs around you understand the skill used better
             } else {
-                helper->practice( making.skill_used,
-                                  divide_roll_remainder( base_practice, 10.0 ),
+                helper->practice( making.skill_used, roll_remainder( base_practice / 10.0 ),
                                   skill_cap );
-                add_msg( m_info, _( "%s watches you craft..." ), helper->name );
+                if( one_in( 3 ) ) {
+                    add_msg( m_info, _( "%s watches you craft..." ), helper->name );
+                }
             }
         }
     }
