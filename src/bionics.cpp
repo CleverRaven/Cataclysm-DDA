@@ -1165,7 +1165,6 @@ bool player::uninstall_bionic( const bionic &target_cbm, monster &installer, pla
         installer.add_effect( effect_operating, duration + 5_turns );
     }
 
-
     if( patient.is_player() ) {
         add_msg( m_bad,
                  _( "You feel a tiny pricking sensation in your right arm, and lose all sensation before abruptly blacking out." ) );
