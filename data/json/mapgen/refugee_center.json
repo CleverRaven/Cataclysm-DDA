@@ -1,11 +1,5 @@
 [
   {
-    "id": "shower",
-    "type": "item_group",
-    "subtype": "distribution",
-    "items": [ [ "rag", 40 ], [ "towel", 30 ], [ "soap", 10 ] ]
-  },
-  {
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "evac_center_1", "evac_center_2", "evac_center_3", "evac_center_4", "evac_center_5" ],
@@ -106,7 +100,6 @@
       "place_npcs": [
         { "class": "refugee_JennyForcette", "x": 32, "y": 8 },
         { "class": "refugee_VanessaToby", "x": 32, "y": 17 },
-        { "class": "refugee_DracoDune", "x": 33, "y": 21 },
         { "class": "refugee_AleeshaSeward", "x": 35, "y": 7 },
         { "class": "refugee_PabloNunez", "x": 35, "y": 12 },
         { "class": "refugee_DanaNunez", "x": 35, "y": 13 },
@@ -117,7 +110,6 @@
         { "class": "refugee_BorisBorichenko", "x": 44, "y": 12 },
         { "class": "refugee_StanBorichenko", "x": 45, "y": 12 },
         { "class": "refugee_GarryVilleneuve", "x": 45, "y": 13 },
-        { "class": "refugee_JohnClemens", "x": 47, "y": 3 },
         { "class": "guard", "x": 43, "y": 21 },
         { "class": "evac_broker", "x": 50, "y": 20 },
         { "class": "guard", "x": 63, "y": 15 }
@@ -179,6 +171,8 @@
       "place_npcs": [
         { "class": "evac_guard2", "x": 42, "y": 18 },
         { "class": "evac_guard1", "x": 57, "y": 21 },
+        { "class": "refugee_DracoDune", "x": 50, "y": 6 },
+        { "class": "refugee_JohnClemens", "x": 53, "y": 7 },
         { "class": "guard", "x": 62, "y": 21 },
         { "class": "refugee_beggar5", "x": 64, "y": 22 }
       ]
