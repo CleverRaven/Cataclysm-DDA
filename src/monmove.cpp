@@ -57,7 +57,6 @@ const species_id BLOB( "BLOB" );
 const species_id ROBOT( "ROBOT" );
 const species_id WORM( "WORM" );
 
-
 bool monster::wander()
 {
     return ( goal == pos() );
