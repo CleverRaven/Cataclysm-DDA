@@ -494,7 +494,7 @@ body_part_set item::get_covered_body_parts( const side s ) const
 {
     body_part_set res;
 
-    if( is_gun() ) {
+    if( is_gun() && has_flag( "SLUNG" ) ) {
         // Currently only used for guns with the should strap mod, other guns might
         // go on another bodypart.
         res.set( bp_torso );

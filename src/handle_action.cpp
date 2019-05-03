@@ -1179,8 +1179,7 @@ static void fire()
 
                 actions.emplace_back( [&] { u.invoke_item( &w, "holster" ); } );
 
-            } else if( w.is_gun() && w.gunmod_find( "shoulder_strap" ) ) {
-                // wield item currently worn using shoulder strap
+            } else if( w.is_gun() ) {
                 options.push_back( w.display_name() );
                 actions.emplace_back( [&] { u.wield( w ); } );
             }
