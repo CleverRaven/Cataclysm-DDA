@@ -901,7 +901,7 @@
     "color": "dark_gray",
     "name": "broken nurse bot",
     "category": "other",
-    "description": "A broken nurse bot.  It's smooth face staring vacantly into empty space.  Could be gutted for parts.",
+    "description": "A broken nurse bot.  Its smooth face staring vacantly into empty space.  Could be gutted for parts.",
     "price": 30000,
     "price_postapoc": 1000,
     "material": [ "steel", "plastic" ],
