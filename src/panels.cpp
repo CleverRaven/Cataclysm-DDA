@@ -53,6 +53,8 @@ static const trait_id trait_THRESH_FELINE( "THRESH_FELINE" );
 static const trait_id trait_THRESH_BIRD( "THRESH_BIRD" );
 static const trait_id trait_THRESH_URSINE( "THRESH_URSINE" );
 
+const efftype_id effect_got_checked( "got_checked" );
+
 // constructor
 window_panel::window_panel( std::function<void( player &, const catacurses::window & )>
                             draw_func, std::string nm, int ht, int wd, bool def_toggle )
@@ -686,7 +688,8 @@ std::pair<nc_color, std::string> pain_stat( const player &u )
         pain_color = c_light_red;
     }
     // get pain string
-    if( u.has_trait( trait_SELFAWARE ) && u.get_perceived_pain() > 0 ) {
+    if( ( u.has_trait( trait_SELFAWARE ) || u.has_effect( effect_got_checked ) ) &&
+        u.get_perceived_pain() > 0 ) {
         pain_string = string_format( "%s %d", _( "Pain " ), u.get_perceived_pain() );
     } else if( u.get_perceived_pain() > 0 ) {
         pain_string = u.get_pain_description();
@@ -874,7 +877,7 @@ void draw_limb_health( player &u, const catacurses::window &w, int limb_index )
             const auto &eff = u.get_effect( effect_mending, bp );
             const int mend_perc = eff.is_null() ? 0.0 : 100 * eff.get_duration() / eff.get_max_duration();
 
-            if( is_self_aware ) {
+            if( is_self_aware || u.has_effect( effect_got_checked ) ) {
                 limb = string_format( "=%2d%%=", mend_perc );
                 color = c_blue;
             } else {
@@ -891,7 +894,7 @@ void draw_limb_health( player &u, const catacurses::window &w, int limb_index )
 
     const auto &hp = get_hp_bar( u.hp_cur[limb_index], u.hp_max[limb_index] );
 
-    if( is_self_aware ) {
+    if( is_self_aware || u.has_effect( effect_got_checked ) ) {
         wprintz( w, hp.second, "%3d  ", u.hp_cur[limb_index] );
     } else {
         wprintz( w, hp.second, hp.first );
