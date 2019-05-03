@@ -568,7 +568,6 @@ void monster::move()
     if( type->has_special_attack( "OPERATE" ) && has_effect( effect_dragging ) &&
         dragged_foe != nullptr ) {
 
-
         if( rl_dist( pos(), goal ) == 1 && g->m.furn( goal ) == furn_id( "f_autodoc_couch" ) &&
             !has_effect( effect_operating ) ) {
             if( dragged_foe->has_effect( effect_grabbed ) && !has_effect( effect_countdown ) &&
