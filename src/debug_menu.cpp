@@ -104,7 +104,8 @@ enum debug_menu_index {
     DEBUG_CRASH_GAME,
     DEBUG_MAP_EXTRA,
     DEBUG_DISPLAY_NPC_PATH,
-    DEBUG_QUIT_NOSAVE
+    DEBUG_QUIT_NOSAVE,
+    DEBUG_TEST_WEATHER
 };
 
 class mission_debug
@@ -149,7 +150,8 @@ static int info_uilist()
         uilist_entry( DEBUG_TRAIT_GROUP, true, 't', _( "Test trait group" ) ),
         uilist_entry( DEBUG_SHOW_MSG, true, 'd', _( "Show debug message" ) ),
         uilist_entry( DEBUG_CRASH_GAME, true, 'C', _( "Crash game (test crash handling)" ) ),
-        uilist_entry( DEBUG_DISPLAY_NPC_PATH, true, 'n', _( "Toggle NPC pathfinding on map" ) )
+        uilist_entry( DEBUG_DISPLAY_NPC_PATH, true, 'n', _( "Toggle NPC pathfinding on map" ) ),
+        uilist_entry( DEBUG_TEST_WEATHER, true, 'W', _( "Test Weather" ) )
     };
 
     return uilist( _( "Info..." ), uilist_initializer );
@@ -1311,6 +1313,10 @@ void debug()
                     u.moves = 0;
                     g->uquit = QUIT_NOSAVED;
                 }
+                break;
+            case DEBUG_TEST_WEATHER:
+                weather_generator weathergen;
+                weathergen.test_weather();
                 break;
         }
         catacurses::erase();
