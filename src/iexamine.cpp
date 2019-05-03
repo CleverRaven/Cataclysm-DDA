@@ -4955,7 +4955,7 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
                                                 format_volume( remaining_capacity_portable ), volume_units_abbr() ),
                                  _( "Fill the smoking rack with raw meat, fish or sausages for smoking or fruit or vegetable or smoked meat for drying." ) );
 
-            smenu.addentry_desc( 8, !active, 'd',
+            smenu.addentry_desc( 8, !active, 'z',
                                  active ? _( "You cannot disassemble this smoking rack while it is active!" ) :
                                  _( "Disassemble the smoking rack" ), _( "" ) );
 
@@ -5005,9 +5005,10 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
                                                         "It will finish smoking in about %d hours.",
                                                         hours_left ), hours_left ) << "\n \n ";
                     } else if( minutes_left > 30 ) {
-                        pop << _( "It will finish smoking in less than an hour." );
+                        pop << _( "It will finish smoking in less than an hour." ) << "\n ";
                     } else {
-                        pop << string_format( _( "It should take about %d minutes to finish smoking." ), minutes_left );
+                        pop << string_format( _( "It should take about %d minutes to finish smoking." ),
+                                              minutes_left ) << "\n ";
                     }
                 }
             } else {
