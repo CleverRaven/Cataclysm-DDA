@@ -812,6 +812,7 @@ void player::serialize( JsonOut &json ) const
 
     json.member( "stamina", stamina );
     json.member( "move_mode", move_mode );
+    json.member( "mana", mana );
 
     // crafting etc
     json.member( "activity", activity );
@@ -930,6 +931,7 @@ void player::deserialize( JsonIn &jsin )
 
     data.read( "stamina", stamina );
     data.read( "move_mode", move_mode );
+    data.read( "mana", mana );
 
     set_highest_cat_level();
     drench_mut_calc();
