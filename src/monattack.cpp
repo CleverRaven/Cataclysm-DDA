@@ -2886,12 +2886,11 @@ bool mattack::nurse_operate( monster *z )
             }
         } else {
             grab( z );
-        }
-
-        if( target->has_effect( effect_grabbed ) ) { // check if we succesfully grabbed the target
-            z->dragged_foe = target;
-            z->add_effect( effect_dragging, 1_turns, num_bp, true );
-            return true;
+            if( target->has_effect( effect_grabbed ) ) { // check if we succesfully grabbed the target
+                z->dragged_foe = target;
+                z->add_effect( effect_dragging, 1_turns, num_bp, true );
+                return true;
+            }
         }
         return false;
     }
