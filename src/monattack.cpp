@@ -2827,7 +2827,6 @@ bool mattack::nurse_operate( monster *z )
             grab( z );
         }
 
-
         if( target->has_effect( effect_grabbed ) ) {
             z->dragged_foe = target;
             z->add_effect( effect_dragging, 1_turns, num_bp, true );
