@@ -61,5 +61,25 @@
     "base_casting_time": 200,
     "energy_source": "MANA",
     "base_energy_cost": 100
+  },
+  {
+    "id": "phase_door",
+	"type": "SPELL",
+	"name": "Phase Door",
+	"description": "Teleports you in a random direction a short distance.",
+	"effect": "teleport_random",
+	"valid_targets": [ "none" ],
+	"min_range": 3,
+	"max_range": 4,
+	"range_increment": 0.1,
+	"min_aoe": 2,
+	"max_aoe": 4,
+	"aoe_increment": 0.2,
+	"max_level": 10,
+	"difficulty": 2,
+	"spell_class": "WIZARD",
+	"base_casting_time": 100,
+	"energy_source": "MANA",
+	"base_energy_cost": 100
   }
 ]

@@ -3537,7 +3537,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
     std::vector<tripoint> trajectory;
     tripoint target = p->pos();
     bool target_is_valid = false;
-    if( casting.range() > 0 ) {
+    if( casting.range() > 0 && !casting.is_valid_target( target_none ) ) {
         do {
             trajectory = th.target_ui( casting );
             if( !trajectory.empty() ) {
@@ -3576,6 +3576,8 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
         spell_effect::shallow_pit( target );
     } else if( fx == "target_attack" ) {
         spell_effect::target_attack( casting, target );
+    } else if( fx == "teleport_random" ) {
+        spell_effect::teleport( casting.range(), casting.range() + casting.aoe() );
     }
 
     // pay the cost

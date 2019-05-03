@@ -13,6 +13,7 @@
 #include "options.h"
 #include "player.h"
 #include "projectile.h"
+#include "rng.h"
 #include "translations.h"
 
 // LOADING
@@ -90,6 +91,8 @@ std::vector<valid_target> strings_to_targets( std::vector<std::string> targets_s
             targets.emplace_back( target_hostile );
         } else if( str == "self" ) {
             targets.emplace_back( target_self );
+        } else if( str == "none" ){
+            targets.emplace_back( target_none );
         } else {
             debugmsg( "Error loading spell. %s is not an available valid_target", str );
         }
@@ -741,6 +744,36 @@ int player::time_to_learn_spell( spell_id sp ) const
 
 namespace spell_effect
 {
+
+static tripoint random_point( int min_distance, int max_distance, const tripoint &player_pos )
+{
+    const int angle = rng( 0, 360 );
+    const int dist = rng( min_distance, max_distance );
+    const int x = round( dist * cos( angle ) );
+    const int y = round( dist * sin( angle ) );
+    return tripoint( x+player_pos.x, y+player_pos.y, player_pos.z );
+}
+
+void teleport( int min_distance, int max_distance )
+{
+    if( min_distance > max_distance || min_distance < 0 || max_distance < 0 ) {
+        debugmsg( "ERROR: Teleport argument(s) invalid" );
+        return;
+    }
+    const tripoint player_pos = g->u.pos();
+    tripoint target;
+    // limit the loop just in case it's impossble to find a valid point in the range
+    int tries = 0;
+    do {
+        target = random_point( min_distance, max_distance, player_pos );
+        tries++;
+    } while( g->m.impassable( target ) && tries < 20 );
+    if( tries == 20 ) {
+        add_msg( m_bad, _( "Unable to vind a valid target for teleport." ) );
+        return;
+    }
+    g->place_player( target );
+}
 
 void pain_split()
 {

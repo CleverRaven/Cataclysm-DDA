@@ -25,7 +25,8 @@ enum valid_target {
     target_ally,
     target_hostile,
     target_self,
-    target_ground
+    target_ground,
+    target_none
 };
 
 class spell_type
@@ -141,8 +142,6 @@ class spell
 
         // once you accumulate enough exp you level the spell
         int experience;
-        // the spell has this target in its list of valid targets
-        bool is_valid_target( valid_target t ) const;
         // returns damage type for the spell
         damage_type dmg_type() const;
         // gets int from player
@@ -226,10 +225,12 @@ class spell
 
         // is the target valid for this spell?
         bool is_valid_target( const tripoint &p ) const;
+        bool is_valid_target( valid_target t ) const;
 };
 
 namespace spell_effect
 {
+void teleport( int min_distance, int max_distance );
 void pain_split(); // only does g->u
 void shallow_pit( const tripoint &target );
 void target_attack( spell &sp, const tripoint &target );
