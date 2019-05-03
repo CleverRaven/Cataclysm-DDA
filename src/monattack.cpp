@@ -2817,7 +2817,7 @@ bool mattack::nurse_operate( monster *z )
                     } else {
                         sounds::sound( z->pos(), 8, sounds::sound_t::speech,
                                        string_format(
-                                           _( "a soft robotic voice says, \"Greetings kinbot. Please take good care of this patient.\"" ) ) );
+                                           _( "a soft robotic voice says, \"Greetings kinbot.  Please take good care of this patient.\"" ) ) );
                         z->anger = 0;
                         return false; // situation is under control no need to intervene;
                     }
