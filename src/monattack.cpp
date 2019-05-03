@@ -2728,7 +2728,7 @@ bool mattack::nurse_assist( monster *z )
         g->u.remove_effect( effect_assisted );
         return false;
     }
-    bool u_see = g->u.sees( *z );
+    const bool u_see = g->u.sees( *z );
 
     if( u_see && one_in( 10 ) ) {
         add_msg( m_info, _( "The %s is scanning it's surroundings." ), z->name() );
