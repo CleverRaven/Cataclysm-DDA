@@ -50,6 +50,7 @@ class submap;
 class item_location;
 class map_cursor;
 struct maptile;
+struct mapgendata;
 class basecamp;
 class computer;
 class Character;
@@ -1426,6 +1427,39 @@ class map
                        const oter_id &t_seast, const oter_id &t_swest, const oter_id &t_nwest,
                        const oter_id &t_above, const oter_id &t_below, const time_point &when,
                        const float density, const int zlevel, const regional_settings *rsettings );
+
+        void draw_office_tower( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
+                                const float density );
+        void draw_lab( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
+                       const float density );
+        void draw_silo( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
+                        const float density );
+        void draw_temple( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
+                          const float density );
+        void draw_sewer( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
+                         const float density );
+        void draw_mine( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
+                        const float density );
+        void draw_spiral( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
+                          const float density );
+        void draw_sarcophagus( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
+                               const float density );
+        void draw_toxic_dump( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
+                              const float density );
+        void draw_megastore( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
+                             const float density );
+        void draw_fema( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
+                        const float density );
+        void draw_anthill( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
+                           const float density );
+        void draw_slimepit( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
+                            const float density );
+        void draw_spider_pit( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
+                              const float density );
+        void draw_triffid( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
+                           const float density );
+        void draw_connections( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
+                               const float density );
 
         void build_transparency_cache( int zlev );
     public:
