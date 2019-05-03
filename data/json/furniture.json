@@ -2005,8 +2005,10 @@
     "color": "brown",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN" ],
-    "examine_action": "aggie_plant"
+    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_SEED" ],
+    "examine_action": "aggie_plant",
+    "bash": { "str_min": 1, "str_max": 5, "sound": "crunch.", "sound_fail": "whish." },
+    "plant_transform": "f_plant_seedling"
   },
   {
     "type": "furniture",
@@ -2016,9 +2018,10 @@
     "color": "green",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN" ],
+    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_SEEDLING" ],
     "examine_action": "aggie_plant",
-    "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
+    "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." },
+    "plant_transform": "f_plant_mature"
   },
   {
     "type": "furniture",
@@ -2028,9 +2031,10 @@
     "color": "green",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN" ],
+    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_MATURE" ],
     "examine_action": "aggie_plant",
-    "bash": { "str_min": 3, "str_max": 8, "sound": "crunch.", "sound_fail": "whish." }
+    "bash": { "str_min": 3, "str_max": 8, "sound": "crunch.", "sound_fail": "whish." },
+    "plant_transform": "f_plant_harvest"
   },
   {
     "type": "furniture",
@@ -2040,7 +2044,7 @@
     "color": "light_green",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN" ],
+    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_HARVEST" ],
     "examine_action": "aggie_plant",
     "bash": { "str_min": 4, "str_max": 10, "sound": "crunch.", "sound_fail": "whish." }
   },
@@ -2048,14 +2052,14 @@
     "type": "furniture",
     "id": "f_planter",
     "name": "planter",
-    "description": "raised bed planter for gardening",
+    "description": "A garden planter full of soil and slatted to allow adequate drainage. Can be used for planting crops.",
     "symbol": "^",
     "color": "green",
     "move_cost_mod": 1,
     "required_str": 10,
     "looks_like": "t_dirt",
     "plant_transform": "f_planter_seed",
-    "flags": [ "TRANSPARENT", "PLOWABLE", "FLAT", " MOUNTABLE" ],
+    "flags": [ "TRANSPARENT", "PLOWABLE", "FLAT", "MOUNTABLE" ],
     "examine_action": "dirtmound"
   },
   {
@@ -2066,8 +2070,10 @@
     "color": "brown",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN" ],
-    "examine_action": "aggie_plant"
+    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_SEED" ],
+    "examine_action": "aggie_plant",
+    "bash": { "str_min": 1, "str_max": 5, "sound": "crunch.", "sound_fail": "whish." },
+    "plant_transform": "f_planter_seedling"
   },
   {
     "type": "furniture",
@@ -2077,9 +2083,10 @@
     "color": "green",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN" ],
+    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_SEEDLING" ],
     "examine_action": "aggie_plant",
-    "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
+    "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." },
+    "plant_transform": "f_planter_mature"
   },
   {
     "type": "furniture",
@@ -2089,9 +2096,10 @@
     "color": "green",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN" ],
+    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_MATURE" ],
     "examine_action": "aggie_plant",
-    "bash": { "str_min": 3, "str_max": 8, "sound": "crunch.", "sound_fail": "whish." }
+    "bash": { "str_min": 3, "str_max": 8, "sound": "crunch.", "sound_fail": "whish." },
+    "plant_transform": "f_planter_harvest"
   },
   {
     "type": "furniture",
@@ -2101,7 +2109,7 @@
     "color": "light_green",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN" ],
+    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_HARVEST" ],
     "examine_action": "aggie_plant",
     "bash": { "str_min": 4, "str_max": 10, "sound": "crunch.", "sound_fail": "whish." }
   },

@@ -1010,10 +1010,6 @@ void set_furn_ids()
     f_plant_seedling = furn_id( "f_plant_seedling" );
     f_plant_mature = furn_id( "f_plant_mature" );
     f_plant_harvest = furn_id( "f_plant_harvest" );
-    f_planter_seed = furn_id( "f_planter_seed" );
-    f_planter_seedling = furn_id( "f_planter_seedling" );
-    f_planter_mature = furn_id( "f_planter_mature" );
-    f_planter_harvest = furn_id( "f_planter_harvest" );
     f_fvat_empty = furn_id( "f_fvat_empty" );
     f_fvat_full = furn_id( "f_fvat_full" );
     f_wood_keg = furn_id( "f_wood_keg" );
@@ -1221,6 +1217,7 @@ void furn_t::load( JsonObject &jo, const std::string &src )
               DEFAULT_MAX_VOLUME_IN_SQUARE );
     optional( jo, was_loaded, "crafting_pseudo_item", crafting_pseudo_item, "" );
     optional( jo, was_loaded, "deployed_item", deployed_item );
+    optional( jo, was_loaded, "plant_transform", plant_transform );
 
     load_symbol( jo );
     transparent = false;

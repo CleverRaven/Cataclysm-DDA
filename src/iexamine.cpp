@@ -1894,8 +1894,8 @@ void iexamine::plant_seed( player &p, const tripoint &examp, const itype_id &see
     }
     used_seed.front().set_age( 0_turns );
     g->m.add_item_or_charges( examp, used_seed.front() );
-    if( g->m.has_flag_furn( "PLANTABLE", examp ) ) {
-        g->m.furn_set( examp, f_planter_seed );
+    if( g->m.has_flag_furn( "PLOWABLE", examp ) ) {
+        g->m.furn_set( examp, furn_str_id( g->m.furn( examp ).obj().plant_transform ) );
     } else {
         g->m.set( examp, t_dirt, f_plant_seed );
     }
@@ -2152,9 +2152,9 @@ void iexamine::aggie_plant( player &p, const tripoint &examp )
 
     const std::string pname = seed.get_plant_name();
 
-    if( g->m.furn( examp ) == f_plant_harvest && query_yn( _( "Harvest the %s?" ), pname ) ) {
+    if( g->m.has_flag_furn( "GROWTH_HARVEST" ) && query_yn( _( "Harvest the %s?" ), pname ) ) {
         harvest_plant( p, examp );
-    } else if( g->m.furn( examp ) != f_plant_harvest ) {
+    } else if( !g->m.has_flag_furn( "GROWTH_HARVEST" ) ) {
         if( g->m.i_at( examp ).size() > 1 ) {
             add_msg( m_info, _( "This %s has already been fertilized." ), pname );
             return;

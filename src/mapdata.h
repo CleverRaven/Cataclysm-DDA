@@ -237,6 +237,8 @@ struct map_data_common_t {
 
         std::string looks_like;
 
+        std::string plant_transform; //What the furniture turns into when you plant seeds into it
+
         iexamine_function examine; //What happens when the terrain/furniture is examined
 
         /**
@@ -507,7 +509,6 @@ extern furn_id f_null,
        f_mutpoppy, f_flower_fungal, f_fungal_mass, f_fungal_clump,
        f_safe_c, f_safe_l, f_safe_o,
        f_plant_seed, f_plant_seedling, f_plant_mature, f_plant_harvest,
-       f_planter_seed, f_planter_seedling, f_planter_mature, f_planter_harvest,
        f_fvat_empty, f_fvat_full,
        f_wood_keg,
        f_standing_tank,
