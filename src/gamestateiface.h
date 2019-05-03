@@ -119,24 +119,13 @@ private:
     // Blank constructor
     gsi() { }
 
-    std::string ctxt; // current input context
-
-    std::vector<std::string> invlets;        // inventory letters in use
-    std::vector<std::string> invlets_c;  // inventory letters' corresponding colors
-    std::vector<std::string> invlets_s;  // Special status of inventory item:
-                                    // Yellow for on/activated
-                                    // Green for radioactive
-                                    // Red for armed explosive
-                                    // Gray for no use in current context
-                                    // Books share several of these colors but should be made different
-
     bool is_self_aware;
-
-
-
-
-
-
+    std::string ctxt; // current input context
+    int power_level, max_power_level;
+    int morale;
+    int safe_mode;
+    std::vector<std::string> bound_actions;
+    std::vector<std::vector<std::string>> bound_keys;
 
     /**
      * Update the parameters for hunger, thirst, and fatigue.
@@ -188,6 +177,9 @@ private:
      *
      */
     void update_invlets();
+    std::vector<std::string> invlets;        // inventory letters in use
+    std::vector<std::string> invlets_c;  // inventory letters' corresponding colors
+    std::vector<std::string> invlets_s;  // Special status of inventory item:
 
     /**
      * Update parameters for light level, ambient temperature, and weather.
@@ -199,20 +191,12 @@ private:
     std::string weather;
     int temp;
 
+    /**
+     * Update parameters for pain.
+     */
     void update_pain();
     int pain;
     std::string pain_string;
-
-
-    int power_level, max_power_level;
-    
-    int morale;
-    int safe_mode;
-    std::vector<std::string> bound_actions;
-    std::vector<std::vector<std::string>> bound_keys;
-    
-
-
 };
 
 
