@@ -38,7 +38,7 @@
     "type": "effect_type",
     "id": "operating",
     "name": [ "Operating" ],
-    "desc": [ "AI tag for when a monster is opperating on you.  This is a bug if you have it." ]
+    "desc": [ "AI tag for when a monster is operating on you.  This is a bug if you have it." ]
   },
   {
     "type": "effect_type",
