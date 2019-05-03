@@ -151,7 +151,7 @@ static int info_uilist()
         uilist_entry( DEBUG_SHOW_MSG, true, 'd', _( "Show debug message" ) ),
         uilist_entry( DEBUG_CRASH_GAME, true, 'C', _( "Crash game (test crash handling)" ) ),
         uilist_entry( DEBUG_DISPLAY_NPC_PATH, true, 'n', _( "Toggle NPC pathfinding on map" ) ),
-        uilist_entry( DEBUG_TEST_WEATHER, true, 'W', _( "Test Weather" ) )
+        uilist_entry( DEBUG_TEST_WEATHER, true, 'W', _( "Test weather" ) )
     };
 
     return uilist( _( "Info..." ), uilist_initializer );
