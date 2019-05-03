@@ -2745,7 +2745,7 @@ bool mattack::nurse_check_up( monster *z )
         if( !z->has_effect( effect_countdown ) ) {
             sounds::sound( z->pos(), 8, sounds::sound_t::speech,
                            string_format(
-                               _( "a soft robotic voice says, \"Come here.  I'll give you a check-up.\"" ) ) );
+                               _( "a soft robotic voice say, \"Come here.  I'll give you a check-up.\"" ) ) );
             z->add_effect( effect_countdown, 10_turns );
         }
 
@@ -2753,11 +2753,11 @@ bool mattack::nurse_check_up( monster *z )
         if( rl_dist( target->pos(), z->pos() ) > 1 ) {
             sounds::sound( z->pos(), 8, sounds::sound_t::speech,
                            string_format(
-                               _( "a soft robotic voice says, \"Come on.  I don't bite, I promise it won't hurt one bit.\"" ) ) );
+                               _( "a soft robotic voice say, \"Come on.  I don't bite, I promise it won't hurt one bit.\"" ) ) );
         } else {
             sounds::sound( z->pos(), 8, sounds::sound_t::speech,
                            string_format(
-                               _( "a soft robotic voice says, \"Here we go.  Just hold still.\"" ) ) );
+                               _( "a soft robotic voice say, \"Here we go.  Just hold still.\"" ) ) );
             target->add_effect( effect_got_checked, 10_turns );
         }
         return true;
@@ -2794,7 +2794,7 @@ bool mattack::nurse_assist( monster *z )
             z->attitude_to( *target ) == monster_attitude::MATT_FRIEND ) {
             sounds::sound( z->pos(), 8, sounds::sound_t::speech,
                            string_format(
-                               _( "a soft robotic voice says, \"Welcome doctor %s.  I'll be your assistant today.\"" ),
+                               _( "a soft robotic voice say, \"Welcome doctor %s.  I'll be your assistant today.\"" ),
                                Name::generate( target->male ) ) );
             target->add_effect( effect_assisted, 20_turns );
             return true;
@@ -2872,12 +2872,12 @@ bool mattack::nurse_operate( monster *z )
                     if( mon->type->id != mon_defective_robot_nurse ) {
                         sounds::sound( z->pos(), 8, sounds::sound_t::speech,
                                        string_format(
-                                           _( "a soft robotic voice says, \"Unhand this patient immediately!  If you keep interfering with the procedure I'll be forced to call law enforcement.\"" ) ) );
+                                           _( "a soft robotic voice say, \"Unhand this patient immediately!  If you keep interfering with the procedure I'll be forced to call law enforcement.\"" ) ) );
                         z->push_to( mon->pos(), 6, 0 );// try to push the perpetrator away
                     } else {
                         sounds::sound( z->pos(), 8, sounds::sound_t::speech,
                                        string_format(
-                                           _( "a soft robotic voice says, \"Greetings kinbot.  Please take good care of this patient.\"" ) ) );
+                                           _( "a soft robotic voice say, \"Greetings kinbot.  Please take good care of this patient.\"" ) ) );
                         z->anger = 0;
                         return false; // situation is under control no need to intervene;
                     }
