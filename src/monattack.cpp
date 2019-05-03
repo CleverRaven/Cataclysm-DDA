@@ -2756,6 +2756,9 @@ bool mattack::nurse_check_up( monster *z )
             sounds::sound( z->pos(), 8, sounds::sound_t::speech,
                            string_format(
                                _( "a soft robotic voice say, \"Here we go.  Just hold still.\"" ) ) );
+            if( target == &g->u ) {
+                add_msg( m_good, "You get a medical check-up." );
+            }
             target->add_effect( effect_got_checked, 10_turns );
             z->remove_effect( effect_countdown );
         }
