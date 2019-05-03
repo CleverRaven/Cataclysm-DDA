@@ -2742,15 +2742,13 @@ bool mattack::nurse_check_up( monster *z )
     }
     if( found_target ) {
 
-        if( !z->has_effect( effect_countdown ) ) {
+        if( !z->has_effect(
+                effect_countdown ) ) { // first we offer the check up then we wait to the player to come close
             sounds::sound( z->pos(), 8, sounds::sound_t::speech,
                            string_format(
                                _( "a soft robotic voice say, \"Come here.  I'll give you a check-up.\"" ) ) );
-            z->add_effect( effect_countdown, 10_turns );
-        }
-
-
-        if( rl_dist( target->pos(), z->pos() ) > 1 ) {
+            z->add_effect( effect_countdown, 1_minutes );
+        } else if( rl_dist( target->pos(), z->pos() ) > 1 ) { // giving them some encouragement
             sounds::sound( z->pos(), 8, sounds::sound_t::speech,
                            string_format(
                                _( "a soft robotic voice say, \"Come on.  I don't bite, I promise it won't hurt one bit.\"" ) ) );
@@ -2759,6 +2757,7 @@ bool mattack::nurse_check_up( monster *z )
                            string_format(
                                _( "a soft robotic voice say, \"Here we go.  Just hold still.\"" ) ) );
             target->add_effect( effect_got_checked, 10_turns );
+            z->remove_effect( effect_countdown );
         }
         return true;
     }
