@@ -2092,11 +2092,6 @@ void activity_handlers::start_engines_finish( player_activity *act, player *p )
     //Did any engines start?
     veh->engine_on = started;
     bool is_animal_vehicle = veh->is_animal_vehicle;
-    if( is_animal_vehicle ) {
-        add_msg( "is animal vehcle" );
-    } else {
-        add_msg( "is not animal vehicle " );
-    }
     if( attempted == 0 ) {
         add_msg( m_info, _( "The %s doesn't have an engine!" ), veh->name );
     } else if( is_animal_vehicle ) {
