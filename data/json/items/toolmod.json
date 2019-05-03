@@ -89,5 +89,14 @@
     "color": "light_green",
     "acceptable_ammo": [ "battery" ],
     "magazine_adaptor": [ [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell" ] ] ]
+  },
+  {
+    "id": "battery_compartment",
+    "copy-from": "mod_battery",
+    "type": "TOOLMOD",
+    "category": "spare_parts",
+    "name": "extra battery mod",
+    "description": "Obsolete. This should not spawn.",
+	"obsolete": true
   }
 ]
