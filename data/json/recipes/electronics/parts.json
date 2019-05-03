@@ -56,7 +56,7 @@
     "book_learn": [ [ "recipe_atomic_battery", 6 ] ],
     "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "scrap", 6 ] ], [ [ "cable", 4 ] ], [ [ "plut_cell", 10 ] ] ]
+    "components": [ [ [ "scrap", 6 ] ], [ [ "cable", 4 ] ], [ [ "plut_cell", 1 ] ] ]
   },
   {
     "result": "light_atomic_battery_cell",
@@ -71,7 +71,7 @@
     "book_learn": [ [ "recipe_atomic_battery", 6 ] ],
     "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "scrap", 6 ] ], [ [ "cable", 4 ] ], [ [ "plut_cell", 15 ] ] ]
+    "components": [ [ [ "scrap", 6 ] ], [ [ "cable", 4 ] ], [ [ "plut_cell", 2 ] ] ]
   },
   {
     "result": "medium_atomic_battery_cell",
@@ -86,7 +86,7 @@
     "book_learn": [ [ "recipe_atomic_battery", 6 ] ],
     "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "scrap", 6 ] ], [ [ "cable", 4 ] ], [ [ "plut_cell", 20 ] ] ]
+    "components": [ [ [ "scrap", 6 ] ], [ [ "cable", 4 ] ], [ [ "plut_cell", 10 ] ] ]
   },
   {
     "result": "heavy_atomic_battery_cell",
@@ -101,6 +101,6 @@
     "book_learn": [ [ "recipe_atomic_battery", 6 ] ],
     "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "scrap", 6 ] ], [ [ "cable", 4 ] ], [ [ "plut_cell", 30 ] ] ]
+    "components": [ [ [ "scrap", 6 ] ], [ [ "cable", 4 ] ], [ [ "plut_cell", 20 ] ] ]
   }
 ]
