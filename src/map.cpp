@@ -3773,7 +3773,10 @@ void map::fell_tree( const tripoint &p, const tripoint &direction )
 
     std::vector<tripoint> tree = line_to( p, to, rng( 1, 8 ) );
     for( auto &elem : tree ) {
-        this->destroy( elem );
+        // Avoid excessively transmitting the damage downard (bug 14117)
+        if( this->is_bashable( elem ) ) {
+            this->destroy( elem );
+        }
         this->ter_set( elem, t_trunk );
     }
 
