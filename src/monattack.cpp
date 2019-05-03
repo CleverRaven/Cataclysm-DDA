@@ -80,7 +80,6 @@ const mtype_id mon_blob_large( "mon_blob_large" );
 const mtype_id mon_blob_small( "mon_blob_small" );
 const mtype_id mon_breather( "mon_breather" );
 const mtype_id mon_breather_hub( "mon_breather_hub" );
-const efftype_id effect_countdown( "countdown" );
 const mtype_id mon_creeper_hub( "mon_creeper_hub" );
 const mtype_id mon_creeper_vine( "mon_creeper_vine" );
 const mtype_id mon_dermatik( "mon_dermatik" );
