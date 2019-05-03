@@ -879,6 +879,12 @@ class game
         // Standard movement; handles attacks, traps, &c. Returns false if auto move
         // should be canceled
         bool plmove( int dx, int dy, int dz = 0 );
+        inline bool plmove( tripoint d ) {
+            return plmove( d.x, d.y, d.z );
+        }
+        inline bool plmove( point d ) {
+            return plmove( d.x, d.y );
+        }
         // Handle pushing during move, returns true if it handled the move
         bool grabbed_move( const tripoint &dp );
         bool grabbed_veh_move( const tripoint &dp );
@@ -928,6 +934,7 @@ class game
         void set_critter_died();
         void mon_info( const catacurses::window &,
                        int hor_padding = 0 ); // Prints a list of nearby monsters
+        void cleanup_dead();     // Delete any dead NPCs/monsters
     private:
         void wield();
         void wield( int pos ); // Wield a weapon  'w'
@@ -982,7 +989,6 @@ class game
         void rebuild_mon_at_cache();
 
         // Routine loop functions, approximately in order of execution
-        void cleanup_dead();     // Delete any dead NPCs/monsters
         void monmove();          // Monster movement
         void overmap_npc_move(); // NPC overmap movement
         void process_activity(); // Processes and enacts the player's activity
@@ -1015,6 +1021,7 @@ class game
         void autosave();         // automatic quicksaves - Performs some checks before calling quicksave()
     public:
         void quicksave();        // Saves the game without quitting
+        void disp_NPCs();        // Currently for debug use.  Lists global NPCs.
     private:
         void quickload();        // Loads the previously saved game if it exists
 
@@ -1026,11 +1033,9 @@ class game
         void disp_kills();          // Display the player's kill counts
         void disp_faction_ends();   // Display the faction endings
         void disp_NPC_epilogues();  // Display NPC endings
-        void disp_NPCs();           // Currently UNUSED.  Lists global NPCs.
         void list_missions();       // Listed current, completed and failed missions (mission_ui.cpp)
 
         // Debug functions
-        void debug();           // All-encompassing debug screen. TODO: This.
         void display_scent();   // Displays the scent map
 
         Creature *is_hostile_within( int distance );
@@ -1104,12 +1109,14 @@ class game
 
         //pixel minimap management
         int pixel_minimap_option;
+        bool auto_travel_mode = false;
         safe_mode_type safe_mode;
         int turnssincelastmon; // needed for auto run mode
         cata::optional<int> wind_direction_override;
         cata::optional<int> windspeed_override;
         weather_type weather_override;
-
+        // not only sets nextweather, but updates weather as well
+        void set_nextweather( time_point t );
     private:
         std::shared_ptr<player> u_shared_ptr;
         std::vector<std::shared_ptr<npc>> active_npc;

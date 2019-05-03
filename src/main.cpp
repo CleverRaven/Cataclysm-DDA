@@ -611,7 +611,6 @@ int main( int argc, char *argv[] )
         }
     }
 
-    srand( seed );
     rng_set_engine_seed( seed );
 
     g.reset( new game );

@@ -2997,6 +2997,14 @@ void basecamp::serialize( JsonOut &json ) const
             json.end_object();
         }
         json.end_array();
+        json.member( "fortifications" );
+        json.start_array();
+        for( const auto &fortification : fortifications ) {
+            json.start_object();
+            json.member( "pos", fortification );
+            json.end_object();
+        }
+        json.end_array();
         json.end_object();
     } else {
         return;
@@ -3021,5 +3029,12 @@ void basecamp::deserialize( JsonIn &jsin )
         if( dir != "[B]" ) {
             directions.push_back( dir );
         }
+    }
+    JsonArray jo = data.get_array( "fortifications" );
+    while( jo.has_more() ) {
+        JsonObject edata = jo.next_object();
+        tripoint restore_pos;
+        edata.read( "pos", restore_pos );
+        fortifications.push_back( restore_pos );
     }
 }

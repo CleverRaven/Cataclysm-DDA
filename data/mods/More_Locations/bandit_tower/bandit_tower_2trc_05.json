@@ -1,54 +1,43 @@
 [
-    {
-        "type": "mapgen",
-        "om_terrain": "bandit_tower_2trc",
-        "comment" : "top right corner, second story and even levels",
-        "weight": 250,
-        "method": "json",
-        "object": {
-            "fill_ter": "t_floor",
-            "rows": [
-                "################88888###",
-                "################88######",
-                "################88######",
-                "#######==ww=====..==ww==",
-                "#######=B..B|d+...*|BB==",
-                "#####===B..B|-|....|..==",
-                "#####===....+d|....|B.Bd",
-                "###=====+------....-B.B.",
-                "###=BB....+....@...+....",
-                "###=d....B-------..---++",
-                "###wBB...B|BB.|d|....|dd",
-                "###w......+.....|....|--",
-                "###wBB..BB|.BB|d|....+..",
-                "###=---+---------....---",
-                "###=*........!..........",
-                "###=----++---|..........",
-                "###|BB.....BB|..=======.",
-                "###|d...@@..d|..=====Mee",
-                "###wBB.....BB|..==<<<Mee",
-                "###wd...,,..d|....<<<Mee",
-                "###|BB.....BB|....<<<Mee",
-                "###|d.......d|..=MMMMMMM",
-                "###|BB.lll.BB|..=eeeeM==",
-                "###===-------|...eeeeM=="
-            ],
-            "rotation": 1,
-            "palettes": [
-                "tri_tower",
-                "upper_level",
-                "bandit_tower_stuff"
-            ],
-            "terrain":{
-                "5": "t_pavement",
-                "8": "t_bridge"
-            },
-            "items":{
-                "l": { "item": "cleaning", "chance": 55 }
-            },
-            "npcs": {
-                "@": { "class": "thug" }
-            }
-        }
+  {
+    "type": "mapgen",
+    "om_terrain": "bandit_tower_2trc",
+    "comment": "top right corner, second story and even levels",
+    "weight": 250,
+    "method": "json",
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "################88888###",
+        "################88######",
+        "################88######",
+        "#######==ww=====..==ww==",
+        "#######=B..B|d+...*|BB==",
+        "#####===B..B|-|....|..==",
+        "#####===....+d|....|B.Bd",
+        "###=====+------....-B.B.",
+        "###=BB....+....@...+....",
+        "###=d....B-------..---++",
+        "###wBB...B|BB.|d|....|dd",
+        "###w......+.....|....|--",
+        "###wBB..BB|.BB|d|....+..",
+        "###=---+---------....---",
+        "###=*........!..........",
+        "###=----++---|..........",
+        "###|BB.....BB|..=======.",
+        "###|d...@@..d|..=====Mee",
+        "###wBB.....BB|..==<<<Mee",
+        "###wd...,,..d|....<<<Mee",
+        "###|BB.....BB|....<<<Mee",
+        "###|d.......d|..=MMMMMMM",
+        "###|BB.lll.BB|..=eeeeM==",
+        "###===-------|...eeeeM=="
+      ],
+      "rotation": 1,
+      "palettes": [ "tri_tower", "upper_level", "bandit_tower_stuff" ],
+      "terrain": { "5": "t_pavement", "8": "t_bridge" },
+      "items": { "l": { "item": "cleaning", "chance": 55 } },
+      "npcs": { "@": { "class": "thug" } }
     }
+  }
 ]

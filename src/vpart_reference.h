@@ -43,6 +43,9 @@ class vpart_reference : public vpart_position
         bool has_feature( const std::string &f ) const;
         bool has_feature( vpart_bitflags f ) const;
         /**@}*/
+
+        /// Returns the passenger in this part, or nullptr if no passenger.
+        player *get_passenger() const;
 };
 
 #endif

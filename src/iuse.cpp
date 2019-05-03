@@ -1674,9 +1674,10 @@ int iuse::sew_advanced( player *p, item *it, bool, const tripoint & )
     rn -= mod_count * 10;                              // Other mods
 
     if( rn <= 8 ) {
+        const auto destroyed = mod.inc_damage();
         p->add_msg_if_player( m_bad, _( "You damage your %s trying to modify it!" ),
                               mod.tname() );
-        if( mod.inc_damage() ) {
+        if( destroyed ) {
             p->add_msg_if_player( m_bad, _( "You destroy it!" ) );
             p->i_rem_keep_contents( pos );
         }
@@ -1991,7 +1992,7 @@ int iuse::extinguisher( player *p, item *it, bool, const tripoint & )
         dest.x += ( dest.x - p->posx() );
         dest.y += ( dest.y - p->posy() );
 
-        g->m.adjust_field_strength( dest, fd_fire, std::min( 0 - rng( 0, 1 ) + rng( 0, 1 ), 0L ) );
+        g->m.adjust_field_strength( dest, fd_fire, std::min( 0 - rng( 0, 1 ) + rng( 0, 1 ), 0 ) );
     }
 
     return it->type->charges_to_use();
@@ -5439,23 +5440,23 @@ int iuse::gun_repair( player *p, item *it, bool, const tripoint & )
         sounds::sound( p->pos(), 6, sounds::sound_t::activity, "crunch" );
         p->moves -= 2000 * p->fine_detail_vision_mod();
         p->practice( skill_mechanics, 10 );
-        p->add_msg_if_player( m_good, _( "You accurize your %s." ), fix.tname() );
         fix.mod_damage( -itype::damage_scale );
+        p->add_msg_if_player( m_good, _( "You accurize your %s." ), fix.tname() );
 
     } else if( fix.damage() > itype::damage_scale ) {
         sounds::sound( p->pos(), 8, sounds::sound_t::activity, "crunch" );
         p->moves -= 1000 * p->fine_detail_vision_mod();
         p->practice( skill_mechanics, 10 );
-        p->add_msg_if_player( m_good, _( "You repair your %s!" ), fix.tname() );
         fix.mod_damage( -itype::damage_scale );
+        p->add_msg_if_player( m_good, _( "You repair your %s!" ), fix.tname() );
 
     } else {
         sounds::sound( p->pos(), 8, sounds::sound_t::activity, "crunch" );
         p->moves -= 500 * p->fine_detail_vision_mod();
         p->practice( skill_mechanics, 10 );
+        fix.set_damage( 0 );
         p->add_msg_if_player( m_good, _( "You repair your %s completely!" ),
                               fix.tname() );
-        fix.set_damage( 0 );
     }
     return it->type->charges_to_use();
 }
@@ -5571,20 +5572,20 @@ int iuse::misc_repair( player *p, item *it, bool, const tripoint & )
     if( fix.damage() <= 0 ) {
         p->moves -= 1000 * p->fine_detail_vision_mod();
         p->practice( skill_fabrication, 10 );
-        p->add_msg_if_player( m_good, _( "You reinforce your %s." ), fix.tname() );
         fix.mod_damage( -itype::damage_scale );
+        p->add_msg_if_player( m_good, _( "You reinforce your %s." ), fix.tname() );
 
     } else if( fix.damage() > itype::damage_scale ) {
         p->moves -= 500 * p->fine_detail_vision_mod();
         p->practice( skill_fabrication, 10 );
-        p->add_msg_if_player( m_good, _( "You repair your %s!" ), fix.tname() );
         fix.mod_damage( -itype::damage_scale );
+        p->add_msg_if_player( m_good, _( "You repair your %s!" ), fix.tname() );
 
     } else {
         p->moves -= 250 * p->fine_detail_vision_mod();
         p->practice( skill_fabrication, 10 );
-        p->add_msg_if_player( m_good, _( "You repair your %s completely!" ), fix.tname() );
         fix.set_damage( 0 );
+        p->add_msg_if_player( m_good, _( "You repair your %s completely!" ), fix.tname() );
     }
     return it->type->charges_to_use();
 }

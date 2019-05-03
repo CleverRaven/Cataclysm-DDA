@@ -150,8 +150,9 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who_c )
     }
 
     // If part is broken, it will be destroyed and references invalidated
-    std::string partname = pt.name();
-    if( pt.is_broken() ) {
+    std::string partname;
+    bool wasbroken = pt.is_broken();
+    if( wasbroken ) {
         const int dir = pt.direction;
         point loc = pt.mount;
         auto replacement_id = pt.info().get_id();
@@ -160,12 +161,16 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who_c )
         const int partnum = veh.install_part( loc, replacement_id, std::move( base ) );
         veh.parts[partnum].direction = dir;
         veh.part_removal_cleanup();
+        partname = veh.parts[partnum].name();
     } else {
         veh.set_hp( pt, pt.info().durability );
+        partname = pt.name();
     }
 
     // TODO: NPC doing that
-    who.add_msg_if_player( m_good, _( "You repair the %1$s's %2$s." ), veh.name, partname );
+    who.add_msg_if_player( m_good,
+                           wasbroken ? _( "You replace the %1$s's %2$s." ) : _( "You repair the %1$s's %2$s." ), veh.name,
+                           partname );
     return true;
 }
 

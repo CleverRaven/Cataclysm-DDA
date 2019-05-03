@@ -1,51 +1,42 @@
 [
-    {
-        "type": "mapgen",
-        "om_terrain": "bandit_tower_3tlc",
-        "comment" : "top left corner, third and odd level floors.",
-        "weight": 250,
-        "method": "json",
-        "object": {
-            "fill_ter": "t_floor",
-            "rows": [
-                "########################",
-                "########################",
-                "########################",
-                "#######==ww=====ww==ww==",
-                "#######=B..B|d+..BB|BB==",
-                "#####===B..B|-|....|..==",
-                "#####===....+d|..BB|.B.B",
-                "###=====+------+----.B.B",
-                "###=xx.............+....",
-                "###=xx....-------+----++",
-                "###w......|sss|0|..BB|dd",
-                "###w......+...@~|....|--",
-                "###w......|lll|W|BB..+.d",
-                "###=......--------------",
-                "###=....................",
-                "###=--kkkk..*|..........",
-                "##8jjjjjjk..A|..===..==.",
-                "##8jjjjjjk..A|@.===..Mee",
-                "##8jjjjjjk..A|..==<<<Mee",
-                "##8jjjjjjk..R|..==<<<Mee",
-                "##8jjjjjjk..A|..==<<<Mee",
-                "##8jjjjjjk..A|..=MMMMMMM",
-                "##8jjjjjjk..A|..=eeeeM==",
-                "###===kkkk..*|...eeeeM=="
-            ],
-            "rotation": 0,
-            "palettes": [
-                "tri_tower",
-                "upper_level",
-                "bandit_tower_stuff"
-            ],
-            "terrain":{
-                "8": "t_bridge",
-                "k": "t_fence_barbed"
-            },
-            "furniture":{
-                "j": "f_canvas_floor"
-            }
-        }
+  {
+    "type": "mapgen",
+    "om_terrain": "bandit_tower_3tlc",
+    "comment": "top left corner, third and odd level floors.",
+    "weight": 250,
+    "method": "json",
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "########################",
+        "########################",
+        "########################",
+        "#######==ww=====ww==ww==",
+        "#######=B..B|d+..BB|BB==",
+        "#####===B..B|-|....|..==",
+        "#####===....+d|..BB|.B.B",
+        "###=====+------+----.B.B",
+        "###=xx.............+....",
+        "###=xx....-------+----++",
+        "###w......|sss|0|..BB|dd",
+        "###w......+...@~|....|--",
+        "###w......|lll|W|BB..+.d",
+        "###=......--------------",
+        "###=....................",
+        "###=--kkkk..*|..........",
+        "##8jjjjjjk..A|..===..==.",
+        "##8jjjjjjk..A|@.===..Mee",
+        "##8jjjjjjk..A|..==<<<Mee",
+        "##8jjjjjjk..R|..==<<<Mee",
+        "##8jjjjjjk..A|..==<<<Mee",
+        "##8jjjjjjk..A|..=MMMMMMM",
+        "##8jjjjjjk..A|..=eeeeM==",
+        "###===kkkk..*|...eeeeM=="
+      ],
+      "rotation": 0,
+      "palettes": [ "tri_tower", "upper_level", "bandit_tower_stuff" ],
+      "terrain": { "8": "t_bridge", "k": "t_fence_barbed" },
+      "furniture": { "j": "f_canvas_floor" }
     }
+  }
 ]

@@ -11,6 +11,7 @@
 #include "field.h"
 #include "game.h"
 #include "map.h"
+#include "map_helpers.h"
 #include "npc.h"
 #include "npc_class.h"
 #include "overmapbuffer.h"
@@ -67,6 +68,17 @@ npc create_model()
     model_npc.set_mutation( trait_id( "WEB_WEAVER" ) );
 
     return model_npc;
+}
+
+std::string get_list_of_npcs( const std::string &title )
+{
+
+    std::ostringstream npc_list;
+    npc_list << title << ":\n";
+    for( const npc &n : g->all_npcs() ) {
+        npc_list << "  " << &n << ": " << n.name << '\n';
+    }
+    return npc_list.str();
 }
 
 TEST_CASE( "on_load-sane-values", "[.]" )
@@ -304,26 +316,8 @@ TEST_CASE( "npc-movement" )
 
     g->place_player( tripoint( 60, 60, 0 ) );
 
-    // kill npcs before removing vehicles so they are correctly unboarded
-    for( int y = 0; y < height; ++y ) {
-        for( int x = 0; x < width; ++x ) {
-            const tripoint p = g->u.pos() + point( x, y );
-            Creature *cre = g->critter_at( p );
-            if( cre != nullptr && cre != &g->u ) {
-                npc *guy = dynamic_cast<npc *>( cre );
-                cre->die( nullptr );
-                if( guy ) {
-                    overmap_buffer.remove_npc( guy->getID() );
-                }
-            }
-        }
-    }
-    g->unload_npcs();
-    // remove existing vehicles
-    VehicleList vehs = g->m.get_vehicles( g->u.pos(), g->u.pos() + point( width - 1, height - 1 ) );
-    for( auto &veh : vehs ) {
-        g->m.detach_vehicle( veh.v );
-    }
+    clear_map();
+
     for( int y = 0; y < height; ++y ) {
         for( int x = 0; x < width; ++x ) {
             const char type = setup[y][x];
@@ -439,21 +433,8 @@ TEST_CASE( "npc_can_target_player" )
 
     g->place_player( tripoint( 10, 10, 0 ) );
 
-    // kill npcs before removing vehicles so they are correctly unboarded
-    for( int y = 0; y < height; ++y ) {
-        for( int x = 0; x < width; ++x ) {
-            const tripoint p = g->u.pos() + point( x, y );
-            Creature *cre = g->critter_at( p );
-            if( cre != nullptr && cre != &g->u ) {
-                npc *guy = dynamic_cast<npc *>( cre );
-                cre->die( nullptr );
-                if( guy ) {
-                    overmap_buffer.remove_npc( guy->getID() );
-                }
-            }
-        }
-    }
-    g->unload_npcs();
+    clear_npcs();
+    clear_creatures();
 
     const auto spawn_npc = []( const int x, const int y, const std::string & npc_class ) {
         const string_id<npc_template> test_guy( npc_class );
@@ -470,6 +451,8 @@ TEST_CASE( "npc_can_target_player" )
     REQUIRE( rl_dist( g->u.pos(), hostile->pos() ) <= 1 );
     hostile->set_attitude( NPCATT_KILL );
     hostile->name = "Enemy NPC";
+
+    INFO( get_list_of_npcs( "NPCs after spawning one" ) );
 
     hostile->regen_ai_cache();
     REQUIRE( hostile->current_target() != nullptr );

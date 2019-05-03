@@ -419,7 +419,7 @@ distribution distribution::one_in( float in )
     }
 
     return distribution( [in]() {
-        return one_in_improved( in );
+        return x_in_y( 1, in );
     } );
 }
 

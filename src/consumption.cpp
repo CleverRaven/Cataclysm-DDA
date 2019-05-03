@@ -913,14 +913,9 @@ bool player::eat( item &food, bool force )
 
 void player::modify_health( const islot_comestible &comest )
 {
-    int effective_health = comest.healthy;
-    if( effective_health != 0 ) {
-        // Effectively no cap on health modifiers from food
-        if( has_trait( trait_id( "PROJUNK2" ) ) && effective_health < 0 ) {
-            effective_health = 0; // we can handle junk just fine!
-        }
-        mod_healthy_mod( effective_health, ( effective_health >= 0 ) ? 200 : -200 );
-    }
+    const int effective_health = comest.healthy;
+    const int health_cap = 200; // Effectively no cap on health modifiers from food and meds
+    mod_healthy_mod( effective_health, effective_health >= 0 ? health_cap : -health_cap );
 }
 
 void player::modify_stimulation( const islot_comestible &comest )
@@ -1015,8 +1010,10 @@ bool player::consume_effects( item &food )
     }
 
     const auto nutr = nutrition_for( food ); // used in hibernation messages.
-
-    modify_health( comest );
+    const bool skip_health = has_trait( trait_id( "PROJUNK2" ) ) && comest.healthy < 0;
+    if( !skip_health ) { // we can handle junk just fine
+        modify_health( comest );
+    }
     modify_stimulation( comest );
     modify_addiction( comest );
     modify_morale( food, nutr );

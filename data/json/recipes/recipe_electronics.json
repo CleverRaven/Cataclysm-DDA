@@ -1012,19 +1012,34 @@
   },
   {
     "type": "recipe",
+    "result": "welding_components",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_PARTS",
+    "skill_used": "mechanics",
+    "skills_required": [ "electronics", 4 ],
+    "difficulty": 4,
+    "time": 10000,
+    "reversible": true,
+    "decomp_learn": 4,
+    "book_learn": [ [ "textbook_mechanics", 6 ], [ "textbook_electronics", 8 ], [ "textbook_fabrication", 8 ], [ "welding_book", 5 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [ [ [ "soldering_iron", 1 ] ], [ [ "welder", 1 ], [ "welder_crude", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "weldrig",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
     "skill_used": "mechanics",
     "skills_required": [ "electronics", 4 ],
     "difficulty": 4,
-    "time": 60000,
+    "time": 50000,
     "reversible": true,
     "decomp_learn": 4,
     "book_learn": [ [ "textbook_mechanics", 6 ], [ "textbook_electronics", 8 ], [ "textbook_fabrication", 8 ], [ "welding_book", 5 ] ],
     "using": [ [ "welding_standard", 10 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
-    "components": [ [ [ "frame", 1 ] ], [ [ "soldering_iron", 1 ] ], [ [ "welder", 1 ], [ "welder_crude", 2 ] ], [ [ "cable", 5 ] ] ]
+    "components": [ [ [ "frame", 1 ] ], [ [ "welding_components", 1 ] ], [ [ "cable", 5 ] ] ]
   },
   {
     "type": "recipe",

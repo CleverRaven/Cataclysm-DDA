@@ -295,13 +295,13 @@
     "responses": [
       {
         "text": "[$200, 30m] I need you to patch me up.",
-        "topic": "TALK_DONE",
+        "topic": "TALK_RANCH_NURSE_AID_DONE",
         "effect": [ "give_aid", { "u_spend_cash": 20000 } ],
         "condition": { "npc_service": 20000 }
       },
       {
         "text": "[$500, 1h] I need you to patch me up.",
-        "topic": "TALK_DONE",
+        "topic": "TALK_RANCH_NURSE_AID_DONE",
         "effect": [ "give_all_aid", { "u_spend_cash": 50000 } ],
         "condition": { "npc_service": 50000 }
       },
