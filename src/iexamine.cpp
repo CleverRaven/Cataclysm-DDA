@@ -1894,7 +1894,11 @@ void iexamine::plant_seed( player &p, const tripoint &examp, const itype_id &see
     }
     used_seed.front().set_age( 0_turns );
     g->m.add_item_or_charges( examp, used_seed.front() );
-    g->m.set( examp, t_dirt, f_plant_seed );
+    if( g->m.has_flag_furn( "PLANTABLE", examp ) ) {
+        g->m.furn_set( examp, f_planter_seed );
+    } else {
+        g->m.set( examp, t_dirt, f_plant_seed );
+    }
     p.moves -= 500;
     add_msg( _( "Planted %s." ), item::nname( seed_id ) );
 }

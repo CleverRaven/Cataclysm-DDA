@@ -11,6 +11,27 @@
   },
   {
     "type": "terrain",
+    "id": "t_planter",
+    "name": "planter",
+    "symbol": "!",
+    "color": "black",
+    "move_cost": 1,
+    "flags": [ "PLANTABLE" ],
+    "examine_action": "dirtmound"
+  },
+  {
+    "type": "furniture",
+    "id": "f_planter",
+    "name": "planter",
+    "symbol": "!",
+    "color": "black",
+    "move_cost_mod": 1,
+    "flags": [ "PLANTABLE" ],
+    "examine_action": "dirtmound",
+    "required_str": 1
+  },
+  {
+    "type": "terrain",
     "id": "t_hole",
     "name": "empty space",
     "symbol": " ",
