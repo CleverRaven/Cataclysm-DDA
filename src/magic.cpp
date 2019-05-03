@@ -239,6 +239,11 @@ int spell::duration() const
                      type->max_duration );
 }
 
+time_duration spell::duration_turns() const
+{
+    return 1_turns * duration() / 100;
+}
+
 void spell::gain_level()
 {
     gain_exp( exp_to_next_level() );
@@ -828,6 +833,26 @@ void target_attack( spell &sp, const tripoint &target )
         const int dur_moves = sp.duration();
         const time_duration dur_td = 1_turns * dur_moves / 100;
         cr->add_effect( efftype_id( sp.effect_data() ), dur_td, bp_torso );
+    }
+}
+
+void spawn_ethereal_item( spell &sp )
+{
+    item granted( sp.effect_data() );
+    granted.set_birthday( calendar::turn );
+    if( !granted.is_comestible() ) {
+        granted.set_rot( -sp.duration_turns() );
+        granted.set_flag( "ETHEREAL_ITEM" );
+    }
+    if( granted.count_by_charges() ) {
+        if( sp.damage() > 0 ) {
+            granted.charges = sp.damage();
+            g->u.i_add( granted );
+        }
+    } else {
+        for( int i = 0; i < sp.damage(); i++ ) {
+            g->u.i_add( granted );
+        }
     }
 }
 

@@ -183,6 +183,7 @@ class spell
         int energy_cost() const;
         // how long does this spell's effect last
         int duration() const;
+        time_duration duration_turns() const;
         // how often does the spell fail
         // based on difficulty, level of spell, spellcraft skill, intelligence
         float spell_fail() const;
@@ -234,6 +235,7 @@ void teleport( int min_distance, int max_distance );
 void pain_split(); // only does g->u
 void shallow_pit( const tripoint &target );
 void target_attack( spell &sp, const tripoint &target );
+void spawn_ethereal_item( spell &sp );
 }
 
 #endif

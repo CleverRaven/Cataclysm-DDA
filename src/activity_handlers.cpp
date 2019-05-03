@@ -3578,6 +3578,10 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
         spell_effect::target_attack( casting, target );
     } else if( fx == "teleport_random" ) {
         spell_effect::teleport( casting.range(), casting.range() + casting.aoe() );
+    } else if( fx == "spawn_item" ) {
+        spell_effect::spawn_ethereal_item( casting );
+    } else {
+        debugmsg( "ERROR: Spell effect not defined properly." );
     }
 
     // pay the cost

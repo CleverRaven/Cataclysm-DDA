@@ -3765,6 +3765,9 @@ bool item::goes_bad() const
     if( has_flag( "PROCESSING" ) ) {
         return false;
     }
+    if( has_flag( "ETHEREAL_ITEM" ) ) {
+        return true;
+    }
     if( is_corpse() ) {
         // Corpses rot only if they are made of rotting materials
         std::vector<std::string> rotting_materials = {"Insect Flesh", "Human Flesh", "Flesh", "Bone"};

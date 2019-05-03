@@ -37,5 +37,26 @@
     "difficulty": 8,
     "max_level": 15,
     "energy_source": "MANA"
+  },
+  {
+    "id": "holy_blade",
+	"type": "SPELL",
+	"name": "Holy Blade",
+	"description": "This blade of light will cut through any evil it makes contact with!",
+	"valid_targets": [ "self" ],
+	"min_range": 0,
+	"max_range": 0,
+	"min_damage": 1,
+	"max_damage": 1,
+	"effect": "spawn_item",
+	"effect_str": "longsword",
+	"base_casting_time": 350,
+	"base_energy_cost": 375,
+	"min_duration": 3000,
+	"max_duration": 9000,
+	"duration_increment": 3000,
+	"difficulty": 5,
+	"max_level": 20,
+	"energy_source": "MANA"
   }
 ]
