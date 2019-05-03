@@ -1713,7 +1713,7 @@ float monster::dodge_roll()
 
 int monster::get_grab_strength() const
 {
-	return type->grab_strength;
+    return type->grab_strength;
 }
 
 float monster::fall_damage_mod() const

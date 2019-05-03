@@ -2865,7 +2865,8 @@ bool mattack::nurse_operate( monster *z )
             return false;
         }
         z->set_dest( target->pos() );// should designate target as the attack_target
-        if( target->has_effect( effect_grabbed ) ) {
+
+        if( target->has_effect( effect_grabbed ) ) {// check if target is already grabbed by something else
             for( auto critter : g->m.get_creatures_in_radius( target->pos(), 1 ) ) {
                 monster *mon = dynamic_cast<monster *>( critter );
                 if( mon != nullptr && mon != z ) {
@@ -2887,7 +2888,7 @@ bool mattack::nurse_operate( monster *z )
             grab( z );
         }
 
-        if( target->has_effect( effect_grabbed ) ) {
+        if( target->has_effect( effect_grabbed ) ) { // check if we succesfully grabbed the target
             z->dragged_foe = target;
             z->add_effect( effect_dragging, 1_turns, num_bp, true );
             return true;
