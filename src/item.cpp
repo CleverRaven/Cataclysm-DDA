@@ -7046,7 +7046,7 @@ void item::apply_freezerburn()
 }
 
 void item::process_temperature_rot( int temp, float insulation, const tripoint pos,
-                                    player *carrier )
+                                    player *carrier, const bool static_temp )
 {
     const time_point now = calendar::turn;
 
@@ -7057,6 +7057,10 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
         last_rot_check = now;
         return;
     }
+	
+	if( static_temp ){
+		add_msg( m_info, _( "STATIC TEMP" ) );
+	}
 
     bool carried = carrier != nullptr && carrier->has_item( *this );
 
@@ -7748,14 +7752,14 @@ bool item::process_tool( player *carrier, const tripoint &pos )
 bool item::process( player *carrier, const tripoint &pos, bool activate )
 {
     if( has_temperature() || is_food_container() ) {
-        return process( carrier, pos, activate, g->get_temperature( pos ), 1 );
+        return process( carrier, pos, activate, g->get_temperature( pos ), 1, false );
     } else {
-        return process( carrier, pos, activate, 0, 1 );
+        return process( carrier, pos, activate, 0, 1, false );
     }
 }
 
 bool item::process( player *carrier, const tripoint &pos, bool activate, int temp,
-                    float insulation )
+                    float insulation, const bool static_temp )
 {
     const bool preserves = type->container && type->container->preserves;
     for( auto it = contents.begin(); it != contents.end(); ) {
@@ -7764,7 +7768,7 @@ bool item::process( player *carrier, const tripoint &pos, bool activate, int tem
             // is not changed, the item is still fresh.
             it->last_rot_check = calendar::turn;
         }
-        if( it->process( carrier, pos, activate, temp, type->insulation_factor * insulation ) ) {
+        if( it->process( carrier, pos, activate, temp, type->insulation_factor * insulation, false ) ) {
             it = contents.erase( it );
         } else {
             ++it;
@@ -7832,7 +7836,7 @@ bool item::process( player *carrier, const tripoint &pos, bool activate, int tem
     }
     // All foods that go bad have temperature
     if( has_temperature() ) {
-        process_temperature_rot( temp, insulation, pos, carrier );
+        process_temperature_rot( temp, insulation, pos, carrier, static_temp );
     }
 
     return false;
