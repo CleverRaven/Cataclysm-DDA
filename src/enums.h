@@ -337,6 +337,15 @@ static constexpr point point_min{ tripoint_min.x, tripoint_min.y };
 static constexpr point point_zero{ tripoint_zero.x, tripoint_zero.y };
 static constexpr point point_max{ tripoint_max.x, tripoint_max.y };
 
+static constexpr point point_north{ 0, -1 };
+static constexpr point point_north_east{ 1, -1 };
+static constexpr point point_east{ 1, 0 };
+static constexpr point point_south_east{ 1, 1 };
+static constexpr point point_south{ 0, 1 };
+static constexpr point point_south_west{ -1, 1 };
+static constexpr point point_west{ -1, 0 };
+static constexpr point point_north_west{ -1, -1 };
+
 static constexpr box box_zero( tripoint_zero, tripoint_zero );
 static constexpr rectangle rectangle_zero( point_zero, point_zero );
 
