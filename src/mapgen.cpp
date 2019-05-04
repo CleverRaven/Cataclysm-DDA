@@ -7240,6 +7240,9 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
 
             // Now get rid of the old vehicles
             std::unique_ptr<vehicle> old_veh = detach_vehicle( other_veh );
+            // Failure has happened here when caches are corrupted due to bugs.
+            // Add an assertion to avoid null-pointer dereference later.
+            assert( old_veh );
 
             // Try again with the wreckage
             std::unique_ptr<vehicle> new_veh = add_vehicle_to_map( std::move( wreckage ), true );
