@@ -154,6 +154,13 @@ constexpr units::mass CHARACTER_WEIGHT = 81500_gram;
 constexpr int SIMPLEX_NOISE_RANDOM_SEED_LIMIT = 32768;
 
 // activity levels, used for BMR
+// these levels are normally used over the length of
+// days to weeks in order to calculate your total BMR
+// but we are making it more granular to be able to have
+// variable activity levels.
+// as such, when determining your activity level
+// in the json, think about what it would be if you
+// did this activity for a longer period of time.
 constexpr float NO_EXERCISE = 1.2f;
 constexpr float LIGHT_EXERCISE = 1.375f;
 constexpr float MODERATE_EXERCISE = 1.55f;
