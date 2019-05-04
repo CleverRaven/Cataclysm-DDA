@@ -29,6 +29,8 @@
 #include "color.h"
 #include "optional.h"
 #include "translations.h"
+#include "worldfactory.h"
+#include "mod_manager.h"
 
 #if !defined(_MSC_VER)
 #include <sys/time.h>
@@ -86,6 +88,8 @@ namespace
 std::set<std::string> ignored_messages;
 
 }
+
+
 
 void realDebugmsg( const char *filename, const char *line, const char *funcname,
                    const std::string &text )
@@ -775,6 +779,92 @@ std::ostream &DebugLog( DebugLevel lev, DebugClass cl )
         return out;
     }
     return nullStream;
+}
+
+std::string game_info::operating_system()
+{
+#if defined(__ANDROID__)
+    return "Android";
+#elif defined(_WIN32)
+    return "Windows";
+#elif defined(__linux__)
+    return "Linux";
+#elif defined(unix) || defined(__unix__) || defined(__unix) || defined(__APPLE__) && defined(__MACH__) // unix; BSD; MacOs
+#if defined(__APPLE__) && defined(__MACH__)
+#include <TargetConditionals.h>
+#if TARGET_IPHONE_SIMULATOR == 1
+    /* iOS in Xcode simulator */
+    return "iOS Simulator";
+#elif TARGET_OS_IPHONE == 1
+    /* iOS on iPhone, iPad, etc. */
+    return "iOS";
+#elif TARGET_OS_MAC == 1
+    /* OSX */
+    return "MacOs"
+#endif // TARGET_IPHONE_SIMULATOR
+#elif defined (__DragonFly__) || defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__)
+    return "BSD";
+#else
+    return "Unix";
+#endif // __APPLE__
+#else
+    return "Unknown";
+#endif
+}
+
+std::string game_info::bitness()
+{
+    if( sizeof( void * ) == 8 ) {
+        return "64-bit";
+    }
+
+    if( sizeof( void * ) == 4 ) {
+        return "32-bit";
+    }
+
+    return "Unknown";
+}
+
+std::string game_info::game_version()
+{
+    return getVersionString();
+}
+
+std::string game_info::graphics_version()
+{
+#if defined (TILES)
+    return "Tiles";
+#else
+    return "Curses";
+#endif
+
+}
+
+std::string game_info::mods_loaded()
+{
+    std::vector<mod_id> mod_ids = world_generator->active_world->active_mod_order;
+    std::vector<std::string> mod_names;
+    mod_names.reserve( mod_ids.size() );
+    for( const auto &mod_id : mod_ids ) {
+        MOD_INFORMATION mod_obj = mod_id.obj();
+        std::string mod_name = mod_obj.name() + " [" + mod_obj.ident.str() + "]";
+        mod_names.push_back( mod_name );
+    }
+
+    auto result = join( mod_names, ",\n    " );
+    return result;
+}
+
+std::string game_info::game_report()
+{
+    std::stringstream report;
+    report <<
+           "- OS: " << operating_system() << " [" << bitness() << "]\n" <<
+           "- Game Version: " << game_version() << "\n" <<
+           "- Graphics Version: " << graphics_version() << "\n" <<
+           "- Mods loaded: [\n    " << mods_loaded() << "\n]\n";
+
+    return report.str();
 }
 
 // vim:tw=72:sw=4:fdm=marker:fdl=0:
