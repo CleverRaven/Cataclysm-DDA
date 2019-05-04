@@ -11,6 +11,7 @@
 #include "rng.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "path_info.h"
 
 namespace Name
 {
@@ -78,7 +79,12 @@ static void load( JsonIn &jsin )
 
 void load_from_file( const std::string &filename )
 {
+    // TODO: Forever is data/names/en.json {Stupid Bug}
     read_from_file_json( filename, load );
+
+    RandomName *randomName = new RandomName();
+    randomName->getRandomName(NAME_IS_MALE_NAME);
+    randomName->toString();
 }
 
 // get name groups for which searchFlag is a subset.
@@ -86,6 +92,7 @@ void load_from_file( const std::string &filename )
 // i.e. if searchFlag is  [ Male|Family ]
 // it will match any group with those two flags set, such as [ Unisex|Family ]
 using names_vec = std::vector< decltype( names.cbegin() ) >;
+
 static names_vec get_matching_groups( nameFlags searchFlags )
 {
     names_vec matching_groups;
@@ -152,3 +159,141 @@ void clear()
 }
 }
 
+RandomName::RandomName( )
+{
+    loadNames();
+}
+
+void RandomName::loadNames( )
+{
+    Path *path = Path::getInstance();
+
+    std::string pathToFileJSON = path->getPathForValueKey("NAMES_FILE");
+
+    std::ifstream fileJSON;
+
+    fileJSON.open(pathToFileJSON, std::ifstream::in);
+
+    JsonIn *inputJSON = new JsonIn(fileJSON);
+
+    inputJSON->start_array();
+
+    while(!inputJSON->end_array())
+    {
+        JsonObject objectJSON = inputJSON->get_object();
+
+        if (objectJSON.get_string("usage") == "nick")
+        {
+            namesNick.push_back(objectJSON.get_string("name"));
+        }
+        else if (objectJSON.get_string("usage") == "backer")
+        {
+            if (objectJSON.get_string("gender") == "male")
+            {
+                namesMale.push_back(objectJSON.get_string("name"));
+            }
+            else if (objectJSON.get_string("gender") == "female")
+            {
+                namesFemale.push_back(objectJSON.get_string("name"));
+            }
+            else
+            {
+                namesUnisex.push_back(objectJSON.get_string("name"));
+            }
+        }
+        else if (objectJSON.get_string("usage") == "city")
+        {
+            namesTown.push_back(objectJSON.get_string("name"));
+        }
+        else if (objectJSON.get_string("usage") == "family")
+        {
+            namesFamily.push_back(objectJSON.get_string("name"));
+        }
+        else if (objectJSON.get_string("usage") == "given")
+        {
+            if (objectJSON.get_string("gender") == "male")
+            {
+                namesGivenMale.push_back(objectJSON.get_string("name"));
+            }
+            else
+            {
+                namesGivenFemale.push_back(objectJSON.get_string("name"));
+            }
+        }
+        else if (objectJSON.get_string("usage") == "world")
+        {
+            namesWorld.push_back(objectJSON.get_string("name"));
+        }
+    }
+
+    fileJSON.close();
+}
+
+std::string RandomName::getRandomName( NameFlags flag )
+{
+    //TODO: Generate Number Random
+
+    if (flag == NAME_IS_MALE_NAME)
+    {
+        short choice = rng(0, namesMale.size());
+        return namesMale[choice];
+    }
+    else if (flag == NAME_IS_FEMALE_NAME)
+    {
+        short choice = rng(0, namesFemale.size());
+        return namesFemale[choice];
+    }
+    else if (flag == NAME_IS_UNISEX_NAME)
+    {
+        short choice = rng(0, namesUnisex.size());
+        return namesUnisex[choice];
+    }
+    else if (flag == NAME_IS_GIVEN_NAME)
+    {
+        short choiceGiven = rng(0, 1);
+
+        if (choiceGiven == 1)
+        {
+            short choice = rng(0, namesGivenMale.size());
+            return namesGivenMale[choice];
+        }
+        else
+        {
+            short choice = rng(0, namesGivenFemale.size());
+            return namesGivenFemale[choice];
+        }
+
+    }
+    else if (flag == NAME_IS_FAMILY_NAME)
+    {
+        short choice = rng(0, namesFamily.size());
+        return namesFamily[choice];
+    }
+    else if (flag == NAME_IS_NICK_NAME)
+    {
+        short choice = rng(0, namesNick.size());
+        return namesNick[choice];
+    }
+    else if (flag == NAME_IS_TOWN_NAME)
+    {
+        short choice = rng(0, namesTown.size());
+        return namesTown[choice];
+    }
+    else if (flag == NAME_IS_WORLD_NAME)
+    {
+        short choice = rng(0, namesWorld.size());
+        return namesWorld[choice];
+    }
+}
+
+void RandomName::toString( )
+{
+    std::cout << std::endl << namesMale.size() << std::endl;
+    std::cout << std::endl << namesFemale.size() << std::endl;
+    std::cout << std::endl << namesUnisex.size() << std::endl;
+    std::cout << std::endl << namesGivenMale.size() << std::endl;
+    std::cout << std::endl << namesGivenFemale.size() << std::endl;
+    std::cout << std::endl << namesFamily.size() << std::endl;
+    std::cout << std::endl << namesNick.size() << std::endl;
+    std::cout << std::endl << namesWorld.size() << std::endl;
+}

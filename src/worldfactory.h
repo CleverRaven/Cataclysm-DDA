@@ -78,7 +78,24 @@ struct WORLD {
 
         void load_options( JsonIn &jsin );
         bool load_options();
-        void load_legacy_options( std::istream &fin );
+};
+
+class World
+{
+
+private:
+
+public:
+
+    World();
+
+    std::string getPathDirectoryStore();
+
+    void copy();
+    void save();
+    void add();
+    void load();
+
 };
 
 class mod_manager;
