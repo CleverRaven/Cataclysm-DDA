@@ -6703,6 +6703,10 @@ void map::loadn( const int gridx, const int gridy, const int gridz, const bool u
 bool map::has_rotten_away( item &itm, const tripoint &pnt ) const
 {
     int temp = g->get_temperature( pnt );
+    if( itm.has_flag( "ETHEREAL_ITEM" ) ) {
+        itm.process_temperature_rot( temp, 1, pnt, nullptr );
+        return calendar::turn - itm.birthday() >= itm.get_rot();
+    }
     if( itm.is_corpse() && itm.goes_bad() ) {
         itm.process_temperature_rot( temp, 1, pnt, nullptr );
         return itm.get_rot() > 10_days && !itm.can_revive();

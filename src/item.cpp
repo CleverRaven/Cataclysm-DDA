@@ -3059,7 +3059,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
             ret << _( " (hallucinogenic)" );
         }
     }
-    if( goes_bad() || is_food() ) {
+    if( ( goes_bad() || is_food() ) && !has_flag( "ETHEREAL_ITEM" ) ) {
         if( item_tags.count( "DIRTY" ) ) {
             ret << _( " (dirty)" );
         } else if( rotten() ) {
@@ -3071,6 +3071,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         } else if( is_fresh() ) {
             ret << _( " (fresh)" );
         }
+    } else if( has_flag( "ETHEREAL_ITEM" ) ) {
+        ret << " (" << -to_turns<int>( rot ) << " turns)";
     }
     if( has_temperature() ) {
         if( has_flag( "HOT" ) ) {
@@ -3795,6 +3797,9 @@ time_duration item::get_shelf_life() const
 
 double item::get_relative_rot() const
 {
+    if( has_flag( "ETHEREAL_ITEM" ) ) {
+        return rot / 1_turns;
+    }
     if( goes_bad() ) {
         return rot / get_shelf_life();
     }
@@ -7063,6 +7068,29 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
 
     bool carried = carrier != nullptr && carrier->has_item( *this );
 
+    if( has_flag( "ETHEREAL_ITEM" ) && now != last_rot_check ) {
+        if( last_rot_check < birthday() ) {
+            last_rot_check = birthday();
+        }
+        rot += now - last_rot_check;
+        if( rot >= 0_turns ) {
+            carrier->add_msg_if_player( _( "%s %s disappears." ), carrier->disp_name( true ), tname() );
+            carrier->reduce_charges( this, 1 );/*
+            for( item &e : carrier->worn ) {
+                if( e.has_item( *this ) ) {
+                    e = item();
+                    return;
+                }
+            }
+            if( carrier->weapon.has_item( *this ) ) {
+                carrier->weapon = item();
+            } else {
+                carrier->inv.remove_item( this );
+            }*/
+        }
+        last_rot_check = now;
+        return;
+    }
     // process temperature and rot at most once every 100_turns (10 min)
     // note we're also gated by item::processing_speed
     time_duration smallest_interval = 10_minutes;
@@ -7772,6 +7800,10 @@ bool item::process( player *carrier, const tripoint &pos, bool activate, int tem
         } else {
             ++it;
         }
+    }
+
+    if( has_flag( "ETHEREAL_ITEM" ) ) {
+        process_temperature_rot( temp, insulation, pos, carrier );
     }
 
     if( activate ) {

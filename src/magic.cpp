@@ -838,8 +838,7 @@ void target_attack( spell &sp, const tripoint &target )
 
 void spawn_ethereal_item( spell &sp )
 {
-    item granted( sp.effect_data() );
-    granted.set_birthday( calendar::turn );
+    item granted( sp.effect_data(), calendar::turn );
     if( !granted.is_comestible() ) {
         granted.set_rot( -sp.duration_turns() );
         granted.set_flag( "ETHEREAL_ITEM" );

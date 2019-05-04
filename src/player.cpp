@@ -7131,6 +7131,9 @@ void player::process_active_items()
     if( weapon.needs_processing() && weapon.process( this, pos(), false ) ) {
         weapon = item();
     }
+    if( weapon.has_flag( "ETHEREAL_ITEM"  ) ) {
+        weapon.process( this, pos(), false );
+    }
 
     std::vector<item *> inv_active = inv.active_items();
     for( auto tmp_it : inv_active ) {
@@ -7150,6 +7153,9 @@ void player::process_active_items()
     item *power_armor = nullptr;
     // Manual iteration because we only care about *worn* active items.
     for( auto &w : worn ) {
+        if( w.has_flag( "ETHEREAL_ITEM" ) ) {
+            w.process( this, pos(), false );
+        }
         if( !w.active ) {
             continue;
         }
