@@ -838,7 +838,6 @@ void player::process_bionic( int b )
 void player::bionics_uninstall_failure( player &installer, int difficulty, int success,
                                         float adjusted_skill )
 {
-
     // "success" should be passed in as a negative integer representing how far off we
     // were for a successful removal.  We use this to determine consequences for failing.
     success = abs( success );
@@ -967,8 +966,6 @@ void player::bionics_uninstall_failure( monster &installer, player &patient, int
             patient.hurtall( rng( 30, 80 ), this );
             break;
     }
-
-
 
 }
 
