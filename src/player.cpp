@@ -12984,12 +12984,17 @@ std::pair<std::string, nc_color> player::get_hunger_description() const
     return std::make_pair( hunger_string, hunger_color );
 }
 
-unsigned int player::get_bmr() const
+float player::get_bmi() const
+{
+    return 12 * get_kcal_percent() + 13;
+}
+
+int player::get_bmr() const
 {
     /**
         Values are for males, and average!
      */
-    const float bmi = 12 * get_kcal_percent() + 13;
+    const float bmi = get_bmi();
     const unsigned int height = 175; // cm
     const units::mass weight = units::from_gram( round( bmi * pow( height / 100, 2 ) ) );
     const unsigned int age = 25;
@@ -13014,4 +13019,19 @@ void player::decrease_activity_level( float new_level )
 void player::reset_activity_level()
 {
     activity_level = NO_EXERCISE;
+}
+
+std::string player::activity_level_str() const
+{
+    if( activity_level <= NO_EXERCISE ) {
+        return _( "NO_EXERCISE" );
+    } else if( activity_level <= LIGHT_EXERCISE ) {
+        return _( "LIGHT_EXERCISE" );
+    } else if( activity_level <= MODERATE_EXERCISE ) {
+        return _( "MODERATE_EXERCISE" );
+    } else if( activity_level <= ACTIVE_EXERCISE ) {
+        return _( "ACTIVE_EXERCISE" );
+    } else {
+        return _( "EXTRA_EXERCISE" );
+    }
 }
