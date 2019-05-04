@@ -3756,7 +3756,7 @@ bool map::hit_with_acid( const tripoint &p )
 
 bool map::fell_tree( const tripoint &p, const tripoint &direction )
 {
-    if( !this->ter( p ).obj().has_flag( "TREE" ) ) {
+    if( !ter( p ).obj().has_flag( "TREE" ) ) {
         return false;
     }
 
@@ -3778,29 +3778,29 @@ bool map::fell_tree( const tripoint &p, const tripoint &direction )
     std::vector<tripoint> tree = line_to( p, to, rng( 1, 8 ) );
     for( auto &elem : tree ) {
         // Avoid excessively transmitting the damage downard (bug 14117)
-        if( this->is_bashable( elem ) ) {
-            this->destroy( elem );
+        if( is_bashable( elem ) ) {
+            destroy( elem );
         }
-        this->ter_set( elem, t_trunk );
+        ter_set( elem, t_trunk );
     }
 
-    this->ter_set( p, t_stump );
+    ter_set( p, t_stump );
 
     return true;
 }
 
 bool map::buck_tree( const tripoint &p )
 {
-    if( this->ter( p ) == t_trunk ) {
-        this->spawn_item( p, "log", rng( 2, 3 ), 0, calendar::turn );
-        this->spawn_item( p, "stick_long", rng( 0, 1 ), 0, calendar::turn );
-    } else if( this->ter( p ) == t_stump ) {
-        this->spawn_item( p, "log", rng( 0, 2 ), 0, calendar::turn );
-        this->spawn_item( p, "splinter", rng( 5, 15 ), 0, calendar::turn );
+    if( ter( p ) == t_trunk ) {
+        spawn_item( p, "log", rng( 2, 3 ), 0, calendar::turn );
+        spawn_item( p, "stick_long", rng( 0, 1 ), 0, calendar::turn );
+    } else if( ter( p ) == t_stump ) {
+        spawn_item( p, "log", rng( 0, 2 ), 0, calendar::turn );
+        spawn_item( p, "splinter", rng( 5, 15 ), 0, calendar::turn );
     } else {
         return false;
     }
-    this->ter_set( p, t_dirt );
+    ter_set( p, t_dirt );
     return true;
 }
 
