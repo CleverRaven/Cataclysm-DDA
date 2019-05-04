@@ -4672,11 +4672,12 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap, co
         auto items = cur_veh.get_items( static_cast<int>( it->part_index() ) );
         int it_temp = g->get_temperature( item_loc );
         float it_insulation = 1.0;
-		//bool static_temp = false;
-        if( item_iter->is_food() || item_iter->is_food_container() ) {
+		bool static_temp = false;
+        if( item_iter->has_temperature() || item_iter->is_food_container() ) {
             const vpart_info &pti = pt.info();
             if( engine_heater_is_on ) {
                 it_temp = std::max( it_temp, temperatures::normal );
+				static_temp = true;
             }
             // some vehicle parts provide insulation, default is 1
             it_insulation = item::find_type( pti.item )->insulation_factor;
@@ -4684,14 +4685,14 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap, co
             if( pt.enabled && pti.has_flag( VPFLAG_FRIDGE ) ) {
                 it_temp = std::min( it_temp, temperatures::fridge );
                 it_insulation = 1; // ignore fridge insulation if on
-				//static_temp = false;
+				static_temp = true;
             } else if( pt.enabled && pti.has_flag( VPFLAG_FREEZER ) ) {
                 it_temp = std::min( it_temp, temperatures::freezer );
                 it_insulation = 1; // ignore freezer insulation if on
-				//static_temp = false;
+				static_temp = true;
             }
         }
-        if( !processor( items, item_iter, item_loc, signal, it_temp, it_insulation, true ) ) {
+        if( !processor( items, item_iter, item_loc, signal, it_temp, it_insulation, static_temp ) ) {
             // If the item was NOT destroyed, we can skip the remainder,
             // which handles fallout from the vehicle being damaged.
             continue;

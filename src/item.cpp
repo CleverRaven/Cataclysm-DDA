@@ -7087,7 +7087,7 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
 
     time_point time = std::min( { last_rot_check, last_temp_check } );
 
-    if( now - time > 1_hours ) {
+    if( now - time > 1_hours && !static_temp) {
         // This code is for items that were left out of reality bubble for long time
 
         const auto &wgen = g->get_cur_weather_gen();
@@ -7124,6 +7124,11 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
             // If in a root celler: use AVERAGE_ANNUAL_TEMPERATURE
             // If not: use calculated temperature
             env_temperature = ( temp_modify * AVERAGE_ANNUAL_TEMPERATURE ) + ( !temp_modify * env_temperature );
+			
+			if( static_temp ) {
+				// Items in freezer/fridge
+				env_temperature = std::min( env_temperature, static_cast<double>( temp ) );
+			}
 
             // Calculate item temperature from enviroment temperature
             // If the time was more than 2 d ago just set the item to enviroment temperature
