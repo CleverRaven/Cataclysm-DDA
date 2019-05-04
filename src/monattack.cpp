@@ -2819,7 +2819,7 @@ bool mattack::nurse_operate( monster *z )
 
 
     if( ( ( g->u.is_wearing( "badge_doctor" ) ||
-            z->attitude_to( g->u ) == monster_attitude::MATT_FOLLOW ) && u_see ) && one_in( 30 ) ) {
+            z->attitude_to( g->u ) == monster_attitude::MATT_FRIEND ) && u_see ) && one_in( 30 ) ) {
 
         add_msg( m_info, _( "The %s doesn't seem to register you as a doctor." ), z->name() );
     }
