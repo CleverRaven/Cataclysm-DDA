@@ -10619,7 +10619,9 @@ bool game::grabbed_furn_move( const tripoint &dp )
         furniture_contents_weight += contained_item.weight();
     }
     str_req += furniture_contents_weight / 4_kilogram;
-
+    if( canmove ) {
+        u.increase_activity_level( ACTIVE_EXERCISE );
+    }
     if( !canmove ) {
         // TODO: What is something?
         add_msg( _( "The %s collides with something." ), furntype.name() );
