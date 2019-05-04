@@ -1068,18 +1068,21 @@
     "speed": 100,
     "material": [ "steel" ],
     "symbol": "N",
-    "color": "light_blue",
+    "color": "white",
     "bodytype": "human",
     "morale": 100,
     "dodge": 3,
     "armor_bash": 8,
     "armor_cut": 10,
+    "melee_skill": 4,
+    "melee_dice": 3,
+    "melee_dice_sides": 2,
     "starting_ammo": { "anesthetic": 3 },
     "revert_to_itype": "bot_nursebot",
     "special_attacks": [ [ "ASSIST", 30 ], [ "CHECK_UP", 5 ] ],
     "death_drops": { "groups": [ [ "robots", 4 ] ] },
     "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "ELECTRONIC", "NO_BREATHE", "FIREPROOF", "PUSH_MON", "HEARS" ]
+    "flags": [ "SEES", "ELECTRONIC", "NO_BREATHE", "FIREPROOF", "PUSH_MON", "HEARS", "PACIFIST" ]
   },
   {
     "id": "mon_nursebot_defective",
