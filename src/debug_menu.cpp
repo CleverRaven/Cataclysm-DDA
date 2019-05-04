@@ -60,6 +60,11 @@
 #include "rng.h"
 #include "signal.h"
 
+#if defined(TILES)
+#include "cata_tiles.h"
+extern std::unique_ptr<cata_tiles> tilecontext;
+#endif
+
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
 namespace debug_menu
@@ -105,7 +110,9 @@ enum debug_menu_index {
     DEBUG_MAP_EXTRA,
     DEBUG_DISPLAY_NPC_PATH,
     DEBUG_QUIT_NOSAVE,
-    DEBUG_TEST_WEATHER
+    DEBUG_TEST_WEATHER,
+    DEBUG_SAVE_SCREENSHOT,
+    DEBUG_GAME_REPORT,
 };
 
 class mission_debug
@@ -151,7 +158,9 @@ static int info_uilist()
         uilist_entry( DEBUG_SHOW_MSG, true, 'd', _( "Show debug message" ) ),
         uilist_entry( DEBUG_CRASH_GAME, true, 'C', _( "Crash game (test crash handling)" ) ),
         uilist_entry( DEBUG_DISPLAY_NPC_PATH, true, 'n', _( "Toggle NPC pathfinding on map" ) ),
-        uilist_entry( DEBUG_TEST_WEATHER, true, 'W', _( "Test weather" ) )
+        uilist_entry( DEBUG_TEST_WEATHER, true, 'W', _( "Test weather" ) ),
+        uilist_entry( DEBUG_SAVE_SCREENSHOT, true, 'H', _( "Take Screenshot" ) ),
+        uilist_entry( DEBUG_GAME_REPORT, true, 'r', _( "Generate Game Report" ) ),
     };
 
     return uilist( _( "Info..." ), uilist_initializer );
@@ -1315,9 +1324,38 @@ void debug()
                 }
                 break;
             case DEBUG_TEST_WEATHER:
+            {
                 weather_generator weathergen;
                 weathergen.test_weather();
+            }
                 break;
+
+
+            case DEBUG_SAVE_SCREENSHOT: {
+#if defined(TILES)
+                // Take a screenshot of the viewport.
+                tilecontext.get()->save_screenshot();
+#else
+                popup(_("This binary was not compiled with tiles support."));
+#endif
+            }
+                break;
+
+            case DEBUG_GAME_REPORT: {
+                // generate a game report, useful for bug reporting.
+                std::string report = game_info::game_report();
+                // write to log
+                DebugLog(DL_ALL, DC_ALL) << " GAME REPORT: \n" << report;
+                std::string popup_msg = "Report written to debug.log";
+#if defined(TILES)
+                // copy to clipboard
+                SDL_SetClipboardText(report.c_str());
+                popup_msg += " and clipboard";
+#endif
+                popup(popup_msg);
+            }
+                break;
+
         }
         catacurses::erase();
         m.invalidate_map_cache( g->get_levz() );
