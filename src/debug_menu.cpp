@@ -1317,11 +1317,10 @@ void debug()
                     g->uquit = QUIT_NOSAVED;
                 }
                 break;
-<<<<<<< HEAD
             case DEBUG_TEST_WEATHER:
                 weather_generator weathergen;
                 weathergen.test_weather();
-=======
+                break;
             case DEBUG_LEARN_SPELLS:
                 if( spell_type::get_all().empty() ) {
                     add_msg( m_bad, _( "There are no spells to learn. You must install a mod that adds some." ) );
@@ -1331,7 +1330,6 @@ void debug()
                     }
                     add_msg( m_good, _( "You have become an Archwizardpriest! What will you do with your newfound power?" ) );
                 }
->>>>>>> 59234ccdcf... Add spells, spellbooks, spellcasting, and spell learning into the code (Magiclysm)
                 break;
         }
         catacurses::erase();
