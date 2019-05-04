@@ -4608,11 +4608,16 @@ void map::process_items_in_submap( submap &current_submap, const tripoint &gridp
 
         const tripoint map_location = tripoint( grid_offset + active_item.location, gridp.z );
         // root cellars are special
-        const int loc_temp = g->m.ter( map_location ) == t_rootcellar ?
-                             AVERAGE_ANNUAL_TEMPERATURE :
-                             g->get_temperature( map_location );
+        int loc_temp;
+        std::string flag = "";
+        if( g->m.ter( map_location ) == t_rootcellar ) {
+            loc_temp = AVERAGE_ANNUAL_TEMPERATURE;
+            flag = "root_cellar";
+        } else {
+            loc_temp = g->get_temperature( map_location );
+        }
         auto items = i_at( map_location );
-        processor( items, active_item.item_iterator, map_location, signal, loc_temp, 1, "" );
+        processor( items, active_item.item_iterator, map_location, signal, loc_temp, 1, flag );
     }
 }
 
