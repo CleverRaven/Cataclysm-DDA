@@ -1078,7 +1078,7 @@ bool player::uninstall_bionic( const bionic_id &b_id, player &installer, bool au
 
     float assist_bonus = 0;
     if( installer.has_effect( effect_assisted ) ) {
-        assist_bonus = 12; // adjusted skill of someone with lvl 1 in everything
+        assist_bonus = 3; // +11% for difficulty 3, +1.4% for a difficulty 13
     }
 
     // removal of bionics adds +2 difficulty over installation
@@ -1220,9 +1220,7 @@ bool player::install_bionics( const itype &type, player &installer, bool autodoc
 
     float assist_bonus = 0;
     if( installer.has_effect( effect_assisted ) ) {
-        // 1 int *4 + 1 first_aid *4 + 1 computer*3 + 1 electronics*1 = 12
-        assist_bonus = static_cast<float>( 12 ) - std::min( static_cast<float>( 40 ),
-                       static_cast<float>( 12 ) - static_cast<float>( 12 ) / static_cast<float>( 10.0 ) );
+        assist_bonus = 3; // +11% for difficulty 3, +1.4% for a difficulty 13
     }
 
     const bionic_id &bioid = type.bionic->id;
