@@ -1716,9 +1716,9 @@ std::vector<window_panel> initialize_default_classic_panels()
     std::vector<window_panel> ret;
 
     ret.emplace_back( window_panel( draw_health_classic, "Health", 7, 44, true ) );
-    //if( get_option<bool>( "MANA" ) ) {
+    // TODO: let external option allow this to be turned off
+    // currently external options are loaded after panels
     ret.emplace_back( window_panel( draw_mana, "Mana", 1, 44, true ) );
-    //}
     ret.emplace_back( window_panel( draw_location_classic, "Location", 1, 44, true ) );
     ret.emplace_back( window_panel( draw_weather_classic, "Weather", 1, 44, true ) );
     ret.emplace_back( window_panel( draw_lighting_classic, "Lighting", 1, 44, true ) );
@@ -1739,9 +1739,9 @@ std::vector<window_panel> initialize_default_compact_panels()
     std::vector<window_panel> ret;
 
     ret.emplace_back( window_panel( draw_limb2, "Limbs", 3, 32, true ) );
-    //if( get_option<bool>( "MANA" ) ) {
+    // TODO: let external option allow this to be turned off
+    // currently external options are loaded after panels
     ret.emplace_back( window_panel( draw_mana, "Mana", 1, 32, true ) );
-    //}
     ret.emplace_back( window_panel( draw_stealth, "Sound", 1, 32, true ) );
     ret.emplace_back( window_panel( draw_stats, "Stats", 1, 32, true ) );
     ret.emplace_back( window_panel( draw_time, "Time", 1, 32, true ) );
@@ -1764,9 +1764,9 @@ std::vector<window_panel> initialize_default_label_panels()
 
     ret.emplace_back( window_panel( draw_hint, "Hint", 1, 32, true ) );
     ret.emplace_back( window_panel( draw_limb, "Limbs", 3, 32, true ) );
-    //if( get_option<bool>( "MANA" ) ) {
+    // TODO: let external option allow this to be turned off
+    // currently external options are loaded after panels
     ret.emplace_back( window_panel( draw_mana, "Mana", 1, 32, true ) );
-    //}
     ret.emplace_back( window_panel( draw_char, "Movement", 3, 32, true ) );
     ret.emplace_back( window_panel( draw_stat, "Stats", 3, 32, true ) );
     ret.emplace_back( window_panel( draw_veh_padding, "Vehicle", 1, 32, true ) );
