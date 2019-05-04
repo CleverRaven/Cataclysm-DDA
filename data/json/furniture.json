@@ -2060,7 +2060,7 @@
     "required_str": 10,
     "looks_like": "t_dirtmound",
     "plant_transform": "f_planter_seed",
-    "flags": [ "TRANSPARENT", "PLOWABLE", "FLAT", "MOUNTABLE" ],
+    "flags": [ "TRANSPARENT", "PLANTABLE", "FLAT", "MOUNTABLE" ],
     "deconstruct": {
       "items": [
         { "item": "2x4", "count": [ 11, 12 ] },

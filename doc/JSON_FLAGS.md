@@ -249,8 +249,8 @@ These are handled through `ammo_types.json`.  You can tag a weapon with these to
 - ```GOES_UP``` Can use <kbd><</kbd> to go up a level.
 - ```GROWTH_SEED``` Determines if the plant can be grown into the next stage 
 - ```GROWTH_SEEDLING``` Determines if the plant can be grown into the next stage
-- ```GROWTH_SEED``` Determines if the plant can be grown into the next stage
-- ```GROWTH_SEED``` Determines if the plant can be harvested, and prevents it from growing
+- ```GROWTH_MATURE``` Determines if the plant can be grown into the next stage
+- ```GROWTH_HARVEST``` Determines if the plant can be harvested, and prevents it from growing
 - ```HARVESTED``` Marks the harvested version of a terrain type (e.g. harvesting an apple tree turns it into a harvested tree, which later becomes an apple tree again).
 - ```HIDE_PLACE``` Creatures on this tile can't be seen by creatures not standing on adjacent tiles
 - ```INDOORS``` Has a roof over it; blocks rain, sunlight, etc.
@@ -268,6 +268,7 @@ These are handled through `ammo_types.json`.  You can tag a weapon with these to
 - ```PERMEABLE``` Permeable for gases.
 - ```PLACE_ITEM``` Valid terrain for `place_item()` to put items on.
 - ```PLANT``` A 'furniture' that grows and fruits.
+- ```PLANTABLE``` Furniture or terrain that can have seeds planted on it.
 - ```PLOWABLE``` Terrain can be plowed.
 - ```RAMP``` Can be used to move up a z-level
 - ```RAMP_END```

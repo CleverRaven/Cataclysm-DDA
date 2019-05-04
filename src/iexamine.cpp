@@ -1894,7 +1894,7 @@ void iexamine::plant_seed( player &p, const tripoint &examp, const itype_id &see
     }
     used_seed.front().set_age( 0_turns );
     g->m.add_item_or_charges( examp, used_seed.front() );
-    if( g->m.has_flag_furn( "PLOWABLE", examp ) ) {
+    if( g->m.has_flag_furn( "PLANTABLE", examp ) ) {
         g->m.furn_set( examp, furn_str_id( g->m.furn( examp ).obj().plant_transform ) );
     } else {
         g->m.set( examp, t_dirt, f_plant_seed );
