@@ -691,7 +691,7 @@ class item : public visitable<item>
          * @param pos The current position
          * @param carrier The current carrier
          */
-        void process_temperature_rot( int temp, float insulation, const tripoint pos, player *carrier, const bool static_temp );
+        void process_temperature_rot( int temp, float insulation, const tripoint pos, player *carrier, const std::string flag );
 
         /** Set the item to HOT */
         void heat_up();
@@ -989,7 +989,7 @@ class item : public visitable<item>
          * Returns false if the item is not destroyed.
          */
         bool process( player *carrier, const tripoint &pos, bool activate );
-        bool process( player *carrier, const tripoint &pos, bool activate, int temp, float insulation, const bool static_temp );
+        bool process( player *carrier, const tripoint &pos, bool activate, int temp, float insulation, const std::string flag );
 
         /**
          * Gets the point (vehicle tile) the cable is connected to.

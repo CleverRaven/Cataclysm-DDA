@@ -7046,7 +7046,7 @@ void item::apply_freezerburn()
 }
 
 void item::process_temperature_rot( int temp, float insulation, const tripoint pos,
-                                    player *carrier, const bool static_temp )
+                                    player *carrier, const std::string flag )
 {
     const time_point now = calendar::turn;
 
@@ -7058,9 +7058,9 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
         return;
     }
 	
-	if( static_temp ){
-		add_msg( m_info, _( "STATIC TEMP" ) );
-	}
+	if( flag != '' ){
+		add_msg( m_info, _( "FLAG: %s" ), flag );
+
 
     bool carried = carrier != nullptr && carrier->has_item( *this );
 
@@ -7087,7 +7087,7 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
 
     time_point time = std::min( { last_rot_check, last_temp_check } );
 
-    if( now - time > 1_hours && !static_temp) {
+    if( now - time > 1_hours ) {
         // This code is for items that were left out of reality bubble for long time
 
         const auto &wgen = g->get_cur_weather_gen();
@@ -7125,9 +7125,12 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
             // If not: use calculated temperature
             env_temperature = ( temp_modify * AVERAGE_ANNUAL_TEMPERATURE ) + ( !temp_modify * env_temperature );
 			
-			if( static_temp ) {
+			if( flag == 'ceiling' ) {
 				// Items in freezer/fridge
 				env_temperature = std::min( env_temperature, static_cast<double>( temp ) );
+			} else if( flag == 'floor'){
+				// Items in heated vehicle
+				env_temperature = std::max( env_temperature, static_cast<double>( temp ) );
 			}
 
             // Calculate item temperature from enviroment temperature
@@ -7757,14 +7760,14 @@ bool item::process_tool( player *carrier, const tripoint &pos )
 bool item::process( player *carrier, const tripoint &pos, bool activate )
 {
     if( has_temperature() || is_food_container() ) {
-        return process( carrier, pos, activate, g->get_temperature( pos ), 1, false );
+        return process( carrier, pos, activate, g->get_temperature( pos ), 1, '' );
     } else {
-        return process( carrier, pos, activate, 0, 1, false );
+        return process( carrier, pos, activate, 0, 1, '' );
     }
 }
 
 bool item::process( player *carrier, const tripoint &pos, bool activate, int temp,
-                    float insulation, const bool static_temp )
+                    float insulation, const std::string flag )
 {
     const bool preserves = type->container && type->container->preserves;
     for( auto it = contents.begin(); it != contents.end(); ) {
@@ -7773,7 +7776,7 @@ bool item::process( player *carrier, const tripoint &pos, bool activate, int tem
             // is not changed, the item is still fresh.
             it->last_rot_check = calendar::turn;
         }
-        if( it->process( carrier, pos, activate, temp, type->insulation_factor * insulation, false ) ) {
+        if( it->process( carrier, pos, activate, temp, type->insulation_factor * insulation, flag ) ) {
             it = contents.erase( it );
         } else {
             ++it;
@@ -7841,7 +7844,7 @@ bool item::process( player *carrier, const tripoint &pos, bool activate, int tem
     }
     // All foods that go bad have temperature
     if( has_temperature() ) {
-        process_temperature_rot( temp, insulation, pos, carrier, static_temp );
+        process_temperature_rot( temp, insulation, pos, carrier, flag );
     }
 
     return false;

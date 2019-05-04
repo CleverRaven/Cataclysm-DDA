@@ -341,7 +341,7 @@ void vehicle_part::process_contents( const tripoint &pos, const bool e_heater )
         if( e_heater ) {
             temp = std::max( temp, temperatures::normal );
         }
-        base.process( nullptr, pos, false, temp, 1, false );
+        base.process( nullptr, pos, false, temp, 1, '' );
     }
 }
 
