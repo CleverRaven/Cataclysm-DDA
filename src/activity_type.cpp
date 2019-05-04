@@ -10,6 +10,7 @@
 #include "debug.h"
 #include "json.h"
 #include "translations.h"
+#include "player.h"
 #include "player_activity.h"
 
 // activity_type functions
