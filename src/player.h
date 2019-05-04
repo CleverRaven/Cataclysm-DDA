@@ -1274,8 +1274,9 @@ class player : public Character
         int get_wind_resistance( body_part bp ) const;
         /** Returns the effect of pain on stats */
         stat_mod get_pain_penalty() const;
+        float get_bmi() const;
         // returns amount of calories burned in a day given various metabolic factors
-        unsigned int get_bmr() const;
+        int get_bmr() const;
         int kcal_speed_penalty();
         /** Returns the penalty to speed from thirst */
         static int thirst_speed_penalty( int thirst );
@@ -1530,6 +1531,8 @@ class player : public Character
         void decrease_activity_level( float new_level );
         // sets activity level to NO_EXERCISE
         void reset_activity_level();
+        // outputs player activity level to a printable string
+        std::string activity_level_str() const;
         // true if player has destination activity AND is standing on destination tile
         bool has_destination_activity() const;
         // starts destination activity and cleans up to ensure it is called only once
