@@ -5162,10 +5162,7 @@ bool game::revive_corpse( const tripoint &p, item &it )
 
 void game::save_cyborg( item *cyborg, const tripoint couch_pos, player &installer )
 {
-    float assist_bonus = 0;
-    if( installer.has_effect( effect_assisted ) ) {
-        assist_bonus = 12; // adjusted skill of someone with lvl 1 in everything
-    }
+    int assist_bonus = installer.get_effect_int( effect_assisted );
 
     float adjusted_skill = installer.bionics_adjusted_skill( skill_firstaid,
                            skill_computer,
