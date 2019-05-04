@@ -1706,6 +1706,14 @@ Strength required to move the furniture around. Negative values indicate an unmo
 
 (Optional) Can craft here.  Must specify a speed multiplier, allowed mass, and allowed volume.  Mass/volume over these limits incur a speed penalty.  Must be paired with a `"workbench"` `examine_action` to function.
 
+#### `plant_transform`
+
+(Optional) What the furniture turns into when it is planted on or grows.
+
+#### `plant_transform`
+
+(Optional) What the plant furniture turns into when it is eaten by something that eats crops - this should be what it is planted in. Requires `PLANT` flag to function. If left empty, it will default to `f_null`.
+
 ### Terrain
 
 ```C++
