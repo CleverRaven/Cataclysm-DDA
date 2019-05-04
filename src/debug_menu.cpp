@@ -887,6 +887,12 @@ void draw_benchmark( const int max_difference )
              difference / 1000.0, 1000.0 * draw_counter / static_cast<double>( difference ) );
 }
 
+static void test_weather()
+{
+    weather_generator weathergen;
+    weathergen.test_weather();
+}
+
 void debug()
 {
     int action = debug_menu_uilist();
@@ -1318,8 +1324,7 @@ void debug()
                 }
                 break;
             case DEBUG_TEST_WEATHER:
-                weather_generator weathergen;
-                weathergen.test_weather();
+                test_weather();
                 break;
             case DEBUG_LEARN_SPELLS:
                 if( spell_type::get_all().empty() ) {
