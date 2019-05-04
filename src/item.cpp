@@ -7058,9 +7058,9 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
         return;
     }
 	
-	if( flag != '' ){
+	if( flag != "" ){
 		add_msg( m_info, _( "FLAG: %s" ), flag );
-
+	}
 
     bool carried = carrier != nullptr && carrier->has_item( *this );
 
@@ -7125,10 +7125,10 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
             // If not: use calculated temperature
             env_temperature = ( temp_modify * AVERAGE_ANNUAL_TEMPERATURE ) + ( !temp_modify * env_temperature );
 			
-			if( flag == 'ceiling' ) {
+			if( flag == "ceiling" ) {
 				// Items in freezer/fridge
 				env_temperature = std::min( env_temperature, static_cast<double>( temp ) );
-			} else if( flag == 'floor'){
+			} else if( flag == "floor"){
 				// Items in heated vehicle
 				env_temperature = std::max( env_temperature, static_cast<double>( temp ) );
 			}
@@ -7760,9 +7760,9 @@ bool item::process_tool( player *carrier, const tripoint &pos )
 bool item::process( player *carrier, const tripoint &pos, bool activate )
 {
     if( has_temperature() || is_food_container() ) {
-        return process( carrier, pos, activate, g->get_temperature( pos ), 1, '' );
+        return process( carrier, pos, activate, g->get_temperature( pos ), 1, "" );
     } else {
-        return process( carrier, pos, activate, 0, 1, '' );
+        return process( carrier, pos, activate, 0, 1, "" );
     }
 }
 

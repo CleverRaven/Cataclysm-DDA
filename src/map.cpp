@@ -4612,7 +4612,7 @@ void map::process_items_in_submap( submap &current_submap, const tripoint &gridp
                              AVERAGE_ANNUAL_TEMPERATURE :
                              g->get_temperature( map_location );
         auto items = i_at( map_location );
-        processor( items, active_item.item_iterator, map_location, signal, loc_temp, 1, false );
+        processor( items, active_item.item_iterator, map_location, signal, loc_temp, 1, "" );
     }
 }
 
@@ -4672,12 +4672,12 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap, co
         auto items = cur_veh.get_items( static_cast<int>( it->part_index() ) );
         int it_temp = g->get_temperature( item_loc );
         float it_insulation = 1.0;
-		std::string flag = '';
+		std::string flag = "";
         if( item_iter->has_temperature() || item_iter->is_food_container() ) {
             const vpart_info &pti = pt.info();
             if( engine_heater_is_on ) {
                 it_temp = std::max( it_temp, temperatures::normal );
-				flag = 'floor';
+				flag = "floor";
             }
             // some vehicle parts provide insulation, default is 1
             it_insulation = item::find_type( pti.item )->insulation_factor;
@@ -4685,11 +4685,11 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap, co
             if( pt.enabled && pti.has_flag( VPFLAG_FRIDGE ) ) {
                 it_temp = std::min( it_temp, temperatures::fridge );
                 it_insulation = 1; // ignore fridge insulation if on
-				flag = 'ceiling';
+				flag = "ceiling";
             } else if( pt.enabled && pti.has_flag( VPFLAG_FREEZER ) ) {
                 it_temp = std::min( it_temp, temperatures::freezer );
                 it_insulation = 1; // ignore freezer insulation if on
-				flag = 'ceiling';
+				flag = "ceiling";
             }
         }
         if( !processor( items, item_iter, item_loc, signal, it_temp, it_insulation, flag ) ) {
@@ -6708,10 +6708,10 @@ bool map::has_rotten_away( item &itm, const tripoint &pnt ) const
 {
     int temp = g->get_temperature( pnt );
     if( itm.is_corpse() && itm.goes_bad() ) {
-        itm.process_temperature_rot( temp, 1, pnt, nullptr, '' );
+        itm.process_temperature_rot( temp, 1, pnt, nullptr, "" );
         return itm.get_rot() > 10_days && !itm.can_revive();
     } else if( itm.goes_bad() ) {
-        itm.process_temperature_rot( temp, 1, pnt, nullptr, '' );
+        itm.process_temperature_rot( temp, 1, pnt, nullptr, "" );
         return itm.has_rotten_away();
     } else if( itm.type->container && itm.type->container->preserves ) {
         // Containers like tin cans preserves all items inside, they do not rot at all.
@@ -6720,7 +6720,7 @@ bool map::has_rotten_away( item &itm, const tripoint &pnt ) const
         // Items inside rot but do not vanish as the container seals them in.
         for( auto &c : itm.contents ) {
             if( c.goes_bad() ) {
-                c.process_temperature_rot( temp, 1, pnt, nullptr, '' );
+                c.process_temperature_rot( temp, 1, pnt, nullptr, "" );
             }
         }
         return false;
