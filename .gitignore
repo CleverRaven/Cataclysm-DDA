@@ -27,6 +27,8 @@
 /src/version.h
 /sound/
 /templates/
+/.flatpak-builder/
+/repo/
 /tools/format/json_formatter.cgi
 CataclysmWin.cscope_file_list
 CataclysmWin.depend
