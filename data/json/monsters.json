@@ -1077,7 +1077,6 @@
     "melee_skill": 4,
     "melee_dice": 3,
     "melee_dice_sides": 2,
-    "starting_ammo": { "anesthetic": 3 },
     "revert_to_itype": "bot_nursebot",
     "special_attacks": [ [ "ASSIST", 30 ], [ "CHECK_UP", 5 ] ],
     "death_drops": { "groups": [ [ "robots", 4 ] ] },
@@ -1112,7 +1111,7 @@
     "special_attacks": [ [ "OPERATE", 30 ] ],
     "death_drops": { "groups": [ [ "robots", 4 ] ] },
     "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "ELECTRONIC", "NO_BREATHE", "FIREPROOF", "PUSH_MON", "HEARS", "PACIFIST", "GRABS" ]
+    "flags": [ "SEES", "ELECTRONIC", "NO_BREATHE", "FIREPROOF", "PUSH_MON", "HEARS", "PACIFIST", "GRABS", "INTERIOR_AMMO" ]
   },
   {
     "id": "mon_flaming_eye",
