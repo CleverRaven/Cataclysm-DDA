@@ -556,6 +556,7 @@
   {
     "id": "ACT_TREE_COMMUNION",
     "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
     "stop_phrase": "Stop communing with the trees?",
     "rooted": true,
     "suspendable": false,
@@ -565,7 +566,8 @@
   {
     "id": "ACT_EAT_MENU",
     "type": "activity_type",
-    "stop_phrase": "Stop consuming?",
+    "activity_level": "NO_EXERCISE",
+    "stop_phrase": "Stop eating?",
     "suspendable": false,
     "based_on": "neither",
     "no_resume": true
@@ -573,7 +575,8 @@
   {
     "id": "ACT_CONSUME_FOOD_MENU",
     "type": "activity_type",
-    "stop_phrase": "Stop eating?",
+    "activity_level": "NO_EXERCISE",
+    "stop_phrase": "Stop consuming?",
     "suspendable": false,
     "based_on": "neither",
     "no_resume": true
@@ -581,6 +584,7 @@
   {
     "id": "ACT_CONSUME_DRINK_MENU",
     "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
     "stop_phrase": "Stop drinking?",
     "suspendable": false,
     "based_on": "neither",
@@ -589,6 +593,7 @@
   {
     "id": "ACT_CONSUME_MEDS_MENU",
     "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
     "stop_phrase": "Stop using drugs?",
     "suspendable": false,
     "based_on": "neither",
@@ -597,6 +602,7 @@
   {
     "id": "ACT_HACK_DOOR",
     "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
     "stop_phrase": "Stop hacking console?",
     "suspendable": false,
     "based_on": "time",
@@ -605,6 +611,7 @@
   {
     "id": "ACT_HACK_SAFE",
     "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
     "stop_phrase": "Stop hacking console?",
     "suspendable": false,
     "based_on": "time",
