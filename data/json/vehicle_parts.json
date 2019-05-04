@@ -1981,7 +1981,7 @@
     "broken_color": "blue",
     "damage_modifier": 10,
     "durability": 20,
-    "description": "A device for recharging batteries.  When turned on, it charges any rechargeable batteries (battery cells, lead-acid batteries, etc) in the attached storage space, even if they are inside tools.",
+    "description": "A device for recharging batteries.  When turned on, it charges any rechargeable batteries (battery cells, lead-acid batteries, etc) placed directly in the attached storage space.",
     "epower": -25,
     "bonus": 600,
     "item": "recharge_station",

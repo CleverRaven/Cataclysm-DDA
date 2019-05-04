@@ -1029,7 +1029,7 @@
     "type": "GENERIC",
     "id": "recharge_station",
     "name": "recharging station",
-    "description": "A universal recharging station designed to operate on vehicle power.  While on it will steadily charge all rechargeable batteries (battery cells, lead-acid batteries, etc) within its storage space, even if they are installed inside tools.  The system can only be installed onto existing storage compartments, and is controlled from a dashboard or electronics control unit.",
+    "description": "A universal recharging station designed to operate on vehicle power.  While on it will steadily charge all rechargeable batteries (battery cells, lead-acid batteries, etc) placed directly within its storage space.  The system can only be installed onto existing storage compartments, and is controlled from a dashboard or electronics control unit.",
     "weight": 10000,
     "to_hit": 1,
     "color": "light_blue",
