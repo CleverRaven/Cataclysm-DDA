@@ -40,7 +40,7 @@
   {
     "id": "priest_beginner",
     "type": "GENERIC",
-    "name": "Introduction to the divine",
+    "name": "Introduction to the Divine",
     "description": "This appears to mostly be a religious text, but it does have some notes on healing.",
     "weight": 585,
     "volume": 2,

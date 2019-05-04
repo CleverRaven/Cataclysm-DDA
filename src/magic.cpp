@@ -646,10 +646,10 @@ void player::forget_spell( spell_id sp )
 bool player::can_learn_spell( spell_id sp ) const
 {
     spell_type sp_t = sp.obj();
-    if( sp.obj().spell_class == trait_id( "NONE" ) ) {
+    if( sp_t.spell_class == trait_id( "NONE" ) ) {
         return true;
     }
-    return has_trait( sp.obj().spell_class );
+    return !has_opposite_trait( sp_t.spell_class );
 }
 
 spell &player::get_spell( spell_id sp )
