@@ -207,7 +207,7 @@
     "description": "You knew the end was coming.  You augmented yourself with some basic bionics and got additional survival training.  Now the end has come, and it is time to see if your efforts have paid off.",
     "points": 6,
     "CBMs": [
-      "bio_furnace",
+      "bio_metabolics",
       "bio_power_storage_mkII",
       "bio_tools",
       "bio_flashlight",
@@ -2187,7 +2187,7 @@
       "bio_sleepy",
       "bio_trip",
       "bio_spasm",
-      "bio_furnace",
+      "bio_metabolics",
       "bio_power_storage_mkII",
       "bio_painkiller",
       "bio_climate"
