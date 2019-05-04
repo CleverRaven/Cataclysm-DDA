@@ -645,7 +645,7 @@ void player::forget_spell( spell_id sp )
 
 bool player::can_learn_spell( spell_id sp ) const
 {
-    spell_type sp_t = sp.obj();
+    const spell_type sp_t = sp.obj();
     if( sp_t.spell_class == trait_id( "NONE" ) ) {
         return true;
     }
