@@ -2823,7 +2823,14 @@ bool mattack::photograph( monster *z )
     // TODO: Make the player known to the faction
     std::string cname = _( "...  database connection lost!" ) ;
     if( one_in( 6 ) ) {
-        cname = Name::generate( g->u.male );
+        if (g->u.male)
+        {
+            cname = RandomName::getInstance()->getRandomName(NAME_IS_MALE_NAME);
+        }
+        else
+        {
+            cname = RandomName::getInstance()->getRandomName(NAME_IS_FEMALE_NAME);
+        }
     } else if( one_in( 3 ) ) {
         cname = g->u.name;
     }

@@ -5629,7 +5629,17 @@ void player::suffer()
 
                 // NPC chat
                 if( !done_effect && one_in( to_turns<int>( 4_hours ) ) ) {
-                    std::string i_name = Name::generate( one_in( 2 ) );
+
+                    std::string i_name;
+
+                    if (one_in(2))
+                    {
+                        i_name = RandomName::getInstance()->getRandomName(NAME_IS_MALE_NAME);
+                    }
+                    else
+                    {
+                        i_name = RandomName::getInstance()->getRandomName(NAME_IS_FEMALE_NAME);
+                    }
 
                     std::string i_talk = SNIPPET.random_from_category( "<lets_talk>" );
                     parse_tags( i_talk, *this, *this );

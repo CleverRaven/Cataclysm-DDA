@@ -187,7 +187,14 @@ void Character::pick_name( bool bUseDefault )
     if( bUseDefault && !get_option<std::string>( "DEF_CHAR_NAME" ).empty() ) {
         name = get_option<std::string>( "DEF_CHAR_NAME" );
     } else {
-        name = Name::generate( male );
+        if (male)
+        {
+            name = RandomName::getInstance()->getRandomName(NAME_IS_MALE_NAME);
+        }
+        else
+        {
+            name = RandomName::getInstance()->getRandomName(NAME_IS_FEMALE_NAME);
+        }
     }
 }
 

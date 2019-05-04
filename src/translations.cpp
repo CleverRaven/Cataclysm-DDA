@@ -28,8 +28,7 @@
 // names.
 static void reload_names()
 {
-    Name::clear();
-    Name::load_from_file( PATH_INFO::find_translated_file( "NAMES_DIR", ".json", "NAMES_FILE" ) );
+
 }
 
 #if defined(LOCALIZE)
@@ -220,8 +219,6 @@ void set_language()
     bindtextdomain( "cataclysm-dda", locale_dir_char );
     bind_textdomain_codeset( "cataclysm-dda", "UTF-8" );
     textdomain( "cataclysm-dda" );
-
-    reload_names();
 }
 
 #if defined(MACOSX)

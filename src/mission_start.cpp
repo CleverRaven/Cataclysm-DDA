@@ -81,10 +81,12 @@ void mission_start::place_zombie_mom( mission *miss )
     miss->target = house;
     overmap_buffer.reveal( house, 6 );
 
+    RandomName* randomName = RandomName::getInstance();
+    std::string name = randomName->getRandomName(NAME_IS_FEMALE_NAME);
+
     tinymap zomhouse;
     zomhouse.load( house.x * 2, house.y * 2, house.z, false );
-    zomhouse.add_spawn( mon_zombie, 1, SEEX, SEEY, false, -1, miss->uid,
-                        Name::get( nameIsFemaleName | nameIsGivenName ) );
+    zomhouse.add_spawn( mon_zombie, 1, SEEX, SEEY, false, -1, miss->uid, name );
     zomhouse.save();
 }
 

@@ -205,10 +205,10 @@ bool overmap_special_id::is_valid() const
 }
 
 city::city( const point &P, int const S )
-    : pos( P )
-    , size( S )
-    , name( Name::get( nameIsTownName ) )
 {
+        pos = P;
+        size = S;
+        name = RandomName::getInstance()->getRandomName(NAME_IS_TOWN_NAME);
 }
 
 int city::get_distance_from( const tripoint &p ) const
