@@ -549,6 +549,7 @@
   {
     "id": "ACT_TREE_COMMUNION",
     "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
     "stop_phrase": "Stop communing with the trees?",
     "rooted": true,
     "suspendable": false,
@@ -558,6 +559,7 @@
   {
     "id": "ACT_EAT_MENU",
     "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
     "stop_phrase": "Stop eating?",
     "suspendable": false,
     "based_on": "neither",
