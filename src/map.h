@@ -838,13 +838,13 @@ class map
                           bool destroy = false, bool bash_floor = false,
                           const vehicle *bashing_vehicle = nullptr );
 
-        /**
-         * Knock down a tree (if present), creating stump and trunks.
+        /** Knock down a tree (if present), creating stump and trunks. Returns
+         * false if no tree was present.
          *
          * @param p Tree location
          * @param fall_direction The general direction the tree will fall. Random if unspecified.
          */
-        void fell_tree( const tripoint &p, const tripoint &fall_direction = tripoint_zero );
+        bool fell_tree( const tripoint &p, const tripoint &fall_direction = tripoint_zero );
         /**
          * Limb and buck a segment of felled tree or stump. Returns false if no timber was present.
          *

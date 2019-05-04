@@ -3754,8 +3754,12 @@ bool map::hit_with_acid( const tripoint &p )
     return true;
 }
 
-void map::fell_tree( const tripoint &p, const tripoint &direction )
+bool map::fell_tree( const tripoint &p, const tripoint &direction )
 {
+    if( !this->ter( p ).obj().has_flag( "TREE" ) ) {
+        return false;
+    }
+
     int dir_x, dir_y;
 
     if( direction == tripoint_zero ) {
@@ -3781,6 +3785,8 @@ void map::fell_tree( const tripoint &p, const tripoint &direction )
     }
 
     this->ter_set( p, t_stump );
+
+    return true;
 }
 
 bool map::buck_tree( const tripoint &p )
