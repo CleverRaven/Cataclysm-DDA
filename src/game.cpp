@@ -8556,6 +8556,10 @@ bool game::plfire()
     int reload_time = 0;
     gun_mode gun = args.relevant->gun_current_mode();
 
+    // bows take more energy to fire than guns.
+    u.weapon.is_gun() ? u.increase_activity_level( LIGHT_EXERCISE ) : u.increase_activity_level(
+        MODERATE_EXERCISE );
+
     // TODO: move handling "RELOAD_AND_SHOOT" flagged guns to a separate function.
     if( gun->has_flag( "RELOAD_AND_SHOOT" ) ) {
         if( !gun->ammo_remaining() ) {
