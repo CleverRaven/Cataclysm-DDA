@@ -77,6 +77,7 @@
         { "monster": [ "mon_broken_cyborg", "mon_prototype_cyborg" ], "x": [ 14, 16 ], "y": [ 6, 9 ], "chance": 90 },
         { "monster": [ "mon_broken_cyborg", "mon_prototype_cyborg" ], "x": [ 21, 22 ], "y": [ 1, 4 ], "chance": 90 },
         { "monster": [ "mon_broken_cyborg", "mon_prototype_cyborg" ], "x": [ 21, 22 ], "y": [ 6, 9 ], "chance": 90 },
+        { "monster": [ "mon_nursebot", "mon_nursebot_defective" ], "x": [ 11, 13 ], "y": [ 12, 15 ], "chance": 50 },
         { "monster": "mon_zombie_scientist", "x": [ 15, 19 ], "y": 12, "chance": 90, "repeat": [ 1, 2 ] },
         { "monster": "mon_zombie_brute_shocker", "x": [ 9, 10 ], "y": [ 12, 13 ] }
       ]
