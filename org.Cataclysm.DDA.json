@@ -12,7 +12,7 @@
       "name": "cataclysm",
       "buildsystem": "simple",
       "build-commands": [
-        "CPPPATH=/app/include make -j4 NATIVE=linux64 USE_HOME_DIR=1 CLANG=1 RELEASE=1 CCACHE=1 RUNTESTS=0 ASTYLE=0",
+        "CPPPATH=/app/include make -j4 NATIVE=linux64 USE_HOME_DIR=1 CLANG=1 RELEASE=1 LTO=1 CCACHE=1 RUNTESTS=0 ASTYLE=0",
         "install -Dm755 cataclysm /app/bin/cataclysm",
         "install -Dm755 cataclysm-launcher /app/bin/cataclysm-launcher",
         "install -Dm755 data/xdg/org.Cataclysm.DDA.desktop /app/share/applications/org.Cataclysm.DDA.desktop",
