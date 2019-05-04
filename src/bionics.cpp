@@ -1076,10 +1076,7 @@ bool player::uninstall_bionic( const bionic_id &b_id, player &installer, bool au
         return false;
     }
 
-    float assist_bonus = 0;
-    if( installer.has_effect( effect_assisted ) ) {
-        assist_bonus = 3; // +11% for difficulty 3, +1.4% for a difficulty 13
-    }
+    int assist_bonus = installer.get_effect_int( effect_assisted );
 
     // removal of bionics adds +2 difficulty over installation
     float adjusted_skill = installer.bionics_adjusted_skill( skilll_firstaid,
@@ -1218,10 +1215,7 @@ bool player::install_bionics( const itype &type, player &installer, bool autodoc
         return false;
     }
 
-    float assist_bonus = 0;
-    if( installer.has_effect( effect_assisted ) ) {
-        assist_bonus = 3; // +11% for difficulty 3, +1.4% for a difficulty 13
-    }
+    int assist_bonus = installer.get_effect_int( effect_assisted );
 
     const bionic_id &bioid = type.bionic->id;
     const int difficult = type.bionic->difficulty;
