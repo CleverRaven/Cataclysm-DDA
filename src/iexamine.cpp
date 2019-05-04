@@ -2037,7 +2037,7 @@ void iexamine::harvest_plant( player &p, const tripoint &examp )
     } else { // Generic seed, use the seed item data
         const itype &type = *seed.type;
         g->m.i_clear( examp );
-        g->m.furn_set( examp, f_null );
+        g->m.furn_set( examp, furn_str_id( g->m.furn( examp ).obj().plant_transform ) );
 
         int skillLevel = p.get_skill_level( skill_survival );
         ///\EFFECT_SURVIVAL increases number of plants harvested from a seed
@@ -2152,9 +2152,9 @@ void iexamine::aggie_plant( player &p, const tripoint &examp )
 
     const std::string pname = seed.get_plant_name();
 
-    if( g->m.has_flag_furn( "GROWTH_HARVEST" ) && query_yn( _( "Harvest the %s?" ), pname ) ) {
+    if( g->m.has_flag_furn( "GROWTH_HARVEST", examp ) && query_yn( _( "Harvest the %s?" ), pname ) ) {
         harvest_plant( p, examp );
-    } else if( !g->m.has_flag_furn( "GROWTH_HARVEST" ) ) {
+    } else if( !g->m.has_flag_furn( "GROWTH_HARVEST", examp ) ) {
         if( g->m.i_at( examp ).size() > 1 ) {
             add_msg( m_info, _( "This %s has already been fertilized." ), pname );
             return;

@@ -2046,7 +2046,8 @@
     "required_str": -1,
     "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_HARVEST" ],
     "examine_action": "aggie_plant",
-    "bash": { "str_min": 4, "str_max": 10, "sound": "crunch.", "sound_fail": "whish." }
+    "bash": { "str_min": 4, "str_max": 10, "sound": "crunch.", "sound_fail": "whish." },
+    "plant_transform": "f_null"
   },
   {
     "type": "furniture",
@@ -2111,7 +2112,8 @@
     "required_str": -1,
     "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_HARVEST" ],
     "examine_action": "aggie_plant",
-    "bash": { "str_min": 4, "str_max": 10, "sound": "crunch.", "sound_fail": "whish." }
+    "bash": { "str_min": 4, "str_max": 10, "sound": "crunch.", "sound_fail": "whish." },
+    "plant_transform": "f_planter"
   },
   {
     "type": "furniture",
