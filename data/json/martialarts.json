@@ -431,6 +431,7 @@
       "spear_rebar",
       "spear_pipe",
       "spear_steel",
+      "spear_stone",
       "spear_survivor",
       "spear_wood",
       "spear_homemade_halfpike",
@@ -829,6 +830,7 @@
       "spear_pipe",
       "spear_rebar",
       "spear_steel",
+      "spear_stone",
       "spear_survivor",
       "spear_wood"
     ]
