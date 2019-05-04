@@ -644,6 +644,7 @@ static void smash()
 
     didit = m.bash( smashp, smashskill, false, false, smash_floor ).did_bash;
     if( didit ) {
+        u.increase_activity_level( MODERATE_EXERCISE );
         u.handle_melee_wear( u.weapon );
         u.moves -= move_cost;
         const int mod_sta = ( ( u.weapon.weight() / 100_gram ) + 20 ) * -1;
