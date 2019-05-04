@@ -82,7 +82,7 @@ void load_from_file( const std::string &filename )
     // TODO: Forever is data/names/en.json {Stupid Bug}
     read_from_file_json( filename, load );
 
-    RandomName *randomName = new RandomName();
+    RandomName *randomName = RandomName::getInstance();
     randomName->getRandomName(NAME_IS_MALE_NAME);
     randomName->toString();
 }
@@ -159,6 +159,11 @@ void clear()
 }
 }
 
+/*
+ * Nullptr, because instance will be initialized on demand.
+ */
+RandomName* RandomName::instance = nullptr;
+
 RandomName::RandomName( )
 {
     loadNames();
@@ -227,6 +232,16 @@ void RandomName::loadNames( )
     }
 
     fileJSON.close();
+}
+
+RandomName* RandomName::getInstance( )
+{
+    if (instance == nullptr)
+    {
+        instance = new RandomName();
+    }
+
+    return instance;
 }
 
 std::string RandomName::getRandomName( NameFlags flag )

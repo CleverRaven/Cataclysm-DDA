@@ -70,11 +70,24 @@ private:
     std::vector<std::string> namesTown;
     std::vector<std::string> namesWorld;
 
+    /*
+     * Here will be the instance stored.
+     */
+    static RandomName *instance;
+
+    /*
+     * Private constructor to prevent instancing.
+     */
+    RandomName();
+
     void loadNames( );
 
 public:
 
-    RandomName();
+    /*
+     * Static access method.
+     */
+    static RandomName *getInstance();
 
     std::string getRandomName( NameFlags flag );
 
