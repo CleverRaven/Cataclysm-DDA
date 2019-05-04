@@ -2798,7 +2798,7 @@ bool mattack::nurse_assist( monster *z )
                            string_format(
                                _( "a soft robotic voice say, \"Welcome doctor %s.  I'll be your assistant today.\"" ),
                                Name::generate( target->male ) ) );
-            target->add_effect( effect_assisted, 20_turns );
+            target->add_effect( effect_assisted, 20_turns, num_bp, false, 3 );
             return true;
         }
     }
