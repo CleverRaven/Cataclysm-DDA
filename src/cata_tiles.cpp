@@ -20,6 +20,7 @@
 #include "cursesport.h"
 #include "debug.h"
 #include "field.h"
+#include "filesystem.h"
 #include "game.h"
 #include "item.h"
 #include "item_factory.h"
@@ -3387,6 +3388,52 @@ std::vector<options_manager::id_and_option> cata_tiles::build_renderer_list()
     }
 
     return renderer_names.empty() ? default_renderer_names : renderer_names;
+}
+
+bool cata_tiles::save_screenshot( const std::string &file_path ) const
+{
+    std::string current_file_path;
+    if( file_path.empty() ) {
+        // check the current '<world>/screenshots' directory exists
+        std::stringstream map_directory;
+        map_directory << g->get_world_base_save_path() << "/screenshots/";
+        assure_dir_exist( map_directory.str() );
+
+        // build file name: <map_dir>/screenshots/[<character_name>]_<date>.png
+        std::time_t time = std::chrono::system_clock::to_time_t( std::chrono::system_clock::now() );
+        std::stringstream date_buffer;
+        // somewhat ISO-8601 compliant GMT date (except for some characters that wouldn't pass on most file systems like ':').
+        date_buffer << std::put_time( std::gmtime( &time ), "%F_%H-%M-%S_%z" );
+        const auto tmp_file_name = "[" + g->u.get_name() + "]_" + date_buffer.str() + ".png";
+        std::string file_name = ensure_valid_file_name( tmp_file_name );
+        current_file_path = map_directory.str() + file_name;
+    } else {
+        current_file_path = file_path;
+    }
+
+    // Note: the viewport is returned by SDL and we don't have to manage its lifetime.
+    SDL_Rect viewport;
+
+    // Get the viewport size (width and heigth of the screen)
+    SDL_RenderGetViewport( renderer.get(), &viewport );
+
+    // Create SDL_Surface with depth of 32 bits (note: using zeros for the RGB masks sets a default value, based on the depth; Alpha mask will be 0).
+    SDL_Surface_Ptr surface = CreateRGBSurface( 0, viewport.w, viewport.h, 32, 0, 0, 0, 0 );
+
+    // Get data from SDL_Renderer and save them into surface
+    if( printErrorIf( SDL_RenderReadPixels( renderer.get(), nullptr, surface->format->format,
+                                            surface->pixels, surface->pitch ) != 0,
+                      "save_screenshot: cannot read data from SDL_Renderer." ) ) {
+        return false;
+    }
+
+    // Save screenshot as PNG file
+    if( printErrorIf( IMG_SavePNG( surface.get(), current_file_path.c_str() ) != 0,
+                      std::string( "save_screenshot: cannot save screenshot file: " + current_file_path ).c_str() ) ) {
+        return false;
+    }
+
+    return true;
 }
 
 #endif // SDL_TILES
