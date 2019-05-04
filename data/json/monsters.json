@@ -1056,6 +1056,7 @@
     "flags": [ "SEES", "FLIES", "ELECTRONIC", "NO_BREATHE", "NOHEAD", "PRIORITIZE_TARGETS" ]
   },
   {
+    "//": "nurse_bot and nurse_bot_defective look very similar, part of the trick is figuring out which one is the good one.  So the sprites should probably look pretty similar to not give it away immediatly"
     "id": "mon_nursebot",
     "type": "MONSTER",
     "name": "nurse bot",
@@ -1084,9 +1085,11 @@
     "flags": [ "SEES", "ELECTRONIC", "NO_BREATHE", "FIREPROOF", "PUSH_MON", "HEARS", "PACIFIST" ]
   },
   {
+    "//": "nurse_bot and nurse_bot_defective look very similar, part of the trick is figuring out which one is the good one.  So the sprites should probably look pretty similar to not give it away immediatly"
     "id": "mon_nursebot_defective",
     "type": "MONSTER",
     "name": "nurse bot",
+    "looks_like": "mon_nursebot",
     "description": "The latest product from Uncanny, a towering four-armed humanoid with a gentle face.  The details of its visage are striking, but the stiffness of it makes you really uncomfortable.  The end of the world did not stop it from looking for patient to assist.",
     "default_faction": "nurse_bot",
     "species": [ "ROBOT" ],
