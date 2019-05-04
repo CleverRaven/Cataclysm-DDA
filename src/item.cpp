@@ -7090,18 +7090,16 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
         rot += now - last_rot_check;
         if( rot >= 0_turns ) {
             carrier->add_msg_if_player( _( "%s %s disappears." ), carrier->disp_name( true ), tname() );
-            carrier->reduce_charges( this, 1 );/*
-            for( item &e : carrier->worn ) {
-                if( e.has_item( *this ) ) {
-                    e = item();
-                    return;
-                }
+            if( carrier->is_worn( *this ) ) {
+                const item &it = *this;
+                auto iter = std::find_if( carrier->worn.begin(), carrier->worn.end(), [&it]( const item &wit ) {
+                    return &it == &wit; } );
+                carrier->worn.erase( iter );
+                carrier->recalc_sight_limits();
+                carrier->reset_encumbrance();
+                return;
             }
-            if( carrier->weapon.has_item( *this ) ) {
-                carrier->weapon = item();
-            } else {
-                carrier->inv.remove_item( this );
-            }*/
+            carrier->reduce_charges( this, 1 );
         }
         last_rot_check = now;
         return;
