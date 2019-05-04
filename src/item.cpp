@@ -7121,12 +7121,13 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
             // If not: use calculated temperature
             env_temperature = ( temp_modify * AVERAGE_ANNUAL_TEMPERATURE ) + ( !temp_modify * env_temperature );
 
-            if( flag == "ceiling" ) {
-                // Items in freezer/fridge
-                env_temperature = std::min( env_temperature, static_cast<double>( temp ) );
-            } else if( flag == "floor" ) {
-                // Items in heated vehicle
-                env_temperature = std::max( env_temperature, static_cast<double>( temp ) );
+            //
+            if( flag == "fridge" ) {
+                env_temperature = std::min( env_temperature, static_cast<double>( temperatures::fridge ) );
+            } else if( flag == "freezer" ) {
+                env_temperature = std::min( env_temperature, static_cast<double>( temperatures::freezer ) );
+            } else if( flag == "heater" ) {
+                env_temperature = std::max( env_temperature, static_cast<double>( temperatures::normal ) );
             }
 
             // Calculate item temperature from enviroment temperature
