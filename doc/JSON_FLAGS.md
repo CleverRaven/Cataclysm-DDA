@@ -537,6 +537,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```OBSTACLE``` Cannot walk through part, unless the part is also ```OPENABLE```.
 - ```ODDTURN``` Only on during odd turns.
 - ```ON_CONTROLS```
+- ```ON_ROOF``` - Parts with this flag could only be installed on a roof (parts with ```ROOF``` flag).
 - ```OPAQUE``` Cannot be seen through.
 - ```OPENABLE``` Can be opened or closed.
 - ```OPENCLOSE_INSIDE```  Can be opened or closed, but only from inside the vehicle.
@@ -568,7 +569,8 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```TOOL_WRENCH``` Attached with bolts, can be removed/installed with a wrench
 - ```TRACK``` Allows the vehicle installed on, to be marked and tracked on map.
 - ```TRACKED``` Contributes to steering effectiveness but doesn't count as a steering axle for install difficulty and still contributes to drag for the center of steering calculation.
-- ```TURRET``` Is a weapon turret.
+- ```TURRET``` Is a weapon turret. Can only be installed on a part with ```TURRET_MOUNT``` flag.
+- ```TURRET_MOUNT``` Parts with this flag are suitable for installing turrets.
 - ```UNMOUNT_ON_DAMAGE``` Part breaks off the vehicle when destroyed by damage.
 - ```UNMOUNT_ON_MOVE``` Dismount this part when the vehicle moves. Doesn't drop the part, unless you give it special handling.
 - ```VARIABLE_SIZE``` Has 'bigness' for power, wheel radius, etc.
