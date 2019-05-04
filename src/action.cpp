@@ -263,6 +263,8 @@ std::string action_ident( action_id act )
             return "sleep";
         case ACTION_CONTROL_VEHICLE:
             return "control_vehicle";
+        case ACTION_TOGGLE_AUTO_TRAVEL_MODE:
+            return "auto_travel_mode";
         case ACTION_TOGGLE_SAFEMODE:
             return "safemode";
         case ACTION_TOGGLE_AUTOSAFE:
@@ -493,6 +495,30 @@ action_id get_movement_direction_from_delta( const int dx, const int dy, const i
         return ACTION_MOVE_W;
     } else {
         return ACTION_MOVE_NW;
+    }
+}
+
+point get_delta_from_movement_direction( action_id act )
+{
+    switch( act ) {
+        case ACTION_MOVE_N:
+            return point_north;
+        case ACTION_MOVE_NE:
+            return point_north_east;
+        case ACTION_MOVE_E:
+            return point_east;
+        case ACTION_MOVE_SE:
+            return point_south_east;
+        case ACTION_MOVE_S:
+            return point_south;
+        case ACTION_MOVE_SW:
+            return point_south_west;
+        case ACTION_MOVE_W:
+            return point_west;
+        case ACTION_MOVE_NW:
+            return point_north_west;
+        default:
+            return point_zero;
     }
 }
 
@@ -802,6 +828,7 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_THROW );
             REGISTER_ACTION( ACTION_FIRE_BURST );
             REGISTER_ACTION( ACTION_PICK_STYLE );
+            REGISTER_ACTION( ACTION_TOGGLE_AUTO_TRAVEL_MODE );
             REGISTER_ACTION( ACTION_TOGGLE_SAFEMODE );
             REGISTER_ACTION( ACTION_TOGGLE_AUTOSAFE );
             REGISTER_ACTION( ACTION_IGNORE_ENEMY );

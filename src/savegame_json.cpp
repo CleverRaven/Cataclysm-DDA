@@ -812,6 +812,7 @@ void player::serialize( JsonOut &json ) const
 
     json.member( "stamina", stamina );
     json.member( "move_mode", move_mode );
+    json.member( "mana", mana );
 
     // crafting etc
     json.member( "activity", activity );
@@ -930,6 +931,7 @@ void player::deserialize( JsonIn &jsin )
 
     data.read( "stamina", stamina );
     data.read( "move_mode", move_mode );
+    data.read( "mana", mana );
 
     set_highest_cat_level();
     drench_mut_calc();
@@ -3010,7 +3012,6 @@ void basecamp::serialize( JsonOut &json ) const
         json.member( "pos", omt_pos );
         json.member( "bb_pos", bb_pos );
         json.member( "expansions" );
-        json.member( "fortifications" );
         json.start_array();
         for( const auto &expansion : expansions ) {
             json.start_object();
@@ -3020,6 +3021,9 @@ void basecamp::serialize( JsonOut &json ) const
             json.member( "pos", expansion.second.pos );
             json.end_object();
         }
+        json.end_array();
+        json.member( "fortifications" );
+        json.start_array();
         for( const auto &fortification : fortifications ) {
             json.start_object();
             json.member( "pos", fortification );

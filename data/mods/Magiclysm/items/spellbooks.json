@@ -32,7 +32,7 @@
     "description": "This details complex diagrams, rituals, and choreography that describes various spells.",
     "weight": 920,
     "volume": 3,
-    "price": 300000,
+    "price": 30000,
     "symbol": "?",
     "color": "light_red",
     "use_action": { "type": "learn_spell", "spells": [ "point_flare", "ice_spike", "pain_split" ] }
@@ -40,7 +40,7 @@
   {
     "id": "priest_beginner",
     "type": "GENERIC",
-    "name": "Introduction to the divine",
+    "name": "Introduction to the Divine",
     "description": "This appears to mostly be a religious text, but it does have some notes on healing.",
     "weight": 585,
     "volume": 2,
@@ -48,5 +48,17 @@
     "symbol": "?",
     "color": "light_green",
     "use_action": { "type": "learn_spell", "spells": [ "light_healing" ] }
+  },
+  {
+    "id": "priest_advanced",
+    "type": "GENERIC",
+    "name": "The Paladin's Guide to Modern Spellcasting",
+    "description": "Despite the title, this seems to be written in Middle English.  A little obtuse, but you can make out most of the words well enough.",
+    "weight": 830,
+    "volume": 3,
+    "price": 30000,
+    "symbol": "?",
+    "color": "green",
+    "use_action": { "type": "learn_spell", "spells": [ "smite " ] }
   }
 ]

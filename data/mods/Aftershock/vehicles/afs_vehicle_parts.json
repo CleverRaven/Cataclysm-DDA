@@ -239,6 +239,7 @@
     "name": "roof-mounted external tank (200L)",
     "item": "55gal_drum",
     "location": "on_roof",
+    "flags": [ "ON_ROOF" ],
     "size": 200000
   },
   {
