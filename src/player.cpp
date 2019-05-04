@@ -4238,7 +4238,7 @@ void player::update_stomach( const time_point &from, const time_point &to )
     const bool mouse = has_trait( trait_NO_THIRST );
     const bool mycus = has_trait( trait_M_DEPENDENT );
     // @TODO: move to kcal altogether
-    const float kcal_per_nutr = 2500.0f / ( 12 * 24 );
+    const float kcal_per_nutr = 2400.0f / ( 12 * 24 );
     const int five_mins = ticks_between( from, to, 5_minutes );
 
     if( five_mins > 0 ) {
