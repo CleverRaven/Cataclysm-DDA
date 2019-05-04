@@ -690,7 +690,7 @@ class item : public visitable<item>
          * @param insulation Amount of insulation item has from surroundings
          * @param pos The current position
          * @param carrier The current carrier
-         * @param flag is used to tell that the item is in a temperature controlled vehicle. "heater", "fridge", "freezer", "root_cellar"
+         * @param flag is used to tell that the item is in a temperature controlled place. "heater", "fridge", "freezer", "root_cellar"
          */
         void process_temperature_rot( int temp, float insulation, const tripoint pos, player *carrier,
                                       const std::string flag );
