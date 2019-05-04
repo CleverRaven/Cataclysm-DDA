@@ -7057,10 +7057,6 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
         last_rot_check = now;
         return;
     }
-	
-	if( flag != "" ){
-		add_msg( m_info, _( "FLAG: %s" ), flag );
-	}
 
     bool carried = carrier != nullptr && carrier->has_item( *this );
 
@@ -7124,14 +7120,14 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
             // If in a root celler: use AVERAGE_ANNUAL_TEMPERATURE
             // If not: use calculated temperature
             env_temperature = ( temp_modify * AVERAGE_ANNUAL_TEMPERATURE ) + ( !temp_modify * env_temperature );
-			
-			if( flag == "ceiling" ) {
-				// Items in freezer/fridge
-				env_temperature = std::min( env_temperature, static_cast<double>( temp ) );
-			} else if( flag == "floor"){
-				// Items in heated vehicle
-				env_temperature = std::max( env_temperature, static_cast<double>( temp ) );
-			}
+
+            if( flag == "ceiling" ) {
+                // Items in freezer/fridge
+                env_temperature = std::min( env_temperature, static_cast<double>( temp ) );
+            } else if( flag == "floor" ) {
+                // Items in heated vehicle
+                env_temperature = std::max( env_temperature, static_cast<double>( temp ) );
+            }
 
             // Calculate item temperature from enviroment temperature
             // If the time was more than 2 d ago just set the item to enviroment temperature
