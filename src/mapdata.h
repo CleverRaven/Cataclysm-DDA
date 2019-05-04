@@ -237,7 +237,8 @@ struct map_data_common_t {
 
         std::string looks_like;
 
-        std::string plant_transform; //What the furniture turns into when you plant seeds into it
+        std::string plant_transform; //What the furniture turns into when it grows or your plant seeds in it
+        std::string plant_base; //What the 'base' furniture of the plant is, before you plant in it
 
         iexamine_function examine; //What happens when the terrain/furniture is examined
 
