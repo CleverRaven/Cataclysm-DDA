@@ -5281,6 +5281,8 @@ bool game::npc_menu( npc &who )
     } else if( choice == attack ) {
         if( who.is_enemy() || query_yn( _( "You may be attacked! Proceed?" ) ) ) {
             u.melee_attack( who, true );
+            // fighting is hard work!
+            u.increase_activity_level( EXTRA_EXERCISE );
             who.on_attacked( u );
         }
     } else if( choice == disarm ) {
@@ -9062,6 +9064,15 @@ bool game::plmove( int dx, int dy, int dz )
         }
     }
 
+    // by this point we're either walking, running, crouching, or attacking, so update the activity level to match
+    if( u.get_movement_mode() == "walk" ) {
+        u.increase_activity_level( LIGHT_EXERCISE );
+    } else if( u.get_movement_mode() == "crouch" ) {
+        u.increase_activity_level( MODERATE_EXERCISE );
+    } else {
+        u.increase_activity_level( ACTIVE_EXERCISE );
+    }
+
     // If the player is *attempting to* move on the X axis, update facing direction of their sprite to match.
     const int new_dx = dest_loc.x - u.posx();
     if( new_dx > 0 ) {
@@ -9128,6 +9139,9 @@ bool game::plmove( int dx, int dy, int dz )
                 add_msg( m_info, _( "Click directly on monster to attack." ) );
                 u.clear_destination();
                 return false;
+            } else {
+                // fighting is hard work!
+                u.increase_activity_level( EXTRA_EXERCISE );
             }
             if( u.has_effect( effect_relax_gas ) ) {
                 if( one_in( 8 ) ) {
@@ -9166,6 +9180,8 @@ bool game::plmove( int dx, int dy, int dz )
         }
 
         u.melee_attack( np, true );
+        // fighting is hard work!
+        u.increase_activity_level( EXTRA_EXERCISE );
         np.make_angry();
         return false;
     }
