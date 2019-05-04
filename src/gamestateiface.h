@@ -93,16 +93,20 @@ public:
     /**
      * Update attributes relevant to the advanced inventory UI.
      *
-     *
+     * TODO: Add case for when using all select, highlight tile item is from
      *
      *
      */
-    bool update_ui_adv_inventory();
-    
+    void update_ui_advinv_header(std::vector<bool> isvalid, std::vector<bool> isvehicle);
     // Valid (not red) focuses.  [1]-[9], then [C]ontainer and [D]ragged
     std::vector<bool> advinv_isvalid;
     // Whether a given focus has a <V>ehicle tile. [1]-[9].
-    std::vector<int> advinv_isvehicle;
+    std::vector<bool> advinv_isvehicle;
+
+    bool update_ui_advinv_pane(int selected, int pane, bool active);
+    int advinv_selected_left;
+    int advinv_selected_right;
+    int advinv_selected_pane;
 
   /**
    * Output the current game state information in JSON format.

@@ -128,8 +128,28 @@ bool gsi::update_input(std::vector<std::string> registered_actions, std::string 
     return false;
 }
 
-bool gsi::update_ui_adv_inventory()
+void gsi::update_ui_advinv_header(std::vector<bool> isvalid, std::vector<bool> isvehicle)
 {
+    advinv_isvalid = isvalid;
+    advinv_isvehicle = isvehicle;
+}
+
+bool gsi::update_ui_advinv_pane(int selected, int pane, bool active)
+{
+#ifdef GSI
+    if (active)
+        advinv_selected_pane = pane;
+    if (pane == 0)
+        advinv_selected_left = selected;
+    else if (pane == 1)
+    {
+        advinv_selected_right = selected;
+        gsi_socket::get().sockout();
+    }
+    else
+        return false;
+    return true;
+#endif
     return false;
 }
 
@@ -375,10 +395,18 @@ void gsi::serialize(JsonOut &jsout) const
     jsout.member("weather", weather);
     jsout.member("light_level", light_level);
     jsout.end_object();
-    //jsout.start_array();
-    //jsout.write(x);
-    //jsout.write(y);
-    //jsout.end_array();
+    
+    jsout.member("ui");
+    jsout.start_object();
+    jsout.member("advinv");
+    jsout.start_object();
+    jsout.member("isvalid",advinv_isvalid);
+    jsout.member("isvehicle", advinv_isvehicle);
+    jsout.member("selected_pane", advinv_selected_pane);
+    jsout.member("selected_left", advinv_selected_left);
+    jsout.member("selected_right", advinv_selected_right);
+    jsout.end_object();
+    jsout.end_object();
 
     jsout.end_object();
 }
@@ -521,6 +549,8 @@ void gsi_socket::sockout()
 
         if(!initialized)
             sockListen();
+
+        ports.insert(9088);
 
         processCommands();
         if (ports.size() != 0)

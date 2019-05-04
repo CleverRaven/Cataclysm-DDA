@@ -610,9 +610,20 @@ int advanced_inventory::print_header( advanced_inventory_pane &pane, aim_locatio
     int area = pane.get_area();
     int wwidth = getmaxx( window );
     int ofs = wwidth - 25 - 2 - 14;
+
+    // Valid (not red) focuses.  [1]-[9], then [C]ontainer and [D]ragged
+    std::vector<bool> advinv_isvalid;
+    // Whether a given focus has a <V>ehicle tile. [1]-[9].
+    std::vector<bool> advinv_isvehicle;
+    int selected;
+
     for( int i = 0; i < NUM_AIM_LOCATIONS; ++i ) {
         const char key = get_location_key( static_cast<aim_location>( i ) );
         const char *bracket = ( squares[i].can_store_in_vehicle() ) ? "<>" : "[]";
+
+        advinv_isvehicle.push_back( squares[i].can_store_in_vehicle() );
+        advinv_isvalid.push_back( squares[i].canputitems( pane.get_cur_item_ptr() ) );
+
         bool in_vehicle = ( pane.in_vehicle() && squares[i].id == area && sel == area && area != AIM_ALL );
         bool all_brackets = ( area == AIM_ALL && ( i >= AIM_SOUTHWEST && i <= AIM_NORTHEAST ) );
         nc_color bcolor = c_red, kcolor = c_red;
@@ -627,6 +638,7 @@ int advanced_inventory::print_header( advanced_inventory_pane &pane, aim_locatio
         wprintz( window, kcolor, "%c", ( in_vehicle && sel != AIM_DRAGGED ) ? 'V' : key );
         wprintz( window, bcolor, "%c", bracket[1] );
     }
+    gsi::get().update_ui_advinv_header(advinv_isvalid, advinv_isvehicle);
     return squares[AIM_INVENTORY].hscreeny + ofs;
 }
 
@@ -1129,6 +1141,9 @@ void advanced_inventory::redraw_pane( side p )
 
     auto itm = pane.get_cur_item_ptr();
     int width = print_header( pane, ( itm != nullptr ) ? itm->area : pane.get_area() );
+
+    gsi::get().update_ui_advinv_pane(pane.get_area(), p, active);
+
     bool same_as_dragged = ( square.id >= AIM_SOUTHWEST && square.id <= AIM_NORTHEAST ) &&
                            // only cardinals
                            square.id != AIM_CENTER && panes[p].in_vehicle() && // not where you stand, and pane is in vehicle
