@@ -60,6 +60,7 @@ bool copy_file( const std::string &source_path, const std::string &dest_path );
  *  @param replacement_char A single character used to replace invalid characters.
  *  @return A string with all invalid characters replaced with the replacement character, if any change was made.
  */
-std::string ensure_valid_file_name(const std::string& file_name, bool* change_made = nullptr, const std::string& invalid_chars = "\\/:?\"<>|", char replacement_char = ' ');
+std::string ensure_valid_file_name( const std::string &file_name, bool *change_made = nullptr,
+                                    const std::string &invalid_chars = "\\/:?\"<>|", char replacement_char = ' ' );
 
 #endif //CATA_FILE_SYSTEM_H
