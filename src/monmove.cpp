@@ -570,7 +570,7 @@ void monster::move()
         if( rl_dist( pos(), goal ) == 1 && g->m.furn( goal ) == furn_id( "f_autodoc_couch" ) &&
             !has_effect( effect_operating ) ) {
             if( dragged_foe->has_effect( effect_grabbed ) && !has_effect( effect_countdown ) &&
-                ( g->critter_at( goal ) == nullptr && g->critter_at( goal ) != dragged_foe ) ) {
+                ( g->critter_at( goal ) == nullptr || g->critter_at( goal ) == dragged_foe ) ) {
                 add_msg( m_bad, _( "The %1$s slowly but firmly puts %2$s down onto the autodoc couch." ), name(),
                          dragged_foe->disp_name() );
 
