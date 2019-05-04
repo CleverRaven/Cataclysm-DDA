@@ -1151,7 +1151,7 @@ bool player::uninstall_bionic( const bionic &target_cbm, monster &installer, pla
     item bionic_to_uninstall = item( target_cbm.id.str(), 0 );
     const itype *itemtype = bionic_to_uninstall.type;
     int difficulty = itemtype->bionic->difficulty;
-    int chance_of_success = bionic_manip_cos( adjusted_skill, false, difficulty + 2 );
+    int chance_of_success = bionic_manip_cos( adjusted_skill, autodoc, difficulty + 2 );
     int success = chance_of_success - rng( 1, 100 );
 
     const time_duration duration = difficulty * 20_minutes;
