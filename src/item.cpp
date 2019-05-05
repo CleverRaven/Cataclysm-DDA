@@ -7092,8 +7092,9 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
             carrier->add_msg_if_player( _( "%s %s disappears." ), carrier->disp_name( true ), tname() );
             if( carrier->is_worn( *this ) ) {
                 const item &it = *this;
-                auto iter = std::find_if( carrier->worn.begin(), carrier->worn.end(), [&it]( const item &wit ) {
-                    return &it == &wit; } );
+                auto iter = std::find_if( carrier->worn.begin(), carrier->worn.end(), [&it]( const item & wit ) {
+                    return &it == &wit;
+                } );
                 carrier->worn.erase( iter );
                 carrier->recalc_sight_limits();
                 carrier->reset_encumbrance();

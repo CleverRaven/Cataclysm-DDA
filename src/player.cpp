@@ -7131,7 +7131,7 @@ void player::process_active_items()
     if( weapon.needs_processing() && weapon.process( this, pos(), false ) ) {
         weapon = item();
     }
-    if( weapon.has_flag( "ETHEREAL_ITEM"  ) ) {
+    if( weapon.has_flag( "ETHEREAL_ITEM" ) ) {
         weapon.process( this, pos(), false );
     }
 
