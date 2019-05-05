@@ -139,7 +139,7 @@
     "weight": 2,
     "volume": 0,
     "price": 0,
-	"rigid": false,
+  "rigid": false,
     "material": "plastic",
     "symbol": ")",
     "color": "light_gray",
