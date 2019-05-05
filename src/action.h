@@ -335,6 +335,14 @@ void load_keyboard_settings( std::map<char, action_id> &keymap,
 std::vector<char> keys_bound_to( action_id act );
 
 /**
+ * Get the key for an action, used in the action menu to give each action the hotkey it is bound to.
+ * @param action Action ID to lookup in keymap.
+ * @returns the key code for the hotkey or -1 if no key is associated with the given action.
+ * @note We ignore bindings to '?' because that will already do something else in this menu (open the menu keybindings).
+ */
+long hotkey_for_action( action_id action );
+
+/**
  * Lookup an action ID by its unique string identifier
  *
  * Translates a unique string identifier into an @ref action_id.  This identifier is generally the
