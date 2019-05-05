@@ -5,9 +5,26 @@
 #include <string>
 
 #include "calendar.h"
+#include "enums.h"
 
 struct tripoint;
 class JsonObject;
+
+using weather_cache_key_type = std::pair<tripoint, time_point>;
+
+namespace std
+{
+template <>
+struct hash<weather_cache_key_type> {
+    std::size_t operator()( const weather_cache_key_type &k ) const {
+        constexpr uint64_t a = 2862933555777941757;
+        size_t result = hash<tripoint>()( k.first );
+        result *= a;
+        result += to_turn<int>( k.second );
+        return result;
+    }
+};
+}
 
 enum weather_type : int;
 

@@ -9,6 +9,7 @@
 #include "enums.h"
 #include "game_constants.h"
 #include "json.h"
+#include "lru_cache.h"
 #include "rng.h"
 #include "simplexnoise.h"
 #include "weather.h"
@@ -26,6 +27,15 @@ int weather_generator::current_winddir = 1000;
 w_point weather_generator::get_weather( const tripoint &location, const time_point &t,
                                         unsigned seed ) const
 {
+    static constexpr int weather_cache_limit = 10000000;
+
+    static const w_point weather_cache_value_not_found = { 0.0, 0.0, 0.0, 0.0, "NFIC", 0, false };
+    static lru_cache<weather_cache_key_type, w_point> weather_cache;
+    const weather_cache_key_type weather_cache_key = std::make_pair( location, t );
+    w_point weather = weather_cache.get( weather_cache_key, weather_cache_value_not_found );
+    if( weather.wind_desc != "NFIC" ) {
+        return weather;
+    }
     const double x( location.x /
                     2000.0 ); // Integer x position / widening factor of the Perlin function.
     const double y( location.y /
@@ -100,7 +110,9 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
     // Acid rains
     const double acid_content = base_acid * A;
     bool acid = acid_content >= 1.0;
-    return w_point {T, H, P, W, wind_desc, current_winddir, acid};
+    weather = w_point{ T, H, P, W, wind_desc, current_winddir, acid };
+    weather_cache.insert( weather_cache_limit, weather_cache_key, weather );
+    return weather;
 }
 
 weather_type weather_generator::get_weather_conditions( const tripoint &location,
