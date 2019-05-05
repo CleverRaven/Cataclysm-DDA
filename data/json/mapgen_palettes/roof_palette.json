@@ -39,6 +39,10 @@
       "L": "f_locker",
       "C": "f_crate_c",
       "Y": "f_stool",
+      "s": "f_sofa",
+      "S": "f_sink",
+      "e": "f_oven",
+      "F": "f_fridge",
       "y": [ "f_indoor_plant_y", "f_indoor_plant" ]
     },
     "toilets": { "T": {  } }

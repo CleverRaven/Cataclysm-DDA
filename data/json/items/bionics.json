@@ -363,15 +363,6 @@
     "difficulty": 1
   },
   {
-    "id": "bio_furnace",
-    "copy-from": "bionic_general",
-    "type": "BIONIC_ITEM",
-    "name": "Internal Furnace CBM",
-    "description": "When this bionic is active, you can burn nearly any organic material as fuel (use 'E'), recharging your power level.  Some materials will burn better than others.",
-    "price": 450000,
-    "difficulty": 4
-  },
-  {
     "id": "bio_geiger",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",

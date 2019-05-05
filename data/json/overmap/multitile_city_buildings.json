@@ -27,6 +27,31 @@
   },
   {
     "type": "city_building",
+    "id": "church",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "church_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "church_roof_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "church_steeple_north" },
+      { "point": [ 0, 0, 3 ], "overmap": "church_steeple_north" },
+      { "point": [ 0, 0, 4 ], "overmap": "church_steeple_north" },
+      { "point": [ 0, 0, 5 ], "overmap": "church_steeple_end_north" },
+      { "point": [ 0, 0, 6 ], "overmap": "church_steeple_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "church_1",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "church_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "church_2ndfloor_1_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "church_3rdfloor_1_north" },
+      { "point": [ 0, 0, 3 ], "overmap": "church_roof_1_north" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "s_bookstore",
     "locations": [ "land" ],
     "overmaps": [
