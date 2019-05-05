@@ -800,7 +800,7 @@ std::string game_info::operating_system()
     return "iOS";
 #elif TARGET_OS_MAC == 1
     /* OSX */
-    return "MacOs"
+    return "MacOs";
 #endif // TARGET_IPHONE_SIMULATOR
 #elif defined (__DragonFly__) || defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__)
     return "BSD";
