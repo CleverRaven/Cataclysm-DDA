@@ -461,7 +461,6 @@ bool spell::is_valid_target( valid_target t ) const
             return true;
         }
     }
-    add_msg( m_bad, ( "invalid target" ) );
     return false;
 }
 
@@ -482,6 +481,11 @@ bool spell::is_valid_target( const tripoint &p ) const
 std::string spell::description() const
 {
     return _( type->description );
+}
+
+nc_color spell::damage_type_color() const
+{
+    return c_red;
 }
 
 // constants defined below are just for the formula to be used,
@@ -807,32 +811,73 @@ void shallow_pit( const tripoint &target )
     add_msg( m_info, _( "The earth moves out of the way for you" ) );
 }
 
-void target_attack( spell &sp, const tripoint &target )
+static bool in_spell_aoe( const tripoint &target, const tripoint &epicenter, const int &radius, const bool ignore_walls )
 {
-    Creature *const cr = g->critter_at<Creature>( target );
-    if( !cr ) {
-        debugmsg( "No creature at target location" );
-        return;
+    return true;
+}
+
+// spells do not reduce in damage the further away from the epicenter the targets are
+// rather they do their full damage in the entire area of effect
+static std::vector<tripoint> spell_effect_area( spell &sp, const tripoint &target, bool ignore_walls = false )
+{
+    std::vector<tripoint> targets = { target }; // initialize with epicenter
+    if( sp.aoe() <= 1 ) {
+        return targets;
     }
 
-    projectile bolt;
-    bolt.impact = sp.get_damage_instance();
-    bolt.proj_effects.emplace( "magic" );
-
-    dealt_projectile_attack atk;
-    atk.end_point = target;
-    atk.hit_critter = cr;
-    atk.proj = bolt;
-    if( sp.damage() > 0 ) {
-        cr->deal_projectile_attack( &g->u, atk, true );
-    } else {
-        sp.heal( target );
-        add_msg( m_good, _( "%s wounds are closing up!" ), cr->disp_name( true ) );
+    const int aoe_radius = sp.aoe();
+    for( int x = target.x - aoe_radius; x < target.x + aoe_radius; x++ ) {
+        for( int y = target.y - aoe_radius; y < target.y + aoe_radius; y++ ) {
+            for( int z = target.z - aoe_radius; y < target.z + aoe_radius; z++ ) {
+                const tripoint potential_target( x, y, z );
+                if( in_spell_aoe( potential_target, target, aoe_radius, ignore_walls ) ) {
+                    targets.emplace_back( potential_target );
+                }
+            }
+        }
     }
-    if( !sp.effect_data().empty() ) {
-        const int dur_moves = sp.duration();
-        const time_duration dur_td = 1_turns * dur_moves / 100;
-        cr->add_effect( efftype_id( sp.effect_data() ), dur_td, bp_torso );
+
+    // Draw the explosion
+    std::map<tripoint, nc_color> explosion_colors;
+    for( auto &pt : targets ) {
+        if( g->m.impassable( pt ) ) {
+            continue;
+        }
+        explosion_colors[pt] = sp.damage_type_color();
+    }
+
+    g->draw_custom_explosion( g->u.pos(), explosion_colors );
+    return targets;
+}
+
+void target_attack( spell &sp, const tripoint &epicenter )
+{
+    for( const tripoint target : spell_effect_area( sp, epicenter, true ) )
+    {
+        Creature *const cr = g->critter_at<Creature>( target );
+        if( !cr ) {
+            continue;
+        }
+
+        projectile bolt;
+        bolt.impact = sp.get_damage_instance();
+        bolt.proj_effects.emplace( "magic" );
+
+        dealt_projectile_attack atk;
+        atk.end_point = target;
+        atk.hit_critter = cr;
+        atk.proj = bolt;
+        if( sp.damage() > 0 ) {
+            cr->deal_projectile_attack( &g->u, atk, true );
+        } else {
+            sp.heal( target );
+            add_msg( m_good, _( "%s wounds are closing up!" ), cr->disp_name( true ) );
+        }
+        if( !sp.effect_data().empty() ) {
+            const int dur_moves = sp.duration();
+            const time_duration dur_td = 1_turns * dur_moves / 100;
+            cr->add_effect( efftype_id( sp.effect_data() ), dur_td, bp_torso );
+        }
     }
 }
 

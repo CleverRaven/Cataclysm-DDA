@@ -216,6 +216,8 @@ class spell
         std::string energy_cur_string( const player &p ) const;
         // energy source enum
         energy_type energy_source() const;
+        // the color that's representative of the damage type
+        nc_color damage_type_color() const;
         // your level in this spell
         int get_level() const;
         // difficulty of the level
