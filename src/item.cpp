@@ -7139,15 +7139,6 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
                     env_temperature = temp;
                     debugmsg( "Temperature flag enum not valid. Using current temperature." );
             }
-            if( flag == TEMP_FRIDGE ) {
-                env_temperature = std::min( env_temperature, static_cast<double>( temperatures::fridge ) );
-            } else if( flag == TEMP_FREEZER ) {
-                env_temperature = std::min( env_temperature, static_cast<double>( temperatures::freezer ) );
-            } else if( flag == TEMP_HEATER ) {
-                env_temperature = std::max( env_temperature, static_cast<double>( temperatures::normal ) );
-            } else if( flag == TEMP_ROOT_CELLAR ) {
-                env_temperature = AVERAGE_ANNUAL_TEMPERATURE;
-            }
 
             // Calculate item temperature from enviroment temperature
             // If the time was more than 2 d ago just set the item to enviroment temperature
