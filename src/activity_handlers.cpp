@@ -2092,6 +2092,8 @@ void activity_handlers::start_engines_finish( player_activity *act, player *p )
 
     //Did any engines start?
     veh->engine_on = started;
+    //init working engine noise
+    sfx::do_vehicle_engine_sfx();
 
     if( attempted == 0 ) {
         add_msg( m_info, _( "The %s doesn't have an engine!" ), veh->name );

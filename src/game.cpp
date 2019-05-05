@@ -1551,6 +1551,8 @@ bool game::do_turn()
         sfx::remove_hearing_loss();
     }
     sfx::do_danger_music();
+    sfx::do_vehicle_engine_sfx();
+    sfx::do_vehicle_exterior_engine_sfx();
     sfx::do_fatigue();
 
     // reset player noise

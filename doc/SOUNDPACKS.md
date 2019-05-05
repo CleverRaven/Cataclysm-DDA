@@ -211,12 +211,36 @@ Where id describes the id of the sound effect, and a list of variants separated 
 * `fire ignition`
 
     # vehicle sounds - engine and other parts in action
-* `vehicle engine_start|engine_working|engine_backfire|engine_stop`
-* `vehicle engine_bangs_start|fault_immobiliser_beep|engine_single_click_fail|engine_multi_click_fail|engine_stutter_fail|engine_clanking_fail`
+    # note: defaults are executed when specific option is not defined
+* `engine_start <vehicle_part>` # note: specific engine start (id of any engine/motor/steam_engine/paddle/oar/sail/etc. )
+* `engine_start combustion|electric|muscle|wind` # default engine starts groups
+* `engine_stop <vehicle_part>` # note: specific engine stop (id of any engine/motor/steam_engine/paddle/oar/sail/etc. )
+* `engine_stop combustion|electric|muscle|wind` # default engine stop groups
+
+    # note: internal engine sound is dynamically pitch shifted depending on vehicle speed
+    # it is an ambient looped sound with dedicated channel
+* `engine_working_internal <vehicle_part>` # note: sound of engine working heard inside vehicle
+* `engine_working_internal combustion|electric|muscle|wind` # default engine working (inside) groups
+
+    # note: external engine sound volume and pan is dynamically shifted depending on distance and angle to vehicle
+    # volume heard at given distance is linked to engine's `noise_factor` and stress to the engine (see `vehicle::noise_and_smoke()` )
+    # it is an ambient looped sound with dedicated channel
+    # this is a single-channel solution (TODO: multi-channel for every heard vehicle); it picks loudest heard vehicle
+    # there is no pitch shift here (may be introduced when need for it emerges)
+* `engine_working_external <vehicle_part>` # note: sound of engine working heard outside vehicle
+* `engine_working_external combustion|electric|muscle|wind` # default engine working (outside) groups
+
+    # note: gear_up/gear_down is done automatically by pitch manipulation
+    # gear shift is dependant on max safe speed, and works in assumption, that there are
+    # 6 forward gears, gear 0 = neutral, and gear -1 = reverse
+* `vehicle gear_shift`
+
+
+* `vehicle engine_backfire|engine_bangs_start|fault_immobiliser_beep|engine_single_click_fail|engine_multi_click_fail|engine_stutter_fail|engine_clanking_fail`
 * `vehicle horn_loud|horn_medium|horn_low|rear_beeper|chimes|car_alarm`
 * `vehicle reaper|scoop|scoop_thump`
 
-* `vehicle_open <vehicle_part>` # note: doors, trunks, hatches, etc.
+* `vehicle_open <vehicle_part>` # note: id of: doors, trunks, hatches, etc.
 * `vehicle_close <vehicle part>`
 
     # miscellaneous sounds

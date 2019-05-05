@@ -46,6 +46,7 @@
 static const itype_id fuel_type_none( "null" );
 static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_muscle( "muscle" );
+static const itype_id fuel_type_wind( "wind" );
 
 static const fault_id fault_diesel( "fault_engine_pump_diesel" );
 static const fault_id fault_glowplug( "fault_engine_glow_plug" );
@@ -525,14 +526,32 @@ void vehicle::use_controls( const tripoint &pos )
                 {
                     add_msg( _( "You turn the engine off and let go of the controls." ) );
                     sounds::sound( pos, 2, sounds::sound_t::movement,
-                    _( "the engine go silent" ), true, "vehicle", "engine_stop" );
+                    _( "the engine go silent" ) );
                 } else
                 {
                     add_msg( _( "You let go of the controls." ) );
                 }
+
+                for( size_t e = 0; e < engines.size(); ++e ) {
+                    if( is_engine_on( e ) ) {
+                        if( sfx::has_variant_sound( "engine_stop", parts[ engines[ e ] ].info().get_id().str() ) ) {
+                            sfx::play_variant_sound( "engine_stop", parts[ engines[ e ] ].info().get_id().str(), parts[ engines[ e ] ].info().engine_noise_factor() );
+                        } else if( is_engine_type( e, fuel_type_muscle ) ) {
+                            sfx::play_variant_sound( "engine_stop", "muscle", parts[ engines[ e ] ].info().engine_noise_factor() );
+                        } else if( is_engine_type( e, fuel_type_wind ) ) {
+                            sfx::play_variant_sound( "engine_stop", "wind", parts[ engines[ e ] ].info().engine_noise_factor() );
+                        } else if( is_engine_type( e, fuel_type_battery ) ) {
+                            sfx::play_variant_sound( "engine_stop", "electric", parts[ engines[ e ] ].info().engine_noise_factor() );
+                        } else {
+                            sfx::play_variant_sound( "engine_stop", "combustion", parts[ engines[ e ] ].info().engine_noise_factor() );
+                        }
+                    }
+                }
+                vehicle_noise = 0;
                 engine_on = false;
                 g->u.controlling_vehicle = false;
                 g->setremoteveh( nullptr );
+                sfx::do_vehicle_engine_sfx();
                 refresh();
             } );
 
@@ -542,10 +561,23 @@ void vehicle::use_controls( const tripoint &pos )
             actions.push_back( [&] {
                 if( engine_on )
                 {
+                    vehicle_noise = 0;
                     engine_on = false;
                     add_msg( _( "You turn the engine off." ) );
                     sounds::sound( pos, 2, sounds::sound_t::movement,
-                    _( "the engine go silent" ), true, "vehicle", "engine_stop" );
+                    _( "the engine go silent" ) );
+                    for( size_t e = 0; e < engines.size(); ++e ) {
+                        if( is_engine_on( e ) ) {
+                            if( sfx::has_variant_sound( "engine_stop", parts[ engines[ e ] ].info().get_id().str() ) ) {
+                                sfx::play_variant_sound( "engine_stop", parts[ engines[ e ] ].info().get_id().str(), parts[ engines[ e ] ].info().engine_noise_factor() );
+                            } else if( is_engine_type( e, fuel_type_battery ) ) {
+                                sfx::play_variant_sound( "engine_stop", "electric", parts[ engines[ e ] ].info().engine_noise_factor() );
+                            } else {
+                                sfx::play_variant_sound( "engine_stop", "combustion", parts[ engines[ e ] ].info().engine_noise_factor() );
+                            }
+                        }
+                    }
+                    sfx::do_vehicle_engine_sfx();
                 } else
                 {
                     start_engines();
@@ -845,8 +877,19 @@ bool vehicle::start_engine( const int e )
         return false;
     }
     sounds::sound( pos, eng.info().engine_noise_factor(), sounds::sound_t::movement,
-                string_format( _( "the %s starting" ), eng.name() ), true, "vehicle", "engine_start" );
+                string_format( _( "the %s starting" ), eng.name() ) );
 
+    if( sfx::has_variant_sound( "engine_start", eng.info().get_id().str() ) ) {
+        sfx::play_variant_sound( "engine_start", eng.info().get_id().str(), eng.info().engine_noise_factor() );
+    } else if( is_engine_type( e, fuel_type_muscle ) ) {
+        sfx::play_variant_sound( "engine_start", "muscle", eng.info().engine_noise_factor() );
+    } else if( is_engine_type( e, fuel_type_wind ) ) {
+        sfx::play_variant_sound( "engine_start", "wind", eng.info().engine_noise_factor() );
+    } else if( is_engine_type( e, fuel_type_battery ) ) {
+        sfx::play_variant_sound( "engine_start", "electric", eng.info().engine_noise_factor() );
+    } else {
+        sfx::play_variant_sound( "engine_start", "combustion", eng.info().engine_noise_factor() );
+    }
     return true;
 }
 
