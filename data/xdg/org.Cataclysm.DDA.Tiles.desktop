@@ -5,6 +5,6 @@ Comment=A turn-based survival game set in a post-apocalyptic world.
 Icon=org.Cataclysm.DDA.Tiles
 Type=Application
 Exec=cataclysm-launcher
-Terminal=true
+Terminal=false
 Categories=Game;RolePlaying;
 Keywords=zombie;rogue;roguelike;tiles;dda;cdda;
