@@ -852,7 +852,8 @@ static std::vector<tripoint> spell_effect_area( spell &sp, const tripoint &targe
 
 void target_attack( spell &sp, const tripoint &epicenter )
 {
-    for( const tripoint target : spell_effect_area( sp, epicenter, true ) )
+    const std::vector<tripoint> aoe = spell_effect_area( sp, epicenter, true );
+    for( const tripoint target : aoe )
     {
         Creature *const cr = g->critter_at<Creature>( target );
         if( !cr ) {

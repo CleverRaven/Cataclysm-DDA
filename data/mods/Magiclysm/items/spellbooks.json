@@ -10,7 +10,7 @@
     "color": "magenta",
     "use_action": {
       "type": "learn_spell",
-      "spells": [ "debug_hp", "debug_stamina", "example_template", "debug_bionic", "pain_split", "fireball" ]
+      "spells": [ "debug_hp", "debug_stamina", "example_template", "debug_bionic", "pain_split", "fireball", "gravity_well" ]
     }
   },
   {
