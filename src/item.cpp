@@ -2927,22 +2927,21 @@ void item::on_contents_changed()
         convert( type->container->unseals_into );
     }
     if( is_tool() || is_gun() ) {
-        for( auto &it : contents ) {
-            if( ammo_type() == ammotype( it.typeId() ) ) {
-                charges = it.charges;
+        if( !is_container_empty() ) {
+            for( auto &it : contents ) {
+                if( ammo_type() == ammotype( it.typeId() ) ) {
+                    charges = it.charges;
+                }
             }
-        }
-        if( ammo_data()->phase == LIQUID ) {
-            if( is_container_empty() ) {
-                charges = 0;
-            }
+        } else if( ammo_data()->phase == LIQUID ) {
+            charges = 0;
         }
     }
 }
 
 void item::on_charges_changed()
 {
-    if( is_tool() || is_gun() ) {
+    if( ( is_tool() || is_gun() ) && !is_container_empty() ) {
         for( auto &it : contents ) {
             if( ammo_type() == ammotype( it.typeId() ) ) {
                 it.charges = charges;
