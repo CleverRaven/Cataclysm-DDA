@@ -2793,7 +2793,7 @@ bool mattack::nurse_assist( monster *z )
 
     if( found_target ) {
         if( target->is_wearing( "badge_doctor" ) ||
-            z->attitude_to( *target ) == monster_attitude::MATT_FRIEND ) {
+            z->attitude_to( *target ) == Creature::Attitude::A_FRIENDLY ) {
             sounds::sound( z->pos(), 8, sounds::sound_t::speech,
                            string_format(
                                _( "a soft robotic voice say, \"Welcome doctor %s.  I'll be your assistant today.\"" ),
@@ -2819,7 +2819,7 @@ bool mattack::nurse_operate( monster *z )
 
 
     if( ( ( g->u.is_wearing( "badge_doctor" ) ||
-            z->attitude_to( g->u ) == monster_attitude::MATT_FRIEND ) && u_see ) && one_in( 30 ) ) {
+            z->attitude_to( g->u ) == Creature::Attitude::A_FRIENDLY ) && u_see ) && one_in( 30 ) ) {
 
         add_msg( m_info, _( "The %s doesn't seem to register you as a doctor." ), z->name() );
     }
