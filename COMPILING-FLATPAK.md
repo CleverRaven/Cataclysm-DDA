@@ -19,7 +19,7 @@ Note: If you are installing the game for first time you will have to set up loca
 `flatpak run org.Cataclysm.DDA` (or) `flatpak run org.Cataclysm.DDA.Tiles`
 **or**
 Launch the Game from Applications -> Games -> Cataclysm: Dark Days Ahead (or) Cataclysm: Dark Days Ahead - Tiles.
-**Note** : For the ncurses version, terminal will just show a blank screen on launch. Just press any button to start the game. 
+**Note**: For the ncurses version, terminal will just show a blank screen on launch. Just press any button to start the game. 
 
 ## PERMISSIONS
 
