@@ -145,7 +145,7 @@
     "color": "light_gray",
     "contains": 1,
   "seals": true,
-	"flags": [ "TRADER_AVOID" ]
+  "flags": [ "TRADER_AVOID" ]
   },
   {
     "id": "bag_body_bag",
