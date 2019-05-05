@@ -102,6 +102,7 @@
   },
  {
     "id": "spear_stone",
+    "//": "Taken from More Surviver Tools",
     "type": "GENERIC",
     "name": "stone spear",
     "description": "A stout wooden pole with a sharp stone spearhead.",
@@ -116,7 +117,6 @@
     "color": "light_gray",
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "COOK", 1 ] ],
-    "comment": "Taken from MST",
     "flags": [ "SPEAR", "REACH_ATTACK", "SHEATH_SPEAR" ]
   },
   {
