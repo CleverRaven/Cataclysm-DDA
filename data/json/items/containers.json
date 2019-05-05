@@ -129,7 +129,7 @@
     "contains": 24,
     "flags": [ "TRADER_AVOID" ]
   },
-	{
+  {
     "id": "bag_zipper",
     "type": "CONTAINER",
     "category": "other",
