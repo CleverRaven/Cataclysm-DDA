@@ -794,7 +794,10 @@ void target_attack( spell &sp, const tripoint &target )
     if( !sp.effect_data().empty() ) {
         const int dur_moves = sp.duration();
         const time_duration dur_td = 1_turns * dur_moves / 100;
-        cr->add_effect( efftype_id( sp.effect_data() ), dur_td, bp_torso );
+        const std::vector<body_part> all_bp = { bp_head, bp_torso, bp_arm_l, bp_arm_r, bp_leg_l, bp_leg_r, };
+        for( const body_part bp : all_bp ) {
+            cr->add_effect( efftype_id( sp.effect_data() ), dur_td, bp );
+        }
     }
 }
 
