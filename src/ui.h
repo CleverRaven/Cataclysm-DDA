@@ -2,6 +2,7 @@
 #ifndef UI_H
 #define UI_H
 
+#include <functional>
 #include <map>
 #include <string>
 #include <utility>
