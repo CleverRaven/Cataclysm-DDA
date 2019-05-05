@@ -693,7 +693,7 @@ class item : public visitable<item>
          * @param flag is used to tell that the item is in a temperature controlled place. "heater", "fridge", "freezer", "root_cellar"
          */
         void process_temperature_rot( int temp, float insulation, const tripoint pos, player *carrier,
-                                      const std::string flag );
+                                      const temperature_flag flag = temperature_flag::TEMP_NORMAL );
 
         /** Set the item to HOT */
         void heat_up();
@@ -992,7 +992,7 @@ class item : public visitable<item>
          */
         bool process( player *carrier, const tripoint &pos, bool activate );
         bool process( player *carrier, const tripoint &pos, bool activate, int temp, float insulation,
-                      const std::string flag );
+                      const temperature_flag flag = temperature_flag::TEMP_NORMAL );
 
         /**
          * Gets the point (vehicle tile) the cable is connected to.

@@ -7046,7 +7046,7 @@ void item::apply_freezerburn()
 }
 
 void item::process_temperature_rot( int temp, float insulation, const tripoint pos,
-                                    player *carrier, const std::string flag )
+                                    player *carrier, const temperature_flag flag )
 {
     const time_point now = calendar::turn;
 
@@ -7121,13 +7121,13 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
             // If not: use calculated temperature
             env_temperature = ( temp_modify * AVERAGE_ANNUAL_TEMPERATURE ) + ( !temp_modify * env_temperature );
 
-            if( flag == "fridge" ) {
+            if( flag == temperature_flag::TEMP_FRIDGE ) {
                 env_temperature = std::min( env_temperature, static_cast<double>( temperatures::fridge ) );
-            } else if( flag == "freezer" ) {
+            } else if( flag == temperature_flag::TEMP_FREEZER ) {
                 env_temperature = std::min( env_temperature, static_cast<double>( temperatures::freezer ) );
-            } else if( flag == "heater" ) {
+            } else if( flag == temperature_flag::TEMP_HEATER ) {
                 env_temperature = std::max( env_temperature, static_cast<double>( temperatures::normal ) );
-            } else if( flag == "root_cellar" ) {
+            } else if( flag == temperature_flag::TEMP_ROOT_CELLAR ) {
                 env_temperature = AVERAGE_ANNUAL_TEMPERATURE;
             }
 
@@ -7758,14 +7758,15 @@ bool item::process_tool( player *carrier, const tripoint &pos )
 bool item::process( player *carrier, const tripoint &pos, bool activate )
 {
     if( has_temperature() || is_food_container() ) {
-        return process( carrier, pos, activate, g->get_temperature( pos ), 1, "" );
+        return process( carrier, pos, activate, g->get_temperature( pos ), 1,
+                        temperature_flag::TEMP_NORMAL );
     } else {
-        return process( carrier, pos, activate, 0, 1, "" );
+        return process( carrier, pos, activate, 0, 1, temperature_flag::TEMP_NORMAL );
     }
 }
 
 bool item::process( player *carrier, const tripoint &pos, bool activate, int temp,
-                    float insulation, const std::string flag )
+                    float insulation, const temperature_flag flag )
 {
     const bool preserves = type->container && type->container->preserves;
     for( auto it = contents.begin(); it != contents.end(); ) {
