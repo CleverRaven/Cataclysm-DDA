@@ -92,6 +92,41 @@
     "type": "mapgen"
   },
   {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "pool_roof",
+    "object": {
+      "fill_ter": "t_open_air",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        " .....            ..... ",
+        " .....            ..... ",
+        " .....            ..... ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { ".": "t_tar_flat_roof" }
+    }
+  },
+  {
     "method": "json",
     "object": {
       "furniture": {
@@ -141,7 +176,7 @@
         "_|fffffff|ffff|fffffff|_",
         "_|{{{{{ff|vffv|ff{{{{{|_",
         "_|||||||+||rr||+|||||||_",
-        "_-.####..........####.-_",
+        "_-.####..........####4-_",
         "_-....................-_",
         "_-.wwwwwwwwwwwwwwwwww.-_",
         "_-.wwwwwwwwwwwwwwwwww.-_",
@@ -173,12 +208,48 @@
         "v": "t_floor",
         "w": "t_water_pool",
         "{": "t_floor",
-        "|": "t_brick_wall"
+        "|": "t_brick_wall",
+        "4": "t_gutter_downspout"
       }
     },
-    "om_terrain": "pool",
+    "om_terrain": "pool_1",
     "//": "Indoor pool",
     "type": "mapgen"
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "pool_roof_1",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        " |222222222222222222223 ",
+        " |....................3 ",
+        " |....:.........&.....3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |-------------------53 ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ]
+    }
   },
   {
     "method": "json",
@@ -251,7 +322,7 @@
         "_|#..................#|_",
         "_|....................|_",
         "_||||||||||||||||||||||_",
-        "________________________"
+        "_____________________4__"
       ],
       "terrain": {
         "#": "t_thconc_floor",
@@ -259,7 +330,7 @@
         "+": [ "t_door_o", "t_door_c" ],
         ".": "t_thconc_floor",
         "O": "t_water_pool",
-        "P": "t_wall",
+        "P": "t_wall_b",
         "S": "t_thconc_floor",
         "T": "t_floor",
         "_": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
@@ -268,10 +339,11 @@
         "f": "t_floor",
         "r": "t_reinforced_door_glass_c",
         "s": "t_sidewalk",
+        "4": "t_gutter_downspout",
         "t": "t_floor",
         "w": "t_water_pool",
         "{": "t_floor",
-        "|": "t_wall"
+        "|": "t_wall_b"
       },
       "place_signs": [
         { "signage": "MEN", "x": 9, "y": 4 },
@@ -280,9 +352,44 @@
         { "signage": "NO diving in the shallow end!", "x": 21, "y": 13 }
       ]
     },
-    "om_terrain": "pool",
+    "om_terrain": "pool_2",
     "//": "Indoor pool",
     "type": "mapgen"
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "pool_roof_2",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        " |222222222222222222223 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....&...............3 ",
+        " |..................:.3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |......oo.oo.oo......3 ",
+        " |......oo.oo.oo......3 ",
+        " |......oo.oo.oo......3 ",
+        " |......oo.oo.oo......3 ",
+        " |....................3 ",
+        " |......oo.oo.oo......3 ",
+        " |......oo.oo.oo......3 ",
+        " |......oo.oo.oo......3 ",
+        " |......oo.oo.oo......3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |...............&....3 ",
+        " |-------------------53 ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ]
+    }
   },
   {
     "method": "json",
@@ -344,7 +451,7 @@
         "d|||fffffa....afffff|||_",
         "_|&Df{{{{|tbbt|{{{{fD&|d",
         "_||||||||||||||||||||||_",
-        "________________d_______"
+        "________________d____4__"
       ],
       "terrain": {
         "#": "t_floor",
@@ -362,15 +469,51 @@
         "f": "t_floor",
         "s": "t_sidewalk",
         "t": "t_thconc_floor",
+        "4": "t_gutter_downspout",
         "w": "t_water_pool",
         "{": "t_floor",
         "|": "t_brick_wall"
       },
       "place_signs": [ { "signage": "Women", "x": 9, "y": 19 }, { "signage": "Men", "x": 14, "y": 19 } ]
     },
-    "om_terrain": "pool",
-    "//": "Outdoor pool",
+    "om_terrain": "pool_3",
+    "//": "Indoor pool",
     "type": "mapgen"
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "pool_roof_3",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        " |222222222222222222223 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |......oo.oo.oo......3 ",
+        " |......oo.oo.oo......3 ",
+        " |....................3 ",
+        " |......oo.oo.oo......3 ",
+        " |......oo.oo.oo......3 ",
+        " |....................3 ",
+        " |......oo.oo.oo......3 ",
+        " |......oo.oo.oo......3 ",
+        " |....................3 ",
+        " |......oo.oo.oo......3 ",
+        " |......oo.oo.oo......3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |...&............&...3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |-------------------53 ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ]
+    }
   },
   {
     "method": "json",
@@ -437,7 +580,7 @@
         "..|__________________|..",
         "..|___t####tt####t___|..",
         "..||||||||||||||||||||..",
-        "........................",
+        "...4....................",
         "........................"
       ],
       "terrain": {
@@ -458,13 +601,49 @@
         "t": "t_thconc_floor",
         "w": "t_water_pool",
         "{": "t_floor",
+        "4": "t_gutter_downspout",
         "|": "t_brick_wall"
       },
       "place_signs": [ { "signage": "NO Running!", "x": 3, "y": 14 }, { "signage": "NO Diving!", "x": 20, "y": 14 } ]
     },
-    "om_terrain": "pool",
+    "om_terrain": "pool_4",
     "//": "Indoor pool",
     "type": "mapgen"
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "pool_roof_4",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "  |2222222    22222223  ",
+        "  |......322222...:..3  ",
+        "  |..................3  ",
+        "  |..................3  ",
+        "  |.....&.....&......3  ",
+        "  |..................3  ",
+        "  |..................3  ",
+        "  |..................3  ",
+        "  |..................3  ",
+        "  |..................3  ",
+        "  |...oooo....oooo...3  ",
+        "  |...oooo....oooo...3  ",
+        "  |...oooo....oooo...3  ",
+        "  |...oooo....oooo...3  ",
+        "  |...oooo....oooo...3  ",
+        "  |...oooo....oooo...3  ",
+        "  |..................3  ",
+        "  |..................3  ",
+        "  |..................3  ",
+        "  |5-----------------3  ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ]
+    }
   },
   {
     "name": "GROUP_MAPGEN_POOL",
@@ -475,7 +654,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": "pool",
+    "om_terrain": "pool_5",
     "//": "Outdoor pool",
     "object": {
       "rows": [
@@ -504,7 +683,7 @@
         "........................",
         "........................"
       ],
-      "terrain": { "+": "t_concrete", ".": [ "t_grass", "t_grass", "t_dirt" ], "n": "t_concrete", "w": "t_water_dp" },
+      "terrain": { "+": "t_concrete", ".": [ "t_grass", "t_grass", "t_dirt" ], "n": "t_concrete", "w": "t_water_pool" },
       "furniture": { "n": "f_dive_block" },
       "place_monsters": [ { "monster": "GROUP_MAPGEN_POOL", "x": [ 5, 18 ], "y": [ 5, 18 ], "repeat": [ 1, 6 ] } ]
     }
@@ -512,13 +691,13 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": "pool",
+    "om_terrain": "pool_6",
     "//": "Outdoor pool",
     "object": {
       "rows": [
         "........................",
         ".---oo-----------------.",
-        ".-..++..............++-.",
+        ".-xx++xxxxxxxxxxxxxx++-.",
         ".-++++cc++cc++cc++cc++-.",
         ".-++++++++++++++++++++-.",
         ".-++++++++++++++WWW+++-.",
@@ -544,13 +723,18 @@
       "terrain": {
         "+": "t_concrete",
         "-": "t_chainfence_v",
+        "x": "t_grass",
         ".": [ "t_grass", "t_grass", "t_dirt" ],
-        "W": "t_water_sh",
+        "W": "t_water_pool",
         "c": "t_concrete",
         "o": [ "t_chaingate_c", "t_chaingate_o" ],
-        "w": "t_water_dp"
+        "w": "t_water_pool"
       },
-      "furniture": { "c": "f_chair", "n": "f_dive_block" },
+      "furniture": {
+        "c": "f_camp_chair",
+        "n": "f_dive_block",
+        "x": [ "f_datura", "f_bluebell", "f_mutpoppy", "f_dahlia", "f_flower_tulip", "f_chamomile", "f_flower_spurge", "f_lily" ]
+      },
       "place_monsters": [ { "monster": "GROUP_MAPGEN_POOL", "x": [ 5, 18 ], "y": [ 5, 18 ], "repeat": [ 2, 7 ] } ]
     }
   },
@@ -559,87 +743,5 @@
     "type": "monstergroup",
     "default": "mon_null",
     "monsters": [ { "monster": "mon_zombie_swimmer", "freq": 450, "cost_multiplier": 0 } ]
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "om_terrain": "pool",
-    "//": "Outdoor pool",
-    "object": {
-      "rows": [
-        "........................",
-        "........................",
-        "..++n++n++n++n++n++n++..",
-        "..+wwwwwwwwwwwwwwwwww+..",
-        "..+wwwwwwwwwwwwwwwwww+..",
-        "..+wwwwwwwwwwwwwwwwww+..",
-        "..+wwwwwwwwwwwwwwwwww+..",
-        "..+wwwwwwwwwwwwwwwwww+..",
-        "..+wwwwwwwwwwwwwwwwww+..",
-        "..+wwwwwwwwwwwwwwwwww+..",
-        "..+wwwwwwwwwwwwwwwwww+..",
-        "..+wwwwwwwwwwwwwwwwww+..",
-        "..+wwwwwwwwwwwwwwwwww+..",
-        "..+wwwwwwwwwwwwwwwwww+..",
-        "..+wwwwwwwwwwwwwwwwww+..",
-        "..+wwwwwwwwwwwwwwwwww+..",
-        "..+wwwwwwwwwwwwwwwwww+..",
-        "..+wwwwwwwwwwwwwwwwww+..",
-        "..+wwwwwwwwwwwwwwwwww+..",
-        "..+wwwwwwwwwwwwwwwwww+..",
-        "..+wwwwwwwwwwwwwwwwww+..",
-        "..++n++n++n++n++n++n++..",
-        "........................",
-        "........................"
-      ],
-      "terrain": { "+": "t_concrete", ".": [ "t_grass", "t_grass", "t_dirt" ], "n": "t_concrete", "w": "t_water_dp" },
-      "furniture": { "n": "f_dive_block" },
-      "place_monsters": [ { "monster": "GROUP_MAPGEN_POOL", "x": [ 5, 18 ], "y": [ 5, 18 ], "repeat": [ 1, 6 ] } ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "om_terrain": "pool",
-    "//": "Outdoor pool",
-    "object": {
-      "rows": [
-        "........................",
-        ".---oo-----------------.",
-        ".-..++..............++-.",
-        ".-++++cc++cc++cc++cc++-.",
-        ".-++++++++++++++++++++-.",
-        ".-++++++++++++++WWW+++-.",
-        ".-+++wwwwwwwwwwwwwww++-.",
-        ".-c++wwwwwwwwwwwwwww++-.",
-        ".-c++wwwwwwwwwwwwwww++-.",
-        ".-+++wwwwwwwwwwwwwww++-.",
-        ".-+++wwwwwwwwwwwwwww++-.",
-        ".-+++wwwwwwwwwwwwwww++-.",
-        ".-c++wwwwwwwwwwwwwww++-.",
-        ".-c++wwwwwwwwwwwwwww++-.",
-        ".-+++wwwwwwwwwwwwwww++-.",
-        ".-+++wwwwwwwwwwwwwww++-.",
-        ".-+++wwwwwwwwwwwwwww++-.",
-        ".-c++wwwwwwwwwwwwwww++-.",
-        ".-c++wwwwwwwwwwwwwww++-.",
-        ".-+++wwwwwwwwwwwwwww++-.",
-        ".-++++++++++++++++++++-.",
-        ".-++++++++++++++c+++++-.",
-        ".----------------------.",
-        "........................"
-      ],
-      "terrain": {
-        "+": "t_concrete",
-        "-": "t_chainfence_v",
-        ".": [ "t_grass", "t_grass", "t_dirt" ],
-        "W": "t_water_sh",
-        "c": "t_concrete",
-        "o": [ "t_chaingate_c", "t_chaingate_o" ],
-        "w": "t_water_dp"
-      },
-      "furniture": { "c": "f_chair", "n": "f_dive_block" },
-      "place_monsters": [ { "monster": "GROUP_MAPGEN_POOL", "x": [ 5, 18 ], "y": [ 5, 18 ], "repeat": [ 2, 7 ] } ]
-    }
   }
 ]
