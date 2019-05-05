@@ -17,6 +17,16 @@
   },
   {
     "type": "city_building",
+    "id": "furniture",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "furniture_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "furniture_roof_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "furniture_upper_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "s_bookstore",
     "locations": [ "land" ],
     "overmaps": [
