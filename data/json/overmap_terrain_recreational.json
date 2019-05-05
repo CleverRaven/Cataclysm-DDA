@@ -7,7 +7,7 @@
     "color": "blue",
     "see_cost": 2,
     "mondensity": 2,
-    "flags": [ "SIDEWALK", "NO_ROTATE" ]
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
