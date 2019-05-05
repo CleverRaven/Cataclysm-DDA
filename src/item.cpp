@@ -2947,10 +2947,7 @@ void item::on_charges_changed()
             it.charges = charges;
         }
     }
-
 }
-
-
 
 void item::on_damage( int, damage_type )
 {
