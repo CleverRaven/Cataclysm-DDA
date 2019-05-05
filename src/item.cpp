@@ -2942,11 +2942,14 @@ void item::on_contents_changed()
 
 void item::on_charges_changed()
 {
-    for( auto &it : contents ) {
-        if( ammo_type() == ammotype( it.typeId() ) ) {
-            it.charges = charges;
+    if( is_tool() || is_gun() ) {
+        for( auto &it : contents ) {
+            if( ammo_type() == ammotype( it.typeId() ) ) {
+                it.charges = charges;
+            }
         }
     }
+
 }
 
 void item::on_damage( int, damage_type )
