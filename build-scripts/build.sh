@@ -20,6 +20,7 @@ then
     make -j "$num_jobs" style-json
 elif [ -n "$JUST_JSON" ]
 then
+    echo "Early exit on just-json change"
     exit 0
 fi
 
