@@ -7111,18 +7111,41 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
             time_duration time_delta = std::min( 1_hours, now - 1_hours - time );
             time += time_delta;
 
-            w_point weather = wgen.get_weather( pos, time, seed );
+            double env_temperature = 0;
 
-            //Use weather if above ground, use map temp if below
-            double env_temperature = ( pos.z >= 0 ? weather.temperature + enviroment_mod : temp ) + local_mod;
-
-            if( flag == temperature_flag::TEMP_FRIDGE ) {
+            switch( flag ) {
+                case TEMP_NORMAL:
+                    //Use weather if above ground, use map temp if below
+                    if( pos.z >= 0 ) {
+                        w_point weather = wgen.get_weather( pos, time, seed );
+                        env_temperature = weather.temperature + enviroment_mod + local_mod;
+                    } else {
+                        env_temperature = AVERAGE_ANNUAL_TEMPERATURE + enviroment_mod + local_mod;
+                    }
+                    break;
+                case TEMP_FRIDGE:
+                    env_temperature = std::min( env_temperature, static_cast<double>( temperatures::fridge ) );
+                    break;
+                case TEMP_FREEZER:
+                    env_temperature = std::min( env_temperature, static_cast<double>( temperatures::freezer ) );
+                    break;
+                case TEMP_HEATER:
+                    env_temperature = std::max( env_temperature, static_cast<double>( temperatures::normal ) );
+                    break;
+                case TEMP_ROOT_CELLAR:
+                    env_temperature = AVERAGE_ANNUAL_TEMPERATURE;
+                    break;
+                default:
+                    env_temperature = temp;
+                    debugmsg( "Temperature flag enum not valid. Using current temperature." );
+            }
+            if( flag == TEMP_FRIDGE ) {
                 env_temperature = std::min( env_temperature, static_cast<double>( temperatures::fridge ) );
-            } else if( flag == temperature_flag::TEMP_FREEZER ) {
+            } else if( flag == TEMP_FREEZER ) {
                 env_temperature = std::min( env_temperature, static_cast<double>( temperatures::freezer ) );
-            } else if( flag == temperature_flag::TEMP_HEATER ) {
+            } else if( flag == TEMP_HEATER ) {
                 env_temperature = std::max( env_temperature, static_cast<double>( temperatures::normal ) );
-            } else if( flag == temperature_flag::TEMP_ROOT_CELLAR ) {
+            } else if( flag == TEMP_ROOT_CELLAR ) {
                 env_temperature = AVERAGE_ANNUAL_TEMPERATURE;
             }
 

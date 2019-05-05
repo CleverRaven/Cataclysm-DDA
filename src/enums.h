@@ -21,7 +21,7 @@ enum temperature_flag : int {
     TEMP_HEATER,
     TEMP_FRIDGE,
     TEMP_FREEZER,
-    TEMP_ROOT_CELLAR,
+    TEMP_ROOT_CELLAR
 };
 
 //Used for autopickup and safemode rules
