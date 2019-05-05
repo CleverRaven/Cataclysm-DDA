@@ -843,13 +843,17 @@ void spawn_ethereal_item( spell &sp )
         granted.set_rot( -sp.duration_turns() );
         granted.set_flag( "ETHEREAL_ITEM" );
     }
-    if( granted.count_by_charges() ) {
-        if( sp.damage() > 0 ) {
-            granted.charges = sp.damage();
-            g->u.i_add( granted );
-        }
+    if( granted.count_by_charges() && sp.damage() > 0 ) {
+        granted.charges = sp.damage();
+    }
+    if( g->u.can_wear( granted ).success() ) {
+        granted.set_flag( "FIT" );
+        g->u.wear_item( granted, false );
     } else {
-        for( int i = 0; i < sp.damage(); i++ ) {
+        g->u.weapon = granted;
+    }
+    if( !granted.count_by_charges() ) {
+        for( int i = 1; i < sp.damage(); i++ ) {
             g->u.i_add( granted );
         }
     }
