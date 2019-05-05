@@ -828,7 +828,7 @@ static std::vector<tripoint> spell_effect_area( spell &sp, const tripoint &targe
     const int aoe_radius = sp.aoe();
     for( int x = target.x - aoe_radius; x < target.x + aoe_radius; x++ ) {
         for( int y = target.y - aoe_radius; y < target.y + aoe_radius; y++ ) {
-            for( int z = target.z - aoe_radius; y < target.z + aoe_radius; z++ ) {
+            for( int z = target.z - aoe_radius; z < target.z + aoe_radius; z++ ) {
                 const tripoint potential_target( x, y, z );
                 if( in_spell_aoe( potential_target, target, aoe_radius, ignore_walls ) ) {
                     targets.emplace_back( potential_target );
