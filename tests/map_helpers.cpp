@@ -44,8 +44,8 @@ void clear_npcs()
     g->reload_npcs();
     for( npc &n : g->all_npcs() ) {
         n.die( nullptr );
-        overmap_buffer.remove_npc( n.getID() );
     }
+    g->cleanup_dead();
 }
 
 void clear_fields( const int zlevel )
