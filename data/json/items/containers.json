@@ -144,7 +144,7 @@
     "symbol": ")",
     "color": "light_gray",
     "contains": 1,
-	"seals": true,
+  "seals": true,
 	"flags": [ "TRADER_AVOID" ]
   },
   {
