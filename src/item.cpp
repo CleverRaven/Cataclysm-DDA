@@ -7090,7 +7090,6 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
         const auto seed = g->get_seed();
         const auto local = g->m.getlocal( pos );
         auto local_mod = g->new_game ? 0 : g->m.temperature( local );
-        const auto temp_modify = ( !g->new_game ) && ( g->m.ter( local ) == t_rootcellar );
 
         int enviroment_mod;
         // Toilets and vending machines will try to get the heat radiation and convection during mapgen and segfault.
@@ -7116,10 +7115,6 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
 
             //Use weather if above ground, use map temp if below
             double env_temperature = ( pos.z >= 0 ? weather.temperature + enviroment_mod : temp ) + local_mod;
-
-            // If in a root celler: use AVERAGE_ANNUAL_TEMPERATURE
-            // If not: use calculated temperature
-            env_temperature = ( temp_modify * AVERAGE_ANNUAL_TEMPERATURE ) + ( !temp_modify * env_temperature );
 
             if( flag == temperature_flag::TEMP_FRIDGE ) {
                 env_temperature = std::min( env_temperature, static_cast<double>( temperatures::fridge ) );
