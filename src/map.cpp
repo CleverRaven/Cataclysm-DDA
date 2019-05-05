@@ -6420,8 +6420,6 @@ void map::shift( const int sx, const int sy )
     const int zmax = zlevels ? OVERMAP_HEIGHT : wz;
     for( int gridz = zmin; gridz <= zmax; gridz++ ) {
         for( vehicle *veh : get_cache( gridz ).vehicle_list ) {
-            veh->smx += sx;
-            veh->smy += sy;
             veh->zones_dirty = true;
         }
     }
