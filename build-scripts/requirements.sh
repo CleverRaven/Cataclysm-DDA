@@ -4,7 +4,7 @@ set -e
 
 function just_json
 {
-    for filename in $(./build-scripts/files_changed)
+    for filename in $(./build-scripts/files_changed || echo UNKNOWN)
     do
         if [[ ! "$filename" =~ .json$ ]]
         then
