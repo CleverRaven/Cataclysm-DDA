@@ -245,11 +245,7 @@ bool mattack::eat_crop( monster *z )
 {
     for( const auto &p : g->m.points_in_radius( z->pos(), 1 ) ) {
         if( g->m.has_flag( "PLANT", p ) && one_in( 4 ) ) {
-            if( g->m.furn( p ).obj().plant_base != "" ) {
-                g->m.furn_set( p, furn_str_id( g->m.furn( p ).obj().plant_base ) );
-            } else {
-                g->m.furn_set( p, f_null );
-            }
+            g->m.furn_set( p, furn_str_id( g->m.furn( p )->plant_base ) );
             g->m.i_clear( p );
             return true;
         }

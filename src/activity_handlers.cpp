@@ -3376,7 +3376,7 @@ void activity_handlers::plant_plot_do_turn( player_activity *, player *p )
     // cleanup unwanted tiles (local coords)
     const auto reject_tiles = [&]( const tripoint & tile ) {
         if( !p->sees( tile ) || !g->m.has_flag_ter_or_furn( "PLANTABLE", tile ) ||
-            !g->m.i_at( tile ).empty() ) {
+            g->m.has_items( tile ) ) {
             return true;
         }
 

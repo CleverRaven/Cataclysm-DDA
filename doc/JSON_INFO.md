@@ -1710,9 +1710,9 @@ Strength required to move the furniture around. Negative values indicate an unmo
 
 (Optional) What the furniture turns into when it is planted on or grows.
 
-#### `plant_transform`
+#### `plant_base``
 
-(Optional) What the plant furniture turns into when it is eaten by something that eats crops - this should be what it is planted in. Requires `PLANT` flag to function. If left empty, it will default to `f_null`.
+(Optional) What the plant furniture turns into when it is eaten by something that eats crops - this should be what it is planted in. Requires `PLANT` flag to function. 
 
 ### Terrain
 

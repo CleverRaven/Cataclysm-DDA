@@ -1895,7 +1895,7 @@ void iexamine::plant_seed( player &p, const tripoint &examp, const itype_id &see
     used_seed.front().set_age( 0_turns );
     g->m.add_item_or_charges( examp, used_seed.front() );
     if( g->m.has_flag_furn( "PLANTABLE", examp ) ) {
-        g->m.furn_set( examp, furn_str_id( g->m.furn( examp ).obj().plant_transform ) );
+        g->m.furn_set( examp, furn_str_id( g->m.furn( examp )->plant_transform ) );
     } else {
         g->m.set( examp, t_dirt, f_plant_seed );
     }
@@ -2037,7 +2037,7 @@ void iexamine::harvest_plant( player &p, const tripoint &examp )
     } else { // Generic seed, use the seed item data
         const itype &type = *seed.type;
         g->m.i_clear( examp );
-        g->m.furn_set( examp, furn_str_id( g->m.furn( examp ).obj().plant_transform ) );
+        g->m.furn_set( examp, furn_str_id( g->m.furn( examp )->plant_transform ) );
 
         int skillLevel = p.get_skill_level( skill_survival );
         ///\EFFECT_SURVIVAL increases number of plants harvested from a seed

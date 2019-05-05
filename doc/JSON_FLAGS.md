@@ -198,7 +198,6 @@ These are handled through `ammo_types.json`.  You can tag a weapon with these to
 
 ### Covers
 
-<<<<<<< HEAD
 - ```ARMS``` ... same ```ARM_L``` and ```ARM_R```
 - ```ARM_L```
 - ```ARM_R```
@@ -215,82 +214,6 @@ These are handled through `ammo_types.json`.  You can tag a weapon with these to
 - ```LEG_R```
 - ```MOUTH```
 - ```TORSO```
-=======
-- ```BARRICADABLE_DOOR``` Door that can be barricaded.
-- ```BARRICADABLE_DOOR_DAMAGED```
-- ```BARRICADABLE_DOOR_REINFORCED```
-- ```BARRICADABLE_DOOR_REINFORCED_DAMAGED```
-- ```BARRICADABLE_WINDOW``` Window that can be barricaded.
-- ```BARRICADABLE_WINDOW_CURTAINS```
-- ```BASHABLE``` Players + Monsters can bash this.
-- ```BUTCHER_EQ``` Butcher's equipment - required for full butchery of corpses.
-- ```CAN_SIT``` Furniture the player can sit on. Player sitting near furniture with the "FLAT_SURF" tag will get mood bonus for eating.
-- ```CHIP``` Used in construction menu to determine if wall can have paint chipped off.
-- ```COLLAPSES``` Has a roof that can collapse.
-- ```CONNECT_TO_WALL``` (only for terrain) This flag has been superseded by the JSON entry `connects_to`, but is retained for backward compatibility.
-- ```CONSOLE``` Used as a computer.
-- ```CONTAINER``` Items on this square are hidden until looted by the player.
-- ```BLOCK_WIND``` This terrain will block the effects of wind.
-- ```DECONSTRUCT``` Can be deconstructed.
-- ```DEEP_WATER```
-- ```DESTROY_ITEM``` Items that land here are destroyed. See also `NOITEM`
-- ```DIGGABLE``` Digging monsters, seeding monster, digging with shovel, etc.
-- ```DIGGABLE_CAN_DEEPEN``` Diggable location can be dug again to make deeper (e.g. shallow pit to deep pit).
-- ```DOOR``` Can be opened (used for NPC path-finding).
-- ```EASY_DECONSTRUCT``` Player can deconstruct this without tools.
-- ```EXPLODES``` Explodes when on fire.
-- ```FIRE_CONTAINER``` Stops fire from spreading (brazier, wood stove, etc.)
-- ```FLAMMABLE``` Can be lit on fire.
-- ```FLAMMABLE_ASH``` Burns to ash rather than rubble.
-- ```FLAMMABLE_HARD``` Harder to light on fire, but still possible.
-- ```FLAT``` Player can build and move furniture on.
-- ```FLAT_SURF``` Furniture or terrain with a flat hard surface (e.g. table, but not chair; tree stump, etc.).
-- ```GOES_DOWN``` Can use <kbd>></kbd> to go down a level.
-- ```GOES_UP``` Can use <kbd><</kbd> to go up a level.
-- ```GROWTH_SEED``` Determines if the plant can be grown into the next stage 
-- ```GROWTH_SEEDLING``` Determines if the plant can be grown into the next stage
-- ```GROWTH_MATURE``` Determines if the plant can be grown into the next stage
-- ```GROWTH_HARVEST``` Determines if the plant can be harvested, and prevents it from growing
-- ```HARVESTED``` Marks the harvested version of a terrain type (e.g. harvesting an apple tree turns it into a harvested tree, which later becomes an apple tree again).
-- ```HIDE_PLACE``` Creatures on this tile can't be seen by creatures not standing on adjacent tiles
-- ```INDOORS``` Has a roof over it; blocks rain, sunlight, etc.
-- ```LADDER``` This piece of furniture that makes climbing easy (works only with z-level mode).
-- ```LIQUID``` Blocks movement, but isn't a wall (lava, water, etc.)
-- ```LIQUIDCONT``` Furniture that contains liquid, allows for contents to be accessed in some checks even if `SEALED`.
-- ```MINEABLE``` Can be mined with a pickaxe/jackhammer.
-- ```MOUNTABLE``` Suitable for guns with the `MOUNTED_GUN` flag.
-- ```NOCOLLIDE``` Feature that simply doesn't collide with vehicles at all.
-- ```NOITEM``` Items cannot be added here but may overflow to adjacent tiles. See also `DESTROY_ITEM`
-- ```NO_FLOOR``` Things should fall when placed on this tile
-- ```NO_SIGHT``` Creature on this tile have their sight reduced to one tile
-- ```OPENCLOSE_INSIDE``` If it's a door (with an 'open' or 'close' field), it can only be opened or closed if you're inside.
-- ```PAINFUL``` May cause a small amount of pain.
-- ```PERMEABLE``` Permeable for gases.
-- ```PLACE_ITEM``` Valid terrain for `place_item()` to put items on.
-- ```PLANT``` A 'furniture' that grows and fruits.
-- ```PLANTABLE``` Furniture or terrain that can have seeds planted on it.
-- ```PLOWABLE``` Terrain can be plowed.
-- ```RAMP``` Can be used to move up a z-level
-- ```RAMP_END```
-- ```REDUCE_SCENT``` Reduces scent even more; only works if also bashable.
-- ```ROAD``` Flat and hard enough to drive or skate (with rollerblades) on.
-- ```ROUGH``` May hurt the player's feet.
-- ```RUG``` Enables the `Remove Carpet` Construction entry.
-- ```SALT_WATER``` Source of salt water (works for terrains with examine action "water_source").
-- ```SEALED``` Can't use <kbd>e</kbd> to retrieve items; must smash them open first.
-- ```SEEN_FROM_ABOVE``` Visible from a higher level (provided the tile above has no floor)
-- ```SHARP``` May do minor damage to players/monsters passing through it.
-- ```SHORT``` Feature too short to collide with vehicle protrusions. (mirrors, blades).
-- ```SUPPORTS_ROOF``` Used as a boundary for roof construction.
-- ```SUPPRESS_SMOKE``` Prevents smoke from fires; used by ventilated wood stoves, etc.
-- ```SWIMMABLE``` Player and monsters can swim through it.
-- ```THIN_OBSTACLE``` Passable by players and monsters; vehicles destroy it.
-- ```TINY``` Feature too short to collide with vehicle undercarriage. Vehicles drive over them with no damage, unless a wheel hits them.
-- ```TRANSPARENT``` Players and monsters can see through/past it. Also sets ter_t.transparent.
-- ```USABLE_FIRE``` This terrain or furniture counts as a nearby fire for crafting.
-- ```UNSTABLE``` Walking here cause the bouldering effect on the character.
-- ```WALL``` This terrain is an upright obstacle. Used for fungal conversion, and also implies `CONNECT_TO_WALL`.
->>>>>>> Update documentation
 
 ### Flags
 
@@ -589,6 +512,10 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```FLAT``` Player can build and move furniture on.
 - ```GOES_DOWN``` Can use <kbd>></kbd> to go down a level.
 - ```GOES_UP``` Can use <kbd><</kbd> to go up a level.
+- ```GROWTH_SEED``` This plant is in its seed stage of growth.
+- ```GROWTH_SEEDLING``` This plant is in its seedling stage of growth.
+- ```GROWTH_MATURE``` This plant is in a mature stage of a growth.
+- ```GROWTH_HARVEST``` This plant is ready for harvest.
 - ```HARVESTED``` Marks the harvested version of a terrain type (e.g. harvesting an apple tree turns it into a harvested tree, which later becomes an apple tree again).
 - ```HIDE_PLACE``` Creatures on this tile can't be seen by creatures not standing on adjacent tiles
 - ```INDOORS``` Has a roof over it; blocks rain, sunlight, etc.
@@ -606,6 +533,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```PERMEABLE``` Permeable for gases.
 - ```PLACE_ITEM``` Valid terrain for `place_item()` to put items on.
 - ```PLANT``` A 'furniture' that grows and fruits.
+- ```PLANTABLE``` This terrain or furniture can have seeds planted in it.
 - ```PLOWABLE``` Terrain can be plowed.
 - ```RAMP_END```
 - ```RAMP``` Can be used to move up a z-level
