@@ -813,7 +813,16 @@ void shallow_pit( const tripoint &target )
 
 static bool in_spell_aoe( const tripoint &target, const tripoint &epicenter, const int &radius, const bool ignore_walls )
 {
-    return true;
+    if( ignore_walls ) {
+        return rl_dist( epicenter, target ) <= radius;
+    }
+    std::vector<tripoint> trajectory = line_to( epicenter, target );
+    for( const tripoint &pt : trajectory ) {
+        if( g->m.impassable( pt ) ) {
+            return false;
+        }
+    }
+    return rl_dist( epicenter, target ) <= radius;
 }
 
 // spells do not reduce in damage the further away from the epicenter the targets are
@@ -826,6 +835,7 @@ static std::vector<tripoint> spell_effect_area( spell &sp, const tripoint &targe
     }
 
     const int aoe_radius = sp.aoe();
+    // TODO: Make this breadth-first
     for( int x = target.x - aoe_radius; x < target.x + aoe_radius; x++ ) {
         for( int y = target.y - aoe_radius; y < target.y + aoe_radius; y++ ) {
             for( int z = target.z - aoe_radius; z < target.z + aoe_radius; z++ ) {
@@ -840,9 +850,6 @@ static std::vector<tripoint> spell_effect_area( spell &sp, const tripoint &targe
     // Draw the explosion
     std::map<tripoint, nc_color> explosion_colors;
     for( auto &pt : targets ) {
-        if( g->m.impassable( pt ) ) {
-            continue;
-        }
         explosion_colors[pt] = sp.damage_type_color();
     }
 
@@ -852,7 +859,7 @@ static std::vector<tripoint> spell_effect_area( spell &sp, const tripoint &targe
 
 void target_attack( spell &sp, const tripoint &epicenter )
 {
-    const std::vector<tripoint> aoe = spell_effect_area( sp, epicenter, true );
+    const std::vector<tripoint> aoe = spell_effect_area( sp, epicenter );
     for( const tripoint target : aoe )
     {
         Creature *const cr = g->critter_at<Creature>( target );
