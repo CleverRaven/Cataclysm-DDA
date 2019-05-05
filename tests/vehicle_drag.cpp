@@ -56,6 +56,7 @@ void clear_game_drag( const ter_id &terrain )
         g->m.destroy_vehicle( veh.v );
     }
 
+    g->m.invalidate_map_cache( 0 );
     g->m.build_map_cache( 0, true );
     // hard force a rebuild of caches
     g->m.shift( 0, 1 );

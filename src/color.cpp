@@ -14,6 +14,7 @@
 #include "json.h"
 #include "output.h"
 #include "path_info.h"
+#include "rng.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "ui.h"
@@ -158,10 +159,7 @@ nc_color color_manager::get_invert( const nc_color &color ) const
 
 nc_color color_manager::get_random() const
 {
-    auto item = color_array.begin();
-    std::advance( item, rand() % num_colors );
-
-    return item->color;
+    return random_entry( color_array ).color;
 }
 
 void color_manager::add_color( const color_id col, const std::string &name,

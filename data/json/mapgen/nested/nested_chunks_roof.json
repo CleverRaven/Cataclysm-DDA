@@ -264,5 +264,140 @@
         { "furn": "f_water_purifier", "x": 1, "y": 1 }
       ]
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "roof_6x6_survivor",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "..AA..",
+        "......",
+        "..a...",
+        ".o..o.",
+        "......",
+        "....A."
+      ],
+      "set": [
+        { "point": "trap", "id": "tr_funnel", "x": 0, "y": 0 },
+        { "point": "trap", "id": "tr_cot", "x": 5, "y": 5 },
+        { "point": "trap", "id": "tr_cot", "x": 3, "y": 5 }
+      ],
+      "terrain": { ".": "t_null" },
+      "furniture": { "o": "f_camp_chair", "a": "f_brazier", "A": "f_tourist_table" },
+      "place_loot": [
+        { "group": "cannedfood", "x": [ 2, 3 ], "y": 0, "repeat": [ 2, 3 ] },
+        { "group": "camping", "x": [ 0, 5 ], "y": [ 0, 3 ], "chance": 50, "repeat": [ 2, 3 ] },
+        { "group": "stash_wood", "x": 1, "y": 2, "repeat": [ 2, 3 ] },
+        { "group": "bed", "x": 5, "y": 5, "chance": 50, "repeat": [ 1, 2 ] },
+        { "group": "bed", "x": 3, "y": 5, "chance": 50, "repeat": [ 1, 2 ] },
+        { "item": "jug_plastic", "x": 0, "y": 0 },
+        { "item": "can_drink_unsealed", "x": [ 0, 5 ], "y": [ 0, 5 ], "chance": 30, "repeat": [ 2, 3 ] },
+        { "item": "can_food_unsealed", "x": [ 0, 5 ], "y": [ 0, 5 ], "chance": 40, "repeat": [ 2, 3 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "roof_6x6_greenhouse_1",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "%#++#%",
+        "%p__p%",
+        "#p__p#",
+        "#p__p#",
+        "%p__p%",
+        "%#++#%"
+      ],
+      "terrain": {
+        "_": "t_null",
+        "p": "t_grass_long",
+        "#": "t_reinforced_glass_shutter_open",
+        "+": "t_reinforced_door_glass_c",
+        "%": "t_reinforced_glass_shutter",
+        "$": "t_wall_glass"
+      },
+      "furniture": {
+        "p": [ "f_datura", "f_bluebell", "f_mutpoppy", "f_dahlia", "f_flower_tulip", "f_chamomile", "f_flower_spurge", "f_lily" ],
+        "S": "f_statue"
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "roof_6x6_greenhouse_2",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "%#++#%",
+        "%p__p%",
+        "#S__b#",
+        "#S__b#",
+        "%p__p%",
+        "%#++#%"
+      ],
+      "terrain": {
+        "_": "t_null",
+        "p": "t_null",
+        "#": "t_reinforced_glass_shutter_open",
+        "+": "t_reinforced_door_glass_c",
+        "%": "t_reinforced_glass_shutter",
+        "$": "t_wall_glass"
+      },
+      "furniture": { "p": [ "f_indoor_plant_y", "f_indoor_plant" ], "S": "f_statue", "b": "f_bench" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "roof_6x6_garden_1",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "______",
+        "______",
+        "bpppb_",
+        "bpBpb_",
+        "bpppb_",
+        "______"
+      ],
+      "terrain": { "_": "t_null", "p": "t_grass_long", "B": "t_grass_long" },
+      "furniture": {
+        "p": [ "f_datura", "f_bluebell", "f_mutpoppy", "f_dahlia", "f_flower_tulip", "f_chamomile", "f_flower_spurge", "f_lily" ],
+        "b": "f_bench",
+        "B": [ "f_birdbath", "f_statue" ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "roof_6x6_garden_2",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "p____p",
+        "p_bb_p",
+        "pp__Bp",
+        "pB__pp",
+        "p_bb_p",
+        "p____p"
+      ],
+      "terrain": { "_": "t_railroad_rubble", "b": "t_railroad_rubble", "p": "t_grass_long", "B": "t_grass_long" },
+      "furniture": {
+        "p": [ "f_datura", "f_bluebell", "f_mutpoppy", "f_dahlia", "f_flower_tulip", "f_chamomile", "f_flower_spurge", "f_lily" ],
+        "B": [ "f_birdbath", "f_statue" ],
+        "b": "f_bench"
+      }
+    }
   }
 ]

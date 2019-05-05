@@ -2608,7 +2608,7 @@ bool repair_item_actor::handle_components( player &pl, const item &fix,
     // TODO: should 250_ml be part of the cost_scaling?
     const int items_needed = std::max<int>( 1, just_check ?
                                             ceil( fix.volume() / 250_ml * cost_scaling ) :
-                                            divide_roll_remainder( fix.volume() / 250_ml * cost_scaling, 1.0f ) );
+                                            roll_remainder( fix.volume() / 250_ml * cost_scaling ) );
 
     std::function<bool( const item & )> filter;
     if( fix.is_filthy() ) {
@@ -2835,8 +2835,12 @@ repair_item_actor::repair_type repair_item_actor::default_action( const item &fi
 
 bool damage_item( player &pl, item_location &fix )
 {
-    pl.add_msg_if_player( m_bad, _( "You damage your %s!" ), fix->tname() );
-    if( fix->inc_damage() ) {
+    const std::string startdurability = fix->durability_indicator( true );
+    const auto destroyed = fix->inc_damage();
+    const std::string resultdurability = fix->durability_indicator( true );
+    pl.add_msg_if_player( m_bad, _( "You damage your %s! ( %s-> %s)" ), fix->tname( 1, false ),
+                          startdurability, resultdurability );
+    if( destroyed ) {
         pl.add_msg_if_player( m_bad, _( "You destroy it!" ) );
         if( fix.where() == item_location::type::character ) {
             pl.i_rem_keep_contents( pl.get_item_position( fix.get_item() ) );
@@ -2901,13 +2905,18 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
 
     if( action == RT_REPAIR ) {
         if( roll == SUCCESS ) {
-            if( fix->damage() > itype::damage_scale ) {
-                pl.add_msg_if_player( m_good, _( "You repair your %s!" ), fix->tname() );
-            } else {
-                pl.add_msg_if_player( m_good, _( "You repair your %s completely!" ), fix->tname() );
-            }
+            const std::string startdurability = fix->durability_indicator( true );
+            const auto damage = fix->damage();
             handle_components( pl, *fix, false, false );
-            fix->set_damage( std::max( fix->damage() - itype::damage_scale, 0 ) );
+            fix->set_damage( std::max( damage - itype::damage_scale, 0 ) );
+            const std::string resultdurability = fix->durability_indicator( true );
+            if( damage > itype::damage_scale ) {
+                pl.add_msg_if_player( m_good, _( "You repair your %s! ( %s-> %s)" ), fix->tname( 1, false ),
+                                      startdurability, resultdurability );
+            } else {
+                pl.add_msg_if_player( m_good, _( "You repair your %s completely! ( %s-> %s)" ), fix->tname( 1,
+                                      false ), startdurability, resultdurability );
+            }
             return AS_SUCCESS;
         }
 

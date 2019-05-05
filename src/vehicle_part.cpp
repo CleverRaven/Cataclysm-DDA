@@ -78,7 +78,7 @@ item vehicle_part::properties_to_item() const
     return tmp;
 }
 
-std::string vehicle_part::name() const
+std::string vehicle_part::name( bool with_prefix ) const
 {
     auto res = info().name();
 
@@ -97,15 +97,10 @@ std::string vehicle_part::name() const
         res += string_format( _( " holding %s" ), base.get_var( "contained_name" ) );
     }
 
-    std::string symbol = this->base.damage_symbol();
-    nc_color color = this->base.damage_color();
-
-    if( is_broken() ) {
-        color = c_dark_gray;
-        symbol = _( R"(XX)" );
+    if( with_prefix ) {
+        res.insert( 0, "<color_" + string_from_color( this->base.damage_color() ) + ">" +
+                    this->base.damage_symbol() + "</color> " );
     }
-
-    res.insert( 0, "<color_" + string_from_color( color ) + ">" + symbol + "</color> " );
     return res;
 }
 

@@ -56,9 +56,6 @@ namespace catacurses
 {
 class window;
 } // namespace catacurses
-typedef enum {
-    DONE, ITEMS_FROM_CARGO, ITEMS_FROM_GROUND,
-} veh_interact_results;
 namespace vehicles
 {
 extern point cardinal_d[5];
@@ -174,8 +171,11 @@ struct vehicle_part {
             return flags &= ~flag;
         }
 
-        /** Translated name of a part inclusive of any current status effects */
-        std::string name() const;
+        /**
+         * Translated name of a part inclusive of any current status effects
+         * with_prefix as true indicates the durability symbol should be prepended
+         */
+        std::string name( bool with_prefix = true ) const;
 
         static constexpr int name_offset = 7;
         /** Stack of the containing vehicle's name, when it it stored as part of another vehicle */
@@ -1458,7 +1458,7 @@ class vehicle
         void use_monster_capture( int part, const tripoint &pos );
         void use_bike_rack( int part );
 
-        veh_interact_results interact_with( const tripoint &pos, int interact_part );
+        void interact_with( const tripoint &pos, int interact_part );
 
         const std::string disp_name() const;
 

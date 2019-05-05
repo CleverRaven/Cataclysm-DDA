@@ -17,6 +17,31 @@
   },
   {
     "type": "city_building",
+    "id": "church",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "church_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "church_roof_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "church_steeple_north" },
+      { "point": [ 0, 0, 3 ], "overmap": "church_steeple_north" },
+      { "point": [ 0, 0, 4 ], "overmap": "church_steeple_north" },
+      { "point": [ 0, 0, 5 ], "overmap": "church_steeple_end_north" },
+      { "point": [ 0, 0, 6 ], "overmap": "church_steeple_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "church_1",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "church_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "church_2ndfloor_1_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "church_3rdfloor_1_north" },
+      { "point": [ 0, 0, 3 ], "overmap": "church_roof_1_north" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "s_bookstore",
     "locations": [ "land" ],
     "overmaps": [
@@ -1226,7 +1251,7 @@
     "locations": [ "land" ],
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "office_doctor_north" },
-      { "point": [ 0, 0, 1 ], "overmap": "office_doctor_1_north" }
+      { "point": [ 0, 0, 1 ], "overmap": "office_doctor_roof_1_north" }
     ]
   },
   {
@@ -1237,6 +1262,16 @@
       { "point": [ 0, 0, 0 ], "overmap": "office_doctor_2_north" },
       { "point": [ 0, 0, 1 ], "overmap": "office_doctor_roof_2_north" },
       { "point": [ 0, 0, 2 ], "overmap": "office_doctor_upper_roof_2_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "cs_internet_cafe",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "cs_internet_cafe_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "cs_internet_cafe_roof_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "cs_internet_cafe_upper_roof_north" }
     ]
   },
   {
@@ -1294,5 +1329,17 @@
       { "point": [ 0, 0, 1 ], "overmap": "gym_roof_north" },
       { "point": [ 0, 0, 2 ], "overmap": "gym_upper_roof_north" }
     ]
+  },
+  {
+    "type": "city_building",
+    "id": "s_pharm",
+    "locations": [ "land" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "s_pharm_north" }, { "point": [ 0, 0, 1 ], "overmap": "s_pharm_roof_north" } ]
+  },
+  {
+    "type": "city_building",
+    "id": "s_pharm_1",
+    "locations": [ "land" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "s_pharm_1_north" }, { "point": [ 0, 0, 1 ], "overmap": "s_pharm_roof_1_north" } ]
   }
 ]
