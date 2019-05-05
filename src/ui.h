@@ -86,6 +86,8 @@ struct uilist_entry {
         hotkey_color( H ), text_color( C ) {}
 };
 
+typedef std::pair<uilist_entry, bool> uilist_entry_pair_t;
+
 /**
  * Virtual base class for windowed ui stuff (like uilist)
  */
@@ -208,6 +210,8 @@ class uilist: public ui_container
         uilist( const std::string &hotkeys_override );
         // query() will be called at the end of these convenience constructors
         uilist( const std::string &msg, const std::vector<uilist_entry> &opts );
+        uilist( const std::string &msg, const std::vector<uilist_entry_pair_t> &opts,
+                const std::function<bool( uilist_entry_pair_t )> &f );
         uilist( const std::string &msg, const std::vector<std::string> &opts );
         uilist( const std::string &msg, std::initializer_list<const char *const> opts );
         uilist( int startx, int width, int starty, const std::string &msg,
