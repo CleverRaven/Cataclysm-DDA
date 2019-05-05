@@ -9,7 +9,7 @@
   {
     "type": "EXTERNAL_OPTION",
     "name": "PLAYER_RECOVER_STAMINA_INCREASE_HUNGER",
-    "info": "How much hunger will be added for recovering 1 stamina point.  Default: 0.008.  Set to 0 to turn it off.",
+    "info": "How many Calories will be removed for recovering 1 stamina point.  Default: 0.07.  Set to 0 to turn it off.",
     "stype": "float",
     "value": 0.0
   },
