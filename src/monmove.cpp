@@ -388,6 +388,7 @@ void monster::plan( const mfactions &factions )
 
     // Operating monster keep you safe while they operate, how nice....
     if( type->has_special_attack( "OPERATE" ) ) {
+        int prev_friendlyness = friendly;
         if( has_effect( effect_operating ) ) {
             friendly = 100;
             for( auto critter : g->m.get_creatures_in_radius( pos(), 6 ) ) {
@@ -399,7 +400,7 @@ void monster::plan( const mfactions &factions )
                 }
             }
         } else {
-            friendly = 0;
+            friendly = prev_friendlyness;
         }
     }
 
