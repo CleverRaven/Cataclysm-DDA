@@ -6,7 +6,7 @@
     "points": 0,
     "description": "You put on your robe and wizard hat.",
     "starting_trait": false,
-	"cancels": [ "PRIEST" ]
+    "cancels": [ "PRIEST" ]
   },
   {
     "type": "mutation",
