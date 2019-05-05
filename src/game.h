@@ -101,10 +101,10 @@ class vehicle;
 class Creature_tracker;
 class scenario;
 class map_item_stack;
-struct WORLD;
+struct World;
 class save_t;
 
-typedef WORLD *WORLDPTR;
+typedef World *WORLDPTR;
 class overmap;
 class event_manager;
 

@@ -285,7 +285,7 @@ game::game() :
     temperature = 0;
     player_was_sleeping = false;
     reset_light_level();
-    world_generator.reset( new worldfactory() );
+    world_generator.reset( new WorldFactory() );
     // do nothing, everything that was in here is moved to init_data() which is called immediately after g = new game; in main.cpp
     // The reason for this move is so that g is not uninitialized when it gets to installing the parts into vehicles.
 }
@@ -13325,5 +13325,5 @@ std::string game::get_player_base_save_path() const
 
 std::string game::get_world_base_save_path() const
 {
-    return world_generator->active_world->folder_path();
+    return world_generator->active_world->getPathDirectorySave( );
 }

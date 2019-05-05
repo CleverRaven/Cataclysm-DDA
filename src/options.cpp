@@ -2302,7 +2302,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
                                    iTooltipHeight + 2 + iOffsetY, 1 + iOffsetX );
 
     if( world_options_only ) {
-        worldfactory::draw_worldgen_tabs( w_options_border, 1 );
+        WorldFactory::draw_worldgen_tabs( w_options_border, 1 );
     }
 
     draw_borders_external( w_options_border, iTooltipHeight + 1 + iWorldOffset, mapLines,

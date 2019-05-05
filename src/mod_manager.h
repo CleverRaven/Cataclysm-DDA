@@ -12,9 +12,9 @@
 #include "pimpl.h"
 #include "string_id.h"
 
-struct WORLD;
+struct World;
 
-typedef WORLD *WORLDPTR;
+typedef World *WORLDPTR;
 class dependency_tree;
 class JsonObject;
 class mod_manager;

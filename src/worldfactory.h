@@ -10,168 +10,157 @@
 #include <vector>
 #include <string>
 
+#include "enums.h"
 #include "options.h"
 #include "pimpl.h"
 #include "string_id.h"
-
-class JsonIn;
-class JsonObject;
-
-enum special_game_id : int;
-
-namespace catacurses
-{
-class window;
-} // namespace catacurses
-struct MOD_INFORMATION;
+#include "json.h"
+#include "cursesdef.h"
+#include "mod_manager.h"
+#include "input.h"
 
 using mod_id = string_id<MOD_INFORMATION>;
 
 class save_t
 {
-    private:
-        std::string name;
 
-        save_t( const std::string &name );
+private:
+    std::string name;
 
-    public:
-        std::string player_name() const;
-        std::string base_path() const;
+    save_t( const std::string &name );
 
-        static save_t from_player_name( const std::string &name );
-        static save_t from_base_path( const std::string &base_path );
+public:
+    std::string player_name() const;
+    std::string base_path() const;
 
-        bool operator==( const save_t &rhs ) const {
-            return name == rhs.name;
-        }
-        bool operator!=( const save_t &rhs ) const {
-            return !operator==( rhs );
-        }
-        save_t &operator=( const save_t & ) = default;
+    static save_t from_player_name( const std::string &name );
+    static save_t from_base_path( const std::string &base_path );
+
+    bool operator==( const save_t &rhs ) const {
+        return name == rhs.name;
+    }
+    bool operator!=( const save_t &rhs ) const {
+        return !operator==( rhs );
+    }
+    save_t &operator=( const save_t & ) = default;
 };
 
-struct WORLD {
-    public:
-        /**
-         * @returns A path to a folder in the file system that should contain
-         * all the world specific files. It depends on @ref world_name,
-         * changing that will also change the result of this function.
-         */
-        std::string folder_path() const;
-
-        std::string world_name;
-        options_manager::options_container WORLD_OPTIONS;
-        std::vector<save_t> world_saves;
-        /**
-         * A (possibly empty) list of (idents of) mods that
-         * should be loaded for this world.
-         */
-        std::vector<mod_id> active_mod_order;
-
-        WORLD();
-        void COPY_WORLD( const WORLD *world_to_copy );
-
-        bool save_exists( const save_t &name ) const;
-        void add_save( const save_t &name );
-
-        bool save( bool is_conversion = false ) const;
-
-        void load_options( JsonIn &jsin );
-        bool load_options();
-};
-
-class World
+struct World
 {
 
 private:
 
+    std::string pathDirectory;
+
 public:
+
+    std::string world_name;
+
+    options_manager::options_container WORLD_OPTIONS;
+
+    std::vector<save_t> world_saves;
+
+    /*
+     * A (possibly empty) list of (idents of) mods that
+     * should be loaded for this world.
+     */
+    std::vector<mod_id> active_mod_order;
 
     World();
 
-    std::string getPathDirectoryStore();
+    /**
+     * @returns A path to a folder in the file system that should contain
+     * all the world specific files. It depends on @ref world_name,
+     * changing that will also change the result of this function.
+     */
+    std::string getPathDirectorySave();
 
-    void copy();
-    void save();
-    void add();
-    void load();
+    void copy( const World *worldToCopy );
 
+    bool save_exists( const save_t &name ) const;
+    void add_save( const save_t &name );
+
+    bool save( bool is_conversion = false );
+
+    void load_options( JsonIn &jsin );
+    bool load_options();
 };
 
-class mod_manager;
-class mod_ui;
-class input_context;
+typedef World *WORLDPTR;
 
-typedef WORLD *WORLDPTR;
-
-class worldfactory
+class WorldFactory
 {
-    public:
-        worldfactory();
-        ~worldfactory();
 
-        // Generate a world
-        WORLDPTR make_new_world( bool show_prompt = true, const std::string &world_to_copy = "" );
-        WORLDPTR make_new_world( special_game_id special_type );
-        // Used for unit tests - does NOT verify if the mods can be loaded
-        WORLDPTR make_new_world( const std::vector<mod_id> &mods );
-        /// Returns the *existing* world of given name.
-        WORLDPTR get_world( const std::string &name );
-        bool has_world( const std::string &name ) const;
+public:
 
-        void set_active_world( WORLDPTR world );
+    const std::string FILE_SAVE_MASTER = "master.gsav";
+    const std::string FILE_SAVE_EXTENSION = ".sav";
 
-        void init();
+    WorldFactory();
+    ~WorldFactory();
 
-        WORLDPTR pick_world( bool show_prompt = true );
+    // Generate a world
+    WORLDPTR make_new_world( bool show_prompt = true, const std::string &world_to_copy = "" );
+    WORLDPTR make_new_world( special_game_id special_type );
+    // Used for unit tests - does NOT verify if the mods can be loaded
+    WORLDPTR make_new_world( const std::vector<mod_id> &mods );
+    /// Returns the *existing* world of given name.
+    WORLDPTR get_world( const std::string &name );
+    bool has_world( const std::string &name ) const;
 
-        WORLDPTR active_world;
+    void set_active_world( WORLDPTR world );
 
-        std::vector<std::string> all_worldnames() const;
+    void init();
 
-        std::string last_world_name;
-        std::string last_character_name;
+    WORLDPTR pick_world( bool show_prompt = true );
 
-        void save_last_world_info();
+    WORLDPTR active_world;
 
-        mod_manager &get_mod_manager();
+    std::vector<std::string> all_worldnames() const;
 
-        void remove_world( const std::string &worldname );
-        bool valid_worldname( const std::string &name, bool automated = false );
+    std::string last_world_name;
+    std::string last_character_name;
 
-        /**
-         * @param delete_folder If true: delete all the files and directories  of the given
-         * world folder. Else just avoid deleting the config files and the directory
-         * itself.
-         */
-        void delete_world( const std::string &worldname, bool delete_folder );
+    void save_last_world_info();
 
-        static void draw_worldgen_tabs( const catacurses::window &w, size_t current );
-        void show_active_world_mods( const std::vector<mod_id> &world_mods );
+    mod_manager &get_mod_manager();
 
-    private:
-        std::map<std::string, std::unique_ptr<WORLD>> all_worlds;
+    void remove_world( const std::string &worldname );
+    bool valid_worldname( const std::string &name, bool automated = false );
 
-        void load_last_world_info();
+    /**
+     * @param delete_folder If true: delete all the files and directories  of the given
+     * world folder. Else just avoid deleting the config files and the directory
+     * itself.
+     */
+    void delete_world( const std::string &worldname, bool delete_folder );
 
-        std::string pick_random_name();
-        int show_worldgen_tab_options( const catacurses::window &win, WORLDPTR world );
-        int show_worldgen_tab_modselection( const catacurses::window &win, WORLDPTR world );
-        int show_worldgen_tab_confirm( const catacurses::window &win, WORLDPTR world );
+    static void draw_worldgen_tabs( const catacurses::window &w, size_t current );
+    void show_active_world_mods( const std::vector<mod_id> &world_mods );
 
-        void draw_modselection_borders( const catacurses::window &win, const input_context &ctxtp );
-        void draw_mod_list( const catacurses::window &w, int &start, size_t cursor,
-                            const std::vector<mod_id> &mods, bool is_active_list, const std::string &text_if_empty,
-                            const catacurses::window &w_shift );
+private:
 
-        WORLDPTR add_world( std::unique_ptr<WORLD> retworld );
+    std::map<std::string, std::unique_ptr<World>> all_worlds;
 
-        pimpl<mod_manager> mman;
-        pimpl<mod_ui> mman_ui;
+    void load_last_world_info();
 
-        typedef std::function<int( const catacurses::window &, WORLDPTR )> worldgen_display;
+    int show_worldgen_tab_options( const catacurses::window &win, WORLDPTR world );
+    int show_worldgen_tab_modselection( const catacurses::window &win, WORLDPTR world );
+    int show_worldgen_tab_confirm( const catacurses::window &win, WORLDPTR world );
 
-        std::vector<worldgen_display> tabs;
+    void draw_modselection_borders( const catacurses::window &win, const input_context &ctxtp );
+    void draw_mod_list( const catacurses::window &w, int &start, size_t cursor,
+                        const std::vector<mod_id> &mods, bool is_active_list, const std::string &text_if_empty,
+                        const catacurses::window &w_shift );
+
+    WORLDPTR add_world( std::unique_ptr<World> retworld );
+
+    pimpl<mod_manager> mman;
+    pimpl<mod_ui> mman_ui;
+
+    typedef std::function<int( const catacurses::window &, WORLDPTR )> worldgen_display;
+
+    std::vector<worldgen_display> tabs;
 };
 
 void load_world_option( JsonObject &jo );
@@ -179,6 +168,6 @@ void load_world_option( JsonObject &jo );
 //load external option from json
 void load_external_option( JsonObject &jo );
 
-extern std::unique_ptr<worldfactory> world_generator;
+extern std::unique_ptr<WorldFactory> world_generator;
 
 #endif
