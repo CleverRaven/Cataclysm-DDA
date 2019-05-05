@@ -7111,17 +7111,18 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
             time_duration time_delta = std::min( 1_hours, now - 1_hours - time );
             time += time_delta;
 
+            //Use weather if above ground, use map temp if below
             double env_temperature = 0;
+            if( pos.z >= 0 ) {
+                w_point weather = wgen.get_weather( pos, time, seed );
+                env_temperature = weather.temperature + enviroment_mod + local_mod;
+            } else {
+                env_temperature = AVERAGE_ANNUAL_TEMPERATURE + enviroment_mod + local_mod;
+            }
 
             switch( flag ) {
                 case TEMP_NORMAL:
-                    //Use weather if above ground, use map temp if below
-                    if( pos.z >= 0 ) {
-                        w_point weather = wgen.get_weather( pos, time, seed );
-                        env_temperature = weather.temperature + enviroment_mod + local_mod;
-                    } else {
-                        env_temperature = AVERAGE_ANNUAL_TEMPERATURE + enviroment_mod + local_mod;
-                    }
+                    // Just use the temperature normally
                     break;
                 case TEMP_FRIDGE:
                     env_temperature = std::min( env_temperature, static_cast<double>( temperatures::fridge ) );
