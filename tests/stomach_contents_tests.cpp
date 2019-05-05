@@ -157,8 +157,8 @@ TEST_CASE( "starve_test_hunger3" )
     if( print_tests ) {
         printf( "\n\n" );
     }
-    CHECK( day <= 24 );
-    CHECK( day >= 23 );
+    CHECK( day <= 15 );
+    CHECK( day >= 14 );
 }
 
 // does eating enough food per day keep you alive
@@ -220,8 +220,8 @@ TEST_CASE( "hunger" )
         print_stomach_contents( dummy, print_tests );
         printf( "eat 2 cooked meat\n" );
     }
-    CHECK( hunger_time <= 440 );
-    CHECK( hunger_time >= 400 );
+    CHECK( hunger_time <= 270 );
+    CHECK( hunger_time >= 240 );
     item f( "meat_cooked" );
     dummy.eat( f );
     f = item( "meat_cooked" );
@@ -235,8 +235,8 @@ TEST_CASE( "hunger" )
         print_stomach_contents( dummy, print_tests );
         printf( "eat 2 beansnrice\n" );
     }
-    CHECK( hunger_time <= 350 );
-    CHECK( hunger_time >= 310 );
+    CHECK( hunger_time <= 240 );
+    CHECK( hunger_time >= 210 );
     f = item( "beansnrice" );
     dummy.eat( f );
     f = item( "beansnrice" );
@@ -247,8 +247,8 @@ TEST_CASE( "hunger" )
     if( print_tests ) {
         printf( "%d minutes til hunger sets in\n", hunger_time );
     }
-    CHECK( hunger_time <= 320 );
-    CHECK( hunger_time >= 280 );
+    CHECK( hunger_time <= 240 );
+    CHECK( hunger_time >= 210 );
     if( print_tests ) {
         print_stomach_contents( dummy, print_tests );
         printf( "eat 16 veggy\n" );
@@ -264,8 +264,8 @@ TEST_CASE( "hunger" )
         printf( "%d minutes til hunger sets in\n", hunger_time );
         print_stomach_contents( dummy, print_tests );
     }
-    CHECK( hunger_time <= 350 );
-    CHECK( hunger_time >= 310 );
+    CHECK( hunger_time <= 300 );
+    CHECK( hunger_time >= 240 );
     if( print_tests ) {
         printf( "eat 16 veggy with extreme metabolism\n" );
     }
