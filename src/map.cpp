@@ -8248,9 +8248,9 @@ std::list<Creature *> map::get_creatures_in_radius( const tripoint &center, size
 {
     std::list<Creature *> creatures;
     for( const auto &loc : points_in_radius( center, radius, radiusz ) ) {
-        Creature &tmp_critter = *g->critter_at( loc );
-        if( &tmp_critter != nullptr ) {
-            creatures.push_back( &tmp_critter );
+        Creature *tmp_critter = g->critter_at( loc );
+        if( tmp_critter != nullptr ) {
+            creatures.push_back( tmp_critter );
         }
 
     }
