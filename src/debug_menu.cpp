@@ -159,8 +159,8 @@ static int info_uilist()
         uilist_entry( DEBUG_CRASH_GAME, true, 'C', _( "Crash game (test crash handling)" ) ),
         uilist_entry( DEBUG_DISPLAY_NPC_PATH, true, 'n', _( "Toggle NPC pathfinding on map" ) ),
         uilist_entry( DEBUG_TEST_WEATHER, true, 'W', _( "Test weather" ) ),
-        uilist_entry( DEBUG_SAVE_SCREENSHOT, true, 'H', _( "Take Screenshot" ) ),
-        uilist_entry( DEBUG_GAME_REPORT, true, 'r', _( "Generate Game Report" ) ),
+        uilist_entry( DEBUG_SAVE_SCREENSHOT, true, 'H', _( "Take screenshot" ) ),
+        uilist_entry( DEBUG_GAME_REPORT, true, 'r', _( "Generate game report" ) ),
     };
 
     return uilist( _( "Info..." ), uilist_initializer );
