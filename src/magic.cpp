@@ -91,7 +91,7 @@ std::vector<valid_target> strings_to_targets( std::vector<std::string> targets_s
             targets.emplace_back( target_hostile );
         } else if( str == "self" ) {
             targets.emplace_back( target_self );
-        } else if( str == "none" ){
+        } else if( str == "none" ) {
             targets.emplace_back( target_none );
         } else {
             debugmsg( "Error loading spell. %s is not an available valid_target", str );
@@ -781,7 +781,7 @@ static tripoint random_point( int min_distance, int max_distance, const tripoint
     const int dist = rng( min_distance, max_distance );
     const int x = round( dist * cos( angle ) );
     const int y = round( dist * sin( angle ) );
-    return tripoint( x+player_pos.x, y+player_pos.y, player_pos.z );
+    return tripoint( x + player_pos.x, y + player_pos.y, player_pos.z );
 }
 
 void teleport( int min_distance, int max_distance )
@@ -832,7 +832,8 @@ void shallow_pit( const tripoint &target )
     add_msg( m_info, _( "The earth moves out of the way for you" ) );
 }
 
-static bool in_spell_aoe( const tripoint &target, const tripoint &epicenter, const int &radius, const bool ignore_walls )
+static bool in_spell_aoe( const tripoint &target, const tripoint &epicenter, const int &radius,
+                          const bool ignore_walls )
 {
     if( ignore_walls ) {
         return rl_dist( epicenter, target ) <= radius;
@@ -848,7 +849,8 @@ static bool in_spell_aoe( const tripoint &target, const tripoint &epicenter, con
 
 // spells do not reduce in damage the further away from the epicenter the targets are
 // rather they do their full damage in the entire area of effect
-static std::vector<tripoint> spell_effect_area( spell &sp, const tripoint &target, bool ignore_walls = false )
+static std::vector<tripoint> spell_effect_area( spell &sp, const tripoint &target,
+        bool ignore_walls = false )
 {
     std::vector<tripoint> targets = { target }; // initialize with epicenter
     if( sp.aoe() <= 1 ) {
@@ -881,8 +883,7 @@ static std::vector<tripoint> spell_effect_area( spell &sp, const tripoint &targe
 void target_attack( spell &sp, const tripoint &epicenter )
 {
     const std::vector<tripoint> aoe = spell_effect_area( sp, epicenter );
-    for( const tripoint target : aoe )
-    {
+    for( const tripoint target : aoe ) {
         Creature *const cr = g->critter_at<Creature>( target );
         if( !cr ) {
             continue;
@@ -905,7 +906,10 @@ void target_attack( spell &sp, const tripoint &epicenter )
         if( !sp.effect_data().empty() ) {
             const int dur_moves = sp.duration();
             const time_duration dur_td = 1_turns * dur_moves / 100;
-            cr->add_effect( efftype_id( sp.effect_data() ), dur_td, bp_torso );
+            const std::vector<body_part> all_bp = { bp_head, bp_torso, bp_arm_l, bp_arm_r, bp_leg_l, bp_leg_r, };
+            for( const body_part bp : all_bp ) {
+                cr->add_effect( efftype_id( sp.effect_data() ), dur_td, bp );
+            }
         }
     }
 }
