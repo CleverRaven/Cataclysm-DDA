@@ -401,8 +401,6 @@ void monster::plan( const mfactions &factions )
     }
 
     if( has_effect( effect_dragging ) ) {
-        const mtype_id &mon_id =
-            type->id;// We might eventually have other monsters using the dragging effect
 
         if( type->has_special_attack( "OPERATE" ) ) {
 
@@ -562,7 +560,6 @@ void monster::move()
     }
 
     // defective nursebot surgery code
-    const mtype_id &mon_id = type->id;
     if( type->has_special_attack( "OPERATE" ) && has_effect( effect_dragging ) &&
         dragged_foe != nullptr ) {
 
