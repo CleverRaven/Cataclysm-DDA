@@ -2940,6 +2940,18 @@ void item::on_contents_changed()
     }
 }
 
+void item::on_charges_changed()
+{
+    for( auto &it : contents ) {
+        if( ammo_type() == ammotype( it.typeId() ) ) {
+            it.charges = charges;
+        }
+    }
+
+}
+
+
+
 void item::on_damage( int, damage_type )
 {
 
@@ -5637,6 +5649,7 @@ long item::ammo_consume( long qty, const tripoint &pos )
             g->u.charge_power( -qty );
         }
         charges -= qty;
+        on_charges_changed();
         if( charges == 0 ) {
             curammo = nullptr;
         }
@@ -6261,6 +6274,7 @@ bool item::reload( player &u, item_location loc, long qty )
             qty = std::min( qty, ammo->charges );
             ammo->charges -= qty;
             charges += qty;
+            on_charges_changed();
         }
     }
 
