@@ -8,6 +8,9 @@ SET(CMAKE_MODULE_PATH
     ${CMAKE_SOURCE_DIR}/CMakeModules
 )
 
+SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O0")
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0")
+
 # Build options
 option(TILES        "Build graphical tileset version."						"OFF")
 option(CURSES       "Build curses version."							"ON" )

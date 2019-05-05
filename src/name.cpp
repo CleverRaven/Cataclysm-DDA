@@ -121,17 +121,17 @@ std::string RandomName::getRandomName( NameFlags flag )
 
     if (flag == NAME_IS_MALE_NAME)
     {
-        short choice = rng(0, namesMale.size());
+        short choice = rng(0, namesMale.size() - 1);
         return namesMale[choice];
     }
     else if (flag == NAME_IS_FEMALE_NAME)
     {
-        short choice = rng(0, namesFemale.size());
+        short choice = rng(0, namesFemale.size() - 1);
         return namesFemale[choice];
     }
     else if (flag == NAME_IS_UNISEX_NAME)
     {
-        short choice = rng(0, namesUnisex.size());
+        short choice = rng(0, namesUnisex.size() - 1);
         return namesUnisex[choice];
     }
     else if (flag == NAME_IS_GIVEN_NAME)
@@ -140,34 +140,34 @@ std::string RandomName::getRandomName( NameFlags flag )
 
         if (choiceGiven == 1)
         {
-            short choice = rng(0, namesGivenMale.size());
+            short choice = rng(0, namesGivenMale.size() - 1);
             return namesGivenMale[choice];
         }
         else
         {
-            short choice = rng(0, namesGivenFemale.size());
+            short choice = rng(0, namesGivenFemale.size() - 1);
             return namesGivenFemale[choice];
         }
 
     }
     else if (flag == NAME_IS_FAMILY_NAME)
     {
-        short choice = rng(0, namesFamily.size());
+        short choice = rng(0, namesFamily.size() - 1);
         return namesFamily[choice];
     }
     else if (flag == NAME_IS_NICK_NAME)
     {
-        short choice = rng(0, namesNick.size());
+        short choice = rng(0, namesNick.size() - 1);
         return namesNick[choice];
     }
     else if (flag == NAME_IS_TOWN_NAME)
     {
-        short choice = rng(0, namesTown.size());
+        short choice = rng(0, namesTown.size() - 1);
         return namesTown[choice];
     }
     else if (flag == NAME_IS_WORLD_NAME)
     {
-        short choice = rng(0, namesWorld.size());
+        short choice = rng(0, namesWorld.size() - 1);
         return namesWorld[choice];
     }
 }
