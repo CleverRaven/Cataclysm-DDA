@@ -485,7 +485,28 @@ std::string spell::description() const
 
 nc_color spell::damage_type_color() const
 {
-    return c_red;
+    switch( dmg_type() ) {
+        case DT_HEAT:
+            return c_red;
+        case DT_ACID:
+            return c_light_green;
+        case DT_BASH:
+            return c_magenta;
+        case DT_BIOLOGICAL:
+            return c_green;
+        case DT_COLD:
+            return c_white;
+        case DT_CUT:
+            return c_light_gray;
+        case DT_ELECTRIC:
+            return c_light_blue;
+        case DT_STAB:
+            return c_light_red;
+        case DT_TRUE:
+            return c_dark_gray;
+        default:
+            return c_black;
+    }
 }
 
 // constants defined below are just for the formula to be used,
