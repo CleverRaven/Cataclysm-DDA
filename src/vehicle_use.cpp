@@ -526,24 +526,30 @@ void vehicle::use_controls( const tripoint &pos )
                 {
                     add_msg( _( "You turn the engine off and let go of the controls." ) );
                     sounds::sound( pos, 2, sounds::sound_t::movement,
-                    _( "the engine go silent" ) );
+                                   _( "the engine go silent" ) );
                 } else
                 {
                     add_msg( _( "You let go of the controls." ) );
                 }
 
-                for( size_t e = 0; e < engines.size(); ++e ) {
+                for( size_t e = 0; e < engines.size(); ++e )
+                {
                     if( is_engine_on( e ) ) {
                         if( sfx::has_variant_sound( "engine_stop", parts[ engines[ e ] ].info().get_id().str() ) ) {
-                            sfx::play_variant_sound( "engine_stop", parts[ engines[ e ] ].info().get_id().str(), parts[ engines[ e ] ].info().engine_noise_factor() );
+                            sfx::play_variant_sound( "engine_stop", parts[ engines[ e ] ].info().get_id().str(),
+                                                     parts[ engines[ e ] ].info().engine_noise_factor() );
                         } else if( is_engine_type( e, fuel_type_muscle ) ) {
-                            sfx::play_variant_sound( "engine_stop", "muscle", parts[ engines[ e ] ].info().engine_noise_factor() );
+                            sfx::play_variant_sound( "engine_stop", "muscle",
+                                                     parts[ engines[ e ] ].info().engine_noise_factor() );
                         } else if( is_engine_type( e, fuel_type_wind ) ) {
-                            sfx::play_variant_sound( "engine_stop", "wind", parts[ engines[ e ] ].info().engine_noise_factor() );
+                            sfx::play_variant_sound( "engine_stop", "wind",
+                                                     parts[ engines[ e ] ].info().engine_noise_factor() );
                         } else if( is_engine_type( e, fuel_type_battery ) ) {
-                            sfx::play_variant_sound( "engine_stop", "electric", parts[ engines[ e ] ].info().engine_noise_factor() );
+                            sfx::play_variant_sound( "engine_stop", "electric",
+                                                     parts[ engines[ e ] ].info().engine_noise_factor() );
                         } else {
-                            sfx::play_variant_sound( "engine_stop", "combustion", parts[ engines[ e ] ].info().engine_noise_factor() );
+                            sfx::play_variant_sound( "engine_stop", "combustion",
+                                                     parts[ engines[ e ] ].info().engine_noise_factor() );
                         }
                     }
                 }
@@ -565,15 +571,18 @@ void vehicle::use_controls( const tripoint &pos )
                     engine_on = false;
                     add_msg( _( "You turn the engine off." ) );
                     sounds::sound( pos, 2, sounds::sound_t::movement,
-                    _( "the engine go silent" ) );
+                                   _( "the engine go silent" ) );
                     for( size_t e = 0; e < engines.size(); ++e ) {
                         if( is_engine_on( e ) ) {
                             if( sfx::has_variant_sound( "engine_stop", parts[ engines[ e ] ].info().get_id().str() ) ) {
-                                sfx::play_variant_sound( "engine_stop", parts[ engines[ e ] ].info().get_id().str(), parts[ engines[ e ] ].info().engine_noise_factor() );
+                                sfx::play_variant_sound( "engine_stop", parts[ engines[ e ] ].info().get_id().str(),
+                                                         parts[ engines[ e ] ].info().engine_noise_factor() );
                             } else if( is_engine_type( e, fuel_type_battery ) ) {
-                                sfx::play_variant_sound( "engine_stop", "electric", parts[ engines[ e ] ].info().engine_noise_factor() );
+                                sfx::play_variant_sound( "engine_stop", "electric",
+                                                         parts[ engines[ e ] ].info().engine_noise_factor() );
                             } else {
-                                sfx::play_variant_sound( "engine_stop", "combustion", parts[ engines[ e ] ].info().engine_noise_factor() );
+                                sfx::play_variant_sound( "engine_stop", "combustion",
+                                                         parts[ engines[ e ] ].info().engine_noise_factor() );
                             }
                         }
                     }
@@ -877,10 +886,11 @@ bool vehicle::start_engine( const int e )
         return false;
     }
     sounds::sound( pos, eng.info().engine_noise_factor(), sounds::sound_t::movement,
-                string_format( _( "the %s starting" ), eng.name() ) );
+                   string_format( _( "the %s starting" ), eng.name() ) );
 
     if( sfx::has_variant_sound( "engine_start", eng.info().get_id().str() ) ) {
-        sfx::play_variant_sound( "engine_start", eng.info().get_id().str(), eng.info().engine_noise_factor() );
+        sfx::play_variant_sound( "engine_start", eng.info().get_id().str(),
+                                 eng.info().engine_noise_factor() );
     } else if( is_engine_type( e, fuel_type_muscle ) ) {
         sfx::play_variant_sound( "engine_start", "muscle", eng.info().engine_noise_factor() );
     } else if( is_engine_type( e, fuel_type_wind ) ) {
@@ -1306,7 +1316,8 @@ void vehicle::open_or_close( const int part_index, const bool opening )
     parts[part_index].open = opening;
     insides_dirty = true;
     g->m.set_transparency_cache_dirty( smz );
-    sfx::play_variant_sound( opening ? "vehicle_open" : "vehicle_close", parts[ part_index ].info().get_id().str(), 100 );
+    sfx::play_variant_sound( opening ? "vehicle_open" : "vehicle_close",
+                             parts[ part_index ].info().get_id().str(), 100 );
     for( auto const &vec : find_lines_of_parts( part_index, "OPENABLE" ) ) {
         for( auto const &partID : vec ) {
             parts[partID].open = opening;

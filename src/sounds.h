@@ -79,8 +79,9 @@ namespace sfx
 void load_sound_effects( JsonObject &jsobj );
 void load_sound_effect_preload( JsonObject &jsobj );
 void load_playlist( JsonObject &jsobj );
-void play_variant_sound_pitch( const std::string &id, const std::string &variant, int volume, int angle,
-                         float pitch );
+void play_variant_sound_pitch( const std::string &id, const std::string &variant, int volume,
+                               int angle,
+                               float pitch );
 void play_variant_sound( const std::string &id, const std::string &variant, int volume, int angle,
                          float pitch_min = 1.0, float pitch_max = 1.0 );
 void play_variant_sound( const std::string &id, const std::string &variant, int volume );

@@ -534,7 +534,7 @@ int sfx::set_channel_volume( int channel, int volume )
     return Mix_Volume( channel, volume );
 }
 
-void sfx::do_vehicle_engine_sfx() 
+void sfx::do_vehicle_engine_sfx()
 {
     /** Channel Assignments:
         23: engine working internal
@@ -563,8 +563,10 @@ void sfx::do_vehicle_engine_sfx()
 
     for( size_t e = 0; e < veh->engines.size(); ++e ) {
         if( veh->is_engine_on( e ) ) {
-            if( sfx::has_variant_sound( "engine_working", veh->part_info( veh->engines[ e ] ).get_id().str() ) ) {
-                id_and_variant = std::make_pair( "engine_working_internal", veh->part_info( veh->engines[ e ] ).get_id().str() );
+            if( sfx::has_variant_sound( "engine_working",
+                                        veh->part_info( veh->engines[ e ] ).get_id().str() ) ) {
+                id_and_variant = std::make_pair( "engine_working_internal",
+                                                 veh->part_info( veh->engines[ e ] ).get_id().str() );
             } else if( veh->is_engine_type( e, fuel_type_muscle ) ) {
                 id_and_variant = std::make_pair( "engine_working_internal", "muscle" );
             } else if( veh->is_engine_type( e, fuel_type_wind ) ) {
@@ -578,7 +580,8 @@ void sfx::do_vehicle_engine_sfx()
     }
 
     if( !is_channel_playing( 23 ) ) {
-        play_ambient_variant_sound( id_and_variant.first , id_and_variant.second, sfx::get_heard_volume( g->u.pos() ), 23, 1000 );
+        play_ambient_variant_sound( id_and_variant.first, id_and_variant.second,
+                                    sfx::get_heard_volume( g->u.pos() ), 23, 1000 );
         add_msg( m_debug, "START %s %s", id_and_variant.first, id_and_variant.second );
     } else {
         add_msg( m_debug, "PLAYING" );
@@ -594,7 +597,7 @@ void sfx::do_vehicle_engine_sfx()
     int current_gear;
     if( in_reverse == true ) {
         current_gear = -1;
-    } else if ( current_speed == 0 ) {
+    } else if( current_speed == 0 ) {
         current_gear = 0;
     } else if( current_speed > 0 && current_speed <= safe_speed / 12 ) {
         current_gear = 1;
@@ -609,10 +612,11 @@ void sfx::do_vehicle_engine_sfx()
     } else {
         current_gear = 6;
     }
-    if ( veh->has_engine_type( fuel_type_muscle, true ) || veh->has_engine_type( fuel_type_wind, true ) ) {
+    if( veh->has_engine_type( fuel_type_muscle, true ) ||
+        veh->has_engine_type( fuel_type_wind, true ) ) {
         current_gear = previous_gear;
     }
-    
+
     if( current_gear > previous_gear ) {
         play_variant_sound_pitch( "vehicle", "gear_shift", get_heard_volume( g->u.pos() ), 0, 0.8 );
         add_msg( m_debug, "GEAR UP" );
@@ -626,7 +630,7 @@ void sfx::do_vehicle_engine_sfx()
         } else if( current_gear == -1 ) {
             pitch = 1.2f;
         } else {
-            pitch = 1.0f - (float)current_speed / (float)safe_speed * 1.0f;
+            pitch = 1.0f - ( float )current_speed / ( float )safe_speed * 1.0f;
         }
     }
     if( pitch <= 0.5f ) {
@@ -636,19 +640,21 @@ void sfx::do_vehicle_engine_sfx()
     if( current_speed != previous_speed ) {
         Mix_HaltChannel( 23 );
         add_msg( m_debug, "STOP speed %d =/= %d", current_speed, previous_speed );
-        play_ambient_variant_sound( id_and_variant.first , id_and_variant.second, sfx::get_heard_volume( g->u.pos() ), 23, 1000, pitch );
+        play_ambient_variant_sound( id_and_variant.first, id_and_variant.second,
+                                    sfx::get_heard_volume( g->u.pos() ), 23, 1000, pitch );
         add_msg( m_debug, string_format( "PITCH %f", pitch ) );
     }
     previous_speed = current_speed;
     previous_gear = current_gear;
 }
 
-void sfx::do_vehicle_exterior_engine_sfx() {
-    
+void sfx::do_vehicle_exterior_engine_sfx()
+{
+
     /** Channel Assignments:
         22: engine working external
     **/
-    
+
     // early bail-outs for efficiency
     if( g->u.in_vehicle ) {
         fade_audio_channel( 22, 300 );
@@ -687,8 +693,10 @@ void sfx::do_vehicle_exterior_engine_sfx() {
 
     for( size_t e = 0; e < veh->engines.size(); ++e ) {
         if( veh->is_engine_on( e ) ) {
-            if( sfx::has_variant_sound( "engine_working_exterior", veh->part_info( veh->engines[ e ] ).get_id().str() ) ) {
-                id_and_variant = std::make_pair( "engine_working_external", veh->part_info( veh->engines[ e ] ).get_id().str() );
+            if( sfx::has_variant_sound( "engine_working_exterior",
+                                        veh->part_info( veh->engines[ e ] ).get_id().str() ) ) {
+                id_and_variant = std::make_pair( "engine_working_external",
+                                                 veh->part_info( veh->engines[ e ] ).get_id().str() );
             } else if( veh->is_engine_type( e, fuel_type_muscle ) ) {
                 id_and_variant = std::make_pair( "engine_working_external", "muscle" );
             } else if( veh->is_engine_type( e, fuel_type_wind ) ) {
@@ -702,7 +710,7 @@ void sfx::do_vehicle_exterior_engine_sfx() {
     }
 
     if( is_channel_playing( 22 ) ) {
-        if ( engine_external_id_and_variant == id_and_variant ) {
+        if( engine_external_id_and_variant == id_and_variant ) {
             Mix_SetPosition( 22, get_heard_angle( veh->global_pos3() ), 0 );
             set_channel_volume( 22, vol );
             add_msg( m_debug, "PLAYING, vol: ex:%d true:%d", vol, Mix_Volume( 22, -1 ) );
@@ -710,18 +718,20 @@ void sfx::do_vehicle_exterior_engine_sfx() {
             engine_external_id_and_variant = id_and_variant;
             Mix_HaltChannel( 22 );
             add_msg( m_debug, "STOP, change id/var" );
-            play_ambient_variant_sound( id_and_variant.first , id_and_variant.second, 128, 22, 0 );
+            play_ambient_variant_sound( id_and_variant.first, id_and_variant.second, 128, 22, 0 );
             Mix_SetPosition( 22, get_heard_angle( veh->global_pos3() ), 0 );
             set_channel_volume( 22, vol );
-            add_msg( m_debug, "START22 %s %s vol: %d", id_and_variant.first, id_and_variant.second, Mix_Volume( 22, -1 ) );
+            add_msg( m_debug, "START22 %s %s vol: %d", id_and_variant.first, id_and_variant.second,
+                     Mix_Volume( 22, -1 ) );
         }
     } else {
-        play_ambient_variant_sound( id_and_variant.first , id_and_variant.second, 128, 22, 0 );
+        play_ambient_variant_sound( id_and_variant.first, id_and_variant.second, 128, 22, 0 );
         add_msg( m_debug, "Vol: %d %d", vol, Mix_Volume( 22, -1 ) );
         Mix_SetPosition( 22, get_heard_angle( veh->global_pos3() ), 0 );
         add_msg( m_debug, "Vol: %d %d", vol, Mix_Volume( 22, -1 ) );
         set_channel_volume( 22, vol );
-        add_msg( m_debug, "START22 NEW %s %s vol: ex:%d true:%d", id_and_variant.first, id_and_variant.second, vol, Mix_Volume( 22, -1 ) );
+        add_msg( m_debug, "START22 NEW %s %s vol: ex:%d true:%d", id_and_variant.first,
+                 id_and_variant.second, vol, Mix_Volume( 22, -1 ) );
     }
 }
 
@@ -1369,7 +1379,8 @@ void sfx::load_sound_effect_preload( JsonObject & ) { }
 void sfx::load_playlist( JsonObject & ) { }
 void sfx::play_variant_sound( const std::string &, const std::string &, int, int, float, float ) { }
 void sfx::play_variant_sound( const std::string &, const std::string &, int ) { }
-void sfx::play_ambient_variant_sound( const std::string &, const std::string &, int, int, int, float ) { }
+void sfx::play_ambient_variant_sound( const std::string &, const std::string &, int, int, int,
+                                      float ) { }
 void sfx::play_activity_sound( const std::string &, const std::string &, int ) { }
 void sfx::end_activity_sounds() { }
 void sfx::generate_gun_sound( const player &, const item & ) { }
@@ -1389,7 +1400,8 @@ bool sfx::is_channel_playing( int )
 {
     return false;
 }
-int sfx::set_channel_volume( int, int ) {
+int sfx::set_channel_volume( int, int )
+{
     return 0;
 }
 bool sfx::has_variant_sound( const std::string &, const std::string & )

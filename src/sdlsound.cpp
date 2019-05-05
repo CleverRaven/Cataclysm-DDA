@@ -463,8 +463,9 @@ void sfx::play_variant_sound( const std::string &id, const std::string &variant,
     Mix_SetPosition( channel, angle, 1 );
 }
 
-void sfx::play_variant_sound_pitch( const std::string &id, const std::string &variant, int volume, int angle,
-                              float pitch )
+void sfx::play_variant_sound_pitch( const std::string &id, const std::string &variant, int volume,
+                                    int angle,
+                                    float pitch )
 {
     if( !check_sound( volume ) ) {
         return;
