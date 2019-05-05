@@ -145,7 +145,7 @@ void SkillLevel::train( int amount, bool skip_scaling )
     } else {
         const double scaling = get_option<float>( "SKILL_TRAINING_SPEED" );
         if( scaling > 0.0 ) {
-            _exercise += divide_roll_remainder( amount * scaling, 1.0 );
+            _exercise += roll_remainder( amount * scaling );
         }
     }
 

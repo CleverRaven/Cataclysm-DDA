@@ -578,6 +578,7 @@
         "craft_shop": 100,
         "s_gas": 500,
         "s_pharm": 300,
+        "s_pharm_1": 300,
         "s_grocery": 1500,
         "s_grocery_1": 1500,
         "s_hardware": 500,

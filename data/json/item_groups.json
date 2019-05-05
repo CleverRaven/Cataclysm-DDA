@@ -4665,6 +4665,8 @@
   {
     "type": "item_group",
     "id": "chem_school",
+    "ammo": 50,
+    "magazine": 100,
     "items": [
       [ "balance_small", 5 ],
       [ "ph_meter", 5 ],
@@ -4772,6 +4774,8 @@
   {
     "type": "item_group",
     "id": "chem_lab",
+    "ammo": 50,
+    "magazine": 100,
     "items": [
       { "group": "supplies_reagents_lab", "prob": 60 },
       [ "ether", 5 ],
@@ -4829,6 +4833,8 @@
   {
     "type": "item_group",
     "id": "mut_lab",
+    "ammo": 50,
+    "magazine": 100,
     "items": [
       { "group": "supplies_reagents_lab", "prob": 20 },
       [ "gelbox", 3 ],
@@ -5114,6 +5120,8 @@
   {
     "type": "item_group",
     "id": "lab_dorm",
+    "ammo": 50,
+    "magazine": 100,
     "items": [
       [ "inhaler", 14 ],
       [ "eyedrops", 20 ],
@@ -5303,7 +5311,6 @@
       [ "bio_batteries", 10 ],
       [ "bio_metabolics", 10 ],
       [ "bio_ethanol", 10 ],
-      [ "bio_furnace", 10 ],
       [ "bio_torsionratchet", 10 ],
       [ "bio_tools", 10 ],
       [ "bio_ups", 10 ],
@@ -5409,7 +5416,6 @@
       [ "bio_batteries", 10 ],
       [ "bio_metabolics", 10 ],
       [ "bio_ethanol", 10 ],
-      [ "bio_furnace", 10 ],
       [ "bio_watch", 10 ],
       [ "bio_torsionratchet", 10 ],
       [ "bio_cable", 10 ]
@@ -5719,7 +5725,6 @@
       [ "bio_batteries", 10 ],
       [ "bio_metabolics", 10 ],
       [ "bio_ethanol", 10 ],
-      [ "bio_furnace", 10 ],
       [ "bio_ups", 10 ],
       [ "bio_torsionratchet", 10 ],
       [ "bio_ears", 10 ],
@@ -5789,7 +5794,6 @@
       [ "bio_power_storage_mkII", 10 ],
       [ "bio_batteries", 10 ],
       [ "bio_metabolics", 20 ],
-      [ "bio_furnace", 15 ],
       [ "bio_torsionratchet", 20 ],
       [ "bio_ups", 10 ],
       [ "bio_ears", 10 ],

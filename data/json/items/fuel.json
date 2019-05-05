@@ -71,6 +71,20 @@
     }
   },
   {
+    "id": "biodiesel",
+    "name": "biodiesel",
+    "name_plural": "biodiesel",
+    "copy-from": "diesel",
+    "type": "AMMO",
+    "description": "Vegetable oil- or animal fat-based diesel fuel consisting of long-chain alkyl (methyl, ethyl, or propyl) esters.",
+    "price": 30,
+    "price_postapoc": 300,
+    "fuel": {
+      "energy": 29.6,
+      "explosion_data": { "chance_hot": 20, "chance_cold": 1000, "factor": 0.2, "fiery": false, "size_factor": 0.1 }
+    }
+  },
+  {
     "id": "gasoline",
     "type": "AMMO",
     "name": "gasoline",

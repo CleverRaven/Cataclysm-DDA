@@ -310,6 +310,7 @@ void start_location::place_player( player &u ) const
     u.setx( HALF_MAPSIZE_X );
     u.sety( HALF_MAPSIZE_Y );
     u.setz( g->get_levz() );
+    m.invalidate_map_cache( m.get_abs_sub().z );
     m.build_map_cache( m.get_abs_sub().z );
     const bool must_be_inside = flags().count( "ALLOW_OUTSIDE" ) == 0;
     ///\EFFECT_STR allows player to start behind less-bashable furniture and terrain

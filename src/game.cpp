@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <wctype.h>
 #include <algorithm>
+#include <chrono>
 #include <cmath>
 #include <csignal>
 #include <ctime>
@@ -693,7 +694,7 @@ bool game::start_game()
         gamemode.reset( new special_game() );
     }
 
-    seed = rand();
+    seed = rng_bits();
     new_game = true;
     start_calendar();
     nextweather = calendar::turn;
@@ -728,10 +729,12 @@ bool game::start_game()
     lev.y -= HALF_MAPSIZE;
     load_map( lev );
 
+    m.invalidate_map_cache( get_levz() );
     m.build_map_cache( get_levz() );
     // Do this after the map cache has been built!
     start_loc.place_player( u );
     // ...but then rebuild it, because we want visibility cache to avoid spawning monsters in sight
+    m.invalidate_map_cache( get_levz() );
     m.build_map_cache( get_levz() );
     // Start the overmap with out immediate neighborhood visible, this needs to be after place_player
     overmap_buffer.reveal( point( u.global_omt_location().x, u.global_omt_location().y ),
@@ -1495,6 +1498,7 @@ bool game::do_turn()
     sounds::process_sounds();
     // Update vision caches for monsters. If this turns out to be expensive,
     // consider a stripped down cache just for monsters.
+    m.invalidate_map_cache( get_levz() );
     m.build_map_cache( get_levz(), true );
     monmove();
     if( calendar::once_every( 3_minutes ) ) {
@@ -1692,6 +1696,12 @@ void game::set_npcs_dirty()
 void game::set_critter_died()
 {
     critter_died = true;
+}
+
+void game::set_nextweather( time_point t )
+{
+    nextweather = t;
+    update_weather();
 }
 
 void game::update_weather()
@@ -1957,7 +1967,6 @@ void game::handle_key_blocking_activity()
             cancel_activity_query( _( "Confirm:" ) );
         } else if( action == "player_data" ) {
             u.disp_info();
-            refresh_all();
         } else if( action == "messages" ) {
             Messages::display_messages();
             refresh_all();
@@ -2025,7 +2034,7 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
         addentry( 'T', pgettext( "action", "take off" ), u.rate_action_takeoff( oThisItem ) );
         addentry( 'd', pgettext( "action", "drop" ), rate_drop_item );
         addentry( 'U', pgettext( "action", "unload" ), u.rate_action_unload( oThisItem ) );
-        addentry( 'r', pgettext( "action", "reload_item" ), u.rate_action_reload( oThisItem ) );
+        addentry( 'r', pgettext( "action", "reload" ), u.rate_action_reload( oThisItem ) );
         addentry( 'p', pgettext( "action", "part reload" ), u.rate_action_reload( oThisItem ) );
         addentry( 'm', pgettext( "action", "mend" ), u.rate_action_mend( oThisItem ) );
         addentry( 'D', pgettext( "action", "disassemble" ), u.rate_action_disassemble( oThisItem ) );
@@ -2286,6 +2295,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "disassemble" );
     ctxt.register_action( "sleep" );
     ctxt.register_action( "control_vehicle" );
+    ctxt.register_action( "auto_travel_mode" );
     ctxt.register_action( "safemode" );
     ctxt.register_action( "autosafe" );
     ctxt.register_action( "autoattack" );
@@ -2918,484 +2928,6 @@ void game::write_memorial_file( std::string sLastWords )
     }, _( "player memorial" ) );
 }
 
-void game::debug()
-{
-    int action = uilist(
-    _( "Debug Functions - Using these will cheat not only the game, but yourself.  You won't grow. You won't improve.\nTaking this shortcut will gain you nothing. Your victory will be hollow.\nNothing will be risked and nothing will be gained." ), {
-        _( "Wish for an item" ),                // 0
-        _( "Teleport - Short Range" ),          // 1
-        _( "Teleport - Long Range" ),           // 2
-        _( "Reveal map" ),                      // 3
-        _( "Spawn NPC" ),                       // 4
-        _( "Spawn Monster" ),                   // 5
-        _( "Check game state..." ),             // 6
-        _( "Kill NPCs" ),                       // 7
-        _( "Mutate" ),                          // 8
-        _( "Spawn a vehicle" ),                 // 9
-        _( "Change all skills" ),               // 10
-        _( "Learn all melee styles" ),          // 11
-        _( "Unlock all recipes" ),              // 12
-        _( "Edit player/NPC" ),                 // 13
-        _( "Spawn Artifact" ),                  // 14
-        _( "Spawn Clairvoyance Artifact" ),     // 15
-        _( "Map editor" ),                      // 16
-        _( "Change weather" ),                  // 17
-        _( "Change wind direction" ),           // 18
-        _( "Change wind speed" ),               // 19
-        _( "Kill all monsters" ),               // 20
-        _( "Display hordes" ),                  // 21
-        _( "Test Item Group" ),                 // 22
-        _( "Damage Self" ),                     // 23
-        _( "Show Sound Clustering" ),           // 24
-        _( "Display weather" ),                 // 25
-        _( "Display overmap scents" ),          // 26
-        _( "Change time" ),                     // 27
-        _( "Set automove route" ),              // 28
-        _( "Show mutation category levels" ),   // 29
-        _( "Overmap editor" ),                  // 30
-        _( "Draw benchmark (X seconds)" ),      // 31
-        _( "Teleport - Adjacent overmap" ),     // 32
-        _( "Test trait group" ),                // 33
-        _( "Show debug message" ),              // 34
-        _( "Crash game (test crash handling)" ),// 35
-        _( "Spawn Map Extra" ),                 // 36
-        _( "Toggle NPC pathfinding on map" ),   // 37
-        _( "Quit to Main Menu" ),               // 38
-    } );
-    refresh_all();
-    switch( action ) {
-        case 0:
-            debug_menu::wishitem( &u );
-            break;
-
-        case 1:
-            debug_menu::teleport_short();
-            break;
-
-        case 2:
-            debug_menu::teleport_long();
-            break;
-
-        case 3: {
-            auto &cur_om = get_cur_om();
-            for( int i = 0; i < OMAPX; i++ ) {
-                for( int j = 0; j < OMAPY; j++ ) {
-                    for( int k = -OVERMAP_DEPTH; k <= OVERMAP_HEIGHT; k++ ) {
-                        cur_om.seen( i, j, k ) = true;
-                    }
-                }
-            }
-            add_msg( m_good, _( "Current overmap revealed." ) );
-        }
-        break;
-
-        case 4: {
-            std::shared_ptr<npc> temp = std::make_shared<npc>();
-            temp->normalize();
-            temp->randomize();
-            temp->spawn_at_precise( { get_levx(), get_levy() }, u.pos() + point( -4, -4 ) );
-            overmap_buffer.insert_npc( temp );
-            temp->form_opinion( u );
-            temp->mission = NPC_MISSION_NULL;
-            temp->add_new_mission( mission::reserve_random( ORIGIN_ANY_NPC, temp->global_omt_location(),
-                                   temp->getID() ) );
-            load_npcs();
-        }
-        break;
-
-        case 5:
-            debug_menu::wishmonster( cata::nullopt );
-            break;
-
-        case 6: {
-            std::string s = _( "Location %d:%d in %d:%d, %s\n" );
-            s += _( "Current turn: %d.\n%s\n" );
-            s += ngettext( "%d creature exists.\n", "%d creatures exist.\n", num_creatures() );
-            popup_top(
-                s.c_str(),
-                u.posx(), u.posy(), get_levx(), get_levy(),
-                overmap_buffer.ter( u.global_omt_location() )->get_name(),
-                static_cast<int>( calendar::turn ),
-                ( get_option<bool>( "RANDOM_NPC" ) ? _( "NPCs are going to spawn." ) :
-                  _( "NPCs are NOT going to spawn." ) ),
-                num_creatures() );
-            for( const npc &guy : all_npcs() ) {
-                tripoint t = guy.global_sm_location();
-                add_msg( m_info, _( "%s: map ( %d:%d ) pos ( %d:%d )" ), guy.name, t.x,
-                         t.y, guy.posx(), guy.posy() );
-            }
-
-            add_msg( m_info, _( "(you: %d:%d)" ), u.posx(), u.posy() );
-            std::string stom =
-                _( "Stomach Contents: %d ml / %d ml kCal: %d, Water: %d ml" );
-            add_msg( m_info, stom.c_str(), units::to_milliliter( u.stomach.contains() ),
-                     units::to_milliliter( u.stomach.capacity() ), u.stomach.get_calories(),
-                     units::to_milliliter( u.stomach.get_water() ), u.get_hunger() );
-            stom = _( "Guts Contents: %d ml / %d ml kCal: %d, Water: %d ml\nHunger: %d, Thirst: %d, kCal: %d / %d" );
-            add_msg( m_info, stom.c_str(), units::to_milliliter( u.guts.contains() ),
-                     units::to_milliliter( u.guts.capacity() ), u.guts.get_calories(),
-                     units::to_milliliter( u.guts.get_water() ), u.get_hunger(), u.get_thirst(), u.get_stored_kcal(),
-                     u.get_healthy_kcal() );
-            disp_NPCs();
-            break;
-        }
-        case 7:
-            for( npc &guy : all_npcs() ) {
-                add_msg( _( "%s's head implodes!" ), guy.name );
-                guy.hp_cur[bp_head] = 0;
-            }
-            break;
-
-        case 8:
-            debug_menu::wishmutate( &u );
-            break;
-
-        case 9:
-            if( m.veh_at( u.pos() ) ) {
-                dbg( D_ERROR ) << "game:load: There's already vehicle here";
-                debugmsg( "There's already vehicle here" );
-            } else {
-                std::vector<vproto_id> veh_strings;
-                uilist veh_menu;
-                veh_menu.text = _( "Choose vehicle to spawn" );
-                int menu_ind = 0;
-                for( auto &elem : vehicle_prototype::get_all() ) {
-                    if( elem != vproto_id( "custom" ) ) {
-                        const vehicle_prototype &proto = elem.obj();
-                        veh_strings.push_back( elem );
-                        //~ Menu entry in vehicle wish menu: 1st string: displayed name, 2nd string: internal name of vehicle
-                        veh_menu.addentry( menu_ind, true, MENU_AUTOASSIGN, _( "%1$s (%2$s)" ), _( proto.name ),
-                                           elem.c_str() );
-                        ++menu_ind;
-                    }
-                }
-                veh_menu.query();
-                if( veh_menu.ret >= 0 && veh_menu.ret < static_cast<int>( veh_strings.size() ) ) {
-                    //Didn't cancel
-                    const vproto_id &selected_opt = veh_strings[veh_menu.ret];
-                    tripoint dest = u.pos(); // TODO: Allow picking this when add_vehicle has 3d argument
-                    vehicle *veh = m.add_vehicle( selected_opt, dest.x, dest.y, -90, 100, 0 );
-                    if( veh != nullptr ) {
-                        m.board_vehicle( u.pos(), &u );
-                    }
-                }
-            }
-            break;
-
-        case 10: {
-            debug_menu::wishskill( &u );
-        }
-        break;
-
-        case 11:
-            add_msg( m_info, _( "Martial arts debug." ) );
-            add_msg( _( "Your eyes blink rapidly as knowledge floods your brain." ) );
-            for( auto &style : all_martialart_types() ) {
-                if( style != matype_id( "style_none" ) ) {
-                    u.add_martialart( style );
-                }
-            }
-            add_msg( m_good, _( "You now know a lot more than just 10 styles of kung fu." ) );
-            break;
-
-        case 12: {
-            add_msg( m_info, _( "Recipe debug." ) );
-            add_msg( _( "Your eyes blink rapidly as knowledge floods your brain." ) );
-            for( const auto &e : recipe_dict ) {
-                u.learn_recipe( &e.second );
-            }
-            add_msg( m_good, _( "You know how to craft that now." ) );
-        }
-        break;
-
-        case 13:
-            debug_menu::character_edit_menu();
-            break;
-
-        case 14:
-            if( const cata::optional<tripoint> center = look_around() ) {
-                artifact_natural_property prop = artifact_natural_property( rng( ARTPROP_NULL + 1,
-                                                 ARTPROP_MAX - 1 ) );
-                m.create_anomaly( *center, prop );
-                m.spawn_natural_artifact( *center, prop );
-            }
-            break;
-
-        case 15:
-            u.i_add( item( architects_cube(), calendar::turn ) );
-            break;
-
-        case 16: {
-            look_debug();
-        }
-        break;
-
-        case 17: {
-            uilist weather_menu;
-            weather_menu.text = _( "Select new weather pattern:" );
-            weather_menu.addentry( 0, true, MENU_AUTOASSIGN, weather_override == WEATHER_NULL ?
-                                   _( "Keep normal weather patterns" ) : _( "Disable weather forcing" ) );
-            for( int weather_id = 1; weather_id < NUM_WEATHER_TYPES; weather_id++ ) {
-                weather_menu.addentry( weather_id, true, MENU_AUTOASSIGN,
-                                       weather_data( static_cast<weather_type>( weather_id ) ).name );
-            }
-
-            weather_menu.query();
-
-            if( weather_menu.ret >= 0 && weather_menu.ret < NUM_WEATHER_TYPES ) {
-                weather_type selected_weather = static_cast<weather_type>( weather_menu.ret );
-                weather_override = selected_weather;
-                nextweather = calendar::turn;
-                update_weather();
-            }
-        }
-        break;
-
-        case 18: {
-            uilist wind_direction_menu;
-            wind_direction_menu.text = _( "Select new wind direction:" );
-            wind_direction_menu.addentry( 0, true, MENU_AUTOASSIGN, wind_direction_override ?
-                                          _( "Disable direction forcing" ) : _( "Keep normal wind direction" ) );
-            int count = 1;
-            for( int angle = 0; angle <= 315; angle += 45 ) {
-                wind_direction_menu.addentry( count, true, MENU_AUTOASSIGN, get_wind_arrow( angle ) );
-                count += 1;
-            }
-            wind_direction_menu.query();
-            if( wind_direction_menu.ret == 0 ) {
-                wind_direction_override = cata::nullopt;
-            } else if( wind_direction_menu.ret >= 0 && wind_direction_menu.ret < 9 ) {
-                wind_direction_override = ( wind_direction_menu.ret - 1 ) * 45;
-                nextweather = calendar::turn;
-                update_weather();
-            }
-        }
-        break;
-
-        case 19: {
-            uilist wind_speed_menu;
-            wind_speed_menu.text = _( "Select new wind speed:" );
-            wind_speed_menu.addentry( 0, true, MENU_AUTOASSIGN, wind_direction_override ?
-                                      _( "Disable speed forcing" ) : _( "Keep normal wind speed" ) );
-            int count = 1;
-            for( int speed = 0; speed <= 100; speed += 10 ) {
-                std::string speedstring = std::to_string( speed ) + " " + velocity_units( VU_WIND );
-                wind_speed_menu.addentry( count, true, MENU_AUTOASSIGN, speedstring );
-                count += 1;
-            }
-            wind_speed_menu.query();
-            if( wind_speed_menu.ret == 0 ) {
-                windspeed_override = cata::nullopt;
-            } else if( wind_speed_menu.ret >= 0 && wind_speed_menu.ret < 12 ) {
-                int selected_wind_speed = ( wind_speed_menu.ret - 1 ) * 10;
-                windspeed_override = selected_wind_speed;
-                nextweather = calendar::turn;
-                update_weather();
-            }
-        }
-        break;
-
-        case 20: {
-            for( monster &critter : all_monsters() ) {
-                // Use the normal death functions, useful for testing death
-                // and for getting a corpse.
-                critter.die( nullptr );
-            }
-            cleanup_dead();
-        }
-        break;
-        case 21:
-            ui::omap::display_hordes();
-            break;
-        case 22: {
-            item_group::debug_spawn();
-        }
-        break;
-
-        // Damage Self
-        case 23: {
-            int dbg_damage;
-            if( query_int( dbg_damage, _( "Damage self for how much? hp: %d" ), u.hp_cur[hp_torso] ) ) {
-                u.hp_cur[hp_torso] -= dbg_damage;
-                u.die( nullptr );
-            }
-        }
-        break;
-
-        case 24: {
-#if defined(TILES)
-            // *INDENT-OFF*
-            const point offset {
-                POSX - u.posx() + u.view_offset.x,
-                POSY - u.posy() + u.view_offset.y
-            }; // *INDENT-ON*
-            draw_ter();
-            auto sounds_to_draw = sounds::get_monster_sounds();
-            for( const auto &sound : sounds_to_draw.first ) {
-                mvwputch( w_terrain, offset.y + sound.y, offset.x + sound.x, c_yellow, '?' );
-            }
-            for( const auto &sound : sounds_to_draw.second ) {
-                mvwputch( w_terrain, offset.y + sound.y, offset.x + sound.x, c_red, '?' );
-            }
-            wrefresh( w_terrain );
-            draw_panels();
-            inp_mngr.wait_for_any_key();
-#else
-                popup( _( "This binary was not compiled with tiles support." ) );
-#endif
-        }
-        break;
-
-        case 25:
-            ui::omap::display_weather();
-            break;
-        case 26:
-            ui::omap::display_scents();
-            break;
-        case 27: {
-            auto set_turn = [&]( const int initial, const int factor, const char *const msg ) {
-                const auto text = string_input_popup()
-                                  .title( msg )
-                                  .width( 20 )
-                                  .text( to_string( initial ) )
-                                  .only_digits( true )
-                                  .query_string();
-                if( text.empty() ) {
-                    return;
-                }
-                const int new_value = ( std::atoi( text.c_str() ) - initial ) * factor;
-                calendar::turn += std::max( std::min( INT_MAX / 2 - calendar::turn, new_value ),
-                                            -calendar::turn );
-            };
-
-            uilist smenu;
-            do {
-                const int iSel = smenu.ret;
-                smenu.reset();
-                smenu.addentry( 0, true, 'y', "%s: %d", _( "year" ), calendar::turn.years() );
-                smenu.addentry( 1, !calendar::eternal_season(), 's', "%s: %d",
-                                _( "season" ), static_cast<int>( season_of_year( calendar::turn ) ) );
-                smenu.addentry( 2, true, 'd', "%s: %d", _( "day" ), day_of_season<int>( calendar::turn ) );
-                smenu.addentry( 3, true, 'h', "%s: %d", _( "hour" ), hour_of_day<int>( calendar::turn ) );
-                smenu.addentry( 4, true, 'm', "%s: %d", _( "minute" ), minute_of_hour<int>( calendar::turn ) );
-                smenu.addentry( 5, true, 't', "%s: %d", _( "turn" ), static_cast<int>( calendar::turn ) );
-                smenu.selected = iSel;
-                smenu.query();
-
-                switch( smenu.ret ) {
-                    case 0:
-                        set_turn( calendar::turn.years(), to_turns<int>( calendar::year_length() ), _( "Set year to?" ) );
-                        break;
-                    case 1:
-                        set_turn( static_cast<int>( season_of_year( calendar::turn ) ),
-                                  to_turns<int>( calendar::turn.season_length() ),
-                                  _( "Set season to? (0 = spring)" ) );
-                        break;
-                    case 2:
-                        set_turn( day_of_season<int>( calendar::turn ), DAYS( 1 ), _( "Set days to?" ) );
-                        break;
-                    case 3:
-                        set_turn( hour_of_day<int>( calendar::turn ), HOURS( 1 ), _( "Set hour to?" ) );
-                        break;
-                    case 4:
-                        set_turn( minute_of_hour<int>( calendar::turn ), MINUTES( 1 ), _( "Set minute to?" ) );
-                        break;
-                    case 5:
-                        set_turn( calendar::turn, 1,
-                                  string_format( _( "Set turn to? (One day is %i turns)" ), static_cast<int>( DAYS( 1 ) ) ).c_str() );
-                        break;
-                    default:
-                        break;
-                }
-            } while( smenu.ret != UILIST_CANCEL );
-        }
-        break;
-        case 28: {
-            const cata::optional<tripoint> dest = look_around();
-            if( !dest || *dest == u.pos() ) {
-                break;
-            }
-
-            auto rt = m.route( u.pos(), *dest, u.get_pathfinding_settings(), u.get_path_avoid() );
-            if( !rt.empty() ) {
-                u.set_destination( rt );
-            } else {
-                popup( "Couldn't find path" );
-            }
-        }
-        break;
-        case 29:
-            for( const auto &elem : u.mutation_category_level ) {
-                add_msg( "%s: %d", elem.first.c_str(), elem.second );
-            }
-            break;
-
-        case 30:
-            ui::omap::display_editor();
-            break;
-
-        case 31: {
-            const int ms = string_input_popup()
-                           .title( _( "Enter benchmark length (in milliseconds):" ) )
-                           .width( 20 )
-                           .text( "5000" )
-                           .query_int();
-            debug_menu::draw_benchmark( ms );
-        }
-        break;
-
-        case 32:
-            debug_menu::teleport_overmap();
-            break;
-        case 33:
-            trait_group::debug_spawn();
-            break;
-        case 34:
-            debugmsg( "Test debugmsg" );
-            break;
-        case 35:
-            std::raise( SIGSEGV );
-            break;
-        case 36: {
-            oter_id terrain_type = overmap_buffer.ter( g->u.global_omt_location() );
-
-            map_extras ex = region_settings_map["default"].region_extras[terrain_type->get_extras()];
-            uilist mx_menu;
-            std::vector<std::string> mx_str;
-            for( auto &extra : ex.values ) {
-                mx_menu.addentry( -1, true, -1, extra.obj );
-                mx_str.push_back( extra.obj );
-            }
-            mx_menu.query( false );
-            int mx_choice = mx_menu.ret;
-            if( mx_choice >= 0 && mx_choice < static_cast<int>( mx_str.size() ) ) {
-                auto func = MapExtras::get_function( mx_str[ mx_choice ] );
-                if( func != nullptr ) {
-                    const tripoint where( ui::omap::choose_point() );
-                    if( where != overmap::invalid_tripoint ) {
-                        tinymap mx_map;
-                        mx_map.load( where.x * 2, where.y * 2, where.z, false );
-                        func( mx_map, where );
-                    }
-                }
-            }
-            break;
-        }
-        case 37:
-            debug_pathfinding = !debug_pathfinding;
-            break;
-        case 38:
-            if( query_yn(
-                    _( "Quit without saving? This may cause issues such as duplicated or missing items and vehicles!" ) ) ) {
-                u.moves = 0;
-                uquit = QUIT_NOSAVED;
-            }
-            break;
-    }
-    catacurses::erase();
-    refresh_all();
-}
-
 void game::disp_kills()
 {
     catacurses::window w = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
@@ -3635,6 +3167,7 @@ void game::draw()
 
     //temporary fix for updating visibility for minimap
     ter_view_z = ( u.pos() + u.view_offset ).z;
+    m.invalidate_map_cache( ter_view_z );
     m.build_map_cache( ter_view_z );
     m.update_visibility_cache( ter_view_z );
 
@@ -4593,12 +4126,16 @@ void game::monmove()
     // Make sure these don't match the first time around.
     tripoint cached_lev = m.get_abs_sub() + tripoint( 1, 0, 0 );
 
+    // used to force update of the monster factions if a monster has changed its z-level.
+    bool force_mfactions_update = false;
+
     mfactions monster_factions;
     const auto &playerfaction = mfaction_str_id( "player" );
     for( monster &critter : all_monsters() ) {
-        // The first time through, and any time the map has been shifted,
+        // The first time through, and any time the map has been shifted, or a monster changed its z-level
         // recalculate monster factions.
-        if( cached_lev != m.get_abs_sub() ) {
+        if( cached_lev != m.get_abs_sub() || force_mfactions_update ) {
+            force_mfactions_update = false;
             // monster::plan() needs to know about all monsters on the same team as the monster.
             monster_factions.clear();
             for( monster &critter : all_monsters() ) {
@@ -4650,6 +4187,16 @@ void game::monmove()
             critter.move(); // Move one square, possibly hit u
             critter.process_triggers();
             m.creature_in_field( critter );
+        }
+
+        // FIX #28679
+        // It is possible that a monster has fallen down a z-level during critter.move() above, if it stepped on a trap.
+        // In this case the monster is deleted during the iteration of this `for` loop in
+        //  game::non_dead_range<monster>::iterator::operator++().
+        // We must make sure that we update the monster_factions so we don't pass a deleted monster later in critter.plan().
+        // Note that this only applies if z-levels are not active.
+        if( !g->m.has_zlevels() && critter.posz() != g->u.posz() ) {
+            force_mfactions_update = true;
         }
 
         if( !critter.is_dead() &&
@@ -5211,7 +4758,8 @@ void game::emp_blast( const tripoint &p )
         return;
     }
     // TODO: More terrain effects.
-    if( m.ter( x, y ) == t_card_science || m.ter( x, y ) == t_card_military ||  m.ter( x, y ) == t_card_industrial ) {
+    if( m.ter( x, y ) == t_card_science || m.ter( x, y ) == t_card_military ||
+        m.ter( x, y ) == t_card_industrial ) {
         int rn = rng( 1, 100 );
         if( rn > 92 || rn < 40 ) {
             if( sight ) {
@@ -6169,13 +5717,7 @@ void game::examine( const tripoint &examp )
 
     const optional_vpart_position vp = m.veh_at( examp );
     if( vp ) {
-        if( u.controlling_vehicle ) {
-            add_msg( m_info, _( "You can't do that while driving." ) );
-        } else if( abs( vp->vehicle().velocity ) > 0 ) {
-            add_msg( m_info, _( "You can't do that on a moving vehicle." ) );
-        } else {
-            Pickup::pick_up( examp, 0 );
-        }
+        vp->vehicle().interact_with( examp, vp->part_index() );
         return;
     }
 
@@ -6253,7 +5795,13 @@ void game::pickup()
     int num_tiles_with_items = 0;
     tripoint tile_with_items = u.pos();
     for( const tripoint &p : m.points_in_radius( u.pos(), 1 ) ) {
-        if( m.has_items( p ) ) {
+        bool veh_has_items = false;
+        const optional_vpart_position vp = m.veh_at( p );
+        if( vp ) {
+            const int cargo_part = vp->vehicle().part_with_feature( vp->part_index(), "CARGO", false );
+            veh_has_items = cargo_part >= 0 && !vp->vehicle().get_items( cargo_part ).empty();
+        }
+        if( m.has_items( p ) || veh_has_items ) {
             ++num_tiles_with_items;
             tile_with_items = p;
         }
@@ -6453,9 +6001,11 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
     }
 
     if( m.impassable( lp ) ) {
-        lines = fold_and_print( w_look, line, column, max_width, c_light_gray, _( "%s; Impassable" ), tile );
+        lines = fold_and_print( w_look, line, column, max_width, c_light_gray, _( "%s; Impassable" ),
+                                tile );
     } else {
-        lines = fold_and_print( w_look, line, column, max_width, c_light_gray, _( "%s; Movement cost %d" ), tile, m.move_cost( lp ) * 50 );
+        lines = fold_and_print( w_look, line, column, max_width, c_light_gray, _( "%s; Movement cost %d" ),
+                                tile, m.move_cost( lp ) * 50 );
 
         const auto ll = get_light_level( std::max( 1.0,
                                          LIGHT_AMBIENT_LIT - m.ambient_light_at( lp ) + 1.0 ) );
@@ -6478,9 +6028,11 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
         }
 
         if( !m.has_floor_or_support( lp ) ) {
-            fold_and_print( w_look, ++lines, column, max_width, c_dark_gray, _( "Below: %s; No support" ), tile_below );
+            fold_and_print( w_look, ++lines, column, max_width, c_dark_gray, _( "Below: %s; No support" ),
+                            tile_below );
         } else {
-            fold_and_print( w_look, ++lines, column, max_width, c_dark_gray, _( "Below: %s; Walkable" ), tile_below );
+            fold_and_print( w_look, ++lines, column, max_width, c_dark_gray, _( "Below: %s; Walkable" ),
+                            tile_below );
         }
     }
 
@@ -7365,6 +6917,7 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
 
             add_msg( m_debug, "levx: %d, levy: %d, levz :%d", get_levx(), get_levy(), center.z );
             u.view_offset.z = center.z - u.posz();
+            m.invalidate_map_cache( center.z );
             refresh_all();
             if( select_zone && has_first_point ) { // is blinking
                 blink = true; // Always draw blink symbols when moving cursor
@@ -7478,6 +7031,7 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
              action != "throw_blind" );
 
     if( m.has_zlevels() && center.z != old_levz ) {
+        m.invalidate_map_cache( old_levz );
         m.build_map_cache( old_levz );
         u.view_offset.z = 0;
     }
@@ -9569,7 +9123,7 @@ void game::eat( int pos )
         return;
     }
 
-    if(!u.has_activity( activity_id( "ACT_EAT_MENU" ) ) ){
+    if( !u.has_activity( activity_id( "ACT_EAT_MENU" ) ) ) {
         u.assign_activity( activity_id( "ACT_EAT_MENU" ) );
     }
 
@@ -11762,6 +11316,7 @@ void game::vertical_move( int movez, bool force )
         }
     }
 
+    m.invalidate_map_cache( g->get_levz() );
     refresh_all();
     // Upon force movement, traps can not be avoided.
     m.creature_on_trap( u, !force );
@@ -12038,6 +11593,7 @@ point game::update_map( int &x, int &y )
     load_npcs();
 
     // Make sure map cache is consistent since it may have shifted.
+    m.invalidate_map_cache( get_levz() );
     m.build_map_cache( get_levz() );
 
     // Spawn monsters if appropriate

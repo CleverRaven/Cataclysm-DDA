@@ -1,50 +1,44 @@
 [
-    {
-        "type" : "mapgen",
-        "om_terrain" : ["mil_outpost_utrc"],
-        "comment" : "underground top right corner",
-        "method": "json",
-        "weight": 250,
-        "object": {
-            "fill_ter": "t_concrete_floor",
-            "rows": [
-                "########################",
-                "#####--------------#####",
-                "#####|bbb..N.N.N.b|#####",
-                "#####|...........b|#####",
-                "#####|...........b|#####",
-                "------bbb...TT...b|#####",
-                "bbbbbbbbb...TT...b|#####",
-                "............TT...b|#####",
-                "...bbbbbb...TT...b|#####",
-                "............TT...b|#####",
-                "bbbbbbbbb...TT...b|#####",
-                "-----|bbb...TT...b|#####",
-                "     +...........b|#####",
-                "     +............|#####",
-                "-----|bbb..N.N.N.N|#####",
-                "#####--------------#####",
-                "########################",
-                "####----#####----#######",
-                "####|55PPPPPPP55P#######",
-                "-----...........PPP#####",
-                "..................P|####",
-                "....-----..0.0.0..5|####",
-                "....|###|.........5|####",
-                "....|###|..0.0.0..||####"
-            ],
-            "palettes":[
-               "mil_outpost_underground"
-            ],
-            "terrain":{
-                "5": "t_ind_mixer",
-                "0": "t_ind_furnace",
-                "P": "t_ind_pipe"
-            },
-            "place_monsters": [
-                { "monster": "GROUP_MIL_OUTPOST_ZOM", "x": [ 2, 23 ], "y": [ 2, 23 ], "density": 1, "chance": 15 },
-                { "monster": "GROUP_MIL_OUTPOST_BOT", "x": [ 2, 23 ], "y": [ 2, 23 ], "density": 1, "chance": 15 }
-            ]
-        }
+  {
+    "type": "mapgen",
+    "om_terrain": [ "mil_outpost_utrc" ],
+    "comment": "underground top right corner",
+    "method": "json",
+    "weight": 250,
+    "object": {
+      "fill_ter": "t_concrete_floor",
+      "rows": [
+        "########################",
+        "#####--------------#####",
+        "#####|bbb..N.N.N.b|#####",
+        "#####|...........b|#####",
+        "#####|...........b|#####",
+        "------bbb...TT...b|#####",
+        "bbbbbbbbb...TT...b|#####",
+        "............TT...b|#####",
+        "...bbbbbb...TT...b|#####",
+        "............TT...b|#####",
+        "bbbbbbbbb...TT...b|#####",
+        "-----|bbb...TT...b|#####",
+        "     +...........b|#####",
+        "     +............|#####",
+        "-----|bbb..N.N.N.N|#####",
+        "#####--------------#####",
+        "########################",
+        "####----#####----#######",
+        "####|55PPPPPPP55P#######",
+        "-----...........PPP#####",
+        "..................P|####",
+        "....-----..0.0.0..5|####",
+        "....|###|.........5|####",
+        "....|###|..0.0.0..||####"
+      ],
+      "palettes": [ "mil_outpost_underground" ],
+      "terrain": { "5": "t_ind_mixer", "0": "t_ind_furnace", "P": "t_ind_pipe" },
+      "place_monsters": [
+        { "monster": "GROUP_MIL_OUTPOST_ZOM", "x": [ 2, 23 ], "y": [ 2, 23 ], "density": 1, "chance": 15 },
+        { "monster": "GROUP_MIL_OUTPOST_BOT", "x": [ 2, 23 ], "y": [ 2, 23 ], "density": 1, "chance": 15 }
+      ]
     }
+  }
 ]

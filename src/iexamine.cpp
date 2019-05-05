@@ -245,7 +245,7 @@ void iexamine::gaspump( player &p, const tripoint &examp )
                 static const auto max_spill_volume = units::from_liter( 1 );
                 const long max_spill_charges = std::max( 1l, item_it->charges_per_volume( max_spill_volume ) );
                 ///\EFFECT_DEX decreases amount of gas spilled from a pump
-                const int qty = rng( 1l, max_spill_charges * 8.0 / std::max( 1, p.get_dex() ) );
+                const int qty = rng( 1, max_spill_charges * 8.0 / std::max( 1, p.get_dex() ) );
 
                 item spill = item_it->split( qty );
                 if( spill.is_null() ) {
@@ -1247,30 +1247,13 @@ void iexamine::bulletin_board( player &p, const tripoint &examp )
         basecamp *temp_camp = *bcp;
         temp_camp->validate_assignees();
         temp_camp->validate_sort_points();
-        if( temp_camp->get_dumping_spot() == tripoint_zero ) {
-            auto &mgr = zone_manager::get_manager();
-            if( g->m.check_vehicle_zones( g->get_levz() ) ) {
-                mgr.cache_vzones();
-            }
-            tripoint src_loc;
-            const auto abspos = g->m.getabs( p.pos() );
-            if( mgr.has_near( z_loot_unsorted, abspos ) ) {
-                const auto &src_set = mgr.get_near( z_loot_unsorted, abspos );
-                const auto &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
-                // Find the nearest unsorted zone to dump objects at
-                for( auto &src : src_sorted ) {
-                    src_loc = g->m.getlocal( src );
-                    break;
-                }
-            }
-            temp_camp->set_dumping_spot( g->m.getabs( src_loc ) );
-        }
+
         const std::string title = ( "Base Missions" );
         mission_data mission_key;
-        temp_camp->get_available_missions( mission_key, omt_tri, false );
-        if( talk_function::display_and_choose_opts( mission_key, temp_camp->camp_omt_pos(), "FACTION_CAMP",
-                title ) ) {
-            temp_camp->handle_mission( mission_key.cur_key.id, mission_key.cur_key.dir, omt_tri, false );
+        temp_camp->get_available_missions( mission_key, false );
+        if( talk_function::display_and_choose_opts( mission_key, temp_camp->camp_omt_pos(),
+                "FACTION_CAMP", title ) ) {
+            temp_camp->handle_mission( mission_key.cur_key.id, mission_key.cur_key.dir, false );
         }
     } else {
         p.add_msg_if_player( _( "This bulletin board is not inside a camp" ) );
@@ -1555,6 +1538,38 @@ void iexamine::flower_poppy( player &p, const tripoint &examp )
     }
 }
 
+/**
+ * Prompt pick cactus pad. Not safe for player.
+ */
+void iexamine::flower_cactus( player &p, const tripoint &examp )
+{
+    if( dead_plant( true, p, examp ) ) {
+        return;
+    }
+
+    if( !query_yn( _( "Pick %s?" ), g->m.furnname( examp ) ) ) {
+        none( p, examp );
+        return;
+    }
+
+    if( one_in( 6 ) ) {
+        add_msg( m_bad, _( "The cactus' nettles sting you!" ) );
+        p.apply_damage( nullptr, bp_arm_l, 4 );
+        p.apply_damage( nullptr, bp_arm_r, 4 );
+    }
+
+    g->m.furn_set( examp, f_null );
+
+    item cactus_pad = item( "cactus_pad" );
+    if( p.can_pickWeight( cactus_pad, true ) &&
+        p.can_pickVolume( cactus_pad, true ) ) {
+        p.i_add( cactus_pad );
+        p.add_msg_if_player( _( "You harvest: %s." ), cactus_pad.tname() );
+    } else {
+        g->m.add_item_or_charges( p.pos(), cactus_pad );
+        p.add_msg_if_player( _( "You harvest and drop: %s." ), cactus_pad.tname() );
+    }
+}
 /**
  * It's a flower, drink nectar if your able to.
  */
@@ -2054,7 +2069,7 @@ void iexamine::harvest_plant( player &p, const tripoint &examp )
         } else if( plantCount <= 0 ) {
             plantCount = 1;
         }
-        const int seedCount = std::max( 1l, rng( plantCount / 4, plantCount / 2 ) );
+        const int seedCount = std::max( 1, rng( plantCount / 4, plantCount / 2 ) );
         for( auto &i : get_harvest_items( type, plantCount, seedCount, true ) ) {
             g->m.add_item_or_charges( examp, i );
         }
@@ -4263,7 +4278,7 @@ void mill_activate( player &p, const tripoint &examp )
     for( auto &it : g->m.i_at( examp ) ) {
         if( it.has_flag( "MILLABLE" ) ) {
             // Do one final rot check before milling, then apply the PROCESSING flag to prevent further checks.
-            it.calc_rot( examp );
+            it.process_temperature_rot( g->get_temperature( examp ), 1, examp, nullptr );
             it.set_flag( "PROCESSING" );
         }
     }
@@ -4355,8 +4370,7 @@ void smoker_activate( player &p, const tripoint &examp )
     p.use_charges( "fire", 1 );
     for( auto &it : g->m.i_at( examp ) ) {
         if( it.has_flag( "SMOKABLE" ) ) {
-            // Do one final rot check before smoking, then apply the PROCESSING flag to prevent further checks.
-            it.calc_rot( examp );
+            it.process_temperature_rot( g->get_temperature( examp ), 1, examp, nullptr );
             it.set_flag( "PROCESSING" );
         }
     }
@@ -4395,7 +4409,7 @@ void iexamine::mill_finalize( player &, const tripoint &examp, const time_point 
 
     for( auto &it : items ) {
         if( it.has_flag( "MILLABLE" ) ) {
-            it.calc_rot_while_processing( examp, 6_hours );
+            it.calc_rot_while_processing( 6_hours );
         }
     }
     for( size_t i = 0; i < items.size(); i++ ) {
@@ -4432,7 +4446,7 @@ void smoker_finalize( player &, const tripoint &examp, const time_point &start_t
 
     for( auto &it : items ) {
         if( it.has_flag( "SMOKABLE" ) ) { // Don't check charcoal
-            it.calc_rot_while_processing( examp, 6_hours );
+            it.calc_rot_while_processing( 6_hours );
         }
     }
 
@@ -5198,6 +5212,7 @@ iexamine_function iexamine_function_from_string( const std::string &function_nam
             { "door_peephole", &iexamine::door_peephole },
             { "fswitch", &iexamine::fswitch },
             { "flower_poppy", &iexamine::flower_poppy },
+            { "flower_cactus", &iexamine::flower_cactus },
             { "fungus", &iexamine::fungus },
             { "flower_spurge", &iexamine::flower_spurge },
             { "flower_tulip", &iexamine::flower_tulip },
