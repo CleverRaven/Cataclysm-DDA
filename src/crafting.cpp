@@ -1930,6 +1930,9 @@ void remove_ammo( std::list<item> &dis_items, player &p )
 
 void drop_or_handle( const item &newit, player &p )
 {
+    if( newit.has_flag( "NO_ACQUIRE" ) ) {
+        return;
+    }
     if( newit.made_of( LIQUID ) && &p == &g->u ) { // TODO: what about NPCs?
         g->handle_all_liquid( newit, PICKUP_RANGE );
     } else {

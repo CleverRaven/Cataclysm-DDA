@@ -9,7 +9,7 @@
     "symbol": "=",
     "color": "yellow",
     "description": "Some free-floating battery charge. This can be reloaded into rechargable battery cells, but can never be unloaded.",
-    "flags": "TRADER_AVOID",
+    "flags": [ "TRADER_AVOID", "NO_ACQUIRE" ],
     "material": "iron",
     "volume": 1,
     "weight": 1,
