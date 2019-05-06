@@ -27,23 +27,37 @@ int weather_generator::current_winddir = 1000;
 w_point weather_generator::get_weather( const tripoint &location, const time_point &t,
                                         unsigned seed ) const
 {
-    static constexpr int weather_cache_limit = 10000000;
+    // Granularity of time: weather changes only once in 30 minutes
+    static constexpr int t_mult = 300;
+    // Granularity of coordinates: weather is the same in one quarter of OMT
+    static constexpr int l_mult = SEEX;
+    // Cache large enough to store 4 values per OMT for whole overmap for 48 thrity minute intervals assuming 10% of map tiles contain items
+    static constexpr int weather_cache_limit = OMAPX * OMAPY * 4 * 48 / 10;
 
     static const w_point weather_cache_value_not_found = { 0.0, 0.0, 0.0, 0.0, "NFIC", 0, false };
+
+    // Lowers granularity of provided parameters to reduce cache size and increase cache hit rate
+    time_point t_rounded = time_point::from_turn( ( ( to_turn<int>( t ) + t_mult / 2 ) / t_mult ) *
+                           t_mult );
+    tripoint location_rounded( ( ( location.x + l_mult / 2 ) / l_mult ) * l_mult,
+                               ( ( location.y + l_mult / 2 ) / l_mult ) * l_mult,
+                               location.z );
+
     static lru_cache<weather_cache_key_type, w_point> weather_cache;
-    const weather_cache_key_type weather_cache_key = std::make_pair( location, t );
+    const weather_cache_key_type weather_cache_key = std::make_pair( location_rounded, t_rounded );
     w_point weather = weather_cache.get( weather_cache_key, weather_cache_value_not_found );
     if( weather.wind_desc != "NFIC" ) {
         return weather;
     }
-    const double x( location.x /
+
+    const double x( location_rounded.x /
                     2000.0 ); // Integer x position / widening factor of the Perlin function.
-    const double y( location.y /
+    const double y( location_rounded.y /
                     2000.0 ); // Integer y position / widening factor of the Perlin function.
-    const double z( to_turn<int>( t + calendar::season_length() ) /
+    const double z( to_turn<int>( t_rounded + calendar::season_length() ) /
                     2000.0 ); // Integer turn / widening factor of the Perlin function.
 
-    const double dayFraction = time_past_midnight( t ) / 1_days;
+    const double dayFraction = time_past_midnight( t_rounded ) / 1_days;
 
     //limit the random seed during noise calculation, a large value flattens the noise generator to zero
     //Windows has a rand limit of 32768, other operating systems can have higher limits
@@ -56,7 +70,7 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
     double A( raw_noise_4d( x, y, z, modSEED ) * 8.0 );
     double W( raw_noise_4d( x / 2.5, y / 2.5, z / 200, modSEED ) * 10.0 );
 
-    const double now( ( time_past_new_year( t ) + calendar::season_length() / 2 ) /
+    const double now( ( time_past_new_year( t_rounded ) + calendar::season_length() / 2 ) /
                       calendar::year_length() ); // [0,1)
     const double ctn( cos( tau * now ) );
     const season_type season = season_of_year( now );
