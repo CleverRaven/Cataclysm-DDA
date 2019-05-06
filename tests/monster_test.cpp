@@ -117,12 +117,13 @@ static int can_catch_player( const std::string &monster_type, const tripoint &di
                 test_player.pos().y >= SEEY * ( 1 + int( MAPSIZE / 2 ) ) ) {
                 g->update_map( test_player );
                 wipe_map_terrain();
-                g->unload_npcs();
+                clear_npcs();
                 for( monster &critter : g->all_monsters() ) {
                     if( &critter != &test_monster ) {
                         g->remove_zombie( critter );
                     }
                 }
+                g->m.clear_traps();
                 // Verify that only the player and one monster are present.
                 REQUIRE( g->num_creatures() == 2 );
             }

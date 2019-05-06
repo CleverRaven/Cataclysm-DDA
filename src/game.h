@@ -500,8 +500,16 @@ class game
         npc *find_npc( int id );
         /** Makes any nearby NPCs on the overmap active. */
         void load_npcs();
-        /** Unloads all NPCs */
+    private:
+        /** Unloads all NPCs.
+         *
+         * If you call this you must later call load_npcs, lest caches get
+         * rather confused.  The tests used to call this a lot when they
+         * shouldn't. It is now private to reduce the chance of similar
+         * problems in the future.
+         */
         void unload_npcs();
+    public:
         /** Unloads, then loads the NPCs */
         void reload_npcs();
         /** Returns the number of kills of the given mon_id by the player. */

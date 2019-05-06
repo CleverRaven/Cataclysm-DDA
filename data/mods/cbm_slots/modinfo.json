@@ -1,0 +1,12 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "cbm_slots",
+    "name": "Bionic Slots",
+    "authors": [ "anothersimulacrum" ],
+    "description": "Enables the bionic slots system.",
+    "category": "rebalance",
+    "dependencies": [ "dda" ],
+    "path": ""
+  }
+]

@@ -82,6 +82,7 @@ void change_om_type( const std::string &new_type )
 TEST_CASE( "npc_talk_test" )
 {
     clear_player();
+    CHECK( !g->u.in_vehicle );
     const tripoint test_origin( 15, 15, 0 );
     g->u.setpos( test_origin );
 

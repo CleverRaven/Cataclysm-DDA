@@ -14,13 +14,13 @@ function just_json
     fi
     for filename in $files_changed
     do
-        if [[ ! "$filename" =~ .json$ ]]
+        if [[ ! "$filename" =~ \.(json|md)$ ]]
         then
-            echo "$filename is not json, triggering full build."
+            echo "$filename is not json or markdown, triggering full build."
             return 1
         fi
     done
-    echo "Only json files present, skipping full build."
+    echo "Only json / markdown files changed, skipping full build."
     return 0
 }
 

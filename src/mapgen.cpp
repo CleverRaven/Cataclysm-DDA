@@ -3397,7 +3397,11 @@ ___DEEE|.R.|...,,...|sss\n",
 
         if( ice_lab ) {
             int temperature = -20 + 30 * ( zlevel );
+
             set_temperature( x, y, temperature );
+            set_temperature( x + SEEX, y, temperature );
+            set_temperature( x, y + SEEY, temperature );
+            set_temperature( x + SEEX, y + SEEY, temperature );
         }
 
         // Check for adjacent sewers; used below
@@ -4063,7 +4067,11 @@ ___DEEE|.R.|...,,...|sss\n",
 
         if( ice_lab ) {
             int temperature = -20 + 30 * zlevel;
+
             set_temperature( x, y, temperature );
+            set_temperature( x + SEEX, y, temperature );
+            set_temperature( x, y + SEEY, temperature );
+            set_temperature( x + SEEX, y + SEEY, temperature );
         }
 
         tw = is_ot_subtype( "lab", t_north ) ? 0 : 2;
@@ -7240,6 +7248,9 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
 
             // Now get rid of the old vehicles
             std::unique_ptr<vehicle> old_veh = detach_vehicle( other_veh );
+            // Failure has happened here when caches are corrupted due to bugs.
+            // Add an assertion to avoid null-pointer dereference later.
+            assert( old_veh );
 
             // Try again with the wreckage
             std::unique_ptr<vehicle> new_veh = add_vehicle_to_map( std::move( wreckage ), true );
@@ -7330,221 +7341,39 @@ void map::rotate( int turns )
         if( np_rc.om_sub.y % 2 != 0 ) {
             old_y += SEEY;
         }
-        int new_x = old_x;
-        int new_y = old_y;
-        switch( turns ) {
-            case 3:
-                new_x = old_y;
-                new_y = SEEX * 2 - 1 - old_x;
-                break;
-            case 2:
-                new_x = SEEX * 2 - 1 - old_x;
-                new_y = SEEY * 2 - 1 - old_y;
-                break;
-            case 1:
-                new_x = SEEY * 2 - 1 - old_y;
-                new_y = old_x;
-                break;
-        }
-        np.spawn_at_precise( { abs_sub.x, abs_sub.y }, { new_x, new_y, abs_sub.z } );
+
+        const auto new_pos = point{ old_x, old_y } .rotate( turns, { SEEX * 2, SEEY * 2 } );
+
+        np.spawn_at_precise( { abs_sub.x, abs_sub.y }, { new_pos.x, new_pos.y, abs_sub.z } );
         overmap_buffer.insert_npc( npc_ptr );
     }
-    ter_id rotated [SEEX * 2][SEEY * 2];
-    furn_id furnrot [SEEX * 2][SEEY * 2];
-    trap_id traprot [SEEX * 2][SEEY * 2];
-    std::vector<item> itrot[SEEX * 2][SEEY * 2];
-    field fldrot [SEEX * 2][SEEY * 2];
-    int radrot [SEEX * 2][SEEY * 2];
 
-    std::vector<spawn_point> sprot[MAPSIZE * MAPSIZE];
-    std::vector<std::unique_ptr<vehicle>> vehrot[MAPSIZE * MAPSIZE];
-    std::vector<submap::cosmetic_t> cosmetics_rot[MAPSIZE * MAPSIZE];
-    std::unique_ptr<computer> tmpcomp[MAPSIZE * MAPSIZE];
-    int field_count[MAPSIZE * MAPSIZE];
-    int temperature[MAPSIZE * MAPSIZE];
+    // Move the submaps around.
+    if( turns == 2 ) {
+        std::swap( *get_submap_at_grid( { 0, 0 } ), *get_submap_at_grid( { 1, 1 } ) );
+        std::swap( *get_submap_at_grid( { 1, 0 } ), *get_submap_at_grid( { 0, 1 } ) );
+    } else {
+        auto p = point{ 0, 0 };
+        submap tmp;
 
-    //Rotate terrain first
-    for( int old_x = 0; old_x < SEEX * 2; old_x++ ) {
-        for( int old_y = 0; old_y < SEEY * 2; old_y++ ) {
-            int new_x = old_x;
-            int new_y = old_y;
-            switch( turns ) {
-                case 1:
-                    new_x = old_y;
-                    new_y = SEEX * 2 - 1 - old_x;
-                    break;
-                case 2:
-                    new_x = SEEX * 2 - 1 - old_x;
-                    new_y = SEEY * 2 - 1 - old_y;
-                    break;
-                case 3:
-                    new_x = SEEY * 2 - 1 - old_y;
-                    new_y = old_x;
-                    break;
-            }
-            point new_l;
-            const auto new_sm = get_submap_at( { new_x, new_y }, new_l );
-            new_sm->is_uniform = false;
-            std::swap( rotated[old_x][old_y], new_sm->ter[new_l.x][new_l.y] );
-            std::swap( furnrot[old_x][old_y], new_sm->frn[new_l.x][new_l.y] );
-            std::swap( traprot[old_x][old_y], new_sm->trp[new_l.x][new_l.y] );
-            std::swap( fldrot[old_x][old_y], new_sm->fld[new_l.x][new_l.y] );
-            std::swap( radrot[old_x][old_y], new_sm->rad[new_l.x][new_l.y] );
-            auto items = i_at( new_x, new_y );
-            itrot[old_x][old_y].reserve( items.size() );
-            // Copy items, if we move them, it'll wreck i_clear().
-            std::copy( items.begin(), items.end(), std::back_inserter( itrot[old_x][old_y] ) );
-            i_clear( new_x, new_y );
+        std::swap( *get_submap_at_grid( point{ 1, 1 } - p ), tmp );
+
+        for( int k = 0; k < 4; ++k ) {
+            p = p.rotate( turns, { 2, 2 } );
+            std::swap( *get_submap_at_grid( point{ 1, 1 } - p ), tmp );
         }
     }
 
-    //Next, spawn points and cosmetic strings
-    for( int sx = 0; sx < 2; sx++ ) {
-        for( int sy = 0; sy < 2; sy++ ) {
-            const auto from = get_submap_at_grid( { sx, sy } );
-            size_t gridto = 0;
-            switch( turns ) {
-                case 0:
-                    gridto = get_nonant( { sx, sy } );
-                    break;
-                case 1:
-                    gridto = get_nonant( { 1 - sy, sx } );
-                    break;
-                case 2:
-                    gridto = get_nonant( { 1 - sx, 1 - sy } );
-                    break;
-                case 3:
-                    gridto = get_nonant( { sy, 1 - sx } );
-                    break;
-            }
-            for( auto &spawn : from->spawns ) {
-                spawn_point tmp = spawn;
-                int new_x = tmp.pos.x;
-                int new_y = tmp.pos.y;
-                switch( turns ) {
-                    case 1:
-                        new_x = SEEY - 1 - tmp.pos.y;
-                        new_y = tmp.pos.x;
-                        break;
-                    case 2:
-                        new_x = SEEX - 1 - tmp.pos.x;
-                        new_y = SEEY - 1 - tmp.pos.y;
-                        break;
-                    case 3:
-                        new_x = tmp.pos.y;
-                        new_y = SEEX - 1 - tmp.pos.x;
-                        break;
-                }
-                tmp.pos.x = new_x;
-                tmp.pos.y = new_y;
-                sprot[gridto].push_back( tmp );
-            }
-            for( auto &cosm : from->cosmetics ) {
-                submap::cosmetic_t tmp = cosm;
-                int new_x = tmp.pos.x;
-                int new_y = tmp.pos.y;
-                switch( turns ) {
-                    case 1:
-                        new_x = SEEY - 1 - tmp.pos.y;
-                        new_y = tmp.pos.x;
-                        break;
-                    case 2:
-                        new_x = SEEX - 1 - tmp.pos.x;
-                        new_y = SEEY - 1 - tmp.pos.y;
-                        break;
-                    case 3:
-                        new_x = tmp.pos.y;
-                        new_y = SEEX - 1 - tmp.pos.x;
-                        break;
-                }
-                tmp.pos.x = new_x;
-                tmp.pos.y = new_y;
-                cosmetics_rot[gridto].push_back( tmp );
-            }
-            // as vehrot starts out empty, this clears the other vehicles vector
-            vehrot[gridto].swap( from->vehicles );
-            tmpcomp[gridto] = std::move( from->comp );
-            field_count[gridto] = from->field_count;
-            temperature[gridto] = from->temperature;
-        }
-    }
+    // Then rotate them and recalculate vehicle positions.
+    for( int j = 0; j < 2; ++j ) {
+        for( int i = 0; i < 2; ++i ) {
+            auto sm = get_submap_at_grid( { i, j } );
 
-    // change vehicles' directions
-    for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
-        for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
-            const size_t i = get_nonant( { gridx, gridy } );
-            for( auto &v : vehrot[i] ) {
-                vehicle *veh = v.get();
-                // turn the steering wheel, vehicle::turn does not actually
-                // move the vehicle.
-                veh->turn( turns * 90 );
-                // The facing direction and recalculate the positions of the parts
-                veh->face = veh->turn_dir;
-                veh->precalc_mounts( 0, veh->turn_dir, veh->pivot_anchor[0] );
-                // Update coordinates on a submap
-                int new_x = veh->posx;
-                int new_y = veh->posy;
-                switch( turns ) {
-                    case 1:
-                        new_x = SEEY - 1 - veh->posy;
-                        new_y = veh->posx;
-                        break;
-                    case 2:
-                        new_x = SEEX - 1 - veh->posx;
-                        new_y = SEEY - 1 - veh->posy;
-                        break;
-                    case 3:
-                        new_x = veh->posy;
-                        new_y = SEEX - 1 - veh->posx;
-                        break;
-                }
-                veh->posx = new_x;
-                veh->posy = new_y;
-                // Update submap coordinates
-                new_x = veh->smx;
-                new_y = veh->smy;
-                switch( turns ) {
-                    case 1:
-                        new_x = 1 - veh->smy;
-                        new_y = veh->smx;
-                        break;
-                    case 2:
-                        new_x = 1 - veh->smx;
-                        new_y = 1 - veh->smy;
-                        break;
-                    case 3:
-                        new_x = veh->smy;
-                        new_y = 1 - veh->smx;
-                        break;
-                }
-                veh->smx = new_x;
-                veh->smy = new_y;
-            }
-            const auto to = getsubmap( i );
-            // move back to the actual submap object, vehrot is only temporary
-            vehrot[i].swap( to->vehicles );
-            sprot[i].swap( to->spawns );
-            cosmetics_rot[i].swap( to->cosmetics );
+            sm->rotate( turns );
 
-            to->comp = std::move( tmpcomp[i] );
-            to->field_count = field_count[i];
-            to->temperature = temperature[i];
-        }
-    }
-
-    for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEY * 2; j++ ) {
-            point p( i, j );
-            point l;
-            const auto sm = get_submap_at( p, l );
-            sm->is_uniform = false;
-            std::swap( rotated[i][j], sm->ter[l.x][l.y] );
-            std::swap( furnrot[i][j], sm->frn[l.x][l.y] );
-            std::swap( traprot[i][j], sm->trp[l.x][l.y] );
-            std::swap( fldrot[i][j], sm->fld[l.x][l.y] );
-            std::swap( radrot[i][j], sm->rad[l.x][l.y] );
-            for( auto &itm : itrot[i][j] ) {
-                add_item( i, j, itm );
+            for( auto &veh : sm->vehicles ) {
+                veh->smx = abs_sub.x + i;
+                veh->smy = abs_sub.y + j;
             }
         }
     }

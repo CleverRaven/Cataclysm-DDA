@@ -443,6 +443,7 @@ TEST_CASE( "npc_can_target_player" )
 
         npc *guy = g->find_npc( model_id );
         REQUIRE( guy != nullptr );
+        CHECK( !guy->in_vehicle );
         guy->setpos( g->u.pos() + point( x, y ) );
         return guy;
     };
