@@ -331,7 +331,7 @@ For the actual usage of that data, search the source code for `"op_of_u"`.
 The `failure` object is used if the trial fails, the `success` object is used otherwise.
 
 ### Sample trials
-```josn
+```json
 "trial": { "type": "PERSUADE", "difficulty": 0, "mod": [ [ "TRUST", 3 ], [ "VALUE", 3 ], [ "ANGER", -3 ] ] }
 "trial": { "type": "INTIMIDATE", "difficulty": 20, "mod": [ [ "FEAR", 8 ], [ "VALUE", 2 ], [ "TRUST", 2 ], [ "BRAVERY", -2 ] ] }
 "trial": { "type": "CONDITION", "condition": { "npc_has_trait": "FARMER" } }
@@ -424,7 +424,7 @@ Effect | Description
 `buy_100_logs` | Places 100 logs in the ranch garage, and makes the NPC unavailable for 7 days.
 `give_equipment` | Allows your character to select items from the NPC's inventory and transfer them to your inventory.
 `npc_gets_item` | Allows your character to select an item from your character's inventory and transfer it to the NPC's inventory.  The NPC will not accept it if they do not have space or weight to carry it, and will set a reason that can be referenced in a future dynamic line with `"use_reason"`.
-`npc_gets_item_to_use` | Allow your character to select an item from your character's inventory and transfer it to the NPC's inventory.  The NPC will attempt to wield it and will not accept it if it too heavy or is an inferior weapon to what they are currently using, and will set a reason that can be referenced in a future dynamic line with `"use_reason"`.
+`npc_gets_item_to_use` | Allow your character to select an item from your character's inventory and transfer it to the NPC's inventory.  The NPC will attempt to wield it and will not accept it if it is too heavy or is an inferior weapon to what they are currently using, and will set a reason that can be referenced in a future dynamic line with `"use_reason"`.
 `u_buy_item: item_string`, (*optional* `cost: cost_num`, *optional* `count: count_num`, *optional* `container: container_string`) | The NPC will give your character the item or `count_num` copies of the item, contained in container, and will remove `cost_num` from your character's cash if specified.<br/>If cost isn't present, the NPC gives your character the item at no charge.
 `u_sell_item: item_string`, (*optional* `cost: cost_num`, *optional* `count: count_num`) | Your character will give the NPC the item or `count_num` copies of the item, and will add `cost_num` to your character's cash if specified.<br/>If cost isn't present, the your character gives the NPC the item at no charge.<br/>This effect will fail if you do not have at least `count_num` copies of the item, so it should be checked with `u_has_items`.
 `u_bulk_trade_accept`<br/>`npc_bulk_trade_accept` | Only valid after a `repeat_response`.  The player trades all instances of the item from the `repeat_response` with the NPC.  For `u_bulk_trade_accept`, the player loses the items from their inventory and gains cash; for `npc_bulk_trade_accept`, the player gains the items from the NPC's inventory and loses cash.
@@ -447,14 +447,14 @@ Effect | Description
 `reveal_stats` | Reveals the NPC's stats, based on the player's skill at assessing them.
 `end_conversation` | Ends the conversation and makes the NPC ignore you from now on.
 `insult_combat` | Ends the conversation and makes the NPC hostile, adds a message that character starts a fight with the NPC.
-`hostile` | Make the NPC hostile and end the conversation.
+`hostile` | Makes the NPC hostile and ends the conversation.
 `flee` | Makes the NPC flee from your character.
-`follow` | Makes the NPC follow your character, joining the "Your Followers faction".
+`follow` | Makes the NPC follow your character, joining the "Your Followers" faction.
 `leave` | Makes the NPC leave the "Your Followers" faction and stop following your character.
 `follow_only` | Makes the NPC follow your character without changing factions.
-`stop_following` | Makes the NPC stop following your character without changing  factions.
+`stop_following` | Makes the NPC stop following your character without changing factions.
 `npc_thankful` | Makes the NPC positively inclined toward your character.
-`drop_weapon` | Make the NPC drop their weapon.
+`drop_weapon` | Makes the NPC drop their weapon.
 `stranger_neutral` | Changes the NPC's attitude to neutral.
 `start_mugging` | The NPC will approach your character and steal from your character, attacking if your character resists.
 `lead_to_safety` | The NPC will gain the LEAD attitude and give your character the mission of reaching safety.
@@ -518,7 +518,7 @@ The following keys and simple strings are available:
 Condition | Type | Description
 --- | --- | ---
 `"and"` | array | `true` if every condition in the array is true. Can be used to create complex condition tests, like `"[INTELLIGENCE 10+][PERCEPTION 12+] Your jacket is torn. Did you leave that scrap of fabric behind?"`
-`"or"` | array | `true` if every condition in the array is true. Can be used to create complex condition tests, like `"[STRENGTH 9+] or [DEXTERITY 9+] I'm sure I can handle one zombie."`
+`"or"` | array | `true` if any condition in the array is true. Can be used to create complex condition tests, like `"[STRENGTH 9+] or [DEXTERITY 9+] I'm sure I can handle one zombie."`
 `"not"` | object | `true` if the condition in the object or string is false. Can be used to create complex conditions test by negating other conditions, for text such as<br/>`"[INTELLIGENCE 7-] Hitting the reactor with a hammer should shut it off safely, right?"`
 
 #### Player or NPC conditions
