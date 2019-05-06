@@ -446,14 +446,17 @@ std::string ensure_valid_file_name( const std::string &file_name, bool *change_m
 
     // do any replacement in the file name, if needed.
     std::string new_file_name = file_name;
-    for( std::string::iterator it = new_file_name.begin(); it < new_file_name.end(); ++it ) {
-        if( invalid_chars.find( *it ) != std::string::npos ) {
+    std::transform( new_file_name.begin(), new_file_name.end(),
+    new_file_name.begin(), [&tmp_invalid_chars, &tmp_replacement, &change_made]( const char c ) {
+        if( tmp_invalid_chars.find( c ) != std::string::npos ) {
             if( change_made != nullptr ) {
                 *change_made = true;
             }
-            *it = tmp_replacement;
+            return tmp_replacement;
         }
-    }
+
+        return c;
+    } );
 
     return new_file_name;
 }
