@@ -4,6 +4,7 @@
 #include "color.h"
 #include "damage.h"
 #include "game.h"
+#include "line.h"
 #include "map.h"
 #include "mapdata.h"
 #include "messages.h"
@@ -509,6 +510,11 @@ nc_color spell::damage_type_color() const
     }
 }
 
+tripoint spell::get_source() const
+{
+    return owner->pos();
+}
+
 // constants defined below are just for the formula to be used,
 // in order for the inverse formula to be equivalent
 static const float a = 6200.0;
@@ -847,28 +853,61 @@ static bool in_spell_aoe( const tripoint &target, const tripoint &epicenter, con
     return rl_dist( epicenter, target ) <= radius;
 }
 
-// spells do not reduce in damage the further away from the epicenter the targets are
-// rather they do their full damage in the entire area of effect
-static std::vector<tripoint> spell_effect_area( spell &sp, const tripoint &target,
-        bool ignore_walls = false )
+static std::set<tripoint> spell_effect_blast( spell &sp, const tripoint &target, const int aoe_radius, const bool ignore_walls )
 {
-    std::vector<tripoint> targets = { target }; // initialize with epicenter
-    if( sp.aoe() <= 1 ) {
-        return targets;
-    }
-
-    const int aoe_radius = sp.aoe();
+    std::set<tripoint> targets;
     // TODO: Make this breadth-first
     for( int x = target.x - aoe_radius; x < target.x + aoe_radius; x++ ) {
         for( int y = target.y - aoe_radius; y < target.y + aoe_radius; y++ ) {
             for( int z = target.z - aoe_radius; z < target.z + aoe_radius; z++ ) {
                 const tripoint potential_target( x, y, z );
                 if( in_spell_aoe( potential_target, target, aoe_radius, ignore_walls ) ) {
-                    targets.emplace_back( potential_target );
+                    targets.emplace( potential_target );
                 }
             }
         }
     }
+    return targets;
+}
+
+static std::set<tripoint> spell_effect_cone( spell &sp, const tripoint &target, const int aoe_radius, const bool ignore_walls )
+{
+    std::set<tripoint> targets;
+    const tripoint source = sp.get_source();
+    const int range = rl_dist( source, target );
+    const int initial_angle = coord_to_angle( source, target );
+    std::set<tripoint> end_points;
+    for( int angle = initial_angle - aoe_radius; angle <= initial_angle + aoe_radius; angle++ ) {
+        tripoint potential;
+        calc_ray_end( angle, range, source, potential );
+        end_points.emplace( potential );
+    }
+    for( const tripoint &ep : end_points ) {
+        std::vector<tripoint> trajectory = line_to( ep, source );
+        for( const tripoint &tp : trajectory ) {
+            if( ignore_walls || g->m.passable( tp ) ) {
+                targets.emplace( tp );
+            }
+        }
+    }
+    // we don't want to hit ourselves in the blast!
+    targets.erase( source );
+    return targets;
+}
+
+// spells do not reduce in damage the further away from the epicenter the targets are
+// rather they do their full damage in the entire area of effect
+static std::set<tripoint> spell_effect_area( spell &sp, const tripoint &target,
+        std::function<std::set<tripoint>( spell &, const tripoint &, const int, const bool )>
+        aoe_func, bool ignore_walls = false )
+{
+    std::set<tripoint> targets = { target }; // initialize with epicenter
+    if( sp.aoe() <= 1 ) {
+        return targets;
+    }
+
+    const int aoe_radius = sp.aoe();
+    targets = aoe_func( sp, target, aoe_radius, ignore_walls );
 
     // Draw the explosion
     std::map<tripoint, nc_color> explosion_colors;
@@ -880,20 +919,9 @@ static std::vector<tripoint> spell_effect_area( spell &sp, const tripoint &targe
     return targets;
 }
 
-void projectile_attack( spell &sp, const tripoint &source, const tripoint &target )
+static void damage_targets( spell &sp, std::set<tripoint> targets )
 {
-    std::vector<tripoint> trajectory = line_to( source, target );
-    for( const tripoint &pt : trajectory ) {
-        if( g->m.impassable( pt ) || pt == trajectory.back() ) {
-            target_attack( sp, target );
-        }
-    }
-}
-
-void target_attack( spell &sp, const tripoint &epicenter )
-{
-    const std::vector<tripoint> aoe = spell_effect_area( sp, epicenter );
-    for( const tripoint target : aoe ) {
+    for( const tripoint target : targets ) {
         Creature *const cr = g->critter_at<Creature>( target );
         if( !cr ) {
             continue;
@@ -922,6 +950,27 @@ void target_attack( spell &sp, const tripoint &epicenter )
             }
         }
     }
+}
+
+void projectile_attack( spell &sp, const tripoint &target )
+{
+    const tripoint source = sp.get_source();
+    std::vector<tripoint> trajectory = line_to( source, target );
+    for( const tripoint &pt : trajectory ) {
+        if( g->m.impassable( pt ) || pt == trajectory.back() ) {
+            target_attack( sp, target );
+        }
+    }
+}
+
+void target_attack( spell &sp, const tripoint &epicenter )
+{
+    damage_targets( sp, spell_effect_area( sp, epicenter, spell_effect_blast ) );
+}
+
+void cone_attack( spell &sp, const tripoint &target )
+{
+    damage_targets( sp, spell_effect_area( sp, target, spell_effect_cone ) );
 }
 
 void spawn_ethereal_item( spell &sp )

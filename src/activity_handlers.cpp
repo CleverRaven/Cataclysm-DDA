@@ -3576,6 +3576,10 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
         spell_effect::shallow_pit( target );
     } else if( fx == "target_attack" ) {
         spell_effect::target_attack( casting, target );
+    } else if( fx == "projectile_attack" ) {
+        spell_effect::projectile_attack( casting, target );
+    } else if( fx == "cone_attack" ){
+        spell_effect::cone_attack( casting, target );
     } else if( fx == "teleport_random" ) {
         spell_effect::teleport( casting.range(), casting.range() + casting.aoe() );
     } else if( fx == "spawn_item" ) {

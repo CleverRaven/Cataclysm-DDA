@@ -175,6 +175,7 @@ class spell
         int damage() const;
         dealt_damage_instance get_dealt_damage_instance() const;
         damage_instance get_damage_instance() const;
+        tripoint get_source() const;
         // how big is the spell's radius
         int aoe() const;
         // distance spell can be cast
@@ -237,6 +238,8 @@ void teleport( int min_distance, int max_distance );
 void pain_split(); // only does g->u
 void shallow_pit( const tripoint &target );
 void target_attack( spell &sp, const tripoint &target );
+void projectile_attack( spell &sp, const tripoint &target );
+void cone_attack( spell &sp, const tripoint &target );
 void spawn_ethereal_item( spell &sp );
 }
 
