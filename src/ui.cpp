@@ -58,23 +58,6 @@ uilist::uilist( const std::string &msg, const std::vector<uilist_entry> &opts )
 {
 }
 
-uilist::uilist( const std::string &msg, const std::vector<uilist_entry_pair_t> &opts,
-                const std::function<bool( uilist_entry_pair_t )> &f )
-{
-    init();
-    for( auto &entry : opts ) {
-        if( f( entry ) ) {
-            entries.push_back( entry.first );
-        }
-    }
-
-    w_x = MENU_AUTOASSIGN;
-    w_y = MENU_AUTOASSIGN;
-    w_width = MENU_AUTOASSIGN;
-    text = msg;
-    query();
-}
-
 uilist::uilist( const std::string &msg, const std::vector<std::string> &opts )
     : uilist( MENU_AUTOASSIGN, MENU_AUTOASSIGN, MENU_AUTOASSIGN, msg, opts )
 {
