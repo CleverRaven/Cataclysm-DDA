@@ -854,6 +854,7 @@ class npc : public player
         bool saw_player_recently() const;// Do we have an idea of where u are?
         /** Returns true if food was consumed, false otherwise. */
         bool consume_food();
+        int get_thirst() const override;
 
         // Movement on the overmap scale
         bool has_omt_destination() const; // Do we have a long-term destination?
