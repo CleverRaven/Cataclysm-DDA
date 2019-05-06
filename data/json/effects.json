@@ -12,6 +12,18 @@
   },
   {
     "type": "effect_type",
+    "id": "ridden",
+    "name": [ "Ridden" ],
+    "desc": [ "AI tag for when critter is being ridden. This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "harnessed",
+    "name": [ "Harnessed" ],
+    "desc": [ "AI tag for when critter is being harnessed by a vehicle. This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
     "id": "docile",
     "name": [ "Docile Monster" ],
     "desc": [ "AI tag for when monsters are tamed.  This is a bug if you have it." ]
@@ -185,6 +197,12 @@
   },
   {
     "type": "effect_type",
+    "id": "monster_saddled",
+    "name": [ "Has Saddle" ],
+    "desc": [ "AI tag used for critters wearing a saddle.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
     "id": "tied",
     "name": [ "Tied Up" ],
     "desc": [ "AI tag used for tied up critters.  This is a bug if you have it." ]
@@ -287,6 +305,14 @@
     "base_mods": { "per_mod": [ -5 ], "dex_mod": [ -2 ] },
     "scaling_mods": { "speed_mod": [ -3 ] },
     "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "riding",
+    "name": [ "Riding" ],
+    "desc": [ "You are riding an animal." ],
+    "apply_message": "You mount your steed.",
+    "rating": "good"
   },
   {
     "type": "effect_type",

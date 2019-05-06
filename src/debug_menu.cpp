@@ -70,7 +70,7 @@
 #endif
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
-
+const efftype_id effect_riding( "riding" );
 namespace debug_menu
 {
 
@@ -686,6 +686,9 @@ void character_edit_menu()
             if( const cata::optional<tripoint> newpos = g->look_around() ) {
                 p.setpos( *newpos );
                 if( p.is_player() ) {
+                    if( p.has_effect( effect_riding ) && p.mounted_creature ) {
+                        p.mounted_creature.get()->setpos( *newpos );
+                    }
                     g->update_map( g->u );
                 }
             }

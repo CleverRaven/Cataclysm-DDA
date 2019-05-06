@@ -63,6 +63,7 @@ const efftype_id effect_in_pit( "in_pit" );
 const efftype_id effect_lightsnare( "lightsnare" );
 const efftype_id effect_narcosis( "narcosis" );
 const efftype_id effect_no_sight( "no_sight" );
+const efftype_id effect_riding( "riding" );
 const efftype_id effect_sleep( "sleep" );
 const efftype_id effect_webbed( "webbed" );
 
@@ -372,8 +373,16 @@ bool Character::move_effects( bool attacking )
         return false;
     }
     if( has_effect( effect_webbed ) ) {
-        /** @EFFECT_STR increases chance to escape webs */
-        if( x_in_y( get_str(), 6 * get_effect_int( effect_webbed ) ) ) {
+        if( has_effect( effect_riding ) && g->u.mounted_creature ) {
+            auto mon = g->u.mounted_creature.get();
+            if( x_in_y( mon->type->melee_dice * mon->type->melee_sides,
+                        6 * get_effect_int( effect_webbed ) ) ) {
+                add_msg( _( "The %s breaks free of the webs!" ), mon->get_name() );
+                mon->remove_effect( effect_webbed );
+                remove_effect( effect_webbed );
+            }
+            /** @EFFECT_STR increases chance to escape webs */
+        } else if( x_in_y( get_str(), 6 * get_effect_int( effect_webbed ) ) ) {
             add_msg_player_or_npc( m_good, _( "You free yourself from the webs!" ),
                                    _( "<npcname> frees themselves from the webs!" ) );
             remove_effect( effect_webbed );
@@ -383,38 +392,62 @@ bool Character::move_effects( bool attacking )
         return false;
     }
     if( has_effect( effect_lightsnare ) ) {
-        /** @EFFECT_STR increases chance to escape light snare */
-
-        /** @EFFECT_DEX increases chance to escape light snare */
-        if( x_in_y( get_str(), 12 ) || x_in_y( get_dex(), 8 ) ) {
-            remove_effect( effect_lightsnare );
-            add_msg_player_or_npc( m_good, _( "You free yourself from the light snare!" ),
-                                   _( "<npcname> frees themselves from the light snare!" ) );
-            item string( "string_36", calendar::turn );
-            item snare( "snare_trigger", calendar::turn );
-            g->m.add_item_or_charges( pos(), string );
-            g->m.add_item_or_charges( pos(), snare );
+        if( has_effect( effect_riding ) && g->u.mounted_creature ) {
+            auto mon = g->u.mounted_creature.get();
+            if( x_in_y( mon->type->melee_dice * mon->type->melee_sides, 12 ) ) {
+                mon->remove_effect( effect_lightsnare );
+                remove_effect( effect_lightsnare );
+                g->m.spawn_item( pos(), "string_36" );
+                g->m.spawn_item( pos(), "snare_trigger" );
+                add_msg( _( "The %s escapes the light snare!" ), mon->get_name() );
+            }
         } else {
-            add_msg_if_player( m_bad,
-                               _( "You try to free yourself from the light snare, but can't get loose!" ) );
+            /** @EFFECT_STR increases chance to escape light snare */
+
+            /** @EFFECT_DEX increases chance to escape light snare */
+            if( x_in_y( get_str(), 12 ) || x_in_y( get_dex(), 8 ) ) {
+                remove_effect( effect_lightsnare );
+                add_msg_player_or_npc( m_good, _( "You free yourself from the light snare!" ),
+                                       _( "<npcname> frees themselves from the light snare!" ) );
+                item string( "string_36", calendar::turn );
+                item snare( "snare_trigger", calendar::turn );
+                g->m.add_item_or_charges( pos(), string );
+                g->m.add_item_or_charges( pos(), snare );
+            } else {
+                add_msg_if_player( m_bad,
+                                   _( "You try to free yourself from the light snare, but can't get loose!" ) );
+            }
+            return false;
         }
-        return false;
     }
     if( has_effect( effect_heavysnare ) ) {
-        /** @EFFECT_STR increases chance to escape heavy snare, slightly */
-
-        /** @EFFECT_DEX increases chance to escape light snare */
-        if( x_in_y( get_str(), 32 ) || x_in_y( get_dex(), 16 ) ) {
-            remove_effect( effect_heavysnare );
-            add_msg_player_or_npc( m_good, _( "You free yourself from the heavy snare!" ),
-                                   _( "<npcname> frees themselves from the heavy snare!" ) );
-            item rope( "rope_6", calendar::turn );
-            item snare( "snare_trigger", calendar::turn );
-            g->m.add_item_or_charges( pos(), rope );
-            g->m.add_item_or_charges( pos(), snare );
+        if( has_effect( effect_riding ) && g->u.mounted_creature ) {
+            auto mon = g->u.mounted_creature.get();
+            if( mon->type->melee_dice * mon->type->melee_sides >= 7 ) {
+                if( x_in_y( mon->type->melee_dice * mon->type->melee_sides, 32 ) ) {
+                    mon->remove_effect( effect_heavysnare );
+                    remove_effect( effect_heavysnare );
+                    g->m.spawn_item( pos(), "rope_6" );
+                    g->m.spawn_item( pos(), "snare_trigger" );
+                    add_msg( _( "The %s escapes the heavy snare!" ), mon->get_name() );
+                }
+            }
         } else {
-            add_msg_if_player( m_bad,
-                               _( "You try to free yourself from the heavy snare, but can't get loose!" ) );
+            /** @EFFECT_STR increases chance to escape heavy snare, slightly */
+
+            /** @EFFECT_DEX increases chance to escape light snare */
+            if( x_in_y( get_str(), 32 ) || x_in_y( get_dex(), 16 ) ) {
+                remove_effect( effect_heavysnare );
+                add_msg_player_or_npc( m_good, _( "You free yourself from the heavy snare!" ),
+                                       _( "<npcname> frees themselves from the heavy snare!" ) );
+                item rope( "rope_6", calendar::turn );
+                item snare( "snare_trigger", calendar::turn );
+                g->m.add_item_or_charges( pos(), rope );
+                g->m.add_item_or_charges( pos(), snare );
+            } else {
+                add_msg_if_player( m_bad,
+                                   _( "You try to free yourself from the heavy snare, but can't get loose!" ) );
+            }
         }
         return false;
     }
@@ -425,15 +458,31 @@ bool Character::move_effects( bool attacking )
            As such we are currently making it a bit easier for players and NPC's to get out of bear traps.
         */
         /** @EFFECT_STR increases chance to escape bear trap */
-        if( x_in_y( get_str(), 100 ) ) {
-            remove_effect( effect_beartrap );
-            add_msg_player_or_npc( m_good, _( "You free yourself from the bear trap!" ),
-                                   _( "<npcname> frees themselves from the bear trap!" ) );
-            item beartrap( "beartrap", calendar::turn );
-            g->m.add_item_or_charges( pos(), beartrap );
+        // If is riding, then despite the character having the effect, it is the mounted creature that escapes.
+        if( has_effect( effect_riding ) && is_player() && g->u.mounted_creature ) {
+            auto mon = g->u.mounted_creature.get();
+            if( mon->type->melee_dice * mon->type->melee_sides >= 18 ) {
+                if( x_in_y( mon->type->melee_dice * mon->type->melee_sides, 200 ) ) {
+                    mon->remove_effect( effect_beartrap );
+                    remove_effect( effect_beartrap );
+                    g->m.spawn_item( pos(), "beartrap" );
+                    add_msg( _( "The %s escapes the bear trap!" ), mon->get_name() );
+                } else {
+                    add_msg_if_player( m_bad,
+                                       _( "Your %s tries to free itself from the bear trap, but can't get loose!" ), mon->get_name() );
+                }
+            }
         } else {
-            add_msg_if_player( m_bad,
-                               _( "You try to free yourself from the bear trap, but can't get loose!" ) );
+            if( x_in_y( get_str(), 100 ) ) {
+                remove_effect( effect_beartrap );
+                add_msg_player_or_npc( m_good, _( "You free yourself from the bear trap!" ),
+                                       _( "<npcname> frees themselves from the bear trap!" ) );
+                item beartrap( "beartrap", calendar::turn );
+                g->m.add_item_or_charges( pos(), beartrap );
+            } else {
+                add_msg_if_player( m_bad,
+                                   _( "You try to free yourself from the bear trap, but can't get loose!" ) );
+            }
         }
         return false;
     }
@@ -469,30 +518,52 @@ bool Character::move_effects( bool attacking )
     }
     if( has_effect( effect_grabbed ) && !attacking ) {
         int zed_number = 0;
-        for( auto &&dest : g->m.points_in_radius( pos(), 1, 0 ) ) { // *NOPAD*
-            const monster *const mon = g->critter_at<monster>( dest );
-            if( mon && ( mon->has_flag( MF_GRABS ) ||
-                         mon->type->has_special_attack( "GRAB" ) ) ) {
-                zed_number += mon->get_grab_strength();
+        if( has_effect( effect_riding ) && g->u.mounted_creature ) {
+            auto mon = g->u.mounted_creature.get();
+            if( mon->has_effect( effect_grabbed ) ) {
+                if( ( dice( mon->type->melee_dice + mon->type->melee_sides,
+                            3 ) < get_effect_int( effect_grabbed ) ) ||
+                    !one_in( 4 ) ) {
+                    add_msg( m_bad, _( "Your %s tries to break free, but fails!" ), mon->get_name() );
+                    return false;
+                } else {
+                    add_msg( m_good, _( "Your %s breaks free from the grab!" ), mon->get_name() );
+                    remove_effect( effect_grabbed );
+                    mon->remove_effect( effect_grabbed );
+                }
+            } else {
+                if( one_in( 4 ) ) {
+                    add_msg( m_bad, _( "You are pulled from your %s!" ), mon->get_name() );
+                    remove_effect( effect_grabbed );
+                    g->u.forced_dismount();
+                }
             }
-        }
-        if( zed_number == 0 ) {
-            add_msg_player_or_npc( m_good, _( "You find yourself no longer grabbed." ),
-                                   _( "<npcname> finds themselves no longer grabbed." ) );
-            remove_effect( effect_grabbed );
-            /** @EFFECT_DEX increases chance to escape grab, if >STR */
-
-            /** @EFFECT_STR increases chance to escape grab, if >DEX */
-        } else if( rng( 0, std::max( get_dex(), get_str() ) ) <
-                   rng( get_effect_int( effect_grabbed, bp_torso ), 8 ) ) {
-            // Randomly compare higher of dex or str to grab intensity.
-            add_msg_player_or_npc( m_bad, _( "You try break out of the grab, but fail!" ),
-                                   _( "<npcname> tries to break out of the grab, but fails!" ) );
-            return false;
         } else {
-            add_msg_player_or_npc( m_good, _( "You break out of the grab!" ),
-                                   _( "<npcname> breaks out of the grab!" ) );
-            remove_effect( effect_grabbed );
+            for( auto &&dest : g->m.points_in_radius( pos(), 1, 0 ) ) { // *NOPAD*
+                const monster *const mon = g->critter_at<monster>( dest );
+                if( mon && ( mon->has_flag( MF_GRABS ) ||
+                             mon->type->has_special_attack( "GRAB" ) ) ) {
+                    zed_number += mon->get_grab_strength();
+                }
+            }
+            if( zed_number == 0 ) {
+                add_msg_player_or_npc( m_good, _( "You find yourself no longer grabbed." ),
+                                       _( "<npcname> finds themselves no longer grabbed." ) );
+                remove_effect( effect_grabbed );
+                /** @EFFECT_DEX increases chance to escape grab, if >STR */
+
+                /** @EFFECT_STR increases chance to escape grab, if >DEX */
+            } else if( rng( 0, std::max( get_dex(), get_str() ) ) <
+                       rng( get_effect_int( effect_grabbed, bp_torso ), 8 ) ) {
+                // Randomly compare higher of dex or str to grab intensity.
+                add_msg_player_or_npc( m_bad, _( "You try break out of the grab, but fail!" ),
+                                       _( "<npcname> tries to break out of the grab, but fails!" ) );
+                return false;
+            } else {
+                add_msg_player_or_npc( m_good, _( "You break out of the grab!" ),
+                                       _( "<npcname> breaks out of the grab!" ) );
+                remove_effect( effect_grabbed );
+            }
         }
     }
     return true;

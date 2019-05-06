@@ -88,6 +88,7 @@ struct mutation_branch;
 
 static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
 static const trait_id trait_MYOPIC( "MYOPIC" );
+const efftype_id effect_riding( "riding" );
 
 static const matype_id style_kicks( "style_kicks" );
 
@@ -641,6 +642,9 @@ void player::store( JsonOut &json ) const
         }
         json.end_array();
     }
+    if( has_effect( effect_riding ) && mounted_creature ) {
+        json.member( "mounted_creature", g->critter_tracker->temporary_id( *mounted_creature ) );
+    }
 }
 
 /**
@@ -738,16 +742,15 @@ void player::load( JsonObject &data )
 
     int tmptar = 0;
     int tmptartyp = 0;
+
     data.read( "last_target", tmptar );
     data.read( "last_target_type", tmptartyp );
     data.read( "last_target_pos", last_target_pos );
     data.read( "ammo_location", ammo_location );
-
     // Fixes savefile with invalid last_target_pos.
     if( last_target_pos && *last_target_pos == tripoint_min ) {
         last_target_pos = cata::nullopt;
     }
-
     if( tmptartyp == +1 ) {
         // Use overmap_buffer because game::active_npc is not filled yet.
         last_target = overmap_buffer.find_npc( tmptar );
@@ -755,7 +758,14 @@ void player::load( JsonObject &data )
         // Need to do this *after* the monsters have been loaded!
         last_target = g->critter_tracker->from_temporary_id( tmptar );
     }
-
+    if( has_effect( effect_riding ) ) {
+        int temp_id;
+        if( data.read( "mounted_creature", temp_id ) ) {
+            mounted_creature = g->critter_tracker->from_temporary_id( temp_id );
+        } else {
+            mounted_creature = nullptr;
+        }
+    }
     JsonArray basecamps = data.get_array( "camps" );
     camps.clear();
     while( basecamps.has_more() ) {
@@ -764,7 +774,6 @@ void player::load( JsonObject &data )
         bcdata.read( "pos", bcpt );
         camps.insert( bcpt );
     }
-
     JsonArray overmap_time_array = data.get_array( "overmap_time" );
     overmap_time.clear();
     while( overmap_time_array.has_more() ) {
@@ -1771,7 +1780,6 @@ void monster::store( JsonOut &json ) const
     if( horde_attraction > MHA_NULL && horde_attraction < NUM_MONSTER_HORDE_ATTRACTION ) {
         json.member( "horde_attraction", horde_attraction );
     }
-
     json.member( "inv", inv );
 
     json.member( "path", path );
