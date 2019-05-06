@@ -2,7 +2,6 @@
 
 #include <clocale>
 #include <cstdlib>
-#include <iostream>
 #include <utility>
 
 #include "filesystem.h"
@@ -87,7 +86,7 @@ std::string Path::getPathForValueKey( const std::string valueKey )
 
 Path * Path::getInstance( std::string basePath, std::string userDirectoryPath )
 {
-    if (instance == 0)
+    if (instance == nullptr)
     {
         instance = new Path( basePath, userDirectoryPath );
     }
@@ -97,7 +96,7 @@ Path * Path::getInstance( std::string basePath, std::string userDirectoryPath )
 
 Path* Path::getInstance( )
 {
-    if (instance == 0)
+    if (instance == nullptr)
     {
         // TODO: Raise error, the object hasn't been created.
     }
@@ -108,7 +107,7 @@ Path* Path::getInstance( )
 /*
  * Null, because instance will be initialized on demand.
  */
-Path* Path::instance = 0;
+Path* Path::instance = nullptr;
 
 // Private Construct
 
