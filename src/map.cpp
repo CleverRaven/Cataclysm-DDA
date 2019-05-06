@@ -316,7 +316,7 @@ std::unique_ptr<vehicle> map::detach_vehicle( vehicle *veh )
     for( auto const &part : veh->get_avail_parts( VPFLAG_BOARDABLE ) ) {
         player *passenger = part.get_passenger();
         if( passenger ) {
-            unboard_vehicle( part.pos() );
+            unboard_vehicle( part, passenger );
         }
     }
 
@@ -923,6 +923,26 @@ void map::board_vehicle( const tripoint &pos, player *p )
     }
 }
 
+void map::unboard_vehicle( const vpart_reference &vp, player *passenger, bool dead_passenger )
+{
+    // Mark the part as un-occupied regardless of whether there's a live passenger here.
+    vp.part().remove_flag( vehicle_part::passenger_flag );
+    vp.vehicle().invalidate_mass();
+
+    if( !passenger ) {
+        if( !dead_passenger ) {
+            debugmsg( "map::unboard_vehicle: passenger not found" );
+        }
+        return;
+    }
+    passenger->in_vehicle = false;
+    // Only make vehicle go out of control if the driver is the one unboarding.
+    if( passenger->controlling_vehicle ) {
+        vp.vehicle().skidding = true;
+    }
+    passenger->controlling_vehicle = false;
+}
+
 void map::unboard_vehicle( const tripoint &p, bool dead_passenger )
 {
     const cata::optional<vpart_reference> vp = veh_at( p ).part_with_feature( VPFLAG_BOARDABLE, false );
@@ -937,22 +957,8 @@ void map::unboard_vehicle( const tripoint &p, bool dead_passenger )
         }
         return;
     }
-    passenger = vp->vehicle().get_passenger( vp->part_index() );
-    // Mark the part as un-occupied regardless of whether there's a live passenger here.
-    vp->part().remove_flag( vehicle_part::passenger_flag );
-    if( !passenger ) {
-        if( !dead_passenger ) {
-            debugmsg( "map::unboard_vehicle: passenger not found" );
-        }
-        return;
-    }
-    passenger->in_vehicle = false;
-    // Only make vehicle go out of control if the driver is the one unboarding.
-    if( passenger->controlling_vehicle ) {
-        vp->vehicle().skidding = true;
-    }
-    passenger->controlling_vehicle = false;
-    vp->vehicle().invalidate_mass();
+    passenger = vp->get_passenger();
+    unboard_vehicle( *vp, passenger, dead_passenger );
 }
 
 vehicle *map::displace_vehicle( tripoint &p, const tripoint &dp )
@@ -6420,8 +6426,6 @@ void map::shift( const int sx, const int sy )
     const int zmax = zlevels ? OVERMAP_HEIGHT : wz;
     for( int gridz = zmin; gridz <= zmax; gridz++ ) {
         for( vehicle *veh : get_cache( gridz ).vehicle_list ) {
-            veh->smx += sx;
-            veh->smy += sy;
             veh->zones_dirty = true;
         }
     }

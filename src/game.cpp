@@ -4930,12 +4930,7 @@ T *game::critter_by_id( const int id )
         // player is always alive, therefore no is-dead check
         return dynamic_cast<T *>( &u );
     }
-    for( auto &cur_npc : active_npc ) {
-        if( cur_npc->getID() == id && !cur_npc->is_dead() ) {
-            return dynamic_cast<T *>( cur_npc.get() );
-        }
-    }
-    return nullptr;
+    return find_npc( id );
 }
 
 // monsters don't have ids

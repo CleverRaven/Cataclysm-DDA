@@ -6,6 +6,7 @@
 #include "catch/catch.hpp"
 #include "game.h"
 #include "map.h"
+#include "map_helpers.h"
 #include "map_iterator.h"
 #include "vehicle.h"
 #include "veh_type.h"
@@ -30,13 +31,11 @@ void clear_game_drag( const ter_id &terrain )
 {
     // Set to turn 0 to prevent solars from producing power
     calendar::turn = 0;
-    for( monster &critter : g->all_monsters() ) {
-        g->remove_zombie( critter );
-    }
-
-    g->unload_npcs();
+    clear_creatures();
+    clear_npcs();
 
     // Move player somewhere safe
+    CHECK( !g->u.in_vehicle );
     g->u.setpos( tripoint( 0, 0, 0 ) );
     // Blind the player to avoid needless drawing-related overhead
     g->u.add_effect( effect_blind, 1_turns, num_bp, true );
