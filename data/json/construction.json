@@ -1247,7 +1247,7 @@
   },
   {
     "type": "construction",
-    "description": "Build Grave",
+    "description": "Dig Grave and Bury Sealed Coffin",
     "category": "DIG",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": 60,
