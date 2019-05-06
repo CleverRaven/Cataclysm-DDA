@@ -1356,8 +1356,7 @@ void debug()
                     g->uquit = QUIT_NOSAVED;
                 }
                 break;
-            case DEBUG_TEST_WEATHER:
-            {
+            case DEBUG_TEST_WEATHER: {
                 weather_generator weathergen;
                 weathergen.test_weather();
             }
@@ -1388,7 +1387,6 @@ void debug()
                 popup(popup_msg);
             }
                 break;
-
         }
         catacurses::erase();
         m.invalidate_map_cache( g->get_levz() );
