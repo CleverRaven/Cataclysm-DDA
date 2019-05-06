@@ -21817,66 +21817,66 @@
       "tiles": [
         {
           "id": "mon_dragon_dummy",
-          "fg": 3104,
+          "fg": 2976,
           "rotates": false
         },
         {
           "id": "mon_tyrannosaurus",
-          "fg": 3105,
+          "fg": 2977,
           "rotates": false
         },
         {
           "id": "mon_triceratops",
-          "fg": 3106,
+          "fg": 2978,
           "rotates": false
         },
         {
           "id": "mon_fungaloid_queen",
-          "fg": 3107
+          "fg": 2979
         },
         {
           "id": "mon_fungaloid_seeder",
-          "fg": 3108
+          "fg": 2980
         },
         {
           "id": "mon_fungaloid_tower",
-          "fg": 3109
+          "fg": 2981
         },
         {
           "id": "mon_skeleton_hulk",
-          "fg": 3110,
+          "fg": 2982,
           "rotates": false
         },
         {
           "id": "mon_zombie_kevlar_2",
-          "fg": 3111,
+          "fg": 2983,
           "rotates": false
         },
         {
           "id": "mon_zombie_hulk_pk",
-          "fg": 3112,
+          "fg": 2984,
           "rotates": false
         },
         {
           "id": "mon_zombie_hulk",
-          "fg": 3112,
+          "fg": 2984,
           "rotates": false
         },
         {
           "id": "overlay_mutation_THRESH_URSINE",
-          "fg": 3113
+          "fg": 2985
         },
         {
           "id": "overlay_mutation_THRESH_CATTLE",
-          "fg": 3114
+          "fg": 2986
         },
         {
           "id": "overlay_male_mutation_THRESH_CATTLE",
-          "fg": 3115
+          "fg": 2987
         },
         {
           "id": "overlay_mutation_THRESH_LIZARD",
-          "fg": 3116
+          "fg": 2988
         }
       ]
     },
