@@ -7401,7 +7401,7 @@ void item::calc_temp( const int temp, const float insulation, const time_point &
 
     // specific_energy = item thermal energy (10e-5 J/g). Stored in the item
     // temperature = item temperature (10e-5 K). Stored in the item
-    const float conductivity_term = 0.046 * std::pow( to_milliliter( volume() ),
+    const float conductivity_term = 0.0076 * std::pow( to_milliliter( volume() ),
                                     2.0 / 3.0 ) / insulation;
     const float specific_heat_liquid = get_specific_heat_liquid();
     const float specific_heat_solid = get_specific_heat_solid();
