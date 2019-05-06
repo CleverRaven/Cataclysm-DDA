@@ -104,5 +104,28 @@
 	"base_casting_time": 600,
 	"energy_source": "MANA",
 	"base_energy_cost": 350
-  }
+  },
+  {
+    "id": "fireball",
+	"type": "SPELL",
+	"name": "Fireball",
+	"description": "You hurl a pea-sized glowing orb that when reaches its target or an obstacle produces a pressure-less blast of searing heat.",
+	"effect": "projectile_attack",
+	"valid_targets": [ "self", "ally", "hostile", "ground" ],
+	"max_level": 20,
+	"min_damage": 24,
+	"max_damage": 68,
+	"damage_increment": 1.2,
+	"min_aoe": 3,
+	"max_aoe": 5,
+	"aoe_increment": 0.1,
+	"min_range": 6,
+	"max_range": 20,
+	"range_increment": 1,
+	"spell_class": "WIZARD",
+	"base_casting_time": 200,
+	"base_energy_cost": 350,
+	"energy_source": "MANA",
+	"difficulty": 4,
+	"damage_type": "fire"
 ]

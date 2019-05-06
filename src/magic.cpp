@@ -880,6 +880,16 @@ static std::vector<tripoint> spell_effect_area( spell &sp, const tripoint &targe
     return targets;
 }
 
+void projectile_attack( spell &sp, const tripoint &source, const tripoint &target )
+{
+    std::vector<tripoint> trajectory = line_to( source, target );
+    for( const tripoint &pt : trajectory ) {
+        if( g->m.impassable( pt ) || pt == trajectory.back() ) {
+            target_attack( sp, target );
+        }
+    }
+}
+
 void target_attack( spell &sp, const tripoint &epicenter )
 {
     const std::vector<tripoint> aoe = spell_effect_area( sp, epicenter );
