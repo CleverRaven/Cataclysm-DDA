@@ -204,7 +204,7 @@ void set_language()
                               "/LC_MESSAGES/cataclysm-dda.mo" );
 #elif (defined(__linux__) || (defined(MACOSX) && !defined(TILES)))
 
-    Path *path = Path::getInstance( "Set-Language" );
+    Path *path = Path::getInstance( );
 
     if( !path->getPathForValueKey("BASE_PATH").empty() ) {
         locale_dir = path->getPathForValueKey("BASE_PATH") + "share/locale";

@@ -243,7 +243,7 @@ int sokoban_game::start_game()
 
     using namespace std::placeholders;
 
-    Path *path = Path::getInstance( "Start-Game-Sokoban" );
+    Path *path = Path::getInstance( );
 
     read_from_file( path->getPathForValueKey("SOKOBAN"), std::bind( &sokoban_game::parse_level, this, _1 ) );
 

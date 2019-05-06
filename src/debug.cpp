@@ -124,7 +124,7 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
 
 #if defined(BACKTRACE)
 
-    Path *path = Path::getInstance( "Real-Debug-MSG" );
+    Path *path = Path::getInstance( );
 
     std::string backtrace_instructions =
         string_format(
@@ -409,7 +409,7 @@ void setupDebug( DebugOutput output_mode )
         limitDebugClass( cl );
     }
 
-    Path *path = Path::getInstance( "Setup-Debug" );
+    Path *path = Path::getInstance( );
 
     debugFile.init( output_mode, path->getPathForValueKey("DEBUG_FILE") );
 }

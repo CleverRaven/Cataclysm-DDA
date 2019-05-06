@@ -96,15 +96,12 @@ public:
      */
     static Path *getInstance();
 
-    static Path *getInstance(std::string who);
-
     /*
      * TODO: Make safe method, launch an error in case the key does not exist.
      * Returns the path according to the value of the key.
      */
     std::string getPathForValueKey( std::string valueKey );
 
-    void toString();
 };
 
 namespace PATH_INFO

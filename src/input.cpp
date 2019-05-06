@@ -114,7 +114,7 @@ void input_manager::init()
     init_keycode_mapping();
     reset_timeout();
 
-    Path *path = Path::getInstance( "Init-Key-Bind" );
+    Path *path = Path::getInstance( );
 
     try {
         load( path->getPathForValueKey("KEYBINDINGS"), false );
@@ -269,7 +269,7 @@ void input_manager::load( const std::string &file_name, bool is_user_preferences
 
 void input_manager::save()
 {
-    Path *path = Path::getInstance( "Save-Key-Bind" );
+    Path *path = Path::getInstance( );
 
     write_to_file( path->getPathForValueKey("KEYBIND_USER"), [&]( std::ostream & data_file ) {
         JsonOut jsout( data_file, true );

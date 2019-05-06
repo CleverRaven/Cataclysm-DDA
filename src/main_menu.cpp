@@ -351,7 +351,7 @@ void main_menu::load_char_templates()
 {
     templates.clear();
 
-    Path *appPath = Path::getInstance( "Load-Templates" );
+    Path *appPath = Path::getInstance( );
 
     for( std::string path : get_files_from_path( ".template",
             appPath->getPathForValueKey("TEMP_DIRE"), false,
@@ -377,7 +377,7 @@ bool main_menu::opening_screen()
     init_strings();
     print_menu( w_open, 0, iMenuOffsetX, iMenuOffsetY );
 
-    Path *path = Path::getInstance( "Open-Screen" );
+    Path *path = Path::getInstance( );
 
     if( !assure_dir_exist( path->getPathForValueKey("CONFIG_DIR") ) ) {
         popup( _( "Unable to make config directory. Check permissions." ) );
@@ -791,7 +791,7 @@ bool main_menu::new_character_tab()
             } else if( !templates.empty() && action == "DELETE_TEMPLATE" ) {
                 if( query_yn( _( "Are you sure you want to delete %s?" ),
                               templates[sel3].c_str() ) ) {
-                    Path *appPath = Path::getInstance( "New-Character-Template" );
+                    Path *appPath = Path::getInstance( );
                     const auto path = appPath->getPathForValueKey("TEMP_DIRE") + utf8_to_native( templates[sel3] ) + ".template";
                     if( std::remove( path.c_str() ) != 0 ) {
                         popup( _( "Sorry, something went wrong." ) );

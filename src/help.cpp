@@ -29,7 +29,7 @@ help &get_help()
 
 void help::load()
 {
-    Path *path = Path::getInstance( "Load-Help-File" );
+    Path *path = Path::getInstance( );
 
     read_from_file_optional_json( path->getPathForValueKey("HELP_FILE"), [&]( JsonIn & jsin ) {
         deserialize( jsin );

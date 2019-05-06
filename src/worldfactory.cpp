@@ -100,7 +100,7 @@ bool World::save( const bool is_conversion )
 
     if( !is_conversion ) {
 
-        Path *path = Path::getInstance( "Save-World-Options" );
+        Path *path = Path::getInstance( );
 
         const auto savefile = getPathDirectorySave( ) + "/" + path->getPathForValueKey("WORLD_OPTION");
         const bool saved = write_to_file( savefile, [&]( std::ostream & fout ) {
@@ -244,7 +244,7 @@ void WorldFactory::init()
 
     std::vector<std::string> qualifiers;
 
-    Path *path = Path::getInstance( "Init-World-Options" );
+    Path *path = Path::getInstance( );
 
     qualifiers.push_back( path->getPathForValueKey("WORLD_OPTION") );
     qualifiers.push_back( FILE_SAVE_MASTER );
@@ -537,7 +537,7 @@ void WorldFactory::remove_world( const std::string &worldname )
 
 void WorldFactory::load_last_world_info()
 {
-    Path *path = Path::getInstance( "Load-Last-World" );
+    Path *path = Path::getInstance( );
 
     std::ifstream file( path->getPathForValueKey("LAST_WORLD"),
             std::ifstream::in | std::ifstream::binary );
@@ -553,7 +553,7 @@ void WorldFactory::load_last_world_info()
 
 void WorldFactory::save_last_world_info()
 {
-    Path *path = Path::getInstance( "Save-Last-World" );
+    Path *path = Path::getInstance( );
 
     write_to_file( path->getPathForValueKey("LAST_WORLD"), [&]( std::ostream & file ) {
         JsonOut jsout( file, true );
@@ -1352,7 +1352,7 @@ bool World::load_options()
 
     using namespace std::placeholders;
 
-    Path *appPath = Path::getInstance( "Load-Options" );
+    Path *appPath = Path::getInstance( );
 
     const auto path = getPathDirectorySave( ) + "/" + appPath->getPathForValueKey("WORLD_OPTION");
     if( read_from_file_optional_json( path, [&]( JsonIn & jsin ) {
@@ -1421,7 +1421,7 @@ WORLDPTR WorldFactory::get_world( const std::string &name )
 // Helper predicate to exclude files from deletion when resetting a world directory.
 static bool isForbidden( const std::string &candidate )
 {
-    Path *path = Path::getInstance( "Is-Forbidden" );
+    Path *path = Path::getInstance( );
 
     if( candidate.find( path->getPathForValueKey("WORLD_OPTION") ) != std::string::npos ||
         candidate.find( "mods.json" ) != std::string::npos ) {

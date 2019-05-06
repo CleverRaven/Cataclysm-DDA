@@ -386,7 +386,7 @@ void game::load_core_data( loading_ui &ui )
     // anyway.
     DynamicDataLoader::get_instance().unload_data();
 
-    Path *path = Path::getInstance( "Load-JSON" );
+    Path *path = Path::getInstance( );
 
     load_data_from_dir( path->getPathForValueKey("JSON_DIRE"), "core", ui );
 }
@@ -2526,7 +2526,7 @@ void game::death_screen()
 
 void game::move_save_to_graveyard()
 {
-    Path *path = Path::getInstance( "Save-Graveyard" );
+    Path *path = Path::getInstance( );
 
     const std::string &save_dir      = get_world_base_save_path();
     const std::string &graveyard_dir = path->getPathForValueKey("GRAVEY_DIR");
@@ -2873,7 +2873,7 @@ std::vector<std::string> game::list_active_characters()
  */
 void game::write_memorial_file( std::string sLastWords )
 {
-    Path *path = Path::getInstance( "Write-Memorial-File" );
+    Path *path = Path::getInstance( );
 
     const std::string &memorial_dir = path->getPathForValueKey("MEMO_DIRE");
     const std::string &memorial_active_world_dir = memorial_dir + utf8_to_native(

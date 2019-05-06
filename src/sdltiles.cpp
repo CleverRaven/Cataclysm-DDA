@@ -3168,7 +3168,7 @@ static void save_font_list()
 {
     std::set<std::string> bitmap_fonts;
 
-    Path *path = Path::getInstance( "Save-Font-List" );
+    Path *path = Path::getInstance( );
 
     std::ofstream fout( path->getPathForValueKey("FONTS_LIST").c_str(), std::ios_base::trunc );
 
@@ -3203,7 +3203,7 @@ static void save_font_list()
 
 static cata::optional<std::string> find_system_font( const std::string &name, int &faceIndex )
 {
-    Path *path = Path::getInstance( "Find-System-Font" );
+    Path *path = Path::getInstance( );
 
     const std::string fontlist_path = path->getPathForValueKey("FONTS_LIST");
 
@@ -3441,7 +3441,7 @@ std::unique_ptr<Font> Font::load_font( const std::string &typeface, int fontsize
 {
     if( ends_with( typeface, ".bmp" ) || ends_with( typeface, ".png" ) ) {
 
-        Path *path = Path::getInstance( "Load-Font" );
+        Path *path = Path::getInstance( );
 
         // Seems to be an image file, not a font.
         // Try to load as bitmap font.
@@ -3736,7 +3736,7 @@ CachedTTFFont::CachedTTFFont( const int w, const int h, std::string typeface, in
     , fontblending( fontblending )
 {
 
-    Path *path = Path::getInstance( "Cache-TTF-Font" );
+    Path *path = Path::getInstance( );
 
     int faceIndex = 0;
     if( const cata::optional<std::string> sysfnt = find_system_font( typeface, faceIndex ) ) {
