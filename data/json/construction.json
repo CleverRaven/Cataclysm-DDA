@@ -1221,17 +1221,6 @@
   },
   {
     "type": "construction",
-    "description": "Seal Coffin",
-    "category": "FURN",
-    "required_skills": [ [ "mechanics", 0 ] ],
-    "time": 10,
-    "components": [ [ [ "nail", 6 ] ] ],
-    "qualities": [ [ { "id": "HAMMER", "level": 1 } ] ],
-    "pre_terrain": "f_coffin_o",
-    "post_terrain": "f_coffin_c"
-  },
-  {
-    "type": "construction",
     "description": "Build Coffin",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 1 ] ],
@@ -1244,6 +1233,33 @@
     ],
     "pre_special": "check_empty",
     "post_terrain": "f_coffin_o"
+  },
+  {
+    "type": "construction",
+    "description": "Seal Coffin",
+    "category": "FURN",
+    "required_skills": [ [ "mechanics", 0 ] ],
+    "time": 10,
+    "components": [ [ [ "nail", 6 ] ] ],
+    "qualities": [ [ { "id": "HAMMER", "level": 1 } ] ],
+    "pre_terrain": "f_coffin_o",
+    "post_terrain": "f_coffin_c"
+  },
+  {
+    "type": "construction",
+    "description": "Build Grave",
+    "category": "DIG",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": 60,
+    "qualities": [
+      [ { "id": "HAMMER", "level": 1 } ],
+      [ { "id": "DIG", "level": 2 } ]
+    ],
+    "components": [ [ [ "rock", 20 ], [ "2x4", 2 ] ] ],
+    "pre_flags": "DIGGABLE",
+    "pre_terrain": "f_coffin_c",
+    "post_terrain": "t_grave_new",
+    "post_special": "done_grave"
   },
   {
     "type": "construction",

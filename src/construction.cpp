@@ -76,6 +76,7 @@ bool check_no_trap( const tripoint & );
 // Special actions to be run post-terrain-mod
 void done_nothing( const tripoint & ) {}
 void done_trunk_plank( const tripoint & );
+void done_grave( const tripoint & );
 void done_vehicle( const tripoint & );
 void done_deconstruct( const tripoint & );
 void done_digormine_stair( const tripoint &, bool );
@@ -947,6 +948,11 @@ void construct::done_trunk_plank( const tripoint &p )
     }
 }
 
+void construct::done_grave( const tripoint &p )
+{
+    g->m.destroy_furn( p, true );
+}
+
 vpart_id vpart_from_item( const std::string &item_id )
 {
     for( const auto &e : vpart_info::all() ) {
@@ -1276,6 +1282,7 @@ void load_construction( JsonObject &jo )
     static const std::map<std::string, std::function<void( const tripoint & )>> post_special_map = {{
             { "", construct::done_nothing },
             { "done_trunk_plank", construct::done_trunk_plank },
+            { "done_grave", construct::done_grave },
             { "done_vehicle", construct::done_vehicle },
             { "done_deconstruct", construct::done_deconstruct },
             { "done_dig_stair", construct::done_dig_stair },
