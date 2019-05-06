@@ -189,7 +189,7 @@ static void eff_fun_rat( player &u, effect &it )
     } else if( rng( 0, 100 ) < dur / 8 ) {
         if( one_in( 3 ) ) {
             u.vomit();
-            it.mod_duration( -10_turns );
+            it.mod_duration( -1_minutes );
         } else {
             u.add_msg_if_player( m_bad, _( "You feel nauseous!" ) );
             it.mod_duration( 3_turns );
@@ -619,7 +619,7 @@ void player::hardcoded_effects( effect &it )
                     it.set_duration( 0_turns );
                 }
             }
-            if( one_in( 1200 - ( ( dur - 600_minutes ) / 5_turns ) ) && one_in( 20 ) ) {
+            if( one_in( 1200 - ( ( dur - 600_minutes ) / 30_seconds ) ) && one_in( 20 ) ) {
                 if( !is_npc() ) {
                     add_msg( m_bad, _( "You pass out." ) );
                 }

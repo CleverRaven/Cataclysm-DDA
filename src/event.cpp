@@ -86,11 +86,11 @@ void event::actualize()
                                "scream_tortured" );
                 if( !g->u.is_deaf() ) {
                     add_msg( _( "The eye you're carrying lets out a tortured scream!" ) );
-                    g->u.add_morale( MORALE_SCREAM, -15, 0, 30_minutes, 5_turns );
+                    g->u.add_morale( MORALE_SCREAM, -15, 0, 30_minutes, 30_seconds );
                 }
             }
             if( !one_in( 25 ) ) { // They just keep coming!
-                g->events.add( EVENT_SPAWN_WYRMS, calendar::turn + rng( 15_turns, 25_turns ) );
+                g->events.add( EVENT_SPAWN_WYRMS, calendar::turn + rng( 1_minutes, 3_minutes ) );
             }
         }
         break;

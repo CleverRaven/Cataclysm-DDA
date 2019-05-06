@@ -912,7 +912,7 @@ static void mx_fumarole( map &m, const tripoint &abs_sub )
             if( m.ter( i.x, i.y ) != t_lava ) {
                 // Spawn an intense but short-lived fire
                 // Any furniture or buildings will catch fire, otherwise it will burn out quickly
-                m.add_field( tripoint( i.x, i.y, abs_sub.z ), fd_fire, 15, 10_turns );
+                m.add_field( tripoint( i.x, i.y, abs_sub.z ), fd_fire, 15, 1_minutes );
             }
         }
 

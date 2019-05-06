@@ -2109,7 +2109,7 @@ int musical_instrument_actor::use( player &p, item &it, bool t, const tripoint &
             desc = string_format( _( "%1$s %2$s" ), p.disp_name( false ),
                                   random_entry( npc_descriptions ) );
         }
-    } else if( morale_effect < 0 && calendar::once_every( 10_turns ) ) {
+    } else if( morale_effect < 0 && calendar::once_every( 1_minutes ) ) {
         // No musical skills = possible morale penalty
         if( p.is_player() ) {
             desc = _( "You produce an annoying sound" );
@@ -3489,9 +3489,9 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
             if( !patient.has_effect( effect_bandaged, i_bp ) ) {
                 damage += patient.hp_max[i] - patient.hp_cur[i];
             }
-            damage += bleed * patient.get_effect_dur( effect_bleed, i_bp ) / 50_turns;
-            damage += bite * patient.get_effect_dur( effect_bite, i_bp ) / 100_turns;
-            damage += infect * patient.get_effect_dur( effect_infected, i_bp ) / 100_turns;
+            damage += bleed * patient.get_effect_dur( effect_bleed, i_bp ) / 5_minutes;
+            damage += bite * patient.get_effect_dur( effect_bite, i_bp ) / 10_minutes;
+            damage += infect * patient.get_effect_dur( effect_infected, i_bp ) / 10_minutes;
             if( damage > highest_damage ) {
                 highest_damage = damage;
                 healed = hp_part( i );

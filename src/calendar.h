@@ -331,6 +331,10 @@ class time_duration
             return time_duration( t );
         }
         template<typename T>
+        static constexpr time_duration from_seconds( const T t ) {
+            return time_duration( t );
+        }
+        template<typename T>
         static constexpr time_duration from_minutes( const T m ) {
             return from_turns( m * 60 );
         }
@@ -357,6 +361,10 @@ class time_duration
         /**@{*/
         template<typename T>
         friend constexpr T to_turns( const time_duration &duration ) {
+            return duration.turns_;
+        }
+        template<typename T>
+        friend constexpr T to_seconds( const time_duration &duration ) {
             return duration.turns_;
         }
         template<typename T>
@@ -458,6 +466,10 @@ bool x_in_y( const time_duration &a, const time_duration &b );
 constexpr time_duration operator"" _turns( const unsigned long long int v )
 {
     return time_duration::from_turns( v );
+}
+constexpr time_duration operator"" _seconds( const unsigned long long int v )
+{
+    return time_duration::from_seconds( v );
 }
 constexpr time_duration operator"" _minutes( const unsigned long long int v )
 {

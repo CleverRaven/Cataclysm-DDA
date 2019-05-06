@@ -417,7 +417,7 @@ int iuse::smoking( player *p, item *it, bool, const tripoint & )
             weed_msg( *p );
         }
     }
-    if( p->get_effect_dur( effect_cig ) > 100_turns * ( p->addiction_level( ADD_CIG ) + 1 ) ) {
+    if( p->get_effect_dur( effect_cig ) > 10_minutes * ( p->addiction_level( ADD_CIG ) + 1 ) ) {
         p->add_msg_if_player( m_bad, _( "Ugh, too much smoke... you feel nasty." ) );
     }
 
@@ -444,7 +444,7 @@ int iuse::ecig( player *p, item *it, bool, const tripoint & )
     p->mod_thirst( 1 );
     p->mod_hunger( -1 );
     p->add_effect( effect_cig, 10_minutes );
-    if( p->get_effect_dur( effect_cig ) > 100_turns * ( p->addiction_level( ADD_CIG ) + 1 ) ) {
+    if( p->get_effect_dur( effect_cig ) > 10_minutes * ( p->addiction_level( ADD_CIG ) + 1 ) ) {
         p->add_msg_if_player( m_bad, _( "Ugh, too much nicotine... you feel nasty." ) );
     }
     return it->type->charges_to_use();
@@ -615,7 +615,7 @@ int iuse::anticonvulsant( player *p, item *it, bool, const tripoint & )
 {
     p->add_msg_if_player( _( "You take some anticonvulsant medication." ) );
     /** @EFFECT_STR reduces duration of anticonvulsant medication */
-    time_duration duration = 8_hours - p->str_cur * rng( 0_turns, 100_turns );
+    time_duration duration = 8_hours - p->str_cur * rng( 0_turns, 10_minutes );
     if( p->has_trait( trait_TOLERANCE ) ) {
         duration -= 1_hours;
     }
@@ -660,7 +660,7 @@ int iuse::coke( player *p, item *it, bool, const tripoint & )
 {
     p->add_msg_if_player( _( "You snort a bump of coke." ) );
     /** @EFFECT_STR reduces duration of coke */
-    time_duration duration = 21_turns - 1_turns * p->str_cur + rng( 0_turns, 10_turns );
+    time_duration duration = 20_minutes - 1_seconds * p->str_cur + rng( 0_minutes, 1_minutes );
     if( p->has_trait( trait_TOLERANCE ) ) {
         duration -= 1_minutes; // Symmetry would cause problems :-/
     }

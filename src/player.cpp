@@ -884,7 +884,7 @@ void player::action_taken()
 
 void player::update_morale()
 {
-    morale->decay( 10_turns );
+    morale->decay( 1_minutes );
     apply_persistent_morale();
 }
 
@@ -4291,7 +4291,7 @@ void player::check_needs_extremes()
             /** @EFFECT_INT slightly decreases occurrence of short naps when dead tired */
             if( one_in( 50 + int_cur ) ) {
                 // Rivet's idea: look out for microsleeps!
-                fall_asleep( 5_turns );
+                fall_asleep( 30_seconds );
             }
         } else if( get_fatigue() >= EXHAUSTED ) {
             if( calendar::once_every( 30_minutes ) ) {
@@ -4300,7 +4300,7 @@ void player::check_needs_extremes()
             }
             /** @EFFECT_INT slightly decreases occurrence of short naps when exhausted */
             if( one_in( 100 + int_cur ) ) {
-                fall_asleep( 5_turns );
+                fall_asleep( 30_seconds );
             }
         } else if( get_fatigue() >= DEAD_TIRED && calendar::once_every( 30_minutes ) ) {
             add_msg_if_player( m_warning, _( "*yawn* You should really get some sleep." ) );
@@ -4347,7 +4347,7 @@ void player::check_needs_extremes()
             // Note: these can coexist with fatigue-related microsleeps
             /** @EFFECT_INT slightly decreases occurrence of short naps when sleep deprived */
             if( one_in( static_cast<int>( sleep_deprivation_pct * 75 ) + int_cur ) ) {
-                fall_asleep( 5_turns );
+                fall_asleep( 30_seconds );
             }
 
             // Stimulants can be used to stay awake a while longer, but after a while you'll just collapse.
@@ -6779,8 +6779,8 @@ void player::apply_wetness_morale( int temperature )
             morale_effect = -1;
         }
     }
-    // 11_turns because decay is applied in 10_turn increments
-    add_morale( MORALE_WET, morale_effect, total_morale, 11_turns, 11_turns, true );
+    // 61_seconds because decay is applied in 1_minutes increments
+    add_morale( MORALE_WET, morale_effect, total_morale, 61_seconds, 61_seconds, true );
 }
 
 void player::update_body_wetness( const w_point &weather )

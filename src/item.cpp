@@ -7701,7 +7701,7 @@ bool item::process_litcig( player *carrier, const tripoint &pos )
         if( item_counter % 2 == 0 ) {
             time_duration duration = 1_minutes;
             if( carrier->has_trait( trait_id( "TOLERANCE" ) ) ) {
-                duration = 5_turns;
+                duration = 30_seconds;
             } else if( carrier->has_trait( trait_id( "LIGHTWEIGHT" ) ) ) {
                 duration = 2_minutes;
             }

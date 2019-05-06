@@ -781,7 +781,7 @@ void player_morale::update_bodytemp_penalty( const time_duration &ticks )
 
         if( max_pen != 0 )
         {
-            add( type, -2 * to_turns<int>( ticks ), -std::abs( max_pen ), 10_turns, 5_turns, true );
+            add( type, -2 * to_turns<int>( ticks ), -std::abs( max_pen ), 1_minutes, 30_seconds, true );
         }
     };
     apply_pen( MORALE_COLD, [ this ]( body_part bp ) {

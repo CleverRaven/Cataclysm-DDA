@@ -235,7 +235,7 @@ void weather_generator::test_weather() const
 
     const time_point begin = calendar::turn;
     const time_point end = begin + 2 * calendar::year_length();
-    for( time_point i = begin; i < end; i += 200_turns ) {
+    for( time_point i = begin; i < end; i += 20_minutes ) {
         w_point w = get_weather( tripoint_zero, to_turn<int>( i ), 1000 );
         weather_type c =  get_weather_conditions( w );
         weather_datum wd = weather_data( c );
