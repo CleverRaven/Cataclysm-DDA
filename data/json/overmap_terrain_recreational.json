@@ -7,7 +7,117 @@
     "color": "blue",
     "see_cost": 2,
     "mondensity": 2,
-    "flags": [ "SIDEWALK", "NO_ROTATE" ]
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "pool_roof",
+    "name": "pool roof",
+    "sym": "O",
+    "color": "blue",
+    "see_cost": 2,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "pool_1",
+    "name": "pool",
+    "sym": "O",
+    "color": "blue",
+    "see_cost": 2,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "pool_roof_1",
+    "name": "pool roof",
+    "sym": "O",
+    "color": "blue",
+    "see_cost": 2,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "pool_2",
+    "name": "pool",
+    "sym": "O",
+    "color": "blue",
+    "see_cost": 2,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "pool_roof_2",
+    "name": "pool roof",
+    "sym": "O",
+    "color": "blue",
+    "see_cost": 2,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "pool_3",
+    "name": "pool",
+    "sym": "O",
+    "color": "blue",
+    "see_cost": 2,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "pool_roof_3",
+    "name": "pool roof",
+    "sym": "O",
+    "color": "blue",
+    "see_cost": 2,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "pool_4",
+    "name": "pool",
+    "sym": "O",
+    "color": "blue",
+    "see_cost": 2,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "pool_roof_4",
+    "name": "pool roof",
+    "sym": "O",
+    "color": "blue",
+    "see_cost": 2,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "pool_5",
+    "name": "pool",
+    "sym": "O",
+    "color": "blue",
+    "see_cost": 2,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "pool_6",
+    "name": "pool",
+    "sym": "O",
+    "color": "blue",
+    "see_cost": 2,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
@@ -855,6 +965,20 @@
     "type": "overmap_terrain",
     "id": "gym",
     "name": "boxing gym",
+    "copy-from": "generic_city_building",
+    "color": "yellow_cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "gym_roof",
+    "name": "boxing gym roof",
+    "copy-from": "generic_city_building",
+    "color": "yellow_cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "gym_upper_roof",
+    "name": "boxing gym roof",
     "copy-from": "generic_city_building",
     "color": "yellow_cyan"
   },

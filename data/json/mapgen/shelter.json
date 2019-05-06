@@ -3,11 +3,7 @@
     "id": "shelter_supplies",
     "type": "item_group",
     "subtype": "collection",
-    "items": [
-      [ "jacket_evac", 100 ],
-      [ "emer_blanket", 100 ],
-      [ "mask_gas", 12 ]
-    ]
+    "items": [ [ "jacket_evac", 100 ], [ "emer_blanket", 100 ], [ "mask_gas", 12 ] ]
   },
   {
     "type": "mapgen",
@@ -45,7 +41,8 @@
       "items": { "l": { "item": "shelter_supplies", "chance": 20, "repeat": [ 0, 1 ] } },
       "computers": {
         "6": {
-          "name": "Evac shelter computer", "options": [
+          "name": "Evac shelter computer",
+          "options": [
             { "name": "Emergency Message", "action": "emerg_mess" },
             { "name": "Disable External Power", "action": "complete_disable_external_power" },
             { "name": "Contact Us", "action": "emerg_ref_center" }
@@ -136,7 +133,8 @@
       "items": { "l": { "item": "shelter_supplies", "chance": 20, "repeat": [ 0, 1 ] } },
       "computers": {
         "6": {
-          "name": "Evac shelter computer", "options": [
+          "name": "Evac shelter computer",
+          "options": [
             { "name": "Emergency Message", "action": "emerg_mess" },
             { "name": "Disable External Power", "action": "complete_disable_external_power" },
             { "name": "Contact Us", "action": "emerg_ref_center" }
@@ -227,7 +225,8 @@
       "items": { "l": { "item": "shelter_supplies", "chance": 20, "repeat": [ 0, 1 ] } },
       "computers": {
         "6": {
-          "name": "Evac shelter computer", "options": [
+          "name": "Evac shelter computer",
+          "options": [
             { "name": "Emergency Message", "action": "emerg_mess" },
             { "name": "Disable External Power", "action": "complete_disable_external_power" },
             { "name": "Contact Us", "action": "emerg_ref_center" }

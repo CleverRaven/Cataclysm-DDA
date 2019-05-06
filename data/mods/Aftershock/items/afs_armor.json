@@ -113,8 +113,6 @@
     "warmth": 20,
     "environmental_protection": 11,
     "qualities": [ [ "GLARE", 3 ] ],
-    "max_charges": 100,
-    "initial_charges": 100,
     "charges_per_use": 1,
     "ammo": "battery",
     "use_action": {
@@ -126,7 +124,8 @@
       "need_charges_msg": "The helmet's batteries are dead."
     },
     "flags": [ "WATERPROOF", "FLASH_PROTECTION", "ONLY_ONE", "STURDY" ],
-    "looks_like": "depowered_helmet"
+    "looks_like": "depowered_helmet",
+    "magazines": [ [ "battery", [ "light_battery_cell", "light_minus_battery_cell", "light_plus_battery_cell" ] ] ]
   },
   {
     "id": "afs_hev_helmet_on",
@@ -138,7 +137,8 @@
     "turns_per_charge": 20,
     "use_action": { "menu_text": "Turn off", "type": "transform", "msg": "The %s flicks off.", "target": "afs_hev_helmet" },
     "flags": [ "LIGHT_500", "WATERPROOF", "FLASH_PROTECTION", "ONLY_ONE", "STURDY" ],
-    "looks_like": "depowered_helmet"
+    "looks_like": "depowered_helmet",
+    "magazines": [ [ "battery", [ "light_battery_cell", "light_minus_battery_cell", "light_plus_battery_cell" ] ] ]
   },
   {
     "id": "afs_quilt",

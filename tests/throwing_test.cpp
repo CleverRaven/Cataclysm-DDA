@@ -56,6 +56,7 @@ static void reset_player( player &p, const throw_test_pstats &pstats, const trip
 {
     p.reset();
     p.stamina = p.get_stamina_max();
+    CHECK( !p.in_vehicle );
     p.setpos( pos );
     p.str_max = pstats.str;
     p.dex_max = pstats.dex;

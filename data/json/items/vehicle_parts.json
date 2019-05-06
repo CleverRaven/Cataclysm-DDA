@@ -474,7 +474,7 @@
     "name_plural": "military black boxes",
     "description": "This is a black box, seemingly pulled from some sort of military vehicle wreckage.  If you can find a system to analyze this you may find something of interest.",
     "weight": 4535,
-    "volume": "20 L",
+    "volume": "2 L",
     "price": 0,
     "to_hit": -1,
     "bashing": 4,
@@ -933,6 +933,20 @@
     "price": 40000
   },
   {
+    "id": "cargo_aisle",
+    "type": "GENERIC",
+    "name": "floor trunk",
+    "description": "A section of flooring with a cargo-space beneath, and a hinged door for access.",
+    "weight": 18000,
+    "color": "cyan",
+    "symbol": "]",
+    "volume": 200,
+    "bashing": 2,
+    "material": [ "steel", "plastic" ],
+    "category": "veh_parts",
+    "price": 20000
+  },
+  {
     "id": "livestock_carrier",
     "type": "GENERIC",
     "name": "livestock carrier",
@@ -1014,8 +1028,8 @@
   {
     "type": "GENERIC",
     "id": "recharge_station",
-    "name": "UPS-compatible recharging station",
-    "description": "A Unified Power System recharging station designed to operate on vehicle power.  Once installed in a vehicle storage space and turned on from a dashboard or electronics control unit, it will slowly charge all tools with rechargeable batteries in that space.  The system can only be installed in existing storage compartments.",
+    "name": "recharging station",
+    "description": "A universal recharging station designed to operate on vehicle power.  While on it will steadily charge all rechargeable batteries (battery cells, lead-acid batteries, etc) placed directly within its storage space.  The system can only be installed onto existing storage compartments, and is controlled from a dashboard or electronics control unit.",
     "weight": 10000,
     "to_hit": 1,
     "color": "light_blue",

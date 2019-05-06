@@ -453,6 +453,8 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
         current_status += _( "Following" );
     } else if( is_leader() ) {
         current_status += _( "Leading" );
+    } else if( is_patrolling() ) {
+        current_status += _( "Patrolling" );
     } else if( is_guarding() ) {
         current_status += _( "Guarding" );
     }

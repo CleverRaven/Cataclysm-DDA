@@ -46,7 +46,7 @@ class field;
 class field_entry;
 class vehicle;
 struct fragment_cloud;
-struct submap;
+class submap;
 class item_location;
 class map_cursor;
 struct maptile;
@@ -83,6 +83,7 @@ class harvest_list;
 
 using harvest_id = string_id<harvest_list>;
 class npc_template;
+class vpart_reference;
 
 // TODO: This should be const& but almost no functions are const
 struct wrapped_vehicle {
@@ -261,6 +262,15 @@ class map
             const int offset = p.x + ( p.y * MAPSIZE_Y );
             if( offset >= 0 && offset < MAPSIZE_X * MAPSIZE_Y ) {
                 get_cache( p.z ).map_memory_seen_cache.reset( offset );
+            }
+        }
+
+        void invalidate_map_cache( const int zlev ) {
+            if( inbounds_z( zlev ) ) {
+                level_cache &ch = get_cache( zlev );
+                ch.floor_cache_dirty = true;
+                ch.transparency_cache_dirty = true;
+                ch.outside_cache_dirty = true;
             }
         }
 
@@ -547,7 +557,11 @@ class map
         const vehicle *veh_at_internal( const tripoint &p, int &part_num ) const;
         // Put player on vehicle at x,y
         void board_vehicle( const tripoint &p, player *pl );
-        // Remove player from vehicle at p
+        // Remove given passenger from given vehicle part.
+        // If dead_passenger, then null passenger is acceptable.
+        void unboard_vehicle( const vpart_reference &, player *passenger,
+                              bool dead_passenger = false );
+        // Remove passenger from vehicle at p.
         void unboard_vehicle( const tripoint &p, bool dead_passenger = false );
         // Change vehicle coordinates and move vehicle's driver along.
         // WARNING: not checking collisions!
@@ -747,9 +761,11 @@ class map
         void make_rubble( const tripoint &p, const furn_id &rubble_type, const bool items );
 
         bool is_divable( const int x, const int y ) const;
+        bool is_water_shallow_current( const int x, const int y ) const;
         bool is_outside( const int x, const int y ) const;
         bool is_divable( const tripoint &p ) const;
         bool is_outside( const tripoint &p ) const;
+        bool is_water_shallow_current( const tripoint &p ) const;
         /** Check if the last terrain is wall in direction NORTH, SOUTH, WEST or EAST
          *  @param no_furn if true, the function will stop and return false
          *  if it encounters a furniture
@@ -871,7 +887,7 @@ class map
 
         // Temperature
         // Temperature for submap
-        int &temperature( const tripoint &p );
+        int get_temperature( const tripoint &p ) const;
         // Set temperature for all four submap quadrants
         void set_temperature( const tripoint &p, const int temperature );
         // 2D overload for mapgen
@@ -968,7 +984,7 @@ class map
          * somewhere else.
          */
         /*@{*/
-        std::list<item> use_amount_square( const tripoint &p, const itype_id type,
+        std::list<item> use_amount_square( const tripoint &p, const itype_id &type,
                                            long &quantity, const std::function<bool( const item & )> &filter = return_true<item> );
         std::list<item> use_amount( const tripoint &origin, const int range, const itype_id type,
                                     long &amount, const std::function<bool( const item & )> &filter = return_true<item> );

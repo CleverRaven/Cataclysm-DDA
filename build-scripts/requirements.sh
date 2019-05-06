@@ -2,6 +2,33 @@
 
 set -e
 
+function just_json
+{
+    if [ -n $TRAVIS_COMMIT_RANGE ]
+    then
+        # If this string is populated, it will work.
+        files_changed="$(git diff --name-only $TRAVIS_COMMIT_RANGE)"
+    else
+        # The only time it isn't populated is on a new PR branch, where THIS will work.
+        files_changed="$(git diff --name-only $TRAVIS_BRANCH)"
+    fi
+    for filename in $files_changed
+    do
+        if [[ ! "$filename" =~ \.(json|md)$ ]]
+        then
+            echo "$filename is not json or markdown, triggering full build."
+            return 1
+        fi
+    done
+    echo "Only json / markdown files changed, skipping full build."
+    return 0
+}
+
+if just_json; then
+    export JUST_JSON=true
+    export CODE_COVERAGE=""
+fi
+
 if [ -n "${CODE_COVERAGE}" ]; then
   travis_retry pip install --user pyyaml cpp-coveralls;
   export CXXFLAGS=--coverage;
