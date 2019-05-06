@@ -86,8 +86,6 @@ struct uilist_entry {
         hotkey_color( H ), text_color( C ) {}
 };
 
-typedef std::pair<uilist_entry, bool> uilist_entry_pair_t;
-
 /**
  * Virtual base class for windowed ui stuff (like uilist)
  */
