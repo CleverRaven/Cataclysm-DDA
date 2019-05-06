@@ -1383,7 +1383,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW. \n\
                     sum_rads += g->m.get_radiation( platform );
                     tiles_counted ++;
                     if( g->m.get_radiation( platform ) > peak_rad ) {
-                        peak_rad = g->m.get_radiation( dest );
+                        peak_rad = g->m.get_radiation( platform );
                     }
                 }
                 print_error( _( "GEIGER COUNTER @ ZONE:... AVG %s mSv/h." ), sum_rads / tiles_counted );

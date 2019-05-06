@@ -850,6 +850,9 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p,
             if( entry.type != "skin" ) {
                 continue;
             }
+            if( corpse_item->has_flag( "FIELD_DRESS_FAILED" ) ) {
+                roll = rng( 0, roll );
+            }
         }
 
         // field dressing removed innards and bones from meatless limbs
