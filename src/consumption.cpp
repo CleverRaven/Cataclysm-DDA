@@ -221,8 +221,7 @@ std::pair<int, int> player::fun_for( const item &comest ) const
         ( comest.has_flag( flag_FELINE ) && has_trait( trait_FELINE ) ) ) {
         if( fun < 0 ) {
             fun = -fun;
-        } else {
-            fun *= 1.25;
+            fun /= 2;
         }
     }
 
@@ -459,7 +458,7 @@ ret_val<edible_rating> player::can_eat( const item &food ) const
             return ret_val<edible_rating>::make_failure( _( "That doesn't look edible to you." ) );
         }
     }
-    
+
     if( food.is_craft() ) {
         return ret_val<edible_rating>::make_failure( _( "That doesn't look edible in its current form." ) );
     }

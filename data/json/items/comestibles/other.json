@@ -537,7 +537,7 @@
     "quench": 1,
     "calories": 170,
     "vitamins": [ [ "vitA", 20 ], [ "vitC", 45 ], [ "calcium", 5 ], [ "iron", 5 ] ],
-    "fun": 10,
+    "fun": 5,
     "color": "brown",
     "flags": [ "INEDIBLE", "CATTLE" ],
     "use_action": "CATTLEFODDER"
@@ -558,7 +558,7 @@
     "healthy": 1,
     "calories": 500,
     "vitamins": [ [ "calcium", 1 ], [ "iron", 7 ] ],
-    "fun": 10,
+    "fun": 5,
     "color": "brown",
     "flags": [ "INEDIBLE", "BIRD" ],
     "use_action": "BIRDFOOD"
