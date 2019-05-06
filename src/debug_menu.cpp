@@ -128,6 +128,8 @@ class mission_debug
         static std::string describe( const mission &m );
 };
 
+typedef std::pair<uilist_entry, bool> uilist_entry_pair_t;
+
 /**
  * Filter entries to be displayed in a menu.
  * @param entries: A vector where each element is a pair consisting of (first) a menu entry and (second) boolean indicating whether to show the entry or not.
