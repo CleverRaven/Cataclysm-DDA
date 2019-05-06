@@ -215,7 +215,6 @@
         [ "thread", 20 ],
         [ "yarn", 20 ],
         [ "duct_tape", 20 ],
-        [ "resin_cord", 1 ],
         [ "cordage_short", 1, "LIST" ]
       ],
       [ [ "rock", 1 ], [ "ceramic_shard", 1 ], [ "sharp_rock", 1 ] ]
