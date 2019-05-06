@@ -128,16 +128,33 @@ class mission_debug
         static std::string describe( const mission &m );
 };
 
-static bool display_selector( bool display_all_entries, const uilist_entry_pair_t &e )
+/**
+ * Filter entries to be displayed in a menu.
+ * @param entries: A vector where each element is a pair consisting of (first) a menu entry and (second) boolean indicating whether to show the entry or not.
+ * @param display_all_entries: boolean used to override the entries in the @p entries vector. If `true` then all entries are shown (no matter what is their boolean state);
+ *  if `false` then the boolean of the menu entry is taken into account.
+ * @returns A filtered vector of menu entries, depending on the given parameters.
+ */
+std::vector<uilist_entry> filter_uilist( const std::vector<uilist_entry_pair_t> &entries,
+        bool display_all_entries )
 {
-    return ( display_all_entries || ( !display_all_entries && e.second ) );
-};
+    std::vector<uilist_entry> filtered_entries;
+
+    for( const auto &entry : entries ) {
+        // predicate: either we display everything or, if not asked for, check the boolean value of the pair.
+        if( display_all_entries || ( !display_all_entries && entry.second ) ) {
+            filtered_entries.push_back( entry.first );
+        }
+    }
+
+    return filtered_entries;
+}
 
 static int player_uilist( bool display_all_entries = true )
 {
-    /* Note: the second boolean indicates whether the menu should always be shown (true) or not (false).
+    /* Note: the second boolean indicates whether the menu option should always be shown (true) or not (false).
      * For example, if we show the debug menu on the main menu and we want Info to be always displayed, we set it to true.
-     * This also depends if the top menu is shown or not, in which case,the booleans have no effect if the top menu is not shown.
+     * This also depends if the top menu is shown or not, in which case, the booleans have no effect if the top menu is not shown.
      */
     const std::vector<uilist_entry_pair_t> uilist_initializer = {
         { uilist_entry( DEBUG_MUTATE, true, 'M', _( "Mutate" ) ), true },
@@ -149,8 +166,7 @@ static int player_uilist( bool display_all_entries = true )
         { uilist_entry( DEBUG_SET_AUTOMOVE, true, 'a', _( "Set automove route" ) ), true },
     };
 
-    const auto filter = [&display_all_entries]( const uilist_entry_pair_t &e ) -> bool { return display_selector( display_all_entries, e ); };
-    return uilist( _( "Player..." ), uilist_initializer, filter );
+    return uilist( _( "Player..." ), filter_uilist( uilist_initializer, display_all_entries ) );
 }
 
 static int info_uilist( bool display_all_entries = true )
@@ -172,8 +188,8 @@ static int info_uilist( bool display_all_entries = true )
         { uilist_entry( DEBUG_SAVE_SCREENSHOT, true, 'H', _( "Take screenshot" ) ), true },
         { uilist_entry( DEBUG_GAME_REPORT, true, 'r', _( "Generate game report" ) ), true },
     };
-    const auto filter = [&display_all_entries]( const uilist_entry_pair_t &e ) -> bool { return display_selector( display_all_entries, e ); };
-    return uilist( _( "Info..." ), uilist_initializer, filter );
+
+    return uilist( _( "Info..." ), filter_uilist( uilist_initializer, display_all_entries ) );
 }
 
 static int teleport_uilist( bool display_all_entries = true )
@@ -184,8 +200,7 @@ static int teleport_uilist( bool display_all_entries = true )
         { uilist_entry( DEBUG_OM_TELEPORT, true, 'o', _( "Teleport - adjacent overmap" ) ), true },
     };
 
-    const auto filter = [&display_all_entries]( const uilist_entry_pair_t &e ) -> bool { return display_selector( display_all_entries, e ); };
-    return uilist( _( "Teleport..." ), uilist_initializer, filter );
+    return uilist( _( "Teleport..." ), filter_uilist( uilist_initializer, display_all_entries ) );
 }
 
 static int spawning_uilist( bool display_all_entries = true )
@@ -199,8 +214,7 @@ static int spawning_uilist( bool display_all_entries = true )
         { uilist_entry( DEBUG_SPAWN_CLAIRVOYANCE, true, 'c', _( "Spawn clairvoyance artifact" ) ), true },
     };
 
-    const auto filter = [&display_all_entries]( const uilist_entry_pair_t &e ) -> bool { return display_selector( display_all_entries, e ); };
-    return uilist( _( "Spawning..." ), uilist_initializer, filter );
+    return uilist( _( "Spawning..." ), filter_uilist( uilist_initializer, display_all_entries ) );
 }
 
 static int map_uilist( bool display_all_entries = true )
@@ -218,8 +232,7 @@ static int map_uilist( bool display_all_entries = true )
         { uilist_entry( DEBUG_MAP_EXTRA, true, 'm', _( "Spawn map extra" ) ), true },
     };
 
-    const auto filter = [&display_all_entries]( const uilist_entry_pair_t &e ) -> bool { return display_selector( display_all_entries, e ); };
-    return uilist( _( "Map..." ), uilist_initializer, filter );
+    return uilist( _( "Map..." ), filter_uilist( uilist_initializer, display_all_entries ) );
 }
 
 /**
@@ -242,9 +255,8 @@ static int debug_menu_uilist( bool display_all_entries = true )
         { uilist_entry( 5, true, 'i', _( "Info..." ) ), true },
     };
 
-    const auto entry_filter = [&display_all_entries]( const uilist_entry_pair_t &e ) -> bool {
-        return display_selector( display_all_entries, e );
-    };
+    const std::vector<uilist_entry> menu_entries = filter_uilist( always_display_map,
+            display_all_entries );
 
     std::string msg;
     if( display_all_entries ) {
@@ -254,7 +266,7 @@ static int debug_menu_uilist( bool display_all_entries = true )
     }
 
     while( true ) {
-        const int group = uilist( msg, always_display_map, entry_filter );
+        const int group = uilist( msg, menu_entries );
 
         int action;
 
