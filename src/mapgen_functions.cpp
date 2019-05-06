@@ -1,12 +1,17 @@
 #include "mapgen_functions.h"
 
+#include <stdlib.h>
+#include <math.h>
 #include <algorithm>
 #include <array>
-#include <chrono>
 #include <iterator>
 #include <random>
+#include <initializer_list>
+#include <map>
+#include <ostream>
+#include <utility>
+#include <vector>
 
-#include "computer.h"
 #include "debug.h"
 #include "field.h"
 #include "item.h"
@@ -19,10 +24,17 @@
 #include "omdata.h"
 #include "options.h"
 #include "overmap.h"
-#include "translations.h"
 #include "trap.h"
 #include "vehicle_group.h"
 #include "vpart_position.h"
+#include "calendar.h"
+#include "game_constants.h"
+#include "regional_settings.h"
+#include "rng.h"
+#include "string_id.h"
+#include "mongroup.h"
+
+class npc_template;
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -1609,7 +1621,7 @@ void mapgen_railroad( map *m, oter_id terrain_type, mapgendata dat, const time_p
     // which way should our railroads curve, based on neighbor railroads?
     int curvedir_nesw[4] = {};
     for( int dir = 0; dir < 4; dir++ ) { // N E S W
-        if( railroads_nesw[dir] == false || dat.t_nesw[dir]->get_type_id().str() != "railroad" ) {
+        if( !railroads_nesw[dir] || dat.t_nesw[dir]->get_type_id().str() != "railroad" ) {
             continue;
         }
         // n_* contain details about the neighbor being considered

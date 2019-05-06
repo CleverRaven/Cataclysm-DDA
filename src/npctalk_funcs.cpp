@@ -1,14 +1,16 @@
 #include "npctalk.h" // IWYU pragma: associated
 
+#include <stddef.h>
 #include <algorithm>
 #include <string>
 #include <vector>
+#include <memory>
+#include <set>
 
 #include "basecamp.h"
 #include "bionics.h"
 #include "debug.h"
 #include "game.h"
-#include "itype.h"
 #include "line.h"
 #include "map.h"
 #include "messages.h"
@@ -17,14 +19,27 @@
 #include "npc.h"
 #include "npctrade.h"
 #include "output.h"
-#include "overmap.h"
 #include "overmapbuffer.h"
 #include "requirements.h"
 #include "rng.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "ui.h"
-#include "units.h"
+#include "auto_pickup.h"
+#include "bodypart.h"
+#include "calendar.h"
+#include "enums.h"
+#include "faction.h"
+#include "game_constants.h"
+#include "item.h"
+#include "item_location.h"
+#include "optional.h"
+#include "pimpl.h"
+#include "player.h"
+#include "player_activity.h"
+#include "pldata.h"
+#include "itype.h"
+#include "mtype.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x), D_NPC) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -132,58 +147,112 @@ void talk_function::start_trade( npc &p )
     trade( p, 0, _( "Trade" ) );
 }
 
-std::string bulk_trade_inquire( const npc &, const itype_id &it )
+void talk_function::goto_location( npc &p )
 {
-    int you_have = g->u.charges_of( it );
-    item tmp( it );
-    int item_cost = tmp.price( true );
-    tmp.charges = you_have;
-    int total_cost = tmp.price( true );
-    return string_format( _( "I'm willing to pay %s per batch for a total of %s" ),
-                          format_money( item_cost ), format_money( total_cost ) );
-}
-
-void bulk_trade_accept( npc &, const itype_id &it )
-{
-    int you_have = g->u.charges_of( it );
-    item tmp( it );
-    tmp.charges = you_have;
-    int total = tmp.price( true );
-    g->u.use_charges( it, you_have );
-    g->u.cash += total;
-}
-
-void talk_function::assign_base( npc &p )
-{
-    // TODO: decide what to do upon assign? maybe pathing required
-    basecamp *camp = g->m.camp_at( g->u.pos() );
-    if( !camp ) {
-        dbg( D_ERROR ) << "talk_function::assign_base: Assigned to base but no base here.";
+    int i = 0;
+    uilist selection_menu;
+    selection_menu.text = string_format( _( "Select a destination" ) );
+    std::vector<basecamp *> camps;
+    tripoint destination;
+    for( auto elem : g->u.camps ) {
+        if( elem == p.global_omt_location() ) {
+            continue;
+        }
+        cata::optional<basecamp *> camp = overmap_buffer.find_camp( elem.x, elem.y );
+        if( !camp ) {
+            continue;
+        }
+        basecamp *temp_camp = *camp;
+        camps.push_back( temp_camp );
+    }
+    for( auto iter : camps ) {
+        selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "%s at (%d, %d)" ), iter->camp_name(),
+                                 iter->camp_omt_pos().x, iter->camp_omt_pos().y );
+    }
+    selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "My current location" ) );
+    selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Cancel" ) );
+    selection_menu.selected = 0;
+    selection_menu.query();
+    auto index = selection_menu.ret;
+    if( index < 0 || index > static_cast<int>( camps.size() + 1 ) ||
+        index == static_cast<int>( camps.size() + 1 ) || index == UILIST_CANCEL ) {
         return;
     }
-
-    add_msg( _( "%1$s waits at %2$s" ), p.name, camp->camp_name() );
-    p.mission = NPC_MISSION_BASE;
+    if( index == static_cast<int>( camps.size() ) ) {
+        destination = g->u.global_omt_location();
+    } else {
+        auto selected_camp = camps[index];
+        destination = selected_camp->camp_omt_pos();
+    }
+    p.set_companion_mission( p.global_omt_location(), "TRAVELLER", "travelling", destination );
+    p.mission = NPC_MISSION_TRAVELLING;
+    p.chatbin.first_topic = "TALK_FRIEND_GUARD";
+    p.goal = destination;
+    p.guard_pos = npc::no_goal_point;
     p.set_attitude( NPCATT_NULL );
+    return;
 }
 
 void talk_function::assign_guard( npc &p )
 {
-    add_msg( _( "%s is posted as a guard." ), p.name );
+    if( !p.is_player_ally() ) {
+        p.mission = NPC_MISSION_GUARD;
+        p.set_omt_destination();
+        return;
+    }
+
+    if( p.is_travelling() ) {
+        if( p.has_companion_mission() ) {
+            p.reset_companion_mission();
+        }
+    }
     p.set_attitude( NPCATT_NULL );
     p.mission = NPC_MISSION_GUARD_ALLY;
     p.chatbin.first_topic = "TALK_FRIEND_GUARD";
-    p.set_destination();
+    p.set_omt_destination();
+    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( p.global_omt_location().x,
+                                     p.global_omt_location().y );
+    if( bcp ) {
+        basecamp *temp_camp = *bcp;
+        temp_camp->validate_assignees();
+        if( p.rules.has_flag( ally_rule::ignore_noise ) ) {
+            //~ %1$s is the NPC's translated name, %2$s is the translated faction camp name
+            add_msg( _( "%1$s is assigned to %2$s" ), p.disp_name(), temp_camp->camp_name() );
+        } else {
+            //~ %1$s is the NPC's translated name, %2$s is the translated faction camp name
+            add_msg( _( "%1$s is assigned to guard %2$s" ), p.disp_name(), temp_camp->camp_name() );
+        }
+    } else {
+        if( p.rules.has_flag( ally_rule::ignore_noise ) ) {
+            //~ %1$s is the NPC's translated name, %2$s is the pronoun for the NPC's gender
+            add_msg( _( "%1$s will wait for you where %2$s is." ), p.disp_name(),
+                     p.male ? _( "he" ) : _( "she" ) );
+        } else {
+            add_msg( _( "%s is posted as a guard." ), p.disp_name() );
+        }
+    }
 }
 
 void talk_function::stop_guard( npc &p )
 {
+    if( p.mission != NPC_MISSION_GUARD_ALLY ) {
+        p.set_attitude( NPCATT_NULL );
+        p.mission = NPC_MISSION_NULL;
+        return;
+    }
+
     p.set_attitude( NPCATT_FOLLOW );
     add_msg( _( "%s begins to follow you." ), p.name );
     p.mission = NPC_MISSION_NULL;
     p.chatbin.first_topic = "TALK_FRIEND";
     p.goal = npc::no_goal_point;
     p.guard_pos = npc::no_goal_point;
+    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( p.global_omt_location().x,
+                                     p.global_omt_location().y );
+    if( bcp ) {
+        basecamp *temp_camp = *bcp;
+        temp_camp->validate_assignees();
+    }
 }
 
 void talk_function::wake_up( npc &p )
@@ -369,7 +438,7 @@ void talk_function::give_all_aid( npc &p )
     p.add_effect( effect_currently_busy, 30_minutes );
     give_aid( p );
     for( npc &guy : g->all_npcs() ) {
-        if( rl_dist( guy.pos(), g->u.pos() ) < PICKUP_RANGE && guy.is_friend() ) {
+        if( guy.is_walking_with() && rl_dist( guy.pos(), g->u.pos() ) < PICKUP_RANGE ) {
             for( int i = 0; i < num_hp_parts; i++ ) {
                 const body_part bp_healed = player::hp_to_bp( hp_part( i ) );
                 guy.heal( hp_part( i ), 5 * rng( 2, 5 ) );
@@ -473,8 +542,14 @@ void talk_function::follow( npc &p )
 {
     g->add_npc_follower( p.getID() );
     p.set_attitude( NPCATT_FOLLOW );
+    p.set_fac( faction_id( "your_followers" ) );
     g->u.cash += p.cash;
     p.cash = 0;
+}
+
+void talk_function::follow_only( npc &p )
+{
+    p.set_attitude( NPCATT_FOLLOW );
 }
 
 void talk_function::deny_follow( npc &p )
@@ -514,7 +589,7 @@ void talk_function::hostile( npc &p )
 
     g->u.add_memorial_log( pgettext( "memorial_male", "%s became hostile." ),
                            pgettext( "memorial_female", "%s became hostile." ),
-                           p.name.c_str() );
+                           p.name );
     p.set_attitude( NPCATT_KILL );
 }
 
@@ -528,6 +603,13 @@ void talk_function::leave( npc &p )
 {
     add_msg( _( "%s leaves." ), p.name );
     g->remove_npc_follower( p.getID() );
+    p.clear_fac();
+    p.set_attitude( NPCATT_NULL );
+}
+
+void talk_function::stop_following( npc &p )
+{
+    add_msg( _( "%s leaves." ), p.name );
     p.set_attitude( NPCATT_NULL );
 }
 
@@ -628,7 +710,7 @@ npc *pick_follower()
     std::vector<tripoint> locations;
 
     for( npc &guy : g->all_npcs() ) {
-        if( guy.is_following() && g->u.sees( guy ) ) {
+        if( guy.is_player_ally() && g->u.sees( guy ) ) {
             followers.push_back( &guy );
             locations.push_back( guy.pos() );
         }
@@ -665,4 +747,32 @@ void talk_function::set_npc_pickup( npc &p )
 {
     const std::string title = string_format( _( "Pickup rules for %s" ), p.name );
     p.rules.pickup_whitelist->show( title, false );
+}
+
+void talk_function::npc_die( npc &p )
+{
+    p.die( nullptr );
+    const std::shared_ptr<npc> guy = overmap_buffer.find_npc( p.getID() );
+    if( guy && !guy->is_dead() ) {
+        guy->marked_for_death = true;
+    }
+}
+
+void talk_function::npc_thankful( npc &p )
+{
+    if( p.get_attitude() == NPCATT_MUG || p.get_attitude() == NPCATT_WAIT_FOR_LEAVE ||
+        p.get_attitude() == NPCATT_FLEE || p.get_attitude() == NPCATT_KILL ||
+        p.get_attitude() == NPCATT_FLEE_TEMP ) {
+        p.set_attitude( NPCATT_NULL );
+    }
+    if( p.chatbin.first_topic != "TALK_FRIEND" ) {
+        p.chatbin.first_topic = "TALK_STRANGER_FRIENDLY";
+    }
+    p.personality.aggression -= 1;
+
+}
+
+void talk_function::clear_overrides( npc &p )
+{
+    p.rules.clear_overrides();
 }

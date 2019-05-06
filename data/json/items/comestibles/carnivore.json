@@ -24,7 +24,7 @@
     "spoils_in": "12 hours",
     "flags": [ "SMOKABLE" ],
     "smoking_result": "fish_smoked",
-    "vitamins": [ [ "vitB", 9 ] ],
+    "vitamins": [ [ "vitA", 2 ], [ "vitC", 2 ], [ "calcium", 2 ], [ "iron", 3 ], [ "vitB", 9 ] ],
     "calories": 121
   },
   {
@@ -93,7 +93,7 @@
     "healthy": -1,
     "fun": -10,
     "cooks_like": "meat_cooked",
-    "vitamins": [ [ "vitC", 4 ], [ "iron", 17 ], [ "vitB", 187 ], [ "calcium", 0 ] ],
+    "vitamins": [ [ "vitC", 13 ], [ "calcium", 2 ], [ "iron", 53 ], [ "vitB", 778 ] ],
     "flags": [ "SMOKABLE" ],
     "smoking_result": "meat_smoked"
   },
@@ -107,7 +107,7 @@
     "cooks_like": "meat_scrap_cooked",
     "proportional": { "weight": 0.1, "volume": 0.1, "price": 0.1, "calories": 0.1 },
     "delete": { "flags": [ "SMOKABLE" ] },
-    "vitamins": [ [ "vitB", 18 ], [ "vitC", 0 ], [ "iron", 0 ] ]
+    "vitamins": [ [ "vitA", 0 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ], [ "vitB", 0 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -141,6 +141,7 @@
     "calories": 402,
     "healthy": 0,
     "fun": 0,
+    "vitamins": [ [ "vitC", 16 ], [ "calcium", 2 ], [ "iron", 69 ], [ "vitB", 778 ] ],
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ]
   },
   {
@@ -252,7 +253,7 @@
     "quench": -5,
     "fun": 4,
     "calories": 348,
-    "vitamins": [ [ "vitC", 0 ], [ "iron", 6 ], [ "vitB", 8 ] ],
+    "vitamins": [ [ "vitA", 0 ], [ "vitC", 0 ], [ "calcium", 2 ], [ "iron", 26 ], [ "vitB", 35 ] ],
     "delete": { "flags": [ "SMOKABLE" ] },
     "proportional": { "price": 0.64 }
   },
@@ -271,7 +272,7 @@
     "parasites": 0,
     "quench": -5,
     "fun": 4,
-    "vitamins": [ [ "vitA", 0 ], [ "vitC", 0 ], [ "calcium", 2 ], [ "iron", 1 ], [ "vitB", 42 ] ],
+    "vitamins": [ [ "vitA", 7 ], [ "vitC", 7 ], [ "calcium", 25 ], [ "iron", 21 ], [ "vitB", 617 ] ],
     "proportional": { "price": 2, "volume": 0.28, "weight": 0.28 }
   },
   {
@@ -481,7 +482,7 @@
     "fun": -50
   },
   {
-    "type": "GENERIC",
+    "type": "COMESTIBLE",
     "id": "bone",
     "category": "spare_parts",
     "name": "bone",
@@ -491,7 +492,8 @@
     "description": "A bone from some creature or other.  Could be used to make some stuff, like needles.",
     "price": 0,
     "material": "bone",
-    "volume": 1
+    "volume": 1,
+    "vitamins": [ [ "calcium", 96 ] ]
   },
   {
     "type": "COMESTIBLE",

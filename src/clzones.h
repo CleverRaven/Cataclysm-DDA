@@ -7,14 +7,18 @@
 #include <unordered_set>
 #include <utility>
 #include <vector>
+#include <functional>
+#include <memory>
+#include <string>
 
 #include "enums.h"
-#include "item.h"
 #include "optional.h"
 #include "string_id.h"
 
 class JsonIn;
 class JsonOut;
+class JsonObject;
+class item;
 
 class zone_type
 {
@@ -217,7 +221,7 @@ class zone_manager
         using ref_const_zone_data = std::reference_wrapper<const zone_data>;
 
     private:
-        const int MAX_DISTANCE = 10;
+        static const int MAX_DISTANCE = 10;
         std::vector<zone_data> zones;
         //Containers for Revert functionality for Vehicle Zones
         //Pointer to added zone to be removed
@@ -267,11 +271,16 @@ class zone_manager
         }
         std::string get_name_from_type( const zone_type_id &type ) const;
         bool has_type( const zone_type_id &type ) const;
+        bool has_defined( const zone_type_id &type ) const;
         void cache_data();
         void cache_vzones();
         bool has( const zone_type_id &type, const tripoint &where ) const;
-        bool has_near( const zone_type_id &type, const tripoint &where ) const;
-        std::unordered_set<tripoint> get_near( const zone_type_id &type, const tripoint &where ) const;
+        bool has_near( const zone_type_id &type, const tripoint &where, int range = MAX_DISTANCE ) const;
+        bool has_loot_dest_near( const tripoint &where ) const;
+        std::unordered_set<tripoint> get_near( const zone_type_id &type, const tripoint &where,
+                                               int range = MAX_DISTANCE ) const;
+        cata::optional<tripoint> get_nearest( const zone_type_id &type, const tripoint &where,
+                                              int range = MAX_DISTANCE ) const;
         zone_type_id get_near_zone_type_for_item( const item &it, const tripoint &where ) const;
         std::vector<zone_data> get_zones( const zone_type_id &type, const tripoint &where ) const;
         const zone_data *get_bottom_zone( const tripoint &where ) const;

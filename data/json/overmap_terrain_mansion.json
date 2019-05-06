@@ -3,7 +3,7 @@
     "type": "overmap_terrain",
     "abstract": "generic_mansion_no_sidewalk",
     "name": "mansion",
-    "sym": 77,
+    "sym": "M",
     "color": "green",
     "see_cost": 5,
     "mondensity": 2

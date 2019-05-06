@@ -106,7 +106,7 @@ The next important concept for the overmap is that of the **overmap_special** an
 **city_building**. These types, which are similar in structure, are the mechanism by which multiple
 overmap terrains can be collected together into one conceptual entity for placement on the overmap.
 If you wanted to have a sprawling mansion, a two story house, a large pond, or a secret lair placed
-under an unassuming bookstore, you would need to use an **overmap_special** or a **city_building**. 
+under an unassuming bookstore, you would need to use an **overmap_special** or a **city_building**.
 
 These types are effectively a list of the overmap terrains that compose them, the placement of
 those overmap terrains relative to each other, and some data used to drive the placement of the
@@ -117,7 +117,7 @@ be placed in a forest/field/river, etc).
 
 Speaking of roads, the concept of linear features like roads, sewers, subways, railroads, and
 forest trails are managed through a combination of overmap terrain attributes and another type
-called an **overmap_connection**. 
+called an **overmap_connection**.
 
 An overmap connection effectively defines the types of overmap terrain on which a given connection
 can be made, the "cost" to make that connection, and the type of terrain to be placed when making
@@ -136,7 +136,7 @@ We've previously mentioned defining valid overmap terrain types for the placemen
 city buildings, and overmap connections, but one thing to clarify is these actually leverage another
 type called an **overmap_location** rather than referencing **overmap_terrain** values directly.
 
-Simply put, an **overmap_location** is just a named collection of **overmap_terrain** values. 
+Simply put, an **overmap_location** is just a named collection of **overmap_terrain** values.
 
 For example, here are two simple definitions.
 
@@ -145,7 +145,7 @@ For example, here are two simple definitions.
     "type": "overmap_location",
     "id": "forest",
     "terrains": ["forest"]
-}, 
+},
 {
     "type": "overmap_location",
     "id": "wilderness",
@@ -180,10 +180,10 @@ update these definitions as follows:
 ### Rotation
 
 If an overmap terrain can be rotated (i.e. it does not have the `NO_ROTATE` flag), then when
-the game loads the definition from JSON, it will create the rotated definitions automatically, 
+the game loads the definition from JSON, it will create the rotated definitions automatically,
 suffixing the `id` defined here with `_north`, `_east`, `_south` or `_west`. This will be
 particularly relevant if the overmap terrains are used in **overmap_special** or **city_building**
-definitions, because if those are allowed to rotate, it's desirable to specify a particular 
+definitions, because if those are allowed to rotate, it's desirable to specify a particular
 rotation for the referenced overmap terrains (e.g. the `_north` version for all).
 
 ### Fields
@@ -196,6 +196,7 @@ rotation for the referenced overmap terrains (e.g. the `_north` version for all)
 | `sym`             | Symbol used when drawing the location. ASCII (e.g. F is 70) plus some specials for line drawing. |
 | `color`           | Color to draw the symbol in. See COLOR.md.                                                       |
 | `see_cost`        | Affects player vision on overmap. Higher values obstruct vision more.                            |
+| `travel_cost`     | Affects pathfinding cost. Higher values are harder to travel through (reference: Forest = 10 )   |
 | `extras`          | Reference to a named `map_extras` in region_settings, defines which map extras can be applied.   |
 | `mondensity`      | Summed with values for adjacent overmap terrains to influence density of monsters spawned here.  |
 | `spawns`          | Spawns added once at mapgen. Monster group, % chance, population range (min/max).                |
@@ -253,8 +254,8 @@ minimum should be 0.
 
 ### Rotation
 
-In general, it is desirable to define your overmap special as allowing rotation--this will provide 
-variety in the game world and allow for more possible valid locations when attempting to place the 
+In general, it is desirable to define your overmap special as allowing rotation--this will provide
+variety in the game world and allow for more possible valid locations when attempting to place the
 overmap special. A consequence of the relationship between rotating an overmap special and rotating
 the underlying overmap terrains that make up the special is that the overmap special should reference
 a specific rotated version of the associated overmap terrain--generally, this is the `_north` rotation

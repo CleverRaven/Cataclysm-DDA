@@ -1,17 +1,23 @@
 #include "debug.h"
 
 #include <sys/stat.h>
+#include <ctype.h>
+#include <stdio.h>
 #include <algorithm>
 #include <cassert>
-#include <cstdarg>
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
-#include <exception>
 #include <fstream>
 #include <iomanip>
-#include <iosfwd>
-#include <streambuf>
+#include <cstdint>
+#include <iterator>
+#include <locale>
+#include <map>
+#include <memory>
+#include <set>
+#include <sstream>
+#include <type_traits>
 
 #include "cursesdef.h"
 #include "filesystem.h"
@@ -19,28 +25,31 @@
 #include "input.h"
 #include "output.h"
 #include "path_info.h"
+#include "cata_utility.h"
+#include "color.h"
+#include "optional.h"
+#include "translations.h"
 
-#ifndef _MSC_VER
+#if !defined(_MSC_VER)
 #include <sys/time.h>
 #endif
 
-#if (defined _WIN32 || defined _WIN64)
-#if 1 // Hack to prevent reordering of #include "platform_win.h" by IWYU
-#include "platform_win.h"
-#endif
-#endif
-
-#ifdef BACKTRACE
-#if (defined _WIN32 || defined _WIN64)
-#include <dbghelp.h>
-#else
-#include <execinfo.h>
-#include <unistd.h>
-#include <cstdlib>
-#endif
+#if defined(_WIN32)
+#   if 1 // Hack to prevent reordering of #include "platform_win.h" by IWYU
+#       include "platform_win.h"
+#   endif
 #endif
 
-#ifdef TILES
+#if defined(BACKTRACE)
+#   if defined(_WIN32)
+#       include <dbghelp.h>
+#   else
+#       include <execinfo.h>
+#       include <unistd.h>
+#   endif
+#endif
+
+#if defined(TILES)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)
 #       include <SDL2/SDL.h>
 #   else
@@ -61,8 +70,13 @@ static int debugClass = D_MAIN;
 
 extern bool test_mode;
 
-/** When in @ref test_mode will be set if any debugmsg are emitted */
-bool test_dirty = false;
+/** Set to true when any error is logged. */
+static bool error_observed = false;
+
+bool debug_has_error_been_observed()
+{
+    return error_observed;
+}
 
 bool debug_mode = false;
 
@@ -80,14 +94,12 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
     assert( line != nullptr );
     assert( funcname != nullptr );
 
-    if( test_mode ) {
-        test_dirty = true;
-        std::cerr << filename << ":" << line << " [" << funcname << "] " << text << std::endl;
-        return;
-    }
-
     DebugLog( D_ERROR, D_MAIN ) << filename << ":" << line << " [" << funcname << "] "
                                 << text << std::flush;
+
+    if( test_mode ) {
+        return;
+    }
 
     std::string msg_key( filename );
     msg_key += line;
@@ -107,10 +119,10 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
             " FUNCTION : %s\n"
             " FILE     : %s\n"
             " LINE     : %s\n",
-            text.c_str(), funcname, filename, line
+            text, funcname, filename, line
         );
 
-#ifdef BACKTRACE
+#if defined(BACKTRACE)
     std::string backtrace_instructions =
         string_format(
             _( "See %s for a full stack backtrace" ),
@@ -124,27 +136,27 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
                     " -----------------------------------------------------------\n"
                     "%s"
                     " -----------------------------------------------------------\n"
-#ifdef BACKTRACE
+#if defined(BACKTRACE)
                     " %s\n" // translated user string: where to find backtrace
 #endif
                     " %s\n" // translated user string: space to continue
                     " %s\n" // translated user string: ignore key
-#ifdef TILES
+#if defined(TILES)
                     " %s\n" // translated user string: copy
 #endif // TILES
                     , _( "An error has occurred! Written below is the error report:" ),
                     formatted_report,
-#ifdef BACKTRACE
+#if defined(BACKTRACE)
                     backtrace_instructions,
 #endif
                     _( "Press <color_white>space bar</color> to continue the game." ),
                     _( "Press <color_white>I</color> (or <color_white>i</color>) to also ignore this particular message in the future." )
-#ifdef TILES
+#if defined(TILES)
                     , _( "Press <color_white>C</color> (or <color_white>c</color>) to copy this message to the clipboard." )
 #endif // TILES
                   );
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
     input_context ctxt( "DEBUG_MSG" );
     ctxt.register_manual_key( 'C' );
     ctxt.register_manual_key( 'I' );
@@ -152,7 +164,7 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
 #endif
     for( bool stop = false; !stop; ) {
         switch( inp_mngr.get_input_event().get_first_input() ) {
-#ifdef TILES
+#if defined(TILES)
             case 'c':
             case 'C':
                 SDL_SetClipboardText( formatted_report.c_str() );
@@ -190,8 +202,8 @@ void limitDebugClass( int class_bitmask )
 // Debug only                                                       {{{1
 // ---------------------------------------------------------------------
 
-#ifdef BACKTRACE
-#if defined _WIN32 || defined _WIN64
+#if defined(BACKTRACE)
+#if defined(_WIN32)
 constexpr int module_path_len = 512;
 // on some systems the number of frames to capture have to be less than 63 according to the documentation
 constexpr int bt_cnt = 62;
@@ -248,7 +260,7 @@ struct time_info {
     }
 };
 
-#ifdef _MSC_VER
+#if defined(_MSC_VER)
 time_info get_time() noexcept
 {
     SYSTEMTIME time {};
@@ -352,19 +364,19 @@ void setupDebug( DebugOutput output_mode )
 {
     int level = 0;
 
-#ifdef DEBUG_INFO
+#if defined(DEBUG_INFO)
     level |= D_INFO;
 #endif
 
-#ifdef DEBUG_WARNING
+#if defined(DEBUG_WARNING)
     level |= D_WARNING;
 #endif
 
-#ifdef DEBUG_ERROR
+#if defined(DEBUG_ERROR)
     level |= D_ERROR;
 #endif
 
-#ifdef DEBUG_PEDANTIC_INFO
+#if defined(DEBUG_PEDANTIC_INFO)
     level |= D_PEDANTIC_INFO;
 #endif
 
@@ -374,19 +386,19 @@ void setupDebug( DebugOutput output_mode )
 
     int cl = 0;
 
-#ifdef DEBUG_ENABLE_MAIN
+#if defined(DEBUG_ENABLE_MAIN)
     cl |= D_MAIN;
 #endif
 
-#ifdef DEBUG_ENABLE_MAP
+#if defined(DEBUG_ENABLE_MAP)
     cl |= D_MAP;
 #endif
 
-#ifdef DEBUG_ENABLE_MAP_GEN
+#if defined(DEBUG_ENABLE_MAP_GEN)
     cl |= D_MAP_GEN;
 #endif
 
-#ifdef DEBUG_ENABLE_GAME
+#if defined(DEBUG_ENABLE_GAME)
     cl |= D_GAME;
 #endif
 
@@ -449,7 +461,7 @@ std::ostream &operator<<( std::ostream &out, DebugClass cl )
     return out;
 }
 
-#ifdef BACKTRACE
+#if defined(BACKTRACE)
 // Verify that a string is safe for passing as an argument to addr2line.
 // In particular, we want to avoid any characters of significance to the shell.
 bool debug_is_safe_string( const char *start, const char *finish )
@@ -467,6 +479,7 @@ bool debug_is_safe_string( const char *start, const char *finish )
     return std::all_of( start, finish, is_safe_char );
 }
 
+#if !defined(_WIN32)
 std::string debug_resolve_binary( const std::string &binary, std::ostream &out )
 {
     if( binary.find( '/' ) != std::string::npos ) {
@@ -553,10 +566,11 @@ cata::optional<uintptr_t> debug_compute_load_offset(
 
     return cata::nullopt;
 }
+#endif
 
 void debug_write_backtrace( std::ostream &out )
 {
-#if defined _WIN32 || defined _WIN64
+#if defined(_WIN32)
     sym.SizeOfStruct = sizeof( SYMBOL_INFO );
     sym.MaxNameLen = max_name_len;
     USHORT num_bt = CaptureStackBackTrace( 0, bt_cnt, bt, NULL );
@@ -721,6 +735,10 @@ void debug_write_backtrace( std::ostream &out )
 
 std::ostream &DebugLog( DebugLevel lev, DebugClass cl )
 {
+    if( lev & D_ERROR ) {
+        error_observed = true;
+    }
+
     // If debugging has not been initialized then stop
     // (we could instead use std::cerr in this case?)
     if( !debugFile.file ) {
@@ -740,7 +758,7 @@ std::ostream &DebugLog( DebugLevel lev, DebugClass cl )
         out << ": ";
 
         // Backtrace on error.
-#ifdef BACKTRACE
+#if defined(BACKTRACE)
         // Push the first retrieved value back by a second so it won't match.
         static time_t next_backtrace = time( nullptr ) - 1;
         time_t now = time( nullptr );

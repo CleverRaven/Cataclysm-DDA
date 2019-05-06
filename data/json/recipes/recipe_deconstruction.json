@@ -26,7 +26,7 @@
     "difficulty": 5,
     "time": 500,
     "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "lead", 2 ] ], [ [ "22_casing_new", 1 ] ], [ [ "gunpowder", 1 ] ], [ [ "copper", 2 ] ] ],
+    "components": [ [ [ "lead", 2 ] ], [ [ "22_casing_new", 1 ] ], [ [ "gunpowder", 2 ] ], [ [ "copper", 1 ] ] ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
   },
   {
@@ -983,6 +983,60 @@
     ]
   },
   {
+    "result": "broken_dispatch",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 5,
+    "time": 60000,
+    "using": [ [ "soldering_standard", 20 ] ],
+    "qualities": [ { "id": "WRENCH", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "power_supply", 3 ] ],
+      [ [ "e_scrap", 6 ] ],
+      [ [ "solder_wire", 50 ] ],
+      [ [ "cable", 20 ] ],
+      [ [ "scrap", 6 ] ],
+      [ [ "motor", 1 ] ],
+      [ [ "wire", 9 ] ],
+      [ [ "plut_cell", 1 ] ],
+      [ [ "steel_chunk", 6 ] ],
+      [ [ "broken_manhack", 4 ] ],
+      [ [ "omnicamera", 1 ] ],
+      [ [ "robot_controls", 1 ] ]
+    ]
+  },
+  {
+    "result": "broken_dispatch_military",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 5,
+    "time": 60000,
+    "using": [ [ "soldering_standard", 20 ] ],
+    "qualities": [ { "id": "WRENCH", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "power_supply", 3 ] ],
+      [ [ "e_scrap", 6 ] ],
+      [ [ "solder_wire", 60 ] ],
+      [ [ "cable", 35 ] ],
+      [ [ "scrap", 6 ] ],
+      [ [ "motor_large", 1 ] ],
+      [ [ "wire", 9 ] ],
+      [ [ "plut_cell", 2 ] ],
+      [ [ "steel_chunk", 6 ] ],
+      [ [ "broken_manhack", 7 ] ],
+      [ [ "omnicamera", 1 ] ],
+      [ [ "robot_controls", 1 ] ]
+    ]
+  },
+  {
+    "result": "cable",
+    "type": "uncraft",
+    "time": 1000,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "copper", 1 ] ] ],
+    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+  },
+  {
     "result": "camera",
     "type": "uncraft",
     "time": 1000,
@@ -1184,6 +1238,13 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
+    "result": "scorecard",
+    "type": "uncraft",
+    "time": 100,
+    "components": [ [ [ "paper", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
     "result": "foon",
     "type": "uncraft",
     "time": 1500,
@@ -1252,7 +1313,7 @@
       [ [ "gloves_tactical", 1 ] ],
       [ [ "gloves_rubber", 1 ] ],
       [ [ "fire_gauntlets", 1 ] ],
-      [ [ "battery", 100 ] ],
+      [ [ "light_plus_battery_cell", 1 ] ],
       [ [ "flashlight", 1 ] ],
       [ [ "lighter", 1 ] ],
       [ [ "pockknife", 1 ] ],
@@ -1260,7 +1321,7 @@
       [ [ "sleeping_bag_roll", 1 ] ],
       [ [ "ear_plugs", 1 ] ]
     ],
-    "flags": [ "BLIND_EASY" ]
+    "flags": [ "BLIND_EASY", "FULL_MAGAZINE" ]
   },
   {
     "result": "gold_bracelet",
@@ -1350,7 +1411,7 @@
       [ [ "l_long_45", 1 ] ],
       [ [ "l_enforcer_45", 1 ] ],
       [ [ "small_repairkit", 1 ] ],
-      [ [ "battery", 300 ] ],
+      [ [ "light_battery_cell", 3 ] ],
       [ [ "manual_gun", 1 ] ],
       [ [ "holster", 1 ] ]
     ]
@@ -1397,14 +1458,6 @@
     "type": "uncraft",
     "time": 100,
     "components": [ [ [ "pilot_light", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
-  },
-  {
-    "result": "lightstrip_dead",
-    "type": "uncraft",
-    "skill_used": "electronics",
-    "time": 1000,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "amplifier", 1 ] ], [ [ "e_scrap", 1 ] ] ]
   },
   {
     "result": "locket",
@@ -1686,7 +1739,7 @@
     "result": "radio_car_box",
     "type": "uncraft",
     "time": 500,
-    "components": [ [ [ "radio_car", 1 ] ], [ [ "radiocontrol", 1 ] ], [ [ "battery", 200 ] ] ]
+    "components": [ [ [ "radio_car", 1 ] ], [ [ "radiocontrol", 1 ] ], [ [ "light_battery_cell", 2 ] ] ]
   },
   {
     "result": "radiocontrol",
@@ -2026,7 +2079,7 @@
     "type": "uncraft",
     "time": 500,
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "processor", 1 ] ], [ [ "battery", 20 ] ] ]
+    "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "processor", 1 ] ], [ [ "light_minus_battery_cell", 1 ] ] ]
   },
   {
     "result": "years_old_newspaper",
@@ -2249,5 +2302,169 @@
     "time": 500,
     "components": [ [ [ "paper", 10 ] ] ],
     "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "spectrophotometer",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 4,
+    "skills_required": [ "cooking", 1 ],
+    "time": 60000,
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "using": [ [ "soldering_standard", 20 ] ],
+    "components": [
+      [ [ "sheet_metal_small", 2 ] ],
+      [ [ "cable", 1 ] ],
+      [ [ "amplifier", 1 ] ],
+      [ [ "plastic_chunk", 6 ] ],
+      [ [ "small_lcd_screen", 1 ] ],
+      [ [ "light_detector", 1 ] ],
+      [ [ "glass_prism", 1 ] ],
+      [ [ "solder_wire", 10 ] ]
+    ]
+  },
+  {
+    "result": "melting_point",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "time": 60000,
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "using": [ [ "soldering_standard", 5 ] ],
+    "components": [
+      [ [ "sheet_metal_small", 2 ] ],
+      [ [ "steel_lump", 1 ] ],
+      [ [ "cable", 1 ] ],
+      [ [ "hotplate", 1 ] ],
+      [ [ "solder_wire", 6 ] ],
+      [ [ "lens_small", 1 ] ]
+    ]
+  },
+  {
+    "result": "vortex",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "time": 60000,
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "using": [ [ "soldering_standard", 5 ] ],
+    "components": [
+      [ [ "sheet_metal_small", 2 ] ],
+      [ [ "steel_lump", 1 ] ],
+      [ [ "cable", 1 ] ],
+      [ [ "motor_tiny", 1 ] ],
+      [ [ "plastic_chunk", 2 ] ],
+      [ [ "solder_wire", 10 ] ]
+    ]
+  },
+  {
+    "result": "ph_meter",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "time": 5000,
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "voltmeter", 1 ] ], [ [ "glass_tube_small", 2 ] ] ]
+  },
+  {
+    "result": "voltmeter",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "time": 60000,
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "scrap", 2 ] ], [ [ "amplifier", 1 ] ], [ [ "cable", 6 ] ], [ [ "plastic_chunk", 4 ] ], [ [ "e_scrap", 3 ] ] ]
+  },
+  {
+    "result": "microscope",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "time": 45000,
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "steel_lump", 2 ] ],
+      [ [ "amplifier", 1 ] ],
+      [ [ "light_bulb", 1 ] ],
+      [ [ "cable", 2 ] ],
+      [ [ "scrap", 3 ] ],
+      [ [ "plastic_chunk", 4 ] ],
+      [ [ "lens_small", 8 ] ],
+      [ [ "lens", 2 ] ]
+    ]
+  },
+  {
+    "result": "microscope_dissecting",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "time": 45000,
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "steel_lump", 2 ] ],
+      [ [ "amplifier", 2 ] ],
+      [ [ "light_bulb", 1 ] ],
+      [ [ "cable", 2 ] ],
+      [ [ "scrap", 3 ] ],
+      [ [ "plastic_chunk", 4 ] ],
+      [ [ "lens_small", 4 ] ],
+      [ [ "lens", 4 ] ]
+    ]
+  },
+  {
+    "result": "microcentrifuge",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "time": 60000,
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "using": [ [ "soldering_standard", 15 ] ],
+    "components": [
+      [ [ "sheet_metal_small", 2 ] ],
+      [ [ "steel_chunk", 4 ] ],
+      [ [ "cable", 2 ] ],
+      [ [ "motor_small", 1 ] ],
+      [ [ "plastic_chunk", 6 ] ],
+      [ [ "solder_wire", 10 ] ]
+    ]
+  },
+  {
+    "result": "gelbox",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "time": 40000,
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "using": [ [ "soldering_standard", 10 ] ],
+    "components": [
+      [ [ "power_supply", 4 ] ],
+      [ [ "amplifier", 4 ] ],
+      [ [ "cable", 6 ] ],
+      [ [ "plastic_chunk", 10 ] ],
+      [ [ "solder_wire", 5 ] ]
+    ]
+  },
+  {
+    "result": "medium_storage_battery",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 8,
+    "time": 40000,
+    "decomp_learn": [ [ "electronics", 3 ], [ "fabrication", 1 ] ],
+    "using": [ [ "soldering_standard", 20 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "small_storage_battery", 13 ] ], [ [ "e_scrap", 3 ] ], [ [ "scrap", 7 ] ], [ [ "cable", 4 ] ] ]
+  },
+  {
+    "result": "storage_battery",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 8,
+    "time": 120000,
+    "decomp_learn": [ [ "electronics", 3 ], [ "fabrication", 2 ] ],
+    "using": [ [ "soldering_standard", 80 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "small_storage_battery", 79 ] ], [ [ "e_scrap", 15 ] ], [ [ "scrap", 31 ] ], [ [ "cable", 19 ] ] ]
+  },
+  {
+    "result": "electric_blanket",
+    "type": "uncraft",
+    "skill_used": "tailor",
+    "time": 30000,
+    "difficulty": 1,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "rag", 25 ] ], [ [ "element", 5 ] ], [ [ "cable", 5 ] ] ]
   }
 ]

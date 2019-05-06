@@ -143,7 +143,7 @@
     "batch_time_factors": [ 80, 1 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "stomach", 1 ] ], [ [ "batter", 3, "LIST" ] ], [ [ "cooking_oil", 4 ] ] ]
+    "components": [ [ [ "stomach", 1 ] ], [ [ "batter", 3, "LIST" ] ], [ [ "cooking_oil", 4 ], [ "cooking_oil2", 4 ] ] ]
   },
   {
     "type": "recipe",

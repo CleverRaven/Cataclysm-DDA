@@ -1,5 +1,8 @@
 #include "event.h"
 
+#include <array>
+#include <memory>
+
 #include "debug.h"
 #include "game.h"
 #include "line.h"
@@ -8,10 +11,12 @@
 #include "messages.h"
 #include "morale_types.h"
 #include "options.h"
-#include "output.h"
 #include "rng.h"
 #include "sounds.h"
 #include "translations.h"
+#include "game_constants.h"
+#include "int_id.h"
+#include "player.h"
 
 const mtype_id mon_amigara_horror( "mon_amigara_horror" );
 const mtype_id mon_copbot( "mon_copbot" );
@@ -75,7 +80,7 @@ void event::actualize()
             }
             // You could drop the flag, you know.
             if( g->u.has_amount( "petrified_eye", 1 ) ) {
-                sounds::sound( g->u.pos(), 60, sounds::sound_t::speech, _( "a tortured scream!" ) );
+                sounds::sound( g->u.pos(), 60, sounds::sound_t::alert, _( "a tortured scream!" ) );
                 if( !g->u.is_deaf() ) {
                     add_msg( _( "The eye you're carrying lets out a tortured scream!" ) );
                     g->u.add_morale( MORALE_SCREAM, -15, 0, 30_minutes, 5_turns );
@@ -282,7 +287,7 @@ void event::per_turn()
                 when -= 1_turns;
                 return;
             }
-            if( calendar::once_every( 3_turns ) ) {
+            if( calendar::once_every( 3_turns ) && !g->u.is_deaf() ) {
                 add_msg( m_warning, _( "You hear screeches from the rock above and around you!" ) );
             }
             break;

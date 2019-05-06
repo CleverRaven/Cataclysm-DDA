@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <string>
 #include <vector>
+#include <iterator>
 
 #include "cata_utility.h"
 #include "catacharset.h" // used for utf8_width()
@@ -14,6 +15,7 @@
 #include "output.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "debug.h"
 
 namespace
 {
@@ -64,7 +66,7 @@ item_penalties get_item_penalties( std::list<item>::const_iterator worn_item_it,
         if( !worn_item_it->covers( bp ) ) {
             continue;
         }
-        int num_items = std::count_if( c.worn.begin(), c.worn.end(),
+        const int num_items = std::count_if( c.worn.begin(), c.worn.end(),
         [layer, bp]( const item & i ) {
             return i.get_layer() == layer && i.covers( bp );
         } );
@@ -157,7 +159,7 @@ void draw_mid_pane( const catacurses::window &w_sort_middle,
     std::vector<std::string> layer_desc = foldstring( clothing_layer( *worn_item_it ), win_width );
     if( i + layer_desc.size() < win_height && !clothing_layer( *worn_item_it ).empty() ) {
         for( std::string &iter : layer_desc ) {
-            mvwprintz( w_sort_middle, ++i, 0, c_light_blue, iter.c_str() );
+            mvwprintz( w_sort_middle, ++i, 0, c_light_blue, iter );
         }
     }
 
@@ -485,11 +487,11 @@ void player::sort_armor()
         } else {
             // Player is sorting NPC's armor here
             if( rl_dist( g->u.pos(), pos() ) > 1 ) {
-                add_msg_if_npc( m_bad, _( "%s is too far to sort armor." ), name.c_str() );
+                add_msg_if_npc( m_bad, _( "%s is too far to sort armor." ), name );
                 return;
             }
             if( attitude_to( g->u ) != Creature::A_FRIENDLY ) {
-                add_msg_if_npc( m_bad, _( "%s is not friendly!" ), name.c_str() );
+                add_msg_if_npc( m_bad, _( "%s is not friendly!" ), name );
                 return;
             }
         }
@@ -501,11 +503,11 @@ void player::sort_armor()
 
         // top bar
         wprintz( w_sort_cat, c_white, _( "Sort Armor" ) );
-        wprintz( w_sort_cat, c_yellow, "  << %s >>", armor_cat[tabindex].c_str() );
+        wprintz( w_sort_cat, c_yellow, "  << %s >>", armor_cat[tabindex] );
         right_print( w_sort_cat, 0, 0, c_white, string_format(
                          _( "Press %s for help. Press %s to change keybindings." ),
-                         ctxt.get_desc( "USAGE_HELP" ).c_str(),
-                         ctxt.get_desc( "HELP_KEYBINDINGS" ).c_str() ) );
+                         ctxt.get_desc( "USAGE_HELP" ),
+                         ctxt.get_desc( "HELP_KEYBINDINGS" ) ) );
 
         // Create ptr list of items to display
         tmp_worn.clear();
@@ -589,7 +591,7 @@ void player::sort_armor()
             }
             if( rightListSize >= rightListOffset && pos <= cont_h - 2 ) {
                 mvwprintz( w_sort_right, pos, 1, ( cover == tabindex ? c_yellow : c_white ),
-                           "%s:", body_part_name_as_heading( all_body_parts[cover], combined ? 2 : 1 ).c_str() );
+                           "%s:", body_part_name_as_heading( all_body_parts[cover], combined ? 2 : 1 ) );
                 pos++;
             }
             rightListSize++;
@@ -819,15 +821,15 @@ The second number is an additional encumbrance penalty caused by wearing multipl
 on one of the bodypart's layers or wearing items outside of other items they would \
 normally be work beneath (e.g. a shirt over a backpack).\n\
 The sum of these values is the effective encumbrance value your character has for that bodypart." ),
-                          ctxt.get_desc( "MOVE_ARMOR" ).c_str(),
-                          ctxt.get_desc( "PREV_TAB" ).c_str(),
-                          ctxt.get_desc( "NEXT_TAB" ).c_str(),
-                          ctxt.get_desc( "ASSIGN_INVLETS" ).c_str(),
-                          ctxt.get_desc( "CHANGE_SIDE" ).c_str(),
-                          ctxt.get_desc( "SORT_ARMOR" ).c_str(),
-                          ctxt.get_desc( "EQUIP_ARMOR" ).c_str(),
-                          ctxt.get_desc( "EQUIP_ARMOR_HERE" ).c_str(),
-                          ctxt.get_desc( "REMOVE_ARMOR" ).c_str()
+                          ctxt.get_desc( "MOVE_ARMOR" ),
+                          ctxt.get_desc( "PREV_TAB" ),
+                          ctxt.get_desc( "NEXT_TAB" ),
+                          ctxt.get_desc( "ASSIGN_INVLETS" ),
+                          ctxt.get_desc( "CHANGE_SIDE" ),
+                          ctxt.get_desc( "SORT_ARMOR" ),
+                          ctxt.get_desc( "EQUIP_ARMOR" ),
+                          ctxt.get_desc( "EQUIP_ARMOR_HERE" ),
+                          ctxt.get_desc( "REMOVE_ARMOR" )
                         );
             draw_grid( w_sort_armor, left_w, middle_w );
         } else if( action == "HELP_KEYBINDINGS" ) {

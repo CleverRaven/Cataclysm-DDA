@@ -2,16 +2,24 @@
 #ifndef CATACHARSET_H
 #define CATACHARSET_H
 
+#include <stddef.h>
 #include <cstdint>
 #include <string>
 
 #define ANY_LENGTH 5
+#define NULL_UNICODE 0x0000
 #define UNKNOWN_UNICODE 0xFFFD
 
 class utf8_wrapper;
 
 // get a Unicode character from a utf8 string
 uint32_t UTF8_getch( const char **src, int *srclen );
+inline uint32_t UTF8_getch( const std::string &str )
+{
+    const char *utf8str = str.c_str();
+    int len = str.length();
+    return UTF8_getch( &utf8str, &len );
+}
 // from wcwidth.c, return "cell" width of a Unicode char
 int mk_wcwidth( uint32_t ucs );
 // convert cursorx value to byte position
@@ -31,10 +39,10 @@ int center_text_pos( const char *text, int start_pos, int end_pos );
 int center_text_pos( const std::string &text, int start_pos, int end_pos );
 int center_text_pos( const utf8_wrapper &text, int start_pos, int end_pos );
 std::string utf32_to_utf8( uint32_t ch );
-std::string utf8_truncate( std::string s, size_t length );
+std::string utf8_truncate( const std::string &s, size_t length );
 
-std::string base64_encode( std::string str );
-std::string base64_decode( std::string str );
+std::string base64_encode( const std::string &str );
+std::string base64_decode( const std::string &str );
 
 std::wstring utf8_to_wstr( const std::string &str );
 std::string wstr_to_utf8( const std::wstring &wstr );

@@ -1,5 +1,12 @@
 #include "visitable.h"
 
+#include <limits.h>
+#include <algorithm>
+#include <map>
+#include <memory>
+#include <unordered_map>
+#include <utility>
+
 #include "bionics.h"
 #include "character.h"
 #include "debug.h"
@@ -9,11 +16,15 @@
 #include "map.h"
 #include "map_selector.h"
 #include "player.h"
-#include "string_id.h"
 #include "submap.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
+#include "active_item_cache.h"
+#include "enums.h"
+#include "itype.h"
+#include "pimpl.h"
+#include "pldata.h"
 
 /** @relates visitable */
 template <typename T>
@@ -882,7 +893,7 @@ int visitable<inventory>::amount_of( const std::string &what, bool pseudo, int l
 
     int res = 0;
     if( what == "any" ) {
-        for( const auto kv : binned ) {
+        for( const auto &kv : binned ) {
             for( const item *it : kv.second ) {
                 res = sum_no_wrap( res, it->amount_of( what, pseudo, limit, filter ) );
             }

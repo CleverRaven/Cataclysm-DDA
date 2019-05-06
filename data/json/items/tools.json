@@ -89,8 +89,8 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": "battery",
-    "max_charges": 1000,
-    "flags": [ "NO_UNLOAD", "RECHARGE" ]
+    "flags": [ "RECHARGE" ],
+    "magazines": [ [ "battery", [ "heavy_plus_battery_cell", "heavy_battery_cell" ] ] ]
   },
   {
     "id": "acidbomb",
@@ -140,11 +140,10 @@
     "symbol": "!",
     "color": "white",
     "ammo": "battery",
-    "initial_charges": 40,
-    "max_charges": 100,
     "charges_per_use": 1,
     "turns_per_charge": 1,
-    "use_action": "ECIG"
+    "use_action": "ECIG",
+    "magazines": [ [ "battery", [ "light_battery_cell", "light_plus_battery_cell", "light_minus_battery_cell" ] ] ]
   },
   {
     "id": "airhorn",
@@ -202,6 +201,36 @@
     "symbol": ";",
     "color": "dark_gray",
     "qualities": [ [ "ANVIL", 3 ] ],
+    "flags": [ "DURABLE_MELEE" ]
+  },
+  {
+    "id": "water_mill",
+    "type": "TOOL",
+    "name": "water mill",
+    "description": "A small water-powered mill that can convert starchy products into flour. Can be placed via the construction menu.",
+    "weight": 120000,
+    "volume": 90,
+    "price": 100000,
+    "to_hit": -5,
+    "bashing": 40,
+    "material": "wood",
+    "symbol": "*",
+    "color": "red",
+    "flags": [ "DURABLE_MELEE" ]
+  },
+  {
+    "id": "wind_mill",
+    "type": "TOOL",
+    "name": "wind mill",
+    "description": "A small wind-powered mill that can convert starchy products into flour. Can be placed via the construction menu.",
+    "weight": 120000,
+    "volume": 90,
+    "price": 100000,
+    "to_hit": -5,
+    "bashing": 40,
+    "material": "steel",
+    "symbol": "T",
+    "color": "red",
     "flags": [ "DURABLE_MELEE" ]
   },
   {
@@ -430,7 +459,16 @@
     "turns_per_charge": 20,
     "revert_to": "battletorch_done",
     "techniques": [ "WBLOCK_1" ],
-    "use_action": "BATTLETORCH_LIT",
+    "use_action": [
+      { "type": "firestarter", "moves": 30 },
+      {
+        "target": "battletorch",
+        "msg": "The Louisville Slaughterer is extinguished.",
+        "active": false,
+        "menu_text": "Extinguish",
+        "type": "transform"
+      }
+    ],
     "flags": [ "FIRE", "LIGHT_310", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID", "WATER_EXTINGUISH" ]
   },
   {
@@ -894,6 +932,32 @@
     }
   },
   {
+    "id": "bot_prototype_cyborg",
+    "type": "TOOL",
+    "name": "inactive prototype cyborg",
+    "description": "This is a deactivated prototype cyborg, glimpses of humanity can still be seen in its empty eyes.  Using this item involves placing it on the ground and reactivating its mechanical body.  If reprogrammed and rewired successfully the cyborg will then follow you and attack enemies.  You monster.",
+    "weight": 81500,
+    "volume": 250,
+    "//": "It is an affront to humanity, no one will buy it.",
+    "price": 0,
+    "to_hit": -3,
+    "bashing": 8,
+    "material": [ "steel", "flesh" ],
+    "symbol": ";",
+    "color": "light_green",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_prototype_cyborg",
+      "friendly_msg": "The prototype cyborg rises to the sound of screeching metal and peers around for hostiles.",
+      "hostile_msg": "The prototype cyborg lets out a howl of agony and attacks you!",
+      "//": "Very difficult due to organic interference and failed components",
+      "difficulty": 9,
+      "moves": 250,
+      "skill1": "electronics",
+      "skill2": "computer"
+    }
+  },
+  {
     "id": "bot_chickenbot",
     "type": "TOOL",
     "name": "inactive chicken walker",
@@ -1178,6 +1242,56 @@
     }
   },
   {
+    "id": "bot_dispatch",
+    "type": "TOOL",
+    "name": "inactive dispatch",
+    "description": "An inactive Northrop Dispatch, guard model, serving as a mobile assembler and deployer of kamikaze manhacks for defense.  Activate it to place it onto the ground; due to a one-way switch triggered during deactivation, however, it will be nonaggressive, and serves only as a distraction.",
+    "volume": "95000 ml",
+    "weight": 100000,
+    "price": 10000000,
+    "price_postapoc": 100000,
+    "to_hit": -3,
+    "bashing": 6,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "yellow",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_dispatch",
+      "friendly_msg": "The dispatch whirrs onto its legs and searches for a target.",
+      "hostile_msg": "The dispatch turns on you, whacking at you with its arms!",
+      "difficulty": 1,
+      "moves": 300,
+      "skill1": "electronics",
+      "skill2": "computer"
+    }
+  },
+  {
+    "id": "bot_dispatch_military",
+    "type": "TOOL",
+    "name": "inactive military dispatch",
+    "description": "An inactive Northrop Dispatch, military model, serving as a mobile assembler and deployer of lethal manhacks for combat situations.  Activate it to place it onto the ground; due to a one-way switch triggered during deactivation, however, it will be nonaggressive, and serves only as a distraction.",
+    "volume": "95000 ml",
+    "weight": 100000,
+    "price": 100000000,
+    "price_postapoc": 500000,
+    "to_hit": -3,
+    "bashing": 6,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "green",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_dispatch_military",
+      "friendly_msg": "The dispatch whirrs onto its legs and searches for a target.",
+      "hostile_msg": "The dispatch turns on you, slashing at you with its arms!",
+      "difficulty": 1,
+      "moves": 300,
+      "skill1": "electronics",
+      "skill2": "computer"
+    }
+  },
+  {
     "id": "brick_kiln",
     "type": "TOOL",
     "name": "brick kiln",
@@ -1208,8 +1322,8 @@
     "symbol": ";",
     "color": "dark_gray",
     "ammo": "battery",
-    "max_charges": 1000,
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "magazines": [ [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell" ] ] ]
   },
   {
     "id": "broadfire_off",
@@ -1391,11 +1505,10 @@
     "symbol": ";",
     "color": "yellow",
     "ammo": "battery",
-    "initial_charges": 200,
-    "max_charges": 200,
     "charges_per_use": 5,
     "revert_to": "camera",
-    "use_action": "CAMERA"
+    "use_action": "CAMERA",
+    "magazines": [ [ "battery", [ "light_plus_battery_cell", "light_minus_battery_cell", "light_battery_cell" ] ] ]
   },
   {
     "id": "camera_pro",
@@ -1410,12 +1523,11 @@
     "symbol": ";",
     "color": "yellow",
     "ammo": "battery",
-    "initial_charges": 200,
-    "max_charges": 200,
     "charges_per_use": 5,
     "revert_to": "camera_pro",
     "use_action": "CAMERA",
-    "flags": [ "CAMERA_PRO", "ALWAYS_TWOHAND" ]
+    "flags": [ "CAMERA_PRO", "ALWAYS_TWOHAND" ],
+    "magazines": [ [ "battery", [ "light_plus_battery_cell", "light_minus_battery_cell", "light_battery_cell" ] ] ]
   },
   {
     "id": "can_sealer",
@@ -1526,10 +1638,9 @@
     "symbol": "/",
     "color": "yellow",
     "ammo": "battery",
-    "initial_charges": 100,
-    "max_charges": 200,
     "use_action": "CARVER_OFF",
-    "flags": [ "SHEATH_SWORD", "NONCONDUCTIVE" ]
+    "flags": [ "SHEATH_SWORD", "NONCONDUCTIVE" ],
+    "magazines": [ [ "battery", [ "light_plus_battery_cell", "light_minus_battery_cell", "light_battery_cell" ] ] ]
   },
   {
     "id": "carver_on",
@@ -1546,12 +1657,12 @@
     "symbol": "/",
     "color": "yellow",
     "ammo": "battery",
-    "max_charges": 200,
     "turns_per_charge": 1,
     "revert_to": "carver_off",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 25 ] ],
     "use_action": "CARVER_ON",
-    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ]
+    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ],
+    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ]
   },
   {
     "id": "cavalry_sabre",
@@ -1579,15 +1690,14 @@
     "name_plural": "cellphones",
     "description": "This is a cellphone, an older cousin of a smartphone but still popular in certain circles due to its reliability, sturdiness and the ability to run on common batteries.  Using this cellphone will turn it on and provide light, assuming it is sufficiently charged.  It also has a clock app that includes an alarm.",
     "weight": 226,
-    "volume": 1,
+    "volume": "100 ml",
     "price": 9000,
     "price_postapoc": 2000,
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "light_gray",
     "ammo": "battery",
-    "initial_charges": 110,
-    "max_charges": 120,
+    "initial_charges": 150,
     "charges_per_use": 1,
     "use_action": {
       "target": "cell_phone_flashlight",
@@ -1597,7 +1707,8 @@
       "need_charges_msg": "The cellphone's batteries need more charge.",
       "type": "transform"
     },
-    "flags": [ "WATCH", "ALARMCLOCK" ]
+    "flags": [ "WATCH", "ALARMCLOCK" ],
+    "magazines": [ [ "battery", [ "light_plus_battery_cell", "light_minus_battery_cell", "light_battery_cell" ] ] ]
   },
   {
     "id": "cell_phone_flashlight",
@@ -1617,7 +1728,7 @@
     "name_plural": "smartphones",
     "description": "A popular, fancy smartphone.  Capable of making photos due to integrated camera and illuminating an area as per flashlight app, assuming it has enough charge.  The smartphone also has a clock app that includes an alarm.  Runs on a small, rechargeable power cell compatible with Unified Power Supply.",
     "weight": 230,
-    "volume": 1,
+    "volume": "100 ml",
     "price": 20000,
     "price_postapoc": 1900,
     "material": [ "plastic", "aluminum" ],
@@ -1760,7 +1871,7 @@
     "name": "charcoal smoker",
     "description": "This is a portable charcoal smoker.  Good for weekend barbecuing and preserving meat with smoke.",
     "weight": 2600,
-    "volume": 18,
+    "volume": 20,
     "price": 10000,
     "to_hit": -2,
     "bashing": 9,
@@ -1768,7 +1879,7 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": "charcoal",
-    "max_charges": 180,
+    "max_charges": 200,
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
@@ -1839,11 +1950,10 @@
     "symbol": "/",
     "color": "yellow",
     "ammo": "battery",
-    "initial_charges": 50,
-    "max_charges": 100,
-    "charges_per_use": 1,
+    "charges_per_use": 5,
     "use_action": { "target": "circsaw_on", "msg": "You turn on the circular saw.", "active": true, "type": "transform" },
-    "flags": [ "NONCONDUCTIVE" ]
+    "flags": [ "NONCONDUCTIVE" ],
+    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ]
   },
   {
     "id": "circsaw_on",
@@ -1862,7 +1972,6 @@
     "symbol": "/",
     "color": "yellow",
     "ammo": "battery",
-    "max_charges": 100,
     "turns_per_charge": 1,
     "revert_to": "circsaw_off",
     "qualities": [ [ "CUT", 1 ], [ "SAW_W", 2 ], [ "BUTCHER", -40 ] ],
@@ -1962,10 +2071,10 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": "battery",
-    "max_charges": 200,
-    "charges_per_use": 1,
+    "charges_per_use": 10,
     "qualities": [ [ "BOIL", 1 ] ],
-    "use_action": "HOTPLATE"
+    "use_action": "HOTPLATE",
+    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ]
   },
   {
     "id": "combatsaw_off",
@@ -2028,9 +2137,9 @@
     "symbol": "/",
     "color": "light_gray",
     "ammo": "battery",
-    "max_charges": 1000,
     "use_action": "E_COMBATSAW_OFF",
-    "techniques": [ "WBLOCK_1", "SWEEP" ]
+    "techniques": [ "WBLOCK_1", "SWEEP" ],
+    "magazines": [ [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell" ] ] ]
   },
   {
     "id": "e_combatsaw_on",
@@ -2049,7 +2158,6 @@
     "symbol": "/",
     "color": "light_gray",
     "ammo": "battery",
-    "max_charges": 1000,
     "turns_per_charge": 1,
     "revert_to": "e_combatsaw_off",
     "techniques": [ "WBLOCK_1", "SWEEP" ],
@@ -2071,11 +2179,10 @@
     "symbol": "$",
     "color": "dark_gray",
     "ammo": "battery",
-    "initial_charges": 100,
-    "max_charges": 500,
     "charges_per_use": 20,
     "qualities": [ [ "CONTAIN", 1 ] ],
-    "use_action": "HOTPLATE"
+    "use_action": "HOTPLATE",
+    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ]
   },
   {
     "id": "control_laptop",
@@ -2089,10 +2196,10 @@
     "symbol": ",",
     "color": "yellow",
     "ammo": "battery",
-    "max_charges": 1000,
-    "charges_per_use": 5,
+    "charges_per_use": 2,
     "use_action": "ROBOTCONTROL",
-    "flags": [ "NO_UNLOAD", "RECHARGE" ]
+    "flags": [ "RECHARGE" ],
+    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ]
   },
   {
     "id": "copper_ax",
@@ -2143,9 +2250,8 @@
     "symbol": ";",
     "color": "yellow",
     "ammo": "battery",
-    "initial_charges": 300,
-    "max_charges": 300,
-    "qualities": [ [ "DRILL", 3 ], [ "SCREW", 1 ] ]
+    "qualities": [ [ "DRILL", 3 ], [ "SCREW", 1 ] ],
+    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ]
   },
   {
     "id": "cot",
@@ -2212,10 +2318,10 @@
     "color": "pink",
     "ammo": "battery",
     "initial_charges": 20,
-    "max_charges": 100,
     "charges_per_use": 1,
     "turns_per_charge": 20,
-    "use_action": "DOLLCHAT"
+    "use_action": "DOLLCHAT",
+    "magazines": [ [ "battery", [ "light_minus_battery_cell", "light_battery_cell", "light_plus_battery_cell" ] ] ]
   },
   {
     "id": "crossbow_trap",
@@ -2380,12 +2486,12 @@
     "symbol": "/",
     "color": "red",
     "ammo": "battery",
-    "max_charges": 800,
     "turns_per_charge": 1,
     "revert_to": "elec_chainsaw_off",
     "techniques": [ "WBLOCK_1", "SPIN", "SWEEP" ],
     "use_action": "ECS_LAJATANG_OFF",
-    "flags": [ "NONCONDUCTIVE" ]
+    "flags": [ "NONCONDUCTIVE" ],
+    "magazines": [ [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell" ] ] ]
   },
   {
     "id": "ecs_lajatang_on",
@@ -2403,7 +2509,6 @@
     "symbol": "/",
     "color": "red",
     "ammo": "battery",
-    "max_charges": 800,
     "turns_per_charge": 1,
     "revert_to": "ecs_lajatang_off",
     "techniques": [ "WBLOCK_1", "SPIN", "SWEEP" ],
@@ -2458,9 +2563,8 @@
     "symbol": ";",
     "color": "blue",
     "ammo": "battery",
-    "initial_charges": 100,
-    "max_charges": 200,
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ]
   },
   {
     "id": "digging_stick",
@@ -2667,12 +2771,11 @@
     "symbol": ";",
     "color": "blue",
     "ammo": "battery",
-    "initial_charges": 50,
-    "max_charges": 100,
     "charges_per_use": 1,
     "revert_to": "eink_tablet_pc",
     "use_action": "EINKTABLETPC",
-    "flags": [ "WATCH" ]
+    "flags": [ "WATCH" ],
+    "magazines": [ [ "battery", [ "light_plus_battery_cell", "light_battery_cell", "light_minus_battery_cell" ] ] ]
   },
   {
     "id": "elec_chainsaw_off",
@@ -2689,10 +2792,10 @@
     "symbol": "/",
     "color": "red",
     "ammo": "battery",
-    "max_charges": 400,
     "techniques": "SWEEP",
     "use_action": "ELEC_CHAINSAW_OFF",
-    "flags": [ "NONCONDUCTIVE" ]
+    "flags": [ "NONCONDUCTIVE" ],
+    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ]
   },
   {
     "id": "elec_chainsaw_on",
@@ -2710,7 +2813,6 @@
     "symbol": "/",
     "color": "red",
     "ammo": "battery",
-    "max_charges": 400,
     "turns_per_charge": 1,
     "revert_to": "elec_chainsaw_off",
     "techniques": "SWEEP",
@@ -2732,10 +2834,9 @@
     "symbol": ";",
     "color": "yellow",
     "ammo": "battery",
-    "initial_charges": 50,
-    "max_charges": 50,
     "charges_per_use": 10,
-    "use_action": "HAIRKIT"
+    "use_action": "HAIRKIT",
+    "magazines": [ [ "battery", [ "light_minus_battery_cell" ] ] ]
   },
   {
     "id": "elec_jackhammer",
@@ -2752,10 +2853,10 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": "battery",
-    "max_charges": 400,
-    "charges_per_use": 10,
+    "charges_per_use": 25,
     "use_action": "JACKHAMMER",
-    "flags": [ "STAB", "DIG_TOOL", "POWERED" ]
+    "flags": [ "STAB", "DIG_TOOL", "POWERED" ],
+    "magazines": [ [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell" ] ] ]
   },
   {
     "id": "electrohack",
@@ -2772,7 +2873,7 @@
     "symbol": ",",
     "color": "green",
     "ammo": "battery",
-    "max_charges": 100
+    "magazines": [ [ "battery", [ "light_battery_cell", "light_plus_battery_cell", "light_minus_battery_cell" ] ] ]
   },
   {
     "id": "etched_skull",
@@ -3258,6 +3359,47 @@
     "flags": [ "TRADER_AVOID" ]
   },
   {
+    "id": "tear_gas_payload",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": "tear gas payload",
+    "description": "This is a dummy item used by tear gas hacks.  You should never see it outside of debug.",
+    "symbol": "*",
+    "color": "dark_gray",
+    "use_action": {
+      "target": "tear_gas_payload_act",
+      "msg": "You pull the pin on the payload.",
+      "target_charges": 5,
+      "active": true,
+      "menu_text": "Pull pin",
+      "type": "transform"
+    },
+    "flags": [ "TRADER_AVOID", "BOMB", "GRENADE" ]
+  },
+  {
+    "id": "tear_gas_payload_act",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": "active tear gas payload",
+    "description": "This is a dummy item used by tear gas hacks that just so happens to be counting down.  You should never see it outside of debug.",
+    "symbol": "*",
+    "color": "dark_gray",
+    "initial_charges": 5,
+    "max_charges": 5,
+    "turns_per_charge": 1,
+    "use_action": {
+      "type": "explosion",
+      "fields_type": "fd_tear_gas",
+      "fields_radius": 3,
+      "fields_min_density": 1,
+      "fields_max_density": 3,
+      "sound_volume": 0,
+      "sound_msg": "Tick.",
+      "no_deactivate_msg": "You've already pulled the %s's pin, try throwing it instead."
+    },
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
     "id": "flask_yeast",
     "type": "GENERIC",
     "category": "food",
@@ -3347,8 +3489,8 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": "battery",
-    "max_charges": 500,
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "magazines": [ [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell" ] ] ]
   },
   {
     "id": "funnel",
@@ -3548,10 +3690,9 @@
     "symbol": ";",
     "color": "green",
     "ammo": "battery",
-    "initial_charges": 100,
-    "max_charges": 100,
     "charges_per_use": 1,
-    "use_action": "GEIGER"
+    "use_action": "GEIGER",
+    "magazines": [ [ "battery", [ "light_battery_cell", "light_plus_battery_cell", "light_minus_battery_cell" ] ] ]
   },
   {
     "id": "geiger_on",
@@ -3567,8 +3708,6 @@
     "symbol": ";",
     "color": "green",
     "ammo": "battery",
-    "initial_charges": 100,
-    "max_charges": 100,
     "turns_per_charge": 10,
     "revert_to": "geiger_off",
     "use_action": "GEIGER",
@@ -3659,101 +3798,6 @@
     "techniques": [ "SPIN", "WRAP" ],
     "qualities": [ [ "COOK", 1 ] ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ]
-  },
-  {
-    "id": "grenade",
-    "type": "TOOL",
-    "category": "weapons",
-    "name": "grenade",
-    "description": "This is a military grade fragmentary hand grenade.  Use this item to pull the pin and light the fuse.  You will then have five turns before it explodes; throwing it would be a good idea.",
-    "weight": 397,
-    "volume": 1,
-    "price": 1500,
-    "to_hit": -1,
-    "bashing": 6,
-    "material": [ "steel", "plastic" ],
-    "symbol": "*",
-    "color": "green",
-    "use_action": {
-      "target": "grenade_act",
-      "msg": "You pull the pin on the grenade.",
-      "target_charges": 5,
-      "active": true,
-      "menu_text": "Pull pin",
-      "type": "transform"
-    },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ]
-  },
-  {
-    "id": "grenade_act",
-    "type": "TOOL",
-    "category": "weapons",
-    "name": "active grenade",
-    "description": "This is an active grenade, and will explode any second now.  Better throw it!",
-    "weight": 397,
-    "volume": 1,
-    "price": 0,
-    "to_hit": -1,
-    "bashing": 6,
-    "material": [ "steel", "plastic" ],
-    "symbol": "*",
-    "color": "green",
-    "initial_charges": 5,
-    "max_charges": 5,
-    "turns_per_charge": 1,
-    "use_action": {
-      "type": "explosion",
-      "sound_volume": 0,
-      "sound_msg": "Tick.",
-      "no_deactivate_msg": "You've already pulled the %s's pin, try throwing it instead.",
-      "explosion": { "power": 185, "shrapnel": 212 }
-    },
-    "flags": [ "BOMB", "TRADER_AVOID" ]
-  },
-  {
-    "id": "grenade_inc",
-    "type": "TOOL",
-    "category": "weapons",
-    "name": "incendiary grenade",
-    "description": "This is a military grade incendiary hand grenade.  Use this item to pull the pin and light the fuse.  You will then have five turns before it explodes into a raging inferno; throwing it would be a good idea.",
-    "weight": 180,
-    "volume": 1,
-    "price": 2000,
-    "to_hit": -1,
-    "bashing": 6,
-    "material": [ "steel" ],
-    "symbol": "*",
-    "color": "light_red",
-    "use_action": {
-      "target": "grenade_inc_act",
-      "msg": "You pull the pin on the grenade.",
-      "target_charges": 5,
-      "active": true,
-      "menu_text": "Pull pin",
-      "type": "transform"
-    },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "ACT_IN_FIRE", "GRENADE" ]
-  },
-  {
-    "id": "grenade_inc_act",
-    "type": "TOOL",
-    "category": "weapons",
-    "name": "active incendiary grenade",
-    "description": "This is an active incendiary grenade, likely to burst into an inferno any second now.  Better throw it!",
-    "weight": 180,
-    "volume": 1,
-    "price": 0,
-    "to_hit": -1,
-    "bashing": 6,
-    "material": [ "steel" ],
-    "symbol": "*",
-    "color": "light_red",
-    "initial_charges": 5,
-    "max_charges": 5,
-    "turns_per_charge": 1,
-    "revert_to": "canister_empty",
-    "use_action": "GRENADE_INC_ACT",
-    "flags": [ "ACT_IN_FIRE", "BOMB", "TRADER_AVOID" ]
   },
   {
     "id": "hacksaw",
@@ -3973,10 +4017,9 @@
     "symbol": ";",
     "color": "green",
     "ammo": "battery",
-    "initial_charges": 100,
-    "max_charges": 200,
-    "charges_per_use": 1,
-    "use_action": "HOTPLATE"
+    "charges_per_use": 5,
+    "use_action": "HOTPLATE",
+    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ]
   },
   {
     "id": "hygrometer",
@@ -4435,7 +4478,6 @@
     "symbol": "/",
     "color": "light_gray",
     "ammo": "battery",
-    "max_charges": 1000,
     "charges_per_use": 1,
     "techniques": [ "WBLOCK_1", "RAPID" ],
     "use_action": {
@@ -4446,7 +4488,8 @@
       "need_charges_msg": "The L-stick(tm)'s batteries are empty.",
       "type": "transform"
     },
-    "flags": [ "DURABLE_MELEE", "SHEATH_SPEAR" ]
+    "flags": [ "DURABLE_MELEE", "SHEATH_SPEAR" ],
+    "magazines": [ [ "battery", [ "medium_plus_battery_cell", "medium_battery_cell" ] ] ]
   },
   {
     "id": "l-stick_on",
@@ -4464,7 +4507,6 @@
     "symbol": ";",
     "color": "blue",
     "ammo": "battery",
-    "max_charges": 1000,
     "turns_per_charge": 40,
     "revert_to": "l-stick",
     "techniques": [ "WBLOCK_1", "RAPID" ],
@@ -4508,8 +4550,6 @@
     "symbol": ";",
     "color": "dark_gray",
     "ammo": "battery",
-    "initial_charges": 250,
-    "max_charges": 500,
     "charges_per_use": 25,
     "qualities": [
       [ "HAMMER_FINE", 1 ],
@@ -4523,7 +4563,9 @@
       [ "SCREW", 1 ],
       [ "CHISEL", 3 ]
     ],
-    "use_action": "GUN_REPAIR"
+    "use_action": "GUN_REPAIR",
+    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ],
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "large_tent_kit",
@@ -4576,7 +4618,7 @@
     "name": "lighter",
     "description": "This is a disposable plastic lighter.  A lighter must be carried to use various drugs, like cigarettes, or to light things like Molotov cocktails.  You can also use a lighter to light nearby items on fire.",
     "weight": 14,
-    "volume": 0,
+    "volume": "14 ml",
     "price": 100,
     "material": [ "plastic", "aluminum" ],
     "symbol": ",",
@@ -4591,45 +4633,23 @@
     "id": "lightstrip",
     "type": "TOOL",
     "name": "lightstrip",
+    "copy-from": "lightstrip_inactive",
     "name_plural": "lightstrips",
-    "description": "This is a light-emitting circuit wired directly to some batteries.  It provides some weak light and can't be turned off.  When the batteries die, you'll need to scrap it to recover the components that are reusable.",
-    "weight": 27,
-    "volume": 1,
-    "price": 500,
-    "to_hit": 2,
-    "bashing": 1,
-    "material": [ "plastic", "aluminum" ],
+    "description": "This is a light-emitting circuit that has been wired directly to a battery.  It provides some weak light and can't be turned off until the battery dies.",
     "symbol": ";",
     "color": "green",
-    "initial_charges": 900,
-    "max_charges": 900,
-    "turns_per_charge": 120,
-    "revert_to": "lightstrip_dead",
+    "turns_per_charge": 1080,
+    "revert_to": "lightstrip_inactive",
     "revert_msg": "The lightstrip dies.",
-    "flags": [ "LIGHT_4" ]
+    "flags": [ "LIGHT_4", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
-    "id": "lightstrip_dead",
-    "type": "TOOL",
-    "category": "other",
-    "name": "lightstrip (unpowered)",
-    "name_plural": "lightstrips (unpowered)",
-    "description": "This is a unpowered lightstrip.  You could connect it to batteries to get a light-emitting circuit.",
-    "weight": 27,
-    "volume": 1,
-    "price": 0,
-    "to_hit": 2,
-    "bashing": 1,
-    "material": [ "plastic", "aluminum" ],
-    "symbol": ";",
-    "color": "white"
-  },
-  {
+    "//": "This doesn't make too much sense, flavor-wise, but it's the best I can come up with.  Put it on the todo list.",
     "id": "lightstrip_inactive",
     "type": "TOOL",
     "name": "lightstrip (inactive)",
     "name_plural": "lightstrips (inactive)",
-    "description": "This is a light-emitting circuit wired directly to some batteries.  It will provide some weak light once activated and can't be turned off.  When the batteries die, you'll need to scrap it to recover the components that are reusable.",
+    "description": "This is a light-emitting circuit that can be wired directly to a battery.  It provides some weak light and can't be turned off until the battery dies.",
     "weight": 27,
     "volume": 1,
     "price": 500,
@@ -4638,9 +4658,10 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "white",
-    "initial_charges": 900,
-    "max_charges": 900,
-    "use_action": { "target": "lightstrip", "msg": "You irreversibly activate the lightstrip.", "active": true, "type": "transform" }
+    "ammo": "battery",
+    "use_action": { "target": "lightstrip", "msg": "You irreversibly activate the lightstrip.", "active": true, "type": "transform" },
+    "magazines": [ [ "battery", [ "light_battery_cell", "light_plus_battery_cell", "light_minus_battery_cell" ] ] ],
+    "magazine_well": 0
   },
   {
     "id": "lobotomizer",
@@ -4658,7 +4679,7 @@
     "color": "dark_gray",
     "qualities": [ [ "DIG", 2 ], [ "AXE", 1 ], [ "CUT", 1 ], [ "BUTCHER", -11 ], [ "COOK", 1 ] ],
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
-    "flags": [ "NEEDS_UNFOLD" ]
+    "flags": [ "NEEDS_UNFOLD", "BELT_CLIP" ]
   },
   {
     "id": "machete",
@@ -4821,8 +4842,8 @@
     "symbol": ";",
     "color": "white",
     "ammo": "battery",
-    "max_charges": 200,
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ]
   },
   {
     "id": "matchbomb",
@@ -4911,11 +4932,10 @@
     "color": "green",
     "ammo": "battery",
     "sub": "hotplate",
-    "initial_charges": 100,
-    "max_charges": 200,
-    "charges_per_use": 1,
+    "charges_per_use": 5,
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "use_action": [ "HOTPLATE", "HEAT_FOOD" ]
+    "use_action": [ "HOTPLATE", "HEAT_FOOD" ],
+    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ]
   },
   {
     "id": "metal_funnel",
@@ -4968,11 +4988,10 @@
     "color": "green",
     "ammo": "battery",
     "sub": "hotplate",
-    "initial_charges": 100,
-    "max_charges": 200,
-    "charges_per_use": 1,
+    "charges_per_use": 5,
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "use_action": [ "HOTPLATE", "HEAT_FOOD" ]
+    "use_action": [ "HOTPLATE", "HEAT_FOOD" ],
+    "magazines": [ [ "battery", [ "medium_plus_battery_cell", "medium_battery_cell" ] ] ]
   },
   {
     "id": "mininuke",
@@ -5036,11 +5055,11 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": "tape",
-    "initial_charges": 100,
     "max_charges": 200,
     "charges_per_use": 50,
     "qualities": [ [ "CHISEL", 3 ], [ "HAMMER_FINE", 1 ], [ "HAMMER", 3 ], [ "PRY", 1 ] ],
-    "use_action": "MISC_REPAIR"
+    "use_action": "MISC_REPAIR",
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "mold_plastic",
@@ -5143,17 +5162,16 @@
     "type": "TOOL",
     "name": "mp3 player (off)",
     "name_plural": "mp3 players (off)",
-    "description": "This battery-devouring device is loaded up with someone's music collection.  Fortunately, there's lots of songs you like, and listening to it will raise your morale slightly.  Use it to turn it on.",
+    "description": "This battery-powered device is loaded up with someone's music collection.  Fortunately, there's lots of songs you like, and listening to it will raise your morale slightly.  Use it to turn it on.",
     "weight": 140,
-    "volume": 1,
+    "volume": "50 ml",
     "price": 3000,
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "dark_gray",
     "ammo": "battery",
-    "initial_charges": 100,
-    "max_charges": 100,
-    "use_action": "MP3"
+    "use_action": "MP3",
+    "magazines": [ [ "battery", [ "light_battery_cell", "light_plus_battery_cell", "light_minus_battery_cell" ] ] ]
   },
   {
     "id": "mp3_on",
@@ -5162,14 +5180,12 @@
     "name_plural": "mp3 players (on)",
     "description": "This mp3 player is turned on and playing some great tunes, raising your morale steadily while on your person.  It runs through batteries quickly; you can turn it off by using it.  It also obscures your hearing.",
     "weight": 140,
-    "volume": 1,
+    "volume": "50 ml",
     "price": 3000,
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "dark_gray",
     "ammo": "battery",
-    "initial_charges": 100,
-    "max_charges": 100,
     "turns_per_charge": 150,
     "revert_to": "mp3",
     "use_action": "MP3_ON",
@@ -5188,12 +5204,11 @@
     "symbol": ";",
     "color": "red",
     "ammo": "battery",
-    "initial_charges": 300,
-    "max_charges": 300,
     "turns_per_charge": 10,
     "revert_to": "multi_cooker",
     "qualities": [ [ "CONTAIN", 1 ] ],
-    "use_action": "MULTICOOKER"
+    "use_action": "MULTICOOKER",
+    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ]
   },
   {
     "id": "multitool",
@@ -5238,7 +5253,7 @@
       "cost_scaling": 0.1,
       "move_cost": 1300
     },
-    "flags": [ "STAB" ]
+    "flags": [ "STAB", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "needle_curved",
@@ -5265,7 +5280,7 @@
       "cost_scaling": 0.1,
       "move_cost": 1200
     },
-    "flags": [ "STAB" ]
+    "flags": [ "STAB", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "needle_wood",
@@ -5292,7 +5307,7 @@
       "cost_scaling": 0.1,
       "move_cost": 1500
     },
-    "flags": [ "STAB" ]
+    "flags": [ "STAB", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "nodachi",
@@ -5329,10 +5344,9 @@
     "symbol": ";",
     "color": "yellow",
     "ammo": "battery",
-    "initial_charges": 100,
-    "max_charges": 100,
     "use_action": "NOISE_EMITTER_OFF",
-    "flags": [ "RADIO_MODABLE" ]
+    "flags": [ "RADIO_MODABLE" ],
+    "magazines": [ [ "battery", [ "light_battery_cell", "light_plus_battery_cell", "light_minus_battery_cell" ] ] ]
   },
   {
     "id": "noise_emitter_on",
@@ -5349,8 +5363,6 @@
     "symbol": ";",
     "color": "yellow",
     "ammo": "battery",
-    "initial_charges": 100,
-    "max_charges": 100,
     "turns_per_charge": 1,
     "revert_to": "noise_emitter",
     "use_action": "NOISE_EMITTER_ON",
@@ -5446,6 +5458,42 @@
     "use_action": "OXYGEN_BOTTLE"
   },
   {
+    "id": "nitrogen_tank",
+    "type": "TOOL",
+    "name": "nitrogen tank",
+    "description": "This is a tank of compressed nitrogen gas.  Nitrogen is useful for its lack of reactivity.  Don't try to breathe it.",
+    "weight": 2268,
+    "volume": 6,
+    "price": 1000,
+    "to_hit": -4,
+    "bashing": 10,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "initial_charges": 24,
+    "max_charges": 24,
+    "charges_per_use": 1,
+    "looks_like": "oxygen_tank"
+  },
+  {
+    "id": "hydrogen_tank",
+    "type": "TOOL",
+    "name": "hydrogen tank",
+    "description": "This is a tank of compressed hydrogen gas.  If you need to make water from scratch, or lift a zeppelin, it could come in handy.",
+    "weight": 2268,
+    "volume": 6,
+    "price": 1000,
+    "to_hit": -4,
+    "bashing": 10,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "initial_charges": 24,
+    "max_charges": 24,
+    "charges_per_use": 1,
+    "looks_like": "oxygen_tank"
+  },
+  {
     "id": "paint_brush",
     "type": "TOOL",
     "name": "paint brush",
@@ -5508,7 +5556,8 @@
     "initial_charges": 500,
     "max_charges": 500,
     "charges_per_use": 1,
-    "use_action": { "type": "inscribe", "verb": "Write", "gerund": "Written", "on_terrain": true, "material_restricted": false }
+    "use_action": { "type": "inscribe", "verb": "Write", "gerund": "Written", "on_terrain": true, "material_restricted": false },
+    "flags": [ "WRITE_MESSAGE" ]
   },
   {
     "id": "pet_carrier",
@@ -5548,7 +5597,7 @@
     "id": "pheromone",
     "type": "TOOL",
     "name": "zombie pheromone",
-    "description": "This is some kind of disgusting ball of rotting meat.  Squeezing it causes a small cloud of pheromones to spray into the air, causing nearby zombies to become friendly for a short period of time.",
+    "description": "This is a disgusting ball of rotting meat of zombie origin.  Squeezing this gland causes a small cloud of pheromones to spray into the air.  Apparently the foul secretion can change zombies' attitude towards you, and they may ignore you for a short period of time.  Perhaps they briefly consider you as one of them.",
     "weight": 238,
     "volume": 1,
     "price": 4000,
@@ -5793,8 +5842,8 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": "battery",
-    "max_charges": 100,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID" ],
+    "magazines": [ [ "battery", [ "light_battery_cell", "light_plus_battery_cell", "light_minus_battery_cell" ] ] ]
   },
   {
     "id": "popcan_stove",
@@ -5828,9 +5877,8 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": "battery",
-    "initial_charges": 100,
-    "max_charges": 200,
-    "use_action": "PORTABLE_GAME"
+    "use_action": "PORTABLE_GAME",
+    "magazines": [ [ "battery", [ "light_battery_cell", "light_plus_battery_cell", "light_minus_battery_cell" ] ] ]
   },
   {
     "id": "portal",
@@ -6076,8 +6124,6 @@
     "symbol": ";",
     "color": "white",
     "ammo": "battery",
-    "initial_charges": 100,
-    "max_charges": 100,
     "charges_per_use": 1,
     "use_action": {
       "target": "reading_light_on",
@@ -6086,7 +6132,8 @@
       "need_charges": 1,
       "need_charges_msg": "The reading light winks out.",
       "type": "transform"
-    }
+    },
+    "magazines": [ [ "battery", [ "light_battery_cell", "light_plus_battery_cell", "light_minus_battery_cell" ] ] ]
   },
   {
     "id": "reading_light_on",
@@ -6106,7 +6153,7 @@
     "name": "refillable lighter",
     "description": "This is a lighter featuring a flip top cover and refuelable tank.  A lighter must be carried to use various drugs, like cigarettes, or to light things like Molotov cocktails.  You can also use a lighter to light nearby items on fire.",
     "weight": 20,
-    "volume": 0,
+    "volume": "31 ml",
     "price": 3000,
     "material": "aluminum",
     "symbol": ",",
@@ -6136,7 +6183,7 @@
     "name_plural": "refillable lighters",
     "description": "This is a lighter featuring a flip top cover and refuelable tank.  It is lit.",
     "weight": 20,
-    "volume": 0,
+    "volume": "31 ml",
     "price": 3000,
     "material": "aluminum",
     "symbol": ",",
@@ -6336,58 +6383,6 @@
     "flags": [ "SPEAR" ]
   },
   {
-    "id": "scrambler",
-    "type": "TOOL",
-    "category": "weapons",
-    "name": "scrambler grenade",
-    "description": "This is a highly modified EMP grenade, designed to scramble robots' IFF control chips, rather than destroy them.  This converts the robot to your side for a short time, before the backup systems kick in.  Use this item to pull the pin and light the fuse, turning it into an active scrambler grenade.",
-    "weight": 500,
-    "volume": 1,
-    "price": 6000,
-    "to_hit": -1,
-    "bashing": 5,
-    "material": [ "steel", "plastic" ],
-    "symbol": "*",
-    "color": "yellow",
-    "use_action": {
-      "target": "scrambler_act",
-      "msg": "You pull the pin on the scrambler grenade.",
-      "target_charges": 3,
-      "active": true,
-      "menu_text": "Pull pin",
-      "type": "transform"
-    },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ]
-  },
-  {
-    "id": "scrambler_act",
-    "type": "TOOL",
-    "category": "weapons",
-    "name": "active scrambler grenade",
-    "description": "This scrambler grenade is active, and will soon detonate, releasing a control wave that temporarily converts robots to your side.",
-    "weight": 500,
-    "volume": 1,
-    "price": 0,
-    "to_hit": -1,
-    "bashing": 5,
-    "material": [ "steel", "plastic" ],
-    "symbol": "*",
-    "color": "yellow",
-    "initial_charges": 3,
-    "max_charges": 3,
-    "turns_per_charge": 1,
-    "use_action": {
-      "type": "explosion",
-      "draw_explosion_radius": 4,
-      "draw_explosion_color": "cyan",
-      "scrambler_blast_radius": 4,
-      "sound_volume": 0,
-      "sound_msg": "Tick.",
-      "no_deactivate_msg": "You've already pulled the %s's pin, try throwing it instead."
-    },
-    "flags": [ "TRADER_AVOID" ]
-  },
-  {
     "id": "screwdriver",
     "type": "TOOL",
     "name": "screwdriver",
@@ -6482,7 +6477,26 @@
       "tool_quality": 0,
       "cost_scaling": 0.1,
       "move_cost": 1000
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
+  },
+  {
+    "id": "anesthetic_kit",
+    "type": "TOOL",
+    "name": "anesthesia kit",
+    "description": "A kit for inducing anesthesia for surgery, containing specialized canisters with a variety of powerful hypnotic, analgetic, and stimulative drugs.  It's intended for use in specialized medical equipment, and can't be administered manually.",
+    "weight": 100,
+    "volume": 1,
+    "price": 1000,
+    "container_data": { "contains": 12, "watertight": true, "seals": true },
+    "to_hit": -1,
+    "material": [ "glass" ],
+    "symbol": "!",
+    "color": "cyan",
+    "ammo": "anesthetic",
+    "initial_charges": 3,
+    "max_charges": 3,
+    "qualities": [ [ "ANESTHESIA", 1 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "shavingkit",
@@ -6608,12 +6622,12 @@
     "symbol": "/",
     "color": "brown",
     "ammo": "battery",
-    "max_charges": 500,
     "charges_per_use": 100,
     "qualities": [ [ "HAMMER", 1 ] ],
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
     "use_action": "TAZER",
-    "flags": [ "DURABLE_MELEE", "NO_UNLOAD", "RECHARGE", "NONCONDUCTIVE", "SHEATH_SPEAR" ]
+    "flags": [ "DURABLE_MELEE", "RECHARGE", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
+    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ]
   },
   {
     "id": "shocktonfa_off",
@@ -6631,11 +6645,11 @@
     "symbol": "/",
     "color": "dark_gray",
     "ammo": "battery",
-    "max_charges": 500,
     "charges_per_use": 1,
     "techniques": [ "WBLOCK_2", "RAPID" ],
     "use_action": "SHOCKTONFA_OFF",
-    "flags": [ "DURABLE_MELEE", "NO_UNLOAD", "RECHARGE", "NONCONDUCTIVE" ]
+    "flags": [ "DURABLE_MELEE", "RECHARGE", "NONCONDUCTIVE" ],
+    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ]
   },
   {
     "id": "shocktonfa_on",
@@ -6653,13 +6667,12 @@
     "symbol": "/",
     "color": "dark_gray",
     "ammo": "battery",
-    "max_charges": 500,
     "charges_per_use": 1,
     "turns_per_charge": 15,
     "revert_to": "shocktonfa_off",
     "techniques": [ "WBLOCK_2", "RAPID" ],
     "use_action": "SHOCKTONFA_ON",
-    "flags": [ "LIGHT_450", "CHARGEDIM", "DURABLE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE" ]
+    "flags": [ "LIGHT_450", "CHARGEDIM", "DURABLE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE", "BELT_CLIP" ]
   },
   {
     "id": "shotgun_trap",
@@ -6750,8 +6763,6 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": "battery",
-    "initial_charges": 100,
-    "max_charges": 300,
     "charges_per_use": 100,
     "qualities": [
       [ "HAMMER_FINE", 1 ],
@@ -6766,7 +6777,9 @@
       [ "SCREW", 1 ],
       [ "CHISEL", 3 ]
     ],
-    "use_action": "GUN_REPAIR"
+    "use_action": "GUN_REPAIR",
+    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ],
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "smart_lamp",
@@ -6783,8 +6796,6 @@
     "symbol": "&",
     "color": "blue",
     "ammo": "battery",
-    "initial_charges": 100,
-    "max_charges": 100,
     "charges_per_use": 1,
     "use_action": {
       "target": "smart_lamp_on",
@@ -6794,7 +6805,8 @@
       "need_charges_msg": "The smart lamp batteries are dead.",
       "type": "transform"
     },
-    "flags": [ "RADIO_ACTIVATION", "RADIOSIGNAL_2" ]
+    "flags": [ "RADIO_ACTIVATION", "RADIOSIGNAL_2" ],
+    "magazines": [ [ "battery", [ "light_battery_cell", "light_plus_battery_cell", "light_minus_battery_cell" ] ] ]
   },
   {
     "id": "smart_lamp_on",
@@ -6811,8 +6823,6 @@
     "symbol": "&",
     "color": "green",
     "ammo": "battery",
-    "initial_charges": 100,
-    "max_charges": 100,
     "turns_per_charge": 25,
     "revert_to": "smart_lamp",
     "use_action": { "target": "smart_lamp", "msg": "Your smart lamp turned off", "menu_text": "Turn off", "type": "transform" },
@@ -6850,8 +6860,6 @@
     "symbol": ",",
     "color": "light_gray",
     "ammo": "battery",
-    "initial_charges": 20,
-    "max_charges": 200,
     "charges_per_use": 1,
     "use_action": [
       {
@@ -6864,7 +6872,8 @@
       },
       { "flame": false, "type": "cauterize" }
     ],
-    "flags": [ "SPEAR", "BELT_CLIP" ]
+    "flags": [ "SPEAR", "BELT_CLIP", "ALLOWS_REMOTE_USE" ],
+    "magazines": [ [ "battery", [ "light_minus_battery_cell", "light_battery_cell", "light_plus_battery_cell" ] ] ]
   },
   {
     "id": "spear_knife",
@@ -6917,7 +6926,8 @@
     "initial_charges": 10,
     "max_charges": 10,
     "charges_per_use": 1,
-    "use_action": "SPRAY_CAN"
+    "use_action": "SPRAY_CAN",
+    "flags": [ "WRITE_MESSAGE" ]
   },
   {
     "id": "stepladder",
@@ -6963,7 +6973,8 @@
     "initial_charges": 100,
     "max_charges": 100,
     "charges_per_use": 1,
-    "use_action": { "type": "inscribe", "verb": "Write", "gerund": "Written", "on_terrain": true, "material_restricted": false }
+    "use_action": { "type": "inscribe", "verb": "Write", "gerund": "Written", "on_terrain": true, "material_restricted": false },
+    "flags": [ "WRITE_MESSAGE" ]
   },
   {
     "id": "survivor_hairtrimmer",
@@ -7153,7 +7164,8 @@
         "move_cost": 800
       },
       "SEW_ADVANCED"
-    ]
+    ],
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "talking_doll",
@@ -7169,10 +7181,10 @@
     "color": "pink",
     "ammo": "battery",
     "initial_charges": 20,
-    "max_charges": 100,
     "charges_per_use": 1,
     "turns_per_charge": 20,
-    "use_action": "DOLLCHAT"
+    "use_action": "DOLLCHAT",
+    "magazines": [ [ "battery", [ "light_minus_battery_cell", "light_battery_cell", "light_plus_battery_cell" ] ] ]
   },
   {
     "id": "tanning_hide",
@@ -7256,10 +7268,10 @@
     "symbol": ";",
     "color": "dark_gray",
     "ammo": "battery",
-    "max_charges": 500,
     "charges_per_use": 100,
     "use_action": "TAZER",
-    "flags": [ "NO_UNLOAD", "RECHARGE" ]
+    "flags": [ "RECHARGE" ],
+    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ]
   },
   {
     "id": "teapot",
@@ -7300,7 +7312,7 @@
     "name": "teleporter",
     "description": "This is an experimental device that will teleport you a short distance when activated.",
     "weight": 1360,
-    "volume": 3,
+    "volume": 8,
     "price": 600000,
     "to_hit": -1,
     "bashing": 4,
@@ -7436,7 +7448,6 @@
     "symbol": ";",
     "color": "brown",
     "ammo": "battery",
-    "max_charges": 300,
     "flags": [ "ALLOWS_REMOTE_USE", "RECHARGE" ],
     "use_action": {
       "target": "small_space_heater_on",
@@ -7446,7 +7457,8 @@
       "need_charges_msg": "The heater needs more charge.",
       "menu_text": "Turn on",
       "type": "transform"
-    }
+    },
+    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ]
   },
   {
     "id": "small_space_heater_on",
@@ -7463,7 +7475,6 @@
     "symbol": ";",
     "color": "magenta",
     "ammo": "battery",
-    "max_charges": 300,
     "turns_per_charge": 30,
     "emits": [ "emit_hot_air2_stream" ],
     "flags": [ "ALLOWS_REMOTE_USE", "LIGHT_2", "RECHARGE" ],
@@ -7484,7 +7495,6 @@
     "symbol": ";",
     "color": "brown",
     "ammo": "battery",
-    "max_charges": 500,
     "flags": [ "ALLOWS_REMOTE_USE", "RECHARGE" ],
     "use_action": {
       "target": "large_space_heater_on",
@@ -7494,7 +7504,8 @@
       "need_charges_msg": "The heater needs more charge.",
       "menu_text": "Turn on",
       "type": "transform"
-    }
+    },
+    "magazines": [ [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell" ] ] ]
   },
   {
     "id": "large_space_heater_on",
@@ -7511,7 +7522,6 @@
     "symbol": ";",
     "color": "magenta",
     "ammo": "battery",
-    "max_charges": 500,
     "turns_per_charge": 20,
     "emits": [ "emit_hot_air2_blast" ],
     "flags": [ "ALLOWS_REMOTE_USE", "LIGHT_2", "RECHARGE" ],
@@ -7897,6 +7907,49 @@
     "use_action": [ "HAMMER" ]
   },
   {
+    "id": "toolset_extended",
+    "type": "TOOL",
+    "name": "extended toolset",
+    "description": "Your toolset, protruding from your hands.  It can slice, dice, and make everything nice.",
+    "symbol": "#",
+    "color": "white",
+    "weight": 226,
+    "bashing": 3,
+    "cutting": 5,
+    "flags": [ "NO_UNWIELD", "UNBREAKABLE_MELEE", "TRADER_AVOID", "USES_BIONIC_POWER" ],
+    "max_charges": 1000,
+    "note": "Charges will exceed max charges since they're always equal to the player's bionic power, but this has no adverse effects.",
+    "charges_per_use": 1,
+    "use_action": [
+      "HAMMER",
+      "CROWBAR",
+      {
+        "type": "repair_item",
+        "item_action_type": "repair_metal",
+        "materials": [ "kevlar", "plastic", "iron", "steel", "hardsteel", "aluminum", "copper", "silver", "gold" ],
+        "skill": "mechanics",
+        "cost_scaling": 0.1,
+        "move_cost": 1000
+      },
+      { "flame": false, "type": "cauterize" }
+    ],
+    "qualities": [
+      [ "HAMMER", 3 ],
+      [ "HAMMER_FINE", 1 ],
+      [ "SAW_W", 1 ],
+      [ "SAW_M", 2 ],
+      [ "SAW_M_FINE", 1 ],
+      [ "WRENCH", 2 ],
+      [ "WRENCH_FINE", 1 ],
+      [ "SCREW", 1 ],
+      [ "SCREW_FINE", 1 ],
+      [ "CUT", 2 ],
+      [ "PRY", 1 ],
+      [ "DRILL", 1 ],
+      [ "BUTCHER", -38 ]
+    ]
+  },
+  {
     "id": "torch",
     "type": "TOOL",
     "name": "torch",
@@ -7941,7 +7994,16 @@
     "max_charges": 75,
     "turns_per_charge": 20,
     "revert_to": "torch_done",
-    "use_action": "TORCH_LIT",
+    "use_action": [
+      { "type": "firestarter", "moves": 30 },
+      {
+        "target": "torch",
+        "msg": "The torch is extinguished.",
+        "active": false,
+        "menu_text": "Extinguish",
+        "type": "transform"
+      }
+    ],
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "FIRE", "LIGHT_310", "CHARGEDIM", "FLAMING", "TRADER_AVOID", "WATER_EXTINGUISH" ]
   },
@@ -8103,9 +8165,8 @@
     "symbol": ";",
     "color": "white",
     "ammo": "battery",
-    "initial_charges": 100,
-    "max_charges": 200,
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ]
   },
   {
     "id": "vacutainer",
@@ -8140,9 +8201,8 @@
     "symbol": ";",
     "color": "dark_gray",
     "ammo": "battery",
-    "initial_charges": 100,
-    "max_charges": 100,
-    "use_action": "VIBE"
+    "use_action": "VIBE",
+    "magazines": [ [ "battery", [ "light_battery_cell", "light_plus_battery_cell", "light_minus_battery_cell" ] ] ]
   },
   {
     "id": "violin",
@@ -8271,7 +8331,8 @@
     "material": "wood",
     "symbol": ";",
     "color": "white",
-    "use_action": "WASHCLOTHES"
+    "use_action": "WASHCLOTHES",
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "water_purifier",
@@ -8287,11 +8348,10 @@
     "symbol": ";",
     "color": "light_blue",
     "ammo": "battery",
-    "initial_charges": 100,
-    "max_charges": 100,
     "charges_per_use": 1,
     "use_action": "WATER_PURIFIER",
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "magazines": [ [ "battery", [ "light_battery_cell", "light_plus_battery_cell", "light_minus_battery_cell" ] ] ]
   },
   {
     "id": "weather_reader",
@@ -8308,10 +8368,10 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": "battery",
-    "max_charges": 20,
-    "charges_per_use": 1,
+    "charges_per_use": 5,
     "use_action": "WEATHER_TOOL",
-    "flags": [ "THERMOMETER", "HYGROMETER", "BAROMETER" ]
+    "flags": [ "THERMOMETER", "HYGROMETER", "BAROMETER" ],
+    "magazines": [ [ "battery", [ "light_battery_cell", "light_plus_battery_cell", "light_minus_battery_cell" ] ] ]
   },
   {
     "id": "welder",
@@ -8327,7 +8387,6 @@
     "symbol": ";",
     "color": "red",
     "ammo": "battery",
-    "max_charges": 500,
     "charges_per_use": 5,
     "qualities": [ [ "WELD", 2 ] ],
     "use_action": [
@@ -8342,7 +8401,8 @@
       },
       { "flame": false, "type": "cauterize" }
     ],
-    "flags": [ "FIRESTARTER", "ALLOWS_REMOTE_USE" ]
+    "flags": [ "FIRESTARTER", "ALLOWS_REMOTE_USE" ],
+    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ]
   },
   {
     "id": "welder_crude",
@@ -8358,8 +8418,7 @@
     "symbol": ";",
     "color": "light_red",
     "ammo": "battery",
-    "max_charges": 450,
-    "charges_per_use": 5,
+    "charges_per_use": 10,
     "qualities": [ [ "WELD", 1 ] ],
     "use_action": [
       {
@@ -8373,7 +8432,8 @@
       },
       { "flame": false, "type": "cauterize" }
     ],
-    "flags": [ "FIRESTARTER", "ALLOWS_REMOTE_USE" ]
+    "flags": [ "FIRESTARTER", "ALLOWS_REMOTE_USE" ],
+    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ]
   },
   {
     "id": "wood_smoother",
@@ -8556,9 +8616,8 @@
     "symbol": "%",
     "color": "white",
     "ammo": "battery",
-    "initial_charges": 100,
-    "max_charges": 100,
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ]
   },
   {
     "id": "link_sheet",

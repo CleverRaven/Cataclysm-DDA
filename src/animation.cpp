@@ -9,8 +9,14 @@
 #include "player.h"
 #include "popup.h"
 #include "weather.h"
+#include "creature.h"
+#include "cursesdef.h"
+#include "enums.h"
+#include "game_constants.h"
+#include "posix_time.h"
+#include "translations.h"
 
-#ifdef TILES
+#if defined(TILES)
 #include <memory>
 
 #include "cata_tiles.h" // all animation functions will be pushed out to a cata_tiles function in some manner
@@ -19,6 +25,11 @@ extern std::unique_ptr<cata_tiles> tilecontext; // obtained from sdltiles.cpp
 #endif
 
 #include <algorithm>
+#include <list>
+#include <map>
+#include <string>
+#include <utility>
+#include <vector>
 
 bool is_valid_in_w_terrain( int x, int y ); // see game.cpp
 
@@ -235,7 +246,7 @@ void game::draw_explosion( const tripoint &p, const int r, const nc_color &col )
 
     explosion_animation anim;
 
-    bool visible = is_radius_visible( p, r );
+    const bool visible = is_radius_visible( p, r );
     for( int i = 1; i <= r; i++ ) {
         tilecontext->init_explosion( p, i ); // TODO: not xpos ypos?
         if( visible ) {
@@ -623,6 +634,18 @@ void game::draw_cursor( const tripoint &p )
 }
 #endif
 
+#if defined(TILES)
+void game::draw_highlight( const tripoint &p )
+{
+    tilecontext->init_draw_highlight( p );
+}
+#else
+void game::draw_highlight( const tripoint & )
+{
+    // Do nothing
+}
+#endif
+
 namespace
 {
 void draw_weather_curses( const catacurses::window &win, const weather_printable &w )
@@ -733,7 +756,7 @@ void draw_zones_curses( const catacurses::window &w, const tripoint &start, cons
     int         const x = start.x - offset.x;
 
     for( int y = start.y; y <= end.y; ++y ) {
-        mvwprintz( w, y - offset.y, x, col, line.c_str() );
+        mvwprintz( w, y - offset.y, x, col, line );
     }
 }
 } //namespace

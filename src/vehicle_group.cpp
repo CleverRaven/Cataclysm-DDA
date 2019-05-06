@@ -1,5 +1,9 @@
 #include "vehicle_group.h"
 
+#include <stddef.h>
+#include <functional>
+#include <utility>
+
 #include "debug.h"
 #include "enums.h"
 #include "json.h"
@@ -121,7 +125,7 @@ void VehicleFunction_json::apply( map &m, const std::string &terrain_name ) cons
 {
     for( auto i = number.get(); i > 0; i-- ) {
         if( ! location ) {
-            size_t replace = placement.find( "%t" );
+            const size_t replace = placement.find( "%t" );
             const VehicleLocation *loc = vplacement_id( replace != std::string::npos ?
                                          placement.substr( 0, replace ) + terrain_name +
                                          placement.substr( replace + 2 ) :
@@ -205,13 +209,13 @@ void builtin_jackknifed_semi( map &m, const std::string &terrainid )
 {
     const VehicleLocation *loc = vplacement_id( terrainid + "_semi" ).obj().pick();
     if( ! loc ) {
-        debugmsg( "builtin_jackknifed_semi unable to get location to place vehicle. placement %s",
-                  ( terrainid + "_semi" ).c_str() );
+        debugmsg( "builtin_jackknifed_semi unable to get location to place vehicle. placement %s_semi",
+                  terrainid );
         return;
     }
 
-    int facing = loc->pick_facing();
-    point semi_p = loc->pick_point();
+    const int facing = loc->pick_facing();
+    const point semi_p = loc->pick_point();
     point trailer_p;
 
     if( facing == 0 ) {
@@ -235,7 +239,7 @@ void builtin_jackknifed_semi( map &m, const std::string &terrainid )
 void builtin_pileup( map &m, const std::string &, const std::string &vg )
 {
     vehicle *last_added_car = nullptr;
-    int num_cars = rng( 5, 12 );
+    const int num_cars = rng( 5, 12 );
 
     for( int i = 0; i < num_cars; i++ ) {
         const VehicleLocation *loc = vplacement_id( "pileup" ).obj().pick();

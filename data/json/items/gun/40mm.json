@@ -12,7 +12,7 @@
     "bashing": 12,
     "material": [ "steel", "wood" ],
     "ammo": "40mm",
-    "dispersion": 300,
+    "dispersion": 550,
     "durability": 6,
     "clip_size": 1,
     "reload": 350
@@ -74,10 +74,7 @@
     "durability": 8,
     "reload": 400,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "brass catcher", 1 ], [ "sights", 1 ], [ "sling", 1 ] ],
-    "modes": [
-      [ "DEFAULT", "semi-auto", 1, "NPC_AVOID" ],
-      [ "AUTO", "auto", 6, "NPC_AVOID" ]
-    ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1, "NPC_AVOID" ], [ "AUTO", "auto", 6, "NPC_AVOID" ] ],
     "magazines": [ [ "40mm", [ "belt40mm" ] ] ],
     "flags": [ "MOUNTED_GUN" ]
   },
@@ -117,7 +114,17 @@
     "dispersion": 140,
     "durability": 9,
     "clip_size": 4,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "brass catcher", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
+    ],
     "flags": [ "RELOAD_ONE", "WATERPROOF_GUN", "NEVER_JAMS" ]
   },
   {
@@ -127,14 +134,7 @@
     "name": "triple-barrel 40mm launcher",
     "description": "A homemade triple-barrel 40mm grenade launcher.  Capable of launching all three grenades at once, it is extremely powerful for a homemade weapon.",
     "clip_size": 3,
-    "modes": [
-      [ "DEFAULT", "single", 1, "NPC_AVOID" ],
-      [ "MULTI", "multi", 3, [ "NPC_AVOID", "SIMULTANEOUS" ] ]
-    ],
-    "proportional": {
-      "weight": 1.5,
-      "volume": 1.8,
-      "price": 2
-    }
+    "modes": [ [ "DEFAULT", "single", 1, "NPC_AVOID" ], [ "MULTI", "multi", 3, [ "NPC_AVOID", "SIMULTANEOUS" ] ] ],
+    "proportional": { "weight": 1.5, "volume": 1.8, "price": 2 }
   }
 ]

@@ -168,24 +168,24 @@
     "flags": [ "DIAMOND" ]
   },
   {
-      "id": "fish_bait_bread",
-      "type": "MIGRATION",
-      "replace": "fish_bait"
+    "id": "fish_bait_bread",
+    "type": "MIGRATION",
+    "replace": "fish_bait"
   },
   {
-      "id": "fish_bait_fish",
-      "type": "MIGRATION",
-      "replace": "fish_bait"
+    "id": "fish_bait_fish",
+    "type": "MIGRATION",
+    "replace": "fish_bait"
   },
   {
-      "id": "fish_bait_meat",
-      "type": "MIGRATION",
-      "replace": "fish_bait"
+    "id": "fish_bait_meat",
+    "type": "MIGRATION",
+    "replace": "fish_bait"
   },
   {
-      "id": "fish_bait_veggy",
-      "type": "MIGRATION",
-      "replace": "fish_bait"
+    "id": "fish_bait_veggy",
+    "type": "MIGRATION",
+    "replace": "fish_bait"
   },
   {
     "id": "gold",
@@ -520,5 +520,20 @@
     "id": "bag_veggy_vac",
     "type": "MIGRATION",
     "replace": "veggy_salted"
+  },
+  {
+    "id": "potato_irradiated",
+    "type": "MIGRATION",
+    "replace": "irradiated_potato"
+  },
+  {
+    "id": "potato_raw",
+    "type": "MIGRATION",
+    "replace": "potato"
+  },
+  {
+    "id": "lightstrip_dead",
+    "type": "MIGRATION",
+    "replace": "lightstrip_inactive"
   }
 ]

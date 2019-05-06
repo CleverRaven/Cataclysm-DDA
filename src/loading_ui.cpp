@@ -3,8 +3,10 @@
 #include "color.h"
 #include "output.h"
 #include "ui.h"
+#include "cursesdef.h"
+#include "translations.h"
 
-#ifdef TILES
+#if defined(TILES)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)
 #       include <SDL2/SDL.h>
 #   else
@@ -59,7 +61,7 @@ void loading_ui::show()
         menu->show();
         catacurses::refresh();
         refresh_display();
-#ifdef TILES
+#if defined(TILES)
         SDL_PumpEvents();
 #endif // TILES
     }

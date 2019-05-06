@@ -52,17 +52,7 @@
     "anger_triggers": [ "HURT", "FRIEND_DIED", "FRIEND_ATTACKED" ],
     "death_function": [ "NORMAL" ],
     "harvest": "bird_large",
-    "flags": [
-      "HEARS",
-      "KEENNOSE",
-      "GOODHEARING",
-      "SMELLS",
-      "ANIMAL",
-      "PATH_AVOID_DANGER_1",
-      "WARM",
-      "SWIMS",
-      "SUNDEATH"
-    ]
+    "flags": [ "HEARS", "KEENNOSE", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "SWIMS", "SUNDEATH" ]
   },
   {
     "id": "mon_alpha_razorclaw",
@@ -422,6 +412,49 @@
     ]
   },
   {
+    "id": "mon_gas_zombie",
+    "type": "MONSTER",
+    "name": "gasoline zombie",
+    "description": "A huge bloated zombie that appears to have fed upon gasoline; fumes and flames escape from its mouth and fuel leaks from its waddling form.",
+    "default_faction": "zombie",
+    "bodytype": "human",
+    "species": [ "ZOMBIE", "HUMAN" ],
+    "diff": 5,
+    "volume": "102500 ml",
+    "weight": 160000,
+    "hp": 90,
+    "speed": 25,
+    "material": [ "flesh" ],
+    "symbol": "Z",
+    "color": "dark_gray_red",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 3,
+    "melee_dice": 2,
+    "melee_dice_sides": 4,
+    "melee_cut": 0,
+    "vision_night": 3,
+    "luminance": 8,
+    "harvest": "exempt",
+    "special_attacks": [ [ "scratch", 20 ] ],
+    "death_drops": "default_zombie_items",
+    "death_function": [ "CONFLAGRATION" ],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "STUMBLES",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "POISON",
+      "NO_BREATHE",
+      "DRIPS_GASOLINE",
+      "PUSH_MON",
+      "FILTHY"
+    ]
+  },
+  {
     "id": "mon_boomer_fungus",
     "type": "MONSTER",
     "name": "fungal boomer",
@@ -451,19 +484,7 @@
     "death_drops": "default_zombie_items",
     "death_function": [ "FUNGUS", "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "STUMBLES",
-      "WARM",
-      "BASHES",
-      "GROUP_BASH",
-      "POISON",
-      "NO_BREATHE",
-      "PUSH_MON",
-      "FILTHY"
-    ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "PUSH_MON", "FILTHY" ]
   },
   {
     "id": "mon_boomer_huge",
@@ -592,6 +613,48 @@
       "STUMBLES",
       "HUMAN",
       "NO_NECRO"
+    ]
+  },
+  {
+    "id": "mon_prototype_cyborg",
+    "type": "MONSTER",
+    "name": "prototype cyborg",
+    "description": "A human fused with a mess of metal parts and wires.  While its eyes are empty, flashes of pain pass across its face reminiscent of the person trapped in this grotesque body.  With enough surgical skills one might be able to give them back some humanity. If only they cared...",
+    "default_faction": "science",
+    "bodytype": "human",
+    "species": [ "ROBOT" ],
+    "volume": "62500 ml",
+    "weight": 81500,
+    "hp": 60,
+    "speed": 90,
+    "material": [ "steel" ],
+    "symbol": "@",
+    "color": "light_gray",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 2,
+    "melee_dice": 2,
+    "melee_dice_sides": 2,
+    "melee_cut": 1,
+    "dodge": 2,
+    "armor_bash": 10,
+    "armor_cut": 6,
+    "vision_day": 50,
+    "revert_to_itype": "bot_prototype_cyborg",
+    "special_attacks": [ [ "PARROT", 80 ] ],
+    "death_function": [ "NORMAL" ],
+    "harvest": "mon_broken_cyborg",
+    "flags": [
+      "SEES",
+      "HEARS",
+      "BASHES",
+      "ATTACKMON",
+      "ELECTRONIC",
+      "WARM",
+      "STUMBLES",
+      "HUMAN",
+      "PATH_AVOID_DANGER_2",
+      "PRIORITIZE_TARGETS"
     ]
   },
   {
@@ -935,19 +998,7 @@
     "special_attacks": [ { "type": "bite", "cooldown": 5 } ],
     "death_drops": { "subtype": "collection", "groups": [ [ "dog_cop", 40 ] ], "//": "40% chance of an item from group dog_cop" },
     "death_function": [ "NORMAL" ],
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "STUMBLES",
-      "WARM",
-      "BASHES",
-      "POISON",
-      "NO_BREATHE",
-      "REVIVES",
-      "PUSH_MON",
-      "FILTHY"
-    ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
   },
   {
     "id": "mon_dog_zombie_rot",
@@ -982,7 +1033,7 @@
     "id": "mon_eyebot",
     "type": "MONSTER",
     "name": "eyebot",
-    "description": "A fusion-driven UAV largely comprised of a high-resolution camera lens, this spheroid robot hovers above the ground, silent witness to the carnage and mayhem around it.",
+    "description": "A fusion-driven UAV largely comprised of a high-resolution camera lens and a speaker, this spheroid robot hovers above the ground, documenting the carnage and mayhem around it.",
     "default_faction": "cop_bot",
     "species": [ "ROBOT" ],
     "diff": 2,
@@ -1916,17 +1967,7 @@
     "special_attacks": [ [ "FLESH_GOLEM", 5 ] ],
     "death_function": [ "JABBERWOCKY" ],
     "harvest": "jabberwock",
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "STUMBLES",
-      "WARM",
-      "BASHES",
-      "DESTROYS",
-      "ATTACKMON",
-      "POISON"
-    ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "DESTROYS", "ATTACKMON", "POISON" ]
   },
   {
     "id": "mon_kreck",
@@ -2340,7 +2381,45 @@
     "vision_night": 3,
     "harvest": "mr_bones",
     "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
-    "upgrades": { "half_life": 15, "into": "mon_skeleton_hulk" },
+    "upgrades": { "half_life": 15, "into": "mon_skeleton_brute" },
+    "death_drops": "default_zombie_clothes",
+    "death_function": [ "NORMAL" ],
+    "flags": [ "SEES", "HEARS", "BLEED", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "POISON", "FILTHY" ]
+  },
+  {
+    "//": "Skely brute gaps the evolution between normal and the juggernaut.",
+    "id": "mon_skeleton_brute",
+    "type": "MONSTER",
+    "name": "skeletal brute",
+    "description": "Distorted outgrowths of calcified bone plates cover this zombie's rotten skin.  Joints and cracks around its body ooze with black goo.",
+    "default_faction": "zombie",
+    "bodytype": "human",
+    "species": [ "ZOMBIE", "HUMAN" ],
+    "volume": "92500 ml",
+    "weight": 120000,
+    "hp": 175,
+    "speed": 60,
+    "material": [ "bone" ],
+    "symbol": "Z",
+    "color": "white",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 4,
+    "melee_dice": 2,
+    "melee_dice_sides": 8,
+    "melee_cut": 10,
+    "dodge": 1,
+    "armor_cut": 30,
+    "armor_bash": 12,
+    "armor_acid": 1,
+    "vision_day": 35,
+    "vision_night": 3,
+    "harvest": "mr_bones",
+    "special_attacks": [
+      [ "SMASH", 45 ],
+      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
+    ],
+    "upgrades": { "half_life": 12, "into": "mon_skeleton_hulk" },
     "death_drops": "default_zombie_clothes",
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "BLEED", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "POISON", "FILTHY" ]
@@ -2691,19 +2770,7 @@
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "FIRE" ],
     "death_function": [ "NORMAL" ],
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "STUMBLES",
-      "WARM",
-      "KEENNOSE",
-      "BASHES",
-      "POISON",
-      "NO_BREATHE",
-      "REVIVES",
-      "FILTHY"
-    ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "KEENNOSE", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
   },
   {
     "id": "mon_zombear",
@@ -2735,19 +2802,7 @@
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "FIRE" ],
     "death_function": [ "NORMAL" ],
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "STUMBLES",
-      "WARM",
-      "BASHES",
-      "POISON",
-      "NO_BREATHE",
-      "REVIVES",
-      "PUSH_MON",
-      "FILTHY"
-    ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
   },
   {
     "id": "mon_zombie",
@@ -2777,7 +2832,7 @@
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
-    "upgrades": { "half_life": 28, "into_group": "GROUP_ZOMBIE_UPGRADE" },
+    "upgrades": { "half_life": 14, "into_group": "GROUP_ZOMBIE_UPGRADE" },
     "flags": [
       "SEES",
       "HEARS",
@@ -2925,13 +2980,15 @@
     "melee_dice": 2,
     "melee_dice_sides": 3,
     "melee_cut": 0,
+    "vision_day": 2,
+    "vision_night": 0,
     "harvest": "zombie",
     "special_attacks": [ [ "GRAB", 7 ], [ "scratch", 20 ] ],
     "//": "Removed Bite attack to reflect damage to mouth.",
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
-    "upgrades": { "half_life": 14, "into": "mon_zombie_ears" },
+    "upgrades": { "half_life": 8, "into": "mon_zombie_ears" },
     "flags": [
       "HEARS",
       "STUMBLES",
@@ -2990,6 +3047,7 @@
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
+      "PUSH_VEH",
       "FILTHY"
     ]
   },
@@ -3037,6 +3095,7 @@
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
+      "PUSH_VEH",
       "FILTHY"
     ]
   },
@@ -3084,6 +3143,7 @@
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
+      "PUSH_VEH",
       "NIGHT_INVISIBILITY",
       "FILTHY"
     ]
@@ -3147,7 +3207,8 @@
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 200,
-    "speed": 50, "//": "slow walk speed - intimidating!",
+    "speed": 50,
+    "//": "slow walk speed - intimidating!",
     "material": [ "flesh" ],
     "symbol": "Z",
     "color": "i_cyan",
@@ -3155,7 +3216,8 @@
     "morale": 100,
     "melee_skill": 5,
     "melee_dice": 1,
-    "melee_dice_sides": 2, "//": "melee damage is quite weak since the shockfield around it is its most dangerous function",
+    "melee_dice_sides": 2,
+    "//": "melee damage is quite weak since the shockfield around it is its most dangerous function",
     "melee_damage": [ { "damage_type": "electric", "amount": 6 } ],
     "vision_night": 3,
     "luminance": 16,
@@ -3164,17 +3226,7 @@
     "special_when_hit": [ "ZAPBACK", 75 ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
-    "flags": [
-      "SEES",
-      "HEARS",
-      "WARM",
-      "POISON",
-      "ELECTRIC",
-      "NO_BREATHE",
-      "REVIVES",
-      "ELECTRIC_FIELD",
-      "FILTHY"
-    ]
+    "flags": [ "SEES", "HEARS", "WARM", "POISON", "ELECTRIC", "NO_BREATHE", "REVIVES", "ELECTRIC_FIELD", "FILTHY" ]
   },
   {
     "id": "mon_zombie_cop",
@@ -3388,6 +3440,7 @@
     "harvest": "zombie",
     "special_attacks": [ { "type": "bite", "cooldown": 5 } ],
     "death_function": [ "NORMAL" ],
+    "upgrades": { "half_life": 28, "into": "mon_dog_skeleton" },
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
   },
   {
@@ -3413,8 +3466,8 @@
     "melee_dice": 2,
     "melee_dice_sides": 4,
     "melee_cut": 0,
-    "vision_day": 4,
-    "vision_night": 0,
+    "vision_day": 7,
+    "vision_night": 4,
     "harvest": "zombie",
     "special_attacks": [ [ "GRAB", 6 ], [ "scratch", 20 ] ],
     "//": "Removed Bite as this creature does not have a 'mouth'.",
@@ -3469,7 +3522,7 @@
     "special_when_hit": [ "ZAPBACK", 100 ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
-    "upgrades": { "half_life": 28, "into": "mon_zombie_nullfield" },
+    "upgrades": { "half_life": 28, "into_group": "GROUP_ZOMBIE_ELECTRIC_UPGRADE" },
     "flags": [
       "SEES",
       "HEARS",
@@ -3890,6 +3943,7 @@
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
+      "PUSH_VEH",
       "FILTHY"
     ]
   },
@@ -4294,7 +4348,7 @@
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
-    "upgrades": { "half_life": 10, "into": "mon_zombie_hunter" },
+    "upgrades": { "half_life": 20, "into": "mon_zombie_hunter" },
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
   },
   {
@@ -4327,7 +4381,7 @@
     "harvest": "zombie",
     "special_attacks": [ [ "GRAB", 7 ] ],
     "death_function": [ "SMOKEBURST", "NORMAL" ],
-    "upgrades": { "half_life": 28, "into_group": "GROUP_ZOMBIE_UPGRADE" },
+    "upgrades": { "half_life": 14, "into_group": "GROUP_ZOMBIE_UPGRADE" },
     "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ]
   },
   {
@@ -4477,9 +4531,10 @@
     "melee_dice_sides": 4,
     "melee_cut": 2,
     "dodge": 1,
-    "armor_bash": 4,
-    "armor_cut": 2,
+    "armor_bash": 5,
+    "armor_cut": 3,
     "vision_day": 25,
+    "vision_night": 5,
     "harvest": "zombie",
     "special_attacks": [ { "type": "bite", "cooldown": 5, "min_mul": 0.7 }, [ "GRAB", 6 ], [ "scratch", 15 ] ],
     "death_drops": "default_zombie_death_drops",
@@ -4534,7 +4589,6 @@
     "flags": [
       "SEES",
       "HEARS",
-      "SMELLS",
       "STUMBLES",
       "WARM",
       "BASHES",
@@ -4714,6 +4768,52 @@
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
   },
   {
+    "id": "mon_zombie_thorny",
+    "type": "MONSTER",
+    "name": "thorny shambler",
+    "description": "A shambling undead humanoid, body overgrown with a tangled mass of otherworldly vegetation.  Hunched over and dragging its feet as it moves, the bramble utterly enveloping its upper half twitches and moves with a life of its own, tendrils tipped with a paralytic sting.",
+    "default_faction": "zombie",
+    "bodytype": "human",
+    "species": [ "ZOMBIE", "PLANT" ],
+    "volume": "62500 ml",
+    "weight": 81500,
+    "hp": 80,
+    "speed": 50,
+    "material": [ "veggy" ],
+    "symbol": "Z",
+    "color": "light_green",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 3,
+    "melee_dice": 2,
+    "melee_dice_sides": 3,
+    "melee_cut": 4,
+    "armor_bash": 2,
+    "armor_cut": 4,
+    "vision_night": 5,
+    "harvest": "zombie_thorny",
+    "attack_effs": [ { "id": "paralyzepoison", "duration": 33 } ],
+    "special_attacks": [ [ "GRAB", 7 ], [ "scratch", 20 ], [ "PARA_STING", 30 ] ],
+    "death_drops": "mon_zombie_thorny_death_drops",
+    "death_function": [ "NORMAL" ],
+    "burn_into": "mon_zombie_scorched",
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "STUMBLES",
+      "BASHES",
+      "GROUP_BASH",
+      "POISON",
+      "BLEED",
+      "NO_BREATHE",
+      "REVIVES",
+      "PUSH_MON",
+      "FILTHY",
+      "PARALYZEVENOM"
+    ]
+  },
+  {
     "id": "mon_zombie_tough",
     "type": "MONSTER",
     "name": "tough zombie",
@@ -4744,7 +4844,7 @@
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
-    "upgrades": { "half_life": 28, "into_group": "GROUP_ZOMBIE_UPGRADE" },
+    "upgrades": { "half_life": 14, "into_group": "GROUP_ZOMBIE_UPGRADE" },
     "flags": [
       "SEES",
       "HEARS",
@@ -4822,7 +4922,20 @@
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "FIRE" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "KEENNOSE", "GOODHEARING", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "STUMBLES",
+      "WARM",
+      "KEENNOSE",
+      "GOODHEARING",
+      "BASHES",
+      "POISON",
+      "NO_BREATHE",
+      "REVIVES",
+      "FILTHY"
+    ]
   },
   {
     "id": "mon_skeleton_hulk",
@@ -4851,8 +4964,12 @@
     "vision_day": 50,
     "vision_night": 4,
     "harvest": "mr_bones",
-    "special_attacks": [ [ "SMASH", 20 ], [ "STRETCH_ATTACK", 20 ], [ "LONGSWIPE", 20 ],
-    { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] } ],
+    "special_attacks": [
+      [ "SMASH", 20 ],
+      [ "STRETCH_ATTACK", 20 ],
+      [ "LONGSWIPE", 20 ],
+      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] }
+    ],
     "death_drops": "mon_zombie_hulk_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_fiend",
@@ -4869,8 +4986,35 @@
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
+      "PUSH_VEH",
       "HARDTOSHOOT",
       "FILTHY"
     ]
+  },
+  {
+    "id": "mon_dragon_dummy",
+    "type": "MONSTER",
+    "name": "ancient red dragon",
+    "description": "A towering, hulking dragon, with tremendous, curving horns and shining red scales, its glowing maw peeled back in a hateful grimace as its eyes bore into yours.",
+    "bodytype": "dog",
+    "//": "Zombie faction so they don't attack a clear prop",
+    "default_faction": "zombie",
+    "diff": 50,
+    "volume": "875000 ml",
+    "weight": 4535,
+    "hp": 1,
+    "material": [ "paper" ],
+    "symbol": "D",
+    "color": "red",
+    "luminance": 8,
+    "aggression": 100,
+    "morale": 100,
+    "//": "ahh! it sees you!",
+    "vision_day": 50,
+    "vision_night": 50,
+    "harvest": "exempt",
+    "death_function": [ "DISINTEGRATE" ],
+    "death_drops": "mon_dragon_dummy_drops",
+    "flags": [ "SEES" ]
   }
 ]

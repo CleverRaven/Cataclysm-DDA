@@ -18,12 +18,22 @@
     "dispersion": 280,
     "durability": 7,
     "burst": 20,
-    "valid_mod_locations": [ [ "accessories", 3 ], [ "barrel", 1 ], [ "bore", 1 ], [ "brass catcher", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
+    "valid_mod_locations": [
+      [ "accessories", 3 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "muzzle", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
+    ],
     "magazine_well": 2,
-    "magazines": [
-      [ "45", [ "tdi_mag" ] ],
-      [ "9mm", [ "uzimag" ] ]
-    ]
+    "magazines": [ [ "45", [ "tdi_mag" ] ], [ "9mm", [ "uzimag" ] ] ]
   },
   {
     "id": "hk_ump45",
@@ -45,11 +55,21 @@
     "dispersion": 240,
     "durability": 8,
     "burst": 10,
-    "valid_mod_locations": [ [ "accessories", 3 ], [ "barrel", 1 ], [ "bore", 1 ], [ "brass catcher", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
-    "magazines": [
-      [ "45", [ "ump45mag" ] ],
-      [ "9mm", [ "mp5mag", "mp5bigmag" ] ]
-    ]
+    "valid_mod_locations": [
+      [ "accessories", 3 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "muzzle", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
+    ],
+    "magazines": [ [ "45", [ "ump45mag" ] ], [ "9mm", [ "mp5mag", "mp5bigmag" ] ] ]
   },
   {
     "id": "m1911",
@@ -70,10 +90,7 @@
     "dispersion": 480,
     "durability": 7,
     "magazine_well": 1,
-    "magazines": [
-      [ "45", [ "m1911mag", "m1911bigmag" ] ],
-      [ "9mm", [ "m9mag", "m9bigmag" ] ]
-    ]
+    "magazines": [ [ "45", [ "m1911mag", "m1911bigmag" ] ], [ "9mm", [ "m9mag", "m9bigmag" ] ] ]
   },
   {
     "id": "mac_10",
@@ -94,19 +111,56 @@
     "dispersion": 520,
     "durability": 7,
     "burst": 18,
-    "valid_mod_locations": [ [ "accessories", 3 ], [ "barrel", 1 ], [ "bore", 1 ], [ "brass catcher", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
+    "built_in_mods": [ "wire_stock" ],
+    "valid_mod_locations": [
+      [ "accessories", 3 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "muzzle", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
+    ],
     "magazine_well": 1,
-    "magazines": [
-      [ "45", [ "mac10mag" ] ],
-      [ "9mm", [ "tec9mag" ] ]
-    ]
+    "magazines": [ [ "45", [ "mac10mag" ] ], [ "380", [ "mac11mag" ] ], [ "9mm", [ "tec9mag" ] ] ]
+  },
+  {
+    "id": "rifle_45",
+    "type": "GUN",
+    "reload_noise_volume": 10,
+    "name": "pipe rifle: .45",
+    "name_plural": "pipe rifles: .45",
+    "description": "A home-made rifle.  It is simply a pipe attached to a stock, with a hammer to strike the single round it holds.",
+    "weight": 2114,
+    "volume": 8,
+    "price": 10000,
+    "to_hit": -1,
+    "bashing": 10,
+    "material": [ "steel", "wood" ],
+    "symbol": "(",
+    "color": "brown",
+    "ammo": "45",
+    "skill": "rifle",
+    "ranged_damage": 1,
+    "dispersion": 550,
+    "durability": 6,
+    "loudness": 25,
+    "clip_size": 1,
+    "reload": 200,
+    "barrel_length": 3,
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "sling", 1 ], [ "stock", 1 ] ],
+    "flags": [ "RELOAD_EJECT" ]
   },
   {
     "id": "surv_hand_cannon",
     "copy-from": "pistol_revolver",
     "type": "GUN",
     "name": "homemade hand cannon",
-    "name_plural": "homemade hand cannons",
     "//": "On one hand, it's very big for a handgun. On the other, it's still a scrap weapon.",
     "description": "A large and heavy pistol evidently welded from scrap.  It's not pretty, but the .45 it's chambered with packs a serious punch.  Just watch out for the kick.",
     "weight": 1200,
@@ -119,7 +173,7 @@
     "color": "dark_gray",
     "ammo": "45",
     "ranged_damage": 2,
-    "dispersion": 480,
+    "dispersion": 620,
     "durability": 7,
     "loudness": 25,
     "clip_size": 5
@@ -145,11 +199,21 @@
     "durability": 7,
     "burst": 10,
     "barrel_length": 2,
-    "valid_mod_locations": [ [ "accessories", 3 ], [ "barrel", 1 ], [ "bore", 1 ], [ "brass catcher", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
-    "magazines": [
-      [ "45", [ "thompson_mag", "thompson_bigmag", "thompson_drum" ] ],
-      [ "9mm", [ "stenmag", "survivor9mm_mag" ] ]
-    ]
+    "valid_mod_locations": [
+      [ "accessories", 3 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "muzzle", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
+    ],
+    "magazines": [ [ "45", [ "thompson_mag", "thompson_bigmag", "thompson_drum" ] ], [ "9mm", [ "stenmag", "survivor9mm_mag" ] ] ]
   },
   {
     "id": "usp_45",

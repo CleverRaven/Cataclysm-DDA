@@ -1194,7 +1194,7 @@
           "fg": 244
         },
         {
-          "id": ["cursor", "line_target", "vehicle_pointer" ],
+          "id": ["cursor", "highlight", "line_target", "vehicle_pointer" ],
           "fg": 245
         },
         {
@@ -6306,7 +6306,7 @@
           "fg": 1900
         },
         {
-          "id": ["oj", "lemonade", "lemonlime", "orangesoda", "broth", "broth_bone", "broth_human", "tequila", "drink_screwdriver", "mead", "brew_mead", "dandelion_wine", "brew_dandelion_wine", "fertilizer_liquid", "iv_mutagen_plant", "dandelion_tea", "dayquil", "mustard", "honey_bottled", "brew_vinegar", "cooking_oil", "protein_shake", "hflesh_shake", "drink_sewerbrew", "drink_hobo", "drink_beeknees", "drink_wsour", "honey_gold", "thyme_oil", "mugwort_oil", "gas_fungicidal", "nicotine_liquid", "lamp_oil" ],
+          "id": ["oj", "lemonade", "lemonlime", "orangesoda", "broth", "broth_bone", "broth_human", "tequila", "drink_screwdriver", "mead", "brew_mead", "dandelion_wine", "brew_dandelion_wine", "fertilizer_liquid", "iv_mutagen_plant", "dandelion_tea", "dayquil", "mustard", "honey_bottled", "brew_vinegar", "cooking_oil", "cooking_oil2", "protein_shake", "hflesh_shake", "drink_sewerbrew", "drink_hobo", "drink_beeknees", "drink_wsour", "honey_gold", "thyme_oil", "mugwort_oil", "gas_fungicidal", "nicotine_liquid", "lamp_oil" ],
           "fg": 1901
         },
         {
@@ -6603,7 +6603,7 @@
           "fg": 1980
         },
         {
-          "id": ["frozen_dinner", "cooked_dinner", "frozen_burrito", "cooked_burrito", "flatbread", "bread", "brownie_weed", "brioche", "toastem", "toastem2", "toastem3", "toasterpastryfrozen", "toasterpastry", "hardtack", "wastebread", "cornbread", "johnnycake", "sugar_beet", "potato_raw", "potato_irradiated", "potato_baked", "pie", "pie_veggy", "pie_meat", "pie_human", "coconut", "cotton_boll" ],
+          "id": ["frozen_dinner", "cooked_dinner", "frozen_burrito", "cooked_burrito", "flatbread", "bread", "brownie_weed", "brioche", "toastem", "toastem2", "toastem3", "toasterpastryfrozen", "toasterpastry", "hardtack", "wastebread", "cornbread", "johnnycake", "sugar_beet", "potato", "irradiated_potato", "potato_baked", "pie", "pie_veggy", "pie_meat", "pie_human", "coconut", "cotton_boll" ],
           "fg": 1981
         },
         {

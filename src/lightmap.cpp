@@ -1,8 +1,14 @@
 #include "lightmap.h" // IWYU pragma: associated
 #include "shadowcasting.h" // IWYU pragma: associated
 
+#include <stdint.h>
+#include <stdlib.h>
 #include <cmath>
 #include <cstring>
+#include <list>
+#include <memory>
+#include <utility>
+#include <vector>
 
 #include "fragment_cloud.h" // IWYU pragma: keep
 #include "game.h"
@@ -19,6 +25,16 @@
 #include "vpart_range.h"
 #include "vpart_reference.h"
 #include "weather.h"
+#include "calendar.h"
+#include "enums.h"
+#include "field.h"
+#include "item.h"
+#include "itype.h"
+#include "line.h"
+#include "optional.h"
+#include "player.h"
+#include "string_formatter.h"
+#include "tileray.h"
 
 #define LIGHTMAP_CACHE_X MAPSIZE_X
 #define LIGHTMAP_CACHE_Y MAPSIZE_Y
@@ -408,7 +424,8 @@ void map::generate_lightmap( const int zlev )
                 continue;
             }
             if( vp.has_feature( VPFLAG_CARGO ) && !vp.has_feature( "COVERED" ) ) {
-                add_light_from_items( pp, v->get_items( p ).begin(), v->get_items( p ).end() );
+                add_light_from_items( pp, v->get_items( static_cast<int>( p ) ).begin(),
+                                      v->get_items( static_cast<int>( p ) ).end() );
             }
         }
     }
@@ -1139,10 +1156,10 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
             seen_cache[mirror_pos.x][mirror_pos.y] < LIGHT_TRANSPARENCY_SOLID + 0.1 ) {
             continue;
         } else if( !vp.info().has_flag( "CAMERA_CONTROL" ) ) {
-            mirrors.emplace_back( vp.part_index() );
+            mirrors.emplace_back( static_cast<int>( vp.part_index() ) );
         } else {
             if( square_dist( origin, mirror_pos ) <= 1 && veh->camera_on ) {
-                cam_control = vp.part_index();
+                cam_control = static_cast<int>( vp.part_index() );
             }
         }
     }

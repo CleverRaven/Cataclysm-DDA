@@ -20,11 +20,19 @@
     "dispersion": 120,
     "durability": 8,
     "barrel_length": 2,
-    "modes": [
-      [ "DEFAULT", "semi-auto", 1 ],
-      [ "AUTO", "auto", 15 ]
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 15 ] ],
+    "valid_mod_locations": [
+      [ "accessories", 3 ],
+      [ "barrel", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "muzzle", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
     ],
-    "valid_mod_locations": [ [ "accessories", 3 ], [ "barrel", 1 ], [ "brass catcher", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazines": [ [ "762x25", [ "ppshmag", "ppshdrum" ] ] ]
   },
   {

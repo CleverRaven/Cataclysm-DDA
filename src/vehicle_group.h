@@ -4,6 +4,8 @@
 
 #include <memory>
 #include <unordered_map>
+#include <string>
+#include <vector>
 
 #include "mapgen.h"
 #include "optional.h"
@@ -13,12 +15,17 @@
 
 class JsonObject;
 class VehicleGroup;
+class map;
+
 using vgroup_id = string_id<VehicleGroup>;
 class VehicleSpawn;
+
 using vspawn_id = string_id<VehicleSpawn>;
 struct vehicle_prototype;
+
 using vproto_id = string_id<vehicle_prototype>;
 struct point;
+
 extern std::unordered_map<vgroup_id, VehicleGroup> vgroups;
 
 /**

@@ -207,7 +207,7 @@ inline bool assign( JsonObject &jo, const std::string &name, units::volume &val,
                     const units::volume lo = units::volume_min,
                     const units::volume hi = units::volume_max )
 {
-    auto parse = [&name]( JsonObject & obj, units::volume & out ) {
+    const auto parse = [&name]( JsonObject & obj, units::volume & out ) {
         if( obj.has_int( name ) ) {
             out = obj.get_int( name ) * units::legacy_volume_factor;
             return true;

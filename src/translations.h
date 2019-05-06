@@ -6,7 +6,7 @@
 
 #include "optional.h"
 
-#ifndef translate_marker
+#if !defined(translate_marker)
 /**
  * Marks a string literal to be extracted for translation. This is only for running `xgettext` via
  * "lang/update_pot.sh". Use `_` to extract *and* translate at run time. The macro itself does not
@@ -14,7 +14,7 @@
  */
 #define translate_marker(x) x
 #endif
-#ifndef translate_marker_context
+#if !defined(translate_marker_context)
 /**
  * Same as @ref translate_marker, but also provides a context (string literal). This is similar
  * to @ref pgettext, but it does not translate at run time. Like @ref translate_marker it just
@@ -23,14 +23,14 @@
 #define translate_marker_context(c, x) x
 #endif
 
-#ifdef LOCALIZE
+#if defined(LOCALIZE)
 
 // MingW flips out if you don't define this before you try to statically link libintl.
 // This should prevent 'undefined reference to `_imp__libintl_gettext`' errors.
-#if (defined _WIN32 || defined __CYGWIN__) && !defined _MSC_VER
-#ifndef LIBINTL_STATIC
-#define LIBINTL_STATIC
-#endif
+#if (defined(_WIN32) || defined(__CYGWIN__)) && !defined(_MSC_VER)
+#   if !defined(LIBINTL_STATIC)
+#       define LIBINTL_STATIC
+#   endif
 #endif
 
 // IWYU pragma: begin_exports

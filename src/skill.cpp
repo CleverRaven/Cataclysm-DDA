@@ -1,7 +1,11 @@
 #include "skill.h"
 
+#include <stddef.h>
 #include <algorithm>
 #include <iterator>
+#include <array>
+#include <memory>
+#include <utility>
 
 #include "debug.h"
 #include "item.h"
@@ -84,8 +88,7 @@ void Skill::load_skill( JsonObject &jsobj )
         return s._ident == ident;
     } ), end( skills ) );
 
-    const Skill sk( ident, _( jsobj.get_string( "name" ).c_str() ),
-                    _( jsobj.get_string( "description" ).c_str() ),
+    const Skill sk( ident, _( jsobj.get_string( "name" ) ), _( jsobj.get_string( "description" ) ),
                     jsobj.get_tags( "tags" ) );
 
     if( sk.is_contextual_skill() ) {
@@ -142,7 +145,7 @@ void SkillLevel::train( int amount, bool skip_scaling )
     } else {
         const double scaling = get_option<float>( "SKILL_TRAINING_SPEED" );
         if( scaling > 0.0 ) {
-            _exercise += divide_roll_remainder( amount * scaling, 1.0 );
+            _exercise += roll_remainder( amount * scaling );
         }
     }
 
@@ -263,7 +266,7 @@ int SkillLevelMap::get_skill_level( const skill_id &ident ) const
 
 int SkillLevelMap::get_skill_level( const skill_id &ident, const item &context ) const
 {
-    auto id = context.is_null() ? ident : context.contextualize_skill( ident );
+    const auto id = context.is_null() ? ident : context.contextualize_skill( ident );
     return get_skill_level( id );
 }
 

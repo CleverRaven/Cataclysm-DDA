@@ -9474,7 +9474,7 @@
           "rotates": false
         },
         {
-          "id": "potato_raw",
+          "id": "potato",
           "fg": 1303,
           "bg": 957,
           "rotates": false
@@ -12764,7 +12764,7 @@
           "rotates": false
         },
         {
-          "id": "potato_irradiated",
+          "id": "irradiated_potato",
           "fg": 1303,
           "bg": 957
         },
@@ -22299,7 +22299,7 @@
           "fg": 1154
         },
         {
-          "id": "cooking_oil",
+          "id": [ "cooking_oil", "cooking_oil2" ],
           "fg": 1156,
           "rotates": false
         },
@@ -31611,6 +31611,11 @@
         },
         {
           "id": "cursor",
+          "fg": 2853,
+          "rotates": false
+        },
+        {
+          "id": "highlight",
           "fg": 2853,
           "rotates": false
         },

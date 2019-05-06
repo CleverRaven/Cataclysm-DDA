@@ -87,10 +87,7 @@
     "autolearn": true,
     "book_learn": [ [ "recipe_melee", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [
-      [ [ "paper", 300 ] ],
-      [ [ "duct_tape", 150 ] ]
-    ]
+    "components": [ [ [ "paper", 300 ] ], [ [ "duct_tape", 150 ] ] ]
   },
   {
     "result": "bra",
@@ -102,10 +99,7 @@
     "time": 35000,
     "autolearn": true,
     "using": [ [ "sewing_standard", 15 ] ],
-    "components": [
-      [ [ "rag", 2 ] ],
-      [ [ "wire", 1 ] ]
-    ]
+    "components": [ [ [ "rag", 2 ] ], [ [ "wire", 1 ] ] ]
   },
   {
     "result": "chestwrap",
@@ -167,10 +161,7 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_survival", 1 ], [ "trappers_companion", 3 ], [ "survival_book", 2 ] ],
     "using": [ [ "sewing_standard", 20 ] ],
-    "components": [
-      [ [ "rag", 11 ] ],
-      [ [ "fur", 12 ], [ "tanned_pelt", 2 ] ]
-    ]
+    "components": [ [ [ "rag", 11 ] ], [ [ "fur", 12 ], [ "tanned_pelt", 2 ] ] ]
   },
   {
     "result": "coat_faux_fur",
@@ -182,10 +173,7 @@
     "time": 100000,
     "book_learn": [ [ "textbook_tailor", 4 ], [ "tailor_portfolio", 3 ], [ "recipe_fauxfur", 3 ] ],
     "using": [ [ "sewing_standard", 20 ] ],
-    "components": [
-      [ [ "rag", 11 ] ],
-      [ [ "faux_fur", 12 ] ]
-    ]
+    "components": [ [ [ "rag", 11 ] ], [ [ "faux_fur", 12 ] ] ]
   },
   {
     "result": "coat_gut",
@@ -199,10 +187,7 @@
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "book_learn": [ [ "trappers_companion", 6 ], [ "survival_book", 4 ] ],
-    "components": [
-      [ [ "stomach_sealed", 16 ], [ "large_stomach_sealed", 10 ] ],
-      [ [ "sinew", 60 ] ]
-    ]
+    "components": [ [ [ "stomach_sealed", 16 ], [ "large_stomach_sealed", 10 ] ], [ [ "sinew", 60 ] ] ]
   },
   {
     "result": "coat_rain",
@@ -213,12 +198,8 @@
     "difficulty": 1,
     "time": 30000,
     "autolearn": true,
-    "tools": [],
-    "components": [
-      [ [ "duct_tape", 50 ] ],
-      [ [ "bag_plastic", 10 ] ],
-      [ [ "rag", 10 ] ]
-    ]
+    "tools": [  ],
+    "components": [ [ [ "duct_tape", 50 ] ], [ [ "bag_plastic", 10 ] ], [ [ "rag", 10 ] ] ]
   },
   {
     "result": "cuirass_lightplate",
@@ -229,16 +210,8 @@
     "difficulty": 8,
     "time": 190000,
     "book_learn": [ [ "textbook_armwest", 7 ] ],
-    "qualities": [
-      { "id": "ANVIL", "level": 3 },
-      { "id": "HAMMER", "level": 3 },
-      { "id": "CHISEL", "level": 3 }
-    ],
-    "tools": [
-      [ [ "tongs", -1 ] ],
-      [ [ "swage", -1 ] ],
-      [ [ "forge", 150 ], [ "oxy_torch", 30 ] ]
-    ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 150 ], [ "oxy_torch", 30 ] ] ],
     "components": [
       [ [ "steel_lump", 8 ], [ "steel_chunk", 32 ] ],
       [ [ "fur", 6 ], [ "tanned_pelt", 1 ], [ "leather", 6 ], [ "tanned_hide", 1 ] ]
@@ -279,10 +252,7 @@
     "time": 200000,
     "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ], [ "recipe_fauxfur", 2 ] ],
     "using": [ [ "sewing_standard", 60 ] ],
-    "components": [
-      [ [ "rag", 25 ] ],
-      [ [ "faux_fur", 20 ] ]
-    ]
+    "components": [ [ [ "rag", 25 ] ], [ [ "faux_fur", 20 ] ] ]
   },
   {
     "result": "duster_leather",
@@ -313,7 +283,17 @@
       [ [ "duster", 1 ], [ "duster_leather", 1 ], [ "jacket_army", 1 ] ],
       [ [ "kevlar", 1 ], [ "modularvest", 1 ], [ "kevlar_plate", 16 ] ],
       [ [ "rag", 19 ] ],
-      [ [ "chestrig", 1 ], [ "legrig", 1 ], [ "vest", 1 ], [ "tool_belt", 1 ], [ "ragpouch", 4 ], [ "leather_pouch", 2 ], [ "dump_pouch", 1 ], [ "purse", 2 ], [ "fanny", 2 ] ],
+      [
+        [ "chestrig", 1 ],
+        [ "legrig", 1 ],
+        [ "vest", 1 ],
+        [ "tool_belt", 1 ],
+        [ "ragpouch", 4 ],
+        [ "leather_pouch", 2 ],
+        [ "dump_pouch", 1 ],
+        [ "purse", 2 ],
+        [ "fanny", 2 ]
+      ],
       [ [ "duct_tape", 135 ] ]
     ]
   },
@@ -327,10 +307,7 @@
     "time": 150000,
     "autolearn": true,
     "using": [ [ "sewing_standard", 360 ] ],
-    "components": [
-      [ [ "leather", 56 ], [ "tanned_hide", 9 ], [ "fur", 56 ], [ "tanned_pelt", 9 ] ],
-      [ [ "rope_6", 2 ] ]
-    ]
+    "components": [ [ [ "leather", 56 ], [ "tanned_hide", 9 ], [ "fur", 56 ], [ "tanned_pelt", 9 ] ], [ [ "rope_6", 2 ] ] ]
   },
   {
     "result": "greatcoat",
@@ -393,13 +370,8 @@
     "time": 96000,
     "autolearn": true,
     "using": [ [ "sewing_standard", 30 ] ],
-    "qualities": [
-      { "id": "HAMMER", "level": 2 }
-    ],
-    "components": [
-      [ [ "jacket_leather", 1 ], [ "jacket_leather_red", 1 ] ],
-      [ [ "scrap", 9 ] ]
-    ]
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "components": [ [ [ "jacket_leather", 1 ], [ "jacket_leather_red", 1 ] ], [ [ "scrap", 9 ] ] ]
   },
   {
     "result": "long_undertop",
@@ -440,7 +412,17 @@
     "components": [
       [ [ "rag", 15 ] ],
       [ [ "coat_rain", 1 ] ],
-      [ [ "chestrig", 1 ], [ "legrig", 1 ], [ "vest", 1 ], [ "tool_belt", 1 ], [ "ragpouch", 2 ], [ "leather_pouch", 2 ], [ "dump_pouch", 1 ], [ "purse", 1 ], [ "fanny", 1 ] ],
+      [
+        [ "chestrig", 1 ],
+        [ "legrig", 1 ],
+        [ "vest", 1 ],
+        [ "tool_belt", 1 ],
+        [ "ragpouch", 2 ],
+        [ "leather_pouch", 2 ],
+        [ "dump_pouch", 1 ],
+        [ "purse", 1 ],
+        [ "fanny", 1 ]
+      ],
       [ [ "duct_tape", 150 ] ],
       [ [ "kevlar", 1 ], [ "modularvest", 1 ], [ "swat_armor", 1 ], [ "kevlar_plate", 16 ] ]
     ]
@@ -469,10 +451,7 @@
     "reversible": true,
     "decomp_learn": 0,
     "autolearn": true,
-    "components": [
-      [ [ "modularvest", 1 ] ],
-      [ [ "ceramic_armor", 4 ] ]
-    ],
+    "components": [ [ [ "modularvest", 1 ] ], [ [ "ceramic_armor", 4 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -485,10 +464,7 @@
     "reversible": true,
     "decomp_learn": 0,
     "autolearn": true,
-    "components": [
-      [ [ "modularvest", 1 ] ],
-      [ [ "hard_steel_armor", 8 ] ]
-    ],
+    "components": [ [ [ "modularvest", 1 ] ], [ [ "hard_steel_armor", 8 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -501,10 +477,7 @@
     "reversible": true,
     "decomp_learn": 0,
     "autolearn": true,
-    "components": [
-      [ [ "modularvest", 1 ] ],
-      [ [ "kevlar_plate", 8 ] ]
-    ],
+    "components": [ [ [ "modularvest", 1 ] ], [ [ "kevlar_plate", 8 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -517,10 +490,7 @@
     "reversible": true,
     "decomp_learn": 0,
     "autolearn": true,
-    "components": [
-      [ [ "modularvest", 1 ] ],
-      [ [ "steel_armor", 8 ] ]
-    ],
+    "components": [ [ [ "modularvest", 1 ] ], [ [ "steel_armor", 8 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -533,10 +503,7 @@
     "reversible": true,
     "decomp_learn": 0,
     "autolearn": true,
-    "components": [
-      [ [ "modularvest", 1 ] ],
-      [ [ "alloy_sheet", 8 ] ]
-    ],
+    "components": [ [ [ "modularvest", 1 ] ], [ [ "alloy_sheet", 8 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -629,10 +596,7 @@
     "time": 200000,
     "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ], [ "recipe_fauxfur", 2 ] ],
     "using": [ [ "sewing_standard", 50 ] ],
-    "components": [
-      [ [ "rag", 20 ] ],
-      [ [ "faux_fur", 12 ] ]
-    ]
+    "components": [ [ [ "rag", 20 ] ], [ [ "faux_fur", 12 ] ] ]
   },
   {
     "result": "sleeveless_duster_fur",
@@ -725,7 +689,17 @@
       [ [ "duster", 1 ], [ "duster_leather", 1 ], [ "jacket_army", 1 ], [ "sleeveless_duster", 1 ] ],
       [ [ "kevlar", 1 ], [ "modularvest", 1 ], [ "kevlar_plate", 13 ] ],
       [ [ "rag", 14 ] ],
-      [ [ "chestrig", 1 ], [ "legrig", 1 ], [ "vest", 1 ], [ "tool_belt", 1 ], [ "ragpouch", 4 ], [ "leather_pouch", 2 ], [ "dump_pouch", 1 ], [ "purse", 2 ], [ "fanny", 2 ] ],
+      [
+        [ "chestrig", 1 ],
+        [ "legrig", 1 ],
+        [ "vest", 1 ],
+        [ "tool_belt", 1 ],
+        [ "ragpouch", 4 ],
+        [ "leather_pouch", 2 ],
+        [ "dump_pouch", 1 ],
+        [ "purse", 2 ],
+        [ "fanny", 2 ]
+      ],
       [ [ "duct_tape", 115 ] ]
     ]
   },
@@ -812,10 +786,7 @@
     "time": 200000,
     "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ], [ "recipe_fauxfur", 2 ] ],
     "using": [ [ "sewing_standard", 38 ] ],
-    "components": [
-      [ [ "rag", 10 ] ],
-      [ [ "faux_fur", 10 ] ]
-    ]
+    "components": [ [ [ "rag", 10 ] ], [ [ "faux_fur", 10 ] ] ]
   },
   {
     "result": "sleeveless_trenchcoat_leather",
@@ -863,7 +834,17 @@
       [ [ "trenchcoat", 1 ], [ "jacket_army", 1 ], [ "sleeveless_trenchcoat", 1 ] ],
       [ [ "kevlar", 1 ], [ "modularvest", 1 ], [ "kevlar_plate", 10 ] ],
       [ [ "rag", 11 ] ],
-      [ [ "chestrig", 1 ], [ "legrig", 1 ], [ "vest", 1 ], [ "tool_belt", 1 ], [ "ragpouch", 4 ], [ "leather_pouch", 2 ], [ "dump_pouch", 1 ], [ "purse", 2 ], [ "fanny", 2 ] ],
+      [
+        [ "chestrig", 1 ],
+        [ "legrig", 1 ],
+        [ "vest", 1 ],
+        [ "tool_belt", 1 ],
+        [ "ragpouch", 4 ],
+        [ "leather_pouch", 2 ],
+        [ "dump_pouch", 1 ],
+        [ "purse", 2 ],
+        [ "fanny", 2 ]
+      ],
       [ [ "duct_tape", 85 ] ]
     ]
   },
@@ -980,10 +961,7 @@
     "time": 200000,
     "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ], [ "recipe_fauxfur", 2 ] ],
     "using": [ [ "sewing_standard", 45 ] ],
-    "components": [
-      [ [ "rag", 14 ] ],
-      [ [ "faux_fur", 12 ] ]
-    ]
+    "components": [ [ [ "rag", 14 ] ], [ [ "faux_fur", 12 ] ] ]
   },
   {
     "result": "trenchcoat_leather",
@@ -1014,7 +992,17 @@
       [ [ "trenchcoat", 1 ], [ "jacket_army", 1 ] ],
       [ [ "kevlar", 1 ], [ "modularvest", 1 ], [ "kevlar_plate", 12 ] ],
       [ [ "rag", 14 ] ],
-      [ [ "chestrig", 1 ], [ "legrig", 1 ], [ "vest", 1 ], [ "tool_belt", 1 ], [ "ragpouch", 4 ], [ "leather_pouch", 2 ], [ "dump_pouch", 1 ], [ "purse", 2 ], [ "fanny", 2 ] ],
+      [
+        [ "chestrig", 1 ],
+        [ "legrig", 1 ],
+        [ "vest", 1 ],
+        [ "tool_belt", 1 ],
+        [ "ragpouch", 4 ],
+        [ "leather_pouch", 2 ],
+        [ "dump_pouch", 1 ],
+        [ "purse", 2 ],
+        [ "fanny", 2 ]
+      ],
       [ [ "duct_tape", 100 ] ]
     ]
   },
@@ -1104,13 +1092,8 @@
     "time": 72000,
     "autolearn": true,
     "using": [ [ "sewing_standard", 20 ] ],
-    "qualities": [
-      { "id": "HAMMER", "level": 2 }
-    ],
-    "components": [
-      [ [ "vest_leather", 1 ] ],
-      [ [ "scrap", 5 ] ]
-    ]
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "components": [ [ [ "vest_leather", 1 ] ], [ [ "scrap", 5 ] ] ]
   },
   {
     "result": "wool_hoodie",
@@ -1132,13 +1115,8 @@
     "skill_used": "fabrication",
     "difficulty": 7,
     "time": 70000,
-    "book_learn": [ [ "textbook_armwest", 6 ] , [ "textbook_fabrication", 6 ] , [ "recipe_melee", 6 ] ],
+    "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
     "using": [ [ "chainmail_standard", 7 ] ],
-    "components": [
-      [ [ "link_sheet", 7 ] ],
-      [ [ "chain_link", 175 ] ],
-      [ [ "wire", 1 ] ],
-      [ [ "fur", 6 ], [ "tanned_pelt", 1 ], [ "leather", 6 ], [ "tanned_hide", 1 ] ]
-    ]
+    "components": [ [ [ "link_sheet", 7 ] ], [ [ "chain_link", 175 ] ], [ [ "wire", 1 ] ], [ [ "rag", 6 ] ] ]
   }
 ]

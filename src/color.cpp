@@ -1,6 +1,11 @@
 #include "color.h"
 
+#include <stdlib.h>
 #include <algorithm> // for std::count
+#include <iterator>
+#include <map>
+#include <ostream>
+#include <vector>
 
 #include "cata_utility.h"
 #include "debug.h"
@@ -9,9 +14,11 @@
 #include "json.h"
 #include "output.h"
 #include "path_info.h"
+#include "rng.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "ui.h"
+#include "cursesdef.h"
 
 void nc_color::serialize( JsonOut &jsout ) const
 {
@@ -152,10 +159,7 @@ nc_color color_manager::get_invert( const nc_color &color ) const
 
 nc_color color_manager::get_random() const
 {
-    auto item = color_array.begin();
-    std::advance( item, rand() % num_colors );
-
-    return item->color;
+    return random_entry( color_array ).color;
 }
 
 void color_manager::add_color( const color_id col, const std::string &name,
@@ -782,19 +786,19 @@ void color_manager::show_gui()
                     mvwprintz( w_colors, i - iStartPos, vLines[iCurrentCol - 1] + 2, c_yellow, ">" );
                 }
 
-                mvwprintz( w_colors, i - iStartPos, 3, c_white, iter->first.c_str() ); //color name
+                mvwprintz( w_colors, i - iStartPos, 3, c_white, iter->first ); //color name
                 mvwprintz( w_colors, i - iStartPos, 21, entry.color, _( "default" ) ); //default color
 
                 if( !entry.name_custom.empty() ) {
                     mvwprintz( w_colors, i - iStartPos, 30, name_color_map[entry.name_custom].color,
-                               entry.name_custom.c_str() ); //custom color
+                               entry.name_custom ); //custom color
                 }
 
                 mvwprintz( w_colors, i - iStartPos, 52, entry.invert, _( "default" ) ); //invert default color
 
                 if( !entry.name_invert_custom.empty() ) {
                     mvwprintz( w_colors, i - iStartPos, 61, name_color_map[entry.name_invert_custom].color,
-                               entry.name_invert_custom.c_str() ); //invert custom color
+                               entry.name_invert_custom ); //invert custom color
                 }
             }
         }
@@ -887,7 +891,7 @@ void color_manager::show_gui()
 
             }
 
-            ui_colors.text = string_format( _( "Custom %s color:" ), sColorType.c_str() );
+            ui_colors.text = string_format( _( "Custom %s color:" ), sColorType );
 
             int i = 0;
             for( auto &iter : name_color_map ) {
@@ -904,8 +908,8 @@ void color_manager::show_gui()
                     name_custom = " <color_" + iter.second.name_custom + ">" + iter.second.name_custom + "</color>";
                 }
 
-                ui_colors.addentry( string_format( "%-17s <color_%s>%s</color>%s", iter.first.c_str(),
-                                                   sColor.c_str(), sType.c_str(), name_custom.c_str() ) );
+                ui_colors.addentry( string_format( "%-17s <color_%s>%s</color>%s", iter.first,
+                                                   sColor, sType, name_custom ) );
 
                 i++;
             }

@@ -1,5 +1,13 @@
 #include "debug_menu.h" // IWYU pragma: associated
 
+#include <stddef.h>
+#include <algorithm>
+#include <map>
+#include <memory>
+#include <set>
+#include <string>
+#include <vector>
+
 #include "debug.h"
 #include "game.h"
 #include "input.h"
@@ -17,6 +25,13 @@
 #include "translations.h"
 #include "ui.h"
 #include "uistate.h"
+#include "calendar.h"
+#include "color.h"
+#include "cursesdef.h"
+#include "enums.h"
+#include "item.h"
+#include "itype.h"
+#include "optional.h"
 
 class wish_mutate_callback: public uilist_callback
 {
@@ -66,7 +81,7 @@ class wish_mutate_callback: public uilist_callback
             }
             const mutation_branch &mdata = vTraits[entnum].obj();
 
-            int startx = menu->w_width - menu->pad_right;
+            const int startx = menu->w_width - menu->pad_right;
             for( int i = 2; i < lastlen; i++ ) {
                 mvwprintw( menu->window, i, startx, padding );
             }
@@ -175,7 +190,7 @@ class wish_mutate_callback: public uilist_callback
             input_context ctxt( menu->input_category );
             mvwprintw( menu->window, menu->w_height - 2, startx,
                        _( "[%s] find, [%s] quit, [t] toggle base trait" ),
-                       ctxt.get_desc( "FILTER" ).c_str(), ctxt.get_desc( "QUIT" ).c_str() );
+                       ctxt.get_desc( "FILTER" ), ctxt.get_desc( "QUIT" ) );
 
         }
 
@@ -214,8 +229,8 @@ void debug_menu::wishmutate( player *p )
             int rc = 0;
             const trait_id mstr = cb.vTraits[ wmenu.ret ];
             const auto &mdata = mstr.obj();
-            bool threshold = mdata.threshold;
-            bool profession = mdata.profession;
+            const bool threshold = mdata.threshold;
+            const bool profession = mdata.profession;
             //Manual override for the threshold-gaining
             if( threshold || profession ) {
                 if( p->has_trait( mstr ) ) {
@@ -329,7 +344,7 @@ class wish_monster_callback: public uilist_callback
             wrefresh( w_info );
             tmp.print_info( w_info, 2, 5, 1 );
 
-            std::string header = string_format( "#%d: %s (%d)%s", entnum, tmp.type->nname().c_str(),
+            std::string header = string_format( "#%d: %s (%d)%s", entnum, tmp.type->nname(),
                                                 group, ( hallucination ? _( " (hallucination)" ) : "" ) );
             mvwprintz( w_info, 0, ( getmaxx( w_info ) - header.size() ) / 2, c_cyan, header );
 
@@ -338,7 +353,7 @@ class wish_monster_callback: public uilist_callback
             input_context ctxt( menu->input_category );
             mvwprintw( w_info, getmaxy( w_info ) - 2, 0,
                        _( "[%s] find, [f]riendly, [h]allucination, [i]ncrease group, [d]ecrease group, [%s] quit" ),
-                       ctxt.get_desc( "FILTER" ).c_str(), ctxt.get_desc( "QUIT" ).c_str() );
+                       ctxt.get_desc( "FILTER" ), ctxt.get_desc( "QUIT" ) );
         }
 
         void refresh( uilist *menu ) override {
@@ -397,7 +412,7 @@ void debug_menu::wishmonster( const cata::optional<tripoint> &p )
                 }
                 input_context ctxt( wmenu.input_category );
                 cb.msg = string_format( _( "Spawned %d/%d monsters, choose another or [%s] to quit." ),
-                                        num_spawned, static_cast<int>( spawn_points.size() ), ctxt.get_desc( "QUIT" ).c_str() );
+                                        num_spawned, static_cast<int>( spawn_points.size() ), ctxt.get_desc( "QUIT" ) );
                 uistate.wishmonster_selected = wmenu.selected;
                 wmenu.redraw();
             }
@@ -458,7 +473,7 @@ class wish_item_callback: public uilist_callback
             input_context ctxt( menu->input_category );
             mvwprintw( menu->window, menu->w_height - 2, startx,
                        _( "[%s] find, [f] container, [F] flag, [%s] quit" ),
-                       ctxt.get_desc( "FILTER" ).c_str(), ctxt.get_desc( "QUIT" ).c_str() );
+                       ctxt.get_desc( "FILTER" ), ctxt.get_desc( "QUIT" ) );
         }
 };
 
@@ -483,7 +498,7 @@ void debug_menu::wishitem( player *p, int x, int y, int z )
     for( size_t i = 0; i < opts.size(); i++ ) {
         item ity( opts[i], 0 );
         wmenu.addentry( i, true, 0, string_format( _( "%.*s" ), wmenu.pad_right - 5,
-                        ity.tname( 1, false ).c_str() ) );
+                        ity.tname( 1, false ) ) );
         wmenu.entries[i].extratxt.txt = ity.symbol();
         wmenu.entries[i].extratxt.color = ity.color();
         wmenu.entries[i].extratxt.left = 1;
@@ -499,6 +514,7 @@ void debug_menu::wishitem( player *p, int x, int y, int z )
             if( cb.has_flag ) {
                 granted.item_tags.insert( cb.flag );
             }
+            granted.set_birthday( calendar::turn );
             prev_amount = amount;
             bool canceled = false;
             if( p != nullptr ) {
@@ -530,7 +546,7 @@ void debug_menu::wishitem( player *p, int x, int y, int z )
                 if( amount > 0 ) {
                     input_context ctxt( wmenu.input_category );
                     cb.msg = string_format( _( "Wish granted. Wish for more or hit [%s] to quit." ),
-                                            ctxt.get_desc( "QUIT" ).c_str() );
+                                            ctxt.get_desc( "QUIT" ) );
                 }
             }
             uistate.wishitem_selected = wmenu.selected;
@@ -558,7 +574,7 @@ void debug_menu::wishskill( player *p )
     for( const auto &s : Skill::skills ) {
         const int level = p->get_skill_level( s.ident() );
         skmenu.addentry( origskills.size() + skoffset, true, -2, _( "@ %d: %s  " ), level,
-                         s.name().c_str() );
+                         s.name() );
         origskills.push_back( level );
     }
 
@@ -566,7 +582,7 @@ void debug_menu::wishskill( player *p )
         skmenu.query();
         int skill_id = -1;
         int skset = -1;
-        int sksel = skmenu.selected - skoffset;
+        const int sksel = skmenu.selected - skoffset;
         if( skmenu.ret == UILIST_UNBOUND && ( skmenu.keypress == KEY_LEFT ||
                                               skmenu.keypress == KEY_RIGHT ) ) {
             if( sksel >= 0 && sksel < static_cast<int>( Skill::skills.size() ) ) {
@@ -584,7 +600,7 @@ void debug_menu::wishskill( player *p )
             sksetmenu.w_x = skmenu.w_x + skmenu.w_width + 1;
             sksetmenu.w_y = std::max( 0, skmenu.w_y + ( skmenu.w_height - sksetmenu.w_height ) / 2 );
             sksetmenu.settext( string_format( _( "Set '%s' to.." ), skill.name() ) );
-            int skcur = p->get_skill_level( skill.ident() );
+            const int skcur = p->get_skill_level( skill.ident() );
             sksetmenu.selected = skcur;
             for( int i = 0; i < NUM_SKILL_LVL; i++ ) {
                 sksetmenu.addentry( i, true, i + 48, "%d%s", i, ( skcur == i ? _( " (current)" ) : "" ) );
@@ -609,7 +625,7 @@ void debug_menu::wishskill( player *p )
                 ( p->get_skill_level( skill.ident() ) == origskills[skill_id] ?
                   skmenu.text_color : c_yellow );
         } else if( skmenu.ret == 0 && sksel == -1 ) {
-            int ret = uilist( _( "Alter all skill values" ), {
+            const int ret = uilist( _( "Alter all skill values" ), {
                 _( "Add 3" ), _( "Add 1" ),
                 _( "Subtract 1" ), _( "Subtract 3" ), _( "Set to 0" ),
                 _( "Set to 5" ), _( "Set to 10" ), _( "(Reset changes)" )

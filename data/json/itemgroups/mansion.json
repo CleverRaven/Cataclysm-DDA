@@ -747,7 +747,7 @@
     "items": [
       [ "socks", 90 ],
       [ "sneakers", 50 ],
-      [ "battery", 50 ],
+      { "group": "ammo_pocket_batteries", "prob": 50 },
       [ "sunglasses", 40 ],
       [ "socks_wool", 40 ],
       [ "towel", 40 ],

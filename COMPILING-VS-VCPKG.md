@@ -76,3 +76,5 @@ cd Cataclysm-DDA
 2. Open one of provided solutions (`msvc-full-features\Cataclysm-vcpkg.sln` for dynamically linked executable or `msvc-full-features\Cataclysm-vcpkg-static.sln` for statically linked executable) in `Visual Studio`, select configuration (`Release` or `Debug`) an platform (`x64` or `x86`) and build it.
 
 **Note**: This will compile release version with Sound, Tiles and Localization support (language files won't be automatically compiled).
+
+3.  See [COMPILING.md](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/COMPILING.md#visual-studio-guide) for detail about building and debugging.

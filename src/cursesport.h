@@ -2,15 +2,17 @@
 #ifndef CATACURSE_H
 #define CATACURSE_H
 
+#include <utility>
+#if defined(TILES) || defined(_WIN32)
+
 #include <array>
 #include <string>
 #include <vector>
 
-class nc_color;
-
 namespace catacurses
 {
 class window;
+
 enum base_color : short;
 } // namespace catacurses
 
@@ -80,3 +82,5 @@ bool handle_resize( int w, int h );
 int get_scaling_factor();
 
 #endif
+#endif
+

@@ -1,26 +1,24 @@
 #include "basecamp.h"
 
 #include <algorithm>
-#include <array>
 #include <sstream>
 #include <map>
 #include <string>
 #include <vector>
+#include <utility>
 
+#include "craft_command.h"
 #include "output.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "enums.h"
 #include "game.h"
+#include "inventory.h"
+#include "item.h"
 #include "item_group.h"
 #include "map.h"
-#include "map_iterator.h"
-#include "mapbuffer.h"
-#include "mapdata.h"
-#include "messages.h"
-#include "overmap.h"
-#include "overmap_ui.h"
 #include "overmapbuffer.h"
+#include "player.h"
 #include "npc.h"
 #include "recipe.h"
 #include "recipe_groups.h"
@@ -28,6 +26,11 @@
 #include "skill.h"
 #include "string_input_popup.h"
 #include "faction_camp.h"
+#include "calendar.h"
+#include "color.h"
+#include "compatibility.h"
+#include "omdata.h"
+#include "string_id.h"
 
 static const std::string base_dir = "[B]";
 static const std::string prefix = "faction_base_";
@@ -63,8 +66,8 @@ basecamp::basecamp( const std::string &name_, const tripoint &omt_pos_ ): name( 
 }
 
 basecamp::basecamp( const std::string &name_, const tripoint &bb_pos_,
-                    std::vector<tripoint> sort_points_, std::vector<std::string> directions_,
-                    std::map<std::string, expansion_data> expansions_ ): sort_points( sort_points_ ),
+                    std::vector<std::string> directions_,
+                    std::map<std::string, expansion_data> expansions_ ):
     directions( directions_ ), name( name_ ), bb_pos( bb_pos_ ), expansions( expansions_ )
 {
 }
@@ -72,7 +75,7 @@ basecamp::basecamp( const std::string &name_, const tripoint &bb_pos_,
 std::string basecamp::board_name() const
 {
     //~ Name of a basecamp
-    return string_format( _( "%s Board" ), name.c_str() );
+    return string_format( _( "%s Board" ), name );
 }
 
 // read an expansion's terrain ID of the form faction_base_$TYPE_$CURLEVEL
@@ -104,19 +107,20 @@ void basecamp::define_camp( npc &p )
 {
     query_new_name();
     omt_pos = p.global_omt_location();
-    sort_points = p.companion_mission_points;
+    oter_id &omt_ref = overmap_buffer.ter( omt_pos );
     // purging the regions guarantees all entries will start with faction_base_
-    for( std::pair<std::string, tripoint> expansion : talk_function::om_building_region( omt_pos, 1,
-            true ) ) {
+    for( const std::pair<std::string, tripoint> &expansion :
+         talk_function::om_building_region( omt_pos, 1, true ) ) {
         add_expansion( expansion.first, expansion.second );
     }
-    const std::string om_cur = overmap_buffer.ter( omt_pos ).id().c_str();
+    const std::string om_cur = omt_ref.id().c_str();
     if( om_cur.find( prefix ) == std::string::npos ) {
         expansion_data e;
         e.type = "camp";
         e.cur_level = 0;
         e.pos = omt_pos;
         expansions[ base_dir ] = e;
+        omt_ref = oter_id( "faction_base_camp_0" );
     } else {
         expansions[ base_dir ] = parse_expansion( om_cur, omt_pos );
     }
@@ -133,7 +137,7 @@ bool basecamp::reset_camp()
 }
 
 /// Returns the description for the recipe of the next building @ref bldg
-std::string basecamp::om_upgrade_description( const std::string &bldg, bool trunc )
+std::string basecamp::om_upgrade_description( const std::string &bldg, bool trunc ) const
 {
     const recipe &making = recipe_id( bldg ).obj();
     const inventory &total_inv = g->u.crafting_inventory();
@@ -141,7 +145,8 @@ std::string basecamp::om_upgrade_description( const std::string &bldg, bool trun
     std::vector<std::string> component_print_buffer;
     const int pane = FULL_SCREEN_WIDTH;
     const auto tools = making.requirements().get_folded_tools_list( pane, c_white, total_inv, 1 );
-    const auto comps = making.requirements().get_folded_components_list( pane, c_white, total_inv, 1 );
+    const auto comps = making.requirements().get_folded_components_list( pane, c_white, total_inv,
+                       making.get_component_filter(), 1 );
     component_print_buffer.insert( component_print_buffer.end(), tools.begin(), tools.end() );
     component_print_buffer.insert( component_print_buffer.end(), comps.begin(), comps.end() );
 
@@ -220,9 +225,8 @@ std::map<std::string, std::string> basecamp::recipe_deck( const std::string &dir
         return cooking_recipes;
     }
     const std::string building = faction_encode( e->second.type );
-    int building_max = max_upgrade_by_type( e->second.type );
-    for( int building_cur = e->second.cur_level; building_cur <= building_max; building_cur++ ) {
-        const std::string building_level = building + to_string( building_cur );
+    for( int building_min = 0 ; building_min <= e->second.cur_level; building_min++ ) {
+        const std::string building_level = building + to_string( building_min );
         if( !oter_str_id( building_level ) ) {
             continue;
         }
@@ -256,6 +260,36 @@ void basecamp::reset_camp_workers()
             camp_workers.push_back( elem );
         }
     }
+}
+
+void basecamp::validate_assignees()
+{
+    for( auto it2 = assigned_npcs.begin(); it2 != assigned_npcs.end(); ) {
+        auto ptr = *it2;
+        if( ptr->mission != NPC_MISSION_GUARD_ALLY || ptr->global_omt_location() != omt_pos ||
+            ptr->has_companion_mission() ) {
+            it2 = assigned_npcs.erase( it2 );
+        } else {
+            ++it2;
+        }
+    }
+    for( auto elem : g->get_follower_list() ) {
+        npc_ptr npc_to_add = overmap_buffer.find_npc( elem );
+        if( !npc_to_add ) {
+            continue;
+        }
+        if( npc_to_add->global_omt_location() == omt_pos &&
+            npc_to_add->mission == NPC_MISSION_GUARD_ALLY &&
+            !npc_to_add->has_companion_mission() ) {
+            assigned_npcs.push_back( npc_to_add );
+        }
+    }
+}
+
+std::vector<npc_ptr> basecamp::get_npcs_assigned()
+{
+    validate_assignees();
+    return assigned_npcs;
 }
 
 // get the subset of companions working on a specific task
@@ -292,6 +326,53 @@ void basecamp::query_new_name()
 void basecamp::set_name( const std::string &new_name )
 {
     name = new_name;
+}
+
+void basecamp::consume_components( inventory &camp_inv, const recipe &making, int batch_size,
+                                   bool by_radio )
+{
+    const auto &req = making.requirements();
+    if( !by_radio ) {
+        for( const auto &it : req.get_components() ) {
+            g->u.consume_items( g->m, g->u.select_item_component( it, batch_size, camp_inv, true,
+                                is_crafting_component, true ), batch_size, is_crafting_component,
+                                g->m.getlocal( get_dumping_spot() ), 20 );
+        }
+        for( const auto &it : req.get_tools() ) {
+            g->u.consume_tools( g->m, g->u.select_tool_component( it, batch_size, camp_inv,
+                                DEFAULT_HOTKEYS, true, true ), batch_size,
+                                g->m.getlocal( get_dumping_spot() ), 20 );
+        }
+    } else {
+        tinymap target_map;
+        target_map.load( omt_pos.x * 2, omt_pos.y * 2, omt_pos.z, false );
+        for( const auto &it : req.get_components() ) {
+            g->u.consume_items( target_map, g->u.select_item_component( it, batch_size, camp_inv,
+                                true, is_crafting_component, false ), batch_size,
+                                is_crafting_component, target_map.getlocal( get_dumping_spot() ),
+                                20 );
+        }
+        for( const auto &it : req.get_tools() ) {
+            g->u.consume_tools( target_map, g->u.select_tool_component( it, batch_size, camp_inv,
+                                DEFAULT_HOTKEYS, true, false ), batch_size,
+                                target_map.getlocal( get_dumping_spot() ), 20 );
+        }
+        target_map.save();
+    }
+}
+
+inventory basecamp::crafting_inventory( const bool by_radio )
+{
+    inventory new_inv;
+    if( !by_radio ) {
+        new_inv.form_from_map( g->m.getlocal( get_dumping_spot() ), 20, false, false );
+    } else {
+        tinymap target_map;
+        target_map.load( omt_pos.x * 2, omt_pos.y * 2, omt_pos.z, false );
+        new_inv.form_from_map( target_map, target_map.getlocal( get_dumping_spot() ), 20, false,
+                               false );
+    }
+    return new_inv;
 }
 
 // display names
