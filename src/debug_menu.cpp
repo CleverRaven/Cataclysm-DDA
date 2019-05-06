@@ -137,14 +137,14 @@ typedef std::pair<uilist_entry, bool> uilist_entry_pair_t;
  *  if `false` then the boolean of the menu entry is taken into account.
  * @returns A filtered vector of menu entries, depending on the given parameters.
  */
-std::vector<uilist_entry> filter_uilist( const std::vector<uilist_entry_pair_t> &entries,
+static std::vector<uilist_entry> filter_uilist( const std::vector<uilist_entry_pair_t> &entries,
         bool display_all_entries )
 {
     std::vector<uilist_entry> filtered_entries;
 
     for( const auto &entry : entries ) {
         // predicate: either we display everything or, if not asked for, check the boolean value of the pair.
-        if( display_all_entries || ( !display_all_entries && entry.second ) ) {
+        if( display_all_entries || entry.second ) {
             filtered_entries.push_back( entry.first );
         }
     }
@@ -1382,7 +1382,7 @@ void debug()
                 // Take a screenshot of the viewport.
                 tilecontext.get()->save_screenshot();
 #else
-                popup(_("This binary was not compiled with tiles support."));
+                popup( _( "This binary was not compiled with tiles support." ) );
 #endif
             }
                 break;
