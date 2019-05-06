@@ -123,6 +123,7 @@ static int can_catch_player( const std::string &monster_type, const tripoint &di
                         g->remove_zombie( critter );
                     }
                 }
+                g->m.clear_traps();
                 // Verify that only the player and one monster are present.
                 REQUIRE( g->num_creatures() == 2 );
             }
