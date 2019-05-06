@@ -7104,7 +7104,7 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
         const auto &wgen = g->get_cur_weather_gen();
         const auto seed = g->get_seed();
         const auto local = g->m.getlocal( pos );
-        auto local_mod = g->new_game ? 0 : g->m.temperature( local );
+        auto local_mod = g->new_game ? 0 : g->m.get_temperature( local );
         const auto temp_modify = ( !g->new_game ) && ( g->m.ter( local ) == t_rootcellar );
 
         int enviroment_mod;
