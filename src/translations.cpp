@@ -90,9 +90,9 @@ const char *npgettext( const char *const context, const char *const msgid,
 
 bool isValidLanguage( const std::string &lang )
 {
-    const auto languages = get_options().get_option( "USE_LANG" ).getItems();
+    const auto languages = OptionsManager::getInstance()->get_option( "USE_LANG" ).getItems();
     return std::find_if( languages.begin(),
-    languages.end(), [&lang]( const options_manager::id_and_option & pair ) {
+    languages.end(), [&lang]( const OptionsManager::id_and_option & pair ) {
         return pair.first == lang || pair.first == lang.substr( 0, pair.first.length() );
     } ) != languages.end();
 }
@@ -131,10 +131,10 @@ std::string getLangFromLCID( const int &lcid )
 
 void select_language()
 {
-    auto languages = get_options().get_option( "USE_LANG" ).getItems();
+    auto languages = OptionsManager::getInstance()->get_option( "USE_LANG" ).getItems();
 
     languages.erase( std::remove_if( languages.begin(),
-    languages.end(), []( const options_manager::id_and_option & lang ) {
+    languages.end(), []( const OptionsManager::id_and_option & lang ) {
         return lang.first.empty() || lang.second.empty();
     } ), languages.end() );
 
@@ -148,8 +148,8 @@ void select_language()
     }
     sm.query();
 
-    get_options().get_option( "USE_LANG" ).setValue( languages[sm.ret].first );
-    get_options().save();
+    OptionsManager::getInstance()->get_option( "USE_LANG" ).setValue( languages[sm.ret].first );
+    OptionsManager::getInstance()->save();
 }
 
 void set_language()

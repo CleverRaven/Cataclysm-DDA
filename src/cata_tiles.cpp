@@ -3359,10 +3359,10 @@ inline void cata_tiles::handle_draw_rect( const SDL_Renderer_Ptr &renderer, cons
     }
 }
 
-std::vector<options_manager::id_and_option> cata_tiles::build_renderer_list()
+std::vector<id_and_option> cata_tiles::build_renderer_list()
 {
-    std::vector<options_manager::id_and_option> renderer_names;
-    std::vector<options_manager::id_and_option> default_renderer_names = {
+    std::vector<id_and_option> renderer_names;
+    std::vector<id_and_option> default_renderer_names = {
 #if defined(TILES)
 #   if defined(_WIN32)
         { "direct3d", translate_marker( "direct3d" ) },

@@ -614,7 +614,7 @@ bool main_menu::opening_screen()
 
                 if( action == "UP" || action == "CONFIRM" ) {
                     if( sel2 == 0 ) {
-                        get_options().show( true );
+                        OptionsManager::getInstance()->show( true );
                         // The language may have changed- gracefully handle this.
                         init_strings();
                         print_menu( w_open, sel1, iMenuOffsetX, iMenuOffsetY );

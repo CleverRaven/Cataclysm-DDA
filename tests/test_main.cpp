@@ -105,15 +105,15 @@ void init_global_game_state( const std::vector<mod_id> &mods,
         assert( !"Unable to make templates directory. Check permissions." );
     }
 
-    get_options().init();
-    get_options().load();
+    OptionsManager::getInstance()->init();
+    OptionsManager::getInstance()->load();
 
     // Apply command-line option overrides for test suite execution.
     if( !option_overrides.empty() ) {
         for( auto iter = option_overrides.begin(); iter != option_overrides.end(); ++iter ) {
             name_value_pair_t option = *iter;
-            if( get_options().has_option( option.first ) ) {
-                options_manager::cOpt &opt = get_options().get_option( option.first );
+            if( OptionsManager::getInstance()->has_option( option.first ) ) {
+                OptionsManager::cOpt &opt = OptionsManager::getInstance()->get_option( option.first );
                 opt.setValue( option.second );
             }
         }

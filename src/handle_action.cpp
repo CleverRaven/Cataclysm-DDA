@@ -1827,7 +1827,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_TOGGLE_AUTOSAFE: {
-                auto &autosafemode_option = get_options().get_option( "AUTOSAFEMODE" );
+                auto &autosafemode_option = OptionsManager::getInstance()->get_option( "AUTOSAFEMODE" );
                 add_msg( m_info, autosafemode_option.value_as<bool>()
                          ? _( "Auto safe mode OFF!" ) : _( "Auto safe mode ON!" ) );
                 autosafemode_option.setNext();
@@ -1940,7 +1940,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_OPTIONS:
-                get_options().show( true );
+                OptionsManager::getInstance()->show( true );
                 g->init_ui( true );
                 break;
 
@@ -1988,39 +1988,39 @@ bool game::handle_action()
                 break;
 
             case ACTION_TOGGLE_AUTO_FEATURES:
-                get_options().get_option( "AUTO_FEATURES" ).setNext();
-                get_options().save();
+                OptionsManager::getInstance()->get_option( "AUTO_FEATURES" ).setNext();
+                OptionsManager::getInstance()->save();
                 //~ Auto Features are now ON/OFF
                 add_msg( _( "%s are now %s." ),
-                         get_options().get_option( "AUTO_FEATURES" ).getMenuText(),
+                         OptionsManager::getInstance()->get_option( "AUTO_FEATURES" ).getMenuText(),
                          get_option<bool>( "AUTO_FEATURES" ) ? _( "ON" ) : _( "OFF" ) );
                 break;
 
             case ACTION_TOGGLE_AUTO_PULP_BUTCHER:
-                get_options().get_option( "AUTO_PULP_BUTCHER" ).setNext();
-                get_options().save();
+                OptionsManager::getInstance()->get_option( "AUTO_PULP_BUTCHER" ).setNext();
+                OptionsManager::getInstance()->save();
                 //~ Auto Pulp/Pulp Adjacent/Butcher is now set to x
                 add_msg( _( "%s is now set to %s." ),
-                         get_options().get_option( "AUTO_PULP_BUTCHER" ).getMenuText(),
-                         get_options().get_option( "AUTO_PULP_BUTCHER" ).getValueName() );
+                         OptionsManager::getInstance()->get_option( "AUTO_PULP_BUTCHER" ).getMenuText(),
+                         OptionsManager::getInstance()->get_option( "AUTO_PULP_BUTCHER" ).getValueName() );
                 break;
 
             case ACTION_TOGGLE_AUTO_MINING:
-                get_options().get_option( "AUTO_MINING" ).setNext();
-                get_options().save();
+                OptionsManager::getInstance()->get_option( "AUTO_MINING" ).setNext();
+                OptionsManager::getInstance()->save();
                 //~ Auto Mining is now ON/OFF
                 add_msg( _( "%s is now %s." ),
-                         get_options().get_option( "AUTO_MINING" ).getMenuText(),
+                         OptionsManager::getInstance()->get_option( "AUTO_MINING" ).getMenuText(),
                          get_option<bool>( "AUTO_MINING" ) ? _( "ON" ) : _( "OFF" ) );
                 break;
 
             case ACTION_TOGGLE_AUTO_FORAGING:
-                get_options().get_option( "AUTO_FORAGING" ).setNext();
-                get_options().save();
+                OptionsManager::getInstance()->get_option( "AUTO_FORAGING" ).setNext();
+                OptionsManager::getInstance()->save();
                 //~ Auto Foraging is now set to x
                 add_msg( _( "%s is now set to %s." ),
-                         get_options().get_option( "AUTO_FORAGING" ).getMenuText(),
-                         get_options().get_option( "AUTO_FORAGING" ).getValueName() );
+                         OptionsManager::getInstance()->get_option( "AUTO_FORAGING" ).getMenuText(),
+                         OptionsManager::getInstance()->get_option( "AUTO_FORAGING" ).getValueName() );
                 break;
 
             case ACTION_DISPLAY_SCENT:

@@ -430,9 +430,9 @@ void game::init_ui( const bool resized )
     TERMY = get_terminal_height();
 
     if( resized ) {
-        get_options().get_option( "TERMINAL_X" ).setValue( TERMX * get_scaling_factor() );
-        get_options().get_option( "TERMINAL_Y" ).setValue( TERMY * get_scaling_factor() );
-        get_options().save();
+        OptionsManager::getInstance()->get_option( "TERMINAL_X" ).setValue( TERMX * get_scaling_factor() );
+        OptionsManager::getInstance()->get_option( "TERMINAL_Y" ).setValue( TERMY * get_scaling_factor() );
+        OptionsManager::getInstance()->save();
     }
 #else
     ( void ) resized;
@@ -2905,7 +2905,7 @@ void game::write_memorial_file( std::string sLastWords )
     std::ostringstream memorial_file_path;
     memorial_file_path << memorial_active_world_dir;
 
-    if( get_options().has_option( "ENCODING_CONV" ) && !get_option<bool>( "ENCODING_CONV" ) ) {
+    if( OptionsManager::getInstance()->has_option( "ENCODING_CONV" ) && !get_option<bool>( "ENCODING_CONV" ) ) {
         // Use the default locale to replace non-printable characters with _ in the player name.
         std::locale locale {"C"};
         std::replace_copy_if( std::begin( u.name ), std::begin( u.name ) + truncated_name_len,

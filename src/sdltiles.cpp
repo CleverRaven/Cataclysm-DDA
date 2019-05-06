@@ -835,9 +835,9 @@ void find_videodisplays()
     }
 
     int current_display = get_option<int>( "DISPLAY" );
-    get_options().add( "DISPLAY", "graphics", _( "Display" ),
+    OptionsManager::getInstance()->add( "DISPLAY", "graphics", _( "Display" ),
                        _( "Sets which video display will be used to show the game. Requires restart." ),
-                       displays, current_display, 0, options_manager::COPT_CURSES_HIDE
+                       displays, current_display, 0, OptionsManager::COPT_CURSES_HIDE
                      );
 }
 
@@ -3321,7 +3321,7 @@ void init_term_size_and_scaling_factor()
                 scaling_factor = 1;
                 terminal_x = max_width / fontwidth;
                 terminal_y = max_height / fontheight;
-                get_options().get_option( "SCALING_FACTOR" ).setValue( "1" );
+                OptionsManager::getInstance()->get_option( "SCALING_FACTOR" ).setValue( "1" );
             } else {
                 terminal_x = max_width / fontwidth;
             }
@@ -3334,7 +3334,7 @@ void init_term_size_and_scaling_factor()
                 scaling_factor = 1;
                 terminal_x = max_width / fontwidth;
                 terminal_y = max_height / fontheight;
-                get_options().get_option( "SCALING_FACTOR" ).setValue( "1" );
+                OptionsManager::getInstance()->get_option( "SCALING_FACTOR" ).setValue( "1" );
             } else {
                 terminal_y = max_height / fontheight;
             }
@@ -3346,12 +3346,12 @@ void init_term_size_and_scaling_factor()
         terminal_x = std::max( FULL_SCREEN_WIDTH * scaling_factor, terminal_x );
         terminal_y = std::max( FULL_SCREEN_HEIGHT * scaling_factor, terminal_y );
 
-        get_options().get_option( "TERMINAL_X" ).setValue(
+        OptionsManager::getInstance()->get_option( "TERMINAL_X" ).setValue(
             std::max( FULL_SCREEN_WIDTH * scaling_factor, terminal_x ) );
-        get_options().get_option( "TERMINAL_Y" ).setValue(
+        OptionsManager::getInstance()->get_option( "TERMINAL_Y" ).setValue(
             std::max( FULL_SCREEN_HEIGHT * scaling_factor, terminal_y ) );
 
-        get_options().save();
+        OptionsManager::getInstance()->save();
     }
 
 #endif //__ANDROID__

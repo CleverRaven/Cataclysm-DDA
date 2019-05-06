@@ -333,7 +333,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
                                   .width( 4 )
                                   .text( to_string( current_tab[line].proximity ) )
                                   .description( _( "Option: " ) + to_string( get_option<int>( "SAFEMODEPROXIMITY" ) ) +
-                                                " " + get_options().get_option( "SAFEMODEPROXIMITY" ).getDefaultText() )
+                                                " " + OptionsManager::getInstance()->get_option( "SAFEMODEPROXIMITY" ).getDefaultText() )
                                   .max_length( 3 )
                                   .only_digits( true )
                                   .query_string();
@@ -341,7 +341,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
                     current_tab[line].proximity = get_option<int>( "SAFEMODEPROXIMITY" );
                 } else {
                     //Let the options class handle the validity of the new value
-                    auto temp_option = get_options().get_option( "SAFEMODEPROXIMITY" );
+                    auto temp_option = OptionsManager::getInstance()->get_option( "SAFEMODEPROXIMITY" );
                     temp_option.setValue( text );
                     current_tab[line].proximity = atoi( temp_option.getValue().c_str() );
                 }
@@ -379,8 +379,8 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
         } else if( action == "TEST_RULE" && !current_tab.empty() ) {
             test_pattern( tab, line );
         } else if( action == "SWITCH_SAFEMODE_OPTION" ) {
-            get_options().get_option( "SAFEMODE" ).setNext();
-            get_options().save();
+            OptionsManager::getInstance()->get_option( "SAFEMODE" ).setNext();
+            OptionsManager::getInstance()->save();
         }
     }
 
@@ -511,8 +511,8 @@ void safemode::add_rule( const std::string &rule_in, const Creature::Attitude at
 
     if( !get_option<bool>( "SAFEMODE" ) &&
         query_yn( _( "Safe Mode is not enabled in the options. Enable it now?" ) ) ) {
-        get_options().get_option( "SAFEMODE" ).setNext();
-        get_options().save();
+        OptionsManager::getInstance()->get_option( "SAFEMODE" ).setNext();
+        OptionsManager::getInstance()->save();
     }
 }
 

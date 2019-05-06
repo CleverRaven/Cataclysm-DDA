@@ -56,7 +56,7 @@ public:
 
     std::string world_name;
 
-    options_manager::options_container WORLD_OPTIONS;
+    std::unordered_map<std::string, OptionsContainer> WORLD_OPTIONS;
 
     std::vector<save_t> world_saves;
 

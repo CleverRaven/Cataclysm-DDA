@@ -842,7 +842,7 @@ void regional_settings::finalize()
         city_spec.finalize();
         forest_composition.finalize();
         forest_trail.finalize();
-        get_options().add_value( "DEFAULT_REGION", id, no_translation( id ) );
+        OptionsManager::getInstance()->add_value( "DEFAULT_REGION", id, no_translation( id ) );
     }
 }
 

@@ -446,8 +446,8 @@ int main( int argc, char *argv[] )
     }
 #endif
 
-    get_options().init();
-    get_options().load();
+    OptionsManager::getInstance()->init();
+    OptionsManager::getInstance()->load();
     set_language();
 
 #if defined(TILES)

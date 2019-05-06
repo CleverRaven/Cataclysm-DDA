@@ -58,7 +58,7 @@ World::World()
 {
     pathDirectory = Path::getInstance()->getPathForValueKey("SAVE_DIRE");
     world_name = RandomName::getInstance()->getRandomName(NAME_IS_WORLD_NAME);
-    WORLD_OPTIONS = get_options().get_world_defaults();
+    WORLD_OPTIONS = OptionsManager::getInstance()->get_world_defaults();
 
     // TODO: Is neccessary?
     world_saves.clear();
@@ -281,7 +281,7 @@ void WorldFactory::init()
 
         // load options into the world
         if( !all_worlds[worldname]->load_options() ) {
-            all_worlds[worldname]->WORLD_OPTIONS = get_options().get_world_defaults();
+            all_worlds[worldname]->WORLD_OPTIONS = OptionsManager::getInstance()->get_world_defaults();
             all_worlds[worldname]->WORLD_OPTIONS["WORLD_END"].setValue( "delete" );
             all_worlds[worldname]->save();
         }
@@ -566,8 +566,8 @@ void WorldFactory::save_last_world_info()
 
 int WorldFactory::show_worldgen_tab_options( const catacurses::window &/*win*/, WORLDPTR world )
 {
-    get_options().world_options = &world->WORLD_OPTIONS;
-    const std::string action = get_options().show( false, true );
+    OptionsManager::getInstance()->world_options = &world->WORLD_OPTIONS;
+    const std::string action = OptionsManager::getInstance()->.show( false, true );
     if( action == "PREV_TAB" ) {
         return -1;
 
@@ -1320,13 +1320,13 @@ void World::load_options( JsonIn &jsin )
     // if core data version isn't specified then assume version 1
     int version = 1;
 
-    auto &opts = get_options();
+    OptionsManager *opts = OptionsManager::getInstance();
 
     jsin.start_array();
     while( !jsin.end_array() ) {
         JsonObject jo = jsin.get_object();
-        const std::string name = opts.migrateOptionName( jo.get_string( "name" ) );
-        const std::string value = opts.migrateOptionValue( jo.get_string( "name" ),
+        const std::string name = opts->migrateOptionName( jo.get_string( "name" ) );
+        const std::string value = opts->migrateOptionValue( jo.get_string( "name" ),
                                   jo.get_string( "value" ) );
 
         if( name == "CORE_VERSION" ) {
@@ -1334,7 +1334,7 @@ void World::load_options( JsonIn &jsin )
             continue;
         }
 
-        if( opts.has_option( name ) && opts.get_option( name ).getPage() == "world_default" ) {
+        if( opts->has_option( name ) && opts->get_option( name ).getPage() == "world_default" ) {
             WORLD_OPTIONS[ name ].setValue( value );
         }
     }
@@ -1348,7 +1348,7 @@ void World::load_options( JsonIn &jsin )
 
 bool World::load_options()
 {
-    WORLD_OPTIONS = get_options().get_world_defaults();
+    WORLD_OPTIONS = OptionsManager::getInstance()->get_world_defaults();
 
     using namespace std::placeholders;
 
@@ -1371,7 +1371,7 @@ void load_world_option( JsonObject &jo )
         jo.throw_error( "no options specified", "options" );
     }
     while( arr.has_more() ) {
-        get_options().get_option( arr.next_string() ).setValue( "true" );
+        OptionsManager::getInstance()->get_option( arr.next_string() ).setValue( "true" );
     }
 }
 
@@ -1380,12 +1380,12 @@ void load_external_option( JsonObject &jo )
 {
     auto name = jo.get_string( "name" );
     auto stype = jo.get_string( "stype" );
-    options_manager &opts = get_options();
-    if( !opts.has_option( name ) ) {
+    OptionsManager *opts = OptionsManager::getInstance();
+    if( !opts->has_option( name ) ) {
         auto sinfo = jo.get_string( "info" );
-        opts.add_external( name, "world_default", stype, sinfo, sinfo );
+        opts->add_external( name, "world_default", stype, sinfo, sinfo );
     }
-    options_manager::cOpt &opt = opts.get_option( name );
+    OptionsContainer &opt = opts->get_option( name );
     if( stype == "float" ) {
         opt.setValue( static_cast<float>( jo.get_float( "value" ) ) );
     } else if( stype == "int" ) {
