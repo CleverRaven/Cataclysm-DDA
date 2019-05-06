@@ -68,13 +68,19 @@ then
 
         function analyze_files_in_random_order
         {
-            shuf | xargs -P "$num_jobs" -n 1 ./build-scripts/clang-tidy-wrapper.sh
+            if [ -n "$1" ]
+            then
+                echo "$1" | shuf | xargs -P "$num_jobs" -n 1 ./build-scripts/clang-tidy-wrapper.sh
+            else
+                echo "No files to analyze"
+            fi
         }
 
         echo "Analyzing changed files"
-        echo "$changed_cpp_files" | analyze_files_in_random_order
+        analyze_files_in_random_order "$changed_cpp_files"
+
         echo "Analyzing remaining files"
-        echo "$remaining_cpp_files" | analyze_files_in_random_order
+        analyze_files_in_random_order "$remaining_cpp_files"
     else
         # Regular build
         make -j3
