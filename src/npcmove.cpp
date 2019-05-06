@@ -1342,8 +1342,9 @@ npc_action npc::address_needs( float danger )
         return npc_noop;
     }
 
-    if( ( danger <= NPC_DANGER_VERY_LOW && ( get_hunger() > 40 || get_thirst() > 40 ) ) ||
-        get_thirst() > 80 || get_hunger() > 160 ) {
+    if( ( danger <= NPC_DANGER_VERY_LOW &&
+          ( get_stored_kcal() + stomach.get_calories() < get_healthy_kcal() * 0.95 || get_thirst() > 40 ) ) ||
+        get_thirst() > 80 || get_stored_kcal() + stomach.get_calories() < get_healthy_kcal() * 0.75 ) {
         if( consume_food() ) {
             return npc_noop;
         }
