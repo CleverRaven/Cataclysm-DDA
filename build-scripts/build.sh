@@ -63,8 +63,13 @@ then
             sed "s+.*$PWD/++;s+\"$++")"
         changed_cpp_files="$( \
             ./build-scripts/files_changed | grep -F "$all_cpp_files" || true )"
-        remaining_cpp_files="$( \
-            echo "$all_cpp_files" | grep -v -F "$changed_cpp_files" || true )"
+        if [ -n "$changed_cpp_files" ]
+        then
+            remaining_cpp_files="$( \
+                echo "$all_cpp_files" | grep -v -F "$changed_cpp_files" || true )"
+        else
+            remaining_cpp_files="$all_cpp_files"
+        fi
 
         function analyze_files_in_random_order
         {
