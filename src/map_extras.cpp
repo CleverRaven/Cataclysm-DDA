@@ -476,7 +476,7 @@ void mx_bandits_block( map &m, const tripoint &abs_sub )
     const oter_id &south = overmap_buffer.ter( abs_sub.x, abs_sub.y + 1, abs_sub.z );
     const oter_id &west = overmap_buffer.ter( abs_sub.x - 1, abs_sub.y, abs_sub.z );
     const oter_id &east = overmap_buffer.ter( abs_sub.x + 1, abs_sub.y, abs_sub.z );
- 
+
     const bool forest_at_north = is_ot_type( "forest", north );
     const bool forest_at_south = is_ot_type( "forest", south );
     const bool forest_at_west = is_ot_type( "forest", west );
