@@ -58,7 +58,6 @@ then
 
         # We want to first analyze all files that changed in this PR, then as
         # many others as possible, in a random order.
-        set +x
         all_cpp_files="$( \
             grep '"file": "' build/compile_commands.json | \
             sed "s+.*$PWD/++;s+\"$++")"
@@ -66,7 +65,6 @@ then
             ./build-scripts/files_changed | grep -F "$all_cpp_files" || true )"
         remaining_cpp_files="$( \
             echo "$all_cpp_files" | grep -v -F "$changed_cpp_files" || true )"
-        set -x
 
         function analyze_files_in_random_order
         {
