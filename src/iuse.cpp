@@ -2671,8 +2671,11 @@ int iuse::dig( player *p, item *it, bool t, const tripoint & )
 
     const tripoint dig_point = p->pos();
 
-    const bool can_dig_here = g->m.has_flag( "DIGGABLE", dig_point ) && !g->m.has_furn( dig_point ) &&
-                              g->m.tr_at( dig_point ).is_null() && g->m.i_at( dig_point ).empty() && !g->m.veh_at( dig_point );
+    const bool can_dig_here = g->m.has_flag( "DIGGABLE", dig_point ) &&
+                              !g->m.has_furn( dig_point ) &&
+                              g->m.tr_at( dig_point ).is_null() &&
+                              ( g->m.ter( dig_point ) == t_grave_new || g->m.i_at( dig_point ).empty() ) &&
+                              !g->m.veh_at( dig_point );
 
     if( !can_dig_here ) {
         p->add_msg_if_player(
