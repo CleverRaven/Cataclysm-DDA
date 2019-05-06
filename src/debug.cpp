@@ -89,8 +89,6 @@ std::set<std::string> ignored_messages;
 
 }
 
-
-
 void realDebugmsg( const char *filename, const char *line, const char *funcname,
                    const std::string &text )
 {
