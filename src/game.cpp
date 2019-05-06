@@ -1953,8 +1953,8 @@ void game::handle_key_blocking_activity()
         Creature *hostile_critter = is_hostile_very_close();
         if( hostile_critter != nullptr ) {
             if( cancel_activity_or_ignore_query( distraction_type::hostile_spotted,
-                                                 string_format( _( "You see %s approaching!" ),
-                                                         hostile_critter->disp_name() ) ) ) {
+                                                 string_format( _( "The %s is dangerously close!" ),
+                                                         hostile_critter->get_name() ) ) ) {
                 return;
             }
         }
