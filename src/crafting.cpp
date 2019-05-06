@@ -1847,6 +1847,11 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
                 }
             }
 
+            // If the recipe has a `FULL_MAGAZINE` flag, spawn any magazines full of ammo
+            if( newit.is_magazine() && dis.has_flag( "FULL_MAGAZINE" ) ) {
+                newit.ammo_set( newit.type->magazine->type.obj().default_ammotype(), newit.ammo_capacity() );
+            }
+
             for( ; compcount > 0; compcount-- ) {
                 components.emplace_back( newit );
             }
