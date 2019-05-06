@@ -6,6 +6,7 @@
 #include <random>
 #include <string>
 
+#include "cata_utility.h"
 #include "enums.h"
 #include "game_constants.h"
 #include "json.h"
@@ -28,20 +29,17 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
                                         unsigned seed ) const
 {
     // Granularity of time: weather changes only once in 30 minutes
-    static constexpr int t_mult = 300;
+    static constexpr time_duration t_mult = 30_minutes;
     // Granularity of coordinates: weather is the same in one quarter of OMT
-    static constexpr int l_mult = SEEX;
-    // Cache large enough to store 4 values per OMT for whole overmap for 48 thrity minute intervals assuming 10% of map tiles contain items
+    static constexpr tripoint l_mult( SEEX, SEEY, 1 );
+    // Cache large enough to store 4 values per OMT for whole overmap for 48 thirty minute intervals assuming 10% of map tiles contain items
     static constexpr int weather_cache_limit = OMAPX * OMAPY * 4 * 48 / 10;
 
     static const w_point weather_cache_value_not_found = { 0.0, 0.0, 0.0, 0.0, "NFIC", 0, false };
 
     // Lowers granularity of provided parameters to reduce cache size and increase cache hit rate
-    time_point t_rounded = time_point::from_turn( ( ( to_turn<int>( t ) + t_mult / 2 ) / t_mult ) *
-                           t_mult );
-    tripoint location_rounded( ( ( location.x + l_mult / 2 ) / l_mult ) * l_mult,
-                               ( ( location.y + l_mult / 2 ) / l_mult ) * l_mult,
-                               location.z );
+    time_point t_rounded = round_to_nearest_multiple( t, t_mult );
+    tripoint location_rounded = round_to_nearest_multiple( location, l_mult );
 
     static lru_cache<weather_cache_key_type, w_point> weather_cache;
     const weather_cache_key_type weather_cache_key = std::make_pair( location_rounded, t_rounded );
