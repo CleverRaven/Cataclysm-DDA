@@ -837,7 +837,6 @@ std::string game_info::graphics_version()
 #else
     return "Curses";
 #endif
-
 }
 
 std::string game_info::mods_loaded()
