@@ -1828,7 +1828,7 @@ int game::get_temperature( const tripoint &location )
     }
     //underground temperature = average New England temperature = 43F/6C rounded to int
     const int temp = ( location.z < 0 ? AVERAGE_ANNUAL_TEMPERATURE : temperature ) +
-                     ( new_game ? 0 : ( m.temperature( location ) + temp_mod ) );
+                     ( new_game ? 0 : ( m.get_temperature( location ) + temp_mod ) );
 
     temperature_cache.emplace( std::make_pair( location, temp ) );
     return temp;
@@ -2034,7 +2034,7 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
         addentry( 'T', pgettext( "action", "take off" ), u.rate_action_takeoff( oThisItem ) );
         addentry( 'd', pgettext( "action", "drop" ), rate_drop_item );
         addentry( 'U', pgettext( "action", "unload" ), u.rate_action_unload( oThisItem ) );
-        addentry( 'r', pgettext( "action", "reload_item" ), u.rate_action_reload( oThisItem ) );
+        addentry( 'r', pgettext( "action", "reload" ), u.rate_action_reload( oThisItem ) );
         addentry( 'p', pgettext( "action", "part reload" ), u.rate_action_reload( oThisItem ) );
         addentry( 'm', pgettext( "action", "mend" ), u.rate_action_mend( oThisItem ) );
         addentry( 'D', pgettext( "action", "disassemble" ), u.rate_action_disassemble( oThisItem ) );
@@ -2295,6 +2295,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "disassemble" );
     ctxt.register_action( "sleep" );
     ctxt.register_action( "control_vehicle" );
+    ctxt.register_action( "auto_travel_mode" );
     ctxt.register_action( "safemode" );
     ctxt.register_action( "autosafe" );
     ctxt.register_action( "autoattack" );
@@ -4929,12 +4930,7 @@ T *game::critter_by_id( const int id )
         // player is always alive, therefore no is-dead check
         return dynamic_cast<T *>( &u );
     }
-    for( auto &cur_npc : active_npc ) {
-        if( cur_npc->getID() == id && !cur_npc->is_dead() ) {
-            return dynamic_cast<T *>( cur_npc.get() );
-        }
-    }
-    return nullptr;
+    return find_npc( id );
 }
 
 // monsters don't have ids

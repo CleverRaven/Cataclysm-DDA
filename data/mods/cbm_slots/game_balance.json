@@ -1,0 +1,9 @@
+[
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "CBM_SLOTS_ENABLED",
+    "info": "Enables CBM slots mechanics. If true CBM slots are enabled.",
+    "stype": "bool",
+    "value": true
+  }
+]
