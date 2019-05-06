@@ -791,6 +791,9 @@ std::string game_info::operating_system()
     return "Linux";
 #elif defined(unix) || defined(__unix__) || defined(__unix) || defined(__APPLE__) && defined(__MACH__) // unix; BSD; MacOs
 #if defined(__APPLE__) && defined(__MACH__)
+    // The following include is **only** needed for the TARGET_xxx defines below and is only included if both of the above defines are true. 
+    // The whole function only relying on compiler defines, it is probably more meaningful to include it here and not mingle with the
+    // headers at the top of the .cpp file.
 #include <TargetConditionals.h>
 #if TARGET_IPHONE_SIMULATOR == 1
     /* iOS in Xcode simulator */
