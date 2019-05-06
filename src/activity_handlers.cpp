@@ -110,6 +110,9 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_PICKUP" ), pickup_do_turn },
     { activity_id( "ACT_WEAR" ), wear_do_turn },
     { activity_id( "ACT_EAT_MENU" ), eat_menu_do_turn },
+    { activity_id( "ACT_CONSUME_FOOD_MENU" ), consume_food_menu_do_turn },
+    { activity_id( "ACT_CONSUME_DRINK_MENU" ), consume_drink_menu_do_turn },
+    { activity_id( "ACT_CONSUME_MEDS_MENU" ), consume_meds_menu_do_turn },
     { activity_id( "ACT_MOVE_ITEMS" ), move_items_do_turn },
     { activity_id( "ACT_MOVE_LOOT" ), move_loot_do_turn },
     { activity_id( "ACT_ADV_INVENTORY" ), adv_inventory_do_turn },
@@ -183,6 +186,9 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_ATM" ), atm_finish },
     { activity_id( "ACT_AIM" ), aim_finish },
     { activity_id( "ACT_EAT_MENU" ), eat_menu_finish },
+    { activity_id( "ACT_CONSUME_FOOD_MENU" ), eat_menu_finish },
+    { activity_id( "ACT_CONSUME_DRINK_MENU" ), eat_menu_finish },
+    { activity_id( "ACT_CONSUME_MEDS_MENU" ), eat_menu_finish },
     { activity_id( "ACT_WASH" ), washing_finish },
     { activity_id( "ACT_HACKSAW" ), hacksaw_finish },
     { activity_id( "ACT_CHOP_TREE" ), chop_tree_finish },
@@ -2583,6 +2589,21 @@ void activity_handlers::wear_do_turn( player_activity *, player * )
 void activity_handlers::eat_menu_do_turn( player_activity *, player * )
 {
     g->eat();
+}
+
+void activity_handlers::consume_food_menu_do_turn( player_activity *, player * )
+{
+    g->eat( game_menus::inv::consume_food );
+}
+
+void activity_handlers::consume_drink_menu_do_turn( player_activity *, player * )
+{
+    g->eat( game_menus::inv::consume_drink );
+}
+
+void activity_handlers::consume_meds_menu_do_turn( player_activity *, player * )
+{
+    g->eat( game_menus::inv::consume_meds );
 }
 
 void activity_handlers::move_items_do_turn( player_activity *, player * )

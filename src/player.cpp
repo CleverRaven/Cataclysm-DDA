@@ -11588,6 +11588,11 @@ bool player::has_activity( const activity_id &type ) const
     return activity.id() == type;
 }
 
+bool player::has_activity( const std::vector<activity_id> &types ) const
+{
+    return std::find( types.begin(), types.end(), activity.id() ) != types.end() ;
+}
+
 void player::cancel_activity()
 {
     if( has_activity( activity_id( "ACT_MOVE_ITEMS" ) ) && is_hauling() ) {

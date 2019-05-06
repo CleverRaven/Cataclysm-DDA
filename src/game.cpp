@@ -2272,6 +2272,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "wear" );
     ctxt.register_action( "take_off" );
     ctxt.register_action( "eat" );
+    ctxt.register_action( "open_consume" );
     ctxt.register_action( "read" );
     ctxt.register_action( "wield" );
     ctxt.register_action( "pick_style" );
@@ -9063,7 +9064,22 @@ void game::butcher()
     }
 }
 
+void game::eat()
+{
+    eat( game_menus::inv::consume, INT_MIN );
+}
+
 void game::eat( int pos )
+{
+    eat( game_menus::inv::consume, pos );
+}
+
+void game::eat( item_location( *menu )( player &p ) )
+{
+    eat( menu, INT_MIN );
+}
+
+void game::eat( item_location( *menu )( player &p ), int pos )
 {
     if( ( u.has_active_mutation( trait_RUMINANT ) || u.has_active_mutation( trait_GRAZER ) ) &&
         ( m.ter( u.pos() ) == t_underbrush || m.ter( u.pos() ) == t_shrub ) ) {
@@ -9118,11 +9134,7 @@ void game::eat( int pos )
         return;
     }
 
-    if( !u.has_activity( activity_id( "ACT_EAT_MENU" ) ) ) {
-        u.assign_activity( activity_id( "ACT_EAT_MENU" ) );
-    }
-
-    auto item_loc = game_menus::inv::consume( u );
+    auto item_loc = menu( u );
     if( !item_loc ) {
         u.cancel_activity();
         add_msg( _( "Never mind." ) );

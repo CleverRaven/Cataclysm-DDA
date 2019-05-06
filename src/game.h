@@ -27,6 +27,7 @@
 #include "item.h"
 #include "string_id.h"
 #include "monster.h"
+#include "game_inventory.h"
 
 extern bool test_mode;
 
@@ -924,7 +925,11 @@ class game
         void mend( int pos = INT_MIN );
         void autoattack();
     public:
-        void eat( int pos = INT_MIN ); // Eat food or fuel  'E' (or 'a')
+        /** Eat food or fuel  'E' (or 'a') */
+        void eat();
+        void eat( item_location( *menu )( player &p ) );
+        void eat( int pos );
+        void eat( item_location( *menu )( player &p ), int pos );
         void reload_item(); // Reload an item
         void reload_weapon( bool try_everything = true ); // Reload a wielded gun/tool  'r'
         // Places the player at the specified point; hurts feet, lists items etc.
@@ -1002,6 +1007,7 @@ class game
         void process_activity(); // Processes and enacts the player's activity
         void update_weather();   // Updates the temperature and weather patten
         void handle_key_blocking_activity(); // Abort reading etc.
+        void open_consume_item_menu(); // Custom menu for consuming specific group of items
         bool handle_action();
         bool try_get_right_click_action( action_id &act, const tripoint &mouse_target );
         bool try_get_left_click_action( action_id &act, const tripoint &mouse_target );
