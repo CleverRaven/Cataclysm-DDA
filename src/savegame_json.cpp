@@ -1276,13 +1276,6 @@ void npc::load( JsonObject &data )
 
     data.read( "personality", personality );
 
-    data.read( "wandf", wander_time );
-    data.read( "wandx", wander_pos.x );
-    data.read( "wandy", wander_pos.y );
-    if( !data.read( "wandz", wander_pos.z ) ) {
-        wander_pos.z = posz();
-    }
-
     if( !data.read( "submap_coords", submap_coords ) ) {
         // Old submap coordinates are for the point (0, 0, 0) on local map
         // New ones are for submap that contains pos
@@ -1466,10 +1459,6 @@ void npc::store( JsonOut &json ) const
     json.member( "myclass", myclass.str() );
 
     json.member( "personality", personality );
-    json.member( "wandf", wander_time );
-    json.member( "wandx", wander_pos.x );
-    json.member( "wandy", wander_pos.y );
-    json.member( "wandz", wander_pos.z );
 
     json.member( "submap_coords", submap_coords );
 

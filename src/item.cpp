@@ -7096,7 +7096,12 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
         insulation *= 1.5; // clothing provides inventory some level of insulation
     }
 
-    time_point time = std::min( { last_rot_check, last_temp_check } );
+    time_point time;
+    if( goes_bad() ) {
+        time = std::min( { last_rot_check, last_temp_check } );
+    } else {
+        time = last_temp_check;
+    }
 
     if( now - time > 1_hours ) {
         // This code is for items that were left out of reality bubble for long time

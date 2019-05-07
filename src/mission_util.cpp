@@ -501,8 +501,8 @@ bool mission_type::parse_funcs( JsonObject &jo, std::function<void( mission * )>
     phase_func = [ funcs, talk_effects ]( mission * miss ) {
         ::dialogue d;
         d.beta = g->find_npc( miss->get_npc_id() );
+        standard_npc default_npc( "Default" );
         if( d.beta == nullptr ) {
-            standard_npc default_npc( "Default" );
             d.beta = &default_npc;
         }
         d.alpha = &g->u;

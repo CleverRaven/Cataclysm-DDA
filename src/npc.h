@@ -962,8 +962,6 @@ class npc : public player
          */
         tripoint goal;
         std::vector<tripoint> omt_path;
-        tripoint wander_pos; // Not actually used (should be: wander there when you hear a sound)
-        int wander_time;
 
         /**
          * Location and index of the corpse we'd like to pulp (if any).
