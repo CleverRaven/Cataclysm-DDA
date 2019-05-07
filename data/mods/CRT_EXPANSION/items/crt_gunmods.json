@@ -1,4 +1,4 @@
-[ 
+[
   {
     "id": "flare_gmod",
     "type": "GUNMOD",
@@ -29,13 +29,13 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "stock",
-    "mod_targets": [ "pistol", "smg", "rifle", "shotgun"],
+    "mod_targets": [ "pistol", "smg", "rifle", "shotgun" ],
     "dispersion_modifier": -20,
     "handling_modifier": 2,
     "min_skills": [ [ "weapon", 1 ] ],
     "flags": [ "NEEDS_UNFOLD", "COLLAPSIBLE_STOCK" ]
   },
-   {
+  {
     "id": "beam_difractor",
     "copy-from": "beam_scatterer",
     "type": "GUNMOD",
@@ -60,23 +60,23 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "accessories",
-    "mod_targets": [ "pistol", "smg", "rifle", "shotgun"],
+    "mod_targets": [ "pistol", "smg", "rifle", "shotgun" ],
     "dispersion_modifier": 10,
     "max_charges": 200,
     "initial_charges": 200,
     "charges_per_use": 1,
     "ammo": "battery",
     "use_action": {
-        "type": "transform",
-        "msg": "You turn the tactical flashlight on.",
-        "target": "flash_acc_on",
-        "active": true,
-        "need_charges": 1,
-        "need_charges_msg": "The tactical flashlight's batteries are dead."
-        }
+      "type": "transform",
+      "msg": "You turn the tactical flashlight on.",
+      "target": "flash_acc_on",
+      "active": true,
+      "need_charges": 1,
+      "need_charges_msg": "The tactical flashlight's batteries are dead."
+    }
   },
   {
-  "id": "flash_acc_on",
+    "id": "flash_acc_on",
     "type": "GUNMOD",
     "name": "tactical flashlight (on)",
     "description": "A compact flashlight which is attatched to the side of your weapon, not powerful, but good enough for tight hallways.",
@@ -88,7 +88,7 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "accessories",
-    "mod_targets": [ "pistol", "smg", "rifle", "shotgun"],
+    "mod_targets": [ "pistol", "smg", "rifle", "shotgun" ],
     "dispersion_modifier": 10,
     "revert_to": "flash_acc",
     "max_charges": 200,
@@ -97,10 +97,6 @@
     "turns_per_charge": 12,
     "flags": [ "LIGHT_75", "CHARGEDIM" ],
     "ammo": "battery",
-    "use_action": {
-        "type": "transform",
-        "msg": "You turn the tactical flashlight off.",
-        "target": "flash_acc"
-        }
+    "use_action": { "type": "transform", "msg": "You turn the tactical flashlight off.", "target": "flash_acc" }
   }
 ]
