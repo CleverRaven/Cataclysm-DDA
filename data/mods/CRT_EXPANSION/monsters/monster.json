@@ -24,16 +24,6 @@
     "harvest": "zombie",
     "special_attacks": [ [ "TENTACLE", 2 ], [ "scratch", 10 ] ],
     "death_function": [ "NORMAL" ],
-    "flags": [
-      "HEARS",
-      "GOODHEARING",
-      "WARM",
-      "CLIMBS",
-      "NOHEAD",
-      "GROUP_BASH",
-      "POISON",
-      "BLEED",
-      "NO_BREATHE"
-    ]
+    "flags": [ "HEARS", "GOODHEARING", "WARM", "CLIMBS", "NOHEAD", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE" ]
   }
 ]
