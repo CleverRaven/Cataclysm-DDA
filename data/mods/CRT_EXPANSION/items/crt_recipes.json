@@ -9,14 +9,7 @@
     "time": 100,
     "autolearn": [ [ "mag_survival", 1 ], [ "textbook_survival", 1 ], [ "survival_book", 1 ], [ "pocket_survival", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [
-      [
-        [ "pine_bough", 1 ],
-        [ "willowbark", 1 ],
-        [ "tanbark", 1],
-        [ "birchbark", 1]
-      ]
-    ]
+    "components": [ [ [ "pine_bough", 1 ], [ "willowbark", 1 ], [ "tanbark", 1 ], [ "birchbark", 1 ] ] ]
   },
   {
     "result": "withered_bundle",
