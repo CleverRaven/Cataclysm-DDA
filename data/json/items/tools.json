@@ -2808,6 +2808,24 @@
     "magazines": [ [ "battery", [ "light_plus_battery_cell", "light_battery_cell", "light_minus_battery_cell" ] ] ]
   },
   {
+    "id": "mini_atm",
+    "type": "TOOL",
+    "name": "portable ATM",
+    "description": "A tablet PC using an efficient color e-ink display.  Before the cataclysm, these were nifty gadgets; now, it's an almost priceless resource.  Runs on conventional batteries.",
+    "weight": 400,
+    "volume": 2,
+    "price": 50000,
+    "to_hit": -1,
+    "material": "plastic",
+    "symbol": ";",
+    "color": "blue",
+    "ammo": "battery",
+    "charges_per_use": 1,
+    "use_action": "MINIATM",
+    "flags": [ "WATCH" ],
+    "magazines": [ [ "battery", [ "light_plus_battery_cell", "light_battery_cell", "light_minus_battery_cell" ] ] ]
+  },
+  {
     "id": "elec_chainsaw_off",
     "type": "TOOL",
     "name": "electric chainsaw (off)",
