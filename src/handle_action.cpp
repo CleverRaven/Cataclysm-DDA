@@ -1260,7 +1260,7 @@ void game::open_consume_item_menu()
 
     as_m.entries.emplace_back( 0, true, 'f', _( "Food" ) );
     as_m.entries.emplace_back( 1, true, 'd', _( "Drink" ) );
-    as_m.entries.emplace_back( 2, true, 'd', _( "Medication" ) );
+    as_m.entries.emplace_back( 2, true, 'm', _( "Medication" ) );
     as_m.query();
 
     switch( as_m.ret ) {
