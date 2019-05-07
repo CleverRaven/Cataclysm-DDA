@@ -139,13 +139,13 @@
     "weight": 2,
     "volume": 0,
     "price": 0,
-  "rigid": false,
+    "rigid": false,
     "material": "plastic",
     "symbol": ")",
     "color": "light_gray",
     "contains": 1,
-  "seals": true,
-  "flags": [ "TRADER_AVOID" ]
+    "seals": true,
+    "flags": [ "TRADER_AVOID" ]
   },
   {
     "id": "bag_body_bag",
