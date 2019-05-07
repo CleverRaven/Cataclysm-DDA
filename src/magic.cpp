@@ -853,7 +853,8 @@ static bool in_spell_aoe( const tripoint &target, const tripoint &epicenter, con
     return rl_dist( epicenter, target ) <= radius;
 }
 
-static std::set<tripoint> spell_effect_blast( spell &sp, const tripoint &target, const int aoe_radius, const bool ignore_walls )
+static std::set<tripoint> spell_effect_blast( spell &sp, const tripoint &target,
+        const int aoe_radius, const bool ignore_walls )
 {
     std::set<tripoint> targets;
     // TODO: Make this breadth-first
@@ -870,14 +871,16 @@ static std::set<tripoint> spell_effect_blast( spell &sp, const tripoint &target,
     return targets;
 }
 
-static std::set<tripoint> spell_effect_cone( spell &sp, const tripoint &target, const int aoe_radius, const bool ignore_walls )
+static std::set<tripoint> spell_effect_cone( spell &sp, const tripoint &target,
+        const int aoe_radius, const bool ignore_walls )
 {
     std::set<tripoint> targets;
     const tripoint source = sp.get_source();
     const int range = rl_dist( source, target );
     const int initial_angle = coord_to_angle( source, target );
     std::set<tripoint> end_points;
-    for( int angle = initial_angle - floor( aoe_radius / 2.0 ); angle <= initial_angle + ceil( aoe_radius / 2.0 ); angle++ ) {
+    for( int angle = initial_angle - floor( aoe_radius / 2.0 );
+         angle <= initial_angle + ceil( aoe_radius / 2.0 ); angle++ ) {
         tripoint potential;
         calc_ray_end( angle, range, source, potential );
         end_points.emplace( potential );
@@ -897,7 +900,8 @@ static std::set<tripoint> spell_effect_cone( spell &sp, const tripoint &target, 
     return targets;
 }
 
-static std::set<tripoint> spell_effect_line( spell &sp, const tripoint &target, const int aoe_radius, const bool ignore_walls )
+static std::set<tripoint> spell_effect_line( spell &sp, const tripoint &target,
+        const int aoe_radius, const bool ignore_walls )
 {
     std::set<tripoint> targets;
     const tripoint source = sp.get_source();
@@ -942,7 +946,8 @@ static std::set<tripoint> spell_effect_line( spell &sp, const tripoint &target, 
     end_width.insert( end_width.begin(), cclockwise_end_point );
 
     // we're going from right to left (clockwise to counterclockwise)
-    for( int i = start_width_rh_blocked; i <= static_cast<int>( start_width.size() ) - start_width_lh_blocked; i++ ) {
+    for( int i = start_width_rh_blocked;
+         i <= static_cast<int>( start_width.size() ) - start_width_lh_blocked; i++ ) {
         for( tripoint &ep : end_width ) {
             for( tripoint &p : line_to( start_width[i], ep ) ) {
                 if( ignore_walls || g->m.passable( p ) ) {

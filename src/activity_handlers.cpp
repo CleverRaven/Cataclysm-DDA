@@ -3578,7 +3578,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
         spell_effect::target_attack( casting, target );
     } else if( fx == "projectile_attack" ) {
         spell_effect::projectile_attack( casting, target );
-    } else if( fx == "cone_attack" ){
+    } else if( fx == "cone_attack" ) {
         spell_effect::cone_attack( casting, target );
     } else if( fx == "line_attack" ) {
         spell_effect::line_attack( casting, target );
