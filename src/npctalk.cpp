@@ -3209,10 +3209,19 @@ dynamic_line_t::dynamic_line_t( JsonObject jo )
         };
     } else if( jo.has_string( "gendered_line" ) ) {
         const std::string line = jo.get_string( "gendered_line" );
+        if( !jo.has_array( "relevant_genders" ) ) {
+            jo.throw_error(
+                "dynamic line with \"gendered_line\" must also have \"relevant_genders\"" );
+        }
         JsonArray ja = jo.get_array( "relevant_genders" );
         std::vector<std::string> relevant_genders;
         while( ja.has_more() ) {
             relevant_genders.push_back( ja.next_string() );
+        }
+        for( const std::string &gender : relevant_genders ) {
+            if( gender != "npc" && gender != "u" ) {
+                jo.throw_error( "Unexpected subject in relevant_genders; expected 'npc' or 'u'" );
+            }
         }
         function = [line, relevant_genders]( const dialogue & d ) {
             return translate_gendered_line( line, relevant_genders, d );
