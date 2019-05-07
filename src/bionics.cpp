@@ -1656,7 +1656,7 @@ void player::introduce_into_anesthesia( const time_duration &duration, player &i
                                _( "You feel excited as the Autodoc slices painlessly into you.  You enjoy the sight of scalpels slicing you apart, but as operation proceeds you suddenly feel tired and pass out." ) );
         } else {
             add_msg_if_player( m_mixed,
-                               _( "You stay very, very still, focusing intently on an interesting rock on the ceiling, as the Autodoc slices painlessly into you.  Mercifully, you pass out when the blades reach your line of sight." ) );
+                               _( "You stay very, very still, focusing intently on an interesting stain on the ceiling, as the Autodoc slices painlessly into you.  Mercifully, you pass out when the blades reach your line of sight." ) );
         }
     }
 
