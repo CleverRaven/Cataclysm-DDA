@@ -224,7 +224,7 @@
     "move_cost_mod": 4,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH" ],
-    "examine_action": "flower_poppy"
+    "examine_action": "flower_cactus"
   },
   {
     "type": "region_settings",

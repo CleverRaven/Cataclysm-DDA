@@ -111,6 +111,7 @@
     "dispersion": 520,
     "durability": 7,
     "burst": 18,
+    "built_in_mods": [ "wire_stock" ],
     "valid_mod_locations": [
       [ "accessories", 3 ],
       [ "barrel", 1 ],
@@ -126,7 +127,7 @@
       [ "underbarrel", 1 ]
     ],
     "magazine_well": 1,
-    "magazines": [ [ "45", [ "mac10mag" ] ], [ "9mm", [ "tec9mag" ] ] ]
+    "magazines": [ [ "45", [ "mac10mag" ] ], [ "380", [ "mac11mag" ] ], [ "9mm", [ "tec9mag" ] ] ]
   },
   {
     "id": "rifle_45",

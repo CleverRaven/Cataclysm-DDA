@@ -140,6 +140,6 @@ TEST_CASE( "bionics", "[bionics] [item]" )
         }
     }
 
-    // TODO: bio_cable bio_furnace bio_reactor
+    // TODO: bio_cable bio_reactor
     // TODO: (pick from stuff with power_source)
 }

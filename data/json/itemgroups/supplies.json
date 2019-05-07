@@ -9,7 +9,8 @@
       [ "light_detector", 5 ],
       [ "amplifier", 40 ],
       [ "antenna", 40 ],
-      [ "battery", 100 ],
+      { "group": "ammo_any_batteries_full", "prob": 100 },
+      [ "cable", 60 ],
       [ "power_supply", 20 ],
       [ "processor", 20 ],
       [ "solar_cell", 10 ],
@@ -20,13 +21,13 @@
       [ "receiver", 30 ],
       [ "transponder", 30 ],
       [ "light_bulb", 60 ],
-      [ "lightstrip_inactive", 10 ],
-      [ "lightstrip_dead", 60 ],
+      [ "lightstrip_inactive", 60 ],
       [ "motor_small", 10 ],
       [ "motor_tiny", 30 ],
       [ "motor_micro", 40 ],
       [ "jumper_cable", 15 ],
-      [ "jumper_cable_heavy", 5 ]
+      [ "jumper_cable_heavy", 5 ],
+      [ "recharge_station", 20 ]
     ]
   },
   {
@@ -87,7 +88,7 @@
       [ "jerrycan", 5 ],
       { "item": "scrap_copper", "prob": 15, "count": [ 1, 2 ] },
       [ "wire", 10 ],
-      [ "battery", 50 ],
+      { "group": "ammo_pocket_batteries_full", "prob": 50 },
       [ "pilot_light", 50 ],
       [ "duct_tape", 200 ],
       [ "superglue", 100 ],
@@ -98,7 +99,8 @@
       [ "water_faucet", 100 ],
       [ "bubblewrap", 20 ],
       [ "pump_complex", 5 ],
-      [ "well_pump", 5 ]
+      [ "well_pump", 5 ],
+      [ "recharge_station", 20 ]
     ]
   },
   {
@@ -174,14 +176,15 @@
       [ "cu_pipe", 50 ],
       [ "fungicide", 5 ],
       [ "charcoal", 5 ],
-      [ "battery", 50 ],
+      { "group": "ammo_pocket_batteries_full", "prob": 50 },
       [ "solar_cell", 5 ],
       [ "fertilizer_commercial", 30 ],
       [ "chem_sulphuric_acid", 30 ],
       [ "peephole", 25 ],
       [ "chem_chromium_oxide", 5 ],
       [ "chem_zinc_powder", 5 ],
-      [ "denat_alcohol", 5 ]
+      [ "denat_alcohol", 5 ],
+      [ "recharge_station", 10 ]
     ]
   },
   {
@@ -343,7 +346,7 @@
       [ "generator_7500w", 3 ],
       [ "storage_battery", 6 ],
       [ "solar_panel", 3 ],
-      [ "recharge_station", 2 ]
+      [ "recharge_station", 8 ]
     ]
   },
   {
@@ -379,7 +382,7 @@
       [ "cell_phone", 10 ],
       [ "smart_phone", 10 ],
       [ "duct_tape", 5 ],
-      [ "battery", 5 ],
+      { "group": "ammo_pocket_batteries", "prob": 5 },
       [ "flashlight", 10 ],
       [ "umbrella", 5 ],
       [ "teleumbrella", 10 ],
@@ -409,7 +412,7 @@
       [ "duct_tape", 15 ],
       [ "file", 15 ],
       [ "bubblewrap", 15 ],
-      [ "battery", 10 ],
+      { "group": "ammo_pocket_batteries_full", "prob": 10 },
       [ "flashlight", 7 ],
       [ "laptop", 7 ],
       [ "eink_tablet_pc", 7 ],

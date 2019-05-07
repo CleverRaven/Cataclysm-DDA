@@ -1,5 +1,22 @@
 [
   {
+    "id": "anesthesia",
+    "type": "AMMO",
+    "name": "anesthetic kit",
+    "category": "chems",
+    "description": "A kit for inducing anesthesia for surgery, containing specialized canisters with a variety of powerful hypnotic, analgetic, and stimulative drugs.  It's intended for use in specialized medical equipment, and can't be administered manually.",
+    "weight": 100,
+    "volume": 1,
+    "price": 50000,
+    "ammo_type": "components",
+    "count": 3,
+    "material": "plastic",
+    "symbol": "!",
+    "color": "cyan",
+    "looks_like": "1st_aid",
+    "flags": [ "ANESTHESIA" ]
+  },
+  {
     "id": "barrel_big",
     "type": "GUNMOD",
     "name": "barrel extension",
@@ -321,5 +338,14 @@
     "loudness_modifier": -1,
     "min_skills": [ [ "weapon", 4 ], [ "mechanics", 3 ], [ "gun", 2 ] ],
     "flags": [ "NEVER_JAMS", "INSTALL_DIFFICULT", "IRREMOVABLE" ]
+  },
+  {
+    "id": "bio_furnace",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": "Internal Furnace CBM",
+    "description": "When this bionic is active, you can burn nearly any organic material as fuel (use 'E'), recharging your power level.  Some materials will burn better than others.",
+    "price": 450000,
+    "difficulty": 4
   }
 ]

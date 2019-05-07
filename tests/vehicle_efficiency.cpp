@@ -14,6 +14,7 @@
 #include "game.h"
 #include "itype.h"
 #include "map.h"
+#include "map_helpers.h"
 #include "map_iterator.h"
 #include "player.h"
 #include "test_statistics.h"
@@ -41,13 +42,11 @@ void clear_game( const ter_id &terrain )
 {
     // Set to turn 0 to prevent solars from producing power
     calendar::turn = 0;
-    for( monster &critter : g->all_monsters() ) {
-        g->remove_zombie( critter );
-    }
-
-    g->unload_npcs();
+    clear_creatures();
+    clear_npcs();
 
     // Move player somewhere safe
+    CHECK( !g->u.in_vehicle );
     g->u.setpos( tripoint( 0, 0, 0 ) );
     // Blind the player to avoid needless drawing-related overhead
     g->u.add_effect( effect_blind, 1_turns, num_bp, true );
@@ -65,6 +64,7 @@ void clear_game( const ter_id &terrain )
         g->m.destroy_vehicle( veh.v );
     }
 
+    g->m.invalidate_map_cache( 0 );
     g->m.build_map_cache( 0, true );
 }
 
@@ -445,6 +445,6 @@ TEST_CASE( "vehicle_efficiency", "[vehicle] [engine]" )
     test_vehicle( "tractor_plow", 703658, 354200, 354200, 106700, 106700 );
     test_vehicle( "apc", 5753619, 957100, 824200, 123600, 85540 );
     test_vehicle( "humvee", 5475145, 465800, 278700, 24650, 8824 );
-    test_vehicle( "road_roller", 8755702, 310900, 295100, 21910, 6666 );
+    test_vehicle( "road_roller", 8779702, 315600, 295100, 21910, 6666 );
     test_vehicle( "golf_cart", 446230, 52800, 104200, 26830, 13890 );
 };

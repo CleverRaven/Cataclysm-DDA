@@ -9,7 +9,7 @@
 
 #include "enums.h"
 
-struct submap;
+class submap;
 class JsonIn;
 
 /**
