@@ -45,6 +45,7 @@
 	"weight": 450,
 	"volume": 4,
 	"price": 1904,
+	"symbol": "?",
 	"color": "light_red",
 	"use_action": { "type": "learn_spell", "spells": [ "point_flare", "fireball", "burning_hands" ] }
   },
