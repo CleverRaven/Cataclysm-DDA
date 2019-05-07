@@ -544,11 +544,6 @@
     "time": 40000,
     "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
     "using": [ [ "chainmail_standard", 4 ] ],
-    "components": [
-      [ [ "link_sheet", 4 ] ],
-      [ [ "chain_link", 100 ] ],
-      [ [ "wire", 1 ] ],
-      [ [ "fur", 6 ], [ "tanned_pelt", 1 ], [ "leather", 6 ], [ "tanned_hide", 1 ] ]
-    ]
+    "components": [ [ [ "link_sheet", 4 ] ], [ [ "chain_link", 100 ] ], [ [ "wire", 1 ] ], [ [ "rag", 6 ] ] ]
   }
 ]

@@ -1,12 +1,22 @@
 #include "melee.h"
 
+#include <limits.h>
 #include <algorithm>
 #include <cstdlib>
 #include <sstream>
+#include <array>
+#include <limits>
+#include <list>
+#include <memory>
+#include <set>
+#include <string>
+#include <unordered_map>
+#include <utility>
+#include <vector>
+#include <cmath>
 
 #include "cata_utility.h"
 #include "debug.h"
-#include "field.h"
 #include "game.h"
 #include "game_inventory.h"
 #include "itype.h"
@@ -16,7 +26,6 @@
 #include "martialarts.h"
 #include "messages.h"
 #include "monster.h"
-#include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
 #include "output.h"
@@ -25,6 +34,21 @@
 #include "sounds.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "bodypart.h"
+#include "calendar.h"
+#include "character.h"
+#include "creature.h"
+#include "damage.h"
+#include "enums.h"
+#include "game_constants.h"
+#include "item.h"
+#include "item_location.h"
+#include "optional.h"
+#include "pldata.h"
+#include "string_id.h"
+#include "units.h"
+#include "weighted_list.h"
+#include "material.h"
 
 static const bionic_id bio_cqb( "bio_cqb" );
 
@@ -183,7 +207,7 @@ bool player::handle_melee_wear( item &shield, float wear_multiplier )
     if( !shield.inc_damage() ) {
         add_msg_player_or_npc( m_bad, _( "Your %s is damaged by the force of the blow!" ),
                                _( "<npcname>'s %s is damaged by the force of the blow!" ),
-                               str.c_str() );
+                               str );
         return false;
     }
 
@@ -209,7 +233,7 @@ bool player::handle_melee_wear( item &shield, float wear_multiplier )
     if( temp.has_flag( "FRAGILE_MELEE" ) && !temp.components.empty() ) {
         add_msg_player_or_npc( m_bad, _( "Your %s breaks apart!" ),
                                _( "<npcname>'s %s breaks apart!" ),
-                               str.c_str() );
+                               str );
 
         for( auto &comp : temp.components ) {
             int break_chance = comp.typeId() == weak_comp ? 2 : 8;
@@ -228,7 +252,7 @@ bool player::handle_melee_wear( item &shield, float wear_multiplier )
     } else {
         add_msg_player_or_npc( m_bad, _( "Your %s is destroyed by the blow!" ),
                                _( "<npcname>'s %s is destroyed by the blow!" ),
-                               str.c_str() );
+                               str );
     }
 
     return true;
@@ -301,7 +325,7 @@ std::string player::get_miss_reason()
     // in one turn
     add_miss_reason(
         _( "Your torso encumbrance throws you off-balance." ),
-        divide_roll_remainder( encumb( bp_torso ), 10.0f ) );
+        roll_remainder( encumb( bp_torso ) / 10.0 ) );
     const int farsightedness = 2 * ( has_trait( trait_HYPEROPIC ) &&
                                      !worn_with_flag( "FIX_FARSIGHT" ) &&
                                      !has_effect( effect_contacts ) );
@@ -386,15 +410,13 @@ void player::melee_attack( Creature &t, bool allow_special, const matec_id &forc
             }
         } else if( g->u.sees( *this ) ) {
             if( stumble_pen >= 60 ) {
-                add_msg( _( "%s misses and stumbles with the momentum." ), name.c_str() );
+                add_msg( _( "%s misses and stumbles with the momentum." ), name );
             } else if( stumble_pen >= 10 ) {
-                add_msg( _( "%s swings wildly and misses." ), name.c_str() );
+                add_msg( _( "%s swings wildly and misses." ), name );
             } else {
-                add_msg( _( "%s misses." ), name.c_str() );
+                add_msg( _( "%s misses." ), name );
             }
         }
-
-        t.on_dodge( this, get_melee() );
 
         // Practice melee and relevant weapon skill (if any) except when using CQB bionic
         if( !has_active_bionic( bio_cqb ) ) {
@@ -476,7 +498,7 @@ void player::melee_attack( Creature &t, bool allow_special, const matec_id &forc
             }
 
             if( !specialmsg.empty() ) {
-                add_msg_if_player( specialmsg.c_str() );
+                add_msg_if_player( m_neutral, specialmsg );
             }
         }
 
@@ -1164,7 +1186,7 @@ void print_damage_info( const damage_instance &di )
         ss << name_by_dt( du.type ) << ':' << amount << ',';
     }
 
-    add_msg( m_debug, "%stotal: %d", ss.str().c_str(), total );
+    add_msg( m_debug, "%stotal: %d", ss.str(), total );
 }
 
 void player::perform_technique( const ma_technique &technique, Creature &t, damage_instance &di,
@@ -1223,7 +1245,7 @@ void player::perform_technique( const ma_technique &technique, Creature &t, dama
         } else {
             add_msg_player_or_npc( _( "You disarm %s!" ),
                                    _( "<npcname> disarms %s!" ),
-                                   p->name.c_str() );
+                                   p->name );
         }
     }
 
@@ -1264,7 +1286,7 @@ void player::perform_technique( const ma_technique &technique, Creature &t, dama
         if( one_in( 1400 - ( get_int() * 50 ) ) ) {
             ma_styles.push_back( style_selected );
             add_msg_if_player( m_good, _( "You have learned %s from extensive practice with the CQB Bionic." ),
-                               _( style_selected.obj().name.c_str() ) );
+                               _( style_selected.obj().name ) );
         }
     }
 }
@@ -1460,7 +1482,7 @@ bool player::block_hit( Creature *source, body_part &bp_hit, damage_instance &da
     }
     add_msg_player_or_npc( _( "You block %1$s of the damage with your %2$s!" ),
                            _( "<npcname> blocks %1$s of the damage with their %2$s!" ),
-                           damage_blocked_description.c_str(), thing_blocked_with.c_str() );
+                           damage_blocked_description, thing_blocked_with );
 
     // Check if we have any block counters
     matec_id tec = pick_technique( *source, shield, false, false, true );
@@ -1510,10 +1532,10 @@ void player::perform_special_attacks( Creature &t )
 
     if( can_poison && ( has_trait( trait_POISONOUS ) || has_trait( trait_POISONOUS2 ) ) ) {
         if( has_trait( trait_POISONOUS ) ) {
-            add_msg_if_player( m_good, _( "You poison %s!" ), target.c_str() );
+            add_msg_if_player( m_good, _( "You poison %s!" ), target );
             t.add_effect( effect_poison, 6_turns );
         } else if( has_trait( trait_POISONOUS2 ) ) {
-            add_msg_if_player( m_good, _( "You inject your venom into %s!" ), target.c_str() );
+            add_msg_if_player( m_good, _( "You inject your venom into %s!" ), target );
             t.add_effect( effect_badpoison, 6_turns );
         }
     }
@@ -1533,9 +1555,9 @@ std::string player::melee_special_effects( Creature &t, damage_instance &d, item
         d.add_damage( DT_ELECTRIC, rng( 2, 10 ) );
 
         if( is_player() ) {
-            dump << string_format( _( "You shock %s." ), target.c_str() ) << std::endl;
+            dump << string_format( _( "You shock %s." ), target ) << std::endl;
         } else {
-            add_msg_if_npc( _( "<npcname> shocks %s." ), target.c_str() );
+            add_msg_if_npc( _( "<npcname> shocks %s." ), target );
         }
     }
 
@@ -1543,9 +1565,9 @@ std::string player::melee_special_effects( Creature &t, damage_instance &d, item
         charge_power( 3 );
         d.add_damage( DT_COLD, 3 );
         if( is_player() ) {
-            dump << string_format( _( "You drain %s's body heat." ), target.c_str() ) << std::endl;
+            dump << string_format( _( "You drain %s's body heat." ), target ) << std::endl;
         } else {
-            add_msg_if_npc( _( "<npcname> drains %s's body heat!" ), target.c_str() );
+            add_msg_if_npc( _( "<npcname> drains %s's body heat!" ), target );
         }
     }
 
@@ -1553,15 +1575,15 @@ std::string player::melee_special_effects( Creature &t, damage_instance &d, item
         d.add_damage( DT_HEAT, rng( 1, 8 ) );
 
         if( is_player() ) {
-            dump << string_format( _( "You burn %s." ), target.c_str() ) << std::endl;
+            dump << string_format( _( "You burn %s." ), target ) << std::endl;
         } else {
-            add_msg_player_or_npc( _( "<npcname> burns %s." ), target.c_str() );
+            add_msg_player_or_npc( _( "<npcname> burns %s." ), target );
         }
     }
 
     //Hurting the wielder from poorly-chosen weapons
     if( weap.has_flag( "HURT_WHEN_WIELDED" ) && x_in_y( 2, 3 ) ) {
-        add_msg_if_player( m_bad, _( "The %s cuts your hand!" ), weap.tname().c_str() );
+        add_msg_if_player( m_bad, _( "The %s cuts your hand!" ), weap.tname() );
         deal_damage( nullptr, bp_hand_r, damage_instance::physical( 0, weap.damage_melee( DT_CUT ), 0 ) );
         if( weap.is_two_handed( *this ) ) { // Hurt left hand too, if it was big
             deal_damage( nullptr, bp_hand_l, damage_instance::physical( 0, weap.damage_melee( DT_CUT ), 0 ) );
@@ -1574,11 +1596,11 @@ std::string player::melee_special_effects( Creature &t, damage_instance &d, item
         /** @EFFECT_STR increases chance of breaking glass weapons (NEGATIVE) */
         rng( 0, vol + 8 ) < vol + str_cur ) {
         if( is_player() ) {
-            dump << string_format( _( "Your %s shatters!" ), weap.tname().c_str() ) << std::endl;
+            dump << string_format( _( "Your %s shatters!" ), weap.tname() ) << std::endl;
         } else {
             add_msg_player_or_npc( m_bad, _( "Your %s shatters!" ),
                                    _( "<npcname>'s %s shatters!" ),
-                                   weap.tname().c_str() );
+                                   weap.tname() );
         }
 
         sounds::sound( pos(), 16, sounds::sound_t::combat, "Crack!" );
@@ -1711,9 +1733,9 @@ std::vector<special_attack> player::mutation_attacks( Creature &t ) const
             // Can't use <npcname> here
             // TODO: Fix
             if( is_player() ) {
-                tmp.text = string_format( _( mut_atk.attack_text_u.c_str() ), target.c_str() );
+                tmp.text = string_format( _( mut_atk.attack_text_u ), target );
             } else {
-                tmp.text = string_format( _( mut_atk.attack_text_npc.c_str() ), name.c_str(), target.c_str() );
+                tmp.text = string_format( _( mut_atk.attack_text_npc ), name, target );
             }
 
             // Attack starts here
@@ -1787,9 +1809,9 @@ std::string melee_message( const ma_technique &tec, player &p, const dealt_damag
     if( tec.id != tec_none ) {
         std::string message;
         if( p.is_npc() ) {
-            message = _( tec.npc_message.c_str() );
+            message = _( tec.npc_message );
         } else {
-            message = _( tec.player_message.c_str() );
+            message = _( tec.player_message );
         }
         if( !message.empty() ) {
             return message;
@@ -1840,31 +1862,30 @@ void player_hit_message( player *attacker, const std::string &message,
     if( dam <= 0 ) {
         if( attacker->is_npc() ) {
             //~ NPC hits something but does no damage
-            msg = string_format( _( "%s but does no damage." ), message.c_str() );
+            msg = string_format( _( "%s but does no damage." ), message );
         } else {
             //~ someone hits something but do no damage
-            msg = string_format( _( "%s but do no damage." ), message.c_str() );
+            msg = string_format( _( "%s but do no damage." ), message );
         }
         msgtype = m_neutral;
     } else if(
         crit ) { //Player won't see exact numbers of damage dealt by NPC unless player has DEBUG_NIGHTVISION trait
         if( attacker->is_npc() && !g->u.has_trait( trait_DEBUG_NIGHTVISION ) ) {
             //~ NPC hits something (critical)
-            msg = string_format( _( "%s. Critical!" ), message.c_str() );
+            msg = string_format( _( "%s. Critical!" ), message );
         } else {
             //~ someone hits something for %d damage (critical)
-            msg = string_format( _( "%s for %d damage. Critical!" ),
-                                 message.c_str(), dam );
+            msg = string_format( _( "%s for %d damage. Critical!" ), message, dam );
         }
         sSCTmod = _( "Critical!" );
         gmtSCTcolor = m_critical;
     } else {
         if( attacker->is_npc() && !g->u.has_trait( trait_DEBUG_NIGHTVISION ) ) {
             //~ NPC hits something
-            msg = string_format( _( "%s." ), message.c_str() );
+            msg = string_format( _( "%s." ), message );
         } else {
             //~ someone hits something for %d damage
-            msg = string_format( _( "%s for %d damage." ), message.c_str(), dam );
+            msg = string_format( _( "%s for %d damage." ), message, dam );
         }
     }
 
@@ -1891,8 +1912,7 @@ void player_hit_message( player *attacker, const std::string &message,
 
     // same message is used for player and npc,
     // just using this for the <npcname> substitution.
-    attacker->add_msg_player_or_npc( msgtype, msg.c_str(), msg.c_str(),
-                                     t.disp_name().c_str() );
+    attacker->add_msg_player_or_npc( msgtype, msg, msg, t.disp_name() );
 }
 
 int player::attack_speed( const item &weap ) const
@@ -1940,7 +1960,7 @@ double player::weapon_value( const item &weap, long ammo ) const
 
     // A small bonus for guns you can also use to hit stuff with (bayonets etc.)
     const double my_val = more + ( less / 2.0 );
-    add_msg( m_debug, "%s (%ld ammo) sum value: %.1f", weap.tname().c_str(), ammo, my_val );
+    add_msg( m_debug, "%s (%ld ammo) sum value: %.1f", weap.tname(), ammo, my_val );
     return my_val;
 }
 
@@ -1988,7 +2008,7 @@ double player::melee_value( const item &weap ) const
         my_value *= 1.0f + 0.5f * ( sqrtf( reach ) - 1.0f );
     }
 
-    add_msg( m_debug, "%s as melee: %.1f", weap.tname().c_str(), my_value );
+    add_msg( m_debug, "%s as melee: %.1f", weap.tname(), my_value );
 
     return std::max( 0.0, my_value );
 }
@@ -2021,7 +2041,7 @@ void player::disarm( npc &target )
     // roll your melee and target's dodge skills to check if grab/smash attack succeeds
     int hitspread = target.deal_melee_attack( this, hit_roll() );
     if( hitspread < 0 ) {
-        add_msg( _( "You lunge for the %s, but miss!" ), it.tname().c_str() );
+        add_msg( _( "You lunge for the %s, but miss!" ), it.tname() );
         mod_moves( -100 - stumble( *this, weapon ) - attack_speed( weapon ) );
         target.on_attacked( *this );
         return;
@@ -2033,19 +2053,19 @@ void player::disarm( npc &target )
         my_roll += dice( 3, get_skill_level( skill_unarmed ) );
 
         if( my_roll >= their_roll ) {
-            add_msg( _( "You grab at %s and pull with all your force!" ), it.tname().c_str() );
-            add_msg( _( "You forcefully take %s from %s!" ), it.tname().c_str(), target.name.c_str() );
+            add_msg( _( "You grab at %s and pull with all your force!" ), it.tname() );
+            add_msg( _( "You forcefully take %s from %s!" ), it.tname(), target.name );
             // wield() will deduce our moves, consider to deduce more/less moves for balance
             item rem_it = target.i_rem( &it );
             wield( rem_it );
         } else if( my_roll >= their_roll / 2 ) {
             add_msg( _( "You grab at %s and pull with all your force, but it drops nearby!" ),
-                     it.tname().c_str() );
+                     it.tname() );
             const tripoint tp = target.pos() + tripoint( rng( -1, 1 ), rng( -1, 1 ), 0 );
             g->m.add_item_or_charges( tp, target.i_rem( &it ) );
             mod_moves( -100 );
         } else {
-            add_msg( _( "You grab at %s and pull with all your force, but in vain!" ), it.tname().c_str() );
+            add_msg( _( "You grab at %s and pull with all your force, but in vain!" ), it.tname() );
             mod_moves( -100 );
         }
 
@@ -2057,12 +2077,12 @@ void player::disarm( npc &target )
     mod_moves( -100 - attack_speed( weapon ) );
     if( my_roll >= their_roll ) {
         add_msg( _( "You smash %s with all your might forcing their %s to drop down nearby!" ),
-                 target.name.c_str(), it.tname().c_str() );
+                 target.name, it.tname() );
         const tripoint tp = target.pos() + tripoint( rng( -1, 1 ), rng( -1, 1 ), 0 );
         g->m.add_item_or_charges( tp, target.i_rem( &it ) );
     } else {
         add_msg( _( "You smash %s with all your might but %s remains in their hands!" ),
-                 target.name.c_str(), it.tname().c_str() );
+                 target.name, it.tname() );
     }
 
     target.on_attacked( *this );
@@ -2071,7 +2091,7 @@ void player::disarm( npc &target )
 void player::steal( npc &target )
 {
     if( target.is_enemy() ) {
-        add_msg( _( "%s is hostile!" ), target.name.c_str() );
+        add_msg( _( "%s is hostile!" ), target.name );
         return;
     }
 
@@ -2099,14 +2119,14 @@ void player::steal( npc &target )
     const item *it = loc.get_item();
     if( my_roll >= their_roll ) {
         add_msg( _( "You sneakily steal %1$s from %2$s!" ),
-                 it->tname().c_str(), target.name.c_str() );
+                 it->tname(), target.name );
         i_add( target.i_rem( it ) );
     } else if( my_roll >= their_roll / 2 ) {
         add_msg( _( "You failed to steal %1$s from %2$s, but did not attract attention." ),
-                 it->tname().c_str(), target.name.c_str() );
+                 it->tname(), target.name );
     } else  {
         add_msg( _( "You failed to steal %1$s from %2$s." ),
-                 it->tname().c_str(), target.name.c_str() );
+                 it->tname(), target.name );
         target.on_attacked( *this );
     }
 

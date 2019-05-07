@@ -276,7 +276,7 @@
     "time": 18000,
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "chainmail_vest", 1 ] ], [ [ "chainmail_arms", 1 ] ], [ [ "chainmail_legs", 1 ] ] ]
+    "components": [ [ [ "chainmail_vest", 1 ] ], [ [ "chainmail_arms", 1 ] ], [ [ "chainmail_legs", 1 ] ], [ [ "gambeson", 1 ] ] ]
   },
   {
     "result": "chainmail_suit",
@@ -288,7 +288,13 @@
     "time": 20000,
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "chainmail_hood", 1 ] ], [ [ "chainmail_vest", 1 ] ], [ [ "chainmail_arms", 1 ] ], [ [ "chainmail_legs", 1 ] ] ]
+    "components": [
+      [ [ "chainmail_hood", 1 ] ],
+      [ [ "chainmail_vest", 1 ] ],
+      [ [ "chainmail_arms", 1 ] ],
+      [ [ "chainmail_legs", 1 ] ],
+      [ [ "gambeson", 1 ] ]
+    ]
   },
   {
     "result": "chainmail_suit",

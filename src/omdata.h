@@ -2,10 +2,15 @@
 #ifndef OMDATA_H
 #define OMDATA_H
 
+#include <limits.h>
+#include <stddef.h>
+#include <stdint.h>
 #include <bitset>
 #include <list>
 #include <set>
 #include <vector>
+#include <array>
+#include <string>
 
 #include "catacharset.h"
 #include "color.h"
@@ -14,20 +19,28 @@
 #include "int_id.h"
 #include "string_id.h"
 #include "translations.h"
+#include "optional.h"
 
 struct MonsterGroup;
+
 using mongroup_id = string_id<MonsterGroup>;
 struct city;
 class overmap_land_use_code;
+
 using overmap_land_use_code_id = string_id<overmap_land_use_code>;
 struct oter_t;
-struct oter_type_t;
 struct overmap_location;
 class JsonObject;
 class overmap_connection;
 class overmap_special_batch;
 class overmap_special;
+
 using overmap_special_id = string_id<overmap_special>;
+
+const overmap_land_use_code_id land_use_code_forest( "forest" );
+const overmap_land_use_code_id land_use_code_wetland( "wetland" );
+const overmap_land_use_code_id land_use_code_wetland_forest( "wetland_forest" );
+const overmap_land_use_code_id land_use_code_wetland_saltwater( "wetland_saltwater" );
 
 /** Direction on the overmap. */
 namespace om_direction
@@ -228,7 +241,7 @@ struct oter_t {
         oter_id get_rotated( om_direction::type dir ) const;
 
         const std::string get_name() const {
-            return _( type->name.c_str() );
+            return _( type->name );
         }
 
         std::string get_symbol( const bool from_land_use_code = false ) const {
@@ -266,6 +279,10 @@ struct oter_t {
             return type->static_spawns;
         }
 
+        const overmap_land_use_code_id get_land_use_code() const {
+            return type->land_use_code;
+        }
+
         bool type_is( const int_id<oter_type_t> &type_id ) const;
         bool type_is( const oter_type_t &type ) const;
 
@@ -287,6 +304,13 @@ struct oter_t {
 
         bool is_river() const {
             return type->has_flag( river_tile );
+        }
+
+        bool is_wooded() const {
+            return type->land_use_code == land_use_code_forest ||
+                   type->land_use_code == land_use_code_wetland ||
+                   type->land_use_code == land_use_code_wetland_forest ||
+                   type->land_use_code == land_use_code_wetland_saltwater;
         }
 
     private:

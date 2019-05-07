@@ -1,0 +1,28 @@
+[
+  {
+    "type": "mod_tileset",
+    "compatibility": [ "MSX++DEAD_PEOPLE", "UNDEAD_PEOPLE" ],
+    "tiles-new": [
+      {
+        "file": "old_floor.png",
+        "tiles": [
+          {
+            "id": "t_floor",
+            "fg": 0,
+            "bg": 0,
+            "multitile": true,
+            "additional_tiles": [
+              { "fg": 0, "bg": 0, "id": "center" },
+              { "fg": [ 1, 2, 3, 4 ], "bg": 0, "id": "corner" },
+              { "fg": [ 5, 6, 7, 8 ], "bg": 0, "id": "t_connection" },
+              { "fg": [ 9, 10 ], "bg": 0, "id": "edge" },
+              { "fg": [ 11, 12, 13, 14 ], "bg": 0, "id": "end_piece" },
+              { "fg": 15, "bg": 0, "id": "unconnected" }
+            ],
+            "rotates": false
+          }
+        ]
+      }
+    ]
+  }
+]

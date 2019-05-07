@@ -67,7 +67,7 @@
     "type": "talk_topic",
     "category": "CATEGORY_FOLLOW",
     "dynamic_line": {
-      "npc_has_effect": "infected",
+      "npc_has_effect": "infection",
       "no": {
         "npc_has_effect": "asked_to_follow",
         "no": "Why should I travel with you?",
@@ -80,7 +80,7 @@
         "switch": true,
         "text": "Understood.  I'll get those antibiotics.",
         "topic": "TALK_NONE",
-        "condition": { "npc_has_effect": "infected" }
+        "condition": { "npc_has_effect": "infection" }
       },
       {
         "switch": true,
@@ -379,5 +379,17 @@
     "id": [ "TALK_SIZE_UP", "TALK_LOOK_AT", "TALK_OPINION", "TALK_SHOUT" ],
     "type": "talk_topic",
     "responses": [ { "text": "Okay", "topic": "TALK_NONE" } ]
+  },
+  {
+    "id": "TALK_DELIVER_ASK",
+    "type": "talk_topic",
+    "dynamic_line": "I'm willing to pay <topic_item_price> per batch for a total of <topic_item_your_total_price>.",
+    "responses": [ { "text": "Works for me.", "topic": "TALK_DELIVER_CONFIRM" }, { "text": "Maybe later.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "TALK_DELIVER_CONFIRM",
+    "type": "talk_topic",
+    "dynamic_line": "Pleasure doing business!",
+    "responses": [ { "text": "You might be seeing more of me...", "topic": "TALK_DONE", "effect": "u_bulk_trade_accept" } ]
   }
 ]

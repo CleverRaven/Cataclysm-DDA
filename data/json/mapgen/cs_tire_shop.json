@@ -38,7 +38,7 @@
     "type": "item_group",
     "id": "oa_ig_ts_lockers",
     "items": [
-      [ "battery", 10 ],
+      { "group": "ammo_pocket_batteries_full", "prob": 10 },
       [ "radio", 10 ],
       [ "rag", 30 ],
       [ "jack", 20 ],
@@ -58,14 +58,16 @@
       [ "screwdriver", 15 ],
       [ "superglue", 5 ],
       [ "polisher", 15 ],
-      [ "solar_panel", 15 ]
+      [ "solar_panel", 15 ],
+      [ "spare_tire_carrier", 10 ],
+      [ "mounted_spare_tire", 10 ]
     ]
   },
   {
     "type": "item_group",
     "id": "oa_ig_ts_crates",
     "items": [
-      [ "battery", 10 ],
+      { "group": "ammo_any_batteries_full", "prob": 10 },
       [ "radio", 10 ],
       [ "rag", 30 ],
       [ "jack", 20 ],
@@ -85,7 +87,9 @@
       [ "screwdriver", 15 ],
       [ "superglue", 5 ],
       [ "polisher", 15 ],
-      [ "solar_panel", 15 ]
+      [ "solar_panel", 15 ],
+      [ "spare_tire_carrier", 10 ],
+      [ "mounted_spare_tire", 10 ]
     ]
   },
   {

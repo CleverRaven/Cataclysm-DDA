@@ -2,9 +2,14 @@
 
 #include <algorithm>
 #include <set>
+#include <array>
+#include <iterator>
+#include <sstream>
+#include <utility>
 
 #include "debug.h"
 #include "output.h"
+#include "game.h"
 
 std::array<std::string, 3> error_keyvals = {{ "Missing Dependency(ies): ", "", "" }};
 

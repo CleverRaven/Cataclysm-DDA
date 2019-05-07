@@ -158,7 +158,7 @@
       "place_monsters": [ { "monster": "GROUP_MAYBE_MIL", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ],
       "place_monster": [
         {
-          "monster": [ "mon_zombie_bio_op", "mon_zombie_grenadier" ],
+          "monster": [ "mon_zombie_bio_op", "mon_dispatch" ],
           "x": [ 10, 16 ],
           "y": [ 5, 12 ],
           "pack_size": [ 1, 2 ],

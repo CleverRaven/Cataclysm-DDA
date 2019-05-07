@@ -7,37 +7,55 @@
 #include <set>
 #include <string>
 #include <vector>
+#include <array>
+#include <iosfwd>
+#include <list>
+#include <unordered_map>
+#include <utility>
 
 #include "calendar.h"
-#include "faction.h"
 #include "line.h"
 #include "optional.h"
 #include "pimpl.h"
 #include "player.h"
-#include "simple_pathfinding.h"
+#include "auto_pickup.h"
+#include "color.h"
+#include "creature.h"
+#include "cursesdef.h"
+#include "enums.h"
+#include "int_id.h"
+#include "inventory.h"
+#include "item_location.h"
+#include "itype.h"
+#include "pldata.h"
+#include "string_formatter.h"
+#include "string_id.h"
+#include "material.h"
 
 class JsonObject;
 class JsonIn;
 class JsonOut;
 class item;
-class overmap;
-class player;
-class field_entry;
 class npc_class;
-class auto_pickup;
 class monfaction;
 struct mission_type;
-struct npc_companion_mission;
 struct overmap_location;
+class Character;
+class faction;
+class mission;
+class vehicle;
+struct pathfinding_settings;
 
 enum game_message_type : int;
 class gun_mode;
+
 using npc_class_id = string_id<npc_class>;
 using mission_type_id = string_id<mission_type>;
 using mfaction_id = int_id<monfaction>;
 using overmap_location_str_id = string_id<overmap_location>;
 
-void parse_tags( std::string &phrase, const player &u, const player &me );
+void parse_tags( std::string &phrase, const player &u, const player &me,
+                 const itype_id &item_type = "null" );
 
 /*
  * Talk:   Trust midlow->high, fear low->mid, need doesn't matter
@@ -276,7 +294,7 @@ struct npc_follower_rules {
     void clear_override( ally_rule setit );
 
     void set_danger_overrides();
-    void clear_danger_overrides();
+    void clear_overrides();
 };
 
 struct dangerous_sound {
@@ -529,7 +547,6 @@ struct npc_chatbin {
     void deserialize( JsonIn &jsin );
 };
 
-class npc;
 class npc_template;
 struct epilogue;
 
@@ -559,6 +576,7 @@ class npc : public player
         void randomize( const npc_class_id &type = npc_class_id::NULL_ID() );
         void randomize_from_faction( faction *fac );
         void set_fac( const string_id<faction> &id );
+        void clear_fac();
         /**
          * Set @ref submap_coords and @ref pos.
          * @param mx,my,mz are global submap coordinates.
@@ -624,15 +642,22 @@ class npc : public player
          */
         std::vector<matype_id> styles_offered_to( const player &p ) const;
         // State checks
+        int get_faction_ver() const; // faction version number
+        void set_faction_ver( int new_version );
         bool is_enemy() const; // We want to kill/mug/etc the player
         bool is_following() const; // Traveling w/ player (whether as a friend or a slave)
-        bool is_friend() const; // Allies with the player
+        bool is_obeying( const player &p ) const;
+        bool is_friendly( const player &p ) const; // ally of or travelling with p
         bool is_leader() const; // Leading the player
+        bool is_walking_with() const; // Leading, following, or waiting for the player
+        bool is_ally( const player &p ) const; // in the same faction
+        bool is_player_ally() const; // is an ally of the player
+        bool is_stationary( bool include_guards = true ) const; // isn't moving
+        bool is_guarding() const; // has a guard mission
+        bool is_patrolling() const; // has a guard patrol mission
         bool is_assigned_to_camp() const;
         /** is performing a player_activity */
         bool has_player_activity() const;
-        /** Standing in one spot, moving back if removed from it. */
-        bool is_guarding() const;
         bool is_travelling() const;
         /** Trusts you a lot. */
         bool is_minion() const;
@@ -670,9 +695,9 @@ class npc : public player
         bool will_accept_from_player( const item &it ) const;
 
         bool wants_to_sell( const item &it ) const;
-        bool wants_to_sell( const item &it, int at_price, int market_price ) const;
+        bool wants_to_sell( const item &/*it*/, int at_price, int market_price ) const;
         bool wants_to_buy( const item &it ) const;
-        bool wants_to_buy( const item &it, int at_price, int market_price ) const;
+        bool wants_to_buy( const item &/*it*/, int at_price, int /*market_price*/ ) const;
 
         // AI helpers
         void regen_ai_cache();
@@ -694,7 +719,7 @@ class npc : public player
         void say( const char *const line, Args &&... args ) const {
             return say( string_format( line, std::forward<Args>( args )... ) );
         }
-        void say( const std::string &line, const bool shout = false ) const;
+        void say( const std::string &line, const int priority = 0 ) const;
         void decide_needs();
         void die( Creature *killer ) override;
         bool is_dead() const;
@@ -706,7 +731,8 @@ class npc : public player
         // @param force true if the complaint should happen even if not enough time has elapsed since last complaint
         // @param speech words of this complaint
         bool complain_about( const std::string &issue, const time_duration &dur,
-                             const std::string &speech, const bool force = false, const bool alert = false );
+                             const std::string &speech, const bool force = false,
+                             const int priority = 0 );
         // wrapper for complain_about that warns about a specific type of threat, with
         // different warnings for hostile or friendly NPCs and hostile NPCs always complaining
         void warn_about( const std::string &type, const time_duration &d = 10_minutes,
@@ -828,6 +854,7 @@ class npc : public player
         bool saw_player_recently() const;// Do we have an idea of where u are?
         /** Returns true if food was consumed, false otherwise. */
         bool consume_food();
+        int get_thirst() const override;
 
         // Movement on the overmap scale
         bool has_omt_destination() const; // Do we have a long-term destination?
@@ -882,11 +909,16 @@ class npc : public player
         // #############   VALUES   ################
 
         npc_class_id myclass; // What's our archetype?
-        std::string idz; // A temp variable used to inform the game which npc json to use as a template
-        mission_type_id miss_id; // A temp variable used to link to the correct mission
+        // A temp variable used to inform the game which npc json to use as a template
+        std::string idz;
+        // A temp variable used to link to the correct mission
+        std::vector<mission_type_id> miss_ids;
 
     private:
-
+        // faction API versions
+        // 2 - allies are in your_followers faction; NPCATT_FOLLOW is follower but not an ally
+        // 0 - allies may be in your_followers faction; NPCATT_FOLLOW is an ally (legacy)
+        int faction_api_version = 2;  // faction API versioning
         npc_attitude attitude; // What we want to do to the player
         /**
          * Global submap coordinates of the submap containing the npc.
@@ -989,7 +1021,7 @@ class npc : public player
         cata::optional<tripoint> get_mission_destination() const;
         bool has_companion_mission() const;
         npc_companion_mission get_companion_mission() const;
-        attitude_group get_attitude_group( npc_attitude att );
+        attitude_group get_attitude_group( npc_attitude att ) const;
 
     protected:
         void store( JsonOut &jsout ) const;

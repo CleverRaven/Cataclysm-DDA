@@ -34,17 +34,13 @@
     "capacity": 1000
   },
   {
-    "id": "recharge_station",
     "type": "GENERIC",
-    "category": "veh_parts",
-    "name": "battery charger",
-    "description": "A charger for batteries that runs off vehicle power.  It is quite inefficient, but charges fast.",
+    "id": "recharge_station",
+    "name": "recharging station",
+    "copy-from": "recharge_station",
     "weight": 1000,
     "volume": 4,
     "price": 2000,
-    "price_postapoc": 10000,
-    "material": [ "steel", "plastic" ],
-    "symbol": "-",
-    "color": "light_blue"
+    "price_postapoc": 10000
   }
 ]

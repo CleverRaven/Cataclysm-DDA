@@ -1,5 +1,6 @@
 #include <string>
 #include <vector>
+#include <memory>
 
 #include "catch/catch.hpp"
 #include "game.h"
@@ -9,6 +10,8 @@
 #include "map_helpers.h"
 #include "mapdata.h"
 #include "options.h"
+#include "enums.h"
+#include "int_id.h"
 
 // Destroying pavement with a pickaxe should not leave t_flat_roof.
 // See issue #24707:

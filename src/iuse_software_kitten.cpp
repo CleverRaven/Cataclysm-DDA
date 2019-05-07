@@ -1,11 +1,13 @@
 #include "iuse_software_kitten.h"
 
 #include <cstdlib>  // Needed for rand()
+#include <vector>
 
 #include "cursesdef.h"
 #include "input.h"
 #include "output.h"
 #include "posix_time.h"
+#include "rng.h"
 #include "translations.h"
 
 #define EMPTY -1
@@ -257,21 +259,21 @@ robot_finds_kitten::robot_finds_kitten( const catacurses::window &w )
     }
     /* Now we initialize the various game OBJECTs.
        * Assign a position to the player. */
-    robot.x = rand() % rfkCOLS;
-    robot.y = rand() % ( rfkLINES - 3 ) + 3;
+    robot.x = rng( 0, rfkCOLS - 1 );
+    robot.y = rng( 0, rfkLINES - 3 - 1 ) + 3;
     robot.character = '#';
     robot.color = c_white;
     rfkscreen[robot.x][robot.y] = ROBOT;
 
     /* Assign the kitten a unique position. */
     do {
-        kitten.x = rand() % rfkCOLS;
-        kitten.y = rand() % ( rfkLINES - 3 ) + 3;
+        kitten.x = rng( 0, rfkCOLS - 1 );
+        kitten.y = rng( 0, rfkLINES - 3 - 1 ) + 3;
     } while( rfkscreen[kitten.x][kitten.y] != EMPTY );
 
     /* Assign the kitten a character and a color. */
     do {
-        kitten.character = ktile[rand() % 82];
+        kitten.character = ktile[rng( 0, 81 )];
     } while( kitten.character == '#' || kitten.character == ' ' );
 
     do {
@@ -284,14 +286,14 @@ robot_finds_kitten::robot_finds_kitten( const catacurses::window &w )
     for( int c = 0; c < numbogus; c++ ) {
         /* Assign a unique position. */
         do {
-            bogus[c].x = rand() % rfkCOLS;
-            bogus[c].y = ( rand() % ( rfkLINES - 3 ) ) + 3;
+            bogus[c].x = rng( 0, rfkCOLS - 1 );
+            bogus[c].y = rng( 0, rfkLINES - 3 - 1 ) + 3;
         } while( rfkscreen[bogus[c].x][bogus[c].y] != EMPTY );
         rfkscreen[bogus[c].x][bogus[c].y] = c + 2;
 
         /* Assign a character. */
         do {
-            bogus[c].character = ktile[rand() % 82];
+            bogus[c].character = ktile[rng( 0, 81 )];
         } while( bogus[c].character == '#' || bogus[c].character == ' ' );
 
         do {
@@ -301,7 +303,7 @@ robot_finds_kitten::robot_finds_kitten( const catacurses::window &w )
         /* Assign a unique message. */
         int index = 0;
         do {
-            index = rand() % nummessages;
+            index = rng( 0, nummessages - 1 );
         } while( used_messages[index] != 0 );
         bogus_messages[c] = index;
         used_messages[index] = 1;

@@ -2,8 +2,10 @@
 #ifndef OVERMAP_H
 #define OVERMAP_H
 
+#include <stdlib.h>
 #include <algorithm>
 #include <array>
+#include <climits>
 #include <functional>
 #include <iosfwd>
 #include <map>
@@ -11,26 +13,23 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include <iterator>
+#include <utility>
 
 #include "basecamp.h"
 #include "game_constants.h"
-#include "monster.h"
 #include "omdata.h"
 #include "overmap_types.h" // IWYU pragma: keep
 #include "regional_settings.h"
-#include "weighted_list.h"
+#include "enums.h"
+#include "mongroup.h"
+#include "optional.h"
 
-class basecamp;
-class input_context;
-class JsonObject;
 class npc;
-class overmapbuffer;
 class overmap_connection;
-namespace catacurses
-{
-class window;
-} // namespace catacurses
-struct mongroup;
+class JsonIn;
+class JsonOut;
+class monster;
 
 namespace pf
 {
@@ -85,7 +84,7 @@ struct radio_tower {
     radio_tower( int X = -1, int Y = -1, int S = -1, std::string M = "",
                  radio_type T = MESSAGE_BROADCAST ) :
         x( X ), y( Y ), strength( S ), type( T ), message( M ) {
-        frequency = rand();
+        frequency = rng( 0, INT_MAX );
     }
 };
 
@@ -332,8 +331,8 @@ class overmap
 
         // Overall terrain
         void place_river( point pa, point pb );
-        void place_forest();
-
+        void place_forests();
+        void place_swamps();
         void place_forest_trails();
         void place_forest_trailheads();
 

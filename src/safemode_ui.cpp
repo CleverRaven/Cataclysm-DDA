@@ -2,8 +2,11 @@
 
 #include <cstdlib>
 #include <fstream>
-#include <sstream>
 #include <string>
+#include <algorithm>
+#include <map>
+#include <memory>
+#include <utility>
 
 #include "cata_utility.h"
 #include "debug.h"
@@ -20,6 +23,9 @@
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
+#include "color.h"
+#include "compatibility.h"
+#include "cursesdef.h"
 
 safemode &get_safemode()
 {
@@ -211,7 +217,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
 
                 draw_column( COLUMN_RULE, ( rule.rule.empty() ) ? _( "<empty rule>" ) : rule.rule );
                 draw_column( COLUMN_ATTITUDE, Creature::get_attitude_ui_data( rule.attitude ).first );
-                draw_column( COLUMN_PROXIMITY, ( !rule.whitelist ) ? to_string( rule.proximity ).c_str() : "---" );
+                draw_column( COLUMN_PROXIMITY, ( !rule.whitelist ) ? to_string( rule.proximity ) : "---" );
                 draw_column( COLUMN_WHITE_BLACKLIST, ( rule.whitelist ) ? _( "Whitelist" ) : _( "Blacklist" ) );
             }
         }

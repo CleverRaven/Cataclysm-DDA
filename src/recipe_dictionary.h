@@ -2,6 +2,7 @@
 #ifndef RECIPE_DICTIONARY_H
 #define RECIPE_DICTIONARY_H
 
+#include <stddef.h>
 #include <algorithm>
 #include <functional>
 #include <map>
@@ -15,8 +16,8 @@
 class JsonIn;
 class JsonOut;
 class JsonObject;
+
 typedef std::string itype_id;
-class recipe;
 using recipe_id = string_id<recipe>;
 
 class recipe_dictionary

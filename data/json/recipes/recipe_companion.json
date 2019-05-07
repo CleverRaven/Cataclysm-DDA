@@ -77,7 +77,7 @@
     "autolearn": false,
     "never_learn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "dahlia_root", 10 ], [ "potato_raw", 5 ], [ "potato_irradiated", 5 ] ] ]
+    "components": [ [ [ "dahlia_root", 10 ], [ "potato", 5 ], [ "irradiated_potato", 5 ] ] ]
   },
   {
     "type": "recipe",
@@ -445,8 +445,8 @@
         [ "irradiated_zucchini", 2 ],
         [ "cucumber", 2 ],
         [ "irradiated_cucumber", 2 ],
-        [ "potato_raw", 2 ],
-        [ "potato_irradiated", 2 ],
+        [ "potato", 2 ],
+        [ "irradiated_potato", 2 ],
         [ "corn", 2 ],
         [ "irradiated_corn", 2 ],
         [ "onion", 2 ],
@@ -551,8 +551,8 @@
         [ "irradiated_zucchini", 3 ],
         [ "celery", 9 ],
         [ "irradiated_celery", 9 ],
-        [ "potato_raw", 3 ],
-        [ "potato_irradiated", 3 ],
+        [ "potato", 3 ],
+        [ "irradiated_potato", 3 ],
         [ "potato_baked", 3 ],
         [ "can_corn", 3 ],
         [ "corn", 3 ],

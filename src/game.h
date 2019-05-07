@@ -2,12 +2,18 @@
 #ifndef GAME_H
 #define GAME_H
 
+#include <limits.h>
 #include <array>
 #include <list>
 #include <map>
 #include <memory>
 #include <unordered_map>
+#include <set>
 #include <vector>
+#include <ctime>
+#include <functional>
+#include <iosfwd>
+#include <string>
 
 #include "calendar.h"
 #include "cursesdef.h"
@@ -17,12 +23,16 @@
 #include "item_location.h"
 #include "optional.h"
 #include "pimpl.h"
-#include "posix_time.h"
+#include "creature.h"
+#include "item.h"
+#include "string_id.h"
+#include "monster.h"
 
 extern bool test_mode;
 
 // The reference to the one and only game instance.
 class game;
+
 extern std::unique_ptr<game> g;
 
 extern bool trigdist;
@@ -36,6 +46,7 @@ extern const int savegame_version;
 extern int savegame_loading_version;
 
 class input_context;
+
 input_context get_default_mode_input_context();
 
 enum class dump_mode {
@@ -63,51 +74,46 @@ enum weather_type : int;
 enum action_id : int;
 enum target_mode : int;
 
-class item_location;
-class item;
 struct targeting_data;
 struct special_game;
-struct itype;
 struct mtype;
+
 using mtype_id = string_id<mtype>;
 struct species_type;
+
 using species_id = string_id<species_type>;
 using itype_id = std::string;
 class ammunition_type;
+
 using ammotype = string_id<ammunition_type>;
-class mission;
 class map;
-class Creature;
 class zone_type;
+
 using zone_type_id = string_id<zone_type>;
-class Character;
 class faction_manager;
 class new_faction_manager;
 class player;
 class npc;
-class monster;
 struct MOD_INFORMATION;
+
 using mod_id = string_id<MOD_INFORMATION>;
 class vehicle;
 class Creature_tracker;
-class calendar;
 class scenario;
-class DynamicDataLoader;
-class salvage_actor;
-class input_context;
 class map_item_stack;
 struct WORLD;
 class save_t;
+
 typedef WORLD *WORLDPTR;
 class overmap;
 class event_manager;
+
 enum event_type : int;
-struct vehicle_part;
 struct ter_t;
+
 using ter_id = int_id<ter_t>;
 class weather_generator;
 struct weather_printable;
-class faction;
 class live_view;
 class nc_color;
 struct w_point;
@@ -115,7 +121,6 @@ struct explosion_data;
 struct visibility_variables;
 class scent_map;
 class loading_ui;
-class window_panel;
 
 typedef std::function<bool( const item & )> item_filter;
 
@@ -202,23 +207,10 @@ class game
     protected:
         /** Loads dynamic data from the given directory. May throw. */
         void load_data_from_dir( const std::string &path, const std::string &src, loading_ui &ui );
-
-        // May be a bit hacky, but it's probably better than the header spaghetti
-        pimpl<map> map_ptr;
-        pimpl<player> u_ptr;
-        pimpl<live_view> liveview_ptr;
-        live_view &liveview;
-        pimpl<scent_map> scent_ptr;
-        pimpl<event_manager> event_manager_ptr;
     public:
-
         /** Initializes the UI. */
         void init_ui( const bool resized = false );
         void setup();
-        /** True if the game has just started or loaded, else false. */
-        bool new_game;
-        /** Used in main.cpp to determine what type of quit is being performed. */
-        quit_status uquit;
         /** Saving and loading functions. */
         void serialize( std::ostream &fout ); // for save
         void unserialize( std::istream &fin ); // for load
@@ -250,16 +242,6 @@ class game
          */
         cata::optional<tripoint> get_veh_dir_indicator_location( bool next ) const;
         void draw_veh_dir_indicator( bool next );
-
-        /** Make map a reference here, to avoid map.h in game.h */
-        map &m;
-        player &u;
-        scent_map &scent;
-        event_manager &events;
-
-        pimpl<Creature_tracker> critter_tracker;
-        pimpl<faction_manager> faction_manager_ptr;
-        pimpl<new_faction_manager> new_faction_manager_ptr;
 
         /** Create explosion at p of intensity (power) with (shrapnel) chunks of shrapnel.
             Explosion intensity formula is roughly power*factor^distance.
@@ -518,8 +500,16 @@ class game
         npc *find_npc( int id );
         /** Makes any nearby NPCs on the overmap active. */
         void load_npcs();
-        /** Unloads all NPCs */
+    private:
+        /** Unloads all NPCs.
+         *
+         * If you call this you must later call load_npcs, lest caches get
+         * rather confused.  The tests used to call this a lot when they
+         * shouldn't. It is now private to reduce the chance of similar
+         * problems in the future.
+         */
         void unload_npcs();
+    public:
         /** Unloads, then loads the NPCs */
         void reload_npcs();
         /** Returns the number of kills of the given mon_id by the player. */
@@ -530,12 +520,12 @@ class game
         void increase_kill_count( const mtype_id &id );
         /** Record the fact that the player murdered an NPC. */
         void record_npc_kill( const npc &p );
-        /** Add follower id to list. */
+        /** Add follower id to set of followers. */
         void add_npc_follower( const int &id );
-        /** Remove follower id from follower list. */
+        /** Remove follower id from follower set. */
         void remove_npc_follower( const int &id );
-        /** Get list of followers. */
-        std::vector<int> get_follower_list();
+        /** Get set of followers. */
+        std::set<int> get_follower_list();
         /** validate list of followers to account for overmap buffers */
         void validate_npc_followers();
         /** validate camps to ensure they are on the overmap list */
@@ -647,14 +637,8 @@ class game
         int get_moves_since_last_save() const;
         int get_user_action_counter() const;
 
-        signed char temperature;              // The air temperature
         // Returns outdoor or indoor temperature of given location (in absolute (@ref map::getabs))
         int get_temperature( const tripoint &location );
-        weather_type weather;   // Weather pattern--SEE weather.h
-        bool lightning_active;
-        int winddirection;
-        int windspeed;
-        pimpl<w_point> weather_precise; // Cached weather data
 
         /**
          * The top left corner of the reality bubble (in submaps coordinates). This is the same
@@ -673,41 +657,9 @@ class game
          */
         overmap &get_cur_om() const;
         const weather_generator &get_cur_weather_gen() const;
-        const scenario *scen;
-        std::vector<monster> coming_to_stairs;
-        int monstairz;
 
         /** Get all living player allies */
         std::vector<npc *> allies();
-
-    private:
-        std::shared_ptr<player> u_shared_ptr;
-        std::vector<std::shared_ptr<npc>> active_npc;
-    public:
-        int ter_view_x;
-        int ter_view_y;
-        int ter_view_z;
-
-    private:
-        catacurses::window w_terrain_ptr;
-        catacurses::window w_minimap_ptr;
-    public:
-        catacurses::window w_terrain;
-        catacurses::window w_overmap;
-        catacurses::window w_omlegend;
-        catacurses::window w_minimap;
-        catacurses::window w_pixel_minimap;
-        //only a pointer, can refer to w_messages_short or w_messages_long
-
-        catacurses::window w_panel_adm_ptr;
-        catacurses::window w_panel_adm;
-
-        catacurses::window w_blackspace;
-
-        // View offset based on the driving speed (if any)
-        // that has been added to u.view_offset,
-        // Don't write to this directly, always use set_driving_view_offset
-        point driving_view_offset;
         // Setter for driving_view_offset
         void set_driving_view_offset( const point &p );
         // Calculates the driving_view_offset for the given vehicle
@@ -848,6 +800,9 @@ class game
         // @param center the center of view, same as when calling map::draw
         void draw_critter( const Creature &critter, const tripoint &center );
         void draw_cursor( const tripoint &p );
+        // Draw a highlight graphic at p, for example when examining something.
+        // TILES only, in curses this does nothing
+        void draw_highlight( const tripoint &p );
 
         bool is_in_viewport( const tripoint &p, int margin = 0 ) const;
         /**
@@ -856,16 +811,6 @@ class game
          */
         bool check_safe_mode_allowed( bool repeat_safe_mode_warnings = true );
         void set_safe_mode( safe_mode_type mode );
-
-        bool show_panel_adm;
-        bool right_sidebar;
-        bool reinitmap;
-        bool fullscreen;
-        bool was_fullscreen;
-        // the calculated number of columns to shift the terrain window in order
-        // to center the screen with a sidebar
-        // negative number is left hand side of screen, positive is right side
-        tripoint sidebar_offset;
 
         /** open vehicle interaction screen */
         void exam_vehicle( vehicle &veh, int cx = 0, int cy = 0 );
@@ -888,9 +833,6 @@ class game
         // from closing at all.
         // If the door gets closed the items on the door tile get moved away or destroyed.
         bool forced_door_closing( const tripoint &p, const ter_id &door_type, int bash_dmg );
-
-        //pixel minimap management
-        int pixel_minimap_option;
 
         /** Attempt to load first valid save (if any) in world */
         bool load( const std::string &world );
@@ -934,9 +876,6 @@ class game
         game::vmenu_ret list_items( const std::vector<map_item_stack> &item_list );
         std::vector<map_item_stack> find_nearby_items( int iRadius );
         void reset_item_list_state( const catacurses::window &window, int height, bool bRadiusSort );
-        std::string sFilter; // this is a member so that it's remembered over time
-        std::string list_item_upvote;
-        std::string list_item_downvote;
 
         game::vmenu_ret list_monsters( const std::vector<Creature *> &monster_list );
 
@@ -948,6 +887,12 @@ class game
         // Standard movement; handles attacks, traps, &c. Returns false if auto move
         // should be canceled
         bool plmove( int dx, int dy, int dz = 0 );
+        inline bool plmove( tripoint d ) {
+            return plmove( d.x, d.y, d.z );
+        }
+        inline bool plmove( point d ) {
+            return plmove( d.x, d.y );
+        }
         // Handle pushing during move, returns true if it handled the move
         bool grabbed_move( const tripoint &dp );
         bool grabbed_veh_move( const tripoint &dp );
@@ -961,14 +906,16 @@ class game
         void on_move_effects();
 
         void control_vehicle(); // Use vehicle controls  '^'
-        void examine( const tripoint &p );// Examine nearby terrain  'e'
+        void examine( const tripoint &p ); // Examine nearby terrain  'e'
         void examine();
+
+        void pickup(); // Pickup neaby items 'g'
+        void pickup( const tripoint &p );
 
         void drop(); // Drop an item  'd'
         void drop_in_direction(); // Drop w/ direction  'D'
 
         void butcher(); // Butcher a corpse  'B'
-        void eat( int pos = INT_MIN ); // Eat food or fuel  'E' (or 'a')
         void use_item( int pos = INT_MIN ); // Use item; also tries E,R,W  'a'
 
         void change_side( int pos = INT_MIN ); // Change the side on which an item is worn 'c'
@@ -977,6 +924,7 @@ class game
         void mend( int pos = INT_MIN );
         void autoattack();
     public:
+        void eat( int pos = INT_MIN ); // Eat food or fuel  'E' (or 'a')
         void reload_item(); // Reload an item
         void reload_weapon( bool try_everything = true ); // Reload a wielded gun/tool  'r'
         // Places the player at the specified point; hurts feet, lists items etc.
@@ -994,6 +942,7 @@ class game
         void set_critter_died();
         void mon_info( const catacurses::window &,
                        int hor_padding = 0 ); // Prints a list of nearby monsters
+        void cleanup_dead();     // Delete any dead NPCs/monsters
     private:
         void wield();
         void wield( int pos ); // Wield a weapon  'w'
@@ -1048,7 +997,6 @@ class game
         void rebuild_mon_at_cache();
 
         // Routine loop functions, approximately in order of execution
-        void cleanup_dead();     // Delete any dead NPCs/monsters
         void monmove();          // Monster movement
         void overmap_npc_move(); // NPC overmap movement
         void process_activity(); // Processes and enacts the player's activity
@@ -1081,6 +1029,7 @@ class game
         void autosave();         // automatic quicksaves - Performs some checks before calling quicksave()
     public:
         void quicksave();        // Saves the game without quitting
+        void disp_NPCs();        // Currently for debug use.  Lists global NPCs.
     private:
         void quickload();        // Loads the previously saved game if it exists
 
@@ -1092,28 +1041,108 @@ class game
         void disp_kills();          // Display the player's kill counts
         void disp_faction_ends();   // Display the faction endings
         void disp_NPC_epilogues();  // Display NPC endings
-        void disp_NPCs();           // Currently UNUSED.  Lists global NPCs.
         void list_missions();       // Listed current, completed and failed missions (mission_ui.cpp)
 
         // Debug functions
-        void debug();           // All-encompassing debug screen. TODO: This.
         void display_scent();   // Displays the scent map
 
+        Creature *is_hostile_within( int distance );
+
+        void move_save_to_graveyard();
+        bool save_player_data();
         // ########################## DATA ################################
+    protected:
+        // May be a bit hacky, but it's probably better than the header spaghetti
+        pimpl<map> map_ptr;
+        pimpl<player> u_ptr;
+        pimpl<live_view> liveview_ptr;
+        live_view &liveview;
+        pimpl<scent_map> scent_ptr;
+        pimpl<event_manager> event_manager_ptr;
 
     public:
+        /** Make map a reference here, to avoid map.h in game.h */
+        map &m;
+        player &u;
+        scent_map &scent;
+        event_manager &events;
+
+        pimpl<Creature_tracker> critter_tracker;
+        pimpl<faction_manager> faction_manager_ptr;
+        pimpl<new_faction_manager> new_faction_manager_ptr;
+
+        /** Used in main.cpp to determine what type of quit is being performed. */
+        quit_status uquit;
+        /** True if the game has just started or loaded, else false. */
+        bool new_game;
+
+        signed char temperature;              // The air temperature
+        bool lightning_active;
+        weather_type weather;   // Weather pattern--SEE weather.h
+        int winddirection;
+        int windspeed;
+        pimpl<w_point> weather_precise; // Cached weather data
+        const scenario *scen;
+        std::vector<monster> coming_to_stairs;
+        int monstairz;
+
+        int ter_view_x;
+        int ter_view_y;
+        int ter_view_z;
+        catacurses::window w_terrain;
+        catacurses::window w_overmap;
+        catacurses::window w_omlegend;
+        catacurses::window w_minimap;
+        catacurses::window w_pixel_minimap;
+        //only a pointer, can refer to w_messages_short or w_messages_long
+
+        catacurses::window w_panel_adm_ptr;
+        catacurses::window w_panel_adm;
+
+        catacurses::window w_blackspace;
+
+        // View offset based on the driving speed (if any)
+        // that has been added to u.view_offset,
+        // Don't write to this directly, always use set_driving_view_offset
+        point driving_view_offset;
+
+        bool debug_pathfinding = false; // show NPC pathfinding on overmap ui
+        bool displaying_scent;
+
+        bool show_panel_adm;
+        bool right_sidebar;
+        bool reinitmap;
+        bool fullscreen;
+        bool was_fullscreen;
+
+        //pixel minimap management
+        int pixel_minimap_option;
+        bool auto_travel_mode = false;
         safe_mode_type safe_mode;
         int turnssincelastmon; // needed for auto run mode
-        bool debug_pathfinding = false; // show NPC pathfinding on overmap ui
+        cata::optional<int> wind_direction_override;
+        cata::optional<int> windspeed_override;
+        weather_type weather_override;
+        // not only sets nextweather, but updates weather as well
+        void set_nextweather( time_point t );
     private:
-        bool safe_mode_warning_logged;
+        std::shared_ptr<player> u_shared_ptr;
+        std::vector<std::shared_ptr<npc>> active_npc;
+
+        catacurses::window w_terrain_ptr;
+        catacurses::window w_minimap_ptr;
+
+        std::string sFilter; // a member so that it's remembered over time
+        std::string list_item_upvote;
+        std::string list_item_downvote;
+
         std::vector<std::shared_ptr<monster>> new_seen_mon;
         int mostseen;  // # of mons seen last turn; if this increases, set safe_mode to SAFE_MODE_STOP
-        //  quit_status uquit;    // Set to true if the player quits ('Q')
+        bool safe_mode_warning_logged;
         bool bVMonsterLookFire;
         time_point nextweather; // The time on which weather will shift next.
         int next_npc_id, next_mission_id; // Keep track of UIDs
-        std::vector<int> follower_ids; // Keep track of follower NPC IDs
+        std::set<int> follower_ids; // Keep track of follower NPC IDs
         std::map<mtype_id, int> kills;         // Player's kill count
         std::list<std::string> npc_kills;      // names of NPCs the player killed
         int moves_since_last_save;
@@ -1146,16 +1175,6 @@ class game
         // Preview for auto move route
         std::vector<tripoint> destination_preview;
 
-        Creature *is_hostile_within( int distance );
-
-        void move_save_to_graveyard();
-        bool save_player_data();
-    public:
-        cata::optional<int> wind_direction_override;
-        cata::optional<int> windspeed_override;
-        weather_type weather_override;
-
-        bool displaying_scent;
 };
 
 // Returns temperature modifier from direct heat radiation of nearby sources

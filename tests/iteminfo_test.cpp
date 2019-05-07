@@ -1,3 +1,7 @@
+#include <memory>
+#include <string>
+#include <vector>
+
 #include "catch/catch.hpp"
 #include "game.h"
 #include "item.h"

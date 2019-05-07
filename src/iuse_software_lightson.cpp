@@ -3,13 +3,17 @@
 #include <algorithm>
 #include <string>
 #include <vector>
+#include <sstream>
 
 #include "cursesdef.h"
 #include "input.h"
 #include "output.h"
 #include "rng.h"
 #include "translations.h"
-#include "ui.h"
+#include "catacharset.h"
+#include "color.h"
+#include "enums.h"
+#include "optional.h"
 
 void lightson_game::new_level()
 {

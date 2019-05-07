@@ -2,6 +2,9 @@
 
 #include <map>
 #include <sstream>
+#include <algorithm>
+#include <memory>
+#include <unordered_set>
 
 #include "debug.h"
 #include "json.h"
@@ -10,6 +13,10 @@
 #include "player.h"
 #include "rng.h"
 #include "string_formatter.h"
+#include "color.h"
+#include "creature.h"
+#include "enums.h"
+#include "pldata.h"
 
 namespace
 {
@@ -492,7 +499,7 @@ std::string effect::disp_name() const
         }
     }
     if( bp != num_bp ) {
-        ret << " (" << body_part_name( bp ).c_str() << ")";
+        ret << " (" << body_part_name( bp ) << ")";
     }
 
     return ret.str();
@@ -650,10 +657,10 @@ std::string effect::disp_desc( bool reduced ) const
     }
     // Then print the effect description
     if( use_part_descs() ) {
-        ret << string_format( _( tmp_str.c_str() ), body_part_name( bp ).c_str() );
+        ret << string_format( _( tmp_str ), body_part_name( bp ) );
     } else {
         if( !tmp_str.empty() ) {
-            ret << _( tmp_str.c_str() );
+            ret << _( tmp_str );
         }
     }
 
@@ -1140,7 +1147,7 @@ std::string effect::get_speed_name() const
     // USes the speed_mod_name if one exists, else defaults to the first entry in "name".
     // But make sure the name for this intensity actually exists!
     if( !eff_type->speed_mod_name.empty() ) {
-        return _( eff_type->speed_mod_name.c_str() );
+        return _( eff_type->speed_mod_name );
     } else if( eff_type->use_name_ints() ) {
         return eff_type->name[ std::min<size_t>( intensity, eff_type->name.size() ) - 1 ].translated();
     } else if( !eff_type->name.empty() ) {

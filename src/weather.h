@@ -3,6 +3,7 @@
 #define WEATHER_H
 
 #include "color.h"
+#include "int_id.h"
 
 /**
  * @name BODYTEMP
@@ -33,9 +34,8 @@ struct point;
 struct tripoint;
 struct trap;
 struct rl_vec2d;
-template<typename T>
-class int_id;
 struct oter_t;
+
 using oter_id = int_id<oter_t>;
 
 /**
@@ -167,14 +167,6 @@ void retroactively_fill_from_funnel( item &it, const trap &tr, const time_point 
 
 double funnel_charges_per_turn( double surface_area_mm2, double rain_depth_mm_per_hour );
 
-/**
- * Get the amount of rotting that an item would accumulate between start and end turn at the given
- * locations.
- * The location is in absolute maps squares (the system which the @ref map uses),
- * but absolute (@ref map::getabs).
- * The returned value is in time at standard conditions it is `end - start`.
- */
-time_duration get_rot_since( const time_point &start, const time_point &end, const tripoint &pos );
 
 rl_vec2d convert_wind_to_coord( const int angle );
 
