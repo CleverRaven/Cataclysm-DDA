@@ -788,10 +788,11 @@ class read_inventory_preset: public pickup_inventory_preset
                 }
                 const auto &book = get_book( loc );
                 if( book.skill && p.get_skill_level_object( book.skill ).can_train() ) {
-                    return string_format( _( "%s to %d" ), book.skill->name(), book.level );
+                    return string_format( _( "%s to %d (%d)" ), book.skill->name(), book.level,
+                                          g->u.get_skill_level( book.skill.obj().ident() ) );
                 }
                 return std::string();
-            }, _( "TRAINS" ), unknown );
+            }, _( "TRAINS (CURRENT)" ), unknown );
 
             append_cell( [ this ]( const item_location & loc ) -> std::string {
                 if( !is_known( loc ) ) {
