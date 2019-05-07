@@ -73,15 +73,7 @@
     "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
     "death_drops": "mon_zombie_cop_death_drops",
     "death_function": [ "NORMAL" ],
-    "flags": [ 
-      "SEES", 
-      "HEARS", 
-      "BLEED", 
-      "REVIVES",
-      "NO_BREATHE", 
-      "POISON",
-      "FILTHY" 
-    ]
+    "flags": [ "SEES", "HEARS", "BLEED", "REVIVES", "NO_BREATHE", "POISON", "FILTHY" ]
   },
   {
     "id": "mon_leaper",
@@ -192,25 +184,24 @@
     "vision_day": 40,
     "vision_night": 4,
     "harvest": "zombie",
-    "special_attacks": [
-      [ "SHRIEK", 7],
-      [ "scratch", 5 ],
-      {
-        "type": "leap",
-        "cooldown": 4,
-        "max_range": 3
-      }
-    ],
-    "death_drops": {
-      "subtype": "collection",
-      "groups": [
-        [ "default_zombie_clothes", 100 ],
-        [ "child_items", 65 ]
-      ]
-    },
+    "special_attacks": [ [ "SHRIEK", 7 ], [ "scratch", 5 ], { "type": "leap", "cooldown": 4, "max_range": 3 } ],
+    "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_clothes", 100 ], [ "child_items", 65 ] ] },
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_child_scorched",
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BLEED", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "CLIMBS", "FILTHY", "SWARMS"],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "WARM",
+      "BLEED",
+      "BASHES",
+      "POISON",
+      "NO_BREATHE",
+      "REVIVES",
+      "CLIMBS",
+      "FILTHY",
+      "SWARMS"
+    ],
     "//": "no GUILT because it no longer looks enough like a child to evoke pity"
   },
   {
