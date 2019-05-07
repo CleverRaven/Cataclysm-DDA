@@ -30,6 +30,7 @@
 #include "monster.h"
 #include "mtype.h"
 #include "npctalk.h"
+#include "options.h"
 #include "overmap_location.h"
 #include "overmapbuffer.h"
 #include "projectile.h"
@@ -3221,22 +3222,43 @@ void npc::set_omt_destination()
         return;
     }
 
+    tripoint surface_omt_loc = global_omt_location();
+    // We need that, otherwise find_closest won't work properly
+    surface_omt_loc.z = 0;
+
+    // also, don't bother looking if the CITY_SIZE is 0, just go somewhere at random
+    const int city_size = get_option<int>( "CITY_SIZE" );
+    if( city_size == 0 ) {
+        goal = surface_omt_loc + point( rng( -90, 90 ), rng( -90, 90 ) );
+        return;
+    }
+
+
     decide_needs();
     if( needs.empty() ) { // We don't need anything in particular.
         needs.push_back( need_none );
     }
 
-    // We need that, otherwise find_closest won't work properly
-    // TODO: Allow finding sewers and stuff
-    tripoint surface_omt_loc = global_omt_location();
-    surface_omt_loc.z = 0;
+    std::string dest_type;
+    for( const auto &fulfill : needs ) {
+        dest_type = get_location_for( fulfill )->get_random_terrain().id().str();
+        goal = overmap_buffer.find_closest( surface_omt_loc, dest_type, 150, false );
+        if( goal != overmap::invalid_tripoint ) {
+            break;
+        }
+    }
 
-    std::string dest_type = get_location_for( needs.front() )->get_random_terrain().id().str();
-    goal = overmap_buffer.find_closest( surface_omt_loc, dest_type, 0, false );
+    // couldn't find any places to go, so go somewhere.
+    if( goal == overmap::invalid_tripoint ) {
+        goal = surface_omt_loc + point( rng( -90, 90 ), rng( -90, 90 ) );
+        return;
+    }
+
 
     DebugLog( D_INFO, DC_ALL ) << "npc::set_omt_destination - new goal for NPC [" << get_name() <<
                                "] with ["
-                               << get_need_str_id( needs.front() ) << "] is [" << dest_type << "] in ["
+                               << get_need_str_id( needs.front() ) << "] is [" << dest_type <<
+                               "] in ["
                                << goal.x << "," << goal.y << "," << goal.z << "].";
 }
 
