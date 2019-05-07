@@ -2821,7 +2821,6 @@
     "color": "blue",
     "ammo": "battery",
     "charges_per_use": 1,
-    "use_action": "MINIATM",
     "flags": [ "WATCH" ],
     "magazines": [ [ "battery", [ "light_plus_battery_cell", "light_battery_cell", "light_minus_battery_cell" ] ] ]
   },
