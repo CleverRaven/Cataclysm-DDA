@@ -4147,6 +4147,8 @@ int item::get_encumber_when_containing(
             // clothes bag up around smol characters and encumber them more
             encumber *= 2;
             break;
+        default:
+            break;
     }
 
     const int thickness = get_thickness();
