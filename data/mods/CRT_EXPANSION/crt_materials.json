@@ -23,19 +23,19 @@
     ]
   },
   {
-    "type" : "AMMO",
-    "id" : "chunk_rubber",
-    "category" : "spare_parts",
-    "price" : 75,
-    "name" : "chunk of rubber",
-    "name_plural" : "chunks of rubber",
-    "symbol" : "*",
-    "color" : "dark_gray",
-    "description" : "A chunk of useful rubber, can be molded easily.",
-    "material" : "rubber",
-    "volume" : 1,
-    "weight" : 38,
-    "ammo_type" : "components",
+    "type": "AMMO",
+    "id": "chunk_rubber",
+    "category": "spare_parts",
+    "price": 75,
+    "name": "chunk of rubber",
+    "name_plural": "chunks of rubber",
+    "symbol": "*",
+    "color": "dark_gray",
+    "description": "A chunk of useful rubber, can be molded easily.",
+    "material": "rubber",
+    "volume": 1,
+    "weight": 38,
+    "ammo_type": "components",
     "flags": "NO_SALVAGE"
-   }
-]  
+  }
+]
