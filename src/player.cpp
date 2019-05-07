@@ -2479,6 +2479,19 @@ void player::disp_morale()
     morale->display( ( calc_focus_equilibrium() - focus_pool ) / 100.0 );
 }
 
+time_duration player::estimate_effect_dur( const skill_id relevant_skill,
+        const efftype_id target_effect, time_duration error_magnitude,
+        int threshold, player target )
+{
+    int skill_lvl = get_skill_level( relevant_skill );
+
+    time_duration estimate = target.get_effect_dur( target_effect ) + error_magnitude * rng( 0,
+                             std::max( 0,
+                                       threshold - skill_lvl ) );
+
+    return estimate;
+}
+
 bool player::has_conflicting_trait( const trait_id &flag ) const
 {
     return ( has_opposite_trait( flag ) || has_lower_trait( flag ) || has_higher_trait( flag ) ||
