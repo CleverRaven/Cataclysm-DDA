@@ -853,7 +853,7 @@ static bool in_spell_aoe( const tripoint &target, const tripoint &epicenter, con
     return rl_dist( epicenter, target ) <= radius;
 }
 
-static std::set<tripoint> spell_effect_blast( spell &sp, const tripoint &target,
+static std::set<tripoint> spell_effect_blast( spell &, const tripoint &target,
         const int aoe_radius, const bool ignore_walls )
 {
     std::set<tripoint> targets;
