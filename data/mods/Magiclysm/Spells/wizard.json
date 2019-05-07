@@ -11,7 +11,7 @@
     "min_range": 8,
     "range_increment": 0.8,
     "max_range": 20,
-    "base_energy_cost": 15,
+    "base_energy_cost": 50,
     "spell_class": "WIZARD",
     "difficulty": 1,
     "max_level": 15,
@@ -152,5 +152,29 @@
 	"energy_source": "MANA",
 	"difficulty": 4,
 	"damage_type": "cold"
+  },
+  {
+    "id": "burning_hands",
+	"type": "SPELL",
+	"name": "Burning Hands",
+	"description": "You're pretty sure you saw this in a game somewhere.  You fire a short-range cone of fire.",
+	"effect": "cone_attack",
+	"valid_targets": [ "ally", "hostile", "ground" ],
+	"max_level": 20,
+	"min_damage": 8,
+	"max_damage": 65,
+	"damage_increment": 4,
+	"min_range": 3,
+	"max_range": 5,
+	"range_increment": 0.25,
+	"min_aoe": 25,
+	"max_aoe": 60,
+	"aoe_increment": 5,
+	"spell_class": "WIZARD",
+	"base_casting_time": 100,
+	"base_energy_cost": 150,
+	"energy_source": "MANA",
+	"difficulty": 2,
+	"damage_type": "fire"
   }
 ]
