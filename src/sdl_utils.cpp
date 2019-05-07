@@ -1,3 +1,5 @@
+#if defined(TILES)
+
 #include "sdl_utils.h"
 
 #include "color.h"
@@ -46,3 +48,5 @@ void render_fill_rect( const SDL_Renderer_Ptr &renderer, const SDL_Rect &rect,
         RenderFillRect( renderer, &rect );
     }
 }
+
+#endif // SDL_TILES

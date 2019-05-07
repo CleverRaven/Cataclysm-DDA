@@ -1,3 +1,5 @@
+#if defined(TILES)
+
 #include "pixel_minimap.h"
 
 #include "coordinate_conversions.h"
@@ -520,3 +522,5 @@ void pixel_minimap::draw_beacon( const SDL_Rect &rect, const SDL_Color &color )
         }
     }
 }
+
+#endif // SDL_TILES
