@@ -2,13 +2,13 @@
 #include "monstergenerator.h" // IWYU pragma: associated
 
 #include <algorithm>
+#include <set>
+#include <utility>
 
 #include "catacharset.h"
-#include "color.h"
 #include "creature.h"
 #include "debug.h"
 #include "generic_factory.h"
-#include "harvest.h"
 #include "item.h"
 #include "item_group.h"
 #include "json.h"
@@ -19,9 +19,14 @@
 #include "monfaction.h"
 #include "mongroup.h"
 #include "options.h"
-#include "output.h"
 #include "rng.h"
-#include "translations.h"
+#include "assign.h"
+#include "bodypart.h"
+#include "damage.h"
+#include "game.h"
+#include "itype.h"
+#include "pathfinding.h"
+#include "units.h"
 
 extern bool test_mode;
 
@@ -68,6 +73,7 @@ const std::map<std::string, m_flag> flag_map = {
     { "WEBWALK", MF_WEBWALK },
     { "DIGS", MF_DIGS },
     { "CAN_DIG", MF_CAN_DIG },
+    { "CAN_OPEN_DOORS", MF_CAN_OPEN_DOORS },
     { "FLIES", MF_FLIES },
     { "AQUATIC", MF_AQUATIC },
     { "SWIMS", MF_SWIMS },
@@ -944,7 +950,7 @@ void mtype::add_special_attack( JsonArray inner, const std::string & )
         }
         if( test_mode ) {
             debugmsg( "%s specifies more than one attack of (sub)type %s, ignoring all but the last",
-                      id.c_str(), name.c_str() );
+                      id.c_str(), name );
         }
     }
     auto new_attack = mtype_special_attack( iter->second );

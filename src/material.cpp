@@ -2,6 +2,9 @@
 
 #include <map>
 #include <string>
+#include <algorithm>
+#include <iterator>
+#include <set>
 
 #include "assign.h"
 #include "damage.h" // damage_type
@@ -10,6 +13,8 @@
 #include "item.h"
 #include "json.h"
 #include "translations.h"
+#include "itype.h"
+#include "player.h"
 
 namespace
 {
@@ -171,7 +176,7 @@ material_id material_type::ident() const
 
 std::string material_type::name() const
 {
-    return _( _name.c_str() );
+    return _( _name );
 }
 
 cata::optional<itype_id> material_type::salvaged_into() const
@@ -196,12 +201,12 @@ int material_type::cut_resist() const
 
 std::string material_type::bash_dmg_verb() const
 {
-    return _( _bash_dmg_verb.c_str() );
+    return _( _bash_dmg_verb );
 }
 
 std::string material_type::cut_dmg_verb() const
 {
-    return _( _cut_dmg_verb.c_str() );
+    return _( _cut_dmg_verb );
 }
 
 std::string material_type::dmg_adj( int damage ) const
@@ -212,7 +217,7 @@ std::string material_type::dmg_adj( int damage ) const
     }
 
     // apply bounds checking
-    return _( _dmg_adj[std::min( static_cast<size_t>( damage ), _dmg_adj.size() ) - 1].c_str() );
+    return _( _dmg_adj[std::min( static_cast<size_t>( damage ), _dmg_adj.size() ) - 1] );
 }
 
 int material_type::acid_resist() const

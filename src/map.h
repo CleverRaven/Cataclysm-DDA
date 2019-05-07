@@ -2,6 +2,8 @@
 #ifndef MAP_H
 #define MAP_H
 
+#include <stddef.h>
+#include <stdint.h>
 #include <array>
 #include <bitset>
 #include <list>
@@ -10,6 +12,9 @@
 #include <set>
 #include <utility>
 #include <vector>
+#include <functional>
+#include <string>
+#include <tuple>
 
 #include "calendar.h"
 #include "enums.h"
@@ -21,44 +26,37 @@
 #include "shadowcasting.h"
 #include "string_id.h"
 #include "units.h"
+#include "cata_utility.h"
 
 namespace catacurses
 {
 class window;
 } // namespace catacurses
-namespace cata
-{
-template<typename T>
-class optional;
-} // namespace cata
 class emit;
+
 using emit_id = string_id<emit>;
-class vpart_position;
 class optional_vpart_position;
 class player;
 class monster;
-class item;
 class Creature;
 class tripoint_range;
+
 enum field_id : int;
 class field;
 class field_entry;
 class vehicle;
 struct fragment_cloud;
-struct submap;
+class submap;
 class item_location;
 class map_cursor;
 struct maptile;
 class basecamp;
 class computer;
-struct itype;
-struct mapgendata;
-class map_cursor;
 class Character;
-class item_location;
 class zone_data;
 struct trap;
 struct oter_t;
+
 enum direction : unsigned;
 using itype_id = std::string;
 using trap_id = int_id<trap>;
@@ -68,19 +66,24 @@ class visitable;
 struct regional_settings;
 struct mongroup;
 struct ter_t;
+
 using ter_id = int_id<ter_t>;
 using ter_str_id = string_id<ter_t>;
 struct furn_t;
+
 using furn_id = int_id<furn_t>;
 using furn_str_id = string_id<furn_t>;
 struct mtype;
+
 using mtype_id = string_id<mtype>;
 struct projectile;
 struct veh_collision;
 class tileray;
 class harvest_list;
+
 using harvest_id = string_id<harvest_list>;
 class npc_template;
+class vpart_reference;
 
 // TODO: This should be const& but almost no functions are const
 struct wrapped_vehicle {
@@ -95,12 +98,16 @@ struct wrapped_vehicle {
 typedef std::vector<wrapped_vehicle> VehicleList;
 typedef std::string items_location;
 struct vehicle_prototype;
+
 using vproto_id = string_id<vehicle_prototype>;
 class VehicleGroup;
+
 using vgroup_id = string_id<VehicleGroup>;
 struct MonsterGroup;
+
 using mongroup_id = string_id<MonsterGroup>;
 class map;
+
 enum ter_bitflags : int;
 struct pathfinding_cache;
 struct pathfinding_settings;
@@ -255,6 +262,15 @@ class map
             const int offset = p.x + ( p.y * MAPSIZE_Y );
             if( offset >= 0 && offset < MAPSIZE_X * MAPSIZE_Y ) {
                 get_cache( p.z ).map_memory_seen_cache.reset( offset );
+            }
+        }
+
+        void invalidate_map_cache( const int zlev ) {
+            if( inbounds_z( zlev ) ) {
+                level_cache &ch = get_cache( zlev );
+                ch.floor_cache_dirty = true;
+                ch.transparency_cache_dirty = true;
+                ch.outside_cache_dirty = true;
             }
         }
 
@@ -455,6 +471,16 @@ class map
         bool sees( const tripoint &F, const tripoint &T, int range, int &bresenham_slope ) const;
     public:
         /**
+        * Returns coverage of target in relation to the observer. Target is loc2, observer is loc1.
+        * First tile from the target is an obstacle, which has the coverage value.
+        * If there's no obstacle adjacent to the target - no coverage.
+        */
+        int obstacle_coverage( const tripoint &loc1, const tripoint &loc2 ) const;
+        /**
+        * Returns coverage value of the tile.
+        */
+        int coverage( const tripoint &p ) const;
+        /**
          * Check whether there's a direct line of sight between `F` and
          * `T` with the additional movecost restraints.
          *
@@ -531,7 +557,11 @@ class map
         const vehicle *veh_at_internal( const tripoint &p, int &part_num ) const;
         // Put player on vehicle at x,y
         void board_vehicle( const tripoint &p, player *pl );
-        // Remove player from vehicle at p
+        // Remove given passenger from given vehicle part.
+        // If dead_passenger, then null passenger is acceptable.
+        void unboard_vehicle( const vpart_reference &, player *passenger,
+                              bool dead_passenger = false );
+        // Remove passenger from vehicle at p.
         void unboard_vehicle( const tripoint &p, bool dead_passenger = false );
         // Change vehicle coordinates and move vehicle's driver along.
         // WARNING: not checking collisions!
@@ -731,9 +761,11 @@ class map
         void make_rubble( const tripoint &p, const furn_id &rubble_type, const bool items );
 
         bool is_divable( const int x, const int y ) const;
+        bool is_water_shallow_current( const int x, const int y ) const;
         bool is_outside( const int x, const int y ) const;
         bool is_divable( const tripoint &p ) const;
         bool is_outside( const tripoint &p ) const;
+        bool is_water_shallow_current( const tripoint &p ) const;
         /** Check if the last terrain is wall in direction NORTH, SOUTH, WEST or EAST
          *  @param no_furn if true, the function will stop and return false
          *  if it encounters a furniture
@@ -779,8 +811,9 @@ class map
         // Change all instances of $from->$to
         void translate( const ter_id &from, const ter_id &to );
         // Change all instances $from->$to within this radius, optionally limited to locations in the same submap.
+        // Optionally toggles instances $from->$to & $to->$from
         void translate_radius( const ter_id &from, const ter_id &to, const float radi, const tripoint &p,
-                               const bool same_submap = false );
+                               const bool same_submap = false, const bool toggle_between = false );
         bool close_door( const tripoint &p, const bool inside, const bool check_only );
         bool open_door( const tripoint &p, const bool inside, const bool check_only = false );
         // Destruction
@@ -814,16 +847,24 @@ class map
         bool hit_with_acid( const tripoint &p );
         bool hit_with_fire( const tripoint &p );
 
-        bool has_adjacent_furniture( const tripoint &p );
-        /** Remove moppable fields/items at this location
-        *  @param p the location
-        *  @return true if anything moppable was there, false otherwise.
-        */
+        /**
+         * Returns true if there is furniture for which filter returns true in a 1 tile radius of p.
+         * Pass return_true<furn_t> to detect all adjacent furniture.
+         * @param p the location to check at
+         * @param filter what to filter the furniture by.
+         */
+        bool has_adjacent_furniture_with( const tripoint &p,
+                                          const std::function<bool( const furn_t & )> &filter );
+        /**
+         * Remove moppable fields/items at this location
+         *  @param p the location
+         *  @return true if anything moppable was there, false otherwise.
+         */
         bool mop_spills( const tripoint &p );
         /**
-        * Moved here from weather.cpp for speed. Decays fire, washable fields and scent.
-        * Washable fields are decayed only by 1/3 of the amount fire is.
-        */
+         * Moved here from weather.cpp for speed. Decays fire, washable fields and scent.
+         * Washable fields are decayed only by 1/3 of the amount fire is.
+         */
         void decay_fields_and_scent( const time_duration &amount );
 
         // Signs
@@ -846,7 +887,7 @@ class map
 
         // Temperature
         // Temperature for submap
-        int &temperature( const tripoint &p );
+        int get_temperature( const tripoint &p ) const;
         // Set temperature for all four submap quadrants
         void set_temperature( const tripoint &p, const int temperature );
         // 2D overload for mapgen
@@ -943,12 +984,12 @@ class map
          * somewhere else.
          */
         /*@{*/
-        std::list<item> use_amount_square( const tripoint &p, const itype_id type,
-                                           long &quantity, const std::function<bool( const item & )> &filter = return_true );
+        std::list<item> use_amount_square( const tripoint &p, const itype_id &type,
+                                           long &quantity, const std::function<bool( const item & )> &filter = return_true<item> );
         std::list<item> use_amount( const tripoint &origin, const int range, const itype_id type,
-                                    long &amount, const std::function<bool( const item & )> &filter = return_true );
+                                    long &amount, const std::function<bool( const item & )> &filter = return_true<item> );
         std::list<item> use_charges( const tripoint &origin, const int range, const itype_id type,
-                                     long &amount, const std::function<bool( const item & )> &filter = return_true );
+                                     long &amount, const std::function<bool( const item & )> &filter = return_true<item> );
         /*@}*/
         std::list<std::pair<tripoint, item *> > get_rc_items( int x = -1, int y = -1, int z = -1 );
 
@@ -1180,7 +1221,8 @@ class map
         // mapgen.cpp functions
         void generate( const int x, const int y, const int z, const time_point &when );
         void place_spawns( const mongroup_id &group, const int chance,
-                           const int x1, const int y1, const int x2, const int y2, const float density );
+                           const int x1, const int y1, const int x2, const int y2, const float density,
+                           const bool individual = false, const bool friendly = false );
         void place_gas_pump( const int x, const int y, const int charges );
         void place_gas_pump( const int x, const int y, const int charges, const std::string &fuel_type );
         // 6 liters at 250 ml per charge

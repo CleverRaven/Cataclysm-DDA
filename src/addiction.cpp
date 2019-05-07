@@ -1,11 +1,17 @@
 #include "addiction.h"
 
+#include <algorithm>
+#include <map>
+#include <utility>
+
 #include "morale_types.h"
-#include "output.h"
 #include "player.h"
 #include "pldata.h"
 #include "rng.h"
 #include "translations.h"
+#include "calendar.h"
+#include "creature.h"
+#include "enums.h"
 
 const efftype_id effect_hallu( "hallu" );
 const efftype_id effect_shakes( "shakes" );
@@ -68,10 +74,10 @@ void addict_effect( player &u, addiction &add )
                 u.mod_healthy_mod( -1, -in * 10 );
             }
             if( one_in( 20 ) && rng( 0, 20 ) < in ) {
-                u.add_msg_if_player( m_warning, msg_1.c_str() );
+                u.add_msg_if_player( m_warning, msg_1 );
                 u.add_morale( morale_type, -35, -10 * in );
             } else if( rng( 8, 300 ) < in ) {
-                u.add_msg_if_player( m_bad, msg_2.c_str() );
+                u.add_msg_if_player( m_bad, msg_2 );
                 u.add_morale( morale_type, -35, -10 * in );
                 u.add_effect( effect_shakes, 5_minutes );
             } else if( !u.has_effect( effect_hallu ) && rng( 10, 1600 ) < in ) {
@@ -153,11 +159,11 @@ void addict_effect( player &u, addiction &add )
             u.mod_int_bonus( -1 );
             u.mod_per_bonus( -1 );
             if( one_in( 900 - 30 * in ) ) {
-                u.add_msg_if_player( m_warning, cur_msg.c_str() );
+                u.add_msg_if_player( m_warning, cur_msg );
                 u.add_morale( morale_type, -20, -15 * in );
             }
             if( dice( 2, 80 ) <= in ) {
-                u.add_msg_if_player( m_warning, cur_msg.c_str() );
+                u.add_msg_if_player( m_warning, cur_msg );
                 u.add_morale( morale_type, -20, -15 * in );
                 if( u.stim > -150 ) {
                     u.stim -= 3;

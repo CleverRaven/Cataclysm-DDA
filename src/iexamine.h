@@ -3,18 +3,22 @@
 #define IEXAMINE_H
 
 #include <list>
+#include <string>
+#include <tuple>
+#include <vector>
 
 #include "itype.h"
 #include "string_id.h"
+#include "calendar.h"
+#include "optional.h"
+#include "ret_val.h"
 
-class game;
 class item;
 class player;
-class npc;
-class map;
+class vpart_reference;
 struct tripoint;
-struct itype;
 struct mtype;
+
 using mtype_id = string_id<mtype>;
 using seed_tuple = std::tuple<itype_id, std::string, int>;
 
@@ -68,6 +72,7 @@ void fswitch( player &p, const tripoint &examp );
 void flower_tulip( player &p, const tripoint &examp );
 void flower_spurge( player &p, const tripoint &examp );
 void flower_poppy( player &p, const tripoint &examp );
+void flower_cactus( player &p, const tripoint &examp );
 void flower_bluebell( player &p, const tripoint &examp );
 void flower_dahlia( player &p, const tripoint &examp );
 void flower_marloss( player &p, const tripoint &examp );
@@ -100,8 +105,13 @@ void ledge( player &p, const tripoint &examp );
 void autodoc( player &p, const tripoint &examp );
 void on_smoke_out( const tripoint &examp,
                    const time_point &start_time ); //activates end of smoking effects
+void mill_finalize( player &, const tripoint &examp, const time_point &start_time );
+void quern_examine( player &p, const tripoint &examp );
 void smoker_options( player &p, const tripoint &examp );
 void open_safe( player &p, const tripoint &examp );
+void workbench( player &p, const tripoint &examp );
+void workbench_internal( player &p, const tripoint &examp,
+                         const cata::optional<vpart_reference> &part );
 hack_result hack_attempt( player &p );
 
 bool pour_into_keg( const tripoint &pos, item &liquid );

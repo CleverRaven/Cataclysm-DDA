@@ -1,9 +1,15 @@
 #include <string>
+#include <array>
+#include <list>
+#include <memory>
 
 #include "catch/catch.hpp"
 #include "game.h"
 #include "player.h"
 #include "weather.h"
+#include "bodypart.h"
+#include "calendar.h"
+#include "item.h"
 
 // Set the stage for a particular ambient and target temperature and run update_bodytemp() until
 // core body temperature settles.

@@ -13,8 +13,6 @@
     "weight": 1196,
     "volume": 12,
     "bashing": 6,
-    "max_charges": 100,
-    "initial_charges": 100,
     "charges_per_use": 1,
     "ammo": "battery",
     "use_action": {
@@ -30,7 +28,8 @@
     "warmth": 5,
     "encumbrance": 15,
     "coverage": 80,
-    "material_thickness": 4
+    "material_thickness": 4,
+    "magazines": [ [ "battery", [ "light_battery_cell", "light_plus_battery_cell", "light_minus_battery_cell" ] ] ]
   },
   {
     "id": "miner_hat_on",
@@ -47,8 +46,6 @@
     "weight": 1196,
     "volume": 12,
     "bashing": 6,
-    "max_charges": 100,
-    "initial_charges": 100,
     "turns_per_charge": 15,
     "ammo": "battery",
     "revert_to": "miner_hat",
@@ -79,8 +76,7 @@
     "symbol": "[",
     "ammo": "battery",
     "use_action": "PORTABLE_GAME",
-    "max_charges": 60,
-    "initial_charges": 60
+    "magazines": [ [ "battery", [ "light_minus_battery_cell" ] ] ]
   },
   {
     "id": "holo_cloak",
@@ -142,8 +138,6 @@
     "material": [ "cotton" ],
     "weight": 182,
     "volume": 3,
-    "max_charges": 100,
-    "initial_charges": 100,
     "charges_per_use": 1,
     "ammo": "battery",
     "use_action": {
@@ -157,7 +151,8 @@
     "covers": [ "FEET" ],
     "warmth": 10,
     "coverage": 100,
-    "material_thickness": 1
+    "material_thickness": 1,
+    "magazines": [ [ "battery", [ "light_battery_cell", "light_plus_battery_cell", "light_minus_battery_cell" ] ] ]
   },
   {
     "id": "thermal_socks_on",
@@ -173,8 +168,6 @@
     "material": [ "cotton" ],
     "weight": 182,
     "volume": 3,
-    "max_charges": 100,
-    "initial_charges": 100,
     "turns_per_charge": 50,
     "ammo": "battery",
     "revert_to": "thermal_socks",
@@ -197,8 +190,6 @@
     "material": [ "cotton" ],
     "weight": 864,
     "volume": 8,
-    "max_charges": 200,
-    "initial_charges": 200,
     "charges_per_use": 1,
     "ammo": "battery",
     "use_action": {
@@ -212,7 +203,8 @@
     "covers": [ "TORSO", "ARMS", "LEGS" ],
     "warmth": 10,
     "coverage": 100,
-    "material_thickness": 1
+    "material_thickness": 1,
+    "magazines": [ [ "battery", [ "light_plus_battery_cell", "light_battery_cell", "light_minus_battery_cell" ] ] ]
   },
   {
     "id": "thermal_suit_on",
@@ -228,8 +220,6 @@
     "material": [ "cotton" ],
     "weight": 864,
     "volume": 8,
-    "max_charges": 200,
-    "initial_charges": 200,
     "turns_per_charge": 25,
     "ammo": "battery",
     "revert_to": "thermal_suit",
@@ -253,8 +243,6 @@
     "material": [ "cotton" ],
     "weight": 210,
     "volume": 3,
-    "max_charges": 100,
-    "initial_charges": 100,
     "charges_per_use": 1,
     "ammo": "battery",
     "use_action": {
@@ -268,7 +256,8 @@
     "covers": [ "HANDS" ],
     "warmth": 10,
     "coverage": 100,
-    "material_thickness": 1
+    "material_thickness": 1,
+    "magazines": [ [ "battery", [ "light_battery_cell", "light_plus_battery_cell", "light_minus_battery_cell" ] ] ]
   },
   {
     "id": "thermal_gloves_on",
@@ -284,8 +273,6 @@
     "material": [ "cotton" ],
     "weight": 210,
     "volume": 3,
-    "max_charges": 100,
-    "initial_charges": 100,
     "turns_per_charge": 50,
     "ammo": "battery",
     "revert_to": "thermal_gloves",
@@ -308,8 +295,6 @@
     "material": [ "cotton" ],
     "weight": 196,
     "volume": 4,
-    "max_charges": 100,
-    "initial_charges": 100,
     "charges_per_use": 1,
     "ammo": "battery",
     "use_action": {
@@ -323,7 +308,8 @@
     "covers": [ "HEAD", "MOUTH" ],
     "warmth": 10,
     "coverage": 100,
-    "material_thickness": 1
+    "material_thickness": 1,
+    "magazines": [ [ "battery", [ "light_battery_cell", "light_plus_battery_cell", "light_minus_battery_cell" ] ] ]
   },
   {
     "id": "thermal_mask_on",
@@ -339,8 +325,6 @@
     "material": [ "cotton" ],
     "weight": 196,
     "volume": 4,
-    "max_charges": 100,
-    "initial_charges": 100,
     "turns_per_charge": 50,
     "ammo": "battery",
     "revert_to": "thermal_mask",
@@ -386,8 +370,6 @@
     "weight": 520,
     "volume": 2,
     "bashing": 1,
-    "max_charges": 100,
-    "initial_charges": 100,
     "charges_per_use": 1,
     "ammo": "battery",
     "use_action": {
@@ -400,7 +382,8 @@
     },
     "covers": [ "HEAD" ],
     "coverage": 15,
-    "material_thickness": 1
+    "material_thickness": 1,
+    "magazines": [ [ "battery", [ "light_battery_cell", "light_plus_battery_cell", "light_minus_battery_cell" ] ] ]
   },
   {
     "id": "wearable_light_on",
@@ -417,15 +400,14 @@
     "weight": 520,
     "volume": 2,
     "bashing": 1,
-    "max_charges": 100,
-    "initial_charges": 100,
     "turns_per_charge": 20,
     "ammo": "battery",
     "revert_to": "wearable_light",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s flicks off.", "target": "wearable_light" },
     "covers": [ "HEAD" ],
     "coverage": 15,
-    "material_thickness": 1
+    "material_thickness": 1,
+    "magazines": [ [ "battery", [ "light_battery_cell", "light_plus_battery_cell", "light_minus_battery_cell" ] ] ]
   },
   {
     "id": "survivor_light",
@@ -441,8 +423,6 @@
     "weight": 620,
     "volume": 2,
     "bashing": 1,
-    "max_charges": 150,
-    "initial_charges": 150,
     "charges_per_use": 1,
     "ammo": "battery",
     "use_action": {
@@ -455,7 +435,8 @@
     },
     "covers": [ "HEAD" ],
     "coverage": 20,
-    "material_thickness": 1
+    "material_thickness": 1,
+    "magazines": [ [ "battery", [ "light_plus_battery_cell", "light_battery_cell", "light_minus_battery_cell" ] ] ]
   },
   {
     "id": "survivor_light_on",
@@ -472,8 +453,6 @@
     "weight": 620,
     "volume": 2,
     "bashing": 1,
-    "max_charges": 150,
-    "initial_charges": 150,
     "turns_per_charge": 18,
     "ammo": "battery",
     "revert_to": "survivor_light",
@@ -1004,8 +983,6 @@
     "weight": 1020,
     "volume": 4,
     "to_hit": -3,
-    "max_charges": 200,
-    "initial_charges": 200,
     "charges_per_use": 1,
     "ammo": "battery",
     "use_action": {
@@ -1021,7 +998,8 @@
     "environmental_protection": 6,
     "encumbrance": 40,
     "coverage": 100,
-    "material_thickness": 2
+    "material_thickness": 2,
+    "magazines": [ [ "battery", [ "light_plus_battery_cell", "light_battery_cell", "light_minus_battery_cell" ] ] ]
   },
   {
     "id": "goggles_nv_on",
@@ -1038,9 +1016,7 @@
     "weight": 1020,
     "volume": 4,
     "to_hit": -3,
-    "max_charges": 200,
-    "initial_charges": 200,
-    "turns_per_charge": 7,
+    "turns_per_charge": 9,
     "ammo": "battery",
     "revert_to": "goggles_nv",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "goggles_nv" },
@@ -1066,8 +1042,6 @@
     "weight": 1240,
     "volume": 4,
     "to_hit": -3,
-    "max_charges": 200,
-    "initial_charges": 200,
     "charges_per_use": 1,
     "ammo": "battery",
     "use_action": {
@@ -1083,7 +1057,8 @@
     "environmental_protection": 6,
     "encumbrance": 40,
     "coverage": 100,
-    "material_thickness": 2
+    "material_thickness": 2,
+    "magazines": [ [ "battery", [ "light_plus_battery_cell", "light_battery_cell", "light_minus_battery_cell" ] ] ]
   },
   {
     "id": "goggles_ir_on",
@@ -1100,9 +1075,7 @@
     "weight": 1240,
     "volume": 4,
     "to_hit": -3,
-    "max_charges": 200,
-    "initial_charges": 200,
-    "turns_per_charge": 10,
+    "turns_per_charge": 14,
     "ammo": "battery",
     "revert_to": "goggles_ir",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "goggles_ir" },
@@ -1111,7 +1084,8 @@
     "environmental_protection": 6,
     "encumbrance": 20,
     "coverage": 100,
-    "material_thickness": 2
+    "material_thickness": 2,
+    "magazines": [ [ "battery", [ "light_plus_battery_cell", "light_battery_cell", "light_minus_battery_cell" ] ] ]
   },
   {
     "id": "wearable_rx12",
@@ -1354,15 +1328,14 @@
     "weight": 68,
     "volume": 1,
     "to_hit": -1,
-    "max_charges": 20,
-    "initial_charges": 20,
     "charges_per_use": 1,
     "ammo": "battery",
     "use_action": "RADGLOVE",
     "covers": [ "HAND_EITHER" ],
     "coverage": 5,
     "material_thickness": 1,
-    "flags": [ "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE" ]
+    "flags": [ "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE" ],
+    "magazines": [ [ "battery", [ "light_minus_battery_cell" ] ] ]
   },
   {
     "type": "ARMOR",
@@ -1903,8 +1876,6 @@
     "material": [ "cotton" ],
     "weight": 1452,
     "volume": 18,
-    "max_charges": 500,
-    "initial_charges": 500,
     "charges_per_use": 1,
     "ammo": "battery",
     "use_action": {
@@ -1918,7 +1889,8 @@
     "covers": [ "HEAD", "MOUTH", "TORSO", "ARMS", "LEGS", "HANDS", "FEET" ],
     "warmth": 10,
     "coverage": 100,
-    "material_thickness": 1
+    "material_thickness": 1,
+    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ]
   },
   {
     "id": "thermal_outfit_on",
@@ -1934,8 +1906,6 @@
     "material": [ "cotton" ],
     "weight": 1452,
     "volume": 18,
-    "max_charges": 500,
-    "initial_charges": 500,
     "turns_per_charge": 10,
     "ammo": "battery",
     "revert_to": "thermal_outfit",
@@ -2216,8 +2186,6 @@
     "material": [ "plastic" ],
     "weight": 179,
     "volume": 4,
-    "max_charges": 200,
-    "initial_charges": 100,
     "charges_per_use": 1,
     "ammo": "battery",
     "use_action": {
@@ -2232,7 +2200,8 @@
     "warmth": 5,
     "encumbrance": 5,
     "coverage": 10,
-    "material_thickness": 2
+    "material_thickness": 2,
+    "magazines": [ [ "battery", [ "light_plus_battery_cell", "light_battery_cell", "light_minus_battery_cell" ] ] ]
   },
   {
     "id": "powered_earmuffs_on",
@@ -2248,8 +2217,6 @@
     "material": [ "plastic" ],
     "weight": 179,
     "volume": 4,
-    "max_charges": 200,
-    "initial_charges": 100,
     "turns_per_charge": 60,
     "ammo": "battery",
     "revert_to": "powered_earmuffs",
@@ -2537,8 +2504,6 @@
     "warmth": 50,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "max_charges": 500,
-    "initial_charges": 10,
     "charges_per_use": 1,
     "ammo": "battery",
     "use_action": {
@@ -2549,7 +2514,8 @@
       "need_charges": 1,
       "need_charges_msg": "The blanket's batteries are dead."
     },
-    "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS", "RECHARGE" ]
+    "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS", "RECHARGE" ],
+    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ]
   },
   {
     "id": "electric_blanket_on",

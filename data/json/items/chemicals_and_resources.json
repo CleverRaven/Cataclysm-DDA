@@ -1,20 +1,20 @@
 [
   {
-    "id": "anesthesia",
+    "id": "anesthetic",
     "type": "AMMO",
-    "name": "anesthetic kit",
+    "name": "anesthetic",
     "category": "chems",
-    "description": "A kit for inducing anesthesia for surgery, containing specialized canisters with a variety of powerful hypnotic, analgetic, and stimulative drugs.  It's intended for use in specialized medical equipment, and can't be administered manually.",
+    "description": "A variety of powerful hypnotic, analgetic, and stimulative drugs.  It's intended for use in specialized medical equipment, and can't be administered manually.  You can reload an anesthetic kit with it.",
     "weight": 100,
-    "volume": 1,
+    "volume": 12,
     "price": 50000,
-    "ammo_type": "components",
+    "ammo_type": "anesthetic",
     "count": 3,
-    "material": "plastic",
+    "phase": "liquid",
+    "container": "jar_3l_glass",
     "symbol": "!",
     "color": "cyan",
-    "looks_like": "1st_aid",
-    "flags": [ "ANESTHESIA" ]
+    "looks_like": "ether"
   },
   {
     "type": "AMMO",
@@ -777,7 +777,8 @@
     "price_postapoc": 2000,
     "volume": 1,
     "charges": 15,
-    "stack_size": 100
+    "stack_size": 100,
+    "flags": [ "NO_INGEST" ]
   },
   {
     "type": "GENERIC",
@@ -970,8 +971,7 @@
     "category": "chems",
     "price": 250000,
     "price_postapoc": 1500,
-    "name": "nanomaterial canisters",
-    "name_plural": "nanomaterial canisters",
+    "name": "nanomaterial canister",
     "symbol": "=",
     "color": "light_gray",
     "flags": [ "TRADER_AVOID" ],
@@ -993,7 +993,7 @@
     "color": "light_gray",
     "description": "This is almost weightless residue left after the burning of some substance.",
     "material": "powder_nonflam",
-    "volume": 0.1,
+    "volume": "164ml",
     "weight": 1,
     "ammo_type": "components",
     "count": 100
@@ -1125,7 +1125,7 @@
     "id": "chem_acrylamide",
     "category": "chems",
     "price": 10,
-    "name": "agar",
+    "name": "acrylamide",
     "name_plural": "acrylamide",
     "symbol": ";",
     "quench": -15,
@@ -1156,6 +1156,20 @@
     "color": "light_gray",
     "looks_like": "link_sheet",
     "flags": [ "FRAGILE_MELEE" ]
+  },
+  {
+    "id": "cobalt_60",
+    "type": "GENERIC",
+    "category": "other",
+    "price": 1000,
+    "name": "cobalt-60 pellet",
+    "symbol": "=",
+    "color": "green",
+    "description": "Radioactive material that used to be a part of some nuclear industry equipment.  You are yet to find some use for it.",
+    "material": [ "steel", "plastic" ],
+    "flags": [ "LEAK_ALWAYS", "RADIOACTIVE" ],
+    "volume": 1,
+    "weight": 80
   },
   {
     "id": "wooden_bead",

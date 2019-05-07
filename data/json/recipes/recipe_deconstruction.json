@@ -1,495 +1,5 @@
 [
   {
-    "result": "223",
-    "type": "uncraft",
-    "skill_used": "gun",
-    "difficulty": 5,
-    "time": 500,
-    "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "lead", 3 ] ], [ [ "223_casing", 1 ] ], [ [ "smrifle_primer", 1 ] ], [ [ "gunpowder", 4 ] ], [ [ "copper", 2 ] ] ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
-  },
-  {
-    "result": "22_cb",
-    "type": "uncraft",
-    "skill_used": "gun",
-    "difficulty": 5,
-    "time": 500,
-    "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "lead", 2 ] ], [ [ "22_casing_new", 1 ] ], [ [ "gunpowder", 1 ] ] ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
-  },
-  {
-    "result": "22_fmj",
-    "type": "uncraft",
-    "skill_used": "gun",
-    "difficulty": 5,
-    "time": 500,
-    "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "lead", 2 ] ], [ [ "22_casing_new", 1 ] ], [ [ "gunpowder", 2 ] ], [ [ "copper", 1 ] ] ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
-  },
-  {
-    "result": "22_lr",
-    "type": "uncraft",
-    "skill_used": "gun",
-    "difficulty": 5,
-    "time": 500,
-    "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "lead", 2 ] ], [ [ "22_casing_new", 1 ] ], [ [ "gunpowder", 2 ] ] ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
-  },
-  {
-    "result": "22_ratshot",
-    "type": "uncraft",
-    "skill_used": "gun",
-    "difficulty": 5,
-    "time": 500,
-    "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "lead", 2 ] ], [ [ "22_casing_new", 1 ] ], [ [ "gunpowder", 2 ] ] ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
-  },
-  {
-    "result": "270",
-    "type": "uncraft",
-    "skill_used": "gun",
-    "difficulty": 5,
-    "time": 500,
-    "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [
-      [ [ "lead", 5 ] ],
-      [ [ "3006_casing", 1 ] ],
-      [ [ "lgrifle_primer", 1 ] ],
-      [ [ "gunpowder", 10 ] ],
-      [ [ "copper", 5 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
-  },
-  {
-    "result": "3006",
-    "type": "uncraft",
-    "skill_used": "gun",
-    "difficulty": 5,
-    "time": 500,
-    "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [
-      [ [ "lead", 6 ] ],
-      [ [ "3006_casing", 1 ] ],
-      [ [ "lgrifle_primer", 1 ] ],
-      [ [ "gunpowder", 8 ] ],
-      [ [ "copper", 6 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
-  },
-  {
-    "result": "3006_incendiary",
-    "type": "uncraft",
-    "skill_used": "gun",
-    "difficulty": 5,
-    "time": 500,
-    "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [
-      [ [ "incendiary", 6 ] ],
-      [ [ "3006_casing", 1 ] ],
-      [ [ "lgrifle_primer", 1 ] ],
-      [ [ "gunpowder", 8 ] ],
-      [ [ "copper", 6 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
-  },
-  {
-    "result": "3006fmj",
-    "type": "uncraft",
-    "skill_used": "gun",
-    "difficulty": 5,
-    "time": 500,
-    "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [
-      [ [ "lead", 6 ] ],
-      [ [ "3006_casing", 1 ] ],
-      [ [ "lgrifle_primer", 1 ] ],
-      [ [ "gunpowder", 8 ] ],
-      [ [ "copper", 6 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
-  },
-  {
-    "result": "300_winmag",
-    "type": "uncraft",
-    "skill_used": "gun",
-    "difficulty": 5,
-    "time": 500,
-    "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [
-      [ [ "lead", 8 ] ],
-      [ [ "300_casing", 1 ] ],
-      [ [ "lgrifle_primer", 1 ] ],
-      [ [ "gunpowder", 16 ] ],
-      [ [ "copper", 21 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
-  },
-  {
-    "result": "308",
-    "type": "uncraft",
-    "skill_used": "gun",
-    "difficulty": 5,
-    "time": 500,
-    "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [
-      [ [ "lead", 6 ] ],
-      [ [ "308_casing", 1 ] ],
-      [ [ "lgrifle_primer", 1 ] ],
-      [ [ "gunpowder", 10 ] ],
-      [ [ "copper", 6 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
-  },
-  {
-    "result": "32_acp",
-    "type": "uncraft",
-    "skill_used": "gun",
-    "difficulty": 5,
-    "time": 500,
-    "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "lead", 2 ] ], [ [ "32_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "gunpowder", 2 ] ] ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
-  },
-  {
-    "result": "44fmj",
-    "type": "uncraft",
-    "skill_used": "gun",
-    "difficulty": 5,
-    "time": 500,
-    "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [
-      [ [ "lead", 7 ] ],
-      [ [ "44_casing", 1 ] ],
-      [ [ "lgpistol_primer", 1 ] ],
-      [ [ "gunpowder", 10 ] ],
-      [ [ "copper", 7 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
-  },
-  {
-    "result": "44magnum",
-    "type": "uncraft",
-    "skill_used": "gun",
-    "difficulty": 5,
-    "time": 500,
-    "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "lead", 10 ] ], [ [ "44_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "gunpowder", 10 ] ] ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
-  },
-  {
-    "result": "454_Casull",
-    "type": "uncraft",
-    "skill_used": "gun",
-    "difficulty": 5,
-    "time": 500,
-    "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [
-      [ [ "lead", 20 ] ],
-      [ [ "454_casing", 1 ] ],
-      [ [ "smrifle_primer", 1 ] ],
-      [ [ "gunpowder", 20 ] ],
-      [ [ "copper", 20 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
-  },
-  {
-    "result": "46mm",
-    "type": "uncraft",
-    "skill_used": "gun",
-    "difficulty": 5,
-    "time": 500,
-    "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "lead", 2 ] ], [ [ "46mm_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "gunpowder", 4 ] ] ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
-  },
-  {
-    "result": "460_fmj",
-    "type": "uncraft",
-    "skill_used": "gun",
-    "difficulty": 5,
-    "time": 500,
-    "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "lead", 3 ] ], [ [ "460_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "gunpowder", 10 ] ] ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
-  },
-  {
-    "result": "460_rowland",
-    "type": "uncraft",
-    "skill_used": "gun",
-    "difficulty": 5,
-    "time": 500,
-    "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "lead", 3 ] ], [ [ "460_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "gunpowder", 10 ] ] ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
-  },
-  {
-    "result": "500_Magnum",
-    "type": "uncraft",
-    "skill_used": "gun",
-    "difficulty": 5,
-    "time": 500,
-    "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [
-      [ [ "lead", 24 ] ],
-      [ [ "500_casing", 1 ] ],
-      [ [ "lgpistol_primer", 1 ] ],
-      [ [ "gunpowder", 24 ] ],
-      [ [ "copper", 24 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
-  },
-  {
-    "result": "50_incendiary",
-    "type": "uncraft",
-    "skill_used": "gun",
-    "difficulty": 5,
-    "time": 500,
-    "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [
-      [ [ "lead", 12 ] ],
-      [ [ "incendiary", 20 ] ],
-      [ [ "50_casing", 1 ] ],
-      [ [ "lgrifle_primer", 1 ] ],
-      [ [ "gunpowder", 30 ] ],
-      [ [ "copper", 6 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
-  },
-  {
-    "result": "50bmg",
-    "type": "uncraft",
-    "skill_used": "gun",
-    "difficulty": 5,
-    "time": 500,
-    "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [
-      [ [ "lead", 12 ] ],
-      [ [ "50_casing", 1 ] ],
-      [ [ "lgrifle_primer", 1 ] ],
-      [ [ "gunpowder", 30 ] ],
-      [ [ "copper", 6 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
-  },
-  {
-    "result": "50ss",
-    "type": "uncraft",
-    "skill_used": "gun",
-    "difficulty": 5,
-    "time": 500,
-    "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [
-      [ [ "50_casing", 1 ] ],
-      [ [ "lgrifle_primer", 1 ] ],
-      [ [ "gunpowder", 30 ] ],
-      [ [ "copper", 6 ] ],
-      [ [ "scrap", 1 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
-  },
-  {
-    "result": "545",
-    "type": "uncraft",
-    "skill_used": "gun",
-    "difficulty": 5,
-    "time": 500,
-    "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "lead", 2 ] ], [ [ "545_casing", 1 ] ], [ [ "smrifle_primer", 1 ] ], [ [ "gunpowder", 5 ] ], [ [ "copper", 2 ] ] ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
-  },
-  {
-    "result": "545_ap",
-    "type": "uncraft",
-    "skill_used": "gun",
-    "difficulty": 5,
-    "time": 500,
-    "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "lead", 3 ] ], [ [ "545_casing", 1 ] ], [ [ "smrifle_primer", 1 ] ], [ [ "gunpowder", 5 ] ], [ [ "copper", 3 ] ] ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
-  },
-  {
-    "result": "556",
-    "type": "uncraft",
-    "skill_used": "gun",
-    "difficulty": 5,
-    "time": 500,
-    "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "lead", 3 ] ], [ [ "223_casing", 1 ] ], [ [ "smrifle_primer", 1 ] ], [ [ "gunpowder", 6 ] ], [ [ "copper", 2 ] ] ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
-  },
-  {
-    "result": "556_incendiary",
-    "type": "uncraft",
-    "skill_used": "gun",
-    "difficulty": 5,
-    "time": 500,
-    "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [
-      [ [ "incendiary", 2 ] ],
-      [ [ "lead", 3 ] ],
-      [ [ "223_casing", 1 ] ],
-      [ [ "smrifle_primer", 1 ] ],
-      [ [ "gunpowder", 6 ] ],
-      [ [ "copper", 2 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
-  },
-  {
-    "result": "57mm",
-    "type": "uncraft",
-    "skill_used": "gun",
-    "difficulty": 5,
-    "time": 500,
-    "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "lead", 2 ] ], [ [ "57mm_casing", 1 ] ], [ [ "smrifle_primer", 1 ] ], [ [ "gunpowder", 4 ] ] ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
-  },
-  {
-    "result": "5x50dart",
-    "type": "uncraft",
-    "skill_used": "gun",
-    "difficulty": 5,
-    "time": 500,
-    "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "lead", 2 ] ], [ [ "5x50_hull", 1 ] ], [ [ "smrifle_primer", 1 ] ], [ [ "gunpowder", 3 ] ] ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
-  },
-  {
-    "result": "5x50heavy",
-    "type": "uncraft",
-    "skill_used": "gun",
-    "difficulty": 5,
-    "time": 500,
-    "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "lead", 3 ] ], [ [ "5x50_hull", 1 ] ], [ [ "smrifle_primer", 1 ] ], [ [ "gunpowder", 3 ] ] ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
-  },
-  {
-    "result": "700nx",
-    "type": "uncraft",
-    "skill_used": "gun",
-    "difficulty": 5,
-    "time": 500,
-    "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [
-      [ [ "lead", 14 ] ],
-      [ [ "700nx_casing", 1 ] ],
-      [ [ "lgrifle_primer", 1 ] ],
-      [ [ "gunpowder", 38 ] ],
-      [ [ "copper", 9 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
-  },
-  {
-    "result": "762_51",
-    "type": "uncraft",
-    "skill_used": "gun",
-    "difficulty": 5,
-    "time": 500,
-    "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [
-      [ [ "lead", 6 ] ],
-      [ [ "762_51_casing", 1 ] ],
-      [ [ "lgrifle_primer", 1 ] ],
-      [ [ "gunpowder", 10 ] ],
-      [ [ "copper", 6 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
-  },
-  {
-    "result": "762_51_incendiary",
-    "type": "uncraft",
-    "skill_used": "gun",
-    "difficulty": 5,
-    "time": 500,
-    "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [
-      [ [ "incendiary", 6 ] ],
-      [ [ "762_51_casing", 1 ] ],
-      [ [ "lgrifle_primer", 1 ] ],
-      [ [ "gunpowder", 10 ] ],
-      [ [ "copper", 6 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
-  },
-  {
-    "result": "762_54R",
-    "type": "uncraft",
-    "skill_used": "gun",
-    "difficulty": 5,
-    "time": 500,
-    "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [
-      [ [ "lead", 3 ] ],
-      [ [ "762_casing", 1 ] ],
-      [ [ "lgrifle_primer", 1 ] ],
-      [ [ "gunpowder", 8 ] ],
-      [ [ "copper", 10 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
-  },
-  {
-    "result": "762_m43",
-    "type": "uncraft",
-    "skill_used": "gun",
-    "difficulty": 5,
-    "time": 500,
-    "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "lead", 5 ] ], [ [ "762_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "gunpowder", 7 ] ], [ [ "copper", 5 ] ] ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
-  },
-  {
-    "result": "762_m87",
-    "type": "uncraft",
-    "skill_used": "gun",
-    "difficulty": 5,
-    "time": 500,
-    "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "lead", 5 ] ], [ [ "762_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "gunpowder", 8 ] ], [ [ "copper", 5 ] ] ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
-  },
-  {
-    "result": "9x18mm",
-    "type": "uncraft",
-    "skill_used": "gun",
-    "difficulty": 5,
-    "time": 500,
-    "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "lead", 2 ] ], [ [ "9x18mm_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "gunpowder", 3 ] ] ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
-  },
-  {
-    "result": "9x18mmP2",
-    "type": "uncraft",
-    "skill_used": "gun",
-    "difficulty": 5,
-    "time": 500,
-    "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "lead", 2 ] ], [ [ "9x18mm_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "gunpowder", 5 ] ] ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
-  },
-  {
-    "result": "9x18mmfmj",
-    "type": "uncraft",
-    "skill_used": "gun",
-    "difficulty": 5,
-    "time": 500,
-    "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [
-      [ [ "lead", 2 ] ],
-      [ [ "9x18mm_casing", 1 ] ],
-      [ [ "smpistol_primer", 1 ] ],
-      [ [ "gunpowder", 3 ] ],
-      [ [ "copper", 2 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
-  },
-  {
     "result": "alarmclock",
     "type": "uncraft",
     "time": 600,
@@ -1238,6 +748,13 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
+    "result": "scorecard",
+    "type": "uncraft",
+    "time": 100,
+    "components": [ [ [ "paper", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
     "result": "foon",
     "type": "uncraft",
     "time": 1500,
@@ -1306,7 +823,7 @@
       [ [ "gloves_tactical", 1 ] ],
       [ [ "gloves_rubber", 1 ] ],
       [ [ "fire_gauntlets", 1 ] ],
-      [ [ "battery", 100 ] ],
+      [ [ "light_plus_battery_cell", 1 ] ],
       [ [ "flashlight", 1 ] ],
       [ [ "lighter", 1 ] ],
       [ [ "pockknife", 1 ] ],
@@ -1314,7 +831,7 @@
       [ [ "sleeping_bag_roll", 1 ] ],
       [ [ "ear_plugs", 1 ] ]
     ],
-    "flags": [ "BLIND_EASY" ]
+    "flags": [ "BLIND_EASY", "FULL_MAGAZINE" ]
   },
   {
     "result": "gold_bracelet",
@@ -1404,7 +921,7 @@
       [ [ "l_long_45", 1 ] ],
       [ [ "l_enforcer_45", 1 ] ],
       [ [ "small_repairkit", 1 ] ],
-      [ [ "battery", 300 ] ],
+      [ [ "light_battery_cell", 3 ] ],
       [ [ "manual_gun", 1 ] ],
       [ [ "holster", 1 ] ]
     ]
@@ -1451,14 +968,6 @@
     "type": "uncraft",
     "time": 100,
     "components": [ [ [ "pilot_light", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
-  },
-  {
-    "result": "lightstrip_dead",
-    "type": "uncraft",
-    "skill_used": "electronics",
-    "time": 1000,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "amplifier", 1 ] ], [ [ "e_scrap", 1 ] ] ]
   },
   {
     "result": "locket",
@@ -1740,7 +1249,7 @@
     "result": "radio_car_box",
     "type": "uncraft",
     "time": 500,
-    "components": [ [ [ "radio_car", 1 ] ], [ [ "radiocontrol", 1 ] ], [ [ "battery", 200 ] ] ]
+    "components": [ [ [ "radio_car", 1 ] ], [ [ "radiocontrol", 1 ] ], [ [ "light_battery_cell", 2 ] ] ]
   },
   {
     "result": "radiocontrol",
@@ -2080,7 +1589,7 @@
     "type": "uncraft",
     "time": 500,
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "processor", 1 ] ], [ [ "battery", 20 ] ] ]
+    "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "processor", 1 ] ], [ [ "light_minus_battery_cell", 1 ] ] ]
   },
   {
     "result": "years_old_newspaper",
@@ -2436,6 +1945,28 @@
       [ [ "plastic_chunk", 10 ] ],
       [ [ "solder_wire", 5 ] ]
     ]
+  },
+  {
+    "result": "medium_storage_battery",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 8,
+    "time": 40000,
+    "decomp_learn": [ [ "electronics", 3 ], [ "fabrication", 1 ] ],
+    "using": [ [ "soldering_standard", 20 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "small_storage_battery", 13 ] ], [ [ "e_scrap", 3 ] ], [ [ "scrap", 7 ] ], [ [ "cable", 4 ] ] ]
+  },
+  {
+    "result": "storage_battery",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 8,
+    "time": 120000,
+    "decomp_learn": [ [ "electronics", 3 ], [ "fabrication", 2 ] ],
+    "using": [ [ "soldering_standard", 80 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "small_storage_battery", 79 ] ], [ [ "e_scrap", 15 ] ], [ [ "scrap", 31 ] ], [ [ "cable", 19 ] ] ]
   },
   {
     "result": "electric_blanket",

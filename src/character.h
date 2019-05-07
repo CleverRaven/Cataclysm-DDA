@@ -2,11 +2,19 @@
 #ifndef CHARACTER_H
 #define CHARACTER_H
 
+#include <stddef.h>
 #include <bitset>
 #include <map>
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
+#include <array>
+#include <functional>
+#include <limits>
+#include <list>
+#include <set>
+#include <string>
+#include <utility>
 
 #include "bodypart.h"
 #include "calendar.h"
@@ -14,27 +22,34 @@
 #include "inventory.h"
 #include "pimpl.h"
 #include "pldata.h"
-#include "rng.h"
 #include "visitable.h"
+#include "color.h"
+#include "damage.h"
+#include "enums.h"
+#include "item.h"
+#include "optional.h"
+#include "string_formatter.h"
+#include "string_id.h"
+#include "units.h"
 
 class Skill;
 struct pathfinding_settings;
+class item_location;
+
 using skill_id = string_id<Skill>;
 class SkillLevel;
 class SkillLevelMap;
+
 enum field_id : int;
 class JsonObject;
 class JsonIn;
 class JsonOut;
-class field;
-class field_entry;
 class vehicle;
-struct resistances;
 struct mutation_branch;
 class bionic_collection;
 struct bionic_data;
+
 using bionic_id = string_id<bionic_data>;
-class recipe;
 
 enum vision_modes {
     DEBUG_NIGHTVISION,
@@ -537,7 +552,7 @@ class Character : public Creature, public visitable<Character>
 
         /** Only use for UI things. Returns all invlets that are currently used in
          * the player inventory, the weapon slot and the worn items. */
-        std::set<char> allocated_invlets() const;
+        std::bitset<std::numeric_limits<char>::max()> allocated_invlets() const;
 
         /**
          * Whether the player carries an active item of the given item type.
@@ -575,6 +590,14 @@ class Character : public Creature, public visitable<Character>
                                  bool is_blind_throw = false ) const;
         /** How much dispersion does one point of target's dodge add when throwing at said target? */
         int throw_dispersion_per_dodge( bool add_encumbrance = true ) const;
+
+        /// Checks for items, tools, and vehicles with the Lifting quality near the character
+        /// returning the highest quality in range.
+        int best_nearby_lifting_assist() const;
+
+        /// Alternate version if you need to specify a different orign point for nearby vehicle sources of lifting
+        /// used for operations on distant objects (e.g. vehicle installation/uninstallation)
+        int best_nearby_lifting_assist( const tripoint &world_pos ) const;
 
         units::mass weight_carried() const;
         units::volume volume_carried() const;

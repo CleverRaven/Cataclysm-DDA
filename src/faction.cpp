@@ -1,15 +1,13 @@
 #include "faction.h"
 
-#include <algorithm>
-#include <cmath>
 #include <cstdlib>
 #include <map>
-#include <sstream>
 #include <string>
+#include <memory>
+#include <set>
+#include <utility>
 
 #include "basecamp.h"
-#include "catacharset.h"
-#include "coordinate_conversions.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "enums.h"
@@ -19,20 +17,17 @@
 #include "input.h"
 #include "json.h"
 #include "line.h"
-#include "map.h"
-#include "messages.h"
-#include "mission.h"
 #include "npc.h"
-#include "npctalk.h"
-#include "omdata.h"
 #include "output.h"
-#include "overmap.h"
 #include "overmapbuffer.h"
 #include "player.h"
-#include "rng.h"
 #include "skill.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "item.h"
+#include "itype.h"
+#include "optional.h"
+#include "pimpl.h"
 
 static std::map<faction_id, faction_template> _all_faction_templates;
 
@@ -458,6 +453,8 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
         current_status += _( "Following" );
     } else if( is_leader() ) {
         current_status += _( "Leading" );
+    } else if( is_patrolling() ) {
+        current_status += _( "Patrolling" );
     } else if( is_guarding() ) {
         current_status += _( "Guarding" );
     }
