@@ -9717,8 +9717,8 @@ const player *player::get_book_reader( const item &book, std::vector<std::string
     const skill_id &skill = type->skill;
     const int skill_level = get_skill_level( skill );
     if( skill && skill_level < type->req && has_identified( book.typeId() ) ) {
-        reasons.push_back( string_format( _( "%s %d needed to understand. You have: %d" ),
-                                          skill.obj().name(), type->req, get_skill_level( skill ) ) );
+        reasons.push_back( string_format( _( "%s %d needed to understand. You have %d" ),
+                                          skill.obj().name(), type->req, skill_level ) );
         return nullptr;
     }
 
@@ -9753,7 +9753,7 @@ const player *player::get_book_reader( const item &book, std::vector<std::string
                                               elem->disp_name() ) );
         } else if( skill && elem->get_skill_level( skill ) < type->req &&
                    has_identified( book.typeId() ) ) {
-            reasons.push_back( string_format( _( "%s %d needed to understand. %s has: %d" ),
+            reasons.push_back( string_format( _( "%s %d needed to understand. %s has %d" ),
                                               skill.obj().name(), type->req, elem->disp_name(), elem->get_skill_level( skill ) ) );
         } else if( elem->has_trait( trait_HYPEROPIC ) && !elem->worn_with_flag( "FIX_FARSIGHT" ) &&
                    !elem->has_effect( effect_contacts ) ) {

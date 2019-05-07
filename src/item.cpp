@@ -1929,15 +1929,14 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             if( book.skill ) {
                 if( g->u.get_skill_level_object( book.skill ).can_train() &&
                     parts->test( iteminfo_parts::BOOK_SKILLRANGE_MAX ) ) {
+                    const std::string skill_name = book.skill.obj().name();
                     auto fmt = string_format(
-                                   _( "Can bring your <info>%s skill to</info> <num>." ),
-                                   book.skill.obj().name() );
+                                   _( "Can bring your <info>%s skill to</info> <num>." ), skill_name );
                     info.push_back( iteminfo( "BOOK", "", fmt, iteminfo::no_flags, book.level ) );
                     fmt = string_format(
-                              _( "Your current <stat>%s skill</stat> is <num>." ),
-                              book.skill.obj().name() );
+                              _( "Your current <stat>%s skill</stat> is <num>." ), skill_name );
                     info.push_back( iteminfo( "BOOK", "", fmt, iteminfo::no_flags,
-                                              g->u.get_skill_level( book.skill.obj().ident() ) ) );
+                                              g->u.get_skill_level( book.skill ) ) );
                 }
 
                 if( book.req != 0 && parts->test( iteminfo_parts::BOOK_SKILLRANGE_MIN ) ) {

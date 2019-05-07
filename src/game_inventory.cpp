@@ -789,7 +789,7 @@ class read_inventory_preset: public pickup_inventory_preset
                 const auto &book = get_book( loc );
                 if( book.skill && p.get_skill_level_object( book.skill ).can_train() ) {
                     return string_format( _( "%s to %d (%d)" ), book.skill->name(), book.level,
-                                          g->u.get_skill_level( book.skill.obj().ident() ) );
+                                          p.get_skill_level( book.skill ) );
                 }
                 return std::string();
             }, _( "TRAINS (CURRENT)" ), unknown );
