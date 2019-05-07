@@ -11,5 +11,29 @@
     "energy_source": "MANA",
     "difficulty": 4,
     "max_level": 1
+  },
+  {
+    "id": "megablast",
+	"type": "SPELL",
+	"name": "Megablast",
+	"description": "You always wanted to fire energy beams like in the animes you watched as a kid.  Now you can!",
+	"valid_targets": [ "ally", "hostile", "ground" ],
+	"effect": "line_attack",
+	"damage_type": "fire",
+	"base_casting_time": 200,
+	"base_energy_cost": 800,
+	"energy_source": "STAMINA",
+	"spell_class": "NONE",
+	"difficulty": 10,
+	"max_level": 20,
+	"min_damage": 30,
+	"max_damage": 100,
+	"damage_increment": 3.25,
+	"min_range": 3,
+	"max_range": 12,
+	"range_increment": 0.45,
+	"min_aoe": 1,
+	"max_aoe": 5,
+	"aoe_increment": 0.2
   }
 ]

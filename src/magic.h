@@ -240,6 +240,7 @@ void shallow_pit( const tripoint &target );
 void target_attack( spell &sp, const tripoint &target );
 void projectile_attack( spell &sp, const tripoint &target );
 void cone_attack( spell &sp, const tripoint &target );
+void line_attack( spell &sp, const tripoint &target );
 void spawn_ethereal_item( spell &sp );
 }
 

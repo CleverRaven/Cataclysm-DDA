@@ -877,7 +877,7 @@ static std::set<tripoint> spell_effect_cone( spell &sp, const tripoint &target, 
     const int range = rl_dist( source, target );
     const int initial_angle = coord_to_angle( source, target );
     std::set<tripoint> end_points;
-    for( int angle = initial_angle - aoe_radius; angle <= initial_angle + aoe_radius; angle++ ) {
+    for( int angle = initial_angle - floor( aoe_radius / 2.0 ); angle <= initial_angle + ceil( aoe_radius / 2.0 ); angle++ ) {
         tripoint potential;
         calc_ray_end( angle, range, source, potential );
         end_points.emplace( potential );
@@ -887,11 +887,75 @@ static std::set<tripoint> spell_effect_cone( spell &sp, const tripoint &target, 
         for( const tripoint &tp : trajectory ) {
             if( ignore_walls || g->m.passable( tp ) ) {
                 targets.emplace( tp );
+            } else {
+                break;
             }
         }
     }
     // we don't want to hit ourselves in the blast!
     targets.erase( source );
+    return targets;
+}
+
+static std::set<tripoint> spell_effect_line( spell &sp, const tripoint &target, const int aoe_radius, const bool ignore_walls )
+{
+    std::set<tripoint> targets;
+    const tripoint source = sp.get_source();
+    const int initial_angle = coord_to_angle( source, target );
+    tripoint clockwise_starting_point;
+    calc_ray_end( initial_angle - 90, floor( aoe_radius / 2.0 ), source, clockwise_starting_point );
+    tripoint cclockwise_starting_point;
+    calc_ray_end( initial_angle + 90, ceil( aoe_radius / 2.0 ), source, cclockwise_starting_point );
+    tripoint clockwise_end_point;
+    calc_ray_end( initial_angle - 90, floor( aoe_radius / 2.0 ), target, clockwise_end_point );
+    tripoint cclockwise_end_point;
+    calc_ray_end( initial_angle + 90, ceil( aoe_radius / 2.0 ), target, cclockwise_end_point );
+
+    std::vector<tripoint> start_width_lh = line_to( source, cclockwise_starting_point );
+    std::vector<tripoint> start_width_rh = line_to( source, clockwise_starting_point );
+
+    int start_width_lh_blocked = start_width_lh.size();
+    int start_width_rh_blocked = start_width_rh.size() + 1;
+    for( const tripoint &p : start_width_lh ) {
+        if( g->m.passable( p ) ) {
+            start_width_lh_blocked--;
+        } else {
+            break;
+        }
+    }
+    for( const tripoint &p : start_width_rh ) {
+        if( g->m.passable( p ) ) {
+            start_width_rh_blocked--;
+        } else {
+            break;
+        }
+    }
+
+    std::reverse( start_width_rh.begin(), start_width_rh.end() );
+    std::vector<tripoint> start_width;
+    start_width.reserve( start_width_lh.size() + start_width_rh.size() + 2 );
+    start_width.insert( start_width.end(), start_width_rh.begin(), start_width_rh.end() );
+    start_width.emplace_back( source );
+    start_width.insert( start_width.end(), start_width_lh.begin(), start_width_lh.end() );
+    std::vector<tripoint> end_width = line_to( cclockwise_end_point, clockwise_end_point );
+    // line_to omits the starting point. we want it back.
+    end_width.insert( end_width.begin(), cclockwise_end_point );
+
+    // we're going from right to left (clockwise to counterclockwise)
+    for( int i = start_width_rh_blocked; i <= start_width.size() - start_width_lh_blocked; i++ ) {
+        for( tripoint &ep : end_width ) {
+            for( tripoint &p : line_to( start_width[i], ep ) ) {
+                if( g->m.passable( p ) ) {
+                    targets.emplace( p );
+                } else {
+                    break;
+                }
+            }
+        }
+    }
+
+    targets.erase( source );
+
     return targets;
 }
 
@@ -971,6 +1035,11 @@ void target_attack( spell &sp, const tripoint &epicenter )
 void cone_attack( spell &sp, const tripoint &target )
 {
     damage_targets( sp, spell_effect_area( sp, target, spell_effect_cone ) );
+}
+
+void line_attack( spell &sp, const tripoint &target )
+{
+    damage_targets( sp, spell_effect_area( sp, target, spell_effect_line ) );
 }
 
 void spawn_ethereal_item( spell &sp )
