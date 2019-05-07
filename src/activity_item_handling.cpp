@@ -1167,7 +1167,7 @@ void activity_on_turn_move_loot( player_activity &, player &p )
                             mgr.end_sort();
                             return;
                         }
-                        move_item( p, *thisitem, ( thisitem )->count(), src_loc, dest_loc, this_veh, this_part );
+                        move_item( p, *thisitem, thisitem->count(), src_loc, dest_loc, this_veh, this_part );
 
                         // moved item away from source so decrement
                         mgr.decrement_num_processed( src );
