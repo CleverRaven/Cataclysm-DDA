@@ -1127,7 +1127,7 @@ void activity_on_turn_move_loot( player_activity &, player &p )
                         free_space = g->m.free_volume( dest_loc );
                     }
                     // check free space at destination
-                    if( free_space >= ( thisitem )->volume() ) {
+                    if( free_space >= thisitem->volume() ) {
                         // before we move any item, check if player is at or
                         // adjacent to the loot source tile
                         if( !is_adjacent_or_closer ) {
