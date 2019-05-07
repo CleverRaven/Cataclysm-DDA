@@ -640,18 +640,18 @@ item_location game_menus::inv::consume( player &p )
                          _( "You have nothing to consume." ) );
 }
 
-class comestible_flag_inventory_preset : public comestible_inventory_preset
+class comestible_filtered_inventory_preset : public comestible_inventory_preset
 {
     public:
-        comestible_flag_inventory_preset( const player &p, const std::string &flag ) :
-            comestible_inventory_preset( p ), flag( flag ) {}
+        comestible_filtered_inventory_preset( const player &p, bool( *predicate )( item it ) ) :
+            comestible_inventory_preset( p ), predicate( predicate ) {}
 
         bool is_shown( const item_location &loc ) const override {
-            return get_comestible_item( loc ).get_comestible()->comesttype == flag ;
+            return predicate( get_comestible_item( loc ) );
         }
 
     private:
-        const std::string &flag;
+        bool( *predicate )( item it );
 };
 
 
@@ -661,9 +661,11 @@ item_location game_menus::inv::consume_food( player &p )
         g->u.assign_activity( activity_id( "ACT_CONSUME_FOOD_MENU" ) );
     }
 
-    return inv_internal( p, comestible_flag_inventory_preset( p, "FOOD" ),
-                         _( "Consume food" ), 1,
-                         _( "You have no food to consume." ) );
+    return inv_internal( p, comestible_filtered_inventory_preset( p, []( item it ) {
+        return it.get_comestible()->comesttype == "FOOD" || it.has_flag( "USE_EAT_VERB" );
+    } ),
+    _( "Consume food" ), 1,
+    _( "You have no food to consume." ) );
 }
 
 item_location game_menus::inv::consume_drink( player &p )
@@ -672,9 +674,11 @@ item_location game_menus::inv::consume_drink( player &p )
         g->u.assign_activity( activity_id( "ACT_CONSUME_DRINK_MENU" ) );
     }
 
-    return inv_internal( p, comestible_flag_inventory_preset( p, "DRINK" ),
-                         _( "Consume drink" ), 1,
-                         _( "You have no drink to consume." ) );
+    return inv_internal( p, comestible_filtered_inventory_preset( p, []( item it ) {
+        return it.get_comestible()->comesttype == "DRINK" && !it.has_flag( "USE_EAT_VERB" );
+    } ),
+    _( "Consume drink" ), 1,
+    _( "You have no drink to consume." ) );
 }
 
 item_location game_menus::inv::consume_meds( player &p )
@@ -683,9 +687,11 @@ item_location game_menus::inv::consume_meds( player &p )
         g->u.assign_activity( activity_id( "ACT_CONSUME_MEDS_MENU" ) );
     }
 
-    return inv_internal( p, comestible_flag_inventory_preset( p, "MED" ),
-                         _( "Consume medication" ), 1,
-                         _( "You have no medication to consume." ) );
+    return inv_internal( p, comestible_filtered_inventory_preset( p, []( item it ) {
+        return it.get_comestible()->comesttype == "MED";
+    } ),
+    _( "Consume medication" ), 1,
+    _( "You have no medication to consume." ) );
 }
 
 class activatable_inventory_preset : public pickup_inventory_preset
