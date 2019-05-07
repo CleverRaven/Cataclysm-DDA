@@ -853,7 +853,7 @@ static bool in_spell_aoe( const tripoint &target, const tripoint &epicenter, con
     return rl_dist( epicenter, target ) <= radius;
 }
 
-static std::set<tripoint> spell_effect_blast( spell &sp, const tripoint &target, const int aoe_radius, const bool ignore_walls )
+static std::set<tripoint> spell_effect_blast( spell &sp, const tripoint &target, const int aoe_radius, const bool )
 {
     std::set<tripoint> targets;
     // TODO: Make this breadth-first
@@ -942,7 +942,7 @@ static std::set<tripoint> spell_effect_line( spell &sp, const tripoint &target, 
     end_width.insert( end_width.begin(), cclockwise_end_point );
 
     // we're going from right to left (clockwise to counterclockwise)
-    for( int i = start_width_rh_blocked; i <= start_width.size() - start_width_lh_blocked; i++ ) {
+    for( int i = start_width_rh_blocked; i <= static_cast<int>( start_width.size() ) - start_width_lh_blocked; i++ ) {
         for( tripoint &ep : end_width ) {
             for( tripoint &p : line_to( start_width[i], ep ) ) {
                 if( g->m.passable( p ) ) {
