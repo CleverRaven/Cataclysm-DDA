@@ -1254,7 +1254,6 @@ static void open_movement_mode_menu()
 
 void game::open_consume_item_menu()
 {
-    player &u = g->u;
     uilist as_m;
 
     as_m.text = _( "What do you want to consume?" );
