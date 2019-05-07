@@ -90,6 +90,25 @@ const char *npgettext( const char *const context, const char *const msgid,
     }
 }
 
+static bool sanity_checked_genders = false;
+
+static void sanity_check_genders( const std::vector<std::string> &language_genders )
+{
+    if( sanity_checked_genders ) {
+        return;
+    }
+    sanity_checked_genders = true;
+
+    constexpr std::array<const char *, 3> valid_genders = {{"f", "m", "n"}};
+
+    for( const std::string &gender : language_genders ) {
+        if( find( valid_genders.begin(), valid_genders.end(), gender ) == valid_genders.end() ) {
+            debugmsg( "Unexpected gender '%s' in grammatical gender list for "
+                      "this language", gender );
+        }
+    }
+}
+
 std::string gettext_gendered( const GenderMap &genders, const std::string &msg )
 {
     //~ Space-separated list of grammatical genders. Default should be first.
@@ -104,6 +123,9 @@ std::string gettext_gendered( const GenderMap &genders, const std::string &msg )
     //~ third person pronouns differ.
     std::string language_genders_s = pgettext( "grammatical gender list", "n" );
     std::vector<std::string> language_genders = string_split( language_genders_s, ' ' );
+
+    sanity_check_genders( language_genders );
+
     if( language_genders.empty() ) {
         language_genders.push_back( "n" );
     }
@@ -253,6 +275,8 @@ void set_language()
     textdomain( "cataclysm-dda" );
 
     reload_names();
+
+    sanity_checked_genders = false;
 }
 
 #if defined(MACOSX)
