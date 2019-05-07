@@ -196,6 +196,11 @@
   },
   {
     "type": "item_action",
+    "id": "learn_spell",
+    "name": "Learn spell"
+  },
+  {
+    "type": "item_action",
     "id": "holster",
     "name": "Use holster"
   },

@@ -22,6 +22,7 @@
 #include "cata_utility.h"
 #include "coordinate_conversions.h"
 #include "crafting.h"
+#include "creature.h"
 #include "debug.h"
 #include "vpart_position.h"
 #include "effect.h"
@@ -32,6 +33,7 @@
 #include "item.h"
 #include "item_factory.h"
 #include "itype.h"
+#include "magic.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_selector.h"
@@ -2114,6 +2116,103 @@ ret_val<bool> musical_instrument_actor::can_use( const player &p, const item &, 
     }
 
     return ret_val<bool>::make_success();
+}
+
+iuse_actor *learn_spell_actor::clone() const
+{
+    return new learn_spell_actor( *this );
+}
+
+void learn_spell_actor::load( JsonObject &obj )
+{
+    spells = obj.get_string_array( "spells" );
+}
+
+void learn_spell_actor::info( const item &, std::vector<iteminfo> &dump ) const
+{
+    std::string message;
+    if( spells.size() == 1 ) {
+        message = _( "This can teach you a spell." );
+    } else {
+        message = _( "This can teach you a number of spells." );
+    }
+    dump.emplace_back( "DESCRIPTION", message );
+    dump.emplace_back( "DESCRIPTION", _( "Spells Contained:" ) );
+    for( const std::string sp : spells ) {
+        dump.emplace_back( "SPELL", spell_id( sp ).obj().name );
+    }
+}
+
+long learn_spell_actor::use( player &p, item &, bool, const tripoint & ) const
+{
+    std::vector<uilist_entry> uilist_initializer;
+    bool know_it_all = true;
+    for( const std::string sp_id_str : spells ) {
+        const spell_id sp_id( sp_id_str );
+        const std::string sp_nm = sp_id.obj().name;
+        uilist_entry entry( sp_nm );
+        if( p.knows_spell( sp_id ) ) {
+            const spell sp = p.get_spell( sp_id );
+            entry.ctxt = string_format( "Level %u", sp.get_level() );
+            if( sp.is_max_level() ) {
+                entry.ctxt += _( " (Max)" );
+                entry.enabled = false;
+            } else {
+                know_it_all = false;
+            }
+        } else {
+            if( p.can_learn_spell( sp_id ) || !p.has_opposite_trait( sp_id.obj().spell_class ) ) {
+                entry.ctxt = _( "Study to Learn" );
+                know_it_all = false;
+            } else {
+                entry.ctxt = _( "Can't learn!" );
+                entry.enabled = false;
+            }
+        }
+        uilist_initializer.emplace_back( entry );
+    }
+
+    if( know_it_all ) {
+        add_msg( m_info, _( "You already know everything this could teach you." ) );
+        return 0;
+    }
+
+    const int action = uilist( _( "Study a spell:" ), uilist_initializer );
+    if( action < 0 ) {
+        return 0;
+    }
+    const bool knows_spell = p.knows_spell( spells[action] );
+    player_activity study_spell( activity_id( "ACT_STUDY_SPELL" ),
+                                 p.time_to_learn_spell( spells[action] ) );
+    study_spell.str_values = {
+        "", // reserved for "until you gain a spell level" option [0]
+        "learn"
+    }; // [1]
+    study_spell.values = { 0, 0 };
+    if( knows_spell ) {
+        study_spell.str_values[1] = "study";
+        const int study_time = uilist( _( "Spend how long studying?" ), {
+            { 30000, true, -1, _( "30 minutes" ) },
+            { 60000, true, -1, _( "1 hour" ) },
+            { 120000, true, -1, _( "2 hours" ) },
+            { 240000, true, -1, _( "4 hours" ) },
+            { 480000, true, -1, _( "8 hours" ) },
+            { 10100, true, -1, _( "Until you gain a spell level" ) }
+        } );
+        if( study_time <= 0 ) {
+            return 0;
+        }
+        study_spell.moves_total = study_time;
+    }
+    study_spell.moves_left = study_spell.moves_total;
+    if( study_spell.moves_total == 10100 ) {
+        study_spell.str_values[0] = "gain_level";
+        study_spell.values[0]; // reserved for xp
+        study_spell.values[1] = p.get_spell( spell_id( spells[action] ) ).get_level() + 1;
+    }
+    study_spell.name = spells[action];
+    p.assign_activity( study_spell, false );
+    return 0;
 }
 
 iuse_actor *holster_actor::clone() const

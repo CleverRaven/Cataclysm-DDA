@@ -1,0 +1,24 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "magiclysm",
+    "name": "Magiclysm",
+    "authors": [ "KorGgenT" ],
+    "description": "Cataclysm but with magic spells!",
+    "category": "content",
+    "dependencies": [ "dda" ]
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "MANA",
+    "info": "Mana is an energy source generated from players' bodies used for casting magic.",
+    "stype": "bool",
+    "value": true
+  },
+  {
+    "type": "skill",
+    "ident": "spellcraft",
+    "name": "spellcraft",
+    "description": "Your skill in the arcane.  Represents magic theory and all that entails.  A higher skill increases how quickly you can learn spells, and decreases their spell failure chance.  You learn this skill by studying books or spells."
+  }
+]

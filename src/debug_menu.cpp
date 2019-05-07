@@ -59,6 +59,7 @@
 #include "vpart_position.h"
 #include "rng.h"
 #include "signal.h"
+#include "magic.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -105,7 +106,8 @@ enum debug_menu_index {
     DEBUG_MAP_EXTRA,
     DEBUG_DISPLAY_NPC_PATH,
     DEBUG_QUIT_NOSAVE,
-    DEBUG_TEST_WEATHER
+    DEBUG_TEST_WEATHER,
+    DEBUG_LEARN_SPELLS
 };
 
 class mission_debug
@@ -130,7 +132,8 @@ static int player_uilist()
         { DEBUG_UNLOCK_RECIPES, true, 'r', _( "Unlock all recipes" ) },
         { DEBUG_EDIT_PLAYER, true, 'p', _( "Edit player/NPC" ) },
         { DEBUG_DAMAGE_SELF, true, 'd', _( "Damage self" ) },
-        { DEBUG_SET_AUTOMOVE, true, 'a', _( "Set automove route" ) }
+        { DEBUG_SET_AUTOMOVE, true, 'a', _( "Set automove route" ) },
+        { DEBUG_LEARN_SPELLS, true, 'S', _( "Learn all spells" ) }
     };
 
     return uilist( _( "Player..." ), uilist_initializer );
@@ -884,6 +887,12 @@ void draw_benchmark( const int max_difference )
              difference / 1000.0, 1000.0 * draw_counter / static_cast<double>( difference ) );
 }
 
+static void test_weather()
+{
+    weather_generator weathergen;
+    weathergen.test_weather();
+}
+
 void debug()
 {
     int action = debug_menu_uilist();
@@ -1315,8 +1324,17 @@ void debug()
                 }
                 break;
             case DEBUG_TEST_WEATHER:
-                weather_generator weathergen;
-                weathergen.test_weather();
+                test_weather();
+                break;
+            case DEBUG_LEARN_SPELLS:
+                if( spell_type::get_all().empty() ) {
+                    add_msg( m_bad, _( "There are no spells to learn. You must install a mod that adds some." ) );
+                } else {
+                    for( const spell_type &learn : spell_type::get_all() ) {
+                        g->u.learn_spell( &learn, true );
+                    }
+                    add_msg( m_good, _( "You have become an Archwizardpriest! What will you do with your newfound power?" ) );
+                }
                 break;
         }
         catacurses::erase();
