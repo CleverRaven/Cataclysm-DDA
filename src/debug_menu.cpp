@@ -60,6 +60,11 @@
 #include "rng.h"
 #include "signal.h"
 
+#if defined(TILES)
+#include "cata_tiles.h"
+extern std::unique_ptr<cata_tiles> tilecontext;
+#endif
+
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
 namespace debug_menu
@@ -105,7 +110,9 @@ enum debug_menu_index {
     DEBUG_MAP_EXTRA,
     DEBUG_DISPLAY_NPC_PATH,
     DEBUG_QUIT_NOSAVE,
-    DEBUG_TEST_WEATHER
+    DEBUG_TEST_WEATHER,
+    DEBUG_SAVE_SCREENSHOT,
+    DEBUG_GAME_REPORT,
 };
 
 class mission_debug
@@ -121,99 +128,147 @@ class mission_debug
         static std::string describe( const mission &m );
 };
 
-static int player_uilist()
-{
-    const std::vector<uilist_entry> uilist_initializer = {
-        { DEBUG_MUTATE, true, 'M', _( "Mutate" ) },
-        { DEBUG_CHANGE_SKILLS, true, 's', _( "Change all skills" ) },
-        { DEBUG_LEARN_MA, true, 'l', _( "Learn all melee styles" ) },
-        { DEBUG_UNLOCK_RECIPES, true, 'r', _( "Unlock all recipes" ) },
-        { DEBUG_EDIT_PLAYER, true, 'p', _( "Edit player/NPC" ) },
-        { DEBUG_DAMAGE_SELF, true, 'd', _( "Damage self" ) },
-        { DEBUG_SET_AUTOMOVE, true, 'a', _( "Set automove route" ) }
-    };
+typedef std::pair<uilist_entry, bool> uilist_entry_pair_t;
 
-    return uilist( _( "Player..." ), uilist_initializer );
+/**
+ * Filter entries to be displayed in a menu.
+ * @param entries: A vector where each element is a pair consisting of (first) a menu entry and (second) boolean indicating whether to show the entry or not.
+ * @param display_all_entries: boolean used to override the entries in the @p entries vector. If `true` then all entries are shown (no matter what is their boolean state);
+ *  if `false` then the boolean of the menu entry is taken into account.
+ * @returns A filtered vector of menu entries, depending on the given parameters.
+ */
+static std::vector<uilist_entry> filter_uilist( const std::vector<uilist_entry_pair_t> &entries,
+        bool display_all_entries )
+{
+    std::vector<uilist_entry> filtered_entries;
+
+    for( const auto &entry : entries ) {
+        // predicate: either we display everything or, if not asked for, check the boolean value of the pair.
+        if( display_all_entries || entry.second ) {
+            filtered_entries.push_back( entry.first );
+        }
+    }
+
+    return filtered_entries;
 }
 
-static int info_uilist()
+static int player_uilist( bool display_all_entries = true )
 {
-    const std::vector<uilist_entry> uilist_initializer = {
-        uilist_entry( DEBUG_GAME_STATE, true, 'g', _( "Check game state" ) ),
-        uilist_entry( DEBUG_DISPLAY_HORDES, true, 'h', _( "Display hordes" ) ),
-        uilist_entry( DEBUG_TEST_IT_GROUP, true, 'i', _( "Test item group" ) ),
-        uilist_entry( DEBUG_SHOW_SOUND, true, 's', _( "Show sound clustering" ) ),
-        uilist_entry( DEBUG_DISPLAY_WEATHER, true, 'w', _( "Display weather" ) ),
-        uilist_entry( DEBUG_DISPLAY_SCENTS, true, 'S', _( "Display overmap scents" ) ),
-        uilist_entry( DEBUG_SHOW_MUT_CAT, true, 'm', _( "Show mutation category levels" ) ),
-        uilist_entry( DEBUG_BENCHMARK, true, 'b', _( "Draw benchmark (X seconds)" ) ),
-        uilist_entry( DEBUG_TRAIT_GROUP, true, 't', _( "Test trait group" ) ),
-        uilist_entry( DEBUG_SHOW_MSG, true, 'd', _( "Show debug message" ) ),
-        uilist_entry( DEBUG_CRASH_GAME, true, 'C', _( "Crash game (test crash handling)" ) ),
-        uilist_entry( DEBUG_DISPLAY_NPC_PATH, true, 'n', _( "Toggle NPC pathfinding on map" ) ),
-        uilist_entry( DEBUG_TEST_WEATHER, true, 'W', _( "Test weather" ) )
+    /* Note: the second boolean indicates whether the menu option should always be shown (true) or not (false).
+     * For example, if we show the debug menu on the main menu and we want Info to be always displayed, we set it to true.
+     * This also depends if the top menu is shown or not, in which case, the booleans have no effect if the top menu is not shown.
+     */
+    const std::vector<uilist_entry_pair_t> uilist_initializer = {
+        { uilist_entry( DEBUG_MUTATE, true, 'M', _( "Mutate" ) ), true },
+        { uilist_entry( DEBUG_CHANGE_SKILLS, true, 's', _( "Change all skills" ) ), true },
+        { uilist_entry( DEBUG_LEARN_MA, true, 'l', _( "Learn all melee styles" ) ), true },
+        { uilist_entry( DEBUG_UNLOCK_RECIPES, true, 'r', _( "Unlock all recipes" ) ), true },
+        { uilist_entry( DEBUG_EDIT_PLAYER, true, 'p', _( "Edit player/NPC" ) ), true },
+        { uilist_entry( DEBUG_DAMAGE_SELF, true, 'd', _( "Damage self" ) ), true },
+        { uilist_entry( DEBUG_SET_AUTOMOVE, true, 'a', _( "Set automove route" ) ), true },
     };
 
-    return uilist( _( "Info..." ), uilist_initializer );
+    return uilist( _( "Player..." ), filter_uilist( uilist_initializer, display_all_entries ) );
 }
 
-static int teleport_uilist()
+static int info_uilist( bool display_all_entries = true )
 {
-    const std::vector<uilist_entry> uilist_initializer = {
-        uilist_entry( DEBUG_SHORT_TELEPORT, true, 's', _( "Teleport - short range" ) ),
-        uilist_entry( DEBUG_LONG_TELEPORT, true, 'l', _( "Teleport - long range" ) ),
-        uilist_entry( DEBUG_OM_TELEPORT, true, 'o', _( "Teleport - adjacent overmap" ) )
+    const std::vector<uilist_entry_pair_t> uilist_initializer = {
+        { uilist_entry( DEBUG_GAME_STATE, true, 'g', _( "Check game state" ) ), false },
+        { uilist_entry( DEBUG_DISPLAY_HORDES, true, 'h', _( "Display hordes" ) ), false },
+        { uilist_entry( DEBUG_TEST_IT_GROUP, true, 'i', _( "Test item group" ) ), false },
+        { uilist_entry( DEBUG_SHOW_SOUND, true, 's', _( "Show sound clustering" ) ), false },
+        { uilist_entry( DEBUG_DISPLAY_WEATHER, true, 'w', _( "Display weather" ) ), false },
+        { uilist_entry( DEBUG_DISPLAY_SCENTS, true, 'S', _( "Display overmap scents" ) ), false },
+        { uilist_entry( DEBUG_SHOW_MUT_CAT, true, 'm', _( "Show mutation category levels" ) ), false },
+        { uilist_entry( DEBUG_BENCHMARK, true, 'b', _( "Draw benchmark (X seconds)" ) ), false },
+        { uilist_entry( DEBUG_TRAIT_GROUP, true, 't', _( "Test trait group" ) ), false },
+        { uilist_entry( DEBUG_SHOW_MSG, true, 'd', _( "Show debug message" ) ), false },
+        { uilist_entry( DEBUG_CRASH_GAME, true, 'C', _( "Crash game (test crash handling)" ) ), false },
+        { uilist_entry( DEBUG_DISPLAY_NPC_PATH, true, 'n', _( "Toggle NPC pathfinding on map" ) ), false },
+        { uilist_entry( DEBUG_TEST_WEATHER, true, 'W', _( "Test weather" ) ), false },
+        { uilist_entry( DEBUG_SAVE_SCREENSHOT, true, 'H', _( "Take screenshot" ) ), true },
+        { uilist_entry( DEBUG_GAME_REPORT, true, 'r', _( "Generate game report" ) ), true },
     };
 
-    return uilist( _( "Teleport..." ), uilist_initializer );
+    return uilist( _( "Info..." ), filter_uilist( uilist_initializer, display_all_entries ) );
 }
 
-static int spawning_uilist()
+static int teleport_uilist( bool display_all_entries = true )
 {
-    const std::vector<uilist_entry> uilist_initializer = {
-        uilist_entry( DEBUG_WISH, true, 'w', _( "Spawn an item" ) ),
-        uilist_entry( DEBUG_SPAWN_NPC, true, 'n', _( "Spawn NPC" ) ),
-        uilist_entry( DEBUG_SPAWN_MON, true, 'm', _( "Spawn monster" ) ),
-        uilist_entry( DEBUG_SPAWN_VEHICLE, true, 'v', _( "Spawn a vehicle" ) ),
-        uilist_entry( DEBUG_SPAWN_ARTIFACT, true, 'a', _( "Spawn artifact" ) ),
-        uilist_entry( DEBUG_SPAWN_CLAIRVOYANCE, true, 'c', _( "Spawn clairvoyance artifact" ) )
+    const std::vector<uilist_entry_pair_t> uilist_initializer = {
+        { uilist_entry( DEBUG_SHORT_TELEPORT, true, 's', _( "Teleport - short range" ) ), true },
+        { uilist_entry( DEBUG_LONG_TELEPORT, true, 'l', _( "Teleport - long range" ) ), true },
+        { uilist_entry( DEBUG_OM_TELEPORT, true, 'o', _( "Teleport - adjacent overmap" ) ), true },
     };
 
-    return uilist( _( "Spawning..." ), uilist_initializer );
+    return uilist( _( "Teleport..." ), filter_uilist( uilist_initializer, display_all_entries ) );
 }
 
-static int map_uilist()
+static int spawning_uilist( bool display_all_entries = true )
 {
-    const std::vector<uilist_entry> uilist_initializer = {
-        uilist_entry( DEBUG_REVEAL_MAP, true, 'r', _( "Reveal map" ) ),
-        uilist_entry( DEBUG_KILL_NPCS, true, 'k', _( "Kill NPCs" ) ),
-        uilist_entry( DEBUG_MAP_EDITOR, true, 'M', _( "Map editor" ) ),
-        uilist_entry( DEBUG_CHANGE_WEATHER, true, 'w', _( "Change weather" ) ),
-        uilist_entry( DEBUG_WIND_DIRECTION, true, 'd', _( "Change wind direction" ) ),
-        uilist_entry( DEBUG_WIND_SPEED, true, 's', _( "Change wind speed" ) ),
-        uilist_entry( DEBUG_KILL_MONS, true, 'K', _( "Kill all monsters" ) ),
-        uilist_entry( DEBUG_CHANGE_TIME, true, 't', _( "Change time" ) ),
-        uilist_entry( DEBUG_OM_EDITOR, true, 'O', _( "Overmap editor" ) ),
-        uilist_entry( DEBUG_MAP_EXTRA, true, 'm', _( "Spawn map extra" ) )
+    const std::vector<uilist_entry_pair_t> uilist_initializer = {
+        { uilist_entry( DEBUG_WISH, true, 'w', _( "Spawn an item" ) ), true },
+        { uilist_entry( DEBUG_SPAWN_NPC, true, 'n', _( "Spawn NPC" ) ), true },
+        { uilist_entry( DEBUG_SPAWN_MON, true, 'm', _( "Spawn monster" ) ), true },
+        { uilist_entry( DEBUG_SPAWN_VEHICLE, true, 'v', _( "Spawn a vehicle" ) ), true },
+        { uilist_entry( DEBUG_SPAWN_ARTIFACT, true, 'a', _( "Spawn artifact" ) ), true },
+        { uilist_entry( DEBUG_SPAWN_CLAIRVOYANCE, true, 'c', _( "Spawn clairvoyance artifact" ) ), true },
     };
 
-    return uilist( _( "Map..." ), uilist_initializer );
+    return uilist( _( "Spawning..." ), filter_uilist( uilist_initializer, display_all_entries ) );
 }
 
-static int debug_menu_uilist()
+static int map_uilist( bool display_all_entries = true )
 {
-    const std::vector<uilist_entry> uilist_initializer = {
-        uilist_entry( DEBUG_QUIT_NOSAVE, true, 'Q', _( "Quit to main menu" ) ),
-        uilist_entry( 1, true, 's', _( "Spawning..." ) ),
-        uilist_entry( 2, true, 'p', _( "Player..." ) ),
-        uilist_entry( 3, true, 't', _( "Teleport..." ) ),
-        uilist_entry( 4, true, 'm', _( "Map..." ) ),
-        uilist_entry( 5, true, 'i', _( "Info..." ) )
+    const std::vector<uilist_entry_pair_t> uilist_initializer = {
+        { uilist_entry( DEBUG_REVEAL_MAP, true, 'r', _( "Reveal map" ) ), true },
+        { uilist_entry( DEBUG_KILL_NPCS, true, 'k', _( "Kill NPCs" ) ), true },
+        { uilist_entry( DEBUG_MAP_EDITOR, true, 'M', _( "Map editor" ) ), true },
+        { uilist_entry( DEBUG_CHANGE_WEATHER, true, 'w', _( "Change weather" ) ), true },
+        { uilist_entry( DEBUG_WIND_DIRECTION, true, 'd', _( "Change wind direction" ) ), true },
+        { uilist_entry( DEBUG_WIND_SPEED, true, 's', _( "Change wind speed" ) ), true },
+        { uilist_entry( DEBUG_KILL_MONS, true, 'K', _( "Kill all monsters" ) ), true },
+        { uilist_entry( DEBUG_CHANGE_TIME, true, 't', _( "Change time" ) ), true },
+        { uilist_entry( DEBUG_OM_EDITOR, true, 'O', _( "Overmap editor" ) ), true },
+        { uilist_entry( DEBUG_MAP_EXTRA, true, 'm', _( "Spawn map extra" ) ), true },
     };
+
+    return uilist( _( "Map..." ), filter_uilist( uilist_initializer, display_all_entries ) );
+}
+
+/**
+ * Create the debug menu UI list.
+ * @param display_all_entries: `true` if all entries should be displayed, `false` is some entries should be hidden (for ex. when the debug menu is called from the main menu).
+ *   This allows to have some menu elements at the same time in the main menu and in the debug menu.
+ * @returns The chosen action.
+ */
+static int debug_menu_uilist( bool display_all_entries = true )
+{
+    /* Note: the second boolean indicates whether the menu should always be shown (true) or not (false).
+     * For example, if we show the debug menu on the main menu and we want Info to be always displayed, we set it to true.
+     */
+    const std::vector<uilist_entry_pair_t> always_display_map = {
+        { uilist_entry( DEBUG_QUIT_NOSAVE, true, 'Q', _( "Quit to main menu" ) ), false },
+        { uilist_entry( 1, true, 's', _( "Spawning..." ) ), false },
+        { uilist_entry( 2, true, 'p', _( "Player..." ) ), false },
+        { uilist_entry( 3, true, 't', _( "Teleport..." ) ), false },
+        { uilist_entry( 4, true, 'm', _( "Map..." ) ), false },
+        { uilist_entry( 5, true, 'i', _( "Info..." ) ), true },
+    };
+
+    const std::vector<uilist_entry> menu_entries = filter_uilist( always_display_map,
+            display_all_entries );
+
+    std::string msg;
+    if( display_all_entries ) {
+        msg = _( "Debug Functions - Using these will cheat not only the game, but yourself.\nYou won't grow. You won't improve.\nTaking this shortcut will gain you nothing. Your victory will be hollow.\nNothing will be risked and nothing will be gained." );
+    } else {
+        msg = _( "Debug Functions" );
+    }
+
     while( true ) {
-        const int group = uilist(
-                              _( "Debug Functions - Using these will cheat not only the game, but yourself.\nYou won't grow. You won't improve.\nTaking this shortcut will gain you nothing. Your victory will be hollow.\nNothing will be risked and nothing will be gained." ),
-                              uilist_initializer );
+        const int group = uilist( msg, menu_entries );
 
         int action;
 
@@ -222,19 +277,19 @@ static int debug_menu_uilist()
                 action = DEBUG_QUIT_NOSAVE;
                 break;
             case 1:
-                action = spawning_uilist();
+                action = spawning_uilist( display_all_entries );
                 break;
             case 2:
-                action = player_uilist();
+                action = player_uilist( display_all_entries );
                 break;
             case 3:
-                action = teleport_uilist();
+                action = teleport_uilist( display_all_entries );
                 break;
             case 4:
-                action = map_uilist();
+                action = map_uilist( display_all_entries );
                 break;
             case 5:
-                action = info_uilist();
+                action = info_uilist( display_all_entries );
                 break;
             default:
                 return group;
@@ -886,7 +941,8 @@ void draw_benchmark( const int max_difference )
 
 void debug()
 {
-    int action = debug_menu_uilist();
+    bool debug_menu_has_hotkey = hotkey_for_action( ACTION_DEBUG ) != -1;
+    int action = debug_menu_uilist( debug_menu_has_hotkey );
     g->refresh_all();
     player &u = g->u;
     map &m = g->m;
@@ -1314,9 +1370,36 @@ void debug()
                     g->uquit = QUIT_NOSAVED;
                 }
                 break;
-            case DEBUG_TEST_WEATHER:
+            case DEBUG_TEST_WEATHER: {
                 weather_generator weathergen;
                 weathergen.test_weather();
+            }
+                break;
+
+
+            case DEBUG_SAVE_SCREENSHOT: {
+#if defined(TILES)
+                // Take a screenshot of the viewport.
+                tilecontext.get()->save_screenshot();
+#else
+                popup( _( "This binary was not compiled with tiles support." ) );
+#endif
+            }
+                break;
+
+            case DEBUG_GAME_REPORT: {
+                // generate a game report, useful for bug reporting.
+                std::string report = game_info::game_report();
+                // write to log
+                DebugLog(DL_ALL, DC_ALL) << " GAME REPORT: \n" << report;
+                std::string popup_msg = _("Report written to debug.log");
+#if defined(TILES)
+                // copy to clipboard
+                SDL_SetClipboardText(report.c_str());
+                popup_msg += _(" and to the clipboard.");
+#endif
+                popup(popup_msg);
+            }
                 break;
         }
         catacurses::erase();

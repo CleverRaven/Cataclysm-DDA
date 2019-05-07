@@ -416,3 +416,47 @@ bool copy_file( const std::string &source_path, const std::string &dest_path )
 
     return dest_stream && source_stream;
 }
+
+std::string ensure_valid_file_name( const std::string &file_name, bool *change_made,
+                                    const std::string &invalid_chars, const char replacement_char )
+{
+    if( change_made != nullptr ) {
+        *change_made = false;
+    }
+    if( file_name.empty() ) {
+        return file_name;
+    }
+
+    /*
+     *  check if there's something wrong with the inputs.
+     */
+    //check if no invalid chars.
+    std::string tmp_invalid_chars = invalid_chars;
+    if( invalid_chars.empty() ) {
+        // default to common invalid characters for most file systems.
+        tmp_invalid_chars = "\\/:?\"<>|";
+    }
+
+    // check if replacement char is in the invalid chars...
+    char tmp_replacement = replacement_char;
+    if( invalid_chars.find( replacement_char ) != std::string::npos ) {
+        // default to space
+        tmp_replacement = ' ';
+    }
+
+    // do any replacement in the file name, if needed.
+    std::string new_file_name = file_name;
+    std::transform( new_file_name.begin(), new_file_name.end(),
+    new_file_name.begin(), [&tmp_invalid_chars, &tmp_replacement, &change_made]( const char c ) {
+        if( tmp_invalid_chars.find( c ) != std::string::npos ) {
+            if( change_made != nullptr ) {
+                *change_made = true;
+            }
+            return tmp_replacement;
+        }
+
+        return c;
+    } );
+
+    return new_file_name;
+}

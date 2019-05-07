@@ -52,4 +52,15 @@ std::vector<std::string> get_directories_with( const std::string &pattern,
 
 bool copy_file( const std::string &source_path, const std::string &dest_path );
 
+/**
+ *  Replace invalid characters in a string with a replacement character; can be used to ensure that a file name is compliant with most file systems.
+ *  @param file_name Name of the file to check.
+ *  @param change_made On function return, indicates if any change was made.
+ *  @param invalid_chars A string indicating which characters are deemed invalid.
+ *  @param replacement_char A single character used to replace invalid characters.
+ *  @return A string with all invalid characters replaced with the replacement character, if any change was made.
+ */
+std::string ensure_valid_file_name( const std::string &file_name, bool *change_made = nullptr,
+                                    const std::string &invalid_chars = "\\/:?\"<>|", char replacement_char = ' ' );
+
 #endif //CATA_FILE_SYSTEM_H
