@@ -1273,10 +1273,10 @@ static void cast_spell()
     std::vector<uilist_entry> spell_names;
     {
         uilist_entry dummy( _( "Spell" ) );
-        dummy.ctxt = string_format( "%3s  %3s  %3s %5s %10s", _( "LVL" ), _( "XP%" ), _( "RNG" ),
-                                    _( "FAIL%" ), _( "Cast Time" ) );
+        dummy.ctxt = string_format( "%3s  %3s  %3s %5s %10s %4s %3s", _( "LVL" ), _( "XP%" ), _( "RNG" ),
+                                    _( "FAIL%" ), _( "Cast Time" ), _( "Cost" ), _( "DMG" ) );
         dummy.enabled = false;
-        dummy.text_color = c_blue;
+        dummy.text_color = c_light_blue;
         dummy.force_color = true;
         spell_names.emplace_back( dummy );
     }
@@ -1289,10 +1289,33 @@ static void cast_spell()
         } else {
             entry.enabled = false;
         }
-        const std::string turns = string_format( "%i turns", temp_spell.casting_time() / 100 );
-        entry.ctxt = string_format( "%3i (%3s) %3i %3i %c %10s", temp_spell.get_level(),
+        std::string turns = temp_spell.casting_time() >= 100 ? string_format( "%i turns",
+                            temp_spell.casting_time() / 100 ) : string_format( "%i moves", temp_spell.casting_time() );
+        std::string cost = string_format( "%4i", temp_spell.energy_cost() );
+        switch( temp_spell.energy_source() ) {
+            case mana_energy:
+                cost = colorize( cost, c_light_blue );
+                break;
+            case stamina_energy:
+                cost = colorize( cost, c_green );
+                break;
+            case hp_energy:
+                cost = colorize( cost, c_red );
+                break;
+            case bionic_energy:
+                cost = colorize( cost, c_yellow );
+                break;
+            case none_energy:
+                cost = colorize( _( "none" ), c_light_gray );
+                break;
+            default:
+                debugmsg( "ERROR: %s has invalid energy_type", temp_spell.id().c_str() );
+                break;
+        }
+        entry.ctxt = string_format( "%3i (%3s) %3i %3i %% %10s %4s %3i", temp_spell.get_level(),
                                     temp_spell.is_max_level() ? _( "MAX" ) : temp_spell.exp_progress(), temp_spell.range(),
-                                    static_cast<int>( round( 100.0f * temp_spell.spell_fail() ) ), '%', _( turns ) );
+                                    static_cast<int>( round( 100.0f * temp_spell.spell_fail() ) ), _( turns ), cost,
+                                    temp_spell.damage() );
         spell_names.emplace_back( entry );
     }
 

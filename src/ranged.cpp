@@ -1266,11 +1266,13 @@ std::vector<tripoint> target_handler::target_ui( spell &casting )
             if( casting.effect() == "projectile_attack" || casting.effect() == "target_attack" ) {
                 line_number += fold_and_print( w_target, line_number, 1, getmaxx( w_target ) - 2, color,
                                                _( "Effective Spell Radius: %i%s" ), casting.aoe(), rl_dist( src,
-                                                                                                            dst ) <= casting.aoe() ? colorize( _( " WARNING! IN RANGE" ), c_red ) : "" );
+                                                       dst ) <= casting.aoe() ? colorize( _( " WARNING! IN RANGE" ), c_red ) : "" );
             } else if( casting.effect() == "cone_attack" ) {
-                line_number += fold_and_print( w_target, line_number, 1, getmaxx( w_target ) - 2, color, _( "Cone Arc: %i°" ), casting.aoe() );
+                line_number += fold_and_print( w_target, line_number, 1, getmaxx( w_target ) - 2, color,
+                                               _( "Cone Arc: %i degrees" ), casting.aoe() );
             } else if( casting.effect() == "line_attack" ) {
-                line_number += fold_and_print( w_target, line_number, 1, getmaxx( w_target ) - 2, color, _( "Line width: %i" ), casting.aoe() );
+                line_number += fold_and_print( w_target, line_number, 1, getmaxx( w_target ) - 2, color,
+                                               _( "Line width: %i" ), casting.aoe() );
             }
         }
         mvwprintz( w_target, line_number++, 1, c_light_red, _( "Damage: %i" ), casting.damage() );
