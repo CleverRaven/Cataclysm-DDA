@@ -166,5 +166,12 @@
     "info": "Disable additional spawn of large groups of monsters fighting each other on swamps.",
     "stype": "bool",
     "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "MANA",
+    "info": "Mana is an energy source generated from players' bodies used for casting magic. If true, adds Mana to a new panel in the sidebar.",
+    "stype": "bool",
+    "value": false
   }
 ]

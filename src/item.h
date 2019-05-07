@@ -750,6 +750,9 @@ class item : public visitable<item>
 
         /** at twice regular shelf life perishable foods rot away completely. Corpses last longer */
         bool has_rotten_away() const {
+            if( has_flag( "ETHEREAL_ITEM" ) && rot >= 0 ) {
+                return true;
+            }
             return is_food() && get_relative_rot() > 2.0;
         }
 

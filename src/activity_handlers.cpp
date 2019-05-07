@@ -29,6 +29,7 @@
 #include "iexamine.h"
 #include "itype.h"
 #include "iuse_actor.h"
+#include "magic.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -40,6 +41,7 @@
 #include "output.h"
 #include "overmapbuffer.h"
 #include "player.h"
+#include "ranged.h"
 #include "recipe.h"
 #include "requirements.h"
 #include "rng.h"
@@ -137,7 +139,8 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_FERTILIZE_PLOT" ), fertilize_plot_do_turn },
     { activity_id( "ACT_TRY_SLEEP" ), try_sleep_do_turn },
     { activity_id( "ACT_ROBOT_CONTROL" ), robot_control_do_turn },
-    { activity_id( "ACT_TREE_COMMUNION" ), tree_communion_do_turn }
+    { activity_id( "ACT_TREE_COMMUNION" ), tree_communion_do_turn },
+    { activity_id( "ACT_STUDY_SPELL" ), study_spell_do_turn}
 };
 
 const std::map< activity_id, std::function<void( player_activity *, player * )> >
@@ -195,7 +198,9 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_SHAVE" ), shaving_finish },
     { activity_id( "ACT_HAIRCUT" ), haircut_finish },
     { activity_id( "ACT_UNLOAD_MAG" ), unload_mag_finish },
-    { activity_id( "ACT_ROBOT_CONTROL" ), robot_control_finish }
+    { activity_id( "ACT_ROBOT_CONTROL" ), robot_control_finish },
+    { activity_id( "ACT_SPELLCASTING" ), spellcasting_finish },
+    { activity_id( "ACT_STUDY_SPELL" ), study_spell_finish }
 };
 
 void messages_in_process( const player_activity &act, const player &p )
@@ -3497,4 +3502,150 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, player *p 
     }
     p->add_msg_if_player( m_info, _( "The trees have shown you what they will." ) );
     act->set_to_null();
+}
+
+void blood_magic( player *p, int cost )
+{
+    static std::array<body_part, 6> part = { {
+            bp_head, bp_torso, bp_arm_l, bp_arm_r, bp_leg_l, bp_leg_r
+        }
+    };
+    int max_hp_part = 0;
+    std::vector<uilist_entry> uile;
+    for( int i = 0; i < num_hp_parts; i++ ) {
+        uilist_entry entry( i, p->hp_cur[i] > cost, i + 49, body_part_hp_bar_ui_text( part[i] ) );
+        if( p->hp_cur[max_hp_part] < p->hp_cur[i] ) {
+            max_hp_part = i;
+        }
+        const auto &hp = get_hp_bar( p->hp_cur[i], p->hp_max[i] );
+        entry.ctxt = colorize( hp.first, hp.second );
+        uile.emplace_back( entry );
+    }
+    int action = -1;
+    while( action < 0 ) {
+        action = uilist( "Choose part\nto draw blood from.", uile );
+    }
+    p->hp_cur[action] -= cost;
+    p->mod_pain( std::max( ( int )1, cost / 3 ) );
+}
+
+void activity_handlers::spellcasting_finish( player_activity *act, player *p )
+{
+    act->set_to_null();
+    spell &casting = p->get_spell( spell_id( act->name ) );
+
+    // choose target for spell (if the spell has a range > 0)
+
+    target_handler th;
+    std::vector<tripoint> trajectory;
+    tripoint target = p->pos();
+    bool target_is_valid = false;
+    if( casting.range() > 0 && !casting.is_valid_target( target_none ) ) {
+        do {
+            trajectory = th.target_ui( casting );
+            if( !trajectory.empty() ) {
+                target = trajectory.back();
+                target_is_valid = casting.is_valid_target( target );
+            } else {
+                target_is_valid = false;
+            }
+            if( !target_is_valid ) {
+                if( query_yn( _( "Stop casting spell? Time spent will be lost." ) ) ) {
+                    return;
+                }
+            }
+        } while( !target_is_valid );
+    }
+
+    // no turning back now. it's all said and done.
+    bool success = rng_float( 0.0f, 1.0f ) >= casting.spell_fail();
+    int exp_gained = casting.casting_exp();
+    if( !success ) {
+        add_msg( m_bad, "You lose your concentration!" );
+        if( !casting.is_max_level() ) {
+            // still get some experience for trying
+            casting.gain_exp( exp_gained / 5 );
+            add_msg( m_good, _( "You gain %i experience. New total %i." ), exp_gained / 5, casting.xp() );
+        }
+        return;
+    }
+    add_msg( _( "You cast %s!" ), casting.name() );
+
+    // figure out which function is the effect (maybe change this into how iuse or activity_handlers does it)
+    const std::string fx = casting.effect();
+    if( fx == "pain_split" ) {
+        spell_effect::pain_split();
+    } else if( fx == "shallow_pit" ) {
+        spell_effect::shallow_pit( target );
+    } else if( fx == "target_attack" ) {
+        spell_effect::target_attack( casting, target );
+    } else if( fx == "projectile_attack" ) {
+        spell_effect::projectile_attack( casting, target );
+    } else if( fx == "cone_attack" ) {
+        spell_effect::cone_attack( casting, target );
+    } else if( fx == "line_attack" ) {
+        spell_effect::line_attack( casting, target );
+    } else if( fx == "teleport_random" ) {
+        spell_effect::teleport( casting.range(), casting.range() + casting.aoe() );
+    } else if( fx == "spawn_item" ) {
+        spell_effect::spawn_ethereal_item( casting );
+    } else {
+        debugmsg( "ERROR: Spell effect not defined properly." );
+    }
+
+    // pay the cost
+    int cost = casting.energy_cost();
+    switch( casting.energy_source() ) {
+        case mana_energy:
+            p->mod_mana( -cost );
+            break;
+        case stamina_energy:
+            p->stamina -= cost;
+            break;
+        case bionic_energy:
+            p->power_level -= cost;
+            break;
+        case hp_energy:
+            blood_magic( p, cost );
+        case none_energy:
+        default:
+            break;
+    }
+    if( !casting.is_max_level() ) {
+        // reap the reward
+        casting.gain_exp( exp_gained );
+        add_msg( m_good, _( "You gain %i experience, New total %i." ), exp_gained, casting.xp() );
+    }
+}
+
+void activity_handlers::study_spell_do_turn( player_activity *act, player *p )
+{
+    if( act->get_str_value( 1 ) == "study" ) {
+        spell &studying = p->get_spell( spell_id( act->name ) );
+        if( act->get_str_value( 0 ) == "gain_level" ) {
+            if( studying.get_level() < act->get_value( 1 ) ) {
+                act->moves_left = 1000000;
+            } else {
+                act->moves_left = 0;
+            }
+        }
+        const int xp = roll_remainder( studying.exp_modifier() );
+        act->values[0] += xp;
+        studying.gain_exp( xp );
+    }
+    p->mod_moves( -100 );
+}
+
+void activity_handlers::study_spell_finish( player_activity *act, player *p )
+{
+    act->set_to_null();
+
+    if( act->get_str_value( 1 ) == "study" ) {
+        p->add_msg_if_player( m_good, _( "You gained %i experience from your study session." ),
+                              act->get_value( 0 ) );
+        p->practice( skill_id( "spellcraft" ), act->get_value( 0 ) / 5,
+                     p->get_spell( spell_id( act->name ) ).get_difficulty() );
+    } else if( act->get_str_value( 1 ) == "learn" ) {
+        p->learn_spell( act->name );
+    }
 }

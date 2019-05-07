@@ -493,5 +493,21 @@
     "suspendable": false,
     "based_on": "neither",
     "no_resume": true
+  },
+  {
+    "id": "ACT_SPELLCASTING",
+    "type": "activity_type",
+    "stop_phrase": "Stop casting?",
+    "suspendable": false,
+    "based_on": "speed",
+    "no_resume": true
+  },
+  {
+    "id": "ACT_STUDY_SPELL",
+    "type": "activity_type",
+    "stop_phrase": "Stop studying?",
+    "suspendable": false,
+    "based_on": "time",
+    "no_resume": true
   }
 ]

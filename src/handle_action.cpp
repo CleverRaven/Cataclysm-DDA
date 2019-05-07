@@ -28,6 +28,7 @@
 #include "help.h"
 #include "input.h"
 #include "itype.h"
+#include "magic.h"
 #include "map.h"
 #include "mapdata.h"
 #include "mapsharing.h"
@@ -1252,6 +1253,100 @@ static void open_movement_mode_menu()
     }
 }
 
+static void cast_spell()
+{
+    player &u = g->u;
+
+    if( u.is_armed() ) {
+        add_msg( m_bad, _( "You need your hands free to cast spells!" ) );
+        return;
+    }
+
+    std::vector<spell_id> spells = u.spells();
+
+    if( spells.empty() ) {
+        add_msg( m_bad, _( "You don't know any spells to cast." ) );
+        return;
+    }
+
+    bool can_cast_spells = false;
+    std::vector<uilist_entry> spell_names;
+    {
+        uilist_entry dummy( _( "Spell" ) );
+        dummy.ctxt = string_format( "%3s  %3s  %3s %5s %10s %4s %3s", _( "LVL" ), _( "XP%" ), _( "RNG" ),
+                                    _( "FAIL%" ), _( "Cast Time" ), _( "Cost" ), _( "DMG" ) );
+        dummy.enabled = false;
+        dummy.text_color = c_light_blue;
+        dummy.force_color = true;
+        spell_names.emplace_back( dummy );
+    }
+    for( spell_id sp : spells ) {
+        spell temp_spell = u.get_spell( sp );
+        std::string nm = temp_spell.name();
+        uilist_entry entry( nm );
+        if( temp_spell.can_cast() ) {
+            can_cast_spells = true;
+        } else {
+            entry.enabled = false;
+        }
+        std::string turns = temp_spell.casting_time() >= 100 ? string_format( "%i turns",
+                            temp_spell.casting_time() / 100 ) : string_format( "%i moves", temp_spell.casting_time() );
+        std::string cost = string_format( "%4i", temp_spell.energy_cost() );
+        switch( temp_spell.energy_source() ) {
+            case mana_energy:
+                cost = colorize( cost, c_light_blue );
+                break;
+            case stamina_energy:
+                cost = colorize( cost, c_green );
+                break;
+            case hp_energy:
+                cost = colorize( cost, c_red );
+                break;
+            case bionic_energy:
+                cost = colorize( cost, c_yellow );
+                break;
+            case none_energy:
+                cost = colorize( _( "none" ), c_light_gray );
+                break;
+            default:
+                debugmsg( "ERROR: %s has invalid energy_type", temp_spell.id().c_str() );
+                break;
+        }
+        entry.ctxt = string_format( "%3i (%3s) %3i %3i %% %10s %4s %3i", temp_spell.get_level(),
+                                    temp_spell.is_max_level() ? _( "MAX" ) : temp_spell.exp_progress(), temp_spell.range(),
+                                    static_cast<int>( round( 100.0f * temp_spell.spell_fail() ) ), _( turns ), cost,
+                                    temp_spell.damage() );
+        spell_names.emplace_back( entry );
+    }
+
+    if( !can_cast_spells ) {
+        add_msg( m_bad, _( "You can't cast any of the spells you know!" ) );
+    }
+
+    // if there's only one spell we know, we still want to see its information
+    // the 0th "spell" is a header
+    int action = uilist( _( "Choose your spell:" ), spell_names ) - 1;
+    if( action < 0 ) {
+        return;
+    }
+
+    spell sp = u.get_spell( spells[action] );
+
+    if( !u.has_enough_energy( sp ) ) {
+        add_msg( m_bad, _( "You don't have enough %s to cast the spell." ), sp.energy_string() );
+        return;
+    }
+
+    if( sp.energy_source() == hp_energy && !u.has_quality( quality_id( "CUT" ) ) ) {
+        add_msg( m_bad, _( "You cannot cast Blood Magic without a cutting implement." ) );
+        return;
+    }
+
+    player_activity cast_spell( activity_id( "ACT_SPELLCASTING" ), sp.casting_time() );
+    cast_spell.name = sp.id().c_str();
+    u.assign_activity( cast_spell, false );
+}
+
 bool game::handle_action()
 {
     std::string action;
@@ -1684,6 +1779,10 @@ bool game::handle_action()
 
             case ACTION_FIRE:
                 fire();
+                break;
+
+            case ACTION_CAST_SPELL:
+                cast_spell();
                 break;
 
             case ACTION_FIRE_BURST: {

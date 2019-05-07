@@ -91,6 +91,9 @@ struct targeting_data;
 class morale_type_data;
 
 using morale_type = string_id<morale_type_data>;
+class spell;
+class spell_type;
+using spell_id = string_id<spell_type>;
 
 namespace debug_menu
 {
@@ -1818,6 +1821,34 @@ class player : public Character
 
         std::set<tripoint> camps;
 
+        // magic mod
+
+        void learn_spell( const std::string &sp, bool force = false );
+        void learn_spell( spell_id sp, bool force = false );
+        void learn_spell( const spell_type *sp, bool force = false );
+        void forget_spell( const std::string &sp );
+        void forget_spell( spell_id sp );
+        // time in moves for the player to memorize the spell
+        int time_to_learn_spell( spell_id sp ) const;
+        int time_to_learn_spell( const std::string &str ) const;
+        bool can_learn_spell( spell_id sp ) const;
+        bool knows_spell( const std::string &sp ) const;
+        bool knows_spell( spell_id sp ) const;
+        // spells known by player
+        std::vector<spell_id> spells() const;
+        // gets the spell associated with the spell_id to be edited
+        spell &get_spell( spell_id sp );
+        // how much mana is available to use to cast spells
+        int available_mana() const;
+        // max mana vailable
+        int max_mana() const;
+        void mod_mana( int add_mana );
+        void set_mana( int new_mana );
+        void update_mana( float turns );
+        // does the player have enough energy to cast this spell?
+        // not specific to mana
+        bool has_enough_energy( spell sp ) const;
+
     protected:
         // The player's position on the local map.
         tripoint position;
@@ -1956,6 +1987,15 @@ class player : public Character
 
         map_memory player_map_memory;
         bool show_map_memory;
+
+        // magic mod
+
+        // list of spells known by player
+        std::map<spell_id, spell> spellbook;
+        // the base mana a player would start with
+        int mana_base;
+        // current mana
+        int mana;
 };
 
 #endif
