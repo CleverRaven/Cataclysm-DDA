@@ -644,14 +644,13 @@ class comestible_flag_inventory_preset : public comestible_inventory_preset
 {
     public:
         comestible_flag_inventory_preset( const player &p, const std::string &flag ) :
-            comestible_inventory_preset( p ), p( p ), flag( flag ) {}
+            comestible_inventory_preset( p ), flag( flag ) {}
 
         bool is_shown( const item_location &loc ) const override {
             return get_comestible_item( loc ).get_comestible()->comesttype == flag ;
         }
 
     private:
-        const player &p;
         const std::string &flag;
 };
 
