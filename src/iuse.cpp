@@ -6279,7 +6279,7 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
 
 int iuse::mini_atm( player *p, item *it, bool, const tripoint & )
 {
-    atm_menu {*p} .start();
+    atm_menu {*p, it} .start();
     return it->type->charges_to_use();
 }
 struct npc_photo_def : public JsonDeserializer, public JsonSerializer {
