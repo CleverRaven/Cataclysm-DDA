@@ -91,7 +91,8 @@ participants.  This two pieces of initial configuration.
    genders used in this language for such translations.  Don't add genders here
    until you're sure you will need them, because it will make more work for
    you.  If you need different genders than are currently supported you must
-   add them to the list in `lang/extract_json_strings.py`.
+   add them to the `all_genders` lists in `lang/extract_json_strings.py` and
+   `src/translations.cpp`.
 
 Having done this, the relevant dialogue lines will appear multiple times for
 translation, with different genders specified in the message context.  For
