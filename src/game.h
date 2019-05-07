@@ -1119,11 +1119,11 @@ class game
         bool right_sidebar;
         bool fullscreen;
         bool was_fullscreen;
+        bool auto_travel_mode = false;
+        safe_mode_type safe_mode;
 
         //pixel minimap management
         int pixel_minimap_option;
-        bool auto_travel_mode = false;
-        safe_mode_type safe_mode;
         int turnssincelastmon; // needed for auto run mode
         cata::optional<int> wind_direction_override;
         cata::optional<int> windspeed_override;
