@@ -4136,7 +4136,7 @@ int item::get_encumber_when_containing(
 
     //TODO: Should probably have sizing affect coverage
     const sizing sizing_level = get_sizing( p, encumber != 0 );
-    switch (sizing_level) {
+    switch( sizing_level ) {
         case sizing::small_sized_human_char:
         case sizing::small_sized_big_char:
             // non small characters have a HARD time wearing undersized clothing
