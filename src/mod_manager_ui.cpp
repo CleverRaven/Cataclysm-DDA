@@ -27,12 +27,18 @@ std::string mod_ui::get_information( const MOD_INFORMATION *mod )
 
     if( !mod->authors.empty() ) {
         info << "<color_light_blue>" << ngettext( "Author", "Authors", mod->authors.size() )
-             << "</color>: " << enumerate_as_string( mod->authors ) << "\n";
+             << "</color>: " << enumerate_as_string( mod->authors );
+        if( mod->maintainers.empty() ) {
+            info << "\n";
+        } else {
+            info << "  ";
+        }
     }
 
     if( !mod->maintainers.empty() ) {
         info << "<color_light_blue>" << ngettext( "Maintainer", "Maintainers", mod->maintainers.size() )
-             << "</color>: " << enumerate_as_string( mod->maintainers ) << "\n";
+             << u8"</color>:\u00a0"/*non-breaking space*/
+             << enumerate_as_string( mod->maintainers ) << "\n";
     }
 
     if( !mod->dependencies.empty() ) {
