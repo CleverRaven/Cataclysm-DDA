@@ -2736,13 +2736,9 @@ bool repair_item_actor::can_repair_target( player &pl, const item &fix,
 
     const bool resizing_matters = fix.get_encumber( pl ) != 0;
     const bool small = pl.has_trait( trait_SMALL2 ) || pl.has_trait( trait_SMALL_OK );
-<<<<<<< HEAD
     const bool can_resize = ( small && !fix.has_flag( "UNDERSIZE" ) ) || ( !small &&
                             fix.has_flag( "UNDERSIZE" ) );
     if( can_be_refitted && resizing_matters && can_resize ) {
-=======
-    if( small != fix.has_flag( "UNDERSIZE" ) ) {
->>>>>>> d09a0d20b850331a247bcaf333719f69f539979f
         return true;
     }
 
@@ -2819,23 +2815,13 @@ std::pair<float, float> repair_item_actor::repair_chance(
 repair_item_actor::repair_type repair_item_actor::default_action( const item &fix,
         int current_skill_level ) const
 {
-<<<<<<< HEAD
-=======
-    const bool small = g->u.has_trait( trait_id( "SMALL2" ) ) ||
-                       g->u.has_trait( trait_id( "SMALL_OK" ) );
->>>>>>> d09a0d20b850331a247bcaf333719f69f539979f
     if( fix.damage() > 0 ) {
         return RT_REPAIR;
     }
 
-<<<<<<< HEAD
     const bool can_be_refitted = fix.has_flag( "VARSIZE" );
     const bool doesnt_fit = !fix.has_flag( "FIT" );
     if( doesnt_fit && can_be_refitted ) {
-=======
-    if( fix.has_flag( "VARSIZE" ) &&
-        ( !fix.has_flag( "FIT" ) ||  small != fix.has_flag( "UNDERSIZE" ) ) ) {
->>>>>>> d09a0d20b850331a247bcaf333719f69f539979f
         return RT_REFIT;
     }
 
@@ -2959,28 +2945,11 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
 
     if( action == RT_REFIT ) {
         if( roll == SUCCESS ) {
-<<<<<<< HEAD
-=======
-            const bool small = g->u.has_trait( trait_id( "SMALL2" ) ) ||
-                               g->u.has_trait( trait_id( "SMALL_OK" ) );
->>>>>>> d09a0d20b850331a247bcaf333719f69f539979f
             if( !fix->has_flag( "FIT" ) ) {
                 pl.add_msg_if_player( m_good, _( "You take your %s in, improving the fit." ),
                                       fix->tname() );
                 fix->item_tags.insert( "FIT" );
             }
-<<<<<<< HEAD
-=======
-            if( small && !fix->has_flag( "UNDERSIZE" ) ) {
-                pl.add_msg_if_player( m_good, _( "You resize the %s to accommodate your tiny build." ),
-                                      fix->tname() );
-                fix->item_tags.insert( "UNDERSIZE" );
-            } else if( !small && fix->has_flag( "UNDERSIZE" ) ) {
-                pl.add_msg_if_player( m_good, _( "You adjust the %s back to its normal size." ),
-                                      fix->tname() );
-                fix->item_tags.erase( "UNDERSIZE" );
-            }
->>>>>>> d09a0d20b850331a247bcaf333719f69f539979f
             handle_components( pl, *fix, false, false );
             return AS_SUCCESS;
         }
