@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.489
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Cataclysm", "Cataclysm.vcxproj", "{18A6550D-1A53-478B-B615-20A2AF25A2CB}"
 EndProject
@@ -39,6 +39,7 @@ Global
 		{6F6EACFC-B178-4E71-ABE2-805C1F4BF3D8}.Release|x86.ActiveCfg = Release|Win32
 		{6F6EACFC-B178-4E71-ABE2-805C1F4BF3D8}.Release|x86.Build.0 = Release|Win32
 		{0005F1C3-0BCC-4980-8C62-4A8B91C116BA}.Debug|x64.ActiveCfg = Debug|x64
+		{0005F1C3-0BCC-4980-8C62-4A8B91C116BA}.Debug|x64.Build.0 = Debug|x64
 		{0005F1C3-0BCC-4980-8C62-4A8B91C116BA}.Debug|x86.ActiveCfg = Debug|Win32
 		{0005F1C3-0BCC-4980-8C62-4A8B91C116BA}.Debug|x86.Build.0 = Debug|Win32
 		{0005F1C3-0BCC-4980-8C62-4A8B91C116BA}.Release|x64.ActiveCfg = Release|x64
@@ -48,8 +49,5 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {CFF15C9F-0A18-4CB0-B48E-C01CCA5A602B}
 	EndGlobalSection
 EndGlobal
