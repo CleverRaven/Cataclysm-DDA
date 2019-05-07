@@ -99,10 +99,10 @@ static void sanity_check_genders( const std::vector<std::string> &language_gende
     }
     sanity_checked_genders = true;
 
-    constexpr std::array<const char *, 3> valid_genders = {{"f", "m", "n"}};
+    constexpr std::array<const char *, 3> all_genders = {{"f", "m", "n"}};
 
     for( const std::string &gender : language_genders ) {
-        if( find( valid_genders.begin(), valid_genders.end(), gender ) == valid_genders.end() ) {
+        if( find( all_genders.begin(), all_genders.end(), gender ) == all_genders.end() ) {
             debugmsg( "Unexpected gender '%s' in grammatical gender list for "
                       "this language", gender );
         }
