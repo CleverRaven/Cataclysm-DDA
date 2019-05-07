@@ -1,4 +1,5 @@
 #include "iuse.h"
+#include "atm_menu.h"
 
 #include <limits.h>
 #include <algorithm>
@@ -6276,6 +6277,11 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
     return 0;
 }
 
+int iuse::mini_atm( player *p, item *it, bool, const tripoint & )
+{
+    atm_menu {*p} .start();
+    return it->type->charges_to_use();
+}
 struct npc_photo_def : public JsonDeserializer, public JsonSerializer {
     int quality;
     std::string name;

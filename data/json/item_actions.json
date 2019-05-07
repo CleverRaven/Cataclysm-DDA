@@ -431,6 +431,11 @@
   },
   {
     "type": "item_action",
+    "id": "MINIATM",
+    "name": "Use"
+  },
+  {
+    "type": "item_action",
     "id": "ELEC_CHAINSAW_OFF",
     "name": "Turn on"
   },

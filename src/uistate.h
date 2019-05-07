@@ -31,7 +31,7 @@ class uistatedata
         int wishitem_selected = 0;
         int wishmutate_selected = 0;
         int wishmonster_selected = 0;
-        int iexamine_atm_selected = 0;
+        int atm_selected = 0;
         std::array<int, 2> adv_inv_sort = {{1, 1}};
         std::array<int, 2> adv_inv_area = {{5, 0}};
         std::array<int, 2> adv_inv_index = {{0, 0}};

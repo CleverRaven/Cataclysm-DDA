@@ -1,5 +1,5 @@
 #include "iexamine.h"
-#include "iuseexamine.h"
+#include "atm_menu.h"
 
 #include <limits.h>
 #include <math.h>

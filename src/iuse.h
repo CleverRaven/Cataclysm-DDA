@@ -178,6 +178,7 @@ class iuse
         // Helper for validating a potential taget of robot control
         static bool robotcontrol_can_target( player *, const monster & );
         int einktabletpc( player *, item *, bool, const tripoint & );
+        int mini_atm( player *, item *, bool, const tripoint & );
         int camera( player *, item *, bool, const tripoint & );
         int ehandcuffs( player *, item *, bool, const tripoint & );
         int cable_attach( player *, item *, bool, const tripoint & );

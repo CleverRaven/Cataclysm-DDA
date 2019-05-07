@@ -2811,7 +2811,7 @@
     "id": "mini_atm",
     "type": "TOOL",
     "name": "portable ATM",
-    "description": "A tablet PC using an efficient color e-ink display.  Before the cataclysm, these were nifty gadgets; now, it's an almost priceless resource.  Runs on conventional batteries.",
+    "description": "Portable POS terminal usually used by merchants to withdraw money from customer's cash cards. Can be used to transfer money to and from the cash cards and access your personal bank account.",
     "weight": 400,
     "volume": 2,
     "price": 50000,
@@ -2821,6 +2821,7 @@
     "color": "blue",
     "ammo": "battery",
     "charges_per_use": 1,
+    "use_action": "MINIATM",
     "flags": [ "WATCH" ],
     "magazines": [ [ "battery", [ "light_plus_battery_cell", "light_battery_cell", "light_minus_battery_cell" ] ] ]
   },
