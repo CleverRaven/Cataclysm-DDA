@@ -876,7 +876,8 @@ static std::set<tripoint> spell_effect_cone( spell &sp, const tripoint &target,
 {
     std::set<tripoint> targets;
     const tripoint source = sp.get_source();
-    const int range = rl_dist( source, target );
+    // cones go all the way to end (if they don't hit an obstacle)
+    const int range = sp.range();
     const int initial_angle = coord_to_angle( source, target );
     std::set<tripoint> end_points;
     for( int angle = initial_angle - floor( aoe_radius / 2.0 );
