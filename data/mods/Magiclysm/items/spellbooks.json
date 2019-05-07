@@ -23,7 +23,31 @@
     "price": 5000,
     "symbol": "?",
     "color": "light_red",
-    "use_action": { "type": "learn_spell", "spells": [ "magic_missile" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "magic_missile", "phase_door" ] }
+  },
+  {
+    "id": "wizard_utility",
+	"type": "GENERIC",
+	"name": "Wizarding Guide to Backpacking",
+	"description": "This appears to be the spell version of a guide for what things to take with you when backpacking.  It's a little bulky, but will certainly prove useful.",
+	"weight": 1000,
+	"volume": 5,
+	"price": 35000,
+	"symbol": "?",
+	"color": "red",
+	"use_action": { "type": "learn_spell", "spells": [ "create_atomic_light", "phase_door", "burning_hands", "pain_split" ] }
+  },
+  {
+    "id": "pyro",
+	"type": "GENERIC",
+	"name": "Pyromancy for Heretics",
+	"description": "This charred husk of a book still contains many ways to light things aflame.",
+	"weight": 450,
+	"volume": 4,
+	"price": 1904,
+	"symbol": "?",
+	"color": "light_red",
+	"use_action": { "type": "learn_spell", "spells": [ "point_flare", "fireball", "burning_hands" ] }
   },
   {
     "id": "wizard_advanced",
@@ -35,7 +59,7 @@
     "price": 30000,
     "symbol": "?",
     "color": "light_red",
-    "use_action": { "type": "learn_spell", "spells": [ "point_flare", "ice_spike", "pain_split" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "point_flare", "ice_spike", "gravity_well", "pain_split", "stonefist" ] }
   },
   {
     "id": "priest_beginner",
@@ -47,7 +71,7 @@
     "price": 5000,
     "symbol": "?",
     "color": "light_green",
-    "use_action": { "type": "learn_spell", "spells": [ "light_healing" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "light_healing", "spirit_armor", "bless" ] }
   },
   {
     "id": "priest_advanced",
@@ -59,6 +83,6 @@
     "price": 30000,
     "symbol": "?",
     "color": "green",
-    "use_action": { "type": "learn_spell", "spells": [ "smite " ] }
+    "use_action": { "type": "learn_spell", "spells": [ "smite", "holy_blade", "protection_aura", "protection_aura_2", "create_atomic_lamp" ] }
   }
 ]

@@ -2,7 +2,7 @@
   {
     "type": "item_group",
     "id": "religious_books",
-    "items": [ [ "priest_beginner", 1 ] ]
+    "items": [ [ "priest_beginner", 1 ], [ "priest_advanced", 1 ] ]
   },
   {
     "type": "item_group",
@@ -12,26 +12,26 @@
   {
     "type": "item_group",
     "id": "homebooks",
-    "items": [ [ "wizard_beginner", 3 ], [ "wizard_advanced", 1 ], [ "priest_beginner", 5 ] ]
+    "items": [ [ "wizard_beginner", 3 ], [ "wizard_advanced", 1 ], [ "priest_beginner", 5 ], [ "wizard_utility", 3 ] ]
   },
   {
     "type": "item_group",
     "id": "manuals",
-    "items": [ [ "wizard_beginner", 3 ], [ "wizard_advanced", 1 ] ]
+    "items": [ [ "wizard_beginner", 3 ], [ "wizard_advanced", 1 ], [ "wizard_utility", 5 ] ]
   },
   {
     "type": "item_group",
     "id": "lab_bookshelves",
-    "items": [ [ "wizard_beginner", 3 ], [ "wizard_advanced", 5 ], [ "priest_beginner", 3 ] ]
+    "items": [ [ "wizard_beginner", 3 ], [ "wizard_advanced", 5 ], [ "priest_beginner", 3 ], [ "wizard_utility", 5 ], [ "priest_advanced", 5 ], [ "pyro", 6 ] ]
   },
   {
     "type": "item_group",
     "id": "mansion_books",
-    "items": [ [ "wizard_beginner", 10 ], [ "wizard_advanced", 5 ], [ "priest_beginner", 10 ] ]
+    "items": [ [ "wizard_beginner", 10 ], [ "wizard_advanced", 5 ], [ "priest_beginner", 10 ], [ "pyro", 3 ] ]
   },
   {
     "type": "item_group",
     "id": "exotic_books",
-    "items": [ [ "wizard_advanced", 12 ] ]
+    "items": [ [ "wizard_advanced", 12 ], [ "pyro", 3 ], [ "priest_advanced", 6 ] ]
   }
 ]
