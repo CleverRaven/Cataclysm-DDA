@@ -2736,8 +2736,7 @@ bool repair_item_actor::can_repair_target( player &pl, const item &fix,
 
     const bool resizing_matters = fix.get_encumber( pl ) != 0;
     const bool small = pl.has_trait( trait_SMALL2 ) || pl.has_trait( trait_SMALL_OK );
-    const bool can_resize = ( small && !fix.has_flag( "UNDERSIZE" ) ) || ( !small &&
-                            fix.has_flag( "UNDERSIZE" ) );
+    const bool can_resize = small != fix.has_flag( "UNDERSIZE" );
     if( can_be_refitted && resizing_matters && can_resize ) {
         return true;
     }

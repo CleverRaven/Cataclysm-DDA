@@ -4136,16 +4136,17 @@ int item::get_encumber_when_containing(
 
     //TODO: Should probably have sizing affect coverage
     const sizing sizing_level = get_sizing( p, encumber != 0 );
-    if( sizing_level == sizing::human_sized_big_char ||
-        sizing_level == sizing::small_sized_human_char ) {
-        encumber *= 3; // clothes for small creatures are hard to wear for larger creatures
-    } else if( sizing_level == sizing::small_sized_big_char ) {
-        encumber *= 4; // clothes for small character while a huge character is nearly impossible to wear
-    } else if( sizing_level == sizing::human_sized_small_char ||
-               sizing_level == sizing::big_sized_human_char ) {
-        encumber *= 2; // clothes for large creatures bag up around smaller creatures and encumber them more
-    } else if( sizing_level == sizing::big_sized_small_char ) {
-        encumber *= 3; // clothes for a huge character on a small character basically swallow them whole
+    switch (sizing_level) {
+        case sizing::small_sized_human_char:
+        case sizing::small_sized_big_char:
+            // non small characters have a HARD time wearing undersized clothing
+            encumber *= 3;
+            break;
+        case sizing::human_sized_small_char:
+        case sizing::big_sized_small_char:
+            // clothes bag up around smol characters and encumber them more
+            encumber *= 2;
+            break;
     }
 
     const int thickness = get_thickness();
