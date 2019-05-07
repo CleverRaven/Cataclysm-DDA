@@ -137,7 +137,7 @@ static dispersion_sources get_dispersion( npc &shooter, const int aim_time )
     if( aim_time > 0 ) {
         REQUIRE( shooter.recoil < MAX_RECOIL );
     }
-    dispersion.add_range( shooter.recoil );
+    dispersion.add_normal( shooter.recoil );
 
     return dispersion;
 }
