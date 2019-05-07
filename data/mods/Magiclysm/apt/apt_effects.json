@@ -1,7 +1,7 @@
 [
 	{
     "type": "effect_type",
-    "id": "apt_blessing",
+    "id": "bless",
     "name": [ "Blessed" ],
     "desc": [ "You are filled with energy that improves everything you do." ],
     "apply_message": "You are filled with energy that improves everything you do!",
@@ -16,7 +16,7 @@
   },
   {
     "type": "effect_type",
-    "id": "apt_aura",
+    "id": "protect_env",
     "name": [ "Env Protection" ],
     "desc": [ "You are protected by an energy field." ],
     "apply_message": "You are protected by an energy field.",
@@ -28,12 +28,6 @@
       "material_thickness": [ 20 ],
 	  "warmth": [ 50 ],
       "covers": [ "HEAD", "LEGS", "TORSO", "ARMS", "HANDS", "FEET" ]
-	  }
+	}
   }
-  
-
-
-
-
-
 ]

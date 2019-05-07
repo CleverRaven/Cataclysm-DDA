@@ -1,6 +1,6 @@
 [
 	{
-    "id": "apt_stonefist",
+    "id": "stonefist",
     "type": "GENERIC",
     "name": "pair of magical armored stone gauntlets",
     "name_plural": "pairs of armored gauntlets",
@@ -24,7 +24,7 @@
 	"techniques": [ "WBLOCK_3" ]
   },
   {
-    "id": "apt_armor_stonefist",
+    "id": "armor_stonefist",
     "type": "ARMOR",
 	"category": "armor",
     "name": "pair of magical armored stone gauntlets",
@@ -77,7 +77,7 @@
     "flags": [ "LIGHT_5", "LEAK_DAM" ]
   },
   {
-    "id": "apt_aura_protection",
+    "id": "protect_aura",
     "type": "ARMOR",
     "category": "armor",
     "name": "Aura of Protection",
