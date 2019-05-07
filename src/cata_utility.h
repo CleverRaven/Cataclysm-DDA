@@ -11,6 +11,8 @@
 #include <algorithm>
 #include <type_traits>
 
+#include "calendar.h"
+#include "enums.h"
 #include "units.h"
 
 class JsonIn;
@@ -67,6 +69,37 @@ enum units_type {
 inline int fast_floor( double v )
 {
     return static_cast<int>( v ) - ( v < static_cast<int>( v ) );
+}
+
+/**
+ * Round a value to nearest multiple
+ *
+ * @param val Value to be rounded.
+ * @param mul Neareset multiple to be rounded to.
+ * @return Rounded value.
+ */
+int round_to_nearest_multiple( int val, int mul );
+inline time_point round_to_nearest_multiple( const time_point &val, const time_duration &mul )
+{
+    return time_point::from_turn( round_to_nearest_multiple( to_turn<int>( val ),
+                                  to_turns<int>( mul ) ) );
+}
+inline time_duration round_to_nearest_multiple( const time_duration &val, const time_duration &mul )
+{
+    return time_duration::from_turns( round_to_nearest_multiple( to_turns<int>( val ),
+                                      to_turns<int>( mul ) ) );
+}
+inline point round_to_nearest_multiple( const point &val, const point &mul )
+{
+    return point( round_to_nearest_multiple( val.x, mul.x ),
+                  round_to_nearest_multiple( val.y, mul.y ) );
+}
+inline tripoint round_to_nearest_multiple( const tripoint &val, const tripoint &mul )
+{
+    return tripoint( round_to_nearest_multiple( val.x, mul.x ),
+                     round_to_nearest_multiple( val.y, mul.y ),
+                     round_to_nearest_multiple( val.z, mul.z )
+                   );
 }
 
 /**

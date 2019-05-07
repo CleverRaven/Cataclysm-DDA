@@ -36,6 +36,11 @@ static double pow10( unsigned int n )
     return ret;
 }
 
+int round_to_nearest_multiple( int val, int mul )
+{
+    return ( ( val + mul / 2 ) / mul ) * mul;
+}
+
 double round_up( double val, unsigned int dp )
 {
     // Some implementations of std::pow does not return the accurate result even
