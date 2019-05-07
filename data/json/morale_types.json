@@ -345,6 +345,11 @@
     "text": "Dug out a grave"
   },
   {
+    "id": "morale_funeral",
+    "type": "morale_type",
+    "text": "Conducted a funeral of a human being"
+  },
+  {
     "id": "morale_tree_communion",
     "type": "morale_type",
     "text": "Communed with the trees"

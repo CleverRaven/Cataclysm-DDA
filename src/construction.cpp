@@ -45,6 +45,7 @@
 #include "item.h"
 #include "player_activity.h"
 #include "pldata.h"
+#include "morale_types.h"
 
 class inventory;
 
@@ -54,6 +55,7 @@ static const skill_id skill_electronics( "electronics" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_PAINRESIST_TROGLO( "PAINRESIST_TROGLO" );
 static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
+static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 
 const trap_str_id tr_firewood_source( "tr_firewood_source" );
 const trap_str_id tr_practice_target( "tr_practice_target" );
@@ -950,6 +952,32 @@ void construct::done_trunk_plank( const tripoint &p )
 
 void construct::done_grave( const tripoint &p )
 {
+    map_stack its = g->m.i_at( p );
+    for( item it : its ) {
+        if( it.is_corpse() ) {
+            if( it.get_corpse_name().empty() ) {
+                if( it.get_mtype()->has_flag( MF_HUMAN ) ) {
+                    if( g->u.has_trait( trait_SPIRITUAL ) ) {
+                        g->u.add_morale( MORALE_FUNERAL, 50, 75, 1_days, 1_hours );
+                        add_msg( m_good, _( "You feel relieved after providing last rites for this human being, whose name is lost in The Cataclysm." ) );
+                    } else {
+                        add_msg( m_neutral, _( "You bury remains of a human, whose name is lost in The Cataclysm." ) );
+                    }
+                    g->u.add_memorial_log( pgettext( "memorial_male", string_format( "You buried unknown victim of The Cataclysm.", it.type_name() ) ),
+                        pgettext( "memorial_female", string_format( "You buried unknown victim of The Cataclysm.", it.type_name() ) ) );
+                }
+            } else {
+                if( g->u.has_trait( trait_SPIRITUAL ) ) {
+                    g->u.add_morale( MORALE_FUNERAL, 50, 75, 1_days, 1_hours );
+                    add_msg( m_good, _( "You feel sadness, but also relief after providing last rites for %s, whose name you will keep in your memory." ), it.get_corpse_name() );
+                } else {
+                    add_msg( m_neutral, _( "You bury remains of %s, who joined uncounted masses perished in The Cataclysm." ), it.get_corpse_name() );
+                }
+                g->u.add_memorial_log( pgettext( "memorial_male", string_format( "You buried %s.", it.get_corpse_name() ) ),
+                    pgettext( "memorial_female", string_format( "You buried %s.", it.get_corpse_name() ) ) );
+            }
+        }
+    }
     g->m.destroy_furn( p, true );
 }
 

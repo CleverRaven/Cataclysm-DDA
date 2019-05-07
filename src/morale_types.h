@@ -113,6 +113,7 @@ extern const morale_type MORALE_PERM_FILTHY;
 extern const morale_type MORALE_PERM_DEBUG;
 extern const morale_type MORALE_BUTCHER;
 extern const morale_type MORALE_GRAVEDIGGER;
+extern const morale_type MORALE_FUNERAL;
 extern const morale_type MORALE_TREE_COMMUNION;
 
 #endif

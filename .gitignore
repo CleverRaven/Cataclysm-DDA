@@ -169,3 +169,8 @@ Xcode/
 
 # gdb
 .gdb_history
+*.ogg
+*.txt
+data/sound/CDDA-Soundpack/musicset.json
+data/sound/CDDA-Soundpack/README.md
+data/sound/CDDA-Soundpack/soundset.json

@@ -1796,7 +1796,10 @@ class item : public visitable<item>
          * @param qty units required, if unspecified use item default
          */
         bool units_sufficient( const Character &ch, int qty = -1 ) const;
-
+        /**
+         * Returns name of deceased being if it had any or empty string if not
+         **/
+        std::string get_corpse_name();
         /**
          * Returns the translated item name for the item with given id.
          * The name is in the proper plural form as specified by the
