@@ -37,6 +37,24 @@
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ]
   },
   {
+    "id": "light_minus_atomic_battery_cell",
+    "type": "MAGAZINE",
+    "category": "spare_parts",
+    "name": "atomic ultra-light battery cell",
+    "description": "This is an atomic battery designed for small size over everything else.  It retains its universal compatibility, though.  It cannot be recharged.",
+    "weight": 80,
+    "volume": 0,
+    "price": 15000,
+    "material": [ "iron" ],
+    "symbol": "=",
+    "color": "green",
+    "ammo_type": "battery",
+    "count": 500,
+    "capacity": 500,
+    "looks_like": "battery",
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "LEAK_DAM", "RADIOACTIVE" ]
+  },
+  {
     "id": "light_battery_cell",
     "type": "MAGAZINE",
     "category": "spare_parts",
@@ -59,7 +77,7 @@
     "category": "spare_parts",
     "name": "light battery cell (high-capacity)",
     "name_plural": "light battery cells (high-capacity)",
-    "description": "This is a high-capacity light battery cell, universally compatible with all kinds of personal electronic devices.",
+    "description": "This is a high-capacity light battery cell, universally compatible with all kinds of small devices.",
     "weight": 75,
     "volume": "115ml",
     "price": 5000,
@@ -70,6 +88,24 @@
     "capacity": 150,
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ]
+  },
+  {
+    "id": "light_atomic_battery_cell",
+    "type": "MAGAZINE",
+    "category": "spare_parts",
+    "name": "atomic light battery cell",
+    "description": "This is an atomic battery, universally compatible with all kinds of personal electronic devices.  It cannot be recharged.",
+    "weight": 160,
+    "volume": "115ml",
+    "price": 50000,
+    "material": [ "iron" ],
+    "symbol": "=",
+    "color": "green",
+    "ammo_type": "battery",
+    "count": 1000,
+    "capacity": 1000,
+    "looks_like": "battery",
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "LEAK_DAM", "RADIOACTIVE" ]
   },
   {
     "id": "medium_battery_cell",
@@ -107,6 +143,24 @@
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ]
   },
   {
+    "id": "medium_atomic_battery_cell",
+    "type": "MAGAZINE",
+    "category": "spare_parts",
+    "name": "atomic medium battery cell",
+    "description": "This is an atomic battery, universally compatible with all kinds of appliances and power tools.  It cannot be recharged.",
+    "weight": 800,
+    "volume": "375ml",
+    "price": 100000,
+    "material": [ "iron" ],
+    "symbol": "=",
+    "color": "green",
+    "ammo_type": "battery",
+    "count": 5000,
+    "capacity": 5000,
+    "looks_like": "battery",
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "LEAK_DAM", "RADIOACTIVE" ]
+  },
+  {
     "id": "heavy_battery_cell",
     "type": "MAGAZINE",
     "category": "spare_parts",
@@ -140,6 +194,24 @@
     "capacity": 1250,
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ]
+  },
+  {
+    "id": "heavy_atomic_battery_cell",
+    "type": "MAGAZINE",
+    "category": "spare_parts",
+    "name": "atomic heavy battery cell",
+    "description": "This is an atomic battery, universally compatible with all kinds of industrial-grade equipment and large tools.  It cannot be recharged.",
+    "weight": 1600,
+    "volume": "750ml",
+    "price": 100000,
+    "material": [ "iron" ],
+    "symbol": "=",
+    "color": "green",
+    "ammo_type": "battery",
+    "count": 10000,
+    "capacity": 10000,
+    "looks_like": "battery",
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "LEAK_DAM", "RADIOACTIVE" ]
   },
   {
     "type": "AMMO",

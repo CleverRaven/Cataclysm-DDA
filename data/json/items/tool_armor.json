@@ -29,7 +29,18 @@
     "encumbrance": 15,
     "coverage": 80,
     "material_thickness": 4,
-    "magazines": [ [ "battery", [ "light_battery_cell", "light_plus_battery_cell", "light_minus_battery_cell" ] ] ]
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell"
+        ]
+      ]
+    ]
   },
   {
     "id": "miner_hat_on",
@@ -76,7 +87,7 @@
     "symbol": "[",
     "ammo": "battery",
     "use_action": "PORTABLE_GAME",
-    "magazines": [ [ "battery", [ "light_minus_battery_cell" ] ] ]
+    "magazines": [ [ "battery", [ "light_minus_battery_cell", "light_minus_atomic_battery_cell" ] ] ]
   },
   {
     "id": "holo_cloak",
@@ -152,7 +163,18 @@
     "warmth": 10,
     "coverage": 100,
     "material_thickness": 1,
-    "magazines": [ [ "battery", [ "light_battery_cell", "light_plus_battery_cell", "light_minus_battery_cell" ] ] ]
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell"
+        ]
+      ]
+    ]
   },
   {
     "id": "thermal_socks_on",
@@ -204,7 +226,18 @@
     "warmth": 10,
     "coverage": 100,
     "material_thickness": 1,
-    "magazines": [ [ "battery", [ "light_plus_battery_cell", "light_battery_cell", "light_minus_battery_cell" ] ] ]
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_plus_battery_cell",
+          "light_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell"
+        ]
+      ]
+    ]
   },
   {
     "id": "thermal_suit_on",
@@ -257,7 +290,18 @@
     "warmth": 10,
     "coverage": 100,
     "material_thickness": 1,
-    "magazines": [ [ "battery", [ "light_battery_cell", "light_plus_battery_cell", "light_minus_battery_cell" ] ] ]
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell"
+        ]
+      ]
+    ]
   },
   {
     "id": "thermal_gloves_on",
@@ -309,7 +353,18 @@
     "warmth": 10,
     "coverage": 100,
     "material_thickness": 1,
-    "magazines": [ [ "battery", [ "light_battery_cell", "light_plus_battery_cell", "light_minus_battery_cell" ] ] ]
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell"
+        ]
+      ]
+    ]
   },
   {
     "id": "thermal_mask_on",
@@ -383,7 +438,18 @@
     "covers": [ "HEAD" ],
     "coverage": 15,
     "material_thickness": 1,
-    "magazines": [ [ "battery", [ "light_battery_cell", "light_plus_battery_cell", "light_minus_battery_cell" ] ] ]
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell"
+        ]
+      ]
+    ]
   },
   {
     "id": "wearable_light_on",
@@ -407,7 +473,18 @@
     "covers": [ "HEAD" ],
     "coverage": 15,
     "material_thickness": 1,
-    "magazines": [ [ "battery", [ "light_battery_cell", "light_plus_battery_cell", "light_minus_battery_cell" ] ] ]
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell"
+        ]
+      ]
+    ]
   },
   {
     "id": "survivor_light",
@@ -436,7 +513,18 @@
     "covers": [ "HEAD" ],
     "coverage": 20,
     "material_thickness": 1,
-    "magazines": [ [ "battery", [ "light_plus_battery_cell", "light_battery_cell", "light_minus_battery_cell" ] ] ]
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_plus_battery_cell",
+          "light_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell"
+        ]
+      ]
+    ]
   },
   {
     "id": "survivor_light_on",
@@ -999,7 +1087,18 @@
     "encumbrance": 40,
     "coverage": 100,
     "material_thickness": 2,
-    "magazines": [ [ "battery", [ "light_plus_battery_cell", "light_battery_cell", "light_minus_battery_cell" ] ] ]
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_plus_battery_cell",
+          "light_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell"
+        ]
+      ]
+    ]
   },
   {
     "id": "goggles_nv_on",
@@ -1058,7 +1157,18 @@
     "encumbrance": 40,
     "coverage": 100,
     "material_thickness": 2,
-    "magazines": [ [ "battery", [ "light_plus_battery_cell", "light_battery_cell", "light_minus_battery_cell" ] ] ]
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_plus_battery_cell",
+          "light_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell"
+        ]
+      ]
+    ]
   },
   {
     "id": "goggles_ir_on",
@@ -1085,7 +1195,18 @@
     "encumbrance": 20,
     "coverage": 100,
     "material_thickness": 2,
-    "magazines": [ [ "battery", [ "light_plus_battery_cell", "light_battery_cell", "light_minus_battery_cell" ] ] ]
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_plus_battery_cell",
+          "light_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell"
+        ]
+      ]
+    ]
   },
   {
     "id": "wearable_rx12",
@@ -1335,7 +1456,7 @@
     "coverage": 5,
     "material_thickness": 1,
     "flags": [ "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE" ],
-    "magazines": [ [ "battery", [ "light_minus_battery_cell" ] ] ]
+    "magazines": [ [ "battery", [ "light_minus_battery_cell", "light_minus_atomic_battery_cell" ] ] ]
   },
   {
     "type": "ARMOR",
@@ -1890,7 +2011,7 @@
     "warmth": 10,
     "coverage": 100,
     "material_thickness": 1,
-    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ]
+    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell" ] ] ]
   },
   {
     "id": "thermal_outfit_on",
@@ -2201,7 +2322,18 @@
     "encumbrance": 5,
     "coverage": 10,
     "material_thickness": 2,
-    "magazines": [ [ "battery", [ "light_plus_battery_cell", "light_battery_cell", "light_minus_battery_cell" ] ] ]
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_plus_battery_cell",
+          "light_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell"
+        ]
+      ]
+    ]
   },
   {
     "id": "powered_earmuffs_on",
@@ -2515,7 +2647,7 @@
       "need_charges_msg": "The blanket's batteries are dead."
     },
     "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS", "RECHARGE" ],
-    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ]
+    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell" ] ] ]
   },
   {
     "id": "electric_blanket_on",
