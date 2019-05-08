@@ -18,53 +18,21 @@
 #include "iuse.h" // use_function
 #include "optional.h"
 #include "pldata.h" // add_type
-#include "string_id.h"
 #include "translations.h"
+#include "type_id.h"
 #include "units.h"
 
 // see item.h
 class item_category;
-class gun_mode;
-
-using gun_mode_id = string_id<gun_mode>;
 class Item_factory;
-class emit;
-
-using emit_id = string_id<emit>;
-class Skill;
-
-using skill_id = string_id<Skill>;
-struct bionic_data;
-
-using bionic_id = string_id<bionic_data>;
 class player;
 class item;
-class vitamin;
 
-using vitamin_id = string_id<vitamin>;
-class ma_technique;
-
-using matec_id = string_id<ma_technique>;
 enum art_effect_active : int;
 enum art_charge : int;
 enum art_charge_req : int;
 enum art_effect_passive : int;
-class material_type;
-
-using material_id = string_id<material_type>;
 typedef std::string itype_id;
-class ammunition_type;
-
-using ammotype = string_id<ammunition_type>;
-class fault;
-
-using fault_id = string_id<fault>;
-struct quality;
-
-using quality_id = string_id<quality>;
-struct MonsterGroup;
-
-using mongroup_id = string_id<MonsterGroup>;
 
 enum field_id : int;
 
@@ -646,9 +614,6 @@ struct islot_ammo : common_ranged_data {
      * Type id of casings, if any.
      */
     cata::optional<itype_id> casing;
-    /**
-     * Default charges.
-     */
 
     /**
      * Control chance for and state of any items dropped at ranged target
@@ -660,7 +625,11 @@ struct islot_ammo : common_ranged_data {
     bool drop_active = true;
     /*@}*/
 
+    /**
+     * Default charges.
+     */
     long def_charges = 1;
+
     /**
      * TODO: document me.
      */
@@ -693,6 +662,12 @@ struct islot_ammo : common_ranged_data {
      * damage of the gun by this value.
      */
     cata::optional<float> prop_damage;
+
+    /**
+     * Some combat ammo might not have a damage or prop_damage value
+     * Set this to make it show as combat ammo anyway
+     */
+    cata::optional<bool> force_stat_display;
 };
 
 struct islot_bionic {
@@ -816,15 +791,6 @@ struct itype {
         /** Actions an instance can perform (if any) indexed by action type */
         std::map<std::string, use_function> use_methods;
 
-        /** Default countdown interval (if any) for item */
-        int countdown_interval = 0;
-
-        /** Action to take when countdown expires */
-        use_function countdown_action;
-
-        /** Is item destroyed after the countdown action is run? */
-        bool countdown_destroy = false;
-
         /** Action to take BEFORE the item is placed on map. If it returns non-zero, item won't be placed. */
         use_function drop_action;
 
@@ -835,21 +801,30 @@ struct itype {
         std::set<matec_id> techniques;
 
         // Minimum stat(s) or skill(s) to use the item
+        std::map<skill_id, int> min_skills;
         int min_str = 0;
         int min_dex = 0;
         int min_int = 0;
         int min_per = 0;
-        std::map<skill_id, int> min_skills;
-
-        // Should the item explode when lit on fire
-        bool explode_in_fire = false;
-        // How should the item explode
-        explosion_data explosion;
 
         phase_id phase      = SOLID; // e.g. solid, liquid, gas
 
+        // How should the item explode
+        explosion_data explosion;
+        // Should the item explode when lit on fire
+        bool explode_in_fire = false;
+
         /** Can item be combined with other identical items? */
         bool stackable = false;
+
+        /** Is item destroyed after the countdown action is run? */
+        bool countdown_destroy = false;
+
+        /** Default countdown interval (if any) for item */
+        int countdown_interval = 0;
+
+        /** Action to take when countdown expires */
+        use_function countdown_action;
 
         /**
          * @name Non-negative properties
@@ -896,8 +871,8 @@ struct itype {
 
         const item_category *category = nullptr; // category pointer or NULL for automatic selection
 
-        nc_color color = c_white; // Color on the map (color.h)
         std::string sym;
+        nc_color color = c_white; // Color on the map (color.h)
 
         int damage_min = -1000; /** Minimum amount of damage to an item (state of maximum repair) */
         int damage_max =  4000; /** Maximum amount of damage to an item (state before destroyed) */

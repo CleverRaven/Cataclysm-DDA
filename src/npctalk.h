@@ -2,15 +2,9 @@
 #ifndef NPCTALK_H
 #define NPCTALK_H
 
-#include "string_id.h"
+#include "type_id.h"
 
-class martialart;
-
-using matype_id = string_id<martialart>;
 class npc;
-class Skill;
-
-using skill_id = string_id<Skill>;
 class time_duration;
 
 namespace talk_function
@@ -43,7 +37,8 @@ void stop_guard( npc & );
 void end_conversation( npc & );
 void insult_combat( npc & );
 void reveal_stats( npc & );
-void follow( npc & );                // p follows u
+void follow( npc & );                // p becomes a member of your_followers
+void follow_only( npc & );           // p starts following you
 void deny_follow( npc & );           // p gets "asked_to_follow"
 void deny_lead( npc & );             // p gets "asked_to_lead"
 void deny_equipment( npc & );        // p gets "asked_for_item"
@@ -52,6 +47,7 @@ void deny_personal_info( npc & );    // p gets "asked_personal_info"
 void hostile( npc & );               // p turns hostile to u
 void flee( npc & );
 void leave( npc & );                 // p becomes indifferent
+void stop_following( npc & );
 void stranger_neutral( npc & );      // p is now neutral towards you
 
 void start_mugging( npc & );

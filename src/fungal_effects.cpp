@@ -17,10 +17,9 @@
 #include "enums.h"
 #include "item.h"
 #include "item_stack.h"
-#include "itype.h"
-#include "pldata.h"
 #include "rng.h"
 #include "translations.h"
+#include "type_id.h"
 
 const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
 const mtype_id mon_spore( "mon_spore" );
@@ -163,7 +162,7 @@ bool fungal_effects::spread_fungus( const tripoint &p )
                 m.ter_set( p, t_tree_fungal_young );
                 converted = true;
             }
-        } else if( m.has_flag( "WALL", p ) ) {
+        } else if( m.has_flag( "WALL", p ) && m.has_flag( "FLAMMABLE", p ) ) {
             if( x_in_y( growth * 10, 5000 ) ) {
                 converted = true;
                 m.ter_set( p, t_fungus_wall );
@@ -261,7 +260,7 @@ bool fungal_effects::spread_fungus( const tripoint &p )
                         }
                         converted = true;
                     }
-                } else if( m.has_flag( "WALL", dest ) ) {
+                } else if( m.has_flag( "WALL", dest ) && m.has_flag( "FLAMMABLE", dest ) ) {
                     if( one_in( 50 ) ) {
                         converted = true;
                         m.ter_set( dest, t_fungus_wall );

@@ -39,7 +39,6 @@
 #include "vpart_position.h"
 #include "weather.h"
 #include "bodypart.h"
-#include "character.h"
 #include "creature.h"
 #include "damage.h"
 #include "int_id.h"
@@ -51,6 +50,7 @@
 #include "pldata.h"
 #include "string_id.h"
 #include "units.h"
+#include "type_id.h"
 
 const species_id FUNGUS( "FUNGUS" );
 
@@ -1421,10 +1421,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                         if( one_in( 20 ) ) {
                             if( npc *const np = g->critter_at<npc>( p ) ) {
-                                if( np->is_friend() ) {
-                                    np->say( one_in( 10 ) ? _( "Whew... smells like skunk!" ) :
-                                             _( "Man, that smells like some good shit!" ) );
-                                }
+                                np->complain_about( "weed_smell", 10_minutes, "<weed_smell>" );
                             }
                         }
 
@@ -1434,12 +1431,9 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     case fd_methsmoke: {
                         dirty_transparency_cache = true;
                         spread_gas( cur, p, curtype, 175, 7_minutes );
-
                         if( one_in( 20 ) ) {
                             if( npc *const np = g->critter_at<npc>( p ) ) {
-                                if( np->is_friend() ) {
-                                    np->say( _( "I don't know... should you really be smoking that stuff?" ) );
-                                }
+                                np->complain_about( "meth_smell", 30_minutes, "<meth_smell>" );
                             }
                         }
                     }
@@ -1451,9 +1445,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                         if( one_in( 20 ) ) {
                             if( npc *const np = g->critter_at<npc>( p ) ) {
-                                if( np->is_friend() ) {
-                                    np->say( one_in( 2 ) ? _( "Ew, smells like burning rubber!" ) : _( "Ugh, that smells rancid!" ) );
-                                }
+                                np->complain_about( "crack_smell", 30_minutes, "<crack_smell>" );
                             }
                         }
                     }

@@ -43,12 +43,12 @@
 #include "omdata.h"
 #include "optional.h"
 #include "overmap_types.h"
-#include "pldata.h"
 #include "regional_settings.h"
 #include "rng.h"
 #include "string_formatter.h"
 #include "string_id.h"
 #include "translations.h"
+#include "type_id.h"
 
 #if defined(__ANDROID__)
 #include <SDL_keyboard.h>

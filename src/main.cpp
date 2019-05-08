@@ -16,6 +16,7 @@
 #include <string>
 #include <utility>
 #include <vector>
+#include <type_traits>
 #if defined(_WIN32)
 #include "platform_win.h"
 #else
@@ -36,7 +37,7 @@
 #include "rng.h"
 #include "translations.h"
 #include "input.h"
-#include "worldfactory.h"
+#include "type_id.h"
 
 #if defined(TILES)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)
@@ -100,8 +101,6 @@ int start_logger( const char *app_name )
 #endif //__ANDROID__
 
 void exit_handler( int s );
-
-extern bool test_dirty;
 
 namespace
 {
@@ -613,7 +612,6 @@ int main( int argc, char *argv[] )
         }
     }
 
-    srand( seed );
     rng_set_engine_seed( seed );
 
     g.reset( new game );
@@ -632,7 +630,7 @@ int main( int argc, char *argv[] )
             init_colors();
             loading_ui ui( false );
             const std::vector<mod_id> mods( opts.begin(), opts.end() );
-            exit( g->check_mod_data( mods, ui ) && !test_dirty ? 0 : 1 );
+            exit( g->check_mod_data( mods, ui ) && !debug_has_error_been_observed() ? 0 : 1 );
         }
     } catch( const std::exception &err ) {
         debugmsg( "%s", err.what() );

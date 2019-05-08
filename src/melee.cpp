@@ -49,6 +49,7 @@
 #include "units.h"
 #include "weighted_list.h"
 #include "material.h"
+#include "type_id.h"
 
 static const bionic_id bio_cqb( "bio_cqb" );
 
@@ -325,7 +326,7 @@ std::string player::get_miss_reason()
     // in one turn
     add_miss_reason(
         _( "Your torso encumbrance throws you off-balance." ),
-        divide_roll_remainder( encumb( bp_torso ), 10.0f ) );
+        roll_remainder( encumb( bp_torso ) / 10.0 ) );
     const int farsightedness = 2 * ( has_trait( trait_HYPEROPIC ) &&
                                      !worn_with_flag( "FIX_FARSIGHT" ) &&
                                      !has_effect( effect_contacts ) );

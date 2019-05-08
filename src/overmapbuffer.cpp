@@ -35,6 +35,7 @@
 #include "simple_pathfinding.h"
 #include "string_id.h"
 #include "translations.h"
+#include "int_id.h"
 
 overmapbuffer overmap_buffer;
 

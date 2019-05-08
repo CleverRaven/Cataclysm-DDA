@@ -38,6 +38,7 @@
 #include "messages.h"
 #include "mongroup.h"
 #include "monster.h"
+#include "morale_types.h"
 #include "mtype.h"
 #include "npc.h"
 #include "options.h"
@@ -72,13 +73,13 @@
 #include "iuse.h"
 #include "map_memory.h"
 #include "math_defines.h"
-#include "omdata.h"
 #include "optional.h"
 #include "player.h"
 #include "player_activity.h"
 #include "tileray.h"
 #include "weighted_list.h"
-#include "material.h"
+#include "int_id.h"
+#include "string_id.h"
 
 const mtype_id mon_zombie( "mon_zombie" );
 
@@ -96,7 +97,6 @@ extern bool is_valid_in_w_terrain( int, int );
 
 static std::list<item>  nulitems;          // Returned when &i_at() is asked for an OOB value
 static field            nulfield;          // Returned when &field_at() is asked for an OOB value
-static int              null_temperature;  // Because radiation does it too
 static level_cache      nullcache;         // Dummy cache for z-levels outside bounds
 
 // Map stack methods.
@@ -310,6 +310,14 @@ std::unique_ptr<vehicle> map::detach_vehicle( vehicle *veh )
                   veh->name, veh->smx, veh->smy, veh->smz );
         // Try to fix by moving the vehicle here
         veh->smz = abs_sub.z;
+    }
+
+    // Unboard all passengers before detaching
+    for( auto const &part : veh->get_avail_parts( VPFLAG_BOARDABLE ) ) {
+        player *passenger = part.get_passenger();
+        if( passenger ) {
+            unboard_vehicle( part, passenger );
+        }
     }
 
     submap *const current_submap = get_submap_at_grid( {veh->smx, veh->smy, veh->smz} );
@@ -915,6 +923,26 @@ void map::board_vehicle( const tripoint &pos, player *p )
     }
 }
 
+void map::unboard_vehicle( const vpart_reference &vp, player *passenger, bool dead_passenger )
+{
+    // Mark the part as un-occupied regardless of whether there's a live passenger here.
+    vp.part().remove_flag( vehicle_part::passenger_flag );
+    vp.vehicle().invalidate_mass();
+
+    if( !passenger ) {
+        if( !dead_passenger ) {
+            debugmsg( "map::unboard_vehicle: passenger not found" );
+        }
+        return;
+    }
+    passenger->in_vehicle = false;
+    // Only make vehicle go out of control if the driver is the one unboarding.
+    if( passenger->controlling_vehicle ) {
+        vp.vehicle().skidding = true;
+    }
+    passenger->controlling_vehicle = false;
+}
+
 void map::unboard_vehicle( const tripoint &p, bool dead_passenger )
 {
     const cata::optional<vpart_reference> vp = veh_at( p ).part_with_feature( VPFLAG_BOARDABLE, false );
@@ -929,22 +957,8 @@ void map::unboard_vehicle( const tripoint &p, bool dead_passenger )
         }
         return;
     }
-    passenger = vp->vehicle().get_passenger( vp->part_index() );
-    // Mark the part as un-occupied regardless of whether there's a live passenger here.
-    vp->part().remove_flag( vehicle_part::passenger_flag );
-    if( !passenger ) {
-        if( !dead_passenger ) {
-            debugmsg( "map::unboard_vehicle: passenger not found" );
-        }
-        return;
-    }
-    passenger->in_vehicle = false;
-    // Only make vehicle go out of control if the driver is the one unboarding.
-    if( passenger->controlling_vehicle ) {
-        vp->vehicle().skidding = true;
-    }
-    passenger->controlling_vehicle = false;
-    vp->vehicle().invalidate_mass();
+    passenger = vp->get_passenger();
+    unboard_vehicle( *vp, passenger, dead_passenger );
 }
 
 vehicle *map::displace_vehicle( tripoint &p, const tripoint &dp )
@@ -2523,6 +2537,16 @@ bool map::is_divable( const int x, const int y ) const
     return has_flag( "SWIMMABLE", x, y ) && has_flag( TFLAG_DEEP_WATER, x, y );
 }
 
+bool map::is_water_shallow_current( const int x, const int y ) const
+{
+    return has_flag( "CURRENT", x, y ) && !has_flag( TFLAG_DEEP_WATER, x, y );
+}
+
+bool map::is_water_shallow_current( const tripoint &p ) const
+{
+    return has_flag( "CURRENT", p ) && !has_flag( TFLAG_DEEP_WATER, p );
+}
+
 bool map::is_divable( const tripoint &p ) const
 {
     return has_flag( "SWIMMABLE", p ) && has_flag( TFLAG_DEEP_WATER, p );
@@ -3969,22 +3993,22 @@ void map::adjust_radiation( const tripoint &p, const int delta )
     current_submap->set_radiation( l, current_radiation + delta );
 }
 
-int &map::temperature( const tripoint &p )
+int map::get_temperature( const tripoint &p ) const
 {
     if( !inbounds( p ) ) {
-        null_temperature = 0;
-        return null_temperature;
+        return 0;
     }
 
-    return get_submap_at( p )->temperature;
+    return get_submap_at( p )->get_temperature();
 }
 
 void map::set_temperature( const tripoint &p, int new_temperature )
 {
-    temperature( p ) = new_temperature;
-    temperature( tripoint( p.x + SEEX, p.y, p.z ) ) = new_temperature;
-    temperature( tripoint( p.x, p.y + SEEY, p.z ) ) = new_temperature;
-    temperature( tripoint( p.x + SEEX, p.y + SEEY, p.z ) ) = new_temperature;
+    if( !inbounds( p ) ) {
+        return;
+    }
+
+    get_submap_at( p )->set_temperature( new_temperature );
 }
 
 void map::set_temperature( const int x, const int y, int new_temperature )
@@ -4317,9 +4341,9 @@ item &map::add_item( const tripoint &p, item new_item )
     point l;
     submap *const current_submap = get_submap_at( p, l );
 
-    // Process foods when they are added to the map, here instead of add_item_at()
-    // to avoid double processing food during active item processing.
-    if( /*new_item.needs_processing() &&*/ new_item.is_food() ) {
+    // Process foods and temperature tracked items when they are added to the map, here instead of add_item_at()
+    // to avoid double processing food and corpses during active item processing.
+    if( new_item.is_food() || new_item.has_temperature() ) {
         new_item.process( nullptr, p, false );
     }
     return add_item_at( p, current_submap->itm[l.x][l.y].end(), new_item );
@@ -4341,7 +4365,6 @@ item &map::add_item_at( const tripoint &p,
     }
     if( new_item.has_temperature() ) {
         new_item.active = true;
-        new_item.process( nullptr, p, false );
     }
 
     point l;
@@ -4736,7 +4759,7 @@ bool map::has_items( const tripoint &p ) const
 }
 
 template <typename Stack>
-std::list<item> use_amount_stack( Stack stack, const itype_id type, long &quantity,
+std::list<item> use_amount_stack( Stack stack, const itype_id &type, long &quantity,
                                   const std::function<bool( const item & )> &filter )
 {
     std::list<item> ret;
@@ -4750,7 +4773,7 @@ std::list<item> use_amount_stack( Stack stack, const itype_id type, long &quanti
     return ret;
 }
 
-std::list<item> map::use_amount_square( const tripoint &p, const itype_id type,
+std::list<item> map::use_amount_square( const tripoint &p, const itype_id &type,
                                         long &quantity, const std::function<bool( const item & )> &filter )
 {
     std::list<item> ret;
@@ -5234,17 +5257,26 @@ void map::disarm_trap( const tripoint &p )
     }
     if( roll >= diff ) {
         add_msg( _( "You disarm the trap!" ) );
+        const int morale_buff = tr.get_avoidance() * 0.4 + tr.get_difficulty() + rng( 0, 4 );
+        g->u.rem_morale( MORALE_FAILURE );
+        g->u.add_morale( MORALE_ACCOMPLISHMENT, morale_buff, 40 );
         tr.on_disarmed( *this, p );
         if( diff > 1.25 * tSkillLevel ) { // failure might have set off trap
             g->u.practice( skill_traps, 1.5 * ( diff - tSkillLevel ) );
         }
     } else if( roll >= diff * .8 ) {
         add_msg( _( "You fail to disarm the trap." ) );
+        const int morale_debuff = -rng( 6, 18 );
+        g->u.rem_morale( MORALE_ACCOMPLISHMENT );
+        g->u.add_morale( MORALE_FAILURE, morale_debuff, -40 );
         if( diff > 1.25 * tSkillLevel ) {
             g->u.practice( skill_traps, 1.5 * ( diff - tSkillLevel ) );
         }
     } else {
         add_msg( m_bad, _( "You fail to disarm the trap, and you set it off!" ) );
+        const int morale_debuff = -rng( 12, 24 );
+        g->u.rem_morale( MORALE_ACCOMPLISHMENT );
+        g->u.add_morale( MORALE_FAILURE, morale_debuff, -40 );
         tr.trigger( p, &g->u );
         if( diff - roll <= 6 ) {
             // Give xp for failing, but not if we failed terribly (in which
@@ -6403,8 +6435,6 @@ void map::shift( const int sx, const int sy )
     const int zmax = zlevels ? OVERMAP_HEIGHT : wz;
     for( int gridz = zmin; gridz <= zmax; gridz++ ) {
         for( vehicle *veh : get_cache( gridz ).vehicle_list ) {
-            veh->smx += sx;
-            veh->smy += sy;
             veh->zones_dirty = true;
         }
     }
@@ -6685,11 +6715,12 @@ void map::loadn( const int gridx, const int gridy, const int gridz, const bool u
 
 bool map::has_rotten_away( item &itm, const tripoint &pnt ) const
 {
-    if( itm.is_corpse() ) {
-        itm.calc_rot( pnt );
+    int temp = g->get_temperature( pnt );
+    if( itm.is_corpse() && itm.goes_bad() ) {
+        itm.process_temperature_rot( temp, 1, pnt, nullptr );
         return itm.get_rot() > 10_days && !itm.can_revive();
     } else if( itm.goes_bad() ) {
-        itm.calc_rot( pnt );
+        itm.process_temperature_rot( temp, 1, pnt, nullptr );
         return itm.has_rotten_away();
     } else if( itm.type->container && itm.type->container->preserves ) {
         // Containers like tin cans preserves all items inside, they do not rot at all.
@@ -6697,7 +6728,9 @@ bool map::has_rotten_away( item &itm, const tripoint &pnt ) const
     } else if( itm.type->container && itm.type->container->seals ) {
         // Items inside rot but do not vanish as the container seals them in.
         for( auto &c : itm.contents ) {
-            c.calc_rot( pnt );
+            if( c.goes_bad() ) {
+                c.process_temperature_rot( temp, 1, pnt, nullptr );
+            }
         }
         return false;
     } else {
@@ -7686,6 +7719,13 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
                 floor_cache[px][py] = true;
             }
         }
+    }
+
+    // The tile player is standing on should always be transparent
+    const tripoint &p = g->u.pos();
+    if( ( has_furn( p ) && !furn( p ).obj().transparent ) || !ter( p ).obj().transparent ) {
+        get_cache( p.z ).transparency_cache[p.x][p.y] = LIGHT_TRANSPARENCY_CLEAR;
+        set_transparency_cache_dirty( p.z );
     }
 
     build_seen_cache( g->u.pos(), zlev );

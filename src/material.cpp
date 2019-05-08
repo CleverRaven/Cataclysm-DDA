@@ -13,7 +13,6 @@
 #include "item.h"
 #include "json.h"
 #include "translations.h"
-#include "itype.h"
 #include "player.h"
 
 namespace

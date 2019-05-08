@@ -11,6 +11,7 @@
 #include "bonuses.h"
 #include "calendar.h"
 #include "string_id.h"
+#include "type_id.h"
 #include "ui.h"
 #include "input.h"
 
@@ -20,21 +21,6 @@ class effect;
 class player;
 class item;
 struct itype;
-class martialart;
-
-using matype_id = string_id<martialart>;
-class ma_buff;
-
-using mabuff_id = string_id<ma_buff>;
-class ma_technique;
-
-using matec_id = string_id<ma_technique>;
-class effect_type;
-
-using efftype_id = string_id<effect_type>;
-class Skill;
-
-using skill_id = string_id<Skill>;
 
 matype_id martial_art_learned_from( const itype & );
 

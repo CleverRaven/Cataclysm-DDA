@@ -19,7 +19,7 @@
 #include "item.h"
 #include "lightmap.h"
 #include "shadowcasting.h"
-#include "mtype.h"
+#include "type_id.h"
 
 void full_map_test( const std::vector<std::string> &setup,
                     const std::vector<std::string> &expected_results,
@@ -120,8 +120,10 @@ void full_map_test( const std::vector<std::string> &setup,
     // they might, for example, have poor nightvision due to having just been
     // in daylight)
     g->m.update_visibility_cache( origin.z );
+    g->m.invalidate_map_cache( origin.z );
     g->m.build_map_cache( origin.z );
     g->m.update_visibility_cache( origin.z );
+    g->m.invalidate_map_cache( origin.z );
     g->m.build_map_cache( origin.z );
 
     const level_cache &cache = g->m.access_cache( origin.z );

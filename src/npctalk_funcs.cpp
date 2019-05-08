@@ -38,8 +38,9 @@
 #include "player.h"
 #include "player_activity.h"
 #include "pldata.h"
-#include "itype.h"
-#include "mtype.h"
+#include "string_id.h"
+
+struct itype;
 
 #define dbg(x) DebugLog((DebugLevel)(x), D_NPC) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -193,30 +194,9 @@ void talk_function::goto_location( npc &p )
     return;
 }
 
-std::string bulk_trade_inquire( const npc &, const itype_id &it )
-{
-    int you_have = g->u.charges_of( it );
-    item tmp( it );
-    int item_cost = tmp.price( true );
-    tmp.charges = you_have;
-    int total_cost = tmp.price( true );
-    return string_format( _( "I'm willing to pay %s per batch for a total of %s" ),
-                          format_money( item_cost ), format_money( total_cost ) );
-}
-
-void bulk_trade_accept( npc &, const itype_id &it )
-{
-    int you_have = g->u.charges_of( it );
-    item tmp( it );
-    tmp.charges = you_have;
-    int total = tmp.price( true );
-    g->u.use_charges( it, you_have );
-    g->u.cash += total;
-}
-
 void talk_function::assign_guard( npc &p )
 {
-    if( !p.is_following() ) {
+    if( !p.is_player_ally() ) {
         p.mission = NPC_MISSION_GUARD;
         p.set_omt_destination();
         return;
@@ -459,7 +439,7 @@ void talk_function::give_all_aid( npc &p )
     p.add_effect( effect_currently_busy, 30_minutes );
     give_aid( p );
     for( npc &guy : g->all_npcs() ) {
-        if( rl_dist( guy.pos(), g->u.pos() ) < PICKUP_RANGE && guy.is_friend() ) {
+        if( guy.is_walking_with() && rl_dist( guy.pos(), g->u.pos() ) < PICKUP_RANGE ) {
             for( int i = 0; i < num_hp_parts; i++ ) {
                 const body_part bp_healed = player::hp_to_bp( hp_part( i ) );
                 guy.heal( hp_part( i ), 5 * rng( 2, 5 ) );
@@ -568,6 +548,11 @@ void talk_function::follow( npc &p )
     p.cash = 0;
 }
 
+void talk_function::follow_only( npc &p )
+{
+    p.set_attitude( NPCATT_FOLLOW );
+}
+
 void talk_function::deny_follow( npc &p )
 {
     p.add_effect( effect_asked_to_follow, 6_hours );
@@ -619,6 +604,13 @@ void talk_function::leave( npc &p )
 {
     add_msg( _( "%s leaves." ), p.name );
     g->remove_npc_follower( p.getID() );
+    p.clear_fac();
+    p.set_attitude( NPCATT_NULL );
+}
+
+void talk_function::stop_following( npc &p )
+{
+    add_msg( _( "%s leaves." ), p.name );
     p.set_attitude( NPCATT_NULL );
 }
 
@@ -719,7 +711,7 @@ npc *pick_follower()
     std::vector<tripoint> locations;
 
     for( npc &guy : g->all_npcs() ) {
-        if( guy.is_following() && g->u.sees( guy ) ) {
+        if( guy.is_player_ally() && g->u.sees( guy ) ) {
             followers.push_back( &guy );
             locations.push_back( guy.pos() );
         }

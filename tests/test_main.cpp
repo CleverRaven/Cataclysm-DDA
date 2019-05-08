@@ -43,6 +43,7 @@
 #include "options.h"
 #include "pldata.h"
 #include "rng.h"
+#include "type_id.h"
 
 typedef std::pair<std::string, std::string> name_value_pair_t;
 typedef std::vector<name_value_pair_t> option_overrides_t;
@@ -204,22 +205,16 @@ option_overrides_t extract_option_overrides( std::vector<const char *> &arg_vec 
     return ret;
 }
 
-struct CataReporter : Catch::ConsoleReporter {
-    using ConsoleReporter::ConsoleReporter;
-
-    static std::string getDescription() {
-        return "As console reporter, but with backtrace support if enabled at build time "
-               "and seeding the Cataclysm RNG before each test";
-    }
+struct CataListener : Catch::TestEventListenerBase {
+    using TestEventListenerBase::TestEventListenerBase;
 
     virtual void sectionStarting( Catch::SectionInfo const &sectionInfo ) override {
-        ConsoleReporter::sectionStarting( sectionInfo );
+        TestEventListenerBase::sectionStarting( sectionInfo );
         // Initialize the cata RNG with the Catch seed for reproducible tests
         rng_set_engine_seed( m_config->rngSeed() );
     }
 
     bool assertionEnded( Catch::AssertionStats const &assertionStats ) override {
-        const auto r = ConsoleReporter::assertionEnded( assertionStats );
 #ifdef BACKTRACE
         Catch::AssertionResult const &result = assertionStats.assertionResult;
 
@@ -231,11 +226,11 @@ struct CataReporter : Catch::ConsoleReporter {
         }
 #endif
 
-        return r;
+        return TestEventListenerBase::assertionEnded( assertionStats );
     }
 };
 
-CATCH_REGISTER_REPORTER( "cata", CataReporter )
+CATCH_REGISTER_LISTENER( CataListener )
 
 int main( int argc, const char *argv[] )
 {
@@ -284,6 +279,8 @@ int main( int argc, const char *argv[] )
         return EXIT_FAILURE;
     }
 
+    bool error_during_initialization = debug_has_error_been_observed();
+
     const auto start = std::chrono::system_clock::now();
     std::time_t start_time = std::chrono::system_clock::to_time_t( start );
     // Leading newline in case there were debug messages during
@@ -303,6 +300,18 @@ int main( int argc, const char *argv[] )
     std::chrono::duration<double> elapsed_seconds = end - start;
     printf( "Ended test at %sThe test took %.3f seconds\n", std::ctime( &end_time ),
             elapsed_seconds.count() );
+
+    if( error_during_initialization ) {
+        printf( "\nTreating result as failure due to error logged during initialization.\n" );
+        printf( "Randomness seeded to: %u\n", seed );
+        return 1;
+    }
+
+    if( debug_has_error_been_observed() ) {
+        printf( "\nTreating result as failure due to error logged during tests.\n" );
+        printf( "Randomness seeded to: %u\n", seed );
+        return 1;
+    }
 
     return result;
 }

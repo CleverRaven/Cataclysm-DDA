@@ -15,7 +15,6 @@
 #include "rng.h"
 #include "skill.h"
 #include "trait_group.h"
-#include "itype.h"
 #include "json.h"
 
 static const std::array<npc_class_id, 18> legacy_ids = {{
@@ -419,7 +418,7 @@ distribution distribution::one_in( float in )
     }
 
     return distribution( [in]() {
-        return one_in_improved( in );
+        return x_in_y( 1, in );
     } );
 }
 

@@ -38,7 +38,6 @@
 #include "veh_type.h"
 #include "vehicle_selector.h"
 #include "weather.h"
-#include "character.h"
 #include "field.h"
 #include "math_defines.h"
 #include "pimpl.h"
@@ -1015,12 +1014,26 @@ bool vehicle::can_mount( const point &dp, const vpart_id &id ) const
         }
     }
 
-    //Turret mounts must NOT be installed on other (moded) turret mounts
+    //Turret mounts must NOT be installed on other (modded) turret mounts
     if( part.has_flag( "TURRET_MOUNT" ) ) {
         for( const auto &elem : parts_in_square ) {
             if( part_info( elem ).has_flag( "TURRET_MOUNT" ) ) {
                 return false;
             }
+        }
+    }
+
+    //Roof-mounted parts must be installed on a roofs
+    if( part.has_flag( "ON_ROOF" ) ) {
+        bool anchor_found = false;
+        for( const auto &elem : parts_in_square ) {
+            if( part_info( elem ).has_flag( "ROOF" ) ) {
+                anchor_found = true;
+                break;
+            }
+        }
+        if( !anchor_found ) {
+            return false;
         }
     }
 
@@ -5274,6 +5287,11 @@ const vpart_info &vpart_reference::info() const
     return part().info();
 }
 
+player *vpart_reference::get_passenger() const
+{
+    return vehicle().get_passenger( part_index() );
+}
+
 point vpart_position::mount() const
 {
     return vehicle().parts[part_index()].mount;
@@ -5406,7 +5424,7 @@ void vehicle::update_time( const time_point &update_to )
         }
 
         double area = pow( pt.info().size / units::legacy_volume_factor, 2 ) * M_PI;
-        int qty = divide_roll_remainder( funnel_charges_per_turn( area, accum_weather.rain_amount ), 1.0 );
+        int qty = roll_remainder( funnel_charges_per_turn( area, accum_weather.rain_amount ) );
         int c_qty = qty + ( tank->can_reload( water_clean ) ?  tank->ammo_remaining() : 0 );
         int cost_to_purify = c_qty * item::find_type( "water_purifier" )->charges_to_use();
 

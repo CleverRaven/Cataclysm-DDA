@@ -29,14 +29,12 @@
 #include "bodypart.h"
 #include "enums.h"
 #include "item.h"
-#include "itype.h"
 #include "mapdata.h"
 #include "math_defines.h"
-#include "pldata.h"
 #include "rng.h"
 #include "string_id.h"
 #include "units.h"
-#include "mtype.h"
+#include "int_id.h"
 
 const efftype_id effect_glare( "glare" );
 const efftype_id effect_snow_glare( "snow_glare" );
@@ -113,7 +111,7 @@ time_duration get_rot_since( const time_point &start, const time_point &end,
     /* Hoisting loop invariants */
     const auto location_temp = g->get_temperature( pos );
     const auto local = g->m.getlocal( pos );
-    const auto local_mod = g->new_game ? 0 : g->m.temperature( local );
+    const auto local_mod = g->new_game ? 0 : g->m.get_temperature( local );
     const auto seed = g->get_seed();
 
     const auto temp_modify = ( !g->new_game ) && ( g->m.ter( local ) == t_rootcellar );
@@ -208,15 +206,13 @@ void retroactively_fill_from_funnel( item &it, const trap &tr, const time_point 
 
     // Technically 0.0 division is OK, but it will be cleaner without it
     if( data.rain_amount > 0 ) {
-        const int rain = divide_roll_remainder( 1.0 / tr.funnel_turns_per_charge( data.rain_amount ),
-                                                1.0f );
+        const int rain = roll_remainder( 1.0 / tr.funnel_turns_per_charge( data.rain_amount ) );
         it.add_rain_to_container( false, rain );
         // add_msg(m_debug, "Retroactively adding %d water from turn %d to %d", rain, startturn, endturn);
     }
 
     if( data.acid_amount > 0 ) {
-        const int acid = divide_roll_remainder( 1.0 / tr.funnel_turns_per_charge( data.acid_amount ),
-                                                1.0f );
+        const int acid = roll_remainder( 1.0 / tr.funnel_turns_per_charge( data.acid_amount ) );
         it.add_rain_to_container( true, acid );
     }
 }
