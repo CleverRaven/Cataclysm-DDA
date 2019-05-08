@@ -2483,15 +2483,14 @@ time_duration player::estimate_effect_dur( const skill_id &relevant_skill,
         const efftype_id &target_effect, const time_duration &error_magnitude,
         int threshold, const Creature &target ) const
 {
+    const time_duration zero_duration = 0;
+
     int skill_lvl = get_skill_level( relevant_skill );
 
-    time_duration estimate = target.get_effect_dur( target_effect ) + rng( -1,
-                             1 ) * error_magnitude * rng( 0,
-                                     std::max( 0,
-                                             threshold - skill_lvl ) );
-    if( estimate < 0 ) {
-        estimate = 0;
-    }
+    time_duration estimate = std::max( zero_duration, target.get_effect_dur( target_effect ) +
+                                       rng( -1, 1 ) * error_magnitude *
+                                       rng( 0, std::max( 0, threshold - skill_lvl ) ) );
+
     return estimate;
 }
 
