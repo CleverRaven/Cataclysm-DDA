@@ -644,8 +644,8 @@ void player::learn_spell( const spell_type *sp, bool force )
         debugmsg( "Tried to learn invalid spell" );
         return;
     }
-    if( !force || ( can_learn_spell( sp->id ) && !has_trait( sp->spell_class ) &&
-                    sp->spell_class != trait_id( "NONE" ) ) ) {
+    if( !force || sp->spell_class != trait_id( "NONE" ) || ( can_learn_spell( sp->id ) &&
+            !has_trait( sp->spell_class ) ) ) {
         if( query_yn(
                 _( "Learning this spell will make you a %s and lock you out of other unique spells.\nContinue?" ),
                 sp->spell_class.obj().name() ) ) {
