@@ -32,7 +32,6 @@
 #include "player.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
-#include "sdl_wrappers.h"
 #include "ui.h"
 #include "vitamin.h"
 #include "color.h"
@@ -62,7 +61,10 @@
 #include "vpart_position.h"
 #include "rng.h"
 #include "signal.h"
-#include "worldfactory.h"
+
+#if defined(TILES)
+#include "sdl_wrappers.h"
+#endif
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
