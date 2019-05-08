@@ -1159,5 +1159,24 @@
     "weight": 1,
     "phase": "gas",
     "ammo_type": "nitrox"
+  },
+  {
+    "id": "tinder",
+    "type": "AMMO",
+    "category": "spare_parts",
+    "name": "tinder",
+    "name_plural": "tinder",
+    "description": "Flammable material, finely divided for easy combustion.",
+    "weight": 10,
+    "volume": 1,
+    "price": 0,
+    "bashing": 1,
+    "material": "wood",
+    "flags": [ "NO_SALVAGE" ],
+    "symbol": "=",
+    "color": "brown",
+    "count": 50,
+    "ammo_type": "tinder",
+    "effects": [ "NEVER_MISFIRES" ]
   }
 ]
