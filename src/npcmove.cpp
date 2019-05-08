@@ -2632,12 +2632,12 @@ bool npc::wield_better_weapon()
     // Until then, the NPCs should reload the guns as a last resort
 
     if( best == &weapon ) {
-        add_msg( m_debug, "Wielded %s is best at %.1f, not switching", best->display_name(),
+        add_msg( m_debug, "Wielded %s is best at %.1f, not switching", best->type->get_id(),
                  best_value );
         return false;
     }
 
-    add_msg( m_debug, "Wielding %s at value %.1f", best->display_name(), best_value );
+    add_msg( m_debug, "Wielding %s at value %.1f", best->type->get_id(), best_value );
 
     wield( *best );
     return true;

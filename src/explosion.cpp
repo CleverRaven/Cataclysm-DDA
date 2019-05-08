@@ -232,8 +232,7 @@ void game::do_blast( const tripoint &p, const float power,
             continue;
         }
 
-        add_msg( m_debug, "Blast hits %s with force %.1f",
-                 critter->disp_name(), force );
+        add_msg( m_debug, "Blast hits %s with force %.1f", critter->disp_name(), force );
 
         player *pl = dynamic_cast<player *>( critter );
         if( pl == nullptr ) {
