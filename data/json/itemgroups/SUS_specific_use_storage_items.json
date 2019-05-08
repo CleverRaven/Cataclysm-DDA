@@ -9,14 +9,29 @@
       { "item": "knife_butter", "count": [ 1, 6 ] },
       { "item": "knife_butter", "count": [ 1, 6 ], "prob": 75 },
       { "item": "knife_steak", "count": [ 2, 6 ], "prob": 85 },
+      { "item": "knife_paring", "prob": 75 },
       { "item": "fork", "count": [ 1, 6 ] },
       { "item": "fork", "count": [ 1, 6 ], "prob": 75 },
       { "item": "spoon", "count": [ 1, 6 ] },
       { "item": "spoon", "count": [ 1, 6 ], "prob": 75 },
-      { "item": "chopsticks", "prob": 50, "count": [ 0, 6 ] },
-      { "item": "plastic_spoon", "prob": 50, "count": [ 0, 6 ] },
-      { "item": "plastic_knife", "prob": 50, "count": [ 1, 6 ] },
-      { "item": "plastic_fork", "prob": 50, "count": [ 0, 6 ] },
+      { "item": "chopsticks", "prob": 70, "count": [ 1, 6 ] },
+      {
+        "collection": [
+          { "item": "plastic_spoon", "count": [ 0, 6 ] },
+          { "item": "plastic_knife", "count": [ 0, 6 ] },
+          { "item": "plastic_fork", "count": [ 0, 6 ] }
+        ],
+        "prob": 60
+      },
+      {
+        "collection": [
+          { "item": "plastic_spoon", "count": [ 0, 6 ] },
+          { "item": "plastic_knife", "count": [ 0, 6 ] },
+          { "item": "plastic_fork", "count": [ 0, 6 ] }
+        ],
+        "prob": 30
+      },
+      { "item": "plastic_spoon_kids", "prob": 35, "count": [ 1, 6 ] },
       [ "corkscrew", 75 ],
       [ "bottle_opener", 75 ],
       { "item": "plastic_straw", "prob": 50, "count": [ 1, 6 ] }
@@ -121,6 +136,18 @@
       { "item": "ceramic_bowl", "count": [ 1, 6 ] },
       {
         "collection": [ { "item": "glass_plate", "count": [ 1, 4 ] }, { "item": "glass_bowl", "count": [ 1, 4 ] } ],
+        "prob": 60
+      },
+      {
+        "collection": [ { "item": "tumbler_plastic", "count": [ 1, 4 ] }, { "item": "plastic_plate", "count": [ 1, 4 ] } ],
+        "prob": 60
+      },
+      {
+        "collection": [
+          { "item": "plastic_bowl_kids", "count": [ 1, 4 ] },
+          { "item": "sippy_cup", "count": [ 1, 4 ] },
+          { "item": "plastic_spoon_kids", "count": [ 1, 4 ] }
+        ],
         "prob": 60
       }
     ]
