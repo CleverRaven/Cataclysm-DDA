@@ -5052,7 +5052,7 @@ int iuse::handle_ground_graffiti( player &p, item *it, const std::string &prefix
         }
         p.moves -= move_cost;
     }
-    if ( it != nullptr ) {
+    if( it != nullptr ) {
         return it->type->charges_to_use();
     } else {
         return 0;

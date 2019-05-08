@@ -989,7 +989,8 @@ void construct::done_grave( const tripoint &p )
     if( g->u.has_quality( quality_id( "CUT" ) ) ) {
         iuse::handle_ground_graffiti( g->u, nullptr, _( "Inscribe something on the grave?" ), p );
     } else {
-        add_msg( m_neutral, _( "Unfortunately you don't have anything sharp to place an inscription on the grave." ) );
+        add_msg( m_neutral,
+                 _( "Unfortunately you don't have anything sharp to place an inscription on the grave." ) );
     }
 
     g->m.destroy_furn( p, true );
