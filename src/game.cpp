@@ -7422,6 +7422,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             std::vector<iteminfo> vThisItem;
             std::vector<iteminfo> vDummy;
             int dummy = 0; // draw_item_info needs an int &
+            assert( activeItem ); // To appease static analysis
             activeItem->example->info( true, vThisItem );
             draw_item_info( 0, width - 5, 0, TERMY - VIEW_OFFSET_Y * 2,
                             activeItem->example->tname(), activeItem->example->type_name(), vThisItem, vDummy, dummy,
