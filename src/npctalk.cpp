@@ -567,7 +567,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
     }
     if( topic == "TALK_SEDATED" ) {
         return string_format(
-                   _( "%1s is sedated and can't be moved or woken up until the medication or sedation wears off.\n You estimate it will wear off in about %2s." ),
+                   _( %1$s is sedated and can't be moved or woken up until the medication or sedation wears off.\n You estimate it will wear off in about %2$s." ),
                    beta->name, to_string( g->u.estimate_effect_dur( skill_id( "firstaid" ), effect_narcosis,
                                           15_minutes, 6, *beta ) ) );
     }
