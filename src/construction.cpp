@@ -959,22 +959,30 @@ void construct::done_grave( const tripoint &p )
                 if( it.get_mtype()->has_flag( MF_HUMAN ) ) {
                     if( g->u.has_trait( trait_SPIRITUAL ) ) {
                         g->u.add_morale( MORALE_FUNERAL, 50, 75, 1_days, 1_hours );
-                        add_msg( m_good, _( "You feel relieved after providing last rites for this human being, whose name is lost in The Cataclysm." ) );
+                        add_msg( m_good,
+                                 _( "You feel relieved after providing last rites for this human being, whose name is lost in the Cataclysm." ) );
                     } else {
-                        add_msg( m_neutral, _( "You bury remains of a human, whose name is lost in The Cataclysm." ) );
+                        add_msg( m_neutral, _( "You bury remains of a human, whose name is lost in the Cataclysm." ) );
                     }
-                    g->u.add_memorial_log( pgettext( "memorial_male", string_format( "You buried unknown victim of The Cataclysm.", it.type_name() ) ),
-                        pgettext( "memorial_female", string_format( "You buried unknown victim of The Cataclysm.", it.type_name() ) ) );
+                    g->u.add_memorial_log( pgettext( "memorial_male",
+                                                     string_format( "You buried unknown victim of the Cataclysm.", it.type_name() ) ),
+                                           pgettext( "memorial_female", string_format( "You buried unknown victim of The Cataclysm.",
+                                                     it.type_name() ) ) );
                 }
             } else {
                 if( g->u.has_trait( trait_SPIRITUAL ) ) {
                     g->u.add_morale( MORALE_FUNERAL, 50, 75, 1_days, 1_hours );
-                    add_msg( m_good, _( "You feel sadness, but also relief after providing last rites for %s, whose name you will keep in your memory." ), it.get_corpse_name() );
+                    add_msg( m_good,
+                             _( "You feel sadness, but also relief after providing last rites for %s, whose name you will keep in your memory." ),
+                             it.get_corpse_name() );
                 } else {
-                    add_msg( m_neutral, _( "You bury remains of %s, who joined uncounted masses perished in The Cataclysm." ), it.get_corpse_name() );
+                    add_msg( m_neutral,
+                             _( "You bury remains of %s, who joined uncounted masses perished in the Cataclysm." ),
+                             it.get_corpse_name() );
                 }
-                g->u.add_memorial_log( pgettext( "memorial_male", string_format( "You buried %s.", it.get_corpse_name() ) ),
-                    pgettext( "memorial_female", string_format( "You buried %s.", it.get_corpse_name() ) ) );
+                g->u.add_memorial_log( pgettext( "memorial_male", string_format( "You buried %s.",
+                                                 it.get_corpse_name() ) ),
+                                       pgettext( "memorial_female", string_format( "You buried %s.", it.get_corpse_name() ) ) );
             }
         }
     }
