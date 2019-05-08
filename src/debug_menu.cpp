@@ -1361,11 +1361,6 @@ void debug()
 
             case DEBUG_SAVE_SCREENSHOT: {
 #if defined(TILES)
-                // check there is an active world.
-                if ( world_generator->active_world == nullptr ) {
-                    break;
-                }
-
                 // check that the current '<world>/screenshots' directory exists
                 std::stringstream map_directory;
                 map_directory << g->get_world_base_save_path() << "/screenshots/";
@@ -1382,8 +1377,8 @@ void debug()
                 auto current_file_path = map_directory.str() + file_name;
 
                 // Take a screenshot of the viewport.
-                if ( g->save_screenshot() ) {
-                    popup( string_format( _( "Successfully saved your screenshot to: %s" ), map_directory ) );
+                if ( g->take_screenshot( current_file_path ) ) {
+                    popup( string_format( _( "Successfully saved your screenshot to: %s" ), map_directory.str() ) );
                 }
                 else {
                     popup( _( "An error occurred while trying to save the screenshot." ) );
