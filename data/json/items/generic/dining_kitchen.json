@@ -343,6 +343,35 @@
     ]
   },
   {
+    "id": "sippy_cup",
+    "type": "GENERIC",
+    "category": "other",
+    "name": "sippy cup",
+    "symbol": "u",
+    "proportional": { "weight": 0.4, "volume": 0.5 },
+    "description": "A plastic cup with a spill-proof lid, designed for use by children.",
+    "copy-from": "base_plastic_dish",
+    "contains": 1,
+    "watertight": true,
+    "seals": true,
+    "qualities": [ [ "CONTAIN", 1 ] ],
+    "snippet_category": [
+      { "id": "sippycup1", "text": "This cup is decorated with cartoon bears." },
+      {
+        "id": "sippycup2",
+        "text": "This cup has a cartoony picture of the Avengers wrapped around the side."
+      },
+      { "id": "sippycup3", "text": "This sippy cup is made of plastic in bright clashing colors." },
+      { "id": "sippycup4", "text": "This is a simple blue sippy cup with tooth marks around the spout." },
+      {
+        "id": "sippycup5",
+        "text": "This cup is decorated to look like a pokeball."
+      },
+      { "id": "sippycup6", "text": "There are cute anthropomorphic fruits decorating this cup." },
+      { "id": "sippycup7", "text": "This sippy cup is decorated with crayon-like text that reads 'I love you'." }
+    ]
+  },
+  {
     "type": "GENERIC",
     "category": "other",
     "id": "fork",
