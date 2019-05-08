@@ -249,23 +249,6 @@
   },
   {
     "type": "GENERIC",
-    "id": "knife_butter",
-    "symbol": ";",
-    "color": "light_gray",
-    "name": "butter knife",
-    "name_plural": "butter knives",
-    "description": "A dull knife, absolutely worthless in combat.",
-    "price": 150,
-    "material": "steel",
-    "weight": 66,
-    "volume": 1,
-    "bashing": 2,
-    "cutting": 1,
-    "flags": [ "STAB", "SHEATH_KNIFE" ],
-    "to_hit": -2
-  },
-  {
-    "type": "GENERIC",
     "id": "rock",
     "symbol": "*",
     "color": "light_gray",
