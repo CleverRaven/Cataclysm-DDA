@@ -644,28 +644,22 @@ void player::learn_spell( const spell_type *sp, bool force )
         debugmsg( "Tried to learn invalid spell" );
         return;
     }
-    const bool no_spell_class = sp->spell_class == trait_id( "NONE" );
-    bool has_trait_cat = false;
-    // NONE isn't really a trait, but a placeholder for magic spells.
-    // as such, we don't really want it in json, so we need to check if
-    // that's the one we're dealing with first.
-    if( !no_spell_class ) {
-        has_trait_cat = has_opposite_trait( sp->spell_class );
-    }
-    if( force || new_spell.can_learn() || no_spell_class || !has_trait_cat ) {
-        if( !force && !no_spell_class && !has_trait_cat ) {
-            if( query_yn(
-                    _( "Learning this spell will make you a %s and lock you out of other unique spells.\nContinue?" ),
-                    sp->spell_class.obj().name() ) ) {
-                set_mutation( sp->spell_class );
-                add_msg_if_player( sp->spell_class.obj().desc() );
-            } else {
-                return;
-            }
+    if( !force || ( can_learn_spell( sp->id ) && !has_trait( sp->spell_class ) ) ) {
+        if( query_yn(
+            _( "Learning this spell will make you a %s and lock you out of other unique spells.\nContinue?" ),
+            sp->spell_class.obj().name() ) ) {
+            set_mutation( sp->spell_class );
+            add_msg_if_player( sp->spell_class.obj().desc() );
+        } else {
+            return;
         }
-        spellbook.emplace( sp->id, new_spell );
-        add_msg_if_player( m_good, _( "You learned %s!" ), _( sp->name ) );
     }
+    if( !force && !can_learn_spell( sp->id ) ) {
+        add_msg_if_player( m_bad, _( "You can't learn this spell." ) );
+        return;
+    }
+    spellbook.emplace( sp->id, new_spell );
+    add_msg_if_player( m_good, _( "You learned %s!" ), _( sp->name ) );
 }
 
 void player::forget_spell( const std::string &sp )

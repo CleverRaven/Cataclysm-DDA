@@ -2161,7 +2161,7 @@ long learn_spell_actor::use( player &p, item &, bool, const tripoint & ) const
                 know_it_all = false;
             }
         } else {
-            if( p.can_learn_spell( sp_id ) || !p.has_opposite_trait( sp_id.obj().spell_class ) ) {
+            if( p.can_learn_spell( sp_id ) ) {
                 entry.ctxt = _( "Study to Learn" );
                 know_it_all = false;
             } else {
