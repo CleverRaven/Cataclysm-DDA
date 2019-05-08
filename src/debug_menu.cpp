@@ -5,6 +5,7 @@
 #include <chrono>
 #include <vector>
 #include <array>
+#include <iomanip>
 #include <iterator>
 #include <list>
 #include <map>
@@ -1377,32 +1378,32 @@ void debug()
 
             case DEBUG_SAVE_SCREENSHOT: {
 #if defined(TILES)
-                // check there is a world currently running
-                if (world_generator->active_world == nullptr) {
+                // check there is an active world.
+                if ( world_generator->active_world == nullptr ) {
                     break;
                 }
 
-                // check the current '<world>/screenshots' directory exists
+                // check that the current '<world>/screenshots' directory exists
                 std::stringstream map_directory;
                 map_directory << g->get_world_base_save_path() << "/screenshots/";
-                assure_dir_exist(map_directory.str());
+                assure_dir_exist( map_directory.str() );
 
                 // build file name: <map_dir>/screenshots/[<character_name>]_<date>.png
+                // Date format is a somewhat ISO-8601 compliant GMT time date (except for some characters that wouldn't pass on most file systems like ':').
+                std::time_t time = std::time( nullptr );
                 std::stringstream date_buffer;
-                // somewhat ISO-8601 compliant GMT time date (except for some characters that wouldn't pass on most file systems like ':').
-                std::time_t time = std::time(nullptr);
-                date_buffer << std::put_time(std::gmtime(&time), "%F_%H-%M-%S_%z");
-                const auto tmp_file_name = string_format("[%s]_%s.png", g->u.get_name(),  date_buffer.str());
+                date_buffer << std::put_time( std::gmtime(&time), "%F_%H-%M-%S_%z" );
+                const auto tmp_file_name = string_format( "[%s]_%s.png", g->u.get_name(), date_buffer.str() );
 
-                std::string file_name = ensure_valid_file_name(tmp_file_name);
+                std::string file_name = ensure_valid_file_name( tmp_file_name );
                 auto current_file_path = map_directory.str() + file_name;
 
                 // Take a screenshot of the viewport.
-                if(g->save_screenshot()) {
-                    //TODO popup success (with the path?)
+                if ( g->save_screenshot() ) {
+                    popup( string_format( _( "Successfully saved your screenshot to: %s" ), map_directory ) );
                 }
                 else {
-                    //TODO popup failure (tell player to look at debug.log?)
+                    popup( _( "An error occurred while trying to save the screenshot." ) );
                 }
 #else
                 popup( _( "This binary was not compiled with tiles support." ) );
@@ -1414,14 +1415,17 @@ void debug()
                 // generate a game report, useful for bug reporting.
                 std::string report = game_info::game_report();
                 // write to log
-                DebugLog(DL_ALL, DC_ALL) << " GAME REPORT: \n" << report;
-                std::string popup_msg = _("Report written to debug.log");
+                DebugLog( DL_ALL, DC_ALL ) << " GAME REPORT: \n" << report;
+                std::string popup_msg = _( "Report written to debug.log" );
 #if defined(TILES)
                 // copy to clipboard
-                SDL_SetClipboardText(report.c_str());
-                popup_msg += _(" and to the clipboard.");
+                int clipboard_result = SDL_SetClipboardText( report.c_str() );
+                printErrorIf( clipboard_result != 0, "Error while copying the game report to the clipboard." );
+                if ( clipboard_result == 0 ) {
+                    popup_msg += _( " and to the clipboard." );
+                }
 #endif
-                popup(popup_msg);
+                popup( popup_msg );
             }
                 break;
         }
