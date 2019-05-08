@@ -127,7 +127,7 @@
       [ "underbarrel", 1 ]
     ],
     "magazine_well": 1,
-    "magazines": [ [ "45", [ "mac10mag" ] ], [ "380", [ "mac11mag" ] ], [ "9mm", [ "tec9mag" ] ] ]
+    "magazines": [ [ "45", [ "mac10mag", "smg_45_mag" ] ], [ "380", [ "mac11mag" ] ], [ "9mm", [ "tec9mag" ] ] ]
   },
   {
     "id": "rifle_45",
@@ -155,6 +155,43 @@
     "barrel_length": 3,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "sling", 1 ], [ "stock", 1 ] ],
     "flags": [ "RELOAD_EJECT" ]
+  },
+  {
+    "id": "smg_45",
+    "copy-from": "smg_base",
+    "type": "GUN",
+    "name": "Luty SMG: .45",
+    "name_plural": "Luty SMGs: .45",
+    "description": "A Luty pattern makeshift smoothbore SMG crudely constructed out of various steel parts using some of the more advanced powered hand tools; likely one of the most complex guns that are feasible to make outside of a machine shop, but still very unreliable.  This one is chambered for .45 ACP cartridges and accepts MAC-10 magazines, or alternatively custom-made makeshift ones.",
+    "//": "Crafting recipe must make use of angle grinder, bench grinder, set square and vise, which don't yet exist in game.",
+    "weight": 3274,
+    "volume": 7,
+    "price": 20000,
+    "to_hit": -1,
+    "bashing": 10,
+    "material": "steel",
+    "color": "dark_gray",
+    "ammo": "45",
+    "ranged_damage": -4,
+    "dispersion": 590,
+    "durability": 4,
+    "modes": [ [ "DEFAULT", "auto", 10 ] ],
+    "loudness": 25,
+    "barrel_length": 1,
+    "valid_mod_locations": [
+      [ "accessories", 3 ],
+      [ "barrel", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "magazine", 1 ],
+      [ "muzzle", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
+    ],
+    "magazines": [ [ "40", [ "glock40mag", "glock40bigmag", "smg_40_mag" ] ] ]
   },
   {
     "id": "surv_hand_cannon",

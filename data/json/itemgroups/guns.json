@@ -111,7 +111,7 @@
     "type": "item_group",
     "id": "guns_smg_improvised",
     "//": "Makeshift or otherwise poor quality SMGs.",
-    "items": [  ]
+    "items": [ [ "smg_22", 50 ], [ "smg_38", 30 ], [ "smg_40", 40 ], [ "smg_45", 40 ], [ "smg_9mm", 100 ] ]
   },
   {
     "type": "item_group",

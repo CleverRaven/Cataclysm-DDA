@@ -48,6 +48,23 @@
     "flags": [ "MAG_COMPACT" ]
   },
   {
+    "id": "smg_45_mag",
+    "type": "MAGAZINE",
+    "name": "makeshift .45 20-round magazine",
+    "description": "A makeshift 20-round single-column steel magazine which fits MAC-10, but may fit some makeshift magazine-fed firearms as well.  Don't expect much reliability.",
+    "weight": 300,
+    "volume": 3,
+    "price": 4000,
+    "material": "steel",
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": "45",
+    "capacity": 20,
+    "reliability": 5,
+    "reload_time": 160,
+    "flags": [ "MAG_COMPACT" ]
+  },
+  {
     "id": "tdi_mag",
     "type": "MAGAZINE",
     "name": "TDI Vector magazine",
