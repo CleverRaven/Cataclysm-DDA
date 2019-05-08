@@ -643,15 +643,16 @@ item_location game_menus::inv::consume( player &p )
 class comestible_filtered_inventory_preset : public comestible_inventory_preset
 {
     public:
-        comestible_filtered_inventory_preset( const player &p, bool( *predicate )( item it ) ) :
+        comestible_filtered_inventory_preset( const player &p, bool( *predicate )( const item &it ) ) :
             comestible_inventory_preset( p ), predicate( predicate ) {}
 
         bool is_shown( const item_location &loc ) const override {
-            return predicate( get_comestible_item( loc ) );
+            return comestible_inventory_preset::is_shown( loc ) &&
+                   predicate( get_comestible_item( loc ) );
         }
 
     private:
-        bool( *predicate )( item it );
+        bool( *predicate )( const item &it );
 };
 
 
@@ -661,7 +662,7 @@ item_location game_menus::inv::consume_food( player &p )
         g->u.assign_activity( activity_id( "ACT_CONSUME_FOOD_MENU" ) );
     }
 
-    return inv_internal( p, comestible_filtered_inventory_preset( p, []( item it ) {
+    return inv_internal( p, comestible_filtered_inventory_preset( p, []( const item & it ) {
         return it.get_comestible()->comesttype == "FOOD" || it.has_flag( "USE_EAT_VERB" );
     } ),
     _( "Consume food" ), 1,
@@ -674,7 +675,7 @@ item_location game_menus::inv::consume_drink( player &p )
         g->u.assign_activity( activity_id( "ACT_CONSUME_DRINK_MENU" ) );
     }
 
-    return inv_internal( p, comestible_filtered_inventory_preset( p, []( item it ) {
+    return inv_internal( p, comestible_filtered_inventory_preset( p, []( const item & it ) {
         return it.get_comestible()->comesttype == "DRINK" && !it.has_flag( "USE_EAT_VERB" );
     } ),
     _( "Consume drink" ), 1,
@@ -687,7 +688,7 @@ item_location game_menus::inv::consume_meds( player &p )
         g->u.assign_activity( activity_id( "ACT_CONSUME_MEDS_MENU" ) );
     }
 
-    return inv_internal( p, comestible_filtered_inventory_preset( p, []( item it ) {
+    return inv_internal( p, comestible_filtered_inventory_preset( p, []( const item & it ) {
         return it.get_comestible()->comesttype == "MED";
     } ),
     _( "Consume medication" ), 1,
