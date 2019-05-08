@@ -8111,7 +8111,7 @@ ret_val<bool> player::can_wear( const item &it ) const
 
     if( it.covers( bp_head ) &&
         ( it.has_flag( "SKINTIGHT" ) || it.has_flag( "HELMET_COMPAT" ) ) &&
-        ( head_cloth_encumbrance() + it.get_encumber( *this ) > 20 ) ) {
+        ( head_cloth_encumbrance() + it.get_encumber( *this ) > 40 ) ) {
         return ret_val<bool>::make_failure( ( is_player() ? _( "You can't wear that much on your head!" )
                                               : string_format( _( "%s can't wear that much on their head!" ), name ) ) );
     }
