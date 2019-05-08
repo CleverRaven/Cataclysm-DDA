@@ -49,7 +49,7 @@
 	"techniques": [ "WBLOCK_3" ]
   },
   {
-    "id": "apt_atomic_lamp",
+    "id": "magic_lamp",
     "type": "ARMOR",
     "category": "tools",
     "name": "magic lamp",
@@ -64,7 +64,7 @@
     "flags": [ "LIGHT_15", "LEAK_DAM" ]
   },
   {
-    "id": "apt_atomic_light",
+    "id": "magic_light",
     "type": "ARMOR",
     "category": "tools",
     "name": "magic light",
