@@ -74,14 +74,11 @@
 #include "item_group.h"
 #include "iuse.h"
 #include "line.h"
-#include "mapdata.h"
 #include "optional.h"
 #include "pimpl.h"
 #include "recipe.h"
 #include "rng.h"
 #include "weather_gen.h"
-#include "mongroup.h"
-#include "pldata.h"
 
 static const std::string GUN_MODE_VAR_NAME( "item::mode" );
 
@@ -2945,37 +2942,9 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
 
     if( ( damage() != 0 || ( get_option<bool>( "ITEM_HEALTH_BAR" ) && is_armor() ) ) && !is_null() &&
         with_prefix ) {
-        if( damage() < 0 )  {
-            if( get_option<bool>( "ITEM_HEALTH_BAR" ) ) {
-                damtext = "<color_" + string_from_color( damage_color() ) + ">" + damage_symbol() + " </color>";
-                truncate_override = damtext.length() - 3;
-            } else if( is_gun() ) {
-                damtext = pgettext( "damage adjective", "accurized " );
-            } else {
-                damtext = pgettext( "damage adjective", "reinforced " );
-            }
-        } else if( typeId() == "corpse" ) {
-            if( damage() > 0 ) {
-                switch( damage_level( 4 ) ) {
-                    case 1:
-                        damtext = pgettext( "damage adjective", "bruised " );
-                        break;
-                    case 2:
-                        damtext = pgettext( "damage adjective", "damaged " );
-                        break;
-                    case 3:
-                        damtext = pgettext( "damage adjective", "mangled " );
-                        break;
-                    default:
-                        damtext = pgettext( "damage adjective", "pulped " );
-                        break;
-                }
-            }
-        } else if( get_option<bool>( "ITEM_HEALTH_BAR" ) ) {
-            damtext = "<color_" + string_from_color( damage_color() ) + ">" + damage_symbol() + " </color>";
+        damtext = durability_indicator();
+        if( get_option<bool>( "ITEM_HEALTH_BAR" ) ) {
             truncate_override = damtext.length() - 3;
-        } else {
-            damtext = string_format( "%s ", get_base_material().dmg_adj( damage_level( 4 ) ) );
         }
     }
     if( !faults.empty() ) {
@@ -4486,6 +4455,49 @@ std::string item::damage_symbol() const
             }
 
     }
+}
+
+std::string item::durability_indicator( bool include_intact ) const
+{
+    std::string outputstring;
+
+    if( damage() < 0 )  {
+        if( get_option<bool>( "ITEM_HEALTH_BAR" ) ) {
+            outputstring = "<color_" + string_from_color( damage_color() ) + ">" + damage_symbol() +
+                           " </color>";
+        } else if( is_gun() ) {
+            outputstring = pgettext( "damage adjective", "accurized " );
+        } else {
+            outputstring = pgettext( "damage adjective", "reinforced " );
+        }
+    } else if( typeId() == "corpse" ) {
+        if( damage() > 0 ) {
+            switch( damage_level( 4 ) ) {
+                case 1:
+                    outputstring = pgettext( "damage adjective", "bruised " );
+                    break;
+                case 2:
+                    outputstring = pgettext( "damage adjective", "damaged " );
+                    break;
+                case 3:
+                    outputstring = pgettext( "damage adjective", "mangled " );
+                    break;
+                default:
+                    outputstring = pgettext( "damage adjective", "pulped " );
+                    break;
+            }
+        }
+    } else if( get_option<bool>( "ITEM_HEALTH_BAR" ) ) {
+        outputstring = "<color_" + string_from_color( damage_color() ) + ">" + damage_symbol() +
+                       " </color>";
+    } else {
+        outputstring = string_format( "%s ", get_base_material().dmg_adj( damage_level( 4 ) ) );
+        if( include_intact && outputstring == " " ) {
+            outputstring = _( "fully intact " );
+        }
+    }
+
+    return  outputstring;
 }
 
 const std::set<itype_id> &item::repaired_with() const
@@ -7081,7 +7093,12 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
         insulation *= 1.5; // clothing provides inventory some level of insulation
     }
 
-    time_point time = std::min( { last_rot_check, last_temp_check } );
+    time_point time;
+    if( goes_bad() ) {
+        time = std::min( { last_rot_check, last_temp_check } );
+    } else {
+        time = last_temp_check;
+    }
 
     if( now - time > 1_hours ) {
         // This code is for items that were left out of reality bubble for long time
@@ -7089,7 +7106,7 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
         const auto &wgen = g->get_cur_weather_gen();
         const auto seed = g->get_seed();
         const auto local = g->m.getlocal( pos );
-        auto local_mod = g->new_game ? 0 : g->m.temperature( local );
+        auto local_mod = g->new_game ? 0 : g->m.get_temperature( local );
         const auto temp_modify = ( !g->new_game ) && ( g->m.ter( local ) == t_rootcellar );
 
         int enviroment_mod;

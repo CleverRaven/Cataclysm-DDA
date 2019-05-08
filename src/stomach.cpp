@@ -14,9 +14,7 @@
 #include "item.h"
 #include "itype.h"
 #include "optional.h"
-#include "pldata.h"
 #include "rng.h"
-#include "mtype.h"
 
 
 stomach_contents::stomach_contents() = default;

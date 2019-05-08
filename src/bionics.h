@@ -11,20 +11,12 @@
 
 #include "bodypart.h"
 #include "string_id.h"
+#include "type_id.h"
 
 class player;
 class JsonObject;
 class JsonIn;
 class JsonOut;
-struct quality;
-
-using quality_id = string_id<quality>;
-struct mutation_branch;
-
-using trait_id = string_id<mutation_branch>;
-struct bionic_data;
-
-using bionic_id = string_id<bionic_data>;
 using itype_id = std::string;
 
 struct bionic_data {

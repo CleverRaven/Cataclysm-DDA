@@ -19,6 +19,8 @@
 #include "vpart_position.h"
 #include "weather.h"
 #include "optional.h"
+#include "color.h"
+#include "string_id.h"
 
 static const itype_id fuel_type_none( "null" );
 static const itype_id fuel_type_battery( "battery" );
@@ -78,7 +80,7 @@ item vehicle_part::properties_to_item() const
     return tmp;
 }
 
-std::string vehicle_part::name() const
+std::string vehicle_part::name( bool with_prefix ) const
 {
     auto res = info().name();
 
@@ -97,8 +99,10 @@ std::string vehicle_part::name() const
         res += string_format( _( " holding %s" ), base.get_var( "contained_name" ) );
     }
 
-    res.insert( 0, "<color_" + string_from_color( this->base.damage_color() ) + ">" +
-                this->base.damage_symbol() + "</color> " );
+    if( with_prefix ) {
+        res.insert( 0, "<color_" + string_from_color( this->base.damage_color() ) + ">" +
+                    this->base.damage_symbol() + "</color> " );
+    }
     return res;
 }
 

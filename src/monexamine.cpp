@@ -29,6 +29,7 @@
 #include "rng.h"
 #include "string_formatter.h"
 #include "units.h"
+#include "type_id.h"
 
 const species_id ZOMBIE( "ZOMBIE" );
 

@@ -39,7 +39,6 @@
 #include "vpart_position.h"
 #include "weather.h"
 #include "bodypart.h"
-#include "character.h"
 #include "creature.h"
 #include "damage.h"
 #include "int_id.h"
@@ -51,6 +50,7 @@
 #include "pldata.h"
 #include "string_id.h"
 #include "units.h"
+#include "type_id.h"
 
 const species_id FUNGUS( "FUNGUS" );
 

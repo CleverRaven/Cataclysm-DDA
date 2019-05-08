@@ -12,11 +12,10 @@
 
 #include "dialogue_win.h"
 #include "npc.h"
-#include "npc_class.h"
 #include "json.h"
-#include "pldata.h"
 #include "string_id.h"
 #include "material.h"
+#include "type_id.h"
 
 class mission;
 struct dialogue;

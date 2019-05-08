@@ -53,7 +53,6 @@
 #include "speech.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
-#include "submap.h"
 #include "text_snippets.h"
 #include "translations.h"
 #include "trap.h"
@@ -76,7 +75,6 @@
 #include "item_location.h"
 #include "itype.h"
 #include "monster.h"
-#include "omdata.h"
 #include "optional.h"
 #include "pimpl.h"
 #include "player_activity.h"
@@ -87,7 +85,7 @@
 #include "string_id.h"
 #include "vpart_reference.h"
 #include "weather_gen.h"
-#include "material.h"
+#include "type_id.h"
 
 #define RADIO_PER_TURN 25 // how many characters per turn of radio
 
@@ -1674,9 +1672,11 @@ int iuse::sew_advanced( player *p, item *it, bool, const tripoint & )
     rn -= mod_count * 10;                              // Other mods
 
     if( rn <= 8 ) {
+        const std::string startdurability = mod.durability_indicator( true );
         const auto destroyed = mod.inc_damage();
-        p->add_msg_if_player( m_bad, _( "You damage your %s trying to modify it!" ),
-                              mod.tname() );
+        const std::string resultdurability = mod.durability_indicator( true );
+        p->add_msg_if_player( m_bad, _( "You damage your %s trying to modify it! ( %s-> %s)" ),
+                              mod.tname( 1, false ), startdurability, resultdurability );
         if( destroyed ) {
             p->add_msg_if_player( m_bad, _( "You destroy it!" ) );
             p->i_rem_keep_contents( pos );
@@ -5436,27 +5436,32 @@ int iuse::gun_repair( player *p, item *it, bool, const tripoint & )
         return 0;
     }
     /** @EFFECT_MECHANICS >=8 allows accurizing ranged weapons */
+    const std::string startdurability = fix.durability_indicator( true );
+    std::string resultdurability;
     if( fix.damage() <= 0 ) {
         sounds::sound( p->pos(), 6, sounds::sound_t::activity, "crunch" );
         p->moves -= 2000 * p->fine_detail_vision_mod();
         p->practice( skill_mechanics, 10 );
         fix.mod_damage( -itype::damage_scale );
-        p->add_msg_if_player( m_good, _( "You accurize your %s." ), fix.tname() );
+        p->add_msg_if_player( m_good, _( "You accurize your %s." ), fix.tname( 1, false ) );
 
     } else if( fix.damage() > itype::damage_scale ) {
         sounds::sound( p->pos(), 8, sounds::sound_t::activity, "crunch" );
         p->moves -= 1000 * p->fine_detail_vision_mod();
         p->practice( skill_mechanics, 10 );
         fix.mod_damage( -itype::damage_scale );
-        p->add_msg_if_player( m_good, _( "You repair your %s!" ), fix.tname() );
+        resultdurability = fix.durability_indicator( true );
+        p->add_msg_if_player( m_good, _( "You repair your %s! ( %s-> %s)" ), fix.tname( 1, false ),
+                              startdurability, resultdurability );
 
     } else {
         sounds::sound( p->pos(), 8, sounds::sound_t::activity, "crunch" );
         p->moves -= 500 * p->fine_detail_vision_mod();
         p->practice( skill_mechanics, 10 );
         fix.set_damage( 0 );
-        p->add_msg_if_player( m_good, _( "You repair your %s completely!" ),
-                              fix.tname() );
+        resultdurability = fix.durability_indicator( true );
+        p->add_msg_if_player( m_good, _( "You repair your %s completely! ( %s-> %s)" ),
+                              fix.tname( 1, false ), startdurability, resultdurability );
     }
     return it->type->charges_to_use();
 }
@@ -5569,6 +5574,8 @@ int iuse::misc_repair( player *p, item *it, bool, const tripoint & )
                               fix.tname() );
         return 0;
     }
+    const std::string startdurability = fix.durability_indicator( true );
+    std::string resultdurability;
     if( fix.damage() <= 0 ) {
         p->moves -= 1000 * p->fine_detail_vision_mod();
         p->practice( skill_fabrication, 10 );
@@ -5579,13 +5586,17 @@ int iuse::misc_repair( player *p, item *it, bool, const tripoint & )
         p->moves -= 500 * p->fine_detail_vision_mod();
         p->practice( skill_fabrication, 10 );
         fix.mod_damage( -itype::damage_scale );
-        p->add_msg_if_player( m_good, _( "You repair your %s!" ), fix.tname() );
+        resultdurability = fix.durability_indicator( true );
+        p->add_msg_if_player( m_good, _( "You repair your %s! ( %s-> %s)" ), fix.tname( 1, false ),
+                              startdurability, resultdurability );
 
     } else {
         p->moves -= 250 * p->fine_detail_vision_mod();
         p->practice( skill_fabrication, 10 );
         fix.set_damage( 0 );
-        p->add_msg_if_player( m_good, _( "You repair your %s completely!" ), fix.tname() );
+        resultdurability = fix.durability_indicator( true );
+        p->add_msg_if_player( m_good, _( "You repair your %s completely! ( %s-> %s)" ),
+                              fix.tname( 1, false ), startdurability, resultdurability );
     }
     return it->type->charges_to_use();
 }

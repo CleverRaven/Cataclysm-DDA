@@ -29,12 +29,12 @@
 #include "units.h"
 #include "enums.h"
 #include "item_location.h"
+#include "type_id.h"
 
 class nc_color;
 class player;
 class npc;
 class vehicle;
-class vpart_info;
 class vehicle_part_range;
 class JsonIn;
 class JsonOut;
@@ -43,12 +43,9 @@ class zone_data;
 struct itype;
 struct uilist_entry;
 template <typename T> class visitable;
+class vpart_info;
 
 enum vpart_bitflags : int;
-using vpart_id = string_id<vpart_info>;
-struct vehicle_prototype;
-
-using vproto_id = string_id<vehicle_prototype>;
 template<typename feature_type>
 class vehicle_part_with_feature_range;
 
@@ -171,8 +168,11 @@ struct vehicle_part {
             return flags &= ~flag;
         }
 
-        /** Translated name of a part inclusive of any current status effects */
-        std::string name() const;
+        /**
+         * Translated name of a part inclusive of any current status effects
+         * with_prefix as true indicates the durability symbol should be prepended
+         */
+        std::string name( bool with_prefix = true ) const;
 
         static constexpr int name_offset = 7;
         /** Stack of the containing vehicle's name, when it it stored as part of another vehicle */

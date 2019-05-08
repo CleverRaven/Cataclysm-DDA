@@ -80,7 +80,18 @@ jobs:
 
     # Finally check the compiler variants
     - stage: compilers
-      env: COMPILER=g++-4.8
+
+    # CMake Clang 8.0 Tiles with CMAKE and clang-tidy
+    # (analysis only; no build or tests)
+      env: CLANG=clang++-8 TILES=1 SOUND=1 CXXFLAGS=-Wno-unused-command-line-argument CMAKE=1 CATA_CLANG_TIDY=1
+      dist: trusty
+      compiler: clang
+      addons: &clang80
+        apt:
+          packages: ["clang-8", "libc6-dbg", "libc6-dbg:i386", "g++-6", "libsdl2-dev", "libsdl2-ttf-dev", "libsdl2-image-dev", "libsdl2-mixer-dev"]
+          sources: [*apt_sources, llvm-toolchain-trusty-8]
+
+    - env: COMPILER=g++-4.8
       compiler: gcc
       addons: &gcc48
         apt:

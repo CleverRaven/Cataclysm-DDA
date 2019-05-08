@@ -12,9 +12,9 @@
 #include "item.h"
 #include "player.h"
 #include "calendar.h"
-#include "itype.h"
 #include "pimpl.h"
 #include "string_id.h"
+#include "type_id.h"
 
 void clear_bionics( player &p )
 {
@@ -140,6 +140,6 @@ TEST_CASE( "bionics", "[bionics] [item]" )
         }
     }
 
-    // TODO: bio_cable bio_furnace bio_reactor
+    // TODO: bio_cable bio_reactor
     // TODO: (pick from stuff with power_source)
 }

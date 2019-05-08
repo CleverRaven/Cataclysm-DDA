@@ -14,6 +14,7 @@
 #include "game.h"
 #include "itype.h"
 #include "map.h"
+#include "map_helpers.h"
 #include "map_iterator.h"
 #include "player.h"
 #include "test_statistics.h"
@@ -29,7 +30,7 @@
 #include "line.h"
 #include "mapdata.h"
 #include "units.h"
-#include "mtype.h"
+#include "type_id.h"
 
 class monster;
 
@@ -41,13 +42,11 @@ void clear_game( const ter_id &terrain )
 {
     // Set to turn 0 to prevent solars from producing power
     calendar::turn = 0;
-    for( monster &critter : g->all_monsters() ) {
-        g->remove_zombie( critter );
-    }
-
-    g->unload_npcs();
+    clear_creatures();
+    clear_npcs();
 
     // Move player somewhere safe
+    CHECK( !g->u.in_vehicle );
     g->u.setpos( tripoint( 0, 0, 0 ) );
     // Blind the player to avoid needless drawing-related overhead
     g->u.add_effect( effect_blind, 1_turns, num_bp, true );

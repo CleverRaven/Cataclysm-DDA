@@ -13,7 +13,7 @@
 #include "bodypart.h"
 #include "pimpl.h"
 #include "string_formatter.h"
-#include "string_id.h"
+#include "type_id.h"
 #include "units.h"
 
 enum game_message_type : int;
@@ -31,7 +31,6 @@ class JsonObject;
 class JsonOut;
 struct tripoint;
 class time_duration;
-class material_type;
 
 enum damage_type : int;
 enum field_id : int;
@@ -43,16 +42,6 @@ struct dealt_damage_instance;
 struct dealt_projectile_attack;
 struct pathfinding_settings;
 struct trap;
-class effect_type;
-
-using efftype_id = string_id<effect_type>;
-using material_id = string_id<material_type>;
-struct mutation_branch;
-
-using trait_id = string_id<mutation_branch>;
-class ma_technique;
-
-using matec_id = string_id<ma_technique>;
 
 enum m_size : int {
     MS_TINY = 0,    // Squirrel

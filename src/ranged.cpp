@@ -57,7 +57,7 @@
 #include "string_id.h"
 #include "units.h"
 #include "material.h"
-#include "pldata.h"
+#include "type_id.h"
 
 const skill_id skill_throw( "throw" );
 const skill_id skill_gun( "gun" );

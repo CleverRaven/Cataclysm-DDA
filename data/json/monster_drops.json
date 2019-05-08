@@ -191,7 +191,7 @@
           }
         ]
       },
-      { "item": "cash_card", "charges-min": 0, "charges-max": 50000 }
+      { "item": "cash_card", "charges-min": 0, "charges-max": 50000, "prob": 10 }
     ]
   },
   {

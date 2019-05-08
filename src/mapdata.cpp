@@ -18,9 +18,7 @@
 #include "translations.h"
 #include "trap.h"
 #include "assign.h"
-#include "game.h"
 #include "json.h"
-#include "mtype.h"
 
 namespace
 {

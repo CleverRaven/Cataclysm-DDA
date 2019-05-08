@@ -94,6 +94,7 @@
 #include "rng.h"
 #include "units.h"
 #include "visitable.h"
+#include "string_id.h"
 
 constexpr double SQRT_2 = 1.41421356237309504880;
 
@@ -1163,8 +1164,8 @@ void player::update_bodytemp()
                                -1.5f * get_fatigue() ) );
 
     // Sunlight
-    const int sunlight_warmth = g->is_in_sunlight( pos() ) ? 0 :
-                                ( g->weather == WEATHER_SUNNY ? 1000 : 500 );
+    const int sunlight_warmth = g->is_in_sunlight( pos() ) ? ( g->weather == WEATHER_SUNNY ? 1000 :
+                                500 ) : 0;
     const int best_fire = get_heat_radiation( pos(), true );
 
     const int lying_warmth = use_floor_warmth ? floor_warmth( pos() ) : 0;
@@ -4238,7 +4239,7 @@ void player::update_stomach( const time_point &from, const time_point &to )
     const bool mouse = has_trait( trait_NO_THIRST );
     const bool mycus = has_trait( trait_M_DEPENDENT );
     // @TODO: move to kcal altogether
-    const float kcal_per_nutr = 2500.0f / ( 12 * 24 );
+    const float kcal_per_nutr = 2400.0f / ( 12 * 24 );
     const int five_mins = ticks_between( from, to, 5_minutes );
 
     if( five_mins > 0 ) {
@@ -8110,7 +8111,7 @@ ret_val<bool> player::can_wear( const item &it ) const
 
     if( it.covers( bp_head ) &&
         ( it.has_flag( "SKINTIGHT" ) || it.has_flag( "HELMET_COMPAT" ) ) &&
-        ( head_cloth_encumbrance() + it.get_encumber( *this ) > 20 ) ) {
+        ( head_cloth_encumbrance() + it.get_encumber( *this ) > 40 ) ) {
         return ret_val<bool>::make_failure( ( is_player() ? _( "You can't wear that much on your head!" )
                                               : string_format( _( "%s can't wear that much on their head!" ), name ) ) );
     }

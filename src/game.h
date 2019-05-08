@@ -19,13 +19,12 @@
 #include "cursesdef.h"
 #include "enums.h"
 #include "game_constants.h"
-#include "int_id.h"
 #include "item_location.h"
 #include "optional.h"
 #include "pimpl.h"
 #include "creature.h"
 #include "item.h"
-#include "string_id.h"
+#include "type_id.h"
 #include "monster.h"
 
 extern bool test_mode;
@@ -76,27 +75,13 @@ enum target_mode : int;
 
 struct targeting_data;
 struct special_game;
-struct mtype;
 
-using mtype_id = string_id<mtype>;
-struct species_type;
-
-using species_id = string_id<species_type>;
 using itype_id = std::string;
-class ammunition_type;
-
-using ammotype = string_id<ammunition_type>;
 class map;
-class zone_type;
-
-using zone_type_id = string_id<zone_type>;
 class faction_manager;
 class new_faction_manager;
 class player;
 class npc;
-struct MOD_INFORMATION;
-
-using mod_id = string_id<MOD_INFORMATION>;
 class vehicle;
 class Creature_tracker;
 class scenario;
@@ -109,9 +94,6 @@ class overmap;
 class event_manager;
 
 enum event_type : int;
-struct ter_t;
-
-using ter_id = int_id<ter_t>;
 class weather_generator;
 struct weather_printable;
 class live_view;
@@ -500,8 +482,16 @@ class game
         npc *find_npc( int id );
         /** Makes any nearby NPCs on the overmap active. */
         void load_npcs();
-        /** Unloads all NPCs */
+    private:
+        /** Unloads all NPCs.
+         *
+         * If you call this you must later call load_npcs, lest caches get
+         * rather confused.  The tests used to call this a lot when they
+         * shouldn't. It is now private to reduce the chance of similar
+         * problems in the future.
+         */
         void unload_npcs();
+    public:
         /** Unloads, then loads the NPCs */
         void reload_npcs();
         /** Returns the number of kills of the given mon_id by the player. */
@@ -879,6 +869,12 @@ class game
         // Standard movement; handles attacks, traps, &c. Returns false if auto move
         // should be canceled
         bool plmove( int dx, int dy, int dz = 0 );
+        inline bool plmove( tripoint d ) {
+            return plmove( d.x, d.y, d.z );
+        }
+        inline bool plmove( point d ) {
+            return plmove( d.x, d.y );
+        }
         // Handle pushing during move, returns true if it handled the move
         bool grabbed_move( const tripoint &dp );
         bool grabbed_veh_move( const tripoint &dp );
@@ -1103,6 +1099,7 @@ class game
 
         //pixel minimap management
         int pixel_minimap_option;
+        bool auto_travel_mode = false;
         safe_mode_type safe_mode;
         int turnssincelastmon; // needed for auto run mode
         cata::optional<int> wind_direction_override;
