@@ -1584,7 +1584,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             std::vector<std::string> fm;
             for( const auto &e : fire_modes ) {
                 if( e.second.target == this && !e.second.melee() ) {
-                    fm.emplace_back( string_format( "%s (%i)", e.second.name(), e.second.qty ) );
+                    fm.emplace_back( string_format( "%s (%i)", e.second.tname(), e.second.qty ) );
                 }
             }
             if( !fm.empty() ) {

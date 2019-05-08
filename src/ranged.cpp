@@ -1287,12 +1287,12 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             nc_color col = c_light_gray;
             if( relevant != m.target ) {
                 str = string_format( _( "Firing mode: <color_cyan>%s %s (%d)</color>" ),
-                                     m->tname(), m.name(), m.qty );
+                                     m->tname(), m.tname(), m.qty );
 
                 print_colored_text( w_target, line_number++, 1, col, col, str );
             } else {
                 str = string_format( _( "Firing mode: <color_cyan> %s (%d)</color>" ),
-                                     m.name(), m.qty );
+                                     m.tname(), m.qty );
                 print_colored_text( w_target, line_number++, 1, col, col, str );
             }
 
