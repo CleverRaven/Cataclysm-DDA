@@ -25,9 +25,9 @@
 #include "ui.h"
 #include "calendar.h"
 #include "catacharset.h"
-#include "character.h"
 #include "cursesdef.h"
 #include "iuse.h"
+#include "type_id.h"
 
 struct tripoint;
 

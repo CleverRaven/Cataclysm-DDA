@@ -6,7 +6,6 @@
 
 #include "map.h"
 #include "mapdata.h"
-#include "game.h"
 
 namespace mapf
 {

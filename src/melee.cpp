@@ -49,6 +49,7 @@
 #include "units.h"
 #include "weighted_list.h"
 #include "material.h"
+#include "type_id.h"
 
 static const bionic_id bio_cqb( "bio_cqb" );
 

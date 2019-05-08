@@ -19,6 +19,8 @@
 #include "vpart_position.h"
 #include "weather.h"
 #include "optional.h"
+#include "color.h"
+#include "string_id.h"
 
 static const itype_id fuel_type_none( "null" );
 static const itype_id fuel_type_battery( "battery" );

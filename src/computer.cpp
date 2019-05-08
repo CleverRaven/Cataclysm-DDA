@@ -41,7 +41,6 @@
 #include "translations.h"
 #include "trap.h"
 #include "bodypart.h"
-#include "character.h"
 #include "color.h"
 #include "creature.h"
 #include "enums.h"
@@ -53,6 +52,7 @@
 #include "optional.h"
 #include "pldata.h"
 #include "string_id.h"
+#include "type_id.h"
 
 const mtype_id mon_manhack( "mon_manhack" );
 const mtype_id mon_secubot( "mon_secubot" );
@@ -1383,7 +1383,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW. \n\
                     sum_rads += g->m.get_radiation( platform );
                     tiles_counted ++;
                     if( g->m.get_radiation( platform ) > peak_rad ) {
-                        peak_rad = g->m.get_radiation( dest );
+                        peak_rad = g->m.get_radiation( platform );
                     }
                 }
                 print_error( _( "GEIGER COUNTER @ ZONE:... AVG %s mSv/h." ), sum_rads / tiles_counted );

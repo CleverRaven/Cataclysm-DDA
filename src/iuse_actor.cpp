@@ -69,7 +69,6 @@
 #include "player_activity.h"
 #include "recipe.h"
 #include "rng.h"
-#include "character.h"
 
 class npc;
 

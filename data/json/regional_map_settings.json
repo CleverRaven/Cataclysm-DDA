@@ -551,6 +551,12 @@
       "parks": {
         "park": 400,
         "pool": 100,
+        "pool_1": 50,
+        "pool_2": 50,
+        "pool_3": 50,
+        "pool_4": 50,
+        "pool_5": 50,
+        "pool_6": 50,
         "skate_park": 100,
         "small_wooded_trail": 300,
         "pavilion": 200,
@@ -707,7 +713,8 @@
         "cs_internet_cafe": 100,
         "cs_market_small": 100,
         "cs_sex_shop": 100,
-        "cs_tire_shop": 100
+        "cs_tire_shop": 100,
+        "homeless_shelter": 100
       }
     },
     "weather": {

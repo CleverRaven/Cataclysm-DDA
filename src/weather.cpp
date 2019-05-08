@@ -29,14 +29,12 @@
 #include "bodypart.h"
 #include "enums.h"
 #include "item.h"
-#include "itype.h"
 #include "mapdata.h"
 #include "math_defines.h"
-#include "pldata.h"
 #include "rng.h"
 #include "string_id.h"
 #include "units.h"
-#include "mtype.h"
+#include "int_id.h"
 
 const efftype_id effect_glare( "glare" );
 const efftype_id effect_snow_glare( "snow_glare" );

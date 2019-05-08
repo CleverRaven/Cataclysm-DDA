@@ -79,12 +79,10 @@
 #include "mod_manager.h"
 #include "monattack.h"
 #include "monexamine.h"
-#include "monfaction.h"
 #include "mongroup.h"
 #include "monstergenerator.h"
 #include "morale_types.h"
 #include "mtype.h"
-#include "mutation.h"
 #include "npc.h"
 #include "npc_class.h"
 #include "omdata.h"
@@ -143,6 +141,8 @@
 #include "ui.h"
 #include "units.h"
 #include "weighted_list.h"
+#include "int_id.h"
+#include "string_id.h"
 
 #if defined(TILES)
 #include "cata_tiles.h"
@@ -1953,8 +1953,8 @@ void game::handle_key_blocking_activity()
         Creature *hostile_critter = is_hostile_very_close();
         if( hostile_critter != nullptr ) {
             if( cancel_activity_or_ignore_query( distraction_type::hostile_spotted,
-                                                 string_format( _( "You see %s approaching!" ),
-                                                         hostile_critter->disp_name() ) ) ) {
+                                                 string_format( _( "The %s is dangerously close!" ),
+                                                         hostile_critter->get_name() ) ) ) {
                 return;
             }
         }
@@ -6309,24 +6309,19 @@ void game::zones_manager()
     // get zones on the same z-level, with distance between player and
     // zone center point <= 50 or all zones, if show_all_zones is true
     auto get_zones = [&]() {
-        auto zones = mgr.get_zones();
 
-        if( !show_all_zones ) {
-            zones.erase(
-                std::remove_if(
-                    zones.begin(),
-                    zones.end(),
-            [&]( zone_manager::ref_zone_data ref ) -> bool {
-                const auto &zone = ref.get();
-                const auto &a = m.getabs( u.pos() );
-                const auto &b = zone.get_center_point();
-                return a.z != b.z || rl_dist( a, b ) > 50;
+        std::vector<zone_manager::ref_zone_data> zones;
+        if( show_all_zones ) {
+            zones = mgr.get_zones();
+        } else {
+            const tripoint &u_abs_pos = m.getabs( u.pos() );
+            for( zone_manager::ref_zone_data &ref : mgr.get_zones() ) {
+                const tripoint &zone_abs_pos = ref.get().get_center_point();
+                if( u_abs_pos.z == zone_abs_pos.z && rl_dist( u_abs_pos, zone_abs_pos ) <= 50 ) {
+                    zones.emplace_back( ref );
+                }
             }
-                ),
-            zones.end()
-            );
         }
-
         zone_cnt = static_cast<int>( zones.size() );
         return zones;
     };

@@ -24,7 +24,6 @@
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
-#include "overmapbuffer.h"
 #include "scent_map.h"
 #include "translations.h"
 #include "tuple_hash.h"
@@ -34,7 +33,8 @@
 #include "overmap_types.h"
 #include "player.h"
 #include "regional_settings.h"
-#include "itype.h"
+#include "int_id.h"
+#include "string_id.h"
 
 #if defined(__ANDROID__)
 #include "input.h"
@@ -384,7 +384,8 @@ bool overmap::obsolete_terrain( const std::string &ter )
         "hotel_tower_1_5", "hotel_tower_1_6", "hotel_tower_1_7", "hotel_tower_1_8",
         "hotel_tower_1_9", "hotel_tower_b_1", "hotel_tower_b_2", "hotel_tower_b_3",
         "bunker", "farm", "farm_field", "subway_station",
-        "mansion", "mansion_entrance"
+        "mansion", "mansion_entrance",
+        "pool"
     };
 
     return obsolete.find( ter ) != obsolete.end();
@@ -758,6 +759,8 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
                 nearby.push_back( {  0, "mansion",          -2, "mansion_entrance", "mansion_t2_north" } );
                 nearby.push_back( {  2, "mansion",          -2, "mansion",          "mansion_c2_west" } );
             }
+        } else if( old == "pool" ) {
+            new_id = oter_id( "pool_1_north" );
         }
 
         for( const auto &conv : nearby ) {

@@ -20,10 +20,14 @@
 #include "io_tags.h"
 #include "item_location.h"
 #include "string_id.h"
+#include "type_id.h"
 #include "units.h"
 #include "visitable.h"
+#include "gun_mode.h"
 
 class item;
+class material_type;
+struct mtype;
 
 namespace cata
 {
@@ -38,23 +42,15 @@ template<typename T>
 class ret_val;
 class gun_type_type;
 class gunmod_location;
-class gun_mode;
-
-using gun_mode_id = string_id<gun_mode>;
 class Character;
 class player;
 class recipe;
 struct itype;
 struct islot_comestible;
-struct mtype;
 
-using mtype_id = string_id<mtype>;
 using bodytype_id = std::string;
 struct islot_armor;
 struct use_function;
-class material_type;
-
-using material_id = string_id<material_type>;
 class item_category;
 
 enum art_effect_passive : int;
@@ -63,23 +59,8 @@ enum body_part : int;
 enum m_size : int;
 enum class side : int;
 class body_part_set;
-class ammunition_type;
 
-using ammotype = string_id<ammunition_type>;
 using itype_id = std::string;
-class ma_technique;
-
-using matec_id = string_id<ma_technique>;
-using recipe_id = string_id<recipe>;
-class Skill;
-
-using skill_id = string_id<Skill>;
-class fault;
-
-using fault_id = string_id<fault>;
-struct quality;
-
-using quality_id = string_id<quality>;
 struct fire_data;
 struct damage_instance;
 struct damage_unit;

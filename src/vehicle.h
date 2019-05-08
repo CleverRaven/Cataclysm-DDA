@@ -29,12 +29,12 @@
 #include "units.h"
 #include "enums.h"
 #include "item_location.h"
+#include "type_id.h"
 
 class nc_color;
 class player;
 class npc;
 class vehicle;
-class vpart_info;
 class vehicle_part_range;
 class JsonIn;
 class JsonOut;
@@ -43,12 +43,9 @@ class zone_data;
 struct itype;
 struct uilist_entry;
 template <typename T> class visitable;
+class vpart_info;
 
 enum vpart_bitflags : int;
-using vpart_id = string_id<vpart_info>;
-struct vehicle_prototype;
-
-using vproto_id = string_id<vehicle_prototype>;
 template<typename feature_type>
 class vehicle_part_with_feature_range;
 

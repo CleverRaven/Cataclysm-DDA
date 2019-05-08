@@ -74,14 +74,11 @@
 #include "item_group.h"
 #include "iuse.h"
 #include "line.h"
-#include "mapdata.h"
 #include "optional.h"
 #include "pimpl.h"
 #include "recipe.h"
 #include "rng.h"
 #include "weather_gen.h"
-#include "mongroup.h"
-#include "pldata.h"
 
 static const std::string GUN_MODE_VAR_NAME( "item::mode" );
 
@@ -7096,7 +7093,12 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
         insulation *= 1.5; // clothing provides inventory some level of insulation
     }
 
-    time_point time = std::min( { last_rot_check, last_temp_check } );
+    time_point time;
+    if( goes_bad() ) {
+        time = std::min( { last_rot_check, last_temp_check } );
+    } else {
+        time = last_temp_check;
+    }
 
     if( now - time > 1_hours ) {
         // This code is for items that were left out of reality bubble for long time
@@ -7489,7 +7491,8 @@ bool item::process_fake_mill( player * /*carrier*/, const tripoint &pos )
 
 bool item::process_fake_smoke( player * /*carrier*/, const tripoint &pos )
 {
-    if( g->m.furn( pos ) != furn_str_id( "f_smoking_rack_active" ) ) {
+    if( g->m.furn( pos ) != furn_str_id( "f_smoking_rack_active" ) &&
+        g->m.furn( pos ) != furn_str_id( "f_metal_smoking_rack_active" ) ) {
         item_counter = 0;
         return true; //destroy fake smoke
     }

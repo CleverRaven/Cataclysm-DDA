@@ -10,6 +10,7 @@
 #include "item.h"
 #include "player.h"
 #include "material.h"
+#include "type_id.h"
 
 static float brute_probability( Creature &attacker, Creature &target, const size_t iters )
 {

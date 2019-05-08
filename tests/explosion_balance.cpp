@@ -17,6 +17,8 @@
 #include "veh_type.h"
 #include "vpart_position.h"
 #include "creature.h"
+#include "string_id.h"
+#include "type_id.h"
 
 void check_lethality( const std::string &explosive_id, const int range, float lethality,
                       float margin )

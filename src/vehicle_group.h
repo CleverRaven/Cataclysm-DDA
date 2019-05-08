@@ -11,19 +11,15 @@
 #include "optional.h"
 #include "rng.h"
 #include "string_id.h"
+#include "type_id.h"
 #include "weighted_list.h"
 
 class JsonObject;
-class VehicleGroup;
 class map;
-
-using vgroup_id = string_id<VehicleGroup>;
 class VehicleSpawn;
+class VehicleGroup;
 
 using vspawn_id = string_id<VehicleSpawn>;
-struct vehicle_prototype;
-
-using vproto_id = string_id<vehicle_prototype>;
 struct point;
 
 extern std::unordered_map<vgroup_id, VehicleGroup> vgroups;

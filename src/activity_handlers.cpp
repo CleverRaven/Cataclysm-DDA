@@ -76,6 +76,7 @@
 #include "ret_val.h"
 #include "string_id.h"
 #include "units.h"
+#include "type_id.h"
 
 class npc;
 
@@ -843,6 +844,9 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p,
         if( action == SKIN ) {
             if( entry.type != "skin" ) {
                 continue;
+            }
+            if( corpse_item->has_flag( "FIELD_DRESS_FAILED" ) ) {
+                roll = rng( 0, roll );
             }
         }
 

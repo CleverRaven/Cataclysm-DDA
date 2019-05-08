@@ -40,6 +40,7 @@
 #include "ret_val.h"
 #include "translations.h"
 #include "units.h"
+#include "type_id.h"
 
 class Character;
 
