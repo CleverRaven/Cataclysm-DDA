@@ -130,7 +130,7 @@ class mission_debug
 };
 
 
-static int player_uilist( )
+static int player_uilist()
 {
     const std::vector<uilist_entry> uilist_initializer = {
         { uilist_entry( DEBUG_MUTATE, true, 'M', _( "Mutate" ) ) },
@@ -176,7 +176,7 @@ static int info_uilist( bool display_all_entries = true )
     return uilist( _( "Info..." ), uilist_initializer );
 }
 
-static int teleport_uilist( )
+static int teleport_uilist()
 {
     const std::vector<uilist_entry> uilist_initializer = {
         { uilist_entry( DEBUG_SHORT_TELEPORT, true, 's', _( "Teleport - short range" ) ) },
@@ -187,7 +187,7 @@ static int teleport_uilist( )
     return uilist( _( "Teleport..." ), uilist_initializer );
 }
 
-static int spawning_uilist( bool display_all_entries = true )
+static int spawning_uilist()
 {
     const std::vector<uilist_entry> uilist_initializer = {
         { uilist_entry( DEBUG_WISH, true, 'w', _( "Spawn an item" ) ) },
@@ -201,7 +201,7 @@ static int spawning_uilist( bool display_all_entries = true )
     return uilist( _( "Spawning..." ), uilist_initializer );
 }
 
-static int map_uilist( bool display_all_entries = true )
+static int map_uilist()
 {
     const std::vector<uilist_entry> uilist_initializer = {
         { uilist_entry( DEBUG_REVEAL_MAP, true, 'r', _( "Reveal map" ) ) },
