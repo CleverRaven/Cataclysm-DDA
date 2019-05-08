@@ -223,7 +223,7 @@ int spell::damage() const
 
 int spell::aoe() const
 {
-    return std::min( static_cast<int>( type->min_aoe + round( get_level() * type->damage_increment ) ),
+    return std::min( static_cast<int>( type->min_aoe + round( get_level() * type->aoe_increment ) ),
                      type->max_aoe );
 }
 
