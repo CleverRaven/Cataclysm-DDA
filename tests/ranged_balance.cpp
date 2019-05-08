@@ -137,7 +137,10 @@ static dispersion_sources get_dispersion( npc &shooter, const int aim_time )
     if( aim_time > 0 ) {
         REQUIRE( shooter.recoil < MAX_RECOIL );
     }
-    dispersion.add_normal( shooter.recoil );
+    // Note 5/8/2019: converting dispersion to a normal distribution amplified the effect of 
+    // dispersion.  For now, we reduce it here so that the aiming mechanic stays untouched.
+    // 0.627 = 0.5 / sqrt(2/pi) = <desired mean> / <mean of half normal distribution>
+    dispersion.add_normal( shooter.recoil * 0.627);
 
     return dispersion;
 }

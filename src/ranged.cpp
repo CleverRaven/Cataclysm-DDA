@@ -321,7 +321,10 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
         }
 
         dispersion_sources dispersion = get_weapon_dispersion( gun );
-        dispersion.add_normal( recoil_total() );
+        // Note 5/8/2019: converting dispersion to a normal distribution amplified the effect of 
+        // dispersion.  For now, we reduce it here so that the aiming mechanic stays untouched.
+        // 0.627 = 0.5 / sqrt(2/pi) = <desired mean> / <mean of half normal distribution>
+        dispersion.add_normal( recoil_total() * 0.627 );
 
         // If this is a vehicle mounted turret, which vehicle is it mounted on?
         const vehicle *in_veh = has_effect( effect_on_roof ) ? veh_pointer_or_null( g->m.veh_at(
@@ -864,9 +867,9 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
         if( type.has_threshold ) {
             label = type.name;
             threshold = type.threshold;
-            current_dispersion.add_normal( threshold );
+            current_dispersion.add_normal( threshold * 0.627 );
         } else {
-            current_dispersion.add_normal( recoil );
+            current_dispersion.add_normal( recoil * 0.627 );
         }
 
         int moves_to_fire;
@@ -925,7 +928,7 @@ static int print_aim( const player &p, const catacurses::window &w, int line_num
     // Dodge doesn't affect gun attacks
 
     dispersion_sources dispersion = p.get_weapon_dispersion( *weapon );
-    dispersion.add_normal( p.recoil_vehicle() );
+    dispersion.add_normal( p.recoil_vehicle() * 0.627);
 
     const double min_dispersion = p.effective_dispersion( p.weapon.sight_dispersion() );
     const double steadiness_range = MAX_RECOIL - min_dispersion;
