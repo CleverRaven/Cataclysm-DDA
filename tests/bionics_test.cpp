@@ -111,7 +111,7 @@ TEST_CASE( "bionics", "[bionics] [item]" )
         }
 
         static const std::list<std::string> never = {
-            "battery_atomic", // TOOLMOD, no ammo actually
+            "light_atomic_battery_cell", // TOOLMOD, no ammo actually
             "rm13_armor"      // TOOL_ARMOR
         };
         for( auto it : never ) {
