@@ -463,5 +463,10 @@
       [ "pickup", 800 ],
       [ "hippie_van", 1000 ]
     ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "buses",
+    "vehicles": [ [ "bus", 1000 ], [ "schoolbus", 100 ] ]
   }
 ]
