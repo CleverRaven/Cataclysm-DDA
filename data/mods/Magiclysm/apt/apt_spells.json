@@ -129,6 +129,47 @@
 	"min_duration": 10000,
 	"max_duration": 50000,
 	"duration_increment": 3000
+  },
+  {
+    "id": "frost_armor",
+	"type": "SPELL",
+	"name": "Frost Armor",
+	"description": "Covers you in a thin layer of magical ice to protect you from harm.",
+	"valid_targets": [ "self" ],
+	"effect": "target_attack",
+	"effect_str": "armor_frost",
+	"energy_source": "MANA",
+	"difficulty": 1,
+	"max_level": 20,
+	"base_casting_time": 350,
+	"base_energy_cost": 375,
+	"min_duration": 10000,
+	"max_duration": 50000,
+	"duration_increment": 3000
+  },
+  {
+    "id": "iceball",
+	"type": "SPELL",
+	"name": "Hoary Blast",
+	"description": "A glowing chunk of ice bursts into being from your hand and explodes into a wave of intense cold on impact.",
+	"effect": "projectile_attack",
+	"valid_targets": [ "self", "ally", "hostile", "ground" ],
+	"max_level": 20,
+	"min_damage": 24,
+	"max_damage": 68,
+	"damage_increment": 1.2,
+	"min_aoe": 3,
+	"max_aoe": 5,
+	"aoe_increment": 0.1,
+	"min_range": 6,
+	"max_range": 20,
+	"range_increment": 1,
+	"spell_class": "WIZARD",
+	"base_casting_time": 200,
+	"base_energy_cost": 350,
+	"energy_source": "MANA",
+	"difficulty": 4,
+	"damage_type": "cold"
   }
     
 
