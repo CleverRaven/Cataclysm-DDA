@@ -226,12 +226,12 @@ static int map_uilist( bool display_all_entries = true )
 static int debug_menu_uilist( bool display_all_entries = true )
 {
     std::vector<uilist_entry> menu = {
-        { uilist_entry( DEBUG_QUIT_NOSAVE, true, 'Q', _( "Quit to main menu" ) )  },
         { uilist_entry( 1, true, 'i', _( "Info..." ) ) },
     };
 
     if( display_all_entries ) {
         const std::vector<uilist_entry> debug_menu = {
+            { uilist_entry( DEBUG_QUIT_NOSAVE, true, 'Q', _( "Quit to main menu" ) )  },
             { uilist_entry( 2, true, 's', _( "Spawning..." ) ) },
             { uilist_entry( 3, true, 'p', _( "Player..." ) ) },
             { uilist_entry( 4, true, 't', _( "Teleport..." ) ) },
@@ -239,7 +239,7 @@ static int debug_menu_uilist( bool display_all_entries = true )
         };
 
         // insert debug-only menu right after "Info".
-        menu.insert( menu.begin() + 2, debug_menu.begin(), debug_menu.end() );
+        menu.insert( menu.begin() + 1, debug_menu.begin(), debug_menu.end() );
     }
 
     std::string msg;
@@ -259,20 +259,21 @@ static int debug_menu_uilist( bool display_all_entries = true )
                 action = DEBUG_QUIT_NOSAVE;
                 break;
             case 1:
-                action = spawning_uilist();
-                break;
-            case 2:
-                action = player_uilist();
-                break;
-            case 3:
-                action = teleport_uilist();
-                break;
-            case 4:
-                action = map_uilist();
-                break;
-            case 5:
                 action = info_uilist( display_all_entries );
                 break;
+            case 2:
+                action = spawning_uilist();
+                break;
+            case 3:
+                action = player_uilist();
+                break;
+            case 4:
+                action = teleport_uilist();
+                break;
+            case 5:
+                action = map_uilist();
+                break;
+
             default:
                 return group;
         }
