@@ -72,13 +72,13 @@
 #include "iuse.h"
 #include "map_memory.h"
 #include "math_defines.h"
-#include "omdata.h"
 #include "optional.h"
 #include "player.h"
 #include "player_activity.h"
 #include "tileray.h"
 #include "weighted_list.h"
-#include "material.h"
+#include "int_id.h"
+#include "string_id.h"
 
 const mtype_id mon_zombie( "mon_zombie" );
 

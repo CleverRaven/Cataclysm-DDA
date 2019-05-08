@@ -14,6 +14,7 @@
 #include "enums.h"
 #include "optional.h"
 #include "string_id.h"
+#include "type_id.h"
 
 class JsonIn;
 class JsonOut;
@@ -31,7 +32,6 @@ class zone_type
         std::string name() const;
         std::string desc() const;
 };
-using zone_type_id = string_id<zone_type>;
 
 class zone_options
 {

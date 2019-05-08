@@ -15,7 +15,6 @@
 #include "rng.h"
 #include "skill.h"
 #include "trait_group.h"
-#include "itype.h"
 #include "json.h"
 
 static const std::array<npc_class_id, 18> legacy_ids = {{

@@ -53,7 +53,6 @@
 #include "speech.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
-#include "submap.h"
 #include "text_snippets.h"
 #include "translations.h"
 #include "trap.h"
@@ -76,7 +75,6 @@
 #include "item_location.h"
 #include "itype.h"
 #include "monster.h"
-#include "omdata.h"
 #include "optional.h"
 #include "pimpl.h"
 #include "player_activity.h"
@@ -87,7 +85,7 @@
 #include "string_id.h"
 #include "vpart_reference.h"
 #include "weather_gen.h"
-#include "material.h"
+#include "type_id.h"
 
 #define RADIO_PER_TURN 25 // how many characters per turn of radio
 

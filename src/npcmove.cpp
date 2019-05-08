@@ -46,7 +46,6 @@
 #include "vpart_reference.h"
 #include "bodypart.h"
 #include "character.h"
-#include "clzones.h"
 #include "damage.h"
 #include "explosion.h"
 #include "game_constants.h"
@@ -56,6 +55,7 @@
 #include "player_activity.h"
 #include "ret_val.h"
 #include "units.h"
+#include "pldata.h"
 
 static constexpr float NPC_DANGER_VERY_LOW = 5.0f;
 static constexpr float NPC_DANGER_MAX = 150.0f;

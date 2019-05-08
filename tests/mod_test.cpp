@@ -5,6 +5,7 @@
 #include "catch/catch.hpp"
 #include "item.h"
 #include "worldfactory.h"
+#include "type_id.h"
 
 TEST_CASE( "Boat mod is loaded correctly or not at all" )
 {

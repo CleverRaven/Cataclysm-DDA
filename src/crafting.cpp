@@ -59,8 +59,7 @@
 #include "string_formatter.h"
 #include "string_id.h"
 #include "units.h"
-#include "mtype.h"
-#include "pldata.h"
+#include "type_id.h"
 
 const efftype_id effect_contacts( "contacts" );
 

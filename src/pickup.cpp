@@ -30,7 +30,6 @@
 #include "vpart_position.h"
 #include "vpart_reference.h"
 #include "character.h"
-#include "clzones.h"
 #include "color.h"
 #include "cursesdef.h"
 #include "enums.h"
@@ -42,6 +41,7 @@
 #include "ret_val.h"
 #include "string_id.h"
 #include "units.h"
+#include "type_id.h"
 
 typedef std::pair<item, int> ItemCount;
 typedef std::map<std::string, ItemCount> PickupMap;

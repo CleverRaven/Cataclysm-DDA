@@ -21,10 +21,8 @@
 #include "output.h"
 #include "translations.h"
 #include "color.h"
-#include "creature.h"
 #include "enums.h"
 #include "iuse.h"
-#include "player.h"
 
 static const efftype_id effect_cold( "cold" );
 static const efftype_id effect_hot( "hot" );

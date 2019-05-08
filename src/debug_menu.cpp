@@ -44,6 +44,7 @@
 #include "optional.h"
 #include "pldata.h"
 #include "translations.h"
+#include "type_id.h"
 
 #include "map.h"
 #include "veh_type.h"

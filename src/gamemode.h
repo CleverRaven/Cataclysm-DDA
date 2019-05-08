@@ -8,7 +8,7 @@
 
 #include "calendar.h"
 #include "enums.h"
-#include "string_id.h"
+#include "type_id.h"
 
 enum action_id : int;
 using itype_id = std::string;
@@ -17,9 +17,6 @@ namespace catacurses
 class window;
 } // namespace catacurses
 struct special_game;
-struct mtype;
-
-using mtype_id = string_id<mtype>;
 
 std::string special_game_name( special_game_id id );
 std::unique_ptr<special_game> get_special_game( special_game_id id );
