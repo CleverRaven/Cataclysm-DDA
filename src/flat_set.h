@@ -12,7 +12,7 @@ struct transparent_less_than {
     using is_transparent = void;
 
     template<typename T, typename U>
-    constexpr auto operator()( T &&lhs, U &&rhs ) const
+    constexpr auto operator()( T &&lhs, U &&rhs ) const noexcept
     -> decltype( std::forward<T>( lhs ) < std::forward<U>( rhs ) ) {
         return std::forward<T>( lhs ) < std::forward<U>( rhs );
     }
