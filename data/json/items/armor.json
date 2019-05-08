@@ -3192,28 +3192,6 @@
     "flags": [ "VARSIZE", "STURDY", "ALLOWS_NATURAL_ATTACKS" ]
   },
   {
-    "id": "geta",
-    "type": "ARMOR",
-    "name": "pair of geta",
-    "name_plural": "pairs of geta",
-    "description": "Simple wooden geta.",
-    "weight": 460,
-    "volume": 4,
-    "price": 6500,
-    "to_hit": -2,
-    "bashing": 5,
-    "material": [ "wood", "cotton" ],
-    "symbol": "[",
-    "color": "yellow",
-    "covers": [ "FEET" ],
-    "coverage": 50,
-    "encumbrance": 10,
-    "warmth": 5,
-    "material_thickness": 2,
-    "environmental_protection": 1,
-    "flags": [ "VARSIZE", "WATERPROOF" ]
-  },
-  {
     "id": "glasses_bal",
     "type": "ARMOR",
     "category": "armor",
@@ -4109,10 +4087,28 @@
     "color": "dark_gray",
     "covers": [ "LEGS" ],
     "coverage": 100,
+    "encumbrance": 6,
+    "warmth": 10,
+    "material_thickness": 2,
+    "flags": [ "VARSIZE", "STURDY" ]
+  },
+  {
+    "id": "hakama",
+    "type": "ARMOR",
+    "name": "hakama",
+    "description": "A flowing, pleated garment which can be worn over a kimono.",
+    "weight": 500,
+    "volume": 6,
+    "price": 3000,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "color": "blue",
+    "covers": [ "LEGS" ],
+    "coverage": 100,
     "encumbrance": 10,
     "warmth": 15,
-    "material_thickness": 1,
-    "flags": [ "VARSIZE" ]
+    "material_thickness": 2,
+    "flags": [ "VARSIZE", "OUTER" ]
   },
   {
     "id": "halter_top",
@@ -5642,9 +5638,9 @@
     "covers": [ "ARMS", "LEGS", "TORSO" ],
     "coverage": 95,
     "encumbrance": 10,
-    "warmth": 15,
+    "warmth": 10,
     "material_thickness": 3,
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE", "STURDY" ]
   },
   {
     "id": "jumpsuit",
@@ -5698,9 +5694,10 @@
     "symbol": "[",
     "color": "white",
     "covers": [ "ARMS", "LEGS", "TORSO" ],
-    "coverage": 100,
-    "material_thickness": 1,
-    "flags": [ "VARSIZE" ]
+    "coverage": 80,
+    "warmth": 5,
+    "material_thickness": 2,
+    "flags": [ "VARSIZE", "STURDY" ]
   },
   {
     "id": "kariginu",
@@ -5748,16 +5745,16 @@
     "name": "keikogi",
     "description": "Plain white keikogi for use in martial arts.",
     "weight": 250,
-    "volume": 2,
+    "volume": 3,
     "price": 2500,
     "material": [ "cotton" ],
     "symbol": "[",
     "color": "white",
     "covers": [ "ARMS", "TORSO" ],
-    "coverage": 100,
-    "warmth": 10,
-    "material_thickness": 1,
-    "flags": [ "VARSIZE" ]
+    "coverage": 80,
+    "warmth": 5,
+    "material_thickness": 2,
+    "flags": [ "VARSIZE", "STURDY" ]
   },
   {
     "id": "kevlar",
@@ -5835,6 +5832,45 @@
     "warmth": 20,
     "material_thickness": 2,
     "flags": [ "VARSIZE", "FANCY" ]
+  },
+  {
+    "id": "yukata",
+    "type": "ARMOR",
+    "name": "yukata",
+    "description": "An easy to wear, breezy robe secured with a sash. Essentially Japanese pajamas. Great for summer nights.",
+    "weight": 900,
+    "volume": 12,
+    "price": 5000,
+    "to_hit": -5,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "color": "blue",
+    "covers": [ "LEGS", "TORSO", "ARMS" ],
+    "coverage": 80,
+    "encumbrance": 3,
+    "storage": 4,
+    "warmth": 5,
+    "material_thickness": 1,
+    "flags": [ "VARSIZE", "FANCY" ]
+  },
+  {
+    "id": "haori",
+    "type": "ARMOR",
+    "name": "haori",
+    "description": "A loose coat with wide sleeves that is worn unfastened over a kimono. It is jet black with sparse, tasteful golden embroidery.",
+    "weight": 800,
+    "volume": 8,
+    "price": 30000,
+    "to_hit": -5,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "color": "black",
+    "covers": [ "TORSO", "ARMS" ],
+    "coverage": 60,
+    "encumbrance": 3,
+    "warmth": 10,
+    "material_thickness": 1,
+    "flags": [ "VARSIZE", "SUPER_FANCY", "OUTER" ]
   },
   {
     "id": "kippah",
@@ -8989,7 +9025,6 @@
     "color": "dark_gray",
     "covers": [ "FEET" ],
     "coverage": 100,
-    "encumbrance": 10,
     "warmth": 5,
     "material_thickness": 1,
     "flags": [ "VARSIZE", "SKINTIGHT" ]
@@ -9008,7 +9043,6 @@
     "color": "white",
     "covers": [ "FEET" ],
     "coverage": 100,
-    "encumbrance": 10,
     "warmth": 5,
     "material_thickness": 1,
     "flags": [ "VARSIZE", "SKINTIGHT" ]
@@ -9991,17 +10025,17 @@
     "type": "ARMOR",
     "name": "zubon",
     "description": "Plain white zubon for use in martial arts.",
-    "weight": 250,
-    "volume": 2,
+    "weight": 150,
+    "volume": 3,
     "price": 2500,
     "material": [ "cotton" ],
     "symbol": "[",
     "color": "white",
     "covers": [ "LEGS" ],
-    "coverage": 100,
-    "warmth": 10,
-    "material_thickness": 1,
-    "flags": [ "VARSIZE" ]
+    "coverage": 80,
+    "warmth": 5,
+    "material_thickness": 2,
+    "flags": [ "VARSIZE", "STURDY" ]
   },
   {
     "id": "case_violin",
