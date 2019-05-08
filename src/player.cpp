@@ -773,7 +773,7 @@ void player::process_turn()
     last_item = itype_id( "null" );
 
     if( has_active_bionic( bio_metabolics ) && power_level < max_power_level &&
-        0.8f < get_kcal_percent() && calendar::once_every( 1_turns ) ) {
+        0.8f < get_kcal_percent() && calendar::once_every( 3_turns ) ) {
         // Efficiency is approximately 25%, power output is ~60W
         mod_stored_kcal( -1 );
         charge_power( 1 );
