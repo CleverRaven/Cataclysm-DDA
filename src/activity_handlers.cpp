@@ -541,8 +541,6 @@ int butcher_time_to_cut( const player &u, const item &corpse_item, const butcher
             }
             break;
         case F_DRESS:
-            time_to_cut *= 2;
-            break;
         case SKIN:
             time_to_cut *= 2;
             break;

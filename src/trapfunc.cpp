@@ -477,8 +477,6 @@ void trapfunc::snare_heavy( Creature *c, const tripoint &p )
             int damage;
             switch( z->type->size ) {
                 case MS_TINY:
-                    damage = 20;
-                    break;
                 case MS_SMALL:
                     damage = 20;
                     break;
