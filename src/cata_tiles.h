@@ -485,12 +485,6 @@ class cata_tiles
         }
         void do_tile_loading_report();
         point player_to_screen( int x, int y ) const;
-        /** Saves a screenshot of the current viewport, as a PNG file, to the given location.
-        * @param file_path: A full path to the file where the screenshot should be saved. If it is empty, the file name is automatically generated.
-        * @note: The automatically generated file name has the following format: `[<character_name>]_<date>.png` and is placed into `<map_dir>/screenshots/`.
-        * @returns `true` if the screenshot generation was successful, `false` otherwise.
-        */
-        bool save_screenshot( const std::string &file_path = "" ) const;
         static std::vector<options_manager::id_and_option> build_renderer_list();
     protected:
         template <typename maptype>
