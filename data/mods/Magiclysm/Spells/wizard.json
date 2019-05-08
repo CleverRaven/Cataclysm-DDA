@@ -7,6 +7,7 @@
     "valid_targets": [ "hostile" ],
     "min_damage": 1,
     "damage_increment": 1.5,
+    "damage_type": "none",
     "max_damage": 20,
     "min_range": 8,
     "range_increment": 0.8,
