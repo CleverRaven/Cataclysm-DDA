@@ -1101,7 +1101,6 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
             comp_list npc_list = get_mission_workers( "_faction_exp_plant_" + dir );
             const bcp_miss_data &miss_info = basecamp_missions_info[ "_faction_exp_plant_" ];
             if( npc_list.empty() ) {
-                std::string title_e = dir + " Plant Fields";
                 entry = _( "Notes:\n"
                            "Plant designated seeds in the spaces that have already been "
                            "tilled.\n \n" ) +
@@ -1130,7 +1129,6 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
             comp_list npc_list = get_mission_workers( "_faction_exp_harvest_" + dir );
             const bcp_miss_data &miss_info = basecamp_missions_info[ "_faction_exp_harvest_" ];
             if( npc_list.empty() ) {
-                std::string title_e = dir + " Harvest Fields";
                 entry = _( "Notes:\n"
                            "Harvest any plants that are ripe and bring the produce back.\n \n" ) +
                         farm_description( omt_trg, plots, farm_ops::harvest ) +

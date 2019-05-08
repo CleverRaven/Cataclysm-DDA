@@ -3733,7 +3733,6 @@ long detach_gunmods_actor::use( player &p, item &it, bool, const tripoint & ) co
 
     if( prompt.ret >= 0 ) {
         item *gm = mods[ prompt.ret ];
-        const auto mod_name = gm->tname();
         p.gunmod_remove( it, *gm );
     } else {
         p.add_msg_if_player( _( "Never mind." ) );
