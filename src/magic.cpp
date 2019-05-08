@@ -61,19 +61,19 @@ damage_type damage_type_from_string( std::string str )
 {
     if( str == "fire" ) {
         return DT_HEAT;
-    } else if( "acid" ) {
+    } else if( str == "acid" ) {
         return DT_ACID;
-    } else if( "bash" ) {
+    } else if( str == "bash" ) {
         return DT_BASH;
-    } else if( "bio" ) {
+    } else if( str == "bio" ) {
         return DT_BIOLOGICAL;
-    } else if( "cold" ) {
+    } else if( str == "cold" ) {
         return DT_COLD;
-    } else if( "cut" ) {
+    } else if( str == "cut" ) {
         return DT_CUT;
-    } else if( "electric" ) {
+    } else if( str == "electric" ) {
         return DT_ELECTRIC;
-    } else if( "stab" ) {
+    } else if( str == "stab" ) {
         return DT_STAB;
     } else {
         return DT_TRUE;
