@@ -7,6 +7,7 @@
     "object": {
       "furniture": {
         "#": "f_counter",
+        "R": "f_counter",
         "&": "f_trashcan",
         "+": "f_null",
         "-": "f_null",
@@ -33,6 +34,9 @@
         { "chance": 35, "repeat": [ 2, 5 ], "item": "dollar_tools", "x": [ 5, 8 ], "y": 20 },
         { "chance": 35, "repeat": [ 5, 13 ], "item": "dollar_kitchen", "x": [ 11, 12 ], "y": [ 13, 17 ] }
       ],
+      "items": {
+        "R": { "item": "miniatm", "chance": 2 }
+      },
       "place_vehicles": [
         { "chance": 75, "fuel": 0, "rotation": 90, "status": 1, "vehicle": "shopping_cart", "x": [ 9, 10 ], "y": [ 11, 19 ] }
       ],
@@ -46,7 +50,7 @@
         ".d.|&_______________&|..",
         "...|_________________|..",
         "..d|__#___#___#___#__|d.",
-        "...|_l#__l#__l#__l#__|..",
+        "...|_lR__lR__lR__lR__|..",
         "d..|_##__##__##__##__|..",
         "...|_________________|.d",
         "...|_________________|..",
@@ -86,6 +90,7 @@
     "object": {
       "furniture": {
         "#": "f_counter",
+        "R": "f_counter",
         "+": "f_null",
         "-": "f_null",
         ".": "f_null",
@@ -105,6 +110,9 @@
         { "chance": 35, "repeat": [ 3, 10 ], "item": "dollar_kitchen", "x": [ 6, 7 ], "y": [ 14, 18 ] },
         { "chance": 35, "repeat": [ 1, 10 ], "item": "dollar_food", "x": [ 10, 17 ], "y": [ 17, 18 ] }
       ],
+      "items": {
+        "R": { "item": "miniatm", "chance": 2 }
+      },
       "place_vehicles": [
         { "chance": 75, "fuel": 0, "rotation": 0, "status": -1, "vehicle": "shopping_cart", "x": [ 15, 16 ], "y": [ 3, 5 ] },
         {
@@ -127,7 +135,7 @@
         "__|..................|__",
         "__|{.................|__",
         "__|{..{{..{..#..#..#.|__",
-        "__|{..{{..{..#l.#l.#l|__",
+        "__|{..{{..{..Rl.Rl.Rl|__",
         "__|{..{{..{..##.##.##|__",
         "__|{..{{.............|__",
         "__|{..{{.............|__",

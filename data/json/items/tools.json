@@ -2820,6 +2820,7 @@
     "symbol": ";",
     "color": "blue",
     "ammo": "battery",
+    "initial_charges": 150,
     "charges_per_use": 1,
     "use_action": "MINIATM",
     "flags": [ "WATCH" ],

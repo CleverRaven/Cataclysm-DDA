@@ -23,7 +23,7 @@
         "8___|hh          hh|....",
         "8___|             r|....",
         "8___|             r|....",
-        "8__f|#####        r|....",
+        "8__f|##R##        r|....",
         "8__f|          rrrr|....",
         "8___|-&------------|....",
         "8___&    ######   T|....",
@@ -53,7 +53,7 @@
         "v": "t_wall_glass",
         "|": "t_wall"
       },
-      "furniture": { "#": "f_counter", "G": "f_desk", "T": "f_safe_l", "c": "f_chair", "f": "f_trashcan", "r": "f_rack" },
+      "furniture": { "#": "f_counter", "R": "f_counter", "G": "f_desk", "T": "f_safe_l", "c": "f_chair", "f": "f_trashcan", "r": "f_rack" },
       "place_items": [
         { "item": "jewelry_front", "x": [ 5, 5 ], "y": [ 10, 13 ], "chance": 75 },
         { "item": "jewelry_front", "x": [ 18, 18 ], "y": [ 10, 13 ], "chance": 75 },
@@ -64,6 +64,9 @@
         { "item": "jewelry_safe", "x": [ 18, 18 ], "y": [ 20, 21 ], "chance": 95 },
         { "item": "trash", "x": [ 3, 3 ], "y": [ 17, 18 ], "chance": 50 }
       ],
+      "items": {
+        "R": { "item": "miniatm", "chance": 2 }
+      },
       "place_vehicles": [ { "vehicle": "security_van", "x": 11, "y": 2, "chance": 20, "fuel": 20, "status": 0, "rotation": 0 } ]
     }
   }

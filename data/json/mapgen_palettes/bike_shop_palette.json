@@ -38,6 +38,7 @@
     },
     "furniture": {
       "c": "f_counter",
+      "R": "f_counter",
       "D": "f_vending_c",
       "F": "f_vending_c",
       "S": "f_sink",

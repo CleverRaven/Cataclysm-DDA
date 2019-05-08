@@ -118,7 +118,7 @@
         "_|.CCCC..CCCC.^.^|rrrr8_",
         "_8r.............r|L---|_",
         "_8r..CCCCrr......x....8_",
-        "_8r..###rr1......#q...8_",
+        "_8r..###rr1......Rq...8_",
         "_|r..............#...r|_",
         "_|...######......#c..r|_",
         "_|r..######..-------I-|_",
@@ -134,6 +134,7 @@
       ],
       "terrain": {
         "#": "t_linoleum_gray",
+        "R": "t_linoleum_gray",
         "%": "t_shrub",
         "+": "t_door_metal_pickable",
         ",": "t_pavement_y",
@@ -169,6 +170,7 @@
       },
       "furniture": {
         "#": "f_counter",
+        "R": "f_counter",
         "C": "f_displaycase",
         "E": "f_desk",
         "F": "f_fridge",
@@ -212,7 +214,10 @@
         { "item": "television", "x": 16, "y": 14, "chance": 30 },
         { "item": "laptop", "x": 14, "y": 15, "chance": 70 },
         { "item": "multitool", "x": 21, "y": 17, "chance": 60 }
-      ]
+      ],
+      "items": {
+        "R": { "item": "miniatm", "chance": 2 }
+      }
     }
   },
   {
@@ -227,7 +232,7 @@
         "                        ",
         "   -------::-+--:::---  ",
         "   |{{{{{........#...|  ",
-        "   |{............#S..|  ",
+        "   |{............RS..|  ",
         "   |{............#...|  ",
         "   |{............###.|  ",
         "   |{................|  ",
@@ -250,6 +255,7 @@
       "terrain": {
         " ": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
         "#": "t_floor",
+        "R": "t_floor",
         "S": "t_floor",
         "+": "t_door_c",
         "-": "t_wall",
@@ -258,7 +264,7 @@
         "{": "t_floor",
         "|": "t_wall"
       },
-      "furniture": { "#": "f_counter", "{": "f_rack", "S": "f_stool" },
+      "furniture": { "#": "f_counter","R": "f_counter", "{": "f_rack", "S": "f_stool" },
       "place_items": [
         { "item": "consumer_electronics", "x": [ 4, 20 ], "y": 20, "chance": 85, "repeat": [ 1, 5 ] },
         { "item": "consumer_electronics", "x": 4, "y": [ 15, 19 ], "chance": 85, "repeat": [ 1, 5 ] },
@@ -268,6 +274,9 @@
         { "item": "consumer_electronics", "x": 4, "y": [ 4, 14 ], "chance": 85, "repeat": [ 1, 5 ] },
         { "item": "consumer_electronics", "x": [ 5, 8 ], "y": 4, "chance": 85, "repeat": [ 1, 5 ] }
       ],
+      "items": {
+        "R": { "item": "miniatm", "chance": 2 }
+      },
       "place_monsters": [ { "monster": "GROUP_ELECTRO", "x": [ 0, 0 ], "y": [ 23, 23 ], "chance": 2, "repeat": [ 2, 3 ] } ]
     }
   }

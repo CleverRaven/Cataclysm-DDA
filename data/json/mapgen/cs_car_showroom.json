@@ -24,7 +24,7 @@
         ",.o D  so.=.gy      yg..",
         "..o ooooogHgoooo  oooo,.",
         ",.o               D Lo..",
-        "..oooDo oddddoooDoo Lo.,",
+        "..oooDo oddRdoooDoo Lo.,",
         ".,off o oh h och ho Lo..",
         "..oh ho D    o dddo Lo..",
         ",.odddo ofycfo  hdocLo.,",
@@ -54,6 +54,7 @@
         "y": [ "f_indoor_plant_y", "f_indoor_plant" ],
         "t": "f_toilet",
         "d": "f_desk",
+        "R": "f_desk",
         "L": "f_locker",
         "h": "f_chair",
         "c": "f_trashcan",
@@ -74,7 +75,8 @@
         "V": { "item": "vending_food_items", "chance": 70 },
         "v": { "item": "vending_drink_items", "chance": 70 },
         "F": { "item": "fridgesnacks", "chance": 70 },
-        "f": { "item": "office_paper", "chance": 70 }
+        "f": { "item": "office_paper", "chance": 70 },
+        "R": { "item": "miniatm", "chance": 10, "repeat": 1 }
       },
       "place_items": [
         { "item": "oa_custom_trash", "chance": 80, "repeat": [ 2, 4 ], "x": 17, "y": 22 },

@@ -78,7 +78,7 @@
         "ssssssssssssssssssssssss",
         "_--5555--5555-++--55555_",
         "_|^.CC....CC.....#.EcC8_",
-        "_8...............#....|_",
+        "_8...............R....|_",
         "_8E..###rr...rr..#....8_",
         "_8c..###rr...rr..####.8_",
         "_|...........rr.......|_",
@@ -128,6 +128,7 @@
       },
       "furniture": {
         "#": "f_counter",
+        "R": "f_counter",
         "C": "f_displaycase",
         "E": "f_desk",
         "S": "f_sink",
@@ -147,7 +148,10 @@
         { "group": "mussto_windinst", "x": [ 5, 10 ], "y": 17, "chance": 40, "repeat": [ 1, 2 ] },
         { "group": "light_reading", "x": [ 13, 14 ], "y": [ 10, 12 ], "chance": 70, "repeat": [ 2, 4 ] },
         { "group": "musicstore_showpiece", "x": 21, "y": 8, "chance": 95 }
-      ]
+      ],
+      "items": {
+        "R": { "item": "miniatm", "chance": 2 }
+      }
     }
   }
 ]

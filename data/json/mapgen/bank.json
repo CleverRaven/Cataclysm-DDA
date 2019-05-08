@@ -12,7 +12,7 @@
         " #A..........CTC.CTC.p# ",
         " #A...................w ",
         " #....................# ",
-        " #+###-c-c-c-c-c####..# ",
+        " #+###-r-r-r-r-r####..# ",
         " #.....l.l.l.l.l#s.+..w ",
         " #..............#..#..# ",
         " #..ccccccccp...#t.#..# ",
@@ -57,6 +57,7 @@
         "C": "f_chair",
         "T": "f_table",
         "c": "f_counter",
+        "r": "f_counter",
         "l": "f_stool",
         "p": [ "f_indoor_plant", "f_null" ],
         "s": "f_sink",
@@ -70,6 +71,9 @@
         { "item": "vault", "x": 3, "y": [ 19, 20 ], "chance": 30, "repeat": 5 },
         { "item": "vault", "x": [ 3, 5 ], "y": 16, "chance": 90, "repeat": 5 }
       ],
+      "items": {
+        "r": { "item": "miniatm", "chance": 5, "repeat": 1 }
+      },
       "computers": {
         "6": {
           "name": "Consolidated Computerized Bank of the Treasury",
@@ -144,11 +148,11 @@
       "rows": [
         "   SS                   ",
         " ggGGgggggggggg#######  ",
-        " gA.........ccx.#....## ",
+        " gA.........crx.#....## ",
         " gA........C-C..+....p# ",
-        " gA.........ccx.#aca..##",
+        " gA.........crx.#aca..##",
         " ####%##...C-C..#aca..Dw",
-        " #LL#.d-....ccx.#aca..Dw",
+        " #LL#.d-....crx.#aca..Dw",
         " #..%.C-...C-C..#.....Dw",
         " #LL#xx-....%...#ee...##",
         " #######hGh#########%## ",
@@ -202,6 +206,7 @@
         "C": "f_chair",
         "T": "f_table",
         "c": "f_counter",
+        "r": "f_counter",
         "l": "f_stool",
         "p": [ "f_indoor_plant", "f_null" ],
         "s": "f_sink",
@@ -216,7 +221,8 @@
         "T": { "item": "vault", "chance": 20, "repeat": 5 },
         "e": { "item": "fridge", "chance": 70, "repeat": [ 2, 3 ] },
         "d": { "item": "office", "chance": 50 },
-        "L": { "item": "cop_weapons", "chance": 40 }
+        "L": { "item": "cop_weapons", "chance": 40 },
+        "r": { "item": "miniatm", "chance": 5, "repeat": 1 }
       },
       "computers": {
         "6": {

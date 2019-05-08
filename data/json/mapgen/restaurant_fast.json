@@ -19,7 +19,7 @@
         ",_____%.HH....HH.|_____,",
         ",_____|..........%_____,",
         ",,,,,,|g.........+_____,",
-        ",_____|ccxccxc|..%_____,",
+        ",_____|cRxcRxc|..%_____,",
         ",_____ow=w=w=w+..|_____,",
         ",_____|ewccOwc|t-|_____,",
         ",_____|l=w=w=S|=S|_____,",
@@ -54,6 +54,7 @@
         "S": "t_linoleum_white",
         "_": "t_pavement",
         "c": "t_linoleum_white",
+        "R": "t_linoleum_white",
         "e": "t_linoleum_white",
         "l": "t_linoleum_white",
         "o": "t_window_open",
@@ -71,6 +72,7 @@
         "S": "f_sink",
         "T": "f_table",
         "c": "f_counter",
+        "R": "f_counter",
         "d": "f_dumpster",
         "e": "f_fridge",
         "g": "f_trashcan",
@@ -94,6 +96,9 @@
         { "item": "fast_trash", "x": [ 3, 4 ], "y": 23, "chance": 60, "repeat": [ 1, 3 ] },
         { "item": "trash", "x": [ 3, 4 ], "y": 23, "chance": 30, "repeat": [ 1, 3 ] }
       ],
+      "items": {
+        "R": { "item": "miniatm", "chance": 2 }
+      },
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE", "x": 15, "y": 15, "chance": 10 },
         { "monster": "GROUP_ROACH", "x": [ 7, 19 ], "y": 19, "chance": 20 }
@@ -185,7 +190,7 @@
         "||||||||xo|||hTT..||||||",
         "|ewwwwwwwwwT......|S=tP|",
         "|ewrrwcScwwx......t==|||",
-        "|ewrrw|||wwT..|FFF|S=tP|",
+        "|ewrrw|||wwR..|FFF|S=tP|",
         "|ewrrw|l|w||||||||||||||",
         "|ewwww|ltwDss4dd!       ",
         "|||||||||||sssdd!       ",
@@ -228,6 +233,7 @@
         "S": "f_sink",
         "h": "f_sofa",
         "T": "f_table",
+        "R": "f_table",
         "c": "f_counter",
         "d": "f_dumpster",
         "e": "f_fridge",
@@ -243,7 +249,8 @@
         "l": { "item": "fast_locker", "chance": 70, "repeat": [ 1, 2 ] },
         "e": { "item": "fast_fridge", "chance": 70, "repeat": [ 2, 3 ] },
         ".": { "item": "fast_trash", "chance": 5, "repeat": [ 1, 3 ] },
-        "=": { "item": "fast_bath", "chance": 25, "repeat": [ 1, 2 ] }
+        "=": { "item": "fast_bath", "chance": 25, "repeat": [ 1, 2 ] },
+        "R": { "item": "miniatm", "chance": 2 }
       },
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE", "x": 15, "y": 15, "chance": 10 },

@@ -16,7 +16,7 @@
         "s--5555--5555--+--55555s",
         "s|r..rrrrrr...^.^|rrrr8s",
         "s8r..............L...r8s",
-        "s8r..rrrrrr...###|----|_",
+        "s8r..rrrrrr...#R#|----|_",
         "s8r..rrrrrr...xb.rrrrr|_",
         "s8r...........#......r|_",
         "s|r..rrrrrr...#rr....r|_",
@@ -67,6 +67,7 @@
       },
       "furniture": {
         "#": "f_counter",
+        "R": "f_counter",
         "C": "f_sofa",
         "E": "f_desk",
         "F": "f_fridge",
@@ -110,7 +111,10 @@
         { "item": "large_repairkit", "x": [ 9, 10 ], "y": 8, "chance": 30 },
         { "item": "television", "x": 14, "y": 16, "chance": 60 },
         { "item": "laptop", "x": 17, "y": 15, "chance": 30 }
-      ]
+      ],
+      "items": {
+        "R": { "item": "miniatm", "chance": 2 }
+      }
     }
   }
 ]

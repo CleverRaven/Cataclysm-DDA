@@ -121,7 +121,7 @@
         "...~|        M#MM#M t|..",
         ",..~| rrrrr  MMMMMM  |.,",
         "...~D                |,.",
-        ".,..| cc--l---- --  Sg..",
+        ".,..| cR--l---- --  Sg..",
         "...,| ch|L C|Vv c|  Sg,.",
         ".,..|   |L C|   c|-D-|..",
         "..,.|rrr|L C|hhhh|T S|.,",
@@ -158,6 +158,7 @@
       },
       "furniture": {
         "c": "f_counter",
+        "R": "f_counter",
         "L": "f_locker",
         "C": "f_crate_c",
         "h": "f_chair",
@@ -174,7 +175,8 @@
         "t": { "item": "oa_ig_ts_tables", "chance": 15 },
         "r": { "item": "oa_ig_ts_tires", "chance": 40 },
         "L": { "item": "oa_ig_ts_lockers", "chance": 50 },
-        "C": { "item": "oa_ig_ts_crates", "chance": 50 }
+        "C": { "item": "oa_ig_ts_crates", "chance": 50 },
+        "R": { "item": "miniatm", "chance": 2, "repeat": 1 }
       },
       "place_items": [
         { "item": "vending_food_items", "chance": 60, "repeat": [ 3, 6 ], "x": 13, "y": 18 },

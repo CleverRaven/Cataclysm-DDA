@@ -101,7 +101,8 @@
         { "item": "cleaning", "x": 21, "y": [ 16, 18 ], "chance": 60, "repeat": [ 1, 2 ] },
         { "item": "groce_frozen", "x": [ 8, 12 ], "y": 21, "chance": 60, "repeat": [ 1, 2 ] },
         { "item": "groce_meat", "x": [ 13, 17 ], "y": 21, "chance": 60, "repeat": [ 1, 2 ] },
-        { "item": "groce_dairyegg", "x": [ 18, 21 ], "y": 21, "chance": 60, "repeat": [ 1, 2 ] }
+        { "item": "groce_dairyegg", "x": [ 18, 21 ], "y": 21, "chance": 60, "repeat": [ 1, 2 ] },
+        { "item": "miniatm", "x": [ 19, 20 ], "y": 6, "chance": 1, "repeat": 1 }
       ],
       "place_vehicles": [
         { "vehicle": "shopping_cart", "x": 3, "y": 2, "chance": 10 },
@@ -240,7 +241,8 @@
         { "item": "magazines", "x": 16, "y": 7, "chance": 70, "repeat": 1 },
         { "item": "snacks", "x": 20, "y": [ 5, 6 ], "chance": 50, "repeat": 1 },
         { "item": "magazines", "x": 20, "y": 7, "chance": 70, "repeat": 1 },
-        { "item": "coat_rack", "x": 3, "y": 20, "chance": 70, "repeat": 1 }
+        { "item": "coat_rack", "x": 3, "y": 20, "chance": 70, "repeat": 1 },
+        { "item": "miniatm", "x": [ 17, 19 ], "y": 18, "chance": 1, "repeat": 1 }
       ],
       "place_monsters": [
         { "monster": "GROUP_GROCERY", "x": [ 0, 0 ], "y": [ 23, 23 ], "chance": 2, "repeat": [ 2, 3 ] },

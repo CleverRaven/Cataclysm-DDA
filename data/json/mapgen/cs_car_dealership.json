@@ -23,7 +23,7 @@
         ".|'wsssVv wOOOw'y''''y|.",
         ",|'w      w   w'y''''y|,",
         ".|'w      w d w'''''''|.",
-        ".|'wFttc  D dhw'''''''|,",
+        ".|'wFttc  D Rhw'''''''|,",
         ",|'wwwww  w d w'''''''|,",
         ".|'wL  l  wwwww'y''''y|.",
         ".|'wL Sw  D  Tw'y''''y|,",
@@ -57,6 +57,7 @@
         "t": "f_table",
         "c": "f_trashcan",
         "d": "f_desk",
+        "R": "f_desk",
         "h": "f_chair",
         "T": "f_toilet",
         "s": "f_sofa",
@@ -77,7 +78,8 @@
         "L": { "item": "oa_ig_cd_lockers", "chance": 70 },
         "F": { "item": "fridgesnacks", "chance": 60 },
         "V": { "item": "vending_food_items", "chance": 80 },
-        "v": { "item": "vending_drink_items", "chance": 80 }
+        "v": { "item": "vending_drink_items", "chance": 80 },
+        "R": { "item": "miniatm", "chance": 2, "repeat": 1 }
       },
       "place_items": [
         { "item": "oa_custom_trash", "chance": 60, "repeat": [ 0, 4 ], "x": 2, "y": 22 },

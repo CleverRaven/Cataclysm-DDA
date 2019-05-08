@@ -12,7 +12,7 @@
         "*|----OOO-::--OO--OO--|*",
         "*|s.l#.Thf..#ccccccccc|*",
         "*|e..%................|*",
-        "*|#..#.hT...##%#%#%#--|*",
+        "*|#..R.hT...##%#%#%#--|*",
         "*|...%..............:.:*",
         "*|.###.Th...........:.:*",
         "*|..................--|*",
@@ -34,6 +34,7 @@
       ],
       "terrain": {
         "#": "t_floor",
+        "R": "t_floor",
         "%": "t_console_broken",
         "*": [ [ "t_grass", 5 ], [ "t_dirt", 2 ], [ "t_grass_long", 4 ] ],
         "^": [ "t_tree_walnut", "t_tree_chestnut", "t_tree_beech", "t_tree", "t_tree_hazelnut" ],
@@ -49,6 +50,7 @@
       },
       "furniture": {
         "#": "f_counter",
+        "R": "f_counter",
         "T": "f_table",
         "]": "f_rack",
         "c": "f_cupboard",
@@ -71,7 +73,8 @@
           { "item": "jackets", "chance": 20, "repeat": [ 1, 2 ] },
           { "item": "bags", "chance": 20, "repeat": [ 1, 2 ] },
           { "item": "snacks", "chance": 20, "repeat": [ 1, 2 ] }
-        ]
+        ],
+        "R": { "item": "miniatm", "chance": 2 }
       },
       "place_items": [
         { "item": "magazines", "x": 21, "y": [ 9, 14 ], "chance": 80, "repeat": [ 6, 15 ] },
@@ -233,7 +236,7 @@
         "**|hTh.hTh...#.......|**",
         "**|.h...h....#%##%##.|**",
         "*qO..................Oq*",
-        "**|###%#.h...........|**",
+        "**|###%R.h...........|**",
         "**|e...#.T...[[[[[..]|**",
         "**|s..c#....>|-|....]|**",
         "**|c..c#....||s|....]|**",
@@ -253,6 +256,7 @@
       ],
       "terrain": {
         "#": "t_floor",
+        "R": "t_floor",
         "%": "t_console_broken",
         "*": [ [ "t_grass", 5 ], [ "t_dirt", 2 ], [ "t_grass_long", 4 ] ],
         "+": "t_door_c",
@@ -268,6 +272,7 @@
       },
       "furniture": {
         "#": "f_counter",
+        "R": "f_counter",
         "T": "f_table",
         "[": "f_rack",
         "]": "f_bookcase",
@@ -297,7 +302,10 @@
         { "item": "coffee_table", "x": 4, "y": 13, "chance": 20 },
         { "item": "coffee_table", "x": 8, "y": 13, "chance": 20 }
       ],
-      "place_item": [ { "item": "coffeemaker", "x": 4, "y": 7, "chance": 30 }, { "item": "coffeemaker", "x": 4, "y": 12, "chance": 30 } ]
+      "place_item": [ { "item": "coffeemaker", "x": 4, "y": 7, "chance": 30 }, { "item": "coffeemaker", "x": 4, "y": 12, "chance": 30 } ],
+      "items": {
+        "R": { "item": "miniatm", "chance": 2 }
+      }
     }
   },
   {
@@ -446,7 +454,7 @@
         "***********~**|].].]|***",
         "****|------+-O|....]|***",
         "****|]]]]]..#a...T.]|***",
-        "****|]......#%#..T.]|***",
+        "****|]......R%#..T.]|***",
         "****|].]]].........]|***",
         "****|].]]].TT..TT..]|***",
         "****|].............]|***",
@@ -460,6 +468,8 @@
       ],
       "terrain": {
         "%": "t_console_broken",
+        "#": "t_floor",
+        "R": "t_floor",
         "*": [ [ "t_grass", 5 ], [ "t_dirt", 2 ], [ "t_grass_long", 4 ] ],
         "+": [ "t_door_c", "t_door_locked" ],
         "-": "t_wall_w",
@@ -475,6 +485,7 @@
       },
       "furniture": {
         "#": "f_counter",
+        "R": "f_counter",
         "S": "f_statue",
         "T": "f_table",
         "]": "f_bookcase",
@@ -490,7 +501,8 @@
           { "item": "jackets", "chance": 20, "repeat": [ 2, 3 ] },
           { "item": "bags", "chance": 20, "repeat": [ 2, 3 ] },
           { "item": "snacks", "chance": 20, "repeat": [ 2, 3 ] }
-        ]
+        ],
+        "R": { "item": "miniatm", "chance": 2 }
       },
       "place_items": [
         { "item": "novels", "x": [ 5, 9 ], "y": 12, "chance": 50, "repeat": [ 2, 3 ] },

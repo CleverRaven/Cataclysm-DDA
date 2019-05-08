@@ -20,7 +20,7 @@
         "..|B____{#&__________|..",
         "..|__________________|..",
         "..|^{_____________SSS|..",
-        "..|||cccc|||www|__||||..",
+        "..|||ccRc|||www|__||||..",
         "..|_^__C__&|F##|__|e#|..",
         "..|C___________|__+__|..",
         "..|tt__________+__|T_|..",
@@ -67,6 +67,7 @@
         "^": "f_indoor_plant",
         "b": "f_bench",
         "c": "f_counter",
+        "R": "f_counter",
         "e": "f_sink",
         "f": "f_bluebell",
         "g": "f_dumpster",
@@ -97,7 +98,10 @@
         { "item": "candy_shop", "x": 8, "y": 10, "chance": 75 },
         { "item": "light_reading", "x": 8, "y": 13, "chance": 25 },
         { "item": "light_reading", "x": 3, "y": 7, "chance": 25 }
-      ]
+      ],
+      "items": {
+        "R": { "item": "miniatm", "chance": 2 }
+      }
     }
   },
   {
@@ -174,7 +178,7 @@
         "..d7d..d4d..ss|||||||||.",
         "...d....d..bss-____#__|.",
         "...........bss-____#__|.",
-        "............ss|||__#C_|.",
+        "............ss|||__RC_|.",
         "...d........ssss+__#__|.",
         "..dtd....uu.ssss+__#__|.",
         "...d....||-----||__#&_|.",
@@ -219,6 +223,7 @@
       },
       "furniture": {
         "#": "f_counter",
+        "R": "f_counter",
         "&": "f_trashcan",
         "C": "f_chair",
         "D": "f_dandelion",
@@ -251,7 +256,10 @@
         { "item": "toy_store", "x": 14, "y": [ 15, 16 ], "chance": 55 },
         { "item": "toy_store", "x": 14, "y": 12, "chance": 55 },
         { "item": "toy_store", "x": 19, "y": 4, "chance": 55 }
-      ]
+      ],
+      "items": {
+        "R": { "item": "miniatm", "chance": 2 }
+      }
     }
   },
   {

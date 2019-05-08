@@ -12,7 +12,7 @@
         "   affffffa..affffffa   ",
         "   a......h.........a   ",
         "   a......j.........a   ",
-        "   ak.h...h.........a   ",
+        "   ak.h...R.........a   ",
         "   ak.h...k.........a   ",
         "   ak.h...h.........a   ",
         "   ak.h...k.........a   ",
@@ -49,6 +49,7 @@
         "f": "f_table",
         "g": "f_dumpster",
         "h": "f_counter",
+        "R": "f_counter",
         "i": "f_fridge",
         "k": "f_rack",
         "l": "f_trashcan",
@@ -83,6 +84,9 @@
         { "group": "butcher_raw_meat", "chance": 80, "repeat": [ 1, 2 ], "x": [ 4, 4 ], "y": [ 6, 10 ] },
         { "group": "restaur_trash", "chance": 80, "repeat": [ 1, 2 ], "x": [ 4, 18 ], "y": [ 16, 14 ] }
       ],
+      "items": {
+        "R": { "item": "miniatm", "chance": 2, "repeat": 1 }
+      },
       "place_monsters": [ { "monster": "GROUP_ZOMBIE_FAT", "chance": 1, "x": [ 9, 4 ], "y": [ 5, 13 ] } ],
       "place_fields": [
         { "field": "fd_blood", "x": [ 4, 7 ], "y": [ 5, 12 ], "repeat": [ 8, 12 ] },
@@ -219,7 +223,7 @@
         "   a...............Fa   ",
         "   a...............Fa   ",
         "   a............FFFFa   ",
-        "   ahhjhhhhhaeaaaaaaa   ",
+        "   ahhjRhhhhaeaaaaaaa   ",
         "   a........e.e.....a   ",
         "   ahhhhhhhha.am.Sata   ",
         "   ak.......a.aaaaaaa   ",
@@ -252,6 +256,7 @@
         "f": "f_table",
         "g": "f_dumpster",
         "h": "f_counter",
+        "R": "f_counter",
         "i": "f_fridge",
         "F": "f_glass_fridge",
         "k": "f_rack",
@@ -285,6 +290,9 @@
         { "group": "clothing_glasses", "chance": 80, "x": 16, "y": 13 },
         { "group": "cleaning", "chance": 80, "x": 19, "y": 13, "repeat": [ 1, 2 ] }
       ],
+      "items": {
+        "R": { "item": "miniatm", "chance": 2, "repeat": 1 }
+      },
       "place_monsters": [ { "monster": "GROUP_ZOMBIE_FAT", "chance": 1, "x": [ 9, 4 ], "y": [ 5, 13 ] } ],
       "place_fields": [
         { "field": "fd_blood", "x": [ 5, 8 ], "y": [ 12, 14 ], "repeat": [ 8, 12 ] },
@@ -419,7 +427,7 @@
         "   aF....k....k....Fa   ",
         "   aF....k....k....Fa   ",
         "   a..............FFa   ",
-        "   ahhjhhaaaaeaaaeaaa   ",
+        "   ahhjRhaaaaeaaaeaaa   ",
         "   a........e.aS....a   ",
         "   aaaahhaaaa.am..ata   ",
         "   ak.......a.aaaaaaa   ",
@@ -453,6 +461,7 @@
         "f": "f_table",
         "g": "f_dumpster",
         "h": "f_counter",
+        "R": "f_counter",
         "i": "f_fridge",
         "F": "f_glass_fridge",
         "X": "f_oven",
@@ -467,7 +476,8 @@
       "items": {
         "F": { "item": "butcher_raw_meat", "chance": 30, "repeat": [ 1, 2 ] },
         "k": { "item": "butcher_meat", "chance": 30, "repeat": [ 1, 2 ] },
-        "i": { "item": "butcher_raw_meat", "chance": 30, "repeat": [ 1, 2 ] }
+        "i": { "item": "butcher_raw_meat", "chance": 30, "repeat": [ 1, 2 ] },
+        "R": { "item": "miniatm", "chance": 2, "repeat": 1 }
       },
       "place_loot": [
         { "group": "trash", "chance": 80, "x": 11, "y": 16 },

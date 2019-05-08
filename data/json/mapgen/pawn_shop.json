@@ -24,7 +24,7 @@
         ".|{   ##   ##        }|.",
         ".|{   ##   ##  -------|.",
         ".|{   ##   ##  |  d  X|.",
-        ".|{   ##       +  dh }|.",
+        ".|{   ##       +  Rh }|.",
         ".|{   ##   |-^-|  d  }|.",
         ".|{   ##   |   |     }|.",
         ".|{        |% &|{}   }|.",
@@ -51,9 +51,9 @@
         "-": "t_wall",
         "~": "t_window_alarm"
       },
-      "furniture": { "X": "f_safe_l", "d": "f_desk", "#": "f_counter", "h": "f_chair", "%": "f_sink", "{": "f_rack", "}": "f_rack" },
+      "furniture": { "X": "f_safe_l", "d": "f_desk", "R": "f_desk", "#": "f_counter", "h": "f_chair", "%": "f_sink", "{": "f_rack", "}": "f_rack" },
       "toilets": { "&": {  } },
-      "items": { "X": { "item": "my_precious", "chance": 80, "repeat": [ 1, 2 ] } },
+      "items": { "X": { "item": "my_precious", "chance": 80, "repeat": [ 1, 2 ] }, "R": { "item": "miniatm", "chance": 2 } },
       "place_loot": [
         { "group": "pawn", "x": 2, "y": [ 7, 21 ], "chance": 70, "repeat": [ 1, 2 ] },
         { "group": "pawn", "x": [ 6, 7 ], "y": [ 7, 20 ], "chance": 70, "repeat": [ 1, 2 ] },
@@ -92,7 +92,7 @@
         ".|                    |.",
         ".|-^-|---+---|C      C|.",
         ".|   |#     }|C      C|.",
-        ".|% &|# ddd }|C      C|.",
+        ".|% &|# dRd }|C      C|.",
         ".|---|#  h  }|C      C|.",
         ".|X  *      }|CCCCCCCC|.",
         ".--------*-------------.",
@@ -121,6 +121,7 @@
       "furniture": {
         "X": "f_safe_l",
         "d": "f_desk",
+        "R": "f_desk",
         "#": "f_counter",
         "h": "f_chair",
         "C": [ "f_displaycase", "f_displaycase", "f_displaycase", "f_displaycase_b" ],
@@ -129,7 +130,7 @@
         "}": "f_rack"
       },
       "toilets": { "&": {  } },
-      "items": { "X": { "item": "my_precious", "chance": 80, "repeat": [ 1, 2 ] } },
+      "items": { "X": { "item": "my_precious", "chance": 80, "repeat": [ 1, 2 ] }, "R": { "item": "miniatm", "chance": 2 } },
       "place_loot": [
         { "group": "pawn", "x": 2, "y": [ 3, 15 ], "chance": 70, "repeat": [ 1, 2 ] },
         { "group": "pawn", "x": 21, "y": [ 3, 15 ], "chance": 70, "repeat": [ 1, 2 ] },

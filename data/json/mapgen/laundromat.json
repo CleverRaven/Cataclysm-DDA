@@ -23,7 +23,7 @@
         "s|===========-[[-===|sss",
         "s|^..........^..^...|sss",
         "s|t..#.............&|sss",
-        "s|C.Bt.............D|sss",
+        "s|C.BR.............D|sss",
         "s|ttt#....rrrr.....D|sss",
         "s|WWWWWWWWWWWt.....D|sss",
         "s|.................D|%ss",
@@ -86,7 +86,8 @@
         "^": "f_indoor_plant",
         "c": "f_chair",
         "r": "f_rack",
-        "t": "f_table"
+        "t": "f_table",
+        "R": "f_table"
       },
       "toilets": { "T": {  } },
       "place_items": [
@@ -104,6 +105,9 @@
         { "item": "vending_drink", "x": 2, "y": 20, "chance": 75 },
         { "item": "vending_food", "x": 2, "y": 21, "chance": 75 }
       ],
+      "items": {
+        "R": { "item": "miniatm", "chance": 2 }
+      },
       "place_vehicles": [
         { "vehicle": "shopping_cart", "x": 14, "y": 9, "chance": 10 },
         { "vehicle": "shopping_cart", "x": 14, "y": 13, "chance": 10 },
@@ -136,7 +140,7 @@
         "s|W.bb.WW.bb.Wr.r|...6|s",
         "s|W.bb.WW.bb.W........|s",
         "s|W.^^.WW.^^.W......B.|s",
-        "s|..............#####C|s",
+        "s|..............###R#C|s",
         "s|..............#..B..|s",
         "s|D.D||+|||+||........|s",
         "s|D.D|S..|..S|.||||||||s",
@@ -185,6 +189,7 @@
       },
       "furniture": {
         "#": "f_counter",
+        "R": "f_counter",
         "}": "f_bookcase",
         "P": "f_desk",
         "p": "f_armchair",
@@ -212,7 +217,8 @@
         "}": { "item": "novels", "chance": 30, "repeat": [ 1, 2 ] },
         "V": { "item": "vending_drink", "chance": 75, "repeat": [ 4, 8 ] },
         "%": { "item": "trash", "chance": 80 },
-        "#": { "item": "behindcounter", "chance": 20 }
+        "#": { "item": "behindcounter", "chance": 20 },
+        "R": { "item": "miniatm", "chance": 2 }
       },
       "place_vehicles": [
         { "vehicle": "shopping_cart", "x": 14, "y": 9, "chance": 10 },

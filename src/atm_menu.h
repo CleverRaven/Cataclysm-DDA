@@ -1,6 +1,6 @@
 #pragma once
-#ifndef IUSEEXAMINE_H
-#define IUSEEXAMINE_H
+#ifndef ATM_MENU_H
+#define ATM_MENU_H
 
 #include "game.h"
 #include "player.h"
@@ -258,7 +258,7 @@ class atm_menu
                  * e.g. if we are processing 7 cards, it acts just fine, consuming 7 battery charges.
                  * But if we are processing more, than 10 (one turn?) - for example, 17 - only 7 charges are consumed.
                  * Is it related to long actions somehow?
-                 */
+                */
                 
                 if ( !portable || a->ammo_sufficient() ) {
                     dst->charges += i->charges;

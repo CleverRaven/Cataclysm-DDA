@@ -23,7 +23,7 @@
         "SSSSSSSSSSSSSS|r      OS",
         "SSSSSSSSSSSSSS|r      |S",
         "SVVVVVVVz./Mzz|   #W##|S",
-        "SVD>>>>Vz./bMzV   #ww%|S",
+        "SVD>>>>Vz./bMzV   Rww%|S",
         "SV BBB>Vz.b/..{   xwwF|S",
         "SV   B>Vz.Mb..{   flwl|S",
         "SV   B>Vz....zV   flwU|S",
@@ -42,6 +42,7 @@
         " ": "t_floor",
         "!": "t_linoleum_white",
         "#": "t_linoleum_white",
+        "R": "t_linoleum_white",
         "%": "t_linoleum_white",
         "+": "t_door_c",
         ",": "t_pavement_y",
@@ -78,6 +79,7 @@
       },
       "furniture": {
         "#": "f_counter",
+        "R": "f_counter",
         "%": "f_trashcan",
         "/": "f_bluebell",
         "6": "f_table",
@@ -118,7 +120,8 @@
         "X": { "item": "coffee_newsstand", "chance": 80 },
         "f": { "item": "coffee_freezer", "chance": 55 },
         "l": { "item": "coffee_prep", "chance": 50 },
-        "r": { "item": "coffee_condiments", "chance": 80 }
+        "r": { "item": "coffee_condiments", "chance": 80 },
+        "R": { "item": "miniatm", "chance": 2 }
       },
       "monsters": { "!": { "monster": "GROUP_COFFEE_SHOP_ZOMBIE", "chance": 1 } },
       "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 3, 17 ], "y": [ 13, 18 ], "chance": 1 } ],
@@ -207,7 +210,7 @@
         "|..HTH.HTH.HTH.......TT|",
         "|....................HH|",
         "|......................|",
-        "|-D---D---cWWcccxccxccc|",
+        "|-D---D---cWWcccxRcxRcc|",
         "|S==|==S|==============|",
         "|P==|==P|llSO==rrrrrSTe|",
         "|-------------L--------|"
@@ -236,6 +239,7 @@
         "W": "t_fencegate_c",
         "_": "t_pavement",
         "c": "t_linoleum_white",
+        "R": "t_linoleum_white",
         "e": "t_linoleum_white",
         "l": "t_linoleum_white",
         "p": "t_concrete",
@@ -252,6 +256,7 @@
         "S": "f_sink",
         "T": "f_table",
         "c": "f_counter",
+        "R": "f_counter",
         "e": "f_fridge",
         "l": "f_locker",
         "r": "f_rack"
@@ -276,7 +281,10 @@
         { "item": "coffee_bathroom", "x": [ 6, 5 ], "y": [ 22, 21 ], "chance": 20, "repeat": [ 1, 2 ] },
         { "item": "coffee_bathroom", "x": [ 3, 2 ], "y": [ 22, 21 ], "chance": 20, "repeat": [ 1, 2 ] }
       ],
-      "place_item": [ { "item": "coffeemaker", "x": 21, "y": 22 }, { "item": "atomic_coffeepot", "x": 21, "y": 22, "chance": 20 } ]
+      "place_item": [ { "item": "coffeemaker", "x": 21, "y": 22 }, { "item": "atomic_coffeepot", "x": 21, "y": 22, "chance": 20 } ],
+      "items": {
+        "R": { "item": "miniatm", "chance": 2 }
+      }
     }
   },
   {
@@ -346,6 +354,7 @@
         "a": "f_sink",
         "b": "f_null",
         "c": "f_counter",
+        "R": "f_counter",
         "d": "f_dumpster",
         "l": "f_locker",
         "o": "f_oven",
@@ -372,6 +381,9 @@
         { "chance": 50, "item": "fast_trash", "x": [ 15, 16 ], "y": 19 },
         { "chance": 15, "item": "coffee_newsstand", "x": 15, "y": 6 }
       ],
+      "items": {
+        "R": { "item": "miniatm", "chance": 2 }
+      },
       "place_monsters": [
         { "chance": 4, "density": 1, "monster": "GROUP_ZOMBIE", "x": 8, "y": 10 },
         { "chance": 3, "density": 1, "monster": "GROUP_ZOMBIE_FAT_BASE", "x": 17, "y": 11 }
@@ -388,7 +400,7 @@
         "__|...|......#.tt....|__",
         "__|...c..............|__",
         "__|...c.............^|u_",
-        "__|...c..............|__",
+        "__|...R..............|__",
         "__|...c..............|_u",
         "__|...c......#.......|__",
         "_u|..c|.....#t#......|u_",
@@ -417,6 +429,7 @@
         "a": "t_floor",
         "b": "t_door_metal_pickable",
         "c": "t_floor",
+        "R": "t_floor",
         "d": "t_pavement",
         "l": "t_floor",
         "o": "t_floor",

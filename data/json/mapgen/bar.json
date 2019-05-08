@@ -19,7 +19,7 @@
         "|...##...##...##....cl&|",
         "|...##...##...##...qcl@|",
         "'...BB...BB...BB....cl{|",
-        "|..................qcl{|",
+        "|..................qRl{|",
         "|...BB...BB...BB....cl{|",
         "|...##...##...##...qcl{|",
         "|...##...##...##....cll|",
@@ -68,6 +68,7 @@
         "T": "f_trashcan",
         "r": "f_trashcan",
         "c": "f_counter",
+        "R": "f_counter",
         "d": "f_dumpster",
         "s": "f_sink",
         "x": "f_pool_table",
@@ -100,7 +101,10 @@
         { "item": "bar_trash", "x": [ 10, 11 ], "y": 21, "chance": 50, "repeat": [ 2, 4 ] },
         { "item": "bar_trash", "x": 22, "y": [ 17, 18 ], "chance": 70, "repeat": [ 4, 5 ] },
         { "item": "bar_bathroom", "x": [ 2, 4 ], "y": [ 21, 22 ], "chance": 30, "repeat": [ 1, 2 ] }
-      ]
+      ],
+      "items": {
+        "R": { "item": "miniatm", "chance": 2 }
+      }
     }
   },
   {
@@ -178,7 +182,7 @@
         " |.................xx.| ",
         " |X...q.q.q...........| ",
         " |X...uuuuu....|.q.q.q| ",
-        "||...-------+--|lccccc| ",
+        "||...-------+--|lccRcc| ",
         "|o.............|llllll| ",
         "|o.BB......BBBB|$$$lll| ",
         "|o.##C..o|C...B|----D-| ",
@@ -230,6 +234,7 @@
         "T": "f_trashcan",
         "c": "f_counter",
         "u": "f_counter",
+        "R": "f_counter",
         "d": "f_dumpster",
         "s": "f_sink",
         "Q": "f_arcade_machine",
@@ -250,7 +255,8 @@
         "i": { "item": "bar_bathroom", "chance": 35, "repeat": [ 1, 2 ] },
         "$": { "item": "bar_fridge", "chance": 50, "repeat": [ 1, 2 ] },
         "&": { "item": "fridgesnacks", "chance": 40, "repeat": [ 1, 2 ] },
-        "{": { "item": "bar_alcohol", "chance": 65, "repeat": [ 2, 3 ] }
+        "{": { "item": "bar_alcohol", "chance": 65, "repeat": [ 2, 3 ] },
+        "R": { "item": "miniatm", "chance": 2 }
       }
     }
   },

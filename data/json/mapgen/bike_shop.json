@@ -22,7 +22,7 @@
         "  _#......r#.......D#_  ",
         "  _#......r#..cc...r#_  ",
         "  _#..........%....r#_  ",
-        "  _#..........cq...r#_  ",
+        "  _#..........Rq...r#_  ",
         "  _#..........c....r#_  ",
         "  _#########..c.....#_  ",
         "  __4______;..c.rrr.#_  ",
@@ -39,7 +39,8 @@
         "@": { "item": "trash", "chance": 90 },
         "c": { "item": "bikeshop_for_sale", "chance": 60 },
         "r": { "item": "bikeshop_tools", "chance": 80 },
-        "l": { "item": "jackets", "chance": 60 }
+        "l": { "item": "jackets", "chance": 60 },
+        "R": { "item": "miniatm", "chance": 2, "repeat": 1 }
       },
       "place_vehicles": [
         { "vehicle": "bikeshop", "x": [ 4, 6 ], "y": [ 2, 3 ], "chance": 90, "rotation": 270 },
@@ -137,7 +138,7 @@
         "_#.....................#_",
         "_#.....................#_",
         "_#.....................#_",
-        "_#..................cc.#_",
+        "_#..................cR.#_",
         "_#..................%q.#_",
         "_#..................c..#_",
         "_#..................c..#_",
@@ -156,7 +157,8 @@
         "c": { "item": "bikeshop_for_sale", "chance": 60 },
         "f": { "item": "fridge", "chance": 40 },
         "l": { "item": "jackets", "chance": 60 },
-        "r": { "item": "bikeshop_tools", "chance": 80 }
+        "r": { "item": "bikeshop_tools", "chance": 80 },
+        "R": { "item": "miniatm", "chance": 2, "repeat": 1 }
       },
       "vendingmachines": { "D": { "item_group": "vending_drink" }, "F": { "item_group": "vending_food" } },
       "place_vehicles": [

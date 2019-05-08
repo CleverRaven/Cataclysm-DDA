@@ -23,7 +23,7 @@
         "=|blblblblblblblblblbl|=",
         "=|lb####ffGGGG####lblb|=",
         "=|bl----------------+-|=",
-        "=|lb###fffffff##|00|lS|=",
+        "=|lb#R#fffffff##|00|lS|=",
         "=|blblblblblblbl+l2|ll|=",
         "=|lblblblblblblb|00|lT|=",
         "=|---------------|----|=",
@@ -56,6 +56,7 @@
       },
       "furniture": {
         "#": "f_counter",
+        "R": "f_counter",
         "G": "f_oven",
         "H": "f_sofa",
         "S": "f_sink",
@@ -67,7 +68,7 @@
         "t": "f_table"
       },
       "toilets": { "T": {  } },
-      "items": { "Y": { "item": "coat_rack", "chance": 35, "repeat": [ 1, 4 ] } },
+      "items": { "Y": { "item": "coat_rack", "chance": 35, "repeat": [ 1, 4 ] }, "R": { "item": "miniatm", "chance": 2 } },
       "place_items": [
         { "item": "diner_food", "x": [ 4, 17 ], "y": [ 14, 14 ], "chance": 75, "repeat": [ 1, 4 ] },
         { "item": "diner_back", "x": [ 4, 16 ], "y": [ 16, 16 ], "chance": 95, "repeat": [ 1, 4 ] },
