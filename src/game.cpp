@@ -247,7 +247,7 @@ extern std::unique_ptr<cata_tiles> tilecontext;
 extern void toggle_fullscreen_window();
 #endif // TILES
 // returns false if 'TILE' is not defined.
-bool save_screenshot( const std::string &file_path );
+extern bool save_screenshot( const std::string &file_path );
 
 uistatedata uistate;
 
