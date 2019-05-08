@@ -16,6 +16,7 @@
 
 #include "action.h"
 #include "coordinate_conversions.h"
+#include "filesystem.h"
 #include "game.h"
 #include "messages.h"
 #include "mission.h"
@@ -30,6 +31,7 @@
 #include "player.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
+#include "sdl_wrappers.h"
 #include "ui.h"
 #include "vitamin.h"
 #include "color.h"
@@ -59,11 +61,7 @@
 #include "vpart_position.h"
 #include "rng.h"
 #include "signal.h"
-
-#if defined(TILES)
-#include "cata_tiles.h"
-extern std::unique_ptr<cata_tiles> tilecontext;
-#endif
+#include "worldfactory.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -1379,8 +1377,33 @@ void debug()
 
             case DEBUG_SAVE_SCREENSHOT: {
 #if defined(TILES)
+                // check there is a world currently running
+                if (world_generator->active_world == nullptr) {
+                    break;
+                }
+
+                // check the current '<world>/screenshots' directory exists
+                std::stringstream map_directory;
+                map_directory << g->get_world_base_save_path() << "/screenshots/";
+                assure_dir_exist(map_directory.str());
+
+                // build file name: <map_dir>/screenshots/[<character_name>]_<date>.png
+                std::stringstream date_buffer;
+                // somewhat ISO-8601 compliant GMT time date (except for some characters that wouldn't pass on most file systems like ':').
+                std::time_t time = std::time(nullptr);
+                date_buffer << std::put_time(std::gmtime(&time), "%F_%H-%M-%S_%z");
+                const auto tmp_file_name = string_format("[%s]_%s.png", g->u.get_name(),  date_buffer.str());
+
+                std::string file_name = ensure_valid_file_name(tmp_file_name);
+                auto current_file_path = map_directory.str() + file_name;
+
                 // Take a screenshot of the viewport.
-                tilecontext.get()->save_screenshot();
+                if(g->save_screenshot()) {
+                    //TODO popup success (with the path?)
+                }
+                else {
+                    //TODO popup failure (tell player to look at debug.log?)
+                }
 #else
                 popup( _( "This binary was not compiled with tiles support." ) );
 #endif
