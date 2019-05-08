@@ -3840,7 +3840,7 @@ SDL_Color cursesColorToSDL( const nc_color &color )
 
 /** Saves a screenshot of the current viewport, as a PNG file, to the given location.
 * @param file_path: A full path to the file where the screenshot should be saved. If it is empty, the file name is automatically generated.
-* @note: Only works for SDL (otherwise the function returns `false`). A window must already exist and the SDL renderer must be valid.
+* @note: Only works for SDL/TILES (otherwise the function returns `false`). A window must already exist and the SDL renderer must be valid.
 * @returns `true` if the screenshot generation was successful, `false` otherwise.
 */
 bool save_screenshot( const std::string &file_path )
