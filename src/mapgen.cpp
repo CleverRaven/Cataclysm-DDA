@@ -4263,7 +4263,7 @@ ___DEEE|.R.|...,,...|sss\n",
                                 } else if( j == tw + 2 ) {
                                     ter_set( i, j, t_concrete_wall );
                                 } else { // Empty space holds monsters!
-                                    place_spawns( GROUP_NETHER, 1, i, j, i, j, true );
+                                    place_spawns( GROUP_NETHER, 1, i, j, i, j, 1, true );
                                 }
                             }
                         }
