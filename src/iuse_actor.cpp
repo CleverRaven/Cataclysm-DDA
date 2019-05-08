@@ -2145,6 +2145,10 @@ void learn_spell_actor::info( const item &, std::vector<iteminfo> &dump ) const
 
 long learn_spell_actor::use( player &p, item &, bool, const tripoint & ) const
 {
+    if( p.fine_detail_vision_mod() > 4 ) {
+        p.add_msg_if_player( _( "It's too dark to read." ) );
+        return 0;
+    }
     std::vector<uilist_entry> uilist_initializer;
     bool know_it_all = true;
     for( const std::string sp_id_str : spells ) {

@@ -646,8 +646,8 @@ void player::learn_spell( const spell_type *sp, bool force )
     }
     if( !force || ( can_learn_spell( sp->id ) && !has_trait( sp->spell_class ) ) ) {
         if( query_yn(
-            _( "Learning this spell will make you a %s and lock you out of other unique spells.\nContinue?" ),
-            sp->spell_class.obj().name() ) ) {
+                _( "Learning this spell will make you a %s and lock you out of other unique spells.\nContinue?" ),
+                sp->spell_class.obj().name() ) ) {
             set_mutation( sp->spell_class );
             add_msg_if_player( sp->spell_class.obj().desc() );
         } else {
