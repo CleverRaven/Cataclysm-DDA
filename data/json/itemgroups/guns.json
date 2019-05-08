@@ -347,7 +347,10 @@
     "type": "item_group",
     "id": "guns_launcher_improvised",
     "//": "Makeshift or otherwise poor quality grenade and rocket launchers",
-    "items": [ { "item": "launcher_simple", "prob": 100 }, { "item": "triple_launcher_simple", "prob": 15 } ]
+    "items": [
+      { "item": "launcher_simple", "prob": 100 },
+      { "item": "triple_launcher_simple", "prob": 15, "charges-min": 0, "charges-max": 3 }
+    ]
   },
   {
     "type": "item_group",
