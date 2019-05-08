@@ -426,7 +426,7 @@ std::string ensure_valid_file_name( const std::string &file_name )
     std::string new_file_name = file_name;
     std::transform( new_file_name.begin(), new_file_name.end(),
     new_file_name.begin(), [&invalid_chars, &replacement_char]( const char c ) {
-        if(invalid_chars.find( c ) != std::string::npos ) {
+        if( invalid_chars.find( c ) != std::string::npos ) {
             return replacement_char;
         }
         return c;

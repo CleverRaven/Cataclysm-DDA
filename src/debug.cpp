@@ -842,24 +842,24 @@ std::string game_info::graphics_version()
 
 std::string game_info::mods_loaded()
 {
-    if (world_generator->active_world == nullptr) {
+    if( world_generator->active_world == nullptr ) {
         return "No active world";
     }
 
     std::vector<mod_id> mod_ids = world_generator->active_world->active_mod_order;
-    if (mod_ids.empty()) {
+    if( mod_ids.empty() ) {
         return "No loaded mods";
     }
 
     std::vector<std::string> mod_names;
-    mod_names.reserve(mod_ids.size());
-    std::transform(mod_ids.begin(), mod_ids.end(),
-        std::back_inserter(mod_names), [](const mod_id mod) -> std::string {
+    mod_names.reserve( mod_ids.size() );
+    std::transform( mod_ids.begin(), mod_ids.end(),
+    std::back_inserter( mod_names ), []( const mod_id mod ) -> std::string {
         // e.g. "Dark Days Ahead [dda]".
-        return string_format("%s [%s]", mod->name(), mod->ident.str());
-    });
+        return string_format( "%s [%s]", mod->name(), mod->ident.str() );
+    } );
 
-    auto result = join(mod_names, ",\n    ");
+    auto result = join( mod_names, ",\n    " );
     return result;
 }
 
