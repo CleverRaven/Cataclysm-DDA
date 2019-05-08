@@ -493,8 +493,8 @@ body_part_set item::get_covered_body_parts() const
 body_part_set item::get_covered_body_parts( const side s ) const
 {
     body_part_set res;
-
-    if( is_gun() && has_flag( "SLUNG" ) ) {
+    const auto t = find_armor_data();
+    if( is_gun() && t == nullptr ) {
         // Currently only used for guns with the should strap mod, other guns might
         // go on another bodypart.
         res.set( bp_torso );
@@ -3988,9 +3988,20 @@ int item::get_encumber_when_containing(
     const Character &p, const units::volume &contents_volume ) const
 {
     const auto t = find_armor_data();
-    if( t == nullptr ) {
+    if( t == nullptr && is_gun() ) {
+      int enc_worn = 0;
         // handle wearable guns (e.g. shoulder strap) as special case
-        return is_gun() ? volume() / 750_ml : 0;
+        if ( gunmod_find( "shoulder_strap" ) ) {
+          enc_worn = volume() / 750_ml;
+    } else if ( gunmod_find( "shoulder_strap_single" ) ) {
+        // single point slings are very dangly and awkward
+          enc_worn = volume() / 100_ml;
+    } else if ( gunmod_find (  "shoulder_strap_three" ) ) {
+        // three point slings snug up real good, if it's not the above it's this one.
+        enc_worn =  volume() / 1000_ml;
+    } return enc_worn;
+    } else if ( t == nullptr && !is_gun() ) {
+    return 0;
     }
     int encumber = t->encumber;
 

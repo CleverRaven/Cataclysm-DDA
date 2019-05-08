@@ -8656,6 +8656,7 @@ int player::item_wear_cost( const item &it ) const
 {
     double mv = item_handling_cost( it );
 
+if ( !it.is_gun() ) {
     switch( it.get_layer() ) {
         case UNDERWEAR:
             mv *= 1.5;
@@ -8675,6 +8676,22 @@ int player::item_wear_cost( const item &it ) const
         default:
             break;
     }
+    } else if ( it.is_gun ) {
+      switch( it.gunmod_find() ) {
+        case shoulder_strap:
+            mv /= 2.0;
+            break;
+
+        case shoulder_strap_single:
+            mv *= 0.8;
+            break;
+
+        case shoulder_strap_three:
+            mv /= 1.6;
+            break;
+        default:
+            break;
+    } }
 
     mv *= std::max( it.get_encumber( *this ) / 10.0, 1.0 );
 
