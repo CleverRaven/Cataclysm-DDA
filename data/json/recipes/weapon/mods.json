@@ -73,7 +73,7 @@
         [ "canister_empty", 1 ],
         [ "plastic_chunk", 1 ]
       ],
-      [ [ "lens", 1 ] ],
+      [ [ "lens", 2 ] ],
       [ [ "lens", 1 ], [ "lens_small", 1 ] ]
     ]
   },
@@ -99,7 +99,7 @@
         [ "canister_empty", 1 ],
         [ "plastic_chunk", 1 ]
       ],
-      [ [ "lens", 1 ] ],
+      [ [ "lens", 2 ] ],
       [ [ "lens", 1 ], [ "lens_small", 1 ] ]
     ]
   },
@@ -146,7 +146,7 @@
     "book_learn": [ [ "manual_gun", 3 ], [ "mag_archery", 2 ], [ "manual_archery", 1 ] ],
     "using": [ [ "soldering_standard", 20 ] ],
     "qualities": [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 } ],
-    "components": [ [ [ "scrap", 2 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "lens", 1 ] ], [ [ "lens", 1 ], [ "lens_small", 1 ] ] ]
+    "components": [ [ [ "scrap", 2 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "lens", 2 ] ], [ [ "lens", 1 ], [ "lens_small", 1 ] ] ]
   },
   {
     "type": "recipe",

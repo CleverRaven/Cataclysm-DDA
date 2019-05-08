@@ -79,6 +79,24 @@
     "fun": -1
   },
   {
+    "id": "tailor_japanese",
+    "type": "BOOK",
+    "name": "Traditional Japanese Kimono",
+    "description": "An illustrated textbook on the crafting of Japanese traditional garb.",
+    "weight": 2400,
+    "volume": 6,
+    "price": 8000,
+    "bashing": 8,
+    "material": [ "paper", "leather" ],
+    "symbol": "?",
+    "color": "red",
+    "skill": "tailor",
+    "required_level": 3,
+    "max_level": 6,
+    "intelligence": 8,
+    "time": 40
+  },
+  {
     "id": "recipe_fauxfur",
     "type": "BOOK",
     "name": "Friendly, Humane Fashion",

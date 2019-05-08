@@ -38,20 +38,19 @@
 #include "enums.h"
 #include "inventory.h"
 #include "item_location.h"
-#include "itype.h"
 #include "pldata.h"
-#include "string_id.h"
+#include "type_id.h"
 
 class effect;
 class map;
 class npc;
 struct pathfinding_settings;
+class recipe;
+struct islot_comestible;
+struct itype;
 
 static const std::string DEFAULT_HOTKEYS( "1234567890abcdefghijklmnopqrstuvwxyz" );
 
-class ammunition_type;
-
-using ammotype = string_id<ammunition_type>;
 class craft_command;
 class recipe_subset;
 
@@ -72,25 +71,13 @@ nc_color encumb_color( int level );
 enum game_message_type : int;
 class ma_technique;
 class martialart;
-class recipe;
-
-using recipe_id = string_id<recipe>;
 struct item_comp;
 struct tool_comp;
 template<typename CompType> struct comp_selection;
 class vehicle;
-class vitamin;
-
-using vitamin_id = string_id<vitamin>;
-class start_location;
-
-using start_location_id = string_id<start_location>;
 struct w_point;
 struct points_left;
 struct targeting_data;
-class morale_type_data;
-
-using morale_type = string_id<morale_type_data>;
 
 namespace debug_menu
 {
@@ -481,7 +468,14 @@ class player : public Character
         Attitude attitude_to( const Creature &other ) const override;
 
         void pause(); // '.' command; pauses & reduces recoil
-        void toggle_move_mode(); // Toggles to the next move mode.
+
+        void set_movement_mode( std::string mode );
+        const std::string get_movement_mode() const;
+
+        void cycle_move_mode(); // Cycles to the next move mode.
+        void reset_move_mode(); // Resets to walking.
+        void toggle_run_mode(); // Toggles running on/off.
+        void toggle_crouch_mode(); // Toggles crouching on/off.
 
         int get_shout_volume() const;
         void shout( std::string text = "", bool order = false );
@@ -854,6 +848,14 @@ class player : public Character
         morale_type allergy_type( const item &food ) const;
         /** Used for eating entered comestible, returns true if comestible is successfully eaten */
         bool eat( item &food, bool force = false );
+        /** Used to apply health modifications from food and medication **/
+        void modify_health( const islot_comestible &comest );
+        /** Used to apply stimulation modifications from food and medication **/
+        void modify_stimulation( const islot_comestible &comest );
+        /** Used to apply addiction modifications from food and medication **/
+        void modify_addiction( const islot_comestible &comest );
+        /** Used to apply morale modifications from food and medication **/
+        void modify_morale( item &food, int nutr = 0 );
 
         /** Can the food be [theoretically] eaten no matter the consequences? */
         ret_val<edible_rating> can_eat( const item &food ) const;
@@ -1436,9 +1438,23 @@ class player : public Character
         /** consume components and create an active, in progress craft containing them */
         void start_craft( craft_command &command, const tripoint &loc );
         void complete_craft( item &craft, const tripoint &loc = tripoint_zero );
+        /**
+         * Check if the player meets the requirements to continue the in progress craft and if
+         * unable to continue print messages explaining the reason.
+         * @param craft the currently in progress craft
+         * @return if the craft can be continued
+         */
+        bool can_continue_craft( const item &craft );
         /** Returns nearby NPCs ready and willing to help with crafting. */
         std::vector<npc *> get_crafting_helpers() const;
         int get_num_crafting_helpers( int max ) const;
+        /**
+         * Handle skill gain for player and followers during crafting
+         * @param craft the currently in progress craft
+         * @param mulitplier what factor to multiply the base skill gain by.  This is used to apply
+         * multiple steps of incremental skill gain simultaneously if needed.
+         */
+        void craft_skill_gain( const item &craft, const int &multiplier );
         /**
          * Check if the player can disassemble an item using the current crafting inventory
          * @param obj Object to check for disassembly
@@ -1555,7 +1571,6 @@ class player : public Character
 
         time_point next_climate_control_check;
         bool last_climate_control_ret;
-        std::string move_mode;
         int power_level;
         int max_power_level;
         int tank_plut;
@@ -1621,7 +1636,7 @@ class player : public Character
         void load_memorial_file( std::istream &fin );
         //Notable events, to be printed in memorial
         std::vector <std::string> memorial_log;
-        std::vector<int> follower_ids;
+        std::set<int> follower_ids;
         //Record of player stats, for posterity only
         stats lifetime_stats;
 
@@ -1871,6 +1886,8 @@ class player : public Character
         void react_to_felt_pain( int intensity );
 
         int pkill;
+
+        std::string move_mode;
 
         std::vector<tripoint> auto_move_route;
         player_activity destination_activity;

@@ -14,6 +14,7 @@ template<typename T>
 class optional;
 } // namespace cata
 struct tripoint;
+struct point;
 
 /**
  * Enumerates all discrete actions that can be performed by player
@@ -56,8 +57,16 @@ enum action_id : int {
     ACTION_MOVE_DOWN,
     /** Ascend a staircase */
     ACTION_MOVE_UP,
-    /** Toggle run/walk/crouch mode */
-    ACTION_TOGGLE_MOVE,
+    /** Cycle run/walk/crouch mode */
+    ACTION_CYCLE_MOVE,
+    /** Reset movement mode to walk  */
+    ACTION_RESET_MOVE,
+    /** Toggle run on/off */
+    ACTION_TOGGLE_RUN,
+    /** Toggle crouch on/off */
+    ACTION_TOGGLE_CROUCH,
+    /** Open movement mode menu */
+    ACTION_OPEN_MOVEMENT,
     /**@}*/
 
     // Viewport movement actions and related
@@ -192,6 +201,8 @@ enum action_id : int {
     ACTION_SLEEP,
     /** Open vehicle control menu */
     ACTION_CONTROL_VEHICLE,
+    /** Turn auto travel mode on/off */
+    ACTION_TOGGLE_AUTO_TRAVEL_MODE,
     /** Turn safemode on/off, while leaving autosafemode intact */
     ACTION_TOGGLE_SAFEMODE,
     /** Turn automatic triggering of safemode on/off */
@@ -484,7 +495,7 @@ std::string press_x( action_id act, const std::string &key_bound_pre,
 // ('Z'ing|zing) (X( or Y)))
 std::string press_x( action_id act, const std::string &act_desc );
 
-// Helper function to convert co-ordinate delta to a movement direction
+// Helper function to convert coordinate delta to a movement direction
 /**
  * Translate coordinate delta into movement direction
  *
@@ -506,6 +517,9 @@ std::string press_x( action_id act, const std::string &act_desc );
  * @returns ID of corresponding move action (usually... see note above)
  */
 action_id get_movement_direction_from_delta( const int dx, const int dy, const int dz = 0 );
+
+// Helper function to convert movement direction to coordinate delta point
+point get_delta_from_movement_direction( action_id act );
 
 /**
  * Show the action menu

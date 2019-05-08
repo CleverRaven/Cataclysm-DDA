@@ -2,6 +2,8 @@
   {
     "type": "item_group",
     "id": "home_hw",
+    "ammo": 50,
+    "magazine": 100,
     "items": [
       { "group": "tools_home", "prob": 150 },
       { "group": "tools_general", "prob": 30 },

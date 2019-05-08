@@ -25,6 +25,51 @@
     ]
   },
   {
+    "type": "item_group",
+    "id": "oa_ig_cs_desks",
+    "//": "For cs_car_showroom",
+    "items": [
+      { "group": "ammo_pocket_batteries_full", "prob": 30 },
+      [ "radio", 10 ],
+      [ "eyedrops", 10 ],
+      [ "rag", 30 ],
+      [ "paper", 30 ],
+      [ "foon", 30 ],
+      [ "spork", 30 ],
+      [ "coffee_raw", 20 ],
+      [ "coffee_syrup", 20 ],
+      [ "crude_picklock", 10 ],
+      [ "picklocks", 5 ],
+      [ "cell_phone", 10 ],
+      [ "file", 40 ],
+      [ "mag_mechanics", 20 ],
+      [ "manual_mechanics", 10 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "oa_ig_cs_lockers",
+    "//": "For cs_car_showroom",
+    "items": [
+      { "group": "ammo_pocket_batteries_full", "prob": 10 },
+      [ "radio", 10 ],
+      [ "rag", 30 ],
+      [ "dress_shoes", 20 ],
+      [ "longshirt", 30 ],
+      [ "polo_shirt", 30 ],
+      [ "dress_shirt", 30 ],
+      [ "skinny_tie", 10 ],
+      [ "tieclip", 10 ],
+      [ "collarpin", 10 ],
+      [ "blazer", 35 ],
+      [ "undershirt", 30 ],
+      [ "suit", 30 ],
+      [ "waistcoat", 30 ],
+      [ "gold_watch", 5 ],
+      [ "wristwatch", 10 ]
+    ]
+  },
+  {
     "id": "cop_armory",
     "type": "item_group",
     "magazine": 100,
@@ -247,6 +292,21 @@
     "items": [ [ "bowling_ball", 100 ] ]
   },
   {
+    "id": "boxing_misc",
+    "type": "item_group",
+    "items": [
+      [ "aspirin", 50 ],
+      [ "1st_aid", 40 ],
+      [ "bandages", 30 ],
+      [ "duct_tape", 20 ],
+      [ "sewing_kit", 10 ],
+      [ "mouthpiece", 10 ],
+      [ "cigar", 20 ],
+      [ "cig", 15 ],
+      [ "matches", 10 ]
+    ]
+  },
+  {
     "type": "item_group",
     "id": "bikeshop_tools",
     "items": [
@@ -327,6 +387,126 @@
           { "item": "toolbox", "prob": 2 }
         ]
       }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "oa_ig_cd_desks",
+    "//": "for cs_car_dealership",
+    "items": [
+      { "group": "ammo_pocket_batteries_full", "prob": 30 },
+      [ "radio", 10 ],
+      [ "eyedrops", 10 ],
+      [ "rag", 30 ],
+      [ "paper", 30 ],
+      [ "foon", 30 ],
+      [ "spork", 30 ],
+      [ "coffee_raw", 20 ],
+      [ "coffee_syrup", 20 ],
+      [ "crude_picklock", 10 ],
+      [ "picklocks", 5 ],
+      [ "cell_phone", 10 ],
+      [ "file", 40 ],
+      [ "mag_mechanics", 20 ],
+      [ "manual_mechanics", 10 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "oa_ig_cd_lockers",
+    "//": "for cs_car_dealership",
+    "items": [
+      { "group": "ammo_pocket_batteries_full", "prob": 10 },
+      [ "radio", 10 ],
+      [ "rag", 30 ],
+      [ "jack", 20 ],
+      [ "jack_small", 30 ],
+      [ "flashlight", 20 ],
+      [ "heavy_flashlight", 10 ],
+      [ "jumper_cable", 20 ],
+      [ "jumper_cable_heavy", 10 ],
+      [ "pliers", 10 ],
+      [ "battery_motorbike", 10 ],
+      [ "battery_car", 10 ],
+      [ "stereo", 10 ],
+      [ "wrench", 10 ],
+      [ "gloves_work", 10 ],
+      [ "glasses_safety", 10 ],
+      [ "solar_cell", 10 ],
+      [ "screwdriver", 15 ],
+      [ "superglue", 5 ],
+      [ "polisher", 15 ],
+      [ "solar_panel", 15 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "oa_ig_cd_crates",
+    "//": "for cs_car_dealership",
+    "items": [
+      { "group": "ammo_any_batteries_full", "prob": 10 },
+      [ "radio", 10 ],
+      [ "rag", 30 ],
+      [ "jack", 20 ],
+      [ "jack_small", 30 ],
+      [ "flashlight", 20 ],
+      [ "heavy_flashlight", 10 ],
+      [ "jumper_cable", 20 ],
+      [ "jumper_cable_heavy", 10 ],
+      [ "pliers", 10 ],
+      [ "battery_motorbike", 10 ],
+      [ "battery_car", 10 ],
+      [ "stereo", 10 ],
+      [ "wrench", 10 ],
+      [ "gloves_work", 10 ],
+      [ "glasses_safety", 10 ],
+      [ "solar_cell", 10 ],
+      [ "screwdriver", 15 ],
+      [ "superglue", 5 ],
+      [ "polisher", 15 ],
+      [ "solar_panel", 15 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ic_merch_vending",
+    "//": "for cs_internet_cafe",
+    "items": [
+      [ "water_clean", 100 ],
+      [ "water_mineral", 100 ],
+      [ "coffee", 100 ],
+      [ "atomic_coffee", 100 ],
+      [ "chips", 100 ],
+      [ "chips2", 100 ],
+      [ "chips3", 100 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ic_merch",
+    "//": "for cs_internet_cafe",
+    "items": [
+      [ "cell_phone", 20 ],
+      [ "mag_computer", 20 ],
+      { "group": "ammo_pocket_batteries_full", "prob": 20 },
+      [ "radio", 20 ],
+      [ "television", 20 ],
+      [ "two_way_radio", 20 ],
+      [ "noise_emitter", 20 ],
+      [ "eyedrops", 20 ],
+      [ "mag_electronics", 20 ],
+      [ "ecig", 20 ],
+      [ "usb_drive", 20 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "oa_ig_cd_fuel",
+    "//": "for cs_car_dealership",
+    "items": [
+      { "item": "gasoline", "prob": 20, "charges-min": 450, "charges-max": 2000, "container-item": "jug_plastic" },
+      { "item": "gasoline", "prob": 30, "charges-min": 450, "charges-max": 4000, "container-item": "jerrycan" },
+      { "item": "gasoline", "prob": 10, "charges-min": 2650, "charges-max": 10000, "container-item": "jerrycan_big" }
     ]
   }
 ]

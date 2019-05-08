@@ -53,7 +53,6 @@
 #include "speech.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
-#include "submap.h"
 #include "text_snippets.h"
 #include "translations.h"
 #include "trap.h"
@@ -76,7 +75,6 @@
 #include "item_location.h"
 #include "itype.h"
 #include "monster.h"
-#include "omdata.h"
 #include "optional.h"
 #include "pimpl.h"
 #include "player_activity.h"
@@ -87,7 +85,7 @@
 #include "string_id.h"
 #include "vpart_reference.h"
 #include "weather_gen.h"
-#include "material.h"
+#include "type_id.h"
 
 #define RADIO_PER_TURN 25 // how many characters per turn of radio
 
@@ -1435,7 +1433,7 @@ int petfood( player &p, const item &it, Petfood animal_food_type )
             if( query_yn( _( "Are you sure you want to feed a person the dog food?" ) ) ) {
                 p.add_msg_if_player( _( "You put your %1$s into %2$s's mouth!" ), it.tname(),
                                      person.name );
-                if( person.is_friend() || x_in_y( 9, 10 ) ) {
+                if( person.is_ally( p ) || x_in_y( 9, 10 ) ) {
                     person.say(
                         _( "Okay, but please, don't give me this again.  I don't want to eat dog food in the cataclysm all day." ) );
                     return 1;
@@ -1674,9 +1672,12 @@ int iuse::sew_advanced( player *p, item *it, bool, const tripoint & )
     rn -= mod_count * 10;                              // Other mods
 
     if( rn <= 8 ) {
-        p->add_msg_if_player( m_bad, _( "You damage your %s trying to modify it!" ),
-                              mod.tname() );
-        if( mod.inc_damage() ) {
+        const std::string startdurability = mod.durability_indicator( true );
+        const auto destroyed = mod.inc_damage();
+        const std::string resultdurability = mod.durability_indicator( true );
+        p->add_msg_if_player( m_bad, _( "You damage your %s trying to modify it! ( %s-> %s)" ),
+                              mod.tname( 1, false ), startdurability, resultdurability );
+        if( destroyed ) {
             p->add_msg_if_player( m_bad, _( "You destroy it!" ) );
             p->i_rem_keep_contents( pos );
         }
@@ -1991,7 +1992,7 @@ int iuse::extinguisher( player *p, item *it, bool, const tripoint & )
         dest.x += ( dest.x - p->posx() );
         dest.y += ( dest.y - p->posy() );
 
-        g->m.adjust_field_strength( dest, fd_fire, std::min( 0 - rng( 0, 1 ) + rng( 0, 1 ), 0L ) );
+        g->m.adjust_field_strength( dest, fd_fire, std::min( 0 - rng( 0, 1 ) + rng( 0, 1 ), 0 ) );
     }
 
     return it->type->charges_to_use();
@@ -2707,20 +2708,21 @@ int iuse::dig( player *p, item *it, bool t, const tripoint & )
     }
 
     if( grave ) {
-        if( g->u.has_trait_flag( "SPIRITUAL" ) && !g->u.has_trait_flag( "PSYCHOPATH" ) &&
+        if( g->u.has_trait( trait_id( "SPIRITUAL" ) ) && !g->u.has_trait( trait_id( "PSYCHOPATH" ) ) &&
             g->u.query_yn( _( "Would you really touch the sacred resting place of the dead?" ) ) ) {
             add_msg( m_info, _( "Exhuming a grave is really against your beliefs." ) );
             g->u.add_morale( MORALE_GRAVEDIGGER, -50, -100, 48_hours, 12_hours );
             if( one_in( 3 ) ) {
                 g->u.vomit();
             }
-        } else if( g->u.has_trait_flag( "PSYCHOPATH" ) ) {
+        } else if( g->u.has_trait( trait_id( "PSYCHOPATH" ) ) ) {
             p->add_msg_if_player( m_good,
                                   _( "Exhuming a grave is fun now, where there is no one to object." ) );
-            p->add_morale( MORALE_GRAVEDIGGER, 25, 50, 2_hours, 1_hours );
-        } else if( !g->u.has_trait_flag( "EATDEAD" ) && !g->u.has_trait_flag( "SAPROVORE" ) ) {
+            g->u.add_morale( MORALE_GRAVEDIGGER, 25, 50, 2_hours, 1_hours );
+        } else if( !g->u.has_trait( trait_id( "EATDEAD" ) ) &&
+                   !g->u.has_trait( trait_id( "SAPROVORE" ) ) ) {
             p->add_msg_if_player( m_bad, _( "Exhuming this grave is utterly disgusting!" ) );
-            p->add_morale( MORALE_GRAVEDIGGER, -25, -50, 2_hours, 1_hours );
+            g->u.add_morale( MORALE_GRAVEDIGGER, -25, -50, 2_hours, 1_hours );
             if( one_in( 5 ) ) {
                 p->vomit();
             }
@@ -5434,27 +5436,32 @@ int iuse::gun_repair( player *p, item *it, bool, const tripoint & )
         return 0;
     }
     /** @EFFECT_MECHANICS >=8 allows accurizing ranged weapons */
+    const std::string startdurability = fix.durability_indicator( true );
+    std::string resultdurability;
     if( fix.damage() <= 0 ) {
         sounds::sound( p->pos(), 6, sounds::sound_t::activity, "crunch" );
         p->moves -= 2000 * p->fine_detail_vision_mod();
         p->practice( skill_mechanics, 10 );
-        p->add_msg_if_player( m_good, _( "You accurize your %s." ), fix.tname() );
         fix.mod_damage( -itype::damage_scale );
+        p->add_msg_if_player( m_good, _( "You accurize your %s." ), fix.tname( 1, false ) );
 
     } else if( fix.damage() > itype::damage_scale ) {
         sounds::sound( p->pos(), 8, sounds::sound_t::activity, "crunch" );
         p->moves -= 1000 * p->fine_detail_vision_mod();
         p->practice( skill_mechanics, 10 );
-        p->add_msg_if_player( m_good, _( "You repair your %s!" ), fix.tname() );
         fix.mod_damage( -itype::damage_scale );
+        resultdurability = fix.durability_indicator( true );
+        p->add_msg_if_player( m_good, _( "You repair your %s! ( %s-> %s)" ), fix.tname( 1, false ),
+                              startdurability, resultdurability );
 
     } else {
         sounds::sound( p->pos(), 8, sounds::sound_t::activity, "crunch" );
         p->moves -= 500 * p->fine_detail_vision_mod();
         p->practice( skill_mechanics, 10 );
-        p->add_msg_if_player( m_good, _( "You repair your %s completely!" ),
-                              fix.tname() );
         fix.set_damage( 0 );
+        resultdurability = fix.durability_indicator( true );
+        p->add_msg_if_player( m_good, _( "You repair your %s completely! ( %s-> %s)" ),
+                              fix.tname( 1, false ), startdurability, resultdurability );
     }
     return it->type->charges_to_use();
 }
@@ -5567,23 +5574,29 @@ int iuse::misc_repair( player *p, item *it, bool, const tripoint & )
                               fix.tname() );
         return 0;
     }
+    const std::string startdurability = fix.durability_indicator( true );
+    std::string resultdurability;
     if( fix.damage() <= 0 ) {
         p->moves -= 1000 * p->fine_detail_vision_mod();
         p->practice( skill_fabrication, 10 );
-        p->add_msg_if_player( m_good, _( "You reinforce your %s." ), fix.tname() );
         fix.mod_damage( -itype::damage_scale );
+        p->add_msg_if_player( m_good, _( "You reinforce your %s." ), fix.tname() );
 
     } else if( fix.damage() > itype::damage_scale ) {
         p->moves -= 500 * p->fine_detail_vision_mod();
         p->practice( skill_fabrication, 10 );
-        p->add_msg_if_player( m_good, _( "You repair your %s!" ), fix.tname() );
         fix.mod_damage( -itype::damage_scale );
+        resultdurability = fix.durability_indicator( true );
+        p->add_msg_if_player( m_good, _( "You repair your %s! ( %s-> %s)" ), fix.tname( 1, false ),
+                              startdurability, resultdurability );
 
     } else {
         p->moves -= 250 * p->fine_detail_vision_mod();
         p->practice( skill_fabrication, 10 );
-        p->add_msg_if_player( m_good, _( "You repair your %s completely!" ), fix.tname() );
         fix.set_damage( 0 );
+        resultdurability = fix.durability_indicator( true );
+        p->add_msg_if_player( m_good, _( "You repair your %s completely! ( %s-> %s)" ),
+                              fix.tname( 1, false ), startdurability, resultdurability );
     }
     return it->type->charges_to_use();
 }
@@ -8111,6 +8124,8 @@ int iuse::craft( player *p, item *it, bool, const tripoint & )
                 // wielding something that can't be unwielded
                 return 0;
             }
+        } else {
+            return 0;
         }
     }
 
@@ -8118,6 +8133,10 @@ int iuse::craft( player *p, item *it, bool, const tripoint & )
 
     if( !p->weapon.is_craft() ) {
         debugmsg( "Attempted to start working on non craft '%s.'  Aborting.", craft_name );
+        return 0;
+    }
+
+    if( !p->can_continue_craft( p->weapon ) ) {
         return 0;
     }
 

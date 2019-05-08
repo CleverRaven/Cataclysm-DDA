@@ -6,6 +6,7 @@
 #include <sstream>
 #include <map>
 #include <utility>
+#include <type_traits>
 
 #include "debug.h"
 #include "json.h"
@@ -13,6 +14,7 @@
 #include "translations.h"
 #include "ui.h"
 #include "compatibility.h"
+#include "mutation.h"
 
 using namespace trait_group;
 

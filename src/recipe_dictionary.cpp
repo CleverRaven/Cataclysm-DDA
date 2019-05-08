@@ -19,6 +19,7 @@
 #include "player.h"
 #include "requirements.h"
 #include "units.h"
+#include "string_id.h"
 
 recipe_dictionary recipe_dict;
 

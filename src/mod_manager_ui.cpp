@@ -9,7 +9,7 @@
 #include "output.h"
 #include "string_formatter.h"
 #include "translations.h"
-#include "game.h"
+#include "string_id.h"
 
 mod_ui::mod_ui( mod_manager &mman )
     : active_manager( mman )

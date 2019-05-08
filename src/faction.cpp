@@ -25,9 +25,9 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "item.h"
-#include "itype.h"
 #include "optional.h"
 #include "pimpl.h"
+#include "type_id.h"
 
 static std::map<faction_id, faction_template> _all_faction_templates;
 
@@ -453,6 +453,8 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
         current_status += _( "Following" );
     } else if( is_leader() ) {
         current_status += _( "Leading" );
+    } else if( is_patrolling() ) {
+        current_status += _( "Patrolling" );
     } else if( is_guarding() ) {
         current_status += _( "Guarding" );
     }

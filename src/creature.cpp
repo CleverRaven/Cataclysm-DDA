@@ -35,8 +35,7 @@
 #include "mapdata.h"
 #include "optional.h"
 #include "player.h"
-#include "material.h"
-#include "pldata.h"
+#include "string_id.h"
 
 const efftype_id effect_blind( "blind" );
 const efftype_id effect_bounced( "bounced" );
@@ -263,7 +262,7 @@ bool Creature::sees( const Creature &critter ) const
         return false;
     }
     if( const player *p = dynamic_cast<const player *>( &critter ) ) {
-        if( p->move_mode == "crouch" ) {
+        if( p->get_movement_mode() == "crouch" ) {
             const int coverage = g->m.obstacle_coverage( pos(), critter.pos() );
             if( coverage < 30 ) {
                 return sees( critter.pos(), critter.is_player() );

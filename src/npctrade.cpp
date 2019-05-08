@@ -23,6 +23,7 @@
 #include "player.h"
 #include "units.h"
 #include "visitable.h"
+#include "type_id.h"
 
 const skill_id skill_barter( "barter" );
 
@@ -58,7 +59,7 @@ std::vector<item_pricing> init_selling( npc &p )
         }
     }
 
-    if( p.is_friend() & !p.weapon.is_null() && !p.weapon.has_flag( "NO_UNWIELD" ) ) {
+    if( p.is_player_ally() & !p.weapon.is_null() && !p.weapon.has_flag( "NO_UNWIELD" ) ) {
         result.emplace_back( p, &p.weapon, p.value( p.weapon ), false );
     }
 
@@ -170,7 +171,7 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
     }
 
     // Just exchanging items, no barter involved
-    const bool ex = p.is_friend();
+    const bool ex = p.is_player_ally();
 
     // How much cash you get in the deal (negative = losing money)
     long cash = cost + p.op_of_u.owed;

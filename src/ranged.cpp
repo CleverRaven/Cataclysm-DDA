@@ -57,7 +57,7 @@
 #include "string_id.h"
 #include "units.h"
 #include "material.h"
-#include "pldata.h"
+#include "type_id.h"
 
 const skill_id skill_throw( "throw" );
 const skill_id skill_gun( "gun" );
@@ -1422,6 +1422,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
 
             // We need to do a bunch of redrawing and cache updates since we're
             // looking at a different z-level.
+            g->m.invalidate_map_cache( dst.z );
             g->refresh_all();
         }
 

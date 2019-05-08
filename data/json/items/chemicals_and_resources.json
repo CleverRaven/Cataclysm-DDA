@@ -1,20 +1,20 @@
 [
   {
-    "id": "anesthesia",
+    "id": "anesthetic",
     "type": "AMMO",
-    "name": "anesthetic kit",
+    "name": "anesthetic",
     "category": "chems",
-    "description": "A kit for inducing anesthesia for surgery, containing specialized canisters with a variety of powerful hypnotic, analgetic, and stimulative drugs.  It's intended for use in specialized medical equipment, and can't be administered manually.",
+    "description": "A variety of powerful hypnotic, analgetic, and stimulative drugs.  It's intended for use in specialized medical equipment, and can't be administered manually.  You can reload an anesthetic kit with it.",
     "weight": 100,
-    "volume": 1,
+    "volume": 12,
     "price": 50000,
-    "ammo_type": "components",
+    "ammo_type": "anesthetic",
     "count": 3,
-    "material": "plastic",
+    "phase": "liquid",
+    "container": "jar_3l_glass",
     "symbol": "!",
     "color": "cyan",
-    "looks_like": "1st_aid",
-    "flags": [ "ANESTHESIA" ]
+    "looks_like": "ether"
   },
   {
     "type": "AMMO",
@@ -777,7 +777,8 @@
     "price_postapoc": 2000,
     "volume": 1,
     "charges": 15,
-    "stack_size": 100
+    "stack_size": 100,
+    "flags": [ "NO_INGEST" ]
   },
   {
     "type": "GENERIC",

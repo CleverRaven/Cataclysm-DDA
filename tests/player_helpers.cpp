@@ -11,7 +11,7 @@
 #include "player.h"
 #include "inventory.h"
 #include "player_activity.h"
-#include "pldata.h"
+#include "type_id.h"
 
 int get_remaining_charges( const std::string &tool_id )
 {
@@ -22,7 +22,7 @@ int get_remaining_charges( const std::string &tool_id )
     } );
     int remaining_charges = 0;
     for( const item *instance : items ) {
-        remaining_charges += instance->charges;
+        remaining_charges += instance->ammo_remaining();
     }
     return remaining_charges;
 }
@@ -67,7 +67,7 @@ void clear_player()
     dummy.per_cur = 8;
 
     const tripoint spot( 60, 60, 0 );
-    dummy.setpos( spot );
+    g->place_player( spot );
 }
 
 void process_activity( player &dummy )

@@ -32,6 +32,8 @@
 #include "mattack_common.h"
 #include "pathfinding.h"
 #include "player.h"
+#include "int_id.h"
+#include "string_id.h"
 
 #define MONSTER_FOLLOW_DIST 8
 

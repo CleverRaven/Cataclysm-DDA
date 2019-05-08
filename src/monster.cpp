@@ -41,11 +41,11 @@
 #include "character.h"
 #include "compatibility.h"
 #include "game_constants.h"
-#include "itype.h"
 #include "mattack_common.h"
 #include "pimpl.h"
 #include "player.h"
-#include "material.h"
+#include "int_id.h"
+#include "string_id.h"
 
 struct pathfinding_settings;
 
@@ -2550,7 +2550,7 @@ void monster::on_load()
         regen = 0.25f / HOURS( 1 );
     }
 
-    const int heal_amount = divide_roll_remainder( regen * to_turns<int>( dt ), 1.0 );
+    const int heal_amount = roll_remainder( regen * to_turns<int>( dt ) );
     const int healed = heal( heal_amount );
     int healed_speed = 0;
     if( healed < heal_amount && get_speed_base() < type->speed ) {

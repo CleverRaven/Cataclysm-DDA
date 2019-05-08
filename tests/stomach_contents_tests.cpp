@@ -9,7 +9,7 @@
 #include "item.h"
 #include "stomach.h"
 #include "units.h"
-#include "pldata.h"
+#include "type_id.h"
 
 void reset_time()
 {
@@ -174,7 +174,7 @@ TEST_CASE( "all_nutrition_starve_test" )
         printf( "\n\n" );
     }
 
-    for( unsigned int day = 0; day <= 10; day++ ) {
+    for( unsigned int day = 0; day <= 20; day++ ) {
         if( print_tests ) {
             printf( "day %d: %d\n", day, dummy.get_stored_kcal() );
         }
@@ -189,7 +189,9 @@ TEST_CASE( "all_nutrition_starve_test" )
                 dummy.vitamin_get( vitamin_id( "vitA" ) ), dummy.vitamin_get( vitamin_id( "vitB" ) ),
                 dummy.vitamin_get( vitamin_id( "vitC" ) ), dummy.vitamin_get( vitamin_id( "calcium" ) ),
                 dummy.vitamin_get( vitamin_id( "iron" ) ) );
-        printf( "\n\n" );
+        printf( "\n" );
+        print_stomach_contents( dummy, print_tests );
+        printf( "\n" );
     }
     CHECK( dummy.get_stored_kcal() >= dummy.get_healthy_kcal() );
     // since vitamins drain very quickly, it is almost impossible to remain at 0

@@ -11,11 +11,9 @@
 #include "npc.h"
 #include "overmap.h"
 #include "enums.h"
-#include "game.h"
-#include "itype.h"
 #include "monster.h"
-#include "omdata.h"
 #include "string_id.h"
+#include "type_id.h"
 
 // Intentionally ignoring the name member.
 bool operator==( const city &a, const city &b )

@@ -23,22 +23,17 @@
 #include "creature.h"
 #include "cursesdef.h"
 #include "enums.h"
-#include "int_id.h"
 #include "inventory.h"
 #include "item_location.h"
-#include "itype.h"
-#include "pldata.h"
 #include "string_formatter.h"
 #include "string_id.h"
 #include "material.h"
+#include "type_id.h"
 
 class JsonObject;
 class JsonIn;
 class JsonOut;
 class item;
-class npc_class;
-class monfaction;
-struct mission_type;
 struct overmap_location;
 class Character;
 class faction;
@@ -49,12 +44,10 @@ struct pathfinding_settings;
 enum game_message_type : int;
 class gun_mode;
 
-using npc_class_id = string_id<npc_class>;
-using mission_type_id = string_id<mission_type>;
-using mfaction_id = int_id<monfaction>;
 using overmap_location_str_id = string_id<overmap_location>;
 
-void parse_tags( std::string &phrase, const player &u, const player &me );
+void parse_tags( std::string &phrase, const player &u, const player &me,
+                 const itype_id &item_type = "null" );
 
 /*
  * Talk:   Trust midlow->high, fear low->mid, need doesn't matter
@@ -575,6 +568,7 @@ class npc : public player
         void randomize( const npc_class_id &type = npc_class_id::NULL_ID() );
         void randomize_from_faction( faction *fac );
         void set_fac( const string_id<faction> &id );
+        void clear_fac();
         /**
          * Set @ref submap_coords and @ref pos.
          * @param mx,my,mz are global submap coordinates.
@@ -640,16 +634,22 @@ class npc : public player
          */
         std::vector<matype_id> styles_offered_to( const player &p ) const;
         // State checks
+        int get_faction_ver() const; // faction version number
+        void set_faction_ver( int new_version );
         bool is_enemy() const; // We want to kill/mug/etc the player
         bool is_following() const; // Traveling w/ player (whether as a friend or a slave)
-        bool is_friend() const; // Allies with the player
+        bool is_obeying( const player &p ) const;
+        bool is_friendly( const player &p ) const; // ally of or travelling with p
         bool is_leader() const; // Leading the player
+        bool is_walking_with() const; // Leading, following, or waiting for the player
         bool is_ally( const player &p ) const; // in the same faction
+        bool is_player_ally() const; // is an ally of the player
+        bool is_stationary( bool include_guards = true ) const; // isn't moving
+        bool is_guarding() const; // has a guard mission
+        bool is_patrolling() const; // has a guard patrol mission
         bool is_assigned_to_camp() const;
         /** is performing a player_activity */
         bool has_player_activity() const;
-        /** Standing in one spot, moving back if removed from it. */
-        bool is_guarding() const;
         bool is_travelling() const;
         /** Trusts you a lot. */
         bool is_minion() const;
@@ -687,9 +687,9 @@ class npc : public player
         bool will_accept_from_player( const item &it ) const;
 
         bool wants_to_sell( const item &it ) const;
-        bool wants_to_sell( const item &it, int at_price, int market_price ) const;
+        bool wants_to_sell( const item &/*it*/, int at_price, int market_price ) const;
         bool wants_to_buy( const item &it ) const;
-        bool wants_to_buy( const item &it, int at_price, int market_price ) const;
+        bool wants_to_buy( const item &/*it*/, int at_price, int /*market_price*/ ) const;
 
         // AI helpers
         void regen_ai_cache();
@@ -846,6 +846,7 @@ class npc : public player
         bool saw_player_recently() const;// Do we have an idea of where u are?
         /** Returns true if food was consumed, false otherwise. */
         bool consume_food();
+        int get_thirst() const override;
 
         // Movement on the overmap scale
         bool has_omt_destination() const; // Do we have a long-term destination?
@@ -907,7 +908,10 @@ class npc : public player
         std::vector<mission_type_id> miss_ids;
 
     private:
-
+        // faction API versions
+        // 2 - allies are in your_followers faction; NPCATT_FOLLOW is follower but not an ally
+        // 0 - allies may be in your_followers faction; NPCATT_FOLLOW is an ally (legacy)
+        int faction_api_version = 2;  // faction API versioning
         npc_attitude attitude; // What we want to do to the player
         /**
          * Global submap coordinates of the submap containing the npc.
@@ -951,8 +955,6 @@ class npc : public player
          */
         tripoint goal;
         std::vector<tripoint> omt_path;
-        tripoint wander_pos; // Not actually used (should be: wander there when you hear a sound)
-        int wander_time;
 
         /**
          * Location and index of the corpse we'd like to pulp (if any).
