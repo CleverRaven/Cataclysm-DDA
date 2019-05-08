@@ -1381,5 +1381,16 @@
     "id": "pool_4",
     "locations": [ "land" ],
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "pool_4_north" }, { "point": [ 0, 0, 1 ], "overmap": "pool_roof_4_north" } ]
+  },
+  {
+    "type": "city_building",
+    "id": "bus_station",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "bus_stat_0_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "bus_stat_0_roof_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "bus_stat_1_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "bus_stat_1_roof_north" }
+    ]
   }
 ]
