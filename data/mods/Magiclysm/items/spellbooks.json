@@ -95,6 +95,6 @@
 	"price": 1904,
 	"symbol": "?",
 	"color": "light_blue",
-	"use_action": { "type": "learn_spell", "spells": [ "cone_cold", "hoary_blast", "frost_armor", "ice_shield", "chilling_touch", "frost_spray" ] }
+	"use_action": { "type": "learn_spell", "spells": [ "cone_cold", "ice_spike", "hoary_blast", "frost_armor", "ice_shield", "chilling_touch", "frost_spray" ] }
   }
 ]

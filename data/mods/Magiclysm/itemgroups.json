@@ -22,16 +22,16 @@
   {
     "type": "item_group",
     "id": "lab_bookshelves",
-    "items": [ [ "wizard_beginner", 3 ], [ "wizard_advanced", 5 ], [ "priest_beginner", 3 ], [ "wizard_utility", 5 ], [ "priest_advanced", 5 ], [ "pyro", 6 ] ]
+    "items": [ [ "wizard_beginner", 3 ], [ "wizard_advanced", 5 ], [ "priest_beginner", 3 ], [ "wizard_utility", 5 ], [ "priest_advanced", 5 ], [ "pyro", 6 ], [ "winter_grasp", 6] ]
   },
   {
     "type": "item_group",
     "id": "mansion_books",
-    "items": [ [ "wizard_beginner", 10 ], [ "wizard_advanced", 5 ], [ "priest_beginner", 10 ], [ "pyro", 3 ] ]
+    "items": [ [ "wizard_beginner", 10 ], [ "wizard_advanced", 5 ], [ "priest_beginner", 10 ], [ "pyro", 3 ], [ "winter_grasp", 3] ]
   },
   {
     "type": "item_group",
     "id": "exotic_books",
-    "items": [ [ "wizard_advanced", 12 ], [ "pyro", 3 ], [ "priest_advanced", 6 ] ]
+    "items": [ [ "wizard_advanced", 12 ], [ "pyro", 3 ], [ "winter_grasp", 3], [ "priest_advanced", 6 ] ]
   }
 ]
