@@ -765,9 +765,9 @@ int player::time_to_learn_spell( const std::string &str ) const
 int player::time_to_learn_spell( spell_id sp ) const
 {
     assert( !knows_spell( sp ) );
-    const int THIRTY_MINUTES = 30000;
-    return THIRTY_MINUTES * ( sp.obj().difficulty * ( 1.0 + ( get_int() - 8.0 ) / 8.0 ) +
-                              ( get_skill_level( skill_id( "SPELLCRAFT" ) ) / 10.0 ) );
+    const int base_time = 30000;
+    return base_time * ( 1.0 + sp.obj().difficulty / ( 1.0 + ( get_int() - 8.0 ) / 8.0 ) +
+                         ( get_skill_level( skill_id( "SPELLCRAFT" ) ) / 10.0 ) );
 }
 
 // spell_effect
