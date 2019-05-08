@@ -4,19 +4,19 @@
 	"type": "SPELL",
 	"name": "Stonefist",
 	"description": "Encases your arms and hands in a sheath of magical stone, you can punch and defend yourself with it in melee combat.",
-	"valid_targets": [ "none" ],
+	"valid_targets": [ "self" ],
 	"min_damage": 1,
 	"max_damage": 1,
 	"effect": "spawn_item",
 	"effect_str": "apt_stonefist",
 	"energy_source": "MANA",
-	"difficulty": 1,
+	"difficulty": 2,
 	"max_level": 20,
-	"base_casting_time": 350,
-	"base_energy_cost": 375,
+	"base_casting_time": 200,
+	"base_energy_cost": 100,
 	"min_duration": 10000,
-	"max_duration": 50000,
-	"duration_increment": 3000
+	"max_duration": 100000,
+	"duration_increment": 2000
   },
   {
     "id": "create_atomic_light",
@@ -33,11 +33,11 @@
 	"energy_source": "MANA",
 	"difficulty": 1,
 	"max_level": 20,
-	"base_casting_time": 350,
-	"base_energy_cost": 375,
+	"base_casting_time": 100,
+	"base_energy_cost": 50,
 	"min_duration": 10000,
-	"max_duration": 50000,
-	"duration_increment": 3000
+	"max_duration": 100000,
+	"duration_increment": 2000
   },
   {
     "id": "create_atomic_lamp",
@@ -53,13 +53,13 @@
 	"effect_str": "apt_atomic_lamp",
 	"energy_source": "MANA",
 	"spell_class": "PRIEST",
-	"difficulty": 1,
+	"difficulty": 2,
 	"max_level": 20,
-	"base_casting_time": 350,
-	"base_energy_cost": 375,
+	"base_casting_time": 200,
+	"base_energy_cost": 100,
 	"min_duration": 10000,
-	"max_duration": 50000,
-	"duration_increment": 3000
+	"max_duration": 100000,
+	"duration_increment": 2000
   },
   {
     "id": "protection_aura",
@@ -122,10 +122,10 @@
 	"effect": "spawn_item",
 	"effect_str": "shield_ice",
 	"energy_source": "MANA",
-	"difficulty": 1,
+	"difficulty": 2,
 	"max_level": 20,
 	"base_casting_time": 150,
-	"base_energy_cost": 200,
+	"base_energy_cost": 100,
 	"min_duration": 10000,
 	"max_duration": 50000,
 	"duration_increment": 3000
@@ -139,10 +139,10 @@
 	"effect": "target_attack",
 	"effect_str": "armor_frost",
 	"energy_source": "MANA",
-	"difficulty": 1,
+	"difficulty": 3,
 	"max_level": 20,
-	"base_casting_time": 350,
-	"base_energy_cost": 375,
+	"base_casting_time": 200,
+	"base_energy_cost": 150,
 	"min_duration": 10000,
 	"max_duration": 50000,
 	"duration_increment": 3000
@@ -165,10 +165,10 @@
 	"max_range": 20,
 	"range_increment": 1,
 	"spell_class": "WIZARD",
-	"base_casting_time": 200,
-	"base_energy_cost": 350,
+	"base_casting_time": 150,
+	"base_energy_cost": 150,
 	"energy_source": "MANA",
-	"difficulty": 4,
+	"difficulty": 3,
 	"damage_type": "cold"
   },
   {
@@ -177,7 +177,7 @@
 	"name": "Frost Spray",
 	"description": "You're pretty sure you saw this in a game somewhere.  You fire a short-range cone of ice and cold.",
 	"effect": "cone_attack",
-	"effect_str": "cold"
+	"effect_str": "cold",
 	"valid_targets": [ "ally", "hostile", "ground" ],
 	"max_level": 20,
 	"min_damage": 8,
@@ -191,7 +191,7 @@
 	"aoe_increment": 5,
 	"spell_class": "WIZARD",
 	"base_casting_time": 100,
-	"base_energy_cost": 150,
+	"base_energy_cost": 100,
 	"energy_source": "MANA",
 	"difficulty": 2,
 	"damage_type": "cold"
@@ -203,7 +203,7 @@
     "description": "Freezes the touched target with intense cold.",
     "valid_targets": [ "hostile" ],
     "effect": "target_attack",
-	"effect_str": "cold"
+	"effect_str": "cold",
     "damage_type": "cold",
     "min_damage": 3,
     "damage_increment": 4,
@@ -215,8 +215,27 @@
     "spell_class": "WIZARD",
     "difficulty": 1,
     "max_level": 10,
-    "base_casting_time": 125,
+    "base_casting_time": 100,
     "energy_source": "MANA"
+  },
+  {
+    "id": "glide_ice",
+	"type": "SPELL",
+	"name": "Glide on Ice",
+	"description": "Encases your feet in a magical coating of ice, allowing you to glide along smooth surfaces faster.",
+	"valid_targets": [ "self" ],
+	"min_damage": 1,
+	"max_damage": 1,
+	"effect": "spawn_item",
+	"effect_str": "ice_gliders",
+	"energy_source": "MANA",
+	"difficulty": 2,
+	"max_level": 20,
+	"base_casting_time": 150,
+	"base_energy_cost": 100,
+	"min_duration": 10000,
+	"max_duration": 100000,
+	"duration_increment": 2000
   }
 
 
