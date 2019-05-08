@@ -41,11 +41,11 @@
 #include "character.h"
 #include "compatibility.h"
 #include "game_constants.h"
-#include "itype.h"
 #include "mattack_common.h"
 #include "pimpl.h"
 #include "player.h"
-#include "material.h"
+#include "int_id.h"
+#include "string_id.h"
 
 struct pathfinding_settings;
 

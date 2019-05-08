@@ -525,5 +525,79 @@
     "copy-from": "generic_city_building",
     "sym": "F",
     "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "homeless_0_0_0",
+    "name": "homeless shelter",
+    "sym": "H",
+    "color": "green",
+    "see_cost": 2,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "homeless_1_0_0",
+    "name": "homeless shelter",
+    "sym": "H",
+    "color": "green",
+    "see_cost": 2,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "homeless_0_0_1",
+    "name": "homeless shelter",
+    "sym": "H",
+    "color": "green",
+    "see_cost": 2,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "homeless_1_0_1",
+    "name": "homeless shelter",
+    "sym": "H",
+    "color": "green",
+    "see_cost": 2,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "homeless_0_0_2",
+    "name": "homeless shelter",
+    "sym": "H",
+    "color": "green",
+    "see_cost": 2,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "homeless_1_0_2",
+    "name": "homeless shelter",
+    "sym": "H",
+    "color": "green",
+    "see_cost": 2,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "homeless_0_0_roof",
+    "name": "homeless shelter",
+    "sym": "H",
+    "color": "green",
+    "see_cost": 2,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "homeless_1_0_roof",
+    "name": "homeless shelter",
+    "sym": "H",
+    "color": "green",
+    "see_cost": 2,
+    "mondensity": 2
   }
 ]

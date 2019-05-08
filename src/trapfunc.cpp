@@ -26,9 +26,8 @@
 #include "enums.h"
 #include "game_constants.h"
 #include "item.h"
-#include "itype.h"
 #include "player.h"
-#include "pldata.h"
+#include "int_id.h"
 
 const mtype_id mon_blob( "mon_blob" );
 const mtype_id mon_shadow( "mon_shadow" );

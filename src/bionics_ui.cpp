@@ -11,6 +11,7 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "options.h"
+#include "string_id.h"
 
 // '!', '-' and '=' are uses as default bindings in the menu
 const invlet_wrapper

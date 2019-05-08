@@ -38,7 +38,6 @@
 #include "veh_type.h"
 #include "vehicle_selector.h"
 #include "weather.h"
-#include "character.h"
 #include "field.h"
 #include "math_defines.h"
 #include "pimpl.h"

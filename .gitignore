@@ -10,6 +10,7 @@
 /WinDepend/
 /bindist/
 /build/
+/build-start-time
 /cmake-build-debug/
 /config/
 /data/*.template

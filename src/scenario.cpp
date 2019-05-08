@@ -9,7 +9,6 @@
 #include "map_extras.h"
 #include "mission.h"
 #include "mutation.h"
-#include "player.h"
 #include "profession.h"
 #include "translations.h"
 #include "rng.h"

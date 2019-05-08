@@ -55,8 +55,11 @@
 #include "translations.h"
 #include "units.h"
 #include "visitable.h"
+#include "int_id.h"
+#include "pldata.h"
 
 class basecamp;
+class monfaction;
 
 const skill_id skill_mechanics( "mechanics" );
 const skill_id skill_electronics( "electronics" );

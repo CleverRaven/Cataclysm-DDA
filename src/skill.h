@@ -10,15 +10,13 @@
 
 #include "calendar.h"
 #include "string_id.h"
+#include "type_id.h"
 
 class JsonObject;
 class JsonIn;
 class JsonOut;
-class Skill;
 class recipe;
 class item;
-
-using skill_id = string_id<Skill>;
 
 class Skill
 {

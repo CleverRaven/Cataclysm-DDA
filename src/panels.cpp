@@ -36,17 +36,16 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "catacharset.h"
-#include "character.h"
 #include "compatibility.h"
 #include "debug.h"
 #include "enums.h"
 #include "game_constants.h"
 #include "int_id.h"
-#include "itype.h"
 #include "omdata.h"
 #include "pldata.h"
 #include "string_formatter.h"
 #include "tileray.h"
+#include "type_id.h"
 
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_THRESH_FELINE( "THRESH_FELINE" );

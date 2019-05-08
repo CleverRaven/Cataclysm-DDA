@@ -24,9 +24,8 @@
 #include "omdata.h"
 #include "optional.h"
 #include "player_activity.h"
-#include "pldata.h"
 #include "rng.h"
-#include "mtype.h"
+#include "string_id.h"
 
 const efftype_id effect_stunned( "stunned" );
 

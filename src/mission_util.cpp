@@ -1,6 +1,8 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <algorithm>
+#include <functional>
 
 #include "coordinate_conversions.h"
 #include "dialogue.h"
@@ -15,6 +17,12 @@
 #include "enums.h"
 #include "player.h"
 #include "rng.h"
+#include "debug.h"
+#include "line.h"
+#include "omdata.h"
+#include "optional.h"
+#include "translations.h"
+#include "type_id.h"
 
 const tripoint reveal_destination( const std::string &type )
 {
@@ -501,8 +509,8 @@ bool mission_type::parse_funcs( JsonObject &jo, std::function<void( mission * )>
     phase_func = [ funcs, talk_effects ]( mission * miss ) {
         ::dialogue d;
         d.beta = g->find_npc( miss->get_npc_id() );
+        standard_npc default_npc( "Default" );
         if( d.beta == nullptr ) {
-            standard_npc default_npc( "Default" );
             d.beta = &default_npc;
         }
         d.alpha = &g->u;
