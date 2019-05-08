@@ -263,7 +263,7 @@ class player : public Character
 
         /**Estimate effect duration based on player relevant skill*/
         time_duration estimate_effect_dur( const skill_id &relevant_skill, const efftype_id &effect,
-                                           time_duration error_magnitude,
+                                           const time_duration &error_magnitude,
                                            int threshold, Creature *target );
 
         /** Resets stats, and applies effects in an idempotent manner */
