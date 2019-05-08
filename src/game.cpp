@@ -40,7 +40,6 @@
 #include "creature_tracker.h"
 #include "cursesport.h"
 #include "debug.h"
-#include "debug_menu.h"
 #include "dependency_tree.h"
 #include "editmap.h"
 #include "enums.h"
@@ -104,7 +103,6 @@
 #include "safemode_ui.h"
 #include "scenario.h"
 #include "scent_map.h"
-#include "sdl_wrappers.h"
 #include "sounds.h"
 #include "start_location.h"
 #include "string_formatter.h"
@@ -147,7 +145,7 @@
 
 #if defined(TILES)
 #include "cata_tiles.h"
-extern SDL_Renderer_Ptr renderer;
+bool save_screenshot( const std::string &file_path );
 #endif // TILES
 
 #if !(defined(_WIN32) || defined(TILES))
@@ -2852,37 +2850,6 @@ bool game::save()
         popup( _( "Failed to save game data" ) );
         return false;
     }
-}
-
-bool game::save_screenshot( const std::string &file_path ) const
-{
-#if defined(TILES)
-    // Note: the viewport is returned by SDL and we don't have to manage its lifetime.
-    SDL_Rect viewport;
-
-    // Get the viewport size (width and heigth of the screen)
-    SDL_RenderGetViewport( renderer.get(), &viewport );
-
-    // Create SDL_Surface with depth of 32 bits (note: using zeros for the RGB masks sets a default value, based on the depth; Alpha mask will be 0).
-    SDL_Surface_Ptr surface = CreateRGBSurface( 0, viewport.w, viewport.h, 32, 0, 0, 0, 0 );
-
-    // Get data from SDL_Renderer and save them into surface
-    if( printErrorIf( SDL_RenderReadPixels( renderer.get(), nullptr, surface->format->format,
-                                            surface->pixels, surface->pitch ) != 0,
-                      "save_screenshot: cannot read data from SDL_Renderer." ) ) {
-        return false;
-    }
-
-    // Save screenshot as PNG file
-    if( printErrorIf( IMG_SavePNG( surface.get(), file_path.c_str() ) != 0,
-                      std::string( "save_screenshot: cannot save screenshot file: " + file_path ).c_str() ) ) {
-        return false;
-    }
-
-    return true;
-#else
-    return false;
-#endif
 }
 
 std::vector<std::string> game::list_active_characters()
@@ -7231,6 +7198,11 @@ int game::get_moves_since_last_save() const
 int game::get_user_action_counter() const
 {
     return user_action_counter;
+}
+
+bool game::take_screenshot( const std::string &path ) const
+{
+    return save_screenshot( path );
 }
 
 //helper method so we can keep list_items shorter
