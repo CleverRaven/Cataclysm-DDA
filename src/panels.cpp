@@ -68,7 +68,7 @@ window_panel::window_panel( std::function<void( player &, const catacurses::wind
 // panels prettify and helper functions
 // ====================================
 
-std::string trunc_ellipse( std::string input, unsigned int trunc )
+std::string trunc_ellipse( const std::string &input, unsigned int trunc )
 {
     if( utf8_width( input ) > static_cast<int>( trunc ) ) {
         return utf8_truncate( input, trunc - 1 ) + "…";

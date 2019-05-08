@@ -469,7 +469,7 @@ class player : public Character
 
         void pause(); // '.' command; pauses & reduces recoil
 
-        void set_movement_mode( std::string mode );
+        void set_movement_mode( const std::string &mode );
         const std::string get_movement_mode() const;
 
         void cycle_move_mode(); // Cycles to the next move mode.

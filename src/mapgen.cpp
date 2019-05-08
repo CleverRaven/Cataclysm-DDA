@@ -360,7 +360,7 @@ bool defer;
 JsonObject jsi;
 };
 
-void set_mapgen_defer( JsonObject jsi, std::string member, std::string message )
+void set_mapgen_defer( const JsonObject &jsi, const std::string &member, const std::string &message )
 {
     mapgen_defer::defer = true;
     mapgen_defer::jsi = jsi;
