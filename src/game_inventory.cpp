@@ -787,9 +787,11 @@ class read_inventory_preset: public pickup_inventory_preset
                     return unknown;
                 }
                 const auto &book = get_book( loc );
-                if( book.skill && p.get_skill_level_object( book.skill ).can_train() ) {
-                    return string_format( _( "%s to %d (%d)" ), book.skill->name(), book.level,
-                                          p.get_skill_level( book.skill ) );
+                if( book.skill ) {
+                    const SkillLevel &skill = p.get_skill_level_object( book.skill );
+                    if( skill.can_train() ) {
+                        return string_format( _( "%s to %d (%d)" ), book.skill->name(), book.level, skill.level() );
+                    }
                 }
                 return std::string();
             }, _( "TRAINS (CURRENT)" ), unknown );
