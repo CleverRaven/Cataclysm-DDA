@@ -2479,9 +2479,9 @@ void player::disp_morale()
     morale->display( ( calc_focus_equilibrium() - focus_pool ) / 100.0 );
 }
 
-time_duration player::estimate_effect_dur( const skill_id relevant_skill,
-        const efftype_id target_effect, time_duration error_magnitude,
-        int threshold, Creature *target )
+time_duration player::estimate_effect_dur( const skill_id &relevant_skill,
+        const efftype_id &target_effect, const time_duration &error_magnitude,
+        int threshold, const Creature &target ) const
 {
     int skill_lvl = get_skill_level( relevant_skill );
 
