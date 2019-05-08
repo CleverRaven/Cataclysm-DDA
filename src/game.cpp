@@ -2854,28 +2854,28 @@ bool game::save()
     }
 }
 
-bool game::save_screenshot(const std::string & file_path) const
+bool game::save_screenshot( const std::string &file_path ) const
 {
 #if defined(TILES)
     // Note: the viewport is returned by SDL and we don't have to manage its lifetime.
     SDL_Rect viewport;
 
     // Get the viewport size (width and heigth of the screen)
-    SDL_RenderGetViewport(renderer.get(), &viewport);
+    SDL_RenderGetViewport( renderer.get(), &viewport );
 
     // Create SDL_Surface with depth of 32 bits (note: using zeros for the RGB masks sets a default value, based on the depth; Alpha mask will be 0).
-    SDL_Surface_Ptr surface = CreateRGBSurface(0, viewport.w, viewport.h, 32, 0, 0, 0, 0);
+    SDL_Surface_Ptr surface = CreateRGBSurface( 0, viewport.w, viewport.h, 32, 0, 0, 0, 0 );
 
     // Get data from SDL_Renderer and save them into surface
-    if (printErrorIf(SDL_RenderReadPixels(renderer.get(), nullptr, surface->format->format,
-        surface->pixels, surface->pitch) != 0,
-        "save_screenshot: cannot read data from SDL_Renderer.")) {
+    if( printErrorIf( SDL_RenderReadPixels( renderer.get(), nullptr, surface->format->format,
+                                            surface->pixels, surface->pitch ) != 0,
+                      "save_screenshot: cannot read data from SDL_Renderer." ) ) {
         return false;
     }
 
     // Save screenshot as PNG file
-    if (printErrorIf(IMG_SavePNG(surface.get(), file_path.c_str()) != 0,
-        std::string("save_screenshot: cannot save screenshot file: " + file_path).c_str())) {
+    if( printErrorIf( IMG_SavePNG( surface.get(), file_path.c_str() ) != 0,
+                      std::string( "save_screenshot: cannot save screenshot file: " + file_path ).c_str() ) ) {
         return false;
     }
 
