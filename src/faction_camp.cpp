@@ -1711,10 +1711,10 @@ void basecamp::start_fortifications( std::string &bldg_exp, bool by_radio )
                                       making.skill_used.str(), making.difficulty );
         if( comp != nullptr ) {
             consume_components( total_inv, making, fortify_om.size() * 2 - 2, by_radio );
-        }
-        comp->companion_mission_role_id = bldg_exp;
-        for( auto pt : fortify_om ) {
-            comp->companion_mission_points.push_back( pt );
+            comp->companion_mission_role_id = bldg_exp;
+            for( auto pt : fortify_om ) {
+                comp->companion_mission_points.push_back( pt );
+            }
         }
     }
 }
