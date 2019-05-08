@@ -535,5 +535,10 @@
     "id": "lightstrip_dead",
     "type": "MIGRATION",
     "replace": "lightstrip_inactive"
+  },
+  {
+    "id": "battery_compartment",
+    "type": "MIGRATION",
+    "replace": "magazine_battery_heavy_mod"
   }
 ]
