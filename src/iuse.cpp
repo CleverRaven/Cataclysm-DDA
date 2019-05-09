@@ -53,7 +53,6 @@
 #include "speech.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
-#include "submap.h"
 #include "text_snippets.h"
 #include "translations.h"
 #include "trap.h"
@@ -76,7 +75,6 @@
 #include "item_location.h"
 #include "itype.h"
 #include "monster.h"
-#include "omdata.h"
 #include "optional.h"
 #include "pimpl.h"
 #include "player_activity.h"
@@ -87,7 +85,7 @@
 #include "string_id.h"
 #include "vpart_reference.h"
 #include "weather_gen.h"
-#include "material.h"
+#include "type_id.h"
 
 #define RADIO_PER_TURN 25 // how many characters per turn of radio
 
@@ -2649,7 +2647,6 @@ static digging_moves_and_byproducts dig_pit_moves_and_byproducts( player *p, ite
 
     // Modify the number of moves based on the help.
     // TODO: this block of code is all over the place and could probably be consolidated.
-    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
     const int helpersize = g->u.get_num_crafting_helpers( 3 );
     moves = moves * ( 1 - ( helpersize / 10 ) );
 
@@ -4429,7 +4426,6 @@ static int chop_moves( player *p, item *it )
     const int attr = it->has_flag( "POWERED" ) ? p->dex_cur : p->str_cur;
 
     int moves = MINUTES( 60 - attr ) / std::pow( 2, quality - 1 ) * 100;
-    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
     const int helpersize = g->u.get_num_crafting_helpers( 3 );
     moves = moves * ( 1 - ( helpersize / 10 ) );
     return moves;

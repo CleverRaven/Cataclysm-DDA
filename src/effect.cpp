@@ -14,9 +14,7 @@
 #include "rng.h"
 #include "string_formatter.h"
 #include "color.h"
-#include "creature.h"
 #include "enums.h"
-#include "pldata.h"
 
 namespace
 {

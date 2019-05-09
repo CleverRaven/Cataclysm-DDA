@@ -11,7 +11,7 @@
 #include "player.h"
 #include "inventory.h"
 #include "player_activity.h"
-#include "pldata.h"
+#include "type_id.h"
 
 int get_remaining_charges( const std::string &tool_id )
 {

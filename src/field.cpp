@@ -39,7 +39,6 @@
 #include "vpart_position.h"
 #include "weather.h"
 #include "bodypart.h"
-#include "character.h"
 #include "creature.h"
 #include "damage.h"
 #include "int_id.h"
@@ -51,6 +50,7 @@
 #include "pldata.h"
 #include "string_id.h"
 #include "units.h"
+#include "type_id.h"
 
 const species_id FUNGUS( "FUNGUS" );
 
@@ -903,8 +903,6 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         }
                         break;
                     case fd_plasma:
-                        dirty_transparency_cache = true;
-                        break;
                     case fd_laser:
                         dirty_transparency_cache = true;
                         break;
@@ -1381,10 +1379,6 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     break;
 
                     case fd_smoke:
-                        dirty_transparency_cache = true;
-                        spread_gas( cur, p, curtype, 10, 0_turns );
-                        break;
-
                     case fd_tear_gas:
                         dirty_transparency_cache = true;
                         spread_gas( cur, p, curtype, 10, 0_turns );

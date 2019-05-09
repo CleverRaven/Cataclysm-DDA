@@ -17,6 +17,16 @@
   },
   {
     "type": "city_building",
+    "id": "furniture",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "furniture_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "furniture_roof_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "furniture_upper_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "church",
     "locations": [ "land" ],
     "overmaps": [
@@ -1344,6 +1354,21 @@
   },
   {
     "type": "city_building",
+    "id": "homeless_shelter",
+    "locations": [ "land", "swamp" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "homeless_0_0_0_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "homeless_1_0_0_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "homeless_0_0_1_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "homeless_1_0_1_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "homeless_0_0_2_north" },
+      { "point": [ 0, 1, 2 ], "overmap": "homeless_1_0_2_north" },
+      { "point": [ 0, 0, 3 ], "overmap": "homeless_0_0_roof_north" },
+      { "point": [ 0, 1, 3 ], "overmap": "homeless_1_0_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "pool",
     "locations": [ "land" ],
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "pool_north" }, { "point": [ 0, 0, 1 ], "overmap": "pool_roof_north" } ]
@@ -1371,5 +1396,16 @@
     "id": "pool_4",
     "locations": [ "land" ],
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "pool_4_north" }, { "point": [ 0, 0, 1 ], "overmap": "pool_roof_4_north" } ]
+  },
+  {
+    "type": "city_building",
+    "id": "bus_station",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "bus_stat_0_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "bus_stat_0_roof_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "bus_stat_1_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "bus_stat_1_roof_north" }
+    ]
   }
 ]

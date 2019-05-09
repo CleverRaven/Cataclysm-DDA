@@ -94,6 +94,7 @@
 #include "rng.h"
 #include "units.h"
 #include "visitable.h"
+#include "string_id.h"
 
 constexpr double SQRT_2 = 1.41421356237309504880;
 
@@ -3111,7 +3112,7 @@ void player::shout( std::string msg, bool order )
     sounds::sound( pos(), noise, order ? sounds::sound_t::order : sounds::sound_t::alert, msg );
 }
 
-void player::set_movement_mode( std::string new_mode )
+void player::set_movement_mode( const std::string &new_mode )
 {
     if( new_mode == "run" ) {
         if( stamina > 0 && !has_effect( effect_winded ) ) {
@@ -8110,7 +8111,7 @@ ret_val<bool> player::can_wear( const item &it ) const
 
     if( it.covers( bp_head ) &&
         ( it.has_flag( "SKINTIGHT" ) || it.has_flag( "HELMET_COMPAT" ) ) &&
-        ( head_cloth_encumbrance() + it.get_encumber( *this ) > 20 ) ) {
+        ( head_cloth_encumbrance() + it.get_encumber( *this ) > 40 ) ) {
         return ret_val<bool>::make_failure( ( is_player() ? _( "You can't wear that much on your head!" )
                                               : string_format( _( "%s can't wear that much on their head!" ), name ) ) );
     }

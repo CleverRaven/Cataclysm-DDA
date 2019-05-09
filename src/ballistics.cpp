@@ -28,11 +28,10 @@
 #include "debug.h"
 #include "enums.h"
 #include "item.h"
-#include "itype.h"
 #include "optional.h"
 #include "translations.h"
 #include "units.h"
-#include "mtype.h"
+#include "type_id.h"
 
 const efftype_id effect_bounced( "bounced" );
 

@@ -17,10 +17,9 @@
 #include "enums.h"
 #include "item.h"
 #include "item_stack.h"
-#include "itype.h"
-#include "pldata.h"
 #include "rng.h"
 #include "translations.h"
+#include "type_id.h"
 
 const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
 const mtype_id mon_spore( "mon_spore" );

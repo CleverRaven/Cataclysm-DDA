@@ -26,9 +26,8 @@
 #include "enums.h"
 #include "game_constants.h"
 #include "item.h"
-#include "itype.h"
 #include "player.h"
-#include "pldata.h"
+#include "int_id.h"
 
 const mtype_id mon_blob( "mon_blob" );
 const mtype_id mon_shadow( "mon_shadow" );
@@ -478,8 +477,6 @@ void trapfunc::snare_heavy( Creature *c, const tripoint &p )
             int damage;
             switch( z->type->size ) {
                 case MS_TINY:
-                    damage = 20;
-                    break;
                 case MS_SMALL:
                     damage = 20;
                     break;

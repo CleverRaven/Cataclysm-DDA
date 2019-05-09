@@ -57,7 +57,7 @@
 #include "string_id.h"
 #include "units.h"
 #include "material.h"
-#include "pldata.h"
+#include "type_id.h"
 
 const skill_id skill_throw( "throw" );
 const skill_id skill_gun( "gun" );
@@ -1132,14 +1132,11 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
     int top = 0;
     if( tiny ) {
         // If we're extremely short on space, use the whole sidebar.
-        top = 0;
         height = TERMY;
     } else if( compact ) {
         // Cover up more low-value ui elements if we're tight on space.
-        top -= 4;
         height = 25;
     }
-    top = 0;
     catacurses::window w_target = catacurses::newwin( height, 45, top, TERMX - 45 );
 
     input_context ctxt( "TARGET" );

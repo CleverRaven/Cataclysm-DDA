@@ -271,7 +271,6 @@ void weather_generator::test_weather() const
 
         int year = to_turns<int>( i - calendar::time_of_cataclysm ) / to_turns<int>
                    ( calendar::year_length() ) + 1;
-        const std::string timeofday = to_string_time_of_day( i );
         const int hour = hour_of_day<int>( i );
         const int minute = minute_of_hour<int>( i );
         int day;

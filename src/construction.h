@@ -11,6 +11,7 @@
 
 #include "optional.h"
 #include "string_id.h"
+#include "type_id.h"
 
 namespace catacurses
 {
@@ -18,12 +19,7 @@ class window;
 } // namespace catacurses
 class JsonObject;
 class nc_color;
-class Skill;
-struct requirement_data;
 struct tripoint;
-
-using skill_id = string_id<Skill>;
-using requirement_id = string_id<requirement_data>;
 
 struct construction {
         std::string category; //Construction type category

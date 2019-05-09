@@ -15,6 +15,7 @@
 #include "game_constants.h"
 #include "posix_time.h"
 #include "translations.h"
+#include "type_id.h"
 
 #if defined(TILES)
 #include <memory>

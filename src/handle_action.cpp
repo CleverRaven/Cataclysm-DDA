@@ -38,7 +38,6 @@
 #include "options.h"
 #include "output.h"
 #include "overmap_ui.h"
-#include "pickup.h"
 #include "player.h"
 #include "popup.h"
 #include "ranged.h"
@@ -52,7 +51,6 @@
 #include "weather.h"
 #include "worldfactory.h"
 #include "bodypart.h"
-#include "character.h"
 #include "color.h"
 #include "damage.h"
 #include "lightmap.h"
@@ -63,6 +61,7 @@
 #include "translations.h"
 #include "ui.h"
 #include "units.h"
+#include "string_id.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 

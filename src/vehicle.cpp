@@ -38,7 +38,6 @@
 #include "veh_type.h"
 #include "vehicle_selector.h"
 #include "weather.h"
-#include "character.h"
 #include "field.h"
 #include "math_defines.h"
 #include "pimpl.h"
@@ -4531,7 +4530,7 @@ void vehicle::suspend_refresh()
 void vehicle::enable_refresh()
 {
     // force all caches to recalculate
-    no_refresh = true;
+    no_refresh = false;
     mass_dirty = true;
     mass_center_precalc_dirty = true;
     mass_center_no_precalc_dirty = true;
@@ -4539,7 +4538,6 @@ void vehicle::enable_refresh()
     coeff_air_dirty = true;
     coeff_water_dirty = true;
     coeff_air_changed = true;
-    no_refresh = false;
     refresh();
 }
 

@@ -10,7 +10,6 @@
 #include "rng.h"
 #include "translations.h"
 #include "calendar.h"
-#include "creature.h"
 #include "enums.h"
 
 const efftype_id effect_hallu( "hallu" );
