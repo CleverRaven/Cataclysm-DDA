@@ -21,6 +21,7 @@
 #include "coordinate_conversions.h"
 #include "creature.h"
 #include "debug.h"
+#include "explosion.h"
 #include "game.h"
 #include "item.h"
 #include "item_group.h"
@@ -5163,7 +5164,7 @@ bool vehicle::explode_fuel( int p, damage_type type )
                                          ( parts[p].ammo_remaining() * data.fuel_size_factor ) ) );
         //debugmsg( "damage check dmg=%d pow=%d amount=%d", dmg, pow, parts[p].amount );
 
-        g->explosion( global_part_pos3( p ), pow, 0.7, data.fiery_explosion );
+        explosion_handler::explosion( global_part_pos3( p ), pow, 0.7, data.fiery_explosion );
         mod_hp( parts[p], 0 - parts[ p ].hp(), DT_HEAT );
         parts[p].ammo_unset();
     }

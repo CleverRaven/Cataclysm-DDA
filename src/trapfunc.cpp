@@ -6,6 +6,7 @@
 #include <utility>
 
 #include "debug.h"
+#include "explosion.h"
 #include "event.h"
 #include "game.h"
 #include "map.h"
@@ -504,7 +505,7 @@ void trapfunc::landmine( Creature *c, const tripoint &p )
         c->add_memorial_log( pgettext( "memorial_male", "Stepped on a land mine." ),
                              pgettext( "memorial_female", "Stepped on a land mine." ) );
     }
-    g->explosion( p, 18, 0.5, false, 8 );
+    explosion_handler::explosion( p, 18, 0.5, false, 8 );
     g->m.remove_trap( p );
 }
 
@@ -516,7 +517,7 @@ void trapfunc::boobytrap( Creature *c, const tripoint &p )
         c->add_memorial_log( pgettext( "memorial_male", "Triggered a booby trap." ),
                              pgettext( "memorial_female", "Triggered a booby trap." ) );
     }
-    g->explosion( p, 18, 0.6, false, 12 );
+    explosion_handler::explosion( p, 18, 0.6, false, 12 );
     g->m.remove_trap( p );
 }
 
@@ -1150,7 +1151,7 @@ void trapfunc::glow( Creature *c, const tripoint &p )
                 n->irradiate( rng( 10, 30 ) );
             } else if( one_in( 4 ) ) {
                 n->add_msg_if_player( m_bad, _( "A blinding flash strikes you!" ) );
-                g->flashbang( p );
+                explosion_handler::flashbang( p );
             } else {
                 c->add_msg_if_player( _( "Small flashes surround you." ) );
             }
