@@ -817,39 +817,6 @@ void iexamine::rubble( player &p, const tripoint &examp )
 }
 
 /**
- * Try to pry crate open with crowbar.
- */
-void iexamine::crate( player &p, const tripoint &examp )
-{
-    // PRY 1 is sufficient for popping open a nailed-shut crate.
-    auto prying_items = p.crafting_inventory().items_with( []( const item & it ) -> bool {
-        item temporary_item( it.type );
-        return temporary_item.has_quality( quality_id( "PRY" ), 1 );
-    } );
-
-
-    if( prying_items.size() == 0 ) {
-        add_msg( m_info, _( "If only you had something to pry with..." ) );
-        return;
-    }
-
-    // Sort by their quality level.
-    std::sort( prying_items.begin(), prying_items.end(), []( const item * a, const item * b ) -> bool {
-        return a->get_quality( quality_id( "PRY" ) ) > b->get_quality( quality_id( "PRY" ) );
-    } );
-
-    p.add_msg_if_player( string_format( _( "You attempt to pry open the %s using your %s..." ),
-                                        g->m.has_furn( examp ) ? g->m.furnname( examp ) : g->m.tername( examp ),
-                                        prying_items[0]->tname() ) );
-
-    // if crowbar() ever eats charges or otherwise alters the passed item, rewrite this to reflect
-    // changes to the original item.
-    iuse dummy;
-    item temporary_item( prying_items[0]->type );
-    dummy.crowbar( &p, &temporary_item, false, examp );
-}
-
-/**
  * Prompt climbing over fence. Calculates move cost, applies it to player and, moves them.
  */
 void iexamine::chainfence( player &p, const tripoint &examp )
@@ -1217,7 +1184,31 @@ void iexamine::gunsafe_el( player &p, const tripoint &examp )
  */
 void iexamine::locked_object( player &p, const tripoint &examp )
 {
-    iexamine::crate( p, examp );
+    auto prying_items = p.crafting_inventory().items_with( []( const item & it ) -> bool {
+        item temporary_item( it.type );
+        return temporary_item.has_quality( quality_id( "PRY" ), 1 );
+    } );
+
+
+    if( prying_items.size() == 0 ) {
+        add_msg( m_info, _( "If only you had something to pry with..." ) );
+        return;
+    }
+
+    // Sort by their quality level.
+    std::sort( prying_items.begin(), prying_items.end(), []( const item * a, const item * b ) -> bool {
+        return a->get_quality( quality_id( "PRY" ) ) > b->get_quality( quality_id( "PRY" ) );
+    } );
+
+    p.add_msg_if_player( string_format( _( "You attempt to pry open the %s using your %s..." ),
+                                        g->m.has_furn( examp ) ? g->m.furnname( examp ) : g->m.tername( examp ),
+                                        prying_items[0]->tname() ) );
+
+    // if crowbar() ever eats charges or otherwise alters the passed item, rewrite this to reflect
+    // changes to the original item.
+    iuse dummy;
+    item temporary_item( prying_items[0]->type );
+    dummy.crowbar( &p, &temporary_item, false, examp );
 }
 
 void iexamine::bulletin_board( player &p, const tripoint &examp )
@@ -5237,7 +5228,6 @@ iexamine_function iexamine_function_from_string( const std::string &function_nam
             { "controls_gate", &iexamine::controls_gate },
             { "cardreader", &iexamine::cardreader },
             { "rubble", &iexamine::rubble },
-            { "crate", &iexamine::crate },
             { "chainfence", &iexamine::chainfence },
             { "bars", &iexamine::bars },
             { "portable_structure", &iexamine::portable_structure },
