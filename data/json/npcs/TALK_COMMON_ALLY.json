@@ -145,11 +145,11 @@
         },
         {
           "and": [
-            { "npc_override": "avoid_combat", "yes": "  OVERRIDE: ", "no": "  " },
+            { "npc_override": "follow_close", "yes": "  OVERRIDE: ", "no": "  " },
             {
-              "npc_rule": "avoid_combat",
-              "yes": "<mypronoun> will follow you instead of fighting.",
-              "no": "<mypronoun> will fight instead of following you."
+              "npc_rule": "follow_close",
+              "yes": "<ally_rule_follow_close_true_text>",
+              "no": "<ally_rule_follow_close_false_text>"
             }
           ]
         },
@@ -163,12 +163,12 @@
                   { "npc_override": "use_silent", "yes": "  OVERRIDE: ", "no": "  " },
                   {
                     "npc_rule": "use_silent",
-                    "yes": "<mypronoun> will use silenced ranged weapons.",
-                    "no": "<mypronoun> will use ranged weapons."
+                    "yes": "<ally_rule_use_silent_true_text>",
+                    "no": "<ally_rule_use_guns_true_text>"
                   }
                 ]
               },
-              "no": "<mypronoun> will not use ranged weapons."
+              "no": "<ally_rule_use_guns_false_text>"
             }
           ]
         },
@@ -177,8 +177,8 @@
             { "npc_override": "use_grenades", "yes": "  OVERRIDE: ", "no": "  " },
             {
               "npc_rule": "use_grenades",
-              "yes": "<mypronoun> will use grenades.",
-              "no": "<mypronoun> will not use grenades."
+              "yes": "<ally_rule_use_grenades_true_text>",
+              "no": "<ally_rule_use_grenades_false_text>"
             }
           ]
         },
@@ -187,8 +187,8 @@
             { "npc_override": "avoid_friendly_fire", "yes": "  OVERRIDE: ", "no": "  " },
             {
               "npc_rule": "avoid_friendly_fire",
-              "yes": "<mypronoun> will avoid shooting if allies are in the line of fire.",
-              "no": "<mypronoun> will shoot even if allies are in the line of fire."
+              "yes": "<ally_rule_avoid_friendly_fire_true_text>",
+              "no": "<ally_rule_avoid_friendly_fire_false_text>"
             }
           ]
         },
@@ -197,8 +197,8 @@
             { "npc_override": "hold_the_line", "yes": "  OVERRIDE: ", "no": "  " },
             {
               "npc_rule": "hold_the_line",
-              "yes": "<mypronoun> will hold the line by not moving into doorways or obstructions adjacent to you.",
-              "no": "<mypronoun> will move freely to attack enemies."
+              "yes": "<ally_rule_hold_the_line_true_text>",
+              "no": "<ally_rule_hold_the_line_false_text>"
             }
           ]
         },
@@ -210,12 +210,12 @@
       { "text": "Change your aiming rules...", "topic": "TALK_AIM_RULES" },
       {
         "truefalsetext": {
-          "condition": { "npc_rule": "avoid_combat" },
-          "true": "Stand and fight.",
-          "false": "If you see me running away, you follow me."
+          "condition": { "npc_rule": "follow_close" },
+          "true": "Move freely as you need to.",
+          "false": "Stick close to me, no matter what."
         },
         "topic": "TALK_COMBAT_COMMANDS",
-        "effect": { "toggle_npc_rule": "avoid_combat" }
+        "effect": { "toggle_npc_rule": "follow_close" }
       },
       {
         "truefalsetext": {
@@ -396,8 +396,8 @@
             { "npc_override": "allow_pick_up", "yes": "OVERRIDE: " },
             {
               "npc_rule": "allow_pick_up",
-              "yes": { "has_pickup_list": "* will pick up items from the whitelist.", "no": "* will pick up all items." },
-              "no": "* will not pick up items."
+              "yes": { "has_pickup_list": "<ally_rule_allow_pick_up_true_list_text>", "no": "<ally_rule_allow_pick_up_true_text>" },
+              "no": "<ally_rule_allow_pick_up_false_text>"
             }
           ]
         },
@@ -406,8 +406,8 @@
             { "npc_override": "allow_bash", "yes": "  OVERRIDE: ", "no": "  " },
             {
               "npc_rule": "allow_bash",
-              "yes": "<mypronoun> will bash down obstacles.",
-              "no": "<mypronoun> will not bash down obstacles."
+              "yes": "<ally_rule_allow_bash_true_text>",
+              "no": "<ally_rule_allow_bash_false_text>"
             }
           ]
         },
@@ -416,8 +416,8 @@
             { "npc_override": "allow_sleep", "yes": "  OVERRIDE: ", "no": "  " },
             {
               "npc_rule": "allow_sleep",
-              "yes": "<mypronoun> will sleep when tired.",
-              "no": "<mypronoun> will sleep only when exhausted."
+              "yes": "<ally_rule_allow_sleep_true_text>",
+              "no": "<ally_rule_allow_sleep_false_text>"
             }
           ]
         },
@@ -426,8 +426,8 @@
             { "npc_override": "allow_complain", "yes": "  OVERRIDE: ", "no": "  " },
             {
               "npc_rule": "allow_complain",
-              "yes": "<mypronoun> will complain about wounds and needs.",
-              "no": "<mypronoun> will only complain in an emergency."
+              "yes": "<ally_rule_allow_complain_true_text>",
+              "no": "<ally_rule_allow_complain_false_text>"
             }
           ]
         },
@@ -436,8 +436,8 @@
             { "npc_override": "allow_pulp", "yes": "  OVERRIDE: ", "no": "  " },
             {
               "npc_rule": "allow_pulp",
-              "yes": "<mypronoun> will smash nearby zombie corpses.",
-              "no": "<mypronoun> will leave zombie corpses intact."
+              "yes": "<ally_rule_allow_pulp_true_text>",
+              "no": "<ally_rule_allow_pulp_false_text>"
             }
           ]
         },
@@ -446,8 +446,8 @@
             { "npc_override": "close_doors", "yes": "  OVERRIDE: ", "no": "  " },
             {
               "npc_rule": "close_doors",
-              "yes": "<mypronoun> will close doors behind themselves.",
-              "no": "<mypronoun> will leave doors open."
+              "yes": "<ally_rule_close_doors_true_text>",
+              "no": "<ally_rule_close_doors_false_text>"
             }
           ]
         },
@@ -456,8 +456,8 @@
             { "npc_override": "ignore_noise", "yes": "  OVERRIDE: ", "no": "  " },
             {
               "npc_rule": "ignore_noise",
-              "yes": "<mypronoun> will not investigate noises.",
-              "no": "<mypronoun> will investigate noises coming from unseen places."
+              "yes": "<ally_rule_ignore_noise_true_text>",
+              "no": "<ally_rule_ignore_noise_false_text>"
             }
           ]
         },
@@ -466,8 +466,18 @@
             { "npc_override": "avoid_doors", "yes": "  OVERRIDE: ", "no": "  " },
             {
               "npc_rule": "avoid_doors",
-              "yes": "<mypronoun> will not go places that require opening a door.",
-              "no": "<mypronoun> will open doors to reach a destination."
+              "yes": "<ally_rule_avoid_doors_true_text>",
+              "no": "<ally_rule_avoid_doors_false_text>"
+            }
+          ]
+        },
+        {
+          "and": [
+            { "npc_override": "forbid_engage", "yes": "  OVERRIDE: ", "no": "  " },
+            {
+              "npc_rule": "forbid_engage",
+              "yes": "<ally_rule_forbid_engage_true_text>",
+              "no": "<ally_rule_forbid_engage_false_text>"
             }
           ]
         }

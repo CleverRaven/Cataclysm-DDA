@@ -1053,13 +1053,13 @@ void npc_follower_rules::serialize( JsonOut &json ) const
 
     // serialize the flags so they can be changed between save games
     for( const auto &rule : ally_rule_strs ) {
-        json.member( "rule_" + rule.first, has_flag( rule.second, false ) );
+        json.member( "rule_" + rule.first, has_flag( rule.second.rule, false ) );
     }
     for( const auto &rule : ally_rule_strs ) {
-        json.member( "override_enable_" + rule.first, has_override_enable( rule.second ) );
+        json.member( "override_enable_" + rule.first, has_override_enable( rule.second.rule ) );
     }
     for( const auto &rule : ally_rule_strs ) {
-        json.member( "override_" + rule.first, has_override( rule.second ) );
+        json.member( "override_" + rule.first, has_override( rule.second.rule ) );
     }
 
     json.member( "pickup_whitelist", *pickup_whitelist );
@@ -1083,28 +1083,46 @@ void npc_follower_rules::deserialize( JsonIn &jsin )
         // legacy to handle rules that were saved before overrides
         data.read( rule.first, tmpflag );
         if( tmpflag ) {
-            set_flag( rule.second );
+            set_flag( rule.second.rule );
         } else {
-            clear_flag( rule.second );
+            clear_flag( rule.second.rule );
         }
         data.read( "rule_" + rule.first, tmpflag );
         if( tmpflag ) {
-            set_flag( rule.second );
+            set_flag( rule.second.rule );
         } else {
-            clear_flag( rule.second );
+            clear_flag( rule.second.rule );
         }
         data.read( "override_enable_" + rule.first, tmpflag );
         if( tmpflag ) {
-            enable_override( rule.second );
+            enable_override( rule.second.rule );
         } else {
-            disable_override( rule.second );
+            disable_override( rule.second.rule );
         }
         data.read( "override_" + rule.first, tmpflag );
         if( tmpflag ) {
-            set_override( rule.second );
+            set_override( rule.second.rule );
         } else {
-            clear_override( rule.second );
+            clear_override( rule.second.rule );
         }
+        data.read( "rule_avoid_combat", tmpflag );
+        if( tmpflag ) {
+            set_flag( ally_rule::follow_close );
+        } else {
+            clear_flag( ally_rule::follow_close );
+        };
+        data.read( "override_enable_avoid_combat", tmpflag );
+        if( tmpflag ) {
+            enable_override( ally_rule::follow_close );
+        } else {
+            disable_override( ally_rule::follow_close );
+        };
+        data.read( "override_avoid_combat", tmpflag );
+        if( tmpflag ) {
+            set_override( ally_rule::follow_close );
+        } else {
+            clear_override( ally_rule::follow_close );
+        };
     }
 
     data.read( "pickup_whitelist", *pickup_whitelist );
