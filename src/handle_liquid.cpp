@@ -18,7 +18,20 @@
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
-void liquid_handler::handle_all_liquid( item liquid, const int radius )
+extern void serialize_liquid_source( player_activity &act, const vehicle &veh, const int part_num,
+                                     const item &liquid );
+extern void serialize_liquid_source( player_activity &act, const tripoint &pos,
+                                     const item &liquid );
+extern void serialize_liquid_source( player_activity &act, const monster &mon, const item &liquid );
+
+extern void serialize_liquid_target( player_activity &act, const vehicle &veh );
+extern void serialize_liquid_target( player_activity &act, int container_item_pos );
+extern void serialize_liquid_target( player_activity &act, const tripoint &pos );
+extern void serialize_liquid_target( player_activity &act, const monster &mon );
+
+namespace liquid_handler
+{
+void handle_all_liquid( item liquid, const int radius )
 {
     while( liquid.charges > 0l ) {
         // handle_liquid allows to pour onto the ground, which will handle all the liquid and
@@ -28,7 +41,7 @@ void liquid_handler::handle_all_liquid( item liquid, const int radius )
     }
 }
 
-bool liquid_handler::consume_liquid( item &liquid, const int radius )
+bool consume_liquid( item &liquid, const int radius )
 {
     const auto original_charges = liquid.charges;
     while( liquid.charges > 0 && handle_liquid( liquid, nullptr, radius ) ) {
@@ -37,9 +50,9 @@ bool liquid_handler::consume_liquid( item &liquid, const int radius )
     return original_charges != liquid.charges;
 }
 
-bool liquid_handler::handle_liquid_from_ground( std::list<item>::iterator on_ground,
-        const tripoint &pos,
-        const int radius )
+bool handle_liquid_from_ground( std::list<item>::iterator on_ground,
+                                                const tripoint &pos,
+                                                const int radius )
 {
     // TODO: not all code paths on handle_liquid consume move points, fix that.
     handle_liquid( *on_ground, nullptr, radius, &pos );
@@ -50,9 +63,9 @@ bool liquid_handler::handle_liquid_from_ground( std::list<item>::iterator on_gro
     return true;
 }
 
-bool liquid_handler::handle_liquid_from_container( std::list<item>::iterator in_container,
-        item &container,
-        int radius )
+bool handle_liquid_from_container( std::list<item>::iterator in_container,
+                                                   item &container,
+                                                   int radius )
 {
     // TODO: not all code paths on handle_liquid consume move points, fix that.
     const long old_charges = in_container->charges;
@@ -68,23 +81,14 @@ bool liquid_handler::handle_liquid_from_container( std::list<item>::iterator in_
     return true;
 }
 
-bool liquid_handler::handle_liquid_from_container( item &container, int radius )
+bool handle_liquid_from_container( item &container, int radius )
 {
     return handle_liquid_from_container( container.contents.begin(), container, radius );
 }
 
-extern void serialize_liquid_source( player_activity &act, const vehicle &veh, const int part_num,
-                                     const item &liquid );
-extern void serialize_liquid_source( player_activity &act, const tripoint &pos,
-                                     const item &liquid );
-extern void serialize_liquid_source( player_activity &act, const monster &mon, const item &liquid );
 
-extern void serialize_liquid_target( player_activity &act, const vehicle &veh );
-extern void serialize_liquid_target( player_activity &act, int container_item_pos );
-extern void serialize_liquid_target( player_activity &act, const tripoint &pos );
-extern void serialize_liquid_target( player_activity &act, const monster &mon );
 
-bool liquid_handler::get_liquid_target( item &liquid, item *const source, const int radius,
+static bool get_liquid_target( item &liquid, item *const source, const int radius,
                                         const tripoint *const source_pos,
                                         const vehicle *const source_veh,
                                         const monster *const source_mon,
@@ -118,7 +122,7 @@ bool liquid_handler::get_liquid_target( item &liquid, item *const source, const 
         menu.addentry( -1, true, 'e', _( "Consume it" ) );
         actions.emplace_back( [&]() {
             target.dest_opt = LD_CONSUME;
-        } );
+                              } );
     }
     // This handles containers found anywhere near the player, including on the map and in vehicle storage.
     menu.addentry( -1, true, 'c', _( "Pour into a container" ) );
@@ -135,14 +139,14 @@ bool liquid_handler::get_liquid_target( item &liquid, item *const source, const 
             return; // The user has intended to do something, but mistyped.
         }
         target.dest_opt = LD_ITEM;
-    } );
+                          } );
     // This handles liquids stored in vehicle parts directly (e.g. tanks).
     std::set<vehicle *> opts;
     for( const auto &e : g->m.points_in_radius( g->u.pos(), 1 ) ) {
         auto veh = veh_pointer_or_null( g->m.veh_at( e ) );
         if( veh && std::any_of( veh->parts.begin(), veh->parts.end(), [&liquid]( const vehicle_part & pt ) {
-        return pt.can_reload( liquid );
-        } ) ) {
+            return pt.can_reload( liquid );
+                                } ) ) {
             opts.insert( veh );
         }
     }
@@ -151,10 +155,10 @@ bool liquid_handler::get_liquid_target( item &liquid, item *const source, const 
             continue;
         }
         menu.addentry( -1, true, MENU_AUTOASSIGN, _( "Fill nearby vehicle %s" ), veh->name );
-        actions.emplace_back( [ &, veh]() {
+        actions.emplace_back( [&, veh]() {
             target.veh = veh;
             target.dest_opt = LD_VEH;
-        } );
+                              } );
     }
 
     for( auto &target_pos : g->m.points_in_radius( g->u.pos(), 1 ) ) {
@@ -166,10 +170,10 @@ bool liquid_handler::get_liquid_target( item &liquid, item *const source, const 
         }
         const std::string dir = direction_name( direction_from( g->u.pos(), target_pos ) );
         menu.addentry( -1, true, MENU_AUTOASSIGN, _( "Pour into an adjacent keg (%s)" ), dir );
-        actions.emplace_back( [ &, target_pos]() {
+        actions.emplace_back( [&, target_pos]() {
             target.pos = target_pos;
             target.dest_opt = LD_KEG;
-        } );
+                              } );
     }
 
     menu.addentry( -1, true, 'g', _( "Pour on the ground" ) );
@@ -199,7 +203,7 @@ bool liquid_handler::get_liquid_target( item &liquid, item *const source, const 
             return;
         }
         target.dest_opt = LD_GROUND;
-    } );
+                          } );
 
     if( liquid.rotten() ) {
         // Pre-select this one as it is the most likely one for rotten liquids
@@ -222,9 +226,9 @@ bool liquid_handler::get_liquid_target( item &liquid, item *const source, const 
     return true;
 }
 
-bool liquid_handler::perform_liquid_transfer( item &liquid, const tripoint *const source_pos,
-        const vehicle *const source_veh, const int part_num,
-        const monster *const source_mon, liquid_dest_opt &target )
+static bool perform_liquid_transfer( item &liquid, const tripoint *const source_pos,
+                                              const vehicle *const source_veh, const int part_num,
+                                              const monster *const source_mon, liquid_dest_opt &target )
 {
     bool transfer_ok = false;
     if( !liquid.made_of_from_type( LIQUID ) ) {
@@ -315,10 +319,10 @@ bool liquid_handler::perform_liquid_transfer( item &liquid, const tripoint *cons
     return transfer_ok;
 }
 
-bool liquid_handler::handle_liquid( item &liquid, item *const source, const int radius,
-                                    const tripoint *const source_pos,
-                                    const vehicle *const source_veh, const int part_num,
-                                    const monster *const source_mon )
+bool handle_liquid( item & liquid, item * const source, const int radius,
+                                    const tripoint * const source_pos,
+                                    const vehicle * const source_veh, const int part_num,
+                                    const monster * const source_mon )
 {
     if( liquid.made_of_from_type( SOLID ) ) {
         dbg( D_ERROR ) << "game:handle_liquid: Tried to handle_liquid a non-liquid!";
@@ -337,4 +341,5 @@ bool liquid_handler::handle_liquid( item &liquid, item *const source, const int 
                                         liquid_target );
     }
     return false;
+}
 }

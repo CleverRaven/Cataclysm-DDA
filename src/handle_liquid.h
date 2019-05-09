@@ -29,9 +29,8 @@ struct liquid_dest_opt {
 };
 
 // Contains functions that handle liquid
-class liquid_handler
+namespace liquid_handler
 {
-    public:
         /**
          * Consume / handle all of the liquid. The function can be used when the liquid needs
          * to be handled and can not be put back to where it came from (e.g. when it's a newly
@@ -112,20 +111,6 @@ class liquid_handler
                             const tripoint *source_pos = nullptr,
                             const vehicle *source_veh = nullptr, const int part_num = -1,
                             const monster *source_mon = nullptr );
-    private:
-        /**
-             * These are helper functions for transfer liquid, for times when you just want to
-             * get the target of the transfer, or know the target and just want to transfer the
-             * liquid. They take the same arguments as handle_liquid, plus
-             * @param target structure containing information about the target
-             */
-        bool get_liquid_target( item &liquid, item *const source, const int radius,
-                                const tripoint *source_pos, const vehicle *const source_veh,
-                                const monster *const source_mon, liquid_dest_opt &target );
-        bool perform_liquid_transfer( item &liquid,
-                                      const tripoint *source_pos,
-                                      const vehicle *const source_veh, const int part_num,
-                                      const monster *const source_mon, liquid_dest_opt &target );
 };
 
 

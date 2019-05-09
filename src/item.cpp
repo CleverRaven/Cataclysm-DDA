@@ -5151,7 +5151,7 @@ bool item::spill_contents( Character &c )
     while( !contents.empty() ) {
         on_contents_changed();
         if( contents_made_of( LIQUID ) ) {
-            if( !g->liquid_handling.handle_liquid_from_container( *this, 1 ) ) {
+            if( !liquid_handler::handle_liquid_from_container( *this, 1 ) ) {
                 return false;
             }
         } else {

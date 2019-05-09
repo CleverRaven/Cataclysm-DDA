@@ -1039,8 +1039,6 @@ class game
         /** How far the tileset should be zoomed out, 16 is default. 32 is zoomed in by x2, 8 is zoomed out by x0.5 */
         int tileset_zoom;
 
-        liquid_handler liquid_handling;
-
         /** Seed for all the random numbers that should have consistent randomness (weather). */
         unsigned int seed;
 

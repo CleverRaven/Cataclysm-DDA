@@ -436,7 +436,7 @@ void monexamine::milk_source( monster &source_mon )
 
         item milk( milked_item->first, calendar::turn, remaining_milk );
         milk.set_item_temperature( 311.75 );
-        if( g->liquid_handling.handle_liquid( milk, nullptr, 1, nullptr, nullptr, -1, &source_mon ) ) {
+        if( liquid_handler::handle_liquid( milk, nullptr, 1, nullptr, nullptr, -1, &source_mon ) ) {
             add_msg( _( "You milk the %s." ), source_mon.get_name() );
             long transferred_milk = remaining_milk - milk.charges;
             source_mon.add_effect( effect_milked, milking_freq * transferred_milk );
