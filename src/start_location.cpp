@@ -1,8 +1,9 @@
 #include "start_location.h"
 
+#include <limits.h>
 #include <algorithm>
-#include <chrono>
 #include <random>
+#include <memory>
 
 #include "coordinate_conversions.h"
 #include "debug.h"
@@ -10,7 +11,6 @@
 #include "field.h"
 #include "game.h"
 #include "generic_factory.h"
-#include "json.h"
 #include "map.h"
 #include "map_extras.h"
 #include "mapdata.h"
@@ -18,6 +18,14 @@
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "player.h"
+#include "calendar.h"
+#include "game_constants.h"
+#include "int_id.h"
+#include "pldata.h"
+#include "rng.h"
+#include "translations.h"
+
+class item;
 
 const efftype_id effect_bleed( "bleed" );
 
@@ -52,7 +60,7 @@ const string_id<start_location> &start_location::ident() const
 
 std::string start_location::name() const
 {
-    return _( _name.c_str() );
+    return _( _name );
 }
 
 std::string start_location::target() const
@@ -299,6 +307,7 @@ void start_location::place_player( player &u ) const
     u.setx( HALF_MAPSIZE_X );
     u.sety( HALF_MAPSIZE_Y );
     u.setz( g->get_levz() );
+    m.invalidate_map_cache( m.get_abs_sub().z );
     m.build_map_cache( m.get_abs_sub().z );
     const bool must_be_inside = flags().count( "ALLOW_OUTSIDE" ) == 0;
     ///\EFFECT_STR allows player to start behind less-bashable furniture and terrain
@@ -405,20 +414,23 @@ void start_location::handle_heli_crash( player &u ) const
         const auto bp_part = u.hp_to_bp( part );
         const int roll = static_cast<int>( rng( 1, 8 ) );
         switch( roll ) {
+            // Damage + Bleed
             case 1:
-            case 2:// Damage + Bleed
+            case 2:
                 u.add_effect( effect_bleed, 6_minutes, bp_part );
             /* fallthrough */
             case 3:
             case 4:
-            case 5: { // Just damage
+            // Just damage
+            case 5: {
                 const auto maxHp = u.get_hp_max( part );
                 // Body part health will range from 33% to 66% with occasional bleed
                 const int dmg = static_cast<int>( rng( maxHp / 3, maxHp * 2 / 3 ) );
                 u.apply_damage( nullptr, bp_part, dmg );
                 break;
             }
-            default: // No damage
+            // No damage
+            default:
                 break;
         }
     }

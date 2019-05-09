@@ -1,8 +1,14 @@
 #include "sounds.h"
 
+#include <stdlib.h>
 #include <algorithm>
 #include <chrono>
 #include <cmath>
+#include <memory>
+#include <ostream>
+#include <set>
+#include <type_traits>
+#include <unordered_map>
 
 #include "coordinate_conversions.h"
 #include "debug.h"
@@ -16,23 +22,31 @@
 #include "map_iterator.h"
 #include "messages.h"
 #include "monster.h"
-#include "mtype.h"
 #include "npc.h"
-#include "output.h"
 #include "overmapbuffer.h"
 #include "player.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "weather.h"
+#include "bodypart.h"
+#include "calendar.h"
+#include "creature.h"
+#include "game_constants.h"
+#include "mapdata.h"
+#include "optional.h"
+#include "player_activity.h"
+#include "rng.h"
+#include "units.h"
+#include "type_id.h"
 
-#ifdef SDL_SOUND
+#if defined(SDL_SOUND)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)
 #      include <SDL2/SDL_mixer.h>
 #   else
 #      include <SDL_mixer.h>
 #   endif
 #   include <thread>
-#   if ((defined _WIN32 || defined WINDOWS) && !defined _MSC_VER)
+#   if defined(_WIN32) && !defined(_MSC_VER)
 #       include "mingw.thread.h"
 #   endif
 #endif
@@ -372,8 +386,8 @@ void sounds::process_sound_markers( player *p )
                     p->activity.set_to_null();
                 }
                 add_msg( _( "You turn off your alarm-clock." ) );
+                p->get_effect( effect_alarm_clock ).set_duration( 0_turns );
             }
-            p->get_effect( effect_alarm_clock ).set_duration( 0_turns );
         }
 
         const std::string &sfx_id = sound.id;
@@ -471,7 +485,7 @@ std::string sounds::sound_at( const tripoint &location )
     return _( "a sound" );
 }
 
-#ifdef SDL_SOUND
+#if defined(SDL_SOUND)
 
 bool is_underground( const tripoint &p )
 {
@@ -538,7 +552,7 @@ void sfx::do_ambient()
         return;
     }
     audio_muted = false;
-    const bool is_deaf = g->u.get_effect_int( effect_deaf ) > 0;
+    const bool is_deaf = g->u.is_deaf();
     const int heard_volume = get_heard_volume( g->u.pos() );
     const bool is_underground = ::is_underground( g->u.pos() );
     const bool is_sheltered = g->is_sheltered( g->u.pos() );
@@ -1112,7 +1126,7 @@ void sfx::do_obstacle()
     }
 }
 
-#else // ifdef SDL_SOUND
+#else // if defined(SDL_SOUND)
 
 /** Dummy implementations for builds without sound */
 /*@{*/
@@ -1143,7 +1157,7 @@ void sfx::do_fatigue() { }
 void sfx::do_obstacle() { }
 /*@}*/
 
-#endif // ifdef SDL_SOUND
+#endif // if defined(SDL_SOUND)
 
 /** Functions from sfx that do not use the SDL_mixer API at all. They can be used in builds
   * without sound support. */

@@ -40,6 +40,60 @@
     "flags": [ "WATCH", "ALARMCLOCK", "LIGHT_25" ]
   },
   {
+    "id": "afs_atomic_reading_light",
+    "type": "TOOL",
+    "name": "atomic reading light",
+    "description": "Rated for almost 100 million years of operation, the Rivtech atomic reading light clips onto any book, anytime, anywhere!  Following after their obsession with making household gadgets powered with plutonium cells, it's bulky for a reading light, but can provide a small, steady light with no fear of ever running out of batteries.",
+    "weight": 120,
+    "volume": "100 ml",
+    "price": 10000,
+    "price_postapoc": 1000,
+    "material": [ "plastic", "aluminum" ],
+    "looks_like": "reading_light",
+    "symbol": ",",
+    "color": "light_green",
+    "use_action": {
+      "target": "afs_atomic_reading_light_on",
+      "msg": "You switch on the reading light.",
+      "active": true,
+      "menu_text": "Turn on",
+      "type": "transform"
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
+  },
+  {
+    "id": "afs_atomic_reading_light_on",
+    "copy-from": "afs_atomic_reading_light",
+    "type": "TOOL",
+    "name": "atomic reading light (on)",
+    "description": "Rated for almost 200 million years of operation, the Rivtech atomic reading light clips onto any book, anytime, anywhere!  Its blue-tinted lens sheds a pleasing Cherenkov glow in a small circle onto anything you might need to read.",
+    "name_plural": "atomic reading lights (on)",
+    "revert_to": "afs_atomic_reading_light",
+    "looks_like": "reading_light_on",
+    "use_action": {
+      "target": "afs_atomic_reading_light",
+      "msg": "You switch off the light.",
+      "menu_text": "Turn off",
+      "type": "transform"
+    },
+    "flags": [ "ALLOWS_REMOTE_USE", "LIGHT_8" ]
+  },
+  {
+    "id": "afs_atompot",
+    "type": "TOOL",
+    "name": "atompot",
+    "copy-from": "pressure_cooker",
+    "description": "Rivtech's premiere self-heating kitchen appliance, complete with lid, hand-crafted with the power of the atom to reach any temperature in thirty seconds.  As bulky as it is, its plutonium power source means that it can be used to cook an absurd amount of meals without ever worrying about running low on power.  Unsurprisingly, sales weren't particularly good because of the prospect of irradiating your food, but internal shielding ensures that only trace amounts find its way into the center.",
+    "price": 30000,
+    "price_postapoc": 5000,
+    "material": [ "steel", "plastic" ],
+    "looks_like": "pot",
+    "symbol": ")",
+    "color": "light_green",
+    "use_action": "HOTPLATE",
+    "flags": [ "ALLOWS_REMOTE_USE" ]
+  },
+  {
     "id": "afs_chain_wrench",
     "type": "TOOL",
     "name": "chain wrench",
@@ -171,11 +225,11 @@
     "copy-from": "UPS_off",
     "name": "UPS",
     "name_plural": "UPS's",
-    "description": "This is a unified power supply, or UPS.  It is a device developed jointly by military and scientific interests for use in combat and the field.  The UPS is designed to power armor and some guns, but drains batteries quickly.  It can be strapped to either leg for ease of access.",
+    "description": "This is a unified power supply, or UPS.  It is a device developed jointly by military and scientific interests for use in combat and the field.  The UPS is designed to power armor and some guns, but drains batteries quickly.  It can be worn around to either leg for ease of access, and it's been waterproofed to protect the delicate electronics.",
     "coverage": 5,
     "encumbrance": 2,
     "covers": [ "LEG_EITHER" ],
-    "flags": [ "NO_UNLOAD", "RECHARGE", "BELTED", "FRAGILE", "OVERSIZE" ]
+    "flags": [ "NO_UNLOAD", "RECHARGE", "WAIST", "FRAGILE", "OVERSIZE", "WATERPROOF" ]
   },
   {
     "id": "adv_UPS_off",
@@ -183,10 +237,20 @@
     "copy-from": "adv_UPS_off",
     "name": "advanced UPS",
     "name_plural": "advanced UPS's",
-    "description": "This is an advanced version of the unified power supply, or UPS.  This device has been significantly redesigned to provide better efficiency as well as to consume plutonium fuel cells rather than batteries, and is both slimmer and lighter to wear.  Sadly, its plutonium reactor can't be charged in a UPS charging station.",
+    "description": "This is an advanced version of the unified power supply, or UPS.  This device has been significantly redesigned to provide better efficiency as well as to consume plutonium fuel cells rather than batteries, and is both slimmer and lighter to wear.  Sadly, its plutonium reactor can't be charged in UPS charging station.",
     "coverage": 5,
     "encumbrance": 1,
     "covers": [ "LEG_EITHER" ],
-    "flags": [ "BELTED", "FRAGILE", "OVERSIZE" ]
+    "flags": [ "WAIST", "FRAGILE", "OVERSIZE" ]
+  },
+  {
+    "id": "afs_bionic_power_mod",
+    "copy-from": "mod_battery",
+    "type": "TOOLMOD",
+    "category": "spare_parts",
+    "name": "cybernetic power port mod",
+    "description": "This device replaces standard power connections and battery ports for electronic devices with a carefully-shaped port that hooks into bionic implants.  When applied, it will convert an item to run directly off of bionic power.",
+    "ammo_modifier": "battery",
+    "flags": [ "USES_BIONIC_POWER", "NO_UNLOAD", "NO_RELOAD" ]
   }
 ]

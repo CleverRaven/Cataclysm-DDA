@@ -4,6 +4,8 @@
 #include "monster.h"
 #include "npc.h"
 #include "projectile.h"
+#include "creature.h"
+#include "type_id.h"
 
 void test_zapback( Creature &attacker, const bool expect_damage,
                    const dealt_projectile_attack *proj = nullptr )

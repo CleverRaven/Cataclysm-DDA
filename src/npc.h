@@ -7,36 +7,47 @@
 #include <set>
 #include <string>
 #include <vector>
+#include <array>
+#include <iosfwd>
+#include <list>
+#include <unordered_map>
+#include <utility>
 
 #include "calendar.h"
-#include "faction.h"
 #include "line.h"
 #include "optional.h"
 #include "pimpl.h"
 #include "player.h"
+#include "auto_pickup.h"
+#include "color.h"
+#include "creature.h"
+#include "cursesdef.h"
+#include "enums.h"
+#include "inventory.h"
+#include "item_location.h"
+#include "string_formatter.h"
+#include "string_id.h"
+#include "material.h"
+#include "type_id.h"
 
 class JsonObject;
 class JsonIn;
 class JsonOut;
 class item;
-class overmap;
-class player;
-class field_entry;
-class npc_class;
-class auto_pickup;
-class monfaction;
-struct mission_type;
-struct npc_companion_mission;
 struct overmap_location;
+class Character;
+class faction;
+class mission;
+class vehicle;
+struct pathfinding_settings;
 
 enum game_message_type : int;
 class gun_mode;
-using npc_class_id = string_id<npc_class>;
-using mission_type_id = string_id<mission_type>;
-using mfaction_id = int_id<monfaction>;
+
 using overmap_location_str_id = string_id<overmap_location>;
 
-void parse_tags( std::string &phrase, const player &u, const player &me );
+void parse_tags( std::string &phrase, const player &u, const player &me,
+                 const itype_id &item_type = "null" );
 
 /*
  * Talk:   Trust midlow->high, fear low->mid, need doesn't matter
@@ -94,12 +105,14 @@ enum npc_mission : int {
     NPC_MISSION_GUARD, // Assigns an non-allied NPC to remain in place
     NPC_MISSION_GUARD_PATROL, // Assigns a non-allied NPC to guard and investigate
     NPC_MISSION_ACTIVITY, // Perform a player_activity until it is complete
+    NPC_MISSION_TRAVELLING,
 };
 
 struct npc_companion_mission {
     std::string mission_id;
     tripoint position;
     std::string role_id;
+    cata::optional<tripoint> destination;
 };
 
 std::string npc_class_name( const npc_class_id & );
@@ -224,7 +237,10 @@ enum class ally_rule {
     allow_complain = 128,
     allow_pulp = 256,
     close_doors = 512,
-    avoid_combat = 1024
+    avoid_combat = 1024,
+    avoid_doors = 2048,
+    hold_the_line = 4096,
+    ignore_noise = 8192
 };
 const std::unordered_map<std::string, ally_rule> ally_rule_strs = { {
         { "use_guns", ally_rule::use_guns },
@@ -237,7 +253,10 @@ const std::unordered_map<std::string, ally_rule> ally_rule_strs = { {
         { "allow_complain", ally_rule::allow_complain },
         { "allow_pulp", ally_rule::allow_pulp },
         { "close_doors", ally_rule::close_doors },
-        { "avoid_combat", ally_rule::avoid_combat }
+        { "avoid_combat", ally_rule::avoid_combat },
+        { "avoid_doors", ally_rule::avoid_doors },
+        { "hold_the_line", ally_rule::hold_the_line },
+        { "ignore_noise", ally_rule::ignore_noise }
     }
 };
 
@@ -245,6 +264,8 @@ struct npc_follower_rules {
     combat_engagement engagement;
     aim_rule aim = AIM_WHEN_CONVENIENT;
     ally_rule flags;
+    ally_rule override_enable;
+    ally_rule overrides;
 
     pimpl<auto_pickup> pickup_whitelist;
 
@@ -253,11 +274,19 @@ struct npc_follower_rules {
     void serialize( JsonOut &jsout ) const;
     void deserialize( JsonIn &jsin );
 
-    bool has_flag( ally_rule test ) const;
+    bool has_flag( ally_rule test, bool check_override = true ) const;
     void set_flag( ally_rule setit );
     void clear_flag( ally_rule clearit );
     void toggle_flag( ally_rule toggle );
+    bool has_override_enable( ally_rule test ) const;
+    void enable_override( ally_rule setit );
+    void disable_override( ally_rule setit );
+    bool has_override( ally_rule test ) const;
+    void set_override( ally_rule setit );
+    void clear_override( ally_rule setit );
 
+    void set_danger_overrides();
+    void clear_overrides();
 };
 
 struct dangerous_sound {
@@ -270,6 +299,16 @@ const direction npc_threat_dir[8] = { NORTHWEST, NORTH, NORTHEAST, EAST,
                                       SOUTHEAST, SOUTH, SOUTHWEST, WEST
                                     };
 
+struct healing_options {
+    bool bandage;
+    bool bleed;
+    bool bite;
+    bool infect;
+    void clear_all();
+    void set_all();
+};
+
+
 // Data relevant only for this action
 struct npc_short_term_cache {
     float danger;
@@ -277,6 +316,9 @@ struct npc_short_term_cache {
     float danger_assessment;
     // Use weak_ptr to avoid circular references between Creatures
     std::weak_ptr<Creature> target;
+    // target is hostile, ally is for aiding actions
+    std::weak_ptr<Creature> ally;
+    healing_options can_heal;
     // map of positions / type / volume of suspicious sounds
     std::vector<dangerous_sound> sound_alerts;
     // current sound position being investigated
@@ -497,7 +539,6 @@ struct npc_chatbin {
     void deserialize( JsonIn &jsin );
 };
 
-class npc;
 class npc_template;
 struct epilogue;
 
@@ -527,6 +568,7 @@ class npc : public player
         void randomize( const npc_class_id &type = npc_class_id::NULL_ID() );
         void randomize_from_faction( faction *fac );
         void set_fac( const string_id<faction> &id );
+        void clear_fac();
         /**
          * Set @ref submap_coords and @ref pos.
          * @param mx,my,mz are global submap coordinates.
@@ -565,10 +607,7 @@ class npc : public player
         nc_color basic_symbol_color() const override;
         int print_info( const catacurses::window &w, int vStart, int vLines, int column ) const override;
         std::string opinion_text() const;
-
-        // Goal / mission functions
-        bool fac_has_value( faction_value value ) const;
-        bool fac_has_job( faction_job job ) const;
+        int faction_display( const catacurses::window &fac_w, const int width ) const;
 
         // Interaction with the player
         void form_opinion( const player &u );
@@ -595,14 +634,23 @@ class npc : public player
          */
         std::vector<matype_id> styles_offered_to( const player &p ) const;
         // State checks
+        int get_faction_ver() const; // faction version number
+        void set_faction_ver( int new_version );
         bool is_enemy() const; // We want to kill/mug/etc the player
         bool is_following() const; // Traveling w/ player (whether as a friend or a slave)
-        bool is_friend() const; // Allies with the player
+        bool is_obeying( const player &p ) const;
+        bool is_friendly( const player &p ) const; // ally of or travelling with p
         bool is_leader() const; // Leading the player
+        bool is_walking_with() const; // Leading, following, or waiting for the player
+        bool is_ally( const player &p ) const; // in the same faction
+        bool is_player_ally() const; // is an ally of the player
+        bool is_stationary( bool include_guards = true ) const; // isn't moving
+        bool is_guarding() const; // has a guard mission
+        bool is_patrolling() const; // has a guard patrol mission
+        bool is_assigned_to_camp() const;
         /** is performing a player_activity */
         bool has_player_activity() const;
-        /** Standing in one spot, moving back if removed from it. */
-        bool is_guarding() const;
+        bool is_travelling() const;
         /** Trusts you a lot. */
         bool is_minion() const;
         /** Is enemy or will turn into one (can't be convinced not to attack). */
@@ -615,7 +663,7 @@ class npc : public player
         int  follow_distance() const; // How closely do we follow the player?
 
         // Dialogue and bartering--see npctalk.cpp
-        void talk_to_u( bool text_only = false );
+        void talk_to_u( bool text_only = false, bool radio_contact = false );
         // Re-roll the inventory of a shopkeeper
         void shop_restock();
         // Use and assessment of items
@@ -627,9 +675,10 @@ class npc : public player
         void stow_item( item &it );
         bool wield( item &it ) override;
         bool adjust_worn();
-        bool has_healing_item( bool bleed = false, bool bite = false, bool infect = false );
-        item &get_healing_item( bool bleed = false, bool bite = false, bool infect = false,
-                                bool first_best = false );
+        bool has_healing_item( healing_options try_to_fix );
+        healing_options has_healing_options();
+        healing_options has_healing_options( healing_options try_to_fix );
+        item &get_healing_item( healing_options try_to_fix, bool first_best = false );
         bool has_painkiller();
         bool took_painkiller() const;
         void use_painkiller();
@@ -638,19 +687,22 @@ class npc : public player
         bool will_accept_from_player( const item &it ) const;
 
         bool wants_to_sell( const item &it ) const;
-        bool wants_to_sell( const item &it, int at_price, int market_price ) const;
+        bool wants_to_sell( const item &/*it*/, int at_price, int market_price ) const;
         bool wants_to_buy( const item &it ) const;
-        bool wants_to_buy( const item &it, int at_price, int market_price ) const;
+        bool wants_to_buy( const item &/*it*/, int at_price, int /*market_price*/ ) const;
 
         // AI helpers
         void regen_ai_cache();
         const Creature *current_target() const;
         Creature *current_target();
+        const Creature *current_ally() const;
+        Creature *current_ally();
         tripoint good_escape_direction( bool include_pos = true );
 
         // Interaction and assessment of the world around us
         float danger_assessment();
         float average_damage_dealt(); // Our guess at how much damage we can deal
+        bool need_heal( const player &n );
         bool bravery_check( int diff );
         bool emergency() const;
         bool emergency( float danger ) const;
@@ -659,7 +711,7 @@ class npc : public player
         void say( const char *const line, Args &&... args ) const {
             return say( string_format( line, std::forward<Args>( args )... ) );
         }
-        void say( const std::string &line, const bool shout = false ) const;
+        void say( const std::string &line, const int priority = 0 ) const;
         void decide_needs();
         void die( Creature *killer ) override;
         bool is_dead() const;
@@ -671,7 +723,8 @@ class npc : public player
         // @param force true if the complaint should happen even if not enough time has elapsed since last complaint
         // @param speech words of this complaint
         bool complain_about( const std::string &issue, const time_duration &dur,
-                             const std::string &speech, const bool force = false, const bool alert = false );
+                             const std::string &speech, const bool force = false,
+                             const int priority = 0 );
         // wrapper for complain_about that warns about a specific type of threat, with
         // different warnings for hostile or friendly NPCs and hostile NPCs always complaining
         void warn_about( const std::string &type, const time_duration &d = 10_minutes,
@@ -746,7 +799,9 @@ class npc : public player
          * @returns If it updated the path.
          */
         bool update_path( const tripoint &p, bool no_bashing = false, bool force = true );
+        bool can_open_door( const tripoint &p, const bool inside ) const;
         bool can_move_to( const tripoint &p, bool no_bashing = false ) const;
+
         // nomove is used to resolve recursive invocation
         void move_to( const tripoint &p, bool no_bashing = false, std::set<tripoint> *nomove = nullptr );
         void move_to_next(); // Next in <path>
@@ -791,6 +846,7 @@ class npc : public player
         bool saw_player_recently() const;// Do we have an idea of where u are?
         /** Returns true if food was consumed, false otherwise. */
         bool consume_food();
+        int get_thirst() const override;
 
         // Movement on the overmap scale
         bool has_omt_destination() const; // Do we have a long-term destination?
@@ -838,18 +894,23 @@ class npc : public player
          * Do not use when placing a NPC in mapgen.
          */
         void setpos( const tripoint &pos ) override;
-
+        void travel_overmap( const tripoint &pos );
         npc_attitude get_attitude() const;
         void set_attitude( npc_attitude new_attitude );
 
         // #############   VALUES   ################
 
         npc_class_id myclass; // What's our archetype?
-        std::string idz; // A temp variable used to inform the game which npc json to use as a template
-        mission_type_id miss_id; // A temp variable used to link to the correct mission
+        // A temp variable used to inform the game which npc json to use as a template
+        std::string idz;
+        // A temp variable used to link to the correct mission
+        std::vector<mission_type_id> miss_ids;
 
     private:
-
+        // faction API versions
+        // 2 - allies are in your_followers faction; NPCATT_FOLLOW is follower but not an ally
+        // 0 - allies may be in your_followers faction; NPCATT_FOLLOW is an ally (legacy)
+        int faction_api_version = 2;  // faction API versioning
         npc_attitude attitude; // What we want to do to the player
         /**
          * Global submap coordinates of the submap containing the npc.
@@ -892,9 +953,7 @@ class npc : public player
          * if no goal exist, this is no_goal_point.
          */
         tripoint goal;
-
-        tripoint wander_pos; // Not actually used (should be: wander there when you hear a sound)
-        int wander_time;
+        std::vector<tripoint> omt_path;
 
         /**
          * Location and index of the corpse we'd like to pulp (if any).
@@ -945,11 +1004,14 @@ class npc : public player
         void set_companion_mission( npc &p, const std::string &mission_id );
         void set_companion_mission( const tripoint &omt_pos, const std::string &role_id,
                                     const std::string &mission_id );
+        void set_companion_mission( const tripoint &omt_pos, const std::string &role_id,
+                                    const std::string &mission_id, const tripoint &destination );
         /// Unset a companion mission. Precondition: `!has_companion_mission()`
         void reset_companion_mission();
+        cata::optional<tripoint> get_mission_destination() const;
         bool has_companion_mission() const;
         npc_companion_mission get_companion_mission() const;
-        attitude_group get_attitude_group( npc_attitude att );
+        attitude_group get_attitude_group( npc_attitude att ) const;
 
     protected:
         void store( JsonOut &jsout ) const;

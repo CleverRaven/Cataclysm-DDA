@@ -138,6 +138,15 @@
     "difficulty": 3
   },
   {
+    "id": "bio_shotgun",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": "Shotgun Arm CBM",
+    "description": "Concealed in your left arm is a surgically integrated one-shot sawn-off shotgun barrel, that pops-up upon activation. Perfect in a pinch.",
+    "price": 220000,
+    "difficulty": 3
+  },
+  {
     "id": "bio_blood_anal",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
@@ -295,7 +304,7 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": "Telescopic Eyes CBM",
-    "description": "Much of the material in your inner eye has been removed and replaced with an array of high-powered, auto-focusing lenses.  You can now see much farther and more clearly than before, any vision problems you might have had are now gone.",
+    "description": "Much of the material in your inner eye has been removed and replaced with an array of high-powered, auto-focusing lenses.  They function as integrated binoculars, letting you see much farther than before, and any vision problems you might have had are now gone.",
     "price": 500000,
     "difficulty": 5
   },
@@ -354,15 +363,6 @@
     "difficulty": 1
   },
   {
-    "id": "bio_furnace",
-    "copy-from": "bionic_general",
-    "type": "BIONIC_ITEM",
-    "name": "Internal Furnace CBM",
-    "description": "When this bionic is active, you can burn nearly any organic material as fuel (use 'E'), recharging your power level.  Some materials will burn better than others.",
-    "price": 450000,
-    "difficulty": 4
-  },
-  {
     "id": "bio_geiger",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
@@ -385,7 +385,7 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": "Terranian Sonar CBM",
-    "description": "Your feet are equipped with precision sonar equipment, allowing you to detect the movements of creatures below the ground.",
+    "description": "Your feet are equipped with precision sonar equipment, allowing you to detect the movements of creatures below the ground, buried traps, and unstable terrain.",
     "price": 450000,
     "difficulty": 5
   },
@@ -638,7 +638,7 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": "Railgun CBM",
-    "description": "EM field generators in your arms double the range and damage of thrown iron and steel objects at a cost of 1 power per throw, causing them to leave a trail of electricity that can cause additional damage.",
+    "description": "EM field generators in your arms increase the range and damage of thrown iron and steel objects at a cost of 1 power per throw, causing them to leave a trail of electricity that can cause additional damage.",
     "price": 220000,
     "difficulty": 3
   },
@@ -906,6 +906,15 @@
     "difficulty": 5
   },
   {
+    "id": "bio_soporific",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": "Soporific Induction CBM",
+    "description": "A microscopic electrode designed to gently stimulate a particular cluster of neurons in your hypothalamus, helping you fall asleep.",
+    "price": 350000,
+    "difficulty": 2
+  },
+  {
     "id": "bio_ankles",
     "copy-from": "bionic_general_faulty",
     "type": "BIONIC_ITEM",
@@ -951,6 +960,14 @@
     "type": "BIONIC_ITEM",
     "name": "Itchy Metal Thing",
     "description": "You can't recognise what this is suppose to be, but it's a very awkward thing to have in one's body.",
+    "difficulty": 3
+  },
+  {
+    "id": "bio_glowy",
+    "copy-from": "bionic_general_faulty",
+    "type": "BIONIC_ITEM",
+    "name": "Glowy Thing",
+    "description": "It's a... thing?  And it glows, at least it did when it was plugged in.",
     "difficulty": 3
   },
   {

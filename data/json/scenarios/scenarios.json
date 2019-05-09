@@ -64,7 +64,8 @@
       "s_bookstore"
     ],
     "blacklist_professions": true,
-    "professions": [ "medic", "jr_survivalist", "camper", "cyberjunkie" ]
+    "professions": [ "medic", "jr_survivalist", "camper", "cyberjunkie" ],
+    "missions": [ "MISSION_INFECTED_START_FIND_ANTIBIOTICS" ]
   },
   {
     "type": "scenario",
@@ -238,9 +239,9 @@
     "description": "You were a convicted felon planning your escape before the event.  Now the prisoners have turned into mindless horrors and the security bots are shooting on sight... you might need to expedite your escape plans.",
     "allowed_locs": [ "prison" ],
     "start_name": "Prison",
-    "professions": [ "convict" ],
+    "professions": [ "convict", "death_row_convict" ],
     "forced_traits": [ "PSYCHOPATH" ],
-    "flags": [ "CITY_START" ]
+    "flags": [ "CITY_START", "LONE_START" ]
   },
   {
     "type": "scenario",

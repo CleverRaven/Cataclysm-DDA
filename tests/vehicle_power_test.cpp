@@ -1,13 +1,18 @@
+#include <memory>
+#include <vector>
+
 #include "catch/catch.hpp"
 #include "game.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "vehicle.h"
-#include "veh_type.h"
 #include "player.h"
-#include "itype.h"
 #include "calendar.h"
 #include "weather.h"
+#include "enums.h"
+#include "game_constants.h"
+#include "mapdata.h"
+#include "type_id.h"
 
 static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_plut_cell( "plut_cell" );
@@ -23,8 +28,10 @@ TEST_CASE( "vehicle_power" )
             g->m.i_clear( p );
         }
 
+        g->m.invalidate_map_cache( 0 );
         g->m.build_map_cache( 0, true );
 
+        CHECK( !g->u.in_vehicle );
         const tripoint test_origin( 15, 15, 0 );
         g->u.setpos( test_origin );
         const tripoint vehicle_origin = tripoint( 10, 10, 0 );

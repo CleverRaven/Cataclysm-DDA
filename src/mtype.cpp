@@ -8,8 +8,10 @@
 #include "item.h"
 #include "itype.h"
 #include "mondeath.h"
-#include "monstergenerator.h"
 #include "translations.h"
+#include "mapdata.h"
+
+struct species_type;
 
 const species_id MOLLUSK( "MOLLUSK" );
 
@@ -48,9 +50,11 @@ mtype::mtype()
     harvest = harvest_id::NULL_ID();
     luminance = 0;
     bash_skill = 0;
-    flags.insert( MF_HUMAN );
-    flags.insert( MF_BONES );
-    flags.insert( MF_LEATHER );
+
+    flags
+    .set( MF_HUMAN )
+    .set( MF_BONES )
+    .set( MF_LEATHER );
 }
 
 std::string mtype::nname( unsigned int quantity ) const
@@ -65,21 +69,12 @@ bool mtype::has_special_attack( const std::string &attack_name ) const
 
 bool mtype::has_flag( m_flag flag ) const
 {
-    return bitflags[flag];
+    return flags[flag];
 }
 
-bool mtype::has_flag( const std::string &flag ) const
+void mtype::set_flag( m_flag flag, bool state )
 {
-    return has_flag( MonsterGenerator::generator().m_flag_from_string( flag ) );
-}
-
-void mtype::set_flag( const std::string &flag, bool state )
-{
-    if( state ) {
-        flags.insert( MonsterGenerator::generator().m_flag_from_string( flag ) );
-    } else {
-        flags.erase( MonsterGenerator::generator().m_flag_from_string( flag ) );
-    }
+    flags.set( flag, state );
 }
 
 bool mtype::made_of( const material_id &material ) const
@@ -98,19 +93,19 @@ bool mtype::made_of_any( const std::set<material_id> &materials ) const
     } );
 }
 
-bool mtype::has_anger_trigger( monster_trigger trigger ) const
+bool mtype::has_anger_trigger( mon_trigger trigger ) const
 {
-    return bitanger[trigger];
+    return anger[trigger];
 }
 
-bool mtype::has_fear_trigger( monster_trigger trigger ) const
+bool mtype::has_fear_trigger( mon_trigger trigger ) const
 {
-    return bitfear[trigger];
+    return fear[trigger];
 }
 
-bool mtype::has_placate_trigger( monster_trigger trigger ) const
+bool mtype::has_placate_trigger( mon_trigger trigger ) const
 {
-    return bitplacate[trigger];
+    return placate[trigger];
 }
 
 bool mtype::in_category( const std::string &category ) const
@@ -224,5 +219,5 @@ int mtype::get_meat_chunks_count() const
 
 std::string mtype::get_description() const
 {
-    return _( description.c_str() );
+    return _( description );
 }

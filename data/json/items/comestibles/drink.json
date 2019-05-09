@@ -482,7 +482,7 @@
     "symbol": "~",
     "quench": 20,
     "healthy": 2,
-    "calories": 68,
+    "calories": 32,
     "description": "Freshly-squeezed from real fruit!  Tasty and nutritious.",
     "price": 80,
     "material": "fruit",
@@ -608,6 +608,14 @@
     "flags": [ "EATEN_COLD" ],
     "vitamins": [ [ "vitA", 10 ], [ "vitC", 4 ], [ "calcium", 25 ] ],
     "fun": 1
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "milk_reconstituted",
+    "name": "reconstituted milk",
+    "name_plural": "reconstituted milk",
+    "copy-from": "milk",
+    "description": "Baby cow food, appropriated for adult humans.  This milk has been reconstituted from a processed milk.  Spoils rapidly."
   },
   {
     "type": "COMESTIBLE",

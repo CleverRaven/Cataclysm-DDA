@@ -2,45 +2,57 @@
 #ifndef VEHICLE_H
 #define VEHICLE_H
 
+#include <limits.h>
+#include <stddef.h>
 #include <array>
 #include <list>
 #include <map>
 #include <stack>
 #include <vector>
+#include <functional>
+#include <set>
+#include <string>
+#include <unordered_map>
+#include <utility>
 
 #include "active_item_cache.h"
 #include "calendar.h"
 #include "clzones.h"
 #include "damage.h"
+#include "game_constants.h"
 #include "item.h"
 #include "item_group.h"
 #include "item_stack.h"
 #include "line.h"
 #include "string_id.h"
 #include "tileray.h"
-#include "ui.h"
 #include "units.h"
+#include "enums.h"
+#include "item_location.h"
+#include "type_id.h"
 
 class nc_color;
-class map;
 class player;
 class npc;
 class vehicle;
-class vpart_info;
 class vehicle_part_range;
+class JsonIn;
+class JsonOut;
+class vehicle_cursor;
+class zone_data;
+struct itype;
+struct uilist_entry;
+template <typename T> class visitable;
+class vpart_info;
+
 enum vpart_bitflags : int;
-using vpart_id = string_id<vpart_info>;
-struct vehicle_prototype;
-using vproto_id = string_id<vehicle_prototype>;
 template<typename feature_type>
 class vehicle_part_with_feature_range;
+
 namespace catacurses
 {
 class window;
 } // namespace catacurses
-typedef enum {
-    DONE, ITEMS_FROM_CARGO, ITEMS_FROM_GROUND,
-} veh_interact_results;
 namespace vehicles
 {
 extern point cardinal_d[5];
@@ -156,8 +168,11 @@ struct vehicle_part {
             return flags &= ~flag;
         }
 
-        /** Translated name of a part inclusive of any current status effects */
-        std::string name() const;
+        /**
+         * Translated name of a part inclusive of any current status effects
+         * with_prefix as true indicates the durability symbol should be prepended
+         */
+        std::string name( bool with_prefix = true ) const;
 
         static constexpr int name_offset = 7;
         /** Stack of the containing vehicle's name, when it it stored as part of another vehicle */
@@ -964,6 +979,9 @@ class vehicle
         int engine_fuel_left( const int e, bool recurse = false ) const;
         int fuel_capacity( const itype_id &ftype ) const;
 
+        // Returns the total specific energy of this fuel type. Frozen is ignored.
+        float fuel_specific_energy( const itype_id &ftype ) const;
+
         // drains a fuel type (e.g. for the kitchen unit)
         // returns amount actually drained, does not engage reactor
         int drain( const itype_id &ftype, int amount );
@@ -1437,7 +1455,7 @@ class vehicle
         void use_monster_capture( int part, const tripoint &pos );
         void use_bike_rack( int part );
 
-        veh_interact_results interact_with( const tripoint &pos, int interact_part );
+        void interact_with( const tripoint &pos, int interact_part );
 
         const std::string disp_name() const;
 
@@ -1468,6 +1486,7 @@ class vehicle
         std::vector<int> solar_panels;     // List of solar panel indices
         std::vector<int> wind_turbines;     // List of wind turbine indices
         std::vector<int> water_wheels;     // List of water wheel indices
+        std::vector<int> sails;            // List of sail indices
         std::vector<int> funnels;          // List of funnel indices
         std::vector<int> heaters;          // List of heater parts
         std::vector<int> loose_parts;      // List of UNMOUNT_ON_MOVE parts

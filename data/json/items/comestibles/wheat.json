@@ -38,7 +38,7 @@
     "price": 120,
     "material": "wheat",
     "volume": 1,
-    "flags": [ "EDIBLE_FROZEN" ],
+    "flags": [ "EDIBLE_FROZEN", "MILLABLE" ],
     "vitamins": [ [ "calcium", 4 ], [ "iron", 40 ] ],
     "fun": -10
   },
@@ -201,7 +201,7 @@
     "price": 120,
     "material": "wheat",
     "volume": 1,
-    "flags": [ "EDIBLE_FROZEN" ],
+    "flags": [ "EDIBLE_FROZEN", "MILLABLE" ],
     "vitamins": [ [ "calcium", 3 ], [ "iron", 20 ] ],
     "fun": -10
   },
@@ -402,7 +402,7 @@
     "price": 990,
     "material": [ "wheat", "milk" ],
     "primary_material": "wheat",
-    "volume": 8,
+    "volume": 4,
     "charges": 4,
     "flags": [ "EATEN_HOT" ],
     "fun": 10,

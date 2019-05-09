@@ -37,13 +37,6 @@
     "refuel_fires": true
   },
   {
-    "id": "ACT_LONGCRAFT",
-    "type": "activity_type",
-    "stop_phrase": "Stop crafting?",
-    "based_on": "neither",
-    "refuel_fires": true
-  },
-  {
     "id": "ACT_DISASSEMBLE",
     "type": "activity_type",
     "stop_phrase": "Stop disassembly?",
@@ -421,22 +414,13 @@
     "id": "ACT_DIG",
     "type": "activity_type",
     "stop_phrase": "Stop digging?",
-    "based_on": "speed",
-    "byproducts": { "finish": [ { "group": "digging_soil_loam_50L", "count": 5 } ] }
-  },
-  {
-    "id": "ACT_DIG_DEEPEN",
-    "type": "activity_type",
-    "stop_phrase": "Stop digging?",
-    "based_on": "speed",
-    "byproducts": { "finish": [ { "group": "digging_soil_loam_50L", "count": 40 } ] }
+    "based_on": "speed"
   },
   {
     "id": "ACT_DIG_CHANNEL",
     "type": "activity_type",
     "stop_phrase": "Stop digging?",
-    "based_on": "speed",
-    "byproducts": { "finish": [ { "group": "digging_soil_loam_50L", "count": 5 } ] }
+    "based_on": "speed"
   },
   {
     "id": "ACT_FILL_PIT",
@@ -489,6 +473,23 @@
     "id": "ACT_WEAR",
     "type": "activity_type",
     "stop_phrase": "Stop putting on items?",
+    "suspendable": false,
+    "based_on": "neither",
+    "no_resume": true
+  },
+  {
+    "id": "ACT_TREE_COMMUNION",
+    "type": "activity_type",
+    "stop_phrase": "Stop communing with the trees?",
+    "rooted": true,
+    "suspendable": false,
+    "based_on": "time",
+    "no_resume": true
+  },
+  {
+    "id": "ACT_EAT_MENU",
+    "type": "activity_type",
+    "stop_phrase": "Stop eating?",
     "suspendable": false,
     "based_on": "neither",
     "no_resume": true

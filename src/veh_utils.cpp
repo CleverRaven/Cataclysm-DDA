@@ -2,16 +2,27 @@
 
 #include <algorithm>
 #include <map>
+#include <cmath>
+#include <list>
+#include <memory>
+#include <string>
+#include <utility>
+#include <vector>
 
 #include "calendar.h"
 #include "craft_command.h"
 #include "game.h"
-#include "messages.h"
 #include "map.h"
-#include "output.h"
 #include "player.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "character.h"
+#include "enums.h"
+#include "game_constants.h"
+#include "inventory.h"
+#include "item.h"
+#include "requirements.h"
+#include "translations.h"
 
 namespace veh_utils
 {
@@ -63,7 +74,7 @@ vehicle_part &most_repairable_part( vehicle &veh, const Character &who_arg, bool
         }
 
         if( part.is_broken() ) {
-            if( info.install_requirements().can_make_with_inventory( inv ) ) {
+            if( info.install_requirements().can_make_with_inventory( inv, is_crafting_component ) ) {
                 repairable_cache[ &part ] = need_replacement;
             }
 
@@ -71,7 +82,8 @@ vehicle_part &most_repairable_part( vehicle &veh, const Character &who_arg, bool
         }
 
         if( info.is_repairable() &&
-            ( info.repair_requirements() * part.damage_level( 4 ) ).can_make_with_inventory( inv ) ) {
+            ( info.repair_requirements() * part.damage_level( 4 ) ).can_make_with_inventory( inv,
+                    is_crafting_component ) ) {
             repairable_cache[ &part ] = repairable;
         }
     }
@@ -110,16 +122,17 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who_c )
 
     inventory map_inv;
     map_inv.form_from_map( who.pos(), PICKUP_RANGE );
-    if( !reqs.can_make_with_inventory( who.crafting_inventory() ) ) {
+    if( !reqs.can_make_with_inventory( who.crafting_inventory(), is_crafting_component ) ) {
         who.add_msg_if_player( m_info, _( "You don't meet the requirements to repair the %s." ),
-                               pt.name().c_str() );
+                               pt.name() );
         return false;
     }
 
     // consume items extracting any base item (which we will need if replacing broken part)
     item base( vp.item );
     for( const auto &e : reqs.get_components() ) {
-        for( auto &obj : who.consume_items( who.select_item_component( e, 1, map_inv ), 1 ) ) {
+        for( auto &obj : who.consume_items( who.select_item_component( e, 1, map_inv ), 1,
+                                            is_crafting_component ) ) {
             if( obj.typeId() == vp.item ) {
                 base = obj;
             }
@@ -137,8 +150,11 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who_c )
     }
 
     // If part is broken, it will be destroyed and references invalidated
-    std::string partname = pt.name();
-    if( pt.is_broken() ) {
+    std::string partname = pt.name( false );
+    const std::string startdurability = "<color_" + string_from_color( pt.get_base().damage_color() ) +
+                                        ">" + pt.get_base(). damage_symbol() + " </color>";
+    bool wasbroken = pt.is_broken();
+    if( wasbroken ) {
         const int dir = pt.direction;
         point loc = pt.mount;
         auto replacement_id = pt.info().get_id();
@@ -152,8 +168,10 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who_c )
     }
 
     // TODO: NPC doing that
-    who.add_msg_if_player( m_good, _( "You repair the %1$s's %2$s." ), veh.name.c_str(),
-                           partname.c_str() );
+    who.add_msg_if_player( m_good,
+                           wasbroken ? _( "You replace the %1$s's %2$s. (was %3$s)" ) :
+                           _( "You repair the %1$s's %2$s. (was %3$s)" ), veh.name,
+                           partname, startdurability );
     return true;
 }
 

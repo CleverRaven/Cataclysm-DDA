@@ -330,7 +330,7 @@
     "description": "A raw potato, cut into pieces, separating each bud for planting.",
     "weight": 20,
     "stack_size": 10,
-    "seed_data": { "plant_name": "potatoes", "fruit": "potato_raw", "byproducts": [ "withered" ], "grow": "95 days" }
+    "seed_data": { "plant_name": "potatoes", "fruit": "potato", "byproducts": [ "withered" ], "grow": "95 days" }
   },
   {
     "type": "COMESTIBLE",
@@ -389,21 +389,15 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "raw_beans",
+    "id": "seed_beans",
     "copy-from": "seed",
     "name": "raw beans",
     "name_plural": "raw beans",
     "weight": 194,
     "symbol": "%",
-    "healthy": -2,
-    "calories": 56,
-    "description": "Raw, uncooked beans.  They are mildly toxic in this form, but you could cook them to make them tasty.  Alternatively, you could plant them.",
+    "description": "Raw, uncooked beans, ready for planting.",
+    "charges": 2,
     "price": 90,
-    "fun": -1,
-    "cooks_like": "beans_cooked",
-    "flags": [ "SMOKABLE", "NUTRIENT_OVERRIDE" ],
-    "smoking_result": "dry_beans",
-    "vitamins": [ [ "iron", 2 ], [ "vitC", 20 ] ],
     "seed_data": { "plant_name": "beans", "fruit": "raw_beans", "byproducts": [ "withered" ], "grow": "91 days" }
   },
   {
@@ -420,21 +414,15 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "raw_lentils",
+    "id": "seed_lentils",
     "copy-from": "seed",
     "name": "raw lentils",
     "name_plural": "raw lentils",
     "weight": 194,
     "symbol": "%",
-    "healthy": -2,
-    "calories": 42,
-    "description": "Raw, uncooked lentils. They could be cooked or planted.",
+    "description": "Raw, uncooked lentils, ready for planting.",
+    "charges": 2,
     "price": 90,
-    "fun": -1,
-    "cooks_like": "lentils_cooked",
-    "flags": [ "SMOKABLE" ],
-    "smoking_result": "dry_lentils",
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 3 ], [ "vitC", 1 ], [ "vitB", 1 ] ],
     "seed_data": { "plant_name": "lentils", "fruit": "raw_lentils", "byproducts": [ "withered" ], "grow": "91 days" }
   },
   {

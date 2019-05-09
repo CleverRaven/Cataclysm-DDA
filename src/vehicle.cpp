@@ -14,6 +14,7 @@
 #include <set>
 #include <sstream>
 #include <unordered_map>
+#include <memory>
 
 #include "ammo.h"
 #include "cata_utility.h"
@@ -29,17 +30,22 @@
 #include "mapbuffer.h"
 #include "mapdata.h"
 #include "messages.h"
-#include "output.h"
-#include "overmap.h"
 #include "overmapbuffer.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "submap.h"
 #include "translations.h"
-#include "veh_interact.h"
 #include "veh_type.h"
 #include "vehicle_selector.h"
 #include "weather.h"
+#include "field.h"
+#include "math_defines.h"
+#include "pimpl.h"
+#include "player.h"
+#include "player_activity.h"
+#include "pldata.h"
+#include "rng.h"
+#include "weather_gen.h"
 
 /*
  * Speed up all those if ( blarg == "structure" ) statements that are used everywhere;
@@ -47,6 +53,7 @@
  */
 static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_muscle( "muscle" );
+static const itype_id fuel_type_wind( "wind" );
 static const itype_id fuel_type_plutonium_cell( "plut_cell" );
 static const std::string part_location_structure( "structure" );
 static const std::string part_location_center( "center" );
@@ -702,7 +709,6 @@ const vpart_info &vehicle::part_info( int index, bool include_removed ) const
 int vehicle::part_vpower_w( const int index, const bool at_full_hp ) const
 {
     const vehicle_part &vp = parts[ index ];
-
     int pwr = vp.info().power;
     if( part_flag( index, VPFLAG_ENGINE ) ) {
         if( pwr == 0 ) {
@@ -710,6 +716,24 @@ int vehicle::part_vpower_w( const int index, const bool at_full_hp ) const
         }
         ///\EFFECT_STR increases power produced for MUSCLE_* vehicles
         pwr += ( g->u.str_cur - 8 ) * part_info( index ).engine_muscle_power_factor();
+        /// wind-powered vehicles have differing power depending on wind direction
+        if( vp.info().fuel_type == fuel_type_wind ) {
+            int windpower = g->windspeed;
+            rl_vec2d windvec;
+            double raddir = ( ( g->winddirection + 180 ) % 360 ) * ( M_PI / 180 );
+            windvec = windvec.normalized();
+            windvec.y = -cos( raddir );
+            windvec.x = sin( raddir );
+            rl_vec2d fv = face_vec();
+            double dot = windvec.dot_product( fv );
+            if( dot <= 0 ) {
+                dot = std::min( -0.1, dot );
+            } else {
+                dot = std::max( 0.1, dot );
+            }
+            int windeffectint = static_cast<int>( ( windpower * dot ) * 200 );
+            pwr = std::max( 1, pwr + windeffectint );
+        }
     }
 
     if( pwr < 0 ) {
@@ -990,12 +1014,26 @@ bool vehicle::can_mount( const point &dp, const vpart_id &id ) const
         }
     }
 
-    //Turret mounts must NOT be installed on other (moded) turret mounts
+    //Turret mounts must NOT be installed on other (modded) turret mounts
     if( part.has_flag( "TURRET_MOUNT" ) ) {
         for( const auto &elem : parts_in_square ) {
             if( part_info( elem ).has_flag( "TURRET_MOUNT" ) ) {
                 return false;
             }
+        }
+    }
+
+    //Roof-mounted parts must be installed on a roofs
+    if( part.has_flag( "ON_ROOF" ) ) {
+        bool anchor_found = false;
+        for( const auto &elem : parts_in_square ) {
+            if( part_info( elem ).has_flag( "ROOF" ) ) {
+                anchor_found = true;
+                break;
+            }
+        }
+        if( !anchor_found ) {
+            return false;
         }
     }
 
@@ -2799,6 +2837,22 @@ int vehicle::fuel_capacity( const itype_id &ftype ) const
     } );
 }
 
+float vehicle::fuel_specific_energy( const itype_id &ftype ) const
+{
+    float total_energy = 0;
+    float total_mass = 0;
+    for( auto vehicle_part : parts ) {
+        if( vehicle_part.is_tank() && vehicle_part.ammo_current() == ftype  &&
+            vehicle_part.base.contents_made_of( LIQUID ) ) {
+            float energy = vehicle_part.base.contents.front().specific_energy;
+            float mass = to_gram( vehicle_part.base.contents.front().weight() );
+            total_energy += energy * mass;
+            total_mass += mass;
+        }
+    }
+    return total_energy / total_mass;
+}
+
 int vehicle::drain( const itype_id &ftype, int amount )
 {
     if( ftype == fuel_type_battery ) {
@@ -2874,7 +2928,7 @@ int vehicle::basic_consumption( const itype_id &ftype ) const
 int vehicle::consumption_per_hour( const itype_id &ftype, int fuel_rate_w ) const
 {
     item fuel = item( ftype );
-    if( fuel_rate_w == 0 || fuel.has_flag( "PERPETUAL" ) ) {
+    if( fuel_rate_w == 0 || fuel.has_flag( "PERPETUAL" ) || !engine_on ) {
         return 0;
     }
     // consume this fuel type's share of alternator load for 3600 seconds
@@ -3256,6 +3310,7 @@ struct drag_column {
     int turret = minrow;
     int panel = minrow;
     int windmill = minrow;
+    int sail = minrow;
     int last = maxrow;
 };
 
@@ -3271,6 +3326,7 @@ double vehicle::coeff_air_drag() const
     constexpr double fullboard_height = 0.5;
     constexpr double roof_height = 0.1;
     constexpr double windmill_height = 0.7;
+    constexpr double sail_height = 0.8;
 
     std::vector<int> structure_indices = all_parts_at_location( part_location_structure );
     int width = mount_max.y - mount_min.y + 1;
@@ -3325,6 +3381,7 @@ double vehicle::coeff_air_drag() const
             d_check_max( drag[ col ].roof, pa, pa.info().has_flag( "ROOF" ) );
             d_check_max( drag[ col ].panel, pa, pa.info().has_flag( "SOLAR_PANEL" ) );
             d_check_max( drag[ col ].windmill, pa, pa.info().has_flag( "WIND_TURBINE" ) );
+            d_check_max( drag[ col ].sail, pa, pa.info().has_flag( "WIND_POWERED" ) );
             d_check_max( drag[ col ].exposed, pa, d_exposed( pa ) );
             d_check_min( drag[ col ].last, pa, pa.info().has_flag( "LOW_FINAL_AIR_DRAG" ) ||
                          pa.info().has_flag( "HALF_BOARD" ) );
@@ -3356,6 +3413,8 @@ double vehicle::coeff_air_drag() const
         c_air_drag_c += ( dc.turret > minrow ) ? 3 * c_air_mod : 0;
         // having a windmill is terrible for your drag
         c_air_drag_c += ( dc.windmill > minrow ) ? 5 * c_air_mod : 0;
+        // having a sail is terrible for your drag
+        c_air_drag_c += ( dc.sail > minrow ) ? 7 * c_air_mod : 0;
         c_air_drag += c_air_drag_c;
         // vehicles are 1.4m tall
         double c_height = base_height;
@@ -3371,6 +3430,8 @@ double vehicle::coeff_air_drag() const
         c_height += ( dc.panel > minrow ) ? roof_height : 0;
         // windmills are tall, too
         c_height += ( dc.windmill > minrow ) ? windmill_height : 0;
+        // sails are tall, too
+        c_height += ( dc.sail > minrow ) ? sail_height : 0;
         height += c_height;
     }
     constexpr double air_density = 1.29; // kg/m^3
@@ -3700,7 +3761,7 @@ void vehicle::consume_fuel( int load, const int t_seconds, bool skip_electric )
             g->u.charge_power( -10 );
         }
         if( one_in( 10 ) ) {
-            g->u.mod_hunger( mod );
+            g->u.mod_stored_nutr( mod );
             g->u.mod_thirst( mod );
             g->u.mod_fatigue( mod );
         }
@@ -4352,7 +4413,7 @@ void vehicle::place_spawn_items()
         if( rng( 1, 100 ) <= spawn.chance ) {
             int part = part_with_feature( spawn.pos, "CARGO", false );
             if( part < 0 ) {
-                debugmsg( "No CARGO parts at (%d, %d) of %s!", spawn.pos.x, spawn.pos.y, name.c_str() );
+                debugmsg( "No CARGO parts at (%d, %d) of %s!", spawn.pos.x, spawn.pos.y, name );
 
             } else {
                 // if vehicle part is broken only 50% of items spawn and they will be variably damaged
@@ -4469,7 +4530,7 @@ void vehicle::suspend_refresh()
 void vehicle::enable_refresh()
 {
     // force all caches to recalculate
-    no_refresh = true;
+    no_refresh = false;
     mass_dirty = true;
     mass_center_precalc_dirty = true;
     mass_center_no_precalc_dirty = true;
@@ -4477,7 +4538,6 @@ void vehicle::enable_refresh()
     coeff_air_dirty = true;
     coeff_water_dirty = true;
     coeff_air_changed = true;
-    no_refresh = false;
     refresh();
 }
 
@@ -4496,6 +4556,7 @@ void vehicle::refresh()
     reactors.clear();
     solar_panels.clear();
     wind_turbines.clear();
+    sails.clear();
     water_wheels.clear();
     funnels.clear();
     heaters.clear();
@@ -4562,6 +4623,9 @@ void vehicle::refresh()
         }
         if( vpi.has_flag( "WIND_TURBINE" ) ) {
             wind_turbines.push_back( p );
+        }
+        if( vpi.has_flag( "WIND_POWERED" ) ) {
+            sails.push_back( p );
         }
         if( vpi.has_flag( "WATER_WHEEL" ) ) {
             water_wheels.push_back( p );
@@ -5069,7 +5133,7 @@ bool vehicle::explode_fuel( int p, damage_type type )
     if( one_in( explosion_chance ) ) {
         g->u.add_memorial_log( pgettext( "memorial_male", "The fuel tank of the %s exploded!" ),
                                pgettext( "memorial_female", "The fuel tank of the %s exploded!" ),
-                               name.c_str() );
+                               name );
         const int pow = 120 * ( 1 - exp( data.explosion_factor / -5000 *
                                          ( parts[p].ammo_remaining() * data.fuel_size_factor ) ) );
         //debugmsg( "damage check dmg=%d pow=%d amount=%d", dmg, pow, parts[p].amount );
@@ -5222,6 +5286,11 @@ const vpart_info &vpart_reference::info() const
     return part().info();
 }
 
+player *vpart_reference::get_passenger() const
+{
+    return vehicle().get_passenger( part_index() );
+}
+
 point vpart_position::mount() const
 {
     return vehicle().parts[part_index()].mount;
@@ -5354,7 +5423,7 @@ void vehicle::update_time( const time_point &update_to )
         }
 
         double area = pow( pt.info().size / units::legacy_volume_factor, 2 ) * M_PI;
-        int qty = divide_roll_remainder( funnel_charges_per_turn( area, accum_weather.rain_amount ), 1.0 );
+        int qty = roll_remainder( funnel_charges_per_turn( area, accum_weather.rain_amount ) );
         int c_qty = qty + ( tank->can_reload( water_clean ) ?  tank->ammo_remaining() : 0 );
         int cost_to_purify = c_qty * item::find_type( "water_purifier" )->charges_to_use();
 
@@ -5560,7 +5629,7 @@ bool vehicle::refresh_zones()
             const int part_idx = part_with_feature( z.first, "CARGO", false );
             if( part_idx == -1 ) {
                 debugmsg( "Could not find cargo part at %d,%d on vehicle %s for loot zone. Removing loot zone.",
-                          z.first.x, z.first.y, this->name.c_str() );
+                          z.first.x, z.first.y, this->name );
 
                 // If this loot zone refers to a part that no longer exists at this location, then its unattached somehow.
                 // By continuing here and not adding to new_zones, we effectively remove it

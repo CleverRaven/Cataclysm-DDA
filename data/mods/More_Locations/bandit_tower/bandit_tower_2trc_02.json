@@ -1,55 +1,43 @@
 [
-    {
-        "type": "mapgen",
-        "om_terrain": "bandit_tower_2trc",
-        "comment" : "top right corner, second story and even levels",
-        "weight": 250,
-        "method": "json",
-        "object": {
-            "fill_ter": "t_floor",
-            "rows": [
-                "################88######",
-                "################88######",
-                "################88######",
-                "#######==ww=====++==ww==",
-                "#######=DDDi|...,,.|BB==",
-                "#####===.c..|-|.,,.|BB==",
-                "#####===....+i|.,,.|..@d",
-                "###=====+------.,,.-...d",
-                "###=............,,.+....",
-                "###=..TT........,,.---++",
-                "###w..TTc.......,,...|dd",
-                "###w.,,,,,,,,,,,,,...|--",
-                "###w.,,,,,,,,,,,,,...+.d",
-                "###=.,,....c....@....---",
-                "###=.,,..CCCC...........",
-                "###=.,,.cC---|..........",
-                "###g.,,.@C|RU|..=======.",
-                "###g.,,.cC.@L|..=====Mee",
-                "###g.,,@.C..L|..==<<<Mee",
-                "###g.,,.cC..s|....<<<Mee",
-                "###g.,,..C..o|....<<<Mee",
-                "###g.,,.cC..C|..=MMMMMMM",
-                "###g.......RU|..=eeeeM==",
-                "###===-------|...eeeeM=="
-            ],
-            "rotation": 1,
-            "palettes": [
-                "tri_tower",
-                "upper_level",
-                "bandit_tower_stuff"
-            ],
-            "terrain":{
-                "5": "t_pavement",
-                "8": "t_bridge",
-                ",": "t_carpet_red"
-            },
-            "items":{
-                "L": { "item": "alcohol", "chance": 65 },
-                "R": { "item": "alcohol", "chance": 85 }
-            },
-            "npcs": {
-                "@": { "class": "thug" }
-            }        }
+  {
+    "type": "mapgen",
+    "om_terrain": "bandit_tower_2trc",
+    "comment": "top right corner, second story and even levels",
+    "weight": 250,
+    "method": "json",
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "################88######",
+        "################88######",
+        "################88######",
+        "#######==ww=====++==ww==",
+        "#######=DDDi|...,,.|BB==",
+        "#####===.c..|-|.,,.|BB==",
+        "#####===....+i|.,,.|..@d",
+        "###=====+------.,,.-...d",
+        "###=............,,.+....",
+        "###=..TT........,,.---++",
+        "###w..TTc.......,,...|dd",
+        "###w.,,,,,,,,,,,,,...|--",
+        "###w.,,,,,,,,,,,,,...+.d",
+        "###=.,,....c....@....---",
+        "###=.,,..CCCC...........",
+        "###=.,,.cC---|..........",
+        "###g.,,.@C|RU|..=======.",
+        "###g.,,.cC.@L|..=====Mee",
+        "###g.,,@.C..L|..==<<<Mee",
+        "###g.,,.cC..s|....<<<Mee",
+        "###g.,,..C..o|....<<<Mee",
+        "###g.,,.cC..C|..=MMMMMMM",
+        "###g.......RU|..=eeeeM==",
+        "###===-------|...eeeeM=="
+      ],
+      "rotation": 1,
+      "palettes": [ "tri_tower", "upper_level", "bandit_tower_stuff" ],
+      "terrain": { "5": "t_pavement", "8": "t_bridge", ",": "t_carpet_red" },
+      "items": { "L": { "item": "alcohol", "chance": 65 }, "R": { "item": "alcohol", "chance": 85 } },
+      "npcs": { "@": { "class": "thug" } }
     }
+  }
 ]

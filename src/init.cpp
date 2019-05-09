@@ -1,16 +1,20 @@
 #include "init.h"
 
+#include <stddef.h>
 #include <cassert>
 #include <fstream>
 #include <sstream> // for throwing errors
 #include <string>
 #include <vector>
+#include <exception>
+#include <iterator>
+#include <memory>
+#include <stdexcept>
 
 #include "activity_type.h"
 #include "ammo.h"
 #include "anatomy.h"
 #include "bionics.h"
-#include "clzones.h"
 #include "construction.h"
 #include "crafting_gui.h"
 #include "debug.h"
@@ -64,6 +68,9 @@
 #include "vehicle_group.h"
 #include "vitamin.h"
 #include "worldfactory.h"
+#include "bodypart.h"
+#include "translations.h"
+#include "type_id.h"
 
 #if defined(TILES)
 void load_tileset();
@@ -117,7 +124,7 @@ void DynamicDataLoader::load_deferred( deferred_json &data )
                 discarded << elem.first;
             }
             debugmsg( "JSON contains circular dependency. Discarded %i objects:\n%s",
-                      data.size(), discarded.str().c_str() );
+                      data.size(), discarded.str() );
             data.clear();
             return; // made no progress on this cycle so abort
         }
@@ -545,6 +552,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Martial arts" ), &finialize_martial_arts },
             { _( "Constructions" ), &finalize_constructions },
             { _( "NPC classes" ), &npc_class::finalize_all },
+            { _( "Missions" ), &mission_type::finalize },
             { _( "Harvest lists" ), &harvest_list::finalize_all },
             { _( "Anatomies" ), &anatomy::finalize_all },
 #if defined(TILES)

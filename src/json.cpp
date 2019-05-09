@@ -1,10 +1,10 @@
 #include "json.h"
 
+#include <stdint.h>
+#include <stdio.h>
 #include <cmath> // pow
 #include <cstdlib> // strtoul
 #include <cstring> // strcmp
-#include <fstream>
-#include <istream>
 #include <locale> // ensure user's locale doesn't interfere with output
 #include <set>
 #include <sstream>
@@ -12,6 +12,9 @@
 #include <vector>
 #include <bitset>
 #include <iterator>
+#include <algorithm>
+#include <exception>
+#include <utility>
 
 // JSON parsing and serialization tools for Cataclysm-DDA.
 // For documentation, see the included header, json.h.
@@ -96,6 +99,17 @@ JsonObject::JsonObject( const JsonObject &jo )
     positions = jo.positions;
     end = jo.end;
     final_separator = jo.final_separator;
+}
+
+JsonObject &JsonObject::operator=( const JsonObject &jo )
+{
+    jsin = jo.jsin;
+    start = jo.start;
+    positions = jo.positions;
+    end = jo.end;
+    final_separator = jo.final_separator;
+
+    return *this;
 }
 
 void JsonObject::finish()
@@ -428,6 +442,18 @@ JsonArray::JsonArray( const JsonArray &ja )
     positions = ja.positions;
     end = ja.end;
     final_separator = ja.final_separator;
+}
+
+JsonArray &JsonArray::operator=( const JsonArray &ja )
+{
+    jsin = ja.jsin;
+    start = ja.start;
+    index = 0;
+    positions = ja.positions;
+    end = ja.end;
+    final_separator = ja.final_separator;
+
+    return *this;
 }
 
 void JsonArray::finish()
@@ -1447,7 +1473,7 @@ std::string JsonIn::line_number( int offset_modifier )
     return ret.str();
 }
 
-void JsonIn::error( std::string message, int offset )
+void JsonIn::error( const std::string &message, int offset )
 {
     std::ostringstream err;
     err << line_number( offset ) << ": " << message;

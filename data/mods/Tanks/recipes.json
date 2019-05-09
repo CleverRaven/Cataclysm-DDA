@@ -1,41 +1,29 @@
 [
   {
-  "type" : "uncraft",
-  "result": "broken_tankbot",
-  "override": true,
-  "skill_used": "electronics",
-  "difficulty": 8,
-  "time": 600000,
-  "qualities" : [
-    {"id":"SCREW","level":1},
-    {"id":"WRENCH","level":1},
-    {"id":"SAW_M","level":1}
-  ],
-  "tools": [
-    [
-      [ "soldering_iron", 30 ],
-      [ "toolset", 30 ]
+    "type": "uncraft",
+    "result": "broken_tankbot",
+    "override": true,
+    "skill_used": "electronics",
+    "difficulty": 8,
+    "time": 600000,
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "tools": [
+      [ [ "soldering_iron", 30 ], [ "toolset", 30 ] ],
+      [ [ "oxy_torch", 40 ], [ "welder", 200 ], [ "toolset", 300 ], [ "welder_crude", 300 ] ]
     ],
-    [
-      [ "oxy_torch", 40 ],
-      [ "welder", 200 ],
-      [ "toolset", 300 ],
-      [ "welder_crude", 300 ]
+    "components": [
+      [ [ "flamethrower", 1 ] ],
+      [ [ "tazer", 1 ] ],
+      [ [ "m4a1", 1 ] ],
+      [ [ "motor_large", 1 ] ],
+      [ [ "power_supply", 20 ] ],
+      [ [ "plut_cell", 4 ] ],
+      [ [ "RAM", 2 ] ],
+      [ [ "steel_chunk", 15 ] ],
+      [ [ "mil_plate", 2 ] ],
+      [ [ "robot_controls", 1 ] ],
+      [ [ "tank_gun_auto", 1 ] ]
     ]
-  ],
-  "components": [
-    [ [ "flamethrower", 1 ] ],
-    [ [ "tazer", 1 ] ],
-    [ [ "m4a1", 1 ] ],
-    [ [ "motor_large", 1 ] ],
-    [ [ "power_supply", 20 ] ],
-    [ [ "plut_cell", 4 ] ],
-    [ [ "RAM", 2 ] ],
-    [ [ "steel_chunk", 15 ] ],
-    [ [ "mil_plate", 2 ] ],
-    [ [ "robot_controls", 1 ] ],
-    [ [ "tank_gun_auto", 1 ] ]
-  ]
   },
   {
     "result": "30mm_slug",
@@ -51,143 +39,112 @@
     "charges": 1,
     "using": [ [ "bullet_forming", 5 ], [ "ammo_bullet", 50 ] ],
     "qualities": [ { "id": "WRENCH", "level": 1 } ],
+    "components": [ [ [ "30mm_casing", 1 ] ], [ [ "electric_primer", 1 ] ], [ [ "gunpowder", 95 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "120mm_usable_shot",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_OTHER",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "launcher", 4 ], [ "electronics", 1 ] ],
+    "difficulty": 6,
+    "time": 25000,
+    "book_learn": [ [ "textbook_launcher", 6 ] ],
+    "qualities": [ { "id": "WRENCH", "level": 1 } ],
+    "tools": [ [ [ "fire", -1 ], [ "toolset", 10 ] ] ],
     "components": [
-      [ [ "30mm_casing", 1 ] ],
-      [ [ "electric_primer", 1 ] ],
-      [ [ "gunpowder", 95 ] ]
+      [ [ "120mm_casing", 1 ] ],
+      [ [ "electric_primer_large", 1 ] ],
+      [ [ "gunpowder", 1900 ] ],
+      [
+        [ "lead", 1000 ],
+        [ "gold_small", 1000 ],
+        [ "silver_small", 1000 ],
+        [ "tin", 1000 ],
+        [ "bismuth", 1000 ],
+        [ "solder_wire", 1000 ]
+      ]
     ]
   },
   {
-  "type" : "recipe",
-  "result": "120mm_usable_shot",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_OTHER",
-  "skill_used": "fabrication",
-  "skills_required": [ ["launcher", 4], ["electronics", 1] ],
-  "difficulty": 6,
-  "time": 25000,
-  "book_learn": [ ["textbook_launcher" , 6 ] ],
-  "qualities" : [ {"id":"WRENCH","level":1} ],
-  "tools": [
-    [
-      [ "fire", -1 ],
-      [ "toolset", 10 ]
+    "type": "recipe",
+    "result": "120mm_usable_slug",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_OTHER",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "launcher", 4 ], [ "electronics", 1 ] ],
+    "difficulty": 7,
+    "time": 27500,
+    "book_learn": [ [ "textbook_launcher", 7 ] ],
+    "qualities": [ { "id": "WRENCH", "level": 1 } ],
+    "tools": [ [ [ "fire", -1 ], [ "toolset", 10 ] ], [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [
+      [ [ "120mm_casing", 1 ] ],
+      [ [ "electric_primer_large", 1 ] ],
+      [ [ "gunpowder", 1900 ] ],
+      [
+        [ "lead", 1000 ],
+        [ "gold_small", 1000 ],
+        [ "silver_small", 1000 ],
+        [ "tin", 1000 ],
+        [ "bismuth", 1000 ],
+        [ "solder_wire", 1000 ]
+      ]
     ]
-  ],
-  "components": [
-    [ [ "120mm_casing", 1 ] ],
-    [ [ "electric_primer_large", 1 ] ],
-    [ [ "gunpowder", 1900 ] ],
-    [
-      [ "lead", 1000 ],
-      [ "gold_small", 1000 ],
-      [ "silver_small", 1000 ],
-      [ "tin", 1000 ],
-      [ "bismuth", 1000 ],
-      [ "solder_wire", 1000 ]
+  },
+  {
+    "type": "recipe",
+    "result": "155mm_shot",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_OTHER",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "launcher", 5 ], [ "electronics", 1 ] ],
+    "difficulty": 7,
+    "time": 30000,
+    "book_learn": [ [ "textbook_launcher", 7 ] ],
+    "qualities": [ { "id": "WRENCH", "level": 1 } ],
+    "tools": [ [ [ "fire", -1 ], [ "toolset", 20 ] ] ],
+    "components": [
+      [ [ "155mm_casing", 1 ] ],
+      [ [ "electric_primer_large", 1 ] ],
+      [ [ "gunpowder", 2200 ] ],
+      [
+        [ "lead", 1400 ],
+        [ "gold_small", 1400 ],
+        [ "silver_small", 1400 ],
+        [ "tin", 1400 ],
+        [ "bismuth", 1400 ],
+        [ "solder_wire", 1400 ]
+      ]
     ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "120mm_usable_slug",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_OTHER",
-  "skill_used": "fabrication",
-  "skills_required": [ ["launcher", 4], ["electronics", 1] ],
-  "difficulty": 7,
-  "time": 27500,
-  "book_learn": [ ["textbook_launcher" , 7 ] ],
-  "qualities" : [ {"id":"WRENCH","level":1} ],
-  "tools": [
-    [
-      [ "fire", -1 ],
-      [ "toolset", 10 ]
-    ],
-    [ ["tongs", -1] ],
-    [
-      ["crucible", -1],
-      ["crucible_clay", -1]
+  },
+  {
+    "type": "recipe",
+    "result": "155mm_slug",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_OTHER",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "launcher", 5 ], [ "electronics", 1 ] ],
+    "difficulty": 8,
+    "time": 33000,
+    "book_learn": [ [ "textbook_launcher", 8 ] ],
+    "qualities": [ { "id": "WRENCH", "level": 1 } ],
+    "tools": [ [ [ "fire", -1 ], [ "toolset", 20 ] ], [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [
+      [ [ "155mm_casing", 1 ] ],
+      [ [ "electric_primer_large", 1 ] ],
+      [ [ "gunpowder", 2200 ] ],
+      [
+        [ "lead", 1400 ],
+        [ "gold_small", 1400 ],
+        [ "silver_small", 1400 ],
+        [ "tin", 1400 ],
+        [ "bismuth", 1400 ],
+        [ "solder_wire", 1400 ]
+      ]
     ]
-  ],
-  "components": [
-    [ [ "120mm_casing", 1 ] ],
-    [ [ "electric_primer_large", 1 ] ],
-    [ [ "gunpowder", 1900 ] ],
-    [
-      [ "lead", 1000 ],
-      [ "gold_small", 1000 ],
-      [ "silver_small", 1000 ],
-      [ "tin", 1000 ],
-      [ "bismuth", 1000 ],
-      [ "solder_wire", 1000 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "155mm_shot",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_OTHER",
-  "skill_used": "fabrication",
-  "skills_required": [ ["launcher", 5], ["electronics", 1] ],
-  "difficulty": 7,
-  "time": 30000,
-  "book_learn": [ ["textbook_launcher" , 7 ] ],
-  "qualities" : [ {"id":"WRENCH","level":1} ],
-  "tools": [
-    [
-      [ "fire", -1 ],
-      [ "toolset", 20 ]
-    ]
-  ],
-  "components": [
-    [ [ "155mm_casing", 1 ] ],
-    [ [ "electric_primer_large", 1 ] ],
-    [ [ "gunpowder", 2200 ] ],
-    [
-      [ "lead", 1400 ],
-      [ "gold_small", 1400 ],
-      [ "silver_small", 1400 ],
-      [ "tin", 1400 ],
-      [ "bismuth", 1400 ],
-      [ "solder_wire", 1400 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "155mm_slug",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_OTHER",
-  "skill_used": "fabrication",
-  "skills_required": [ ["launcher", 5], ["electronics", 1] ],
-  "difficulty": 8,
-  "time": 33000,
-  "book_learn": [ ["textbook_launcher" , 8 ] ],
-  "qualities" : [ {"id":"WRENCH","level":1} ],
-  "tools": [
-    [
-      [ "fire", -1 ],
-      [ "toolset", 20 ]
-    ],
-    [ ["tongs", -1] ],
-    [
-      ["crucible", -1],
-      ["crucible_clay", -1]
-    ]
-  ],
-  "components": [
-    [ [ "155mm_casing", 1 ] ],
-    [ [ "electric_primer_large", 1 ] ],
-    [ [ "gunpowder", 2200 ] ],
-    [
-      [ "lead", 1400 ],
-      [ "gold_small", 1400 ],
-      [ "silver_small", 1400 ],
-      [ "tin", 1400 ],
-      [ "bismuth", 1400 ],
-      [ "solder_wire", 1400 ]
-    ]
-  ]
-},
+  },
   {
     "result": "electric_primer",
     "type": "recipe",
@@ -199,10 +156,7 @@
     "time": 45000,
     "book_learn": [ [ "textbook_launcher", 5 ] ],
     "qualities": [ { "id": "HAMMER", "level": 3 } ],
-    "tools": [
-      [ [ "swage", -1 ] ],
-      [ [ "press", -1 ] ]
-    ],
+    "tools": [ [ [ "swage", -1 ] ], [ [ "press", -1 ] ] ],
     "components": [
       [ [ "can_drink_unsealed", 2 ], [ "can_food_unsealed", 2 ], [ "scrap", 4 ] ],
       [ [ "cable", 5 ] ],
@@ -220,10 +174,7 @@
     "time": 45000,
     "book_learn": [ [ "textbook_launcher", 6 ] ],
     "qualities": [ { "id": "HAMMER", "level": 3 } ],
-    "tools": [
-      [ [ "swage", -1 ] ],
-      [ [ "press", -1 ] ]
-    ],
+    "tools": [ [ [ "swage", -1 ] ], [ [ "press", -1 ] ] ],
     "components": [
       [ [ "can_drink_unsealed", 3 ], [ "can_food_unsealed", 3 ], [ "scrap", 6 ] ],
       [ [ "cable", 10 ] ],

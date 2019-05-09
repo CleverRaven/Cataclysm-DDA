@@ -48,6 +48,8 @@
 // ---------------------------------------------------------------------
 #include <iostream>
 #include <vector>
+#include <string>
+#include <utility>
 
 #define STRING2(x) #x
 #define STRING(x) STRING2(x)
@@ -140,6 +142,11 @@ void limitDebugLevel( int );
  */
 void limitDebugClass( int );
 
+/**
+ * @return true if any error has been logged in this run.
+ */
+bool debug_has_error_been_observed();
+
 // Debug Only                                                       {{{1
 // ---------------------------------------------------------------------
 
@@ -175,7 +182,7 @@ std::ostream &operator<<( std::ostream &out, const std::vector<C, A> &elm )
  */
 extern bool debug_mode;
 
-#ifdef BACKTRACE
+#if defined(BACKTRACE)
 /**
  * Write a stack backtrace to the given ostream
  */

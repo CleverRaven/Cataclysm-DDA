@@ -5,6 +5,188 @@
     "items": [ [ "cookies", 17 ], [ "cake2", 15 ], [ "cake3", 10 ], [ "biscuit", 10 ], [ "jihelucake", 10 ], [ "brownie", 20 ] ]
   },
   {
+    "id": "tea_dishes",
+    "type": "item_group",
+    "items": [ [ "ceramic_cup", 70 ], [ "ceramic_plate", 50 ], [ "spoon", 20 ] ]
+  },
+  {
+    "id": "chair_hat",
+    "type": "item_group",
+    "items": [ [ "hat_newsboy", 10 ], [ "bowhat", 40 ], [ "porkpie", 20 ] ]
+  },
+  {
+    "id": "chair_torso",
+    "type": "item_group",
+    "items": [ [ "suit", 70 ], [ "waistcoat", 70 ], [ "dress_shirt", 70 ] ]
+  },
+  {
+    "id": "chair_pants",
+    "type": "item_group",
+    "items": [ [ "pants", 70 ] ]
+  },
+  {
+    "id": "chair_feet",
+    "type": "item_group",
+    "items": [ [ "dress_shoes", 70 ] ]
+  },
+  {
+    "id": "chair_extra",
+    "type": "item_group",
+    "items": [ [ "cane", 70 ], [ "pocketwatch", 70 ], [ "umbrella", 70 ], [ "manual_fencing", 10 ] ]
+  },
+  {
+    "id": "corner_reader",
+    "type": "item_group",
+    "items": [
+      [ "mag_cutting", 70 ],
+      [ "mag_stabbing", 70 ],
+      [ "mag_unarmed", 70 ],
+      [ "manual_dodge", 70 ],
+      [ "novel_spy", 70 ],
+      [ "novel_thriller", 70 ],
+      [ "novel_crime", 70 ],
+      [ "novel_adventure", 70 ],
+      [ "novel_war", 70 ],
+      [ "poetry_book", 30 ],
+      [ "cookbook_human", 10 ]
+    ]
+  },
+  {
+    "id": "corner_weapon",
+    "type": "item_group",
+    "items": [ [ "tazer", 70 ], [ "knuckle_brass", 70 ] ]
+  },
+  {
+    "id": "displays",
+    "type": "item_group",
+    "items": [ [ "tea", 70 ], [ "tea_raw", 70 ], [ "ceramic_cup", 70 ], [ "teapot", 70 ], [ "clay_teapot", 70 ] ]
+  },
+  {
+    "id": "teashop_fridge",
+    "type": "item_group",
+    "items": [ [ "milk", 70 ] ]
+  },
+  {
+    "id": "teashop_kitchen_counter",
+    "type": "item_group",
+    "items": [ [ "sugar", 30 ], [ "tea_raw", 40 ], [ "teapot", 20 ], [ "spoon", 20 ] ]
+  },
+  {
+    "id": "bar_alcohol",
+    "type": "item_group",
+    "items": [
+      [ "beer", 70 ],
+      [ "european_pilsner", 60 ],
+      [ "pale_ale", 60 ],
+      [ "india_pale_ale", 57 ],
+      [ "stout", 56 ],
+      [ "belgian_ale", 50 ],
+      [ "imperial_stout", 45 ],
+      [ "whiskey", 20 ],
+      [ "vodka", 12 ],
+      [ "gin", 15 ],
+      [ "rum", 12 ],
+      [ "tequila", 17 ],
+      [ "triple_sec", 10 ],
+      [ "fruit_wine", 5 ],
+      [ "wine_riesling", 7 ],
+      [ "wine_chardonnay", 4 ],
+      [ "wine_cabernet", 1 ],
+      [ "wine_noir", 1 ],
+      [ "brandy", 5 ],
+      [ "drink_rumcola", 50 ],
+      [ "drink_screwdriver", 45 ],
+      [ "drink_wild_apple", 20 ],
+      [ "long_island", 27 ]
+    ]
+  },
+  {
+    "id": "bar_food",
+    "type": "item_group",
+    "items": [
+      [ "mayonnaise", 3 ],
+      [ "mustard", 3 ],
+      [ "ketchup", 3 ],
+      { "item": "pickle", "prob": 5, "charges": 6, "container-item": "jar_glass_sealed" },
+      [ "pickle", 5 ],
+      [ "cheeseburger", 10 ],
+      [ "hamburger", 7 ],
+      [ "bobburger", 1 ],
+      [ "sloppyjoe", 6 ],
+      [ "fries", 10 ],
+      [ "cheese_fries", 7 ],
+      [ "onion_rings", 8 ]
+    ]
+  },
+  {
+    "id": "bar_fridge",
+    "type": "item_group",
+    "items": [
+      [ "water_clean", 50 ],
+      [ "water_mineral", 20 ],
+      [ "oj", 40 ],
+      [ "juice", 35 ],
+      [ "cranberry_juice", 35 ],
+      [ "cola", 50 ],
+      [ "lemonlime", 45 ],
+      [ "V8", 15 ],
+      [ "fries", 7 ],
+      [ "cheese_fries", 5 ],
+      [ "onion_rings", 7 ],
+      [ "pizza_veggy", 7 ],
+      [ "pizza_meat", 7 ]
+    ]
+  },
+  {
+    "id": "bar_table",
+    "type": "item_group",
+    "items": [
+      [ "cig", 50 ],
+      [ "matches", 45 ],
+      [ "rolling_paper", 10 ],
+      [ "bottle_glass", 70 ],
+      [ "bucket", 5 ],
+      [ "can_drink_unsealed", 65 ],
+      [ "wrapper", 50 ],
+      [ "ceramic_plate", 40 ],
+      [ "news_regional", 20 ],
+      [ "mag_news", 20 ]
+    ]
+  },
+  {
+    "id": "bar_bathroom",
+    "type": "item_group",
+    "items": [
+      [ "weed", 40 ],
+      [ "coke", 40 ],
+      [ "aspirin", 40 ],
+      [ "cig", 20 ],
+      [ "syringe", 30 ],
+      [ "meth", 20 ],
+      [ "heroin", 7 ],
+      [ "mag_porn", 35 ],
+      [ "hairpin", 5 ],
+      [ "purse", 15 ]
+    ]
+  },
+  {
+    "id": "bar_trash",
+    "type": "item_group",
+    "items": [
+      [ "wrapper", 50 ],
+      [ "bottle_glass", 70 ],
+      [ "can_drink_unsealed", 60 ],
+      [ "flyer", 30 ],
+      [ "box_small", 30 ],
+      [ "rag", 20 ],
+      [ "bag_plastic", 20 ],
+      [ "news_regional", 15 ],
+      [ "mag_news", 15 ],
+      [ "hairpin", 15 ],
+      [ "jar_glass", 10 ]
+    ]
+  },
+  {
     "id": "pizza_display",
     "type": "item_group",
     "items": [ [ "pizza_human", 2 ], [ "pizza_meat", 48 ], [ "pizza_veggy", 50 ] ]
@@ -568,7 +750,7 @@
       [ "onion", 15 ],
       [ "chili_pepper", 15 ],
       [ "carrot", 15 ],
-      [ "potato_raw", 15 ],
+      [ "potato", 15 ],
       [ "irradiated_tomato", 4 ],
       [ "irradiated_lettuce", 4 ],
       [ "irradiated_zucchini", 4 ],
@@ -778,6 +960,81 @@
       [ "soup_veggy", 20 ],
       [ "soup_meat", 20 ],
       [ "soup_tomato", 20 ]
+    ]
+  },
+  {
+    "id": "keg_beer",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      [ "keg", 100 ],
+      { "item": "beer", "prob": 40, "container-item": "keg" },
+      { "item": "belgian_ale", "prob": 30, "container-item": "keg" },
+      { "item": "european_pilsner", "prob": 20, "container-item": "keg" },
+      { "item": "india_pale_ale", "prob": 20, "container-item": "keg" },
+      { "item": "pale_ale", "prob": 20, "container-item": "keg" },
+      { "item": "stout", "prob": 10, "container-item": "keg" },
+      { "item": "imperial_stout", "prob": 5, "container-item": "keg" }
+    ]
+  },
+  {
+    "id": "flask_liquor",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      [ "flask_hip", 100 ],
+      { "item": "whiskey", "prob": 40, "container-item": "flask_hip" },
+      { "item": "vodka", "prob": 30, "container-item": "flask_hip" },
+      { "item": "gin", "prob": 20, "container-item": "flask_hip" },
+      { "item": "rum", "prob": 20, "container-item": "flask_hip" },
+      { "item": "tequila", "prob": 20, "container-item": "flask_hip" },
+      { "item": "brandy", "prob": 10, "container-item": "flask_hip" },
+      { "item": "moonshine", "prob": 5, "container-item": "flask_hip" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "butcher_raw_meat",
+    "items": [
+      [ "stomach_large", 2 ],
+      [ "stomach_boiled", 2 ],
+      [ "meat", 8 ],
+      [ "lunchmeat", 6 ],
+      [ "hotdogs_frozen", 6 ],
+      { "item": "lung", "prob": 2, "charges": 5 },
+      { "item": "kidney", "prob": 2, "charges": 5 },
+      { "item": "liver", "prob": 4, "charges": 5 },
+      { "item": "brain", "prob": 2, "charges": 5 },
+      { "item": "sweetbread", "prob": 2, "charges": 2 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "butcher_meat",
+    "items": [
+      [ "lunchmeat", 15 ],
+      [ "bologna", 10 ],
+      [ "sausage", 4 ],
+      [ "sweet_sausage", 2 ],
+      [ "bratwurst_sausage", 4 ],
+      [ "meat_salted", 2 ],
+      [ "meat_canned", 2 ],
+      [ "offal_canned", 2 ],
+      [ "meat_smoked", 2 ],
+      { "item": "meat_pickled", "prob": 2, "charges": 2, "container-item": "jar_glass_sealed" },
+      { "item": "offal_pickled", "prob": 2, "charges": 2, "container-item": "jar_glass_sealed" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "butcher_tools",
+    "items": [
+      [ "knife_steak", 20 ],
+      [ "knife_butcher", 30 ],
+      [ "tongs", 10 ],
+      [ "carver_off", 5 ],
+      [ "meat", 1 ],
+      [ "hacksaw", 10 ]
     ]
   }
 ]

@@ -2,12 +2,12 @@
 
 #include <algorithm>
 #include <array>
-#include <cassert>
 #include <cmath>
 #include <cstdlib>
 #include <set>
+#include <memory>
+#include <ostream>
 
-#include "coordinate_conversions.h"
 #include "debug.h"
 #include "game.h"
 #include "item.h"
@@ -16,12 +16,18 @@
 #include "mapdata.h"
 #include "material.h"
 #include "messages.h"
-#include "output.h"
 #include "sounds.h"
 #include "translations.h"
 #include "trap.h"
 #include "veh_type.h"
-#include "vpart_reference.h"
+#include "bodypart.h"
+#include "creature.h"
+#include "math_defines.h"
+#include "optional.h"
+#include "player.h"
+#include "rng.h"
+#include "vpart_position.h"
+#include "string_id.h"
 
 static const std::string part_location_structure( "structure" );
 static const itype_id fuel_type_muscle( "muscle" );
@@ -80,7 +86,7 @@ int vehicle::slowdown( int at_velocity ) const
     // converting m/s^2 to vmiph/s
     int slowdown = mps_to_vmiph( accel_slowdown );
     if( slowdown < 0 ) {
-        debugmsg( "vehicle %s has negative drag slowdown %d\n", name.c_str(), slowdown );
+        debugmsg( "vehicle %s has negative drag slowdown %d\n", name, slowdown );
     }
     add_msg( m_debug, "%s at %d vimph, f_drag %3.2f, drag accel %d vmiph - extra drag %d",
              name, at_velocity, f_total_drag, slowdown, static_drag() );

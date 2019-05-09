@@ -1,5 +1,10 @@
 #include "trap.h" // IWYU pragma: associated
 
+#include <algorithm>
+#include <memory>
+#include <unordered_map>
+#include <utility>
+
 #include "debug.h"
 #include "event.h"
 #include "game.h"
@@ -14,6 +19,15 @@
 #include "rng.h"
 #include "sounds.h"
 #include "translations.h"
+#include "bodypart.h"
+#include "calendar.h"
+#include "creature.h"
+#include "damage.h"
+#include "enums.h"
+#include "game_constants.h"
+#include "item.h"
+#include "player.h"
+#include "int_id.h"
 
 const mtype_id mon_blob( "mon_blob" );
 const mtype_id mon_shadow( "mon_shadow" );
@@ -76,7 +90,7 @@ void trapfunc::cot( Creature *c, const tripoint & )
     monster *z = dynamic_cast<monster *>( c );
     if( z != nullptr ) {
         // Haha, only monsters stumble over a cot, humans are smart.
-        add_msg( m_good, _( "The %s stumbles over the cot" ), z->name().c_str() );
+        add_msg( m_good, _( "The %s stumbles over the cot" ), z->name() );
         c->moves -= 100;
     }
 }
@@ -260,7 +274,7 @@ void trapfunc::crossbow( Creature *c, const tripoint &p )
                         break;
                 }
                 //~ %s is bodypart
-                n->add_msg_if_player( m_bad, _( "Your %s is hit!" ), body_part_name( hit ).c_str() );
+                n->add_msg_if_player( m_bad, _( "Your %s is hit!" ), body_part_name( hit ) );
                 c->deal_damage( nullptr, hit, damage_instance( DT_CUT, rng( 20, 30 ) ) );
                 add_bolt = !one_in( 10 );
             } else {
@@ -290,12 +304,12 @@ void trapfunc::crossbow( Creature *c, const tripoint &p )
             }
             if( one_in( chance ) ) {
                 if( seen ) {
-                    add_msg( m_bad, _( "A bolt shoots out and hits the %s!" ), z->name().c_str() );
+                    add_msg( m_bad, _( "A bolt shoots out and hits the %s!" ), z->name() );
                 }
                 z->deal_damage( nullptr, bp_torso, damage_instance( DT_CUT, rng( 20, 30 ) ) );
                 add_bolt = !one_in( 10 );
             } else if( seen ) {
-                add_msg( m_neutral, _( "A bolt shoots out, but misses the %s." ), z->name().c_str() );
+                add_msg( m_neutral, _( "A bolt shoots out, but misses the %s." ), z->name() );
             }
         }
         c->check_dead_state();
@@ -357,7 +371,7 @@ void trapfunc::shotgun( Creature *c, const tripoint &p )
                         break;
                 }
                 //~ %s is bodypart
-                n->add_msg_if_player( m_bad, _( "Your %s is hit!" ), body_part_name( hit ).c_str() );
+                n->add_msg_if_player( m_bad, _( "Your %s is hit!" ), body_part_name( hit ) );
                 c->deal_damage( nullptr, hit, damage_instance( DT_CUT, rng( 40 * shots, 60 * shots ) ) );
             } else {
                 n->add_msg_player_or_npc( m_neutral, _( "You dodge the shot!" ),
@@ -388,7 +402,7 @@ void trapfunc::shotgun( Creature *c, const tripoint &p )
                 shots = 1;
             }
             if( seen ) {
-                add_msg( m_bad, _( "A shotgun fires and hits the %s!" ), z->name().c_str() );
+                add_msg( m_bad, _( "A shotgun fires and hits the %s!" ), z->name() );
             }
             z->deal_damage( nullptr, bp_torso, damage_instance( DT_CUT, rng( 40 * shots, 60 * shots ) ) );
         }
@@ -447,7 +461,7 @@ void trapfunc::snare_heavy( Creature *c, const tripoint &p )
         const body_part hit = one_in( 2 ) ? bp_leg_l : bp_leg_r;
         //~ %s is bodypart name in accusative.
         c->add_msg_player_or_npc( m_bad, _( "A snare closes on your %s." ),
-                                  _( "A snare closes on <npcname>s %s." ), body_part_name_accusative( hit ).c_str() );
+                                  _( "A snare closes on <npcname>s %s." ), body_part_name_accusative( hit ) );
         c->add_memorial_log( pgettext( "memorial_male", "Triggered a heavy snare." ),
                              pgettext( "memorial_female", "Triggered a heavy snare." ) );
 
@@ -463,8 +477,6 @@ void trapfunc::snare_heavy( Creature *c, const tripoint &p )
             int damage;
             switch( z->type->size ) {
                 case MS_TINY:
-                    damage = 20;
-                    break;
                 case MS_SMALL:
                     damage = 20;
                     break;
@@ -522,7 +534,7 @@ void trapfunc::telepad( Creature *c, const tripoint &p )
             g->teleport();
         } else if( z != nullptr ) {
             if( g->u.sees( *z ) ) {
-                add_msg( _( "The air shimmers around the %s..." ), z->name().c_str() );
+                add_msg( _( "The air shimmers around the %s..." ), z->name() );
             }
 
             int tries = 0;
@@ -539,7 +551,7 @@ void trapfunc::telepad( Creature *c, const tripoint &p )
             } else if( monster *const mon_hit = g->critter_at<monster>( {newposx, newposy, z->posz()} ) ) {
                 if( g->u.sees( *z ) ) {
                     add_msg( m_good, _( "The %1$s teleports into a %2$s, killing them both!" ),
-                             z->name().c_str(), mon_hit->name().c_str() );
+                             z->name(), mon_hit->name() );
                 }
                 mon_hit->die_in_explosion( z );
             } else {
@@ -713,7 +725,7 @@ void trapfunc::pit_spikes( Creature *c, const tripoint &p )
                         break;
                 }
                 n->add_msg_if_player( m_bad, _( "The spikes impale your %s!" ),
-                                      body_part_name_accusative( hit ).c_str() );
+                                      body_part_name_accusative( hit ) );
                 n->deal_damage( nullptr, hit, damage_instance( DT_CUT, damage ) );
                 if( ( n->has_trait( trait_INFRESIST ) ) && ( one_in( 256 ) ) ) {
                     n->add_effect( effect_tetanus, 1_turns, num_bp, true );
@@ -795,7 +807,7 @@ void trapfunc::pit_glass( Creature *c, const tripoint &p )
                         break;
                 }
                 n->add_msg_if_player( m_bad, _( "The glass shards slash your %s!" ),
-                                      body_part_name_accusative( hit ).c_str() );
+                                      body_part_name_accusative( hit ) );
                 n->deal_damage( nullptr, hit, damage_instance( DT_CUT, damage ) );
                 if( ( n->has_trait( trait_INFRESIST ) ) && ( one_in( 256 ) ) ) {
                     n->add_effect( effect_tetanus, 1_turns, num_bp, true );
@@ -826,7 +838,7 @@ void trapfunc::lava( Creature *c, const tripoint &p )
 {
     if( c != nullptr ) {
         c->add_msg_player_or_npc( m_bad, _( "The %s burns you horribly!" ), _( "The %s burns <npcname>!" ),
-                                  g->m.tername( p ).c_str() );
+                                  g->m.tername( p ) );
         c->add_memorial_log( pgettext( "memorial_male", "Stepped into lava." ),
                              pgettext( "memorial_female", "Stepped into lava." ) );
         monster *z = dynamic_cast<monster *>( c );
@@ -1032,7 +1044,7 @@ void trapfunc::ledge( Creature *c, const tripoint &p )
 
         if( valid.empty() ) {
             critter->setpos( c->pos() );
-            add_msg( m_bad, _( "You fall down under %s!" ), critter->disp_name().c_str() );
+            add_msg( m_bad, _( "You fall down under %s!" ), critter->disp_name() );
         } else {
             critter->setpos( random_entry( valid ) );
         }
@@ -1302,7 +1314,7 @@ const trap_function &trap_function_from_string( const std::string &function_name
         return iter->second;
     }
 
-    debugmsg( "Could not find a trapfunc function matching '%s'!", function_name.c_str() );
+    debugmsg( "Could not find a trapfunc function matching '%s'!", function_name );
     static const trap_function null_fun = trapfunc::none;
     return null_fun;
 }

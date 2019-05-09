@@ -2,9 +2,12 @@
 
 #include "monster.h" // IWYU pragma: associated
 
+#include <stdlib.h>
 #include <cmath>
+#include <algorithm>
+#include <memory>
+#include <ostream>
 
-#include "cursesdef.h"
 #include "debug.h"
 #include "field.h"
 #include "game.h"
@@ -16,12 +19,21 @@
 #include "monfaction.h"
 #include "mtype.h"
 #include "npc.h"
-#include "output.h"
 #include "rng.h"
 #include "scent_map.h"
 #include "sounds.h"
 #include "translations.h"
 #include "trap.h"
+#include "vpart_position.h"
+#include "tileray.h"
+#include "vehicle.h"
+#include "cata_utility.h"
+#include "game_constants.h"
+#include "mattack_common.h"
+#include "pathfinding.h"
+#include "player.h"
+#include "int_id.h"
+#include "string_id.h"
 
 #define MONSTER_FOLLOW_DIST 8
 
@@ -38,6 +50,7 @@ const efftype_id effect_stunned( "stunned" );
 const species_id ZOMBIE( "ZOMBIE" );
 const species_id BLOB( "BLOB" );
 const species_id ROBOT( "ROBOT" );
+const species_id WORM( "WORM" );
 
 bool monster::wander()
 {
@@ -204,13 +217,13 @@ void monster::plan( const mfactions &factions )
     float dist = !smart_planning ? 1000 : 8.6f;
     bool fleeing = false;
     bool docile = friendly != 0 && has_effect( effect_docile );
-    bool angers_hostile_weak = type->anger.find( MTRIG_HOSTILE_WEAK ) != type->anger.end();
-    int angers_hostile_near =
-        ( type->anger.find( MTRIG_HOSTILE_CLOSE ) != type->anger.end() ) ? 5 : 0;
-    int angers_mating_season = ( type->anger.find( MTRIG_MATING_SEASON ) != type->anger.end() ) ? 3 : 0;
-    int angers_cub_threatened = ( type->anger.find( MTRIG_PLAYER_NEAR_BABY ) != type->anger.end() ) ?
-                                8 : 0;
-    int fears_hostile_near = ( type->fear.find( MTRIG_HOSTILE_CLOSE ) != type->fear.end() ) ? 5 : 0;
+
+    const bool angers_hostile_weak = type->has_anger_trigger( mon_trigger::HOSTILE_WEAK );
+    const int angers_hostile_near = type->has_anger_trigger( mon_trigger::HOSTILE_CLOSE ) ? 5 : 0;
+    const int angers_mating_season = type->has_anger_trigger( mon_trigger::MATING_SEASON ) ? 3 : 0;
+    const int angers_cub_threatened = type->has_anger_trigger( mon_trigger::PLAYER_NEAR_BABY ) ? 8 : 0;
+    const int fears_hostile_near = type->has_fear_trigger( mon_trigger::HOSTILE_CLOSE ) ? 5 : 0;
+
     auto all_monsters = g->all_monsters();
     bool group_morale = has_flag( MF_GROUP_MORALE ) && morale < type->morale;
     bool swarms = has_flag( MF_SWARMS );
@@ -442,7 +455,7 @@ void monster::move()
         !g->m.has_flag( TFLAG_SEALED, pos() ) && g->m.has_items( pos() ) ) {
         if( g->u.sees( *this ) ) {
             add_msg( _( "The %s flows around the objects on the floor and they are quickly dissolved!" ),
-                     name().c_str() );
+                     name() );
         }
         static const auto volume_per_hp = units::from_milliliter( 250 );
         for( auto &elem : g->m.i_at( pos() ) ) {
@@ -456,7 +469,7 @@ void monster::move()
                             spawn->make_ally( *this );
                             if( g->u.sees( *this ) ) {
                                 add_msg( _( "The %s splits in two!" ),
-                                         name().c_str() );
+                                         name() );
                             }
                         }
                     }
@@ -511,7 +524,7 @@ void monster::move()
         if( g->m.has_flag( "LIQUID", pos() ) && can_drown() && one_in( 10 ) ) {
             die( nullptr );
             if( g->u.sees( pos() ) ) {
-                add_msg( _( "The %s drowns!" ), name().c_str() );
+                add_msg( _( "The %s drowns!" ), name() );
             }
             return;
         }
@@ -684,6 +697,9 @@ void monster::move()
                 bad_choice = true;
             }
 
+            // Try to shove vehicle out of the way
+            shove_vehicle( destination, candidate );
+
             // Bail out if we can't move there and we can't bash.
             if( !pathed && !can_move_to( candidate ) ) {
                 if( !can_bash ) {
@@ -718,11 +734,13 @@ void monster::move()
             }
         }
     }
+    const bool can_open_doors = has_flag( MF_CAN_OPEN_DOORS );
     // Finished logic section.  By this point, we should have chosen a square to
     //  move to (moved = true).
     if( moved ) { // Actual effects of moving to the square we've chosen
         const bool did_something =
             ( !pacified && attack_at( next_step ) ) ||
+            ( !pacified && can_open_doors && g->m.open_door( next_step, !g->m.is_outside( pos() ) ) ) ||
             ( !pacified && bash_at( next_step ) ) ||
             ( !pacified && push_to( next_step, 0, 0 ) ) ||
             move_to( next_step, false, get_stagger_adjust( pos(), destination, next_step ) );
@@ -776,13 +794,15 @@ void monster::footsteps( const tripoint &p )
     if( volume == 0 ) {
         return;
     }
-    std::string footstep = "footsteps.";
+    std::string footstep = _( "footsteps." );
     if( type->in_species( BLOB ) ) {
-        footstep = "plop.";
+        footstep = _( "plop." );
     } else if( type->in_species( ZOMBIE ) ) {
-        footstep = "shuffling.";
+        footstep = _( "shuffling." );
     } else if( type->in_species( ROBOT ) ) {
-        footstep = "mechanical whirring.";
+        footstep = _( "mechanical whirring." );
+    } else if( type->in_species( WORM ) ) {
+        footstep = _( "rustle." );
     }
     int dist = rl_dist( p, g->u.pos() );
     sounds::add_footstep( p, volume, dist, this, footstep );
@@ -1078,17 +1098,17 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
                 moves -= 100;
                 force = true;
                 if( g->u.sees( *this ) ) {
-                    add_msg( _( "The %1$s flies over the %2$s." ), name().c_str(),
-                             g->m.has_flag_furn( "CLIMBABLE", p ) ? g->m.furnname( p ).c_str() :
-                             g->m.tername( p ).c_str() );
+                    add_msg( _( "The %1$s flies over the %2$s." ), name(),
+                             g->m.has_flag_furn( "CLIMBABLE", p ) ? g->m.furnname( p ) :
+                             g->m.tername( p ) );
                 }
             } else if( has_flag( MF_CLIMBS ) ) {
                 moves -= 150;
                 force = true;
                 if( g->u.sees( *this ) ) {
-                    add_msg( _( "The %1$s climbs over the %2$s." ), name().c_str(),
-                             g->m.has_flag_furn( "CLIMBABLE", p ) ? g->m.furnname( p ).c_str() :
-                             g->m.tername( p ).c_str() );
+                    add_msg( _( "The %1$s climbs over the %2$s." ), name(),
+                             g->m.has_flag_furn( "CLIMBABLE", p ) ? g->m.furnname( p ) :
+                             g->m.tername( p ) );
                 }
             }
         }
@@ -1124,18 +1144,18 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
     //Birds and other flying creatures flying over the deep water terrain
     if( was_water && flies && g->u.sees( p ) ) {
         if( one_in( 4 ) ) {
-            add_msg( m_warning, _( "A %1$s flies over the %2$s!" ), name().c_str(),
-                     g->m.tername( pos() ).c_str() );
+            add_msg( m_warning, _( "A %1$s flies over the %2$s!" ), name(),
+                     g->m.tername( pos() ) );
         }
     } else if( was_water && !will_be_water && g->u.sees( p ) ) {
         //Use more dramatic messages for swimming monsters
-        add_msg( m_warning, _( "A %1$s %2$s from the %3$s!" ), name().c_str(),
+        add_msg( m_warning, _( "A %1$s %2$s from the %3$s!" ), name(),
                  has_flag( MF_SWIMS ) || has_flag( MF_AQUATIC ) ? _( "leaps" ) : _( "emerges" ),
-                 g->m.tername( pos() ).c_str() );
+                 g->m.tername( pos() ) );
     } else if( !was_water && will_be_water && g->u.sees( p ) ) {
-        add_msg( m_warning, _( "A %1$s %2$s into the %3$s!" ), name().c_str(),
+        add_msg( m_warning, _( "A %1$s %2$s into the %3$s!" ), name(),
                  has_flag( MF_SWIMS ) || has_flag( MF_AQUATIC ) ? _( "dives" ) : _( "sinks" ),
-                 g->m.tername( p ).c_str() );
+                 g->m.tername( p ) );
     }
 
     setpos( p );
@@ -1220,6 +1240,11 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
     if( has_flag( MF_DRIPS_NAPALM ) ) {
         if( one_in( 10 ) ) {
             g->m.add_item_or_charges( pos(), item( "napalm" ) );
+        }
+    }
+    if( has_flag( MF_DRIPS_GASOLINE ) ) {
+        if( one_in( 5 ) ) {
+            g->m.add_item_or_charges( pos(), item( "gasoline" ) );
         }
     }
     return true;
@@ -1353,7 +1378,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
     // Only print the message when near player or it can get spammy
     if( rl_dist( g->u.pos(), pos() ) < 4 && g->u.sees( *critter ) ) {
         add_msg( m_warning, _( "The %1$s tramples %2$s" ),
-                 name().c_str(), critter->disp_name().c_str() );
+                 name(), critter->disp_name() );
     }
 
     moves -= movecost_attacker;
@@ -1453,7 +1478,7 @@ void monster::knock_back_from( const tripoint &p )
         z->check_dead_state();
 
         if( u_see ) {
-            add_msg( _( "The %1$s bounces off a %2$s!" ), name().c_str(), z->name().c_str() );
+            add_msg( _( "The %1$s bounces off a %2$s!" ), name(), z->name() );
         }
 
         return;
@@ -1464,7 +1489,7 @@ void monster::knock_back_from( const tripoint &p )
         add_effect( effect_stunned, 1_turns );
         p->deal_damage( this, bp_torso, damage_instance( DT_BASH, type->size ) );
         if( u_see ) {
-            add_msg( _( "The %1$s bounces off %2$s!" ), name().c_str(), p->name.c_str() );
+            add_msg( _( "The %1$s bounces off %2$s!" ), name(), p->name );
         }
 
         p->check_dead_state();
@@ -1476,13 +1501,13 @@ void monster::knock_back_from( const tripoint &p )
         if( g->m.has_flag( "LIQUID", to ) && can_drown() ) {
             die( nullptr );
             if( u_see ) {
-                add_msg( _( "The %s drowns!" ), name().c_str() );
+                add_msg( _( "The %s drowns!" ), name() );
             }
 
         } else if( has_flag( MF_AQUATIC ) ) { // We swim but we're NOT in water
             die( nullptr );
             if( u_see ) {
-                add_msg( _( "The %s flops around and dies!" ), name().c_str() );
+                add_msg( _( "The %s flops around and dies!" ), name() );
             }
         }
     }
@@ -1493,8 +1518,8 @@ void monster::knock_back_from( const tripoint &p )
         apply_damage( nullptr, bp_torso, type->size );
         add_effect( effect_stunned, 2_turns );
         if( u_see ) {
-            add_msg( _( "The %1$s bounces off a %2$s." ), name().c_str(),
-                     g->m.obstacle_name( to ).c_str() );
+            add_msg( _( "The %1$s bounces off a %2$s." ), name(),
+                     g->m.obstacle_name( to ) );
         }
 
     } else { // It's no wall
@@ -1569,4 +1594,78 @@ int monster::turns_to_reach( int x, int y )
     }
 
     return static_cast<int>( turns + .9 ); // Halve (to get turns) and round up
+}
+
+void monster::shove_vehicle( const tripoint &remote_destination,
+                             const tripoint &nearby_destination )
+{
+    if( this->has_flag( MF_PUSH_VEH ) ) {
+        auto vp = g->m.veh_at( nearby_destination );
+        if( vp ) {
+            vehicle &veh = vp->vehicle();
+            const units::mass veh_mass = veh.total_mass();
+            int shove_moves_minimal = 0;
+            int shove_veh_mass_moves_factor = 0;
+            int shove_velocity = 0;
+            float shove_damage_min = 0.00F;
+            float shove_damage_max = 0.00F;
+            switch( this->get_size() ) {
+                case MS_TINY:
+                case MS_SMALL:
+                    break;
+                case MS_MEDIUM:
+                    if( veh_mass < 500_kilogram ) {
+                        shove_moves_minimal = 150;
+                        shove_veh_mass_moves_factor = 20;
+                        shove_velocity = 500;
+                        shove_damage_min = 0.00F;
+                        shove_damage_max = 0.01F;
+                    }
+                    break;
+                case MS_LARGE:
+                    if( veh_mass < 1000_kilogram ) {
+                        shove_moves_minimal = 100;
+                        shove_veh_mass_moves_factor = 8;
+                        shove_velocity = 1000;
+                        shove_damage_min = 0.00F;
+                        shove_damage_max = 0.03F;
+                    }
+                    break;
+                case MS_HUGE:
+                    if( veh_mass < 1500_kilogram ) {
+                        shove_moves_minimal = 50;
+                        shove_veh_mass_moves_factor = 4;
+                        shove_velocity = 1500;
+                        shove_damage_min = 0.00F;
+                        shove_damage_max = 0.05F;
+                    }
+                    break;
+                default:
+                    break;
+            }
+            if( shove_velocity > 0 ) {
+                //~ %1$s - monster name, %2$s - vehicle name
+                if( g->u.sees( this->pos() ) ) {
+                    g->u.add_msg_if_player( m_bad, _( "%1$s shoves %2$s out of their way!" ), this->disp_name(),
+                                            veh.disp_name() );
+                }
+                int shove_moves = shove_veh_mass_moves_factor * veh_mass / 10_kilogram;
+                shove_moves = std::max( shove_moves, shove_moves_minimal );
+                this->mod_moves( -shove_moves );
+                const int destination_delta_x = remote_destination.x - nearby_destination.x;
+                const int destination_delta_y = remote_destination.y - nearby_destination.y;
+                const int destination_delta_z = remote_destination.z - nearby_destination.z;
+                const tripoint shove_destination( clamp( destination_delta_x, -1, 1 ),
+                                                  clamp( destination_delta_y, -1, 1 ),
+                                                  clamp( destination_delta_z, -1, 1 ) );
+                veh.skidding = true;
+                veh.velocity = shove_velocity;
+                if( shove_destination != tripoint_zero ) {
+                    g->m.move_vehicle( veh, shove_destination, veh.face );
+                }
+                veh.move = tileray( destination_delta_x, destination_delta_y );
+                veh.smash( shove_damage_min, shove_damage_max, 0.10F );
+            }
+        }
+    }
 }

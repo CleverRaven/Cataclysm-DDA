@@ -63,6 +63,60 @@
   },
   {
     "type": "recipe",
+    "result": "wind_mill",
+    "category": "CC_OTHER",
+    "skill_used": "fabrication",
+    "skills_required": [ "survival", 4 ],
+    "difficulty": 4,
+    "time": 500000,
+    "reversible": true,
+    "decomp_learn": 2,
+    "autolearn": true,
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [
+      [ [ "2x4", 25 ], [ "frame_wood", 4 ] ],
+      [ [ "sheet_metal_small", 3 ] ],
+      [ [ "nail", 100 ] ],
+      [ [ "pipe", 4 ] ],
+      [ [ "funnel", 1 ], [ "metal_funnel", 1 ], [ "makeshift_funnel", 1 ] ],
+      [ [ "wire", 6 ], [ "rope_6", 6 ], [ "rope_makeshift_6", 6 ] ],
+      [ [ "chain", 1 ], [ "rope_30", 1 ], [ "rope_makeshift_30", 1 ], [ "vine_30", 1 ], [ "grapnel", 1 ] ],
+      [ [ "rebar", 2 ], [ "steel_chunk", 4 ] ],
+      [ [ "rock", 40 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "water_mill",
+    "category": "CC_OTHER",
+    "skill_used": "fabrication",
+    "skills_required": [ "survival", 4 ],
+    "difficulty": 4,
+    "time": 550000,
+    "reversible": true,
+    "decomp_learn": 3,
+    "autolearn": true,
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_M", "level": 2 },
+      { "id": "SAW_W", "level": 2 }
+    ],
+    "components": [
+      [ [ "2x4", 30 ], [ "frame_wood", 5 ] ],
+      [ [ "sheet_metal_small", 6 ] ],
+      [ [ "nail", 100 ] ],
+      [ [ "pipe", 8 ] ],
+      [ [ "wheel_wood_b", 2 ] ],
+      [ [ "funnel", 1 ], [ "metal_funnel", 1 ], [ "makeshift_funnel", 1 ] ],
+      [ [ "wire", 6 ], [ "rope_6", 6 ], [ "rope_makeshift_6", 6 ] ],
+      [ [ "chain", 1 ], [ "rope_30", 1 ], [ "rope_makeshift_30", 1 ], [ "vine_30", 1 ], [ "grapnel", 1 ] ],
+      [ [ "rebar", 2 ], [ "steel_chunk", 4 ] ],
+      [ [ "rock", 40 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "result": "tent_kit",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -263,6 +317,19 @@
       [ [ "lighter", 1 ] ],
       [ [ "plastic_chunk", 3 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "result": "anesthetic_kit",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MEDICAL",
+    "skill_used": "firstaid",
+    "difficulty": 3,
+    "time": 2500,
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "SEW", "level": 1 } ],
+    "components": [ [ [ "jar_3l_glass", 1 ] ], [ [ "hose", 1 ] ], [ [ "rag", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -839,6 +906,20 @@
   },
   {
     "type": "recipe",
+    "result": "workbench",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": 60000,
+    "reversible": true,
+    "decomp_learn": 1,
+    "autolearn": true,
+    "using": [ [ "welding_standard", 5 ] ],
+    "components": [ [ [ "pipe", 8 ] ], [ [ "sheet_metal", 2 ] ], [ [ "sheet_metal_small", 4 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "foot_crank",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -950,6 +1031,7 @@
     "skill_used": "tailor",
     "time": 10000,
     "autolearn": true,
+    "reversible": true,
     "using": [ [ "sewing_standard", 50 ] ],
     "components": [ [ [ "rag", 20 ] ] ]
   },
@@ -1187,6 +1269,19 @@
   },
   {
     "type": "recipe",
+    "result": "stepladder",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": 6000,
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_W", "level": 1 } ],
+    "components": [ [ [ "2x4", 12 ] ], [ [ "nail", 30 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "duct_tape",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -1299,15 +1394,15 @@
     "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "fabrication",
     "difficulty": 1,
-    "time": 8000,
+    "time": 45000,
     "reversible": true,
     "autolearn": true,
+    "using": [ [ "steel_standard", 20 ] ],
     "qualities": [ { "id": "GLARE", "level": 2 } ],
     "tools": [
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ], [ "forge", 50 ], [ "oxy_torch", 10 ] ]
-    ],
-    "components": [ [ [ "steel_lump", 10 ] ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -1316,15 +1411,15 @@
     "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "fabrication",
     "difficulty": 1,
-    "time": 8000,
+    "time": 90000,
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "GLARE", "level": 2 } ],
+    "using": [ [ "steel_standard", 100 ] ],
     "tools": [
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ], [ "forge", 50 ], [ "oxy_torch", 10 ] ]
-    ],
-    "components": [ [ [ "steel_lump", 18 ] ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -2899,6 +2994,7 @@
   {
     "type": "recipe",
     "result": "55gal_drum",
+    "id_suffix": "from_scratch",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
     "skill_used": "fabrication",
@@ -2912,6 +3008,7 @@
   {
     "type": "recipe",
     "result": "30gal_drum",
+    "id_suffix": "from_scratch",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
     "skill_used": "fabrication",
@@ -2921,6 +3018,32 @@
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 250 ], [ "oxy_torch", 40 ] ] ],
     "components": [ [ [ "steel_lump", 10 ], [ "steel_chunk", 40 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "55gal_drum",
+    "id_suffix": "welded",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_CONTAINERS",
+    "skill_used": "fabrication",
+    "difficulty": 8,
+    "time": 42000,
+    "autolearn": true,
+    "using": [ [ "welding_standard", 15 ] ],
+    "components": [ [ [ "sheet_metal", 3 ], [ "sheet_metal_small", 72 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "30gal_drum",
+    "id_suffix": "welded",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_CONTAINERS",
+    "skill_used": "fabrication",
+    "difficulty": 8,
+    "time": 26250,
+    "autolearn": true,
+    "using": [ [ "welding_standard", 10 ] ],
+    "components": [ [ [ "sheet_metal", 2 ], [ "sheet_metal_small", 48 ] ] ]
   },
   {
     "type": "recipe",
@@ -3348,6 +3471,7 @@
     "difficulty": 5,
     "time": 50000,
     "autolearn": true,
+    "batch_time_factors": [ 80, 4 ],
     "result_mult": 15,
     "qualities": [ { "id": "CHEM", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 15, "LIST" ] ] ],
@@ -4165,7 +4289,7 @@
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "time": 8000,
+    "time": 30000,
     "autolearn": true,
     "book_learn": [ [ "textbook_fabrication", 2 ], [ "textbook_mechanics", 3 ] ],
     "qualities": [
@@ -4182,6 +4306,31 @@
       [ [ "wire", 6 ], [ "rope_6", 6 ], [ "rope_makeshift_6", 6 ] ],
       [ [ "chain", 1 ], [ "rope_30", 1 ], [ "rope_makeshift_30", 1 ], [ "vine_30", 1 ], [ "grapnel", 1 ] ],
       [ [ "spike", 2 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "metal_smoking_rack",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": 30000,
+    "autolearn": true,
+    "book_learn": [ [ "textbook_fabrication", 2 ], [ "textbook_mechanics", 3 ] ],
+    "qualities": [
+      { "id": "ANVIL", "level": 1 },
+      { "id": "HAMMER", "level": 3 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "DRILL", "level": 1 },
+      { "id": "SCREW", "level": 1 }
+    ],
+    "components": [
+      [ [ "scrap", 6 ] ],
+      [ [ "pipe", 15 ], [ "cu_pipe", 15 ], [ "frame", 2 ] ],
+      [ [ "nail", 12 ] ],
+      [ [ "wire", 6 ], [ "rope_6", 6 ], [ "rope_makeshift_6", 6 ] ],
+      [ [ "spike", 4 ] ]
     ]
   },
   {
