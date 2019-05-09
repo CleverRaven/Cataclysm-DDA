@@ -96,6 +96,28 @@
     "material_thickness": 3,
     "techniques": [ "WBLOCK_3" ],
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN" ]
+  },
+  {
+    "id": "ice_gliders",
+    "type": "ARMOR",
+    "name": "pair of slick icy coatings on your feet",
+    "name_plural": "slick icy coatings",
+    "description": "A magical slick icy coating on your feet.  While quite fast on flat floors, they make it difficult to move on rough terrain.",
+    "weight": 1,
+    "volume": 1,
+    "price": 1,
+    "to_hit": -2,
+    "bashing": 6,
+    "material": [ "steel" ],
+    "symbol": "[",
+    "color": "brown",
+    "covers": [ "FEET" ],
+    "coverage": 100,
+    "encumbrance": 0,
+    "warmth": 30,
+    "material_thickness": 3,
+    "environmental_protection": 2,
+    "flags": [ "WATERPROOF", "ROLLER_QUAD", "BELTED" ]
   }
 
 ]
