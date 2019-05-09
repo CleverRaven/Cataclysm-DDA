@@ -7205,8 +7205,10 @@ bool game::take_screenshot( const std::string &path ) const
 {
 #if defined(TILES)
     return save_screenshot( path );
-#endif
+#else
+    (void)path; // unused
     return false;
+#endif
 }
 
 //helper method so we can keep list_items shorter
