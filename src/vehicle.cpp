@@ -2972,7 +2972,15 @@ int vehicle::consumption_per_hour( const itype_id &ftype, int fuel_rate_w ) cons
         // add 3600 seconds worth of fuel consumption for the engine
         // HACK - engines consume 1 second worth of fuel per turn, even though a turn is 6 seconds
         if( vslowdown > 0 ) {
-            amount_pct += 600 * vslowdown / acceleration( true, target_v );
+            int accel = acceleration( true, target_v );
+            if( accel == 0 ) {
+                // FIXME: Long-term plan is to change the fuel consumption
+                // computation entirely; for now just warn if this would
+                // otherwise have been division-by-zero
+                debugmsg( "Vehicle unexpectedly has zero acceleration" );
+            } else {
+                amount_pct += 600 * vslowdown / accel;
+            }
         }
     }
     int energy_j_per_mL = fuel.fuel_energy() * 1000;
