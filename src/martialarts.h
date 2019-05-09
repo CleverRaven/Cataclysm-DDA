@@ -214,6 +214,7 @@ class martialart
         bool was_loaded = false;
         std::string name;
         std::string description;
+		std::vector<std::string> initiate;
         int arm_block;
         int leg_block;
         bool arm_block_with_bio_armor_arms;

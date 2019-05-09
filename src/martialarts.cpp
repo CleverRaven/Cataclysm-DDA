@@ -198,6 +198,7 @@ void martialart::load( JsonObject &jo, const std::string & )
 
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "description", description );
+    mandatory( jo, was_loaded, "initiate", initiate );
 
     optional( jo, was_loaded, "static_buffs", static_buffs, ma_buff_reader{} );
     optional( jo, was_loaded, "onmove_buffs", onmove_buffs, ma_buff_reader{} );
