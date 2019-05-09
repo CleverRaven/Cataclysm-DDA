@@ -637,6 +637,12 @@ class game
         void reset_zoom();
         int get_moves_since_last_save() const;
         int get_user_action_counter() const;
+
+        /** Saves a screenshot of the current viewport, as a PNG file, to the given location.
+        * @param file_path: A full path to the file where the screenshot should be saved.
+        * @note: Only works for SDL/TILES (otherwise the function returns `false`). A window (more precisely, a viewport) must already exist and the SDL renderer must be valid.
+        * @returns `true` if the screenshot generation was successful, `false` otherwise.
+        */
         bool take_screenshot( const std::string &path ) const;
 
         // Returns outdoor or indoor temperature of given location (in absolute (@ref map::getabs))

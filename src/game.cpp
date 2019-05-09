@@ -245,9 +245,9 @@ std::unique_ptr<game> g;
 #if defined(TILES)
 extern std::unique_ptr<cata_tiles> tilecontext;
 extern void toggle_fullscreen_window();
-#endif // TILES
-// returns false if 'TILES' is not defined.
 extern bool save_screenshot( const std::string &file_path );
+#endif // TILES
+
 
 uistatedata uistate;
 
@@ -7203,7 +7203,10 @@ int game::get_user_action_counter() const
 
 bool game::take_screenshot( const std::string &path ) const
 {
+#if defined(TILES)
     return save_screenshot( path );
+#endif
+    return false;
 }
 
 //helper method so we can keep list_items shorter

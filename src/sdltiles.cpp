@@ -3838,16 +3838,12 @@ SDL_Color cursesColorToSDL( const nc_color &color )
     return windowsPalette[palette_index];
 }
 
-#endif // TILES
-
 /** Saves a screenshot of the current viewport, as a PNG file, to the given location.
 * @param file_path: A full path to the file where the screenshot should be saved.
-* @note: Only works for SDL/TILES (otherwise the function returns `false`). A window (more precisely, a viewport) must already exist and the SDL renderer must be valid.
 * @returns `true` if the screenshot generation was successful, `false` otherwise.
 */
 bool save_screenshot( const std::string &file_path )
 {
-#if defined(TILES)
     // Note: the viewport is returned by SDL and we don't have to manage its lifetime.
     SDL_Rect viewport;
 
@@ -3871,7 +3867,6 @@ bool save_screenshot( const std::string &file_path )
     }
 
     return true;
-#else
-    return false;
-#endif
 }
+
+#endif // TILES
