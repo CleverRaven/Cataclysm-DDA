@@ -61,19 +61,19 @@ damage_type damage_type_from_string( std::string str )
 {
     if( str == "fire" ) {
         return DT_HEAT;
-    } else if( "acid" ) {
+    } else if( str == "acid" ) {
         return DT_ACID;
-    } else if( "bash" ) {
+    } else if( str == "bash" ) {
         return DT_BASH;
-    } else if( "bio" ) {
+    } else if( str == "bio" ) {
         return DT_BIOLOGICAL;
-    } else if( "cold" ) {
+    } else if( str == "cold" ) {
         return DT_COLD;
-    } else if( "cut" ) {
+    } else if( str == "cut" ) {
         return DT_CUT;
-    } else if( "electric" ) {
+    } else if( str == "electric" ) {
         return DT_ELECTRIC;
-    } else if( "stab" ) {
+    } else if( str == "stab" ) {
         return DT_STAB;
     } else {
         return DT_TRUE;
@@ -223,7 +223,7 @@ int spell::damage() const
 
 int spell::aoe() const
 {
-    return std::min( static_cast<int>( type->min_aoe + round( get_level() * type->damage_increment ) ),
+    return std::min( static_cast<int>( type->min_aoe + round( get_level() * type->aoe_increment ) ),
                      type->max_aoe );
 }
 
@@ -644,28 +644,24 @@ void player::learn_spell( const spell_type *sp, bool force )
         debugmsg( "Tried to learn invalid spell" );
         return;
     }
-    const bool no_spell_class = sp->spell_class == trait_id( "NONE" );
-    bool has_trait_cat = false;
-    // NONE isn't really a trait, but a placeholder for magic spells.
-    // as such, we don't really want it in json, so we need to check if
-    // that's the one we're dealing with first.
-    if( !no_spell_class ) {
-        has_trait_cat = has_opposite_trait( sp->spell_class );
-    }
-    if( force || new_spell.can_learn() || no_spell_class || !has_trait_cat ) {
-        if( !force && !no_spell_class && !has_trait_cat ) {
+    if( !force ) {
+        if( can_learn_spell( sp->id ) && !has_trait( sp->spell_class ) ) {
             if( query_yn(
-                    _( "Learning this spell will make you a %s and lock you out of other unique spells.\nContinue?" ),
-                    sp->spell_class.obj().name() ) ) {
+                _( "Learning this spell will make you a %s and lock you out of other unique spells.\nContinue?" ),
+                sp->spell_class.obj().name() ) ) {
                 set_mutation( sp->spell_class );
                 add_msg_if_player( sp->spell_class.obj().desc() );
             } else {
                 return;
             }
         }
-        spellbook.emplace( sp->id, new_spell );
-        add_msg_if_player( m_good, _( "You learned %s!" ), _( sp->name ) );
     }
+    if( !force && !can_learn_spell( sp->id ) ) {
+        add_msg_if_player( m_bad, _( "You can't learn this spell." ) );
+        return;
+    }
+    spellbook.emplace( sp->id, new_spell );
+    add_msg_if_player( m_good, _( "You learned %s!" ), _( sp->name ) );
 }
 
 void player::forget_spell( const std::string &sp )
@@ -771,9 +767,9 @@ int player::time_to_learn_spell( const std::string &str ) const
 int player::time_to_learn_spell( spell_id sp ) const
 {
     assert( !knows_spell( sp ) );
-    const int THIRTY_MINUTES = 30000;
-    return THIRTY_MINUTES * ( sp.obj().difficulty * ( 1.0 + ( get_int() - 8.0 ) / 8.0 ) +
-                              ( get_skill_level( skill_id( "SPELLCRAFT" ) ) / 10.0 ) );
+    const int base_time = 30000;
+    return base_time * ( 1.0 + sp.obj().difficulty / ( 1.0 + ( get_int() - 8.0 ) / 8.0 ) +
+                         ( get_skill_level( skill_id( "SPELLCRAFT" ) ) / 10.0 ) );
 }
 
 // spell_effect
@@ -853,7 +849,7 @@ static bool in_spell_aoe( const tripoint &target, const tripoint &epicenter, con
     return rl_dist( epicenter, target ) <= radius;
 }
 
-static std::set<tripoint> spell_effect_blast( spell &sp, const tripoint &target,
+static std::set<tripoint> spell_effect_blast( spell &, const tripoint &target,
         const int aoe_radius, const bool ignore_walls )
 {
     std::set<tripoint> targets;
