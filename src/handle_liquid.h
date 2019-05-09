@@ -112,6 +112,7 @@ class liquid_handler
                             const tripoint *source_pos = nullptr,
                             const vehicle *source_veh = nullptr, const int part_num = -1,
                             const monster *source_mon = nullptr );
+    private:
         /**
              * These are helper functions for transfer liquid, for times when you just want to
              * get the target of the transfer, or know the target and just want to transfer the
