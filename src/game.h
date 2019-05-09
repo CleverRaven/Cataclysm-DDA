@@ -635,8 +635,6 @@ class game
         // the function set the driving offset to (0,0)
         void calc_driving_offset( vehicle *veh = nullptr );
 
-        liquid_handler liquid_handling;
-
         /**@}*/
 
         void open_gate( const tripoint &p );
@@ -938,6 +936,7 @@ class game
         player &u;
         scent_map &scent;
         event_manager &events;
+        liquid_handler liquid_handling;
 
         pimpl<Creature_tracker> critter_tracker;
         pimpl<faction_manager> faction_manager_ptr;
