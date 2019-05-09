@@ -3255,6 +3255,10 @@ int basecamp::recruit_evaluation( int &sbase, int &sexpansions, int &sfaction, i
 {
     auto e = expansions.find( "[B]" );
     if( e == expansions.end() ) {
+        sbase = 0;
+        sexpansions = 0;
+        sfaction = 0;
+        sbonus = 0;
         return 0;
     }
     sbase = e->second.cur_level * 5;
