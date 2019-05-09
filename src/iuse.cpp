@@ -22,6 +22,7 @@
 #include "cata_utility.h"
 #include "debug.h"
 #include "effect.h" // for weed_msg
+#include "explosion.h"
 #include "event.h"
 #include "field.h"
 #include "fungal_effects.h"
@@ -3385,7 +3386,7 @@ int iuse::granade_act( player *, item *it, bool t, const tripoint &pos )
         switch( effect_roll ) {
             case 1:
                 sounds::sound( pos, 100, sounds::sound_t::speech, _( "BUGFIXES!" ) );
-                g->draw_explosion( pos, explosion_radius, c_light_cyan );
+                explosion_handler::draw_explosion( pos, explosion_radius, c_light_cyan );
                 for( const tripoint &dest : g->m.points_in_radius( pos, explosion_radius ) ) {
                     monster *const mon = g->critter_at<monster>( dest, true );
                     if( mon && ( mon->type->in_species( INSECT ) || mon->is_hallucination() ) ) {
@@ -3396,7 +3397,7 @@ int iuse::granade_act( player *, item *it, bool t, const tripoint &pos )
 
             case 2:
                 sounds::sound( pos, 100, sounds::sound_t::speech, _( "BUFFS!" ) );
-                g->draw_explosion( pos, explosion_radius, c_green );
+                explosion_handler::draw_explosion( pos, explosion_radius, c_green );
                 for( const tripoint &dest : g->m.points_in_radius( pos, explosion_radius ) ) {
                     if( monster *const mon_ptr = g->critter_at<monster>( dest ) ) {
                         monster &critter = *mon_ptr;
@@ -3434,7 +3435,7 @@ int iuse::granade_act( player *, item *it, bool t, const tripoint &pos )
 
             case 3:
                 sounds::sound( pos, 100, sounds::sound_t::speech, _( "NERFS!" ) );
-                g->draw_explosion( pos, explosion_radius, c_red );
+                explosion_handler::draw_explosion( pos, explosion_radius, c_red );
                 for( const tripoint &dest : g->m.points_in_radius( pos, explosion_radius ) ) {
                     if( monster *const mon_ptr = g->critter_at<monster>( dest ) ) {
                         monster &critter = *mon_ptr;
@@ -3471,7 +3472,7 @@ int iuse::granade_act( player *, item *it, bool t, const tripoint &pos )
 
             case 4:
                 sounds::sound( pos, 100, sounds::sound_t::speech, _( "REVERTS!" ) );
-                g->draw_explosion( pos, explosion_radius, c_pink );
+                explosion_handler::draw_explosion( pos, explosion_radius, c_pink );
                 for( const tripoint &dest : g->m.points_in_radius( pos, explosion_radius ) ) {
                     if( monster *const mon_ptr = g->critter_at<monster>( dest ) ) {
                         monster &critter = *mon_ptr;
@@ -3488,7 +3489,7 @@ int iuse::granade_act( player *, item *it, bool t, const tripoint &pos )
                 break;
             case 5:
                 sounds::sound( pos, 100, sounds::sound_t::speech, _( "BEES!" ) );
-                g->draw_explosion( pos, explosion_radius, c_yellow );
+                explosion_handler::draw_explosion( pos, explosion_radius, c_yellow );
                 for( const tripoint &dest : g->m.points_in_radius( pos, explosion_radius ) ) {
                     if( one_in( 5 ) && !g->critter_at( dest ) ) {
                         g->m.add_field( dest, fd_bees, rng( 1, 3 ) );
@@ -3548,7 +3549,7 @@ int iuse::grenade_inc_act( player *p, item *it, bool t, const tripoint &pos )
                 g->m.add_field( flame, fd_fire, rng( 0, 2 ) );
             }
         }
-        g->explosion( pos, 8, 0.8, true );
+        explosion_handler::explosion( pos, 8, 0.8, true );
         for( const tripoint &dest : g->m.points_in_radius( pos, 2 ) ) {
             g->m.add_field( dest, fd_incendiary, 3 );
         }
@@ -4732,7 +4733,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
 
             case AEA_FIREBALL: {
                 if( const cata::optional<tripoint> fireball = g->look_around() ) {
-                    g->explosion( *fireball, 180, 0.5, true );
+                    explosion_handler::explosion( *fireball, 180, 0.5, true );
                 }
             }
             break;
@@ -4943,7 +4944,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
 
             case AEA_FLASH:
                 p->add_msg_if_player( _( "The %s flashes brightly!" ), it->tname() );
-                g->flashbang( p->pos() );
+                explosion_handler::flashbang( p->pos() );
                 break;
 
             case AEA_VOMIT:

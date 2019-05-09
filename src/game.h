@@ -18,6 +18,7 @@
 #include "calendar.h"
 #include "cursesdef.h"
 #include "enums.h"
+#include "explosion.h"
 #include "game_constants.h"
 #include "item_location.h"
 #include "optional.h"
@@ -99,7 +100,6 @@ struct weather_printable;
 class live_view;
 class nc_color;
 struct w_point;
-struct explosion_data;
 struct visibility_variables;
 class scent_map;
 class loading_ui;
@@ -225,35 +225,6 @@ class game
         cata::optional<tripoint> get_veh_dir_indicator_location( bool next ) const;
         void draw_veh_dir_indicator( bool next );
 
-        /** Create explosion at p of intensity (power) with (shrapnel) chunks of shrapnel.
-            Explosion intensity formula is roughly power*factor^distance.
-            If factor <= 0, no blast is produced */
-        void explosion(
-            const tripoint &p, float power, float factor = 0.8f,
-            bool fire = false, int casing_mass = 0, float fragment_mass = 0.05
-        );
-
-        void explosion(
-            const tripoint &p, const explosion_data &ex
-        );
-
-        /** Helper for explosion, does the actual blast. */
-        void do_blast( const tripoint &p, float power, float factor, bool fire );
-
-        /*
-         * Emits shrapnel damaging creatures and sometimes terrain/furniture within range
-         * @param src source from which shrapnel radiates outwards in a uniformly random distribution
-         * @param power raw kinetic energy which is responsible for damage and reduced by effects of cover
-         * @param casing_mass total mass of bomb casing, determines fragment velocity.
-         * @param fragment_mass mass of individual fragments, affects range, damage and coverage.
-         * @param range maximum distance shrapnel may travel
-         * @return vector containing all tiles that took damage.
-         */
-        std::vector<tripoint> shrapnel( const tripoint &src, int power, int casing_mass,
-                                        float fragment_mass, int range = -1 );
-
-        /** Triggers a flashbang explosion at p. */
-        void flashbang( const tripoint &p, bool player_immune = false );
         /** Moves the player vertically. If force == true then they are falling. */
         void vertical_move( int z, bool force );
         /** Returns the other end of the stairs (if any). May query, affect u etc.  */
@@ -264,12 +235,6 @@ class game
         void vertical_notes( int z_before, int z_after );
         /** Checks to see if a player can use a computer (not illiterate, etc.) and uses if able. */
         void use_computer( const tripoint &p );
-        /** Triggers a resonance cascade at p. */
-        void resonance_cascade( const tripoint &p );
-        /** Triggers a scrambler blast at p. */
-        void scrambler_blast( const tripoint &p );
-        /** Triggers an EMP blast at p. */
-        void emp_blast( const tripoint &p );
         /**
          * @return The living creature with the given id. Returns null if no living
          * creature with such an id exists. Never returns a dead creature.
@@ -533,8 +498,6 @@ class game
         /** Flings the input creature in the given direction. */
         void fling_creature( Creature *c, const int &dir, float flvel, bool controlled = false );
 
-        /** Nuke the area at p - global overmap terrain coordinates! */
-        void nuke( const tripoint &p );
         float natural_light_level( int zlev ) const;
         /** Returns coarse number-of-squares of visibility at the current light level.
          * Used by monster and NPC AI.
@@ -760,15 +723,7 @@ class game
         void knockback( const tripoint &s, const tripoint &t, int force, int stun, int dam_mult );
         void knockback( std::vector<tripoint> &traj, int force, int stun, int dam_mult );
 
-        // shockwave applies knockback to all targets within radius of p
-        // parameters force, stun, and dam_mult are passed to knockback()
-        // ignore_player determines if player is affected, useful for bionic, etc.
-        void shockwave( const tripoint &p, int radius, int force, int stun, int dam_mult,
-                        bool ignore_player );
-
         // Animation related functions
-        void draw_explosion( const tripoint &p, int radius, const nc_color &col );
-        void draw_custom_explosion( const tripoint &p, const std::map<tripoint, nc_color> &area );
         void draw_bullet( const tripoint &pos, int i, const std::vector<tripoint> &trajectory,
                           char bullet );
         void draw_hit_mon( const tripoint &p, const monster &critter, bool dead = false );

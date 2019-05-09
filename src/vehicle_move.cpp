@@ -9,6 +9,7 @@
 #include <ostream>
 
 #include "debug.h"
+#include "explosion.h"
 #include "game.h"
 #include "item.h"
 #include "itype.h"
@@ -842,7 +843,7 @@ void vehicle::handle_trap( const tripoint &p, int part )
         damage_direct( pwh, part_damage );
     }
     if( expl > 0 ) {
-        g->explosion( p, expl, 0.5f, false, shrap );
+        explosion_handler::explosion( p, expl, 0.5f, false, shrap );
     }
 }
 

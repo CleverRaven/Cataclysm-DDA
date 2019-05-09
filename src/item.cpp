@@ -26,6 +26,7 @@
 #include "dispersion.h"
 #include "effect.h" // for weed_msg
 #include "enums.h"
+#include "explosion.h"
 #include "fault.h"
 #include "field.h"
 #include "fire.h"
@@ -6912,7 +6913,7 @@ bool item::will_explode_in_fire() const
 bool item::detonate( const tripoint &p, std::vector<item> &drops )
 {
     if( type->explosion.power >= 0 ) {
-        g->explosion( p, type->explosion );
+        explosion_handler::explosion( p, type->explosion );
         return true;
     } else if( type->ammo && ( type->ammo->special_cookoff || type->ammo->cookoff ) ) {
         long charges_remaining = charges;

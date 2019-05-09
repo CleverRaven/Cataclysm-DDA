@@ -26,6 +26,7 @@
 #include "vpart_position.h"
 #include "effect.h"
 #include "event.h"
+#include "explosion.h"
 #include "field.h"
 #include "game.h"
 #include "game_inventory.h"
@@ -422,14 +423,14 @@ long explosion_iuse::use( player &p, item &it, bool t, const tripoint &pos ) con
     }
 
     if( explosion.power >= 0.0f ) {
-        g->explosion( pos, explosion );
+        explosion_handler::explosion( pos, explosion );
     }
 
     if( draw_explosion_radius >= 0 ) {
-        g->draw_explosion( pos, draw_explosion_radius, draw_explosion_color );
+        explosion_handler::draw_explosion( pos, draw_explosion_radius, draw_explosion_color );
     }
     if( do_flashbang ) {
-        g->flashbang( pos, flashbang_player_immune );
+        explosion_handler::flashbang( pos, flashbang_player_immune );
     }
     if( fields_radius >= 0 && fields_type != fd_null ) {
         std::vector<tripoint> gas_sources = points_for_gas_cloud( pos, fields_radius );
@@ -440,12 +441,12 @@ long explosion_iuse::use( player &p, item &it, bool t, const tripoint &pos ) con
     }
     if( scrambler_blast_radius >= 0 ) {
         for( const tripoint &dest : g->m.points_in_radius( pos, scrambler_blast_radius ) ) {
-            g->scrambler_blast( dest );
+            explosion_handler::scrambler_blast( dest );
         }
     }
     if( emp_blast_radius >= 0 ) {
         for( const tripoint &dest : g->m.points_in_radius( pos, emp_blast_radius ) ) {
-            g->emp_blast( dest );
+            explosion_handler::emp_blast( dest );
         }
     }
     return 1;
