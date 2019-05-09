@@ -46,6 +46,7 @@ template <typename T> class visitable;
 class vpart_info;
 
 enum vpart_bitflags : int;
+enum ter_bitflags : int;
 template<typename feature_type>
 class vehicle_part_with_feature_range;
 
@@ -1076,6 +1077,10 @@ class vehicle
 
         // is the vehicle currently moving?
         bool is_moving() const;
+
+        // can the vehicle use rails?
+        bool can_use_rails() const;
+
         // Get maximum ground velocity gained by combined power of all engines.
         // If fueled == true, then only the engines which the vehicle has fuel for are included
         int max_ground_velocity( bool fueled = true ) const;
@@ -1443,6 +1448,23 @@ class vehicle
         bool act_on_map();
         // check if the vehicle should be falling or is in water
         void check_falling_or_floating();
+
+        /** Precalculate vehicle turn. Warning: modifies .precalc[1] array
+         * new_turn_dir             - turn direction to calculate
+         * falling_only             - is vehicle falling
+         * check_rail_direction     - check if vehicle should land on diagonal/not rail tile (use for trucks only)
+         * ter_flag_to_check        - terrain flag vehicle wheel should land on
+         ** Results:
+         * &wheels_on_rail          - resulting wheels that land on ter_flag_to_check
+         * &all_wheels_on_one_axis  - all wheels that landed is on same X axis
+         * &turning_wheels_that_are_one_axis_counter - number of wheels that are on one axis and will land on rail
+         */
+        void precalculate_vehicle_turning( int new_turn_dir, bool falling_only,
+                                           bool check_rail_direction,
+                                           const ter_bitflags ter_flag_to_check,
+                                           int &wheels_on_rail,
+                                           bool &all_wheels_on_one_axis,
+                                           int &turning_wheels_that_are_one_axis_counter ) ;
 
         /**
          * Update the submap coordinates smx, smy, and update the tracker info in the overmap

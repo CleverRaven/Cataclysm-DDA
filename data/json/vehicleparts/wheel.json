@@ -15,7 +15,14 @@
     "rolling_resistance": 0.375,
     "wheel_type": "rigid",
     "contact_area": 80,
-    "flags": [ "WHEEL" ]
+    "flags": [ "WHEEL", "RAIL" ]
+  },
+  {
+    "id": "metal_wheel_steerable",
+    "copy-from": "metal_wheel",
+    "type": "vehicle_part",
+    "name": "metal wheel (steerable)",
+    "extend": { "flags": [ "STEERABLE" ] }
   },
   {
     "id": "roller_drum",

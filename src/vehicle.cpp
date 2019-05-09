@@ -2985,6 +2985,24 @@ bool vehicle::is_moving() const
     return velocity != 0;
 }
 
+bool vehicle::can_use_rails() const
+{
+    bool can_use = true;
+    bool is_wheel_on_rail = false;
+    for( int part_index : wheelcache ) {
+        const auto &wheel = parts[ part_index ];
+        if( !wheel.info().has_flag( VPFLAG_RAIL ) ) {
+            can_use = false;
+            break;
+        }
+        // at least one wheel should be on track
+        if( g->m.has_flag_ter_or_furn( TFLAG_RAIL, global_part_pos3( part_index ) ) ) {
+            is_wheel_on_rail = true;
+        }
+    }
+    return can_use && is_wheel_on_rail;
+}
+
 int vehicle::ground_acceleration( const bool fueled, int at_vel_in_vmi ) const
 {
     if( !( engine_on || skidding ) ) {
