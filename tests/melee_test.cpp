@@ -137,7 +137,8 @@ TEST_CASE( "Zombie attacking a character", "[.melee]" )
         INFO( "Has get_dodge() == " + std::to_string( dude.get_dodge() ) );
         THEN( "Character has no significant dodge bonus or penalty" ) {
             REQUIRE( dude.get_dodge_bonus() < 0.5f );
-            REQUIRE( dude.get_dodge_bonus() > -0.5f );
+            
+            ( dude.get_dodge_bonus() > -0.5f );
         }
 
         THEN( "Character's dodge skill is roughly equal to zombie's attack skill" ) {
