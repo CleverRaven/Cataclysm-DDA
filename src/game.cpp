@@ -7206,7 +7206,7 @@ bool game::take_screenshot( const std::string &path ) const
 #if defined(TILES)
     return save_screenshot( path );
 #else
-    (void)path; // unused
+    ( void )path; // unused
     return false;
 #endif
 }
