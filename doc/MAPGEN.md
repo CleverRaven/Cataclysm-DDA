@@ -77,18 +77,25 @@
 ## 0.0 How buildings and terrain are generated
 Cataclysm creates buildings and terrain on discovery via 'mapgen'; functions specific to an overmap terrain (the tiles you see in [m]ap are also determined by overmap terrain). Overmap terrains ("oter") are defined in overmap_terrain.json.
 
-By default, an oter has a single builtin mapgen function which matches the '"id"' in it's json entry (examples: "house", "bank", etc). Multiple functions also possible. When a player moves into range of an area marked on the map as a house, the game chooses semi-randomly from a list of functions for "house", picks one, and runs it, laying down walls and adding items, monsters, rubber chickens and whatnot. This is all done in a fraction of a second (something to keep in mind for later).
+By default, an oter has a single built-in mapgen function which matches the '"id"' in it's json entry (examples: "house", "bank", etc). Multiple functions also possible. When a player moves into range of an area marked on the map as a house, the game chooses semi-randomly from a list of functions for "house", picks one, and runs it, laying down walls and adding items, monsters, rubber chickens and whatnot. This is all done in a fraction of a second (something to keep in mind for later).
 
-All mapgen functions build in a 24x24 tile area - even for large buildings; obtuse but surprisingly effective methods are used to assemble giant 3x3 hotels, etc. For the moment, mod support for big buildings is not fully supported, though technically possible (see below).
+All mapgen functions build in a 24x24 tile area - even for large buildings; obtuse but surprisingly effective methods are used to assemble giant 3x3 hotels, etc..
 
 In order to make a world that's random and (somewhat) sensical, there are numerous rules and exceptions to them, which are clarified below.
 
 # 1 Adding mapgen entries.
-One doesn't (and shouldn't) need to create a new overmap_terrain for a new variation of a building. For a custom gas station, defining a mapgen entry and adding it to the "s_gas" mapgen list will add it to the random variations of gas station in the world.
+One doesn't need to create a new overmap_terrain for a new variation of a building. For a custom gas station, defining a mapgen entry and adding it to the "s_gas" mapgen list will add it to the random variations of gas station in the world.
+
+If you use an existing overmap_terrain and it has a roof or other z-level linked to its file, the other levels will be generated with the ground floor. To avoid this, or add your own multiple z-levels, create an overmap_terrain with a similar name (s_gas_1).  
 
 ## 1.0 Methods
-While adding mapgen as a c++ function is one of the fastest (and the most versatile) ways to generate procedural terrain on the fly, this requires recompiling the game. For mods, one can instead define a mapgen function in:
-* JSON: A set of json arrays and objects for defining stuff and things. Pros: Fastest to apply, mostly complete, supported by one third party map editor so far. Cons: Not a programming language; no if statements or variables means instances of a particular json mapgen definition will all be similar. Support was added for randomizing things, however.
+While adding mapgen as a c++ function is one of the fastest (and the most versatile) ways to generate procedural terrain on the fly, this requires recompiling the game.
+
+Most of the existing c++ buildings have been moved to json and currently json mapping is the preferred method of adding both content and mods.
+
+* JSON: A set of json arrays and objects for defining stuff and things. Pros: Fastest to apply, mostly complete. Cons: Not a programming language; no if statements or variables means instances of a particular json mapgen definition will all be similar. Third party map editors are currently out of date.
+
+* JSON support includes the use of nested mapgen, smaller mapgen chunks which override a portion of the linked mapgen.  This allows for greater variety in furniture, terrain and spawns within a single mapgen file.  You can also link mapgen files for multiple z-level buildings and multi-tile buildings.  
 
 ## 1.1 Placement
 Mapgen definitions can be added in 2 places:
@@ -724,4 +731,3 @@ update_mapgen adds new optional keywords to a few mapgen JSON items.
 
 ### 3.2.0 "target"
 place_npc, place_monster, and place_computer can take an optional target boolean. If they have `"target": true` and are invoked by update_mapgen with a valid mission, then the NPC, monster, or computer will be marked as the target of the mission.
-
