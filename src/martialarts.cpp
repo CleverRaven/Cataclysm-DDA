@@ -661,6 +661,15 @@ bool martialart::weapon_valid( const item &it ) const
     return !strictly_unarmed && it.has_flag( "UNARMED_WEAPON" );
 }
 
+std::string martialart::get_initiate_player_message() const
+{
+    return initiate[0];
+}
+
+std::string martialart::get_initiate_npc_message() const
+{
+    return initiate[1];
+}
 // Player stuff
 
 // technique

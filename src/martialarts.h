@@ -209,6 +209,11 @@ class martialart
         bool has_weapon( const std::string &item ) const;
         // Is this weapon OK with this art?
         bool weapon_valid( const item &u ) const;
+        // Getter for player style change message
+        std::string get_initiate_player_message() const;
+        // Getter for NPC style change message
+        std::string get_initiate_npc_message() const;
+
 
         matype_id id;
         bool was_loaded = false;
