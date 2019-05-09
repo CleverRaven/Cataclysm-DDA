@@ -597,12 +597,22 @@ item item::in_container( const itype_id &cont ) const
 
 long item::charges_per_volume( const units::volume &vol ) const
 {
-    if( type->volume == 0_ml ) {
-        return INFINITE_CHARGES; // TODO: items should not have 0 volume at all!
+    if( count_by_charges() ) {
+        if( type->volume == 0_ml ) {
+            debugmsg( "Item '%s' with zero volume", tname() );
+            return INFINITE_CHARGES;
+        }
+        // Type cast to prevent integer overflow with large volume containers like the cargo
+        // dimension
+        return vol * static_cast<int64_t>( type->stack_size ) / type->volume;
+    } else {
+        units::volume my_volume = volume();
+        if( my_volume == 0_ml ) {
+            debugmsg( "Item '%s' with zero volume", tname() );
+            return INFINITE_CHARGES;
+        }
+        return vol / my_volume;
     }
-    // Type cast to prevent integer overflow with large volume containers like the cargo dimension
-    return count_by_charges() ? vol * static_cast<int64_t>( type->stack_size ) / type->volume
-           : vol / volume();
 }
 
 bool item::stacks_with( const item &rhs, bool check_components ) const
