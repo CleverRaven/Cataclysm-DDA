@@ -9293,7 +9293,7 @@
     "encumbrance": 15,
     "storage": 1,
     "warmth": 25,
-    "material_thickness": 2,
+    "material_thickness": 3,
     "environmental_protection": 2,
     "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF" ]
   },
