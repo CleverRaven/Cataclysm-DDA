@@ -3280,8 +3280,7 @@ units::mass item::weight( bool include_contents ) const
         return ret;
     }
 
-    units::mass ret = 0_gram;
-    ret = units::from_gram( get_var( "weight", to_gram( type->weight ) ) );
+    units::mass ret = units::from_gram( get_var( "weight", to_gram( type->weight ) ) );
 
     if( has_flag( "REDUCED_WEIGHT" ) ) {
         ret *= 0.75;

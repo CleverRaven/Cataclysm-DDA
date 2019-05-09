@@ -615,7 +615,7 @@ void overmapbuffer::add_vehicle( vehicle *veh )
     veh->om_id = id;
 }
 
-void overmapbuffer::add_camp( basecamp camp )
+void overmapbuffer::add_camp( const basecamp &camp )
 {
     point omt = point( camp.camp_omt_pos().x, camp.camp_omt_pos().y );
     overmap &om = get_om_global( omt.x, omt.y );

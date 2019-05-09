@@ -360,7 +360,8 @@ bool defer;
 JsonObject jsi;
 };
 
-void set_mapgen_defer( JsonObject jsi, std::string member, std::string message )
+void set_mapgen_defer( const JsonObject &jsi, const std::string &member,
+                       const std::string &message )
 {
     mapgen_defer::defer = true;
     mapgen_defer::jsi = jsi;
@@ -4263,7 +4264,7 @@ ___DEEE|.R.|...,,...|sss\n",
                                 } else if( j == tw + 2 ) {
                                     ter_set( i, j, t_concrete_wall );
                                 } else { // Empty space holds monsters!
-                                    place_spawns( GROUP_NETHER, 1, i, j, i, j, true );
+                                    place_spawns( GROUP_NETHER, 1, i, j, i, j, 1, true );
                                 }
                             }
                         }

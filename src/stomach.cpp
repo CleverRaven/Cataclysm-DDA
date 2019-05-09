@@ -43,7 +43,7 @@ void stomach_contents::serialize( JsonOut &json ) const
     json.end_object();
 }
 
-units::volume string_to_ml( std::string str )
+units::volume string_to_ml( const std::string &str )
 {
     return units::from_milliliter( std::stoi( str.substr( 0, str.size() - 3 ) ) );
 }
@@ -103,7 +103,7 @@ bool stomach_contents::store_absorbed( player &p )
     return absorbed;
 }
 
-void stomach_contents::bowel_movement( stomach_pass_rates rates )
+void stomach_contents::bowel_movement( const stomach_pass_rates &rates )
 {
     int cal_rate = static_cast<int>( round( calories * rates.percent_kcal ) );
     cal_rate = clamp( cal_rate, std::min( rates.min_kcal, calories - calories_absorbed ),
@@ -162,7 +162,7 @@ void stomach_contents::bowel_movement()
     bowel_movement( rates );
 }
 
-void stomach_contents::bowel_movement( stomach_pass_rates rates, stomach_contents &move_to )
+void stomach_contents::bowel_movement( const stomach_pass_rates &rates, stomach_contents &move_to )
 {
     int cal_rate = static_cast<int>( round( calories * rates.percent_kcal ) );
     cal_rate = clamp( cal_rate, std::min( rates.min_kcal, calories - calories_absorbed ),
@@ -279,7 +279,7 @@ bool stomach_contents::absorb_vitamin( std::pair<vitamin_id, int> vit )
     return absorb_vitamin( vit.first, vit.second );
 }
 
-bool stomach_contents::absorb_vitamins( std::map<vitamin_id, int> vitamins )
+bool stomach_contents::absorb_vitamins( const std::map<vitamin_id, int> &vitamins )
 {
     bool absorbed = false;
     for( const std::pair<vitamin_id, int> vit : vitamins ) {
@@ -318,7 +318,8 @@ stomach_pass_rates stomach_contents::get_pass_rates( bool stomach )
     return rates;
 }
 
-stomach_absorb_rates stomach_contents::get_absorb_rates( bool stomach, needs_rates metabolic_rates )
+stomach_absorb_rates stomach_contents::get_absorb_rates( bool stomach,
+        const needs_rates &metabolic_rates )
 {
     stomach_absorb_rates rates;
     if( !stomach ) {

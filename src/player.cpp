@@ -3112,7 +3112,7 @@ void player::shout( std::string msg, bool order )
     sounds::sound( pos(), noise, order ? sounds::sound_t::order : sounds::sound_t::alert, msg );
 }
 
-void player::set_movement_mode( std::string new_mode )
+void player::set_movement_mode( const std::string &new_mode )
 {
     if( new_mode == "run" ) {
         if( stamina > 0 && !has_effect( effect_winded ) ) {
