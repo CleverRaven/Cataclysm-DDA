@@ -17,6 +17,7 @@
 #include "effect.h"
 #include "field.h"
 #include "game.h"
+#include "handle_liquid.h"
 #include "input.h"
 #include "item.h"
 #include "itype.h"
@@ -386,7 +387,7 @@ bool player::activate_bionic( int b, bool eff_only )
         if( water_charges == 0 ) {
             add_msg_if_player( m_bad,
                                _( "There was not enough moisture in the air from which to draw water!" ) );
-        } else if( !g->consume_liquid( water ) ) {
+        } else if( !g->liquid_handling.consume_liquid( water ) ) {
             charge_power( bionics[bionic_id( "bio_evap" )].power_activate );
         }
     } else if( bio.id == "bio_torsionratchet" ) {
@@ -443,7 +444,7 @@ bool player::activate_bionic( int b, bool eff_only )
                               colorize( it->tname(), it->color_in_inventory() ) ) ) {
                     item water( "water_clean", calendar::turn, avail );
                     water.set_item_temperature( 0.00001 * it->temperature );
-                    if( g->consume_liquid( water ) ) {
+                    if( g->liquid_handling.consume_liquid( water ) ) {
                         extracted = true;
                         it->set_var( "remaining_water", static_cast<int>( water.charges ) );
                     }

@@ -25,6 +25,7 @@
 #include "game.h"
 #include "game_inventory.h"
 #include "gates.h"
+#include "handle_liquid.h"
 #include "harvest.h"
 #include "iexamine.h"
 #include "itype.h"
@@ -904,7 +905,7 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p,
                 if( obj.goes_bad() ) {
                     obj.set_rot( corpse_item->get_rot() );
                 }
-                g->handle_all_liquid( obj, 1 );
+                g->liquid_handling.handle_all_liquid( obj, 1 );
             } else if( drop->stackable ) {
                 item obj( drop, calendar::turn, roll );
                 if( obj.has_temperature() ) {

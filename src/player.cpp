@@ -31,6 +31,7 @@
 #include "game.h"
 #include "get_version.h"
 #include "gun_mode.h"
+#include "handle_liquid.h"
 #include "help.h" // get_hint
 #include "input.h"
 #include "inventory.h"
@@ -4981,7 +4982,7 @@ void player::siphon( vehicle &veh, const itype_id &type )
     if( liquid.is_food() ) {
         liquid.set_item_specific_energy( veh.fuel_specific_energy( type ) );
     }
-    if( g->handle_liquid( liquid, nullptr, 1, nullptr, &veh ) ) {
+    if( g->liquid_handling.handle_liquid( liquid, nullptr, 1, nullptr, &veh ) ) {
         veh.drain( type, qty - liquid.charges );
     }
 }
@@ -8980,7 +8981,7 @@ void player::drop( const std::list<std::pair<int, int>> &what, const tripoint &t
 bool player::add_or_drop_with_msg( item &it, const bool unloading )
 {
     if( it.made_of( LIQUID ) ) {
-        g->consume_liquid( it, 1 );
+        g->liquid_handling.consume_liquid( it, 1 );
         return it.charges <= 0;
     }
     it.charges = this->i_add_to_container( it, unloading );
