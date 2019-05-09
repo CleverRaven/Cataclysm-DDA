@@ -3910,7 +3910,7 @@ int get_hourly_rotpoints_at_temp( const int temp )
     return rot_chart[temp];
 }
 
-void item::calc_rot( time_point time. int temp )
+void item::calc_rot( time_point time, int temp )
 {
     if( !goes_bad() ) {
         return;
@@ -3932,6 +3932,10 @@ void item::calc_rot( time_point time. int temp )
     float factor = 1.0;
     if( is_corpse() && has_flag( "FIELD_DRESS" ) ) {
         factor = 0.75;
+    }
+
+    if( item_tags.count( "COLD" ) ) {
+        temp = temperatures::fridge;
     }
 
     // bday and/or last_rot_check might be zero, if both are then we want calendar::start
