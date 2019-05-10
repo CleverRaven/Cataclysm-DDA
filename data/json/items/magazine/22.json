@@ -142,7 +142,7 @@
     "color": "light_gray",
     "ammo_type": "22",
     "capacity": 30,
-    "reliability": 5,
+    "reliability": 1,
     "reload_time": 160,
     "flags": [ "MAG_COMPACT" ]
   },
