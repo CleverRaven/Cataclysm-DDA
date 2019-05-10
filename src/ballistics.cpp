@@ -61,6 +61,20 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
         return;
     }
 
+    if( effects.count( "BURST" ) ) {
+        // Drop the contents, not the thrown item
+        if( g->u.sees( pt ) ) {
+            add_msg( _( "The %s bursts!" ), drop_item.tname() );
+        }
+
+        for( const item &i : drop_item.contents ) {
+            g->m.add_item_or_charges( pt, i );
+        }
+
+        //TODO: Sound
+        return;
+    }
+
     // Copy the item
     item dropped_item = drop_item;
 

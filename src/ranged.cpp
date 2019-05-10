@@ -518,6 +518,12 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     const bool shatter = !thrown.active && thrown.made_of( material_id( "glass" ) ) &&
                          rng( 0, units::to_milliliter( 2000_ml - volume ) ) < get_str() * 100;
 
+    // Item will burst upon landing, destroying the item, and spilling its contents
+    const bool burst = thrown.has_property( "burst_when_filled" ) && thrown.is_container() &&
+                       thrown.get_property_long( "burst_when_filled" ) <= ( ( double )
+                               thrown.get_contained().volume().value() ) / thrown.get_container_capacity().value() * 100;
+
+
     // Add some flags to the projectile
     if( weight > 500_gram ) {
         proj_effects.insert( "HEAVY_HIT" );
@@ -543,6 +549,11 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     if( shatter ) {
         impact.add_damage( DT_CUT, units::to_milliliter( volume ) / 500.0f );
         proj_effects.insert( "SHATTER_SELF" );
+    }
+
+    //TODO: Add wet effect if other things care about that
+    if( burst ) {
+        proj_effects.insert( "BURST" );
     }
 
     // Some minor (skill/2) armor piercing for skillful throws
