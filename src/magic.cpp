@@ -36,7 +36,6 @@ valid_target string_to_enum<valid_target>( const std::string &trigger )
 }
 }
 
-
 // LOADING
 // spell_type
 

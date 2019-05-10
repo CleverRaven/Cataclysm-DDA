@@ -222,6 +222,7 @@ class spell
         std::string description() const;
         // energy source as a string (translated)
         std::string energy_string() const;
+        // energy cost returned as a string
         std::string energy_cost_string() const;
         // current energy the player has available as a string
         std::string energy_cur_string() const;
