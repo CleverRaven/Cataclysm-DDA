@@ -47,7 +47,7 @@
     "id": "TALK_MARLOSS_VOICE_A_PRIEST",
     "dynamic_line": "I'm a priest or guide of a sort.  I sing the hymns along my companions so that we may learn to live in unity, both with each other and with our ailing world.",
     "responses": [
-      { "text": "Alright", "topic": "TALK_MARLOSS_VOICE" },
+      { "text": "Alright.", "topic": "TALK_MARLOSS_VOICE" },
       {
         "text": "Can I join you?.",
         "topic": "TALK_MARLOSS_VOICE_WITH_US",
