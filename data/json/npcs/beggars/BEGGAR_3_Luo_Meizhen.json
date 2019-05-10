@@ -1,0 +1,81 @@
+[
+  {
+    "type": "npc",
+    "id": "refugee_beggar3",
+    "//": "Angry beggar in the refugee center.",
+    "name_unique": "Luo Meizhen",
+    "gender": "female",
+    "name_suffix": "beggar",
+    "class": "NC_BEGGAR_3",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_REFUGEE_BEGGAR_3",
+    "faction": "wasteland_scavengers"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_BEGGAR_3",
+    "name": "Beggar",
+    "job_description": "I'm just trying to survive.",
+    "common": false,
+    "//": "All the beggars have been camping inside the evac shelter because they're too weak and unskilled to make it on their own.",
+    "bonus_str": { "rng": [ -4, -1 ] },
+    "bonus_dex": { "rng": [ -4, -1 ] },
+    "bonus_int": { "rng": [ 2, 5 ] },
+    "bonus_per": { "rng": [ 0, 3 ] },
+    "worn_override": "NC_BEGGAR_3_worn",
+    "carry_override": "EMPTY_GROUP",
+    "weapon_override": "EMPTY_GROUP",
+    "traits": [
+      { "trait": "SLOWHEALER2" },
+      { "trait": "SLOWRUNNER" },
+      { "trait": "HEAVYSLEEPER" },
+      { "trait": "FLIMSY2" },
+      { "trait": "FASTLEARNER" },
+      { "trait": "PACIFIST" },
+      { "trait": "Exp_Mycology2" },
+      { "group": "Appearance_demographics" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_BEGGAR_3_worn",
+    "subtype": "collection",
+    "items": [
+      { "item": "hoodie" },
+      { "item": "jacket_evac" },
+      { "item": "jeans" },
+      { "item": "panties" },
+      { "item": "camisole" },
+      { "item": "bra" },
+      { "item": "socks" },
+      { "item": "lowtops" },
+      { "item": "gloves_light" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_3",
+    "dynamic_line": "Don't bother with these assholes.",
+    "//": "STUB FILE: not all text implemented yet.  TK: different greetings; topics FOOD, EXPERTISE, JOIN",
+    "responses": [
+      { "text": "What's up?", "topic": "TALK_REFUGEE_BEGGAR_3_COMPLAIN" },
+      { "text": "Ok... see ya.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_3_COMPLAIN",
+    "dynamic_line": "They're 'too full'.  Won't share fuck-all.",
+    "responses": [
+      { "text": "Why are you living here then?", "topic": "TALK_REFUGEE_BEGGAR_3_COMPLAIN2" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_3_COMPLAIN2",
+    "dynamic_line": "Even without them helping, it's the safest place to squat.  As long as we keep it clean up here and don't cause sanitation problems, they don't mind us sitting around the entryway.  So kind and generous of them, to let us sit here and slowly starve.",
+    "responses": [ { "text": "I'd better get going.", "topic": "TALK_DONE" } ]
+  }
+]
