@@ -5749,6 +5749,15 @@
     "flags": [ "OVERSIZE", "HOOD", "ALLOWS_NATURAL_ATTACKS" ]
   },
   {
+    "id": "marloss_scarf",
+    "type": "ARMOR",
+    "copy-from": "keffiyeh",
+    "name": "cyan scarf",
+    "description": "A simple cloth scarf worn by Marloss Voices.  Wherever the Voices go, long sought peace soon follows, for better or for worse.",
+    "color": "cyan",
+    "covers": [ "MOUTH" ]
+  },
+  {
     "id": "keikogi",
     "type": "ARMOR",
     "name": "keikogi",

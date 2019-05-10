@@ -16,6 +16,7 @@
 #include "fungal_effects.h"
 #include "game.h"
 #include "map.h"
+#include "map_iterator.h"
 #include "mapdata.h"
 #include "mapgen_functions.h"
 #include "overmapbuffer.h"
@@ -50,6 +51,9 @@ static const mongroup_id GROUP_MAYBE_MIL( "GROUP_MAYBE_MIL" );
 static const mongroup_id GROUP_FISH( "GROUP_FISH" );
 
 static const mtype_id mon_zombie_tough( "mon_zombie_tough" );
+static const mtype_id mon_blank( "mon_blank" );
+static const mtype_id mon_marloss_zealot_f ( "mon_marloss_zealot_f" );
+static const mtype_id mon_marloss_zealot_m ( "mon_marloss_zealot_m" );
 static const mtype_id mon_zombie_smoker( "mon_zombie_smoker" );
 static const mtype_id mon_zombie_scientist( "mon_zombie_scientist" );
 static const mtype_id mon_chickenbot( "mon_chickenbot" );
@@ -449,6 +453,23 @@ void mx_roadblock( map &m, const tripoint &abs_sub )
             }
         }
     }
+}
+
+void mx_marloss_pilgrimage( map &m, const tripoint &abs_sub )
+{
+    const tripoint leader_pos( rng( 4, 19 ), rng( 4, 19 ), abs_sub.z );
+    int max_followers = rng( 3, 12 );
+    int rad = 3;
+    tripoint_range spawnzone = m.points_in_radius( leader_pos, rad );
+
+    m.place_npc( leader_pos.x , leader_pos.y , string_id<npc_template>( "marloss_voice" ) );
+    for ( int spawned = 0 ; spawned <= max_followers ; spawned++ ) {
+        tripoint where = random_entry( spawnzone );
+        if ( g->is_empty( where ) ) {
+            ( one_in(2) ) ? m.add_spawn(mon_marloss_zealot_f, 1, where.x , where.y ) : m.add_spawn(mon_marloss_zealot_m, 1, where.x , where.y );
+        }
+    }
+
 }
 
 void mx_bandits_block( map &m, const tripoint &abs_sub )
@@ -1072,6 +1093,7 @@ FunctionMap builtin_functions = {
     { "mx_pond", mx_pond },
     { "mx_clay_deposit", mx_clay_deposit },
     { "mx_bandits_block", mx_bandits_block },
+    { "mx_marloss_pilgrimage", mx_marloss_pilgrimage },
 };
 
 map_special_pointer get_function( const std::string &name )
