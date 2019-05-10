@@ -2094,7 +2094,6 @@ bool basecamp::upgrade_return( const std::string &dir, const std::string &miss )
     }
     const tripoint upos = e->second.pos;
 
-
     const std::string bldg = next_upgrade( dir, 1 );
     if( bldg == "null" ) {
         return false;

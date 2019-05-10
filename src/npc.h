@@ -308,7 +308,6 @@ struct healing_options {
     void set_all();
 };
 
-
 // Data relevant only for this action
 struct npc_short_term_cache {
     float danger;

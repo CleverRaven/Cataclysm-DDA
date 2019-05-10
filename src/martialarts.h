@@ -214,7 +214,6 @@ class martialart
         // Getter for NPC style change message
         std::string get_initiate_npc_message() const;
 
-
         matype_id id;
         bool was_loaded = false;
         std::string name;

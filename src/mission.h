@@ -180,7 +180,6 @@ bool set_update_mapgen( JsonObject &jo, std::vector<std::function<void( mission 
 bool load_funcs( JsonObject jo, std::vector<std::function<void( mission *miss )>> &funcs );
 };
 
-
 struct mission_type {
     mission_type_id id = mission_type_id( "MISSION_NULL" ); // Matches it to a mission_type_id above
     bool was_loaded = false;

@@ -867,7 +867,6 @@ void mdeath::fireball( monster &z )
     }
 }
 
-
 void mdeath::conflagration( monster &z )
 {
     for( const auto &dest : g->m.points_in_radius( z.pos(), 1 ) ) {

@@ -3233,7 +3233,6 @@ void npc::set_omt_destination()
         return;
     }
 
-
     decide_needs();
     if( needs.empty() ) { // We don't need anything in particular.
         needs.push_back( need_none );
@@ -3253,7 +3252,6 @@ void npc::set_omt_destination()
         goal = surface_omt_loc + point( rng( -90, 90 ), rng( -90, 90 ) );
         return;
     }
-
 
     DebugLog( D_INFO, DC_ALL ) << "npc::set_omt_destination - new goal for NPC [" << get_name() <<
                                "] with ["

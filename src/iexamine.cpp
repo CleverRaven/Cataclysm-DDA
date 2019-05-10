@@ -1189,7 +1189,6 @@ void iexamine::locked_object( player &p, const tripoint &examp )
         return temporary_item.has_quality( quality_id( "PRY" ), 1 );
     } );
 
-
     if( prying_items.size() == 0 ) {
         add_msg( m_info, _( "If only you had something to pry with..." ) );
         return;
@@ -3980,7 +3979,6 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 return;
             }
 
-
             uilist cmenu;
             cmenu.text = _( "Autodoc Mk. XI.  Status: Online.  Please choose operation." );
             cmenu.addentry( 1, true, 'i', _( "Choose Compact Bionic Module to install." ) );
@@ -4772,7 +4770,6 @@ void iexamine::quern_examine( player &p, const tripoint &examp )
                              _( "Apply brake to mill" ),
                              _( "Applying the brake will stop milling process." ) );
     }
-
 
     smenu.query();
 

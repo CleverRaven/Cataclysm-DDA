@@ -164,7 +164,6 @@ void retroactively_fill_from_funnel( item &it, const trap &tr, const time_point 
 
 double funnel_charges_per_turn( double surface_area_mm2, double rain_depth_mm_per_hour );
 
-
 rl_vec2d convert_wind_to_coord( const int angle );
 
 std::string get_wind_arrow( int );

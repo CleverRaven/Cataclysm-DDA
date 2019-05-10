@@ -2224,7 +2224,6 @@ json_talk_repeat_response::json_talk_repeat_response( JsonObject jo )
     }
 }
 
-
 json_talk_response::json_talk_response( JsonObject jo )
     : actual_response( jo )
 {

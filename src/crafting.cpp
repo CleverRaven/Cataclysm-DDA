@@ -1309,7 +1309,6 @@ std::list<item> player::consume_items( const comp_selection<item_comp> &is, int 
     return consume_items( g->m, is, batch, filter, pos(), PICKUP_RANGE );
 }
 
-
 std::list<item> player::consume_items( map &m, const comp_selection<item_comp> &is, int batch,
                                        const std::function<bool( const item & )> &filter, tripoint origin, int radius )
 {

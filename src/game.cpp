@@ -6461,7 +6461,6 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
 
     temp_exit_fullscreen();
 
-
     const int offset_x = ( u.posx() + u.view_offset.x ) - getmaxx( w_terrain ) / 2;
     const int offset_y = ( u.posy() + u.view_offset.y ) - getmaxy( w_terrain ) / 2;
 
@@ -8969,7 +8968,6 @@ void game::reload( item_location &loc, bool prompt, bool empty )
 
     refresh_all();
 }
-
 
 // Reload something.
 void game::reload_item()
