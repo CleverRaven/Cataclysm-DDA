@@ -1230,6 +1230,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         return std::min( recoil_pc + angle * recoil_per_deg, MAX_RECOIL );
     };
 
+    bool redraw = true;
     const tripoint old_offset = pc.view_offset;
     do {
         ret = g->m.find_clear_path( src, dst );
@@ -1256,129 +1257,131 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         } else {
             center = pc.pos() + pc.view_offset;
         }
-        // Clear the target window.
-        for( int i = 1; i <= getmaxy( w_target ) - num_instruction_lines - 2; i++ ) {
-            // Clear width excluding borders.
-            for( int j = 1; j <= getmaxx( w_target ) - 2; j++ ) {
-                mvwputch( w_target, i, j, c_white, ' ' );
+        if( redraw ) {
+            // Clear the target window.
+            for( int i = 1; i <= getmaxy( w_target ) - num_instruction_lines - 2; i++ ) {
+                // Clear width excluding borders.
+                for( int j = 1; j <= getmaxx( w_target ) - 2; j++ ) {
+                    mvwputch( w_target, i, j, c_white, ' ' );
+                }
             }
-        }
-        g->draw_ter( center, true );
-        int line_number = 1;
-        Creature *critter = g->critter_at( dst, true );
-        const int relative_elevation = dst.z - pc.pos().z;
-        if( dst != src ) {
-            // Only draw those tiles which are on current z-level
-            auto ret_this_zlevel = ret;
-            ret_this_zlevel.erase( std::remove_if( ret_this_zlevel.begin(), ret_this_zlevel.end(),
-            [&center]( const tripoint & pt ) {
-                return pt.z != center.z;
-            } ), ret_this_zlevel.end() );
-            // Only draw a highlighted trajectory if we can see the endpoint.
-            // Provides feedback to the player, and avoids leaking information
-            // about tiles they can't see.
-            g->draw_line( dst, center, ret_this_zlevel );
+            g->draw_ter( center, true );
+            int line_number = 1;
+            Creature *critter = g->critter_at( dst, true );
+            const int relative_elevation = dst.z - pc.pos().z;
+            if( dst != src ) {
+                // Only draw those tiles which are on current z-level
+                auto ret_this_zlevel = ret;
+                ret_this_zlevel.erase( std::remove_if( ret_this_zlevel.begin(), ret_this_zlevel.end(),
+                [&center]( const tripoint & pt ) {
+                    return pt.z != center.z;
+                } ), ret_this_zlevel.end() );
+                // Only draw a highlighted trajectory if we can see the endpoint.
+                // Provides feedback to the player, and avoids leaking information
+                // about tiles they can't see.
+                g->draw_line( dst, center, ret_this_zlevel );
 
-            // Print to target window
-            mvwprintw( w_target, line_number++, 1, _( "Range: %d/%d Elevation: %d Targets: %d" ),
-                       rl_dist( src, dst ), range, relative_elevation, t.size() );
+                // Print to target window
+                mvwprintw( w_target, line_number++, 1, _( "Range: %d/%d Elevation: %d Targets: %d" ),
+                           rl_dist( src, dst ), range, relative_elevation, t.size() );
 
-        } else {
-            mvwprintw( w_target, line_number++, 1, _( "Range: %d Elevation: %d Targets: %d" ), range,
-                       relative_elevation, t.size() );
-        }
-
-        // Skip blank lines if we're short on space.
-        if( !compact ) {
-            line_number++;
-        }
-        if( mode == TARGET_MODE_FIRE || mode == TARGET_MODE_TURRET_MANUAL ) {
-            auto m = relevant->gun_current_mode();
-            std::string str = "";
-            nc_color col = c_light_gray;
-            if( relevant != m.target ) {
-                str = string_format( _( "Firing mode: <color_cyan>%s %s (%d)</color>" ),
-                                     m->tname(), m.tname(), m.qty );
-
-                print_colored_text( w_target, line_number++, 1, col, col, str );
             } else {
-                str = string_format( _( "Firing mode: <color_cyan> %s (%d)</color>" ),
-                                     m.tname(), m.qty );
-                print_colored_text( w_target, line_number++, 1, col, col, str );
+                mvwprintw( w_target, line_number++, 1, _( "Range: %d Elevation: %d Targets: %d" ), range,
+                           relative_elevation, t.size() );
             }
-
-            const itype *cur = ammo ? ammo : m->ammo_data();
-            if( cur ) {
-                auto str = string_format( m->ammo_remaining() ?
-                                          _( "Ammo: <color_%s>%s</color> (%d/%d)" ) :
-                                          _( "Ammo: <color_%s>%s</color>" ),
-                                          get_all_colors().get_name( cur->color ),
-                                          cur->nname( std::max( m->ammo_remaining(), 1L ) ),
-                                          m->ammo_remaining(), m->ammo_capacity() );
-
-                print_colored_text( w_target, line_number++, 1, col, col, str );
-            }
-
-            print_colored_text( w_target, line_number++, 1, col, col, string_format( _( "%s" ),
-                                print_recoil( g->u ) ) );
 
             // Skip blank lines if we're short on space.
             if( !compact ) {
                 line_number++;
             }
-        }
+            if( mode == TARGET_MODE_FIRE || mode == TARGET_MODE_TURRET_MANUAL ) {
+                auto m = relevant->gun_current_mode();
+                std::string str = "";
+                nc_color col = c_light_gray;
+                if( relevant != m.target ) {
+                    str = string_format( _( "Firing mode: <color_cyan>%s %s (%d)</color>" ),
+                                         m->tname(), m.tname(), m.qty );
 
-        if( critter && critter != &pc && pc.sees( *critter ) ) {
-            // The 12 is 2 for the border and 10 for aim bars.
-            // Just print the monster name if we're short on space.
-            int available_lines = compact ? 1 : ( height - num_instruction_lines - line_number - 12 );
-            line_number = critter->print_info( w_target, line_number, available_lines, 1 );
-        } else {
-            mvwputch( g->w_terrain, POSY + dst.y - center.y, POSX + dst.x - center.x,
-                      c_red, '*' );
-        }
+                    print_colored_text( w_target, line_number++, 1, col, col, str );
+                } else {
+                    str = string_format( _( "Firing mode: <color_cyan> %s (%d)</color>" ),
+                                         m.tname(), m.qty );
+                    print_colored_text( w_target, line_number++, 1, col, col, str );
+                }
 
-        if( mode == TARGET_MODE_FIRE ) {
-            double predicted_recoil = pc.recoil;
-            int predicted_delay = 0;
-            if( aim_mode->has_threshold && aim_mode->threshold < pc.recoil ) {
-                do {
-                    const double aim_amount = pc.aim_per_move( *relevant, predicted_recoil );
-                    if( aim_amount > 0 ) {
-                        predicted_delay++;
-                        predicted_recoil = std::max( predicted_recoil - aim_amount, 0.0 );
-                    }
-                } while( predicted_recoil > aim_mode->threshold &&
-                         predicted_recoil - sight_dispersion > 0 );
+                const itype *cur = ammo ? ammo : m->ammo_data();
+                if( cur ) {
+                    auto str = string_format( m->ammo_remaining() ?
+                                              _( "Ammo: <color_%s>%s</color> (%d/%d)" ) :
+                                              _( "Ammo: <color_%s>%s</color>" ),
+                                              get_all_colors().get_name( cur->color ),
+                                              cur->nname( std::max( m->ammo_remaining(), 1L ) ),
+                                              m->ammo_remaining(), m->ammo_capacity() );
+
+                    print_colored_text( w_target, line_number++, 1, col, col, str );
+                }
+
+                print_colored_text( w_target, line_number++, 1, col, col, string_format( _( "%s" ),
+                                    print_recoil( g->u ) ) );
+
+                // Skip blank lines if we're short on space.
+                if( !compact ) {
+                    line_number++;
+                }
+            }
+
+            if( critter && critter != &pc && pc.sees( *critter ) ) {
+                // The 12 is 2 for the border and 10 for aim bars.
+                // Just print the monster name if we're short on space.
+                int available_lines = compact ? 1 : ( height - num_instruction_lines - line_number - 12 );
+                line_number = critter->print_info( w_target, line_number, available_lines, 1 );
             } else {
-                predicted_recoil = pc.recoil;
+                mvwputch( g->w_terrain, POSY + dst.y - center.y, POSX + dst.x - center.x,
+                          c_red, '*' );
             }
 
-            const double target_size = critter != nullptr ? critter->ranged_target_size() :
-                                       occupied_tile_fraction( MS_MEDIUM );
+            if( mode == TARGET_MODE_FIRE ) {
+                double predicted_recoil = pc.recoil;
+                int predicted_delay = 0;
+                if( aim_mode->has_threshold && aim_mode->threshold < pc.recoil ) {
+                    do {
+                        const double aim_amount = pc.aim_per_move( *relevant, predicted_recoil );
+                        if( aim_amount > 0 ) {
+                            predicted_delay++;
+                            predicted_recoil = std::max( predicted_recoil - aim_amount, 0.0 );
+                        }
+                    } while( predicted_recoil > aim_mode->threshold &&
+                             predicted_recoil - sight_dispersion > 0 );
+                } else {
+                    predicted_recoil = pc.recoil;
+                }
 
-            line_number = print_aim( pc, w_target, line_number, ctxt, &*relevant->gun_current_mode(),
-                                     target_size, dst, predicted_recoil );
+                const double target_size = critter != nullptr ? critter->ranged_target_size() :
+                                           occupied_tile_fraction( MS_MEDIUM );
 
-            if( aim_mode->has_threshold ) {
-                mvwprintw( w_target, line_number++, 1, _( "%s Delay: %i" ), aim_mode->name, predicted_delay );
+                line_number = print_aim( pc, w_target, line_number, ctxt, &*relevant->gun_current_mode(),
+                                         target_size, dst, predicted_recoil );
+
+                if( aim_mode->has_threshold ) {
+                    mvwprintw( w_target, line_number++, 1, _( "%s Delay: %i" ), aim_mode->name, predicted_delay );
+                }
+            } else if( mode == TARGET_MODE_TURRET ) {
+                line_number = draw_turret_aim( pc, w_target, line_number, dst );
+            } else if( mode == TARGET_MODE_THROW ) {
+                line_number = draw_throw_aim( pc, w_target, line_number, ctxt, relevant, dst, false );
+            } else if( mode == TARGET_MODE_THROW_BLIND ) {
+                line_number = draw_throw_aim( pc, w_target, line_number, ctxt, relevant, dst, true );
             }
-        } else if( mode == TARGET_MODE_TURRET ) {
-            line_number = draw_turret_aim( pc, w_target, line_number, dst );
-        } else if( mode == TARGET_MODE_THROW ) {
-            line_number = draw_throw_aim( pc, w_target, line_number, ctxt, relevant, dst, false );
-        } else if( mode == TARGET_MODE_THROW_BLIND ) {
-            line_number = draw_throw_aim( pc, w_target, line_number, ctxt, relevant, dst, true );
+
+            wrefresh( g->w_terrain );
+            g->draw_panels();
+            draw_targeting_window( w_target, relevant->tname(),
+                                   mode, ctxt, aim_types, tiny );
+            wrefresh( w_target );
+
+            catacurses::refresh();
         }
-
-        wrefresh( g->w_terrain );
-        g->draw_panels();
-        draw_targeting_window( w_target, relevant->tname(),
-                               mode, ctxt, aim_types, tiny );
-        wrefresh( w_target );
-
-        catacurses::refresh();
-
+        redraw = true;
         std::string action;
         if( pc.activity.id() == activity_id( "ACT_AIM" ) && pc.activity.str_values[0] != "AIM" ) {
             // If we're in 'aim and shoot' mode,
