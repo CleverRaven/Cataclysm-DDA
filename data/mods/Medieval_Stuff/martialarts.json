@@ -4,6 +4,7 @@
     "id": "style_swordsmanship",
     "name": "Medieval Swordsmanship",
     "description": "The art of the longsword and other weapons, preceding the later development of fencing.  Designed for combat both unarmored and in armor, it includes grappling as well as defensive and offensive sword techniques, plus familiarity with other weapons like polearms.",
+    "initiate": ["You adopt the stance of a medieval swordsman.", "%s adopts the stance of a medieval swordsman."],
     "arm_block": 99,
     "leg_block": 99,
     "onattack_buffs": [
@@ -63,6 +64,7 @@
     "id": "style_pankration",
     "name": "Pankration",
     "description": "An ancient Greek martial art, combining boxing and wrestling techniques to create a brutal sport, though modern revival of the art is less of no-holds-barred in nature.",
+    "initiate": ["You adopt the stance of a Greek wrestler.", "%s adopts the stance of a Greek wrestler."],
     "arm_block": 2,
     "leg_block": 4,
     "ondodge_buffs": [
