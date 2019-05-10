@@ -3527,9 +3527,9 @@ std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
     const double cur_weapon_value = p.weapon_value( p.weapon, our_ammo );
     if( allow_use ) {
         add_msg( m_debug, "NPC evaluates own %s (%d ammo): %0.1f",
-                 p.weapon.tname(), our_ammo, cur_weapon_value );
+                 p.weapon.type->get_id(), our_ammo, cur_weapon_value );
         add_msg( m_debug, "NPC evaluates your %s (%d ammo): %0.1f",
-                 given.tname(), new_ammo, new_weapon_value );
+                 given.type->get_id(), new_ammo, new_weapon_value );
         if( new_weapon_value > cur_weapon_value ) {
             p.wield( given );
             taken = true;

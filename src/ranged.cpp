@@ -1284,12 +1284,12 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             nc_color col = c_light_gray;
             if( relevant != m.target ) {
                 str = string_format( _( "Firing mode: <color_cyan>%s %s (%d)</color>" ),
-                                     m->tname(), m.name(), m.qty );
+                                     m->tname(), m.tname(), m.qty );
 
                 print_colored_text( w_target, line_number++, 1, col, col, str );
             } else {
                 str = string_format( _( "Firing mode: <color_cyan> %s (%d)</color>" ),
-                                     m.name(), m.qty );
+                                     m.tname(), m.qty );
                 print_colored_text( w_target, line_number++, 1, col, col, str );
             }
 
@@ -1975,7 +1975,7 @@ double player::gun_value( const item &weap, long ammo ) const
     double gun_value = damage_and_accuracy * capacity_factor;
 
     add_msg( m_debug, "%s as gun: %.1f total, %.1f dispersion, %.1f damage, %.1f capacity",
-             weap.tname(), gun_value, dispersion_factor, damage_factor,
+             weap.type->get_id(), gun_value, dispersion_factor, damage_factor,
              capacity_factor );
     return std::max( 0.0, gun_value );
 }
