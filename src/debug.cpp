@@ -846,7 +846,7 @@ std::string game_info::mods_loaded()
         return "No active world";
     }
 
-    std::vector<mod_id> mod_ids = world_generator->active_world->active_mod_order;
+    const std::vector<mod_id> &mod_ids = world_generator->active_world->active_mod_order;
     if( mod_ids.empty() ) {
         return "No loaded mods";
     }
@@ -859,8 +859,7 @@ std::string game_info::mods_loaded()
         return string_format( "%s [%s]", mod->name(), mod->ident.str() );
     } );
 
-    auto result = join( mod_names, ",\n    " );
-    return result;
+    return join( mod_names, ",\n    " ); // note: 4 spaces for a slight offset.
 }
 
 std::string game_info::game_report()
