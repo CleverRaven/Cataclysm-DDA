@@ -16,27 +16,23 @@
 #include "item_group.h"
 #include "string_id.h"
 #include "mtype.h"
+#include "type_id.h"
+#include "game_constants.h"
+#include "omdata.h"
+#include "optional.h"
 
 class player;
 class mission;
 class Creature;
-class npc_class;
 class JsonObject;
 class JsonArray;
 class JsonIn;
 class JsonOut;
-struct mission_type;
 class overmapbuffer;
-struct oter_type_t;
-struct species_type;
 class item;
+class npc;
 
 enum npc_mission : int;
-
-using npc_class_id = string_id<npc_class>;
-using mission_type_id = string_id<mission_type>;
-using species_id = string_id<species_type>;
-using mtype_id = string_id<mtype>;
 
 namespace debug_menu
 {

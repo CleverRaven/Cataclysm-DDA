@@ -21,12 +21,12 @@
 #include "enums.h"
 #include "inventory.h"
 #include "item.h"
-#include "npc_class.h"
 #include "pimpl.h"
 #include "string_id.h"
 #include "npctalk.h"
 #include "mapdata.h"
-#include "mtype.h"
+#include "material.h"
+#include "type_id.h"
 
 const efftype_id effect_gave_quest_item( "gave_quest_item" );
 const efftype_id effect_currently_busy( "currently_busy" );
@@ -82,6 +82,7 @@ void change_om_type( const std::string &new_type )
 TEST_CASE( "npc_talk_test" )
 {
     clear_player();
+    CHECK( !g->u.in_vehicle );
     const tripoint test_origin( 15, 15, 0 );
     g->u.setpos( test_origin );
 

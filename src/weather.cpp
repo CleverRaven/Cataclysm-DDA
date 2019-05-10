@@ -29,14 +29,12 @@
 #include "bodypart.h"
 #include "enums.h"
 #include "item.h"
-#include "itype.h"
 #include "mapdata.h"
 #include "math_defines.h"
-#include "pldata.h"
 #include "rng.h"
 #include "string_id.h"
 #include "units.h"
-#include "mtype.h"
+#include "int_id.h"
 
 const efftype_id effect_glare( "glare" );
 const efftype_id effect_snow_glare( "snow_glare" );
@@ -103,6 +101,35 @@ void weather_effect::glare( bool snowglare )
     }
 }
 
+////// food vs weather
+
+time_duration get_rot_since( const time_point &start, const time_point &end,
+                             const tripoint &pos )
+{
+    time_duration ret = 0_turns;
+    const auto &wgen = g->get_cur_weather_gen();
+    /* Hoisting loop invariants */
+    const auto location_temp = g->get_temperature( pos );
+    const auto local = g->m.getlocal( pos );
+    const auto local_mod = g->new_game ? 0 : g->m.get_temperature( local );
+    const auto seed = g->get_seed();
+
+    const auto temp_modify = ( !g->new_game ) && ( g->m.ter( local ) == t_rootcellar );
+
+    for( time_point i = start; i < end; i += 1_hours ) {
+        w_point w = wgen.get_weather( pos, i, seed );
+
+        //Use weather if above ground, use map temp if below
+        double temperature = ( pos.z >= 0 ? w.temperature : location_temp ) + local_mod;
+        // If in a root celler: use AVERAGE_ANNUAL_TEMPERATURE
+        // If not: use calculated temperature
+        temperature = ( temp_modify * AVERAGE_ANNUAL_TEMPERATURE ) + ( !temp_modify * temperature );
+
+        ret += std::min( 1_hours, end - i ) / 1_hours * get_hourly_rotpoints_at_temp(
+                   temperature ) * 1_turns;
+    }
+    return ret;
+}
 
 inline void proc_weather_sum( const weather_type wtype, weather_sum &data,
                               const time_point &t, const time_duration &tick_size )
@@ -899,32 +926,33 @@ bool is_wind_blocker( const tripoint &location )
     return g->m.has_flag( "BLOCK_WIND", location );
 }
 
+//Description of Wind Speed - https://en.wikipedia.org/wiki/Beaufort_scale
 std::string get_wind_desc( double windpower )
 {
     std::string winddesc;
     if( windpower < 1 ) {
         winddesc = "Calm";
-    } else if( windpower < 3 ) {
+    } else if( windpower <= 3 ) {
         winddesc = "Light Air";
-    } else if( windpower < 7 ) {
+    } else if( windpower <= 7 ) {
         winddesc = "Light Breeze";
-    } else if( windpower < 12 ) {
+    } else if( windpower <= 12 ) {
         winddesc = "Gentle Breeze";
-    } else if( windpower < 18 ) {
+    } else if( windpower <= 18 ) {
         winddesc = "Moderate Breeze";
-    } else if( windpower < 24 ) {
+    } else if( windpower <= 24 ) {
         winddesc = "Fresh Breeze";
-    } else if( windpower < 31 ) {
+    } else if( windpower <= 31 ) {
         winddesc = "Strong Breeze";
-    } else if( windpower < 38 ) {
+    } else if( windpower <= 38 ) {
         winddesc = "Moderate Gale";
-    } else if( windpower < 46 ) {
+    } else if( windpower <= 46 ) {
         winddesc = "Gale";
-    } else if( windpower < 54 ) {
+    } else if( windpower <= 54 ) {
         winddesc = "Strong Gale";
-    } else if( windpower < 63 ) {
+    } else if( windpower <= 63 ) {
         winddesc = "Whole Gale";
-    } else if( windpower < 72 ) {
+    } else if( windpower <= 72 ) {
         winddesc = "Violent Storm";
     } else if( windpower > 72 ) {
         winddesc =

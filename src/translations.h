@@ -48,8 +48,7 @@ inline const char *_( const char *msg )
 {
     return ( msg[0] == '\0' ) ? msg : gettext( msg );
 }
-const char *_( const std::string &msg );
-inline const char *_( const std::string &msg )
+inline std::string _( const std::string &msg )
 {
     return _( msg.c_str() );
 }

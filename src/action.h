@@ -14,6 +14,7 @@ template<typename T>
 class optional;
 } // namespace cata
 struct tripoint;
+struct point;
 
 /**
  * Enumerates all discrete actions that can be performed by player
@@ -102,8 +103,10 @@ enum action_id : int {
     ACTION_SMASH,
     /** Examine or pick up items from adjacent square */
     ACTION_EXAMINE,
-    /** Pick up items from current square */
+    /** Pick up items from current/adjacent squares */
     ACTION_PICKUP,
+    /** Pick up items from current square. Auto pickup if only one item */
+    ACTION_PICKUP_FEET,
     /** Grab or let go of an object */
     ACTION_GRAB,
     /** Haul pile of items, or let go of them */
@@ -142,8 +145,10 @@ enum action_id : int {
     ACTION_WEAR,
     /** Open the take-off clothing selection menu */
     ACTION_TAKE_OFF,
-    /** Open the consume item menu */
+    /** Open the default consume item menu */
     ACTION_EAT,
+    /** Open the custom consume item menu */
+    ACTION_OPEN_CONSUME,
     /** Open the read menu */
     ACTION_READ,
     /** Open the wield menu */
@@ -198,6 +203,8 @@ enum action_id : int {
     ACTION_SLEEP,
     /** Open vehicle control menu */
     ACTION_CONTROL_VEHICLE,
+    /** Turn auto travel mode on/off */
+    ACTION_TOGGLE_AUTO_TRAVEL_MODE,
     /** Turn safemode on/off, while leaving autosafemode intact */
     ACTION_TOGGLE_SAFEMODE,
     /** Turn automatic triggering of safemode on/off */
@@ -490,7 +497,7 @@ std::string press_x( action_id act, const std::string &key_bound_pre,
 // ('Z'ing|zing) (X( or Y)))
 std::string press_x( action_id act, const std::string &act_desc );
 
-// Helper function to convert co-ordinate delta to a movement direction
+// Helper function to convert coordinate delta to a movement direction
 /**
  * Translate coordinate delta into movement direction
  *
@@ -512,6 +519,9 @@ std::string press_x( action_id act, const std::string &act_desc );
  * @returns ID of corresponding move action (usually... see note above)
  */
 action_id get_movement_direction_from_delta( const int dx, const int dy, const int dz = 0 );
+
+// Helper function to convert movement direction to coordinate delta point
+point get_delta_from_movement_direction( action_id act );
 
 /**
  * Show the action menu

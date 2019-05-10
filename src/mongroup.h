@@ -12,19 +12,13 @@
 #include "io_tags.h"
 #include "monster.h"
 #include "string_id.h"
+#include "type_id.h"
 
 // from overmap.h
 class overmap;
 class JsonObject;
 class JsonIn;
 class JsonOut;
-struct MonsterGroup;
-
-using mongroup_id = string_id<MonsterGroup>;
-
-struct mtype;
-
-using mtype_id = string_id<mtype>;
 
 struct MonsterGroupEntry;
 

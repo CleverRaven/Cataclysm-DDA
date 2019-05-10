@@ -90,7 +90,7 @@
     "color": "light_gray",
     "ammo": "battery",
     "flags": [ "RECHARGE" ],
-    "magazines": [ [ "battery", [ "heavy_plus_battery_cell", "heavy_battery_cell" ] ] ]
+    "magazines": [ [ "battery", [ "heavy_plus_battery_cell", "heavy_battery_cell", "heavy_atomic_battery_cell" ] ] ]
   },
   {
     "id": "acidbomb",
@@ -143,7 +143,18 @@
     "charges_per_use": 1,
     "turns_per_charge": 1,
     "use_action": "ECIG",
-    "magazines": [ [ "battery", [ "light_battery_cell", "light_plus_battery_cell", "light_minus_battery_cell" ] ] ]
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell"
+        ]
+      ]
+    ]
   },
   {
     "id": "airhorn",
@@ -1347,7 +1358,7 @@
     "color": "dark_gray",
     "ammo": "battery",
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "magazines": [ [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell" ] ] ]
+    "magazines": [ [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell" ] ] ]
   },
   {
     "id": "broadfire_off",
@@ -1551,7 +1562,18 @@
     "revert_to": "camera_pro",
     "use_action": "CAMERA",
     "flags": [ "CAMERA_PRO", "ALWAYS_TWOHAND" ],
-    "magazines": [ [ "battery", [ "light_plus_battery_cell", "light_minus_battery_cell", "light_battery_cell" ] ] ]
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell"
+        ]
+      ]
+    ]
   },
   {
     "id": "can_sealer",
@@ -1664,7 +1686,18 @@
     "ammo": "battery",
     "use_action": "CARVER_OFF",
     "flags": [ "SHEATH_SWORD", "NONCONDUCTIVE" ],
-    "magazines": [ [ "battery", [ "light_plus_battery_cell", "light_minus_battery_cell", "light_battery_cell" ] ] ]
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell"
+        ]
+      ]
+    ]
   },
   {
     "id": "carver_on",
@@ -1686,7 +1719,7 @@
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 25 ] ],
     "use_action": "CARVER_ON",
     "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ],
-    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ]
+    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell" ] ] ]
   },
   {
     "id": "catfood",
@@ -1747,7 +1780,18 @@
       "type": "transform"
     },
     "flags": [ "WATCH", "ALARMCLOCK" ],
-    "magazines": [ [ "battery", [ "light_plus_battery_cell", "light_minus_battery_cell", "light_battery_cell" ] ] ]
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell"
+        ]
+      ]
+    ]
   },
   {
     "id": "cell_phone_flashlight",
@@ -1992,7 +2036,7 @@
     "charges_per_use": 5,
     "use_action": { "target": "circsaw_on", "msg": "You turn on the circular saw.", "active": true, "type": "transform" },
     "flags": [ "NONCONDUCTIVE" ],
-    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ]
+    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell" ] ] ]
   },
   {
     "id": "circsaw_on",
@@ -2113,7 +2157,7 @@
     "charges_per_use": 10,
     "qualities": [ [ "BOIL", 1 ] ],
     "use_action": "HOTPLATE",
-    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ]
+    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell" ] ] ]
   },
   {
     "id": "combatsaw_off",
@@ -2178,7 +2222,7 @@
     "ammo": "battery",
     "use_action": "E_COMBATSAW_OFF",
     "techniques": [ "WBLOCK_1", "SWEEP" ],
-    "magazines": [ [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell" ] ] ]
+    "magazines": [ [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell" ] ] ]
   },
   {
     "id": "e_combatsaw_on",
@@ -2221,7 +2265,7 @@
     "charges_per_use": 20,
     "qualities": [ [ "CONTAIN", 1 ] ],
     "use_action": "HOTPLATE",
-    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ]
+    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell" ] ] ]
   },
   {
     "id": "control_laptop",
@@ -2238,7 +2282,7 @@
     "charges_per_use": 2,
     "use_action": "ROBOTCONTROL",
     "flags": [ "RECHARGE" ],
-    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ]
+    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell" ] ] ]
   },
   {
     "id": "copper_ax",
@@ -2290,7 +2334,7 @@
     "color": "yellow",
     "ammo": "battery",
     "qualities": [ [ "DRILL", 3 ], [ "SCREW", 1 ] ],
-    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ]
+    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell" ] ] ]
   },
   {
     "id": "cot",
@@ -2360,7 +2404,18 @@
     "charges_per_use": 1,
     "turns_per_charge": 20,
     "use_action": "DOLLCHAT",
-    "magazines": [ [ "battery", [ "light_minus_battery_cell", "light_battery_cell", "light_plus_battery_cell" ] ] ]
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_minus_battery_cell",
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell"
+        ]
+      ]
+    ]
   },
   {
     "id": "crossbow_trap",
@@ -2530,7 +2585,7 @@
     "techniques": [ "WBLOCK_1", "SPIN", "SWEEP" ],
     "use_action": "ECS_LAJATANG_OFF",
     "flags": [ "NONCONDUCTIVE" ],
-    "magazines": [ [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell" ] ] ]
+    "magazines": [ [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell" ] ] ]
   },
   {
     "id": "ecs_lajatang_on",
@@ -2603,7 +2658,7 @@
     "color": "blue",
     "ammo": "battery",
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ]
+    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell" ] ] ]
   },
   {
     "id": "digging_stick",
@@ -2829,7 +2884,18 @@
     "revert_to": "eink_tablet_pc",
     "use_action": "EINKTABLETPC",
     "flags": [ "WATCH" ],
-    "magazines": [ [ "battery", [ "light_plus_battery_cell", "light_battery_cell", "light_minus_battery_cell" ] ] ]
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_plus_battery_cell",
+          "light_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell"
+        ]
+      ]
+    ]
   },
   {
     "id": "elec_chainsaw_off",
@@ -2849,7 +2915,7 @@
     "techniques": "SWEEP",
     "use_action": "ELEC_CHAINSAW_OFF",
     "flags": [ "NONCONDUCTIVE" ],
-    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ]
+    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell" ] ] ]
   },
   {
     "id": "elec_chainsaw_on",
@@ -2890,7 +2956,7 @@
     "ammo": "battery",
     "charges_per_use": 10,
     "use_action": "HAIRKIT",
-    "magazines": [ [ "battery", [ "light_minus_battery_cell" ] ] ]
+    "magazines": [ [ "battery", [ "light_minus_battery_cell", "light_minus_atomic_battery_cell" ] ] ]
   },
   {
     "id": "elec_jackhammer",
@@ -2910,7 +2976,7 @@
     "charges_per_use": 25,
     "use_action": "JACKHAMMER",
     "flags": [ "STAB", "DIG_TOOL", "POWERED" ],
-    "magazines": [ [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell" ] ] ]
+    "magazines": [ [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell" ] ] ]
   },
   {
     "id": "electrohack",
@@ -2927,7 +2993,18 @@
     "symbol": ",",
     "color": "green",
     "ammo": "battery",
-    "magazines": [ [ "battery", [ "light_battery_cell", "light_plus_battery_cell", "light_minus_battery_cell" ] ] ]
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell"
+        ]
+      ]
+    ]
   },
   {
     "id": "etched_skull",
@@ -3544,7 +3621,7 @@
     "color": "light_gray",
     "ammo": "battery",
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "magazines": [ [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell" ] ] ]
+    "magazines": [ [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell" ] ] ]
   },
   {
     "id": "funnel",
@@ -3746,7 +3823,18 @@
     "ammo": "battery",
     "charges_per_use": 1,
     "use_action": "GEIGER",
-    "magazines": [ [ "battery", [ "light_battery_cell", "light_plus_battery_cell", "light_minus_battery_cell" ] ] ]
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell"
+        ]
+      ]
+    ]
   },
   {
     "id": "geiger_on",
@@ -4073,7 +4161,7 @@
     "ammo": "battery",
     "charges_per_use": 5,
     "use_action": "HOTPLATE",
-    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ]
+    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell" ] ] ]
   },
   {
     "id": "hygrometer",
@@ -4294,25 +4382,6 @@
     "flags": [ "LIGHT_8", "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
   },
   {
-    "id": "knife_butcher",
-    "type": "TOOL",
-    "category": "weapons",
-    "name": "butcher knife",
-    "name_plural": "butcher knives",
-    "description": "This is a sharp, heavy knife.  It makes a good melee weapon, and is an ideal item for butchering corpses.",
-    "weight": 680,
-    "volume": 2,
-    "price": 3000,
-    "to_hit": -1,
-    "bashing": 2,
-    "cutting": 10,
-    "material": "steel",
-    "symbol": ";",
-    "color": "light_gray",
-    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 25 ] ],
-    "flags": [ "SHEATH_KNIFE" ]
-  },
-  {
     "id": "knife_combat",
     "type": "TOOL",
     "category": "weapons",
@@ -4403,24 +4472,6 @@
     "techniques": [ "RAPID", "WBLOCK_1" ],
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],
     "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE", "NO_CVD" ]
-  },
-  {
-    "id": "knife_steak",
-    "type": "TOOL",
-    "name": "steak knife",
-    "name_plural": "steak knives",
-    "description": "This is a sharp knife, designed for cutting meat.  It makes a poor melee weapon, but is decent at butchering corpses.",
-    "weight": 453,
-    "volume": 1,
-    "price": 250,
-    "to_hit": -1,
-    "bashing": 2,
-    "cutting": 7,
-    "material": "steel",
-    "symbol": ";",
-    "color": "light_gray",
-    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 20 ] ],
-    "flags": [ "STAB", "SHEATH_KNIFE" ]
   },
   {
     "id": "knife_swissarmy",
@@ -4543,7 +4594,7 @@
       "type": "transform"
     },
     "flags": [ "DURABLE_MELEE", "SHEATH_SPEAR" ],
-    "magazines": [ [ "battery", [ "medium_plus_battery_cell", "medium_battery_cell" ] ] ]
+    "magazines": [ [ "battery", [ "medium_plus_battery_cell", "medium_battery_cell", "medium_atomic_battery_cell" ] ] ]
   },
   {
     "id": "l-stick_on",
@@ -4618,7 +4669,7 @@
       [ "CHISEL", 3 ]
     ],
     "use_action": "GUN_REPAIR",
-    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ],
+    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell" ] ] ],
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
@@ -4714,7 +4765,18 @@
     "color": "white",
     "ammo": "battery",
     "use_action": { "target": "lightstrip", "msg": "You irreversibly activate the lightstrip.", "active": true, "type": "transform" },
-    "magazines": [ [ "battery", [ "light_battery_cell", "light_plus_battery_cell", "light_minus_battery_cell" ] ] ],
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell"
+        ]
+      ]
+    ],
     "magazine_well": 0
   },
   {
@@ -4897,7 +4959,7 @@
     "color": "white",
     "ammo": "battery",
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ]
+    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell" ] ] ]
   },
   {
     "id": "matchbomb",
@@ -4989,7 +5051,7 @@
     "charges_per_use": 5,
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "use_action": [ "HOTPLATE", "HEAT_FOOD" ],
-    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ]
+    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell" ] ] ]
   },
   {
     "id": "metal_funnel",
@@ -5045,7 +5107,7 @@
     "charges_per_use": 5,
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "use_action": [ "HOTPLATE", "HEAT_FOOD" ],
-    "magazines": [ [ "battery", [ "medium_plus_battery_cell", "medium_battery_cell" ] ] ]
+    "magazines": [ [ "battery", [ "medium_plus_battery_cell", "medium_battery_cell", "medium_atomic_battery_cell" ] ] ]
   },
   {
     "id": "mininuke",
@@ -5196,6 +5258,20 @@
     "use_action": "MOP"
   },
   {
+    "id": "brush",
+    "type": "TOOL",
+    "name": "scrub brush",
+    "description": "This is a simple scrub brush.",
+    "weight": 70,
+    "volume": 1,
+    "price": 200,
+    "to_hit": -1,
+    "bashing": 1,
+    "material": "plastic",
+    "symbol": "/",
+    "color": "light_gray"
+  },
+  {
     "id": "mortar_pestle",
     "type": "TOOL",
     "name": "mortar and pestle",
@@ -5225,7 +5301,18 @@
     "color": "dark_gray",
     "ammo": "battery",
     "use_action": "MP3",
-    "magazines": [ [ "battery", [ "light_battery_cell", "light_plus_battery_cell", "light_minus_battery_cell" ] ] ]
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell"
+        ]
+      ]
+    ]
   },
   {
     "id": "mp3_on",
@@ -5262,7 +5349,7 @@
     "revert_to": "multi_cooker",
     "qualities": [ [ "CONTAIN", 1 ] ],
     "use_action": "MULTICOOKER",
-    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ]
+    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell" ] ] ]
   },
   {
     "id": "multitool",
@@ -5400,7 +5487,18 @@
     "ammo": "battery",
     "use_action": "NOISE_EMITTER_OFF",
     "flags": [ "RADIO_MODABLE" ],
-    "magazines": [ [ "battery", [ "light_battery_cell", "light_plus_battery_cell", "light_minus_battery_cell" ] ] ]
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell"
+        ]
+      ]
+    ]
   },
   {
     "id": "noise_emitter_on",
@@ -5561,25 +5659,6 @@
     "symbol": ";",
     "color": "brown",
     "flags": [ "BELT_CLIP" ]
-  },
-  {
-    "id": "pan",
-    "type": "GENERIC",
-    "category": "tools",
-    "name": "frying pan",
-    "description": "A cast-iron pan.  Makes a decent melee weapon, and is used for cooking.",
-    "weight": 2628,
-    "volume": 4,
-    "price": 3000,
-    "to_hit": 2,
-    "bashing": 10,
-    "material": "iron",
-    "symbol": ")",
-    "color": "dark_gray",
-    "container_data": { "contains": 4, "watertight": true },
-    "qualities": [ [ "HAMMER", 1 ], [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "use_action": "HEAT_FOOD",
-    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "pastaextruder",
@@ -5897,7 +5976,18 @@
     "color": "light_gray",
     "ammo": "battery",
     "flags": [ "TRADER_AVOID" ],
-    "magazines": [ [ "battery", [ "light_battery_cell", "light_plus_battery_cell", "light_minus_battery_cell" ] ] ]
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell"
+        ]
+      ]
+    ]
   },
   {
     "id": "popcan_stove",
@@ -5932,7 +6022,18 @@
     "color": "light_gray",
     "ammo": "battery",
     "use_action": "PORTABLE_GAME",
-    "magazines": [ [ "battery", [ "light_battery_cell", "light_plus_battery_cell", "light_minus_battery_cell" ] ] ]
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell"
+        ]
+      ]
+    ]
   },
   {
     "id": "portal",
@@ -5951,62 +6052,6 @@
     "max_charges": 10,
     "charges_per_use": 5,
     "use_action": "PORTAL"
-  },
-  {
-    "id": "pot",
-    "type": "GENERIC",
-    "category": "tools",
-    "name": "pot",
-    "description": "Useful for boiling water when cooking spaghetti and more.",
-    "weight": 550,
-    "volume": 8,
-    "price": 4500,
-    "to_hit": 1,
-    "bashing": 6,
-    "material": "steel",
-    "symbol": ")",
-    "color": "light_gray",
-    "container_data": { "contains": 8, "watertight": true },
-    "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
-    "use_action": "HEAT_FOOD",
-    "flags": [ "ALLOWS_REMOTE_USE" ]
-  },
-  {
-    "id": "pot_copper",
-    "type": "GENERIC",
-    "category": "tools",
-    "name": "copper pot",
-    "description": "Useful for boiling water when cooking spaghetti and more.  Made from copper, with a lining of tin to prevent metal from leaching into acidic foods.",
-    "weight": 1090,
-    "volume": 8,
-    "price": 4500,
-    "to_hit": 1,
-    "bashing": 6,
-    "material": "copper",
-    "symbol": ")",
-    "color": "light_red",
-    "container_data": { "contains": 8, "watertight": true },
-    "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
-    "use_action": "HEAT_FOOD",
-    "flags": [ "ALLOWS_REMOTE_USE" ]
-  },
-  {
-    "id": "pot_canning",
-    "type": "GENERIC",
-    "category": "tools",
-    "name": "canning pot",
-    "description": "A very large 25 liter pot, primarily meant for canning food in glass jars via the water bath method, though it can cook normal foods just as well.  Canning foods with it will require a lot of water.  If you're only canning a couple of jars at a time, you'd fill it up with rocks or something to displace the water above the lids.",
-    "weight": 5625,
-    "volume": 100,
-    "price": 20000,
-    "to_hit": -2,
-    "bashing": 10,
-    "material": "steel",
-    "symbol": ")",
-    "color": "dark_gray",
-    "container_data": { "contains": 100, "watertight": true },
-    "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
-    "use_action": "HEAT_FOOD"
   },
   {
     "id": "press",
@@ -6187,7 +6232,18 @@
       "need_charges_msg": "The reading light winks out.",
       "type": "transform"
     },
-    "magazines": [ [ "battery", [ "light_battery_cell", "light_plus_battery_cell", "light_minus_battery_cell" ] ] ]
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell"
+        ]
+      ]
+    ]
   },
   {
     "id": "reading_light_on",
@@ -6681,7 +6737,7 @@
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
     "use_action": "TAZER",
     "flags": [ "DURABLE_MELEE", "RECHARGE", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
-    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ]
+    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell" ] ] ]
   },
   {
     "id": "shocktonfa_off",
@@ -6703,7 +6759,7 @@
     "techniques": [ "WBLOCK_2", "RAPID" ],
     "use_action": "SHOCKTONFA_OFF",
     "flags": [ "DURABLE_MELEE", "RECHARGE", "NONCONDUCTIVE" ],
-    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ]
+    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell" ] ] ]
   },
   {
     "id": "shocktonfa_on",
@@ -6832,7 +6888,7 @@
       [ "CHISEL", 3 ]
     ],
     "use_action": "GUN_REPAIR",
-    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ],
+    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell" ] ] ],
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
@@ -6860,7 +6916,18 @@
       "type": "transform"
     },
     "flags": [ "RADIO_ACTIVATION", "RADIOSIGNAL_2" ],
-    "magazines": [ [ "battery", [ "light_battery_cell", "light_plus_battery_cell", "light_minus_battery_cell" ] ] ]
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell"
+        ]
+      ]
+    ]
   },
   {
     "id": "smart_lamp_on",
@@ -6927,7 +6994,18 @@
       { "flame": false, "type": "cauterize" }
     ],
     "flags": [ "SPEAR", "BELT_CLIP", "ALLOWS_REMOTE_USE" ],
-    "magazines": [ [ "battery", [ "light_minus_battery_cell", "light_battery_cell", "light_plus_battery_cell" ] ] ]
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_minus_battery_cell",
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell"
+        ]
+      ]
+    ]
   },
   {
     "id": "spear_knife",
@@ -7238,7 +7316,18 @@
     "charges_per_use": 1,
     "turns_per_charge": 20,
     "use_action": "DOLLCHAT",
-    "magazines": [ [ "battery", [ "light_minus_battery_cell", "light_battery_cell", "light_plus_battery_cell" ] ] ]
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_minus_battery_cell",
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell"
+        ]
+      ]
+    ]
   },
   {
     "id": "tanning_hide",
@@ -7325,7 +7414,7 @@
     "charges_per_use": 100,
     "use_action": "TAZER",
     "flags": [ "RECHARGE" ],
-    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ]
+    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell" ] ] ]
   },
   {
     "id": "teapot",
@@ -7512,7 +7601,7 @@
       "menu_text": "Turn on",
       "type": "transform"
     },
-    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ]
+    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell" ] ] ]
   },
   {
     "id": "small_space_heater_on",
@@ -7559,7 +7648,7 @@
       "menu_text": "Turn on",
       "type": "transform"
     },
-    "magazines": [ [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell" ] ] ]
+    "magazines": [ [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell" ] ] ]
   },
   {
     "id": "large_space_heater_on",
@@ -8220,7 +8309,7 @@
     "color": "white",
     "ammo": "battery",
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ]
+    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell" ] ] ]
   },
   {
     "id": "vacutainer",
@@ -8256,7 +8345,18 @@
     "color": "dark_gray",
     "ammo": "battery",
     "use_action": "VIBE",
-    "magazines": [ [ "battery", [ "light_battery_cell", "light_plus_battery_cell", "light_minus_battery_cell" ] ] ]
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell"
+        ]
+      ]
+    ]
   },
   {
     "id": "violin",
@@ -8405,7 +8505,18 @@
     "charges_per_use": 1,
     "use_action": "WATER_PURIFIER",
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "magazines": [ [ "battery", [ "light_battery_cell", "light_plus_battery_cell", "light_minus_battery_cell" ] ] ]
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell"
+        ]
+      ]
+    ]
   },
   {
     "id": "weather_reader",
@@ -8425,7 +8536,18 @@
     "charges_per_use": 5,
     "use_action": "WEATHER_TOOL",
     "flags": [ "THERMOMETER", "HYGROMETER", "BAROMETER" ],
-    "magazines": [ [ "battery", [ "light_battery_cell", "light_plus_battery_cell", "light_minus_battery_cell" ] ] ]
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell"
+        ]
+      ]
+    ]
   },
   {
     "id": "welder",
@@ -8456,7 +8578,7 @@
       { "flame": false, "type": "cauterize" }
     ],
     "flags": [ "FIRESTARTER", "ALLOWS_REMOTE_USE" ],
-    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ]
+    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell" ] ] ]
   },
   {
     "id": "welder_crude",
@@ -8487,7 +8609,7 @@
       { "flame": false, "type": "cauterize" }
     ],
     "flags": [ "FIRESTARTER", "ALLOWS_REMOTE_USE" ],
-    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ]
+    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell" ] ] ]
   },
   {
     "id": "wood_smoother",
@@ -8671,7 +8793,7 @@
     "color": "white",
     "ammo": "battery",
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ]
+    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell" ] ] ]
   },
   {
     "id": "cattlefodder",
@@ -8788,5 +8910,64 @@
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
     "use_action": "HEAT_FOOD",
     "flags": [ "ALLOWS_REMOTE_USE" ]
+  },
+  {
+    "id": "hobo_stove",
+    "type": "TOOL",
+    "name": "hobo stove",
+    "description": "This is a small improvised wood stove, made from a metal can or similar container of the right size.  Useful for defrosting and reheating food, uses simple tinder.",
+    "weight": 1366,
+    "volume": 6,
+    "price": 0,
+    "to_hit": -1,
+    "bashing": 2,
+    "material": "steel",
+    "symbol": ",",
+    "color": "light_gray",
+    "ammo": "tinder",
+    "max_charges": 100,
+    "charges_per_use": 25,
+    "use_action": [
+      {
+        "target": "hobo_stove_on",
+        "msg": "The hobo stove is lit.",
+        "need_fire": 1,
+        "need_fire_msg": "You need a source of fire!",
+        "active": false,
+        "menu_text": "Light",
+        "type": "transform"
+      }
+    ]
+  },
+  {
+    "id": "hobo_stove_on",
+    "type": "TOOL",
+    "name": "hobo stove (lit)",
+    "name_plural": "hobo stoves (lit)",
+    "description": "This is a small improvised wood stove, made from a metal can or similar container of the right size.  Useful for defrosting and reheating food, uses simple tinder.",
+    "weight": 1366,
+    "volume": 6,
+    "price": 0,
+    "to_hit": -1,
+    "bashing": 2,
+    "material": "steel",
+    "symbol": ",",
+    "color": "light_gray",
+    "ammo": "tinder",
+    "max_charges": 100,
+    "charges_per_use": 25,
+    "turns_per_charge": 300,
+    "revert_to": "hobo_stove",
+    "use_action": [
+      { "type": "HOTPLATE", "moves": 60, "msg": "You heat up the food.", "menu_text": "Heat up food" },
+      {
+        "target": "hobo_stove",
+        "msg": "The ember is extinguished.",
+        "active": false,
+        "menu_text": "Extinguish",
+        "type": "transform"
+      }
+    ],
+    "flags": [ "LIGHT_3", "ALLOWS_REMOTE_USE" ]
   }
 ]

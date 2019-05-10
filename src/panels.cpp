@@ -36,17 +36,16 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "catacharset.h"
-#include "character.h"
 #include "compatibility.h"
 #include "debug.h"
 #include "enums.h"
 #include "game_constants.h"
 #include "int_id.h"
-#include "itype.h"
 #include "omdata.h"
 #include "pldata.h"
 #include "string_formatter.h"
 #include "tileray.h"
+#include "type_id.h"
 
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_THRESH_FELINE( "THRESH_FELINE" );
@@ -71,7 +70,7 @@ window_panel::window_panel( std::function<void( player &, const catacurses::wind
 // panels prettify and helper functions
 // ====================================
 
-std::string trunc_ellipse( std::string input, unsigned int trunc )
+std::string trunc_ellipse( const std::string &input, unsigned int trunc )
 {
     if( utf8_width( input ) > static_cast<int>( trunc ) ) {
         return utf8_truncate( input, trunc - 1 ) + "…";
@@ -102,7 +101,6 @@ void draw_rectangle( const catacurses::window &w, nc_color, point top_left,
 std::pair<nc_color, std::string> str_string( const player &p )
 {
     nc_color clr;
-    std::string str;
 
     if( p.get_str() == p.get_str_base() ) {
         clr = c_white;
@@ -117,7 +115,6 @@ std::pair<nc_color, std::string> str_string( const player &p )
 std::pair<nc_color, std::string> dex_string( const player &p )
 {
     nc_color clr;
-    std::string str;
 
     if( p.get_dex() == p.get_dex_base() ) {
         clr = c_white;
@@ -132,7 +129,6 @@ std::pair<nc_color, std::string> dex_string( const player &p )
 std::pair<nc_color, std::string> int_string( const player &p )
 {
     nc_color clr;
-    std::string str;
 
     if( p.get_int() == p.get_int_base() ) {
         clr = c_white;
@@ -147,7 +143,6 @@ std::pair<nc_color, std::string> int_string( const player &p )
 std::pair<nc_color, std::string> per_string( const player &p )
 {
     nc_color clr;
-    std::string str;
 
     if( p.get_per() == p.get_per_base() ) {
         clr = c_white;

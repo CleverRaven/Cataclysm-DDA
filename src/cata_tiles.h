@@ -9,7 +9,6 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
-#include <algorithm>
 #include <utility>
 
 #include "sdl_wrappers.h"

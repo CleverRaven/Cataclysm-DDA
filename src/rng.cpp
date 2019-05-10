@@ -46,7 +46,7 @@ bool one_in( int chance )
 
 bool x_in_y( double x, double y )
 {
-    return rng_float( 0, y ) <= x;
+    return rng_float( 0.0, 1.0 ) <= x / y;
 }
 
 int dice( int number, int sides )
@@ -64,8 +64,10 @@ int roll_remainder( double value )
 {
     double integ;
     double frac = modf( value, &integ );
-    if( value > integ && x_in_y( frac, 1.0 ) ) {
+    if( value > 0.0 && value > integ && x_in_y( frac, 1.0 ) ) {
         integ++;
+    } else if( value < 0.0 && value < integ && x_in_y( -frac, 1.0 ) ) {
+        integ--;
     }
 
     return integ;

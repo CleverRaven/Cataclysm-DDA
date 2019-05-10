@@ -70,6 +70,7 @@
 #include "worldfactory.h"
 #include "bodypart.h"
 #include "translations.h"
+#include "type_id.h"
 
 #if defined(TILES)
 void load_tileset();

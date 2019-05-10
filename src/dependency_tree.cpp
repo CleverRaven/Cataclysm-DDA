@@ -9,7 +9,7 @@
 
 #include "debug.h"
 #include "output.h"
-#include "game.h"
+#include "string_id.h"
 
 std::array<std::string, 3> error_keyvals = {{ "Missing Dependency(ies): ", "", "" }};
 

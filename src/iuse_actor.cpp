@@ -26,6 +26,7 @@
 #include "vpart_position.h"
 #include "effect.h"
 #include "event.h"
+#include "explosion.h"
 #include "field.h"
 #include "game.h"
 #include "game_inventory.h"
@@ -69,7 +70,6 @@
 #include "player_activity.h"
 #include "recipe.h"
 #include "rng.h"
-#include "character.h"
 
 class npc;
 
@@ -423,14 +423,14 @@ long explosion_iuse::use( player &p, item &it, bool t, const tripoint &pos ) con
     }
 
     if( explosion.power >= 0.0f ) {
-        g->explosion( pos, explosion );
+        explosion_handler::explosion( pos, explosion );
     }
 
     if( draw_explosion_radius >= 0 ) {
-        g->draw_explosion( pos, draw_explosion_radius, draw_explosion_color );
+        explosion_handler::draw_explosion( pos, draw_explosion_radius, draw_explosion_color );
     }
     if( do_flashbang ) {
-        g->flashbang( pos, flashbang_player_immune );
+        explosion_handler::flashbang( pos, flashbang_player_immune );
     }
     if( fields_radius >= 0 && fields_type != fd_null ) {
         std::vector<tripoint> gas_sources = points_for_gas_cloud( pos, fields_radius );
@@ -441,12 +441,12 @@ long explosion_iuse::use( player &p, item &it, bool t, const tripoint &pos ) con
     }
     if( scrambler_blast_radius >= 0 ) {
         for( const tripoint &dest : g->m.points_in_radius( pos, scrambler_blast_radius ) ) {
-            g->scrambler_blast( dest );
+            explosion_handler::scrambler_blast( dest );
         }
     }
     if( emp_blast_radius >= 0 ) {
         for( const tripoint &dest : g->m.points_in_radius( pos, emp_blast_radius ) ) {
-            g->emp_blast( dest );
+            explosion_handler::emp_blast( dest );
         }
     }
     return 1;
@@ -2835,8 +2835,11 @@ repair_item_actor::repair_type repair_item_actor::default_action( const item &fi
 
 bool damage_item( player &pl, item_location &fix )
 {
+    const std::string startdurability = fix->durability_indicator( true );
     const auto destroyed = fix->inc_damage();
-    pl.add_msg_if_player( m_bad, _( "You damage your %s!" ), fix->tname() );
+    const std::string resultdurability = fix->durability_indicator( true );
+    pl.add_msg_if_player( m_bad, _( "You damage your %s! ( %s-> %s)" ), fix->tname( 1, false ),
+                          startdurability, resultdurability );
     if( destroyed ) {
         pl.add_msg_if_player( m_bad, _( "You destroy it!" ) );
         if( fix.where() == item_location::type::character ) {
@@ -2902,13 +2905,17 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
 
     if( action == RT_REPAIR ) {
         if( roll == SUCCESS ) {
+            const std::string startdurability = fix->durability_indicator( true );
             const auto damage = fix->damage();
             handle_components( pl, *fix, false, false );
             fix->set_damage( std::max( damage - itype::damage_scale, 0 ) );
+            const std::string resultdurability = fix->durability_indicator( true );
             if( damage > itype::damage_scale ) {
-                pl.add_msg_if_player( m_good, _( "You repair your %s!" ), fix->tname() );
+                pl.add_msg_if_player( m_good, _( "You repair your %s! ( %s-> %s)" ), fix->tname( 1, false ),
+                                      startdurability, resultdurability );
             } else {
-                pl.add_msg_if_player( m_good, _( "You repair your %s completely!" ), fix->tname() );
+                pl.add_msg_if_player( m_good, _( "You repair your %s completely! ( %s-> %s)" ), fix->tname( 1,
+                                      false ), startdurability, resultdurability );
             }
             return AS_SUCCESS;
         }
@@ -3727,7 +3734,6 @@ long detach_gunmods_actor::use( player &p, item &it, bool, const tripoint & ) co
 
     if( prompt.ret >= 0 ) {
         item *gm = mods[ prompt.ret ];
-        const auto mod_name = gm->tname();
         p.gunmod_remove( it, *gm );
     } else {
         p.add_msg_if_player( _( "Never mind." ) );

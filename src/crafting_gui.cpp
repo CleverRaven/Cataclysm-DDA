@@ -33,6 +33,7 @@
 #include "cursesdef.h"
 #include "item.h"
 #include "recipe.h"
+#include "type_id.h"
 
 class inventory;
 class npc;

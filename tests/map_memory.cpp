@@ -35,7 +35,7 @@ TEST_CASE( "map_memory_remembers", "[map_memory]" )
 
 TEST_CASE( "map_memory_limited", "[map_memory]" )
 {
-    lru_cache<long> symbol_cache;
+    lru_cache<tripoint, long> symbol_cache;
     symbol_cache.insert( 2, p1, 1 );
     symbol_cache.insert( 2, p2, 1 );
     symbol_cache.insert( 2, p3, 1 );
@@ -54,7 +54,7 @@ TEST_CASE( "map_memory_overwrites", "[map_memory]" )
 
 TEST_CASE( "map_memory_erases_lru", "[map_memory]" )
 {
-    lru_cache<long> symbol_cache;
+    lru_cache<tripoint, long> symbol_cache;
     symbol_cache.insert( 2, p1, 1 );
     symbol_cache.insert( 2, p2, 2 );
     symbol_cache.insert( 2, p1, 1 );
@@ -93,7 +93,7 @@ TEST_CASE( "map_memory_survives_save_lod", "[map_memory]" )
 TEST_CASE( "lru_cache_perf", "[.]" )
 {
     constexpr int max_size = 1000000;
-    lru_cache<long> symbol_cache;
+    lru_cache<tripoint, long> symbol_cache;
     const auto start1 = std::chrono::high_resolution_clock::now();
     for( int i = 0; i < 1000000; ++i ) {
         for( int j = -60; j <= 60; ++j ) {

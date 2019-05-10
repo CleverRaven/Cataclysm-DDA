@@ -439,14 +439,6 @@
     "flags": [ "BIONIC_FAULTY" ]
   },
   {
-    "id": "bio_furnace",
-    "type": "bionic",
-    "name": "Internal Furnace",
-    "description": "When this bionic is active, you can burn nearly any organic material as fuel (use 'E'), recharging your power level.  Some materials will burn better than others.",
-    "occupied_bodyparts": [ [ "TORSO", 40 ] ],
-    "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED" ]
-  },
-  {
     "id": "bio_geiger",
     "type": "bionic",
     "name": "Integrated Dosimeter",

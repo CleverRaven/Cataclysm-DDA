@@ -43,6 +43,7 @@
 #include "pldata.h"
 #include "requirements.h"
 #include "rng.h"
+#include "string_id.h"
 
 static const itype_id fuel_type_none( "null" );
 static const itype_id fuel_type_battery( "battery" );

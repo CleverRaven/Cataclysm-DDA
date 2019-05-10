@@ -24,6 +24,7 @@
 #include "enums.h"
 #include "mongroup.h"
 #include "optional.h"
+#include "type_id.h"
 
 class npc;
 class overmap_connection;

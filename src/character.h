@@ -30,16 +30,13 @@
 #include "optional.h"
 #include "string_formatter.h"
 #include "string_id.h"
+#include "type_id.h"
 #include "units.h"
 
-class Skill;
 struct pathfinding_settings;
 class item_location;
-
-using skill_id = string_id<Skill>;
 class SkillLevel;
 class SkillLevelMap;
-
 enum field_id : int;
 class JsonObject;
 class JsonIn;
@@ -47,9 +44,6 @@ class JsonOut;
 class vehicle;
 struct mutation_branch;
 class bionic_collection;
-struct bionic_data;
-
-using bionic_id = string_id<bionic_data>;
 
 enum vision_modes {
     DEBUG_NIGHTVISION,

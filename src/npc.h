@@ -23,22 +23,17 @@
 #include "creature.h"
 #include "cursesdef.h"
 #include "enums.h"
-#include "int_id.h"
 #include "inventory.h"
 #include "item_location.h"
-#include "itype.h"
-#include "pldata.h"
 #include "string_formatter.h"
 #include "string_id.h"
 #include "material.h"
+#include "type_id.h"
 
 class JsonObject;
 class JsonIn;
 class JsonOut;
 class item;
-class npc_class;
-class monfaction;
-struct mission_type;
 struct overmap_location;
 class Character;
 class faction;
@@ -49,9 +44,6 @@ struct pathfinding_settings;
 enum game_message_type : int;
 class gun_mode;
 
-using npc_class_id = string_id<npc_class>;
-using mission_type_id = string_id<mission_type>;
-using mfaction_id = int_id<monfaction>;
 using overmap_location_str_id = string_id<overmap_location>;
 
 void parse_tags( std::string &phrase, const player &u, const player &me,
@@ -854,6 +846,7 @@ class npc : public player
         bool saw_player_recently() const;// Do we have an idea of where u are?
         /** Returns true if food was consumed, false otherwise. */
         bool consume_food();
+        int get_thirst() const override;
 
         // Movement on the overmap scale
         bool has_omt_destination() const; // Do we have a long-term destination?
@@ -961,8 +954,6 @@ class npc : public player
          */
         tripoint goal;
         std::vector<tripoint> omt_path;
-        tripoint wander_pos; // Not actually used (should be: wander there when you hear a sound)
-        int wander_time;
 
         /**
          * Location and index of the corpse we'd like to pulp (if any).

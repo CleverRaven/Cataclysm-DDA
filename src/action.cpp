@@ -30,7 +30,7 @@
 #include "enums.h"
 #include "item.h"
 #include "ret_val.h"
-#include "itype.h"
+#include "type_id.h"
 
 class inventory;
 
@@ -179,6 +179,8 @@ std::string action_ident( action_id act )
             return "advinv";
         case ACTION_PICKUP:
             return "pickup";
+        case ACTION_PICKUP_FEET:
+            return "pickup_feet";
         case ACTION_GRAB:
             return "grab";
         case ACTION_HAUL:
@@ -213,6 +215,8 @@ std::string action_ident( action_id act )
             return "take_off";
         case ACTION_EAT:
             return "eat";
+        case ACTION_OPEN_CONSUME:
+            return "open_consume";
         case ACTION_READ:
             return "read";
         case ACTION_WIELD:
@@ -261,6 +265,8 @@ std::string action_ident( action_id act )
             return "sleep";
         case ACTION_CONTROL_VEHICLE:
             return "control_vehicle";
+        case ACTION_TOGGLE_AUTO_TRAVEL_MODE:
+            return "auto_travel_mode";
         case ACTION_TOGGLE_SAFEMODE:
             return "safemode";
         case ACTION_TOGGLE_AUTOSAFE:
@@ -494,6 +500,30 @@ action_id get_movement_direction_from_delta( const int dx, const int dy, const i
     }
 }
 
+point get_delta_from_movement_direction( action_id act )
+{
+    switch( act ) {
+        case ACTION_MOVE_N:
+            return point_north;
+        case ACTION_MOVE_NE:
+            return point_north_east;
+        case ACTION_MOVE_E:
+            return point_east;
+        case ACTION_MOVE_SE:
+            return point_south_east;
+        case ACTION_MOVE_S:
+            return point_south;
+        case ACTION_MOVE_SW:
+            return point_south_west;
+        case ACTION_MOVE_W:
+            return point_west;
+        case ACTION_MOVE_NW:
+            return point_north_west;
+        default:
+            return point_zero;
+    }
+}
+
 // Get the key for an action, used in the action menu to give each action the
 // hotkey it is bound to.
 // We ignore bindings to '?' because that will already do something else in
@@ -604,6 +634,7 @@ bool can_interact_at( action_id action, const tripoint &p )
         case ACTION_EXAMINE:
             return can_examine_at( p );
         case ACTION_PICKUP:
+        case ACTION_PICKUP_FEET:
             return can_pickup_at( p );
         default:
             return false;
@@ -755,6 +786,7 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_WEAR );
             REGISTER_ACTION( ACTION_TAKE_OFF );
             REGISTER_ACTION( ACTION_EAT );
+            REGISTER_ACTION( ACTION_OPEN_CONSUME );
             REGISTER_ACTION( ACTION_READ );
             REGISTER_ACTION( ACTION_WIELD );
             REGISTER_ACTION( ACTION_UNLOAD );
@@ -782,6 +814,7 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_CLOSE );
             REGISTER_ACTION( ACTION_CHAT );
             REGISTER_ACTION( ACTION_PICKUP );
+            REGISTER_ACTION( ACTION_PICKUP_FEET );
             REGISTER_ACTION( ACTION_GRAB );
             REGISTER_ACTION( ACTION_HAUL );
             REGISTER_ACTION( ACTION_BUTCHER );
@@ -799,6 +832,7 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_THROW );
             REGISTER_ACTION( ACTION_FIRE_BURST );
             REGISTER_ACTION( ACTION_PICK_STYLE );
+            REGISTER_ACTION( ACTION_TOGGLE_AUTO_TRAVEL_MODE );
             REGISTER_ACTION( ACTION_TOGGLE_SAFEMODE );
             REGISTER_ACTION( ACTION_TOGGLE_AUTOSAFE );
             REGISTER_ACTION( ACTION_IGNORE_ENEMY );

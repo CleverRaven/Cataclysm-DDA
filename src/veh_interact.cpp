@@ -49,7 +49,8 @@
 #include "tileray.h"
 #include "units.h"
 #include "material.h"
-#include "pldata.h"
+#include "item.h"
+#include "string_id.h"
 
 static inline const std::string status_color( bool status )
 {

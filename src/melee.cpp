@@ -49,6 +49,7 @@
 #include "units.h"
 #include "weighted_list.h"
 #include "material.h"
+#include "type_id.h"
 
 static const bionic_id bio_cqb( "bio_cqb" );
 
@@ -1960,7 +1961,7 @@ double player::weapon_value( const item &weap, long ammo ) const
 
     // A small bonus for guns you can also use to hit stuff with (bayonets etc.)
     const double my_val = more + ( less / 2.0 );
-    add_msg( m_debug, "%s (%ld ammo) sum value: %.1f", weap.tname(), ammo, my_val );
+    add_msg( m_debug, "%s (%ld ammo) sum value: %.1f", weap.type->get_id(), ammo, my_val );
     return my_val;
 }
 
@@ -2008,7 +2009,7 @@ double player::melee_value( const item &weap ) const
         my_value *= 1.0f + 0.5f * ( sqrtf( reach ) - 1.0f );
     }
 
-    add_msg( m_debug, "%s as melee: %.1f", weap.tname(), my_value );
+    add_msg( m_debug, "%s as melee: %.1f", weap.type->get_id(), my_value );
 
     return std::max( 0.0, my_value );
 }

@@ -41,7 +41,6 @@
 #include "map.h"
 #include "monster.h"
 #include "npc.h"
-#include "npc_class.h"
 #include "optional.h"
 #include "output.h"
 #include "pimpl.h"

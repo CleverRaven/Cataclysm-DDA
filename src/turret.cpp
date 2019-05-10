@@ -21,7 +21,6 @@
 #include "creature.h"
 #include "debug.h"
 #include "optional.h"
-#include "mtype.h"
 
 static const itype_id fuel_type_battery( "battery" );
 const efftype_id effect_on_roof( "on_roof" );
@@ -354,7 +353,7 @@ void vehicle::turrets_set_mode()
 
         for( auto &p : turrets ) {
             menu.addentry( -1, true, MENU_AUTOASSIGN, "%s [%s]",
-                           p->name(), p->base.gun_current_mode().name() );
+                           p->name(), p->base.gun_current_mode().tname() );
         }
 
         menu.query();

@@ -2,15 +2,12 @@
 #ifndef VEH_UTILS_H
 #define VEH_UTILS_H
 
-#include "string_id.h"
+#include "type_id.h"
 
 class vehicle;
 class Character;
 class vpart_info;
 struct vehicle_part;
-
-class Skill;
-using skill_id = string_id<Skill>;
 
 namespace veh_utils
 {

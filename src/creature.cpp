@@ -35,8 +35,7 @@
 #include "mapdata.h"
 #include "optional.h"
 #include "player.h"
-#include "material.h"
-#include "pldata.h"
+#include "string_id.h"
 
 const efftype_id effect_blind( "blind" );
 const efftype_id effect_bounced( "bounced" );

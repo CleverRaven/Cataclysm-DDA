@@ -11,7 +11,7 @@
       { "item": "two_way_radio", "prob": 50, "damage-min": 1, "damage-max": 4 },
       { "item": "adderall", "prob": 40 },
       { "item": "id_military", "prob": 5 },
-      { "item": "cash_card", "charges-min": 0, "charges-max": 50000 },
+      { "item": "cash_card", "prob": 10, "charges-min": 0, "charges-max": 50000 },
       { "group": "mil_food", "prob": 15 },
       { "group": "misc_smoking", "prob": 30 }
     ]
