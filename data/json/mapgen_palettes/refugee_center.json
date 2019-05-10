@@ -4,6 +4,7 @@
     "id": "evac_center",
     "terrain": {
       " ": "t_floor",
+      "'": "t_thconc_floor",
       "#": "t_brick_wall",
       "%": "t_shrub",
       "+": "t_rdoor_c",
@@ -22,7 +23,6 @@
       "_": "t_pavement",
       "n": "t_sidewalk",
       "s": "t_sidewalk",
-      "t": "t_floor",
       "{": "t_dirt",
       "}": "t_sidewalk"
     },
