@@ -248,7 +248,6 @@ extern void toggle_fullscreen_window();
 extern bool save_screenshot( const std::string &file_path );
 #endif // TILES
 
-
 uistatedata uistate;
 
 bool is_valid_in_w_terrain( int x, int y )
