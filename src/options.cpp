@@ -1494,13 +1494,12 @@ void options_manager::add_options_interface()
 
     add( "EDGE_SCROLL", "interface", translate_marker( "Edge scrolling" ),
     translate_marker( "Edge scrolling with the mouse." ), {
-        { "disabled", translate_marker( "Disabled" ) },
-        { "slow", translate_marker( "Slow" ) },
-        { "normal", translate_marker( "Normal" ) },
-        { "fast", translate_marker( "Fast" ) },
-        { "veryfast", translate_marker( "Very fast" ) }
+        { -1, translate_marker( "Disabled" ) },
+        { 100, translate_marker( "Slow" ) },
+        { 30, translate_marker( "Normal" ) },
+        { 10, translate_marker( "Fast" ) }
     },
-    "normal", COPT_CURSES_HIDE );
+    30, 30, COPT_CURSES_HIDE );
 
 }
 

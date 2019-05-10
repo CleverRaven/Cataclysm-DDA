@@ -1388,7 +1388,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             // skip retrieving input and go straight to the action.
             action = pc.activity.str_values[0];
         } else {
-            action = ctxt.handle_input();
+            action = ctxt.handle_input( get_option<int>( "EDGE_SCROLL" ) );
         }
         // Clear the activity if any, we'll re-set it later if we need to.
         pc.cancel_activity();
@@ -1566,7 +1566,12 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             set_last_target( dst );
             ret.clear();
         } else if( action == "TOGGLE_SNAP_TO_TARGET" ) {
-            snap_to_target = !snap_to_target;
+            if( snap_to_target ) {
+                snap_to_target = false;
+                pc.view_offset = dst - pc.pos();
+            } else {
+                snap_to_target = true;
+            }
         } else if( action == "QUIT" ) { // return empty vector (cancel)
             ret.clear();
             pc.last_target_pos = cata::nullopt;
@@ -1576,27 +1581,19 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             g->zoom_in();
         } else if( action == "zoom_out" ) {
             g->zoom_out();
-        } else if( action == "MOUSE_MOVE" ) {
-            int max_consume = 10;
-            do {
-                // Below we implement mouse panning. In order to make
-                // it less jerky we rate limit it by only allowing a
-                // panning move during the first iteration of this
-                // mouse move event consumption loop.
-                if( max_consume == 10 ) {
-                    const tripoint edge_scroll = g->mouse_edge_scrolling_terrain( ctxt );
-                    pc.view_offset += edge_scroll;
-                    if( snap_to_target ) {
-                        dst += edge_scroll;
-                    }
+        } else if( action == "MOUSE_MOVE" || action == "TIMEOUT" ) {
+            tripoint edge_scroll = g->mouse_edge_scrolling_terrain( ctxt );
+            if( edge_scroll == tripoint_zero ) {
+                redraw = false;
+            } else {
+                if( action == "MOUSE_MOVE" ) {
+                    edge_scroll *= 2;
                 }
-                if( --max_consume == 0 ) {
-                    break;
+                pc.view_offset += edge_scroll;
+                if( snap_to_target ) {
+                    dst += edge_scroll;
                 }
-                // Consume all consecutive mouse movements. This lowers CPU consumption
-                // by graphics updates when user moves the mouse continuously.
-                action = ctxt.handle_input( 10 );
-            } while( action == "MOUSE_MOVE" );
+            }
         }
 
         // Make player's sprite flip to face the current target

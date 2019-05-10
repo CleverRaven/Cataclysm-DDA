@@ -14,6 +14,7 @@
 #include <functional>
 #include <iosfwd>
 #include <string>
+#include <chrono>
 
 #include "calendar.h"
 #include "cursesdef.h"
@@ -1132,6 +1133,10 @@ class game
 
         // Preview for auto move route
         std::vector<tripoint> destination_preview;
+
+        std::chrono::time_point<std::chrono::steady_clock> last_mouse_edge_scroll;
+        tripoint last_mouse_edge_scroll_vector;
+        tripoint mouse_edge_scrolling( input_context ctxt, const int speed );
 
 };
 

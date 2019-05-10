@@ -3,6 +3,7 @@
 #include <stddef.h>
 #include <algorithm>
 #include <array>
+#include <chrono>
 #include <list>
 #include <map>
 #include <memory>
@@ -991,36 +992,32 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
     int fast_scroll_offset = get_option<int>( "MOVE_VIEW_OFFSET" );
     cata::optional<tripoint> mouse_pos;
     bool redraw = true;
+    auto last_blink = std::chrono::steady_clock::now();
     do {
         if( redraw ) {
             draw( g->w_overmap, g->w_omlegend, curs, orig, uistate.overmap_show_overlays,
                   show_explored, fast_scroll, &ictxt, data );
         }
         redraw = true;
+#if (defined TILES || defined _WIN32 || defined WINDOWS)
+        action = ictxt.handle_input( get_option<int>( "EDGE_SCROLL" ) );
+#else
         action = ictxt.handle_input( BLINK_SPEED );
-
+#endif
         if( const cata::optional<tripoint> vec = ictxt.get_direction( action ) ) {
             int scroll_d = fast_scroll ? fast_scroll_offset : 1;
             curs.x += vec->x * scroll_d;
             curs.y += vec->y * scroll_d;
-        } else if( action == "MOUSE_MOVE" ) {
-            int max_consume = 10;
-            do {
-                // Below we implement mouse panning. In order to make
-                // it less jerky we rate limit it by only allowing a
-                // panning move during the first iteration of this
-                // mouse move event consumption loop.
-                if( max_consume == 10 ) {
-                    const tripoint edge_scroll = g->mouse_edge_scrolling_overmap( ictxt );
-                    curs += edge_scroll;
+        } else if( action == "MOUSE_MOVE" || action == "TIMEOUT" ) {
+            tripoint edge_scroll = g->mouse_edge_scrolling_terrain( ictxt );
+            if( edge_scroll == tripoint_zero ) {
+                redraw = false;
+            } else {
+                if( action == "MOUSE_MOVE" ) {
+                    edge_scroll *= 2;
                 }
-                if( --max_consume == 0 ) {
-                    break;
-                }
-                // Consume all consecutive mouse movements. This lowers CPU consumption
-                // by graphics updates when user moves the mouse continuously.
-                action = ictxt.handle_input( 10 );
-            } while( action == "MOUSE_MOVE" );
+                curs += edge_scroll;
+            }
         } else if( action == "SELECT" && ( mouse_pos = ictxt.get_coordinates( g->w_overmap ) ) ) {
             curs.x += mouse_pos->x;
             curs.y += mouse_pos->y;
@@ -1358,14 +1355,15 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
                 uistate.place_special = nullptr;
                 action.clear();
             }
-        } else if( action == "TIMEOUT" ) {
+        }
+
+        auto now = std::chrono::steady_clock::now();
+        if( now > last_blink + std::chrono::milliseconds( BLINK_SPEED ) ) {
             if( uistate.overmap_blinking ) {
                 uistate.overmap_show_overlays = !uistate.overmap_show_overlays;
+                redraw = true;
             }
-        } else if( action == "ANY_INPUT" ) {
-            if( uistate.overmap_blinking ) {
-                uistate.overmap_show_overlays = !uistate.overmap_show_overlays;
-            }
+            last_blink = now;
         }
     } while( action != "QUIT" && action != "CONFIRM" );
     werase( g->w_overmap );
