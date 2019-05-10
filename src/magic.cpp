@@ -285,8 +285,7 @@ bool spell::can_cast() const
             return owner->magic.available_mana() >= energy_cost();
         case stamina_energy:
             return owner->stamina >= energy_cost();
-        case hp_energy: 
-        {
+        case hp_energy: {
             for( int i = 0; i < num_hp_parts; i++ ) {
                 if( energy_cost() < owner->hp_cur[i] ) {
                     return true;
@@ -656,8 +655,8 @@ void known_magic::learn_spell( const spell_type *sp, bool force )
     if( !force ) {
         if( can_learn_spell( sp->id ) && !owner->has_trait( sp->spell_class ) ) {
             if( query_yn(
-                _( "Learning this spell will make you a %s and lock you out of other unique spells.\nContinue?" ),
-                sp->spell_class.obj().name() ) ) {
+                    _( "Learning this spell will make you a %s and lock you out of other unique spells.\nContinue?" ),
+                    sp->spell_class.obj().name() ) ) {
                 owner->set_mutation( sp->spell_class );
                 owner->add_msg_if_player( sp->spell_class.obj().desc() );
             } else {
