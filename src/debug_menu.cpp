@@ -129,7 +129,6 @@ class mission_debug
         static std::string describe( const mission &m );
 };
 
-
 static int player_uilist()
 {
     const std::vector<uilist_entry> uilist_initializer = {
