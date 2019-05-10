@@ -5790,7 +5790,6 @@
     "purifiable": false,
     "threshold": true,
     "flags": [ "mycus" ]
-
   },
   {
     "type": "mutation",
@@ -6263,6 +6262,15 @@
     "description": "NPC trait that makes monsters see it as a bee.  It is a bug (heh) if you have it.",
     "player_display": false,
     "threshold": true
+  },
+  {
+    "type": "mutation",
+    "id": "MYCUS_FRIEND",
+    "name": "mycus friend",
+    "points": 0,
+    "valid": false,
+    "description": "NPC trait that makes fungaloid monsters see this NPC as a friend.",
+    "player_display": false
   },
   {
     "type": "mutation",

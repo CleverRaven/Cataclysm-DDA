@@ -12,7 +12,15 @@
   {
     "type": "talk_topic",
     "id": "TALK_MARLOSS_VOICE",
-    "dynamic_line": [ "Yes, friend?", "Your travels be fruitful, friend.", "May you find your peace, traveler.", "We might have lost everything, but hope remains.", "The earth flourish beneath our paths", "Unity of spirit, of mind, and body...", "Look for the bonds which define you, and act in accord." ],
+    "dynamic_line": [
+      "Yes, friend?",
+      "Your travels be fruitful, friend.",
+      "May you find your peace, traveler.",
+      "We might have lost everything, but hope remains.",
+      "The earth flourish beneath our paths",
+      "Unity of spirit, of mind, and body...",
+      "Look for the bonds which define you, and act in accord."
+    ],
     "responses": [
       {
         "text": "This place is dangerous, what are you doing here?",
@@ -48,12 +56,7 @@
       {
         "text": "Understood.  Can I join you?.",
         "topic": "TALK_MARLOSS_VOICE_OFFER_BERRY",
-        "condition": {
-          "and": [
-              { "not": { "u_has_trait_flag": "mycus" } },
-              { "not": { "u_has_effect": "u_given_berry" } }
-           ]
-        }
+        "condition": { "and": [ { "not": { "u_has_trait_flag": "mycus" } }, { "not": { "u_has_effect": "u_given_berry" } } ] }
       },
       { "text": "Well, I gotta go.", "topic": "TALK_DONE" }
     ]
@@ -62,9 +65,7 @@
     "type": "talk_topic",
     "id": "TALK_MARLOSS_VOICE_WITH_US",
     "dynamic_line": "Oh, but you already have.",
-    "responses": [
-      { "text": "Yes... yes I have.", "topic": "TALK_DONE" }
-    ]
+    "responses": [ { "text": "Yes... yes I have.", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",

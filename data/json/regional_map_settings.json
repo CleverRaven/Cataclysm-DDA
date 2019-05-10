@@ -512,12 +512,7 @@
           "mx_anomaly": 3
         }
       },
-      "marloss": {
-        "chance": 20,
-        "extras": {
-          "mx_marloss_pilgrimage": 100
-        }
-      },
+      "marloss": { "chance": 20, "extras": { "mx_marloss_pilgrimage": 100 } },
       "subway": {
         "chance": 75,
         "extras": {

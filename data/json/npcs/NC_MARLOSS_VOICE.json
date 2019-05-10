@@ -2,15 +2,12 @@
   {
     "type": "item_group",
     "id": "NC_VOICE_weapon",
-    "items": [
-        [ "q_staff", 20 ],
-        [ "stick_long", 80 ]
-    ]
+    "items": [ [ "q_staff", 20 ], [ "stick_long", 80 ] ]
   },
   {
     "type": "item_group",
     "id": "NC_VOICE_worn",
-"subtype": "collection",
+    "subtype": "collection",
     "entries": [
       { "group": "NC_VOICE_armor" },
       { "item": "helmet_nomad", "prob": 60 },
@@ -32,9 +29,6 @@
   {
     "type": "item_group",
     "id": "NC_VOICE_armor",
-    "items": [
-        [ "armor_nomad", 20 ],
-        [ "armor_nomad_light", 80 ]
-    ]
+    "items": [ [ "armor_nomad", 20 ], [ "armor_nomad_light", 80 ] ]
   }
 ]
