@@ -4,7 +4,7 @@
     "id": "style_centipede",
     "name": "Centipede Kung Fu",
     "description": "One of the Five Deadly Venoms.  Centipede Style uses an onslaught of rapid strikes.  Each attack you land increases your speed by 4.",
-	"initiate": ["You ready yourself to attack as fast as possible.", "%s assumes a centipede-like stance."],
+    "initiate": [ "You ready yourself to attack as fast as possible.", "%s assumes a centipede-like stance." ],
     "arm_block": 3,
     "leg_block": 99,
     "onhit_buffs": [
@@ -26,7 +26,7 @@
     "id": "style_scorpion",
     "name": "Scorpion Kung Fu",
     "description": "One of the Five Deadly Venoms.  Scorpion Style is a mysterious art which uses pincer-like hands and a stinger kick.  Critical hits do massive damage and knock your target back.",
-	"initiate": ["You prepare to capture and sting your foes.", "%s assumes a scorpion-like stance."],
+    "initiate": [ "You prepare to capture and sting your foes.", "%s assumes a scorpion-like stance." ],
     "arm_block": 3,
     "leg_block": 99,
     "static_buffs": [
@@ -45,7 +45,7 @@
     "id": "style_toad",
     "name": "Toad Kung Fu",
     "description": "One of the Five Deadly Venoms.  Masters of Toad Style can focus themselves against all attacks.  You can meditate by pausing, giving you armor, though you will lose focus when you move.",
-	"initiate": ["You pause for a moment and focus on your invincible body.", "%s assumes a toad-like stance."],
+    "initiate": [ "You pause for a moment and focus on your invincible body.", "%s assumes a toad-like stance." ],
     "arm_block": 3,
     "leg_block": 99,
     "static_buffs": [
@@ -77,7 +77,7 @@
     "id": "style_lizard",
     "name": "Lizard Kung Fu",
     "description": "One of the Five Deadly Venoms.  Lizard Style focuses on using walls to your advantage.",
-	"initiate": ["You ready yourself to attack from any angle.", "%s assumes a lizard-like stance."],
+    "initiate": [ "You ready yourself to attack from any angle.", "%s assumes a lizard-like stance." ],
     "arm_block": 2,
     "leg_block": 99,
     "techniques": [  ]
@@ -87,7 +87,7 @@
     "id": "style_venom_snake",
     "name": "Viper Kung Fu",
     "description": "A legacy of the Five Deadly Venoms.  Viper Style has a unique three-part combo, which initiates on a dodge, then counters with a stunning chop and the legendary Viper Strike.",
-	"initiate": ["You prepare to strike your foes' weaknesses.", "%s assumes a viper-like stance."],
+    "initiate": [ "You prepare to strike your foes' weaknesses.", "%s assumes a viper-like stance." ],
     "arm_block": 99,
     "leg_block": 99,
     "static_buffs": [
