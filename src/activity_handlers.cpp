@@ -76,6 +76,7 @@
 #include "ret_val.h"
 #include "string_id.h"
 #include "units.h"
+#include "atm_menu.h"
 
 class npc;
 
@@ -2610,9 +2611,15 @@ void activity_handlers::armor_layers_do_turn( player_activity *, player *p )
     p->sort_armor();
 }
 
-void activity_handlers::atm_do_turn( player_activity *, player *p )
+void activity_handlers::atm_do_turn( player_activity *act, player *p )
 {
-    iexamine::atm( *p, p->pos() );
+    if ( act->targets.size() > 0 ) {
+        item *it = act->targets.front().get_item();
+        atm_menu {*p, it} .start();
+    }
+    else {
+        atm_menu {*p} .start();
+    }
 }
 
 void activity_handlers::cracking_do_turn( player_activity *act, player *p )

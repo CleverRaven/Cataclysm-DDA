@@ -248,27 +248,25 @@ bool atm_menu::do_transfer_all_money()
             // the next turn. Putting this here makes sure there will be something to be
             // done next turn.
             u.assign_activity( activity_id( "ACT_ATM" ), 0, transfer_all_money, u.get_item_position( dst ) );
+            if ( portable && ( u.activity.targets.size() == 0 ) )
+            {
+                u.activity.targets.push_back( item_location( u, a ) );
+            }
             break;
         }
 
-        /*Strange behavior on long action here. battery charges are only consumed on the last turn.
-         * e.g. if we are processing 7 cards, it acts just fine, consuming 7 battery charges.
-         * But if we are processing more, than 10 (one turn?) - for example, 17 - only 7 charges are consumed.
-         * Is it related to long actions somehow?
-        */
-
-        if ( !portable || a->ammo_sufficient() ) {
-            dst->charges += i->charges;
-            i->charges =  0;
-            if ( portable ) {
-                a->ammo_consume( 1, u.pos() );
+        if ( portable ) {
+            if ( a->ammo_sufficient() ) {
+                a->ammo_consume( a->ammo_required(), u.pos() );
+            } 
+            else {
+                u.add_msg_if_player( m_info, _( "Mini-ATM batteries are dead." ) );
+                break;
             }
-            u.moves    -= 10;
-        } else {
-            u.add_msg_if_player( m_info, _( "Mini-ATM batteries are dead." ) );
-            return false;
         }
+        dst->charges += i->charges;
+        i->charges =  0;
+        u.moves    -= 10;
     }
-
     return true;
 }
