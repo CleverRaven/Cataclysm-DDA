@@ -54,7 +54,7 @@
         "condition": { "u_has_trait_flag": "mycus" }
       },
       {
-        "text": "Understood.  Can I join you?.",
+        "text": "Understood.  Can I join you?",
         "topic": "TALK_MARLOSS_VOICE_OFFER_BERRY",
         "condition": { "and": [ { "not": { "u_has_trait_flag": "mycus" } }, { "not": { "u_has_effect": "u_given_berry" } } ] }
       },
