@@ -25,9 +25,9 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "item.h"
-#include "itype.h"
 #include "optional.h"
 #include "pimpl.h"
+#include "type_id.h"
 
 static std::map<faction_id, faction_template> _all_faction_templates;
 

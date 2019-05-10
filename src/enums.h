@@ -2,6 +2,7 @@
 #ifndef ENUMS_H
 #define ENUMS_H
 
+#include <assert.h>
 #include <climits>
 #include <ostream>
 #include <cstdint>
@@ -15,6 +16,14 @@ constexpr inline int sgn( const T x )
 {
     return x < 0 ? -1 : ( x > 0 ? 1 : 0 );
 }
+
+enum temperature_flag : int {
+    TEMP_NORMAL = 0,
+    TEMP_HEATER,
+    TEMP_FRIDGE,
+    TEMP_FREEZER,
+    TEMP_ROOT_CELLAR
+};
 
 //Used for autopickup and safemode rules
 enum rule_state : int {
@@ -181,6 +190,27 @@ struct point {
     point &operator-=( const point &rhs ) {
         x -= rhs.x;
         y -= rhs.y;
+        return *this;
+    }
+
+    /**
+     * Rotate point clockwise @param turns times, 90 degrees per turn,
+     * around the center of a rectangle with the dimensions specified
+     * by @param dim. By default rotates around the origin (0, 0).
+     */
+    point rotate( int turns, const point &dim = { 1, 1 } ) const {
+        assert( turns >= 0 );
+        assert( turns <= 4 );
+
+        switch( turns ) {
+            case 1:
+                return { dim.y - y - 1, x };
+            case 2:
+                return { dim.x - x - 1, dim.y - y - 1 };
+            case 3:
+                return { y, dim.x - x - 1 };
+        }
+
         return *this;
     }
 };

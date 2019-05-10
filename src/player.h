@@ -38,20 +38,19 @@
 #include "enums.h"
 #include "inventory.h"
 #include "item_location.h"
-#include "itype.h"
 #include "pldata.h"
-#include "string_id.h"
+#include "type_id.h"
 
 class effect;
 class map;
 class npc;
 struct pathfinding_settings;
+class recipe;
+struct islot_comestible;
+struct itype;
 
 static const std::string DEFAULT_HOTKEYS( "1234567890abcdefghijklmnopqrstuvwxyz" );
 
-class ammunition_type;
-
-using ammotype = string_id<ammunition_type>;
 class craft_command;
 class recipe_subset;
 
@@ -72,25 +71,13 @@ nc_color encumb_color( int level );
 enum game_message_type : int;
 class ma_technique;
 class martialart;
-class recipe;
-
-using recipe_id = string_id<recipe>;
 struct item_comp;
 struct tool_comp;
 template<typename CompType> struct comp_selection;
 class vehicle;
-class vitamin;
-
-using vitamin_id = string_id<vitamin>;
-class start_location;
-
-using start_location_id = string_id<start_location>;
 struct w_point;
 struct points_left;
 struct targeting_data;
-class morale_type_data;
-
-using morale_type = string_id<morale_type_data>;
 
 namespace debug_menu
 {
@@ -260,6 +247,11 @@ class player : public Character
         void disp_info();
         /** Provides the window and detailed morale data */
         void disp_morale();
+
+        /**Estimate effect duration based on player relevant skill*/
+        time_duration estimate_effect_dur( const skill_id &relevant_skill, const efftype_id &effect,
+                                           const time_duration &error_magnitude,
+                                           int threshold, const Creature &target ) const;
 
         /** Resets stats, and applies effects in an idempotent manner */
         void reset_stats() override;
@@ -482,7 +474,7 @@ class player : public Character
 
         void pause(); // '.' command; pauses & reduces recoil
 
-        void set_movement_mode( std::string mode );
+        void set_movement_mode( const std::string &mode );
         const std::string get_movement_mode() const;
 
         void cycle_move_mode(); // Cycles to the next move mode.
@@ -1289,7 +1281,10 @@ class player : public Character
                               const std::string &name = "" );
         /** Assigns activity to player, possibly resuming old activity if it's similar enough. */
         void assign_activity( const player_activity &act, bool allow_resume = true );
+        /** Check if player currently has a given activity */
         bool has_activity( const activity_id &type ) const;
+        /** Check if player currently has any of the given activities */
+        bool has_activity( const std::vector<activity_id> &types ) const;
         void cancel_activity();
         void resume_backlog_activity();
 

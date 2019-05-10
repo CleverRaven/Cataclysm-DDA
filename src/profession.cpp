@@ -18,7 +18,6 @@
 #include "translations.h"
 #include "calendar.h"
 #include "item.h"
-#include "creature.h"
 
 namespace
 {

@@ -79,12 +79,10 @@
 #include "mod_manager.h"
 #include "monattack.h"
 #include "monexamine.h"
-#include "monfaction.h"
 #include "mongroup.h"
 #include "monstergenerator.h"
 #include "morale_types.h"
 #include "mtype.h"
-#include "mutation.h"
 #include "npc.h"
 #include "npc_class.h"
 #include "omdata.h"
@@ -143,6 +141,8 @@
 #include "ui.h"
 #include "units.h"
 #include "weighted_list.h"
+#include "int_id.h"
+#include "string_id.h"
 
 #if defined(TILES)
 #include "cata_tiles.h"
@@ -1828,7 +1828,7 @@ int game::get_temperature( const tripoint &location )
     }
     //underground temperature = average New England temperature = 43F/6C rounded to int
     const int temp = ( location.z < 0 ? AVERAGE_ANNUAL_TEMPERATURE : temperature ) +
-                     ( new_game ? 0 : ( m.temperature( location ) + temp_mod ) );
+                     ( new_game ? 0 : ( m.get_temperature( location ) + temp_mod ) );
 
     temperature_cache.emplace( std::make_pair( location, temp ) );
     return temp;
@@ -1953,8 +1953,8 @@ void game::handle_key_blocking_activity()
         Creature *hostile_critter = is_hostile_very_close();
         if( hostile_critter != nullptr ) {
             if( cancel_activity_or_ignore_query( distraction_type::hostile_spotted,
-                                                 string_format( _( "You see %s approaching!" ),
-                                                         hostile_critter->disp_name() ) ) ) {
+                                                 string_format( _( "The %s is dangerously close!" ),
+                                                         hostile_critter->get_name() ) ) ) {
                 return;
             }
         }
@@ -2034,7 +2034,7 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
         addentry( 'T', pgettext( "action", "take off" ), u.rate_action_takeoff( oThisItem ) );
         addentry( 'd', pgettext( "action", "drop" ), rate_drop_item );
         addentry( 'U', pgettext( "action", "unload" ), u.rate_action_unload( oThisItem ) );
-        addentry( 'r', pgettext( "action", "reload_item" ), u.rate_action_reload( oThisItem ) );
+        addentry( 'r', pgettext( "action", "reload" ), u.rate_action_reload( oThisItem ) );
         addentry( 'p', pgettext( "action", "part reload" ), u.rate_action_reload( oThisItem ) );
         addentry( 'm', pgettext( "action", "mend" ), u.rate_action_mend( oThisItem ) );
         addentry( 'D', pgettext( "action", "disassemble" ), u.rate_action_disassemble( oThisItem ) );
@@ -2256,6 +2256,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "examine" );
     ctxt.register_action( "advinv" );
     ctxt.register_action( "pickup" );
+    ctxt.register_action( "pickup_feet" );
     ctxt.register_action( "grab" );
     ctxt.register_action( "haul" );
     ctxt.register_action( "butcher" );
@@ -2272,6 +2273,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "wear" );
     ctxt.register_action( "take_off" );
     ctxt.register_action( "eat" );
+    ctxt.register_action( "open_consume" );
     ctxt.register_action( "read" );
     ctxt.register_action( "wield" );
     ctxt.register_action( "pick_style" );
@@ -4305,78 +4307,6 @@ void game::overmap_npc_move()
     return;
 }
 
-void game::flashbang( const tripoint &p, bool player_immune )
-{
-    draw_explosion( p, 8, c_white );
-    int dist = rl_dist( u.pos(), p );
-    if( dist <= 8 && !player_immune ) {
-        if( !u.has_bionic( bionic_id( "bio_ears" ) ) && !u.is_wearing( "rm13_armor_on" ) ) {
-            u.add_effect( effect_deaf, time_duration::from_turns( 40 - dist * 4 ) );
-        }
-        if( m.sees( u.pos(), p, 8 ) ) {
-            int flash_mod = 0;
-            if( u.has_trait( trait_PER_SLIME ) ) {
-                if( one_in( 2 ) ) {
-                    flash_mod = 3; // Yay, you weren't looking!
-                }
-            } else if( u.has_trait( trait_PER_SLIME_OK ) ) {
-                flash_mod = 8; // Just retract those and extrude fresh eyes
-            } else if( u.has_bionic( bionic_id( "bio_sunglasses" ) ) || u.is_wearing( "rm13_armor_on" ) ) {
-                flash_mod = 6;
-            } else if( u.worn_with_flag( "BLIND" ) || u.worn_with_flag( "FLASH_PROTECTION" ) ) {
-                flash_mod = 3; // Not really proper flash protection, but better than nothing
-            }
-            u.add_env_effect( effect_blind, bp_eyes, ( 12 - flash_mod - dist ) / 2,
-                              time_duration::from_turns( 10 - dist ) );
-        }
-    }
-    for( monster &critter : all_monsters() ) {
-        // TODO: can the following code be called for all types of creatures
-        dist = rl_dist( critter.pos(), p );
-        if( dist <= 8 ) {
-            if( dist <= 4 ) {
-                critter.add_effect( effect_stunned, time_duration::from_turns( 10 - dist ) );
-            }
-            if( critter.has_flag( MF_SEES ) && m.sees( critter.pos(), p, 8 ) ) {
-                critter.add_effect( effect_blind, time_duration::from_turns( 18 - dist ) );
-            }
-            if( critter.has_flag( MF_HEARS ) ) {
-                critter.add_effect( effect_deaf, time_duration::from_turns( 60 - dist * 4 ) );
-            }
-        }
-    }
-    sounds::sound( p, 12, sounds::sound_t::combat, _( "a huge boom!" ) );
-    // TODO: Blind/deafen NPC
-}
-
-void game::shockwave( const tripoint &p, int radius, int force, int stun, int dam_mult,
-                      bool ignore_player )
-{
-    draw_explosion( p, radius, c_blue );
-
-    sounds::sound( p, force * force * dam_mult / 2, sounds::sound_t::combat, _( "Crack!" ) );
-
-    for( monster &critter : all_monsters() ) {
-        if( rl_dist( critter.pos(), p ) <= radius ) {
-            add_msg( _( "%s is caught in the shockwave!" ), critter.name() );
-            knockback( p, critter.pos(), force, stun, dam_mult );
-        }
-    }
-    // TODO: combine the two loops and the case for g->u using all_creatures()
-    for( npc &guy : all_npcs() ) {
-        if( rl_dist( guy.pos(), p ) <= radius ) {
-            add_msg( _( "%s is caught in the shockwave!" ), guy.name );
-            knockback( p, guy.pos(), force, stun, dam_mult );
-        }
-    }
-    if( rl_dist( u.pos(), p ) <= radius && !ignore_player &&
-        ( !u.has_trait( trait_LEG_TENT_BRACE ) || u.footwear_factor() == 1 ||
-          ( u.footwear_factor() == .5 && one_in( 2 ) ) ) ) {
-        add_msg( m_bad, _( "You're caught in the shockwave!" ) );
-        knockback( p, u.pos(), force, stun, dam_mult );
-    }
-}
-
 /* Knockback target at t by force number of tiles in direction from s to t
    stun > 0 indicates base stun duration, and causes impact stun; stun == -1 indicates only impact stun
    dam_mult multiplies impact damage, bash effect on impact, and sound level on impact */
@@ -4648,224 +4578,6 @@ void game::use_computer( const tripoint &p )
     refresh_all();
 }
 
-void game::resonance_cascade( const tripoint &p )
-{
-    const time_duration maxglow = time_duration::from_turns( 100 - 5 * trig_dist( p, u.pos() ) );
-    const time_duration minglow = std::max( 0_turns, time_duration::from_turns( 60 - 5 * trig_dist( p,
-                                            u.pos() ) ) );
-    MonsterGroupResult spawn_details;
-    monster invader;
-    if( maxglow > 0_turns ) {
-        u.add_effect( effect_teleglow, rng( minglow, maxglow ) * 100 );
-    }
-    int startx = ( p.x < 8 ? 0 : p.x - 8 ), endx = ( p.x + 8 >= SEEX * 3 ? SEEX * 3 - 1 : p.x + 8 );
-    int starty = ( p.y < 8 ? 0 : p.y - 8 ), endy = ( p.y + 8 >= SEEY * 3 ? SEEY * 3 - 1 : p.y + 8 );
-    tripoint dest( startx, starty, p.z );
-    for( int &i = dest.x; i <= endx; i++ ) {
-        for( int &j = dest.y; j <= endy; j++ ) {
-            switch( rng( 1, 80 ) ) {
-                case 1:
-                case 2:
-                    emp_blast( dest );
-                    break;
-                case 3:
-                case 4:
-                case 5:
-                    for( int k = i - 1; k <= i + 1; k++ ) {
-                        for( int l = j - 1; l <= j + 1; l++ ) {
-                            field_id type = fd_null;
-                            switch( rng( 1, 7 ) ) {
-                                case 1:
-                                    type = fd_blood;
-                                    break;
-                                case 2:
-                                    type = fd_bile;
-                                    break;
-                                case 3:
-                                case 4:
-                                    type = fd_slime;
-                                    break;
-                                case 5:
-                                    type = fd_fire;
-                                    break;
-                                case 6:
-                                case 7:
-                                    type = fd_nuke_gas;
-                                    break;
-                            }
-                            if( !one_in( 3 ) ) {
-                                m.add_field( {k, l, p.z}, type, 3 );
-                            }
-                        }
-                    }
-                    break;
-                case  6:
-                case  7:
-                case  8:
-                case  9:
-                case 10:
-                    m.trap_set( dest, tr_portal );
-                    break;
-                case 11:
-                case 12:
-                    m.trap_set( dest, tr_goo );
-                    break;
-                case 13:
-                case 14:
-                case 15:
-                    spawn_details = MonsterGroupManager::GetResultFromGroup( mongroup_id( "GROUP_NETHER" ) );
-                    invader = monster( spawn_details.name, dest );
-                    add_zombie( invader );
-                    break;
-                case 16:
-                case 17:
-                case 18:
-                    m.destroy( dest );
-                    break;
-                case 19:
-                    explosion( dest, rng( 1, 10 ), rng( 0, 1 ) * rng( 0, 6 ), one_in( 4 ) );
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
-}
-
-void game::scrambler_blast( const tripoint &p )
-{
-    if( monster *const mon_ptr = critter_at<monster>( p ) ) {
-        monster &critter = *mon_ptr;
-        if( critter.has_flag( MF_ELECTRONIC ) ) {
-            critter.make_friendly();
-        }
-        add_msg( m_warning, _( "The %s sparks and begins searching for a target!" ),
-                 critter.name() );
-    }
-}
-
-void game::emp_blast( const tripoint &p )
-{
-    // TODO: Implement z part
-    int x = p.x;
-    int y = p.y;
-    const bool sight = g->u.sees( p );
-    if( m.has_flag( "CONSOLE", x, y ) ) {
-        if( sight ) {
-            add_msg( _( "The %s is rendered non-functional!" ), m.tername( x, y ) );
-        }
-        m.ter_set( x, y, t_console_broken );
-        return;
-    }
-    // TODO: More terrain effects.
-    if( m.ter( x, y ) == t_card_science || m.ter( x, y ) == t_card_military ||
-        m.ter( x, y ) == t_card_industrial ) {
-        int rn = rng( 1, 100 );
-        if( rn > 92 || rn < 40 ) {
-            if( sight ) {
-                add_msg( _( "The card reader is rendered non-functional." ) );
-            }
-            m.ter_set( x, y, t_card_reader_broken );
-        }
-        if( rn > 80 ) {
-            if( sight ) {
-                add_msg( _( "The nearby doors slide open!" ) );
-            }
-            for( int i = -3; i <= 3; i++ ) {
-                for( int j = -3; j <= 3; j++ ) {
-                    if( m.ter( x + i, y + j ) == t_door_metal_locked ) {
-                        m.ter_set( x + i, y + j, t_floor );
-                    }
-                }
-            }
-        }
-        if( rn >= 40 && rn <= 80 ) {
-            if( sight ) {
-                add_msg( _( "Nothing happens." ) );
-            }
-        }
-    }
-    if( monster *const mon_ptr = critter_at<monster>( p ) ) {
-        monster &critter = *mon_ptr;
-        if( critter.has_flag( MF_ELECTRONIC ) ) {
-            int deact_chance = 0;
-            const auto mon_item_id = critter.type->revert_to_itype;
-            switch( critter.get_size() ) {
-                case MS_TINY:
-                    deact_chance = 6;
-                    break;
-                case MS_SMALL:
-                    deact_chance = 3;
-                    break;
-                default:
-                    // Currently not used, I have no idea what chances bigger bots should have,
-                    // Maybe export this to json?
-                    break;
-            }
-            if( !mon_item_id.empty() && deact_chance != 0 && one_in( deact_chance ) ) {
-                if( sight ) {
-                    add_msg( _( "The %s beeps erratically and deactivates!" ), critter.name() );
-                }
-                m.add_item_or_charges( x, y, critter.to_item() );
-                for( auto &ammodef : critter.ammo ) {
-                    if( ammodef.second > 0 ) {
-                        m.spawn_item( x, y, ammodef.first, 1, ammodef.second, calendar::turn );
-                    }
-                }
-                remove_zombie( critter );
-            } else {
-                if( sight ) {
-                    add_msg( _( "The EMP blast fries the %s!" ), critter.name() );
-                }
-                int dam = dice( 10, 10 );
-                critter.apply_damage( nullptr, bp_torso, dam );
-                critter.check_dead_state();
-                if( !critter.is_dead() && one_in( 6 ) ) {
-                    critter.make_friendly();
-                }
-            }
-        } else if( critter.has_flag( MF_ELECTRIC_FIELD ) ) {
-            if( sight && !critter.has_effect( effect_emp ) ) {
-                add_msg( m_good, _( "The %s's electrical field momentarily goes out!" ), critter.name() );
-                critter.add_effect( effect_emp, 3_minutes );
-            } else if( sight && critter.has_effect( effect_emp ) ) {
-                int dam = dice( 3, 5 );
-                add_msg( m_good, _( "The %s's disabled electrical field reverses polarity!" ),
-                         critter.name() );
-                add_msg( m_good, _( "It takes %d damage." ), dam );
-                critter.add_effect( effect_emp, 1_minutes );
-                critter.apply_damage( nullptr, bp_torso, dam );
-                critter.check_dead_state();
-            }
-        } else if( sight ) {
-            add_msg( _( "The %s is unaffected by the EMP blast." ), critter.name() );
-        }
-    }
-    if( u.posx() == x && u.posy() == y ) {
-        if( u.power_level > 0 ) {
-            add_msg( m_bad, _( "The EMP blast drains your power." ) );
-            int max_drain = ( u.power_level > 1000 ? 1000 : u.power_level );
-            u.charge_power( -rng( 1 + max_drain / 3, max_drain ) );
-        }
-        // TODO: More effects?
-        //e-handcuffs effects
-        if( u.weapon.typeId() == "e_handcuffs" && u.weapon.charges > 0 ) {
-            u.weapon.item_tags.erase( "NO_UNWIELD" );
-            u.weapon.charges = 0;
-            u.weapon.active = false;
-            add_msg( m_good, _( "The %s on your wrists spark briefly, then release your hands!" ),
-                     u.weapon.tname() );
-        }
-    }
-    // Drain any items of their battery charge
-    for( auto &it : m.i_at( x, y ) ) {
-        if( it.is_tool() && it.ammo_type() == ammotype( "battery" ) ) {
-            it.charges = 0;
-        }
-    }
-    // TODO: Drain NPC energy reserves
-}
-
 template<typename T>
 T *game::critter_at( const tripoint &p, bool allow_hallucination )
 {
@@ -4930,12 +4642,7 @@ T *game::critter_by_id( const int id )
         // player is always alive, therefore no is-dead check
         return dynamic_cast<T *>( &u );
     }
-    for( auto &cur_npc : active_npc ) {
-        if( cur_npc->getID() == id && !cur_npc->is_dead() ) {
-            return dynamic_cast<T *>( cur_npc.get() );
-        }
-    }
-    return nullptr;
+    return find_npc( id );
 }
 
 // monsters don't have ids
@@ -5831,7 +5538,12 @@ void game::pickup( const tripoint &p )
     g->m.drawsq( w_terrain, u, p, true, true, u.pos() + u.view_offset );
     wrefresh( w_terrain );
 
-    Pickup::pick_up( p, 1 );
+    Pickup::pick_up( p, 0 );
+}
+
+void game::pickup_feet()
+{
+    Pickup::pick_up( u.pos(), 1 );
 }
 
 //Shift player by one tile, look_around(), then restore previous position.
@@ -6314,24 +6026,19 @@ void game::zones_manager()
     // get zones on the same z-level, with distance between player and
     // zone center point <= 50 or all zones, if show_all_zones is true
     auto get_zones = [&]() {
-        auto zones = mgr.get_zones();
 
-        if( !show_all_zones ) {
-            zones.erase(
-                std::remove_if(
-                    zones.begin(),
-                    zones.end(),
-            [&]( zone_manager::ref_zone_data ref ) -> bool {
-                const auto &zone = ref.get();
-                const auto &a = m.getabs( u.pos() );
-                const auto &b = zone.get_center_point();
-                return a.z != b.z || rl_dist( a, b ) > 50;
+        std::vector<zone_manager::ref_zone_data> zones;
+        if( show_all_zones ) {
+            zones = mgr.get_zones();
+        } else {
+            const tripoint &u_abs_pos = m.getabs( u.pos() );
+            for( zone_manager::ref_zone_data &ref : mgr.get_zones() ) {
+                const tripoint &zone_abs_pos = ref.get().get_center_point();
+                if( u_abs_pos.z == zone_abs_pos.z && rl_dist( u_abs_pos, zone_abs_pos ) <= 50 ) {
+                    zones.emplace_back( ref );
+                }
             }
-                ),
-            zones.end()
-            );
         }
-
         zone_cnt = static_cast<int>( zones.size() );
         return zones;
     };
@@ -7432,6 +7139,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             std::vector<iteminfo> vThisItem;
             std::vector<iteminfo> vDummy;
             int dummy = 0; // draw_item_info needs an int &
+            assert( activeItem ); // To appease static analysis
             activeItem->example->info( true, vThisItem );
             draw_item_info( 0, width - 5, 0, TERMY - VIEW_OFFSET_Y * 2,
                             activeItem->example->tname(), activeItem->example->type_name(), vThisItem, vDummy, dummy,
@@ -9068,7 +8776,22 @@ void game::butcher()
     }
 }
 
+void game::eat()
+{
+    eat( game_menus::inv::consume, INT_MIN );
+}
+
 void game::eat( int pos )
+{
+    eat( game_menus::inv::consume, pos );
+}
+
+void game::eat( item_location( *menu )( player &p ) )
+{
+    eat( menu, INT_MIN );
+}
+
+void game::eat( item_location( *menu )( player &p ), int pos )
 {
     if( ( u.has_active_mutation( trait_RUMINANT ) || u.has_active_mutation( trait_GRAZER ) ) &&
         ( m.ter( u.pos() ) == t_underbrush || m.ter( u.pos() ) == t_shrub ) ) {
@@ -9123,11 +8846,7 @@ void game::eat( int pos )
         return;
     }
 
-    if( !u.has_activity( activity_id( "ACT_EAT_MENU" ) ) ) {
-        u.assign_activity( activity_id( "ACT_EAT_MENU" ) );
-    }
-
-    auto item_loc = game_menus::inv::consume( u );
+    auto item_loc = menu( u );
     if( !item_loc ) {
         u.cancel_activity();
         add_msg( _( "Never mind." ) );
@@ -11224,7 +10943,8 @@ void game::vertical_move( int movez, bool force )
 
     if( m.has_zlevels() && abs( movez ) == 1 ) {
         for( monster &critter : all_monsters() ) {
-            if( critter.attack_target() == &g->u ) {
+            if( critter.attack_target() == &g->u || ( critter.has_effect( effect_pet ) &&
+                    critter.friendly == -1 ) ) {
                 monsters_following.push_back( &critter );
             }
         }
@@ -12041,36 +11761,6 @@ void game::teleport( player *p, bool add_teleglow )
     }
 }
 
-void game::nuke( const tripoint &p )
-{
-    // TODO: nukes hit above surface, not critter = 0
-    // TODO: Z
-    int x = p.x;
-    int y = p.y;
-    tinymap tmpmap;
-    tmpmap.load( x * 2, y * 2, 0, false );
-    tripoint dest( 0, 0, p.z );
-    int &i = dest.x;
-    int &j = dest.y;
-    for( i = 0; i < SEEX * 2; i++ ) {
-        for( j = 0; j < SEEY * 2; j++ ) {
-            if( !one_in( 10 ) ) {
-                tmpmap.make_rubble( dest, f_rubble_rock, true, t_dirt, true );
-            }
-            if( one_in( 3 ) ) {
-                tmpmap.add_field( dest, fd_nuke_gas, 3 );
-            }
-            tmpmap.adjust_radiation( dest, rng( 20, 80 ) );
-        }
-    }
-    tmpmap.save();
-    overmap_buffer.ter( x, y, 0 ) = oter_id( "crater" );
-    // Kill any npcs on that omap location.
-    for( const auto &npc : overmap_buffer.get_npcs_near_omt( x, y, 0, 0 ) ) {
-        npc->marked_for_death = true;
-    }
-}
-
 void game::display_scent()
 {
     if( use_tiles ) {
@@ -12579,9 +12269,6 @@ void game::add_artifact_messages( const std::vector<art_effect_passive> &effects
                 break;
 
             case AEP_CLAIRVOYANCE:
-                add_msg( m_good, _( "You can see through walls!" ) );
-                break;
-
             case AEP_CLAIRVOYANCE_PLUS:
                 add_msg( m_good, _( "You can see through walls!" ) );
                 break;

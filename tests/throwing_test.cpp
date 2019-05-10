@@ -19,8 +19,8 @@
 #include "enums.h"
 #include "game_constants.h"
 #include "inventory.h"
-#include "itype.h"
 #include "material.h"
+#include "type_id.h"
 
 TEST_CASE( "throwing distance test", "[throwing], [balance]" )
 {
@@ -56,6 +56,7 @@ static void reset_player( player &p, const throw_test_pstats &pstats, const trip
 {
     p.reset();
     p.stamina = p.get_stamina_max();
+    CHECK( !p.in_vehicle );
     p.setpos( pos );
     p.str_max = pstats.str;
     p.dex_max = pstats.dex;

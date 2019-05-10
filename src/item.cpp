@@ -26,6 +26,7 @@
 #include "dispersion.h"
 #include "effect.h" // for weed_msg
 #include "enums.h"
+#include "explosion.h"
 #include "fault.h"
 #include "field.h"
 #include "fire.h"
@@ -74,14 +75,11 @@
 #include "item_group.h"
 #include "iuse.h"
 #include "line.h"
-#include "mapdata.h"
 #include "optional.h"
 #include "pimpl.h"
 #include "recipe.h"
 #include "rng.h"
 #include "weather_gen.h"
-#include "mongroup.h"
-#include "pldata.h"
 
 static const std::string GUN_MODE_VAR_NAME( "item::mode" );
 
@@ -1587,7 +1585,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             std::vector<std::string> fm;
             for( const auto &e : fire_modes ) {
                 if( e.second.target == this && !e.second.melee() ) {
-                    fm.emplace_back( string_format( "%s (%i)", e.second.name(), e.second.qty ) );
+                    fm.emplace_back( string_format( "%s (%i)", e.second.tname(), e.second.qty ) );
                 }
             }
             if( !fm.empty() ) {
@@ -1927,12 +1925,13 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         }
         if( g->u.has_identified( typeId() ) ) {
             if( book.skill ) {
-                if( g->u.get_skill_level_object( book.skill ).can_train() &&
-                    parts->test( iteminfo_parts::BOOK_SKILLRANGE_MAX ) ) {
-                    auto fmt = string_format(
-                                   _( "Can bring your <info>%s skill to</info> <num>" ),
-                                   book.skill.obj().name() );
+                const SkillLevel &skill = g->u.get_skill_level_object( book.skill );
+                if( skill.can_train() && parts->test( iteminfo_parts::BOOK_SKILLRANGE_MAX ) ) {
+                    const std::string skill_name = book.skill->name();
+                    auto fmt = string_format( _( "Can bring your <info>%s skill to</info> <num>." ), skill_name );
                     info.push_back( iteminfo( "BOOK", "", fmt, iteminfo::no_flags, book.level ) );
+                    fmt = string_format( _( "Your current <stat>%s skill</stat> is <num>." ), skill_name );
+                    info.push_back( iteminfo( "BOOK", "", fmt, iteminfo::no_flags, skill.level() ) );
                 }
 
                 if( book.req != 0 && parts->test( iteminfo_parts::BOOK_SKILLRANGE_MIN ) ) {
@@ -3283,8 +3282,7 @@ units::mass item::weight( bool include_contents ) const
         return ret;
     }
 
-    units::mass ret = 0_gram;
-    ret = units::from_gram( get_var( "weight", to_gram( type->weight ) ) );
+    units::mass ret = units::from_gram( get_var( "weight", to_gram( type->weight ) ) );
 
     if( has_flag( "REDUCED_WEIGHT" ) ) {
         ret *= 0.75;
@@ -3882,7 +3880,7 @@ int get_hourly_rotpoints_at_temp( const int temp )
     return rot_chart[temp];
 }
 
-void item::calc_rot( time_point time )
+void item::calc_rot( time_point time, int temp )
 {
     if( !goes_bad() ) {
         return;
@@ -3906,6 +3904,10 @@ void item::calc_rot( time_point time )
         factor = 0.75;
     }
 
+    if( item_tags.count( "COLD" ) ) {
+        temp = temperatures::fridge;
+    }
+
     // bday and/or last_rot_check might be zero, if both are then we want calendar::start
     const time_point since = std::max( {last_rot_check, ( time_point ) calendar::start} );
 
@@ -3920,7 +3922,7 @@ void item::calc_rot( time_point time )
 
     time_duration time_delta = time - since;
     rot += factor * time_delta / 1_hours * get_hourly_rotpoints_at_temp( kelvin_to_fahrenheit(
-                0.00001 * temperature ) ) * 1_turns;
+                0.00001 * temp ) ) * 1_turns;
     last_rot_check = time;
 }
 
@@ -6916,7 +6918,7 @@ bool item::will_explode_in_fire() const
 bool item::detonate( const tripoint &p, std::vector<item> &drops )
 {
     if( type->explosion.power >= 0 ) {
-        g->explosion( p, type->explosion );
+        explosion_handler::explosion( p, type->explosion );
         return true;
     } else if( type->ammo && ( type->ammo->special_cookoff || type->ammo->cookoff ) ) {
         long charges_remaining = charges;
@@ -7061,7 +7063,7 @@ void item::apply_freezerburn()
 }
 
 void item::process_temperature_rot( int temp, float insulation, const tripoint pos,
-                                    player *carrier )
+                                    player *carrier, const temperature_flag flag )
 {
     const time_point now = calendar::turn;
 
@@ -7085,7 +7087,7 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
                 temp += 5; // body heat increases inventory temperature
             }
             calc_temp( temp, insulation, now );
-            calc_rot( now );
+            calc_rot( now, temp );
         }
         return;
     }
@@ -7096,7 +7098,12 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
         insulation *= 1.5; // clothing provides inventory some level of insulation
     }
 
-    time_point time = std::min( { last_rot_check, last_temp_check } );
+    time_point time;
+    if( goes_bad() ) {
+        time = std::min( { last_rot_check, last_temp_check } );
+    } else {
+        time = last_temp_check;
+    }
 
     if( now - time > 1_hours ) {
         // This code is for items that were left out of reality bubble for long time
@@ -7104,8 +7111,7 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
         const auto &wgen = g->get_cur_weather_gen();
         const auto seed = g->get_seed();
         const auto local = g->m.getlocal( pos );
-        auto local_mod = g->new_game ? 0 : g->m.temperature( local );
-        const auto temp_modify = ( !g->new_game ) && ( g->m.ter( local ) == t_rootcellar );
+        auto local_mod = g->new_game ? 0 : g->m.get_temperature( local );
 
         int enviroment_mod;
         // Toilets and vending machines will try to get the heat radiation and convection during mapgen and segfault.
@@ -7127,14 +7133,35 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
             time_duration time_delta = std::min( 1_hours, now - 1_hours - time );
             time += time_delta;
 
-            w_point weather = wgen.get_weather( pos, time, seed );
-
             //Use weather if above ground, use map temp if below
-            double env_temperature = ( pos.z >= 0 ? weather.temperature + enviroment_mod : temp ) + local_mod;
+            double env_temperature = 0;
+            if( pos.z >= 0 ) {
+                w_point weather = wgen.get_weather( pos, time, seed );
+                env_temperature = weather.temperature + enviroment_mod + local_mod;
+            } else {
+                env_temperature = AVERAGE_ANNUAL_TEMPERATURE + enviroment_mod + local_mod;
+            }
 
-            // If in a root celler: use AVERAGE_ANNUAL_TEMPERATURE
-            // If not: use calculated temperature
-            env_temperature = ( temp_modify * AVERAGE_ANNUAL_TEMPERATURE ) + ( !temp_modify * env_temperature );
+            switch( flag ) {
+                case TEMP_NORMAL:
+                    // Just use the temperature normally
+                    break;
+                case TEMP_FRIDGE:
+                    env_temperature = std::min( env_temperature, static_cast<double>( temperatures::fridge ) );
+                    break;
+                case TEMP_FREEZER:
+                    env_temperature = std::min( env_temperature, static_cast<double>( temperatures::freezer ) );
+                    break;
+                case TEMP_HEATER:
+                    env_temperature = std::max( env_temperature, static_cast<double>( temperatures::normal ) );
+                    break;
+                case TEMP_ROOT_CELLAR:
+                    env_temperature = AVERAGE_ANNUAL_TEMPERATURE;
+                    break;
+                default:
+                    env_temperature = temp;
+                    debugmsg( "Temperature flag enum not valid. Using current temperature." );
+            }
 
             // Calculate item temperature from enviroment temperature
             // If the time was more than 2 d ago just set the item to enviroment temperature
@@ -7149,7 +7176,7 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
 
             // Calculate item rot from item temperature
             if( time - last_rot_check >  smallest_interval ) {
-                calc_rot( time );
+                calc_rot( time, env_temperature );
 
                 if( has_rotten_away() || ( is_corpse() && rot > 10_days ) ) {
                     // No need to track item that will be gone
@@ -7167,7 +7194,7 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
             temp += 5; // body heat increases inventory temperature
         }
         calc_temp( temp, insulation, now );
-        calc_rot( now );
+        calc_rot( now, temp );
         return;
     }
 
@@ -7469,7 +7496,8 @@ bool item::process_fake_mill( player * /*carrier*/, const tripoint &pos )
 
 bool item::process_fake_smoke( player * /*carrier*/, const tripoint &pos )
 {
-    if( g->m.furn( pos ) != furn_str_id( "f_smoking_rack_active" ) ) {
+    if( g->m.furn( pos ) != furn_str_id( "f_smoking_rack_active" ) &&
+        g->m.furn( pos ) != furn_str_id( "f_metal_smoking_rack_active" ) ) {
         item_counter = 0;
         return true; //destroy fake smoke
     }
@@ -7763,14 +7791,15 @@ bool item::process_tool( player *carrier, const tripoint &pos )
 bool item::process( player *carrier, const tripoint &pos, bool activate )
 {
     if( has_temperature() || is_food_container() ) {
-        return process( carrier, pos, activate, g->get_temperature( pos ), 1 );
+        return process( carrier, pos, activate, g->get_temperature( pos ), 1,
+                        temperature_flag::TEMP_NORMAL );
     } else {
-        return process( carrier, pos, activate, 0, 1 );
+        return process( carrier, pos, activate, 0, 1, temperature_flag::TEMP_NORMAL );
     }
 }
 
 bool item::process( player *carrier, const tripoint &pos, bool activate, int temp,
-                    float insulation )
+                    float insulation, const temperature_flag flag )
 {
     const bool preserves = type->container && type->container->preserves;
     for( auto it = contents.begin(); it != contents.end(); ) {
@@ -7779,7 +7808,7 @@ bool item::process( player *carrier, const tripoint &pos, bool activate, int tem
             // is not changed, the item is still fresh.
             it->last_rot_check = calendar::turn;
         }
-        if( it->process( carrier, pos, activate, temp, type->insulation_factor * insulation ) ) {
+        if( it->process( carrier, pos, activate, temp, type->insulation_factor * insulation, flag ) ) {
             it = contents.erase( it );
         } else {
             ++it;
@@ -7847,7 +7876,7 @@ bool item::process( player *carrier, const tripoint &pos, bool activate, int tem
     }
     // All foods that go bad have temperature
     if( has_temperature() ) {
-        process_temperature_rot( temp, insulation, pos, carrier );
+        process_temperature_rot( temp, insulation, pos, carrier, flag );
     }
 
     return false;
@@ -8216,6 +8245,9 @@ const recipe &item::get_making() const
 
 const cata::optional<islot_comestible> &item::get_comestible() const
 {
-    return is_craft() ? find_type( making->result() )->comestible :
-           type->comestible;
+    if( is_craft() ) {
+        return find_type( making->result() )->comestible;
+    } else {
+        return type->comestible;
+    }
 }

@@ -11,6 +11,7 @@
 #include <type_traits>
 #include <utility>
 
+#include "explosion.h"
 #include "event.h"
 #include "field.h"
 #include "fungal_effects.h"
@@ -40,6 +41,7 @@
 #include "pldata.h"
 #include "units.h"
 #include "weighted_list.h"
+#include "type_id.h"
 
 const mtype_id mon_blob( "mon_blob" );
 const mtype_id mon_blob_brain( "mon_blob_brain" );
@@ -591,7 +593,7 @@ void mdeath::explode( monster &z )
             size = 26;
             break;
     }
-    g->explosion( z.pos(), size );
+    explosion_handler::explosion( z.pos(), size );
 }
 
 void mdeath::focused_beam( monster &z )
@@ -626,7 +628,7 @@ void mdeath::focused_beam( monster &z )
 
     z.inv.clear();
 
-    g->explosion( z.pos(), 8 );
+    explosion_handler::explosion( z.pos(), 8 );
 }
 
 void mdeath::broken( monster &z )

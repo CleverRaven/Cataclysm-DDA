@@ -17,9 +17,8 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_stack.h"
-#include "mapdata.h"
 #include "player_activity.h"
-#include "pldata.h"
+#include "type_id.h"
 
 const trait_id trait_debug_storage( "DEBUG_STORAGE" );
 

@@ -15,6 +15,7 @@
 #include "cata_utility.h"
 #include "debug.h"
 #include "effect.h"
+#include "explosion.h"
 #include "field.h"
 #include "game.h"
 #include "input.h"
@@ -25,7 +26,6 @@
 #include "map_iterator.h"
 #include "messages.h"
 #include "morale_types.h"
-#include "mutation.h"
 #include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
@@ -41,7 +41,6 @@
 #include "weather.h"
 #include "weather_gen.h"
 #include "calendar.h"
-#include "character.h"
 #include "color.h"
 #include "cursesdef.h"
 #include "damage.h"
@@ -51,7 +50,6 @@
 #include "pimpl.h"
 #include "pldata.h"
 #include "units.h"
-#include "mtype.h"
 
 const skill_id skilll_electronics( "electronics" );
 const skill_id skilll_firstaid( "firstaid" );
@@ -425,7 +423,7 @@ bool player::activate_bionic( int b, bool eff_only )
     } else if( bio.id == "bio_emp" ) {
         g->refresh_all();
         if( const cata::optional<tripoint> pnt = choose_adjacent( _( "Create an EMP where?" ) ) ) {
-            g->emp_blast( *pnt );
+            explosion_handler::emp_blast( *pnt );
             mod_moves( -100 );
         } else {
             charge_power( bionics[bionic_id( "bio_emp" )].power_activate );
@@ -507,10 +505,10 @@ bool player::activate_bionic( int b, bool eff_only )
 
         mod_moves( -100 );
     } else if( bio.id == "bio_flashbang" ) {
-        g->flashbang( pos(), true );
+        explosion_handler::flashbang( pos(), true );
         mod_moves( -100 );
     } else if( bio.id == "bio_shockwave" ) {
-        g->shockwave( pos(), 3, 4, 2, 8, true );
+        explosion_handler::shockwave( pos(), 3, 4, 2, 8, true );
         add_msg_if_player( m_neutral, _( "You unleash a powerful shockwave!" ) );
         mod_moves( -100 );
     } else if( bio.id == "bio_meteorologist" ) {
@@ -1656,7 +1654,7 @@ void player::introduce_into_anesthesia( const time_duration &duration, player &i
                                _( "You feel excited as the Autodoc slices painlessly into you.  You enjoy the sight of scalpels slicing you apart, but as operation proceeds you suddenly feel tired and pass out." ) );
         } else {
             add_msg_if_player( m_mixed,
-                               _( "You stay very, very still, focusing intently on an interesting rock on the ceiling, as the Autodoc slices painlessly into you.  Mercifully, you pass out when the blades reach your line of sight." ) );
+                               _( "You stay very, very still, focusing intently on an interesting stain on the ceiling, as the Autodoc slices painlessly into you.  Mercifully, you pass out when the blades reach your line of sight." ) );
         }
     }
 

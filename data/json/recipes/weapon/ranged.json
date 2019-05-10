@@ -1,5 +1,20 @@
 [
   {
+    "type": "recipe",
+    "result": "chemical_thrower",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "mechanics",
+    "skills_required": [ "launcher", 2 ],
+    "difficulty": 6,
+    "time": 30000,
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
+    "using": [ [ "welding_standard", 40 ] ],
+    "components": [ [ [ "pipe", 2 ] ], [ [ "hose", 2 ] ], [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 12 ] ] ]
+  },
+  {
     "result": "nailrifle",
     "type": "recipe",
     "category": "CC_WEAPON",

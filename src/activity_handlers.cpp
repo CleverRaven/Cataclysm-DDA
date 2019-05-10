@@ -76,6 +76,7 @@
 #include "ret_val.h"
 #include "string_id.h"
 #include "units.h"
+#include "type_id.h"
 
 class npc;
 
@@ -110,6 +111,9 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_PICKUP" ), pickup_do_turn },
     { activity_id( "ACT_WEAR" ), wear_do_turn },
     { activity_id( "ACT_EAT_MENU" ), eat_menu_do_turn },
+    { activity_id( "ACT_CONSUME_FOOD_MENU" ), consume_food_menu_do_turn },
+    { activity_id( "ACT_CONSUME_DRINK_MENU" ), consume_drink_menu_do_turn },
+    { activity_id( "ACT_CONSUME_MEDS_MENU" ), consume_meds_menu_do_turn },
     { activity_id( "ACT_MOVE_ITEMS" ), move_items_do_turn },
     { activity_id( "ACT_MOVE_LOOT" ), move_loot_do_turn },
     { activity_id( "ACT_ADV_INVENTORY" ), adv_inventory_do_turn },
@@ -183,6 +187,9 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_ATM" ), atm_finish },
     { activity_id( "ACT_AIM" ), aim_finish },
     { activity_id( "ACT_EAT_MENU" ), eat_menu_finish },
+    { activity_id( "ACT_CONSUME_FOOD_MENU" ), eat_menu_finish },
+    { activity_id( "ACT_CONSUME_DRINK_MENU" ), eat_menu_finish },
+    { activity_id( "ACT_CONSUME_MEDS_MENU" ), eat_menu_finish },
     { activity_id( "ACT_WASH" ), washing_finish },
     { activity_id( "ACT_HACKSAW" ), hacksaw_finish },
     { activity_id( "ACT_CHOP_TREE" ), chop_tree_finish },
@@ -540,8 +547,6 @@ int butcher_time_to_cut( const player &u, const item &corpse_item, const butcher
             }
             break;
         case F_DRESS:
-            time_to_cut *= 2;
-            break;
         case SKIN:
             time_to_cut *= 2;
             break;
@@ -565,7 +570,6 @@ int butcher_time_to_cut( const player &u, const item &corpse_item, const butcher
     if( corpse_item.has_flag( "QUARTERED" ) ) {
         time_to_cut /= 4;
     }
-    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
     time_to_cut = time_to_cut * ( 1 - ( g->u.get_num_crafting_helpers( 3 ) / 10 ) );
     return time_to_cut;
 }
@@ -843,6 +847,9 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p,
         if( action == SKIN ) {
             if( entry.type != "skin" ) {
                 continue;
+            }
+            if( corpse_item->has_flag( "FIELD_DRESS_FAILED" ) ) {
+                roll = rng( 0, roll );
             }
         }
 
@@ -1753,7 +1760,6 @@ void activity_handlers::pickaxe_finish( player_activity *act, player *p )
     const tripoint pos( act->placement );
     item &it = p->i_at( act->position );
     act->set_to_null(); // Invalidate the activity early to prevent a query from mod_pain()
-    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
     const int helpersize = g->u.get_num_crafting_helpers( 3 );
     if( g->m.is_bashable( pos ) && g->m.has_flag( "SUPPORTS_ROOF", pos ) &&
         g->m.ter( pos ) != t_tree ) {
@@ -2585,6 +2591,21 @@ void activity_handlers::eat_menu_do_turn( player_activity *, player * )
     g->eat();
 }
 
+void activity_handlers::consume_food_menu_do_turn( player_activity *, player * )
+{
+    g->eat( game_menus::inv::consume_food );
+}
+
+void activity_handlers::consume_drink_menu_do_turn( player_activity *, player * )
+{
+    g->eat( game_menus::inv::consume_drink );
+}
+
+void activity_handlers::consume_meds_menu_do_turn( player_activity *, player * )
+{
+    g->eat( game_menus::inv::consume_meds );
+}
+
 void activity_handlers::move_items_do_turn( player_activity *, player * )
 {
     activity_on_turn_move_items();
@@ -2910,7 +2931,6 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
     }
 
     g->m.ter_set( pos, t_stump );
-    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
     const int helpersize = g->u.get_num_crafting_helpers( 3 );
     p->mod_stored_nutr( 5 - helpersize );
     p->mod_thirst( 5 - helpersize );
@@ -2933,7 +2953,6 @@ void activity_handlers::chop_logs_finish( player_activity *act, player *p )
     }
 
     g->m.ter_set( pos, t_dirt );
-    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
     const int helpersize = g->u.get_num_crafting_helpers( 3 );
     p->mod_stored_nutr( 5 - helpersize );
     p->mod_thirst( 5 - helpersize );
@@ -2958,7 +2977,6 @@ void activity_handlers::jackhammer_finish( player_activity *act, player *p )
 
     g->m.destroy( pos, true );
 
-    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
     const int helpersize = g->u.get_num_crafting_helpers( 3 );
     p->mod_stored_nutr( 5 - helpersize );
     p->mod_thirst( 5 - helpersize );
@@ -3031,7 +3049,6 @@ void activity_handlers::dig_finish( player_activity *act, player *p )
         g->m.spawn_items( dump_loc, item_group::items_from( byproducts_item_group, calendar::turn ) );
     }
 
-    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
     const int helpersize = g->u.get_num_crafting_helpers( 3 );
     p->mod_stored_nutr( 5 - helpersize );
     p->mod_thirst( 5 - helpersize );
@@ -3089,7 +3106,6 @@ void activity_handlers::fill_pit_finish( player_activity *act, player *p )
     } else {
         g->m.ter_set( pos, t_dirt );
     }
-    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
     const int helpersize = g->u.get_num_crafting_helpers( 3 );
     p->mod_stored_nutr( 5 - helpersize );
     p->mod_thirst( 5 - helpersize );

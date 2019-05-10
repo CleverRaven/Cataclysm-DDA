@@ -59,8 +59,7 @@
 #include "string_formatter.h"
 #include "string_id.h"
 #include "units.h"
-#include "mtype.h"
-#include "pldata.h"
+#include "type_id.h"
 
 const efftype_id effect_contacts( "contacts" );
 
@@ -1845,6 +1844,11 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
                     // tools that can't be unloaded will keep their default charges.
                     newit.charges = 0;
                 }
+            }
+
+            // If the recipe has a `FULL_MAGAZINE` flag, spawn any magazines full of ammo
+            if( newit.is_magazine() && dis.has_flag( "FULL_MAGAZINE" ) ) {
+                newit.ammo_set( newit.type->magazine->type.obj().default_ammotype(), newit.ammo_capacity() );
             }
 
             for( ; compcount > 0; compcount-- ) {

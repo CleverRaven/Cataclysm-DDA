@@ -7,9 +7,9 @@
 
 #include "generic_factory.h"
 #include "json.h"
-#include "player.h"
 #include "debug.h"
 #include "string_id.h"
+#include "type_id.h"
 
 // recipe_groups namespace
 
