@@ -24,7 +24,8 @@ const std::map<std::string, valid_target> target_map = {
     { "ally", valid_target::target_ally },
     { "hostile", valid_target::target_hostile },
     { "self", valid_target::target_self },
-    { "ground", valid_target::target_ground }
+    { "ground", valid_target::target_ground },
+    { "none", valid_target::target_none }
 };
 }
 namespace io
