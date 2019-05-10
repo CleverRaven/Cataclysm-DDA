@@ -446,6 +446,11 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
         return ret;
     }
 
+    // critters on a BOARDABLE part in this vehicle aren't colliding
+    if( is_body_collision && ovp && ( &ovp->vehicle() == this ) && get_pet( ovp->part_index() ) ) {
+        return ret;
+    }
+
     // Damage armor before damaging any other parts
     // Actually target, not just damage - spiked plating will "hit back", for example
     const int armor_part = part_with_feature( ret.part, VPFLAG_ARMOR, true );
@@ -1240,43 +1245,60 @@ float map::vehicle_wheel_traction( const vehicle &veh ) const
 
 int map::shake_vehicle( vehicle &veh, const int velocity_before, const int direction )
 {
-    const tripoint &pt = veh.global_pos3();
     const int d_vel = abs( veh.velocity - velocity_before ) / 100;
 
-    const std::vector<int> boarded = veh.boarded_parts();
+    std::vector<rider_data> riders = veh.get_riders();
 
     int coll_turn = 0;
-    for( const auto &ps : boarded ) {
-        player *psg = veh.get_passenger( ps );
-        if( psg == nullptr ) {
+    for( const rider_data &r : riders ) {
+        const int ps = r.prt;
+        Creature *rider = r.psg;
+        if( rider == nullptr ) {
             debugmsg( "throw passenger: empty passenger at part %d", ps );
             continue;
         }
 
-        const tripoint part_pos = pt + veh.parts[ps].precalc[0];
-        if( psg->pos() != part_pos ) {
+        const tripoint part_pos = veh.global_part_pos3( ps );
+        if( rider->pos() != part_pos ) {
             debugmsg( "throw passenger: passenger at %d,%d,%d, part at %d,%d,%d",
-                      psg->posx(), psg->posy(), psg->posz(), part_pos.x, part_pos.y, part_pos.z );
+                      rider->posx(), rider->posy(), rider->posz(),
+                      part_pos.x, part_pos.y, part_pos.z );
             veh.parts[ps].remove_flag( vehicle_part::passenger_flag );
             continue;
         }
 
+        player *psg = dynamic_cast<player *>( rider );
+        monster *pet = dynamic_cast<monster *>( rider );
+
         bool throw_from_seat = false;
+        int move_resist = 1;
+        if( psg ) {
+            ///\EFFECT_STR reduces chance of being thrown from your seat when not wearing a seatbelt
+            move_resist = psg->str_cur * 150 + 500;
+        } else {
+            move_resist = std::max( 100,
+                                    static_cast<int>( to_kilogram( pet->get_weight() ) * 200 ) );
+        }
         if( veh.part_with_feature( ps, VPFLAG_SEATBELT, true ) == -1 ) {
             ///\EFFECT_STR reduces chance of being thrown from your seat when not wearing a seatbelt
-            throw_from_seat = d_vel * rng( 80, 120 ) / 100 > ( psg->str_cur * 1.5 + 5 );
+            throw_from_seat = d_vel * rng( 80, 120 ) > move_resist;
         }
 
         // Damage passengers if d_vel is too high
-        if( d_vel > 60 * rng( 50, 100 ) / 100 && !throw_from_seat ) {
-            const int dmg = d_vel / 4 * rng( 70, 100 ) / 100;
-            psg->hurtall( dmg, nullptr );
-            psg->add_msg_player_or_npc( m_bad,
-                                        _( "You take %d damage by the power of the impact!" ),
-                                        _( "<npcname> takes %d damage by the power of the impact!" ),  dmg );
+        if( !throw_from_seat && ( 10 * d_vel ) > 6 * rng( 50, 100 ) ) {
+            const int dmg = d_vel * rng( 70, 100 ) / 400;
+            if( psg ) {
+                psg->hurtall( dmg, nullptr );
+                psg->add_msg_player_or_npc( m_bad,
+                                            _( "You take %d damage by the power of the impact!" ),
+                                            _( "<npcname> takes %d damage by the power of the "
+                                               "impact!" ),  dmg );
+            } else {
+                pet->apply_damage( nullptr, bp_torso, dmg );
+            }
         }
 
-        if( veh.player_in_control( *psg ) ) {
+        if( psg && veh.player_in_control( *psg ) ) {
             const int lose_ctrl_roll = rng( 0, d_vel );
             ///\EFFECT_DEX reduces chance of losing control of vehicle when shaken
 
@@ -1285,7 +1307,7 @@ int map::shake_vehicle( vehicle &veh, const int velocity_before, const int direc
                 psg->add_msg_player_or_npc( m_warning,
                                             _( "You lose control of the %s." ),
                                             _( "<npcname> loses control of the %s." ), veh.name );
-                int turn_amount = ( rng( 1, 3 ) * sqrt( static_cast<double>( abs( veh.velocity ) ) ) / 2 ) / 15;
+                int turn_amount = rng( 1, 3 ) * sqrt( abs( veh.velocity ) ) / 30;
                 if( turn_amount < 1 ) {
                     turn_amount = 1;
                 }
@@ -1298,14 +1320,20 @@ int map::shake_vehicle( vehicle &veh, const int velocity_before, const int direc
         }
 
         if( throw_from_seat ) {
-            psg->add_msg_player_or_npc( m_bad,
-                                        _( "You are hurled from the %s's seat by the power of the impact!" ),
-                                        _( "<npcname> is hurled from the %s's seat by the power of the impact!" ),
-                                        veh.name );
-            unboard_vehicle( part_pos );
+            if( psg ) {
+                psg->add_msg_player_or_npc( m_bad,
+                                            _( "You are hurled from the %s's seat by "
+                                               "the power of the impact!" ),
+                                            _( "<npcname> is hurled from the %s's seat by "
+                                               "the power of the impact!" ), veh.name );
+                unboard_vehicle( part_pos );
+            } else if( g->u.sees( part_pos ) ) {
+                add_msg( m_bad, _( "The %s is hurled from %s's by the power of the impact!" ),
+                         pet->disp_name(), veh.name );
+            }
             ///\EFFECT_STR reduces distance thrown from seat in a vehicle impact
-            g->fling_creature( psg, direction + rng( 0, 60 ) - 30,
-                               ( d_vel - psg->str_cur < 10 ) ? 10 : d_vel - psg->str_cur );
+            g->fling_creature( rider, direction + rng( 0, 60 ) - 30,
+                               std::max( 10, d_vel - move_resist / 100 ) );
         }
     }
 
