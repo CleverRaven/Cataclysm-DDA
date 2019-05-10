@@ -35,6 +35,9 @@ struct furn_t;
 struct itype;
 class item_location;
 
+class spell_type;
+using spell_id = string_id<spell_type>;
+
 /**
  * Transform an item into a specific type.
  * Optionally activate it.
@@ -655,6 +658,24 @@ class musical_instrument_actor : public iuse_actor
         long use( player &, item &, bool, const tripoint & ) const override;
         ret_val<bool> can_use( const player &, const item &, bool, const tripoint & ) const override;
         iuse_actor *clone() const override;
+};
+
+/**
+ * Learn a spell
+ */
+class learn_spell_actor : public iuse_actor
+{
+    public:
+        // list of spell ids that can be learned from this item
+        std::vector<std::string> spells;
+
+        learn_spell_actor( const std::string &type = "learn_spell" ) : iuse_actor( type ) {}
+
+        ~learn_spell_actor() override = default;
+        void load( JsonObject &jo ) override;
+        long use( player &p, item &, bool, const tripoint & ) const override;
+        iuse_actor *clone() const override;
+        void info( const item &, std::vector<iteminfo> & ) const override;
 };
 
 /**

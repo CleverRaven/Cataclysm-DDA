@@ -79,6 +79,9 @@ class vehicle;
 struct w_point;
 struct points_left;
 struct targeting_data;
+class spell;
+class spell_type;
+using spell_id = string_id<spell_type>;
 
 namespace debug_menu
 {
@@ -1947,6 +1950,15 @@ class player : public Character
 
         map_memory player_map_memory;
         bool show_map_memory;
+
+        // magic mod
+
+        // list of spells known by player
+        std::map<spell_id, spell> spellbook;
+        // the base mana a player would start with
+        int mana_base;
+        // current mana
+        int mana;
 };
 
 #endif

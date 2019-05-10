@@ -992,7 +992,7 @@ std::vector<item *> inventory::active_items()
     for( auto &elem : items ) {
         for( auto &elem_stack_iter : elem ) {
             if( ( elem_stack_iter.is_artifact() && elem_stack_iter.is_tool() ) ||
-                elem_stack_iter.active ||
+                elem_stack_iter.active || elem_stack_iter.has_flag( "ETHEREAL_ITEM" ) ||
                 ( elem_stack_iter.is_container() && !elem_stack_iter.contents.empty() &&
                   elem_stack_iter.contents.front().active ) ) {
                 ret.push_back( &elem_stack_iter );

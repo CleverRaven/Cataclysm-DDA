@@ -38,6 +38,7 @@
 #include "item_location.h"
 #include "itype.h"
 #include "iuse_actor.h"
+#include "magic.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -488,6 +489,8 @@ player::player() : Character()
     power_level = 0;
     max_power_level = 0;
     stamina = 1000; //Temporary value for stamina. It will be reset later from external json option.
+    mana_base = 1000; // base mana you start with
+    mana = max_mana();
     stim = 0;
     pkill = 0;
     radiation = 0;
@@ -4194,6 +4197,9 @@ void player::update_body( const time_point &from, const time_point &to )
 {
     update_stamina( to_turns<int>( to - from ) );
     update_stomach( from, to );
+    if( ticks_between( from, to, 10_turns ) > 0 ) {
+        update_mana( to_turns<float>( 10_turns ) );
+    }
     const int five_mins = ticks_between( from, to, 5_minutes );
     if( five_mins > 0 ) {
         check_needs_extremes();
@@ -7126,6 +7132,9 @@ void player::process_active_items()
     if( weapon.needs_processing() && weapon.process( this, pos(), false ) ) {
         weapon = item();
     }
+    if( weapon.has_flag( "ETHEREAL_ITEM" ) ) {
+        weapon.process( this, pos(), false );
+    }
 
     std::vector<item *> inv_active = inv.active_items();
     for( auto tmp_it : inv_active ) {
@@ -7145,6 +7154,9 @@ void player::process_active_items()
     item *power_armor = nullptr;
     // Manual iteration because we only care about *worn* active items.
     for( auto &w : worn ) {
+        if( w.has_flag( "ETHEREAL_ITEM" ) ) {
+            w.process( this, pos(), false );
+        }
         if( !w.active ) {
             continue;
         }

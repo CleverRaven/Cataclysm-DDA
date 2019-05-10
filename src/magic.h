@@ -6,6 +6,7 @@
 
 #include "damage.h"
 #include "enum_bitset.h"
+#include "generic_factory.h"
 #include "type_id.h"
 
 struct mutation_branch;
@@ -150,8 +151,6 @@ class spell
 
         // once you accumulate enough exp you level the spell
         int experience;
-        // the spell has this target in its list of valid targets
-        bool is_valid_target( valid_target t ) const;
         // returns damage type for the spell
         damage_type dmg_type() const;
         // gets int from player
@@ -185,6 +184,7 @@ class spell
         int damage() const;
         dealt_damage_instance get_dealt_damage_instance() const;
         damage_instance get_damage_instance() const;
+        tripoint get_source() const;
         // how big is the spell's radius
         int aoe() const;
         // distance spell can be cast
@@ -193,6 +193,7 @@ class spell
         int energy_cost() const;
         // how long does this spell's effect last
         int duration() const;
+        time_duration duration_turns() const;
         // how often does the spell fail
         // based on difficulty, level of spell, spellcraft skill, intelligence
         float spell_fail() const;
@@ -219,12 +220,13 @@ class spell
         std::string description() const;
         // energy source as a string (translated)
         std::string energy_string() const;
-        // energy cost returned as a string
-        std::string energy_cost_string() const;
+        std::string energy_cost_string( const player &p ) const;
         // current energy the player has available as a string
-        std::string energy_cur_string() const;
+        std::string energy_cur_string( const player &p ) const;
         // energy source enum
         energy_type energy_source() const;
+        // the color that's representative of the damage type
+        nc_color damage_type_color() const;
         // your level in this spell
         int get_level() const;
         // difficulty of the level
@@ -235,6 +237,7 @@ class spell
 
         // is the target valid for this spell?
         bool is_valid_target( const tripoint &p ) const;
+        bool is_valid_target( valid_target t ) const;
 };
 
 class known_magic
@@ -279,9 +282,14 @@ class known_magic
 
 namespace spell_effect
 {
+void teleport( int min_distance, int max_distance );
 void pain_split(); // only does g->u
 void shallow_pit( const tripoint &target );
 void target_attack( spell &sp, const tripoint &target );
+void projectile_attack( spell &sp, const tripoint &target );
+void cone_attack( spell &sp, const tripoint &target );
+void line_attack( spell &sp, const tripoint &target );
+void spawn_ethereal_item( spell &sp );
 }
 
 #endif
