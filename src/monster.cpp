@@ -950,7 +950,8 @@ monster_attitude monster::attitude( const Character *u ) const
             }
         }
 
-        if( type->in_species( FUNGUS ) && ( u->has_trait( mycus_thresh ) || u->has_trait( mycus_friend) ) ) {
+        if( type->in_species( FUNGUS ) && ( u->has_trait( mycus_thresh ) ||
+                                            u->has_trait( mycus_friend ) ) ) {
             return MATT_FRIEND;
         }
 

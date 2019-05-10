@@ -52,8 +52,8 @@ static const mongroup_id GROUP_FISH( "GROUP_FISH" );
 
 static const mtype_id mon_zombie_tough( "mon_zombie_tough" );
 static const mtype_id mon_blank( "mon_blank" );
-static const mtype_id mon_marloss_zealot_f ( "mon_marloss_zealot_f" );
-static const mtype_id mon_marloss_zealot_m ( "mon_marloss_zealot_m" );
+static const mtype_id mon_marloss_zealot_f( "mon_marloss_zealot_f" );
+static const mtype_id mon_marloss_zealot_m( "mon_marloss_zealot_m" );
 static const mtype_id mon_zombie_smoker( "mon_zombie_smoker" );
 static const mtype_id mon_zombie_scientist( "mon_zombie_scientist" );
 static const mtype_id mon_chickenbot( "mon_chickenbot" );
@@ -462,11 +462,12 @@ void mx_marloss_pilgrimage( map &m, const tripoint &abs_sub )
     int rad = 3;
     tripoint_range spawnzone = m.points_in_radius( leader_pos, rad );
 
-    m.place_npc( leader_pos.x , leader_pos.y , string_id<npc_template>( "marloss_voice" ) );
-    for ( int spawned = 0 ; spawned <= max_followers ; spawned++ ) {
+    m.place_npc( leader_pos.x, leader_pos.y, string_id<npc_template>( "marloss_voice" ) );
+    for( int spawned = 0 ; spawned <= max_followers ; spawned++ ) {
         tripoint where = random_entry( spawnzone );
-        if ( g->is_empty( where ) ) {
-            ( one_in(2) ) ? m.add_spawn(mon_marloss_zealot_f, 1, where.x , where.y ) : m.add_spawn(mon_marloss_zealot_m, 1, where.x , where.y );
+        if( g->is_empty( where ) ) {
+            ( one_in( 2 ) ) ? m.add_spawn( mon_marloss_zealot_f, 1, where.x,
+                                           where.y ) : m.add_spawn( mon_marloss_zealot_m, 1, where.x, where.y );
         }
     }
 
