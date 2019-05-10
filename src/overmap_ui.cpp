@@ -990,10 +990,13 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
     bool fast_scroll = false; /* fast scroll state should reset every time overmap UI is opened */
     int fast_scroll_offset = get_option<int>( "MOVE_VIEW_OFFSET" );
     cata::optional<tripoint> mouse_pos;
-
+    bool redraw = true;
     do {
-        draw( g->w_overmap, g->w_omlegend, curs, orig, uistate.overmap_show_overlays, show_explored,
-              fast_scroll, &ictxt, data );
+        if( redraw ) {
+            draw( g->w_overmap, g->w_omlegend, curs, orig, uistate.overmap_show_overlays,
+                  show_explored, fast_scroll, &ictxt, data );
+        }
+        redraw = true;
         action = ictxt.handle_input( BLINK_SPEED );
 
         if( const cata::optional<tripoint> vec = ictxt.get_direction( action ) ) {
