@@ -3880,7 +3880,7 @@ int get_hourly_rotpoints_at_temp( const int temp )
     return rot_chart[temp];
 }
 
-void item::calc_rot( time_point time )
+void item::calc_rot( time_point time, int temp )
 {
     if( !goes_bad() ) {
         return;
@@ -3904,6 +3904,10 @@ void item::calc_rot( time_point time )
         factor = 0.75;
     }
 
+    if( item_tags.count( "COLD" ) ) {
+        temp = temperatures::fridge;
+    }
+
     // bday and/or last_rot_check might be zero, if both are then we want calendar::start
     const time_point since = std::max( {last_rot_check, ( time_point ) calendar::start} );
 
@@ -3918,7 +3922,7 @@ void item::calc_rot( time_point time )
 
     time_duration time_delta = time - since;
     rot += factor * time_delta / 1_hours * get_hourly_rotpoints_at_temp( kelvin_to_fahrenheit(
-                0.00001 * temperature ) ) * 1_turns;
+                0.00001 * temp ) ) * 1_turns;
     last_rot_check = time;
 }
 
@@ -7083,7 +7087,7 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
                 temp += 5; // body heat increases inventory temperature
             }
             calc_temp( temp, insulation, now );
-            calc_rot( now );
+            calc_rot( now, temp );
         }
         return;
     }
@@ -7172,7 +7176,7 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
 
             // Calculate item rot from item temperature
             if( time - last_rot_check >  smallest_interval ) {
-                calc_rot( time );
+                calc_rot( time, env_temperature );
 
                 if( has_rotten_away() || ( is_corpse() && rot > 10_days ) ) {
                     // No need to track item that will be gone
@@ -7190,7 +7194,7 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
             temp += 5; // body heat increases inventory temperature
         }
         calc_temp( temp, insulation, now );
-        calc_rot( now );
+        calc_rot( now, temp );
         return;
     }
 
