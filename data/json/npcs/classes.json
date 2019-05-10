@@ -136,12 +136,11 @@
     "id": "NC_MARLOSS_VOICE",
     "name": "Marloss Voice",
     "job_description": "I spread the Hymns so that peace and unity return to our world.",
-    "//": "THRESH_MYCUS is here only for faction AI purposes. This NPCS is not meant to be part of the fungaloid mind, they have just eaten marloss berries and maybe seeds or gelatin ",
-    "traits": [ 
+    "traits": [
       { "group": "BG_survival_story_RURAL" },
       { "group": "NPC_starting_traits" },
       { "group": "Appearance_demographics" },
-      [ "THRESH_MYCUS", 100 ],
+      [ "MYCUS_FRIEND", 100 ],
       [ "FLIMSY2", 100 ]
     ],
     "worn_override": "NC_VOICE_worn",
