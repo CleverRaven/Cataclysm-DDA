@@ -882,7 +882,7 @@
   {
     "type": "item_action",
     "id": "HAND_CRANK",
-    "name": "Recharging a battery"
+    "name": "Recharge a battery"
   },
   {
     "type": "item_action",
