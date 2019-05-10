@@ -6,11 +6,9 @@
 #include <algorithm>
 #include <array>
 #include <cassert>
-#include <chrono>
 #include <cstdlib>
 #include <fstream>
 #include <bitset>
-#include <iomanip>
 #include <iterator>
 #include <stdexcept>
 #include <tuple>
@@ -22,7 +20,6 @@
 #include "cursesport.h"
 #include "debug.h"
 #include "field.h"
-#include "filesystem.h"
 #include "game.h"
 #include "item.h"
 #include "item_factory.h"
