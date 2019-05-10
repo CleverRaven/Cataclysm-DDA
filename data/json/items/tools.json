@@ -8312,7 +8312,7 @@
     "type": "TOOL",
     "category": "tools",
     "name": "hand-crank charger",
-    "description": "This is a hand-powered battery charger. It has an adjustable receptacle designed to accept a wide variety of rechargable battery cells.",
+    "description": "This is a hand-powered battery charger.  It has an adjustable receptacle designed to accept a wide variety of rechargeable battery cells.",
     "weight": 2000,
     "volume": 2,
     "price": 1000,
