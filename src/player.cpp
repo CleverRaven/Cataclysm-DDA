@@ -4591,6 +4591,7 @@ needs_rates player::calc_needs_rates()
 
     needs_rates rates;
     rates.hunger = metabolic_rate();
+    rates.fatigue = 1.0f;
     // TODO: this is where calculating basal metabolic rate, in kcal per day would go
     rates.kcal = 2500.0;
 
