@@ -54,7 +54,8 @@
       [ "crowbar", 10 ],
       [ "thermometer", 5 ],
       [ "multitool", 10 ],
-      [ "recharge_station", 10 ]
+      [ "recharge_station", 10 ],
+      [ "hand_crank_charger", 25 ]
     ]
   },
   {
@@ -135,7 +136,8 @@
       [ "soldering_iron", 100 ],
       [ "magnifying_glass", 100 ],
       [ "voltmeter", 100 ],
-      [ "recharge_station", 10 ]
+      [ "recharge_station", 10 ],
+      [ "hand_crank_charger", 40 ]
     ]
   },
   {
@@ -251,7 +253,8 @@
       [ "ref_lighter", 20 ],
       [ "signal_flare", 20 ],
       [ "sm_extinguisher", 20 ],
-      [ "whistle", 20 ]
+      [ "whistle", 20 ],
+      [ "hand_crank_charger", 15 ]
     ]
   },
   {

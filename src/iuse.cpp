@@ -4210,6 +4210,41 @@ int iuse::portable_game( player *p, item *it, bool, const tripoint & )
     return it->type->charges_to_use();
 }
 
+int iuse::hand_crank( player *p, item *it, bool, const tripoint & )
+{
+    if( p->is_npc() ) {
+        // Long action
+        return 0;
+    }
+    if( p->is_underwater() ) {
+        p->add_msg_if_player( m_info, _( "It's not waterproof enough to work underwater." ) );
+        return 0;
+    }
+    if( p->get_fatigue() >= DEAD_TIRED ) {
+        p->add_msg_if_player( m_info, _( "You're too exhausted to keep cranking." ) );
+        return 0;
+    }
+    item *magazine = it->magazine_current();
+    if( magazine && magazine->has_flag( "RECHARGE" ) ) {
+        // 1600 minutes. It shouldn't ever run this long, but it's an upper bound.
+        // expectation is it runs until the player is too tired.
+        int time = 1600000;
+        if( it->ammo_capacity() > it->ammo_remaining() ) {
+            p->add_msg_if_player( string_format( _( "You start cranking the %s to charge its %s." ),
+                                                 it->tname(), it->magazine_current()->tname() ) ) ;
+            p->assign_activity( activity_id( "ACT_HAND_CRANK" ), time, -1, p->get_item_position( it ),
+                                "hand-cranking" );
+        } else {
+            p->add_msg_if_player( string_format(
+                                      _( "You could use the %s to charge its %s, but it's already charged." ), it->tname(),
+                                      magazine->tname() ) ) ;
+        }
+    } else {
+        p->add_msg_if_player( m_info, _( "You need a rechargable battery cell to charge." ) );
+    }
+    return 0;
+}
+
 int iuse::vibe( player *p, item *it, bool, const tripoint & )
 {
     if( p->is_npc() ) {
