@@ -1849,11 +1849,11 @@ std::vector<comp_rank> talk_function::companion_rank( const std::vector<npc_ptr>
     }
 
     std::vector<comp_rank> adjusted;
-    for( auto entry : raw ) {
+    for( const auto &entry : raw ) {
         comp_rank r;
-        r.combat = 100 * entry.combat / max_combat;
-        r.survival = 100 * entry.survival / max_survival;
-        r.industry = 100 * entry.industry / max_industry;
+        r.combat = max_combat ? 100 * entry.combat / max_combat : 0;
+        r.survival = max_survival ? 100 * entry.survival / max_survival : 0;
+        r.industry = max_industry ? 100 * entry.industry / max_industry : 0;
         adjusted.push_back( r );
     }
     return adjusted;
