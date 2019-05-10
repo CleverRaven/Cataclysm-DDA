@@ -202,6 +202,7 @@ item::item( const itype *type, time_point turn, long qty ) : type( type ), bday(
     } else if( type->tool ) {
         if( ammo_remaining() && ammo_type() ) {
             ammo_set( ammo_type()->default_ammotype(), ammo_remaining() );
+            on_charges_changed();
         }
     }
 
