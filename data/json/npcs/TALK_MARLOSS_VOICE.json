@@ -17,11 +17,22 @@
       "Your travels be fruitful, friend.",
       "May you find your peace, traveler.",
       "We might have lost everything, but hope remains.",
-      "The earth flourish beneath our paths",
+      "May the earth flourish beneath our paths.",
       "Unity of spirit, of mind, and body...",
       "Look for the bonds which define you, and act in accord."
     ],
     "responses": [
+      {
+        "text": "I don't know what kind of heresy you are spreading, but I'm putting an end to it!",
+        "topic": "TALK_DONE",
+        "condition": { 
+          "and": [ 
+            { "u_has_trait": "SPIRITUAL" },
+            { "not": { "u_has_trait_flag": "mycus" } }
+            ] 
+        },
+        "effect": "hostile"
+      },
       {
         "text": "This place is dangerous, what are you doing here?",
         "topic": "TALK_MARLOSS_VOICE_BANKET",
@@ -77,7 +88,13 @@
         "topic": "TALK_DONE",
         "effect": [ { "u_buy_item": "marloss_berry" }, { "u_add_effect": "u_given_berry", "duration": "43200" } ]
       },
-      { "text": "I have changed my mind, thank you.", "topic": "TALK_DONE" }
+      { "text": "I have changed my mind, thank you.", "topic": "TALK_DONE" },
+      {
+        "text": "I'm joining no stinking cult!  Take your berry and shove it!",
+        "topic": "TALK_DONE",
+        "condition": { "not": { "u_has_trait_flag": "mycus" } },
+        "effect": "hostile"
+      }
     ]
   }
 ]
