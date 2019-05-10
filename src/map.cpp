@@ -78,6 +78,7 @@
 #include "player_activity.h"
 #include "tileray.h"
 #include "weighted_list.h"
+#include "enums.h"
 #include "int_id.h"
 #include "string_id.h"
 
@@ -4488,14 +4489,14 @@ static bool item_is_in_activity( const item *it )
 }
 
 static bool process_item( item_stack &items, std::list<item>::iterator &n, const tripoint &location,
-                          const bool activate, const int temp, const float insulation )
+                          const bool activate, const int temp, const float insulation, const temperature_flag flag )
 {
     if( !item_is_in_activity( &*n ) ) {
         // make a temporary copy, remove the item (in advance)
         // and use that copy to process it
         item temp_item = *n;
         auto insertion_point = items.erase( n );
-        if( !temp_item.process( nullptr, location, activate, temp, insulation ) ) {
+        if( !temp_item.process( nullptr, location, activate, temp, insulation, flag ) ) {
             // Not destroyed, must be inserted again.
             // If the item lost its active flag in processing,
             // it won't be re-added to the active list, tidy!
@@ -4507,7 +4508,7 @@ static bool process_item( item_stack &items, std::list<item>::iterator &n, const
             return false;
         }
         return true;
-    } else if( n->process( nullptr, location, activate, temp, insulation ) ) {
+    } else if( n->process( nullptr, location, activate, temp, insulation, flag ) ) {
         items.erase( n );
         return true;
     }
@@ -4516,9 +4517,9 @@ static bool process_item( item_stack &items, std::list<item>::iterator &n, const
 
 static bool process_map_items( item_stack &items, std::list<item>::iterator &n,
                                const tripoint &location, const std::string &, const int temp,
-                               const float insulation )
+                               const float insulation, const temperature_flag flag )
 {
-    return process_item( items, n, location, false, temp, insulation );
+    return process_item( items, n, location, false, temp, insulation, flag );
 }
 
 static void process_vehicle_items( vehicle &cur_veh, int part )
@@ -4623,11 +4624,16 @@ void map::process_items_in_submap( submap &current_submap, const tripoint &gridp
 
         const tripoint map_location = tripoint( grid_offset + active_item.location, gridp.z );
         // root cellars are special
-        const int loc_temp = g->m.ter( map_location ) == t_rootcellar ?
-                             AVERAGE_ANNUAL_TEMPERATURE :
-                             g->get_temperature( map_location );
+        int loc_temp;
+        temperature_flag flag = temperature_flag::TEMP_NORMAL;
+        if( g->m.ter( map_location ) == t_rootcellar ) {
+            loc_temp = AVERAGE_ANNUAL_TEMPERATURE;
+            flag = temperature_flag::TEMP_ROOT_CELLAR;
+        } else {
+            loc_temp = g->get_temperature( map_location );
+        }
         auto items = i_at( map_location );
-        processor( items, active_item.item_iterator, map_location, signal, loc_temp, 1 );
+        processor( items, active_item.item_iterator, map_location, signal, loc_temp, 1, flag );
     }
 }
 
@@ -4687,10 +4693,12 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap, co
         auto items = cur_veh.get_items( static_cast<int>( it->part_index() ) );
         int it_temp = g->get_temperature( item_loc );
         float it_insulation = 1.0;
-        if( item_iter->is_food() || item_iter->is_food_container() ) {
+        temperature_flag flag = temperature_flag::TEMP_NORMAL;
+        if( item_iter->has_temperature() || item_iter->is_food_container() ) {
             const vpart_info &pti = pt.info();
             if( engine_heater_is_on ) {
                 it_temp = std::max( it_temp, temperatures::normal );
+                flag = temperature_flag::TEMP_HEATER;
             }
             // some vehicle parts provide insulation, default is 1
             it_insulation = item::find_type( pti.item )->insulation_factor;
@@ -4698,12 +4706,14 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap, co
             if( pt.enabled && pti.has_flag( VPFLAG_FRIDGE ) ) {
                 it_temp = std::min( it_temp, temperatures::fridge );
                 it_insulation = 1; // ignore fridge insulation if on
+                flag = temperature_flag::TEMP_FRIDGE;
             } else if( pt.enabled && pti.has_flag( VPFLAG_FREEZER ) ) {
                 it_temp = std::min( it_temp, temperatures::freezer );
                 it_insulation = 1; // ignore freezer insulation if on
+                flag = temperature_flag::TEMP_FREEZER;
             }
         }
-        if( !processor( items, item_iter, item_loc, signal, it_temp, it_insulation ) ) {
+        if( !processor( items, item_iter, item_loc, signal, it_temp, it_insulation, flag ) ) {
             // If the item was NOT destroyed, we can skip the remainder,
             // which handles fallout from the vehicle being damaged.
             continue;
@@ -5129,7 +5139,7 @@ std::list<std::pair<tripoint, item *> > map::get_rc_items( int x, int y, int z )
 
 static bool trigger_radio_item( item_stack &items, std::list<item>::iterator &n,
                                 const tripoint &pos, const std::string &signal,
-                                const int, const float )
+                                const int, const float, const temperature_flag flag )
 {
     bool trigger_item = false;
     if( n->has_flag( "RADIO_ACTIVATION" ) && n->has_flag( signal ) ) {
@@ -5163,7 +5173,7 @@ static bool trigger_radio_item( item_stack &items, std::list<item>::iterator &n,
         }
     }
     if( trigger_item ) {
-        return process_item( items, n, pos, true, 0, 1 );
+        return process_item( items, n, pos, true, 0, 1, flag );
     }
     return false;
 }

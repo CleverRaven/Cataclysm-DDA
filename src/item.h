@@ -671,8 +671,10 @@ class item : public visitable<item>
          * @param insulation Amount of insulation item has from surroundings
          * @param pos The current position
          * @param carrier The current carrier
+         * @param flag to specify special temperature situations
          */
-        void process_temperature_rot( int temp, float insulation, const tripoint pos, player *carrier );
+        void process_temperature_rot( int temp, float insulation, const tripoint pos, player *carrier,
+                                      const temperature_flag flag = temperature_flag::TEMP_NORMAL );
 
         /** Set the item to HOT */
         void heat_up();
@@ -978,7 +980,8 @@ class item : public visitable<item>
          * Returns false if the item is not destroyed.
          */
         bool process( player *carrier, const tripoint &pos, bool activate );
-        bool process( player *carrier, const tripoint &pos, bool activate, int temp, float insulation );
+        bool process( player *carrier, const tripoint &pos, bool activate, int temp, float insulation,
+                      const temperature_flag flag = temperature_flag::TEMP_NORMAL );
 
         /**
          * Gets the point (vehicle tile) the cable is connected to.
