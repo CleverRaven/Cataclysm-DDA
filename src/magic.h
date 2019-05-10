@@ -15,6 +15,8 @@ struct damage_instance;
 
 class player;
 class JsonObject;
+class JsonOut;
+class JsonIn;
 class time_duration;
 class nc_color;
 
@@ -281,6 +283,9 @@ class known_magic
         // does the player have enough energy to cast this spell?
         // not specific to mana
         bool has_enough_energy( spell &sp ) const;
+
+        void serialize( JsonOut &json ) const;
+        void deserialize( JsonIn &jsin );
 };
 
 namespace spell_effect
