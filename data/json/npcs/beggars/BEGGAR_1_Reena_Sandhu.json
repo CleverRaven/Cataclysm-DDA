@@ -253,10 +253,7 @@
           "//": "This is a very difficult sell-job unless you've earned her trust with food",
           "mod": [ [ "TRUST", 4 ], [ "VALUE", 2 ], [ "OWED", 3 ], [ "ANGER", -2 ], [ "FEAR", -6 ], [ "BRAVERY", 1 ] ]
         },
-        "success": {
-          "topic": "TALK_REFUGEE_BEGGAR_1_RECRUIT2",
-          "effect": { "u_add_var": "reena_recruited", "type": "sentinel", "context": "recruiting", "value": "yes" }
-        },
+        "success": { "topic": "TALK_REFUGEE_BEGGAR_1_RECRUIT2", "effect": { "u_add_var": "reena_recruited", "value": "yes" } },
         "failure": { "topic": "TALK_REFUGEE_BEGGAR_1_RECRUIT_NO" }
       },
       {
