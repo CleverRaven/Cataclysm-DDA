@@ -66,4 +66,15 @@
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
   }
+  {
+    "id": "bp_38_special",
+    "copy-from": "38_special",
+    "type": "AMMO",
+    "name": "blackpowder .38 Special",
+	"description": "This .38 Special cartridge is loaded with a 200gr cast lead hollowpoint and 23gr of blackpowder. Much slower than regular .38s, but tremendous stopping power.",
+    "proportional": { "price": 0.6, "damage": 1.15, "dispersion": 1.3 },
+	"relative": { "pierce": -4 },
+    "extend": { "effects": [ "RECYCLED" ], [ "BLACKPOWDER" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  },
 ]
