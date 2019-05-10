@@ -6569,9 +6569,6 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
     ctxt.register_action( "SELECT" );
     if( peeking ) {
         ctxt.register_action( "throw_blind" );
-    } else {
-        ctxt.register_action( "fire" );
-        ctxt.register_action( "throw" );
     }
     if( !select_zone ) {
         ctxt.register_action( "TRAVEL_TO" );
@@ -6764,16 +6761,6 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
             }
         } else if( action == "TIMEOUT" ) {
             blink = !blink;
-        } else if( action == "fire" ) {
-            u.last_target_pos = g->m.getabs( lp );
-            if( try_fire() ) {
-                break;
-            }
-        } else if( action == "throw" ) {
-            u.last_target_pos = g->m.getabs( lp );
-            if( plthrow( INT_MIN ) ) {
-                break;
-            }
         } else if( action == "throw_blind" ) {
             result.peek_action = PA_BLIND_THROW;
         } else if( action == "zoom_in" ) {
@@ -8104,11 +8091,11 @@ void game::drop_in_direction()
     }
 }
 
-bool game::plthrow( int pos, const cata::optional<tripoint> &blind_throw_from_pos )
+void game::plthrow( int pos, const cata::optional<tripoint> &blind_throw_from_pos )
 {
     if( u.has_active_mutation( trait_SHELL2 ) ) {
         add_msg( m_info, _( "You can't effectively throw while you're in your shell." ) );
-        return false;
+        return;
     }
 
     if( pos == INT_MIN ) {
@@ -8118,23 +8105,23 @@ bool game::plthrow( int pos, const cata::optional<tripoint> &blind_throw_from_po
 
     if( pos == INT_MIN ) {
         add_msg( _( "Never mind." ) );
-        return false;
+        return;
     }
 
     item thrown = u.i_at( pos );
     int range = u.throw_range( thrown );
     if( range < 0 ) {
         add_msg( m_info, _( "You don't have that item." ) );
-        return false;
+        return;
     } else if( range == 0 ) {
         add_msg( m_info, _( "That is too heavy to throw." ) );
-        return false;
+        return;
     }
 
     if( pos == -1 && thrown.has_flag( "NO_UNWIELD" ) ) {
         // pos == -1 is the weapon, NO_UNWIELD is used for bio_claws_weapon
         add_msg( m_info, _( "That's part of your body, you can't throw that!" ) );
-        return false;
+        return;
     }
 
     if( u.has_effect( effect_relax_gas ) ) {
@@ -8143,7 +8130,7 @@ bool game::plthrow( int pos, const cata::optional<tripoint> &blind_throw_from_po
         } else {
             u.moves -= rng( 2, 5 ) * 10;
             add_msg( m_bad, _( "You can't muster up the effort to throw anything..." ) );
-            return false;
+            return;
         }
     }
 
@@ -8156,7 +8143,7 @@ bool game::plthrow( int pos, const cata::optional<tripoint> &blind_throw_from_po
             // back if the player changed their mind about unwielding their
             // current item
             u.i_add( thrown );
-            return false;
+            return;
         }
     }
 
@@ -8184,7 +8171,7 @@ bool game::plthrow( int pos, const cata::optional<tripoint> &blind_throw_from_po
     }
 
     if( trajectory.empty() ) {
-        return false;
+        return;
     }
 
     if( thrown.count_by_charges() && thrown.charges > 1 )  {
@@ -8195,7 +8182,6 @@ bool game::plthrow( int pos, const cata::optional<tripoint> &blind_throw_from_po
     }
     u.throw_item( trajectory.back(), thrown, blind_throw_from_pos );
     reenter_fullscreen();
-    return true;
 }
 
 // TODO: Move data/functions related to targeting out of game class
@@ -8402,161 +8388,6 @@ bool game::plfire( item &weapon, int bp_cost )
     };
     u.set_targeting_data( args );
     return plfire();
-}
-
-// Perform a reach attach
-// range - the range of the current weapon.
-// u - player
-static bool reach_attack( int range, player &u )
-{
-    g->temp_exit_fullscreen();
-    g->m.draw( g->w_terrain, u.pos() );
-    std::vector<tripoint> trajectory = target_handler().target_ui( u, TARGET_MODE_REACH, &u.weapon,
-                                       range );
-    if( !trajectory.empty() ) {
-        u.reach_attack( trajectory.back() );
-    }
-    g->draw_ter();
-    wrefresh( g->w_terrain );
-    g->draw_panels();
-    g->reenter_fullscreen();
-    return true;
-}
-
-bool game::try_fire()
-{
-    player &u = g->u;
-
-    // Use vehicle turret or draw a pistol from a holster if unarmed
-    if( !u.is_armed() ) {
-
-        const optional_vpart_position vp = g->m.veh_at( u.pos() );
-
-        turret_data turret;
-        // TODO: move direct turret firing from ACTION_FIRE to separate function.
-        if( vp && ( turret = vp->vehicle().turret_query( u.pos() ) ) ) {
-            switch( turret.query() ) {
-                case turret_data::status::no_ammo:
-                    add_msg( m_bad, _( "The %s is out of ammo." ), turret.name() );
-                    break;
-
-                case turret_data::status::no_power:
-                    add_msg( m_bad,  _( "The %s is not powered." ), turret.name() );
-                    break;
-
-                case turret_data::status::ready: {
-                    // if more than one firing mode provide callback to cycle through them
-                    target_callback switch_mode;
-                    if( turret.base()->gun_all_modes().size() > 1 ) {
-                        switch_mode = [&turret]( item * obj ) {
-                            obj->gun_cycle_mode();
-                            // currently gun modes do not change ammo but they may in the future
-                            return turret.ammo_current() == "null" ? nullptr :
-                                   item::find_type( turret.ammo_current() );
-                        };
-                    }
-
-                    // if multiple ammo types available provide callback to cycle alternatives
-                    target_callback switch_ammo;
-                    if( turret.ammo_options().size() > 1 ) {
-                        switch_ammo = [&turret]( item * ) {
-                            const auto opts = turret.ammo_options();
-                            auto iter = opts.find( turret.ammo_current() );
-                            turret.ammo_select( ++iter != opts.end() ? *iter : *opts.begin() );
-                            return item::find_type( turret.ammo_current() );
-                        };
-                    }
-
-                    // callbacks for handling setup and cleanup of turret firing
-                    firing_callback prepare_fire = [&u, &turret]( const int ) {
-                        turret.prepare_fire( u );
-                    };
-                    firing_callback post_fire = [&u, &turret]( const int shots ) {
-                        turret.post_fire( u, shots );
-                    };
-
-                    targeting_data args = {
-                        TARGET_MODE_TURRET_MANUAL, & *turret.base(),
-                        turret.range(), 0, false, turret.ammo_data(),
-                        switch_mode, switch_ammo, prepare_fire, post_fire
-                    };
-                    u.set_targeting_data( args );
-                    return g->plfire();
-
-                    break;
-                }
-
-                default:
-                    debugmsg( "unknown turret status" );
-                    break;
-            }
-            return false;
-        }
-
-        if( vp.part_with_feature( "CONTROLS", true ) ) {
-            if( vp->vehicle().turrets_aim_and_fire() ) {
-                return true;
-            }
-        }
-
-        std::vector<std::string> options;
-        std::vector<std::function<void()>> actions;
-
-        for( auto &w : u.worn ) {
-            if( w.type->can_use( "holster" ) && !w.has_flag( "NO_QUICKDRAW" ) &&
-                !w.contents.empty() && w.contents.front().is_gun() ) {
-                // draw (first) gun contained in holster
-                options.push_back( string_format( _( "%s from %s (%d)" ),
-                                                  w.contents.front().tname(),
-                                                  w.type_name(),
-                                                  w.contents.front().ammo_remaining() ) );
-
-                actions.emplace_back( [&] { u.invoke_item( &w, "holster" ); } );
-
-            } else if( w.is_gun() && w.gunmod_find( "shoulder_strap" ) ) {
-                // wield item currently worn using shoulder strap
-                options.push_back( w.display_name() );
-                actions.emplace_back( [&] { u.wield( w ); } );
-            }
-        }
-        if( !options.empty() ) {
-            int sel = uilist( _( "Draw what?" ), options );
-            if( sel >= 0 ) {
-                actions[sel]();
-            }
-        }
-    }
-
-    if( u.weapon.is_gun() && !u.weapon.gun_current_mode().melee() ) {
-        return g->plfire( u.weapon );
-    } else if( u.weapon.has_flag( "REACH_ATTACK" ) ) {
-        int range = u.weapon.has_flag( "REACH3" ) ? 3 : 2;
-        if( u.has_effect( effect_relax_gas ) ) {
-            if( one_in( 8 ) ) {
-                add_msg( m_good, _( "Your willpower asserts itself, and so do you!" ) );
-                return reach_attack( range, u );
-            } else {
-                u.moves -= rng( 2, 8 ) * 10;
-                add_msg( m_bad, _( "You're too pacified to strike anything..." ) );
-            }
-        } else {
-            return reach_attack( range, u );
-        }
-    } else if( u.weapon.is_gun() && u.weapon.gun_current_mode().flags.count( "REACH_ATTACK" ) ) {
-        int range = u.weapon.gun_current_mode().qty;
-        if( u.has_effect( effect_relax_gas ) ) {
-            if( one_in( 8 ) ) {
-                add_msg( m_good, _( "Your willpower asserts itself, and so do you!" ) );
-                return reach_attack( range, u );
-            } else {
-                u.moves -= rng( 2, 8 ) * 10;
-                add_msg( m_bad, _( "You're too pacified to strike anything..." ) );
-            }
-        } else {
-            return reach_attack( range, u );
-        }
-    }
-    return false;
 }
 
 // Used to set up the first Hotkey in the display set

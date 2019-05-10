@@ -1626,20 +1626,6 @@
   },
   {
     "type": "keybinding",
-    "name": "Throw Item",
-    "category": "LOOK",
-    "id": "throw",
-    "bindings": [ { "input_method": "keyboard", "key": "t" } ]
-  },
-  {
-    "type": "keybinding",
-    "name": "Fire Wielded Item",
-    "category": "LOOK",
-    "id": "fire",
-    "bindings": [ { "input_method": "keyboard", "key": "F" } ]
-  },
-  {
-    "type": "keybinding",
     "name": "Fire Wielded Item",
     "category": "DEFAULTMODE",
     "id": "fire",
